@@ -25,7 +25,7 @@ namespace de.unika.ipd.grGen.grShell
         public static void PrintSequence(Sequence seq, PrintSequenceContext context, int nestingLevel)
         {
             WorkaroundManager.Workaround.PrintHighlighted(nestingLevel + ">", HighlightingMode.SequenceStart);
-            PrintSequence(seq, null, context);
+            PrintSequence(seq, null, HighlightingMode.None, context);
         }
 
         /// <summary>
@@ -34,11 +34,11 @@ namespace de.unika.ipd.grGen.grShell
         /// <param name="seq">The sequence to be printed</param>
         /// <param name="parent">The parent of the sequence or null if the sequence is a root</param>
         /// <param name="context">The print context</param>
-        private static void PrintSequence(Sequence seq, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequence(Sequence seq, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             // print parentheses, if neccessary
             if(parent != null && seq.Precedence < parent.Precedence)
-                Console.Write("(");
+                WorkaroundManager.Workaround.PrintHighlighted("(", highlightingMode);
 
             switch(seq.SequenceType)
             {
@@ -49,46 +49,46 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceType.StrictOr:
             case SequenceType.Xor:
             case SequenceType.StrictAnd:
-                PrintSequenceBinary((SequenceBinary)seq, parent, context);
+                PrintSequenceBinary((SequenceBinary)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.IfThen:
-                PrintSequenceIfThen((SequenceIfThen)seq, parent, context);
+                PrintSequenceIfThen((SequenceIfThen)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.Not:
-                PrintSequenceNot((SequenceNot)seq, parent, context);
+                PrintSequenceNot((SequenceNot)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.IterationMin:
-                PrintSequenceIterationMin((SequenceIterationMin)seq, parent, context);
+                PrintSequenceIterationMin((SequenceIterationMin)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.IterationMinMax:
-                PrintSequenceIterationMinMax((SequenceIterationMinMax)seq, parent, context);
+                PrintSequenceIterationMinMax((SequenceIterationMinMax)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.Transaction:
-                PrintSequenceTransaction((SequenceTransaction)seq, parent, context);
+                PrintSequenceTransaction((SequenceTransaction)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.Backtrack:
-                PrintSequenceBacktrack((SequenceBacktrack)seq, parent, context);
+                PrintSequenceBacktrack((SequenceBacktrack)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.MultiBacktrack:
-                PrintSequenceMultiBacktrack((SequenceMultiBacktrack)seq, parent, context);
+                PrintSequenceMultiBacktrack((SequenceMultiBacktrack)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.MultiSequenceBacktrack:
-                PrintSequenceMultiSequenceBacktrack((SequenceMultiSequenceBacktrack)seq, parent, context);
+                PrintSequenceMultiSequenceBacktrack((SequenceMultiSequenceBacktrack)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.Pause:
-                PrintSequencePause((SequencePause)seq, parent, context);
+                PrintSequencePause((SequencePause)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.ForContainer:
-                PrintSequenceForContainer((SequenceForContainer)seq, parent, context);
+                PrintSequenceForContainer((SequenceForContainer)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.ForIntegerRange:
-                PrintSequenceForIntegerRange((SequenceForIntegerRange)seq, parent, context);
+                PrintSequenceForIntegerRange((SequenceForIntegerRange)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.ForIndexAccessEquality:
-                PrintSequenceForIndexAccessEquality((SequenceForIndexAccessEquality)seq, parent, context);
+                PrintSequenceForIndexAccessEquality((SequenceForIndexAccessEquality)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.ForIndexAccessOrdering:
-                PrintSequenceForIndexAccessOrdering((SequenceForIndexAccessOrdering)seq, parent, context);
+                PrintSequenceForIndexAccessOrdering((SequenceForIndexAccessOrdering)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.ForAdjacentNodes:
             case SequenceType.ForAdjacentNodesViaIncoming:
@@ -110,64 +110,64 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceType.ForBoundedReachableEdgesViaOutgoing:
             case SequenceType.ForNodes:
             case SequenceType.ForEdges:
-                PrintSequenceForFunction((SequenceForFunction)seq, parent, context);
+                PrintSequenceForFunction((SequenceForFunction)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.ForMatch:
-                PrintSequenceForMatch((SequenceForMatch)seq, parent, context);
+                PrintSequenceForMatch((SequenceForMatch)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.ExecuteInSubgraph:
-                PrintSequenceExecuteInSubgraph((SequenceExecuteInSubgraph)seq, parent, context);
+                PrintSequenceExecuteInSubgraph((SequenceExecuteInSubgraph)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.IfThenElse:
-                PrintSequenceIfThenElse((SequenceIfThenElse)seq, parent, context);
+                PrintSequenceIfThenElse((SequenceIfThenElse)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.LazyOrAll:
             case SequenceType.LazyAndAll:
             case SequenceType.StrictOrAll:
             case SequenceType.StrictAndAll:
-                PrintSequenceNAry((SequenceNAry)seq, parent, context);
+                PrintSequenceNAry((SequenceNAry)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.WeightedOne:
-                PrintSequenceWeightedOne((SequenceWeightedOne)seq, parent, context);
+                PrintSequenceWeightedOne((SequenceWeightedOne)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.SomeFromSet:
-                PrintSequenceSomeFromSet((SequenceSomeFromSet)seq, parent, context);
+                PrintSequenceSomeFromSet((SequenceSomeFromSet)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.MultiRulePrefixedSequence:
-                PrintSequenceMultiRulePrefixedSequence((SequenceMultiRulePrefixedSequence)seq, parent, context);
+                PrintSequenceMultiRulePrefixedSequence((SequenceMultiRulePrefixedSequence)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.MultiRuleAllCall:
-                PrintSequenceMultiRuleAllCall((SequenceMultiRuleAllCall)seq, parent, context);
+                PrintSequenceMultiRuleAllCall((SequenceMultiRuleAllCall)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.RulePrefixedSequence:
-                PrintSequenceRulePrefixedSequence((SequenceRulePrefixedSequence)seq, parent, context);
+                PrintSequenceRulePrefixedSequence((SequenceRulePrefixedSequence)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.SequenceCall:
             case SequenceType.RuleCall:
             case SequenceType.RuleAllCall:
             case SequenceType.RuleCountAllCall:
             case SequenceType.BooleanComputation:
-                PrintSequenceBreakpointable((Sequence)seq, parent, context);
+                PrintSequenceBreakpointable((Sequence)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.AssignSequenceResultToVar:
             case SequenceType.OrAssignSequenceResultToVar:
             case SequenceType.AndAssignSequenceResultToVar:
-                PrintSequenceAssignSequenceResultToVar((SequenceAssignSequenceResultToVar)seq, parent, context);
+                PrintSequenceAssignSequenceResultToVar((SequenceAssignSequenceResultToVar)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.AssignUserInputToVar:
             case SequenceType.AssignRandomIntToVar:
             case SequenceType.AssignRandomDoubleToVar:
-                PrintSequenceAssignChoiceHighlightable((Sequence)seq, parent, context);
+                PrintSequenceAssignChoiceHighlightable((Sequence)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.SequenceDefinitionInterpreted:
-                PrintSequenceDefinitionInterpreted((SequenceDefinitionInterpreted)seq, parent, context);
+                PrintSequenceDefinitionInterpreted((SequenceDefinitionInterpreted)seq, parent, highlightingMode, context);
                 break;
             // Atoms (assignments)
             case SequenceType.AssignVarToVar:
             case SequenceType.AssignConstToVar:
             case SequenceType.AssignContainerConstructorToVar:
             case SequenceType.DeclareVariable:
-                Console.Write(seq.Symbol);
+                WorkaroundManager.Workaround.PrintHighlighted(seq.Symbol, highlightingMode);
                 break;
             default:
                 Debug.Assert(false);
@@ -177,242 +177,258 @@ namespace de.unika.ipd.grGen.grShell
 
             // print parentheses, if neccessary
             if(parent != null && seq.Precedence < parent.Precedence)
-                Console.Write(")");
+                WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceBinary(SequenceBinary seqBin, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceBinary(SequenceBinary seqBin, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             if(context.cpPosCounter >= 0 && seqBin.Random)
             {
                 int cpPosCounter = context.cpPosCounter;
                 ++context.cpPosCounter;
-                PrintSequence(seqBin.Left, seqBin, context);
+                PrintSequence(seqBin.Left, seqBin, highlightingMode, context);
                 PrintChoice(seqBin, context);
-                Console.Write(seqBin.OperatorSymbol + " ");
-                PrintSequence(seqBin.Right, seqBin, context);
+                WorkaroundManager.Workaround.PrintHighlighted(seqBin.OperatorSymbol + " ", highlightingMode);
+                PrintSequence(seqBin.Right, seqBin, highlightingMode, context);
                 return;
             }
 
             if(seqBin == context.highlightSeq && context.choice)
             {
                 WorkaroundManager.Workaround.PrintHighlighted("(l)", HighlightingMode.Choicepoint);
-                PrintSequence(seqBin.Left, seqBin, context);
+                PrintSequence(seqBin.Left, seqBin, highlightingMode, context);
                 WorkaroundManager.Workaround.PrintHighlighted("(l) " + seqBin.OperatorSymbol + " (r)", HighlightingMode.Choicepoint);
-                PrintSequence(seqBin.Right, seqBin, context);
+                PrintSequence(seqBin.Right, seqBin, highlightingMode, context);
                 WorkaroundManager.Workaround.PrintHighlighted("(r)", HighlightingMode.Choicepoint);
                 return;
             }
 
-            PrintSequence(seqBin.Left, seqBin, context);
-            Console.Write(" " + seqBin.OperatorSymbol + " ");
-            PrintSequence(seqBin.Right, seqBin, context);
+            PrintSequence(seqBin.Left, seqBin, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(" " + seqBin.OperatorSymbol + " ", highlightingMode);
+            PrintSequence(seqBin.Right, seqBin, highlightingMode, context);
         }
 
-        private static void PrintSequenceIfThen(SequenceIfThen seqIfThen, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceIfThen(SequenceIfThen seqIfThen, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("if{");
-            PrintSequence(seqIfThen.Left, seqIfThen, context);
-            Console.Write(";");
-            PrintSequence(seqIfThen.Right, seqIfThen, context);
-            Console.Write("}");
+            WorkaroundManager.Workaround.PrintHighlighted("if{", highlightingMode);
+            PrintSequence(seqIfThen.Left, seqIfThen, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(";", highlightingMode);
+            PrintSequence(seqIfThen.Right, seqIfThen, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);
         }
 
-        private static void PrintSequenceNot(SequenceNot seqNot, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceNot(SequenceNot seqNot, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqNot.OperatorSymbol);
-            PrintSequence(seqNot.Seq, seqNot, context);
+            WorkaroundManager.Workaround.PrintHighlighted(seqNot.OperatorSymbol, highlightingMode);
+            PrintSequence(seqNot.Seq, seqNot, highlightingMode, context);
         }
 
-        private static void PrintSequenceIterationMin(SequenceIterationMin seqMin, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceIterationMin(SequenceIterationMin seqMin, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequence(seqMin.Seq, seqMin, context);
-            Console.Write("[" + seqMin.Min + ":*]");
+            PrintSequence(seqMin.Seq, seqMin, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("[" + seqMin.Min + ":*]", highlightingMode);
         }
 
-        private static void PrintSequenceIterationMinMax(SequenceIterationMinMax seqMinMax, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceIterationMinMax(SequenceIterationMinMax seqMinMax, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequence(seqMinMax.Seq, seqMinMax, context);
-            Console.Write("[" + seqMinMax.Min + ":" + seqMinMax.Max + "]");
+            PrintSequence(seqMinMax.Seq, seqMinMax, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("[" + seqMinMax.Min + ":" + seqMinMax.Max + "]", highlightingMode);
         }
 
-        private static void PrintSequenceTransaction(SequenceTransaction seqTrans, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceTransaction(SequenceTransaction seqTrans, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("<");
-            PrintSequence(seqTrans.Seq, seqTrans, context);
-            Console.Write(">");
+            WorkaroundManager.Workaround.PrintHighlighted("<", highlightingMode);
+            PrintSequence(seqTrans.Seq, seqTrans, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(">", highlightingMode);
         }
 
-        private static void PrintSequenceBacktrack(SequenceBacktrack seqBack, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceBacktrack(SequenceBacktrack seqBack, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("<<");
-            PrintSequence(seqBack.Rule, seqBack, context);
-            Console.Write(";;");
-            PrintSequence(seqBack.Seq, seqBack, context);
-            Console.Write(">>");
+            HighlightingMode highlightingModeLocal = highlightingMode;
+            if(seqBack == context.highlightSeq)
+                highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
+
+            WorkaroundManager.Workaround.PrintHighlighted("<<", highlightingModeLocal);
+            PrintSequence(seqBack.Rule, seqBack, highlightingModeLocal, context);
+            WorkaroundManager.Workaround.PrintHighlighted(";;", highlightingModeLocal);
+            PrintSequence(seqBack.Seq, seqBack, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(">>", highlightingModeLocal);
         }
 
-        private static void PrintSequenceMultiBacktrack(SequenceMultiBacktrack seqBack, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceMultiBacktrack(SequenceMultiBacktrack seqBack, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("<<");
-            PrintSequence(seqBack.Rules, seqBack, context);
-            Console.Write(";;");
-            PrintSequence(seqBack.Seq, seqBack, context);
-            Console.Write(">>");
+            HighlightingMode highlightingModeLocal = highlightingMode;
+            if(seqBack == context.highlightSeq)
+                highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
+
+            WorkaroundManager.Workaround.PrintHighlighted("<<", highlightingModeLocal);
+            PrintSequence(seqBack.Rules, seqBack, highlightingModeLocal, context);
+            WorkaroundManager.Workaround.PrintHighlighted(";;", highlightingModeLocal);
+            PrintSequence(seqBack.Seq, seqBack, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(">>", highlightingModeLocal);
         }
 
-        private static void PrintSequenceMultiSequenceBacktrack(SequenceMultiSequenceBacktrack seqBack, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceMultiSequenceBacktrack(SequenceMultiSequenceBacktrack seqBack, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("<<");
-            PrintSequence(seqBack.MultiRulePrefixedSequence, seqBack, context);
-            Console.Write(">>");
+            HighlightingMode highlightingModeLocal = highlightingMode;
+            if(seqBack == context.highlightSeq)
+                highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
+
+            WorkaroundManager.Workaround.PrintHighlighted("<<", highlightingModeLocal);
+            PrintSequence(seqBack.MultiRulePrefixedSequence, seqBack, highlightingModeLocal, context);
+            WorkaroundManager.Workaround.PrintHighlighted(">>", highlightingModeLocal);
         }
 
-        private static void PrintSequencePause(SequencePause seqPause, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequencePause(SequencePause seqPause, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("/");
-            PrintSequence(seqPause.Seq, seqPause, context);
-            Console.Write("/");
+            WorkaroundManager.Workaround.PrintHighlighted("/", highlightingMode);
+            PrintSequence(seqPause.Seq, seqPause, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("/", highlightingMode);
         }
 
-        private static void PrintSequenceForContainer(SequenceForContainer seqFor, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceForContainer(SequenceForContainer seqFor, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("for{");
-            Console.Write(seqFor.Var.Name);
+            WorkaroundManager.Workaround.PrintHighlighted("for{", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqFor.Var.Name, highlightingMode);
             if(seqFor.VarDst != null)
-                Console.Write("->" + seqFor.VarDst.Name);
-            Console.Write(" in " + seqFor.Container.Name);
-            Console.Write("; ");
-            PrintSequence(seqFor.Seq, seqFor, context);
-            Console.Write("}");
+                WorkaroundManager.Workaround.PrintHighlighted("->" + seqFor.VarDst.Name, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(" in " + seqFor.Container.Name, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted("; ", highlightingMode);
+            PrintSequence(seqFor.Seq, seqFor, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);
         }
 
-        private static void PrintSequenceForIntegerRange(SequenceForIntegerRange seqFor, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceForIntegerRange(SequenceForIntegerRange seqFor, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("for{");
-            Console.Write(seqFor.Var.Name);
-            Console.Write(" in [");
-            Console.Write(seqFor.Left.Symbol);
-            Console.Write(":");
-            Console.Write(seqFor.Right.Symbol);
-            Console.Write("]; ");
-            PrintSequence(seqFor.Seq, seqFor, context);
-            Console.Write("}");
+            WorkaroundManager.Workaround.PrintHighlighted("for{", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqFor.Var.Name, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(" in [", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqFor.Left.Symbol, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(":", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqFor.Right.Symbol, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted("]; ", highlightingMode);
+            PrintSequence(seqFor.Seq, seqFor, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);
         }
 
-        private static void PrintSequenceForIndexAccessEquality(SequenceForIndexAccessEquality seqFor, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceForIndexAccessEquality(SequenceForIndexAccessEquality seqFor, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("for{");
-            Console.Write(seqFor.Var.Name);
-            Console.Write(" in {");
-            Console.Write(seqFor.IndexName);
-            Console.Write("==");
-            Console.Write(seqFor.Expr.Symbol);
-            Console.Write("}; ");
-            PrintSequence(seqFor.Seq, seqFor, context);
-            Console.Write("}");
+            WorkaroundManager.Workaround.PrintHighlighted("for{", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqFor.Var.Name, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(" in {", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqFor.IndexName, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted("==", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqFor.Expr.Symbol, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted("}; ", highlightingMode);
+            PrintSequence(seqFor.Seq, seqFor, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);
         }
 
-        private static void PrintSequenceForIndexAccessOrdering(SequenceForIndexAccessOrdering seqFor, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceForIndexAccessOrdering(SequenceForIndexAccessOrdering seqFor, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("for{");
-            Console.Write(seqFor.Var.Name);
-            Console.Write(" in {");
+            WorkaroundManager.Workaround.PrintHighlighted("for{", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqFor.Var.Name, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(" in {", highlightingMode);
             if(seqFor.Ascending)
-                Console.Write("ascending");
+                WorkaroundManager.Workaround.PrintHighlighted("ascending", highlightingMode);
             else
-                Console.Write("descending");
-            Console.Write("(");
+                WorkaroundManager.Workaround.PrintHighlighted("descending", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted("(", highlightingMode);
             if(seqFor.From() != null && seqFor.To() != null)
             {
-                Console.Write(seqFor.IndexName);
-                Console.Write(seqFor.DirectionAsString(seqFor.Direction));
-                Console.Write(seqFor.Expr.Symbol);
-                Console.Write(",");
-                Console.Write(seqFor.IndexName);
-                Console.Write(seqFor.DirectionAsString(seqFor.Direction2));
-                Console.Write(seqFor.Expr2.Symbol);
+                WorkaroundManager.Workaround.PrintHighlighted(seqFor.IndexName, highlightingMode);
+                WorkaroundManager.Workaround.PrintHighlighted(seqFor.DirectionAsString(seqFor.Direction), highlightingMode);
+                WorkaroundManager.Workaround.PrintHighlighted(seqFor.Expr.Symbol, highlightingMode);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                WorkaroundManager.Workaround.PrintHighlighted(seqFor.IndexName, highlightingMode);
+                WorkaroundManager.Workaround.PrintHighlighted(seqFor.DirectionAsString(seqFor.Direction2), highlightingMode);
+                WorkaroundManager.Workaround.PrintHighlighted(seqFor.Expr2.Symbol, highlightingMode);
             }
             else if(seqFor.From() != null)
             {
-                Console.Write(seqFor.IndexName);
-                Console.Write(seqFor.DirectionAsString(seqFor.Direction));
-                Console.Write(seqFor.Expr.Symbol);
+                WorkaroundManager.Workaround.PrintHighlighted(seqFor.IndexName, highlightingMode);
+                WorkaroundManager.Workaround.PrintHighlighted(seqFor.DirectionAsString(seqFor.Direction), highlightingMode);
+                WorkaroundManager.Workaround.PrintHighlighted(seqFor.Expr.Symbol, highlightingMode);
             }
             else if(seqFor.To() != null)
             {
-                Console.Write(seqFor.IndexName);
-                Console.Write(seqFor.DirectionAsString(seqFor.Direction));
-                Console.Write(seqFor.Expr.Symbol);
+                WorkaroundManager.Workaround.PrintHighlighted(seqFor.IndexName, highlightingMode);
+                WorkaroundManager.Workaround.PrintHighlighted(seqFor.DirectionAsString(seqFor.Direction), highlightingMode);
+                WorkaroundManager.Workaround.PrintHighlighted(seqFor.Expr.Symbol, highlightingMode);
             }
             else
             {
-                Console.Write(seqFor.IndexName);
+                WorkaroundManager.Workaround.PrintHighlighted(seqFor.IndexName, highlightingMode);
             }
-            Console.Write(")");
-            Console.Write("}; ");
-            PrintSequence(seqFor.Seq, seqFor, context);
-            Console.Write("}");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted("}; ", highlightingMode);
+            PrintSequence(seqFor.Seq, seqFor, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);
         }
 
-        private static void PrintSequenceForFunction(SequenceForFunction seqFor, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceForFunction(SequenceForFunction seqFor, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("for{");
-            Console.Write(seqFor.Var.Name);
-            Console.Write(" in ");
-            Console.Write(seqFor.FunctionSymbol + ";");
-            PrintSequence(seqFor.Seq, seqFor, context);
-            Console.Write("}");
+            WorkaroundManager.Workaround.PrintHighlighted("for{", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqFor.Var.Name, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(" in ", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqFor.FunctionSymbol + ";", highlightingMode);
+            PrintSequence(seqFor.Seq, seqFor, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);
         }
 
-        private static void PrintSequenceForMatch(SequenceForMatch seqFor, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceForMatch(SequenceForMatch seqFor, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("for{");
-            Console.Write(seqFor.Var.Name);
-            Console.Write(" in [?");
-            PrintSequence(seqFor.Rule, seqFor, context);
-            Console.Write("]; ");
-            PrintSequence(seqFor.Seq, seqFor, context);
-            Console.Write("}");
+            HighlightingMode highlightingModeLocal = highlightingMode;
+            if(seqFor == context.highlightSeq)
+                highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
+
+            WorkaroundManager.Workaround.PrintHighlighted("for{", highlightingModeLocal);
+            WorkaroundManager.Workaround.PrintHighlighted(seqFor.Var.Name, highlightingModeLocal);
+            WorkaroundManager.Workaround.PrintHighlighted(" in [?", highlightingModeLocal);
+            PrintSequence(seqFor.Rule, seqFor, highlightingModeLocal, context);
+            WorkaroundManager.Workaround.PrintHighlighted("]; ", highlightingModeLocal);
+            PrintSequence(seqFor.Seq, seqFor, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("}", highlightingModeLocal);
         }
 
-        private static void PrintSequenceExecuteInSubgraph(SequenceExecuteInSubgraph seqExecInSub, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExecuteInSubgraph(SequenceExecuteInSubgraph seqExecInSub, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("in ");
-            Console.Write(seqExecInSub.SubgraphVar.Name);
+            WorkaroundManager.Workaround.PrintHighlighted("in ", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExecInSub.SubgraphVar.Name, highlightingMode);
             if(seqExecInSub.AttributeName != null)
-                Console.Write("." + seqExecInSub.AttributeName);
-            Console.Write(" {");
-            PrintSequence(seqExecInSub.Seq, seqExecInSub, context);
-            Console.Write("}");
+                WorkaroundManager.Workaround.PrintHighlighted("." + seqExecInSub.AttributeName, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(" {", highlightingMode);
+            PrintSequence(seqExecInSub.Seq, seqExecInSub, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);
         }
 
-        private static void PrintSequenceIfThenElse(SequenceIfThenElse seqIf, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceIfThenElse(SequenceIfThenElse seqIf, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("if{");
-            PrintSequence(seqIf.Condition, seqIf, context);
-            Console.Write(";");
-            PrintSequence(seqIf.TrueCase, seqIf, context);
-            Console.Write(";");
-            PrintSequence(seqIf.FalseCase, seqIf, context);
-            Console.Write("}");
+            WorkaroundManager.Workaround.PrintHighlighted("if{", highlightingMode);
+            PrintSequence(seqIf.Condition, seqIf, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(";", highlightingMode);
+            PrintSequence(seqIf.TrueCase, seqIf, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(";", highlightingMode);
+            PrintSequence(seqIf.FalseCase, seqIf, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);
         }
 
-        private static void PrintSequenceNAry(SequenceNAry seqN, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceNAry(SequenceNAry seqN, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             if(context.cpPosCounter >= 0)
             {
                 PrintChoice(seqN, context);
                 ++context.cpPosCounter;
-                Console.Write((seqN.Choice ? "$%" : "$") + seqN.OperatorSymbol + "(");
+                WorkaroundManager.Workaround.PrintHighlighted((seqN.Choice ? "$%" : "$") + seqN.OperatorSymbol + "(", highlightingMode);
                 bool first = true;
                 foreach(Sequence seqChild in seqN.Children)
                 {
                     if(!first)
-                        Console.Write(", ");
-                    PrintSequence(seqChild, seqN, context);
+                        WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
+                    PrintSequence(seqChild, seqN, highlightingMode, context);
                     first = false;
                 }
-                Console.Write(")");
+                WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
                 return;
             }
 
@@ -429,7 +445,7 @@ namespace de.unika.ipd.grGen.grShell
                 foreach(Sequence seqChild in seqN.Children)
                 {
                     if(!first)
-                        Console.Write(", ");
+                        WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
                     if(seqChild == context.highlightSeq)
                         WorkaroundManager.Workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
                     if(context.sequences != null)
@@ -443,7 +459,7 @@ namespace de.unika.ipd.grGen.grShell
 
                     SequenceBase highlightSeqBackup = context.highlightSeq;
                     context.highlightSeq = null; // we already highlighted here
-                    PrintSequence(seqChild, seqN, context);
+                    PrintSequence(seqChild, seqN, highlightingMode, context);
                     context.highlightSeq = highlightSeqBackup;
 
                     if(seqChild == context.highlightSeq)
@@ -454,31 +470,31 @@ namespace de.unika.ipd.grGen.grShell
                 return;
             }
 
-            Console.Write((seqN.Choice ? "$%" : "$") + seqN.OperatorSymbol + "(");
-            PrintChildren(seqN, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted((seqN.Choice ? "$%" : "$") + seqN.OperatorSymbol + "(", highlightingMode);
+            PrintChildren(seqN, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceWeightedOne(SequenceWeightedOne seqWeighted, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceWeightedOne(SequenceWeightedOne seqWeighted, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             if(context.cpPosCounter >= 0)
             {
                 PrintChoice(seqWeighted, context);
                 ++context.cpPosCounter;
-                Console.Write((seqWeighted.Choice ? "$%" : "$") + seqWeighted.OperatorSymbol + "(");
+                WorkaroundManager.Workaround.PrintHighlighted((seqWeighted.Choice ? "$%" : "$") + seqWeighted.OperatorSymbol + "(", highlightingMode);
                 bool first = true;
                 for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
                 {
                     if(first)
-                        Console.Write("0.00 ");
+                        WorkaroundManager.Workaround.PrintHighlighted("0.00 ", highlightingMode);
                     else
-                        Console.Write(" ");
-                    PrintSequence(seqWeighted.Sequences[i], seqWeighted, context);
-                    Console.Write(" ");
-                    Console.Write(seqWeighted.Numbers[i]); // todo: format auf 2 nachkommastellen 
+                        WorkaroundManager.Workaround.PrintHighlighted(" ", highlightingMode);
+                    PrintSequence(seqWeighted.Sequences[i], seqWeighted, highlightingMode, context);
+                    WorkaroundManager.Workaround.PrintHighlighted(" ", highlightingMode);
+                    WorkaroundManager.Workaround.PrintHighlighted(seqWeighted.Numbers[i].ToString(System.Globalization.CultureInfo.InvariantCulture), highlightingMode); // todo: format auf 2 nachkommastellen 
                     first = false;
                 }
-                Console.Write(")");
+                WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
                 return;
             }
 
@@ -495,63 +511,63 @@ namespace de.unika.ipd.grGen.grShell
                 for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
                 {
                     if(first)
-                        Console.Write("0.00 ");
+                        WorkaroundManager.Workaround.PrintHighlighted("0.00 ", highlightingMode);
                     else
-                        Console.Write(" ");
+                        WorkaroundManager.Workaround.PrintHighlighted(" ", highlightingMode);
                     if(seqWeighted.Sequences[i] == context.highlightSeq)
                         WorkaroundManager.Workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
 
                     SequenceBase highlightSeqBackup = context.highlightSeq;
                     context.highlightSeq = null; // we already highlighted here
-                    PrintSequence(seqWeighted.Sequences[i], seqWeighted, context);
+                    PrintSequence(seqWeighted.Sequences[i], seqWeighted, highlightingMode, context);
                     context.highlightSeq = highlightSeqBackup;
 
                     if(seqWeighted.Sequences[i] == context.highlightSeq)
                         WorkaroundManager.Workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
-                    Console.Write(" ");
-                    Console.Write(seqWeighted.Numbers[i]); // todo: format auf 2 nachkommastellen 
+                    WorkaroundManager.Workaround.PrintHighlighted(" ", highlightingMode);
+                    WorkaroundManager.Workaround.PrintHighlighted(seqWeighted.Numbers[i].ToString(System.Globalization.CultureInfo.InvariantCulture), highlightingMode); // todo: format auf 2 nachkommastellen 
                     first = false;
                 }
                 WorkaroundManager.Workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
                 return;
             }
 
-            Console.Write((seqWeighted.Choice ? "$%" : "$") + seqWeighted.OperatorSymbol + "(");
+            WorkaroundManager.Workaround.PrintHighlighted((seqWeighted.Choice ? "$%" : "$") + seqWeighted.OperatorSymbol + "(", highlightingMode);
             bool ffs = true;
             for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
             {
                 if(ffs)
-                    Console.Write("0.00 ");
+                    WorkaroundManager.Workaround.PrintHighlighted("0.00 ", highlightingMode);
                 else
-                    Console.Write(" ");
-                PrintSequence(seqWeighted.Sequences[i], seqWeighted, context);
-                Console.Write(" ");
-                Console.Write(seqWeighted.Numbers[i]); // todo: format auf 2 nachkommastellen 
+                    WorkaroundManager.Workaround.PrintHighlighted(" ", highlightingMode);
+                PrintSequence(seqWeighted.Sequences[i], seqWeighted, highlightingMode, context);
+                WorkaroundManager.Workaround.PrintHighlighted(" ", highlightingMode);
+                WorkaroundManager.Workaround.PrintHighlighted(seqWeighted.Numbers[i].ToString(System.Globalization.CultureInfo.InvariantCulture), highlightingMode); // todo: format auf 2 nachkommastellen 
                 ffs = false;
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceSomeFromSet(SequenceSomeFromSet seqSome, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceSomeFromSet(SequenceSomeFromSet seqSome, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             if(context.cpPosCounter >= 0
                 && seqSome.Random)
             {
                 PrintChoice(seqSome, context);
                 ++context.cpPosCounter;
-                Console.Write(seqSome.Choice ? "$%{<" : "${<");
+                WorkaroundManager.Workaround.PrintHighlighted(seqSome.Choice ? "$%{<" : "${<", highlightingMode);
                 bool first = true;
                 foreach(Sequence seqChild in seqSome.Children)
                 {
                     if(!first)
-                        Console.Write(", ");
+                        WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
                     int cpPosCounterBackup = context.cpPosCounter;
                     context.cpPosCounter = -1; // rules within some-from-set are not choicepointable
-                    PrintSequence(seqChild, seqSome, context);
+                    PrintSequence(seqChild, seqSome, highlightingMode, context);
                     context.cpPosCounter = cpPosCounterBackup;
                     first = false;
                 }
-                Console.Write(")}");
+                WorkaroundManager.Workaround.PrintHighlighted(")}", highlightingMode);
                 return;
             }
 
@@ -569,7 +585,7 @@ namespace de.unika.ipd.grGen.grShell
                 foreach(Sequence seqChild in seqSome.Children)
                 {
                     if(!first)
-                        Console.Write(", ");
+                        WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
                     if(seqChild == context.highlightSeq)
                         WorkaroundManager.Workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
                     if(context.sequences != null)
@@ -585,7 +601,7 @@ namespace de.unika.ipd.grGen.grShell
 
                     SequenceBase highlightSeqBackup = context.highlightSeq;
                     context.highlightSeq = null; // we already highlighted here
-                    PrintSequence(seqChild, seqSome, context);
+                    PrintSequence(seqChild, seqSome, highlightingMode, context);
                     context.highlightSeq = highlightSeqBackup;
 
                     if(seqChild == context.highlightSeq)
@@ -596,84 +612,72 @@ namespace de.unika.ipd.grGen.grShell
                 return;
             }
 
-            bool succesBackup = context.success;
-            if(highlight)
-                context.success = true;
-            Console.Write(seqSome.Random ? (seqSome.Choice ? "$%{<" : "${<") : "{<");
-            PrintChildren(seqSome, context);
-            Console.Write(">}");
-            context.success = succesBackup;
+            HighlightingMode highlightingModeLocal = highlightingMode;
+            if(seqSome == context.highlightSeq)
+                highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
+
+            WorkaroundManager.Workaround.PrintHighlighted(seqSome.Random ? (seqSome.Choice ? "$%{<" : "${<") : "{<", highlightingModeLocal);
+            PrintChildren(seqSome, highlightingModeLocal, context);
+            WorkaroundManager.Workaround.PrintHighlighted(">}", highlightingModeLocal);
         }
 
-        private static void PrintSequenceMultiRulePrefixedSequence(SequenceMultiRulePrefixedSequence seqMulti, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceMultiRulePrefixedSequence(SequenceMultiRulePrefixedSequence seqMulti, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            bool highlight = false;
-            foreach(Sequence seqChild in seqMulti.Children)
-            {
-                if(seqChild == context.highlightSeq)
-                    highlight = true;
-            }
-            bool succesBackup = context.success;
-            if(highlight)
-                context.success = true;
+            HighlightingMode highlightingModeLocal = highlightingMode;
+            if(seqMulti == context.highlightSeq)
+                highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
-            Console.Write("[[");
-            PrintChildren(seqMulti, context);
-            Console.Write("]");
+            WorkaroundManager.Workaround.PrintHighlighted("[[", highlightingModeLocal);
+            PrintChildren(seqMulti, highlightingModeLocal, context);
+            WorkaroundManager.Workaround.PrintHighlighted("]", highlightingModeLocal);
             foreach(SequenceFilterCallBase filterCall in seqMulti.Filters)
             {
-                PrintSequenceFilterCall(filterCall, seqMulti, context);
+                PrintSequenceFilterCall(filterCall, seqMulti, highlightingModeLocal, context);
             }
-            Console.Write("]");
-
-            context.success = succesBackup;
+            WorkaroundManager.Workaround.PrintHighlighted("]", highlightingModeLocal);
         }
 
-        private static void PrintSequenceMultiRuleAllCall(SequenceMultiRuleAllCall seqMulti, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceMultiRuleAllCall(SequenceMultiRuleAllCall seqMulti, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            bool highlight = false;
-            foreach(Sequence seqChild in seqMulti.Children)
-            {
-                if(seqChild == context.highlightSeq)
-                    highlight = true;
-            }
-            bool succesBackup = context.success;
-            if(highlight)
-                context.success = true;
+            HighlightingMode highlightingModeLocal = highlightingMode;
+            if(seqMulti == context.highlightSeq)
+                highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
-            Console.Write("[[");
-            PrintChildren(seqMulti, context);
-            Console.Write("]");
+            WorkaroundManager.Workaround.PrintHighlighted("[[", highlightingModeLocal);
+            PrintChildren(seqMulti, highlightingModeLocal, context);
+            WorkaroundManager.Workaround.PrintHighlighted("]", highlightingModeLocal);
             foreach(SequenceFilterCallBase filterCall in seqMulti.Filters)
             {
-                PrintSequenceFilterCall(filterCall, seqMulti, context);
+                PrintSequenceFilterCall(filterCall, seqMulti, highlightingModeLocal, context);
             }
-            Console.Write("]");
-
-            context.success = succesBackup;
+            WorkaroundManager.Workaround.PrintHighlighted("]", highlightingModeLocal);
         }
 
-        private static void PrintSequenceRulePrefixedSequence(SequenceRulePrefixedSequence seqRulePrefixedSequence, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceRulePrefixedSequence(SequenceRulePrefixedSequence seqRulePrefixedSequence, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            if(!(parent is SequenceMultiRulePrefixedSequence))
-                Console.Write("[");
-
-            Console.Write("for{");
-            PrintSequence(seqRulePrefixedSequence.Rule, seqRulePrefixedSequence, context);
-            Console.Write(";");
-            PrintSequence(seqRulePrefixedSequence.Sequence, seqRulePrefixedSequence, context);
-            Console.Write("}");
+            HighlightingMode highlightingModeLocal = highlightingMode;
+            if(seqRulePrefixedSequence == context.highlightSeq)
+                highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
             if(!(parent is SequenceMultiRulePrefixedSequence))
-                Console.Write("]");
+                WorkaroundManager.Workaround.PrintHighlighted("[", highlightingModeLocal);
+
+            WorkaroundManager.Workaround.PrintHighlighted("for{", highlightingModeLocal);
+            PrintSequence(seqRulePrefixedSequence.Rule, seqRulePrefixedSequence, highlightingModeLocal, context);
+            WorkaroundManager.Workaround.PrintHighlighted(";", highlightingModeLocal);
+            PrintSequence(seqRulePrefixedSequence.Sequence, seqRulePrefixedSequence, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("}", highlightingModeLocal);
+
+            if(!(parent is SequenceMultiRulePrefixedSequence))
+                WorkaroundManager.Workaround.PrintHighlighted("]", highlightingModeLocal);
         }
 
-        private static void PrintSequenceBreakpointable(Sequence seq, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceBreakpointable(Sequence seq, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             if(context.bpPosCounter >= 0)
             {
                 PrintBreak((SequenceSpecial)seq, context);
-                Console.Write(seq.Symbol);
+                WorkaroundManager.Workaround.PrintHighlighted(seq.Symbol, highlightingMode);
                 ++context.bpPosCounter;
                 return;
             }
@@ -682,55 +686,55 @@ namespace de.unika.ipd.grGen.grShell
                 && ((SequenceRandomChoice)seq).Random)
             {
                 PrintChoice((SequenceRandomChoice)seq, context);
-                Console.Write(seq.Symbol);
+                WorkaroundManager.Workaround.PrintHighlighted(seq.Symbol, highlightingMode);
                 ++context.cpPosCounter;
                 return;
             }
 
-            HighlightingMode mode = HighlightingMode.None;
+            HighlightingMode highlightingModeLocal = highlightingMode;
             if(seq == context.highlightSeq)
             {
                 if(context.choice)
-                    mode |= HighlightingMode.Choicepoint;
+                    highlightingModeLocal |= HighlightingMode.Choicepoint;
                 else if(context.success)
-                    mode |= HighlightingMode.FocusSucces;
+                    highlightingModeLocal |= HighlightingMode.FocusSucces;
                 else
-                    mode |= HighlightingMode.Focus;
+                    highlightingModeLocal |= HighlightingMode.Focus;
             }
             if(seq.ExecutionState == SequenceExecutionState.Success)
-                mode |= HighlightingMode.LastSuccess;
+                highlightingModeLocal |= HighlightingMode.LastSuccess;
             if(seq.ExecutionState == SequenceExecutionState.Fail)
-                mode |= HighlightingMode.LastFail;
+                highlightingModeLocal |= HighlightingMode.LastFail;
             if(context.sequences != null && context.sequences.Contains(seq))
             {
                 if(context.matches != null && context.matches[context.sequences.IndexOf(seq)].Count > 0)
-                    mode |= HighlightingMode.FocusSucces;
+                    highlightingModeLocal |= HighlightingMode.FocusSucces;
             }
 
             if(seq.Contains(context.highlightSeq) && seq != context.highlightSeq)
-                PrintSequenceAtom(seq, parent, context);
+                PrintSequenceAtom(seq, parent, highlightingMode, context);
             else
-                WorkaroundManager.Workaround.PrintHighlighted(seq.Symbol, mode);
+                WorkaroundManager.Workaround.PrintHighlighted(seq.Symbol, highlightingModeLocal);
         }
 
-        private static void PrintSequenceAtom(Sequence seq, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceAtom(Sequence seq, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             switch(seq.SequenceType)
             {
             case SequenceType.SequenceCall:
-                PrintSequenceSequenceCall((SequenceSequenceCallInterpreted)seq, parent, context);
+                PrintSequenceSequenceCall((SequenceSequenceCallInterpreted)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.RuleCall:
-                PrintSequenceRuleCall((SequenceRuleCall)seq, parent, context);
+                PrintSequenceRuleCall((SequenceRuleCall)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.RuleAllCall:
-                PrintSequenceRuleAllCall((SequenceRuleAllCall)seq, parent, context);
+                PrintSequenceRuleAllCall((SequenceRuleAllCall)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.RuleCountAllCall:
-                PrintSequenceRuleCountAllCall((SequenceRuleCountAllCall)seq, parent, context);
+                PrintSequenceRuleCountAllCall((SequenceRuleCountAllCall)seq, parent, highlightingMode, context);
                 break;
             case SequenceType.BooleanComputation:
-                PrintSequenceBooleanComputation((SequenceBooleanComputation)seq, parent, context);
+                PrintSequenceBooleanComputation((SequenceBooleanComputation)seq, parent, highlightingMode, context);
                 break;
             default:
                 Debug.Assert(false);
@@ -739,125 +743,125 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        private static void PrintSequenceSequenceCall(SequenceSequenceCallInterpreted seq, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceSequenceCall(SequenceSequenceCallInterpreted seq, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             if(seq.Special)
-                Console.Write("%"); // TODO: questionable position here and in sequence -- should appear before sequence name, not return assignment
-            PrintReturnAssignments(seq.ReturnVars, parent, context);
+                WorkaroundManager.Workaround.PrintHighlighted("%", highlightingMode); // TODO: questionable position here and in sequence -- should appear before sequence name, not return assignment
+            PrintReturnAssignments(seq.ReturnVars, parent, highlightingMode, context);
             if(seq.subgraph != null)
-                Console.Write(seq.subgraph.Name + ".");
-            Console.Write(seq.SequenceDef.Name);
+                WorkaroundManager.Workaround.PrintHighlighted(seq.subgraph.Name + ".", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seq.SequenceDef.Name, highlightingMode);
             if(seq.ArgumentExpressions.Length > 0)
             {
-                PrintArguments(seq.ArgumentExpressions, parent, context);
+                PrintArguments(seq.ArgumentExpressions, parent, highlightingMode, context);
             }
         }
 
-        private static void PrintArguments(SequenceExpression[] arguments, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintArguments(SequenceExpression[] arguments, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("(");
+            WorkaroundManager.Workaround.PrintHighlighted("(", highlightingMode);
             for(int i = 0; i < arguments.Length; ++i)
             {
-                PrintSequenceExpression(arguments[i], parent, context);
+                PrintSequenceExpression(arguments[i], parent, highlightingMode, context);
                 if(i != arguments.Length - 1)
-                    Console.Write(",");
+                    WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceRuleCall(SequenceRuleCall seq, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceRuleCall(SequenceRuleCall seq, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintReturnAssignments(seq.ReturnVars, parent, context);
-            Console.Write(seq.TestDebugPrefix);
-            PrintRuleCallString(seq, parent, context);
+            PrintReturnAssignments(seq.ReturnVars, parent, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(seq.TestDebugPrefix, highlightingMode);
+            PrintRuleCallString(seq, parent, highlightingMode, context);
         }
 
-        private static void PrintSequenceRuleAllCall(SequenceRuleAllCall seq, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceRuleAllCall(SequenceRuleAllCall seq, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintReturnAssignments(seq.ReturnVars, parent, context);
-            Console.Write(seq.RandomChoicePrefix);
-            Console.Write("[");
-            Console.Write(seq.TestDebugPrefix);
-            PrintRuleCallString(seq, parent, context);
-            Console.Write("]");
+            PrintReturnAssignments(seq.ReturnVars, parent, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(seq.RandomChoicePrefix, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted("[", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seq.TestDebugPrefix, highlightingMode);
+            PrintRuleCallString(seq, parent, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("]", highlightingMode);
         }
 
-        private static void PrintSequenceRuleCountAllCall(SequenceRuleCountAllCall seq, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceRuleCountAllCall(SequenceRuleCountAllCall seq, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintReturnAssignments(seq.ReturnVars, parent, context);
-            Console.Write("count[");
-            Console.Write(seq.TestDebugPrefix);
-            PrintRuleCallString(seq, parent, context);
-            Console.Write("]" + "=>" + seq.CountResult.Name);
+            PrintReturnAssignments(seq.ReturnVars, parent, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("count[", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seq.TestDebugPrefix, highlightingMode);
+            PrintRuleCallString(seq, parent, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("]" + "=>" + seq.CountResult.Name, highlightingMode);
         }
 
-        private static void PrintReturnAssignments(SequenceVariable[] returnVars, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintReturnAssignments(SequenceVariable[] returnVars, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             if(returnVars.Length > 0)
             {
-                Console.Write("(");
+                WorkaroundManager.Workaround.PrintHighlighted("(", highlightingMode);
                 for(int i = 0; i < returnVars.Length; ++i)
                 {
-                    Console.Write(returnVars[i].Name);
+                    WorkaroundManager.Workaround.PrintHighlighted(returnVars[i].Name, highlightingMode);
                     if(i != returnVars.Length - 1)
-                        Console.Write(",");
+                        WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
                 }
-                Console.Write(")=");
+                WorkaroundManager.Workaround.PrintHighlighted(")=", highlightingMode);
             }
         }
 
-        private static void PrintRuleCallString(SequenceRuleCall seq, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintRuleCallString(SequenceRuleCall seq, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             if(seq.subgraph != null)
-                Console.Write(seq.subgraph.Name + ".");
-            Console.Write(seq.Name);
+                WorkaroundManager.Workaround.PrintHighlighted(seq.subgraph.Name + ".", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seq.Name, highlightingMode);
             if(seq.ArgumentExpressions.Length > 0)
             {
-                PrintArguments(seq.ArgumentExpressions, parent, context);
+                PrintArguments(seq.ArgumentExpressions, parent, highlightingMode, context);
             }
             for(int i = 0; i < seq.Filters.Count; ++i)
             {
-                Console.Write("\\");
-                PrintSequenceFilterCall(seq.Filters[i], seq, context);
+                WorkaroundManager.Workaround.PrintHighlighted("\\", highlightingMode);
+                PrintSequenceFilterCall(seq.Filters[i], seq, highlightingMode, context);
             }
         }
 
-        private static void PrintSequenceFilterCall(SequenceFilterCallBase seq, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceFilterCall(SequenceFilterCallBase seq, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             if(seq is SequenceFilterCallInterpreted)
             {
                 SequenceFilterCallInterpreted filterCall = (SequenceFilterCallInterpreted)seq;
                 if(filterCall.MatchClass != null)
-                    Console.Write(filterCall.MatchClass.info.PackagePrefixedName + ".");
-                Console.Write(filterCall.PackagePrefixedName);
-                PrintArguments(filterCall.ArgumentExpressions, parent, context);
+                    WorkaroundManager.Workaround.PrintHighlighted(filterCall.MatchClass.info.PackagePrefixedName + ".", highlightingMode);
+                WorkaroundManager.Workaround.PrintHighlighted(filterCall.PackagePrefixedName, highlightingMode);
+                PrintArguments(filterCall.ArgumentExpressions, parent, highlightingMode, context);
             }
             else if(seq is SequenceFilterCallLambdaExpressionInterpreted)
             {
                 SequenceFilterCallLambdaExpressionInterpreted filterCall = (SequenceFilterCallLambdaExpressionInterpreted)seq;
                 if(filterCall.MatchClass != null)
-                    Console.Write(filterCall.MatchClass.info.PackagePrefixedName + ".");
-                Console.Write(filterCall.Name);
+                    WorkaroundManager.Workaround.PrintHighlighted(filterCall.MatchClass.info.PackagePrefixedName + ".", highlightingMode);
+                WorkaroundManager.Workaround.PrintHighlighted(filterCall.Name, highlightingMode);
                 //if(filterCall.Entity != null)
                 //    sb.Append("<" + filterCall.Entity + ">");
                 if(filterCall.FilterCall.initExpression != null)
                 {
-                    Console.Write("{");
+                    WorkaroundManager.Workaround.PrintHighlighted("{", highlightingMode);
                     if(filterCall.FilterCall.initArrayAccess != null)
-                        Console.Write(filterCall.FilterCall.initArrayAccess.Name + "; ");
-                    PrintSequenceExpression(filterCall.FilterCall.initExpression, parent, context);
-                    Console.Write("}");
+                        WorkaroundManager.Workaround.PrintHighlighted(filterCall.FilterCall.initArrayAccess.Name + "; ", highlightingMode);
+                    PrintSequenceExpression(filterCall.FilterCall.initExpression, parent, highlightingMode, context);
+                    WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);
                 }
-                Console.Write("{");
+                WorkaroundManager.Workaround.PrintHighlighted("{", highlightingMode);
                 if(filterCall.FilterCall.arrayAccess != null)
-                    Console.Write(filterCall.FilterCall.arrayAccess.Name + "; ");
+                    WorkaroundManager.Workaround.PrintHighlighted(filterCall.FilterCall.arrayAccess.Name + "; ", highlightingMode);
                 if(filterCall.FilterCall.previousAccumulationAccess != null)
-                    Console.Write(filterCall.FilterCall.previousAccumulationAccess + ", ");
+                    WorkaroundManager.Workaround.PrintHighlighted(filterCall.FilterCall.previousAccumulationAccess + ", ", highlightingMode);
                 if(filterCall.FilterCall.index != null)
-                    Console.Write(filterCall.FilterCall.index.Name + " -> ");
-                Console.Write(filterCall.FilterCall.element.Name + " -> ");
-                PrintSequenceExpression(filterCall.FilterCall.lambdaExpression, parent, context);
-                Console.Write("}");
+                    WorkaroundManager.Workaround.PrintHighlighted(filterCall.FilterCall.index.Name + " -> ", highlightingMode);
+                WorkaroundManager.Workaround.PrintHighlighted(filterCall.FilterCall.element.Name + " -> ", highlightingMode);
+                PrintSequenceExpression(filterCall.FilterCall.lambdaExpression, parent, highlightingMode, context);
+                WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);
             }
             else
             {
@@ -865,28 +869,28 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        private static void PrintSequenceBooleanComputation(SequenceBooleanComputation seqComp, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceBooleanComputation(SequenceBooleanComputation seqComp, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceComputation(seqComp.Computation, seqComp, context);
+            PrintSequenceComputation(seqComp.Computation, seqComp, highlightingMode, context);
         }
 
-        private static void PrintSequenceAssignSequenceResultToVar(SequenceAssignSequenceResultToVar seqAss, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceAssignSequenceResultToVar(SequenceAssignSequenceResultToVar seqAss, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("(");
-            PrintSequence(seqAss.Seq, seqAss, context);
-            Console.Write(seqAss.OperatorSymbol);
-            Console.Write(seqAss.DestVar.Name);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("(", highlightingMode);
+            PrintSequence(seqAss.Seq, seqAss, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(seqAss.OperatorSymbol, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqAss.DestVar.Name, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
         // Choice highlightable user assignments
-        private static void PrintSequenceAssignChoiceHighlightable(Sequence seq, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceAssignChoiceHighlightable(Sequence seq, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             if(context.cpPosCounter >= 0
                 && (seq is SequenceAssignRandomIntToVar || seq is SequenceAssignRandomDoubleToVar))
             {
                 PrintChoice((SequenceRandomChoice)seq, context);
-                Console.Write(seq.Symbol);
+                WorkaroundManager.Workaround.PrintHighlighted(seq.Symbol, highlightingMode);
                 ++context.cpPosCounter;
                 return;
             }
@@ -894,21 +898,22 @@ namespace de.unika.ipd.grGen.grShell
             if(seq == context.highlightSeq && context.choice)
                 WorkaroundManager.Workaround.PrintHighlighted(seq.Symbol, HighlightingMode.Choicepoint);
             else
-                Console.Write(seq.Symbol);
+                WorkaroundManager.Workaround.PrintHighlighted(seq.Symbol, highlightingMode);
         }
 
-        private static void PrintSequenceDefinitionInterpreted(SequenceDefinitionInterpreted seqDef, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceDefinitionInterpreted(SequenceDefinitionInterpreted seqDef, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            HighlightingMode mode = HighlightingMode.None;
+            HighlightingMode highlightingModeLocal = HighlightingMode.None;
             if(seqDef.ExecutionState == SequenceExecutionState.Success)
-                mode = HighlightingMode.LastSuccess;
+                highlightingModeLocal = HighlightingMode.LastSuccess;
             if(seqDef.ExecutionState == SequenceExecutionState.Fail)
-                mode = HighlightingMode.LastFail;
-            WorkaroundManager.Workaround.PrintHighlighted(seqDef.Symbol + ": ", mode);
-            PrintSequence(seqDef.Seq, seqDef.Seq, context);
+                highlightingModeLocal = HighlightingMode.LastFail;
+
+            WorkaroundManager.Workaround.PrintHighlighted(seqDef.Symbol + ": ", highlightingModeLocal);
+            PrintSequence(seqDef.Seq, seqDef.Seq, highlightingMode, context);
         }
 
-        private static void PrintChildren(Sequence seq, PrintSequenceContext context)
+        private static void PrintChildren(Sequence seq, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             bool first = true;
             foreach(Sequence seqChild in seq.Children)
@@ -916,8 +921,8 @@ namespace de.unika.ipd.grGen.grShell
                 if(first)
                     first = false;
                 else
-                    Console.Write(", ");
-                PrintSequence(seqChild, seq, context);
+                    WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
+                PrintSequence(seqChild, seq, highlightingMode, context);
             }
         }
 
@@ -965,110 +970,110 @@ namespace de.unika.ipd.grGen.grShell
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        private static void PrintSequenceComputation(SequenceComputation seqComp, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputation(SequenceComputation seqComp, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             switch(seqComp.SequenceComputationType)
             {
             case SequenceComputationType.Then:
-                PrintSequenceComputationThen((SequenceComputationThen)seqComp, parent, context);
+                PrintSequenceComputationThen((SequenceComputationThen)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.VAlloc:
-                PrintSequenceComputationVAlloc((SequenceComputationVAlloc)seqComp, parent, context);
+                PrintSequenceComputationVAlloc((SequenceComputationVAlloc)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.VFree:
-                PrintSequenceComputationVFree((SequenceComputationVFree)seqComp, parent, context);
+                PrintSequenceComputationVFree((SequenceComputationVFree)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.VFreeNonReset:
             case SequenceComputationType.VReset:
-                PrintSequenceComputationVFree((SequenceComputationVFree)seqComp, parent, context);
+                PrintSequenceComputationVFree((SequenceComputationVFree)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.ContainerAdd:
-                PrintSequenceComputationContainerAdd((SequenceComputationContainerAdd)seqComp, parent, context);
+                PrintSequenceComputationContainerAdd((SequenceComputationContainerAdd)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.ContainerRem:
-                PrintSequenceComputationContainerRem((SequenceComputationContainerRem)seqComp, parent, context);
+                PrintSequenceComputationContainerRem((SequenceComputationContainerRem)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.ContainerClear:
-                PrintSequenceComputationContainerClear((SequenceComputationContainerClear)seqComp, parent, context);
+                PrintSequenceComputationContainerClear((SequenceComputationContainerClear)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.Assignment:
-                PrintSequenceComputationAssignment((SequenceComputationAssignment)seqComp, parent, context);
+                PrintSequenceComputationAssignment((SequenceComputationAssignment)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.VariableDeclaration:
-                PrintSequenceComputationVariableDeclaration((SequenceComputationVariableDeclaration)seqComp, parent, context);
+                PrintSequenceComputationVariableDeclaration((SequenceComputationVariableDeclaration)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.Emit:
-                PrintSequenceComputationEmit((SequenceComputationEmit)seqComp, parent, context);
+                PrintSequenceComputationEmit((SequenceComputationEmit)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.Record:
-                PrintSequenceComputationRecord((SequenceComputationRecord)seqComp, parent, context);
+                PrintSequenceComputationRecord((SequenceComputationRecord)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.Export:
-                PrintSequenceComputationExport((SequenceComputationExport)seqComp, parent, context);
+                PrintSequenceComputationExport((SequenceComputationExport)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.DeleteFile:
-                PrintSequenceComputationDeleteFile((SequenceComputationDeleteFile)seqComp, parent, context);
+                PrintSequenceComputationDeleteFile((SequenceComputationDeleteFile)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.GraphAdd:
-                PrintSequenceComputationGraphAdd((SequenceComputationGraphAdd)seqComp, parent, context);
+                PrintSequenceComputationGraphAdd((SequenceComputationGraphAdd)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.GraphRem:
-                PrintSequenceComputationGraphRem((SequenceComputationGraphRem)seqComp, parent, context);
+                PrintSequenceComputationGraphRem((SequenceComputationGraphRem)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.GraphClear:
-                PrintSequenceComputationGraphClear((SequenceComputationGraphClear)seqComp, parent, context);
+                PrintSequenceComputationGraphClear((SequenceComputationGraphClear)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.GraphRetype:
-                PrintSequenceComputationGraphRetype((SequenceComputationGraphRetype)seqComp, parent, context);
+                PrintSequenceComputationGraphRetype((SequenceComputationGraphRetype)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.GraphAddCopy:
-                PrintSequenceComputationGraphAddCopy((SequenceComputationGraphAddCopy)seqComp, parent, context);
+                PrintSequenceComputationGraphAddCopy((SequenceComputationGraphAddCopy)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.GraphMerge:
-                PrintSequenceComputationGraphMerge((SequenceComputationGraphMerge)seqComp, parent, context);
+                PrintSequenceComputationGraphMerge((SequenceComputationGraphMerge)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.GraphRedirectSource:
-                PrintSequenceComputationGraphRedirectSource((SequenceComputationGraphRedirectSource)seqComp, parent, context);
+                PrintSequenceComputationGraphRedirectSource((SequenceComputationGraphRedirectSource)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.GraphRedirectTarget:
-                PrintSequenceComputationGraphRedirectTarget((SequenceComputationGraphRedirectTarget)seqComp, parent, context);
+                PrintSequenceComputationGraphRedirectTarget((SequenceComputationGraphRedirectTarget)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.GraphRedirectSourceAndTarget:
-                PrintSequenceComputationGraphRedirectSourceAndTarget((SequenceComputationGraphRedirectSourceAndTarget)seqComp, parent, context);
+                PrintSequenceComputationGraphRedirectSourceAndTarget((SequenceComputationGraphRedirectSourceAndTarget)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.Insert:
-                PrintSequenceComputationInsert((SequenceComputationInsert)seqComp, parent, context);
+                PrintSequenceComputationInsert((SequenceComputationInsert)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.InsertCopy:
-                PrintSequenceComputationInsertCopy((SequenceComputationInsertCopy)seqComp, parent, context);
+                PrintSequenceComputationInsertCopy((SequenceComputationInsertCopy)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.InsertInduced:
-                PrintSequenceComputationInsertInduced((SequenceComputationInsertInduced)seqComp, parent, context);
+                PrintSequenceComputationInsertInduced((SequenceComputationInsertInduced)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.InsertDefined:
-                PrintSequenceComputationInsertDefined((SequenceComputationInsertDefined)seqComp, parent, context);
+                PrintSequenceComputationInsertDefined((SequenceComputationInsertDefined)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.ProcedureCall:
-                PrintSequenceComputationProcedureCall((SequenceComputationProcedureCall)seqComp, parent, context);
+                PrintSequenceComputationProcedureCall((SequenceComputationProcedureCall)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.BuiltinProcedureCall:
-                PrintSequenceComputationBuiltinProcedureCall((SequenceComputationBuiltinProcedureCall)seqComp, parent, context);
+                PrintSequenceComputationBuiltinProcedureCall((SequenceComputationBuiltinProcedureCall)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.ProcedureMethodCall:
-                PrintSequenceComputationProcedureMethodCall((SequenceComputationProcedureMethodCall)seqComp, parent, context);
+                PrintSequenceComputationProcedureMethodCall((SequenceComputationProcedureMethodCall)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.DebugAdd:
             case SequenceComputationType.DebugRem:
             case SequenceComputationType.DebugEmit:
             case SequenceComputationType.DebugHalt:
             case SequenceComputationType.DebugHighlight:
-                PrintSequenceComputationDebug((SequenceComputationDebug)seqComp, parent, context);
+                PrintSequenceComputationDebug((SequenceComputationDebug)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.AssignmentTarget: // every assignment target (lhs value) is a computation
-                PrintSequenceAssignmentTarget((AssignmentTarget)seqComp, parent, context);
+                PrintSequenceAssignmentTarget((AssignmentTarget)seqComp, parent, highlightingMode, context);
                 break;
             case SequenceComputationType.Expression: // every expression (rhs value) is a computation
-                PrintSequenceExpression((SequenceExpression)seqComp, parent, context);
+                PrintSequenceExpression((SequenceExpression)seqComp, parent, highlightingMode, context);
                 break;
             default:
                 Debug.Assert(false);
@@ -1076,419 +1081,419 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        private static void PrintSequenceComputationThen(SequenceComputationThen seqCompThen, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationThen(SequenceComputationThen seqCompThen, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceComputation(seqCompThen.left, seqCompThen, context);
-            Console.Write("; ");
+            PrintSequenceComputation(seqCompThen.left, seqCompThen, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("; ", highlightingMode);
             if(seqCompThen.right is SequenceExpression)
             {
-                Console.Write("{");
-                PrintSequenceExpression((SequenceExpression)seqCompThen.right, seqCompThen, context);
-                Console.Write("}");
+                WorkaroundManager.Workaround.PrintHighlighted("{", highlightingMode);
+                PrintSequenceExpression((SequenceExpression)seqCompThen.right, seqCompThen, highlightingMode, context);
+                WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);
             }
             else
             {
-                PrintSequenceComputation(seqCompThen.right, seqCompThen, context);
+                PrintSequenceComputation(seqCompThen.right, seqCompThen, highlightingMode, context);
             }
         }
 
-        private static void PrintSequenceComputationVAlloc(SequenceComputationVAlloc seqCompVAlloc, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationVAlloc(SequenceComputationVAlloc seqCompVAlloc, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("valloc()");
+            WorkaroundManager.Workaround.PrintHighlighted("valloc()", highlightingMode);
         }
 
-        private static void PrintSequenceComputationVFree(SequenceComputationVFree seqCompVFree, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationVFree(SequenceComputationVFree seqCompVFree, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write((seqCompVFree.Reset ? "vfree" : "vfreenonreset") + "(");
-            PrintSequenceExpression(seqCompVFree.VisitedFlagExpression, seqCompVFree, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted((seqCompVFree.Reset ? "vfree" : "vfreenonreset") + "(", highlightingMode);
+            PrintSequenceExpression(seqCompVFree.VisitedFlagExpression, seqCompVFree, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceComputationVReset(SequenceComputationVReset seqCompVReset, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationVReset(SequenceComputationVReset seqCompVReset, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("vreset(");
-            PrintSequenceExpression(seqCompVReset.VisitedFlagExpression, seqCompVReset, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("vreset(", highlightingMode);
+            PrintSequenceExpression(seqCompVReset.VisitedFlagExpression, seqCompVReset, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceComputationContainerAdd(SequenceComputationContainerAdd seqCompContainerAdd, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationContainerAdd(SequenceComputationContainerAdd seqCompContainerAdd, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqCompContainerAdd.Name + ".add(");
-            PrintSequenceExpression(seqCompContainerAdd.Expr, seqCompContainerAdd, context);
+            WorkaroundManager.Workaround.PrintHighlighted(seqCompContainerAdd.Name + ".add(", highlightingMode);
+            PrintSequenceExpression(seqCompContainerAdd.Expr, seqCompContainerAdd, highlightingMode, context);
             if(seqCompContainerAdd.ExprDst != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqCompContainerAdd.ExprDst, seqCompContainerAdd, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqCompContainerAdd.ExprDst, seqCompContainerAdd, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceComputationContainerRem(SequenceComputationContainerRem seqCompContainerRem, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationContainerRem(SequenceComputationContainerRem seqCompContainerRem, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqCompContainerRem.Name + ".rem(");
+            WorkaroundManager.Workaround.PrintHighlighted(seqCompContainerRem.Name + ".rem(", highlightingMode);
             if(seqCompContainerRem.Expr != null)
             {
-                PrintSequenceExpression(seqCompContainerRem.Expr, seqCompContainerRem, context);
+                PrintSequenceExpression(seqCompContainerRem.Expr, seqCompContainerRem, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceComputationContainerClear(SequenceComputationContainerClear seqCompContainerClear, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationContainerClear(SequenceComputationContainerClear seqCompContainerClear, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqCompContainerClear.Name + ".clear()");
+            WorkaroundManager.Workaround.PrintHighlighted(seqCompContainerClear.Name + ".clear()", highlightingMode);
         }
 
-        private static void PrintSequenceComputationAssignment(SequenceComputationAssignment seqCompAssign, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationAssignment(SequenceComputationAssignment seqCompAssign, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceAssignmentTarget(seqCompAssign.Target, seqCompAssign, context);
-            Console.Write("=");
-            PrintSequenceComputation(seqCompAssign.SourceValueProvider, seqCompAssign, context);
+            PrintSequenceAssignmentTarget(seqCompAssign.Target, seqCompAssign, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("=", highlightingMode);
+            PrintSequenceComputation(seqCompAssign.SourceValueProvider, seqCompAssign, highlightingMode, context);
         }
 
-        private static void PrintSequenceComputationVariableDeclaration(SequenceComputationVariableDeclaration seqCompVarDecl, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationVariableDeclaration(SequenceComputationVariableDeclaration seqCompVarDecl, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqCompVarDecl.Target.Name);
+            WorkaroundManager.Workaround.PrintHighlighted(seqCompVarDecl.Target.Name, highlightingMode);
         }
 
-        private static void PrintSequenceComputationDebug(SequenceComputationDebug seqCompDebug, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationDebug(SequenceComputationDebug seqCompDebug, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Debug::" + seqCompDebug.Name + "(");
+            WorkaroundManager.Workaround.PrintHighlighted("Debug::" + seqCompDebug.Name + "(", highlightingMode);
             bool first = true;
             foreach(SequenceExpression seqExpr in seqCompDebug.ArgExprs)
             {
                 if(!first)
-                    Console.Write(", ");
+                    WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
                 else
                     first = false;
-                PrintSequenceExpression(seqExpr, seqCompDebug, context);
+                PrintSequenceExpression(seqExpr, seqCompDebug, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceComputationEmit(SequenceComputationEmit seqCompEmit, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationEmit(SequenceComputationEmit seqCompEmit, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             if(seqCompEmit.IsDebug)
-                Console.Write("emitdebug(");
+                WorkaroundManager.Workaround.PrintHighlighted("emitdebug(", highlightingMode);
             else
-                Console.Write("emit(");
+                WorkaroundManager.Workaround.PrintHighlighted("emit(", highlightingMode);
             bool first = true;
             foreach(SequenceExpression expr in seqCompEmit.Expressions)
             {
                 if(first)
                     first = false;
                 else
-                    Console.Write(", ");
+                    WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
                 SequenceExpressionConstant exprConst = expr as SequenceExpressionConstant;
                 if(exprConst != null && exprConst.Constant is string)
-                    Console.Write(SequenceExpressionConstant.ConstantAsString(exprConst.Constant));
+                    WorkaroundManager.Workaround.PrintHighlighted(SequenceExpressionConstant.ConstantAsString(exprConst.Constant), highlightingMode);
                 else
-                    PrintSequenceExpression(expr, seqCompEmit, context);
+                    PrintSequenceExpression(expr, seqCompEmit, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceComputationRecord(SequenceComputationRecord seqCompRec, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationRecord(SequenceComputationRecord seqCompRec, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("record(");
+            WorkaroundManager.Workaround.PrintHighlighted("record(", highlightingMode);
 
             SequenceExpressionConstant exprConst = seqCompRec.Expression as SequenceExpressionConstant;
             if(exprConst != null && exprConst.Constant is string)
-                Console.Write(SequenceExpressionConstant.ConstantAsString(exprConst.Constant));
+                WorkaroundManager.Workaround.PrintHighlighted(SequenceExpressionConstant.ConstantAsString(exprConst.Constant), highlightingMode);
             else
-                PrintSequenceExpression(seqCompRec.Expression, seqCompRec, context);
+                PrintSequenceExpression(seqCompRec.Expression, seqCompRec, highlightingMode, context);
 
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceComputationExport(SequenceComputationExport seqCompExport, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationExport(SequenceComputationExport seqCompExport, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("File::export(");
+            WorkaroundManager.Workaround.PrintHighlighted("File::export(", highlightingMode);
             if(seqCompExport.Graph != null)
             {
-                PrintSequenceExpression(seqCompExport.Graph, seqCompExport, context);
-                Console.Write(", ");
+                PrintSequenceExpression(seqCompExport.Graph, seqCompExport, highlightingMode, context);
+                WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
             }
-            PrintSequenceExpression(seqCompExport.Name, seqCompExport, context);
-            Console.Write(")");
+            PrintSequenceExpression(seqCompExport.Name, seqCompExport, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceComputationDeleteFile(SequenceComputationDeleteFile seqCompDelFile, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationDeleteFile(SequenceComputationDeleteFile seqCompDelFile, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("File::deleteFile(");
-            PrintSequenceExpression(seqCompDelFile.Name, seqCompDelFile, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("File::deleteFile(", highlightingMode);
+            PrintSequenceExpression(seqCompDelFile.Name, seqCompDelFile, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceComputationGraphAdd(SequenceComputationGraphAdd seqCompGraphAdd, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationGraphAdd(SequenceComputationGraphAdd seqCompGraphAdd, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("add(");
-            PrintSequenceExpression(seqCompGraphAdd.Expr, seqCompGraphAdd, context);
+            WorkaroundManager.Workaround.PrintHighlighted("add(", highlightingMode);
+            PrintSequenceExpression(seqCompGraphAdd.Expr, seqCompGraphAdd, highlightingMode, context);
             if(seqCompGraphAdd.ExprSrc != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqCompGraphAdd.ExprSrc, seqCompGraphAdd, context);
-                Console.Write(",");
-                PrintSequenceExpression(seqCompGraphAdd.ExprDst, seqCompGraphAdd, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqCompGraphAdd.ExprSrc, seqCompGraphAdd, highlightingMode, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqCompGraphAdd.ExprDst, seqCompGraphAdd, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceComputationGraphRem(SequenceComputationGraphRem seqCompGraphRem, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationGraphRem(SequenceComputationGraphRem seqCompGraphRem, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("rem(");
-            PrintSequenceExpression(seqCompGraphRem.Expr, seqCompGraphRem, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("rem(", highlightingMode);
+            PrintSequenceExpression(seqCompGraphRem.Expr, seqCompGraphRem, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceComputationGraphClear(SequenceComputationGraphClear seqCompGraphClear, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationGraphClear(SequenceComputationGraphClear seqCompGraphClear, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("clear()");
+            WorkaroundManager.Workaround.PrintHighlighted("clear()", highlightingMode);
         }
 
-        private static void PrintSequenceComputationGraphRetype(SequenceComputationGraphRetype seqCompGraphRetype, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationGraphRetype(SequenceComputationGraphRetype seqCompGraphRetype, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("retype(");
-            PrintSequenceExpression(seqCompGraphRetype.ElemExpr, seqCompGraphRetype, context);
-            Console.Write(",");
-            PrintSequenceExpression(seqCompGraphRetype.TypeExpr, seqCompGraphRetype, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("retype(", highlightingMode);
+            PrintSequenceExpression(seqCompGraphRetype.ElemExpr, seqCompGraphRetype, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqCompGraphRetype.TypeExpr, seqCompGraphRetype, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceComputationGraphAddCopy(SequenceComputationGraphAddCopy seqCompGraphAddCopy, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationGraphAddCopy(SequenceComputationGraphAddCopy seqCompGraphAddCopy, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqCompGraphAddCopy.Deep ? "addCopy(" : "addClone(");
-            PrintSequenceExpression(seqCompGraphAddCopy.Expr, seqCompGraphAddCopy, context);
+            WorkaroundManager.Workaround.PrintHighlighted(seqCompGraphAddCopy.Deep ? "addCopy(" : "addClone(", highlightingMode);
+            PrintSequenceExpression(seqCompGraphAddCopy.Expr, seqCompGraphAddCopy, highlightingMode, context);
             if(seqCompGraphAddCopy.ExprSrc != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqCompGraphAddCopy.ExprSrc, seqCompGraphAddCopy, context);
-                Console.Write(",");
-                PrintSequenceExpression(seqCompGraphAddCopy.ExprDst, seqCompGraphAddCopy, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqCompGraphAddCopy.ExprSrc, seqCompGraphAddCopy, highlightingMode, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqCompGraphAddCopy.ExprDst, seqCompGraphAddCopy, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceComputationGraphMerge(SequenceComputationGraphMerge seqCompGraphMerge, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationGraphMerge(SequenceComputationGraphMerge seqCompGraphMerge, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("merge(");
-            PrintSequenceExpression(seqCompGraphMerge.TargetNodeExpr, seqCompGraphMerge, context);
-            Console.Write(", ");
-            PrintSequenceExpression(seqCompGraphMerge.SourceNodeExpr, seqCompGraphMerge, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("merge(", highlightingMode);
+            PrintSequenceExpression(seqCompGraphMerge.TargetNodeExpr, seqCompGraphMerge, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
+            PrintSequenceExpression(seqCompGraphMerge.SourceNodeExpr, seqCompGraphMerge, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceComputationGraphRedirectSource(SequenceComputationGraphRedirectSource seqCompGraphRedirectSrc, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationGraphRedirectSource(SequenceComputationGraphRedirectSource seqCompGraphRedirectSrc, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("redirectSource(");
-            PrintSequenceExpression(seqCompGraphRedirectSrc.EdgeExpr, seqCompGraphRedirectSrc, context);
-            Console.Write(",");
-            PrintSequenceExpression(seqCompGraphRedirectSrc.SourceNodeExpr, seqCompGraphRedirectSrc, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("redirectSource(", highlightingMode);
+            PrintSequenceExpression(seqCompGraphRedirectSrc.EdgeExpr, seqCompGraphRedirectSrc, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqCompGraphRedirectSrc.SourceNodeExpr, seqCompGraphRedirectSrc, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceComputationGraphRedirectTarget(SequenceComputationGraphRedirectTarget seqCompGraphRedirectTgt, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationGraphRedirectTarget(SequenceComputationGraphRedirectTarget seqCompGraphRedirectTgt, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("redirectSourceAndTarget(");
-            PrintSequenceExpression(seqCompGraphRedirectTgt.EdgeExpr, seqCompGraphRedirectTgt, context);
-            Console.Write(",");
-            PrintSequenceExpression(seqCompGraphRedirectTgt.TargetNodeExpr, seqCompGraphRedirectTgt, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("redirectSourceAndTarget(", highlightingMode);
+            PrintSequenceExpression(seqCompGraphRedirectTgt.EdgeExpr, seqCompGraphRedirectTgt, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqCompGraphRedirectTgt.TargetNodeExpr, seqCompGraphRedirectTgt, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceComputationGraphRedirectSourceAndTarget(SequenceComputationGraphRedirectSourceAndTarget seqCompGraphRedirectSrcTgt, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationGraphRedirectSourceAndTarget(SequenceComputationGraphRedirectSourceAndTarget seqCompGraphRedirectSrcTgt, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("redirectSourceAndTarget(");
-            PrintSequenceExpression(seqCompGraphRedirectSrcTgt.EdgeExpr, seqCompGraphRedirectSrcTgt, context);
-            Console.Write(",");
-            PrintSequenceExpression(seqCompGraphRedirectSrcTgt.SourceNodeExpr, seqCompGraphRedirectSrcTgt, context);
-            Console.Write(",");
-            PrintSequenceExpression(seqCompGraphRedirectSrcTgt.TargetNodeExpr, seqCompGraphRedirectSrcTgt, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("redirectSourceAndTarget(", highlightingMode);
+            PrintSequenceExpression(seqCompGraphRedirectSrcTgt.EdgeExpr, seqCompGraphRedirectSrcTgt, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqCompGraphRedirectSrcTgt.SourceNodeExpr, seqCompGraphRedirectSrcTgt, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqCompGraphRedirectSrcTgt.TargetNodeExpr, seqCompGraphRedirectSrcTgt, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceComputationInsert(SequenceComputationInsert seqCompInsert, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationInsert(SequenceComputationInsert seqCompInsert, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("insert(");
-            PrintSequenceExpression(seqCompInsert.Graph, seqCompInsert, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("insert(", highlightingMode);
+            PrintSequenceExpression(seqCompInsert.Graph, seqCompInsert, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceComputationInsertCopy(SequenceComputationInsertCopy seqCompInsertCopy, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationInsertCopy(SequenceComputationInsertCopy seqCompInsertCopy, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("insert(");
-            PrintSequenceExpression(seqCompInsertCopy.Graph, seqCompInsertCopy, context);
-            Console.Write(",");
-            PrintSequenceExpression(seqCompInsertCopy.RootNode, seqCompInsertCopy, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("insert(", highlightingMode);
+            PrintSequenceExpression(seqCompInsertCopy.Graph, seqCompInsertCopy, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqCompInsertCopy.RootNode, seqCompInsertCopy, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceComputationInsertInduced(SequenceComputationInsertInduced seqCompInsertInduced, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationInsertInduced(SequenceComputationInsertInduced seqCompInsertInduced, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("insertInduced(");
-            PrintSequenceExpression(seqCompInsertInduced.NodeSet, seqCompInsertInduced, context);
-            Console.Write(",");
-            PrintSequenceExpression(seqCompInsertInduced.RootNode, seqCompInsertInduced, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("insertInduced(", highlightingMode);
+            PrintSequenceExpression(seqCompInsertInduced.NodeSet, seqCompInsertInduced, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqCompInsertInduced.RootNode, seqCompInsertInduced, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceComputationInsertDefined(SequenceComputationInsertDefined seqCompInsertDefined, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationInsertDefined(SequenceComputationInsertDefined seqCompInsertDefined, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("insertDefined(");
-            PrintSequenceExpression(seqCompInsertDefined.EdgeSet, seqCompInsertDefined, context);
-            Console.Write(",");
-            PrintSequenceExpression(seqCompInsertDefined.RootEdge, seqCompInsertDefined, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("insertDefined(", highlightingMode);
+            PrintSequenceExpression(seqCompInsertDefined.EdgeSet, seqCompInsertDefined, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqCompInsertDefined.RootEdge, seqCompInsertDefined, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceComputationBuiltinProcedureCall(SequenceComputationBuiltinProcedureCall seqCompBuiltinProcCall, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationBuiltinProcedureCall(SequenceComputationBuiltinProcedureCall seqCompBuiltinProcCall, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             if(seqCompBuiltinProcCall.ReturnVars.Count > 0)
             {
-                Console.Write("(");
+                WorkaroundManager.Workaround.PrintHighlighted("(", highlightingMode);
                 for(int i = 0; i < seqCompBuiltinProcCall.ReturnVars.Count; ++i)
                 {
-                    Console.Write(seqCompBuiltinProcCall.ReturnVars[i].Name);
+                    WorkaroundManager.Workaround.PrintHighlighted(seqCompBuiltinProcCall.ReturnVars[i].Name, highlightingMode);
                     if(i != seqCompBuiltinProcCall.ReturnVars.Count - 1)
-                        Console.Write(",");
+                        WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
                 }
-                Console.Write(")=");
+                WorkaroundManager.Workaround.PrintHighlighted(")=", highlightingMode);
             }
-            PrintSequenceComputation(seqCompBuiltinProcCall.BuiltinProcedure, seqCompBuiltinProcCall, context);
+            PrintSequenceComputation(seqCompBuiltinProcCall.BuiltinProcedure, seqCompBuiltinProcCall, highlightingMode, context);
         }
 
-        private static void PrintSequenceComputationProcedureCall(SequenceComputationProcedureCall seqCompProcCall, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationProcedureCall(SequenceComputationProcedureCall seqCompProcCall, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             if(seqCompProcCall.ReturnVars.Length > 0)
             {
-                Console.Write("(");
+                WorkaroundManager.Workaround.PrintHighlighted("(", highlightingMode);
                 for(int i = 0; i < seqCompProcCall.ReturnVars.Length; ++i)
                 {
-                    Console.Write(seqCompProcCall.ReturnVars[i].Name);
+                    WorkaroundManager.Workaround.PrintHighlighted(seqCompProcCall.ReturnVars[i].Name, highlightingMode);
                     if(i != seqCompProcCall.ReturnVars.Length - 1)
-                        Console.Write(",");
+                        WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
                 }
-                Console.Write(")=");
+                WorkaroundManager.Workaround.PrintHighlighted(")=", highlightingMode);
             }
-            Console.Write(seqCompProcCall.Name);
+            WorkaroundManager.Workaround.PrintHighlighted(seqCompProcCall.Name, highlightingMode);
             if(seqCompProcCall.ArgumentExpressions.Length > 0)
             {
-                Console.Write("(");
+                WorkaroundManager.Workaround.PrintHighlighted("(", highlightingMode);
                 for(int i = 0; i < seqCompProcCall.ArgumentExpressions.Length; ++i)
                 {
-                    Console.Write(seqCompProcCall.ArgumentExpressions[i].Symbol);
+                    WorkaroundManager.Workaround.PrintHighlighted(seqCompProcCall.ArgumentExpressions[i].Symbol, highlightingMode);
                     if(i != seqCompProcCall.ArgumentExpressions.Length - 1)
-                        Console.Write(",");
+                        WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
                 }
-                Console.Write(")");
+                WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
             }
         }
 
-        private static void PrintSequenceComputationProcedureMethodCall(SequenceComputationProcedureMethodCall sequenceComputationProcedureMethodCall, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceComputationProcedureMethodCall(SequenceComputationProcedureMethodCall sequenceComputationProcedureMethodCall, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             if(sequenceComputationProcedureMethodCall.ReturnVars.Length > 0)
             {
-                Console.Write("(");
+                WorkaroundManager.Workaround.PrintHighlighted("(", highlightingMode);
                 for(int i = 0; i < sequenceComputationProcedureMethodCall.ReturnVars.Length; ++i)
                 {
-                    Console.Write(sequenceComputationProcedureMethodCall.ReturnVars[i].Name);
+                    WorkaroundManager.Workaround.PrintHighlighted(sequenceComputationProcedureMethodCall.ReturnVars[i].Name, highlightingMode);
                     if(i != sequenceComputationProcedureMethodCall.ReturnVars.Length - 1)
-                        Console.Write(",");
+                        WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
                 }
-                Console.Write(")=");
+                WorkaroundManager.Workaround.PrintHighlighted(")=", highlightingMode);
             }
             if(sequenceComputationProcedureMethodCall.TargetExpr != null)
-                Console.Write(sequenceComputationProcedureMethodCall.TargetExpr.Symbol + ".");
+                WorkaroundManager.Workaround.PrintHighlighted(sequenceComputationProcedureMethodCall.TargetExpr.Symbol + ".", highlightingMode);
             if(sequenceComputationProcedureMethodCall.TargetVar != null)
-                Console.Write(sequenceComputationProcedureMethodCall.TargetVar.ToString() + ".");
-            Console.Write(sequenceComputationProcedureMethodCall.Name);
+                WorkaroundManager.Workaround.PrintHighlighted(sequenceComputationProcedureMethodCall.TargetVar.ToString() + ".", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(sequenceComputationProcedureMethodCall.Name, highlightingMode);
             if(sequenceComputationProcedureMethodCall.ArgumentExpressions.Length > 0)
             {
-                Console.Write("(");
+                WorkaroundManager.Workaround.PrintHighlighted("(", highlightingMode);
                 for(int i = 0; i < sequenceComputationProcedureMethodCall.ArgumentExpressions.Length; ++i)
                 {
-                    Console.Write(sequenceComputationProcedureMethodCall.ArgumentExpressions[i].Symbol);
+                    WorkaroundManager.Workaround.PrintHighlighted(sequenceComputationProcedureMethodCall.ArgumentExpressions[i].Symbol, highlightingMode);
                     if(i != sequenceComputationProcedureMethodCall.ArgumentExpressions.Length - 1)
-                        Console.Write(",");
+                        WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
                 }
-                Console.Write(")");
+                WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
             }
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        private static void PrintSequenceAssignmentTarget(AssignmentTarget assTgt, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceAssignmentTarget(AssignmentTarget assTgt, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             switch(assTgt.AssignmentTargetType)
             {
             case AssignmentTargetType.Var:
-                PrintSequenceAssignmentTargetVar((AssignmentTargetVar)assTgt, parent, context);
+                PrintSequenceAssignmentTargetVar((AssignmentTargetVar)assTgt, parent, highlightingMode, context);
                 break;
             case AssignmentTargetType.YieldingToVar:
-                PrintSequenceAssignmentTargetYieldingVar((AssignmentTargetYieldingVar)assTgt, parent, context);
+                PrintSequenceAssignmentTargetYieldingVar((AssignmentTargetYieldingVar)assTgt, parent, highlightingMode, context);
                 break;
             case AssignmentTargetType.IndexedVar:
-                PrintSequenceAssignmentTargetIndexedVar((AssignmentTargetIndexedVar)assTgt, parent, context);
+                PrintSequenceAssignmentTargetIndexedVar((AssignmentTargetIndexedVar)assTgt, parent, highlightingMode, context);
                 break;
             case AssignmentTargetType.Attribute:
-                PrintSequenceAssignmentTargetAttribute((AssignmentTargetAttribute)assTgt, parent, context);
+                PrintSequenceAssignmentTargetAttribute((AssignmentTargetAttribute)assTgt, parent, highlightingMode, context);
                 break;
             case AssignmentTargetType.AttributeIndexed:
-                PrintSequenceAssignmentTargetAttributeIndexed((AssignmentTargetAttributeIndexed)assTgt, parent, context);
+                PrintSequenceAssignmentTargetAttributeIndexed((AssignmentTargetAttributeIndexed)assTgt, parent, highlightingMode, context);
                 break;
             case AssignmentTargetType.Visited:
-                PrintSequenceAssignmentTargetVisited((AssignmentTargetVisited)assTgt, parent, context);
+                PrintSequenceAssignmentTargetVisited((AssignmentTargetVisited)assTgt, parent, highlightingMode, context);
                 break;
             }
         }
 
-        private static void PrintSequenceAssignmentTargetVar(AssignmentTargetVar assTgtVar, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceAssignmentTargetVar(AssignmentTargetVar assTgtVar, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(assTgtVar.DestVar);
+            WorkaroundManager.Workaround.PrintHighlighted(assTgtVar.DestVar.Name, highlightingMode);
         }
 
-        private static void PrintSequenceAssignmentTargetYieldingVar(AssignmentTargetYieldingVar assTgtYieldingVar, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceAssignmentTargetYieldingVar(AssignmentTargetYieldingVar assTgtYieldingVar, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(assTgtYieldingVar.DestVar);
+            WorkaroundManager.Workaround.PrintHighlighted(assTgtYieldingVar.DestVar.Name, highlightingMode);
         }
 
-        private static void PrintSequenceAssignmentTargetIndexedVar(AssignmentTargetIndexedVar assTgtIndexedVar, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceAssignmentTargetIndexedVar(AssignmentTargetIndexedVar assTgtIndexedVar, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(assTgtIndexedVar.DestVar.Name + "[");
-            PrintSequenceExpression(assTgtIndexedVar.KeyExpression, assTgtIndexedVar, context);
-            Console.Write("]");
+            WorkaroundManager.Workaround.PrintHighlighted(assTgtIndexedVar.DestVar.Name + "[", highlightingMode);
+            PrintSequenceExpression(assTgtIndexedVar.KeyExpression, assTgtIndexedVar, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("]", highlightingMode);
         }
 
-        private static void PrintSequenceAssignmentTargetAttribute(AssignmentTargetAttribute assTgtAttribute, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceAssignmentTargetAttribute(AssignmentTargetAttribute assTgtAttribute, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(assTgtAttribute.DestVar.Name + "." + assTgtAttribute.AttributeName);
+            WorkaroundManager.Workaround.PrintHighlighted(assTgtAttribute.DestVar.Name + "." + assTgtAttribute.AttributeName, highlightingMode);
         }
 
-        private static void PrintSequenceAssignmentTargetAttributeIndexed(AssignmentTargetAttributeIndexed assTgtAttributeIndexed, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceAssignmentTargetAttributeIndexed(AssignmentTargetAttributeIndexed assTgtAttributeIndexed, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(assTgtAttributeIndexed.DestVar.Name + "." + assTgtAttributeIndexed.AttributeName + "[");
-            PrintSequenceExpression(assTgtAttributeIndexed.KeyExpression, assTgtAttributeIndexed, context);
-            Console.Write("]");
+            WorkaroundManager.Workaround.PrintHighlighted(assTgtAttributeIndexed.DestVar.Name + "." + assTgtAttributeIndexed.AttributeName + "[", highlightingMode);
+            PrintSequenceExpression(assTgtAttributeIndexed.KeyExpression, assTgtAttributeIndexed, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("]", highlightingMode);
         }
 
-        private static void PrintSequenceAssignmentTargetVisited(AssignmentTargetVisited assTgtVisited, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceAssignmentTargetVisited(AssignmentTargetVisited assTgtVisited, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(assTgtVisited.GraphElementVar.Name + ".visited");
+            WorkaroundManager.Workaround.PrintHighlighted(assTgtVisited.GraphElementVar.Name + ".visited", highlightingMode);
             if(assTgtVisited.VisitedFlagExpression != null)
             {
-                Console.Write("[");
-                PrintSequenceExpression(assTgtVisited.VisitedFlagExpression, assTgtVisited, context);
-                Console.Write("]");
+                WorkaroundManager.Workaround.PrintHighlighted("[", highlightingMode);
+                PrintSequenceExpression(assTgtVisited.VisitedFlagExpression, assTgtVisited, highlightingMode, context);
+                WorkaroundManager.Workaround.PrintHighlighted("]", highlightingMode);
             }
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        private static void PrintSequenceExpression(SequenceExpression seqExpr, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpression(SequenceExpression seqExpr, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             switch(seqExpr.SequenceExpressionType)
             {
             case SequenceExpressionType.Conditional:
-                PrintSequenceExpressionConditional((SequenceExpressionConditional)seqExpr, parent, context);
+                PrintSequenceExpressionConditional((SequenceExpressionConditional)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Except:
             case SequenceExpressionType.LazyOr:
@@ -1496,22 +1501,22 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceExpressionType.StrictOr:
             case SequenceExpressionType.StrictXor:
             case SequenceExpressionType.StrictAnd:
-                PrintSequenceExpressionBinary((SequenceBinaryExpression)seqExpr, parent, context);
+                PrintSequenceExpressionBinary((SequenceBinaryExpression)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Not:
-                PrintSequenceExpressionNot((SequenceExpressionNot)seqExpr, parent, context);
+                PrintSequenceExpressionNot((SequenceExpressionNot)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.UnaryPlus:
-                PrintSequenceExpressionUnaryPlus((SequenceExpressionUnaryPlus)seqExpr, parent, context);
+                PrintSequenceExpressionUnaryPlus((SequenceExpressionUnaryPlus)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.UnaryMinus:
-                PrintSequenceExpressionUnaryMinus((SequenceExpressionUnaryMinus)seqExpr, parent, context);
+                PrintSequenceExpressionUnaryMinus((SequenceExpressionUnaryMinus)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.BitwiseComplement:
-                PrintSequenceExpressionBitwiseComplement((SequenceExpressionBitwiseComplement)seqExpr, parent, context);
+                PrintSequenceExpressionBitwiseComplement((SequenceExpressionBitwiseComplement)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Cast:
-                PrintSequenceExpressionCast((SequenceExpressionCast)seqExpr, parent, context);
+                PrintSequenceExpressionCast((SequenceExpressionCast)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Equal:
             case SequenceExpressionType.NotEqual:
@@ -1528,364 +1533,364 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceExpressionType.Mul:
             case SequenceExpressionType.Div:
             case SequenceExpressionType.Mod:
-                PrintSequenceExpressionBinary((SequenceBinaryExpression)seqExpr, parent, context);
+                PrintSequenceExpressionBinary((SequenceBinaryExpression)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Constant:
-                PrintSequenceExpressionConstant((SequenceExpressionConstant)seqExpr, parent, context);
+                PrintSequenceExpressionConstant((SequenceExpressionConstant)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Variable:
-                PrintSequenceExpressionVariable((SequenceExpressionVariable)seqExpr, parent, context);
+                PrintSequenceExpressionVariable((SequenceExpressionVariable)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.This:
-                PrintSequenceExpressionThis((SequenceExpressionThis)seqExpr, parent, context);
+                PrintSequenceExpressionThis((SequenceExpressionThis)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.New:
-                PrintSequenceExpressionNew((SequenceExpressionNew)seqExpr, parent, context);
+                PrintSequenceExpressionNew((SequenceExpressionNew)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MatchClassConstructor:
-                PrintSequenceExpressionMatchClassConstructor((SequenceExpressionMatchClassConstructor)seqExpr, parent, context);
+                PrintSequenceExpressionMatchClassConstructor((SequenceExpressionMatchClassConstructor)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.SetConstructor:
-                PrintSequenceExpressionSetConstructor((SequenceExpressionSetConstructor)seqExpr, parent, context);
+                PrintSequenceExpressionSetConstructor((SequenceExpressionSetConstructor)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MapConstructor:
-                PrintSequenceExpressionMapConstructor((SequenceExpressionMapConstructor)seqExpr, parent, context);
+                PrintSequenceExpressionMapConstructor((SequenceExpressionMapConstructor)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayConstructor:
-                PrintSequenceExpressionArrayConstructor((SequenceExpressionArrayConstructor)seqExpr, parent, context);
+                PrintSequenceExpressionArrayConstructor((SequenceExpressionArrayConstructor)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.DequeConstructor:
-                PrintSequenceExpressionDequeConstructor((SequenceExpressionDequeConstructor)seqExpr, parent, context);
+                PrintSequenceExpressionDequeConstructor((SequenceExpressionDequeConstructor)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.SetCopyConstructor:
-                PrintSequenceExpressionSetCopyConstructor((SequenceExpressionSetCopyConstructor)seqExpr, parent, context);
+                PrintSequenceExpressionSetCopyConstructor((SequenceExpressionSetCopyConstructor)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MapCopyConstructor:
-                PrintSequenceExpressionMapCopyConstructor((SequenceExpressionMapCopyConstructor)seqExpr, parent, context);
+                PrintSequenceExpressionMapCopyConstructor((SequenceExpressionMapCopyConstructor)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayCopyConstructor:
-                PrintSequenceExpressionArrayCopyConstructor((SequenceExpressionArrayCopyConstructor)seqExpr, parent, context);
+                PrintSequenceExpressionArrayCopyConstructor((SequenceExpressionArrayCopyConstructor)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.DequeCopyConstructor:
-                PrintSequenceExpressionDequeCopyConstructor((SequenceExpressionDequeCopyConstructor)seqExpr, parent, context);
+                PrintSequenceExpressionDequeCopyConstructor((SequenceExpressionDequeCopyConstructor)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ContainerAsArray:
-                PrintSequenceExpressionContainerAsArray((SequenceExpressionContainerAsArray)seqExpr, parent, context);
+                PrintSequenceExpressionContainerAsArray((SequenceExpressionContainerAsArray)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.StringLength:
-                PrintSequenceExpressionStringLength((SequenceExpressionStringLength)seqExpr, parent, context);
+                PrintSequenceExpressionStringLength((SequenceExpressionStringLength)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.StringStartsWith:
-                PrintSequenceExpressionStringStartsWith((SequenceExpressionStringStartsWith)seqExpr, parent, context);
+                PrintSequenceExpressionStringStartsWith((SequenceExpressionStringStartsWith)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.StringEndsWith:
-                PrintSequenceExpressionStringEndsWith((SequenceExpressionStringEndsWith)seqExpr, parent, context);
+                PrintSequenceExpressionStringEndsWith((SequenceExpressionStringEndsWith)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.StringSubstring:
-                PrintSequenceExpressionStringSubstring((SequenceExpressionStringSubstring)seqExpr, parent, context);
+                PrintSequenceExpressionStringSubstring((SequenceExpressionStringSubstring)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.StringReplace:
-                PrintSequenceExpressionStringReplace((SequenceExpressionStringReplace)seqExpr, parent, context);
+                PrintSequenceExpressionStringReplace((SequenceExpressionStringReplace)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.StringToLower:
-                PrintSequenceExpressionStringToLower((SequenceExpressionStringToLower)seqExpr, parent, context);
+                PrintSequenceExpressionStringToLower((SequenceExpressionStringToLower)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.StringToUpper:
-                PrintSequenceExpressionStringToUpper((SequenceExpressionStringToUpper)seqExpr, parent, context);
+                PrintSequenceExpressionStringToUpper((SequenceExpressionStringToUpper)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.StringAsArray:
-                PrintSequenceExpressionStringAsArray((SequenceExpressionStringAsArray)seqExpr, parent, context);
+                PrintSequenceExpressionStringAsArray((SequenceExpressionStringAsArray)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MapDomain:
-                PrintSequenceExpressionMapDomain((SequenceExpressionMapDomain)seqExpr, parent, context);
+                PrintSequenceExpressionMapDomain((SequenceExpressionMapDomain)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MapRange:
-                PrintSequenceExpressionMapRange((SequenceExpressionMapRange)seqExpr, parent, context);
+                PrintSequenceExpressionMapRange((SequenceExpressionMapRange)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Random:
-                PrintSequenceExpressionRandom((SequenceExpressionRandom)seqExpr, parent, context);
+                PrintSequenceExpressionRandom((SequenceExpressionRandom)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Def:
-                PrintSequenceExpressionDef((SequenceExpressionDef)seqExpr, parent, context);
+                PrintSequenceExpressionDef((SequenceExpressionDef)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.IsVisited:
-                PrintSequenceExpressionIsVisited((SequenceExpressionIsVisited)seqExpr, parent, context);
+                PrintSequenceExpressionIsVisited((SequenceExpressionIsVisited)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.InContainerOrString:
-                PrintSequenceExpressionInContainerOrString((SequenceExpressionInContainerOrString)seqExpr, parent, context);
+                PrintSequenceExpressionInContainerOrString((SequenceExpressionInContainerOrString)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ContainerEmpty:
-                PrintSequenceExpressionContainerEmpty((SequenceExpressionContainerEmpty)seqExpr, parent, context);
+                PrintSequenceExpressionContainerEmpty((SequenceExpressionContainerEmpty)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ContainerSize:
-                PrintSequenceExpressionContainerSize((SequenceExpressionContainerSize)seqExpr, parent, context);
+                PrintSequenceExpressionContainerSize((SequenceExpressionContainerSize)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ContainerAccess:
-                PrintSequenceExpressionContainerAccess((SequenceExpressionContainerAccess)seqExpr, parent, context);
+                PrintSequenceExpressionContainerAccess((SequenceExpressionContainerAccess)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ContainerPeek:
-                PrintSequenceExpressionContainerPeek((SequenceExpressionContainerPeek)seqExpr, parent, context);
+                PrintSequenceExpressionContainerPeek((SequenceExpressionContainerPeek)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayOrDequeOrStringIndexOf:
-                PrintSequenceExpressionArrayOrDequeOrStringIndexOf((SequenceExpressionArrayOrDequeOrStringIndexOf)seqExpr, parent, context);
+                PrintSequenceExpressionArrayOrDequeOrStringIndexOf((SequenceExpressionArrayOrDequeOrStringIndexOf)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayOrDequeOrStringLastIndexOf:
-                PrintSequenceExpressionArrayOrDequeOrStringLastIndexOf((SequenceExpressionArrayOrDequeOrStringLastIndexOf)seqExpr, parent, context);
+                PrintSequenceExpressionArrayOrDequeOrStringLastIndexOf((SequenceExpressionArrayOrDequeOrStringLastIndexOf)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayIndexOfOrdered:
-                PrintSequenceExpressionArrayIndexOfOrdered((SequenceExpressionArrayIndexOfOrdered)seqExpr, parent, context);
+                PrintSequenceExpressionArrayIndexOfOrdered((SequenceExpressionArrayIndexOfOrdered)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArraySum:
-                PrintSequenceExpressionArraySum((SequenceExpressionArraySum)seqExpr, parent, context);
+                PrintSequenceExpressionArraySum((SequenceExpressionArraySum)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayProd:
-                PrintSequenceExpressionArrayProd((SequenceExpressionArrayProd)seqExpr, parent, context);
+                PrintSequenceExpressionArrayProd((SequenceExpressionArrayProd)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayMin:
-                PrintSequenceExpressionArrayMin((SequenceExpressionArrayMin)seqExpr, parent, context);
+                PrintSequenceExpressionArrayMin((SequenceExpressionArrayMin)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayMax:
-                PrintSequenceExpressionArrayMax((SequenceExpressionArrayMax)seqExpr, parent, context);
+                PrintSequenceExpressionArrayMax((SequenceExpressionArrayMax)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayAvg:
-                PrintSequenceExpressionArrayAvg((SequenceExpressionArrayAvg)seqExpr, parent, context);
+                PrintSequenceExpressionArrayAvg((SequenceExpressionArrayAvg)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayMed:
-                PrintSequenceExpressionArrayMed((SequenceExpressionArrayMed)seqExpr, parent, context);
+                PrintSequenceExpressionArrayMed((SequenceExpressionArrayMed)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayMedUnordered:
-                PrintSequenceExpressionArrayMedUnordered((SequenceExpressionArrayMedUnordered)seqExpr, parent, context);
+                PrintSequenceExpressionArrayMedUnordered((SequenceExpressionArrayMedUnordered)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayVar:
-                PrintSequenceExpressionArrayVar((SequenceExpressionArrayVar)seqExpr, parent, context);
+                PrintSequenceExpressionArrayVar((SequenceExpressionArrayVar)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayDev:
-                PrintSequenceExpressionArrayDev((SequenceExpressionArrayDev)seqExpr, parent, context);
+                PrintSequenceExpressionArrayDev((SequenceExpressionArrayDev)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayAnd:
-                PrintSequenceExpressionArrayAnd((SequenceExpressionArrayAnd)seqExpr, parent, context);
+                PrintSequenceExpressionArrayAnd((SequenceExpressionArrayAnd)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayOr:
-                PrintSequenceExpressionArrayOr((SequenceExpressionArrayOr)seqExpr, parent, context);
+                PrintSequenceExpressionArrayOr((SequenceExpressionArrayOr)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayOrDequeAsSet:
-                PrintSequenceExpressionArrayOrDequeAsSet((SequenceExpressionArrayOrDequeAsSet)seqExpr, parent, context);
+                PrintSequenceExpressionArrayOrDequeAsSet((SequenceExpressionArrayOrDequeAsSet)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayAsMap:
-                PrintSequenceExpressionArrayAsMap((SequenceExpressionArrayAsMap)seqExpr, parent, context);
+                PrintSequenceExpressionArrayAsMap((SequenceExpressionArrayAsMap)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayAsDeque:
-                PrintSequenceExpressionArrayAsDeque((SequenceExpressionArrayAsDeque)seqExpr, parent, context);
+                PrintSequenceExpressionArrayAsDeque((SequenceExpressionArrayAsDeque)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayAsString:
-                PrintSequenceExpressionArrayAsString((SequenceExpressionArrayAsString)seqExpr, parent, context);
+                PrintSequenceExpressionArrayAsString((SequenceExpressionArrayAsString)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArraySubarray:
-                PrintSequenceExpressionArraySubarray((SequenceExpressionArraySubarray)seqExpr, parent, context);
+                PrintSequenceExpressionArraySubarray((SequenceExpressionArraySubarray)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.DequeSubdeque:
-                PrintSequenceExpressionDequeSubdeque((SequenceExpressionDequeSubdeque)seqExpr, parent, context);
+                PrintSequenceExpressionDequeSubdeque((SequenceExpressionDequeSubdeque)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayOrderAscending:
-                PrintSequenceExpressionArrayOrderAscending((SequenceExpressionArrayOrderAscending)seqExpr, parent, context);
+                PrintSequenceExpressionArrayOrderAscending((SequenceExpressionArrayOrderAscending)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayOrderDescending:
-                PrintSequenceExpressionArrayOrderDescending((SequenceExpressionArrayOrderDescending)seqExpr, parent, context);
+                PrintSequenceExpressionArrayOrderDescending((SequenceExpressionArrayOrderDescending)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayGroup:
-                PrintSequenceExpressionArrayGroup((SequenceExpressionArrayGroup)seqExpr, parent, context);
+                PrintSequenceExpressionArrayGroup((SequenceExpressionArrayGroup)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayKeepOneForEach:
-                PrintSequenceExpressionArrayKeepOneForEach((SequenceExpressionArrayKeepOneForEach)seqExpr, parent, context);
+                PrintSequenceExpressionArrayKeepOneForEach((SequenceExpressionArrayKeepOneForEach)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayReverse:
-                PrintSequenceExpressionArrayReverse((SequenceExpressionArrayReverse)seqExpr, parent, context);
+                PrintSequenceExpressionArrayReverse((SequenceExpressionArrayReverse)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayShuffle:
-                PrintSequenceExpressionArrayShuffle((SequenceExpressionArrayShuffle)seqExpr, parent, context);
+                PrintSequenceExpressionArrayShuffle((SequenceExpressionArrayShuffle)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayExtract:
-                PrintSequenceExpressionArrayExtract((SequenceExpressionArrayExtract)seqExpr, parent, context);
+                PrintSequenceExpressionArrayExtract((SequenceExpressionArrayExtract)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayOrderAscendingBy:
-                PrintSequenceExpressionArrayOrderAscendingBy((SequenceExpressionArrayOrderAscendingBy)seqExpr, parent, context);
+                PrintSequenceExpressionArrayOrderAscendingBy((SequenceExpressionArrayOrderAscendingBy)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayOrderDescendingBy:
-                PrintSequenceExpressionArrayOrderDescendingBy((SequenceExpressionArrayOrderDescendingBy)seqExpr, parent, context);
+                PrintSequenceExpressionArrayOrderDescendingBy((SequenceExpressionArrayOrderDescendingBy)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayGroupBy:
-                PrintSequenceExpressionArrayGroupBy((SequenceExpressionArrayGroupBy)seqExpr, parent, context);
+                PrintSequenceExpressionArrayGroupBy((SequenceExpressionArrayGroupBy)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayKeepOneForEachBy:
-                PrintSequenceExpressionArrayKeepOneForEachBy((SequenceExpressionArrayKeepOneForEachBy)seqExpr, parent, context);
+                PrintSequenceExpressionArrayKeepOneForEachBy((SequenceExpressionArrayKeepOneForEachBy)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayIndexOfBy:
-                PrintSequenceExpressionArrayIndexOfBy((SequenceExpressionArrayIndexOfBy)seqExpr, parent, context);
+                PrintSequenceExpressionArrayIndexOfBy((SequenceExpressionArrayIndexOfBy)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayLastIndexOfBy:
-                PrintSequenceExpressionArrayLastIndexOfBy((SequenceExpressionArrayLastIndexOfBy)seqExpr, parent, context);
+                PrintSequenceExpressionArrayLastIndexOfBy((SequenceExpressionArrayLastIndexOfBy)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayIndexOfOrderedBy:
-                PrintSequenceExpressionArrayIndexOfOrderedBy((SequenceExpressionArrayIndexOfOrderedBy)seqExpr, parent, context);
+                PrintSequenceExpressionArrayIndexOfOrderedBy((SequenceExpressionArrayIndexOfOrderedBy)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayMap:
-                PrintSequenceExpressionArrayMap((SequenceExpressionArrayMap)seqExpr, parent, context);
+                PrintSequenceExpressionArrayMap((SequenceExpressionArrayMap)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayRemoveIf:
-                PrintSequenceExpressionArrayRemoveIf((SequenceExpressionArrayRemoveIf)seqExpr, parent, context);
+                PrintSequenceExpressionArrayRemoveIf((SequenceExpressionArrayRemoveIf)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ArrayMapStartWithAccumulateBy:
-                PrintSequenceExpressionArrayMapStartWithAccumulateBy((SequenceExpressionArrayMapStartWithAccumulateBy)seqExpr, parent, context);
+                PrintSequenceExpressionArrayMapStartWithAccumulateBy((SequenceExpressionArrayMapStartWithAccumulateBy)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ElementFromGraph:
-                PrintSequenceExpressionElementFromGraph((SequenceExpressionElementFromGraph)seqExpr, parent, context);
+                PrintSequenceExpressionElementFromGraph((SequenceExpressionElementFromGraph)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.NodeByName:
-                PrintSequenceExpressionNodeByName((SequenceExpressionNodeByName)seqExpr, parent, context);
+                PrintSequenceExpressionNodeByName((SequenceExpressionNodeByName)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.EdgeByName:
-                PrintSequenceExpressionEdgeByName((SequenceExpressionEdgeByName)seqExpr, parent, context);
+                PrintSequenceExpressionEdgeByName((SequenceExpressionEdgeByName)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.NodeByUnique:
-                PrintSequenceExpressionNodeByUnique((SequenceExpressionNodeByUnique)seqExpr, parent, context);
+                PrintSequenceExpressionNodeByUnique((SequenceExpressionNodeByUnique)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.EdgeByUnique:
-                PrintSequenceExpressionEdgeByUnique((SequenceExpressionEdgeByUnique)seqExpr, parent, context);
+                PrintSequenceExpressionEdgeByUnique((SequenceExpressionEdgeByUnique)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Source:
-                PrintSequenceExpressionSource((SequenceExpressionSource)seqExpr, parent, context);
+                PrintSequenceExpressionSource((SequenceExpressionSource)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Target:
-                PrintSequenceExpressionTarget((SequenceExpressionTarget)seqExpr, parent, context);
+                PrintSequenceExpressionTarget((SequenceExpressionTarget)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Opposite:
-                PrintSequenceExpressionOpposite((SequenceExpressionOpposite)seqExpr, parent, context);
+                PrintSequenceExpressionOpposite((SequenceExpressionOpposite)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.GraphElementAttributeOrElementOfMatch:
-                PrintSequenceExpressionAttributeOrMatchAccess((SequenceExpressionAttributeOrMatchAccess)seqExpr, parent, context);
+                PrintSequenceExpressionAttributeOrMatchAccess((SequenceExpressionAttributeOrMatchAccess)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.GraphElementAttribute:
-                PrintSequenceExpressionAttributeAccess((SequenceExpressionAttributeAccess)seqExpr, parent, context);
+                PrintSequenceExpressionAttributeAccess((SequenceExpressionAttributeAccess)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ElementOfMatch:
-                PrintSequenceExpressionMatchAccess((SequenceExpressionMatchAccess)seqExpr, parent, context);
+                PrintSequenceExpressionMatchAccess((SequenceExpressionMatchAccess)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Nodes:
-                PrintSequenceExpressionNodes((SequenceExpressionNodes)seqExpr, parent, context);
+                PrintSequenceExpressionNodes((SequenceExpressionNodes)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Edges:
-                PrintSequenceExpressionEdges((SequenceExpressionEdges)seqExpr, parent, context);
+                PrintSequenceExpressionEdges((SequenceExpressionEdges)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.CountNodes:
-                PrintSequenceExpressionCountNodes((SequenceExpressionCountNodes)seqExpr, parent, context);
+                PrintSequenceExpressionCountNodes((SequenceExpressionCountNodes)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.CountEdges:
-                PrintSequenceExpressionCountEdges((SequenceExpressionCountEdges)seqExpr, parent, context);
+                PrintSequenceExpressionCountEdges((SequenceExpressionCountEdges)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Now:
-                PrintSequenceExpressionNow((SequenceExpressionNow)seqExpr, parent, context);
+                PrintSequenceExpressionNow((SequenceExpressionNow)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathMin:
-                PrintSequenceExpressionMathMin((SequenceExpressionMathMin)seqExpr, parent, context);
+                PrintSequenceExpressionMathMin((SequenceExpressionMathMin)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathMax:
-                PrintSequenceExpressionMathMax((SequenceExpressionMathMax)seqExpr, parent, context);
+                PrintSequenceExpressionMathMax((SequenceExpressionMathMax)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathAbs:
-                PrintSequenceExpressionMathAbs((SequenceExpressionMathAbs)seqExpr, parent, context);
+                PrintSequenceExpressionMathAbs((SequenceExpressionMathAbs)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathCeil:
-                PrintSequenceExpressionMathCeil((SequenceExpressionMathCeil)seqExpr, parent, context);
+                PrintSequenceExpressionMathCeil((SequenceExpressionMathCeil)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathFloor:
-                PrintSequenceExpressionMathFloor((SequenceExpressionMathFloor)seqExpr, parent, context);
+                PrintSequenceExpressionMathFloor((SequenceExpressionMathFloor)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathRound:
-                PrintSequenceExpressionMathRound((SequenceExpressionMathRound)seqExpr, parent, context);
+                PrintSequenceExpressionMathRound((SequenceExpressionMathRound)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathTruncate:
-                PrintSequenceExpressionMathTruncate((SequenceExpressionMathTruncate)seqExpr, parent, context);
+                PrintSequenceExpressionMathTruncate((SequenceExpressionMathTruncate)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathSqr:
-                PrintSequenceExpressionMathSqr((SequenceExpressionMathSqr)seqExpr, parent, context);
+                PrintSequenceExpressionMathSqr((SequenceExpressionMathSqr)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathSqrt:
-                PrintSequenceExpressionMathSqrt((SequenceExpressionMathSqrt)seqExpr, parent, context);
+                PrintSequenceExpressionMathSqrt((SequenceExpressionMathSqrt)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathPow:
-                PrintSequenceExpressionMathPow((SequenceExpressionMathPow)seqExpr, parent, context);
+                PrintSequenceExpressionMathPow((SequenceExpressionMathPow)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathLog:
-                PrintSequenceExpressionMathLog((SequenceExpressionMathLog)seqExpr, parent, context);
+                PrintSequenceExpressionMathLog((SequenceExpressionMathLog)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathSgn:
-                PrintSequenceExpressionMathSgn((SequenceExpressionMathSgn)seqExpr, parent, context);
+                PrintSequenceExpressionMathSgn((SequenceExpressionMathSgn)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathSin:
-                PrintSequenceExpressionMathSin((SequenceExpressionMathSin)seqExpr, parent, context);
+                PrintSequenceExpressionMathSin((SequenceExpressionMathSin)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathCos:
-                PrintSequenceExpressionMathCos((SequenceExpressionMathCos)seqExpr, parent, context);
+                PrintSequenceExpressionMathCos((SequenceExpressionMathCos)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathTan:
-                PrintSequenceExpressionMathTan((SequenceExpressionMathTan)seqExpr, parent, context);
+                PrintSequenceExpressionMathTan((SequenceExpressionMathTan)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathArcSin:
-                PrintSequenceExpressionMathArcSin((SequenceExpressionMathArcSin)seqExpr, parent, context);
+                PrintSequenceExpressionMathArcSin((SequenceExpressionMathArcSin)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathArcCos:
-                PrintSequenceExpressionMathArcCos((SequenceExpressionMathArcCos)seqExpr, parent, context);
+                PrintSequenceExpressionMathArcCos((SequenceExpressionMathArcCos)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathArcTan:
-                PrintSequenceExpressionMathArcTan((SequenceExpressionMathArcTan)seqExpr, parent, context);
+                PrintSequenceExpressionMathArcTan((SequenceExpressionMathArcTan)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathPi:
-                PrintSequenceExpressionMathPi((SequenceExpressionMathPi)seqExpr, parent, context);
+                PrintSequenceExpressionMathPi((SequenceExpressionMathPi)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathE:
-                PrintSequenceExpressionMathE((SequenceExpressionMathE)seqExpr, parent, context);
+                PrintSequenceExpressionMathE((SequenceExpressionMathE)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathByteMin:
-                PrintSequenceExpressionMathByteMin((SequenceExpressionMathByteMin)seqExpr, parent, context);
+                PrintSequenceExpressionMathByteMin((SequenceExpressionMathByteMin)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathByteMax:
-                PrintSequenceExpressionMathByteMax((SequenceExpressionMathByteMax)seqExpr, parent, context);
+                PrintSequenceExpressionMathByteMax((SequenceExpressionMathByteMax)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathShortMin:
-                PrintSequenceExpressionMathShortMin((SequenceExpressionMathShortMin)seqExpr, parent, context);
+                PrintSequenceExpressionMathShortMin((SequenceExpressionMathShortMin)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathShortMax:
-                PrintSequenceExpressionMathShortMax((SequenceExpressionMathShortMax)seqExpr, parent, context);
+                PrintSequenceExpressionMathShortMax((SequenceExpressionMathShortMax)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathIntMin:
-                PrintSequenceExpressionMathIntMin((SequenceExpressionMathIntMin)seqExpr, parent, context);
+                PrintSequenceExpressionMathIntMin((SequenceExpressionMathIntMin)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathIntMax:
-                PrintSequenceExpressionMathIntMax((SequenceExpressionMathIntMax)seqExpr, parent, context);
+                PrintSequenceExpressionMathIntMax((SequenceExpressionMathIntMax)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathLongMin:
-                PrintSequenceExpressionMathLongMin((SequenceExpressionMathLongMin)seqExpr, parent, context);
+                PrintSequenceExpressionMathLongMin((SequenceExpressionMathLongMin)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathLongMax:
-                PrintSequenceExpressionMathLongMax((SequenceExpressionMathLongMax)seqExpr, parent, context);
+                PrintSequenceExpressionMathLongMax((SequenceExpressionMathLongMax)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathFloatMin:
-                PrintSequenceExpressionMathFloatMin((SequenceExpressionMathFloatMin)seqExpr, parent, context);
+                PrintSequenceExpressionMathFloatMin((SequenceExpressionMathFloatMin)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathFloatMax:
-                PrintSequenceExpressionMathFloatMax((SequenceExpressionMathFloatMax)seqExpr, parent, context);
+                PrintSequenceExpressionMathFloatMax((SequenceExpressionMathFloatMax)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathDoubleMin:
-                PrintSequenceExpressionMathDoubleMin((SequenceExpressionMathDoubleMin)seqExpr, parent, context);
+                PrintSequenceExpressionMathDoubleMin((SequenceExpressionMathDoubleMin)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MathDoubleMax:
-                PrintSequenceExpressionMathDoubleMax((SequenceExpressionMathDoubleMax)seqExpr, parent, context);
+                PrintSequenceExpressionMathDoubleMax((SequenceExpressionMathDoubleMax)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Empty:
-                PrintSequenceExpressionEmpty((SequenceExpressionEmpty)seqExpr, parent, context);
+                PrintSequenceExpressionEmpty((SequenceExpressionEmpty)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Size:
-                PrintSequenceExpressionSize((SequenceExpressionSize)seqExpr, parent, context);
+                PrintSequenceExpressionSize((SequenceExpressionSize)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.AdjacentNodes:
             case SequenceExpressionType.AdjacentNodesViaIncoming:
@@ -1893,7 +1898,7 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceExpressionType.IncidentEdges:
             case SequenceExpressionType.IncomingEdges:
             case SequenceExpressionType.OutgoingEdges:
-                PrintSequenceExpressionAdjacentIncident((SequenceExpressionAdjacentIncident)seqExpr, parent, context);
+                PrintSequenceExpressionAdjacentIncident((SequenceExpressionAdjacentIncident)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ReachableNodes:
             case SequenceExpressionType.ReachableNodesViaIncoming:
@@ -1901,7 +1906,7 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceExpressionType.ReachableEdges:
             case SequenceExpressionType.ReachableEdgesViaIncoming:
             case SequenceExpressionType.ReachableEdgesViaOutgoing:
-                PrintSequenceExpressionReachable((SequenceExpressionReachable)seqExpr, parent, context);
+                PrintSequenceExpressionReachable((SequenceExpressionReachable)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.BoundedReachableNodes:
             case SequenceExpressionType.BoundedReachableNodesViaIncoming:
@@ -1909,12 +1914,12 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceExpressionType.BoundedReachableEdges:
             case SequenceExpressionType.BoundedReachableEdgesViaIncoming:
             case SequenceExpressionType.BoundedReachableEdgesViaOutgoing:
-                PrintSequenceExpressionBoundedReachable((SequenceExpressionBoundedReachable)seqExpr, parent, context);
+                PrintSequenceExpressionBoundedReachable((SequenceExpressionBoundedReachable)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.BoundedReachableNodesWithRemainingDepth:
             case SequenceExpressionType.BoundedReachableNodesWithRemainingDepthViaIncoming:
             case SequenceExpressionType.BoundedReachableNodesWithRemainingDepthViaOutgoing:
-                PrintSequenceExpressionBoundedReachableWithRemainingDepth((SequenceExpressionBoundedReachableWithRemainingDepth)seqExpr, parent, context);
+                PrintSequenceExpressionBoundedReachableWithRemainingDepth((SequenceExpressionBoundedReachableWithRemainingDepth)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.CountAdjacentNodes:
             case SequenceExpressionType.CountAdjacentNodesViaIncoming:
@@ -1922,7 +1927,7 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceExpressionType.CountIncidentEdges:
             case SequenceExpressionType.CountIncomingEdges:
             case SequenceExpressionType.CountOutgoingEdges:
-                PrintSequenceExpressionCountAdjacentIncident((SequenceExpressionCountAdjacentIncident)seqExpr, parent, context);
+                PrintSequenceExpressionCountAdjacentIncident((SequenceExpressionCountAdjacentIncident)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.CountReachableNodes:
             case SequenceExpressionType.CountReachableNodesViaIncoming:
@@ -1930,7 +1935,7 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceExpressionType.CountReachableEdges:
             case SequenceExpressionType.CountReachableEdgesViaIncoming:
             case SequenceExpressionType.CountReachableEdgesViaOutgoing:
-                PrintSequenceExpressionCountReachable((SequenceExpressionCountReachable)seqExpr, parent, context);
+                PrintSequenceExpressionCountReachable((SequenceExpressionCountReachable)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.CountBoundedReachableNodes:
             case SequenceExpressionType.CountBoundedReachableNodesViaIncoming:
@@ -1938,7 +1943,7 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceExpressionType.CountBoundedReachableEdges:
             case SequenceExpressionType.CountBoundedReachableEdgesViaIncoming:
             case SequenceExpressionType.CountBoundedReachableEdgesViaOutgoing:
-                PrintSequenceExpressionCountBoundedReachable((SequenceExpressionCountBoundedReachable)seqExpr, parent, context);
+                PrintSequenceExpressionCountBoundedReachable((SequenceExpressionCountBoundedReachable)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.IsAdjacentNodes:
             case SequenceExpressionType.IsAdjacentNodesViaIncoming:
@@ -1946,7 +1951,7 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceExpressionType.IsIncidentEdges:
             case SequenceExpressionType.IsIncomingEdges:
             case SequenceExpressionType.IsOutgoingEdges:
-                PrintSequenceExpressionIsAdjacentIncident((SequenceExpressionIsAdjacentIncident)seqExpr, parent, context);
+                PrintSequenceExpressionIsAdjacentIncident((SequenceExpressionIsAdjacentIncident)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.IsReachableNodes:
             case SequenceExpressionType.IsReachableNodesViaIncoming:
@@ -1954,7 +1959,7 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceExpressionType.IsReachableEdges:
             case SequenceExpressionType.IsReachableEdgesViaIncoming:
             case SequenceExpressionType.IsReachableEdgesViaOutgoing:
-                PrintSequenceExpressionIsReachable((SequenceExpressionIsReachable)seqExpr, parent, context);
+                PrintSequenceExpressionIsReachable((SequenceExpressionIsReachable)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.IsBoundedReachableNodes:
             case SequenceExpressionType.IsBoundedReachableNodesViaIncoming:
@@ -1962,1314 +1967,1314 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceExpressionType.IsBoundedReachableEdges:
             case SequenceExpressionType.IsBoundedReachableEdgesViaIncoming:
             case SequenceExpressionType.IsBoundedReachableEdgesViaOutgoing:
-                PrintSequenceExpressionIsBoundedReachable((SequenceExpressionIsBoundedReachable)seqExpr, parent, context);
+                PrintSequenceExpressionIsBoundedReachable((SequenceExpressionIsBoundedReachable)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.InducedSubgraph:
-                PrintSequenceExpressionInducedSubgraph((SequenceExpressionInducedSubgraph)seqExpr, parent, context);
+                PrintSequenceExpressionInducedSubgraph((SequenceExpressionInducedSubgraph)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.DefinedSubgraph:
-                PrintSequenceExpressionDefinedSubgraph((SequenceExpressionDefinedSubgraph)seqExpr, parent, context);
+                PrintSequenceExpressionDefinedSubgraph((SequenceExpressionDefinedSubgraph)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.EqualsAny:
-                PrintSequenceExpressionEqualsAny((SequenceExpressionEqualsAny)seqExpr, parent, context);
+                PrintSequenceExpressionEqualsAny((SequenceExpressionEqualsAny)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Nameof:
-                PrintSequenceExpressionNameof((SequenceExpressionNameof)seqExpr, parent, context);
+                PrintSequenceExpressionNameof((SequenceExpressionNameof)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Uniqueof:
-                PrintSequenceExpressionUniqueof((SequenceExpressionUniqueof)seqExpr, parent, context);
+                PrintSequenceExpressionUniqueof((SequenceExpressionUniqueof)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Typeof:
-                PrintSequenceExpressionTypeof((SequenceExpressionTypeof)seqExpr, parent, context);
+                PrintSequenceExpressionTypeof((SequenceExpressionTypeof)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.ExistsFile:
-                PrintSequenceExpressionExistsFile((SequenceExpressionExistsFile)seqExpr, parent, context);
+                PrintSequenceExpressionExistsFile((SequenceExpressionExistsFile)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Import:
-                PrintSequenceExpressionImport((SequenceExpressionImport)seqExpr, parent, context);
+                PrintSequenceExpressionImport((SequenceExpressionImport)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Copy:
-                PrintSequenceExpressionCopy((SequenceExpressionCopy)seqExpr, parent, context);
+                PrintSequenceExpressionCopy((SequenceExpressionCopy)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Canonize:
-                PrintSequenceExpressionCanonize((SequenceExpressionCanonize)seqExpr, parent, context);
+                PrintSequenceExpressionCanonize((SequenceExpressionCanonize)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.RuleQuery:
-                PrintSequenceExpressionRuleQuery((SequenceExpressionRuleQuery)seqExpr, parent, context);
+                PrintSequenceExpressionRuleQuery((SequenceExpressionRuleQuery)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MultiRuleQuery:
-                PrintSequenceExpressionMultiRuleQuery((SequenceExpressionMultiRuleQuery)seqExpr, parent, context);
+                PrintSequenceExpressionMultiRuleQuery((SequenceExpressionMultiRuleQuery)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.MappingClause:
-                PrintSequenceExpressionMappingClause((SequenceExpressionMappingClause)seqExpr, parent, context);
+                PrintSequenceExpressionMappingClause((SequenceExpressionMappingClause)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.Scan:
-                PrintSequenceExpressionScan((SequenceExpressionScan)seqExpr, parent, context);
+                PrintSequenceExpressionScan((SequenceExpressionScan)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.TryScan:
-                PrintSequenceExpressionTryScan((SequenceExpressionTryScan)seqExpr, parent, context);
+                PrintSequenceExpressionTryScan((SequenceExpressionTryScan)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.FunctionCall:
-                PrintSequenceExpressionFunctionCall((SequenceExpressionFunctionCall)seqExpr, parent, context);
+                PrintSequenceExpressionFunctionCall((SequenceExpressionFunctionCall)seqExpr, parent, highlightingMode, context);
                 break;
             case SequenceExpressionType.FunctionMethodCall:
-                PrintSequenceExpressionFunctionMethodCall((SequenceExpressionFunctionMethodCall)seqExpr, parent, context);
+                PrintSequenceExpressionFunctionMethodCall((SequenceExpressionFunctionMethodCall)seqExpr, parent, highlightingMode, context);
                 break;
             }
         }
 
-        private static void PrintSequenceExpressionConditional(SequenceExpressionConditional seqExprCond, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionConditional(SequenceExpressionConditional seqExprCond, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprCond.Condition, seqExprCond, context);
-            Console.Write(" ? ");
-            PrintSequenceExpression(seqExprCond.TrueCase, seqExprCond, context);
-            Console.Write(" : ");
-            PrintSequenceExpression(seqExprCond.FalseCase, seqExprCond, context);
+            PrintSequenceExpression(seqExprCond.Condition, seqExprCond, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(" ? ", highlightingMode);
+            PrintSequenceExpression(seqExprCond.TrueCase, seqExprCond, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(" : ", highlightingMode);
+            PrintSequenceExpression(seqExprCond.FalseCase, seqExprCond, highlightingMode, context);
         }
 
-        private static void PrintSequenceExpressionBinary(SequenceBinaryExpression seqExprBin, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionBinary(SequenceBinaryExpression seqExprBin, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprBin.Left, seqExprBin, context);
-            Console.Write(seqExprBin.Operator);
-            PrintSequenceExpression(seqExprBin.Right, seqExprBin, context);
+            PrintSequenceExpression(seqExprBin.Left, seqExprBin, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprBin.Operator, highlightingMode);
+            PrintSequenceExpression(seqExprBin.Right, seqExprBin, highlightingMode, context);
         }
 
-        private static void PrintSequenceExpressionNot(SequenceExpressionNot seqExprNot, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionNot(SequenceExpressionNot seqExprNot, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("!");
-            PrintSequenceExpression(seqExprNot.Operand, seqExprNot, context);
+            WorkaroundManager.Workaround.PrintHighlighted("!", highlightingMode);
+            PrintSequenceExpression(seqExprNot.Operand, seqExprNot, highlightingMode, context);
         }
 
-        private static void PrintSequenceExpressionUnaryPlus(SequenceExpressionUnaryPlus seqExprUnaryPlus, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionUnaryPlus(SequenceExpressionUnaryPlus seqExprUnaryPlus, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("+");
-            PrintSequenceExpression(seqExprUnaryPlus.Operand, seqExprUnaryPlus, context);
+            WorkaroundManager.Workaround.PrintHighlighted("+", highlightingMode);
+            PrintSequenceExpression(seqExprUnaryPlus.Operand, seqExprUnaryPlus, highlightingMode, context);
         }
 
-        private static void PrintSequenceExpressionUnaryMinus(SequenceExpressionUnaryMinus seqExprUnaryMinus, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionUnaryMinus(SequenceExpressionUnaryMinus seqExprUnaryMinus, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("-");
-            PrintSequenceExpression(seqExprUnaryMinus.Operand, seqExprUnaryMinus, context);
+            WorkaroundManager.Workaround.PrintHighlighted("-", highlightingMode);
+            PrintSequenceExpression(seqExprUnaryMinus.Operand, seqExprUnaryMinus, highlightingMode, context);
         }
 
-        private static void PrintSequenceExpressionBitwiseComplement(SequenceExpressionBitwiseComplement seqExprBitwiseComplement, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionBitwiseComplement(SequenceExpressionBitwiseComplement seqExprBitwiseComplement, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("~");
-            PrintSequenceExpression(seqExprBitwiseComplement.Operand, seqExprBitwiseComplement, context);
+            WorkaroundManager.Workaround.PrintHighlighted("~", highlightingMode);
+            PrintSequenceExpression(seqExprBitwiseComplement.Operand, seqExprBitwiseComplement, highlightingMode, context);
         }
 
-        private static void PrintSequenceExpressionCast(SequenceExpressionCast seqExprCast, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionCast(SequenceExpressionCast seqExprCast, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("(");
-            Console.Write(((InheritanceType)seqExprCast.TargetType).Name);
-            Console.Write(")");
-            PrintSequenceExpression(seqExprCast.Operand, seqExprCast, context);
+            WorkaroundManager.Workaround.PrintHighlighted("(", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(((InheritanceType)seqExprCast.TargetType).Name, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
+            PrintSequenceExpression(seqExprCast.Operand, seqExprCast, highlightingMode, context);
         }
 
-        private static void PrintSequenceExpressionConstant(SequenceExpressionConstant seqExprConstant, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionConstant(SequenceExpressionConstant seqExprConstant, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(SequenceExpressionConstant.ConstantAsString(seqExprConstant.Constant));
+            WorkaroundManager.Workaround.PrintHighlighted(SequenceExpressionConstant.ConstantAsString(seqExprConstant.Constant), highlightingMode);
         }
 
-        private static void PrintSequenceExpressionVariable(SequenceExpressionVariable seqExprVariable, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionVariable(SequenceExpressionVariable seqExprVariable, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprVariable.Variable.Name);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprVariable.Variable.Name, highlightingMode);
         }
 
-        private static void PrintSequenceExpressionNew(SequenceExpressionNew seqExprNew, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionNew(SequenceExpressionNew seqExprNew, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprNew.ConstructedType); // TODO: check -- looks suspicious
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprNew.ConstructedType, highlightingMode); // TODO: check -- looks suspicious
         }
 
-        private static void PrintSequenceExpressionThis(SequenceExpressionThis seqExprThis, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionThis(SequenceExpressionThis seqExprThis, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("this");
+            WorkaroundManager.Workaround.PrintHighlighted("this", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMatchClassConstructor(SequenceExpressionMatchClassConstructor seqExprMatchClassConstructor, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMatchClassConstructor(SequenceExpressionMatchClassConstructor seqExprMatchClassConstructor, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("match<class " + seqExprMatchClassConstructor.ConstructedType + ">()");
+            WorkaroundManager.Workaround.PrintHighlighted("match<class " + seqExprMatchClassConstructor.ConstructedType + ">()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionSetConstructor(SequenceExpressionSetConstructor seqExprSetConstructor, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionSetConstructor(SequenceExpressionSetConstructor seqExprSetConstructor, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("set<");
-            Console.Write(seqExprSetConstructor.ValueType);
-            Console.Write(">{");
-            PrintSequenceExpressionContainerConstructor(seqExprSetConstructor, seqExprSetConstructor, context);
-            Console.Write("}");
+            WorkaroundManager.Workaround.PrintHighlighted("set<", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprSetConstructor.ValueType, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(">{", highlightingMode);
+            PrintSequenceExpressionContainerConstructor(seqExprSetConstructor, seqExprSetConstructor, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMapConstructor(SequenceExpressionMapConstructor seqExprMapConstructor, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMapConstructor(SequenceExpressionMapConstructor seqExprMapConstructor, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("map<");
-            Console.Write(seqExprMapConstructor.KeyType);
-            Console.Write(",");
-            Console.Write(seqExprMapConstructor.ValueType);
-            Console.Write(">{");
+            WorkaroundManager.Workaround.PrintHighlighted("map<", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprMapConstructor.KeyType, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprMapConstructor.ValueType, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(">{", highlightingMode);
             for(int i = 0; i < seqExprMapConstructor.MapKeyItems.Length; ++i)
             {
-                Console.Write(seqExprMapConstructor.MapKeyItems[i].Symbol);
-                Console.Write("->");
-                Console.Write(seqExprMapConstructor.ContainerItems[i].Symbol);
+                WorkaroundManager.Workaround.PrintHighlighted(seqExprMapConstructor.MapKeyItems[i].Symbol, highlightingMode);
+                WorkaroundManager.Workaround.PrintHighlighted("->", highlightingMode);
+                WorkaroundManager.Workaround.PrintHighlighted(seqExprMapConstructor.ContainerItems[i].Symbol, highlightingMode);
                 if(i != seqExprMapConstructor.MapKeyItems.Length - 1)
-                    Console.Write(",");
+                    WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
             }
-            Console.Write("}");
+            WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayConstructor(SequenceExpressionArrayConstructor seqExprArrayConstructor, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayConstructor(SequenceExpressionArrayConstructor seqExprArrayConstructor, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("array<");
-            Console.Write(seqExprArrayConstructor.ValueType);
-            Console.Write(">[");
-            PrintSequenceExpressionContainerConstructor(seqExprArrayConstructor, seqExprArrayConstructor, context);
-            Console.Write("]");
+            WorkaroundManager.Workaround.PrintHighlighted("array<", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayConstructor.ValueType, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(">[", highlightingMode);
+            PrintSequenceExpressionContainerConstructor(seqExprArrayConstructor, seqExprArrayConstructor, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("]", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionDequeConstructor(SequenceExpressionDequeConstructor seqExprDequeConstructor, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionDequeConstructor(SequenceExpressionDequeConstructor seqExprDequeConstructor, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("deque<");
-            Console.Write(seqExprDequeConstructor.ValueType);
-            Console.Write(">]");
-            PrintSequenceExpressionContainerConstructor(seqExprDequeConstructor, seqExprDequeConstructor, context);
-            Console.Write("[");
+            WorkaroundManager.Workaround.PrintHighlighted("deque<", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprDequeConstructor.ValueType, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(">]", highlightingMode);
+            PrintSequenceExpressionContainerConstructor(seqExprDequeConstructor, seqExprDequeConstructor, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("[", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionContainerConstructor(SequenceExpressionContainerConstructor seqExprContainerConstructor, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionContainerConstructor(SequenceExpressionContainerConstructor seqExprContainerConstructor, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             for(int i = 0; i < seqExprContainerConstructor.ContainerItems.Length; ++i)
             {
-                Console.Write(seqExprContainerConstructor.ContainerItems[i].Symbol);
+                WorkaroundManager.Workaround.PrintHighlighted(seqExprContainerConstructor.ContainerItems[i].Symbol, highlightingMode);
                 if(i != seqExprContainerConstructor.ContainerItems.Length - 1)
-                    Console.Write(",");
+                    WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
             }
         }
 
-        private static void PrintSequenceExpressionSetCopyConstructor(SequenceExpressionSetCopyConstructor seqExprSetCopyConstructor, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionSetCopyConstructor(SequenceExpressionSetCopyConstructor seqExprSetCopyConstructor, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("set<");
-            Console.Write(seqExprSetCopyConstructor.ValueType);
-            Console.Write(">(");
-            Console.Write(seqExprSetCopyConstructor.SetToCopy);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("set<", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprSetCopyConstructor.ValueType, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(">(", highlightingMode);
+            PrintSequenceExpression(seqExprSetCopyConstructor.SetToCopy, seqExprSetCopyConstructor, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMapCopyConstructor(SequenceExpressionMapCopyConstructor seqExprMapCopyConstructor, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMapCopyConstructor(SequenceExpressionMapCopyConstructor seqExprMapCopyConstructor, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("map<");
-            Console.Write(seqExprMapCopyConstructor.KeyType);
-            Console.Write(",");
-            Console.Write(seqExprMapCopyConstructor.ValueType);
-            Console.Write(">(");
-            Console.Write(seqExprMapCopyConstructor.MapToCopy);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("map<", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprMapCopyConstructor.KeyType, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprMapCopyConstructor.ValueType, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(">(", highlightingMode);
+            PrintSequenceExpression(seqExprMapCopyConstructor.MapToCopy, seqExprMapCopyConstructor, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayCopyConstructor(SequenceExpressionArrayCopyConstructor seqExprArrayCopyConstructor, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayCopyConstructor(SequenceExpressionArrayCopyConstructor seqExprArrayCopyConstructor, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("array<");
-            Console.Write(seqExprArrayCopyConstructor.ValueType);
-            Console.Write(">[");
-            Console.Write(seqExprArrayCopyConstructor.ArrayToCopy);
-            Console.Write("]");
+            WorkaroundManager.Workaround.PrintHighlighted("array<", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayCopyConstructor.ValueType, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(">[", highlightingMode);
+            PrintSequenceExpression(seqExprArrayCopyConstructor.ArrayToCopy, seqExprArrayCopyConstructor, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("]", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionDequeCopyConstructor(SequenceExpressionDequeCopyConstructor seqExprDequeCopyConstructor, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionDequeCopyConstructor(SequenceExpressionDequeCopyConstructor seqExprDequeCopyConstructor, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("deque<");
-            Console.Write(seqExprDequeCopyConstructor.ValueType);
-            Console.Write(">[");
-            Console.Write(seqExprDequeCopyConstructor.DequeToCopy);
-            Console.Write("]");
+            WorkaroundManager.Workaround.PrintHighlighted("deque<", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprDequeCopyConstructor.ValueType, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(">[", highlightingMode);
+            PrintSequenceExpression(seqExprDequeCopyConstructor.DequeToCopy, seqExprDequeCopyConstructor, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("]", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionContainerAsArray(SequenceExpressionContainerAsArray seqExprContainerAsArray, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionContainerAsArray(SequenceExpressionContainerAsArray seqExprContainerAsArray, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprContainerAsArray.Name + ".asArray()");
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprContainerAsArray.Name + ".asArray()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionStringLength(SequenceExpressionStringLength seqExprStringLength, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionStringLength(SequenceExpressionStringLength seqExprStringLength, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprStringLength.StringExpr, seqExprStringLength, context);
-            Console.Write(".length()");
+            PrintSequenceExpression(seqExprStringLength.StringExpr, seqExprStringLength, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".length()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionStringStartsWith(SequenceExpressionStringStartsWith seqExprStringStartsWith, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionStringStartsWith(SequenceExpressionStringStartsWith seqExprStringStartsWith, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprStringStartsWith.StringExpr, seqExprStringStartsWith, context);
-            Console.Write(".startsWith(");
-            PrintSequenceExpression(seqExprStringStartsWith.StringToSearchForExpr, seqExprStringStartsWith, context);
-            Console.Write(")");
+            PrintSequenceExpression(seqExprStringStartsWith.StringExpr, seqExprStringStartsWith, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".startsWith(", highlightingMode);
+            PrintSequenceExpression(seqExprStringStartsWith.StringToSearchForExpr, seqExprStringStartsWith, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionStringEndsWith(SequenceExpressionStringEndsWith seqExprStringEndsWith, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionStringEndsWith(SequenceExpressionStringEndsWith seqExprStringEndsWith, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprStringEndsWith.StringExpr, seqExprStringEndsWith, context);
-            Console.Write(".endsWith(");
-            PrintSequenceExpression(seqExprStringEndsWith.StringToSearchForExpr, seqExprStringEndsWith, context);
-            Console.Write(")");
+            PrintSequenceExpression(seqExprStringEndsWith.StringExpr, seqExprStringEndsWith, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".endsWith(", highlightingMode);
+            PrintSequenceExpression(seqExprStringEndsWith.StringToSearchForExpr, seqExprStringEndsWith, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionStringSubstring(SequenceExpressionStringSubstring seqExprStringSubstring, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionStringSubstring(SequenceExpressionStringSubstring seqExprStringSubstring, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprStringSubstring.StringExpr, seqExprStringSubstring, context);
-            Console.Write(".substring(");
-            PrintSequenceExpression(seqExprStringSubstring.StartIndexExpr, seqExprStringSubstring, context);
+            PrintSequenceExpression(seqExprStringSubstring.StringExpr, seqExprStringSubstring, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".substring(", highlightingMode);
+            PrintSequenceExpression(seqExprStringSubstring.StartIndexExpr, seqExprStringSubstring, highlightingMode, context);
             if(seqExprStringSubstring.LengthExpr != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprStringSubstring.LengthExpr, seqExprStringSubstring, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprStringSubstring.LengthExpr, seqExprStringSubstring, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionStringReplace(SequenceExpressionStringReplace seqExprStringReplace, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionStringReplace(SequenceExpressionStringReplace seqExprStringReplace, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprStringReplace.StringExpr, seqExprStringReplace, context);
-            Console.Write(".replace(");
-            PrintSequenceExpression(seqExprStringReplace.StartIndexExpr, seqExprStringReplace, context);
-            Console.Write(",");
-            PrintSequenceExpression(seqExprStringReplace.LengthExpr, seqExprStringReplace, context);
-            Console.Write(",");
-            PrintSequenceExpression(seqExprStringReplace.ReplaceStringExpr, seqExprStringReplace, context);
-            Console.Write(")");
+            PrintSequenceExpression(seqExprStringReplace.StringExpr, seqExprStringReplace, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".replace(", highlightingMode);
+            PrintSequenceExpression(seqExprStringReplace.StartIndexExpr, seqExprStringReplace, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqExprStringReplace.LengthExpr, seqExprStringReplace, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqExprStringReplace.ReplaceStringExpr, seqExprStringReplace, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionStringToLower(SequenceExpressionStringToLower seqExprStringToLower, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionStringToLower(SequenceExpressionStringToLower seqExprStringToLower, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprStringToLower.StringExpr, seqExprStringToLower, context);
-            Console.Write(".toLower()");
+            PrintSequenceExpression(seqExprStringToLower.StringExpr, seqExprStringToLower, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".toLower()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionStringToUpper(SequenceExpressionStringToUpper seqExprStringToUpper, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionStringToUpper(SequenceExpressionStringToUpper seqExprStringToUpper, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprStringToUpper.StringExpr, seqExprStringToUpper, context);
-            Console.Write(".toUpper()");
+            PrintSequenceExpression(seqExprStringToUpper.StringExpr, seqExprStringToUpper, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".toUpper()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionStringAsArray(SequenceExpressionStringAsArray seqExprStringAsArray, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionStringAsArray(SequenceExpressionStringAsArray seqExprStringAsArray, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprStringAsArray.StringExpr, seqExprStringAsArray, context);
-            Console.Write(".asArray(");
-            PrintSequenceExpression(seqExprStringAsArray.SeparatorExpr, seqExprStringAsArray, context);
-            Console.Write(")");
+            PrintSequenceExpression(seqExprStringAsArray.StringExpr, seqExprStringAsArray, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".asArray(", highlightingMode);
+            PrintSequenceExpression(seqExprStringAsArray.SeparatorExpr, seqExprStringAsArray, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionRandom(SequenceExpressionRandom seqExprRandom, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionRandom(SequenceExpressionRandom seqExprRandom, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("random(");
+            WorkaroundManager.Workaround.PrintHighlighted("random(", highlightingMode);
             if(seqExprRandom.UpperBound != null)
-                PrintSequenceExpression(seqExprRandom.UpperBound, seqExprRandom, context);
-            Console.Write(")");
+                PrintSequenceExpression(seqExprRandom.UpperBound, seqExprRandom, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionDef(SequenceExpressionDef seqExprDef, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionDef(SequenceExpressionDef seqExprDef, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("def(");
+            WorkaroundManager.Workaround.PrintHighlighted("def(", highlightingMode);
             for(int i = 0; i < seqExprDef.DefVars.Length; ++i)
             {
-                Console.Write(seqExprDef.DefVars[i].Symbol);
+                WorkaroundManager.Workaround.PrintHighlighted(seqExprDef.DefVars[i].Symbol, highlightingMode);
                 if(i != seqExprDef.DefVars.Length - 1)
-                    Console.Write(",");
+                    WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionIsVisited(SequenceExpressionIsVisited seqExprIsVisited, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionIsVisited(SequenceExpressionIsVisited seqExprIsVisited, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprIsVisited.GraphElementVarExpr, seqExprIsVisited, context);
-            Console.Write(".visited");
+            PrintSequenceExpression(seqExprIsVisited.GraphElementVarExpr, seqExprIsVisited, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".visited", highlightingMode);
             if(seqExprIsVisited.VisitedFlagExpr != null)
             {
-                Console.Write("[");
-                PrintSequenceExpression(seqExprIsVisited.VisitedFlagExpr, seqExprIsVisited, context);
-                Console.Write("]");
+                WorkaroundManager.Workaround.PrintHighlighted("[", highlightingMode);
+                PrintSequenceExpression(seqExprIsVisited.VisitedFlagExpr, seqExprIsVisited, highlightingMode, context);
+                WorkaroundManager.Workaround.PrintHighlighted("]", highlightingMode);
             }
         }
 
-        private static void PrintSequenceExpressionInContainerOrString(SequenceExpressionInContainerOrString seqExprInContainerOrString, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionInContainerOrString(SequenceExpressionInContainerOrString seqExprInContainerOrString, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprInContainerOrString.Expr, seqExprInContainerOrString, context);
-            Console.Write(" in ");
-            PrintSequenceExpression(seqExprInContainerOrString.ContainerOrStringExpr, seqExprInContainerOrString, context);
+            PrintSequenceExpression(seqExprInContainerOrString.Expr, seqExprInContainerOrString, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(" in ", highlightingMode);
+            PrintSequenceExpression(seqExprInContainerOrString.ContainerOrStringExpr, seqExprInContainerOrString, highlightingMode, context);
         }
 
-        private static void PrintSequenceExpressionContainerSize(SequenceExpressionContainerSize seqExprContainerSize, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionContainerSize(SequenceExpressionContainerSize seqExprContainerSize, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprContainerSize.ContainerExpr, seqExprContainerSize, context);
-            Console.Write(".size()");
+            PrintSequenceExpression(seqExprContainerSize.ContainerExpr, seqExprContainerSize, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".size()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionContainerEmpty(SequenceExpressionContainerEmpty seqExprContainerEmpty, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionContainerEmpty(SequenceExpressionContainerEmpty seqExprContainerEmpty, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprContainerEmpty.ContainerExpr, seqExprContainerEmpty, context);
-            Console.Write(".empty()");
+            PrintSequenceExpression(seqExprContainerEmpty.ContainerExpr, seqExprContainerEmpty, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".empty()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionContainerAccess(SequenceExpressionContainerAccess seqExprContainerAccess, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionContainerAccess(SequenceExpressionContainerAccess seqExprContainerAccess, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprContainerAccess.ContainerExpr, seqExprContainerAccess, context);
-            Console.Write("[");
-            PrintSequenceExpression(seqExprContainerAccess.KeyExpr, seqExprContainerAccess, context);
-            Console.Write("]");
+            PrintSequenceExpression(seqExprContainerAccess.ContainerExpr, seqExprContainerAccess, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("[", highlightingMode);
+            PrintSequenceExpression(seqExprContainerAccess.KeyExpr, seqExprContainerAccess, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("]", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionContainerPeek(SequenceExpressionContainerPeek seqExprContainerPeek, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionContainerPeek(SequenceExpressionContainerPeek seqExprContainerPeek, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprContainerPeek.ContainerExpr, seqExprContainerPeek, context);
-            Console.Write(".peek(");
+            PrintSequenceExpression(seqExprContainerPeek.ContainerExpr, seqExprContainerPeek, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".peek(", highlightingMode);
             if(seqExprContainerPeek.KeyExpr != null)
-                PrintSequenceExpression(seqExprContainerPeek.KeyExpr, seqExprContainerPeek, context);
-            Console.Write(")");
+                PrintSequenceExpression(seqExprContainerPeek.KeyExpr, seqExprContainerPeek, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayOrDequeOrStringIndexOf(SequenceExpressionArrayOrDequeOrStringIndexOf seqExprArrayOrDequeOrStringIndexOf, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayOrDequeOrStringIndexOf(SequenceExpressionArrayOrDequeOrStringIndexOf seqExprArrayOrDequeOrStringIndexOf, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayOrDequeOrStringIndexOf.ContainerExpr, seqExprArrayOrDequeOrStringIndexOf, context);
-            Console.Write(".indexOf(");
-            PrintSequenceExpression(seqExprArrayOrDequeOrStringIndexOf.ValueToSearchForExpr, seqExprArrayOrDequeOrStringIndexOf, context);
+            PrintSequenceExpression(seqExprArrayOrDequeOrStringIndexOf.ContainerExpr, seqExprArrayOrDequeOrStringIndexOf, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".indexOf(", highlightingMode);
+            PrintSequenceExpression(seqExprArrayOrDequeOrStringIndexOf.ValueToSearchForExpr, seqExprArrayOrDequeOrStringIndexOf, highlightingMode, context);
             if(seqExprArrayOrDequeOrStringIndexOf.StartPositionExpr != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprArrayOrDequeOrStringIndexOf.StartPositionExpr, seqExprArrayOrDequeOrStringIndexOf, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprArrayOrDequeOrStringIndexOf.StartPositionExpr, seqExprArrayOrDequeOrStringIndexOf, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayOrDequeOrStringLastIndexOf(SequenceExpressionArrayOrDequeOrStringLastIndexOf seqExprArrayOrDequeOrStringLastIndexOf, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayOrDequeOrStringLastIndexOf(SequenceExpressionArrayOrDequeOrStringLastIndexOf seqExprArrayOrDequeOrStringLastIndexOf, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayOrDequeOrStringLastIndexOf.ContainerExpr, seqExprArrayOrDequeOrStringLastIndexOf, context);
-            Console.Write(".lastIndexOf(");
-            PrintSequenceExpression(seqExprArrayOrDequeOrStringLastIndexOf.ValueToSearchForExpr, seqExprArrayOrDequeOrStringLastIndexOf, context);
+            PrintSequenceExpression(seqExprArrayOrDequeOrStringLastIndexOf.ContainerExpr, seqExprArrayOrDequeOrStringLastIndexOf, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".lastIndexOf(", highlightingMode);
+            PrintSequenceExpression(seqExprArrayOrDequeOrStringLastIndexOf.ValueToSearchForExpr, seqExprArrayOrDequeOrStringLastIndexOf, highlightingMode, context);
             if(seqExprArrayOrDequeOrStringLastIndexOf.StartPositionExpr != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprArrayOrDequeOrStringLastIndexOf.StartPositionExpr, seqExprArrayOrDequeOrStringLastIndexOf, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprArrayOrDequeOrStringLastIndexOf.StartPositionExpr, seqExprArrayOrDequeOrStringLastIndexOf, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayIndexOfOrdered(SequenceExpressionArrayIndexOfOrdered seqExprArrayIndexOfOrdered, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayIndexOfOrdered(SequenceExpressionArrayIndexOfOrdered seqExprArrayIndexOfOrdered, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayIndexOfOrdered.ContainerExpr, seqExprArrayIndexOfOrdered, context);
-            Console.Write(".indexOfOrdered(");
-            PrintSequenceExpression(seqExprArrayIndexOfOrdered.ValueToSearchForExpr, seqExprArrayIndexOfOrdered, context);
-            Console.Write(")");
+            PrintSequenceExpression(seqExprArrayIndexOfOrdered.ContainerExpr, seqExprArrayIndexOfOrdered, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".indexOfOrdered(", highlightingMode);
+            PrintSequenceExpression(seqExprArrayIndexOfOrdered.ValueToSearchForExpr, seqExprArrayIndexOfOrdered, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArraySum(SequenceExpressionArraySum seqExprArraySum, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArraySum(SequenceExpressionArraySum seqExprArraySum, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArraySum.ContainerExpr, seqExprArraySum, context);
-            Console.Write(".sum()");
+            PrintSequenceExpression(seqExprArraySum.ContainerExpr, seqExprArraySum, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".sum()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayProd(SequenceExpressionArrayProd seqExprArrayProd, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayProd(SequenceExpressionArrayProd seqExprArrayProd, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayProd.ContainerExpr, seqExprArrayProd, context);
-            Console.Write(".prod()");
+            PrintSequenceExpression(seqExprArrayProd.ContainerExpr, seqExprArrayProd, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".prod()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayMin(SequenceExpressionArrayMin seqExprArrayMin, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayMin(SequenceExpressionArrayMin seqExprArrayMin, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayMin.ContainerExpr, seqExprArrayMin, context);
-            Console.Write(".min()");
+            PrintSequenceExpression(seqExprArrayMin.ContainerExpr, seqExprArrayMin, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".min()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayMax(SequenceExpressionArrayMax seqExprArrayMax, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayMax(SequenceExpressionArrayMax seqExprArrayMax, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayMax.ContainerExpr, seqExprArrayMax, context);
-            Console.Write(".max()");
+            PrintSequenceExpression(seqExprArrayMax.ContainerExpr, seqExprArrayMax, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".max()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayAvg(SequenceExpressionArrayAvg seqExprArrayAvg, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayAvg(SequenceExpressionArrayAvg seqExprArrayAvg, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayAvg.ContainerExpr, seqExprArrayAvg, context);
-            Console.Write(".avg()");
+            PrintSequenceExpression(seqExprArrayAvg.ContainerExpr, seqExprArrayAvg, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".avg()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayMed(SequenceExpressionArrayMed seqExprArrayMed, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayMed(SequenceExpressionArrayMed seqExprArrayMed, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayMed.ContainerExpr, seqExprArrayMed, context);
-            Console.Write(".med()");
+            PrintSequenceExpression(seqExprArrayMed.ContainerExpr, seqExprArrayMed, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".med()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayMedUnordered(SequenceExpressionArrayMedUnordered seqExprArrayMedUnordered, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayMedUnordered(SequenceExpressionArrayMedUnordered seqExprArrayMedUnordered, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayMedUnordered.ContainerExpr, seqExprArrayMedUnordered, context);
-            Console.Write(".medUnordered()");
+            PrintSequenceExpression(seqExprArrayMedUnordered.ContainerExpr, seqExprArrayMedUnordered, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".medUnordered()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayVar(SequenceExpressionArrayVar seqExprArrayVar, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayVar(SequenceExpressionArrayVar seqExprArrayVar, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayVar.ContainerExpr, seqExprArrayVar, context);
-            Console.Write(".var()");
+            PrintSequenceExpression(seqExprArrayVar.ContainerExpr, seqExprArrayVar, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".var()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayDev(SequenceExpressionArrayDev seqExprArrayDev, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayDev(SequenceExpressionArrayDev seqExprArrayDev, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayDev.ContainerExpr, seqExprArrayDev, context);
-            Console.Write(".dev()");
+            PrintSequenceExpression(seqExprArrayDev.ContainerExpr, seqExprArrayDev, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".dev()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayAnd(SequenceExpressionArrayAnd seqExprArrayAnd, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayAnd(SequenceExpressionArrayAnd seqExprArrayAnd, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayAnd.ContainerExpr, seqExprArrayAnd, context);
-            Console.Write(".and()");
+            PrintSequenceExpression(seqExprArrayAnd.ContainerExpr, seqExprArrayAnd, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".and()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayOr(SequenceExpressionArrayOr seqExprArrayOr, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayOr(SequenceExpressionArrayOr seqExprArrayOr, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayOr.ContainerExpr, seqExprArrayOr, context);
-            Console.Write(".or()");
+            PrintSequenceExpression(seqExprArrayOr.ContainerExpr, seqExprArrayOr, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".or()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayOrDequeAsSet(SequenceExpressionArrayOrDequeAsSet seqExprArrayOrDequeAsSet, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayOrDequeAsSet(SequenceExpressionArrayOrDequeAsSet seqExprArrayOrDequeAsSet, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayOrDequeAsSet.ContainerExpr, seqExprArrayOrDequeAsSet, context);
-            Console.Write(".asSet()");
+            PrintSequenceExpression(seqExprArrayOrDequeAsSet.ContainerExpr, seqExprArrayOrDequeAsSet, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".asSet()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMapDomain(SequenceExpressionMapDomain seqExprMapDomain, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMapDomain(SequenceExpressionMapDomain seqExprMapDomain, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprMapDomain.ContainerExpr, seqExprMapDomain, context);
-            Console.Write(".domain()");
+            PrintSequenceExpression(seqExprMapDomain.ContainerExpr, seqExprMapDomain, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".domain()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMapRange(SequenceExpressionMapRange seqExprMapRange, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMapRange(SequenceExpressionMapRange seqExprMapRange, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprMapRange.ContainerExpr, seqExprMapRange, context);
-            Console.Write(".range()");
+            PrintSequenceExpression(seqExprMapRange.ContainerExpr, seqExprMapRange, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".range()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayAsMap(SequenceExpressionArrayAsMap seqExprArrayAsMap, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayAsMap(SequenceExpressionArrayAsMap seqExprArrayAsMap, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayAsMap.ContainerExpr, seqExprArrayAsMap, context);
-            Console.Write(".asSet()");
+            PrintSequenceExpression(seqExprArrayAsMap.ContainerExpr, seqExprArrayAsMap, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".asSet()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayAsDeque(SequenceExpressionArrayAsDeque seqExprArrayAsDeque, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayAsDeque(SequenceExpressionArrayAsDeque seqExprArrayAsDeque, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayAsDeque.ContainerExpr, seqExprArrayAsDeque, context);
-            Console.Write(".asDeque()");
+            PrintSequenceExpression(seqExprArrayAsDeque.ContainerExpr, seqExprArrayAsDeque, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".asDeque()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayAsString(SequenceExpressionArrayAsString seqExprArrayAsString, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayAsString(SequenceExpressionArrayAsString seqExprArrayAsString, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayAsString.ContainerExpr, seqExprArrayAsString, context);
-            Console.Write(".asString(");
-            PrintSequenceExpression(seqExprArrayAsString.Separator, seqExprArrayAsString, context);
-            Console.Write(")");
+            PrintSequenceExpression(seqExprArrayAsString.ContainerExpr, seqExprArrayAsString, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".asString(", highlightingMode);
+            PrintSequenceExpression(seqExprArrayAsString.Separator, seqExprArrayAsString, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArraySubarray(SequenceExpressionArraySubarray seqExprArraySubarray, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArraySubarray(SequenceExpressionArraySubarray seqExprArraySubarray, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArraySubarray.ContainerExpr, seqExprArraySubarray, context);
-            Console.Write(".subarray(");
-            PrintSequenceExpression(seqExprArraySubarray.Start, seqExprArraySubarray, context);
-            Console.Write(",");
-            PrintSequenceExpression(seqExprArraySubarray.Length, seqExprArraySubarray, context);
-            Console.Write(")");
+            PrintSequenceExpression(seqExprArraySubarray.ContainerExpr, seqExprArraySubarray, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".subarray(", highlightingMode);
+            PrintSequenceExpression(seqExprArraySubarray.Start, seqExprArraySubarray, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqExprArraySubarray.Length, seqExprArraySubarray, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionDequeSubdeque(SequenceExpressionDequeSubdeque seqExprDequeSubdeque, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionDequeSubdeque(SequenceExpressionDequeSubdeque seqExprDequeSubdeque, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprDequeSubdeque.ContainerExpr, seqExprDequeSubdeque, context);
-            Console.Write(".subdeque(");
-            PrintSequenceExpression(seqExprDequeSubdeque.Start, seqExprDequeSubdeque, context);
-            Console.Write(",");
-            PrintSequenceExpression(seqExprDequeSubdeque.Length, seqExprDequeSubdeque, context);
-            Console.Write(")");
+            PrintSequenceExpression(seqExprDequeSubdeque.ContainerExpr, seqExprDequeSubdeque, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".subdeque(", highlightingMode);
+            PrintSequenceExpression(seqExprDequeSubdeque.Start, seqExprDequeSubdeque, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqExprDequeSubdeque.Length, seqExprDequeSubdeque, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayOrderAscending(SequenceExpressionArrayOrderAscending seqExprArrayOrderAscending, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayOrderAscending(SequenceExpressionArrayOrderAscending seqExprArrayOrderAscending, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayOrderAscending.ContainerExpr, seqExprArrayOrderAscending, context);
-            Console.Write(".orderAscending()");
+            PrintSequenceExpression(seqExprArrayOrderAscending.ContainerExpr, seqExprArrayOrderAscending, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".orderAscending()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayOrderDescending(SequenceExpressionArrayOrderDescending seqExprArrayOrderDescending, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayOrderDescending(SequenceExpressionArrayOrderDescending seqExprArrayOrderDescending, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayOrderDescending.ContainerExpr, seqExprArrayOrderDescending, context);
-            Console.Write(".orderDescending()");
+            PrintSequenceExpression(seqExprArrayOrderDescending.ContainerExpr, seqExprArrayOrderDescending, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".orderDescending()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayGroup(SequenceExpressionArrayGroup seqExprArrayGroup, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayGroup(SequenceExpressionArrayGroup seqExprArrayGroup, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayGroup.ContainerExpr, seqExprArrayGroup, context);
-            Console.Write(".group()");
+            PrintSequenceExpression(seqExprArrayGroup.ContainerExpr, seqExprArrayGroup, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".group()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayKeepOneForEach(SequenceExpressionArrayKeepOneForEach seqExprArrayKeepOneForEach, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayKeepOneForEach(SequenceExpressionArrayKeepOneForEach seqExprArrayKeepOneForEach, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayKeepOneForEach.ContainerExpr, seqExprArrayKeepOneForEach, context);
-            Console.Write(".keepOneForEach()");
+            PrintSequenceExpression(seqExprArrayKeepOneForEach.ContainerExpr, seqExprArrayKeepOneForEach, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".keepOneForEach()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayReverse(SequenceExpressionArrayReverse seqExprArrayReverse, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayReverse(SequenceExpressionArrayReverse seqExprArrayReverse, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayReverse.ContainerExpr, seqExprArrayReverse, context);
-            Console.Write(".reverse()");
+            PrintSequenceExpression(seqExprArrayReverse.ContainerExpr, seqExprArrayReverse, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".reverse()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayShuffle(SequenceExpressionArrayShuffle seqExprArrayShuffle, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayShuffle(SequenceExpressionArrayShuffle seqExprArrayShuffle, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayShuffle.ContainerExpr, seqExprArrayShuffle, context);
-            Console.Write(".shuffle()");
+            PrintSequenceExpression(seqExprArrayShuffle.ContainerExpr, seqExprArrayShuffle, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".shuffle()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayExtract(SequenceExpressionArrayExtract seqExprArrayExtract, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayExtract(SequenceExpressionArrayExtract seqExprArrayExtract, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprArrayExtract.ContainerExpr, seqExprArrayExtract, context);
-            Console.Write(".extract<");
-            Console.Write(seqExprArrayExtract.memberOrAttributeName);
-            Console.Write(">()");
+            PrintSequenceExpression(seqExprArrayExtract.ContainerExpr, seqExprArrayExtract, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".extract<", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayExtract.memberOrAttributeName, highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(">()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayMap(SequenceExpressionArrayMap seqExprArrayMap, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayMap(SequenceExpressionArrayMap seqExprArrayMap, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprArrayMap.Name + ".map<" + seqExprArrayMap.TypeName + ">{");
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayMap.Name + ".map<" + seqExprArrayMap.TypeName + ">{", highlightingMode);
             if(seqExprArrayMap.ArrayAccess != null)
-                Console.Write(seqExprArrayMap.ArrayAccess.Name + "; ");
+                WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayMap.ArrayAccess.Name + "; ", highlightingMode);
             if(seqExprArrayMap.Index != null)
-                Console.Write(seqExprArrayMap.Index.Name + " -> ");
-            Console.Write(seqExprArrayMap.Var.Name + " -> ");
-            PrintSequenceExpression(seqExprArrayMap.MappingExpr, seqExprArrayMap, context);
-            Console.Write("}");
+                WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayMap.Index.Name + " -> ", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayMap.Var.Name + " -> ", highlightingMode);
+            PrintSequenceExpression(seqExprArrayMap.MappingExpr, seqExprArrayMap, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayRemoveIf(SequenceExpressionArrayRemoveIf seqExprArrayRemoveIf, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayRemoveIf(SequenceExpressionArrayRemoveIf seqExprArrayRemoveIf, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprArrayRemoveIf.Name + ".removeIf{");
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayRemoveIf.Name + ".removeIf{", highlightingMode);
             if(seqExprArrayRemoveIf.ArrayAccess != null)
-                Console.Write(seqExprArrayRemoveIf.ArrayAccess.Name + "; ");
+                WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayRemoveIf.ArrayAccess.Name + "; ", highlightingMode);
             if(seqExprArrayRemoveIf.Index != null)
-                Console.Write(seqExprArrayRemoveIf.Index.Name + " -> ");
-            Console.Write(seqExprArrayRemoveIf.Var.Name + " -> ");
-            PrintSequenceExpression(seqExprArrayRemoveIf.ConditionExpr, seqExprArrayRemoveIf, context);
-            Console.Write("}");
+                WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayRemoveIf.Index.Name + " -> ", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayRemoveIf.Var.Name + " -> ", highlightingMode);
+            PrintSequenceExpression(seqExprArrayRemoveIf.ConditionExpr, seqExprArrayRemoveIf, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayMapStartWithAccumulateBy(SequenceExpressionArrayMapStartWithAccumulateBy seqExprArrayMapStartWithAccumulateBy, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayMapStartWithAccumulateBy(SequenceExpressionArrayMapStartWithAccumulateBy seqExprArrayMapStartWithAccumulateBy, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprArrayMapStartWithAccumulateBy.Name + ".map<" + seqExprArrayMapStartWithAccumulateBy.TypeName + ">");
-            Console.Write("StartWith");
-            Console.Write("{");
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayMapStartWithAccumulateBy.Name + ".map<" + seqExprArrayMapStartWithAccumulateBy.TypeName + ">", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted("StartWith", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted("{", highlightingMode);
             if(seqExprArrayMapStartWithAccumulateBy.InitArrayAccess != null)
-                Console.Write(seqExprArrayMapStartWithAccumulateBy.InitArrayAccess.Name + "; ");
-            PrintSequenceExpression(seqExprArrayMapStartWithAccumulateBy.InitExpr, seqExprArrayMapStartWithAccumulateBy, context);
-            Console.Write("}");
-            Console.Write("AccumulateBy");
-            Console.Write("{");
+                WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayMapStartWithAccumulateBy.InitArrayAccess.Name + "; ", highlightingMode);
+            PrintSequenceExpression(seqExprArrayMapStartWithAccumulateBy.InitExpr, seqExprArrayMapStartWithAccumulateBy, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted("AccumulateBy", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted("{", highlightingMode);
             if(seqExprArrayMapStartWithAccumulateBy.ArrayAccess != null)
-                Console.Write(seqExprArrayMapStartWithAccumulateBy.ArrayAccess.Name + "; ");
-            Console.Write(seqExprArrayMapStartWithAccumulateBy.PreviousAccumulationAccess.Name + ", ");
+                WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayMapStartWithAccumulateBy.ArrayAccess.Name + "; ", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayMapStartWithAccumulateBy.PreviousAccumulationAccess.Name + ", ", highlightingMode);
             if(seqExprArrayMapStartWithAccumulateBy.Index != null)
-                Console.Write(seqExprArrayMapStartWithAccumulateBy.Index.Name + " -> ");
-            Console.Write(seqExprArrayMapStartWithAccumulateBy.Var.Name + " -> ");
-            PrintSequenceExpression(seqExprArrayMapStartWithAccumulateBy.MappingExpr, seqExprArrayMapStartWithAccumulateBy, context);
-            Console.Write("}");
+                WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayMapStartWithAccumulateBy.Index.Name + " -> ", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayMapStartWithAccumulateBy.Var.Name + " -> ", highlightingMode);
+            PrintSequenceExpression(seqExprArrayMapStartWithAccumulateBy.MappingExpr, seqExprArrayMapStartWithAccumulateBy, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayOrderAscendingBy(SequenceExpressionArrayOrderAscendingBy seqExprArrayOrderAscendingBy, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayOrderAscendingBy(SequenceExpressionArrayOrderAscendingBy seqExprArrayOrderAscendingBy, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprArrayOrderAscendingBy.Name + ".orderAscendingBy<" + seqExprArrayOrderAscendingBy.memberOrAttributeName + ">()");
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayOrderAscendingBy.Name + ".orderAscendingBy<" + seqExprArrayOrderAscendingBy.memberOrAttributeName + ">()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayOrderDescendingBy(SequenceExpressionArrayOrderDescendingBy seqExprArrayOrderDescendingBy, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayOrderDescendingBy(SequenceExpressionArrayOrderDescendingBy seqExprArrayOrderDescendingBy, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprArrayOrderDescendingBy.Name + ".orderDescendingBy<" + seqExprArrayOrderDescendingBy.memberOrAttributeName + ">()");
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayOrderDescendingBy.Name + ".orderDescendingBy<" + seqExprArrayOrderDescendingBy.memberOrAttributeName + ">()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayGroupBy(SequenceExpressionArrayGroupBy seqExprArrayGroupBy, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayGroupBy(SequenceExpressionArrayGroupBy seqExprArrayGroupBy, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprArrayGroupBy.Name + ".groupBy<" + seqExprArrayGroupBy.memberOrAttributeName + ">()");
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayGroupBy.Name + ".groupBy<" + seqExprArrayGroupBy.memberOrAttributeName + ">()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayKeepOneForEachBy(SequenceExpressionArrayKeepOneForEachBy seqExprArrayKeepOneForEachBy, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayKeepOneForEachBy(SequenceExpressionArrayKeepOneForEachBy seqExprArrayKeepOneForEachBy, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprArrayKeepOneForEachBy.Name + ".keepOneForEach<" + seqExprArrayKeepOneForEachBy.memberOrAttributeName + ">()");
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayKeepOneForEachBy.Name + ".keepOneForEach<" + seqExprArrayKeepOneForEachBy.memberOrAttributeName + ">()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayIndexOfBy(SequenceExpressionArrayIndexOfBy seqExprArrayIndexOfBy, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayIndexOfBy(SequenceExpressionArrayIndexOfBy seqExprArrayIndexOfBy, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprArrayIndexOfBy.Name + ".indexOfBy<" + seqExprArrayIndexOfBy.memberOrAttributeName + ">(");
-            PrintSequenceExpression(seqExprArrayIndexOfBy.ValueToSearchForExpr, seqExprArrayIndexOfBy, context);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayIndexOfBy.Name + ".indexOfBy<" + seqExprArrayIndexOfBy.memberOrAttributeName + ">(", highlightingMode);
+            PrintSequenceExpression(seqExprArrayIndexOfBy.ValueToSearchForExpr, seqExprArrayIndexOfBy, highlightingMode, context);
             if(seqExprArrayIndexOfBy.StartPositionExpr != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprArrayIndexOfBy.StartPositionExpr, seqExprArrayIndexOfBy, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprArrayIndexOfBy.StartPositionExpr, seqExprArrayIndexOfBy, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayLastIndexOfBy(SequenceExpressionArrayLastIndexOfBy seqExprArrayLastIndexOfBy, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayLastIndexOfBy(SequenceExpressionArrayLastIndexOfBy seqExprArrayLastIndexOfBy, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprArrayLastIndexOfBy.Name + ".lastIndexOfBy<" + seqExprArrayLastIndexOfBy.memberOrAttributeName + ">(");
-            PrintSequenceExpression(seqExprArrayLastIndexOfBy.ValueToSearchForExpr, seqExprArrayLastIndexOfBy, context);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayLastIndexOfBy.Name + ".lastIndexOfBy<" + seqExprArrayLastIndexOfBy.memberOrAttributeName + ">(", highlightingMode);
+            PrintSequenceExpression(seqExprArrayLastIndexOfBy.ValueToSearchForExpr, seqExprArrayLastIndexOfBy, highlightingMode, context);
             if(seqExprArrayLastIndexOfBy.StartPositionExpr != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprArrayLastIndexOfBy.StartPositionExpr, seqExprArrayLastIndexOfBy, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprArrayLastIndexOfBy.StartPositionExpr, seqExprArrayLastIndexOfBy, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionArrayIndexOfOrderedBy(SequenceExpressionArrayIndexOfOrderedBy seqExprArrayIndexOfOrderedBy, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionArrayIndexOfOrderedBy(SequenceExpressionArrayIndexOfOrderedBy seqExprArrayIndexOfOrderedBy, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprArrayIndexOfOrderedBy.Name + ".indexOfOrderedBy<" + seqExprArrayIndexOfOrderedBy.memberOrAttributeName + ">(");
-            PrintSequenceExpression(seqExprArrayIndexOfOrderedBy.ValueToSearchForExpr, seqExprArrayIndexOfOrderedBy, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprArrayIndexOfOrderedBy.Name + ".indexOfOrderedBy<" + seqExprArrayIndexOfOrderedBy.memberOrAttributeName + ">(", highlightingMode);
+            PrintSequenceExpression(seqExprArrayIndexOfOrderedBy.ValueToSearchForExpr, seqExprArrayIndexOfOrderedBy, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionElementFromGraph(SequenceExpressionElementFromGraph seqExprElementFromGraph, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionElementFromGraph(SequenceExpressionElementFromGraph seqExprElementFromGraph, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("@(" + seqExprElementFromGraph.ElementName + ")");
+            WorkaroundManager.Workaround.PrintHighlighted("@(" + seqExprElementFromGraph.ElementName + ")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionNodeByName(SequenceExpressionNodeByName seqExprNodeByName, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionNodeByName(SequenceExpressionNodeByName seqExprNodeByName, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("nodeByName(");
-            PrintSequenceExpression(seqExprNodeByName.NodeName, seqExprNodeByName, context);
+            WorkaroundManager.Workaround.PrintHighlighted("nodeByName(", highlightingMode);
+            PrintSequenceExpression(seqExprNodeByName.NodeName, seqExprNodeByName, highlightingMode, context);
             if(seqExprNodeByName.NodeType != null)
             {
-                Console.Write(", ");
-                PrintSequenceExpression(seqExprNodeByName.NodeType, seqExprNodeByName, context);
+                WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
+                PrintSequenceExpression(seqExprNodeByName.NodeType, seqExprNodeByName, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionEdgeByName(SequenceExpressionEdgeByName seqExprEdgeByName, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionEdgeByName(SequenceExpressionEdgeByName seqExprEdgeByName, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("edgeByName(");
-            PrintSequenceExpression(seqExprEdgeByName.EdgeName, seqExprEdgeByName, context);
+            WorkaroundManager.Workaround.PrintHighlighted("edgeByName(", highlightingMode);
+            PrintSequenceExpression(seqExprEdgeByName.EdgeName, seqExprEdgeByName, highlightingMode, context);
             if(seqExprEdgeByName.EdgeType != null)
             {
-                Console.Write(", ");
-                PrintSequenceExpression(seqExprEdgeByName.EdgeType, seqExprEdgeByName, context);
+                WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
+                PrintSequenceExpression(seqExprEdgeByName.EdgeType, seqExprEdgeByName, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionNodeByUnique(SequenceExpressionNodeByUnique seqExprNodeByUnique, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionNodeByUnique(SequenceExpressionNodeByUnique seqExprNodeByUnique, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("nodeByUnique(");
-            PrintSequenceExpression(seqExprNodeByUnique.NodeUniqueId, seqExprNodeByUnique, context);
+            WorkaroundManager.Workaround.PrintHighlighted("nodeByUnique(", highlightingMode);
+            PrintSequenceExpression(seqExprNodeByUnique.NodeUniqueId, seqExprNodeByUnique, highlightingMode, context);
             if(seqExprNodeByUnique.NodeType != null)
             {
-                Console.Write(", ");
-                PrintSequenceExpression(seqExprNodeByUnique.NodeType, seqExprNodeByUnique, context);
+                WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
+                PrintSequenceExpression(seqExprNodeByUnique.NodeType, seqExprNodeByUnique, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionEdgeByUnique(SequenceExpressionEdgeByUnique seqExprEdgeByUnique, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionEdgeByUnique(SequenceExpressionEdgeByUnique seqExprEdgeByUnique, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("edgeByUnique(");
-            PrintSequenceExpression(seqExprEdgeByUnique.EdgeUniqueId, seqExprEdgeByUnique, context);
+            WorkaroundManager.Workaround.PrintHighlighted("edgeByUnique(", highlightingMode);
+            PrintSequenceExpression(seqExprEdgeByUnique.EdgeUniqueId, seqExprEdgeByUnique, highlightingMode, context);
             if(seqExprEdgeByUnique.EdgeType != null)
             {
-                Console.Write(", ");
-                PrintSequenceExpression(seqExprEdgeByUnique.EdgeType, seqExprEdgeByUnique, context);
+                WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
+                PrintSequenceExpression(seqExprEdgeByUnique.EdgeType, seqExprEdgeByUnique, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionSource(SequenceExpressionSource seqExprSource, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionSource(SequenceExpressionSource seqExprSource, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("source(");
-            PrintSequenceExpression(seqExprSource.Edge, seqExprSource, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("source(", highlightingMode);
+            PrintSequenceExpression(seqExprSource.Edge, seqExprSource, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionTarget(SequenceExpressionTarget seqExprTarget, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionTarget(SequenceExpressionTarget seqExprTarget, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("target(");
-            PrintSequenceExpression(seqExprTarget.Edge, seqExprTarget, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("target(", highlightingMode);
+            PrintSequenceExpression(seqExprTarget.Edge, seqExprTarget, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionOpposite(SequenceExpressionOpposite seqExprOpposite, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionOpposite(SequenceExpressionOpposite seqExprOpposite, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("opposite(");
-            PrintSequenceExpression(seqExprOpposite.Edge, seqExprOpposite, context);
-            Console.Write(",");
-            PrintSequenceExpression(seqExprOpposite.Node, seqExprOpposite, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("opposite(", highlightingMode);
+            PrintSequenceExpression(seqExprOpposite.Edge, seqExprOpposite, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqExprOpposite.Node, seqExprOpposite, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionAttributeAccess(SequenceExpressionAttributeAccess seqExprAttributeAccess, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionAttributeAccess(SequenceExpressionAttributeAccess seqExprAttributeAccess, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprAttributeAccess.Source, seqExprAttributeAccess, context);
-            Console.Write(".");
-            Console.Write(seqExprAttributeAccess.AttributeName);
+            PrintSequenceExpression(seqExprAttributeAccess.Source, seqExprAttributeAccess, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprAttributeAccess.AttributeName, highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMatchAccess(SequenceExpressionMatchAccess seqExprMatchAccess, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMatchAccess(SequenceExpressionMatchAccess seqExprMatchAccess, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprMatchAccess.Source, seqExprMatchAccess, context);
-            Console.Write(".");
-            Console.Write(seqExprMatchAccess.ElementName);
+            PrintSequenceExpression(seqExprMatchAccess.Source, seqExprMatchAccess, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprMatchAccess.ElementName, highlightingMode);
         }
 
-        private static void PrintSequenceExpressionAttributeOrMatchAccess(SequenceExpressionAttributeOrMatchAccess seqExprAttributeOrMatchAccess, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionAttributeOrMatchAccess(SequenceExpressionAttributeOrMatchAccess seqExprAttributeOrMatchAccess, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprAttributeOrMatchAccess.Source, seqExprAttributeOrMatchAccess, context);
-            Console.Write(".");
-            Console.Write(seqExprAttributeOrMatchAccess.AttributeOrElementName);
+            PrintSequenceExpression(seqExprAttributeOrMatchAccess.Source, seqExprAttributeOrMatchAccess, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprAttributeOrMatchAccess.AttributeOrElementName, highlightingMode);
         }
 
-        private static void PrintSequenceExpressionNodes(SequenceExpressionNodes seqExprNodes, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionNodes(SequenceExpressionNodes seqExprNodes, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprNodes.FunctionSymbol + "(");
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprNodes.FunctionSymbol + "(", highlightingMode);
             if(seqExprNodes.NodeType != null)
-                PrintSequenceExpression(seqExprNodes.NodeType, seqExprNodes, context);
-            Console.Write(")");
+                PrintSequenceExpression(seqExprNodes.NodeType, seqExprNodes, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionEdges(SequenceExpressionEdges seqExprEdges, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionEdges(SequenceExpressionEdges seqExprEdges, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprEdges.FunctionSymbol + "(");
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprEdges.FunctionSymbol + "(", highlightingMode);
             if(seqExprEdges.EdgeType != null)
-                PrintSequenceExpression(seqExprEdges.EdgeType, seqExprEdges, context);
-            Console.Write(")");
+                PrintSequenceExpression(seqExprEdges.EdgeType, seqExprEdges, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionCountNodes(SequenceExpressionCountNodes seqExprCountNodes, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionCountNodes(SequenceExpressionCountNodes seqExprCountNodes, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprCountNodes.FunctionSymbol + "(");
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprCountNodes.FunctionSymbol + "(", highlightingMode);
             if(seqExprCountNodes.NodeType != null)
-                PrintSequenceExpression(seqExprCountNodes.NodeType, seqExprCountNodes, context);
-            Console.Write(")");
+                PrintSequenceExpression(seqExprCountNodes.NodeType, seqExprCountNodes, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionCountEdges(SequenceExpressionCountEdges seqExprCountEdges, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionCountEdges(SequenceExpressionCountEdges seqExprCountEdges, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprCountEdges.FunctionSymbol + "(");
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprCountEdges.FunctionSymbol + "(", highlightingMode);
             if(seqExprCountEdges.EdgeType != null)
-                PrintSequenceExpression(seqExprCountEdges.EdgeType, seqExprCountEdges, context);
-            Console.Write(")");
+                PrintSequenceExpression(seqExprCountEdges.EdgeType, seqExprCountEdges, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionEmpty(SequenceExpressionEmpty seqExprEmpty, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionEmpty(SequenceExpressionEmpty seqExprEmpty, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("empty()");
+            WorkaroundManager.Workaround.PrintHighlighted("empty()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionNow(SequenceExpressionNow seqExprNow, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionNow(SequenceExpressionNow seqExprNow, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Time::now()");
+            WorkaroundManager.Workaround.PrintHighlighted("Time::now()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionSize(SequenceExpressionSize seqExprSize, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionSize(SequenceExpressionSize seqExprSize, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("size()");
+            WorkaroundManager.Workaround.PrintHighlighted("size()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionAdjacentIncident(SequenceExpressionAdjacentIncident seqExprAdjacentIncident, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionAdjacentIncident(SequenceExpressionAdjacentIncident seqExprAdjacentIncident, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprAdjacentIncident.FunctionSymbol + "(");
-            PrintSequenceExpression(seqExprAdjacentIncident.SourceNode, seqExprAdjacentIncident, context);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprAdjacentIncident.FunctionSymbol + "(", highlightingMode);
+            PrintSequenceExpression(seqExprAdjacentIncident.SourceNode, seqExprAdjacentIncident, highlightingMode, context);
             if(seqExprAdjacentIncident.EdgeType != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprAdjacentIncident.EdgeType, seqExprAdjacentIncident, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprAdjacentIncident.EdgeType, seqExprAdjacentIncident, highlightingMode, context);
             }
             if(seqExprAdjacentIncident.OppositeNodeType != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprAdjacentIncident.OppositeNodeType, seqExprAdjacentIncident, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprAdjacentIncident.OppositeNodeType, seqExprAdjacentIncident, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionCountAdjacentIncident(SequenceExpressionCountAdjacentIncident seqExprCountAdjacentIncident, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionCountAdjacentIncident(SequenceExpressionCountAdjacentIncident seqExprCountAdjacentIncident, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprCountAdjacentIncident.FunctionSymbol + "(");
-            PrintSequenceExpression(seqExprCountAdjacentIncident.SourceNode, seqExprCountAdjacentIncident, context);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprCountAdjacentIncident.FunctionSymbol + "(", highlightingMode);
+            PrintSequenceExpression(seqExprCountAdjacentIncident.SourceNode, seqExprCountAdjacentIncident, highlightingMode, context);
             if(seqExprCountAdjacentIncident.EdgeType != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprCountAdjacentIncident.EdgeType, seqExprCountAdjacentIncident, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprCountAdjacentIncident.EdgeType, seqExprCountAdjacentIncident, highlightingMode, context);
             }
             if(seqExprCountAdjacentIncident.OppositeNodeType != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprCountAdjacentIncident.OppositeNodeType, seqExprCountAdjacentIncident, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprCountAdjacentIncident.OppositeNodeType, seqExprCountAdjacentIncident, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionReachable(SequenceExpressionReachable seqExprReachable, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionReachable(SequenceExpressionReachable seqExprReachable, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprReachable.FunctionSymbol + "(");
-            PrintSequenceExpression(seqExprReachable.SourceNode, seqExprReachable, context);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprReachable.FunctionSymbol + "(", highlightingMode);
+            PrintSequenceExpression(seqExprReachable.SourceNode, seqExprReachable, highlightingMode, context);
             if(seqExprReachable.EdgeType != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprReachable.EdgeType, seqExprReachable, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprReachable.EdgeType, seqExprReachable, highlightingMode, context);
             }
             if(seqExprReachable.OppositeNodeType != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprReachable.OppositeNodeType, seqExprReachable, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprReachable.OppositeNodeType, seqExprReachable, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionCountReachable(SequenceExpressionCountReachable seqExprCountReachable, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionCountReachable(SequenceExpressionCountReachable seqExprCountReachable, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprCountReachable.FunctionSymbol + "(");
-            PrintSequenceExpression(seqExprCountReachable.SourceNode, seqExprCountReachable, context);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprCountReachable.FunctionSymbol + "(", highlightingMode);
+            PrintSequenceExpression(seqExprCountReachable.SourceNode, seqExprCountReachable, highlightingMode, context);
             if(seqExprCountReachable.EdgeType != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprCountReachable.EdgeType, seqExprCountReachable, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprCountReachable.EdgeType, seqExprCountReachable, highlightingMode, context);
             }
             if(seqExprCountReachable.OppositeNodeType != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprCountReachable.OppositeNodeType, seqExprCountReachable, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprCountReachable.OppositeNodeType, seqExprCountReachable, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionBoundedReachable(SequenceExpressionBoundedReachable seqExprBoundedReachable, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionBoundedReachable(SequenceExpressionBoundedReachable seqExprBoundedReachable, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprBoundedReachable.FunctionSymbol + "(");
-            PrintSequenceExpression(seqExprBoundedReachable.SourceNode, seqExprBoundedReachable, context);
-            Console.Write(",");
-            PrintSequenceExpression(seqExprBoundedReachable.Depth, seqExprBoundedReachable, context);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprBoundedReachable.FunctionSymbol + "(", highlightingMode);
+            PrintSequenceExpression(seqExprBoundedReachable.SourceNode, seqExprBoundedReachable, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqExprBoundedReachable.Depth, seqExprBoundedReachable, highlightingMode, context);
             if(seqExprBoundedReachable.EdgeType != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprBoundedReachable.EdgeType, seqExprBoundedReachable, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprBoundedReachable.EdgeType, seqExprBoundedReachable, highlightingMode, context);
             }
             if(seqExprBoundedReachable.OppositeNodeType != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprBoundedReachable.OppositeNodeType, seqExprBoundedReachable, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprBoundedReachable.OppositeNodeType, seqExprBoundedReachable, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionBoundedReachableWithRemainingDepth(SequenceExpressionBoundedReachableWithRemainingDepth seqExprBoundedReachableWithRemainingDepth, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionBoundedReachableWithRemainingDepth(SequenceExpressionBoundedReachableWithRemainingDepth seqExprBoundedReachableWithRemainingDepth, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprBoundedReachableWithRemainingDepth.FunctionSymbol + "(");
-            PrintSequenceExpression(seqExprBoundedReachableWithRemainingDepth.SourceNode, seqExprBoundedReachableWithRemainingDepth, context);
-            Console.Write(",");
-            PrintSequenceExpression(seqExprBoundedReachableWithRemainingDepth.Depth, seqExprBoundedReachableWithRemainingDepth, context);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprBoundedReachableWithRemainingDepth.FunctionSymbol + "(", highlightingMode);
+            PrintSequenceExpression(seqExprBoundedReachableWithRemainingDepth.SourceNode, seqExprBoundedReachableWithRemainingDepth, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqExprBoundedReachableWithRemainingDepth.Depth, seqExprBoundedReachableWithRemainingDepth, highlightingMode, context);
             if(seqExprBoundedReachableWithRemainingDepth.EdgeType != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprBoundedReachableWithRemainingDepth.EdgeType, seqExprBoundedReachableWithRemainingDepth, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprBoundedReachableWithRemainingDepth.EdgeType, seqExprBoundedReachableWithRemainingDepth, highlightingMode, context);
             }
             if(seqExprBoundedReachableWithRemainingDepth.OppositeNodeType != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprBoundedReachableWithRemainingDepth.OppositeNodeType, seqExprBoundedReachableWithRemainingDepth, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprBoundedReachableWithRemainingDepth.OppositeNodeType, seqExprBoundedReachableWithRemainingDepth, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionCountBoundedReachable(SequenceExpressionCountBoundedReachable seqExprCountBoundedReachable, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionCountBoundedReachable(SequenceExpressionCountBoundedReachable seqExprCountBoundedReachable, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprCountBoundedReachable.FunctionSymbol + "(");
-            PrintSequenceExpression(seqExprCountBoundedReachable.SourceNode, seqExprCountBoundedReachable, context);
-            Console.Write(",");
-            PrintSequenceExpression(seqExprCountBoundedReachable.Depth, seqExprCountBoundedReachable, context);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprCountBoundedReachable.FunctionSymbol + "(", highlightingMode);
+            PrintSequenceExpression(seqExprCountBoundedReachable.SourceNode, seqExprCountBoundedReachable, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqExprCountBoundedReachable.Depth, seqExprCountBoundedReachable, highlightingMode, context);
             if(seqExprCountBoundedReachable.EdgeType != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprCountBoundedReachable.EdgeType, seqExprCountBoundedReachable, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprCountBoundedReachable.EdgeType, seqExprCountBoundedReachable, highlightingMode, context);
             }
             if(seqExprCountBoundedReachable.OppositeNodeType != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprCountBoundedReachable.OppositeNodeType, seqExprCountBoundedReachable, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprCountBoundedReachable.OppositeNodeType, seqExprCountBoundedReachable, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionIsBoundedReachable(SequenceExpressionIsBoundedReachable seqExprIsBoundedReachable, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionIsBoundedReachable(SequenceExpressionIsBoundedReachable seqExprIsBoundedReachable, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprIsBoundedReachable.FunctionSymbol + "(");
-            PrintSequenceExpression(seqExprIsBoundedReachable.SourceNode, seqExprIsBoundedReachable, context);
-            Console.Write(",");
-            PrintSequenceExpression(seqExprIsBoundedReachable.EndElement, seqExprIsBoundedReachable, context);
-            Console.Write(",");
-            PrintSequenceExpression(seqExprIsBoundedReachable.Depth, seqExprIsBoundedReachable, context);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprIsBoundedReachable.FunctionSymbol + "(", highlightingMode);
+            PrintSequenceExpression(seqExprIsBoundedReachable.SourceNode, seqExprIsBoundedReachable, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqExprIsBoundedReachable.EndElement, seqExprIsBoundedReachable, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqExprIsBoundedReachable.Depth, seqExprIsBoundedReachable, highlightingMode, context);
             if(seqExprIsBoundedReachable.EdgeType != null)
             { 
-                Console.Write(",");
-                PrintSequenceExpression(seqExprIsBoundedReachable.EdgeType, seqExprIsBoundedReachable, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprIsBoundedReachable.EdgeType, seqExprIsBoundedReachable, highlightingMode, context);
             }
             if(seqExprIsBoundedReachable.OppositeNodeType != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprIsBoundedReachable.OppositeNodeType, seqExprIsBoundedReachable, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprIsBoundedReachable.OppositeNodeType, seqExprIsBoundedReachable, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionIsAdjacentIncident(SequenceExpressionIsAdjacentIncident seqExprIsAdjacentIncident, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionIsAdjacentIncident(SequenceExpressionIsAdjacentIncident seqExprIsAdjacentIncident, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprIsAdjacentIncident.FunctionSymbol + "(");
-            PrintSequenceExpression(seqExprIsAdjacentIncident.SourceNode, seqExprIsAdjacentIncident, context);
-            Console.Write(",");
-            PrintSequenceExpression(seqExprIsAdjacentIncident.EndElement, seqExprIsAdjacentIncident, context);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprIsAdjacentIncident.FunctionSymbol + "(", highlightingMode);
+            PrintSequenceExpression(seqExprIsAdjacentIncident.SourceNode, seqExprIsAdjacentIncident, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqExprIsAdjacentIncident.EndElement, seqExprIsAdjacentIncident, highlightingMode, context);
             if(seqExprIsAdjacentIncident.EdgeType != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprIsAdjacentIncident.EdgeType, seqExprIsAdjacentIncident, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprIsAdjacentIncident.EdgeType, seqExprIsAdjacentIncident, highlightingMode, context);
             }
             if(seqExprIsAdjacentIncident.OppositeNodeType != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprIsAdjacentIncident.OppositeNodeType, seqExprIsAdjacentIncident, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprIsAdjacentIncident.OppositeNodeType, seqExprIsAdjacentIncident, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionIsReachable(SequenceExpressionIsReachable seqExprIsReachable, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionIsReachable(SequenceExpressionIsReachable seqExprIsReachable, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprIsReachable.FunctionSymbol + "(");
-            PrintSequenceExpression(seqExprIsReachable.SourceNode, seqExprIsReachable, context);
-            Console.Write(",");
-            PrintSequenceExpression(seqExprIsReachable.EndElement, seqExprIsReachable, context);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprIsReachable.FunctionSymbol + "(", highlightingMode);
+            PrintSequenceExpression(seqExprIsReachable.SourceNode, seqExprIsReachable, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqExprIsReachable.EndElement, seqExprIsReachable, highlightingMode, context);
             if(seqExprIsReachable.EdgeType != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprIsReachable.EdgeType, seqExprIsReachable, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprIsReachable.EdgeType, seqExprIsReachable, highlightingMode, context);
             }
             if(seqExprIsReachable.OppositeNodeType != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprIsReachable.OppositeNodeType, seqExprIsReachable, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprIsReachable.OppositeNodeType, seqExprIsReachable, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionInducedSubgraph(SequenceExpressionInducedSubgraph seqExprInducedSubgraph, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionInducedSubgraph(SequenceExpressionInducedSubgraph seqExprInducedSubgraph, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("inducedSubgraph(");
-            PrintSequenceExpression(seqExprInducedSubgraph.NodeSet, seqExprInducedSubgraph, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("inducedSubgraph(", highlightingMode);
+            PrintSequenceExpression(seqExprInducedSubgraph.NodeSet, seqExprInducedSubgraph, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionDefinedSubgraph(SequenceExpressionDefinedSubgraph seqExprDefinedSubgraph, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionDefinedSubgraph(SequenceExpressionDefinedSubgraph seqExprDefinedSubgraph, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("definedSubgraph(");
-            PrintSequenceExpression(seqExprDefinedSubgraph.EdgeSet, seqExprDefinedSubgraph, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("definedSubgraph(", highlightingMode);
+            PrintSequenceExpression(seqExprDefinedSubgraph.EdgeSet, seqExprDefinedSubgraph, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
         // potential todo: change code structure in equals any sequence expression, too
-        private static void PrintSequenceExpressionEqualsAny(SequenceExpressionEqualsAny seqExprEqualsAny, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionEqualsAny(SequenceExpressionEqualsAny seqExprEqualsAny, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprEqualsAny.IncludingAttributes ? "equalsAny(" : "equalsAnyStructurally(");
-            PrintSequenceExpression(seqExprEqualsAny.Subgraph, seqExprEqualsAny, context);
-            Console.Write(", ");
-            PrintSequenceExpression(seqExprEqualsAny.SubgraphSet, seqExprEqualsAny, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprEqualsAny.IncludingAttributes ? "equalsAny(" : "equalsAnyStructurally(", highlightingMode);
+            PrintSequenceExpression(seqExprEqualsAny.Subgraph, seqExprEqualsAny, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
+            PrintSequenceExpression(seqExprEqualsAny.SubgraphSet, seqExprEqualsAny, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionCanonize(SequenceExpressionCanonize seqExprCanonize, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionCanonize(SequenceExpressionCanonize seqExprCanonize, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("canonize(");
-            PrintSequenceExpression(seqExprCanonize.Graph, seqExprCanonize, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("canonize(", highlightingMode);
+            PrintSequenceExpression(seqExprCanonize.Graph, seqExprCanonize, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionNameof(SequenceExpressionNameof seqExprNameof, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionNameof(SequenceExpressionNameof seqExprNameof, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("nameof(");
+            WorkaroundManager.Workaround.PrintHighlighted("nameof(", highlightingMode);
             if(seqExprNameof.NamedEntity != null)
-                PrintSequenceExpression(seqExprNameof.NamedEntity, seqExprNameof, context);
-            Console.Write(")");
+                PrintSequenceExpression(seqExprNameof.NamedEntity, seqExprNameof, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionUniqueof(SequenceExpressionUniqueof seqExprUniqueof, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionUniqueof(SequenceExpressionUniqueof seqExprUniqueof, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("uniqueof(");
+            WorkaroundManager.Workaround.PrintHighlighted("uniqueof(", highlightingMode);
             if(seqExprUniqueof.UniquelyIdentifiedEntity != null)
-                PrintSequenceExpression(seqExprUniqueof.UniquelyIdentifiedEntity, seqExprUniqueof, context);
-            Console.Write(")");
+                PrintSequenceExpression(seqExprUniqueof.UniquelyIdentifiedEntity, seqExprUniqueof, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionTypeof(SequenceExpressionTypeof seqExprTypeof, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionTypeof(SequenceExpressionTypeof seqExprTypeof, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("typeof(");
-            PrintSequenceExpression(seqExprTypeof.Entity, seqExprTypeof, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("typeof(", highlightingMode);
+            PrintSequenceExpression(seqExprTypeof.Entity, seqExprTypeof, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionExistsFile(SequenceExpressionExistsFile seqExprExistsFile, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionExistsFile(SequenceExpressionExistsFile seqExprExistsFile, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("File::existsFile(");
-            PrintSequenceExpression(seqExprExistsFile.Path, seqExprExistsFile, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("File::existsFile(", highlightingMode);
+            PrintSequenceExpression(seqExprExistsFile.Path, seqExprExistsFile, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionImport(SequenceExpressionImport seqExprImport, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionImport(SequenceExpressionImport seqExprImport, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("File::import(");
-            PrintSequenceExpression(seqExprImport.Path, seqExprImport, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("File::import(", highlightingMode);
+            PrintSequenceExpression(seqExprImport.Path, seqExprImport, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionCopy(SequenceExpressionCopy seqExprCopy, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionCopy(SequenceExpressionCopy seqExprCopy, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprCopy.Deep ? "copy(" : "clone(");
-            PrintSequenceExpression(seqExprCopy.ObjectToBeCopied, seqExprCopy, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprCopy.Deep ? "copy(" : "clone(", highlightingMode);
+            PrintSequenceExpression(seqExprCopy.ObjectToBeCopied, seqExprCopy, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathMin(SequenceExpressionMathMin seqExprMathMin, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathMin(SequenceExpressionMathMin seqExprMathMin, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::min(");
-            PrintSequenceExpression(seqExprMathMin.Left, seqExprMathMin, context);
-            Console.Write(",");
-            PrintSequenceExpression(seqExprMathMin.Right, seqExprMathMin, context);
-            Console.Write(")"); ;
+            WorkaroundManager.Workaround.PrintHighlighted("Math::min(", highlightingMode);
+            PrintSequenceExpression(seqExprMathMin.Left, seqExprMathMin, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqExprMathMin.Right, seqExprMathMin, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathMax(SequenceExpressionMathMax seqExprMathMax, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathMax(SequenceExpressionMathMax seqExprMathMax, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::max(");
-            PrintSequenceExpression(seqExprMathMax.Left, seqExprMathMax, context);
-            Console.Write(",");
-            PrintSequenceExpression(seqExprMathMax.Right, seqExprMathMax, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::max(", highlightingMode);
+            PrintSequenceExpression(seqExprMathMax.Left, seqExprMathMax, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqExprMathMax.Right, seqExprMathMax, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathAbs(SequenceExpressionMathAbs seqExprMathAbs, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathAbs(SequenceExpressionMathAbs seqExprMathAbs, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::abs(");
-            PrintSequenceExpression(seqExprMathAbs.Argument, seqExprMathAbs, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::abs(", highlightingMode);
+            PrintSequenceExpression(seqExprMathAbs.Argument, seqExprMathAbs, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathCeil(SequenceExpressionMathCeil seqExprMathCeil, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathCeil(SequenceExpressionMathCeil seqExprMathCeil, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::ceil(");
-            PrintSequenceExpression(seqExprMathCeil.Argument, seqExprMathCeil, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::ceil(", highlightingMode);
+            PrintSequenceExpression(seqExprMathCeil.Argument, seqExprMathCeil, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathFloor(SequenceExpressionMathFloor seqExprMathFloor, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathFloor(SequenceExpressionMathFloor seqExprMathFloor, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::floor(");
-            PrintSequenceExpression(seqExprMathFloor.Argument, seqExprMathFloor, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::floor(", highlightingMode);
+            PrintSequenceExpression(seqExprMathFloor.Argument, seqExprMathFloor, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathRound(SequenceExpressionMathRound seqExprMathRound, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathRound(SequenceExpressionMathRound seqExprMathRound, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::round(");
-            PrintSequenceExpression(seqExprMathRound.Argument, seqExprMathRound, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::round(", highlightingMode);
+            PrintSequenceExpression(seqExprMathRound.Argument, seqExprMathRound, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathTruncate(SequenceExpressionMathTruncate seqExprMathTruncate, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathTruncate(SequenceExpressionMathTruncate seqExprMathTruncate, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::truncate(");
-            PrintSequenceExpression(seqExprMathTruncate.Argument, seqExprMathTruncate, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::truncate(", highlightingMode);
+            PrintSequenceExpression(seqExprMathTruncate.Argument, seqExprMathTruncate, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathSqr(SequenceExpressionMathSqr seqExprMathSqr, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathSqr(SequenceExpressionMathSqr seqExprMathSqr, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::sqr(");
-            PrintSequenceExpression(seqExprMathSqr.Argument, seqExprMathSqr, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::sqr(", highlightingMode);
+            PrintSequenceExpression(seqExprMathSqr.Argument, seqExprMathSqr, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathSqrt(SequenceExpressionMathSqrt seqExprMathSqrt, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathSqrt(SequenceExpressionMathSqrt seqExprMathSqrt, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::sqrt(");
-            PrintSequenceExpression(seqExprMathSqrt.Argument, seqExprMathSqrt, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::sqrt(", highlightingMode);
+            PrintSequenceExpression(seqExprMathSqrt.Argument, seqExprMathSqrt, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathPow(SequenceExpressionMathPow seqExprPow, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathPow(SequenceExpressionMathPow seqExprPow, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::pow(");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::pow(", highlightingMode);
             if(seqExprPow.Left != null)
             {
-                PrintSequenceExpression(seqExprPow.Left, seqExprPow, context);
-                Console.Write(",");
+                PrintSequenceExpression(seqExprPow.Left, seqExprPow, highlightingMode, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
             }
-            Console.Write(seqExprPow.Right);
-            Console.Write(")");
+            PrintSequenceExpression(seqExprPow.Right, seqExprPow, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathLog(SequenceExpressionMathLog seqExprMathLog, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathLog(SequenceExpressionMathLog seqExprMathLog, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::log(");
-            PrintSequenceExpression(seqExprMathLog.Left, seqExprMathLog, context);
+            WorkaroundManager.Workaround.PrintHighlighted("Math::log(", highlightingMode);
+            PrintSequenceExpression(seqExprMathLog.Left, seqExprMathLog, highlightingMode, context);
             if(seqExprMathLog.Right != null)
             {
-                Console.Write(",");
-                PrintSequenceExpression(seqExprMathLog.Right, seqExprMathLog, context);
+                WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                PrintSequenceExpression(seqExprMathLog.Right, seqExprMathLog, highlightingMode, context);
             }
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathSgn(SequenceExpressionMathSgn seqExprMathSgn, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathSgn(SequenceExpressionMathSgn seqExprMathSgn, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::sgn(");
-            PrintSequenceExpression(seqExprMathSgn.Argument, seqExprMathSgn, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::sgn(", highlightingMode);
+            PrintSequenceExpression(seqExprMathSgn.Argument, seqExprMathSgn, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathSin(SequenceExpressionMathSin seqExprMathSin, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathSin(SequenceExpressionMathSin seqExprMathSin, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::sin(");
-            PrintSequenceExpression(seqExprMathSin.Argument, seqExprMathSin, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::sin(", highlightingMode);
+            PrintSequenceExpression(seqExprMathSin.Argument, seqExprMathSin, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathCos(SequenceExpressionMathCos seqExprMathCos, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathCos(SequenceExpressionMathCos seqExprMathCos, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::cos(");
-            PrintSequenceExpression(seqExprMathCos.Argument, seqExprMathCos, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::cos(", highlightingMode);
+            PrintSequenceExpression(seqExprMathCos.Argument, seqExprMathCos, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathTan(SequenceExpressionMathTan seqExprMathTan, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathTan(SequenceExpressionMathTan seqExprMathTan, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::tan(");
-            PrintSequenceExpression(seqExprMathTan.Argument, seqExprMathTan, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::tan(", highlightingMode);
+            PrintSequenceExpression(seqExprMathTan.Argument, seqExprMathTan, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathArcSin(SequenceExpressionMathArcSin seqExprMathArcSin, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathArcSin(SequenceExpressionMathArcSin seqExprMathArcSin, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::arcsin(");
-            PrintSequenceExpression(seqExprMathArcSin.Argument, seqExprMathArcSin, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::arcsin(", highlightingMode);
+            PrintSequenceExpression(seqExprMathArcSin.Argument, seqExprMathArcSin, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathArcCos(SequenceExpressionMathArcCos seqExprMathArcCos, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathArcCos(SequenceExpressionMathArcCos seqExprMathArcCos, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::arccos(");
-            PrintSequenceExpression(seqExprMathArcCos.Argument, seqExprMathArcCos, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::arccos(", highlightingMode);
+            PrintSequenceExpression(seqExprMathArcCos.Argument, seqExprMathArcCos, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathArcTan(SequenceExpressionMathArcTan seqExprMathArcTan, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathArcTan(SequenceExpressionMathArcTan seqExprMathArcTan, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::arctan(");
-            PrintSequenceExpression(seqExprMathArcTan.Argument, seqExprMathArcTan, context);
-            Console.Write(")");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::arctan(", highlightingMode);
+            PrintSequenceExpression(seqExprMathArcTan.Argument, seqExprMathArcTan, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathPi(SequenceExpressionMathPi seqExprMathPi, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathPi(SequenceExpressionMathPi seqExprMathPi, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::pi()");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::pi()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathE(SequenceExpressionMathE seqExprMathE, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathE(SequenceExpressionMathE seqExprMathE, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::e()");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::e()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathByteMin(SequenceExpressionMathByteMin seqExprMathByteMin, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathByteMin(SequenceExpressionMathByteMin seqExprMathByteMin, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::byteMin()");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::byteMin()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathByteMax(SequenceExpressionMathByteMax seqExprMathByteMax, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathByteMax(SequenceExpressionMathByteMax seqExprMathByteMax, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::byteMax()");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::byteMax()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathShortMin(SequenceExpressionMathShortMin seqExprMathShortMin, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathShortMin(SequenceExpressionMathShortMin seqExprMathShortMin, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::shortMin()");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::shortMin()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathShortMax(SequenceExpressionMathShortMax seqExprMathShortMax, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathShortMax(SequenceExpressionMathShortMax seqExprMathShortMax, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::shortMax()");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::shortMax()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathIntMin(SequenceExpressionMathIntMin seqExprMathIntMin, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathIntMin(SequenceExpressionMathIntMin seqExprMathIntMin, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::intMin()");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::intMin()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathIntMax(SequenceExpressionMathIntMax seqExprMathIntMax, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathIntMax(SequenceExpressionMathIntMax seqExprMathIntMax, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::intMax()");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::intMax()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathLongMin(SequenceExpressionMathLongMin seqExprMathLongMin, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathLongMin(SequenceExpressionMathLongMin seqExprMathLongMin, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::longMin()");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::longMin()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathLongMax(SequenceExpressionMathLongMax seqExprMathLongMax, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathLongMax(SequenceExpressionMathLongMax seqExprMathLongMax, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::longMax()");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::longMax()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathFloatMin(SequenceExpressionMathFloatMin seqExprMathFloatMin, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathFloatMin(SequenceExpressionMathFloatMin seqExprMathFloatMin, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::floatMin()");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::floatMin()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathFloatMax(SequenceExpressionMathFloatMax seqExprMathFloatMax, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathFloatMax(SequenceExpressionMathFloatMax seqExprMathFloatMax, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::floatMax()");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::floatMax()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathDoubleMin(SequenceExpressionMathDoubleMin seqExprMathDoubleMin, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathDoubleMin(SequenceExpressionMathDoubleMin seqExprMathDoubleMin, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::doubleMin()");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::doubleMin()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionMathDoubleMax(SequenceExpressionMathDoubleMax seqExprMathDoubleMax, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMathDoubleMax(SequenceExpressionMathDoubleMax seqExprMathDoubleMax, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("Math::doubleMax()");
+            WorkaroundManager.Workaround.PrintHighlighted("Math::doubleMax()", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionRuleQuery(SequenceExpressionRuleQuery seqExprRuleQuery, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionRuleQuery(SequenceExpressionRuleQuery seqExprRuleQuery, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             if(seqExprRuleQuery == context.highlightSeq)
                 WorkaroundManager.Workaround.PrintHighlighted(seqExprRuleQuery.Symbol, HighlightingMode.Focus);
             else
-                PrintSequence(seqExprRuleQuery.RuleCall, seqExprRuleQuery, context);
+                PrintSequence(seqExprRuleQuery.RuleCall, seqExprRuleQuery, highlightingMode, context);
         }
 
-        private static void PrintSequenceExpressionMultiRuleQuery(SequenceExpressionMultiRuleQuery seqExprMultiRuleQuery, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMultiRuleQuery(SequenceExpressionMultiRuleQuery seqExprMultiRuleQuery, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             if(seqExprMultiRuleQuery == context.highlightSeq)
                 WorkaroundManager.Workaround.PrintHighlighted(seqExprMultiRuleQuery.Symbol, HighlightingMode.Focus);
             else
             {
-                Console.Write("[?[");
+                WorkaroundManager.Workaround.PrintHighlighted("[?[", highlightingMode);
                 bool first = true;
                 foreach(Sequence rule in seqExprMultiRuleQuery.MultiRuleCall.Sequences)
                 {
                     if(first)
                         first = false;
                     else
-                        Console.Write(",");
-                    PrintSequence(rule, seqExprMultiRuleQuery, context);
+                        WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+                    PrintSequence(rule, seqExprMultiRuleQuery, highlightingMode, context);
                 }
-                Console.Write("]");
+                WorkaroundManager.Workaround.PrintHighlighted("]", highlightingMode);
                 foreach(SequenceFilterCallBase filterCall in seqExprMultiRuleQuery.MultiRuleCall.Filters)
                 {
-                    PrintSequenceFilterCall(filterCall, seqExprMultiRuleQuery.MultiRuleCall, context);
+                    PrintSequenceFilterCall(filterCall, seqExprMultiRuleQuery.MultiRuleCall, highlightingMode, context);
                 }
-                Console.Write("\\<class " + seqExprMultiRuleQuery.MatchClass + ">");
-                Console.Write("]");
+                WorkaroundManager.Workaround.PrintHighlighted("\\<class " + seqExprMultiRuleQuery.MatchClass + ">", highlightingMode);
+                WorkaroundManager.Workaround.PrintHighlighted("]", highlightingMode);
             }
         }
 
-        private static void PrintSequenceExpressionMappingClause(SequenceExpressionMappingClause seqExprMappingClause, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionMappingClause(SequenceExpressionMappingClause seqExprMappingClause, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             bool highlight = false;
             foreach(Sequence seqChild in seqExprMappingClause.MultiRulePrefixedSequence.Children)
@@ -3285,59 +3290,59 @@ namespace de.unika.ipd.grGen.grShell
                 WorkaroundManager.Workaround.PrintHighlighted(seqExprMappingClause.Symbol, HighlightingMode.Focus);
             else
             {
-                Console.Write("[:");
-                PrintChildren(seqExprMappingClause.MultiRulePrefixedSequence, context);
+                WorkaroundManager.Workaround.PrintHighlighted("[:", highlightingMode);
+                PrintChildren(seqExprMappingClause.MultiRulePrefixedSequence, highlightingMode, context);
                 foreach(SequenceFilterCallBase filterCall in seqExprMappingClause.MultiRulePrefixedSequence.Filters)
                 {
-                    PrintSequenceFilterCall(filterCall, seqExprMappingClause.MultiRulePrefixedSequence, context);
+                    PrintSequenceFilterCall(filterCall, seqExprMappingClause.MultiRulePrefixedSequence, highlightingMode, context);
                 }
-                Console.Write(":]");
+                WorkaroundManager.Workaround.PrintHighlighted(":]", highlightingMode);
             }
 
             context.success = succesBackup;
         }
 
-        private static void PrintSequenceExpressionScan(SequenceExpressionScan seqExprScan, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionScan(SequenceExpressionScan seqExprScan, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("scan");
+            WorkaroundManager.Workaround.PrintHighlighted("scan", highlightingMode);
             if(seqExprScan.ResultType != null)
-                Console.Write("<" + seqExprScan.ResultType + ">");
-            Console.Write("(");
-            PrintSequenceExpression(seqExprScan.StringExpr, seqExprScan, context);
-            Console.Write(")");
+                WorkaroundManager.Workaround.PrintHighlighted("<" + seqExprScan.ResultType + ">", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted("(", highlightingMode);
+            PrintSequenceExpression(seqExprScan.StringExpr, seqExprScan, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionTryScan(SequenceExpressionTryScan seqExprTryScan, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionTryScan(SequenceExpressionTryScan seqExprTryScan, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write("tryscan");
+            WorkaroundManager.Workaround.PrintHighlighted("tryscan", highlightingMode);
             if(seqExprTryScan.ResultType != null)
-                Console.Write("<" + seqExprTryScan.ResultType + ">");
-            Console.Write("(");
-            PrintSequenceExpression(seqExprTryScan.StringExpr, seqExprTryScan, context);
-            Console.Write(")");
+                WorkaroundManager.Workaround.PrintHighlighted("<" + seqExprTryScan.ResultType + ">", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted("(", highlightingMode);
+            PrintSequenceExpression(seqExprTryScan.StringExpr, seqExprTryScan, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
-        private static void PrintSequenceExpressionFunctionCall(SequenceExpressionFunctionCall seqExprFunctionCall, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionFunctionCall(SequenceExpressionFunctionCall seqExprFunctionCall, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            Console.Write(seqExprFunctionCall.Name);
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprFunctionCall.Name, highlightingMode);
             if(seqExprFunctionCall.ArgumentExpressions.Length > 0)
             {
-                Console.Write("(");
+                WorkaroundManager.Workaround.PrintHighlighted("(", highlightingMode);
                 for(int i = 0; i < seqExprFunctionCall.ArgumentExpressions.Length; ++i)
                 {
-                    PrintSequenceExpression(seqExprFunctionCall.ArgumentExpressions[i], seqExprFunctionCall, context);
+                    PrintSequenceExpression(seqExprFunctionCall.ArgumentExpressions[i], seqExprFunctionCall, highlightingMode, context);
                     if(i != seqExprFunctionCall.ArgumentExpressions.Length - 1)
-                        Console.Write(",");
+                        WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
                 }
-                Console.Write(")");
+                WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
             }
         }
 
-        private static void PrintSequenceExpressionFunctionMethodCall(SequenceExpressionFunctionMethodCall seqExprFunctionMethodCall, SequenceBase parent, PrintSequenceContext context)
+        private static void PrintSequenceExpressionFunctionMethodCall(SequenceExpressionFunctionMethodCall seqExprFunctionMethodCall, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            PrintSequenceExpression(seqExprFunctionMethodCall.TargetExpr, seqExprFunctionMethodCall, context);
-            Console.Write(".");
-            PrintSequenceExpressionFunctionCall(seqExprFunctionMethodCall, parent, context);
+            PrintSequenceExpression(seqExprFunctionMethodCall.TargetExpr, seqExprFunctionMethodCall, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(".", highlightingMode);
+            PrintSequenceExpressionFunctionCall(seqExprFunctionMethodCall, parent, highlightingMode, context);
         }
     }
 }
