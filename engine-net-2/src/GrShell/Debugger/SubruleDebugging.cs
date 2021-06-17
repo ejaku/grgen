@@ -89,7 +89,7 @@ namespace de.unika.ipd.grGen.grShell
 
         // true if this is an entry of an action, added by the debugger as a help, 
         // so the full state is contained on the traces stack
-        bool fakeEntry;
+        public readonly bool fakeEntry;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -276,7 +276,7 @@ namespace de.unika.ipd.grGen.grShell
             case SubruleDebuggingEvent.Match:
                 {
                     IMatches matches = (IMatches)data;
-                    if(matches.Producer == actionToMatch)
+                    if(matches.Producer == actionToMatch && matches.Count > 0)
                     {
                         if(ifClause != null)
                         {
@@ -384,8 +384,8 @@ namespace de.unika.ipd.grGen.grShell
                 }
             case SubruleDebuggingEvent.Match:
                 {
-                    IMatches matches = (IMatches)data;
-                    sb.Append(matches.Producer.PackagePrefixedName);
+                    IMatches[] matches = (IMatches[])data;
+                    sb.Append(Debugger.ProducerNames(matches));
                     break;
                 }
             case SubruleDebuggingEvent.New:

@@ -579,6 +579,11 @@ public class ModifyGen extends CSharpBase
 				&& !task.isSubpattern && task.typeOfTask == ModifyGenerationTask.TYPE_OF_TASK_MODIFY)
 			genEvalProfilingStop(sb3, packagePrefixedActionName);
 
+		// Emit selected match rewritten event firing (only if top-level rule)
+		if(pathPrefix.equals("") && !task.isSubpattern) {
+			sb3.appendFront("actionEnv.SelectedMatchRewritten();\n");
+		}
+
 		execGen.genImperativeStatements(sb3, task, state, stateConst, needs, pathPrefix, packagePrefixedActionName);
 
 		genCheckReturnedElementsForDeletionOrRetypingDueToHomomorphy(sb3, task);

@@ -83,6 +83,14 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
+        public void MarkMatches(IMatches[] matchesArray, String nodeRealizerName, String edgeRealizerName)
+        {
+            foreach(IMatches matches in matchesArray)
+            {
+                MarkMatches(matches, nodeRealizerName, edgeRealizerName);
+            }
+        }
+
         public void AnnotateMatch(IMatch match, bool addAnnotation)
         {
             AnnotateMatch(match, addAnnotation, "", 0, true);
@@ -95,6 +103,18 @@ namespace de.unika.ipd.grGen.grShell
         public void AnnotateMatches(IEnumerable<IMatch> matches, bool addAnnotation)
         {
             AnnotateMatches(matches, addAnnotation, "", 0, true);
+            if(addAnnotation)
+            {
+                renderRecorder.AnnotateGraphElements(ycompClient);
+            }
+        }
+
+        public void AnnotateMatches(IMatches[] matchesArray, bool addAnnotation)
+        {
+            foreach(IMatches matches in matchesArray)
+            {
+                AnnotateMatches(matches, addAnnotation, "", 0, true);
+            }
             if(addAnnotation)
             {
                 renderRecorder.AnnotateGraphElements(ycompClient);

@@ -65,7 +65,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public void EmitRewriting(SourceBuilder source, SequenceGenerator seqGen, String matchListName, String enumeratorName,
-            String firstRewrite, bool fireDebugEvents)
+            bool fireDebugEvents)
         {
             source.AppendFrontFormat("case \"{0}\":\n", plainRuleName);
             source.AppendFront("{\n");
@@ -73,19 +73,17 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFront(matchType + " " + matchName + " = (" + matchType + ")" + enumeratorName + ".Current;\n");
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
+                source.AppendFront("procEnv.MatchSelected(" + matchName + ", " + specialStr + ", " + matchesName + ");\n");
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
-            source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
+                source.AppendFront("procEnv.RewritingSelectedMatch();\n");
             if(returnParameterDeclarations.Length != 0)
                 source.AppendFront(returnParameterDeclarations + "\n");
             source.AppendFront(ruleName + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
             if(returnAssignments.Length != 0)
                 source.AppendFront(returnAssignments + "\n");
             source.AppendFront("++procEnv.PerformanceInfo.RewritesPerformed;\n");
-            source.AppendFront(firstRewrite + " = false;\n");
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
+                source.AppendFront("procEnv.FinishedSelectedMatch();\n");
 
             seqGen.EmitSequence(seqRulePrefixedSequence.Sequence, source);
 
@@ -99,7 +97,7 @@ namespace de.unika.ipd.grGen.lgsp
         // (and in general somewhat dubious here: dedicated match null but matches given)
         // maybe todo: pre/post part with mapping specific stuff only outside, would require mapped match input and result value output
         public void EmitRewritingMapping(SourceBuilder source, SequenceGenerator seqGen, String matchListName, String enumeratorName,
-            String firstRewrite, bool fireDebugEvents)
+            bool fireDebugEvents)
         {
             source.AppendFrontFormat("case \"{0}\":\n", plainRuleName);
             source.AppendFront("{\n");
@@ -114,19 +112,17 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFront(matchType + " " + matchName + " = (" + matchType + ")mappedMatch;\n");
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
+                source.AppendFront("procEnv.MatchSelected(" + matchName + ", " + specialStr + ", " + matchesName + ");\n");
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
-            source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
+                source.AppendFront("procEnv.RewritingSelectedMatch();\n");
             if(returnParameterDeclarations.Length != 0)
                 source.AppendFront(returnParameterDeclarations + "\n");
             source.AppendFront(ruleName + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
             if(returnAssignments.Length != 0)
                 source.AppendFront(returnAssignments + "\n");
             source.AppendFront("++procEnv.PerformanceInfo.RewritesPerformed;\n");
-            source.AppendFront(firstRewrite + " = false;\n");
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
+                source.AppendFront("procEnv.FinishedSelectedMatch();\n");
 
             seqGen.EmitSequence(seqRulePrefixedSequence.Sequence, source);
 

@@ -106,17 +106,15 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
             source.AppendFront(COMP_HELPER.SetResultVar(seqRule, "true"));
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
+                source.AppendFront("procEnv.MatchedAfterFiltering(" + matchesName + ", " + specialStr + ");\n");
 
             SequenceRuleOrRuleAllCallRewritingGenerator ruleRewritingGenerator = new SequenceRuleOrRuleAllCallRewritingGenerator(this);
             if(seqRule.SequenceType == SequenceType.RuleCall)
-                ruleRewritingGenerator.EmitRewritingRuleCall(source);
+                ruleRewritingGenerator.EmitRewritingRuleCall(source, fireDebugEvents);
             else if(seqRule.SequenceType == SequenceType.RuleCountAllCall || !((SequenceRuleAllCall)seqRule).ChooseRandom) // seq.SequenceType == SequenceType.RuleAll
-                ruleRewritingGenerator.EmitRewritingRuleCountAllCallOrRuleAllCallNonRandom(source);
+                ruleRewritingGenerator.EmitRewritingRuleCountAllCallOrRuleAllCallNonRandom(source, fireDebugEvents);
             else // seq.SequenceType == SequenceType.RuleAll && ((SequenceRuleAll)seqRule).ChooseRandom
-                ruleRewritingGenerator.EmitRewritingRuleAllCallRandom(source);
+                ruleRewritingGenerator.EmitRewritingRuleAllCallRandom(source, fireDebugEvents);
 
             if(fireDebugEvents)
                 source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");

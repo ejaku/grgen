@@ -21,40 +21,49 @@ namespace de.unika.ipd.grGen.libGr
 
     /// <summary>
     /// Represents a method called after all requested matches of a multi action or an action have been matched,
-    /// yet before filtering/selection (single element array in case of a single rule/test application).
+    /// before filtering (single element array in case of a single rule/test application).
     /// </summary>
     /// <param name="matches">The matches found (an array of matches objects, one matches object per rule).</param>
-    public delegate void PreMatchHandler(IMatches[] matches);
+    public delegate void MatchedBeforeFilteringHandler(IMatches[] matches);
 
     /// <summary>
-    /// Represents a method called after all requested matches of an action have been matched.
+    /// Represents a method called after all requested matches of a multi action or action have been matched,
+    /// after filtering (single element arrays in case of a single rule/test application).
     /// </summary>
+    /// <param name="matches">The array of IMatches objects found (contains multiple IMatches objects iff a multi construct was matched).</param>
+    /// <param name="special">Specifies whether the "special" flag has been used (per rule/test).</param>
+    public delegate void MatchedAfterFilteringHandler(IMatches[] matches, bool[] special);
+
+    /// <summary>
+    /// Represents a method called when a match has been selected for execution.
+    /// </summary>
+    /// <param name="match">Specifies the selected match.</param>
+    /// <param name="special">Specifies whether the "special" flag has been used.</param>
     /// <param name="matches">The matches found.</param>
-    /// <param name="match">If not null, specifies the one current match from the matches 
-    /// (to highlight the currently processed match during backtracking and the for matches loop).</param>
-    /// <param name="special">Specifies whether the "special" flag has been used.</param>
-    public delegate void AfterMatchHandler(IMatches matches, IMatch match, bool special);
+    public delegate void MatchSelectedHandler(IMatch match, bool special, IMatches matches);
 
     /// <summary>
-    /// Represents a method called before the rewrite step of an action, when at least one match has been found.
+    /// Represents a method called before the selected match is rewritten (comparable to the old BeforeFinishHandler and RewriteNextMatchHandler, now one event, fired per selected match).
     /// </summary>
-    /// <param name="matches">The matches found.</param>
-    /// <param name="special">Specifies whether the "special" flag has been used.</param>
-    public delegate void BeforeFinishHandler(IMatches matches, bool special);
+    public delegate void RewriteSelectedMatchHandler();
 
     /// <summary>
-    /// Represents a method called during rewriting a set of matches before the next match is rewritten.
-    /// It is not fired before rewriting the first match.
+    /// Represents a method called after the selected match was rewritten (but before embedded execs/emits are executed).
     /// </summary>
-    public delegate void RewriteNextMatchHandler();
+    public delegate void SelectedMatchRewrittenHandler();
 
     /// <summary>
-    /// Represents a method called after the rewrite step of a rule.
+    /// Represents a method called after the selected match was rewritten.
     /// </summary>
-    /// <param name="matches">The matches found.
-    /// This may contain invalid entries, because parts of the matches may have been deleted.</param>
-    /// <param name="special">Specifies whether the "special" flag has been used.</param>
-    public delegate void AfterFinishHandler(IMatches matches, bool special);
+    public delegate void FinishedSelectedMatchHandler();
+
+    /// <summary>
+    /// Represents a method called after the rewrite step of a rule or multi construct.
+    /// </summary>
+    /// <param name="matches">The array of IMatches objects found (contains multiple IMatches objects iff a multi construct was matched)
+    /// This may contain invalid matched elements, because parts of the matches may have been deleted.</param>
+    /// <param name="special">Specifies whether the "special" flag has been used (per rule/test).</param>
+    public delegate void FinishedHandler(IMatches[] matches, bool[] special);
 
     /// <summary>
     /// Represents a method called when execution of a pattern matching construct ends.
@@ -158,7 +167,7 @@ namespace de.unika.ipd.grGen.libGr
         IMatches Match(IAction action, object[] arguments, int localMaxMatches, bool special, List<FilterCall> filters);
 
         /// <summary>
-        /// Matches a rewrite rule, without firing the Matched event (but fires the PreMatched event - for internal or non-debugger use).
+        /// Matches a rewrite rule, without firing the Matched event (but fires the MatchedBeforeFiltering event - for internal or non-debugger use).
         /// </summary>
         /// <param name="action">The rule to invoke</param>
         /// <param name="arguments">The input arguments</param>
@@ -168,7 +177,7 @@ namespace de.unika.ipd.grGen.libGr
         IMatches MatchWithoutEvent(IAction action, object[] arguments, int localMaxMatches);
 
         /// <summary>
-        /// Matches the rewrite rules, without firing the Matched event, but fires the PreMatched event (for internal or non-debugger use).
+        /// Matches the rewrite rules, without firing the Matched event, but fires the MatchedBeforeFiltering event (for internal or non-debugger use).
         /// </summary>
         /// <param name="actions">The rules to invoke</param>
         /// <returns>A list of matches objects containing the found matches.</returns>
@@ -181,9 +190,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="matches">The matches object returned by a previous matcher call.</param>
         /// <param name="which">The index of the match in the matches object to be applied,
         /// or -1, if all matches are to be applied.</param>
+        /// <param name="special">Whether the special flag was applied to the rule call.</param>
         /// <returns>A list with the return values of each of the rewrites applied. 
         /// Each element is a possibly empty array of objects that were returned by their rewrite.</returns>
-        List<object[]> Replace(IMatches matches, int which);
+        List<object[]> Replace(IMatches matches, int which, bool special);
 
         /// <summary>
         /// Matches a rewrite rule, without firing the Matched event, but with firing the PreMatch event and Cloning of the matches
@@ -216,33 +226,42 @@ namespace de.unika.ipd.grGen.libGr
         event BeginExecutionHandler OnBeginExecution;
 
         /// <summary>
-        /// Fired after all requested matches of a rule have been matched (after filtering/selection of matches).
+        /// Fired after all requested matches of a multi rule or rule have been matched, before filtering of the matches.
+        /// Allows a lookahead on the matches, on all found matches, in contrast to OnMatchedAfter that only reports the ones that are applied in the end.
         /// </summary>
-        event AfterMatchHandler OnMatched;
+        event MatchedBeforeFilteringHandler OnMatchedBefore;
 
         /// <summary>
-        /// Fired after all requested matches of a multi rule or rule have been matched, yet before filtering/selection of the matches.
-        /// Allows a lookahead on the matches, on all found matches, in contrast to OnMatched that only reports the ones that are applied in the end.
-        /// Also fired for queries, esp. for queries used for computing rule(/test) arguments, which don't cause a firing of other events.
+        /// Fired after all requested matches of a multi rule or rule have been matched (after filtering of matches).
         /// </summary>
-        event PreMatchHandler OnPreMatched;
+        event MatchedAfterFilteringHandler OnMatchedAfter;
 
         /// <summary>
-        /// Fired before the rewrite step of a rule, when at least one match has been found.
+        /// Fired when a match was selected for execution (after filtering/selection of matches).
         /// </summary>
-        event BeforeFinishHandler OnFinishing;
+        event MatchSelectedHandler OnMatchSelected;
 
         /// <summary>
-        /// Fired before the next match is rewritten. It is not fired before rewriting the first match.
+        /// Fired before the selected match is rewritten (comparable to the old OnFinishing and OnRewritingNextMatch, now one event, fired per selected match).
         /// </summary>
-        event RewriteNextMatchHandler OnRewritingNextMatch;
+        event RewriteSelectedMatchHandler OnRewritingSelectedMatch;
 
         /// <summary>
-        /// Fired after the rewrite step of a rule.
+        /// Fired after the selected match was rewritten (but before embedded sequences are executed).
+        /// </summary>
+        event SelectedMatchRewrittenHandler OnSelectedMatchRewritten;
+
+        /// <summary>
+        /// Fired after the selected match was rewritten and embedded sequences executed.
+        /// </summary>
+        event FinishedSelectedMatchHandler OnFinishedSelectedMatch;
+
+        /// <summary>
+        /// Fired after the rewrite step of a rule/after rule execution has completed.
         /// Note, that the given matches object may contain invalid entries,
         /// as parts of the match may have been deleted!
         /// </summary>
-        event AfterFinishHandler OnFinished;
+        event FinishedHandler OnFinished;
 
         /// <summary>
         /// Fired when execution of a pattern matching construct ends.
@@ -257,37 +276,55 @@ namespace de.unika.ipd.grGen.libGr
         void BeginExecution(IPatternMatchingConstruct patternMatchingConstruct);
 
         /// <summary>
-        /// Fires an OnPreMatched event.
+        /// Fires an OnMatchedBefore event.
         /// </summary>
-        /// <param name="matchesArray">The IMatches objects returned by the matchers of the actions (of the multi-rule application).</param>
-        void PreMatched(IMatches[] matchesArray);
+        /// <param name="matches">The IMatches objects returned by the matchers of the actions (of the multi-rule application).</param>
+        void MatchedBeforeFiltering(IMatches[] matches);
 
         /// <summary>
-        /// Fires an OnPreMatched event.
+        /// Fires an OnMatchedBefore event.
         /// </summary>
         /// <param name="matches">The IMatches object returned by the matcher of the single action.</param>
-        void PreMatched(IMatches matches);
+        void MatchedBeforeFiltering(IMatches matches);
 
         /// <summary>
-        /// Fires an OnMatched event.
+        /// Fires an OnMatchedAfter event.
         /// </summary>
-        /// <param name="matches">The IMatches object returned by the matcher.</param>
-        /// <param name="match">If not null, specifies the one current match from the matches 
-        /// (to highlight the currently processed match during backtracking and the for matches loop).</param>
-        /// <param name="special">Whether this is a 'special' match (user defined).</param>
-        void Matched(IMatches matches, IMatch match, bool special);
+        /// <param name="matches">The array of IMatches objects returned by the matcher of the multi construct.</param>
+        /// <param name="special">Whether this is a 'special' match (user defined) (per action).</param>
+        void MatchedAfterFiltering(IMatches[] matches, bool[] special);
 
         /// <summary>
-        /// Fires an OnFinishing event.
+        /// Fires an OnMatchedAfter event.
         /// </summary>
         /// <param name="matches">The IMatches object returned by the matcher.</param>
         /// <param name="special">Whether this is a 'special' match (user defined).</param>
-        void Finishing(IMatches matches, bool special);
+        void MatchedAfterFiltering(IMatches matches, bool special);
 
         /// <summary>
-        /// Fires an OnRewritingNextMatch event.
+        /// Fires an OnMatchSelected event.
         /// </summary>
-        void RewritingNextMatch();
+        /// <param name="match">Specifies the selected match.</param>
+        /// <param name="special">Specifies whether the "special" flag has been used.</param>
+        /// <param name="matches">The matches found.</param>
+        void MatchSelected(IMatch match, bool special, IMatches matches);
+
+        /// <summary>
+        /// Fires an OnRewritingSelectedMatch event (comparable to the old OnFinishing and OnRewritingNextMatch, now one event, fired per selected match).
+        /// </summary>
+        void RewritingSelectedMatch();
+
+        /// <summary>
+        /// Fires an OnFinishedSelectedMatch event.
+        /// </summary>
+        void FinishedSelectedMatch();
+
+        /// <summary>
+        /// Fires an OnFinished event.
+        /// </summary>
+        /// <param name="matches">The IMatches objects returned by the matchers of the actions (of the multi-rule application). The matched elements may be invalid.</param>
+        /// <param name="special">Whether this is a 'special' match (user defined) (per action).</param>
+        void Finished(IMatches[] matches, bool[] special);
 
         /// <summary>
         /// Fires an OnFinished event.

@@ -83,7 +83,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public static void EmitPreMatchEventFiring(SourceBuilder source, SequenceRuleCallMatcherGenerator[] ruleMatcherGenerators)
         {
-            source.AppendFront("procEnv.PreMatched(");
+            source.AppendFront("procEnv.MatchedBeforeFiltering(new GRGEN_LIBGR.IMatches[" + ruleMatcherGenerators.Length + "] {");
             bool first = true;
             foreach(SequenceRuleCallMatcherGenerator ruleMatcherGenerator in ruleMatcherGenerators)
             {
@@ -93,12 +93,78 @@ namespace de.unika.ipd.grGen.lgsp
                     source.Append(",");
                 source.AppendFormat("{0}", ruleMatcherGenerator.matchesName);
             }
-            source.Append(");\n");
+            source.Append("});\n");
         }
 
         public static void EmitPreMatchEventFiring(SourceBuilder source, string matchesName)
         {
-            source.AppendFrontFormat("procEnv.PreMatched({0});\n", matchesName);
+            source.AppendFrontFormat("procEnv.MatchedBeforeFiltering({0});\n", matchesName);
+        }
+
+        public static void EmitMatchEventFiring(SourceBuilder source, SequenceRuleCallMatcherGenerator[] ruleMatcherGenerators)
+        {
+            source.AppendFront("procEnv.MatchedAfterFiltering(new GRGEN_LIBGR.IMatches[" + ruleMatcherGenerators.Length + "] ");
+            source.Append("{");
+            bool first = true;
+            foreach(SequenceRuleCallMatcherGenerator ruleMatcherGenerator in ruleMatcherGenerators)
+            {
+                if(first)
+                    first = false;
+                else
+                    source.Append(",");
+                source.AppendFormat("{0}", ruleMatcherGenerator.matchesName);
+            }
+            source.Append("}, ");
+            source.Append("new bool[" + ruleMatcherGenerators.Length + "] ");
+            source.Append("{");
+            first = true;
+            foreach(SequenceRuleCallMatcherGenerator ruleMatcherGenerator in ruleMatcherGenerators)
+            {
+                if(first)
+                    first = false;
+                else
+                    source.Append(",");
+                source.AppendFormat("{0}", ruleMatcherGenerator.seqRule.Special ? "true" : "false");
+            }
+            source.Append("});\n");
+        }
+
+        public static void EmitMatchEventFiring(SourceBuilder source, string matchesName, string specialValue)
+        {
+            source.AppendFrontFormat("procEnv.MatchedAfterFiltering({0}, {1});\n", matchesName, specialValue);
+        }
+
+        public static void EmitFinishedEventFiring(SourceBuilder source, SequenceRuleCallMatcherGenerator[] ruleMatcherGenerators)
+        {
+            source.AppendFront("procEnv.Finished(new GRGEN_LIBGR.IMatches[" + ruleMatcherGenerators.Length + "] ");
+            source.Append("{");
+            bool first = true;
+            foreach(SequenceRuleCallMatcherGenerator ruleMatcherGenerator in ruleMatcherGenerators)
+            {
+                if(first)
+                    first = false;
+                else
+                    source.Append(",");
+                source.AppendFormat("{0}", ruleMatcherGenerator.matchesName);
+            }
+            source.Append("}, ");
+            source.Append("new bool[" + ruleMatcherGenerators.Length + "] ");
+            source.Append("{");
+            first = true;
+            foreach(SequenceRuleCallMatcherGenerator ruleMatcherGenerator in ruleMatcherGenerators)
+            {
+                if(first)
+                    first = false;
+                else
+                    source.Append(",");
+                source.AppendFormat("{0}", ruleMatcherGenerator.seqRule.Special ? "true" : "false");
+            }
+            source.Append("});\n");
+        }
+
+        public static void EmitFinishedEventFiring(SourceBuilder source, string matchesName, string specialValue)
+        {
+            source.AppendFrontFormat("procEnv.Finished({0}, {1});\n", matchesName, specialValue);
         }
     }
 }

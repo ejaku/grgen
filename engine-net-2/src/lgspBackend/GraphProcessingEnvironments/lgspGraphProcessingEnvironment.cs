@@ -261,7 +261,7 @@ namespace de.unika.ipd.grGen.lgsp
             PerformanceInfo.MatchesFound += matches.Count;
 
             if(matches.Count > 0)
-                PreMatched(matches);
+                MatchedBeforeFiltering(matches);
 
             for(int i = 0; i < filters.Count; ++i)
             {
@@ -279,7 +279,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             if(matches.Count > 0) // ensure that Matched is only called when a match exists
-                Matched(matches, null, special);
+                MatchedAfterFiltering(matches, special);
 
             return matches;
         }
@@ -400,12 +400,10 @@ namespace de.unika.ipd.grGen.lgsp
                 return emptyList;
             }
 
-            Finishing(matches, special);
-
 #if DEBUGACTIONS || MATCHREWRITEDETAIL // spread over multiple files now, search for the corresponding defines to reactivate
             PerformanceInfo.StartLocal();
 #endif
-            List<object[]> retElemsList = Replace(matches, which);
+            List<object[]> retElemsList = Replace(matches, which, special);
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             PerformanceInfo.StopRewrite();
 #endif
@@ -428,8 +426,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             //subrule debugging must be changed to allow this
             //if(matches.Count > 0) {// ensure that Matched is only called when a match exists
-            //    procEnv.Matched(matches, null, special);
-            //    procEnv.Finishing(matches, special);
+            //    procEnv.MatchedAfterFiltering(null, matches, null, special);
             //}
 
             if(subgraph != null)

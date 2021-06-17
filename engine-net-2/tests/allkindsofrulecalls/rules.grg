@@ -170,3 +170,48 @@ sequence seqmultibacktrack
 	<<[[%r,%s]];; %s;>false>>
 }
 
+sequence seqquery
+{
+	{{[?%r].size()>0}}
+}
+
+sequence seqqueryfilter
+{
+	{{[?%r\orderDescendingBy<i>\keepFirst(2)].size()}}
+}
+
+sequence seqmultiquery
+{
+	{{[?[r,s]\<class rs>].size()>0}} // maybe todo: allow %
+}
+
+sequence seqmultiqueryfilter
+{
+	{{[?[r,s]\rs.orderDescendingBy<i>\rs.keepFirst(2)\<class rs>].size()>0}} // maybe todo: allow %
+}
+
+sequence seqmapping
+{
+	{{[:for{r;true}:].size()>0}}
+}
+
+sequence seqmultimapping
+{
+	{{[:for{r;true},for{s;true}:].size()>0}}
+}
+
+sequence seqforprefixed
+{
+	[for{r; s}]
+}
+
+sequence seqmultiforprefixed
+{
+	[[for{r; true}, for{s; false}]]
+}
+
+sequence seqmultiforprefixedbacktrack
+{
+	<<[[for{r; false}, for{s; true}]]>>
+}
+

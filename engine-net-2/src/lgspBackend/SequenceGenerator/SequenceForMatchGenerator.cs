@@ -71,9 +71,6 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("if(" + matchesName + ".Count != 0) {\n");
             source.Indent();
 
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
-
             String returnParameterDeclarations;
             String returnArguments;
             String returnAssignments;
@@ -84,6 +81,9 @@ namespace de.unika.ipd.grGen.lgsp
                 out returnParameterDeclarations, out returnArguments, out returnAssignments,
                 out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
 
+            if(fireDebugEvents)
+                SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, matchesName, specialStr);
+
             // apply the sequence for every match found
             String enumeratorName = "enum_" + seqFor.Id;
             source.AppendFront("IEnumerator<" + matchType + "> " + enumeratorName + " = " + matchesName + ".GetEnumeratorExact();\n");
@@ -93,6 +93,11 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
             source.AppendFront(seqHelper.SetVar(seqFor.Var, matchName));
 
+            if(fireDebugEvents)
+                source.AppendFront("procEnv.MatchSelected(" + matchName + ", " + specialStr + ", " + matchesName + ");\n");
+            if(fireDebugEvents)
+                source.AppendFront("procEnv.FinishedSelectedMatch();\n");
+
             seqGen.EmitSequence(seqFor.Seq, source);
 
             source.AppendFront(COMP_HELPER.SetResultVar(seqFor, COMP_HELPER.GetResultVar(seqFor) + " & " + COMP_HELPER.GetResultVar(seqFor.Seq)));
@@ -100,7 +105,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
 
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
+                SequenceRuleCallMatcherGenerator.EmitFinishedEventFiring(source, matchesName, specialStr);
 
             source.Unindent();
             source.AppendFront("}\n");

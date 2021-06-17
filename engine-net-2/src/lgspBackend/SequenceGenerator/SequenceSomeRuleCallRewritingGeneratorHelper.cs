@@ -60,26 +60,24 @@ namespace de.unika.ipd.grGen.lgsp
                 out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
         }
 
-        public void EmitRewritingRuleCall(SourceBuilder source, String firstRewrite, bool fireDebugEvents)
+        public void EmitRewritingRuleCall(SourceBuilder source, bool fireDebugEvents)
         {
             source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".FirstExact;\n");
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + ruleCallRewritingGenerator.specialStr + ");\n");
+                source.AppendFront("procEnv.MatchSelected(" + matchName + ", " + ruleCallRewritingGenerator.specialStr + ", " + matchesName + ");\n");
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Finishing(" + matchesName + ", " + ruleCallRewritingGenerator.specialStr + ");\n");
-            source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
+                source.AppendFront("procEnv.RewritingSelectedMatch();\n");
             if(returnParameterDeclarations.Length != 0)
                 source.AppendFront(returnParameterDeclarations + "\n");
             source.AppendFront(ruleCallRewritingGenerator.ruleName + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
             if(returnAssignments.Length != 0)
                 source.AppendFront(returnAssignments + "\n");
             source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
-            source.AppendFront(firstRewrite + " = false;\n");
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Finished(" + matchesName + ", " + ruleCallRewritingGenerator.specialStr + ");\n");
+                source.AppendFront("procEnv.FinishedSelectedMatch();\n");
         }
 
-        public void EmitRewritingRuleCountAllCallOrRuleAllCallNonRandom(SourceBuilder source, String firstRewrite, bool fireDebugEvents)
+        public void EmitRewritingRuleCountAllCallOrRuleAllCallNonRandom(SourceBuilder source, bool fireDebugEvents)
         {
             // iterate through matches, use Modify on each, fire the next match event after the first
             if(returnParameterDeclarations.Length != 0)
@@ -91,19 +89,17 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
             source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
+                source.AppendFront("procEnv.MatchSelected(" + matchName + ", " + specialStr + ", " + matchesName + ");\n");
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
-            source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
+                source.AppendFront("procEnv.RewritingSelectedMatch();\n");
             if(returnParameterDeclarations.Length != 0)
                 source.AppendFront(returnParameterDeclarations + "\n");
             source.AppendFront(ruleCallRewritingGenerator.ruleName + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
             if(returnAssignments.Length != 0)
                 source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
             source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
-            source.AppendFront(firstRewrite + " = false;\n");
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
+                source.AppendFront("procEnv.FinishedSelectedMatch();\n");
             source.Unindent();
             source.AppendFront("}\n");
             if(returnAssignments.Length != 0)
@@ -115,7 +111,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public void EmitRewritingRuleAllCallRandomSequenceRandom(SourceBuilder source, String firstRewrite, bool fireDebugEvents)
+        public void EmitRewritingRuleAllCallRandomSequenceRandom(SourceBuilder source, bool fireDebugEvents)
         {
             // for the match selected: rewrite it
             if(returnParameterDeclarations.Length != 0)
@@ -129,19 +125,17 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
             source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
+                source.AppendFront("procEnv.MatchSelected(" + matchName + ", " + specialStr + ", " + matchesName + ");\n");
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
-            source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
+                source.AppendFront("procEnv.RewritingSelectedMatch();\n");
             if(returnParameterDeclarations.Length != 0)
                 source.AppendFront(returnParameterDeclarations + "\n");
             source.AppendFront(ruleCallRewritingGenerator.ruleName + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
             if(returnAssignments.Length != 0)
                 source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
             source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
-            source.AppendFront(firstRewrite + " = false;\n");
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
+                source.AppendFront("procEnv.FinishedSelectedMatch();\n");
             source.Unindent();
             source.AppendFront("}\n");
             if(returnAssignments.Length != 0)
@@ -151,28 +145,26 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
         }
 
-        public void EmitRewritingRuleAllCallRandomSequenceNonRandom(SourceBuilder source, String firstRewrite, bool fireDebugEvents)
+        public void EmitRewritingRuleAllCallRandomSequenceNonRandom(SourceBuilder source, bool fireDebugEvents)
         {
             // randomly choose match, rewrite it and remove it from available matches
             if(returnParameterDeclarations.Length != 0)
                 source.AppendFront(returnParameterDeclarationsAllCall + "\n");
             source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".GetMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(" + matchesName + ".Count));\n");
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Matched(" + matchesName + ", null, " + specialStr + ");\n");
+                source.AppendFront("procEnv.MatchSelected(" + matchName + ", " + specialStr + ", " + matchesName + ");\n");
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
-            source.AppendFront("if(!" + firstRewrite + ") procEnv.RewritingNextMatch();\n");
+                source.AppendFront("procEnv.RewritingSelectedMatch();\n");
             if(returnParameterDeclarations.Length != 0)
                 source.AppendFront(returnParameterDeclarations + "\n");
             source.AppendFront(ruleCallRewritingGenerator.ruleName + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
             if(returnAssignments.Length != 0)
                 source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
             source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
-            source.AppendFront(firstRewrite + " = false;\n");
             if(returnAssignments.Length != 0)
                 source.AppendFront(returnAssignmentsAllCall + "\n");
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
+                source.AppendFront("procEnv.FinishedSelectedMatch();\n");
         }
     }
 }

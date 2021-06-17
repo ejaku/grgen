@@ -8,38 +8,36 @@ randomseed 0
 
 exec init
 
-exec for{m:match<r> in [?r]; s}
+eval [?%r]
 
 clear graph
 
 exec init
 
-exec <r>
+eval [?%r\orderDescendingBy<i>\keepFirst(2)].size()
 
 clear graph
 
 exec init
 
-exec [[r,s]]
+eval [?[r,s]\<class rs>]
 
 clear graph
 
 exec init
 
-exec [[%r,%s]\rs.orderDescendingBy<i>\rs.keepFirst(2)]
+eval [?[r,s]\rs.orderDescendingBy<i>\rs.keepFirst(2)\<class rs>]
 
 clear graph
 
 exec init
 
-exec <<%r;; %s;>false>>
+eval [:for{r;true}:]
 
 clear graph
 
 exec init
 
-exec <<[[%r,%s]];; %s;>false>>
-
-clear graph
+eval [:for{r;true},for{s;true}:]
 
 quit

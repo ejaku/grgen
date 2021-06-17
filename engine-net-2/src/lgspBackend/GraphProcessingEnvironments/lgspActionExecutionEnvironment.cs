@@ -31,6 +31,7 @@ namespace de.unika.ipd.grGen.lgsp
         protected readonly Dictionary<String, String> customCommandsToDescriptions;
 
         private readonly IMatches[] singleElementMatchesArray = new IMatches[1]; // performance optimization
+        private readonly bool[] singleElementSpecialArray = new bool[1]; // performance optimization
 
 
         public LGSPActionExecutionEnvironment(LGSPGraph graph, LGSPActions actions)
@@ -196,7 +197,7 @@ namespace de.unika.ipd.grGen.lgsp
             PerformanceInfo.MatchesFound += matches.Count;
 
             if(matches.Count > 0)
-                PreMatched(matches);
+                MatchedBeforeFiltering(matches);
 
             for(int i = 0; i < filters.Count; ++i)
             {
@@ -205,7 +206,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             if(matches.Count > 0) // ensure that Matched is only called when a match exists
-                Matched(matches, null, special);
+                MatchedAfterFiltering(matches, special);
 
             return matches;
         }
@@ -225,7 +226,7 @@ namespace de.unika.ipd.grGen.lgsp
             PerformanceInfo.MatchesFound += matches.Count;
 
             if(matches.Count > 0)
-                PreMatched(matches);
+                MatchedBeforeFiltering(matches);
 
             return matches;
         }
@@ -252,12 +253,12 @@ namespace de.unika.ipd.grGen.lgsp
             PerformanceInfo.MatchesFound += matchesFound;
 
             if(matchesFound > 0)
-                PreMatched(matchesArray);
+                MatchedBeforeFiltering(matchesArray);
 
             return matchesArray;
         }
 
-        public List<object[]> Replace(IMatches matches, int which)
+        public List<object[]> Replace(IMatches matches, int which, bool special)
         {
             List<object[]> returns;
             object[] retElems;
@@ -267,26 +268,37 @@ namespace de.unika.ipd.grGen.lgsp
                 if(which < 0 || which >= matches.Count)
                     throw new ArgumentOutOfRangeException("\"which\" is out of range!");
 
-                returns = matches.Producer.Reserve(0); 
+                returns = matches.Producer.Reserve(0);
 
-                retElems = matches.Producer.Modify(this, matches.GetMatch(which));
+                IMatch match = matches.GetMatch(which);
+
+                if(OnMatchSelected != null)
+                    OnMatchSelected(match, special, matches);
+
+                if(OnRewritingSelectedMatch != null)
+                    OnRewritingSelectedMatch();
+
+                retElems = matches.Producer.Modify(this, match);
 
                 returns.Add(retElems);
 
                 ++PerformanceInfo.RewritesPerformed;
+
+                if(OnFinishedSelectedMatch != null)
+                    OnFinishedSelectedMatch();
             }
             else
             {
                 returns = matches.Producer.Reserve(matches.Count);
 
                 int curResultNum = 0;
-                bool first = true;
                 foreach(IMatch match in matches)
                 {
-                    if(first)
-                        first = false;
-                    else if(OnRewritingNextMatch != null)
-                        OnRewritingNextMatch();
+                    if(OnMatchSelected != null)
+                        OnMatchSelected(match, special, matches);
+
+                    if(OnRewritingSelectedMatch != null)
+                        OnRewritingSelectedMatch();
 
                     retElems = matches.Producer.Modify(this, match);
 
@@ -295,6 +307,9 @@ namespace de.unika.ipd.grGen.lgsp
 
                     ++PerformanceInfo.RewritesPerformed;
                     ++curResultNum;
+
+                    if(OnFinishedSelectedMatch != null)
+                        OnFinishedSelectedMatch();
                 }
             }
 
@@ -331,7 +346,7 @@ namespace de.unika.ipd.grGen.lgsp
             PerformanceInfo.MatchesFound += matchesFound;
 
             if(matchesFound > 0)
-                PreMatched(matchesArray);
+                MatchedBeforeFiltering(matchesArray);
 
             return matchesArray;
         }
@@ -342,11 +357,13 @@ namespace de.unika.ipd.grGen.lgsp
         #region Events
 
         public event BeginExecutionHandler OnBeginExecution;
-        public event PreMatchHandler OnPreMatched;
-        public event AfterMatchHandler OnMatched;
-        public event BeforeFinishHandler OnFinishing;
-        public event RewriteNextMatchHandler OnRewritingNextMatch;
-        public event AfterFinishHandler OnFinished;
+        public event MatchedBeforeFilteringHandler OnMatchedBefore;
+        public event MatchedAfterFilteringHandler OnMatchedAfter;
+        public event MatchSelectedHandler OnMatchSelected;
+        public event RewriteSelectedMatchHandler OnRewritingSelectedMatch;
+        public event SelectedMatchRewrittenHandler OnSelectedMatchRewritten;
+        public event FinishedSelectedMatchHandler OnFinishedSelectedMatch;
+        public event FinishedHandler OnFinished;
         public event EndExecutionHandler OnEndExecution;
 
         public void BeginExecution(IPatternMatchingConstruct patternMatchingConstruct)
@@ -355,41 +372,69 @@ namespace de.unika.ipd.grGen.lgsp
                 OnBeginExecution(patternMatchingConstruct);
         }
 
-        public void PreMatched(params IMatches[] matchesArray)
+        public void MatchedBeforeFiltering(IMatches[] matches)
         {
-            if(OnPreMatched != null)
-                OnPreMatched(matchesArray);
+            if(OnMatchedBefore != null)
+                OnMatchedBefore(matches);
         }
 
-        public void PreMatched(IMatches matches)
+        public void MatchedBeforeFiltering(IMatches matches)
         {
             singleElementMatchesArray[0] = matches;
-            if(OnPreMatched != null)
-                OnPreMatched(singleElementMatchesArray);
+            if(OnMatchedBefore != null)
+                OnMatchedBefore(singleElementMatchesArray);
         }
 
-        public void Matched(IMatches matches, IMatch match, bool special)
+        public void MatchedAfterFiltering(IMatches[] matches, bool[] special)
         {
-            if(OnMatched != null)
-                OnMatched(matches, match, special);
+            if(OnMatchedAfter != null)
+                OnMatchedAfter(matches, special);
         }
 
-        public void Finishing(IMatches matches, bool special)
+        public void MatchedAfterFiltering(IMatches matches, bool special)
         {
-            if(OnFinishing != null)
-                OnFinishing(matches, special);
+            singleElementMatchesArray[0] = matches;
+            singleElementSpecialArray[0] = special;
+            if(OnMatchedAfter != null)
+                OnMatchedAfter(singleElementMatchesArray, singleElementSpecialArray);
         }
 
-        public void RewritingNextMatch()
+        public void MatchSelected(IMatch match, bool special, IMatches matches)
         {
-            if(OnRewritingNextMatch != null)
-                OnRewritingNextMatch();
+            if(OnMatchSelected != null)
+                OnMatchSelected(match, special, matches);
+        }
+
+        public void RewritingSelectedMatch()
+        {
+            if(OnRewritingSelectedMatch != null)
+                OnRewritingSelectedMatch();
+        }
+
+        public void SelectedMatchRewritten()
+        {
+            if(OnSelectedMatchRewritten != null)
+                OnSelectedMatchRewritten();
+        }
+
+        public void FinishedSelectedMatch()
+        {
+            if(OnFinishedSelectedMatch != null)
+                OnFinishedSelectedMatch();
+        }
+
+        public void Finished(IMatches[] matches, bool[] special)
+        {
+            if(OnFinished != null)
+                OnFinished(matches, special);
         }
 
         public void Finished(IMatches matches, bool special)
         {
+            singleElementMatchesArray[0] = matches;
+            singleElementSpecialArray[0] = special;
             if(OnFinished != null)
-                OnFinished(matches, special);
+                OnFinished(singleElementMatchesArray, singleElementSpecialArray);
         }
 
         public void EndExecution(IPatternMatchingConstruct patternMatchingConstruct, object result)

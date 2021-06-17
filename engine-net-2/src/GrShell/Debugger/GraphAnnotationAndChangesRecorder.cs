@@ -24,8 +24,8 @@ namespace de.unika.ipd.grGen.grShell
         private readonly Dictionary<INode, String> annotatedNodes = new Dictionary<INode, String>();
         private readonly Dictionary<IEdge, String> annotatedEdges = new Dictionary<IEdge, String>();
 
-        private IRulePattern curRulePattern = null; // for node/edge addition
-        private IRulePattern curRulePatternForMatchAnnotation = null; // for pre matched event
+        private String curRulePatternName = null; // for node/edge addition
+        private String curRulePatternNameForMatchAnnotation = null; // for pre matched event
 
         private int nextAddedNodeIndex = 0;
         private int nextAddedEdgeIndex = 0;
@@ -45,7 +45,7 @@ namespace de.unika.ipd.grGen.grShell
 
         public void AddNodeAnnotation(INode node, String name)
         {
-            String rulePrefix = curRulePatternForMatchAnnotation != null ? curRulePatternForMatchAnnotation.PatternGraph.Name + "." : "";
+            String rulePrefix = curRulePatternNameForMatchAnnotation != null ? curRulePatternNameForMatchAnnotation + "." : "";
             if(annotatedNodes.ContainsKey(node))
                 annotatedNodes[node] += ", " + rulePrefix + name;
             else
@@ -54,7 +54,7 @@ namespace de.unika.ipd.grGen.grShell
 
         public void AddEdgeAnnotation(IEdge edge, String name)
         {
-            String rulePrefix = curRulePatternForMatchAnnotation != null ? curRulePatternForMatchAnnotation.PatternGraph.Name + "." : "";
+            String rulePrefix = curRulePatternNameForMatchAnnotation != null ? curRulePatternNameForMatchAnnotation + "." : "";
             if(annotatedEdges.ContainsKey(edge))
                 annotatedEdges[edge] += ", " + rulePrefix + name;
             else
@@ -89,14 +89,14 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public void SetCurrentRule(IRulePattern curRulePattern)
+        public void SetCurrentRuleName(String curRulePatternName)
         {
-            this.curRulePattern = curRulePattern;
+            this.curRulePatternName = curRulePatternName;
         }
 
-        public void SetCurrentRuleForMatchAnnotation(IRulePattern curRulePattern)
+        public void SetCurrentRuleNameForMatchAnnotation(String curRulePatternName)
         {
-            this.curRulePatternForMatchAnnotation = curRulePattern;
+            this.curRulePatternNameForMatchAnnotation = curRulePatternName;
         }
 
         public void SetAddedNodeNames(string[] namesOfNodesAdded)
@@ -125,8 +125,8 @@ namespace de.unika.ipd.grGen.grShell
             addedNodes[node] = true;
             if(nextAddedNodeIndex < curAddedNodeNames.Count)
                 return curAddedNodeNames[nextAddedNodeIndex++];
-            else if(curRulePattern != null)
-                return "added by " + curRulePattern.PatternGraph.Name;
+            else if(curRulePatternName != null)
+                return "added by " + curRulePatternName;
             else
                 return "newly added";
         }
@@ -136,8 +136,8 @@ namespace de.unika.ipd.grGen.grShell
             addedEdges[edge] = true;
             if(nextAddedEdgeIndex < curAddedEdgeNames.Count)
                 return curAddedEdgeNames[nextAddedEdgeIndex++];
-            else if(curRulePattern != null)
-                return "added by " + curRulePattern.PatternGraph.Name;
+            else if(curRulePatternName != null)
+                return "added by " + curRulePatternName;
             else
                 return "newly added";
         }

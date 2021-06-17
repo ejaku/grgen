@@ -50,7 +50,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public void EmitRewriting(SourceBuilder source,
-            String totalMatchToApply, String curTotalMatch, String firstRewrite, bool fireDebugEvents)
+            String totalMatchToApply, String curTotalMatch, bool fireDebugEvents)
         {
             if(seqSome.Random)
                 source.AppendFront("if(" + matchesName + ".Count != 0 && " + curTotalMatch + " <= " + totalMatchToApply + ") {\n");
@@ -69,7 +69,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.Indent();
                 }
 
-                ruleRewritingGeneratorHelper.EmitRewritingRuleCall(source, firstRewrite, fireDebugEvents);
+                ruleRewritingGeneratorHelper.EmitRewritingRuleCall(source, fireDebugEvents);
 
                 if(seqSome.Random)
                 {
@@ -86,7 +86,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.Indent();
                 }
 
-                ruleRewritingGeneratorHelper.EmitRewritingRuleCountAllCallOrRuleAllCallNonRandom(source, firstRewrite, fireDebugEvents);
+                ruleRewritingGeneratorHelper.EmitRewritingRuleCountAllCallOrRuleAllCallNonRandom(source, fireDebugEvents);
 
                 if(seqSome.Random)
                 {
@@ -98,9 +98,9 @@ namespace de.unika.ipd.grGen.lgsp
             else // seq.SequenceType == SequenceType.RuleAll && ((SequenceRuleAll)seqRule).ChooseRandom
             {
                 if(seqSome.Random)
-                    ruleRewritingGeneratorHelper.EmitRewritingRuleAllCallRandomSequenceRandom(source, firstRewrite, fireDebugEvents);
+                    ruleRewritingGeneratorHelper.EmitRewritingRuleAllCallRandomSequenceRandom(source, fireDebugEvents);
                 else
-                    ruleRewritingGeneratorHelper.EmitRewritingRuleAllCallRandomSequenceNonRandom(source, firstRewrite, fireDebugEvents);
+                    ruleRewritingGeneratorHelper.EmitRewritingRuleAllCallRandomSequenceNonRandom(source, fireDebugEvents);
             }
 
             source.Unindent();

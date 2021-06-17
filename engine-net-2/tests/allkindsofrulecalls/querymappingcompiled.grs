@@ -8,38 +8,36 @@ randomseed 0
 
 exec init
 
-exec for{m:match<r> in [?r]; s}
+exec seqquery
 
 clear graph
 
 exec init
 
-exec <r>
+exec seqqueryfilter
 
 clear graph
 
 exec init
 
-exec [[r,s]]
+exec seqmultiquery
 
 clear graph
 
 exec init
 
-exec [[%r,%s]\rs.orderDescendingBy<i>\rs.keepFirst(2)]
+exec seqmultiqueryfilter
 
 clear graph
 
 exec init
 
-exec <<%r;; %s;>false>>
+exec seqmapping
 
 clear graph
 
 exec init
 
-exec <<[[%r,%s]];; %s;>false>>
-
-clear graph
+exec seqmultimapping
 
 quit

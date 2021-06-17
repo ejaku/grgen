@@ -1249,6 +1249,10 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("}\n");
             }
 
+            source.AppendFront("if(" + COMP_HELPER.GetResultVar(seqSome) + ") {\n");
+            SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, ruleMatcherGenerators);
+            source.AppendFront("}\n");
+
             // emit code for deciding on the match to rewrite
             String totalMatchToApply = "total_match_to_apply_" + seqSome.Id;
             String curTotalMatch = "cur_total_match_" + seqSome.Id;
@@ -1271,17 +1275,17 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // code to handle the rewrite next match
-            String firstRewrite = "first_rewrite_" + seqSome.Id;
-            source.AppendFront("bool " + firstRewrite + " = true;\n");
-
             // emit code for rewriting all the contained rules which got matched
             for(int i = 0; i < seqSome.Sequences.Count; ++i)
             {
                 SequenceSomeRuleCallRewritingGenerator ruleGenerator = new SequenceSomeRuleCallRewritingGenerator(
                     seqSome, (SequenceRuleCall)seqSome.Sequences[i], exprGen, seqHelper);
-                ruleGenerator.EmitRewriting(source, totalMatchToApply, curTotalMatch, firstRewrite, fireDebugEvents);
+                ruleGenerator.EmitRewriting(source, totalMatchToApply, curTotalMatch, fireDebugEvents);
             }
 
+            source.AppendFront("if(" + COMP_HELPER.GetResultVar(seqSome) + ") {\n");
+            SequenceRuleCallMatcherGenerator.EmitFinishedEventFiring(source, ruleMatcherGenerators);
+            source.AppendFront("}\n");
             source.AppendFrontFormat("procEnv.EndExecution({0}, null);\n", patternMatchingConstructVarName);
         }
 
@@ -1330,12 +1334,11 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // code to handle the rewrite next match
-            String firstRewrite = "first_rewrite_" + seqMulti.Id;
-            source.AppendFront("bool " + firstRewrite + " = true;\n");
-
             source.AppendFront("if(" + matchListName + ".Count != 0) {\n");
             source.Indent();
             source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "true"));
+
+            SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, ruleMatcherGenerators);
 
             // iterate through matches, use Modify on each, fire the next match event after the first
             String enumeratorName = "enum_" + seqMulti.Id;
@@ -1351,7 +1354,7 @@ namespace de.unika.ipd.grGen.lgsp
             // emit code for rewriting the current match (for each rule, rule fitting to the match is selected by rule name)
             for(int i = 0; i < seqMulti.Sequences.Count; ++i)
             {
-                ruleRewritingGenerators[i].EmitRewriting(source, this, matchListName, enumeratorName, firstRewrite, fireDebugEvents);
+                ruleRewritingGenerators[i].EmitRewriting(source, this, matchListName, enumeratorName, fireDebugEvents);
             }
 
             source.AppendFrontFormat("default: throw new Exception(\"Unknown pattern \" + {0}.Current.Pattern.PackagePrefixedName + \" in match!\");", enumeratorName);
@@ -1366,6 +1369,8 @@ namespace de.unika.ipd.grGen.lgsp
                 if(ruleRewritingGenerators[i].returnAssignmentsAllCall.Length != 0)
                     source.AppendFront(ruleRewritingGenerators[i].returnAssignmentsAllCall + "\n");
             }
+
+            SequenceRuleCallMatcherGenerator.EmitFinishedEventFiring(source, ruleMatcherGenerators);
 
             source.Unindent();
             source.AppendFront("}\n");
@@ -1410,12 +1415,11 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // code to handle the rewrite next match
-            String firstRewrite = "first_rewrite_" + seqMulti.Id;
-            source.AppendFront("bool " + firstRewrite + " = true;\n");
-
             source.AppendFront("if(" + matchListName + ".Count != 0) {\n");
             source.Indent();
             source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "true"));
+
+            SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, ruleMatcherGenerators);
 
             // iterate through matches, use Modify on each, fire the next match event after the first
             String enumeratorName = "enum_" + seqMulti.Id;
@@ -1433,7 +1437,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 SequenceMultiRulePrefixedSequenceRewritingGenerator ruleRewritingGenerator = new SequenceMultiRulePrefixedSequenceRewritingGenerator(
                     seqMulti, (SequenceRulePrefixedSequence)seqMulti.RulePrefixedSequences[i], exprGen, seqHelper);
-                ruleRewritingGenerator.EmitRewriting(source, this, matchListName, enumeratorName, firstRewrite, fireDebugEvents);
+                ruleRewritingGenerator.EmitRewriting(source, this, matchListName, enumeratorName, fireDebugEvents);
             }
 
             source.AppendFrontFormat("default: throw new Exception(\"Unknown pattern \" + {0}.Current.Pattern.PackagePrefixedName + \" in match!\");", enumeratorName);
@@ -1442,6 +1446,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.Unindent();
             source.AppendFront("}\n");
+
+            SequenceRuleCallMatcherGenerator.EmitFinishedEventFiring(source, ruleMatcherGenerators);
 
             source.Unindent();
             source.AppendFront("}\n");

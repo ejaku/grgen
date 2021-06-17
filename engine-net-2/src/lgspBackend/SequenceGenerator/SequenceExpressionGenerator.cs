@@ -1353,9 +1353,6 @@ namespace de.unika.ipd.grGen.lgsp
             string matchListName = EmitSequenceMultiRulePrefixedSequenceMatchingForMappingClause(seqMulti, source);
 
             // code to handle the rewrite next match
-            String firstRewrite = "first_rewrite_" + seqMulti.Id;
-            source.AppendFront("bool " + firstRewrite + " = true;\n");
-
             source.AppendFront("if(" + matchListName + ".Count != 0) {\n");
             source.Indent();
 
@@ -1376,7 +1373,7 @@ namespace de.unika.ipd.grGen.lgsp
                 bool fireDebugEvents = false; // todo: extend sequence expressions to full events, esp. enable debug events
                 SequenceMultiRulePrefixedSequenceRewritingGenerator ruleRewritingGenerator = new SequenceMultiRulePrefixedSequenceRewritingGenerator(
                     seqMulti, (SequenceRulePrefixedSequence)seqMulti.RulePrefixedSequences[i], this, seqHelper);
-                ruleRewritingGenerator.EmitRewritingMapping(source, seqGen, matchListName, enumeratorName, firstRewrite, fireDebugEvents);
+                ruleRewritingGenerator.EmitRewritingMapping(source, seqGen, matchListName, enumeratorName, fireDebugEvents);
             }
 
             source.AppendFrontFormat("default: throw new Exception(\"Unknown pattern \" + {0}.Current.Pattern.PackagePrefixedName + \" in match!\");", enumeratorName);

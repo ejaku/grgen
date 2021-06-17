@@ -104,6 +104,8 @@ namespace de.unika.ipd.grGen.grShell
         private Sequence curGRS;
         private SequenceRuleCall curRule;
 
+        private int matchNum;
+
         private readonly IGrShellImplForSequenceApplierAndDebugger impl;
 
 
@@ -464,7 +466,11 @@ namespace de.unika.ipd.grGen.grShell
             {
                 curRule = (SequenceRuleCall) seq;
                 if(curRule.Special)
-                    impl.curShellProcEnv.ProcEnv.OnFinishing += DumpOnFinishing;
+                {
+                    matchNum = 0;
+                    impl.curShellProcEnv.ProcEnv.OnMatchedAfter += DumpOnMatchedAfterFiltering;
+                    impl.curShellProcEnv.ProcEnv.OnMatchSelected += DumpOnMatchSelected;
+                }
             }
         }
 
@@ -474,23 +480,26 @@ namespace de.unika.ipd.grGen.grShell
             {
                 SequenceRuleCall ruleSeq = (SequenceRuleCall) seq;
                 if(ruleSeq != null && ruleSeq.Special)
-                    impl.curShellProcEnv.ProcEnv.OnFinishing -= DumpOnFinishing;
+                {
+                    impl.curShellProcEnv.ProcEnv.OnMatchSelected -= DumpOnMatchSelected;
+                    impl.curShellProcEnv.ProcEnv.OnMatchedAfter -= DumpOnMatchedAfterFiltering;
+                }
             }
 
             if(cancelSequence)
                 Cancel();
         }
 
-        private void DumpOnFinishing(IMatches matches, bool special)
+        private void DumpOnMatchedAfterFiltering(IMatches[] matches, bool[] special)
         {
-            int i = 1;
-            impl.debugOut.WriteLine("Matched " + matches.Producer.Name + " rule:");
-            foreach(IMatch match in matches)
-            {
-                impl.debugOut.WriteLine(" - " + i + ". match:");
-                DumpMatch(match, "   ");
-                ++i;
-            }
+            impl.debugOut.WriteLine("Matched " + matches[0].Producer.Name + " rule:");
+        }
+
+        private void DumpOnMatchSelected(IMatch match, bool special, IMatches matches)
+        {
+            impl.debugOut.WriteLine(" - " + matchNum + ". match:");
+            DumpMatch(match, "   ");
+            ++matchNum;
         }
 
         private void DumpMatch(IMatch match, String indentation)

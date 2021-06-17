@@ -156,9 +156,8 @@ namespace de.unika.ipd.grGen.libGr
 
             if(subOutEnv != null)
             {
-                subOutEnv.OnFinishing += BeforeFinish;
-                subOutEnv.OnRewritingNextMatch += RewriteNextMatch;
-                subOutEnv.OnFinished += AfterFinish;
+                subOutEnv.OnMatchSelected += MatchSelected;
+                subOutEnv.OnRewritingSelectedMatch += RewritingSelectedMatch;
                 subOutEnv.OnSwitchingToSubgraph += SwitchToGraph;
                 subOutEnv.OnReturnedFromSubgraph += ReturnFromGraph;
             }
@@ -181,9 +180,8 @@ namespace de.unika.ipd.grGen.libGr
 
             if(subOutEnv != null)
             {
-                subOutEnv.OnFinishing -= BeforeFinish;
-                subOutEnv.OnRewritingNextMatch += RewriteNextMatch;
-                subOutEnv.OnFinished -= AfterFinish;
+                subOutEnv.OnMatchSelected += MatchSelected;
+                subOutEnv.OnRewritingSelectedMatch += RewritingSelectedMatch;
                 subOutEnv.OnSwitchingToSubgraph -= SwitchToGraph;
                 subOutEnv.OnReturnedFromSubgraph -= ReturnFromGraph;
             }
@@ -494,22 +492,16 @@ namespace de.unika.ipd.grGen.libGr
 
         ////////////////////////////////////////////////////////////////////////
 
-        void BeforeFinish(IMatches matches, bool special)
+        void MatchSelected(IMatch match, bool special, IMatches matches)
         {
             foreach(RecordingState recordingState in recordings.Values)
-                recordingState.writer.WriteLine("# rewriting " + matches.Producer.Name + "..");
+                recordingState.writer.WriteLine("# match of " + matches.Producer.Name + " selected");
         }
 
-        void RewriteNextMatch()
+        void RewritingSelectedMatch()
         {
             foreach(RecordingState recordingState in recordings.Values)
-                recordingState.writer.WriteLine("# rewriting next match");
-        }
-
-        void AfterFinish(IMatches matches, bool special)
-        {
-            foreach(RecordingState recordingState in recordings.Values)
-                recordingState.writer.WriteLine("# ..rewritten " + matches.Producer.Name);
+                recordingState.writer.WriteLine("# rewriting selected match");
         }
 
         ////////////////////////////////////////////////////////////////////////

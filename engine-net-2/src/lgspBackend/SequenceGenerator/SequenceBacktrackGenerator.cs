@@ -76,7 +76,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
             source.AppendFront(COMP_HELPER.SetResultVar(seq, "true")); // shut up compiler
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Finishing(" + matchesName + ", " + specialStr + ");\n");
+                SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, matchesName, specialStr);
 
             String returnParameterDeclarations;
             String returnArguments;
@@ -107,16 +107,18 @@ namespace de.unika.ipd.grGen.lgsp
             String oldRewritesPerformedName = "oldRewritesPerformed_" + seq.Id;
             source.AppendFront("int " + oldRewritesPerformedName + " = procEnv.PerformanceInfo.RewritesPerformed;\n");
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Matched(" + matchesName + ", " + matchName + ", " + specialStr + ");\n");
+                source.AppendFront("procEnv.MatchSelected(" + matchName + ", " + specialStr + ", " + matchesName + ");\n");
             if(returnParameterDeclarations.Length != 0)
                 source.AppendFront(returnParameterDeclarations + "\n");
+            if(fireDebugEvents)
+                source.AppendFront("procEnv.RewritingSelectedMatch();\n");
 
             source.AppendFront(ruleName + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
             if(returnAssignments.Length != 0)
                 source.AppendFront(returnAssignments + "\n");
             source.AppendFront("++procEnv.PerformanceInfo.RewritesPerformed;\n");
             if(fireDebugEvents)
-                source.AppendFront("procEnv.Finished(" + matchesName + ", " + specialStr + ");\n");
+                source.AppendFront("procEnv.FinishedSelectedMatch();\n");
 
             // rule applied, now execute the sequence
             seqGen.EmitSequence(seq.Seq, source);
@@ -152,6 +154,8 @@ namespace de.unika.ipd.grGen.lgsp
             source.Unindent();
             source.AppendFront("}\n");
 
+            if(fireDebugEvents)
+                SequenceRuleCallMatcherGenerator.EmitFinishedEventFiring(source, matchesName, specialStr);
             source.AppendFrontFormat("procEnv.EndExecution({0}, null);\n", patternMatchingConstructVarName);
         }
     }

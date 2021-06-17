@@ -26,13 +26,13 @@ clear graph
 
 exec init
 
-exec {<[%r],%s>}
+exec {<[r],s>}
 
 clear graph
 
 exec init
 
-exec {<$[%r],%s>}
+exec {<$[r],s>}
 
 clear graph
 

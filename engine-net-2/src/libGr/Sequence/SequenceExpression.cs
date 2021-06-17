@@ -13045,9 +13045,15 @@ namespace de.unika.ipd.grGen.libGr
         {
             SequenceRuleAllCallInterpreted ruleCallInterpreted = (SequenceRuleAllCallInterpreted)RuleCall;
             procEnv.BeginExecution(this);
-            List<IMatch> matches = ruleCallInterpreted.MatchForQuery(procEnv);
-            procEnv.EndExecution(this, matches);
-            return matches;
+
+            IMatches matches;
+            List<IMatch> matchesList = ruleCallInterpreted.MatchForQuery(procEnv, out matches);
+
+            procEnv.MatchedAfterFiltering(matches, ruleCallInterpreted.Special);
+            procEnv.Finished(matches, ruleCallInterpreted.Special);
+
+            procEnv.EndExecution(this, matchesList);
+            return matchesList;
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -13158,6 +13164,36 @@ namespace de.unika.ipd.grGen.libGr
                     filterInterpreted.Execute(procEnv, MatchList);
                 }
             }
+
+            Dictionary<string, int> ruleNameToIndex = new Dictionary<string, int>();
+            for(int i = 0; i < MultiRuleCall.Sequences.Count; ++i)
+            {
+                SequenceRuleCall rule = (SequenceRuleCall)MultiRuleCall.Sequences[i];
+                IMatches matches = MatchesArray[i];
+                if(!ruleNameToIndex.ContainsKey(rule.PackagePrefixedName)) // just a crash workaround, TODO: fix properly
+                    ruleNameToIndex.Add(rule.PackagePrefixedName, i);
+
+                if(matches.Count == 0)
+                    rule.executionState = SequenceExecutionState.Fail;
+            }
+
+            bool[] SpecialArray = new bool[MultiRuleCall.Sequences.Count];
+            for(int i = 0; i < MultiRuleCall.Sequences.Count; ++i)
+            {
+                SequenceRuleCall rule = (SequenceRuleCall)MultiRuleCall.Sequences[i];
+                SpecialArray[i] = rule.Special;
+            }
+            procEnv.MatchedAfterFiltering(MatchesArray, SpecialArray);
+
+            foreach(IMatch match in MatchList)
+            {
+                int index = ruleNameToIndex[match.Pattern.PackagePrefixedName];
+                SequenceRuleCall rule = (SequenceRuleCall)MultiRuleCall.Sequences[index];
+                IMatches matches = MatchesArray[index];
+                procEnv.MatchSelected(match, false, matches);
+            }
+
+            procEnv.Finished(MatchesArray, SpecialArray);
 
             procEnv.EndExecution(this, MatchList);
             return MatchList;
@@ -13296,6 +13332,14 @@ namespace de.unika.ipd.grGen.libGr
                     rule.executionState = SequenceExecutionState.Fail;
             }
 
+            bool[] SpecialArray = new bool[MultiRulePrefixedSequence.RulePrefixedSequences.Count];
+            for(int i = 0; i < MultiRulePrefixedSequence.RulePrefixedSequences.Count; ++i)
+            {
+                SequenceRuleCall rule = (SequenceRuleCall)MultiRulePrefixedSequence.RulePrefixedSequences[i].Rule;
+                SpecialArray[i] = rule.Special;
+            }
+            procEnv.MatchedAfterFiltering(MatchesArray, SpecialArray);
+
             foreach(IMatch match in MatchList)
             {
                 ++matchesTried;
@@ -13321,7 +13365,6 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
                 procEnv.Recorder.WriteLine("Before executing sequence " + rule.Id + ": " + rule.Symbol);
 #endif
-                procEnv.Matched(matches, mappedMatch, rule.Special); // only called on an existing match
                 rule.Rewrite(procEnv, matches, mappedMatch);
 #if LOG_SEQUENCE_EXECUTION
                 procEnv.Recorder.WriteLine("After executing sequence " + rule.Id + ": " + rule.Symbol + " result " + result);
@@ -13353,6 +13396,7 @@ namespace de.unika.ipd.grGen.libGr
                 }
             }
 
+            procEnv.Finished(MatchesArray, SpecialArray);
             procEnv.EndExecution(this, graphs);
             return graphs;
         }

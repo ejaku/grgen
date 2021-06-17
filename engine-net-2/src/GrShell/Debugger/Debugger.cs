@@ -1113,6 +1113,14 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
+        private void AddNeededGraphElements(IMatches[] matchesArray)
+        {
+            foreach(IMatches matches in matchesArray)
+            {
+                AddNeededGraphElements(matches);
+            }
+        }
+
         #endregion Partial graph adding on matches for excluded graph debugging
 
 
@@ -1302,7 +1310,7 @@ namespace de.unika.ipd.grGen.grShell
             renderRecorder.SetAddedEdgeNames(namesOfEdgesAdded);
         }
 
-        private void DebugPreMatched(IList<IMatches> matchesList)
+        private void DebugMatchedBefore(IList<IMatches> matchesList)
         {
             if(!stepMode)
                 return;
@@ -1316,10 +1324,10 @@ namespace de.unika.ipd.grGen.grShell
             if(computationsEnteredStack.Count > 0)
                 return;
 
-            Console.WriteLine("PreMatched " + PreMatchedActions(matchesList));
+            Console.WriteLine("PreMatched " + ProducerNames(matchesList));
 
             renderRecorder.RemoveAllAnnotations();
- 
+
             if(ycompClient.dumpInfo.IsExcludedGraph())
             {
                 if(!recordMode)
@@ -1337,7 +1345,7 @@ namespace de.unika.ipd.grGen.grShell
             {
                 DebugPreMatchedMark(matchMarkerAndAnnotator, matches);
             }
-            renderRecorder.SetCurrentRuleForMatchAnnotation(null);
+            renderRecorder.SetCurrentRuleNameForMatchAnnotation(null);
 
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
@@ -1352,7 +1360,7 @@ namespace de.unika.ipd.grGen.grShell
             renderRecorder.RemoveAllAnnotations();
         }
 
-        private string PreMatchedActions(IList<IMatches> matchesList)
+        public static string ProducerNames(IList<IMatches> matchesList)
         {
             StringBuilder sb = new StringBuilder();
             bool first = true;
@@ -1377,7 +1385,7 @@ namespace de.unika.ipd.grGen.grShell
 
         private void DebugPreMatchedMark(MatchMarkerAndAnnotator matchMarkerAndAnnotator, IMatches matches)
         {
-            renderRecorder.SetCurrentRuleForMatchAnnotation(matches.Producer.RulePattern);
+            renderRecorder.SetCurrentRuleNameForMatchAnnotation(matches.Producer.RulePattern.PatternGraph.Name);
 
             matchMarkerAndAnnotator.MarkMatches(matches, realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
             matchMarkerAndAnnotator.AnnotateMatches(matches, true);
@@ -1389,24 +1397,40 @@ namespace de.unika.ipd.grGen.grShell
             matchMarkerAndAnnotator.AnnotateMatches(matches, false);
         }
 
-        private void DebugMatched(IMatches matches, IMatch match, bool special)
+        private void DebugMatchedAfter(IMatches[] matches, bool[] special)
         {
-            if(matches.Count == 0) // happens e.g. from compiled sequences firing the event always, but the Finishing only comes in case of Count!=0
+            if(Count(matches) == 0) // happens e.g. from compiled sequences firing the event always, but the Finishing only comes in case of Count!=0
                 return;
 
-            DebugMatchedImpl(matches, match, special);
+            DebugMatchedAfterImpl(matches, special);
 
             topLevelRuleChanged = false;
         }
 
-        private void DebugMatchedImpl(IMatches matches, IMatch match, bool special)
+        private int Count(IMatches[] matchesArray)
+        {
+            int count = 0;
+            foreach(IMatches matches in matchesArray)
+            {
+                count += matches.Count;
+            }
+            return count;
+        }
+
+        private void DebugMatchedAfterImpl(IMatches[] matches, bool[] special)
         {
             // integrate matched actions into subrule traces stack
-            computationsEnteredStack.Add(new SubruleComputation(matches.Producer.Name));
+            computationsEnteredStack.Add(new SubruleComputation(ProducerNames(matches)));
 
-            SubruleDebuggingConfigurationRule cr;
-            SubruleDebuggingDecision d = shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Match, 
-                matches, shellProcEnv.ProcEnv, out cr);
+            SubruleDebuggingConfigurationRule cr = null;
+            SubruleDebuggingDecision d = SubruleDebuggingDecision.Undefined;
+            foreach(IMatches _matches in matches)
+            {
+                d = shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Match,
+                    _matches, shellProcEnv.ProcEnv, out cr);
+                if(d == SubruleDebuggingDecision.Break)
+                    break;
+            }
             if(d == SubruleDebuggingDecision.Break)
                 InternalHalt(cr, matches);
             else if(d == SubruleDebuggingDecision.Continue)
@@ -1416,7 +1440,7 @@ namespace de.unika.ipd.grGen.grShell
                     return;
                 if(recordMode)
                 {
-                    DebugFinished(null, false);
+                    DebugFinished(null, null);
                     ++matchDepth;
                     renderRecorder.RemoveAllAnnotations();
                 }
@@ -1447,7 +1471,7 @@ namespace de.unika.ipd.grGen.grShell
 
             if(recordMode)
             {
-                DebugFinished(null, false);
+                DebugFinished(null, null);
                 ++matchDepth;
                 if(outOfDetailedMode)
                 {
@@ -1460,10 +1484,10 @@ namespace de.unika.ipd.grGen.grShell
                 return;
 
             if(matchDepth++ > 0 || computationsEnteredStack.Count > 0)
-                Console.WriteLine("Matched " + matches.Producer.Name);
+                Console.WriteLine("Matched " + ProducerNames(matches));
 
             renderRecorder.RemoveAllAnnotations();
-            renderRecorder.SetCurrentRule(matches.Producer.RulePattern);
+            renderRecorder.SetCurrentRuleName(ProducerNames(matches));
 
             if(ycompClient.dumpInfo.IsExcludedGraph())
             {
@@ -1471,34 +1495,94 @@ namespace de.unika.ipd.grGen.grShell
                     ycompClient.ClearGraph();
 
                 // add all elements from match to graph and excludedGraphElementsIncluded
-                if(match != null)
-                    AddNeededGraphElements(match);
-                else
-                    AddNeededGraphElements(matches);
+                AddNeededGraphElements(matches);
 
                 ycompClient.AddNeighboursAndParentsOfNeededGraphElements();
             }
 
             MatchMarkerAndAnnotator matchMarkerAndAnnotator = new MatchMarkerAndAnnotator(realizers, renderRecorder, ycompClient);
 
-            if(match!=null)
-                matchMarkerAndAnnotator.MarkMatch(match, realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
-            else
-                matchMarkerAndAnnotator.MarkMatches(matches, realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
-            if(match!=null)
-                matchMarkerAndAnnotator.AnnotateMatch(match, true);
-            else
-                matchMarkerAndAnnotator.AnnotateMatches(matches, true);
+            matchMarkerAndAnnotator.MarkMatches(matches, realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
+            matchMarkerAndAnnotator.AnnotateMatches(matches, true);
+
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+            Console.WriteLine("Press any key to show single matches and apply rewrite...");
+            env.ReadKeyWithCancel();
+
+            matchMarkerAndAnnotator.MarkMatches(matches, null, null);
+
+            renderRecorder.ApplyChanges(ycompClient);
+            renderRecorder.RemoveAllAnnotations();
+            renderRecorder.ResetAllChangedElements();
+
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+        }
+
+        private bool SpecialExisting(bool[] specialArray)
+        {
+            bool specialExisting = false;
+            foreach(bool special in specialArray)
+            {
+                specialExisting |= special;
+            }
+            return specialExisting;
+        }
+
+        public static String ProducerNames(IMatches[] matchesArray)
+        {
+            StringBuilder combinedName = new StringBuilder();
+            bool first = true;
+            foreach(IMatches matches in matchesArray)
+            {
+                if(first)
+                    first = false;
+                else
+                    combinedName.Append(",");
+                combinedName.Append(matches.Producer.Name);
+            }
+            return combinedName.ToString();
+        }
+
+        private void DebugMatchSelected(IMatch match, bool special, IMatches matches)
+        {
+            recentlyMatched = lastlyEntered;
+
+            if(!detailedMode)
+                return;
+
+            if(!detailedModeShowPostMatches && computationsEnteredStack.Count > 1)
+                return;
+
+            Console.WriteLine("Showing single match of " + matches.Producer.Name + " ...");
+
+            renderRecorder.ApplyChanges(ycompClient);
+            renderRecorder.ResetAllChangedElements();
+            renderRecorder.RemoveAllAnnotations();
+            renderRecorder.SetCurrentRuleName(matches.Producer.RulePattern.PatternGraph.Name);
+
+            if(ycompClient.dumpInfo.IsExcludedGraph())
+            {
+                if(!recordMode)
+                    ycompClient.ClearGraph();
+
+                // add all elements from match to graph and excludedGraphElementsIncluded
+                AddNeededGraphElements(match);
+                
+                ycompClient.AddNeighboursAndParentsOfNeededGraphElements();
+            }
+
+            MatchMarkerAndAnnotator matchMarkerAndAnnotator = new MatchMarkerAndAnnotator(realizers, renderRecorder, ycompClient);
+            matchMarkerAndAnnotator.MarkMatch(match, realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
+            matchMarkerAndAnnotator.AnnotateMatch(match, true);
 
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
             Console.WriteLine("Press any key to apply rewrite...");
             env.ReadKeyWithCancel();
 
-            if(match!=null)
-                matchMarkerAndAnnotator.MarkMatch(match, null, null);
-            else
-                matchMarkerAndAnnotator.MarkMatches(matches, null, null);
+            matchMarkerAndAnnotator.MarkMatch(match, null, null);
 
             recordMode = true;
             ycompClient.NodeRealizerOverride = realizers.NewNodeRealizer;
@@ -1506,16 +1590,40 @@ namespace de.unika.ipd.grGen.grShell
             renderRecorder.ResetAddedNames();
         }
 
-        private void DebugNextMatch()
+        private void DebugRewritingSelectedMatch()
         {
             renderRecorder.ResetAddedNames();
         }
 
-        private void DebugFinished(IMatches matches, bool special)
+        private void DebugSelectedMatchRewritten()
+        {
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+            if(detailedMode && detailedModeShowPostMatches)
+            {
+                Console.WriteLine("Debugging detailed continues with any key...");
+                env.ReadKeyWithCancel();
+            }
+        }
+
+        private void DebugFinishedSelectedMatch()
+        {
+            if(!detailedMode)
+                return;
+
+            // clear annotations after displaying single match so user can choose match to apply (occurs before on match selected is fired)
+            ycompClient.NodeRealizerOverride = null;
+            ycompClient.EdgeRealizerOverride = null;
+            renderRecorder.ApplyChanges(ycompClient);
+            renderRecorder.ResetAllChangedElements();
+            renderRecorder.RemoveAllAnnotations();
+        }
+
+        private void DebugFinished(IMatches[] matches, bool[] special)
         {
             // integrate matched actions into subrule traces stack
             if(matches != null)
-                RemoveUpToEntryForExit(matches.Producer.Name);
+                RemoveUpToEntryForExit(ProducerNames(matches));
 
             if(outOfDetailedMode && (computationsEnteredStack.Count <= outOfDetailedModeTarget || computationsEnteredStack.Count==0))
             {
@@ -1535,7 +1643,7 @@ namespace de.unika.ipd.grGen.grShell
             {
                 ycompClient.UpdateDisplay();
                 ycompClient.Sync();
-
+                // TODO: prevent duplicate message/querying
                 QueryContinueOrTrace(false);
             }
             else
@@ -1548,9 +1656,6 @@ namespace de.unika.ipd.grGen.grShell
             }
 
             renderRecorder.ApplyChanges(ycompClient);
-
-            ycompClient.NodeRealizerOverride = null;
-            ycompClient.EdgeRealizerOverride = null;
 
             renderRecorder.ResetAllChangedElements();
             recordMode = false;
@@ -1622,8 +1727,7 @@ namespace de.unika.ipd.grGen.grShell
             if(!stepMode)
                 return;
 
-            if(seq.HasSequenceType(SequenceType.RuleCall) || seq.HasSequenceType(SequenceType.RuleAllCall)
-                || seq.HasSequenceType(SequenceType.RuleCountAllCall) || seq.HasSequenceType(SequenceType.SequenceCall)
+            if(seq is IPatternMatchingConstruct || seq.HasSequenceType(SequenceType.SequenceCall)
                 || breakpointReached)
             {
                 ycompClient.UpdateDisplay();
@@ -1632,9 +1736,38 @@ namespace de.unika.ipd.grGen.grShell
                 context.success = false;
                 SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
                 Console.WriteLine();
+
+                if(detailedMode && detailedModeShowPostMatches
+                    && (seq.HasSequenceType(SequenceType.Backtrack)
+                        || seq.HasSequenceType(SequenceType.ForMatch)
+                        || IsRuleContainedInComplexConstruct(seq)))
+                {
+                    return;
+                }
+
+                if(seq is SequenceSequenceCallInterpreted)
+                {
+                    SequenceSequenceCallInterpreted seqCall = (SequenceSequenceCallInterpreted)seq;
+                    if(seqCall.SequenceDef is SequenceDefinitionCompiled)
+                    {
+                        PrintDebugInstructions();
+                    }
+                }
+
                 QueryUser(seq);
-                return;
             }
+        }
+
+        private static bool IsRuleContainedInComplexConstruct(SequenceBase seq)
+        {
+            if(!seq.HasSequenceType(SequenceType.RuleCall)
+                && !seq.HasSequenceType(SequenceType.RuleAllCall)
+                && !seq.HasSequenceType(SequenceType.RuleCountAllCall))
+            {
+                return false;
+            }
+            SequenceRuleCall ruleCall = (SequenceRuleCall)seq;
+            return ruleCall.Parent != null;
         }
 
         private void DebugExitingSequence(SequenceBase seq)
@@ -1725,15 +1858,15 @@ namespace de.unika.ipd.grGen.grShell
                     SequenceBacktrack seqBack = (SequenceBacktrack)seq;
                     String text;
                     if(seqBack.Seq.ExecutionState == SequenceExecutionState.Success)
-                        text = "Success ";
+                        text = "Success";
                     else
                     {
                         if(continueLoop)
-                            text = "Backtracking ";
+                            text = "Backtracking";
                         else
-                            text = "Backtracking possibilities exhausted, fail ";
+                            text = "Backtracking possibilities exhausted, fail";
                     }
-                    WorkaroundManager.Workaround.PrintHighlighted(text, HighlightingMode.SequenceStart);
+                    WorkaroundManager.Workaround.PrintHighlighted(text + ": ", HighlightingMode.SequenceStart);
                     context.highlightSeq = seq;
                     SequencePrinter.PrintSequence(seq, context, debugSequences.Count);
                     if(!continueLoop)
@@ -1742,14 +1875,14 @@ namespace de.unika.ipd.grGen.grShell
                 else if(seq is SequenceDefinition)
                 {
                     SequenceDefinition seqDef = (SequenceDefinition)seq;
-                    WorkaroundManager.Workaround.PrintHighlighted("State at end of sequence call ", HighlightingMode.SequenceStart);
+                    WorkaroundManager.Workaround.PrintHighlighted("State at end of sequence call" + ": ", HighlightingMode.SequenceStart);
                     context.highlightSeq = seq;
                     SequencePrinter.PrintSequence(seq, context, debugSequences.Count);
                     WorkaroundManager.Workaround.PrintHighlighted("< leaving", HighlightingMode.SequenceStart);
                 }
                 else
                 {
-                    WorkaroundManager.Workaround.PrintHighlighted("State at end of iteration step ", HighlightingMode.SequenceStart);
+                    WorkaroundManager.Workaround.PrintHighlighted("State at end of iteration step" + ": ", HighlightingMode.SequenceStart);
                     context.highlightSeq = seq;
                     SequencePrinter.PrintSequence(seq, context, debugSequences.Count);
                     if(!continueLoop)
@@ -2045,14 +2178,14 @@ namespace de.unika.ipd.grGen.grShell
 
         private void PrintDebugInstructions(bool isBottomUpBreak)
         {
-            if(!isBottomUpBreak && computationsEnteredStack.Count == 0)
+            if(!isBottomUpBreak && !EmbeddedSequenceWasEntered())
                 Console.WriteLine("Debugging (detailed) continues with any key, besides (f)ull state or (a)bort.");
             else
             {
                 if(!isBottomUpBreak)
                 {
                     Console.Write("Detailed subrule debugging -- ");
-                    if(computationsEnteredStack.Count > 0)
+                    if(EmbeddedSequenceWasEntered())
                     {
                         Console.Write("(r)un until end of detail debugging, ");
                         if(TargetStackLevelForUpInDetailedMode() > 0)
@@ -2069,7 +2202,7 @@ namespace de.unika.ipd.grGen.grShell
                 if(isBottomUpBreak && !stepMode)
                     Console.Write("(s)tep mode, ");
 
-                if(computationsEnteredStack.Count > 0)
+                if(EmbeddedSequenceWasEntered())
                     Console.Write("print subrule stack(t)race, (f)ull state, or (a)bort, any other key continues ");
                 else
                     Console.Write("(f)ull state, or (a)bort, any other key continues ");
@@ -2079,6 +2212,33 @@ namespace de.unika.ipd.grGen.grShell
                 else
                     Console.WriteLine("debugging as before.");
             }
+        }
+
+        private void PrintDebugInstructions()
+        {
+            Console.Write("Detailed subrule debugging -- ");
+
+            Console.Write("(r)un until end of detail debugging, ");
+            if(TargetStackLevelForUpInDetailedMode() > 0)
+            {
+                Console.Write("(u)p from current entry, ");
+                if(TargetStackLevelForOutInDetailedMode() > 0)
+                    Console.Write("(o)ut of detail debugging entry we are nested in, ");
+            }
+
+            Console.Write("print subrule stack(t)race, (f)ull state, or (a)bort, any other key continues ");
+
+            Console.WriteLine("detailed debugging.");
+        }
+
+        private bool EmbeddedSequenceWasEntered()
+        {
+            foreach(SubruleComputation computation in computationsEnteredStack)
+            {
+                if(!computation.fakeEntry)
+                    return true;
+            }
+            return false;
         }
 
         private int TargetStackLevelForUpInDetailedMode()
@@ -2132,9 +2292,12 @@ namespace de.unika.ipd.grGen.grShell
             graph.OnSettingAddedNodeNames += DebugSettingAddedNodeNames;
             graph.OnSettingAddedEdgeNames += DebugSettingAddedEdgeNames;
 
-            shellProcEnv.ProcEnv.OnPreMatched += DebugPreMatched;
-            shellProcEnv.ProcEnv.OnMatched += DebugMatched;
-            shellProcEnv.ProcEnv.OnRewritingNextMatch += DebugNextMatch;
+            shellProcEnv.ProcEnv.OnMatchedBefore += DebugMatchedBefore;
+            shellProcEnv.ProcEnv.OnMatchedAfter += DebugMatchedAfter;
+            shellProcEnv.ProcEnv.OnMatchSelected += DebugMatchSelected;
+            shellProcEnv.ProcEnv.OnRewritingSelectedMatch += DebugRewritingSelectedMatch;
+            shellProcEnv.ProcEnv.OnSelectedMatchRewritten += DebugSelectedMatchRewritten;
+            shellProcEnv.ProcEnv.OnFinishedSelectedMatch += DebugFinishedSelectedMatch;
             shellProcEnv.ProcEnv.OnFinished += DebugFinished;
 
             shellProcEnv.ProcEnv.OnSwitchingToSubgraph += DebugSwitchToGraph;
@@ -2168,9 +2331,12 @@ namespace de.unika.ipd.grGen.grShell
             graph.OnSettingAddedNodeNames -= DebugSettingAddedNodeNames;
             graph.OnSettingAddedEdgeNames -= DebugSettingAddedEdgeNames;
 
-            shellProcEnv.ProcEnv.OnPreMatched -= DebugPreMatched;
-            shellProcEnv.ProcEnv.OnMatched -= DebugMatched;
-            shellProcEnv.ProcEnv.OnRewritingNextMatch -= DebugNextMatch;
+            shellProcEnv.ProcEnv.OnMatchedBefore -= DebugMatchedBefore;
+            shellProcEnv.ProcEnv.OnMatchedAfter -= DebugMatchedAfter;
+            shellProcEnv.ProcEnv.OnMatchSelected -= DebugMatchSelected;
+            shellProcEnv.ProcEnv.OnRewritingSelectedMatch -= DebugRewritingSelectedMatch;
+            shellProcEnv.ProcEnv.OnSelectedMatchRewritten -= DebugSelectedMatchRewritten;
+            shellProcEnv.ProcEnv.OnFinishedSelectedMatch -= DebugFinishedSelectedMatch;
             shellProcEnv.ProcEnv.OnFinished -= DebugFinished;
 
             shellProcEnv.ProcEnv.OnSwitchingToSubgraph -= DebugSwitchToGraph;

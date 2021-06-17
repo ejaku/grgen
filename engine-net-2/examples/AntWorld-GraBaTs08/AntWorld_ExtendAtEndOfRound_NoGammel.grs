@@ -13,7 +13,7 @@ exec doAntWorld(::firstAnt)
 
 #exec (curAnt:Ant=::firstAnt &&                                                                                                                \
 #    ((                                                                                                                                  \
-#        (TakeFood(curAnt) && true) | (GoHome(curAnt) && true) ||                                                                        \
+#        (TakeFood(curAnt) && true) | (%GoHome(curAnt) && true) ||                                                                        \
 #        DropFood(curAnt) | ($[SearchAlongPheromones(curAnt)] || $[SearchAimless(curAnt)])                                               \
 #            | ((cur:GridNode)=ReachedEndOfWorld(curAnt)                                                                                          \
 #                && ((cur, curOuter:GridNode)=GrowWorldFirstNotAtCorner(cur) || (cur, curOuter)=GrowWorldFirstAtCorner(cur))                      \

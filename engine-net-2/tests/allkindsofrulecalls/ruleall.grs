@@ -1,10 +1,18 @@
 new graph "allkindsofrulecalls/rules"
 
+debug set match mode pre enable
+
 dump set node N color red
 dump add node N shortinfotag i
 dump set node M color blue
 
 randomseed 0
+
+exec init
+
+exec r
+
+clear graph
 
 exec init
 
