@@ -132,28 +132,28 @@ namespace de.unika.ipd.grGen.grShell
         private void ToggleBreakpoint(Sequence seq, int bpPos)
         {
             int bpCounter = 0; // dummy
-            SequenceSpecial bpSeq = GetSequenceAtBreakpointPosition(seq, bpPos, ref bpCounter);
+            ISequenceSpecial bpSeq = GetSequenceAtBreakpointPosition(seq, bpPos, ref bpCounter);
             bpSeq.Special = !bpSeq.Special;
         }
 
-        private SequenceSpecial GetSequenceAtBreakpointPosition(Sequence seq, int bpPos, ref int counter)
+        private ISequenceSpecial GetSequenceAtBreakpointPosition(SequenceBase seq, int bpPos, ref int counter)
         {
-            if(seq is SequenceSpecial)
+            if(seq is ISequenceSpecial)
             {
                 if(counter == bpPos)
-                    return (SequenceSpecial)seq;
+                    return (ISequenceSpecial)seq;
                 counter++;
             }
-            foreach (Sequence child in seq.Children)
+            foreach (SequenceBase child in seq.ChildrenBase)
             {
-                SequenceSpecial res = GetSequenceAtBreakpointPosition(child, bpPos, ref counter);
+                ISequenceSpecial res = GetSequenceAtBreakpointPosition(child, bpPos, ref counter);
                 if(res != null)
                     return res;
             }
             return null;
         }
 
-        private SequenceRandomChoice GetSequenceAtChoicepointPosition(Sequence seq, int cpPos, ref int counter)
+        private SequenceRandomChoice GetSequenceAtChoicepointPosition(SequenceBase seq, int cpPos, ref int counter)
         {
             if(seq is SequenceRandomChoice && ((SequenceRandomChoice)seq).Random)
             {
@@ -161,7 +161,7 @@ namespace de.unika.ipd.grGen.grShell
                     return (SequenceRandomChoice)seq;
                 counter++;
             }
-            foreach (Sequence child in seq.Children)
+            foreach (SequenceBase child in seq.ChildrenBase)
             {
                 SequenceRandomChoice res = GetSequenceAtChoicepointPosition(child, cpPos, ref counter);
                 if(res != null)

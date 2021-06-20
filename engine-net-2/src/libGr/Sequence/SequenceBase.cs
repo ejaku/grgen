@@ -29,6 +29,19 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
+    /// A Sequence Base with a Special flag.
+    /// </summary>
+    public interface ISequenceSpecial
+    {
+        /// <summary>
+        /// The "Special" flag. Usage is implementation specific.
+        /// GrShell uses this flag to indicate breakpoints when in debug mode and
+        /// to dump matches when in normal mode.
+        /// </summary>
+        bool Special { get; set; }
+    }
+
+    /// <summary>
     /// A compiled sequence construct that allows to match patterns (most also allow to rewrite them).
     /// Utilized in begin and end events to tell about the construct that started or ended.
     /// </summary>

@@ -58,6 +58,24 @@ rule s implements rs
 	}
 }
 
+rule rp(n2:N)
+{
+	n1:Node --> n2;
+---
+
+	modify {
+		delete(n1);
+		n2b:M<n2>;
+		:Node <-- n2b;
+	}
+}
+
+test tN : (N)
+{
+	n:N;
+	return(n);
+}
+
 
 sequence seqrule
 {

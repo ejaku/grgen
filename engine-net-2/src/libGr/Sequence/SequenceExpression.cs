@@ -2149,7 +2149,16 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
         {
-            get { yield break; }
+            get
+            {
+                if(AttributeInitializationList != null)
+                {
+                    foreach(KeyValuePair<String, SequenceExpression> attributeInitialization in AttributeInitializationList)
+                    {
+                        yield return attributeInitialization.Value;
+                    }
+                }
+            }
         }
 
         public override int Precedence
@@ -3877,7 +3886,11 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
         {
-            get { if(VisitedFlagExpr != null) yield return VisitedFlagExpr; }
+            get
+            {
+                yield return GraphElementVarExpr;
+                if(VisitedFlagExpr != null) yield return VisitedFlagExpr;
+            }
         }
 
         public override int Precedence
@@ -3973,7 +3986,11 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
         {
-            get { yield break; }
+            get
+            {
+                yield return Expr;
+                yield return ContainerOrStringExpr;
+            }
         }
 
         public override int Precedence
@@ -4247,7 +4264,11 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
         {
-            get { yield break; }
+            get
+            {
+                yield return ContainerExpr;
+                yield return KeyExpr;
+            }
         }
 
         public override int Precedence
@@ -7924,7 +7945,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
         {
-            get { yield break; }
+            get { yield return Source; }
         }
 
         public override int Precedence
@@ -8006,7 +8027,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
         {
-            get { yield break; }
+            get { yield return Source; }
         }
 
         public override int Precedence
@@ -9802,6 +9823,7 @@ namespace de.unika.ipd.grGen.libGr
             get
             {
                 yield return SourceNode;
+                yield return EndElement;
                 yield return Depth;
                 if(EdgeType != null)
                     yield return EdgeType;
@@ -12988,7 +13010,7 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionRuleQuery : SequenceExpression, RuleInvocation, IPatternMatchingConstruct
+    public class SequenceExpressionRuleQuery : SequenceExpression, RuleInvocation, IPatternMatchingConstruct, ISequenceSpecial
     {
         public readonly SequenceRuleAllCall RuleCall;
 
@@ -13010,6 +13032,12 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceVariable Subgraph
         {
             get { return RuleCall.Subgraph; }
+        }
+
+        public bool Special
+        {
+            get { return RuleCall.Special; }
+            set { RuleCall.Special = value; }
         }
 
         public SequenceExpressionRuleQuery(SequenceRuleAllCall ruleCall)
@@ -13044,6 +13072,7 @@ namespace de.unika.ipd.grGen.libGr
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             SequenceRuleAllCallInterpreted ruleCallInterpreted = (SequenceRuleAllCallInterpreted)RuleCall;
+            procEnv.EnteringSequence(this);
             procEnv.BeginExecution(this);
 
             IMatches matches;
@@ -13053,6 +13082,7 @@ namespace de.unika.ipd.grGen.libGr
             procEnv.Finished(matches, ruleCallInterpreted.Special);
 
             procEnv.EndExecution(this, matchesList);
+            procEnv.ExitingSequence(this);
             return matchesList;
         }
 
@@ -13141,6 +13171,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
+            procEnv.EnteringSequence(this);
             procEnv.BeginExecution(this);
 
             IMatches[] MatchesArray;
@@ -13196,6 +13227,7 @@ namespace de.unika.ipd.grGen.libGr
             procEnv.Finished(MatchesArray, SpecialArray);
 
             procEnv.EndExecution(this, MatchList);
+            procEnv.ExitingSequence(this);
             return MatchList;
         }
 
@@ -13282,6 +13314,7 @@ namespace de.unika.ipd.grGen.libGr
             procEnv.Recorder.WriteLine("Matching mapping multi rule prefixed sequence " + GetRuleCallString(procEnv));
 #endif
 
+            procEnv.EnteringSequence(this);
             procEnv.BeginExecution(this);
 
             IMatches[] MatchesArray;
@@ -13398,6 +13431,7 @@ namespace de.unika.ipd.grGen.libGr
 
             procEnv.Finished(MatchesArray, SpecialArray);
             procEnv.EndExecution(this, graphs);
+            procEnv.ExitingSequence(this);
             return graphs;
         }
 

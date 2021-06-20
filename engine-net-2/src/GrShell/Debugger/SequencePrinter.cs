@@ -17,6 +17,21 @@ namespace de.unika.ipd.grGen.grShell
     static class SequencePrinter
     {
         /// <summary>
+        /// Prints the given root sequence base according to the print context.
+        /// Switches in between printing a sequence and a sequence expression.
+        /// </summary>
+        /// <param name="seq">The sequence base to be printed</param>
+        /// <param name="context">The print context</param>
+        /// <param name="nestingLevel">The level the sequence is nested in</param>
+        public static void PrintSequenceBase(SequenceBase seqBase, PrintSequenceContext context, int nestingLevel)
+        {
+            if(seqBase is Sequence)
+                PrintSequence((Sequence)seqBase, context, nestingLevel);
+            else
+                PrintSequenceExpression((SequenceExpression)seqBase, context);
+        }
+
+        /// <summary>
         /// Prints the given root sequence adding parentheses if needed according to the print context.
         /// </summary>
         /// <param name="seq">The sequence to be printed</param>
@@ -26,6 +41,16 @@ namespace de.unika.ipd.grGen.grShell
         {
             WorkaroundManager.Workaround.PrintHighlighted(nestingLevel + ">", HighlightingMode.SequenceStart);
             PrintSequence(seq, null, HighlightingMode.None, context);
+        }
+
+        /// <summary>
+        /// Prints the given root sequence expression according to the print context.
+        /// </summary>
+        /// <param name="seqExpr">The sequence expression to be printed</param>
+        /// <param name="context">The print context</param>
+        public static void PrintSequenceExpression(SequenceExpression seqExpr, PrintSequenceContext context)
+        {
+            PrintSequenceExpression(seqExpr, null, HighlightingMode.None, context);
         }
 
         /// <summary>
@@ -677,18 +702,15 @@ namespace de.unika.ipd.grGen.grShell
             if(context.bpPosCounter >= 0)
             {
                 PrintBreak((SequenceSpecial)seq, context);
-                WorkaroundManager.Workaround.PrintHighlighted(seq.Symbol, highlightingMode);
                 ++context.bpPosCounter;
-                return;
             }
 
-            if(context.cpPosCounter >= 0 && seq is SequenceRandomChoice
+            if(context.cpPosCounter >= 0
+                && seq is SequenceRandomChoice
                 && ((SequenceRandomChoice)seq).Random)
             {
                 PrintChoice((SequenceRandomChoice)seq, context);
-                WorkaroundManager.Workaround.PrintHighlighted(seq.Symbol, highlightingMode);
                 ++context.cpPosCounter;
-                return;
             }
 
             HighlightingMode highlightingModeLocal = highlightingMode;
@@ -714,7 +736,7 @@ namespace de.unika.ipd.grGen.grShell
             if(seq.Contains(context.highlightSeq) && seq != context.highlightSeq)
                 PrintSequenceAtom(seq, parent, highlightingMode, context);
             else
-                WorkaroundManager.Workaround.PrintHighlighted(seq.Symbol, highlightingModeLocal);
+                PrintSequenceAtom(seq, parent, highlightingModeLocal, context);
         }
 
         private static void PrintSequenceAtom(Sequence seq, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
@@ -934,7 +956,7 @@ namespace de.unika.ipd.grGen.grShell
                 WorkaroundManager.Workaround.PrintHighlighted("+%" + context.cpPosCounter + "+:", HighlightingMode.Choicepoint);
         }
 
-        private static void PrintBreak(SequenceSpecial seq, PrintSequenceContext context)
+        private static void PrintBreak(ISequenceSpecial seq, PrintSequenceContext context)
         {
             if(seq.Special)
                 WorkaroundManager.Workaround.PrintHighlighted("-%" + context.bpPosCounter + "-:", HighlightingMode.Breakpoint);
@@ -1490,6 +1512,14 @@ namespace de.unika.ipd.grGen.grShell
 
         private static void PrintSequenceExpression(SequenceExpression seqExpr, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
+            if(context.bpPosCounter >= 0
+                && seqExpr is ISequenceSpecial)
+            {
+                PrintBreak((ISequenceSpecial)seqExpr, context);
+                ++context.bpPosCounter;
+                return;
+            }
+
             switch(seqExpr.SequenceExpressionType)
             {
             case SequenceExpressionType.Conditional:

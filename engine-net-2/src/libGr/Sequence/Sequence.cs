@@ -232,16 +232,17 @@ namespace de.unika.ipd.grGen.libGr
 
 
     /// <summary>
-    /// A Sequence with a Special flag
+    /// A Sequence with a Special flag.
     /// </summary>
-    public abstract class SequenceSpecial : Sequence
+    public abstract class SequenceSpecial : Sequence, ISequenceSpecial
     {
-        /// <summary>
-        /// The "Special" flag. Usage is implementation specific.
-        /// GrShell uses this flag to indicate breakpoints when in debug mode and
-        /// to dump matches when in normal mode.
-        /// </summary>
-        public bool Special;
+        public bool special;
+
+        public bool Special
+        {
+            get { return special; }
+            set { special = value; }
+        }
 
         /// <summary>
         /// Initializes a new instance of the SequenceSpecial class.

@@ -1694,8 +1694,11 @@ namespace de.unika.ipd.grGen.grShell
             {
                 ycompClient.UpdateDisplay();
                 ycompClient.Sync();
-                SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
-                Console.WriteLine();
+                if(debugSequences.Count > 0)
+                {
+                    SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                    Console.WriteLine();
+                }
                 PrintDebugInstructionsOnEntering();
                 QueryUser(seq);
             }
@@ -1716,9 +1719,8 @@ namespace de.unika.ipd.grGen.grShell
 
             // Breakpoint reached?
             bool breakpointReached = false;
-            if((seq.HasSequenceType(SequenceType.RuleCall) || seq.HasSequenceType(SequenceType.RuleAllCall) || seq.HasSequenceType(SequenceType.RuleCountAllCall)
-                || seq.HasSequenceType(SequenceType.BooleanComputation) || seq.HasSequenceType(SequenceType.SequenceCall))
-                    && ((SequenceSpecial)seq).Special)
+            if(seq is ISequenceSpecial
+                && ((ISequenceSpecial)seq).Special)
             {
                 stepMode = true;
                 breakpointReached = true;
@@ -1734,8 +1736,11 @@ namespace de.unika.ipd.grGen.grShell
                 ycompClient.Sync();
                 context.highlightSeq = seq;
                 context.success = false;
-                SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
-                Console.WriteLine();
+                if(debugSequences.Count > 0)
+                {
+                    SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                    Console.WriteLine();
+                }
 
                 if(detailedMode && detailedModeShowPostMatches
                     && (seq.HasSequenceType(SequenceType.Backtrack)

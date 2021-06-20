@@ -14,7 +14,7 @@ clear graph
 
 exec init
 
-eval [?%r\orderDescendingBy<i>\keepFirst(2)].size()
+eval [?r\orderDescendingBy<i>\keepFirst(2)].size()
 
 clear graph
 
@@ -39,5 +39,11 @@ clear graph
 exec init
 
 eval [:for{r;true},for{s;true}:]
+
+exec init
+
+eval [?%rp([?tN()][0].n)]
+
+clear graph
 
 quit

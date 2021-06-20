@@ -66,4 +66,10 @@ exec init
 
 exec ::v=4 ;> $%::v,::v[%r] #min (and max) 4 matches out of 3, fail
 
+exec init
+
+exec rp([?tN()][0].n)
+
+clear graph
+
 quit
