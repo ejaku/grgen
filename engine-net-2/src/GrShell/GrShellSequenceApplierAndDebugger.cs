@@ -257,7 +257,7 @@ namespace de.unika.ipd.grGen.grShell
             if(debug || CheckDebuggerAlive())
             {
                 debugger.NotifyOnConnectionLost = true;
-                debugger.InitSequenceExpression(debug);
+                debugger.InitSequenceExpression(seqExpr, debug);
             }
 
             curGRS = seq;

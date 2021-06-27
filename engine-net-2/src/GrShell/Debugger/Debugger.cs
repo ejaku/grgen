@@ -32,7 +32,7 @@ namespace de.unika.ipd.grGen.grShell
         YCompClient ycompClient = null;
         Process viewerProcess = null;
 
-        readonly Stack<Sequence> debugSequences = new Stack<Sequence>();
+        readonly Stack<SequenceBase> debugSequences = new Stack<SequenceBase>();
         bool stepMode = true;
         bool dynamicStepMode = false;
         bool skipMode = false;
@@ -278,9 +278,10 @@ namespace de.unika.ipd.grGen.grShell
             context = new PrintSequenceContext();
         }
 
-        public void InitSequenceExpression(bool withStepMode)
+        public void InitSequenceExpression(SequenceExpression seqExp, bool withStepMode)
         {
             debugSequences.Clear();
+            debugSequences.Push(seqExp);
             stepMode = withStepMode;
             detailedMode = true;
             detailedModeShowPreMatches = true;
@@ -440,7 +441,7 @@ namespace de.unika.ipd.grGen.grShell
                         breakpointEditor.HandleToggleBreakpoints();
                         context.highlightSeq = seq;
                         context.success = false;
-                        SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                        SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
                         Console.WriteLine();
                         break;
                     }
@@ -456,7 +457,7 @@ namespace de.unika.ipd.grGen.grShell
                         choicepointEditor.HandleToggleChoicepoints();
                         context.highlightSeq = seq;
                         context.success = false;
-                        SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                        SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
                         Console.WriteLine();
                         break;
                     }
@@ -473,12 +474,12 @@ namespace de.unika.ipd.grGen.grShell
                     return false;
                 case 'v':
                     HandleShowVariable(seq);
-                    SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                    SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
                     Console.WriteLine();
                     break;
                 case 'j':
                     HandleShowClassObject(seq);
-                    SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                    SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
                     Console.WriteLine();
                     break;
                 case 'p':
@@ -492,12 +493,12 @@ namespace de.unika.ipd.grGen.grShell
                     break;
                 case 't':
                     HandleStackTrace();
-                    SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                    SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
                     Console.WriteLine();
                     break;
                 case 'f':
                     HandleFullState();
-                    SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                    SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
                     Console.WriteLine();
                     break;
                 default:
@@ -714,11 +715,11 @@ namespace de.unika.ipd.grGen.grShell
         {
             Console.WriteLine("Current sequence call stack is:");
             PrintSequenceContext contextTrace = new PrintSequenceContext();
-            Sequence[] callStack = debugSequences.ToArray();
+            SequenceBase[] callStack = debugSequences.ToArray();
             for(int i = callStack.Length - 1; i >= 0; --i)
             {
-                contextTrace.highlightSeq = callStack[i].GetCurrentlyExecutedSequence();
-                SequencePrinter.PrintSequence(callStack[i], contextTrace, callStack.Length - i);
+                contextTrace.highlightSeq = callStack[i].GetCurrentlyExecutedSequenceBase();
+                SequencePrinter.PrintSequenceBase(callStack[i], contextTrace, callStack.Length - i);
                 Console.WriteLine();
             }
             Console.WriteLine("continuing execution with:");
@@ -729,12 +730,12 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine("Current execution state is:");
             PrintVariables(null, null);
             PrintSequenceContext contextTrace = new PrintSequenceContext();
-            Sequence[] callStack = debugSequences.ToArray();
+            SequenceBase[] callStack = debugSequences.ToArray();
             for(int i = callStack.Length - 1; i >= 0; --i)
             {
-                Sequence currSeq = callStack[i].GetCurrentlyExecutedSequence();
+                SequenceBase currSeq = callStack[i].GetCurrentlyExecutedSequenceBase();
                 contextTrace.highlightSeq = currSeq;
-                SequencePrinter.PrintSequence(callStack[i], contextTrace, callStack.Length - i);
+                SequencePrinter.PrintSequenceBase(callStack[i], contextTrace, callStack.Length - i);
                 Console.WriteLine();
                 PrintVariables(callStack[i], currSeq != null ? currSeq : callStack[i]);
             }
@@ -820,7 +821,7 @@ namespace de.unika.ipd.grGen.grShell
 
             context.highlightSeq = seq;
             context.choice = true;
-            SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+            SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
             Console.WriteLine();
             context.choice = false;
 
@@ -843,7 +844,7 @@ namespace de.unika.ipd.grGen.grShell
                 context.highlightSeq = sequences[seqToExecute];
                 context.choice = true;
                 context.sequences = sequences;
-                SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
                 Console.WriteLine();
                 context.choice = false;
                 context.sequences = null;
@@ -871,7 +872,7 @@ namespace de.unika.ipd.grGen.grShell
                 context.highlightSeq = seq.Sequences[seq.GetSequenceFromPoint(pointToExecute)];
                 context.choice = true;
                 context.sequences = seq.Sequences;
-                SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
                 Console.WriteLine();
                 context.choice = false;
                 context.sequences = null;
@@ -919,7 +920,7 @@ namespace de.unika.ipd.grGen.grShell
                 context.choice = true;
                 context.sequences = seq.Sequences;
                 context.matches = new List<IMatches>(seq.Matches);
-                SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
                 Console.WriteLine();
                 context.choice = false;
                 context.sequences = null;
@@ -943,7 +944,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             context.highlightSeq = seq;
             context.choice = true;
-            SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+            SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
             Console.WriteLine();
             context.choice = false;
 
@@ -1003,7 +1004,7 @@ namespace de.unika.ipd.grGen.grShell
 
             context.highlightSeq = seq;
             context.choice = true;
-            SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+            SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
             Console.WriteLine();
             context.choice = false;
 
@@ -1021,7 +1022,7 @@ namespace de.unika.ipd.grGen.grShell
 
             context.highlightSeq = seq;
             context.choice = true;
-            SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+            SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
             Console.WriteLine();
             context.choice = false;
 
@@ -1074,7 +1075,7 @@ namespace de.unika.ipd.grGen.grShell
 
             context.highlightSeq = seq;
             context.choice = true;
-            SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+            SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
             Console.WriteLine();
             context.choice = false;
 
@@ -1454,7 +1455,7 @@ namespace de.unika.ipd.grGen.grShell
                 ycompClient.Sync();
                 context.highlightSeq = lastlyEntered;
                 context.success = true;
-                SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
                 Console.WriteLine();
 
                 if(!QueryUser(lastlyEntered))
@@ -1676,7 +1677,7 @@ namespace de.unika.ipd.grGen.grShell
                     return;                               // never reached
                 case 'f':
                     HandleFullState();
-                    SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                    SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
                     Console.WriteLine();
                     PrintDebugTracesStack(true);
                     break;
@@ -1696,7 +1697,7 @@ namespace de.unika.ipd.grGen.grShell
                 ycompClient.Sync();
                 if(debugSequences.Count > 0)
                 {
-                    SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                    SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
                     Console.WriteLine();
                 }
                 PrintDebugInstructionsOnEntering();
@@ -1738,7 +1739,7 @@ namespace de.unika.ipd.grGen.grShell
                 context.success = false;
                 if(debugSequences.Count > 0)
                 {
-                    SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                    SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
                     Console.WriteLine();
                 }
 
@@ -1795,7 +1796,7 @@ namespace de.unika.ipd.grGen.grShell
             {
                 WorkaroundManager.Workaround.PrintHighlighted("State at end of sequence ", HighlightingMode.SequenceStart);
                 context.highlightSeq = null;
-                SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
                 WorkaroundManager.Workaround.PrintHighlighted("< leaving", HighlightingMode.SequenceStart);
                 Console.WriteLine();
             }
@@ -2031,7 +2032,7 @@ namespace de.unika.ipd.grGen.grShell
             if(!detailedMode)
             {
                 context.highlightSeq = lastlyEntered;
-                SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
                 Console.WriteLine();
                 PrintDebugTracesStack(false);
             }
@@ -2049,7 +2050,7 @@ namespace de.unika.ipd.grGen.grShell
             if(!detailedMode)
             {
                 context.highlightSeq = lastlyEntered;
-                SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
                 Console.WriteLine();
                 PrintDebugTracesStack(false);
             }
@@ -2084,7 +2085,7 @@ namespace de.unika.ipd.grGen.grShell
             if(!detailedMode)
             {
                 context.highlightSeq = lastlyEntered;
-                SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
                 Console.WriteLine();
                 PrintDebugTracesStack(false);
             }
@@ -2161,7 +2162,7 @@ namespace de.unika.ipd.grGen.grShell
                     if(computationsEnteredStack.Count > 0)
                     {
                         HandleStackTrace();
-                        SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                        SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
                         Console.WriteLine();
                         PrintDebugTracesStack(true);
                         break;
@@ -2170,7 +2171,7 @@ namespace de.unika.ipd.grGen.grShell
                         return;
                 case 'f':
                     HandleFullState();
-                    SequencePrinter.PrintSequence(debugSequences.Peek(), context, debugSequences.Count);
+                    SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
                     Console.WriteLine();
                     PrintDebugTracesStack(true);
                     break;

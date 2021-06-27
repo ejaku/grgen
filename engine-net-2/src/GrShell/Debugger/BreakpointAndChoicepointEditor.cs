@@ -18,9 +18,9 @@ namespace de.unika.ipd.grGen.grShell
     {
         readonly IDebuggerEnvironment env;
 
-        readonly Stack<Sequence> debugSequences = new Stack<Sequence>();
+        readonly Stack<SequenceBase> debugSequences = new Stack<SequenceBase>();
 
-        public BreakpointAndChoicepointEditor(IDebuggerEnvironment env, Stack<Sequence> debugSequences)
+        public BreakpointAndChoicepointEditor(IDebuggerEnvironment env, Stack<SequenceBase> debugSequences)
         {
             this.env = env;
             this.debugSequences = debugSequences;
@@ -32,7 +32,7 @@ namespace de.unika.ipd.grGen.grShell
 
             PrintSequenceContext contextBp = new PrintSequenceContext();
             contextBp.bpPosCounter = 0;
-            SequencePrinter.PrintSequence(debugSequences.Peek(), contextBp, debugSequences.Count);
+            SequencePrinter.PrintSequenceBase(debugSequences.Peek(), contextBp, debugSequences.Count);
             Console.WriteLine();
 
             if(contextBp.bpPosCounter == 0)
@@ -54,7 +54,7 @@ namespace de.unika.ipd.grGen.grShell
 
             PrintSequenceContext contextCp = new PrintSequenceContext();
             contextCp.cpPosCounter = 0;
-            SequencePrinter.PrintSequence(debugSequences.Peek(), contextCp, debugSequences.Count);
+            SequencePrinter.PrintSequenceBase(debugSequences.Peek(), contextCp, debugSequences.Count);
             Console.WriteLine();
 
             if(contextCp.cpPosCounter == 0)
@@ -122,14 +122,14 @@ namespace de.unika.ipd.grGen.grShell
             } while(true);
         }
 
-        private void ToggleChoicepoint(Sequence seq, int cpPos)
+        private void ToggleChoicepoint(SequenceBase seq, int cpPos)
         {
             int cpCounter = 0; // dummy
             SequenceRandomChoice cpSeq = GetSequenceAtChoicepointPosition(seq, cpPos, ref cpCounter);
             cpSeq.Choice = !cpSeq.Choice;
         }
 
-        private void ToggleBreakpoint(Sequence seq, int bpPos)
+        private void ToggleBreakpoint(SequenceBase seq, int bpPos)
         {
             int bpCounter = 0; // dummy
             ISequenceSpecial bpSeq = GetSequenceAtBreakpointPosition(seq, bpPos, ref bpCounter);
@@ -175,7 +175,7 @@ namespace de.unika.ipd.grGen.grShell
             if(debugSequences.Count > 1)
             {
                 SequenceDefinitionInterpreted top = (SequenceDefinitionInterpreted)debugSequences.Peek();
-                Sequence[] callStack = debugSequences.ToArray();
+                SequenceBase[] callStack = debugSequences.ToArray();
                 for(int i = 0; i <= callStack.Length - 2; ++i) // non definition bottom excluded
                 {
                     SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)callStack[i];

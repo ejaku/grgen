@@ -61,14 +61,6 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
-    /// States of executing sequences: not (yet) executed, execution underway, successful execution, fail execution
-    /// </summary>
-    public enum SequenceExecutionState
-    {
-        NotYet, Underway, Success, Fail
-    }
-
-    /// <summary>
     /// A sequence object with references to child sequences.
     /// A sequence is basically a rule application or a computation, or an operator combining them.
     /// </summary>
@@ -87,8 +79,6 @@ namespace de.unika.ipd.grGen.libGr
             : base()
         {
             SequenceType = seqType;
-
-            executionState = SequenceExecutionState.NotYet;
         }
 
         /// <summary>
@@ -99,8 +89,6 @@ namespace de.unika.ipd.grGen.libGr
             : base(that)
         {
             SequenceType = that.SequenceType;
-
-            executionState = SequenceExecutionState.NotYet;
         }
 
         public override bool HasSequenceType(SequenceType sequenceType)
@@ -201,19 +189,6 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Returns the innermost sequence beneath this as root
-        /// which gets currently executed (for sequences on call stack this is the call).
-        /// A path in the sequence tree gets executed, the innermost is the important one.
-        /// </summary>
-        /// <returns>The innermost sequence currently executed, or null if there is no such</returns>
-        public virtual Sequence GetCurrentlyExecutedSequence()
-        {
-            if(executionState == SequenceExecutionState.Underway)
-                return this;
-            return null;
-        }
-
-        /// <summary>
         /// Enumerates all child sequence objects
         /// </summary>
         public abstract IEnumerable<Sequence> Children { get; }
@@ -222,7 +197,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             get
             {
-                foreach(SequenceBase child in Children)
+                foreach(Sequence child in Children)
                 {
                     yield return child;
                 }
@@ -307,10 +282,10 @@ namespace de.unika.ipd.grGen.libGr
             Seq.ReplaceSequenceDefinition(oldDef, newDef);
         }
 
-        public override Sequence GetCurrentlyExecutedSequence()
+        public override SequenceBase GetCurrentlyExecutedSequenceBase()
         {
-            if(Seq.GetCurrentlyExecutedSequence() != null)
-                return Seq.GetCurrentlyExecutedSequence();
+            if(Seq.GetCurrentlyExecutedSequenceBase() != null)
+                return Seq.GetCurrentlyExecutedSequenceBase();
             if(executionState == SequenceExecutionState.Underway)
                 return this;
             return null;
@@ -367,12 +342,12 @@ namespace de.unika.ipd.grGen.libGr
             Right.ReplaceSequenceDefinition(oldDef, newDef);
         }
 
-        public override Sequence GetCurrentlyExecutedSequence()
+        public override SequenceBase GetCurrentlyExecutedSequenceBase()
         {
-            if(Left.GetCurrentlyExecutedSequence() != null)
-                return Left.GetCurrentlyExecutedSequence();
-            if(Right.GetCurrentlyExecutedSequence() != null)
-                return Right.GetCurrentlyExecutedSequence();
+            if(Left.GetCurrentlyExecutedSequenceBase() != null)
+                return Left.GetCurrentlyExecutedSequenceBase();
+            if(Right.GetCurrentlyExecutedSequenceBase() != null)
+                return Right.GetCurrentlyExecutedSequenceBase();
             if(executionState == SequenceExecutionState.Underway)
                 return this;
             return null;
@@ -444,12 +419,12 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public override Sequence GetCurrentlyExecutedSequence()
+        public override SequenceBase GetCurrentlyExecutedSequenceBase()
         {
             foreach(Sequence seq in Sequences)
             {
-                if(seq.GetCurrentlyExecutedSequence() != null)
-                    return seq.GetCurrentlyExecutedSequence();
+                if(seq.GetCurrentlyExecutedSequenceBase() != null)
+                    return seq.GetCurrentlyExecutedSequenceBase();
             }
             if(executionState == SequenceExecutionState.Underway)
                 return this;
@@ -3005,10 +2980,10 @@ namespace de.unika.ipd.grGen.libGr
             return Assign(result, procEnv);
         }
 
-        public override Sequence GetCurrentlyExecutedSequence()
+        public override SequenceBase GetCurrentlyExecutedSequenceBase()
         {
-            if(Seq.GetCurrentlyExecutedSequence() != null)
-                return Seq.GetCurrentlyExecutedSequence();
+            if(Seq.GetCurrentlyExecutedSequenceBase() != null)
+                return Seq.GetCurrentlyExecutedSequenceBase();
             if(executionState == SequenceExecutionState.Underway)
                 return this;
             return null;
@@ -3868,12 +3843,12 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
-        public override Sequence GetCurrentlyExecutedSequence()
+        public override SequenceBase GetCurrentlyExecutedSequenceBase()
         {
             foreach(Sequence seq in Sequences)
             {
-                if(seq.GetCurrentlyExecutedSequence() != null)
-                    return seq.GetCurrentlyExecutedSequence();
+                if(seq.GetCurrentlyExecutedSequenceBase() != null)
+                    return seq.GetCurrentlyExecutedSequenceBase();
             }
             if(executionState == SequenceExecutionState.Underway)
                 return this;
@@ -4008,12 +3983,12 @@ namespace de.unika.ipd.grGen.libGr
             Sequence.ReplaceSequenceDefinition(oldDef, newDef);
         }
 
-        public override Sequence GetCurrentlyExecutedSequence()
+        public override SequenceBase GetCurrentlyExecutedSequenceBase()
         {
-            if(Rule.GetCurrentlyExecutedSequence() != null)
-                return Rule.GetCurrentlyExecutedSequence();
-            if(Sequence.GetCurrentlyExecutedSequence() != null)
-                return Sequence.GetCurrentlyExecutedSequence();
+            if(Rule.GetCurrentlyExecutedSequenceBase() != null)
+                return Rule.GetCurrentlyExecutedSequenceBase();
+            if(Sequence.GetCurrentlyExecutedSequenceBase() != null)
+                return Sequence.GetCurrentlyExecutedSequenceBase();
             if(executionState == SequenceExecutionState.Underway)
                 return this;
             return null;
@@ -4340,12 +4315,12 @@ namespace de.unika.ipd.grGen.libGr
             SequenceMultiRuleAllCall.MatchAll(procEnv, rules, false, out MatchesArray, out MatchList);
         }
 
-        public override Sequence GetCurrentlyExecutedSequence()
+        public override SequenceBase GetCurrentlyExecutedSequenceBase()
         {
             foreach(SequenceRulePrefixedSequence rulePrefixedSequence in RulePrefixedSequences)
             {
-                if(rulePrefixedSequence.GetCurrentlyExecutedSequence() != null)
-                    return rulePrefixedSequence.GetCurrentlyExecutedSequence();
+                if(rulePrefixedSequence.GetCurrentlyExecutedSequenceBase() != null)
+                    return rulePrefixedSequence.GetCurrentlyExecutedSequenceBase();
             }
             if(executionState == SequenceExecutionState.Underway)
                 return this;
@@ -4629,12 +4604,12 @@ namespace de.unika.ipd.grGen.libGr
             return false; // to satisfy the compiler, we return from inside the loop
         }
 
-        public override Sequence GetCurrentlyExecutedSequence()
+        public override SequenceBase GetCurrentlyExecutedSequenceBase()
         {
-            if(Rule.GetCurrentlyExecutedSequence() != null)
-                return Rule.GetCurrentlyExecutedSequence();
-            if(Seq.GetCurrentlyExecutedSequence() != null)
-                return Seq.GetCurrentlyExecutedSequence();
+            if(Rule.GetCurrentlyExecutedSequenceBase() != null)
+                return Rule.GetCurrentlyExecutedSequenceBase();
+            if(Seq.GetCurrentlyExecutedSequenceBase() != null)
+                return Seq.GetCurrentlyExecutedSequenceBase();
             if(executionState == SequenceExecutionState.Underway)
                 return this;
             return null;
@@ -4840,12 +4815,12 @@ namespace de.unika.ipd.grGen.libGr
             return false; // to satisfy the compiler, we return from inside the loop
         }
 
-        public override Sequence GetCurrentlyExecutedSequence()
+        public override SequenceBase GetCurrentlyExecutedSequenceBase()
         {
-            if(Rules.GetCurrentlyExecutedSequence() != null)
-                return Rules.GetCurrentlyExecutedSequence();
-            if(Seq.GetCurrentlyExecutedSequence() != null)
-                return Seq.GetCurrentlyExecutedSequence();
+            if(Rules.GetCurrentlyExecutedSequenceBase() != null)
+                return Rules.GetCurrentlyExecutedSequenceBase();
+            if(Seq.GetCurrentlyExecutedSequenceBase() != null)
+                return Seq.GetCurrentlyExecutedSequenceBase();
             if(executionState == SequenceExecutionState.Underway)
                 return this;
             return null;
@@ -5052,10 +5027,10 @@ namespace de.unika.ipd.grGen.libGr
             return false; // to satisfy the compiler, we return from inside the loop
         }
 
-        public override Sequence GetCurrentlyExecutedSequence()
+        public override SequenceBase GetCurrentlyExecutedSequenceBase()
         {
-            if(MultiRulePrefixedSequence.GetCurrentlyExecutedSequence() != null)
-                return MultiRulePrefixedSequence.GetCurrentlyExecutedSequence();
+            if(MultiRulePrefixedSequence.GetCurrentlyExecutedSequenceBase() != null)
+                return MultiRulePrefixedSequence.GetCurrentlyExecutedSequenceBase();
             if(executionState == SequenceExecutionState.Underway)
                 return this;
             return null;
@@ -5172,14 +5147,14 @@ namespace de.unika.ipd.grGen.libGr
             return Condition.Apply(procEnv) ? TrueCase.Apply(procEnv) : FalseCase.Apply(procEnv);
         }
 
-        public override Sequence GetCurrentlyExecutedSequence()
+        public override SequenceBase GetCurrentlyExecutedSequenceBase()
         {
-            if(Condition.GetCurrentlyExecutedSequence() != null)
-                return Condition.GetCurrentlyExecutedSequence();
-            if(TrueCase.GetCurrentlyExecutedSequence() != null)
-                return TrueCase.GetCurrentlyExecutedSequence();
-            if(FalseCase.GetCurrentlyExecutedSequence() != null)
-                return FalseCase.GetCurrentlyExecutedSequence();
+            if(Condition.GetCurrentlyExecutedSequenceBase() != null)
+                return Condition.GetCurrentlyExecutedSequenceBase();
+            if(TrueCase.GetCurrentlyExecutedSequenceBase() != null)
+                return TrueCase.GetCurrentlyExecutedSequenceBase();
+            if(FalseCase.GetCurrentlyExecutedSequenceBase() != null)
+                return FalseCase.GetCurrentlyExecutedSequenceBase();
             if(executionState == SequenceExecutionState.Underway)
                 return this;
             return null;
@@ -5258,12 +5233,12 @@ namespace de.unika.ipd.grGen.libGr
             Right.ReplaceSequenceDefinition(oldDef, newDef);
         }
 
-        public override Sequence GetCurrentlyExecutedSequence()
+        public override SequenceBase GetCurrentlyExecutedSequenceBase()
         {
-            if(Left.GetCurrentlyExecutedSequence() != null)
-                return Left.GetCurrentlyExecutedSequence();
-            if(Right.GetCurrentlyExecutedSequence() != null)
-                return Right.GetCurrentlyExecutedSequence();
+            if(Left.GetCurrentlyExecutedSequenceBase() != null)
+                return Left.GetCurrentlyExecutedSequenceBase();
+            if(Right.GetCurrentlyExecutedSequenceBase() != null)
+                return Right.GetCurrentlyExecutedSequenceBase();
             if(executionState == SequenceExecutionState.Underway)
                 return this;
             return null;
@@ -7454,10 +7429,10 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public override Sequence GetCurrentlyExecutedSequence()
+        public override SequenceBase GetCurrentlyExecutedSequenceBase()
         {
-            if(Seq.GetCurrentlyExecutedSequence() != null)
-                return Seq.GetCurrentlyExecutedSequence();
+            if(Seq.GetCurrentlyExecutedSequenceBase() != null)
+                return Seq.GetCurrentlyExecutedSequenceBase();
             if(executionState == SequenceExecutionState.Underway)
                 return this;
             return null;
@@ -7553,7 +7528,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public abstract override bool Apply(IGraphProcessingEnvironment procEnv, object[] arguments, out object[] returnValues);
 
-        public override Sequence GetCurrentlyExecutedSequence()
+        public override SequenceBase GetCurrentlyExecutedSequenceBase()
         {
             throw new Exception("GetCurrentlyExecutedSequence not supported on compiled sequences");
         }

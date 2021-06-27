@@ -20,11 +20,11 @@ namespace de.unika.ipd.grGen.grShell
         readonly IDebuggerEnvironment env;
         readonly ShellGraphProcessingEnvironment shellProcEnv;
 
-        readonly Stack<Sequence> debugSequences;
+        readonly Stack<SequenceBase> debugSequences;
 
         public VariableOrAttributeAccessParserAndValueFetcher(IDebuggerEnvironment env,
             ShellGraphProcessingEnvironment shellProcEnv,
-            Stack<Sequence> debugSequences)
+            Stack<SequenceBase> debugSequences)
         {
             this.env = env;
             this.shellProcEnv = shellProcEnv;

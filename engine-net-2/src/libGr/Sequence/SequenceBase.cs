@@ -58,6 +58,14 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
+    /// States of executing sequence parts: not (yet) executed, execution underway, successful execution, fail execution
+    /// </summary>
+    public enum SequenceExecutionState
+    {
+        NotYet, Underway, Success, Fail
+    }
+
+    /// <summary>
     /// The common base of sequence, sequence computation, and sequence expression objects,
     /// with some common infrastructure.
     /// </summary>
@@ -70,6 +78,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             id = idSource;
             ++idSource;
+            executionState = SequenceExecutionState.NotYet;
         }
 
         /// <summary>
@@ -79,6 +88,7 @@ namespace de.unika.ipd.grGen.libGr
         protected SequenceBase(SequenceBase that)
         {
             id = that.id;
+            executionState = SequenceExecutionState.NotYet;
         }
 
         public abstract bool HasSequenceType(SequenceType sequenceType);
@@ -149,6 +159,24 @@ namespace de.unika.ipd.grGen.libGr
                     return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Returns the innermost sequence base beneath this as root
+        /// which gets currently executed (for sequences on call stack this is the call).
+        /// A path in the sequence tree gets executed, the innermost is the important one.
+        /// </summary>
+        /// <returns>The innermost sequence currently executed, or null if there is no such</returns>
+        public virtual SequenceBase GetCurrentlyExecutedSequenceBase()
+        {
+            foreach(SequenceBase child in ChildrenBase)
+            {
+                if(child.GetCurrentlyExecutedSequenceBase() != null)
+                    return child.GetCurrentlyExecutedSequenceBase();
+            }
+            if(executionState == SequenceExecutionState.Underway)
+                return this;
+            return null;
         }
 
         /// <summary>

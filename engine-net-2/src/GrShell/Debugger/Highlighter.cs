@@ -24,14 +24,14 @@ namespace de.unika.ipd.grGen.grShell
         readonly GraphAnnotationAndChangesRecorder renderRecorder;
         readonly YCompClient ycompClient;
 
-        readonly Stack<Sequence> debugSequences;
+        readonly Stack<SequenceBase> debugSequences;
 
         public Highlighter(IDebuggerEnvironment env,
             ShellGraphProcessingEnvironment shellProcEnv,
             ElementRealizers realizers,
             GraphAnnotationAndChangesRecorder renderRecorder,
             YCompClient ycompClient,
-            Stack<Sequence> debugSequences
+            Stack<SequenceBase> debugSequences
         )
         {
             this.env = env;
