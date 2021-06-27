@@ -299,7 +299,10 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceType.BooleanComputation:
                 {
                     SequenceBooleanComputation seqBoolComp = (SequenceBooleanComputation)seq;
-                    EmitNeededMappingClausesAndRuleQueries(seqBoolComp.Computation, seqGen, source);
+                    if(seqBoolComp.Computation is SequenceExpression)
+                        EmitNeededMappingClausesAndRuleQueries((SequenceExpression)seqBoolComp.Computation, seqGen, source);
+                    else
+                        EmitNeededMappingClausesAndRuleQueries(seqBoolComp.Computation, seqGen, source);
                     break;
                 }
 

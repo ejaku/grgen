@@ -1,0 +1,39 @@
+new graph "allkindsofrulecalls/rules"
+
+dump set node N color red
+dump add node N shortinfotag i
+dump set node M color blue
+
+#debug set match mode pre enable
+
+randomseed 0
+
+exec init
+
+exec seqquerynested
+
+clear graph
+
+exec init
+
+exec seqquerynestednested
+
+clear graph
+
+exec init
+
+exec seqquerymultinestednested
+
+clear graph
+
+exec init
+
+exec seqmultiquerynested
+
+#clear graph
+
+#exec init
+
+#exec seqmultimappingnested
+
+quit

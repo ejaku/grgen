@@ -1,0 +1,41 @@
+new graph "allkindsofrulecalls/rules"
+
+dump set node N color red
+dump add node N shortinfotag i
+dump set node M color blue
+
+#debug set match mode pre enable
+
+randomseed 0
+
+exec init
+
+eval [?%rp([?tN()][0].n)]
+
+clear graph
+
+exec init
+
+eval [?rp2([?sN([?tN()][0].n)][0].n1)].size()
+
+clear graph
+
+exec init
+
+eval [?rp2([?sN([?tN()][0].n)][0].n1)].size() + [?%rp([?tN()][0].n)].size()
+
+clear graph
+
+exec init
+
+eval [?[rp([?tN()][0].n), rp2([?sN([?tN()][0].n)][0].n1)]\<class rs>]
+
+clear graph
+
+#exec init
+
+#eval [:for{r;true},for{s;true}:]
+
+#clear graph
+
+quit

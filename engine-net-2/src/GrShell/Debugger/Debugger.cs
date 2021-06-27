@@ -59,6 +59,8 @@ namespace de.unika.ipd.grGen.grShell
 
         readonly List<SubruleComputation> computationsEnteredStack = new List<SubruleComputation>(); // can't use stack class, too weak
 
+        readonly List<IPatternMatchingConstruct> patternMatchingConstructsExecuted = new List<IPatternMatchingConstruct>();
+
         public YCompClient YCompClient
         {
             get { return ycompClient; }
@@ -1311,6 +1313,15 @@ namespace de.unika.ipd.grGen.grShell
             renderRecorder.SetAddedEdgeNames(namesOfEdgesAdded);
         }
 
+        private void DebugBeginExecution(IPatternMatchingConstruct patternMatchingConstruct)
+        {
+            patternMatchingConstructsExecuted.Add(patternMatchingConstruct);
+            if(computationsEnteredStack.Count > 0) // only in subrule debugging, otherwise printed by SequenceEntered
+            {
+                Console.WriteLine("Entry to " + patternMatchingConstruct.Symbol);
+            }
+        }
+
         private void DebugMatchedBefore(IList<IMatches> matchesList)
         {
             if(!stepMode)
@@ -1661,6 +1672,54 @@ namespace de.unika.ipd.grGen.grShell
             renderRecorder.ResetAllChangedElements();
             recordMode = false;
             matchDepth--;
+        }
+
+        private void DebugEndExecution(IPatternMatchingConstruct patternMatchingConstruct, object result)
+        {
+            Debug.Assert(patternMatchingConstructsExecuted[patternMatchingConstructsExecuted.Count - 1].Symbol == patternMatchingConstruct.Symbol);
+            patternMatchingConstructsExecuted.RemoveAt(patternMatchingConstructsExecuted.Count - 1);
+
+            if(patternMatchingConstructsExecuted.Count > 0)
+            {
+                if(patternMatchingConstruct is SequenceBase)
+                {
+                    ycompClient.UpdateDisplay();
+                    ycompClient.Sync();
+                    context.highlightSeq = (SequenceBase)patternMatchingConstructsExecuted[patternMatchingConstructsExecuted.Count - 1];
+                    context.success = false;
+                    if(debugSequences.Count > 0)
+                    {
+                        SequencePrinter.PrintSequenceBase(debugSequences.Peek(), context, debugSequences.Count);
+                        Console.WriteLine();
+                    }
+
+                    /*if(detailedMode && detailedModeShowPostMatches
+                        && (seq.HasSequenceType(SequenceType.Backtrack)
+                            || seq.HasSequenceType(SequenceType.ForMatch)
+                            || IsRuleContainedInComplexConstruct(seq)))
+                    {
+                        return;
+                    }*/
+
+                    /*if(seq is SequenceSequenceCallInterpreted)
+                    {
+                        SequenceSequenceCallInterpreted seqCall = (SequenceSequenceCallInterpreted)seq;
+                        if(seqCall.SequenceDef is SequenceDefinitionCompiled)
+                        {
+                            PrintDebugInstructions();
+                        }
+                    }*/
+
+                    QueryUser((SequenceBase)patternMatchingConstruct);
+                }
+                else // compiled sequence
+                {
+                    if(computationsEnteredStack.Count > 0) // only in subrule debugging
+                    {
+                        Console.WriteLine("Exit from " + patternMatchingConstruct.Symbol);
+                    }
+                }
+            }
         }
 
         private void QueryContinueWhenShowPostDisabled()
@@ -2306,6 +2365,9 @@ namespace de.unika.ipd.grGen.grShell
             shellProcEnv.ProcEnv.OnFinishedSelectedMatch += DebugFinishedSelectedMatch;
             shellProcEnv.ProcEnv.OnFinished += DebugFinished;
 
+            shellProcEnv.ProcEnv.OnBeginExecution += DebugBeginExecution;
+            shellProcEnv.ProcEnv.OnEndExecution += DebugEndExecution;
+
             shellProcEnv.ProcEnv.OnSwitchingToSubgraph += DebugSwitchToGraph;
             shellProcEnv.ProcEnv.OnReturnedFromSubgraph += DebugReturnedFromGraph;
 
@@ -2344,6 +2406,9 @@ namespace de.unika.ipd.grGen.grShell
             shellProcEnv.ProcEnv.OnSelectedMatchRewritten -= DebugSelectedMatchRewritten;
             shellProcEnv.ProcEnv.OnFinishedSelectedMatch -= DebugFinishedSelectedMatch;
             shellProcEnv.ProcEnv.OnFinished -= DebugFinished;
+
+            shellProcEnv.ProcEnv.OnBeginExecution -= DebugBeginExecution;
+            shellProcEnv.ProcEnv.OnEndExecution -= DebugEndExecution;
 
             shellProcEnv.ProcEnv.OnSwitchingToSubgraph -= DebugSwitchToGraph;
             shellProcEnv.ProcEnv.OnReturnedFromSubgraph -= DebugReturnedFromGraph;

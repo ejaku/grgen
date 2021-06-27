@@ -22,7 +22,3 @@
 1
 [graph{name:DefaultGraph,id:4,changes:17},graph{name:DefaultGraph,id:5,changes:17},graph{name:DefaultGraph,id:6,changes:17},graph{name:DefaultGraph,id:7,changes:13}]
 4
-1
-1
-[match<rp>{n1:$46,n2:$47,_edge0:$4B}]
-9

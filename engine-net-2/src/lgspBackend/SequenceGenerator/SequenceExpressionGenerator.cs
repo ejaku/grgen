@@ -1186,7 +1186,7 @@ namespace de.unika.ipd.grGen.lgsp
                 patternMatchingConstructVarName, SequenceGeneratorHelper.Escape(seqRuleQuery.Symbol));
             source.AppendFrontFormat("procEnv.BeginExecution({0});\n", patternMatchingConstructVarName);
 
-            source.AppendFrontFormat("List<{0}> result = ", matchType);
+            source.AppendFrontFormat("GRGEN_LIBGR.IMatchesExact<{0}> matches = ", matchType);
 
             SourceBuilder matchesSourceBuilder = new SourceBuilder();
             matchesSourceBuilder.AppendFormat("((GRGEN_LIBGR.IMatchesExact<{0}>)procEnv.MatchForQuery({1}, {2}{3}, procEnv.MaxMatches, {4}))",
@@ -1199,8 +1199,14 @@ namespace de.unika.ipd.grGen.lgsp
                 matchesSourceBuilder.Reset();
                 EmitFilterCall(matchesSourceBuilder, ruleCall.Filters[i], patternName, matchesSource, ruleCall.PackagePrefixedName, true);
             }
-            source.Append(matchesSourceBuilder.ToString() + ".ToListExact()");
+            source.AppendFormat("{0};\n", matchesSourceBuilder.ToString());
+
+            source.AppendFrontFormat("List<{0}> result = ", matchType);
+            source.Append("matches.ToListExact()");
             source.Append(";\n");
+
+            source.AppendFrontFormat("procEnv.MatchedAfterFiltering(matches, {0});\n", ruleCall.special ? "true" : "false");
+            source.AppendFrontFormat("procEnv.Finished(matches, {0});\n", ruleCall.special ? "true" : "false");
 
             source.AppendFrontFormat("procEnv.EndExecution({0}, result);\n", patternMatchingConstructVarName);
 
@@ -1291,6 +1297,16 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("GRGEN_LIBGR.MatchListHelper.ToList<" + matchType + ">(" + matchesSourceBuilder.ToString() + ");\n");
             else
                 source.Append(matchesSourceBuilder.ToString() + ";\n");
+
+            source.AppendFrontFormat("bool[] specialArray = new bool[{0}];\n", seqMultiRuleQuery.MultiRuleCall.Sequences.Count);
+            for(int i = 0; i < seqMultiRuleQuery.MultiRuleCall.Sequences.Count; ++i)
+            {
+                source.AppendFrontFormat("specialArray[{0}] = {1};\n", i, ((SequenceRuleCall)seqMultiRuleQuery.MultiRuleCall.Sequences[i]).special ? "true" : "false");
+            }
+
+            string matchesArray = "multi_rule_call_result_" + seqMulti.Id; // implicit name defined elsewhere - TODO: explicit
+            source.AppendFrontFormat("procEnv.MatchedAfterFiltering({0}, {1});\n", matchesArray, "specialArray");
+            source.AppendFrontFormat("procEnv.Finished({0}, {1});\n", matchesArray, "specialArray");
 
             source.AppendFrontFormat("procEnv.EndExecution({0}, result);\n", patternMatchingConstructVarName);
 

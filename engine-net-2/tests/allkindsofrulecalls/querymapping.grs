@@ -40,10 +40,4 @@ exec init
 
 eval [:for{r;true},for{s;true}:]
 
-exec init
-
-eval [?%rp([?tN()][0].n)]
-
-clear graph
-
 quit
