@@ -29,13 +29,16 @@ namespace de.unika.ipd.grGen.lgsp
 
         public readonly SourceBuilder perElementMethodSource; // for generation of lambda expression execution functions of the array per element methods / per element match filters
 
+        readonly bool fireDebugEvents;
 
-        public SequenceExpressionGenerator(IGraphModel model, SequenceCheckingEnvironment env, SequenceGeneratorHelper seqHelper)
+
+        public SequenceExpressionGenerator(IGraphModel model, SequenceCheckingEnvironment env, SequenceGeneratorHelper seqHelper, bool fireDebugEvents)
         {
             this.model = model;
             this.env = env;
             this.seqHelper = seqHelper;
             this.perElementMethodSource = new SourceBuilder();
+            this.fireDebugEvents = fireDebugEvents;
         }
 
         // source is needed for a method call chain or expressions that require temporary variables, 
@@ -1386,7 +1389,6 @@ namespace de.unika.ipd.grGen.lgsp
             // emit code for rewriting the current match (for each rule, rule fitting to the match is selected by rule name)
             for(int i = 0; i < seqMulti.RulePrefixedSequences.Count; ++i)
             {
-                bool fireDebugEvents = false; // todo: extend sequence expressions to full events, esp. enable debug events
                 SequenceMultiRulePrefixedSequenceRewritingGenerator ruleRewritingGenerator = new SequenceMultiRulePrefixedSequenceRewritingGenerator(
                     seqMulti, (SequenceRulePrefixedSequence)seqMulti.RulePrefixedSequences[i], this, seqHelper);
                 ruleRewritingGenerator.EmitRewritingMapping(source, seqGen, matchListName, enumeratorName, fireDebugEvents);
@@ -1401,6 +1403,14 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.Unindent();
             source.AppendFront("}\n");
+
+            SequenceRuleCallMatcherGenerator[] ruleMatcherGenerators = new SequenceRuleCallMatcherGenerator[seqMulti.RulePrefixedSequences.Count];
+            for(int i = 0; i < seqMulti.RulePrefixedSequences.Count; ++i)
+            {
+                SequenceRulePrefixedSequence seqRulePrefixedSequence = (SequenceRulePrefixedSequence)seqMulti.RulePrefixedSequences[i];
+                ruleMatcherGenerators[i] = new SequenceRuleCallMatcherGenerator(seqRulePrefixedSequence.Rule, this, seqHelper);
+            }
+            SequenceRuleCallMatcherGenerator.EmitFinishedEventFiring(source, ruleMatcherGenerators);
 
             source.AppendFrontFormat("procEnv.EndExecution({0}, graphs);\n", patternMatchingConstructVarName);
 
@@ -1439,6 +1449,8 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 EmitMatchClassFilterCall(source, sequenceFilterCall, matchListName, false);
             }
+
+            SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, ruleMatcherGenerators);
 
             return matchListName;
         }

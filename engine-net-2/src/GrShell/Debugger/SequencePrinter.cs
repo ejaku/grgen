@@ -28,7 +28,7 @@ namespace de.unika.ipd.grGen.grShell
             if(seqBase is Sequence)
                 PrintSequence((Sequence)seqBase, context, nestingLevel);
             else
-                PrintSequenceExpression((SequenceExpression)seqBase, context);
+                PrintSequenceExpression((SequenceExpression)seqBase, context, nestingLevel);
         }
 
         /// <summary>
@@ -48,8 +48,9 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         /// <param name="seqExpr">The sequence expression to be printed</param>
         /// <param name="context">The print context</param>
-        public static void PrintSequenceExpression(SequenceExpression seqExpr, PrintSequenceContext context)
+        public static void PrintSequenceExpression(SequenceExpression seqExpr, PrintSequenceContext context, int nestingLevel)
         {
+            WorkaroundManager.Workaround.PrintHighlighted(nestingLevel + ">", HighlightingMode.SequenceStart);
             PrintSequenceExpression(seqExpr, null, HighlightingMode.None, context);
         }
 
@@ -496,7 +497,7 @@ namespace de.unika.ipd.grGen.grShell
             }
 
             WorkaroundManager.Workaround.PrintHighlighted((seqN.Choice ? "$%" : "$") + seqN.OperatorSymbol + "(", highlightingMode);
-            PrintChildren(seqN, highlightingMode, context);
+            PrintChildren(seqN, highlightingMode, highlightingMode, context);
             WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
@@ -642,7 +643,7 @@ namespace de.unika.ipd.grGen.grShell
                 highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
             WorkaroundManager.Workaround.PrintHighlighted(seqSome.Random ? (seqSome.Choice ? "$%{<" : "${<") : "{<", highlightingModeLocal);
-            PrintChildren(seqSome, highlightingModeLocal, context);
+            PrintChildren(seqSome, highlightingMode, highlightingModeLocal, context);
             WorkaroundManager.Workaround.PrintHighlighted(">}", highlightingModeLocal);
         }
 
@@ -653,7 +654,7 @@ namespace de.unika.ipd.grGen.grShell
                 highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
             WorkaroundManager.Workaround.PrintHighlighted("[[", highlightingModeLocal);
-            PrintChildren(seqMulti, highlightingModeLocal, context);
+            PrintChildren(seqMulti, highlightingMode, highlightingModeLocal, context);
             WorkaroundManager.Workaround.PrintHighlighted("]", highlightingModeLocal);
             foreach(SequenceFilterCallBase filterCall in seqMulti.Filters)
             {
@@ -669,7 +670,7 @@ namespace de.unika.ipd.grGen.grShell
                 highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
             WorkaroundManager.Workaround.PrintHighlighted("[[", highlightingModeLocal);
-            PrintChildren(seqMulti, highlightingModeLocal, context);
+            PrintChildren(seqMulti, highlightingMode, highlightingModeLocal, context);
             WorkaroundManager.Workaround.PrintHighlighted("]", highlightingModeLocal);
             foreach(SequenceFilterCallBase filterCall in seqMulti.Filters)
             {
@@ -935,7 +936,7 @@ namespace de.unika.ipd.grGen.grShell
             PrintSequence(seqDef.Seq, seqDef.Seq, highlightingMode, context);
         }
 
-        private static void PrintChildren(Sequence seq, HighlightingMode highlightingMode, PrintSequenceContext context)
+        private static void PrintChildren(Sequence seq, HighlightingMode highlightingModeChildren, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             bool first = true;
             foreach(Sequence seqChild in seq.Children)
@@ -944,7 +945,7 @@ namespace de.unika.ipd.grGen.grShell
                     first = false;
                 else
                     WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
-                PrintSequence(seqChild, seq, highlightingMode, context);
+                PrintSequence(seqChild, seq, highlightingModeChildren, context);
             }
         }
 
@@ -3272,41 +3273,41 @@ namespace de.unika.ipd.grGen.grShell
 
         private static void PrintSequenceExpressionRuleQuery(SequenceExpressionRuleQuery seqExprRuleQuery, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
+            HighlightingMode highlightingModeLocal = highlightingMode;
             if(seqExprRuleQuery == context.highlightSeq)
-                WorkaroundManager.Workaround.PrintHighlighted(seqExprRuleQuery.Symbol, HighlightingMode.Focus);
-            else
-                PrintSequence(seqExprRuleQuery.RuleCall, seqExprRuleQuery, highlightingMode, context);
+                highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
+
+            PrintSequence(seqExprRuleQuery.RuleCall, seqExprRuleQuery, highlightingModeLocal, context); // rule all call with test flag, thus [?r]
         }
 
         private static void PrintSequenceExpressionMultiRuleQuery(SequenceExpressionMultiRuleQuery seqExprMultiRuleQuery, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
+            HighlightingMode highlightingModeLocal = highlightingMode;
             if(seqExprMultiRuleQuery == context.highlightSeq)
-                WorkaroundManager.Workaround.PrintHighlighted(seqExprMultiRuleQuery.Symbol, HighlightingMode.Focus);
-            else
+                highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
+
+            WorkaroundManager.Workaround.PrintHighlighted("[?[", highlightingModeLocal);
+            bool first = true;
+            foreach(Sequence rule in seqExprMultiRuleQuery.MultiRuleCall.Sequences)
             {
-                WorkaroundManager.Workaround.PrintHighlighted("[?[", highlightingMode);
-                bool first = true;
-                foreach(Sequence rule in seqExprMultiRuleQuery.MultiRuleCall.Sequences)
-                {
-                    if(first)
-                        first = false;
-                    else
-                        WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
-                    PrintSequence(rule, seqExprMultiRuleQuery, highlightingMode, context);
-                }
-                WorkaroundManager.Workaround.PrintHighlighted("]", highlightingMode);
-                foreach(SequenceFilterCallBase filterCall in seqExprMultiRuleQuery.MultiRuleCall.Filters)
-                {
-                    PrintSequenceFilterCall(filterCall, seqExprMultiRuleQuery.MultiRuleCall, highlightingMode, context);
-                }
-                WorkaroundManager.Workaround.PrintHighlighted("\\<class " + seqExprMultiRuleQuery.MatchClass + ">", highlightingMode);
-                WorkaroundManager.Workaround.PrintHighlighted("]", highlightingMode);
+                if(first)
+                    first = false;
+                else
+                    WorkaroundManager.Workaround.PrintHighlighted(",", highlightingModeLocal);
+                PrintSequence(rule, seqExprMultiRuleQuery, highlightingMode, context);
             }
+            WorkaroundManager.Workaround.PrintHighlighted("]", highlightingModeLocal);
+            foreach(SequenceFilterCallBase filterCall in seqExprMultiRuleQuery.MultiRuleCall.Filters)
+            {
+                PrintSequenceFilterCall(filterCall, seqExprMultiRuleQuery.MultiRuleCall, highlightingModeLocal, context);
+            }
+            WorkaroundManager.Workaround.PrintHighlighted("\\<class " + seqExprMultiRuleQuery.MatchClass + ">", highlightingModeLocal);
+            WorkaroundManager.Workaround.PrintHighlighted("]", highlightingModeLocal);
         }
 
         private static void PrintSequenceExpressionMappingClause(SequenceExpressionMappingClause seqExprMappingClause, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            bool highlight = false;
+            /*bool highlight = false;
             foreach(Sequence seqChild in seqExprMappingClause.MultiRulePrefixedSequence.Children)
             {
                 if(seqChild == context.highlightSeq)
@@ -3314,22 +3315,21 @@ namespace de.unika.ipd.grGen.grShell
             }
             bool succesBackup = context.success;
             if(highlight)
-                context.success = true;
+                context.success = true;*/
 
+            HighlightingMode highlightingModeLocal = highlightingMode;
             if(seqExprMappingClause == context.highlightSeq)
-                WorkaroundManager.Workaround.PrintHighlighted(seqExprMappingClause.Symbol, HighlightingMode.Focus);
-            else
-            {
-                WorkaroundManager.Workaround.PrintHighlighted("[:", highlightingMode);
-                PrintChildren(seqExprMappingClause.MultiRulePrefixedSequence, highlightingMode, context);
-                foreach(SequenceFilterCallBase filterCall in seqExprMappingClause.MultiRulePrefixedSequence.Filters)
-                {
-                    PrintSequenceFilterCall(filterCall, seqExprMappingClause.MultiRulePrefixedSequence, highlightingMode, context);
-                }
-                WorkaroundManager.Workaround.PrintHighlighted(":]", highlightingMode);
-            }
+                highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
-            context.success = succesBackup;
+            WorkaroundManager.Workaround.PrintHighlighted("[:", highlightingModeLocal);
+            PrintChildren(seqExprMappingClause.MultiRulePrefixedSequence, highlightingMode, highlightingModeLocal, context);
+            foreach(SequenceFilterCallBase filterCall in seqExprMappingClause.MultiRulePrefixedSequence.Filters)
+            {
+                PrintSequenceFilterCall(filterCall, seqExprMappingClause.MultiRulePrefixedSequence, highlightingModeLocal, context);
+            }
+            WorkaroundManager.Workaround.PrintHighlighted(":]", highlightingModeLocal);
+
+            //context.success = succesBackup;
         }
 
         private static void PrintSequenceExpressionScan(SequenceExpressionScan seqExprScan, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)

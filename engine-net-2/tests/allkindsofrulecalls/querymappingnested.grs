@@ -32,10 +32,10 @@ eval [?[rp([?tN()][0].n), rp2([?sN([?tN()][0].n)][0].n1)]\<class rs>]
 
 clear graph
 
-#exec init
+exec init
 
-#eval [:for{r;true},for{s;true}:]
+eval [:for{r;true},for{s;true}:]
 
-#clear graph
+clear graph
 
 quit

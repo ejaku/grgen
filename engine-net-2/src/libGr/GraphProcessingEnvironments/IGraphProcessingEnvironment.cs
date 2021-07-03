@@ -31,7 +31,7 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// Represents a method called when a loop iteration is ended.
     /// </summary>
-    public delegate void EndOfIterationHandler(bool continueLoop, Sequence seq);
+    public delegate void EndOfIterationHandler(bool continueLoop, SequenceBase seq);
 
     #endregion GraphProcessingDelegates
 
@@ -373,7 +373,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Fires an OnEndOfIteration event. 
         /// This informs the debugger about the end of a loop iteration, so it can display the state at the end of the iteration.
         /// </summary>
-        void EndOfIteration(bool continueLoop, Sequence seq);
+        void EndOfIteration(bool continueLoop, SequenceBase seq);
 
         #endregion Events
     }

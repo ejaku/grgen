@@ -13386,6 +13386,15 @@ namespace de.unika.ipd.grGen.libGr
                 Sequence seq = MultiRulePrefixedSequence.RulePrefixedSequences[index].Sequence;
                 IMatches matches = MatchesArray[index];
 
+                for(int i = 0; i < MultiRulePrefixedSequence.RulePrefixedSequences.Count; ++i)
+                {
+                    SequenceRuleCall highlightingRule = (SequenceRuleCall)MultiRulePrefixedSequence.RulePrefixedSequences[i].Rule;
+                    if(i != index)
+                        highlightingRule.executionState = SequenceExecutionState.Fail;
+                    else
+                        highlightingRule.executionState = SequenceExecutionState.Success;
+                }
+
                 IDictionary<IGraphElement, IGraphElement> oldToNewMap;
                 IGraph graph = procEnv.Graph.Clone(procEnv.Graph.Name, out oldToNewMap);
 
@@ -13410,7 +13419,7 @@ namespace de.unika.ipd.grGen.libGr
 
                 if(matchesTried < matchesCount)
                 {
-                    procEnv.EndOfIteration(true, MultiRulePrefixedSequence);
+                    procEnv.EndOfIteration(true, this);
                     rule.ResetExecutionState();
                     seq.ResetExecutionState();
                 }
@@ -13419,7 +13428,7 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
                     procEnv.Recorder.WriteLine("Applying match exhausted " + rule.GetRuleCallString(procEnv));
 #endif
-                    procEnv.EndOfIteration(false, MultiRulePrefixedSequence);
+                    procEnv.EndOfIteration(false, this);
                 }
 
                 procEnv.ReturnFromSubgraph();

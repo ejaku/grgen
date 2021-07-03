@@ -280,15 +280,24 @@ namespace de.unika.ipd.grGen.grShell
             context = new PrintSequenceContext();
         }
 
-        public void InitSequenceExpression(SequenceExpression seqExp, bool withStepMode)
+        public void InitSequenceExpression(SequenceExpression seqExp, bool withStepMode, bool debugModePreMatchEnabled, bool debugModePostMatchEnabled)
         {
             debugSequences.Clear();
             debugSequences.Push(seqExp);
+            curStepSequence = null;
             stepMode = withStepMode;
-            detailedMode = true;
-            detailedModeShowPreMatches = true;
-            detailedModeShowPostMatches = false;
             recordMode = false;
+            alwaysShow = false;
+            detailedMode = false;
+            detailedModeShowPreMatches = debugModePreMatchEnabled;
+            detailedModeShowPostMatches = debugModePostMatchEnabled;
+            outOfDetailedMode = false;
+            outOfDetailedModeTarget = -1;
+            dynamicStepMode = false;
+            skipMode = false;
+            lastlyEntered = null;
+            recentlyMatched = null;
+            context = new PrintSequenceContext();
         }
 
         public void AbortRewriteSequence()
@@ -1624,6 +1633,7 @@ namespace de.unika.ipd.grGen.grShell
                 return;
 
             // clear annotations after displaying single match so user can choose match to apply (occurs before on match selected is fired)
+            recordMode = false;
             ycompClient.NodeRealizerOverride = null;
             ycompClient.EdgeRealizerOverride = null;
             renderRecorder.ApplyChanges(ycompClient);
@@ -1671,6 +1681,8 @@ namespace de.unika.ipd.grGen.grShell
 
             renderRecorder.ResetAllChangedElements();
             recordMode = false;
+            ycompClient.NodeRealizerOverride = null;
+            ycompClient.EdgeRealizerOverride = null;
             matchDepth--;
         }
 
@@ -1710,7 +1722,8 @@ namespace de.unika.ipd.grGen.grShell
                         }
                     }*/
 
-                    QueryUser((SequenceBase)patternMatchingConstruct);
+                    if(stepMode)
+                        QueryUser((SequenceBase)patternMatchingConstruct);
                 }
                 else // compiled sequence
                 {
@@ -1914,7 +1927,7 @@ namespace de.unika.ipd.grGen.grShell
         /// <summary>
         /// informs debugger about the end of a loop iteration, so it can display the state at the end of the iteration
         /// </summary>
-        private void DebugEndOfIteration(bool continueLoop, Sequence seq)
+        private void DebugEndOfIteration(bool continueLoop, SequenceBase seq)
         {
             if(stepMode || dynamicStepMode)
             {
@@ -1933,7 +1946,7 @@ namespace de.unika.ipd.grGen.grShell
                     }
                     WorkaroundManager.Workaround.PrintHighlighted(text + ": ", HighlightingMode.SequenceStart);
                     context.highlightSeq = seq;
-                    SequencePrinter.PrintSequence(seq, context, debugSequences.Count);
+                    SequencePrinter.PrintSequence((Sequence)seq, context, debugSequences.Count);
                     if(!continueLoop)
                         WorkaroundManager.Workaround.PrintHighlighted("< leaving backtracking brackets", HighlightingMode.SequenceStart);
                 }
@@ -1942,14 +1955,22 @@ namespace de.unika.ipd.grGen.grShell
                     SequenceDefinition seqDef = (SequenceDefinition)seq;
                     WorkaroundManager.Workaround.PrintHighlighted("State at end of sequence call" + ": ", HighlightingMode.SequenceStart);
                     context.highlightSeq = seq;
-                    SequencePrinter.PrintSequence(seq, context, debugSequences.Count);
+                    SequencePrinter.PrintSequence((Sequence)seq, context, debugSequences.Count);
                     WorkaroundManager.Workaround.PrintHighlighted("< leaving", HighlightingMode.SequenceStart);
+                }
+                else if(seq is SequenceExpressionMappingClause)
+                {
+                    WorkaroundManager.Workaround.PrintHighlighted("State at end of mapping step" + ": ", HighlightingMode.SequenceStart);
+                    context.highlightSeq = seq;
+                    SequencePrinter.PrintSequenceExpression((SequenceExpression)seq, context, debugSequences.Count);
+                    if(!continueLoop)
+                        WorkaroundManager.Workaround.PrintHighlighted("< leaving mapping", HighlightingMode.SequenceStart);
                 }
                 else
                 {
                     WorkaroundManager.Workaround.PrintHighlighted("State at end of iteration step" + ": ", HighlightingMode.SequenceStart);
                     context.highlightSeq = seq;
-                    SequencePrinter.PrintSequence(seq, context, debugSequences.Count);
+                    SequencePrinter.PrintSequence((Sequence)seq, context, debugSequences.Count);
                     if(!continueLoop)
                         WorkaroundManager.Workaround.PrintHighlighted("< leaving loop", HighlightingMode.SequenceStart);
                 }

@@ -14,3 +14,7 @@
 1
 [match<rp>{n1:$25,n2:$26,_edge0:$2A,i:0},match<rp2>{n1:$25,n2:$26,n1b:$23,n2b:$24,_edge0:$2A,_edge1:$29,i:0},match<rp2>{n1:$25,n2:$26,n1b:$21,n2b:$22,_edge0:$2A,_edge1:$28,i:0}]
 12
+1
+1
+[graph{name:DefaultGraph,id:1,changes:17},graph{name:DefaultGraph,id:2,changes:17},graph{name:DefaultGraph,id:3,changes:17},graph{name:DefaultGraph,id:4,changes:13}]
+4

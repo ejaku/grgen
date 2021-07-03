@@ -905,7 +905,7 @@ namespace de.unika.ipd.grGen.lgsp
                 OnExitingSequence(seq);
         }
 
-        public void EndOfIteration(bool continueLoop, Sequence seq)
+        public void EndOfIteration(bool continueLoop, SequenceBase seq)
         {
             if(OnEndOfIteration != null)
                 OnEndOfIteration(continueLoop, seq);

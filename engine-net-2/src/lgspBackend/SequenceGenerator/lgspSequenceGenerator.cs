@@ -63,7 +63,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             this.seqHelper = new SequenceGeneratorHelper(model, actionsTypeInformation, env);
 
-            SequenceExpressionGenerator exprGen = new SequenceExpressionGenerator(model, env, seqHelper);
+            SequenceExpressionGenerator exprGen = new SequenceExpressionGenerator(model, env, seqHelper, fireDebugEvents);
 
             this.seqHelper.SetSequenceExpressionGenerator(exprGen);
 
