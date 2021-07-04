@@ -17,12 +17,15 @@ import java.util.HashSet;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.expr.Qualification;
+import de.unika.ipd.grgen.ir.model.type.EdgeType;
+import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.pattern.Alternative;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
 import de.unika.ipd.grgen.ir.pattern.Variable;
+import de.unika.ipd.grgen.ir.type.container.ContainerType;
 import de.unika.ipd.grgen.util.SourceBuilder;
 
 public class ActionsMatchGen extends CSharpBase
@@ -511,31 +514,72 @@ public class ActionsMatchGen extends CSharpBase
 		case MATCH_PART_VARIABLES:
 			for(Variable var : pattern.getVars()) {
 				String varName = formatEntity(var, "_");
-				sb.appendFront(varName + " = that." + varName + ";\n");
+				if(mapping) {
+					if(var.getType() instanceof ContainerType) {
+						sb.appendFront(varName + " = (" + formatType(var.getType()) + ")GRGEN_LIBGR.ContainerHelper.MappingClone(that." + varName + ", oldToNewMap);\n");
+					} else if(var.getType() instanceof NodeType || var.getType() instanceof EdgeType) {
+						sb.appendFront(varName + " = (" + formatType(var.getType()) + ")oldToNewMap[that." + varName + "];\n");
+					} else {
+						sb.appendFront(varName + " = that." + varName + ";\n");
+					}
+				} else {
+					sb.appendFront(varName + " = that." + varName + ";\n");
+				}
 			}
 			break;
 		case MATCH_PART_EMBEDDED_GRAPHS:
 			for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
 				String subName = "@" + formatIdentifiable(sub, "_");
-				sb.appendFront(subName + " = that." + subName + ";\n");
+				String subpatternMatchName = matchType(sub.getSubpatternAction().getPattern(), sub.getSubpatternAction(), true, "");
+				if(mapping) {
+					sb.appendFront(subName + " = new " + subpatternMatchName + "(that." + subName + ", oldToNewMap);\n");
+				} else {
+					sb.appendFront(subName + " = that." + subName + ";\n");
+				}
 			}
 			break;
 		case MATCH_PART_ALTERNATIVES:
 			for(Alternative alt : pattern.getAlts()) {
 				String altName = "_" + alt.getNameOfGraph();
-				sb.appendFront(altName + " = that." + altName + ";\n");
+				if(mapping) {
+					boolean first = true;
+					for(Rule altCase : alt.getAlternativeCases())
+					{
+						String altCaseMatchName = "Match_" + pathPrefixForElements + alt.getNameOfGraph() + "_" + altCase.getPattern().getNameOfGraph();
+						if(first) {
+							first = false;
+							sb.appendFront("if(that." + altName + " is " + altCaseMatchName + ")\n");
+						} else {
+							sb.appendFront("else if(that." + altName + " is " + altCaseMatchName + ")\n");
+						}
+						sb.appendFrontIndented(altName + " = new " + altCaseMatchName + "((" + altCaseMatchName + ")that." + altName + ", oldToNewMap);\n");
+					}
+				} else {
+					sb.appendFront(altName + " = that." + altName + ";\n");
+				}
 			}
 			break;
 		case MATCH_PART_ITERATEDS:
 			for(Rule iter : pattern.getIters()) {
 				String iterName = "_" + iter.getLeft().getNameOfGraph();
-				sb.appendFront(iterName + " = that." + iterName + ";\n");
+				String iteratedMatchName = "Match_" + pathPrefixForElements + iter.getLeft().getNameOfGraph();
+				String matchesListTypeName = "GRGEN_LGSP.LGSPMatchesList<" + iteratedMatchName + ", I" + iteratedMatchName + ">";
+				if(mapping) {
+					sb.appendFront(iterName + " = new " + matchesListTypeName + "(that." + iterName + ", oldToNewMap);\n");
+				} else {
+					sb.appendFront(iterName + " = that." + iterName + ";\n");
+				}
 			}
 			break;
 		case MATCH_PART_INDEPENDENTS:
 			for(PatternGraphLhs idpt : pattern.getIdpts()) {
 				String idptName = "_" + idpt.getNameOfGraph();
-				sb.appendFront(idptName + " = that." + idptName + ";\n");
+				String idptMatchName = "Match_" + pathPrefixForElements + idpt.getNameOfGraph();
+				if(mapping) {
+					sb.appendFront(idptName + " = new " + idptMatchName + "((" + idptMatchName + ")that." + idptName + ", oldToNewMap);\n");
+				} else {
+					sb.appendFront(idptName + " = that." + idptName + ";\n");
+				}
 			}
 			break;
 		default:

@@ -1356,5 +1356,45 @@ namespace de.unika.ipd.grGen.libGr
 
             return copy;
         }
+
+        public static IList MappingClone(IList array, IDictionary<IGraphElement, IGraphElement> oldToNewElements)
+        {
+            IList copy = (IList)Activator.CreateInstance(array.GetType());
+
+            foreach(object element in array)
+            {
+                if(element is IGraphElement)
+                {
+                    IGraphElement elem = (IGraphElement)element;
+                    copy.Add(oldToNewElements[elem]);
+                }
+                else
+                {
+                    copy.Add(element);
+                }
+            }
+
+            return copy;
+        }
+
+        public static List<T> MappingClone<T>(List<T> array, IDictionary<IGraphElement, IGraphElement> oldToNewElements)
+        {
+            List<T> copy = new List<T>();
+
+            foreach(T element in array)
+            {
+                if(element is IObject)
+                {
+                    IGraphElement elem = (IGraphElement)element;
+                    copy.Add((T)oldToNewElements[elem]);
+                }
+                else
+                {
+                    copy.Add(element);
+                }
+            }
+
+            return copy;
+        }
     }
 }

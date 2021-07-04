@@ -51,7 +51,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="oldContainer">The container to copy.</param>
         /// <returns>A deep copy of the container</returns>
-        public static object Copy(object oldContainer, IGraph graph, System.Collections.Generic.IDictionary<object, object> oldToNewObjects)
+        public static object Copy(object oldContainer, IGraph graph, IDictionary<object, object> oldToNewObjects)
         {
             if(oldContainer is IDictionary)
             {
@@ -64,6 +64,30 @@ namespace de.unika.ipd.grGen.libGr
             else if(oldContainer is IDeque)
             {
                 return Copy((IDeque)oldContainer, graph, oldToNewObjects);
+            }
+            return null; // no known container type
+        }
+
+        /// <summary>
+        /// Creates a shallow clone of the given container, mapping the contained elements according to the input new to old elements map
+        /// (clones a container, transplanting contained graph elements from an old to a new graph).
+        /// </summary>
+        /// <param name="oldContainer">The container to clone.</param>
+        /// <param name="oldToNewElements">A map from old elements of an old graph to their clones, i.e. new elements in a new graph.</param>
+        /// <returns>A shallow clone of the container</returns>
+        public static object MappingClone(object oldContainer, IDictionary<IGraphElement, IGraphElement> oldToNewElements)
+        {
+            if(oldContainer is IDictionary)
+            {
+                return MappingClone((IDictionary)oldContainer, oldToNewElements);
+            }
+            else if(oldContainer is IList)
+            {
+                return MappingClone((IList)oldContainer, oldToNewElements);
+            }
+            else if(oldContainer is IDeque)
+            {
+                return MappingClone((IDeque)oldContainer, oldToNewElements);
             }
             return null; // no known container type
         }

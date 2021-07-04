@@ -703,5 +703,45 @@ namespace de.unika.ipd.grGen.libGr
 
             return copy;
         }
+
+        public static IDeque MappingClone(IDeque deque, IDictionary<IGraphElement, IGraphElement> oldToNewElements)
+        {
+            IDeque copy = (IDeque)Activator.CreateInstance(deque.GetType());
+
+            foreach(object element in deque)
+            {
+                if(element is IGraphElement)
+                {
+                    IGraphElement elem = (IGraphElement)element;
+                    copy.Add(oldToNewElements[elem]);
+                }
+                else
+                {
+                    copy.Add(element);
+                }
+            }
+
+            return copy;
+        }
+
+        public static Deque<T> MappingClone<T>(Deque<T> deque, IDictionary<IGraphElement, IGraphElement> oldToNewElements)
+        {
+            Deque<T> copy = new Deque<T>();
+
+            foreach(T element in deque)
+            {
+                if(element is IGraphElement)
+                {
+                    IGraphElement elem = (IGraphElement)element;
+                    copy.Add((T)oldToNewElements[elem]);
+                }
+                else
+                {
+                    copy.Add(element);
+                }
+            }
+
+            return copy;
+        }
     }
 }

@@ -1009,5 +1009,63 @@ namespace de.unika.ipd.grGen.libGr
 
             return copy;
         }
+
+        public static IDictionary MappingClone(IDictionary dictionary, IDictionary<IGraphElement, IGraphElement> oldToNewElements)
+        {
+            Type keyType;
+            Type valueType;
+            Type dictType = dictionary.GetType();
+            GetDictionaryTypes(dictType, out keyType, out valueType);
+            IDictionary copy = NewDictionary(keyType, valueType);
+
+            foreach(DictionaryEntry element in dictionary)
+            {
+                object key = element.Key;
+                object value = element.Value;
+
+                if(key is IGraphElement)
+                {
+                    IGraphElement elem = (IGraphElement)key;
+                    key = oldToNewElements[elem];
+                }
+
+                if(value is IObject)
+                {
+                    IGraphElement elem = (IGraphElement)value;
+                    value = oldToNewElements[elem];
+                }
+
+                copy.Add(key, value);
+            }
+
+            return copy;
+        }
+
+        public static Dictionary<K, V> MappingClone<K, V>(Dictionary<K, V> dictionary, IDictionary<IGraphElement, IGraphElement> oldToNewElements)
+        {
+            Dictionary<K, V> copy = new Dictionary<K, V>();
+
+            foreach(KeyValuePair<K, V> element in dictionary)
+            {
+                K key = element.Key;
+                V value = element.Value;
+
+                if(key is IGraphElement)
+                {
+                    IGraphElement elem = (IGraphElement)key;
+                    key = (K)oldToNewElements[elem];
+                }
+
+                if(value is IGraphElement)
+                {
+                    IGraphElement elem = (IGraphElement)value;
+                    value = (V)oldToNewElements[elem];
+                }
+
+                copy.Add(key, value);
+            }
+
+            return copy;
+        }
     }
 }

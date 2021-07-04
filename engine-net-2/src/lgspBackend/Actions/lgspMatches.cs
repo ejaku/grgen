@@ -783,6 +783,21 @@ namespace de.unika.ipd.grGen.lgsp
             last = cur;
         }
 
+        public LGSPMatchesList(LGSPMatchesList<Match, MatchInterface> that, IDictionary<IGraphElement, IGraphElement> oldToNewMap)
+        {
+            producer = that.producer;
+            count = that.count;
+            Match curThat = that.root;
+            Match cur = root = (Match)curThat.Clone(oldToNewMap);
+            curThat = curThat.next;
+            for(int i = 1; i < that.count; i++, curThat = curThat.next)
+            {
+                cur.next = (Match)curThat.Clone(oldToNewMap);
+                cur = cur.next;
+            }
+            last = cur;
+        }
+
         protected LGSPMatchesList(LGSPMatchesList<Match, MatchInterface> that, IDictionary<IMatch, IMatch> originalToClone)
         {
             producer = that.producer;
