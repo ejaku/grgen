@@ -1,0 +1,5 @@
+debug set layout Hierarchic
+
+dump set node Red color red
+dump set node Green color green
+dump set node Blue color blue

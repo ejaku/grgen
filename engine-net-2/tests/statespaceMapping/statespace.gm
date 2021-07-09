@@ -1,0 +1,11 @@
+// the plain graphs / object level
+abstract node class Color;
+node class Red extends Color;
+node class Green extends Color;
+node class Blue extends Color;
+
+// the statespace / meta level
+
+// TODO: some classes to store the graphs
+
+//for equalsAny[parallelize=2];

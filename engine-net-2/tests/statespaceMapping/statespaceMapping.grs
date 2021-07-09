@@ -1,0 +1,33 @@
+new graph statespaceMapping/statespace
+
+include statespaceMapping/statespacelayout.grsi
+
+exec init
+
+exec { ::statespace = new set<graph>{} }
+
+#todo: add sequence definition replacing to sequence expressions and remove second re-definition
+def stateStep(level:int) { false }
+def stateStep(level:int) {\
+	if { {{level < ::stopLevel}};\
+		{ ::statestep = [: for{insertRed; {::statespace.add(this)} ;> stateStep(level + 1)}, for{insertGreen; {::statespace.add(this)} ;> stateStep(level + 1)}, for{insertBlue; {::statespace.add(this)} ;> stateStep(level + 1)} :] }\
+	}\
+}
+def stateStep(level:int) {\
+	if { {{level < ::stopLevel}};\
+		{ ::statestep = [: for{insertRed; {::statespace.add(this)} ;> stateStep(level + 1)}, for{insertGreen; {::statespace.add(this)} ;> stateStep(level + 1)}, for{insertBlue; {::statespace.add(this)} ;> stateStep(level + 1)} :] }\
+	}\
+}
+
+exec ::stopLevel=2 ;> stateStep(0)
+
+show var statestep
+show var statespace
+
+show num nodes Red
+show num nodes Green
+show num nodes Blue
+
+exec for{g:graph in ::statespace; in g { { emit("The value of variable \"redgreenblue\" of type foobar is: ", nodes(Red).size(), nodes(Green).size(), nodes(Blue).size(), "\n") } } } 
+
+exit

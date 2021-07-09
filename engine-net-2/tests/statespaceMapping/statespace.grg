@@ -1,0 +1,96 @@
+#using "statespace.gm"
+
+rule init
+{
+	modify {
+		r:Red --> g:Green --> b:Blue --> r;
+	}
+}
+
+rule insertRed
+{
+	alternative {
+		GreenToBlue {
+			g:Green -e:Edge-> b:Blue;
+
+			modify {
+				delete(e);
+				g --> r:Red --> b;
+			}
+		}
+		BlueToGreen {
+			b:Blue -e:Edge-> g:Green;
+		
+			modify {
+				delete(e);
+				b --> r:Red --> g;
+			}
+		}
+	}
+}
+
+rule insertGreen
+{
+	alternative {
+		RedToBlue {
+			r:Red -e:Edge-> b:Blue;
+
+			modify {
+				delete(e);
+				r --> g:Green --> b;
+			}
+		}
+		BlueToRed {
+			b:Blue -e:Edge-> r:Red;
+
+			modify {
+				delete(e);
+				b --> g:Green --> r;
+			}
+		}
+	}
+}
+
+rule insertBlue
+{
+	alternative {
+		RedToGreen {
+			r:Red -e:Edge-> g:Green;
+
+			modify {
+				delete(e);
+				r --> b:Blue --> g;
+			}
+		}
+		GreenToRed {
+			g:Green -e:Edge-> r:Red;
+
+			modify {
+				delete(e);
+				g --> b:Blue --> r;
+			}
+		}
+	}
+}
+
+sequence stateSpaceStaticMappingCompiled
+{
+	{ ::statestep = [: for{insertRed; {::statespace.add(this)} ;> true}, for{insertGreen; {::statespace.add(this)} ;> true}, for{insertBlue; {::statespace.add(this)} ;> true} :] }
+}
+
+sequence stateSpaceStaticTwiceMappingCompiled
+{
+	{ ::statestep =
+		[: for{ insertRed; { ::statespace.add(this); {[: for{insertRed; {::statespace.add(this)} ;> true}, for{insertGreen; {::statespace.add(this)} ;> true}, for{insertBlue; {::statespace.add(this)} ;> true} :]} } },
+			for{ insertGreen; { ::statespace.add(this); {[: for{insertRed; {::statespace.add(this)} ;> true}, for{insertGreen; {::statespace.add(this)} ;> true}, for{insertBlue; {::statespace.add(this)} ;> true} :]} } },
+			for{ insertBlue; { ::statespace.add(this); {[: for{insertRed; {::statespace.add(this)} ;> true}, for{insertGreen; {::statespace.add(this)} ;> true}, for{insertBlue; {::statespace.add(this)} ;> true} :]} } } 
+			:]
+	}
+}
+
+sequence stateStepCompiled(level:int)
+{
+	if { {{level < ::stopLevel}};
+		{ ::statestep = [: for{insertRed; {::statespace.add(this)} ;> stateStepCompiled(level + 1)}, for{insertGreen; {::statespace.add(this)} ;> stateStepCompiled(level + 1)}, for{insertBlue; {::statespace.add(this)} ;> stateStepCompiled(level + 1)} :] }
+	}
+}
