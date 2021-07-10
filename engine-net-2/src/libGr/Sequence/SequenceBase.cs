@@ -162,6 +162,20 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// After a sequence definition was replaced by a new one, all references from then on will use the new one,
+        /// but the old references are still there and must get replaced.
+        /// </summary>
+        /// <param name="oldDef">The old definition which is to be replaced</param>
+        /// <param name="newDef">The new definition which replaces the old one</param>
+        internal virtual void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
+        {
+            foreach(SequenceBase child in ChildrenBase)
+            {
+                child.ReplaceSequenceDefinition(oldDef, newDef);
+            }
+        }
+
+        /// <summary>
         /// Returns the innermost sequence base beneath this as root
         /// which gets currently executed (for sequences on call stack this is the call).
         /// A path in the sequence tree gets executed, the innermost is the important one.

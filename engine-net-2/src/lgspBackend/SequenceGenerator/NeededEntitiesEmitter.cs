@@ -24,7 +24,7 @@ namespace de.unika.ipd.grGen.lgsp
         readonly SequenceExpressionGenerator exprGen;
 
         // set of the used rules (if contained, a variable was created for easy access to them, once)
-        readonly Dictionary<String, object> knownRules = new Dictionary<string, object>();
+        Dictionary<String, object> knownRules = new Dictionary<string, object>();
 
 
         public NeededEntitiesEmitter(SequenceGeneratorHelper seqHelper, SequenceExpressionGenerator exprGen)
@@ -446,21 +446,30 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceExpressionType.MappingClause:
                 {
                     SequenceExpressionMappingClause seqMapping = (SequenceExpressionMappingClause)seqExpr;
+                    Dictionary<String, object> knownRulesBackup = knownRules;
+                    knownRules = new Dictionary<string, object>();
                     exprGen.EmitSequenceExpressionMappingClauseImplementation(seqMapping, seqGen, this, source);
+                    knownRules = knownRulesBackup;
                     EmitNeededMappingClausesAndRuleQueries(seqMapping.MultiRulePrefixedSequence, seqGen, source);
                     break;
                 }
             case SequenceExpressionType.RuleQuery:
                 {
                     SequenceExpressionRuleQuery seqRuleQuery = (SequenceExpressionRuleQuery)seqExpr;
+                    Dictionary<String, object> knownRulesBackup = knownRules;
+                    knownRules = new Dictionary<string, object>();
                     exprGen.EmitSequenceExpressionRuleQueryImplementation(seqRuleQuery, seqGen, this, source);
+                    knownRules = knownRulesBackup;
                     EmitNeededMappingClausesAndRuleQueries(seqRuleQuery.RuleCall, seqGen, source);
                     break;
                 }
             case SequenceExpressionType.MultiRuleQuery:
                 {
                     SequenceExpressionMultiRuleQuery seqMultiRuleQuery = (SequenceExpressionMultiRuleQuery)seqExpr;
+                    Dictionary<String, object> knownRulesBackup = knownRules;
+                    knownRules = new Dictionary<string, object>();
                     exprGen.EmitSequenceExpressionMultiRuleQueryImplementation(seqMultiRuleQuery, seqGen, this, source);
+                    knownRules = knownRulesBackup;
                     EmitNeededMappingClausesAndRuleQueries(seqMultiRuleQuery.MultiRuleCall, seqGen, source);
                     break;
                 }

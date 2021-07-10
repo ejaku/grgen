@@ -6,13 +6,7 @@ exec init
 
 exec { ::statespace = new set<graph>{} }
 
-#todo: add sequence definition replacing to sequence expressions and remove second re-definition
 def stateStep(level:int) { false }
-def stateStep(level:int) {\
-	if { {{level < ::stopLevel}};\
-		{ ::statestep = [: for{insertRed; {::statespace.add(this)} ;> stateStep(level + 1)}, for{insertGreen; {::statespace.add(this)} ;> stateStep(level + 1)}, for{insertBlue; {::statespace.add(this)} ;> stateStep(level + 1)} :] }\
-	}\
-}
 def stateStep(level:int) {\
 	if { {{level < ::stopLevel}};\
 		{ ::statestep = [: for{insertRed; {::statespace.add(this)} ;> stateStep(level + 1)}, for{insertGreen; {::statespace.add(this)} ;> stateStep(level + 1)}, for{insertBlue; {::statespace.add(this)} ;> stateStep(level + 1)} :] }\

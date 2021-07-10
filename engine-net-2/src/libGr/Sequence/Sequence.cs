@@ -130,18 +130,6 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// After a sequence definition was replaced by a new one, all references from then on will use the new one,
-        /// but the old references are still there and must get replaced.
-        /// </summary>
-        /// <param name="oldDef">The old definition which is to be replaced</param>
-        /// <param name="newDef">The new definition which replaces the old one</param>
-        internal virtual void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
-        {
-            // most sequences are basic ones not referencing seqences
-            // this null implementation saves us the effort of implementing this method everywhere, needed or not
-        }
-
-        /// <summary>
         /// Applies this sequence.
         /// </summary>
         /// <param name="procEnv">The graph processing environment on which this sequence is to be applied.
@@ -277,11 +265,6 @@ namespace de.unika.ipd.grGen.libGr
             Seq = that.Seq.Copy(originalToCopy, procEnv);
         }
 
-        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
-        {
-            Seq.ReplaceSequenceDefinition(oldDef, newDef);
-        }
-
         public override SequenceBase GetCurrentlyExecutedSequenceBase()
         {
             if(Seq.GetCurrentlyExecutedSequenceBase() != null)
@@ -334,12 +317,6 @@ namespace de.unika.ipd.grGen.libGr
             Right = that.Right.Copy(originalToCopy, procEnv);
             random = that.random;
             choice = that.choice;
-        }
-
-        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
-        {
-            Left.ReplaceSequenceDefinition(oldDef, newDef);
-            Right.ReplaceSequenceDefinition(oldDef, newDef);
         }
 
         public override SequenceBase GetCurrentlyExecutedSequenceBase()
@@ -409,14 +386,6 @@ namespace de.unika.ipd.grGen.libGr
                 Sequences.Add(seq.Copy(originalToCopy, procEnv));
             }
             choice = that.choice;
-        }
-
-        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
-        {
-            foreach(Sequence seq in Sequences)
-            {
-                seq.ReplaceSequenceDefinition(oldDef, newDef);
-            }
         }
 
         public override SequenceBase GetCurrentlyExecutedSequenceBase()
@@ -2969,11 +2938,6 @@ namespace de.unika.ipd.grGen.libGr
                 throw new SequenceParserException("sequence => " + DestVar.Name, "boolean", DestVar.Type);
         }
 
-        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
-        {
-            Seq.ReplaceSequenceDefinition(oldDef, newDef);
-        }
-
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
             bool result = Seq.Apply(procEnv);
@@ -3977,12 +3941,6 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceRulePrefixedSequence(this, originalToCopy, procEnv);
         }
 
-        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
-        {
-            Rule.ReplaceSequenceDefinition(oldDef, newDef);
-            Sequence.ReplaceSequenceDefinition(oldDef, newDef);
-        }
-
         public override SequenceBase GetCurrentlyExecutedSequenceBase()
         {
             if(Rule.GetCurrentlyExecutedSequenceBase() != null)
@@ -4177,14 +4135,6 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             env.CheckMatchClassFilterCalls(Filters, RuleCalls);
-        }
-
-        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
-        {
-            foreach(SequenceRulePrefixedSequence rulePrefixedSequence in RulePrefixedSequences)
-            {
-                rulePrefixedSequence.ReplaceSequenceDefinition(oldDef, newDef);
-            }
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
@@ -4484,11 +4434,6 @@ namespace de.unika.ipd.grGen.libGr
             base.Check(env);
         }
 
-        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
-        {
-            Seq.ReplaceSequenceDefinition(oldDef, newDef);
-        }
-
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
             // first get all matches of the rule
@@ -4680,11 +4625,6 @@ namespace de.unika.ipd.grGen.libGr
         {
             base.Check(env);
             Rules.Check(env);
-        }
-
-        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
-        {
-            Seq.ReplaceSequenceDefinition(oldDef, newDef);
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
@@ -4891,11 +4831,6 @@ namespace de.unika.ipd.grGen.libGr
         {
             base.Check(env);
             MultiRulePrefixedSequence.Check(env);
-        }
-
-        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
-        {
-            MultiRulePrefixedSequence.ReplaceSequenceDefinition(oldDef, newDef);
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
@@ -5135,13 +5070,6 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceIfThenElse(this, originalToCopy, procEnv);
         }
 
-        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
-        {
-            Condition.ReplaceSequenceDefinition(oldDef, newDef);
-            TrueCase.ReplaceSequenceDefinition(oldDef, newDef);
-            FalseCase.ReplaceSequenceDefinition(oldDef, newDef);
-        }
-
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
             return Condition.Apply(procEnv) ? TrueCase.Apply(procEnv) : FalseCase.Apply(procEnv);
@@ -5225,12 +5153,6 @@ namespace de.unika.ipd.grGen.libGr
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             return new SequenceIfThen(this, originalToCopy, procEnv);
-        }
-
-        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
-        {
-            Left.ReplaceSequenceDefinition(oldDef, newDef);
-            Right.ReplaceSequenceDefinition(oldDef, newDef);
         }
 
         public override SequenceBase GetCurrentlyExecutedSequenceBase()
@@ -7322,11 +7244,6 @@ namespace de.unika.ipd.grGen.libGr
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             return new SequenceDefinitionInterpreted(this, originalToCopy, procEnv);
-        }
-
-        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
-        {
-            Seq.ReplaceSequenceDefinition(oldDef, newDef);
         }
 
         public override bool Apply(IGraphProcessingEnvironment procEnv, object[] arguments, out object[] returnValues)

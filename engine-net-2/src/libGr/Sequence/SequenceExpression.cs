@@ -13305,6 +13305,15 @@ namespace de.unika.ipd.grGen.libGr
             return "array<graph>";
         }
 
+        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
+        {
+            foreach(SequenceRulePrefixedSequence rulePrefixedSequence in MultiRulePrefixedSequence.RulePrefixedSequences)
+            {
+                rulePrefixedSequence.Rule.ReplaceSequenceDefinition(oldDef, newDef);
+                rulePrefixedSequence.Sequence.ReplaceSequenceDefinition(oldDef, newDef);
+            }
+        }
+
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             List<IGraph> graphs = new List<IGraph>();
@@ -13456,7 +13465,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 foreach(SequenceRulePrefixedSequence rulePrefixedSequence in MultiRulePrefixedSequence.RulePrefixedSequences)
                 {
-                    foreach(SequenceExpression argument in rulePrefixedSequence.Rule.ArgumentExpressions)
+                    foreach(SequenceExpression argument in rulePrefixedSequence.Rule.ChildrenBase)
                     {
                         yield return argument;
                     }
