@@ -1626,7 +1626,7 @@ namespace de.unika.ipd.grGen.grShell
             ycompClient.Sync();
             if(detailedMode && detailedModeShowPostMatches)
             {
-                Console.WriteLine("Debugging detailed continues with any key...");
+                Console.WriteLine("Rewritten - Debugging detailed continues with any key...");
                 env.ReadKeyWithCancel();
             }
         }
@@ -1665,6 +1665,7 @@ namespace de.unika.ipd.grGen.grShell
             if(computationsEnteredStack.Count > 3 && !detailedModeShowPostMatches)
                 return;
 
+            Console.Write("Finished " + ProducerNames(matches) + " - ");
             if(detailedModeShowPostMatches)
             {
                 ycompClient.UpdateDisplay();
