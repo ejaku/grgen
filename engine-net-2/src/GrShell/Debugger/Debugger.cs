@@ -1505,7 +1505,11 @@ namespace de.unika.ipd.grGen.grShell
                 return;
 
             if(matchDepth++ > 0 || computationsEnteredStack.Count > 0)
+            {
                 Console.WriteLine("Matched " + ProducerNames(matches));
+                if(Count(matches) == 1)
+                    return;
+            }
 
             renderRecorder.RemoveAllAnnotations();
             renderRecorder.SetCurrentRuleName(ProducerNames(matches));
@@ -1665,7 +1669,6 @@ namespace de.unika.ipd.grGen.grShell
             {
                 ycompClient.UpdateDisplay();
                 ycompClient.Sync();
-                // TODO: prevent duplicate message/querying
                 QueryContinueOrTrace(false);
             }
             else
