@@ -271,7 +271,7 @@ namespace de.unika.ipd.grGen.grShell
             impl.curShellProcEnv.ProcEnv.PerformanceInfo.Reset();
             StatisticsSource statisticsSource = new StatisticsSource(impl.curShellProcEnv.ProcEnv.NamedGraph, impl.curShellProcEnv.ProcEnv);
             Timer timer = null;
-            if(!debug && !silenceExec)
+            if(!debug && !CheckDebuggerAlive() && !silenceExec)
                 timer = new Timer(new TimerCallback(PrintStatistics), statisticsSource, 1000, 1000);
 
             try
@@ -348,7 +348,7 @@ namespace de.unika.ipd.grGen.grShell
             impl.curShellProcEnv.ProcEnv.PerformanceInfo.Reset();
             StatisticsSource statisticsSource = new StatisticsSource(impl.curShellProcEnv.ProcEnv.NamedGraph, impl.curShellProcEnv.ProcEnv);
             Timer timer = null;
-            if(!debug && !silenceExec)
+            if(!debug && !CheckDebuggerAlive() && !silenceExec)
                 timer = new Timer(new TimerCallback(PrintStatistics), statisticsSource, 1000, 1000);
 
             try
