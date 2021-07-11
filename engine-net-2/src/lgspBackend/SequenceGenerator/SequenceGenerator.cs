@@ -1250,7 +1250,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             source.AppendFront("if(" + COMP_HELPER.GetResultVar(seqSome) + ") {\n");
-            SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, ruleMatcherGenerators);
+            SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, ruleMatcherGenerators, false, seqSome.Id, "");
             source.AppendFront("}\n");
 
             // emit code for deciding on the match to rewrite
@@ -1338,7 +1338,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
             source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "true"));
 
-            SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, ruleMatcherGenerators);
+            SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, ruleMatcherGenerators, seqMulti.Filters.Count > 0, seqMulti.Id, matchListName);
 
             // iterate through matches, use Modify on each, fire the next match event after the first
             String enumeratorName = "enum_" + seqMulti.Id;
@@ -1419,7 +1419,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
             source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "true"));
 
-            SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, ruleMatcherGenerators);
+            SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, ruleMatcherGenerators, seqMulti.Filters.Count > 0, seqMulti.Id, matchListName);
 
             // iterate through matches, use Modify on each, fire the next match event after the first
             String enumeratorName = "enum_" + seqMulti.Id;

@@ -70,7 +70,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
             source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "true")); // shut up compiler
 
-            SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, ruleMatcherGenerators);
+            SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, ruleMatcherGenerators, seqMulti.MultiRulePrefixedSequence.Filters.Count > 0, seqMulti.Id, matchListName);
 
             // apply the rules and the following sequence for every match found,
             // until the first rule and sequence execution succeeded

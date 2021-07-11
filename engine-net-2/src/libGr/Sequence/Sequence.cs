@@ -3641,6 +3641,7 @@ namespace de.unika.ipd.grGen.libGr
                 SequenceRuleCall rule = (SequenceRuleCall)Sequences[i];
                 SpecialArray[i] = rule.Special;
             }
+            MatchListHelper.RemoveUnavailable(MatchList, MatchesArray);
             procEnv.MatchedAfterFiltering(MatchesArray, SpecialArray);
 
             List<List<object[]>> ReturnValues = new List<List<object[]>>();
@@ -4174,6 +4175,7 @@ namespace de.unika.ipd.grGen.libGr
                 SequenceRuleCall rule = (SequenceRuleCall)RulePrefixedSequences[i].Rule;
                 SpecialArray[i] = rule.Special;
             }
+            MatchListHelper.RemoveUnavailable(MatchList, MatchesArray);
             procEnv.MatchedAfterFiltering(MatchesArray, SpecialArray);
 
 #if LOG_SEQUENCE_EXECUTION
@@ -4660,6 +4662,7 @@ namespace de.unika.ipd.grGen.libGr
                 SequenceRuleCall rule = (SequenceRuleCall)Rules.Sequences[i];
                 SpecialArray[i] = rule.Special; 
             }
+            MatchListHelper.RemoveUnavailable(MatchList, MatchesArray);
             procEnv.MatchedAfterFiltering(MatchesArray, SpecialArray);
 
 #if LOG_SEQUENCE_EXECUTION
@@ -4867,6 +4870,7 @@ namespace de.unika.ipd.grGen.libGr
                 SequenceRuleCall rule = (SequenceRuleCall)MultiRulePrefixedSequence.RulePrefixedSequences[i].Rule;
                 SpecialArray[i] = rule.Special;
             }
+            MatchListHelper.RemoveUnavailable(MatchList, MatchesArray);
             procEnv.MatchedAfterFiltering(MatchesArray, SpecialArray);
 
 #if LOG_SEQUENCE_EXECUTION

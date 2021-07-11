@@ -1297,7 +1297,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("List<{0}> result = ", matchType);
 
             if(seqMulti.Filters.Count != 0)
-                source.AppendFront("GRGEN_LIBGR.MatchListHelper.ToList<" + matchType + ">(" + matchesSourceBuilder.ToString() + ");\n");
+                source.Append("GRGEN_LIBGR.MatchListHelper.ToList<" + matchType + ">(" + matchesSourceBuilder.ToString() + ");\n");
             else
                 source.Append(matchesSourceBuilder.ToString() + ";\n");
 
@@ -1308,6 +1308,8 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             string matchesArray = "multi_rule_call_result_" + seqMulti.Id; // implicit name defined elsewhere - TODO: explicit
+            if(seqMulti.Filters.Count != 0)
+                source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.RemoveUnavailable(result, {0});\n", matchesArray);
             source.AppendFrontFormat("procEnv.MatchedAfterFiltering({0}, {1});\n", matchesArray, "specialArray");
             source.AppendFrontFormat("procEnv.Finished({0}, {1});\n", matchesArray, "specialArray");
 
@@ -1450,7 +1452,7 @@ namespace de.unika.ipd.grGen.lgsp
                 EmitMatchClassFilterCall(source, sequenceFilterCall, matchListName, false);
             }
 
-            SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, ruleMatcherGenerators);
+            SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, ruleMatcherGenerators, seqMulti.Filters.Count > 0, seqMulti.Id, matchListName);
 
             return matchListName;
         }

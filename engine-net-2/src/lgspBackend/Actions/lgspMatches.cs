@@ -736,6 +736,34 @@ namespace de.unika.ipd.grGen.lgsp
             return cur;
         }
 
+        // removes the matches that are not available in the matchSet
+        public void RemoveUnavailable(Dictionary<IMatch, SetValueType> matchSet)
+        {
+            while(count > 0 && !matchSet.ContainsKey(root))
+            {
+                root = root.next;
+                --count;
+            }
+            if(count == 0)
+                return;
+            Match prev = root;
+            Match cur = root.next;
+            while(cur != null)
+            {
+                if(!matchSet.ContainsKey(cur))
+                {
+                    prev.next = cur.next;
+                    cur = cur.next;
+                    --count;
+                    continue;
+                }
+                if(cur == last)
+                    break;
+                prev = cur;
+                cur = cur.next;
+            }
+        }
+
         /// <summary>
         /// Clone the matches
         /// </summary>

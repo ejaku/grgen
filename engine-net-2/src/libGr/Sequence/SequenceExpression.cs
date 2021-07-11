@@ -13214,6 +13214,7 @@ namespace de.unika.ipd.grGen.libGr
                 SequenceRuleCall rule = (SequenceRuleCall)MultiRuleCall.Sequences[i];
                 SpecialArray[i] = rule.Special;
             }
+            MatchListHelper.RemoveUnavailable(MatchList, MatchesArray);
             procEnv.MatchedAfterFiltering(MatchesArray, SpecialArray);
 
             foreach(IMatch match in MatchList)
@@ -13380,6 +13381,7 @@ namespace de.unika.ipd.grGen.libGr
                 SequenceRuleCall rule = (SequenceRuleCall)MultiRulePrefixedSequence.RulePrefixedSequences[i].Rule;
                 SpecialArray[i] = rule.Special;
             }
+            MatchListHelper.RemoveUnavailable(MatchList, MatchesArray);
             procEnv.MatchedAfterFiltering(MatchesArray, SpecialArray);
 
             foreach(IMatch match in MatchList)

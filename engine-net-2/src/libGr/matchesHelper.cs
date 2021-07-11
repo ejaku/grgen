@@ -27,6 +27,18 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        // removes from the IMatches in the matchesArray the matches that are not available in the matchList (anymore -- because they were filtered away by global match-class filtering)
+        public static void RemoveUnavailable<T>(IList<T> matchList, IMatches[] matchesArray) where T : IMatch
+        {
+            Dictionary<IMatch, SetValueType> matchSet = new Dictionary<IMatch, SetValueType>();
+            foreach(IMatch match in matchList)
+                matchSet.Add(match, null);
+            foreach(IMatches matches in matchesArray)
+            {
+                matches.RemoveUnavailable(matchSet);
+            }
+        }
+
         public static void Clone(IMatches[] matchesArray, List<IMatch> matchList)
         {
             Dictionary<IMatch, IMatch> originalToClone = new Dictionary<IMatch, IMatch>();

@@ -46,6 +46,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The removed match.</returns>
         IMatch RemoveMatch(int index);
 
+        // removes the matches that are not available in the matchSet
+        void RemoveUnavailable(Dictionary<IMatch, SetValueType> matchSet);
+
         /// <summary>
         /// Returns the content of the current matches list in form of an array.
         /// The content is destroyed when the rule is matched again (the list itself is a newly created copy).

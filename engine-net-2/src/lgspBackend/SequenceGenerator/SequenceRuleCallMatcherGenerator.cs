@@ -101,9 +101,10 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("procEnv.MatchedBeforeFiltering({0});\n", matchesName);
         }
 
-        public static void EmitMatchEventFiring(SourceBuilder source, SequenceRuleCallMatcherGenerator[] ruleMatcherGenerators)
+        public static void EmitMatchEventFiring(SourceBuilder source, SequenceRuleCallMatcherGenerator[] ruleMatcherGenerators, bool matchClassFilterExisting, int constructId, string matchList)
         {
-            source.AppendFront("procEnv.MatchedAfterFiltering(new GRGEN_LIBGR.IMatches[" + ruleMatcherGenerators.Length + "] ");
+            string matchesArray = "matchesArray_" + constructId;
+            source.AppendFrontFormat("GRGEN_LIBGR.IMatches[] {0} = new GRGEN_LIBGR.IMatches[" + ruleMatcherGenerators.Length + "] ", matchesArray);
             source.Append("{");
             bool first = true;
             foreach(SequenceRuleCallMatcherGenerator ruleMatcherGenerator in ruleMatcherGenerators)
@@ -114,7 +115,14 @@ namespace de.unika.ipd.grGen.lgsp
                     source.Append(",");
                 source.AppendFormat("{0}", ruleMatcherGenerator.matchesName);
             }
-            source.Append("}, ");
+            source.Append("};\n");
+
+            if(matchClassFilterExisting)
+            {
+                source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.RemoveUnavailable({0}, {1});\n", matchList, matchesArray);
+            }
+
+            source.AppendFrontFormat("procEnv.MatchedAfterFiltering({0}, ", matchesArray);
             source.Append("new bool[" + ruleMatcherGenerators.Length + "] ");
             source.Append("{");
             first = true;
