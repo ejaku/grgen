@@ -35,7 +35,7 @@ namespace de.unika.ipd.grGen.grShell
         readonly Stack<SequenceBase> debugSequences = new Stack<SequenceBase>();
         bool stepMode = true;
         bool dynamicStepMode = false;
-        bool skipMode = false;
+        bool dynamicStepModeSkip = false;
         bool detailedMode = false;
         bool outOfDetailedMode = false;
         int outOfDetailedModeTarget = -1;
@@ -60,6 +60,7 @@ namespace de.unika.ipd.grGen.grShell
         readonly List<SubruleComputation> computationsEnteredStack = new List<SubruleComputation>(); // can't use stack class, too weak
 
         readonly List<IPatternMatchingConstruct> patternMatchingConstructsExecuted = new List<IPatternMatchingConstruct>();
+        readonly List<bool> skipMode = new List<bool>();
 
         public YCompClient YCompClient
         {
@@ -274,7 +275,7 @@ namespace de.unika.ipd.grGen.grShell
             outOfDetailedMode = false;
             outOfDetailedModeTarget = -1;
             dynamicStepMode = false;
-            skipMode = false;
+            dynamicStepModeSkip = false;
             lastlyEntered = null;
             recentlyMatched = null;
             context = new PrintSequenceContext();
@@ -294,7 +295,7 @@ namespace de.unika.ipd.grGen.grShell
             outOfDetailedMode = false;
             outOfDetailedModeTarget = -1;
             dynamicStepMode = false;
-            skipMode = false;
+            dynamicStepModeSkip = false;
             lastlyEntered = null;
             recentlyMatched = null;
             context = new PrintSequenceContext();
@@ -1325,6 +1326,7 @@ namespace de.unika.ipd.grGen.grShell
         private void DebugBeginExecution(IPatternMatchingConstruct patternMatchingConstruct)
         {
             patternMatchingConstructsExecuted.Add(patternMatchingConstruct);
+            skipMode.Add(false);
             if(computationsEnteredStack.Count > 0) // only in subrule debugging, otherwise printed by SequenceEntered
             {
                 Console.WriteLine("Entry to " + patternMatchingConstruct.Symbol);
@@ -1468,9 +1470,9 @@ namespace de.unika.ipd.grGen.grShell
                 return;
             }
 
-            if(dynamicStepMode && !skipMode)
+            if(dynamicStepMode && !dynamicStepModeSkip)
             {
-                skipMode = true;
+                dynamicStepModeSkip = true;
                 ycompClient.UpdateDisplay();
                 ycompClient.Sync();
                 context.highlightSeq = lastlyEntered;
@@ -1532,8 +1534,7 @@ namespace de.unika.ipd.grGen.grShell
 
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
-            Console.WriteLine("Press any key to show single matches and apply rewrite...");
-            env.ReadKeyWithCancel();
+            QueryForSkipAsRequired(Count(matches), false);
 
             matchMarkerAndAnnotator.MarkMatches(matches, null, null);
 
@@ -1543,6 +1544,36 @@ namespace de.unika.ipd.grGen.grShell
 
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
+        }
+
+        private void QueryForSkipAsRequired(int countMatches, bool inMatchByMatchProcessing)
+        {
+            if(patternMatchingConstructsExecuted.Count > 0
+                && (patternMatchingConstructsExecuted[patternMatchingConstructsExecuted.Count - 1] is SequenceRuleAllCall && countMatches > 1
+                || patternMatchingConstructsExecuted[patternMatchingConstructsExecuted.Count - 1] is SequenceRuleCountAllCall && countMatches > 1
+                || patternMatchingConstructsExecuted[patternMatchingConstructsExecuted.Count - 1] is SequenceMultiRuleAllCall
+                || patternMatchingConstructsExecuted[patternMatchingConstructsExecuted.Count - 1] is SequenceSomeFromSet))
+            {
+                Console.WriteLine(inMatchByMatchProcessing
+                    ? "Press any key to apply rewrite, besides s(k)ip single matches..."
+                    : "Press any key to show single matches and apply rewrite, besides s(k)ip single matches...");
+                ConsoleKeyInfo key = env.ReadKeyWithCancel();
+                switch(key.KeyChar)
+                {
+                case 'k':
+                    skipMode[skipMode.Count - 1] = true;
+                    break;
+                default:
+                    break;
+                }
+            }
+            else
+            {
+                Console.WriteLine(inMatchByMatchProcessing
+                    ? "Press any key to apply rewrite..."
+                    : "Press any key to show single matches and apply rewrite...");
+                env.ReadKeyWithCancel();
+            }
         }
 
         private bool SpecialExisting(bool[] specialArray)
@@ -1580,6 +1611,9 @@ namespace de.unika.ipd.grGen.grShell
             if(!detailedModeShowPostMatches && computationsEnteredStack.Count > 1)
                 return;
 
+            if(skipMode.Count > 0 && skipMode[skipMode.Count - 1])
+                return;
+
             Console.WriteLine("Showing single match of " + matches.Producer.Name + " ...");
 
             renderRecorder.ApplyChanges(ycompClient);
@@ -1604,8 +1638,7 @@ namespace de.unika.ipd.grGen.grShell
 
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
-            Console.WriteLine("Press any key to apply rewrite...");
-            env.ReadKeyWithCancel();
+            QueryForSkipAsRequired(matches.Count, true);
 
             matchMarkerAndAnnotator.MarkMatch(match, null, null);
 
@@ -1626,6 +1659,9 @@ namespace de.unika.ipd.grGen.grShell
             ycompClient.Sync();
             if(detailedMode && detailedModeShowPostMatches)
             {
+                if(skipMode.Count > 0 && skipMode[skipMode.Count - 1])
+                    return;
+
                 Console.WriteLine("Rewritten - Debugging detailed continues with any key...");
                 env.ReadKeyWithCancel();
             }
@@ -1647,6 +1683,9 @@ namespace de.unika.ipd.grGen.grShell
 
         private void DebugFinished(IMatches[] matches, bool[] special)
         {
+            if(skipMode.Count > 0)
+                skipMode[skipMode.Count - 1] = false;
+
             // integrate matched actions into subrule traces stack
             if(matches != null)
                 RemoveUpToEntryForExit(ProducerNames(matches));
@@ -1694,6 +1733,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             Debug.Assert(patternMatchingConstructsExecuted[patternMatchingConstructsExecuted.Count - 1].Symbol == patternMatchingConstruct.Symbol);
             patternMatchingConstructsExecuted.RemoveAt(patternMatchingConstructsExecuted.Count - 1);
+            skipMode.RemoveAt(skipMode.Count - 1);
 
             if(patternMatchingConstructsExecuted.Count > 0)
             {
@@ -1854,7 +1894,7 @@ namespace de.unika.ipd.grGen.grShell
 
         private void DebugExitingSequence(SequenceBase seq)
         {
-            skipMode = false;
+            dynamicStepModeSkip = false;
 
             if(seq == curStepSequence)
                 stepMode = true;

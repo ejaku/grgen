@@ -13217,14 +13217,6 @@ namespace de.unika.ipd.grGen.libGr
             MatchListHelper.RemoveUnavailable(MatchList, MatchesArray);
             procEnv.MatchedAfterFiltering(MatchesArray, SpecialArray);
 
-            foreach(IMatch match in MatchList)
-            {
-                int index = ruleNameToIndex[match.Pattern.PackagePrefixedName];
-                SequenceRuleCall rule = (SequenceRuleCall)MultiRuleCall.Sequences[index];
-                IMatches matches = MatchesArray[index];
-                procEnv.MatchSelected(match, false, matches);
-            }
-
             procEnv.Finished(MatchesArray, SpecialArray);
 
             procEnv.EndExecution(this, MatchList);
