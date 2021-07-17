@@ -60,13 +60,13 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceType.RuleCall:
             case SequenceType.RuleAllCall:
             case SequenceType.RuleCountAllCall:
-                new SequenceRuleOrRuleAllCallGenerator((SequenceRuleCall)seq, exprGen, seqHelper)
-                    .Emit(source, this, fireDebugEvents);
+                new SequenceRuleOrRuleAllCallGenerator((SequenceRuleCall)seq, exprGen, seqHelper, fireDebugEvents)
+                    .Emit(source, this);
                 break;
 
             case SequenceType.RulePrefixedSequence:
-                new SequenceRulePrefixedSequenceGenerator((SequenceRulePrefixedSequence)seq, exprGen, seqHelper)
-                    .Emit(source, this, fireDebugEvents);
+                new SequenceRulePrefixedSequenceGenerator((SequenceRulePrefixedSequence)seq, exprGen, seqHelper, fireDebugEvents)
+                    .Emit(source, this);
                 break;
 
             case SequenceType.SequenceCall:
@@ -147,8 +147,8 @@ namespace de.unika.ipd.grGen.lgsp
                 break;
 
             case SequenceType.ForMatch:
-                new SequenceForMatchGenerator((SequenceForMatch)seq, exprGen, seqHelper)
-                    .Emit(source, this, fireDebugEvents);
+                new SequenceForMatchGenerator((SequenceForMatch)seq, exprGen, seqHelper, fireDebugEvents)
+                    .Emit(source, this);
                 break;
 
             case SequenceType.IterationMin:
@@ -239,18 +239,18 @@ namespace de.unika.ipd.grGen.lgsp
                 break;
 
             case SequenceType.Backtrack:
-                new SequenceBacktrackGenerator((SequenceBacktrack)seq, exprGen, seqHelper)
-                    .Emit(source, this, fireDebugEvents);
+                new SequenceBacktrackGenerator((SequenceBacktrack)seq, exprGen, seqHelper, fireDebugEvents)
+                    .Emit(source, this);
                 break;
 
             case SequenceType.MultiBacktrack:
-                new SequenceMultiBacktrackGenerator((SequenceMultiBacktrack)seq, exprGen, seqHelper)
-                    .Emit(source, this, fireDebugEvents);
+                new SequenceMultiBacktrackGenerator((SequenceMultiBacktrack)seq, exprGen, seqHelper, fireDebugEvents)
+                    .Emit(source, this);
                 break;
 
             case SequenceType.MultiSequenceBacktrack:
-                new SequenceMultiSequenceBacktrackGenerator((SequenceMultiSequenceBacktrack)seq, exprGen, seqHelper)
-                    .Emit(source, this, fireDebugEvents);
+                new SequenceMultiSequenceBacktrackGenerator((SequenceMultiSequenceBacktrack)seq, exprGen, seqHelper, fireDebugEvents)
+                    .Emit(source, this);
                 break;
 
             case SequenceType.Pause:
@@ -1219,7 +1219,7 @@ namespace de.unika.ipd.grGen.lgsp
             String patternMatchingConstructVarName = "patternMatchingConstruct_" + seqSome.Id;
             source.AppendFrontFormat("GRGEN_LIBGR.PatternMatchingConstruct {0} = new GRGEN_LIBGR.PatternMatchingConstruct(\"{1}\");\n",
                 patternMatchingConstructVarName, SequenceGeneratorHelper.Escape(seqSome.Symbol));
-            source.AppendFrontFormat("procEnv.BeginExecution({0});\n", patternMatchingConstructVarName);
+            SequenceRuleCallMatcherGenerator.EmitBeginExecutionEventFiring(source, patternMatchingConstructVarName, fireDebugEvents);
 
             source.AppendFront(COMP_HELPER.SetResultVar(seqSome, "false"));
 
@@ -1228,13 +1228,13 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < seqSome.Sequences.Count; ++i)
             {
                 SequenceRuleCall seqRule = (SequenceRuleCall)seqSome.Sequences[i];
-                ruleMatcherGenerators[i] = new SequenceRuleCallMatcherGenerator(seqRule, exprGen, seqHelper);
+                ruleMatcherGenerators[i] = new SequenceRuleCallMatcherGenerator(seqRule, exprGen, seqHelper, fireDebugEvents);
 
                 ruleMatcherGenerators[i].EmitMatchingAndCloning(source,
                     (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "procEnv.MaxMatches"));
             }
 
-            SequenceRuleCallMatcherGenerator.EmitPreMatchEventFiring(source, ruleMatcherGenerators);
+            SequenceRuleCallMatcherGenerator.EmitPreMatchEventFiring(source, ruleMatcherGenerators, fireDebugEvents);
 
             for(int i = 0; i < seqSome.Sequences.Count; ++i)
             {
@@ -1250,7 +1250,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             source.AppendFront("if(" + COMP_HELPER.GetResultVar(seqSome) + ") {\n");
-            SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, ruleMatcherGenerators, false, seqSome.Id, "");
+            SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, ruleMatcherGenerators, false, "", fireDebugEvents);
             source.AppendFront("}\n");
 
             // emit code for deciding on the match to rewrite
@@ -1279,14 +1279,14 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < seqSome.Sequences.Count; ++i)
             {
                 SequenceSomeRuleCallRewritingGenerator ruleGenerator = new SequenceSomeRuleCallRewritingGenerator(
-                    seqSome, (SequenceRuleCall)seqSome.Sequences[i], exprGen, seqHelper);
-                ruleGenerator.EmitRewriting(source, totalMatchToApply, curTotalMatch, fireDebugEvents);
+                    seqSome, (SequenceRuleCall)seqSome.Sequences[i], exprGen, seqHelper, fireDebugEvents);
+                ruleGenerator.EmitRewriting(source, totalMatchToApply, curTotalMatch);
             }
 
             source.AppendFront("if(" + COMP_HELPER.GetResultVar(seqSome) + ") {\n");
-            SequenceRuleCallMatcherGenerator.EmitFinishedEventFiring(source, ruleMatcherGenerators);
+            SequenceRuleCallMatcherGenerator.EmitFinishedEventFiring(source, ruleMatcherGenerators, fireDebugEvents);
             source.AppendFront("}\n");
-            source.AppendFrontFormat("procEnv.EndExecution({0}, null);\n", patternMatchingConstructVarName);
+            SequenceRuleCallMatcherGenerator.EmitEndExecutionEventFiring(source, patternMatchingConstructVarName, "null", fireDebugEvents);
         }
 
         private void EmitSequenceMultiRuleAllCall(SequenceMultiRuleAllCall seqMulti, SourceBuilder source)
@@ -1294,7 +1294,7 @@ namespace de.unika.ipd.grGen.lgsp
             String patternMatchingConstructVarName = "patternMatchingConstruct_" + seqMulti.Id;
             source.AppendFrontFormat("GRGEN_LIBGR.PatternMatchingConstruct {0} = new GRGEN_LIBGR.PatternMatchingConstruct(\"{1}\");\n",
                 patternMatchingConstructVarName, SequenceGeneratorHelper.Escape(seqMulti.Symbol));
-            source.AppendFrontFormat("procEnv.BeginExecution({0});\n", patternMatchingConstructVarName);
+            SequenceRuleCallMatcherGenerator.EmitBeginExecutionEventFiring(source, patternMatchingConstructVarName, fireDebugEvents);
 
             source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "false"));
 
@@ -1305,11 +1305,11 @@ namespace de.unika.ipd.grGen.lgsp
             SequenceRuleCallMatcherGenerator[] ruleMatcherGenerators = new SequenceRuleCallMatcherGenerator[seqMulti.Sequences.Count];
             for(int i = 0; i < seqMulti.Sequences.Count; ++i)
             {
-                ruleMatcherGenerators[i] = new SequenceRuleCallMatcherGenerator((SequenceRuleCall)seqMulti.Sequences[i], exprGen, seqHelper);
+                ruleMatcherGenerators[i] = new SequenceRuleCallMatcherGenerator((SequenceRuleCall)seqMulti.Sequences[i], exprGen, seqHelper, fireDebugEvents);
                 ruleMatcherGenerators[i].EmitMatchingAndCloning(source, "procEnv.MaxMatches");
             }
 
-            SequenceRuleCallMatcherGenerator.EmitPreMatchEventFiring(source, ruleMatcherGenerators);
+            SequenceRuleCallMatcherGenerator.EmitPreMatchEventFiring(source, ruleMatcherGenerators, fireDebugEvents);
 
             // emit code for rule-based filtering
             for(int i = 0; i < seqMulti.Sequences.Count; ++i)
@@ -1328,7 +1328,7 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < seqMulti.Sequences.Count; ++i)
             {
                 ruleRewritingGenerators[i] = new SequenceMultiRuleAllCallRewritingGenerator(
-                    seqMulti, (SequenceRuleCall)seqMulti.Sequences[i], exprGen, seqHelper);
+                    seqMulti, (SequenceRuleCall)seqMulti.Sequences[i], exprGen, seqHelper, fireDebugEvents);
                 if(ruleRewritingGenerators[i].returnParameterDeclarationsAllCall.Length != 0)
                     source.AppendFront(ruleRewritingGenerators[i].returnParameterDeclarationsAllCall + "\n");
             }
@@ -1338,7 +1338,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
             source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "true"));
 
-            SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, ruleMatcherGenerators, seqMulti.Filters.Count > 0, seqMulti.Id, matchListName);
+            SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, ruleMatcherGenerators, seqMulti.Filters.Count > 0, matchListName, fireDebugEvents);
 
             // iterate through matches, use Modify on each, fire the next match event after the first
             String enumeratorName = "enum_" + seqMulti.Id;
@@ -1354,7 +1354,7 @@ namespace de.unika.ipd.grGen.lgsp
             // emit code for rewriting the current match (for each rule, rule fitting to the match is selected by rule name)
             for(int i = 0; i < seqMulti.Sequences.Count; ++i)
             {
-                ruleRewritingGenerators[i].EmitRewriting(source, this, matchListName, enumeratorName, fireDebugEvents);
+                ruleRewritingGenerators[i].EmitRewriting(source, this, matchListName, enumeratorName);
             }
 
             source.AppendFrontFormat("default: throw new Exception(\"Unknown pattern \" + {0}.Current.Pattern.PackagePrefixedName + \" in match!\");", enumeratorName);
@@ -1370,12 +1370,12 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront(ruleRewritingGenerators[i].returnAssignmentsAllCall + "\n");
             }
 
-            SequenceRuleCallMatcherGenerator.EmitFinishedEventFiring(source, ruleMatcherGenerators);
+            SequenceRuleCallMatcherGenerator.EmitFinishedEventFiring(source, ruleMatcherGenerators, fireDebugEvents);
 
             source.Unindent();
             source.AppendFront("}\n");
 
-            source.AppendFrontFormat("procEnv.EndExecution({0}, null);\n", patternMatchingConstructVarName);
+            SequenceRuleCallMatcherGenerator.EmitEndExecutionEventFiring(source, patternMatchingConstructVarName, "null", fireDebugEvents);
         }
 
         private void EmitSequenceMultiRulePrefixedSequence(SequenceMultiRulePrefixedSequence seqMulti, SourceBuilder source)
@@ -1383,7 +1383,7 @@ namespace de.unika.ipd.grGen.lgsp
             String patternMatchingConstructVarName = "patternMatchingConstruct_" + seqMulti.Id;
             source.AppendFrontFormat("GRGEN_LIBGR.PatternMatchingConstruct {0} = new GRGEN_LIBGR.PatternMatchingConstruct(\"{1}\");\n",
                 patternMatchingConstructVarName, SequenceGeneratorHelper.Escape(seqMulti.Symbol));
-            source.AppendFrontFormat("procEnv.BeginExecution({0});\n", patternMatchingConstructVarName);
+            SequenceRuleCallMatcherGenerator.EmitBeginExecutionEventFiring(source, patternMatchingConstructVarName, fireDebugEvents);
 
             source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "false"));
 
@@ -1395,11 +1395,11 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < seqMulti.RulePrefixedSequences.Count; ++i)
             {
                 SequenceRulePrefixedSequence seqRulePrefixedSequence = (SequenceRulePrefixedSequence)seqMulti.RulePrefixedSequences[i];
-                ruleMatcherGenerators[i] = new SequenceRuleCallMatcherGenerator(seqRulePrefixedSequence.Rule, exprGen, seqHelper);
+                ruleMatcherGenerators[i] = new SequenceRuleCallMatcherGenerator(seqRulePrefixedSequence.Rule, exprGen, seqHelper, fireDebugEvents);
                 ruleMatcherGenerators[i].EmitMatchingAndCloning(source, "procEnv.MaxMatches");
             }
 
-            SequenceRuleCallMatcherGenerator.EmitPreMatchEventFiring(source, ruleMatcherGenerators);
+            SequenceRuleCallMatcherGenerator.EmitPreMatchEventFiring(source, ruleMatcherGenerators, fireDebugEvents);
 
             // emit code for rule-based filtering
             for(int i = 0; i < seqMulti.RulePrefixedSequences.Count; ++i)
@@ -1419,7 +1419,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
             source.AppendFront(COMP_HELPER.SetResultVar(seqMulti, "true"));
 
-            SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, ruleMatcherGenerators, seqMulti.Filters.Count > 0, seqMulti.Id, matchListName);
+            SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, ruleMatcherGenerators, seqMulti.Filters.Count > 0, matchListName, fireDebugEvents);
 
             // iterate through matches, use Modify on each, fire the next match event after the first
             String enumeratorName = "enum_" + seqMulti.Id;
@@ -1436,8 +1436,8 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < seqMulti.RulePrefixedSequences.Count; ++i)
             {
                 SequenceMultiRulePrefixedSequenceRewritingGenerator ruleRewritingGenerator = new SequenceMultiRulePrefixedSequenceRewritingGenerator(
-                    seqMulti, (SequenceRulePrefixedSequence)seqMulti.RulePrefixedSequences[i], exprGen, seqHelper);
-                ruleRewritingGenerator.EmitRewriting(source, this, matchListName, enumeratorName, fireDebugEvents);
+                    seqMulti, (SequenceRulePrefixedSequence)seqMulti.RulePrefixedSequences[i], exprGen, seqHelper, fireDebugEvents);
+                ruleRewritingGenerator.EmitRewriting(source, this, matchListName, enumeratorName);
             }
 
             source.AppendFrontFormat("default: throw new Exception(\"Unknown pattern \" + {0}.Current.Pattern.PackagePrefixedName + \" in match!\");", enumeratorName);
@@ -1447,12 +1447,12 @@ namespace de.unika.ipd.grGen.lgsp
             source.Unindent();
             source.AppendFront("}\n");
 
-            SequenceRuleCallMatcherGenerator.EmitFinishedEventFiring(source, ruleMatcherGenerators);
+            SequenceRuleCallMatcherGenerator.EmitFinishedEventFiring(source, ruleMatcherGenerators, fireDebugEvents);
 
             source.Unindent();
             source.AppendFront("}\n");
 
-            source.AppendFrontFormat("procEnv.EndExecution({0}, null);\n", patternMatchingConstructVarName);
+            SequenceRuleCallMatcherGenerator.EmitEndExecutionEventFiring(source, patternMatchingConstructVarName, "null", fireDebugEvents);
         }
 
         private void EmitSequenceTransaction(SequenceTransaction seqTrans, SourceBuilder source)

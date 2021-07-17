@@ -18,6 +18,7 @@ namespace de.unika.ipd.grGen.lgsp
         internal readonly SequenceSomeFromSet seqSome;
         internal readonly SequenceExpressionGenerator seqExprGen;
         internal readonly SequenceGeneratorHelper seqHelper;
+        internal readonly bool fireDebugEvents;
 
         internal readonly SequenceRuleCall seqRule;
 
@@ -31,11 +32,13 @@ namespace de.unika.ipd.grGen.lgsp
         internal readonly String matchesName;
 
 
-        public SequenceSomeRuleCallRewritingGenerator(SequenceSomeFromSet seqSome, SequenceRuleCall seqRule, SequenceExpressionGenerator seqExprGen, SequenceGeneratorHelper seqHelper)
+        public SequenceSomeRuleCallRewritingGenerator(SequenceSomeFromSet seqSome, SequenceRuleCall seqRule,
+            SequenceExpressionGenerator seqExprGen, SequenceGeneratorHelper seqHelper, bool fireDebugEvents)
         {
             this.seqSome = seqSome; // parent
             this.seqExprGen = seqExprGen;
             this.seqHelper = seqHelper;
+            this.fireDebugEvents = fireDebugEvents;
 
             this.seqRule = seqRule;
 
@@ -50,7 +53,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public void EmitRewriting(SourceBuilder source,
-            String totalMatchToApply, String curTotalMatch, bool fireDebugEvents)
+            String totalMatchToApply, String curTotalMatch)
         {
             if(seqSome.Random)
                 source.AppendFront("if(" + matchesName + ".Count != 0 && " + curTotalMatch + " <= " + totalMatchToApply + ") {\n");
@@ -59,7 +62,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
 
             SequenceSomeRuleCallRewritingGeneratorHelper ruleRewritingGeneratorHelper = new SequenceSomeRuleCallRewritingGeneratorHelper(
-                this, totalMatchToApply, curTotalMatch);
+                this, totalMatchToApply, curTotalMatch, fireDebugEvents);
 
             if(seqRule.SequenceType == SequenceType.RuleCall)
             {
@@ -69,7 +72,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.Indent();
                 }
 
-                ruleRewritingGeneratorHelper.EmitRewritingRuleCall(source, fireDebugEvents);
+                ruleRewritingGeneratorHelper.EmitRewritingRuleCall(source);
 
                 if(seqSome.Random)
                 {
@@ -86,7 +89,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.Indent();
                 }
 
-                ruleRewritingGeneratorHelper.EmitRewritingRuleCountAllCallOrRuleAllCallNonRandom(source, fireDebugEvents);
+                ruleRewritingGeneratorHelper.EmitRewritingRuleCountAllCallOrRuleAllCallNonRandom(source);
 
                 if(seqSome.Random)
                 {
@@ -98,9 +101,9 @@ namespace de.unika.ipd.grGen.lgsp
             else // seq.SequenceType == SequenceType.RuleAll && ((SequenceRuleAll)seqRule).ChooseRandom
             {
                 if(seqSome.Random)
-                    ruleRewritingGeneratorHelper.EmitRewritingRuleAllCallRandomSequenceRandom(source, fireDebugEvents);
+                    ruleRewritingGeneratorHelper.EmitRewritingRuleAllCallRandomSequenceRandom(source);
                 else
-                    ruleRewritingGeneratorHelper.EmitRewritingRuleAllCallRandomSequenceNonRandom(source, fireDebugEvents);
+                    ruleRewritingGeneratorHelper.EmitRewritingRuleAllCallRandomSequenceNonRandom(source);
             }
 
             source.Unindent();

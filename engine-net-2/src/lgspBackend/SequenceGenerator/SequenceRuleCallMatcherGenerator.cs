@@ -17,6 +17,7 @@ namespace de.unika.ipd.grGen.lgsp
         internal readonly SequenceRuleCall seqRule;
         internal readonly SequenceExpressionGenerator seqExprGen;
         internal readonly SequenceGeneratorHelper seqHelper;
+        internal readonly bool fireDebugEvents;
 
         internal readonly SequenceExpression[] ArgumentExpressions;
         internal readonly String patternName;
@@ -26,11 +27,12 @@ namespace de.unika.ipd.grGen.lgsp
         internal readonly String matchesName;
         
 
-        public SequenceRuleCallMatcherGenerator(SequenceRuleCall seqRule, SequenceExpressionGenerator seqExprGen, SequenceGeneratorHelper seqHelper)
+        public SequenceRuleCallMatcherGenerator(SequenceRuleCall seqRule, SequenceExpressionGenerator seqExprGen, SequenceGeneratorHelper seqHelper, bool fireDebugEvents)
         {
             this.seqRule = seqRule;
             this.seqExprGen = seqExprGen;
             this.seqHelper = seqHelper;
+            this.fireDebugEvents = fireDebugEvents;
 
             ArgumentExpressions = seqRule.ArgumentExpressions;
             String matchingPatternClassName = "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(seqRule.Package) + "Rule_" + seqRule.Name;
@@ -81,8 +83,19 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
         }
 
-        public static void EmitPreMatchEventFiring(SourceBuilder source, SequenceRuleCallMatcherGenerator[] ruleMatcherGenerators)
+        public static void EmitBeginExecutionEventFiring(SourceBuilder source, string patternMatchingConstructVarName, bool fireDebugEvents)
         {
+            if(!fireDebugEvents)
+                return;
+
+            source.AppendFrontFormat("procEnv.BeginExecution({0});\n", patternMatchingConstructVarName);
+        }
+
+        public static void EmitPreMatchEventFiring(SourceBuilder source, SequenceRuleCallMatcherGenerator[] ruleMatcherGenerators, bool fireDebugEvents)
+        {
+            if(!fireDebugEvents)
+                return;
+
             source.AppendFront("procEnv.MatchedBeforeFiltering(new GRGEN_LIBGR.IMatches[" + ruleMatcherGenerators.Length + "] {");
             bool first = true;
             foreach(SequenceRuleCallMatcherGenerator ruleMatcherGenerator in ruleMatcherGenerators)
@@ -96,15 +109,27 @@ namespace de.unika.ipd.grGen.lgsp
             source.Append("});\n");
         }
 
-        public static void EmitPreMatchEventFiring(SourceBuilder source, string matchesName)
+        public static void EmitPreMatchEventFiring(SourceBuilder source, string matchesName, bool fireDebugEvents)
         {
+            if(!fireDebugEvents)
+                return;
+
             source.AppendFrontFormat("procEnv.MatchedBeforeFiltering({0});\n", matchesName);
         }
 
-        public static void EmitMatchEventFiring(SourceBuilder source, SequenceRuleCallMatcherGenerator[] ruleMatcherGenerators, bool matchClassFilterExisting, int constructId, string matchList)
+        public static void EmitMatchEventFiring(SourceBuilder source, SequenceRuleCallMatcherGenerator[] ruleMatcherGenerators, bool matchClassFilterExisting, string matchList, bool fireDebugEvents)
         {
-            string matchesArray = "matchesArray_" + constructId;
-            source.AppendFrontFormat("GRGEN_LIBGR.IMatches[] {0} = new GRGEN_LIBGR.IMatches[" + ruleMatcherGenerators.Length + "] ", matchesArray);
+            if(!fireDebugEvents)
+                return;
+
+            source.AppendFront("procEnv.MatchedAfterFiltering(");
+
+            if(matchClassFilterExisting)
+            {
+                source.AppendFormat("GRGEN_LIBGR.MatchListHelper.RemoveUnavailable({0}, ", matchList);
+            }
+
+            source.Append("new GRGEN_LIBGR.IMatches[" + ruleMatcherGenerators.Length + "] ");
             source.Append("{");
             bool first = true;
             foreach(SequenceRuleCallMatcherGenerator ruleMatcherGenerator in ruleMatcherGenerators)
@@ -115,15 +140,14 @@ namespace de.unika.ipd.grGen.lgsp
                     source.Append(",");
                 source.AppendFormat("{0}", ruleMatcherGenerator.matchesName);
             }
-            source.Append("};\n");
+            source.Append("}");
 
             if(matchClassFilterExisting)
             {
-                source.AppendFrontFormat("GRGEN_LIBGR.MatchListHelper.RemoveUnavailable({0}, {1});\n", matchList, matchesArray);
+                source.Append(")");
             }
 
-            source.AppendFrontFormat("procEnv.MatchedAfterFiltering({0}, ", matchesArray);
-            source.Append("new bool[" + ruleMatcherGenerators.Length + "] ");
+            source.Append(", new bool[" + ruleMatcherGenerators.Length + "] ");
             source.Append("{");
             first = true;
             foreach(SequenceRuleCallMatcherGenerator ruleMatcherGenerator in ruleMatcherGenerators)
@@ -137,13 +161,19 @@ namespace de.unika.ipd.grGen.lgsp
             source.Append("});\n");
         }
 
-        public static void EmitMatchEventFiring(SourceBuilder source, string matchesName, string specialValue)
+        public static void EmitMatchEventFiring(SourceBuilder source, string matchesName, string specialValue, bool fireDebugEvents)
         {
+            if(!fireDebugEvents)
+                return;
+
             source.AppendFrontFormat("procEnv.MatchedAfterFiltering({0}, {1});\n", matchesName, specialValue);
         }
 
-        public static void EmitFinishedEventFiring(SourceBuilder source, SequenceRuleCallMatcherGenerator[] ruleMatcherGenerators)
+        public static void EmitFinishedEventFiring(SourceBuilder source, SequenceRuleCallMatcherGenerator[] ruleMatcherGenerators, bool fireDebugEvents)
         {
+            if(!fireDebugEvents)
+                return;
+
             source.AppendFront("procEnv.Finished(new GRGEN_LIBGR.IMatches[" + ruleMatcherGenerators.Length + "] ");
             source.Append("{");
             bool first = true;
@@ -170,9 +200,46 @@ namespace de.unika.ipd.grGen.lgsp
             source.Append("});\n");
         }
 
-        public static void EmitFinishedEventFiring(SourceBuilder source, string matchesName, string specialValue)
+        public static void EmitFinishedEventFiring(SourceBuilder source, string matchesName, string specialValue, bool fireDebugEvents)
         {
+            if(!fireDebugEvents)
+                return;
+
             source.AppendFrontFormat("procEnv.Finished({0}, {1});\n", matchesName, specialValue);
+        }
+
+        public static void EmitEndExecutionEventFiring(SourceBuilder source, String patternMatchingConstructVarName, String resultVarName, bool fireDebugEvents)
+        {
+            if(!fireDebugEvents)
+                return;
+
+            source.AppendFrontFormat("procEnv.EndExecution({0}, {1});\n", patternMatchingConstructVarName, resultVarName);
+        }
+
+        public static void EmitMatchSelectedEventFiring(SourceBuilder source, String matchVarName, String specialStr, String matchesVarName, bool fireDebugEvents)
+        {
+            if(!fireDebugEvents)
+                return;
+
+            source.AppendFront("procEnv.MatchSelected(" + matchVarName + ", " + specialStr + ", " + matchesVarName + ");\n");
+        }
+
+        public static void EmitRewritingSelectedMatchEventFiring(SourceBuilder source, bool fireDebugEvents)
+        {
+            if(!fireDebugEvents)
+                return;
+
+            source.AppendFront("procEnv.RewritingSelectedMatch();\n");
+        }
+
+        //public static void EmitSelectedMatchRewrittenEventFiring(SourceBuilder source) is not needed as the event firing code is only generated by the frontend (part of the rule modify)
+
+        public static void EmitFinishedSelectedMatchEventFiring(SourceBuilder source, bool fireDebugEvents)
+        {
+            if(!fireDebugEvents)
+                return;
+
+            source.AppendFront("procEnv.FinishedSelectedMatch();\n");
         }
     }
 }

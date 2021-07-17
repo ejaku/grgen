@@ -17,6 +17,7 @@ namespace de.unika.ipd.grGen.lgsp
         internal readonly SequenceMultiRuleAllCall seqMulti;
         internal readonly SequenceExpressionGenerator seqExprGen;
         internal readonly SequenceGeneratorHelper seqHelper;
+        internal readonly bool fireDebugEvents;
 
         internal readonly SequenceRuleCall seqRule;
 
@@ -38,11 +39,13 @@ namespace de.unika.ipd.grGen.lgsp
         internal readonly String returnAssignmentsAllCall;
 
 
-        public SequenceMultiRuleAllCallRewritingGenerator(SequenceMultiRuleAllCall seqMulti, SequenceRuleCall seqRule, SequenceExpressionGenerator seqExprGen, SequenceGeneratorHelper seqHelper)
+        public SequenceMultiRuleAllCallRewritingGenerator(SequenceMultiRuleAllCall seqMulti, SequenceRuleCall seqRule,
+            SequenceExpressionGenerator seqExprGen, SequenceGeneratorHelper seqHelper, bool fireDebugEvents)
         {
             this.seqMulti = seqMulti; // parent
             this.seqExprGen = seqExprGen;
             this.seqHelper = seqHelper;
+            this.fireDebugEvents = fireDebugEvents;
 
             this.seqRule = seqRule;
 
@@ -61,26 +64,22 @@ namespace de.unika.ipd.grGen.lgsp
                 out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
         }
 
-        public void EmitRewriting(SourceBuilder source, SequenceGenerator seqGen, String matchListName, String enumeratorName,
-            bool fireDebugEvents)
+        public void EmitRewriting(SourceBuilder source, SequenceGenerator seqGen, String matchListName, String enumeratorName)
         {
             source.AppendFrontFormat("case \"{0}\":\n", plainRuleName);
             source.AppendFront("{\n");
             source.Indent();
 
             source.AppendFront(matchType + " " + matchName + " = (" + matchType + ")" + enumeratorName + ".Current;\n");
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.MatchSelected(" + matchName + ", " + specialStr + ", " + matchesName + ");\n");
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.RewritingSelectedMatch();\n");
+            SequenceRuleCallMatcherGenerator.EmitMatchSelectedEventFiring(source, matchName, specialStr, matchesName, fireDebugEvents);
+            SequenceRuleCallMatcherGenerator.EmitRewritingSelectedMatchEventFiring(source, fireDebugEvents);
             if(returnParameterDeclarations.Length != 0)
                 source.AppendFront(returnParameterDeclarations + "\n");
             source.AppendFront(ruleName + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
             if(returnAssignments.Length != 0)
                 source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
             source.AppendFront("++procEnv.PerformanceInfo.RewritesPerformed;\n");
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.FinishedSelectedMatch();\n");
+            SequenceRuleCallMatcherGenerator.EmitFinishedSelectedMatchEventFiring(source, fireDebugEvents);
             source.AppendFront("break;\n");
 
             source.Unindent();

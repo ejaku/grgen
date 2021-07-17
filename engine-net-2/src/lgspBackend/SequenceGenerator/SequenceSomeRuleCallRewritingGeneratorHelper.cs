@@ -15,6 +15,7 @@ namespace de.unika.ipd.grGen.lgsp
     class SequenceSomeRuleCallRewritingGeneratorHelper
     {
         readonly SequenceSomeRuleCallRewritingGenerator ruleCallRewritingGenerator;
+        readonly bool fireDebugEvents;
 
         String matchType
         {
@@ -49,35 +50,33 @@ namespace de.unika.ipd.grGen.lgsp
         readonly String returnAssignmentsAllCall;
 
 
-        public SequenceSomeRuleCallRewritingGeneratorHelper(SequenceSomeRuleCallRewritingGenerator ruleCallGen, String totalMatchToApply, String curTotalMatch)
+        public SequenceSomeRuleCallRewritingGeneratorHelper(SequenceSomeRuleCallRewritingGenerator ruleCallGen, String totalMatchToApply, String curTotalMatch, bool fireDebugEvents)
         {
             this.ruleCallRewritingGenerator = ruleCallGen;
             this.totalMatchToApply = totalMatchToApply;
             this.curTotalMatch = curTotalMatch;
+            this.fireDebugEvents = fireDebugEvents;
 
             ruleCallGen.seqHelper.BuildReturnParameters(ruleCallGen.seqRule, ruleCallGen.seqRule.ReturnVars,
                 out returnParameterDeclarations, out returnArguments, out returnAssignments,
                 out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
         }
 
-        public void EmitRewritingRuleCall(SourceBuilder source, bool fireDebugEvents)
+        public void EmitRewritingRuleCall(SourceBuilder source)
         {
             source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".FirstExact;\n");
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.MatchSelected(" + matchName + ", " + ruleCallRewritingGenerator.specialStr + ", " + matchesName + ");\n");
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.RewritingSelectedMatch();\n");
+            SequenceRuleCallMatcherGenerator.EmitMatchSelectedEventFiring(source, matchName, ruleCallRewritingGenerator.specialStr, matchesName, fireDebugEvents);
+            SequenceRuleCallMatcherGenerator.EmitRewritingSelectedMatchEventFiring(source, fireDebugEvents);
             if(returnParameterDeclarations.Length != 0)
                 source.AppendFront(returnParameterDeclarations + "\n");
             source.AppendFront(ruleCallRewritingGenerator.ruleName + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
             if(returnAssignments.Length != 0)
                 source.AppendFront(returnAssignments + "\n");
             source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.FinishedSelectedMatch();\n");
+            SequenceRuleCallMatcherGenerator.EmitFinishedSelectedMatchEventFiring(source, fireDebugEvents);
         }
 
-        public void EmitRewritingRuleCountAllCallOrRuleAllCallNonRandom(SourceBuilder source, bool fireDebugEvents)
+        public void EmitRewritingRuleCountAllCallOrRuleAllCallNonRandom(SourceBuilder source)
         {
             // iterate through matches, use Modify on each, fire the next match event after the first
             if(returnParameterDeclarations.Length != 0)
@@ -88,18 +87,15 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("{\n");
             source.Indent();
             source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.MatchSelected(" + matchName + ", " + specialStr + ", " + matchesName + ");\n");
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.RewritingSelectedMatch();\n");
+            SequenceRuleCallMatcherGenerator.EmitMatchSelectedEventFiring(source, matchName, specialStr, matchesName, fireDebugEvents);
+            SequenceRuleCallMatcherGenerator.EmitRewritingSelectedMatchEventFiring(source, fireDebugEvents);
             if(returnParameterDeclarations.Length != 0)
                 source.AppendFront(returnParameterDeclarations + "\n");
             source.AppendFront(ruleCallRewritingGenerator.ruleName + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
             if(returnAssignments.Length != 0)
                 source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
             source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.FinishedSelectedMatch();\n");
+            SequenceRuleCallMatcherGenerator.EmitFinishedSelectedMatchEventFiring(source, fireDebugEvents);
             source.Unindent();
             source.AppendFront("}\n");
             if(returnAssignments.Length != 0)
@@ -111,7 +107,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public void EmitRewritingRuleAllCallRandomSequenceRandom(SourceBuilder source, bool fireDebugEvents)
+        public void EmitRewritingRuleAllCallRandomSequenceRandom(SourceBuilder source)
         {
             // for the match selected: rewrite it
             if(returnParameterDeclarations.Length != 0)
@@ -124,18 +120,15 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("if(" + curTotalMatch + "==" + totalMatchToApply + ") {\n");
             source.Indent();
             source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.MatchSelected(" + matchName + ", " + specialStr + ", " + matchesName + ");\n");
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.RewritingSelectedMatch();\n");
+            SequenceRuleCallMatcherGenerator.EmitMatchSelectedEventFiring(source, matchName, specialStr, matchesName, fireDebugEvents);
+            SequenceRuleCallMatcherGenerator.EmitRewritingSelectedMatchEventFiring(source, fireDebugEvents);
             if(returnParameterDeclarations.Length != 0)
                 source.AppendFront(returnParameterDeclarations + "\n");
             source.AppendFront(ruleCallRewritingGenerator.ruleName + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
             if(returnAssignments.Length != 0)
                 source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
             source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.FinishedSelectedMatch();\n");
+            SequenceRuleCallMatcherGenerator.EmitFinishedSelectedMatchEventFiring(source, fireDebugEvents);
             source.Unindent();
             source.AppendFront("}\n");
             if(returnAssignments.Length != 0)
@@ -145,16 +138,14 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
         }
 
-        public void EmitRewritingRuleAllCallRandomSequenceNonRandom(SourceBuilder source, bool fireDebugEvents)
+        public void EmitRewritingRuleAllCallRandomSequenceNonRandom(SourceBuilder source)
         {
             // randomly choose match, rewrite it and remove it from available matches
             if(returnParameterDeclarations.Length != 0)
                 source.AppendFront(returnParameterDeclarationsAllCall + "\n");
             source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".GetMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(" + matchesName + ".Count));\n");
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.MatchSelected(" + matchName + ", " + specialStr + ", " + matchesName + ");\n");
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.RewritingSelectedMatch();\n");
+            SequenceRuleCallMatcherGenerator.EmitMatchSelectedEventFiring(source, matchName, specialStr, matchesName, fireDebugEvents);
+            SequenceRuleCallMatcherGenerator.EmitRewritingSelectedMatchEventFiring(source, fireDebugEvents);
             if(returnParameterDeclarations.Length != 0)
                 source.AppendFront(returnParameterDeclarations + "\n");
             source.AppendFront(ruleCallRewritingGenerator.ruleName + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
@@ -163,8 +154,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
             if(returnAssignments.Length != 0)
                 source.AppendFront(returnAssignmentsAllCall + "\n");
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.FinishedSelectedMatch();\n");
+            SequenceRuleCallMatcherGenerator.EmitFinishedSelectedMatchEventFiring(source, fireDebugEvents);
         }
     }
 }

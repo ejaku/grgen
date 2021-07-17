@@ -17,6 +17,7 @@ namespace de.unika.ipd.grGen.lgsp
         internal readonly SequenceMultiBacktrack seqMulti;
         internal readonly SequenceExpressionGenerator seqExprGen;
         internal readonly SequenceGeneratorHelper seqHelper;
+        internal readonly bool fireDebugEvents;
 
         internal readonly SequenceRuleCall seqRule;
 
@@ -32,11 +33,13 @@ namespace de.unika.ipd.grGen.lgsp
         internal readonly String matchesName;
 
 
-        public SequenceMultiBacktrackRuleRewritingGenerator(SequenceMultiBacktrack seqMulti, SequenceRuleCall seqRule, SequenceExpressionGenerator seqExprGen, SequenceGeneratorHelper seqHelper)
+        public SequenceMultiBacktrackRuleRewritingGenerator(SequenceMultiBacktrack seqMulti, SequenceRuleCall seqRule, 
+            SequenceExpressionGenerator seqExprGen, SequenceGeneratorHelper seqHelper, bool fireDebugEvents)
         {
             this.seqMulti = seqMulti;
             this.seqExprGen = seqExprGen;
             this.seqHelper = seqHelper;
+            this.fireDebugEvents = fireDebugEvents;
 
             this.seqRule = seqRule;
 
@@ -52,8 +55,7 @@ namespace de.unika.ipd.grGen.lgsp
             matchesName = "matches_" + seqRule.Id;
         }
 
-        public void EmitRewriting(SourceBuilder source, SequenceGenerator seqGen, String matchListName, String enumeratorName, 
-            bool fireDebugEvents)
+        public void EmitRewriting(SourceBuilder source, SequenceGenerator seqGen, String matchListName, String enumeratorName)
         {
             source.AppendFrontFormat("case \"{0}\":\n", plainRuleName);
             source.AppendFront("{\n");
@@ -72,8 +74,7 @@ namespace de.unika.ipd.grGen.lgsp
                 out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
 
             // start a transaction
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.MatchSelected(" + matchName + ", " + specialStr + ", " + matchesName + ");\n");
+            SequenceRuleCallMatcherGenerator.EmitMatchSelectedEventFiring(source, matchName, specialStr, matchesName, fireDebugEvents);
             if(returnParameterDeclarations.Length != 0)
                 source.AppendFront(returnParameterDeclarations + "\n");
 
@@ -81,10 +82,8 @@ namespace de.unika.ipd.grGen.lgsp
             if(returnAssignments.Length != 0)
                 source.AppendFront(returnAssignments + "\n");
             source.AppendFront("++procEnv.PerformanceInfo.RewritesPerformed;\n");
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.RewritingSelectedMatch();\n");
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.FinishedSelectedMatch();\n");
+            SequenceRuleCallMatcherGenerator.EmitRewritingSelectedMatchEventFiring(source, fireDebugEvents);
+            SequenceRuleCallMatcherGenerator.EmitFinishedSelectedMatchEventFiring(source, fireDebugEvents);
 
             source.AppendFront("break;\n");
             source.Unindent();

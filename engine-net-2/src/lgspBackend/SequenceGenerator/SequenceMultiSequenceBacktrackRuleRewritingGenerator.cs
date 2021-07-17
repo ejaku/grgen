@@ -19,6 +19,7 @@ namespace de.unika.ipd.grGen.lgsp
         internal readonly Sequence seqSeq;
         internal readonly SequenceExpressionGenerator seqExprGen;
         internal readonly SequenceGeneratorHelper seqHelper;
+        internal readonly bool fireDebugEvents;
 
         internal readonly SequenceRuleCall seqRule;
 
@@ -34,12 +35,14 @@ namespace de.unika.ipd.grGen.lgsp
         internal readonly String matchesName;
 
 
-        public SequenceMultiSequenceBacktrackRuleRewritingGenerator(SequenceMultiSequenceBacktrack seqMulti, SequenceRuleCall seqRule, Sequence seqSeq, SequenceExpressionGenerator seqExprGen, SequenceGeneratorHelper seqHelper)
+        public SequenceMultiSequenceBacktrackRuleRewritingGenerator(SequenceMultiSequenceBacktrack seqMulti, SequenceRuleCall seqRule, Sequence seqSeq,
+            SequenceExpressionGenerator seqExprGen, SequenceGeneratorHelper seqHelper, bool fireDebugEvents)
         {
             this.seqMulti = seqMulti;
             this.seqSeq = seqSeq;
             this.seqExprGen = seqExprGen;
             this.seqHelper = seqHelper;
+            this.fireDebugEvents = fireDebugEvents;
 
             this.seqRule = seqRule;
 
@@ -55,8 +58,7 @@ namespace de.unika.ipd.grGen.lgsp
             matchesName = "matches_" + seqRule.Id;
         }
 
-        public void EmitRewriting(SourceBuilder source, SequenceGenerator seqGen, String matchListName, String enumeratorName, 
-            bool fireDebugEvents)
+        public void EmitRewriting(SourceBuilder source, SequenceGenerator seqGen, String matchListName, String enumeratorName)
         {
             source.AppendFrontFormat("case \"{0}\":\n", plainRuleName);
             source.AppendFront("{\n");
@@ -75,19 +77,16 @@ namespace de.unika.ipd.grGen.lgsp
                 out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
 
             // start a transaction
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.MatchSelected(" + matchName + ", " + specialStr + ", " + matchesName + ");\n");
+            SequenceRuleCallMatcherGenerator.EmitMatchSelectedEventFiring(source, matchName, specialStr, matchesName, fireDebugEvents);
             if(returnParameterDeclarations.Length != 0)
                 source.AppendFront(returnParameterDeclarations + "\n");
 
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.RewritingSelectedMatch();\n");
+            SequenceRuleCallMatcherGenerator.EmitRewritingSelectedMatchEventFiring(source, fireDebugEvents);
             source.AppendFront(ruleName + ".Modify(procEnv, " + matchName + returnArguments + ");\n");
             if(returnAssignments.Length != 0)
                 source.AppendFront(returnAssignments + "\n");
             source.AppendFront("++procEnv.PerformanceInfo.RewritesPerformed;\n");
-            if(fireDebugEvents)
-                source.AppendFront("procEnv.FinishedSelectedMatch();\n");
+            SequenceRuleCallMatcherGenerator.EmitFinishedSelectedMatchEventFiring(source, fireDebugEvents);
 
             // rule applied, now execute the sequence
             seqGen.EmitSequence(seqSeq, source);

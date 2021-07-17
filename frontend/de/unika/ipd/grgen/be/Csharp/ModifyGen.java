@@ -581,7 +581,9 @@ public class ModifyGen extends CSharpBase
 
 		// Emit selected match rewritten event firing (only if top-level rule)
 		if(pathPrefix.equals("") && !task.isSubpattern) {
-			sb3.appendFront("actionEnv.SelectedMatchRewritten();\n");
+			if(be.system.mayFireDebugEvents()) {
+				sb3.appendFront("actionEnv.SelectedMatchRewritten();\n");
+			}
 		}
 
 		execGen.genImperativeStatements(sb3, task, state, stateConst, needs, pathPrefix, packagePrefixedActionName);
