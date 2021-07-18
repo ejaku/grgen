@@ -143,6 +143,8 @@ TOKEN: {
 |   < NEW: "new" >
 |   < NODE: "node" >
 |   < NODES: "nodes" >
+|   < NODEBUGEVENTS: "nodebugevents" >
+|   < NOEVENTS: "noevents" >
 |   < NOINLINE: "noinline" >
 |   < NULL: "null" >
 |   < NUM: "num" >
@@ -1319,9 +1321,19 @@ void NewCommand():
             noError = impl.NewGraphSetLazyNIC(on);
         }
     |
+        LOOKAHEAD(2) "set" "nodebugevents" ("on" { on = true; } | "off" { on = false; }) LineEnd()
+        {
+            noError = impl.NewGraphSetNoDebugEvents(on);
+        }
+    |
+        LOOKAHEAD(2) "set" "noevents" ("on" { on = true; } | "off" { on = false; }) LineEnd()
+        {
+            noError = impl.NewGraphSetNoEvents(on);
+        }
+    |
         LOOKAHEAD(2) "set" "noinline" ("on" { on = true; } | "off" { on = false; }) LineEnd()
         {
-            noError = impl.NewGraphSetNoinline(on);
+            noError = impl.NewGraphSetNoInline(on);
         }
     |
         "set" "profile" ("on" { on = true; } | "off" { on = false; }) LineEnd()
