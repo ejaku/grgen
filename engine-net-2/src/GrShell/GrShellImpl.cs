@@ -5363,12 +5363,14 @@ showavail:
         public bool NewGraphSetNoDebugEvents(bool on)
         {
             newGraphOptions.NoDebugEvents = on;
+            SequenceBase.noDebugEvents = on;
             return true;
         }
 
         public bool NewGraphSetNoEvents(bool on)
         {
             newGraphOptions.NoEvents = on;
+            SequenceBase.noEvents = on;
             return true;
         }
 

@@ -163,8 +163,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="special">Specifies whether the %-modifier has been used for this rule, which may have a special meaning for
         /// the application</param>
         /// <param name="filters">The name of the filters to apply to the matches before rewriting, in the order of filtering.</param>
+        /// <param name="fireDebugEvents">Specifies whether debug events (mostly action events) are to be fired.</param>
         /// <returns>A matches object containing the found matches.</returns>
-        IMatches Match(IAction action, object[] arguments, int localMaxMatches, bool special, List<FilterCall> filters);
+        IMatches Match(IAction action, object[] arguments, int localMaxMatches, bool special, List<FilterCall> filters, bool fireDebugEvents);
 
         /// <summary>
         /// Matches a rewrite rule, without firing the Matched event (but fires the MatchedBeforeFiltering event - for internal or non-debugger use).
@@ -173,15 +174,17 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="arguments">The input arguments</param>
         /// <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
         /// depends on the MaxMatches property)</param>
+        /// <param name="fireDebugEvents">Specifies whether debug events (mostly action events) are to be fired.</param>
         /// <returns>A matches object containing the found matches.</returns>
-        IMatches MatchWithoutEvent(IAction action, object[] arguments, int localMaxMatches);
+        IMatches MatchWithoutEvent(IAction action, object[] arguments, int localMaxMatches, bool fireDebugEvents);
 
         /// <summary>
         /// Matches the rewrite rules, without firing the Matched event, but fires the MatchedBeforeFiltering event (for internal or non-debugger use).
         /// </summary>
+        /// <param name="fireDebugEvents">Specifies whether debug events (mostly action events) are to be fired.</param>
         /// <param name="actions">The rules to invoke</param>
         /// <returns>A list of matches objects containing the found matches.</returns>
-        IMatches[] MatchWithoutEvent(params ActionCall[] actions);
+        IMatches[] MatchWithoutEvent(bool fireDebugEvents, params ActionCall[] actions);
 
         /// <summary>
         /// Executes the modifications of the according rule to the given match/matches.
@@ -191,9 +194,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="which">The index of the match in the matches object to be applied,
         /// or -1, if all matches are to be applied.</param>
         /// <param name="special">Whether the special flag was applied to the rule call.</param>
+        /// <param name="fireDebugEvents">Specifies whether debug events (mostly action events) are to be fired.</param>
         /// <returns>A list with the return values of each of the rewrites applied. 
         /// Each element is a possibly empty array of objects that were returned by their rewrite.</returns>
-        List<object[]> Replace(IMatches matches, int which, bool special);
+        List<object[]> Replace(IMatches matches, int which, bool special, bool fireDebugEvents);
 
         /// <summary>
         /// Matches a rewrite rule, without firing the Matched event, but with firing the PreMatch event and Cloning of the matches
@@ -204,16 +208,18 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="arguments">The input arguments</param>
         /// <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
         /// depends on the MaxMatches property)</param>
+        /// <param name="fireDebugEvents">Specifies whether debug events (mostly action events) are to be fired.</param>
         /// <returns>A matches object containing the found matches.</returns>
-        IMatches MatchForQuery(IAction action, object[] arguments, int localMaxMatches);
+        IMatches MatchForQuery(IAction action, object[] arguments, int localMaxMatches, bool fireDebugEvents);
 
         /// <summary>
         /// Matches the rewrite rules, without firing the Matched event, but with firing the PreMatch event and Cloning of the matches
         /// (so they can stored, or used in an expression combining multiple queries).
         /// </summary>
+        /// <param name="fireDebugEvents">Specifies whether debug events (mostly action events) are to be fired.</param>
         /// <param name="actions">The rules to invoke</param>
         /// <returns>A list of matches objects containing the found matches.</returns>
-        IMatches[] MatchForQuery(params ActionCall[] actions);
+        IMatches[] MatchForQuery(bool fireDebugEvents, params ActionCall[] actions);
 
         #endregion Graph rewriting
 

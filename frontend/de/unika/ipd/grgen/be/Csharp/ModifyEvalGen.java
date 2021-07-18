@@ -2792,6 +2792,9 @@ public class ModifyEvalGen extends CSharpBase
 
 	private void genDebugAddProc(SourceBuilder sb, ModifyGenerationStateConst state, DebugAddProc dap)
 	{
+		if(!be.system.mayFireDebugEvents())
+			return;
+
 		sb.appendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEntering((string)");
 		genExpression(sb, dap.getFirstExpression(), state);
 		boolean first = true;
@@ -2807,6 +2810,9 @@ public class ModifyEvalGen extends CSharpBase
 
 	private void genDebugRemProc(SourceBuilder sb, ModifyGenerationStateConst state, DebugRemProc drp)
 	{
+		if(!be.system.mayFireDebugEvents())
+			return;
+
 		sb.appendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugExiting((string)");
 		genExpression(sb, drp.getFirstExpression(), state);
 		boolean first = true;
@@ -2822,6 +2828,9 @@ public class ModifyEvalGen extends CSharpBase
 
 	private void genDebugEmitProc(SourceBuilder sb, ModifyGenerationStateConst state, DebugEmitProc dep)
 	{
+		if(!be.system.mayFireDebugEvents())
+			return;
+
 		sb.appendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEmitting((string)");
 		genExpression(sb, dep.getFirstExpression(), state);
 		boolean first = true;
@@ -2837,6 +2846,9 @@ public class ModifyEvalGen extends CSharpBase
 
 	private void genDebugHaltProc(SourceBuilder sb, ModifyGenerationStateConst state, DebugHaltProc dhp)
 	{
+		if(!be.system.mayFireDebugEvents())
+			return;
+
 		sb.appendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugHalting((string)");
 		genExpression(sb, dhp.getFirstExpression(), state);
 		boolean first = true;
@@ -2852,6 +2864,9 @@ public class ModifyEvalGen extends CSharpBase
 
 	private void genDebugHighlightProc(SourceBuilder sb, ModifyGenerationStateConst state, DebugHighlightProc dhp)
 	{
+		if(!be.system.mayFireDebugEvents())
+			return;
+
 		String highlightValuesArray = "highlight_values_" + tmpVarID++;
 		sb.appendFront("List<object> " + highlightValuesArray + " = new List<object>();\n");
 		String highlightSourceNamesArray = "highlight_source_names_" + tmpVarID++;

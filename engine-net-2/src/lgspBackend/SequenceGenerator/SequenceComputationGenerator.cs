@@ -195,6 +195,9 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void EmitSequenceComputationDebugAdd(SequenceComputationDebugAdd seqDebug, SourceBuilder source)
         {
+            if(!SequenceBase.FireDebugEvents)
+                return;
+
             source.AppendFront("procEnv.DebugEntering(");
             EmitDebugProcedureArguments(seqDebug.ArgExprs, source);
             source.Append(");\n");
@@ -203,6 +206,9 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void EmitSequenceComputationDebugRem(SequenceComputationDebugRem seqDebug, SourceBuilder source)
         {
+            if(!SequenceBase.FireDebugEvents)
+                return;
+
             source.AppendFront("procEnv.DebugExiting(");
             EmitDebugProcedureArguments(seqDebug.ArgExprs, source);
             source.Append(");\n");
@@ -211,6 +217,9 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void EmitSequenceComputationDebugEmit(SequenceComputationDebugEmit seqDebug, SourceBuilder source)
         {
+            if(!SequenceBase.FireDebugEvents)
+                return;
+
             source.AppendFront("procEnv.DebugEmitting(");
             EmitDebugProcedureArguments(seqDebug.ArgExprs, source);
             source.Append(");\n");
@@ -219,6 +228,9 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void EmitSequenceComputationDebugHalt(SequenceComputationDebugHalt seqDebug, SourceBuilder source)
         {
+            if(!SequenceBase.FireDebugEvents)
+                return;
+
             source.AppendFront("procEnv.DebugHalting(");
             EmitDebugProcedureArguments(seqDebug.ArgExprs, source);
             source.Append(");\n");
@@ -238,6 +250,9 @@ namespace de.unika.ipd.grGen.lgsp
         }
         public void EmitSequenceComputationDebugHighlight(SequenceComputationDebugHighlight seqDebug, SourceBuilder source)
         {
+            if(!SequenceBase.FireDebugEvents)
+                return;
+
             source.AppendFront("List<object> values = new List<object>();\n");
             source.AppendFront("List<string> annotations = new List<string>();\n");
             for(int i = 1; i < seqDebug.ArgExprs.Count; ++i)

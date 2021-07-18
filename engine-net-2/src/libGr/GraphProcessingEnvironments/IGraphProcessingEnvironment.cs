@@ -70,9 +70,11 @@ namespace de.unika.ipd.grGen.libGr
         /// the application</param>
         /// <param name="test">If true, no rewrite step is performed.</param>
         /// <param name="filters">The name of the filters to apply to the matches before rewriting, in the order of filtering.</param>
+        /// <param name="fireDebugEvents">Specifies whether debug events (mostly action events) are to be fired.</param>
         /// <param name="numMatches">The amount of matches found (output returned).</param>
         /// <returns>The list of outputs (for each match a list element, a list element is an array with the returned values).</returns>
-        List<object[]> ApplyRewrite(IAction action, IGraph subgraph, object[] arguments, int which, int localMaxMatches, bool special, bool test, List<FilterCall> filters, out int numMatches);
+        List<object[]> ApplyRewrite(IAction action, IGraph subgraph, object[] arguments, int which, int localMaxMatches, 
+            bool special, bool test, List<FilterCall> filters, bool fireDebugEvents, out int numMatches);
 
         /// <summary>
         /// Filters the matches of a rule (all) call with a lambda expression filter (call).

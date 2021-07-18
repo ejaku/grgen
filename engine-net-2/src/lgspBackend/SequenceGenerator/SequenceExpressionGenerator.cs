@@ -1192,10 +1192,11 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("GRGEN_LIBGR.IMatchesExact<{0}> matches = ", matchType);
 
             SourceBuilder matchesSourceBuilder = new SourceBuilder();
-            matchesSourceBuilder.AppendFormat("((GRGEN_LIBGR.IMatchesExact<{0}>)procEnv.MatchForQuery({1}, {2}{3}, procEnv.MaxMatches, {4}))",
+            matchesSourceBuilder.AppendFormat("((GRGEN_LIBGR.IMatchesExact<{0}>)procEnv.MatchForQuery({1}, {2}{3}, procEnv.MaxMatches, {4}, {5}))",
                 matchType, "GRGEN_ACTIONS." + TypesHelper.GetPackagePrefixDot(ruleCall.Package) + "Action_" + ruleCall.Name + ".Instance",
                 ruleCall.Subgraph != null ? seqHelper.GetVar(ruleCall.Subgraph) : "null",
-                seqHelper.BuildParametersInObject(ruleCall, ruleCall.ArgumentExpressions, source), ruleCall.Special ? "true" : "false");
+                seqHelper.BuildParametersInObject(ruleCall, ruleCall.ArgumentExpressions, source), ruleCall.Special ? "true" : "false",
+                fireDebugEvents ? "true" : "false");
             for(int i = 0; i < ruleCall.Filters.Count; ++i)
             {
                 String matchesSource = matchesSourceBuilder.ToString();
@@ -1474,8 +1475,8 @@ namespace de.unika.ipd.grGen.lgsp
             String multiRuleCallResultName = "multi_rule_call_result_" + seqMulti.Id;
             source.AppendFrontFormat("GRGEN_LIBGR.IMatches[] {0} = null;\n", multiRuleCallResultName);
             SourceBuilder matchesSourceBuilder = new SourceBuilder();
-            matchesSourceBuilder.AppendFormat("((GRGEN_LIBGR.IMatchesExact<{0}>)(({1} = procEnv.MatchForQuery({2}))[0]))",
-                matchType, multiRuleCallResultName, GetActionCallObjects(seqMulti, source));
+            matchesSourceBuilder.AppendFormat("((GRGEN_LIBGR.IMatchesExact<{0}>)(({1} = procEnv.MatchForQuery({2},{3}))[0]))",
+                matchType, multiRuleCallResultName, fireDebugEvents ? "true" : "false", GetActionCallObjects(seqMulti, source));
             for(int i = 0; i < ruleCall.Filters.Count; ++i)
             {
                 String matchesSource = matchesSourceBuilder.ToString();

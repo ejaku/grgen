@@ -247,7 +247,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public override IMatches Match(IAction action, object[] arguments, int localMaxMatches, bool special, List<FilterCall> filters)
+        public override IMatches Match(IAction action, object[] arguments, int localMaxMatches, bool special, List<FilterCall> filters, bool fireDebugEvents)
         {
             int curMaxMatches = (localMaxMatches > 0) ? localMaxMatches : MaxMatches;
 
@@ -260,8 +260,11 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
             PerformanceInfo.MatchesFound += matches.Count;
 
-            if(matches.Count > 0)
-                MatchedBeforeFiltering(matches);
+            if(fireDebugEvents)
+            {
+                if(matches.Count > 0)
+                    MatchedBeforeFiltering(matches);
+            }
 
             for(int i = 0; i < filters.Count; ++i)
             {
@@ -278,8 +281,11 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            if(matches.Count > 0) // ensure that Matched is only called when a match exists
-                MatchedAfterFiltering(matches, special);
+            if(fireDebugEvents)
+            {
+                if(matches.Count > 0) // ensure that Matched is only called when a match exists
+                    MatchedAfterFiltering(matches, special);
+            }
 
             return matches;
         }
@@ -377,12 +383,12 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public List<object[]> ApplyRewrite(IAction action, IGraph subgraph, object[] arguments, int which, 
-            int localMaxMatches, bool special, bool test, List<FilterCall> filters, out int numMatches)
+            int localMaxMatches, bool special, bool test, List<FilterCall> filters, bool fireDebugEvents, out int numMatches)
         {
             if(subgraph != null)
                 SwitchToSubgraph(subgraph);
 
-            IMatches matches = Match(action, arguments, localMaxMatches, special, filters);
+            IMatches matches = Match(action, arguments, localMaxMatches, special, filters, fireDebugEvents);
 
             if(matches.Count == 0)
             {
@@ -403,11 +409,12 @@ namespace de.unika.ipd.grGen.lgsp
 #if DEBUGACTIONS || MATCHREWRITEDETAIL // spread over multiple files now, search for the corresponding defines to reactivate
             PerformanceInfo.StartLocal();
 #endif
-            List<object[]> retElemsList = Replace(matches, which, special);
+            List<object[]> retElemsList = Replace(matches, which, special, fireDebugEvents);
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
             PerformanceInfo.StopRewrite();
 #endif
-            Finished(matches, special);
+            if(fireDebugEvents)
+                Finished(matches, special);
 
             if(subgraph != null)
                 ReturnFromSubgraph();
@@ -417,12 +424,12 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public IMatches MatchForQuery(IAction action, IGraph subgraph, object[] arguments,
-            int localMaxMatches, bool special)
+            int localMaxMatches, bool special, bool fireDebugEvents)
         {
             if(subgraph != null)
                 SwitchToSubgraph(subgraph);
 
-            IMatches matches = MatchForQuery(action, arguments, localMaxMatches);
+            IMatches matches = MatchForQuery(action, arguments, localMaxMatches, fireDebugEvents);
 
             //subrule debugging must be changed to allow this
             //if(matches.Count > 0) {// ensure that Matched is only called when a match exists
