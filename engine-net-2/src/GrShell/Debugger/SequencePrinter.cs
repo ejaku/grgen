@@ -659,7 +659,26 @@ namespace de.unika.ipd.grGen.grShell
                 highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
             WorkaroundManager.Workaround.PrintHighlighted("[[", highlightingModeLocal);
-            PrintChildren(seqMulti, highlightingMode, highlightingModeLocal, context);
+
+            bool first = true;
+            foreach(SequenceRulePrefixedSequence seqRulePrefixedSequence in seqMulti.RulePrefixedSequences)
+            {
+                if(first)
+                    first = false;
+                else
+                    WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
+
+                HighlightingMode highlightingModeRulePrefixedSequence = highlightingModeLocal;
+                if(seqRulePrefixedSequence == context.highlightSeq)
+                    highlightingModeRulePrefixedSequence = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
+
+                WorkaroundManager.Workaround.PrintHighlighted("for{", highlightingModeRulePrefixedSequence);
+                PrintSequence(seqRulePrefixedSequence.Rule, seqRulePrefixedSequence, highlightingModeRulePrefixedSequence, context);
+                WorkaroundManager.Workaround.PrintHighlighted(";", highlightingModeRulePrefixedSequence);
+                PrintSequence(seqRulePrefixedSequence.Sequence, seqRulePrefixedSequence, highlightingMode, context);
+                WorkaroundManager.Workaround.PrintHighlighted("}", highlightingModeRulePrefixedSequence);
+            }
+
             WorkaroundManager.Workaround.PrintHighlighted("]", highlightingModeLocal);
             foreach(SequenceFilterCallBase filterCall in seqMulti.Filters)
             {
