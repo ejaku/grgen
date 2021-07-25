@@ -861,13 +861,13 @@ namespace de.unika.ipd.grGen.grShell
             }
             for(int i = 0; i < seq.Filters.Count; ++i)
             {
-                WorkaroundManager.Workaround.PrintHighlighted("\\", highlightingMode);
                 PrintSequenceFilterCall(seq.Filters[i], seq, highlightingMode, context);
             }
         }
 
         private static void PrintSequenceFilterCall(SequenceFilterCallBase seq, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
+            WorkaroundManager.Workaround.PrintHighlighted("\\", highlightingMode);
             if(seq is SequenceFilterCallInterpreted)
             {
                 SequenceFilterCallInterpreted filterCall = (SequenceFilterCallInterpreted)seq;
