@@ -3359,13 +3359,16 @@ namespace de.unika.ipd.grGen.grShell
 
             WorkaroundManager.Workaround.PrintHighlighted("[?[", highlightingModeLocal);
             bool first = true;
-            foreach(Sequence rule in seqExprMultiRuleQuery.MultiRuleCall.Sequences)
+            foreach(SequenceRuleCall rule in seqExprMultiRuleQuery.MultiRuleCall.Sequences)
             {
                 if(first)
                     first = false;
                 else
                     WorkaroundManager.Workaround.PrintHighlighted(",", highlightingModeLocal);
-                PrintSequence(rule, seqExprMultiRuleQuery, highlightingMode, context);
+
+                PrintReturnAssignments(rule.ReturnVars, parent, highlightingMode, context);
+                WorkaroundManager.Workaround.PrintHighlighted(rule.DebugPrefix, highlightingMode);
+                PrintRuleCallString(rule, parent, highlightingMode, context);
             }
             WorkaroundManager.Workaround.PrintHighlighted("]", highlightingModeLocal);
             foreach(SequenceFilterCallBase filterCall in seqExprMultiRuleQuery.MultiRuleCall.Filters)

@@ -1672,6 +1672,17 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        public string DebugPrefix
+        {
+            get
+            {
+                if(Special)
+                    return "%";
+                else
+                    return "";
+            }
+        }
+
         protected String ReturnAssignmentString
         {
             get
