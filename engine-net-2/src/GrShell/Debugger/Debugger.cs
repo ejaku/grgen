@@ -1552,7 +1552,7 @@ namespace de.unika.ipd.grGen.grShell
             if(matchDepth++ > 0 || computationsEnteredStack.Count > 0)
             {
                 Console.WriteLine("Matched " + ProducerNames(matches));
-                if(Count(matches) == 1)
+                if(Count(matches) == 1 && (patternMatchingConstructsExecuted.Count > 0 && patternMatchingConstructsExecuted[patternMatchingConstructsExecuted.Count - 1] is SequenceRuleCall))
                     return;
             }
 
