@@ -3860,6 +3860,16 @@
             <param name="newName">Name of the new graph.</param>
             <returns>A new graph with the same structure as this graph.</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.Clone(System.String,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.IGraphElement}@)">
+            <summary>
+            Duplicates a graph.
+            The new graph will use the same model as the other.
+            Open transaction data will not be cloned.
+            </summary>
+            <param name="newName">Name of the new graph.</param>
+            <param name="oldToNewMap">A map of the old elements to the corresponding new elements after cloning.</param>
+            <returns>A new graph with the same structure as this graph.</returns>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.CloneAndAssignNames">
             <summary>
             Duplicates a graph, assigning names.
@@ -4876,48 +4886,112 @@
             For filtering with the auto-supplied filter keepFirstFraction
             </summary>
             <param name="fraction">The fraction of matches to keep</param>
+            <returns>The changed matches list.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Filter_keepLastFraction(System.Double)">
             <summary>
             For filtering with the auto-supplied filter keepLastFraction
             </summary>
             <param name="fraction">The fraction of matches to keep</param>
+            <returns>The changed matches list.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Filter_keepFirst(System.Int32)">
             <summary>
             For filtering with the auto-supplied filter keepFirst
             </summary>
             <param name="count">The number of matches to keep</param>
+            <returns>The changed matches list.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Filter_keepLast(System.Int32)">
             <summary>
             For filtering with the auto-supplied filter keepLast
             </summary>
             <param name="count">The number of matches to keep</param>
+            <returns>The changed matches list.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Filter_removeFirstFraction(System.Double)">
             <summary>
             For filtering with the auto-supplied filter removeFirstFraction
             </summary>
             <param name="fraction">The fraction of matches to remove</param>
+            <returns>The changed matches list.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Filter_removeLastFraction(System.Double)">
             <summary>
             For filtering with the auto-supplied filter removeLastFraction
             </summary>
             <param name="fraction">The fraction of matches to remove</param>
+            <returns>The changed matches list.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Filter_removeFirst(System.Int32)">
             <summary>
             For filtering with the auto-supplied filter removeFirst
             </summary>
             <param name="count">The number of matches to remove</param>
+            <returns>The changed matches list.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.Filter_removeLast(System.Int32)">
             <summary>
             For filtering with the auto-supplied filter removeLast
             </summary>
             <param name="count">The number of matches to remove</param>
+            <returns>The changed matches list.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FilterExact_keepFirstFraction(System.Double)">
+            <summary>
+            For filtering with the auto-supplied filter keepFirstFraction
+            </summary>
+            <param name="fraction">The fraction of matches to keep</param>
+            <returns>The changed matches list of exact type.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FilterExact_keepLastFraction(System.Double)">
+            <summary>
+            For filtering with the auto-supplied filter keepLastFraction
+            </summary>
+            <param name="fraction">The fraction of matches to keep</param>
+            <returns>The changed matches list of exact type.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FilterExact_keepFirst(System.Int32)">
+            <summary>
+            For filtering with the auto-supplied filter keepFirst
+            </summary>
+            <param name="count">The number of matches to keep</param>
+            <returns>The changed matches list of exact type.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FilterExact_keepLast(System.Int32)">
+            <summary>
+            For filtering with the auto-supplied filter keepLast
+            </summary>
+            <param name="count">The number of matches to keep</param>
+            <returns>The changed matches list of exact type.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FilterExact_removeFirstFraction(System.Double)">
+            <summary>
+            For filtering with the auto-supplied filter removeFirstFraction
+            </summary>
+            <param name="fraction">The fraction of matches to remove</param>
+            <returns>The changed matches list of exact type.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FilterExact_removeLastFraction(System.Double)">
+            <summary>
+            For filtering with the auto-supplied filter removeLastFraction
+            </summary>
+            <param name="fraction">The fraction of matches to remove</param>
+            <returns>The changed matches list of exact type.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FilterExact_removeFirst(System.Int32)">
+            <summary>
+            For filtering with the auto-supplied filter removeFirst
+            </summary>
+            <param name="count">The number of matches to remove</param>
+            <returns>The changed matches list of exact type.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.FilterExact_removeLast(System.Int32)">
+            <summary>
+            For filtering with the auto-supplied filter removeLast
+            </summary>
+            <param name="count">The number of matches to remove</param>
+            <returns>The changed matches list of exact type.</returns>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.producer">
             <summary>
@@ -7301,6 +7375,11 @@
             <summary>
             pre-run for emitting the needed entities before emitting the real code
             - emits sequence variable declarations (only once for every variable, declaration only possible at assignment targets)
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.NeededEntitiesEmitter.EmitNeededMappingClausesAndRuleQueries(de.unika.ipd.grGen.libGr.Sequence,de.unika.ipd.grGen.lgsp.SequenceGenerator,de.unika.ipd.grGen.lgsp.SourceBuilder)">
+            <summary>
+            pre-run for emitting the needed mapping clauses and (multi) rule queries before emitting the sequences
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.PatternGraphAnalyzer">
