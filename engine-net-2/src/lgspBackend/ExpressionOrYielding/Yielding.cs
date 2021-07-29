@@ -2199,6 +2199,9 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
+            if(!SequenceBase.FireDebugEvents)
+                return;
+
             sourceCode.AppendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEntering(");
             Message.Emit(sourceCode);
             foreach(Expression value in Values)
@@ -2245,6 +2248,9 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
+            if(!SequenceBase.FireDebugEvents)
+                return;
+
             sourceCode.AppendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugExiting(");
             Message.Emit(sourceCode);
             foreach(Expression value in Values)
@@ -2291,6 +2297,9 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
+            if(!SequenceBase.FireDebugEvents)
+                return;
+
             sourceCode.AppendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEmitting(");
             Message.Emit(sourceCode);
             foreach(Expression value in Values)
@@ -2337,6 +2346,9 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
+            if(!SequenceBase.FireDebugEvents)
+                return;
+
             sourceCode.AppendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugHalting(");
             Message.Emit(sourceCode);
             foreach(Expression value in Values)
@@ -2389,6 +2401,9 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
+            if(!SequenceBase.FireDebugEvents)
+                return;
+
             String highlightValuesArray = "highlight_values_" + Id;
 		    sourceCode.AppendFront("List<object> " + highlightValuesArray + " = new List<object>();");
     	    String highlightSourceNamesArray = "highlight_source_names_" + Id.ToString();

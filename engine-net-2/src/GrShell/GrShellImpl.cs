@@ -69,7 +69,9 @@ namespace de.unika.ipd.grGen.grShell
         public String Statistics = null;
         public bool KeepDebug = false;
         public bool LazyNIC = false;
-        public bool Noinline = false;
+        public bool NoDebugEvents = false;
+        public bool NoEvents = false;
+        public bool NoInline = false;
         public bool Profile = false; // set to true to test profiling
     }
 
@@ -1645,12 +1647,16 @@ namespace de.unika.ipd.grGen.grShell
                     try
                     {
                         ProcessSpecFlags flags = newGraphOptions.KeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles;
-                        if(newGraphOptions.LazyNIC)
-                            flags |= ProcessSpecFlags.LazyNIC;
-                        if(newGraphOptions.Noinline)
-                            flags |= ProcessSpecFlags.Noinline;
                         if(newGraphOptions.Profile)
                             flags |= ProcessSpecFlags.Profile;
+                        if(newGraphOptions.NoDebugEvents)
+                            flags |= ProcessSpecFlags.NoDebugEvents;
+                        if(newGraphOptions.NoEvents)
+                            flags |= ProcessSpecFlags.NoEvents;
+                        if(newGraphOptions.LazyNIC)
+                            flags |= ProcessSpecFlags.LazyNIC;
+                        if(newGraphOptions.NoInline)
+                            flags |= ProcessSpecFlags.Noinline;
                         if(forceRebuild)
                             flags |= ProcessSpecFlags.GenerateEvenIfSourcesDidNotChange;
                         graph = curGraphBackend.CreateNamedFromSpec(specFilename, graphName, null,
@@ -1682,12 +1688,16 @@ namespace de.unika.ipd.grGen.grShell
                     try
                     {
                         ProcessSpecFlags flags = newGraphOptions.KeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles;
-                        if(newGraphOptions.LazyNIC)
-                            flags |= ProcessSpecFlags.LazyNIC;
-                        if(newGraphOptions.Noinline)
-                            flags |= ProcessSpecFlags.Noinline;
                         if(newGraphOptions.Profile)
                             flags |= ProcessSpecFlags.Profile;
+                        if(newGraphOptions.NoDebugEvents)
+                            flags |= ProcessSpecFlags.NoDebugEvents;
+                        if(newGraphOptions.NoEvents)
+                            flags |= ProcessSpecFlags.NoEvents;
+                        if(newGraphOptions.LazyNIC)
+                            flags |= ProcessSpecFlags.LazyNIC;
+                        if(newGraphOptions.NoInline)
+                            flags |= ProcessSpecFlags.Noinline;
                         if(forceRebuild)
                             flags |= ProcessSpecFlags.GenerateEvenIfSourcesDidNotChange;
                         curGraphBackend.CreateNamedFromSpec(specFilename, graphName, newGraphOptions.Statistics,
@@ -4584,7 +4594,8 @@ showavail:
                 return false;
 
             if(newGraphOptions.ExternalAssembliesReferenced.Count > 0 || newGraphOptions.Statistics != null
-                || newGraphOptions.KeepDebug || newGraphOptions.LazyNIC || newGraphOptions.Noinline || newGraphOptions.Profile)
+                || newGraphOptions.KeepDebug || newGraphOptions.Profile 
+                || newGraphOptions.NoDebugEvents || newGraphOptions.NoEvents || newGraphOptions.LazyNIC || newGraphOptions.NoInline)
             {
                 debugOut.WriteLine("Warning: \"new set\" and \"new add\" commands in force are ignored when the actions are built from an import. Ensure that the files are up to date, e.g. by using a \"new graph\" (or even \"new new graph\") before the import.");
             }
@@ -5349,9 +5360,23 @@ showavail:
             return true;
         }
 
-        public bool NewGraphSetNoinline(bool on)
+        public bool NewGraphSetNoDebugEvents(bool on)
         {
-            newGraphOptions.Noinline = on;
+            newGraphOptions.NoDebugEvents = on;
+            SequenceBase.noDebugEvents = on;
+            return true;
+        }
+
+        public bool NewGraphSetNoEvents(bool on)
+        {
+            newGraphOptions.NoEvents = on;
+            SequenceBase.noEvents = on;
+            return true;
+        }
+
+        public bool NewGraphSetNoInline(bool on)
+        {
+            newGraphOptions.NoInline = on;
             return true;
         }
 

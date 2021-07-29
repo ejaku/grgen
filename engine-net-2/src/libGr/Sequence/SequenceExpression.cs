@@ -13072,17 +13072,17 @@ namespace de.unika.ipd.grGen.libGr
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             SequenceRuleAllCallInterpreted ruleCallInterpreted = (SequenceRuleAllCallInterpreted)RuleCall;
-            procEnv.EnteringSequence(this);
-            procEnv.BeginExecution(this);
+            FireBeginExecutionEvent(procEnv);
+            FireEnteringSequenceEvent(procEnv);
 
             IMatches matches;
             List<IMatch> matchesList = ruleCallInterpreted.MatchForQuery(procEnv, out matches);
 
-            procEnv.MatchedAfterFiltering(matches, ruleCallInterpreted.Special);
-            procEnv.Finished(matches, ruleCallInterpreted.Special);
+            FireMatchedAfterFilteringEvent(procEnv, matches, ruleCallInterpreted.Special);
+            FireFinishedEvent(procEnv, matches, ruleCallInterpreted.Special);
 
-            procEnv.EndExecution(this, matchesList);
-            procEnv.ExitingSequence(this);
+            FireExitingSequenceEvent(procEnv);
+            FireEndExecutionEvent(procEnv, matchesList);
             return matchesList;
         }
 
@@ -13171,8 +13171,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
-            procEnv.EnteringSequence(this);
-            procEnv.BeginExecution(this);
+            FireBeginExecutionEvent(procEnv);
+            FireEnteringSequenceEvent(procEnv);
 
             IMatches[] MatchesArray;
             List<IMatch> MatchList;
@@ -13215,12 +13215,12 @@ namespace de.unika.ipd.grGen.libGr
                 SpecialArray[i] = rule.Special;
             }
             MatchListHelper.RemoveUnavailable(MatchList, MatchesArray);
-            procEnv.MatchedAfterFiltering(MatchesArray, SpecialArray);
+            FireMatchedAfterFilteringEvent(procEnv, MatchesArray, SpecialArray);
 
-            procEnv.Finished(MatchesArray, SpecialArray);
+            FireFinishedEvent(procEnv, MatchesArray, SpecialArray);
 
-            procEnv.EndExecution(this, MatchList);
-            procEnv.ExitingSequence(this);
+            FireExitingSequenceEvent(procEnv);
+            FireEndExecutionEvent(procEnv, MatchList);
             return MatchList;
         }
 
@@ -13316,8 +13316,8 @@ namespace de.unika.ipd.grGen.libGr
             procEnv.Recorder.WriteLine("Matching mapping multi rule prefixed sequence " + GetRuleCallString(procEnv));
 #endif
 
-            procEnv.EnteringSequence(this);
-            procEnv.BeginExecution(this);
+            FireBeginExecutionEvent(procEnv);
+            FireEnteringSequenceEvent(procEnv);
 
             IMatches[] MatchesArray;
             List<IMatch> MatchList;
@@ -13340,7 +13340,7 @@ namespace de.unika.ipd.grGen.libGr
                 //    rulePrefixedSequence.executionState = SequenceExecutionState.Fail;
                 //}
                 //MultiRulePrefixedSequence.executionState = SequenceExecutionState.Fail;
-                procEnv.EndExecution(this, graphs);
+                FireEndExecutionEvent(procEnv, graphs);
                 return graphs;
             }
 
@@ -13374,7 +13374,7 @@ namespace de.unika.ipd.grGen.libGr
                 SpecialArray[i] = rule.Special;
             }
             MatchListHelper.RemoveUnavailable(MatchList, MatchesArray);
-            procEnv.MatchedAfterFiltering(MatchesArray, SpecialArray);
+            FireMatchedAfterFilteringEvent(procEnv, MatchesArray, SpecialArray);
 
             foreach(IMatch match in MatchList)
             {
@@ -13405,7 +13405,7 @@ namespace de.unika.ipd.grGen.libGr
 
                 IMatch mappedMatch = match.Clone(oldToNewMap);
 
-                //procEnv.EnteringSequence(rule);
+                //rule.FireEnteringSequenceEvent(procEnv);
                 //rule.executionState = SequenceExecutionState.Underway;
 #if LOG_SEQUENCE_EXECUTION
                 procEnv.Recorder.WriteLine("Before executing sequence " + rule.Id + ": " + rule.Symbol);
@@ -13415,7 +13415,7 @@ namespace de.unika.ipd.grGen.libGr
                 procEnv.Recorder.WriteLine("After executing sequence " + rule.Id + ": " + rule.Symbol + " result " + result);
 #endif
                 //rule.executionState = SequenceExecutionState.Success;
-                //procEnv.ExitingSequence(rule);
+                //rule.FireExitingSequenceEvent(procEnv);
 
                 // rule applied, now execute its sequence
                 bool result = seq.Apply(procEnv);
@@ -13441,9 +13441,9 @@ namespace de.unika.ipd.grGen.libGr
                 }
             }
 
-            procEnv.Finished(MatchesArray, SpecialArray);
-            procEnv.EndExecution(this, graphs);
-            procEnv.ExitingSequence(this);
+            FireFinishedEvent(procEnv, MatchesArray, SpecialArray);
+            FireExitingSequenceEvent(procEnv);
+            FireEndExecutionEvent(procEnv, graphs);
             return graphs;
         }
 

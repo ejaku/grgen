@@ -9,6 +9,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 using de.unika.ipd.grGen.libGr;
 
@@ -191,9 +192,11 @@ namespace de.unika.ipd.grGen.grShell
             // Atoms (assignments)
             case SequenceType.AssignVarToVar:
             case SequenceType.AssignConstToVar:
-            case SequenceType.AssignContainerConstructorToVar:
             case SequenceType.DeclareVariable:
                 WorkaroundManager.Workaround.PrintHighlighted(seq.Symbol, highlightingMode);
+                break;
+            case SequenceType.AssignContainerConstructorToVar:
+                PrintSequenceAssignContainerConstructorToVar((SequenceAssignContainerConstructorToVar)seq, parent, highlightingMode, context);
                 break;
             default:
                 Debug.Assert(false);
@@ -301,7 +304,33 @@ namespace de.unika.ipd.grGen.grShell
                 highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
             WorkaroundManager.Workaround.PrintHighlighted("<<", highlightingModeLocal);
-            PrintSequence(seqBack.MultiRulePrefixedSequence, seqBack, highlightingModeLocal, context);
+            WorkaroundManager.Workaround.PrintHighlighted("[[", highlightingModeLocal);
+
+            bool first = true;
+            foreach(SequenceRulePrefixedSequence seqRulePrefixedSequence in seqBack.MultiRulePrefixedSequence.RulePrefixedSequences)
+            {
+                if(first)
+                    first = false;
+                else
+                    WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
+
+                HighlightingMode highlightingModeRulePrefixedSequence = highlightingModeLocal;
+                if(seqRulePrefixedSequence == context.highlightSeq)
+                    highlightingModeRulePrefixedSequence = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
+
+                WorkaroundManager.Workaround.PrintHighlighted("for{", highlightingModeRulePrefixedSequence);
+                PrintSequence(seqRulePrefixedSequence.Rule, seqRulePrefixedSequence, highlightingModeRulePrefixedSequence, context);
+                WorkaroundManager.Workaround.PrintHighlighted(";", highlightingModeRulePrefixedSequence);
+                PrintSequence(seqRulePrefixedSequence.Sequence, seqRulePrefixedSequence, highlightingMode, context);
+                WorkaroundManager.Workaround.PrintHighlighted("}", highlightingModeRulePrefixedSequence);
+            }
+
+            WorkaroundManager.Workaround.PrintHighlighted("]", highlightingModeLocal);
+            foreach(SequenceFilterCallBase filterCall in seqBack.MultiRulePrefixedSequence.Filters)
+            {
+                PrintSequenceFilterCall(filterCall, seqBack.MultiRulePrefixedSequence, highlightingModeLocal, context);
+            }
+            WorkaroundManager.Workaround.PrintHighlighted("]", highlightingModeLocal);
             WorkaroundManager.Workaround.PrintHighlighted(">>", highlightingModeLocal);
         }
 
@@ -329,9 +358,9 @@ namespace de.unika.ipd.grGen.grShell
             WorkaroundManager.Workaround.PrintHighlighted("for{", highlightingMode);
             WorkaroundManager.Workaround.PrintHighlighted(seqFor.Var.Name, highlightingMode);
             WorkaroundManager.Workaround.PrintHighlighted(" in [", highlightingMode);
-            WorkaroundManager.Workaround.PrintHighlighted(seqFor.Left.Symbol, highlightingMode);
+            PrintSequenceExpression(seqFor.Left, seqFor, highlightingMode, context);
             WorkaroundManager.Workaround.PrintHighlighted(":", highlightingMode);
-            WorkaroundManager.Workaround.PrintHighlighted(seqFor.Right.Symbol, highlightingMode);
+            PrintSequenceExpression(seqFor.Right, seqFor, highlightingMode, context);
             WorkaroundManager.Workaround.PrintHighlighted("]; ", highlightingMode);
             PrintSequence(seqFor.Seq, seqFor, highlightingMode, context);
             WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);
@@ -344,7 +373,7 @@ namespace de.unika.ipd.grGen.grShell
             WorkaroundManager.Workaround.PrintHighlighted(" in {", highlightingMode);
             WorkaroundManager.Workaround.PrintHighlighted(seqFor.IndexName, highlightingMode);
             WorkaroundManager.Workaround.PrintHighlighted("==", highlightingMode);
-            WorkaroundManager.Workaround.PrintHighlighted(seqFor.Expr.Symbol, highlightingMode);
+            PrintSequenceExpression(seqFor.Expr, seqFor, highlightingMode, context);
             WorkaroundManager.Workaround.PrintHighlighted("}; ", highlightingMode);
             PrintSequence(seqFor.Seq, seqFor, highlightingMode, context);
             WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);
@@ -364,23 +393,23 @@ namespace de.unika.ipd.grGen.grShell
             {
                 WorkaroundManager.Workaround.PrintHighlighted(seqFor.IndexName, highlightingMode);
                 WorkaroundManager.Workaround.PrintHighlighted(seqFor.DirectionAsString(seqFor.Direction), highlightingMode);
-                WorkaroundManager.Workaround.PrintHighlighted(seqFor.Expr.Symbol, highlightingMode);
+                PrintSequenceExpression(seqFor.Expr, seqFor, highlightingMode, context);
                 WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
                 WorkaroundManager.Workaround.PrintHighlighted(seqFor.IndexName, highlightingMode);
                 WorkaroundManager.Workaround.PrintHighlighted(seqFor.DirectionAsString(seqFor.Direction2), highlightingMode);
-                WorkaroundManager.Workaround.PrintHighlighted(seqFor.Expr2.Symbol, highlightingMode);
+                PrintSequenceExpression(seqFor.Expr2, seqFor, highlightingMode, context);
             }
             else if(seqFor.From() != null)
             {
                 WorkaroundManager.Workaround.PrintHighlighted(seqFor.IndexName, highlightingMode);
                 WorkaroundManager.Workaround.PrintHighlighted(seqFor.DirectionAsString(seqFor.Direction), highlightingMode);
-                WorkaroundManager.Workaround.PrintHighlighted(seqFor.Expr.Symbol, highlightingMode);
+                PrintSequenceExpression(seqFor.Expr, seqFor, highlightingMode, context);
             }
             else if(seqFor.To() != null)
             {
                 WorkaroundManager.Workaround.PrintHighlighted(seqFor.IndexName, highlightingMode);
                 WorkaroundManager.Workaround.PrintHighlighted(seqFor.DirectionAsString(seqFor.Direction), highlightingMode);
-                WorkaroundManager.Workaround.PrintHighlighted(seqFor.Expr.Symbol, highlightingMode);
+                PrintSequenceExpression(seqFor.Expr, seqFor, highlightingMode, context);
             }
             else
             {
@@ -397,7 +426,9 @@ namespace de.unika.ipd.grGen.grShell
             WorkaroundManager.Workaround.PrintHighlighted("for{", highlightingMode);
             WorkaroundManager.Workaround.PrintHighlighted(seqFor.Var.Name, highlightingMode);
             WorkaroundManager.Workaround.PrintHighlighted(" in ", highlightingMode);
-            WorkaroundManager.Workaround.PrintHighlighted(seqFor.FunctionSymbol + ";", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted(seqFor.FunctionSymbol, highlightingMode);
+            PrintArguments(seqFor.ArgExprs, parent, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(";", highlightingMode);
             PrintSequence(seqFor.Seq, seqFor, highlightingMode, context);
             WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);
         }
@@ -654,7 +685,26 @@ namespace de.unika.ipd.grGen.grShell
                 highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
             WorkaroundManager.Workaround.PrintHighlighted("[[", highlightingModeLocal);
-            PrintChildren(seqMulti, highlightingMode, highlightingModeLocal, context);
+
+            bool first = true;
+            foreach(SequenceRulePrefixedSequence seqRulePrefixedSequence in seqMulti.RulePrefixedSequences)
+            {
+                if(first)
+                    first = false;
+                else
+                    WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
+
+                HighlightingMode highlightingModeRulePrefixedSequence = highlightingModeLocal;
+                if(seqRulePrefixedSequence == context.highlightSeq)
+                    highlightingModeRulePrefixedSequence = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
+
+                WorkaroundManager.Workaround.PrintHighlighted("for{", highlightingModeRulePrefixedSequence);
+                PrintSequence(seqRulePrefixedSequence.Rule, seqRulePrefixedSequence, highlightingModeRulePrefixedSequence, context);
+                WorkaroundManager.Workaround.PrintHighlighted(";", highlightingModeRulePrefixedSequence);
+                PrintSequence(seqRulePrefixedSequence.Sequence, seqRulePrefixedSequence, highlightingMode, context);
+                WorkaroundManager.Workaround.PrintHighlighted("}", highlightingModeRulePrefixedSequence);
+            }
+
             WorkaroundManager.Workaround.PrintHighlighted("]", highlightingModeLocal);
             foreach(SequenceFilterCallBase filterCall in seqMulti.Filters)
             {
@@ -792,6 +842,18 @@ namespace de.unika.ipd.grGen.grShell
             WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 
+        private static void PrintArguments(IList<SequenceExpression> arguments, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
+        {
+            WorkaroundManager.Workaround.PrintHighlighted("(", highlightingMode);
+            for(int i = 0; i < arguments.Count; ++i)
+            {
+                PrintSequenceExpression(arguments[i], parent, highlightingMode, context);
+                if(i != arguments.Count - 1)
+                    WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            }
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
+        }
+
         private static void PrintSequenceRuleCall(SequenceRuleCall seq, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             PrintReturnAssignments(seq.ReturnVars, parent, highlightingMode, context);
@@ -844,13 +906,13 @@ namespace de.unika.ipd.grGen.grShell
             }
             for(int i = 0; i < seq.Filters.Count; ++i)
             {
-                WorkaroundManager.Workaround.PrintHighlighted("\\", highlightingMode);
                 PrintSequenceFilterCall(seq.Filters[i], seq, highlightingMode, context);
             }
         }
 
         private static void PrintSequenceFilterCall(SequenceFilterCallBase seq, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
+            WorkaroundManager.Workaround.PrintHighlighted("\\", highlightingMode);
             if(seq is SequenceFilterCallInterpreted)
             {
                 SequenceFilterCallInterpreted filterCall = (SequenceFilterCallInterpreted)seq;
@@ -934,6 +996,12 @@ namespace de.unika.ipd.grGen.grShell
 
             WorkaroundManager.Workaround.PrintHighlighted(seqDef.Symbol + ": ", highlightingModeLocal);
             PrintSequence(seqDef.Seq, seqDef.Seq, highlightingMode, context);
+        }
+
+        private static void PrintSequenceAssignContainerConstructorToVar(SequenceAssignContainerConstructorToVar seq, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
+        {
+            WorkaroundManager.Workaround.PrintHighlighted(seq.DestVar + "=", highlightingMode);
+            PrintSequenceExpression(seq.Constructor, seq, highlightingMode, context);
         }
 
         private static void PrintChildren(Sequence seq, HighlightingMode highlightingModeChildren, HighlightingMode highlightingMode, PrintSequenceContext context)
@@ -1403,7 +1471,7 @@ namespace de.unika.ipd.grGen.grShell
                 WorkaroundManager.Workaround.PrintHighlighted("(", highlightingMode);
                 for(int i = 0; i < seqCompProcCall.ArgumentExpressions.Length; ++i)
                 {
-                    WorkaroundManager.Workaround.PrintHighlighted(seqCompProcCall.ArgumentExpressions[i].Symbol, highlightingMode);
+                    PrintSequenceExpression(seqCompProcCall.ArgumentExpressions[i], seqCompProcCall, highlightingMode, context);
                     if(i != seqCompProcCall.ArgumentExpressions.Length - 1)
                         WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
                 }
@@ -1425,7 +1493,10 @@ namespace de.unika.ipd.grGen.grShell
                 WorkaroundManager.Workaround.PrintHighlighted(")=", highlightingMode);
             }
             if(sequenceComputationProcedureMethodCall.TargetExpr != null)
-                WorkaroundManager.Workaround.PrintHighlighted(sequenceComputationProcedureMethodCall.TargetExpr.Symbol + ".", highlightingMode);
+            {
+                PrintSequenceExpression(sequenceComputationProcedureMethodCall.TargetExpr, sequenceComputationProcedureMethodCall, highlightingMode, context);
+                WorkaroundManager.Workaround.PrintHighlighted(".", highlightingMode);
+            }
             if(sequenceComputationProcedureMethodCall.TargetVar != null)
                 WorkaroundManager.Workaround.PrintHighlighted(sequenceComputationProcedureMethodCall.TargetVar.ToString() + ".", highlightingMode);
             WorkaroundManager.Workaround.PrintHighlighted(sequenceComputationProcedureMethodCall.Name, highlightingMode);
@@ -1434,7 +1505,7 @@ namespace de.unika.ipd.grGen.grShell
                 WorkaroundManager.Workaround.PrintHighlighted("(", highlightingMode);
                 for(int i = 0; i < sequenceComputationProcedureMethodCall.ArgumentExpressions.Length; ++i)
                 {
-                    WorkaroundManager.Workaround.PrintHighlighted(sequenceComputationProcedureMethodCall.ArgumentExpressions[i].Symbol, highlightingMode);
+                    PrintSequenceExpression(sequenceComputationProcedureMethodCall.ArgumentExpressions[i], sequenceComputationProcedureMethodCall, highlightingMode, context);
                     if(i != sequenceComputationProcedureMethodCall.ArgumentExpressions.Length - 1)
                         WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
                 }
@@ -2145,9 +2216,9 @@ namespace de.unika.ipd.grGen.grShell
             WorkaroundManager.Workaround.PrintHighlighted(">{", highlightingMode);
             for(int i = 0; i < seqExprMapConstructor.MapKeyItems.Length; ++i)
             {
-                WorkaroundManager.Workaround.PrintHighlighted(seqExprMapConstructor.MapKeyItems[i].Symbol, highlightingMode);
+                PrintSequenceExpression(seqExprMapConstructor.MapKeyItems[i], seqExprMapConstructor, highlightingMode, context);
                 WorkaroundManager.Workaround.PrintHighlighted("->", highlightingMode);
-                WorkaroundManager.Workaround.PrintHighlighted(seqExprMapConstructor.ContainerItems[i].Symbol, highlightingMode);
+                PrintSequenceExpression(seqExprMapConstructor.ContainerItems[i], seqExprMapConstructor, highlightingMode, context);
                 if(i != seqExprMapConstructor.MapKeyItems.Length - 1)
                     WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
             }
@@ -2176,7 +2247,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             for(int i = 0; i < seqExprContainerConstructor.ContainerItems.Length; ++i)
             {
-                WorkaroundManager.Workaround.PrintHighlighted(seqExprContainerConstructor.ContainerItems[i].Symbol, highlightingMode);
+                PrintSequenceExpression(seqExprContainerConstructor.ContainerItems[i], seqExprContainerConstructor, highlightingMode, context);
                 if(i != seqExprContainerConstructor.ContainerItems.Length - 1)
                     WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
             }
@@ -2305,7 +2376,7 @@ namespace de.unika.ipd.grGen.grShell
             WorkaroundManager.Workaround.PrintHighlighted("def(", highlightingMode);
             for(int i = 0; i < seqExprDef.DefVars.Length; ++i)
             {
-                WorkaroundManager.Workaround.PrintHighlighted(seqExprDef.DefVars[i].Symbol, highlightingMode);
+                PrintSequenceExpression(seqExprDef.DefVars[i], seqExprDef, highlightingMode, context);
                 if(i != seqExprDef.DefVars.Length - 1)
                     WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
             }
@@ -3288,13 +3359,16 @@ namespace de.unika.ipd.grGen.grShell
 
             WorkaroundManager.Workaround.PrintHighlighted("[?[", highlightingModeLocal);
             bool first = true;
-            foreach(Sequence rule in seqExprMultiRuleQuery.MultiRuleCall.Sequences)
+            foreach(SequenceRuleCall rule in seqExprMultiRuleQuery.MultiRuleCall.Sequences)
             {
                 if(first)
                     first = false;
                 else
                     WorkaroundManager.Workaround.PrintHighlighted(",", highlightingModeLocal);
-                PrintSequence(rule, seqExprMultiRuleQuery, highlightingMode, context);
+
+                PrintReturnAssignments(rule.ReturnVars, parent, highlightingMode, context);
+                WorkaroundManager.Workaround.PrintHighlighted(rule.DebugPrefix, highlightingMode);
+                PrintRuleCallString(rule, parent, highlightingMode, context);
             }
             WorkaroundManager.Workaround.PrintHighlighted("]", highlightingModeLocal);
             foreach(SequenceFilterCallBase filterCall in seqExprMultiRuleQuery.MultiRuleCall.Filters)
@@ -3307,29 +3381,36 @@ namespace de.unika.ipd.grGen.grShell
 
         private static void PrintSequenceExpressionMappingClause(SequenceExpressionMappingClause seqExprMappingClause, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
-            /*bool highlight = false;
-            foreach(Sequence seqChild in seqExprMappingClause.MultiRulePrefixedSequence.Children)
-            {
-                if(seqChild == context.highlightSeq)
-                    highlight = true;
-            }
-            bool succesBackup = context.success;
-            if(highlight)
-                context.success = true;*/
-
             HighlightingMode highlightingModeLocal = highlightingMode;
             if(seqExprMappingClause == context.highlightSeq)
                 highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
             WorkaroundManager.Workaround.PrintHighlighted("[:", highlightingModeLocal);
-            PrintChildren(seqExprMappingClause.MultiRulePrefixedSequence, highlightingMode, highlightingModeLocal, context);
+
+            bool first = true;
+            foreach(SequenceRulePrefixedSequence seqRulePrefixedSequence in seqExprMappingClause.MultiRulePrefixedSequence.RulePrefixedSequences)
+            {
+                if(first)
+                    first = false;
+                else
+                    WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
+
+                HighlightingMode highlightingModeRulePrefixedSequence = highlightingModeLocal;
+                if(seqRulePrefixedSequence == context.highlightSeq)
+                    highlightingModeRulePrefixedSequence = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
+
+                WorkaroundManager.Workaround.PrintHighlighted("for{", highlightingModeRulePrefixedSequence);
+                PrintSequence(seqRulePrefixedSequence.Rule, seqRulePrefixedSequence, highlightingModeRulePrefixedSequence, context);
+                WorkaroundManager.Workaround.PrintHighlighted(";", highlightingModeRulePrefixedSequence);
+                PrintSequence(seqRulePrefixedSequence.Sequence, seqRulePrefixedSequence, highlightingMode, context);
+                WorkaroundManager.Workaround.PrintHighlighted("}", highlightingModeRulePrefixedSequence);
+            }
+
             foreach(SequenceFilterCallBase filterCall in seqExprMappingClause.MultiRulePrefixedSequence.Filters)
             {
                 PrintSequenceFilterCall(filterCall, seqExprMappingClause.MultiRulePrefixedSequence, highlightingModeLocal, context);
             }
             WorkaroundManager.Workaround.PrintHighlighted(":]", highlightingModeLocal);
-
-            //context.success = succesBackup;
         }
 
         private static void PrintSequenceExpressionScan(SequenceExpressionScan seqExprScan, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)

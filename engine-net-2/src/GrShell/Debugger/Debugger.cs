@@ -1134,6 +1134,14 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
+        private void AddNeededGraphElements(IList<IMatches> matchesList)
+        {
+            foreach(IMatches matches in matchesList)
+            {
+                AddNeededGraphElements(matches);
+            }
+        }
+
         #endregion Partial graph adding on matches for excluded graph debugging
 
 
@@ -1356,29 +1364,22 @@ namespace de.unika.ipd.grGen.grShell
                 if(!recordMode)
                     ycompClient.ClearGraph();
 
-                foreach(IMatches matches in matchesList)
-                {
-                    DebugPreMatchedAddNeeded(matches);
-                }
+                // add all elements from match to graph and excludedGraphElementsIncluded
+                AddNeededGraphElements(matchesList);
+
+                ycompClient.AddNeighboursAndParentsOfNeededGraphElements();
             }
 
             MatchMarkerAndAnnotator matchMarkerAndAnnotator = new MatchMarkerAndAnnotator(realizers, renderRecorder, ycompClient);
 
-            foreach(IMatches matches in matchesList)
-            {
-                DebugPreMatchedMark(matchMarkerAndAnnotator, matches);
-            }
-            renderRecorder.SetCurrentRuleNameForMatchAnnotation(null);
+            DebugMatchMark(matchMarkerAndAnnotator, matchesList);
 
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
             Console.WriteLine("Press any key to continue " + (debugSequences.Count > 0 ? "(with the matches remaining after filtering/of the selected rule)..." : "..."));
             env.ReadKeyWithCancel();
 
-            foreach(IMatches matches in matchesList)
-            {
-                DebugPreMatchedUnmark(matchMarkerAndAnnotator, matches);
-            }
+            DebugMatchUnmark(matchMarkerAndAnnotator, matchesList);
 
             renderRecorder.RemoveAllAnnotations();
         }
@@ -1398,15 +1399,41 @@ namespace de.unika.ipd.grGen.grShell
             return sb.ToString();
         }
 
-        private void DebugPreMatchedAddNeeded(IMatches matches)
+        private void DebugMatchMark(MatchMarkerAndAnnotator matchMarkerAndAnnotator, IMatches[] matchesArray)
         {
-            // add all elements from match to graph and excludedGraphElementsIncluded
-            AddNeededGraphElements(matches);
-
-            ycompClient.AddNeighboursAndParentsOfNeededGraphElements();
+            if(matchesArray.Length > 1)
+            {
+                foreach(IMatches matches in matchesArray)
+                {
+                    DebugMatchMark(matchMarkerAndAnnotator, matches);
+                }
+                renderRecorder.SetCurrentRuleNameForMatchAnnotation(null);
+            }
+            else if(matchesArray.Length > 0)
+            {
+                matchMarkerAndAnnotator.MarkMatches(matchesArray[0], realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
+                matchMarkerAndAnnotator.AnnotateMatches(matchesArray[0], true);
+            }
         }
 
-        private void DebugPreMatchedMark(MatchMarkerAndAnnotator matchMarkerAndAnnotator, IMatches matches)
+        private void DebugMatchMark(MatchMarkerAndAnnotator matchMarkerAndAnnotator, IList<IMatches> matchesList)
+        {
+            if(matchesList.Count > 1)
+            {
+                foreach(IMatches matches in matchesList)
+                {
+                    DebugMatchMark(matchMarkerAndAnnotator, matches);
+                }
+                renderRecorder.SetCurrentRuleNameForMatchAnnotation(null);
+            }
+            else if(matchesList.Count > 0)
+            {
+                matchMarkerAndAnnotator.MarkMatches(matchesList[0], realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
+                matchMarkerAndAnnotator.AnnotateMatches(matchesList[0], true);
+            }
+        }
+
+        private void DebugMatchMark(MatchMarkerAndAnnotator matchMarkerAndAnnotator, IMatches matches)
         {
             renderRecorder.SetCurrentRuleNameForMatchAnnotation(matches.Producer.RulePattern.PatternGraph.Name);
 
@@ -1414,7 +1441,23 @@ namespace de.unika.ipd.grGen.grShell
             matchMarkerAndAnnotator.AnnotateMatches(matches, true);
         }
 
-        private void DebugPreMatchedUnmark(MatchMarkerAndAnnotator matchMarkerAndAnnotator, IMatches matches)
+        private void DebugMatchUnmark(MatchMarkerAndAnnotator matchMarkerAndAnnotator, IList<IMatches> matchesList)
+        {
+            if(matchesList.Count > 1)
+            {
+                foreach(IMatches matches in matchesList)
+                {
+                    DebugMatchUnmark(matchMarkerAndAnnotator, matches);
+                }
+            }
+            else if(matchesList.Count > 0)
+            {
+                matchMarkerAndAnnotator.MarkMatches(matchesList[0], null, null);
+                matchMarkerAndAnnotator.AnnotateMatches(matchesList[0], false);
+            }
+        }
+
+        private void DebugMatchUnmark(MatchMarkerAndAnnotator matchMarkerAndAnnotator, IMatches matches)
         {
             matchMarkerAndAnnotator.MarkMatches(matches, null, null);
             matchMarkerAndAnnotator.AnnotateMatches(matches, false);
@@ -1509,7 +1552,7 @@ namespace de.unika.ipd.grGen.grShell
             if(matchDepth++ > 0 || computationsEnteredStack.Count > 0)
             {
                 Console.WriteLine("Matched " + ProducerNames(matches));
-                if(Count(matches) == 1)
+                if(Count(matches) == 1 && (patternMatchingConstructsExecuted.Count > 0 && patternMatchingConstructsExecuted[patternMatchingConstructsExecuted.Count - 1] is SequenceRuleCall))
                     return;
             }
 
@@ -1529,14 +1572,14 @@ namespace de.unika.ipd.grGen.grShell
 
             MatchMarkerAndAnnotator matchMarkerAndAnnotator = new MatchMarkerAndAnnotator(realizers, renderRecorder, ycompClient);
 
-            matchMarkerAndAnnotator.MarkMatches(matches, realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
-            matchMarkerAndAnnotator.AnnotateMatches(matches, true);
+            DebugMatchMark(matchMarkerAndAnnotator, matches);
 
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
             QueryForSkipAsRequired(Count(matches), false);
 
-            matchMarkerAndAnnotator.MarkMatches(matches, null, null);
+            //matchMarkerAndAnnotator.MarkMatches(matches, null, null);
+            DebugMatchUnmark(matchMarkerAndAnnotator, matches);
 
             renderRecorder.ApplyChanges(ycompClient);
             renderRecorder.RemoveAllAnnotations();

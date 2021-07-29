@@ -119,7 +119,7 @@ namespace de.unika.ipd.grGen.libGr
         ///          null if there is no result value</returns>
         public object Execute(IGraphProcessingEnvironment procEnv)
         {
-            procEnv.EnteringSequence(this);
+            FireEnteringSequenceEvent(procEnv);
             executionState = SequenceExecutionState.Underway;
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("Before executing sequence " + Id + ": " + Symbol);
@@ -129,7 +129,7 @@ namespace de.unika.ipd.grGen.libGr
             procEnv.Recorder.WriteLine("After executing sequence " + Id + ": " + Symbol + " result " + res);
 #endif
             executionState = SequenceExecutionState.Success; // maybe todo: dedicated value SequenceExecutionState.Executed?
-            procEnv.ExitingSequence(this);
+            FireExitingSequenceEvent(procEnv);
             return res;
         }
 
@@ -1192,6 +1192,9 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
+            if(!FireDebugEvents)
+                return null;
+
             for(int i = 1; i < ArgExprs.Count; ++i)
             {
                 values[i - 1] = ArgExprs[i].Evaluate(procEnv);
@@ -1229,6 +1232,9 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
+            if(!FireDebugEvents)
+                return null;
+
             for(int i = 1; i < ArgExprs.Count; ++i)
             {
                 values[i - 1] = ArgExprs[i].Evaluate(procEnv);
@@ -1266,6 +1272,9 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
+            if(!FireDebugEvents)
+                return null;
+
             for(int i = 1; i < ArgExprs.Count; ++i)
             {
                 values[i - 1] = ArgExprs[i].Evaluate(procEnv);
@@ -1303,6 +1312,9 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
+            if(!FireDebugEvents)
+                return null;
+
             for(int i = 1; i < ArgExprs.Count; ++i)
             {
                 values[i - 1] = ArgExprs[i].Evaluate(procEnv);
@@ -1350,6 +1362,9 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
+            if(!FireDebugEvents)
+                return null;
+
             List<object> values = new List<object>();
             List<string> annotations = new List<string>();
             for(int i = 1; i < ArgExprs.Count; ++i)

@@ -183,7 +183,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         // Only supports FilterCallWithArguments as filters, the FilterCallWithLambdaExpression is only supported by the graph processing environment
-        public virtual IMatches Match(IAction action, object[] arguments, int localMaxMatches, bool special, List<FilterCall> filters)
+        public virtual IMatches Match(IAction action, object[] arguments, int localMaxMatches, bool special, List<FilterCall> filters, bool fireDebugEvents)
         {
             int curMaxMatches = (localMaxMatches > 0) ? localMaxMatches : MaxMatches;
 
@@ -196,8 +196,11 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
             PerformanceInfo.MatchesFound += matches.Count;
 
-            if(matches.Count > 0)
-                MatchedBeforeFiltering(matches);
+            if(fireDebugEvents)
+            {
+                if(matches.Count > 0)
+                    MatchedBeforeFiltering(matches);
+            }
 
             for(int i = 0; i < filters.Count; ++i)
             {
@@ -205,13 +208,16 @@ namespace de.unika.ipd.grGen.lgsp
                 action.Filter(this, matches, filterCallWithArguments);
             }
 
-            if(matches.Count > 0) // ensure that Matched is only called when a match exists
-                MatchedAfterFiltering(matches, special);
+            if(fireDebugEvents)
+            {
+                if(matches.Count > 0) // ensure that Matched is only called when a match exists
+                    MatchedAfterFiltering(matches, special);
+            }
 
             return matches;
         }
 
-        public IMatches MatchWithoutEvent(IAction action, object[] arguments, int localMaxMatches)
+        public IMatches MatchWithoutEvent(IAction action, object[] arguments, int localMaxMatches, bool fireDebugEvents)
         {
             int curMaxMatches = (localMaxMatches > 0) ? localMaxMatches : MaxMatches;
 
@@ -225,13 +231,16 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
             PerformanceInfo.MatchesFound += matches.Count;
 
-            if(matches.Count > 0)
-                MatchedBeforeFiltering(matches);
+            if(fireDebugEvents)
+            {
+                if(matches.Count > 0)
+                    MatchedBeforeFiltering(matches);
+            }
 
             return matches;
         }
 
-        public IMatches[] MatchWithoutEvent(params ActionCall[] actions)
+        public IMatches[] MatchWithoutEvent(bool fireDebugEvents, params ActionCall[] actions)
         {
             IMatches[] matchesArray = new IMatches[actions.Length];
 
@@ -252,13 +261,16 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
             PerformanceInfo.MatchesFound += matchesFound;
 
-            if(matchesFound > 0)
-                MatchedBeforeFiltering(matchesArray);
+            if(fireDebugEvents)
+            {
+                if(matchesFound > 0)
+                    MatchedBeforeFiltering(matchesArray);
+            }
 
             return matchesArray;
         }
 
-        public List<object[]> Replace(IMatches matches, int which, bool special)
+        public List<object[]> Replace(IMatches matches, int which, bool special, bool fireDebugEvents)
         {
             List<object[]> returns;
             object[] retElems;
@@ -272,11 +284,14 @@ namespace de.unika.ipd.grGen.lgsp
 
                 IMatch match = matches.GetMatch(which);
 
-                if(OnMatchSelected != null)
-                    OnMatchSelected(match, special, matches);
+                if(fireDebugEvents)
+                {
+                    if(OnMatchSelected != null)
+                        OnMatchSelected(match, special, matches);
 
-                if(OnRewritingSelectedMatch != null)
-                    OnRewritingSelectedMatch();
+                    if(OnRewritingSelectedMatch != null)
+                        OnRewritingSelectedMatch();
+                }
 
                 retElems = matches.Producer.Modify(this, match);
 
@@ -284,8 +299,11 @@ namespace de.unika.ipd.grGen.lgsp
 
                 ++PerformanceInfo.RewritesPerformed;
 
-                if(OnFinishedSelectedMatch != null)
-                    OnFinishedSelectedMatch();
+                if(fireDebugEvents)
+                {
+                    if(OnFinishedSelectedMatch != null)
+                        OnFinishedSelectedMatch();
+                }
             }
             else
             {
@@ -294,11 +312,14 @@ namespace de.unika.ipd.grGen.lgsp
                 int curResultNum = 0;
                 foreach(IMatch match in matches)
                 {
-                    if(OnMatchSelected != null)
-                        OnMatchSelected(match, special, matches);
+                    if(fireDebugEvents)
+                    {
+                        if(OnMatchSelected != null)
+                            OnMatchSelected(match, special, matches);
 
-                    if(OnRewritingSelectedMatch != null)
-                        OnRewritingSelectedMatch();
+                        if(OnRewritingSelectedMatch != null)
+                            OnRewritingSelectedMatch();
+                    }
 
                     retElems = matches.Producer.Modify(this, match);
 
@@ -308,22 +329,25 @@ namespace de.unika.ipd.grGen.lgsp
                     ++PerformanceInfo.RewritesPerformed;
                     ++curResultNum;
 
-                    if(OnFinishedSelectedMatch != null)
-                        OnFinishedSelectedMatch();
+                    if(fireDebugEvents)
+                    {
+                        if(OnFinishedSelectedMatch != null)
+                            OnFinishedSelectedMatch();
+                    }
                 }
             }
 
             return returns;
         }
 
-        public IMatches MatchForQuery(IAction action, object[] arguments, int localMaxMatches)
+        public IMatches MatchForQuery(IAction action, object[] arguments, int localMaxMatches, bool fireDebugEvents)
         {
-            IMatches matches = MatchWithoutEvent(action, arguments, localMaxMatches);
+            IMatches matches = MatchWithoutEvent(action, arguments, localMaxMatches, fireDebugEvents);
             matches = matches.Clone();
             return matches;
         }
 
-        public IMatches[] MatchForQuery(params ActionCall[] actions)
+        public IMatches[] MatchForQuery(bool fireDebugEvents, params ActionCall[] actions)
         {
             IMatches[] matchesArray = new IMatches[actions.Length];
 
@@ -345,8 +369,11 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
             PerformanceInfo.MatchesFound += matchesFound;
 
-            if(matchesFound > 0)
-                MatchedBeforeFiltering(matchesArray);
+            if(fireDebugEvents)
+            {
+                if(matchesFound > 0)
+                    MatchedBeforeFiltering(matchesArray);
+            }
 
             return matchesArray;
         }
