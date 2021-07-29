@@ -205,6 +205,28 @@ All \texttt{for} loops fail if one of the sequence executions from the body fail
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Mapping Clause} \label{sec:mappingclause}
+
+%TODO: in general graph mapping compared to graph rewriting, creating new graphs, side-effect-free
+%\chapter{Graph Mapping}\indexmain{graph mapping}\label{cha:graphmapping}
+
+\begin{rail}
+  MappingClause: '[' ':' ((RulePrefixedSequenceAtom) + (',')) (MatchClassFilterCalls)? ':' ']' ;
+\end{rail}\ixnterm{MappingClause}
+
+The \emph{MappingClause} yields an array of new graphs derived from the input host graph.
+Note that the host graph is \emph{not} changed by this sequence expression.
+
+The example construct \verb#[:for{r;seq}:]# returns the graphs for which executing \texttt{seq} yielded true, after applying a match of \texttt{r}, on a clone of the current host graph, for all matches found.
+It can be extended to multiple rules and sequences \verb#[:for{r1;seq1},for{r2;seq2}:]#, you receive then the array concatenation of the single constructs.
+
+The \emph{MappingClause} should be handled with care, as for each match, a clone of the current host graph is created, which is expensive.
+So it should only be used if this is not of major importance, or what is expected anyway, as e.g. in a state space enumeration.
+A simple example implementation of such one can be found in the \texttt{tests/statespaceMapping} folder.
+In a typical full implementation, you would utilize a tree of object class instances (cf. Section~\ref{sec:objecttypes}), storing the graphs reached during unfolding (or a DAG of object class instances, in case isomorphic graph pruning is carried out).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Quick Reference Table}
 
 Table~\ref{seqtab} lists most of the operations of the advanced graph rewrite sequence constructs at a glance, followed by the language constructs supporting graph nesting.

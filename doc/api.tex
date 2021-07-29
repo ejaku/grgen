@@ -609,24 +609,41 @@ Otherwise the changes won't be visible in the debugger.
 The action based events that are declared by the \texttt{IActionExecutionEnvironment} are:
 
 \begin{csharplet}
-// Fired after all requested matches of a multi rule or rule have been matched, yet before filtering/selection of the matches.
-// Allows a lookahead on the matches, on all found matches, in contrast to OnMatched that only reports the ones that are applied in the end.
-// Also fired for queries, esp. for queries used for computing rule(/test) arguments, which don't cause a firing of other events.
-event PreMatchHandler OnPreMatched;
+// Fired when execution of a pattern matching construct begins.
+event BeginExecutionHandler OnBeginExecution;
 
-// Fired after all requested matches of a rule have been matched (after filtering/selection of matches).
-event AfterMatchHandler OnMatched;
+// Fired after all requested matches of a multi rule or rule have been matched, before filtering of the matches.
+// Allows a lookahead on the matches, on all found matches, in contrast to OnMatchedAfter that only reports the ones that are applied in the end.
+event MatchedBeforeFilteringHandler OnMatchedBefore;
 
-// Fired before the rewrite step of a rule, when at least one match has been found.
-event BeforeFinishHandler OnFinishing;
+// Fired after all requested matches of a multi rule or rule have been matched (after filtering of matches).
+event MatchedAfterFilteringHandler OnMatchedAfter;
+\end{csharplet}
 
-// Fired before the next match is rewritten. It is not fired before rewriting the first match.
-event RewriteNextMatchHandler OnRewritingNextMatch;
+The events follow a bracketing structure, the opening outer events seen so far are fired once per (multi) rule application construct, the inner events following are fired for each match.
 
-// Fired after the rewrite step of a rule.
-// Note, that the given matches object may contain invalid entries,
-// as parts of the match may have been deleted!
-event AfterFinishHandler OnFinished;
+\begin{csharplet}
+// Fired when a match was selected for execution (after filtering/selection of matches).
+event MatchSelectedHandler OnMatchSelected;
+
+// Fired before the selected match is rewritten (comparable to the old OnFinishing and OnRewritingNextMatch, now one event, fired per selected match).
+event RewriteSelectedMatchHandler OnRewritingSelectedMatch;
+
+// Fired after the selected match was rewritten (but before embedded sequences are executed).
+event SelectedMatchRewrittenHandler OnSelectedMatchRewritten;
+
+// Fired after the selected match was rewritten and embedded sequences executed.
+event FinishedSelectedMatchHandler OnFinishedSelectedMatch;
+\end{csharplet}
+
+The inner events just listed are followed by the following closing part of the outer events.
+
+\begin{csharplet}
+// Fired after the rewrite step of a rule/after rule execution has completed.
+event FinishedHandler OnFinished;
+
+// Fired when execution of a pattern matching construct ends.
+event EndExecutionHandler OnEndExecution;
 \end{csharplet}
 
 The subrule based events that are declared by the \texttt{ISubaction\-And\-Output\-Addition\-Environment} extending the \texttt{IActionExecutionEnvironment} are:

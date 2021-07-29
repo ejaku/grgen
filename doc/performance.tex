@@ -780,6 +780,8 @@ You may cut down on this overhead by utilizing the \texttt{ngen} tool of .NET fo
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Miscellaneous Things}
 
+Besides the things discussed in the following, you may employ compiler flags to disable certain features evading their performance impact (e.g. debugging of embedded execs), cf. Subsection~\ref{grgenoptions}; they can be also configured in the \GrShell{}, then also firing of the action/debug events in the interpreted sequences gets disabled, see Section~\ref{sec:compilerconfigshell}. 
+
 \subsubsection*{Visited Flags versus Storages versus Reflexive Edges}
 Visited flags are the most efficient way of marking elements, in case a large number of elements has to be marked, or if all elements -- irrespective whether marked or not -- need to be iterated.
 (This holds because they are stored in a flags variable of the graph elements themselves (the first $k$ flags, afterwards they need to be stored outside of the graph)).

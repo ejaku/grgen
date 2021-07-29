@@ -771,14 +771,19 @@ Redirects the output of the emit-statements in the rules to stdout (again).
 Configures a reference to an external assembly \emph{Filename} to be linked into the generated assemblies, maps to the \texttt{-r} option of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
 
 \begin{rail}
-  'new' 'set' ('keepdebug'|'lazynic'|'noinline'|'profile') ('on'|'off')
-\end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{keepdebug}\ixkeyw{lazynic}\ixkeyw{noinline}\ixkeyw{profile}\ixkeyw{on}\ixkeyw{off}
+  'new' 'set' ('keepdebug'|'profile'|'nodebugevents'|'noevents'|'lazynic'|'noinline') ('on'|'off')
+\end{rail}\ixkeyw{new}\ixkeyw{set}\ixkeyw{keepdebug}\ixkeyw{profile}\ixkeyw{nodebugevents}\ixkeyw{noevents}\ixkeyw{lazynic}\ixkeyw{noinline}\ixkeyw{on}\ixkeyw{off}
 Configures the compilation of the generated assemblies to keep the generated files and to add debug symbols (includes emitting of some validity checking code),
 or configures the generation of the matchers.
-The latter in order to either execute negatives, independents, and conditions only lazily at the end of matching (normally as soon as possible),
-or to never inline subpatterns,
-or to include profiling information.
-Those flags are mapped to the \texttt{-keep} and the \texttt{-debug} options, or to the \texttt{-lazynic}, \texttt{-noinline}, or  \texttt{-profile} options of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
+The latter in order to 
+include profiling information,
+or not to emit debug event firing (mostly action events),
+or not to emit event firing (attribute change events),
+or to either execute negatives, independents, and conditions only lazily at the end of matching (normally as soon as possible),
+or to never inline subpatterns.
+Those flags are mapped to the \texttt{-keep} and the \texttt{-debug} options, or to the \texttt{-profile}, or to the \texttt{-nodebugevents} or the \texttt{-noevents}, or to the \texttt{-lazynic}, or to the \texttt{-noinline} options of \texttt{grgen.exe} (cf. \ref{grgenoptions}).
+
+In addition to setting the compilation flags, the debug events firing flag also changes the debug event firing of the interpreted sequences at runtime (thus also this part of event firing).
 
 When profiling is turned on, the number of search steps carried out is printed to the console after each sequence execution.
 A search step is a binding of a graph element to a pattern entity in case there are at least potentially several choices available.

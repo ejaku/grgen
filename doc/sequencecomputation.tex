@@ -234,7 +234,8 @@ The at operator allows to access a graph element by its \indexed{persistent name
     FunctionMethodCall |
     FunctionCall |
     RuleQuery |
-    MultiRuleQuery
+    MultiRuleQuery |
+    MappingClause
   ;
 \end{rail}\ixnterm{SpecialSequenceExpression}\ixkeyw{visited}
 
@@ -272,7 +273,7 @@ There is no type type existing supporting type comparisons as in the rule langua
 Also functions from packages may be called, the name \emph{FunctionIdent} is then prefixed by the \emph{Ident} of the package, separated by a double colon \texttt{::}.
 A user-defined function from a user-defined package may be called, or one of the built-in functions contained in the built-in package \texttt{File}, e.g. \texttt{import}, or \texttt{now} from the built-in package \texttt{Time}, cf. Chapter~\ref{cha:graph} (or one of the functions from package \texttt{Math} --- for more on packages see \ref{sub:packageaction}).
 
-Regarding the rule queries, take a look at Chapter~\ref{cha:graphquery}.
+Regarding the rule queries, take a look at Chapter~\ref{cha:graphquery}, regarding the mapping clause, inspect Section~\ref{sec:mappingclause}.
 
 \begin{example}
 The sequence expression \verb#{{ def(y) && y.meth(x)>=y.a || @("$1").a+1 != func(x) }}# checks whether the node typed variable \texttt{y} is defined, i.e. not null, and if so compares the return value of a method of that type with an attribute value. If the comparison succeeds, it defines the return value of the expression; in case the definedness check failed or the comparison yields false, is a graph element fetched from the graph by its persistent name \verb#$1#, and its attribute \texttt{a} plus 1 compared against the result of a function call. Then the result of this latter comparison defines the outcome of the expression.

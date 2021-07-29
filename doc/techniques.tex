@@ -279,8 +279,12 @@ The examples can be found in the \texttt{tests/nodeReplacementGrammar} directory
 
 
 \section{Mapping in a Rewriting Tool}\label{sec:transfo}\indexmain{transformation in a narrow sense}
+
 \GrG{} is a \emph{rewrite} tool, i.e. you modify \emph{one} graph.
-This is in contrast to \emph{transformation} or better \emph{mapping} tools, which are used for specifying mappings in between \emph{two} (or more) graphs. (Graphs are typically called models in this kind of tools. Don't confuse this with the notion of graph model in \GrG\ as introduced in chapter \ref{chapmodellang}. In model transformation parlance our graph model denotes a meta model, with a model adhering to a meta model, which in turn adheres to a meta meta model, climbing a ladder of bullshit abstraction leading right into the land of the hot-air merchants, eh..., the truthfully real software engineers. XML. Model. Meta. Meta-meta. Business-logic. Cloud. Bingo!))
+This is in contrast to \emph{transformation} or better \emph{mapping} tools, which are used for specifying mappings in between \emph{two} (or more) graphs.
+A step towards mapping is available now with the mapping clause, cf. Section~\ref{sec:mappingclause}.
+
+Graphs are typically called models in mapping/transformation tools. Don't confuse this with the notion of graph model in \GrG\ as introduced in chapter \ref{chapmodellang}. In model transformation parlance our graph model denotes a meta model (with a model (i.e. graph) adhering to a meta model (i.e. graph model), which in turn adheres to a meta meta model (climbing a ladder of bullshit abstraction leading right into the land of the hot-air merchants, eh..., the truthfully real software engineers. XML. Model. Meta. Meta-meta. Business-logic. Cloud. Bingo!))
 The graph model might be a union of multiple graph models, and the graph may consist of multiple unconnected components, so you don't loose anything regarding expressiveness here.
 
 What you loose is the automatic construction of the \indexed{traceability} links which allow to retrieve the source node from a mapped node or the mapped node from a source node, which is normally carried out by a mapping tool in the background.

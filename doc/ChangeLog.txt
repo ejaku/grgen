@@ -1,4 +1,47 @@
-﻿v6.0 (2021-03-28)
+﻿v6.1 (2021-07-29)
+ Added mapping clause [:for{r;seq}:] (returning an array<graph>) to the expressions of the sequences
+ - it returns the graphs for which executing seq yielded true, after applying a match of r, on a clone of the current host graph,
+   and that for all matches found
+ - it can be extended to multiple rules and sequences [:for{r;seq},for{r;seq}:],
+   similar to the (multi) rule prefixed sequence [[for{r;seq}],[for{r;seq}]]
+ - conceptually, it can be seen as a kind of graph-branching sequence transformation brackets [: construct :],
+   returning new graphs upon construct execution thus graph changes, instead of modifying the old host graph
+ 
+ Allowed debugging of sequence expressions (extended the very limited capabilities previously existing)
+  this means the pattern matching constructs from the sequence expressions (rule query, multi rule query, mapping clause)
+  are now supported, and esp. that nested pattern matching constructs are supported (arguments evaluation can now be traced)
+
+ Some usability improvements in debugging in general,
+  esp. the execution of all bracketed rules is now shown match by match, which reflects their real execution semantics
+
+ Improved emitting of objects of graph type
+
+ Bugfixes:
+ - fixes for filters (esp. in generation of compiled sequences, e.g. enabled chainability)
+ - fixes for nested (multi) rule queries (rules appearing as arguments)
+ - fixed sequence definition overwriting in sequence expressions
+ - fixed bugs in code generation for rule prefixed sequence and sequence computation emitting
+ - fixed bugs in the debugger, e.g. statistics printing while debugger is alive, and incorrect display of multi rule queries
+ 
+ API changes:
+ - changed action events and action events handling, esp. split into all-matches and match-by-match events:
+  - OnMatchedAfter now delivers an array of IMatches, but not a single match anymore,
+    added an OnMatchSelected event to report single matches one-by-one instead
+  - OnFinishing and OnRewritingNextMatch were replaced by a new OnRewritingSelectedMatch event (allowing for some code simplifications)
+  - added an OnSelectedMatchRewritten event fired before the embedded sequences are executed,
+    and an OnFinishedSelectedMatch event fired after the embedded sequences were executed
+ - introduced OnBeginExecution and OnEndExecution events fired when a pattern matching construct is started/ended
+ - introduced an IPatternMatchingConstruct interface to report the pattern matching construct in the events
+    and the enclosing complex pattern matching construct in the SequenceRuleCalls via a Parent member 
+ - the EnterSequence and ExitSequence event were generalized from Sequence to SequenceBase,
+   in order to allow debugging sequence expressions (so were other parts of the execution infrastructure)
+ - also the purpose of the event changes was to allow for the (sequence expression) debugging improvements (see api changes)
+
+ User manual adaptations, corrections, and improvements
+
+--------------------------------------------------------------------------------------------------------
+
+v6.0 (2021-03-28)
  Brought sequence computations to the level of the rule language (with exception of change assignments):
  - completed sequence operators: added support for <<, >>, >>>, ~ and unary + (on numeric types),
    as well as &,^,| on numeric types and in on string type

@@ -213,7 +213,7 @@ Table~\ref{seqmultitab} lists the multi rule applications and some advanced sing
 \begin{minipage}{\linewidth} \renewcommand{\footnoterule}{} 
 \begin{tabularx}{\linewidth}{|lX|}
 \hline
-\texttt{for\{r;s\}} & For every match of \texttt{r}: Executes \texttt{r} then \texttt{s}. One \texttt{s} failing pins the execution result to false.\\
+\texttt{[for\{r;s\}]} & For every match of \texttt{r}: Executes \texttt{r} then \texttt{s}. One \texttt{s} failing pins the execution result to false.\\
 \texttt{count[r]=>v} & Rewrites every pattern match produced by \texttt{r}, and writes the count of the matches found to \texttt{v}.\\
 \texttt{for\{v:match<r> in [?r]; s\}} & Execute \texttt{s} for every match \texttt{v} from \texttt{r}. One \texttt{s} failing pins the execution result to false.\\
 \hline
