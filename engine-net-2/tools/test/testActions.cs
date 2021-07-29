@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sun Mar 28 10:08:54 CEST 2021
+// Generated from "test.grg" on Thu Jul 29 16:37:47 CEST 2021
 
 using System;
 using System.Collections.Generic;
@@ -160,6 +160,7 @@ namespace de.unika.ipd.grGen.Action_test
 				inode_mre.@d11_2221 = tempvar_2;
 				graph.ChangedNodeAttribute(node_mre, GRGEN_MODEL.NodeType_D11_2221.AttributeType_d11_2221);
 			}
+			actionEnv.SelectedMatchRewritten();
 			return;
 		}
 		private static string[] testRule_addedNodeNames = new string[] {  };
@@ -353,6 +354,7 @@ namespace de.unika.ipd.grGen.Action_test
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_testRule.instance.pat_testRule; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_testRule(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_testRule(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_testRule nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -376,6 +378,19 @@ namespace de.unika.ipd.grGen.Action_test
 			public Match_testRule(Match_testRule that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_testRule that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_a = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_a];
+				_node_f = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_f];
+				_node_m = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_m];
+				_edge__edge0 = (GRGEN_LGSP.LGSPEdge)oldToNewMap[that._edge__edge0];
+				_edge__edge1 = (GRGEN_LGSP.LGSPEdge)oldToNewMap[that._edge__edge1];
+			}
+
+			public Match_testRule(Match_testRule that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_testRule()
 			{

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Mar 28 10:09:07 CEST 2021
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Thu Jul 29 16:37:50 CEST 2021
 
 using System;
 using System.Collections.Generic;
@@ -143,6 +143,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				inode_bp.@value = tempvar_0;
 				graph.ChangedNodeAttribute(node_bp, GRGEN_MODEL.NodeType_BandPosition.AttributeType_value);
 			}
+			actionEnv.SelectedMatchRewritten();
 			output_0 = (GRGEN_MODEL.IWriteValue)(node_wv);
 			return;
 		}
@@ -331,6 +332,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_readZeroRule.instance.pat_readZeroRule; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_readZeroRule(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_readZeroRule(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_readZeroRule nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -353,6 +355,18 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public Match_readZeroRule(Match_readZeroRule that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_readZeroRule that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_s = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_s];
+				_node_wv = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_wv];
+				_node_bp = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_bp];
+				_edge_rv = (GRGEN_LGSP.LGSPEdge)oldToNewMap[that._edge_rv];
+			}
+
+			public Match_readZeroRule(Match_readZeroRule that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_readZeroRule()
 			{
@@ -789,6 +803,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				inode_bp.@value = tempvar_0;
 				graph.ChangedNodeAttribute(node_bp, GRGEN_MODEL.NodeType_BandPosition.AttributeType_value);
 			}
+			actionEnv.SelectedMatchRewritten();
 			output_0 = (GRGEN_MODEL.IWriteValue)(node_wv);
 			return;
 		}
@@ -977,6 +992,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_readOneRule.instance.pat_readOneRule; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_readOneRule(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_readOneRule(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_readOneRule nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -999,6 +1015,18 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public Match_readOneRule(Match_readOneRule that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_readOneRule that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_s = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_s];
+				_node_wv = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_wv];
+				_node_bp = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_bp];
+				_edge_rv = (GRGEN_LGSP.LGSPEdge)oldToNewMap[that._edge_rv];
+			}
+
+			public Match_readOneRule(Match_readOneRule that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_readOneRule()
 			{
@@ -1481,6 +1509,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			GRGEN_MODEL.@BandPosition node__node1 = GRGEN_MODEL.@BandPosition.CreateNode(graph);
 			graph.SettingAddedEdgeNames( ensureMoveLeftValidRule_addedEdgeNames );
 			GRGEN_MODEL.@right edge__edge1 = GRGEN_MODEL.@right.CreateEdge(graph, node__node1, node_bp);
+			actionEnv.SelectedMatchRewritten();
 			return;
 		}
 		private static string[] ensureMoveLeftValidRule_addedNodeNames = new string[] { "_node1" };
@@ -1684,6 +1713,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_ensureMoveLeftValidRule.instance.pat_ensureMoveLeftValidRule; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_ensureMoveLeftValidRule(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_ensureMoveLeftValidRule(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_ensureMoveLeftValidRule nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -1706,6 +1736,18 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public Match_ensureMoveLeftValidRule(Match_ensureMoveLeftValidRule that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_ensureMoveLeftValidRule that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_wv = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_wv];
+				_node__node0 = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node__node0];
+				_node_bp = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_bp];
+				_edge__edge0 = (GRGEN_LGSP.LGSPEdge)oldToNewMap[that._edge__edge0];
+			}
+
+			public Match_ensureMoveLeftValidRule(Match_ensureMoveLeftValidRule that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_ensureMoveLeftValidRule()
 			{
@@ -1879,6 +1921,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_ensureMoveLeftValidRule.instance.ensureMoveLeftValidRule_neg_0; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_ensureMoveLeftValidRule_neg_0(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_ensureMoveLeftValidRule_neg_0(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_ensureMoveLeftValidRule_neg_0 nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -1900,6 +1943,17 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public Match_ensureMoveLeftValidRule_neg_0(Match_ensureMoveLeftValidRule_neg_0 that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_ensureMoveLeftValidRule_neg_0 that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node__node0 = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node__node0];
+				_node_bp = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_bp];
+				_edge__edge0 = (GRGEN_LGSP.LGSPEdge)oldToNewMap[that._edge__edge0];
+			}
+
+			public Match_ensureMoveLeftValidRule_neg_0(Match_ensureMoveLeftValidRule_neg_0 that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_ensureMoveLeftValidRule_neg_0()
 			{
@@ -2381,6 +2435,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			GRGEN_MODEL.@BandPosition node__node1 = GRGEN_MODEL.@BandPosition.CreateNode(graph);
 			graph.SettingAddedEdgeNames( ensureMoveRightValidRule_addedEdgeNames );
 			GRGEN_MODEL.@right edge__edge1 = GRGEN_MODEL.@right.CreateEdge(graph, node_bp, node__node1);
+			actionEnv.SelectedMatchRewritten();
 			return;
 		}
 		private static string[] ensureMoveRightValidRule_addedNodeNames = new string[] { "_node1" };
@@ -2584,6 +2639,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_ensureMoveRightValidRule.instance.pat_ensureMoveRightValidRule; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_ensureMoveRightValidRule(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_ensureMoveRightValidRule(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_ensureMoveRightValidRule nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -2606,6 +2662,18 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public Match_ensureMoveRightValidRule(Match_ensureMoveRightValidRule that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_ensureMoveRightValidRule that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_wv = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_wv];
+				_node__node0 = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node__node0];
+				_node_bp = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_bp];
+				_edge__edge0 = (GRGEN_LGSP.LGSPEdge)oldToNewMap[that._edge__edge0];
+			}
+
+			public Match_ensureMoveRightValidRule(Match_ensureMoveRightValidRule that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_ensureMoveRightValidRule()
 			{
@@ -2779,6 +2847,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_ensureMoveRightValidRule.instance.ensureMoveRightValidRule_neg_0; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_ensureMoveRightValidRule_neg_0(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_ensureMoveRightValidRule_neg_0(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_ensureMoveRightValidRule_neg_0 nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -2800,6 +2869,17 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public Match_ensureMoveRightValidRule_neg_0(Match_ensureMoveRightValidRule_neg_0 that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_ensureMoveRightValidRule_neg_0 that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_bp = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_bp];
+				_node__node0 = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node__node0];
+				_edge__edge0 = (GRGEN_LGSP.LGSPEdge)oldToNewMap[that._edge__edge0];
+			}
+
+			public Match_ensureMoveRightValidRule_neg_0(Match_ensureMoveRightValidRule_neg_0 that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_ensureMoveRightValidRule_neg_0()
 			{
@@ -3236,6 +3316,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			GRGEN_LGSP.LGSPNode node_lbp = curMatch._node_lbp;
 			graph.SettingAddedNodeNames( moveLeftRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( moveLeftRule_addedEdgeNames );
+			actionEnv.SelectedMatchRewritten();
 			output_0 = (GRGEN_MODEL.IState)(node_s);
 			output_1 = (GRGEN_MODEL.IBandPosition)(node_lbp);
 			return;
@@ -3437,6 +3518,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_moveLeftRule.instance.pat_moveLeftRule; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_moveLeftRule(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_moveLeftRule(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_moveLeftRule nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -3461,6 +3543,20 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public Match_moveLeftRule(Match_moveLeftRule that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_moveLeftRule that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_wv = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_wv];
+				_node_s = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_s];
+				_node_lbp = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_lbp];
+				_node_bp = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_bp];
+				_edge__edge0 = (GRGEN_LGSP.LGSPEdge)oldToNewMap[that._edge__edge0];
+				_edge__edge1 = (GRGEN_LGSP.LGSPEdge)oldToNewMap[that._edge__edge1];
+			}
+
+			public Match_moveLeftRule(Match_moveLeftRule that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_moveLeftRule()
 			{
@@ -4036,6 +4132,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			GRGEN_LGSP.LGSPNode node_rbp = curMatch._node_rbp;
 			graph.SettingAddedNodeNames( moveRightRule_addedNodeNames );
 			graph.SettingAddedEdgeNames( moveRightRule_addedEdgeNames );
+			actionEnv.SelectedMatchRewritten();
 			output_0 = (GRGEN_MODEL.IState)(node_s);
 			output_1 = (GRGEN_MODEL.IBandPosition)(node_rbp);
 			return;
@@ -4237,6 +4334,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_moveRightRule.instance.pat_moveRightRule; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_moveRightRule(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_moveRightRule(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_moveRightRule nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -4261,6 +4359,20 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public Match_moveRightRule(Match_moveRightRule that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_moveRightRule that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_wv = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_wv];
+				_node_s = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_s];
+				_node_bp = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_bp];
+				_node_rbp = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_rbp];
+				_edge__edge0 = (GRGEN_LGSP.LGSPEdge)oldToNewMap[that._edge__edge0];
+				_edge__edge1 = (GRGEN_LGSP.LGSPEdge)oldToNewMap[that._edge__edge1];
+			}
+
+			public Match_moveRightRule(Match_moveRightRule that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_moveRightRule()
 			{
@@ -4802,6 +4914,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			Match_countZeros curMatch = (Match_countZeros)_curMatch;
 			graph.SettingAddedNodeNames( countZeros_addedNodeNames );
 			graph.SettingAddedEdgeNames( countZeros_addedEdgeNames );
+			actionEnv.SelectedMatchRewritten();
 			return;
 		}
 		private static string[] countZeros_addedNodeNames = new string[] {  };
@@ -4971,6 +5084,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_countZeros.instance.pat_countZeros; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_countZeros(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_countZeros(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_countZeros nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -4990,6 +5104,15 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public Match_countZeros(Match_countZeros that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_countZeros that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_bp = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_bp];
+			}
+
+			public Match_countZeros(Match_countZeros that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_countZeros()
 			{
@@ -5186,6 +5309,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			Match_countOnes curMatch = (Match_countOnes)_curMatch;
 			graph.SettingAddedNodeNames( countOnes_addedNodeNames );
 			graph.SettingAddedEdgeNames( countOnes_addedEdgeNames );
+			actionEnv.SelectedMatchRewritten();
 			return;
 		}
 		private static string[] countOnes_addedNodeNames = new string[] {  };
@@ -5355,6 +5479,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_countOnes.instance.pat_countOnes; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_countOnes(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_countOnes(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_countOnes nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -5374,6 +5499,15 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			public Match_countOnes(Match_countOnes that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_countOnes that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_bp = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_bp];
+			}
+
+			public Match_countOnes(Match_countOnes that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_countOnes()
 			{

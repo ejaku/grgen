@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Mar 28 10:09:20 CEST 2021
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Thu Jul 29 16:37:55 CEST 2021
 
 using System;
 using System.Collections.Generic;
@@ -100,6 +100,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			GRGEN_MODEL.@N node_n = GRGEN_MODEL.@N.CreateNode(graph);
 			graph.SettingAddedEdgeNames( init_addedEdgeNames );
 			GRGEN_MODEL.@E edge__edge0 = GRGEN_MODEL.@E.CreateEdge(graph, node_n, node_n);
+			actionEnv.SelectedMatchRewritten();
 			return;
 		}
 		private static string[] init_addedNodeNames = new string[] { "n" };
@@ -263,6 +264,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_init.instance.pat_init; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_init(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_init(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_init nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -281,6 +283,14 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			public Match_init(Match_init that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_init that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+			}
+
+			public Match_init(Match_init that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_init()
 			{
@@ -405,6 +415,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				node_n.@ow = tempvar_0;
 				graph.ChangedNodeAttribute(node_n, GRGEN_MODEL.NodeType_N.AttributeType_ow);
 			}
+			actionEnv.SelectedMatchRewritten();
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
 			ApplyXGRS_init2_0(procEnv, (GRGEN_MODEL.IN)node_n);
 			return;
@@ -593,6 +604,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_init2.instance.pat_init2; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_init2(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_init2(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_init2 nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -611,6 +623,14 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			public Match_init2(Match_init2 that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_init2 that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+			}
+
+			public Match_init2(Match_init2 that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_init2()
 			{
@@ -783,6 +803,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				inode_n.@op = tempvar_3;
 				graph.ChangedNodeAttribute(node_n, GRGEN_MODEL.NodeType_N.AttributeType_op);
 			}
+			actionEnv.SelectedMatchRewritten();
 			return;
 		}
 		private static string[] r_addedNodeNames = new string[] { "m" };
@@ -958,6 +979,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_r.instance.pat_r; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_r(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_r(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_r nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -978,6 +1000,16 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			public Match_r(Match_r that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_r that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_n = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_n];
+				_edge_e = (GRGEN_LGSP.LGSPEdge)oldToNewMap[that._edge_e];
+			}
+
+			public Match_r(Match_r that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_r()
 			{
@@ -1289,6 +1321,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				graph.ChangedNodeAttribute(node_n, GRGEN_MODEL.NodeType_N.AttributeType_ow);
 				node_nn = outvar_8;
 			}
+			actionEnv.SelectedMatchRewritten();
 			return;
 		}
 		private static string[] rp_addedNodeNames = new string[] { "m" };
@@ -1464,6 +1497,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_rp.instance.pat_rp; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_rp(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_rp(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_rp nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -1484,6 +1518,16 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			public Match_rp(Match_rp that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_rp that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_n = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_n];
+				_edge_e = (GRGEN_LGSP.LGSPEdge)oldToNewMap[that._edge_e];
+			}
+
+			public Match_rp(Match_rp that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_rp()
 			{
@@ -1748,6 +1792,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			GRGEN_LGSP.LGSPNode node_nn = (GRGEN_LGSP.LGSPNode) node_n.Copy(graph, new Dictionary<object, object>());
 			graph.AddNode(node_nn);
 			graph.SettingAddedEdgeNames( testCopy_addedEdgeNames );
+			actionEnv.SelectedMatchRewritten();
 			return;
 		}
 		private static string[] testCopy_addedNodeNames = new string[] { "nn" };
@@ -1917,6 +1962,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_testCopy.instance.pat_testCopy; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_testCopy(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_testCopy(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_testCopy nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -1936,6 +1982,15 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			public Match_testCopy(Match_testCopy that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_testCopy that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_n = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_n];
+			}
+
+			public Match_testCopy(Match_testCopy that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_testCopy()
 			{
@@ -2214,6 +2269,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				var_b = (bool) (((((((inode_n.@op == inode_m.@op) ^ (inode_n.@op != inode_m.@op)) ^ GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@op,inode_m.@op, new Dictionary<object, object>())) ^ (GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@op,inode_m.@op, new Dictionary<object, object>())|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(inode_n.@op,inode_m.@op, new Dictionary<object, object>()))) ^ (!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@op,inode_m.@op, new Dictionary<object, object>())&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(inode_n.@op,inode_m.@op, new Dictionary<object, object>()))) ^ !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@op,inode_m.@op, new Dictionary<object, object>())));
 				var_b = (bool) (((((((inode_n.@ow == ((GRGEN_MODEL.Own) inode_m.@op)) ^ (inode_n.@ow != ((GRGEN_MODEL.Own) inode_m.@op))) ^ GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@ow,((GRGEN_MODEL.Own) inode_m.@op), new Dictionary<object, object>())) ^ (GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@ow,((GRGEN_MODEL.Own) inode_m.@op), new Dictionary<object, object>())|| GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(inode_n.@ow,((GRGEN_MODEL.Own) inode_m.@op), new Dictionary<object, object>()))) ^ (!GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@ow,((GRGEN_MODEL.Own) inode_m.@op), new Dictionary<object, object>())&& !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsEqual(inode_n.@ow,((GRGEN_MODEL.Own) inode_m.@op), new Dictionary<object, object>()))) ^ !GRGEN_MODEL.AttributeTypeObjectCopierComparer.IsLower(inode_n.@ow,((GRGEN_MODEL.Own) inode_m.@op), new Dictionary<object, object>())));
 			}
+			actionEnv.SelectedMatchRewritten();
 			return;
 		}
 		private static string[] testComparison_addedNodeNames = new string[] {  };
@@ -2389,6 +2445,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_testComparison.instance.pat_testComparison; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_testComparison(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_testComparison(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_testComparison nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -2409,6 +2466,16 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			public Match_testComparison(Match_testComparison that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_testComparison that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_n = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_n];
+				_node_m = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_m];
+			}
+
+			public Match_testComparison(Match_testComparison that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_testComparison()
 			{

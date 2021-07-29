@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sun Mar 28 10:08:44 CEST 2021
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Thu Jul 29 16:37:42 CEST 2021
 
 using System;
 using System.Collections.Generic;

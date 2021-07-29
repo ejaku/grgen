@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun Mar 28 10:09:49 CEST 2021
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Thu Jul 29 16:38:06 CEST 2021
 
 using System;
 using System.Collections.Generic;
@@ -430,6 +430,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_SpanningTree.instance.pat_SpanningTree; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_SpanningTree(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_SpanningTree(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_SpanningTree nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -450,6 +451,16 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public Match_SpanningTree(Match_SpanningTree that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_SpanningTree that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_root = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_root];
+				_iter_0 = new GRGEN_LGSP.LGSPMatchesList<Match_SpanningTree_iter_0, IMatch_SpanningTree_iter_0>(that._iter_0, oldToNewMap);
+			}
+
+			public Match_SpanningTree(Match_SpanningTree that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_SpanningTree()
 			{
@@ -634,6 +645,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public bool IsNullMatch { get { return _isNullMatch; } }
 			public bool _isNullMatch;
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_SpanningTree_iter_0(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_SpanningTree_iter_0(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_SpanningTree_iter_0 nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -656,6 +668,18 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public Match_SpanningTree_iter_0(Match_SpanningTree_iter_0 that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_SpanningTree_iter_0 that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_root = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_root];
+				_node_next = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_next];
+				_edge_e = (GRGEN_LGSP.LGSPEdge)oldToNewMap[that._edge_e];
+				@_sptr = new GRGEN_ACTIONS.Pattern_SpanningTree.Match_SpanningTree(that.@_sptr, oldToNewMap);
+			}
+
+			public Match_SpanningTree_iter_0(Match_SpanningTree_iter_0 that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_SpanningTree_iter_0()
 			{
@@ -1275,6 +1299,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_SpanningTreeReverse.instance.pat_SpanningTreeReverse; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_SpanningTreeReverse(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_SpanningTreeReverse(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_SpanningTreeReverse nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -1295,6 +1320,16 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public Match_SpanningTreeReverse(Match_SpanningTreeReverse that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_SpanningTreeReverse that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_root = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_root];
+				_iter_0 = new GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeReverse_iter_0, IMatch_SpanningTreeReverse_iter_0>(that._iter_0, oldToNewMap);
+			}
+
+			public Match_SpanningTreeReverse(Match_SpanningTreeReverse that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_SpanningTreeReverse()
 			{
@@ -1479,6 +1514,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public bool IsNullMatch { get { return _isNullMatch; } }
 			public bool _isNullMatch;
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_SpanningTreeReverse_iter_0(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_SpanningTreeReverse_iter_0(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_SpanningTreeReverse_iter_0 nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -1501,6 +1537,18 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public Match_SpanningTreeReverse_iter_0(Match_SpanningTreeReverse_iter_0 that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_SpanningTreeReverse_iter_0 that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_root = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_root];
+				_node_next = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_next];
+				_edge__edge0 = (GRGEN_LGSP.LGSPEdge)oldToNewMap[that._edge__edge0];
+				@_sptrr = new GRGEN_ACTIONS.Pattern_SpanningTreeReverse.Match_SpanningTreeReverse(that.@_sptrr, oldToNewMap);
+			}
+
+			public Match_SpanningTreeReverse_iter_0(Match_SpanningTreeReverse_iter_0 that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_SpanningTreeReverse_iter_0()
 			{
@@ -2078,6 +2126,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_SpanningTreeOutgoing.instance.pat_SpanningTreeOutgoing; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_SpanningTreeOutgoing(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_SpanningTreeOutgoing(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_SpanningTreeOutgoing nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -2098,6 +2147,16 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public Match_SpanningTreeOutgoing(Match_SpanningTreeOutgoing that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_SpanningTreeOutgoing that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_root = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_root];
+				_iter_0 = new GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeOutgoing_iter_0, IMatch_SpanningTreeOutgoing_iter_0>(that._iter_0, oldToNewMap);
+			}
+
+			public Match_SpanningTreeOutgoing(Match_SpanningTreeOutgoing that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_SpanningTreeOutgoing()
 			{
@@ -2282,6 +2341,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public bool IsNullMatch { get { return _isNullMatch; } }
 			public bool _isNullMatch;
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_SpanningTreeOutgoing_iter_0(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_SpanningTreeOutgoing_iter_0(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_SpanningTreeOutgoing_iter_0 nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -2304,6 +2364,18 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public Match_SpanningTreeOutgoing_iter_0(Match_SpanningTreeOutgoing_iter_0 that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_SpanningTreeOutgoing_iter_0 that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_root = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_root];
+				_node_next = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_next];
+				_edge__edge0 = (GRGEN_LGSP.LGSPEdge)oldToNewMap[that._edge__edge0];
+				@__sub0 = new GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing(that.@__sub0, oldToNewMap);
+			}
+
+			public Match_SpanningTreeOutgoing_iter_0(Match_SpanningTreeOutgoing_iter_0 that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_SpanningTreeOutgoing_iter_0()
 			{
@@ -2881,6 +2953,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_SpanningTreeIncoming.instance.pat_SpanningTreeIncoming; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_SpanningTreeIncoming(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_SpanningTreeIncoming(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_SpanningTreeIncoming nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -2901,6 +2974,16 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public Match_SpanningTreeIncoming(Match_SpanningTreeIncoming that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_SpanningTreeIncoming that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_root = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_root];
+				_iter_0 = new GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeIncoming_iter_0, IMatch_SpanningTreeIncoming_iter_0>(that._iter_0, oldToNewMap);
+			}
+
+			public Match_SpanningTreeIncoming(Match_SpanningTreeIncoming that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_SpanningTreeIncoming()
 			{
@@ -3085,6 +3168,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public bool IsNullMatch { get { return _isNullMatch; } }
 			public bool _isNullMatch;
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_SpanningTreeIncoming_iter_0(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_SpanningTreeIncoming_iter_0(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_SpanningTreeIncoming_iter_0 nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -3107,6 +3191,18 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public Match_SpanningTreeIncoming_iter_0(Match_SpanningTreeIncoming_iter_0 that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_SpanningTreeIncoming_iter_0 that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_next = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_next];
+				_node_root = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_root];
+				_edge__edge0 = (GRGEN_LGSP.LGSPEdge)oldToNewMap[that._edge__edge0];
+				@__sub0 = new GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming(that.@__sub0, oldToNewMap);
+			}
+
+			public Match_SpanningTreeIncoming_iter_0(Match_SpanningTreeIncoming_iter_0 that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_SpanningTreeIncoming_iter_0()
 			{
@@ -3417,6 +3513,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			GRGEN_MODEL.@UEdge edge__edge7 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_rightleft, node__node4);
 			GRGEN_MODEL.@UEdge edge__edge8 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_rightleft, node__node5);
 			GRGEN_MODEL.@UEdge edge__edge9 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_right, node__node6);
+			actionEnv.SelectedMatchRewritten();
 			output_0 = (GRGEN_LIBGR.INode)(node_root);
 			return;
 		}
@@ -3581,6 +3678,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_initTree.instance.pat_initTree; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_initTree(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_initTree(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_initTree nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -3599,6 +3697,14 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public Match_initTree(Match_initTree that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_initTree that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+			}
+
+			public Match_initTree(Match_initTree that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_initTree()
 			{
@@ -3729,6 +3835,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			GRGEN_MODEL.@UEdge edge__edge5 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_n, node__node3);
 			GRGEN_MODEL.@UEdge edge__edge6 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node__node3, node__node4);
 			GRGEN_MODEL.@UEdge edge__edge7 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node__node4, node_n);
+			actionEnv.SelectedMatchRewritten();
 			output_0 = (GRGEN_LIBGR.INode)(node_root);
 			return;
 		}
@@ -3893,6 +4000,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_initUndirected.instance.pat_initUndirected; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_initUndirected(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_initUndirected(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_initUndirected nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -3911,6 +4019,14 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public Match_initUndirected(Match_initUndirected that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_initUndirected that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+			}
+
+			public Match_initUndirected(Match_initUndirected that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_initUndirected()
 			{
@@ -4041,6 +4157,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			GRGEN_MODEL.@Edge edge__edge5 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_n, node__node3);
 			GRGEN_MODEL.@Edge edge__edge6 = GRGEN_MODEL.@Edge.CreateEdge(graph, node__node3, node__node4);
 			GRGEN_MODEL.@Edge edge__edge7 = GRGEN_MODEL.@Edge.CreateEdge(graph, node__node4, node_n);
+			actionEnv.SelectedMatchRewritten();
 			output_0 = (GRGEN_LIBGR.INode)(node_root);
 			return;
 		}
@@ -4205,6 +4322,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_initDirected.instance.pat_initDirected; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_initDirected(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_initDirected(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_initDirected nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -4223,6 +4341,14 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public Match_initDirected(Match_initDirected that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_initDirected that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+			}
+
+			public Match_initDirected(Match_initDirected that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_initDirected()
 			{
@@ -4363,6 +4489,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			{ // eval_0
 				graph.SetVisited(node_root, 0, true);
 			}
+			actionEnv.SelectedMatchRewritten();
 			return;
 		}
 		private static string[] spanningTree_addedNodeNames = new string[] {  };
@@ -4537,6 +4664,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_spanningTree.instance.pat_spanningTree; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_spanningTree(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_spanningTree(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_spanningTree nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -4557,6 +4685,16 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public Match_spanningTree(Match_spanningTree that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_spanningTree that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_root = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_root];
+				@_sptr = new GRGEN_ACTIONS.Pattern_SpanningTree.Match_SpanningTree(that.@_sptr, oldToNewMap);
+			}
+
+			public Match_spanningTree(Match_spanningTree that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_spanningTree()
 			{
@@ -4750,6 +4888,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		{
 			GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
 			Match_edgesVisited curMatch = (Match_edgesVisited)_curMatch;
+			actionEnv.SelectedMatchRewritten();
 			return;
 		}
 
@@ -4917,6 +5056,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_edgesVisited.instance.pat_edgesVisited; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_edgesVisited(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_edgesVisited(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_edgesVisited nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -4936,6 +5076,15 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public Match_edgesVisited(Match_edgesVisited that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_edgesVisited that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_edge_e = (GRGEN_LGSP.LGSPEdge)oldToNewMap[that._edge_e];
+			}
+
+			public Match_edgesVisited(Match_edgesVisited that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_edgesVisited()
 			{
@@ -5128,6 +5277,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		{
 			GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
 			Match_nodesVisited curMatch = (Match_nodesVisited)_curMatch;
+			actionEnv.SelectedMatchRewritten();
 			return;
 		}
 
@@ -5295,6 +5445,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_nodesVisited.instance.pat_nodesVisited; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_nodesVisited(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_nodesVisited(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_nodesVisited nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -5314,6 +5465,15 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public Match_nodesVisited(Match_nodesVisited that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_nodesVisited that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_n = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_n];
+			}
+
+			public Match_nodesVisited(Match_nodesVisited that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_nodesVisited()
 			{
@@ -5518,6 +5678,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				GRGEN_ACTIONS.Pattern_SpanningTreeReverse.Instance.SpanningTreeReverse_Modify(actionEnv, subpattern_sptrr);
 			}
 			graph.SettingAddedEdgeNames( spanningTreeReverse_addedEdgeNames );
+			actionEnv.SelectedMatchRewritten();
 			return;
 		}
 		private static string[] spanningTreeReverse_addedNodeNames = new string[] {  };
@@ -5692,6 +5853,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_spanningTreeReverse.instance.pat_spanningTreeReverse; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_spanningTreeReverse(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_spanningTreeReverse(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_spanningTreeReverse nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -5712,6 +5874,16 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public Match_spanningTreeReverse(Match_spanningTreeReverse that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_spanningTreeReverse that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_root = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_root];
+				@_sptrr = new GRGEN_ACTIONS.Pattern_SpanningTreeReverse.Match_SpanningTreeReverse(that.@_sptrr, oldToNewMap);
+			}
+
+			public Match_spanningTreeReverse(Match_spanningTreeReverse that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_spanningTreeReverse()
 			{
@@ -5911,6 +6083,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			Match_spanningTreeOutgoing curMatch = (Match_spanningTreeOutgoing)_curMatch;
 			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
 			GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing subpattern__sub0 = curMatch.@__sub0;
+			actionEnv.SelectedMatchRewritten();
 			return;
 		}
 
@@ -6083,6 +6256,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_spanningTreeOutgoing.instance.pat_spanningTreeOutgoing; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_spanningTreeOutgoing(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_spanningTreeOutgoing(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_spanningTreeOutgoing nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -6103,6 +6277,16 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public Match_spanningTreeOutgoing(Match_spanningTreeOutgoing that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_spanningTreeOutgoing that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_root = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_root];
+				@__sub0 = new GRGEN_ACTIONS.Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing(that.@__sub0, oldToNewMap);
+			}
+
+			public Match_spanningTreeOutgoing(Match_spanningTreeOutgoing that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_spanningTreeOutgoing()
 			{
@@ -6302,6 +6486,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			Match_spanningTreeIncoming curMatch = (Match_spanningTreeIncoming)_curMatch;
 			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
 			GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming subpattern__sub0 = curMatch.@__sub0;
+			actionEnv.SelectedMatchRewritten();
 			return;
 		}
 
@@ -6474,6 +6659,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public override GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_spanningTreeIncoming.instance.pat_spanningTreeIncoming; } }
 			public override GRGEN_LIBGR.IMatchClass MatchClass { get { return null; } }
 			public override GRGEN_LIBGR.IMatch Clone() { return new Match_spanningTreeIncoming(this); }
+			public override GRGEN_LIBGR.IMatch Clone(IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) { return new Match_spanningTreeIncoming(this, oldToNewMap); }
 			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
 			public Match_spanningTreeIncoming nextWithSameHash;
 			public void CleanNextWithSameHash() {
@@ -6494,6 +6680,16 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			public Match_spanningTreeIncoming(Match_spanningTreeIncoming that)
 			{
 				AssignContent(that);
+			}
+			public void AssignContent(Match_spanningTreeIncoming that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				_node_root = (GRGEN_LGSP.LGSPNode)oldToNewMap[that._node_root];
+				@__sub0 = new GRGEN_ACTIONS.Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming(that.@__sub0, oldToNewMap);
+			}
+
+			public Match_spanningTreeIncoming(Match_spanningTreeIncoming that, IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap)
+			{
+				AssignContent(that, oldToNewMap);
 			}
 			public Match_spanningTreeIncoming()
 			{
