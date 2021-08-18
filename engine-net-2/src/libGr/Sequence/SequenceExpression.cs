@@ -7924,14 +7924,14 @@ namespace de.unika.ipd.grGen.libGr
 
         public object ExecuteNoImplicitContainerCopy(IGraphProcessingEnvironment procEnv)
         {
-            IGraphElement elem = (IGraphElement)Source.Evaluate(procEnv);
+            IAttributeBearer elem = (IAttributeBearer)Source.Evaluate(procEnv);
             object value = elem.GetAttribute(AttributeName);
             return value;
         }
 
-        public object ExecuteNoImplicitContainerCopy(IGraphProcessingEnvironment procEnv, out IGraphElement elem, out AttributeType attrType)
+        public object ExecuteNoImplicitContainerCopy(IGraphProcessingEnvironment procEnv, out IAttributeBearer elem, out AttributeType attrType)
         {
-            elem = (IGraphElement)Source.Evaluate(procEnv);
+            elem = (IAttributeBearer)Source.Evaluate(procEnv);
             object value = elem.GetAttribute(AttributeName);
             attrType = elem.Type.GetAttributeType(AttributeName);
             return value;

@@ -240,7 +240,7 @@ namespace de.unika.ipd.grGen.libGr
             return ContainerType;
         }
 
-        protected object ContainerValue(IGraphProcessingEnvironment procEnv, out IGraphElement elem, out AttributeType attrType)
+        protected object ContainerValue(IGraphProcessingEnvironment procEnv, out IAttributeBearer elem, out AttributeType attrType)
         {
             if(Container != null)
             {
@@ -577,7 +577,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
-            IGraphElement elem;
+            IAttributeBearer elem;
             AttributeType attrType;
             object container = ContainerValue(procEnv, out elem, out attrType);
             if(container == null)
@@ -597,7 +597,7 @@ namespace de.unika.ipd.grGen.libGr
                 return ExecuteMap(procEnv, elem, attrType, (IDictionary)container, firstValue, optionalSecondValue);
         }
 
-        private object ExecuteArray(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IList array, object firstValue, object optionalSecondValue)
+        private object ExecuteArray(IGraphProcessingEnvironment procEnv, IAttributeBearer elem, AttributeType attrType, IList array, object firstValue, object optionalSecondValue)
         {
             if(elem != null)
                 BaseGraph.ChangingAttributePutElement(procEnv.Graph, elem, attrType, firstValue, optionalSecondValue);
@@ -607,13 +607,13 @@ namespace de.unika.ipd.grGen.libGr
             else
                 array.Insert((int)optionalSecondValue, firstValue);
 
-            if(elem != null)
-                BaseGraph.ChangedAttribute(procEnv.Graph, elem, attrType);
+            if(elem != null && elem is IGraphElement)
+                BaseGraph.ChangedAttribute(procEnv.Graph, (IGraphElement)elem, attrType);
 
             return array;
         }
 
-        private object ExecuteDeque(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDeque deque, object firstValue, object optionalSecondValue)
+        private object ExecuteDeque(IGraphProcessingEnvironment procEnv, IAttributeBearer elem, AttributeType attrType, IDeque deque, object firstValue, object optionalSecondValue)
         {
             if(elem != null)
                 BaseGraph.ChangingAttributePutElement(procEnv.Graph, elem, attrType, firstValue, optionalSecondValue);
@@ -623,34 +623,34 @@ namespace de.unika.ipd.grGen.libGr
             else
                 deque.EnqueueAt((int)optionalSecondValue, firstValue);
 
-            if(elem != null)
-                BaseGraph.ChangedAttribute(procEnv.Graph, elem, attrType);
+            if(elem != null && elem is IGraphElement)
+                BaseGraph.ChangedAttribute(procEnv.Graph, (IGraphElement)elem, attrType);
 
             return deque;
         }
 
-        private object ExecuteSet(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary set, object firstValue, object optionalSecondValue)
+        private object ExecuteSet(IGraphProcessingEnvironment procEnv, IAttributeBearer elem, AttributeType attrType, IDictionary set, object firstValue, object optionalSecondValue)
         {
             if(elem != null)
                 BaseGraph.ChangingSetAttributePutElement(procEnv.Graph, elem, attrType, firstValue);
 
             set[firstValue] = optionalSecondValue;
 
-            if(elem != null)
-                BaseGraph.ChangedAttribute(procEnv.Graph, elem, attrType);
+            if(elem != null && elem is IGraphElement)
+                BaseGraph.ChangedAttribute(procEnv.Graph, (IGraphElement)elem, attrType);
 
             return set;
         }
 
-        private object ExecuteMap(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary map, object firstValue, object optionalSecondValue)
+        private object ExecuteMap(IGraphProcessingEnvironment procEnv, IAttributeBearer elem, AttributeType attrType, IDictionary map, object firstValue, object optionalSecondValue)
         {
             if(elem != null)
                 BaseGraph.ChangingMapAttributePutElement(procEnv.Graph, elem, attrType, firstValue, optionalSecondValue);
 
             map[firstValue] = optionalSecondValue;
 
-            if(elem != null)
-                BaseGraph.ChangedAttribute(procEnv.Graph, elem, attrType);
+            if(elem != null && elem is IGraphElement)
+                BaseGraph.ChangedAttribute(procEnv.Graph, (IGraphElement)elem, attrType);
 
             return map;
         }
@@ -738,7 +738,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
-            IGraphElement elem;
+            IAttributeBearer elem;
             AttributeType attrType;
             object container = ContainerValue(procEnv, out elem, out attrType);
             if(container == null)
@@ -757,7 +757,7 @@ namespace de.unika.ipd.grGen.libGr
                 return ExecuteMap(procEnv, elem, attrType, (IDictionary)container, valueOrKeyOrIndexToRemove);
         }
 
-        private object ExecuteArray(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IList array, object valueOrKeyOrIndexToRemove)
+        private object ExecuteArray(IGraphProcessingEnvironment procEnv, IAttributeBearer elem, AttributeType attrType, IList array, object valueOrKeyOrIndexToRemove)
         {
             if(elem != null)
                 BaseGraph.ChangingAttributeRemoveElement(procEnv.Graph, elem, attrType, valueOrKeyOrIndexToRemove);
@@ -767,13 +767,13 @@ namespace de.unika.ipd.grGen.libGr
             else
                 array.RemoveAt((int)valueOrKeyOrIndexToRemove);
 
-            if(elem != null)
-                BaseGraph.ChangedAttribute(procEnv.Graph, elem, attrType);
+            if(elem != null && elem is IGraphElement)
+                BaseGraph.ChangedAttribute(procEnv.Graph, (IGraphElement)elem, attrType);
 
             return array;
         }
 
-        private object ExecuteDeque(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDeque deque, object valueOrKeyOrIndexToRemove)
+        private object ExecuteDeque(IGraphProcessingEnvironment procEnv, IAttributeBearer elem, AttributeType attrType, IDeque deque, object valueOrKeyOrIndexToRemove)
         {
             if(elem != null)
                 BaseGraph.ChangingAttributeRemoveElement(procEnv.Graph, elem, attrType, valueOrKeyOrIndexToRemove);
@@ -783,34 +783,34 @@ namespace de.unika.ipd.grGen.libGr
             else
                 deque.DequeueAt((int)valueOrKeyOrIndexToRemove);
 
-            if(elem != null)
-                BaseGraph.ChangedAttribute(procEnv.Graph, elem, attrType);
+            if(elem != null && elem is IGraphElement)
+                BaseGraph.ChangedAttribute(procEnv.Graph, (IGraphElement)elem, attrType);
 
             return deque;
         }
 
-        private static object ExecuteSet(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary set, object valueOrKeyOrIndexToRemove)
+        private static object ExecuteSet(IGraphProcessingEnvironment procEnv, IAttributeBearer elem, AttributeType attrType, IDictionary set, object valueOrKeyOrIndexToRemove)
         {
             if(elem != null)
                 BaseGraph.ChangingSetAttributeRemoveElement(procEnv.Graph, elem, attrType, valueOrKeyOrIndexToRemove);
 
             set.Remove(valueOrKeyOrIndexToRemove);
 
-            if(elem != null)
-                BaseGraph.ChangedAttribute(procEnv.Graph, elem, attrType);
+            if(elem != null && elem is IGraphElement)
+                BaseGraph.ChangedAttribute(procEnv.Graph, (IGraphElement)elem, attrType);
 
             return set;
         }
 
-        private static object ExecuteMap(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary map, object valueOrKeyOrIndexToRemove)
+        private static object ExecuteMap(IGraphProcessingEnvironment procEnv, IAttributeBearer elem, AttributeType attrType, IDictionary map, object valueOrKeyOrIndexToRemove)
         {
             if(elem != null)
                 BaseGraph.ChangingMapAttributeRemoveElement(procEnv.Graph, elem, attrType, valueOrKeyOrIndexToRemove);
 
             map.Remove(valueOrKeyOrIndexToRemove);
 
-            if(elem != null)
-                BaseGraph.ChangedAttribute(procEnv.Graph, elem, attrType);
+            if(elem != null && elem is IGraphElement)
+                BaseGraph.ChangedAttribute(procEnv.Graph, (IGraphElement)elem, attrType);
 
             return map;
         }
@@ -875,7 +875,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
-            IGraphElement elem;
+            IAttributeBearer elem;
             AttributeType attrType;
             object container = ContainerValue(procEnv, out elem, out attrType);
             if(container == null)
@@ -891,7 +891,7 @@ namespace de.unika.ipd.grGen.libGr
                 return ExecuteMap(procEnv, elem, attrType, (IDictionary)container);
         }
 
-        private static object ExecuteList(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IList array)
+        private static object ExecuteList(IGraphProcessingEnvironment procEnv, IAttributeBearer elem, AttributeType attrType, IList array)
         {
             if(elem != null)
             {
@@ -903,13 +903,13 @@ namespace de.unika.ipd.grGen.libGr
 
             array.Clear();
 
-            if(elem != null)
-                BaseGraph.ChangedAttribute(procEnv.Graph, elem, attrType);
+            if(elem != null && elem is IGraphElement)
+                BaseGraph.ChangedAttribute(procEnv.Graph, (IGraphElement)elem, attrType);
 
             return array;
         }
 
-        private static object ExecuteDeque(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDeque deque)
+        private static object ExecuteDeque(IGraphProcessingEnvironment procEnv, IAttributeBearer elem, AttributeType attrType, IDeque deque)
         {
             if(elem != null)
             {
@@ -921,13 +921,13 @@ namespace de.unika.ipd.grGen.libGr
 
             deque.Clear();
 
-            if(elem != null)
-                BaseGraph.ChangedAttribute(procEnv.Graph, elem, attrType);
+            if(elem != null && elem is IGraphElement)
+                BaseGraph.ChangedAttribute(procEnv.Graph, (IGraphElement)elem, attrType);
 
             return deque;
         }
 
-        private static object ExecuteSet(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary set)
+        private static object ExecuteSet(IGraphProcessingEnvironment procEnv, IAttributeBearer elem, AttributeType attrType, IDictionary set)
         {
             if(elem != null)
             {
@@ -939,13 +939,13 @@ namespace de.unika.ipd.grGen.libGr
 
             set.Clear();
 
-            if(elem != null)
-                BaseGraph.ChangedAttribute(procEnv.Graph, elem, attrType);
+            if(elem != null && elem is IGraphElement)
+                BaseGraph.ChangedAttribute(procEnv.Graph, (IGraphElement)elem, attrType);
 
             return set;
         }
 
-        private static object ExecuteMap(IGraphProcessingEnvironment procEnv, IGraphElement elem, AttributeType attrType, IDictionary map)
+        private static object ExecuteMap(IGraphProcessingEnvironment procEnv, IAttributeBearer elem, AttributeType attrType, IDictionary map)
         {
             if(elem != null)
             {
@@ -957,8 +957,8 @@ namespace de.unika.ipd.grGen.libGr
 
             map.Clear();
 
-            if(elem != null)
-                BaseGraph.ChangedAttribute(procEnv.Graph, elem, attrType);
+            if(elem != null && elem is IGraphElement)
+                BaseGraph.ChangedAttribute(procEnv.Graph, (IGraphElement)elem, attrType);
 
             return map;
         }
