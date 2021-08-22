@@ -252,7 +252,7 @@ seqComputation [ ExecNode xg ]
 	;
 
 seqMethodCall [ ExecNode xg ]
-	: seqVarUse[xg] d=DOT method=IDENT LPAREN { xg.append("."+method.getText()+"("); } 
+	: seqVarUse[xg] d=DOT (attrName=IDENT DOT { xg.append("."+attrName.getText()); })? method=IDENT LPAREN { xg.append("."+method.getText()+"("); } 
 			 ( seqExpression[xg] ( COMMA { xg.append(","); } seqExpression[xg] )* )? RPAREN { xg.append(")"); }
 	;
 
