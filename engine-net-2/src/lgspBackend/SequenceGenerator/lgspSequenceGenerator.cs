@@ -374,7 +374,7 @@ namespace de.unika.ipd.grGen.lgsp
             List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
             Dictionary<SequenceVariable, SetValueType> variables = new Dictionary<SequenceVariable, SetValueType>();
             seq.GetLocalVariables(variables, constructors, null);
-            foreach(SequenceExpressionContainerConstructor cc in constructors)
+            foreach(SequenceExpressionConstructor cc in constructors)
             {
                 SequenceContainerConstructorEmitter.GenerateConstructor(env, model, cc, source);
             }
