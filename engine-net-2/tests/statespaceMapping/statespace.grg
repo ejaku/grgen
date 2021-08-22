@@ -75,7 +75,10 @@ rule insertBlue
 
 sequence stateSpaceStaticMappingCompiled
 {
-	{ ::statestep = [: for{insertRed; {::statespace.add(this)} ;> true}, for{insertGreen; {::statespace.add(this)} ;> true}, for{insertBlue; {::statespace.add(this)} ;> true} :] }
+	{ ::statestep = [: for{insertRed; {::statespace.add(this)} ;> true},
+						for{insertGreen; {::statespace.add(this)} ;> true},
+						for{insertBlue; {::statespace.add(this)} ;> true}
+					:] }
 }
 
 sequence stateSpaceStaticTwiceMappingCompiled
@@ -91,6 +94,19 @@ sequence stateSpaceStaticTwiceMappingCompiled
 sequence stateStepCompiled(level:int)
 {
 	if { {{level < ::stopLevel}};
-		{ ::statestep = [: for{insertRed; {::statespace.add(this)} ;> stateStepCompiled(level + 1)}, for{insertGreen; {::statespace.add(this)} ;> stateStepCompiled(level + 1)}, for{insertBlue; {::statespace.add(this)} ;> stateStepCompiled(level + 1)} :] }
+		{ ::statestep = [: for{insertRed; {::statespace.add(this)} ;> stateStepCompiled(level + 1)},
+							for{insertGreen; {::statespace.add(this)} ;> stateStepCompiled(level + 1)},
+							for{insertBlue; {::statespace.add(this)} ;> stateStepCompiled(level + 1)}
+						:] }
+	}
+}
+
+sequence stateStepMappingCompiled(level:int, parent:StatespaceTree)
+{
+	if { {{level < ::stopLevel}};
+		{ ::statestep = [: for{insertRed; child:StatespaceTree ;> {::statespace.add(this); child = new StatespaceTree@(gr=this); parent.children.add(child) } ;> stateStepMappingCompiled(level + 1, child)},
+							for{insertGreen; child:StatespaceTree ;> {::statespace.add(this); child = new StatespaceTree@(gr=this); parent.children.add(child) } ;> stateStepMappingCompiled(level + 1, child)},
+							for{insertBlue; child:StatespaceTree ;> {::statespace.add(this); child = new StatespaceTree@(gr=this); parent.children.add(child) } ;> stateStepMappingCompiled(level + 1, child)}
+						:] }
 	}
 }

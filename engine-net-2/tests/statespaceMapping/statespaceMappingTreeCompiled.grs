@@ -1,0 +1,42 @@
+new graph statespaceMapping/statespace
+
+include statespaceMapping/statespacelayout.grsi
+
+exec init ;> ::statespaceRoot = new StatespaceTree@(gr=this)
+
+exec { ::statespace = new set<graph>{} }
+
+exec ::stopLevel=2 ;> stateStepMappingCompiled(0, ::statespaceRoot)
+
+show var statestep
+show var statespace
+
+show var statespaceRoot
+
+exec { ::statespaceRootChild0 = ::statespaceRoot.children.peek(0) }
+exec { ::statespaceRootChild1 = ::statespaceRoot.children.peek(1) }
+exec { ::statespaceRootChild2 = ::statespaceRoot.children.peek(2) }
+show var statespaceRootChild0
+show var statespaceRootChild1
+show var statespaceRootChild2
+
+exec { ::statespaceRootChild00 = ::statespaceRootChild0.children.peek(0) }
+exec { ::statespaceRootChild01 = ::statespaceRootChild0.children.peek(1) }
+exec { ::statespaceRootChild02 = ::statespaceRootChild0.children.peek(2) }
+exec { ::statespaceRootChild03 = ::statespaceRootChild0.children.peek(3) }
+show var statespaceRootChild00
+show var statespaceRootChild01
+show var statespaceRootChild02
+show var statespaceRootChild03
+
+#note: the StatespaceTree are created in different graphs, have thus the same graph-based id
+#building a common data structure from them is illegal, correct behavior would be to create them all in the root graph 
+#(or to use them only in their corresponding subgraph, not building a shared data structure)
+
+show num nodes Red
+show num nodes Green
+show num nodes Blue
+
+exec for{g:graph in ::statespace; in g { { emit("The value of variable \"redgreenblue\" of type foobar is: ", nodes(Red).size(), nodes(Green).size(), nodes(Blue).size(), "\n") } } } 
+
+exit
