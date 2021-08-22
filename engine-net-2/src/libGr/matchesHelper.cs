@@ -19,6 +19,19 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public static class MatchListHelper
     {
+        public static void Add(IList<IMatch> matchList, IMatches[] matchesArray, IDictionary<IMatch, int> matchToConstructIndex)
+        {
+            for(int i = 0; i < matchesArray.Length; ++i)
+            {
+                IMatches matches = matchesArray[i];
+                foreach(IMatch match in matches)
+                {
+                    matchList.Add(match);
+                    matchToConstructIndex[match] = i;
+                }
+            }
+        }
+
         public static void Add(List<IMatch> matchList, IMatches[] matchesArray)
         {
             foreach(IMatches matches in matchesArray)

@@ -1,0 +1,29 @@
+rule init
+{
+	modify {
+		n1:Node --> n1;
+		n2:Node --> n2;
+	}
+}
+
+match class mc
+{
+	n:Node;
+}
+
+rule r(n:Node):(Node) implements mc
+{
+	n -e:Edge-> n;
+	
+	modify {
+		delete(e);
+		return(n);
+	}
+}
+
+rule t
+{	
+	modify {
+		.;
+	}
+}

@@ -1,0 +1,53 @@
+new graph "multiofsamerule/multiofsamerule"
+
+exec init
+
+exec { ::n1 = nodes().peek(0); ::n2 = nodes().peek(1) }
+
+eval [?[r(::n1),r(::n2)]\<class mc>]
+
+show num nodes
+show num edges
+
+eval [: for{r(::n1);false}, for{r(::n2);t} :]
+
+show num nodes
+show num edges
+
+exec [[(::x)=r(::n1),(::y)=r(::n2)]]
+
+show num nodes
+show num edges
+show var x
+show var y
+
+exec { ::x = null; ::y = null }
+exec { add(Edge, ::n1, ::n1); add(Edge, ::n2, ::n2) }
+
+exec [[ for{(::x)=r(::n1);false}, for{(::y)=r(::n2);t} ]]
+
+show num nodes
+show num edges
+show var x
+show var y
+
+exec { ::x = null; ::y = null }
+exec { add(Edge, ::n1, ::n1); add(Edge, ::n2, ::n2) }
+
+exec <<[[(::x)=r(::n1), (::y)=r(::n2)]];;false>>
+
+show num nodes
+show num edges
+show var x
+show var y
+
+exec { ::x = null; ::y = null }
+
+exec <<[[ for{(::x)=r(::n1);false}, for{(::y)=r(::n2);t} ]]>>
+
+show num nodes
+show num edges
+show var x
+show var y
+
+quit
