@@ -79,7 +79,7 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public class GRSImport
     {
-        INamedGraph graph;
+        INamedGraph graph; // current graph (host graph or subgraph)
         IBackend backend;
         IGraphModel model;
         String modelOverride;
@@ -92,7 +92,7 @@ namespace de.unika.ipd.grGen.libGr
         TokenKind tokenKind; // gives the kind of token matched lately
         readonly StringBuilder tokenContent; // the buffer with the token matched lately
         readonly Dictionary<string, INamedGraph> nameToSubgraph = new Dictionary<string, INamedGraph>(); // maps subgraph name to subgraph
-        readonly Dictionary<string, IObject> nameToClassObject = new Dictionary<string, IObject>(); // maps "persistent" name to class object
+        readonly Dictionary<INamedGraph, Dictionary<string, IObject>> graphToNameToClassObject = new Dictionary<INamedGraph, Dictionary<string, IObject>>(); // indexed by graph, maps "persistent" name to class object
         readonly AttributeType intAttrType = new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 
         /// <summary>
@@ -311,6 +311,7 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             nameToSubgraph.Add(graph.Name, graph);
+            graphToNameToClassObject[graph] = new Dictionary<string, IObject>();
         }
 
         private void ParseNewSubgraphCommand()
@@ -323,6 +324,7 @@ namespace de.unika.ipd.grGen.libGr
 
             graph = (INamedGraph)graph.CreateEmptyEquivalent(graphName);
             nameToSubgraph.Add(graphName, graph);
+            graphToNameToClassObject[graph] = new Dictionary<string, IObject>();
         }
 
         private void ParseNewGraphElementCommand()
@@ -662,7 +664,7 @@ namespace de.unika.ipd.grGen.libGr
             Match(TokenKind.LPARENTHESIS);
             string elemName = ParseText();
             Match(TokenKind.RPARENTHESIS);
-            return nameToClassObject[elemName];
+            return graphToNameToClassObject[graph][elemName];
         }
 
         private NodeType ParseNodeType()
@@ -949,7 +951,7 @@ namespace de.unika.ipd.grGen.libGr
                     ObjectType classObjectType = graph.Model.ObjectModel.GetType(type);
                     IObject classObject = classObjectType.CreateObject(graph, persistentName);
                     Debug.Assert(classObject.GetObjectName() == persistentName);
-                    nameToClassObject[persistentName] = classObject;
+                    graphToNameToClassObject[graph][persistentName] = classObject;
                     while(LookaheadToken() == TokenKind.COMMA) // , AttrName = Value
                     {
                         Match(TokenKind.COMMA);
@@ -1036,7 +1038,7 @@ namespace de.unika.ipd.grGen.libGr
                 ObjectType classObjectType = graph.Model.ObjectModel.GetType(type);
                 IObject classObject = classObjectType.CreateObject(graph, persistentName);
                 Debug.Assert(classObject.GetObjectName() == persistentName);
-                nameToClassObject[persistentName] = classObject;
+                graphToNameToClassObject[graph][persistentName] = classObject;
                 while(LookaheadToken() == TokenKind.COMMA) // , AttrName = Value
                 {
                     Match(TokenKind.COMMA);
