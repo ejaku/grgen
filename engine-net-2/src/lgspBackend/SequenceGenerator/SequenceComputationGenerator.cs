@@ -817,9 +817,9 @@ namespace de.unika.ipd.grGen.lgsp
                     EmitAttributeChangingEvent(seqAdd.Attribute, AttributeChangeType.PutElement, sourceValue, "null", source);
             }
             if(destinationValue != null)
-                source.AppendFrontFormat("{0}.Insert({1}, {2});\n", array, destinationValue, sourceValue);
+                source.AppendFrontFormat("((System.Collections.IList){0}).Insert({1}, {2});\n", array, destinationValue, sourceValue);
             else
-                source.AppendFrontFormat("{0}.Add({1});\n", array, sourceValue);
+                source.AppendFrontFormat("((System.Collections.IList){0}).Add({1});\n", array, sourceValue);
             if(seqAdd.Attribute != null)
                 EmitAttributeChangedEvent(seqAdd.Attribute, source);
             source.AppendFront(COMP_HELPER.SetResultVar(seqAdd, container));
@@ -850,9 +850,9 @@ namespace de.unika.ipd.grGen.lgsp
                     EmitAttributeChangingEvent(seqAdd.Attribute, AttributeChangeType.PutElement, sourceValue, "null", source);
             }
             if(destinationValue != null)
-                source.AppendFrontFormat("{0}.EnqueueAt({1}, {2});\n", deque, destinationValue, sourceValue);
+                source.AppendFrontFormat("((GRGEN_LIBGR.IDeque){0}).EnqueueAt({1}, {2});\n", deque, destinationValue, sourceValue);
             else
-                source.AppendFrontFormat("{0}.Enqueue({1});\n", deque, sourceValue);
+                source.AppendFrontFormat("((GRGEN_LIBGR.IDeque){0}).Enqueue({1});\n", deque, sourceValue);
             if(seqAdd.Attribute != null)
                 EmitAttributeChangedEvent(seqAdd.Attribute, source);
             source.AppendFront(COMP_HELPER.SetResultVar(seqAdd, container));
@@ -884,9 +884,9 @@ namespace de.unika.ipd.grGen.lgsp
                     EmitAttributeChangingEvent(seqAdd.Attribute, AttributeChangeType.PutElement, sourceValue, "null", source);
             }
             if(destinationValue != null)
-                source.AppendFrontFormat("{0}[{1}] = {2};\n", dictionary, sourceValue, destinationValue);
+                source.AppendFrontFormat("((System.Collections.IDictionary){0})[{1}] = {2};\n", dictionary, sourceValue, destinationValue);
             else
-                source.AppendFrontFormat("{0}[{1}] = null;\n", dictionary, sourceValue);
+                source.AppendFrontFormat("((System.Collections.IDictionary){0})[{1}] = null;\n", dictionary, sourceValue);
             if(seqAdd.Attribute != null)
                 EmitAttributeChangedEvent(seqAdd.Attribute, source);
             source.AppendFront(COMP_HELPER.SetResultVar(seqAdd, container));
@@ -1037,9 +1037,9 @@ namespace de.unika.ipd.grGen.lgsp
                     EmitAttributeChangingEvent(seqDel.Attribute, AttributeChangeType.RemoveElement, "null", "null", source);
             }
             if(sourceValue == null)
-                source.AppendFrontFormat("{0}.RemoveAt({0}.Count - 1);\n", array);
+                source.AppendFrontFormat("((System.Collections.IList){0}).RemoveAt({0}.Count - 1);\n", array);
             else
-                source.AppendFrontFormat("{0}.RemoveAt({1});\n", array, sourceValue);
+                source.AppendFrontFormat("((System.Collections.IList){0}).RemoveAt({1});\n", array, sourceValue);
             if(seqDel.Attribute != null)
                 EmitAttributeChangedEvent(seqDel.Attribute, source);
             source.AppendFront(COMP_HELPER.SetResultVar(seqDel, container));
@@ -1066,9 +1066,9 @@ namespace de.unika.ipd.grGen.lgsp
                     EmitAttributeChangingEvent(seqDel.Attribute, AttributeChangeType.RemoveElement, "null", "null", source);
             }
             if(sourceValue == null)
-                source.AppendFrontFormat("{0}.Dequeue();\n", deque);
+                source.AppendFrontFormat("((GRGEN_LIBGR.IDeque){0}).Dequeue();\n", deque);
             else
-                source.AppendFrontFormat("{0}.DequeueAt({1});\n", deque, sourceValue);
+                source.AppendFrontFormat("((GRGEN_LIBGR.IDeque){0}).DequeueAt({1});\n", deque, sourceValue);
             if(seqDel.Attribute != null)
                 EmitAttributeChangedEvent(seqDel.Attribute, source);
             source.AppendFront(COMP_HELPER.SetResultVar(seqDel, container));
@@ -1090,7 +1090,7 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                     EmitAttributeChangingEvent(seqDel.Attribute, AttributeChangeType.RemoveElement, "null", sourceValue, source);
             }
-            source.AppendFrontFormat("{0}.Remove({1});\n", dictionary, sourceValue);
+            source.AppendFrontFormat("((System.Collections.IDictionary){0}).Remove({1});\n", dictionary, sourceValue);
             if(seqDel.Attribute != null)
                 EmitAttributeChangedEvent(seqDel.Attribute, source);
             source.AppendFront(COMP_HELPER.SetResultVar(seqDel, container));
@@ -1216,7 +1216,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 source.Unindent();
             }
-            source.AppendFrontFormat("{0}.Clear();\n", array);
+            source.AppendFrontFormat("((System.Collections.IList){0}).Clear();\n", array);
             if(seqClear.Attribute != null)
                 EmitAttributeChangedEvent(seqClear.Attribute, source);
             source.AppendFront(COMP_HELPER.SetResultVar(seqClear, container));
@@ -1237,7 +1237,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 source.Unindent();
             }
-            source.AppendFrontFormat("{0}.Clear();\n", deque);
+            source.AppendFrontFormat("((GRGEN_LIBGR.IDeque){0}).Clear();\n", deque);
             if(seqClear.Attribute != null)
                 EmitAttributeChangedEvent(seqClear.Attribute, source);
             source.AppendFront(COMP_HELPER.SetResultVar(seqClear, container));
@@ -1253,7 +1253,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(TypesHelper.ExtractDst(seqClear.ContainerType(env)) == "SetValueType")
                 {
                     String kvp = "kvp_" + seqClear.Id;
-                    source.AppendFrontFormat("foreach(DictionaryEntry {0} in {1})\n", kvp, dictionary);
+                    source.AppendFrontFormat("foreach(DictionaryEntry {0} in (System.Collections.IDictionary){1})\n", kvp, dictionary);
                     source.Indent();
 
                     EmitAttributeChangingEvent(seqClear.Attribute, AttributeChangeType.RemoveElement, kvp, "null", source);
@@ -1263,7 +1263,7 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                 {
                     String kvp = "kvp" + seqClear.Id;
-                    source.AppendFrontFormat("foreach(DictionaryEntry {0} in {1})\n", kvp, dictionary);
+                    source.AppendFrontFormat("foreach(DictionaryEntry {0} in (System.Collections.IDictionary){1})\n", kvp, dictionary);
                     source.Indent();
 
                     EmitAttributeChangingEvent(seqClear.Attribute, AttributeChangeType.RemoveElement, "null", kvp, source);
@@ -1284,7 +1284,7 @@ namespace de.unika.ipd.grGen.lgsp
             else
             {
                 String attributeSourceExpr = exprGen.GetSequenceExpression(container.Attribute.Source, source);
-                return "((GRGEN_LIBGR.IGraphElement)" + attributeSourceExpr + ")" + ".GetAttribute(\"" + container.Attribute.AttributeName + "\")";
+                return "((GRGEN_LIBGR.IAttributeBearer)" + attributeSourceExpr + ")" + ".GetAttribute(\"" + container.Attribute.AttributeName + "\")";
             }
         }
 
@@ -1294,7 +1294,7 @@ namespace de.unika.ipd.grGen.lgsp
             string attrType = "attrType_" + attrAccess.Id;
 
             String attrSourceExpr = exprGen.GetSequenceExpression(attrAccess.Source, source);
-            source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
+            source.AppendFrontFormat("GRGEN_LIBGR.IAttributeBearer {0} = (GRGEN_LIBGR.IAttributeBearer){1};\n",
                 element, attrSourceExpr);
             source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0} = {1}.Type.GetAttributeType(\"{2}\");\n",
                 attrType, element, attrAccess.AttributeName);
