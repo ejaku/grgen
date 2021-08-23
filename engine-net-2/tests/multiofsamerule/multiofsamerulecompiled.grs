@@ -1,0 +1,55 @@
+new graph "multiofsamerule/multiofsamerule"
+
+exec init
+
+exec { ::n1 = nodes().peek(0); ::n2 = nodes().peek(1) }
+
+exec multirulequery
+show var res
+
+show num nodes
+show num edges
+
+exec multiruleprefixedsequencequery
+show var res
+
+show num nodes
+show num edges
+
+exec multiruleall
+
+show num nodes
+show num edges
+show var x
+show var y
+
+exec { ::x = null; ::y = null }
+exec { add(Edge, ::n1, ::n1); add(Edge, ::n2, ::n2) }
+
+exec multiruleprefixedsequence
+
+show num nodes
+show num edges
+show var x
+show var y
+
+exec { ::x = null; ::y = null }
+exec { add(Edge, ::n1, ::n1); add(Edge, ::n2, ::n2) }
+
+exec multibacktrack
+
+show num nodes
+show num edges
+show var x
+show var y
+
+exec { ::x = null; ::y = null }
+
+exec multiruleprefixedsequencebacktrack
+
+show num nodes
+show num edges
+show var x
+show var y
+
+quit

@@ -27,3 +27,33 @@ rule t
 		.;
 	}
 }
+
+sequence multirulequery
+{
+	{ ::res = [?[r(::n1),r(::n2)]\<class mc>] }
+}
+
+sequence multiruleprefixedsequencequery
+{
+	{ ::res = [: for{r(::n1);false}, for{r(::n2);t} :] }
+}
+
+sequence multiruleall
+{
+	[[(::x)=r(::n1),(::y)=r(::n2)]]
+}
+
+sequence multiruleprefixedsequence
+{
+	[[ for{(::x)=r(::n1);false}, for{(::y)=r(::n2);t} ]]
+}
+
+sequence multibacktrack
+{
+	<<[[(::x)=r(::n1), (::y)=r(::n2)]];;false>>
+}
+
+sequence multiruleprefixedsequencebacktrack
+{
+	<<[[ for{(::x)=r(::n1);false}, for{(::y)=r(::n2);t} ]]>>
+}

@@ -74,11 +74,15 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public void EmitAddRange(SourceBuilder source, String matchListName)
+        public void EmitToMatchListAdding(SourceBuilder source, String matchListName, String matchToConstructIndexName, int constructIndex)
         {
             source.AppendFront("if(" + matchesName + ".Count != 0) {\n");
             source.Indent();
-            source.AppendFrontFormat("{0}.AddRange({1});\n", matchListName, matchesName);
+            source.AppendFrontFormat("foreach(GRGEN_LIBGR.IMatch match in {0})\n", matchesName);
+            source.AppendFront("{\n");
+            source.AppendFrontFormat("{0}.Add(match);\n", matchListName);
+            source.AppendFrontFormat("{0}[match] = {1};\n", matchToConstructIndexName, constructIndex);
+            source.AppendFront("}\n");
             source.Unindent();
             source.AppendFront("}\n");
         }

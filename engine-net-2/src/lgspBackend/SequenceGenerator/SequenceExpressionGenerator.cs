@@ -1384,7 +1384,8 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("{\n");
             source.Indent();
 
-            source.AppendFront("switch(" + enumeratorName + ".Current.Pattern.PackagePrefixedName)\n");
+            String matchToConstructIndexName = "MatchToConstructIndex_" + seqMulti.Id;
+            source.AppendFrontFormat("switch({0}[" + enumeratorName + ".Current])\n", matchToConstructIndexName);
             source.AppendFront("{\n");
             source.Indent();
 
@@ -1393,10 +1394,10 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 SequenceMultiRulePrefixedSequenceRewritingGenerator ruleRewritingGenerator = new SequenceMultiRulePrefixedSequenceRewritingGenerator(
                     seqMulti, (SequenceRulePrefixedSequence)seqMulti.RulePrefixedSequences[i], this, seqHelper, fireDebugEvents);
-                ruleRewritingGenerator.EmitRewritingMapping(source, seqGen, matchListName, enumeratorName);
+                ruleRewritingGenerator.EmitRewritingMapping(source, seqGen, matchListName, enumeratorName, i);
             }
 
-            source.AppendFrontFormat("default: throw new Exception(\"Unknown pattern \" + {0}.Current.Pattern.PackagePrefixedName + \" in match!\");", enumeratorName);
+            source.AppendFrontFormat("default: throw new Exception(\"Unknown construct index of pattern \" + {0}.Current.Pattern.PackagePrefixedName + \" in match!\");", enumeratorName);
             source.Unindent();
             source.AppendFront("}\n");
 
@@ -1426,7 +1427,9 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // likely todo: in case of full events handling also in expressions: matches list (!= match list) missing
             String matchListName = "MatchList_" + seqMulti.Id;
+            String matchToConstructIndexName = "MatchToConstructIndex_" + seqMulti.Id;
             source.AppendFrontFormat("List<GRGEN_LIBGR.IMatch> {0} = new List<GRGEN_LIBGR.IMatch>();\n", matchListName);
+            source.AppendFrontFormat("Dictionary<GRGEN_LIBGR.IMatch, int> {0} = new Dictionary<GRGEN_LIBGR.IMatch, int>();\n", matchToConstructIndexName);
 
             // emit code for matching all the contained rules
             SequenceRuleCallMatcherGenerator[] ruleMatcherGenerators = new SequenceRuleCallMatcherGenerator[seqMulti.RulePrefixedSequences.Count];
@@ -1443,7 +1446,7 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < seqMulti.RulePrefixedSequences.Count; ++i)
             {
                 ruleMatcherGenerators[i].EmitFiltering(source);
-                ruleMatcherGenerators[i].EmitAddRange(source, matchListName);
+                ruleMatcherGenerators[i].EmitToMatchListAdding(source, matchListName, matchToConstructIndexName, i);
             }
 
             // emit code for match class (non-rule-based) filtering

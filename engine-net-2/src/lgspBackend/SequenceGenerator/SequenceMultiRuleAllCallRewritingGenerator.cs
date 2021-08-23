@@ -64,9 +64,9 @@ namespace de.unika.ipd.grGen.lgsp
                 out returnParameterDeclarationsAllCall, out intermediateReturnAssignmentsAllCall, out returnAssignmentsAllCall);
         }
 
-        public void EmitRewriting(SourceBuilder source, SequenceGenerator seqGen, String matchListName, String enumeratorName)
+        public void EmitRewriting(SourceBuilder source, SequenceGenerator seqGen, String matchListName, String enumeratorName, int constructIndex)
         {
-            source.AppendFrontFormat("case \"{0}\":\n", plainRuleName);
+            source.AppendFrontFormat("case {0}:\n", constructIndex);
             source.AppendFront("{\n");
             source.Indent();
 
