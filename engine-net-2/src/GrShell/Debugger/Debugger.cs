@@ -1399,43 +1399,73 @@ namespace de.unika.ipd.grGen.grShell
             return sb.ToString();
         }
 
-        private void DebugMatchMark(MatchMarkerAndAnnotator matchMarkerAndAnnotator, IMatches[] matchesArray)
-        {
-            if(matchesArray.Length > 1)
-            {
-                foreach(IMatches matches in matchesArray)
-                {
-                    DebugMatchMark(matchMarkerAndAnnotator, matches);
-                }
-                renderRecorder.SetCurrentRuleNameForMatchAnnotation(null);
-            }
-            else if(matchesArray.Length > 0)
-            {
-                matchMarkerAndAnnotator.MarkMatches(matchesArray[0], realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
-                matchMarkerAndAnnotator.AnnotateMatches(matchesArray[0], true);
-            }
-        }
-
         private void DebugMatchMark(MatchMarkerAndAnnotator matchMarkerAndAnnotator, IList<IMatches> matchesList)
         {
-            if(matchesList.Count > 1)
-            {
-                foreach(IMatches matches in matchesList)
-                {
-                    DebugMatchMark(matchMarkerAndAnnotator, matches);
-                }
-                renderRecorder.SetCurrentRuleNameForMatchAnnotation(null);
-            }
-            else if(matchesList.Count > 0)
+            if(matchesList.Count == 0)
+                return;
+
+            if(matchesList.Count == 1)
             {
                 matchMarkerAndAnnotator.MarkMatches(matchesList[0], realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
                 matchMarkerAndAnnotator.AnnotateMatches(matchesList[0], true);
+                return;
             }
+
+            Dictionary<string, int> rulePatternNameToCurrentInstance = GetRulePatternNamesWithMultipleInstances(matchesList);
+
+            foreach(IMatches matches in matchesList)
+            {
+                String rulePatternName = matches.Producer.RulePattern.PatternGraph.Name;
+                if(rulePatternNameToCurrentInstance.ContainsKey(rulePatternName))
+                {
+                    rulePatternNameToCurrentInstance[rulePatternName] = rulePatternNameToCurrentInstance[rulePatternName] + 1;
+                    rulePatternName = rulePatternName + "'" + rulePatternNameToCurrentInstance[rulePatternName];
+                }
+
+                DebugMatchMark(matchMarkerAndAnnotator, matches, rulePatternName);
+            }
+            renderRecorder.SetCurrentRuleNameForMatchAnnotation(null);
         }
 
-        private void DebugMatchMark(MatchMarkerAndAnnotator matchMarkerAndAnnotator, IMatches matches)
+        // returns rule pattern names that occur multiple times in the matchesArray (as producer of an IMatches object), mapping them to 0
+        private Dictionary<string, int> GetRulePatternNamesWithMultipleInstances(IList<IMatches> matchesList)
         {
-            renderRecorder.SetCurrentRuleNameForMatchAnnotation(matches.Producer.RulePattern.PatternGraph.Name);
+            Dictionary<string, int> rulePatternNameToCountInstances = new Dictionary<string, int>();
+            foreach(IMatches matches in matchesList)
+            {
+                String rulePatternName = matches.Producer.RulePattern.PatternGraph.Name;
+                if(rulePatternNameToCountInstances.ContainsKey(rulePatternName))
+                    rulePatternNameToCountInstances[rulePatternName] = rulePatternNameToCountInstances[rulePatternName] + 1;
+                else
+                    rulePatternNameToCountInstances[rulePatternName] = 1;
+            }
+
+            List<string> rulesWithOnlyOneInstance = new List<string>();
+            List<string> rulesWithMultipleInstances = new List<string>();
+            foreach(KeyValuePair<string, int> rulePatternNameWithCountInstances in rulePatternNameToCountInstances)
+            {
+                if(rulePatternNameWithCountInstances.Value == 1)
+                    rulesWithOnlyOneInstance.Add(rulePatternNameWithCountInstances.Key);
+                else
+                    rulesWithMultipleInstances.Add(rulePatternNameWithCountInstances.Key);
+            }
+
+            foreach(string ruleWithOnlyOneInstance in rulesWithOnlyOneInstance)
+            {
+                rulePatternNameToCountInstances.Remove(ruleWithOnlyOneInstance);
+            }
+
+            foreach(string ruleWithMultipleInstances in rulesWithMultipleInstances)
+            {
+                rulePatternNameToCountInstances[ruleWithMultipleInstances] = 0;
+            }
+
+            return rulePatternNameToCountInstances;
+        }
+
+        private void DebugMatchMark(MatchMarkerAndAnnotator matchMarkerAndAnnotator, IMatches matches, String rulePatternName)
+        {
+            renderRecorder.SetCurrentRuleNameForMatchAnnotation(rulePatternName);
 
             matchMarkerAndAnnotator.MarkMatches(matches, realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
             matchMarkerAndAnnotator.AnnotateMatches(matches, true);
@@ -1443,17 +1473,19 @@ namespace de.unika.ipd.grGen.grShell
 
         private void DebugMatchUnmark(MatchMarkerAndAnnotator matchMarkerAndAnnotator, IList<IMatches> matchesList)
         {
-            if(matchesList.Count > 1)
-            {
-                foreach(IMatches matches in matchesList)
-                {
-                    DebugMatchUnmark(matchMarkerAndAnnotator, matches);
-                }
-            }
-            else if(matchesList.Count > 0)
+            if(matchesList.Count == 0)
+                return;
+
+            if(matchesList.Count == 1)
             {
                 matchMarkerAndAnnotator.MarkMatches(matchesList[0], null, null);
                 matchMarkerAndAnnotator.AnnotateMatches(matchesList[0], false);
+                return;
+            }
+
+            foreach(IMatches matches in matchesList)
+            {
+                DebugMatchUnmark(matchMarkerAndAnnotator, matches);
             }
         }
 
