@@ -377,10 +377,10 @@ namespace de.unika.ipd.grGen.lgsp
         // Not changing the metadata of this, matching each that inside this, not for normal use!
         private bool IsIsomorph(LGSPGraph this_, LGSPGraph that, bool includingAttributes, int threadId)
         {
-            ++that.matchingState.numChecks;
-
             if(((LGSPGraph)that).matchingState == null)
                 ((LGSPGraph)that).matchingState = new GraphMatchingState((LGSPGraph)that);
+
+            ++that.matchingState.numChecks;
 
 #if LOG_ISOMORPHY_CHECKING
             writer.WriteLine("Check " + this_.Name + " == " + that.Name + " on thread " + threadId);
