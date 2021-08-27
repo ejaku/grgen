@@ -370,7 +370,7 @@ namespace de.unika.ipd.grGen.libGr
                 graph.ChangingNodeAttribute((INode)owner, attrType, AttributeChangeType.Assign, value, null);
             else if(owner is IEdge)
                 graph.ChangingEdgeAttribute((IEdge)owner, attrType, AttributeChangeType.Assign, value, null);
-            else
+            else if(owner is IObject)
                 graph.ChangingObjectAttribute((IObject)owner, attrType, AttributeChangeType.Assign, value, null);
         }
 
@@ -381,7 +381,7 @@ namespace de.unika.ipd.grGen.libGr
                 graph.ChangingNodeAttribute((INode)owner, attrType, AttributeChangeType.AssignElement, value, key);
             else if(owner is IEdge)
                 graph.ChangingEdgeAttribute((IEdge)owner, attrType, AttributeChangeType.AssignElement, value, key);
-            else
+            else if(owner is IObject)
                 graph.ChangingObjectAttribute((IObject)owner, attrType, AttributeChangeType.AssignElement, value, key);
         }
 
@@ -392,7 +392,7 @@ namespace de.unika.ipd.grGen.libGr
                 graph.ChangingNodeAttribute((INode)owner, attrType, AttributeChangeType.PutElement, value, optionalIndex);
             else if(owner is IEdge)
                 graph.ChangingEdgeAttribute((IEdge)owner, attrType, AttributeChangeType.PutElement, value, optionalIndex);
-            else
+            else if(owner is IObject)
                 graph.ChangingObjectAttribute((IObject)owner, attrType, AttributeChangeType.PutElement, value, optionalIndex);
         }
 
@@ -403,7 +403,7 @@ namespace de.unika.ipd.grGen.libGr
                 graph.ChangingNodeAttribute((INode)owner, attrType, AttributeChangeType.RemoveElement, null, indexToRemove);
             else if(owner is IEdge)
                 graph.ChangingEdgeAttribute((IEdge)owner, attrType, AttributeChangeType.RemoveElement, null, indexToRemove);
-            else
+            else if(owner is IObject)
                 graph.ChangingObjectAttribute((IObject)owner, attrType, AttributeChangeType.RemoveElement, null, indexToRemove);
         }
 
@@ -414,7 +414,7 @@ namespace de.unika.ipd.grGen.libGr
                 graph.ChangingNodeAttribute((INode)owner, attrType, AttributeChangeType.PutElement, value, null);
             else if(owner is IEdge)
                 graph.ChangingEdgeAttribute((IEdge)owner, attrType, AttributeChangeType.PutElement, value, null);
-            else
+            else if(owner is IObject)
                 graph.ChangingObjectAttribute((IObject)owner, attrType, AttributeChangeType.PutElement, value, null);
         }
 
@@ -425,7 +425,7 @@ namespace de.unika.ipd.grGen.libGr
                 graph.ChangingNodeAttribute((INode)owner, attrType, AttributeChangeType.RemoveElement, valueToRemove, null);
             else if(owner is IEdge)
                 graph.ChangingEdgeAttribute((IEdge)owner, attrType, AttributeChangeType.RemoveElement, valueToRemove, null);
-            else
+            else if(owner is IObject)
                 graph.ChangingObjectAttribute((IObject)owner, attrType, AttributeChangeType.RemoveElement, valueToRemove, null);
         }
 
@@ -436,7 +436,7 @@ namespace de.unika.ipd.grGen.libGr
                 graph.ChangingNodeAttribute((INode)owner, attrType, AttributeChangeType.PutElement, value, key);
             else if(owner is IEdge)
                 graph.ChangingEdgeAttribute((IEdge)owner, attrType, AttributeChangeType.PutElement, value, key);
-            else
+            else if(owner is IObject)
                 graph.ChangingObjectAttribute((IObject)owner, attrType, AttributeChangeType.PutElement, value, key);
         }
 
@@ -447,7 +447,7 @@ namespace de.unika.ipd.grGen.libGr
                 graph.ChangingNodeAttribute((INode)owner, attrType, AttributeChangeType.RemoveElement, null, keyToRemove);
             else if(owner is IEdge)
                 graph.ChangingEdgeAttribute((IEdge)owner, attrType, AttributeChangeType.RemoveElement, null, keyToRemove);
-            else
+            else if(owner is IObject)
                 graph.ChangingObjectAttribute((IObject)owner, attrType, AttributeChangeType.RemoveElement, null, keyToRemove);
         }
 
