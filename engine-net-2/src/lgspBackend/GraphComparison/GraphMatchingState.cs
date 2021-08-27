@@ -343,6 +343,7 @@ namespace de.unika.ipd.grGen.lgsp
         public int iterationLock;
         public bool includingAttributes_;
         public bool wasIso;
+        public LGSPGraph graphThatWasIso;
 
         // Called by worker thread for parallel isomorphy checking
         // Not for normal use!
@@ -358,7 +359,10 @@ namespace de.unika.ipd.grGen.lgsp
                 Interlocked.Exchange(ref iterationLock, 0); //unlock parallel enumeration with iteration lock
 
                 if(IsIsomorph(graphToCheck, that, includingAttributes_, WorkerPool.ThreadId))
+                {
                     wasIso = true;
+                    graphThatWasIso = that;
+                }
 
                 while(Interlocked.CompareExchange(ref iterationLock, 1, 0) != 0)
                 {

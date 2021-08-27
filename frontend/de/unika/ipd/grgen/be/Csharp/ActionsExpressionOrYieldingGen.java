@@ -149,6 +149,7 @@ import de.unika.ipd.grgen.ir.expr.graph.EdgeByUniqueExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EdgesExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EmptyExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EqualsAnyExpr;
+import de.unika.ipd.grgen.ir.expr.graph.GetEquivalentExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IncidentEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IndexedIncidenceCountIndexAccessExpr;
 import de.unika.ipd.grgen.ir.expr.graph.InducedSubgraphExpr;
@@ -2029,6 +2030,15 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			genExpressionTree(sb, ea.getSetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			sb.append(ea.getIncludingAttributes() ? "true" : "false");
+			sb.append(")");
+		} else if(expr instanceof GetEquivalentExpr) {
+			GetEquivalentExpr ge = (GetEquivalentExpr)expr;
+			sb.append("new GRGEN_EXPR.GetEquivalent(");
+			genExpressionTree(sb, ge.getSubgraphExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, ge.getSetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			sb.append(ge.getIncludingAttributes() ? "true" : "false");
 			sb.append(")");
 		} else if(expr instanceof MaxExpr) {
 			MaxExpr m = (MaxExpr)expr;

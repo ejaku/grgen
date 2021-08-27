@@ -742,6 +742,9 @@ public abstract class ParserEnvironment extends Base
 		case "equalsAny":
 		case "equalsAnyStructurally":
 			return numParams == 2;
+		case "getEquivalent":
+		case "getEquivalentStructurally":
+			return numParams == 2;
 		case "copy":
 		case "clone":
 			return numParams == 1;

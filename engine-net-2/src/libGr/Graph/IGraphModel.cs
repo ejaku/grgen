@@ -82,7 +82,7 @@ namespace de.unika.ipd.grGen.libGr
         bool AreFunctionsParallelized { get; }
 
         /// <summary>
-        /// Tells about the number of threads to use for the equalsAny and equalsAnyStructurally functions
+        /// Tells about the number of threads to use for the equalsAny, equalsAnyStructurally, getEquivalent, and getEquivalentStructurally functions
         /// The normal non-parallel isomorphy comparison functions are used if this value is below 2
         /// </summary>
         int BranchingFactorForEqualsAny { get; }

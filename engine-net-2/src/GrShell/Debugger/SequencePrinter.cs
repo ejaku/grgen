@@ -2080,6 +2080,9 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceExpressionType.EqualsAny:
                 PrintSequenceExpressionEqualsAny((SequenceExpressionEqualsAny)seqExpr, parent, highlightingMode, context);
                 break;
+            case SequenceExpressionType.GetEquivalent:
+                PrintSequenceExpressionGetEquivalent((SequenceExpressionGetEquivalent)seqExpr, parent, highlightingMode, context);
+                break;
             case SequenceExpressionType.Nameof:
                 PrintSequenceExpressionNameof((SequenceExpressionNameof)seqExpr, parent, highlightingMode, context);
                 break;
@@ -3078,6 +3081,15 @@ namespace de.unika.ipd.grGen.grShell
             PrintSequenceExpression(seqExprEqualsAny.Subgraph, seqExprEqualsAny, highlightingMode, context);
             WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
             PrintSequenceExpression(seqExprEqualsAny.SubgraphSet, seqExprEqualsAny, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
+        }
+
+        private static void PrintSequenceExpressionGetEquivalent(SequenceExpressionGetEquivalent seqExprGetEquivalent, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
+        {
+            WorkaroundManager.Workaround.PrintHighlighted(seqExprGetEquivalent.IncludingAttributes ? "getEquivalent(" : "getEquivalentStructurally(", highlightingMode);
+            PrintSequenceExpression(seqExprGetEquivalent.Subgraph, seqExprGetEquivalent, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
+            PrintSequenceExpression(seqExprGetEquivalent.SubgraphSet, seqExprGetEquivalent, highlightingMode, context);
             WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 

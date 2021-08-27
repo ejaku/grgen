@@ -38,6 +38,7 @@ import de.unika.ipd.grgen.ast.expr.graph.EdgeByUniqueExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EdgesExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EmptyExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EqualsAnyExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.GetEquivalentExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.IncidentEdgeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.InducedSubgraphExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.IsAdjacentNodeExprNode;
@@ -606,6 +607,18 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return null;
 			} else
 				return new EqualsAnyExprNode(env.getCoords(), arguments.get(0), arguments.get(1), false);
+		case "getEquivalent":
+			if(arguments.size() != 2) {
+				env.reportError("getEquivalent(.,.) takes two parameters.");
+				return null;
+			} else
+				return new GetEquivalentExprNode(env.getCoords(), arguments.get(0), arguments.get(1), true);
+		case "getEquivalentStructurally":
+			if(arguments.size() != 2) {
+				env.reportError("getEquivalentStructurally(.,.) takes two parameters.");
+				return null;
+			} else
+				return new GetEquivalentExprNode(env.getCoords(), arguments.get(0), arguments.get(1), false);
 		case "copy":
 			if(arguments.size() != 1) {
 				env.reportError("copy(.) takes one parameter.");

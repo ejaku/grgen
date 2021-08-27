@@ -149,6 +149,8 @@ namespace de.unika.ipd.grGen.lgsp
             // graph expressions
             case SequenceExpressionType.EqualsAny:
                 return GetSequenceExpressionEqualsAny((SequenceExpressionEqualsAny)expr, source);
+            case SequenceExpressionType.GetEquivalent:
+                return GetSequenceExpressionGetEquivalent((SequenceExpressionGetEquivalent)expr, source);
             case SequenceExpressionType.Canonize:
                 return GetSequenceExpressionCanonize((SequenceExpressionCanonize)expr, source);
             case SequenceExpressionType.Nameof:
@@ -1581,6 +1583,14 @@ namespace de.unika.ipd.grGen.lgsp
                 return "GRGEN_LIBGR.GraphHelper.EqualsAny((GRGEN_LIBGR.IGraph)" + GetSequenceExpression(seqEqualsAny.Subgraph, source) + ", (IDictionary<GRGEN_LIBGR.IGraph, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqEqualsAny.SubgraphSet, source) + ", true)";
             else
                 return "GRGEN_LIBGR.GraphHelper.EqualsAny((GRGEN_LIBGR.IGraph)" + GetSequenceExpression(seqEqualsAny.Subgraph, source) + ", (IDictionary<GRGEN_LIBGR.IGraph, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqEqualsAny.SubgraphSet, source) + ", false)";
+        }
+
+        private string GetSequenceExpressionGetEquivalent(SequenceExpressionGetEquivalent seqGetEquivalent, SourceBuilder source)
+        {
+            if(seqGetEquivalent.IncludingAttributes)
+                return "GRGEN_LIBGR.GraphHelper.GetEquivalent((GRGEN_LIBGR.IGraph)" + GetSequenceExpression(seqGetEquivalent.Subgraph, source) + ", (IDictionary<GRGEN_LIBGR.IGraph, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqGetEquivalent.SubgraphSet, source) + ", true)";
+            else
+                return "GRGEN_LIBGR.GraphHelper.GetEquivalent((GRGEN_LIBGR.IGraph)" + GetSequenceExpression(seqGetEquivalent.Subgraph, source) + ", (IDictionary<GRGEN_LIBGR.IGraph, GRGEN_LIBGR.SetValueType>)" + GetSequenceExpression(seqGetEquivalent.SubgraphSet, source) + ", false)";
         }
 
         private string GetSequenceExpressionCanonize(SequenceExpressionCanonize seqCanonize, SourceBuilder source)

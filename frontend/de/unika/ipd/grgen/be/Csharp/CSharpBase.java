@@ -122,6 +122,7 @@ import de.unika.ipd.grgen.ir.expr.graph.EdgeByUniqueExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EdgesExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EmptyExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EqualsAnyExpr;
+import de.unika.ipd.grgen.ir.expr.graph.GetEquivalentExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IncidentEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IndexedIncidenceCountIndexAccessExpr;
 import de.unika.ipd.grgen.ir.expr.graph.InducedSubgraphExpr;
@@ -2878,6 +2879,17 @@ public abstract class CSharpBase
 			genExpression(sb, ea.getSetExpr(), modifyGenerationState);
 			sb.append(", ");
 			sb.append(ea.getIncludingAttributes() ? "true" : "false");
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
+			sb.append(")");
+		} else if(expr instanceof GetEquivalentExpr) {
+			GetEquivalentExpr ge = (GetEquivalentExpr)expr;
+			sb.append("GRGEN_LIBGR.GraphHelper.GetEquivalent((GRGEN_LIBGR.IGraph)");
+			genExpression(sb, ge.getSubgraphExpr(), modifyGenerationState);
+			sb.append(", (IDictionary<GRGEN_LIBGR.IGraph, GRGEN_LIBGR.SetValueType>)");
+			genExpression(sb, ge.getSetExpr(), modifyGenerationState);
+			sb.append(", ");
+			sb.append(ge.getIncludingAttributes() ? "true" : "false");
 			if(modifyGenerationState.isToBeParallelizedActionExisting())
 				sb.append(", threadId");
 			sb.append(")");

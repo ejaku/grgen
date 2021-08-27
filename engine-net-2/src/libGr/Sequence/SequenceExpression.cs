@@ -81,7 +81,7 @@ namespace de.unika.ipd.grGen.libGr
         IsBoundedReachableNodes, IsBoundedReachableNodesViaIncoming, IsBoundedReachableNodesViaOutgoing,
         IsBoundedReachableEdges, IsBoundedReachableEdgesViaIncoming, IsBoundedReachableEdgesViaOutgoing,
         InducedSubgraph, DefinedSubgraph,
-        EqualsAny,
+        EqualsAny, GetEquivalent,
         Nameof, Uniqueof, Typeof,
         ExistsFile, Import,
         Copy,
@@ -10413,6 +10413,97 @@ namespace de.unika.ipd.grGen.libGr
                     return "equalsAny(" + Subgraph.Symbol + ", " + SubgraphSet.Symbol + ")"; 
                 else
                     return "equalsAnyStructurally(" + Subgraph.Symbol + ", " + SubgraphSet.Symbol + ")"; 
+            }
+        }
+    }
+
+    public class SequenceExpressionGetEquivalent : SequenceExpression
+    {
+        public readonly SequenceExpression Subgraph;
+        public readonly SequenceExpression SubgraphSet;
+        public readonly bool IncludingAttributes;
+
+        public SequenceExpressionGetEquivalent(SequenceExpression subgraph, SequenceExpression subgraphSet, bool includingAttributes)
+            : base(SequenceExpressionType.GetEquivalent)
+        {
+            Subgraph = subgraph;
+            SubgraphSet = subgraphSet;
+            IncludingAttributes = includingAttributes;
+        }
+
+        protected SequenceExpressionGetEquivalent(SequenceExpressionGetEquivalent that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that)
+        {
+            Subgraph = that.Subgraph.CopyExpression(originalToCopy, procEnv);
+            SubgraphSet = that.SubgraphSet.CopyExpression(originalToCopy, procEnv);
+            IncludingAttributes = that.IncludingAttributes;
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionGetEquivalent(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Subgraph.Type(env) != "")
+            {
+                if(Subgraph.Type(env) != "graph")
+                    throw new SequenceParserException(Symbol + ", first argument", "graph type", Subgraph.Type(env));
+            }
+
+            if(SubgraphSet.Type(env) != "")
+            {
+                if(!SubgraphSet.Type(env).StartsWith("set<"))
+                    throw new SequenceParserException(Symbol + ", second argument", "set<graph> type", SubgraphSet.Type(env));
+                if(TypesHelper.ExtractSrc(SubgraphSet.Type(env)) != "graph")
+                    throw new SequenceParserException(Symbol + ", second argument", "set<graph> type", SubgraphSet.Type(env));
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "graph";
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            object subgraph = Subgraph.Evaluate(procEnv);
+            object subgraphSet = SubgraphSet.Evaluate(procEnv);
+            return GraphHelper.GetEquivalent((IGraph)subgraph, (IDictionary<IGraph, SetValueType>)subgraphSet, IncludingAttributes);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Subgraph.GetLocalVariables(variables, constructors);
+            SubgraphSet.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return Subgraph;
+                yield return SubgraphSet;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                if(IncludingAttributes)
+                    return "getEquivalent(" + Subgraph.Symbol + ", " + SubgraphSet.Symbol + ")";
+                else
+                    return "getEquivalentStructurally(" + Subgraph.Symbol + ", " + SubgraphSet.Symbol + ")";
             }
         }
     }

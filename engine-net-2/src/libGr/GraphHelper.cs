@@ -6294,5 +6294,22 @@ namespace de.unika.ipd.grGen.libGr
             else
                 return candidate.HasSameStructure(graphsToCheckAgainst);
         }
+
+        /// <summary>
+        /// Returns one graph from the given set of graphs that is equivalent to the candidate (sub)graph 
+        /// </summary>
+        public static IGraph GetEquivalent(IGraph candidate, IDictionary<IGraph, SetValueType> graphsToCheckAgainst, bool includingAttributes)
+        {
+            if(candidate == null)
+                return null;
+            if(graphsToCheckAgainst == null)
+                return null;
+
+            // we're called from a non-parallel matcher, use parallel version (if available) of comparison
+            if(includingAttributes)
+                return candidate.GetIsomorph(graphsToCheckAgainst);
+            else
+                return candidate.GetSameStructure(graphsToCheckAgainst);
+        }
     }
 }

@@ -2001,10 +2001,23 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>true if any of the graphs given is isomorph to this, false otherwise</returns>
         public override bool IsIsomorph(IDictionary<IGraph, SetValueType> graphsToCheckAgainst)
         {
+            return GetIsomorph(graphsToCheckAgainst) != null;
+        }
+
+        /// <summary>
+        /// Returns the graph from the set of graphs given that is isomorphic to this graph (including the attribute values), or null if no such graph exists
+        /// If a graph changed only in attribute values since the last comparison, results will be wrong!
+        /// (Do a fake node insert and removal to ensure the graph is recognized as having changed.)
+        /// Don't call from a parallelized matcher!
+        /// </summary>
+        /// <param name="graphsToCheckAgainst">The other graph we check for isomorphy against</param>
+        /// <returns>The isomorphic graph from graphsToCheckAgainst, null if no such graph exists</returns>
+        public override IGraph GetIsomorph(IDictionary<IGraph, SetValueType> graphsToCheckAgainst)
+        {
             if(graphsToCheckAgainst.Count == 0)
-                return false;
+                return null;
             if(graphsToCheckAgainst.ContainsKey(this))
-                return true;
+                return this;
 
             lock(this)
             {
@@ -2018,9 +2031,9 @@ namespace de.unika.ipd.grGen.lgsp
                         if(((LGSPGraph)that).matchingState == null)
                             ((LGSPGraph)that).matchingState = new GraphMatchingState((LGSPGraph)that);
                         if(matchingState.IsIsomorph(this, (LGSPGraph)that, true))
-                            return true;
+                            return that;
                     }
-                    return false;
+                    return null;
                 }
                 else
                 {
@@ -2035,6 +2048,7 @@ namespace de.unika.ipd.grGen.lgsp
                     matchingState.iterationLock = 0;
                     matchingState.includingAttributes_ = true;
                     matchingState.wasIso = false;
+                    matchingState.graphThatWasIso = null;
 
                     WorkerPool.Task = matchingState.IsIsomorph;
                     WorkerPool.StartWork(Math.Min(numWorkerThreads, graphsToCheckAgainst.Count));
@@ -2042,7 +2056,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                     matchingState.graphToCheck = null;
                     matchingState.graphsToCheckAgainstIterator = null;
-                    return matchingState.wasIso;
+                    return matchingState.graphThatWasIso;
                 }
             }
         }
@@ -2087,10 +2101,21 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>true if any of the graphs given is isomorph (regarding structure) to this, false otherwise</returns>
         public override bool HasSameStructure(IDictionary<IGraph, SetValueType> graphsToCheckAgainst)
         {
+            return GetSameStructure(graphsToCheckAgainst) != null;
+        }
+
+        /// <summary>
+        /// Returns the graph from the set of graphs given that is isomorphic to this graph (neglecting the attribute values, only structurally), or null if no such graph exists
+        /// Don't call from a parallelized matcher!
+        /// </summary>
+        /// <param name="graphsToCheckAgainst">The other graphs we check for isomorphy against, neglecting attribute values</param>
+        /// <returns>The isomorphic graph from graphsToCheckAgainst (regarding structure), null if no such graph exists</returns>
+        public override IGraph GetSameStructure(IDictionary<IGraph, SetValueType> graphsToCheckAgainst)
+        {
             if(graphsToCheckAgainst.Count == 0)
-                return false;
+                return null;
             if(graphsToCheckAgainst.ContainsKey(this))
-                return true;
+                return this;
 
             lock(this)
             {
@@ -2104,9 +2129,9 @@ namespace de.unika.ipd.grGen.lgsp
                         if(((LGSPGraph)that).matchingState == null)
                             ((LGSPGraph)that).matchingState = new GraphMatchingState((LGSPGraph)that);
                         if(matchingState.IsIsomorph(this, (LGSPGraph)that, false))
-                            return true;
+                            return that;
                     }
-                    return false;
+                    return null;
                 }
                 else
                 {
@@ -2121,6 +2146,7 @@ namespace de.unika.ipd.grGen.lgsp
                     matchingState.iterationLock = 0;
                     matchingState.includingAttributes_ = false;
                     matchingState.wasIso = false;
+                    matchingState.graphThatWasIso = null;
 
                     WorkerPool.Task = matchingState.IsIsomorph;
                     WorkerPool.StartWork(Math.Min(numWorkerThreads, graphsToCheckAgainst.Count));
@@ -2128,7 +2154,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                     matchingState.graphToCheck = null;
                     matchingState.graphsToCheckAgainstIterator = null;
-                    return matchingState.wasIso;
+                    return matchingState.graphThatWasIso;
                 }
             }
         }

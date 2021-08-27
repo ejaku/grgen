@@ -1,0 +1,33 @@
+using equalsAnyModel;
+
+rule r(ref s:set<graph>)
+{
+	if{ getEquivalent(this, s) != null; }
+	
+	modify {
+	---
+		def var g:graph;
+		eval {
+			yield g = getEquivalent(this, s);
+		}
+		
+		exec({{getEquivalent(g, s) != null}});
+	}
+}
+
+rule rp[parallelize=2](ref s:set<graph>, ref dummy:set<Node>)
+{
+	n:Node{dummy}; // needed so there is sth that can be parallelized
+
+	if{ nameof(n)=="foo" && getEquivalent(this, s) != null; }
+	
+	modify {
+	---
+		def var g:graph;
+		eval {
+			yield g = getEquivalent(this, s);
+		}
+		
+		exec({{getEquivalent(g, s) != null}});
+	}
+}

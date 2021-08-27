@@ -323,7 +323,11 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                 if(IsProcedureName(procedureName, package))
                     return CreateSequenceComputationProcedureCallUserProcedure(procedureName, package, argExprs, returnVars);
                 else
-                    throw new ParseException("Unknown procedure name: \"" + procedureName + "\"! (available are valloc|vfree|vfreenonreset|vreset|emit|emitdebug|record|File::export|File::delete|add|addCopy|rem|clear|retype|merge|redirectSource|redirectTarget|redirectSourceAndTarget|insert|insertCopy|insertInduced|insertDefined or one of the procedureNames defined in the .grg: " + GetProcedureNames() + ")");
+                    throw new ParseException("Unknown procedure name: \"" + procedureName + "\"!"
+                        + " (available are valloc|vfree|vfreenonreset|vreset|emit|emitdebug|record|File::export|File::delete"
+                        + "|add|addCopy|rem|clear|retype|merge|redirectSource|redirectTarget|redirectSourceAndTarget"
+                        + "|insert|insertCopy|insertInduced|insertDefined"
+                        + " or one of the procedureNames defined in the .grg: " + GetProcedureNames() + ")");
             }
         }
 
@@ -803,6 +807,18 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                     throw new ParseException("\"" + functionName + "\" expects 2 parameters (the subgraph, and the set of subgraphs to compare against)");
                 return new SequenceExpressionEqualsAny(getArgument(argExprs, 0), getArgument(argExprs, 1), false);
             }
+            else if(functionName == "getEquivalent" && PackageIsNullOrGlobal(package))
+            {
+                if(argExprs.Count != 2)
+                    throw new ParseException("\"" + functionName + "\" expects 2 parameters (the subgraph, and the set of subgraphs to compare against)");
+                return new SequenceExpressionGetEquivalent(getArgument(argExprs, 0), getArgument(argExprs, 1), true);
+            }
+            else if(functionName == "getEquivalentStructurally" && PackageIsNullOrGlobal(package))
+            {
+                if(argExprs.Count != 2)
+                    throw new ParseException("\"" + functionName + "\" expects 2 parameters (the subgraph, and the set of subgraphs to compare against)");
+                return new SequenceExpressionGetEquivalent(getArgument(argExprs, 0), getArgument(argExprs, 1), false);
+            }
             else if(functionName == "source" && PackageIsNullOrGlobal(package))
             {
                 if(argExprs.Count != 1)
@@ -1106,7 +1122,21 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                     if(functionName == "valloc" || functionName == "add" || functionName == "retype" || functionName == "insertInduced" || functionName == "insertDefined")
                         throw new ParseException("\"" + functionName + "\" is a procedure, call with (var)=" + functionName + "();");
                     else
-                        throw new ParseException("Unknown function name: \"" + functionName + "\"! (available are nodes|edges|empty|size|adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing|reachable|reachableIncoming|reachableOutgoing|reachableEdges|reachableEdgesIncoming|reachableEdgesOutgoing|boundedReachable|boundedReachableIncoming|boundedReachableOutgoing|boundedReachableEdges|boundedReachableEdgesIncoming|boundedReachableEdgesOutgoing|boundedReachableWithRemainingDepth|boundedReachableWithRemainingDepthIncoming|boundedReachableWithRemainingDepthOutgoing|countNodes|countEdges|countAdjacent|countAdjacentIncoming|countAdjacentOutgoing|countIncident|countIncoming|countOutgoing|countReachable|countReachableIncoming|countReachableOutgoing|countReachableEdges|countReachableEdgesIncoming|countReachableEdgesOutgoing|countBoundedReachable|countBoundedReachableIncoming|countBoundedReachableOutgoing|countBoundedReachableEdges|countBoundedReachableEdgesIncoming|countBoundedReachableEdgesOutgoing|isAdjacent|isAdjacentIncoming|isAdjacentOutgoing|isIncident|isIncoming|isOutgoing|isReachable|isReachableIncoming|isReachableOutgoing|isReachableEdges|isReachableEdgeIncoming|isReachableEdgesOutgoing|isBoundedReachable|isBoundedReachableIncoming|isBoundedReachableOutgoing|isBoundedReachableEdges|isBoundedReachableEdgeIncoming|isBoundedReachableEdgesOutgoing|inducedSubgraph|definedSubgraph|equalsAny|equalsAnyStructurally|source|target|opposite|nameof|uniqueof|File::exists|File::import|copy|random|canonize|nodeByName|edgeByName|nodeByUnique|edgeByUnique|typeof or one of the functionNames defined in the .grg:" + GetFunctionNames() + ")");
+                        throw new ParseException("Unknown function name: \"" + functionName + "\"!"
+                            + " (available are nodes|edges|empty|size|adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing"
+                            + "|reachable|reachableIncoming|reachableOutgoing|reachableEdges|reachableEdgesIncoming|reachableEdgesOutgoing"
+                            + "|boundedReachable|boundedReachableIncoming|boundedReachableOutgoing|boundedReachableEdges|boundedReachableEdgesIncoming|boundedReachableEdgesOutgoing"
+                            + "|boundedReachableWithRemainingDepth|boundedReachableWithRemainingDepthIncoming|boundedReachableWithRemainingDepthOutgoing"
+                            + "|countNodes|countEdges|countAdjacent|countAdjacentIncoming|countAdjacentOutgoing|countIncident|countIncoming|countOutgoing"
+                            + "|countReachable|countReachableIncoming|countReachableOutgoing|countReachableEdges|countReachableEdgesIncoming|countReachableEdgesOutgoing"
+                            + "|countBoundedReachable|countBoundedReachableIncoming|countBoundedReachableOutgoing|countBoundedReachableEdges|countBoundedReachableEdgesIncoming|countBoundedReachableEdgesOutgoing"
+                            + "|isAdjacent|isAdjacentIncoming|isAdjacentOutgoing|isIncident|isIncoming|isOutgoing"
+                            + "|isReachable|isReachableIncoming|isReachableOutgoing|isReachableEdges|isReachableEdgeIncoming|isReachableEdgesOutgoing"
+                            + "|isBoundedReachable|isBoundedReachableIncoming|isBoundedReachableOutgoing|isBoundedReachableEdges|isBoundedReachableEdgeIncoming|isBoundedReachableEdgesOutgoing"
+                            + "|inducedSubgraph|definedSubgraph|equalsAny|equalsAnyStructurally|getEquivalent|getEquivalentStructurally"
+                            + "|source|target|opposite|nameof|uniqueof"
+                            + "|File::exists|File::import|copy|random|canonize|nodeByName|edgeByName|nodeByUnique|edgeByUnique|typeof"
+                            + " or one of the functionNames defined in the .grg:" + GetFunctionNames() + ")");
                 }
             }
         }
@@ -1406,7 +1436,8 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                     throw new ParseException("\"" + functionMethodName + "\" expects one or two parameters)");
                 return new SequenceExpressionArrayIndexOfOrderedBy(targetExpr, memberOrAttributeName, argExprs[0]);
             }
-            throw new ParseException("Unknown array attribute access function method name: \"" + functionMethodName + "\"! (available are extract,orderAscendingBy,orderDescendingBy,groupBy,keepOneForEach,indexOfBy,lastIndexOfBy,indexOfOrderedBy)");
+            throw new ParseException("Unknown array attribute access function method name: \"" + functionMethodName + "\"!"
+                + " (available are extract,orderAscendingBy,orderDescendingBy,groupBy,keepOneForEach,indexOfBy,lastIndexOfBy,indexOfOrderedBy)");
         }
 
         public SequenceExpression CreateSequenceExpressionPerElementMethodCall(SequenceExpression targetExpr,
@@ -1421,7 +1452,8 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             {
                 return new SequenceExpressionArrayRemoveIf(targetExpr, arrayAccess, index, var, argExpr);
             }
-            throw new ParseException("Unknown per element attribute access function method name: \"" + functionMethodName + "\"! (available are map, removeIf, mapStartWithAccumulateBy)");
+            throw new ParseException("Unknown per element attribute access function method name: \"" + functionMethodName + "\"!"
+                + " (available are map, removeIf, mapStartWithAccumulateBy)");
         }
 
         public SequenceExpression CreateSequenceExpressionPerElementMethodCall(SequenceExpression targetExpr,
@@ -1434,7 +1466,8 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                 return new SequenceExpressionArrayMapStartWithAccumulateBy(targetExpr, typeName, initArrayAccess, initExpr,
                     arrayAccess, previousAccumulationAccess, index, var, argExpr);
             }
-            throw new ParseException("Unknown per element attribute access function method name: \"" + functionMethodName + "\"! (available are map, removeIf, mapStartWithAccumulateBy)");
+            throw new ParseException("Unknown per element attribute access function method name: \"" + functionMethodName + "\"!"
+                + " (available are map, removeIf, mapStartWithAccumulateBy)");
         }
 
         abstract public bool IsFunctionName(String functionName, String package);

@@ -4739,5 +4739,32 @@ namespace de.unika.ipd.grGen.libGr
             }
             return false;
         }
+
+        public static IGraph GetEquivalent(IGraph candidate, IDictionary<IGraph, SetValueType> graphsToCheckAgainst, bool includingAttributes, int threadId)
+        {
+            if(candidate == null)
+                return null;
+            if(graphsToCheckAgainst == null)
+                return null;
+
+            // we're called from a parallel matcher, use non-parallel version of comparison
+            if(includingAttributes)
+            {
+                foreach(IGraph graphToCheckAgainst in graphsToCheckAgainst.Keys)
+                {
+                    if(candidate.IsIsomorph(graphToCheckAgainst))
+                        return graphToCheckAgainst;
+                }
+            }
+            else
+            {
+                foreach(IGraph graphToCheckAgainst in graphsToCheckAgainst.Keys)
+                {
+                    if(candidate.HasSameStructure(graphToCheckAgainst))
+                        return graphToCheckAgainst;
+                }
+            }
+            return null;
+        }
     }
 }

@@ -4506,6 +4506,54 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression returning the equivalent subgraph from the given set to the given subgraph
+    /// </summary>
+    public class GetEquivalent : Expression
+    {
+        public GetEquivalent(Expression subgraph, Expression subgraphSet, bool includingAttributes)
+        {
+            Subgraph = subgraph;
+            SubgraphSet = subgraphSet;
+            IncludingAttributes = includingAttributes;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new GetEquivalent(Subgraph.Copy(renameSuffix), SubgraphSet.Copy(renameSuffix), IncludingAttributes);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.GetEquivalent((GRGEN_LIBGR.IGraph)");
+            Subgraph.Emit(sourceCode);
+            sourceCode.Append(", (IDictionary<GRGEN_LIBGR.IGraph, GRGEN_LIBGR.SetValueType>)");
+            SubgraphSet.Emit(sourceCode);
+            sourceCode.Append(", ");
+            sourceCode.Append(IncludingAttributes ? "true" : "false");
+            if(Parallel)
+                sourceCode.AppendFront(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Subgraph;
+            yield return SubgraphSet;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        bool Parallel;
+
+        readonly Expression Subgraph;
+        readonly Expression SubgraphSet;
+        readonly bool IncludingAttributes;
+    }
+
+    /// <summary>
     /// Class representing expression returning a canonical string representation of a graph
     /// </summary>
     public class Canonize : Expression

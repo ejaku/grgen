@@ -1,0 +1,33 @@
+using equalsAnyModel;
+
+rule r(ref s:set<graph>)
+{
+	if{ getEquivalentStructurally(this, s) != null; }
+	
+	modify {
+	---
+		def var g:graph;
+		eval {
+			yield g = getEquivalentStructurally(this, s);
+		}
+		
+		exec({{getEquivalentStructurally(g, s) != null}});
+	}
+}
+
+rule rp[parallelize=2](ref s:set<graph>)
+{
+	.; // needed so there is sth that can be parallelized
+	
+	if{ getEquivalentStructurally(this, s) != null; }
+	
+	modify {
+	---
+		def var g:graph;
+		eval {
+			yield g = getEquivalentStructurally(this, s);
+		}
+		
+		exec({{getEquivalentStructurally(g, s) != null}});
+	}
+}
