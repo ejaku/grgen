@@ -738,7 +738,7 @@ void VariableDefinitionList(List<SequenceVariable> variables):
     SequenceVariable var;
 }
 {
-    var=VariableDefinition() { variables.Add(var); } ( "," var=VariableDefinition() { variables.Add(var); } )*
+    ( var=VariableDefinition() { variables.Add(var); } ( "," var=VariableDefinition() { variables.Add(var); } )* )?
 }
 
 String Type():
