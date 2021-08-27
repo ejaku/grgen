@@ -6,16 +6,7 @@ exec init
 
 exec { ::statespace = new set<graph>{} }
 
-def stateStepMapping(level:int) { false }
-def stateStepMapping(level:int) {\
-	if { {{level < ::stopLevel}};\
-		{ ::statestep = [: for{insertRed; {::statespace.add(this)} ;> stateStepMapping(level + 1)},\
-							for{insertGreen; {::statespace.add(this)} ;> stateStepMapping(level + 1)},\
-							for{insertBlue; {::statespace.add(this)} ;> stateStepMapping(level + 1)} :] }\
-	}\
-}
-
-exec ::stopLevel=2 ;> stateStepMapping(0)
+exec stateSpaceStaticTwiceMappingIsoCheckCompiled
 
 show var statestep
 show var statespace

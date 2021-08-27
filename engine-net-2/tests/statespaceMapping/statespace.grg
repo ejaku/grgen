@@ -84,29 +84,104 @@ sequence stateSpaceStaticMappingCompiled
 sequence stateSpaceStaticTwiceMappingCompiled
 {
 	{ ::statestep =
-		[: for{ insertRed; { ::statespace.add(this); {[: for{insertRed; {::statespace.add(this)} ;> true}, for{insertGreen; {::statespace.add(this)} ;> true}, for{insertBlue; {::statespace.add(this)} ;> true} :]} } },
-			for{ insertGreen; { ::statespace.add(this); {[: for{insertRed; {::statespace.add(this)} ;> true}, for{insertGreen; {::statespace.add(this)} ;> true}, for{insertBlue; {::statespace.add(this)} ;> true} :]} } },
-			for{ insertBlue; { ::statespace.add(this); {[: for{insertRed; {::statespace.add(this)} ;> true}, for{insertGreen; {::statespace.add(this)} ;> true}, for{insertBlue; {::statespace.add(this)} ;> true} :]} } } 
-			:]
+		[: for{ insertRed; { ::statespace.add(this);
+				{[: for{insertRed; {::statespace.add(this)} ;> true},
+					for{insertGreen; {::statespace.add(this)} ;> true},
+					for{insertBlue; {::statespace.add(this)} ;> true} :]} } },
+			for{ insertGreen; { ::statespace.add(this);
+					{[: for{insertRed; {::statespace.add(this)} ;> true},
+						for{insertGreen; {::statespace.add(this)} ;> true},
+						for{insertBlue; {::statespace.add(this)} ;> true} :]} } },
+			for{ insertBlue; { ::statespace.add(this);
+					{[: for{insertRed; {::statespace.add(this)} ;> true},
+						for{insertGreen; {::statespace.add(this)} ;> true},
+						for{insertBlue; {::statespace.add(this)} ;> true} :]} } }
+		:]
 	}
 }
 
-sequence stateStepCompiled(level:int)
+sequence addIfNotExistingCompiled()
+{
+	if { {{!equalsAny(this, ::statespace)}};
+		{ ::statespace.add(this) }
+	}
+}
+
+sequence stateSpaceStaticTwiceMappingIsoCheckCompiled
+{
+	{ ::statestep =
+		[: for{ insertRed; { ::statespace.add(this);
+				{[: for{insertRed; addIfNotExistingCompiled() ;> true},
+					for{insertGreen; addIfNotExistingCompiled() ;> true},
+					for{insertBlue; addIfNotExistingCompiled() ;> true} :]} } },
+			for{ insertGreen; { ::statespace.add(this);
+					{[: for{insertRed; addIfNotExistingCompiled() ;> true},
+						for{insertGreen; addIfNotExistingCompiled() ;> true},
+						for{insertBlue; addIfNotExistingCompiled() ;> true} :]} } },
+			for{ insertBlue; { ::statespace.add(this);
+					{[: for{insertRed; addIfNotExistingCompiled() ;> true},
+						for{insertGreen; addIfNotExistingCompiled() ;> true},
+						for{insertBlue; addIfNotExistingCompiled() ;> true} :]} } }
+		:]
+	}
+}
+
+sequence stateStepMappingCompiled(level:int)
 {
 	if { {{level < ::stopLevel}};
-		{ ::statestep = [: for{insertRed; {::statespace.add(this)} ;> stateStepCompiled(level + 1)},
-							for{insertGreen; {::statespace.add(this)} ;> stateStepCompiled(level + 1)},
-							for{insertBlue; {::statespace.add(this)} ;> stateStepCompiled(level + 1)}
+		{ ::statestep = [: for{insertRed; {::statespace.add(this)} ;> stateStepMappingCompiled(level + 1)},
+							for{insertGreen; {::statespace.add(this)} ;> stateStepMappingCompiled(level + 1)},
+							for{insertBlue; {::statespace.add(this)} ;> stateStepMappingCompiled(level + 1)}
 						:] }
 	}
 }
 
-sequence stateStepMappingCompiled(level:int, parent:StatespaceTree)
+sequence stateStepMappingIsoCheckCompiled(level:int)
 {
 	if { {{level < ::stopLevel}};
-		{ ::statestep = [: for{insertRed; child:StatespaceTree ;> {::statespace.add(this); child = new StatespaceTree@(gr=this); parent.children.add(child) } ;> stateStepMappingCompiled(level + 1, child)},
-							for{insertGreen; child:StatespaceTree ;> {::statespace.add(this); child = new StatespaceTree@(gr=this); parent.children.add(child) } ;> stateStepMappingCompiled(level + 1, child)},
-							for{insertBlue; child:StatespaceTree ;> {::statespace.add(this); child = new StatespaceTree@(gr=this); parent.children.add(child) } ;> stateStepMappingCompiled(level + 1, child)}
+		{ ::statestep = [: for{insertRed; addIfNotExistingCompiled() ;> stateStepMappingIsoCheckCompiled(level + 1)},
+							for{insertGreen; addIfNotExistingCompiled() ;> stateStepMappingIsoCheckCompiled(level + 1)},
+							for{insertBlue; addIfNotExistingCompiled() ;> stateStepMappingIsoCheckCompiled(level + 1)}
+						:] }
+	}
+}
+
+sequence stateStepMappingTreeCompiled(level:int, parent:StatespaceObject)
+{
+	if { {{level < ::stopLevel}};
+		{ ::statestep = [: for{insertRed; child:StatespaceObject ;> {::statespace.add(this); child = new StatespaceObject@(gr=this); parent.successors.add(child) } ;> stateStepMappingTreeCompiled(level + 1, child)},
+							for{insertGreen; child:StatespaceObject ;> {::statespace.add(this); child = new StatespaceObject@(gr=this); parent.successors.add(child) } ;> stateStepMappingTreeCompiled(level + 1, child)},
+							for{insertBlue; child:StatespaceObject ;> {::statespace.add(this); child = new StatespaceObject@(gr=this); parent.successors.add(child) } ;> stateStepMappingTreeCompiled(level + 1, child)}
+						:] }
+	}
+}
+
+sequence linkAndAddIfNotExistingCompiled(parent:StatespaceObject) : (successor:StatespaceObject)
+{
+	equivalent:graph ;> { equivalent = getEquivalent(this, ::statespace) } ;>
+	if { {{equivalent == null}};
+		{
+			::statespace.add(this);
+			successor = new StatespaceObject@(gr=this);
+			parent.successors.add(successor);
+			::statespaceObjectToGraph.add(successor, this);
+			::statespaceGraphToObject.add(this, successor);
+			{ true }
+		};
+		{
+			equivalentStatespaceObject:StatespaceObject = ::statespaceGraphToObject[equivalent];
+			parent.successors.add(equivalentStatespaceObject);
+			successor = null;
+			{ false }
+		}
+	}
+}
+
+sequence stateStepMappingGraphCompiled(level:int, parent:StatespaceObject) {
+	if { {{level < ::stopLevel}};
+		{ ::statestep = [: for{insertRed; (successor:StatespaceObject)=linkAndAddIfNotExistingCompiled(parent) && stateStepMappingGraphCompiled(level + 1, successor)},
+							for{insertGreen; (successor:StatespaceObject)=linkAndAddIfNotExistingCompiled(parent) && stateStepMappingGraphCompiled(level + 1, successor)},
+							for{insertBlue; (successor:StatespaceObject)=linkAndAddIfNotExistingCompiled(parent) && stateStepMappingGraphCompiled(level + 1, successor)}
 						:] }
 	}
 }

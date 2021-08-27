@@ -6,7 +6,9 @@ exec init
 
 exec { ::statespace = new set<graph>{} }
 
-exec { ::statestep = [: for{insertRed; {::statespace.add(this)} ;> true}, for{insertGreen; {::statespace.add(this)} ;> true}, for{insertBlue; {::statespace.add(this)} ;> true} :] }
+exec { ::statestep = [: for{insertRed; {::statespace.add(this)} ;> true},\
+						for{insertGreen; {::statespace.add(this)} ;> true},\
+						for{insertBlue; {::statespace.add(this)} ;> true} :] }
 
 show var statestep
 show var statespace

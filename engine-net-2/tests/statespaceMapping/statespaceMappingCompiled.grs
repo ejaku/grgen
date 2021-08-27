@@ -6,7 +6,7 @@ exec init
 
 exec { ::statespace = new set<graph>{} }
 
-exec ::stopLevel=2 ;> stateStepCompiled(0)
+exec ::stopLevel=2 ;> stateStepMappingCompiled(0)
 
 show var statestep
 show var statespace

@@ -1,0 +1,39 @@
+new graph statespaceMapping/statespace
+
+include statespaceMapping/statespacelayout.grsi
+
+exec init
+
+exec { ::statespace = new set<graph>{} }
+
+def addIfNotExisting() { false }
+def addIfNotExisting() {\
+	if { {{!equalsAny(this, ::statespace)}};\
+		{ ::statespace.add(this) }\
+	}\
+}
+
+exec { ::statestep = [: for{ insertRed; { ::statespace.add(this);\
+							{[: for{insertRed; addIfNotExisting() ;> true},\
+								for{insertGreen; addIfNotExisting() ;> true},\
+								for{insertBlue; addIfNotExisting() ;> true} :]} } },\
+						for{ insertGreen; { ::statespace.add(this);\
+							{[: for{insertRed; addIfNotExisting() ;> true},\
+								for{insertGreen; addIfNotExisting() ;> true},\
+								for{insertBlue; addIfNotExisting() ;> true} :]} } },\
+						for{ insertBlue; { ::statespace.add(this);\
+							{[: for{insertRed; addIfNotExisting() ;> true},\
+								for{insertGreen; addIfNotExisting() ;> true},\
+								for{insertBlue; addIfNotExisting() ;> true} :]} } }\
+						:] }
+
+show var statestep
+show var statespace
+
+show num nodes Red
+show num nodes Green
+show num nodes Blue
+
+exec for{g:graph in ::statespace; in g { { emit("The value of variable \"redgreenblue\" of type foobar is: ", nodes(Red).size(), nodes(Green).size(), nodes(Blue).size(), "\n") } } } 
+
+exit

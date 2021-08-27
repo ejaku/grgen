@@ -6,13 +6,13 @@ node class Blue extends Color;
 
 // the statespace / meta level
 
-class StatespaceTree
+class StatespaceObject
 {
 	gr:graph;
-	children:set<StatespaceTree>;
+	successors:set<StatespaceObject>;
 }
 
-//for equalsAny[parallelize=2];
+for equalsAny[parallelize=2];
 
 // todo: node/edge classes for better visualization of statespace
 

@@ -4,19 +4,12 @@ include statespaceMapping/statespacelayout.grsi
 
 exec init ;> ::statespaceRoot = new StatespaceObject@(gr=this)
 
-exec { ::statespace = new set<graph>{} }
+# initial graph not added, won't be reached by always-adding insert rules, is altered in some scenarios (containing the statespace representation)
+exec ::statespace = new set<graph>{}\
+	;> ::statespaceObjectToGraph = new map<StatespaceObject, graph>{}\
+	;> ::statespaceGraphToObject = new map<graph, StatespaceObject>{}
 
-def stateStepMappingTree(level:int, parent:StatespaceObject) { false }
-def stateStepMappingTree(level:int, parent:StatespaceObject) {\
-	if { {{level < ::stopLevel}};\
-		{ ::statestep = [: for{insertRed; child:StatespaceObject ;> {::statespace.add(this); child = new StatespaceObject@(gr=this); parent.successors.add(child) } ;> stateStepMappingTree(level + 1, child)},\
-							for{insertGreen; child:StatespaceObject ;> {::statespace.add(this); child = new StatespaceObject@(gr=this); parent.successors.add(child) } ;> stateStepMappingTree(level + 1, child)},\
-							for{insertBlue; child:StatespaceObject ;> {::statespace.add(this); child = new StatespaceObject@(gr=this); parent.successors.add(child) } ;> stateStepMappingTree(level + 1, child)}\
-						:] }\
-	}\
-}
-
-exec ::stopLevel=2 ;> stateStepMappingTree(0, ::statespaceRoot)
+exec ::stopLevel=2 ;> stateStepMappingGraphCompiled(0, ::statespaceRoot)
 
 show var statestep
 show var statespace

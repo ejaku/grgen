@@ -1,0 +1,76 @@
+new graph statespaceMapping/statespace
+
+include statespaceMapping/statespacelayout.grsi
+
+exec init ;> ::statespaceRoot = new StatespaceObject@(gr=this)
+
+# initial graph not added, won't be reached by always-adding insert rules, is altered in some scenarios (containing the statespace representation)
+exec ::statespace = new set<graph>{}\
+	;> ::statespaceObjectToGraph = new map<StatespaceObject, graph>{}\
+	;> ::statespaceGraphToObject = new map<graph, StatespaceObject>{}
+
+def linkAndAddIfNotExisting(parent:StatespaceObject) : (successor:StatespaceObject) { false }
+def linkAndAddIfNotExisting(parent:StatespaceObject) : (successor:StatespaceObject) {\
+	equivalent:graph ;> { equivalent = getEquivalent(this, ::statespace) } ;>\
+	if { {{equivalent == null}};\
+		{\
+			::statespace.add(this);\
+			successor = new StatespaceObject@(gr=this);\
+			parent.successors.add(successor);\
+			::statespaceObjectToGraph.add(successor, this);\
+			::statespaceGraphToObject.add(this, successor);\
+			{ true }\
+		};\
+		{\
+			equivalentStatespaceObject:StatespaceObject = ::statespaceGraphToObject[equivalent];\
+			parent.successors.add(equivalentStatespaceObject);\
+			successor = null;\
+			{ false }\
+		}\
+	}\
+}
+
+def stateStepMappingGraph(level:int, parent:StatespaceObject) { false }
+def stateStepMappingGraph(level:int, parent:StatespaceObject) {\
+	if { {{level < ::stopLevel}};\
+		{ ::statestep = [: for{insertRed; (successor:StatespaceObject)=linkAndAddIfNotExisting(parent) && stateStepMappingGraph(level + 1, successor)},\
+							for{insertGreen; (successor:StatespaceObject)=linkAndAddIfNotExisting(parent) && stateStepMappingGraph(level + 1, successor)},\
+							for{insertBlue; (successor:StatespaceObject)=linkAndAddIfNotExisting(parent) && stateStepMappingGraph(level + 1, successor)}\
+						:] }\
+	}\
+}
+
+exec ::stopLevel=2 ;> stateStepMappingGraph(0, ::statespaceRoot)
+
+show var statestep
+show var statespace
+
+show var statespaceRoot
+
+exec { ::statespaceRootChild0 = ::statespaceRoot.successors.peek(0) }
+exec { ::statespaceRootChild1 = ::statespaceRoot.successors.peek(1) }
+exec { ::statespaceRootChild2 = ::statespaceRoot.successors.peek(2) }
+show var statespaceRootChild0
+show var statespaceRootChild1
+show var statespaceRootChild2
+
+exec { ::statespaceRootChild00 = ::statespaceRootChild0.successors.peek(0) }
+exec { ::statespaceRootChild01 = ::statespaceRootChild0.successors.peek(1) }
+exec { ::statespaceRootChild02 = ::statespaceRootChild0.successors.peek(2) }
+exec { ::statespaceRootChild03 = ::statespaceRootChild0.successors.peek(3) }
+show var statespaceRootChild00
+show var statespaceRootChild01
+show var statespaceRootChild02
+show var statespaceRootChild03
+
+#note: the StatespaceObject are created in different graphs, have thus the same graph-based id
+#building a common data structure from them is illegal, correct behavior would be to create them all in the root graph 
+#(or to use them only in their corresponding subgraph, not building a shared data structure)
+
+show num nodes Red
+show num nodes Green
+show num nodes Blue
+
+exec for{g:graph in ::statespace; in g { { emit("The value of variable \"redgreenblue\" of type foobar is: ", nodes(Red).size(), nodes(Green).size(), nodes(Blue).size(), "\n") } } } 
+
+exit
