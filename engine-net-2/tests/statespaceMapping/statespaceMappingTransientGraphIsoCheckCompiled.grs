@@ -1,0 +1,43 @@
+new graph statespaceMapping/statespace
+
+include statespaceMapping/statespacelayout.grsi
+
+exec init ;> ::statespaceRoot = new TransientStatespaceObject@(gr=this)
+
+# initial graph not added, won't be reached by always-adding insert rules, is altered in some scenarios (containing the statespace representation)
+exec ::statespace = new set<graph>{}\
+	;> ::statespaceObjectToGraph = new map<TransientStatespaceObject, graph>{}\
+	;> ::statespaceGraphToObject = new map<graph, TransientStatespaceObject>{}
+
+exec ::stopLevel=2 ;> stateStepMappingTransientGraphCompiled(0, ::statespaceRoot)
+
+show var statestep
+show var statespace
+
+show var statespaceRoot
+
+exec { ::statespaceRootChild0 = ::statespaceRoot.successors.peek(0) }
+exec { ::statespaceRootChild1 = ::statespaceRoot.successors.peek(1) }
+exec { ::statespaceRootChild2 = ::statespaceRoot.successors.peek(2) }
+show var statespaceRootChild0
+show var statespaceRootChild1
+show var statespaceRootChild2
+
+exec { ::statespaceRootChild00 = ::statespaceRootChild0.successors.peek(0) }
+exec { ::statespaceRootChild01 = ::statespaceRootChild0.successors.peek(1) }
+exec { ::statespaceRootChild02 = ::statespaceRootChild0.successors.peek(2) }
+exec { ::statespaceRootChild03 = ::statespaceRootChild0.successors.peek(3) }
+show var statespaceRootChild00
+show var statespaceRootChild01
+show var statespaceRootChild02
+show var statespaceRootChild03
+
+#note: the TransientStatespaceObject are created outside of the graphs (in contrast to the StatespaceObject of the non-transient tests)
+
+show num nodes Red
+show num nodes Green
+show num nodes Blue
+
+exec for{g:graph in ::statespace; in g { { emit("The value of variable \"redgreenblue\" of type foobar is: ", nodes(Red).size(), nodes(Green).size(), nodes(Blue).size(), "\n") } } } 
+
+exit

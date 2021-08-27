@@ -156,6 +156,16 @@ sequence stateStepMappingTreeCompiled(level:int, parent:StatespaceObject)
 	}
 }
 
+sequence stateStepMappingTransientTreeCompiled(level:int, parent:TransientStatespaceObject)
+{
+	if { {{level < ::stopLevel}};
+		{ ::statestep = [: for{insertRed; child:TransientStatespaceObject ;> {::statespace.add(this); child = new TransientStatespaceObject@(gr=this); parent.successors.add(child) } ;> stateStepMappingTransientTreeCompiled(level + 1, child)},
+							for{insertGreen; child:TransientStatespaceObject ;> {::statespace.add(this); child = new TransientStatespaceObject@(gr=this); parent.successors.add(child) } ;> stateStepMappingTransientTreeCompiled(level + 1, child)},
+							for{insertBlue; child:TransientStatespaceObject ;> {::statespace.add(this); child = new TransientStatespaceObject@(gr=this); parent.successors.add(child) } ;> stateStepMappingTransientTreeCompiled(level + 1, child)}
+						:] }
+	}
+}
+
 sequence linkAndAddIfNotExistingCompiled(parent:StatespaceObject) : (successor:StatespaceObject)
 {
 	equivalent:graph ;> { equivalent = getEquivalent(this, ::statespace) } ;>
@@ -182,6 +192,36 @@ sequence stateStepMappingGraphCompiled(level:int, parent:StatespaceObject) {
 		{ ::statestep = [: for{insertRed; (successor:StatespaceObject)=linkAndAddIfNotExistingCompiled(parent) && stateStepMappingGraphCompiled(level + 1, successor)},
 							for{insertGreen; (successor:StatespaceObject)=linkAndAddIfNotExistingCompiled(parent) && stateStepMappingGraphCompiled(level + 1, successor)},
 							for{insertBlue; (successor:StatespaceObject)=linkAndAddIfNotExistingCompiled(parent) && stateStepMappingGraphCompiled(level + 1, successor)}
+						:] }
+	}
+}
+
+sequence linkAndAddIfNotExistingTransientCompiled(parent:TransientStatespaceObject) : (successor:TransientStatespaceObject)
+{
+	equivalent:graph ;> { equivalent = getEquivalent(this, ::statespace) } ;>
+	if { {{equivalent == null}};
+		{
+			::statespace.add(this);
+			successor = new TransientStatespaceObject@(gr=this);
+			parent.successors.add(successor);
+			::statespaceObjectToGraph.add(successor, this);
+			::statespaceGraphToObject.add(this, successor);
+			{ true }
+		};
+		{
+			equivalentStatespaceObject:TransientStatespaceObject = ::statespaceGraphToObject[equivalent];
+			parent.successors.add(equivalentStatespaceObject);
+			successor = null;
+			{ false }
+		}
+	}
+}
+
+sequence stateStepMappingTransientGraphCompiled(level:int, parent:TransientStatespaceObject) {
+	if { {{level < ::stopLevel}};
+		{ ::statestep = [: for{insertRed; (successor:TransientStatespaceObject)=linkAndAddIfNotExistingTransientCompiled(parent) && stateStepMappingTransientGraphCompiled(level + 1, successor)},
+							for{insertGreen; (successor:TransientStatespaceObject)=linkAndAddIfNotExistingTransientCompiled(parent) && stateStepMappingTransientGraphCompiled(level + 1, successor)},
+							for{insertBlue; (successor:TransientStatespaceObject)=linkAndAddIfNotExistingTransientCompiled(parent) && stateStepMappingTransientGraphCompiled(level + 1, successor)}
 						:] }
 	}
 }
