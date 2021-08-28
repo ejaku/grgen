@@ -771,14 +771,14 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     string type;
                     string content;
-                    if(var.Value is IDictionary)
-                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
-                    else if(var.Value is IList)
-                        EmitHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
-                    else if(var.Value is IDeque)
-                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
+                    if(var.LocalVariableValue is IDictionary)
+                        EmitHelper.ToString((IDictionary)var.LocalVariableValue, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
+                    else if(var.LocalVariableValue is IList)
+                        EmitHelper.ToString((IList)var.LocalVariableValue, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
+                    else if(var.LocalVariableValue is IDeque)
+                        EmitHelper.ToString((IDeque)var.LocalVariableValue, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
                     else
-                        EmitHelper.ToString(var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
+                        EmitHelper.ToString(var.LocalVariableValue, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
                     Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
                 }
             }

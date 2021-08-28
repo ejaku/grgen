@@ -170,7 +170,7 @@ namespace de.unika.ipd.grGen.grShell
             foreach(SequenceVariable var in seqVars.Keys)
             {
                 if(var.Name == varName)
-                    return var.Value;
+                    return var.LocalVariableValue;
             }
             foreach(Variable var in shellProcEnv.ProcEnv.Variables)
             {

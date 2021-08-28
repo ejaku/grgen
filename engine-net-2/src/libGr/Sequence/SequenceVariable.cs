@@ -63,12 +63,26 @@ namespace de.unika.ipd.grGen.libGr
         // the type of the variable (a graph-global variable maps to "", a sequence-local to its type)
         public String Type { get { return type; } }
 
-        // the variable value if the xgrs gets interpreted/executed
+        // the variable value if the xgrs gets interpreted/executed and this is a local variable (NOT a global variable)
         // TODO: cast the value to the declared type on write, error check throwing exception
         // TODO: sequence can be used multiple times: sequence re-initialization is needed
         // davor? danach? dazwischen? dazwischen am besten, aber muss von hand gemacht werden.
         // davor/danach könnten automatisch vor/nach Apply laufen
-        public object Value { get { return value; } set { this.value = value; } }
+        public object LocalVariableValue
+        {
+            get
+            {
+                if(Type == "")
+                    throw new Exception("cannot fetch LocalVariableValue from a global variable");
+                return value;
+            }
+            set
+            {
+                if(Type == "")
+                    throw new Exception("cannot set LocalVariableValue to a global variable");
+                this.value = value;
+            }
+        }
 
         // gets the variable value, decides whether to query the graph-global or the sequence-lokal variables
         public object GetVariableValue(IGraphProcessingEnvironment procEnv)

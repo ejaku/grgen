@@ -92,7 +92,7 @@ namespace de.unika.ipd.grGen.grShell
             {
                 if(var.Name == argument)
                 {
-                    sources.Add(var.Value);
+                    sources.Add(var.LocalVariableValue);
                     if(annotation != null)
                         annotations.Add(annotation);
                     else
