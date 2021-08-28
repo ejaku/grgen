@@ -135,6 +135,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 		addCompatibility(voidType, untypedType);
 		addCompatibility(stringType, untypedType);
 		addCompatibility(nullType, untypedType);
+		addCompatibility(graphType, untypedType);
 
 		//////////////////////////////////////////////////////////
 		//explicit casts; downcasts for arithmetic, everything into an object
