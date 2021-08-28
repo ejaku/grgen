@@ -396,6 +396,8 @@ OK     should_pass/FilterFunctionsParams.grg
 OK     should_pass/Filters.grg
 OK     should_pass/FiltersEntity.grg
 OK     should_pass/from_storage.grg
+OK     should_pass/getEquivalent.grg
+OK     should_pass/getEquivalentStructurally.grg
 OK     should_pass/global_then_in_package_function.grg
 OK     should_pass/global_then_in_package_pattern.grg
 OK     should_pass/global_then_in_package_rule.grg
