@@ -7944,10 +7944,10 @@ namespace de.unika.ipd.grGen.libGr
         {
             IGraph subgraph;
             if(AttributeName == null)
-                subgraph = (IGraph)SubgraphVar.Value;
+                subgraph = (IGraph)SubgraphVar.GetVariableValue(procEnv);
             else
             {
-                IGraphElement elem = (IGraphElement)SubgraphVar.Value;
+                IGraphElement elem = (IGraphElement)SubgraphVar.GetVariableValue(procEnv);
                 subgraph = (IGraph)elem.GetAttribute(AttributeName);
             }
             procEnv.SwitchToSubgraph(subgraph);
