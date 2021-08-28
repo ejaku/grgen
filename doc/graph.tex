@@ -426,17 +426,6 @@ The global functions allow to compute (node-or-edge) induced subgraphs and clone
 \item[\texttt{definedSubgraph(.)}] returns the defined (edge-induced) subgraph (type: \texttt{graph}) of the host graph for the set of edges given as argument value.
 \item[\texttt{copy(.)}] returns a copy of the original subgraph given as argument.
 \end{description}
-
-You may furtheron check for subgraph equality against a set of subgraphs at once:
-
-\begin{description}
-\item[\texttt{equalsAny(.,.)}] returns whether the (sub)graph given as first argument (type: \texttt{graph}) equals any of the (sub)graphs available in the set of subgraphs given with the second argument (type: \texttt{set<graph>}).
-\item[\texttt{equalsAnyStructurally(.,.)}] returns whether the (sub)graph given as first argument (type: \texttt{graph}) is structurally (neglecting attribute values) equal to any of the (sub)graphs available in the set of subgraphs given with the second argument (type: \texttt{set<graph>}).
-\end{description}
-
-The first function employs \verb#==# in a loop until a decision is reached, the second function does so with \verb#~~#.
-They are a bit more convenient in usage compared to writing the loop by hand, but above all are they amenable to parallelization.
-You must specify the (maximum) number of worker threads to enable parallel execution, see section \ref{sec:performanceparallel}.
  
 The global procedures allow to insert clones of subgraphs computed with the previously introduced function,
 or to insert clones of induced subgraphs directly.
@@ -469,41 +458,6 @@ The procedures from the built-in package \texttt{File} allow to export subgraphs
 The \texttt{export} procedure behaves like the \texttt{export} command from the GrShell, see \ref{outputcmds}. It allows for programmed exporting, and exporting of parts of the graph alongside subgraph containment.
 
 % todo: mehr beispiele
-
-%\pagebreak % to improve layout later on
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Graph comparison}\label{sec:relationalgraph}
-
-Here we extend the relational expressions already introduced in \ref{sec:relational} (and already extended in \ref{cha:container} to include container types) with the (sub)graph type.
-
-\begin{table}[htbp]
-  \centering
-  \begin{tabularx}{\linewidth}{|l|X|} \hline
-    \texttt{A == B} & True, iff $A$ is isomorphic to $B$. \\
-    \texttt{A != B} & True, iff $A$ is not isomorphic to $B$. \\
-    \texttt{A \textasciitilde\textasciitilde{} B} & True, iff $A$ is structurally the same as $B$ but maybe different regarding the attributes. \\ \hline
-  \end{tabularx}
-  \caption{Compare operators on graph expressions}
-  \label{compandgraph}
-\end{table}
-
-The \texttt{graph} type supports the \texttt{==} and the \texttt{!=} operators, as well as the \texttt{\textasciitilde\textasciitilde} operator;
-on (sub)graph types they tell whether the (sub)graphs are isomorphic to each other (\indexed{isomorphy checking}/\indexed{graph isomorphy checking}) or not, including the attributes, or whether the (sub)graphs are isomorphic disregarding the attributes (i.e. structurally equal -- note that on object and container types \texttt{\textasciitilde\textasciitilde} denotes deep by-value comparison).
-
-These operators consist just of two characters, but don't underestimate their impact on performance:
-they do graph isomorphy checking, which is expensive.
-They are implemented in an early out style, i.e. the more different the graphs are, the earlier does the check return with the result they are not isomorphic.
-But if the graphs you are checking are isomorphic (which will happen easily if you use automorphic patterns), then you have to pay the full price for isomorphy checking; if this occurs often, your solution may become prohibitively costly -- including an external graph canonization library or the \texttt{canonize} function may be of interest in that case.
-The function \texttt{canonize(g:graph):string} is intended to provide a canonical string representation for any graph, but currently does not work for all graphs, because it uses the SMILES\cite{SMILES} method, which is producing an equitable partition of graph nodes, not a canonical order; while not offering full fledged graph canonization this algorithm is sufficient for many purposes.
-It allows to reduce graph comparisons to string comparisons, at the price of computing the Weininger algorithm for equitable partitions of nodes.
-
-Some notes on the early out implementation: first the number of nodes and edges per type are checked, if they are different the graphs can't be isomorphic. The numbers are directly supplied by the \texttt{lgspBackend}, refuting isomorphy based on them is extremely cheap.
-Then the \indexed{V-Structure}s (see \ref{searchplanning}) used in computing better matchers at runtime are first computed and then compared; if they are different the graphs can't be isomorphic. They are a good deal less expensive to compute than trying to match the one graph in the other; on well typed graphs the V-Structure counts are highly discriminating.
-
-If these two pruning methods failed, a matcher is computed from one graph with search planning based on the V-Structure information just computed, and then applied on the other graph.
-The matchers are stored in the graphs from which they originated, so if you do repeated comparisons of a subgraph which does not change, take care to extract that subgraph only once, store it, e.g. as an attribute in the graph, and continue to compare against it. 
-This will save you from the cost of repeated search planning; in addition, often-used isomorphy matchers get eventually compiled resulting in a further speed-up.
-
 
 \begin{example}
 An example showing how to save a graph exploded into its connected components, and how to load it again from them.
@@ -559,6 +513,61 @@ procedure deleteSubgraph(ref sn:set<Node>)
 }
 \end{grgen}
 \end{example}
+
+
+%\pagebreak % to improve layout later on
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Graph comparison}\label{sec:relationalgraph}
+
+Here we extend the relational expressions already introduced in \ref{sec:relational} (and already extended in \ref{cha:container} to include container types) with the (sub)graph type.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabularx}{\linewidth}{|l|X|} \hline
+    \texttt{A == B} & True, iff $A$ is isomorphic to $B$. \\
+    \texttt{A != B} & True, iff $A$ is not isomorphic to $B$. \\
+    \texttt{A \textasciitilde\textasciitilde{} B} & True, iff $A$ is structurally the same as $B$ but maybe different regarding the attributes. \\ \hline
+  \end{tabularx}
+  \caption{Compare operators on graph expressions}
+  \label{compandgraph}
+\end{table}
+
+The \texttt{graph} type supports the \texttt{==} and the \texttt{!=} operators, as well as the \texttt{\textasciitilde\textasciitilde} operator;
+on (sub)graph types they tell whether the (sub)graphs are isomorphic to each other (\indexed{isomorphy checking}/\indexed{graph isomorphy checking}) or not, including the attributes, or whether the (sub)graphs are isomorphic disregarding the attributes (i.e. structurally equal -- note that on object and container types \texttt{\textasciitilde\textasciitilde} denotes deep by-value comparison).
+
+These operators consist just of two characters, but don't underestimate their impact on performance:
+they do graph isomorphy checking, which is expensive.
+They are implemented in an early out style, i.e. the more different the graphs are, the earlier does the check return with the result they are not isomorphic.
+But if the graphs you are checking are isomorphic (which will happen easily if you use automorphic patterns), then you have to pay the full price for isomorphy checking; if this occurs often, your solution may become prohibitively costly -- including an external graph canonization library or the \texttt{canonize} function may be of interest in that case.
+The function \texttt{canonize(g:graph):string} is intended to provide a canonical string representation for any graph, but currently does not work for all graphs, because it uses the SMILES\cite{SMILES} method, which is producing an equitable partition of graph nodes, not a canonical order; while not offering full fledged graph canonization this algorithm is sufficient for many purposes.
+It allows to reduce graph comparisons to string comparisons, at the price of computing the Weininger algorithm for equitable partitions of nodes.
+
+Some notes on the early out implementation: first the number of nodes and edges per type are checked, if they are different the graphs can't be isomorphic. The numbers are directly supplied by the \texttt{lgspBackend}, refuting isomorphy based on them is extremely cheap.
+Then the \indexed{V-Structure}s (see \ref{searchplanning}) used in computing better matchers at runtime are first computed and then compared; if they are different the graphs can't be isomorphic. They are a good deal less expensive to compute than trying to match the one graph in the other; on well typed graphs the V-Structure counts are highly discriminating.
+
+If these two pruning methods failed, a matcher is computed from one graph with search planning based on the V-Structure information just computed, and then applied on the other graph.
+The matchers are stored in the graphs from which they originated, so if you do repeated comparisons of a subgraph which does not change, take care to extract that subgraph only once, store it, e.g. as an attribute in the graph, and continue to compare against it. 
+This will save you from the cost of repeated search planning; in addition, often-used isomorphy matchers get eventually compiled resulting in a further speed-up.
+
+\pagebreak % to improve layout later on
+
+You may furtheron check for (sub)graph equality against a set of (sub)graphs at once:
+
+\begin{description}
+\item[\texttt{equalsAny(.,.)}] returns whether the (sub)graph given as first argument (type: \texttt{graph}) equals any of the (sub)graphs available in the set of subgraphs given with the second argument (type: \texttt{set<graph>}).
+\item[\texttt{equalsAnyStructurally(.,.)}] returns whether the (sub)graph given as first argument (type: \texttt{graph}) is structurally (neglecting attribute values) equal to any of the (sub)graphs available in the set of subgraphs given with the second argument (type: \texttt{set<graph>}).
+\end{description}
+
+The first function employs \verb#==# in a loop until a decision is reached, the second function does so with \verb#~~#.
+They are a bit more convenient in usage compared to writing the loop by hand, but above all are they amenable to parallelization.
+You must specify the (maximum) number of worker threads to enable parallel execution, see section \ref{sec:performanceparallel}.
+
+More constructive versions of the \texttt{equalsAny} functions are available with the \texttt{getEquivalent} functions also returning an isomorphic witness graph (they are also amenable to parallelization with the same flag that applies to the \texttt{equalsAny} functions).
+ 
+\begin{description}
+\item[\texttt{getEquivalent(.,.)}] returns the subgraph (type: \texttt{graph}) from the set of subgraphs given with the second argument (type: \texttt{set<graph>}) that is isomorphic to the (sub)graph given as first argument (type: \texttt{graph}).
+\item[\texttt{equalsAnyStructurally(.,.)}] returns the subgraph (type: \texttt{graph}) from the set of subgraphs given with the second argument (type: \texttt{set<graph>}) that is isomorphic to the (sub)graph given as first argument (type: \texttt{graph}), neglecting attribute values (i.e. structural equality is sufficient).
+\end{description}
 
 \begin{example}
 An example showing some subgraph extraction, comparison, and insertion operations.

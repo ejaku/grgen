@@ -744,7 +744,7 @@ test testPar[parallelize=16]
   EqualsAnyParallelization: 'for' 'equalsAny' '[' 'parallelize' '=' Number ']';
 \end{rail}\ixnterm{EqualsAnyParallelization}
 
-There's a second part that can be parallelized, the \texttt{equalsAny} function checking for graph isomorphy of a new candidate graph against a set of known graphs.
+There's a second part that can be parallelized, the \texttt{equalsAny} and the \texttt{getEquivalent} functions checking for graph isomorphy of a new candidate graph against a set of known graphs.
 The \emph{EqualsAnyParallelization} clause in the model must specify the number of worker threads used in parallel.
 A \verb#for equalsAny[parallelize=8];# requests 8 worker threads for checking whether there's already a graph existing that is isomorphic to the candidate.
 Graph isomorphy checking is expensive, you may gain considerable speed-ups in state space enumeration (at the price of having to maintain a set of already known graphs).

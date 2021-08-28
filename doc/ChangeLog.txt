@@ -1,4 +1,43 @@
-﻿v6.1 (2021-07-29)
+﻿v6.1.1 (2021-08-28)
+ Added getEquivalent(graph, set<graph>) function that returns the graph from the set of graphs that is isomorphic to the first given graph,
+  or null if no isomorphic graph exists (to rule language as well as sequence expressions)
+ Added getEquivalentStructurally(graph, set<graph>) function that returns the graph from the set of graphs
+  that is isomorphic neglecting attributes (so only structurally) to the first given graph, 
+  or null if no isomorphic graph exists (even when neglecting attributes)
+
+ Added a 'k suffix to the rule prefix of a pattern element in debugger display
+  in order to disambiguate multiple occurrences of a single rule in a multi rule construct
+  (e.g. [[r,r]] leading to match annotations r'1.n for a node n from a match of the first occurrence of r,
+  and r'2.e for an edge e from a match of the second occurrence of r in the multi rule construct)
+
+ Bugfixes:
+ - allowed empty argument list for sequence definitions (in addition to skipping the argument list altogether)
+ - applying multi rule constructs containing multiple instances of the same rule works now for all constructs
+   in the compiled sequences and the interpreted sequences
+ - allowed the attribute method call statement in the sequence computations of the compiled sequences,
+   i.e. attribute-bearer.attribute.method-call()
+ - accessing attributes of class objects via a container access works now (in the interpreted sequences)
+ - allowed usage of object constructors in compiled sequence definitions (in addition to container constructors)
+ - container add/rem/clear on attributes of graph elements or internal class objects works now in compiled sequences
+ - object ids are mapped per graph to objects instead of globally in grs importing 
+   (fitting to the current model of assigning object ids per-graph with its consequence
+   that all objects in an object data structure must be from the same graph)
+ - parallelized IsIsomorph comparison works now in more scenarios
+ - firing of changing attribute events only for class objects (and nodes/edges) but not transient class objects
+ - the switch to subgraph construct from the interpreted sequences now also works correctly
+   with a switch target given in a graph global variable (in addition to a sequence local variable) (e.g. in ::var { r })
+ - added compatibility of the graph type to the untyped type
+   (fixing e.g. an indexed access to an untyped map with a graph argument in the compiled sequences)
+ - this reference appearing in compiled sequences works now (as argument of a call, led to a null pointer crash)
+ - re-added the Notepad++ syntax highlighting configuration file (mistakenly deleted)
+
+ API changes:
+ - extended IGraph and LGSPGraph by GetIsomorph and GetSameStructure (delegating IsIsomorph and HasSameStructure to the new functions)
+
+ User manual adaptations, corrections, and improvements
+  and extended statespaceMapping tests to showcase non-trivial statespace enumerations with the mapping clause
+
+v6.1 (2021-07-29)
  Added mapping clause [:for{r;seq}:] (returning an array<graph>) to the expressions of the sequences
  - it returns the graphs for which executing seq yielded true, after applying a match of r, on a clone of the current host graph,
    and that for all matches found
