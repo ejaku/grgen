@@ -441,7 +441,7 @@ seqExprBasic [ExecNode xg] returns [ ExprNode res = env.initExprNode() ]
 		IdentNode id;
 	}
 	: owner=seqVarUseInExpr[xg] sel=seqExprSelector[owner, xg] { res = sel; }
-	| {input.LT(1).getText().equals("this")}? i=IDENT { xg.append("this"); } sel=seqExprSelector[owner, xg] { res = sel; }
+	| {input.LT(1).getText().equals("this")}? i=IDENT { xg.append("this"); } sel=seqExprSelector[new ThisExprNode(getCoords(i)), xg] { res = sel; }
 	| fc=seqFunctionCall[xg] { res = fc; } sel=seqExprSelector[fc, xg] { res = sel; }
 	| fc=seqScanFunctionCall[xg] { res = fc; } sel=seqExprSelector[fc, xg] { res = sel; }
 	| DEF LPAREN { xg.append("def("); } seqVariableList[xg, returns] RPAREN { xg.append(")"); } 
@@ -1168,7 +1168,7 @@ seqFilterCallVariableList [ ExecNode xg ]
 	;
 
 seqRuleParam [ ExecNode xg, CollectNode<BaseNode> parameters ]
-	: exp=seqExpression[xg] { parameters.addChild(exp); }
+	: exp=seqExpression[xg] { parameters.addChild(exp); if(exp == null) throw new RuntimeException(); }
 	;
 
 seqRuleParams [ ExecNode xg, CollectNode<BaseNode> parameters ]
