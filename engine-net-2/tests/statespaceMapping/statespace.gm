@@ -18,7 +18,11 @@ transient class TransientStatespaceObject
 	successors:set<TransientStatespaceObject>;
 }
 
+node class StatespaceNode
+{
+	gr:graph;
+}
+
+edge class StatespaceEdge;
+
 for equalsAny[parallelize=2];
-
-// todo: node/edge classes for better visualization of statespace
-

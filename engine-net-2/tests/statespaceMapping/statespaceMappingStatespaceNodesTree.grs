@@ -1,0 +1,49 @@
+new graph statespaceMapping/statespace
+
+include statespaceMapping/statespacelayout.grsi
+
+# root points to statespace graph at statespace (meta) level, objectGraph points to the first of the graphs at object level
+exec { ::root=this; ::objectGraph=copy(this); (::statespaceRoot)=add(StatespaceNode) } ;> in ::objectGraph { init }
+
+exec { ::statespace = new set<graph>{} }
+
+def stateStepMappingStatespaceNodeTree(level:int, parent:StatespaceNode) { false }
+def stateStepMappingStatespaceNodeTree(level:int, parent:StatespaceNode) {\
+	if { {{level < ::stopLevel}};\
+		{ ::statestep = [: for{insertRed; { ::statespace.add(this) } ;> (child:StatespaceNode)=::root.createAndLinkStatespaceNode(parent, this) ;> stateStepMappingStatespaceNodeTree(level + 1, child)},\
+							for{insertGreen; { ::statespace.add(this) } ;> (child:StatespaceNode)=::root.createAndLinkStatespaceNode(parent, this) ;> stateStepMappingStatespaceNodeTree(level + 1, child)},\
+							for{insertBlue; { ::statespace.add(this) } ;> (child:StatespaceNode)=::root.createAndLinkStatespaceNode(parent, this) ;> stateStepMappingStatespaceNodeTree(level + 1, child)}\
+						:] }\
+	}\
+}
+
+exec ::stopLevel=2 ;> in ::objectGraph { stateStepMappingStatespaceNodeTree(0, ::statespaceRoot) }
+
+show var statestep
+show var statespace
+
+show var statespaceRoot
+
+exec { ::statespaceRootChild0 = outgoing(::statespaceRoot).peek(0) }
+exec { ::statespaceRootChild1 = outgoing(::statespaceRoot).peek(1) }
+exec { ::statespaceRootChild2 = outgoing(::statespaceRoot).peek(2) }
+show var statespaceRootChild0
+show var statespaceRootChild1
+show var statespaceRootChild2
+
+exec { ::statespaceRootChild00 = outgoing(target(::statespaceRootChild0)).peek(0) }
+exec { ::statespaceRootChild01 = outgoing(target(::statespaceRootChild0)).peek(1) }
+exec { ::statespaceRootChild02 = outgoing(target(::statespaceRootChild0)).peek(2) }
+exec { ::statespaceRootChild03 = outgoing(target(::statespaceRootChild0)).peek(3) }
+show var statespaceRootChild00
+show var statespaceRootChild01
+show var statespaceRootChild02
+show var statespaceRootChild03
+
+show num nodes Red
+show num nodes Green
+show num nodes Blue
+
+exec for{g:graph in ::statespace; in g { { emit("The value of variable \"redgreenblue\" of type foobar is: ", nodes(Red).size(), nodes(Green).size(), nodes(Blue).size(), "\n") } } } 
+
+exit

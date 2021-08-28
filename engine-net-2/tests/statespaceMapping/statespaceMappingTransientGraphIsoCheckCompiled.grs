@@ -6,7 +6,6 @@ exec init ;> ::statespaceRoot = new TransientStatespaceObject@(gr=this)
 
 # initial graph not added, won't be reached by always-adding insert rules, is altered in some scenarios (containing the statespace representation)
 exec ::statespace = new set<graph>{}\
-	;> ::statespaceObjectToGraph = new map<TransientStatespaceObject, graph>{}\
 	;> ::statespaceGraphToObject = new map<graph, TransientStatespaceObject>{}
 
 exec ::stopLevel=2 ;> stateStepMappingTransientGraphCompiled(0, ::statespaceRoot)

@@ -73,6 +73,21 @@ rule insertBlue
 	}
 }
 
+rule createAndLinkStatespaceNode(begin:StatespaceNode, var grattr:graph) : (StatespaceNode)
+{
+	modify {
+		begin -:StatespaceEdge-> successor:StatespaceNode@(gr=grattr);
+		return(successor);
+	}
+}
+
+rule linkStatespaceNode(begin:StatespaceNode, successor:StatespaceNode)
+{
+	modify {
+		begin -:StatespaceEdge-> successor;
+	}
+}
+
 sequence stateSpaceStaticMappingCompiled
 {
 	{ ::statestep = [: for{insertRed; {::statespace.add(this)} ;> true},
@@ -166,6 +181,16 @@ sequence stateStepMappingTransientTreeCompiled(level:int, parent:TransientStates
 	}
 }
 
+sequence stateStepMappingStatespaceNodeTreeCompiled(level:int, parent:StatespaceNode)
+{
+	if { {{level < ::stopLevel}};
+		{ ::statestep = [: for{insertRed; { ::statespace.add(this) } ;> (child:StatespaceNode)=::root.createAndLinkStatespaceNode(parent, this) ;> stateStepMappingStatespaceNodeTreeCompiled(level + 1, child)},
+							for{insertGreen; { ::statespace.add(this) } ;> (child:StatespaceNode)=::root.createAndLinkStatespaceNode(parent, this) ;> stateStepMappingStatespaceNodeTreeCompiled(level + 1, child)},
+							for{insertBlue; { ::statespace.add(this) } ;> (child:StatespaceNode)=::root.createAndLinkStatespaceNode(parent, this) ;> stateStepMappingStatespaceNodeTreeCompiled(level + 1, child)}
+						:] }
+	}
+}
+
 sequence linkAndAddIfNotExistingCompiled(parent:StatespaceObject) : (successor:StatespaceObject)
 {
 	equivalent:graph ;> { equivalent = getEquivalent(this, ::statespace) } ;>
@@ -174,7 +199,6 @@ sequence linkAndAddIfNotExistingCompiled(parent:StatespaceObject) : (successor:S
 			::statespace.add(this);
 			successor = new StatespaceObject@(gr=this);
 			parent.successors.add(successor);
-			::statespaceObjectToGraph.add(successor, this);
 			::statespaceGraphToObject.add(this, successor);
 			{ true }
 		};
@@ -187,7 +211,8 @@ sequence linkAndAddIfNotExistingCompiled(parent:StatespaceObject) : (successor:S
 	}
 }
 
-sequence stateStepMappingGraphCompiled(level:int, parent:StatespaceObject) {
+sequence stateStepMappingGraphCompiled(level:int, parent:StatespaceObject)
+{
 	if { {{level < ::stopLevel}};
 		{ ::statestep = [: for{insertRed; (successor:StatespaceObject)=linkAndAddIfNotExistingCompiled(parent) && stateStepMappingGraphCompiled(level + 1, successor)},
 							for{insertGreen; (successor:StatespaceObject)=linkAndAddIfNotExistingCompiled(parent) && stateStepMappingGraphCompiled(level + 1, successor)},
@@ -204,7 +229,6 @@ sequence linkAndAddIfNotExistingTransientCompiled(parent:TransientStatespaceObje
 			::statespace.add(this);
 			successor = new TransientStatespaceObject@(gr=this);
 			parent.successors.add(successor);
-			::statespaceObjectToGraph.add(successor, this);
 			::statespaceGraphToObject.add(this, successor);
 			{ true }
 		};
@@ -217,11 +241,33 @@ sequence linkAndAddIfNotExistingTransientCompiled(parent:TransientStatespaceObje
 	}
 }
 
-sequence stateStepMappingTransientGraphCompiled(level:int, parent:TransientStatespaceObject) {
+sequence stateStepMappingTransientGraphCompiled(level:int, parent:TransientStatespaceObject)
+{
 	if { {{level < ::stopLevel}};
 		{ ::statestep = [: for{insertRed; (successor:TransientStatespaceObject)=linkAndAddIfNotExistingTransientCompiled(parent) && stateStepMappingTransientGraphCompiled(level + 1, successor)},
 							for{insertGreen; (successor:TransientStatespaceObject)=linkAndAddIfNotExistingTransientCompiled(parent) && stateStepMappingTransientGraphCompiled(level + 1, successor)},
 							for{insertBlue; (successor:TransientStatespaceObject)=linkAndAddIfNotExistingTransientCompiled(parent) && stateStepMappingTransientGraphCompiled(level + 1, successor)}
+						:] }
+	}
+}
+
+sequence linkAndAddIfNotExistingStatespaceNodesCompiled(parent:StatespaceNode) : (successor:StatespaceNode)
+{
+	equivalent:graph ;> { equivalent = getEquivalent(this, ::statespace) } ;>
+	if { {{equivalent == null}};
+		(successor)=::root.createAndLinkStatespaceNode(parent, this) ;>
+		{ ::statespace.add(this); ::statespaceGraphToNode.add(this, successor); { true } };
+		::root.linkStatespaceNode(parent, ::statespaceGraphToNode[equivalent]) ;>
+		{ successor = null; { false } }
+	}
+}
+
+sequence stateStepMappingStatespaceNodeGraphCompiled(level:int, parent:StatespaceNode)
+{
+	if { {{level < ::stopLevel}};
+		{ ::statestep = [: for{insertRed; (successor:StatespaceNode)=linkAndAddIfNotExistingStatespaceNodesCompiled(parent) && stateStepMappingStatespaceNodeGraphCompiled(level + 1, successor)},
+							for{insertGreen; (successor:StatespaceNode)=linkAndAddIfNotExistingStatespaceNodesCompiled(parent) && stateStepMappingStatespaceNodeGraphCompiled(level + 1, successor)},
+							for{insertBlue; (successor:StatespaceNode)=linkAndAddIfNotExistingStatespaceNodesCompiled(parent) && stateStepMappingStatespaceNodeGraphCompiled(level + 1, successor)}
 						:] }
 	}
 }

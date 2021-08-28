@@ -6,7 +6,6 @@ exec init ;> ::statespaceRoot = new TransientStatespaceObject@(gr=this)
 
 # initial graph not added, won't be reached by always-adding insert rules, is altered in some scenarios (containing the statespace representation)
 exec ::statespace = new set<graph>{}\
-	;> ::statespaceObjectToGraph = new map<TransientStatespaceObject, graph>{}\
 	;> ::statespaceGraphToObject = new map<graph, TransientStatespaceObject>{}
 
 def linkAndAddIfNotExistingTransient(parent:TransientStatespaceObject) : (successor:TransientStatespaceObject) { false }
@@ -17,7 +16,6 @@ def linkAndAddIfNotExistingTransient(parent:TransientStatespaceObject) : (succes
 			::statespace.add(this);\
 			successor = new TransientStatespaceObject@(gr=this);\
 			parent.successors.add(successor);\
-			::statespaceObjectToGraph.add(successor, this);\
 			::statespaceGraphToObject.add(this, successor);\
 			{ true }\
 		};\

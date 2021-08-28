@@ -6,7 +6,6 @@ exec init ;> ::statespaceRoot = new StatespaceObject@(gr=this)
 
 # initial graph not added, won't be reached by always-adding insert rules, is altered in some scenarios (containing the statespace representation)
 exec ::statespace = new set<graph>{}\
-	;> ::statespaceObjectToGraph = new map<StatespaceObject, graph>{}\
 	;> ::statespaceGraphToObject = new map<graph, StatespaceObject>{}
 
 def linkAndAddIfNotExisting(parent:StatespaceObject) : (successor:StatespaceObject) { false }
@@ -17,7 +16,6 @@ def linkAndAddIfNotExisting(parent:StatespaceObject) : (successor:StatespaceObje
 			::statespace.add(this);\
 			successor = new StatespaceObject@(gr=this);\
 			parent.successors.add(successor);\
-			::statespaceObjectToGraph.add(successor, this);\
 			::statespaceGraphToObject.add(this, successor);\
 			{ true }\
 		};\

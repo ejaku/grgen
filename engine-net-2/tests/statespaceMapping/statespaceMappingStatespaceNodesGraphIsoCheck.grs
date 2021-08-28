@@ -1,0 +1,62 @@
+new graph statespaceMapping/statespace
+
+include statespaceMapping/statespacelayout.grsi
+
+# root points to statespace graph at statespace (meta) level, objectGraph points to the first of the graphs at object level
+exec { ::root=this; ::objectGraph=copy(this); (::statespaceRoot)=add(StatespaceNode) } ;> in ::objectGraph { init }
+
+# initial graph not added, won't be reached by always-adding insert rules, is altered in some scenarios (containing the statespace representation)
+exec ::statespace = new set<graph>{}\
+	;> ::statespaceGraphToNode = new map<graph, StatespaceNode>{}
+
+def linkAndAddIfNotExistingStatespaceNodes(parent:StatespaceNode) : (successor:StatespaceNode) { false }
+def linkAndAddIfNotExistingStatespaceNodes(parent:StatespaceNode) : (successor:StatespaceNode) {\
+	equivalent:graph ;> { equivalent = getEquivalent(this, ::statespace) } ;>\
+	if { {{equivalent == null}};\
+		(successor)=::root.createAndLinkStatespaceNode(parent, this) ;>\
+		{ ::statespace.add(this); ::statespaceGraphToNode.add(this, successor); { true } };\
+		::root.linkStatespaceNode(parent, ::statespaceGraphToNode[equivalent]) ;>\
+		{ successor = null; { false } }\
+	}\
+}
+
+def stateStepMappingStatespaceNodeGraph(level:int, parent:StatespaceNode) { false }
+def stateStepMappingStatespaceNodeGraph(level:int, parent:StatespaceNode) {\
+	if { {{level < ::stopLevel}};\
+		{ ::statestep = [: for{insertRed; (successor:StatespaceNode)=linkAndAddIfNotExistingStatespaceNodes(parent) && stateStepMappingStatespaceNodeGraph(level + 1, successor)},\
+							for{insertGreen; (successor:StatespaceNode)=linkAndAddIfNotExistingStatespaceNodes(parent) && stateStepMappingStatespaceNodeGraph(level + 1, successor)},\
+							for{insertBlue; (successor:StatespaceNode)=linkAndAddIfNotExistingStatespaceNodes(parent) && stateStepMappingStatespaceNodeGraph(level + 1, successor)}\
+						:] }\
+	}\
+}
+
+exec ::stopLevel=2 ;> in ::objectGraph { stateStepMappingStatespaceNodeGraph(0, ::statespaceRoot) }
+
+show var statestep
+show var statespace
+
+show var statespaceRoot
+
+exec { ::statespaceRootChild0 = outgoing(::statespaceRoot).peek(0) }
+exec { ::statespaceRootChild1 = outgoing(::statespaceRoot).peek(1) }
+exec { ::statespaceRootChild2 = outgoing(::statespaceRoot).peek(2) }
+show var statespaceRootChild0
+show var statespaceRootChild1
+show var statespaceRootChild2
+
+exec { ::statespaceRootChild00 = outgoing(target(::statespaceRootChild0)).peek(0) }
+exec { ::statespaceRootChild01 = outgoing(target(::statespaceRootChild0)).peek(1) }
+exec { ::statespaceRootChild02 = outgoing(target(::statespaceRootChild0)).peek(2) }
+exec { ::statespaceRootChild03 = outgoing(target(::statespaceRootChild0)).peek(3) }
+show var statespaceRootChild00
+show var statespaceRootChild01
+show var statespaceRootChild02
+show var statespaceRootChild03
+
+show num nodes Red
+show num nodes Green
+show num nodes Blue
+
+exec for{g:graph in ::statespace; in g { { emit("The value of variable \"redgreenblue\" of type foobar is: ", nodes(Red).size(), nodes(Green).size(), nodes(Blue).size(), "\n") } } } 
+
+exit
