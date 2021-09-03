@@ -62,6 +62,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(returnAssignments.Length != 0)
                 source.AppendFront(returnAssignments + "\n");
             source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
+            SequenceRuleCallMatcherGenerator.EmitFinishedSelectedMatchEventFiring(source, fireDebugEvents);
         }
 
         public void EmitRewritingRuleCountAllCallOrRuleAllCallNonRandom(SourceBuilder source)
@@ -83,6 +84,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(returnAssignments.Length != 0)
                 source.AppendFront(intermediateReturnAssignmentsAllCall + "\n");
             source.AppendFront("procEnv.PerformanceInfo.RewritesPerformed++;\n");
+            SequenceRuleCallMatcherGenerator.EmitFinishedSelectedMatchEventFiring(source, fireDebugEvents);
             source.Unindent();
             source.AppendFront("}\n");
             if(returnAssignments.Length != 0)
