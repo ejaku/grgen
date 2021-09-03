@@ -13105,6 +13105,11 @@ namespace de.unika.ipd.grGen.libGr
     {
         public readonly SequenceRuleAllCall RuleCall;
 
+        public PatternMatchingConstructType ConstructType
+        {
+            get { return PatternMatchingConstructType.RuleQuery; }
+        }
+
         public String Name
         {
             get { return RuleCall.Name; }
@@ -13212,6 +13217,11 @@ namespace de.unika.ipd.grGen.libGr
     {
         public readonly SequenceMultiRuleAllCall MultiRuleCall;
         public readonly String MatchClass;
+
+        public PatternMatchingConstructType ConstructType
+        {
+            get { return PatternMatchingConstructType.MultiRuleQuery; }
+        }
 
         public SequenceExpressionMultiRuleQuery(SequenceMultiRuleAllCall multiRuleCall, String matchClass)
             : base(SequenceExpressionType.MultiRuleQuery)
@@ -13357,6 +13367,11 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceExpressionMappingClause : SequenceExpression, IPatternMatchingConstruct
     {
         public readonly SequenceMultiRulePrefixedSequence MultiRulePrefixedSequence;
+
+        public PatternMatchingConstructType ConstructType
+        {
+            get { return PatternMatchingConstructType.MappingClause; }
+        }
 
         public SequenceExpressionMappingClause(SequenceMultiRulePrefixedSequence multiRulePrefixedSequence)
             : base(SequenceExpressionType.MappingClause)

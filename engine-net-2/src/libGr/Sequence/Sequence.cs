@@ -1402,6 +1402,11 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public readonly SequenceVariable subgraph;
 
+        public virtual PatternMatchingConstructType ConstructType
+        {
+            get { return PatternMatchingConstructType.RuleCall; }
+        }
+
         public abstract String Name { get; }
         public abstract String Package { get; }
         public abstract String PackagePrefixedName { get; }
@@ -1912,6 +1917,11 @@ namespace de.unika.ipd.grGen.libGr
         public readonly SequenceVariable MaxVarChooseRandom;
         private bool choice;
 
+        public override PatternMatchingConstructType ConstructType
+        {
+            get { return PatternMatchingConstructType.RuleAllCall; }
+        }
+
         protected SequenceRuleAllCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
             bool special, bool test,
             bool chooseRandom, SequenceVariable varChooseRandom,
@@ -2329,7 +2339,12 @@ namespace de.unika.ipd.grGen.libGr
     public abstract class SequenceRuleCountAllCall : SequenceRuleCall
     {
         public SequenceVariable CountResult;
-        
+
+        public override PatternMatchingConstructType ConstructType
+        {
+            get { return PatternMatchingConstructType.RuleCountAllCall; }
+        }
+
         protected SequenceRuleCountAllCall(List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
             bool special, bool test)
             : base(SequenceType.RuleCountAllCall, argExprs, returnVars, subgraph, special, test)
@@ -3342,6 +3357,11 @@ namespace de.unika.ipd.grGen.libGr
         public override bool Random { get { return chooseRandom; } set { chooseRandom = value; } }
         bool chooseRandom;
 
+        public PatternMatchingConstructType ConstructType
+        {
+            get { return PatternMatchingConstructType.SomeFromSet; }
+        }
+
         public SequenceSomeFromSet(List<Sequence> sequences, bool chooseRandom, bool choice)
             : base(SequenceType.SomeFromSet, sequences, choice)
         {
@@ -3580,6 +3600,11 @@ namespace de.unika.ipd.grGen.libGr
     {
         public readonly List<Sequence> Sequences;
         public readonly List<SequenceFilterCallBase> Filters;
+
+        public PatternMatchingConstructType ConstructType
+        {
+            get { return PatternMatchingConstructType.MultiRuleAllCall; }
+        }
 
         public SequenceMultiRuleAllCall(List<Sequence> sequences)
             : base(SequenceType.MultiRuleAllCall)
@@ -3942,6 +3967,11 @@ namespace de.unika.ipd.grGen.libGr
         public readonly Sequence Sequence;
         public readonly List<SequenceVariable> VariablesFallingOutOfScopeOnLeaving;
 
+        public PatternMatchingConstructType ConstructType
+        {
+            get { return PatternMatchingConstructType.RulePrefixedSequence; }
+        }
+
         public SequenceRulePrefixedSequence(SequenceRuleCall rule, Sequence sequence,
             List<SequenceVariable> variablesFallingOutOfScopeOnLeaving)
             : base(SequenceType.RulePrefixedSequence)
@@ -4113,6 +4143,11 @@ namespace de.unika.ipd.grGen.libGr
     {
         public readonly List<SequenceRulePrefixedSequence> RulePrefixedSequences;
         public readonly List<SequenceFilterCallBase> Filters;
+
+        public PatternMatchingConstructType ConstructType
+        {
+            get { return PatternMatchingConstructType.MultiRulePrefixedSequence; }
+        }
 
         public SequenceMultiRulePrefixedSequence(List<SequenceRulePrefixedSequence> rulePrefixedSequences) : base(SequenceType.MultiRulePrefixedSequence)
         {
@@ -4428,6 +4463,11 @@ namespace de.unika.ipd.grGen.libGr
         public readonly SequenceRuleCall Rule;
         public readonly Sequence Seq;
 
+        public PatternMatchingConstructType ConstructType
+        {
+            get { return PatternMatchingConstructType.Backtrack; }
+        }
+
         public SequenceBacktrack(Sequence seqRule, Sequence seq) : base(SequenceType.Backtrack)
         {
             Rule = (SequenceRuleCall)seqRule;
@@ -4621,6 +4661,11 @@ namespace de.unika.ipd.grGen.libGr
     {
         public readonly SequenceMultiRuleAllCall Rules;
         public readonly Sequence Seq;
+
+        public PatternMatchingConstructType ConstructType
+        {
+            get { return PatternMatchingConstructType.MultiBacktrack; }
+        }
 
         public SequenceMultiBacktrack(SequenceMultiRuleAllCall seqMulti, Sequence seq) : base(SequenceType.MultiBacktrack)
         {
@@ -4828,6 +4873,11 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceMultiSequenceBacktrack : Sequence, IPatternMatchingConstruct
     {
         public readonly SequenceMultiRulePrefixedSequence MultiRulePrefixedSequence;
+
+        public PatternMatchingConstructType ConstructType
+        {
+            get { return PatternMatchingConstructType.MultiSequenceBacktrack; }
+        }
 
         public SequenceMultiSequenceBacktrack(SequenceMultiRulePrefixedSequence multiRulePrefixedSequence) : base(SequenceType.MultiSequenceBacktrack)
         {
@@ -7024,6 +7074,11 @@ namespace de.unika.ipd.grGen.libGr
         public readonly SequenceRuleCall Rule;
 
         public readonly List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
+
+        public PatternMatchingConstructType ConstructType
+        {
+            get { return PatternMatchingConstructType.ForMatch; }
+        }
 
         public SequenceForMatch(SequenceVariable var, Sequence rule, Sequence seq,
             List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)

@@ -13,6 +13,24 @@ using System.Collections;
 
 namespace de.unika.ipd.grGen.libGr
 {
+    public enum PatternMatchingConstructType
+    {
+        RuleCall,
+        RuleAllCall,
+        RuleCountAllCall,
+        SomeFromSet,
+        MultiRuleAllCall,
+        RulePrefixedSequence,
+        MultiRulePrefixedSequence,
+        Backtrack,
+        MultiBacktrack,
+        MultiSequenceBacktrack,
+        ForMatch,
+        RuleQuery,
+        MultiRuleQuery,
+        MappingClause
+    }
+
     /// <summary>
     /// A sequence construct that allows to match patterns (most also allow to rewrite them).
     /// Utilized in begin and end events to tell about the construct that started or ended;
@@ -26,6 +44,8 @@ namespace de.unika.ipd.grGen.libGr
         /// A string symbol representing this sequence /expression kind.
         /// </summary>
         String Symbol { get; }
+
+        PatternMatchingConstructType ConstructType { get; }
     }
 
     /// <summary>
@@ -47,14 +67,17 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public class PatternMatchingConstruct : IPatternMatchingConstruct
     {
-        public PatternMatchingConstruct(String symbol)
+        public PatternMatchingConstruct(String symbol, PatternMatchingConstructType constructType)
         {
             this.symbol = symbol;
+            this.constructType = constructType;
         }
 
         public String Symbol { get { return symbol; } }
+        public PatternMatchingConstructType ConstructType { get { return constructType; } }
 
         String symbol;
+        PatternMatchingConstructType constructType;
     }
 
     /// <summary>

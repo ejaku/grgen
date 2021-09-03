@@ -450,5 +450,10 @@ namespace de.unika.ipd.grGen.lgsp
         {
             return str.Replace("\\", "\\\\").Replace("\"", "\\\"");
         }
+
+        public static string ConstructTypeValue(PatternMatchingConstructType constructType)
+        {
+            return "GRGEN_LIBGR.PatternMatchingConstructType." + constructType.ToString();
+        }
     }
 }

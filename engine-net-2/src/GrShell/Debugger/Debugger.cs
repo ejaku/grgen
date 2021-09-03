@@ -1515,6 +1515,12 @@ namespace de.unika.ipd.grGen.grShell
             return count;
         }
 
+        private bool CurrentlyExecutedPatternMatchingConstructIs(PatternMatchingConstructType constructType)
+        {
+            return patternMatchingConstructsExecuted.Count > 0
+                        && patternMatchingConstructsExecuted[patternMatchingConstructsExecuted.Count - 1].ConstructType == constructType;
+        }
+
         private void DebugMatchedAfterImpl(IMatches[] matches, bool[] special)
         {
             // integrate matched actions into subrule traces stack
@@ -1584,7 +1590,7 @@ namespace de.unika.ipd.grGen.grShell
             if(matchDepth++ > 0 || computationsEnteredStack.Count > 0)
             {
                 Console.WriteLine("Matched " + ProducerNames(matches));
-                if(Count(matches) == 1 && (patternMatchingConstructsExecuted.Count > 0 && patternMatchingConstructsExecuted[patternMatchingConstructsExecuted.Count - 1] is SequenceRuleCall))
+                if(Count(matches) == 1 && CurrentlyExecutedPatternMatchingConstructIs(PatternMatchingConstructType.RuleCall))
                     return;
             }
 
@@ -1623,11 +1629,10 @@ namespace de.unika.ipd.grGen.grShell
 
         private void QueryForSkipAsRequired(int countMatches, bool inMatchByMatchProcessing)
         {
-            if(patternMatchingConstructsExecuted.Count > 0
-                && (patternMatchingConstructsExecuted[patternMatchingConstructsExecuted.Count - 1] is SequenceRuleAllCall && countMatches > 1
-                || patternMatchingConstructsExecuted[patternMatchingConstructsExecuted.Count - 1] is SequenceRuleCountAllCall && countMatches > 1
-                || patternMatchingConstructsExecuted[patternMatchingConstructsExecuted.Count - 1] is SequenceMultiRuleAllCall
-                || patternMatchingConstructsExecuted[patternMatchingConstructsExecuted.Count - 1] is SequenceSomeFromSet))
+            if(CurrentlyExecutedPatternMatchingConstructIs(PatternMatchingConstructType.RuleAllCall) && countMatches > 1
+                || CurrentlyExecutedPatternMatchingConstructIs(PatternMatchingConstructType.RuleCountAllCall) && countMatches > 1
+                || CurrentlyExecutedPatternMatchingConstructIs(PatternMatchingConstructType.MultiRuleAllCall)
+                || CurrentlyExecutedPatternMatchingConstructIs(PatternMatchingConstructType.SomeFromSet))
             {
                 Console.WriteLine(inMatchByMatchProcessing
                     ? "Press any key to apply rewrite, besides s(k)ip single matches..."

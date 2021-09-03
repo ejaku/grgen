@@ -1187,8 +1187,9 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
 
             String patternMatchingConstructVarName = "patternMatchingConstruct_" + seqRuleQuery.Id;
-            source.AppendFrontFormat("GRGEN_LIBGR.PatternMatchingConstruct {0} = new GRGEN_LIBGR.PatternMatchingConstruct(\"{1}\");\n",
-                patternMatchingConstructVarName, SequenceGeneratorHelper.Escape(seqRuleQuery.Symbol));
+            source.AppendFrontFormat("GRGEN_LIBGR.PatternMatchingConstruct {0} = new GRGEN_LIBGR.PatternMatchingConstruct(\"{1}\", {2});\n",
+                patternMatchingConstructVarName, SequenceGeneratorHelper.Escape(seqRuleQuery.Symbol),
+                SequenceGeneratorHelper.ConstructTypeValue(seqRuleQuery.ConstructType));
             SequenceRuleCallMatcherGenerator.EmitBeginExecutionEventFiring(source, patternMatchingConstructVarName, fireDebugEvents);
 
             source.AppendFrontFormat("GRGEN_LIBGR.IMatchesExact<{0}> matches = ", matchType);
@@ -1265,8 +1266,9 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
 
             String patternMatchingConstructVarName = "patternMatchingConstruct_" + seqMulti.Id;
-            source.AppendFrontFormat("GRGEN_LIBGR.PatternMatchingConstruct {0} = new GRGEN_LIBGR.PatternMatchingConstruct(\"{1}\");\n",
-                patternMatchingConstructVarName, SequenceGeneratorHelper.Escape(seqMultiRuleQuery.Symbol));
+            source.AppendFrontFormat("GRGEN_LIBGR.PatternMatchingConstruct {0} = new GRGEN_LIBGR.PatternMatchingConstruct(\"{1}\", {2});\n",
+                patternMatchingConstructVarName, SequenceGeneratorHelper.Escape(seqMultiRuleQuery.Symbol),
+                SequenceGeneratorHelper.ConstructTypeValue(seqMulti.ConstructType));
             SequenceRuleCallMatcherGenerator.EmitBeginExecutionEventFiring(source, patternMatchingConstructVarName, fireDebugEvents);
 
             String matchListName = "MatchList_" + seqMulti.Id;
@@ -1365,8 +1367,9 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
 
             String patternMatchingConstructVarName = "patternMatchingConstruct_" + seqMulti.Id;
-            source.AppendFrontFormat("GRGEN_LIBGR.PatternMatchingConstruct {0} = new GRGEN_LIBGR.PatternMatchingConstruct(\"{1}\");\n",
-                patternMatchingConstructVarName, SequenceGeneratorHelper.Escape(seqMappingClause.Symbol));
+            source.AppendFrontFormat("GRGEN_LIBGR.PatternMatchingConstruct {0} = new GRGEN_LIBGR.PatternMatchingConstruct(\"{1}\", {2});\n",
+                patternMatchingConstructVarName, SequenceGeneratorHelper.Escape(seqMappingClause.Symbol),
+                SequenceGeneratorHelper.ConstructTypeValue(seqMappingClause.ConstructType));
             SequenceRuleCallMatcherGenerator.EmitBeginExecutionEventFiring(source, patternMatchingConstructVarName, fireDebugEvents);
 
             source.AppendFront("List<GRGEN_LIBGR.IGraph> graphs = new List<GRGEN_LIBGR.IGraph>();\n");

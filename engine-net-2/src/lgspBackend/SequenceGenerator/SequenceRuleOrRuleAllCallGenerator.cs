@@ -58,8 +58,9 @@ namespace de.unika.ipd.grGen.lgsp
         public void Emit(SourceBuilder source, SequenceGenerator seqGen)
         {
             String patternMatchingConstructVarName = "patternMatchingConstruct_" + seqRule.Id;
-            source.AppendFrontFormat("GRGEN_LIBGR.PatternMatchingConstruct {0} = new GRGEN_LIBGR.PatternMatchingConstruct(\"{1}\");\n",
-                patternMatchingConstructVarName, SequenceGeneratorHelper.Escape(seqRule.Symbol));
+            source.AppendFrontFormat("GRGEN_LIBGR.PatternMatchingConstruct {0} = new GRGEN_LIBGR.PatternMatchingConstruct(\"{1}\", {2});\n",
+                patternMatchingConstructVarName, SequenceGeneratorHelper.Escape(seqRule.Symbol),
+                SequenceGeneratorHelper.ConstructTypeValue(seqRule.ConstructType));
             SequenceRuleCallMatcherGenerator.EmitBeginExecutionEventFiring(source, patternMatchingConstructVarName, fireDebugEvents);
 
             String parameterDeclarations = null;
