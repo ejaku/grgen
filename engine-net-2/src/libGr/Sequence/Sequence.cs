@@ -2555,7 +2555,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceAssignUserInputToVar : SequenceAssignToVar, SequenceRandomChoice
     {
-        public readonly String Type;
+        public readonly String UserInputType;
 
         public bool Random { get { return false; } set { throw new Exception("can't change Random on SequenceAssignUserInputToVar"); } }
         public bool Choice { get { return true; } set { throw new Exception("can't change Choice on SequenceAssignUserInputToVar"); } }
@@ -2563,13 +2563,13 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceAssignUserInputToVar(SequenceVariable destVar, String type)
             : base(SequenceType.AssignUserInputToVar, destVar)
         {
-            Type = type;
+            this.UserInputType = type;
         }
 
         protected SequenceAssignUserInputToVar(SequenceAssignUserInputToVar that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
             : base(that, originalToCopy, procEnv)
         {
-            Type = that.Type;
+            UserInputType = that.UserInputType;
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -2579,18 +2579,18 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
-            if(!TypesHelper.IsSameOrSubtype(Type, DestVar.Type, env.Model))
-                throw new SequenceParserException(Symbol, DestVar.Type, Type);
+            if(!TypesHelper.IsSameOrSubtype(UserInputType, DestVar.Type, env.Model))
+                throw new SequenceParserException(Symbol, DestVar.Type, UserInputType);
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
-            return Assign(procEnv.UserProxy.ChooseValue(Type, this), procEnv);
+            return Assign(procEnv.UserProxy.ChooseValue(UserInputType, this), procEnv);
         }
 
         public override string Symbol
         {
-            get { return DestVar.Name + "=" + "$%(" + Type + ")"; }
+            get { return DestVar.Name + "=" + "$%(" + UserInputType + ")"; }
         }
     }
 

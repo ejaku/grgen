@@ -239,7 +239,7 @@ namespace de.unika.ipd.grGen.libGr
                 importer.JustParseAttributeValue(attrType);
                 return true;
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 return false;
             }

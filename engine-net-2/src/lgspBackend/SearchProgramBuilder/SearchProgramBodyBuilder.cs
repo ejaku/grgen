@@ -1218,9 +1218,9 @@ namespace de.unika.ipd.grGen.lgsp
             // continue at the end of the list after storage iteration nesting level
             insertionPoint = continuationPoint;
 
-            if(storage.Variable != null) ; // alt, siehe oben
-            if(storage.GlobalVariable != null) ; // neu -- wenn es ein container-typ ist iterieren, wenn es ein elementarer typ ist eine einfache zuweisung -- und kein != null handling
-            if(storage.Attribute != null) ; // das kann hier nicht auftreten
+            //storage.Variable != null - alt, siehe oben
+            //storage.GlobalVariable != null - neu -- wenn es ein container-typ ist iterieren, wenn es ein elementarer typ ist eine einfache zuweisung -- und kein != null handling
+            //storage.Attribute != null - das kann hier nicht auftreten
 
             return insertionPoint;
         }
@@ -1390,9 +1390,9 @@ namespace de.unika.ipd.grGen.lgsp
             // continue at the end of the list after storage iteration nesting level
             insertionPoint = continuationPoint;
 
-            if(storage.Variable != null) ; // das kann hier nicht auftreten
-            if(storage.GlobalVariable != null) ; // das kann hier nicht auftreten
-            if(storage.Attribute != null) ; // alt, siehe oben
+            //storage.Variable != null - das kann hier nicht auftreten
+            //storage.GlobalVariable != null - das kann hier nicht auftreten
+            //storage.Attribute != null - alt, siehe oben
 
             return insertionPoint;
         }
@@ -2182,13 +2182,13 @@ namespace de.unika.ipd.grGen.lgsp
 
             // storage muss ein container typ nach graph element sein, index muss ein elementarer typ sein
 
-            if(storage.Variable != null) ; // neu
-            if(storage.GlobalVariable != null) ; // neu
-            if(storage.Attribute != null) ; // das kann hier nicht auftreten
-            if(index.Variable != null) ; // neu
-            if(index.GlobalVariable != null) ; // neu
-            if(index.Attribute != null) ; // das kann hier nicht auftreten
-            if(index.GraphElement != null) ; // das kann hier nicht auftreten
+            //storage.Variable != null - neu
+            //storage.GlobalVariable != null - neu
+            //storage.Attribute != null - das kann hier nicht auftreten
+            //index.Variable != null - neu
+            //index.GlobalVariable != null - neu
+            //index.Attribute != null - das kann hier nicht auftreten
+            //index.GraphElement != null - das kann hier nicht auftreten
             
             return insertionPoint;
         }
@@ -2213,20 +2213,20 @@ namespace de.unika.ipd.grGen.lgsp
 
             // storage muss ein container typ nach graph element sein, index muss ein elementarer typ sein
 
-            if(storage.Variable != null && index.Variable != null) ;// das kann hier nicht auftreten; 
-            if(storage.Variable != null && index.GlobalVariable != null) ;// das kann hier nicht auftreten; 
-            if(storage.Variable != null && index.Attribute != null) ;// neu
-            if(storage.Variable != null && index.GraphElement != null) ;// alt, siehe unten
+            //storage.Variable != null && index.Variable != null - das kann hier nicht auftreten; 
+            //storage.Variable != null && index.GlobalVariable != null - das kann hier nicht auftreten; 
+            //storage.Variable != null && index.Attribute != null - neu
+            //storage.Variable != null && index.GraphElement != null - alt, siehe unten
 
-            if(storage.GlobalVariable != null && index.Variable != null) ;// das kann hier nicht auftreten; 
-            if(storage.GlobalVariable != null && index.GlobalVariable != null) ;// das kann hier nicht auftreten; 
-            if(storage.GlobalVariable != null && index.Attribute != null) ;// neu
-            if(storage.GlobalVariable != null && index.GraphElement != null) ;// neu
+            //storage.GlobalVariable != null && index.Variable != null - das kann hier nicht auftreten; 
+            //storage.GlobalVariable != null && index.GlobalVariable != null - das kann hier nicht auftreten; 
+            //storage.GlobalVariable != null && index.Attribute != null - neu
+            //storage.GlobalVariable != null && index.GraphElement != null - neu
 
-            if(storage.Attribute != null && index.Variable != null) ;// neu
-            if(storage.Attribute != null && index.GlobalVariable != null) ;// neu
-            if(storage.Attribute != null && index.Attribute != null) ;// kann nicht auftreten, 2 abhängigkeiten
-            if(storage.Attribute != null && index.GraphElement != null) ;// kann nicht auftreten, 2 anhängigkeiten
+            //storage.Attribute != null && index.Variable != null - neu
+            //storage.Attribute != null && index.GlobalVariable != null - neu
+            //storage.Attribute != null && index.Attribute != null - kann nicht auftreten, 2 abhängigkeiten
+            //storage.Attribute != null && index.GraphElement != null - kann nicht auftreten, 2 anhängigkeiten
             
             // get candidate from storage-map, only creates variable to hold it, get is fused with check for map membership
             GetCandidateByDrawing elementFromStorage =
@@ -3152,7 +3152,6 @@ namespace de.unika.ipd.grGen.lgsp
             SearchPlanNode target)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
-            string negativeIndependentNamePrefix = "";
             PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
 
             // decide on and insert operation determining type of candidate
@@ -3192,7 +3191,7 @@ namespace de.unika.ipd.grGen.lgsp
             ConnectednessCheck connectednessCheck)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
-            string negativeIndependentNamePrefix = "";
+            string negativeIndependentNamePrefix = ""; // parallel operations only in main pattern, in nested negatives/independents not supported
 
 #if RANDOM_LOOKUP_LIST_START
             // insert list heads randomization, thus randomized lookup
@@ -3308,7 +3307,6 @@ namespace de.unika.ipd.grGen.lgsp
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
             bool isDict = TypesHelper.DotNetTypeToXgrsType(storage.Variable.type).StartsWith("set") || TypesHelper.DotNetTypeToXgrsType(storage.Variable.type).StartsWith("map");
-            string negativeIndependentNamePrefix = "";
             PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
 
             // iterate available storage elements
@@ -3355,7 +3353,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
             bool isDict = TypesHelper.DotNetTypeToXgrsType(storage.Variable.type).StartsWith("set") || TypesHelper.DotNetTypeToXgrsType(storage.Variable.type).StartsWith("map");
-            string negativeIndependentNamePrefix = "";
+            string negativeIndependentNamePrefix = ""; // parallel operations only in main pattern, in nested negatives/independents not supported
 
             // iterate available storage elements
             string iterationType;
@@ -3478,7 +3476,6 @@ namespace de.unika.ipd.grGen.lgsp
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
             bool isDict = storage.Attribute.Attribute.Kind == AttributeKind.SetAttr || storage.Attribute.Attribute.Kind == AttributeKind.MapAttr;
-            string negativeIndependentNamePrefix = "";
             PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
 
             // iterate available storage elements
@@ -3537,7 +3534,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
             bool isDict = storage.Attribute.Attribute.Kind == AttributeKind.SetAttr || storage.Attribute.Attribute.Kind == AttributeKind.MapAttr;
-            string negativeIndependentNamePrefix = "";
+            string negativeIndependentNamePrefix = ""; // parallel operations only in main pattern, in nested negatives/independents not supported
 
             // iterate available storage elements
             string iterationType;
@@ -3669,7 +3666,6 @@ namespace de.unika.ipd.grGen.lgsp
             IndexAccess index)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
-            string negativeIndependentNamePrefix = "";
             PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
             string iterationType = TypesHelper.TypeName(index.Index is AttributeIndexDescription ?
                 ((AttributeIndexDescription)index.Index).GraphElementType :
@@ -3791,7 +3787,7 @@ namespace de.unika.ipd.grGen.lgsp
             ConnectednessCheck connectednessCheck)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
-            string negativeIndependentNamePrefix = "";
+            string negativeIndependentNamePrefix = ""; // parallel operations only in main pattern, in nested negatives/independents not supported
             string iterationType = TypesHelper.TypeName(index.Index is AttributeIndexDescription ?
                 ((AttributeIndexDescription)index.Index).GraphElementType :
                 ((IncidenceCountIndexDescription)index.Index).StartNodeType);

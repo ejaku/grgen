@@ -2423,14 +2423,8 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
-        public override void SetNeedForParallelizedVersion(bool parallel)
-        {
-            Parallel = parallel;
-        }
-
         readonly String OwnerType;
         readonly String Owner;
-        public bool Parallel;
     }
 
     /// <summary>
@@ -2473,13 +2467,7 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
-        public override void SetNeedForParallelizedVersion(bool parallel)
-        {
-            Parallel = parallel;
-        }
-
         readonly Expression Owner;
-        public bool Parallel;
     }
 
     /// <summary>

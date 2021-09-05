@@ -623,7 +623,7 @@ namespace de.unika.ipd.grGen.grShell
                 result = Convert.ToInt64(argument, 16);
                 return true;
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 result = -1;
                 return false;

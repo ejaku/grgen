@@ -106,7 +106,8 @@ namespace de.unika.ipd.grGen.libGr
                 else
                 {
                     XmlReaderSettings settings = new XmlReaderSettings();
-                    settings.ProhibitDtd = false;
+                    //settings.ProhibitDtd = false; .NET 2.0 API, deprecated from 4.0 onwards
+                    settings.DtdProcessing = DtdProcessing.Ignore;
                     XmlReader reader = XmlReader.Create(graphtype.Substring(0, hashindex), settings);
                     modeldoc = new XmlDocument();
                     modeldoc.Load(reader);
