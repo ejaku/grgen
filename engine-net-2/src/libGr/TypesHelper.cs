@@ -134,6 +134,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns a shallow clone of either a graph or a match or a class object or a transient class object or a container
         /// </summary>
         /// <param name="toBeCloned">The graph or match or (transient) class object or container to be cloned</param>
+        /// <param name="graph">The graph to fetch the names of new objects from.</param>
         /// <returns>The clone</returns>
         public static object Clone(object toBeCloned, IGraph graph)
         {
@@ -153,6 +154,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns a deep copy of either a graph or a match or a class object or a transient class object or a container
         /// </summary>
         /// <param name="toBeCopied">The graph or match or (transient) class object or container to be copied</param>
+        /// <param name="graph">The graph to fetch the names of new objects from.</param>
         /// <returns>The copy</returns>
         public static object Copy(object toBeCopied, IGraph graph)
         {

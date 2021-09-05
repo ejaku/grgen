@@ -253,6 +253,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="ruleName">The name of the rule.</param>
         /// <param name="action">The associated action instance.
         /// If it is null, there was no rule with the name specified in RuleName.</param>
+        /// <param name="numGiven">The number of inputs or outputs given to the rule.</param>
         /// <param name="badParamIndex">The index of a bad parameter or -1 if another error occurred.</param>
         public SequenceParserException(String ruleName, IAction action, int numGiven, int badParamIndex)
         {
@@ -266,7 +267,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Creates an instance of a SequenceParserException used by the SequenceParser, when the rule with the
         /// given name does not exist or input or output parameters do not match, or a method was called on a type not supporting this.
         /// </summary>
-        /// <param name="ruleName">Name of the rule or sequence or variable.</param>
+        /// <param name="name">Name of the rule or sequence or variable.</param>
         /// <param name="errorKind">The kind of error.</param>
         public SequenceParserException(String name, SequenceParserError errorKind)
         {
@@ -279,6 +280,7 @@ namespace de.unika.ipd.grGen.libGr
         /// for the rule/sequence/procedure/function.
         /// </summary>
         /// <param name="invocation">The rule/sequence/procedure/function invocation.</param>
+        /// <param name="numGiven">The number of inputs or outputs given to the rule.</param>
         /// <param name="errorKind">The kind of error.</param>
         public SequenceParserException(Invocation invocation, int numGiven, SequenceParserError errorKind)
             : this(invocation, numGiven, errorKind, -1)
@@ -303,6 +305,7 @@ namespace de.unika.ipd.grGen.libGr
         /// with the given name does not exist or input or output parameters do not match.
         /// </summary>
         /// <param name="invocation">The rule/sequence/procedure/function invocation.</param>
+        /// <param name="numGiven">The number of inputs or outputs given to the rule.</param>
         /// <param name="errorKind">The kind of error.</param>
         /// <param name="badParamIndex">The index of a bad parameter or -1 if another error occurred.</param>
         public SequenceParserException(Invocation invocation, int numGiven, SequenceParserError errorKind, int badParamIndex)

@@ -87,7 +87,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Creates a new dictionary and fills in all key/value pairs from
         /// <paramref name="a"/> and <paramref name="b"/>.
         /// If both dictionaries contain one key, the value from <paramref name="b"/> takes precedence
-        /// (this way the common case "a = a | map<int, int> { 7 -> 13 };" would update an existing entry
+        /// (this way the common case <![CDATA[a = a | map<int, int> { 7 -> 13 };]]> would update an existing entry
         /// with key 7 to 13).
         /// </summary>
         /// <param name="a">A dictionary.</param>
@@ -234,7 +234,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Adds all key/value pairs from set/map <paramref name="b"/> to <paramref name="a"/>.
         /// If both dictionaries contain one key, the value from <paramref name="b"/> takes precedence
-        /// (this way the common case "a = a | map<int, int> { 7 -> 13 };" would update an existing entry
+        /// (this way the common case <![CDATA[a = a | map<int, int> { 7 -> 13 };]]> would update an existing entry
         /// with key 7 to 13).
         /// </summary>
         /// <param name="a">A dictionary to change.</param>
@@ -305,7 +305,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Adds all key/value pairs from map <paramref name="b"/> to <paramref name="a"/>.
         /// If both dictionaries contain one key, the value from <paramref name="b"/> takes precedence
-        /// (this way the common case "a = a | map<int, int> { 7 -> 13 };" would update an existing entry
+        /// (this way the common case <![CDATA[a = a | map<int, int> { 7 -> 13 };]]> would update an existing entry
         /// with key 7 to 13).
         /// </summary>
         /// <param name="a">A dictionary to change.</param>
@@ -337,7 +337,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Adds all key/value pairs from map <paramref name="b"/> to <paramref name="a"/>.
         /// If both dictionaries contain one key, the value from <paramref name="b"/> takes precedence
-        /// (this way the common case "a = a | map<int, int> { 7 -> 13 };" would update an existing entry
+        /// (this way the common case <![CDATA[a = a | map<int, int> { 7 -> 13 };]]> would update an existing entry
         /// with key 7 to 13).
         /// </summary>
         /// <param name="a">A dictionary to change.</param>

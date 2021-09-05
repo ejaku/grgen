@@ -2046,6 +2046,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
         /// <param name="newHost">The pattern graph the new alternative will be contained in.</param>
         /// <param name="nameSuffix">The suffix to be added to the name of the alternative and its elements (to avoid name collisions).</param>
+        /// <param name="pathPrefix_">Prefix for name from nesting path.</param>
+        /// <param name="nodeToCopy">A dictionary mapping nodes to their copies.</param>
+        /// <param name="edgeToCopy">A dictionary mapping edges to their copies.</param>
+        /// <param name="variableToCopy">A dictionary mapping variables to their copies.</param>
         /// Elements might have been already copied in the containing pattern(s), their copies have to be reused in this case.
         public Alternative(Alternative original, PatternGraphEmbedding inlinedSubpatternEmbedding, PatternGraph newHost, String nameSuffix, String pathPrefix_,
             Dictionary<PatternNode, PatternNode> nodeToCopy,
@@ -2144,6 +2148,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// Constructs an Iterated object.
         /// </summary>
         /// <param name="iteratedPattern">PatternGraph of the iterated.</param>
+        /// <param name="minMatches">The minimum amount of matches to search for.</param>
+        /// <param name="maxMatches">The maximum amount of matches to search for.</param>
+        /// <param name="filters">The filters to apply to the iterated.</param>
         public Iterated(PatternGraph iteratedPattern, int minMatches, int maxMatches, LGSPFilter[] filters)
         {
             this.iteratedPattern = iteratedPattern;
@@ -2159,6 +2166,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
         /// <param name="newHost">The pattern graph the new iterated will be contained in.</param>
         /// <param name="nameSuffix">The suffix to be added to the name of the iterated and its elements (to avoid name collisions).</param>
+        /// <param name="nodeToCopy">A dictionary mapping nodes to their copies.</param>
+        /// <param name="edgeToCopy">A dictionary mapping edges to their copies.</param>
+        /// <param name="variableToCopy">A dictionary mapping variables to their copies.</param>
         /// Elements might have been already copied in the containing pattern(s), their copies have to be reused in this case.
         public Iterated(Iterated original, PatternGraphEmbedding inlinedSubpatternEmbedding, PatternGraph newHost, String nameSuffix,
             Dictionary<PatternNode, PatternNode> nodeToCopy,

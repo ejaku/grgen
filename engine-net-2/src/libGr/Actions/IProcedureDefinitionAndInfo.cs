@@ -53,7 +53,7 @@ namespace de.unika.ipd.grGen.libGr
         GrGenType[] Outputs { get; }
 
         /// <summary>
-        // Tells whether the procedure is an externally defined one or an internal one
+        /// Tells whether the procedure is an externally defined one or an internal one
         /// </summary>
         bool IsExternal { get; }
 

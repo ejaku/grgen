@@ -310,8 +310,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Fires an OnRedirectingEdge event.
         /// </summary>
-        /// <param name="oldEdge">The edge to be retyped.</param>
-        /// <param name="newEdge">The new edge with the common attributes, but not fully connected with the incident nodes, yet.</param>
+        /// <param name="edge">The edge to be redirected.</param>
         public void RedirectingEdge(IEdge edge)
         {
             if(OnRedirectingEdge != null)

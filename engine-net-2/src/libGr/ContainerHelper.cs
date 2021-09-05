@@ -50,6 +50,8 @@ namespace de.unika.ipd.grGen.libGr
         /// Creates a deep copy of the given container.
         /// </summary>
         /// <param name="oldContainer">The container to copy.</param>
+        /// <param name="graph">The graph to fetch the names of the new objects from.</param>
+        /// <param name="oldToNewObjects">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
         /// <returns>A deep copy of the container</returns>
         public static object Copy(object oldContainer, IGraph graph, IDictionary<object, object> oldToNewObjects)
         {

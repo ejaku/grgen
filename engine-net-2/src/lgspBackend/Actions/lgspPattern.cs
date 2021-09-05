@@ -623,6 +623,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="inlinedSubpatternEmbedding">The embedding which just gets inlined.</param>
         /// <param name="newHost">The pattern graph the new pattern element will be contained in.</param>
         /// <param name="nameSuffix">The suffix to be added to the name of the pattern graph and its elements (to avoid name collisions).</param>
+        /// <param name="nodeToCopy_">A dictionary mapping nodes to their copies.</param>
+        /// <param name="edgeToCopy_">A dictionary mapping edges to their copies.</param>
+        /// <param name="variableToCopy_">A dictionary mapping variables to their copies.</param>
         /// Elements might have been already copied in the containing pattern(s), their copies have to be reused in this case.
         public PatternGraph(PatternGraph original, PatternGraphEmbedding inlinedSubpatternEmbedding, PatternGraph newHost, String nameSuffix,
             Dictionary<PatternNode, PatternNode> nodeToCopy_,

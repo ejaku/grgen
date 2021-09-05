@@ -53,7 +53,7 @@ namespace de.unika.ipd.grGen.libGr
         GrGenType Output { get; }
 
         /// <summary>
-        // Tells whether the function is an externally defined one or an internal one
+        /// Tells whether the function is an externally defined one or an internal one
         /// </summary>
         bool IsExternal { get; }
 

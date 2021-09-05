@@ -544,6 +544,7 @@ namespace de.unika.ipd.grGen.libGr
         /// containing all values from the given dictionary representing a map <paramref name="map"/> from int to some values.
         /// </summary>
         /// <param name="map">A dictionary representing a map.</param>
+        /// <param name="model">The graph model.</param>
         /// <returns>A new list containing all values from <paramref name="map"/>.</returns>
         public static IList MapAsArray(IDictionary map, IGraphModel model)
         {

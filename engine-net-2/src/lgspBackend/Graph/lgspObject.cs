@@ -35,6 +35,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Instantiates a LGSPObject object.
         /// </summary>
         /// <param name="objectType">The object type.</param>
+        /// <param name="uniqueId">The unique id.</param>
         protected LGSPObject(ObjectType objectType, long uniqueId)
         {
             lgspType = objectType;

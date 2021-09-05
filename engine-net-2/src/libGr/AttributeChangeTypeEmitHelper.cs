@@ -24,7 +24,7 @@ namespace de.unika.ipd.grGen.libGr
         ///                        Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
         ///                        Or the new map pair value to be inserted if changeType==PutElement on map.</param>
         /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.</param>
-        /// <param name="type">The type as string, e.g set<int> or map<string,boolean> </param>
+        /// <param name="type">The type as string, e.g <![CDATA[set<int>]]> or <![CDATA[map<string,boolean>]]> </param>
         /// <param name="content">The content as string, e.g. { 42, 43 } or { "foo"->true, "bar"->false } </param>
         /// <param name="attrType">The attribute type of the dictionary</param>
         /// <param name="graph">The graph with the model and the element names</param>
@@ -82,7 +82,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="newValue">The new value to be inserted/added if changeType==PutElement on array.
         ///                        Or the new value to be assigned to the given position if changeType==AssignElement on array.</param>
         /// <param name="keyValue">The array index to be removed/written to if changeType==RemoveElement/AssignElement on array.</param>
-        /// <param name="type">The type as string, e.g array<int></param>
+        /// <param name="type">The type as string, e.g <![CDATA[array<int>]]></param>
         /// <param name="content">The content as string, e.g. [ 42, 43 ] </param>
         /// <param name="attrType">The attribute type of the List</param>
         /// <param name="graph">The graph with the model and the element names</param>
@@ -131,7 +131,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="deque">The base Deque of the operation</param>
         /// <param name="changeType">The type of the change operation</param>
         /// <param name="newValue">The new value to be inserted/added if changeType==PutElement on deque.</param>
-        /// <param name="type">The type as string, e.g deque<int></param>
+        /// <param name="type">The type as string, e.g <![CDATA[deque<int>]]></param>
         /// <param name="content">The content as string, e.g. ] 42, 43 [ </param>
         /// <param name="attrType">The attribute type of the Deque</param>
         /// <param name="graph">The graph with the model and the element names</param>

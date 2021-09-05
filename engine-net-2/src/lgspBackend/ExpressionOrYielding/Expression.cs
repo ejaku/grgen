@@ -2502,6 +2502,7 @@ namespace de.unika.ipd.grGen.expression
         }
     }
 
+    /// <summary>
     /// Class representing the max operator.
     /// </summary>
     public class Max : BinFuncOperator

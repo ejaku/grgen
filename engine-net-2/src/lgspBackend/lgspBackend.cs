@@ -909,7 +909,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// A name for the graph is automatically generated.
         /// </summary>
         /// <param name="gmFilename">Filename of the model specification file (.gm).</param>
-        /// <param name="newGraph">Returns the new graph.</param>
         /// <exception cref="System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
         /// <exception cref="System.Exception">Thrown, when something goes wrong.</exception>
         /// <returns>The new LGSPGraph instance.</returns>

@@ -39,7 +39,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Initializes a new AssignmentTargetType object with the given assignment target type.
         /// </summary>
-        /// <param name="seqCompType">The sequence computation type.</param>
+        /// <param name="assignTgtType">The assignment target type.</param>
         protected AssignmentTarget(AssignmentTargetType assignTgtType)
             : base(SequenceComputationType.AssignmentTarget)
         {
@@ -64,6 +64,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Needed if the defined sequence is currently executed to prevent state corruption.
         /// </summary>
         /// <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
+        /// <param name="procEnv">The graph processing environment</param>
         /// <returns>The copy of the sequence computation</returns>
         internal override sealed SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
@@ -78,6 +79,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Needed if the defined sequence is currently executed to prevent state corruption.
         /// </summary>
         /// <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
+        /// <param name="procEnv">The graph processing environment</param>
         /// <returns>The copy of the assignment target</returns>
         internal abstract AssignmentTarget CopyTarget(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv);
 

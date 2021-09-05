@@ -35,7 +35,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Analyze the nesting structure of the pattern graph
         /// </summary>
-        /// <param name="patternGraph"></param>
+        /// <param name="patternGraph">The pattern graph</param>
+        /// <param name="inlined">Tells whether subpattern usages were inlined (analyze run before and after inlining)</param>
         public void AnalyzeNestingOfPatternGraph(PatternGraph patternGraph, bool inlined)
         {
             SetDefEntityExistanceAndNonLocalDefEntityExistance(patternGraph, inlined);

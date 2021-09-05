@@ -106,6 +106,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Needed if the defined sequence is currently executed to prevent state corruption.
         /// </summary>
         /// <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
+        /// <param name="procEnv">The graph processing environment</param>
         /// <returns>The copy of the sequence computation</returns>
         internal abstract SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv);
 
@@ -148,6 +149,7 @@ namespace de.unika.ipd.grGen.libGr
         /// and all container and internal object constructors used into the constructors array.
         /// </summary>
         /// <param name="variables">Contains the variables found</param>
+        /// <param name="constructors">Contains the constructors found</param>
         public virtual void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
             List<SequenceExpressionConstructor> constructors)
         {

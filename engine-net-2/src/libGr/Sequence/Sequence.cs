@@ -105,6 +105,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Needed if the defined sequence is currently executed to prevent state corruption.
         /// </summary>
         /// <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
+        /// <param name="procEnv">The graph processing environment</param>
         /// <returns>The copy of the sequence</returns>
         internal abstract Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv);
 

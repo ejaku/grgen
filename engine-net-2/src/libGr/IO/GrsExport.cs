@@ -128,7 +128,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="graph">The graph to export. Must be a named graph.</param>
         /// <param name="exportFilename">The filename for the exported file.</param>
-        /// <param name="nonewgraph">If true, the new graph command is not emitted.</param>
+        /// <param name="noNewGraph">If true, the new graph command is not emitted.</param>
         /// <param name="typesToAttributesToSkip">Gives a dictionary with type names containing a dictionary with attribute names that are not to be emitted</param>
         public static void Export(INamedGraph graph, String exportFilename, bool noNewGraph, Dictionary<String, Dictionary<String, String>> typesToAttributesToSkip)
         {
@@ -154,7 +154,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="graph">The graph to export. Must be a named graph.</param>
         /// <param name="writer">The stream writer to export to.</param>
-        /// <param name="nonewgraph">If true, the new graph command is not emitted.</param>
+        /// <param name="noNewGraph">If true, the new graph command is not emitted.</param>
         /// <param name="typesToAttributesToSkip">Gives a dictionary with type names containing a dictionary with attribute names that are not to be emitted</param>
         public static void Export(INamedGraph graph, StreamWriter writer, bool noNewGraph, Dictionary<String, Dictionary<String, String>> typesToAttributesToSkip)
         {
@@ -175,7 +175,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="graph">The graph to export. Must be a named graph.</param>
         /// <param name="sw">The stream writer of the file to export into. The stream writer is not closed automatically.</param>
         /// <param name="modelPathPrefix">Path to the model.</param>
-        /// <param name="nonewgraph">If true, the new graph command is not emitted.</param>
+        /// <param name="noNewGraph">If true, the new graph command is not emitted.</param>
         /// <param name="typesToAttributesToSkip">Gives a dictionary with type names containing a dictionary with attribute names that are not to be emitted</param>
         public static MainGraphExportContext ExportYouMustCloseStreamWriter(INamedGraph graph, StreamWriter sw, string modelPathPrefix, bool noNewGraph, Dictionary<String, Dictionary<String, String>> typesToAttributesToSkip)
         {

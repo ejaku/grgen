@@ -1930,7 +1930,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Generates an LGSPAction object for the given scheduled search plan.
         /// </summary>
+        /// <param name="scheduledSearchPlan">The scheduled search plan</param>
         /// <param name="action">Needed for the rule pattern and the name</param>
+        /// <param name="modelAssemblyLocation">The location of the model assembly</param>
+        /// <param name="actionAssemblyLocation">The location of the action assembly</param>
         /// <param name="sourceOutputFilename">null if no output file needed</param>
         public LGSPAction GenerateAction(ScheduledSearchPlan scheduledSearchPlan, LGSPAction action,
             String modelAssemblyLocation, String actionAssemblyLocation, String sourceOutputFilename)

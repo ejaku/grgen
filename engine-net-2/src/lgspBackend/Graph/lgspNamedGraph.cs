@@ -149,7 +149,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Initializes the name maps with anonymous names in the form "$" + GetNextName()
         /// </summary>
-        /// <param name="graph">The graph to be used named</param>
         public void DoName()
         {
             foreach(INode node in Nodes)

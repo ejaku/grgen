@@ -422,6 +422,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="dumpInfo">Specifies how the graph shall be dumped.</param>
         /// <param name="matches">An IMatches object containing the matches.</param>
         /// <param name="which">Which match to dump, or AllMatches for dumping all matches
+        /// <param name="matchedNodes">The nodes matched</param>
+        /// <param name="multiMatchedNodes">The nodes matched multiple times</param>
+        /// <param name="matchedEdges">The edges matched</param>
+        /// <param name="multiMatchedEdges">The edges matched multiple times</param>
         /// adding connections between them, or OnlyMatches to dump the matches only</param>
         public static void DumpMatchOnly(IDumper dumper, DumpInfo dumpInfo, IMatches matches, DumpMatchSpecial which,
             ref Set<INode> matchedNodes, ref Set<INode> multiMatchedNodes, ref Set<IEdge> matchedEdges, ref Set<IEdge> multiMatchedEdges)

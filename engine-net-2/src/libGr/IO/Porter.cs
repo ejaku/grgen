@@ -68,7 +68,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="graph">The named graph to export.
         /// The .grs/.grsi exporter is exporting the names/including the names; import will return a named graph again.
-        /// The .gxl exporter is exporting without the names, which is equivalent of calling the non-named graph export.</param>
+        /// The .gxl exporter is exporting without the names, which is equivalent of calling the non-named graph export.
         /// The .xmi exporter is using the names as xmi ids.</param>
         /// <param name="filenameParameters">The names of the files to be exported.
         /// The first must be a filename, the following may be used for giving export parameters

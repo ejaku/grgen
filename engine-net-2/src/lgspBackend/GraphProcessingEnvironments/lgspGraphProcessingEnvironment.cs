@@ -617,7 +617,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Special variables are used for GrGen-internal data storage (as of now only "this"-reference handling).
         /// </summary>
         /// <param name="name">The name of the special variable to write</param>
-        /// <param name="val">The new value of the special variable</param>
+        /// <param name="value">The new value of the special variable</param>
         public void SetSpecialVariableValue(string name, object value)
         {
             SpecialVariables[name] = value;

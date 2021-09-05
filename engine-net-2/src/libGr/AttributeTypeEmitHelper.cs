@@ -21,7 +21,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns a string representation of the given dictionary
         /// </summary>
         /// <param name="setmap">The dictionary of which to get the string representation</param>
-        /// <param name="type">The type as string, e.g set<int> or map<string,boolean> </param>
+        /// <param name="type">The type as string, e.g <![CDATA[set<int>]]> or <![CDATA[set<int>map<string,boolean>]]> </param>
         /// <param name="content">The content as string, e.g. { 42, 43 } or { "foo"->true, "bar"->false } </param>
         /// <param name="attrType">The attribute type of the dictionary if available, otherwise null</param>
         /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
@@ -108,7 +108,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns a string representation of the given List
         /// </summary>
         /// <param name="array">The List of which to get the string representation</param>
-        /// <param name="type">The type as string, e.g array<int></param>
+        /// <param name="type">The type as string, e.g <![CDATA[array<int>]]></param>
         /// <param name="content">The content as string, e.g. [ 42, 43 ]</param>
         /// <param name="attrType">The attribute type of the array if available, otherwise null</param>
         /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
@@ -160,7 +160,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns a string representation of the given Deque
         /// </summary>
         /// <param name="deque">The Deque of which to get the string representation</param>
-        /// <param name="type">The type as string, e.g deque<int></param>
+        /// <param name="type">The type as string, e.g <![CDATA[deque<int>]]></param>
         /// <param name="content">The content as string, e.g. ] 42, 43 [</param>
         /// <param name="attrType">The attribute type of the deque if available, otherwise null</param>
         /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>

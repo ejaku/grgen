@@ -73,6 +73,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="graph">The graph to export. Must be a NamedGraph.</param>
         /// <param name="sw">The stream writer of the file to export into. The stream writer is not closed automatically.</param>
+        /// <param name="modelPathPrefix">Path to the model.</param>
         public static void ExportYouMustCloseStreamWriter(INamedGraph graph, StreamWriter sw, string modelPathPrefix)
         {
             // we traverse the graph in one pass, directly writing a creating rule,

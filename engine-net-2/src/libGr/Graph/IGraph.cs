@@ -177,7 +177,7 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// Represents a method called before an edge is redirected (i.e. will be removed soon and added again immediately thereafter).
     /// </summary>
-    /// <param name="oldEdge">The edge which will be redirectey.</param>
+    /// <param name="edge">The edge which will be redirected.</param>
     public delegate void RedirectingEdgeHandler(IEdge edge);
 
     /// <summary>

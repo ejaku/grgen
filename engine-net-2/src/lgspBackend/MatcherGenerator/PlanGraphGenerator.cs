@@ -28,6 +28,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Plan graph contains nodes representing the pattern elements (nodes and edges)
         /// and edges representing the matching operations to get the elements by.
         /// Edges in plan graph are given in the nodes by incoming list, as needed for MSA computation.
+        /// </summary>
         public static PlanGraph GeneratePlanGraph(IGraphModel model, LGSPGraphStatistics graphStatistics, PatternGraph patternGraph,
             bool isNegativeOrIndependent, bool isSubpatternLike, bool InlineIndependents,
             IDictionary<PatternElement, SetValueType> presetsFromIndependentInlining)

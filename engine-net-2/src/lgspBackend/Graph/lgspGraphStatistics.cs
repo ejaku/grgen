@@ -83,9 +83,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// Copy constructor helper.
         /// </summary>
         /// <param name="dataSource">The LGSPGraph object to get the data from</param>
-        /// <param name="newName">Name of the copied graph.</param>
-        /// <param name="oldToNewMap">A map of the old elements to the new elements after cloning,
-        /// just forget about it if you don't need it.</param>
         public void Copy(LGSPGraph dataSource)
         {
 #if MONO_MULTIDIMARRAY_WORKAROUND

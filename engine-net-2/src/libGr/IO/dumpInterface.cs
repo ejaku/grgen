@@ -718,7 +718,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Associates an InfoTag to a GrGenType.
         /// </summary>
         /// <param name="type">The element type to given an InfoTag</param>
-        /// <param name="infotag">The InfoTag</param>
+        /// <param name="infoTag">The InfoTag</param>
         public void AddTypeInfoTag(GraphElementType type, InfoTag infoTag)
         {
             List<InfoTag> typeInfoTags;

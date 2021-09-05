@@ -1634,7 +1634,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Checks whether the type ringlist starting at the given head node is broken.
         /// Use for debugging purposes.
         /// </summary>
-        /// <param name="node">The node head to be checked.</param>
+        /// <param name="head">The node head to be checked.</param>
         public void CheckTypeRinglistBroken(LGSPNode head)
         {
             LGSPNode headNext = head.lgspTypeNext;
@@ -1676,7 +1676,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Checks whether the type ringlist starting at the given head edge is broken.
         /// Use for debugging purposes.
         /// </summary>
-        /// <param name="node">The edge head to be checked.</param>
+        /// <param name="head">The edge head to be checked.</param>
         public void CheckTypeRinglistBroken(LGSPEdge head)
         {
             LGSPEdge headNext = head.lgspTypeNext;
@@ -2066,6 +2066,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Returns whether this graph is isomorph to that graph, neglecting the attribute values, only structurally
         /// <param name="that">The other graph we check for isomorphy against, neglecting attribute values</param>
         /// <returns>true if that is isomorph (regarding structure) to this, false otherwise</returns>
+        /// </summary>
         public override bool HasSameStructure(IGraph that)
         {
             lock(this)

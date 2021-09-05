@@ -45,6 +45,7 @@ namespace de.unika.ipd.grGen.libGr
         /// All attributes will be transfered to the new object.
         /// A new name will be fetched from the graph.
         /// </summary>
+        /// <param name="graph">The graph to fetch the names of the new objects from.</param>
         /// <returns>A copy of this object.</returns>
         IObject Clone(IGraph graph);
 
