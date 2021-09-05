@@ -1439,9 +1439,9 @@ void SingleAttribute(ArrayList attributes):
 
 void AttributeParamValue(ref Param param):
 {
-    String value, valueTgt;
+    String value;
     String typeName, typeNameTgt;
-    ElementDef elemDef, elemDefTgt;
+    ElementDef elemDef;
     object obj, objTgt;
 }
 {
@@ -1519,7 +1519,7 @@ void AttributeParamValue(ref Param param):
 
 void SelectCommand():
 {
-    String str, mainname;
+    String str;
     ArrayList parameters = new ArrayList();
     ShellGraphProcessingEnvironment shellGraph;
 }

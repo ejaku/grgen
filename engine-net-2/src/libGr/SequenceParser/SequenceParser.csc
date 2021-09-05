@@ -61,7 +61,7 @@ PARSER_BEGIN(SequenceParser)
         /// Parses a given string in xgrs exp syntax and builds a SequenceExpression object. 
         /// Used for expression evaluation, and the interpreted if clauses for conditional watchpoint debugging.
         /// </summary>
-        /// <param name="sequenceExprStr">The string representing a xgrs expression (e.g. "func() &amp;&amp; (st[e]==0 || var + 1 < 42)")</param>
+        /// <param name="sequenceExprStr">The string representing a xgrs expression (e.g. "func() &amp;&amp; (st[e]==0 || var + 1 &lt; 42)")</param>
         /// <param name="predefinedVariables">A map from variables to types giving the predefined this variable for the sequence expression.</param>
         /// <param name="env">The environment containing the entities and types that can be referenced.</param>
         /// <param name="warnings">A list which receives the warnings generated during parsing.</param>
@@ -386,7 +386,6 @@ void Argument(List<SequenceExpression> argExprs):
 object Constant():
 {
     object constant = null;
-    Token tok;
     string type, value, package, packageOrType, typeOrValue;
     EnumAttributeType attrType;
 }
@@ -459,7 +458,6 @@ SequenceExpression InitMatchClassExpr():
 
 SequenceExpression InitMatchClassExprCont():
 {
-    string typeName;
     string matchClassPackage = null;
     string matchClassName = null;
 }
@@ -499,7 +497,7 @@ SequenceExpression InitContainerExprCont():
     string typeName, typeNameDst;
     List<SequenceExpression> srcItems = null;
     List<SequenceExpression> dstItems = null;
-    SequenceExpression src = null, dst = null, res = null, value = null;
+    SequenceExpression src = null, dst = null, value = null;
 }
 {
     LOOKAHEAD({ GetToken(1).kind == WORD && GetToken(1).image == "set" })
@@ -1227,7 +1225,7 @@ Sequence SimpleSequence():
     List<Double> numbers = new List<Double>();
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
     SequenceVariable toVar, fromVar, fromVar2 = null, fromVar3 = null;
-    SequenceExpression expr = null, expr2 = null, expr3 = null;
+    SequenceExpression expr = null, expr2 = null;
     SequenceComputation comp;
     int num = 0;
     RelOpDirection left = RelOpDirection.Undefined, right = RelOpDirection.Undefined;
@@ -1573,7 +1571,6 @@ SequenceComputation Computation():
     SequenceExpression expr;
     SequenceComputation comp, assignOrExpr;
     AssignmentTarget tgt;
-    String procedure;
 }
 {
     // this is a special case of the special case solution to accept e.g. s:set<int>= as s:set<int> = and not s:set<int >= which is what the lexer gives
@@ -1667,7 +1664,6 @@ SequenceComputation ExpressionOrAssignment():
     SequenceComputation assignOrExpr;
     AssignmentTarget tgt;
     SequenceVariable toVar;
-    String function;
 }
 {
     // special case handling for ">=" != ">""="
@@ -2033,7 +2029,7 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
     String extendedMethodName = null, methodNameExtension = null, methodNameExtension2 = null;
     String memberOrAttribute = null;
     String typeName;
-    SequenceVariable var, initArrayAccess = null;
+    SequenceVariable initArrayAccess = null;
     Tuple<SequenceVariable, SequenceVariable, SequenceVariable, SequenceVariable> arrayAccessWithPreviousAccumulationAccessWithIndexWithValue = null;
     SequenceExpression expr = null, initExpr = null;
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
