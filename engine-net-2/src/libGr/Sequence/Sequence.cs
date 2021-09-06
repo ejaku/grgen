@@ -3339,7 +3339,7 @@ namespace de.unika.ipd.grGen.libGr
                         sb.Append(",");
                     sb.Append(Numbers[i]);
                     sb.Append(" ");
-                    sb.Append(Sequences[i]);
+                    sb.Append(Sequences[i].Symbol);
                 }
                 sb.Append(")");
                 return sb.ToString();
@@ -3585,7 +3585,7 @@ namespace de.unika.ipd.grGen.libGr
                         first = false;
                     else
                         sb.Append(",");
-                    sb.Append(Sequences[i]);
+                    sb.Append(Sequences[i].Symbol);
                 }
                 sb.Append(">}");
                 return sb.ToString();
