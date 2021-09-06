@@ -74,10 +74,12 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("if(" + matchesName + ".Count == 0) {\n");
             source.Indent();
             source.AppendFront(COMP_HELPER.SetResultVar(seq, "false"));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqRule, "false"));
             source.Unindent();
             source.AppendFront("} else {\n");
             source.Indent();
             source.AppendFront(COMP_HELPER.SetResultVar(seq, "true")); // shut up compiler
+            source.AppendFront(COMP_HELPER.SetResultVar(seqRule, "true")); // shut up compiler
             SequenceRuleCallMatcherGenerator.EmitMatchEventFiring(source, matchesName, specialStr, fireDebugEvents);
 
             String returnParameterDeclarations;

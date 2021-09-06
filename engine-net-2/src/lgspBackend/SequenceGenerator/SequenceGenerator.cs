@@ -1246,6 +1246,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("if(" + matchesName + ".Count != 0) {\n");
                 source.Indent();
                 source.AppendFront(COMP_HELPER.SetResultVar(seqSome, "true"));
+                source.AppendFront(COMP_HELPER.SetResultVar(seqRule, "true"));
                 source.Unindent();
                 source.AppendFront("}\n");
             }
@@ -1320,6 +1321,8 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 ruleMatcherGenerators[i].EmitFiltering(source);
                 ruleMatcherGenerators[i].EmitToMatchListAdding(source, matchListName, matchToConstructIndexName, i);
+                SequenceRuleCall seqRule = (SequenceRuleCall)seqMulti.Sequences[i];
+                source.AppendFront(COMP_HELPER.SetResultVar(seqRule, "matches_" + seqRule.Id + ".Count != 0"));
             }
 
             // emit code for match class (non-rule-based) filtering
