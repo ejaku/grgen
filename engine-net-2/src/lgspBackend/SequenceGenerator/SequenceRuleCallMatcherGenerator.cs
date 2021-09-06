@@ -80,8 +80,10 @@ namespace de.unika.ipd.grGen.lgsp
             source.Indent();
             source.AppendFrontFormat("foreach(GRGEN_LIBGR.IMatch match in {0})\n", matchesName);
             source.AppendFront("{\n");
+            source.Indent();
             source.AppendFrontFormat("{0}.Add(match);\n", matchListName);
             source.AppendFrontFormat("{0}[match] = {1};\n", matchToConstructIndexName, constructIndex);
+            source.Unindent();
             source.AppendFront("}\n");
             source.Unindent();
             source.AppendFront("}\n");
