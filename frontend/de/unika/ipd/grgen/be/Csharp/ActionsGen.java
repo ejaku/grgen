@@ -103,6 +103,8 @@ public class ActionsGen extends CSharpBase
 				+ "// Do not modify this file! Any changes will be lost!\n"
 				+ "// Generated from \"" + be.unit.getFilename() + "\" on " + new Date() + "\n"
 				+ "\n"
+				+ "#pragma warning disable CS0219, CS0162\n"
+				+ "\n"
 				+ "using System;\n"
 				+ "using System.Collections.Generic;\n"
 				+ "using System.Collections;\n"
