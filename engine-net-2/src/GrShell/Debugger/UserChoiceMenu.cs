@@ -19,7 +19,7 @@ namespace de.unika.ipd.grGen.grShell
         public static int ChooseDirection(PrintSequenceContext context, IDebuggerEnvironment env, int direction, Sequence seq)
         {
             WorkaroundManager.Workaround.PrintHighlighted("Please choose: Which branch to execute first?", HighlightingMode.Choicepoint);
-            Console.Write(" (l)eft or (r)ight or (s)/(n) to continue with random choice?  (Random has chosen " + (direction == 0 ? "(l)eft" : "(r)ight") + ") ");
+            Console.Write(" (l)eft or (r)ight or (s)/(n)/(d) to continue with random choice.  (Random has chosen " + (direction == 0 ? "(l)eft" : "(r)ight") + ") ");
 
             do
             {
@@ -34,11 +34,12 @@ namespace de.unika.ipd.grGen.grShell
                     return 1;
                 case 's':
                 case 'n':
+                case 'd':
                     Console.WriteLine();
                     return direction;
                 default:
                     Console.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (l)eft branch, (r)ight branch, (s)/(n) to continue allowed! ");
+                        + ")! Only (l)eft branch, (r)ight branch, (s)/(n)/(d) to continue allowed! ");
                     break;
                 }
             }
@@ -50,8 +51,8 @@ namespace de.unika.ipd.grGen.grShell
             WorkaroundManager.Workaround.PrintHighlighted("Please choose: Which sequence to execute?", HighlightingMode.Choicepoint);
             Console.WriteLine(" Pre-selecting sequence " + seqToExecute + " chosen by random.");
             Console.WriteLine("Press (0)...(9) to pre-select the corresponding sequence or (e) to enter the number of the sequence to show."
-                                + " Press (s) or (n) to commit to the pre-selected sequence and continue."
-                                + " Pressing (u) or (o) works like (s)/(n) but does not ask for the remaining contained sequences.");
+                                + " Press (s) or (n) or (d) to commit to the pre-selected sequence and continue."
+                                + " Pressing (u) or (o) works like (s)/(n)/(d) but does not ask for the remaining contained sequences.");
         }
 
         public static bool ChooseSequence(IDebuggerEnvironment env, ref int seqToExecute, List<Sequence> sequences, SequenceNAry seq)
@@ -96,6 +97,7 @@ namespace de.unika.ipd.grGen.grShell
                     break;
                 case 's':
                 case 'n':
+                case 'd':
                     return true;
                 case 'u':
                 case 'o':
@@ -103,7 +105,7 @@ namespace de.unika.ipd.grGen.grShell
                     return true;
                 default:
                     Console.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue, (u)/(o) to commit and skip remaining choices allowed! ");
+                        + ")! Only (0)...(9), (e)nter number, (s)/(n)/(d) to commit and continue, (u)/(o) to commit and skip remaining choices allowed! ");
                     break;
                 }
             }
@@ -115,7 +117,7 @@ namespace de.unika.ipd.grGen.grShell
             WorkaroundManager.Workaround.PrintHighlighted("Please choose: Which point in the interval series (corresponding to a sequence) to execute?", HighlightingMode.Choicepoint);
             Console.WriteLine(" Pre-selecting point " + pointToExecute + " chosen by random.");
             Console.WriteLine("Press (e) to enter a point in the interval series of the sequence to show."
-                                + " Press (s) or (n) to commit to the pre-selected sequence and continue.");
+                                + " Press (s) or (n) or (d) to commit to the pre-selected sequence and continue.");
         }
 
         public static bool ChoosePoint(IDebuggerEnvironment env, ref double pointToExecute, SequenceWeightedOne seq)
@@ -144,10 +146,11 @@ namespace de.unika.ipd.grGen.grShell
                     break;
                 case 's':
                 case 'n':
+                case 'd':
                     return true;
                 default:
                     Console.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (e)nter number and (s)/(n) to commit and continue allowed! ");
+                        + ")! Only (e)nter number and (s)/(n)/(d) to commit and continue allowed! ");
                     break;
                 }
             }
@@ -159,7 +162,7 @@ namespace de.unika.ipd.grGen.grShell
             WorkaroundManager.Workaround.PrintHighlighted("Please choose: Which match to execute?", HighlightingMode.Choicepoint);
             Console.WriteLine(" Pre-selecting match " + totalMatchToExecute + " chosen by random.");
             Console.WriteLine("Press (0)...(9) to pre-select the corresponding match or (e) to enter the number of the match to show."
-                                + " Press (s) or (n) to commit to the pre-selected match and continue.");
+                                + " Press (s) or (n) or (d) to commit to the pre-selected match and continue.");
         }
 
         public static bool ChooseMatch(IDebuggerEnvironment env, ref int totalMatchToExecute, SequenceSomeFromSet seq)
@@ -204,10 +207,11 @@ namespace de.unika.ipd.grGen.grShell
                     break;
                 case 's':
                 case 'n':
+                case 'd':
                     return true;
                 default:
                     Console.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue allowed! ");
+                        + ")! Only (0)...(9), (e)nter number, (s)/(n)/(d) to commit and continue allowed! ");
                     break;
                 }
             }
@@ -219,7 +223,7 @@ namespace de.unika.ipd.grGen.grShell
             WorkaroundManager.Workaround.PrintHighlighted("Please choose: Which match to apply?", HighlightingMode.Choicepoint);
             Console.WriteLine(" Showing the match chosen by random. (" + numFurtherMatchesToApply + " following)");
             Console.WriteLine("Press (0)...(9) to show the corresponding match or (e) to enter the number of the match to show."
-                                + " Press (s) or (n) to commit to the currently shown match and continue.");
+                                + " Press (s) or (n) or (d) to commit to the currently shown match and continue.");
         }
 
         public static bool ChooseMatch(IDebuggerEnvironment env, int matchToApply, IMatches matches, int numFurtherMatchesToApply, Sequence seq, out int newMatchToRewrite)
@@ -266,10 +270,11 @@ namespace de.unika.ipd.grGen.grShell
                     return false;
                 case 's':
                 case 'n':
+                case 'd':
                     return true;
                 default:
                     Console.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue allowed! ");
+                        + ")! Only (0)...(9), (e)nter number, (s)/(n)/(d) to commit and continue allowed! ");
                     break;
                 }
             }
