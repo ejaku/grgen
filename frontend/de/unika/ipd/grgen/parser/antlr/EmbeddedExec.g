@@ -207,7 +207,7 @@ seqSimpleSequence [ ExecNode xg ]
 		{ env.pushScope("if/then-part", getCoords(s)); } { xg.append("; "); }
 		sequence[xg] { env.popScope(); } (SEMI { xg.append("; "); } sequence[xg])? { env.popScope(); } RBRACE { xg.append("}"); }
 	| FOR l=LBRACE { env.pushScope("for/exec", getCoords(l)); } { xg.append("for{"); } seqEntity[xg] seqForSeqRemainder[xg, returns]
-	| IN { xg.append("in "); } seqVarUse[xg] (d=DOT attr=IDENT { xg.append("."+attr.getText()); })? 
+	| IN { xg.append("in "); } seqExpression[xg]
 		LBRACE { xg.append("{"); } { env.pushScope("in subgraph sequence", getCoords(l)); }
 		sequence[xg] { env.popScope(); } RBRACE { xg.append("}"); } 
 	| LBRACE { xg.append("{"); } { env.pushScope("sequence computation", getCoords(l)); }

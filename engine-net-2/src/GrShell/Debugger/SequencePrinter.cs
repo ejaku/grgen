@@ -451,9 +451,7 @@ namespace de.unika.ipd.grGen.grShell
         private static void PrintSequenceExecuteInSubgraph(SequenceExecuteInSubgraph seqExecInSub, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             WorkaroundManager.Workaround.PrintHighlighted("in ", highlightingMode);
-            WorkaroundManager.Workaround.PrintHighlighted(seqExecInSub.SubgraphVar.Name, highlightingMode);
-            if(seqExecInSub.AttributeName != null)
-                WorkaroundManager.Workaround.PrintHighlighted("." + seqExecInSub.AttributeName, highlightingMode);
+            PrintSequenceExpression(seqExecInSub.SubgraphExpr, seqExecInSub, highlightingMode, context);
             WorkaroundManager.Workaround.PrintHighlighted(" {", highlightingMode);
             PrintSequence(seqExecInSub.Seq, seqExecInSub, highlightingMode, context);
             WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);

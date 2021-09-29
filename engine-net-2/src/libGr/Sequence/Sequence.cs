@@ -7936,21 +7936,18 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceExecuteInSubgraph : SequenceUnary
     {
-        public readonly SequenceVariable SubgraphVar;
-        public readonly String AttributeName;
+        public readonly SequenceExpression SubgraphExpr;
 
-        public SequenceExecuteInSubgraph(SequenceVariable subgraphVar, String attributeName, Sequence seq)
+        public SequenceExecuteInSubgraph(SequenceExpression subgraphExpr, Sequence seq)
             : base(SequenceType.ExecuteInSubgraph, seq)
         {
-            SubgraphVar = subgraphVar;
-            AttributeName = attributeName;
+            SubgraphExpr = subgraphExpr;
         }
 
         protected SequenceExecuteInSubgraph(SequenceExecuteInSubgraph that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
             : base(that, originalToCopy, procEnv)
         {
-            SubgraphVar = that.SubgraphVar.Copy(originalToCopy, procEnv);
-            AttributeName = that.AttributeName;
+            SubgraphExpr = that.SubgraphExpr.CopyExpression(originalToCopy, procEnv);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -7961,51 +7958,23 @@ namespace de.unika.ipd.grGen.libGr
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env);
-            if(AttributeName == null)
-            {
-                if(!TypesHelper.IsSameOrSubtype(SubgraphVar.Type, "graph", env.Model))
-                    throw new SequenceParserException(Symbol, "graph", SubgraphVar.Type);
-            }
-            else
-            {
-                if(!TypesHelper.IsSameOrSubtype(CheckAndReturnAttributeType(env), "graph", env.Model))
-                    throw new SequenceParserException(Symbol, "graph", SubgraphVar.Type);
-            }
-        }
 
-        public string CheckAndReturnAttributeType(SequenceCheckingEnvironment env)
-        {
-            if(SubgraphVar.Type == "")
-                return ""; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
-
-            InheritanceType inheritanceType = TypesHelper.GetInheritanceType(SubgraphVar.Type, env.Model);
-            if(inheritanceType == null)
-                throw new SequenceParserException(Symbol, "node or edge or object or transient object type (class)", SubgraphVar.Type);
-            AttributeType attributeType = inheritanceType.GetAttributeType(AttributeName);
-            if(attributeType == null)
-                throw new SequenceParserException(AttributeName, SequenceParserError.UnknownAttribute);
-
-            return TypesHelper.AttributeTypeToXgrsType(attributeType);
+            if(!TypesHelper.IsSameOrSubtype(SubgraphExpr.Type(env), "graph", env.Model))
+                throw new SequenceParserException(Symbol, "graph", SubgraphExpr.Type(env));
         }
 
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
             List<SequenceExpressionConstructor> constructors, SequenceBase target)
         {
             Seq.GetLocalVariables(variables, constructors, target);
-            SubgraphVar.GetLocalVariables(variables);
+            SubgraphExpr.GetLocalVariables(variables, constructors, target);
             return this == target;
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
-            IGraph subgraph;
-            if(AttributeName == null)
-                subgraph = (IGraph)SubgraphVar.GetVariableValue(procEnv);
-            else
-            {
-                IGraphElement elem = (IGraphElement)SubgraphVar.GetVariableValue(procEnv);
-                subgraph = (IGraph)elem.GetAttribute(AttributeName);
-            }
+            IGraph subgraph = (IGraph)SubgraphExpr.Evaluate(procEnv);
+
             procEnv.SwitchToSubgraph(subgraph);
 
             bool res = Seq.Apply(procEnv);
@@ -8022,7 +7991,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "in " + (AttributeName != null ? SubgraphVar.Name + AttributeName : SubgraphVar.Name) + "{ " + Seq.Symbol + " }" ; }
+            get { return "in " + (SubgraphExpr.Symbol) + " { " + Seq.Symbol + " }" ; }
         }
     }
 

@@ -1535,10 +1535,10 @@ Sequence SimpleSequence():
         }
     )
 |
-    "in" toVar=VariableUse() ("." attrName=Word())?
+    "in" expr=Expression()
         "{" { varDecls.PushScope(ScopeType.InSubgraph); } seq=RewriteSequence() { varDecls.PopScope(variableList1); } "}"
     {
-        return new SequenceExecuteInSubgraph(toVar, attrName, seq);
+        return new SequenceExecuteInSubgraph(expr, seq);
     }
 |
     ("%" { special = true; })? "{" { varDecls.PushScope(ScopeType.Computation); }

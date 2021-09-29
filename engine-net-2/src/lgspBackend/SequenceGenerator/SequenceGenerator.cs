@@ -1487,14 +1487,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void EmitSequenceExecuteInSubgraph(SequenceExecuteInSubgraph seqExecInSub, SourceBuilder source)
         {
-            string subgraph;
-            if(seqExecInSub.AttributeName == null)
-                subgraph = seqHelper.GetVar(seqExecInSub.SubgraphVar);
-            else
-            {
-                string element = "((GRGEN_LIBGR.IGraphElement)" + seqHelper.GetVar(seqExecInSub.SubgraphVar) + ")";
-                subgraph = element + ".GetAttribute(\"" + seqExecInSub.AttributeName + "\")";
-            }
+            string subgraph = exprGen.GetSequenceExpression(seqExecInSub.SubgraphExpr, source);
             source.AppendFront("procEnv.SwitchToSubgraph((GRGEN_LIBGR.IGraph)" + subgraph + ");\n");
             source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
             EmitSequence(seqExecInSub.Seq, source);
