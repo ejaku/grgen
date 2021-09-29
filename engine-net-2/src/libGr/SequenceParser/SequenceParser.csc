@@ -2061,6 +2061,7 @@ SequenceExpression SelectorExpression(SequenceExpression fromExpr):
                 }
             }
     |
+        LOOKAHEAD({ GetToken(0).kind == WORD && GetToken(0).image == "removeIf" })
         "{" { varDecls.PushScope(ScopeType.Computation); }
         arrayAccessWithPreviousAccumulationAccessWithIndexWithValue=LambdaExprVarDeclPrefix() expr=Expression()
         { varDecls.PopScope(variableList); } "}"

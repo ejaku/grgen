@@ -475,7 +475,7 @@ seqExprSelector [ ExprNode prefix, ExecNode xg ] returns [ ExprNode res = prefix
 	: d=DOT methodOrAttrName=seqMemberIdentUse { xg.append("."+methodOrAttrName.getSymbol().getText()); } 
 		(
 			{ env.isArrayAttributeAccessMethodName(input.get(input.LT(1).getTokenIndex()-1).getText()) }?
-				LT mi=memberIdentUse GT { xg.append("<" + mi.getSymbol().getText() + ">"); }
+				LT mi=seqMemberIdentUse GT { xg.append("<" + mi.getSymbol().getText() + ">"); }
 			LPAREN { xg.append("("); } 
 			( arg=seqExpression[xg] { arguments.addChild(arg); }
 				( COMMA { xg.append(","); } arg=seqExpression[xg] { arguments.addChild(arg); } )*
@@ -483,7 +483,7 @@ seqExprSelector [ ExprNode prefix, ExecNode xg ] returns [ ExprNode res = prefix
 			{ res = new FunctionMethodInvocationDecisionNode(prefix, methodOrAttrName, arguments, mi); }
 		|
 			{ input.get(input.LT(1).getTokenIndex()-1).getText().equals("map") }?
-				LT ti=typeIdentUse GT { xg.append("<" + ti.getSymbol().getText() + ">"); }
+				LT ti=seqTypeIdentUse GT { xg.append("<" + ti.getSymbol().getText() + ">"); }
 			( combinedName=seqInitExpression[xg, methodOrAttrName.toString()]
 				{ if(!combinedName.equals("mapStartWithAccumulateBy"))
 					reportError(getCoords(d), "Unknown lambda-expression method " + combinedName + ". Available are: assign, removeIf, assignStartWithAccumulateBy.");
