@@ -12,7 +12,7 @@ using System;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// A named graph-global variable.
+    /// A named global variable.
     /// </summary>
     public class Variable
     {

@@ -115,7 +115,7 @@
     <Compile Include="Actions\VarType.cs" />
     <Compile Include="backendInterface.cs" />
     <Compile Include="Actions\BaseActions.cs" />
-    <Compile Include="GraphProcessingEnvironments\GraphGlobalVariable.cs" />
+    <Compile Include="GraphProcessingEnvironments\GlobalVariable.cs" />
     <Compile Include="GraphProcessingEnvironments\IRecorder.cs" />
     <Compile Include="GraphProcessingEnvironments\ITransactionManager.cs" />
     <Compile Include="GraphProcessingEnvironments\PerformanceInfo.cs" />
