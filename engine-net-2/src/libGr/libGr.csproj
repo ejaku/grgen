@@ -83,6 +83,7 @@
     <Compile Include="AttributeTypeEmitHelper.cs" />
     <Compile Include="DequeHelper.cs" />
     <Compile Include="DotNetTypesHelper.cs" />
+    <Compile Include="GraphProcessingEnvironments\IGlobalVariables.cs" />
     <Compile Include="Graph\BaseObjectType.cs" />
     <Compile Include="Graph\IAttributeBearer.cs" />
     <Compile Include="Graph\IBaseObject.cs" />

@@ -21,7 +21,7 @@ namespace Alternatives
 
         void DoAlt()
         {
-            graph = new LGSPGraph(new AlternativesGraphModel());
+            graph = new LGSPGraph(new AlternativesGraphModel(), new LGSPGlobalVariables());
             actions = new AlternativesActions(graph);
             procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 

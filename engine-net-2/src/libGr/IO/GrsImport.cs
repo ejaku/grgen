@@ -299,15 +299,16 @@ namespace de.unika.ipd.grGen.libGr
             int capacity = (int)(fileSize / 50);
             String capacityStr = "capacity=" + capacity.ToString();
 
+            IGlobalVariables globalVariables = backend.CreateGlobalVariables();
             if(model!=null)
-                graph = backend.CreateNamedGraph(model, graphName, capacityStr);
+                graph = backend.CreateNamedGraph(model, globalVariables, graphName, capacityStr);
             else 
             {
                 if(modelFilename.EndsWith(".grg"))
-                    backend.CreateNamedFromSpec(modelFilename, graphName, null, ProcessSpecFlags.UseNoExistingFiles, new List<String>(), capacity,
+                    backend.CreateNamedFromSpec(modelFilename, globalVariables, graphName, null, ProcessSpecFlags.UseNoExistingFiles, new List<String>(), capacity,
                         out graph, out actions);
                 else
-                    graph = backend.CreateNamedGraph(modelFilename, graphName, capacityStr);
+                    graph = backend.CreateNamedGraph(modelFilename, globalVariables, graphName, capacityStr);
             }
 
             nameToSubgraph.Add(graph.Name, graph);

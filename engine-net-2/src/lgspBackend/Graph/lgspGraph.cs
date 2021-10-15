@@ -51,6 +51,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private readonly IIndexSet indices;
         private readonly LGSPUniquenessEnsurer uniquenessEnsurer; // not null if unique ids for nodes/edges were requested
+        private readonly LGSPGlobalVariables globalVariables;
 
         // Used as storage space for the name for the SettingAddedEdgeNames event, in case of redirection
         public readonly string[] nameOfSingleElementAdded = new string[1];
@@ -178,23 +179,26 @@ namespace de.unika.ipd.grGen.lgsp
 
 
         /// <summary>
-        /// Constructs an LGSPGraph object with the given model and an automatically generated name.
+        /// Constructs an LGSPGraph object with the given model, the given global variables, and an automatically generated name.
         /// </summary>
         /// <param name="grmodel">The graph model.</param>
-        public LGSPGraph(IGraphModel grmodel)
-            : this(grmodel, GetGraphName())
+        /// <param name="globalVars">The global variables.</param>
+        public LGSPGraph(IGraphModel grmodel, IGlobalVariables globalVars)
+            : this(grmodel, globalVars, GetGraphName())
         {
         }
 
         /// <summary>
-        /// Constructs an LGSPGraph object with the given model and name.
+        /// Constructs an LGSPGraph object with the given model, the given global variables, and the given name.
         /// </summary>
         /// <param name="grmodel">The graph model.</param>
+        /// <param name="globalVars">The global variables.</param>
         /// <param name="grname">The name for the graph.</param>
-        public LGSPGraph(IGraphModel grmodel, String grname)
+        public LGSPGraph(IGraphModel grmodel, IGlobalVariables globalVars, String grname)
         {
             model = grmodel;
             modelAssemblyName = Assembly.GetAssembly(grmodel.GetType()).Location;
+            globalVariables = (LGSPGlobalVariables)globalVars;
 
             graphID = GetGraphId();
             NextGraphIdAndName();
@@ -216,6 +220,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             model = dataSource.model;
             modelAssemblyName = dataSource.modelAssemblyName;
+            globalVariables = dataSource.globalVariables;
 
             graphID = GetGraphId();
             NextGraphIdAndName();
@@ -377,6 +382,14 @@ namespace de.unika.ipd.grGen.lgsp
         public override IUniquenessHandler UniquenessHandler
         {
             get { return uniquenessEnsurer; }
+        }
+
+        /// <summary>
+        /// The global variables of the graph rewrite system; convenience access to save parameter passing.
+        /// </summary>
+        public override IGlobalVariables GlobalVariables
+        {
+            get { return globalVariables; }
         }
 
         /// <summary>
@@ -813,8 +826,6 @@ namespace de.unika.ipd.grGen.lgsp
                 head.lgspTypePrev = head;
                 edgesByTypeCounts[i] = 0;
             }
-
-            ResetObjectUniqueIdSource();
 
             statistics.ResetStatisticalData();
 
@@ -1954,7 +1965,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>A new empty graph of the same model.</returns>
         public override IGraph CreateEmptyEquivalent(String newName)
         {
-            return new LGSPGraph(this.model, newName);
+            return new LGSPGraph(this.model, this.globalVariables, newName);
         }
 
         /// <summary>

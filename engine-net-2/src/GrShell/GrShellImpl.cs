@@ -1598,10 +1598,11 @@ namespace de.unika.ipd.grGen.grShell
 
             if(specFilename.EndsWith(".cs", StringComparison.OrdinalIgnoreCase) || specFilename.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
             {
+                IGlobalVariables globalVariables = new LGSPGlobalVariables();
                 INamedGraph graph;
                 try
                 {
-                    graph = curGraphBackend.CreateNamedGraph(specFilename, graphName, backendParameters);
+                    graph = curGraphBackend.CreateNamedGraph(specFilename, globalVariables, graphName, backendParameters);
                 }
                 catch(Exception e)
                 {
@@ -1643,6 +1644,7 @@ namespace de.unika.ipd.grGen.grShell
 
                 if(specFilename.EndsWith(".gm", StringComparison.OrdinalIgnoreCase))
                 {
+                    IGlobalVariables globalVariables = new LGSPGlobalVariables();
                     INamedGraph graph;
                     try
                     {
@@ -1659,7 +1661,7 @@ namespace de.unika.ipd.grGen.grShell
                             flags |= ProcessSpecFlags.Noinline;
                         if(forceRebuild)
                             flags |= ProcessSpecFlags.GenerateEvenIfSourcesDidNotChange;
-                        graph = curGraphBackend.CreateNamedFromSpec(specFilename, graphName, null,
+                        graph = curGraphBackend.CreateNamedFromSpec(specFilename, globalVariables, graphName, null,
                             flags, newGraphOptions.ExternalAssembliesReferenced, 0);
                     }
                     catch(Exception e)
@@ -1682,6 +1684,7 @@ namespace de.unika.ipd.grGen.grShell
                 }
                 else if(specFilename.EndsWith(".grg", StringComparison.OrdinalIgnoreCase))
                 {
+                    IGlobalVariables globalVariables = new LGSPGlobalVariables();
                     INamedGraph graph;
                     IActions actions;
                     
@@ -1700,7 +1703,7 @@ namespace de.unika.ipd.grGen.grShell
                             flags |= ProcessSpecFlags.Noinline;
                         if(forceRebuild)
                             flags |= ProcessSpecFlags.GenerateEvenIfSourcesDidNotChange;
-                        curGraphBackend.CreateNamedFromSpec(specFilename, graphName, newGraphOptions.Statistics,
+                        curGraphBackend.CreateNamedFromSpec(specFilename, globalVariables, graphName, newGraphOptions.Statistics,
                             flags, newGraphOptions.ExternalAssembliesReferenced, 0,
                             out graph, out actions);
                     }
@@ -4831,7 +4834,7 @@ showavail:
 
             alreadyVisitedObjectMap.Add(obj, null);
 
-            obj.SetUniqueId(CurrentGraph.FetchObjectUniqueId());
+            obj.SetUniqueId(CurrentGraph.GlobalVariables.FetchObjectUniqueId());
 
             foreach(AttributeType attr in obj.Type.AttributeTypes)
             {

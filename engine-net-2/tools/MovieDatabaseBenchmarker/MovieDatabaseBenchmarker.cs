@@ -43,7 +43,7 @@ namespace MovieDatabase
             {
                 Console.WriteLine("Synthesizing test graph with iteration count " + args[1] + " ...");
 
-                graph = new MovieDatabaseModelGraph();
+                graph = new MovieDatabaseModelGraph(new LGSPGlobalVariables());
                 actions = new MovieDatabaseActions(graph);
                 procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 

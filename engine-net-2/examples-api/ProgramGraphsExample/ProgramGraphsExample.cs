@@ -16,12 +16,13 @@ namespace ProgramGraphs
     class ProgramGraphsExample
     {
         LGSPGraph graph;
+        LGSPGlobalVariables globalVars;
         ProgramGraphsOriginalActions actions;
         LGSPGraphProcessingEnvironment procEnv;
 
         void DoIt()
         {
-            graph = new LGSPGraph(new ProgramGraphsOriginalGraphModel());
+            graph = new LGSPGraph(new ProgramGraphsOriginalGraphModel(), new LGSPGlobalVariables());
             actions = new ProgramGraphsOriginalActions(graph);
             procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 

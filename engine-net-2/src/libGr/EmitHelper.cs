@@ -245,7 +245,7 @@ namespace de.unika.ipd.grGen.libGr
             bool first = true;
             if(procEnv != null)
             {
-                sb.Append("&:" + procEnv.GetUniqueId(value));
+                sb.Append("&:" + procEnv.Graph.GlobalVariables.GetUniqueId(value));
                 first = false;
             }
             if(!firstLevelObjectEmitted)

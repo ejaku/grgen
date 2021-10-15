@@ -587,9 +587,9 @@ namespace de.unika.ipd.grGen.grShell
             long uniqueId;
             if(HexToLong(argument.Substring(1), out uniqueId))
             {
-                if(shellProcEnv.ProcEnv.GetTransientObject(uniqueId) != null)
+                if(shellProcEnv.ProcEnv.Graph.GlobalVariables.GetTransientObject(uniqueId) != null)
                 {
-                    ITransientObject obj = shellProcEnv.ProcEnv.GetTransientObject(uniqueId);
+                    ITransientObject obj = shellProcEnv.ProcEnv.Graph.GlobalVariables.GetTransientObject(uniqueId);
                     Console.WriteLine(EmitHelper.ToStringAutomatic(obj, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, shellProcEnv.ProcEnv));
                 }
                 else
@@ -1249,7 +1249,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        private void DebugClearingGraph()
+        private void DebugClearingGraph(IGraph graph)
         {
             if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
                 return;

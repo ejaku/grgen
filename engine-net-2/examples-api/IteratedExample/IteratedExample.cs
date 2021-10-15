@@ -21,7 +21,7 @@ namespace Iterated
 
         void DoIter()
         {
-            graph = new LGSPGraph(new StdGraphModel());
+            graph = new LGSPGraph(new StdGraphModel(), new LGSPGlobalVariables());
             actions = new spanningTreeActions(graph);
             procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 

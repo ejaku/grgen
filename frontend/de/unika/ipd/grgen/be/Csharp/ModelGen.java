@@ -838,7 +838,7 @@ public class ModelGen extends CSharpBase
 					+ (extName == null ? typeref + ".typeVar, " : "") + "newSource, newTarget)\n");
 		} else if(type instanceof InternalObjectType) {
 			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base("
-					+ (extName == null ? typeref + ".typeVar, " : "") + "graph.FetchObjectUniqueId())\n");
+					+ (extName == null ? typeref + ".typeVar, " : "") + "graph.GlobalVariables.FetchObjectUniqueId())\n");
 		} else {
 			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base("
 					+ (extName == null ? typeref + ".typeVar" : "") + ")\n");
@@ -2251,13 +2251,13 @@ deque_init_loop:
 			} else {
 				sb.appendFront("if(uniqueId != -1) {\n");
 				sb.indent();
-				sb.appendFront(allocName + " newObject = new " + allocName + "(graph.FetchObjectUniqueId(uniqueId));\n");
+				sb.appendFront(allocName + " newObject = new " + allocName + "(graph.GlobalVariables.FetchObjectUniqueId(uniqueId));\n");
 				sb.appendFront("((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);\n");
 				sb.appendFront("return newObject;\n");
 				sb.unindent();
 				sb.appendFront("} else {\n");
 				sb.indent();
-				sb.appendFront(allocName + " newObject = new " + allocName + "(graph.FetchObjectUniqueId());\n");
+				sb.appendFront(allocName + " newObject = new " + allocName + "(graph.GlobalVariables.FetchObjectUniqueId());\n");
 				sb.appendFront("((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);\n");
 				sb.appendFront("return newObject;\n");
 				sb.unindent();
@@ -3500,7 +3500,7 @@ commonLoop:
 		sb.appendFront("{\n");
 		sb.indent();
 
-		sb.appendFront("public " + modelName + "Graph() : base(new " + modelName + "GraphModel(), GetGraphName())\n");
+		sb.appendFront("public " + modelName + "Graph(GRGEN_LGSP.LGSPGlobalVariables globalVariables) : base(new " + modelName + "GraphModel(), globalVariables, GetGraphName())\n");
 		sb.appendFront("{\n");
 		sb.appendFront("}\n");
 		sb.append("\n");
@@ -3539,8 +3539,8 @@ commonLoop:
 		sb.appendFront("{\n");
 		sb.indent();
 
-		sb.appendFront("public " + modelName + "NamedGraph() "
-				+ ": base(new " + modelName + "GraphModel(), GetGraphName(), 0)\n");
+		sb.appendFront("public " + modelName + "NamedGraph(GRGEN_LGSP.LGSPGlobalVariables globalVariables) "
+				+ ": base(new " + modelName + "GraphModel(), globalVariables, GetGraphName(), 0)\n");
 		sb.appendFront("{\n");
 		sb.appendFront("}\n");
 		sb.append("\n");

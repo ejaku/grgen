@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="ExpressionOrYielding\ContainerExpression.cs" />
     <Compile Include="ExpressionOrYielding\Expression.cs" />
+    <Compile Include="GraphProcessingEnvironments\lgspGlobalVariables.cs" />
     <Compile Include="Graph\GraphStatisticsParserSerializer.cs" />
     <Compile Include="Graph\lgspObject.cs" />
     <Compile Include="Graph\lgspTransientObject.cs" />

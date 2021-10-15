@@ -43,12 +43,13 @@ namespace YCompExample
         public static void Main(string[] args)
         {
             LGSPNamedGraph graph;
+            LGSPGlobalVariables globalVars = new LGSPGlobalVariables();
             LGSPActions actions;
             LGSPGraphProcessingEnvironment procEnv;
 
             try
             {
-                LGSPBackend.Instance.CreateNamedFromSpec("Mutex.grg", null, 0, out graph, out actions);
+                LGSPBackend.Instance.CreateNamedFromSpec("Mutex.grg", globalVars, null, 0, out graph, out actions);
                 procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
             }
             catch(Exception ex)
@@ -80,7 +81,7 @@ namespace YCompExample
             procEnv.ApplyGraphRewriteSequence("(takeRule && releaseRule && giveRule)*");
             PrintAndWait("Nothing changed so far on the display.", ycomp);
 
-            ycomp.ClearGraph();
+            ycomp.ClearGraph(graph);
             UploadGraph(graph, ycomp);
             PrintAndWait("Graph newly uploaded to yComp.", ycomp);
 

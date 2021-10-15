@@ -38,12 +38,13 @@ namespace VisitedExample
         public WalkerHandler PostHandler;
         public WalkerMode Mode;
 
-        public DFSWalker(IGraph graph, WalkerHandler pre, WalkerHandler post, int visitorID)
+        public DFSWalker(IGraph graph, WalkerHandler pre, WalkerHandler post, int visitorID, WalkerMode mode)
         {
             Graph = graph;
             PreHandler = pre;
             PostHandler = post;
             VisitorID = visitorID;
+            Mode = mode;
         }
 
         public WalkerResult DoDFS(INode node)
@@ -163,7 +164,7 @@ namespace VisitedExample
 
         private void Run()
         {
-            graph = new StdNamedGraph();
+            graph = new StdNamedGraph(new LGSPGlobalVariables());
 
             int numNodes = 10;
             int numEdges = 20;
@@ -180,7 +181,7 @@ namespace VisitedExample
                 GraphDumper.Dump(graph, dumper);
 
             int visitorID = graph.AllocateVisitedFlag();
-            DFSWalker dfs = new DFSWalker(graph, PreWalker, PostWalker, visitorID);
+            DFSWalker dfs = new DFSWalker(graph, PreWalker, PostWalker, visitorID, WalkerMode.Outgoing);
             dfs.DoDFS(nodes[0]);
             Console.WriteLine("Visited nodes DFS: pre=" + countedNodesPre + " post=" + countedNodesPost);
 

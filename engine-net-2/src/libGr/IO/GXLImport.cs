@@ -130,17 +130,18 @@ namespace de.unika.ipd.grGen.libGr
             else
                 modelfilename = modelOverride;
 
+            IGlobalVariables globalVariables = backend.CreateGlobalVariables();
             IGraph graph;
             String graphname = graphelem.GetAttribute("id");
             if(modelfilename.EndsWith(".grg"))
             {
-                backend.CreateFromSpec(modelfilename, graphname, null, 
+                backend.CreateFromSpec(modelfilename, globalVariables, graphname, null, 
                     ProcessSpecFlags.UseNoExistingFiles, new List<String>(), 
                     out graph, out actions);
             }
             else
             {
-                graph = backend.CreateGraph(modelfilename, graphname);
+                graph = backend.CreateGraph(modelfilename, globalVariables, graphname);
                 actions = null;
             }
 
@@ -198,8 +199,9 @@ namespace de.unika.ipd.grGen.libGr
             if(graphelem == null)
                 throw new Exception("No non-meta graph found!");
 
+            IGlobalVariables globalVariables = backend.CreateGlobalVariables();
             String graphname = graphelem.GetAttribute("id");
-            IGraph graph = backend.CreateGraph(graphModel, graphname);
+            IGraph graph = backend.CreateGraph(graphModel, globalVariables, graphname);
 
             ImportGraph(graph, doc, graphelem);
 

@@ -38,7 +38,7 @@ namespace MutexExample
         {
             int startTime = Environment.TickCount;
 
-            MutexGraph graph = new MutexGraph();
+            MutexGraph graph = new MutexGraph(new LGSPGlobalVariables());
             MutexPimpedActions actions = new MutexPimpedActions(graph);
             LGSPGraphProcessingEnvironment procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
@@ -136,7 +136,7 @@ namespace MutexExample
         {
             int startTime = Environment.TickCount;
 
-			MutexGraph graph = new MutexGraph();
+			MutexGraph graph = new MutexGraph(new LGSPGlobalVariables());
 			MutexPimpedActions actions = new MutexPimpedActions(graph);
             LGSPGraphProcessingEnvironment procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 
@@ -176,7 +176,7 @@ namespace MutexExample
         {
             int startTime = Environment.TickCount;
 
-			MutexGraph graph = new MutexGraph();
+			MutexGraph graph = new MutexGraph(new LGSPGlobalVariables());
 			MutexPimpedActions actions = new MutexPimpedActions(graph);
             LGSPGraphProcessingEnvironment procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 

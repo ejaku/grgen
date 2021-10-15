@@ -105,47 +105,58 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         IEnumerable<String> ArgumentNames { get; }
 
+
+        /// <summary>
+        /// Returns a new instance of the global variables/state; normally, you want/need only one instance, to be fed to all graphs.
+        /// </summary>
+        IGlobalVariables CreateGlobalVariables();
+
         /// <summary>
         /// Creates a new IGraph backend instance with the given graph model and name.
         /// </summary>
         /// <param name="graphModel">An IGraphModel instance.</param>
+        /// <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
         /// <param name="graphName">Name of the graph.</param>
         /// <param name="parameters">Backend specific parameters.</param>
         /// <returns>The new IGraph backend instance.</returns>
-        IGraph CreateGraph(IGraphModel graphModel, String graphName, params String[] parameters);
+        IGraph CreateGraph(IGraphModel graphModel, IGlobalVariables globalVariables, String graphName, params String[] parameters);
 
         /// <summary>
         /// Creates a new INamedGraph backend instance with the given graph model and name.
         /// </summary>
         /// <param name="graphModel">An IGraphModel instance.</param>
+        /// <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
         /// <param name="graphName">Name of the graph.</param>
         /// <param name="parameters">Backend specific parameters.</param>
         /// <returns>The new INamedGraph backend instance.</returns>
-        INamedGraph CreateNamedGraph(IGraphModel graphModel, String graphName, params String[] parameters);
+        INamedGraph CreateNamedGraph(IGraphModel graphModel, IGlobalVariables globalVariables, String graphName, params String[] parameters);
 
         /// <summary>
         /// Creates a new IGraph backend instance with the graph model provided by the graph model file and a name.
         /// </summary>
         /// <param name="modelFilename">Filename of a graph model file.</param>
+        /// <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
         /// <param name="graphName">Name of the graph.</param>
         /// <param name="parameters">Backend specific parameters.</param>
         /// <returns>The new IGraph backend instance.</returns>
-        IGraph CreateGraph(String modelFilename, String graphName, params String[] parameters);
+        IGraph CreateGraph(String modelFilename, IGlobalVariables globalVariables, String graphName, params String[] parameters);
 
         /// <summary>
         /// Creates a new INamedGraph backend instance with the graph model provided by the graph model file and a name.
         /// </summary>
         /// <param name="modelFilename">Filename of a graph model file.</param>
+        /// <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
         /// <param name="graphName">Name of the graph.</param>
         /// <param name="parameters">Backend specific parameters.</param>
         /// <returns>The new INamedGraph backend instance.</returns>
-        INamedGraph CreateNamedGraph(String modelFilename, String graphName, params String[] parameters);
+        INamedGraph CreateNamedGraph(String modelFilename, IGlobalVariables globalVariables, String graphName, params String[] parameters);
 
         /// <summary>
         /// Creates a new IGraph and IActions backend instance from the specified specification file.
         /// If neccessary, any processing steps are performed automatically.
         /// </summary>
         /// <param name="grgFilename">Filename of the rule specification file (.grg).</param>
+        /// <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
         /// <param name="graphName">Name of the new graph.</param>
         /// <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
         /// <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
@@ -153,7 +164,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="newGraph">Returns the new graph.</param>
         /// <param name="newActions">Returns the new IActions object.</param>
         /// <exception cref="System.Exception">Thrown when something goes wrong.</exception>
-        void CreateFromSpec(String grgFilename, String graphName, String statisticsPath,
+        void CreateFromSpec(String grgFilename, IGlobalVariables globalVariables, String graphName, String statisticsPath,
             ProcessSpecFlags flags, List<String> externalAssemblies,
             out IGraph newGraph, out IActions newActions);
 
@@ -162,6 +173,7 @@ namespace de.unika.ipd.grGen.libGr
         /// If neccessary, any processing steps are performed automatically.
         /// </summary>
         /// <param name="grgFilename">Filename of the rule specification file (.grg).</param>
+        /// <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
         /// <param name="graphName">Name of the new graph.</param>
         /// <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
         /// <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
@@ -170,7 +182,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="newGraph">Returns the new named graph.</param>
         /// <param name="newActions">Returns the new IActions object.</param>
         /// <exception cref="System.Exception">Thrown when something goes wrong.</exception>
-        void CreateNamedFromSpec(String grgFilename, String graphName, String statisticsPath, 
+        void CreateNamedFromSpec(String grgFilename, IGlobalVariables globalVariables, String graphName, String statisticsPath, 
             ProcessSpecFlags flags, List<String> externalAssemblies, int capacity,
             out INamedGraph newGraph, out IActions newActions);
 
@@ -179,6 +191,7 @@ namespace de.unika.ipd.grGen.libGr
         /// If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
         /// </summary>
         /// <param name="gmFilename">Filename of the model specification file (.gm).</param>
+        /// <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
         /// <param name="graphName">Name of the new graph.</param>
         /// <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
         /// <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
@@ -186,7 +199,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <exception cref="System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
         /// <exception cref="System.Exception">Thrown, when something goes wrong.</exception>
         /// <returns>The new IGraph backend instance.</returns>
-        IGraph CreateFromSpec(String gmFilename, String graphName, String statisticsPath,
+        IGraph CreateFromSpec(String gmFilename, IGlobalVariables globalVariables, String graphName, String statisticsPath,
             ProcessSpecFlags flags, List<String> externalAssemblies);
 
         /// <summary>
@@ -194,6 +207,7 @@ namespace de.unika.ipd.grGen.libGr
         /// If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
         /// </summary>
         /// <param name="gmFilename">Filename of the model specification file (.gm).</param>
+        /// <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
         /// <param name="graphName">Name of the new graph.</param>
         /// <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
         /// <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
@@ -202,7 +216,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <exception cref="System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
         /// <exception cref="System.Exception">Thrown, when something goes wrong.</exception>
         /// <returns>The new INamedGraph backend instance.</returns>
-        INamedGraph CreateNamedFromSpec(String gmFilename, String graphName, String statisticsPath,
+        INamedGraph CreateNamedFromSpec(String gmFilename, IGlobalVariables globalVariables, String graphName, String statisticsPath,
             ProcessSpecFlags flags, List<String> externalAssemblies, int capacity);
 
         /// <summary>

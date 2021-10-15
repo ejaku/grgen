@@ -17,7 +17,7 @@ namespace test
     {
         static void Main(string[] args)
         {
-            complModelNamedGraph graph = new complModelNamedGraph();
+            complModelNamedGraph graph = new complModelNamedGraph(new LGSPGlobalVariables());
             graph.ReuseOptimization = false;
             LGSPActions actions = new testActions(graph);
             LGSPGraphProcessingEnvironment procEnv = new LGSPGraphProcessingEnvironment(graph, actions);

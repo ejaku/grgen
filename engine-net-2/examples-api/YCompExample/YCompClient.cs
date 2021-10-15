@@ -928,7 +928,7 @@ namespace de.unika.ipd.grGen.grShell
             ycompStream.Write("renameEdge \"e" + oldName + "\" \"e" + newName + "\"\n");
         }
 
-        public void ClearGraph()
+        public void ClearGraph(IGraph graph)
         {
             ycompStream.Write("deleteGraph\n");
             isDirty = false;

@@ -13,9 +13,10 @@ class HelloMutex
     static void Main(string[] args)
     {
         LGSPNamedGraph graph;
+        LGSPGlobalVariables globalVars = new LGSPGlobalVariables();
         LGSPActions actions;
 
-        LGSPBackend.Instance.CreateNamedFromSpec("Mutex.grg", null, 0, out graph, out actions);
+        LGSPBackend.Instance.CreateNamedFromSpec("Mutex.grg", globalVars, null, 0, out graph, out actions);
 
         LGSPGraphProcessingEnvironment procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 

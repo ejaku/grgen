@@ -27,7 +27,7 @@ namespace EFS
         // and the manually coded XXXExternalFunctionsImpl.cs file exemplifies how to implement these external functions.
         void DoEFS()
         {
-            graph = new ExternalFiltersAndSequencesGraph();
+            graph = new ExternalFiltersAndSequencesGraph(new LGSPGlobalVariables());
             actions = new ExternalFiltersAndSequencesActions(graph);
             procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 

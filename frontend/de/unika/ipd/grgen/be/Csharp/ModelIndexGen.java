@@ -939,7 +939,7 @@ public class ModelIndexGen extends CSharpBase
 		String attributeName = index.entity.getIdent().toString();
 		String graphElementType = formatElementInterfaceRef(index.type);
 
-		sb.appendFront("void ClearingGraph()\n");
+		sb.appendFront("void ClearingGraph(GRGEN_LIBGR.IGraph graph)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("// ReInitialize AA tree to clear the index\n");
@@ -1756,7 +1756,7 @@ public class ModelIndexGen extends CSharpBase
 		String incidentEdgeType = formatElementInterfaceRef(index.getIncidentEdgeType());
 		String incidentEdgeTypeType = formatTypeClassRefInstance(index.getIncidentEdgeType());
 
-		sb.appendFront("void ClearingGraph()\n");
+		sb.appendFront("void ClearingGraph(GRGEN_LIBGR.IGraph graph)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("// ReInitialize AA tree to clear the index\n");

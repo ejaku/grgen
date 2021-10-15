@@ -21,7 +21,7 @@ namespace Recursive
 
         void DoAlt()
         {
-            graph = new StdGraph();
+            graph = new StdGraph(new LGSPGlobalVariables());
             actions = new RecursiveActions(graph);
             procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 

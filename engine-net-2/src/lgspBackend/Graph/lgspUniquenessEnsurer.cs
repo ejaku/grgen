@@ -54,7 +54,7 @@ namespace de.unika.ipd.grGen.lgsp
             heap.AddRange(original.heap);
         }
 
-        public virtual void ClearingGraph()
+        public virtual void ClearingGraph(IGraph graph)
         {
             nextNewId = 0;
 
@@ -257,9 +257,9 @@ namespace de.unika.ipd.grGen.lgsp
             index = new List<IGraphElement>();
         }
 
-        public override void ClearingGraph()
+        public override void ClearingGraph(IGraph graph)
         {
-            base.ClearingGraph();
+            base.ClearingGraph(graph);
 
             index.Clear();
         }

@@ -134,8 +134,9 @@ namespace de.unika.ipd.grGen.libGr
                 }
             }
 
+            IGlobalVariables globalVariables = backend.CreateGlobalVariables();
             IGraph graph;
-            backend.CreateFromSpec(grgFilename, "defaultname", null,
+            backend.CreateFromSpec(grgFilename, globalVariables, "defaultname", null,
                 ProcessSpecFlags.UseNoExistingFiles, new List<String>(), 
                 out graph, out actions);
             return graph;

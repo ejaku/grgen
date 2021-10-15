@@ -27,7 +27,7 @@ namespace EAE
         // and the manually coded XXXExternalFunctionsImpl.cs file exemplifies how to implement these external functions.
         void DoEAE()
         {
-            graph = new ExternalAttributeEvaluationGraph();
+            graph = new ExternalAttributeEvaluationGraph(new LGSPGlobalVariables());
             actions = new ExternalAttributeEvaluationActions(graph);
             procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 

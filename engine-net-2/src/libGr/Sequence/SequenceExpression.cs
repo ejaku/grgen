@@ -2130,7 +2130,7 @@ namespace de.unika.ipd.grGen.libGr
                 objectType = procEnv.Graph.Model.TransientObjectModel.GetType(ConstructedType);
             IBaseObject obj;
             if(objectType is ObjectType)
-                obj = ((ObjectType)objectType).CreateObject(procEnv.Graph, procEnv.Graph.FetchObjectUniqueId());
+                obj = ((ObjectType)objectType).CreateObject(procEnv.Graph, procEnv.Graph.GlobalVariables.FetchObjectUniqueId());
             else
                 obj = ((TransientObjectType)objectType).CreateTransientObject();
             if(AttributeInitializationList != null)

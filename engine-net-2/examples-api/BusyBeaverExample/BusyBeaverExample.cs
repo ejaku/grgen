@@ -50,7 +50,7 @@ namespace BusyBeaver
             long startBytes = System.GC.GetTotalMemory(true);
             int startTime = Environment.TickCount;
 
-            graph = new Turing3Graph();
+            graph = new Turing3Graph(new LGSPGlobalVariables());
             actions = new Turing3Actions(graph);
             procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 

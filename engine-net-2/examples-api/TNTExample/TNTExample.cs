@@ -21,7 +21,7 @@ namespace TNT
 
         void DoTNT()
         {
-            graph = new LGSPGraph(new TNTGraphModel());
+            graph = new LGSPGraph(new TNTGraphModel(), new LGSPGlobalVariables());
             actions = new TNTActions(graph);
             procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 

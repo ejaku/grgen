@@ -4394,10 +4394,10 @@ namespace de.unika.ipd.grGen.expression
         public override void Emit(SourceBuilder sourceCode)
         {
             if(ObjectName == null)
-                sourceCode.Append("new " + ClassName + "(" + (IsTransientClass ? "" : "graph.FetchObjectUniqueId()") + ")");
+                sourceCode.Append("new " + ClassName + "(" + (IsTransientClass ? "" : "graph.GlobalVariables.FetchObjectUniqueId()") + ")");
             else
             {
-                sourceCode.Append(ClassName + ".fill_" + ObjectName + "(" + (IsTransientClass ? "" : "graph.FetchObjectUniqueId(), "));
+                sourceCode.Append(ClassName + ".fill_" + ObjectName + "(" + (IsTransientClass ? "" : "graph.GlobalVariables.FetchObjectUniqueId(), "));
                 if(First != null)
                     First.Emit(sourceCode);
                 sourceCode.Append(")");

@@ -9,7 +9,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -24,39 +23,7 @@ namespace de.unika.ipd.grGen.libGr
         public abstract IGraphModel Model { get; }
         public abstract IIndexSet Indices { get; }
         public abstract IUniquenessHandler UniquenessHandler { get; }
-
-        /// <summary>
-        /// Source for assigning unique ids to internal class objects.
-        /// </summary>
-        private long objectUniqueIdSource = 0;
-
-        public long FetchObjectUniqueId()
-        {
-            long uniqueId = Interlocked.Increment(ref objectUniqueIdSource);
-            return uniqueId - 1;
-        }
-
-        public long FetchObjectUniqueId(long idToObtain)
-        {
-            // not possible to check against this condition and throw an exception -- requests may come out of order
-            if(idToObtain < objectUniqueIdSource)
-            {
-                return idToObtain;
-            }
-
-            while(objectUniqueIdSource != idToObtain)
-            {
-                ++objectUniqueIdSource;
-            }
-            ++objectUniqueIdSource;
-
-            return idToObtain;
-        }
-
-        public void ResetObjectUniqueIdSource()
-        {
-            objectUniqueIdSource = 0;
-        }
+        public abstract IGlobalVariables GlobalVariables { get; }
 
         public abstract bool ReuseOptimization { get; set; }
         public abstract long ChangesCounter{ get; }
@@ -249,7 +216,7 @@ namespace de.unika.ipd.grGen.libGr
         public void ClearingGraph()
         {
             if(OnClearingGraph != null)
-                OnClearingGraph();
+                OnClearingGraph(this);
         }
 
         public void ChangingNodeAttribute(INode node, AttributeType attrType,

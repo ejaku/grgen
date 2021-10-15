@@ -21,7 +21,7 @@ namespace Independent
 
         void DoIdpt()
         {
-            graph = new LGSPGraph(new IndependentGraphModel());
+            graph = new LGSPGraph(new IndependentGraphModel(), new LGSPGlobalVariables());
             actions = new IndependentActions(graph);
             procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 

@@ -37,14 +37,14 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
 
-        public void SwitchToSubgraph(IGraph newGraph)
+        public virtual void SwitchToSubgraph(IGraph newGraph)
         {
             SwitchingToSubgraph(newGraph);
             usedGraphs.Push((LGSPGraph)newGraph);
             namedGraphOnTop = newGraph as LGSPNamedGraph;
         }
 
-        public IGraph ReturnFromSubgraph()
+        public virtual IGraph ReturnFromSubgraph()
         {
             IGraph oldGraph = usedGraphs.Pop();
             namedGraphOnTop = usedGraphs.Peek() as LGSPNamedGraph;

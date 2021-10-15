@@ -2220,7 +2220,7 @@ public abstract class CSharpBase
 			sb.append("new " + formatDefinedMatchType(mi.getMatchType()) + "()");
 		} else if(expr instanceof InternalObjectInit) {
 			InternalObjectInit ioi = (InternalObjectInit)expr;
-			String fetchUniqueIdIfObject = ioi.getBaseInternalObjectType() instanceof InternalObjectType ? "graph.FetchObjectUniqueId()" : "";
+			String fetchUniqueIdIfObject = ioi.getBaseInternalObjectType() instanceof InternalObjectType ? "graph.GlobalVariables.FetchObjectUniqueId()" : "";
 			if(ioi.attributeInitializations.isEmpty()) {
 				sb.append("new " + formatBaseInternalObjectType(ioi.getBaseInternalObjectType()) + "(" + fetchUniqueIdIfObject + ")");
 			} else {

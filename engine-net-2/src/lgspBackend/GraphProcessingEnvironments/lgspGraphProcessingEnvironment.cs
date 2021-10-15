@@ -22,27 +22,9 @@ namespace de.unika.ipd.grGen.lgsp
         private readonly LGSPTransactionManager transactionManager;
         public readonly LGSPDeferredSequencesManager sequencesManager;
         
-        private bool clearVariables = false;
-        private IEdge currentlyRedirectedEdge;
-
         private IUserProxyForSequenceExecution userProxy;
         private IUserProxyForSequenceExecution compliantUserProxy = new CompliantUserProxyForSequenceExecution();
-
-        protected readonly Dictionary<IGraphElement, LinkedList<Variable>> ElementMap = new Dictionary<IGraphElement, LinkedList<Variable>>();
-        protected readonly Dictionary<String, Variable> VariableMap = new Dictionary<String, Variable>();
-        protected readonly Dictionary<String, object> SpecialVariables = new Dictionary<String, object>();
-
-        private readonly Dictionary<ITransientObject, long> transientObjectToUniqueId = new Dictionary<ITransientObject, long>();
-        private readonly Dictionary<long, ITransientObject> uniqueIdToTransientObject = new Dictionary<long, ITransientObject>();
         
-        // Source for assigning unique ids to internal transient class objects.
-        private long transientObjectUniqueIdSource = 0;
-
-        private long FetchTransientObjectUniqueId()
-        {
-            return transientObjectUniqueIdSource++;
-        }
-
         readonly List<object[]> emptyList = new List<object[]>(); // performance optimization (for ApplyRewrite, empty list is only created once)
 
 
@@ -51,139 +33,37 @@ namespace de.unika.ipd.grGen.lgsp
         {
             transactionManager = new LGSPTransactionManager(this);
             sequencesManager = new LGSPDeferredSequencesManager();
-            SetClearVariables(true);
-            FillCustomCommandDescriptions();
+            LGSPGlobalVariables globalVariables = (LGSPGlobalVariables)graph.GlobalVariables;
+            globalVariables.SetClearVariables(true, graph);
+            globalVariables.FillCustomCommandDescriptions(customCommandsToDescriptions);
         }
 
+        // esp. called when actions are added, it is possible to create a graph processing environment only with a graph and null actions (it is also possible to set the actions directly afterwards instead of calling Initialize)
         public override void Initialize(LGSPGraph graph, LGSPActions actions)
         {
-            SetClearVariables(false);
+            ((LGSPGlobalVariables)Graph.GlobalVariables).StopListening(Graph);
             base.Initialize(graph, actions);
-            SetClearVariables(true);
+            ((LGSPGlobalVariables)graph.GlobalVariables).StartListening(graph);
         }
 
-        void RemovingNodeListener(INode node)
+        public override void SwitchToSubgraph(IGraph newGraph)
         {
-            LGSPNode lgspNode = (LGSPNode)node;
-            if((lgspNode.lgspFlags & (uint)LGSPElemFlags.HAS_VARIABLES) != 0)
-            {
-                foreach(Variable var in ElementMap[lgspNode])
-                {
-                    VariableMap.Remove(var.Name);
-                }
-                ElementMap.Remove(lgspNode);
-                lgspNode.lgspFlags &= ~(uint)LGSPElemFlags.HAS_VARIABLES;
-            }
+            ((LGSPGlobalVariables)Graph.GlobalVariables).StopListening(Graph);
+            base.SwitchToSubgraph(newGraph);
+            ((LGSPGlobalVariables)newGraph.GlobalVariables).StartListening(newGraph);
         }
 
-        void RemovingEdgeListener(IEdge edge)
+        public override IGraph ReturnFromSubgraph()
         {
-            if(edge == currentlyRedirectedEdge)
-            {
-                currentlyRedirectedEdge = null;
-                return; // edge will be added again before other changes, keep the variables
-            }
-
-            LGSPEdge lgspEdge = (LGSPEdge)edge;
-            if((lgspEdge.lgspFlags & (uint)LGSPElemFlags.HAS_VARIABLES) != 0)
-            {
-                foreach(Variable var in ElementMap[lgspEdge])
-                {
-                    VariableMap.Remove(var.Name);
-                }
-                ElementMap.Remove(lgspEdge);
-                lgspEdge.lgspFlags &= ~(uint)LGSPElemFlags.HAS_VARIABLES;
-            }
-        }
-
-        void RetypingNodeListener(INode oldNode, INode newNode)
-        {
-            LGSPNode oldLgspNode = (LGSPNode)oldNode;
-            LGSPNode newLgspNode = (LGSPNode)newNode;
-            if((oldLgspNode.lgspFlags & (uint)LGSPElemFlags.HAS_VARIABLES) != 0)
-            {
-                LinkedList<Variable> varList = ElementMap[oldLgspNode];
-                foreach(Variable var in varList)
-                {
-                    var.Value = newLgspNode;
-                }
-                ElementMap.Remove(oldLgspNode);
-                ElementMap[newLgspNode] = varList;
-                oldLgspNode.lgspFlags &= ~(uint)LGSPElemFlags.HAS_VARIABLES;
-                newLgspNode.lgspFlags |= (uint)LGSPElemFlags.HAS_VARIABLES;
-            }
-        }
-
-        void RetypingEdgeListener(IEdge oldEdge, IEdge newEdge)
-        {
-            LGSPEdge oldLgspEdge = (LGSPEdge)oldEdge;
-            LGSPEdge newLgspEdge = (LGSPEdge)newEdge;
-            if((oldLgspEdge.lgspFlags & (uint)LGSPElemFlags.HAS_VARIABLES) != 0)
-            {
-                LinkedList<Variable> varList = ElementMap[oldLgspEdge];
-                foreach(Variable var in varList)
-                {
-                    var.Value = newLgspEdge;
-                }
-                ElementMap.Remove(oldLgspEdge);
-                ElementMap[newLgspEdge] = varList;
-                oldLgspEdge.lgspFlags &= ~(uint)LGSPElemFlags.HAS_VARIABLES;
-                newLgspEdge.lgspFlags |= (uint)LGSPElemFlags.HAS_VARIABLES;
-            }
-        }
-
-        void RedirectingEdgeListener(IEdge edge)
-        {
-            currentlyRedirectedEdge = edge;
-        }
-
-        void ClearGraphListener()
-        {
-            foreach(INode node in graph.Nodes)
-            {
-                LGSPNode lgspNode = (LGSPNode)node;
-                if((lgspNode.lgspFlags & (uint)LGSPElemFlags.HAS_VARIABLES) != 0)
-                {
-                    foreach(Variable var in ElementMap[lgspNode])
-                    {
-                        VariableMap.Remove(var.Name);
-                    }
-                    ElementMap.Remove(lgspNode);
-                    lgspNode.lgspFlags &= ~(uint)LGSPElemFlags.HAS_VARIABLES;
-                }
-            }
-
-            foreach(IEdge edge in graph.Edges)
-            {
-                LGSPEdge lgspEdge = (LGSPEdge)edge;
-                if((lgspEdge.lgspFlags & (uint)LGSPElemFlags.HAS_VARIABLES) != 0)
-                {
-                    foreach(Variable var in ElementMap[lgspEdge])
-                    {
-                        VariableMap.Remove(var.Name);
-                    }
-                    ElementMap.Remove(lgspEdge);
-                    lgspEdge.lgspFlags &= ~(uint)LGSPElemFlags.HAS_VARIABLES;
-                }
-            }
+            IGraph oldGraph = base.ReturnFromSubgraph();
+            ((LGSPGlobalVariables)oldGraph.GlobalVariables).StopListening(oldGraph);
+            ((LGSPGlobalVariables)Graph.GlobalVariables).StartListening(Graph);
+            return oldGraph;
         }
 
         public ITransactionManager TransactionManager
         { 
             get { return transactionManager; }
-        }
-        
-        public void CloneGraphVariables(IGraph old, IGraph clone)
-        {
-            // TODO: implement
-        }
-
-        private void FillCustomCommandDescriptions()
-        {
-            customCommandsToDescriptions.Add("adaptvariables",
-                "- adaptvariables: Sets whether variables are cleared if they contain\n" +
-                "     elements which are removed from the graph, and rewritten to\n" +
-                "     the new element on retypings.\n");
         }
 
         public override void Custom(params object[] args)
@@ -198,52 +78,9 @@ namespace de.unika.ipd.grGen.lgsp
                 base.Custom(args);
                 break;
 
-            case "adaptvariables":
-                {
-                    if(args.Length != 2)
-                        throw new ArgumentException("Usage: adaptvariables <bool>\n"
-                                + "If <bool> == true, variables are cleared (nulled) if they contain\n"
-                                + "graph elements which are removed from the graph, and rewritten to\n"
-                                + "the new element on retypings. Saves from outdated and dangling\n"
-                                + "variables at the cost of listening to node and edge removals and retypings.\n"
-                                + "Dangerous! Disable this only if you don't work with variables.");
-
-                    bool newClearVariables;
-                    if(!bool.TryParse((String)args[1], out newClearVariables))
-                        throw new ArgumentException("Illegal bool value specified: \"" + (String)args[1] + "\"");
-                    SetClearVariables(newClearVariables);
-                    break;
-                }
-
             default:
-                throw new ArgumentException("Unknown command: " + command);
-            }
-        }
-
-        internal void SetClearVariables(bool newClearVariables)
-        {
-            if(newClearVariables == clearVariables)
-                return;
-
-            if(newClearVariables)
-            {
-                // start listening to remove events so we can clear variables if they occur
-                graph.OnRemovingNode += RemovingNodeListener;
-                graph.OnRemovingEdge += RemovingEdgeListener;
-                graph.OnRetypingNode += RetypingNodeListener;
-                graph.OnRetypingEdge += RetypingEdgeListener;
-                graph.OnRedirectingEdge += RedirectingEdgeListener;
-                graph.OnClearingGraph += ClearGraphListener;
-            }
-            else
-            {
-                // stop listening to remove events, we can't clear variables anymore when they happen
-                graph.OnRemovingNode -= RemovingNodeListener;
-                graph.OnRemovingEdge -= RemovingEdgeListener;
-                graph.OnRetypingNode -= RetypingNodeListener;
-                graph.OnRetypingEdge -= RetypingEdgeListener;
-                graph.OnRedirectingEdge -= RedirectingEdgeListener;
-                graph.OnClearingGraph -= ClearGraphListener;
+                ((LGSPGlobalVariables)graph.GlobalVariables).Custom(graph, args); // throws exception if custom command is unknown to global variables, too
+                break;
             }
         }
 
@@ -447,18 +284,12 @@ namespace de.unika.ipd.grGen.lgsp
 
         public LinkedList<Variable> GetElementVariables(IGraphElement elem)
         {
-            LinkedList<Variable> variableList;
-            ElementMap.TryGetValue(elem, out variableList);
-            return variableList;
+            return graph.GlobalVariables.GetElementVariables(elem);
         }
 
         public object GetVariableValue(String varName)
         {
-            Variable var;
-            VariableMap.TryGetValue(varName, out var);
-            if(var == null)
-                return null;
-            return var.Value;
+            return graph.GlobalVariables.GetVariableValue(varName);
         }
 
         public INode GetNodeVarValue(string varName)
@@ -493,90 +324,16 @@ namespace de.unika.ipd.grGen.lgsp
             return (LGSPEdge)GetVariableValue(varName);
         }
 
-        /// <summary>
-        /// Detaches the specified variable from the according graph element.
-        /// If it was the last variable pointing to the element, the variable list for the element is removed.
-        /// This function may only called on variables pointing to graph elements.
-        /// </summary>
-        /// <param name="var">Variable to detach.</param>
-        private void DetachVariableFromElement(Variable var)
-        {
-            IGraphElement elem = (IGraphElement)var.Value;
-            LinkedList<Variable> oldVarList = ElementMap[elem];
-            oldVarList.Remove(var);
-            if(oldVarList.Count == 0)
-            {
-                ElementMap.Remove(elem);
-
-                LGSPNode oldNode = elem as LGSPNode;
-                if(oldNode != null)
-                    oldNode.lgspFlags &= ~(uint)LGSPElemFlags.HAS_VARIABLES;
-                else
-                {
-                    LGSPEdge oldEdge = (LGSPEdge)elem;
-                    oldEdge.lgspFlags &= ~(uint)LGSPElemFlags.HAS_VARIABLES;
-                }
-            }
-        }
-
         public void SetVariableValue(String varName, object val)
         {
-            if(varName == null)
-                return;
-
-            Variable var;
-            VariableMap.TryGetValue(varName, out var);
-
-            if(var != null)
-            {
-                if(var.Value == val) // Variable already set to this element?
-                    return;
-                if(var.Value is IGraphElement)
-                    DetachVariableFromElement(var);
-
-                if(val == null)
-                {
-                    VariableMap.Remove(varName);
-                    return;
-                }
-                var.Value = val;
-            }
-            else
-            {
-                if(val == null)
-                    return;
-
-                var = new Variable(varName, val);
-                VariableMap[varName] = var;
-            }
-
-            IGraphElement elem = val as IGraphElement;
-            if(elem == null)
-                return;
-
-            LinkedList<Variable> newVarList;
-            if(!ElementMap.TryGetValue(elem, out newVarList))
-            {
-                newVarList = new LinkedList<Variable>();
-                ElementMap[elem] = newVarList;
-            }
-            newVarList.AddFirst(var);
-
-            LGSPNode node = elem as LGSPNode;
-            if(node != null)
-                node.lgspFlags |= (uint)LGSPElemFlags.HAS_VARIABLES;
-            else
-            {
-                LGSPEdge edge = (LGSPEdge)elem;
-                edge.lgspFlags |= (uint)LGSPElemFlags.HAS_VARIABLES;
-            }
+            graph.GlobalVariables.SetVariableValue(varName, val);
         }
 
         public IEnumerable<Variable> Variables
         {
             get
             {
-                foreach(Variable var in VariableMap.Values)
+                foreach(Variable var in graph.GlobalVariables.Variables)
                 {
                     yield return var;
                 }
@@ -609,7 +366,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>The according value</returns>
         public object GetSpecialVariableValue(string name)
         {
-            return SpecialVariables[name];
+            return graph.GlobalVariables.GetSpecialVariableValue(name);
         }
 
         /// <summary>
@@ -620,7 +377,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="value">The new value of the special variable</param>
         public void SetSpecialVariableValue(string name, object value)
         {
-            SpecialVariables[name] = value;
+            graph.GlobalVariables.SetSpecialVariableValue(name, value);
         }
 
         /// <summary>
@@ -630,36 +387,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="name">The name of the special variable to delete</param>
         public void DeleteSpecialVariable(string name)
         {
-            SpecialVariables.Remove(name);
+            graph.GlobalVariables.DeleteSpecialVariable(name);
         }
 
         #endregion Special variables management
-
-
-        #region Transient Object id handling
-
-        public long GetUniqueId(ITransientObject transientObject)
-        {
-            if(transientObject == null)
-                return -1;
-
-            if(!transientObjectToUniqueId.ContainsKey(transientObject))
-            {
-                long uniqueId = FetchTransientObjectUniqueId();
-                transientObjectToUniqueId[transientObject] = uniqueId;
-                uniqueIdToTransientObject[uniqueId] = transientObject;
-            }
-            return transientObjectToUniqueId[transientObject];
-        }
-
-        public ITransientObject GetTransientObject(long uniqueId)
-        {
-            ITransientObject transientObject;
-            uniqueIdToTransientObject.TryGetValue(uniqueId, out transientObject);
-            return transientObject;
-        }
-
-        #endregion Transient Object id handling
 
 
         #region Variables of graph elements convenience

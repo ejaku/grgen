@@ -21,7 +21,7 @@ namespace edge1
 
         void DoEdge1()
         {
-            graph = new StdGraph();
+            graph = new StdGraph(new LGSPGlobalVariables());
             actions = new edge1Actions(graph);
             procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 

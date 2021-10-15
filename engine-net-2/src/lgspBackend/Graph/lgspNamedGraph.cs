@@ -39,9 +39,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// Constructs an LGSPNamedGraph object with the given model and capacity, and an automatically generated name.
         /// </summary>
         /// <param name="grmodel">The graph model.</param>
+        /// <param name="globalVars">The global variables.</param>
         /// <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
-        public LGSPNamedGraph(IGraphModel grmodel, int capacity)
-            : base(grmodel)
+        public LGSPNamedGraph(IGraphModel grmodel, IGlobalVariables globalVars, int capacity)
+            : base(grmodel, globalVars)
         {
             NameToElem = new Dictionary<String, IGraphElement>(capacity);
             ElemToName = new Dictionary<IGraphElement, String>(capacity);
@@ -51,10 +52,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// Constructs an LGSPNamedGraph object with the given model, name, and capacity.
         /// </summary>
         /// <param name="grmodel">The graph model.</param>
+        /// <param name="globalVars">The global variables.</param>
         /// <param name="grname">The name for the graph.</param>
         /// <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
-        public LGSPNamedGraph(IGraphModel grmodel, String grname, int capacity)
-            : base(grmodel, grname)
+        public LGSPNamedGraph(IGraphModel grmodel, IGlobalVariables globalVars, String grname, int capacity)
+            : base(grmodel, globalVars, grname)
         {
             NameToElem = new Dictionary<String, IGraphElement>(capacity);
             ElemToName = new Dictionary<IGraphElement, String>(capacity);
@@ -568,7 +570,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override IGraph CreateEmptyEquivalent(String newName)
         {
-            return new LGSPNamedGraph(this.model, newName, 0);
+            return new LGSPNamedGraph(this.model, this.GlobalVariables, newName, 0);
         }
 
         public INamedGraph CloneNamed(String newName)

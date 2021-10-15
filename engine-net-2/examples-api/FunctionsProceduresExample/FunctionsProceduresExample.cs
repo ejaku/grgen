@@ -21,7 +21,7 @@ namespace FPE
 
         void DoFPE()
         {
-            graph = new FunctionsProceduresExampleGraph();
+            graph = new FunctionsProceduresExampleGraph(new LGSPGlobalVariables());
             actions = new FunctionsProceduresExampleActions(graph);
             procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
 

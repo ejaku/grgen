@@ -90,7 +90,8 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// Represents a method called before a graph is cleared.
     /// </summary>
-    public delegate void ClearingGraphHandler();
+    /// <param name="graph">The graph to be cleared.</param>
+    public delegate void ClearingGraphHandler(IGraph graph);
 
     /// <summary>
     /// Represents a method called just before a node attribute is changed,
@@ -250,6 +251,11 @@ namespace de.unika.ipd.grGen.libGr
         IUniquenessHandler UniquenessHandler { get; }
 
         /// <summary>
+        /// The global variables of the graph rewrite system; convenience access to save parameter passing.
+        /// </summary>
+        IGlobalVariables GlobalVariables { get; }
+
+        /// <summary>
         /// If true (the default case), elements deleted during a rewrite
         /// may be reused in the same rewrite.
         /// As a result new elements may not be discriminable anymore from
@@ -264,14 +270,6 @@ namespace de.unika.ipd.grGen.libGr
         /// Only graph structure changes are counted, attribute changes are not included.
         /// </summary>
         long ChangesCounter { get; }
-
-        /// <summary>
-        /// Fetches a unique id for an internal class object (non-transient).
-        /// May be called concurrently from multiple threads.
-        /// </summary>
-        long FetchObjectUniqueId();
-
-        long FetchObjectUniqueId(long idToObtain);
 
 
         /// <summary>
