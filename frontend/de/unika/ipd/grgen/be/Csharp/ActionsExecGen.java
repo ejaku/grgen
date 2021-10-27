@@ -249,14 +249,14 @@ public class ActionsExecGen extends CSharpBase
 				+ " = new GRGEN_LIBGR.EmbeddedSequenceInfo(\n");
 		sb.indent();
 		sb.appendFront("new string[] {");
-		for(Entity neededEntity : execStmt.getNeededEntities(false)) {
+		for(Entity neededEntity : execStmt.getNeededEntities(true)) {
 			if(!neededEntity.isDefToBeYieldedTo()) {
 				sb.append("\"" + neededEntity.getIdent() + "\", ");
 			}
 		}
 		sb.append("},\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
-		for(Entity neededEntity : execStmt.getNeededEntities(false)) {
+		for(Entity neededEntity : execStmt.getNeededEntities(true)) {
 			if(!neededEntity.isDefToBeYieldedTo()) {
 				if(neededEntity instanceof Variable) {
 					sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(neededEntity) + ")), ");
@@ -268,14 +268,14 @@ public class ActionsExecGen extends CSharpBase
 		}
 		sb.append("},\n");
 		sb.appendFront("new string[] {");
-		for(Entity neededEntity : execStmt.getNeededEntities(false)) {
+		for(Entity neededEntity : execStmt.getNeededEntities(true)) {
 			if(neededEntity.isDefToBeYieldedTo()) {
 				sb.append("\"" + neededEntity.getIdent() + "\", ");
 			}
 		}
 		sb.append("},\n");
 		sb.appendFront("new GRGEN_LIBGR.GrGenType[] { ");
-		for(Entity neededEntity : execStmt.getNeededEntities(false)) {
+		for(Entity neededEntity : execStmt.getNeededEntities(true)) {
 			if(neededEntity.isDefToBeYieldedTo()) {
 				if(neededEntity instanceof Variable) {
 					sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(neededEntity) + ")), ");
@@ -294,19 +294,19 @@ public class ActionsExecGen extends CSharpBase
 
 		sb.appendFront("private static bool ApplyXGRS_" + pathPrefix + xgrsID
 				+ "(GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv");
-		for(Entity neededEntity : execStmt.getNeededEntities(false)) {
+		for(Entity neededEntity : execStmt.getNeededEntities(true)) {
 			if(!neededEntity.isDefToBeYieldedTo()) {
 				sb.append(", " + formatType(neededEntity.getType()) + " " + formatEntity(neededEntity));
 			}
 		}
-		for(Entity neededEntity : execStmt.getNeededEntities(false)) {
+		for(Entity neededEntity : execStmt.getNeededEntities(true)) {
 			if(neededEntity.isDefToBeYieldedTo()) {
 				sb.append(", ref " + formatType(neededEntity.getType()) + " " + formatEntity(neededEntity));
 			}
 		}
 		sb.append(") {\n");
 		sb.indent();
-		for(Entity neededEntity : execStmt.getNeededEntities(false)) {
+		for(Entity neededEntity : execStmt.getNeededEntities(true)) {
 			if(neededEntity.isDefToBeYieldedTo()) {
 				sb.appendFront(formatEntity(neededEntity) + " = ");
 				sb.append(getInitializationValue(neededEntity.getType()) + ";\n");
