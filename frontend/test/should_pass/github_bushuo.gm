@@ -1,0 +1,5 @@
+node class Empty
+{
+	id:int;
+}
+node class Center;

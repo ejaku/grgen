@@ -1,0 +1,30 @@
+#using "github_bushuo.gm" // github #3 - https://github.com/ejaku/grgen/issues/3
+
+function getRandomId() : string {
+    return ("B3");
+}
+
+rule growCenter {
+    modify {
+    ---
+        eval {
+            def var cur:int = 0;
+            def var max:int = random(5);
+
+            while (cur < max) {
+                def var s:string = getRandomId(); // declared in computation context because in eval
+                exec ( growCenterImpl ( s ) ); // exec not in procedure, so not in computation context -- likely TODO: to be distinguished
+                cur = cur + 1;
+            }
+        }
+    }
+}
+
+rule growCenterImpl (var id:string) {
+    empty:Empty -- center:Center;
+    if { countIncident(empty) == 4 && empty.id == id; }
+
+    modify {
+        a:Center<empty>;
+    }
+}
