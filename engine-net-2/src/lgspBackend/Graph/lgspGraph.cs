@@ -57,7 +57,7 @@ namespace de.unika.ipd.grGen.lgsp
         public readonly string[] nameOfSingleElementAdded = new string[1];
 
 
-        private bool reuseOptimization = true;
+        private static bool reuseOptimization = true;
 
         /// <summary>
         /// If true (the default case), elements deleted during a rewrite
