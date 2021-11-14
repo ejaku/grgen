@@ -112,6 +112,67 @@ namespace de.unika.ipd.grGen.grShell
             while(true);
         }
 
+        public static void ChooseSequenceParallelPrintHeader(PrintSequenceContext context, int seqToExecute)
+        {
+            WorkaroundManager.Workaround.PrintHighlighted("Please choose: Which sequence to execute in the debugger (others are executed in parallel outside)?", HighlightingMode.Choicepoint);
+            Console.WriteLine(" Pre-selecting first sequence " + seqToExecute + ".");
+            Console.WriteLine("Press (0)...(9) to pre-select the corresponding sequence or (e) to enter the number of the sequence to show."
+                                + " Press (s) or (n) or (d) to commit to the pre-selected sequence and continue.");
+        }
+
+        public static bool ChooseSequence(IDebuggerEnvironment env, ref int seqToExecute, List<Sequence> sequences, SequenceParallelExecute seq)
+        {
+            do
+            {
+                ConsoleKeyInfo key = env.ReadKeyWithCancel();
+                switch(key.KeyChar)
+                {
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                        int num = key.KeyChar - '0';
+                        if(num >= sequences.Count)
+                        {
+                            Console.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
+                            break;
+                        }
+                        seqToExecute = num;
+                        return false;
+                    case 'e':
+                        Console.Write("Enter number of sequence to show: ");
+                        String numStr = Console.ReadLine();
+                        if(int.TryParse(numStr, out num))
+                        {
+                            if(num < 0 || num >= sequences.Count)
+                            {
+                                Console.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
+                                break;
+                            }
+                            seqToExecute = num;
+                            return false;
+                        }
+                        Console.WriteLine("You must enter a valid integer number!");
+                        break;
+                    case 's':
+                    case 'n':
+                    case 'd':
+                        return true;
+                    default:
+                        Console.WriteLine("Illegal choice (Key = " + key.Key
+                            + ")! Only (0)...(9), (e)nter number, (s)/(n)/(d) to commit and continue allowed! ");
+                        break;
+                }
+            }
+            while(true);
+        }
+
         public static void ChoosePointPrintHeader(PrintSequenceContext context, double pointToExecute)
         {
             WorkaroundManager.Workaround.PrintHighlighted("Please choose: Which point in the interval series (corresponding to a sequence) to execute?", HighlightingMode.Choicepoint);

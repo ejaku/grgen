@@ -145,6 +145,9 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceType.ExecuteInSubgraph:
                 PrintSequenceExecuteInSubgraph((SequenceExecuteInSubgraph)seq, parent, highlightingMode, context);
                 break;
+            case SequenceType.ParallelExecute:
+                PrintSequenceParallelExecute((SequenceParallelExecute)seq, parent, highlightingMode, context);
+                break;
             case SequenceType.IfThenElse:
                 PrintSequenceIfThenElse((SequenceIfThenElse)seq, parent, highlightingMode, context);
                 break;
@@ -452,9 +455,42 @@ namespace de.unika.ipd.grGen.grShell
         {
             WorkaroundManager.Workaround.PrintHighlighted("in ", highlightingMode);
             PrintSequenceExpression(seqExecInSub.SubgraphExpr, seqExecInSub, highlightingMode, context);
+            if(seqExecInSub.ValueExpr != null)
+            {
+                WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
+                PrintSequenceExpression(seqExecInSub.ValueExpr, seqExecInSub, highlightingMode, context);
+            }
             WorkaroundManager.Workaround.PrintHighlighted(" {", highlightingMode);
             PrintSequence(seqExecInSub.Seq, seqExecInSub, highlightingMode, context);
             WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);
+        }
+
+        private static void PrintSequenceParallelExecute(SequenceParallelExecute seqParallelExec, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
+        {
+            HighlightingMode highlightingModeLocal = highlightingMode;
+            if(seqParallelExec == context.highlightSeq)
+                highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
+
+            WorkaroundManager.Workaround.PrintHighlighted("parallel", highlightingModeLocal);
+
+            for(int i = 0; i < seqParallelExec.InSubgraphExecutions.Count; ++i)
+            {
+                SequenceExecuteInSubgraph seqExecInSub = seqParallelExec.InSubgraphExecutions[i];
+                WorkaroundManager.Workaround.PrintHighlighted(" ", highlightingModeLocal);
+                if(context.sequences != null)
+                {
+                    if(seqExecInSub == context.highlightSeq)
+                        WorkaroundManager.Workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
+                    if(seqExecInSub == context.sequences[i])
+                        WorkaroundManager.Workaround.PrintHighlighted("(" + i + ")", HighlightingMode.Choicepoint);
+                }
+                PrintSequenceExecuteInSubgraph(seqExecInSub, seqParallelExec, highlightingModeLocal, context);
+                if(context.sequences != null)
+                {
+                    if(seqExecInSub == context.highlightSeq)
+                        WorkaroundManager.Workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
+                }
+            }
         }
 
         private static void PrintSequenceIfThenElse(SequenceIfThenElse seqIf, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)

@@ -742,7 +742,11 @@ namespace de.unika.ipd.grGen.lgsp
             sb.AppendFront("public List<object[]> Reserve(int numReturns)\n");
             sb.AppendFront("{\n");
             sb.Indent();
+            sb.AppendFront("if(AvailableReturnArrays == null)\n");
+            sb.AppendFrontIndented("AvailableReturnArrays = new List<object[]>();\n");
             sb.AppendFront("while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[" + matchingPattern.Outputs.Length + "]);\n");
+            sb.AppendFront("if(ReturnArrayListForAll == null)\n");
+            sb.AppendFrontIndented("ReturnArrayListForAll = new List<object[]>();\n");
             sb.AppendFront("ReturnArrayListForAll.Clear();\n");
             sb.AppendFront("for(int i=0; i<numReturns; ++i)\n");
             sb.AppendFront("{\n");
@@ -1246,7 +1250,7 @@ namespace de.unika.ipd.grGen.lgsp
             sb.Indent(); // class level
 
             sb.AppendFront("public " + className + "()\n");
-            sb.AppendFrontFormat("    : base(" + rulePatternClassName + ".Instance.patternGraph, new object[{0}])\n", rulePattern.Outputs.Length);
+            sb.AppendFront("    : base(" + rulePatternClassName + ".Instance.patternGraph)\n");
             sb.AppendFront("{\n");
             sb.Indent(); // method body level
             sb.AppendFront("_rulePattern = " + rulePatternClassName + ".Instance;\n");
@@ -1291,14 +1295,18 @@ namespace de.unika.ipd.grGen.lgsp
                 sb.Unindent();
                 sb.AppendFront("}\n");
             }
-            sb.AppendFront("matches = new GRGEN_LGSP.LGSPMatchesList<" + matchClassName +", " + matchInterfaceName + ">(this);\n");
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
 
             sb.AppendFront("public " + rulePatternClassName + " _rulePattern;\n");
             sb.AppendFront("public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }\n");
             sb.AppendFront("public override string Name { get { return \"" + rulePattern.name + "\"; } }\n");
-            sb.AppendFront("private GRGEN_LGSP.LGSPMatchesList<" + matchClassName + ", " + matchInterfaceName + "> matches;\n\n");
+            sb.AppendFront("[ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<" + matchClassName + ", " + matchInterfaceName + "> matches;\n\n");
+
+            sb.AppendFront("// Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.\n");
+            sb.AppendFront("[ThreadStatic] public static object[] ReturnArray;\n");
+            sb.AppendFront("[ThreadStatic] public static List<object[]> ReturnArrayListForAll;\n");
+            sb.AppendFront("[ThreadStatic] public static List<object[]> AvailableReturnArrays;\n");
 
             if(isInitialStatic)
             {

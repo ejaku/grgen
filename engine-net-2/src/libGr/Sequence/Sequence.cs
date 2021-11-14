@@ -47,6 +47,7 @@ namespace de.unika.ipd.grGen.libGr
         DeclareVariable, AssignConstToVar, AssignContainerConstructorToVar, AssignObjectConstructorToVar, AssignVarToVar, // needed as sequence to allow variable declaration and initialization in sequence scope (VarToVar for embedded sequences, assigning rule elements to a variable)
         SequenceDefinitionInterpreted, SequenceDefinitionCompiled, SequenceCall,
         ExecuteInSubgraph,
+        ParallelExecute,
         BooleanComputation,
         Dummy
     }
@@ -7937,17 +7938,26 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceExecuteInSubgraph : SequenceUnary
     {
         public readonly SequenceExpression SubgraphExpr;
+        public readonly SequenceExpression ValueExpr;
 
-        public SequenceExecuteInSubgraph(SequenceExpression subgraphExpr, Sequence seq)
+        public SequenceExecuteInSubgraph(SequenceExpression subgraphExpr, SequenceExpression valueExpr, Sequence seq)
             : base(SequenceType.ExecuteInSubgraph, seq)
         {
             SubgraphExpr = subgraphExpr;
+            ValueExpr = valueExpr;
+        }
+
+        public SequenceExecuteInSubgraph(SequenceExpression subgraphExpr, Sequence seq)
+            : this(subgraphExpr, null, seq)
+        {
         }
 
         protected SequenceExecuteInSubgraph(SequenceExecuteInSubgraph that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
             : base(that, originalToCopy, procEnv)
         {
             SubgraphExpr = that.SubgraphExpr.CopyExpression(originalToCopy, procEnv);
+            if(that.ValueExpr != null)
+                ValueExpr = that.ValueExpr.CopyExpression(originalToCopy, procEnv);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -7961,6 +7971,9 @@ namespace de.unika.ipd.grGen.libGr
 
             if(!TypesHelper.IsSameOrSubtype(SubgraphExpr.Type(env), "graph", env.Model))
                 throw new SequenceParserException(Symbol, "graph", SubgraphExpr.Type(env));
+
+            if(ValueExpr != null && ValueExpr.Type(env) == "")
+                throw new SequenceParserException(Symbol, "non untyped type", ValueExpr.Type(env));
         }
 
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -7968,6 +7981,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             Seq.GetLocalVariables(variables, constructors, target);
             SubgraphExpr.GetLocalVariables(variables, constructors, target);
+            if(ValueExpr != null)
+                ValueExpr.GetLocalVariables(variables, constructors, target);
             return this == target;
         }
 
@@ -7991,7 +8006,117 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "in " + (SubgraphExpr.Symbol) + " { " + Seq.Symbol + " }" ; }
+            get { return "in " + (SubgraphExpr.Symbol) + (ValueExpr != null ? ", " + ValueExpr.Symbol : "") + " { " + Seq.Symbol + " }" ; }
+        }
+    }
+
+    public class SequenceParallelExecute : Sequence
+    {
+        public readonly List<SequenceExecuteInSubgraph> InSubgraphExecutions;
+
+        public SequenceParallelExecute(List<SequenceExecuteInSubgraph> inSubgraphExecutions) : base(SequenceType.ParallelExecute)
+        {
+            InSubgraphExecutions = inSubgraphExecutions;
+        }
+
+        protected SequenceParallelExecute(SequenceParallelExecute that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that)
+        {
+            InSubgraphExecutions = new List<SequenceExecuteInSubgraph>();
+            foreach(SequenceExecuteInSubgraph inSubgraphExecution in that.InSubgraphExecutions)
+            {
+                InSubgraphExecutions.Add((SequenceExecuteInSubgraph)inSubgraphExecution.Copy(originalToCopy, procEnv));
+            }
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceParallelExecute(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env);
+            // todo: check result assignment, first add result assignment
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+#if LOG_SEQUENCE_EXECUTION
+            procEnv.Recorder.WriteLine("Parallel execution");
+#endif
+
+            List<BeginParallelExecution> parallelExecutionBegins = new List<BeginParallelExecution>();
+            foreach(SequenceExecuteInSubgraph inSubgraphExecution in InSubgraphExecutions)
+            {
+                BeginParallelExecution parallelExecutionBegin = new BeginParallelExecution();
+                parallelExecutionBegin.graph = (IGraph)inSubgraphExecution.SubgraphExpr.Evaluate(procEnv);
+                parallelExecutionBegin.value = inSubgraphExecution.ValueExpr != null ? (object)inSubgraphExecution.ValueExpr.Evaluate(procEnv) : null;
+                parallelExecutionBegin.sequence = inSubgraphExecution.Seq;
+                parallelExecutionBegins.Add(parallelExecutionBegin);
+            }
+
+            List<bool> result = procEnv.ParallelApplyGraphRewriteSequences(this, parallelExecutionBegins);
+            // TODO: optionally assign result
+            return true;
+        }
+
+        public override SequenceBase GetCurrentlyExecutedSequenceBase()
+        {
+            foreach(SequenceExecuteInSubgraph inSubgraphExecution in InSubgraphExecutions)
+            {
+                if(inSubgraphExecution.GetCurrentlyExecutedSequenceBase() != null)
+                    return inSubgraphExecution.GetCurrentlyExecutedSequenceBase();
+            }
+            if(executionState == SequenceExecutionState.Underway)
+                return this;
+            return null;
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors, SequenceBase target)
+        {
+            foreach(SequenceExecuteInSubgraph inSubgraphExecution in InSubgraphExecutions)
+            {
+                if(inSubgraphExecution.GetLocalVariables(variables, constructors, target))
+                    return true;
+            }
+            return this == target;
+        }
+
+        public override IEnumerable<Sequence> Children
+        {
+            get
+            {
+                foreach(SequenceExecuteInSubgraph inSubgraphExecution in InSubgraphExecutions)
+                {
+                    yield return inSubgraphExecution;
+                }
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("parallel ");
+                bool first = true;
+                foreach(SequenceExecuteInSubgraph inSubgraphExecution in InSubgraphExecutions)
+                {
+                    if(first)
+                        first = false;
+                    else
+                        sb.Append(", ");
+                    sb.Append(inSubgraphExecution.Symbol);
+                }
+                return sb.ToString();
+            }
         }
     }
 

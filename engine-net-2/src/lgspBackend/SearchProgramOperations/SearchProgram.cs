@@ -108,7 +108,7 @@ namespace de.unika.ipd.grGen.lgsp
             bool containsSubpatterns, bool wasIndependentInlined,
             List<string> matchingPatternClassTypeName,
             List<Dictionary<PatternGraph, bool>> nestedIndependents,
-            bool emitProfiling, string packagePrefixedPatternName,
+            bool emitProfiling, string packagePrefixedPatternName, int numReturns,
             string[] dispatchConditions, List<string> suffixedMatcherNames, List<string[]> arguments)
         : base(rulePatternClassName, namesOfPatternGraphsOnPathToEnclosedPatternpath,
             name, false, matchingPatternClassTypeName, nestedIndependents)
@@ -123,6 +123,7 @@ namespace de.unika.ipd.grGen.lgsp
             WasIndependentInlined = wasIndependentInlined;
             EmitProfiling = emitProfiling;
             PackagePrefixedPatternName = packagePrefixedPatternName;
+            NumReturns = numReturns;
 
             DispatchConditions = dispatchConditions;
             SuffixedMatcherNames = suffixedMatcherNames;
@@ -179,7 +180,12 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             sourceCode.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
+            string matchClassName = RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName);
+            sourceCode.AppendFront("if(matches == null)\n");
+            sourceCode.AppendFrontIndentedFormat("matches = new GRGEN_LGSP.LGSPMatchesList<" + matchClassName + ", " + matchType + ">(this);\n");
             sourceCode.AppendFront("matches.Clear();\n");
+            sourceCode.AppendFront("if(ReturnArray == null)\n");
+            sourceCode.AppendFrontIndentedFormat("ReturnArray = new object[{0}];\n", NumReturns);
             sourceCode.AppendFront("int isoSpace = 0;\n");
             
             if(NamesOfPatternGraphsOnPathToEnclosedPatternpath.Count > 0)
@@ -297,6 +303,7 @@ namespace de.unika.ipd.grGen.lgsp
         public readonly bool SetupSubpatternMatching;
         public readonly bool WasIndependentInlined;
         public readonly bool EmitProfiling;
+        public readonly int NumReturns;
 
         readonly string[] DispatchConditions;
         readonly List<string> SuffixedMatcherNames; // for maybe null dispatcher
@@ -310,7 +317,7 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public SearchProgramOfActionParallelizationHead(string rulePatternClassName,
             string patternName, string[] parameterTypes, string[] parameterNames, string name,
-            bool emitProfiling, string packagePrefixedPatternName)
+            bool emitProfiling, string packagePrefixedPatternName, int numReturns)
         : base(rulePatternClassName, null,
             name, true, null, null)
         {
@@ -322,6 +329,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             EmitProfiling = emitProfiling;
             PackagePrefixedPatternName = packagePrefixedPatternName;
+            NumReturns = numReturns;
         }
 
         /// <summary>
@@ -367,7 +375,12 @@ namespace de.unika.ipd.grGen.lgsp
 
             //sourceCode.AppendFrontFormat("Console.WriteLine(\"called matcher for {0}\");\n", PatternName);
             sourceCode.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
+            sourceCode.AppendFront("if(matches == null)\n");
+            string matchClassName = RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName);
+            sourceCode.AppendFrontIndentedFormat("matches = new GRGEN_LGSP.LGSPMatchesList<" + matchClassName + ", " + matchType + ">(this);\n");
             sourceCode.AppendFront("matches.Clear();\n");
+            sourceCode.AppendFront("if(ReturnArray == null)\n");
+            sourceCode.AppendFrontIndentedFormat("ReturnArray = new object[{0}];\n", NumReturns);
             sourceCode.AppendFront("int isoSpace = 0;\n");
             sourceCode.AppendFront("actionEnvParallel = actionEnv;\n");
             sourceCode.AppendFront("maxMatchesParallel = maxMatches;\n");
@@ -426,6 +439,7 @@ namespace de.unika.ipd.grGen.lgsp
         public readonly string Parameters;
         public readonly bool EmitProfiling;
         public readonly string PackagePrefixedPatternName;
+        public readonly int NumReturns;
     }
 
     /// <summary>

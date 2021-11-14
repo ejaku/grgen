@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Debugger\BreakpointAndChoicepointEditor.cs" />
+    <Compile Include="Debugger\DebuggerTask.cs" />
     <Compile Include="Debugger\ElementRealizers.cs" />
     <Compile Include="Debugger\MatchMarkerAndAnnotator.cs" />
     <Compile Include="Debugger\UserChoiceMenu.cs" />

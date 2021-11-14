@@ -1,0 +1,30 @@
+#using "parallel.gm"
+
+#include "Sierpinski.grg"
+
+rule createGraphs : (N, N, N)
+{
+	modify {
+		n1:N --> n2:N --> n3:N;
+		eval {
+			n1.subgraph = inducedSubgraph(new set<Node>{});
+			n2.subgraph = inducedSubgraph(new set<Node>{});
+			n3.subgraph = inducedSubgraph(new set<Node>{});
+		}
+		return(n1,n2,n3);
+	}
+}
+
+test existsN
+{
+	n:N;
+}
+
+procedure printNumNodes()
+{
+	emit("value of variable count of nodes of type N " + nodes(N).size() + "\n");
+	emit("value of variable count of nodes of type A " + nodes(A).size() + "\n");
+	emit("value of variable count of nodes of type B " + nodes(B).size() + "\n");
+	emit("value of variable count of nodes of type C " + nodes(C).size() + "\n");
+	return;
+}

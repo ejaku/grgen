@@ -106,7 +106,7 @@ namespace de.unika.ipd.grGen.lgsp
                     searchProgram = new SearchProgramOfActionParallelizationHead(
                         rulePatternClassName,
                         patternGraph.name, parameterTypes, parameterNames, name + "_parallelized",
-                        emitProfiling, patternGraph.PackagePrefixedName);
+                        emitProfiling, patternGraph.PackagePrefixedName, rulePattern.Outputs.Length);
                 }
             }
             else
@@ -121,7 +121,7 @@ namespace de.unika.ipd.grGen.lgsp
                     rulePattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
                     containsSubpatterns, builder.wasIndependentInlined(patternGraph, 0),
                     matchingPatternClassTypeNames, nestedIndependents,
-                    emitProfiling, patternGraph.PackagePrefixedName,
+                    emitProfiling, patternGraph.PackagePrefixedName, rulePattern.Outputs.Length,
                     patternGraph.maybeNullElementNames, suffixedMatcherNameList, paramNamesList);
             } 
             searchProgram.OperationsList = new SearchProgramList(searchProgram);

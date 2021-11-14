@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.libGr.sequenceParser;
+using System.Threading;
 
 namespace de.unika.ipd.grGen.lgsp
 {
@@ -610,6 +611,57 @@ namespace de.unika.ipd.grGen.lgsp
             return seqExpr;
         }
 
+        struct LGSPParallelExecutionBegin
+        {
+            public BeginParallelExecution parallelExecutionBegin;
+            public LGSPGraphProcessingEnvironment procEnv;
+            public Thread thread;
+            public bool result;
+        }
+
+        public List<bool> ParallelApplyGraphRewriteSequences(SequenceParallelExecute parallel, List<BeginParallelExecution> parallelExecutionBegins)
+        {
+            List<LGSPParallelExecutionBegin> extendedParallelExecutionBegins = new List<LGSPParallelExecutionBegin>();
+            List<ParallelExecutionBegin> begunParallelExecutions = new List<ParallelExecutionBegin>();
+            foreach(BeginParallelExecution parallelExecutionBegin in parallelExecutionBegins)
+            {
+                LGSPGraphProcessingEnvironment procEnv = new LGSPGraphProcessingEnvironment((LGSPGraph)parallelExecutionBegin.graph, (LGSPActions)Actions);
+                LGSPParallelExecutionBegin extendedParallelExecutionBegin = new LGSPParallelExecutionBegin();
+                extendedParallelExecutionBegin.parallelExecutionBegin = parallelExecutionBegin;
+                extendedParallelExecutionBegin.procEnv = procEnv;
+                ParameterizedThreadStart threadStart = new ParameterizedThreadStart(ParallelApplyGraphRewriteSequence);
+                extendedParallelExecutionBegin.thread = new Thread(threadStart);
+                extendedParallelExecutionBegins.Add(extendedParallelExecutionBegin);
+                ParallelExecutionBegin begunParallelExecution = new ParallelExecutionBegin();
+                begunParallelExecution.procEnv = procEnv;
+                begunParallelExecution.sequence = parallelExecutionBegin.sequence;
+                begunParallelExecution.value = parallelExecutionBegin.value;
+                begunParallelExecutions.Add(begunParallelExecution);
+            }
+
+            SpawnSequences(parallel, begunParallelExecutions.ToArray());
+            foreach(LGSPParallelExecutionBegin extendedParallelExecutionBegin in extendedParallelExecutionBegins)
+            {
+                extendedParallelExecutionBegin.thread.Start(extendedParallelExecutionBegin);
+            }
+
+            List<bool> results = new List<bool>();
+            foreach(LGSPParallelExecutionBegin extendedParallelExecutionBegin in extendedParallelExecutionBegins)
+            {
+                extendedParallelExecutionBegin.thread.Join();
+                results.Add(extendedParallelExecutionBegin.result);
+            }
+            JoinSequences(parallel, begunParallelExecutions.ToArray());
+
+            return results;
+        }
+
+        void ParallelApplyGraphRewriteSequence(object value)
+        {
+            LGSPParallelExecutionBegin extendedParallelExecutionBegin = (LGSPParallelExecutionBegin)value;
+            extendedParallelExecutionBegin.result = extendedParallelExecutionBegin.parallelExecutionBegin.sequence.Apply(extendedParallelExecutionBegin.procEnv);
+        }
+
 
         public IUserProxyForSequenceExecution UserProxy
         {
@@ -629,7 +681,11 @@ namespace de.unika.ipd.grGen.lgsp
        
         public event EnterSequenceHandler OnEntereringSequence;
         public event ExitSequenceHandler OnExitingSequence;
+
         public event EndOfIterationHandler OnEndOfIteration;
+
+        public event SpawnSequencesHandler OnSpawnSequences;
+        public event JoinSequencesHandler OnJoinSequences;
 
         public void EnteringSequence(SequenceBase seq)
         {
@@ -647,6 +703,18 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(OnEndOfIteration != null)
                 OnEndOfIteration(continueLoop, seq);
+        }
+
+        public void SpawnSequences(SequenceParallelExecute parallel, params ParallelExecutionBegin[] parallelExecutionBegins)
+        {
+            if(OnSpawnSequences != null)
+                OnSpawnSequences(parallel, parallelExecutionBegins);
+        }
+
+        public void JoinSequences(SequenceParallelExecute parallel, params ParallelExecutionBegin[] parallelExecutionBegins)
+        {
+            if(OnJoinSequences != null)
+                OnJoinSequences(parallel, parallelExecutionBegins);
         }
 
         #endregion Events

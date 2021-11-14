@@ -598,8 +598,8 @@ public class ModelGen extends CSharpBase
 			sb.appendFront("{\n");
 			sb.indent();
 		}
-		sb.appendFront("private static int poolLevel = 0;\n");
-		sb.appendFront("private static " + elemref + "[] pool = new " + elemref + "[10];\n");
+		sb.appendFront("[ThreadStatic] private static int poolLevel;\n");
+		sb.appendFront("[ThreadStatic] private static " + elemref + "[] pool;\n");
 
 		// Static initialization for constants = static members
 		initAllMembersConst(type, elemname, "this");
@@ -624,7 +624,7 @@ public class ModelGen extends CSharpBase
 		genElementCreateMethods(type, isNode, elemref, allocName);
 		sb.append("\n");
 
-		genElementRecycleMethod();
+		genElementRecycleMethod(elemref);
 		sb.append("\n");
 
 		genAttributesAndAttributeAccessImpl(type);
@@ -1037,6 +1037,8 @@ public class ModelGen extends CSharpBase
 			sb.appendFront("else\n");
 			sb.appendFront("{\n");
 			sb.indent();
+			sb.appendFront("if(pool == null)\n");
+			sb.appendFrontIndented("pool = new " + elemref + "[10];\n");
 			sb.appendFront("node = pool[--poolLevel];\n");
 			sb.appendFront("node.lgspInhead = null;\n");
 			sb.appendFront("node.lgspOuthead = null;\n");
@@ -1060,6 +1062,8 @@ public class ModelGen extends CSharpBase
 			sb.appendFront("else\n");
 			sb.appendFront("{\n");
 			sb.indent();
+			sb.appendFront("if(pool == null)\n");
+			sb.appendFrontIndented("pool = new " + elemref + "[10];\n");
 			sb.appendFront("node = pool[--poolLevel];\n");
 			sb.appendFront("node.lgspInhead = null;\n");
 			sb.appendFront("node.lgspOuthead = null;\n");
@@ -1082,6 +1086,8 @@ public class ModelGen extends CSharpBase
 			sb.appendFront("else\n");
 			sb.appendFront("{\n");
 			sb.indent();
+			sb.appendFront("if(pool == null)\n");
+			sb.appendFrontIndented("pool = new " + elemref + "[10];\n");
 			sb.appendFront("edge = pool[--poolLevel];\n");
 			sb.appendFront("edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;\n");
 			sb.appendFront("edge.lgspSource = source;\n");
@@ -1105,6 +1111,8 @@ public class ModelGen extends CSharpBase
 			sb.appendFront("else\n");
 			sb.appendFront("{\n");
 			sb.indent();
+			sb.appendFront("if(pool == null)\n");
+			sb.appendFrontIndented("pool = new " + elemref + "[10];\n");
 			sb.appendFront("edge = pool[--poolLevel];\n");
 			sb.appendFront("edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;\n");
 			sb.appendFront("edge.lgspSource = source;\n");
@@ -1119,11 +1127,13 @@ public class ModelGen extends CSharpBase
 		}
 	}
 
-	private void genElementRecycleMethod()
+	private void genElementRecycleMethod(String elemref)
 	{
 		sb.appendFront("public override void Recycle()\n");
 		sb.appendFront("{\n");
 		sb.indent();
+		sb.appendFront("if(pool == null)\n");
+		sb.appendFrontIndented("pool = new " + elemref + "[10];\n");
 		sb.appendFront("if(poolLevel < 10)\n");
 		sb.appendFrontIndented("pool[poolLevel++] = this;\n");
 		sb.unindent();

@@ -28,13 +28,50 @@ namespace de.unika.ipd.grGen.libGr
     /// <param name="seq">The current sequence object.</param>
     public delegate void ExitSequenceHandler(SequenceBase seq);
 
+
     /// <summary>
     /// Represents a method called when a loop iteration is ended.
     /// </summary>
+    /// <param name="continueLoop">Tells whether to continue the loop with the next iteration.</param>
+    /// <param name="seq">The looped sequence.</param>
     public delegate void EndOfIterationHandler(bool continueLoop, SequenceBase seq);
+
+
+    /// <summary>
+    /// Represents a method called directly after sequences have been spawned (split off) from their parent thread.
+    /// </summary>
+    /// <param name="parallel">The sequence to be executed in parallel (the overall sequence object comprising the single sequences).</param>
+    /// <param name="parallelExecutionBegins">The sequences together with their graph processing environment spawned/split off.</param>
+    public delegate void SpawnSequencesHandler(SequenceParallelExecute parallel, ParallelExecutionBegin[] parallelExecutionBegins);
+
+    /// <summary>
+    /// Represents a method called directly after sequences have joined (again) their parent thread.
+    /// </summary>
+    /// <param name="parallel">The sequence that was executed in parallel (the overall sequence object comprising the single sequences).</param>
+    /// <param name="parallelExecutionBegins">The sequences together with their graph processing environment that joined (again).</param>
+    public delegate void JoinSequencesHandler(SequenceParallelExecute parallel, ParallelExecutionBegin[] parallelExecutionBegins);
 
     #endregion GraphProcessingDelegates
 
+    /// <summary>
+    /// helper object used to actively begin a parallel execution, comprising the single sequence to be executed in parallel, with its environment (graph, value)
+    /// </summary>
+    public struct BeginParallelExecution
+    {
+        public IGraph graph;
+        public object value;
+        public Sequence sequence;
+    }
+
+    /// <summary>
+    /// helper object to passively report parallel sequence executions about to be begun, comprising esp. the processing environment that was created in order to execute it (in parallel)
+    /// </summary>
+    public struct ParallelExecutionBegin
+    {
+        public IGraphProcessingEnvironment procEnv;
+        public Sequence sequence;
+        public object value;
+    }
 
     /// <summary>
     /// An environment for the advanced processing of graphs and the execution of sequences.
@@ -302,6 +339,14 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The sequence expression object according to the given string.</returns>
         SequenceExpression ParseSequenceExpression(String seqExprStr);
 
+        /// <summary>
+        /// In parallel, apply the graph rewrite sequence(s) (to the given graphs, with the given input values).
+        /// </summary>
+        /// <param name="parallel">The sequence to be executed in parallel (the overall sequence object comprising the single sequences).</param>
+        /// <param name="parallelExecutionBegins">The single sequences to be executed in parallel, together with their execution environment (graphs, input values).</param>
+        /// <returns>The outcome of sequence execution, for each sequence executed in parallel.</returns>
+        List<bool> ParallelApplyGraphRewriteSequences(SequenceParallelExecute parallel, List<BeginParallelExecution> parallelExecutionBegins);
+
 
         /// <summary>
         /// The user proxy queried for choices during sequence execution.
@@ -329,10 +374,22 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         event ExitSequenceHandler OnExitingSequence;
 
+
         /// <summary>
         /// Fired when a sequence iteration is ended.
         /// </summary>
         event EndOfIterationHandler OnEndOfIteration;
+
+
+        /// <summary>
+        /// Fired when sequences have been spawned (split off) from their parent thread.
+        /// </summary>
+        event SpawnSequencesHandler OnSpawnSequences;
+
+        /// <summary>
+        /// Fired when sequences have joined (again) their parent thread.
+        /// </summary>
+        event JoinSequencesHandler OnJoinSequences;
 
 
         /// <summary>
@@ -347,11 +404,29 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="seq">The sequence base to be exited.</param>
         void ExitingSequence(SequenceBase seq);
 
+
         /// <summary>
         /// Fires an OnEndOfIteration event. 
         /// This informs the debugger about the end of a loop iteration, so it can display the state at the end of the iteration.
         /// </summary>
+        /// <param name="continueLoop">Tells whether to continue the loop with the next iteration.</param>
+        /// <param name="seq">The looped sequence.</param>
         void EndOfIteration(bool continueLoop, SequenceBase seq);
+
+
+        /// <summary>
+        /// Fires an OnSpawnSequences event.
+        /// </summary>
+        /// <param name="parallel">The sequence to be executed in parallel (the overall sequence object comprising the single sequences).</param>
+        /// <param name="parallelExecutionBegins">The sequences together with their graph processing environment spawned/split off.</param>
+        void SpawnSequences(SequenceParallelExecute parallel, params ParallelExecutionBegin[] parallelExecutionBegins);
+
+        /// <summary>
+        /// Fires an OnJoinSequences event.
+        /// </summary>
+        /// <param name="parallel">The sequence that was executed in parallel (the overall sequence object comprising the single sequences).</param>
+        /// <param name="parallelExecutionBegins">The sequences together with their graph processing environment that joined (again).</param>
+        void JoinSequences(SequenceParallelExecute parallel, params ParallelExecutionBegin[] parallelExecutionBegins);
 
         #endregion Events
     }

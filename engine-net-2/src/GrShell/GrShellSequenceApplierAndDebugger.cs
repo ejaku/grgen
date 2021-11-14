@@ -582,7 +582,7 @@ namespace de.unika.ipd.grGen.grShell
                 impl.debugLayoutOptions.TryGetValue(impl.debugLayout, out optMap);
                 try
                 {
-                    debugger = new Debugger(this, impl.curShellProcEnv, impl.realizers, impl.debugLayout,
+                    debugger = new Debugger(this, impl.curShellProcEnv, impl.curShellProcEnv.ProcEnv, impl.realizers, impl.debugLayout,
                         optMap, impl.detailModePreMatchEnabled, impl.detailModePostMatchEnabled);
                     impl.curShellProcEnv.ProcEnv.UserProxy = debugger;
                 }

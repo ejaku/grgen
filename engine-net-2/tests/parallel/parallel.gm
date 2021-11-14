@@ -1,0 +1,6 @@
+#using "SierpinskiModel.gm"
+
+node class N
+{
+	subgraph:graph;
+}

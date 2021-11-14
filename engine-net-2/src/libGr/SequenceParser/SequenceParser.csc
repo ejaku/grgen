@@ -201,6 +201,7 @@ TOKEN: {
 |   < CLASS: "class" >
 |   < SCAN: "scan" >
 |   < TRYSCAN: "tryscan" >
+|   < PARALLEL: "parallel" >
 }
 
 TOKEN: {
@@ -1222,6 +1223,8 @@ Sequence SimpleSequence():
     List<SequenceVariable> variableList1 = new List<SequenceVariable>();
     List<SequenceVariable> variableList2 = new List<SequenceVariable>();
     List<Sequence> sequences = new List<Sequence>();
+    SequenceExecuteInSubgraph seqInSubgraph = null;
+    List<SequenceExecuteInSubgraph> inSubgraphSequences = new List<SequenceExecuteInSubgraph>();
     List<Double> numbers = new List<Double>();
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
     SequenceVariable toVar, fromVar, fromVar2 = null, fromVar3 = null;
@@ -1535,16 +1538,38 @@ Sequence SimpleSequence():
         }
     )
 |
-    "in" expr=Expression()
-        "{" { varDecls.PushScope(ScopeType.InSubgraph); } seq=RewriteSequence() { varDecls.PopScope(variableList1); } "}"
+    seqInSubgraph = InSubgraphSequence()
     {
-        return new SequenceExecuteInSubgraph(expr, seq);
+        return seqInSubgraph;
+    }
+|
+    "parallel" seqInSubgraph=InSubgraphSequence() { inSubgraphSequences.Add(seqInSubgraph); } 
+        (LOOKAHEAD(2) "," seqInSubgraph=InSubgraphSequence() { inSubgraphSequences.Add(seqInSubgraph); } )*
+    {
+        return new SequenceParallelExecute(inSubgraphSequences);
     }
 |
     ("%" { special = true; })? "{" { varDecls.PushScope(ScopeType.Computation); }
         comp=CompoundComputation() { varDecls.PopScope(variableList1); } (";")? "}"
     {
         return new SequenceBooleanComputation(comp, variableList1, special);
+    }
+}
+
+SequenceExecuteInSubgraph InSubgraphSequence():
+{
+    Sequence seq;
+    SequenceExpression subgraphExpr, valueExpr = null;
+    List<SequenceVariable> variableList1 = new List<SequenceVariable>();
+}
+{
+    "in" subgraphExpr=Expression() ("," valueExpr=Expression())?
+        "{" { varDecls.PushScope(ScopeType.InSubgraph); } seq=RewriteSequence() { varDecls.PopScope(variableList1); } "}"
+    {
+        if(valueExpr == null)
+            return new SequenceExecuteInSubgraph(subgraphExpr, seq);
+        else
+            return new SequenceExecuteInSubgraph(subgraphExpr, valueExpr, seq);
     }
 }
 

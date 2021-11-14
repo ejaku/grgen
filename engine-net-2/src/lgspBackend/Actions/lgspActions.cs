@@ -25,10 +25,9 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public abstract class LGSPAction
     {
-        protected LGSPAction(PatternGraph patternGraph, object[] returnArray)
+        protected LGSPAction(PatternGraph patternGraph)
         {
             this.patternGraph = patternGraph;
-            this.ReturnArray = returnArray;
         }
 
         /// <summary>
@@ -40,14 +39,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// The PatternGraph object of the main graph
         /// </summary>
         public readonly PatternGraph patternGraph;
-
-        /// <summary>
-        /// Performance optimization: saves us usage of new for the return array or the return arrays. 
-        /// In the object/string-style modify/apply methods of the action interface implementation.
-        /// </summary>
-        public readonly object[] ReturnArray;
-        public List<object[]> ReturnArrayListForAll = new List<object[]>();
-        public List<object[]> AvailableReturnArrays = new List<object[]>();
 
         /// <summary>
         /// The name of the action (without prefixes)
