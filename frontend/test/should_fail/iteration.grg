@@ -1,0 +1,7 @@
+rule rconst
+{
+	modify {
+	---
+		exec(rconst[3.0:5.0]);
+	}
+}

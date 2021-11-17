@@ -258,13 +258,19 @@ namespace de.unika.ipd.grGen.grShell
         private static void PrintSequenceIterationMin(SequenceIterationMin seqMin, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             PrintSequence(seqMin.Seq, seqMin, highlightingMode, context);
-            WorkaroundManager.Workaround.PrintHighlighted("[" + seqMin.Min + ":*]", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted("[", highlightingMode);
+            PrintSequenceExpression(seqMin.MinExpr, seqMin, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(":*]", highlightingMode);
         }
 
         private static void PrintSequenceIterationMinMax(SequenceIterationMinMax seqMinMax, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
         {
             PrintSequence(seqMinMax.Seq, seqMinMax, highlightingMode, context);
-            WorkaroundManager.Workaround.PrintHighlighted("[" + seqMinMax.Min + ":" + seqMinMax.Max + "]", highlightingMode);
+            WorkaroundManager.Workaround.PrintHighlighted("[", highlightingMode);
+            PrintSequenceExpression(seqMinMax.MinExpr, seqMinMax, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(":", highlightingMode);
+            PrintSequenceExpression(seqMinMax.MaxExpr, seqMinMax, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("]", highlightingMode);
         }
 
         private static void PrintSequenceTransaction(SequenceTransaction seqTrans, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)

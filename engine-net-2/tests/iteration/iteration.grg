@@ -1,0 +1,39 @@
+rule init
+{
+	modify {
+		.; .; .; .;
+	}
+}
+
+rule rconst
+{
+	modify {
+	---
+		exec(p[3:5]);
+	}
+}
+
+rule r
+{
+	modify {
+	---
+		exec(::min=3 ;> ::max=5 ;> p[::min : ::max]);
+	}
+}
+
+rule p
+{
+	n:Node;
+	
+	modify {
+		delete(n);
+	---
+		eval { printNumNodes(n); }
+	}
+}
+
+procedure printNumNodes(n:Node)
+{
+	emit("value of variable n 5 6 of type Node " + nameof(n) + "\n");
+	return;
+}

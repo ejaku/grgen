@@ -1,0 +1,19 @@
+new graph iteration/iteration
+
+exec init
+
+exec p[3:5]
+
+exec init
+
+exec ::min=3 ;> ::max=5 ;> p[::min : ::max]
+
+exec init
+
+exec rconst
+
+exec init
+
+exec r
+
+exit

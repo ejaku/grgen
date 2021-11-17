@@ -1,0 +1,35 @@
+rule rconst
+{
+	modify {
+	---
+		exec(r[3:5]);
+	}
+}
+
+rule rvar
+{
+	modify {
+	---
+		exec(::min=3 ;> ::max=5 ;> r[::min : ::max]);
+	}
+}
+
+rule rfunc
+{
+	modify {
+	---
+		exec(r[f(0):f(3)]);
+	}
+}
+
+rule r
+{
+	.;
+	modify {
+	}
+}
+
+function f(var i:int) : int
+{
+	return(i * i);
+}

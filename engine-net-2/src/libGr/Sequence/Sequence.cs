@@ -879,17 +879,17 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceIterationMin : SequenceUnary
     {
-        public readonly long Min;
+        public readonly SequenceExpression MinExpr;
 
-        public SequenceIterationMin(Sequence seq, long min) : base(SequenceType.IterationMin, seq)
+        public SequenceIterationMin(Sequence seq, SequenceExpression minExpr) : base(SequenceType.IterationMin, seq)
         {
-            Min = min;
+            MinExpr = minExpr;
         }
 
         protected SequenceIterationMin(SequenceIterationMin that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
             : base(that, originalToCopy, procEnv)
         {
-            Min = that.Min;
+            MinExpr = that.MinExpr.CopyExpression(originalToCopy, procEnv);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -897,9 +897,18 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceIterationMin(this, originalToCopy, procEnv);
         }
 
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(!TypesHelper.IsSameOrSubtype(MinExpr.Type(env), "int", env.Model))
+                throw new SequenceParserException(Symbol, "int", MinExpr.Type(env));
+        }
+
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
-            long i = 0;
+            int min = (int)MinExpr.Evaluate(procEnv);
+            if(min < 0)
+                throw new Exception("Loop iteration lower bound must be larger or equal 0");
+            int i = 0;
             while(Seq.Apply(procEnv))
             {
                 procEnv.EndOfIteration(true, this);
@@ -907,7 +916,7 @@ namespace de.unika.ipd.grGen.libGr
                 ++i;
             }
             procEnv.EndOfIteration(false, this);
-            return i >= Min;
+            return i >= min;
         }
 
         public override int Precedence
@@ -917,26 +926,26 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "[" + Min + ":*]"; }
+            get { return "[" + MinExpr.Symbol + ":*]"; }
         }
     }
 
     public class SequenceIterationMinMax : SequenceUnary
     {
-        public readonly long Min;
-        public readonly long Max;
+        public readonly SequenceExpression MinExpr;
+        public readonly SequenceExpression MaxExpr;
 
-        public SequenceIterationMinMax(Sequence seq, long min, long max) : base(SequenceType.IterationMinMax, seq)
+        public SequenceIterationMinMax(Sequence seq, SequenceExpression minExpr, SequenceExpression maxExpr) : base(SequenceType.IterationMinMax, seq)
         {
-            Min = min;
-            Max = max;
+            MinExpr = minExpr;
+            MaxExpr = maxExpr;
         }
 
         protected SequenceIterationMinMax(SequenceIterationMinMax that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
             : base(that, originalToCopy, procEnv)
         {
-            Min = that.Min;
-            Max = that.Max;
+            MinExpr = that.MinExpr.CopyExpression(originalToCopy, procEnv);
+            MaxExpr = that.MaxExpr.CopyExpression(originalToCopy, procEnv);
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -944,11 +953,25 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceIterationMinMax(this, originalToCopy, procEnv);
         }
 
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            if(!TypesHelper.IsSameOrSubtype(MinExpr.Type(env), "int", env.Model))
+                throw new SequenceParserException(Symbol, "int", MinExpr.Type(env));
+            if(!TypesHelper.IsSameOrSubtype(MaxExpr.Type(env), "int", env.Model))
+                throw new SequenceParserException(Symbol, "int", MaxExpr.Type(env));
+        }
+
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
-            long i;
+            int min = (int)MinExpr.Evaluate(procEnv);
+            if(min < 0)
+                throw new Exception("Loop iteration lower bound must be larger or equal 0");
+            int max = (int)MaxExpr.Evaluate(procEnv);
+            if(min > max)
+                throw new Exception("Loop iteration upper bound must be larger or equal lower bound");
+            int i;
             bool first = true;
-            for(i = 0; i < Max; ++i)
+            for(i = 0; i < max; ++i)
             {
                 if(!first)
                     procEnv.EndOfIteration(true, this);
@@ -958,7 +981,7 @@ namespace de.unika.ipd.grGen.libGr
                 first = false;
             }
             procEnv.EndOfIteration(false, this);
-            return i >= Min;
+            return i >= min;
         }
 
         public override int Precedence
@@ -968,7 +991,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "[" + Min + ":" + Max + "]"; }
+            get { return "[" + MinExpr.Symbol + ":" + MaxExpr.Symbol + "]"; }
         }
     }
 

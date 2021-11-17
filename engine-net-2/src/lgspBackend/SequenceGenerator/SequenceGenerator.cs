@@ -1049,8 +1049,10 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void EmitSequenceIterationMin(SequenceIterationMin seqMin, SourceBuilder source)
         {
-            String iterationVariableName = "i_" + seqMin.Id;
-            source.AppendFrontFormat("long {0} = 0;\n", iterationVariableName);
+            String iterationMinLimitVariableName = "iminl_" + seqMin.Id;
+            source.AppendFrontFormat("int {0} = (int)({1});\n", iterationMinLimitVariableName, exprGen.GetSequenceExpression(seqMin.MinExpr, source));
+            String iterationCountVariableName = "i_" + seqMin.Id;
+            source.AppendFrontFormat("int {0} = 0;\n", iterationCountVariableName);
             source.AppendFront("while(true)\n");
             source.AppendFront("{\n");
             source.Indent();
@@ -1059,17 +1061,21 @@ namespace de.unika.ipd.grGen.lgsp
 
             source.AppendFront("if(!" + COMP_HELPER.GetResultVar(seqMin.Seq) + ")\n");
             source.AppendFrontIndented("break;\n");
-            source.AppendFrontFormat("++{0};\n", iterationVariableName);
+            source.AppendFrontFormat("++{0};\n", iterationCountVariableName);
             source.Unindent();
             source.AppendFront("}\n");
-            source.AppendFront(COMP_HELPER.SetResultVar(seqMin, iterationVariableName + " >= " + seqMin.Min));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqMin, iterationCountVariableName + " >= " + iterationMinLimitVariableName));
         }
 
         private void EmitSequenceIterationMinMax(SequenceIterationMinMax seqMinMax, SourceBuilder source)
         {
-            String iterationVariableName = "i_" + seqMinMax.Id;
-            source.AppendFrontFormat("long {0} = 0;\n", iterationVariableName);
-            source.AppendFrontFormat("for(; {0} < {1}; ++{0})\n", iterationVariableName, seqMinMax.Max);
+            String iterationMinLimitVariableName = "iminl_" + seqMinMax.Id;
+            source.AppendFrontFormat("int {0} = (int)({1});\n", iterationMinLimitVariableName, exprGen.GetSequenceExpression(seqMinMax.MinExpr, source));
+            String iterationMaxLimitVariableName = "imaxl_" + seqMinMax.Id;
+            source.AppendFrontFormat("int {0} = (int)({1});\n", iterationMaxLimitVariableName, exprGen.GetSequenceExpression(seqMinMax.MaxExpr, source));
+            String iterationCountVariableName = "i_" + seqMinMax.Id;
+            source.AppendFrontFormat("int {0} = 0;\n", iterationCountVariableName);
+            source.AppendFrontFormat("for(; {0} < {1}; ++{0})\n", iterationCountVariableName, iterationMaxLimitVariableName);
             source.AppendFront("{\n");
             source.Indent();
 
@@ -1079,7 +1085,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontIndented("break;\n");
             source.Unindent();
             source.AppendFront("}\n");
-            source.AppendFront(COMP_HELPER.SetResultVar(seqMinMax, iterationVariableName + " >= " + seqMinMax.Min));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqMinMax, iterationCountVariableName + " >= " + iterationMinLimitVariableName));
         }
 
         private void EmitSequenceDeclareVariable(SequenceDeclareVariable seqDeclVar, SourceBuilder source)

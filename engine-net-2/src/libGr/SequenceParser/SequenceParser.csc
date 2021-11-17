@@ -1168,7 +1168,7 @@ Sequence RewriteSequenceNeg():
 Sequence RewriteSequenceIteration():
 {
     Sequence seq;
-    int minnum, maxnum = -1;
+    SequenceExpression minExpr = null, maxExpr = null;
     bool maxspecified = false;
     bool maxstar = false;
 }
@@ -1177,37 +1177,39 @@ Sequence RewriteSequenceIteration():
     (
         "*"
         {
-            seq = new SequenceIterationMin(seq, 0);
+            minExpr = new SequenceExpressionConstant(0);
+            seq = new SequenceIterationMin(seq, minExpr);
         }
     |
         "+"
         {
-            seq = new SequenceIterationMin(seq, 1);
+            minExpr = new SequenceExpressionConstant(1);
+            seq = new SequenceIterationMin(seq, minExpr);
         }
     |
         "["
             (
-                minnum=Number()
+                LOOKAHEAD(2) minExpr=Expression()
                 (
                     ":"
                     (
-                        maxnum=Number() { maxspecified = true; }
+                        maxExpr=Expression() { maxspecified = true; }
                     |
                         "*" { maxstar = true; }
                     )
                 )?
             |
-                "*" { minnum = 0; maxstar = true; }
+                "*" { minExpr = new SequenceExpressionConstant(0); maxstar = true; }
             |
-                "+" { minnum = 1; maxstar = true; }
+                "+" { minExpr = new SequenceExpressionConstant(1); maxstar = true; }
             )
         "]"
         {
             if(maxstar) {
-                seq = new SequenceIterationMin(seq, minnum);
+                seq = new SequenceIterationMin(seq, minExpr);
             } else {
-                if(!maxspecified) maxnum = minnum;
-                seq = new SequenceIterationMinMax(seq, minnum, maxnum);
+                if(!maxspecified) maxExpr = minExpr;
+                seq = new SequenceIterationMinMax(seq, minExpr, maxExpr);
             }
         }
     )?

@@ -133,7 +133,7 @@ seqNegOrIteration [ ExecNode xg ]
 seqIterSequence [ ExecNode xg ]
 	: seqSimpleSequence[xg]
 		(
-			rsn=seqRangeSpecLoop { xg.append(rsn); }
+			rsn=seqRangeSpecLoop[xg]
 		|
 			STAR { xg.append("*"); }
 		|
@@ -1431,33 +1431,20 @@ seqMemberIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 		}
 	;
 
-seqRangeSpecLoop returns [ RangeSpecNode res = null ]
-	@init {
-		lower = 1; upper = 1;
-		de.unika.ipd.grgen.parser.Coords coords = de.unika.ipd.grgen.parser.Coords.getInvalid();
-		// range allows [*], [+], [c:*], [c], [c:d]; no range equals 1:1
-	}
-	:
+seqRangeSpecLoop [ ExecNode xg ]
+	: 	// range allows [*], [+], [c:*], [c], [c:d]; no range equals 1:1
 		(
-			l=LBRACK { coords = getCoords(l); }
+			LBRACK { xg.append("["); }
 			(
-				STAR { lower=0; upper=RangeSpecNode.UNBOUND; }
+				STAR { xg.append("*"); }
 			|
-				PLUS { lower=1; upper=RangeSpecNode.UNBOUND; }
+				PLUS { xg.append("+"); }
 			|
-				lower=seqIntegerConst
+				seqExpression[xg]
 				(
-					COLON ( STAR { upper=RangeSpecNode.UNBOUND; } | upper=seqIntegerConst )
-				|
-					{ upper = lower; }
-				)
+					COLON { xg.append(" : "); } ( STAR { xg.append("*"); } | seqExpression[xg] )
+				)?
 			)
-			RBRACK
+			RBRACK { xg.append("]"); }
 		)?
-		{ res = new RangeSpecNode(coords, lower, upper); }
-	;
-
-seqIntegerConst returns [ long value = 0 ]
-	: i=NUM_INTEGER
-		{ value = Long.parseLong(i.getText()); }
 	;
