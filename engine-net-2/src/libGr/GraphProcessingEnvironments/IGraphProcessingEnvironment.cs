@@ -54,16 +54,6 @@ namespace de.unika.ipd.grGen.libGr
     #endregion GraphProcessingDelegates
 
     /// <summary>
-    /// helper object used to actively begin a parallel execution, comprising the single sequence to be executed in parallel, with its environment (graph, value)
-    /// </summary>
-    public struct BeginParallelExecution
-    {
-        public IGraph graph;
-        public object value;
-        public Sequence sequence;
-    }
-
-    /// <summary>
     /// helper object to passively report parallel sequence executions about to be begun, comprising esp. the processing environment that was created in order to execute it (in parallel)
     /// </summary>
     public struct ParallelExecutionBegin
@@ -314,10 +304,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// In parallel, apply the graph rewrite sequence(s) (to the given graphs, with the given input values).
         /// </summary>
-        /// <param name="parallel">The sequence to be executed in parallel (the overall sequence object comprising the single sequences).</param>
-        /// <param name="parallelExecutionBegins">The single sequences to be executed in parallel, together with their execution environment (graphs, input values).</param>
+        /// <param name="parallel">The sequence to be executed in parallel (the overall sequence object comprising the single sequences - which contain their execution environment (graph, input value in variable)).</param>
         /// <returns>The outcome of sequence execution, for each sequence executed in parallel.</returns>
-        List<bool> ParallelApplyGraphRewriteSequences(SequenceParallelExecute parallel, List<BeginParallelExecution> parallelExecutionBegins);
+        List<bool> ParallelApplyGraphRewriteSequences(SequenceParallelExecute parallel);
 
 
         /// <summary>

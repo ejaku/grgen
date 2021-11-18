@@ -110,6 +110,11 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        public void RedefineLocalVariableType(String type)
+        {
+            this.type = type;
+        }
+
         // add ourselves to the variables set if we are a local variable
         public void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
         {
@@ -123,7 +128,7 @@ namespace de.unika.ipd.grGen.libGr
 
         private readonly String name;
         private readonly String prefix;
-        private readonly String type;
+        private String type;
 
         private object value;
 

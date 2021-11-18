@@ -1540,13 +1540,13 @@ Sequence SimpleSequence():
         }
     )
 |
-    seqInSubgraph = InSubgraphSequence()
+    seqInSubgraph = InSubgraphSequence(false)
     {
         return seqInSubgraph;
     }
 |
-    "parallel" seqInSubgraph=InSubgraphSequence() { inSubgraphSequences.Add(seqInSubgraph); } 
-        (LOOKAHEAD(2) "," seqInSubgraph=InSubgraphSequence() { inSubgraphSequences.Add(seqInSubgraph); } )*
+    "parallel" seqInSubgraph=InSubgraphSequence(true) { inSubgraphSequences.Add(seqInSubgraph); } 
+        (LOOKAHEAD(2) "," seqInSubgraph=InSubgraphSequence(true) { inSubgraphSequences.Add(seqInSubgraph); } )*
     {
         return new SequenceParallelExecute(inSubgraphSequences);
     }
@@ -1558,20 +1558,27 @@ Sequence SimpleSequence():
     }
 }
 
-SequenceExecuteInSubgraph InSubgraphSequence():
+SequenceExecuteInSubgraph InSubgraphSequence(bool inParallel):
 {
     Sequence seq;
     SequenceExpression subgraphExpr, valueExpr = null;
+    SequenceVariable variable = null;
     List<SequenceVariable> variableList1 = new List<SequenceVariable>();
 }
 {
     "in" subgraphExpr=Expression() ("," valueExpr=Expression())?
-        "{" { varDecls.PushScope(ScopeType.InSubgraph); } seq=RewriteSequence() { varDecls.PopScope(variableList1); } "}"
+        "{" { varDecls.PushScope(ScopeType.InSubgraph); } 
+            {
+                if(inParallel && valueExpr != null)
+                    variable = varDecls.Define("value", "internaltype");
+            }
+            seq=RewriteSequence()
+        { varDecls.PopScope(variableList1); } "}"
     {
         if(valueExpr == null)
             return new SequenceExecuteInSubgraph(subgraphExpr, seq);
         else
-            return new SequenceExecuteInSubgraph(subgraphExpr, valueExpr, seq);
+            return new SequenceExecuteInSubgraph(subgraphExpr, valueExpr, variable, seq);
     }
 }
 

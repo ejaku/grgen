@@ -1,0 +1,15 @@
+new graph parallel/parallel
+
+exec (::g1,::g2,::g3)=createGraphs
+
+exec existsN ;> parallel in ::g1.subgraph, 1 { init && (gen0* & gen1*)[value] },\
+in ::g2.subgraph, 2 { init && (gen0* & gen1*)[value] },\
+in ::g3.subgraph, 3 { init && (gen0* & gen1*)[value] }\
+;> existsN
+
+exec { printNumNodes() } ;>\
+in ::g1.subgraph { { printNumNodes() } } ;>\
+in ::g2.subgraph { { printNumNodes() } } ;>\
+in ::g3.subgraph { { printNumNodes() } }
+
+exit

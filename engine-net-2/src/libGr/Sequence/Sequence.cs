@@ -7967,15 +7967,19 @@ namespace de.unika.ipd.grGen.libGr
         public readonly SequenceExpression SubgraphExpr;
         public readonly SequenceExpression ValueExpr;
 
-        public SequenceExecuteInSubgraph(SequenceExpression subgraphExpr, SequenceExpression valueExpr, Sequence seq)
+        public IGraph Subgraph; // only execution helper
+        public readonly SequenceVariable ValueVariable; // only of relevance if ValueExpr != null and contained in SequenceParallelExecute
+
+        public SequenceExecuteInSubgraph(SequenceExpression subgraphExpr, SequenceExpression valueExpr, SequenceVariable valueVariable, Sequence seq)
             : base(SequenceType.ExecuteInSubgraph, seq)
         {
             SubgraphExpr = subgraphExpr;
             ValueExpr = valueExpr;
+            ValueVariable = valueVariable;
         }
 
         public SequenceExecuteInSubgraph(SequenceExpression subgraphExpr, Sequence seq)
-            : this(subgraphExpr, null, seq)
+            : this(subgraphExpr, null, null, seq)
         {
         }
 
@@ -8063,6 +8067,12 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
+            foreach(SequenceExecuteInSubgraph inSubgraphExecution in InSubgraphExecutions)
+            {
+                if(inSubgraphExecution.ValueVariable != null)
+                    inSubgraphExecution.ValueVariable.RedefineLocalVariableType(inSubgraphExecution.ValueExpr.Type(env));
+            }
+
             base.Check(env);
             // todo: check result assignment, first add result assignment
         }
@@ -8073,17 +8083,14 @@ namespace de.unika.ipd.grGen.libGr
             procEnv.Recorder.WriteLine("Parallel execution");
 #endif
 
-            List<BeginParallelExecution> parallelExecutionBegins = new List<BeginParallelExecution>();
             foreach(SequenceExecuteInSubgraph inSubgraphExecution in InSubgraphExecutions)
             {
-                BeginParallelExecution parallelExecutionBegin = new BeginParallelExecution();
-                parallelExecutionBegin.graph = (IGraph)inSubgraphExecution.SubgraphExpr.Evaluate(procEnv);
-                parallelExecutionBegin.value = inSubgraphExecution.ValueExpr != null ? (object)inSubgraphExecution.ValueExpr.Evaluate(procEnv) : null;
-                parallelExecutionBegin.sequence = inSubgraphExecution.Seq;
-                parallelExecutionBegins.Add(parallelExecutionBegin);
+                inSubgraphExecution.Subgraph = (IGraph)inSubgraphExecution.SubgraphExpr.Evaluate(procEnv);
+                if(inSubgraphExecution.ValueExpr != null)
+                    inSubgraphExecution.ValueVariable.SetVariableValue(inSubgraphExecution.ValueExpr.Evaluate(procEnv), procEnv);
             }
 
-            List<bool> result = procEnv.ParallelApplyGraphRewriteSequences(this, parallelExecutionBegins);
+            List<bool> result = procEnv.ParallelApplyGraphRewriteSequences(this);
             // TODO: optionally assign result
             return true;
         }

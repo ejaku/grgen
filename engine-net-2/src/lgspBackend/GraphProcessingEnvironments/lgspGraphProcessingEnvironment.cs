@@ -578,29 +578,29 @@ namespace de.unika.ipd.grGen.lgsp
 
         struct LGSPParallelExecutionBegin
         {
-            public BeginParallelExecution parallelExecutionBegin;
+            public SequenceExecuteInSubgraph parallelExecutionBegin;
             public LGSPGraphProcessingEnvironment procEnv;
             public Thread thread;
             public bool result;
         }
 
-        public List<bool> ParallelApplyGraphRewriteSequences(SequenceParallelExecute parallel, List<BeginParallelExecution> parallelExecutionBegins)
+        public List<bool> ParallelApplyGraphRewriteSequences(SequenceParallelExecute parallel)
         {
             List<LGSPParallelExecutionBegin> extendedParallelExecutionBegins = new List<LGSPParallelExecutionBegin>();
             List<ParallelExecutionBegin> begunParallelExecutions = new List<ParallelExecutionBegin>();
-            foreach(BeginParallelExecution parallelExecutionBegin in parallelExecutionBegins)
+            foreach(SequenceExecuteInSubgraph inSubgraphExecution in parallel.InSubgraphExecutions)
             {
-                LGSPGraphProcessingEnvironment procEnv = new LGSPGraphProcessingEnvironment((LGSPGraph)parallelExecutionBegin.graph, (LGSPActions)Actions);
+                LGSPGraphProcessingEnvironment procEnv = new LGSPGraphProcessingEnvironment((LGSPGraph)inSubgraphExecution.Subgraph, (LGSPActions)Actions);
                 LGSPParallelExecutionBegin extendedParallelExecutionBegin = new LGSPParallelExecutionBegin();
-                extendedParallelExecutionBegin.parallelExecutionBegin = parallelExecutionBegin;
+                extendedParallelExecutionBegin.parallelExecutionBegin = inSubgraphExecution;
                 extendedParallelExecutionBegin.procEnv = procEnv;
                 ParameterizedThreadStart threadStart = new ParameterizedThreadStart(ParallelApplyGraphRewriteSequence);
                 extendedParallelExecutionBegin.thread = new Thread(threadStart);
                 extendedParallelExecutionBegins.Add(extendedParallelExecutionBegin);
                 ParallelExecutionBegin begunParallelExecution = new ParallelExecutionBegin();
                 begunParallelExecution.procEnv = procEnv;
-                begunParallelExecution.sequence = parallelExecutionBegin.sequence;
-                begunParallelExecution.value = parallelExecutionBegin.value;
+                begunParallelExecution.sequence = inSubgraphExecution;
+                begunParallelExecution.value = inSubgraphExecution.ValueVariable != null ? inSubgraphExecution.ValueVariable.GetVariableValue(this) : null;
                 begunParallelExecutions.Add(begunParallelExecution);
             }
 
@@ -624,7 +624,7 @@ namespace de.unika.ipd.grGen.lgsp
         void ParallelApplyGraphRewriteSequence(object value)
         {
             LGSPParallelExecutionBegin extendedParallelExecutionBegin = (LGSPParallelExecutionBegin)value;
-            extendedParallelExecutionBegin.result = extendedParallelExecutionBegin.parallelExecutionBegin.sequence.Apply(extendedParallelExecutionBegin.procEnv);
+            extendedParallelExecutionBegin.result = extendedParallelExecutionBegin.parallelExecutionBegin.Apply(extendedParallelExecutionBegin.procEnv);
         }
 
 
