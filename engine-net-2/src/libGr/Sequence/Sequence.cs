@@ -899,6 +899,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
+            base.Check(env);
+
             if(!TypesHelper.IsSameOrSubtype(MinExpr.Type(env), "int", env.Model))
                 throw new SequenceParserException(Symbol, "int", MinExpr.Type(env));
         }
@@ -955,6 +957,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public override void Check(SequenceCheckingEnvironment env)
         {
+            base.Check(env);
+
             if(!TypesHelper.IsSameOrSubtype(MinExpr.Type(env), "int", env.Model))
                 throw new SequenceParserException(Symbol, "int", MinExpr.Type(env));
             if(!TypesHelper.IsSameOrSubtype(MaxExpr.Type(env), "int", env.Model))
