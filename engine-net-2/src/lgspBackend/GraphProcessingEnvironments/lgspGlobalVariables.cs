@@ -24,7 +24,6 @@ namespace de.unika.ipd.grGen.lgsp
 
         protected readonly Dictionary<IGraphElement, LinkedList<Variable>> ElementMap = new Dictionary<IGraphElement, LinkedList<Variable>>();
         protected readonly Dictionary<String, Variable> VariableMap = new Dictionary<String, Variable>();
-        protected readonly Dictionary<String, object> SpecialVariables = new Dictionary<String, object>();
 
         private readonly Dictionary<ITransientObject, long> transientObjectToUniqueId = new Dictionary<ITransientObject, long>();
         private readonly Dictionary<long, ITransientObject> uniqueIdToTransientObject = new Dictionary<long, ITransientObject>();
@@ -379,43 +378,6 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         #endregion Variables management
-
-
-        #region Special variables management
-
-        /// <summary>
-        /// Retrieves the value of a special variable name.
-        /// Special variables are used for GrGen-internal data storage (as of now only "this"-reference handling).
-        /// </summary>
-        /// <param name="name">The name of the special variable to read</param>
-        /// <returns>The according value</returns>
-        public object GetSpecialVariableValue(string name)
-        {
-            return SpecialVariables[name];
-        }
-
-        /// <summary>
-        /// Sets the given special variable name to the given value.
-        /// Special variables are used for GrGen-internal data storage (as of now only "this"-reference handling).
-        /// </summary>
-        /// <param name="name">The name of the special variable to write</param>
-        /// <param name="value">The new value of the special variable</param>
-        public void SetSpecialVariableValue(string name, object value)
-        {
-            SpecialVariables[name] = value;
-        }
-
-        /// <summary>
-        /// Deletes the given special variable name.
-        /// Special variables are used for GrGen-internal data storage (as of now only "this"-reference handling).
-        /// </summary>
-        /// <param name="name">The name of the special variable to delete</param>
-        public void DeleteSpecialVariable(string name)
-        {
-            SpecialVariables.Remove(name);
-        }
-
-        #endregion Special variables management
 
 
         #region Transient Object id handling

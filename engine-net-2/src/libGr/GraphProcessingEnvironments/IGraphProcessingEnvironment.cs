@@ -168,34 +168,6 @@ namespace de.unika.ipd.grGen.libGr
         #endregion Variables management
 
 
-        #region Special variables management
-
-        /// <summary>
-        /// Retrieves the value of a special variable name.
-        /// Special variables are used for GrGen-internal data storage (as of now only "this"-reference handling).
-        /// </summary>
-        /// <param name="name">The name of the special variable to read</param>
-        /// <returns>The according value</returns>
-        object GetSpecialVariableValue(string name);
-
-        /// <summary>
-        /// Sets the given special variable name to the given value.
-        /// Special variables are used for GrGen-internal data storage (as of now only "this"-reference handling).
-        /// </summary>
-        /// <param name="name">The name of the special variable to write</param>
-        /// <param name="value">The new value of the special variable</param>
-        void SetSpecialVariableValue(string name, object value);
-
-        /// <summary>
-        /// Deletes the given special variable name.
-        /// Special variables are used for GrGen-internal data storage (as of now only "this"-reference handling).
-        /// </summary>
-        /// <param name="name">The name of the special variable to delete</param>
-        void DeleteSpecialVariable(string name);
-
-        #endregion Special variables management
-
-
         #region Variables of graph elements convenience
 
         /// <summary>
