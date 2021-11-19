@@ -7967,19 +7967,21 @@ namespace de.unika.ipd.grGen.libGr
         public readonly SequenceExpression SubgraphExpr;
         public readonly SequenceExpression ValueExpr;
 
+        bool InParallel;
         public IGraph Subgraph; // only execution helper
         public readonly SequenceVariable ValueVariable; // only of relevance if ValueExpr != null and contained in SequenceParallelExecute
 
-        public SequenceExecuteInSubgraph(SequenceExpression subgraphExpr, SequenceExpression valueExpr, SequenceVariable valueVariable, Sequence seq)
+        public SequenceExecuteInSubgraph(SequenceExpression subgraphExpr, SequenceExpression valueExpr, SequenceVariable valueVariable, Sequence seq, bool inParallel)
             : base(SequenceType.ExecuteInSubgraph, seq)
         {
             SubgraphExpr = subgraphExpr;
             ValueExpr = valueExpr;
             ValueVariable = valueVariable;
+            InParallel = inParallel;
         }
 
-        public SequenceExecuteInSubgraph(SequenceExpression subgraphExpr, Sequence seq)
-            : this(subgraphExpr, null, null, seq)
+        public SequenceExecuteInSubgraph(SequenceExpression subgraphExpr, Sequence seq, bool inParallel)
+            : this(subgraphExpr, null, null, seq, inParallel)
         {
         }
 
@@ -8019,13 +8021,16 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
         {
-            IGraph subgraph = (IGraph)SubgraphExpr.Evaluate(procEnv);
-
-            procEnv.SwitchToSubgraph(subgraph);
+            if(!InParallel)
+            {
+                IGraph subgraph = (IGraph)SubgraphExpr.Evaluate(procEnv);
+                procEnv.SwitchToSubgraph(subgraph);
+            }
 
             bool res = Seq.Apply(procEnv);
 
-            procEnv.ReturnFromSubgraph();
+            if(!InParallel)
+                procEnv.ReturnFromSubgraph();
 
             return res;
         }
@@ -8044,10 +8049,12 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceParallelExecute : Sequence
     {
         public readonly List<SequenceExecuteInSubgraph> InSubgraphExecutions;
+        public readonly List<SequenceVariable> ResultVariables;
 
-        public SequenceParallelExecute(List<SequenceExecuteInSubgraph> inSubgraphExecutions) : base(SequenceType.ParallelExecute)
+        public SequenceParallelExecute(List<SequenceExecuteInSubgraph> inSubgraphExecutions, List<SequenceVariable> resultVariables) : base(SequenceType.ParallelExecute)
         {
             InSubgraphExecutions = inSubgraphExecutions;
+            ResultVariables = resultVariables;
         }
 
         protected SequenceParallelExecute(SequenceParallelExecute that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -8057,6 +8064,11 @@ namespace de.unika.ipd.grGen.libGr
             foreach(SequenceExecuteInSubgraph inSubgraphExecution in that.InSubgraphExecutions)
             {
                 InSubgraphExecutions.Add((SequenceExecuteInSubgraph)inSubgraphExecution.Copy(originalToCopy, procEnv));
+            }
+            ResultVariables = new List<SequenceVariable>();
+            foreach(SequenceVariable resultVariable in that.ResultVariables)
+            {
+                ResultVariables.Add(resultVariable.Copy(originalToCopy, procEnv));
             }
         }
 
@@ -8074,7 +8086,17 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             base.Check(env);
-            // todo: check result assignment, first add result assignment
+
+            if(ResultVariables.Count > 0)
+            {
+                if(ResultVariables.Count != InSubgraphExecutions.Count)
+                    throw new Exception("Mismatch in number of result assignments (/variables) and parallel execution parts (" + ResultVariables.Count + " vs. " + InSubgraphExecutions.Count + ")");
+                foreach(SequenceVariable resultVariable in ResultVariables)
+                {
+                    if(!TypesHelper.IsSameOrSubtype(resultVariable.Type, "boolean", env.Model))
+                        throw new SequenceParserException(resultVariable.Name, "boolean", resultVariable.Type);
+                }
+            }
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
@@ -8091,7 +8113,12 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             List<bool> result = procEnv.ParallelApplyGraphRewriteSequences(this);
-            // TODO: optionally assign result
+
+            for(int i = 0; i < ResultVariables.Count; ++i)
+            {
+                ResultVariables[i].SetVariableValue(result[i], procEnv);
+            }
+
             return true;
         }
 

@@ -576,12 +576,12 @@ namespace de.unika.ipd.grGen.lgsp
             return seqExpr;
         }
 
-        struct LGSPParallelExecutionBegin
+        class LGSPParallelExecutionBegin
         {
             public SequenceExecuteInSubgraph parallelExecutionBegin;
             public LGSPGraphProcessingEnvironment procEnv;
             public Thread thread;
-            public bool result;
+            public volatile bool result;
         }
 
         public List<bool> ParallelApplyGraphRewriteSequences(SequenceParallelExecute parallel)
@@ -624,7 +624,10 @@ namespace de.unika.ipd.grGen.lgsp
         void ParallelApplyGraphRewriteSequence(object value)
         {
             LGSPParallelExecutionBegin extendedParallelExecutionBegin = (LGSPParallelExecutionBegin)value;
-            extendedParallelExecutionBegin.result = extendedParallelExecutionBegin.parallelExecutionBegin.Apply(extendedParallelExecutionBegin.procEnv);
+            LGSPGraphProcessingEnvironment procEnv = extendedParallelExecutionBegin.procEnv;
+            SequenceExecuteInSubgraph inSubgraphExecution = extendedParallelExecutionBegin.parallelExecutionBegin;
+            bool result = inSubgraphExecution.Apply(procEnv);
+            extendedParallelExecutionBegin.result = result;
         }
 
 

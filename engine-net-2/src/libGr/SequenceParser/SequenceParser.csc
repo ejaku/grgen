@@ -1545,10 +1545,10 @@ Sequence SimpleSequence():
         return seqInSubgraph;
     }
 |
-    "parallel" seqInSubgraph=InSubgraphSequence(true) { inSubgraphSequences.Add(seqInSubgraph); } 
+    "parallel" ("(" VariableList(variableList1) ")" "=")? seqInSubgraph=InSubgraphSequence(true) { inSubgraphSequences.Add(seqInSubgraph); } 
         (LOOKAHEAD(2) "," seqInSubgraph=InSubgraphSequence(true) { inSubgraphSequences.Add(seqInSubgraph); } )*
     {
-        return new SequenceParallelExecute(inSubgraphSequences);
+        return new SequenceParallelExecute(inSubgraphSequences, variableList1);
     }
 |
     ("%" { special = true; })? "{" { varDecls.PushScope(ScopeType.Computation); }
@@ -1576,9 +1576,9 @@ SequenceExecuteInSubgraph InSubgraphSequence(bool inParallel):
         { varDecls.PopScope(variableList1); } "}"
     {
         if(valueExpr == null)
-            return new SequenceExecuteInSubgraph(subgraphExpr, seq);
+            return new SequenceExecuteInSubgraph(subgraphExpr, seq, inParallel);
         else
-            return new SequenceExecuteInSubgraph(subgraphExpr, valueExpr, variable, seq);
+            return new SequenceExecuteInSubgraph(subgraphExpr, valueExpr, variable, seq, inParallel);
     }
 }
 
