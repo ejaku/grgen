@@ -156,6 +156,7 @@
     <Compile Include="SourceBuilder.cs" />
     <Compile Include="GraphComparison\GraphCanonizer.cs" />
     <Compile Include="GraphComparison\SimpleGraphCanonizer.cs" />
+    <Compile Include="ThreadPool.cs" />
     <Compile Include="WorkerPool.cs" />
     <Compile Include="ExpressionOrYielding\Yielding.cs" />
   </ItemGroup>

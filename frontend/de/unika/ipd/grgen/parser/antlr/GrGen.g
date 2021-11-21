@@ -313,13 +313,17 @@ textActions returns [ UnitNode main = null ]
 				for(ModelNode modelChild : modelChilds.getChildren()) {
 					isoParallel = Math.max(isoParallel, modelChild.IsoParallel());
 				}
+				int sequencesParallel = 0;
+				for(ModelNode modelChild : modelChilds.getChildren()) {
+					sequencesParallel = Math.max(sequencesParallel, modelChild.SequencesParallel());
+				}
 				ModelNode model = new ModelNode(id, new CollectNode<IdentNode>(),
 						new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), 
 						new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), modelChilds, 
 						isEmitClassDefined, isEmitGraphClassDefined, isCopyClassDefined, 
 						isEqualClassDefined, isLowerClassDefined,
 						isUniqueDefined, isUniqueIndexDefined,
-						areFunctionsParallel, isoParallel);
+						areFunctionsParallel, isoParallel, sequencesParallel);
 				modelChilds = new CollectNode<ModelNode>();
 				modelChilds.addChild(model);
 			}
@@ -2426,7 +2430,7 @@ textTypes returns [ ModelNode model = null ]
 				$specialClasses.isEmitClassDefined, $specialClasses.isEmitGraphClassDefined, $specialClasses.isCopyClassDefined, 
 				$specialClasses.isEqualClassDefined, $specialClasses.isLowerClassDefined,
 				$specialClasses.isUniqueDefined, $specialClasses.isUniqueIndexDefined,
-				$specialClasses.areFunctionsParallel, $specialClasses.isoParallel);
+				$specialClasses.areFunctionsParallel, $specialClasses.isoParallel, $specialClasses.sequencesParallel);
 		}
 	;
 
@@ -2436,7 +2440,7 @@ typeDecls [ AnonymousScopeNamer namer, CollectNode<IdentNode> types, CollectNode
 		returns [ boolean isEmitClassDefined = false, boolean isEmitGraphClassDefined = false, boolean isCopyClassDefined = false, 
 				boolean isEqualClassDefined = false, boolean isLowerClassDefined = false,
 				boolean isUniqueDefined = false, boolean isUniqueIndexDefined = false,
-				boolean areFunctionsParallel = false, int isoParallel = 0 ]
+				boolean areFunctionsParallel = false, int isoParallel = 0, int sequencesParallel = 0 ]
 	@init {
 		boolean graphFound = false;
 	}
@@ -2506,6 +2510,20 @@ typeDecls [ AnonymousScopeNamer namer, CollectNode<IdentNode> types, CollectNode
 						reportError(getCoords(i), "\"for function[parallelize=true];\" requires a boolean constant");
 					else
 						$areFunctionsParallel = (Boolean)bcon;
+				}
+			}
+			SEMI
+	  |
+		FOR s=SEQUENCE LBRACK j=IDENT ASSIGN con=constant RBRACK
+			{
+				if(!j.getText().equals("parallelize"))
+					reportError(getCoords(j), "malformed \"for sequence[parallelize=k];\"");
+				else {
+					Object icon = ((ConstNode) con).getValue();
+					if(!(icon instanceof Integer))
+						reportError(getCoords(i), "\"for sequence[parallelize=k];\" requires an integer constant");
+					else
+						$sequencesParallel = (Integer)icon;
 				}
 			}
 			SEMI

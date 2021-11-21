@@ -35,6 +35,7 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract bool GraphElementsAreAccessibleByUniqueId { get; }
         public abstract bool AreFunctionsParallelized { get; }
         public abstract int BranchingFactorForEqualsAny { get; }
+        public abstract int ThreadPoolSizeForSequencesParallelExecution { get; }
         public abstract IUniquenessHandler CreateUniquenessHandler(IGraph graph);
         public abstract IIndexSet CreateIndexSet(IGraph graph);
         public abstract void FillIndexSetAsClone(IGraph graph, IGraph originalGraph, IDictionary<IGraphElement, IGraphElement> oldToNewMap);

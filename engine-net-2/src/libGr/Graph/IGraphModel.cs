@@ -88,6 +88,11 @@ namespace de.unika.ipd.grGen.libGr
         int BranchingFactorForEqualsAny { get; }
 
         /// <summary>
+        /// Tells about the number of threads to use when executing the parallel construct from the sequences.
+        /// </summary>
+        int ThreadPoolSizeForSequencesParallelExecution { get; }
+
+        /// <summary>
         /// Called by the graph (generic implementation) to create its uniqueness handler (generated code).
         /// Always called by an empty graph just constructed, the uniqueness handler is then directly bound to the graph.
         /// </summary>

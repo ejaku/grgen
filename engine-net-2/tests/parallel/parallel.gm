@@ -1,5 +1,7 @@
 #using "SierpinskiModel.gm"
 
+for sequence[parallelize=3];
+
 node class N
 {
 	subgraph:graph;

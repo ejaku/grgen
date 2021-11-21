@@ -580,7 +580,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             public SequenceExecuteInSubgraph parallelExecutionBegin;
             public LGSPGraphProcessingEnvironment procEnv;
-            public Thread thread;
+            public int poolThreadId;
             public volatile bool result;
         }
 
@@ -594,8 +594,6 @@ namespace de.unika.ipd.grGen.lgsp
                 LGSPParallelExecutionBegin extendedParallelExecutionBegin = new LGSPParallelExecutionBegin();
                 extendedParallelExecutionBegin.parallelExecutionBegin = inSubgraphExecution;
                 extendedParallelExecutionBegin.procEnv = procEnv;
-                ParameterizedThreadStart threadStart = new ParameterizedThreadStart(ParallelApplyGraphRewriteSequence);
-                extendedParallelExecutionBegin.thread = new Thread(threadStart);
                 extendedParallelExecutionBegins.Add(extendedParallelExecutionBegin);
                 ParallelExecutionBegin begunParallelExecution = new ParallelExecutionBegin();
                 begunParallelExecution.procEnv = procEnv;
@@ -604,16 +602,30 @@ namespace de.unika.ipd.grGen.lgsp
                 begunParallelExecutions.Add(begunParallelExecution);
             }
 
+            if(!ThreadPool.PoolSizeWasSet)
+                ThreadPool.SetPoolSize(graph.Model.ThreadPoolSizeForSequencesParallelExecution);
+
             SpawnSequences(parallel, begunParallelExecutions.ToArray());
-            foreach(LGSPParallelExecutionBegin extendedParallelExecutionBegin in extendedParallelExecutionBegins)
+            for(int i = 0; i < extendedParallelExecutionBegins.Count; ++i)
             {
-                extendedParallelExecutionBegin.thread.Start(extendedParallelExecutionBegin);
+                LGSPParallelExecutionBegin extendedParallelExecutionBegin = extendedParallelExecutionBegins[i];
+
+                extendedParallelExecutionBegin.poolThreadId = -1;
+                if(i < extendedParallelExecutionBegins.Count - 1)
+                {
+                    extendedParallelExecutionBegin.poolThreadId = ThreadPool.FetchWorkerAndExecuteWork(new ParameterizedThreadStart(ParallelApplyGraphRewriteSequence), extendedParallelExecutionBegin);
+                    if(extendedParallelExecutionBegin.poolThreadId != -1)
+                        continue;
+                }
+
+                ParallelApplyGraphRewriteSequence(extendedParallelExecutionBegin);
             }
 
             List<bool> results = new List<bool>();
             foreach(LGSPParallelExecutionBegin extendedParallelExecutionBegin in extendedParallelExecutionBegins)
             {
-                extendedParallelExecutionBegin.thread.Join();
+                if(extendedParallelExecutionBegin.poolThreadId != -1)
+                    ThreadPool.WaitForWorkDone(extendedParallelExecutionBegin.poolThreadId);
                 results.Add(extendedParallelExecutionBegin.result);
             }
             JoinSequences(parallel, begunParallelExecutions.ToArray());

@@ -61,6 +61,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	private boolean isUniqueIndexDefined;
 	private boolean areFunctionsParallel;
 	private int isoParallel;
+	private int sequencesParallel;
 	private Collection<NodeType> allNodeTypes;
 	private Collection<EdgeType> allEdgeTypes;
 	private Collection<InternalObjectType> allObjectTypes;
@@ -71,7 +72,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	public Model(Ident ident, boolean isEmitClassDefined, boolean isEmitGraphClassDefined, boolean isCopyClassDefined,
 			boolean isEqualClassDefined, boolean isLowerClassDefined,
 			boolean isUniqueDefined, boolean isUniqueIndexDefined,
-			boolean areFunctionsParallel, int isoParallel)
+			boolean areFunctionsParallel, int isoParallel, int sequencesParallel)
 	{
 		super("model", ident);
 
@@ -84,6 +85,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 		this.isUniqueIndexDefined = isUniqueIndexDefined;
 		this.areFunctionsParallel = areFunctionsParallel;
 		this.isoParallel = isoParallel;
+		this.sequencesParallel = sequencesParallel;
 	}
 
 	public void addUsedModel(Model model)
@@ -352,6 +354,11 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	public int isoParallel()
 	{
 		return isoParallel;
+	}
+
+	public int sequencesParallel()
+	{
+		return sequencesParallel;
 	}
 
 	/** Canonicalize the type model. */

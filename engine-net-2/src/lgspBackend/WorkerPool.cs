@@ -28,9 +28,13 @@ namespace de.unika.ipd.grGen.lgsp
         /// Tries to ensure the pool contains numThreads for doing work.
         /// Returns the number of threads ensured, which may be lower due to a lower number of processors available
         /// (but won't be higher, even if another caller requested and was granted more threads).
+        /// Only to be called while no work is underway.
         /// </summary>
         public static int EnsurePoolSize(int numThreads)
         {
+            if(threadsStarted > 0)
+                throw new Exception("Cannot adapt pool size while work is underway.");
+
             if(numThreads <= workerThreads.Length)
                 return numThreads;
 
@@ -76,9 +80,9 @@ namespace de.unika.ipd.grGen.lgsp
             return newNumThreads;
         }
 
-        public static int GetPoolSize()
+        public static int PoolSize
         {
-            return workerThreads.Length;
+            get { return workerThreads.Length; }
         }
 
         public static ThreadStart Task
@@ -86,9 +90,12 @@ namespace de.unika.ipd.grGen.lgsp
             set { task = value; }
         }
 
+        /// <summary>
+        /// The internal thread id, not the ManagedThreadId of the thread.
+        /// </summary>
         public static int ThreadId
         {
-            get { return threadId; }
+            get { return threadIndex; }
         }
 
         /// <summary>
@@ -120,29 +127,30 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 parallelTaskExecuted[i].Reset();
             }
+            threadsStarted = 0;
         }
 
         private static void Work()
         {
             //parallelized worker setup: await work available, work, signal work done, repeat
-            threadId = Array.IndexOf<Thread>(workerThreads, Thread.CurrentThread);
+            threadIndex = Array.IndexOf<Thread>(workerThreads, Thread.CurrentThread);
             while(true)
             {
                 //Console.WriteLine("fall to sleep of parallel matcher at threadId " + threadId);
-                executeParallelTask[threadId].WaitOne();
+                executeParallelTask[threadIndex].WaitOne();
                 //Console.WriteLine("wakeup of parallel matcher at threadId " + threadId);
 
                 task();
 
-                parallelTaskExecuted[threadId].Set();
+                parallelTaskExecuted[threadIndex].Set();
             }
         }
 
         private static Thread[] workerThreads;
         private static AutoResetEvent[] executeParallelTask;
         private static ManualResetEvent[] parallelTaskExecuted;
-        [ThreadStatic] private static int threadId;
+        [ThreadStatic] private static int threadIndex; // internal thread id
         private static int threadsStarted; // from StartWork till WaitForWorkDone
-        private static ThreadStart task; // the task to execute in each worker (will query threadId for distinction)
+        private static ThreadStart task; // the task to execute in each worker
     }
 }

@@ -189,7 +189,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 // we need more space to be able to store the flags for the element currently added
                 // we do this in parallel, each worker pool thread enlarges its own flags array
-                if(graph.flagsPerThreadPerElement.Count > WorkerPool.GetPoolSize())
+                if(graph.flagsPerThreadPerElement.Count > WorkerPool.PoolSize)
                     throw new Exception("Internal error, number of flags arrays higher than number of worker pool threads");
                 WorkerPool.Task = EnlargeFlags;
                 WorkerPool.StartWork(graph.flagsPerThreadPerElement.Count);
@@ -213,7 +213,7 @@ namespace de.unika.ipd.grGen.lgsp
         // maintain the flags array used by the parallel matchers, that is indexed by the unique ids
         public void InitialFillFlags(int additionalNumberOfThreads, int numberOfThreads)
         {
-            if(numberOfThreads > WorkerPool.GetPoolSize())
+            if(numberOfThreads > WorkerPool.PoolSize)
                 throw new Exception("Internal error, number of threads announced to flags array filling is higher than number of worker pool threads");
             if(numberOfThreads != graph.flagsPerThreadPerElement.Count)
                 throw new Exception("Internal error, number of threads different from number of flags arrays");
