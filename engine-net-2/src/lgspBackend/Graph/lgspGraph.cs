@@ -58,6 +58,7 @@ namespace de.unika.ipd.grGen.lgsp
 
 
         private static bool reuseOptimization = true;
+        public static int poolSize = 10; // intitialize with default pool size, can be changed but won't be applied after per-element-type pool creation
 
         /// <summary>
         /// If true (the default case), elements deleted during a rewrite
@@ -1914,7 +1915,19 @@ namespace de.unika.ipd.grGen.lgsp
                             + "already deleted elements using object equality, hash maps, etc.");
                 }
                 if(!bool.TryParse((String) args[1], out reuseOptimization))
-                    throw new ArgumentException("Illegal bool value specified: \"" + (String) args[1] + "\"");
+                    throw new ArgumentException("Illegal bool value specified: \"" + (String)args[1] + "\"");
+                return;
+
+            case "optimizereuse_poolsize":
+                if(args.Length != 2)
+                {
+                    throw new ArgumentException("Usage: optimizereuse_poolsize <int>\n"
+                            + "Sets the pool size for the reusing of deleted elements.\n"
+                            + "Changes are not going to be taken care of after the pool size was applied\n"
+                            + "(per element type) (and are only going to be applied in case of optimizereuse).\n");
+                }
+                if(!int.TryParse((String)args[1], out poolSize))
+                    throw new ArgumentException("Illegal int value specified: \"" + (String)args[1] + "\"");
                 return;
 
             default:

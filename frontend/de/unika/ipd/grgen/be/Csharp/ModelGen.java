@@ -1038,7 +1038,7 @@ public class ModelGen extends CSharpBase
 			sb.appendFront("{\n");
 			sb.indent();
 			sb.appendFront("if(pool == null)\n");
-			sb.appendFrontIndented("pool = new " + elemref + "[10];\n");
+			sb.appendFrontIndented("pool = new " + elemref + "[GRGEN_LGSP.LGSPGraph.poolSize];\n");
 			sb.appendFront("node = pool[--poolLevel];\n");
 			sb.appendFront("node.lgspInhead = null;\n");
 			sb.appendFront("node.lgspOuthead = null;\n");
@@ -1063,7 +1063,7 @@ public class ModelGen extends CSharpBase
 			sb.appendFront("{\n");
 			sb.indent();
 			sb.appendFront("if(pool == null)\n");
-			sb.appendFrontIndented("pool = new " + elemref + "[10];\n");
+			sb.appendFrontIndented("pool = new " + elemref + "[GRGEN_LGSP.LGSPGraph.poolSize];\n");
 			sb.appendFront("node = pool[--poolLevel];\n");
 			sb.appendFront("node.lgspInhead = null;\n");
 			sb.appendFront("node.lgspOuthead = null;\n");
@@ -1087,7 +1087,7 @@ public class ModelGen extends CSharpBase
 			sb.appendFront("{\n");
 			sb.indent();
 			sb.appendFront("if(pool == null)\n");
-			sb.appendFrontIndented("pool = new " + elemref + "[10];\n");
+			sb.appendFrontIndented("pool = new " + elemref + "[GRGEN_LGSP.LGSPGraph.poolSize];\n");
 			sb.appendFront("edge = pool[--poolLevel];\n");
 			sb.appendFront("edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;\n");
 			sb.appendFront("edge.lgspSource = source;\n");
@@ -1112,7 +1112,7 @@ public class ModelGen extends CSharpBase
 			sb.appendFront("{\n");
 			sb.indent();
 			sb.appendFront("if(pool == null)\n");
-			sb.appendFrontIndented("pool = new " + elemref + "[10];\n");
+			sb.appendFrontIndented("pool = new " + elemref + "[GRGEN_LGSP.LGSPGraph.poolSize];\n");
 			sb.appendFront("edge = pool[--poolLevel];\n");
 			sb.appendFront("edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;\n");
 			sb.appendFront("edge.lgspSource = source;\n");
@@ -1133,8 +1133,8 @@ public class ModelGen extends CSharpBase
 		sb.appendFront("{\n");
 		sb.indent();
 		sb.appendFront("if(pool == null)\n");
-		sb.appendFrontIndented("pool = new " + elemref + "[10];\n");
-		sb.appendFront("if(poolLevel < 10)\n");
+		sb.appendFrontIndented("pool = new " + elemref + "[GRGEN_LGSP.LGSPGraph.poolSize];\n");
+		sb.appendFront("if(poolLevel < pool.Length)\n");
 		sb.appendFrontIndented("pool[poolLevel++] = this;\n");
 		sb.unindent();
 		sb.appendFront("}\n");

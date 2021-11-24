@@ -2,6 +2,9 @@ new graph "tnt\TNT"
 
 debug set layout Circular
 
+custom graph optimizereuse true
+custom graph optimizereuse_poolsize 100
+
 show num nodes
 show num edges
 xgrs createBenzolRingPattern 
