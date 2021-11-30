@@ -1,0 +1,16 @@
+new graph lock/lock.grg
+
+exec ::a=new array<boolean>[] ;> { Synchronization::enter(::a); (b:boolean)=Synchronization::tryenter(::a); ::a.add(b) } ;>\
+parallel in this { { (b:boolean)=Synchronization::tryenter(::a); ::a.add(b);\
+Synchronization::exit(::a); Synchronization::exit(::a); (b)=Synchronization::tryenter(::a); ::a.add(b); Synchronization::exit(::a); Synchronization::exit(::a) } }
+
+show var a
+exec ::a=new array<boolean>[]
+
+exec ::a=new array<boolean>[] ;> { Synchronization::enter(::a); (b:boolean)=Synchronization::tryenter(::a); ::a.add(b) } ;>\
+parallel in this { { (b:boolean)=Synchronization::tryenter(::a); ::a.add(b) } }, in this { true } ;>\
+{ Synchronization::exit(::a); Synchronization::exit(::a) }
+
+show var a
+
+quit

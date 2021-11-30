@@ -421,6 +421,26 @@ namespace de.unika.ipd.grGen.libGr
             return false;
         }
 
+        public static bool IsLockableType(string xgrsType, IGraphModel model)
+        {
+            if(xgrsType == "short" || xgrsType == "int" || xgrsType == "long"
+                || xgrsType == "float" || xgrsType == "double"
+                || xgrsType == "string"
+                || xgrsType == "byte" || xgrsType == "sbyte"
+                || xgrsType == "bool" || xgrsType == "boolean")
+            {
+                return false;
+            }
+
+            foreach(EnumAttributeType enumAttrType in model.EnumAttributeTypes)
+            {
+                if(enumAttrType.PackagePrefixedName == xgrsType)
+                    return false;
+            }
+
+            return true;
+        }
+
         public static string GetStorageKeyTypeName(VarType storage)
         {
             return storage.Type.GetGenericArguments()[0].FullName;

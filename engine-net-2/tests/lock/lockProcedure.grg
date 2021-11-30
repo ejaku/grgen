@@ -1,0 +1,28 @@
+#using "lock.gm"
+
+procedure LockAdd(ref s:set<int>, var val:int)
+{
+	lock(s)
+	{
+		s.add(val);
+	}
+	return();
+}
+
+procedure SynchronizationEnter(var o:object)
+{
+	Synchronization::enter(o);
+	return();
+}
+
+procedure SynchronizationTryEnter(var o:object) : (boolean)
+{
+	(def var b:boolean) = Synchronization::tryenter(o);
+	return(b);
+}
+
+procedure SynchronizationExit(var o:object)
+{
+	Synchronization::exit(o);
+	return();
+}

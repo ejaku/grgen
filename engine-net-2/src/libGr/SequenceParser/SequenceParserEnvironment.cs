@@ -318,6 +318,24 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                     throw new ParseException("\"Debug::highlight\" expects at least 1 parameter (the message)");
                 return new SequenceComputationDebugHighlight(argExprs);
             }
+            else if(procedureName == "enter" && package != null && package == "Synchronization")
+            {
+                if(argExprs.Count != 1)
+                    throw new ParseException("\"Synchronization::enter\" expects 1 parameter (the lock object)");
+                return new SequenceComputationSynchronizationEnter(getArgument(argExprs, 0));
+            }
+            else if(procedureName == "tryenter" && package != null && package == "Synchronization")
+            {
+                if(argExprs.Count != 1)
+                    throw new ParseException("\"Synchronization::tryenter\" expects 1 parameter (the lock object)");
+                return new SequenceComputationBuiltinProcedureCall(new SequenceComputationSynchronizationTryEnter(getArgument(argExprs, 0)), returnVars);
+            }
+            else if(procedureName == "exit" && package != null && package == "Synchronization")
+            {
+                if(argExprs.Count != 1)
+                    throw new ParseException("\"Synchronization::exit\" expects 1 parameter (the lock object)");
+                return new SequenceComputationSynchronizationExit(getArgument(argExprs, 0));
+            }
             else
             {
                 if(IsProcedureName(procedureName, package))
@@ -327,6 +345,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                         + " (available are valloc|vfree|vfreenonreset|vreset|emit|emitdebug|record|File::export|File::delete"
                         + "|add|addCopy|rem|clear|retype|merge|redirectSource|redirectTarget|redirectSourceAndTarget"
                         + "|insert|insertCopy|insertInduced|insertDefined"
+                        + "|Synchronization::enter|Synchronization::tryenter|Synchronization::exit"
                         + " or one of the procedureNames defined in the .grg: " + GetProcedureNames() + ")");
             }
         }

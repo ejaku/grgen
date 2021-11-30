@@ -1,0 +1,8 @@
+new graph lock/lock.grg
+
+exec ::s=new set<int>{} ;> parallel in this { lock(::s){ { ::s.add(42) } } }, in this { lock(::s) { { ::s.add(24) } } }
+
+exec { ::s = ::s.asArray().orderAscending().asSet() } # ensure deterministic result
+show var s
+
+quit

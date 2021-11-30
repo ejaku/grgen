@@ -335,6 +335,11 @@ public abstract class TypeNode extends BaseNode
 				|| this instanceof InternalTransientObjectTypeNode;
 	}
 
+	public boolean isLockableType()
+	{
+		return !isOrderableType();
+	}
+
 	// returns type name (to be used in error reporting)
 	public String getTypeName() {
 		return toString();

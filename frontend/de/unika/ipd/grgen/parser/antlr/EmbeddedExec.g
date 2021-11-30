@@ -207,9 +207,10 @@ seqSimpleSequence [ ExecNode xg ]
 		{ env.pushScope("if/then-part", getCoords(s)); } { xg.append("; "); }
 		sequence[xg] { env.popScope(); } (SEMI { xg.append("; "); } sequence[xg])? { env.popScope(); } RBRACE { xg.append("}"); }
 	| FOR l=LBRACE { env.pushScope("for/exec", getCoords(l)); } { xg.append("for{"); } seqEntity[xg] seqForSeqRemainder[xg, returns]
-	| IN { xg.append("in "); } seqExpression[xg]
-		LBRACE { xg.append("{"); } { env.pushScope("in subgraph sequence", getCoords(l)); }
-		sequence[xg] { env.popScope(); } RBRACE { xg.append("}"); } 
+	| i=IN { xg.append("in "); } { env.pushScope("in subgraph sequence", getCoords(i)); } seqExpression[xg]
+		LBRACE { xg.append("{"); } sequence[xg] { env.popScope(); } RBRACE { xg.append("}"); } 
+	| LOCK l=LPAREN { xg.append("lock("); } { env.pushScope("lock sequence", getCoords(l)); } seqExpression[xg] RPAREN  { xg.append(")"); }
+		LBRACE { xg.append("{"); } sequence[xg] { env.popScope(); } RBRACE { xg.append("}"); } 
 	| LBRACE { xg.append("{"); } { env.pushScope("sequence computation", getCoords(l)); }
 		seqCompoundComputation[xg] (SEMI)? { env.popScope(); } RBRACE { xg.append("}"); } 
 	;

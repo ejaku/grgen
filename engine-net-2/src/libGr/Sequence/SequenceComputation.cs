@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Text;
 using System.IO;
+using System.Threading;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -34,6 +35,7 @@ namespace de.unika.ipd.grGen.libGr
         InsertInduced, InsertDefined,
         ProcedureCall, BuiltinProcedureCall, ProcedureMethodCall,
         DebugAdd, DebugRem, DebugEmit, DebugHalt, DebugHighlight,
+        SynchronizationEnter, SynchronizationTryEnter, SynchronizationExit,
         AssignmentTarget, // every assignment target (lhs value) is a computation
         Expression // every expression (rhs value) is a computation
     }
@@ -2724,6 +2726,192 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
+    public class SequenceComputationSynchronizationEnter : SequenceComputation
+    {
+        public readonly SequenceExpression LockObjectExpr;
+
+        public SequenceComputationSynchronizationEnter(SequenceExpression lockObjectExpr)
+            : base(SequenceComputationType.SynchronizationEnter)
+        {
+            LockObjectExpr = lockObjectExpr;
+        }
+
+        protected SequenceComputationSynchronizationEnter(SequenceComputationSynchronizationEnter that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that)
+        {
+            LockObjectExpr = that.LockObjectExpr.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceComputationSynchronizationEnter(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(!TypesHelper.IsLockableType(LockObjectExpr.Type(env), env.Model))
+                throw new SequenceParserException(Symbol, "lockable type (value types are not lockable)", LockObjectExpr.Type(env));
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            object lockObject = LockObjectExpr.Evaluate(procEnv);
+            Monitor.Enter(lockObject);
+            return null;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            LockObjectExpr.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceComputation> Children
+        {
+            get
+            {
+                yield return LockObjectExpr;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Synchronization::enter(" + LockObjectExpr.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceComputationSynchronizationTryEnter : SequenceComputation
+    {
+        public readonly SequenceExpression LockObjectExpr;
+
+        public SequenceComputationSynchronizationTryEnter(SequenceExpression lockObjectExpr)
+            : base(SequenceComputationType.SynchronizationTryEnter)
+        {
+            LockObjectExpr = lockObjectExpr;
+        }
+
+        protected SequenceComputationSynchronizationTryEnter(SequenceComputationSynchronizationTryEnter that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that)
+        {
+            LockObjectExpr = that.LockObjectExpr.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceComputationSynchronizationTryEnter(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(!TypesHelper.IsLockableType(LockObjectExpr.Type(env), env.Model))
+                throw new SequenceParserException(Symbol, "lockable type (value types are not lockable)", LockObjectExpr.Type(env));
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "boolean";
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            object lockObject = LockObjectExpr.Evaluate(procEnv);
+            return Monitor.TryEnter(lockObject);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            LockObjectExpr.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceComputation> Children
+        {
+            get
+            {
+                yield return LockObjectExpr;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Synchronization::tryenter(" + LockObjectExpr.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceComputationSynchronizationExit : SequenceComputation
+    {
+        public readonly SequenceExpression LockObjectExpr;
+
+        public SequenceComputationSynchronizationExit(SequenceExpression lockObjectExpr)
+            : base(SequenceComputationType.SynchronizationExit)
+        {
+            LockObjectExpr = lockObjectExpr;
+        }
+
+        protected SequenceComputationSynchronizationExit(SequenceComputationSynchronizationExit that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that)
+        {
+            LockObjectExpr = that.LockObjectExpr.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceComputationSynchronizationExit(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(!TypesHelper.IsLockableType(LockObjectExpr.Type(env), env.Model))
+                throw new SequenceParserException(Symbol, "lockable type (value types are not lockable)", LockObjectExpr.Type(env));
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            object lockObject = LockObjectExpr.Evaluate(procEnv);
+            Monitor.Exit(lockObject);
+            return null;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            LockObjectExpr.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceComputation> Children
+        {
+            get
+            {
+                yield return LockObjectExpr;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "Synchronization::tryenter(" + LockObjectExpr.Symbol + ")"; }
+        }
+    }
 
     public class SequenceComputationBuiltinProcedureCall : SequenceComputation
     {
@@ -2759,7 +2947,8 @@ namespace de.unika.ipd.grGen.libGr
                 && !(BuiltinProcedure is SequenceComputationGraphAdd)
                 && !(BuiltinProcedure is SequenceComputationGraphRetype)
                 && !(BuiltinProcedure is SequenceComputationInsertInduced)
-                && !(BuiltinProcedure is SequenceComputationInsertDefined))
+                && !(BuiltinProcedure is SequenceComputationInsertDefined)
+                && !(BuiltinProcedure is SequenceComputationSynchronizationTryEnter))
             {
                 throw new Exception("Procedure call of builtin unknown procedure");
             }
@@ -2774,6 +2963,7 @@ namespace de.unika.ipd.grGen.libGr
                 || BuiltinProcedure is SequenceComputationGraphRetype
                 || BuiltinProcedure is SequenceComputationInsertInduced
                 || BuiltinProcedure is SequenceComputationInsertDefined
+                || BuiltinProcedure is SequenceComputationSynchronizationTryEnter
                 ) 
             {
                 if(!TypesHelper.IsSameOrSubtype(BuiltinProcedure.Type(env), ReturnVars[0].Type, env.Model))

@@ -25,8 +25,9 @@ namespace de.unika.ipd.grGen.libGr
         IfThenPart,
         Backtrack,
         ForRulePrefixedSequence,
-        Computation,
-        InSubgraph
+        InSubgraph,
+        Lock,
+        Computation
     }
 
     /// <summary>
@@ -47,6 +48,7 @@ namespace de.unika.ipd.grGen.libGr
                 rulePrefixedSequenceCount = 0;
                 computationCount = 0;
                 inSubgraphCount = 0;
+                lockCount = 0;
             }
 
             public readonly String name;
@@ -57,6 +59,7 @@ namespace de.unika.ipd.grGen.libGr
             public int rulePrefixedSequenceCount;
             public int computationCount;
             public int inSubgraphCount;
+            public int lockCount;
         }
 
 		public SymbolTable()
@@ -104,6 +107,10 @@ namespace de.unika.ipd.grGen.libGr
             case ScopeType.InSubgraph:
                 scopeName = "insubgraph" + scopesMeta.Peek().inSubgraphCount;
                 ++scopesMeta.Peek().inSubgraphCount;
+                break;
+            case ScopeType.Lock:
+                scopeName = "lock" + scopesMeta.Peek().lockCount;
+                ++scopesMeta.Peek().lockCount;
                 break;
             default:
                 Debug.Assert(false); // only first scopes can be of type Globals and Sequence

@@ -48,6 +48,7 @@ import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 import de.unika.ipd.grgen.ir.stmt.ExecStatement;
 import de.unika.ipd.grgen.ir.stmt.FunctionAutoKeepOneForEachAccumulateBy;
 import de.unika.ipd.grgen.ir.stmt.IntegerRangeIterationYield;
+import de.unika.ipd.grgen.ir.stmt.LockStatement;
 import de.unika.ipd.grgen.ir.stmt.MatchesAccumulationYield;
 import de.unika.ipd.grgen.ir.stmt.MultiStatement;
 import de.unika.ipd.grgen.ir.stmt.ReturnAssignment;
@@ -119,6 +120,9 @@ import de.unika.ipd.grgen.ir.stmt.procenv.RecordProc;
 import de.unika.ipd.grgen.ir.stmt.procenv.ResumeTransactionProc;
 import de.unika.ipd.grgen.ir.stmt.procenv.RollbackTransactionProc;
 import de.unika.ipd.grgen.ir.stmt.procenv.StartTransactionProc;
+import de.unika.ipd.grgen.ir.stmt.procenv.SynchronizationEnterProc;
+import de.unika.ipd.grgen.ir.stmt.procenv.SynchronizationExitProc;
+import de.unika.ipd.grgen.ir.stmt.procenv.SynchronizationTryEnterProc;
 import de.unika.ipd.grgen.ir.stmt.set.SetAddItem;
 import de.unika.ipd.grgen.ir.stmt.set.SetClear;
 import de.unika.ipd.grgen.ir.stmt.set.SetRemoveItem;
@@ -367,6 +371,8 @@ public class ModifyEvalGen extends CSharpBase
 			genReturnAssignment(sb, state, (ReturnAssignment)evalStmt); // contains the procedure and method invocations
 		} else if(evalStmt instanceof FunctionAutoKeepOneForEachAccumulateBy) {
 			genFunctionAutoKeepOneForEachAccumulateBy(sb, state, (FunctionAutoKeepOneForEachAccumulateBy)evalStmt);
+		} else if(evalStmt instanceof LockStatement) {
+			genLockStatement(sb, state, (LockStatement)evalStmt);
 		} else {
 			throw new UnsupportedOperationException("Unexpected eval statement \"" + evalStmt + "\"");
 		}
@@ -2648,6 +2654,17 @@ public class ModifyEvalGen extends CSharpBase
 		}
 	}
 
+	private void genLockStatement(SourceBuilder sb, ModifyGenerationStateConst state, LockStatement ls)
+	{
+		sb.appendFront("lock(");
+		genExpression(sb, ls.getLockObjectExpr(), state);
+		sb.append(") {\n");
+		sb.indent();
+		genEvals(sb, state, ls.getStatements());
+		sb.unindent();
+		sb.appendFront("}\n");
+	}
+
 	///////////////////////////////
 	// Procedure call generation //
 	///////////////////////////////
@@ -2770,6 +2787,12 @@ public class ModifyEvalGen extends CSharpBase
 			genDequeVarClear(sb, state, (DequeVarClear)evalProc);
 		} else if(evalProc instanceof DequeVarAddItem) {
 			genDequeVarAddItem(sb, state, (DequeVarAddItem)evalProc);
+		} else if(evalProc instanceof SynchronizationEnterProc) {
+			genSynchronizationEnterProc(sb, state, (SynchronizationEnterProc)evalProc);
+		} else if(evalProc instanceof SynchronizationTryEnterProc) {
+			genSynchronizationTryEnterProc(sb, state, (SynchronizationTryEnterProc)evalProc);
+		} else if(evalProc instanceof SynchronizationExitProc) {
+			genSynchronizationExitProc(sb, state, (SynchronizationExitProc)evalProc);
 		} else {
 			throw new UnsupportedOperationException("Unexpected eval procedure \"" + evalProc + "\"");
 		}
@@ -3213,6 +3236,27 @@ public class ModifyEvalGen extends CSharpBase
 		sb.append(");\n");
 	}
 
+	private void genSynchronizationEnterProc(SourceBuilder sb, ModifyGenerationStateConst state, SynchronizationEnterProc sep)
+	{
+		sb.append("Monitor.Enter(");
+		genExpression(sb, sep.getCriticalSectionObject(), state);
+		sb.append(");\n");
+	}
+
+	private void genSynchronizationTryEnterProc(SourceBuilder sb, ModifyGenerationStateConst state, SynchronizationTryEnterProc sep)
+	{
+		sb.append("Monitor.TryEnter(");
+		genExpression(sb, sep.getCriticalSectionObject(), state);
+		sb.append(")");
+	}
+
+	private void genSynchronizationExitProc(SourceBuilder sb, ModifyGenerationStateConst state, SynchronizationExitProc sep)
+	{
+		sb.append("Monitor.Exit(");
+		genExpression(sb, sep.getCriticalSectionObject(), state);
+		sb.append(");\n");
+	}
+	
 	//////////////////////
 
 	protected void genChangingAttribute(SourceBuilder sb, ModifyGenerationStateConst state,

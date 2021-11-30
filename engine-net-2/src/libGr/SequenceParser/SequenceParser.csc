@@ -202,6 +202,7 @@ TOKEN: {
 |   < SCAN: "scan" >
 |   < TRYSCAN: "tryscan" >
 |   < PARALLEL: "parallel" >
+|   < LOCK: "lock" >
 }
 
 TOKEN: {
@@ -1549,6 +1550,12 @@ Sequence SimpleSequence():
         (LOOKAHEAD(2) "," seqInSubgraph=InSubgraphSequence(true) { inSubgraphSequences.Add(seqInSubgraph); } )*
     {
         return new SequenceParallelExecute(inSubgraphSequences, variableList1);
+    }
+|
+    "lock" "(" expr=Expression() ")" { varDecls.PushScope(ScopeType.Lock); } 
+        "{" seq=RewriteSequence() "}" { varDecls.PopScope(variableList1); }
+    {
+        return new SequenceLock(expr, seq);
     }
 |
     ("%" { special = true; })? "{" { varDecls.PushScope(ScopeType.Computation); }

@@ -502,6 +502,7 @@ public abstract class ParserEnvironment extends Base
 		keywords.add("index");
 		keywords.add("induced");
 		keywords.add("iterated");
+		keywords.add("lock");
 		keywords.add("map");
 		keywords.add("match");
 		keywords.add("modify");
@@ -791,6 +792,7 @@ public abstract class ParserEnvironment extends Base
 		if(isFileProcedure(pack, i, params)
 				|| isTransactionProcedure(pack, i, params)
 				|| isDebugProcedure(pack, i, params)
+				|| isSynchronizationProcedure(pack, i, params)
 				|| isGlobalProcedure(pack, i, params)) {
 			return true;
 		}
@@ -839,6 +841,21 @@ public abstract class ParserEnvironment extends Base
 		case "emit":
 		case "halt":
 		case "highlight":
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	static boolean isSynchronizationProcedure(Token pack, Token i, CollectNode<ExprNode> params)
+	{
+		if(pack == null || !pack.getText().equals("Synchronization"))
+			return false;
+		
+		switch(i.getText()) {
+		case "enter":
+		case "tryenter":
+		case "exit":
 			return true;
 		default:
 			return false;

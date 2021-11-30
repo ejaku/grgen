@@ -1,0 +1,21 @@
+#using "lock.gm"
+
+sequence LockAdd(s:set<int>, val:int)
+{
+	lock(s) { { s.add(val) } }
+}
+
+sequence SynchronizationEnter(o:object)
+{
+	{ Synchronization::enter(o) }
+}
+
+sequence SynchronizationTryEnter(o:object) : (b:boolean)
+{
+	{ (b)=Synchronization::tryenter(o) }
+}
+
+sequence SynchronizationExit(o:object)
+{
+	{ Synchronization::exit(o) }
+}

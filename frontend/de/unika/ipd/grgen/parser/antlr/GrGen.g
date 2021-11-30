@@ -3682,6 +3682,16 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 				reportError(getCoords(w), "while statement is forbidden in simple eval, move it to full eval after --- separator.");
 		}
 	|
+	  l=LOCK LPAREN e=expr[namer, context, false] RPAREN
+		LBRACE { env.pushScope("lock", getCoords(l)); }
+			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
+		RBRACE { env.popScope(); }
+		{
+			res = new LockStatementNode(getCoords(l), e, cs);
+			if(isSimple)
+				reportError(getCoords(l), "lock statement is forbidden in simple eval, move it to full eval after --- separator.");
+		}
+	|
 	  d=DO 
 		LBRACE { env.pushScope("do", getCoords(d)); }
 			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
@@ -4802,6 +4812,7 @@ INDEPENDENT : 'independent';
 INDEX : 'index';
 INDUCED : 'induced';
 ITERATED : 'iterated';
+LOCK : 'lock';
 MATCH : 'match';
 MODIFY : 'modify';
 MULTIPLE : 'multiple';

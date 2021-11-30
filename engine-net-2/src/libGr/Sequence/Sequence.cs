@@ -48,6 +48,7 @@ namespace de.unika.ipd.grGen.libGr
         SequenceDefinitionInterpreted, SequenceDefinitionCompiled, SequenceCall,
         ExecuteInSubgraph,
         ParallelExecute,
+        Lock,
         BooleanComputation,
         Dummy
     }
@@ -8178,6 +8179,64 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 return sb.ToString();
             }
+        }
+    }
+
+    public class SequenceLock : SequenceUnary
+    {
+        public readonly SequenceExpression LockObjectExpr;
+
+        public SequenceLock(SequenceExpression lockObjectExpr, Sequence seq)
+            : base(SequenceType.Lock, seq)
+        {
+            LockObjectExpr = lockObjectExpr;
+        }
+
+        protected SequenceLock(SequenceLock that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that, originalToCopy, procEnv)
+        {
+            LockObjectExpr = that.LockObjectExpr.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceLock(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env);
+
+            if(!TypesHelper.IsLockableType(LockObjectExpr.Type(env), env.Model))
+                throw new SequenceParserException(Symbol, "lockable type (value types are not lockable)", LockObjectExpr.Type(env));
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors, SequenceBase target)
+        {
+            Seq.GetLocalVariables(variables, constructors, target);
+            LockObjectExpr.GetLocalVariables(variables, constructors, target);
+            return this == target;
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            object lockObject = LockObjectExpr.Evaluate(procEnv);
+
+            lock(lockObject)
+            {
+                return Seq.Apply(procEnv);
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "lock(" + LockObjectExpr.Symbol + ") { " + Seq.Symbol + " }"; }
         }
     }
 

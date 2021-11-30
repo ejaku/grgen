@@ -150,6 +150,15 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceComputationType.ContainerClear:
                 EmitSequenceComputationContainerClear((SequenceComputationContainerClear)seqComp, source);
                 break;
+            case SequenceComputationType.SynchronizationEnter:
+                EmitSequenceComputationSynchronizationEnter((SequenceComputationSynchronizationEnter)seqComp, source);
+                break;
+            case SequenceComputationType.SynchronizationTryEnter:
+                EmitSequenceComputationSynchronizationTryEnter((SequenceComputationSynchronizationTryEnter)seqComp, source);
+                break;
+            case SequenceComputationType.SynchronizationExit:
+                EmitSequenceComputationSynchronizationExit((SequenceComputationSynchronizationExit)seqComp, source);
+                break;
             case SequenceComputationType.Assignment:
                 EmitSequenceComputationAssignment((SequenceComputationAssignment)seqComp, source);
                 break;
@@ -586,6 +595,26 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFormat("GRGEN_LIBGR.GraphHelper.InsertDefined((IDictionary){0}, (GRGEN_LIBGR.IEdge){1}, graph)",
                     edgeSetExpr, rootEdgeExpr);
             }
+        }
+
+        public void EmitSequenceComputationSynchronizationEnter(SequenceComputationSynchronizationEnter seqEnter, SourceBuilder source)
+        {
+            source.AppendFrontIndentedFormat("System.Threading.Monitor.Enter({0});\n",
+                exprGen.GetSequenceExpression(seqEnter.LockObjectExpr, source));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqEnter, "null"));
+        }
+
+        public void EmitSequenceComputationSynchronizationTryEnter(SequenceComputationSynchronizationTryEnter seqTryEnter, SourceBuilder source)
+        {
+            source.AppendFrontIndentedFormat("System.Threading.Monitor.TryEnter({0})",
+                exprGen.GetSequenceExpression(seqTryEnter.LockObjectExpr, source));
+        }
+
+        public void EmitSequenceComputationSynchronizationExit(SequenceComputationSynchronizationExit seqExit, SourceBuilder source)
+        {
+            source.AppendFrontIndentedFormat("System.Threading.Monitor.Exit({0});\n",
+                exprGen.GetSequenceExpression(seqExit.LockObjectExpr, source));
+            source.AppendFront(COMP_HELPER.SetResultVar(seqExit, "null"));
         }
 
         public void EmitSequenceComputationExpression(SequenceExpression seqExpr, SourceBuilder source)

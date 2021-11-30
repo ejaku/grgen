@@ -1,0 +1,9 @@
+new graph lock/lock.grg
+
+exec ::a=new array<int>[] ;> { Synchronization::enter(::a) } ;>\
+parallel in this { { Synchronization::enter(::a); ::a.add(42) } },\
+in this { { ::a.add(24); Synchronization::exit(::a) } }
+
+show var a
+
+quit

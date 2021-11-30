@@ -261,6 +261,10 @@ namespace de.unika.ipd.grGen.lgsp
                 EmitSequenceExecuteInSubgraph((SequenceExecuteInSubgraph)seq, source);
                 break;
 
+            case SequenceType.Lock:
+                EmitSequenceLock((SequenceLock)seq, source);
+                break;
+
             case SequenceType.BooleanComputation:
                 EmitSequenceBooleanComputation((SequenceBooleanComputation)seq, source);
                 break;
@@ -1500,6 +1504,16 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("procEnv.ReturnFromSubgraph();\n");
             source.AppendFront("graph = ((GRGEN_LGSP.LGSPActionExecutionEnvironment)procEnv).graph;\n");
             source.AppendFront(COMP_HELPER.SetResultVar(seqExecInSub, COMP_HELPER.GetResultVar(seqExecInSub.Seq)));
+        }
+
+        private void EmitSequenceLock(SequenceLock seqLock, SourceBuilder source)
+        {
+            string lockObject = exprGen.GetSequenceExpression(seqLock.LockObjectExpr, source);
+            source.AppendFront("lock(" + lockObject + ")\n");
+            source.AppendFront("{\n");
+            EmitSequence(seqLock.Seq, source);
+            source.AppendFront("}\n");
+            source.AppendFront(COMP_HELPER.SetResultVar(seqLock, COMP_HELPER.GetResultVar(seqLock.Seq)));
         }
 
         private void EmitSequenceBooleanComputation(SequenceBooleanComputation seqComp, SourceBuilder source)

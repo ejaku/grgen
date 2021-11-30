@@ -26,6 +26,9 @@ import de.unika.ipd.grgen.ast.stmt.procenv.PauseTransactionProcNode;
 import de.unika.ipd.grgen.ast.stmt.procenv.ResumeTransactionProcNode;
 import de.unika.ipd.grgen.ast.stmt.procenv.RollbackTransactionProcNode;
 import de.unika.ipd.grgen.ast.stmt.procenv.StartTransactionProcNode;
+import de.unika.ipd.grgen.ast.stmt.procenv.SynchronizationEnterProcNode;
+import de.unika.ipd.grgen.ast.stmt.procenv.SynchronizationExitProcNode;
+import de.unika.ipd.grgen.ast.stmt.procenv.SynchronizationTryEnterProcNode;
 import de.unika.ipd.grgen.ast.util.ResolvingEnvironment;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
 
@@ -160,6 +163,26 @@ public class PackageProcedureInvocationDecisionNode extends ProcedureInvocationD
 				return null;
 			} else {
 				return new RollbackTransactionProcNode(env.getCoords(), arguments.get(0));
+			}
+		case "Synchronization::enter":
+			if(arguments.size() != 1) {
+				env.reportError("Synchronization::enter(criticalSectionObject) takes one parameter.");
+				return null;
+			} else {
+				return new SynchronizationEnterProcNode(env.getCoords(), arguments.get(0));
+			}
+		case "Synchronization::tryenter":
+			if(arguments.size() != 1) {
+				env.reportError("Synchronization::tryenter(criticalSectionObject) takes one parameter.");
+				return null;
+			} else
+				return new SynchronizationTryEnterProcNode(env.getCoords(), arguments.get(0));
+		case "Synchronization::exit":
+			if(arguments.size() != 1) {
+				env.reportError("Synchronization::exit(criticalSectionObject) takes one parameter.");
+				return null;
+			} else {
+				return new SynchronizationExitProcNode(env.getCoords(), arguments.get(0));
 			}
 		default:
 			env.reportError("no computation " + procedureName + " known");
