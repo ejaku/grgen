@@ -879,7 +879,7 @@ namespace de.unika.ipd.grGen.grShell
         /// returns the maybe user altered sequence to execute next for the sequence given
         /// the randomly chosen sequence is supplied; the object with all available sequences is supplied
         /// </summary>
-        private int ChooseSequence(int seqToExecute, List<Sequence> sequences, SequenceParallelExecute seq)
+        private int ChooseSequence(int seqToExecute, List<Sequence> sequences, SequenceParallel seq)
         {
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
@@ -2135,14 +2135,14 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public void DebugSpawnSequences(SequenceParallelExecute parallel, params ParallelExecutionBegin[] parallelExecutionBegins)
+        public void DebugSpawnSequences(SequenceParallel parallel, params ParallelExecutionBegin[] parallelExecutionBegins)
         {
             WorkaroundManager.Workaround.PrintHighlighted("parallel execution start" + ": ", HighlightingMode.SequenceStart);
             context.highlightSeq = parallel;
             SequencePrinter.PrintSequenceBase(parallel, context, task.debugSequences.Count);
             Console.WriteLine();
 
-            List<Sequence> sequences = new List<Sequence>(parallel.Children);
+            List<Sequence> sequences = new List<Sequence>(parallel.ParallelChildren);
             int seqToExecute = ChooseSequence(0, sequences, parallel);
 
             for(int i = 0; i < parallelExecutionBegins.Length; ++i)
@@ -2189,7 +2189,7 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         // event arrives for the proc env that spawned, while the currently actively debugged task is a spawned one
-        public void DebugJoinSequences(SequenceParallelExecute parallel, params ParallelExecutionBegin[] parallelExecutionBegins)
+        public void DebugJoinSequences(SequenceParallel parallel, params ParallelExecutionBegin[] parallelExecutionBegins)
         {
             task.isActive = false;
             tasks.Pop();

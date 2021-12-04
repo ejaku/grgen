@@ -184,13 +184,13 @@ namespace de.unika.ipd.grGen.grShell
                 debugger.DebugEndOfIteration(continueLoop, seq);
         }
 
-        private void DebugSpawnSequences(SequenceParallelExecute parallel, params ParallelExecutionBegin[] parallelExecutionBegins)
+        private void DebugSpawnSequences(SequenceParallel parallel, params ParallelExecutionBegin[] parallelExecutionBegins)
         {
             if(isActive)
                 debugger.DebugSpawnSequences(parallel, parallelExecutionBegins);
         }
 
-        private void DebugJoinSequences(SequenceParallelExecute parallel, params ParallelExecutionBegin[] parallelExecutionBegins)
+        private void DebugJoinSequences(SequenceParallel parallel, params ParallelExecutionBegin[] parallelExecutionBegins)
         {
             if(isParentOfActive)
                 debugger.DebugJoinSequences(parallel, parallelExecutionBegins);

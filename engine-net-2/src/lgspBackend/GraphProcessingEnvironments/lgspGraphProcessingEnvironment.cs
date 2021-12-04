@@ -586,9 +586,19 @@ namespace de.unika.ipd.grGen.lgsp
 
         public List<bool> ParallelApplyGraphRewriteSequences(SequenceParallelExecute parallel)
         {
+            return ParallelApplyGraphRewriteSequences(parallel, parallel.InSubgraphExecutions);
+        }
+
+        public List<bool> ParallelApplyGraphRewriteSequences(SequenceParallelArrayExecute parallel)
+        {
+            return ParallelApplyGraphRewriteSequences(parallel, parallel.InSubgraphExecutions);
+        }
+
+        private List<bool> ParallelApplyGraphRewriteSequences(SequenceParallel parallel, List<SequenceExecuteInSubgraph> inSubgraphExecutions)
+        {
             List<LGSPParallelExecutionBegin> extendedParallelExecutionBegins = new List<LGSPParallelExecutionBegin>();
             List<ParallelExecutionBegin> begunParallelExecutions = new List<ParallelExecutionBegin>();
-            foreach(SequenceExecuteInSubgraph inSubgraphExecution in parallel.InSubgraphExecutions)
+            foreach(SequenceExecuteInSubgraph inSubgraphExecution in inSubgraphExecutions)
             {
                 LGSPGraphProcessingEnvironment procEnv = new LGSPGraphProcessingEnvironment((LGSPGraph)inSubgraphExecution.Subgraph, (LGSPActions)Actions);
                 LGSPParallelExecutionBegin extendedParallelExecutionBegin = new LGSPParallelExecutionBegin();
@@ -685,13 +695,13 @@ namespace de.unika.ipd.grGen.lgsp
                 OnEndOfIteration(continueLoop, seq);
         }
 
-        public void SpawnSequences(SequenceParallelExecute parallel, params ParallelExecutionBegin[] parallelExecutionBegins)
+        public void SpawnSequences(SequenceParallel parallel, params ParallelExecutionBegin[] parallelExecutionBegins)
         {
             if(OnSpawnSequences != null)
                 OnSpawnSequences(parallel, parallelExecutionBegins);
         }
 
-        public void JoinSequences(SequenceParallelExecute parallel, params ParallelExecutionBegin[] parallelExecutionBegins)
+        public void JoinSequences(SequenceParallel parallel, params ParallelExecutionBegin[] parallelExecutionBegins)
         {
             if(OnJoinSequences != null)
                 OnJoinSequences(parallel, parallelExecutionBegins);

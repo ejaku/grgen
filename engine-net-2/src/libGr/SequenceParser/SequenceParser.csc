@@ -1230,7 +1230,7 @@ Sequence SimpleSequence():
     List<SequenceExecuteInSubgraph> inSubgraphSequences = new List<SequenceExecuteInSubgraph>();
     List<Double> numbers = new List<Double>();
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
-    SequenceVariable toVar, fromVar, fromVar2 = null, fromVar3 = null;
+    SequenceVariable toVar = null, fromVar, fromVar2 = null, fromVar3 = null;
     SequenceExpression expr = null, expr2 = null;
     SequenceComputation comp;
     int num = 0;
@@ -1544,6 +1544,11 @@ Sequence SimpleSequence():
     seqInSubgraph = InSubgraphSequence(false)
     {
         return seqInSubgraph;
+    }
+|
+    LOOKAHEAD(2) "parallel" str=Word() ("(" toVar=Variable() ")" "=")? seqInSubgraph=InSubgraphSequence(true) { inSubgraphSequences.Add(seqInSubgraph); }
+    {
+        return new SequenceParallelArrayExecute(seqInSubgraph, toVar);
     }
 |
     "parallel" ("(" VariableList(variableList1) ")" "=")? seqInSubgraph=InSubgraphSequence(true) { inSubgraphSequences.Add(seqInSubgraph); } 

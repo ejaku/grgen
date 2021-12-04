@@ -28,3 +28,8 @@ procedure printNumNodes()
 	emit("value of variable count of nodes of type C " + nodes(C).size() + "\n");
 	return;
 }
+
+function castLongToInt(var l:long) : int
+{
+	return((int)l);
+}

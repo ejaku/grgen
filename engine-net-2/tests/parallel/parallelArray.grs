@@ -1,0 +1,13 @@
+new graph parallel/parallel
+
+exec (::g1,::g2,::g3)=createGraphs
+
+exec arr:array<graph>=array<graph>[::g1.subgraph, ::g2.subgraph, ::g3.subgraph] ;>\
+existsN ;> parallel array in arr { init && (gen0* & gen1*)[castLongToInt(uniqueof(this))] } ;> existsN
+
+exec { printNumNodes() } ;>\
+in ::g1.subgraph { { printNumNodes() } } ;>\
+in ::g2.subgraph { { printNumNodes() } } ;>\
+in ::g3.subgraph { { printNumNodes() } }
+
+exit

@@ -120,7 +120,7 @@ namespace de.unika.ipd.grGen.grShell
                                 + " Press (s) or (n) or (d) to commit to the pre-selected sequence and continue.");
         }
 
-        public static bool ChooseSequence(IDebuggerEnvironment env, ref int seqToExecute, List<Sequence> sequences, SequenceParallelExecute seq)
+        public static bool ChooseSequence(IDebuggerEnvironment env, ref int seqToExecute, List<Sequence> sequences, SequenceParallel seq)
         {
             do
             {

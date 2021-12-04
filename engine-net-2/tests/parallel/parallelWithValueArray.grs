@@ -1,0 +1,15 @@
+new graph parallel/parallel
+
+exec (::g1,::g2,::g3)=createGraphs
+
+exec arr:array<graph>=array<graph>[::g1.subgraph, ::g2.subgraph, ::g3.subgraph] ;> val:array<int>=array<int>[1, 2, 3] ;>\
+existsN ;> parallel array (::res) = in arr, val { init && (gen0* & gen1*)[value] ;> {{ value%2}} } ;> existsN
+
+exec { printNumNodes() } ;>\
+in ::g1.subgraph { { printNumNodes() } } ;>\
+in ::g2.subgraph { { printNumNodes() } } ;>\
+in ::g3.subgraph { { printNumNodes() } }
+
+show var res
+
+exit

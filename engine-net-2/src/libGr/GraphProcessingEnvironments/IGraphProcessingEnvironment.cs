@@ -42,14 +42,14 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     /// <param name="parallel">The sequence to be executed in parallel (the overall sequence object comprising the single sequences).</param>
     /// <param name="parallelExecutionBegins">The sequences together with their graph processing environment spawned/split off.</param>
-    public delegate void SpawnSequencesHandler(SequenceParallelExecute parallel, ParallelExecutionBegin[] parallelExecutionBegins);
+    public delegate void SpawnSequencesHandler(SequenceParallel parallel, ParallelExecutionBegin[] parallelExecutionBegins);
 
     /// <summary>
     /// Represents a method called directly after sequences have joined (again) their parent thread.
     /// </summary>
     /// <param name="parallel">The sequence that was executed in parallel (the overall sequence object comprising the single sequences).</param>
     /// <param name="parallelExecutionBegins">The sequences together with their graph processing environment that joined (again).</param>
-    public delegate void JoinSequencesHandler(SequenceParallelExecute parallel, ParallelExecutionBegin[] parallelExecutionBegins);
+    public delegate void JoinSequencesHandler(SequenceParallel parallel, ParallelExecutionBegin[] parallelExecutionBegins);
 
     #endregion GraphProcessingDelegates
 
@@ -308,6 +308,13 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The outcome of sequence execution, for each sequence executed in parallel.</returns>
         List<bool> ParallelApplyGraphRewriteSequences(SequenceParallelExecute parallel);
 
+        /// <summary>
+        /// In parallel, apply the graph rewrite sequence (to the given graphs, with the given input values).
+        /// </summary>
+        /// <param name="parallel">The sequence to be executed in parallel (the overall sequence object which contains its execution environment (graphs, input values in variables), also comprising the single sequence).</param>
+        /// <returns>The outcome of sequence execution, one entry per input array entry.</returns>
+        List<bool> ParallelApplyGraphRewriteSequences(SequenceParallelArrayExecute parallel);
+
 
         /// <summary>
         /// The user proxy queried for choices during sequence execution.
@@ -380,14 +387,14 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="parallel">The sequence to be executed in parallel (the overall sequence object comprising the single sequences).</param>
         /// <param name="parallelExecutionBegins">The sequences together with their graph processing environment spawned/split off.</param>
-        void SpawnSequences(SequenceParallelExecute parallel, params ParallelExecutionBegin[] parallelExecutionBegins);
+        void SpawnSequences(SequenceParallel parallel, params ParallelExecutionBegin[] parallelExecutionBegins);
 
         /// <summary>
         /// Fires an OnJoinSequences event.
         /// </summary>
         /// <param name="parallel">The sequence that was executed in parallel (the overall sequence object comprising the single sequences).</param>
         /// <param name="parallelExecutionBegins">The sequences together with their graph processing environment that joined (again).</param>
-        void JoinSequences(SequenceParallelExecute parallel, params ParallelExecutionBegin[] parallelExecutionBegins);
+        void JoinSequences(SequenceParallel parallel, params ParallelExecutionBegin[] parallelExecutionBegins);
 
         #endregion Events
     }
