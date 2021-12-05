@@ -154,6 +154,8 @@ namespace de.unika.ipd.grGen.lgsp
             = new List<Dictionary<IGraphElement, IGraphElement>>();
 
 
+        public object graphMatchingLock = new object();
+
         /// <summary>
         /// a list which stores for each parallel matcher thread, per graph element the flags with the matching state
         /// each flag encodes a bounded amount of the is-matched-bits for the lowest isomorphy spaces,
@@ -1990,7 +1992,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>true if that is isomorph to this, false otherwise</returns>
         public override bool IsIsomorph(IGraph that)
         {
-            lock(this)
+            lock(graphMatchingLock)
             {
                 if(this.matchingState == null)
                     this.matchingState = new GraphMatchingState(this);
@@ -2043,7 +2045,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(graphsToCheckAgainst.ContainsKey(this))
                 return this;
 
-            lock(this)
+            lock(graphMatchingLock)
             {
                 if(this.matchingState == null)
                     this.matchingState = new GraphMatchingState(this);
@@ -2093,7 +2095,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public override bool HasSameStructure(IGraph that)
         {
-            lock(this)
+            lock(graphMatchingLock)
             {
                 if(this.matchingState == null)
                     this.matchingState = new GraphMatchingState(this);
@@ -2142,7 +2144,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(graphsToCheckAgainst.ContainsKey(this))
                 return this;
 
-            lock(this)
+            lock(graphMatchingLock)
             {
                 if(this.matchingState == null)
                     this.matchingState = new GraphMatchingState(this);

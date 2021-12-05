@@ -161,7 +161,7 @@ namespace de.unika.ipd.grGen.lgsp
             // ensure graphs are analyzed
             if(this_.statistics.vstructs == null || this_.changesCounterAtLastAnalyze != this_.ChangesCounter)
             {
-                lock(this_)
+                lock(this_.graphMatchingLock)
                 {
                     if(this_.statistics.vstructs == null || this_.changesCounterAtLastAnalyze != this_.ChangesCounter)
                         this_.AnalyzeGraph();
@@ -169,7 +169,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             if(that.statistics.vstructs == null || that.changesCounterAtLastAnalyze != that.ChangesCounter)
             {
-                lock(that)
+                lock(that.graphMatchingLock)
                 {
                     if(that.statistics.vstructs == null || that.changesCounterAtLastAnalyze != that.ChangesCounter)
                         that.AnalyzeGraph();
@@ -188,7 +188,7 @@ namespace de.unika.ipd.grGen.lgsp
             // invalidate outdated interpretation plans and compiled matchers
             if(this_.matchingState.interpretationPlan != null && this_.matchingState.changesCounterAtInterpretationPlanBuilding != this_.ChangesCounter)
             {
-                lock(this_)
+                lock(this_.graphMatchingLock)
                 {
                     if(this_.matchingState.interpretationPlan != null && this_.matchingState.changesCounterAtInterpretationPlanBuilding != this_.ChangesCounter)
                     {
@@ -206,7 +206,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             if(that.matchingState.interpretationPlan != null && that.matchingState.changesCounterAtInterpretationPlanBuilding != that.ChangesCounter)
             {
-                lock(that)
+                lock(that.graphMatchingLock)
                 {
                     if(that.matchingState.interpretationPlan != null && that.matchingState.changesCounterAtInterpretationPlanBuilding != that.ChangesCounter)
                     {
@@ -235,7 +235,7 @@ namespace de.unika.ipd.grGen.lgsp
             bool matchedWithThis;
             if(this_.matchingState.compiledMatcher != null)
             {
-                lock(that)
+                lock(that.graphMatchingLock)
                 {
                     result = this_.matchingState.compiledMatcher.IsIsomorph(this_.matchingState.patternGraph, that, includingAttributes);
                 }
@@ -246,7 +246,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else if(that.matchingState.compiledMatcher != null)
             {
-                lock(this_)
+                lock(this_.graphMatchingLock)
                 {
                     result = that.matchingState.compiledMatcher.IsIsomorph(that.matchingState.patternGraph, this_, includingAttributes);
                 }
@@ -257,7 +257,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else if(this_.matchingState.interpretationPlan != null)
             {
-                lock(that)
+                lock(that.graphMatchingLock)
                 {
                     result = this_.matchingState.interpretationPlan.Execute(that, includingAttributes, null);
                 }
@@ -268,7 +268,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else if(that.matchingState.interpretationPlan != null)
             {
-                lock(this_)
+                lock(this_.graphMatchingLock)
                 {
                     result = that.matchingState.interpretationPlan.Execute(this_, includingAttributes, null);
                 }
@@ -284,7 +284,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(this_.GraphId < that.GraphId)
                 {
                     BuildInterpretationPlan(this_);
-                    lock(that)
+                    lock(that.graphMatchingLock)
                     {
                         result = this_.matchingState.interpretationPlan.Execute(that, includingAttributes, null);
                     }
@@ -293,7 +293,7 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                 {
                     BuildInterpretationPlan(that);
-                    lock(this_)
+                    lock(this_.graphMatchingLock)
                     {
                         result = that.matchingState.interpretationPlan.Execute(this_, includingAttributes, null);
                     }
@@ -399,7 +399,7 @@ namespace de.unika.ipd.grGen.lgsp
             // ensure that is analyzed, for this it was ensured by our caller
             if(that.statistics.vstructs == null || that.changesCounterAtLastAnalyze != that.ChangesCounter)
             {
-                lock(that)
+                lock(that.graphMatchingLock)
                 {
                     if(that.statistics.vstructs == null || that.changesCounterAtLastAnalyze != that.ChangesCounter)
                         that.AnalyzeGraph();
@@ -419,7 +419,7 @@ namespace de.unika.ipd.grGen.lgsp
             // not needed for this cause we always use the matchers of that, matching inside this
             if(that.matchingState.interpretationPlan != null && that.matchingState.changesCounterAtInterpretationPlanBuilding != that.ChangesCounter)
             {
-                lock(that)
+                lock(that.graphMatchingLock)
                 {
                     if(that.matchingState.interpretationPlan != null && that.matchingState.changesCounterAtInterpretationPlanBuilding != that.ChangesCounter)
                     {
@@ -447,7 +447,7 @@ namespace de.unika.ipd.grGen.lgsp
             bool result;
             if(that.matchingState.compiledMatcher != null)
             {
-                // lock(this_) was employed by our caller
+                // lock(this_.graphMatchingLock) was employed by our caller
                 result = that.matchingState.compiledMatcher.IsIsomorph(that.matchingState.patternGraph, this_, includingAttributes, threadId);
 #if LOG_ISOMORPHY_CHECKING
                 writer.WriteLine("Using compiled interpretation plan of that " + that.matchingState.compiledMatcher.Name);
@@ -455,7 +455,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else if(that.matchingState.interpretationPlan != null)
             {
-                // lock(this_) was employed by our caller
+                // lock(this_.graphMatchingLock) was employed by our caller
                 result = that.matchingState.interpretationPlan.Execute(this_, includingAttributes, null, threadId);
 #if LOG_ISOMORPHY_CHECKING
                 writer.WriteLine("Using interpretation plan of that " + ((InterpretationPlanStart)that.matchingState.interpretationPlan).ComparisonMatcherName);
@@ -465,7 +465,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 // we build the interpretation plan for that
                 BuildInterpretationPlan(that);
-                // lock(this_) was employed by our caller
+                // lock(this_.graphMatchingLock) was employed by our caller
                 result = that.matchingState.interpretationPlan.Execute(this_, includingAttributes, null, threadId);
             }
 
