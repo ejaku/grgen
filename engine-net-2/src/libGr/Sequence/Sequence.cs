@@ -8254,8 +8254,8 @@ namespace de.unika.ipd.grGen.libGr
             if(InSubgraphExecution.ValueVariable != null)
                 InSubgraphExecution.ValueVariable.RedefineLocalVariableType(TypesHelper.ExtractSrc(InSubgraphExecution.ValueExpr.Type(env)));
 
-            if(!InSubgraphExecution.SubgraphExpr.Type(env).StartsWith("array<"))
-                throw new SequenceParserException(InSubgraphExecution.SubgraphExpr.Symbol, "array<graph>", ResultVariable.Type);
+            if(InSubgraphExecution.SubgraphExpr.Type(env) != "" && !InSubgraphExecution.SubgraphExpr.Type(env).StartsWith("array<"))
+                throw new SequenceParserException(InSubgraphExecution.SubgraphExpr.Symbol, "array<graph>", InSubgraphExecution.SubgraphExpr.Type(env));
 
             base.Check(env);
 

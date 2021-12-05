@@ -414,6 +414,45 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing an addAll to a set
+    /// </summary>
+    public class SetAddAll : YieldMethod
+    {
+        // attention: valueType is the value type of the set type of the value, not of the value itself
+        public SetAddAll(String left, Expression value, String valueType)
+            : base(left, value)
+        {
+            ValueType = valueType;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            return new SetAddAll(Left + renameSuffix, Right.Copy(renameSuffix), ValueType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            String setValueName = "value_" + Id;
+            sourceCode.Append("foreach(" + ValueType + " " + setValueName + " in (");
+            Right.Emit(sourceCode);
+            sourceCode.Append(").Keys)\n");
+            sourceCode.Append("{\n");
+            sourceCode.Indent();
+            sourceCode.Append(NamesOfEntities.Variable(Left));
+            sourceCode.Append(".Add(" + setValueName + ", null);\n");
+            sourceCode.Unindent();
+            sourceCode.Append("}\n");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Right;
+        }
+
+        readonly String ValueType;
+    }
+
+    /// <summary>
     /// Class representing an add to map
     /// </summary>
     public class MapAdd : YieldMethod
@@ -517,6 +556,40 @@ namespace de.unika.ipd.grGen.expression
         }
 
         readonly Expression Index;
+        readonly String ValueType;
+    }
+
+    /// <summary>
+    /// Class representing an addAll to an array
+    /// </summary>
+    public class ArrayAddAll : YieldMethod
+    {
+        // attention: valueType is the value type of the array type of the value, not of the value itself
+        public ArrayAddAll(String left, Expression value, String valueType)
+            : base(left, value)
+        {
+            ValueType = valueType;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            return new ArrayAddAll(Left + renameSuffix, Right.Copy(renameSuffix), ValueType);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(NamesOfEntities.Variable(Left));
+            sourceCode.Append(".AddRange(");
+            Right.Emit(sourceCode);
+            sourceCode.Append(")");
+            sourceCode.Append(";\n");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Right;
+        }
+
         readonly String ValueType;
     }
 

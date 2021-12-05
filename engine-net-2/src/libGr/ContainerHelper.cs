@@ -262,6 +262,34 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        public static object ContainerAddAll(IGraphProcessingEnvironment procEnv, object container, object containerToBeAdded)
+        {
+            if(container is IList)
+            {
+                IList array = (IList)container;
+                IList arrayToBeAdded = (IList)containerToBeAdded;
+
+                foreach(object arrayValue in arrayToBeAdded)
+                {
+                    array.Add(arrayValue);
+                }
+
+                return array;
+            }
+            else
+            {
+                IDictionary set = (IDictionary)container;
+                IDictionary setToBeAdded = (IDictionary)containerToBeAdded;
+
+                foreach(object setValue in setToBeAdded.Keys)
+                {
+                    set.Add(setValue, null);
+                }
+
+                return set;
+            }
+        }
+
         /////////////////////////////////////////////////////////////////////////////////
 
         public static void AssignAttribute(object target, object value, string attributeName, IGraph graph)

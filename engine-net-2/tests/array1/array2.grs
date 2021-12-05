@@ -24,4 +24,7 @@ xgrs arrayIndexof2
 
 xgrs arrayAsSet
 
+xgrs ::arr=new array<int>[1] ;> arrayAddAll(::arr)
+show var arr
+
 quit

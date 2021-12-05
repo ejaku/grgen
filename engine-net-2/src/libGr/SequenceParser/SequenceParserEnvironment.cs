@@ -396,6 +396,12 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                     throw new ParseException("\"" + procedureName + "\" expects no parameters)");
                 return new SequenceComputationContainerClear(targetVar);
             }
+            if(procedureName == "addAll")
+            {
+                if(argExprs.Count != 1)
+                    throw new ParseException("\"" + procedureName + "\" expects 1 parameter)");
+                return new SequenceComputationContainerAddAll(targetVar, argExprs[0]);
+            }
             else
                 return CreateSequenceComputationProcedureMethodCallUserProcedure(targetVar, procedureName, argExprs, returnVars);
         }

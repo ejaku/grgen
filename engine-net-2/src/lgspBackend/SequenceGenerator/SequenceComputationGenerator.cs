@@ -150,6 +150,9 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceComputationType.ContainerClear:
                 EmitSequenceComputationContainerClear((SequenceComputationContainerClear)seqComp, source);
                 break;
+            case SequenceComputationType.ContainerAddAll:
+                EmitSequenceComputationContainerAddAll((SequenceComputationContainerAddAll)seqComp, source);
+                break;
             case SequenceComputationType.SynchronizationEnter:
                 EmitSequenceComputationSynchronizationEnter((SequenceComputationSynchronizationEnter)seqComp, source);
                 break;
@@ -1304,6 +1307,20 @@ namespace de.unika.ipd.grGen.lgsp
             if(seqClear.Attribute != null)
                 EmitAttributeChangedEvent(seqClear.Attribute, source);
             source.AppendFront(COMP_HELPER.SetResultVar(seqClear, container));
+        }
+
+        public void EmitSequenceComputationContainerAddAll(SequenceComputationContainerAddAll seqAddAll, SourceBuilder source)
+        {
+            string container = GetContainerValue(seqAddAll, source);
+            string expression = exprGen.GetSequenceExpression(seqAddAll.Expr, source);
+
+            if(seqAddAll.ContainerType(env) == "")
+                source.AppendFrontFormat("GRGEN_LIBGR.ContainerHelper.ContainerAddAll({0}, {1});\n", container, expression);
+            else //if(seqAddAll.ContainerType(env).StartsWith("array") || seqAddAll.ContainerType(env).StartsWith("set"))
+            {
+                source.AppendFrontFormat("GRGEN_LIBGR.ContainerHelper.AddAll(({0})({1}), ({0})({2}));\n",
+                    TypesHelper.XgrsTypeToCSharpType(seqAddAll.Container.Type, model), container, expression);
+            }
         }
 
         private string GetContainerValue(SequenceComputationContainer container, SourceBuilder source)

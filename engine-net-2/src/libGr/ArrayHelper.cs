@@ -1060,6 +1060,12 @@ namespace de.unika.ipd.grGen.libGr
             return array[index];
         }
 
+        public static List<T> AddAll<T>(List<T> array, List<T> arrayToBeAdded)
+        {
+            array.AddRange(arrayToBeAdded);
+            return array;
+        }
+
         /////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>

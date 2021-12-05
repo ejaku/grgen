@@ -102,3 +102,17 @@ rule byReference(ref storage:set<string>) // parameter passed by-reference
     }
   }
 }
+
+rule setAddAll(ref s:set<int>)
+{
+---
+	yield {
+		s.addAll(new set<int>{2, 3});
+	}
+	
+	modify {
+		eval {
+			s.addAll(new set<int>{4, 5});
+		}
+	}
+}

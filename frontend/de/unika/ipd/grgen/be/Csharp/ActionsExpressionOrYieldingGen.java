@@ -41,6 +41,7 @@ import de.unika.ipd.grgen.ir.stmt.MultiStatement;
 import de.unika.ipd.grgen.ir.stmt.ReturnAssignment;
 import de.unika.ipd.grgen.ir.stmt.SwitchStatement;
 import de.unika.ipd.grgen.ir.stmt.WhileStatement;
+import de.unika.ipd.grgen.ir.stmt.array.ArrayVarAddAll;
 import de.unika.ipd.grgen.ir.stmt.array.ArrayVarAddItem;
 import de.unika.ipd.grgen.ir.stmt.array.ArrayVarClear;
 import de.unika.ipd.grgen.ir.stmt.array.ArrayVarRemoveItem;
@@ -60,6 +61,7 @@ import de.unika.ipd.grgen.ir.stmt.procenv.DebugHighlightProc;
 import de.unika.ipd.grgen.ir.stmt.procenv.DebugRemProc;
 import de.unika.ipd.grgen.ir.stmt.procenv.EmitProc;
 import de.unika.ipd.grgen.ir.stmt.procenv.RecordProc;
+import de.unika.ipd.grgen.ir.stmt.set.SetVarAddAll;
 import de.unika.ipd.grgen.ir.stmt.set.SetVarAddItem;
 import de.unika.ipd.grgen.ir.stmt.set.SetVarClear;
 import de.unika.ipd.grgen.ir.stmt.set.SetVarRemoveItem;
@@ -2276,6 +2278,9 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		} else if(evalStmt instanceof SetVarAddItem) {
 			genSetVarAddItem(sb, (SetVarAddItem)evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
+		} else if(evalStmt instanceof SetVarAddAll) {
+			genSetVarAddAll(sb, (SetVarAddAll)evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
 		} else if(evalStmt instanceof ArrayVarRemoveItem) {
 			genArrayVarRemoveItem(sb, (ArrayVarRemoveItem)evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
@@ -2284,6 +2289,9 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 					className, pathPrefix, alreadyDefinedEntityToName);
 		} else if(evalStmt instanceof ArrayVarAddItem) {
 			genArrayVarAddItem(sb, (ArrayVarAddItem)evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		} else if(evalStmt instanceof ArrayVarAddAll) {
+			genArrayVarAddAll(sb, (ArrayVarAddAll)evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		} else if(evalStmt instanceof DequeVarRemoveItem) {
 			genDequeVarRemoveItem(sb, (DequeVarRemoveItem)evalStmt,
@@ -2568,6 +2576,26 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		assert svai.getNext() == null;
 	}
 
+	private void genSetVarAddAll(SourceBuilder sb, SetVarAddAll svaa,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
+	{
+		Variable target = svaa.getTarget();
+
+		SourceBuilder sbtmp = new SourceBuilder();
+		genExpressionTree(sbtmp, svaa.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+		String valueExprStr = sbtmp.toString();
+
+		sb.appendFront("new GRGEN_EXPR.SetAddAll(");
+		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
+		sb.append(", ");
+		sb.append(valueExprStr);
+		sb.append(", ");
+		sb.append("\"" + formatType(((SetType)svaa.getValueExpr().getType()).valueType) + "\"");
+		sb.append(")");
+
+		assert svaa.getNext() == null;
+	}
+
 	private void genArrayVarRemoveItem(SourceBuilder sb, ArrayVarRemoveItem avri,
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
@@ -2624,6 +2652,26 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		sb.append(")");
 
 		assert avai.getNext() == null;
+	}
+
+	private void genArrayVarAddAll(SourceBuilder sb, ArrayVarAddAll avaa,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
+	{
+		Variable target = avaa.getTarget();
+
+		SourceBuilder sbtmp = new SourceBuilder();
+		genExpressionTree(sbtmp, avaa.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+		String valueExprStr = sbtmp.toString();
+
+		sb.appendFront("new GRGEN_EXPR.ArrayAddAll(");
+		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
+		sb.append(", ");
+		sb.append(valueExprStr);
+		sb.append(", ");
+		sb.append("\"" + formatType(((ArrayType)avaa.getValueExpr().getType()).valueType) + "\"");
+		sb.append(")");
+
+		assert avaa.getNext() == null;
 	}
 
 	private void genDequeVarRemoveItem(SourceBuilder sb, DequeVarRemoveItem dvri,

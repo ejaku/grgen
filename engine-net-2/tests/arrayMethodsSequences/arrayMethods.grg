@@ -48,6 +48,14 @@ rule asString(ref a:array<string>) : (string)
 	}
 }
 
+rule addAll(ref a:array<int>)
+{
+	modify {
+	---
+		exec({a.addAll(array<int>[2, 3])});
+	}
+}
+
 rule subdeque(ref d:deque<int>) : (deque<int>)
 {
 	modify {

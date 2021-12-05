@@ -166,6 +166,15 @@ namespace de.unika.ipd.grGen.libGr
             return newList;
         }
 
+        public static Dictionary<K, SetValueType> AddAll<K>(Dictionary<K, SetValueType> set, Dictionary<K, SetValueType> setToBeAdded)
+        {
+            foreach(K valueToBeAdded in setToBeAdded.Keys)
+            {
+                set.Add(valueToBeAdded, null);
+            }
+            return set;
+        }
+
         public static bool DeeplyEqualSet<V>(Dictionary<V, SetValueType> this_, Dictionary<V, SetValueType> that,
             IDictionary<object, object> visitedObjects,
             IDictionary<object, object> matchedObjectsFromThis, IDictionary<object, object> matchedObjectsFromThat)

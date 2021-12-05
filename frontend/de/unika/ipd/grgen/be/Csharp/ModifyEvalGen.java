@@ -60,6 +60,7 @@ import de.unika.ipd.grgen.ir.stmt.WhileStatement;
 import de.unika.ipd.grgen.ir.stmt.array.ArrayAddItem;
 import de.unika.ipd.grgen.ir.stmt.array.ArrayClear;
 import de.unika.ipd.grgen.ir.stmt.array.ArrayRemoveItem;
+import de.unika.ipd.grgen.ir.stmt.array.ArrayVarAddAll;
 import de.unika.ipd.grgen.ir.stmt.array.ArrayVarAddItem;
 import de.unika.ipd.grgen.ir.stmt.array.ArrayVarClear;
 import de.unika.ipd.grgen.ir.stmt.array.ArrayVarRemoveItem;
@@ -126,6 +127,7 @@ import de.unika.ipd.grgen.ir.stmt.procenv.SynchronizationTryEnterProc;
 import de.unika.ipd.grgen.ir.stmt.set.SetAddItem;
 import de.unika.ipd.grgen.ir.stmt.set.SetClear;
 import de.unika.ipd.grgen.ir.stmt.set.SetRemoveItem;
+import de.unika.ipd.grgen.ir.stmt.set.SetVarAddAll;
 import de.unika.ipd.grgen.ir.stmt.set.SetVarAddItem;
 import de.unika.ipd.grgen.ir.stmt.set.SetVarClear;
 import de.unika.ipd.grgen.ir.stmt.set.SetVarRemoveItem;
@@ -299,6 +301,8 @@ public class ModifyEvalGen extends CSharpBase
 			genArrayClear(sb, state, (ArrayClear)evalStmt);
 		} else if(evalStmt instanceof ArrayAddItem) {
 			genArrayAddItem(sb, state, (ArrayAddItem)evalStmt);
+		} else if(evalStmt instanceof ArrayVarAddAll) {
+			genArrayVarAddAll(sb, state, (ArrayVarAddAll)evalStmt);
 		} else if(evalStmt instanceof DequeRemoveItem) {
 			genDequeRemoveItem(sb, state, (DequeRemoveItem)evalStmt);
 		} else if(evalStmt instanceof DequeClear) {
@@ -317,6 +321,8 @@ public class ModifyEvalGen extends CSharpBase
 			genSetVarClear(sb, state, (SetVarClear)evalStmt);
 		} else if(evalStmt instanceof SetVarAddItem) {
 			genSetVarAddItem(sb, state, (SetVarAddItem)evalStmt);
+		} else if(evalStmt instanceof SetVarAddAll) {
+			genSetVarAddAll(sb, state, (SetVarAddAll)evalStmt);
 		} else if(evalStmt instanceof ArrayVarRemoveItem) {
 			genArrayVarRemoveItem(sb, state, (ArrayVarRemoveItem)evalStmt);
 		} else if(evalStmt instanceof ArrayVarClear) {
@@ -1304,6 +1310,27 @@ public class ModifyEvalGen extends CSharpBase
 		assert svai.getNext() == null;
 	}
 
+	private void genSetVarAddAll(SourceBuilder sb, ModifyGenerationStateConst state, SetVarAddAll svaa)
+	{
+		Variable target = svaa.getTarget();
+
+		SourceBuilder sbtmp = new SourceBuilder();
+		genExpression(sbtmp, svaa.getValueExpr(), state);
+		String valueExprStr = sbtmp.toString();
+		
+		SetType setType = (SetType)svaa.getValueExpr().getType();
+		String setValueName = "value_" + svaa.getId();
+		sb.append("foreach(" + formatType(setType.valueType) + " " + setValueName + " in (" + valueExprStr + ").Keys)\n");
+		sb.append("{\n");
+		sb.indent();
+		genVar(sb, target, state);
+		sb.append(".Add(" + setValueName + ", null);\n");
+		sb.unindent();
+		sb.append("}\n");
+
+		assert svaa.getNext() == null;
+	}
+
 	private void genArrayVarRemoveItem(SourceBuilder sb, ModifyGenerationStateConst state, ArrayVarRemoveItem avri)
 	{
 		Variable target = avri.getTarget();
@@ -1370,6 +1397,22 @@ public class ModifyEvalGen extends CSharpBase
 		sb.append(");\n");
 
 		assert avai.getNext() == null;
+	}
+
+	private void genArrayVarAddAll(SourceBuilder sb, ModifyGenerationStateConst state, ArrayVarAddAll avaa)
+	{
+		Variable target = avaa.getTarget();
+
+		SourceBuilder sbtmp = new SourceBuilder();
+		genExpression(sbtmp, avaa.getValueExpr(), state);
+		String valueExprStr = sbtmp.toString();
+
+		genVar(sb, target, state);
+		sb.append(".AddRange(");
+		sb.append(valueExprStr);
+		sb.append(");\n");
+
+		assert avaa.getNext() == null;
 	}
 
 	private void genDequeVarRemoveItem(SourceBuilder sb, ModifyGenerationStateConst state, DequeVarRemoveItem dvri)
@@ -2757,6 +2800,8 @@ public class ModifyEvalGen extends CSharpBase
 			genArrayClear(sb, state, (ArrayClear)evalProc);
 		} else if(evalProc instanceof ArrayAddItem) {
 			genArrayAddItem(sb, state, (ArrayAddItem)evalProc);
+		} else if(evalProc instanceof ArrayVarAddAll) {
+			genArrayVarAddAll(sb, state, (ArrayVarAddAll)evalProc);
 		} else if(evalProc instanceof DequeRemoveItem) {
 			genDequeRemoveItem(sb, state, (DequeRemoveItem)evalProc);
 		} else if(evalProc instanceof DequeClear) {
@@ -2775,6 +2820,8 @@ public class ModifyEvalGen extends CSharpBase
 			genSetVarClear(sb, state, (SetVarClear)evalProc);
 		} else if(evalProc instanceof SetVarAddItem) {
 			genSetVarAddItem(sb, state, (SetVarAddItem)evalProc);
+		} else if(evalProc instanceof SetVarAddAll) {
+			genSetVarAddAll(sb, state, (SetVarAddAll)evalProc);
 		} else if(evalProc instanceof ArrayVarRemoveItem) {
 			genArrayVarRemoveItem(sb, state, (ArrayVarRemoveItem)evalProc);
 		} else if(evalProc instanceof ArrayVarClear) {

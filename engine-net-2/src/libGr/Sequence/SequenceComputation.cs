@@ -25,7 +25,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         Then,
         VAlloc, VFree, VFreeNonReset, VReset,
-        ContainerAdd, ContainerRem, ContainerClear,
+        ContainerAdd, ContainerRem, ContainerClear, ContainerAddAll,
         Assignment,
         VariableDeclaration,
         Emit, Record, Export, DeleteFile,
@@ -984,6 +984,73 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol
         {
             get { return Name + ".clear()"; }
+        }
+    }
+
+    public class SequenceComputationContainerAddAll : SequenceComputationContainer
+    {
+        public readonly SequenceExpression Expr;
+
+        public SequenceComputationContainerAddAll(SequenceVariable container, SequenceExpression expr)
+            : base(SequenceComputationType.ContainerAddAll, container)
+        {
+            Expr = expr;
+        }
+
+        protected SequenceComputationContainerAddAll(SequenceComputationContainerAddAll that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that, originalToCopy, procEnv)
+        {
+            Expr = that.Expr.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceComputationContainerAddAll(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            string ContainerType = CheckAndReturnContainerType(env);
+            if(ContainerType == "")
+                return; // we can't check further types if the container is untyped, only runtime-check possible
+
+            if(ContainerType.StartsWith("array<"))
+            {
+                if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), ContainerType, env.Model))
+                    throw new SequenceParserException(Symbol, ContainerType, Expr.Type(env));
+            }
+            else
+            {
+                if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), ContainerType, env.Model))
+                    throw new SequenceParserException(Symbol, ContainerType, Expr.Type(env));
+            }
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            return ContainerHelper.ContainerAddAll(procEnv, Container.GetVariableValue(procEnv), Expr.Evaluate(procEnv));
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Container.GetLocalVariables(variables);
+            Expr.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceComputation> Children
+        {
+            get
+            {
+                yield return Expr;
+            }
+        }
+
+        public override string Symbol
+        {
+            get { return Name + ".addAll(" + Expr.Symbol + ")"; }
         }
     }
 

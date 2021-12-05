@@ -24,6 +24,7 @@ import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+import de.unika.ipd.grgen.ast.stmt.array.ArrayAddAllNode;
 import de.unika.ipd.grgen.ast.stmt.array.ArrayAddItemNode;
 import de.unika.ipd.grgen.ast.stmt.array.ArrayClearNode;
 import de.unika.ipd.grgen.ast.stmt.array.ArrayRemoveItemNode;
@@ -33,6 +34,7 @@ import de.unika.ipd.grgen.ast.stmt.deque.DequeRemoveItemNode;
 import de.unika.ipd.grgen.ast.stmt.map.MapAddItemNode;
 import de.unika.ipd.grgen.ast.stmt.map.MapClearNode;
 import de.unika.ipd.grgen.ast.stmt.map.MapRemoveItemNode;
+import de.unika.ipd.grgen.ast.stmt.set.SetAddAllNode;
 import de.unika.ipd.grgen.ast.stmt.set.SetAddItemNode;
 import de.unika.ipd.grgen.ast.stmt.set.SetClearNode;
 import de.unika.ipd.grgen.ast.stmt.set.SetRemoveItemNode;
@@ -188,6 +190,17 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 				else
 					return new SetAddItemNode(env.getCoords(), targetVar, arguments.get(0));
 			}
+		case "addAll":
+			if(arguments.size() != 1) {
+				env.reportError("set<T>.addAll(set<T>) takes one parameter.");
+				return null;
+			} else {
+				if(targetQual != null) {
+					env.reportError("set<T>.addAll(set<T>) is not available on attributes (only variables).");
+				} else {
+					return new SetAddAllNode(env.getCoords(), targetVar, arguments.get(0));
+				}
+			}
 		case "rem":
 			if(arguments.size() != 1) {
 				env.reportError("set<T>.rem(value) takes one parameter.");
@@ -230,6 +243,17 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 				} else {
 					return new ArrayAddItemNode(env.getCoords(), targetVar, arguments.get(0),
 							arguments.size() != 1 ? arguments.get(1) : null);
+				}
+			}
+		case "addAll":
+			if(arguments.size() != 1) {
+				env.reportError("array<T>.addAll(array<T>) takes one parameter.");
+				return null;
+			} else {
+				if(targetQual != null) {
+					env.reportError("array<T>.addAll(array<T>) is not available on attributes (only variables).");
+				} else {
+					return new ArrayAddAllNode(env.getCoords(), targetVar, arguments.get(0));
 				}
 			}
 		case "rem":

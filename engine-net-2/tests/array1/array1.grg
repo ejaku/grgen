@@ -129,3 +129,16 @@ rule arrayIteration
     }
 }
 
+rule arrayAddAll(ref a:array<int>)
+{
+---
+	yield {
+		a.addAll(new array<int>[2, 3]);
+	}
+	
+	modify {
+		eval {
+			a.addAll(new array<int>[4, 5]);
+		}
+	}
+}
