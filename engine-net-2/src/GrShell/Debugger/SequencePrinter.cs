@@ -148,6 +148,12 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceType.ParallelExecute:
                 PrintSequenceParallelExecute((SequenceParallelExecute)seq, parent, highlightingMode, context);
                 break;
+            case SequenceType.ParallelArrayExecute:
+                PrintSequenceParallelArrayExecute((SequenceParallelArrayExecute)seq, parent, highlightingMode, context);
+                break;
+            case SequenceType.Lock:
+                PrintSequenceLock((SequenceLock)seq, parent, highlightingMode, context);
+                break;
             case SequenceType.IfThenElse:
                 PrintSequenceIfThenElse((SequenceIfThenElse)seq, parent, highlightingMode, context);
                 break;
@@ -497,6 +503,43 @@ namespace de.unika.ipd.grGen.grShell
                         WorkaroundManager.Workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
                 }
             }
+        }
+
+        private static void PrintSequenceParallelArrayExecute(SequenceParallelArrayExecute seqParallelArrayExec, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
+        {
+            HighlightingMode highlightingModeLocal = highlightingMode;
+            if(seqParallelArrayExec == context.highlightSeq)
+                highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
+
+            WorkaroundManager.Workaround.PrintHighlighted("parallel array", highlightingModeLocal);
+
+            for(int i = 0; i < seqParallelArrayExec.InSubgraphExecutions.Count; ++i)
+            {
+                SequenceExecuteInSubgraph seqExecInSub = seqParallelArrayExec.InSubgraphExecutions[i];
+                WorkaroundManager.Workaround.PrintHighlighted(" ", highlightingModeLocal);
+                if(context.sequences != null)
+                {
+                    if(seqExecInSub == context.highlightSeq)
+                        WorkaroundManager.Workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
+                    if(seqExecInSub == context.sequences[i])
+                        WorkaroundManager.Workaround.PrintHighlighted("(" + i + ")", HighlightingMode.Choicepoint);
+                }
+                PrintSequenceExecuteInSubgraph(seqExecInSub, seqParallelArrayExec, highlightingModeLocal, context);
+                if(context.sequences != null)
+                {
+                    if(seqExecInSub == context.highlightSeq)
+                        WorkaroundManager.Workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
+                }
+            }
+        }
+
+        private static void PrintSequenceLock(SequenceLock seqLock, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
+        {
+            WorkaroundManager.Workaround.PrintHighlighted("lock(", highlightingMode);
+            PrintSequenceExpression(seqLock.LockObjectExpr, seqLock, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("){", highlightingMode);
+            PrintSequence(seqLock.Seq, seqLock, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted("}", highlightingMode);
         }
 
         private static void PrintSequenceIfThenElse(SequenceIfThenElse seqIf, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)

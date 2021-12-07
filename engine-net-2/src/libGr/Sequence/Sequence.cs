@@ -8273,6 +8273,7 @@ namespace de.unika.ipd.grGen.libGr
 #endif
 
             List<IGraph> subgraphs = (List<IGraph>)InSubgraphExecution.SubgraphExpr.Evaluate(procEnv);
+            InSubgraphExecutions.Clear();
             foreach(IGraph subgraph in subgraphs)
             {
                 SequenceExecuteInSubgraph inSubgraph = (SequenceExecuteInSubgraph)InSubgraphExecution.Copy(new Dictionary<SequenceVariable, SequenceVariable>(), procEnv);

@@ -23,6 +23,10 @@ node class StatespaceNode
 	gr:graph;
 }
 
+node class StatespaceNodeRed extends StatespaceNode;
+node class StatespaceNodeGreen extends StatespaceNode;
+node class StatespaceNodeBlue extends StatespaceNode;
+
 edge class StatespaceEdge;
 
 for equalsAny[parallelize=2];

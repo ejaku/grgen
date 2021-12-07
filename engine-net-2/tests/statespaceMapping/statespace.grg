@@ -81,6 +81,42 @@ rule createAndLinkStatespaceNode(begin:StatespaceNode, var grattr:graph) : (Stat
 	}
 }
 
+rule createAndLinkStatespaceNodeColored(begin:StatespaceNode, var grattr:graph, ref red:set<graph>, ref green:set<graph>, ref blue:set<graph>) : (StatespaceNode)
+{
+	alternative {
+		Red {
+			if{ grattr in red; }
+			modify {
+				begin -:StatespaceEdge-> successor:StatespaceNodeRed@(gr=grattr);
+			---
+				eval { yield succ = successor; }
+			}
+		}
+		Green {
+			if{ grattr in green; }
+			modify {
+				begin -:StatespaceEdge-> successor:StatespaceNodeGreen@(gr=grattr);
+			---
+				eval { yield succ = successor; }
+			}
+		}
+		Blue {
+			if{ grattr in blue; }
+			modify {
+				begin -:StatespaceEdge-> successor:StatespaceNodeBlue@(gr=grattr);
+			---
+				eval { yield succ = successor; }
+			}
+		}
+	}
+	
+	modify {
+	---
+		def succ:StatespaceNode;
+		return(succ);
+	}
+}
+
 rule linkStatespaceNode(begin:StatespaceNode, successor:StatespaceNode)
 {
 	modify {

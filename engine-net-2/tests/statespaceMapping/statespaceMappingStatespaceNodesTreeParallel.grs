@@ -1,0 +1,56 @@
+new graph statespaceMapping/statespace
+
+include statespaceMapping/statespacelayout.grsi
+
+# root points to statespace graph at statespace (meta) level, objectGraph points to the first of the graphs at object level
+exec { ::root=this; ::objectGraph=copy(this); (::statespaceRoot)=add(StatespaceNode) } ;> in ::objectGraph { init }
+
+# graphToStatespaceNode and the statespace graph root are only needed for visualization of the structure of the statespace, for unfolding the other variables would be sufficient
+exec { ::statespace = new set<graph>{}; ::newlycreated = new set<graph>{};\
+::graphToStatespaceNode = new map<graph, StatespaceNode>{}; ::graphToStatespaceNode.add(::objectGraph, ::statespaceRoot);\
+::tobeprocessed = new array<graph>[::objectGraph]}
+
+# graphToStatespaceNodeLocal, red, green, blue are only needed for visualization of the structure of the statespace, for unfolding the other variables would be sufficient
+def stateStep() { false }
+def stateStep() {\
+	statestep:array<graph> ;> red:set<graph> = new set<graph>{} ;> green:set<graph> = new set<graph>{} ;> blue:set<graph> = new set<graph>{} ;>\
+	{ statestep = [: for{insertRed; {red.add(this)} }, for{insertGreen; {green.add(this)}}, for{insertBlue; {blue.add(this)}} :] } ;>\
+	lock(::statespace) { { ::statespace.addAll(statestep.asSet())} } ;>\
+	lock(::newlycreated) { { ::newlycreated.addAll(statestep.asSet())} } ;>\
+	parent:StatespaceNode ;> graphToStatespaceNodeLocal:map<graph, StatespaceNode> = new map<graph, StatespaceNode>{} ;>\
+	lock(::graphToStatespaceNode) { { parent=::graphToStatespaceNode[this] } } ;>\
+	lock(::root) { for{subgraph:graph in statestep; (child:StatespaceNode)=::root.createAndLinkStatespaceNodeColored(parent, subgraph, red, green, blue) ;> { graphToStatespaceNodeLocal.add(subgraph, child) } } } ;>\
+	lock(::graphToStatespaceNode) { for{gr:graph->sn:StatespaceNode in graphToStatespaceNodeLocal; { ::graphToStatespaceNode.add(gr, sn) } } }\
+}
+
+exec ::stopLevel=2 ;> for{step:int in [0 : ::stopLevel]; parallel array in ::tobeprocessed { stateStep() } ;> { ::tobeprocessed=::newlycreated.asArray(); ::newlycreated.clear() } }
+#exec ::stopLevel=2 ;> for{step:int in [0 : ::stopLevel]; for{::tbp in ::tobeprocessed; in ::tbp { stateStep() } } ;> { ::tobeprocessed=::newlycreated.asArray(); ::newlycreated.clear() } }
+
+exec { ::statespaceSize = ::statespace.size() }
+show var statespaceSize
+
+show var statespaceRoot
+
+exec { ::statespaceRootChild0 = outgoing(::statespaceRoot).peek(0) }
+exec { ::statespaceRootChild1 = outgoing(::statespaceRoot).peek(1) }
+exec { ::statespaceRootChild2 = outgoing(::statespaceRoot).peek(2) }
+show var statespaceRootChild0
+show var statespaceRootChild1
+show var statespaceRootChild2
+
+exec { ::statespaceRootChild00 = outgoing(target(::statespaceRootChild0)).peek(0) }
+exec { ::statespaceRootChild01 = outgoing(target(::statespaceRootChild0)).peek(1) }
+exec { ::statespaceRootChild02 = outgoing(target(::statespaceRootChild0)).peek(2) }
+exec { ::statespaceRootChild03 = outgoing(target(::statespaceRootChild0)).peek(3) }
+show var statespaceRootChild00
+show var statespaceRootChild01
+show var statespaceRootChild02
+show var statespaceRootChild03
+
+show num nodes Red
+show num nodes Green
+show num nodes Blue
+
+exec for{g:graph in ::statespace; in g { { emit("The value of variable \"redgreenblue\" of type foobar is: ", nodes(Red).size(), nodes(Green).size(), nodes(Blue).size(), "\n") } } } 
+
+exit
