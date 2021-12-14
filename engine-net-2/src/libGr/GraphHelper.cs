@@ -6311,5 +6311,64 @@ namespace de.unika.ipd.grGen.libGr
             else
                 return candidate.GetSameStructure(graphsToCheckAgainst);
         }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Returns one graph from the given array of graphs that is equivalent to the candidate (sub)graph, 
+        /// or null if none exists, in that case the graph is added to the array of graphs.
+        /// This method is (intended to be) thread-safe (it locks the array as needed, still allowing for a large amount of parallel equivalence checking if called by multiple threads).
+        /// </summary>
+        public static IGraph GetEquivalentOrAdd(IGraph candidate, IList<IGraph> graphsToCheckAgainst, bool includingAttributes)
+        {
+            if(candidate == null)
+                return null;
+            if(graphsToCheckAgainst == null)
+                return null;
+
+            int countOfGraphsToCheckAgainst = graphsToCheckAgainst.Count;
+            for(int i=0; i < countOfGraphsToCheckAgainst; ++i)
+            {
+                IGraph graphToCheckAgainst = graphsToCheckAgainst[i];
+
+                if(includingAttributes)
+                {
+                    if(candidate.IsIsomorph(graphToCheckAgainst))
+                        return graphToCheckAgainst;
+                }
+                else
+                {
+                    if(candidate.HasSameStructure(graphToCheckAgainst))
+                        return graphToCheckAgainst;
+                }
+            }
+
+            lock(graphsToCheckAgainst)
+            {
+                // count may have incread concurrently, now check the added graphs not checked yet
+                for(int i = countOfGraphsToCheckAgainst; i < graphsToCheckAgainst.Count; ++i)
+                {
+                    IGraph graphToCheckAgainst = graphsToCheckAgainst[i];
+
+                    if(includingAttributes)
+                    {
+                        if(candidate.IsIsomorph(graphToCheckAgainst))
+                            return graphToCheckAgainst;
+                    }
+                    else
+                    {
+                        if(candidate.HasSameStructure(graphToCheckAgainst))
+                            return graphToCheckAgainst;
+                    }
+                }
+
+                graphsToCheckAgainst.Add(candidate);
+
+                // ensure that all changes are visible to other threads (outside lock), this esp. includes the case that the internal array was replaced because its capacity was exceeded
+                System.Threading.Thread.MemoryBarrier();
+            }
+
+            return null;
+        }
     }
 }

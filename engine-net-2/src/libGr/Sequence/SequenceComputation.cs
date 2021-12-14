@@ -36,6 +36,7 @@ namespace de.unika.ipd.grGen.libGr
         ProcedureCall, BuiltinProcedureCall, ProcedureMethodCall,
         DebugAdd, DebugRem, DebugEmit, DebugHalt, DebugHighlight,
         SynchronizationEnter, SynchronizationTryEnter, SynchronizationExit,
+        GetEquivalentOrAdd,
         AssignmentTarget, // every assignment target (lhs value) is a computation
         Expression // every expression (rhs value) is a computation
     }
@@ -2980,6 +2981,97 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
+    public class SequenceComputationGetEquivalentOrAdd : SequenceComputation
+    {
+        public readonly SequenceExpression Subgraph;
+        public readonly SequenceExpression SubgraphArray;
+        public readonly bool IncludingAttributes;
+
+        public SequenceComputationGetEquivalentOrAdd(SequenceExpression subgraph, SequenceExpression subgraphArray, bool includingAttributes)
+            : base(SequenceComputationType.GetEquivalentOrAdd)
+        {
+            Subgraph = subgraph;
+            SubgraphArray = subgraphArray;
+            IncludingAttributes = includingAttributes;
+        }
+
+        protected SequenceComputationGetEquivalentOrAdd(SequenceComputationGetEquivalentOrAdd that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that)
+        {
+            Subgraph = that.Subgraph.CopyExpression(originalToCopy, procEnv);
+            SubgraphArray = that.SubgraphArray.CopyExpression(originalToCopy, procEnv);
+            IncludingAttributes = that.IncludingAttributes;
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceComputationGetEquivalentOrAdd(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Subgraph.Type(env) != "")
+            {
+                if(Subgraph.Type(env) != "graph")
+                    throw new SequenceParserException(Symbol + ", first argument", "graph type", Subgraph.Type(env));
+            }
+
+            if(SubgraphArray.Type(env) != "")
+            {
+                if(!SubgraphArray.Type(env).StartsWith("array<"))
+                    throw new SequenceParserException(Symbol + ", second argument", "array<graph> type", SubgraphArray.Type(env));
+                if(TypesHelper.ExtractSrc(SubgraphArray.Type(env)) != "graph")
+                    throw new SequenceParserException(Symbol + ", second argument", "array<graph> type", SubgraphArray.Type(env));
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "graph";
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            object subgraph = Subgraph.Evaluate(procEnv);
+            object subgraphArray = SubgraphArray.Evaluate(procEnv);
+            return GraphHelper.GetEquivalentOrAdd((IGraph)subgraph, (IList<IGraph>)subgraphArray, IncludingAttributes);
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Subgraph.GetLocalVariables(variables, constructors);
+            SubgraphArray.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceComputation> Children
+        {
+            get
+            {
+                yield return Subgraph;
+                yield return SubgraphArray;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                if(IncludingAttributes)
+                    return "getEquivalentOrAdd(" + Subgraph.Symbol + ", " + SubgraphArray.Symbol + ")";
+                else
+                    return "getEquivalentStructurallyOrAdd(" + Subgraph.Symbol + ", " + SubgraphArray.Symbol + ")";
+            }
+        }
+    }
+
     public class SequenceComputationBuiltinProcedureCall : SequenceComputation
     {
         public readonly SequenceComputation BuiltinProcedure;
@@ -3015,7 +3107,8 @@ namespace de.unika.ipd.grGen.libGr
                 && !(BuiltinProcedure is SequenceComputationGraphRetype)
                 && !(BuiltinProcedure is SequenceComputationInsertInduced)
                 && !(BuiltinProcedure is SequenceComputationInsertDefined)
-                && !(BuiltinProcedure is SequenceComputationSynchronizationTryEnter))
+                && !(BuiltinProcedure is SequenceComputationSynchronizationTryEnter)
+                && !(BuiltinProcedure is SequenceComputationGetEquivalentOrAdd))
             {
                 throw new Exception("Procedure call of builtin unknown procedure");
             }
@@ -3031,6 +3124,7 @@ namespace de.unika.ipd.grGen.libGr
                 || BuiltinProcedure is SequenceComputationInsertInduced
                 || BuiltinProcedure is SequenceComputationInsertDefined
                 || BuiltinProcedure is SequenceComputationSynchronizationTryEnter
+                || BuiltinProcedure is SequenceComputationGetEquivalentOrAdd
                 ) 
             {
                 if(!TypesHelper.IsSameOrSubtype(BuiltinProcedure.Type(env), ReturnVars[0].Type, env.Model))

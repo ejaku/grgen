@@ -1,0 +1,12 @@
+rule r(ref a:array<graph>)
+{
+	modify {
+	---
+		def var g:graph;
+		eval {
+			(yield g) = getEquivalentOrAdd(this, a);
+		}
+		
+		exec({(g) = getEquivalentOrAdd(g, a)});
+	}
+}

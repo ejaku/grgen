@@ -162,6 +162,9 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceComputationType.SynchronizationExit:
                 EmitSequenceComputationSynchronizationExit((SequenceComputationSynchronizationExit)seqComp, source);
                 break;
+            case SequenceComputationType.GetEquivalentOrAdd:
+                EmitSequenceComputationGetEquivalentOrAdd((SequenceComputationGetEquivalentOrAdd)seqComp, source);
+                break;
             case SequenceComputationType.Assignment:
                 EmitSequenceComputationAssignment((SequenceComputationAssignment)seqComp, source);
                 break;
@@ -618,6 +621,14 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontIndentedFormat("System.Threading.Monitor.Exit({0});\n",
                 exprGen.GetSequenceExpression(seqExit.LockObjectExpr, source));
             source.AppendFront(COMP_HELPER.SetResultVar(seqExit, "null"));
+        }
+
+        public void EmitSequenceComputationGetEquivalentOrAdd(SequenceComputationGetEquivalentOrAdd seqGetEquivalentOrAdd, SourceBuilder source)
+        {
+            source.AppendFrontIndentedFormat("GRGEN_LIBGR.GraphHelper.GetEquivalentOrAdd({0}, {1}, {2})",
+                exprGen.GetSequenceExpression(seqGetEquivalentOrAdd.Subgraph, source),
+                exprGen.GetSequenceExpression(seqGetEquivalentOrAdd.SubgraphArray, source),
+                seqGetEquivalentOrAdd.IncludingAttributes ? "true" : "false");
         }
 
         public void EmitSequenceComputationExpression(SequenceExpression seqExpr, SourceBuilder source)

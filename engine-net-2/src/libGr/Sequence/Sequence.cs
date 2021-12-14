@@ -5225,7 +5225,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "if{" + Condition.Symbol + ";" + TrueCase + ";" + FalseCase + "}"; }
+            get { return "if{" + Condition.Symbol + ";" + TrueCase.Symbol + ";" + FalseCase.Symbol + "}"; }
         }
     }
 

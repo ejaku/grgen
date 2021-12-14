@@ -336,6 +336,18 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                     throw new ParseException("\"Synchronization::exit\" expects 1 parameter (the lock object)");
                 return new SequenceComputationSynchronizationExit(getArgument(argExprs, 0));
             }
+            else if(procedureName == "getEquivalentOrAdd" && PackageIsNullOrGlobal(package))
+            {
+                if(argExprs.Count != 2)
+                    throw new ParseException("\"getEquivalentOrAdd\" expects 2 parameters (the graph to check for, and the array of graphs to check against)");
+                return new SequenceComputationBuiltinProcedureCall(new SequenceComputationGetEquivalentOrAdd(getArgument(argExprs, 0), getArgument(argExprs, 1), true), returnVars);
+            }
+            else if(procedureName == "getEquivalentStructurallyOrAdd" && PackageIsNullOrGlobal(package))
+            {
+                if(argExprs.Count != 2)
+                    throw new ParseException("\"getEquivalentStructurallyOrAdd\" expects 2 parameters (the graph to check for, and the array of graphs to check against)");
+                return new SequenceComputationBuiltinProcedureCall(new SequenceComputationGetEquivalentOrAdd(getArgument(argExprs, 0), getArgument(argExprs, 1), false), returnVars);
+            }
             else
             {
                 if(IsProcedureName(procedureName, package))
@@ -346,6 +358,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                         + "|add|addCopy|rem|clear|retype|merge|redirectSource|redirectTarget|redirectSourceAndTarget"
                         + "|insert|insertCopy|insertInduced|insertDefined"
                         + "|Synchronization::enter|Synchronization::tryenter|Synchronization::exit"
+                        + "|getEquivalentOrAdd|getEquivalentStructurallyOrAdd"
                         + " or one of the procedureNames defined in the .grg: " + GetProcedureNames() + ")");
             }
         }

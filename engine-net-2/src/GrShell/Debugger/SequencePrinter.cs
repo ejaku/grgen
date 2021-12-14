@@ -1243,6 +1243,18 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceComputationType.DebugHighlight:
                 PrintSequenceComputationDebug((SequenceComputationDebug)seqComp, parent, highlightingMode, context);
                 break;
+            case SequenceComputationType.SynchronizationEnter:
+                PrintSequenceComputationSynchronizationEnter((SequenceComputationSynchronizationEnter)seqComp, parent, highlightingMode, context);
+                break;
+            case SequenceComputationType.SynchronizationTryEnter:
+                PrintSequenceComputationSynchronizationTryEnter((SequenceComputationSynchronizationTryEnter)seqComp, parent, highlightingMode, context);
+                break;
+            case SequenceComputationType.SynchronizationExit:
+                PrintSequenceComputationSynchronizationExit((SequenceComputationSynchronizationExit)seqComp, parent, highlightingMode, context);
+                break;
+            case SequenceComputationType.GetEquivalentOrAdd:
+                PrintSequenceComputationGetEquivalentOrAdd((SequenceComputationGetEquivalentOrAdd)seqComp, parent, highlightingMode, context);
+                break;
             case SequenceComputationType.AssignmentTarget: // every assignment target (lhs value) is a computation
                 PrintSequenceAssignmentTarget((AssignmentTarget)seqComp, parent, highlightingMode, context);
                 break;
@@ -1341,6 +1353,36 @@ namespace de.unika.ipd.grGen.grShell
                     first = false;
                 PrintSequenceExpression(seqExpr, seqCompDebug, highlightingMode, context);
             }
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
+        }
+
+        private static void PrintSequenceComputationSynchronizationEnter(SequenceComputationSynchronizationEnter seqCompEnter, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
+        {
+            WorkaroundManager.Workaround.PrintHighlighted("Synchronization::enter(", highlightingMode);
+            PrintSequenceExpression(seqCompEnter.LockObjectExpr, seqCompEnter, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
+        }
+
+        private static void PrintSequenceComputationSynchronizationTryEnter(SequenceComputationSynchronizationTryEnter seqCompTryEnter, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
+        {
+            WorkaroundManager.Workaround.PrintHighlighted("Synchronization::tryenter(", highlightingMode);
+            PrintSequenceExpression(seqCompTryEnter.LockObjectExpr, seqCompTryEnter, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
+        }
+
+        private static void PrintSequenceComputationSynchronizationExit(SequenceComputationSynchronizationExit seqCompExit, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
+        {
+            WorkaroundManager.Workaround.PrintHighlighted("Synchronization::exit(", highlightingMode);
+            PrintSequenceExpression(seqCompExit.LockObjectExpr, seqCompExit, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
+        }
+
+        private static void PrintSequenceComputationGetEquivalentOrAdd(SequenceComputationGetEquivalentOrAdd seqCompGetEquivalentOrAdd, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
+        {
+            WorkaroundManager.Workaround.PrintHighlighted("getEquivalentOrAdd(", highlightingMode);
+            PrintSequenceExpression(seqCompGetEquivalentOrAdd.Subgraph, seqCompGetEquivalentOrAdd, highlightingMode, context);
+            WorkaroundManager.Workaround.PrintHighlighted(",", highlightingMode);
+            PrintSequenceExpression(seqCompGetEquivalentOrAdd.SubgraphArray, seqCompGetEquivalentOrAdd, highlightingMode, context);
             WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }
 

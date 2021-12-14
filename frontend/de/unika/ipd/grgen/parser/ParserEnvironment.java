@@ -908,6 +908,9 @@ public abstract class ParserEnvironment extends Base
 		case "insertInduced":
 		case "insertDefined":
 			return numParams == 2;
+		case "getEquivalentOrAdd":
+		case "getEquivalentStructurallyOrAdd":
+			return numParams == 2;
 		default:
 			return false;
 		}

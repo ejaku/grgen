@@ -39,6 +39,7 @@ import de.unika.ipd.grgen.ast.stmt.graph.VFreeNonResetProcNode;
 import de.unika.ipd.grgen.ast.stmt.graph.VFreeProcNode;
 import de.unika.ipd.grgen.ast.stmt.graph.VResetProcNode;
 import de.unika.ipd.grgen.ast.stmt.procenv.EmitProcNode;
+import de.unika.ipd.grgen.ast.stmt.procenv.GetEquivalentOrAddProcNode;
 import de.unika.ipd.grgen.ast.stmt.procenv.RecordProcNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.executable.ProcedureTypeNode;
@@ -270,6 +271,20 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				else
 					return new GraphRedirectSourceAndTargetProcNode(env.getCoords(), arguments.get(0), arguments.get(1),
 							arguments.get(2), arguments.get(3), arguments.get(4));
+			}
+		case "getEquivalentOrAdd":
+			if(arguments.size() != 2) {
+				env.reportError("getEquivalentOrAdd(graph, array<graph>) takes two parameters.");
+				return null;
+			} else {
+				return new GetEquivalentOrAddProcNode(env.getCoords(), arguments.get(0), arguments.get(1), true);
+			}
+		case "getEquivalentStructurallyOrAdd":
+			if(arguments.size() != 2) {
+				env.reportError("getEquivalentStructurallyOrAdd(graph, array<graph>) takes two parameters.");
+				return null;
+			} else {
+				return new GetEquivalentOrAddProcNode(env.getCoords(), arguments.get(0), arguments.get(1), false);
 			}
 		default:
 			env.reportError("no computation " + procedureName + " known");

@@ -116,6 +116,7 @@ import de.unika.ipd.grgen.ir.stmt.procenv.DebugRemProc;
 import de.unika.ipd.grgen.ir.stmt.procenv.DeleteFileProc;
 import de.unika.ipd.grgen.ir.stmt.procenv.EmitProc;
 import de.unika.ipd.grgen.ir.stmt.procenv.ExportProc;
+import de.unika.ipd.grgen.ir.stmt.procenv.GetEquivalentOrAddProc;
 import de.unika.ipd.grgen.ir.stmt.procenv.PauseTransactionProc;
 import de.unika.ipd.grgen.ir.stmt.procenv.RecordProc;
 import de.unika.ipd.grgen.ir.stmt.procenv.ResumeTransactionProc;
@@ -2840,6 +2841,8 @@ public class ModifyEvalGen extends CSharpBase
 			genSynchronizationTryEnterProc(sb, state, (SynchronizationTryEnterProc)evalProc);
 		} else if(evalProc instanceof SynchronizationExitProc) {
 			genSynchronizationExitProc(sb, state, (SynchronizationExitProc)evalProc);
+		} else if(evalProc instanceof GetEquivalentOrAddProc) {
+			genGetEquivalentOrAddProc(sb, state, (GetEquivalentOrAddProc)evalProc);
 		} else {
 			throw new UnsupportedOperationException("Unexpected eval procedure \"" + evalProc + "\"");
 		}
@@ -3303,7 +3306,18 @@ public class ModifyEvalGen extends CSharpBase
 		genExpression(sb, sep.getCriticalSectionObject(), state);
 		sb.append(");\n");
 	}
-	
+
+	private void genGetEquivalentOrAddProc(SourceBuilder sb, ModifyGenerationStateConst state, GetEquivalentOrAddProc geoa)
+	{
+		sb.append("GRGEN_LIBGR.GraphHelper.GetEquivalentOrAdd((GRGEN_LIBGR.IGraph)");
+		genExpression(sb, geoa.getSubgraphExpr(), state);
+		sb.append(", (IList<GRGEN_LIBGR.IGraph>)");
+		genExpression(sb, geoa.getArrayExpr(), state);
+		sb.append(", ");
+		sb.append(geoa.getIncludingAttributes() ? "true" : "false");
+		sb.append(")");
+	}
+
 	//////////////////////
 
 	protected void genChangingAttribute(SourceBuilder sb, ModifyGenerationStateConst state,
