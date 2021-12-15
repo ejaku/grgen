@@ -4,6 +4,6 @@ dump set node Red color red
 dump set node Green color green
 dump set node Blue color blue
 
-dump set node StatespaceNodeRed color red
-dump set node StatespaceNodeGreen color green
-dump set node StatespaceNodeBlue color blue
+dump set edge StatespaceEdgeRed color red
+dump set edge StatespaceEdgeGreen color green
+dump set edge StatespaceEdgeBlue color blue

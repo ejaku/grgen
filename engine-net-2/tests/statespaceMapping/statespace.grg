@@ -87,7 +87,7 @@ rule createAndLinkStatespaceNodeColored(begin:StatespaceNode, var grattr:graph, 
 		Red {
 			if{ grattr in red; }
 			modify {
-				begin -:StatespaceEdge-> successor:StatespaceNodeRed@(gr=grattr);
+				begin -:StatespaceEdgeRed-> successor:StatespaceNode@(gr=grattr);
 			---
 				eval { yield succ = successor; }
 			}
@@ -95,7 +95,7 @@ rule createAndLinkStatespaceNodeColored(begin:StatespaceNode, var grattr:graph, 
 		Green {
 			if{ grattr in green; }
 			modify {
-				begin -:StatespaceEdge-> successor:StatespaceNodeGreen@(gr=grattr);
+				begin -:StatespaceEdgeGreen-> successor:StatespaceNode@(gr=grattr);
 			---
 				eval { yield succ = successor; }
 			}
@@ -103,7 +103,7 @@ rule createAndLinkStatespaceNodeColored(begin:StatespaceNode, var grattr:graph, 
 		Blue {
 			if{ grattr in blue; }
 			modify {
-				begin -:StatespaceEdge-> successor:StatespaceNodeBlue@(gr=grattr);
+				begin -:StatespaceEdgeBlue-> successor:StatespaceNode@(gr=grattr);
 			---
 				eval { yield succ = successor; }
 			}
@@ -121,6 +121,33 @@ rule linkStatespaceNode(begin:StatespaceNode, successor:StatespaceNode)
 {
 	modify {
 		begin -:StatespaceEdge-> successor;
+	}
+}
+
+rule linkStatespaceNodeColored(begin:StatespaceNode, successor:StatespaceNode, var isred:boolean, var isgreen:boolean, var isblue:boolean)
+{
+	alternative {
+		Red {
+			if{ isred; }
+			modify {
+				begin -:StatespaceEdgeRed-> successor;
+			}
+		}
+		Green {
+			if{ isgreen; }
+			modify {
+				begin -:StatespaceEdgeGreen-> successor;
+			}
+		}
+		Blue {
+			if{ isblue; }
+			modify {
+				begin -:StatespaceEdgeBlue-> successor;
+			}
+		}
+	}
+	
+	modify {
 	}
 }
 

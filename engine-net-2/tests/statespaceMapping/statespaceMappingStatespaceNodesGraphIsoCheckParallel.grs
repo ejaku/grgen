@@ -6,21 +6,32 @@ include statespaceMapping/statespacelayout.grsi
 exec { ::root=this; ::objectGraph=copy(this); (::statespaceRoot)=add(StatespaceNode) } ;> in ::objectGraph { init }
 
 # graphToStatespaceNode and the statespace graph root are only needed for visualization of the structure of the statespace, for unfolding the other variables would be sufficient
-exec { ::statespace = new set<graph>{}; ::newlycreated = new set<graph>{};\
+exec { ::statespace = new array<graph>[]; ::newlycreated = new set<graph>{};\
 ::graphToStatespaceNode = new map<graph, StatespaceNode>{}; ::graphToStatespaceNode.add(::objectGraph, ::statespaceRoot);\
 ::tobeprocessed = new array<graph>[::objectGraph]}
+
+def processState(state:graph, parent:StatespaceNode, red:set<graph>, green:set<graph>, blue:set<graph>) { false }
+def processState(state:graph, parent:StatespaceNode, red:set<graph>, green:set<graph>, blue:set<graph>) {\
+	equivalent:graph ;> { (equivalent) = getEquivalentOrAdd(state, ::statespace) } ;>\
+	if{ {{equivalent==null}} ;\
+		child:StatespaceNode ;> lock(::newlycreated) { { ::newlycreated.add(state) } } ;>\
+			lock(::root) { (child)=::root.createAndLinkStatespaceNodeColored(parent, state, red, green, blue) } ;>\
+			lock(::graphToStatespaceNode) { { ::graphToStatespaceNode.add(state, child) } } ;\
+		equivalentNode:StatespaceNode ;> ( if{ lock(::graphToStatespaceNode) { { { equivalent in ::graphToStatespaceNode } } }; lock(::graphToStatespaceNode) { { equivalentNode=::graphToStatespaceNode[equivalent] } } ;> false; true } )* ;>\
+			lock(::root) { ::root.linkStatespaceNodeColored(parent, equivalentNode, state in red, state in green, state in blue) }\
+	}\
+}
+
+#im statespace existiert schon der equivalent-state, aber es wurde noch kein entsprechender knoten in den statespace-graphen eingefügt
+#--> muss direkt danach/mit der operation erfolgen, oder ein nachzugobject wird benötigt; loop while not exists -- does not terminate ... to be checked
 
 # graphToStatespaceNodeLocal, red, green, blue are only needed for visualization of the structure of the statespace, for unfolding the other variables would be sufficient
 def stateStep() { false }
 def stateStep() {\
 	statestep:array<graph> ;> red:set<graph> = new set<graph>{} ;> green:set<graph> = new set<graph>{} ;> blue:set<graph> = new set<graph>{} ;>\
 	{ statestep = [: for{insertRed; {red.add(this)} }, for{insertGreen; {green.add(this)}}, for{insertBlue; {blue.add(this)}} :] } ;>\
-	lock(::statespace) { { ::statespace.addAll(statestep.asSet())} } ;>\
-	lock(::newlycreated) { { ::newlycreated.addAll(statestep.asSet())} } ;>\
-	parent:StatespaceNode ;> graphToStatespaceNodeLocal:map<graph, StatespaceNode> = new map<graph, StatespaceNode>{} ;>\
-	lock(::graphToStatespaceNode) { { parent=::graphToStatespaceNode[this] } } ;>\
-	lock(::root) { for{subgraph:graph in statestep; (child:StatespaceNode)=::root.createAndLinkStatespaceNodeColored(parent, subgraph, red, green, blue) ;> { graphToStatespaceNodeLocal.add(subgraph, child) } } } ;>\
-	lock(::graphToStatespaceNode) { for{gr:graph->sn:StatespaceNode in graphToStatespaceNodeLocal; { ::graphToStatespaceNode.add(gr, sn) } } }\
+	parent:StatespaceNode ;> lock(::graphToStatespaceNode) { { parent=::graphToStatespaceNode[this] } } ;>\
+	for{state:graph in statestep; processState(state, parent, red, green, blue)}\
 }
 
 exec ::stopLevel=1 ;> for{step:int in [0 : ::stopLevel]; parallel array in ::tobeprocessed { stateStep() } ;> { ::tobeprocessed=::newlycreated.asArray(); ::newlycreated.clear() } }
