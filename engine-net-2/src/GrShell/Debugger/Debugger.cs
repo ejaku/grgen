@@ -1127,6 +1127,70 @@ namespace de.unika.ipd.grGen.grShell
             return UserChoiceMenu.ChooseValue(env, type, seq);
         }
 
+        /// <summary>
+        /// Queries the user whether to continue execution, processes the assertion given the user choice (internally).
+        /// </summary>
+        public void HandleAssert(bool isAlways, Func<bool> assertion, Func<string> message, params Func<object>[] values)
+        {
+            if(!isAlways && !task.procEnv.EnableAssertions)
+                return;
+
+            if(assertion())
+                return;
+
+            string combinedMessage = EmitHelper.GetMessageForAssertion(task.procEnv, message, values);
+            task.procEnv.EmitWriterDebug.WriteLine("Assertion failed! (" + combinedMessage + ")");
+
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+
+            context.highlightSeq = task.lastlyEntered;
+            SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
+            Console.WriteLine();
+            PrintDebugTracesStack(false);
+
+            switch(QueryContinueOnAssertion())
+            {
+                case AssertionContinuation.Abort:
+                    throw new Exception("Assertion failed!");
+                case AssertionContinuation.Debug:
+                    Trace.Assert(false, combinedMessage);
+                    break;
+                case AssertionContinuation.Continue:
+                    break;
+            }
+        }
+
+        enum AssertionContinuation
+        {
+            Abort,
+            Debug,
+            Continue
+        }
+
+        AssertionContinuation QueryContinueOnAssertion()
+        {
+            do
+            {
+                Console.WriteLine("You may (a)bort, (d)ebug at source code level (external), or (c)ontinue...");
+
+                ConsoleKeyInfo key = env.ReadKeyWithCancel();
+                switch(key.KeyChar)
+                {
+                    case 'a':
+                        return AssertionContinuation.Abort;
+                    case 'd':
+                        return AssertionContinuation.Debug;
+                    case 'c':
+                        return AssertionContinuation.Continue;
+                    default:
+                        break;
+                }
+            }
+            while(true);
+        }
+
+
         #endregion Possible user choices during sequence execution
 
 

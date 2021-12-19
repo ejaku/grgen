@@ -54,6 +54,7 @@ import de.unika.ipd.grgen.ir.stmt.graph.ForIndexAccessOrdering;
 import de.unika.ipd.grgen.ir.stmt.map.MapVarAddItem;
 import de.unika.ipd.grgen.ir.stmt.map.MapVarClear;
 import de.unika.ipd.grgen.ir.stmt.map.MapVarRemoveItem;
+import de.unika.ipd.grgen.ir.stmt.procenv.AssertProc;
 import de.unika.ipd.grgen.ir.stmt.procenv.DebugAddProc;
 import de.unika.ipd.grgen.ir.stmt.procenv.DebugEmitProc;
 import de.unika.ipd.grgen.ir.stmt.procenv.DebugHaltProc;
@@ -2350,6 +2351,9 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		} else if(evalStmt instanceof EmitProc) {
 			genEmitProc(sb, (EmitProc)evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
+		} else if(evalStmt instanceof AssertProc) {
+			genAssertProc(sb, (AssertProc)evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
 		} else if(evalStmt instanceof DebugAddProc) {
 			genDebugAddProc(sb, (DebugAddProc)evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
@@ -3199,6 +3203,21 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			++parameterNum;
 		}
 		sb.append("}");
+		sb.append(")");
+	}
+
+	private void genAssertProc(SourceBuilder sb, AssertProc ap,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
+	{
+		sb.appendFront("new GRGEN_EXPR.AssertStatement(");
+		sb.append("new GRGEN_EXPR.Expression[] { ");
+		for(Expression expr : ap.getExpressions()) {
+			genExpressionTree(sb, expr, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+		}
+		sb.append("}");
+		sb.append(", ");
+		sb.append(ap.isAlways() ? "true" : "false");
 		sb.append(")");
 	}
 

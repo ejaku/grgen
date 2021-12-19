@@ -107,6 +107,7 @@ import de.unika.ipd.grgen.ir.stmt.map.MapRemoveItem;
 import de.unika.ipd.grgen.ir.stmt.map.MapVarAddItem;
 import de.unika.ipd.grgen.ir.stmt.map.MapVarClear;
 import de.unika.ipd.grgen.ir.stmt.map.MapVarRemoveItem;
+import de.unika.ipd.grgen.ir.stmt.procenv.AssertProc;
 import de.unika.ipd.grgen.ir.stmt.procenv.CommitTransactionProc;
 import de.unika.ipd.grgen.ir.stmt.procenv.DebugAddProc;
 import de.unika.ipd.grgen.ir.stmt.procenv.DebugEmitProc;
@@ -2727,6 +2728,8 @@ public class ModifyEvalGen extends CSharpBase
 			genDebugHaltProc(sb, state, (DebugHaltProc)evalProc);
 		} else if(evalProc instanceof DebugHighlightProc) {
 			genDebugHighlightProc(sb, state, (DebugHighlightProc)evalProc);
+		} else if(evalProc instanceof AssertProc) {
+			genAssertProc(sb, state, (AssertProc)evalProc);
 		} else if(evalProc instanceof RecordProc) {
 			genRecordProc(sb, state, (RecordProc)evalProc);
 		} else if(evalProc instanceof ExportProc) {
@@ -2964,6 +2967,17 @@ public class ModifyEvalGen extends CSharpBase
 		sb.appendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugHighlighting((string)");
 		genExpression(sb, dhp.getFirstExpression(), state);
 		sb.append("," + highlightValuesArray + ", " + highlightSourceNamesArray + ");\n");
+	}
+
+	private void genAssertProc(SourceBuilder sb, ModifyGenerationStateConst state, AssertProc ap)
+	{
+		sb.appendFront("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).UserProxy.HandleAssert(");
+		sb.append(ap.isAlways() ? "true" : "false");
+		for(Expression expr : ap.getExpressions()) {
+			sb.append(", () => ");
+			genExpression(sb, expr, state);
+		}
+		sb.append(");\n");
 	}
 
 	private void genRecordProc(SourceBuilder sb, ModifyGenerationStateConst state, RecordProc rp)

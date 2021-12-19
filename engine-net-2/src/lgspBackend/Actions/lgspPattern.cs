@@ -541,6 +541,16 @@ namespace de.unika.ipd.grGen.lgsp
         public bool isIteratedFilteringExistingPlusInlined = false;
 
         /// <summary>
+        /// Tells whether one of the emit/emitDebug/assert/assertAlways procedures (which are interacting with the environment) are existing in this pattern graph (yields)
+        /// </summary>
+        public bool isEmitOrAssertExisting = false;
+
+        /// <summary>
+        /// Tells whether one of the emit/emitDebug/assert/assertAlways procedures (which are interacting with the environment) are existing in this pattern graph (yields) after inlining
+        /// </summary>
+        public bool isEmitOrAssertExistingPlusInlined = false;
+
+        /// <summary>
         /// Tells whether a def entity (node, edge, variable) is existing in this pattern graph
         /// </summary>
         public bool isDefEntityExisting = false;

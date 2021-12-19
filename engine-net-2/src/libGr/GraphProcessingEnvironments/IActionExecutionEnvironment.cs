@@ -104,6 +104,11 @@ namespace de.unika.ipd.grGen.libGr
         IBackend Backend { get; }
 
         /// <summary>
+        /// Allows to enable/disable assertions and find out about assertion state.
+        /// </summary>
+        bool EnableAssertions { get; set; }
+
+        /// <summary>
         /// PerformanceInfo is used to accumulate information about needed time, found matches and applied rewrites.
         /// And additionally search steps carried out if profiling instrumentation code was generated.
         /// It must not be null.

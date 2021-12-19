@@ -64,5 +64,13 @@ namespace de.unika.ipd.grGen.libGr
         /// no random input value is supplied, the user must give a value
         /// </summary>
         object ChooseValue(string type, Sequence seq);
+
+        ///////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Processes the assertion, causing a halt if it failed (evaluation only occurs for !isAlways in case of procEnv.EnableAssertions),
+        /// queries the user whether to continue execution (internally).
+        /// </summary>
+        void HandleAssert(bool isAlways, System.Func<bool> assertion, System.Func<string> message, params System.Func<object>[] values);
     }
 }

@@ -38,6 +38,7 @@ import de.unika.ipd.grgen.ast.stmt.graph.VAllocProcNode;
 import de.unika.ipd.grgen.ast.stmt.graph.VFreeNonResetProcNode;
 import de.unika.ipd.grgen.ast.stmt.graph.VFreeProcNode;
 import de.unika.ipd.grgen.ast.stmt.graph.VResetProcNode;
+import de.unika.ipd.grgen.ast.stmt.procenv.AssertProcNode;
 import de.unika.ipd.grgen.ast.stmt.procenv.EmitProcNode;
 import de.unika.ipd.grgen.ast.stmt.procenv.GetEquivalentOrAddProcNode;
 import de.unika.ipd.grgen.ast.stmt.procenv.RecordProcNode;
@@ -286,6 +287,28 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 			} else {
 				return new GetEquivalentOrAddProcNode(env.getCoords(), arguments.get(0), arguments.get(1), false);
 			}
+		case "assert":
+			if(arguments.size() >= 1) {
+				AssertProcNode assert_ = new AssertProcNode(env.getCoords(), false);
+				for(ExprNode param : arguments.getChildren()) {
+					assert_.addExpression(param);
+				}
+				return assert_;
+			} else {
+				env.reportError("assert() takes at least one parameter.");
+				return null;
+			}
+		case "assertAlways":
+			if(arguments.size() >= 1) {
+				AssertProcNode assert_ = new AssertProcNode(env.getCoords(), true);
+				for(ExprNode param : arguments.getChildren()) {
+					assert_.addExpression(param);
+				}
+				return assert_;
+			} else {
+				env.reportError("assertAlways() takes at least one parameter.");
+				return null;
+			}
 		default:
 			env.reportError("no computation " + procedureName + " known");
 			return null;
@@ -296,7 +319,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
-			if(isEmitProcedure()) { // allowed exceptions
+			if(isEmitOrDebugProcedure()) { // allowed exceptions
 				return true;
 			} else {
 				reportError("procedure call not allowed in function or lhs context (built-in-procedure)");
@@ -309,7 +332,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 	// procedures for debugging purpose, allowed also on lhs
 	public boolean isEmitOrDebugProcedure()
 	{
-		return isEmitProcedure();
+		return isEmitProcedure() || isDebugProcedure();
 	}
 
 	protected boolean isEmitProcedure()
@@ -323,6 +346,17 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 		}
 	}
 
+	protected boolean isDebugProcedure()
+	{
+		switch(procedureIdent.toString()) {
+		case "assert":
+		case "assertAlways":
+			return true;
+		default:
+			return false;
+		}
+	}
+	
 	@Override
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{

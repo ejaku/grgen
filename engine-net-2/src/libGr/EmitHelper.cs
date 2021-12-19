@@ -7,6 +7,7 @@
 
 // by Edgar Jakumeit
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -264,6 +265,20 @@ namespace de.unika.ipd.grGen.libGr
             }
             if(procEnv != null || !firstLevelObjectEmitted)
                 sb.Append("}");
+            return sb.ToString();
+        }
+
+        public static string GetMessageForAssertion(IGraphProcessingEnvironment procEnv, Func<string> message, params Func<object>[] values)
+        {
+            if(values.Length == 0)
+                return message();
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append(message);
+            foreach(Func<object> value in values)
+            {
+                sb.Append(EmitHelper.ToStringAutomatic(value(), procEnv.Graph, false, new Dictionary<string, IObject>(), procEnv));
+            }
             return sb.ToString();
         }
     }

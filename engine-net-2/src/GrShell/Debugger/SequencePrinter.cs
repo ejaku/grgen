@@ -1243,6 +1243,9 @@ namespace de.unika.ipd.grGen.grShell
             case SequenceComputationType.DebugHighlight:
                 PrintSequenceComputationDebug((SequenceComputationDebug)seqComp, parent, highlightingMode, context);
                 break;
+            case SequenceComputationType.Assert:
+                PrintSequenceComputationAssert((SequenceComputationAssert)seqComp, parent, highlightingMode, context);
+                break;
             case SequenceComputationType.SynchronizationEnter:
                 PrintSequenceComputationSynchronizationEnter((SequenceComputationSynchronizationEnter)seqComp, parent, highlightingMode, context);
                 break;
@@ -1352,6 +1355,28 @@ namespace de.unika.ipd.grGen.grShell
                 else
                     first = false;
                 PrintSequenceExpression(seqExpr, seqCompDebug, highlightingMode, context);
+            }
+            WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
+        }
+
+        private static void PrintSequenceComputationAssert(SequenceComputationAssert seqCompAssert, SequenceBase parent, HighlightingMode highlightingMode, PrintSequenceContext context)
+        {
+            if(seqCompAssert.IsAlways)
+                WorkaroundManager.Workaround.PrintHighlighted("assertAlways(", highlightingMode);
+            else
+                WorkaroundManager.Workaround.PrintHighlighted("assert(", highlightingMode);
+            bool first = true;
+            foreach(SequenceExpression expr in seqCompAssert.ArgExprs)
+            {
+                if(first)
+                    first = false;
+                else
+                    WorkaroundManager.Workaround.PrintHighlighted(", ", highlightingMode);
+                SequenceExpressionConstant exprConst = expr as SequenceExpressionConstant;
+                if(exprConst != null && exprConst.Constant is string)
+                    WorkaroundManager.Workaround.PrintHighlighted(SequenceExpressionConstant.ConstantAsString(exprConst.Constant), highlightingMode);
+                else
+                    PrintSequenceExpression(expr, seqCompAssert, highlightingMode, context);
             }
             WorkaroundManager.Workaround.PrintHighlighted(")", highlightingMode);
         }

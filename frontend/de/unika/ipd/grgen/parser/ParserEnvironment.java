@@ -911,6 +911,9 @@ public abstract class ParserEnvironment extends Base
 		case "getEquivalentOrAdd":
 		case "getEquivalentStructurallyOrAdd":
 			return numParams == 2;
+		case "assert":
+		case "assertAlways":
+			return true;
 		default:
 			return false;
 		}

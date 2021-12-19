@@ -78,6 +78,9 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceComputationType.DebugHighlight:
                 EmitSequenceComputationDebugHighlight((SequenceComputationDebugHighlight)seqComp, source);
                 break;
+            case SequenceComputationType.Assert:
+                EmitSequenceComputationAssert((SequenceComputationAssert)seqComp, source);
+                break;
             case SequenceComputationType.Emit:
                 EmitSequenceComputationEmit((SequenceComputationEmit)seqComp, source);
                 break;
@@ -281,6 +284,23 @@ namespace de.unika.ipd.grGen.lgsp
             String firstArgExpr = exprGen.GetSequenceExpression(seqDebug.ArgExprs[0], source);
             source.AppendFrontFormat("procEnv.DebugHighlighting({0}, values, annotations);\n", firstArgExpr);
             source.AppendFront(COMP_HELPER.SetResultVar(seqDebug, "null"));
+        }
+
+        public void EmitSequenceComputationAssert(SequenceComputationAssert seqAssert, SourceBuilder source)
+        {
+            source.AppendFront("procEnv.UserProxy.HandleAssert(");
+            source.Append(seqAssert.IsAlways ? "true" : "false");
+            foreach(SequenceExpression argExpr in seqAssert.ArgExprs)
+            {
+                source.Append(", () => ");
+                source.Append(exprGen.GetSequenceExpression(argExpr, source));
+            }
+            if(seqAssert.ArgExprs.Count == 1)
+            {
+                source.Append(", () => \"\"");
+            }
+            source.AppendFront(");\n");
+            source.AppendFront(COMP_HELPER.SetResultVar(seqAssert, "null"));
         }
 
         public void EmitSequenceComputationEmit(SequenceComputationEmit seqEmit, SourceBuilder source)

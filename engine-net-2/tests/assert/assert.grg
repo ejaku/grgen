@@ -1,0 +1,29 @@
+rule assertion
+{
+---
+	yield {
+		assert(true);
+		assert(true, "all fine");
+		assertAlways(true);
+		assertAlways(true, "all fine");
+	}
+	
+	modify {
+	---
+		eval {
+			assert(true);
+			assert(true, "all fine");
+			assertAlways(true);
+			assertAlways(true, "all fine");
+		}
+	}
+}
+
+rule assertionExec
+{
+	modify {
+	---
+		exec( { assert(true); assert(true, "all fine") } );
+		exec( { assertAlways(true); assertAlways(true, "all fine") } );
+	}
+}

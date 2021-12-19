@@ -318,6 +318,18 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                     throw new ParseException("\"Debug::highlight\" expects at least 1 parameter (the message)");
                 return new SequenceComputationDebugHighlight(argExprs);
             }
+            else if(procedureName == "assert" && PackageIsNullOrGlobal(package))
+            {
+                if(argExprs.Count < 1)
+                    throw new ParseException("\"" + procedureName + "\" expects at least 1 parameter (the condition to assert on)");
+                return new SequenceComputationAssert(argExprs, false);
+            }
+            else if(procedureName == "assertAlways" && PackageIsNullOrGlobal(package))
+            {
+                if(argExprs.Count < 1)
+                    throw new ParseException("\"" + procedureName + "\" expects at least 1 parameter (the condition to assert on)");
+                return new SequenceComputationAssert(argExprs, true);
+            }
             else if(procedureName == "enter" && package != null && package == "Synchronization")
             {
                 if(argExprs.Count != 1)
@@ -357,6 +369,8 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                         + " (available are valloc|vfree|vfreenonreset|vreset|emit|emitdebug|record|File::export|File::delete"
                         + "|add|addCopy|rem|clear|retype|merge|redirectSource|redirectTarget|redirectSourceAndTarget"
                         + "|insert|insertCopy|insertInduced|insertDefined"
+                        + "|Debug::add|Debug::rem|Debug::emit|Debug::halt|Debug::highlight"
+                        + "|assert|assertAlways"
                         + "|Synchronization::enter|Synchronization::tryenter|Synchronization::exit"
                         + "|getEquivalentOrAdd|getEquivalentStructurallyOrAdd"
                         + " or one of the procedureNames defined in the .grg: " + GetProcedureNames() + ")");

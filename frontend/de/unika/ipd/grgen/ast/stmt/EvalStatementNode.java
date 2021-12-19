@@ -76,9 +76,9 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 					if(node.builtinProcedure == null
 						|| (!node.builtinProcedure.isEmitOrDebugProcedure())) {
 						if(root instanceof FunctionDeclNode)
-							eval.reportError("procedure call not allowed in function (only emit/emitdebug and the Debug package functions)");
+							eval.reportError("procedure call not allowed in function (only emit/emitdebug/assert/assertAlways and the Debug package functions)");
 						else
-							eval.reportError("procedure call not allowed in yield (only emit/emitdebug and Debug package functions)");
+							eval.reportError("procedure call not allowed in yield (only emit/emitdebug/assert/assertAlways and Debug package functions)");
 						res = false;
 					}
 				}

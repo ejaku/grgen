@@ -24,8 +24,8 @@ namespace de.unika.ipd.grGen.lgsp
         public readonly LGSPDeferredSequencesManager sequencesManager;
         
         private IUserProxyForSequenceExecution userProxy;
-        private IUserProxyForSequenceExecution compliantUserProxy = new CompliantUserProxyForSequenceExecution();
-        
+        private IUserProxyForSequenceExecution compliantUserProxy;
+
         readonly List<object[]> emptyList = new List<object[]>(); // performance optimization (for ApplyRewrite, empty list is only created once)
 
 
@@ -37,6 +37,7 @@ namespace de.unika.ipd.grGen.lgsp
             LGSPGlobalVariables globalVariables = (LGSPGlobalVariables)graph.GlobalVariables;
             globalVariables.SetClearVariables(true, graph);
             globalVariables.FillCustomCommandDescriptions(customCommandsToDescriptions);
+            compliantUserProxy = new CompliantUserProxyForSequenceExecution(this);
         }
 
         // esp. called when actions are added, it is possible to create a graph processing environment only with a graph and null actions (it is also possible to set the actions directly afterwards instead of calling Initialize)
@@ -76,6 +77,10 @@ namespace de.unika.ipd.grGen.lgsp
             switch(command)
             {
             case "set_max_matches":
+                base.Custom(args);
+                break;
+
+            case "enable_assertions":
                 base.Custom(args);
                 break;
 

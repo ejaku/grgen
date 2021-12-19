@@ -24,6 +24,13 @@ namespace de.unika.ipd.grGen.lgsp
         private readonly Dictionary<IAction, IAction> actionMapStaticToNewest = new Dictionary<IAction, IAction>();
         public LGSPActions curActions;
 
+        private bool enableAssertions;
+        public bool EnableAssertions
+        {
+            get { return enableAssertions; }
+            set { enableAssertions = value; }
+        }
+
         private readonly PerformanceInfo perfInfo = new PerformanceInfo();
         private bool highlightingUnderway = false;
 
@@ -71,6 +78,8 @@ namespace de.unika.ipd.grGen.lgsp
             customCommandsToDescriptions.Add("set_max_matches",
                 "- set_max_matches: Sets the maximum number of matches to be found\n" +
                 "     during matching (for all-bracketed rule calls like [r]).\n");
+            customCommandsToDescriptions.Add("enable_assertions",
+                "- enable_assertions: enables(true)/disables(false) assertions.\n");
         }
 
         public IGraph Graph
@@ -159,6 +168,16 @@ namespace de.unika.ipd.grGen.lgsp
                 if(!int.TryParse((String)args[1], out newMaxMatches))
                     throw new ArgumentException("Illegal integer value specified: \"" + (String)args[1] + "\"");
                 MaxMatches = newMaxMatches;
+                return;
+
+            case "enable_assertions":
+                if(args.Length != 2)
+                    throw new ArgumentException("Usage: enable_assertions <bool>.");
+
+                bool enableAssertions;
+                if(!bool.TryParse((String)args[1], out enableAssertions))
+                    throw new ArgumentException("Illegal boolean value specified: \"" + (String)args[1] + "\"");
+                EnableAssertions = enableAssertions;
                 return;
 
             default:

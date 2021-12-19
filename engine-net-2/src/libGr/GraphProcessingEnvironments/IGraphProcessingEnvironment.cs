@@ -406,8 +406,11 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public class CompliantUserProxyForSequenceExecution : IUserProxyForSequenceExecution
     {
-        public CompliantUserProxyForSequenceExecution()
+        private IGraphProcessingEnvironment procEnv;
+
+        public CompliantUserProxyForSequenceExecution(IGraphProcessingEnvironment procEnv)
         {
+            this.procEnv = procEnv;
         }
 
         public int ChooseDirection(int direction, Sequence seq)
@@ -448,6 +451,22 @@ namespace de.unika.ipd.grGen.libGr
         public object ChooseValue(string type, Sequence seq)
         {
             throw new Exception("Can only query the user for a value if a debugger is available");
+        }
+
+        ///////////////////////////////////////////////////////////////////
+
+        public void HandleAssert(bool isAlways, Func<bool> assertion, Func<string> message, params Func<object>[] values)
+        {
+            if(!isAlways && !procEnv.EnableAssertions)
+                return;
+
+            if(assertion())
+                return;
+
+            string combinedMessage = EmitHelper.GetMessageForAssertion(procEnv, message, values);
+            procEnv.EmitWriterDebug.WriteLine("Assertion failed! (" + combinedMessage + ")");
+
+            throw new Exception("Assertion failed!");
         }
     }
 }

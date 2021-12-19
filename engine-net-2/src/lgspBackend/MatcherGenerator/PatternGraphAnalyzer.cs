@@ -203,6 +203,19 @@ namespace de.unika.ipd.grGen.lgsp
                             patternGraph.isIteratedFilteringExistingPlusInlined = true;
                     }
                 }
+                foreach(PatternYielding patternYielding in patternGraph.YieldingsPlusInlined)
+                {
+                    foreach(Yielding yielding in patternYielding.ElementaryYieldings)
+                    {
+                        foreach(ExpressionOrYielding child in yielding)
+                        {
+                            if(child is EmitStatement)
+                                patternGraph.isEmitOrAssertExistingPlusInlined = true;
+                            else if(child is AssertStatement)
+                                patternGraph.isEmitOrAssertExistingPlusInlined = true;
+                        }
+                    }
+                }
 
                 foreach(Alternative alternative in patternGraph.alternativesPlusInlined)
                 {
@@ -255,6 +268,19 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         if(yielding is IteratedFiltering)
                             patternGraph.isIteratedFilteringExisting = true;
+                    }
+                }
+                foreach(PatternYielding patternYielding in patternGraph.Yieldings)
+                {
+                    foreach(Yielding yielding in patternYielding.ElementaryYieldings)
+                    {
+                        foreach(ExpressionOrYielding child in yielding)
+                        {
+                            if(child is EmitStatement)
+                                patternGraph.isEmitOrAssertExisting = true;
+                            else if(child is AssertStatement)
+                                patternGraph.isEmitOrAssertExisting = true;
+                        }
                     }
                 }
 

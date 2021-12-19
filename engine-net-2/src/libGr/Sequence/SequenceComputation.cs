@@ -35,6 +35,7 @@ namespace de.unika.ipd.grGen.libGr
         InsertInduced, InsertDefined,
         ProcedureCall, BuiltinProcedureCall, ProcedureMethodCall,
         DebugAdd, DebugRem, DebugEmit, DebugHalt, DebugHighlight,
+        Assert,
         SynchronizationEnter, SynchronizationTryEnter, SynchronizationExit,
         GetEquivalentOrAdd,
         AssignmentTarget, // every assignment target (lhs value) is a computation
@@ -1453,6 +1454,107 @@ namespace de.unika.ipd.grGen.libGr
         public override string Name
         {
             get { return "highlight"; }
+        }
+    }
+
+    public class SequenceComputationAssert : SequenceComputation
+    {
+        public readonly List<SequenceExpression> ArgExprs;
+        public readonly bool IsAlways; // !IsAlways is only processed in case of procEnv.EnableAssertions
+
+        public SequenceComputationAssert(List<SequenceExpression> argExprs, bool isAlways)
+            : base(SequenceComputationType.Assert)
+        {
+            ArgExprs = argExprs;
+            IsAlways = isAlways;
+        }
+
+        protected SequenceComputationAssert(SequenceComputationAssert that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that)
+        {
+            ArgExprs = new List<SequenceExpression>();
+            foreach(SequenceExpression seqExpr in that.ArgExprs)
+            {
+                ArgExprs.Add(seqExpr.CopyExpression(originalToCopy, procEnv));
+            }
+            IsAlways = that.IsAlways;
+        }
+
+        internal override SequenceComputation Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceComputationAssert(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env);
+
+            if(ArgExprs.Count == 0)
+                throw new Exception(Name + " expects at least one parameter (the condition to assert on)");
+
+            if(!TypesHelper.IsSameOrSubtype(ArgExprs[0].Type(env), "boolean", env.Model))
+                throw new SequenceParserException("The first parameter of " + Symbol, "boolean type", ArgExprs[0].Type(env));
+
+            if(ArgExprs.Count >= 2)
+            if(!TypesHelper.IsSameOrSubtype(ArgExprs[1].Type(env), "string", env.Model))
+                throw new SequenceParserException("The second parameter of " + Symbol, "string type", ArgExprs[1].Type(env));
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            Func<bool> assertion = () => (bool)ArgExprs[0].Evaluate(procEnv);
+            Func<string> message = () => "";
+            if(ArgExprs.Count >= 2)
+                message = () => (string)ArgExprs[1].Evaluate(procEnv);
+            List<Func<object>> values = new List<Func<object>>();
+            for(int i = 2; i < ArgExprs.Count; ++i)
+            {
+                values.Add(() => ArgExprs[i].Evaluate(procEnv));
+            }
+            procEnv.UserProxy.HandleAssert(IsAlways, assertion, message, values.ToArray());
+            return null;
+        }
+
+        public override IEnumerable<SequenceComputation> Children
+        {
+            get
+            {
+                for(int i = 0; i < ArgExprs.Count; ++i)
+                {
+                    yield return ArgExprs[i];
+                }
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public string Name
+        {
+            get { return IsAlways ? "assertAlways" : "assert"; }
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(Name);
+                sb.Append("(");
+                bool first = true;
+                foreach(SequenceExpression seqExpr in ArgExprs)
+                {
+                    if(!first)
+                        sb.Append(", ");
+                    else
+                        first = false;
+                    sb.Append(seqExpr.Symbol);
+                }
+                sb.Append(")");
+                return sb.ToString();
+            }
         }
     }
 

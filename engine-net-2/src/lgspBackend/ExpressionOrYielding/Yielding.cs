@@ -2111,7 +2111,7 @@ namespace de.unika.ipd.grGen.expression
             }
         }
 
-        readonly Yielding[] Statements;
+        public readonly Yielding[] Statements;
     }
 
     /// <summary>
@@ -2515,6 +2515,51 @@ namespace de.unika.ipd.grGen.expression
         readonly Expression Message;
         readonly Expression[] Values;
         readonly Expression[] SourceNames;
+    }
+
+    /// <summary>
+    /// Class representing an assert statement
+    /// </summary>
+    public class AssertStatement : Yielding
+    {
+        public AssertStatement(Expression[] values, bool isAlways)
+        {
+            Values = values;
+            IsAlways = isAlways;
+        }
+
+        public override Yielding Copy(string renameSuffix)
+        {
+            Expression[] valuesCopy = new Expression[Values.Length];
+            for(int i = 0; i < Values.Length; ++i)
+            {
+                valuesCopy[i] = Values[i].Copy(renameSuffix);
+            }
+            return new AssertStatement(valuesCopy, IsAlways);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFront("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).UserProxy.HandleAssert(");
+            sourceCode.Append(IsAlways ? "true" : "false");
+            foreach(Expression value in Values)
+            {
+                sourceCode.Append(", () => ");
+                value.Emit(sourceCode);
+            }
+            sourceCode.AppendFront(");\n");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            foreach(Expression expr in Values)
+            {
+                yield return expr;
+            }
+        }
+
+        readonly Expression[] Values;
+        readonly bool IsAlways;
     }
 
     /// <summary>

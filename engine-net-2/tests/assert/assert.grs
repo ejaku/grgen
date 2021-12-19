@@ -1,0 +1,12 @@
+new graph assert/assert.grg
+
+custom actions enable_assertions true
+
+exec { assert(true); assert(true, "all fine") }
+exec { assertAlways(true); assertAlways(true, "all fine") }
+
+exec assertion
+
+exec assertionExec
+
+quit
