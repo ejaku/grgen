@@ -244,6 +244,8 @@ Table~\ref{seqtab} lists most of the operations of the advanced graph rewrite se
 \texttt{<<[[r1,r2]];;s>>} & Multi-Rule-Backtracking: try the matches of \texttt{r1} and \texttt{r2} until \texttt{s} succeeds. You may apply a match class filter \texttt{\textbackslash mc.f}, the matches are then tried in the order left behind by the match class filter.\\
 \texttt{<<[[for\{r1;s\},for\{r2;t\}]]>>} & Multi-Rule-Prefixed-Sequence-Backtracking: try the matches of \texttt{r1} and \texttt{r2} until \texttt{s} or \texttt{t} succeeds. You may apply a match class filter \texttt{\textbackslash mc.f}, the matches are then tried in the order left behind by the match class filter.\\
 \hline
+\texttt{[:for\{r;s\}:]} & Mapping clause: returns the graphs for which executing \texttt{s} yielded true, after applying a match of \texttt{r}, on a clone of the current host graph, for all matches found.\\
+\hline
 \texttt{for\{v in u; s\}} & Execute \texttt{s} for every \texttt{v} in storage set \texttt{u}. One \texttt{s} failing pins the execution result to failure.\\
 \texttt{for\{v->w in u; s\}} & Execute \texttt{s} for every pair (\texttt{v},\texttt{w} in storage map \texttt{u}. One \texttt{s} failing pins the execution result to failure.\\
 \texttt{for\{v in func(...); s\}} & Execute \texttt{s} for every node/edge in func, which may be nodes/edges, or incident/adjacent, or reachable/boundedReachable. One \texttt{s} failing pins the execution result to failure.\\

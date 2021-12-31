@@ -79,6 +79,7 @@ Set expressions consist of the known mathematical set operations, plus some oper
 \item[Set addition:] \texttt{s.add(v)} adds the value \texttt{v} to the set \texttt{s}.
 \item[Set removal:] \texttt{s.rem(v)} removes the value \texttt{v} from the set \texttt{s}.
 \item[Set clearing:] \texttt{s.clear()} removes all values from the set \texttt{s}.
+\item[Set union:] \texttt{s.addAll(os)} adds all elements in set \texttt{os} to the set \texttt{s}. (Only available on targets that are set variables, not on attributes.)
 \end{description}
 
 \noindent The binary set operators are:
@@ -360,6 +361,7 @@ Furthermore, some array accumulation, by-member-or-attribute, and per-element me
 \item[Array removal:] \texttt{a.rem()} removes the value at then end of the array \texttt{a}.
 \item[Array removal:] \texttt{a.rem(i)} removes the value at index \texttt{i} from the array \texttt{a}.
 \item[Array clearing:] \texttt{a.clear()} removes all values from the array \texttt{a}.
+\item[Array concatenation:] \texttt{a.addAll(oa)} adds all elements in array \texttt{oa} to the array \texttt{a}. (Only available on targets that are array variables, not on attributes.)
 \end{description}
 
 \noindent The binary array operators are:

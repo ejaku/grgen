@@ -131,12 +131,12 @@ using de.unika.ipd.grGen.Action_Foo;
 using de.unika.ipd.grGen.Model_Foo;
 \end{verbatim}
 
-Then we create a graph with a model bound at generation time, followed by the actions to operate on this graph.
+Then we create a graph with a model bound at generation time, followed by the actions to operate on this graph (the graph has to be initialized with the global variables).
 Afterwards, we create a single node of type \texttt{Bar} in the graph and save it to the variable \texttt{b}.
 Finally, we apply the action \texttt{bar(Bar x) : (Bar)} on the graph, with \texttt{b} as input, also receiving the output.
 The rule is taken from the actions via the member named as the action.
 \begin{verbatim}
-FooGraph graph = new FooGraph();
+FooGraph graph = new FooGraph(new LGSPGlobalVariables());
 FooActions actions = new FooActions(graph);
 Bar b = graph.CreateNodeBar();
 actions.bar.Apply(graph, b, ref b); // input of type Bar, output of type Bar
@@ -150,7 +150,7 @@ FooNamedGraph graph = new FooNamedGraph();
 
 \begin{example}
 This is an example showing how to do mostly the same what was done in the previous example \ref{ex:api1}, in a slightly more complicated way, but allowing for more control.
-Here, we create the model separately from the graph, then the graph as instance of the generic \texttt{LGSPGraph}, which has the model not bound at generation time, but gets it handed in.
+Here, we create the model separately from the graph, then the graph as instance of the generic \texttt{LGSPGraph}, which has the model not bound at generation time, but gets it handed in (plus the global variables).
 We create the actions to apply on the graph, and a single node of type \texttt{Bar} in the graph, which we assign again to a variable \texttt{b}.
 Then we get the action from the actions and save it to an action variable \texttt{bar}.
 Afterwards, we use the action for finding all available matches of \texttt{bar} with input \texttt{b}, and remember the found matches in the exactly typed \texttt{matches} variable.
@@ -158,7 +158,7 @@ Finally, we take the first match from the matches and execute the rewrite on it.
 We could have inspected the nodes and edges of the match or their attributes before (using element names prefixed with \texttt{node\_/edge\_} or attribute names to get exactly typed entities). 
 \begin{verbatim}
 IGraphModel model = new FooGraphModel();
-LGSPGraph graph = new LGSPGraph(model);
+LGSPGraph graph = new LGSPGraph(model, new LGSPGlobalVariables());
 FooActions actions = new FooActions(graph);
 Bar b = Bar.CreateNode(graph);
 IAction_bar bar = Action_bar.Instance;
@@ -688,4 +688,14 @@ event ExitSequenceHandler OnExitingSequence;
 
 // Fired when a sequence iteration is ended.
 event EndOfIterationHandler OnEndOfIteration;
+\end{csharplet}
+
+Another special kind of sequence based events that are declared by the \texttt{IGraph\-Processing\-Environment} are the spawn and join events that are fired when a parallel sequence is spawned or joined:
+
+\begin{csharplet}
+// Fired when sequences have been spawned (split off) from their parent thread.
+event SpawnSequencesHandler OnSpawnSequences;
+
+// Fired when sequences have joined (again) their parent thread.
+event JoinSequencesHandler OnJoinSequences;
 \end{csharplet}

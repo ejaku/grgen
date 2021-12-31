@@ -1,0 +1,194 @@
+\chapter{Parallelization}\label{cha:parallel} \indexmain{parallelization}
+
+\GrG{} offers 3 ways of parallelization (hopefully performance-boosting):
+
+\begin{itemize}
+	\item you may endow rules with a parallelization annotation, then a parallelized version is generated, 
+	\item you may employ parallelized graph isomorphy checking, 
+	\item you may parallelize explicitly at sequence level (in contrast to the former internal implementation measures).
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Internal parallelization}\label{sec:internalparallelization}
+
+\subsubsection*{Action parallelization}
+
+A rule or test annotated with \texttt{[parallelize=k]} will be matched with \texttt{k} worker threads from a thread pool.
+More exactly: at most \texttt{k} worker threads, the number is clipped by the number of really available processors, on a single core the normal sequential matcher will be used.
+(The current implementation defined maximum is 64.)
+
+Parallelization distributes work alongside the first loop that is binding a pattern element to candidate graph elements.
+If that loops only once nothing is gained.
+If each loop iteration only executes very few search work following candidate assignment,
+things become \emph{slower} because of threading and locking overhead.
+Don't just append the parallelize annotation to each and every rule in the hope things will become faster!
+Only search-intensive tasks benefit, only for them does the overhead of parallelization pay off.
+But for those search-intensive tasks, you can achieve high speedups, reaping benefits from our-days multicore machines. 
+
+Remark: Only the pattern matcher of an action is parallelized, so only the search process is parallelized.
+This offers the biggest bang for the bucks invested, as search is \emph{the} expensive task, and it allows you to stick to the much simpler sequential programming model.
+A parallelization of the kind presented in \cite{ParGraErs} offers potentially even higher speedups, but at the price of dealing with a parallel programming model, and at the price of graph partitioning that is very hard to get right in a general-purpose tool.
+
+\begin{rail}
+  FunctionParallelization: 'for' 'function' '[' 'parallelize' '=' BoolLit ']';
+\end{rail}\ixnterm{FunctionParallelization}
+
+In order to apply the \texttt{parallelize} annotation to an action, you need to first declare parallelization in the model with a \verb#for function[parallelize=true];# clause.
+It causes the creation of (external) (method) functions that can be called from parallelized matchers (and implies "node edge unique;").
+Actions with \texttt{parallelize} annotations causing the creation of parallelized matchers expect a "parallelized" model (functions callable from parallelized matchers).
+An error is reported in case a parallelized rule/test is used with a model without a parallelize (function) declaration.
+
+\begin{example}
+You need a
+\begin{grgen}
+for function[parallelize=true];
+\end{grgen}
+in the model in order to use parallelized matchers in the rules:
+\begin{grgen}
+test testPar[parallelize=16]
+{
+	n1:Node --> n2:Node --> n3:Node --> n1;
+}
+\end{grgen}
+\end{example}
+
+\begin{rail}
+  EqualsAnyParallelization: 'for' 'equalsAny' '[' 'parallelize' '=' Number ']';
+\end{rail}\ixnterm{EqualsAnyParallelization}
+
+
+\subsubsection*{equalsAny parallelization}
+
+There's a second part that can be parallelized, the \texttt{equalsAny} and the \texttt{getEquivalent} functions checking for graph isomorphy of a new candidate graph against a set of known graphs.
+The \emph{EqualsAnyParallelization} clause in the model must specify the number of worker threads used in parallel.
+A \verb#for equalsAny[parallelize=8];# requests 8 worker threads for checking whether there's already a graph existing that is isomorphic to the candidate.
+Graph isomorphy checking is expensive, you may gain considerable speed-ups in state space enumeration (at the price of having to maintain a set of already known graphs).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Sequence parallelization}\label{sec:sequenceparallelization}
+
+Sequence parallelization is only available in the interpreted sequences, not in the compiled sequences (because it must be executed at top-level, outside of a rule, so outside of an embedded exec).
+
+\subsubsection*{Parallel sequence}
+
+\begin{rail}
+  ParallelSequence: 'parallel' (ReturnAssignment)? (SequenceToBeExecutedInParallel + (','));
+	SequenceToBeExecutedInParallel: 'in' SequenceExpression (',' SequenceExpression)? lbrace Sequence rbrace
+\end{rail}\ixnterm{ParallelSequence}
+
+The parallel sequence construct executes the sequences in parallel (given sufficient execution resources),
+on the specified subgraphs, and evaluates the optional value expressions, making their result available as a local variable named \texttt{value} (in the sequences that are executed in parallel) optionally assigning the results of sequence execution.
+
+\begin{example}
+The example stemming from \texttt{tests/parallel/parallelWithValue.grs} shows how to generate Sierpinsky triangles in parallel in different (sub-)graphs, with an increasing number of generations (yielding different return values from the single sequences to be executed in parallel, assigning them after execution of the overall sequence).\\
+\verb#exec parallel (::res1, ::res2, ::res3) = #\\
+\verb#in ::g1.subgraph, 1 { init && (gen0* & gen1*)[value] ;> true },#\\
+\verb#in ::g2.subgraph, 2 { init && (gen0* & gen1*)[value] ;> false },#\\
+\verb#in ::g3.subgraph, 3 { init && (gen0* & gen1*)[value] ;> true }#
+\end{example}
+
+% TODO: example instead of this: Introduced a parallel (var1, var2, ...) = in subgraph-expr1, value-expr1 { seq1 }, in subgraph-expr2, value-expr2 { seq2 }, ... 
+
+\begin{rail}
+  ParallelArraySequence: 'parallel' 'array' (ReturnAssignment)? SequenceToBeExecutedInParallel;
+\end{rail}\ixnterm{ParallelArraySequence}
+
+Its sibling, the parallel array sequence construct executes the sequence in parallel (\texttt{subgraph\-array.size()} times, given sufficient execution resources), on the specified subgraphs, and optionally values, optionally assigning the results of parallel sequence execution.
+The amount of subgraphs in the subgraphs array and values in the values array must be the same, the \verb#array<boolean># in the return-var will be of the same size.
+
+\begin{example}
+The example stemming from \texttt{tests/statespace\-Mapping/statespace\-Mapping\-Statespace\-Nodes\-Tree\-Parallel.grs} shows how to unfold a (tree-structured) state space (breadth-first) in parallel (in batches).\\
+\verb#exec ::stopLevel=1 ;> for{step:int in [0 : ::stopLevel];#\\
+\verb#parallel array in ::tobeprocessed { stateStep() } ;>#\\
+\verb#{ ::tobeprocessed=::newlycreated.asArray(); ::newlycreated.clear() } }#
+\end{example}\label{driverstatespace}
+
+%TODO: example instead of this: Introduced a parallel array (var) = in subgraph-array-expr, value-array-expr { seq } - construct 
+
+Both constructs are implemented with a thread pool, also using the parent(/main) thread for execution
+in case the amount of threads from the thread pool is exceeded;
+the single tasks in the parallel execution construct are executed in sequence
+(by the parent thread) (at least one - the syntactically last - task is executed by the parent thread).
+
+\begin{rail}
+  SequenceParallelization: 'for' 'sequence' '[' 'parallelize' '=' Number ']';
+\end{rail}\ixnterm{SequenceParallelization}
+
+The \emph{SequenceParallelization} clause in the model allows to specify the number of worker threads in the sequences thread pool.
+A \verb#for sequence[parallelize=8];# requests 8 worker threads for parallel sequence execution.
+
+% Added debugger support with a choice of the sequence-to-be-debugged at construct execution begin
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Locking}
+
+While you can execute in parallel on independent graphs/resources, you have to synchronize access to shared graphs/resources.
+Towards this purpose, some synchronization statements and methods are available in the sequences and rule language statements; they allow to implement critical sections.
+
+\begin{rail}
+  SequenceLock: 'lock' '(' SequenceExpression ')' lbrace Sequence rbrace;
+\end{rail}\ixnterm{SequenceLock}
+
+The specified synchronization object is entered/aquired when the sequence is entered and exited/released when the sequence is left (yielding the result of the contained sequences).
+
+\begin{rail}
+  LockStatement: 'lock' '(' Expression ')' lbrace Statements rbrace;
+\end{rail}\ixnterm{LockStatement}
+
+A construct with the same semantics is available in the rule language statements (acting as a pure statement without an implicit result value).
+
+The procedures from the built-in package \texttt{Synchronization} allow to enter and exit lock objects.
+
+\begin{description}
+\item[\texttt{Synchronization::enter(.)}] enters the specified synchronization object (waiting for entry if it is already occupied by another thread (re-entering it in case it was already entered by the same thread)).
+\item[\texttt{Synchronization::tryenter(.) : (boolean)}] trys to enter the specified synchronization object, returning false if it was already occupied, or enters it, returning true.
+\item[\texttt{Synchronization::exit(.)}] exits the specified synchronization object (crashing if it was not already taken by the same thread, otherwise decreasing the entry counter, releasing other threads if the counter reaches 0).
+\end{description}
+   
+\subsubsection*{getEquivalentOrAdd Locking}
+
+The following two procedures can be employed in graph isomorphy comparison from parallel worker threads in a thread-safe (yet efficient) manner.
+
+\begin{description}
+\item[\texttt{getEquivalentOrAdd(.,.)}] returns the graph from the array of graphs 
+  that is isomorphic to the graph given as first argument, or null if no isomorphic graph exists,
+  in that case the graph is added to the array of graphs (to the rule language as well as the sequence computations).
+\item[\texttt{getEquivalentStructurallyOrAdd(.,.)}] returns the graph from the array of graphs
+  that is isomorphic neglecting attributes (so only structurally) to the graph given as first argument,
+  or null if no isomorphic graph exists (even when neglecting attributes), in that case the graph is added to the array of graphs.
+\end{description}
+ 
+Both procedure(s) can be used concurrently from sequences executed in parallel,
+the array is processed atomically and consistently, i.e. only one thread will add a graph
+that is (not isomorphic to the existing ones yet) isomorphic to another graph concurrently processed by another thread (the other thread will then return this one);
+it is (/they are) implemented in a way so that the majority of graph comparison work (and array reading) can occur in parallel, outside of array locking.
+
+\begin{example}
+The following example stems from \texttt{tests/statespace\-Mapping/statespace\-Mapping\-Statespace\-Nodes\-Graph\-Iso\-Check\-Parallel.grs}, which unfolds a (graph-structured) state space (breadth-first) in parallel (in batches).
+It uses the same driver as example~\ref{driverstatespace}, but carries out a graph isomorphy comparison in the parallel worker threads, utilizing the \texttt{getEquivalentOrAdd} procedure in a \texttt{processState} subsequence, called from the \texttt{stateStep} main subsequence (backslashes separating lines removed for better readability).\\
+\verb#def processState(state:graph, parent:StatespaceNode, red:set<graph>,#\\
+\verb#                 green:set<graph>, blue:set<graph>)#\\
+\verb#{#\\
+\verb# equivalent:graph ;> { (equivalent) = getEquivalentOrAdd(state, ::statespace) } ;>#\\
+\verb# if{ {{equivalent==null}} ;#\\
+\verb#  child:StatespaceNode ;> lock(::newlycreated) { { ::newlycreated.add(state) } } ;>#\\
+\verb#  lock(::root) { #\\
+\verb#   (child)=::root.createAndLinkStatespaceNodeColored(parent, state, red, green, blue)#\\
+\verb#  } ;>#\\
+\verb#  lock(::graphToStatespaceNode) { { ::graphToStatespaceNode.add(state, child) } }#\\
+\verb# ;#\\
+\verb#  equivalentNode:StatespaceNode ;>#\\
+\verb#  ( if{ lock(::graphToStatespaceNode) { { { equivalent in ::graphToStatespaceNode } } };#\\
+\verb#        lock(::graphToStatespaceNode) {#\\
+\verb#            { equivalentNode=::graphToStatespaceNode[equivalent] }#\\
+\verb#        } ;> false; true }#\\
+\verb#  )* ;>#\\
+\verb#  lock(::root) { ::root.linkStatespaceNodeColored(parent, equivalentNode,#\\
+\verb#                 state in red, state in green, state in blue) }#\\
+\verb# }#\\
+\verb#}#
+\end{example}
+
+%\pagebreak
+

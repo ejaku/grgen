@@ -556,6 +556,12 @@ The \emph{AssignmentTarget} may be any of the LHS expressions supported by the d
 \texttt{emitdebug(string(,string)*)}\\
 \texttt{record(string)}\\
 \hline
+\texttt{getEquivalentOrAdd(graph,array<graph>):(graph)}\\
+\texttt{getEquivalentStructurallyOrAdd(graph,array<graph>):(graph)}\\
+\hline
+\texttt{assert(boolean(,string(,object)*))}\\
+\texttt{assertAlways(boolean(,string(,object)*))}\\
+\hline
 \end{tabular}
 \caption{Global procedures at a glance}
 \label{procstab}
@@ -581,6 +587,10 @@ The \emph{AssignmentTarget} may be any of the LHS expressions supported by the d
 \texttt{Debug::emit(string(,object)*)}\\
 \texttt{Debug::halt(string(,object)*)}\\
 \texttt{Debug::highlight(string(,object,string)*)}\\
+\hline
+\texttt{Synchronization::enter(object)}\\
+\texttt{Synchronization::tryenter(object):(boolean)}\\
+\texttt{Synchronization::exit(object)}\\
 \hline
 \end{tabular}
 \caption{Procedures in packages at a glance}
@@ -746,6 +756,7 @@ separated into pattern and rewrite part, and into expressions and statements.
 \texttt{for(i:T->v:S in c) \{S1\} } & Executes \texttt{S1} for each key/position to value pair \texttt{(i,v)} contained in container \texttt{c}.\\
 \texttt{for(i:int in [l:r]) \{S1\} } & Executes \texttt{S1} for each integer \texttt{i} in the range from \texttt{l} to \texttt{r}, in steps of 1, upwards if \texttt{l<=r}, otherwise downwards.\\
 \texttt{for(n:N in \{asc.(idx>7)\}) \{S1\}}	& Execute \texttt{S1} for every \texttt{n} in the index \texttt{idx}, in ascending order, from \texttt{7} exclusive on. \texttt{asc.} abbreviates \texttt{ascending}, is not valid syntax as such.\\
+\texttt{lock(exp) \{ S1 \}} & Evaluates \texttt{exp} and locks it, then \texttt{S1} is executed, afterwards releasing the lock.\\
 \hline
 \texttt{break} & Aborts execution of the containing loop.\\
 \texttt{continue} & Continues execution of the containing loop at its condition.\\

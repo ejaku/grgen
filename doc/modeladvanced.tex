@@ -513,6 +513,7 @@ the usage of \texttt{this} is mandatory in \GrG~in order to access the attribute
 \texttt{set<T>.add(T)}\\
 \texttt{set<T>.rem(T)}\\
 \texttt{set<T>.clear()}\\
+\texttt{set<T>.addAll(set<T>)}\\
 \hline
 \texttt{map<S,T>.add(S,T)}\\
 \texttt{map<S,T>.rem(S)}\\
@@ -521,6 +522,7 @@ the usage of \texttt{this} is mandatory in \GrG~in order to access the attribute
 \texttt{array<T>.add(T[,int])}\\
 \texttt{array<T>.rem([int])}\\
 \texttt{array<T>.clear()}\\
+\texttt{array<T>.addAll(array<T>)}\\
 \hline
 \texttt{deque<T>.add(T[,int])}\\
 \texttt{deque<T>.rem([int])}\\
@@ -789,7 +791,7 @@ from the outside, they can only be compared, i.e. isomorphy checked against othe
 
 \begin{rail} 
   ExtendedControl: 
-    'in' (GraphVariable | NodeOrEdge '.' Attribute) lbrace RewriteSequence rbrace;
+    'in' SequenceExpression lbrace RewriteSequence rbrace;
 \end{rail}\ixkeyw{in}
 
 But they can be opened up by switching the location of processing with the \verb#in g { seq }# sequence.

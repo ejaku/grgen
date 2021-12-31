@@ -410,7 +410,7 @@ sedge.add(uedge); // fails for the same operation, an undirected edge
 \end{grgen}
 \end{example}
 
-%-----------------------------------------------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Subgraph Operations}\label{sec:subgraphop}
 
 Several functions and procedures returning and accepting subgraphs are available;
@@ -437,7 +437,7 @@ or to insert clones of induced subgraphs directly.
 \item[\texttt{insertDefined(.,.)}] adds a clone of the subgraph defined (edge-induced) by the set of edges given as first argument to the host graph, returns the clone of the anchor edge given as second argument.
 \end{description}
 
-%-----------------------------------------------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{File Operations}\label{sec:fileop}
 
 The functions from the built-in package \texttt{File} allow to import subgraphs and check for file existance (for more on packages see \ref{sub:packageaction}).
@@ -701,6 +701,20 @@ rule getLolp(start:Node) : (int)
 }
 \end{grgen}
 \end{example}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Assertions}\label{sec:assert}
+
+The procedures \texttt{assert} and \texttt{assertAlways} allow to ensure that a specific condition holds, which must be given as first parameter, a message to be printed in case the condition is false may be given as second parameter, further parameters are appended to the \indexed{assertion} message (after having been transformed to strings).
+
+\begin{description}
+\item[\texttt{assert(.(,.)*)}] fires when the condition yields false and assertions are enabled, cf. \ref{enableassertions} (only in that case is the condition evaluated, the same holds for the other arguments).
+\item[\texttt{assertAlways(.(,.)*)}] fires always when the condition yields false.
+\end{description}
+
+A firing aborts program execution by default, or allows you to choose in the debugger how to proceed (in between program abort, external debugging, and execution continuation).
+For the asserts in the rule language, a default message reporting the file/line/column (of the \texttt{.grg} file) is supplied by the compiler in case of a missing message (no such default message is available for asserts in the sequences language).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Graph Processing Environment Procedures}

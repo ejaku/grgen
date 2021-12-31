@@ -907,6 +907,11 @@ See \ref{grgenoptions} or \ref{sec:compilerconfigshell} for explanations on how 
 If set to false it prevents deleted elements from getting reused in a rewrite (i.e. it disables a performance optimization).
 If set to true (default), new elements may not be discriminable anymore from already deleted elements using object equality, hash maps, etc.
 
+\begin{rail}
+  'custom' 'graph' optimizereusepoolsize Number
+\end{rail}\ixkeyw{custom}\ixkeyw{graph}\ixkeyw{optimizereusepoolsize}
+Sets the the size of the pool storing deleted elements for reuse to \emph{Number} (default: \texttt{10}).
+
 \subsubsection*{Action related custom commands}
 
 \begin{rail}
@@ -949,5 +954,10 @@ If \emph{Number} is less or equal to zero, the constraint is reset.
 If set to true (default), variables are cleared (nulled) if they contain graph elements which are removed from the graph, and rewritten to the new element on retypings (only graph-global variables, not sequence variables).
 This saves us from outdated and dangling variables at the cost of listening to node and edge removals and retypings.
 Setting it to false improves performance, but can lead to zombie elements hanging out in the graph-global variables (and a lot of confusion in case they are reused, as it is possible when \texttt{optimizereuse} is not set to \texttt{false}, see graph custom commands above).
+
+\begin{rail}
+  'custom' 'actions' enableassertions BoolLit
+\end{rail}\ixkeyw{custom}\ixkeyw{actions}\ixkeyw{enableassertions}\label{enableassertions}
+If set to true, \indexed{assertion}s are enabled (default: \texttt{false}), cf. Section~\ref{sec:assert}.
 
 % todo: beispielshellscripte

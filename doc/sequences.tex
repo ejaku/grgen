@@ -235,7 +235,7 @@ The sequence \verb#if{Condition;TrueCase}# is equivalent to \verb#if{Condition;T
 
 \begin{rail}
   RewriteTerm: 
-    (RewriteFactor (() | ('*' | '+' | '[' Number ']' | '[' Number ':' ( Number | '*' ) ']')));
+    (RewriteFactor (() | ('*' | '+' | '[' SequenceExpression ']' | '[' SequenceExpression ':' ( SequenceExpression | '*' ) ']')));
 \end{rail}\ixnterm{RewriteTerm}
 
 A rewrite term consists of a rewrite factor which can be executed multiple times.
