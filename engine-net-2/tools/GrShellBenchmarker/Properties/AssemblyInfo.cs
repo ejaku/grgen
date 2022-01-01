@@ -1,6 +1,6 @@
 ﻿/*
- * GrGen: graph rewrite generator tool -- release GrGen.NET 6.1
- * Copyright (C) 2003-2021 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 6.5
+ * Copyright (C) 2003-2022 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
  * www.grgen.net
  */
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("GrShellBenchmarker")]
 [assembly: AssemblyProduct("GrShellBenchmarker")]
 [assembly: AssemblyCompany("Universität Karlsruhe, IPD Goos")]
-[assembly: AssemblyCopyright("Copyright © 2003-2021 Universität Karlsruhe, IPD Goos; and free programmers")]
+[assembly: AssemblyCopyright("Copyright © 2003-2022 Universität Karlsruhe, IPD Goos; and free programmers")]
 
 // Durch Festlegen von ComVisible auf "false" werden die Typen in dieser Assembly unsichtbar 
 // für COM-Komponenten. Wenn Sie auf einen Typ in dieser Assembly von 
@@ -37,6 +37,6 @@ using System.Runtime.InteropServices;
 //      Buildnummer
 //      Revision
 //
-[assembly: AssemblyVersion("6.1.0.0")]
-[assembly: AssemblyInformationalVersionAttribute("GrGen.NET 6.1")]
-[assembly: AssemblyFileVersion("6.1.0.0")]
+[assembly: AssemblyVersion("6.5.0.0")]
+[assembly: AssemblyInformationalVersionAttribute("GrGen.NET 6.5")]
+[assembly: AssemblyFileVersion("6.5.0.0")]
