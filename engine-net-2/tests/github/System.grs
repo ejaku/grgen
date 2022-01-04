@@ -1,0 +1,13 @@
+new graph "github/System"
+
+show num nodes System
+
+exec initZeSystem
+
+show num nodes System
+
+exec testZeSystem
+
+show num nodes System
+
+quit

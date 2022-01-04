@@ -903,7 +903,7 @@ public abstract class CSharpBase
 			}
 		} else if(expr instanceof ExistsFileExpr) {
 			ExistsFileExpr efe = (ExistsFileExpr)expr;
-			sb.append("System.IO.File.Exists((string)");
+			sb.append("global::System.IO.File.Exists((string)");
 			genExpression(sb, efe.getPathExpr(), modifyGenerationState);
 			sb.append(")");
 		} else if(expr instanceof ImportExpr) {

@@ -3380,14 +3380,14 @@ commonLoop:
 		sb.appendFront("GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types "
 				+ "{ get { return types; } }\n");
 
-		sb.appendFront("private System.Type[] typeTypes = {\n");
+		sb.appendFront("private global::System.Type[] typeTypes = {\n");
 		sb.indent();
 		for(InheritanceType type : types) {
 			sb.appendFront("typeof(" + formatTypeClassRef(type) + "),\n");
 		}
 		sb.unindent();
 		sb.appendFront("};\n");
-		sb.appendFront("public System.Type[] TypeTypes { get { return typeTypes; } }\n");
+		sb.appendFront("public global::System.Type[] TypeTypes { get { return typeTypes; } }\n");
 
 		sb.appendFront("private GRGEN_LIBGR.AttributeType[] attributeTypes = {\n");
 		sb.indent();
@@ -3691,7 +3691,7 @@ commonLoop:
 	{
 		sb.append("\n");
 
-		sb.appendFront("public override System.Collections.IList ArrayOrderAscendingBy(System.Collections.IList array, string member)\n");
+		sb.appendFront("public override global::System.Collections.IList ArrayOrderAscendingBy(global::System.Collections.IList array, string member)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		genArrayHelperDispatcher("ArrayOrderAscendingBy", true, false, false);
@@ -3700,7 +3700,7 @@ commonLoop:
 
 		sb.append("\n");
 
-		sb.appendFront("public override System.Collections.IList ArrayOrderDescendingBy(System.Collections.IList array, string member)\n");
+		sb.appendFront("public override global::System.Collections.IList ArrayOrderDescendingBy(global::System.Collections.IList array, string member)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		genArrayHelperDispatcher("ArrayOrderDescendingBy", true, false, false);
@@ -3709,7 +3709,7 @@ commonLoop:
 
 		sb.append("\n");
 
-		sb.appendFront("public override System.Collections.IList ArrayGroupBy(System.Collections.IList array, string member)\n");
+		sb.appendFront("public override global::System.Collections.IList ArrayGroupBy(global::System.Collections.IList array, string member)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		genArrayHelperDispatcher("ArrayGroupBy", false, false, false);
@@ -3718,7 +3718,7 @@ commonLoop:
 
 		sb.append("\n");
 
-		sb.appendFront("public override System.Collections.IList ArrayKeepOneForEach(System.Collections.IList array, string member)\n");
+		sb.appendFront("public override global::System.Collections.IList ArrayKeepOneForEach(global::System.Collections.IList array, string member)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		genArrayHelperDispatcher("ArrayKeepOneForEachBy", false, false, false);
@@ -3727,7 +3727,7 @@ commonLoop:
 
 		sb.append("\n"); ///////////////////////////////////////////////////////////////////////
 
-		sb.appendFront("public override int ArrayIndexOfBy(System.Collections.IList array, string member, object value)\n");
+		sb.appendFront("public override int ArrayIndexOfBy(global::System.Collections.IList array, string member, object value)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		genArrayHelperDispatcher("ArrayIndexOfBy", false, true, false);
@@ -3736,7 +3736,7 @@ commonLoop:
 
 		sb.append("\n");
 
-		sb.appendFront("public override int ArrayIndexOfBy(System.Collections.IList array, string member, object value, int startIndex)\n");
+		sb.appendFront("public override int ArrayIndexOfBy(global::System.Collections.IList array, string member, object value, int startIndex)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		genArrayHelperDispatcher("ArrayIndexOfBy", false, true, true);
@@ -3745,7 +3745,7 @@ commonLoop:
 
 		sb.append("\n");
 
-		sb.appendFront("public override int ArrayLastIndexOfBy(System.Collections.IList array, string member, object value)\n");
+		sb.appendFront("public override int ArrayLastIndexOfBy(global::System.Collections.IList array, string member, object value)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		genArrayHelperDispatcher("ArrayLastIndexOfBy", false, true, false);
@@ -3754,7 +3754,7 @@ commonLoop:
 
 		sb.append("\n");
 
-		sb.appendFront("public override int ArrayLastIndexOfBy(System.Collections.IList array, string member, object value, int startIndex)\n");
+		sb.appendFront("public override int ArrayLastIndexOfBy(global::System.Collections.IList array, string member, object value, int startIndex)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		genArrayHelperDispatcher("ArrayLastIndexOfBy", false, true, true);
@@ -3763,7 +3763,7 @@ commonLoop:
 
 		sb.append("\n");
 
-		sb.appendFront("public override int ArrayIndexOfOrderedBy(System.Collections.IList array, string member, object value)\n");
+		sb.appendFront("public override int ArrayIndexOfOrderedBy(global::System.Collections.IList array, string member, object value)\n");
 		sb.appendFront("{\n");
 		sb.indent();
 		genArrayHelperDispatcher("ArrayIndexOfOrderedBy", true, true, false);

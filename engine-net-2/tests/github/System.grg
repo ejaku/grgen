@@ -1,0 +1,16 @@
+#using "System.gm"
+
+rule initZeSystem
+{
+	modify {
+		s:System;
+	}
+}
+
+rule testZeSystem
+{
+	s:System;
+	modify {
+		s --> ss:System;
+	}
+}
