@@ -1,6 +1,9 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\edge1\edge1.grg" on Thu Jul 29 16:37:52 CEST 2021
+// Generated from "..\..\tests\edge1\edge1.grg" on Thu Jan 06 09:31:43 CET 2022
+
+//#pragma warning disable CS0219, CS0162
+#pragma warning disable 219, 162
 
 using System;
 using System.Collections.Generic;
@@ -5930,25 +5933,32 @@ namespace de.unika.ipd.grGen.Action_edge1
     public class Action_init : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_init
     {
         public Action_init()
-            : base(Rule_init.Instance.patternGraph, new object[0])
+            : base(Rule_init.Instance.patternGraph)
         {
             _rulePattern = Rule_init.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_init.Match_init, Rule_init.IMatch_init>(this);
         }
 
         public Rule_init _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "init"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_init.Match_init, Rule_init.IMatch_init> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_init.Match_init, Rule_init.IMatch_init> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_init Instance { get { return instance; } set { instance = value; } }
         private static Action_init instance = new Action_init();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_init.Match_init, Rule_init.IMatch_init>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             Rule_init.Match_init match = matches.GetNextUnfilledPosition();
             matches.PositionWasFilledFixIt();
@@ -6075,7 +6085,11 @@ namespace de.unika.ipd.grGen.Action_edge1
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -6171,25 +6185,32 @@ namespace de.unika.ipd.grGen.Action_edge1
     public class Action_init2 : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_init2
     {
         public Action_init2()
-            : base(Rule_init2.Instance.patternGraph, new object[0])
+            : base(Rule_init2.Instance.patternGraph)
         {
             _rulePattern = Rule_init2.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_init2.Match_init2, Rule_init2.IMatch_init2>(this);
         }
 
         public Rule_init2 _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "init2"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_init2.Match_init2, Rule_init2.IMatch_init2> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_init2.Match_init2, Rule_init2.IMatch_init2> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_init2 Instance { get { return instance; } set { instance = value; } }
         private static Action_init2 instance = new Action_init2();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_init2.IMatch_init2> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_init2.Match_init2, Rule_init2.IMatch_init2>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             Rule_init2.Match_init2 match = matches.GetNextUnfilledPosition();
             matches.PositionWasFilledFixIt();
@@ -6316,7 +6337,11 @@ namespace de.unika.ipd.grGen.Action_edge1
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -6412,25 +6437,32 @@ namespace de.unika.ipd.grGen.Action_edge1
     public class Action_init3 : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_init3
     {
         public Action_init3()
-            : base(Rule_init3.Instance.patternGraph, new object[0])
+            : base(Rule_init3.Instance.patternGraph)
         {
             _rulePattern = Rule_init3.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_init3.Match_init3, Rule_init3.IMatch_init3>(this);
         }
 
         public Rule_init3 _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "init3"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_init3.Match_init3, Rule_init3.IMatch_init3> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_init3.Match_init3, Rule_init3.IMatch_init3> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_init3 Instance { get { return instance; } set { instance = value; } }
         private static Action_init3 instance = new Action_init3();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_init3.IMatch_init3> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_init3.Match_init3, Rule_init3.IMatch_init3>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             Rule_init3.Match_init3 match = matches.GetNextUnfilledPosition();
             matches.PositionWasFilledFixIt();
@@ -6557,7 +6589,11 @@ namespace de.unika.ipd.grGen.Action_edge1
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -6653,25 +6689,32 @@ namespace de.unika.ipd.grGen.Action_edge1
     public class Action_findUndirectedEdge : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_findUndirectedEdge
     {
         public Action_findUndirectedEdge()
-            : base(Rule_findUndirectedEdge.Instance.patternGraph, new object[0])
+            : base(Rule_findUndirectedEdge.Instance.patternGraph)
         {
             _rulePattern = Rule_findUndirectedEdge.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_findUndirectedEdge.Match_findUndirectedEdge, Rule_findUndirectedEdge.IMatch_findUndirectedEdge>(this);
         }
 
         public Rule_findUndirectedEdge _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "findUndirectedEdge"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_findUndirectedEdge.Match_findUndirectedEdge, Rule_findUndirectedEdge.IMatch_findUndirectedEdge> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_findUndirectedEdge.Match_findUndirectedEdge, Rule_findUndirectedEdge.IMatch_findUndirectedEdge> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_findUndirectedEdge Instance { get { return instance; } set { instance = value; } }
         private static Action_findUndirectedEdge instance = new Action_findUndirectedEdge();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_findUndirectedEdge.IMatch_findUndirectedEdge> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_findUndirectedEdge.Match_findUndirectedEdge, Rule_findUndirectedEdge.IMatch_findUndirectedEdge>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Lookup findUndirectedEdge_edge__edge0 
             int type_id_candidate_findUndirectedEdge_edge__edge0 = 2;
@@ -6825,7 +6868,11 @@ namespace de.unika.ipd.grGen.Action_edge1
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -6921,25 +6968,32 @@ namespace de.unika.ipd.grGen.Action_edge1
     public class Action_findArbitraryEdge : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_findArbitraryEdge
     {
         public Action_findArbitraryEdge()
-            : base(Rule_findArbitraryEdge.Instance.patternGraph, new object[0])
+            : base(Rule_findArbitraryEdge.Instance.patternGraph)
         {
             _rulePattern = Rule_findArbitraryEdge.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_findArbitraryEdge.Match_findArbitraryEdge, Rule_findArbitraryEdge.IMatch_findArbitraryEdge>(this);
         }
 
         public Rule_findArbitraryEdge _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "findArbitraryEdge"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_findArbitraryEdge.Match_findArbitraryEdge, Rule_findArbitraryEdge.IMatch_findArbitraryEdge> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_findArbitraryEdge.Match_findArbitraryEdge, Rule_findArbitraryEdge.IMatch_findArbitraryEdge> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_findArbitraryEdge Instance { get { return instance; } set { instance = value; } }
         private static Action_findArbitraryEdge instance = new Action_findArbitraryEdge();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryEdge.IMatch_findArbitraryEdge> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_findArbitraryEdge.Match_findArbitraryEdge, Rule_findArbitraryEdge.IMatch_findArbitraryEdge>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Lookup findArbitraryEdge_edge__edge0 
             foreach(GRGEN_LIBGR.EdgeType type_candidate_findArbitraryEdge_edge__edge0 in GRGEN_MODEL.EdgeType_AEdge.typeVar.SubOrSameTypes)
@@ -7096,7 +7150,11 @@ namespace de.unika.ipd.grGen.Action_edge1
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -7192,25 +7250,32 @@ namespace de.unika.ipd.grGen.Action_edge1
     public class Action_findArbitraryDirectedEdge : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_findArbitraryDirectedEdge
     {
         public Action_findArbitraryDirectedEdge()
-            : base(Rule_findArbitraryDirectedEdge.Instance.patternGraph, new object[0])
+            : base(Rule_findArbitraryDirectedEdge.Instance.patternGraph)
         {
             _rulePattern = Rule_findArbitraryDirectedEdge.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_findArbitraryDirectedEdge.Match_findArbitraryDirectedEdge, Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge>(this);
         }
 
         public Rule_findArbitraryDirectedEdge _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "findArbitraryDirectedEdge"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_findArbitraryDirectedEdge.Match_findArbitraryDirectedEdge, Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_findArbitraryDirectedEdge.Match_findArbitraryDirectedEdge, Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_findArbitraryDirectedEdge Instance { get { return instance; } set { instance = value; } }
         private static Action_findArbitraryDirectedEdge instance = new Action_findArbitraryDirectedEdge();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_findArbitraryDirectedEdge.Match_findArbitraryDirectedEdge, Rule_findArbitraryDirectedEdge.IMatch_findArbitraryDirectedEdge>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Lookup findArbitraryDirectedEdge_edge__edge0 
             int type_id_candidate_findArbitraryDirectedEdge_edge__edge0 = 1;
@@ -7364,7 +7429,11 @@ namespace de.unika.ipd.grGen.Action_edge1
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -7460,25 +7529,32 @@ namespace de.unika.ipd.grGen.Action_edge1
     public class Action_findArbitraryDirectedReflexiveEdge : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_findArbitraryDirectedReflexiveEdge
     {
         public Action_findArbitraryDirectedReflexiveEdge()
-            : base(Rule_findArbitraryDirectedReflexiveEdge.Instance.patternGraph, new object[0])
+            : base(Rule_findArbitraryDirectedReflexiveEdge.Instance.patternGraph)
         {
             _rulePattern = Rule_findArbitraryDirectedReflexiveEdge.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_findArbitraryDirectedReflexiveEdge.Match_findArbitraryDirectedReflexiveEdge, Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge>(this);
         }
 
         public Rule_findArbitraryDirectedReflexiveEdge _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "findArbitraryDirectedReflexiveEdge"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_findArbitraryDirectedReflexiveEdge.Match_findArbitraryDirectedReflexiveEdge, Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_findArbitraryDirectedReflexiveEdge.Match_findArbitraryDirectedReflexiveEdge, Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_findArbitraryDirectedReflexiveEdge Instance { get { return instance; } set { instance = value; } }
         private static Action_findArbitraryDirectedReflexiveEdge instance = new Action_findArbitraryDirectedReflexiveEdge();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_findArbitraryDirectedReflexiveEdge.Match_findArbitraryDirectedReflexiveEdge, Rule_findArbitraryDirectedReflexiveEdge.IMatch_findArbitraryDirectedReflexiveEdge>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Lookup findArbitraryDirectedReflexiveEdge_edge__edge0 
             int type_id_candidate_findArbitraryDirectedReflexiveEdge_edge__edge0 = 1;
@@ -7621,7 +7697,11 @@ namespace de.unika.ipd.grGen.Action_edge1
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -7717,25 +7797,32 @@ namespace de.unika.ipd.grGen.Action_edge1
     public class Action_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne
     {
         public Action_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne()
-            : base(Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.Instance.patternGraph, new object[0])
+            : base(Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.Instance.patternGraph)
         {
             _rulePattern = Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.Match_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne, Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne>(this);
         }
 
         public Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "findArbitraryDirectedReflexiveEdgeAfterUndirectedOne"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.Match_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne, Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.Match_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne, Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne Instance { get { return instance; } set { instance = value; } }
         private static Action_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne instance = new Action_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.Match_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne, Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.IMatch_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Lookup findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0 
             int type_id_candidate_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0 = 2;
@@ -7907,7 +7994,11 @@ namespace de.unika.ipd.grGen.Action_edge1
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -8003,25 +8094,32 @@ namespace de.unika.ipd.grGen.Action_edge1
     public class Action_findArbitraryDirectedTriple : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_findArbitraryDirectedTriple
     {
         public Action_findArbitraryDirectedTriple()
-            : base(Rule_findArbitraryDirectedTriple.Instance.patternGraph, new object[0])
+            : base(Rule_findArbitraryDirectedTriple.Instance.patternGraph)
         {
             _rulePattern = Rule_findArbitraryDirectedTriple.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_findArbitraryDirectedTriple.Match_findArbitraryDirectedTriple, Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple>(this);
         }
 
         public Rule_findArbitraryDirectedTriple _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "findArbitraryDirectedTriple"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_findArbitraryDirectedTriple.Match_findArbitraryDirectedTriple, Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_findArbitraryDirectedTriple.Match_findArbitraryDirectedTriple, Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_findArbitraryDirectedTriple Instance { get { return instance; } set { instance = value; } }
         private static Action_findArbitraryDirectedTriple instance = new Action_findArbitraryDirectedTriple();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_findArbitraryDirectedTriple.Match_findArbitraryDirectedTriple, Rule_findArbitraryDirectedTriple.IMatch_findArbitraryDirectedTriple>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Lookup findArbitraryDirectedTriple_edge__edge1 
             int type_id_candidate_findArbitraryDirectedTriple_edge__edge1 = 1;
@@ -8219,7 +8317,11 @@ namespace de.unika.ipd.grGen.Action_edge1
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -8315,25 +8417,32 @@ namespace de.unika.ipd.grGen.Action_edge1
     public class Action_findDirectedEdge : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_findDirectedEdge
     {
         public Action_findDirectedEdge()
-            : base(Rule_findDirectedEdge.Instance.patternGraph, new object[0])
+            : base(Rule_findDirectedEdge.Instance.patternGraph)
         {
             _rulePattern = Rule_findDirectedEdge.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_findDirectedEdge.Match_findDirectedEdge, Rule_findDirectedEdge.IMatch_findDirectedEdge>(this);
         }
 
         public Rule_findDirectedEdge _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "findDirectedEdge"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_findDirectedEdge.Match_findDirectedEdge, Rule_findDirectedEdge.IMatch_findDirectedEdge> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_findDirectedEdge.Match_findDirectedEdge, Rule_findDirectedEdge.IMatch_findDirectedEdge> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_findDirectedEdge Instance { get { return instance; } set { instance = value; } }
         private static Action_findDirectedEdge instance = new Action_findDirectedEdge();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_findDirectedEdge.IMatch_findDirectedEdge> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_findDirectedEdge.Match_findDirectedEdge, Rule_findDirectedEdge.IMatch_findDirectedEdge>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Lookup findDirectedEdge_edge__edge0 
             int type_id_candidate_findDirectedEdge_edge__edge0 = 1;
@@ -8483,7 +8592,11 @@ namespace de.unika.ipd.grGen.Action_edge1
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -8579,25 +8692,32 @@ namespace de.unika.ipd.grGen.Action_edge1
     public class Action_findTripleCircle : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_findTripleCircle
     {
         public Action_findTripleCircle()
-            : base(Rule_findTripleCircle.Instance.patternGraph, new object[0])
+            : base(Rule_findTripleCircle.Instance.patternGraph)
         {
             _rulePattern = Rule_findTripleCircle.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_findTripleCircle.Match_findTripleCircle, Rule_findTripleCircle.IMatch_findTripleCircle>(this);
         }
 
         public Rule_findTripleCircle _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "findTripleCircle"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_findTripleCircle.Match_findTripleCircle, Rule_findTripleCircle.IMatch_findTripleCircle> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_findTripleCircle.Match_findTripleCircle, Rule_findTripleCircle.IMatch_findTripleCircle> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_findTripleCircle Instance { get { return instance; } set { instance = value; } }
         private static Action_findTripleCircle instance = new Action_findTripleCircle();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_findTripleCircle.Match_findTripleCircle, Rule_findTripleCircle.IMatch_findTripleCircle>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Lookup findTripleCircle_edge__edge0 
             int type_id_candidate_findTripleCircle_edge__edge0 = 2;
@@ -8831,7 +8951,11 @@ namespace de.unika.ipd.grGen.Action_edge1
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {

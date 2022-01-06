@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "ExternalAttributeEvaluation.grg" on Wed Dec 23 18:01:23 CET 2020
+// Generated from "ExternalAttributeEvaluation.grg" on Sun Dec 19 16:35:36 CET 2021
 
 using System;
 using System.Collections.Generic;
@@ -107,40 +107,42 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 	{
 		// You must implement the following functions in the same partial class in ./ExternalAttributeEvaluationModelExternalFunctionsImpl.cs:
 
-		// Called when a graph element is cloned/copied.
-		// For attribute type object.
-		// If "copy class" is not specified, objects are copied by copying the reference, i.e. they are identical afterwards.
-		// All other attribute types are copied by-value (so changing one later on has no effect on the other).
-		//public static object Copy(object);
+		// Called when a graph element or internal (transient) object bearing attributes of external object type is to be copied.
+		// Also called when a top-level external object is to be cloned or copied.
+		// If "copy class" is not specified, object attributes are copied by copying the reference, i.e. they are identical afterwards (top-level objects cannot be copied/cloned in this case).
+		// If "copy class" is specified:
+		// If the old to new element dictionary is null, objects are to be cloned, i.e. top-level object (of the very call) is to be cloned and others are just assigned by reference.
+		// Otherwise, they are to be copied by-value (so changing one attribute later on has no effect on the other).
+		//public static object Copy(object, IGraph, IDictionary<object, object>);
 
-		// Called during comparison of graph elements from graph isomorphy comparison, or attribute comparison.
+		// Called during comparison of graph elements from graph isomorphy comparison, or during deeply equal attribute comparisons.
 		// For attribute type object.
-		// If "== class" is not specified, objects are equal if they are identical,
-		// i.e. by-reference-equality (same pointer); all other attribute types are compared by-value.
-		//public static bool IsEqual(object, object);
+		// If "~~ class" is not specified, objects are equal if their references are identical.
+		// The visited objects dictionary contains the already visited objects, insert your object here to detect multiple appearances/cycles (and check against it).
+		//public static bool IsEqual(object, object, IDictionary<object, object>);
 
 		// Called during attribute comparison.
 		// For attribute type object.
 		// If "< class" is not specified, objects can't be compared for ordering, only for equality.
-		//public static bool IsLower(object, object);
+		//public static bool IsLower(object, object, IDictionary<object, object>);
 
 
 		// The same functions, just for each user defined type.
-		// Those are normally treated as object (if no "copy class or == class or < class" is specified),
+		// Those are normally treated as object (if no "copy class or ~~ class or < class" is specified),
 		// i.e. equal if identical references, no ordered comparisons available, and copy just copies the reference (making them identical).
 		// Here you can overwrite the default reference semantics with value semantics, fitting better to the other attribute types.
 
 		//public static Own Copy(Own);
-		//public static bool IsEqual(Own, Own);
-		//public static bool IsLower(Own, Own);
+		//public static bool IsEqual(Own, Own, IDictionary<object, object>);
+		//public static bool IsLower(Own, Own, IDictionary<object, object>);
 
 		//public static OwnPown Copy(OwnPown);
-		//public static bool IsEqual(OwnPown, OwnPown);
-		//public static bool IsLower(OwnPown, OwnPown);
+		//public static bool IsEqual(OwnPown, OwnPown, IDictionary<object, object>);
+		//public static bool IsLower(OwnPown, OwnPown, IDictionary<object, object>);
 
 		//public static OwnPownHome Copy(OwnPownHome);
-		//public static bool IsEqual(OwnPownHome, OwnPownHome);
-		//public static bool IsLower(OwnPownHome, OwnPownHome);
+		//public static bool IsEqual(OwnPownHome, OwnPownHome, IDictionary<object, object>);
+		//public static bool IsLower(OwnPownHome, OwnPownHome, IDictionary<object, object>);
 	}
 
 }

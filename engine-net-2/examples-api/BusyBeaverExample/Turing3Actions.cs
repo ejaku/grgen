@@ -1,6 +1,9 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Thu Jul 29 16:37:50 CEST 2021
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Thu Jan 06 09:31:39 CET 2022
+
+//#pragma warning disable CS0219, CS0162
+#pragma warning disable 219, 162
 
 using System;
 using System.Collections.Generic;
@@ -5720,25 +5723,32 @@ namespace de.unika.ipd.grGen.Action_Turing3
     public class Action_readZeroRule : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_readZeroRule
     {
         public Action_readZeroRule()
-            : base(Rule_readZeroRule.Instance.patternGraph, new object[1])
+            : base(Rule_readZeroRule.Instance.patternGraph)
         {
             _rulePattern = Rule_readZeroRule.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_readZeroRule.Match_readZeroRule, Rule_readZeroRule.IMatch_readZeroRule>(this);
         }
 
         public Rule_readZeroRule _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "readZeroRule"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_readZeroRule.Match_readZeroRule, Rule_readZeroRule.IMatch_readZeroRule> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_readZeroRule.Match_readZeroRule, Rule_readZeroRule.IMatch_readZeroRule> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_readZeroRule Instance { get { return instance; } set { instance = value; } }
         private static Action_readZeroRule instance = new Action_readZeroRule();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_readZeroRule.IMatch_readZeroRule> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_readZeroRule.Match_readZeroRule, Rule_readZeroRule.IMatch_readZeroRule>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[1];
             int isoSpace = 0;
             // Preset readZeroRule_node_s 
             GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_s = (GRGEN_LGSP.LGSPNode)readZeroRule_node_s;
@@ -5905,7 +5915,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[1]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -5996,25 +6010,32 @@ namespace de.unika.ipd.grGen.Action_Turing3
     public class Action_readOneRule : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_readOneRule
     {
         public Action_readOneRule()
-            : base(Rule_readOneRule.Instance.patternGraph, new object[1])
+            : base(Rule_readOneRule.Instance.patternGraph)
         {
             _rulePattern = Rule_readOneRule.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_readOneRule.Match_readOneRule, Rule_readOneRule.IMatch_readOneRule>(this);
         }
 
         public Rule_readOneRule _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "readOneRule"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_readOneRule.Match_readOneRule, Rule_readOneRule.IMatch_readOneRule> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_readOneRule.Match_readOneRule, Rule_readOneRule.IMatch_readOneRule> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_readOneRule Instance { get { return instance; } set { instance = value; } }
         private static Action_readOneRule instance = new Action_readOneRule();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_readOneRule.IMatch_readOneRule> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_readOneRule.Match_readOneRule, Rule_readOneRule.IMatch_readOneRule>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[1];
             int isoSpace = 0;
             // Preset readOneRule_node_s 
             GRGEN_LGSP.LGSPNode candidate_readOneRule_node_s = (GRGEN_LGSP.LGSPNode)readOneRule_node_s;
@@ -6181,7 +6202,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[1]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -6272,25 +6297,32 @@ namespace de.unika.ipd.grGen.Action_Turing3
     public class Action_ensureMoveLeftValidRule : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_ensureMoveLeftValidRule
     {
         public Action_ensureMoveLeftValidRule()
-            : base(Rule_ensureMoveLeftValidRule.Instance.patternGraph, new object[0])
+            : base(Rule_ensureMoveLeftValidRule.Instance.patternGraph)
         {
             _rulePattern = Rule_ensureMoveLeftValidRule.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_ensureMoveLeftValidRule.Match_ensureMoveLeftValidRule, Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule>(this);
         }
 
         public Rule_ensureMoveLeftValidRule _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "ensureMoveLeftValidRule"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_ensureMoveLeftValidRule.Match_ensureMoveLeftValidRule, Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_ensureMoveLeftValidRule.Match_ensureMoveLeftValidRule, Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_ensureMoveLeftValidRule Instance { get { return instance; } set { instance = value; } }
         private static Action_ensureMoveLeftValidRule instance = new Action_ensureMoveLeftValidRule();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_ensureMoveLeftValidRule.Match_ensureMoveLeftValidRule, Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Preset ensureMoveLeftValidRule_node_wv 
             GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node_wv = (GRGEN_LGSP.LGSPNode)ensureMoveLeftValidRule_node_wv;
@@ -6481,7 +6513,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -6570,25 +6606,32 @@ namespace de.unika.ipd.grGen.Action_Turing3
     public class Action_ensureMoveRightValidRule : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_ensureMoveRightValidRule
     {
         public Action_ensureMoveRightValidRule()
-            : base(Rule_ensureMoveRightValidRule.Instance.patternGraph, new object[0])
+            : base(Rule_ensureMoveRightValidRule.Instance.patternGraph)
         {
             _rulePattern = Rule_ensureMoveRightValidRule.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_ensureMoveRightValidRule.Match_ensureMoveRightValidRule, Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule>(this);
         }
 
         public Rule_ensureMoveRightValidRule _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "ensureMoveRightValidRule"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_ensureMoveRightValidRule.Match_ensureMoveRightValidRule, Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_ensureMoveRightValidRule.Match_ensureMoveRightValidRule, Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_ensureMoveRightValidRule Instance { get { return instance; } set { instance = value; } }
         private static Action_ensureMoveRightValidRule instance = new Action_ensureMoveRightValidRule();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_ensureMoveRightValidRule.Match_ensureMoveRightValidRule, Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Preset ensureMoveRightValidRule_node_wv 
             GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node_wv = (GRGEN_LGSP.LGSPNode)ensureMoveRightValidRule_node_wv;
@@ -6779,7 +6822,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -6868,25 +6915,32 @@ namespace de.unika.ipd.grGen.Action_Turing3
     public class Action_moveLeftRule : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_moveLeftRule
     {
         public Action_moveLeftRule()
-            : base(Rule_moveLeftRule.Instance.patternGraph, new object[2])
+            : base(Rule_moveLeftRule.Instance.patternGraph)
         {
             _rulePattern = Rule_moveLeftRule.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_moveLeftRule.Match_moveLeftRule, Rule_moveLeftRule.IMatch_moveLeftRule>(this);
         }
 
         public Rule_moveLeftRule _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "moveLeftRule"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_moveLeftRule.Match_moveLeftRule, Rule_moveLeftRule.IMatch_moveLeftRule> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_moveLeftRule.Match_moveLeftRule, Rule_moveLeftRule.IMatch_moveLeftRule> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_moveLeftRule Instance { get { return instance; } set { instance = value; } }
         private static Action_moveLeftRule instance = new Action_moveLeftRule();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_moveLeftRule.IMatch_moveLeftRule> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_moveLeftRule.Match_moveLeftRule, Rule_moveLeftRule.IMatch_moveLeftRule>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[2];
             int isoSpace = 0;
             // Preset moveLeftRule_node_wv 
             GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_wv = (GRGEN_LGSP.LGSPNode)moveLeftRule_node_wv;
@@ -7086,7 +7140,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[2]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -7179,25 +7237,32 @@ namespace de.unika.ipd.grGen.Action_Turing3
     public class Action_moveRightRule : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_moveRightRule
     {
         public Action_moveRightRule()
-            : base(Rule_moveRightRule.Instance.patternGraph, new object[2])
+            : base(Rule_moveRightRule.Instance.patternGraph)
         {
             _rulePattern = Rule_moveRightRule.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_moveRightRule.Match_moveRightRule, Rule_moveRightRule.IMatch_moveRightRule>(this);
         }
 
         public Rule_moveRightRule _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "moveRightRule"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_moveRightRule.Match_moveRightRule, Rule_moveRightRule.IMatch_moveRightRule> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_moveRightRule.Match_moveRightRule, Rule_moveRightRule.IMatch_moveRightRule> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_moveRightRule Instance { get { return instance; } set { instance = value; } }
         private static Action_moveRightRule instance = new Action_moveRightRule();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_moveRightRule.IMatch_moveRightRule> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_moveRightRule.Match_moveRightRule, Rule_moveRightRule.IMatch_moveRightRule>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[2];
             int isoSpace = 0;
             // Preset moveRightRule_node_wv 
             GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_wv = (GRGEN_LGSP.LGSPNode)moveRightRule_node_wv;
@@ -7397,7 +7462,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[2]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -7490,25 +7559,32 @@ namespace de.unika.ipd.grGen.Action_Turing3
     public class Action_countZeros : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_countZeros
     {
         public Action_countZeros()
-            : base(Rule_countZeros.Instance.patternGraph, new object[0])
+            : base(Rule_countZeros.Instance.patternGraph)
         {
             _rulePattern = Rule_countZeros.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_countZeros.Match_countZeros, Rule_countZeros.IMatch_countZeros>(this);
         }
 
         public Rule_countZeros _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "countZeros"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_countZeros.Match_countZeros, Rule_countZeros.IMatch_countZeros> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_countZeros.Match_countZeros, Rule_countZeros.IMatch_countZeros> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_countZeros Instance { get { return instance; } set { instance = value; } }
         private static Action_countZeros instance = new Action_countZeros();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_countZeros.IMatch_countZeros> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_countZeros.Match_countZeros, Rule_countZeros.IMatch_countZeros>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Lookup countZeros_node_bp 
             int type_id_candidate_countZeros_node_bp = 1;
@@ -7646,7 +7722,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -7742,25 +7822,32 @@ namespace de.unika.ipd.grGen.Action_Turing3
     public class Action_countOnes : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_countOnes
     {
         public Action_countOnes()
-            : base(Rule_countOnes.Instance.patternGraph, new object[0])
+            : base(Rule_countOnes.Instance.patternGraph)
         {
             _rulePattern = Rule_countOnes.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_countOnes.Match_countOnes, Rule_countOnes.IMatch_countOnes>(this);
         }
 
         public Rule_countOnes _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "countOnes"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_countOnes.Match_countOnes, Rule_countOnes.IMatch_countOnes> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_countOnes.Match_countOnes, Rule_countOnes.IMatch_countOnes> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_countOnes Instance { get { return instance; } set { instance = value; } }
         private static Action_countOnes instance = new Action_countOnes();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_countOnes.IMatch_countOnes> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_countOnes.Match_countOnes, Rule_countOnes.IMatch_countOnes>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Lookup countOnes_node_bp 
             int type_id_candidate_countOnes_node_bp = 1;
@@ -7898,7 +7985,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {

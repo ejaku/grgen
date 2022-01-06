@@ -240,7 +240,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
             if(attribute is Own || attribute is OwnPown || attribute is OwnPownHome)
             {
                 // here you would inspect the type and build the graph depending on the type, returning null for types not supported
-                ExternalAttributeEvaluationNamedGraph ng = new ExternalAttributeEvaluationNamedGraph();
+                ExternalAttributeEvaluationNamedGraph ng = new ExternalAttributeEvaluationNamedGraph((GRGEN_LGSP.LGSPGlobalVariables)graph.GlobalVariables);
                 N foo = ng.CreateNodeN("foo");
                 foo.i = 42;
                 Node bar = ng.CreateNodeNode("bar");

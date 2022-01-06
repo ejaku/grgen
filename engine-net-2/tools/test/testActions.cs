@@ -1,6 +1,9 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Thu Jul 29 16:37:47 CEST 2021
+// Generated from "test.grg" on Thu Jan 06 09:31:32 CET 2022
+
+//#pragma warning disable CS0219, CS0162
+#pragma warning disable 219, 162
 
 using System;
 using System.Collections.Generic;
@@ -865,25 +868,32 @@ namespace de.unika.ipd.grGen.Action_test
     public class Action_testRule : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_testRule
     {
         public Action_testRule()
-            : base(Rule_testRule.Instance.patternGraph, new object[0])
+            : base(Rule_testRule.Instance.patternGraph)
         {
             _rulePattern = Rule_testRule.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_testRule.Match_testRule, Rule_testRule.IMatch_testRule>(this);
         }
 
         public Rule_testRule _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "testRule"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_testRule.Match_testRule, Rule_testRule.IMatch_testRule> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_testRule.Match_testRule, Rule_testRule.IMatch_testRule> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_testRule Instance { get { return instance; } set { instance = value; } }
         private static Action_testRule instance = new Action_testRule();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_testRule.IMatch_testRule> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_testRule.Match_testRule, Rule_testRule.IMatch_testRule>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Lookup testRule_edge__edge1 
             int type_id_candidate_testRule_edge__edge1 = 1;
@@ -1061,7 +1071,11 @@ namespace de.unika.ipd.grGen.Action_test
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {

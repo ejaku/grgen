@@ -1,6 +1,9 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\FunctionsProceduresExample\FunctionsProceduresExample.grg" on Thu Jul 29 16:38:02 CEST 2021
+// Generated from "..\..\examples\FunctionsProceduresExample\FunctionsProceduresExample.grg" on Thu Jan 06 09:31:54 CET 2022
+
+//#pragma warning disable CS0219, CS0162
+#pragma warning disable 219, 162
 
 using System;
 using System.Collections.Generic;
@@ -1003,25 +1006,32 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
     public class Action_init : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_init
     {
         public Action_init()
-            : base(Rule_init.Instance.patternGraph, new object[0])
+            : base(Rule_init.Instance.patternGraph)
         {
             _rulePattern = Rule_init.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_init.Match_init, Rule_init.IMatch_init>(this);
         }
 
         public Rule_init _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "init"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_init.Match_init, Rule_init.IMatch_init> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_init.Match_init, Rule_init.IMatch_init> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_init Instance { get { return instance; } set { instance = value; } }
         private static Action_init instance = new Action_init();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_init.Match_init, Rule_init.IMatch_init>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             Rule_init.Match_init match = matches.GetNextUnfilledPosition();
             matches.PositionWasFilledFixIt();
@@ -1148,7 +1158,11 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -1244,25 +1258,32 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
     public class Action_r : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_r
     {
         public Action_r()
-            : base(Rule_r.Instance.patternGraph, new object[0])
+            : base(Rule_r.Instance.patternGraph)
         {
             _rulePattern = Rule_r.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_r.Match_r, Rule_r.IMatch_r>(this);
         }
 
         public Rule_r _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "r"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_r.Match_r, Rule_r.IMatch_r> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_r.Match_r, Rule_r.IMatch_r> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_r Instance { get { return instance; } set { instance = value; } }
         private static Action_r instance = new Action_r();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_r.IMatch_r> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_r.Match_r, Rule_r.IMatch_r>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Lookup r_edge_ee 
             int type_id_candidate_r_edge_ee = 4;
@@ -1408,7 +1429,11 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -1500,7 +1525,7 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
             object res_3;
             bool res_9;
             object res_8;
-            GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_0 = new GRGEN_LIBGR.PatternMatchingConstruct("r");
+            GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_0 = new GRGEN_LIBGR.PatternMatchingConstruct("r", GRGEN_LIBGR.PatternMatchingConstructType.RuleCall);
             procEnv.BeginExecution(patternMatchingConstruct_0);
             GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_r.IMatch_r> matches_0 = rule_r.Match(procEnv, 1);
             procEnv.PerformanceInfo.MatchesFound += matches_0.Count;
@@ -1515,6 +1540,7 @@ namespace de.unika.ipd.grGen.Action_FunctionsProceduresExample
                 procEnv.RewritingSelectedMatch();
                 rule_r.Modify(procEnv, match_0);
                 procEnv.PerformanceInfo.RewritesPerformed++;
+                procEnv.FinishedSelectedMatch();
                 procEnv.Finished(matches_0, false);
             }
             procEnv.EndExecution(patternMatchingConstruct_0, null);

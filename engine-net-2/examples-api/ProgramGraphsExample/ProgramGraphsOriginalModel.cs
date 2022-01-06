@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Thu Jul 29 16:38:17 CEST 2021
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Thu Jan 06 09:32:18 CET 2022
 
 using System;
 using System.Collections.Generic;
@@ -34,8 +34,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 	public sealed partial class @Node : GRGEN_LGSP.LGSPNode, GRGEN_LIBGR.INode
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@Node[] pool;
 
 		static @Node() {
 		}
@@ -101,6 +101,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				node = new GRGEN_MODEL.@Node();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Node[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -118,6 +120,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				node = new GRGEN_MODEL.@Node();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Node[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -130,7 +134,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@Node[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -264,8 +270,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 	public sealed partial class @MethodBody : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IMethodBody
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@MethodBody[] pool = new GRGEN_MODEL.@MethodBody[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@MethodBody[] pool;
 
 		// explicit initializations of Entity for target MethodBody
 		// implicit initializations of Entity for target MethodBody
@@ -337,6 +343,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				node = new GRGEN_MODEL.@MethodBody();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@MethodBody[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -356,6 +364,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				node = new GRGEN_MODEL.@MethodBody();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@MethodBody[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -370,7 +380,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@MethodBody[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -458,8 +470,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 	public sealed partial class @Expression : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IExpression
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@Expression[] pool = new GRGEN_MODEL.@Expression[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@Expression[] pool;
 
 		// explicit initializations of Entity for target Expression
 		// implicit initializations of Entity for target Expression
@@ -531,6 +543,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				node = new GRGEN_MODEL.@Expression();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Expression[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -550,6 +564,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				node = new GRGEN_MODEL.@Expression();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Expression[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -564,7 +580,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@Expression[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -700,8 +718,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 	public sealed partial class @Class : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IClass
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@Class[] pool = new GRGEN_MODEL.@Class[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@Class[] pool;
 
 		// explicit initializations of Entity for target Class
 		// implicit initializations of Entity for target Class
@@ -776,6 +794,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				node = new GRGEN_MODEL.@Class();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Class[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -796,6 +816,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				node = new GRGEN_MODEL.@Class();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Class[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -811,7 +833,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@Class[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -948,8 +972,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 	public sealed partial class @MethodSignature : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IMethodSignature
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@MethodSignature[] pool = new GRGEN_MODEL.@MethodSignature[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@MethodSignature[] pool;
 
 		// explicit initializations of Entity for target MethodSignature
 		// implicit initializations of Entity for target MethodSignature
@@ -1027,6 +1051,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				node = new GRGEN_MODEL.@MethodSignature();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@MethodSignature[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -1048,6 +1074,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				node = new GRGEN_MODEL.@MethodSignature();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@MethodSignature[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -1064,7 +1092,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@MethodSignature[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -1202,8 +1232,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 	public sealed partial class @Constant : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IConstant
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@Constant[] pool = new GRGEN_MODEL.@Constant[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@Constant[] pool;
 
 		// explicit initializations of Entity for target Constant
 		// implicit initializations of Entity for target Constant
@@ -1284,6 +1314,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				node = new GRGEN_MODEL.@Constant();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Constant[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -1306,6 +1338,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				node = new GRGEN_MODEL.@Constant();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Constant[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -1323,7 +1357,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@Constant[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -1414,8 +1450,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 	public sealed partial class @Variabel : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IVariabel
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@Variabel[] pool = new GRGEN_MODEL.@Variabel[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@Variabel[] pool;
 
 		// explicit initializations of Entity for target Variabel
 		// implicit initializations of Entity for target Variabel
@@ -1496,6 +1532,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				node = new GRGEN_MODEL.@Variabel();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Variabel[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -1518,6 +1556,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				node = new GRGEN_MODEL.@Variabel();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Variabel[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -1535,7 +1575,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@Variabel[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -1681,8 +1723,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 	public sealed partial class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IDEdge
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@Edge[] pool;
 
 		static @Edge() {
 		}
@@ -1750,6 +1792,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				edge = new GRGEN_MODEL.@Edge(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Edge[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -1767,6 +1811,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				edge = new GRGEN_MODEL.@Edge(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Edge[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -1779,7 +1825,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@Edge[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -1869,8 +1917,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 	public sealed partial class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IUEdge
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@UEdge[] pool;
 
 		static @UEdge() {
 		}
@@ -1938,6 +1986,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				edge = new GRGEN_MODEL.@UEdge(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@UEdge[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -1955,6 +2005,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				edge = new GRGEN_MODEL.@UEdge(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@UEdge[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -1967,7 +2019,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@UEdge[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -2060,8 +2114,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 	public sealed partial class @contains : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Icontains
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@contains[] pool = new GRGEN_MODEL.@contains[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@contains[] pool;
 
 		// explicit initializations of contains for target contains
 		// implicit initializations of contains for target contains
@@ -2132,6 +2186,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				edge = new GRGEN_MODEL.@contains(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@contains[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -2150,6 +2206,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				edge = new GRGEN_MODEL.@contains(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@contains[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -2163,7 +2221,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@contains[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -2257,8 +2317,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 	public sealed partial class @references : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Ireferences
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@references[] pool = new GRGEN_MODEL.@references[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@references[] pool;
 
 		// explicit initializations of references for target references
 		// implicit initializations of references for target references
@@ -2329,6 +2389,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				edge = new GRGEN_MODEL.@references(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@references[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -2347,6 +2409,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				edge = new GRGEN_MODEL.@references(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@references[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -2360,7 +2424,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@references[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -2454,8 +2520,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 	public sealed partial class @hasType : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IhasType
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@hasType[] pool = new GRGEN_MODEL.@hasType[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@hasType[] pool;
 
 		// explicit initializations of references for target hasType
 		// implicit initializations of references for target hasType
@@ -2529,6 +2595,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				edge = new GRGEN_MODEL.@hasType(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@hasType[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -2548,6 +2616,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				edge = new GRGEN_MODEL.@hasType(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@hasType[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -2562,7 +2632,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@hasType[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -2657,8 +2729,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 	public sealed partial class @bindsTo : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IbindsTo
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@bindsTo[] pool = new GRGEN_MODEL.@bindsTo[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@bindsTo[] pool;
 
 		// explicit initializations of references for target bindsTo
 		// implicit initializations of references for target bindsTo
@@ -2732,6 +2804,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				edge = new GRGEN_MODEL.@bindsTo(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@bindsTo[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -2751,6 +2825,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				edge = new GRGEN_MODEL.@bindsTo(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@bindsTo[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -2765,7 +2841,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@bindsTo[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -2860,8 +2938,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 	public sealed partial class @uses : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Iuses
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@uses[] pool = new GRGEN_MODEL.@uses[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@uses[] pool;
 
 		// explicit initializations of references for target uses
 		// implicit initializations of references for target uses
@@ -2935,6 +3013,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				edge = new GRGEN_MODEL.@uses(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@uses[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -2954,6 +3034,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				edge = new GRGEN_MODEL.@uses(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@uses[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -2968,7 +3050,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@uses[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -3063,8 +3147,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 	public sealed partial class @writesTo : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IwritesTo
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@writesTo[] pool = new GRGEN_MODEL.@writesTo[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@writesTo[] pool;
 
 		// explicit initializations of references for target writesTo
 		// implicit initializations of references for target writesTo
@@ -3138,6 +3222,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				edge = new GRGEN_MODEL.@writesTo(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@writesTo[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -3157,6 +3243,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				edge = new GRGEN_MODEL.@writesTo(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@writesTo[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -3171,7 +3259,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@writesTo[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -3266,8 +3356,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 	public sealed partial class @calls : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Icalls
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@calls[] pool = new GRGEN_MODEL.@calls[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@calls[] pool;
 
 		// explicit initializations of references for target calls
 		// implicit initializations of references for target calls
@@ -3341,6 +3431,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				edge = new GRGEN_MODEL.@calls(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@calls[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -3360,6 +3452,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				edge = new GRGEN_MODEL.@calls(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@calls[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -3374,7 +3468,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@calls[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -3469,8 +3565,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 	public sealed partial class @methodBodyContains : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.ImethodBodyContains
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@methodBodyContains[] pool = new GRGEN_MODEL.@methodBodyContains[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@methodBodyContains[] pool;
 
 		// explicit initializations of methodBodyContains for target methodBodyContains
 		// implicit initializations of methodBodyContains for target methodBodyContains
@@ -3541,6 +3637,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				edge = new GRGEN_MODEL.@methodBodyContains(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@methodBodyContains[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -3559,6 +3657,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				edge = new GRGEN_MODEL.@methodBodyContains(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@methodBodyContains[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -3572,7 +3672,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@methodBodyContains[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -3666,8 +3768,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 	public sealed partial class @classContainsClass : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IclassContainsClass
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@classContainsClass[] pool = new GRGEN_MODEL.@classContainsClass[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@classContainsClass[] pool;
 
 		// explicit initializations of contains for target classContainsClass
 		// implicit initializations of contains for target classContainsClass
@@ -3741,6 +3843,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				edge = new GRGEN_MODEL.@classContainsClass(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@classContainsClass[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -3760,6 +3864,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 				edge = new GRGEN_MODEL.@classContainsClass(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@classContainsClass[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -3774,7 +3880,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@classContainsClass[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -3896,7 +4004,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 			return newObject;
 		}
 
-		private @Object(GRGEN_MODEL.@Object oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.ObjectType_Object.typeVar, graph.FetchObjectUniqueId())
+		private @Object(GRGEN_MODEL.@Object oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.ObjectType_Object.typeVar, graph.GlobalVariables.FetchObjectUniqueId())
 		{
 			if(oldToNewObjectMap != null)
 				oldToNewObjectMap.Add(oldElem, this);
@@ -3986,11 +4094,11 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override GRGEN_LIBGR.IObject CreateObject(GRGEN_LIBGR.IGraph graph, long uniqueId)
 		{
 			if(uniqueId != -1) {
-				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId(uniqueId));
+				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.GlobalVariables.FetchObjectUniqueId(uniqueId));
 				((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
 				return newObject;
 			} else {
-				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId());
+				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.GlobalVariables.FetchObjectUniqueId());
 				((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
 				return newObject;
 			}
@@ -4442,7 +4550,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GraphElementType[] GRGEN_LIBGR.IGraphElementTypeModel.Types { get { return types; } }
 		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
+		private global::System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.NodeType_Node),
 			typeof(GRGEN_MODEL.NodeType_Entity),
 			typeof(GRGEN_MODEL.NodeType_MethodBody),
@@ -4455,7 +4563,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 			typeof(GRGEN_MODEL.NodeType_Constant),
 			typeof(GRGEN_MODEL.NodeType_Variabel),
 		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
+		public global::System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
@@ -4712,7 +4820,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public GRGEN_LIBGR.EdgeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GraphElementType[] GRGEN_LIBGR.IGraphElementTypeModel.Types { get { return types; } }
 		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
+		private global::System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.EdgeType_AEdge),
 			typeof(GRGEN_MODEL.EdgeType_Edge),
 			typeof(GRGEN_MODEL.EdgeType_UEdge),
@@ -4726,7 +4834,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 			typeof(GRGEN_MODEL.EdgeType_methodBodyContains),
 			typeof(GRGEN_MODEL.EdgeType_classContainsClass),
 		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
+		public global::System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
@@ -4777,10 +4885,10 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public GRGEN_LIBGR.ObjectType[] Types { get { return types; } }
 		GRGEN_LIBGR.BaseObjectType[] GRGEN_LIBGR.IBaseObjectTypeModel.Types { get { return types; } }
 		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
+		private global::System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.ObjectType_Object),
 		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
+		public global::System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
@@ -4831,10 +4939,10 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public GRGEN_LIBGR.TransientObjectType[] Types { get { return types; } }
 		GRGEN_LIBGR.BaseObjectType[] GRGEN_LIBGR.IBaseObjectTypeModel.Types { get { return types; } }
 		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
+		private global::System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.TransientObjectType_TransientObject),
 		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
+		public global::System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
@@ -4903,6 +5011,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 		public override bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
 		public override bool AreFunctionsParallelized { get { return false; } }
 		public override int BranchingFactorForEqualsAny { get { return 0; } }
+		public override int ThreadPoolSizeForSequencesParallelExecution { get { return 0; } }
 
 		public static GRGEN_LIBGR.ExternalObjectType externalObjectType_object = new ExternalObjectType_object();
 		private GRGEN_LIBGR.ExternalObjectType[] externalObjectTypes = { externalObjectType_object };
@@ -4913,7 +5022,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 			externalObjectType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalObjectType[] { } );
 		}
 
-		public override System.Collections.IList ArrayOrderAscendingBy(System.Collections.IList array, string member)
+		public override global::System.Collections.IList ArrayOrderAscendingBy(global::System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
@@ -5076,7 +5185,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 			}
 		}
 
-		public override System.Collections.IList ArrayOrderDescendingBy(System.Collections.IList array, string member)
+		public override global::System.Collections.IList ArrayOrderDescendingBy(global::System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
@@ -5239,7 +5348,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 			}
 		}
 
-		public override System.Collections.IList ArrayGroupBy(System.Collections.IList array, string member)
+		public override global::System.Collections.IList ArrayGroupBy(global::System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
@@ -5402,7 +5511,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 			}
 		}
 
-		public override System.Collections.IList ArrayKeepOneForEach(System.Collections.IList array, string member)
+		public override global::System.Collections.IList ArrayKeepOneForEach(global::System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
@@ -5565,7 +5674,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 			}
 		}
 
-		public override int ArrayIndexOfBy(System.Collections.IList array, string member, object value)
+		public override int ArrayIndexOfBy(global::System.Collections.IList array, string member, object value)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -5728,7 +5837,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 			}
 		}
 
-		public override int ArrayIndexOfBy(System.Collections.IList array, string member, object value, int startIndex)
+		public override int ArrayIndexOfBy(global::System.Collections.IList array, string member, object value, int startIndex)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -5891,7 +6000,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 			}
 		}
 
-		public override int ArrayLastIndexOfBy(System.Collections.IList array, string member, object value)
+		public override int ArrayLastIndexOfBy(global::System.Collections.IList array, string member, object value)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -6054,7 +6163,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 			}
 		}
 
-		public override int ArrayLastIndexOfBy(System.Collections.IList array, string member, object value, int startIndex)
+		public override int ArrayLastIndexOfBy(global::System.Collections.IList array, string member, object value, int startIndex)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -6217,7 +6326,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 			}
 		}
 
-		public override int ArrayIndexOfOrderedBy(System.Collections.IList array, string member, object value)
+		public override int ArrayIndexOfOrderedBy(global::System.Collections.IList array, string member, object value)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -6390,7 +6499,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	//
 	public class ProgramGraphsOriginalGraph : GRGEN_LGSP.LGSPGraph
 	{
-		public ProgramGraphsOriginalGraph() : base(new ProgramGraphsOriginalGraphModel(), GetGraphName())
+		public ProgramGraphsOriginalGraph(GRGEN_LGSP.LGSPGlobalVariables globalVariables) : base(new ProgramGraphsOriginalGraphModel(), globalVariables, GetGraphName())
 		{
 		}
 
@@ -6491,7 +6600,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 	//
 	public class ProgramGraphsOriginalNamedGraph : GRGEN_LGSP.LGSPNamedGraph
 	{
-		public ProgramGraphsOriginalNamedGraph() : base(new ProgramGraphsOriginalGraphModel(), GetGraphName(), 0)
+		public ProgramGraphsOriginalNamedGraph(GRGEN_LGSP.LGSPGlobalVariables globalVariables) : base(new ProgramGraphsOriginalGraphModel(), globalVariables, GetGraphName(), 0)
 		{
 		}
 

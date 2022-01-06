@@ -1,6 +1,9 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Thu Jul 29 16:38:06 CEST 2021
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Thu Jan 06 09:32:01 CET 2022
+
+//#pragma warning disable CS0219, CS0162
+#pragma warning disable 219, 162
 
 using System;
 using System.Collections.Generic;
@@ -8741,25 +8744,32 @@ maxMatchesIterReached:
     public class Action_initTree : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_initTree
     {
         public Action_initTree()
-            : base(Rule_initTree.Instance.patternGraph, new object[1])
+            : base(Rule_initTree.Instance.patternGraph)
         {
             _rulePattern = Rule_initTree.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_initTree.Match_initTree, Rule_initTree.IMatch_initTree>(this);
         }
 
         public Rule_initTree _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "initTree"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_initTree.Match_initTree, Rule_initTree.IMatch_initTree> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_initTree.Match_initTree, Rule_initTree.IMatch_initTree> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_initTree Instance { get { return instance; } set { instance = value; } }
         private static Action_initTree instance = new Action_initTree();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_initTree.Match_initTree, Rule_initTree.IMatch_initTree>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[1];
             int isoSpace = 0;
             Rule_initTree.Match_initTree match = matches.GetNextUnfilledPosition();
             matches.PositionWasFilledFixIt();
@@ -8894,7 +8904,11 @@ maxMatchesIterReached:
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[1]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -8994,25 +9008,32 @@ maxMatchesIterReached:
     public class Action_initUndirected : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_initUndirected
     {
         public Action_initUndirected()
-            : base(Rule_initUndirected.Instance.patternGraph, new object[1])
+            : base(Rule_initUndirected.Instance.patternGraph)
         {
             _rulePattern = Rule_initUndirected.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_initUndirected.Match_initUndirected, Rule_initUndirected.IMatch_initUndirected>(this);
         }
 
         public Rule_initUndirected _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "initUndirected"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_initUndirected.Match_initUndirected, Rule_initUndirected.IMatch_initUndirected> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_initUndirected.Match_initUndirected, Rule_initUndirected.IMatch_initUndirected> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_initUndirected Instance { get { return instance; } set { instance = value; } }
         private static Action_initUndirected instance = new Action_initUndirected();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_initUndirected.Match_initUndirected, Rule_initUndirected.IMatch_initUndirected>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[1];
             int isoSpace = 0;
             Rule_initUndirected.Match_initUndirected match = matches.GetNextUnfilledPosition();
             matches.PositionWasFilledFixIt();
@@ -9147,7 +9168,11 @@ maxMatchesIterReached:
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[1]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -9247,25 +9272,32 @@ maxMatchesIterReached:
     public class Action_initDirected : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_initDirected
     {
         public Action_initDirected()
-            : base(Rule_initDirected.Instance.patternGraph, new object[1])
+            : base(Rule_initDirected.Instance.patternGraph)
         {
             _rulePattern = Rule_initDirected.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_initDirected.Match_initDirected, Rule_initDirected.IMatch_initDirected>(this);
         }
 
         public Rule_initDirected _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "initDirected"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_initDirected.Match_initDirected, Rule_initDirected.IMatch_initDirected> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_initDirected.Match_initDirected, Rule_initDirected.IMatch_initDirected> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_initDirected Instance { get { return instance; } set { instance = value; } }
         private static Action_initDirected instance = new Action_initDirected();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_initDirected.Match_initDirected, Rule_initDirected.IMatch_initDirected>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[1];
             int isoSpace = 0;
             Rule_initDirected.Match_initDirected match = matches.GetNextUnfilledPosition();
             matches.PositionWasFilledFixIt();
@@ -9400,7 +9432,11 @@ maxMatchesIterReached:
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[1]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -9500,25 +9536,32 @@ maxMatchesIterReached:
     public class Action_spanningTree : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_spanningTree
     {
         public Action_spanningTree()
-            : base(Rule_spanningTree.Instance.patternGraph, new object[0])
+            : base(Rule_spanningTree.Instance.patternGraph)
         {
             _rulePattern = Rule_spanningTree.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_spanningTree.Match_spanningTree, Rule_spanningTree.IMatch_spanningTree>(this);
         }
 
         public Rule_spanningTree _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "spanningTree"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_spanningTree.Match_spanningTree, Rule_spanningTree.IMatch_spanningTree> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_spanningTree.Match_spanningTree, Rule_spanningTree.IMatch_spanningTree> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_spanningTree Instance { get { return instance; } set { instance = value; } }
         private static Action_spanningTree instance = new Action_spanningTree();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_LIBGR.INode spanningTree_node_root)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_spanningTree.Match_spanningTree, Rule_spanningTree.IMatch_spanningTree>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
@@ -9687,7 +9730,11 @@ maxMatchesIterReached:
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -9953,25 +10000,32 @@ maxMatchesIterReached:
     public class Action_edgesVisited : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_edgesVisited
     {
         public Action_edgesVisited()
-            : base(Rule_edgesVisited.Instance.patternGraph, new object[0])
+            : base(Rule_edgesVisited.Instance.patternGraph)
         {
             _rulePattern = Rule_edgesVisited.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_edgesVisited.Match_edgesVisited, Rule_edgesVisited.IMatch_edgesVisited>(this);
         }
 
         public Rule_edgesVisited _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "edgesVisited"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_edgesVisited.Match_edgesVisited, Rule_edgesVisited.IMatch_edgesVisited> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_edgesVisited.Match_edgesVisited, Rule_edgesVisited.IMatch_edgesVisited> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_edgesVisited Instance { get { return instance; } set { instance = value; } }
         private static Action_edgesVisited instance = new Action_edgesVisited();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_edgesVisited.Match_edgesVisited, Rule_edgesVisited.IMatch_edgesVisited>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Lookup edgesVisited_edge_e 
             int type_id_candidate_edgesVisited_edge_e = 2;
@@ -10109,7 +10163,11 @@ maxMatchesIterReached:
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -10205,25 +10263,32 @@ maxMatchesIterReached:
     public class Action_nodesVisited : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_nodesVisited
     {
         public Action_nodesVisited()
-            : base(Rule_nodesVisited.Instance.patternGraph, new object[0])
+            : base(Rule_nodesVisited.Instance.patternGraph)
         {
             _rulePattern = Rule_nodesVisited.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_nodesVisited.Match_nodesVisited, Rule_nodesVisited.IMatch_nodesVisited>(this);
         }
 
         public Rule_nodesVisited _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "nodesVisited"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_nodesVisited.Match_nodesVisited, Rule_nodesVisited.IMatch_nodesVisited> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_nodesVisited.Match_nodesVisited, Rule_nodesVisited.IMatch_nodesVisited> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_nodesVisited Instance { get { return instance; } set { instance = value; } }
         private static Action_nodesVisited instance = new Action_nodesVisited();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_nodesVisited.Match_nodesVisited, Rule_nodesVisited.IMatch_nodesVisited>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Lookup nodesVisited_node_n 
             int type_id_candidate_nodesVisited_node_n = 0;
@@ -10361,7 +10426,11 @@ maxMatchesIterReached:
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -10457,25 +10526,32 @@ maxMatchesIterReached:
     public class Action_spanningTreeReverse : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_spanningTreeReverse
     {
         public Action_spanningTreeReverse()
-            : base(Rule_spanningTreeReverse.Instance.patternGraph, new object[0])
+            : base(Rule_spanningTreeReverse.Instance.patternGraph)
         {
             _rulePattern = Rule_spanningTreeReverse.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_spanningTreeReverse.Match_spanningTreeReverse, Rule_spanningTreeReverse.IMatch_spanningTreeReverse>(this);
         }
 
         public Rule_spanningTreeReverse _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "spanningTreeReverse"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_spanningTreeReverse.Match_spanningTreeReverse, Rule_spanningTreeReverse.IMatch_spanningTreeReverse> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_spanningTreeReverse.Match_spanningTreeReverse, Rule_spanningTreeReverse.IMatch_spanningTreeReverse> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_spanningTreeReverse Instance { get { return instance; } set { instance = value; } }
         private static Action_spanningTreeReverse instance = new Action_spanningTreeReverse();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_LIBGR.INode spanningTreeReverse_node_root)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_spanningTreeReverse.Match_spanningTreeReverse, Rule_spanningTreeReverse.IMatch_spanningTreeReverse>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
@@ -10644,7 +10720,11 @@ maxMatchesIterReached:
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -10906,25 +10986,32 @@ maxMatchesIterReached:
     public class Action_spanningTreeOutgoing : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_spanningTreeOutgoing
     {
         public Action_spanningTreeOutgoing()
-            : base(Rule_spanningTreeOutgoing.Instance.patternGraph, new object[0])
+            : base(Rule_spanningTreeOutgoing.Instance.patternGraph)
         {
             _rulePattern = Rule_spanningTreeOutgoing.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_spanningTreeOutgoing.Match_spanningTreeOutgoing, Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>(this);
         }
 
         public Rule_spanningTreeOutgoing _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "spanningTreeOutgoing"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_spanningTreeOutgoing.Match_spanningTreeOutgoing, Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_spanningTreeOutgoing.Match_spanningTreeOutgoing, Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_spanningTreeOutgoing Instance { get { return instance; } set { instance = value; } }
         private static Action_spanningTreeOutgoing instance = new Action_spanningTreeOutgoing();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_spanningTreeOutgoing.Match_spanningTreeOutgoing, Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
@@ -11093,7 +11180,11 @@ maxMatchesIterReached:
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -11355,25 +11446,32 @@ maxMatchesIterReached:
     public class Action_spanningTreeIncoming : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_spanningTreeIncoming
     {
         public Action_spanningTreeIncoming()
-            : base(Rule_spanningTreeIncoming.Instance.patternGraph, new object[0])
+            : base(Rule_spanningTreeIncoming.Instance.patternGraph)
         {
             _rulePattern = Rule_spanningTreeIncoming.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_spanningTreeIncoming.Match_spanningTreeIncoming, Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>(this);
         }
 
         public Rule_spanningTreeIncoming _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "spanningTreeIncoming"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_spanningTreeIncoming.Match_spanningTreeIncoming, Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_spanningTreeIncoming.Match_spanningTreeIncoming, Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_spanningTreeIncoming Instance { get { return instance; } set { instance = value; } }
         private static Action_spanningTreeIncoming instance = new Action_spanningTreeIncoming();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_LIBGR.INode spanningTreeIncoming_node_root)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_spanningTreeIncoming.Match_spanningTreeIncoming, Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
@@ -11542,7 +11640,11 @@ maxMatchesIterReached:
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {

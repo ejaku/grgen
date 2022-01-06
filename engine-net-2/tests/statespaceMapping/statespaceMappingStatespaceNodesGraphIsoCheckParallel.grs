@@ -22,9 +22,6 @@ def processState(state:graph, parent:StatespaceNode, red:set<graph>, green:set<g
 	}\
 }
 
-#im statespace existiert schon der equivalent-state, aber es wurde noch kein entsprechender knoten in den statespace-graphen eingefügt
-#--> muss direkt danach/mit der operation erfolgen, oder ein nachzugobject wird benötigt; loop while not exists -- does not terminate ... to be checked
-
 # graphToStatespaceNodeLocal, red, green, blue are only needed for visualization of the structure of the statespace, for unfolding the other variables would be sufficient
 def stateStep() { false }
 def stateStep() {\

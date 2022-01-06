@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Thu Jul 29 16:37:47 CEST 2021
+// Generated from "test.grg" on Thu Jan 06 09:31:32 CET 2022
 
 using System;
 using System.Collections.Generic;
@@ -34,8 +34,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed partial class @Node : GRGEN_LGSP.LGSPNode, GRGEN_LIBGR.INode
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@Node[] pool;
 
 		static @Node() {
 		}
@@ -101,6 +101,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@Node();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Node[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -118,6 +120,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@Node();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Node[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -130,7 +134,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@Node[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -217,8 +223,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed partial class @A1 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IA1
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@A1[] pool = new GRGEN_MODEL.@A1[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@A1[] pool;
 
 		// explicit initializations of A1 for target A1
 		// implicit initializations of A1 for target A1
@@ -289,6 +295,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@A1();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@A1[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -308,6 +316,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@A1();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@A1[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -322,7 +332,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@A1[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -563,8 +575,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed partial class @A2 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IA2
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@A2[] pool = new GRGEN_MODEL.@A2[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@A2[] pool;
 
 		// explicit initializations of A2 for target A2
 		// implicit initializations of A2 for target A2
@@ -635,6 +647,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@A2();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@A2[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -654,6 +668,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@A2();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@A2[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -668,7 +684,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@A2[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -916,8 +934,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed partial class @A3 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IA3
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@A3[] pool = new GRGEN_MODEL.@A3[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@A3[] pool;
 
 		// explicit initializations of A3 for target A3
 		// implicit initializations of A3 for target A3
@@ -988,6 +1006,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@A3();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@A3[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -1007,6 +1027,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@A3();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@A3[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -1021,7 +1043,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@A3[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -1262,8 +1286,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed partial class @A4 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IA4
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@A4[] pool = new GRGEN_MODEL.@A4[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@A4[] pool;
 
 		// explicit initializations of A4 for target A4
 		// implicit initializations of A4 for target A4
@@ -1334,6 +1358,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@A4();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@A4[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -1353,6 +1379,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@A4();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@A4[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -1367,7 +1395,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@A4[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -1616,8 +1646,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed partial class @A5 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IA5
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@A5[] pool = new GRGEN_MODEL.@A5[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@A5[] pool;
 
 		// explicit initializations of A5 for target A5
 		// implicit initializations of A5 for target A5
@@ -1688,6 +1718,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@A5();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@A5[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -1707,6 +1739,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@A5();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@A5[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -1721,7 +1755,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@A5[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -1963,8 +1999,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed partial class @B21 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IB21
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@B21[] pool = new GRGEN_MODEL.@B21[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@B21[] pool;
 
 		// explicit initializations of A2 for target B21
 		// implicit initializations of A2 for target B21
@@ -2040,6 +2076,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@B21();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@B21[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -2061,6 +2099,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@B21();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@B21[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -2077,7 +2117,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@B21[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -2454,8 +2496,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed partial class @B22 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IB22
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@B22[] pool = new GRGEN_MODEL.@B22[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@B22[] pool;
 
 		// explicit initializations of A2 for target B22
 		// implicit initializations of A2 for target B22
@@ -2531,6 +2573,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@B22();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@B22[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -2552,6 +2596,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@B22();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@B22[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -2568,7 +2614,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@B22[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -2945,8 +2993,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed partial class @B23 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IB23
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@B23[] pool = new GRGEN_MODEL.@B23[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@B23[] pool;
 
 		// explicit initializations of A2 for target B23
 		// implicit initializations of A2 for target B23
@@ -3022,6 +3070,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@B23();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@B23[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -3043,6 +3093,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@B23();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@B23[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -3059,7 +3111,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@B23[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -3436,8 +3490,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed partial class @B41 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IB41
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@B41[] pool = new GRGEN_MODEL.@B41[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@B41[] pool;
 
 		// explicit initializations of A4 for target B41
 		// implicit initializations of A4 for target B41
@@ -3513,6 +3567,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@B41();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@B41[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -3534,6 +3590,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@B41();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@B41[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -3550,7 +3608,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@B41[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -3928,8 +3988,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed partial class @B42 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IB42
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@B42[] pool = new GRGEN_MODEL.@B42[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@B42[] pool;
 
 		// explicit initializations of A4 for target B42
 		// implicit initializations of A4 for target B42
@@ -4005,6 +4065,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@B42();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@B42[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -4026,6 +4088,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@B42();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@B42[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -4042,7 +4106,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@B42[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -4419,8 +4485,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed partial class @B43 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IB43
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@B43[] pool = new GRGEN_MODEL.@B43[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@B43[] pool;
 
 		// explicit initializations of A4 for target B43
 		// implicit initializations of A4 for target B43
@@ -4494,6 +4560,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@B43();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@B43[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -4514,6 +4582,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@B43();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@B43[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -4529,7 +4599,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@B43[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -4783,8 +4855,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed partial class @C221 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IC221
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@C221[] pool = new GRGEN_MODEL.@C221[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@C221[] pool;
 
 		// explicit initializations of A2 for target C221
 		// implicit initializations of A2 for target C221
@@ -4865,6 +4937,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@C221();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@C221[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -4888,6 +4962,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@C221();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@C221[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -4906,7 +4982,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@C221[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -5413,8 +5491,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed partial class @C222_411 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IC222_411
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@C222_411[] pool = new GRGEN_MODEL.@C222_411[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@C222_411[] pool;
 
 		// explicit initializations of A2 for target C222_411
 		// implicit initializations of A2 for target C222_411
@@ -5505,6 +5583,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@C222_411();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@C222_411[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -5532,6 +5612,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@C222_411();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@C222_411[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -5554,7 +5636,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@C222_411[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -6337,8 +6421,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed partial class @C412_421_431_51 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IC412_421_431_51
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@C412_421_431_51[] pool = new GRGEN_MODEL.@C412_421_431_51[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@C412_421_431_51[] pool;
 
 		// explicit initializations of A4 for target C412_421_431_51
 		// implicit initializations of A4 for target C412_421_431_51
@@ -6430,6 +6514,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@C412_421_431_51();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@C412_421_431_51[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -6457,6 +6543,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@C412_421_431_51();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@C412_421_431_51[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -6479,7 +6567,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@C412_421_431_51[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -7139,8 +7229,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed partial class @C432_422 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IC432_422
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@C432_422[] pool = new GRGEN_MODEL.@C432_422[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@C432_422[] pool;
 
 		// explicit initializations of A4 for target C432_422
 		// implicit initializations of A4 for target C432_422
@@ -7224,6 +7314,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@C432_422();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@C432_422[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -7248,6 +7340,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@C432_422();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@C432_422[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -7267,7 +7361,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@C432_422[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -7791,8 +7887,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed partial class @D11_2221 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.ID11_2221
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@D11_2221[] pool = new GRGEN_MODEL.@D11_2221[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@D11_2221[] pool;
 
 		// explicit initializations of A1 for target D11_2221
 		// implicit initializations of A1 for target D11_2221
@@ -7893,6 +7989,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@D11_2221();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@D11_2221[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -7924,6 +8022,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@D11_2221();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@D11_2221[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -7950,7 +8050,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@D11_2221[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -8997,8 +9099,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed partial class @D2211_2222_31 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.ID2211_2222_31
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@D2211_2222_31[] pool = new GRGEN_MODEL.@D2211_2222_31[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@D2211_2222_31[] pool;
 
 		// explicit initializations of A2 for target D2211_2222_31
 		// implicit initializations of A2 for target D2211_2222_31
@@ -9104,6 +9206,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@D2211_2222_31();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@D2211_2222_31[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -9137,6 +9241,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new GRGEN_MODEL.@D2211_2222_31();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@D2211_2222_31[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -9165,7 +9271,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@D2211_2222_31[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -10343,8 +10451,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public abstract class @D231_4121 : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.ID231_4121
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@D231_4121[] pool = new GRGEN_MODEL.@D231_4121[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@D231_4121[] pool;
 
 		// explicit initializations of A2 for target D231_4121
 		// implicit initializations of A2 for target D231_4121
@@ -10390,6 +10498,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new global::test.D231_4121_Impl();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@D231_4121[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -10423,6 +10533,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node = new global::test.D231_4121_Impl();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@D231_4121[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -10451,7 +10563,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@D231_4121[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -10770,8 +10884,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed partial class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IDEdge
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@Edge[] pool;
 
 		static @Edge() {
 		}
@@ -10839,6 +10953,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				edge = new GRGEN_MODEL.@Edge(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Edge[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -10856,6 +10972,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				edge = new GRGEN_MODEL.@Edge(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Edge[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -10868,7 +10986,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@Edge[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -10958,8 +11078,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 	public sealed partial class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IUEdge
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@UEdge[] pool;
 
 		static @UEdge() {
 		}
@@ -11027,6 +11147,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				edge = new GRGEN_MODEL.@UEdge(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@UEdge[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -11044,6 +11166,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 				edge = new GRGEN_MODEL.@UEdge(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@UEdge[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -11056,7 +11180,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@UEdge[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -11176,7 +11302,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			return newObject;
 		}
 
-		private @Object(GRGEN_MODEL.@Object oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.ObjectType_Object.typeVar, graph.FetchObjectUniqueId())
+		private @Object(GRGEN_MODEL.@Object oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.ObjectType_Object.typeVar, graph.GlobalVariables.FetchObjectUniqueId())
 		{
 			if(oldToNewObjectMap != null)
 				oldToNewObjectMap.Add(oldElem, this);
@@ -11266,11 +11392,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override GRGEN_LIBGR.IObject CreateObject(GRGEN_LIBGR.IGraph graph, long uniqueId)
 		{
 			if(uniqueId != -1) {
-				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId(uniqueId));
+				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.GlobalVariables.FetchObjectUniqueId(uniqueId));
 				((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
 				return newObject;
 			} else {
-				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId());
+				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.GlobalVariables.FetchObjectUniqueId());
 				((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
 				return newObject;
 			}
@@ -11908,7 +12034,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GraphElementType[] GRGEN_LIBGR.IGraphElementTypeModel.Types { get { return types; } }
 		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
+		private global::System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.NodeType_Node),
 			typeof(GRGEN_MODEL.NodeType_A1),
 			typeof(GRGEN_MODEL.NodeType_A2),
@@ -11929,7 +12055,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			typeof(GRGEN_MODEL.NodeType_D2211_2222_31),
 			typeof(GRGEN_MODEL.NodeType_D231_4121),
 		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
+		public global::System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 			GRGEN_MODEL.NodeType_A1.AttributeType_a1,
 			GRGEN_MODEL.NodeType_A2.AttributeType_a2,
@@ -12028,12 +12154,12 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public GRGEN_LIBGR.EdgeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GraphElementType[] GRGEN_LIBGR.IGraphElementTypeModel.Types { get { return types; } }
 		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
+		private global::System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.EdgeType_AEdge),
 			typeof(GRGEN_MODEL.EdgeType_Edge),
 			typeof(GRGEN_MODEL.EdgeType_UEdge),
 		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
+		public global::System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
@@ -12084,10 +12210,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public GRGEN_LIBGR.ObjectType[] Types { get { return types; } }
 		GRGEN_LIBGR.BaseObjectType[] GRGEN_LIBGR.IBaseObjectTypeModel.Types { get { return types; } }
 		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
+		private global::System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.ObjectType_Object),
 		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
+		public global::System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
@@ -12138,10 +12264,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public GRGEN_LIBGR.TransientObjectType[] Types { get { return types; } }
 		GRGEN_LIBGR.BaseObjectType[] GRGEN_LIBGR.IBaseObjectTypeModel.Types { get { return types; } }
 		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
+		private global::System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.TransientObjectType_TransientObject),
 		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
+		public global::System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
@@ -12200,6 +12326,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public override bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
 		public override bool AreFunctionsParallelized { get { return false; } }
 		public override int BranchingFactorForEqualsAny { get { return 0; } }
+		public override int ThreadPoolSizeForSequencesParallelExecution { get { return 0; } }
 
 		public static GRGEN_LIBGR.ExternalObjectType externalObjectType_object = new ExternalObjectType_object();
 		private GRGEN_LIBGR.ExternalObjectType[] externalObjectTypes = { externalObjectType_object };
@@ -12210,7 +12337,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			externalObjectType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalObjectType[] { } );
 		}
 
-		public override System.Collections.IList ArrayOrderAscendingBy(System.Collections.IList array, string member)
+		public override global::System.Collections.IList ArrayOrderAscendingBy(global::System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
@@ -12453,7 +12580,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override System.Collections.IList ArrayOrderDescendingBy(System.Collections.IList array, string member)
+		public override global::System.Collections.IList ArrayOrderDescendingBy(global::System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
@@ -12696,7 +12823,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override System.Collections.IList ArrayGroupBy(System.Collections.IList array, string member)
+		public override global::System.Collections.IList ArrayGroupBy(global::System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
@@ -12939,7 +13066,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override System.Collections.IList ArrayKeepOneForEach(System.Collections.IList array, string member)
+		public override global::System.Collections.IList ArrayKeepOneForEach(global::System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
@@ -13182,7 +13309,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override int ArrayIndexOfBy(System.Collections.IList array, string member, object value)
+		public override int ArrayIndexOfBy(global::System.Collections.IList array, string member, object value)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -13425,7 +13552,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override int ArrayIndexOfBy(System.Collections.IList array, string member, object value, int startIndex)
+		public override int ArrayIndexOfBy(global::System.Collections.IList array, string member, object value, int startIndex)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -13668,7 +13795,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override int ArrayLastIndexOfBy(System.Collections.IList array, string member, object value)
+		public override int ArrayLastIndexOfBy(global::System.Collections.IList array, string member, object value)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -13911,7 +14038,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override int ArrayLastIndexOfBy(System.Collections.IList array, string member, object value, int startIndex)
+		public override int ArrayLastIndexOfBy(global::System.Collections.IList array, string member, object value, int startIndex)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -14154,7 +14281,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 			}
 		}
 
-		public override int ArrayIndexOfOrderedBy(System.Collections.IList array, string member, object value)
+		public override int ArrayIndexOfOrderedBy(global::System.Collections.IList array, string member, object value)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -14407,7 +14534,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 	//
 	public class complModelGraph : GRGEN_LGSP.LGSPGraph
 	{
-		public complModelGraph() : base(new complModelGraphModel(), GetGraphName())
+		public complModelGraph(GRGEN_LGSP.LGSPGlobalVariables globalVariables) : base(new complModelGraphModel(), globalVariables, GetGraphName())
 		{
 		}
 
@@ -14523,7 +14650,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 	//
 	public class complModelNamedGraph : GRGEN_LGSP.LGSPNamedGraph
 	{
-		public complModelNamedGraph() : base(new complModelGraphModel(), GetGraphName(), 0)
+		public complModelNamedGraph(GRGEN_LGSP.LGSPGlobalVariables globalVariables) : base(new complModelGraphModel(), globalVariables, GetGraphName(), 0)
 		{
 		}
 

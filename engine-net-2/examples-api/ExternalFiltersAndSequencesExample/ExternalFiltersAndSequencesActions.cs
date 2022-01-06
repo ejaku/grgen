@@ -1,6 +1,9 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Thu Jul 29 16:37:57 CEST 2021
+// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Thu Jan 06 09:31:50 CET 2022
+
+//#pragma warning disable CS0219, CS0162
+#pragma warning disable 219, 162
 
 using System;
 using System.Collections.Generic;
@@ -2058,7 +2061,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
             bool res_71;
             bool res_69;
             bool res_70;
-            GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_46 = new GRGEN_LIBGR.PatternMatchingConstruct("filterBase\\f1()");
+            GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_46 = new GRGEN_LIBGR.PatternMatchingConstruct("filterBase\\f1()", GRGEN_LIBGR.PatternMatchingConstructType.RuleCall);
             procEnv.BeginExecution(patternMatchingConstruct_46);
             GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase> matches_46 = rule_filterBase.Match(procEnv, 1);
             procEnv.PerformanceInfo.MatchesFound += matches_46.Count;
@@ -2074,10 +2077,11 @@ procEnv.SetVariableValue("b", tmpvar_14b);
                 procEnv.RewritingSelectedMatch();
                 rule_filterBase.Modify(procEnv, match_46);
                 procEnv.PerformanceInfo.RewritesPerformed++;
+                procEnv.FinishedSelectedMatch();
                 procEnv.Finished(matches_46, false);
             }
             procEnv.EndExecution(patternMatchingConstruct_46, null);
-            GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_47 = new GRGEN_LIBGR.PatternMatchingConstruct("filterBase\\nomnomnom()");
+            GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_47 = new GRGEN_LIBGR.PatternMatchingConstruct("filterBase\\nomnomnom()", GRGEN_LIBGR.PatternMatchingConstructType.RuleCall);
             procEnv.BeginExecution(patternMatchingConstruct_47);
             GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase> matches_47 = rule_filterBase.Match(procEnv, 1);
             procEnv.PerformanceInfo.MatchesFound += matches_47.Count;
@@ -2093,11 +2097,12 @@ procEnv.SetVariableValue("b", tmpvar_14b);
                 procEnv.RewritingSelectedMatch();
                 rule_filterBase.Modify(procEnv, match_47);
                 procEnv.PerformanceInfo.RewritesPerformed++;
+                procEnv.FinishedSelectedMatch();
                 procEnv.Finished(matches_47, false);
             }
             procEnv.EndExecution(patternMatchingConstruct_47, null);
             res_48 = (bool)(res_47);
-            GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_49 = new GRGEN_LIBGR.PatternMatchingConstruct("filterBase\\auto()");
+            GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_49 = new GRGEN_LIBGR.PatternMatchingConstruct("filterBase\\auto()", GRGEN_LIBGR.PatternMatchingConstructType.RuleCall);
             procEnv.BeginExecution(patternMatchingConstruct_49);
             GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase> matches_49 = rule_filterBase.Match(procEnv, 1);
             procEnv.PerformanceInfo.MatchesFound += matches_49.Count;
@@ -2113,11 +2118,12 @@ procEnv.SetVariableValue("b", tmpvar_14b);
                 procEnv.RewritingSelectedMatch();
                 rule_filterBase.Modify(procEnv, match_49);
                 procEnv.PerformanceInfo.RewritesPerformed++;
+                procEnv.FinishedSelectedMatch();
                 procEnv.Finished(matches_49, false);
             }
             procEnv.EndExecution(patternMatchingConstruct_49, null);
             res_50 = (bool)(res_49);
-            GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_51 = new GRGEN_LIBGR.PatternMatchingConstruct("[filterBass\\f2()\\fil(42)]");
+            GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_51 = new GRGEN_LIBGR.PatternMatchingConstruct("[filterBass\\f2()\\fil(42)]", GRGEN_LIBGR.PatternMatchingConstructType.RuleAllCall);
             procEnv.BeginExecution(patternMatchingConstruct_51);
             GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBass.IMatch_filterBass> matches_51 = rule_filterBass.Match(procEnv, procEnv.MaxMatches);
             procEnv.PerformanceInfo.MatchesFound += matches_51.Count;
@@ -2137,12 +2143,13 @@ procEnv.SetVariableValue("b", tmpvar_14b);
                     procEnv.RewritingSelectedMatch();
                     rule_filterBass.Modify(procEnv, match_51);
                     procEnv.PerformanceInfo.RewritesPerformed++;
+                    procEnv.FinishedSelectedMatch();
                 }
                 procEnv.Finished(matches_51, false);
             }
             procEnv.EndExecution(patternMatchingConstruct_51, null);
             res_53 = (bool)(res_51);
-            GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_54 = new GRGEN_LIBGR.PatternMatchingConstruct("$::x[filterBass\\f3()]");
+            GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_54 = new GRGEN_LIBGR.PatternMatchingConstruct("$::x[filterBass\\f3()]", GRGEN_LIBGR.PatternMatchingConstructType.RuleAllCall);
             procEnv.BeginExecution(patternMatchingConstruct_54);
             GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBass.IMatch_filterBass> matches_54 = rule_filterBass.Match(procEnv, procEnv.MaxMatches);
             procEnv.PerformanceInfo.MatchesFound += matches_54.Count;
@@ -2168,7 +2175,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
             }
             procEnv.EndExecution(patternMatchingConstruct_54, null);
             res_55 = (bool)(res_54);
-            GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_56 = new GRGEN_LIBGR.PatternMatchingConstruct("[filterBass\\auto()]");
+            GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_56 = new GRGEN_LIBGR.PatternMatchingConstruct("[filterBass\\auto()]", GRGEN_LIBGR.PatternMatchingConstructType.RuleAllCall);
             procEnv.BeginExecution(patternMatchingConstruct_56);
             GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBass.IMatch_filterBass> matches_56 = rule_filterBass.Match(procEnv, procEnv.MaxMatches);
             procEnv.PerformanceInfo.MatchesFound += matches_56.Count;
@@ -2187,12 +2194,13 @@ procEnv.SetVariableValue("b", tmpvar_14b);
                     procEnv.RewritingSelectedMatch();
                     rule_filterBass.Modify(procEnv, match_56);
                     procEnv.PerformanceInfo.RewritesPerformed++;
+                    procEnv.FinishedSelectedMatch();
                 }
                 procEnv.Finished(matches_56, false);
             }
             procEnv.EndExecution(patternMatchingConstruct_56, null);
             res_57 = (bool)(res_56);
-            GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_59 = new GRGEN_LIBGR.PatternMatchingConstruct("(::ee)=filterHass(::n)\\f4(::n.i\"foo\")\\orderAscendingBy<i>()\\keepFirst(42)");
+            GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_59 = new GRGEN_LIBGR.PatternMatchingConstruct("(::ee)=filterHass(::n)\\f4(::n.i\"foo\")\\orderAscendingBy<i>()\\keepFirst(42)", GRGEN_LIBGR.PatternMatchingConstructType.RuleCall);
             procEnv.BeginExecution(patternMatchingConstruct_59);
             GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterHass.IMatch_filterHass> matches_59 = rule_filterHass.Match(procEnv, 1, (GRGEN_MODEL.IN)procEnv.GetVariableValue("n"));
             procEnv.PerformanceInfo.MatchesFound += matches_59.Count;
@@ -2213,11 +2221,12 @@ procEnv.SetVariableValue("b", tmpvar_14b);
                 procEnv.SetVariableValue("ee", tmpvar_16ee);
 
                 procEnv.PerformanceInfo.RewritesPerformed++;
+                procEnv.FinishedSelectedMatch();
                 procEnv.Finished(matches_59, false);
             }
             procEnv.EndExecution(patternMatchingConstruct_59, null);
             res_64 = (bool)(res_59);
-            GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_67 = new GRGEN_LIBGR.PatternMatchingConstruct("<< filterBase\\f1();;filterBase\\f1()>>");
+            GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_67 = new GRGEN_LIBGR.PatternMatchingConstruct("<< filterBase\\f1();;filterBase\\f1()>>", GRGEN_LIBGR.PatternMatchingConstructType.Backtrack);
             procEnv.BeginExecution(patternMatchingConstruct_67);
             GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase> matches_65 = rule_filterBase.Match(procEnv, procEnv.MaxMatches);
             procEnv.PerformanceInfo.MatchesFound += matches_65.Count;
@@ -2228,8 +2237,10 @@ procEnv.SetVariableValue("b", tmpvar_14b);
             }
             if(matches_65.Count == 0) {
                 res_67 = (bool)(false);
+                res_65 = (bool)(false);
             } else {
                 res_67 = (bool)(true);
+                res_65 = (bool)(true);
                 procEnv.MatchedAfterFiltering(matches_65, false);
                 int matchesTried_67 = 0;
                 IEnumerator<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase> enum_67 = matches_65.GetEnumeratorExact();
@@ -2244,7 +2255,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
                     rule_filterBase.Modify(procEnv, match_65);
                     ++procEnv.PerformanceInfo.RewritesPerformed;
                     procEnv.FinishedSelectedMatch();
-                    GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_66 = new GRGEN_LIBGR.PatternMatchingConstruct("filterBase\\f1()");
+                    GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_66 = new GRGEN_LIBGR.PatternMatchingConstruct("filterBase\\f1()", GRGEN_LIBGR.PatternMatchingConstructType.RuleCall);
                     procEnv.BeginExecution(patternMatchingConstruct_66);
                     GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase> matches_66 = rule_filterBase.Match(procEnv, 1);
                     procEnv.PerformanceInfo.MatchesFound += matches_66.Count;
@@ -2260,6 +2271,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
                         procEnv.RewritingSelectedMatch();
                         rule_filterBase.Modify(procEnv, match_66);
                         procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.FinishedSelectedMatch();
                         procEnv.Finished(matches_66, false);
                     }
                     procEnv.EndExecution(patternMatchingConstruct_66, null);
@@ -2281,7 +2293,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
             procEnv.Finished(matches_65, false);
             procEnv.EndExecution(patternMatchingConstruct_67, null);
             res_68 = (bool)(res_67);
-            GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_71 = new GRGEN_LIBGR.PatternMatchingConstruct("{<de.unika.ipd.grGen.libGr.SequenceRuleCallCompiled,de.unika.ipd.grGen.libGr.SequenceRuleAllCallCompiled>}");
+            GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_71 = new GRGEN_LIBGR.PatternMatchingConstruct("{<filterBase\\f1(),[filterBass\\f2()]>}", GRGEN_LIBGR.PatternMatchingConstructType.SomeFromSet);
             procEnv.BeginExecution(patternMatchingConstruct_71);
             res_71 = (bool)(false);
             GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_filterBase.IMatch_filterBase> matches_69 = rule_filterBase.Match(procEnv, 1);
@@ -2298,10 +2310,12 @@ procEnv.SetVariableValue("b", tmpvar_14b);
             GRGEN_ACTIONS.MatchFilters.Filter_f1(procEnv, matches_69);
             if(matches_69.Count != 0) {
                 res_71 = (bool)(true);
+                res_69 = (bool)(true);
             }
             GRGEN_ACTIONS.MatchFilters.Filter_f2(procEnv, matches_70);
             if(matches_70.Count != 0) {
                 res_71 = (bool)(true);
+                res_70 = (bool)(true);
             }
             if(res_71) {
             procEnv.MatchedAfterFiltering(new GRGEN_LIBGR.IMatches[2] {matches_69,matches_70}, new bool[2] {false,false});
@@ -5173,25 +5187,32 @@ procEnv.SetVariableValue("b", tmpvar_14b);
     public class Action_filterBase : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_filterBase
     {
         public Action_filterBase()
-            : base(Rule_filterBase.Instance.patternGraph, new object[0])
+            : base(Rule_filterBase.Instance.patternGraph)
         {
             _rulePattern = Rule_filterBase.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_filterBase.Match_filterBase, Rule_filterBase.IMatch_filterBase>(this);
         }
 
         public Rule_filterBase _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "filterBase"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_filterBase.Match_filterBase, Rule_filterBase.IMatch_filterBase> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_filterBase.Match_filterBase, Rule_filterBase.IMatch_filterBase> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_filterBase Instance { get { return instance; } set { instance = value; } }
         private static Action_filterBase instance = new Action_filterBase();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_filterBase.IMatch_filterBase> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_filterBase.Match_filterBase, Rule_filterBase.IMatch_filterBase>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             Rule_filterBase.Match_filterBase match = matches.GetNextUnfilledPosition();
             matches.PositionWasFilledFixIt();
@@ -5318,7 +5339,11 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -5417,25 +5442,32 @@ procEnv.SetVariableValue("b", tmpvar_14b);
     public class Action_filterBass : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_filterBass
     {
         public Action_filterBass()
-            : base(Rule_filterBass.Instance.patternGraph, new object[0])
+            : base(Rule_filterBass.Instance.patternGraph)
         {
             _rulePattern = Rule_filterBass.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_filterBass.Match_filterBass, Rule_filterBass.IMatch_filterBass>(this);
         }
 
         public Rule_filterBass _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "filterBass"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_filterBass.Match_filterBass, Rule_filterBass.IMatch_filterBass> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_filterBass.Match_filterBass, Rule_filterBass.IMatch_filterBass> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_filterBass Instance { get { return instance; } set { instance = value; } }
         private static Action_filterBass instance = new Action_filterBass();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_filterBass.IMatch_filterBass> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_filterBass.Match_filterBass, Rule_filterBass.IMatch_filterBass>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Lookup filterBass_edge_e 
             int type_id_candidate_filterBass_edge_e = 3;
@@ -5583,7 +5615,11 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -5683,25 +5719,32 @@ procEnv.SetVariableValue("b", tmpvar_14b);
     public class Action_filterHass : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_filterHass
     {
         public Action_filterHass()
-            : base(Rule_filterHass.Instance.patternGraph, new object[1])
+            : base(Rule_filterHass.Instance.patternGraph)
         {
             _rulePattern = Rule_filterHass.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_filterHass.Match_filterHass, Rule_filterHass.IMatch_filterHass>(this);
         }
 
         public Rule_filterHass _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "filterHass"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_filterHass.Match_filterHass, Rule_filterHass.IMatch_filterHass> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_filterHass.Match_filterHass, Rule_filterHass.IMatch_filterHass> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_filterHass Instance { get { return instance; } set { instance = value; } }
         private static Action_filterHass instance = new Action_filterHass();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_filterHass.IMatch_filterHass> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IN filterHass_node_n)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_filterHass.Match_filterHass, Rule_filterHass.IMatch_filterHass>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[1];
             int isoSpace = 0;
             // Preset filterHass_node_n 
             GRGEN_LGSP.LGSPNode candidate_filterHass_node_n = (GRGEN_LGSP.LGSPNode)filterHass_node_n;
@@ -5857,7 +5900,11 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[1]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -5950,25 +5997,32 @@ procEnv.SetVariableValue("b", tmpvar_14b);
     public class Action_init : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_init
     {
         public Action_init()
-            : base(Rule_init.Instance.patternGraph, new object[1])
+            : base(Rule_init.Instance.patternGraph)
         {
             _rulePattern = Rule_init.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_init.Match_init, Rule_init.IMatch_init>(this);
         }
 
         public Rule_init _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "init"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_init.Match_init, Rule_init.IMatch_init> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_init.Match_init, Rule_init.IMatch_init> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_init Instance { get { return instance; } set { instance = value; } }
         private static Action_init instance = new Action_init();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_init.Match_init, Rule_init.IMatch_init>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[1];
             int isoSpace = 0;
             Rule_init.Match_init match = matches.GetNextUnfilledPosition();
             matches.PositionWasFilledFixIt();
@@ -6103,7 +6157,11 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[1]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -6203,25 +6261,32 @@ procEnv.SetVariableValue("b", tmpvar_14b);
     public class Action_r : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_r
     {
         public Action_r()
-            : base(Rule_r.Instance.patternGraph, new object[0])
+            : base(Rule_r.Instance.patternGraph)
         {
             _rulePattern = Rule_r.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_r.Match_r, Rule_r.IMatch_r>(this);
         }
 
         public Rule_r _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "r"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_r.Match_r, Rule_r.IMatch_r> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_r.Match_r, Rule_r.IMatch_r> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_r Instance { get { return instance; } set { instance = value; } }
         private static Action_r instance = new Action_r();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_r.IMatch_r> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_r.Match_r, Rule_r.IMatch_r>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Lookup r_edge_e 
             int type_id_candidate_r_edge_e = 3;
@@ -6367,7 +6432,11 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -6463,25 +6532,32 @@ procEnv.SetVariableValue("b", tmpvar_14b);
     public class Action_rs : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_rs
     {
         public Action_rs()
-            : base(Rule_rs.Instance.patternGraph, new object[0])
+            : base(Rule_rs.Instance.patternGraph)
         {
             _rulePattern = Rule_rs.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_rs.Match_rs, Rule_rs.IMatch_rs>(this);
         }
 
         public Rule_rs _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "rs"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_rs.Match_rs, Rule_rs.IMatch_rs> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_rs.Match_rs, Rule_rs.IMatch_rs> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_rs Instance { get { return instance; } set { instance = value; } }
         private static Action_rs instance = new Action_rs();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_rs.IMatch_rs> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_LIBGR.INode rs_node_start)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_rs.Match_rs, Rule_rs.IMatch_rs>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Preset rs_node_start 
             GRGEN_LGSP.LGSPNode candidate_rs_node_start = (GRGEN_LGSP.LGSPNode)rs_node_start;
@@ -6642,7 +6718,11 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -6731,25 +6811,32 @@ procEnv.SetVariableValue("b", tmpvar_14b);
     public class Action_ss : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_ss
     {
         public Action_ss()
-            : base(Rule_ss.Instance.patternGraph, new object[2])
+            : base(Rule_ss.Instance.patternGraph)
         {
             _rulePattern = Rule_ss.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_ss.Match_ss, Rule_ss.IMatch_ss>(this);
         }
 
         public Rule_ss _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "ss"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_ss.Match_ss, Rule_ss.IMatch_ss> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_ss.Match_ss, Rule_ss.IMatch_ss> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_ss Instance { get { return instance; } set { instance = value; } }
         private static Action_ss instance = new Action_ss();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_ss.IMatch_ss> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_ss.Match_ss, Rule_ss.IMatch_ss>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[2];
             int isoSpace = 0;
             // Lookup ss_edge__edge0 
             foreach(GRGEN_LIBGR.EdgeType type_candidate_ss_edge__edge0 in GRGEN_MODEL.EdgeType_Edge.typeVar.SubOrSameTypes)
@@ -6967,7 +7054,11 @@ procEnv.SetVariableValue("b", tmpvar_14b);
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[2]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -7159,10 +7250,11 @@ procEnv.SetVariableValue("b", tmpvar_14b);
             bool res_85;
             GRGEN_ACTIONS.Action_ss rule_ss = GRGEN_ACTIONS.Action_ss.Instance;
             List<GRGEN_MODEL.IM> var_m1 = null;
-                        GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_86 = new GRGEN_LIBGR.PatternMatchingConstruct("[[rs(::n),(m1,::m2)=ss]\\shared.shf(42)\\shared.extshf(42)\\shared.orderAscendingBy<v>()\\shared.keepFirst(3)]");
+                        GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_86 = new GRGEN_LIBGR.PatternMatchingConstruct("[[rs(::n),(m1,::m2)=ss]\\shared.shf(42)\\shared.extshf(42)\\shared.orderAscendingBy<v>()\\shared.keepFirst(3)]", GRGEN_LIBGR.PatternMatchingConstructType.MultiRuleAllCall);
             procEnv.BeginExecution(patternMatchingConstruct_86);
             res_86 = (bool)(false);
             List<GRGEN_LIBGR.IMatch> MatchList_86 = new List<GRGEN_LIBGR.IMatch>();
+            Dictionary<GRGEN_LIBGR.IMatch, int> MatchToConstructIndex_86 = new Dictionary<GRGEN_LIBGR.IMatch, int>();
             GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_rs.IMatch_rs> matches_84 = rule_rs.Match(procEnv, procEnv.MaxMatches, (GRGEN_LIBGR.INode)procEnv.GetVariableValue("n"));
             procEnv.PerformanceInfo.MatchesFound += matches_84.Count;
             if(matches_84.Count != 0) {
@@ -7175,11 +7267,21 @@ procEnv.SetVariableValue("b", tmpvar_14b);
             }
             procEnv.MatchedBeforeFiltering(new GRGEN_LIBGR.IMatches[2] {matches_84,matches_85});
             if(matches_84.Count != 0) {
-                MatchList_86.AddRange(matches_84);
+                foreach(GRGEN_LIBGR.IMatch match in matches_84)
+                {
+                    MatchList_86.Add(match);
+                    MatchToConstructIndex_86[match] = 0;
+                }
             }
+            res_84 = (bool)(matches_84.Count != 0);
             if(matches_85.Count != 0) {
-                MatchList_86.AddRange(matches_85);
+                foreach(GRGEN_LIBGR.IMatch match in matches_85)
+                {
+                    MatchList_86.Add(match);
+                    MatchToConstructIndex_86[match] = 1;
+                }
             }
+            res_85 = (bool)(matches_85.Count != 0);
             GRGEN_ACTIONS.MatchClassFilters.Filter_shf(procEnv, MatchList_86, (int)(42));
             GRGEN_ACTIONS.MatchClassFilters.Filter_extshf(procEnv, MatchList_86, (int)(42));
             GRGEN_ACTIONS.MatchClassFilters.Filter_shared_orderAscendingBy_v(procEnv, MatchList_86);
@@ -7191,9 +7293,9 @@ procEnv.SetVariableValue("b", tmpvar_14b);
                 IEnumerator<GRGEN_LIBGR.IMatch> enum_86 = MatchList_86.GetEnumerator();
                 while(enum_86.MoveNext())
                 {
-                    switch(enum_86.Current.Pattern.PackagePrefixedName)
+                    switch(MatchToConstructIndex_86[enum_86.Current])
                     {
-                        case "rs":
+                        case 0:
                         {
                             GRGEN_ACTIONS.Rule_rs.IMatch_rs match_84 = (GRGEN_ACTIONS.Rule_rs.IMatch_rs)enum_86.Current;
                             procEnv.MatchSelected(match_84, false, matches_84);
@@ -7203,7 +7305,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
                             procEnv.FinishedSelectedMatch();
                             break;
                         }
-                        case "ss":
+                        case 1:
                         {
                             GRGEN_ACTIONS.Rule_ss.IMatch_ss match_85 = (GRGEN_ACTIONS.Rule_ss.IMatch_ss)enum_86.Current;
                             procEnv.MatchSelected(match_85, false, matches_85);
@@ -7215,7 +7317,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
                             procEnv.FinishedSelectedMatch();
                             break;
                         }
-                        default: throw new Exception("Unknown pattern " + enum_86.Current.Pattern.PackagePrefixedName + " in match!");                    }
+                        default: throw new Exception("Unknown construct index of pattern " + enum_86.Current.Pattern.PackagePrefixedName + " in match!");                    }
                 }
                 var_m1 = (List<GRGEN_MODEL.IM>)(tmpvarlist_17m1);
 procEnv.SetVariableValue("m2", tmpvarlist_18m2);

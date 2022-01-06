@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Thu Jul 29 16:38:20 CEST 2021
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Thu Jan 06 09:32:24 CET 2022
 
 using System;
 using System.Collections.Generic;
@@ -34,8 +34,8 @@ namespace de.unika.ipd.grGen.Model_Std
 
 	public sealed partial class @Node : GRGEN_LGSP.LGSPNode, GRGEN_LIBGR.INode
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@Node[] pool;
 
 		static @Node() {
 		}
@@ -101,6 +101,8 @@ namespace de.unika.ipd.grGen.Model_Std
 				node = new GRGEN_MODEL.@Node();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Node[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -118,6 +120,8 @@ namespace de.unika.ipd.grGen.Model_Std
 				node = new GRGEN_MODEL.@Node();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Node[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -130,7 +134,9 @@ namespace de.unika.ipd.grGen.Model_Std
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@Node[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -271,8 +277,8 @@ namespace de.unika.ipd.grGen.Model_Std
 
 	public sealed partial class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IDEdge
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@Edge[] pool;
 
 		static @Edge() {
 		}
@@ -340,6 +346,8 @@ namespace de.unika.ipd.grGen.Model_Std
 				edge = new GRGEN_MODEL.@Edge(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Edge[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -357,6 +365,8 @@ namespace de.unika.ipd.grGen.Model_Std
 				edge = new GRGEN_MODEL.@Edge(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Edge[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -369,7 +379,9 @@ namespace de.unika.ipd.grGen.Model_Std
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@Edge[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -459,8 +471,8 @@ namespace de.unika.ipd.grGen.Model_Std
 
 	public sealed partial class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IUEdge
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@UEdge[] pool;
 
 		static @UEdge() {
 		}
@@ -528,6 +540,8 @@ namespace de.unika.ipd.grGen.Model_Std
 				edge = new GRGEN_MODEL.@UEdge(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@UEdge[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -545,6 +559,8 @@ namespace de.unika.ipd.grGen.Model_Std
 				edge = new GRGEN_MODEL.@UEdge(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@UEdge[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -557,7 +573,9 @@ namespace de.unika.ipd.grGen.Model_Std
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@UEdge[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -677,7 +695,7 @@ namespace de.unika.ipd.grGen.Model_Std
 			return newObject;
 		}
 
-		private @Object(GRGEN_MODEL.@Object oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.ObjectType_Object.typeVar, graph.FetchObjectUniqueId())
+		private @Object(GRGEN_MODEL.@Object oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.ObjectType_Object.typeVar, graph.GlobalVariables.FetchObjectUniqueId())
 		{
 			if(oldToNewObjectMap != null)
 				oldToNewObjectMap.Add(oldElem, this);
@@ -767,11 +785,11 @@ namespace de.unika.ipd.grGen.Model_Std
 		public override GRGEN_LIBGR.IObject CreateObject(GRGEN_LIBGR.IGraph graph, long uniqueId)
 		{
 			if(uniqueId != -1) {
-				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId(uniqueId));
+				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.GlobalVariables.FetchObjectUniqueId(uniqueId));
 				((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
 				return newObject;
 			} else {
-				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId());
+				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.GlobalVariables.FetchObjectUniqueId());
 				((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
 				return newObject;
 			}
@@ -1021,10 +1039,10 @@ namespace de.unika.ipd.grGen.Model_Std
 		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GraphElementType[] GRGEN_LIBGR.IGraphElementTypeModel.Types { get { return types; } }
 		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
+		private global::System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.NodeType_Node),
 		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
+		public global::System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
@@ -1107,12 +1125,12 @@ namespace de.unika.ipd.grGen.Model_Std
 		public GRGEN_LIBGR.EdgeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GraphElementType[] GRGEN_LIBGR.IGraphElementTypeModel.Types { get { return types; } }
 		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
+		private global::System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.EdgeType_AEdge),
 			typeof(GRGEN_MODEL.EdgeType_Edge),
 			typeof(GRGEN_MODEL.EdgeType_UEdge),
 		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
+		public global::System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
@@ -1163,10 +1181,10 @@ namespace de.unika.ipd.grGen.Model_Std
 		public GRGEN_LIBGR.ObjectType[] Types { get { return types; } }
 		GRGEN_LIBGR.BaseObjectType[] GRGEN_LIBGR.IBaseObjectTypeModel.Types { get { return types; } }
 		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
+		private global::System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.ObjectType_Object),
 		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
+		public global::System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
@@ -1217,10 +1235,10 @@ namespace de.unika.ipd.grGen.Model_Std
 		public GRGEN_LIBGR.TransientObjectType[] Types { get { return types; } }
 		GRGEN_LIBGR.BaseObjectType[] GRGEN_LIBGR.IBaseObjectTypeModel.Types { get { return types; } }
 		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
+		private global::System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.TransientObjectType_TransientObject),
 		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
+		public global::System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
@@ -1279,6 +1297,7 @@ namespace de.unika.ipd.grGen.Model_Std
 		public override bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
 		public override bool AreFunctionsParallelized { get { return false; } }
 		public override int BranchingFactorForEqualsAny { get { return 0; } }
+		public override int ThreadPoolSizeForSequencesParallelExecution { get { return 0; } }
 
 		public static GRGEN_LIBGR.ExternalObjectType externalObjectType_object = new ExternalObjectType_object();
 		private GRGEN_LIBGR.ExternalObjectType[] externalObjectTypes = { externalObjectType_object };
@@ -1289,7 +1308,7 @@ namespace de.unika.ipd.grGen.Model_Std
 			externalObjectType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalObjectType[] { } );
 		}
 
-		public override System.Collections.IList ArrayOrderAscendingBy(System.Collections.IList array, string member)
+		public override global::System.Collections.IList ArrayOrderAscendingBy(global::System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
@@ -1338,7 +1357,7 @@ namespace de.unika.ipd.grGen.Model_Std
 			}
 		}
 
-		public override System.Collections.IList ArrayOrderDescendingBy(System.Collections.IList array, string member)
+		public override global::System.Collections.IList ArrayOrderDescendingBy(global::System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
@@ -1387,7 +1406,7 @@ namespace de.unika.ipd.grGen.Model_Std
 			}
 		}
 
-		public override System.Collections.IList ArrayGroupBy(System.Collections.IList array, string member)
+		public override global::System.Collections.IList ArrayGroupBy(global::System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
@@ -1436,7 +1455,7 @@ namespace de.unika.ipd.grGen.Model_Std
 			}
 		}
 
-		public override System.Collections.IList ArrayKeepOneForEach(System.Collections.IList array, string member)
+		public override global::System.Collections.IList ArrayKeepOneForEach(global::System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
@@ -1485,7 +1504,7 @@ namespace de.unika.ipd.grGen.Model_Std
 			}
 		}
 
-		public override int ArrayIndexOfBy(System.Collections.IList array, string member, object value)
+		public override int ArrayIndexOfBy(global::System.Collections.IList array, string member, object value)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -1534,7 +1553,7 @@ namespace de.unika.ipd.grGen.Model_Std
 			}
 		}
 
-		public override int ArrayIndexOfBy(System.Collections.IList array, string member, object value, int startIndex)
+		public override int ArrayIndexOfBy(global::System.Collections.IList array, string member, object value, int startIndex)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -1583,7 +1602,7 @@ namespace de.unika.ipd.grGen.Model_Std
 			}
 		}
 
-		public override int ArrayLastIndexOfBy(System.Collections.IList array, string member, object value)
+		public override int ArrayLastIndexOfBy(global::System.Collections.IList array, string member, object value)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -1632,7 +1651,7 @@ namespace de.unika.ipd.grGen.Model_Std
 			}
 		}
 
-		public override int ArrayLastIndexOfBy(System.Collections.IList array, string member, object value, int startIndex)
+		public override int ArrayLastIndexOfBy(global::System.Collections.IList array, string member, object value, int startIndex)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -1681,7 +1700,7 @@ namespace de.unika.ipd.grGen.Model_Std
 			}
 		}
 
-		public override int ArrayIndexOfOrderedBy(System.Collections.IList array, string member, object value)
+		public override int ArrayIndexOfOrderedBy(global::System.Collections.IList array, string member, object value)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -1740,7 +1759,7 @@ namespace de.unika.ipd.grGen.Model_Std
 	//
 	public class StdGraph : GRGEN_LGSP.LGSPGraph
 	{
-		public StdGraph() : base(new StdGraphModel(), GetGraphName())
+		public StdGraph(GRGEN_LGSP.LGSPGlobalVariables globalVariables) : base(new StdGraphModel(), globalVariables, GetGraphName())
 		{
 		}
 
@@ -1766,7 +1785,7 @@ namespace de.unika.ipd.grGen.Model_Std
 	//
 	public class StdNamedGraph : GRGEN_LGSP.LGSPNamedGraph
 	{
-		public StdNamedGraph() : base(new StdGraphModel(), GetGraphName(), 0)
+		public StdNamedGraph(GRGEN_LGSP.LGSPGlobalVariables globalVariables) : base(new StdGraphModel(), globalVariables, GetGraphName(), 0)
 		{
 		}
 

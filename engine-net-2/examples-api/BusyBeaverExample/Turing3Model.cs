@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Thu Jul 29 16:37:50 CEST 2021
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Thu Jan 06 09:31:39 CET 2022
 
 using System;
 using System.Collections.Generic;
@@ -34,8 +34,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	public sealed partial class @Node : GRGEN_LGSP.LGSPNode, GRGEN_LIBGR.INode
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@Node[] pool;
 
 		static @Node() {
 		}
@@ -101,6 +101,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node = new GRGEN_MODEL.@Node();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Node[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -118,6 +120,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node = new GRGEN_MODEL.@Node();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Node[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -130,7 +134,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@Node[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -217,8 +223,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	public sealed partial class @BandPosition : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IBandPosition
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@BandPosition[] pool = new GRGEN_MODEL.@BandPosition[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@BandPosition[] pool;
 
 		// explicit initializations of BandPosition for target BandPosition
 		// implicit initializations of BandPosition for target BandPosition
@@ -289,6 +295,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node = new GRGEN_MODEL.@BandPosition();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@BandPosition[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -308,6 +316,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node = new GRGEN_MODEL.@BandPosition();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@BandPosition[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -322,7 +332,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@BandPosition[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -561,8 +573,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	public sealed partial class @State : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IState
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@State[] pool = new GRGEN_MODEL.@State[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@State[] pool;
 
 		// explicit initializations of State for target State
 		// implicit initializations of State for target State
@@ -631,6 +643,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node = new GRGEN_MODEL.@State();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@State[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -649,6 +663,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node = new GRGEN_MODEL.@State();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@State[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -662,7 +678,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@State[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -750,8 +768,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	public sealed partial class @WriteValue : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IWriteValue
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@WriteValue[] pool = new GRGEN_MODEL.@WriteValue[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@WriteValue[] pool;
 
 		// explicit initializations of WriteValue for target WriteValue
 		// implicit initializations of WriteValue for target WriteValue
@@ -822,6 +840,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node = new GRGEN_MODEL.@WriteValue();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@WriteValue[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -841,6 +861,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node = new GRGEN_MODEL.@WriteValue();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@WriteValue[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -855,7 +877,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@WriteValue[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -1149,8 +1173,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	public sealed partial class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IDEdge
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@Edge[] pool;
 
 		static @Edge() {
 		}
@@ -1218,6 +1242,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge = new GRGEN_MODEL.@Edge(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Edge[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -1235,6 +1261,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge = new GRGEN_MODEL.@Edge(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Edge[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -1247,7 +1275,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@Edge[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -1337,8 +1367,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	public sealed partial class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IUEdge
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@UEdge[] pool;
 
 		static @UEdge() {
 		}
@@ -1406,6 +1436,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge = new GRGEN_MODEL.@UEdge(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@UEdge[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -1423,6 +1455,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge = new GRGEN_MODEL.@UEdge(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@UEdge[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -1435,7 +1469,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@UEdge[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -1528,8 +1564,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	public sealed partial class @right : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Iright
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@right[] pool = new GRGEN_MODEL.@right[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@right[] pool;
 
 		// explicit initializations of right for target right
 		// implicit initializations of right for target right
@@ -1600,6 +1636,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge = new GRGEN_MODEL.@right(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@right[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -1618,6 +1656,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge = new GRGEN_MODEL.@right(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@right[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -1631,7 +1671,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@right[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -1725,8 +1767,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	public sealed partial class @readZero : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IreadZero
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@readZero[] pool = new GRGEN_MODEL.@readZero[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@readZero[] pool;
 
 		// explicit initializations of readZero for target readZero
 		// implicit initializations of readZero for target readZero
@@ -1797,6 +1839,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge = new GRGEN_MODEL.@readZero(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@readZero[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -1815,6 +1859,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge = new GRGEN_MODEL.@readZero(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@readZero[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -1828,7 +1874,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@readZero[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -1922,8 +1970,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	public sealed partial class @readOne : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IreadOne
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@readOne[] pool = new GRGEN_MODEL.@readOne[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@readOne[] pool;
 
 		// explicit initializations of readOne for target readOne
 		// implicit initializations of readOne for target readOne
@@ -1994,6 +2042,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge = new GRGEN_MODEL.@readOne(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@readOne[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -2012,6 +2062,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge = new GRGEN_MODEL.@readOne(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@readOne[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -2025,7 +2077,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@readOne[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -2119,8 +2173,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	public sealed partial class @moveLeft : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.ImoveLeft
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@moveLeft[] pool = new GRGEN_MODEL.@moveLeft[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@moveLeft[] pool;
 
 		// explicit initializations of moveLeft for target moveLeft
 		// implicit initializations of moveLeft for target moveLeft
@@ -2191,6 +2245,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge = new GRGEN_MODEL.@moveLeft(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@moveLeft[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -2209,6 +2265,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge = new GRGEN_MODEL.@moveLeft(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@moveLeft[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -2222,7 +2280,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@moveLeft[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -2316,8 +2376,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 	public sealed partial class @moveRight : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.ImoveRight
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@moveRight[] pool = new GRGEN_MODEL.@moveRight[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@moveRight[] pool;
 
 		// explicit initializations of moveRight for target moveRight
 		// implicit initializations of moveRight for target moveRight
@@ -2388,6 +2448,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge = new GRGEN_MODEL.@moveRight(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@moveRight[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -2406,6 +2468,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge = new GRGEN_MODEL.@moveRight(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@moveRight[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -2419,7 +2483,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@moveRight[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -2540,7 +2606,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			return newObject;
 		}
 
-		private @Object(GRGEN_MODEL.@Object oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.ObjectType_Object.typeVar, graph.FetchObjectUniqueId())
+		private @Object(GRGEN_MODEL.@Object oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.ObjectType_Object.typeVar, graph.GlobalVariables.FetchObjectUniqueId())
 		{
 			if(oldToNewObjectMap != null)
 				oldToNewObjectMap.Add(oldElem, this);
@@ -2630,11 +2696,11 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public override GRGEN_LIBGR.IObject CreateObject(GRGEN_LIBGR.IGraph graph, long uniqueId)
 		{
 			if(uniqueId != -1) {
-				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId(uniqueId));
+				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.GlobalVariables.FetchObjectUniqueId(uniqueId));
 				((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
 				return newObject;
 			} else {
-				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId());
+				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.GlobalVariables.FetchObjectUniqueId());
 				((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
 				return newObject;
 			}
@@ -2932,13 +2998,13 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GraphElementType[] GRGEN_LIBGR.IGraphElementTypeModel.Types { get { return types; } }
 		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
+		private global::System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.NodeType_Node),
 			typeof(GRGEN_MODEL.NodeType_BandPosition),
 			typeof(GRGEN_MODEL.NodeType_State),
 			typeof(GRGEN_MODEL.NodeType_WriteValue),
 		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
+		public global::System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 			GRGEN_MODEL.NodeType_BandPosition.AttributeType_value,
 			GRGEN_MODEL.NodeType_WriteValue.AttributeType_value,
@@ -3113,7 +3179,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public GRGEN_LIBGR.EdgeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GraphElementType[] GRGEN_LIBGR.IGraphElementTypeModel.Types { get { return types; } }
 		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
+		private global::System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.EdgeType_AEdge),
 			typeof(GRGEN_MODEL.EdgeType_Edge),
 			typeof(GRGEN_MODEL.EdgeType_UEdge),
@@ -3123,7 +3189,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			typeof(GRGEN_MODEL.EdgeType_moveLeft),
 			typeof(GRGEN_MODEL.EdgeType_moveRight),
 		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
+		public global::System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
@@ -3174,10 +3240,10 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public GRGEN_LIBGR.ObjectType[] Types { get { return types; } }
 		GRGEN_LIBGR.BaseObjectType[] GRGEN_LIBGR.IBaseObjectTypeModel.Types { get { return types; } }
 		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
+		private global::System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.ObjectType_Object),
 		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
+		public global::System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
@@ -3228,10 +3294,10 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public GRGEN_LIBGR.TransientObjectType[] Types { get { return types; } }
 		GRGEN_LIBGR.BaseObjectType[] GRGEN_LIBGR.IBaseObjectTypeModel.Types { get { return types; } }
 		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
+		private global::System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.TransientObjectType_TransientObject),
 		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
+		public global::System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
@@ -3291,6 +3357,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public override bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
 		public override bool AreFunctionsParallelized { get { return false; } }
 		public override int BranchingFactorForEqualsAny { get { return 0; } }
+		public override int ThreadPoolSizeForSequencesParallelExecution { get { return 0; } }
 
 		public static GRGEN_LIBGR.ExternalObjectType externalObjectType_object = new ExternalObjectType_object();
 		private GRGEN_LIBGR.ExternalObjectType[] externalObjectTypes = { externalObjectType_object };
@@ -3301,7 +3368,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			externalObjectType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalObjectType[] { } );
 		}
 
-		public override System.Collections.IList ArrayOrderAscendingBy(System.Collections.IList array, string member)
+		public override global::System.Collections.IList ArrayOrderAscendingBy(global::System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
@@ -3402,7 +3469,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			}
 		}
 
-		public override System.Collections.IList ArrayOrderDescendingBy(System.Collections.IList array, string member)
+		public override global::System.Collections.IList ArrayOrderDescendingBy(global::System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
@@ -3503,7 +3570,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			}
 		}
 
-		public override System.Collections.IList ArrayGroupBy(System.Collections.IList array, string member)
+		public override global::System.Collections.IList ArrayGroupBy(global::System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
@@ -3604,7 +3671,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			}
 		}
 
-		public override System.Collections.IList ArrayKeepOneForEach(System.Collections.IList array, string member)
+		public override global::System.Collections.IList ArrayKeepOneForEach(global::System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
@@ -3705,7 +3772,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			}
 		}
 
-		public override int ArrayIndexOfBy(System.Collections.IList array, string member, object value)
+		public override int ArrayIndexOfBy(global::System.Collections.IList array, string member, object value)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -3806,7 +3873,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			}
 		}
 
-		public override int ArrayIndexOfBy(System.Collections.IList array, string member, object value, int startIndex)
+		public override int ArrayIndexOfBy(global::System.Collections.IList array, string member, object value, int startIndex)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -3907,7 +3974,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			}
 		}
 
-		public override int ArrayLastIndexOfBy(System.Collections.IList array, string member, object value)
+		public override int ArrayLastIndexOfBy(global::System.Collections.IList array, string member, object value)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -4008,7 +4075,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			}
 		}
 
-		public override int ArrayLastIndexOfBy(System.Collections.IList array, string member, object value, int startIndex)
+		public override int ArrayLastIndexOfBy(global::System.Collections.IList array, string member, object value, int startIndex)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -4109,7 +4176,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			}
 		}
 
-		public override int ArrayIndexOfOrderedBy(System.Collections.IList array, string member, object value)
+		public override int ArrayIndexOfOrderedBy(global::System.Collections.IList array, string member, object value)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -4220,7 +4287,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	//
 	public class Turing3Graph : GRGEN_LGSP.LGSPGraph
 	{
-		public Turing3Graph() : base(new Turing3GraphModel(), GetGraphName())
+		public Turing3Graph(GRGEN_LGSP.LGSPGlobalVariables globalVariables) : base(new Turing3GraphModel(), globalVariables, GetGraphName())
 		{
 		}
 
@@ -4286,7 +4353,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	//
 	public class Turing3NamedGraph : GRGEN_LGSP.LGSPNamedGraph
 	{
-		public Turing3NamedGraph() : base(new Turing3GraphModel(), GetGraphName(), 0)
+		public Turing3NamedGraph(GRGEN_LGSP.LGSPGlobalVariables globalVariables) : base(new Turing3GraphModel(), globalVariables, GetGraphName(), 0)
 		{
 		}
 

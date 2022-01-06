@@ -1,6 +1,9 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Thu Jul 29 16:38:17 CEST 2021
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Thu Jan 06 09:32:18 CET 2022
+
+//#pragma warning disable CS0219, CS0162
+#pragma warning disable 219, 162
 
 using System;
 using System.Collections.Generic;
@@ -11932,24 +11935,25 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
             GRGEN_LGSP.LGSPGraph graph = procEnv.graph;
             GRGEN_LGSP.LGSPActions actions = procEnv.curActions;
             procEnv.DebugEntering("InsertHelperEdgesForNestedLayout.exec_0", "LinkMethodBodyToContainedEntity* && LinkMethodBodyToContainedExpressionTransitive* && [RemoveMethodBodyContainsBetweenExpressions] && RetypeClassContainment*");
-            bool res_9;
+            bool res_12;
+            bool res_8;
             bool res_6;
-            bool res_4;
-            bool res_1;
+            bool res_2;
             bool res_0;
             GRGEN_ACTIONS.Action_LinkMethodBodyToContainedEntity rule_LinkMethodBodyToContainedEntity = GRGEN_ACTIONS.Action_LinkMethodBodyToContainedEntity.Instance;
-            bool res_3;
-            bool res_2;
-            GRGEN_ACTIONS.Action_LinkMethodBodyToContainedExpressionTransitive rule_LinkMethodBodyToContainedExpressionTransitive = GRGEN_ACTIONS.Action_LinkMethodBodyToContainedExpressionTransitive.Instance;
             bool res_5;
-            GRGEN_ACTIONS.Action_RemoveMethodBodyContainsBetweenExpressions rule_RemoveMethodBodyContainsBetweenExpressions = GRGEN_ACTIONS.Action_RemoveMethodBodyContainsBetweenExpressions.Instance;
-            bool res_8;
+            bool res_3;
+            GRGEN_ACTIONS.Action_LinkMethodBodyToContainedExpressionTransitive rule_LinkMethodBodyToContainedExpressionTransitive = GRGEN_ACTIONS.Action_LinkMethodBodyToContainedExpressionTransitive.Instance;
             bool res_7;
+            GRGEN_ACTIONS.Action_RemoveMethodBodyContainsBetweenExpressions rule_RemoveMethodBodyContainsBetweenExpressions = GRGEN_ACTIONS.Action_RemoveMethodBodyContainsBetweenExpressions.Instance;
+            bool res_11;
+            bool res_9;
             GRGEN_ACTIONS.Action_RetypeClassContainment rule_RetypeClassContainment = GRGEN_ACTIONS.Action_RetypeClassContainment.Instance;
-            long i_1 = 0;
+            int iminl_2 = (int)(0);
+            int i_2 = 0;
             while(true)
             {
-                GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_0 = new GRGEN_LIBGR.PatternMatchingConstruct("LinkMethodBodyToContainedEntity");
+                GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_0 = new GRGEN_LIBGR.PatternMatchingConstruct("LinkMethodBodyToContainedEntity", GRGEN_LIBGR.PatternMatchingConstructType.RuleCall);
                 procEnv.BeginExecution(patternMatchingConstruct_0);
                 GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> matches_0 = rule_LinkMethodBodyToContainedEntity.Match(procEnv, 1);
                 procEnv.PerformanceInfo.MatchesFound += matches_0.Count;
@@ -11964,108 +11968,114 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
                     procEnv.RewritingSelectedMatch();
                     rule_LinkMethodBodyToContainedEntity.Modify(procEnv, match_0);
                     procEnv.PerformanceInfo.RewritesPerformed++;
+                    procEnv.FinishedSelectedMatch();
                     procEnv.Finished(matches_0, false);
                 }
                 procEnv.EndExecution(patternMatchingConstruct_0, null);
                 if(!res_0)
                     break;
-                ++i_1;
+                ++i_2;
             }
-            res_1 = (bool)(i_1 >= 0);
-            if(!res_1)
-                res_4 = (bool)(false);
-            else
-            {
-                long i_3 = 0;
-                while(true)
-                {
-                    GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_2 = new GRGEN_LIBGR.PatternMatchingConstruct("LinkMethodBodyToContainedExpressionTransitive");
-                    procEnv.BeginExecution(patternMatchingConstruct_2);
-                    GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> matches_2 = rule_LinkMethodBodyToContainedExpressionTransitive.Match(procEnv, 1);
-                    procEnv.PerformanceInfo.MatchesFound += matches_2.Count;
-                    procEnv.MatchedBeforeFiltering(matches_2);
-                    if(matches_2.Count == 0) {
-                        res_2 = (bool)(false);
-                    } else {
-                        res_2 = (bool)(true);
-                        procEnv.MatchedAfterFiltering(matches_2, false);
-                        GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive match_2 = matches_2.FirstExact;
-                        procEnv.MatchSelected(match_2, false, matches_2);
-                        procEnv.RewritingSelectedMatch();
-                        rule_LinkMethodBodyToContainedExpressionTransitive.Modify(procEnv, match_2);
-                        procEnv.PerformanceInfo.RewritesPerformed++;
-                        procEnv.Finished(matches_2, false);
-                    }
-                    procEnv.EndExecution(patternMatchingConstruct_2, null);
-                    if(!res_2)
-                        break;
-                    ++i_3;
-                }
-                res_3 = (bool)(i_3 >= 0);
-                res_4 = (bool)(res_3);
-            }
-            if(!res_4)
+            res_2 = (bool)(i_2 >= iminl_2);
+            if(!res_2)
                 res_6 = (bool)(false);
             else
             {
-                GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_5 = new GRGEN_LIBGR.PatternMatchingConstruct("[RemoveMethodBodyContainsBetweenExpressions]");
-                procEnv.BeginExecution(patternMatchingConstruct_5);
-                GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> matches_5 = rule_RemoveMethodBodyContainsBetweenExpressions.Match(procEnv, procEnv.MaxMatches);
-                procEnv.PerformanceInfo.MatchesFound += matches_5.Count;
-                procEnv.MatchedBeforeFiltering(matches_5);
-                if(matches_5.Count == 0) {
-                    res_5 = (bool)(false);
-                } else {
-                    res_5 = (bool)(true);
-                    procEnv.MatchedAfterFiltering(matches_5, false);
-                    IEnumerator<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> enum_5 = matches_5.GetEnumeratorExact();
-                    while(enum_5.MoveNext())
-                    {
-                        GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions match_5 = enum_5.Current;
-                        procEnv.MatchSelected(match_5, false, matches_5);
+                int iminl_5 = (int)(0);
+                int i_5 = 0;
+                while(true)
+                {
+                    GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_3 = new GRGEN_LIBGR.PatternMatchingConstruct("LinkMethodBodyToContainedExpressionTransitive", GRGEN_LIBGR.PatternMatchingConstructType.RuleCall);
+                    procEnv.BeginExecution(patternMatchingConstruct_3);
+                    GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> matches_3 = rule_LinkMethodBodyToContainedExpressionTransitive.Match(procEnv, 1);
+                    procEnv.PerformanceInfo.MatchesFound += matches_3.Count;
+                    procEnv.MatchedBeforeFiltering(matches_3);
+                    if(matches_3.Count == 0) {
+                        res_3 = (bool)(false);
+                    } else {
+                        res_3 = (bool)(true);
+                        procEnv.MatchedAfterFiltering(matches_3, false);
+                        GRGEN_ACTIONS.Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive match_3 = matches_3.FirstExact;
+                        procEnv.MatchSelected(match_3, false, matches_3);
                         procEnv.RewritingSelectedMatch();
-                        rule_RemoveMethodBodyContainsBetweenExpressions.Modify(procEnv, match_5);
+                        rule_LinkMethodBodyToContainedExpressionTransitive.Modify(procEnv, match_3);
                         procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.FinishedSelectedMatch();
+                        procEnv.Finished(matches_3, false);
                     }
-                    procEnv.Finished(matches_5, false);
+                    procEnv.EndExecution(patternMatchingConstruct_3, null);
+                    if(!res_3)
+                        break;
+                    ++i_5;
                 }
-                procEnv.EndExecution(patternMatchingConstruct_5, null);
+                res_5 = (bool)(i_5 >= iminl_5);
                 res_6 = (bool)(res_5);
             }
             if(!res_6)
-                res_9 = (bool)(false);
+                res_8 = (bool)(false);
             else
             {
-                long i_8 = 0;
-                while(true)
-                {
-                    GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_7 = new GRGEN_LIBGR.PatternMatchingConstruct("RetypeClassContainment");
-                    procEnv.BeginExecution(patternMatchingConstruct_7);
-                    GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> matches_7 = rule_RetypeClassContainment.Match(procEnv, 1);
-                    procEnv.PerformanceInfo.MatchesFound += matches_7.Count;
-                    procEnv.MatchedBeforeFiltering(matches_7);
-                    if(matches_7.Count == 0) {
-                        res_7 = (bool)(false);
-                    } else {
-                        res_7 = (bool)(true);
-                        procEnv.MatchedAfterFiltering(matches_7, false);
-                        GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment match_7 = matches_7.FirstExact;
+                GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_7 = new GRGEN_LIBGR.PatternMatchingConstruct("[RemoveMethodBodyContainsBetweenExpressions]", GRGEN_LIBGR.PatternMatchingConstructType.RuleAllCall);
+                procEnv.BeginExecution(patternMatchingConstruct_7);
+                GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> matches_7 = rule_RemoveMethodBodyContainsBetweenExpressions.Match(procEnv, procEnv.MaxMatches);
+                procEnv.PerformanceInfo.MatchesFound += matches_7.Count;
+                procEnv.MatchedBeforeFiltering(matches_7);
+                if(matches_7.Count == 0) {
+                    res_7 = (bool)(false);
+                } else {
+                    res_7 = (bool)(true);
+                    procEnv.MatchedAfterFiltering(matches_7, false);
+                    IEnumerator<GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> enum_7 = matches_7.GetEnumeratorExact();
+                    while(enum_7.MoveNext())
+                    {
+                        GRGEN_ACTIONS.Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions match_7 = enum_7.Current;
                         procEnv.MatchSelected(match_7, false, matches_7);
                         procEnv.RewritingSelectedMatch();
-                        rule_RetypeClassContainment.Modify(procEnv, match_7);
+                        rule_RemoveMethodBodyContainsBetweenExpressions.Modify(procEnv, match_7);
                         procEnv.PerformanceInfo.RewritesPerformed++;
-                        procEnv.Finished(matches_7, false);
+                        procEnv.FinishedSelectedMatch();
                     }
-                    procEnv.EndExecution(patternMatchingConstruct_7, null);
-                    if(!res_7)
-                        break;
-                    ++i_8;
+                    procEnv.Finished(matches_7, false);
                 }
-                res_8 = (bool)(i_8 >= 0);
-                res_9 = (bool)(res_8);
+                procEnv.EndExecution(patternMatchingConstruct_7, null);
+                res_8 = (bool)(res_7);
+            }
+            if(!res_8)
+                res_12 = (bool)(false);
+            else
+            {
+                int iminl_11 = (int)(0);
+                int i_11 = 0;
+                while(true)
+                {
+                    GRGEN_LIBGR.PatternMatchingConstruct patternMatchingConstruct_9 = new GRGEN_LIBGR.PatternMatchingConstruct("RetypeClassContainment", GRGEN_LIBGR.PatternMatchingConstructType.RuleCall);
+                    procEnv.BeginExecution(patternMatchingConstruct_9);
+                    GRGEN_LIBGR.IMatchesExact<GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment> matches_9 = rule_RetypeClassContainment.Match(procEnv, 1);
+                    procEnv.PerformanceInfo.MatchesFound += matches_9.Count;
+                    procEnv.MatchedBeforeFiltering(matches_9);
+                    if(matches_9.Count == 0) {
+                        res_9 = (bool)(false);
+                    } else {
+                        res_9 = (bool)(true);
+                        procEnv.MatchedAfterFiltering(matches_9, false);
+                        GRGEN_ACTIONS.Rule_RetypeClassContainment.IMatch_RetypeClassContainment match_9 = matches_9.FirstExact;
+                        procEnv.MatchSelected(match_9, false, matches_9);
+                        procEnv.RewritingSelectedMatch();
+                        rule_RetypeClassContainment.Modify(procEnv, match_9);
+                        procEnv.PerformanceInfo.RewritesPerformed++;
+                        procEnv.FinishedSelectedMatch();
+                        procEnv.Finished(matches_9, false);
+                    }
+                    procEnv.EndExecution(patternMatchingConstruct_9, null);
+                    if(!res_9)
+                        break;
+                    ++i_11;
+                }
+                res_11 = (bool)(i_11 >= iminl_11);
+                res_12 = (bool)(res_11);
             }
             procEnv.DebugExiting("InsertHelperEdgesForNestedLayout.exec_0");
-            return res_9;
+            return res_12;
         }
 
 		static Rule_InsertHelperEdgesForNestedLayout() {
@@ -21921,25 +21931,32 @@ maxMatchesIterReached:
     public class Action_createProgramGraphExample : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createProgramGraphExample
     {
         public Action_createProgramGraphExample()
-            : base(Rule_createProgramGraphExample.Instance.patternGraph, new object[0])
+            : base(Rule_createProgramGraphExample.Instance.patternGraph)
         {
             _rulePattern = Rule_createProgramGraphExample.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_createProgramGraphExample.Match_createProgramGraphExample, Rule_createProgramGraphExample.IMatch_createProgramGraphExample>(this);
         }
 
         public Rule_createProgramGraphExample _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "createProgramGraphExample"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_createProgramGraphExample.Match_createProgramGraphExample, Rule_createProgramGraphExample.IMatch_createProgramGraphExample> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_createProgramGraphExample.Match_createProgramGraphExample, Rule_createProgramGraphExample.IMatch_createProgramGraphExample> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_createProgramGraphExample Instance { get { return instance; } set { instance = value; } }
         private static Action_createProgramGraphExample instance = new Action_createProgramGraphExample();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_createProgramGraphExample.IMatch_createProgramGraphExample> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_createProgramGraphExample.Match_createProgramGraphExample, Rule_createProgramGraphExample.IMatch_createProgramGraphExample>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             Rule_createProgramGraphExample.Match_createProgramGraphExample match = matches.GetNextUnfilledPosition();
             matches.PositionWasFilledFixIt();
@@ -22066,7 +22083,11 @@ maxMatchesIterReached:
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -22162,25 +22183,32 @@ maxMatchesIterReached:
     public class Action_createProgramGraphPullUp : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createProgramGraphPullUp
     {
         public Action_createProgramGraphPullUp()
-            : base(Rule_createProgramGraphPullUp.Instance.patternGraph, new object[2])
+            : base(Rule_createProgramGraphPullUp.Instance.patternGraph)
         {
             _rulePattern = Rule_createProgramGraphPullUp.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_createProgramGraphPullUp.Match_createProgramGraphPullUp, Rule_createProgramGraphPullUp.IMatch_createProgramGraphPullUp>(this);
         }
 
         public Rule_createProgramGraphPullUp _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "createProgramGraphPullUp"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_createProgramGraphPullUp.Match_createProgramGraphPullUp, Rule_createProgramGraphPullUp.IMatch_createProgramGraphPullUp> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_createProgramGraphPullUp.Match_createProgramGraphPullUp, Rule_createProgramGraphPullUp.IMatch_createProgramGraphPullUp> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_createProgramGraphPullUp Instance { get { return instance; } set { instance = value; } }
         private static Action_createProgramGraphPullUp instance = new Action_createProgramGraphPullUp();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_createProgramGraphPullUp.IMatch_createProgramGraphPullUp> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_createProgramGraphPullUp.Match_createProgramGraphPullUp, Rule_createProgramGraphPullUp.IMatch_createProgramGraphPullUp>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[2];
             int isoSpace = 0;
             Rule_createProgramGraphPullUp.Match_createProgramGraphPullUp match = matches.GetNextUnfilledPosition();
             matches.PositionWasFilledFixIt();
@@ -22323,7 +22351,11 @@ maxMatchesIterReached:
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[2]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -22427,25 +22459,32 @@ maxMatchesIterReached:
     public class Action_pullUpMethod : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_pullUpMethod
     {
         public Action_pullUpMethod()
-            : base(Rule_pullUpMethod.Instance.patternGraph, new object[0])
+            : base(Rule_pullUpMethod.Instance.patternGraph)
         {
             _rulePattern = Rule_pullUpMethod.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_pullUpMethod.Match_pullUpMethod, Rule_pullUpMethod.IMatch_pullUpMethod>(this);
         }
 
         public Rule_pullUpMethod _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "pullUpMethod"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_pullUpMethod.Match_pullUpMethod, Rule_pullUpMethod.IMatch_pullUpMethod> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_pullUpMethod.Match_pullUpMethod, Rule_pullUpMethod.IMatch_pullUpMethod> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_pullUpMethod Instance { get { return instance; } set { instance = value; } }
         private static Action_pullUpMethod instance = new Action_pullUpMethod();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_pullUpMethod.IMatch_pullUpMethod> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IClass pullUpMethod_node_c1, GRGEN_MODEL.IMethodBody pullUpMethod_node_b4)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_pullUpMethod.Match_pullUpMethod, Rule_pullUpMethod.IMatch_pullUpMethod>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
@@ -22748,7 +22787,11 @@ maxMatchesIterReached:
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -22974,25 +23017,32 @@ maxMatchesIterReached:
     public class Action_matchAll : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_matchAll
     {
         public Action_matchAll()
-            : base(Rule_matchAll.Instance.patternGraph, new object[0])
+            : base(Rule_matchAll.Instance.patternGraph)
         {
             _rulePattern = Rule_matchAll.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_matchAll.Match_matchAll, Rule_matchAll.IMatch_matchAll>(this);
         }
 
         public Rule_matchAll _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "matchAll"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_matchAll.Match_matchAll, Rule_matchAll.IMatch_matchAll> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_matchAll.Match_matchAll, Rule_matchAll.IMatch_matchAll> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_matchAll Instance { get { return instance; } set { instance = value; } }
         private static Action_matchAll instance = new Action_matchAll();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_matchAll.IMatch_matchAll> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches, GRGEN_MODEL.IClass matchAll_node_c1)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_matchAll.Match_matchAll, Rule_matchAll.IMatch_matchAll>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
@@ -23174,7 +23224,11 @@ maxMatchesIterReached:
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -23263,25 +23317,32 @@ maxMatchesIterReached:
     public class Action_InsertHelperEdgesForNestedLayout : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_InsertHelperEdgesForNestedLayout
     {
         public Action_InsertHelperEdgesForNestedLayout()
-            : base(Rule_InsertHelperEdgesForNestedLayout.Instance.patternGraph, new object[0])
+            : base(Rule_InsertHelperEdgesForNestedLayout.Instance.patternGraph)
         {
             _rulePattern = Rule_InsertHelperEdgesForNestedLayout.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_InsertHelperEdgesForNestedLayout.Match_InsertHelperEdgesForNestedLayout, Rule_InsertHelperEdgesForNestedLayout.IMatch_InsertHelperEdgesForNestedLayout>(this);
         }
 
         public Rule_InsertHelperEdgesForNestedLayout _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "InsertHelperEdgesForNestedLayout"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_InsertHelperEdgesForNestedLayout.Match_InsertHelperEdgesForNestedLayout, Rule_InsertHelperEdgesForNestedLayout.IMatch_InsertHelperEdgesForNestedLayout> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_InsertHelperEdgesForNestedLayout.Match_InsertHelperEdgesForNestedLayout, Rule_InsertHelperEdgesForNestedLayout.IMatch_InsertHelperEdgesForNestedLayout> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_InsertHelperEdgesForNestedLayout Instance { get { return instance; } set { instance = value; } }
         private static Action_InsertHelperEdgesForNestedLayout instance = new Action_InsertHelperEdgesForNestedLayout();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_InsertHelperEdgesForNestedLayout.IMatch_InsertHelperEdgesForNestedLayout> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_InsertHelperEdgesForNestedLayout.Match_InsertHelperEdgesForNestedLayout, Rule_InsertHelperEdgesForNestedLayout.IMatch_InsertHelperEdgesForNestedLayout>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             Rule_InsertHelperEdgesForNestedLayout.Match_InsertHelperEdgesForNestedLayout match = matches.GetNextUnfilledPosition();
             matches.PositionWasFilledFixIt();
@@ -23408,7 +23469,11 @@ maxMatchesIterReached:
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -23504,25 +23569,32 @@ maxMatchesIterReached:
     public class Action_LinkMethodBodyToContainedEntity : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_LinkMethodBodyToContainedEntity
     {
         public Action_LinkMethodBodyToContainedEntity()
-            : base(Rule_LinkMethodBodyToContainedEntity.Instance.patternGraph, new object[0])
+            : base(Rule_LinkMethodBodyToContainedEntity.Instance.patternGraph)
         {
             _rulePattern = Rule_LinkMethodBodyToContainedEntity.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_LinkMethodBodyToContainedEntity.Match_LinkMethodBodyToContainedEntity, Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity>(this);
         }
 
         public Rule_LinkMethodBodyToContainedEntity _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "LinkMethodBodyToContainedEntity"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_LinkMethodBodyToContainedEntity.Match_LinkMethodBodyToContainedEntity, Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_LinkMethodBodyToContainedEntity.Match_LinkMethodBodyToContainedEntity, Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_LinkMethodBodyToContainedEntity Instance { get { return instance; } set { instance = value; } }
         private static Action_LinkMethodBodyToContainedEntity instance = new Action_LinkMethodBodyToContainedEntity();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_LinkMethodBodyToContainedEntity.Match_LinkMethodBodyToContainedEntity, Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Lookup LinkMethodBodyToContainedEntity_edge__edge0 
             foreach(GRGEN_LIBGR.EdgeType type_candidate_LinkMethodBodyToContainedEntity_edge__edge0 in GRGEN_MODEL.EdgeType_contains.typeVar.SubOrSameTypes)
@@ -23720,7 +23792,11 @@ label1: ;
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -23816,25 +23892,32 @@ label1: ;
     public class Action_LinkMethodBodyToContainedExpressionTransitive : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_LinkMethodBodyToContainedExpressionTransitive
     {
         public Action_LinkMethodBodyToContainedExpressionTransitive()
-            : base(Rule_LinkMethodBodyToContainedExpressionTransitive.Instance.patternGraph, new object[0])
+            : base(Rule_LinkMethodBodyToContainedExpressionTransitive.Instance.patternGraph)
         {
             _rulePattern = Rule_LinkMethodBodyToContainedExpressionTransitive.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_LinkMethodBodyToContainedExpressionTransitive.Match_LinkMethodBodyToContainedExpressionTransitive, Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive>(this);
         }
 
         public Rule_LinkMethodBodyToContainedExpressionTransitive _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "LinkMethodBodyToContainedExpressionTransitive"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_LinkMethodBodyToContainedExpressionTransitive.Match_LinkMethodBodyToContainedExpressionTransitive, Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_LinkMethodBodyToContainedExpressionTransitive.Match_LinkMethodBodyToContainedExpressionTransitive, Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_LinkMethodBodyToContainedExpressionTransitive Instance { get { return instance; } set { instance = value; } }
         private static Action_LinkMethodBodyToContainedExpressionTransitive instance = new Action_LinkMethodBodyToContainedExpressionTransitive();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_LinkMethodBodyToContainedExpressionTransitive.Match_LinkMethodBodyToContainedExpressionTransitive, Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Lookup LinkMethodBodyToContainedExpressionTransitive_edge__edge1 
             foreach(GRGEN_LIBGR.EdgeType type_candidate_LinkMethodBodyToContainedExpressionTransitive_edge__edge1 in GRGEN_MODEL.EdgeType_contains.typeVar.SubOrSameTypes)
@@ -24053,7 +24136,11 @@ label3: ;
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -24149,25 +24236,32 @@ label3: ;
     public class Action_RemoveMethodBodyContainsBetweenExpressions : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_RemoveMethodBodyContainsBetweenExpressions
     {
         public Action_RemoveMethodBodyContainsBetweenExpressions()
-            : base(Rule_RemoveMethodBodyContainsBetweenExpressions.Instance.patternGraph, new object[0])
+            : base(Rule_RemoveMethodBodyContainsBetweenExpressions.Instance.patternGraph)
         {
             _rulePattern = Rule_RemoveMethodBodyContainsBetweenExpressions.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_RemoveMethodBodyContainsBetweenExpressions.Match_RemoveMethodBodyContainsBetweenExpressions, Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions>(this);
         }
 
         public Rule_RemoveMethodBodyContainsBetweenExpressions _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "RemoveMethodBodyContainsBetweenExpressions"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_RemoveMethodBodyContainsBetweenExpressions.Match_RemoveMethodBodyContainsBetweenExpressions, Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_RemoveMethodBodyContainsBetweenExpressions.Match_RemoveMethodBodyContainsBetweenExpressions, Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_RemoveMethodBodyContainsBetweenExpressions Instance { get { return instance; } set { instance = value; } }
         private static Action_RemoveMethodBodyContainsBetweenExpressions instance = new Action_RemoveMethodBodyContainsBetweenExpressions();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_RemoveMethodBodyContainsBetweenExpressions.Match_RemoveMethodBodyContainsBetweenExpressions, Rule_RemoveMethodBodyContainsBetweenExpressions.IMatch_RemoveMethodBodyContainsBetweenExpressions>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Lookup RemoveMethodBodyContainsBetweenExpressions_edge_mbc 
             int type_id_candidate_RemoveMethodBodyContainsBetweenExpressions_edge_mbc = 10;
@@ -24324,7 +24418,11 @@ label3: ;
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {
@@ -24420,25 +24518,32 @@ label3: ;
     public class Action_RetypeClassContainment : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_RetypeClassContainment
     {
         public Action_RetypeClassContainment()
-            : base(Rule_RetypeClassContainment.Instance.patternGraph, new object[0])
+            : base(Rule_RetypeClassContainment.Instance.patternGraph)
         {
             _rulePattern = Rule_RetypeClassContainment.Instance;
             DynamicMatch = myMatch;
-            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_RetypeClassContainment.Match_RetypeClassContainment, Rule_RetypeClassContainment.IMatch_RetypeClassContainment>(this);
         }
 
         public Rule_RetypeClassContainment _rulePattern;
         public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
         public override string Name { get { return "RetypeClassContainment"; } }
-        private GRGEN_LGSP.LGSPMatchesList<Rule_RetypeClassContainment.Match_RetypeClassContainment, Rule_RetypeClassContainment.IMatch_RetypeClassContainment> matches;
+        [ThreadStatic] private static GRGEN_LGSP.LGSPMatchesList<Rule_RetypeClassContainment.Match_RetypeClassContainment, Rule_RetypeClassContainment.IMatch_RetypeClassContainment> matches;
 
+        // Performance optimization: saves us usage of new for the return array or the return arrays. In the object/string-style modify/apply methods of the action interface implementation.
+        [ThreadStatic] public static object[] ReturnArray;
+        [ThreadStatic] public static List<object[]> ReturnArrayListForAll;
+        [ThreadStatic] public static List<object[]> AvailableReturnArrays;
         public static Action_RetypeClassContainment Instance { get { return instance; } set { instance = value; } }
         private static Action_RetypeClassContainment instance = new Action_RetypeClassContainment();
         
         public GRGEN_LIBGR.IMatchesExact<Rule_RetypeClassContainment.IMatch_RetypeClassContainment> myMatch(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, int maxMatches)
         {
             GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;
+            if(matches == null)
+                matches = new GRGEN_LGSP.LGSPMatchesList<Rule_RetypeClassContainment.Match_RetypeClassContainment, Rule_RetypeClassContainment.IMatch_RetypeClassContainment>(this);
             matches.Clear();
+            if(ReturnArray == null)
+                ReturnArray = new object[0];
             int isoSpace = 0;
             // Lookup RetypeClassContainment_edge_c 
             int type_id_candidate_RetypeClassContainment_edge_c = 3;
@@ -24595,7 +24700,11 @@ label3: ;
         }
         public List<object[]> Reserve(int numReturns)
         {
+            if(AvailableReturnArrays == null)
+                AvailableReturnArrays = new List<object[]>();
             while(AvailableReturnArrays.Count < numReturns) AvailableReturnArrays.Add(new object[0]);
+            if(ReturnArrayListForAll == null)
+                ReturnArrayListForAll = new List<object[]>();
             ReturnArrayListForAll.Clear();
             for(int i=0; i<numReturns; ++i)
             {

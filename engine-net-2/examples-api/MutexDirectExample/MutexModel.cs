@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Thu Jul 29 16:38:15 CEST 2021
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Thu Jan 06 09:32:14 CET 2022
 
 using System;
 using System.Collections.Generic;
@@ -34,8 +34,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed partial class @Node : GRGEN_LGSP.LGSPNode, GRGEN_LIBGR.INode
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@Node[] pool;
 
 		static @Node() {
 		}
@@ -101,6 +101,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				node = new GRGEN_MODEL.@Node();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Node[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -118,6 +120,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				node = new GRGEN_MODEL.@Node();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Node[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -130,7 +134,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@Node[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -216,8 +222,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed partial class @Process : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IProcess
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@Process[] pool = new GRGEN_MODEL.@Process[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@Process[] pool;
 
 		// explicit initializations of Process for target Process
 		// implicit initializations of Process for target Process
@@ -286,6 +292,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				node = new GRGEN_MODEL.@Process();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Process[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -304,6 +312,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				node = new GRGEN_MODEL.@Process();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Process[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -317,7 +327,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@Process[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -404,8 +416,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed partial class @Resource : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IResource
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@Resource[] pool = new GRGEN_MODEL.@Resource[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@Resource[] pool;
 
 		// explicit initializations of Resource for target Resource
 		// implicit initializations of Resource for target Resource
@@ -474,6 +486,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				node = new GRGEN_MODEL.@Resource();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Resource[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -492,6 +506,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				node = new GRGEN_MODEL.@Resource();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Resource[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -505,7 +521,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@Resource[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -592,8 +610,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed partial class @AnnotationTestNode : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IAnnotationTestNode
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@AnnotationTestNode[] pool = new GRGEN_MODEL.@AnnotationTestNode[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@AnnotationTestNode[] pool;
 
 		// explicit initializations of AnnotationTestNode for target AnnotationTestNode
 		// implicit initializations of AnnotationTestNode for target AnnotationTestNode
@@ -662,6 +680,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				node = new GRGEN_MODEL.@AnnotationTestNode();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@AnnotationTestNode[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -680,6 +700,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				node = new GRGEN_MODEL.@AnnotationTestNode();
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@AnnotationTestNode[GRGEN_LGSP.LGSPGraph.poolSize];
 				node = pool[--poolLevel];
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
@@ -693,7 +715,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@AnnotationTestNode[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -836,8 +860,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed partial class @Edge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IDEdge
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@Edge[] pool;
 
 		static @Edge() {
 		}
@@ -905,6 +929,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge = new GRGEN_MODEL.@Edge(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Edge[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -922,6 +948,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge = new GRGEN_MODEL.@Edge(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@Edge[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -934,7 +962,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@Edge[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -1024,8 +1054,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed partial class @UEdge : GRGEN_LGSP.LGSPEdge, GRGEN_LIBGR.IUEdge
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@UEdge[] pool;
 
 		static @UEdge() {
 		}
@@ -1093,6 +1123,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge = new GRGEN_MODEL.@UEdge(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@UEdge[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -1110,6 +1142,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge = new GRGEN_MODEL.@UEdge(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@UEdge[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -1122,7 +1156,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@UEdge[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -1215,8 +1251,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed partial class @next : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Inext
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@next[] pool = new GRGEN_MODEL.@next[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@next[] pool;
 
 		// explicit initializations of next for target next
 		// implicit initializations of next for target next
@@ -1287,6 +1323,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge = new GRGEN_MODEL.@next(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@next[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -1305,6 +1343,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge = new GRGEN_MODEL.@next(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@next[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -1318,7 +1358,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@next[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -1412,8 +1454,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed partial class @blocked : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Iblocked
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@blocked[] pool = new GRGEN_MODEL.@blocked[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@blocked[] pool;
 
 		// explicit initializations of blocked for target blocked
 		// implicit initializations of blocked for target blocked
@@ -1484,6 +1526,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge = new GRGEN_MODEL.@blocked(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@blocked[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -1502,6 +1546,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge = new GRGEN_MODEL.@blocked(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@blocked[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -1515,7 +1561,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@blocked[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -1609,8 +1657,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed partial class @held_by : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Iheld_by
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@held_by[] pool = new GRGEN_MODEL.@held_by[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@held_by[] pool;
 
 		// explicit initializations of held_by for target held_by
 		// implicit initializations of held_by for target held_by
@@ -1681,6 +1729,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge = new GRGEN_MODEL.@held_by(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@held_by[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -1699,6 +1749,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge = new GRGEN_MODEL.@held_by(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@held_by[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -1712,7 +1764,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@held_by[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -1806,8 +1860,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed partial class @token : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Itoken
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@token[] pool = new GRGEN_MODEL.@token[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@token[] pool;
 
 		// explicit initializations of token for target token
 		// implicit initializations of token for target token
@@ -1878,6 +1932,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge = new GRGEN_MODEL.@token(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@token[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -1896,6 +1952,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge = new GRGEN_MODEL.@token(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@token[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -1909,7 +1967,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@token[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -2003,8 +2063,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed partial class @release : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Irelease
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@release[] pool = new GRGEN_MODEL.@release[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@release[] pool;
 
 		// explicit initializations of release for target release
 		// implicit initializations of release for target release
@@ -2075,6 +2135,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge = new GRGEN_MODEL.@release(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@release[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -2093,6 +2155,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge = new GRGEN_MODEL.@release(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@release[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -2106,7 +2170,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@release[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -2200,8 +2266,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed partial class @request : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.Irequest
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@request[] pool = new GRGEN_MODEL.@request[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@request[] pool;
 
 		// explicit initializations of request for target request
 		// implicit initializations of request for target request
@@ -2272,6 +2338,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge = new GRGEN_MODEL.@request(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@request[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -2290,6 +2358,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge = new GRGEN_MODEL.@request(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@request[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -2303,7 +2373,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@request[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -2398,8 +2470,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 	public sealed partial class @annotationTestEdge : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IannotationTestEdge
 	{
-		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@annotationTestEdge[] pool = new GRGEN_MODEL.@annotationTestEdge[10];
+		[ThreadStatic] private static int poolLevel;
+		[ThreadStatic] private static GRGEN_MODEL.@annotationTestEdge[] pool;
 
 		// explicit initializations of annotationTestEdge for target annotationTestEdge
 		// implicit initializations of annotationTestEdge for target annotationTestEdge
@@ -2473,6 +2545,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge = new GRGEN_MODEL.@annotationTestEdge(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@annotationTestEdge[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -2493,6 +2567,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				edge = new GRGEN_MODEL.@annotationTestEdge(source, target);
 			else
 			{
+				if(pool == null)
+					pool = new GRGEN_MODEL.@annotationTestEdge[GRGEN_LGSP.LGSPGraph.poolSize];
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
@@ -2508,7 +2584,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 
 		public override void Recycle()
 		{
-			if(poolLevel < 10)
+			if(pool == null)
+				pool = new GRGEN_MODEL.@annotationTestEdge[GRGEN_LGSP.LGSPGraph.poolSize];
+			if(poolLevel < pool.Length)
 				pool[poolLevel++] = this;
 		}
 
@@ -2783,7 +2861,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return newObject;
 		}
 
-		private @Object(GRGEN_MODEL.@Object oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.ObjectType_Object.typeVar, graph.FetchObjectUniqueId())
+		private @Object(GRGEN_MODEL.@Object oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.ObjectType_Object.typeVar, graph.GlobalVariables.FetchObjectUniqueId())
 		{
 			if(oldToNewObjectMap != null)
 				oldToNewObjectMap.Add(oldElem, this);
@@ -2873,11 +2951,11 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override GRGEN_LIBGR.IObject CreateObject(GRGEN_LIBGR.IGraph graph, long uniqueId)
 		{
 			if(uniqueId != -1) {
-				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId(uniqueId));
+				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.GlobalVariables.FetchObjectUniqueId(uniqueId));
 				((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
 				return newObject;
 			} else {
-				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.FetchObjectUniqueId());
+				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.GlobalVariables.FetchObjectUniqueId());
 				((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
 				return newObject;
 			}
@@ -3175,13 +3253,13 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GraphElementType[] GRGEN_LIBGR.IGraphElementTypeModel.Types { get { return types; } }
 		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
+		private global::System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.NodeType_Node),
 			typeof(GRGEN_MODEL.NodeType_Process),
 			typeof(GRGEN_MODEL.NodeType_Resource),
 			typeof(GRGEN_MODEL.NodeType_AnnotationTestNode),
 		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
+		public global::System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
@@ -3390,7 +3468,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public GRGEN_LIBGR.EdgeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GraphElementType[] GRGEN_LIBGR.IGraphElementTypeModel.Types { get { return types; } }
 		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
+		private global::System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.EdgeType_AEdge),
 			typeof(GRGEN_MODEL.EdgeType_Edge),
 			typeof(GRGEN_MODEL.EdgeType_UEdge),
@@ -3402,7 +3480,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			typeof(GRGEN_MODEL.EdgeType_request),
 			typeof(GRGEN_MODEL.EdgeType_annotationTestEdge),
 		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
+		public global::System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 			GRGEN_MODEL.EdgeType_annotationTestEdge.AttributeType_attrib,
 		};
@@ -3454,10 +3532,10 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public GRGEN_LIBGR.ObjectType[] Types { get { return types; } }
 		GRGEN_LIBGR.BaseObjectType[] GRGEN_LIBGR.IBaseObjectTypeModel.Types { get { return types; } }
 		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
+		private global::System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.ObjectType_Object),
 		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
+		public global::System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
@@ -3508,10 +3586,10 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public GRGEN_LIBGR.TransientObjectType[] Types { get { return types; } }
 		GRGEN_LIBGR.BaseObjectType[] GRGEN_LIBGR.IBaseObjectTypeModel.Types { get { return types; } }
 		GRGEN_LIBGR.InheritanceType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private System.Type[] typeTypes = {
+		private global::System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.TransientObjectType_TransientObject),
 		};
-		public System.Type[] TypeTypes { get { return typeTypes; } }
+		public global::System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
@@ -3576,6 +3654,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
 		public override bool AreFunctionsParallelized { get { return false; } }
 		public override int BranchingFactorForEqualsAny { get { return 0; } }
+		public override int ThreadPoolSizeForSequencesParallelExecution { get { return 0; } }
 
 		public static GRGEN_LIBGR.ExternalObjectType externalObjectType_object = new ExternalObjectType_object();
 		private GRGEN_LIBGR.ExternalObjectType[] externalObjectTypes = { externalObjectType_object };
@@ -3586,7 +3665,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			externalObjectType_object.InitDirectSupertypes( new GRGEN_LIBGR.ExternalObjectType[] { } );
 		}
 
-		public override System.Collections.IList ArrayOrderAscendingBy(System.Collections.IList array, string member)
+		public override global::System.Collections.IList ArrayOrderAscendingBy(global::System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
@@ -3697,7 +3776,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override System.Collections.IList ArrayOrderDescendingBy(System.Collections.IList array, string member)
+		public override global::System.Collections.IList ArrayOrderDescendingBy(global::System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
@@ -3808,7 +3887,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override System.Collections.IList ArrayGroupBy(System.Collections.IList array, string member)
+		public override global::System.Collections.IList ArrayGroupBy(global::System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
@@ -3919,7 +3998,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override System.Collections.IList ArrayKeepOneForEach(System.Collections.IList array, string member)
+		public override global::System.Collections.IList ArrayKeepOneForEach(global::System.Collections.IList array, string member)
 		{
 			if(array.Count == 0)
 				return array;
@@ -4030,7 +4109,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override int ArrayIndexOfBy(System.Collections.IList array, string member, object value)
+		public override int ArrayIndexOfBy(global::System.Collections.IList array, string member, object value)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -4141,7 +4220,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override int ArrayIndexOfBy(System.Collections.IList array, string member, object value, int startIndex)
+		public override int ArrayIndexOfBy(global::System.Collections.IList array, string member, object value, int startIndex)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -4252,7 +4331,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override int ArrayLastIndexOfBy(System.Collections.IList array, string member, object value)
+		public override int ArrayLastIndexOfBy(global::System.Collections.IList array, string member, object value)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -4363,7 +4442,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override int ArrayLastIndexOfBy(System.Collections.IList array, string member, object value, int startIndex)
+		public override int ArrayLastIndexOfBy(global::System.Collections.IList array, string member, object value, int startIndex)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -4474,7 +4553,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			}
 		}
 
-		public override int ArrayIndexOfOrderedBy(System.Collections.IList array, string member, object value)
+		public override int ArrayIndexOfOrderedBy(global::System.Collections.IList array, string member, object value)
 		{
 			if(array.Count == 0)
 				return -1;
@@ -4595,7 +4674,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	//
 	public class MutexGraph : GRGEN_LGSP.LGSPGraph
 	{
-		public MutexGraph() : base(new MutexGraphModel(), GetGraphName())
+		public MutexGraph(GRGEN_LGSP.LGSPGlobalVariables globalVariables) : base(new MutexGraphModel(), globalVariables, GetGraphName())
 		{
 		}
 
@@ -4671,7 +4750,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	//
 	public class MutexNamedGraph : GRGEN_LGSP.LGSPNamedGraph
 	{
-		public MutexNamedGraph() : base(new MutexGraphModel(), GetGraphName(), 0)
+		public MutexNamedGraph(GRGEN_LGSP.LGSPGlobalVariables globalVariables) : base(new MutexGraphModel(), globalVariables, GetGraphName(), 0)
 		{
 		}
 
