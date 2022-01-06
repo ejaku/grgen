@@ -73,9 +73,9 @@ Sequence parallelization is only available in the interpreted sequences, not in 
 \subsubsection*{Parallel sequence}
 
 \begin{rail}
-  ParallelSequence: 'parallel' (ReturnAssignment)? (SequenceToBeExecutedInParallel + (','));
+  ExtendedControl: 'parallel' (ReturnAssignment)? (SequenceToBeExecutedInParallel + (','));
 	SequenceToBeExecutedInParallel: 'in' SequenceExpression (',' SequenceExpression)? lbrace Sequence rbrace
-\end{rail}\ixnterm{ParallelSequence}
+\end{rail}
 
 The parallel sequence construct executes the sequences in parallel (given sufficient execution resources),
 on the specified subgraphs, and evaluates the optional value expressions, making their result available as a local variable named \texttt{value} (in the sequences that are executed in parallel) optionally assigning the results of sequence execution.
@@ -91,8 +91,8 @@ The example stemming from \texttt{tests/parallel/parallelWithValue.grs} shows ho
 % TODO: example instead of this: Introduced a parallel (var1, var2, ...) = in subgraph-expr1, value-expr1 { seq1 }, in subgraph-expr2, value-expr2 { seq2 }, ... 
 
 \begin{rail}
-  ParallelArraySequence: 'parallel' 'array' (ReturnAssignment)? SequenceToBeExecutedInParallel;
-\end{rail}\ixnterm{ParallelArraySequence}
+  ExtendedControl: 'parallel' 'array' (ReturnAssignment)? SequenceToBeExecutedInParallel;
+\end{rail}
 
 Its sibling, the parallel array sequence construct executes the sequence in parallel (\texttt{subgraph\-array.size()} times, given sufficient execution resources), on the specified subgraphs, and optionally values, optionally assigning the results of parallel sequence execution.
 The amount of subgraphs in the subgraphs array and values in the values array must be the same, the \verb#array<boolean># in the return-var will be of the same size.
@@ -127,10 +127,10 @@ While you can execute in parallel on independent graphs/resources, you have to s
 Towards this purpose, some synchronization statements and methods are available in the sequences and rule language statements; they allow to implement critical sections.
 
 \begin{rail}
-  SequenceLock: 'lock' '(' SequenceExpression ')' lbrace Sequence rbrace;
-\end{rail}\ixnterm{SequenceLock}
+  ExtendedControl: 'lock' '(' SequenceExpression ')' lbrace Sequence rbrace;
+\end{rail}
 
-The specified synchronization object is entered/aquired when the sequence is entered and exited/released when the sequence is left (yielding the result of the contained sequences).
+With the sequence lock, the specified synchronization object is entered/aquired when the sequence is entered and exited/released when the sequence is left (yielding the result of the contained sequences).
 
 \begin{rail}
   LockStatement: 'lock' '(' Expression ')' lbrace Statements rbrace;
@@ -190,5 +190,30 @@ It uses the same driver as example~\ref{driverstatespace}, but carries out a gra
 \verb#}#
 \end{example}
 
-%\pagebreak
+\pagebreak
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Quick Reference Table}
+
+Table~\ref{seqparalleltab} lists the parallelization related operations of the advanced graph rewrite sequence constructs at a glance.
+
+%\makeatletter
+\begin{table}[htbp]
+\begin{minipage}{\linewidth} \renewcommand{\footnoterule}{} 
+\begin{tabularx}{\linewidth}{|lX|}
+\hline
+\texttt{parallel in g1,v1 \{s\}, in g2,v2 \{t\}} & Executes \texttt{s} and \texttt{t} in parallel, on the graphs \texttt{g1} and \texttt{g2}, correspondingly, with \texttt{value} being bound to \texttt{v1} in \texttt{s} and \texttt{v2} in \texttt{t}.\\
+\texttt{parallel array in ga,va \{s\}} & Executes \texttt{s} in parallel on the graphs from \texttt{ga}, with \texttt{value} being bound to the according value from \texttt{va}.\\
+\hline
+\texttt{lock(e)\{s\}} & Locks the object resulting from evaluation of \texttt{e} before entering \texttt{s}, and releases it again after exiting \texttt{s}.\\
+\hline
+\end{tabularx}
+\end{minipage}\\
+\\ 
+{\small Let \texttt{s}, \texttt{t} be sequences, \texttt{g1}, \texttt{g2} be variables of graph type, \texttt{v1}, \texttt{v2} be variables, \texttt{ga} be an array of graphs variable, \texttt{va} be an array variable, and \texttt{e} be a sequence expressions}
+\caption{Parallelization support of the advanced sequences at a glance}
+\label{seqparalleltab}
+\end{table}
+%\makeatother
+ 
+% todo: beispiele im text bringen

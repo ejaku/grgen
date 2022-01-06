@@ -702,19 +702,6 @@ rule getLolp(start:Node) : (int)
 \end{grgen}
 \end{example}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Assertions}\label{sec:assert}
-
-The procedures \texttt{assert} and \texttt{assertAlways} allow to ensure that a specific condition holds, which must be given as first parameter, a message to be printed in case the condition is false may be given as second parameter, further parameters are appended to the \indexed{assertion} message (after having been transformed to strings).
-
-\begin{description}
-\item[\texttt{assert(.(,.)*)}] fires when the condition yields false and assertions are enabled, cf. \ref{enableassertions} (only in that case is the condition evaluated, the same holds for the other arguments).
-\item[\texttt{assertAlways(.(,.)*)}] fires always when the condition yields false.
-\end{description}
-
-A firing aborts program execution by default, or allows you to choose in the debugger how to proceed (in between program abort, external debugging, and execution continuation).
-For the asserts in the rule language, a default message reporting the file/line/column (of the \texttt{.grg} file) is supplied by the compiler in case of a missing message (no such default message is available for asserts in the sequences language).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Graph Processing Environment Procedures}
@@ -736,6 +723,19 @@ Those transaction handling procedures from the built-in package \texttt{Transact
 Please note that transactions may be nested; those functions are used in implementing the transaction and backtracking constructs explained in \ref{sec:extctrl}.
 
 
+\subsection{Assertions}\label{sec:assert}
+
+The procedures \texttt{assert} and \texttt{assertAlways} allow to ensure that a specific condition holds, which must be given as first parameter, a message to be printed in case the condition is false may be given as second parameter, further parameters are appended to the \indexed{assertion} message (after having been transformed to strings).
+
+\begin{description}
+\item[\texttt{assert(.(,.)*)}] fires when the condition yields false and assertions are enabled, cf. \ref{enableassertions} (only in that case is the condition evaluated, the same holds for the other arguments).
+\item[\texttt{assertAlways(.(,.)*)}] fires always when the condition yields false.
+\end{description}
+
+A firing aborts program execution by default, or allows you to choose in the debugger how to proceed (in between program abort, external debugging, and execution continuation).
+For the asserts in the rule language, a default message reporting the file/line/column (of the \texttt{.grg} file) is supplied by the compiler in case of a missing message (no such default message is available for asserts in the sequences language).
+
+
 \subsection{Misc. Global Procedures}
 
 Besides there are procedures to emit text or record graph changes available: 
@@ -753,5 +753,3 @@ It is recommended to write only comment label lines, i.e. \verb/"#"/, some label
 
 A remark on the graph global variables: they are in fact global to the graph processing environment.
 This difference becomes clear when you store graphs in attributes of graph type of another graph, see \ref{sec:graphnesting} for a discussion of this style of programming.
-
-

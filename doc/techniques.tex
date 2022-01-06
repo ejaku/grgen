@@ -282,7 +282,9 @@ The examples can be found in the \texttt{tests/nodeReplacementGrammar} directory
 
 \GrG{} is a \emph{rewrite} tool, i.e. you modify \emph{one} graph.
 This is in contrast to \emph{transformation} or better \emph{mapping} tools, which are used for specifying mappings in between \emph{two} (or more) graphs.
-A step towards mapping is available now with the mapping clause, cf. Section~\ref{sec:mappingclause}.
+
+A step towards mapping is now available with the mapping clause, cf. Section~\ref{sec:mappingclause}, which applies a rule (a single one, in a single step, in contrast to typical mapping tool usages, which apply multiple rules to reach a complete mapping to the result graph).
+It yields several result graphs, as many as there were matches, created by cloning the original host graph, then applying the rewrite part of the rule.
 
 Graphs are typically called models in mapping/transformation tools. Don't confuse this with the notion of graph model in \GrG\ as introduced in chapter \ref{chapmodellang}. In model transformation parlance our graph model denotes a meta model (with a model (i.e. graph) adhering to a meta model (i.e. graph model), which in turn adheres to a meta meta model (climbing a ladder of bullshit abstraction leading right into the land of the hot-air merchants, eh..., the truthfully real software engineers. XML. Model. Meta. Meta-meta. Business-logic. Cloud. Bingo!))
 The graph model might be a union of multiple graph models, and the graph may consist of multiple unconnected components, so you don't loose anything regarding expressiveness here.
@@ -624,4 +626,11 @@ Another example implementation can be found in the \texttt{tests/statespaceChemi
 It shows how to enumerate all possible reaction results derivable from a set of start molecules according to some reaction rules.
 The molecules are just accumulated in the host graph, it is taken care by storage sets that each step only processes the ones available at the start of the step.
 At the end, each resulting molecule (i.e. connected component) is exported as a \texttt{.grsi} file.
+
+\subsubsection*{State Space Enumeration by Mapping}
+
+Since the introduction of the mapping clause (cf. Section~\ref{sec:mappingclause}, and \ref{sec:transfo} above), another approach is possible.
+You don't partition the host graph into subgraphs anymore, and don't carry out changes in order to roll them back, but map an original graph to result graphs (with the state graphs being contained in some data structure, for better visualization still in a graph, the statespace graph).
+You find an implementation of that approach in the \texttt{tests/statespaceMapping} folder, the parallelized versions offer a \emph{breadth-first} statespace enumeration and a statespace graph (see Section~\ref{sec:sequenceparallelization} for more on sequence parallelization), the non-parallelized versions offer a \emph{depth-first} statespace enumeration, and state graph storge in object structures (utilizing the object types from Section~\ref{sec:objecttypes}).
+Both versions (sequential and parallelized enumeration) are available without and with isomorphic graphs pruning (the former yielding a tree, the latter a graph).
 

@@ -130,12 +130,12 @@ A type may be given enclosed in angles to denote a mapping result type.
 \end{rail}\ixnterm{MethodSelector}\ixnterm{PerElementClause}
 
 \begin{description}
-\item[\PVerb{.map<S>{element:T -> lambda-expr}}] returns a new \texttt{array<S>},
+\item[\SuperVerbatim{.map<S>\{element:T -> lambda-expr\}}] returns a new \texttt{array<S>},
    created by mapping each \texttt{element:T} (the name can be chosen freely) of the original \texttt{array<T>} with the lambda expression (of type \texttt{S}) to its resulting counterpart.
-\item[\PVerb{.removeIf{element:T -> lambda-expr}}] returns a new \texttt{array<T>},
+\item[\SuperVerbatim{.removeIf\{element:T -> lambda-expr\}}] returns a new \texttt{array<T>},
    created by removing each \texttt{element:T} (the name can be chosen freely) of the original \texttt{array<T>} for which the predicate given by the lambda expression (which must be of type \texttt{boolean}) yielded true.
-\item[\PVerb{.map<S>StartWith{init-expr}AccumulateBy}]
-\PVerb{{accumulation-var:T, element:T -> lambda-expr}} returns a new \texttt{array<S>},
+\item[\SuperVerbatim{.map<S>StartWith\{init-expr\}AccumulateBy}]
+\SuperVerbatim{\{accumulation-var:T, element:T -> lambda-expr\}} returns a new \texttt{array<S>},
    created by mapping each \texttt{element:T} (the name can be chosen freely) of the original \texttt{array<T>} with the lambda expression (of type \texttt{S}) to its resulting counterpart.
 	The lambda expression is also fed the previous mapping result, for the first iteration initialized by \texttt{init-expr}.
 \end{description}

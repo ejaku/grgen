@@ -129,7 +129,14 @@
 \usepackage{fancyhdr}
 \usepackage{subfig}
 
-\usepackage{examplep}
+\DeclareRobustCommand\SuperVerbatim[1]{%
+  \begingroup
+  \ttfamily
+  \def\{{\char`\{}%
+  \def\}{\char`\}}%
+  \def\\{\char`\\}%
+  #1%
+  \endgroup}
 
 % sectionreformatting
 % tableofcontents level == 3 (subsubsection)

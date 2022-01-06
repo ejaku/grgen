@@ -236,10 +236,10 @@ A match member may be given enclosed in angles to denote an assignment target.
 No declaration of the filter is needed, the lambda expression is to be given with the filter call.
 
 \begin{description}
-\item[\PVerb{\assign<member>{element:match<r> -> lambda-expr}}] assigns to the \texttt{member:T} of a match of a rule \texttt{r} the result of the sequence lambda expression fed by the \texttt{element:match<r>} of the matches (the name can be chosen freely), for each element in the matches yielded by the rule.
-\item[\PVerb{\removeIf{element:match<r> -> lambda-expr}}] removes the matches for which the predicate given by the sequence lambda expression (which must be of type \texttt{boolean}) fed by the \texttt{element:match<r>} of the matches (the name can be chosen freely) yields \texttt{true}.
-\item[\PVerb{\assign<member>StartWith{init-expr}AccumulateBy}]\\
-\PVerb{{accumulation-var:T, element:match<r> -> lambda-expr}} assigns to the \texttt{member:T} of a match of a rule \texttt{r} the result of the sequence lambda expression fed by the \texttt{element:match<r>} of the matches (the name can be chosen freely), and the previous result in \texttt{accumulation-var:T}, for each element in the matches yielded by the rule. For the first iteration, the previous result is initialized to \texttt{init-expr:T}.
+\item[\SuperVerbatim{\\assign<member>\{element:match<r> -> lambda-expr\}}] assigns to the \texttt{member:T} of a match of a rule \texttt{r} the result of the sequence lambda expression fed by the \texttt{element:match<r>} of the matches (the name can be chosen freely), for each element in the matches yielded by the rule.
+\item[\SuperVerbatim{\\removeIf\{element:match<r> -> lambda-expr\}}] removes the matches for which the predicate given by the sequence lambda expression (which must be of type \texttt{boolean}) fed by the \texttt{element:match<r>} of the matches (the name can be chosen freely) yields \texttt{true}.
+\item[\SuperVerbatim{\\assign<member>StartWith\{init-expr\}AccumulateBy}]\\
+\SuperVerbatim{\{accumulation-var:T, element:match<r> -> lambda-expr\}} assigns to the \texttt{member:T} of a match of a rule \texttt{r} the result of the sequence lambda expression fed by the \texttt{element:match<r>} of the matches (the name can be chosen freely), and the previous result in \texttt{accumulation-var:T}, for each element in the matches yielded by the rule. For the first iteration, the previous result is initialized to \texttt{init-expr:T}.
 \end{description}
 
 \noindent According match class versions are available, to be called for a match class \texttt{mc} with\\

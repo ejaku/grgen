@@ -294,6 +294,9 @@ Advanced constructs are available with \emph{transactions} angles and \emph{back
 With them you can easily try things out without having to invest into programming the bookkeeping needed to revert to an old state.
 They allow to systematically run through a search space, or even to enumerate a state space, materializing interesting states reached in time out into space.
 
+Another less stateful way of enumerating a state space is offered by the \emph{mapping clause}, that yields target graphs created by applying a rule on a source graph, to be stored in a top-level graph, or a data structure built from internal \emph{object classes}.
+This more functional way of enumerating a state space can be sped up by applying the \emph{parallel execution} construct of the sequences.
+
 Those sequences are available in an integrated form in the rule language (see Chapter \ref{cha:imperativeandstate}).
 After applying the direct effects of a rule it is possible to apply an \emph{embedded sequence} for follow-up tasks that just can't be expressed with a single rule application; those sequences have access to the elements of their containing rule, they allow to build complex transformations with rule-sequence-rule call chains.
 		
