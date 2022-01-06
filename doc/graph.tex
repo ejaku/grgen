@@ -566,8 +566,10 @@ More constructive versions of the \texttt{equalsAny} functions are available wit
  
 \begin{description}
 \item[\texttt{getEquivalent(.,.)}] returns the subgraph (type: \texttt{graph}) from the set of subgraphs given with the second argument (type: \texttt{set<graph>}) that is isomorphic to the (sub)graph given as first argument (type: \texttt{graph}).
-\item[\texttt{equalsAnyStructurally(.,.)}] returns the subgraph (type: \texttt{graph}) from the set of subgraphs given with the second argument (type: \texttt{set<graph>}) that is isomorphic to the (sub)graph given as first argument (type: \texttt{graph}), neglecting attribute values (i.e. structural equality is sufficient).
+\item[\texttt{getEquivalentStructurally(.,.)}] returns the subgraph (type: \texttt{graph}) from the set of subgraphs given with the second argument (type: \texttt{set<graph>}) that is isomorphic to the (sub)graph given as first argument (type: \texttt{graph}), neglecting attribute values (i.e. structural equality is sufficient).
 \end{description}
+
+Different versions (requiring an \texttt{array} of \texttt{graph}s instead of a \texttt{set} of \texttt{graph}s) return the isomorphic graph, or add the graph in case no matching one is found, you find more on \texttt{getEquivalentOrAdd(.,.)} and \texttt{getEquivalentStructurallyOrAdd(.,.)} in Section~\ref{locking}.
 
 \begin{example}
 An example showing some subgraph extraction, comparison, and insertion operations.

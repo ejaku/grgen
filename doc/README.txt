@@ -1,4 +1,4 @@
-GrGen.NET v6.0 (2021-03-28)
+GrGen.NET v6.5 (2022-01-06)
 ---------------------------
 
 This is the GrGen.NET system for graph rewriting.
@@ -146,6 +146,7 @@ Bill Alexander
 Serge Autexier
 Paul Bedaride
 Maxim Bendiks
+Paul Buschmann
 Catherine Cocu
 Bugra Derre
 Dominik Dietrich
@@ -169,9 +170,9 @@ Caroline von Totth
 COPYING
 -------
 
-Copyright (C) 2003-2021 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
+Copyright (C) 2003-2022 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
 
-This file is part of GrGen, Version GrGen.NET 6.0
+This file is part of GrGen, Version GrGen.NET 6.5
 
 GrGen is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by

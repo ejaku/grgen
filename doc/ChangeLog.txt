@@ -1,4 +1,112 @@
-﻿v6.1.1 (2021-08-28)
+﻿v6.5 (2022-01-06)
+ Introduced a parallel (var1, var2, ...) = in subgraph-expr1, value-expr1 { seq1 }, in subgraph-expr2, value-expr2 { seq2 }, ... 
+  construct to the interpreted sequences
+  it executes the sequences in parallel (given sufficient execution resources),
+  on the specified subgraphs,
+  and evaluates the optional value expressions, making their result available as a local variable named value
+    (in the sequences that are executed in parallel)
+  optionally assigning the results of sequence execution
+ Introduced a parallel array (var) = in subgraph-array-expr, value-array-expr { seq } - construct to the interpreted sequences
+  it executes the sequence in parallel (subgraph-array.size() times, given sufficient execution resources),
+  on the specified subgraphs, and optionally values, optionally assigning the results of parallel sequence execution
+  the amount of subgraphs in the subgraphs array and values in the values array must be the same,
+  the array<boolean> in the return-var will be of the same size
+ Implemented with a thread pool, also using the parent(/main) thread for execution
+  in case the amount of threads from the thread pool is exceeded,
+  the single tasks in the parallel execution construct are executed in sequence
+  (by the parent thread) (at least one - the syntactically last - task is executed by the parent thread)
+ Introduced a for sequence[parallelize=k]; configuration option to the model language,
+  allowing to define the amount of threads in the sequences thread pool
+ Added debugger support with a choice of the sequence-to-be-debugged at construct execution begin
+
+ Added synchronization statement and methods to the sequences and rule language statements allowing to implement critical sections:
+ - added lock(lock-object-expression) { sequences } construct to the sequences,
+   entering the specified synchronization object when the sequences are entered and exiting it when the sequences are left
+   (yielding the result of the contained sequences)
+ - added lock(lock-object-expression) { statements } construct to the rule language statements, with same semantics
+ - added Synchronization::enter(lock-object) procedure to the sequence computations and the rule language statements,
+   entering the specified synchronization object (waiting for entry if it is already occupied by another thread 
+    (re-entering it in case it was already entered by the same thread))
+ - added Synchronization::tryenter(lock-object) : (boolean) procedure  to the sequence computations and the rule language statements,
+   trying to enter the specified synchronization object, returning false if it was already occupied, or entering it, returning true
+ - added Synchronization::exit(lock-object) procedure to the sequences computations and the rule language statements,
+   exiting the specified synchronization object (crashing if it was not already taken by the same thread,
+    otherwise decreasing the entry counter, releasing other threads if the counter reaches 0)
+ - introduced a corresponding lock keyword to the sequences and rule language
+ 
+ Added a getEquivalentOrAdd(graph, array<graph>) procedure that returns the graph from the array of graphs 
+  that is isomorphic to the graph given as first argument, or null if no such graph exists,
+  in that case the graph is added to the array of graphs (to the rule language as well as the sequence computations)
+ Added a getEquivalentStructurallyOrAdd(graph, array<graph>) procedure that returns the graph from the array of graphs
+  that is isomorphic neglecting attributes (so only structurally) to the graph given as first argument,
+  or null if no such graph exists (even when neglecting attributes), in that case the graph is added to the array of graphs
+ Both procedure(s) can be used concurrently from sequences executed in parallel,
+  the array is processed atomically and consistently, i.e. only one thread will add a graph
+  that is (not isomorphic to the existing ones yet) isomorphic to another graph concurrently processed by another thread
+  (the other thread will then return this one); it is (/they are) implemented in a way so that the majority of graph comparison work
+  (and array reading) can occur in parallel, outside of array locking
+
+ Added a custom graph optimizereuse_poolsize <int-value> configuration option
+  that allows to set the size of the pool storing deleted elements for reuse
+  replaced corresponding hard-coded constant values; extended a test
+
+ Added assert(condition:boolean, [message:string, parameter:object]*) and assertAlways (with same parameters) procedures
+  to the rule language statements and the sequence computations
+  - the former fires when the condition yields false and assertions are enabled
+    (only in that case is the condition evaluated, the same holds for the other arguments),
+  - the latter fires always when the condition yields false
+  - a firing aborts program execution by default, or allows the user to choose in the debugger
+    (in between program abort, external debugging, and execution continuation)
+  - for the rule language statements, a default message reporting the file/line/column
+    is supplied by the compiler in case of a missing message
+
+ Added a custom actions enable_assertions <boolean> command (available via GrShell)
+
+ Added array<T>.addAll(array<T>) and set<T>.addAll(set<T>) procedure methods to the rule language statements and the sequence computations
+  they add (/append) the argument container to the target container (only supported on variables, not on attributes)
+
+ Generalized the looping brackets in the sequences from number constants to expressions
+  i.e. r[min-num:max-num] to r[min-expr:max-expr] where the expressions must be of type int (also r[min-num] to r[min-expr])
+
+ Extended switch to subgraph construct in graph { sequence } from graph input via variable/attribute access only to a general expression
+
+ Debugger improvements:
+ - extended s(k)ip mode in debugger from interpreted to compiled pattern matching constructs
+ - extended skipping of on-matched user query if only a single match exists from interpreted to compiled rule calls
+ - added (d) to random choice continue options (extending (s)/(n))
+ 
+ API changes:
+ - introduced SpawnSequences and JoinSequences events to the graph processing environment (to report parallel execution begins and ends)
+ - changed ClearGraph event so that the graph is expected as an argument
+ - added ConstructType to IPatternMatchingConstruct (allowing to differentiate the different kinds of pattern matching constructs
+   in the begin/end execution events, now including compiled constructs)
+ - added an enableAssertions flag to the action execution environment -- it allows to enable/disable assertion handling at runtime
+ - split global variables (including object id sources) out of the graph processing environment (and the graph)
+   contains variable management and object id handling -- causing a semantic change: object ids are assigned globally instead of per-graph
+   to be fed to the graph when the latter gets constructed, pointed to by the/each graph
+ - purged the special variables management (from the global variables and the graph processing environment)
+
+ Bugfixes:
+ - fixed bug in implementation of adaptvariables command - disabling was not possible
+ - the custom graph optimizereuse command applies now to all graphs, i.e. also to subgraphs
+ - added missing emitting of finished selected match event firing to rule call, count all call and non-random all call rewriting
+   in compiled sequences (fixing missing removal of highlighting in debugger display)
+ - fixed github issue #3: bug while emitting the code for an exec nested in an eval
+ - fixed github issue #4: System could not be used as a node class
+ - fixed printing of some sequences in the debugger
+ - static typing fix
+ - some further smaller fixes (including github #2)
+
+ User manual adaptations, corrections, and improvements
+  and added semantic tests showing how to unfold a statespace in parallel
+  (one tree-structured, one including isomorphic graphs coalescing(/pruning), so graph-structured)
+  (computed breadth-first, compared to the depth-first approach chosen for the other tests in statespaceMapping)
+  (with a top-level statespace graph bearing the statespace structure, readily available for visualization purpose, 
+   with nodes representing states in the statespace, containing an attribute containing the subgraph the node stands for)
+
+--------------------------------------------------------------------------------------------------------
+
+v6.1.1 (2021-08-28)
  Added getEquivalent(graph, set<graph>) function that returns the graph from the set of graphs that is isomorphic to the first given graph,
   or null if no isomorphic graph exists (to rule language as well as sequence expressions)
  Added getEquivalentStructurally(graph, set<graph>) function that returns the graph from the set of graphs
