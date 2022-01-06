@@ -416,7 +416,11 @@
             The GrGen type of the function return value.
             </summary>
         </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "P:de.unika.ipd.grGen.libGr.IFunctionDefinition.IsExternal" ignoriert -->
+        <member name="P:de.unika.ipd.grGen.libGr.IFunctionDefinition.IsExternal">
+            <summary>
+            Tells whether the function is an externally defined one or an internal one
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.IFunctionDefinition.Apply(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,System.Object[])">
             <summary>
             Applies this function with the given action environment on the given graph.
@@ -694,7 +698,11 @@
             The GrGen types of the procedure return values.
             </summary>
         </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "P:de.unika.ipd.grGen.libGr.IProcedureDefinition.IsExternal" ignoriert -->
+        <member name="P:de.unika.ipd.grGen.libGr.IProcedureDefinition.IsExternal">
+            <summary>
+            Tells whether the procedure is an externally defined one or an internal one
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.IProcedureDefinition.Apply(de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,de.unika.ipd.grGen.libGr.IGraph,System.Object[])">
             <summary>
             Applies this procedure with the given action environment on the given graph.
@@ -1396,6 +1404,7 @@
             containing all values from the given dictionary representing a map <paramref name="map"/> from int to some values.
             </summary>
             <param name="map">A dictionary representing a map.</param>
+            <param name="model">The graph model.</param>
             <returns>A new list containing all values from <paramref name="map"/>.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.MapAsArray``1(System.Collections.Generic.Dictionary{System.Int32,``0})">
@@ -1418,6 +1427,8 @@
             Creates a deep copy of the given container.
             </summary>
             <param name="oldContainer">The container to copy.</param>
+            <param name="graph">The graph to fetch the names of the new objects from.</param>
+            <param name="oldToNewObjects">A dictionary mapping objects to their copies, to be supplied as empty dictionary.</param>
             <returns>A deep copy of the container</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.MappingClone(System.Object,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.IGraphElement})">
@@ -1540,7 +1551,18 @@
             <returns>The newly created dictionary, containing the content of the old dictionary,
             null if unsuccessfull</returns>
         </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.Union``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Union``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
+            <summary>
+            Creates a new dictionary and fills in all key/value pairs from
+            <paramref name="a"/> and <paramref name="b"/>.
+            If both dictionaries contain one key, the value from <paramref name="b"/> takes precedence
+            (this way the common case <![CDATA[a = a | map<int, int> { 7 -> 13 };]]> would update an existing entry
+            with key 7 to 13).
+            </summary>
+            <param name="a">A dictionary.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <returns>A new dictionary containing all elements from both parameters.</returns>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.Intersect``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
             <summary>
             Creates a new dictionary containing all key/value pairs from
@@ -1562,7 +1584,17 @@
             <returns>A new dictionary containing all elements from <paramref name="a"/>,
             which are not in <paramref name="b"/>.</returns>
         </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.UnionChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.UnionChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
+            <summary>
+            Adds all key/value pairs from set/map <paramref name="b"/> to <paramref name="a"/>.
+            If both dictionaries contain one key, the value from <paramref name="b"/> takes precedence
+            (this way the common case <![CDATA[a = a | map<int, int> { 7 -> 13 };]]> would update an existing entry
+            with key 7 to 13).
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.IntersectChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
             <summary>
             Removes all key/value pairs from set/map <paramref name="a"/> whose keys are not also contained in <paramref name="b"/>.
@@ -1580,8 +1612,34 @@
             <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
             <returns>A truth value telling whether at least one element was changed in a</returns>
         </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.UnionChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.ContainerHelper.UnionChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.UnionChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Adds all key/value pairs from map <paramref name="b"/> to <paramref name="a"/>.
+            If both dictionaries contain one key, the value from <paramref name="b"/> takes precedence
+            (this way the common case <![CDATA[a = a | map<int, int> { 7 -> 13 };]]> would update an existing entry
+            with key 7 to 13).
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
+            <param name="owner">The node containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.UnionChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Adds all key/value pairs from map <paramref name="b"/> to <paramref name="a"/>.
+            If both dictionaries contain one key, the value from <paramref name="b"/> takes precedence
+            (this way the common case <![CDATA[a = a | map<int, int> { 7 -> 13 };]]> would update an existing entry
+            with key 7 to 13).
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
+            <param name="owner">The edge containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.ContainerHelper.UnionChanged``1(System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)">
             <summary>
             Adds all key/value pairs from set <paramref name="b"/> to <paramref name="a"/>.
@@ -1765,12 +1823,89 @@
             <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
             <returns>Boolean result of set/map comparison.</returns>
         </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IList,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IDictionary,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IList,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given dictionary
+            after the given operation with the given parameters was applied
+            </summary>
+            <param name="setmap">The base dictionary of the operation</param>
+            <param name="changeType">The type of the change operation</param>
+            <param name="newValue">The new value of the attribute, if changeType==Assign.
+                                   Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
+                                   Or the new map pair value to be inserted if changeType==PutElement on map.</param>
+            <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.</param>
+            <param name="type">The type as string, e.g <![CDATA[set<int>]]> or <![CDATA[map<string,boolean>]]> </param>
+            <param name="content">The content as string, e.g. { 42, 43 } or { "foo"->true, "bar"->false } </param>
+            <param name="attrType">The attribute type of the dictionary</param>
+            <param name="graph">The graph with the model and the element names</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IList,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given List
+            after the given operation with the given parameters was applied
+            </summary>
+            <param name="array">The base List of the operation</param>
+            <param name="changeType">The type of the change operation</param>
+            <param name="newValue">The new value to be inserted/added if changeType==PutElement on array.
+                                   Or the new value to be assigned to the given position if changeType==AssignElement on array.</param>
+            <param name="keyValue">The array index to be removed/written to if changeType==RemoveElement/AssignElement on array.</param>
+            <param name="type">The type as string, e.g <![CDATA[array<int>]]></param>
+            <param name="content">The content as string, e.g. [ 42, 43 ] </param>
+            <param name="attrType">The attribute type of the List</param>
+            <param name="graph">The graph with the model and the element names</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given Deque
+            after the given operation with the given parameters was applied
+            </summary>
+            <param name="deque">The base Deque of the operation</param>
+            <param name="changeType">The type of the change operation</param>
+            <param name="newValue">The new value to be inserted/added if changeType==PutElement on deque.</param>
+            <param name="type">The type as string, e.g <![CDATA[deque<int>]]></param>
+            <param name="content">The content as string, e.g. ] 42, 43 [ </param>
+            <param name="attrType">The attribute type of the Deque</param>
+            <param name="graph">The graph with the model and the element names</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IDictionary,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
+            <summary>
+            Returns a string representation of the given dictionary
+            </summary>
+            <param name="setmap">The dictionary of which to get the string representation</param>
+            <param name="type">The type as string, e.g <![CDATA[set<int>]]> or <![CDATA[set<int>map<string,boolean>]]> </param>
+            <param name="content">The content as string, e.g. { 42, 43 } or { "foo"->true, "bar"->false } </param>
+            <param name="attrType">The attribute type of the dictionary if available, otherwise null</param>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
+            <param name="nameToObject">If not null, the names of visited objects are added</param>
+            <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IList,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
+            <summary>
+            Returns a string representation of the given List
+            </summary>
+            <param name="array">The List of which to get the string representation</param>
+            <param name="type">The type as string, e.g <![CDATA[array<int>]]></param>
+            <param name="content">The content as string, e.g. [ 42, 43 ]</param>
+            <param name="attrType">The attribute type of the array if available, otherwise null</param>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
+            <param name="nameToObject">If not null, the names of visited objects are added</param>
+            <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
+            <summary>
+            Returns a string representation of the given Deque
+            </summary>
+            <param name="deque">The Deque of which to get the string representation</param>
+            <param name="type">The type as string, e.g <![CDATA[deque<int>]]></param>
+            <param name="content">The content as string, e.g. ] 42, 43 [</param>
+            <param name="attrType">The attribute type of the deque if available, otherwise null</param>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
+            <param name="nameToObject">If not null, the names of visited objects are added</param>
+            <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Returns a string representation of the given non-container value
@@ -1919,6 +2054,7 @@
             Returns a shallow clone of either a graph or a match or a class object or a transient class object or a container
             </summary>
             <param name="toBeCloned">The graph or match or (transient) class object or container to be cloned</param>
+            <param name="graph">The graph to fetch the names of new objects from.</param>
             <returns>The clone</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.TypesHelper.Copy(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
@@ -1926,7 +2062,100 @@
             Returns a deep copy of either a graph or a match or a class object or a transient class object or a container
             </summary>
             <param name="toBeCopied">The graph or match or (transient) class object or container to be copied</param>
+            <param name="graph">The graph to fetch the names of new objects from.</param>
             <returns>The copy</returns>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.IGlobalVariables">
+            <summary>
+            The global variables shared by the graph processing environments.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGlobalVariables.CloneGraphVariables(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Duplicates the graph variables of an old just cloned graph, assigns them to the new cloned graph.
+            </summary>
+            <param name="old">The old graph.</param>
+            <param name="clone">The new, cloned version of the graph.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGlobalVariables.FillCustomCommandDescriptions(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Adds the custom commands descriptions of this object to the customCommandsToDescriptions.
+            </summary>
+            <param name="customCommandsToDescriptions">The map of custom commands to descriptions that gets filled</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGlobalVariables.Custom(de.unika.ipd.grGen.libGr.IGraph,System.Object[])">
+            <summary>
+            Does action execution environment dependent stuff.
+            </summary>
+            <param name="graph">The current host graph</param>
+            <param name="args">Any kind of parameters for the stuff to do; first parameter has to be the command</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGlobalVariables.GetElementVariables(de.unika.ipd.grGen.libGr.IGraphElement)">
+            <summary>
+            Returns a linked list of variables mapping to the given graph element
+            or null, if no variable points to this element
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGlobalVariables.GetVariableValue(System.String)">
+            <summary>
+            Retrieves the object for a variable name or null, if the variable isn't set yet or anymore
+            </summary>
+            <param name="varName">The variable name to lookup</param>
+            <returns>The according object or null</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGlobalVariables.GetNodeVarValue(System.String)">
+            <summary>
+            Retrieves the INode for a variable name or null, if the variable isn't set yet or anymore.
+            A InvalidCastException is thrown, if the variable is set and does not point to an INode object.
+            </summary>
+            <param name="varName">The variable name to lookup.</param>
+            <returns>The according INode or null.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGlobalVariables.GetEdgeVarValue(System.String)">
+            <summary>
+            Retrieves the IEdge for a variable name or null, if the variable isn't set yet or anymore.
+            A InvalidCastException is thrown, if the variable is set and does not point to an IEdge object.
+            </summary>
+            <param name="varName">The variable name to lookup.</param>
+            <returns>The according INode or null.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGlobalVariables.SetVariableValue(System.String,System.Object)">
+            <summary>
+            Sets the value of the given variable to the given value.
+            If the variable name is null, this function does nothing.
+            If val is null, the variable is unset.
+            </summary>
+            <param name="varName">The name of the variable</param>
+            <param name="val">The new value of the variable</param>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGlobalVariables.Variables">
+            <summary>
+            Returns an iterator over all available (non-null) variables
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGlobalVariables.Item(System.String)">
+            <summary>
+            Indexer for accessing the variables by name, via index notation on this object.
+            </summary>
+            <param name="name">The name of the variable to access</param>
+            <returns>The value of the variable accessed (read on get, written on set)</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGlobalVariables.GetUniqueId(de.unika.ipd.grGen.libGr.ITransientObject)">
+            <summary>
+            Assigns a unique id to the given transient object (for the same object, always the same id is returned).
+            Thereafter, the returned id can be used in GetTransientObject to obtain the corresponding object.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGlobalVariables.GetTransientObject(System.Int64)">
+            <summary>
+            Returns the transient object belonging to the given id, or null if no transient object is bound to the id.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGlobalVariables.FetchObjectUniqueId">
+            <summary>
+            Fetches a unique id for an internal class object (non-transient).
+            May be called concurrently from multiple threads.
+            </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.BaseObjectType">
             <summary>
@@ -2241,6 +2470,7 @@
             All attributes will be transfered to the new object.
             A new name will be fetched from the graph.
             </summary>
+            <param name="graph">The graph to fetch the names of the new objects from.</param>
             <returns>A copy of this object.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IObject.Copy(de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.IDictionary{System.Object,System.Object})">
@@ -3904,48 +4134,58 @@
             Not currently used...
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateGraph(de.unika.ipd.grGen.libGr.IGraphModel,System.String,System.String[])">
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateGlobalVariables">
+            <summary>
+            Returns a new instance of the global variables/state; normally, you want/need only one instance, to be fed to all graphs.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateGraph(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.libGr.IGlobalVariables,System.String,System.String[])">
             <summary>
             Creates a new IGraph backend instance with the given graph model and name.
             </summary>
             <param name="graphModel">An IGraphModel instance.</param>
+            <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
             <param name="graphName">Name of the graph.</param>
             <param name="parameters">Backend specific parameters.</param>
             <returns>The new IGraph backend instance.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateNamedGraph(de.unika.ipd.grGen.libGr.IGraphModel,System.String,System.String[])">
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateNamedGraph(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.libGr.IGlobalVariables,System.String,System.String[])">
             <summary>
             Creates a new INamedGraph backend instance with the given graph model and name.
             </summary>
             <param name="graphModel">An IGraphModel instance.</param>
+            <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
             <param name="graphName">Name of the graph.</param>
             <param name="parameters">Backend specific parameters.</param>
             <returns>The new INamedGraph backend instance.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateGraph(System.String,System.String,System.String[])">
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateGraph(System.String,de.unika.ipd.grGen.libGr.IGlobalVariables,System.String,System.String[])">
             <summary>
             Creates a new IGraph backend instance with the graph model provided by the graph model file and a name.
             </summary>
             <param name="modelFilename">Filename of a graph model file.</param>
+            <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
             <param name="graphName">Name of the graph.</param>
             <param name="parameters">Backend specific parameters.</param>
             <returns>The new IGraph backend instance.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateNamedGraph(System.String,System.String,System.String[])">
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateNamedGraph(System.String,de.unika.ipd.grGen.libGr.IGlobalVariables,System.String,System.String[])">
             <summary>
             Creates a new INamedGraph backend instance with the graph model provided by the graph model file and a name.
             </summary>
             <param name="modelFilename">Filename of a graph model file.</param>
+            <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
             <param name="graphName">Name of the graph.</param>
             <param name="parameters">Backend specific parameters.</param>
             <returns>The new INamedGraph backend instance.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateFromSpec(System.String,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},de.unika.ipd.grGen.libGr.IGraph@,de.unika.ipd.grGen.libGr.IActions@)">
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateFromSpec(System.String,de.unika.ipd.grGen.libGr.IGlobalVariables,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},de.unika.ipd.grGen.libGr.IGraph@,de.unika.ipd.grGen.libGr.IActions@)">
             <summary>
             Creates a new IGraph and IActions backend instance from the specified specification file.
             If neccessary, any processing steps are performed automatically.
             </summary>
             <param name="grgFilename">Filename of the rule specification file (.grg).</param>
+            <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
             <param name="graphName">Name of the new graph.</param>
             <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
             <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
@@ -3954,12 +4194,13 @@
             <param name="newActions">Returns the new IActions object.</param>
             <exception cref="T:System.Exception">Thrown when something goes wrong.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateNamedFromSpec(System.String,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Int32,de.unika.ipd.grGen.libGr.INamedGraph@,de.unika.ipd.grGen.libGr.IActions@)">
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateNamedFromSpec(System.String,de.unika.ipd.grGen.libGr.IGlobalVariables,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Int32,de.unika.ipd.grGen.libGr.INamedGraph@,de.unika.ipd.grGen.libGr.IActions@)">
             <summary>
             Creates a new INamedGraph and IActions backend instance from the specified specification file.
             If neccessary, any processing steps are performed automatically.
             </summary>
             <param name="grgFilename">Filename of the rule specification file (.grg).</param>
+            <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
             <param name="graphName">Name of the new graph.</param>
             <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
             <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
@@ -3969,12 +4210,13 @@
             <param name="newActions">Returns the new IActions object.</param>
             <exception cref="T:System.Exception">Thrown when something goes wrong.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateFromSpec(System.String,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String})">
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateFromSpec(System.String,de.unika.ipd.grGen.libGr.IGlobalVariables,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String})">
             <summary>
             Creates a new IGraph instance from the specified specification file.
             If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
             </summary>
             <param name="gmFilename">Filename of the model specification file (.gm).</param>
+            <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
             <param name="graphName">Name of the new graph.</param>
             <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
             <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
@@ -3983,12 +4225,13 @@
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
             <returns>The new IGraph backend instance.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateNamedFromSpec(System.String,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Int32)">
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateNamedFromSpec(System.String,de.unika.ipd.grGen.libGr.IGlobalVariables,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Int32)">
             <summary>
             Creates a new INamedGraph instance from the specified specification file.
             If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
             </summary>
             <param name="gmFilename">Filename of the model specification file (.gm).</param>
+            <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
             <param name="graphName">Name of the new graph.</param>
             <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
             <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
@@ -4108,7 +4351,7 @@
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.Variable">
             <summary>
-            A named graph-global variable.
+            A named global variable.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.Variable.Name">
@@ -4521,11 +4764,6 @@
             Adding some methods implemented over the IGraph interface (some convenience stuff).
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.BaseGraph.objectUniqueIdSource">
-            <summary>
-            Source for assigning unique ids to internal class objects.
-            </summary>
-        </member>
         <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.NodeAdded(de.unika.ipd.grGen.libGr.INode)">
             <summary>
             Fires an OnNodeAdded event.
@@ -4585,8 +4823,7 @@
             <summary>
             Fires an OnRedirectingEdge event.
             </summary>
-            <param name="oldEdge">The edge to be retyped.</param>
-            <param name="newEdge">The new edge with the common attributes, but not fully connected with the incident nodes, yet.</param>
+            <param name="edge">The edge to be redirected.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.VisitedAlloc(System.Int32)">
             <summary>
@@ -5391,6 +5628,13 @@
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.GetEquivalent(de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.SetValueType},System.Boolean)">
             <summary>
             Returns one graph from the given set of graphs that is equivalent to the candidate (sub)graph 
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.GetEquivalentOrAdd(de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.IList{de.unika.ipd.grGen.libGr.IGraph},System.Boolean)">
+            <summary>
+            Returns one graph from the given array of graphs that is equivalent to the candidate (sub)graph, 
+            or null if none exists, in that case the graph is added to the array of graphs.
+            This method is (intended to be) thread-safe (it locks the array as needed, still allowing for a large amount of parallel equivalence checking if called by multiple threads).
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphHelper.Nodes(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.NodeType,System.Int32)">
@@ -6732,6 +6976,11 @@
             The normal non-parallel isomorphy comparison functions are used if this value is below 2
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.ThreadPoolSizeForSequencesParallelExecution">
+            <summary>
+            Tells about the number of threads to use when executing the parallel construct from the sequences.
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraphModel.CreateUniquenessHandler(de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             Called by the graph (generic implementation) to create its uniqueness handler (generated code).
@@ -7586,7 +7835,7 @@
             Associates an InfoTag to a GrGenType.
             </summary>
             <param name="type">The element type to given an InfoTag</param>
-            <param name="infotag">The InfoTag</param>
+            <param name="infoTag">The InfoTag</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.DumpInfo.GetTypeInfoTag(de.unika.ipd.grGen.libGr.GraphElementType,de.unika.ipd.grGen.libGr.AttributeType)">
             <summary>
@@ -7644,6 +7893,10 @@
             <param name="dumpInfo">Specifies how the graph shall be dumped.</param>
             <param name="matches">An IMatches object containing the matches.</param>
             <param name="which">Which match to dump, or AllMatches for dumping all matches
+            <param name="matchedNodes">The nodes matched</param>
+            <param name="multiMatchedNodes">The nodes matched multiple times</param>
+            <param name="matchedEdges">The edges matched</param>
+            <param name="multiMatchedEdges">The edges matched multiple times</param>
             adding connections between them, or OnlyMatches to dump the matches only</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GraphDumper.DumpMatch(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IDumper,de.unika.ipd.grGen.libGr.DumpInfo,de.unika.ipd.grGen.libGr.IMatches,de.unika.ipd.grGen.libGr.DumpMatchSpecial)">
@@ -7766,6 +8019,11 @@
         <member name="P:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.Backend">
             <summary>
             The backend to be used for graph creation when a graph is imported
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.EnableAssertions">
+            <summary>
+            Allows to enable/disable assertions and find out about assertion state.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IActionExecutionEnvironment.PerformanceInfo">
@@ -8073,6 +8331,7 @@
             <summary>
             Represents a method called before a graph is cleared.
             </summary>
+            <param name="graph">The graph to be cleared.</param>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.ChangingNodeAttributeHandler">
             <summary>
@@ -8157,7 +8416,7 @@
             <summary>
             Represents a method called before an edge is redirected (i.e. will be removed soon and added again immediately thereafter).
             </summary>
-            <param name="oldEdge">The edge which will be redirectey.</param>
+            <param name="edge">The edge which will be redirected.</param>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.SettingAddedElementNamesHandler">
             <summary>
@@ -8214,6 +8473,11 @@
             The uniqueness handler associated with the graph.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGraph.GlobalVariables">
+            <summary>
+            The global variables of the graph rewrite system; convenience access to save parameter passing.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraph.ReuseOptimization">
             <summary>
             If true (the default case), elements deleted during a rewrite
@@ -8228,12 +8492,6 @@
             Returns a counter of the number of changes that occured since the graph was created.
             If it's different since last time you visited, the graph has changed (but it may be back again in the original state).
             Only graph structure changes are counted, attribute changes are not included.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraph.FetchObjectUniqueId">
-            <summary>
-            Fetches a unique id for an internal class object (non-transient).
-            May be called concurrently from multiple threads.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraph.NumNodes">
@@ -8847,6 +9105,27 @@
             <summary>
             Represents a method called when a loop iteration is ended.
             </summary>
+            <param name="continueLoop">Tells whether to continue the loop with the next iteration.</param>
+            <param name="seq">The looped sequence.</param>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.SpawnSequencesHandler">
+            <summary>
+            Represents a method called directly after sequences have been spawned (split off) from their parent thread.
+            </summary>
+            <param name="parallel">The sequence to be executed in parallel (the overall sequence object comprising the single sequences).</param>
+            <param name="parallelExecutionBegins">The sequences together with their graph processing environment spawned/split off.</param>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.JoinSequencesHandler">
+            <summary>
+            Represents a method called directly after sequences have joined (again) their parent thread.
+            </summary>
+            <param name="parallel">The sequence that was executed in parallel (the overall sequence object comprising the single sequences).</param>
+            <param name="parallelExecutionBegins">The sequences together with their graph processing environment that joined (again).</param>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.ParallelExecutionBegin">
+            <summary>
+            helper object to passively report parallel sequence executions about to be begun, comprising esp. the processing environment that was created in order to execute it (in parallel)
+            </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment">
             <summary>
@@ -8860,13 +9139,6 @@
             (Recording and undoing changes in the main graph and all processed subgraphs).
             Don't forget to call Commit after a transaction is finished!
             </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.CloneGraphVariables(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Duplicates the graph variables of an old just cloned graph, assigns them to the new cloned graph.
-            </summary>
-            <param name="old">The old graph.</param>
-            <param name="clone">The new, cloned version of the graph.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.ApplyRewrite(de.unika.ipd.grGen.libGr.IAction,de.unika.ipd.grGen.libGr.IGraph,System.Object[],System.Int32,System.Int32,System.Boolean,System.Boolean,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.FilterCall},System.Boolean,System.Int32@)">
             <summary>
@@ -8942,40 +9214,6 @@
             </summary>
             <param name="name">The name of the variable to access</param>
             <returns>The value of the variable accessed (read on get, written on set)</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.GetSpecialVariableValue(System.String)">
-            <summary>
-            Retrieves the value of a special variable name.
-            Special variables are used for GrGen-internal data storage (as of now only "this"-reference handling).
-            </summary>
-            <param name="name">The name of the special variable to read</param>
-            <returns>The according value</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.SetSpecialVariableValue(System.String,System.Object)">
-            <summary>
-            Sets the given special variable name to the given value.
-            Special variables are used for GrGen-internal data storage (as of now only "this"-reference handling).
-            </summary>
-            <param name="name">The name of the special variable to write</param>
-            <param name="val">The new value of the special variable</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.DeleteSpecialVariable(System.String)">
-            <summary>
-            Deletes the given special variable name.
-            Special variables are used for GrGen-internal data storage (as of now only "this"-reference handling).
-            </summary>
-            <param name="name">The name of the special variable to delete</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.GetUniqueId(de.unika.ipd.grGen.libGr.ITransientObject)">
-            <summary>
-            Assigns a unique id to the given transient object (for the same object, always the same id is returned).
-            Thereafter, the returned id can be used in GetTransientObject to obtain the corresponding object.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.GetTransientObject(System.Int64)">
-            <summary>
-            Returns the transient object belonging to the given id, or null if no transient object is bound to the id.
-            </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.AddNode(de.unika.ipd.grGen.libGr.INode,System.String)">
             <summary>
@@ -9108,6 +9346,20 @@
             <param name="seqExprStr">The sequence expression to be parsed in form of a string.</param>
             <returns>The sequence expression object according to the given string.</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.ParallelApplyGraphRewriteSequences(de.unika.ipd.grGen.libGr.SequenceParallelExecute)">
+            <summary>
+            In parallel, apply the graph rewrite sequence(s) (to the given graphs, with the given input values).
+            </summary>
+            <param name="parallel">The sequence to be executed in parallel (the overall sequence object comprising the single sequences - which contain their execution environment (graph, input value in variable)).</param>
+            <returns>The outcome of sequence execution, for each sequence executed in parallel.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.ParallelApplyGraphRewriteSequences(de.unika.ipd.grGen.libGr.SequenceParallelArrayExecute)">
+            <summary>
+            In parallel, apply the graph rewrite sequence (to the given graphs, with the given input values).
+            </summary>
+            <param name="parallel">The sequence to be executed in parallel (the overall sequence object which contains its execution environment (graphs, input values in variables), also comprising the single sequence).</param>
+            <returns>The outcome of sequence execution, one entry per input array entry.</returns>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.UserProxy">
             <summary>
             The user proxy queried for choices during sequence execution.
@@ -9134,6 +9386,16 @@
             Fired when a sequence iteration is ended.
             </summary>
         </member>
+        <member name="E:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.OnSpawnSequences">
+            <summary>
+            Fired when sequences have been spawned (split off) from their parent thread.
+            </summary>
+        </member>
+        <member name="E:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.OnJoinSequences">
+            <summary>
+            Fired when sequences have joined (again) their parent thread.
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.EnteringSequence(de.unika.ipd.grGen.libGr.SequenceBase)">
             <summary>
             Fires an OnEnteringSequence event (sequence includes sequence computations and sequence expressions).
@@ -9151,6 +9413,22 @@
             Fires an OnEndOfIteration event. 
             This informs the debugger about the end of a loop iteration, so it can display the state at the end of the iteration.
             </summary>
+            <param name="continueLoop">Tells whether to continue the loop with the next iteration.</param>
+            <param name="seq">The looped sequence.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.SpawnSequences(de.unika.ipd.grGen.libGr.SequenceParallel,de.unika.ipd.grGen.libGr.ParallelExecutionBegin[])">
+            <summary>
+            Fires an OnSpawnSequences event.
+            </summary>
+            <param name="parallel">The sequence to be executed in parallel (the overall sequence object comprising the single sequences).</param>
+            <param name="parallelExecutionBegins">The sequences together with their graph processing environment spawned/split off.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.JoinSequences(de.unika.ipd.grGen.libGr.SequenceParallel,de.unika.ipd.grGen.libGr.ParallelExecutionBegin[])">
+            <summary>
+            Fires an OnJoinSequences event.
+            </summary>
+            <param name="parallel">The sequence that was executed in parallel (the overall sequence object comprising the single sequences).</param>
+            <param name="parallelExecutionBegins">The sequences together with their graph processing environment that joined (again).</param>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.CompliantUserProxyForSequenceExecution">
             <summary>
@@ -9352,6 +9630,7 @@
             </summary>
             <param name="graph">The graph to export. Must be a NamedGraph.</param>
             <param name="sw">The stream writer of the file to export into. The stream writer is not closed automatically.</param>
+            <param name="modelPathPrefix">Path to the model.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GRGExport.EmitAttributeInitialization(de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.AttributeType,System.Object,de.unika.ipd.grGen.libGr.INamedGraph,System.String,System.IO.StreamWriter)">
             <summary>
@@ -9391,7 +9670,7 @@
             </summary>
             <param name="graph">The graph to export. Must be a named graph.</param>
             <param name="exportFilename">The filename for the exported file.</param>
-            <param name="nonewgraph">If true, the new graph command is not emitted.</param>
+            <param name="noNewGraph">If true, the new graph command is not emitted.</param>
             <param name="typesToAttributesToSkip">Gives a dictionary with type names containing a dictionary with attribute names that are not to be emitted</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GRSExport.Export(de.unika.ipd.grGen.libGr.INamedGraph,System.IO.StreamWriter)">
@@ -9409,7 +9688,7 @@
             </summary>
             <param name="graph">The graph to export. Must be a named graph.</param>
             <param name="writer">The stream writer to export to.</param>
-            <param name="nonewgraph">If true, the new graph command is not emitted.</param>
+            <param name="noNewGraph">If true, the new graph command is not emitted.</param>
             <param name="typesToAttributesToSkip">Gives a dictionary with type names containing a dictionary with attribute names that are not to be emitted</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GRSExport.ExportYouMustCloseStreamWriter(de.unika.ipd.grGen.libGr.INamedGraph,System.IO.StreamWriter,System.String,System.Boolean,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.Dictionary{System.String,System.String}})">
@@ -9421,7 +9700,7 @@
             <param name="graph">The graph to export. Must be a named graph.</param>
             <param name="sw">The stream writer of the file to export into. The stream writer is not closed automatically.</param>
             <param name="modelPathPrefix">Path to the model.</param>
-            <param name="nonewgraph">If true, the new graph command is not emitted.</param>
+            <param name="noNewGraph">If true, the new graph command is not emitted.</param>
             <param name="typesToAttributesToSkip">Gives a dictionary with type names containing a dictionary with attribute names that are not to be emitted</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GRSExport.EmitAttributeInitialization(de.unika.ipd.grGen.libGr.MainGraphExportContext,de.unika.ipd.grGen.libGr.AttributeType,System.Object,de.unika.ipd.grGen.libGr.INamedGraph,System.IO.StreamWriter,System.Text.StringBuilder)">
@@ -9951,7 +10230,20 @@
             <exception cref="T:de.unika.ipd.grGen.libGr.SequenceParserException">Thrown when a rule is used with the wrong number of arguments
             or return parameters.</exception>
         </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequenceExpression(System.String,System.Collections.Generic.Dictionary{System.String,System.String},de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironmentInterpreted,System.Collections.Generic.List{System.String})" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequenceExpression(System.String,System.Collections.Generic.Dictionary{System.String,System.String},de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironmentInterpreted,System.Collections.Generic.List{System.String})">
+            <summary>
+            Parses a given string in xgrs exp syntax and builds a SequenceExpression object. 
+            Used for expression evaluation, and the interpreted if clauses for conditional watchpoint debugging.
+            </summary>
+            <param name="sequenceExprStr">The string representing a xgrs expression (e.g. "func() &amp;&amp; (st[e]==0 || var + 1 &lt; 42)")</param>
+            <param name="predefinedVariables">A map from variables to types giving the predefined this variable for the sequence expression.</param>
+            <param name="env">The environment containing the entities and types that can be referenced.</param>
+            <param name="warnings">A list which receives the warnings generated during parsing.</param>
+            <returns>The sequence expression object according to sequenceExprStr.</returns>
+            <exception cref="T:de.unika.ipd.grGen.libGr.sequenceParser.ParseException">Thrown when a syntax error was found in the string.</exception>
+            <exception cref="T:de.unika.ipd.grGen.libGr.SequenceParserException">Thrown when a rule is used with the wrong number of arguments
+            or return parameters.</exception>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequenceDefinition(System.String,de.unika.ipd.grGen.libGr.sequenceParser.SequenceParserEnvironmentInterpreted,System.Collections.Generic.List{System.String})">
             <summary>
             Parses a given string in sequence definition syntax and builds a SequenceDefinition object. Used for the interpreted xgrs.
@@ -10218,7 +10510,22 @@
             The first must be a filename, the following may be used for giving export parameters
             (in fact currently no exporter supports multiple files).</param>
         </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.Porter.Export(de.unika.ipd.grGen.libGr.INamedGraph,System.Collections.Generic.List{System.String})" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.libGr.Porter.Export(de.unika.ipd.grGen.libGr.INamedGraph,System.Collections.Generic.List{System.String})">
+            <summary>
+            Exports the given named graph to a file with the given filename.
+            The format is determined by the file extension. 
+            Currently available are: .grs/.grsi or .gxl or .xmi.
+            Optionally suffixed by .gz; in this case they are saved gzipped.
+            Any errors will be reported by exception.
+            </summary>
+            <param name="graph">The named graph to export.
+            The .grs/.grsi exporter is exporting the names/including the names; import will return a named graph again.
+            The .gxl exporter is exporting without the names, which is equivalent of calling the non-named graph export.
+            The .xmi exporter is using the names as xmi ids.</param>
+            <param name="filenameParameters">The names of the files to be exported.
+            The first must be a filename, the following may be used for giving export parameters
+            (in fact currently no exporter supports multiple files).</param>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.Porter.Import(de.unika.ipd.grGen.libGr.IBackend,System.Collections.Generic.List{System.String},de.unika.ipd.grGen.libGr.IActions@)">
             <summary>
             Imports a graph from the given files.
@@ -10388,6 +10695,12 @@
             no random input value is supplied, the user must give a value
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IUserProxyForSequenceExecution.HandleAssert(System.Boolean,System.Func{System.Boolean},System.Func{System.String},System.Func{System.Object}[])">
+            <summary>
+            Processes the assertion, causing a halt if it failed (evaluation only occurs for !isAlways in case of procEnv.EnableAssertions),
+            queries the user whether to continue execution (internally).
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceType">
             <summary>
             Specifies the actual subtype used for a Sequence.
@@ -10428,6 +10741,7 @@
             Needed if the defined sequence is currently executed to prevent state corruption.
             </summary>
             <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
+            <param name="procEnv">The graph processing environment</param>
             <returns>The copy of the sequence</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.Sequence.Check(de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment)">
@@ -10721,7 +11035,7 @@
             <summary>
             Initializes a new AssignmentTargetType object with the given assignment target type.
             </summary>
-            <param name="seqCompType">The sequence computation type.</param>
+            <param name="assignTgtType">The assignment target type.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.AssignmentTarget.#ctor(de.unika.ipd.grGen.libGr.AssignmentTarget)">
             <summary>
@@ -10738,6 +11052,7 @@
             Needed if the defined sequence is currently executed to prevent state corruption.
             </summary>
             <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
+            <param name="procEnv">The graph processing environment</param>
             <returns>The copy of the sequence computation</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.AssignmentTarget.CopyTarget(System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SequenceVariable},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
@@ -10749,6 +11064,7 @@
             Needed if the defined sequence is currently executed to prevent state corruption.
             </summary>
             <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
+            <param name="procEnv">The graph processing environment</param>
             <returns>The copy of the assignment target</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.AssignmentTarget.Assign(System.Object,de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
@@ -11121,6 +11437,7 @@
             Needed if the defined sequence is currently executed to prevent state corruption.
             </summary>
             <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
+            <param name="procEnv">The graph processing environment</param>
             <returns>The copy of the sequence computation</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceComputation.Execute(de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
@@ -11149,6 +11466,7 @@
             and all container and internal object constructors used into the constructors array.
             </summary>
             <param name="variables">Contains the variables found</param>
+            <param name="constructors">Contains the constructors found</param>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.SequenceComputation.Children">
             <summary>
@@ -11225,6 +11543,7 @@
             Needed if the defined sequence is currently executed to prevent state corruption.
             </summary>
             <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
+            <param name="procEnv">The graph processing environment</param>
             <returns>The copy of the sequence computation</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceExpression.CopyExpression(System.Collections.Generic.Dictionary{de.unika.ipd.grGen.libGr.SequenceVariable,de.unika.ipd.grGen.libGr.SequenceVariable},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
@@ -11236,6 +11555,7 @@
             Needed if the defined sequence is currently executed to prevent state corruption.
             </summary>
             <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
+            <param name="procEnv">The graph processing environment</param>
             <returns>The copy of the sequence expression</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceExpression.Type(de.unika.ipd.grGen.libGr.SequenceCheckingEnvironment)">
@@ -11544,6 +11864,7 @@
             <param name="ruleName">The name of the rule.</param>
             <param name="action">The associated action instance.
             If it is null, there was no rule with the name specified in RuleName.</param>
+            <param name="numGiven">The number of inputs or outputs given to the rule.</param>
             <param name="badParamIndex">The index of a bad parameter or -1 if another error occurred.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceParserException.#ctor(System.String,de.unika.ipd.grGen.libGr.SequenceParserError)">
@@ -11551,7 +11872,7 @@
             Creates an instance of a SequenceParserException used by the SequenceParser, when the rule with the
             given name does not exist or input or output parameters do not match, or a method was called on a type not supporting this.
             </summary>
-            <param name="ruleName">Name of the rule or sequence or variable.</param>
+            <param name="name">Name of the rule or sequence or variable.</param>
             <param name="errorKind">The kind of error.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceParserException.#ctor(de.unika.ipd.grGen.libGr.Invocation,System.Int32,de.unika.ipd.grGen.libGr.SequenceParserError)">
@@ -11560,6 +11881,7 @@
             for the rule/sequence/procedure/function.
             </summary>
             <param name="invocation">The rule/sequence/procedure/function invocation.</param>
+            <param name="numGiven">The number of inputs or outputs given to the rule.</param>
             <param name="errorKind">The kind of error.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceParserException.#ctor(System.String,de.unika.ipd.grGen.libGr.DefinitionType,de.unika.ipd.grGen.libGr.SequenceParserError)">
@@ -11574,6 +11896,7 @@
             with the given name does not exist or input or output parameters do not match.
             </summary>
             <param name="invocation">The rule/sequence/procedure/function invocation.</param>
+            <param name="numGiven">The number of inputs or outputs given to the rule.</param>
             <param name="errorKind">The kind of error.</param>
             <param name="badParamIndex">The index of a bad parameter or -1 if another error occurred.</param>
         </member>
