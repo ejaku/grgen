@@ -781,20 +781,7 @@ public class ActionsGen extends CSharpBase
 				+ "((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph");
 		int i = 0;
 		for(Entity inParam : function.getParameters()) {
-			if(inParam.getType() instanceof ArrayType && ((ArrayType)inParam.getType()).getValueType() instanceof MatchType) {
-				MatchType matchType = (MatchType)((ArrayType)inParam.getType()).getValueType();
-				String packagePrefixOfAction = "GRGEN_ACTIONS." + getPackagePrefixDot(matchType.getAction());
-				String actionName = matchType.getAction().getIdent().toString();
-				String ruleClass = packagePrefixOfAction + "Rule_" + actionName;
-				sb.append(", " + ruleClass + ".ConvertAsNeeded(arguments[" + i + "])");
-			} else if(inParam.getType() instanceof ArrayType && ((ArrayType)inParam.getType()).getValueType() instanceof DefinedMatchType) {
-				DefinedMatchType matchType = (DefinedMatchType)((ArrayType)inParam.getType()).getValueType();
-				String packagePrefixOfMatchClass = "GRGEN_ACTIONS." + getPackagePrefixDot(matchType);
-				String matchClassName = matchType.getIdent().toString();
-				String matchClass = packagePrefixOfMatchClass + "MatchClassInfo_" + matchClassName;
-				sb.append(", " + matchClass + ".ConvertAsNeeded(arguments[" + i + "])");
-			} else
-				sb.append(", (" + formatType(inParam.getType()) + ")arguments[" + i + "]");
+			genArgumentCasting(sb, inParam, i);
 			++i;
 		}
 		sb.append(");\n");
@@ -804,6 +791,24 @@ public class ActionsGen extends CSharpBase
 		sb.unindent();
 		sb.appendFront("}\n");
 		sb.append("\n");
+	}
+	
+	private void genArgumentCasting(SourceBuilder sb, Entity inParam, int argumentNumber)
+	{
+		if(inParam.getType().isArrayOfMatchType()) {
+			MatchType matchType = (MatchType)((ArrayType)inParam.getType()).getValueType();
+			String packagePrefixOfAction = "GRGEN_ACTIONS." + getPackagePrefixDot(matchType.getAction());
+			String actionName = matchType.getAction().getIdent().toString();
+			String ruleClass = packagePrefixOfAction + "Rule_" + actionName;
+			sb.append(", " + ruleClass + ".ConvertAsNeeded(arguments[" + argumentNumber + "])");
+		} else if(inParam.getType().isArrayOfMatchClassType()) {
+			DefinedMatchType matchType = (DefinedMatchType)((ArrayType)inParam.getType()).getValueType();
+			String packagePrefixOfMatchClass = "GRGEN_ACTIONS." + getPackagePrefixDot(matchType);
+			String matchClassName = matchType.getIdent().toString();
+			String matchClass = packagePrefixOfMatchClass + "MatchClassInfo_" + matchClassName;
+			sb.append(", " + matchClass + ".ConvertAsNeeded(arguments[" + argumentNumber + "])");
+		} else
+			sb.append(", (" + formatType(inParam.getType()) + ")arguments[" + argumentNumber + "]");
 	}
 
 	/**
@@ -967,7 +972,7 @@ public class ActionsGen extends CSharpBase
 				+ "((GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv, (GRGEN_LGSP.LGSPGraph)graph");
 		i = 0;
 		for(Entity inParam : procedure.getParameters()) {
-			sb.append(", (" + formatType(inParam.getType()) + ")arguments[" + i + "]");
+			genArgumentCasting(sb, inParam, i);
 			++i;
 		}
 		for(i = 0; i < procedure.getReturnTypes().size(); ++i) {

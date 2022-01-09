@@ -16,6 +16,7 @@ import java.util.Comparator;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
+import de.unika.ipd.grgen.ir.type.container.ArrayType;
 
 /**
  * Abstract base class for types.
@@ -175,6 +176,24 @@ public abstract class Type extends Identifiable
 		if(classify() == TypeClass.IS_INTERNAL_CLASS_OBJECT)
 			return true;
 		return false;
+	}
+	
+	public boolean isArrayOfMatchType()
+	{
+		if(classify() != TypeClass.IS_ARRAY)
+			return false;
+		if(((ArrayType)this).valueType.classify() != TypeClass.IS_MATCH)
+			return false;
+		return true;
+	}
+	
+	public boolean isArrayOfMatchClassType()
+	{
+		if(classify() != TypeClass.IS_ARRAY)
+			return false;
+		if(((ArrayType)this).valueType.classify() != TypeClass.IS_DEFINED_MATCH)
+			return false;
+		return true;
 	}
 	
 	/** Add this type to the digest. */

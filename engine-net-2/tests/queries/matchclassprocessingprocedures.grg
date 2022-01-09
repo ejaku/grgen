@@ -1,0 +1,133 @@
+#using "queries.gm"
+
+rule initjoin
+{
+	modify {
+		h:namedObject@(name = "hans") -:WORKS_FOR-> c:namedObject@(name = "MegaCorp") <-:WORKS_FOR- f:namedObject@(name = "frans");
+		h -:INTERESTED_IN@(weight=0.8)-> cy:namedObject@(name = "cycling") <-:INTERESTED_IN@(weight=0.4)- f;
+		h -:INTERESTED_IN@(weight=0.2)-> hi:namedObject@(name = "hiking") <-:INTERESTED_IN@(weight=0.4)- f;
+		h -:INTERESTED_IN@(weight=1.0)-> co:namedObject@(name = "coding");
+										 re:namedObject@(name = "reading") <-:INTERESTED_IN@(weight=0.5)- f;
+		h -:WORKS_FOR-> :namedObject@(name = "Oil Imperium");
+					    :namedObject@(name = "Ports of Call") <-:WORKS_FOR- f;
+		l:namedObject@(name = "luise") -:WORKS_FOR-> f;
+		l -:INTERESTED_IN@(weight=0.6)-> cy;
+		l -:INTERESTED_IN@(weight=0.6)-> co;
+		l -:INTERESTED_IN@(weight=0.3)-> re;
+		g:namedObject@(name = "gustav") -:WORKS_FOR-> c;
+		g -:INTERESTED_IN@(weight=0.6)-> co;
+		:namedObject@(name = "anna belle de jour");
+	}
+}
+
+test fetchByName(var name:string) : (namedObject)
+{
+	namedObj:namedObject;
+	if{ namedObj.name == name; }
+	return(namedObj);
+}
+
+test sameCompany(subject:namedObject)
+{
+	subject -:WORKS_FOR-> company:namedObject <-:WORKS_FOR- person:namedObject;
+}
+
+test sharedInterest(subject:namedObject)
+{
+	subject -:INTERESTED_IN-> interest:namedObject <-:INTERESTED_IN- person:namedObject;
+}
+
+match class SameCompany
+{
+	subject:namedObject;
+	company:namedObject;
+	person:namedObject;
+}
+
+match class SharedInterest
+{
+	subject:namedObject;
+	person:namedObject;
+	interest:namedObject;
+}
+
+match class SameCompanySharedInterest
+{
+	subject:namedObject;
+	company:namedObject;
+	person:namedObject;
+	interest:namedObject;
+}
+
+function naturalJoin(ref matchesSameCompany:array<match<sameCompany>>, ref matchesSharedInterest:array<match<sharedInterest>>) : array<match<class SameCompanySharedInterest>>
+{
+	auto(join<natural>(matchesSameCompany, matchesSharedInterest))
+}
+
+function naturalJoinMatchClasses(ref matchesSameCompany:array<match<class SameCompany>>, ref matchesSharedInterest:array<match<class SharedInterest>>) : array<match<class SameCompanySharedInterest>>
+{
+	auto(join<natural>(matchesSameCompany, matchesSharedInterest))
+}
+
+procedure permute(ref matchesSharedInterest:array<match<sharedInterest>>, ref matchesSameCompany:array<match<sameCompany>>) : (array<match<sameCompany>>, array<match<sharedInterest>>)
+{
+	return(matchesSameCompany, matchesSharedInterest);
+}
+
+procedure dejoin(ref matchesSameCompanySharedInterest:array<match<class SameCompanySharedInterest>>) : (array<match<class SameCompany>>, array<match<class SharedInterest>>)
+{
+	def ref matchesSameCompany:array<match<class SameCompany>> = new array<match<class SameCompany>>[];
+	def ref matchesSharedInterest:array<match<class SharedInterest>> = new array<match<class SharedInterest>>[];
+	for(matchSameCompanySharedInterest:match<class SameCompanySharedInterest> in matchesSameCompanySharedInterest)
+	{
+		def ref matchSameCompany:match<class SameCompany> = match<class SameCompany>();
+		matchSameCompany.subject = matchSameCompanySharedInterest.subject;
+		matchSameCompany.person = matchSameCompanySharedInterest.person;
+		matchSameCompany.company = matchSameCompanySharedInterest.company;
+		matchesSameCompany.add(matchSameCompany);
+		def ref matchSharedInterest:match<class SharedInterest> = match<class SharedInterest>();
+		matchSharedInterest.subject = matchSameCompanySharedInterest.subject;
+		matchSharedInterest.person = matchSameCompanySharedInterest.person;
+		matchSharedInterest.interest = matchSameCompanySharedInterest.interest;
+		matchesSharedInterest.add(matchSharedInterest);
+	}
+	return(matchesSameCompany, matchesSharedInterest);
+}
+
+function extract(ref matchesSameCompany:array<match<sameCompany>>) : array<string>
+{
+	def ref sameCompanies:array<string> = new array<string>[];
+	for(matchSameCompany:match<sameCompany> in matchesSameCompany)
+	{
+		sameCompanies.add(matchSameCompany.person.name);
+	}
+	return(sameCompanies);
+}
+
+function removeDuplicates(ref arr:array<match<class SameCompanySharedInterest>>) : array<match<class SameCompanySharedInterest>>
+{
+	def ref result:array<match<class SameCompanySharedInterest>> = new array<match<class SameCompanySharedInterest>>[];
+	result.add(arr[0]);
+	
+	for(i:int in [1:arr.size()-1])
+	{
+		def ref m:match<class SameCompanySharedInterest> = arr[i];
+		
+		def var isDuplicate:boolean = false;
+		for(j:int in [0:i - 1])
+		{
+			def ref om:match<class SameCompanySharedInterest> = arr[j];
+			
+			if(m != om && m.subject==om.subject && m.company==om.company && m.person==om.person && m.interest==om.interest) {
+				isDuplicate = true;
+				break;
+			}
+		}
+		
+		if(!isDuplicate) {
+			result.add(m);
+		}
+	}
+	
+	return(result);
+}
