@@ -12,7 +12,7 @@ Graph representations are typically employed in engineering (designs, blueprints
 
 The home page is: 
 
-    http://grgen.net
+    http://grgen.net (http://grgen.de)
 
 To learn more about GrGen, take a look at its user manual: 
 
