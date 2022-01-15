@@ -17,21 +17,21 @@ namespace de.unika.ipd.grGen.grShell
 {
     class WatchpointEditor
     {
-        readonly ShellGraphProcessingEnvironment shellProcEnv;
+        readonly DebuggerGraphProcessingEnvironment debuggerProcEnv;
         readonly IDebuggerEnvironment env;
 
-        public WatchpointEditor(ShellGraphProcessingEnvironment shellProcEnv, IDebuggerEnvironment env)
+        public WatchpointEditor(DebuggerGraphProcessingEnvironment debuggerProcEnv, IDebuggerEnvironment env)
         {
-            this.shellProcEnv = shellProcEnv;
+            this.debuggerProcEnv = debuggerProcEnv;
             this.env = env;
         }
 
         public void HandleWatchpoints()
         {
             Console.WriteLine("List of registered watchpoints:");
-            for(int i = 0; i < shellProcEnv.SubruleDebugConfig.ConfigurationRules.Count; ++i)
+            for(int i = 0; i < debuggerProcEnv.SubruleDebugConfig.ConfigurationRules.Count; ++i)
             {
-                Console.WriteLine(i + " - " + shellProcEnv.SubruleDebugConfig.ConfigurationRules[i].ToString());
+                Console.WriteLine(i + " - " + debuggerProcEnv.SubruleDebugConfig.ConfigurationRules[i].ToString());
             }
 
             Console.WriteLine("Press (e) to edit, (t) to toggle (enable/disable), or (d) to delete one of the watchpoints."
@@ -97,9 +97,9 @@ namespace de.unika.ipd.grGen.grShell
                 int num;
                 if(int.TryParse(numStr, out num))
                 {
-                    if(num < -1 || num >= shellProcEnv.SubruleDebugConfig.ConfigurationRules.Count)
+                    if(num < -1 || num >= debuggerProcEnv.SubruleDebugConfig.ConfigurationRules.Count)
                     {
-                        Console.WriteLine("You must specify a number between -1 and " + (shellProcEnv.SubruleDebugConfig.ConfigurationRules.Count - 1) + "!");
+                        Console.WriteLine("You must specify a number between -1 and " + (debuggerProcEnv.SubruleDebugConfig.ConfigurationRules.Count - 1) + "!");
                         continue;
                     }
                     return num;
@@ -111,28 +111,28 @@ namespace de.unika.ipd.grGen.grShell
 
         private void EditWatchpoint(int num)
         {
-            SubruleDebuggingConfigurationRule cr = shellProcEnv.SubruleDebugConfig.ConfigurationRules[num];
+            SubruleDebuggingConfigurationRule cr = debuggerProcEnv.SubruleDebugConfig.ConfigurationRules[num];
             cr = EditOrCreateRule(cr);
             if(cr == null)
                 Console.WriteLine("aborted");
             else
             {
                 Console.WriteLine("edited entry " + num + " - " + cr.ToString());
-                shellProcEnv.SubruleDebugConfig.Replace(num, cr);
+                debuggerProcEnv.SubruleDebugConfig.Replace(num, cr);
             }
         }
 
         private void ToggleWatchpoint(int num)
         {
-            SubruleDebuggingConfigurationRule cr = shellProcEnv.SubruleDebugConfig.ConfigurationRules[num];
+            SubruleDebuggingConfigurationRule cr = debuggerProcEnv.SubruleDebugConfig.ConfigurationRules[num];
             cr.Enabled = !cr.Enabled;
             Console.WriteLine("toggled entry " + num + " - " + cr.ToString());
         }
 
         private void DeleteWatchpoint(int num)
         {
-            SubruleDebuggingConfigurationRule cr = shellProcEnv.SubruleDebugConfig.ConfigurationRules[num];
-            shellProcEnv.SubruleDebugConfig.Delete(num);
+            SubruleDebuggingConfigurationRule cr = debuggerProcEnv.SubruleDebugConfig.ConfigurationRules[num];
+            debuggerProcEnv.SubruleDebugConfig.Delete(num);
             Console.WriteLine("deleted entry " + num + " - " + cr.ToString());
         }
 
@@ -143,7 +143,7 @@ namespace de.unika.ipd.grGen.grShell
                 Console.WriteLine("aborted");
             else
             {
-                shellProcEnv.SubruleDebugConfig.Insert(cr, num);
+                debuggerProcEnv.SubruleDebugConfig.Insert(cr, num);
                 Console.WriteLine("inserted entry " + num + " - " + cr.ToString());
             }
         }
@@ -155,8 +155,8 @@ namespace de.unika.ipd.grGen.grShell
                 Console.WriteLine("aborted");
             else
             {
-                shellProcEnv.SubruleDebugConfig.Insert(cr);
-                Console.WriteLine("appended entry " + (shellProcEnv.SubruleDebugConfig.ConfigurationRules.Count - 1) + " - " + cr.ToString());
+                debuggerProcEnv.SubruleDebugConfig.Insert(cr);
+                Console.WriteLine("appended entry " + (debuggerProcEnv.SubruleDebugConfig.ConfigurationRules.Count - 1) + " - " + cr.ToString());
             }
         }
 
@@ -365,7 +365,7 @@ namespace de.unika.ipd.grGen.grShell
                         return null;
                 }
 
-                IAction action = shellProcEnv.ProcEnv.Actions.GetAction(actionName);
+                IAction action = debuggerProcEnv.ProcEnv.Actions.GetAction(actionName);
                 if(action == null)
                     Console.WriteLine("Unknown action: " + actionName);
                 else
@@ -604,7 +604,7 @@ namespace de.unika.ipd.grGen.grShell
                 }
                 try
                 {
-                    SequenceParserEnvironmentInterpretedDebugEventCondition parserEnv = new SequenceParserEnvironmentInterpretedDebugEventCondition(shellProcEnv.ProcEnv.Actions, ruleOfMatchThis, typeOfGraphElementThis);
+                    SequenceParserEnvironmentInterpretedDebugEventCondition parserEnv = new SequenceParserEnvironmentInterpretedDebugEventCondition(debuggerProcEnv.ProcEnv.Actions, ruleOfMatchThis, typeOfGraphElementThis);
                     List<String> warnings = new List<String>();
                     SequenceExpression ifClause = SequenceParser.ParseSequenceExpression(ifClauseStr, predefinedVariables, parserEnv, warnings);
                     foreach(string warning in warnings)

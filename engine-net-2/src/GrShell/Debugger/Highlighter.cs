@@ -18,7 +18,7 @@ namespace de.unika.ipd.grGen.grShell
     class Highlighter
     {
         readonly IDebuggerEnvironment env;
-        readonly ShellGraphProcessingEnvironment shellProcEnv;
+        readonly DebuggerGraphProcessingEnvironment debuggerProcEnv;
 
         readonly ElementRealizers realizers;
         readonly GraphAnnotationAndChangesRecorder renderRecorder;
@@ -27,7 +27,7 @@ namespace de.unika.ipd.grGen.grShell
         readonly Stack<SequenceBase> debugSequences;
 
         public Highlighter(IDebuggerEnvironment env,
-            ShellGraphProcessingEnvironment shellProcEnv,
+            DebuggerGraphProcessingEnvironment debuggerProcEnv,
             ElementRealizers realizers,
             GraphAnnotationAndChangesRecorder renderRecorder,
             YCompClient ycompClient,
@@ -35,7 +35,7 @@ namespace de.unika.ipd.grGen.grShell
         )
         {
             this.env = env;
-            this.shellProcEnv = shellProcEnv;
+            this.debuggerProcEnv = debuggerProcEnv;
             this.realizers = realizers;
             this.renderRecorder = renderRecorder;
             this.ycompClient = ycompClient;
@@ -100,7 +100,7 @@ namespace de.unika.ipd.grGen.grShell
                     return;
                 }
             }
-            foreach(Variable var in shellProcEnv.ProcEnv.Variables)
+            foreach(Variable var in debuggerProcEnv.ProcEnv.Variables)
             {
                 if(var.Name == argument)
                 {
@@ -188,9 +188,9 @@ namespace de.unika.ipd.grGen.grShell
                     else
                     {
                         if(entry.Key is IGraphElement)
-                            HighlightSingleValue(entry.Key, name + ".Domain -> " + EmitHelper.ToString(entry.Value, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null), addAnnotation);
+                            HighlightSingleValue(entry.Key, name + ".Domain -> " + EmitHelper.ToString(entry.Value, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, null), addAnnotation);
                         if(entry.Value is IGraphElement)
-                            HighlightSingleValue(entry.Value, EmitHelper.ToString(entry.Key, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null) + " -> " + name + ".Range", addAnnotation);
+                            HighlightSingleValue(entry.Value, EmitHelper.ToString(entry.Key, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, null) + " -> " + name + ".Range", addAnnotation);
                     }
                 }
             }
@@ -246,17 +246,17 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(value is int)
             {
-                List<int> allocatedVisitedFlags = shellProcEnv.ProcEnv.NamedGraph.GetAllocatedVisitedFlags();
+                List<int> allocatedVisitedFlags = debuggerProcEnv.ProcEnv.NamedGraph.GetAllocatedVisitedFlags();
                 if(allocatedVisitedFlags.Contains((int)value))
                 {
-                    foreach(INode node in shellProcEnv.ProcEnv.NamedGraph.Nodes)
+                    foreach(INode node in debuggerProcEnv.ProcEnv.NamedGraph.Nodes)
                     {
-                        if(shellProcEnv.ProcEnv.NamedGraph.IsVisited(node, (int)value))
+                        if(debuggerProcEnv.ProcEnv.NamedGraph.IsVisited(node, (int)value))
                             HighlightNode(node, "visited[" + name + "]", addAnnotation);
                     }
-                    foreach(IEdge edge in shellProcEnv.ProcEnv.NamedGraph.Edges)
+                    foreach(IEdge edge in debuggerProcEnv.ProcEnv.NamedGraph.Edges)
                     {
-                        if(shellProcEnv.ProcEnv.NamedGraph.IsVisited(edge, (int)value))
+                        if(debuggerProcEnv.ProcEnv.NamedGraph.IsVisited(edge, (int)value))
                             HighlightEdge(edge, "visited[" + name + "]", addAnnotation);
                     }
                 }

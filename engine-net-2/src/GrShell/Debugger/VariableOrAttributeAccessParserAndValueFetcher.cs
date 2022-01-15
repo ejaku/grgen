@@ -18,16 +18,16 @@ namespace de.unika.ipd.grGen.grShell
     class VariableOrAttributeAccessParserAndValueFetcher
     {
         readonly IDebuggerEnvironment env;
-        readonly ShellGraphProcessingEnvironment shellProcEnv;
+        readonly DebuggerGraphProcessingEnvironment debuggerProcEnv;
 
         readonly Stack<SequenceBase> debugSequences;
 
         public VariableOrAttributeAccessParserAndValueFetcher(IDebuggerEnvironment env,
-            ShellGraphProcessingEnvironment shellProcEnv,
+            DebuggerGraphProcessingEnvironment debuggerProcEnv,
             Stack<SequenceBase> debugSequences)
         {
             this.env = env;
-            this.shellProcEnv = shellProcEnv;
+            this.debuggerProcEnv = debuggerProcEnv;
             this.debugSequences = debugSequences;
         }
 
@@ -172,7 +172,7 @@ namespace de.unika.ipd.grGen.grShell
                 if(var.Name == varName)
                     return var.LocalVariableValue;
             }
-            foreach(Variable var in shellProcEnv.ProcEnv.Variables)
+            foreach(Variable var in debuggerProcEnv.ProcEnv.Variables)
             {
                 if(var.Name == varName)
                     return var.Value;

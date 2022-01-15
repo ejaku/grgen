@@ -152,14 +152,14 @@ namespace de.unika.ipd.grGen.grShell
 
         public void DisableDebuggerAfterDeletionAsNeeded(ShellGraphProcessingEnvironment deletedShellGraphProcEnv)
         {
-            if(InDebugMode && debugger.ShellProcEnv == deletedShellGraphProcEnv)
+            if(InDebugMode && debugger.DebuggerProcEnv == deletedShellGraphProcEnv)
                 SetDebugMode(false);
         }
 
         public void ChangeDebuggerGraphAsNeeded(ShellGraphProcessingEnvironment curShellProcEnv)
         {
             if(InDebugMode)
-                debugger.ShellProcEnv = curShellProcEnv; // TODO: this is sufficient for the dependencies within debugger?
+                debugger.DebuggerProcEnv = curShellProcEnv; // TODO: this is sufficient for the dependencies within debugger?
         }
 
         public void DebugDoLayout()

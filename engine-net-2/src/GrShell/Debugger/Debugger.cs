@@ -25,7 +25,7 @@ namespace de.unika.ipd.grGen.grShell
     class Debugger : IUserProxyForSequenceExecution
     {
         readonly IDebuggerEnvironment env;
-        ShellGraphProcessingEnvironment shellProcEnv;
+        DebuggerGraphProcessingEnvironment debuggerProcEnv;
         Stack<DebuggerTask> tasks = new Stack<DebuggerTask>();
         DebuggerTask task
         {
@@ -110,7 +110,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             this.tasks.Push(new DebuggerTask(this, procEnv));
             this.env = env;
-            this.shellProcEnv = shellProcEnv;
+            this.debuggerProcEnv = shellProcEnv;
 
             this.realizers = realizers;
 
@@ -326,21 +326,21 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public ShellGraphProcessingEnvironment ShellProcEnv
+        public DebuggerGraphProcessingEnvironment DebuggerProcEnv
         {
-            get { return shellProcEnv; }
+            get { return debuggerProcEnv; }
             set
             {
                 // switch to new graph in YComp
-                task.UnregisterActionEvents(shellProcEnv.ProcEnv);
-                task.UnregisterGraphEvents(shellProcEnv.ProcEnv.NamedGraph);
+                task.UnregisterActionEvents(debuggerProcEnv.ProcEnv);
+                task.UnregisterGraphEvents(debuggerProcEnv.ProcEnv.NamedGraph);
                 ycompClient.ClearGraph();
-                shellProcEnv = value;
-                ycompClient.Graph = shellProcEnv.ProcEnv.NamedGraph;
+                debuggerProcEnv = value;
+                ycompClient.Graph = debuggerProcEnv.ProcEnv.NamedGraph;
                 if(!ycompClient.dumpInfo.IsExcludedGraph())
-                    UploadGraph(shellProcEnv.ProcEnv.NamedGraph);
-                task.RegisterGraphEvents(shellProcEnv.ProcEnv.NamedGraph);
-                task.RegisterActionEvents(shellProcEnv.ProcEnv);
+                    UploadGraph(debuggerProcEnv.ProcEnv.NamedGraph);
+                task.RegisterGraphEvents(debuggerProcEnv.ProcEnv.NamedGraph);
+                task.RegisterActionEvents(debuggerProcEnv.ProcEnv);
 
                 // TODO: reset any state when inside a rule debugging session
             }
@@ -466,7 +466,7 @@ namespace de.unika.ipd.grGen.grShell
                     }
                 case 'w':
                     {
-                        WatchpointEditor watchpointEditor = new WatchpointEditor(shellProcEnv, env);
+                        WatchpointEditor watchpointEditor = new WatchpointEditor(debuggerProcEnv, env);
                         watchpointEditor.HandleWatchpoints();
                         break;
                     }
@@ -577,10 +577,10 @@ namespace de.unika.ipd.grGen.grShell
             if(HexToLong(argument.Substring(1), out uniqueId))
             {
                 String objectName = String.Format("%{0,00000000:X}", uniqueId);
-                if(shellProcEnv.NameToClassObject.ContainsKey(objectName))
+                if(debuggerProcEnv.NameToClassObject.ContainsKey(objectName))
                 {
-                    IObject obj = shellProcEnv.NameToClassObject[objectName];
-                    Console.WriteLine(EmitHelper.ToStringAutomatic(obj, task.procEnv.NamedGraph, false, shellProcEnv.NameToClassObject, task.procEnv));
+                    IObject obj = debuggerProcEnv.NameToClassObject[objectName];
+                    Console.WriteLine(EmitHelper.ToStringAutomatic(obj, task.procEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, task.procEnv));
                 }
                 else
                     Console.WriteLine("Unknown class object id %" + objectName + "!");
@@ -594,10 +594,10 @@ namespace de.unika.ipd.grGen.grShell
             long uniqueId;
             if(HexToLong(argument.Substring(1), out uniqueId))
             {
-                if(shellProcEnv.ProcEnv.Graph.GlobalVariables.GetTransientObject(uniqueId) != null)
+                if(debuggerProcEnv.ProcEnv.Graph.GlobalVariables.GetTransientObject(uniqueId) != null)
                 {
-                    ITransientObject obj = shellProcEnv.ProcEnv.Graph.GlobalVariables.GetTransientObject(uniqueId);
-                    Console.WriteLine(EmitHelper.ToStringAutomatic(obj, task.procEnv.NamedGraph, false, shellProcEnv.NameToClassObject, task.procEnv));
+                    ITransientObject obj = debuggerProcEnv.ProcEnv.Graph.GlobalVariables.GetTransientObject(uniqueId);
+                    Console.WriteLine(EmitHelper.ToStringAutomatic(obj, task.procEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, task.procEnv));
                 }
                 else
                     Console.WriteLine("Unknown transient class object id " + argument + "!");
@@ -609,15 +609,15 @@ namespace de.unika.ipd.grGen.grShell
         private void HandleShowClassObjectVariable(SequenceBase seq, string argument)
         {
             if(GetSequenceVariable(argument, task.debugSequences.Peek(), seq) != null
-                && GetSequenceVariable(argument, task.debugSequences.Peek(), seq).GetVariableValue(shellProcEnv.ProcEnv) != null)
+                && GetSequenceVariable(argument, task.debugSequences.Peek(), seq).GetVariableValue(debuggerProcEnv.ProcEnv) != null)
             {
-                object value = GetSequenceVariable(argument, task.debugSequences.Peek(), seq).GetVariableValue(shellProcEnv.ProcEnv);
-                Console.WriteLine(EmitHelper.ToStringAutomatic(value, task.procEnv.NamedGraph, false, shellProcEnv.NameToClassObject, task.procEnv));
+                object value = GetSequenceVariable(argument, task.debugSequences.Peek(), seq).GetVariableValue(debuggerProcEnv.ProcEnv);
+                Console.WriteLine(EmitHelper.ToStringAutomatic(value, task.procEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, task.procEnv));
             }
-            else if(shellProcEnv.ProcEnv.GetVariableValue(argument) != null)
+            else if(debuggerProcEnv.ProcEnv.GetVariableValue(argument) != null)
             {
-                object value = shellProcEnv.ProcEnv.GetVariableValue(argument);
-                Console.WriteLine(EmitHelper.ToStringAutomatic(value, task.procEnv.NamedGraph, false, shellProcEnv.NameToClassObject, task.procEnv));
+                object value = debuggerProcEnv.ProcEnv.GetVariableValue(argument);
+                Console.WriteLine(EmitHelper.ToStringAutomatic(value, task.procEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, task.procEnv));
             }
             else
                 Console.WriteLine("The given " + argument + " is not a known variable name (of non-null value)!");
@@ -669,7 +669,7 @@ namespace de.unika.ipd.grGen.grShell
         private void HandleAsGraph(SequenceBase seq)
         {
             VariableOrAttributeAccessParserAndValueFetcher parserFetcher = new VariableOrAttributeAccessParserAndValueFetcher(
-                env, shellProcEnv, task.debugSequences);
+                env, debuggerProcEnv, task.debugSequences);
             object toBeShownAsGraph;
             AttributeType attrType;
             bool abort = parserFetcher.FetchObjectToBeShownAsGraph(seq, out toBeShownAsGraph, out attrType);
@@ -679,7 +679,7 @@ namespace de.unika.ipd.grGen.grShell
                 return;
             }
 
-            INamedGraph graph = shellProcEnv.ProcEnv.Graph.Model.AsGraph(toBeShownAsGraph, attrType, task.procEnv.Graph);
+            INamedGraph graph = debuggerProcEnv.ProcEnv.Graph.Model.AsGraph(toBeShownAsGraph, attrType, task.procEnv.Graph);
             if(graph == null)
             {
                 if(toBeShownAsGraph is INamedGraph)
@@ -717,7 +717,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             Console.Write("Enter name of variable or id of visited flag to highlight (multiple values may be given comma-separated; just enter for abort): ");
             String str = Console.ReadLine();
-            Highlighter highlighter = new Highlighter(env, shellProcEnv, realizers, renderRecorder, ycompClient, task.debugSequences);
+            Highlighter highlighter = new Highlighter(env, debuggerProcEnv, realizers, renderRecorder, ycompClient, task.debugSequences);
             List<object> values;
             List<string> annotations;
             highlighter.ComputeHighlight(seq, str, out values, out annotations);
@@ -726,7 +726,7 @@ namespace de.unika.ipd.grGen.grShell
 
         private void HandleHighlight(List<object> originalValues, List<string> sourceNames)
         {
-            Highlighter highlighter = new Highlighter(env, shellProcEnv, realizers, renderRecorder, ycompClient, task.debugSequences);
+            Highlighter highlighter = new Highlighter(env, debuggerProcEnv, realizers, renderRecorder, ycompClient, task.debugSequences);
             highlighter.DoHighlight(originalValues, sourceNames);
         }
 
@@ -779,31 +779,31 @@ namespace de.unika.ipd.grGen.grShell
                     string type;
                     string content;
                     if(var.LocalVariableValue is IDictionary)
-                        EmitHelper.ToString((IDictionary)var.LocalVariableValue, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
+                        EmitHelper.ToString((IDictionary)var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, null);
                     else if(var.LocalVariableValue is IList)
-                        EmitHelper.ToString((IList)var.LocalVariableValue, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
+                        EmitHelper.ToString((IList)var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, null);
                     else if(var.LocalVariableValue is IDeque)
-                        EmitHelper.ToString((IDeque)var.LocalVariableValue, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
+                        EmitHelper.ToString((IDeque)var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, null);
                     else
-                        EmitHelper.ToString(var.LocalVariableValue, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
+                        EmitHelper.ToString(var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, null);
                     Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
                 }
             }
             else
             {
                 Console.WriteLine("Available global (non null) variables:");
-                foreach(Variable var in shellProcEnv.ProcEnv.Variables)
+                foreach(Variable var in debuggerProcEnv.ProcEnv.Variables)
                 {
                     string type;
                     string content;
                     if(var.Value is IDictionary)
-                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
+                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, null);
                     else if(var.Value is IList)
-                        EmitHelper.ToString((IList)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
+                        EmitHelper.ToString((IList)var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, null);
                     else if(var.Value is IDeque)
-                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
+                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, null);
                     else
-                        EmitHelper.ToString(var.Value, out type, out content, null, shellProcEnv.ProcEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null);
+                        EmitHelper.ToString(var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, null);
                     Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
                 }
             }
@@ -811,7 +811,7 @@ namespace de.unika.ipd.grGen.grShell
 
         private void PrintVisited()
         {
-            List<int> allocatedVisitedFlags = shellProcEnv.ProcEnv.NamedGraph.GetAllocatedVisitedFlags();
+            List<int> allocatedVisitedFlags = debuggerProcEnv.ProcEnv.NamedGraph.GetAllocatedVisitedFlags();
             Console.Write("Allocated visited flags are: ");
             bool first = true;
             foreach(int allocatedVisitedFlag in allocatedVisitedFlags)
@@ -1247,7 +1247,7 @@ namespace de.unika.ipd.grGen.grShell
         public void DebugNodeAdded(INode node)
         {
             SubruleDebuggingConfigurationRule cr;
-            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.New,
+            if(debuggerProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.New,
                 node, task.procEnv, out cr) == SubruleDebuggingDecision.Break)
             {
                 InternalHalt(cr, node);
@@ -1269,7 +1269,7 @@ namespace de.unika.ipd.grGen.grShell
         public void DebugEdgeAdded(IEdge edge)
         {
             SubruleDebuggingConfigurationRule cr;
-            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.New,
+            if(debuggerProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.New,
                 edge, task.procEnv, out cr) == SubruleDebuggingDecision.Break)
             {
                 InternalHalt(cr, edge);
@@ -1291,7 +1291,7 @@ namespace de.unika.ipd.grGen.grShell
         public void DebugDeletingNode(INode node)
         {
             SubruleDebuggingConfigurationRule cr;
-            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Delete,
+            if(debuggerProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Delete,
                 node, task.procEnv, out cr) == SubruleDebuggingDecision.Break)
             {
                 InternalHalt(cr, node);
@@ -1320,7 +1320,7 @@ namespace de.unika.ipd.grGen.grShell
         public void DebugDeletingEdge(IEdge edge)
         {
             SubruleDebuggingConfigurationRule cr;
-            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Delete,
+            if(debuggerProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Delete,
                 edge, task.procEnv, out cr) == SubruleDebuggingDecision.Break)
             {
                 InternalHalt(cr, edge);
@@ -1360,7 +1360,7 @@ namespace de.unika.ipd.grGen.grShell
                 ycompClient.ChangeNodeAttribute(node, attrType);
             
             SubruleDebuggingConfigurationRule cr;
-            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.SetAttributes,
+            if(debuggerProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.SetAttributes,
                 node, task.procEnv, out cr) == SubruleDebuggingDecision.Break)
             {
                 InternalHalt(cr, node, attrType.Name);
@@ -1373,7 +1373,7 @@ namespace de.unika.ipd.grGen.grShell
                 ycompClient.ChangeEdgeAttribute(edge, attrType);
             
             SubruleDebuggingConfigurationRule cr;
-            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.SetAttributes,
+            if(debuggerProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.SetAttributes,
                 edge, task.procEnv, out cr) == SubruleDebuggingDecision.Break)
             {
                 InternalHalt(cr, edge, attrType.Name);
@@ -1383,7 +1383,7 @@ namespace de.unika.ipd.grGen.grShell
         public void DebugRetypingElement(IGraphElement oldElem, IGraphElement newElem)
         {
             SubruleDebuggingConfigurationRule cr;
-            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Retype,
+            if(debuggerProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Retype,
                 oldElem, task.procEnv, out cr) == SubruleDebuggingDecision.Break)
             {
                 InternalHalt(cr, oldElem);
@@ -1627,7 +1627,7 @@ namespace de.unika.ipd.grGen.grShell
             SubruleDebuggingDecision d = SubruleDebuggingDecision.Undefined;
             foreach(IMatches _matches in matches)
             {
-                d = shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Match,
+                d = debuggerProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Match,
                     _matches, task.procEnv, out cr);
                 if(d == SubruleDebuggingDecision.Break)
                     break;
@@ -2321,7 +2321,7 @@ namespace de.unika.ipd.grGen.grShell
         public void DebugEnter(string message, params object[] values)
         {
             SubruleDebuggingConfigurationRule cr;
-            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Add, 
+            if(debuggerProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Add, 
                 message, task.procEnv, out cr) == SubruleDebuggingDecision.Break)
                 InternalHalt(cr, message, values);
 
@@ -2335,7 +2335,7 @@ namespace de.unika.ipd.grGen.grShell
         public void DebugExit(string message, params object[] values)
         {
             SubruleDebuggingConfigurationRule cr;
-            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Rem, 
+            if(debuggerProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Rem, 
                 message, task.procEnv, out cr) == SubruleDebuggingDecision.Break)
                 InternalHalt(cr, message, values);
 
@@ -2385,7 +2385,7 @@ namespace de.unika.ipd.grGen.grShell
         public void DebugEmit(string message, params object[] values)
         {
             SubruleDebuggingConfigurationRule cr;
-            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Emit,
+            if(debuggerProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Emit,
                 message, task.procEnv, out cr) == SubruleDebuggingDecision.Break)
             {
                 InternalHalt(cr, message, values);
@@ -2401,7 +2401,7 @@ namespace de.unika.ipd.grGen.grShell
         public void DebugHalt(string message, params object[] values)
         {
             SubruleDebuggingConfigurationRule cr;
-            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Halt,
+            if(debuggerProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Halt,
                 message, task.procEnv, out cr) == SubruleDebuggingDecision.Continue)
             {
                 return;
@@ -2411,7 +2411,7 @@ namespace de.unika.ipd.grGen.grShell
             for(int i = 0; i < values.Length; ++i)
             {
                 Console.Write(" ");
-                Console.Write(EmitHelper.ToStringAutomatic(values[i], task.procEnv.NamedGraph, false, shellProcEnv.NameToClassObject, null));
+                Console.Write(EmitHelper.ToStringAutomatic(values[i], task.procEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, null));
             }
             Console.WriteLine();
 
@@ -2452,7 +2452,7 @@ namespace de.unika.ipd.grGen.grShell
         public void DebugHighlight(string message, List<object> values, List<string> sourceNames)
         {
             SubruleDebuggingConfigurationRule cr;
-            if(shellProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Highlight,
+            if(debuggerProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.Highlight,
                 message, task.procEnv, out cr) == SubruleDebuggingDecision.Continue)
             {
                 return;
