@@ -838,6 +838,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             dumpInfo.OnNodeTypeAppearanceChanged -= new NodeTypeAppearanceChangedHandler(OnNodeTypeAppearanceChanged);
             dumpInfo.OnEdgeTypeAppearanceChanged -= new EdgeTypeAppearanceChangedHandler(OnEdgeTypeAppearanceChanged);
+            dumpInfo.OnTypeInfotagsChanged -= new TypeInfotagsChangedHandler(OnTypeInfotagsChanged);
         }
 
         void OnNodeTypeAppearanceChanged(NodeType type)
