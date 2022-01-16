@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 using de.unika.ipd.grGen.libGr;
 
-namespace de.unika.ipd.grGen.grShell
+namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     /// <summary>
     /// Defines the appearace of a node class (e.g. normal, matched, new, deleted)
@@ -146,12 +146,12 @@ namespace de.unika.ipd.grGen.grShell
         YCompStream ycompStream = null;
 
 
-        internal ElementRealizers()
+        public ElementRealizers()
         {
             ReSetElementRealizers();
         }
 
-        internal void ReSetElementRealizers()
+        public void ReSetElementRealizers()
         {
             nodeRealizers[(int)ElementMode.Normal] = GetNodeRealizer(GrColor.Yellow, GrColor.DarkYellow, GrColor.Black, GrNodeShape.Box);
             nodeRealizers[(int)ElementMode.Matched] = GetNodeRealizer(GrColor.Khaki, GrColor.DarkYellow, GrColor.Black, GrNodeShape.Box);
@@ -212,7 +212,7 @@ namespace de.unika.ipd.grGen.grShell
                 dumpInfo.GetEdgeTypeLineStyle(type)).Name;
         }
 
-        internal void ChangeNodeColor(ElementMode mode, GrColor color)
+        public void ChangeNodeColor(ElementMode mode, GrColor color)
         {
             nodeRealizers[(int)mode] = GetNodeRealizer(
                 color,
@@ -221,7 +221,7 @@ namespace de.unika.ipd.grGen.grShell
                 nodeRealizers[(int)mode].Shape);
         }
 
-        internal void ChangeNodeBorderColor(ElementMode mode, GrColor borderColor)
+        public void ChangeNodeBorderColor(ElementMode mode, GrColor borderColor)
         {
             nodeRealizers[(int)mode] = GetNodeRealizer(
                 nodeRealizers[(int)mode].Color,
@@ -230,7 +230,7 @@ namespace de.unika.ipd.grGen.grShell
                 nodeRealizers[(int)mode].Shape);
         }
 
-        internal void ChangeNodeTextColor(ElementMode mode, GrColor textColor)
+        public void ChangeNodeTextColor(ElementMode mode, GrColor textColor)
         {
             nodeRealizers[(int)mode] = GetNodeRealizer(
                 nodeRealizers[(int)mode].Color,
@@ -239,7 +239,7 @@ namespace de.unika.ipd.grGen.grShell
                 nodeRealizers[(int)mode].Shape);
         }
 
-        internal void ChangeNodeShape(ElementMode mode, GrNodeShape shape)
+        public void ChangeNodeShape(ElementMode mode, GrNodeShape shape)
         {
             nodeRealizers[(int)mode] = GetNodeRealizer(
                 nodeRealizers[(int)mode].Color,
@@ -248,7 +248,7 @@ namespace de.unika.ipd.grGen.grShell
                 shape);
         }
 
-        internal void ChangeEdgeColor(ElementMode mode, GrColor color)
+        public void ChangeEdgeColor(ElementMode mode, GrColor color)
         {
             edgeRealizers[(int)mode] = GetEdgeRealizer(
                 color,
@@ -257,7 +257,7 @@ namespace de.unika.ipd.grGen.grShell
                 edgeRealizers[(int)mode].LineStyle);
         }
 
-        internal void ChangeEdgeTextColor(ElementMode mode, GrColor textColor)
+        public void ChangeEdgeTextColor(ElementMode mode, GrColor textColor)
         {
             edgeRealizers[(int)mode] = GetEdgeRealizer(
                 edgeRealizers[(int)mode].Color,
@@ -266,7 +266,7 @@ namespace de.unika.ipd.grGen.grShell
                 edgeRealizers[(int)mode].LineStyle);
         }
 
-        internal void ChangeEdgeThickness(ElementMode mode, int thickness)
+        public void ChangeEdgeThickness(ElementMode mode, int thickness)
         {
             edgeRealizers[(int)mode] = GetEdgeRealizer(
                 edgeRealizers[(int)mode].Color,
@@ -275,7 +275,7 @@ namespace de.unika.ipd.grGen.grShell
                 edgeRealizers[(int)mode].LineStyle);
         }
 
-        internal void ChangeEdgeStyle(ElementMode mode, GrLineStyle style)
+        public void ChangeEdgeStyle(ElementMode mode, GrLineStyle style)
         {
             edgeRealizers[(int)mode] = GetEdgeRealizer(
                 edgeRealizers[(int)mode].Color,

@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 using de.unika.ipd.grGen.libGr;
 
-namespace de.unika.ipd.grGen.grShell
+namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     public class PrintSequenceContext
     {

@@ -63,15 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Debugger\BreakpointAndChoicepointEditor.cs" />
-    <Compile Include="Debugger\DebuggerGraphProcessingEnvironment.cs" />
-    <Compile Include="Debugger\DebuggerTask.cs" />
-    <Compile Include="Debugger\ElementRealizers.cs" />
-    <Compile Include="Debugger\MatchMarkerAndAnnotator.cs" />
-    <Compile Include="Debugger\UserChoiceMenu.cs" />
     <Compile Include="FromToReader.cs" />
-    <Compile Include="Debugger\Debugger.cs" />
-    <Compile Include="Debugger\GraphAnnotationAndChangesRecorder.cs" />
     <Compile Include="GrShell.cs" />
     <Compile Include="GrShellConsoleUI.cs" />
     <Compile Include="GrShellConstants.cs" />
@@ -79,26 +71,22 @@
     <Compile Include="GrShellImpl.cs" />
     <Compile Include="GrShellSequenceApplierAndDebugger.cs" />
     <Compile Include="GrShellTokenManager.cs" />
-    <Compile Include="Debugger\Highlighter.cs" />
-    <Compile Include="Debugger\PrintSequenceContext.cs" />
-    <Compile Include="Debugger\SequencePrinter.cs" />
     <Compile Include="ShellGraphProcessingEnvironment.cs" />
-    <Compile Include="Debugger\SubruleDebugging.cs" />
-    <Compile Include="Debugger\VariableOrAttributeAccessParserAndValueFetcher.cs" />
-    <Compile Include="Debugger\WatchpointEditor.cs" />
-    <Compile Include="WorkaroundManager.cs" />
     <Compile Include="ParseException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleCharStream.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="TokenMgrError.cs" />
-    <Compile Include="Debugger\YCompClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="GrShell.csc" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\graphViewerAndSequenceDebugger\graphViewerAndSequenceDebugger.csproj">
+      <Project>{77133185-36b5-4134-9f5b-c6ac0aef9bd5}</Project>
+      <Name>graphViewerAndSequenceDebugger</Name>
+    </ProjectReference>
     <ProjectReference Include="..\lgspBackend\lgspBackend.csproj">
       <Project>{28747063-D1D2-4626-B1F1-84CC201B2063}</Project>
       <Name>lgspBackend</Name>

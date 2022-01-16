@@ -14,7 +14,7 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace de.unika.ipd.grGen.grShell
+namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     /// <summary>
     /// Workaround fun due to the following bugs:

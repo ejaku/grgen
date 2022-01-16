@@ -9,6 +9,7 @@
 
 using System;
 using de.unika.ipd.grGen.libGr;
+using de.unika.ipd.grGen.graphViewerAndSequenceDebugger;
 
 namespace de.unika.ipd.grGen.grShell
 {

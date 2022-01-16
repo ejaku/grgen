@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.lgsp;
 
-namespace de.unika.ipd.grGen.grShell
+namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     public class DebuggerGraphProcessingEnvironment
     {

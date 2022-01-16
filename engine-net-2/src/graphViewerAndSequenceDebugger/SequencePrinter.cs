@@ -13,9 +13,9 @@ using System.Collections.Generic;
 
 using de.unika.ipd.grGen.libGr;
 
-namespace de.unika.ipd.grGen.grShell
+namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
-    static class SequencePrinter
+    public static class SequencePrinter
     {
         /// <summary>
         /// Prints the given root sequence base according to the print context.

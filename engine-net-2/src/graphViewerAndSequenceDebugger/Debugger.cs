@@ -20,9 +20,20 @@ using System.Reflection;
 using de.unika.ipd.grGen.libGr;
 using System.Text;
 
-namespace de.unika.ipd.grGen.grShell
+namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
-    class Debugger : IUserProxyForSequenceExecution
+    public interface IDebuggerEnvironment
+    {
+        void Cancel();
+        ConsoleKeyInfo ReadKeyWithCancel();
+        object Askfor(String typeName);
+        GrGenType GetGraphElementType(String typeName);
+        void HandleSequenceParserException(SequenceParserException ex);
+        string ShowGraphWith(String programName, String arguments, bool keep);
+        IGraphElement GetElemByName(String elemName);
+    }
+
+    public class Debugger : IUserProxyForSequenceExecution
     {
         readonly IDebuggerEnvironment env;
         DebuggerGraphProcessingEnvironment debuggerProcEnv;
@@ -96,7 +107,7 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         /// <param name="env">The environment to be used by the debugger
         /// (regular implementation by the shell sequence applier and debugger).</param>
-        /// <param name="shellProcEnv">The shell graph processing environment to be used by the debugger
+        /// <param name="debuggerProcEnv">The debugger graph processing environment to be used by the debugger
         /// (the graph processing environment of the top-level graph extended by shell specific data).</param>
         /// <param name="procEnv">The graph processing environment (of the top-level graph) to be used by the debugger.</param>
         /// <param name="realizers">The element realizers to be used by the debugger.</param>
@@ -104,13 +115,13 @@ namespace de.unika.ipd.grGen.grShell
         /// If null, Orthogonal is used.</param>
         /// <param name="layoutOptions">An dictionary mapping layout option names to their values.
         /// It may be null, if no options are to be applied.</param>
-        public Debugger(IDebuggerEnvironment env, ShellGraphProcessingEnvironment shellProcEnv, IGraphProcessingEnvironment procEnv,
+        public Debugger(IDebuggerEnvironment env, DebuggerGraphProcessingEnvironment debuggerProcEnv, IGraphProcessingEnvironment procEnv,
             ElementRealizers realizers, String debugLayout, Dictionary<String, String> layoutOptions,
             bool debugModePreMatchEnabled, bool debugModePostMatchEnabled)
         {
             this.tasks.Push(new DebuggerTask(this, procEnv));
             this.env = env;
-            this.debuggerProcEnv = shellProcEnv;
+            this.debuggerProcEnv = debuggerProcEnv;
 
             this.realizers = realizers;
 
@@ -135,7 +146,7 @@ namespace de.unika.ipd.grGen.grShell
             try
             {
                 ycompClient = new YCompClient(procEnv.NamedGraph, debugLayout ?? "Orthogonal", 20000, ycompPort, 
-                    shellProcEnv.DumpInfo, realizers, shellProcEnv.NameToClassObject);
+                    debuggerProcEnv.DumpInfo, realizers, debuggerProcEnv.NameToClassObject);
             }
             catch(Exception ex)
             {

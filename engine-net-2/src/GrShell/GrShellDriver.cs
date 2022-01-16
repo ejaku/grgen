@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using de.unika.ipd.grGen.libGr;
+using de.unika.ipd.grGen.graphViewerAndSequenceDebugger;
 
 namespace de.unika.ipd.grGen.grShell
 {

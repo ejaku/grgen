@@ -17,6 +17,7 @@ using System.Threading;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.libGr.sequenceParser;
 using de.unika.ipd.grGen.lgsp;
+using de.unika.ipd.grGen.graphViewerAndSequenceDebugger;
 
 namespace de.unika.ipd.grGen.grShell
 {

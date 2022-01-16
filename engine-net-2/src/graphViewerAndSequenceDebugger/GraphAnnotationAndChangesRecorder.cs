@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 using de.unika.ipd.grGen.libGr;
 
-namespace de.unika.ipd.grGen.grShell
+namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     /// <summary>
     /// The GraphAnnotationAndChangesRecorder remembers annotations of graph elements and changes applied to the graph by an action (match and rewrite),

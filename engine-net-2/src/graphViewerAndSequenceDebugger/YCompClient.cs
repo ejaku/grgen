@@ -17,7 +17,7 @@ using de.unika.ipd.grGen.libGr;
 using System.Net.Sockets;
 using System.Threading;
 
-namespace de.unika.ipd.grGen.grShell
+namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     public delegate void ConnectionLostHandler();
 
