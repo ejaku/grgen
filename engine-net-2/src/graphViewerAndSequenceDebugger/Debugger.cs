@@ -11,11 +11,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading;
-using System.Net;
-using System.Net.Sockets;
 using System.IO;
-using System.Reflection;
+using System.Threading;
 
 using de.unika.ipd.grGen.libGr;
 using System.Text;
@@ -48,7 +45,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         readonly ElementRealizers realizers;
         readonly GraphAnnotationAndChangesRecorder renderRecorder;
         YCompClient ycompClient = null;
-        Process viewerProcess = null;
+        YCompServerProxy ycompServerProxy = null;
 
         bool stepMode = true;
         bool dynamicStepMode = false;
@@ -129,29 +126,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             this.renderRecorder = new GraphAnnotationAndChangesRecorder();
 
-            int ycompPort = GetFreeTCPPort();
-            if(ycompPort < 0)
-                throw new Exception("Didn't find a free TCP port in the range 4242-4251!");
-
-            try
-            {
-                viewerProcess = Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
-                    + Path.DirectorySeparatorChar + "ycomp", "--nomaximize -p " + ycompPort);
-            }
-            catch(Exception e)
-            {
-                throw new Exception("Unable to start yComp: " + e.ToString());
-            }
-
-            try
-            {
-                ycompClient = new YCompClient(procEnv.NamedGraph, debugLayout ?? "Orthogonal", 20000, ycompPort, 
-                    debuggerProcEnv.DumpInfo, realizers, debuggerProcEnv.NameToClassObject);
-            }
-            catch(Exception ex)
-            {
-                throw new Exception("Unable to connect to yComp at port " + ycompPort + ": " + ex.Message);
-            }
+            ycompServerProxy = new YCompServerProxy(YCompServerProxy.GetFreeTCPPort());
+            ycompClient = new YCompClient(procEnv.NamedGraph, debugLayout ?? "Orthogonal", 20000, ycompServerProxy.port,
+                debuggerProcEnv.DumpInfo, realizers, debuggerProcEnv.NameToClassObject);
 
             procEnv.NamedGraph.ReuseOptimization = false;
             NotifyOnConnectionLost = true;
@@ -215,48 +192,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// Searches for a free TCP port in the range 4242-4251
-        /// </summary>
-        /// <returns>A free TCP port or -1, if they are all occupied</returns>
-        private int GetFreeTCPPort()
-        {
-            for(int i = 4242; i < 4252; ++i)
-            {
-                try
-                {
-                    IPEndPoint endpoint = new IPEndPoint(IPAddress.Loopback, i);
-                    // Check whether the current socket is already open by connecting to it
-                    using(Socket socket = new Socket(endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp))
-                    {
-                        try
-                        {
-                            socket.Connect(endpoint);
-                            socket.Disconnect(false);
-                            // Someone is already listening at the current port, so try another one
-                            continue;
-                        }
-                        catch(SocketException)
-                        {
-                        } // Nobody there? Good...
-                    }
-
-                    // Unable to connect, so try to bind the current port.
-                    // Trying to bind directly (without the connect-check before), does not
-                    // work on Windows Vista even with ExclusiveAddressUse set to true (which does not work on Mono).
-                    // It will bind to already used ports without any notice.
-                    using(Socket socket = new Socket(endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp))
-                        socket.Bind(endpoint);
-                }
-                catch(SocketException)
-                {
-                    continue;
-                }
-                return i;
-            }
-            return -1;
-        }
-
-        /// <summary>
         /// Closes the debugger.
         /// </summary>
         public void Close()
@@ -270,8 +205,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             task.procEnv.NamedGraph.ReuseOptimization = true;
             ycompClient.Close();
             ycompClient = null;
-            viewerProcess.Close();
-            viewerProcess = null;
+            ycompServerProxy.Close();
+            ycompServerProxy = null;
         }
 
         public void InitNewRewriteSequence(Sequence seq, bool withStepMode, bool debugModePreMatchEnabled, bool debugModePostMatchEnabled)

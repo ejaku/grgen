@@ -12,13 +12,98 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using de.unika.ipd.grGen.libGr;
+using System.Diagnostics;
+using System.IO;
+using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Threading;
+using System.Text;
+
+using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
+    /// <summary>
+    /// Class starting the yComp server (on a specific socket)
+    /// </summary>
+    public class YCompServerProxy
+    {
+        /// <summary>
+        /// Searches for a free TCP port in the range 4242-4251.
+        /// To be called in order to obtain a free yComp port to i) start yComp at ii) communicate with yComp.
+        /// </summary>
+        /// <returns>A free TCP port, or throws an exception if all are occupied</returns>
+        public static int GetFreeTCPPort()
+        {
+            for(int i = 4242; i < 4252; ++i)
+            {
+                try
+                {
+                    IPEndPoint endpoint = new IPEndPoint(IPAddress.Loopback, i);
+                    // Check whether the current socket is already open by connecting to it
+                    using(Socket socket = new Socket(endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp))
+                    {
+                        try
+                        {
+                            socket.Connect(endpoint);
+                            socket.Disconnect(false);
+                            // Someone is already listening at the current port, so try another one
+                            continue;
+                        }
+                        catch(SocketException)
+                        {
+                        } // Nobody there? Good...
+                    }
+
+                    // Unable to connect, so try to bind the current port.
+                    // Trying to bind directly (without the connect-check before), does not
+                    // work on Windows Vista even with ExclusiveAddressUse set to true (which does not work on Mono).
+                    // It will bind to already used ports without any notice.
+                    using(Socket socket = new Socket(endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp))
+                        socket.Bind(endpoint);
+                }
+                catch(SocketException)
+                {
+                    continue;
+                }
+                return i;
+            }
+
+            throw new Exception("Didn't find a free TCP port in the range 4242-4251!");
+        }
+
+        /// <summary>
+        /// Starts yComp (acting as a local server) at the given port (throws an exception if it fails so).
+        /// The preferred way to obtain a port is GetFreeTCPPort().
+        /// </summary>
+        /// <param name="ycompPort">The port to start yComp at</param>
+        public YCompServerProxy(int ycompPort)
+        {
+            try
+            {
+                port = ycompPort;
+                viewerProcess = Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
+                    + Path.DirectorySeparatorChar + "ycomp", "--nomaximize -p " + ycompPort);
+            }
+            catch(Exception e)
+            {
+                throw new Exception("Unable to start yComp: " + e.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Ends the yComp process.
+        /// </summary>
+        public void Close()
+        {
+            viewerProcess.Close();
+        }
+
+        public readonly Process viewerProcess;
+        public readonly int port;
+    }
+
     public delegate void ConnectionLostHandler();
 
     /// <summary>
@@ -182,46 +267,53 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         /// <summary>
         /// Creates a new YCompClient instance and connects to the local YComp server.
-        /// If it is not available a SocketException is thrown
+        /// If it is not available an Exception is thrown.
         /// </summary>
         public YCompClient(INamedGraph graph, String layoutModule, int connectionTimeout, int port,
             DumpInfo dumpInfo, ElementRealizers realizers, Dictionary<string, IObject> nameToClassObject)
         {
-            this.graph = graph;
-            this.dumpInfo = dumpInfo;
-
-            int startTime = Environment.TickCount;
-
-            do
+            try
             {
-                try
+                this.graph = graph;
+                this.dumpInfo = dumpInfo;
+
+                int startTime = Environment.TickCount;
+
+                do
                 {
-                    ycompClient = new TcpClient("localhost", port);
+                    try
+                    {
+                        ycompClient = new TcpClient("localhost", port);
+                    }
+                    catch(SocketException)
+                    {
+                        ycompClient = null;
+                        Thread.Sleep(1000);
+                    }
                 }
-                catch(SocketException)
-                {
-                    ycompClient = null;
-                    Thread.Sleep(1000);
-                }
+                while(ycompClient == null && Environment.TickCount - startTime < connectionTimeout);
+
+                if(ycompClient == null)
+                    throw new Exception("Connection timeout!");
+
+                ycompStream = new YCompStream(ycompClient);
+
+                SetLayout(layoutModule);
+
+                dumpInfo.OnNodeTypeAppearanceChanged += new NodeTypeAppearanceChangedHandler(OnNodeTypeAppearanceChanged);
+                dumpInfo.OnEdgeTypeAppearanceChanged += new EdgeTypeAppearanceChangedHandler(OnEdgeTypeAppearanceChanged);
+                dumpInfo.OnTypeInfotagsChanged += new TypeInfotagsChangedHandler(OnTypeInfotagsChanged);
+
+                this.realizers = realizers;
+                realizers.RegisterYComp(this);
+
+                this.nameToClassObject = nameToClassObject;
+                // TODO: Add group related events
             }
-            while(ycompClient == null && Environment.TickCount - startTime < connectionTimeout);
-
-            if(ycompClient == null)
-                throw new Exception("Connection timeout!");
-
-            ycompStream = new YCompStream(ycompClient);
-
-            SetLayout(layoutModule);
-
-            dumpInfo.OnNodeTypeAppearanceChanged += new NodeTypeAppearanceChangedHandler(OnNodeTypeAppearanceChanged);
-            dumpInfo.OnEdgeTypeAppearanceChanged += new EdgeTypeAppearanceChangedHandler(OnEdgeTypeAppearanceChanged);
-            dumpInfo.OnTypeInfotagsChanged += new TypeInfotagsChangedHandler(OnTypeInfotagsChanged);
-
-            this.realizers = realizers;
-            realizers.RegisterYComp(this);
-
-            this.nameToClassObject = nameToClassObject;
-            // TODO: Add group related events
+            catch(Exception ex)
+            {
+                throw new Exception("Unable to connect to yComp at port " + port + ": " + ex.Message);
+            }
         }
 
 
