@@ -48,6 +48,7 @@
     <Compile Include="DebuggerTask.cs" />
     <Compile Include="ElementRealizers.cs" />
     <Compile Include="GraphAnnotationAndChangesRecorder.cs" />
+    <Compile Include="GraphViewer.cs" />
     <Compile Include="Highlighter.cs" />
     <Compile Include="MatchMarkerAndAnnotator.cs" />
     <Compile Include="PrintSequenceContext.cs" />

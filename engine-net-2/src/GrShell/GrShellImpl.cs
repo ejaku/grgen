@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Threading;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.libGr.sequenceParser;
 using de.unika.ipd.grGen.lgsp;
@@ -239,8 +238,6 @@ namespace de.unika.ipd.grGen.grShell
 
         private readonly TextWriter debugOut = System.Console.Out;
         private readonly TextWriter errOut = System.Console.Error;
-
-        private static readonly string[] dotExecutables = { "dot", "neato", "fdp", "sfdp", "twopi", "circo" };
 
         private String debugLayout = "Orthogonal";
 
@@ -2937,56 +2934,6 @@ namespace de.unika.ipd.grGen.grShell
 
         #region "show graph" command
 
-        /// <summary>
-        /// Executes the specified viewer and deletes the dump file after the viewer has exited
-        /// </summary>
-        /// <param name="obj">A ShowGraphParam object</param>
-        private void ShowGraphThread(object obj)
-        {
-            ShowGraphParam param = (ShowGraphParam) obj;
-            try
-            {
-                ProcessStartInfo startInfo = new ProcessStartInfo(param.ProgramName,
-                    (param.Arguments == null) ? param.GraphFilename : (param.Arguments + " " + param.GraphFilename));
-                Process viewer = Process.Start(startInfo);
-                viewer.WaitForExit();
-            }
-            catch(Exception e)
-            {
-                errOut.WriteLine(e.Message);
-            }
-            finally
-            {
-                if(!param.KeepFile)
-                    File.Delete(param.GraphFilename);
-            }
-        }
-
-        private string GetUniqueFilename(String baseFilename, String filenameSuffix)
-        {
-            String filename;
-            int id = 0;
-
-            do
-            {
-                filename = "tmpgraph" + id + "." + filenameSuffix;
-                id++;
-            }
-            while(File.Exists(filename));
-
-            return filename;
-        }
-
-        private bool IsDotExecutable(String programName)
-        {
-            foreach(String dotExecutable in dotExecutables)
-            {
-                if(programName.Equals(dotExecutable, StringComparison.InvariantCultureIgnoreCase))
-                    return true;
-            }
-            return false;
-        }
-
         public string ShowGraphWith(String programName, String arguments, bool keep)
         {
             if(!GraphExists())
@@ -2994,55 +2941,10 @@ namespace de.unika.ipd.grGen.grShell
             if(nonDebugNonGuiExitOnError)
                 return "";
 
-            if(IsDotExecutable(programName))
-                return ShowGraphWithDot(programName, arguments, keep);
-
-            String filename = GetUniqueFilename("tmpgraph", "vcg");
-
-            VCGDumper dumper = new VCGDumper(filename, curShellProcEnv.VcgFlags, debugLayout);
-
-            GraphDumper.Dump(curShellProcEnv.ProcEnv.NamedGraph, dumper, curShellProcEnv.DumpInfo);
-            dumper.FinishDump();
-
-            Thread t = new Thread(new ParameterizedThreadStart(ShowGraphThread));
-            t.Start(new ShowGraphParam(programName, arguments, filename, keep));
-
-            return filename;
-        }
-
-        private string ShowGraphWithDot(String programName, String arguments, bool keep)
-        {
-            String filename = GetUniqueFilename("tmpgraph", "dot");
-
-            DOTDumper dumper = new DOTDumper(filename, curShellProcEnv.ProcEnv.NamedGraph.Name, curShellProcEnv.VcgFlags);
-
-            GraphDumper.Dump(curShellProcEnv.ProcEnv.NamedGraph, dumper, curShellProcEnv.DumpInfo);
-            dumper.FinishDump();
-
-            String pngFilename = filename.Substring(0, filename.Length - ".dot".Length) + ".png";
-            if(arguments == null || !arguments.Contains("-T"))
-                arguments += " -Tpng";
-            if(arguments == null || !arguments.Contains("-o"))
-                arguments += " -o " + pngFilename;
-            Thread t = new Thread(new ParameterizedThreadStart(ShowGraphThread));
-            t.Start(new ShowGraphParam(programName, arguments, filename, keep));
-            t.Join();
-
-            try
-            {
-                Process process = Process.Start(pngFilename);
-                if(process != null)
-                    process.WaitForExit();
-                else
-                    Thread.Sleep(1000);
-            }
-            finally
-            {
-                if(!keep)
-                    File.Delete(pngFilename);
-            }
-
-            return filename;
+            if(GraphViewer.IsDotExecutable(programName))
+                return GraphViewer.ShowGraphWithDot(curShellProcEnv, programName, arguments, keep);
+            else
+                return GraphViewer.ShowVcgGraph(curShellProcEnv, debugLayout, programName, arguments, keep);
         }
 
         #endregion "show graph" command
