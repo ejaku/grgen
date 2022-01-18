@@ -79,6 +79,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 else
                     Thread.Sleep(1000);
             }
+            catch(Exception e)
+            {
+                System.Console.Error.WriteLine(e.Message);
+                System.Console.Error.WriteLine("Note that GrShell must be started from within the directory containing the shell script for show graph to work (and Graphviz/bin must be contained in the search path).");
+            }
             finally
             {
                 if(!keep)
@@ -139,6 +144,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             catch(Exception e)
             {
                 System.Console.Error.WriteLine(e.Message);
+                System.Console.Error.WriteLine("Note that GrShell must be started from within the directory containing the shell script for show graph to work (or you may employ show graph ycomp.bat) (also the bin folder of the GrGen release must be contained in the search path).");
             }
             finally
             {
