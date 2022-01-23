@@ -18,6 +18,143 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     public class GraphViewer
     {
+        static string DumpAndShowGraph(INamedGraph graph, String layout)
+        {
+            bool keep = true;
+            DebuggerGraphProcessingEnvironment debuggerProcEnv = new DebuggerGraphProcessingEnvironment(graph);
+            return ShowVcgGraph(debuggerProcEnv, layout ?? "Orthogonal", "ycomp", "", true);
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        public GraphViewer()
+        {
+        }
+
+        public void ShowGraph(INamedGraph graph, String layout)
+        {
+            DebuggerGraphProcessingEnvironment debuggerProcEnv = new DebuggerGraphProcessingEnvironment(graph);
+            ElementRealizers realizers = new ElementRealizers();
+            ycompServerProxy = new YCompServerProxy(YCompServerProxy.GetFreeTCPPort());
+            ycompClient = new YCompClient(graph, layout ?? "Orthogonal", 20000, ycompServerProxy.port,
+                debuggerProcEnv.DumpInfo, realizers, debuggerProcEnv.NameToClassObject);
+            ycompClient.UploadGraph();
+            RegisterGraphEvents(graph);
+            this.graph = graph;
+        }
+
+        public void EndShowGraph()
+        {
+            UnregisterGraphEvents(graph);
+            ycompClient.Close();
+            ycompClient = null;
+            ycompServerProxy.Close();
+            ycompServerProxy = null;
+        }
+
+        public void UpdateDisplayAndSync()
+        {
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+        }
+
+        #region Event Handling
+
+        public void RegisterGraphEvents(INamedGraph graph)
+        {
+            graph.OnNodeAdded += DebugNodeAdded;
+            graph.OnEdgeAdded += DebugEdgeAdded;
+            graph.OnRemovingNode += DebugDeletingNode;
+            graph.OnRemovingEdge += DebugDeletingEdge;
+            graph.OnClearingGraph += DebugClearingGraph;
+            graph.OnChangedNodeAttribute += DebugChangedNodeAttribute;
+            graph.OnChangedEdgeAttribute += DebugChangedEdgeAttribute;
+            graph.OnRetypingNode += DebugRetypingElement;
+            graph.OnRetypingEdge += DebugRetypingElement;
+        }
+
+        public void DebugNodeAdded(INode node)
+        {
+            ycompClient.AddNode(node);
+            if(updateDisplay)
+                ycompClient.UpdateDisplay();
+        }
+
+        public void DebugEdgeAdded(IEdge edge)
+        {
+            ycompClient.AddEdge(edge);
+            if(updateDisplay)
+                ycompClient.UpdateDisplay();
+        }
+
+        public void DebugDeletingNode(INode node)
+        {
+            ycompClient.DeleteNode(node);
+            if(updateDisplay)
+                ycompClient.UpdateDisplay();
+        }
+
+        public void DebugDeletingEdge(IEdge edge)
+        {
+            ycompClient.DeleteEdge(edge);
+            if(updateDisplay)
+                ycompClient.UpdateDisplay();
+        }
+
+        public void DebugClearingGraph(IGraph graph)
+        {
+            ycompClient.ClearGraph();
+        }
+
+        public void DebugChangedNodeAttribute(INode node, AttributeType attrType)
+        {
+            ycompClient.ChangeNodeAttribute(node, attrType);
+            if(updateDisplay)
+                ycompClient.UpdateDisplay();
+        }
+
+        public void DebugChangedEdgeAttribute(IEdge edge, AttributeType attrType)
+        {
+            ycompClient.ChangeEdgeAttribute(edge, attrType);
+            if(updateDisplay)
+                ycompClient.UpdateDisplay();
+        }
+
+        public void DebugRetypingElement(IGraphElement oldElem, IGraphElement newElem)
+        {
+            ycompClient.RetypingElement(oldElem, newElem);
+            if(updateDisplay)
+                ycompClient.UpdateDisplay();
+        }
+
+        public void UnregisterGraphEvents(INamedGraph graph)
+        {
+            graph.OnNodeAdded -= DebugNodeAdded;
+            graph.OnEdgeAdded -= DebugEdgeAdded;
+            graph.OnRemovingNode -= DebugDeletingNode;
+            graph.OnRemovingEdge -= DebugDeletingEdge;
+            graph.OnClearingGraph -= DebugClearingGraph;
+            graph.OnChangedNodeAttribute -= DebugChangedNodeAttribute;
+            graph.OnChangedEdgeAttribute -= DebugChangedEdgeAttribute;
+            graph.OnRetypingNode -= DebugRetypingElement;
+            graph.OnRetypingEdge -= DebugRetypingElement;
+        }
+
+        #endregion Event Handling
+
+        YCompClient ycompClient;
+        YCompServerProxy ycompServerProxy;
+        INamedGraph graph;
+        bool updateDisplay;
+
+        public bool UpdateDisplay
+        {
+            get { return updateDisplay; }
+            set { updateDisplay = value; }
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         internal class ShowGraphParam
         {
             public readonly String ProgramName;

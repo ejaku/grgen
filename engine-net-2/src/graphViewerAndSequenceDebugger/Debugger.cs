@@ -157,7 +157,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 }
 
                 if(!ycompClient.dumpInfo.IsExcludedGraph())
-                    UploadGraph(procEnv.NamedGraph);
+                    ycompClient.UploadGraph();
             }
             catch(OperationCanceledException)
             {
@@ -172,23 +172,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.task.RegisterGraphEvents(procEnv.NamedGraph);
             this.task.RegisterActionEvents(procEnv);
             this.task.isActive = true;
-        }
-
-        /// <summary>
-        /// Uploads the graph to YComp, updates the display and makes a synchonisation
-        /// </summary>
-        private void UploadGraph(INamedGraph graph)
-        {
-            foreach(INode node in graph.Nodes)
-            {
-                ycompClient.AddNode(node);
-            }
-            foreach(IEdge edge in graph.Edges)
-            {
-                ycompClient.AddEdge(edge);
-            }
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
         }
 
         /// <summary>
@@ -284,7 +267,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 debuggerProcEnv = value;
                 ycompClient.Graph = debuggerProcEnv.ProcEnv.NamedGraph;
                 if(!ycompClient.dumpInfo.IsExcludedGraph())
-                    UploadGraph(debuggerProcEnv.ProcEnv.NamedGraph);
+                    ycompClient.UploadGraph();
                 task.RegisterGraphEvents(debuggerProcEnv.ProcEnv.NamedGraph);
                 task.RegisterActionEvents(debuggerProcEnv.ProcEnv);
 
@@ -645,7 +628,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             Console.WriteLine("Showing graph for the object specified...");
             ycompClient.ClearGraph();
             ycompClient.Graph = graph;
-            UploadGraph(graph);
+            ycompClient.UploadGraph();
 
             Console.WriteLine("...press any key to continue...");
             env.ReadKeyWithCancel();
@@ -654,7 +637,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             ycompClient.ClearGraph();
             ycompClient.Graph = task.procEnv.NamedGraph;
             if(!ycompClient.dumpInfo.IsExcludedGraph())
-                UploadGraph(task.procEnv.NamedGraph);
+                ycompClient.UploadGraph();
 
             Console.WriteLine("Back from as-graph display to debugging.");
         }
@@ -2176,7 +2159,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     ycompClient.ClearGraph();
                     ycompClient.Graph = parallelExecutionBegin.procEnv.NamedGraph;
                     if(!ycompClient.dumpInfo.IsExcludedGraph())
-                        UploadGraph(parallelExecutionBegin.procEnv.NamedGraph);
+                        ycompClient.UploadGraph();
                 }
             }
         }
@@ -2224,7 +2207,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             ycompClient.ClearGraph();
             ycompClient.Graph = task.procEnv.NamedGraph;
             if(!ycompClient.dumpInfo.IsExcludedGraph())
-                UploadGraph(task.procEnv.NamedGraph);
+                ycompClient.UploadGraph();
 
             WorkaroundManager.Workaround.PrintHighlighted("< leaving parallel execution", HighlightingMode.SequenceStart);
             Console.WriteLine();
@@ -2245,7 +2228,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             ycompClient.ClearGraph();
             ycompClient.Graph = (INamedGraph)newGraph;
             if(!ycompClient.dumpInfo.IsExcludedGraph())
-                UploadGraph((INamedGraph)newGraph);
+                ycompClient.UploadGraph();
             task.RegisterGraphEvents((INamedGraph)newGraph);
         }
 
@@ -2260,7 +2243,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             ycompClient.ClearGraph();
             ycompClient.Graph = task.procEnv.NamedGraph;
             if(!ycompClient.dumpInfo.IsExcludedGraph())
-                UploadGraph(task.procEnv.NamedGraph);
+                ycompClient.UploadGraph();
             task.RegisterGraphEvents(task.procEnv.NamedGraph);
         }
 

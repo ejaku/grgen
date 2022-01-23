@@ -47,7 +47,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="YCompClient.cs" />
     <Compile Include="YCompExample.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +60,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\graphViewerAndSequenceDebugger\graphViewerAndSequenceDebugger.csproj">
+      <Project>{77133185-36b5-4134-9f5b-c6ac0aef9bd5}</Project>
+      <Name>graphViewerAndSequenceDebugger</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

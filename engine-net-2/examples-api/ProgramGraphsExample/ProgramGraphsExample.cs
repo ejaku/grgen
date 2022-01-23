@@ -16,7 +16,6 @@ namespace ProgramGraphs
     class ProgramGraphsExample
     {
         LGSPGraph graph;
-        LGSPGlobalVariables globalVars;
         ProgramGraphsOriginalActions actions;
         LGSPGraphProcessingEnvironment procEnv;
 

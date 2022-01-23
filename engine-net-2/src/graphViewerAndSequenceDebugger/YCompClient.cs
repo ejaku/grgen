@@ -901,6 +901,24 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             ycompStream.Write("renameEdge \"e" + oldName + "\" \"e" + newName + "\"\n");
         }
 
+        /// <summary>
+        /// Uploads the graph to YComp, updates the display and makes a synchronisation.
+        /// Does not change the stored graph, even though this is required for naming.
+        /// </summary>
+        public void UploadGraph()
+        {
+            foreach(INode node in graph.Nodes)
+            {
+                AddNode(node);
+            }
+            foreach(IEdge edge in graph.Edges)
+            {
+                AddEdge(edge);
+            }
+            UpdateDisplay();
+            Sync();
+        }
+
         public void ClearGraph()
         {
             ycompStream.Write("deleteGraph\n");
