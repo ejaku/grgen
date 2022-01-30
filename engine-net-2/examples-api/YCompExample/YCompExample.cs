@@ -27,7 +27,7 @@ namespace YCompExample
             Console.ReadKey(true);
         }
 
-        // example showing how to render a graph at API level, tracking changes (use DumpAndShowGraph to just render a graph in its current state)
+        // example showing how to render a graph at API level, tracking changes
         public static void Main(string[] args)
         {
             LGSPNamedGraph graph;
@@ -77,6 +77,8 @@ namespace YCompExample
             PrintAndWait("Added 4 processes in the ring.", graphViewer);
 
             graphViewer.EndShowGraph();
+
+            GraphViewer.DumpAndShowGraph(graph, "Organic"); // just render a graph in its current state
         }
     }
 }

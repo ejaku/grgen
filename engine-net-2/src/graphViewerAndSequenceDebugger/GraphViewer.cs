@@ -18,7 +18,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     public class GraphViewer
     {
-        static string DumpAndShowGraph(INamedGraph graph, String layout)
+        public static string DumpAndShowGraph(INamedGraph graph, String layout)
         {
             bool keep = true;
             DebuggerGraphProcessingEnvironment debuggerProcEnv = new DebuggerGraphProcessingEnvironment(graph);
