@@ -391,9 +391,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             while(true);
         }
 
-        public static object ChooseValue(IDebuggerEnvironment env, string type, Sequence seq)
+        public static object ChooseValue(IDebuggerEnvironment env, string type, Sequence seq, INamedGraph graph)
         {
-            object value = env.Askfor(type);
+            object value = env.Askfor(type, graph);
 
             while(value == null) // bad input case
             {
@@ -408,7 +408,7 @@ read_again:
                     return null;
                 case 'r':
                     Console.WriteLine();
-                    value = env.Askfor(type);
+                    value = env.Askfor(type, graph);
                     break;
                 default:
                     Console.WriteLine("Illegal choice (Key = " + key.Key

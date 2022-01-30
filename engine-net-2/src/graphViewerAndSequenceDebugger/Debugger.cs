@@ -19,17 +19,6 @@ using System.Text;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
-    public interface IDebuggerEnvironment
-    {
-        void Cancel();
-        ConsoleKeyInfo ReadKeyWithCancel();
-        object Askfor(String typeName);
-        GrGenType GetGraphElementType(String typeName);
-        void HandleSequenceParserException(SequenceParserException ex);
-        string ShowGraphWith(String programName, String arguments, bool keep);
-        IGraphElement GetElemByName(String elemName);
-    }
-
     public class Debugger : IUserProxyForSequenceExecution
     {
         readonly IDebuggerEnvironment env;
@@ -42,6 +31,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         static Dictionary<Sequence, DebuggerTask> sequencesToDebuggerTask = new Dictionary<Sequence, DebuggerTask>();
 
+        public readonly String debugLayout;
         readonly ElementRealizers realizers;
         readonly GraphAnnotationAndChangesRecorder renderRecorder;
         YCompClient ycompClient = null;
@@ -103,19 +93,19 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// All invalid options will be removed from layoutOptions.
         /// </summary>
         /// <param name="env">The environment to be used by the debugger
-        /// (regular implementation by the shell sequence applier and debugger).</param>
+        /// (regular implementation by the GrShellSequenceApplierAndDebugger, minimal implementation for API level usage by the DebuggerEnvironment).</param>
         /// <param name="debuggerProcEnv">The debugger graph processing environment to be used by the debugger
-        /// (the graph processing environment of the top-level graph extended by shell specific data).</param>
-        /// <param name="procEnv">The graph processing environment (of the top-level graph) to be used by the debugger.</param>
+        /// (contains the graph processing environment of the top-level graph to be used by the debugger).</param>
         /// <param name="realizers">The element realizers to be used by the debugger.</param>
         /// <param name="debugLayout">The name of the layout to be used.
         /// If null, Orthogonal is used.</param>
         /// <param name="layoutOptions">An dictionary mapping layout option names to their values.
         /// It may be null, if no options are to be applied.</param>
-        public Debugger(IDebuggerEnvironment env, DebuggerGraphProcessingEnvironment debuggerProcEnv, IGraphProcessingEnvironment procEnv,
-            ElementRealizers realizers, String debugLayout, Dictionary<String, String> layoutOptions,
-            bool debugModePreMatchEnabled, bool debugModePostMatchEnabled)
+        public Debugger(IDebuggerEnvironment env, DebuggerGraphProcessingEnvironment debuggerProcEnv,
+            ElementRealizers realizers, String debugLayout, Dictionary<String, String> layoutOptions)
         {
+            IGraphProcessingEnvironment procEnv = debuggerProcEnv.ProcEnv;
+
             this.tasks.Push(new DebuggerTask(this, procEnv));
             this.env = env;
             this.debuggerProcEnv = debuggerProcEnv;
@@ -125,6 +115,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.context = new PrintSequenceContext();
 
             this.renderRecorder = new GraphAnnotationAndChangesRecorder();
+
+            this.debugLayout = debugLayout;
 
             ycompServerProxy = new YCompServerProxy(YCompServerProxy.GetFreeTCPPort());
             ycompClient = new YCompClient(procEnv.NamedGraph, debugLayout ?? "Orthogonal", 20000, ycompServerProxy.port,
@@ -164,9 +156,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 throw new Exception("Connection to yComp lost");
             }
 
-            detailedModeShowPreMatches = debugModePreMatchEnabled;
-            detailedModeShowPostMatches = debugModePostMatchEnabled;
-
             NotifyOnConnectionLost = false;
 
             this.task.RegisterGraphEvents(procEnv.NamedGraph);
@@ -192,7 +181,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             ycompServerProxy = null;
         }
 
-        public void InitNewRewriteSequence(Sequence seq, bool withStepMode, bool debugModePreMatchEnabled, bool debugModePostMatchEnabled)
+        public void InitNewRewriteSequence(Sequence seq, bool withStepMode)
         {
             task.debugSequences.Clear();
             task.debugSequences.Push(seq);
@@ -201,8 +190,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             recordMode = false;
             alwaysShow = false;
             detailedMode = false;
-            detailedModeShowPreMatches = debugModePreMatchEnabled;
-            detailedModeShowPostMatches = debugModePostMatchEnabled;
             outOfDetailedMode = false;
             outOfDetailedModeTarget = -1;
             dynamicStepMode = false;
@@ -215,7 +202,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             sequencesToDebuggerTask.Add(seq, task);
         }
 
-        public void InitSequenceExpression(SequenceExpression seqExp, bool withStepMode, bool debugModePreMatchEnabled, bool debugModePostMatchEnabled)
+        public void InitSequenceExpression(SequenceExpression seqExp, bool withStepMode)
         {
             task.debugSequences.Clear();
             task.debugSequences.Push(seqExp);
@@ -224,8 +211,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             recordMode = false;
             alwaysShow = false;
             detailedMode = false;
-            detailedModeShowPreMatches = debugModePreMatchEnabled;
-            detailedModeShowPostMatches = debugModePostMatchEnabled;
             outOfDetailedMode = false;
             outOfDetailedModeTarget = -1;
             dynamicStepMode = false;
@@ -310,14 +295,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return errorMessage == null;
         }
 
-        public void SetMatchModePre(bool enable)
+        public bool DetailedModeShowPreMatches
         {
-            detailedModeShowPreMatches = enable;
+            get { return detailedModeShowPreMatches; }
+            set { detailedModeShowPreMatches = value; }
         }
 
-        public void SetMatchModePost(bool enable)
+        public bool DetailedModeShowPostMatches
         {
-            detailedModeShowPostMatches = enable;
+            get { return detailedModeShowPostMatches; }
+            set { detailedModeShowPostMatches = value; }
         }
 
         /// <summary>
@@ -1053,7 +1040,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             Console.WriteLine();
             context.choice = false;
 
-            return UserChoiceMenu.ChooseValue(env, type, seq);
+            return UserChoiceMenu.ChooseValue(env, type, seq, debuggerProcEnv.ProcEnv.NamedGraph);
         }
 
         /// <summary>

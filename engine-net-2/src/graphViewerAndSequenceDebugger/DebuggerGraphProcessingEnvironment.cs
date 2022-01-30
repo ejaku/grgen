@@ -27,21 +27,33 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public readonly Dictionary<string, IObject> NameToClassObject = new Dictionary<string, IObject>(); // maps "transient" name to class object
 
 
+        // creates a temporary internal named graph required by the debugger
         public DebuggerGraphProcessingEnvironment(IGraph graph)
+            : this(graph, new LGSPGraphProcessingEnvironment((LGSPGraph)graph, null))
+        {
+        }
+
+        // creates a temporary internal named graph required by the debugger
+        public DebuggerGraphProcessingEnvironment(IGraph graph, IGraphProcessingEnvironment procEnv)
         {
             LGSPNamedGraph Graph = new LGSPNamedGraph((LGSPGraph)graph);
             DumpInfo = new DumpInfo(Graph.GetElementName);
             SubruleDebugConfig = new SubruleDebuggingConfiguration();
-            ProcEnv = new LGSPGraphProcessingEnvironment(Graph, null);
+            ProcEnv = procEnv;
             NameToSubgraph.Add(Graph.Name, Graph);
         }
 
         public DebuggerGraphProcessingEnvironment(INamedGraph graph)
+            : this(graph, new LGSPGraphProcessingEnvironment((LGSPNamedGraph)graph, null))
+        {
+        }
+
+        public DebuggerGraphProcessingEnvironment(INamedGraph graph, IGraphProcessingEnvironment procEnv)
         {
             LGSPNamedGraph Graph = (LGSPNamedGraph)graph;
             DumpInfo = new DumpInfo(Graph.GetElementName);
             SubruleDebugConfig = new SubruleDebuggingConfiguration();
-            ProcEnv = new LGSPGraphProcessingEnvironment(Graph, null);
+            ProcEnv = procEnv;
             NameToSubgraph.Add(Graph.Name, Graph);
         }
     }

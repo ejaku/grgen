@@ -43,7 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BreakpointAndChoicepointEditor.cs" />
+    <Compile Include="ConsoleUI.cs" />
+    <Compile Include="ConstantParser.cs" />
+    <Compile Include="ConstantParserConstants.cs" />
+    <Compile Include="ConstantParserHelper.cs" />
+    <Compile Include="ConstantParserTokenManager.cs" />
     <Compile Include="Debugger.cs" />
+    <Compile Include="DebuggerEnvironment.cs" />
     <Compile Include="DebuggerGraphProcessingEnvironment.cs" />
     <Compile Include="DebuggerTask.cs" />
     <Compile Include="ElementRealizers.cs" />
@@ -51,10 +57,14 @@
     <Compile Include="GraphViewer.cs" />
     <Compile Include="Highlighter.cs" />
     <Compile Include="MatchMarkerAndAnnotator.cs" />
+    <Compile Include="ParseException.cs" />
     <Compile Include="PrintSequenceContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SequencePrinter.cs" />
+    <Compile Include="SimpleCharStream.cs" />
     <Compile Include="SubruleDebugging.cs" />
+    <Compile Include="Token.cs" />
+    <Compile Include="TokenMgrError.cs" />
     <Compile Include="UserChoiceMenu.cs" />
     <Compile Include="VariableOrAttributeAccessParserAndValueFetcher.cs" />
     <Compile Include="WatchpointEditor.cs" />

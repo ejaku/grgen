@@ -10,9 +10,9 @@
 using System;
 using System.IO;
 
-namespace de.unika.ipd.grGen.grShell
+namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
-    public interface IGrShellUI
+    public interface IConsoleUI
     {
         void ShowMsgAskForEnter(string msg);
         bool ShowMsgAskForYesNo(string msg);
@@ -26,12 +26,12 @@ namespace de.unika.ipd.grGen.grShell
     /// <summary>
     /// Console interface for simple user prompts (e.g. for debugging)
     /// </summary>
-    public class GrShellConsoleUI : IGrShellUI
+    public class ConsoleUI : IConsoleUI
     {
         protected readonly TextReader in_;
         protected readonly TextWriter out_;
 
-        public GrShellConsoleUI(TextReader in_, TextWriter out_)
+        public ConsoleUI(TextReader in_, TextWriter out_)
         {
             this.in_ = in_;
             this.out_ = out_;

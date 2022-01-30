@@ -616,7 +616,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 catch(SequenceParserException ex)
                 {
                     Console.WriteLine("Unable to parse sequence expression");
-                    env.HandleSequenceParserException(ex);
+                    DebuggerEnvironment.HandleSequenceParserException(ex);
                 }
                 catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
                 {

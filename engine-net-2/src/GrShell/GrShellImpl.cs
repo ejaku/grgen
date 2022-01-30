@@ -194,7 +194,7 @@ namespace de.unika.ipd.grGen.grShell
         }
         void IGrShellImplForSequenceApplierAndDebugger.HandleSequenceParserException(SequenceParserException ex)
         {
-            HandleSequenceParserException(ex);
+            GrShellSequenceApplierAndDebugger.HandleSequenceParserException(ex);
         }
         string IGrShellImplForSequenceApplierAndDebugger.ShowGraphWith(String programName, String arguments, bool keep)
         {
@@ -336,7 +336,13 @@ namespace de.unika.ipd.grGen.grShell
 
         public object Askfor(String typeName)
         {
-            return seqApplierAndDebugger.Askfor(typeName);
+            if(typeName == null)
+            {
+                GrShellSequenceApplierAndDebugger.UserInterface.ShowMsgAskForEnter("Pause..");
+                return null;
+            }
+
+            return seqApplierAndDebugger.Askfor(typeName, curShellProcEnv.ProcEnv.NamedGraph);
         }
 
         private bool Evaluate(SequenceExpression if_)
@@ -2941,10 +2947,7 @@ namespace de.unika.ipd.grGen.grShell
             if(nonDebugNonGuiExitOnError)
                 return "";
 
-            if(GraphViewer.IsDotExecutable(programName))
-                return GraphViewer.ShowGraphWithDot(curShellProcEnv, programName, arguments, keep);
-            else
-                return GraphViewer.ShowVcgGraph(curShellProcEnv, debugLayout, programName, arguments, keep);
+            return seqApplierAndDebugger.ShowGraphWith(programName, arguments, keep);
         }
 
         #endregion "show graph" command
@@ -3167,7 +3170,7 @@ namespace de.unika.ipd.grGen.grShell
             catch(SequenceParserException ex)
             {
                 Console.WriteLine("Unable to parse sequence definition at line " + tok.beginLine);
-                HandleSequenceParserException(ex);
+                GrShellSequenceApplierAndDebugger.HandleSequenceParserException(ex);
                 noError = false;
             }
             catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
@@ -3213,7 +3216,7 @@ namespace de.unika.ipd.grGen.grShell
             catch(SequenceParserException ex)
             {
                 Console.WriteLine("Unable to parse sequence expression at line " + tok.beginLine);
-                HandleSequenceParserException(ex);
+                GrShellSequenceApplierAndDebugger.HandleSequenceParserException(ex);
                 noError = false;
                 return null;
             }
@@ -3242,7 +3245,7 @@ namespace de.unika.ipd.grGen.grShell
             catch(SequenceParserException ex)
             {
                 Console.WriteLine("Unable to parse sequence expression at line " + tok.beginLine);
-                HandleSequenceParserException(ex);
+                GrShellSequenceApplierAndDebugger.HandleSequenceParserException(ex);
                 noError = false;
             }
             catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
@@ -3274,7 +3277,7 @@ namespace de.unika.ipd.grGen.grShell
             catch(SequenceParserException ex)
             {
                 Console.WriteLine("Unable to parse sequence at line " + tok.beginLine);
-                HandleSequenceParserException(ex);
+                GrShellSequenceApplierAndDebugger.HandleSequenceParserException(ex);
                 noError = false;
                 return null;
             }
@@ -3303,7 +3306,7 @@ namespace de.unika.ipd.grGen.grShell
             catch(SequenceParserException ex)
             {
                 Console.WriteLine("Unable to execute sequence at line " + tok.beginLine);
-                HandleSequenceParserException(ex);
+                GrShellSequenceApplierAndDebugger.HandleSequenceParserException(ex);
                 noError = false;
             }
             catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
@@ -3329,7 +3332,7 @@ namespace de.unika.ipd.grGen.grShell
             catch(SequenceParserException ex)
             {
                 Console.WriteLine("Unable to debug execute sequence at line " + tok.beginLine);
-                HandleSequenceParserException(ex);
+                GrShellSequenceApplierAndDebugger.HandleSequenceParserException(ex);
                 noError = false;
             }
             catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
@@ -3355,7 +3358,7 @@ namespace de.unika.ipd.grGen.grShell
             catch(SequenceParserException ex)
             {
                 Console.WriteLine("Unable to debug evaluate sequence expression at line " + tok.beginLine);
-                HandleSequenceParserException(ex);
+                GrShellSequenceApplierAndDebugger.HandleSequenceParserException(ex);
                 noError = false;
             }
             catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
@@ -3368,43 +3371,6 @@ namespace de.unika.ipd.grGen.grShell
                 Console.WriteLine("Unable to debug evaluate sequence expression at line " + tok.beginLine + ": " + ex);
                 noError = false;
             }
-        }
-
-        private void HandleSequenceParserException(SequenceParserException ex)
-        {
-            IAction action = ex.Action;
-            errOut.WriteLine(ex.Message);
-
-            debugOut.Write("Prototype: {0}", ex.Name);
-            if(action == null)
-            {
-                debugOut.WriteLine("");
-                return;
-            }
-
-            if(action.RulePattern.Inputs.Length != 0)
-            {
-                debugOut.Write("(");
-                bool first = true;
-                foreach(GrGenType type in action.RulePattern.Inputs)
-                {
-                    debugOut.Write("{0}{1}", first ? "" : ", ", type.PackagePrefixedName);
-                    first = false;
-                }
-                debugOut.Write(")");
-            }
-            if(action.RulePattern.Outputs.Length != 0)
-            {
-                debugOut.Write(" : (");
-                bool first = true;
-                foreach(GrGenType type in action.RulePattern.Outputs)
-                {
-                    debugOut.Write("{0}{1}", first ? "" : ", ", type.PackagePrefixedName);
-                    first = false;
-                }
-                debugOut.Write(")");
-            }
-            debugOut.WriteLine();
         }
 
         public bool SetDebugMode(bool enable)
@@ -4859,7 +4825,7 @@ showavail:
             catch(SequenceParserException ex)
             {
                 Console.WriteLine("Unable to parse validate sequence at line " + tok.beginLine);
-                HandleSequenceParserException(ex);
+                GrShellSequenceApplierAndDebugger.HandleSequenceParserException(ex);
                 noError = false;
             }
             catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)

@@ -65,7 +65,6 @@
   <ItemGroup>
     <Compile Include="FromToReader.cs" />
     <Compile Include="GrShell.cs" />
-    <Compile Include="GrShellConsoleUI.cs" />
     <Compile Include="GrShellConstants.cs" />
     <Compile Include="GrShellDriver.cs" />
     <Compile Include="GrShellImpl.cs" />
