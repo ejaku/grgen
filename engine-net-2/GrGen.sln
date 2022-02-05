@@ -124,6 +124,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "graphViewerAndSequenceDebug
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebuggerExample", "examples-api\DebuggerExample\DebuggerExample.csproj", "{7F795C8F-C781-46FA-935F-0B0DBCC0B9DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libGrShell", "src\libGrShell\libGrShell.csproj", "{57B2E7B1-058E-4EBE-85EA-A65C3404FA49}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -322,6 +324,14 @@ Global
 		{7F795C8F-C781-46FA-935F-0B0DBCC0B9DB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7F795C8F-C781-46FA-935F-0B0DBCC0B9DB}.Release|x86.ActiveCfg = Release|Any CPU
 		{7F795C8F-C781-46FA-935F-0B0DBCC0B9DB}.Release|x86.Build.0 = Release|Any CPU
+		{57B2E7B1-058E-4EBE-85EA-A65C3404FA49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57B2E7B1-058E-4EBE-85EA-A65C3404FA49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57B2E7B1-058E-4EBE-85EA-A65C3404FA49}.Debug|x86.ActiveCfg = Debug|x86
+		{57B2E7B1-058E-4EBE-85EA-A65C3404FA49}.Debug|x86.Build.0 = Debug|x86
+		{57B2E7B1-058E-4EBE-85EA-A65C3404FA49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57B2E7B1-058E-4EBE-85EA-A65C3404FA49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57B2E7B1-058E-4EBE-85EA-A65C3404FA49}.Release|x86.ActiveCfg = Release|x86
+		{57B2E7B1-058E-4EBE-85EA-A65C3404FA49}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
