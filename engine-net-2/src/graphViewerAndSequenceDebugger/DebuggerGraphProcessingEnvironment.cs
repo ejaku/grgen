@@ -29,23 +29,21 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         // creates a temporary internal named graph required by the debugger
         public DebuggerGraphProcessingEnvironment(IGraph graph)
-            : this(graph, new LGSPGraphProcessingEnvironment((LGSPGraph)graph, null))
-        {
-        }
-
-        // creates a temporary internal named graph required by the debugger
-        public DebuggerGraphProcessingEnvironment(IGraph graph, IGraphProcessingEnvironment procEnv)
         {
             LGSPNamedGraph Graph = new LGSPNamedGraph((LGSPGraph)graph);
             DumpInfo = new DumpInfo(Graph.GetElementName);
             SubruleDebugConfig = new SubruleDebuggingConfiguration();
-            ProcEnv = procEnv;
+            ProcEnv = new LGSPGraphProcessingEnvironment(Graph, null);
             NameToSubgraph.Add(Graph.Name, Graph);
         }
 
         public DebuggerGraphProcessingEnvironment(INamedGraph graph)
-            : this(graph, new LGSPGraphProcessingEnvironment((LGSPNamedGraph)graph, null))
         {
+            LGSPNamedGraph Graph = (LGSPNamedGraph)graph;
+            DumpInfo = new DumpInfo(Graph.GetElementName);
+            SubruleDebugConfig = new SubruleDebuggingConfiguration();
+            ProcEnv = new LGSPGraphProcessingEnvironment((LGSPNamedGraph)graph, null);
+            NameToSubgraph.Add(Graph.Name, Graph);
         }
 
         public DebuggerGraphProcessingEnvironment(INamedGraph graph, IGraphProcessingEnvironment procEnv)
