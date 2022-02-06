@@ -128,6 +128,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libGrShell", "src\libGrShel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShellExample", "examples-api\ShellExample\ShellExample.csproj", "{7F7A5C9F-C781-46FA-936F-0B0DBCD0B9DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationExample", "examples-api\ApplicationExample\ApplicationExample.csproj", "{A3424189-B2A7-455B-A7A5-BFCA20DA53F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -342,6 +344,14 @@ Global
 		{7F7A5C9F-C781-46FA-936F-0B0DBCD0B9DC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7F7A5C9F-C781-46FA-936F-0B0DBCD0B9DC}.Release|x86.ActiveCfg = Release|Any CPU
 		{7F7A5C9F-C781-46FA-936F-0B0DBCD0B9DC}.Release|x86.Build.0 = Release|Any CPU
+		{A3424189-B2A7-455B-A7A5-BFCA20DA53F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3424189-B2A7-455B-A7A5-BFCA20DA53F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3424189-B2A7-455B-A7A5-BFCA20DA53F7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A3424189-B2A7-455B-A7A5-BFCA20DA53F7}.Debug|x86.Build.0 = Debug|Any CPU
+		{A3424189-B2A7-455B-A7A5-BFCA20DA53F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3424189-B2A7-455B-A7A5-BFCA20DA53F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3424189-B2A7-455B-A7A5-BFCA20DA53F7}.Release|x86.ActiveCfg = Release|Any CPU
+		{A3424189-B2A7-455B-A7A5-BFCA20DA53F7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -373,6 +383,7 @@ Global
 		{C0342861-3CB1-232F-B884-FEA757A68F62} = {2D0AFB3F-4243-4CE2-9A96-2B02425EAFF5}
 		{7F795C8F-C781-46FA-935F-0B0DBCC0B9DB} = {79EDF59C-7019-4B42-AC6C-9BDA8ADCB9D5}
 		{7F7A5C9F-C781-46FA-936F-0B0DBCD0B9DC} = {79EDF59C-7019-4B42-AC6C-9BDA8ADCB9D5}
+		{A3424189-B2A7-455B-A7A5-BFCA20DA53F7} = {79EDF59C-7019-4B42-AC6C-9BDA8ADCB9D5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9F35A053-34A6-44FB-8EC8-32E93CA1C106}

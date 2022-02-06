@@ -1,0 +1,44 @@
+﻿/*
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 6.5
+ * Copyright (C) 2003-2022 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
+ * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
+ * www.grgen.net
+ */
+ 
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+
+// Allgemeine Informationen über eine Assembly werden über die folgenden
+// Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
+// die einer Assembly zugeordnet sind.
+[assembly: AssemblyTitle("ApplicationExample")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("Universität Karlsruhe, IPD Goos")]
+[assembly: AssemblyProduct("ApplicationExample")]
+[assembly: AssemblyCopyright("Copyright © 2003-2022 Universität Karlsruhe, IPD Goos; and free programmers")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+
+// Durch Festlegen von ComVisible auf FALSE werden die Typen in dieser Assembly
+// für COM-Komponenten unsichtbar.  Wenn Sie auf einen Typ in dieser Assembly von
+// COM aus zugreifen müssen, sollten Sie das ComVisible-Attribut für diesen Typ auf "True" festlegen.
+[assembly: ComVisible(false)]
+
+// Die folgende GUID bestimmt die ID der Typbibliothek, wenn dieses Projekt für COM verfügbar gemacht wird
+[assembly: Guid("a3424189-b2a7-455b-a7a5-bfca20da53f7")]
+
+// Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
+//
+//      Hauptversion
+//      Nebenversion
+//      Buildnummer
+//      Revision
+//
+// Sie können alle Werte angeben oder Standardwerte für die Build- und Revisionsnummern verwenden,
+// übernehmen, indem Sie "*" eingeben:
+// [assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("6.5.0.0")]
+[assembly: AssemblyInformationalVersionAttribute("GrGen.NET 6.5")]
+[assembly: AssemblyFileVersion("6.5.0.0")]
