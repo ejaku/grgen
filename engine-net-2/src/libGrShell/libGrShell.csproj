@@ -78,6 +78,7 @@
     <Compile Include="SimpleCharStream.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="TokenMgrError.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GrShell.csc" />
