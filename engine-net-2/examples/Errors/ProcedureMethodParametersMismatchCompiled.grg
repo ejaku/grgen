@@ -1,0 +1,21 @@
+#include "Rules.grg"
+
+sequence s1
+{
+	{ n:N=null; (d:double)=n.p() }
+}
+
+sequence s2
+{
+	{ n:N=null; (d:double)=n.p("42") }
+}
+
+sequence s3
+{
+	{ n:N=null; (d:double,j:int)=n.p(42) }
+}
+
+sequence s4
+{
+	{ n:N=null; (i:int)=n.p(42) }
+}

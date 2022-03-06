@@ -1,0 +1,5 @@
+new graph "Rules.grg"
+
+exec (n:N)=init ;> { m:match<class mc>=[?[t]\<class mc>][0]; v:int = m.b } 
+
+quit

@@ -1,0 +1,49 @@
+#using "Model.gm"
+
+rule init : (N)
+{
+	modify {
+		n:N;
+		return(n);
+	}
+}
+
+rule r(n:N) : (N)
+{
+	modify {
+		return(n);
+	}
+}
+
+sequence s(n:N) : (nout:N)
+{
+	{ nout = n }
+}
+
+function f(var i:int) : double
+{
+	return(i);
+}
+
+procedure p(var i:int) : (double)
+{
+	return(i);
+}
+
+rule initExtended : (N, E, C, TC)
+{
+	modify {
+		n:N -e:E-> n;
+		return(n, e, new C(), new TC());
+	}
+}
+
+match class mc
+{
+	n:N;
+}
+
+test t implements mc
+{
+	n:N;
+}

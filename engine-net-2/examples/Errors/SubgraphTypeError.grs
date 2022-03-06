@@ -1,0 +1,5 @@
+new graph "Rules.grg"
+
+exec i:int=42 ;> i.r(null)
+
+quit

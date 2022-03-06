@@ -1,0 +1,16 @@
+#include "Rules.grg"
+
+sequence s1
+{
+	{ n:N=null; d:double=n.f() }
+}
+
+sequence s2
+{
+	{ n:N=null; d:double=n.f("42") }
+}
+
+sequence s4
+{
+	{ n:N=null; i:int=n.f(42) }
+}

@@ -1,0 +1,6 @@
+#include "Rules.grg"
+
+sequence s1
+{
+	 {{ [?[r(null)]\<class mc>] }}
+}

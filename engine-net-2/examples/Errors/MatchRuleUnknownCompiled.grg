@@ -1,0 +1,6 @@
+#include "Rules.grg"
+
+sequence s1
+{
+	(n:N)=init ;> { m:match<tt>=[?t][0]; v:int = m.b } 
+}

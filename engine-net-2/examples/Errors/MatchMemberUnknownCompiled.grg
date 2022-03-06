@@ -1,0 +1,11 @@
+#include "Rules.grg"
+
+sequence s1
+{
+	(n:N)=init ;> { m:match<t>=[?t][0]; v:int = m.b } 
+}
+
+sequence s2
+{
+	(n:N)=init ;> { m:match<class mc>=[?[t]\<class mc>][0]; v:int = m.b } 
+}

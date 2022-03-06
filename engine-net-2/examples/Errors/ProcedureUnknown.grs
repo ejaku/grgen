@@ -1,0 +1,5 @@
+new graph "Rules.grg"
+
+exec { (d:double)=pp() }
+
+quit

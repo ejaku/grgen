@@ -1,0 +1,16 @@
+#include "Rules.grg"
+
+sequence s1
+{
+	{ d:double=f() }
+}
+
+sequence s2
+{
+	{ d:double=f("42") }
+}
+
+sequence s4
+{
+	{ i:int=f(42) }
+}

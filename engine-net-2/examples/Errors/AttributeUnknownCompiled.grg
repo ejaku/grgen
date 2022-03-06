@@ -1,0 +1,21 @@
+#include "Rules.grg"
+
+sequence s1
+{
+	(n:N,e:E,c:C,tc:TC)=initExtended ;> { n.b = 42 }
+}
+
+sequence s2
+{
+	(n:N,e:E,c:C,tc:TC)=initExtended ;> { e.b = 43 }
+}
+
+sequence s3
+{
+	(n:N,e:E,c:C,tc:TC)=initExtended ;> { c.b = 44 }
+}
+
+sequence s4
+{
+	(n:N,e:E,c:C,tc:TC)=initExtended ;> { tc.b = 45 }
+}

@@ -1,0 +1,5 @@
+new graph "Rules.grg"
+
+exec { o:double=3.141592654 ; d:double=o.ff() }
+
+quit

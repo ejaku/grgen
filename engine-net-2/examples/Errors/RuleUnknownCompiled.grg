@@ -1,0 +1,6 @@
+#include "Rules.grg"
+
+sequence s0
+{
+	(n:N)=init ;> (m:M)=rr()
+}

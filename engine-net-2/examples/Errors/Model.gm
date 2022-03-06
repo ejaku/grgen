@@ -1,0 +1,35 @@
+node class M;
+
+node class N extends M
+{
+	a:int;
+	
+	function f(var i:int) : double
+	{
+		return(i);
+	}
+
+	procedure p(var i:int) : (double)
+	{
+		return(i);
+	}
+}
+
+node class O extends N;
+
+edge class E
+{
+	a:double;
+}
+
+class C
+{
+	a:string;
+}
+
+transient class TC
+{
+	a:byte;
+}
+
+index idx { N.a }

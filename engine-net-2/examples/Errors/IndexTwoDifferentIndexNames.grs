@@ -1,0 +1,5 @@
+new graph "Rules.grg"
+
+exec for{v:N in {ascending(idx>7,idx2<42)}; true}
+
+quit

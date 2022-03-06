@@ -1,0 +1,6 @@
+#include "Rules.grg"
+
+sequence s1
+{
+	for{v:N in {asc(idx>7)}; true}
+}

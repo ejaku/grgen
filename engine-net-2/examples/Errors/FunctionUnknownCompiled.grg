@@ -1,0 +1,6 @@
+#include "Rules.grg"
+
+sequence s0
+{
+	{ d:double=ff() }
+}

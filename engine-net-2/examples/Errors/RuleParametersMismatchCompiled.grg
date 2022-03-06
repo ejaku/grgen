@@ -1,0 +1,26 @@
+#include "Rules.grg"
+
+sequence s1
+{
+	(n:N)=init ;> (m:M)=r()
+}
+
+sequence s2
+{
+	(m:M)=init ;> (n:N)=r(m)
+}
+
+sequence s3
+{
+	(n:N)=init ;> (m:M,o:O)=r(n)
+}
+
+sequence s4
+{
+	(n:N)=init ;> (o:O)=r(n)
+}
+
+sequence s5 // TODO
+{
+	(n:N)=init ;> r:boolean=false ;> (m:M)=r(n)
+}

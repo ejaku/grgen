@@ -1,0 +1,5 @@
+new graph "Rules.grg"
+
+exec (n:N,e:E,c:C,tc:TC)=initExtended ;> { e.b = 43 }
+
+quit

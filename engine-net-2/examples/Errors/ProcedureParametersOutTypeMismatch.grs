@@ -1,0 +1,5 @@
+new graph "Rules.grg"
+
+exec { (i:int)=p(42) }
+
+quit
