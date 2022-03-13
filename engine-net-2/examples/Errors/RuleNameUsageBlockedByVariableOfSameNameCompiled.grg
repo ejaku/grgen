@@ -1,6 +1,0 @@
-new graph "Rules.grg"
-
-sequence s1
-{
-	(n:N)=init ;> r:boolean=false ;> (m:M)=r(n)
-}

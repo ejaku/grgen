@@ -1,5 +1,0 @@
-new graph "Rules.grg"
-
-exec (n:N)=init ;> r:boolean=false ;> (m:M)=r(n)
-
-quit

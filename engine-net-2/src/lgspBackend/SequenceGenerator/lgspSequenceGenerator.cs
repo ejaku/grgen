@@ -569,14 +569,6 @@ namespace de.unika.ipd.grGen.lgsp
                 Console.Error.WriteLine("Operator not found/arguments not of correct type: " + ex.Expression);
                 return;
 
-            case SequenceParserError.RuleNameUsedByVariable:
-                Console.Error.WriteLine("The name of the variable conflicts with the name of action/sequence \"" + ex.Name + "\"!");
-                return;
-
-            case SequenceParserError.VariableUsedWithParametersOrReturnParameters:
-                Console.Error.WriteLine("The variable \"" + ex.Name + "\" may neither receive parameters nor return values!");
-                return;
-
             case SequenceParserError.UnknownAttribute:
                 Console.WriteLine("Unknown attribute \"" + ex.Name + "\"!");
                 return;

@@ -68,6 +68,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
             bool special);
 
+        abstract public bool IsRuleName(String ruleOrSequenceName, String package);
 
         abstract public SequenceRuleCall CreateSequenceRuleCall(String ruleName, String packagePrefix,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,

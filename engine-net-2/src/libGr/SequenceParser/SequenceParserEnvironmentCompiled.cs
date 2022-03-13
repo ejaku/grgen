@@ -110,6 +110,42 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
         }
 
 
+        public override bool IsRuleName(String ruleOrSequenceName, String package)
+        {
+            if(package != null)
+            {
+                if(package != "global")
+                {
+                    foreach(String ruleName in actionNames.ruleNames)
+                    {
+                        if(ruleName == package + "::" + ruleOrSequenceName)
+                            return true;
+                    }
+                    return false;
+                }
+                else
+                {
+                    foreach(String ruleName in actionNames.ruleNames)
+                    {
+                        if(ruleName == ruleOrSequenceName)
+                            return true;
+                    }
+                    return false;
+                }
+            }
+            else
+            {
+                foreach(String ruleName in actionNames.ruleNames)
+                {
+                    if(packageContext != null && ruleName == packageContext + "::" + ruleOrSequenceName)
+                        return true;
+                    if(ruleName == ruleOrSequenceName)
+                        return true;
+                }
+                return false;
+            }
+        }
+
         public override SequenceRuleCall CreateSequenceRuleCall(String ruleName, String packagePrefix,
             List<SequenceExpression> argExprs, List<SequenceVariable> returnVars, SequenceVariable subgraph,
             bool special, bool test, bool isRuleForMultiRuleAllCallReturningArrays)

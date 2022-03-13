@@ -52,16 +52,6 @@ namespace de.unika.ipd.grGen.libGr
         BadReturnParameter,
 
         /// <summary>
-        /// A variable has been declared with the name of an action.
-        /// </summary>
-        RuleNameUsedByVariable,
-
-        /// <summary>
-        /// A variable has been used with parameters and/or return parameters.
-        /// </summary>
-        VariableUsedWithParametersOrReturnParameters,
-
-        /// <summary>
         /// The attribute is not known
         /// </summary>
         UnknownAttribute,
@@ -419,12 +409,6 @@ namespace de.unika.ipd.grGen.libGr
 
                 case SequenceParserError.BadReturnParameter:
                     return "The " + (this.BadParamIndex + 1) + ". return parameter is not valid for " + DefinitionTypeName + " \"" + this.Name + "\"!";
-
-                case SequenceParserError.RuleNameUsedByVariable:
-                    return "The name of the variable conflicts with the name of " + this.Name + "\"!";
-
-                case SequenceParserError.VariableUsedWithParametersOrReturnParameters:
-                    return "The variable \"" + this.Name + "\" may neither receive parameters nor return values!";
 
                 case SequenceParserError.UnknownAttribute:
                     return "Unknown attribute \"" + this.Name + "\"!";
