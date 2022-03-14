@@ -2362,9 +2362,6 @@ SequenceRuleCall RuleForMultiRuleAllCall(bool returnsArrays):
         (LOOKAHEAD(2) package=Word() "::")? 
         str=Word() ("(" (Arguments(argExprs))? ")")?
         {
-            if(varDecls.Lookup(str) != null)
-                warnings.Add("WARNING: resolving " + str + " to a rule, while a variable of same name exists");
-
             ruleCall = env.CreateSequenceRuleCall(str, package, argExprs, returnVars, null,
                 special, test, returnsArrays);
         }
@@ -2420,9 +2417,6 @@ Sequence Rule():
         (LOOKAHEAD(2) subgraph=Variable() ".")? (LOOKAHEAD(2) package=Word() "::")?
         str=Word() ("(" (Arguments(argExprs))? ")")?
         {
-            if(varDecls.Lookup(str) != null)
-                warnings.Add("WARNING: resolving " + str + " to a rule, while a variable of same name exists");
-
             ruleAllCall = env.CreateSequenceRuleAllCall(str, package, argExprs, returnVars, subgraph,
                     special, test, chooseRandSpecified, varChooseRand, chooseRandSpecified2, varChooseRand2, choice);
         }
@@ -2437,9 +2431,6 @@ Sequence Rule():
         (LOOKAHEAD(2) subgraph=Variable() ".")? (LOOKAHEAD(2) package=Word() "::")?
         str=Word() ("(" (Arguments(argExprs))? ")")?
         {
-            if(varDecls.Lookup(str) != null)
-                warnings.Add("WARNING: resolving " + str + " to a rule, while a variable of same name exists");
-
             ruleCountAllCall = env.CreateSequenceRuleCountAllCall(str, package, argExprs, returnVars, subgraph,
                     special, test);
         }
@@ -2465,16 +2456,13 @@ Sequence Rule():
                         throw new SequenceParserException(str, "", SequenceParserError.SubgraphError);
 
                     if(env.IsRuleName(str, package))
-                        warnings.Add("WARNING: resolving " + str + " to a variable, while a rule of same name exists");
+                        warnings.Add("WARNING: resolving " + str + " to a variable, while a rule of same name exists (apply parenthesis so it is resolved to a rule call)");
                     if(env.IsSequenceName(str, package))
-                        warnings.Add("WARNING: resolving " + str + " to a variable, while a sequence of same name exists");
+                        warnings.Add("WARNING: resolving " + str + " to a variable, while a sequence of same name exists (apply parenthesis so it is resolved to a sequence call)");
 
                     return new SequenceBooleanComputation(new SequenceExpressionVariable(var), null, special);
                 }
             }
-
-            if(varDecls.Lookup(str) != null)
-                warnings.Add("WARNING: resolving " + str + " to a rule/sequence, while a variable of same name exists");
 
             if(env.IsSequenceName(str, package)) {
                 sequenceCall = env.CreateSequenceSequenceCall(str, package, argExprs, returnVars, subgraph,
@@ -2564,9 +2552,6 @@ SequenceRuleCall RuleForMultiRuleQuery():
     (LOOKAHEAD(2) package=Word() "::")? 
     str=Word() ("(" (Arguments(argExprs))? ")")?
     {
-        if(varDecls.Lookup(str) != null)
-            warnings.Add("WARNING: resolving " + str + " to a rule, while a variable of same name exists");
-
         ruleCall = env.CreateSequenceRuleCall(str, package, argExprs, returnVars, null,
             special, true, false);
     }
@@ -2616,9 +2601,6 @@ SequenceRuleCall RuleForMappingMultiRulePrefixedSequence():
         (LOOKAHEAD(2) package=Word() "::")? 
         str=Word() ("(" (Arguments(argExprs))? ")")?
         {
-            if(varDecls.Lookup(str) != null)
-                warnings.Add("WARNING: resolving " + str + " to a rule, while a variable of same name exists");
-
             ruleCall = env.CreateSequenceRuleCall(str, package, argExprs, returnVars, null,
                 special, false, false);
         }
