@@ -186,6 +186,9 @@ namespace de.unika.ipd.grGen.libGr
         /// The associated action instance. If it is null, there was no rule with the name specified in RuleName.
         /// </summary>
         public readonly IAction Action;
+        public readonly ISequenceDefinition Sequence;
+        public readonly IProcedureDefinition Procedure;
+        public readonly IFunctionDefinition Function;
 
         /// <summary>
         /// The number of inputs or outputs given to the rule.
@@ -236,28 +239,12 @@ namespace de.unika.ipd.grGen.libGr
         public readonly String Suggestion;
 
 
-        /// <summary>
-        /// Creates an instance of a SequenceParserException used by the SequenceParser, when the rule with the
-        /// given name does not exist or input or output parameters do not match.
-        /// </summary>
-        /// <param name="ruleName">The name of the rule.</param>
-        /// <param name="action">The associated action instance.
-        /// If it is null, there was no rule with the name specified in RuleName.</param>
-        /// <param name="numGiven">The number of inputs or outputs given to the rule.</param>
-        /// <param name="badParamIndex">The index of a bad parameter or -1 if another error occurred.</param>
-        public SequenceParserException(String ruleName, IAction action, int numGiven, int badParamIndex)
-        {
-            Name = ruleName;
-            Action = action;
-            NumGiven = numGiven;
-            BadParamIndex = badParamIndex;
-        }
 
         /// <summary>
-        /// Creates an instance of a SequenceParserException used by the SequenceParser, when the rule with the
-        /// given name does not exist or input or output parameters do not match, or a method was called on a type not supporting this.
+        /// Creates an instance of a SequenceParserException used by the SequenceParser,.
+        /// with the name of the offending entity, and the error kind.
         /// </summary>
-        /// <param name="name">Name of the rule or sequence or variable.</param>
+        /// <param name="name">Name of the entity.</param>
         /// <param name="errorKind">The kind of error.</param>
         public SequenceParserException(String name, SequenceParserError errorKind)
         {
@@ -304,6 +291,12 @@ namespace de.unika.ipd.grGen.libGr
             Name = invocation.Name;
             if(invocation is RuleInvocation)
                 Action = SequenceBase.GetAction((RuleInvocation)invocation);
+            else if(invocation is SequenceInvocation)
+                Sequence = SequenceBase.GetSequence((SequenceInvocation)invocation);
+            else if(invocation is ProcedureInvocation)
+                Procedure = SequenceBase.GetProcedure((ProcedureInvocation)invocation);
+            else if(invocation is FunctionInvocation)
+                Function = SequenceBase.GetFunction((FunctionInvocation)invocation);
             NumGiven = numGiven;
             BadParamIndex = badParamIndex;
             ClassifyDefinitionType(invocation, out DefType);
@@ -314,11 +307,21 @@ namespace de.unika.ipd.grGen.libGr
         /// when the expected type does not match the given type of the variable of function.
         /// </summary>
         public SequenceParserException(String varOrFuncName, String expectedType, String givenType)
+            : this(varOrFuncName, expectedType, givenType, SequenceParserError.TypeMismatch)
+        {
+        }
+
+        /// <summary>
+        /// Creates an instance of a SequenceParserException used by the SequenceParser,
+        /// when the expected type does not match the given type of the variable of function (TypeMismatch),
+        /// or in case of SubgraphError/SubgraphTypeError.
+        /// </summary>
+        public SequenceParserException(String varOrFuncName, String expectedType, String givenType, SequenceParserError errorKind)
         {
             VariableOrFunctionName = varOrFuncName;
             ExpectedType = expectedType;
             GivenType = givenType;
-            Kind = SequenceParserError.TypeMismatch;
+            Kind = errorKind;
         }
 
         /// <summary>
@@ -387,22 +390,10 @@ namespace de.unika.ipd.grGen.libGr
                     return "Unknown rule/sequence: \"" + this.Name + "\"";
 
                 case SequenceParserError.BadNumberOfParameters:
-                    if(this.Action == null) {
-                        return "Wrong number of input parameters for " + DefinitionTypeName + " \"" + this.Name + "\"";
-                    } else if(this.Action.RulePattern.Inputs.Length != this.NumGiven) {
-                        return "Wrong number of input parameters for " + DefinitionTypeName + " \"" + this.Name + "\"!";
-                    } else {
-                        goto default;
-                    }
-
+                    return "Wrong number of input parameters for " + DefinitionTypeName + " \"" + this.Name + "\"!";
+ 
                 case SequenceParserError.BadNumberOfReturnParameters:
-                    if(this.Action == null) {
-                        return "Wrong number of output parameters for " + DefinitionTypeName + " \"" + this.Name + "\"";
-                    } else if(this.Action.RulePattern.Outputs.Length != this.NumGiven) {
-                        return "Wrong number of output parameters for " + DefinitionTypeName + " \"" + this.Name + "\"!";
-                    } else {
-                        goto default;
-                    }
+                    return "Wrong number of output parameters for " + DefinitionTypeName + " \"" + this.Name + "\"!";
 
                 case SequenceParserError.BadParameter:
                     return "The " + (this.BadParamIndex + 1) + ". parameter is not valid for " + DefinitionTypeName + " \"" + this.Name + "\"!";
@@ -448,13 +439,13 @@ namespace de.unika.ipd.grGen.libGr
                     return "The construct \"" + this.VariableOrFunctionName  + "\" does not support subgraph prefixes!";
 
                 case SequenceParserError.SubgraphTypeError:
-                    return "The subgraph prefix \"" + this.VariableOrFunctionName + "\" must be of type:" + this.ExpectedType + " but is /given " + this.GivenType + "!";
+                    return "The construct \"" + this.VariableOrFunctionName + "\" expects a subgraph prefix of type:" + this.ExpectedType + " but is /given " + this.GivenType + "!";
 
                 case SequenceParserError.UnknownRule:
                     return "Unknown rule \"" + this.Name + "\" (in match<" + this.Name + ">)!";
 
                 case SequenceParserError.UnknownPatternElement:
-                    return "The rule \"" + this.Name + "\" does not contain a (top-level) element \"" + this.EntityName + "\" (so type match<" + this.Name + "> does not)!";
+                    return "The rule \"" + this.Name + "\" (so its type match<" + this.Name + ">) does not contain a (top-level) element \"" + this.EntityName + "\"!";
 
                 case SequenceParserError.UserMethodsOnlyAvailableForGraphElements:
                     return "The type \"" + this.Name + "\" does not support user methods";

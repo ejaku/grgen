@@ -2453,7 +2453,7 @@ Sequence Rule():
                     if(var.Type != "" && var.Type != "boolean")
                         throw new SequenceParserException(str, "untyped or bool", var.Type);
                     if(subgraph != null)
-                        throw new SequenceParserException(str, "", SequenceParserError.SubgraphError);
+                        throw new SequenceParserException(str, "", "", SequenceParserError.SubgraphError);
 
                     if(env.IsRuleName(str, package))
                         warnings.Add("WARNING: resolving " + str + " to a variable, while a rule of same name exists (apply parenthesis so it is resolved to a rule call)");

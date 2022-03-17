@@ -124,37 +124,94 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public static void HandleSequenceParserException(SequenceParserException ex)
         {
-            IAction action = ex.Action;
             errOut.WriteLine(ex.Message);
 
-            debugOut.Write("Prototype: {0}", ex.Name);
-            if(action == null)
+            if(ex.Action != null)
             {
-                debugOut.WriteLine("");
-                return;
-            }
-
-            if(action.RulePattern.Inputs.Length != 0)
-            {
-                debugOut.Write("(");
-                bool first = true;
-                foreach(GrGenType type in action.RulePattern.Inputs)
+                IAction action = ex.Action;
+                debugOut.Write("Prototype: {0}", ex.Action.RulePattern.PatternGraph.Name);
+                if(action.RulePattern.Inputs.Length != 0)
                 {
-                    debugOut.Write("{0}{1}", first ? "" : ", ", type.PackagePrefixedName);
-                    first = false;
+                    debugOut.Write("(");
+                    for(int i = 0; i < action.RulePattern.Inputs.Length; ++i)
+                    {
+                        if(i > 0)
+                            debugOut.Write(",");
+                        GrGenType type = action.RulePattern.Inputs[i];
+                        debugOut.Write("{0}:{1}", action.RulePattern.InputNames[i], type.PackagePrefixedName);
+                    }
+                    debugOut.Write(")");
                 }
-                debugOut.Write(")");
-            }
-            if(action.RulePattern.Outputs.Length != 0)
-            {
-                debugOut.Write(" : (");
-                bool first = true;
-                foreach(GrGenType type in action.RulePattern.Outputs)
+                if(action.RulePattern.Outputs.Length != 0)
                 {
-                    debugOut.Write("{0}{1}", first ? "" : ", ", type.PackagePrefixedName);
-                    first = false;
+                    debugOut.Write(" : (");
+                    bool first = true;
+                    foreach(GrGenType type in action.RulePattern.Outputs)
+                    {
+                        if(first)
+                            first = false;
+                        else
+                            debugOut.Write(",");
+                        debugOut.Write("{0}", type.PackagePrefixedName);
+                    }
+                    debugOut.Write(")");
                 }
-                debugOut.Write(")");
+            }
+            else if(ex.Sequence != null)
+            {
+                ISequenceDefinition sequence = ex.Sequence;
+                SequenceDefinition seqDef = (SequenceDefinition)sequence;
+                debugOut.Write("Prototype: ");
+                debugOut.Write(seqDef.Symbol);
+            }
+            else if(ex.Procedure != null)
+            {
+                IProcedureDefinition procedure = ex.Procedure;
+                debugOut.Write("Prototype: {0}", ex.Procedure.Name);
+                if(procedure.Inputs.Length != 0)
+                {
+                    debugOut.Write("(");
+                    for(int i = 0; i < procedure.Inputs.Length; ++i)
+                    {
+                        if(i > 0)
+                            debugOut.Write(",");
+                        GrGenType type = procedure.Inputs[i];
+                        debugOut.Write("{0}:{1}", procedure.InputNames[i], type.PackagePrefixedName);
+                    }
+                    debugOut.Write(")");
+                }
+                if(procedure.Outputs.Length != 0)
+                {
+                    debugOut.Write(" : (");
+                    bool first = true;
+                    foreach(GrGenType type in procedure.Outputs)
+                    {
+                        if(first)
+                            first = false;
+                        else
+                            debugOut.Write(",");
+                        debugOut.Write("{0}", type.PackagePrefixedName);
+                    }
+                    debugOut.Write(")");
+                }
+            }
+            else if(ex.Function != null)
+            {
+                IFunctionDefinition function = ex.Function;
+                debugOut.Write("Prototype: {0}", ex.Function.Name);
+                if(function.Inputs.Length != 0)
+                {
+                    debugOut.Write("(");
+                    for(int i = 0; i < function.Inputs.Length; ++i)
+                    {
+                        if(i > 0)
+                            debugOut.Write(",");
+                        GrGenType type = function.Inputs[i];
+                        debugOut.Write("{0}:{1}", function.InputNames[i], type.PackagePrefixedName);
+                    }
+                    debugOut.Write(")");
+                }
+                debugOut.Write(" : {0}", function.Output.PackagePrefixedName);
             }
             debugOut.WriteLine();
         }

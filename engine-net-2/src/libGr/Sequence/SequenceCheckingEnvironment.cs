@@ -492,7 +492,7 @@ namespace de.unika.ipd.grGen.libGr
                 subgraph = sequenceInvocation.Subgraph;
             }
             if(subgraph != null && !TypesHelper.IsSameOrSubtype("graph", subgraph.Type, Model))
-                throw new SequenceParserException(invocation.Name, subgraph.Type, SequenceParserError.SubgraphTypeError);
+                throw new SequenceParserException(invocation.Name, "graph", subgraph.Type, SequenceParserError.SubgraphTypeError);
         }
 
         /// <summary>

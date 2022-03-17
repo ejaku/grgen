@@ -295,6 +295,30 @@ namespace de.unika.ipd.grGen.libGr
             return null;
         }
 
+        public static ISequenceDefinition GetSequence(SequenceInvocation invocation)
+        {
+            SequenceSequenceCallInterpreted sequenceSequenceCall = invocation as SequenceSequenceCallInterpreted;
+            if(sequenceSequenceCall != null)
+                return sequenceSequenceCall.SequenceDef;
+            return null;
+        }
+
+        public static IProcedureDefinition GetProcedure(ProcedureInvocation invocation)
+        {
+            SequenceComputationProcedureCallInterpreted sequenceComputationProcedureCall = invocation as SequenceComputationProcedureCallInterpreted;
+            if(sequenceComputationProcedureCall != null)
+                return sequenceComputationProcedureCall.ProcedureDef;
+            return null;
+        }
+
+        public static IFunctionDefinition GetFunction(FunctionInvocation invocation)
+        {
+            SequenceExpressionFunctionCallInterpreted sequenceExpressionFunctionCall = invocation as SequenceExpressionFunctionCallInterpreted;
+            if(sequenceExpressionFunctionCall != null)
+                return sequenceExpressionFunctionCall.FunctionDef;
+            return null;
+        }
+
         protected static NodeType GetNodeType(IGraphProcessingEnvironment procEnv, SequenceExpression nodeTypeExpr, string functionName)
         {
             NodeType nodeType = null;

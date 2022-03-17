@@ -229,7 +229,7 @@ seqForSeqRemainder [ ExecNode xg, CollectNode<BaseNode> returns ]
 	| IN { xg.append(" in "); } LBRACE { xg.append("{"); } seqIndex[xg] EQUAL { xg.append(" == "); } seqExpression[xg] 
 		RBRACE { xg.append("}"); } SEMI { xg.append("; "); } sequence[xg] { env.popScope(); } RBRACE { xg.append("}"); }
 	| IN { xg.append(" in "); } LBRACE { xg.append("{"); } 
-		{ input.LT(1).getText().equals("ascending") || input.LT(1).getText().equals("descending") }? i=IDENT { xg.append(i.getText()); } 
+		i=IDENT { xg.append(i.getText()); } 
 		LPAREN { xg.append("("); } seqIndex[xg] ( seqRelOs[xg] seqExpression[xg]
 				( COMMA { xg.append(","); } seqIndex[xg] seqRelOs[xg] seqExpression[xg] )? )? 
 		RPAREN { xg.append(")"); } RBRACE { xg.append("}"); } SEMI { xg.append("; "); } sequence[xg] { env.popScope(); } RBRACE { xg.append("}"); }

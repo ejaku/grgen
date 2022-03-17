@@ -510,31 +510,22 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(ex.Name == null 
                 && ex.Kind != SequenceParserError.TypeMismatch
-                && ex.Kind != SequenceParserError.MatchClassError
-                && ex.Kind != SequenceParserError.MatchClassNotImplementedError
-                && ex.Kind != SequenceParserError.FilterError
-                && ex.Kind != SequenceParserError.FilterParameterError
-                && ex.Kind != SequenceParserError.FilterLambdaExpressionError
-                && ex.Kind != SequenceParserError.OperatorNotFound)
+                && ex.Kind != SequenceParserError.OperatorNotFound
+                && ex.Kind != SequenceParserError.SubgraphError
+                && ex.Kind != SequenceParserError.SubgraphTypeError)
             {
-                Console.Error.WriteLine("Unknown " + ex.DefinitionTypeName + ": \"{0}\"", ex.Name);
+                Console.Error.WriteLine("Unknown " + ex.DefinitionTypeName + ": \"{0}\"", ex.Name); // ex.Name == null thus printing pointless
                 return;
             }
 
             switch(ex.Kind)
             {
             case SequenceParserError.BadNumberOfParameters:
-                if(seqHelper.actionsTypeInformation.InputTypes(ex.Name).Count != ex.NumGiven)
-                    Console.Error.WriteLine("Wrong number of parameters for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
-                else
-                    goto default;
+                Console.Error.WriteLine("Wrong number of parameters for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
                 break;
 
             case SequenceParserError.BadNumberOfReturnParameters:
-                if(seqHelper.actionsTypeInformation.OutputTypes(ex.Name).Count != ex.NumGiven)
-                    Console.Error.WriteLine("Wrong number of return values for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
-                else
-                    goto default;
+                Console.Error.WriteLine("Wrong number of return values for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
                 break;
 
             case SequenceParserError.BadParameter:
@@ -565,6 +556,14 @@ namespace de.unika.ipd.grGen.lgsp
                 Console.Error.WriteLine("Lambda expression variable type mismatch for filter \"" + ex.FilterName + "\" applied to \"" + ex.Name + "\"!");
                 return;
 
+            case SequenceParserError.SubgraphError:
+                Console.Error.WriteLine("The construct \"" + ex.VariableOrFunctionName + "\" does not support subgraph prefixes!");
+                return;
+
+            case SequenceParserError.SubgraphTypeError:
+                Console.Error.WriteLine("The construct \"" + ex.VariableOrFunctionName + "\" expects a subgraph prefix of type:" + ex.ExpectedType + " but is /given " + ex.GivenType + "!");
+                return;
+
             case SequenceParserError.OperatorNotFound:
                 Console.Error.WriteLine("Operator not found/arguments not of correct type: " + ex.Expression);
                 return;
@@ -587,6 +586,30 @@ namespace de.unika.ipd.grGen.lgsp
 
             case SequenceParserError.TypeMismatch:
                 Console.Error.WriteLine("The construct \"" + ex.VariableOrFunctionName + "\" expects:" + ex.ExpectedType + " but is / is given " + ex.GivenType + "!");
+                return;
+
+            case SequenceParserError.UnknownPatternElement:
+                Console.Error.WriteLine("The rule \"" + ex.Name + "\" (so its type match<" + ex.Name + ">) does not contain a (top-level) element \"" + ex.EntityName + "\"!");
+                return;
+
+            case SequenceParserError.UserMethodsOnlyAvailableForGraphElements:
+                Console.Error.WriteLine("The type \"" + ex.Name + "\" does not support user methods");
+                return;
+
+            case SequenceParserError.UnknownIndexAccessDirection:
+                Console.Error.WriteLine("The index access direction \"" + ex.Name + "\" is not supported, must be ascending or descending");
+                return;
+
+            case SequenceParserError.TwoDifferentIndexNames:
+                Console.Error.WriteLine("A different index name than \"" + ex.Name + "\" is given for the second bound");
+                return;
+
+            case SequenceParserError.TwoLowerBounds:
+                Console.Error.WriteLine("Two lower bounds specified in accessing index \"" + ex.Name + "\"");
+                return;
+
+            case SequenceParserError.TwoUpperBounds:
+                Console.Error.WriteLine("Two upper bounds specified in accessing index \"" + ex.Name + "\"");
                 return;
 
             default:

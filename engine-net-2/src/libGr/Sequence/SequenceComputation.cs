@@ -3216,6 +3216,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             if(ReturnVars.Count > 1)
                 throw new Exception("Procedure returns 1 output value, can't assign more");
+            BuiltinProcedure.Check(env);
             // 0 Return Vars, i.e. throwing away the value returned is ok
             if(ReturnVars.Count == 0)
                 return;
@@ -3239,7 +3240,13 @@ namespace de.unika.ipd.grGen.libGr
             if(ReturnVars.Count > 0)
                 ReturnVars[0].SetVariableValue(BuiltinProcedure.ExecuteImpl(procEnv), procEnv);
             else
+            {
+                if(BuiltinProcedure is SequenceComputationGraphAdd)
+                {
+                    SequenceComputationGraphAdd add = (SequenceComputationGraphAdd)BuiltinProcedure;
+                }
                 BuiltinProcedure.ExecuteImpl(procEnv);
+            }
             return null;
         }
 

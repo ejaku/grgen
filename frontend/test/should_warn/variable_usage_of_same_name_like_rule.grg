@@ -2,6 +2,6 @@ rule r
 {
 	modify {
 	---
-		exec(::r=42 ;> r());
+		exec(::r=42 ;> r);
 	}
 }
