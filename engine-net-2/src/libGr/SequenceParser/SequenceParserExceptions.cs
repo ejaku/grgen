@@ -377,8 +377,6 @@ namespace de.unika.ipd.grGen.libGr
         {
             get
             {
-                // TODO: function
-
                 switch (this.Kind)
                 {
                 case SequenceParserError.UnknownRuleOrSequence:
@@ -402,10 +400,10 @@ namespace de.unika.ipd.grGen.libGr
                 case SequenceParserError.UnknownMatchMember:
                     return "Unknown member (of match type) \"" + this.Name + "\"!";
 
-                case SequenceParserError.UnknownProcedure:
+                case SequenceParserError.UnknownProcedure: // as of now only procedure methods, unknown procedures yield a ParseException
                     return "Unknown procedure \"" + this.Name + "\"!";
 
-                case SequenceParserError.UnknownFunction:
+                case SequenceParserError.UnknownFunction: // as of now only function methods, unknown functions yield a ParseException
                     return "Unknown function \"" + this.Name + "\"!";
 
                 case SequenceParserError.TypeMismatch:

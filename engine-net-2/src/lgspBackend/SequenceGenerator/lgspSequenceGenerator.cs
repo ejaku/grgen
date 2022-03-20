@@ -508,129 +508,42 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void HandleSequenceParserException(SequenceParserException ex)
         {
-            switch(ex.Kind)
+            Console.Error.WriteLine(ex.Message); // as ow now, some errors are handled in the frontend exclusivly (e.g. UnknownRuleOrSequence, or rule call parameter mismatches)
+
+            if(ex.Kind != SequenceParserError.BadNumberOfParameters
+                && ex.Kind != SequenceParserError.BadNumberOfReturnParameters
+                && ex.Kind != SequenceParserError.BadParameter
+                && ex.Kind != SequenceParserError.BadReturnParameter) // as of now, a function output parameter type mismatch yields only a TypeMismatch, so no prototype is printed
             {
-            //case SequenceParserError.UnknownRuleOrSequence: handled in frontend, backend not reached
-            //case SequenceParserError.UnknownRule: handled in frontend, backend not reached
-
-            case SequenceParserError.BadNumberOfParameters:
-                Console.Error.WriteLine("Wrong number of parameters for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
-                break;
-
-            case SequenceParserError.BadNumberOfReturnParameters:
-                Console.Error.WriteLine("Wrong number of return values for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
-                break;
-
-            case SequenceParserError.BadParameter:
-                Console.Error.WriteLine("The " + (ex.BadParamIndex + 1) + ". parameter is not valid for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
-                break;
-
-            case SequenceParserError.BadReturnParameter:
-                Console.Error.WriteLine("The " + (ex.BadParamIndex + 1) + ". return parameter is not valid for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
-                break;
-
-            case SequenceParserError.MatchClassError:
-                Console.Error.WriteLine("Unknown match class \"" + ex.Name + "\" in filter call \"" + ex.FilterName + "\"!");
-                break;
-
-            case SequenceParserError.MatchClassNotImplementedError:
-                Console.Error.WriteLine("Match class \"" + ex.Name + "\" is not implemented by rule \"" + ex.FilterName + "\"!");
-                break;
-
-            case SequenceParserError.FilterError:
-                Console.Error.WriteLine("Can't apply filter " + ex.FilterName + " to rule (or match class) " + ex.Name + "!");
                 return;
-
-            case SequenceParserError.FilterParameterError:
-                Console.Error.WriteLine("Filter parameter mismatch for filter \"" + ex.FilterName + "\" applied to \"" + ex.Name + "\"!");
-                return;
-
-            case SequenceParserError.FilterLambdaExpressionError:
-                Console.Error.WriteLine("Lambda expression variable type mismatch for filter \"" + ex.FilterName + "\" applied to \"" + ex.Name + "\"!");
-                return;
-
-            case SequenceParserError.SubgraphError:
-                Console.Error.WriteLine("The construct \"" + ex.Name + "\" does not support subgraph prefixes!");
-                return;
-
-            case SequenceParserError.SubgraphTypeError:
-                Console.Error.WriteLine("The construct \"" + ex.Name + "\" expects a subgraph prefix of type:" + ex.ExpectedType + " but is /given " + ex.GivenType + "!");
-                return;
-
-            case SequenceParserError.OperatorNotFound:
-                Console.Error.WriteLine("Operator not found/arguments not of correct type: " + ex.Expression);
-                return;
-
-            case SequenceParserError.UnknownAttribute:
-                Console.WriteLine("Unknown attribute \"" + ex.Name + "\"!");
-                return;
-
-            case SequenceParserError.UnknownMatchMember:
-                Console.WriteLine("Unknown member (of match type) \"" + ex.Name + "\"!");
-                return;
-
-            case SequenceParserError.UnknownProcedure:
-                Console.WriteLine("Unknown procedure \"" + ex.Name + "\"!");
-                return;
-
-            case SequenceParserError.UnknownFunction:
-                Console.WriteLine("Unknown function \"" + ex.Name + "\"!");
-                return;
-
-            case SequenceParserError.TypeMismatch:
-                Console.Error.WriteLine("The construct \"" + ex.Name + "\" expects:" + ex.ExpectedType + " but is / is given " + ex.GivenType + "!");
-                return;
-
-            case SequenceParserError.UnknownPatternElement:
-                Console.Error.WriteLine("The rule \"" + ex.Name + "\" (so its type match<" + ex.Name + ">) does not contain a (top-level) element \"" + ex.EntityName + "\"!");
-                return;
-
-            case SequenceParserError.UserMethodsOnlyAvailableForGraphElements:
-                Console.Error.WriteLine("The type \"" + ex.Name + "\" does not support user methods");
-                return;
-
-            case SequenceParserError.UnknownIndexAccessDirection:
-                Console.Error.WriteLine("The index access direction \"" + ex.Name + "\" is not supported, must be ascending or descending");
-                return;
-
-            case SequenceParserError.TwoDifferentIndexNames:
-                Console.Error.WriteLine("A different index name than \"" + ex.Name + "\" is given for the second bound");
-                return;
-
-            case SequenceParserError.TwoLowerBounds:
-                Console.Error.WriteLine("Two lower bounds specified in accessing index \"" + ex.Name + "\"");
-                return;
-
-            case SequenceParserError.TwoUpperBounds:
-                Console.Error.WriteLine("Two upper bounds specified in accessing index \"" + ex.Name + "\"");
-                return;
-
-            default:
-                throw new ArgumentException("Invalid error kind: " + ex.Kind);
             }
 
-            if(seqHelper.actionsTypeInformation.rulesToInputTypes.ContainsKey(ex.Name))
+            if(ex.DefType == DefinitionType.Action
+                && seqHelper.actionsTypeInformation.rulesToInputTypes.ContainsKey(ex.Name))
             {
                 Console.Error.Write("Signature of rule/test: {0}", ex.Name);
                 PrintInputParams(seqHelper.actionsTypeInformation.rulesToInputTypes[ex.Name]);
                 PrintOutputParams(seqHelper.actionsTypeInformation.rulesToOutputTypes[ex.Name]);
                 Console.Error.WriteLine();
             }
-            else if(seqHelper.actionsTypeInformation.sequencesToInputTypes.ContainsKey(ex.Name))
+            else if(ex.DefType == DefinitionType.Sequence
+                && seqHelper.actionsTypeInformation.sequencesToInputTypes.ContainsKey(ex.Name))
             {
                 Console.Error.Write("Signature of sequence: {0}", ex.Name);
                 PrintInputParams(seqHelper.actionsTypeInformation.sequencesToInputTypes[ex.Name]);
                 PrintOutputParams(seqHelper.actionsTypeInformation.sequencesToOutputTypes[ex.Name]);
                 Console.Error.WriteLine();
             }
-            else if(seqHelper.actionsTypeInformation.proceduresToInputTypes.ContainsKey(ex.Name))
+            else if(ex.DefType == DefinitionType.Procedure
+                && seqHelper.actionsTypeInformation.proceduresToInputTypes.ContainsKey(ex.Name))
             {
                 Console.Error.Write("Signature procedure: {0}", ex.Name);
                 PrintInputParams(seqHelper.actionsTypeInformation.proceduresToInputTypes[ex.Name]);
                 PrintOutputParams(seqHelper.actionsTypeInformation.proceduresToOutputTypes[ex.Name]);
                 Console.Error.WriteLine();
             }
-            else if(seqHelper.actionsTypeInformation.functionsToInputTypes.ContainsKey(ex.Name))
+            else if(ex.DefType == DefinitionType.Function
+                && seqHelper.actionsTypeInformation.functionsToInputTypes.ContainsKey(ex.Name))
             {
                 Console.Error.Write("Signature of function: {0}", ex.Name);
                 PrintInputParams(seqHelper.actionsTypeInformation.functionsToInputTypes[ex.Name]);
