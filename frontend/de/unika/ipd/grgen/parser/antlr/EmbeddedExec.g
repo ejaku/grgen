@@ -247,14 +247,8 @@ seqComputation [ ExecNode xg ]
 	: (seqAssignTarget[null] (ASSIGN|GE)) => seqAssignTarget[xg] (ASSIGN { xg.append("="); } | GE { xg.append(">="); })
 		seqExpressionOrAssign[xg]
 	| seqEntityDecl[xg]
-	| seqMethodCall[xg]
-	| seqProcedureCall[xg]
+	| seqProcedureOrMethodCall[xg]
 	| LBRACE { xg.append("{"); } seqExpression[xg] RBRACE { xg.append("}"); }
-	;
-
-seqMethodCall [ ExecNode xg ]
-	: seqVarUse[xg] d=DOT (attrName=IDENT DOT { xg.append("."+attrName.getText()); })? method=IDENT LPAREN { xg.append("."+method.getText()+"("); } 
-			 ( seqExpression[xg] ( COMMA { xg.append(","); } seqExpression[xg] )* )? RPAREN { xg.append(")"); }
 	;
 
 seqExpressionOrAssign [ ExecNode xg ]
@@ -544,13 +538,14 @@ seqMaybeIndexedLambdaExprVarDecl [ ExecNode xg ]
 		seqEntityDecl[xg] RARROW { xg.append("->"); }
 	;
 
-seqProcedureCall [ ExecNode xg ]
+seqProcedureOrMethodCall [ ExecNode xg ]
 	@init {
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
 	}
 	// built-in procedure or user defined procedure, backend has to decide whether the call is valid
 	: ( LPAREN { xg.append("("); } seqVariableList[xg, returns] RPAREN ASSIGN { xg.append(")="); } )?
 		( p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); } )?
+		( seqVarUse[xg] d=DOT { xg.append("."); } (attrName=IDENT DOT { xg.append(attrName.getText()+ "."); })? )?
 		( i=IDENT | i=EMIT | i=EMITDEBUG | i=DELETE) LPAREN { xg.append(i.getText()); xg.append("("); } 
 			seqFunctionCallParameters[xg] RPAREN { xg.append(")"); }
 	;

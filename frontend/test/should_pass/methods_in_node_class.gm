@@ -1,0 +1,12 @@
+node class N
+{
+	function ff() : double
+	{
+		return(3.141592654);
+	}
+	
+	procedure pp() : (double)
+	{
+		return(3.141592654);
+	}
+}

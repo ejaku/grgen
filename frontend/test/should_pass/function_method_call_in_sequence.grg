@@ -1,0 +1,6 @@
+#using "methods_in_node_class.gm"
+
+sequence s1
+{
+	{ n:N=null; d:double=n.ff() }
+}
