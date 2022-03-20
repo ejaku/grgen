@@ -508,18 +508,11 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void HandleSequenceParserException(SequenceParserException ex)
         {
-            if(ex.Name == null 
-                && ex.Kind != SequenceParserError.TypeMismatch
-                && ex.Kind != SequenceParserError.OperatorNotFound
-                && ex.Kind != SequenceParserError.SubgraphError
-                && ex.Kind != SequenceParserError.SubgraphTypeError)
-            {
-                Console.Error.WriteLine("Unknown " + ex.DefinitionTypeName + ": \"{0}\"", ex.Name); // ex.Name == null thus printing pointless
-                return;
-            }
-
             switch(ex.Kind)
             {
+            //case SequenceParserError.UnknownRuleOrSequence: handled in frontend, backend not reached
+            //case SequenceParserError.UnknownRule: handled in frontend, backend not reached
+
             case SequenceParserError.BadNumberOfParameters:
                 Console.Error.WriteLine("Wrong number of parameters for " + ex.DefinitionTypeName + " \"" + ex.Name + "\"!");
                 break;
@@ -557,11 +550,11 @@ namespace de.unika.ipd.grGen.lgsp
                 return;
 
             case SequenceParserError.SubgraphError:
-                Console.Error.WriteLine("The construct \"" + ex.VariableOrFunctionName + "\" does not support subgraph prefixes!");
+                Console.Error.WriteLine("The construct \"" + ex.Name + "\" does not support subgraph prefixes!");
                 return;
 
             case SequenceParserError.SubgraphTypeError:
-                Console.Error.WriteLine("The construct \"" + ex.VariableOrFunctionName + "\" expects a subgraph prefix of type:" + ex.ExpectedType + " but is /given " + ex.GivenType + "!");
+                Console.Error.WriteLine("The construct \"" + ex.Name + "\" expects a subgraph prefix of type:" + ex.ExpectedType + " but is /given " + ex.GivenType + "!");
                 return;
 
             case SequenceParserError.OperatorNotFound:
@@ -585,7 +578,7 @@ namespace de.unika.ipd.grGen.lgsp
                 return;
 
             case SequenceParserError.TypeMismatch:
-                Console.Error.WriteLine("The construct \"" + ex.VariableOrFunctionName + "\" expects:" + ex.ExpectedType + " but is / is given " + ex.GivenType + "!");
+                Console.Error.WriteLine("The construct \"" + ex.Name + "\" expects:" + ex.ExpectedType + " but is / is given " + ex.GivenType + "!");
                 return;
 
             case SequenceParserError.UnknownPatternElement:

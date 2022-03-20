@@ -163,12 +163,7 @@ namespace de.unika.ipd.grGen.libGr
         public readonly SequenceParserError Kind;
 
         /// <summary>
-        /// The type of the definition that caused the error, Unknown if no definition was involved.
-        /// </summary>
-        public readonly DefinitionType DefType = DefinitionType.Unknown;
-
-        /// <summary>
-        /// The name of the definition (rule/test/sequence/procedure/function/procedure method/function method).
+        /// The primary erroneous item (esp. name of the rule/test/sequence/procedure/function/procedure method/function method definition).
         /// </summary>
         public readonly String Name;
 
@@ -183,7 +178,12 @@ namespace de.unika.ipd.grGen.libGr
         public readonly String EntityName;
 
         /// <summary>
-        /// The associated action instance. If it is null, there was no rule with the name specified in RuleName.
+        /// The type of the definition that caused the error, Unknown if no definition was involved.
+        /// </summary>
+        public readonly DefinitionType DefType = DefinitionType.Unknown;
+
+        /// <summary>
+        /// The associated action/sequence/procedure/function instance.
         /// </summary>
         public readonly IAction Action;
         public readonly ISequenceDefinition Sequence;
@@ -201,11 +201,6 @@ namespace de.unika.ipd.grGen.libGr
         public readonly int BadParamIndex;
 
         // the members for a type mismatch error
-
-        /// <summary>
-        /// The variable which caused the type error or the function/operator which caused the type error
-        /// </summary>
-        public readonly String VariableOrFunctionName;
 
         /// <summary>
         /// The expected type or types
@@ -228,7 +223,7 @@ namespace de.unika.ipd.grGen.libGr
         public readonly String RightType;
 
         /// <summary>
-        /// The sub-expression as string for which the operator given in VariableOrFunctionName 
+        /// The sub-expression as string for which the operator given in Name 
         /// was not defined for the types given in LeftType and RightType
         /// </summary>
         public readonly String Expression;
@@ -306,8 +301,8 @@ namespace de.unika.ipd.grGen.libGr
         /// Creates an instance of a SequenceParserException used by the SequenceParser,
         /// when the expected type does not match the given type of the variable of function.
         /// </summary>
-        public SequenceParserException(String varOrFuncName, String expectedType, String givenType)
-            : this(varOrFuncName, expectedType, givenType, SequenceParserError.TypeMismatch)
+        public SequenceParserException(String name, String expectedType, String givenType)
+            : this(name, expectedType, givenType, SequenceParserError.TypeMismatch)
         {
         }
 
@@ -316,9 +311,9 @@ namespace de.unika.ipd.grGen.libGr
         /// when the expected type does not match the given type of the variable of function (TypeMismatch),
         /// or in case of SubgraphError/SubgraphTypeError.
         /// </summary>
-        public SequenceParserException(String varOrFuncName, String expectedType, String givenType, SequenceParserError errorKind)
+        public SequenceParserException(String name, String expectedType, String givenType, SequenceParserError errorKind)
         {
-            VariableOrFunctionName = varOrFuncName;
+            Name = name;
             ExpectedType = expectedType;
             GivenType = givenType;
             Kind = errorKind;
@@ -328,9 +323,9 @@ namespace de.unika.ipd.grGen.libGr
         /// Creates an instance of a SequenceParserException used by the SequenceParser,
         /// when an operator is not available for the supplied types.
         /// </summary>
-        public SequenceParserException(String varOrFuncName, String leftType, String rightType, String expression)
+        public SequenceParserException(String name, String leftType, String rightType, String expression)
         {
-            VariableOrFunctionName = varOrFuncName;
+            Name = name;
             LeftType = leftType;
             RightType = rightType;
             Expression = expression;
@@ -408,16 +403,16 @@ namespace de.unika.ipd.grGen.libGr
                     return "Unknown member (of match type) \"" + this.Name + "\"!";
 
                 case SequenceParserError.UnknownProcedure:
-                    return "Unknown procedure \"" + this.Name + "\")!";
+                    return "Unknown procedure \"" + this.Name + "\"!";
 
                 case SequenceParserError.UnknownFunction:
-                    return "Unknown function \"" + this.Name + "\")!";
+                    return "Unknown function \"" + this.Name + "\"!";
 
                 case SequenceParserError.TypeMismatch:
-                    return "The construct \"" + this.VariableOrFunctionName + "\" expects:" + this.ExpectedType + " but is /given " + this.GivenType + "!";
+                    return "The construct \"" + this.Name + "\" expects:" + this.ExpectedType + " but is /given " + this.GivenType + "!";
 
                 case SequenceParserError.OperatorNotFound:
-                    return "No operator " + this.LeftType + this.VariableOrFunctionName + this.RightType + " available (for \"" + this.Expression + "\")! Or a division-by-zero/runtime error occured.";
+                    return "No operator " + this.LeftType + this.Name + this.RightType + " available (for \"" + this.Expression + "\")! Or a division-by-zero/runtime error occured.";
 
                 case SequenceParserError.MatchClassError:
                     return "Unknown match class \"" + this.Name + "\" in filter call \"" + this.FilterName + "\"!";
@@ -436,10 +431,10 @@ namespace de.unika.ipd.grGen.libGr
                     return "Lambda expression variable type mismatch for filter \"" + this.FilterName + "\" applied to \"" + this.Name + "\"!";
 
                 case SequenceParserError.SubgraphError:
-                    return "The construct \"" + this.VariableOrFunctionName  + "\" does not support subgraph prefixes!";
+                    return "The construct \"" + this.Name  + "\" does not support subgraph prefixes!";
 
                 case SequenceParserError.SubgraphTypeError:
-                    return "The construct \"" + this.VariableOrFunctionName + "\" expects a subgraph prefix of type:" + this.ExpectedType + " but is /given " + this.GivenType + "!";
+                    return "The construct \"" + this.Name + "\" expects a subgraph prefix of type:" + this.ExpectedType + " but is /given " + this.GivenType + "!";
 
                 case SequenceParserError.UnknownRule:
                     return "Unknown rule \"" + this.Name + "\" (in match<" + this.Name + ">)!";

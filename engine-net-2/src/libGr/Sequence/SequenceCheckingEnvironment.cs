@@ -183,7 +183,7 @@ namespace de.unika.ipd.grGen.libGr
 
             // check whether called function method exists
             if(ownerType.GetFunctionMethod(seqExprFuncMethodCall.Name) == null)
-                throw new SequenceParserException(seqExprFuncMethodCall, -1, SequenceParserError.UnknownProcedure);
+                throw new SequenceParserException(seqExprFuncMethodCall, -1, SequenceParserError.UnknownFunction);
 
             CheckFunctionCallBase(seqExprFuncMethodCall, ownerType);
         }
