@@ -72,9 +72,9 @@ namespace de.unika.ipd.grGen.libGr
         OperatorNotFound,
 
         /// <summary>
-        /// The match class employed by the filter is not known
+        /// The match class is not known (referenced by a match class prefixed filter call \mc.f or \&lt;class mc&gt;)
         /// </summary>
-        MatchClassError,
+        UnknownMatchClass,
 
         /// <summary>
         /// The match class is not implemented by the rule
@@ -183,7 +183,7 @@ namespace de.unika.ipd.grGen.libGr
         public readonly DefinitionType DefType = DefinitionType.Unknown;
 
         /// <summary>
-        /// The associated action/sequence/procedure/function instance.
+        /// The associated action/sequence/procedure/function instance (in case of interpreted sequences).
         /// </summary>
         public readonly IAction Action;
         public readonly ISequenceDefinition Sequence;
@@ -337,7 +337,7 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceParserException(String ruleNameOrMatchClassName, String filterNameOrEntityName, SequenceParserError errorKind)
         {
             if(errorKind == SequenceParserError.FilterError
-                || errorKind == SequenceParserError.MatchClassError
+                || errorKind == SequenceParserError.UnknownMatchClass
                 || errorKind == SequenceParserError.MatchClassNotImplementedError
                 || errorKind == SequenceParserError.FilterParameterError
                 || errorKind == SequenceParserError.FilterLambdaExpressionError)
@@ -390,8 +390,8 @@ namespace de.unika.ipd.grGen.libGr
                 case SequenceParserError.OperatorNotFound:
                     return "No operator " + this.LeftType + this.Name + this.RightType + " available (for \"" + this.Expression + "\")! Or a division-by-zero/runtime error occured.";
 
-                case SequenceParserError.MatchClassError:
-                    return "Unknown match class \"" + this.Name + "\" in filter call \"" + this.FilterName + "\"!";
+                case SequenceParserError.UnknownMatchClass:
+                    return "Unknown match class \"" + this.Name + "\" (in filter call \"" + this.FilterName + "\")!";
 
                 case SequenceParserError.MatchClassNotImplementedError:
                     return "Match class \"" + this.Name + "\" is not implemented by rule \"" + this.FilterName + "\"!";

@@ -193,7 +193,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             String packagePrefixedMatchClassName = !PackageIsNullOrGlobal(matchClassPackage) ? matchClassPackage + "::" + matchClassName : matchClassName; // no (further) resolving of match classes in interpreted sequences cause there is no package context existing
             MatchClassFilterer matchClass = actions.GetMatchClass(packagePrefixedMatchClassName); // may be null, match class is part of filter call, was not checked before
             if(matchClass == null)
-                throw new SequenceParserException(packagePrefixedMatchClassName, "\\<class " + packagePrefixedMatchClassName + ">", SequenceParserError.MatchClassError);
+                throw new SequenceParserException(packagePrefixedMatchClassName, "\\<class " + packagePrefixedMatchClassName + ">", SequenceParserError.UnknownMatchClass);
             return matchClass.info.PackagePrefixedName;
         }
 
@@ -203,7 +203,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             String packagePrefixedMatchClassName = matchClassPackage != null ? matchClassPackage + "::" + matchClassName : matchClassName; // no (further) resolving of match classes in interpreted sequences cause there is no package context existing
             MatchClassFilterer matchClass = actions.GetMatchClass(packagePrefixedMatchClassName); // may be null, match class is part of filter call, was not checked before
             if(matchClass == null)
-                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedMatchClassName + "." + filterBase, SequenceParserError.MatchClassError);
+                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedMatchClassName + "." + filterBase, SequenceParserError.UnknownMatchClass);
 
             String filterName = GetFilterName(filterBase, entities);
             String packagePrefixedName;
@@ -240,7 +240,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             String packagePrefixedMatchClassName = matchClassPackage != null ? matchClassPackage + "::" + matchClassName : matchClassName; // no (further) resolving of match classes in interpreted sequences cause there is no package context existing
             MatchClassFilterer matchClass = actions.GetMatchClass(packagePrefixedMatchClassName); // may be null, match class is part of filter call, was not checked before
             if(matchClass == null)
-                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedMatchClassName + "." + filterBase, SequenceParserError.MatchClassError);
+                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedMatchClassName + "." + filterBase, SequenceParserError.UnknownMatchClass);
 
             String filterName = GetFilterName(filterBase, entities);
             String packagePrefixedName = filterName;
@@ -262,7 +262,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             String packagePrefixedMatchClassName = matchClassPackage != null ? matchClassPackage + "::" + matchClassName : matchClassName; // no (further) resolving of match classes in interpreted sequences cause there is no package context existing
             MatchClassFilterer matchClass = actions.GetMatchClass(packagePrefixedMatchClassName); // may be null, match class is part of filter call, was not checked before
             if(matchClass == null)
-                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedMatchClassName + "." + filterBase, SequenceParserError.MatchClassError);
+                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedMatchClassName + "." + filterBase, SequenceParserError.UnknownMatchClass);
 
             String filterName = GetFilterName(filterBase, entities);
             String packagePrefixedName = filterName;

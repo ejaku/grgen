@@ -285,7 +285,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             ResolvePackage(matchClassName, matchClassPackage, packageContext, contextMatchClassNameExists,
                 out resolvedMatchClassPackage, out packagePrefixedMatchClassName);
             if(!actionNames.ContainsMatchClass(packagePrefixedMatchClassName))
-                throw new SequenceParserException(packagePrefixedMatchClassName, "\\<class " + packagePrefixedMatchClassName + ">", SequenceParserError.MatchClassError);
+                throw new SequenceParserException(packagePrefixedMatchClassName, "\\<class " + packagePrefixedMatchClassName + ">", SequenceParserError.UnknownMatchClass);
             return packagePrefixedMatchClassName;
         }
 
@@ -298,7 +298,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             ResolvePackage(matchClassName, matchClassPackage, packageContext, contextMatchClassNameExists,
                 out resolvedMatchClassPackage, out packagePrefixedMatchClassName);
             if(!actionNames.ContainsMatchClass(packagePrefixedMatchClassName))
-                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedMatchClassName + "." + filterBase, SequenceParserError.MatchClassError);
+                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedMatchClassName + "." + filterBase, SequenceParserError.UnknownMatchClass);
 
             String filterName = GetFilterName(filterBase, entities);
 
@@ -342,7 +342,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             ResolvePackage(matchClassName, matchClassPackage, packageContext, contextMatchClassNameExists,
                 out resolvedMatchClassPackage, out packagePrefixedMatchClassName);
             if(!actionNames.ContainsMatchClass(packagePrefixedMatchClassName))
-                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedMatchClassName + "." + filterBase, SequenceParserError.MatchClassError);
+                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedMatchClassName + "." + filterBase, SequenceParserError.UnknownMatchClass);
 
             String filterName = GetFilterName(filterBase, entities);
 
@@ -374,7 +374,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             ResolvePackage(matchClassName, matchClassPackage, packageContext, contextMatchClassNameExists,
                 out resolvedMatchClassPackage, out packagePrefixedMatchClassName);
             if(!actionNames.ContainsMatchClass(packagePrefixedMatchClassName))
-                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedMatchClassName + "." + filterBase, SequenceParserError.MatchClassError);
+                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedMatchClassName + "." + filterBase, SequenceParserError.UnknownMatchClass);
 
             String filterName = GetFilterName(filterBase, entities);
 
