@@ -341,7 +341,7 @@ namespace de.unika.ipd.grGen.libGr
                 throw new SequenceParserExceptionTypeMismatch(Symbol, "node or edge or object or transient object type (class)", DestVar.Type);
             AttributeType attributeType = inheritanceType.GetAttributeType(AttributeName);
             if(attributeType == null)
-                throw new SequenceParserExceptionUnknownAttribute(AttributeName);
+                throw new SequenceParserExceptionUnknownAttribute(AttributeName, inheritanceType.Name);
         }
 
         public override string Type(SequenceCheckingEnvironment env)
@@ -415,7 +415,7 @@ namespace de.unika.ipd.grGen.libGr
                 throw new SequenceParserExceptionTypeMismatch(Symbol, "node or edge or object or transient object type (class)", DestVar.Type);
             AttributeType attributeType = inheritanceType.GetAttributeType(AttributeName);
             if(attributeType == null)
-                throw new SequenceParserExceptionUnknownAttribute(AttributeName);
+                throw new SequenceParserExceptionUnknownAttribute(AttributeName, inheritanceType.Name);
 
             string ContainerType = TypesHelper.AttributeTypeToXgrsType(attributeType);
             if(TypesHelper.ExtractSrc(ContainerType) == null

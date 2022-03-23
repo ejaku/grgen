@@ -7874,7 +7874,7 @@ namespace de.unika.ipd.grGen.libGr
                 throw new SequenceParserExceptionTypeMismatch(Symbol, "node or edge or object or transient object type (class)", Source.Type(env));
             AttributeType attributeType = inheritanceType.GetAttributeType(AttributeName);
             if(attributeType == null)
-                throw new SequenceParserExceptionUnknownAttribute(AttributeName);
+                throw new SequenceParserExceptionUnknownAttribute(AttributeName, inheritanceType.Name);
 
             return TypesHelper.AttributeTypeToXgrsType(attributeType);
         }

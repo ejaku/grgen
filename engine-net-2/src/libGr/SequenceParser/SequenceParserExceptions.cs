@@ -112,21 +112,24 @@ namespace de.unika.ipd.grGen.libGr
     {
         public override String Name { get { return UnknownAttribute; } }
         public readonly String UnknownAttribute;
+        public override String Context { get { return AttributeBearerType; } }
+        public readonly String AttributeBearerType;
 
 
         /// <summary>
-        /// Creates an instance with the name of the unknown attribute.
+        /// Creates an instance with the name of the unknown attribute and its type.
         /// </summary>
-        public SequenceParserExceptionUnknownAttribute(String unknownAttribute)
+        public SequenceParserExceptionUnknownAttribute(String unknownAttribute, String attributeBearerType)
         {
             UnknownAttribute = unknownAttribute;
+            AttributeBearerType = attributeBearerType;
         }
 
         public override string Message
         {
             get
             {
-                return "Unknown attribute \"" + UnknownAttribute + "\"!";
+                return "Unknown attribute \"" + UnknownAttribute + "\" (of type \"" + AttributeBearerType + "\")!";
             }
         }
     }
@@ -135,67 +138,76 @@ namespace de.unika.ipd.grGen.libGr
     {
         public override String Name { get { return UnknownMatchMember; } }
         public readonly String UnknownMatchMember;
+        public override String Context { get { return MatchType; } }
+        public readonly String MatchType;
 
 
         /// <summary>
-        /// Creates an instance with the name of the unknown match member.
+        /// Creates an instance with the name of the unknown match member and its type.
         /// </summary>
-        public SequenceParserExceptionUnknownMatchMember(String unknownMatchMember)
+        public SequenceParserExceptionUnknownMatchMember(String unknownMatchMember, String matchType)
         {
             UnknownMatchMember = unknownMatchMember;
+            MatchType = matchType;
         }
 
         public override string Message
         {
             get
             {
-                return "Unknown member (of match type) \"" + UnknownMatchMember + "\"!";
+                return "Unknown member \"" + UnknownMatchMember + "\" (of type \"" + MatchType + "\")!";
             }
         }
     }
 
     public class SequenceParserExceptionSubgraphError : SequenceParserException
     {
-        public override String Name { get { return ConstructWithSubgraphPrefix; } }
-        public readonly String ConstructWithSubgraphPrefix;
+        public override String Name { get { return Construct; } }
+        public readonly String Construct;
+        public override String Context { get { return SubgraphPrefix; } }
+        public readonly String SubgraphPrefix;
 
 
         /// <summary>
-        /// Creates an instance with the construct that comes with a subgraph prefix (but shouldn't).
+        /// Creates an instance with the construct(/variable) that comes with a subgraph prefix (but shouldn't) and the subgraph prefix.
         /// </summary>
-        public SequenceParserExceptionSubgraphError(String constructWithSubgraphPrefix)
+        public SequenceParserExceptionSubgraphError(String construct, String subgraphPrefix)
         {
-            ConstructWithSubgraphPrefix = constructWithSubgraphPrefix;
+            Construct = construct;
+            SubgraphPrefix = subgraphPrefix;
         }
 
         public override string Message
         {
             get
             {
-                return "The construct(/variable) \"" + ConstructWithSubgraphPrefix + "\" does not support subgraph prefixes!";
+                return "The construct(/variable) \"" + Construct + "\" does not support a subgraph prefix (given \"" + SubgraphPrefix + ".\")!";
             }
         }
     }
 
     public class SequenceParserExceptionUserMethodsOnlyAvailableForGraphElements : SequenceParserException
     {
-        public override String Name { get { return TypeWithMethodCall; } }
-        public readonly String TypeWithMethodCall;
+        public override String Name { get { return Type; } }
+        public readonly String Type;
+        public override String Context { get { return MethodCalled; } }
+        public readonly String MethodCalled;
 
 
         /// <summary>
-        /// Creates an instance with the type a method is called on.
+        /// Creates an instance with the type a method is called on (not supporting user methods; and the method).
         /// </summary>
-        public SequenceParserExceptionUserMethodsOnlyAvailableForGraphElements(String typeWithMethodCall)
+        public SequenceParserExceptionUserMethodsOnlyAvailableForGraphElements(String type, String methodCalled)
         {
-            TypeWithMethodCall = typeWithMethodCall;
+            Type = type;
+            MethodCalled = methodCalled;
         }
 
         public override string Message
         {
             get
             {
-                return "The type \"" + TypeWithMethodCall + "\" does not support user methods";
+                return "The type \"" + Type + "\" does not support user methods (given is \"" + MethodCalled + "\")";
             }
         }
     }
@@ -215,21 +227,24 @@ namespace de.unika.ipd.grGen.libGr
     {
         public override String Name { get { return IndexAccessDirection; } }
         public readonly String IndexAccessDirection;
+        public override String Context { get { return IndexName; } }
+        public readonly String IndexName;
 
 
         /// <summary>
-        /// Creates an instance with the erroneous index access direction.
+        /// Creates an instance with the erroneous index access direction (and the name of the index).
         /// </summary>
-        public SequenceParserExceptionIndexUnknownAccessDirection(String indexAccessDirection)
+        public SequenceParserExceptionIndexUnknownAccessDirection(String indexAccessDirection, String indexName)
         {
             IndexAccessDirection = indexAccessDirection;
+            IndexName = indexName;
         }
 
         public override string Message
         {
             get
             {
-                return "The index access direction \"" + IndexAccessDirection + "\" is not supported, must be ascending or descending";
+                return "The index access direction \"" + IndexAccessDirection + "\" is not supported, must be ascending or descending (accessing index \"" + IndexName + "\")";
             }
         }
     }
@@ -238,21 +253,24 @@ namespace de.unika.ipd.grGen.libGr
     {
         public override String Name { get { return IndexName; } }
         public readonly String IndexName;
+        public override String Context { get { return IndexName2; } }
+        public readonly String IndexName2;
 
 
         /// <summary>
-        /// Creates an instance with the name of the index (one of the conflicting ones).
+        /// Creates an instance with the name of the index and the conflicting one.
         /// </summary>
-        public SequenceParserExceptionIndexConflictingNames(String indexName)
+        public SequenceParserExceptionIndexConflictingNames(String indexName, String indexName2)
         {
             IndexName = indexName;
+            IndexName2 = indexName2;
         }
 
         public override string Message
         {
             get
             {
-                return "A different index name than \"" + IndexName + "\" is given for the second bound";
+                return "The index \"" + IndexName + "\" is constrained with a second bound on the different (thus conflicting) index name \"" + IndexName2 + "\"";
             }
         }
     }
@@ -420,9 +438,9 @@ namespace de.unika.ipd.grGen.libGr
         public readonly int NumGiven;
 
         /// <summary>
-        /// The index of a bad parameter or -1 if another error occurred.
+        /// The index of the bad parameter or the number of expected parameters.
         /// </summary>
-        public readonly int BadParamIndex;
+        public readonly int BadParamIndexOrNumExpected;
 
         // the members for a type mismatch error
 
@@ -438,24 +456,14 @@ namespace de.unika.ipd.grGen.libGr
 
 
         /// <summary>
-        /// Creates an instance when the number of input or output parameters does not match for the invocation.
+        /// Creates an instance with the number of input or output parameters that do not match for the invocation,
+        /// or the input or output parameter that does not match for the invocation.
         /// </summary>
         /// <param name="invocation">The rule/sequence/procedure/function invocation.</param>
-        /// <param name="numGiven">The number of inputs or outputs given to the rule.</param>
-        /// <param name="errorKind">The kind of error.</param>
-        public SequenceParserExceptionCallParameterIssue(Invocation invocation, int numGiven, CallParameterIssueType callParameterIssue)
-            : this(invocation, numGiven, callParameterIssue, -1)
-        {
-        }
-
-        /// <summary>
-        /// Creates an instance when one of the input or output parameters does not match for the invocation.
-        /// </summary>
-        /// <param name="invocation">The rule/sequence/procedure/function invocation.</param>
-        /// <param name="numGiven">The number of inputs or outputs given to the rule.</param>
-        /// <param name="errorKind">The kind of error.</param>
-        /// <param name="badParamIndex">The index of a bad parameter or -1 if another error occurred.</param>
-        public SequenceParserExceptionCallParameterIssue(Invocation invocation, int numGiven, CallParameterIssueType callParameterIssue, int badParamIndex)
+        /// <param name="numGiven">The number of inputs or outputs given.</param>
+        /// <param name="callParameterIssue">The type of call parameter issue.</param>
+        /// <param name="badParamIndexOrNumExpected">The index of a bad parameter, or the number of expected parameters.</param>
+        public SequenceParserExceptionCallParameterIssue(Invocation invocation, int numGiven, CallParameterIssueType callParameterIssue, int badParamIndexOrNumExpected)
             : base(invocation.Name, ClassifyDefinitionType(invocation), CallIssueType.Unspecified)
         {
             CallParameterIssue = callParameterIssue;
@@ -468,7 +476,7 @@ namespace de.unika.ipd.grGen.libGr
             else if(invocation is FunctionInvocation)
                 Function = SequenceBase.GetFunction((FunctionInvocation)invocation);
             NumGiven = numGiven;
-            BadParamIndex = badParamIndex;
+            BadParamIndexOrNumExpected = badParamIndexOrNumExpected;
         }
 
         /// <summary>
@@ -481,16 +489,16 @@ namespace de.unika.ipd.grGen.libGr
                 switch(this.CallParameterIssue)
                 {
                     case CallParameterIssueType.BadNumberOfParameters:
-                        return "Wrong number of input parameters for " + DefinitionTypeName + " \"" + NameCalled + "\"!";
+                        return "Wrong number of input parameters for " + DefinitionTypeName + " \"" + NameCalled + "\" (given: " + NumGiven + " expected: " + BadParamIndexOrNumExpected + ")!";
 
                     case CallParameterIssueType.BadNumberOfReturnParameters:
-                        return "Wrong number of output parameters for " + DefinitionTypeName + " \"" + NameCalled + "\"!";
+                        return "Wrong number of output parameters for " + DefinitionTypeName + " \"" + NameCalled + "\" (given: " + NumGiven + " expected: " + BadParamIndexOrNumExpected + ")!";
 
                     case CallParameterIssueType.BadParameter:
-                        return "The " + (BadParamIndex + 1) + ". parameter is not valid for " + DefinitionTypeName + " \"" + NameCalled + "\"!";
+                        return "The " + (BadParamIndexOrNumExpected + 1) + ". parameter is not valid for " + DefinitionTypeName + " \"" + NameCalled + "\"!";
 
                     case CallParameterIssueType.BadReturnParameter:
-                        return "The " + (BadParamIndex + 1) + ". return parameter is not valid for " + DefinitionTypeName + " \"" + NameCalled + "\"!";
+                        return "The " + (BadParamIndexOrNumExpected + 1) + ". return parameter is not valid for " + DefinitionTypeName + " \"" + NameCalled + "\"!";
 
                     default:
                         return base.Message;
@@ -508,7 +516,7 @@ namespace de.unika.ipd.grGen.libGr
 
 
         /// <summary>
-        /// Creates an instance when the filter with the given name can't be applied to the rule of the given name.
+        /// Creates an instance with the filter that can't be applied to the rule.
         /// </summary>
         public SequenceParserExceptionFilterError(String ruleNameOrMatchClassName, String filterName)
         {
@@ -534,7 +542,7 @@ namespace de.unika.ipd.grGen.libGr
 
 
         /// <summary>
-        /// Creates an instance when the filter with the given name can't be applied to the rule of the given name
+        /// Creates an instance with the filter that can't be applied to the rule
         /// because the number of filter arguments does not match the number of filter parameters, or they mismatch in type.
         /// </summary>
         public SequenceParserExceptionFilterParameterError(String ruleNameOrMatchClassName, String filterName)
@@ -558,23 +566,25 @@ namespace de.unika.ipd.grGen.libGr
         public readonly String FilterName;
         public override String Context { get { return RuleName; } }
         public readonly String RuleName;
+        public readonly String VariableName;
 
 
         /// <summary>
-        /// Creates an instance when the filter with the given name can't be applied to the rule of the given name
+        /// Creates an instance with the filter that can't be applied to the rule
         /// because a lambda expression variable mismatches in type.
         /// </summary>
-        public SequenceParserExceptionFilterLambdaExpressionError(String ruleNameOrMatchClassName, String filterName)
+        public SequenceParserExceptionFilterLambdaExpressionError(String ruleNameOrMatchClassName, String filterName, String variableName)
         {
             RuleName = ruleNameOrMatchClassName;
             FilterName = filterName;
+            VariableName = variableName;
         }
 
         public override string Message
         {
             get
             {
-                return "Lambda expression variable type mismatch for filter \"" + FilterName + "\" applied to \"" + RuleName + "\"!";
+                return "Lambda expression variable type mismatch for variable \"" + VariableName + "\" in filter \"" + FilterName + "\" applied to \"" + RuleName + "\"!";
             }
         }
     }

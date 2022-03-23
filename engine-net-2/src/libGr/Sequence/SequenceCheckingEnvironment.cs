@@ -109,7 +109,7 @@ namespace de.unika.ipd.grGen.libGr
             if(ownerType == null)
             {
                 // error, must be node or edge type
-                throw new SequenceParserExceptionUserMethodsOnlyAvailableForGraphElements(targetExprType);
+                throw new SequenceParserExceptionUserMethodsOnlyAvailableForGraphElements(targetExprType, seqCompProcMethodCall.Name);
             }
 
             if(ownerType.GetProcedureMethod(seqCompProcMethodCall.Name) == null)
@@ -137,7 +137,7 @@ namespace de.unika.ipd.grGen.libGr
             if(ownerType == null)
             {
                 // error, must be node or edge type
-                throw new SequenceParserExceptionUserMethodsOnlyAvailableForGraphElements(targetVar.Type);
+                throw new SequenceParserExceptionUserMethodsOnlyAvailableForGraphElements(targetVar.Type, seqCompProcMethodCall.Name);
             }
 
             // check whether called procedure method exists
@@ -178,7 +178,7 @@ namespace de.unika.ipd.grGen.libGr
             if(ownerType == null)
             {
                 // error, must be node or edge type
-                throw new SequenceParserExceptionUserMethodsOnlyAvailableForGraphElements(targetExprType);
+                throw new SequenceParserExceptionUserMethodsOnlyAvailableForGraphElements(targetExprType, seqExprFuncMethodCall.Name);
             }
 
             // check whether called function method exists
@@ -221,7 +221,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             // Check whether number of parameters and return parameters match
             if(NumInputParameters(invocation, ownerType) != ArgumentExpressions.Length)
-                throw new SequenceParserExceptionCallParameterIssue(invocation, ArgumentExpressions.Length, CallParameterIssueType.BadNumberOfParameters);
+                throw new SequenceParserExceptionCallParameterIssue(invocation, ArgumentExpressions.Length, CallParameterIssueType.BadNumberOfParameters, NumInputParameters(invocation, ownerType));
 
             // Check parameter types
             for(int i = 0; i < ArgumentExpressions.Length; i++)
@@ -239,7 +239,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             // Check whether number of parameters and return parameters match
             if(ReturnVars.Length != 0 && NumOutputParameters(invocation, ownerType) != ReturnVars.Length)
-                throw new SequenceParserExceptionCallParameterIssue(invocation, ReturnVars.Length, CallParameterIssueType.BadNumberOfReturnParameters);
+                throw new SequenceParserExceptionCallParameterIssue(invocation, ReturnVars.Length, CallParameterIssueType.BadNumberOfReturnParameters, NumOutputParameters(invocation, ownerType));
 
             // Check return types
             for(int i = 0; i < ReturnVars.Length; ++i)
@@ -255,7 +255,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             // Check whether number of parameters and return parameters match
             if(ReturnVars.Length != 0 && NumOutputParameters(invocation, null) != ReturnVars.Length)
-                throw new SequenceParserExceptionCallParameterIssue(invocation, ReturnVars.Length, CallParameterIssueType.BadNumberOfReturnParameters);
+                throw new SequenceParserExceptionCallParameterIssue(invocation, ReturnVars.Length, CallParameterIssueType.BadNumberOfReturnParameters, NumOutputParameters(invocation, null));
 
             // Check return types
             for(int i = 0; i < ReturnVars.Length; ++i)
@@ -319,7 +319,7 @@ namespace de.unika.ipd.grGen.libGr
                         String argumentType = filterCall.initArrayAccess.Type;
                         String paramterType = "array<match<" + ruleName + ">>";
                         if(!TypesHelper.IsSameOrSubtype(argumentType, paramterType, Model))
-                            throw new SequenceParserExceptionFilterLambdaExpressionError(ruleName, filterCallName);
+                            throw new SequenceParserExceptionFilterLambdaExpressionError(ruleName, filterCallName, filterCall.initArrayAccess.Name);
                     }
 
                     if(filterCall.initExpression != null)
@@ -330,26 +330,26 @@ namespace de.unika.ipd.grGen.libGr
                         String argumentType = filterCall.arrayAccess.Type;
                         String paramterType = "array<match<" + ruleName + ">>";
                         if(!TypesHelper.IsSameOrSubtype(argumentType, paramterType, Model))
-                            throw new SequenceParserExceptionFilterLambdaExpressionError(ruleName, filterCallName);
+                            throw new SequenceParserExceptionFilterLambdaExpressionError(ruleName, filterCallName, filterCall.arrayAccess.Name);
                     }
                     if(filterCall.previousAccumulationAccess != null)
                     {
                         String argumentType = filterCall.previousAccumulationAccess.Type;
                         String paramterType = TypeOfTopLevelEntityInRule(ruleName, filterCall.Entity);
                         if(!TypesHelper.IsSameOrSubtype(argumentType, paramterType, Model))
-                            throw new SequenceParserExceptionFilterLambdaExpressionError(ruleName, filterCallName);
+                            throw new SequenceParserExceptionFilterLambdaExpressionError(ruleName, filterCallName, filterCall.previousAccumulationAccess.Name);
                     }
                     if(filterCall.index != null)
                     {
                         String argumentType = filterCall.index.Type;
                         String paramterType = "int";
                         if(!TypesHelper.IsSameOrSubtype(argumentType, paramterType, Model))
-                            throw new SequenceParserExceptionFilterLambdaExpressionError(ruleName, filterCallName);
+                            throw new SequenceParserExceptionFilterLambdaExpressionError(ruleName, filterCallName, filterCall.index.Name);
                     }
                     String elementArgumentType = filterCall.element.Type;
                     String elementParamterType = "match<" + ruleName + ">";
                     if(!TypesHelper.IsSameOrSubtype(elementArgumentType, elementParamterType, Model))
-                        throw new SequenceParserExceptionFilterLambdaExpressionError(ruleName, filterCallName);
+                        throw new SequenceParserExceptionFilterLambdaExpressionError(ruleName, filterCallName, filterCall.element.Name);
 
                     filterCall.lambdaExpression.Check(this);
                 }
@@ -404,7 +404,7 @@ namespace de.unika.ipd.grGen.libGr
                         String argumentType = filterCall.initArrayAccess.Type;
                         String paramterType = "array<match<class " + matchClassName + ">>";
                         if(!TypesHelper.IsSameOrSubtype(argumentType, paramterType, Model))
-                            throw new SequenceParserExceptionFilterLambdaExpressionError(matchClassName, filterCallName);
+                            throw new SequenceParserExceptionFilterLambdaExpressionError(matchClassName, filterCallName, filterCall.initArrayAccess.Name);
                     }
 
                     if(filterCall.initExpression != null)
@@ -415,26 +415,26 @@ namespace de.unika.ipd.grGen.libGr
                         String argumentType = filterCall.arrayAccess.Type;
                         String paramterType = "array<match<class " + matchClassName + ">>";
                         if(!TypesHelper.IsSameOrSubtype(argumentType, paramterType, Model))
-                            throw new SequenceParserExceptionFilterLambdaExpressionError(matchClassName, filterCallName);
+                            throw new SequenceParserExceptionFilterLambdaExpressionError(matchClassName, filterCallName, filterCall.arrayAccess.Name);
                     }
                     if(filterCall.previousAccumulationAccess != null)
                     {
                         String argumentType = filterCall.previousAccumulationAccess.Type;
                         String paramterType = TypeOfMemberOrAttribute("match<class " + matchClassName + ">", filterCall.Entity);
                         if(!TypesHelper.IsSameOrSubtype(argumentType, paramterType, Model))
-                            throw new SequenceParserExceptionFilterLambdaExpressionError(matchClassName, filterCallName);
+                            throw new SequenceParserExceptionFilterLambdaExpressionError(matchClassName, filterCallName, filterCall.previousAccumulationAccess.Name);
                     }
                     if(filterCall.index != null)
                     {
                         String argumentType = filterCall.index.Type;
                         String paramterType = "int";
                         if(!TypesHelper.IsSameOrSubtype(argumentType, paramterType, Model))
-                            throw new SequenceParserExceptionFilterLambdaExpressionError(matchClassName, filterCallName);
+                            throw new SequenceParserExceptionFilterLambdaExpressionError(matchClassName, filterCallName, filterCall.index.Name);
                     }
                     String elementArgumentType = filterCall.element.Type;
                     String elementParamterType = "match<class " + matchClassName + ">";
                     if(!TypesHelper.IsSameOrSubtype(elementArgumentType, elementParamterType, Model))
-                        throw new SequenceParserExceptionFilterLambdaExpressionError(matchClassName, filterCallName);
+                        throw new SequenceParserExceptionFilterLambdaExpressionError(matchClassName, filterCallName, filterCall.element.Name);
 
                     filterCall.lambdaExpression.Check(this);
                 }

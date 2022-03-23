@@ -1472,10 +1472,10 @@ Sequence SimpleSequence():
                 else if(str == "descending")
                     ascending = false;
                 else
-                    throw new SequenceParserExceptionIndexUnknownAccessDirection(str);
+                    throw new SequenceParserExceptionIndexUnknownAccessDirection(str, indexName);
                 if(indexName2 != null) {
                     if(indexName != indexName2)
-                        throw new SequenceParserExceptionIndexConflictingNames(indexName);
+                        throw new SequenceParserExceptionIndexConflictingNames(indexName, indexName2);
                 }
                 return new SequenceForIndexAccessOrdering(fromVar, ascending, indexName, expr, left, expr2, right, seq2, variableList1);
             }
@@ -2453,7 +2453,7 @@ Sequence Rule():
                     if(var.Type != "" && var.Type != "boolean")
                         throw new SequenceParserExceptionTypeMismatch(str, "untyped or bool", var.Type);
                     if(subgraph != null)
-                        throw new SequenceParserExceptionSubgraphError(str);
+                        throw new SequenceParserExceptionSubgraphError(str, subgraph.Name);
 
                     if(env.IsRuleName(str, package))
                         warnings.Add("WARNING: resolving " + str + " to a variable, while a rule of same name exists (apply parenthesis so it is resolved to a rule call)");
