@@ -1472,10 +1472,10 @@ Sequence SimpleSequence():
                 else if(str == "descending")
                     ascending = false;
                 else
-                    throw new SequenceParserException(str, SequenceParserError.UnknownIndexAccessDirection);
+                    throw new SequenceParserExceptionIndexUnknownAccessDirection(str);
                 if(indexName2 != null) {
                     if(indexName != indexName2)
-                        throw new SequenceParserException(indexName, SequenceParserError.TwoDifferentIndexNames);
+                        throw new SequenceParserExceptionIndexConflictingNames(indexName);
                 }
                 return new SequenceForIndexAccessOrdering(fromVar, ascending, indexName, expr, left, expr2, right, seq2, variableList1);
             }
@@ -2451,9 +2451,9 @@ Sequence Rule():
                 if(var != null)
                 {
                     if(var.Type != "" && var.Type != "boolean")
-                        throw new SequenceParserException(str, "untyped or bool", var.Type);
+                        throw new SequenceParserExceptionTypeMismatch(str, "untyped or bool", var.Type);
                     if(subgraph != null)
-                        throw new SequenceParserException(str, "", "", SequenceParserError.SubgraphError);
+                        throw new SequenceParserExceptionSubgraphError(str);
 
                     if(env.IsRuleName(str, package))
                         warnings.Add("WARNING: resolving " + str + " to a variable, while a rule of same name exists (apply parenthesis so it is resolved to a rule call)");
@@ -2475,11 +2475,11 @@ Sequence Rule():
             ( "\\" filter=Filter(ruleCall, false)
                 {
                     if(varDecls.Lookup(str) != null)
-                        throw new SequenceParserException(str, filter.ToString(), SequenceParserError.FilterError);
+                        throw new SequenceParserExceptionFilterError(str, filter.ToString());
                     if(sequenceCall != null) {
                         List<SequenceFilterCallBase> filters = new List<SequenceFilterCallBase>();
                         filters.Add(filter);
-                        throw new SequenceParserException(str, FiltersToString(filters), SequenceParserError.FilterError);
+                        throw new SequenceParserExceptionFilterError(str, FiltersToString(filters));
                     }
                     ruleCall.AddFilterCall(filter);
                 }

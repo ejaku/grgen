@@ -510,14 +510,15 @@ namespace de.unika.ipd.grGen.lgsp
         {
             Console.Error.WriteLine(ex.Message); // as ow now, some errors are handled in the frontend exclusivly (e.g. UnknownRuleOrSequence, or rule call parameter mismatches)
 
-            if(ex.Kind != SequenceParserError.BadNumberOfParameters
-                && ex.Kind != SequenceParserError.BadNumberOfReturnParameters
-                && ex.Kind != SequenceParserError.BadParameter
-                && ex.Kind != SequenceParserError.BadReturnParameter) // as of now, a function output parameter type mismatch yields only a TypeMismatch, so no prototype is printed
-            {
+            // as of now, a function output parameter type mismatch yields only a TypeMismatch (no BadReturnParameter), so no prototype is printed
+            if(!(ex is SequenceParserExceptionCallParameterIssue))
                 return;
-            }
 
+            PrintPrototype((SequenceParserExceptionCallParameterIssue)ex);
+        }
+
+        private void PrintPrototype(SequenceParserExceptionCallParameterIssue ex)
+        {
             if(ex.DefType == DefinitionType.Action
                 && seqHelper.actionsTypeInformation.rulesToInputTypes.ContainsKey(ex.Name))
             {

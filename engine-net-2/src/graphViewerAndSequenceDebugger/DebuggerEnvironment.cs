@@ -126,6 +126,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             errOut.WriteLine(ex.Message);
 
+            if(!(ex is SequenceParserExceptionCallParameterIssue))
+                return;
+
+            PrintPrototype((SequenceParserExceptionCallParameterIssue)ex);
+        }
+
+        private static void PrintPrototype(SequenceParserExceptionCallParameterIssue ex)
+        {
             if(ex.Action != null)
             {
                 IAction action = ex.Action;

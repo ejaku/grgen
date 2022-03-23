@@ -100,7 +100,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             ResolvePackage(sequenceName, packagePrefix, packageContext, actionNames.ContainsSequence(PackagePrefixedName(sequenceName, packageContext)),
                 out package, out packagePrefixedName);
             if(!actionNames.ContainsSequence(packagePrefixedName))
-                throw new SequenceParserException(packagePrefixedName, DefinitionType.Sequence, SequenceParserError.UnknownRuleOrSequence);
+                throw new SequenceParserExceptionCallIssue(packagePrefixedName, DefinitionType.Sequence, CallIssueType.UnknownRuleOrSequence);
 
             SequenceSequenceCall seqSequenceCall = new SequenceSequenceCallCompiled(sequenceName, package, packagePrefixedName,
                 argExprs, returnVars, subgraph,
@@ -155,7 +155,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             ResolvePackage(ruleName, packagePrefix, packageContext, actionNames.ContainsRule(PackagePrefixedName(ruleName, packageContext)), 
                 out package, out packagePrefixedName);
             if(!actionNames.ContainsRule(packagePrefixedName))
-                throw new SequenceParserException(packagePrefixedName, DefinitionType.Action, SequenceParserError.UnknownRuleOrSequence);
+                throw new SequenceParserExceptionCallIssue(packagePrefixedName, DefinitionType.Action, CallIssueType.UnknownRuleOrSequence);
 
             SequenceRuleCall seqRuleCall = new SequenceRuleCallCompiled(ruleName, package, packagePrefixedName,
                 argExprs, returnVars, subgraph,
@@ -175,7 +175,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             ResolvePackage(ruleName, packagePrefix, packageContext, actionNames.ContainsRule(PackagePrefixedName(ruleName, packageContext)),
                 out package, out packagePrefixedName);
             if(!actionNames.ContainsRule(packagePrefixedName))
-                throw new SequenceParserException(packagePrefixedName, DefinitionType.Action, SequenceParserError.UnknownRuleOrSequence);
+                throw new SequenceParserExceptionCallIssue(packagePrefixedName, DefinitionType.Action, CallIssueType.UnknownRuleOrSequence);
 
             SequenceRuleAllCall seqRuleAllCall = new SequenceRuleAllCallCompiled(ruleName, package, packagePrefixedName,
                 argExprs, returnVars, subgraph,
@@ -195,7 +195,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             ResolvePackage(ruleName, packagePrefix, packageContext, actionNames.ContainsRule(PackagePrefixedName(ruleName, packageContext)),
                 out package, out packagePrefixedName);
             if(!actionNames.ContainsRule(packagePrefixedName))
-                throw new SequenceParserException(packagePrefixedName, DefinitionType.Action, SequenceParserError.UnknownRuleOrSequence);
+                throw new SequenceParserExceptionCallIssue(packagePrefixedName, DefinitionType.Action, CallIssueType.UnknownRuleOrSequence);
 
             SequenceRuleCountAllCall seqRuleCountAllCall = new SequenceRuleCountAllCallCompiled(ruleName, package, packagePrefixedName,
                 argExprs, returnVars, subgraph,
@@ -234,7 +234,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
             IFilter filter = actionNames.GetFilterOfRule(packagePrefixedRuleName, packagePrefixedName);
             if(filter == null)
-                throw new SequenceParserException(packagePrefixedRuleName, filterName, SequenceParserError.FilterError);
+                throw new SequenceParserExceptionFilterError(packagePrefixedRuleName, filterName);
 
             return new SequenceFilterCallCompiled(filter, argExprs.ToArray());
         }
@@ -253,7 +253,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             else if(entities.Count == 0 && filterBase == "removeIf")
                 return new SequenceFilterCallLambdaExpressionCompiled(filterBase, null, arrayAccess, index, element, lambdaExpr);
             else
-                throw new SequenceParserException(packagePrefixedRuleName, filterName, SequenceParserError.FilterError);
+                throw new SequenceParserExceptionFilterError(packagePrefixedRuleName, filterName);
         }
 
         public override SequenceFilterCallBase CreateSequenceFilterCall(String ruleName, String rulePackage,
@@ -274,7 +274,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                     arrayAccess, previousAccumulationAccess, index, element, lambdaExpr);
             }
             else
-                throw new SequenceParserException(packagePrefixedRuleName, filterName, SequenceParserError.FilterError);
+                throw new SequenceParserExceptionFilterError(packagePrefixedRuleName, filterName);
         }
 
         public override string GetPackagePrefixedMatchClassName(String matchClassName, String matchClassPackage)
@@ -285,7 +285,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             ResolvePackage(matchClassName, matchClassPackage, packageContext, contextMatchClassNameExists,
                 out resolvedMatchClassPackage, out packagePrefixedMatchClassName);
             if(!actionNames.ContainsMatchClass(packagePrefixedMatchClassName))
-                throw new SequenceParserException(packagePrefixedMatchClassName, "\\<class " + packagePrefixedMatchClassName + ">", SequenceParserError.UnknownMatchClass);
+                throw new SequenceParserExceptionUnknownMatchClass(packagePrefixedMatchClassName, "\\<class " + packagePrefixedMatchClassName + ">");
             return packagePrefixedMatchClassName;
         }
 
@@ -298,7 +298,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             ResolvePackage(matchClassName, matchClassPackage, packageContext, contextMatchClassNameExists,
                 out resolvedMatchClassPackage, out packagePrefixedMatchClassName);
             if(!actionNames.ContainsMatchClass(packagePrefixedMatchClassName))
-                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedMatchClassName + "." + filterBase, SequenceParserError.UnknownMatchClass);
+                throw new SequenceParserExceptionUnknownMatchClass(packagePrefixedMatchClassName, packagePrefixedMatchClassName + "." + filterBase);
 
             String filterName = GetFilterName(filterBase, entities);
 
@@ -326,7 +326,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
 
             IFilter filter = actionNames.GetFilterOfMatchClass(packagePrefixedMatchClassName, packagePrefixedName);
             if(filter == null)
-                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedName, SequenceParserError.FilterError);
+                throw new SequenceParserExceptionFilterError(packagePrefixedMatchClassName, packagePrefixedName);
 
             return new SequenceFilterCallCompiled(matchClassName, resolvedMatchClassPackage, packagePrefixedMatchClassName,
                 filter, argExprs.ToArray());
@@ -342,7 +342,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             ResolvePackage(matchClassName, matchClassPackage, packageContext, contextMatchClassNameExists,
                 out resolvedMatchClassPackage, out packagePrefixedMatchClassName);
             if(!actionNames.ContainsMatchClass(packagePrefixedMatchClassName))
-                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedMatchClassName + "." + filterBase, SequenceParserError.UnknownMatchClass);
+                throw new SequenceParserExceptionUnknownMatchClass(packagePrefixedMatchClassName, packagePrefixedMatchClassName + "." + filterBase);
 
             String filterName = GetFilterName(filterBase, entities);
 
@@ -359,7 +359,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                     filterBase, null, arrayAccess, index, element, lambdaExpr);
             }
             else
-                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedName, SequenceParserError.FilterError);
+                throw new SequenceParserExceptionFilterError(packagePrefixedMatchClassName, packagePrefixedName);
         }
 
         public override SequenceFilterCallBase CreateSequenceMatchClassFilterCall(String matchClassName, String matchClassPackage,
@@ -374,7 +374,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             ResolvePackage(matchClassName, matchClassPackage, packageContext, contextMatchClassNameExists,
                 out resolvedMatchClassPackage, out packagePrefixedMatchClassName);
             if(!actionNames.ContainsMatchClass(packagePrefixedMatchClassName))
-                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedMatchClassName + "." + filterBase, SequenceParserError.UnknownMatchClass);
+                throw new SequenceParserExceptionUnknownMatchClass(packagePrefixedMatchClassName, packagePrefixedMatchClassName + "." + filterBase);
 
             String filterName = GetFilterName(filterBase, entities);
 
@@ -388,7 +388,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                     arrayAccess, previousAccumulationAccess, index, element, lambdaExpr);
             }
             else
-                throw new SequenceParserException(packagePrefixedMatchClassName, packagePrefixedName, SequenceParserError.FilterError);
+                throw new SequenceParserExceptionFilterError(packagePrefixedMatchClassName, packagePrefixedName);
         }
 
 
@@ -451,7 +451,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             ResolvePackage(procedureName, packagePrefix, packageContext, actionNames.ContainsProcedure(PackagePrefixedName(procedureName, packageContext)),
                 out package, out packagePrefixedName);
             if(!actionNames.ContainsProcedure(packagePrefixedName))
-                throw new SequenceParserException(procedureName, DefinitionType.Procedure, SequenceParserError.UnknownProcedure);
+                throw new SequenceParserExceptionCallIssue(procedureName, DefinitionType.Procedure, CallIssueType.UnknownProcedure);
 
             return new SequenceComputationProcedureCallCompiled(procedureName, package, packagePrefixedName,
                 argExprs, returnVars, actionNames.IsExternal(packagePrefixedName));
@@ -517,7 +517,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             ResolvePackage(functionName, packagePrefix, packageContext, actionNames.ContainsFunction(PackagePrefixedName(functionName, packageContext)),
                 out package, out packagePrefixedName);
             if(!actionNames.ContainsFunction(packagePrefixedName))
-                throw new SequenceParserException(functionName, DefinitionType.Function, SequenceParserError.UnknownFunction);
+                throw new SequenceParserExceptionCallIssue(functionName, DefinitionType.Function, CallIssueType.UnknownFunction);
 
             String returnType = null;
             for(int i = 0; i < actionNames.functionNames.Length; ++i)

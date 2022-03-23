@@ -242,7 +242,7 @@ namespace de.unika.ipd.grGen.libGr
             if(ContainerType == "")
                 return ""; // we can't check container type if the variable is untyped, only runtime-check possible
             if(TypesHelper.ExtractSrc(ContainerType) == null || TypesHelper.ExtractDst(ContainerType) == null)
-                throw new SequenceParserException(Symbol, "set<S> or map<S,T> or array<S> or deque<S> type", ContainerType);
+                throw new SequenceParserExceptionTypeMismatch(Symbol, "set<S> or map<S,T> or array<S> or deque<S> type", ContainerType);
             return ContainerType;
         }
 
@@ -416,7 +416,7 @@ namespace de.unika.ipd.grGen.libGr
             base.Check(env); // check children
 
             if(!TypesHelper.IsSameOrSubtype(VisitedFlagExpression.Type(env), "int", env.Model))
-                throw new SequenceParserException(Symbol, "int", VisitedFlagExpression.Type(env));
+                throw new SequenceParserExceptionTypeMismatch(Symbol, "int", VisitedFlagExpression.Type(env));
         }
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
@@ -480,7 +480,7 @@ namespace de.unika.ipd.grGen.libGr
             base.Check(env); // check children
 
             if(!TypesHelper.IsSameOrSubtype(VisitedFlagExpression.Type(env), "int", env.Model))
-                throw new SequenceParserException(Symbol, "int", VisitedFlagExpression.Type(env));
+                throw new SequenceParserExceptionTypeMismatch(Symbol, "int", VisitedFlagExpression.Type(env));
         }
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
@@ -553,30 +553,30 @@ namespace de.unika.ipd.grGen.libGr
                 return; // we can't check further types if the container is untyped, only runtime-check possible
 
             if(ExprDst != null && TypesHelper.ExtractDst(ContainerType) == "SetValueType")
-                throw new SequenceParserException(Symbol, "map or array or deque", ContainerType);
+                throw new SequenceParserExceptionTypeMismatch(Symbol, "map or array or deque", ContainerType);
 
             if(ContainerType.StartsWith("array<"))
             {
                 if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(ContainerType), env.Model))
-                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType), Expr.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, TypesHelper.ExtractSrc(ContainerType), Expr.Type(env));
                 if(ExprDst != null && !TypesHelper.IsSameOrSubtype(ExprDst.Type(env), "int", env.Model))
-                    throw new SequenceParserException(Symbol, TypesHelper.ExtractDst(ContainerType), ExprDst.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, TypesHelper.ExtractDst(ContainerType), ExprDst.Type(env));
             }
             else if(ContainerType.StartsWith("deque<"))
             {
                 if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(ContainerType), env.Model))
-                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType), Expr.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, TypesHelper.ExtractSrc(ContainerType), Expr.Type(env));
                 if(ExprDst != null && !TypesHelper.IsSameOrSubtype(ExprDst.Type(env), "int", env.Model))
-                    throw new SequenceParserException(Symbol, TypesHelper.ExtractDst(ContainerType), ExprDst.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, TypesHelper.ExtractDst(ContainerType), ExprDst.Type(env));
             }
             else
             {
                 if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(ContainerType), env.Model))
-                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType), Expr.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, TypesHelper.ExtractSrc(ContainerType), Expr.Type(env));
                 if(TypesHelper.ExtractDst(ContainerType) != "SetValueType"
                     && !TypesHelper.IsSameOrSubtype(ExprDst.Type(env), TypesHelper.ExtractDst(ContainerType), env.Model))
                 {
-                    throw new SequenceParserException(Symbol, TypesHelper.ExtractDst(ContainerType), ExprDst.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, TypesHelper.ExtractDst(ContainerType), ExprDst.Type(env));
                 }
             }
         }
@@ -728,17 +728,17 @@ namespace de.unika.ipd.grGen.libGr
             if(ContainerType.StartsWith("array<"))
             {
                 if(Expr != null && !TypesHelper.IsSameOrSubtype(Expr.Type(env), "int", env.Model))
-                    throw new SequenceParserException(Symbol, "int", Expr.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, "int", Expr.Type(env));
             }
             else if(ContainerType.StartsWith("deque<"))
             {
                 if(Expr != null && !TypesHelper.IsSameOrSubtype(Expr.Type(env), "int", env.Model))
-                    throw new SequenceParserException(Symbol, "int", Expr.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, "int", Expr.Type(env));
             }
             else
             {
                 if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), TypesHelper.ExtractSrc(ContainerType), env.Model))
-                    throw new SequenceParserException(Symbol, TypesHelper.ExtractSrc(ContainerType), Expr.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, TypesHelper.ExtractSrc(ContainerType), Expr.Type(env));
             }
         }
 
@@ -1021,12 +1021,12 @@ namespace de.unika.ipd.grGen.libGr
             if(ContainerType.StartsWith("array<"))
             {
                 if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), ContainerType, env.Model))
-                    throw new SequenceParserException(Symbol, ContainerType, Expr.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, ContainerType, Expr.Type(env));
             }
             else
             {
                 if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), ContainerType, env.Model))
-                    throw new SequenceParserException(Symbol, ContainerType, Expr.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, ContainerType, Expr.Type(env));
             }
         }
 
@@ -1085,7 +1085,7 @@ namespace de.unika.ipd.grGen.libGr
             base.Check(env); // check children
 
             if(!TypesHelper.IsSameOrSubtype(SourceValueProvider.Type(env), Target.Type(env), env.Model))
-                throw new SequenceParserException(Symbol, Target.Type(env), SourceValueProvider.Type(env));
+                throw new SequenceParserExceptionTypeMismatch(Symbol, Target.Type(env), SourceValueProvider.Type(env));
         }
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
@@ -1198,7 +1198,7 @@ namespace de.unika.ipd.grGen.libGr
                 throw new Exception("Debug::(add,rem,emit,halt,highlight) expects at least one parameter (the message at computation entry)");
 
             if(!TypesHelper.IsSameOrSubtype(ArgExprs[0].Type(env), "string", env.Model))
-                throw new SequenceParserException("The 0 parameter of " + Symbol, "string type", ArgExprs[0].Type(env));
+                throw new SequenceParserExceptionTypeMismatch("The 0 parameter of " + Symbol, "string type", ArgExprs[0].Type(env));
 
             base.Check(env);
         }
@@ -1429,7 +1429,7 @@ namespace de.unika.ipd.grGen.libGr
             for(int i = 1; i < ArgExprs.Count; ++i)
             {
                 if(i % 2 == 0 && !TypesHelper.IsSameOrSubtype(ArgExprs[i].Type(env), "string", env.Model))
-                    throw new SequenceParserException("The " + i + " parameter of " + Symbol, "string type", ArgExprs[i].Type(env));
+                    throw new SequenceParserExceptionTypeMismatch("The " + i + " parameter of " + Symbol, "string type", ArgExprs[i].Type(env));
             }
         }
 
@@ -1493,11 +1493,11 @@ namespace de.unika.ipd.grGen.libGr
                 throw new Exception(Name + " expects at least one parameter (the condition to assert on)");
 
             if(!TypesHelper.IsSameOrSubtype(ArgExprs[0].Type(env), "boolean", env.Model))
-                throw new SequenceParserException("The first parameter of " + Symbol, "boolean type", ArgExprs[0].Type(env));
+                throw new SequenceParserExceptionTypeMismatch("The first parameter of " + Symbol, "boolean type", ArgExprs[0].Type(env));
 
             if(ArgExprs.Count >= 2)
             if(!TypesHelper.IsSameOrSubtype(ArgExprs[1].Type(env), "string", env.Model))
-                throw new SequenceParserException("The second parameter of " + Symbol, "string type", ArgExprs[1].Type(env));
+                throw new SequenceParserExceptionTypeMismatch("The second parameter of " + Symbol, "string type", ArgExprs[1].Type(env));
         }
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
@@ -1893,12 +1893,12 @@ namespace de.unika.ipd.grGen.libGr
             if(ExprSrc != null && ExprSrc.Type(env) != "")
             {
                 if(!TypesHelper.IsSameOrSubtype(ExprSrc.Type(env), "Node", env.Model))
-                    throw new SequenceParserException(Symbol + "second argument", "node", ExprSrc.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol + "second argument", "node", ExprSrc.Type(env));
             }
             if(ExprDst != null && ExprDst.Type(env) != "")
             {
                 if(!TypesHelper.IsSameOrSubtype(ExprDst.Type(env), "Node", env.Model))
-                    throw new SequenceParserException(Symbol + "third argument", "node", ExprDst.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol + "third argument", "node", ExprDst.Type(env));
             }
         }
 
@@ -1983,7 +1983,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), "Node", env.Model)
                     && !TypesHelper.IsSameOrSubtype(Expr.Type(env), "AEdge", env.Model))
                 {
-                    throw new SequenceParserException(Symbol, "node or edge", Expr.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, "node or edge", Expr.Type(env));
                 }
             }
         }
@@ -2100,7 +2100,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(!TypesHelper.IsSameOrSubtype(ElemExpr.Type(env), "Node", env.Model)
                     && !TypesHelper.IsSameOrSubtype(ElemExpr.Type(env), "AEdge", env.Model))
                 {
-                    throw new SequenceParserException(Symbol + ", first argument", "node or edge", ElemExpr.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol + ", first argument", "node or edge", ElemExpr.Type(env));
                 }
             }
 
@@ -2190,23 +2190,23 @@ namespace de.unika.ipd.grGen.libGr
                 if(ExprSrc != null)
                 {
                     if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), "AEdge", env.Model))
-                        throw new SequenceParserException(Symbol + "first argument", "edge", Expr.Type(env));
+                        throw new SequenceParserExceptionTypeMismatch(Symbol + "first argument", "edge", Expr.Type(env));
                 }
                 else
                 {
                     if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), "Node", env.Model))
-                        throw new SequenceParserException(Symbol + "first argument", "node", Expr.Type(env));
+                        throw new SequenceParserExceptionTypeMismatch(Symbol + "first argument", "node", Expr.Type(env));
                 }
             }
             if(ExprSrc != null && ExprSrc.Type(env) != "")
             {
                 if(!TypesHelper.IsSameOrSubtype(ExprSrc.Type(env), "Node", env.Model))
-                    throw new SequenceParserException(Symbol + "second argument", "node", ExprSrc.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol + "second argument", "node", ExprSrc.Type(env));
             }
             if(ExprDst != null && ExprDst.Type(env) != "")
             {
                 if(!TypesHelper.IsSameOrSubtype(ExprDst.Type(env), "Node", env.Model))
-                    throw new SequenceParserException(Symbol + "third argument", "node", ExprDst.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol + "third argument", "node", ExprDst.Type(env));
             }
         }
 
@@ -2297,13 +2297,13 @@ namespace de.unika.ipd.grGen.libGr
             if(TargetNodeExpr.Type(env) != "")
             {
                 if(!TypesHelper.IsSameOrSubtype(TargetNodeExpr.Type(env), "Node", env.Model))
-                    throw new SequenceParserException(Symbol, "node", TargetNodeExpr.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, "node", TargetNodeExpr.Type(env));
             }
 
             if(SourceNodeExpr.Type(env) != "")
             {
                 if(!TypesHelper.IsSameOrSubtype(SourceNodeExpr.Type(env), "Node", env.Model))
-                    throw new SequenceParserException(Symbol, "node", SourceNodeExpr.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, "node", SourceNodeExpr.Type(env));
             }
         }
 
@@ -2373,12 +2373,12 @@ namespace de.unika.ipd.grGen.libGr
             if(EdgeExpr.Type(env) != "")
             {
                 if(!TypesHelper.IsSameOrSubtype(EdgeExpr.Type(env), "AEdge", env.Model))
-                    throw new SequenceParserException(Symbol + "first argument", "edge", EdgeExpr.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol + "first argument", "edge", EdgeExpr.Type(env));
             }
             if(SourceNodeExpr.Type(env) != "")
             {
                 if(!TypesHelper.IsSameOrSubtype(SourceNodeExpr.Type(env), "Node", env.Model))
-                    throw new SequenceParserException(Symbol + "second argument", "node", SourceNodeExpr.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol + "second argument", "node", SourceNodeExpr.Type(env));
             }
         }
 
@@ -2451,12 +2451,12 @@ namespace de.unika.ipd.grGen.libGr
             if(EdgeExpr.Type(env) != "")
             {
                 if(!TypesHelper.IsSameOrSubtype(EdgeExpr.Type(env), "AEdge", env.Model))
-                    throw new SequenceParserException(Symbol + "first argument", "edge", EdgeExpr.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol + "first argument", "edge", EdgeExpr.Type(env));
             }
             if(TargetNodeExpr.Type(env) != "")
             {
                 if(!TypesHelper.IsSameOrSubtype(TargetNodeExpr.Type(env), "Node", env.Model))
-                    throw new SequenceParserException(Symbol + "second argument", "node", TargetNodeExpr.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol + "second argument", "node", TargetNodeExpr.Type(env));
             }
         }
 
@@ -2532,17 +2532,17 @@ namespace de.unika.ipd.grGen.libGr
             if(EdgeExpr.Type(env) != "")
             {
                 if(!TypesHelper.IsSameOrSubtype(EdgeExpr.Type(env), "AEdge", env.Model))
-                    throw new SequenceParserException(Symbol + "first argument", "edge", EdgeExpr.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol + "first argument", "edge", EdgeExpr.Type(env));
             }
             if(SourceNodeExpr.Type(env) != "")
             {
                 if(!TypesHelper.IsSameOrSubtype(SourceNodeExpr.Type(env), "Node", env.Model))
-                    throw new SequenceParserException(Symbol + "second argument", "node", SourceNodeExpr.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol + "second argument", "node", SourceNodeExpr.Type(env));
             }
             if(TargetNodeExpr.Type(env) != "")
             {
                 if(!TypesHelper.IsSameOrSubtype(TargetNodeExpr.Type(env), "Node", env.Model))
-                    throw new SequenceParserException(Symbol + "third argument", "node", TargetNodeExpr.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol + "third argument", "node", TargetNodeExpr.Type(env));
             }
         }
 
@@ -2615,7 +2615,7 @@ namespace de.unika.ipd.grGen.libGr
             if(Graph.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
             {
                 if(!TypesHelper.IsSameOrSubtype(Graph.Type(env), "graph", env.Model))
-                    throw new SequenceParserException(Symbol, "graph", Graph.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, "graph", Graph.Type(env));
             }
         }
 
@@ -2679,13 +2679,13 @@ namespace de.unika.ipd.grGen.libGr
             if(Graph.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
             {
                 if(!TypesHelper.IsSameOrSubtype(Graph.Type(env), "graph", env.Model))
-                    throw new SequenceParserException(Symbol, "graph", Graph.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, "graph", Graph.Type(env));
             }
 
             if(RootNode.Type(env) != "")
             {
                 if(!TypesHelper.IsSameOrSubtype(RootNode.Type(env), "Node", env.Model))
-                    throw new SequenceParserException(Symbol, "Node", RootNode.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, "Node", RootNode.Type(env));
             }
         }
 
@@ -2759,15 +2759,15 @@ namespace de.unika.ipd.grGen.libGr
             if(NodeSet.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
             {
                 if(!NodeSet.Type(env).StartsWith("set<"))
-                    throw new SequenceParserException(Symbol, "set<Node> type", NodeSet.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, "set<Node> type", NodeSet.Type(env));
                 if(TypesHelper.ExtractSrc(NodeSet.Type(env)) != "Node")
-                    throw new SequenceParserException(Symbol, "set<Node> type", NodeSet.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, "set<Node> type", NodeSet.Type(env));
             }
 
             if(RootNode.Type(env) != "")
             {
                 if(!TypesHelper.IsSameOrSubtype(RootNode.Type(env), "Node", env.Model))
-                    throw new SequenceParserException(Symbol, "Node", RootNode.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, "Node", RootNode.Type(env));
             }
         }
 
@@ -2841,19 +2841,19 @@ namespace de.unika.ipd.grGen.libGr
             if(EdgeSet.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
             {
                 if(!EdgeSet.Type(env).StartsWith("set<"))
-                    throw new SequenceParserException(Symbol, "set<Edge> type", EdgeSet.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, "set<Edge> type", EdgeSet.Type(env));
                 if(TypesHelper.ExtractSrc(EdgeSet.Type(env)) != "AEdge"
                     && TypesHelper.ExtractSrc(EdgeSet.Type(env)) != "Edge"
                     && TypesHelper.ExtractSrc(EdgeSet.Type(env)) != "UEdge")
                 {
-                    throw new SequenceParserException(Symbol, "set<Edge> type", EdgeSet.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, "set<Edge> type", EdgeSet.Type(env));
                 }
             }
 
             if(RootEdge.Type(env) != "")
             {
                 if(!TypesHelper.IsSameOrSubtype(RootEdge.Type(env), "AEdge", env.Model))
-                    throw new SequenceParserException(Symbol, "Edge", RootEdge.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, "Edge", RootEdge.Type(env));
             }
         }
 
@@ -2922,7 +2922,7 @@ namespace de.unika.ipd.grGen.libGr
             base.Check(env); // check children
 
             if(!TypesHelper.IsLockableType(LockObjectExpr.Type(env), env.Model))
-                throw new SequenceParserException(Symbol, "lockable type (value types are not lockable)", LockObjectExpr.Type(env));
+                throw new SequenceParserExceptionTypeMismatch(Symbol, "lockable type (value types are not lockable)", LockObjectExpr.Type(env));
         }
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
@@ -2983,7 +2983,7 @@ namespace de.unika.ipd.grGen.libGr
             base.Check(env); // check children
 
             if(!TypesHelper.IsLockableType(LockObjectExpr.Type(env), env.Model))
-                throw new SequenceParserException(Symbol, "lockable type (value types are not lockable)", LockObjectExpr.Type(env));
+                throw new SequenceParserExceptionTypeMismatch(Symbol, "lockable type (value types are not lockable)", LockObjectExpr.Type(env));
         }
 
         public override String Type(SequenceCheckingEnvironment env)
@@ -3048,7 +3048,7 @@ namespace de.unika.ipd.grGen.libGr
             base.Check(env); // check children
 
             if(!TypesHelper.IsLockableType(LockObjectExpr.Type(env), env.Model))
-                throw new SequenceParserException(Symbol, "lockable type (value types are not lockable)", LockObjectExpr.Type(env));
+                throw new SequenceParserExceptionTypeMismatch(Symbol, "lockable type (value types are not lockable)", LockObjectExpr.Type(env));
         }
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
@@ -3117,15 +3117,15 @@ namespace de.unika.ipd.grGen.libGr
             if(Subgraph.Type(env) != "")
             {
                 if(Subgraph.Type(env) != "graph")
-                    throw new SequenceParserException(Symbol + ", first argument", "graph type", Subgraph.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol + ", first argument", "graph type", Subgraph.Type(env));
             }
 
             if(SubgraphArray.Type(env) != "")
             {
                 if(!SubgraphArray.Type(env).StartsWith("array<"))
-                    throw new SequenceParserException(Symbol + ", second argument", "array<graph> type", SubgraphArray.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol + ", second argument", "array<graph> type", SubgraphArray.Type(env));
                 if(TypesHelper.ExtractSrc(SubgraphArray.Type(env)) != "graph")
-                    throw new SequenceParserException(Symbol + ", second argument", "array<graph> type", SubgraphArray.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol + ", second argument", "array<graph> type", SubgraphArray.Type(env));
             }
         }
 
@@ -3231,7 +3231,7 @@ namespace de.unika.ipd.grGen.libGr
                 ) 
             {
                 if(!TypesHelper.IsSameOrSubtype(BuiltinProcedure.Type(env), ReturnVars[0].Type, env.Model))
-                    throw new SequenceParserException(Symbol, ReturnVars[0].Type, BuiltinProcedure.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, ReturnVars[0].Type, BuiltinProcedure.Type(env));
             }
         }
 

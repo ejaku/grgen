@@ -367,7 +367,7 @@ namespace de.unika.ipd.grGen.libGr
             string typeString = GetTypeString(env, typeExpr);
 
             if(TypesHelper.GetNodeType(typeString, env.Model) == null && typeString != null)
-                throw new SequenceParserException(Symbol + whichArgument, "node type or string denoting node type", typeString);
+                throw new SequenceParserExceptionTypeMismatch(Symbol + whichArgument, "node type or string denoting node type", typeString);
         }
 
         protected void CheckEdgeTypeIsKnown(SequenceCheckingEnvironment env, SequenceExpression typeExpr, String whichArgument)
@@ -378,7 +378,7 @@ namespace de.unika.ipd.grGen.libGr
             string typeString = GetTypeString(env, typeExpr);
 
             if(TypesHelper.GetEdgeType(typeString, env.Model) == null && typeString != null)
-                throw new SequenceParserException(Symbol + whichArgument, "edge type or string denoting edge type", typeString);
+                throw new SequenceParserExceptionTypeMismatch(Symbol + whichArgument, "edge type or string denoting edge type", typeString);
         }
 
         protected void CheckGraphElementTypeIsKnown(SequenceCheckingEnvironment env, SequenceExpression typeExpr, String whichArgument)
@@ -391,14 +391,14 @@ namespace de.unika.ipd.grGen.libGr
             if(TypesHelper.GetNodeType(typeString, env.Model) == null && typeString != null)
             {
                 if(TypesHelper.GetEdgeType(typeString, env.Model) == null && typeString != null)
-                    throw new SequenceParserException(Symbol + whichArgument, "node or edge type or string denoting node or edge type", typeString);
+                    throw new SequenceParserExceptionTypeMismatch(Symbol + whichArgument, "node or edge type or string denoting node or edge type", typeString);
             }
         }
 
         protected void CheckBaseObjectTypeIsKnown(SequenceCheckingEnvironment env, String baseObjectType, String whichArgument)
         {
             if(TypesHelper.GetObjectType(baseObjectType, env.Model) == null && TypesHelper.GetTransientObjectType(baseObjectType, env.Model) == null)
-                throw new SequenceParserException(Symbol + whichArgument, "object type or transient object type", baseObjectType);
+                throw new SequenceParserExceptionTypeMismatch(Symbol + whichArgument, "object type or transient object type", baseObjectType);
         }
 
         protected string GetTypeString(SequenceCheckingEnvironment env, SequenceExpression typeExpr)

@@ -903,7 +903,7 @@ namespace de.unika.ipd.grGen.libGr
             base.Check(env);
 
             if(!TypesHelper.IsSameOrSubtype(MinExpr.Type(env), "int", env.Model))
-                throw new SequenceParserException(Symbol, "int", MinExpr.Type(env));
+                throw new SequenceParserExceptionTypeMismatch(Symbol, "int", MinExpr.Type(env));
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
@@ -961,9 +961,9 @@ namespace de.unika.ipd.grGen.libGr
             base.Check(env);
 
             if(!TypesHelper.IsSameOrSubtype(MinExpr.Type(env), "int", env.Model))
-                throw new SequenceParserException(Symbol, "int", MinExpr.Type(env));
+                throw new SequenceParserExceptionTypeMismatch(Symbol, "int", MinExpr.Type(env));
             if(!TypesHelper.IsSameOrSubtype(MaxExpr.Type(env), "int", env.Model))
-                throw new SequenceParserException(Symbol, "int", MaxExpr.Type(env));
+                throw new SequenceParserExceptionTypeMismatch(Symbol, "int", MaxExpr.Type(env));
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
@@ -2609,7 +2609,7 @@ namespace de.unika.ipd.grGen.libGr
         public override void Check(SequenceCheckingEnvironment env)
         {
             if(!TypesHelper.IsSameOrSubtype(UserInputType, DestVar.Type, env.Model))
-                throw new SequenceParserException(Symbol, DestVar.Type, UserInputType);
+                throw new SequenceParserExceptionTypeMismatch(Symbol, DestVar.Type, UserInputType);
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
@@ -2653,7 +2653,7 @@ namespace de.unika.ipd.grGen.libGr
         public override void Check(SequenceCheckingEnvironment env)
         {
             if(!TypesHelper.IsSameOrSubtype(DestVar.Type, "int", env.Model))
-                throw new SequenceParserException(Symbol, "int", DestVar.Type);
+                throw new SequenceParserExceptionTypeMismatch(Symbol, "int", DestVar.Type);
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
@@ -2696,7 +2696,7 @@ namespace de.unika.ipd.grGen.libGr
         public override void Check(SequenceCheckingEnvironment env)
         {
             if(!TypesHelper.IsSameOrSubtype(DestVar.Type, "double", env.Model))
-                throw new SequenceParserException(Symbol, "double", DestVar.Type);
+                throw new SequenceParserExceptionTypeMismatch(Symbol, "double", DestVar.Type);
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
@@ -2770,7 +2770,7 @@ namespace de.unika.ipd.grGen.libGr
         public override void Check(SequenceCheckingEnvironment env)
         {
             if(!TypesHelper.IsSameOrSubtype(TypesHelper.XgrsTypeOfConstant(Constant, env.Model), DestVar.Type, env.Model))
-                throw new SequenceParserException(Symbol, DestVar.Type, TypesHelper.XgrsTypeOfConstant(Constant, env.Model));
+                throw new SequenceParserExceptionTypeMismatch(Symbol, DestVar.Type, TypesHelper.XgrsTypeOfConstant(Constant, env.Model));
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
@@ -2816,7 +2816,7 @@ namespace de.unika.ipd.grGen.libGr
             Constructor.Check(env);
 
             if(!TypesHelper.IsSameOrSubtype(Constructor.Type(env), DestVar.Type, env.Model))
-                throw new SequenceParserException(Constructor.Symbol, DestVar.Type, Constructor.Type(env));
+                throw new SequenceParserExceptionTypeMismatch(Constructor.Symbol, DestVar.Type, Constructor.Type(env));
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
@@ -2878,7 +2878,7 @@ namespace de.unika.ipd.grGen.libGr
             Constructor.Check(env);
 
             if(!TypesHelper.IsSameOrSubtype(Constructor.Type(env), DestVar.Type, env.Model))
-                throw new SequenceParserException(Constructor.Symbol, DestVar.Type, Constructor.Type(env));
+                throw new SequenceParserExceptionTypeMismatch(Constructor.Symbol, DestVar.Type, Constructor.Type(env));
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
@@ -2938,7 +2938,7 @@ namespace de.unika.ipd.grGen.libGr
         public override void Check(SequenceCheckingEnvironment env)
         {
             if(!TypesHelper.IsSameOrSubtype(Variable.Type, DestVar.Type, env.Model))
-                throw new SequenceParserException(Symbol, DestVar.Type, Variable.Type);
+                throw new SequenceParserExceptionTypeMismatch(Symbol, DestVar.Type, Variable.Type);
         }
 
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -2991,7 +2991,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             Seq.Check(env);
             if(!TypesHelper.IsSameOrSubtype(DestVar.Type, "boolean", env.Model))
-                throw new SequenceParserException("sequence => " + DestVar.Name, "boolean", DestVar.Type);
+                throw new SequenceParserExceptionTypeMismatch("sequence => " + DestVar.Name, "boolean", DestVar.Type);
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
@@ -3060,7 +3060,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             Seq.Check(env);
             if(!TypesHelper.IsSameOrSubtype(DestVar.Type, "boolean", env.Model))
-                throw new SequenceParserException("sequence |> " + DestVar.Name, "boolean", DestVar.Type);
+                throw new SequenceParserExceptionTypeMismatch("sequence |> " + DestVar.Name, "boolean", DestVar.Type);
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
@@ -3096,7 +3096,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             Seq.Check(env);
             if(!TypesHelper.IsSameOrSubtype(DestVar.Type, "boolean", env.Model))
-                throw new SequenceParserException("sequence &> " + DestVar.Name, "boolean", DestVar.Type);
+                throw new SequenceParserExceptionTypeMismatch("sequence &> " + DestVar.Name, "boolean", DestVar.Type);
         }
 
         protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
@@ -5489,11 +5489,11 @@ namespace de.unika.ipd.grGen.libGr
         public override void Check(SequenceCheckingEnvironment env)
         {
             if(!TypesHelper.IsSameOrSubtype(Var.Type, "int", env.Model))
-                throw new SequenceParserException(Symbol + " - " + Var.Name, "int", Var.Type);
+                throw new SequenceParserExceptionTypeMismatch(Symbol + " - " + Var.Name, "int", Var.Type);
             if(!TypesHelper.IsSameOrSubtype(Left.Type(env), "int", env.Model))
-                throw new SequenceParserException(Symbol + ", left bound" + Var.Name, "int", Var.Type);
+                throw new SequenceParserExceptionTypeMismatch(Symbol + ", left bound" + Var.Name, "int", Var.Type);
             if(!TypesHelper.IsSameOrSubtype(Right.Type(env), "int", env.Model))
-                throw new SequenceParserException(Symbol + ", right bound" + Var.Name, "int", Var.Type);
+                throw new SequenceParserExceptionTypeMismatch(Symbol + ", right bound" + Var.Name, "int", Var.Type);
 
             Left.Check(env);
             Right.Check(env);
@@ -5589,9 +5589,9 @@ namespace de.unika.ipd.grGen.libGr
         public override void Check(SequenceCheckingEnvironment env)
         {
             if(Var.Type == "")
-                throw new SequenceParserException(Var.Name, "a node or edge type", "statically unknown type");
+                throw new SequenceParserExceptionTypeMismatch(Var.Name, "a node or edge type", "statically unknown type");
             if(!TypesHelper.IsSameOrSubtype(Var.Type, "Node", env.Model) && !TypesHelper.IsSameOrSubtype(Var.Type, "AEdge", env.Model))
-                throw new SequenceParserException(Symbol + " - " + Var.Name, "Node or Edge", Var.Type);
+                throw new SequenceParserExceptionTypeMismatch(Symbol + " - " + Var.Name, "Node or Edge", Var.Type);
             
             Expr.Check(env);
             
@@ -5699,12 +5699,12 @@ namespace de.unika.ipd.grGen.libGr
             if(Direction == RelOpDirection.Smaller || Direction == RelOpDirection.SmallerEqual)
             {
                 if(Expr2 != null && (Direction2 == RelOpDirection.Smaller || Direction2 == RelOpDirection.SmallerEqual))
-                    throw new SequenceParserException(IndexName, SequenceParserError.TwoLowerBounds);
+                    throw new SequenceParserExceptionIndexTwoLowerBounds(IndexName);
             }
             if(Direction == RelOpDirection.Greater || Direction == RelOpDirection.GreaterEqual)
             {
                 if(Expr2 != null && (Direction2 == RelOpDirection.Greater || Direction2 == RelOpDirection.GreaterEqual))
-                    throw new SequenceParserException(IndexName, SequenceParserError.TwoUpperBounds);
+                    throw new SequenceParserExceptionIndexTwoUpperBounds(IndexName);
             }
 
             if(Expr != null)
@@ -6046,14 +6046,14 @@ namespace de.unika.ipd.grGen.libGr
                 if(SequenceType == SequenceType.ForNodes)
                 {
                     if(!TypesHelper.IsSameOrSubtype(Var.Type, "Node", env.Model))
-                        throw new SequenceParserException(Var.Name, "a node type", Var.Type);
+                        throw new SequenceParserExceptionTypeMismatch(Var.Name, "a node type", Var.Type);
                     //if(Expr != null && TypesHelper.GetNodeType(Expr.Type(env), env.Model) == null)
                     //    throw new SequenceParserException(Expr.Symbol, "a node type", Expr.Type(env));
                 }
                 if(SequenceType == SequenceType.ForEdges)
                 {
                     if(!TypesHelper.IsSameOrSubtype(Var.Type, "AEdge", env.Model))
-                        throw new SequenceParserException(Var.Name, "an edge type", Var.Type);
+                        throw new SequenceParserExceptionTypeMismatch(Var.Name, "an edge type", Var.Type);
                     //if(Expr != null && TypesHelper.GetEdgeType(Expr.Type(env), env.Model) == null)
                     //    throw new SequenceParserException(Expr.Symbol, "an edge type", Expr.Type(env));
                 }
@@ -6087,7 +6087,7 @@ namespace de.unika.ipd.grGen.libGr
                     || SequenceType == SequenceType.ForBoundedReachableNodesViaOutgoing)
                 {
                     if(!TypesHelper.IsSameOrSubtype(Var.Type, "Node", env.Model))
-                        throw new SequenceParserException(Var.Name, "a node type", Var.Type);
+                        throw new SequenceParserExceptionTypeMismatch(Var.Name, "a node type", Var.Type);
                 }
                 if(SequenceType == SequenceType.ForIncidentEdges
                     || SequenceType == SequenceType.ForIncomingEdges
@@ -6100,12 +6100,12 @@ namespace de.unika.ipd.grGen.libGr
                     || SequenceType == SequenceType.ForBoundedReachableEdgesViaOutgoing)
                 {
                     if(!TypesHelper.IsSameOrSubtype(Var.Type, "AEdge", env.Model))
-                        throw new SequenceParserException(Var.Name, "an edge type", Var.Type);
+                        throw new SequenceParserExceptionTypeMismatch(Var.Name, "an edge type", Var.Type);
                 }
 
                 SequenceExpression Expr = ArgExprs[0];
                 if(!TypesHelper.IsSameOrSubtype(Expr.Type(env), "Node", env.Model))
-                    throw new SequenceParserException(Expr.Symbol, "a node type", Expr.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(Expr.Symbol, "a node type", Expr.Type(env));
 
                 if(SequenceType == SequenceType.ForBoundedReachableNodes
                     || SequenceType == SequenceType.ForBoundedReachableNodesViaIncoming
@@ -6116,7 +6116,7 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     SequenceExpression DepthExpr = ArgExprs[1];
                     if(!TypesHelper.IsSameOrSubtype(DepthExpr.Type(env), "int", env.Model))
-                        throw new SequenceParserException(DepthExpr.Symbol, "int", DepthExpr.Type(env));
+                        throw new SequenceParserExceptionTypeMismatch(DepthExpr.Symbol, "int", DepthExpr.Type(env));
 
                     CheckEdgeTypeIsKnown(env, ArgExprs.Count >= 3 ? ArgExprs[2] : null, ", third argument");
                     CheckNodeTypeIsKnown(env, ArgExprs.Count >= 4 ? ArgExprs[3] : null, ", fourth argument");
@@ -7141,9 +7141,9 @@ namespace de.unika.ipd.grGen.libGr
             if(Rule.ReturnVars.Length > 0)
                 throw new Exception("No output parameters allowed for the rule used in the for matches iteration sequence");
             if(Var.Type == "")
-                throw new SequenceParserException(Var.Name, "a match type (match<rulename>)", "statically unknown type");
+                throw new SequenceParserExceptionTypeMismatch(Var.Name, "a match type (match<rulename>)", "statically unknown type");
             if(!TypesHelper.IsSameOrSubtype(Var.Type, "match<"+Rule.Name+">", env.Model))
-                throw new SequenceParserException(Symbol, "match<" + Rule.Name + ">", Var.Type);
+                throw new SequenceParserExceptionTypeMismatch(Symbol, "match<" + Rule.Name + ">", Var.Type);
             if(Rule.Subgraph != null)
                 throw new Exception("Sequence ForMatch can't employ a call with subgraph prefix (no for{v in [?sg.r]; seq} possible)");
             base.Check(env);
@@ -8009,19 +8009,19 @@ namespace de.unika.ipd.grGen.libGr
             if(InParallel && SubgraphExpr.Type(env).StartsWith("array<"))
             {
                 if(SubgraphExpr.Type(env) != "array<graph>")
-                    throw new SequenceParserException(SubgraphExpr.Symbol, "array<graph>", SubgraphExpr.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(SubgraphExpr.Symbol, "array<graph>", SubgraphExpr.Type(env));
 
                 if(ValueExpr != null && !ValueExpr.Type(env).StartsWith("array<"))
-                    throw new SequenceParserException(ValueExpr.Symbol, "array type", ValueExpr.Type(env));
+                    throw new SequenceParserExceptionTypeMismatch(ValueExpr.Symbol, "array type", ValueExpr.Type(env));
 
                 return;
             }
 
             if(!TypesHelper.IsSameOrSubtype(SubgraphExpr.Type(env), "graph", env.Model))
-                throw new SequenceParserException(SubgraphExpr.Symbol, "graph", SubgraphExpr.Type(env));
+                throw new SequenceParserExceptionTypeMismatch(SubgraphExpr.Symbol, "graph", SubgraphExpr.Type(env));
 
             if(ValueExpr != null && ValueExpr.Type(env) == "")
-                throw new SequenceParserException(ValueExpr.Symbol, "non untyped type", ValueExpr.Type(env));
+                throw new SequenceParserExceptionTypeMismatch(ValueExpr.Symbol, "non untyped type", ValueExpr.Type(env));
         }
 
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -8124,7 +8124,7 @@ namespace de.unika.ipd.grGen.libGr
                 foreach(SequenceVariable resultVariable in ResultVariables)
                 {
                     if(!TypesHelper.IsSameOrSubtype(resultVariable.Type, "boolean", env.Model))
-                        throw new SequenceParserException(resultVariable.Name, "boolean", resultVariable.Type);
+                        throw new SequenceParserExceptionTypeMismatch(resultVariable.Name, "boolean", resultVariable.Type);
                 }
             }
         }
@@ -8255,14 +8255,14 @@ namespace de.unika.ipd.grGen.libGr
                 InSubgraphExecution.ValueVariable.RedefineLocalVariableType(TypesHelper.ExtractSrc(InSubgraphExecution.ValueExpr.Type(env)));
 
             if(InSubgraphExecution.SubgraphExpr.Type(env) != "" && !InSubgraphExecution.SubgraphExpr.Type(env).StartsWith("array<"))
-                throw new SequenceParserException(InSubgraphExecution.SubgraphExpr.Symbol, "array<graph>", InSubgraphExecution.SubgraphExpr.Type(env));
+                throw new SequenceParserExceptionTypeMismatch(InSubgraphExecution.SubgraphExpr.Symbol, "array<graph>", InSubgraphExecution.SubgraphExpr.Type(env));
 
             base.Check(env);
 
             if(ResultVariable != null)
             {
                 if(!TypesHelper.IsSameOrSubtype(ResultVariable.Type, "array<boolean>", env.Model))
-                    throw new SequenceParserException(ResultVariable.Name, "array<boolean>", ResultVariable.Type);
+                    throw new SequenceParserExceptionTypeMismatch(ResultVariable.Name, "array<boolean>", ResultVariable.Type);
             }
         }
 
@@ -8286,7 +8286,7 @@ namespace de.unika.ipd.grGen.libGr
                 IList values = (IList)InSubgraphExecution.ValueExpr.Evaluate(procEnv);
 
                 if(values.Count != subgraphs.Count)
-                    throw new SequenceParserException(Symbol, "amount of values same as amount of subgraphs: " + subgraphs.Count, "amount of values: " + values.Count);
+                    throw new SequenceParserExceptionTypeMismatch(Symbol, "amount of values same as amount of subgraphs: " + subgraphs.Count, "amount of values: " + values.Count);
 
                 for(int i=0; i < InSubgraphExecutions.Count; ++i)
                 {
@@ -8381,7 +8381,7 @@ namespace de.unika.ipd.grGen.libGr
             base.Check(env);
 
             if(!TypesHelper.IsLockableType(LockObjectExpr.Type(env), env.Model))
-                throw new SequenceParserException(Symbol, "lockable type (value types are not lockable)", LockObjectExpr.Type(env));
+                throw new SequenceParserExceptionTypeMismatch(Symbol, "lockable type (value types are not lockable)", LockObjectExpr.Type(env));
         }
 
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
