@@ -8,6 +8,7 @@ We'll have a look at
 \item the interface to the rules and matches
 \item the interface of the graph processing environment (esp. for executing sequences)
 \item the porter module for importing and exporting of graphs and miscellaneous stuff
+\item the interface to the debugger and graph viewer (plus the shell)
 \item implementing external class and function declarations
 \item implementing external match filter and external sequence declarations
 \item events fired when the graph is changed
@@ -375,8 +376,6 @@ Alternatively, you could directly use your favourite .NET programming language f
 \texttt{examples-api/HelloMutex/HelloMutex.cs}.
 \item How to access the annotations at API level is shown in\\
 \texttt{examples-api/MutexDirectExample/MutexDirectExample.cs}.
-\item How to communicate with yComp on API level (from your own code) is shown in\\
-\texttt{examples-api/YCompExample/YCompExample.cs} (it may be outdated, you better take a look at \texttt{GrShell/YCompClient.cs} for the real version).
 \end{itemize}
 
 \begin{warning}
@@ -403,6 +402,32 @@ b = bla;
 \end{csharplet}
 \end{warning}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Graph Viewer and Debugger}
+The \texttt{graphViewerAndSequenceDebugger} project contains convenience interfaces that allow you to access the graph viewer and the sequence debugger easily from API level (you have to include the \texttt{graphViewerAndSequenceDebugger.dll} in order to do so).
+
+The \texttt{GraphViewer} class esp. offers methods to
+\begin{itemize}
+	\item show a graph until it is closed, adapting to changes (\texttt{Show\-Graph}, \texttt{End\-Show\-Graph}, \texttt{Update\-Display\-And\-Sync})
+	\item dump a graph to a file in a graph visualization format and show it (\texttt{Dump\-And\-Show\-Graph})
+\end{itemize}
+
+The \texttt{examples-api/YCompExample/YCompExample.cs} shows how to use \yComp{} in order to display a graph (and changes to it), as well as to dump a graph as a \texttt{.vcg} file and render it (utilizing parts of the \texttt{Mutex} example).
+
+The \texttt{Debugger} class allows you to execute a graph rewrite sequence under debugger control (\texttt{Apply\-Graph\-Rewrite\-Sequence}), once it is configured esp. with the required environments (\texttt{Debugger\-Environment} and \texttt{Debugger\-Graph\-Processing\-Environment}).
+
+The \texttt{examples-api/DebuggerExample/DebuggerExample.cs} shows how to execute a sequence in the debugger (in a command line window) (utilizing parts of the \texttt{Mutex} example).
+
+
+\subsubsection*{libGrShell}
+The \texttt{libGrShell} project allows you to include \GrShell{}-functionality (this means esp. executing a \texttt{.grs} script file) into your own application (you have to reference the \texttt{libGrShell.dll} and the \texttt{graphViewerAndSequenceDebugger.dll} in order to do so).
+
+The \texttt{examples-api/ShellExample/ShellExample.cs} shows how to achieve this (utilizing parts of the \texttt{Mutex} example).
+
+The \texttt{examples-api/ApplicationExample/ApplicationExampleForm.cs} shows how to use the Debugger and the \GrShell{} from a GUI application (utilizing parts of the \texttt{Mutex} example).
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{External Class, Function and Procedure Implementation}\label{sub:extclsfctimpl}\indexmain{external class implementation}\indexmain{external function implementation}\indexmain{external procedure implementation}
 
@@ -420,7 +445,7 @@ inheriting from each other as stated in the external class declarations.
 	\item within the \texttt{de.unika.ipd.grGen.expression} namespace a public partial class named \texttt{ExternalProcedures} with a body of comments giving the expected procedure prototypes.
 \end{itemize}
 
-\pagebreak
+%\pagebreak
 
 \noindent The generated partial classes come without implementation, you must implement them in a file named \texttt{Foo\-Model\-External\-Functions\-Impl.cs}, located in the folder of the \texttt{Foo\-Model\-External\-Functions.cs} file, by replicating them, and fleshing them out:
 \begin{itemize}

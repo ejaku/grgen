@@ -1,4 +1,47 @@
-﻿v6.5 (2022-01-06)
+﻿v6.6 (2022-04-01)
+ Introduced a graphViewerAndSequenceDebugger library
+  - to be employed from user code/at API level for graph display and sequence debugging
+  - containing esp. a GraphViewer class and DumpAndShowGraph as well as ShowGraph and EndShowGraph methods
+  - containing the Debugger class that can now be used from API level (utilizing some environment classes) (without GrShell)
+  - introduced a ConstantParser so constant parsing as required by the debugger can be done without resorting to GrShell
+    requires genparser.bat/genparser.sh to be executed in the graphViewerAndSequenceDebugger folder
+
+ Introduced a libGrShell library
+  - to be included in an own application project in order to gain GrShell-like functionality,
+    and/or graph rewrite shell script interpretation ability
+
+ Added examples to examples-api showing how to use the new libraries
+  - adapted and fixed the YCompExample
+  - added a DebuggerExample project showing how to employ a Debugger from API level
+    (utilizing the new graphViewerAndSequenceDebugger library)
+  - added a ShellExample project showing how to employ the GrShell embedded into/from within an own application
+    (based on the libGrShell library)
+  - also added a Windows Forms based ApplicationExample
+    (showing how to use GrGen-functionality from a Non-Console-App)
+
+ Many fixes and improvements in sequence error reporting
+  e.g. errors in compiled sequences don't cause a crash anymore
+  (happened previously for some error kinds),
+  and now also the prototypes of mismatching sequences/functions/procedures are printed
+  (in addition to the prototypes of mismatching rules/tests)
+
+ Also (re-)allowed a rule/sequence usage while a variable of same name exists
+  added a warning for a variable usage while a rule/sequence of same name exists
+ - result: a name with parenthesis means rule/sequence call, without a warning even if a variable of same name exists
+   a name without parenthesis is resolved to a variable read with higher priority than a parameterless rule call (yielding a warning)
+ - consequences: a parameterless rule call is still possible when no variable of that name exists,
+   while a rule call can be enforced by applying parenthesis
+
+ A few further bugfixes, especially:
+  - adapted/fixed parameter passing of procedures with inputs(/outputs) of array of match (class) types 
+  - fixed procedure method calls in compiled sequences
+  - added missing check of builtin procedure calls
+
+ User manual adaptations
+ 
+--------------------------------------------------------------------------------------------------------
+ 
+v6.5 (2022-01-06)
  Introduced a parallel (var1, var2, ...) = in subgraph-expr1, value-expr1 { seq1 }, in subgraph-expr2, value-expr2 { seq2 }, ... 
   construct to the interpreted sequences
   it executes the sequences in parallel (given sufficient execution resources),

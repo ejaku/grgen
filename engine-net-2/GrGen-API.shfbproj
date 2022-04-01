@@ -30,16 +30,19 @@
     </WorkingPath>
     <HelpFileFormat>Website</HelpFileFormat>
     <FrameworkVersion>.NET Framework 4.0</FrameworkVersion>
-    <HelpTitle>GrGen.NET v6.5 API: the libGr class library %28the type exact interface gets generated%29</HelpTitle>
+    <HelpTitle>GrGen.NET v6.6 API: the libGr class library %28the type exact interface gets generated%29</HelpTitle>
     <PresentationStyle>VS2013</PresentationStyle>
     <NamingMethod>MemberName</NamingMethod>
     <SyntaxFilters>C#</SyntaxFilters>
     <DocumentationSources>
       <DocumentationSource sourceFile="bin\lgspBackend.dll" />
-      <DocumentationSource sourceFile="bin\lgspBackend.xml" />
-      <DocumentationSource sourceFile="bin\libGr.dll" />
-      <DocumentationSource sourceFile="bin\libGr.xml" />
-    </DocumentationSources>
+<DocumentationSource sourceFile="bin\lgspBackend.xml" />
+<DocumentationSource sourceFile="bin\libGr.dll" />
+<DocumentationSource sourceFile="bin\libGr.xml" />
+<DocumentationSource sourceFile="bin\graphViewerAndSequenceDebugger.dll" />
+<DocumentationSource sourceFile="bin\graphViewerAndSequenceDebugger.xml" />
+<DocumentationSource sourceFile="bin\libGrShell.dll" />
+<DocumentationSource sourceFile="bin\libGrShell.xml" /></DocumentationSources>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="(global)" isDocumented="False" />
       <NamespaceSummaryItem name="de.unika.ipd.grGen.libGr" isDocumented="True" />

@@ -12,13 +12,14 @@
            a specific number of sub-topics when creating the outline.  Specify
            zero (0) to limit it to top-level sections only.  -->
       <!-- <autoOutline /> -->
-      <para>This is an introduction into the Application Programming Interface of the GrGen.NET v6.5 system,
+      <para>This is an introduction into the Application Programming Interface of the GrGen.NET v6.6 system,
       	i.e. the libGr and the assemblies generated from the model and rule specifications.
       	We'll have a look at the	
 		<list class="bullet">
 		  <listItem>interface to the (named) graph and model</listItem>
 		  <listItem>interface to the rules and matches</listItem>
 		  <listItem>interface to the graph processing environment</listItem>
+		  <listItem>interface to the graph viewer and debugger</listItem>
 		</list>
     	
       	From the input file <localUri>Foo.grg</localUri> the <application>grgen.exe</application> compiler generates the output files <localUri>FooModel.cs</localUri> for the model and <localUri>FooActions.cs</localUri> for the actions,
@@ -137,6 +138,18 @@ Further on, the environment offers driver or helper objects for transaction mana
       </content>
     </section>
     <section address="Section4">
+      <title>Interface to the graph viewer and debugger</title>
+      <content>
+        <!-- Uncomment this to create a sub-section outline
+        <autoOutline /> -->
+        <para>
+The <codeInline>GraphViewer</codeInline> offers the functionality to display a graph continuously, following its changes, as well as to just render a snapshot of it.
+The <codeInline>Debugger</codeInline> allows you to execute sequences stepwise under debugger control (in a console window).
+They are contained in the graphViewerAndSequencesDebugger project; in the libGrShell project do you find the <codeInline>GrShell</codeInline> that allows you to employ GrShell-functionality from your own code (once it was generated).
+        </para>
+      </content>
+    </section>
+    <section address="Section5">
       <title>Examples</title>
       <content>
         <!-- Uncomment this to create a sub-section outline
@@ -158,12 +171,24 @@ Further on, the environment offers driver or helper objects for transaction mana
 				<localUri>examples-api/BusyBeaverExample/BusyBeaverExample.cs</localUri>.
 			  </listItem>
 			  <listItem>
-			  	How to compile a .grg-specification at runtime and dump a graph for visualization in .vcg format on the API level is shown in
+			  	How to compile a .grg-specification at runtime and dump a graph for visualization in .vcg format on API level is shown in
 				<localUri>examples-api/HelloMutex/HelloMutex.cs</localUri>.
 			  </listItem>
 			  <listItem>
-			  	How to communicate with yComp on the API level (from your own code) is shown in
+			  	How to display a graph at API level, resp. how to communicate with yComp on API level (from your own code) is shown in
 				<localUri>examples-api/YCompExample/YCompExample.cs</localUri>.
+			  </listItem>
+			  <listItem>
+			  	How to debug a sequence on API level (from your own code, in the GrGen debugger in a console window) is shown in the
+				<localUri>examples-api/DebuggerExample/DebuggerExample.cs</localUri>.
+			  </listItem>
+			  <listItem>
+			  	How to employ the GrShell from API level is shown in the
+				<localUri>examples-api/ShellExample/ShellExample.cs</localUri>.
+			  </listItem>
+			  <listItem>
+			  	How to use GrGen functionality from a GUI application is shown in the
+				<localUri>examples-api/ApplicationExample/ApplicationExampleForm.cs</localUri>.
 			  </listItem>
 			</list>
 			If you want to work with GrGen.NET at API level you should get <application>VisualStudio</application> or <application>MonoDevelop</application> and have a look at them (or the other GrGen.NET code delivered with the source distribution; have a look at the How to build section in the manual if you want to build GrGen.NET on your own).
