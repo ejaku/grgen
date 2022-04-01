@@ -17,12 +17,14 @@ CompilerOptimization-TTC2011:
   OptimizationDebugMinPlus.grs -> 0
 ConferenceScheduling-GraBaTs08-Live-Contest-Winning-Solution:
   conference.grs -> 0
-  conferenceassignment4.grs -> 0
   conferenceShow.grs -> 0
+  conferenceassignment4.grs -> 0
 Connectivity:
   Connectivity.grs -> 0
 ConveyorBeltSystem-GraBaTs09-Live-Contest-Winning-Solution:
   Run.grs -> 0
+DTree:
+  DTree.grs -> 0
 DebugExec:
   debugexec.grs -> 0
 DebugTesting:
@@ -30,11 +32,83 @@ DebugTesting:
 Dragon:
   Dragon.grs -> 0
   DragonDebug.grs -> 0
-DTree:
-  DTree.grs -> 0
+Errors:
+  AttributeEdgeUnknown.grs -> 127
+  AttributeNodeUnknown.grs -> 127
+  AttributeObjectUnknown.grs -> 127
+  AttributeTransientObjectUnknown.grs -> 127
+  AttributeUnknownCompiled.grs -> 127
+  FilterError.grs -> 127
+  FilterErrorCompiled.grs -> 127
+  FilterLambdaExpressionError.grs -> 127
+  FilterLambdaExpressionErrorCompiled.grs -> 127
+  FilterParameterError.grs -> 127
+  FilterParameterErrorCompiled.grs -> 127
+  FunctionMethodParametersMismatchCompiled.grs -> 127
+  FunctionMethodUnknown.grs -> 127
+  FunctionMethodUnknownCompiled.grs -> 127
+  FunctionParametersInNumberMismatch.grs -> 127
+  FunctionParametersInTypeMismatch.grs -> 127
+  FunctionParametersMismatchCompiled.grs -> 127
+  FunctionParametersOutTypeMismatch.grs -> 127
+  FunctionUnknown.grs -> 127
+  FunctionUnknownCompiled.grs -> 127
+  IndexAccessDirectionUnknown.grs -> 127
+  IndexAccessDirectionUnknownCompiled.grs -> 127
+  IndexTwoDifferentIndexNames.grs -> 127
+  IndexTwoDifferentIndexNamesCompiled.grs -> 127
+  IndexTwoLowerBounds.grs -> 127
+  IndexTwoLowerBoundsCompiled.grs -> 127
+  IndexTwoUpperBounds.grs -> 127
+  IndexTwoUpperBoundsCompiled.grs -> 127
+  MatchClassError.grs -> 127
+  MatchClassErrorCompiled.grs -> 127
+  MatchClassMemberUnknown.grs -> 127
+  MatchClassNotImplementedError.grs -> 127
+  MatchClassNotImplementedErrorCompiled.grs -> 127
+  MatchMemberUnknown.grs -> 127
+  MatchMemberUnknownCompiled.grs -> 127
+  MatchRuleUnknown.grs -> 127
+  MatchRuleUnknownCompiled.grs -> 127
+  OperatorNotFound.grs -> 127
+  OperatorNotFoundCompiled.grs -> 127
+  ProcedureMethodParametersMismatchCompiled.grs -> 127
+  ProcedureMethodUnknown.grs -> 127
+  ProcedureMethodUnknownCompiled.grs -> 127
+  ProcedureParametersInNumberMismatch.grs -> 127
+  ProcedureParametersInTypeMismatch.grs -> 127
+  ProcedureParametersMismatchCompiled.grs -> 127
+  ProcedureParametersOutNumberMismatch.grs -> 127
+  ProcedureParametersOutTypeMismatch.grs -> 127
+  ProcedureUnknown.grs -> 127
+  ProcedureUnknownCompiled.grs -> 127
+  RuleParametersInNumberMismatch.grs -> 127
+  RuleParametersInTypeMismatch.grs -> 127
+  RuleParametersMismatchCompiled.grs -> 127
+  RuleParametersOutNumberMismatch.grs -> 127
+  RuleParametersOutTypeMismatch.grs -> 127
+  RuleUnknown.grs -> 127
+  RuleUnknownCompiled.grs -> 127
+  SequenceParametersInNumberMismatch.grs -> 127
+  SequenceParametersInTypeMismatch.grs -> 127
+  SequenceParametersMismatchCompiled.grs -> 127
+  SequenceParametersOutNumberMismatch.grs -> 127
+  SequenceParametersOutTypeMismatch.grs -> 127
+  SequenceUnknown.grs -> 127
+  SequenceUnknownCompiled.grs -> 127
+  SubgraphError.grs -> 127
+  SubgraphErrorCompiled.grs -> 127
+  SubgraphTypeError.grs -> 127
+  SubgraphTypeErrorCompiled.grs -> 127
+  TypeMismatch.grs -> 127
+  TypeMismatchCompiled.grs -> 127
+  UnknownPatternElement.grs -> 127
+  UnknownPatternElementCompiled.grs -> 127
+  UserMethodsOnlyAvailableForInheritanceTypes.grs -> 127
+  UserMethodsOnlyAvailableForInheritanceTypesCompiled.grs -> 127
 ExternalAttributeEvaluationExample:
-  castExternal.grs -> 0
   ExternalAttributeEvaluation.grs -> 0
+  castExternal.grs -> 0
 ExternalFiltersAndSequencesExample:
   ExternalFiltersAndSequences.grs -> 0
 FiniteStateMachine:
@@ -84,9 +158,9 @@ ModelMigration-TTC2010:
   show_uml22_objectflow_extension.grs -> 0
 MovieDatabase-TTC2014:
   GrgenifyMovieDatabase.grs -> 0
-  imdb-0005000-50176.movies.xmi.grs -> 127
   MovieDatabase.grs -> 0
   MovieDatabaseLayout.grs -> 127
+  imdb-0005000-50176.movies.xmi.grs -> 127
 Mutex:
   Mutex10.grs -> 0
   Mutex1000.grs -> 0
@@ -142,8 +216,8 @@ Snowflake:
 Transkription:
   Transkription.grs -> 0
 TranskriptionAbstrakt:
-  generateGraph.grs -> 0
   TranskriptionAbstrakt.grs -> 0
+  generateGraph.grs -> 0
 TranskriptionAbstraktNachAtom:
   TranskriptionAbstraktNachAtom.grs -> 0
 Turing:
@@ -160,9 +234,9 @@ UML:
   demo_sm.grs -> 0
   g2x.grs -> 0
   test.grs -> 0
-UML2CSP2-GraBaTs08:
-  UML2CSP.grs -> 0
 UML2CSP-GraBaTs09:
+  UML2CSP.grs -> 0
+UML2CSP2-GraBaTs08:
   UML2CSP.grs -> 0
 Visualization:
   Debugging.grs -> 0

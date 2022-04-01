@@ -402,6 +402,7 @@ OK     should_pass/exists_delete_file.grg
 OK     should_pass/explode_implode.grg
 OK     should_pass/external_001.grg
 OK     should_pass/from_storage.grg
+OK     should_pass/function_method_call_in_sequence.grg
 OK     should_pass/getEquivalent.grg
 OK     should_pass/getEquivalentOrAdd.grg
 OK     should_pass/getEquivalentStructurally.grg
@@ -582,6 +583,7 @@ OK     should_pass/pattern_016.grg
 OK     should_pass/pattern_empty.grg
 OK     should_pass/pieter.grg
 OK     should_pass/pow.grg
+OK     should_pass/procedure_method_call_in_sequence.grg
 OK     should_pass/randompeek.grg
 OK     should_pass/randomrule.grg
 OK     should_pass/randomrule_untyped.grg
@@ -729,6 +731,7 @@ WARNED should_warn/typeof_003.grg
 WARNED should_warn/typeof_101.grg
 WARNED should_warn/typeof_102.grg
 WARNED should_warn/typeof_103.grg
+WARNED should_warn/variable_usage_of_same_name_like_rule.grg
 FAILED should_fail/FilterFunctionsParams_001.grg
 FAILED should_fail/FilterFunctionsParams_002.grg
 FAILED should_fail/FilterFunctionsParams_003.grg
