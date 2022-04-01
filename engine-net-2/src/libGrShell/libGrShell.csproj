@@ -37,7 +37,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRules>
     </CodeAnalysisRules>
-    <DocumentationFile>..\..\bin\libGr.XML</DocumentationFile>
+    <DocumentationFile>..\..\bin\libGrShell.XML</DocumentationFile>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
