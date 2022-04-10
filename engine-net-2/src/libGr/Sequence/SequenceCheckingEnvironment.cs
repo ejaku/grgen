@@ -109,7 +109,7 @@ namespace de.unika.ipd.grGen.libGr
             if(ownerType == null)
             {
                 // error, must be node or edge type
-                throw new SequenceParserExceptionUserMethodsOnlyAvailableForGraphElements(targetExprType, seqCompProcMethodCall.Name);
+                throw new SequenceParserExceptionUserMethodsOnlyAvailableForInheritanceTypes(targetExprType, seqCompProcMethodCall.Name);
             }
 
             if(ownerType.GetProcedureMethod(seqCompProcMethodCall.Name) == null)
@@ -137,7 +137,7 @@ namespace de.unika.ipd.grGen.libGr
             if(ownerType == null)
             {
                 // error, must be node or edge type
-                throw new SequenceParserExceptionUserMethodsOnlyAvailableForGraphElements(targetVar.Type, seqCompProcMethodCall.Name);
+                throw new SequenceParserExceptionUserMethodsOnlyAvailableForInheritanceTypes(targetVar.Type, seqCompProcMethodCall.Name);
             }
 
             // check whether called procedure method exists
@@ -178,7 +178,7 @@ namespace de.unika.ipd.grGen.libGr
             if(ownerType == null)
             {
                 // error, must be node or edge type
-                throw new SequenceParserExceptionUserMethodsOnlyAvailableForGraphElements(targetExprType, seqExprFuncMethodCall.Name);
+                throw new SequenceParserExceptionUserMethodsOnlyAvailableForInheritanceTypes(targetExprType, seqExprFuncMethodCall.Name);
             }
 
             // check whether called function method exists

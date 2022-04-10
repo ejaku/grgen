@@ -186,7 +186,7 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceParserExceptionUserMethodsOnlyAvailableForGraphElements : SequenceParserException
+    public class SequenceParserExceptionUserMethodsOnlyAvailableForInheritanceTypes : SequenceParserException
     {
         public override String Name { get { return Type; } }
         public readonly String Type;
@@ -197,7 +197,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Creates an instance with the type a method is called on (not supporting user methods; and the method).
         /// </summary>
-        public SequenceParserExceptionUserMethodsOnlyAvailableForGraphElements(String type, String methodCalled)
+        public SequenceParserExceptionUserMethodsOnlyAvailableForInheritanceTypes(String type, String methodCalled)
         {
             Type = type;
             MethodCalled = methodCalled;

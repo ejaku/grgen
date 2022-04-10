@@ -14044,7 +14044,7 @@ namespace de.unika.ipd.grGen.libGr
 
             InheritanceType ownerType = TypesHelper.GetInheritanceType(targetExprType, env.Model);
             if(ownerType == null)
-                throw new SequenceParserExceptionUserMethodsOnlyAvailableForGraphElements(targetExprType, Name);
+                throw new SequenceParserExceptionUserMethodsOnlyAvailableForInheritanceTypes(targetExprType, Name);
 
             if(ownerType.GetFunctionMethod(Name) == null)
                 throw new SequenceParserExceptionCallIssue(this, CallIssueType.UnknownFunction);
