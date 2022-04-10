@@ -14038,7 +14038,19 @@ namespace de.unika.ipd.grGen.libGr
 
         public override String Type(SequenceCheckingEnvironment env)
         {
-            return "";
+            String targetExprType = TargetExpr.Type(env);
+            if(targetExprType == "")
+                return "";
+
+            InheritanceType ownerType = TypesHelper.GetInheritanceType(targetExprType, env.Model);
+            if(ownerType == null)
+                throw new SequenceParserExceptionUserMethodsOnlyAvailableForGraphElements(targetExprType, Name);
+
+            if(ownerType.GetFunctionMethod(Name) == null)
+                throw new SequenceParserExceptionCallIssue(this, CallIssueType.UnknownFunction);
+
+            IFunctionDefinition funcDef = ownerType.GetFunctionMethod(Name);
+            return TypesHelper.DotNetTypeToXgrsType(funcDef.Output);
         }
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
