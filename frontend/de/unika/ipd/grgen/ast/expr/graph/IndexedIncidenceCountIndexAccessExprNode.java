@@ -88,8 +88,9 @@ public class IndexedIncidenceCountIndexAccessExprNode extends ExprNode
 
 			String givenTypeName = keyExprType.getTypeName();
 			String expectedTypeName = keyType.getTypeName();
-			reportError("Cannot convert indexed incidence index access argument from \"" + givenTypeName
-					+ "\" to \"" + expectedTypeName + "\"");
+			reportError("Cannot convert type used in accessing index from " + givenTypeName
+					+ " to expected " + expectedTypeName
+					+ " (in indexed incidence index access of " + target.getIdentNode() + ").");
 			return false;
 		} else {
 			if(keyExprType.isEqual(keyType))

@@ -75,7 +75,7 @@ public class SetInitNode extends ContainerSingleElementInitNode
 		boolean success = checkContainerItems();
 		
 		if(!isConstant() && lhs != null) {
-			reportError("Only constant items allowed in set initialization in model");
+			reportError("Only constant items are allowed in a set initialization in the model.");
 			success = false;
 		}
 

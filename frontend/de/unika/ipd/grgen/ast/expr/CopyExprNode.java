@@ -82,7 +82,8 @@ public class CopyExprNode extends BuiltinFunctionInvocationBaseNode
 					&& !(type instanceof InternalTransientObjectTypeNode)
 					&& !(type instanceof ExternalObjectTypeNode)
 					&& !(type instanceof ObjectTypeNode)) {
-				sourceExpr.reportError("container or graph or class object or transient class object or external object expected as argument to copy");
+				sourceExpr.reportError("The copy construct expects as argument a value of type container or graph or class object or transient class object or external object"
+						+ " (but is given a value of type " + type + ").");
 				return false;
 			}
 		} else {
@@ -92,7 +93,8 @@ public class CopyExprNode extends BuiltinFunctionInvocationBaseNode
 					&& !(type instanceof InternalTransientObjectTypeNode)
 					&& !(type instanceof ExternalObjectTypeNode)
 					&& !(type instanceof ObjectTypeNode)) {
-				sourceExpr.reportError("container or match or class object or transient class object or external object expected as argument to clone");
+				sourceExpr.reportError("The clone construct expects as argument a value of type container or match or class object or transient class object or external object"
+						+ " (but is given a value of type " + type + ").");
 				return false;
 			}
 		}

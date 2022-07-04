@@ -129,11 +129,11 @@ public class AssignIndexedNode extends EvalStatementNode
 				if(unresolved.decl instanceof VarDeclNode) {
 					lhsVar = (VarDeclNode)unresolved.decl;
 				} else {
-					reportError("error in resolving lhs of indexed assignment, unexpected type.");
+					reportError("Error in resolving the variable on the LHS of the indexed assignment (given is " + unresolved.getIdent() + ").");
 					successfullyResolved = false;
 				}
 			} else {
-				reportError("error in resolving lhs of indexed assignment.");
+				reportError("Error in resolving the variable on the LHS of the indexed assignment (given is " + unresolved.getIdent() + ").");
 				successfullyResolved = false;
 			}
 		} else if(lhsUnresolved instanceof QualIdentNode) {
@@ -141,11 +141,11 @@ public class AssignIndexedNode extends EvalStatementNode
 			if(unresolved.resolve()) {
 				lhsQual = unresolved;
 			} else {
-				reportError("error in resolving lhs of qualified attribute indexed assignment.");
+				reportError("Error in resolving the qualified attribute on the LHS of the indexed assignment (given is " + unresolved + ").");
 				successfullyResolved = false;
 			}
 		} else {
-			reportError("internal error - invalid target in indexed assign");
+			reportError("Internal error - invalid LHS in indexed assignment.");
 			successfullyResolved = false;
 		}
 		return successfullyResolved;
@@ -157,7 +157,7 @@ public class AssignIndexedNode extends EvalStatementNode
 	{
 		if(lhsQual != null) {
 			if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
-				reportError("indexed assignment to an attribute of a graph element is not allowed in function or lhs context");
+				reportError("An indexed assignment to an attribute of a graph element is not allowed in function or pattern part context.");
 				return false;
 			}
 
@@ -165,7 +165,7 @@ public class AssignIndexedNode extends EvalStatementNode
 			TypeNode ty = owner.getDeclType();
 
 			if(lhsQual.getDecl().isConst()) {
-				error.error(getCoords(), "indexed assignment to a const member is not allowed");
+				error.error(getCoords(), "An indexed assignment to a const member is not allowed (but " + lhsQual.getDecl().getIdentNode() + " is contant).");
 				return false;
 			}
 
@@ -173,7 +173,7 @@ public class AssignIndexedNode extends EvalStatementNode
 				InheritanceTypeNode inhTy = (InheritanceTypeNode)ty;
 
 				if(inhTy.isConst()) {
-					error.error(getCoords(), "indexed assignment to a const type object is not allowed");
+					error.error(getCoords(), "An indexed assignment to a const type object is not allowed (but " + inhTy + " is constant).");
 					return false;
 				}
 			}
@@ -182,7 +182,8 @@ public class AssignIndexedNode extends EvalStatementNode
 				ConstraintDeclNode entity = (ConstraintDeclNode)owner;
 				if((entity.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION) {
 					if(getCoords().comesBefore(entity.getCoords())) {
-						reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned (with index).");
+						reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned to (with index)"
+								+ " (" + entity.getIdentNode() + " was not yet declared).");
 						return false;
 					}
 				}
@@ -190,14 +191,14 @@ public class AssignIndexedNode extends EvalStatementNode
 		} else {
 			if((lhsVar.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION) {
 				if(getCoords().comesBefore(lhsVar.getCoords())) {
-					reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned (with index).");
+					reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned to (with index)"
+							+ " (" + lhsVar.getIdentNode() + " was not yet declared).");
 					return false;
 				}
 			}
 
 			if(lhsVar.directlyNestingLHSGraph == null && onLHS) {
-				error.error(getCoords(), "indexed assignment to a global variable not allowed from a yield block ("
-						+ lhsVar.getIdentNode() + ")");
+				error.error(getCoords(), "An indexed assignment to a global variable (" + lhsVar.getIdentNode() + ") is not allowed from a yield block.");
 				return false;
 			}
 		}
@@ -234,7 +235,8 @@ public class AssignIndexedNode extends EvalStatementNode
 		} else if(targetType instanceof MapTypeNode) {
 			valueType = ((MapTypeNode)targetType).valueType;
 		} else {
-			targetType.reportError("can only carry out an indexed assignment on an attribute/variable of array/deque/map type");
+			targetType.reportError("Can only carry out an indexed assignment on an attribute/variable of array/deque/map type"
+					+ " (given is type " + targetType + ").");
 			return false;
 		}
 
@@ -261,7 +263,7 @@ public class AssignIndexedNode extends EvalStatementNode
 
 			String givenTypeName = keyExprType.getTypeName();
 			String expectedTypeName = keyType.getTypeName();
-			reportError("Cannot convert assign index from \"" + givenTypeName + "\" to \"" + expectedTypeName + "\"");
+			reportError("Cannot convert index in assignment from " + givenTypeName + " to " + expectedTypeName + ".");
 			return false;
 		} else {
 			if(keyExprType.isEqual(keyType))
@@ -288,10 +290,10 @@ public class AssignIndexedNode extends EvalStatementNode
 		if(lhsQual != null) {
 			Qualification qual = lhsQual.checkIR(Qualification.class);
 			if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).changesType(null)) {
-				error.error(getCoords(), "Assignment to an old node of a type changed node is not allowed");
+				error.error(getCoords(), "An assignment to a node whose type will be changed is not allowed.");
 			}
 			if(qual.getOwner() instanceof Edge && ((Edge)qual.getOwner()).changesType(null)) {
-				error.error(getCoords(), "Assignment to an old edge of a type changed edge is not allowed");
+				error.error(getCoords(), "An assignment to an edge whose type will be changed is not allowed.");
 			}
 
 			ExprNode rhsEvaluated = rhs.evaluate();

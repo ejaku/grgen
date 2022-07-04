@@ -78,13 +78,14 @@ public class DequeLastIndexOfNode extends DequeFunctionMethodInvocationBaseExprN
 		if(!valueType.isEqual(dequeType.valueType)) {
 			valueExpr = becomeParent(valueExpr.adjustType(dequeType.valueType, getCoords()));
 			if(valueExpr == ConstNode.getInvalid()) {
-				valueExpr.reportError("Argument (value) to deque lastIndexOf method must be of type "
-						+ dequeType.valueType.toString());
+				valueExpr.reportError("The deque function method lastIndexOf expects as 1. argument (valueToSearchFor) a value of type " + dequeType.valueType
+						+ " (but is given a value of type " + valueType + ").");
 				return false;
 			}
 		}
 		if(startIndexExpr != null && !startIndexExpr.getType().isEqual(BasicTypeNode.intType)) {
-			startIndexExpr.reportError("Argument (start index) to deque lastIndexOf expression must be of type int");
+			startIndexExpr.reportError("The deque function method lastIndexOf expects as 2. argument (startIndex) a value of type int"
+					+ " (but is given a value of type " + startIndexExpr.getType() + ").");
 			return false;
 		}
 		return true;

@@ -73,7 +73,8 @@ public class ArrayIndexOfOrderedByNode extends ArrayFunctionMethodInvocationBase
 		ArrayTypeNode arrayType = getTargetType();
 		if(!(arrayType.valueType instanceof InheritanceTypeNode)
 				&& !(arrayType.valueType instanceof MatchTypeNode)) {
-			reportError("indexOfOrderedBy can only be employed on an array of nodes or edges or class objects or transient class objects or match types or match class types.");
+			targetExpr.reportError("The array function method indexOfOrderedBy can only be employed on an object of type array<nodes, edges, class objects, transient class objects, match types, match class types>"
+					+ " (but is employed on an object of type " + arrayType + ").");
 			return false;
 		}
 
@@ -91,15 +92,16 @@ public class ArrayIndexOfOrderedByNode extends ArrayFunctionMethodInvocationBase
 				&& !(memberType.equals(BasicTypeNode.stringType))
 				&& !(memberType.equals(BasicTypeNode.booleanType))
 				&& !(memberType instanceof EnumTypeNode)) {
-			targetExpr.reportError("array method indexOfOrderedBy only available for attributes of type byte,short,int,long,float,double,string,boolean,enum of a graph element");
+			targetExpr.reportError("The array function method indexOfOrderedBy is only available for attributes of type byte,short,int,long,float,double,string,boolean,enum of a graph element"
+					+ " (but is " + memberType + ")");
 		}
 
 		TypeNode valueType = valueExpr.getType();
 		if(!valueType.isEqual(memberType)) {
 			valueExpr = becomeParent(valueExpr.adjustType(memberType, getCoords()));
 			if(valueExpr == ConstNode.getInvalid()) {
-				valueExpr.reportError("Argument (value) to array indexOfOrderedBy method must be of type "
-						+ memberType.toString());
+				valueExpr.reportError("The array function method indexOfOrderedBy expects as 1. argument (valueToSearchFor) a value of type " + memberType
+						+ " (but is given a value of type " + valueType + ").");
 				return false;
 			}
 		}

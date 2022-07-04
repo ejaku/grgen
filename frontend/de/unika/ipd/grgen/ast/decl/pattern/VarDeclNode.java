@@ -146,7 +146,7 @@ public class VarDeclNode extends DeclNode
 		}
 		DeclNode typeDecl = declOfTypeResolver.resolve(typeUnresolved, this);
 		if(typeDecl instanceof InvalidDeclNode) {
-			typeUnresolved.reportError("Unknown type: \"" + typeUnresolved + "\"");
+			typeUnresolved.reportError("Unknown type " + typeUnresolved + " of " + getIdentNode() + ".");
 			return false;
 		}
 		if(!typeDecl.resolve()) {
@@ -161,11 +161,13 @@ public class VarDeclNode extends DeclNode
 	{
 		if(modifier != null) {
 			if(type.isValueType() && !modifier.equals("var")) {
-				reportError("var keyword needed before a variable of value type (basic type, enum type, external type)");
+				reportError("A var keyword is needed before a variable of value type "
+						+ "(basic type, enum type, external type) (missing at " + getIdentNode() + ").");
 				return false;
 			}
 			else if(type.isReferenceType() && !modifier.equals("ref")) {
-				reportError("ref keyword needed before a variable of reference type (container type, match type, object class type, transient object class type).");
+				reportError("A ref keyword is needed before a variable of reference type "
+						+ "(container type, match type, object class type, transient object class type) (missing at " + getIdentNode() + ").");
 				return false;
 			}
 		}

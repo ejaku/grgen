@@ -66,7 +66,7 @@ public class BreakStatementNode extends EvalStatementNode
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		if(enclosingLoop == null) {
-			reportError("break must be nested inside a loop (where to break out?)");
+			reportError("The break statement must be nested inside a loop (where to break out otherwise?).");
 			return false;
 		}
 		return true;

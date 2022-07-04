@@ -70,7 +70,8 @@ public class ArcSinCosTanExprNode extends BuiltinFunctionInvocationBaseNode
 		if(argumentExpr.getType().isEqual(BasicTypeNode.doubleType)) {
 			return true;
 		}
-		reportError("The only admissible type for " + which + "(.) is: (double)");
+		reportError("The function " + which + "() expects as argument a value of type double"
+				+ " (but is given a value of type " + argumentExpr.getType() + ").");
 		return false;
 	}
 

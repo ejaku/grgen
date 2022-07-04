@@ -88,23 +88,28 @@ public class IsBoundedReachableNodeExprNode extends NeighborhoodQueryExprNode
 	protected boolean checkLocal()
 	{
 		if(!(startNodeExpr.getType() instanceof NodeTypeNode)) {
-			reportError("first argument of " + shortSignature() + " must be a node");
+			reportError("The function " + shortSignature() + " expects as 1. argument a value of type node"
+					+ " (but is given a value of type " + startNodeExpr.getType() + ").");
 			return false;
 		}
 		if(!(endNodeExpr.getType() instanceof NodeTypeNode)) {
-			reportError("second argument of " + shortSignature() + " must be a node");
+			reportError("The function " + shortSignature() + " expects as 2. argument a value of type node"
+					+ " (but is given a value of type " + endNodeExpr.getType() + ").");
 			return false;
 		}
 		if(!(depthExpr.getType() instanceof IntTypeNode)) {
-			reportError("third argument of " + shortSignature() + " must be an int");
+			reportError("The function " + shortSignature() + " expects as 3. argument a value of type int"
+					+ " (but is given a value of type " + depthExpr.getType() + ").");
 			return false;
 		}
 		if(!(incidentTypeExpr.getType() instanceof EdgeTypeNode)) {
-			reportError("fourth argument of " + shortSignature() + " must be an edge type");
+			reportError("The function " + shortSignature() + " expects as 4. argument a value of type edge type"
+					+ " (but is given a value of type " + incidentTypeExpr.getType() + ").");
 			return false;
 		}
 		if(!(adjacentTypeExpr.getType() instanceof NodeTypeNode)) {
-			reportError("fifth argument of " + shortSignature() + " must be a node type");
+			reportError("The function " + shortSignature() + " expects as 5. argument a value of type node type"
+					+ " (but is given a value of type " + adjacentTypeExpr.getType() + ").");
 			return false;
 		}
 		return true;

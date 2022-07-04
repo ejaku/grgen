@@ -222,12 +222,12 @@ public class Rule extends MatchingAction implements ContainedInPackage
 		PatternGraphLhs left = getLeft();
 		for(Node node : left.getNodes()) {
 			if((node.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
-				error.error(node.getIdent().getCoords(), "Nodes declared in rewrite part can't be accessed in pattern");
+				error.error(node.getIdent().getCoords(), "Nodes declared in the rewrite part cannot be accessed in the pattern part (as is the case for " + node.getIdent() + ").");
 			}
 		}
 		for(Edge edge : left.getEdges()) {
 			if((edge.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
-				error.error(edge.getIdent().getCoords(), "Edges declared in rewrite part can't be accessed in pattern");
+				error.error(edge.getIdent().getCoords(), "Edges declared in the rewrite part cannot be accessed in the pattern part (as is the case for " + edge.getIdent() + ").");
 			}
 		}
 	}
@@ -382,10 +382,9 @@ public class Rule extends MatchingAction implements ContainedInPackage
 	static void reportMultipleDeleteOrRetype(Entity entity, Rule first, Rule second)
 	{
 		error.error(entity.getIdent().getCoords(), "The entity " + entity.getIdent() + " or a hom entity"
-				+ " may get deleted or retyped in pattern " + first.getIdent() + " starting at "
-				+ first.getIdent().getCoords()
-				+ " and in pattern " + second.getIdent() + " starting at " + second.getIdent().getCoords()
-				+ " (only one such place allowed, provable at compile time)");
+				+ " may get deleted or retyped in pattern " + first.getIdent() + " (starting at " + first.getIdent().getCoords() + ")"
+				+ " and in pattern " + second.getIdent() + " (starting at " + second.getIdent().getCoords() + ")"
+				+ " (only one such place is allowed, determinable at compile time).");
 	}
 
 	public void checkForMultipleRetypesLocal()
@@ -426,8 +425,8 @@ public class Rule extends MatchingAction implements ContainedInPackage
 
 	static void reportMultipleRetype(Entity entity, Entity homEntity)
 	{
-		error.error(entity.getIdent().getCoords(), "The entity " + entity.getIdent() +
-				" and the hom entity " + homEntity.getIdent() + " at " + homEntity.getIdent().getCoords() 
+		error.error(entity.getIdent().getCoords(), "The entity " + entity.getIdent()
+				+ " and the hom entity " + homEntity.getIdent() + " (at " + homEntity.getIdent().getCoords() + ")"
 				+ " are both retyped, so a homomorphically matched graph element may get retyped multiple times.");
 	}
 
@@ -594,7 +593,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 				}
 			}
 			if(dependencyLevel >= MAX_CHAINING_FOR_STORAGE_MAP_ACCESS) {
-				error.error("Cycle in match node/edge by storage map access or storage attribute.");
+				error.error("Cycle in match node/edge by storage map access or storage attribute detected.");
 				break;
 			}
 		} while(somethingChanged);
@@ -617,9 +616,8 @@ public class Rule extends MatchingAction implements ContainedInPackage
 			if(getParameters().indexOf(node) != -1)
 				continue;
 			if(node.isDefToBeYieldedTo()) {
-				error.error(entity.getIdent().getCoords(),
-						"Cannot use a def to be yielded to node for index access/name map access of "
-								+ entity.getIdent().toString());
+				error.error(entity.getIdent().getCoords(), "Cannot use a def node (" + node.getIdent() + ")"
+						+ " for index/name map access of " + entity.getIdent() + ".");
 			}
 			neededEntities.add(node);
 		}
@@ -627,17 +625,16 @@ public class Rule extends MatchingAction implements ContainedInPackage
 			if(getParameters().indexOf(edge) != -1)
 				continue;
 			if(edge.isDefToBeYieldedTo()) {
-				error.error(entity.getIdent().getCoords(),
-						"Cannot use a def to be yielded to edge for index access/name map access of "
-								+ entity.getIdent().toString());
+				error.error(entity.getIdent().getCoords(), "Cannot use a def edge (" + edge.getIdent() + ")"
+						+ " for index/name map access of " + entity.getIdent() + ".");
 			}
 			neededEntities.add(edge);
 		}
 		if(neededEntities.size() == 1)
 			return neededEntities.iterator().next();
 		else if(neededEntities.size() > 1) {
-			error.error(entity.getIdent().getCoords(),
-					"More than one needed entity for index access/name map access of " + entity.getIdent().toString());
+			error.error(entity.getIdent().getCoords(), neededEntities.size() + " needed entities for index/name map access of "
+						+ entity.getIdent().toString() + " (only one allowed).");
 		}
 		return null;
 	}

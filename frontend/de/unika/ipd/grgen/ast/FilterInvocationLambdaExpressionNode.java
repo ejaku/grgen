@@ -135,7 +135,7 @@ public class FilterInvocationLambdaExpressionNode extends FilterInvocationBaseNo
 		if(assignEntity != null) {
 			DeclNode resolvedEntity = iterated.pattern.tryGetMember(assignEntity);
 			if(resolvedEntity == null) {
-				reportError("Unknown entity " + assignEntity + " in " + iterated.getIdentNode());
+				reportError("Unknown entity " + assignEntity + " in " + iterated.getIdentNode() + ".");
 				return false;
 			}
 			entityType = resolvedEntity.getDeclType();

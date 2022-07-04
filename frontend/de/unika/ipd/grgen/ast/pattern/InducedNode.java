@@ -82,7 +82,7 @@ public class InducedNode extends BaseNode
 	protected boolean checkLocal()
 	{
 		if(children.isEmpty()) {
-			this.reportError("Induced statement is empty");
+			this.reportError("Induced statement is empty.");
 			return false;
 		}
 

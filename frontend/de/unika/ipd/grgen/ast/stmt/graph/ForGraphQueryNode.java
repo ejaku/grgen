@@ -45,7 +45,7 @@ public abstract class ForGraphQueryNode extends NestingStatementNode
 		if(iterationVariableUnresolved instanceof VarDeclNode) {
 			iterationVariable = (VarDeclNode)iterationVariableUnresolved;
 		} else {
-			reportError("error in resolving iteration variable of for " + forType + " loop.");
+			reportError("Error in resolving iteration variable of for " + forType + " loop.");
 			successfullyResolved = false;
 		}
 
@@ -59,7 +59,8 @@ public abstract class ForGraphQueryNode extends NestingStatementNode
 	{
 		if(!(iterationVariable.getDeclType() instanceof NodeTypeNode)
 				&& !(iterationVariable.getDeclType() instanceof EdgeTypeNode)) {
-			reportError("iteration variable of for " + forType + " loop must be of node or edge type.");
+			reportError("Iteration variable of for " + forType + " loop must be of type Node or Edge"
+					+ " (but is " + iterationVariable.getDeclType() + ").");
 			return false;
 		}
 		

@@ -61,7 +61,7 @@ public class PackageProcedureInvocationDecisionNode extends ProcedureInvocationD
 		switch(procedureName) {
 		case "Transaction::start":
 			if(arguments.size() != 0) {
-				env.reportError("Transaction::start() takes no parameters.");
+				env.reportError("Transaction::start() expects 0 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else
 				return new StartTransactionProcNode(env.getCoords());
@@ -71,14 +71,14 @@ public class PackageProcedureInvocationDecisionNode extends ProcedureInvocationD
 			} else if(arguments.size() == 2) {
 				return new ExportProcNode(env.getCoords(), arguments.get(1), arguments.get(0));
 			} else {
-				env.reportError("File::export() takes 1 (filepath) or 2 (graph, filepath) parameters.");
+				env.reportError("File::export() expects 1 (filepath) or 2 (graph, filepath) arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		case "File::delete":
 			if(arguments.size() == 1) {
 				return new DeleteFileProcNode(env.getCoords(), arguments.get(0));
 			} else {
-				env.reportError("File::delete() takes 1 (filepath) parameters.");
+				env.reportError("File::delete() expects 1 (filepath) argument (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		case "Debug::add":
@@ -89,7 +89,7 @@ public class PackageProcedureInvocationDecisionNode extends ProcedureInvocationD
 				}
 				return add;
 			} else {
-				env.reportError("Debug::add() takes at least one parameter, the message/computation entered.");
+				env.reportError("Debug::add() expects at least one argument, the message/computation entered (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		case "Debug::rem":
@@ -100,7 +100,7 @@ public class PackageProcedureInvocationDecisionNode extends ProcedureInvocationD
 				}
 				return rem;
 			} else {
-				env.reportError("Debug::rem() takes at least one parameter, the message/computation left.");
+				env.reportError("Debug::rem() expects at least one argument, the message/computation left (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		case "Debug::emit":
@@ -111,7 +111,7 @@ public class PackageProcedureInvocationDecisionNode extends ProcedureInvocationD
 				}
 				return emit;
 			} else {
-				env.reportError("Debug::emit() takes at least one parameter, the message to report.");
+				env.reportError("Debug::emit() expects at least one argument, the message to report (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		case "Debug::halt":
@@ -122,7 +122,7 @@ public class PackageProcedureInvocationDecisionNode extends ProcedureInvocationD
 				}
 				return halt;
 			} else {
-				env.reportError("Debug::halt() takes at least one parameter, the message to report.");
+				env.reportError("Debug::halt() expects at least one argument, the message to report (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		case "Debug::highlight":
@@ -133,59 +133,59 @@ public class PackageProcedureInvocationDecisionNode extends ProcedureInvocationD
 				}
 				return highlight;
 			} else {
-				env.reportError("Debug::highlight() takes an odd number of parameters, first the message, then a series of pairs of the value to highlight followed by its annotation.");
+				env.reportError("Debug::highlight() expects an odd number of arguments, first the message, then a series of pairs of the value to highlight followed by its annotation (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		case "Transaction::pause":
 			if(arguments.size() != 0) {
-				env.reportError("Transaction::pause() takes no parameters.");
+				env.reportError("Transaction::pause() expects 0 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
 				return new PauseTransactionProcNode(env.getCoords());
 			}
 		case "Transaction::resume":
 			if(arguments.size() != 0) {
-				env.reportError("Transaction::resume() takes no parameters.");
+				env.reportError("Transaction::resume() expects 0 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
 				return new ResumeTransactionProcNode(env.getCoords());
 			}
 		case "Transaction::commit":
 			if(arguments.size() != 1) {
-				env.reportError("Transaction::commit(transactionId) takes one parameter.");
+				env.reportError("Transaction::commit(transactionId) expects 1 argument (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
 				return new CommitTransactionProcNode(env.getCoords(), arguments.get(0));
 			}
 		case "Transaction::rollback":
 			if(arguments.size() != 1) {
-				env.reportError("Transaction::rollback(transactionId) takes one parameter.");
+				env.reportError("Transaction::rollback(transactionId) expects 1 argument (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
 				return new RollbackTransactionProcNode(env.getCoords(), arguments.get(0));
 			}
 		case "Synchronization::enter":
 			if(arguments.size() != 1) {
-				env.reportError("Synchronization::enter(criticalSectionObject) takes one parameter.");
+				env.reportError("Synchronization::enter(criticalSectionObject) expects 1 argument (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
 				return new SynchronizationEnterProcNode(env.getCoords(), arguments.get(0));
 			}
 		case "Synchronization::tryenter":
 			if(arguments.size() != 1) {
-				env.reportError("Synchronization::tryenter(criticalSectionObject) takes one parameter.");
+				env.reportError("Synchronization::tryenter(criticalSectionObject) expects 1 argument (given are " + arguments.size() + " arguments).");
 				return null;
 			} else
 				return new SynchronizationTryEnterProcNode(env.getCoords(), arguments.get(0));
 		case "Synchronization::exit":
 			if(arguments.size() != 1) {
-				env.reportError("Synchronization::exit(criticalSectionObject) takes one parameter.");
+				env.reportError("Synchronization::exit(criticalSectionObject) expects 1 argument (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
 				return new SynchronizationExitProcNode(env.getCoords(), arguments.get(0));
 			}
 		default:
-			env.reportError("no computation " + procedureName + " known");
+			env.reportError("A procedure of name " + procedureName + " is not known.");
 			return null;
 		}
 	}
@@ -197,7 +197,7 @@ public class PackageProcedureInvocationDecisionNode extends ProcedureInvocationD
 			if(isDebugProcedure()) { // allowed exceptions
 				return true;
 			} else {
-				reportError("package procedure call not allowed in function or lhs context (built-in-procedure)");
+				reportError("A package procedure call (built-in-procedure) is not allowed in function or pattern part context.");
 				return false;
 			}
 		}

@@ -225,7 +225,7 @@ public class ConnectionNode extends ConnectionCharacter
 		DeclaredTypeNode rootType = rootDecl != null ? rootDecl.getDeclType() : null;
 
 		if(!edge.getDeclType().isCompatibleTo(rootType)) {
-			reportError("Edge kind is incompatible with edge type");
+			reportError("Edge kind is incompatible with edge type (" + edge.getDeclType() + " and " + rootType + ").");
 			return false;
 		}
 
@@ -261,7 +261,8 @@ public class ConnectionNode extends ConnectionCharacter
 			return true; // edge is a def to be yielded to, i.e. output variable
 		}
 
-		edge.reportError("dangling edges in replace/modify part must have been declared in pattern part");
+		edge.reportError("Dangling edges in replace/modify part must have been declared in the pattern part"
+				+ " (declaration in the pattern part missing for " + edge + ").");
 		return false;
 	}
 
@@ -270,21 +271,27 @@ public class ConnectionNode extends ConnectionCharacter
 		if(left.defEntityToBeYieldedTo) {
 			if((left.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
 					&& (edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
-				left.reportError("A lhs def node can't connect to a lhs non-def edge (" + left.toString() + ")");
+				left.reportError("A pattern part def node cannot connect to a pattern part non-def edge"
+					+ " (as is the case with " + left.getIdentNode() + " and " + edge.getIdentNode() + ").");
 				return false;
 			}
 		}
 		if(right.defEntityToBeYieldedTo) {
 			if((right.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
 					&& (edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
-				right.reportError("A lhs def node can't connect to a lhs non-def edge (" + right.toString() + ")");
+				right.reportError("A pattern part def node cannot connect to a pattern part non-def edge"
+					+ " (as is the case with " + right.getIdentNode() + " and " + edge.getIdentNode() + ").");
 				return false;
 			}
 		}
 		if(edge.defEntityToBeYieldedTo) {
 			if((edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
 				if(!(left instanceof DummyNodeDeclNode && right instanceof DummyNodeDeclNode)) {
-					edge.reportError("A lhs def edge can't connect to nodes (" + edge.toString() + ")");
+					edge.reportError("A pattern part def edge cannot connect to nodes at all"
+						+ " (as is the case with " + edge.getIdentNode()
+						+ (left instanceof DummyNodeDeclNode ? "" : " and " + left.getIdentNode())
+						+ (right instanceof DummyNodeDeclNode ? "" : " and " + right.getIdentNode())
+						+ ").");
 					return false;
 				}
 			}
@@ -297,23 +304,27 @@ public class ConnectionNode extends ConnectionCharacter
 	{
 		if(redirectionKind != NO_REDIRECTION) {
 			if((edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-				edge.reportError("An edge to be redirected must have been declared on the left hand side (thus matched).");
+				edge.reportError("An edge to be redirected must have been declared in the pattern (thus matched)"
+						+ " (missing for " + edge.getIdentNode() + ").");
 				return false;
 			}
 			if(connectionKind != ConnectionKind.DIRECTED) {
-				edge.reportError("Only directed edges may be redirected (to other nodes).");
+				edge.reportError("Only directed edges may be redirected (to other nodes)"
+						+ " (this is not the case for " + edge.getIdentNode() + ").");
 				return false;
 			}
 		}
 		if(connectionKind == ConnectionKind.ARBITRARY) {
 			if((edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-				reportError("New instances of ?--? are not allowed in RHS");
+				reportError("New instances of ?--? are not allowed in the rewrite part"
+						+ " (this is the case for " + edge.getIdentNode() + ").");
 				return false;
 			}
 		}
 		if(connectionKind == ConnectionKind.ARBITRARY_DIRECTED) {
 			if((edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-				reportError("New instances of <--> are not allowed in RHS");
+				reportError("New instances of <--> are not allowed in the rewrite part"
+						+ " (this is the case for " + edge.getIdentNode() + ").");
 				return false;
 			}
 		}
@@ -403,5 +414,17 @@ public class ConnectionNode extends ConnectionCharacter
 	public static String getKindStr()
 	{
 		return "connection node";
+	}
+	
+	public static String toString(ConnectionKind connectionKind)
+	{
+		switch(connectionKind)
+		{
+		case ARBITRARY: return "?--?";
+		case ARBITRARY_DIRECTED: return "<-->";
+		case DIRECTED: return "-->";
+		case UNDIRECTED: return "--";
+		default: throw new RuntimeException("Internal compiler error -- unkonwn connection kind.");
+		}
 	}
 }

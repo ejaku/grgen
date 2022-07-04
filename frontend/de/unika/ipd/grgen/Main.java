@@ -398,7 +398,7 @@ public class Main extends Base implements Sys
 		try {
 			return new BufferedOutputStream(new FileOutputStream(debFile));
 		} catch(FileNotFoundException e) {
-			errorReporter.error("cannot open debug file " + debFile.getPath());
+			errorReporter.error("Cannot open debug file " + debFile.getPath() + ".");
 			return NullOutputStream.STREAM;
 		}
 	}
@@ -416,7 +416,7 @@ public class Main extends Base implements Sys
 			String ext = getFileExt(inputFileName);
 			if(ext.equals("grg")) {
 				if(root != null) {
-					error.error("Only one .grg file may be specified!");
+					error.error("Only one .grg file may be specified.");
 					System.exit(-1);
 				}
 				initPaths(inputFileName, inputFile, setDebugPath);
@@ -424,7 +424,7 @@ public class Main extends Base implements Sys
 
 				root = env.parseActions(inputFile);
 			} else if(!ext.equals("gm")) {
-				error.error("Input file with unknown extension: '" + ext + "'");
+				error.error("Input file with unknown extension: \"" + ext + "\".");
 				System.exit(-1);
 			}
 		}
@@ -466,7 +466,7 @@ public class Main extends Base implements Sys
 		int lastDot = filename.lastIndexOf('.');
 		int lastDirSep = filename.lastIndexOf(File.separatorChar);
 		if(lastDot == -1 || lastDirSep != -1 && lastDot < lastDirSep) {
-			error.error("The input file \"" + filename + "\" has no extension!");
+			error.error("The input file \"" + filename + "\" is lacking the name extension.");
 			System.exit(-1);
 		}
 		return filename.substring(lastDot + 1).toLowerCase();
@@ -590,7 +590,7 @@ public class Main extends Base implements Sys
 				dumpVCG(root, new GraphDumpVisitor(), "error-ast");
 			debug.report(NOTE, "### ERROR in Manifest AST. Exiting! ###");
 			if(ErrorReporter.getErrorCount() == 0)
-				error.error("Unknown error occurred in \"Manifest AST\"!");
+				error.error("An unknown error occurred in \"Manifest AST\".");
 			System.exit(1);
 		}
 

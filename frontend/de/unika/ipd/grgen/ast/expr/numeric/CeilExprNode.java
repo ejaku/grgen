@@ -57,7 +57,8 @@ public class CeilExprNode extends BuiltinFunctionInvocationBaseNode
 		if(argumentExpr.getType().isEqual(BasicTypeNode.doubleType)) {
 			return true;
 		}
-		reportError("argument to ceil(.) must be of type double");
+		reportError("The function ceil() expects as argument a value of type double"
+				+ " (but is given a value of type " + argumentExpr.getType() + ").");
 		return false;
 	}
 

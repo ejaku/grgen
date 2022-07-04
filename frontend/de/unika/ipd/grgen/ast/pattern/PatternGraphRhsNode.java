@@ -200,7 +200,7 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 					retypeOfNode = retype;
 				else {
 					retype.reportError("Two (and hence ambiguous) retype (/merge) statements for the same node are forbidden,"
-							+ " other retype (/merge) statement at " + retypeOfNode.getCoords());
+							+ " other retype (/merge) statement at " + retypeOfNode.getCoords() + " (retyping node " + node.getIdentNode() + ").");
 					return new Pair<Boolean, NodeTypeChangeDeclNode>(Boolean.valueOf(false), retypeOfNode);
 				}
 			}
@@ -219,7 +219,7 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 					retypeOfEdge = retype;
 				else {
 					retype.reportError("Two (and hence ambiguous) retype statements for the same edge are forbidden,"
-							+ " other retype statement at " + retypeOfEdge.getCoords());
+							+ " other retype statement at " + retypeOfEdge.getCoords() + " (retyping edge " + edge.getIdentNode() + ").");
 					return new Pair<Boolean, EdgeTypeChangeDeclNode>(Boolean.valueOf(false), retypeOfEdge);
 				}
 			}

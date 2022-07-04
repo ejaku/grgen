@@ -55,7 +55,8 @@ public class AbsExprNode extends BuiltinFunctionInvocationBaseNode
 	{
 		if(argumentExpr.getType().isNumericType())
 			return true;
-		reportError("valid types for abs(.) are: " + TypeNode.getNumericTypesAsString());
+		reportError("The function abs() expects as argument a value of type " + TypeNode.getNumericTypesAsString()
+				+ " (but is given a value of type " + argumentExpr.getType() + ").");
 		return false;
 	}
 

@@ -200,9 +200,9 @@ public abstract class PatternGraphBaseNode extends BaseNode
 						&& !(paramVar.getDeclType() instanceof InternalObjectTypeNode)
 						&& !(paramVar.getDeclType() instanceof InternalTransientObjectTypeNode)
 						&& !(paramVar.getDeclType() instanceof ExternalObjectTypeNode)) {
-					paramVar.typeUnresolved.reportError("Type of variable \"" + paramVar.getIdentNode()
-							+ "\" must be a basic type (like int or string), or an enum, or a container type (set|map|array|deque), or an object  type (class) "
-							+ ("(not " + paramVar.getDeclType().getTypeName() + ")"));
+					paramVar.typeUnresolved.reportError("Type of variable " + paramVar.getIdentNode()
+							+ " must be a basic type (like int or string), or an enum, or a container type (set|map|array|deque), or an object type (class) "
+							+ ("(but it is " + paramVar.getDeclType().getTypeName() + ")."));
 					paramsOK = false;
 				}
 			} else
@@ -221,7 +221,7 @@ public abstract class PatternGraphBaseNode extends BaseNode
 				if(subUsage.resolve()) {
 					PatternGraphLhsNode pattern = subUsage.getSubpatternDeclNode().getPattern();
 					if(pattern.hasAbstractElements) {
-						subUsage.reportError("Cannot instantiate pattern with abstract elements");
+						subUsage.reportError("Cannot instantiate a pattern with abstract elements (attempted on " + pattern.nameOfGraph + " with " + subUsage.getIdentNode() + ").");
 						subUsagesOK = false;
 					}
 				} else
@@ -246,7 +246,8 @@ public abstract class PatternGraphBaseNode extends BaseNode
 							&& connection.getSrc() instanceof DummyNodeDeclNode
 							&& connection.getTgt() instanceof DummyNodeDeclNode)
 					&& !edges.add(edge)) {
-				((EdgeDeclNode) edge).reportError("Edge " + edge + " is used more than once in a pattern graph of this action");
+				EdgeDeclNode edgeDecl = (EdgeDeclNode)edge;
+				edgeDecl.reportError("Edge " + edgeDecl.getIdentNode() + " is used more than once in a pattern graph of this action (" + nameOfGraph +").");
 				edgeUsage = false;
 			}
 		}

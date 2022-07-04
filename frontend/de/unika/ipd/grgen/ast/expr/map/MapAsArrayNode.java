@@ -47,7 +47,8 @@ public class MapAsArrayNode extends MapFunctionMethodInvocationBaseExprNode
 	{
 		MapTypeNode targetMapType = getTargetType();
 		if(!(targetMapType.keyType instanceof IntTypeNode)) {
-			targetExpr.reportError("This argument to map asArray expression must be of type map<int,T>");
+			targetExpr.reportError("The map function method asArray can only be employed on an object of type map<int,T>"
+					+ " (but is employed on an object of type " + targetMapType + ").");
 			return false;
 		}
 		return true;

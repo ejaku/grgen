@@ -75,7 +75,7 @@ public class AlternativeDeclNode extends DeclNode
 	protected boolean checkLocal()
 	{
 		if(children.isEmpty()) {
-			this.reportError("alternative is empty");
+			this.reportError("The alternative pattern is empty.");
 			return false;
 		}
 

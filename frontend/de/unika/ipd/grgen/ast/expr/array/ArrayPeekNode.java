@@ -67,7 +67,8 @@ public class ArrayPeekNode extends ArrayFunctionMethodInvocationBaseExprNode
 	{
 		// target type already checked during resolving into this node
 		if(numberExpr != null && !numberExpr.getType().isEqual(BasicTypeNode.intType)) {
-			numberExpr.reportError("Argument (number) to array peek expression must be of type int");
+			numberExpr.reportError("The array function method peek expects as argument (number) a value of type int"
+					+ " (but is given a value of type " + numberExpr.getType() + ").");
 			return false;
 		}
 		return true;

@@ -73,15 +73,15 @@ public class RangeSpecNode extends BaseNode
 	{
 		boolean good = true;
 		if(lower < 0) {
-			error.error(getCoords(), "Lower bound of range must be positive");
+			error.error(getCoords(), "The lower bound of the range must be a positive number.");
 			good = false;
 		}
 		if(upper < 0) {
-			error.error(getCoords(), "Upper bound of range must be positive");
+			error.error(getCoords(), "The upper bound of the range must be a positive number.");
 			good = false;
 		}
 		if(lower > upper) {
-			error.error(getCoords(), "Lower bound must be less (or equal) than upper bound of range");
+			error.error(getCoords(), "The lower bound must be less (or equal) than the upper bound of the range.");
 			good = false;
 		}
 		return good;

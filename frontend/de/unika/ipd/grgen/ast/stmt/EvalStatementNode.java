@@ -35,8 +35,8 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 		if(!givenType.isCompatibleTo(expectedType)) {
 			String givenTypeName = givenType.getTypeName();
 			String expectedTypeName = expectedType.getTypeName();
-			reportError("Cannot convert parameter " + parameter + " of " + statement + " from \"" + givenTypeName
-					+ "\" to \"" + expectedTypeName + "\"");
+			reportError("Cannot convert parameter " + parameter + " of " + statement + " from " + givenTypeName
+					+ " to " + expectedTypeName + ".");
 			return false;
 		}
 		return true;
@@ -54,7 +54,7 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 		boolean returnPassed = false;
 		for(EvalStatementNode eval : evals.getChildren()) {
 			if(returnPassed) {
-				eval.reportError("no statements allowed after a return statement (at the same nesting level) (dead code)");
+				eval.reportError("No statements allowed after a return statement (at the same nesting level; these statements would not be executed).");
 				res = false;
 			}
 
@@ -72,19 +72,19 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 				returnPassed = true;
 			} else if(eval instanceof ReturnAssignmentNode) {
 				if(root instanceof FunctionDeclNode || isLHS) {
-					ReturnAssignmentNode node = (ReturnAssignmentNode)eval;
-					if(node.builtinProcedure == null
-						|| (!node.builtinProcedure.isEmitOrDebugProcedure())) {
-						if(root instanceof FunctionDeclNode)
-							eval.reportError("procedure call not allowed in function (only emit/emitdebug/assert/assertAlways and the Debug package functions)");
+					ReturnAssignmentNode returnAssignment = (ReturnAssignmentNode)eval;
+					if(returnAssignment.builtinProcedure == null
+						|| (!returnAssignment.builtinProcedure.isEmitOrDebugProcedure())) {
+						if(root instanceof FunctionDeclNode) // TODO: report name of procedure that is attempted to be called
+							eval.reportError("A procedure call is not allowed in a function (only emit/emitdebug/assert/assertAlways and the Debug package functions are admissible).");
 						else
-							eval.reportError("procedure call not allowed in yield (only emit/emitdebug/assert/assertAlways and Debug package functions)");
+							eval.reportError("A procedure call is not allowed in a yield block (only emit/emitdebug/assert/assertAlways and the Debug package functions are admissible).");
 						res = false;
 					}
 				}
 			} else if(eval instanceof ExecStatementNode) {
 				if(root instanceof SubpatternDeclNode) {
-					eval.reportError("An exec inside an eval is forbidden in a subpattern -- move it outside the eval"
+					eval.reportError("An exec inside an eval is forbidden in a subpattern -- move it outside of the eval"
 							+ " (so it becomes a deferred exec, executed at the end of rewriting, on the by-then current graph and the local entities valid at the end of its local rewriting).");
 				}
 			}
@@ -95,14 +95,14 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 				if(!(last instanceof ReturnStatementNode) && ((FunctionDeclNode)root).functionAuto == null) {
 					if(last instanceof ConditionStatementNode) {
 						if(!allCasesEndWithReturn((ConditionStatementNode)last)) {
-							last.reportError("all cases of the if in the function must end with a return statement");
+							last.reportError("All cases of a terminating if in a function must end with a return statement (missing in " + root.getIdentNode() + ").");
 							res = false;
 						}
 					} else {
 						if(last != null && last.getCoords().hasLocation())
-							last.reportError("function must end with a return statement");
+							last.reportError("A function must end with a return statement (missing in " + root.getIdentNode() + ").");
 						else
-							root.reportError("function must end with a return statement");
+							root.reportError("A function must end with a return statement (missing in " + root.getIdentNode() + ").");
 						res = false;
 					}
 				}
@@ -111,14 +111,14 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 				if(!(last instanceof ReturnStatementNode)) {
 					if(last instanceof ConditionStatementNode) {
 						if(!allCasesEndWithReturn((ConditionStatementNode)last)) {
-							last.reportError("all cases of the if in the procedure must end with a return statement");
+							last.reportError("All cases of a terminating if in a procedure must end with a return statement (missing in " + root.getIdentNode() + ").");
 							res = false;
 						}
 					} else {
 						if(last != null && last.getCoords().hasLocation())
-							last.reportError("procedure must end with a return statement");
+							last.reportError("A procedure must end with a return statement (missing in " + root.getIdentNode() + ").");
 						else
-							root.reportError("procedure must end with a return statement");
+							root.reportError("A procedure must end with a return statement (missing in " + root.getIdentNode() + ").");
 						res = false;
 					}
 				}

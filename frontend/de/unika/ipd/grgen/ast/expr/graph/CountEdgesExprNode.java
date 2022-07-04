@@ -69,7 +69,8 @@ public class CountEdgesExprNode extends BuiltinFunctionInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!(edgeType.getType() instanceof EdgeTypeNode)) {
-			reportError("argument of countEdges(.) must be an edge type");
+			reportError("The function countEdges expects as argument a value of type edge"
+					+ " (but is given a value of type " + edgeType.getType() + ").");
 			return false;
 		}
 		return true;

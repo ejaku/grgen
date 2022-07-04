@@ -57,7 +57,8 @@ public class SgnExprNode extends BuiltinFunctionInvocationBaseNode
 		if(argumentExpr.getType().isEqual(BasicTypeNode.doubleType)) {
 			return true;
 		}
-		reportError("argument to sgn(.) must be of type double");
+		reportError("The function sgn() expects as argument a value of type double"
+				+ " (but is given a value of type " + argumentExpr.getType() + ").");
 		return false;
 	}
 

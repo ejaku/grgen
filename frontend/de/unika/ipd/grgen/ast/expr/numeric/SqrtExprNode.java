@@ -61,7 +61,8 @@ public class SqrtExprNode extends BuiltinFunctionInvocationBaseNode
 		if(expr.getType().isEqual(BasicTypeNode.doubleType)) {
 			return true;
 		}
-		reportError("valid types for sqrt(.) are: double");
+		reportError("The function sqrt() expects as argument a value of type double"
+				+ " (but is given a value of type " + expr.getType() + ").");
 		return false;
 	}
 

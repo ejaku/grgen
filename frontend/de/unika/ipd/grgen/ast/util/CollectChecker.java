@@ -42,7 +42,7 @@ public class CollectChecker implements Checker
 			}
 			return result;
 		} else {
-			bn.reportError("Not a collect node"); // TODO: WTF? why report to the node??
+			bn.reportError("Not a collect node."); // TODO: WTF? why report to the node??
 			return false;
 		}
 	}

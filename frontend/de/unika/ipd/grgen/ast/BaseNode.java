@@ -721,7 +721,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 		if(res) {
 			id.setSymDef(def);
 		} else {
-			id.reportError("Identifier \"" + id + "\" not declared in this scope: " + scope);
+			id.reportError("The identifier " + id + " has not been declared in this scope: " + scope);
 		}
 
 		return res;
@@ -783,7 +783,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 		if(res)
 			id.setSymDef(def);
 		else if(reportErr)
-			id.reportError("Identifier \"" + id + "\" not declared in this scope: " + scope);
+			id.reportError("The identifier " + id + " has not been declared in this scope: " + scope);
 
 		return res;
 	}

@@ -109,84 +109,84 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 			} else if(arguments.size() == 3) {
 				return new GraphAddEdgeProcNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2));
 			} else {
-				env.reportError(procedureName + "() takes 1 or 3 parameters.");
+				env.reportError(procedureName + "() expects 1 or 3 arguments (given are " + arguments.size() + " arguments).");
 				return null;
-			}
+		}
 		case "retype":
 			if(arguments.size() == 2) {
 				return new GraphRetypeProcNode(env.getCoords(), arguments.get(0), arguments.get(1));
 			} else {
-				env.reportError(procedureName + "() takes 2 parameters.");
+				env.reportError(procedureName + "() expects 2 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		case "insert":
 			if(arguments.size() != 1) {
-				env.reportError("insert(.) takes one parameter.");
+				env.reportError("insert(.) expects 1 argument (given are " + arguments.size() + " arguments).");
 				return null;
 			} else
 				return new InsertProcNode(env.getCoords(), arguments.get(0));
 		case "insertCopy":
 			if(arguments.size() != 2) {
-				env.reportError("insertCopy(.,.) takes two parameters.");
+				env.reportError("insertCopy(.,.) expects 2 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else
 				return new InsertCopyProcNode(env.getCoords(), arguments.get(0), arguments.get(1));
 		case "insertInduced":
 			if(arguments.size() != 2) {
-				env.reportError("insertInduced(.,.) takes two parameters.");
+				env.reportError("insertInduced(.,.) expects 2 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else
 				return new InsertInducedSubgraphProcNode(env.getCoords(), arguments.get(0), arguments.get(1));
 		case "insertDefined":
 			if(arguments.size() != 2) {
-				env.reportError("insertDefined(.,.) takes two parameters.");
+				env.reportError("insertDefined(.,.) expects 2 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else
 				return new InsertDefinedSubgraphProcNode(env.getCoords(), arguments.get(0), arguments.get(1));
 		case "valloc":
 			if(arguments.size() != 0) {
-				env.reportError("valloc() takes no parameters.");
+				env.reportError("valloc() expects 0 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else
 				return new VAllocProcNode(env.getCoords());
 		case "rem":
 			if(arguments.size() != 1) {
-				env.reportError("rem(value) takes one parameter.");
+				env.reportError("rem(value) expects 1 argument (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
 				return new GraphRemoveProcNode(env.getCoords(), arguments.get(0));
 			}
 		case "clear":
 			if(arguments.size() != 0) {
-				env.reportError("clear() takes no parameters.");
+				env.reportError("clear() expects 0 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
 				return new GraphClearProcNode(env.getCoords());
 			}
 		case "vfree":
 			if(arguments.size() != 1) {
-				env.reportError("vfree(value) takes one parameter.");
+				env.reportError("vfree(value) expects 1 argument (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
 				return new VFreeProcNode(env.getCoords(), arguments.get(0));
 			}
 		case "vfreenonreset":
 			if(arguments.size() != 1) {
-				env.reportError("vfreenonreset(value) takes one parameter.");
+				env.reportError("vfreenonreset(value) expects 1 argument (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
 				return new VFreeNonResetProcNode(env.getCoords(), arguments.get(0));
 			}
 		case "vreset":
 			if(arguments.size() != 1) {
-				env.reportError("vreset(value) takes one parameter.");
+				env.reportError("vreset(value) expects 1 argument (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
 				return new VResetProcNode(env.getCoords(), arguments.get(0));
 			}
 		case "record":
 			if(arguments.size() != 1) {
-				env.reportError("record(value) takes one parameter.");
+				env.reportError("record(value) expects 1 argument (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
 				return new RecordProcNode(env.getCoords(), arguments.get(0));
@@ -199,7 +199,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				}
 				return emit;
 			} else {
-				env.reportError("emit() takes at least one parameter.");
+				env.reportError("emit() expects at least one argument (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		case "emitdebug":
@@ -210,7 +210,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				}
 				return emit;
 			} else {
-				env.reportError("emitdebug() takes at least one parameter.");
+				env.reportError("emitdebug() expects at least one argument (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		case "addCopy":
@@ -219,7 +219,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 			} else if(arguments.size() == 3) {
 				return new GraphAddCopyEdgeProcNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), true);
 			} else {
-				env.reportError(procedureName + "() takes 1 or 3 parameters.");
+				env.reportError(procedureName + "() expects 1 or 3 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		case "addClone":
@@ -228,12 +228,12 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 			} else if(arguments.size() == 3) {
 				return new GraphAddCopyEdgeProcNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), false);
 			} else {
-				env.reportError(procedureName + "() takes 1 or 3 parameters.");
+				env.reportError(procedureName + "() expects 1 or 3 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		case "merge":
 			if(arguments.size() < 2 || arguments.size() > 3) {
-				env.reportError("merge(target,source,oldSourceName) takes two or three parameters.");
+				env.reportError("merge(target,source,oldSourceName) expects 2 or 3 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
 				if(arguments.size() == 2)
@@ -243,7 +243,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 			}
 		case "redirectSource":
 			if(arguments.size() < 2 || arguments.size() > 3) {
-				env.reportError("redirectSource(edge,newSource,oldSourceName) takes two or three parameters.");
+				env.reportError("redirectSource(edge,newSource,oldSourceName) expects 2 or 3 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
 				if(arguments.size() == 2)
@@ -253,7 +253,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 			}
 		case "redirectTarget":
 			if(arguments.size() < 2 || arguments.size() > 3) {
-				env.reportError("redirectTarget(edge,newTarget,oldTargetName) takes two or three parameters.");
+				env.reportError("redirectTarget(edge,newTarget,oldTargetName) expects 2 two or 3 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
 				if(arguments.size() == 2)
@@ -263,7 +263,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 			}
 		case "redirectSourceAndTarget":
 			if(arguments.size() != 3 && arguments.size() != 5) {
-				env.reportError("redirectSourceAndTarget(edge,newSource,newTarget,oldSourceName,oldTargetName) takes three or five parameters.");
+				env.reportError("redirectSourceAndTarget(edge,newSource,newTarget,oldSourceName,oldTargetName) expects 3 or 5 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
 				if(arguments.size() == 3)
@@ -275,14 +275,14 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 			}
 		case "getEquivalentOrAdd":
 			if(arguments.size() != 2) {
-				env.reportError("getEquivalentOrAdd(graph, array<graph>) takes two parameters.");
+				env.reportError("getEquivalentOrAdd(graph, array<graph>) expects 2 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
 				return new GetEquivalentOrAddProcNode(env.getCoords(), arguments.get(0), arguments.get(1), true);
 			}
 		case "getEquivalentStructurallyOrAdd":
 			if(arguments.size() != 2) {
-				env.reportError("getEquivalentStructurallyOrAdd(graph, array<graph>) takes two parameters.");
+				env.reportError("getEquivalentStructurallyOrAdd(graph, array<graph>) expects 2 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
 				return new GetEquivalentOrAddProcNode(env.getCoords(), arguments.get(0), arguments.get(1), false);
@@ -295,7 +295,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				}
 				return assert_;
 			} else {
-				env.reportError("assert() takes at least one parameter.");
+				env.reportError("assert() expects at least one argument (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		case "assertAlways":
@@ -306,11 +306,11 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 				}
 				return assert_;
 			} else {
-				env.reportError("assertAlways() takes at least one parameter.");
+				env.reportError("assertAlways() expects at least one argument (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		default:
-			env.reportError("no computation " + procedureName + " known");
+			env.reportError("A procedure of name " + procedureName + " is not known.");
 			return null;
 		}
 	}
@@ -322,7 +322,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 			if(isEmitOrDebugProcedure()) { // allowed exceptions
 				return true;
 			} else {
-				reportError("procedure call not allowed in function or lhs context (built-in-procedure)");
+				reportError("A procedure call (built-in-procedure) is not allowed in function or pattern part context.");
 				return false;
 			}
 		}

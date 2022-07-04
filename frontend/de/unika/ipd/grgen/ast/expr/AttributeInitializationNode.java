@@ -13,8 +13,6 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.expr.ConstNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
 import de.unika.ipd.grgen.ast.model.type.BaseInternalObjectTypeNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
@@ -89,12 +87,14 @@ public class AttributeInitializationNode extends BaseNode
 	protected boolean checkLocal()
 	{
 		if(attribute.isConst()) {
-			error.error(objectInit.getCoords(), "assignment to a const member is not allowed");
+			error.error(objectInit.getCoords(), "An assignment to a const member is not allowed"
+					+ " (but occurrs for " + attribute + ").");
 			return false;
 		}
-
+		
 		if(owner.isConst()) {
-			error.error(objectInit.getCoords(), "assignment to a const type object not allowed");
+			error.error(objectInit.getCoords(), "An assignment to an object of const type is not allowed"
+					+ " (but occurrs for " + attribute + " of " + owner.getIdentNode() + ").");
 			return false;
 		}
 
@@ -113,14 +113,15 @@ public class AttributeInitializationNode extends BaseNode
 			Collection<TypeNode> superTypes = new HashSet<TypeNode>();
 			exprType.doGetCompatibleToTypes(superTypes);
 			if(!superTypes.contains(targetType)) {
-				error.error(objectInit.getCoords(), "can't initialize-assign value of "
-						+ exprType + " to attribute of " + targetType);
+				error.error(objectInit.getCoords(), "Cannot initialize-assign a value of " + exprType
+						+ " to an attribute of " + targetType + " (this occurrs for " + attribute + ").");
 				return false;
 			}
 		}
 		if(targetType instanceof NodeTypeNode && exprType instanceof EdgeTypeNode
 				|| targetType instanceof EdgeTypeNode && exprType instanceof NodeTypeNode) {
-			error.error(objectInit.getCoords(), "can't initialize-assign value of " + exprType + " to attribute of " + targetType);
+			error.error(objectInit.getCoords(), "Cannot initialize-assign a value of " + exprType
+					+ " to an attribute of " + targetType + " (this occurrs for " + attribute + ").");
 			return false;
 		}
 		return true;

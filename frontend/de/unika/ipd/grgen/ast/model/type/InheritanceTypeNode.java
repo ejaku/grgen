@@ -158,8 +158,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 
 		for(DeclNode member : getAllMembers().values()) {
 			if(member instanceof AbstractMemberDeclNode && !isAbstract()) {
-				error.error(getIdentNode().getCoords(), getKind() + " \"" + getTypeName()
-						+ "\" must be declared abstract, because member \"" + member + "\" is abstract.");
+				error.error(getIdentNode().getCoords(), "The " + getKind() + " " + getTypeName()
+						+ " must be declared abstract, because member " + member + " is abstract.");
 				res = false;
 			}
 		}
@@ -168,9 +168,9 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 			if(child instanceof DeclNode && !(child instanceof ConstructorDeclNode)) {
 				DeclNode directMember = (DeclNode)child;
 				if(directMember.getIdentNode().toString().equals(getIdentNode().toString())) {
-					error.error(getIdentNode().getCoords(), "the member \"" + directMember.getIdentNode()
-									+ "\" must be named differently than its containing " + getKind() + " \""
-									+ getTypeName() + "\"");
+					error.error(getIdentNode().getCoords(), "The member " + directMember.getIdentNode()
+									+ " must be named differently than its containing " + getKind() + " "
+									+ getTypeName() + ".");
 				}
 			}
 		}
@@ -210,7 +210,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 					ambiguous = true;
 
 				if(ambiguous) {
-					c1.reportError("Constructor is ambiguous (see constructor at " + c2.getCoords() + ")");
+					c1.reportError("Constructor is ambiguous (see constructor at " + c2.getCoords() + ").");
 					res = false;
 				}
 			}
@@ -316,9 +316,9 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 				DeclNode old = members.put(decl.getIdentNode().toString(), decl);
 				if(old != null && !(old instanceof AbstractMemberDeclNode)) {
 					// TODO this should be part of a check (that return false)
-					error.error(decl.getCoords(), "member " + decl.toString() + " of " + getKind() + " "
-							+ getIdentNode() + " already defined in " + old.getParents() + "." // TODO improve error message
-					);
+					error.error(decl.getCoords(), "The member " + decl.getIdentNode()
+							+ " of " + getKind() + " " + getIdentNode()
+							+ " is already defined in " + old.getParents() + ".");
 				}
 			}
 		}
@@ -401,8 +401,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		int numBaseParams = baseParams.size();
 		int numOverrideParams = overrideParams.size();
 		if(numBaseParams != numOverrideParams) {
-			override.reportError("The function method \"" + functionName + "\" is declared with " + numBaseParams
-					+ " parameters in the base class, but overriden here with " + numOverrideParams);
+			override.reportError("The function method " + functionName + " is declared with " + numBaseParams
+					+ " parameters in a parent class (at " + base.getCoords() + "), but is overriden here with " + numOverrideParams + " parameters.");
 			return false;
 		}
 
@@ -414,14 +414,15 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 
 			if(!baseParam.isEqual(overrideParam)) {
 				res = false;
-				override.reportError("The function method \"" + functionName + "\" differs in its " + (i + 1)
-						+ ". parameter from the base class");
+				override.reportError("The function method " + functionName + " is declared with a " + (i + 1) + ". parameter of type " + baseParam
+						+ " in a parent class (at " + base.getCoords() + "), but is overriden here with a " + (i + 1) + ". parameter of type " + overrideParam + ".");
 			}
 		}
 
 		// check if the return type is correct
 		if(!base.getResultType().isEqual(override.getResultType())) {
-			override.reportError("The function method \"" + functionName + "\" differs in its return type from the base class");
+			override.reportError("The function method " + functionName + " is declared with a return parameter of type " + base.getResultType()
+					+ " in a parent class (at " + base.getCoords() + "), but is overriden here with a return parameter of type " + override.getResultType() + ".");
 		}
 
 		return res;
@@ -439,8 +440,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		int numBaseParams = baseParams.size();
 		int numOverrideParams = overrideParams.size();
 		if(numBaseParams != numOverrideParams) {
-			override.reportError("The procedure method \"" + procedureName + "\" is declared with " + numBaseParams
-					+ " parameters in the base class, but overriden here with " + numOverrideParams);
+			override.reportError("The procedure method " + procedureName + " is declared with " + numBaseParams
+					+ " parameters in a parent class (at " + base.getCoords() + "), but is overriden here with " + numOverrideParams + " parameters.");
 			return false;
 		}
 
@@ -452,8 +453,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 
 			if(!baseParam.isEqual(overrideParam)) {
 				res = false;
-				override.reportError("The procedure method \"" + procedureName + "\" differs in its " + (i + 1)
-						+ ". parameter from the base class");
+				override.reportError("The procedure method " + procedureName + " is declared with a " + (i + 1) + ". parameter of type " + baseParam
+						+ " in a parent class (at " + base.getCoords() + "), but is overriden here with a " + (i + 1) + ". parameter of type " + overrideParam + ".");
 			}
 		}
 
@@ -464,9 +465,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		int numBaseReturnParams = baseReturnParams.size();
 		int numOverrideReturnParams = overrideReturnParams.size();
 		if(numBaseReturnParams != numOverrideReturnParams) {
-			override.reportError("The procedure method \"" + procedureName + "\" is declared with "
-					+ numBaseReturnParams + " return parameters in the base class, but overriden here with "
-					+ numOverrideReturnParams);
+			override.reportError("The procedure method " + procedureName + " is declared with " + numBaseReturnParams
+					+ " return parameters in a parent class (at " + base.getCoords() + "), but is overriden here with " + numOverrideReturnParams + " return parameters.");
 			return false;
 		}
 
@@ -477,8 +477,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 
 			if(!baseReturnParam.isEqual(overrideReturnParam)) {
 				res = false;
-				override.reportError("The procedure method \"" + procedureName + "\" differs in its " + (i + 1)
-						+ ". return parameter from the base class");
+				override.reportError("The procedure method " + procedureName + " is declared with a " + (i + 1) + ". return parameter of type " + baseReturnParam
+						+ " in a parent class (at " + base.getCoords() + "), but is overriden here with a " + (i + 1) + ". return parameter of type " + overrideReturnParam + ".");
 			}
 		}
 

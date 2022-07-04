@@ -88,8 +88,8 @@ public class DequeAddItemNode extends DequeProcedureMethodInvocationBaseNode
 			if(!valueType.isEqual(targetValueType)) {
 				valueExpr = becomeParent(valueExpr.adjustType(targetValueType, getCoords()));
 				if(valueExpr == ConstNode.getInvalid()) {
-					valueExpr.reportError("Argument value to deque add item statement must be of type "
-							+ targetValueType.toString());
+					valueExpr.reportError("The deque add item procedure expects as 1. argument (value) a value of type " + targetValueType
+							+ " (but is given a value of type " + valueType + ").");
 					return false;
 				}
 			}
@@ -98,7 +98,8 @@ public class DequeAddItemNode extends DequeProcedureMethodInvocationBaseNode
 				if(!indexType.isEqual(IntTypeNode.intType)) {
 					indexExpr = becomeParent(indexExpr.adjustType(IntTypeNode.intType, getCoords()));
 					if(indexExpr == ConstNode.getInvalid()) {
-						indexExpr.reportError("Argument index to deque add item statement must be of type int");
+						indexExpr.reportError("The deque add item procedure expects as 2. argument (index) a value of type int"
+								+ " (but is given a value of type " + indexType + ").");
 						return false;
 					}
 				}
@@ -108,8 +109,8 @@ public class DequeAddItemNode extends DequeProcedureMethodInvocationBaseNode
 			boolean success = true;
 			TypeNode targetValueType = targetType.valueType;
 			if(indexExpr != null)
-				success &= checkType(indexExpr, IntTypeNode.intType, "deque add item with index statement", "index");
-			success &= checkType(valueExpr, targetValueType, "deque add item statement", "value");
+				success &= checkType(indexExpr, IntTypeNode.intType, "deque add item with index procedure", "index");
+			success &= checkType(valueExpr, targetValueType, "deque add item procedure", "value");
 			return success;
 		}
 	}

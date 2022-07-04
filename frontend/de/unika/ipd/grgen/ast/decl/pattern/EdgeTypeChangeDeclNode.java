@@ -17,6 +17,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+import de.unika.ipd.grgen.ast.pattern.NameOrAttributeInitializationNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.util.Checker;
@@ -105,14 +106,18 @@ public class EdgeTypeChangeDeclNode extends EdgeDeclNode
 			return false;
 
 		if(nameOrAttributeInits.size() > 0) {
-			reportError("A name or attribute initialization is not allowed for a retyped edge");
+			NameOrAttributeInitializationNode nameOrAttributeInit = nameOrAttributeInits.get(0);
+			if(nameOrAttributeInit.attributeUnresolved != null)
+				reportError("An attribute initialization is not allowed for a retyped edge (occurs for " + nameOrAttributeInit.attributeUnresolved + ").");
+			else
+				reportError("A name initialization ($=) is not allowed for a retyped edge.");
 			return false;
 		}
 
 		// check if source edge of retype is declared in replace/modify part - no retype of just created edge
 		if((old.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS
 			&& !old.defEntityToBeYieldedTo) {
-			reportError("Source edge of retype may not be declared in replace/modify part");
+			reportError("The source edge of the retyping may not be declared in the rewrite part (replace/modify).");
 			res = false;
 		}
 

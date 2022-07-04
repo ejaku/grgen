@@ -82,7 +82,7 @@ public class ConditionStatementNode extends NestingStatementNode
 	protected boolean checkLocal()
 	{
 		if(!conditionExpr.getType().isEqual(BasicTypeNode.booleanType)) {
-			conditionExpr.reportError("if condition must be of type boolean");
+			conditionExpr.reportError("The condition of the if statement must be of type boolean (but is of type " + conditionExpr.getType() + ").");
 			return false;
 		}
 		return true;

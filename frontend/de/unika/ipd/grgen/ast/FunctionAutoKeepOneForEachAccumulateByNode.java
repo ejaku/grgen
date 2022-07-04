@@ -88,14 +88,15 @@ public class FunctionAutoKeepOneForEachAccumulateByNode extends FunctionAutoNode
 	public boolean checkLocal()
 	{
 		if(!function.equals("keepOneForEachAccumulateBy")) {
-			reportError("Unknown function in auto(), supported is: keepOneForEachAccumulateBy (e.g. keepOneForEach<foo>Accumulate<bar>By<sum>)");
+			reportError("Unknown function in auto(), expected keepOneForEachAccumulateBy (e.g. keepOneForEach<foo>Accumulate<bar>By<sum>).");
 			return false;
 		}
 
 		ArrayTypeNode arrayType = getTargetType();
 		if(!(arrayType.valueType instanceof MatchTypeActionNode)
 				&& !(arrayType.valueType instanceof DefinedMatchTypeNode)) {
-			reportError("keepOneForEachAccumulateBy can only be employed on an array of match or match class types.");
+			reportError("The auto-generated function keepOneForEachAccumulateBy can only be employed on an array of match or match class types"
+					+ " (but is employed on an array of " + arrayType.valueType + ").");
 			return false;
 		}
 
@@ -106,8 +107,8 @@ public class FunctionAutoKeepOneForEachAccumulateByNode extends FunctionAutoNode
 
 		TypeNode memberType = getTypeOfElementToBeExtracted();
 		if(!memberType.isFilterableType()) {
-			target.reportError("array method keepOneForEachAccumulateBy only available for attributes of type "
-					+ TypeNode.getFilterableTypesAsString());
+			target.reportError("The keepOneForEach argument of the auto-generated function keepOneForEachAccumulateBy is only available for attributes of type "
+					+ TypeNode.getFilterableTypesAsString() + " (but is employed on an attribute of type " + memberType + ").");
 			return false;
 		}
 
@@ -117,8 +118,8 @@ public class FunctionAutoKeepOneForEachAccumulateByNode extends FunctionAutoNode
 
 		TypeNode accumulationMemberType = getTypeOfAccumulationElementToBeExtracted();
 		if(!accumulationMemberType.isAccumulatableType()) {
-			target.reportError("accumulation with array method keepOneForEachAccumulateBy only available for attributes of type "
-					+ TypeNode.getAccumulatableTypesAsString());
+			target.reportError("The accumulate argument of the auto-generated function keepOneForEachAccumulateBy is only available for attributes of type "
+					+ TypeNode.getAccumulatableTypesAsString() + " (but is employed on an attribute of type " + accumulationMemberType + ").");
 			return false;
 		}
 
@@ -129,15 +130,18 @@ public class FunctionAutoKeepOneForEachAccumulateByNode extends FunctionAutoNode
 	public boolean checkLocal(FunctionDeclNode functionDecl)
 	{
 		if(!(functionDecl.getResultType() instanceof ArrayTypeNode)) {
-			reportError("result type of function employing " + shortSignature() + " must be an array (not " + functionDecl.getResultType().getTypeName() + ")");
+			reportError("The result type of the function " + functionDecl.getIdentNode()
+					+ " employing the auto-generated function " + functionName()
+					+ " must be an array (but is " + functionDecl.getResultType() + ").");
 			return false;
 		}
 		ArrayTypeNode resultType = (ArrayTypeNode)functionDecl.getResultType();
 		if(!(resultType.getElementType() instanceof DefinedMatchTypeNode)
 				&& !(resultType.getElementType() instanceof MatchTypeActionNode)) {
-			reportError("result type of function employing " + shortSignature()
-				+ " must be an array<match<class T>> or array<match<T>> "
-				+ "(not a " + functionDecl.getResultType().getTypeName() + ")");
+			reportError("The result type of the function " + functionDecl.getIdentNode()
+					+ " employing the auto-generated function " + functionName()
+					+ " must be an array<match<class T>> or array<match<T>>"
+				+ " (but is " + functionDecl.getResultType() + ").");
 			return false;
 		}
 		
@@ -182,10 +186,10 @@ public class FunctionAutoKeepOneForEachAccumulateByNode extends FunctionAutoNode
 		function.addStatement(stmt);
 	}
 	
-	private String shortSignature()
+	private String functionName()
 	{
 		return "keepOneForEach<" + attribute.getIdent() 
 				+ ">Accumulate<" + accumulationAttribute.getIdent()
-				+ ">By<"+ accumulationMethod + ">()";
+				+ ">By<"+ accumulationMethod + ">";
 	}
 }

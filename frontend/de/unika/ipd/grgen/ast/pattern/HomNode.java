@@ -114,11 +114,12 @@ public class HomNode extends BaseNode
 	protected boolean checkLocal()
 	{
 		if(childrenNode.isEmpty() && childrenEdge.isEmpty()) {
-			this.reportError("Hom statement is empty");
+			this.reportError("Hom statement is empty.");
 			return false;
 		}
 		if(!childrenNode.isEmpty() && !childrenEdge.isEmpty()) {
-			this.reportError("Hom statement may only contain nodes or edges at a time");
+			this.reportError("Hom statement may only contain nodes or edges at a time"
+					+ " (this is violated by " + childrenNode.get(0) + " and " + childrenEdge.get(0) + ")");
 			return false;
 		}
 

@@ -78,15 +78,15 @@ public class SetRemoveItemNode extends SetProcedureMethodInvocationBaseNode
 			if(!valueType.isEqual(targetValueType)) {
 				valueExpr = becomeParent(valueExpr.adjustType(targetValueType, getCoords()));
 				if(valueExpr == ConstNode.getInvalid()) {
-					valueExpr.reportError("Argument (value) to set remove item statement must be of type "
-							+ targetValueType.toString());
+					valueExpr.reportError("The set rem item procedure expects as argument (value) a value of type " + targetValueType
+							+ " (but is given a value of type " + valueType + ").");
 					return false;
 				}
 			}
 			return true;
 		} else {
 			TypeNode targetValueType = targetType.valueType;
-			return checkType(valueExpr, targetValueType, "value", "set remove item statement");
+			return checkType(valueExpr, targetValueType, "value", "set rem item procedure");
 		}
 	}
 

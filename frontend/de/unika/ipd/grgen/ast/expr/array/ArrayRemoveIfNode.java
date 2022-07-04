@@ -102,11 +102,13 @@ public class ArrayRemoveIfNode extends ArrayFunctionMethodInvocationBaseExprNode
 		if(arrayAccessVar != null) {
 			TypeNode arrayAccessVarType = arrayAccessVar.getDeclType();
 			if(!(arrayAccessVarType instanceof ArrayTypeNode)) {
-				error.error(getCoords(), "array access var must be of array type, is given " + arrayAccessVarType);
+				error.error(getCoords(), "The array access variable of the array removeIf function method must be of array type"
+						+ " (but is " + arrayAccessVarType + ").");
 				return false;
 			}
 			if(!arrayAccessVarType.isEqual(targetExpr.getType())) {
-				error.error(getCoords(), "array access var must be of type " + targetExpr.getType() + ", is given " + arrayAccessVarType);
+				error.error(getCoords(), "The array access variable of the array removeIf function method must be of type " + targetExpr.getType()
+				+ " (but is " + arrayAccessVarType + ").");
 				return false;
 			}
 		}
@@ -114,13 +116,15 @@ public class ArrayRemoveIfNode extends ArrayFunctionMethodInvocationBaseExprNode
 		if(indexVar != null) {
 			TypeNode indexVarType = indexVar.getDeclType();
 			if(!indexVarType.isEqual(BasicTypeNode.intType)) {
-				error.error(getCoords(), "index var must be of int type, is given " + indexVarType);
+				error.error(getCoords(), "The index variable of the array removeIf function method must be of int type"
+						+ " (but is " + indexVarType + ").");
 				return false;
 			}
 		}
 
 		if(!exprType.isEqual(BasicTypeNode.booleanType)) {
-			error.error(getCoords(), "removeIf expects expression of boolean type, is given " + exprType);
+			error.error(getCoords(), "Type mismatch in the array removeIf function method between the lambda expression value of type " + exprType
+					+ " and the expected boolean type.");
 			return false;
 		}
 
@@ -129,11 +133,13 @@ public class ArrayRemoveIfNode extends ArrayFunctionMethodInvocationBaseExprNode
 
 		if(targetType instanceof NodeTypeNode && elementVarType instanceof EdgeTypeNode
 				|| targetType instanceof EdgeTypeNode && elementVarType instanceof NodeTypeNode) {
-			error.error(getCoords(), "can't assign value of " + targetType + " to variable of " + elementVarType);
+			error.error(getCoords(), "Cannot bind the element variable of type " + elementVarType
+					+ " to a value of type " + targetType + " in the array removeIf function method.");
 			return false;
 		}
 		if(!targetType.isCompatibleTo(elementVarType)) {
-			error.error(getCoords(), "can't assign value of " + targetType + " to variable of " + elementVarType);
+			error.error(getCoords(), "Cannot bind the element variable of type " + elementVarType
+					+ " to a value of type " + targetType + " in the array removeIf function method.");
 			return false;
 		}
 

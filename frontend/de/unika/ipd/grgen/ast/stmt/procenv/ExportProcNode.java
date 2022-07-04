@@ -73,16 +73,19 @@ public class ExportProcNode extends BuiltinProcedureInvocationBaseNode
 	{
 		if(graphExpr != null) {
 			if(!(graphExpr.getType().equals(BasicTypeNode.graphType))) {
-				reportError("first argument of export(.,.) must be of graph type (the subgraph to export)");
+				reportError("The export procedure expects as 1. argument (subgraphToExport) a value of type graph"
+						+ " (but is given a value of type " + graphExpr.getType() + ").");
 				return false;
 			}
 			if(!(pathExpr.getType().equals(BasicTypeNode.stringType))) {
-				reportError("second argument of export(.,.) must be of string type (the file path)");
+				reportError("The export procedure expects as 2. argument (filePath) a value of type string"
+						+ " (but is given a value of type " + pathExpr.getType() + ").");
 				return false;
 			}
 		} else {
 			if(!(pathExpr.getType().equals(BasicTypeNode.stringType))) {
-				reportError("argument of export(.) must be of string type (the file path)");
+				reportError("The export procedure expects as argument (filePath) a value of type string"
+						+ " (but is given a value of type " + pathExpr.getType() + ").");
 				return false;
 			}
 		}

@@ -618,8 +618,8 @@ public class Unit extends IR implements ActionsBearer
 			for(Rule actionRule : bearer.getActionRules()) {
 				if(actionRule.getAnnotations().containsKey("parallelize")) {
 					error.error(actionRule.getIdent().getCoords(), "Parallelized matching is requested from the action "
-							+ actionRule.getIdent()
-							+ ", but parallelization is not requested in the model \"for function[parallelize=true];\".");
+							+ actionRule.getIdent() + ","
+							+ " but parallelization is not requested in the model (\"for function[parallelize=true];\").");
 				}
 			}
 		}

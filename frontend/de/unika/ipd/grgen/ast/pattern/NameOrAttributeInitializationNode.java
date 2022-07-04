@@ -96,7 +96,8 @@ public class NameOrAttributeInitializationNode extends BaseNode
 
 			initialization = becomeParent(initialization.adjustType(targetType, owner.getCoords()));
 			if(initialization == ConstNode.getInvalid()) {
-				error.error(owner.getCoords(), "element name must be initialized with a value of type string");
+				error.error(owner.getCoords(), "An element name must be initialized with a value of type string"
+						+ " (but is initialized with a value of type " + exprType + ").");
 				return false;
 			}
 
@@ -104,12 +105,14 @@ public class NameOrAttributeInitializationNode extends BaseNode
 		}
 
 		if(attribute.isConst()) {
-			error.error(owner.getCoords(), "assignment to a const member is not allowed");
+			error.error(owner.getCoords(), "An assignment to a const member is not allowed"
+					+ " (but " + attribute.getIdentNode() + " is const).");
 			return false;
 		}
 
 		if(owner.getDeclType().isConst()) {
-			error.error(owner.getCoords(), "assignment to a const type object not allowed");
+			error.error(owner.getCoords(), "An assignment to a const type object is not allowed"
+					+ " (but " + owner.getDeclType() + " is const).");
 			return false;
 		}
 
@@ -128,14 +131,15 @@ public class NameOrAttributeInitializationNode extends BaseNode
 			Collection<TypeNode> superTypes = new HashSet<TypeNode>();
 			exprType.doGetCompatibleToTypes(superTypes);
 			if(!superTypes.contains(targetType)) {
-				error.error(owner.getCoords(), "can't initialize-assign value of "
-						+ exprType + " to attribute of " + targetType);
+				error.error(owner.getCoords(), "Cannot initialize an attribute of type " + targetType
+						+ " with a value of type " + exprType + ".");
 				return false;
 			}
 		}
 		if(targetType instanceof NodeTypeNode && exprType instanceof EdgeTypeNode
 				|| targetType instanceof EdgeTypeNode && exprType instanceof NodeTypeNode) {
-			error.error(owner.getCoords(), "can't initialize-assign value of " + exprType + " to attribute of " + targetType);
+			error.error(owner.getCoords(), "Cannot initialize an attribute of type " + targetType
+					+ " with a value of type " + exprType + ".");
 			return false;
 		}
 		return true;

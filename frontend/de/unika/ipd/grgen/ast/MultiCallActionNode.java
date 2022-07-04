@@ -115,18 +115,10 @@ public class MultiCallActionNode extends BaseNode
 		}
 
 		if(!isMatchClassOfFilterImplementedByAction) {
+			StringBuilder matchClassesImplementedByAction = new StringBuilder();
 			if(actionCall.getAction().getImplementedMatchClasses().isEmpty()) {
-				if(nameOfFilterFunction != null) {
-					actionCall.reportError("Match filter " + nameOfFilterFunction + " is defined for match class "
-							+ matchClassReferencedByFilterFunction + ". " + "The action " + nameOfAction
-							+ " implements no match classes.");
-				} else {
-					actionCall.reportError(
-							"The multi rule query is defined for match class " + matchClassReferencedByFilterFunction
-									+ ". " + "The action " + nameOfAction + " implements no match classes.");
-				}
+				matchClassesImplementedByAction.append("no match classes");
 			} else {
-				StringBuilder matchClassesImplementedByAction = new StringBuilder();
 				boolean first = true;
 				for(DefinedMatchTypeNode matchType : actionCall.getAction().getImplementedMatchClasses()) {
 					String matchTypeNameImplementedByAction = matchType.getTypeName();
@@ -137,16 +129,17 @@ public class MultiCallActionNode extends BaseNode
 					}
 					matchClassesImplementedByAction.append(matchTypeNameImplementedByAction);
 				}
-
-				if(nameOfFilterFunction != null) {
-					actionCall.reportError("Match filter " + nameOfFilterFunction + " is defined for match class "
-							+ matchClassReferencedByFilterFunction + ". " + "The action " + nameOfAction
-							+ " implements only " + matchClassesImplementedByAction + ".");
-				} else {
-					actionCall.reportError("The multi rule query is defined for match class "
-							+ matchClassReferencedByFilterFunction + ". " + "The action " + nameOfAction
-							+ " implements only " + matchClassesImplementedByAction + ".");
-				}
+			}
+			
+			if(nameOfFilterFunction != null) {
+				actionCall.reportError("The called filter function " + nameOfFilterFunction
+						+ " is defined for match class " + matchClassReferencedByFilterFunction + "."
+						+ " The action " + nameOfAction + " it is applied on does not implement the match class"
+						+ " (it implements " + matchClassesImplementedByAction + ").");
+			} else {
+				actionCall.reportError("The multi rule query is defined to return match class " + matchClassReferencedByFilterFunction + "."
+						+ " The action " + nameOfAction + " called in the multi rule query does not implement the match class"
+						+ " (it implements " + matchClassesImplementedByAction + ").");
 			}
 		}
 	}

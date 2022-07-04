@@ -37,8 +37,8 @@ public class DebugHighlightProcNode extends DebugProcNode
 		int paramNum = 0;
 		for(ExprNode expr : exprs.getChildren()) {
 			if(paramNum % 2 == 0 && !(expr.getType().equals(BasicTypeNode.stringType))) {
-				reportError("argument " + paramNum
-						+ " of " + shortSignature() + " must be of string type (a message followed by a sequence of (value, annotation for the value)* must be given)");
+				reportError("The " + shortSignature() + " procedure expects as " + paramNum + ". argument (transaction id) a value of type string (a message followed by a sequence of (value, annotation for the value)* must be given)"
+						+ " (but is given a value of type " + expr.getType() + ").");
 				return false;
 			}
 			++paramNum;

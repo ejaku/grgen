@@ -70,12 +70,14 @@ public class InducedSubgraphExprNode extends BuiltinFunctionInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!(nodeSetExpr.getType() instanceof SetTypeNode)) {
-			nodeSetExpr.reportError("set expected as argument to inducedSubgraph");
+			nodeSetExpr.reportError("The function inducedSubgraph expects as argument a value of type set"
+					+ " (but is given a value of type " + nodeSetExpr.getType() + ").");
 			return false;
 		}
 		SetTypeNode type = (SetTypeNode)nodeSetExpr.getType();
 		if(!(type.valueType instanceof NodeTypeNode)) {
-			nodeSetExpr.reportError("set of nodes expected as argument to inducedSubgraph");
+			nodeSetExpr.reportError("The function inducedSubgraph expects as argument a value of type set<Node>"
+					+ " (but is given a value of type " + nodeSetExpr.getType() + ").");
 			return false;
 		}
 		return true;

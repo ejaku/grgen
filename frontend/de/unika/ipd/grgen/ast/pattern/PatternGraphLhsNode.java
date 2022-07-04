@@ -443,16 +443,16 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 		for(PatternGraphLhsNode pattern : negs.getChildren()) {
 			for(IteratedDeclNode iter : pattern.iters.getChildren()) {
 				if(iter.right != null) {
-					iter.right.reportError("An iterated contained within a negative can't possess a rewrite part"
-							+ " (the negative is a pure negative application condition)");
+					iter.right.reportError("An iterated contained within a negative cannot possess a rewrite part"
+							+ " (the negative is a pure negative application condition).");
 					result = false;
 				}
 			}
 			for(AlternativeDeclNode alt : pattern.alts.getChildren()) {
 				for(AlternativeCaseDeclNode altCase : alt.getChildren()) {
 					if(altCase.right != null) {
-						altCase.right.reportError("An alternative case contained within a negative can't possess a rewrite part"
-								+ " (the negative is a pure negative application condition)");
+						altCase.right.reportError("An alternative case contained within a negative cannot possess a rewrite part"
+								+ " (the negative is a pure negative application condition).");
 						result = false;
 					}
 				}
@@ -461,16 +461,16 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 		for(PatternGraphLhsNode pattern : idpts.getChildren()) {
 			for(IteratedDeclNode iter : pattern.iters.getChildren()) {
 				if(iter.right != null) {
-					iter.right.reportError("An iterated contained within an independent can't possess a rewrite part"
-								+ " (the independent is a pure positive application condition)");
+					iter.right.reportError("An iterated contained within an independent cannot possess a rewrite part"
+								+ " (the independent is a pure positive application condition).");
 					result = false;
 				}
 			}
 			for(AlternativeDeclNode alt : pattern.alts.getChildren()) {
 				for(AlternativeCaseDeclNode altCase : alt.getChildren()) {
 					if(altCase.right != null) {
-						altCase.right.reportError("An alternative case contained within an independent can't possess a rewrite part"
-								+ " (the independent is a pure positive application condition)");
+						altCase.right.reportError("An alternative case contained within an independent cannot possess a rewrite part"
+								+ " (the independent is a pure positive application condition).");
 						result = false;
 					}
 				}
@@ -508,7 +508,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 		
 		for(ExprNode exp : conditions.getChildren()) {
 			if(!exp.getType().isEqual(BasicTypeNode.booleanType)) {
-				exp.reportError("Expression must be of type boolean (not " + exp.getType() + ")");
+				exp.reportError("Expression in if condition must be of type boolean (but is " + exp.getType() + ").");
 				expr = false;
 			}
 		}
@@ -516,7 +516,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 		boolean noReturnInNegOrIdpt = true;
 		if((context & CONTEXT_NEGATIVE) == CONTEXT_NEGATIVE || (context & CONTEXT_INDEPENDENT) == CONTEXT_INDEPENDENT) {
 			if(returns.size() != 0) {
-				reportError("return not allowed in negative or independent block");
+				reportError("A return is not allowed in a negative or independent block.");
 				noReturnInNegOrIdpt = false;
 			}
 		}
@@ -594,13 +594,13 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 	{
 		VarDeclNode variable = tryGetVar(filterVariable);
 		if(variable == null) {
-			errorTarget.reportError(filterNameWithEntitySuffix + ": unknown variable " + filterVariable);
+			errorTarget.reportError("The variable " + filterVariable + " is not known (in filter " + filterNameWithEntitySuffix + ").");
 			return false;
 		}
 		TypeNode filterVariableType = variable.getDeclType();
 		if(!filterVariableType.isOrderableType()) {
-			errorTarget.reportError(filterNameWithEntitySuffix + ": the variable " + filterVariable
-					+ " must be of one of the following types: " + TypeNode.getOrderableTypesAsString());
+			errorTarget.reportError("The variable " + filterVariable + " must be of one of the following types: " + TypeNode.getOrderableTypesAsString()
+				+ " (but is " + filterVariableType + ")" + " (in filter " + filterNameWithEntitySuffix + ").");
 			return false;
 		}
 		return true;
@@ -614,13 +614,13 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 		if(entity == null)
 			entity = tryGetVar(filterEntity);
 		if(entity == null) {
-			errorTarget.reportError(filterNameWithEntitySuffix + ": unknown entity " + filterEntity);
+			errorTarget.reportError("The entity " + filterEntity + " is not known (in filter " + filterNameWithEntitySuffix + ").");
 			return false;
 		}
 		TypeNode filterVariableType = entity.getDeclType();
 		if(!filterVariableType.isFilterableType()) {
-			errorTarget.reportError(filterNameWithEntitySuffix + ": the entity " + filterEntity
-					+ " must be of one of the following types: " + TypeNode.getFilterableTypesAsString());
+			errorTarget.reportError("The entity " + filterEntity + " must be of one of the following types: " + TypeNode.getFilterableTypesAsString()
+					+ " (but is " + filterVariableType + ")" + " (in filter " + filterNameWithEntitySuffix + ").");
 			return false;
 		}
 		return true;

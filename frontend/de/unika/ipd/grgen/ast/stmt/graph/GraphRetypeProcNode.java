@@ -77,7 +77,9 @@ public class GraphRetypeProcNode extends BuiltinProcedureInvocationBaseNode
 		if(entity.getType() instanceof EdgeTypeNode && entityType.getType() instanceof EdgeTypeNode) {
 			return true;
 		}
-		reportError("retype(.,.) can only retype a node to a node type, or an edge to an edge type");
+		reportError("The retype procedure expects as 1. argument (node) a value of type Node and as 2. argument (nodeType) a value of type node type,"
+				+ " or as 1. argument (edge) a value of type Edge and as 2. argument (edgeType) a value of type edge type "
+				+ " (but is given values of type " + entity.getType() + " and " + entityType.getType() + ").");
 		return false;
 	}
 

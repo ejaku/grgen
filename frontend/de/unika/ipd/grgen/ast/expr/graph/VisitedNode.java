@@ -73,7 +73,8 @@ public class VisitedNode extends ExprNode
 			return true;
 		}
 		if(!visitorIDExpr.getType().isEqual(BasicTypeNode.intType)) {
-			visitorIDExpr.reportError("Visitor ID expression must be of type int");
+			visitorIDExpr.reportError("The visited construct expects as index argument (visitorId) a value of type int"
+					+ " (but is given a value of type " + visitorIDExpr.getType() + ").");
 			return false;
 		}
 		if(entityExpr.getType() instanceof UntypedExecVarTypeNode) {
@@ -85,7 +86,8 @@ public class VisitedNode extends ExprNode
 		if(entityExpr.getType() instanceof NodeTypeNode) {
 			return true;
 		}
-		reportError("visited entity expr must be of node or edge type");
+		reportError("The visited construct expects as entity argument a value of type node or edge"
+				+ " (but is given a value of type " + entityExpr.getType() + ").");
 		return true;
 	}
 

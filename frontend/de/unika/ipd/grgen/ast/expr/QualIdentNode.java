@@ -114,7 +114,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 				member = memberResolver.resolve(memberUnresolved, this);
 				successfullyResolved = member != null && successfullyResolved;
 			} else {
-				reportError("Left hand side of '.' does not own a scope");
+				reportError("Left hand side of '.' does not own a scope (in " + this + ").");
 				successfullyResolved = false;
 			}
 		} else if(owner instanceof VarDeclNode) {
@@ -122,7 +122,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 			if(member == null)
 				successfullyResolved = false;
 		} else {
-			reportError("Left hand side of '.' is neither a node nor an edge (nor a variable of node/edge or match or match class type)");
+			reportError("Left hand side of '.' is neither a node nor an edge (nor a variable of node/edge type, or match/match class type; in " + this + ").");
 			successfullyResolved = false;
 		}
 
@@ -184,5 +184,11 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 	public static String getKindStr()
 	{
 		return "qualified identifier";
+	}
+	
+	@Override
+	public String toString()
+	{
+		return ownerUnresolved + "." + memberUnresolved;
 	}
 }

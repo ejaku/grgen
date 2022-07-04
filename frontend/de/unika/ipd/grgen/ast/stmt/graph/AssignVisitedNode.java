@@ -87,12 +87,13 @@ public class AssignVisitedNode extends EvalStatementNode
 	protected boolean checkLocal()
 	{
 		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
-			reportError("assignment to visited flag not allowed in function or lhs context");
+			reportError("The visited[] assignment is not allowed in function or pattern part context.");
 			return false;
 		}
 
 		if(rhs.getType() != BasicTypeNode.booleanType) {
-			error.error(getCoords(), "Visited flags may only be assigned boolean values");
+			error.error(getCoords(), "The visited[] assignment expects as value to be assigned a value of type boolean"
+					+ " (but is given a value of type " + rhs.getType() + ").");
 			return false;
 		}
 		return true;

@@ -271,26 +271,26 @@ public class ExecNode extends BaseNode
 
 		if(resolve != null) {
 			if(resolve.first != null) {
-				for(ExecVarDeclNode c : resolve.first.getChildren()) {
-					usage.addChild(c);
+				for(ExecVarDeclNode execVar : resolve.first.getChildren()) {
+					usage.addChild(execVar);
 				}
 			}
 
 			if(resolve.second != null) {
-				for(NodeDeclNode c : resolve.second.getChildren()) {
-					usage.addChild(c);
+				for(NodeDeclNode node : resolve.second.getChildren()) {
+					usage.addChild(node);
 				}
 			}
 
 			if(resolve.third != null) {
-				for(EdgeDeclNode c : resolve.third.getChildren()) {
-					usage.addChild(c);
+				for(EdgeDeclNode edge : resolve.third.getChildren()) {
+					usage.addChild(edge);
 				}
 			}
 
 			if(resolve.fourth != null) {
-				for(VarDeclNode c : resolve.fourth.getChildren()) {
-					usage.addChild(c);
+				for(VarDeclNode var : resolve.fourth.getChildren()) {
+					usage.addChild(var);
 				}
 			}
 
@@ -302,38 +302,38 @@ public class ExecNode extends BaseNode
 
 		if(writeResolve != null) {
 			if(writeResolve.first != null) {
-				for(ExecVarDeclNode c : writeResolve.first.getChildren()) {
-					writeUsage.addChild(c);
+				for(ExecVarDeclNode execVar : writeResolve.first.getChildren()) {
+					writeUsage.addChild(execVar);
 				}
 			}
 
 			if(writeResolve.second != null) {
-				for(NodeDeclNode c : writeResolve.second.getChildren()) {
-					if(!c.defEntityToBeYieldedTo) {
+				for(NodeDeclNode node : writeResolve.second.getChildren()) {
+					if(!node.defEntityToBeYieldedTo) {
 						reportError("Only a def (to be yielded to) node is allowed to be written from an exec statement"
-								+ " (violated by " + c.getIdentNode().toString() + ").");
+								+ " (this does not hold for " + node.getIdentNode() + ").");
 					}
-					writeUsage.addChild(c);
+					writeUsage.addChild(node);
 				}
 			}
 
 			if(writeResolve.third != null) {
-				for(EdgeDeclNode c : writeResolve.third.getChildren()) {
-					if(!c.defEntityToBeYieldedTo) {
+				for(EdgeDeclNode edge : writeResolve.third.getChildren()) {
+					if(!edge.defEntityToBeYieldedTo) {
 						reportError("Only a def (to be yielded to) edge is allowed to be written from an exec statement"
-								+ " (violated by " + c.getIdentNode().toString() + ").");
+								+ " (this does not hold for " + edge.getIdentNode() + ").");
 					}
-					writeUsage.addChild(c);
+					writeUsage.addChild(edge);
 				}
 			}
 
 			if(writeResolve.fourth != null) {
-				for(VarDeclNode c : writeResolve.fourth.getChildren()) {
-					if(!c.defEntityToBeYieldedTo) {
+				for(VarDeclNode var : writeResolve.fourth.getChildren()) {
+					if(!var.defEntityToBeYieldedTo) {
 						reportError("Only a def (to be yielded to) variable is allowed to be written from an exec statement"
-								+ " (violated by " + c.getIdentNode().toString() + ").");
+								+ " (this does not hold for " + var.getIdentNode() + ").");
 					}
-					writeUsage.addChild(c);
+					writeUsage.addChild(var);
 				}
 			}
 

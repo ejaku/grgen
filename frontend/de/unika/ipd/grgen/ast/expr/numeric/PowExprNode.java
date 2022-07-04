@@ -71,20 +71,17 @@ public class PowExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(leftExpr != null) {
-			if(leftExpr.getType().isEqual(BasicTypeNode.doubleType)
-					&& rightExpr.getType().isEqual(BasicTypeNode.doubleType)) {
-				return true;
-			}
-			reportError("valid types for pow(.,.) are: (double,double)");
-			return false;
-		} else {
-			if(rightExpr.getType().isEqual(BasicTypeNode.doubleType)) {
-				return true;
-			}
-			reportError("valid types for pow(.) are: double");
+		if(!rightExpr.getType().isEqual(BasicTypeNode.doubleType)) {
+			reportError("The function pow() expects as 1. argument a value of type double"
+					+ " (but is given a value of type " + rightExpr.getType() + ").");
 			return false;
 		}
+		if(leftExpr != null && !leftExpr.getType().isEqual(BasicTypeNode.doubleType)) {
+			reportError("The function pow() expects as 2. argument a value of type double"
+					+ " (but is given a value of type " + leftExpr.getType() + ").");
+			return false;
+		}
+		return true;
 	}
 
 	@Override

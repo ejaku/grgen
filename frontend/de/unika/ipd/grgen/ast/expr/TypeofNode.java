@@ -94,7 +94,7 @@ public class TypeofNode extends ExprNode
 		if(entityVarDecl != null
 				&& !(entityVarDecl.getDeclType() instanceof NodeTypeNode)
 				&& !(entityVarDecl.getDeclType() instanceof EdgeTypeNode)) {
-			reportError("the variable for a typeof must be of node or edge type.");
+			reportError("The variable in a typeof (" + entityUnresolved + ") must be of node or edge type, but is of type " + entityVarDecl.getDeclType() + ".");
 			return false;
 		}
 		return true;
@@ -126,22 +126,22 @@ public class TypeofNode extends ExprNode
 	{
 		if(entityEdgeDecl != null) {
 			if(entityEdgeDecl.defEntityToBeYieldedTo) {
-				entityEdgeDecl.reportError("A def entity (" + entityEdgeDecl
-						+ ") can't be accessed from a " + containingConstruct);
+				entityEdgeDecl.reportError("A def edge (" + entityUnresolved + ")"
+						+ " cannot be accessed from a " + containingConstruct + ".");
 				return false;
 			}
 		}
 		if(entityNodeDecl != null) {
 			if(entityNodeDecl.defEntityToBeYieldedTo) {
-				entityNodeDecl.reportError("A def variable (" + entityNodeDecl
-						+ ") can't be accessed from a " + containingConstruct);
+				entityNodeDecl.reportError("A def node (" + entityUnresolved + ")"
+						+ " cannot be accessed from a " + containingConstruct + ".");
 				return false;
 			}
 		}
 		if(entityVarDecl != null) {
 			if(entityVarDecl.defEntityToBeYieldedTo && !entityVarDecl.lambdaExpressionVariable) {
-				entityVarDecl.reportError("A def variable (" + entityVarDecl
-						+ ") can't be accessed from a " + containingConstruct);
+				entityVarDecl.reportError("A def variable (" + entityUnresolved + ")"
+						+ " cannot be accessed from a " + containingConstruct + ".");
 				return false;
 			}
 		}

@@ -81,9 +81,9 @@ public class NodeInterfaceTypeChangeDeclNode extends NodeDeclNode
 		if(!interfaceType.resolve())
 			return false;
 		if(!(interfaceType.getDeclType() instanceof NodeTypeNode)) {
-			interfaceTypeUnresolved.reportError("Interface type of node \"" + getIdentNode() + "\" must be a node type"
-					+ " (not " + interfaceType.getDeclType().getTypeName() + ")"
-					+ " (use edge syntax for edges, var for variables, ref for containers)");
+			interfaceTypeUnresolved.reportError("The interface type of node parameter " + getIdentNode() + " must be a node type"
+					+ " (given is " + interfaceType.getDeclType().getTypeName() + ")"
+					+ " (use edge syntax for edges, var for variables, ref for containers).");
 			return false;
 		}
 		if(!successfullyResolved)
@@ -92,8 +92,9 @@ public class NodeInterfaceTypeChangeDeclNode extends NodeDeclNode
 		NodeTypeNode interfaceNodeTypeNode = (NodeTypeNode)interfaceType.getDeclType();
 		NodeTypeNode nodeTypeNode = (NodeTypeNode)typeTypeDecl.getDeclType();
 		if(!nodeTypeNode.isA(interfaceNodeTypeNode)) {
-			interfaceTypeUnresolved.reportWarning("parameter interface type of "
-					+ ident.toString() + " is not supertype of parameter type");
+			interfaceTypeUnresolved.reportWarning("The interface type " + interfaceNodeTypeNode.getTypeName()
+					+ " of node parameter " + ident.toString()
+					+ " is not a supertype of " + nodeTypeNode.getTypeName() + ".");
 		}
 		return successfullyResolved;
 	}
@@ -117,10 +118,10 @@ public class NodeInterfaceTypeChangeDeclNode extends NodeDeclNode
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS)
 			return true;
 
-		constraints.reportError("replace nodes can't change interface type, only pattern nodes can");
+		constraints.reportError("Rewrite part node parameters cannot change the interface type, only pattern nodes can.");
 		return false;
 	}
-
+	
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */

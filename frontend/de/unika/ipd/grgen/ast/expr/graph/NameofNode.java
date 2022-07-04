@@ -76,7 +76,8 @@ public class NameofNode extends ExprNode
 				return true;
 			}
 
-			reportError("nameof(.) expects an entity of node or edge or subgraph type");
+			reportError("The function nameof expects as argument (entityToFetchNameOf) a value of type node or edge or graph"
+					+ " (but is given a value of type " + namedEntity.getType() + ").");
 			return false;
 		}
 		return true;

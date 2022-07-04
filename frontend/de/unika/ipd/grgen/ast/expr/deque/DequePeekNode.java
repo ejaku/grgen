@@ -67,7 +67,8 @@ public class DequePeekNode extends DequeFunctionMethodInvocationBaseExprNode
 	{
 		// target type already checked during resolving into this node
 		if(numberExpr != null && !numberExpr.getType().isEqual(BasicTypeNode.intType)) {
-			numberExpr.reportError("Argument (number) to deque peek expression must be of type int");
+			numberExpr.reportError("The deque function method peek expects as argument (number) a value of type int"
+					+ " (but is given a value of type " + numberExpr.getType() + ").");
 			return false;
 		}
 		return true;

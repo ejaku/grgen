@@ -73,16 +73,19 @@ public class GetEquivalentOrAddProcNode extends BuiltinProcedureInvocationBaseNo
 	protected boolean checkLocal()
 	{
 		if(!(subgraphExpr.getType() instanceof GraphTypeNode)) {
-			subgraphExpr.reportError("(sub)graph expected as first argument to " + name());
+			subgraphExpr.reportError("The " + name() + " procedure expects as 1. argument (subgraph) a value of type graph"
+					+ " (but is given a value of type " + subgraphExpr.getType() + ").");
 			return false;
 		}
 		if(!(subgraphArrayExpr.getType() instanceof ArrayTypeNode)) {
-			subgraphArrayExpr.reportError("array expected as second argument to " + name());
+			subgraphArrayExpr.reportError("The " + name() + " procedure expects as 2. argument a value of type array<graph>"
+					+ " (but is given a value of type " + subgraphArrayExpr.getType() + ").");
 			return false;
 		}
 		ArrayTypeNode type = (ArrayTypeNode)subgraphArrayExpr.getType();
 		if(!(type.valueType instanceof GraphTypeNode)) {
-			subgraphArrayExpr.reportError("array of (sub)graphs expected as second argument to " + name());
+			subgraphArrayExpr.reportError("The " + name() + " procedure expects as 2. argument a value of type array<graph>"
+					+ " (but is given a value of type " + subgraphArrayExpr.getType() + ").");
 			return false;
 		}
 		return true;

@@ -57,7 +57,8 @@ public class FloorExprNode extends BuiltinFunctionInvocationBaseNode
 		if(argumentExpr.getType().isEqual(BasicTypeNode.doubleType)) {
 			return true;
 		}
-		reportError("argument to floor(.) must be of type double");
+		reportError("The function floor() expects as argument a value of type double"
+				+ " (but is given a value of type " + argumentExpr.getType() + ").");
 		return false;
 	}
 

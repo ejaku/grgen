@@ -68,7 +68,8 @@ public abstract class DebugProcNode extends BuiltinProcedureInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!(exprs.get(0).getType().equals(BasicTypeNode.stringType))) {
-			reportError("the first/message argument of " + shortSignature() + " must be of string type");
+			reportError("The " + shortSignature() + " procedure expects as argument (message) a value of type string"
+					+ " (but is given a value of type " + exprs.get(0).getType() + ").");
 			return false;
 		}
 		return true;

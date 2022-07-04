@@ -78,16 +78,19 @@ public class StringSubstringNode extends BuiltinFunctionInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
-			stringExpr.reportError("This argument to substring expression must be of type string");
+			stringExpr.reportError("The string function method substring can only be employed on an object of type string"
+					+ " (but is employed on an object of type " + stringExpr.getType() + ").");
 			return false;
 		}
 		if(!startExpr.getType().isEqual(BasicTypeNode.intType)) {
-			startExpr.reportError("First argument (start position) to substring expression must be of type int");
+			startExpr.reportError("The string function method substring expects as 1. argument (startPosition) a value of type int"
+					+ " (but is given a value of type " + startExpr.getType() + ").");
 			return false;
 		}
 		if(lengthExpr != null) {
 			if(!lengthExpr.getType().isEqual(BasicTypeNode.intType)) {
-				lengthExpr.reportError("Second argument (length) to substring expression must be of type int");
+				lengthExpr.reportError("The string function method substring expects as 2. argument (length) a value of type int"
+						+ " (but is given a value of type " + lengthExpr.getType() + ").");
 				return false;
 			}
 		}

@@ -110,15 +110,15 @@ public class MapInitNode extends ContainerInitNode
 					item.switchParenthood(oldKeyExpr, item.keyExpr);
 					if(item.keyExpr == ConstNode.getInvalid()) {
 						success = false;
-						item.keyExpr.reportError("Key type \"" + oldKeyExpr.getType()
-								+ "\" of initializer doesn't fit to key type \"" + mapType.keyType
-								+ "\" of the map (" + mapType + ").");
+						item.keyExpr.reportError("The key type " + oldKeyExpr.getType()
+								+ " of the initializer doesn't fit to the key type " + mapType.keyType
+								+ " of the map (" + mapType + ").");
 					}
 				} else {
 					success = false;
-					item.keyExpr.reportError("Key type \"" + item.keyExpr.getType()
-							+ "\" of initializer doesn't fit to key type \"" + mapType.keyType
-							+ "\" of the map (" + mapType
+					item.keyExpr.reportError("The key type " + item.keyExpr.getType()
+							+ " of the initializer doesn't fit to the key type " + mapType.keyType
+							+ " of the map (" + mapType
 							+ " -- all items must be of exactly the same type).");
 				}
 			}
@@ -129,22 +129,22 @@ public class MapInitNode extends ContainerInitNode
 					item.switchParenthood(oldValueExpr, item.valueExpr);
 					if(item.valueExpr == ConstNode.getInvalid()) {
 						success = false;
-						item.valueExpr.reportError("Value type \"" + oldValueExpr.getType()
-								+ "\" of initializer doesn't fit to value type \"" + mapType.valueType
-								+ "\" of the map (" + mapType + ").");
+						item.valueExpr.reportError("The value type " + oldValueExpr.getType()
+								+ " of the initializer doesn't fit to the value type " + mapType.valueType
+								+ " of the map (" + mapType + ").");
 					}
 				} else {
 					success = false;
-					item.valueExpr.reportError("Value type \"" + item.valueExpr.getType()
-							+ "\" of initializer doesn't fit to value type \"" + mapType.valueType
-							+ "\" of the map (" + mapType
+					item.valueExpr.reportError("The value type " + item.valueExpr.getType()
+							+ " of the initializer doesn't fit to the value type " + mapType.valueType
+							+ " of the map (" + mapType
 							+ " -- all items must be of exactly the same type).");
 				}
 			}
 		}
 
 		if(!isConstant() && lhs != null) {
-			reportError("Only constant items allowed in map initialization in model");
+			reportError("Only constant items are allowed in a map initialization in the model.");
 			success = false;
 		}
 

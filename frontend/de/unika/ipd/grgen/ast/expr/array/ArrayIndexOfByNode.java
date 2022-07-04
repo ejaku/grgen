@@ -86,7 +86,8 @@ public class ArrayIndexOfByNode extends ArrayFunctionMethodInvocationBaseExprNod
 		ArrayTypeNode arrayType = getTargetType();
 		if(!(arrayType.valueType instanceof InheritanceTypeNode)
 				&& !(arrayType.valueType instanceof MatchTypeNode)) {
-			reportError("indexOfBy can only be employed on an array of nodes or edges or class objects or transient class objects or match types or match class types.");
+			targetExpr.reportError("The array function method indexOfBy can only be employed on an object of type array<nodes, edges, class objects, transient class objects, match types, match class types>"
+					+ " (but is employed on an object of type " + arrayType + ").");
 			return false;
 		}
 
@@ -99,13 +100,14 @@ public class ArrayIndexOfByNode extends ArrayFunctionMethodInvocationBaseExprNod
 		if(!valueType.isEqual(memberType)) {
 			valueExpr = becomeParent(valueExpr.adjustType(memberType, getCoords()));
 			if(valueExpr == ConstNode.getInvalid()) {
-				valueExpr.reportError("Argument (value) to array indexOfBy method must be of type "
-						+ memberType.toString());
+				valueExpr.reportError("The array function method indexOfBy expects as 1. argument (valueToSearchFor) a value of type " + memberType
+						+ " (but is given a value of type " + valueType + ").");
 				return false;
 			}
 		}
 		if(startIndexExpr != null && !startIndexExpr.getType().isEqual(BasicTypeNode.intType)) {
-			startIndexExpr.reportError("Argument (start index) to array indexOfBy expression must be of type int");
+			startIndexExpr.reportError("The array function method indexOfBy expects as 2. argument (startIndex) a value of type int"
+					+ " (but is given a value of type " + startIndexExpr.getType() + ").");
 			return false;
 		}
 		return true;

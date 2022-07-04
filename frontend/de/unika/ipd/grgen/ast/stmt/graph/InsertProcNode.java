@@ -62,7 +62,8 @@ public class InsertProcNode extends BuiltinProcedureInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!(graphExpr.getType().equals(BasicTypeNode.graphType))) {
-			reportError("argument of insert(.) must be of graph type (the subgraph to insert into the current graph)");
+			reportError("The insert procedure expects as argument (subgraphToInsertIntoTheCurrentGraph) a value of type graph"
+					+ " (but is given a value of type " + graphExpr.getType() + ").");
 			return false;
 		}
 		return true;

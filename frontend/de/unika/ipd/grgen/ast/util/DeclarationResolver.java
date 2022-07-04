@@ -49,8 +49,8 @@ public class DeclarationResolver<R extends BaseNode> extends Resolver<R>
 		if(res != null)
 			return res;
 
-		bn.reportError("\"" + bn + "\" is a " + bn.getKind() +
-				" but a " + getAllowedNames() + " is expected");
+		bn.reportError(bn + " is a " + bn.getKind() +
+				" but a " + getAllowedNames() + " is expected.");
 		return null;
 	}
 
@@ -70,8 +70,8 @@ public class DeclarationResolver<R extends BaseNode> extends Resolver<R>
 		if(res != null)
 			return res;
 
-		n.reportError("\"" + n + "\" is a " + resolved.getKind() +
-				" but a " + getAllowedNames() + " is expected");
+		n.reportError(n + " is a " + resolved.getKind() +
+				" but a " + getAllowedNames() + " is expected.");
 		return null;
 	}
 

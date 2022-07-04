@@ -78,14 +78,15 @@ public class SetCopyConstructorNode extends ExprNode
 		boolean success = true;
 
 		if(lhsUnresolved != null) {
-			reportError("Set copy constructor not allowed in set initialization in model");
+			reportError("A set copy constructor is not allowed in a set initialization in the model.");
 			success = false;
 		} else {
 			if(setToCopy.getType() instanceof SetTypeNode) {
 				SetTypeNode sourceSetType = (SetTypeNode)setToCopy.getType();
-				success &= checkCopyConstructorTypes(setType.valueType, sourceSetType.valueType, "Set", "");
+				success &= checkCopyConstructorTypes(setType.valueType, sourceSetType.valueType, "set", false);
 			} else {
-				reportError("Set copy constructor expects set type");
+				reportError("A set copy constructor expects a set type"
+						+ " (but is given " + setToCopy.getType() + ").");
 				success = false;
 			}
 		}

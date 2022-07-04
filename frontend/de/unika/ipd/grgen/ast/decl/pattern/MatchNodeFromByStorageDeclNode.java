@@ -45,4 +45,14 @@ public abstract class MatchNodeFromByStorageDeclNode extends NodeDeclNode
 		else
 			return storageAttribute.getDecl().getDeclType();
 	}
+	
+	protected String getStorageName()
+	{
+		if(storage != null)
+			return storage.toString();
+		else if(storageGlobalVariable != null)
+			return storageGlobalVariable.toString();
+		else
+			return storageAttribute.toString();
+	}
 }

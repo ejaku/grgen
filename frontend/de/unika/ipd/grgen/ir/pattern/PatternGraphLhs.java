@@ -672,8 +672,8 @@ public class PatternGraphLhs extends PatternGraphBase
 		for(Edge edge : right.getEdges()) {
 			if(edge.directlyNestingLHSGraph != this) {
 				if((edge.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
-					error.error(edge.getIdent().getCoords(),
-							"Can't access a newly created edge (" + edge.getIdent() + ") in a nested replacement");
+					error.error(edge.getIdent().getCoords(), "Cannot access a newly created edge (" + edge.getIdent() + ")"
+							+ " in a nested rewrite part.");
 				}
 			}
 		}
@@ -699,14 +699,14 @@ public class PatternGraphLhs extends PatternGraphBase
 					evalStmt.collectNeededEntities(needs);
 					for(Edge edge : needs.edges) {
 						if((edge.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
-							error.error(edge.getIdent().getCoords(), "Can't access a newly created edge ("
-									+ edge.getIdent() + ") from an evalhere statement");
+							error.error(edge.getIdent().getCoords(), "Cannot access a newly created edge (" + edge.getIdent() + ")"
+									+ " from an evalhere statement.");
 						}
 					}
 					for(Edge edge : needs.attrEdges) {
 						if((edge.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS) {
-							error.error(edge.getIdent().getCoords(), "Can't access a newly created edge ("
-									+ edge.getIdent() + ") from an evalhere statement");
+							error.error(edge.getIdent().getCoords(), "Cannot access a newly created edge (" + edge.getIdent() + ")"
+									+ " from an evalhere statement.");
 						}
 					}
 				}
@@ -906,9 +906,8 @@ edgeHom:
 			} else {
 				// we're on path of only (maybe) empty patterns and see a subpattern already on it again
 				// -> endless loop of this subpattern matching only empty patterns until it gets matched again 
-				error.error(sub.subpatternAction.getIdent().getCoords(), "The subpattern "
-						+ sub.subpatternAction.getIdent()
-						+ " (potentially) calls itself again with only empty patterns in between yielding an endless loop");
+				error.error(sub.subpatternAction.getIdent().getCoords(), "The subpattern " + sub.subpatternAction.getIdent()
+						+ " (potentially) calls itself again with only empty patterns in between, yielding an endless loop.");
 			}
 		}
 	}
@@ -998,13 +997,15 @@ edgeHom:
 			if(node.getRetypedNode(right) == null)
 				continue;
 			if(alreadyDefinedNodes.contains(node)) {
-				error.error(node.getIdent().getCoords(),
-						"Retype of nodes from outside is forbidden if contained in construct which can get matched more than once (due to some kind of iterated)");
+				error.error(node.getIdent().getCoords(), "A retyping of nodes from the outside is forbidden"
+						+ " if they are contained in a construct which can get matched more than once (due to some kind of iterated)"
+						+ " (this is the case for " + node + ").");
 			} else {
 				for(Node homToRetypedNode : getHomomorphic(node)) {
 					if(alreadyDefinedNodes.contains(homToRetypedNode)) {
-						error.error(node.getIdent().getCoords(),
-								"Retype of nodes which might be hom to nodes from outside is forbidden if contained in construct which can get matched more than once (due to some kind of iterated)");
+						error.error(node.getIdent().getCoords(), "A retyping of nodes which might be hom to nodes from the outside is forbidden"
+								+ " if they are contained in a construct which can get matched more than once (due to some kind of iterated)"
+								+ " (this is the case for " + node + ").");
 					}
 				}
 			}
@@ -1013,13 +1014,15 @@ edgeHom:
 			if(edge.getRetypedEdge(right) == null)
 				continue;
 			if(alreadyDefinedEdges.contains(edge)) {
-				error.error(edge.getIdent().getCoords(),
-						"Retype of edges from outside is forbidden if contained in construct which can get matched more than once (due to some kind of iterated)");
+				error.error(edge.getIdent().getCoords(), "A retyping of edges from the outside is forbidden"
+						+ " if they are contained in a construct which can get matched more than once (due to some kind of iterated)"
+						+ " (this is the case for " + edge + ").");
 			} else {
 				for(Edge homToRetypedEdge : getHomomorphic(edge)) {
 					if(alreadyDefinedEdges.contains(homToRetypedEdge)) {
-						error.error(edge.getIdent().getCoords(),
-								"Retype of edges which might be hom to edges from outside is forbidden if contained in construct which can get matched more than once (due to some kind of iterated)");
+						error.error(edge.getIdent().getCoords(), "A retyping of edges which might be hom to edges from the outside is forbidden"
+								+ " if they are contained in construct which can get matched more than once (due to some kind of iterated)"
+								+ " (this is the case for " + edge + ").");
 					}
 				}
 			}

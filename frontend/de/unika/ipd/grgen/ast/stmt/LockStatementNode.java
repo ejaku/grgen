@@ -67,7 +67,8 @@ public class LockStatementNode extends NestingStatementNode
 	protected boolean checkLocal()
 	{
 		if(!lockObjectExpr.getType().isLockableType()) {
-			lockObjectExpr.reportError("lock object must be a non-basic type (with execption of object)");
+			lockObjectExpr.reportError("The lock statement expects as lock object a value that is not of basic type (with exception of type object)"
+					+ " (but is given a value of type " + lockObjectExpr.getType() + ").");
 			return false;
 		}
 		return true;

@@ -37,13 +37,14 @@ public abstract class ProcedureInvocationBaseNode extends ProcedureOrBuiltinProc
 	/** Check whether the usage adheres to the signature of the declaration */
 	protected boolean checkSignatureAdhered(ProcedureDeclBaseNode pb, IdentNode unresolved, boolean isMethod)
 	{
+		String procedureName = pb.ident.toString();
+
 		// check if the number of parameters are correct
 		int expected = pb.getParameterTypes().size();
 		int actual = arguments.getChildren().size();
 		if(expected != actual) {
-			String patternName = pb.ident.toString();
-			unresolved.reportError("The procedure " + (isMethod ? "method " : "") + "\"" + patternName
-					+ "\" needs " + expected + " parameters, given are " + actual);
+			unresolved.reportError("The procedure " + (isMethod ? "method " : "") + procedureName
+					+ " expects " + expected + " arguments (given are " + actual + " arguments).");
 			return false;
 		}
 
@@ -58,8 +59,8 @@ public abstract class ProcedureInvocationBaseNode extends ProcedureOrBuiltinProc
 				res = false;
 				String exprTypeName = actualParameterType.getTypeName();
 				String paramTypeName = formalParameterType.getTypeName();
-				unresolved.reportError("Cannot convert " + (i + 1) + ". procedure " + (isMethod ? "method " : "")
-						+ "argument from \"" + exprTypeName + "\" to \"" + paramTypeName + "\"");
+				unresolved.reportError("Cannot convert " + (i + 1) + ". argument from " + exprTypeName
+						+ " to " + paramTypeName + " (when calling procedure " + (isMethod ? "method " : "") + procedureName + ").");
 			}
 		}
 

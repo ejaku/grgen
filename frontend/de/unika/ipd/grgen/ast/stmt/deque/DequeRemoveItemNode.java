@@ -81,7 +81,8 @@ public class DequeRemoveItemNode extends DequeProcedureMethodInvocationBaseNode
 				if(!valueType.isEqual(IntTypeNode.intType)) {
 					valueExpr = becomeParent(valueExpr.adjustType(IntTypeNode.intType, getCoords()));
 					if(valueExpr == ConstNode.getInvalid()) {
-						valueExpr.reportError("Argument to deque remove item statement must be of type int");
+						valueExpr.reportError("The deque rem item procedure expects as argument (index) a value of type int"
+								+ " (but is given a value of type " + valueType + ").");
 						return false;
 					}
 				}
@@ -89,7 +90,7 @@ public class DequeRemoveItemNode extends DequeProcedureMethodInvocationBaseNode
 			return true;
 		} else {
 			if(valueExpr != null)
-				return checkType(valueExpr, IntTypeNode.intType, "index value", "deque remove item statement");
+				return checkType(valueExpr, IntTypeNode.intType, "index value", "deque rem item procedure");
 			else
 				return true;
 		}

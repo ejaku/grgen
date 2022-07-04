@@ -128,7 +128,7 @@ public abstract class InheritanceType extends CompoundType
 	{
 		assert allSubTypes == null && allSuperTypes == null : "wrong order of calls";
 		if(allSubTypes != null || allSuperTypes != null) // todo: remove this constraint/work around it
-			error.error(t.getIdent().getCoords(), "A container in a type must not reference a subtype");
+			error.error(t.getIdent().getCoords(), "A container in a type is not allowed to reference a subtype.");
 		directSuperTypes.add(t);
 		t.directSubTypes.add(this);
 	}
@@ -189,9 +189,8 @@ public abstract class InheritanceType extends CompoundType
 					overridingMembers.put(member, curMember);
 				} else {
 					error.error(member.getIdent().getCoords(), member.toString()
-							+ " of " + member.getOwner()
-							+ " already defined. It is also declared in "
-							+ curMember.getOwner() + ".");
+							+ " of " + member.getOwner() + " is already defined."
+							+ " It is also declared in " + curMember.getOwner() + ".");
 				}
 			}
 			allMembers.put(memberName, member);

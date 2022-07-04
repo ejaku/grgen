@@ -81,7 +81,8 @@ public class TargetExprNode extends BuiltinFunctionInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!(edge.getType() instanceof EdgeTypeNode)) {
-			reportError("argument of target(.) must be an edge type");
+			reportError("The function target expects as argument (edgeToGetTargetNodeFrom) a value of type edge"
+					+ " (but is given a value of type " + edge.getType() + ").");
 			return false;
 		}
 		return true;

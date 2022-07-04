@@ -87,14 +87,14 @@ public class SubpatternReplNode extends OrderedReplacementNode
 		String patternName = subpattern.type.pattern.nameOfGraph;
 
 		if((subpattern.context & CONTEXT_LHS_OR_RHS) != CONTEXT_LHS) {
-			error.error("A dependent replacement can only be invoked for a lhs subpattern usage; "
-					+ "a rhs subpattern usage gets instantiated and can't be rewritten");
+			error.error("A subpattern rewrite application (" + subpatternUnresolved + ") can only be given for a subpattern entity declaration in the pattern part;"
+					+ " a subpattern entity declaration in the rewrite part gets instantiated and cannot be rewritten (remove the parenthesis if the latter is intended).");
 			return false;
 		}
 
 		// check whether the used pattern contains one rhs
 		if(right == null) {
-			error.error(getCoords(), "No dependent replacement specified in \"" + patternName + "\" ");
+			error.error(getCoords(), "No rewrite part specified in subpattern " + patternName + " (which is referenced by the subpattern rewrite application " + subpatternUnresolved + ").");
 			return false;
 		}
 
@@ -111,9 +111,9 @@ public class SubpatternReplNode extends OrderedReplacementNode
 		int expected = formalReplacementParameters.size();
 		int actual = replConnections.size();
 		if(expected != actual) {
-			subpattern.ident.reportError("The dependent replacement specified in \"" + patternName + "\" needs "
-					+ expected + " parameters, given by replacement usage " + subpattern.ident.toString() + " are "
-					+ actual);
+			subpattern.ident.reportError("The rewrite part specified in " + patternName + " comes with "
+					+ expected + " parameters, but given by the subpattern rewrite application " + subpatternUnresolved + " are "
+					+ actual + " arguments.");
 			return false;
 		}
 
@@ -135,6 +135,8 @@ public class SubpatternReplNode extends OrderedReplacementNode
 	{
 		boolean res = true;
 	
+		String patternName = subpattern.type.pattern.nameOfGraph;
+		
 		TypeNode actualParameterType = actualParameter.getType();
 		TypeNode formalParameterType = formalParameter.getDeclType();
 
@@ -142,17 +144,15 @@ public class SubpatternReplNode extends OrderedReplacementNode
 			ConstraintDeclNode parameterElement = (ConstraintDeclNode)formalParameter;
 			if(!parameterElement.defEntityToBeYieldedTo) {
 				res = false;
-				subpatternUnresolved.reportError("The " + (i + 1) + ". subpattern rewrite argument is yielded to, "
-						+ "but the rewrite parameter at this position is not declared as def"
-						+ "(" + parameterElement.getIdentNode() + ")");
+				subpatternUnresolved.reportError("The " + (i + 1) + ". argument to the subpattern rewrite application " + subpatternUnresolved + " is yielded to,"
+						+ " but the rewrite parameter at this position " + "(" + parameterElement.getIdentNode() + " in " + patternName + ")" + " is not declared as def.");
 			}
 		} else { //if(formalParameter instanceof VarDeclNode)
 			VarDeclNode parameterVar = (VarDeclNode)formalParameter;
 			if(!parameterVar.defEntityToBeYieldedTo) {
 				res = false;
-				subpatternUnresolved.reportError("The " + (i + 1) + ". subpattern rewrite argument is yielded to, "
-						+ "but the rewrite parameter at this position is not declared as def"
-						+ "(" + parameterVar.getIdentNode() + ")");
+				subpatternUnresolved.reportError("The " + (i + 1) + ". argument to the subpattern rewrite application " + subpatternUnresolved + " is yielded to,"
+						+ " but the rewrite parameter at this position " + "(" + parameterVar.getIdentNode() + " in " + patternName + ")" + " is not declared as def.");
 			}
 		}
 		
@@ -161,15 +161,15 @@ public class SubpatternReplNode extends OrderedReplacementNode
 			VarDeclNode argumentVar = (VarDeclNode)argument;
 			if((argumentVar.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
 				res = false;
-				subpatternUnresolved.reportError("can't yield from a RHS subpattern rewrite call to a LHS def variable "
-						+ "(" + argumentVar.getIdentNode() + ")");
+				subpatternUnresolved.reportError("Cannot yield from a subpattern rewrite application (" + (i + 1) + " argument of " + subpatternUnresolved + ") in the rewrite part"
+						+ " to a def variable " + "(" + argumentVar.getIdentNode() + ") in the pattern part.");
 			}
 		} else { //if(argument instanceof ConstraintDeclNode)
 			ConstraintDeclNode argumentElement = (ConstraintDeclNode)argument;
 			if((argumentElement.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
 				res = false;
-				subpatternUnresolved.reportError("can't yield from a RHS subpattern rewrite call to a LHS def pattern graph element "
-						+ "(" + argumentElement.getIdentNode() + ")");
+				subpatternUnresolved.reportError("Cannot yield from a subpattern rewrite application (" + (i + 1) + " argument of " + subpatternUnresolved + ") in the rewrite part"
+						+ " to a def graph element " + "(" + argumentElement.getIdentNode() + ") in the pattern part.");
 			}
 		}
 		
@@ -177,9 +177,10 @@ public class SubpatternReplNode extends OrderedReplacementNode
 			res = false;
 			String exprTypeName = actualParameterType.getTypeName();
 			String paramTypeName = formalParameterType.getTypeName();
-			subpatternUnresolved.reportError("The " + (i + 1) + ". subpattern replacement argument of type \""
-					+ exprTypeName + "\" can't be yielded to from the subpattern rewrite def parameter type \""
-					+ paramTypeName + "\"");
+			subpatternUnresolved.reportError("The " + (i + 1) + ". argument of type " + exprTypeName
+					+ " (of the subpattern rewrite application " + subpatternUnresolved + ")"
+					+ " cannot be yielded to from the rewrite def parameter of incompatible type " + paramTypeName
+					+ " (" + formalParameter.getIdentNode() + " of subpattern " + patternName + ").");
 		}
 		
 		return res;
@@ -189,6 +190,8 @@ public class SubpatternReplNode extends OrderedReplacementNode
 	{
 		boolean res = true;
 
+		String patternName = subpattern.type.pattern.nameOfGraph;
+
 		TypeNode actualParameterType = actualParameter.getType();
 		TypeNode formalParameterType = formalParameter.getDeclType();
 
@@ -196,17 +199,17 @@ public class SubpatternReplNode extends OrderedReplacementNode
 			ConstraintDeclNode parameterElement = (ConstraintDeclNode)formalParameter;
 			if(parameterElement.defEntityToBeYieldedTo) {
 				res = false;
-				subpatternUnresolved.reportError("The " + (i + 1) + ". subpattern rewrite argument is not yielded to, "
-						+ "but the rewrite parameter at this position is declared as def"
-						+ "(" + parameterElement.getIdentNode() + ")");
+				subpatternUnresolved.reportError("The " + (i + 1) + ". argument of the subpattern rewrite application " + subpatternUnresolved + " is not yielded to,"
+						+ " but the rewrite parameter at this position (" + parameterElement.getIdentNode() + " in " + patternName + ")"
+						+ " is declared as def.");
 			}
 		} else { //if(formalParameter instanceof VarDeclNode)
 			VarDeclNode parameterVar = (VarDeclNode)formalParameter;
 			if(parameterVar.defEntityToBeYieldedTo) {
 				res = false;
-				subpatternUnresolved.reportError("The " + (i + 1) + ". subpattern rewrite argument is not yielded to, "
-						+ "but the rewrite parameter at this position is declared as def"
-						+ "(" + parameterVar.getIdentNode() + ")");
+				subpatternUnresolved.reportError("The " + (i + 1) + ". argument of the subpattern rewrite application " + subpatternUnresolved + " is not yielded to,"
+						+ " but the rewrite parameter at this position (" + parameterVar.getIdentNode() + " in " + patternName + ")"
+						+ " is declared as def.");
 			}
 		}
 		
@@ -214,8 +217,8 @@ public class SubpatternReplNode extends OrderedReplacementNode
 			res = false;
 			String exprTypeName = actualParameterType.getTypeName();
 			String paramTypeName = formalParameterType.getTypeName();
-			subpatternUnresolved.reportError("Cannot convert " + (i + 1) + ". subpattern replacement argument from \""
-					+ exprTypeName + "\" to \"" + paramTypeName + "\"");
+			subpatternUnresolved.reportError("Cannot convert " + (i + 1) + ". argument of the subpattern rewrite application " + subpatternUnresolved + " from "
+					+ exprTypeName + " to " + paramTypeName + " (expected by the rewrite parameter " + formalParameter.getIdentNode() + " of subpattern " + patternName + ").");
 		}
 		
 		return res;

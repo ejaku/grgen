@@ -126,12 +126,12 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 			else if(arguments.size() == 0)
 				return new RandomNode(env.getCoords(), null);
 			else {
-				env.reportError("random(.)/random() takes one or no parameters.");
+				env.reportError("random() expects 1 or 0 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		case "nodes":
 			if(arguments.size() > 1) {
-				env.reportError("nodes() takes one or none parameter.");
+				env.reportError("nodes() expects 1 or 0 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
 				return new NodesExprNode(env.getCoords(),
@@ -139,7 +139,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 			}
 		case "edges":
 			if(arguments.size() > 1) {
-				env.reportError("edges() takes one or none parameter.");
+				env.reportError("edges() expects 1 or 0 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
 				return new EdgesExprNode(env.getCoords(),
@@ -147,7 +147,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 			}
 		case "countNodes":
 			if(arguments.size() > 1) {
-				env.reportError("countNodes() takes one or none parameter.");
+				env.reportError("countNodes() expects 1 or 0 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
 				return new CountNodesExprNode(env.getCoords(),
@@ -155,7 +155,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 			}
 		case "countEdges":
 			if(arguments.size() > 1) {
-				env.reportError("countEdges() takes one or none parameter.");
+				env.reportError("countEdges() expects 1 or 0 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
 				return new CountEdgesExprNode(env.getCoords(),
@@ -163,13 +163,13 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 			}
 		case "empty":
 			if(arguments.size() > 0) {
-				env.reportError("empty() takes no parameters.");
+				env.reportError("empty() expects 0 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else
 				return new EmptyExprNode(env.getCoords());
 		case "size":
 			if(arguments.size() > 0) {
-				env.reportError("size() takes no parameters.");
+				env.reportError("size() expects 0 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else
 				return new SizeExprNode(env.getCoords());
@@ -177,21 +177,21 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 			if(arguments.size() == 1)
 				return new SourceExprNode(env.getCoords(), arguments.get(0), env.getParserEnvironment().getNodeRoot());
 			else {
-				env.reportError(functionName + "() takes 1 parameter.");
+				env.reportError(functionName + "() expects 1 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		case "target":
 			if(arguments.size() == 1)
 				return new TargetExprNode(env.getCoords(), arguments.get(0), env.getParserEnvironment().getNodeRoot());
 			else {
-				env.reportError(functionName + "() takes 1 parameter.");
+				env.reportError(functionName + "() expects 1 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		case "opposite":
 			if(arguments.size() == 2)
 				return new OppositeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), env.getParserEnvironment().getNodeRoot());
 			else {
-				env.reportError(functionName + "() takes 2 parameters.");
+				env.reportError(functionName + "() expects 2 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		case "nodeByName":
@@ -199,7 +199,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return new NodeByNameExprNode(env.getCoords(), arguments.get(0),
 						arguments.size() == 2 ? arguments.get(1) : new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else {
-				env.reportError(functionName + "() takes one or two parameters.");
+				env.reportError(functionName + "() expects 1 or 2 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		case "edgeByName":
@@ -207,7 +207,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return new EdgeByNameExprNode(env.getCoords(), arguments.get(0),
 						arguments.size() == 2 ? arguments.get(1) : new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()));
 			} else {
-				env.reportError(functionName + "() takes one or two parameters.");
+				env.reportError(functionName + "() expects 1 or 2 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		case "nodeByUnique":
@@ -215,7 +215,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return new NodeByUniqueExprNode(env.getCoords(), arguments.get(0),
 						arguments.size() == 2 ? arguments.get(1) : new IdentExprNode(env.getParserEnvironment().getNodeRoot()));
 			} else {
-				env.reportError(functionName + "() takes one or two parameters.");
+				env.reportError(functionName + "() expects 1 or 2 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		case "edgeByUnique":
@@ -223,7 +223,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return new EdgeByUniqueExprNode(env.getCoords(), arguments.get(0),
 						arguments.size() == 2 ? arguments.get(1) : new IdentExprNode(env.getParserEnvironment().getArbitraryEdgeRoot()));
 			} else {
-				env.reportError(functionName + "() takes one or two parameters.");
+				env.reportError(functionName + "() expects 1 or 2 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		case "incoming":
@@ -240,7 +240,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 			} else if(arguments.size() == 3) {
 				return new IncidentEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction, arguments.get(2));
 			} else {
-				env.reportError(functionName + "() takes 1-3 parameters.");
+				env.reportError(functionName + "() expects 1-3 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		}
@@ -258,7 +258,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 			} else if(arguments.size() == 3) {
 				return new AdjacentNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction, arguments.get(2));
 			} else {
-				env.reportError(functionName + "() takes 1-3 parameters.");
+				env.reportError(functionName + "() expects 1-3 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		}
@@ -277,7 +277,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return new CountIncidentEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction,
 						arguments.get(2));
 			} else {
-				env.reportError(functionName + "() takes 1-3 parameters.");
+				env.reportError(functionName + "() expects 1-3 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		}
@@ -296,7 +296,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return new CountAdjacentNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction,
 						arguments.get(2));
 			} else {
-				env.reportError(functionName + "() takes 1-3 parameters.");
+				env.reportError(functionName + "() expects 1-3 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		}
@@ -315,7 +315,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return new IsIncidentEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), direction,
 						arguments.get(3));
 			} else {
-				env.reportError(functionName + "() takes 2-4 parameters.");
+				env.reportError(functionName + "() expects 2-4 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		}
@@ -334,7 +334,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return new IsAdjacentNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), direction,
 						arguments.get(3));
 			} else {
-				env.reportError(functionName + "() takes 2-4 parameters.");
+				env.reportError(functionName + "() expects 2-4 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		}
@@ -352,7 +352,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 			} else if(arguments.size() == 3) {
 				return new ReachableEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction, arguments.get(2));
 			} else {
-				env.reportError(functionName + "() takes 1-3 parameters.");
+				env.reportError(functionName + "() expects 1-3 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		}
@@ -370,7 +370,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 			} else if(arguments.size() == 3) {
 				return new ReachableNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction, arguments.get(2));
 			} else {
-				env.reportError(functionName + "() takes 1-3 parameters.");
+				env.reportError(functionName + "() expects 1-3 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		}
@@ -389,7 +389,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return new CountReachableEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction,
 						arguments.get(2));
 			} else {
-				env.reportError(functionName + "() takes 1-3 parameters.");
+				env.reportError(functionName + "() expects 1-3 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		}
@@ -408,7 +408,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return new CountReachableNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), direction,
 						arguments.get(2));
 			} else {
-				env.reportError(functionName + "() takes 1-3 parameters.");
+				env.reportError(functionName + "() expects 1-3 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		}
@@ -427,7 +427,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return new IsReachableNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						direction, arguments.get(3));
 			} else {
-				env.reportError(functionName + "() takes 2-4 parameters.");
+				env.reportError(functionName + "() expects 2-4 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		}
@@ -446,7 +446,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return new IsReachableEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						direction, arguments.get(3));
 			} else {
-				env.reportError(functionName + "() takes 2-4 parameters.");
+				env.reportError(functionName + "() expects 2-4 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		}
@@ -465,7 +465,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return new BoundedReachableEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						direction, arguments.get(3));
 			} else {
-				env.reportError(functionName + "() takes 2-4 parameters.");
+				env.reportError(functionName + "() expects 2-4 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		}
@@ -484,7 +484,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return new BoundedReachableNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						direction, arguments.get(3));
 			} else {
-				env.reportError(functionName + "() takes 2-4 parameters.");
+				env.reportError(functionName + "() expects 2-4 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		}
@@ -503,7 +503,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return new BoundedReachableNodeWithRemainingDepthExprNode(env.getCoords(), arguments.get(0), arguments.get(1),
 						arguments.get(2), direction, arguments.get(3));
 			} else {
-				env.reportError(functionName + "() takes 2-4 parameters.");
+				env.reportError(functionName + "() expects 2-4 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		}
@@ -522,7 +522,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return new CountBoundedReachableEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						direction, arguments.get(3));
 			} else {
-				env.reportError(functionName + "() takes 2-4 parameters.");
+				env.reportError(functionName + "() expects 2-4 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		}
@@ -541,7 +541,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return new CountBoundedReachableNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						direction, arguments.get(3));
 			} else {
-				env.reportError(functionName + "() takes 2-4 parameters.");
+				env.reportError(functionName + "() expects 2-4 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		}
@@ -560,7 +560,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return new IsBoundedReachableNodeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						arguments.get(3), direction, arguments.get(4));
 			} else {
-				env.reportError(functionName + "() takes 3-5 parameters.");
+				env.reportError(functionName + "() expects 3-5 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		}
@@ -579,74 +579,74 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return new IsBoundedReachableEdgeExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2),
 						arguments.get(3), direction, arguments.get(4));
 			} else {
-				env.reportError(functionName + "() takes 3-5 parameters.");
+				env.reportError(functionName + "() expects 3-5 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			}
 		}
 		case "inducedSubgraph":
 			if(arguments.size() != 1) {
-				env.reportError("inducedSubgraph(.) takes one parameter.");
+				env.reportError("inducedSubgraph() expects 1 argument (given are " + arguments.size() + " arguments).");
 				return null;
 			} else
 				return new InducedSubgraphExprNode(env.getCoords(), arguments.get(0));
 		case "definedSubgraph":
 			if(arguments.size() != 1) {
-				env.reportError("definedSubgraph(.) takes one parameter.");
+				env.reportError("definedSubgraph() expects 1 argument (given are " + arguments.size() + " arguments).");
 				return null;
 			} else
 				return new DefinedSubgraphExprNode(env.getCoords(), arguments.get(0));
 		case "equalsAny":
 			if(arguments.size() != 2) {
-				env.reportError("equalsAny(.,.) takes two parameters.");
+				env.reportError("equalsAny() expects 2 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else
 				return new EqualsAnyExprNode(env.getCoords(), arguments.get(0), arguments.get(1), true);
 		case "equalsAnyStructurally":
 			if(arguments.size() != 2) {
-				env.reportError("equalsAnyStructurally(.,.) takes two parameters.");
+				env.reportError("equalsAnyStructurally() expects 2 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else
 				return new EqualsAnyExprNode(env.getCoords(), arguments.get(0), arguments.get(1), false);
 		case "getEquivalent":
 			if(arguments.size() != 2) {
-				env.reportError("getEquivalent(.,.) takes two parameters.");
+				env.reportError("getEquivalent() expects 2 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else
 				return new GetEquivalentExprNode(env.getCoords(), arguments.get(0), arguments.get(1), true);
 		case "getEquivalentStructurally":
 			if(arguments.size() != 2) {
-				env.reportError("getEquivalentStructurally(.,.) takes two parameters.");
+				env.reportError("getEquivalentStructurally() expects 2 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else
 				return new GetEquivalentExprNode(env.getCoords(), arguments.get(0), arguments.get(1), false);
 		case "copy":
 			if(arguments.size() != 1) {
-				env.reportError("copy(.) takes one parameter.");
+				env.reportError("copy() expects 1 argument (given are " + arguments.size() + " arguments).");
 				return null;
 			} else
 				return new CopyExprNode(env.getCoords(), arguments.get(0), true);
 		case "clone":
 			if(arguments.size() != 1) {
-				env.reportError("clone(.) takes one parameter.");
+				env.reportError("clone() expects 1 argument (given are " + arguments.size() + " arguments).");
 				return null;
 			} else
 				return new CopyExprNode(env.getCoords(), arguments.get(0), false);
 		case "canonize":
 			if(arguments.size() != 1) {
-				env.reportError("canonize(.) takes one parameter.");
+				env.reportError("canonize() expects 1 argument (given are " + arguments.size() + " arguments).");
 				return null;
 			} else
 				return new CanonizeExprNode(env.getCoords(), arguments.get(0));
 		case "uniqueof":
 			if(arguments.size() > 1) {
-				env.reportError("uniqueof(.) takes none or one parameter.");
+				env.reportError("uniqueof() expects 1 or 0 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else if(arguments.size() == 1)
 				return new UniqueofExprNode(env.getCoords(), arguments.get(0));
 			else
 				return new UniqueofExprNode(env.getCoords(), null);
 		default:
-			env.reportError("no function " + functionName + " known");
+			env.reportError("No function " + functionName + " is known.");
 			return null;
 		}
 	}

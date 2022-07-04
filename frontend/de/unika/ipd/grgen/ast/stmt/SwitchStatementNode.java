@@ -83,7 +83,7 @@ public class SwitchStatementNode extends EvalStatementNode
 				&& !(switchExpr.getType().isEqual(BasicTypeNode.booleanType))
 				&& !(switchExpr.getType().isEqual(BasicTypeNode.stringType))
 				&& !(switchExpr.getType() instanceof EnumTypeNode)) {
-			reportError("the expression switched upon must be of type byte or short or int or long or boolean or string or enum");
+			reportError("The expression switched upon must be of type byte or short or int or long or boolean or string or enum, but is of type " + switchExpr.getType());
 			return false;
 		}
 		boolean defaultVisited = false;
@@ -91,18 +91,17 @@ public class SwitchStatementNode extends EvalStatementNode
 			if(caseStmt.caseConstantExpr != null) {
 				// just to be sure, the syntax as-such is not allowing non-constants 
 				if(!(caseStmt.caseConstantExpr.evaluate() instanceof ConstNode)) {
-					caseStmt.reportError("the case of the switch statement must be a constant expression");
+					caseStmt.reportError("A case statement of a switch statement expects a constant expression.");
 					return false;
 				}
 				if(!(caseStmt.caseConstantExpr.getType().isCompatibleTo(switchExpr.getType()))) {
-					caseStmt.reportError("the type of the case is not compatible to the type of the switch expression;"
-							+ " case:" + caseStmt.caseConstantExpr.getType().toString()
-							+ " switch:" + switchExpr.getType().toString());
+					caseStmt.reportError("The type " + caseStmt.caseConstantExpr.getType() + " of the case expression"
+							+ " is not compatible to the type " + switchExpr.getType() + " of the switch expression.");
 					return false;
 				}
 			} else {
 				if(defaultVisited) {
-					caseStmt.reportError("only one else branch allowed per switch");
+					caseStmt.reportError("Only one else branch allowed per switch.");
 					return false;
 				}
 				defaultVisited = true;

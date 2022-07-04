@@ -54,27 +54,27 @@ public abstract class Resolver<T> extends Base
 
 		DeclNode owner = pn.getOwnerDecl();
 		if(owner == null) {
-			pn.reportError("Failure in resolving package of " + pn);
+			pn.reportError("Failure in resolving package of " + pn + ".");
 			return false;
 		}
 		boolean success = owner.resolve();
 		if(!success) {
-			pn.reportError("Failure in resolving package of " + pn);
+			pn.reportError("Failure in resolving package of " + pn + ".");
 			return false;
 		}
 		TypeNode tn = owner.getDeclType();
 		if(tn == null) {
-			pn.reportError("Failure in resolving package of " + pn);
+			pn.reportError("Failure in resolving package of " + pn + ".");
 			return false;
 		}
 		if(!(tn instanceof CompoundTypeNode)) {
-			pn.reportError("Failure in resolving package of " + pn);
+			pn.reportError("Failure in resolving package of " + pn + ".");
 			return false;
 		}
 		CompoundTypeNode ownerType = (CompoundTypeNode)tn;
 		success = ownerType.fixupDefinition(pn);
 		if(!success) {
-			pn.reportError("Failure in resolving the member in the package, regarding " + pn);
+			pn.reportError("Failure in resolving the member in the package, regarding " + pn + ".");
 			return false;
 		}
 		return true;
@@ -96,8 +96,8 @@ public abstract class Resolver<T> extends Base
 			if(result == null) {
 				String actionName = topLevelMatcher.getIdentNode().toString();
 				String iteratedName = iterated.getIdentNode().toString();
-				member.reportError("Unknown member " + memberName
-						+ ", can't find in match<" + actionName + "." + iteratedName + ">");
+				member.reportError("Unknown member " + memberName + ","
+						+ " cannot find in match<" + actionName + "." + iteratedName + ">.");
 			}
 		} else if(type instanceof MatchTypeActionNode) {
 			MatchTypeActionNode matchType = (MatchTypeActionNode)type;
@@ -108,8 +108,8 @@ public abstract class Resolver<T> extends Base
 			result = matchType.tryGetMember(member.toString());
 			if(result == null) {
 				String actionName = action.getIdentNode().toString();
-				member.reportError("Unknown member " + memberName
-						+ ", can't find in match< " + actionName + ">");
+				member.reportError("Unknown member " + memberName + ","
+						+ " cannot find in match< " + actionName + ">.");
 			}
 		} else if(type instanceof DefinedMatchTypeNode) {
 			DefinedMatchTypeNode definedMatchType = (DefinedMatchTypeNode)type;
@@ -119,8 +119,8 @@ public abstract class Resolver<T> extends Base
 			result = definedMatchType.tryGetMember(member.toString());
 			if(result == null) {
 				String matchClassName = definedMatchType.getTypeName();
-				member.reportError("Unknown member " + memberName
-						+ ", can't find in match<class " + matchClassName + ">");
+				member.reportError("Unknown member " + memberName + ","
+						+ " cannot find in match<class " + matchClassName + ">.");
 			}
 		} else if(type instanceof InheritanceTypeNode) {
 			ScopeOwner o = (ScopeOwner)type;
@@ -131,11 +131,11 @@ public abstract class Resolver<T> extends Base
 			if(result == null) {
 				String kind = inheritanceType.getKind();
 				String className = inheritanceType.getTypeName();
-				member.reportError("Unknown member " + memberName
-						+ ", can't find in " + kind + " " + className);
+				member.reportError("Unknown member " + memberName + ","
+						+ " cannot find in " + kind + " " + className + ".");
 			}
 		} else {
-			member.reportError("Unknown member " + memberName);
+			member.reportError("Unknown member " + memberName + ".");
 		}
 
 		return result;

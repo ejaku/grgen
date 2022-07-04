@@ -80,7 +80,7 @@ public class MatchNodeByUniqueLookupDeclNode extends NodeDeclNode
 	{
 		boolean res = super.checkLocal();
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-			reportError("Can't employ match node by unique lookup on RHS");
+			reportError("Cannot employ match node by unique index lookup in the rewrite part.");
 			return false;
 		}
 		TypeNode expectedLookupType = IntTypeNode.intType;
@@ -88,8 +88,8 @@ public class MatchNodeByUniqueLookupDeclNode extends NodeDeclNode
 		if(!lookupType.isCompatibleTo(expectedLookupType)) {
 			String expTypeName = expectedLookupType.getTypeName();
 			String typeName = lookupType.getTypeName();
-			ident.reportError("Cannot convert type used in accessing unique index from \"" + typeName
-					+ "\" to \"" + expTypeName + "\" in match node by unique lookup");
+			ident.reportError("Cannot convert type used in accessing unique index from " + typeName
+					+ " to " + expTypeName + " in match node " + getIdentNode() + " by unique index lookup.");
 			return false;
 		}
 		return res;

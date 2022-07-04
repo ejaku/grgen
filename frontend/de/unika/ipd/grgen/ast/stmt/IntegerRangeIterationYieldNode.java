@@ -86,7 +86,7 @@ public class IntegerRangeIterationYieldNode extends NestingStatementNode
 		if(iterationVariableUnresolved instanceof VarDeclNode) {
 			iterationVariable = (VarDeclNode)iterationVariableUnresolved;
 		} else {
-			reportError("error in resolving iteration variable of integer range iteration.");
+			reportError("Error in resolving the iteration variable of the for integer range loop.");
 			successfullyResolved = false;
 		}
 
@@ -100,15 +100,15 @@ public class IntegerRangeIterationYieldNode extends NestingStatementNode
 	protected boolean checkLocal()
 	{
 		if(!iterationVariable.getDeclType().isEqual(BasicTypeNode.intType)) {
-			reportError("integer range iteration variable must be of type int");
+			reportError("The for integer range loop expects an iteration variable of type int (but is given " + iterationVariable.getDeclType() + ").");
 			return false;
 		}
 		if(!leftExpr.getType().isEqual(BasicTypeNode.intType)) {
-			reportError("left bound in integer range iteration must be of type int");
+			reportError("The for integer range loop expects a left bound of type int (but is given " + leftExpr.getType() + ").");
 			return false;
 		}
 		if(!rightExpr.getType().isEqual(BasicTypeNode.intType)) {
-			reportError("right bound in integer range iteration must be of type int");
+			reportError("The for integer range loop expects a right bound of type int (but is given " + rightExpr.getType() + ").");
 			return false;
 		}
 		return true;

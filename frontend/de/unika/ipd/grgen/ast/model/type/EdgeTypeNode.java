@@ -159,9 +159,11 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 			
 			DeclNode decl = (DeclNode)child;
 			if(decl.getDeclType() instanceof InternalTransientObjectTypeNode) {
-				error.error(decl.getCoords(), "no value of a transient object class allowed in an edge class, but "
-						+ decl + " is of type " + decl.getDeclType());
-				res &= false;
+				error.error(decl.getCoords(), "Only transient object classes may contain attributes of transient object class types"
+						+ " (but the attribute " + decl.getIdentNode()
+						+ " is of transient object class type " + decl.getDeclType()
+						+ " in edge class " + getIdentNode() + ").");
+				res &= false; 
 			}
 		}
 
@@ -187,8 +189,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 				for(EdgeTypeNode parent : extend.getChildren()) {
 					for(ConnAssertNode caToCopy : parent.cas.getChildren()) {
 						if(caToCopy.copyExtends) {
-							reportError("internal error: copy extends in parent"
-												+ " while copying connection assertions from parent");
+							reportError("Internal error: copy extends in parent while copying connection assertions from parent.");
 							assert false;
 						}
 						connAssertsToCopy.add(caToCopy);

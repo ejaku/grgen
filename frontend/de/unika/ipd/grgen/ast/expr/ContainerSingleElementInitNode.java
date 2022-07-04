@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.expr.ContainerInitNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.parser.Coords;
@@ -68,15 +67,15 @@ public abstract class ContainerSingleElementInitNode extends ContainerInitNode
 					containerItems.replace(oldValueExpr, newValueExpr);
 					if(newValueExpr == ConstNode.getInvalid()) {
 						success = false;
-						item.reportError("Value type \"" + oldValueExpr.getType()
-								+ "\" of initializer doesn't fit to value type \"" + containerElementType
-								+ "\" of the container (" + getContainerType() + ").");
+						item.reportError("The value type " + oldValueExpr.getType()
+								+ " of the initializer doesn't fit to the value type " + containerElementType
+								+ " of the container (" + getContainerType() + ").");
 					}
 				} else {
 					success = false;
-					item.reportError("Value type \"" + item.getType()
-							+ "\" of initializer doesn't fit to value type \"" + containerElementType
-							+ "\" of the container (" + getContainerType()
+					item.reportError("The value type " + item.getType()
+							+ " of the initializer doesn't fit to the value type " + containerElementType
+							+ " of the container (" + getContainerType()
 							+ " -- all items must be of exactly the same type).");
 				}
 			}

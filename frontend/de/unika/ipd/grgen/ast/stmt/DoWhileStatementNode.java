@@ -76,7 +76,7 @@ public class DoWhileStatementNode extends NestingStatementNode
 	protected boolean checkLocal()
 	{
 		if(!conditionExpr.getType().isEqual(BasicTypeNode.booleanType)) {
-			conditionExpr.reportError("do-while condition must be of type boolean");
+			conditionExpr.reportError("The condition of the do-while loop must be of type boolean (but is of type " + conditionExpr.getType() + ").");
 			return false;
 		}
 		return true;

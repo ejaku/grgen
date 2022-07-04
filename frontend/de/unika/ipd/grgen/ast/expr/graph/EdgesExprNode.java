@@ -71,7 +71,8 @@ public class EdgesExprNode extends BuiltinFunctionInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!(edgeType.getType() instanceof EdgeTypeNode)) {
-			reportError("argument of edges(.) must be an edge type");
+			reportError("The function edges expects as argument (typeToObtain) a value of type edge type"
+					+ " (but is given a value of type " + edgeType.getType() + ").");
 			return false;
 		}
 		return true;

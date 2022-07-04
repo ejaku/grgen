@@ -35,13 +35,14 @@ public abstract class FunctionInvocationBaseNode extends FunctionOrBuiltinFuncti
 	/** Check whether the usage adheres to the signature of the declaration */
 	protected boolean checkSignatureAdhered(FunctionOrOperatorDeclBaseNode fb, IdentNode unresolved, boolean isMethod)
 	{
+		String functionName = fb.ident.toString();
+		
 		// check if the number of parameters are correct
 		int expected = fb.getParameterTypes().size();
 		int actual = arguments.getChildren().size();
 		if(expected != actual) {
-			String patternName = fb.ident.toString();
-			unresolved.reportError("The function " + (isMethod ? "method " : "") + "\"" + patternName
-					+ "\" needs " + expected + " parameters, given are " + actual);
+			unresolved.reportError("The function " + (isMethod ? "method " : "") + functionName
+					+ " expects " + expected + " arguments (given are " + actual + " arguments).");
 			return false;
 		}
 
@@ -56,8 +57,8 @@ public abstract class FunctionInvocationBaseNode extends FunctionOrBuiltinFuncti
 				res = false;
 				String exprTypeName = actualParameterType.getTypeName();
 				String paramTypeName = formalParameterType.getTypeName();
-				unresolved.reportError("Cannot convert " + (i + 1) + ". function " + (isMethod ? "method " : "")
-						+ "argument from \"" + exprTypeName + "\" to \"" + paramTypeName + "\"");
+				unresolved.reportError("Cannot convert " + (i + 1) + ". argument from " + exprTypeName
+						+ " to " + paramTypeName + " (when calling function " + (isMethod ? "method " : "") + functionName + ").");
 			}
 		}
 

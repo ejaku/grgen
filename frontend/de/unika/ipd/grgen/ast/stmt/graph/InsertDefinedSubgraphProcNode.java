@@ -71,23 +71,27 @@ public class InsertDefinedSubgraphProcNode extends BuiltinProcedureInvocationBas
 	protected boolean checkLocal()
 	{
 		if(!(edgeSetExpr.getType() instanceof SetTypeNode)) {
-			edgeSetExpr.reportError("set expected as 1st argument to insertDefinedSubgraph");
+			edgeSetExpr.reportError("The insertDefinedSubgraph procedure expects as 1. argument (setOfEdges) a value of type set<AEdge> or set<Edge> or set<UEdge>"
+					+ " (but is given a value of type " + edgeSetExpr.getType() + ").");
 			return false;
 		}
 		SetTypeNode type = (SetTypeNode)edgeSetExpr.getType();
 		if(!(type.valueType instanceof EdgeTypeNode)) {
-			edgeSetExpr.reportError("set of edges expected as 1st argument to insertDefinedSubgraph");
+			edgeSetExpr.reportError("The insertDefinedSubgraph procedure expects as 1. argument (setOfEdges) a value of type set<AEdge> or set<Edge> or set<UEdge>"
+					+ " (but is given a value of type " + edgeSetExpr.getType() + ").");
 			return false;
 		}
 		EdgeTypeNode edgeValueType = (EdgeTypeNode)type.valueType;
 		if(edgeValueType != EdgeTypeNode.arbitraryEdgeType
 				&& edgeValueType != EdgeTypeNode.directedEdgeType
 				&& edgeValueType != EdgeTypeNode.undirectedEdgeType) {
-			edgeSetExpr.reportError("set<AEdge> or set<Edge> or set<UEdge> expected as 1st argument to insertDefinedSubgraph");
+			edgeSetExpr.reportError("The insertDefinedSubgraph procedure expects as 1. argument (setOfEdges) a value of type set<AEdge> or set<Edge> or set<UEdge>"
+					+ " (but is given a value of type " + edgeSetExpr.getType() + ").");
 			return false;
 		}
 		if(!(edgeExpr.getType() instanceof EdgeTypeNode)) {
-			edgeExpr.reportError("edge expected as 2nd argument to insertDefinedSubgraph");
+			edgeExpr.reportError("The insertDefinedSubgraph procedure expects as 2. argument (edge) a value of type AEdge or Edge or UEdge"
+					+ " (but is given a value of type " + edgeExpr.getType() + ").");
 			return false;
 		}
 		return true;

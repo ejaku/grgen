@@ -83,13 +83,13 @@ public class MemberAccessExprNode extends ExprNode
 			IdentExprNode identExpr = (IdentExprNode)targetExpr;
 			if(identExpr.decl instanceof TypeDeclNode) {
 				TypeDeclNode typeNode = (TypeDeclNode)identExpr.decl;
-				reportError("Member access requires an entity, is given type " + typeNode.getIdentNode());
+				reportError("Member access (of " + memberIdent + ") expects an entity, but is given a type (" + typeNode.getIdentNode() + ").");
 			}
 		}
 		if(targetExpr instanceof TypeofNode) {
 			TypeofNode typeofExpr = (TypeofNode)targetExpr;
-			reportError("Member access requires an entity, is given type from typeof("
-					+ typeofExpr.getEntity().getDecl().getIdentNode() + ")");
+			reportError("Member access (of " + memberIdent + ") expects an entity, but is given a type (from a typeof("
+					+ typeofExpr.getEntity().getDecl().getIdentNode() + ")).");
 		}
 
 		TypeNode ownerType = targetExpr.getType();

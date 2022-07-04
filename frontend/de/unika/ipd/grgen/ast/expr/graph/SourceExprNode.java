@@ -81,7 +81,8 @@ public class SourceExprNode extends BuiltinFunctionInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!(edge.getType() instanceof EdgeTypeNode)) {
-			reportError("argument of source(.) must be an edge type");
+			reportError("The function source expects as argument (edgeToGetSourceNodeFrom) a value of type edge"
+					+ " (but is given a value of type " + edge.getType() + ").");
 			return false;
 		}
 		return true;

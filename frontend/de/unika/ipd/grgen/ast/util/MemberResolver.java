@@ -64,20 +64,20 @@ public class MemberResolver<T> extends Base
 			if(scopeDecl instanceof MatcherDeclNode || scopeDecl instanceof SequenceDeclNode
 					|| scopeDecl instanceof ProcedureDeclNode || scopeDecl instanceof FunctionDeclNode
 					|| scopeDecl instanceof FilterFunctionDeclNode || scopeDecl instanceof InvalidDeclNode) {
-				identNode.reportError("Undefined identifier \"" + identNode.toString() + "\"");
+				identNode.reportError("Undefined identifier " + identNode + ".");
 				return false;
 			} else {
 				if(scopeDecl.getDeclType() instanceof EnumTypeNode) {
 					identNode.reportError("Resolving failure, see error messages before; unexpected enum member "
-							+ identNode.toString() + " of " + scopeDecl.getDeclType());
+							+ identNode.toString() + " of " + scopeDecl.getDeclType() + ".");
 					return false;
 				}
 				InheritanceTypeNode typeNode = (InheritanceTypeNode)scopeDecl.getDeclType();
 				Map<String, DeclNode> allMembers = typeNode.getAllMembers();
 				unresolvedNode = allMembers.get(identNode.toString());
 				if(unresolvedNode == null) {
-					identNode.reportError("Undefined member " + identNode.toString()
-							+ " of " + typeNode.getDecl().getIdentNode());
+					identNode.reportError("Undefined member " + identNode
+							+ " of " + typeNode.getDecl().getIdentNode() + ".");
 					return false;
 				}
 			}
@@ -112,9 +112,9 @@ public class MemberResolver<T> extends Base
 	public void failed()
 	{
 		Class<?>[] classes = new Class<?>[triedClasses.size()];
-		orginalNode.reportError("\"" + orginalNode + "\" is a " + orginalNode.getKind() + " but a "
+		orginalNode.reportError(orginalNode + " is a " + orginalNode.getKind() + " but a "
 				+ Util.getStrListWithOr(triedClasses.toArray(classes), BaseNode.class, "getKindStr")
-				+ " is expected");
+				+ " is expected.");
 	}
 
 	/**

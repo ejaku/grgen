@@ -36,8 +36,8 @@ public class ArrayKeepOneForEachNode extends ArrayFunctionMethodInvocationBaseEx
 		// target type already checked during resolving into this node
 		ArrayTypeNode arrayType = getTargetType();
 		if(!(arrayType.valueType.isFilterableType())) {
-			targetExpr.reportError("array keepOneForEach only available for arrays of type "
-					+ TypeNode.getFilterableTypesAsString());
+			targetExpr.reportError("The array function method keepOneForEach can only be employed on an object of type array<" + TypeNode.getFilterableTypesAsString() + ">"
+					+ " (but is employed on an object of type " + arrayType + ").");
 		}
 		return true;
 	}

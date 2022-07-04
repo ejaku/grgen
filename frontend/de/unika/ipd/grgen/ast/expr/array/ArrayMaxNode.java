@@ -37,8 +37,8 @@ public class ArrayMaxNode extends ArrayAccumulationMethodNode
 		// target type already checked during resolving into this node
 		ArrayTypeNode arrayType = getTargetType();
 		if(!arrayType.valueType.isAccumulatableType()) {
-			targetExpr.reportError("The array value type of the array max method must be one of: "
-					+ TypeNode.getAccumulatableTypesAsString());
+			targetExpr.reportError("The array function method max can only be employed on an object of type array<" + TypeNode.getAccumulatableTypesAsString() + ">"
+					+ " (but is employed on an object of type " + arrayType + ").");
 			return false;
 		}
 		return true;

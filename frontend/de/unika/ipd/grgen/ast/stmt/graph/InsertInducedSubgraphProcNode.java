@@ -71,16 +71,19 @@ public class InsertInducedSubgraphProcNode extends BuiltinProcedureInvocationBas
 	protected boolean checkLocal()
 	{
 		if(!(nodeSetExpr.getType() instanceof SetTypeNode)) {
-			nodeSetExpr.reportError("set expected as 1st argument to insertInducedSubgraph");
+			nodeSetExpr.reportError("The insertInducedSubgraph procedure expects as 1. argument (setOfNodes) a value of type set<Node>"
+					+ " (but is given a value of type " + nodeSetExpr.getType() + ").");
 			return false;
 		}
 		SetTypeNode type = (SetTypeNode)nodeSetExpr.getType();
 		if(!(type.valueType instanceof NodeTypeNode)) {
-			nodeSetExpr.reportError("set of nodes expected as 1st argument to insertInducedSubgraph");
+			nodeSetExpr.reportError("The insertInducedSubgraph procedure expects as 1. argument (setOfNodes) a value of type set<Node>"
+					+ " (but is given a value of type " + nodeSetExpr.getType() + ").");
 			return false;
 		}
 		if(!(nodeExpr.getType() instanceof NodeTypeNode)) {
-			nodeExpr.reportError("node expected as 2nd argument to insertInducedSubgraph");
+			nodeExpr.reportError("The insertInducedSubgraph procedure expects as 2. argument (node) a value of type Node"
+					+ " (but is given a value of type " + nodeExpr.getType() + ").");
 			return false;
 		}
 		return true;

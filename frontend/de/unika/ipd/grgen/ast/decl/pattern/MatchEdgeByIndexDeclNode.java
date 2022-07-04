@@ -51,7 +51,7 @@ public abstract class MatchEdgeByIndexDeclNode extends EdgeDeclNode
 	{
 		boolean res = super.checkLocal();
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-			reportError("Can't employ match edge by index on RHS");
+			reportError("Cannot employ match edge by index in the rewrite part.");
 			res = false;
 		}
 		return res;

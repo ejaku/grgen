@@ -59,7 +59,7 @@ nodeAbstrLoop:
 						continue nodeAbstrLoop;
 					}
 				}
-				error.error(node.getCoords(), "Instances of abstract nodes are not allowed");
+				error.error(node.getCoords(), "Instances of abstract node classes are not allowed (" + node + " is declared with the abstract type " + node.getDeclType() + ").");
 				abstr = false;
 			}
 		}
@@ -75,7 +75,7 @@ edgeAbstrLoop:
 						continue edgeAbstrLoop;
 					}
 				}
-				error.error(edge.getCoords(), "Instances of abstract edges are not allowed");
+				error.error(edge.getCoords(), "Instances of abstract edge classes are not allowed (" + edge + " is declared with the abstract type " + edge.getDeclType() + ").");
 				abstr = false;
 			}
 		}

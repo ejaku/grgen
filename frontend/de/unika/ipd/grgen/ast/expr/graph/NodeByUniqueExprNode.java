@@ -74,11 +74,13 @@ public class NodeByUniqueExprNode extends BuiltinFunctionInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!(unique.getType() instanceof IntTypeNode)) {
-			reportError("first argument of nodeByUnique(.,.) must be of type int");
+			reportError("The function nodeByUnique expects as 1. argument (uniqueIdToSearchFor) a value of type int"
+					+ " (but is given a value of type " + unique.getType() + ").");
 			return false;
 		}
 		if(!(nodeType.getType() instanceof NodeTypeNode)) {
-			reportError("second argument of nodeByUnique(.,.) must be a node type");
+			reportError("The function edgeByUnique expects as 2. argument (typeToObtain) a value of type node type"
+					+ " (but is given a value of type " + nodeType.getType() + ").");
 			return false;
 		}
 		return true;

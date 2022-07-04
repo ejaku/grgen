@@ -83,7 +83,8 @@ public class ArrayRemoveItemNode extends ArrayProcedureMethodInvocationBaseNode
 				if(!valueType.isEqual(IntTypeNode.intType)) {
 					valueExpr = becomeParent(valueExpr.adjustType(IntTypeNode.intType, getCoords()));
 					if(valueExpr == ConstNode.getInvalid()) {
-						valueExpr.reportError("Argument to array remove item statement must be of type int");
+						valueExpr.reportError("The array rem item procedure expects as argument (index) a value of type int"
+								+ " (but is given a value of type " + valueType + ").");
 						return false;
 					}
 				}
@@ -92,7 +93,7 @@ public class ArrayRemoveItemNode extends ArrayProcedureMethodInvocationBaseNode
 		} else {
 			//TypeNode targetValueType = targetType.valueType;
 			if(valueExpr != null)
-				return checkType(valueExpr, IntTypeNode.intType, "index value", "array remove item statement");
+				return checkType(valueExpr, IntTypeNode.intType, "index value", "array rem item procedure");
 			else
 				return true;
 		}

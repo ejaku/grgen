@@ -113,7 +113,7 @@ public abstract class ConstraintDeclNode extends DeclNode
 			}
 		}
 
-		error.error(getCoords(), "can't initialize " + targetType + " with " + exprType);
+		error.error(getCoords(), "Cannot initialize " + getIdentNode() + " of type " + targetType + " with " + exprType + ".");
 		return false;
 	}
 
@@ -123,7 +123,7 @@ public abstract class ConstraintDeclNode extends DeclNode
 			return true;
 
 		if(constraints != TypeExprNode.getEmpty()) {
-			constraints.reportError("replacement elements are not allowed to be type constrained, only pattern elements are");
+			constraints.reportError("A rewrite part element is not allowed to be type constrained (only pattern elements are).");
 			return false;
 		}
 		
@@ -136,7 +136,7 @@ public abstract class ConstraintDeclNode extends DeclNode
 			return true;
 		
 		if(copyKind != CopyKind.None) {
-			reportError("LHS copy<> not allowed");
+			reportError("A copy<> construct is not allowed in the pattern part.");
 			return false;
 		}
 		
@@ -149,7 +149,11 @@ public abstract class ConstraintDeclNode extends DeclNode
 			return true;
 
 		if(nameOrAttributeInits.size() > 0) {
-			reportError("A name or attribute initialization is not allowed in the pattern");
+			NameOrAttributeInitializationNode nameOrAttributeInit = nameOrAttributeInits.get(0);
+			if(nameOrAttributeInit.attributeUnresolved != null)
+				reportError("An attribute initialization is not allowed in the pattern part (occurs for " + nameOrAttributeInit.attributeUnresolved + ").");
+			else
+				reportError("A name initialization ($=) is not allowed in the pattern part.");
 			return false;
 		}
 		
@@ -166,12 +170,12 @@ public abstract class ConstraintDeclNode extends DeclNode
 				if(!nameInitFound)
 					nameInitFound = true;
 				else {
-					reportError("Only one name initialization allowed");
+					reportError("Only one name initialization ($=) allowed.");
 					atMostOneNameInit = false;
 				}
 			}
 		}
-		
+
 		return atMostOneNameInit;
 	}
 

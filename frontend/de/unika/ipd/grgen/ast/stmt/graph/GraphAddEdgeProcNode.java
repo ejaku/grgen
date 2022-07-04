@@ -76,15 +76,18 @@ public class GraphAddEdgeProcNode extends BuiltinProcedureInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!(edgeType.getType() instanceof EdgeTypeNode)) {
-			reportError("first argument of add(.,.,.) must be an edge type");
+			reportError("The add procedure expects as 1. argument (edgeType) a value of type edge type"
+					+ " (but is given a value of type " + edgeType.getType() + ").");
 			return false;
 		}
 		if(!(sourceNode.getType() instanceof NodeTypeNode)) {
-			reportError("second argument of add(.,.,.) must be a node (source)");
+			reportError("The add procedure expects as 2. argument (sourceNode) a value of type Node"
+					+ " (but is given a value of type " + sourceNode.getType() + ").");
 			return false;
 		}
 		if(!(targetNode.getType() instanceof NodeTypeNode)) {
-			reportError("third argument of add(.,.,.) must be a node (target)");
+			reportError("The add procedure expects as 3. argument (targetNode) a value of type Node"
+					+ " (but is given a value of type " + targetNode.getType() + ").");
 			return false;
 		}
 		return true;

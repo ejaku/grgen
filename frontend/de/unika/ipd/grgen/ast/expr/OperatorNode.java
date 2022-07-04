@@ -59,7 +59,8 @@ public abstract class OperatorNode extends ExprNode
 		int arity = OperatorDeclNode.getArity(operator);
 
 		if(children.size() != arity) {
-			reportError("Wrong operator arity: " + children.size());
+			reportError("Wrong operator arity: " + children.size()
+					+ " (for " + OperatorDeclNode.getName(operator) + " expecting " + arity + " operands).");
 			res = false;
 		}
 
@@ -108,7 +109,7 @@ public abstract class OperatorNode extends ExprNode
 			params.append(')');
 
 			if(!errorReported) {
-				reportError("No such operator " + OperatorDeclNode.getName(operator) + params);
+				reportError("The operator " + OperatorDeclNode.getName(operator) + params + " is not known.");
 			}
 		} else {
 			// Insert implicit type casts for the arguments that need them.

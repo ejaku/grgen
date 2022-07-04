@@ -69,8 +69,10 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		NodeDeclNode clone = new NodeDeclNode(ident, typeUnresolved,
 				copyKind, context, constraints, directlyNestingLhsGraph, maybeNull, defEntityToBeYieldedTo);
 		clone.resolve();
-		if(typeNodeDecl != null)
-			reportError("A typeof node cannot be used in an auto statement.");
+		if(typeNodeDecl != null) {
+			reportError("A typeof node cannot be used in an auto statement"
+					+ " (as is the case for " + getIdentNode() + ").");
+		}
 		return clone;
 	}
 
@@ -134,7 +136,8 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 
 			while(cur != null) {
 				if(visited.contains(cur)) {
-					reportError("Circular typeof/copy not allowed");
+					reportError("Circular typeof/copy not allowed"
+							+ " (as is the case for " + getIdentNode() + ").");
 					return false;
 				}
 				visited.add(cur);
@@ -151,12 +154,11 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		if(!typeDecl.resolve())
 			return false;
 		if(!(typeDecl.getDeclType() instanceof NodeTypeNode)) {
-			typeUnresolved.reportError("Type of node \"" + getIdentNode()
-					+ "\" must be a node type (not " + typeDecl.getDeclType().getTypeName() + ") "
-					+ "(use edge syntax for edges, var for variables, ref for containers)");
+			typeUnresolved.reportError("Type of node " + getIdentNode()
+					+ " must be a node type (not " + typeDecl.getDeclType().getTypeName() + ") "
+					+ "(use edge syntax for edges, var for variables, ref for containers).");
 			return false;
 		}
-
 		return true;
 	}
 
@@ -174,7 +176,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		while(inheritsType() && (typeNodeDecl.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			if(firstTime) {
 				firstTime = false;
-				reportWarning("type of node " + typeNodeDecl.ident + " is statically known");
+				reportWarning("Type of node " + typeNodeDecl.ident + " is statically known (thus typeof pointless).");
 			}
 			typeTypeDecl = typeNodeDecl.typeTypeDecl;
 			typeNodeDecl = typeNodeDecl.typeNodeDecl;
@@ -246,8 +248,8 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		node.setConstraints(getConstraints());
 
 		if(node.getConstraints().contains(node.getType())) {
-			error.error(getCoords(), "Self NodeType may not be contained in TypeCondition of Node "
-					+ "(" + node.getType() + ")");
+			error.error(getCoords(), "The own node type may not be contained in the type constraint list"
+					+ " (but " + node.getType() + " is contained for " + getIdentNode() + ").");
 		}
 
 		if(inheritsType()) {

@@ -69,7 +69,8 @@ public class CountNodesExprNode extends BuiltinFunctionInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!(nodeType.getType() instanceof NodeTypeNode)) {
-			reportError("argument of countNodes(.) must be a node type");
+			reportError("The function countNodes expects as argument a value of type node"
+					+ " (but is given a value of type " + nodeType.getType() + ").");
 			return false;
 		}
 		return true;

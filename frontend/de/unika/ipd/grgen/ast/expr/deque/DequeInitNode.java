@@ -77,7 +77,7 @@ public class DequeInitNode extends ContainerSingleElementInitNode
 		boolean success = checkContainerItems();
 
 		if(!isConstant() && lhs != null) {
-			reportError("Only constant items allowed in deque initialization in model");
+			reportError("Only constant items are allowed in a deque initialization in the model.");
 			success = false;
 		}
 

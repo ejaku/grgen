@@ -80,7 +80,7 @@ public class ExactNode extends BaseNode
 	protected boolean checkLocal()
 	{
 		if(children.isEmpty()) {
-			this.reportError("Exact statement is empty");
+			this.reportError("Exact statement is empty.");
 			return false;
 		}
 

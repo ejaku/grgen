@@ -71,7 +71,8 @@ public class NodesExprNode extends BuiltinFunctionInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!(nodeType.getType() instanceof NodeTypeNode)) {
-			reportError("argument of nodes(.) must be a node type");
+			reportError("The function nodes expects as argument (typeToObtain) a value of type node type"
+					+ " (but is given a value of type " + nodeType.getType() + ").");
 			return false;
 		}
 		return true;

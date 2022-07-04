@@ -78,13 +78,14 @@ public class ArrayIndexOfNode extends ArrayFunctionMethodInvocationBaseExprNode
 		if(!valueType.isEqual(arrayType.valueType)) {
 			valueExpr = becomeParent(valueExpr.adjustType(arrayType.valueType, getCoords()));
 			if(valueExpr == ConstNode.getInvalid()) {
-				valueExpr.reportError("Argument (value) to array indexOf method must be of type "
-						+ arrayType.valueType.toString());
+				valueExpr.reportError("The array function method indexOf expects as 1. argument (valueToSearchFor) a value of type " + arrayType.valueType
+						+ " (but is given a value of type " + valueType + ").");
 				return false;
 			}
 		}
 		if(startIndexExpr != null && !startIndexExpr.getType().isEqual(BasicTypeNode.intType)) {
-			startIndexExpr.reportError("Argument (start index) to array indexOf expression must be of type int");
+			startIndexExpr.reportError("The array function method indexOf expects as 2. argument (startIndex) a value of type int"
+					+ " (but is given a value of type " + startIndexExpr.getType() + ").");
 			return false;
 		}
 		return true;

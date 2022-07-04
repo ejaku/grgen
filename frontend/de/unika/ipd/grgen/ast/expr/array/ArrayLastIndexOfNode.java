@@ -78,13 +78,14 @@ public class ArrayLastIndexOfNode extends ArrayFunctionMethodInvocationBaseExprN
 		if(!valueType.isEqual(arrayType.valueType)) {
 			valueExpr = becomeParent(valueExpr.adjustType(arrayType.valueType, getCoords()));
 			if(valueExpr == ConstNode.getInvalid()) {
-				valueExpr.reportError("Argument (value) to array lastIndexOf method must be of type "
-						+ arrayType.valueType.toString());
+				valueExpr.reportError("The array function method lastIndexOf expects as 1. argument (valueToSearchFor) a value of type " + arrayType.valueType
+						+ " (but is given a value of type " + valueType + ").");
 				return false;
 			}
 		}
 		if(startIndexExpr != null && !startIndexExpr.getType().isEqual(BasicTypeNode.intType)) {
-			startIndexExpr.reportError("Argument (start index) to array lastIndexOf expression must be of type int");
+			startIndexExpr.reportError("The array function method lastIndexOf expects as 2. argument (start index) a value of type int"
+					+ " (but is given a value of type " + startIndexExpr.getType() + ").");
 			return false;
 		}
 		return true;

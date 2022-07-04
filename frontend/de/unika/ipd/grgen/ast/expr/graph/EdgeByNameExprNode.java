@@ -74,11 +74,13 @@ public class EdgeByNameExprNode extends BuiltinFunctionInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!(name.getType() instanceof StringTypeNode)) {
-			reportError("first argument of edgeByName(.,.) must be of type string");
+			reportError("The function edgeByName expects as 1. argument (nameToSearchFor) a value of type string"
+					+ " (but is given a value of type " + name.getType() + ").");
 			return false;
 		}
 		if(!(edgeType.getType() instanceof EdgeTypeNode)) {
-			reportError("second argument of edgeByName(.,.) must be an edge type");
+			reportError("The function edgeByName expects as 2. argument (typeToObtain) a value of type edge type"
+					+ " (but is given a value of type " + edgeType.getType() + ").");
 			return false;
 		}
 		return true;

@@ -70,19 +70,22 @@ public class DefinedSubgraphExprNode extends BuiltinFunctionInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!(edgeSetExpr.getType() instanceof SetTypeNode)) {
-			edgeSetExpr.reportError("set expected as argument to definedSubgraph");
+			edgeSetExpr.reportError("The function definedSubgraph expects as argument a value of type set"
+					+ " (but is given a value of type " + edgeSetExpr.getType() + ").");
 			return false;
 		}
 		SetTypeNode type = (SetTypeNode)edgeSetExpr.getType();
 		if(!(type.valueType instanceof EdgeTypeNode)) {
-			edgeSetExpr.reportError("set of edges expected as argument to definedSubgraph");
+			edgeSetExpr.reportError("The function definedSubgraph expects as argument a value of type set<Edge|UEdge|AEdge>"
+					+ " (but is given a value of type " + edgeSetExpr.getType() + ").");
 			return false;
 		}
 		EdgeTypeNode edgeValueType = (EdgeTypeNode)type.valueType;
 		if(edgeValueType != EdgeTypeNode.arbitraryEdgeType
 				&& edgeValueType != EdgeTypeNode.directedEdgeType
 				&& edgeValueType != EdgeTypeNode.undirectedEdgeType) {
-			edgeSetExpr.reportError("set<AEdge> or set<Edge> or set<UEdge> expected as argument to definedSubgraph");
+			edgeSetExpr.reportError("The function definedSubgraph expects as argument a value of type set<Edge|UEdge|AEdge>"
+					+ " (but is given a value of type " + edgeSetExpr.getType() + ").");
 			return false;
 		}
 		return true;

@@ -57,7 +57,8 @@ public class CanonizeExprNode extends BuiltinFunctionInvocationBaseNode
 		if(graphExpr.getType().isEqual(BasicTypeNode.graphType)) {
 			return true;
 		} else {
-			reportError("canonize(.) expects a subgraph of graph type");
+			reportError("The function canonize expects as argument a value of type graph"
+					+ " (but is given a value of type " + graphExpr.getType() + ").");
 			return false;
 		}
 	}

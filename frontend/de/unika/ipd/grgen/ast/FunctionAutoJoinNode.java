@@ -11,7 +11,6 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
@@ -106,39 +105,39 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 	public boolean checkLocal()
 	{
 		if(!function.equals("join")) {
-			reportError("Unknown function in auto(), supported is: join (e.g. join<natural>)");
+			reportError("Unknown function in auto(), expected join (e.g. join<natural>).");
 			return false;
 		}
 		
 		if(!joinFunction.equals("natural") && !joinFunction.equals("cartesian")) {
-			reportError("Unknown join function in auto(), supported are natural and cartesian (giving e.g. join<natural>)");
+			reportError("Unknown join function in auto(), only natural and cartesian are supported (giving e.g. join<natural>).");
 			return false;
 		}
 	
 		boolean result = true;
 
+		if(arguments.getChildren().size() != 2) {
+			reportError(functionName() + " must have 2 arguments.");
+			result = false;
+		}
+
 		int i = 1;
 		for(VarDeclNode argument : arguments.getChildren()) {
 			if(!(argument.getDeclType() instanceof ArrayTypeNode)) {
-				reportError("argument " + i + " to " + shortSignature() + " must be an array");
+				reportError("The " + i + ". argument to " + functionName() + "() must be an array.");
 				result = false;
 				continue;
 			}
 			ArrayTypeNode argumentType = (ArrayTypeNode)argument.getDeclType();
 			if(!(argumentType.getElementType() instanceof MatchTypeActionNode)
 					&& !(argumentType.getElementType() instanceof DefinedMatchTypeNode)) {
-				reportError("argument " + i + " to " + shortSignature() + " must be an array<match<T>> or array<match<class T>>");
+				reportError("The " + i + ". argument to " + functionName() + "() must be an array<match<T>> or array<match<class T>>.");
 				result = false;
 				continue;
 			}
 			++i;
 		}
 		
-		if(arguments.getChildren().size() != 2) {
-			reportError(shortSignature() + " must have 2 arguments");
-			result = false;
-		}
-
 		VarDeclNode leftArgument = arguments.getChildrenAsVector().get(0);
 		ArrayTypeNode leftArrayType = (ArrayTypeNode)leftArgument.getDeclType();
 		MatchTypeNode leftMatchType = (MatchTypeNode)leftArrayType.valueType;
@@ -152,10 +151,9 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 			TypeNode leftMemberType = leftMatchType.tryGetMember(sharedName).getDeclType();
 			TypeNode rightMemberType = rightMatchType.tryGetMember(sharedName).getDeclType();
 			if(!leftMemberType.isEqual(rightMemberType)) {
-				reportError("The member " + sharedName + " must be of same type in " 
-						+ leftMatchType.getIdentNode().toString() + " and in "
-						+ rightMatchType.getIdentNode().toString() + " (but is of type "
-						+ leftMemberType.getTypeName() + " and " + rightMemberType.getTypeName() + ")");
+				reportError("The member " + sharedName + " must be of the same type in " 
+						+ leftMatchType.getIdentNode() + " and in " + rightMatchType.getIdentNode()
+						+ " (but is of type " + leftMemberType.getTypeName() + " and " + rightMemberType.getTypeName() + ").");
 			}
 		}
 
@@ -174,12 +172,16 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 	public boolean checkLocal(FunctionDeclNode functionDecl)
 	{
 		if(!(functionDecl.getResultType() instanceof ArrayTypeNode)) {
-			reportError("result type of function employing " + shortSignature() + " must be an array (not " + functionDecl.getResultType().getTypeName() + ")");
+			reportError("The result type of the function " + functionDecl.getIdentNode()
+					+ " employing the auto-generated function " + functionName()
+					+ " must be an array (but is " + functionDecl.getResultType() + ").");
 			return false;
 		}
 		ArrayTypeNode resultType = (ArrayTypeNode)functionDecl.getResultType();
 		if(!(resultType.getElementType() instanceof DefinedMatchTypeNode)) {
-			reportError("result type of function employing " + shortSignature() + " must be an array<match<class T>> (not " + functionDecl.getResultType().getTypeName() + ")");
+			reportError("The result type of the function " + functionDecl.getIdentNode()
+					+ " employing the auto-generated function " + functionName()
+					+ " must be an array<match<class T>> (but is " + functionDecl.getResultType() + ").");
 			return false;
 		}
 		
@@ -196,10 +198,9 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 				if(argumentMember != null) {
 					TypeNode argumentMemberType = argumentMember.getDeclType();
 					if(!argumentMemberType.isEqual(resultMemberType)) {
-						reportError("The member " + resultMemberName + " must be of same type in " 
-								+ resultMatchType.getIdentNode().toString() + " and in "
-								+ argumentMatchType.getIdentNode().toString() + " (but is of type "
-								+ resultMemberType.getTypeName() + " and " + argumentMemberType.getTypeName() + ")");
+						reportError("The member " + resultMemberName + " must be of the same type in " 
+								+ resultMatchType.getIdentNode() + " and in " + argumentMatchType.getIdentNode()
+								+ " (but is of type " + resultMemberType.getTypeName() + " and " + argumentMemberType.getTypeName() + ").");
 						result = false;
 					}
 				}
@@ -354,8 +355,8 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 		function.addStatement(returnStmt);
 	}
 	
-	private String shortSignature()
+	private String functionName()
 	{
-		return "join<" + joinFunction + ">(.,.)";
+		return "join<" + joinFunction + ">";
 	}
 }

@@ -73,12 +73,13 @@ public class StringAsArrayNode extends BuiltinFunctionInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
-			stringExpr.reportError("This argument to string explode expression must be of type string");
+			stringExpr.reportError("The string function method explode can only be employed on an object of type string"
+					+ " (but is employed on an object of type " + stringExpr.getType() + ").");
 			return false;
 		}
 		if(!stringToSplitAtExpr.getType().isEqual(BasicTypeNode.stringType)) {
-			stringToSplitAtExpr.reportError("Argument (string to "
-					+ "split at) to string explode expression must be of type string");
+			stringToSplitAtExpr.reportError("The string function method explode expects as argument (stringToSplitAt) a value of type string"
+					+ " (but is given a value of type " + stringToSplitAtExpr.getType() + ").");
 			return false;
 		}
 		return true;

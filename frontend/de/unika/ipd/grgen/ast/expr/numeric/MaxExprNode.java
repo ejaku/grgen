@@ -61,10 +61,25 @@ public class MaxExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(leftExpr.getType().isNumericType() && rightExpr.getType().isEqual(leftExpr.getType()))
-			return true;
-		reportError("valid types for max(.,.) are: " + TypeNode.getNumericTypesAsString() + " (pairs of same type)");
-		return false;
+		if(!leftExpr.getType().isNumericType())
+		{
+			reportError("The function max() expects as 1. argument a value of type " + TypeNode.getNumericTypesAsString()
+					+ " (but is given a value of type " + leftExpr.getType() + ").");
+			return false;
+		}
+		if(!rightExpr.getType().isNumericType())
+		{
+			reportError("The function max() expects as 2. argument a value of type " + TypeNode.getNumericTypesAsString()
+					+ " (but is given a value of type " + rightExpr.getType() + ").");
+			return false;
+		}
+		if(!rightExpr.getType().isEqual(leftExpr.getType()))
+		{
+			reportError("The function max() expects the 1. and 2. argument to be of the same type"
+			+ " (but they are values of type " + leftExpr.getType() + " and " + rightExpr.getType() + ").");
+			return false;
+		}
+		return true;
 	}
 
 	@Override

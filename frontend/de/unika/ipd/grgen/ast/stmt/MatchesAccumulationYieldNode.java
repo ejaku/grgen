@@ -19,6 +19,7 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
 import de.unika.ipd.grgen.ast.type.MatchTypeActionNode;
+import de.unika.ipd.grgen.ast.type.MatchTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
@@ -37,13 +38,13 @@ public class MatchesAccumulationYieldNode extends NestingStatementNode
 		setName(MatchesAccumulationYieldNode.class, "MatchesAccumulationYield");
 	}
 
-	BaseNode iterationVariableUnresolved;
+	VarDeclNode iterationVariableUnresolved;
 	IdentNode matchesContainerUnresolved;
 
 	VarDeclNode iterationVariable;
 	VarDeclNode matchesContainer;
 
-	public MatchesAccumulationYieldNode(Coords coords, BaseNode iterationVariable, IdentNode matchesContainer,
+	public MatchesAccumulationYieldNode(Coords coords, VarDeclNode iterationVariable, IdentNode matchesContainer,
 			CollectNode<EvalStatementNode> accumulationStatements)
 	{
 		super(coords, accumulationStatements);
@@ -95,7 +96,7 @@ public class MatchesAccumulationYieldNode extends NestingStatementNode
 		if(iterationVariableUnresolved instanceof VarDeclNode) {
 			iterationVariable = (VarDeclNode)iterationVariableUnresolved;
 		} else {
-			reportError("error in resolving iteration variable of for matches loop.");
+			reportError("Error in resolving the iteration variable of the for matches loop.");
 			successfullyResolved = false;
 		}
 
@@ -110,64 +111,46 @@ public class MatchesAccumulationYieldNode extends NestingStatementNode
 	{
 		TypeNode matchesContainerType = matchesContainer.getDeclType();
 		if(!(matchesContainerType instanceof ArrayTypeNode)) {
-			reportError("for matches loop expects to iterate an array of matches (of type array<match<rule-name>> or array<match<class match-class-name>>), but is given: "
-					+ matchesContainerType.toString());
+			reportError("The for matches loop expects to iterate an array of matches (of type array<match<rule-name>> or array<match<class match-class-name>>), but is given: "
+					+ matchesContainerType);
 			return false;
 		}
 		TypeNode matchesArrayValueType = ((ArrayTypeNode)matchesContainerType).valueType;
 
-		MatchTypeActionNode matchesContainerMatchType = matchesArrayValueType instanceof MatchTypeActionNode
+		MatchTypeActionNode matchesContainerActionMatchType = matchesArrayValueType instanceof MatchTypeActionNode
 				? (MatchTypeActionNode)matchesArrayValueType
 				: null;
 		DefinedMatchTypeNode matchesContainerDefinedMatchType = matchesArrayValueType instanceof DefinedMatchTypeNode
 				? (DefinedMatchTypeNode)matchesArrayValueType
 				: null;
-		if(matchesContainerMatchType == null && matchesContainerDefinedMatchType == null) {
-			reportError("for matches loop expects to iterate an array of matches (of type array<match<rule-name>> or array<match<class match-class-name>>), but is given as array element type: "
-					+ matchesArrayValueType.toString());
+		MatchTypeNode matchesContainerMatchType = matchesContainerActionMatchType != null
+				? (MatchTypeNode)matchesContainerActionMatchType : (MatchTypeNode)matchesContainerDefinedMatchType;
+		if(matchesContainerActionMatchType == null && matchesContainerDefinedMatchType == null) {
+			reportError("The for matches loop expects to iterate an array of matches (of type array<match<rule-name>> or array<match<class match-class-name>>), but is given as array element type: "
+					+ matchesArrayValueType);
 			return false;
 		}
 
 		TypeNode iterationVariableType = iterationVariable.getDeclType();
-		MatchTypeActionNode iterationVariableMatchType = iterationVariableType instanceof MatchTypeActionNode
+		MatchTypeActionNode iterationVariableActionMatchType = iterationVariableType instanceof MatchTypeActionNode
 				? (MatchTypeActionNode)iterationVariableType
 				: null;
 		DefinedMatchTypeNode iterationVariableDefinedMatchType = iterationVariableType instanceof DefinedMatchTypeNode
 				? (DefinedMatchTypeNode)iterationVariableType
 				: null;
-		if(iterationVariableMatchType == null && iterationVariableDefinedMatchType == null) {
-			reportError("for matches loop expects an iteration variable of matches type (match<rule-name> or match<class match-class-name>), but is given: "
-					+ iterationVariableType.toString());
+		MatchTypeNode iterationVariableMatchType = iterationVariableActionMatchType != null
+				? (MatchTypeNode)iterationVariableActionMatchType : (MatchTypeNode)iterationVariableDefinedMatchType;
+		if(iterationVariableActionMatchType == null && iterationVariableDefinedMatchType == null) {
+			reportError("The for matches loop expects an iteration variable of match type (match<rule-name> or match<class match-class-name>), but is given: "
+					+ iterationVariableType);
 			return false;
 		}
 
-		if(matchesContainerMatchType != null && iterationVariableDefinedMatchType != null) {
-			reportError("for matches loop has an iteration variable of type match<rule-name> but a matches container of value type match<class match-class-name>): "
-					+ iterationVariableDefinedMatchType.toString() + " vs. "
-					+ matchesContainerMatchType.toString());
+		if(!iterationVariableMatchType.isEqual(matchesContainerMatchType)) {
+			reportError("The iteration variable of the for matches loop is of type " + iterationVariableMatchType
+					+ " but the matches container is of type " + matchesContainerMatchType);
+			//"(defined by the rule referenced by the filter function)" "(defined by the match class referenced by the match class filter function)"
 			return false;
-		}
-		if(matchesContainerDefinedMatchType != null && iterationVariableMatchType != null) {
-			reportError("for matches loop has an iteration variable of type match<class match-class-name> but a matches container of value type match<rule-name>): "
-					+ iterationVariableMatchType.toString() + " vs. "
-					+ matchesContainerDefinedMatchType.toString());
-			return false;
-		}
-
-		if(matchesContainerMatchType != null && iterationVariableMatchType != null) {
-			if(!iterationVariableMatchType.isEqual(matchesContainerMatchType)) {
-				reportError("The iteration variable of the for matches loop iterates a different match type than the matches container (defined by the rule referenced by the filter function): "
-						+ iterationVariableMatchType.toString() + " vs. "
-						+ matchesContainerMatchType.toString());
-				return false;
-			}
-		} else if(matchesContainerDefinedMatchType != null && iterationVariableDefinedMatchType != null) {
-			if(!iterationVariableDefinedMatchType.isEqual(matchesContainerDefinedMatchType)) {
-				reportError("The iteration variable of the for matches loop iterates a different match class type than the matches container (defined by the match class referenced by the match class filter function): "
-						+ iterationVariableDefinedMatchType.toString() + " vs. "
-						+ matchesContainerDefinedMatchType.toString());
-				return false;
-			}
 		}
 
 		return true;

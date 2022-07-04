@@ -76,11 +76,13 @@ public class MatchNodeFromStorageDeclNode extends MatchNodeFromByStorageDeclNode
 				} else if(unresolved.decl instanceof NodeDeclNode) {
 					storageGlobalVariable = (NodeDeclNode)unresolved.decl;
 				} else {
-					reportError("match node from storage expects a parameter or global variable.");
+					reportError("Match node from storage expects a node parameter or a global variable"
+							+ " (" + getIdentNode() + " is given neither).");
 					successfullyResolved = false;
 				}
 			} else {
-				reportError("match node from storage expects a parameter or global variable.");
+				reportError("Match node from storage expects a node parameter or a global variable"
+						+ " (" + getIdentNode() + " is given neither).");
 				successfullyResolved = false;
 			}
 		} else if(storageUnresolved instanceof QualIdentNode) {
@@ -88,11 +90,13 @@ public class MatchNodeFromStorageDeclNode extends MatchNodeFromByStorageDeclNode
 			if(unresolved.resolve()) {
 				storageAttribute = unresolved;
 			} else {
-				reportError("match node from storage attribute expects a storage attribute.");
+				reportError("Match node from storage attribute expects a storage attribute"
+						+ " (" + getIdentNode() + " is given " + unresolved + ").");
 				successfullyResolved = false;
 			}
 		} else {
-			reportError("internal error - invalid match node from storage attribute");
+			reportError("Internal error - invalid match node from storage attribute"
+					+ " (for " + getIdentNode() + ").");
 			successfullyResolved = false;
 		}
 		return successfullyResolved;
@@ -104,13 +108,14 @@ public class MatchNodeFromStorageDeclNode extends MatchNodeFromByStorageDeclNode
 	{
 		boolean res = super.checkLocal();
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-			reportError("Can't employ match node from storage on RHS");
+			reportError("Cannot employ match node from storage in the rewrite part.");
 			return false;
 		}
 		TypeNode storageType = getStorageType();
 		if(!(storageType instanceof ContainerTypeNode)) {
 			if(storageGlobalVariable == null) {
-				reportError("match node from storage expects a parameter variable of container type (set|map|array|deque).");
+				reportError("Match node from storage expects a parameter variable of collection type"
+						+ " (" + getIdentNode() + " is given " + storageType.getTypeName() + ").");
 				return false;
 			}
 		}
@@ -122,10 +127,12 @@ public class MatchNodeFromStorageDeclNode extends MatchNodeFromByStorageDeclNode
 		}
 		if(!(storageElementType instanceof NodeTypeNode)) {
 			if(storageGlobalVariable == null) {
-				reportError("match node from storage expects the element type to be a node type.");
+				reportError("Match node from storage expects the element type to be a node type"
+						+ " (" + getIdentNode() + " is given " + storageElementType.getTypeName() + ").");
 				return false;
 			} else {
-				reportError("match node from storage global variable expects a node type.");
+				reportError("Match node from storage global variable expects a node type"
+						+ " (" + getIdentNode() + " is given " + storageElementType.getTypeName() + ").");
 				return false;
 			}
 		}
@@ -134,8 +141,9 @@ public class MatchNodeFromStorageDeclNode extends MatchNodeFromByStorageDeclNode
 		if(!expectedStorageElemType.isCompatibleTo(storageElemType)) {
 			String expTypeName = expectedStorageElemType.getTypeName();
 			String typeName = storageElemType.getTypeName();
-			ident.reportError("Cannot convert storage element type from \"" + typeName
-					+ "\" to \"" + expTypeName + "\" in match node from storage");
+			ident.reportError("Cannot convert storage element type from " + typeName
+					+ " to " + expTypeName + " in match node from storage"
+					+ " (for " + getIdentNode() + ").");
 			return false;
 		}
 		return res;

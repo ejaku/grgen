@@ -83,18 +83,18 @@ public class ExternalFunctionMethodInvocationExprNode extends FunctionInvocation
 
 				externalFunctionDecl = resolver.resolve(externalFunctionUnresolved, this);
 				if(externalFunctionDecl == null) {
-					externalFunctionUnresolved.reportError(
-							"Unknown external function method called -- misspelled function name? Or procedure call intended (not possible in expression, assignment target must be given as (param,...)=call in this case)?");
+					externalFunctionUnresolved.reportError("Unknown external function method " + externalFunctionUnresolved + " called."
+							+ " A misspelled function name? Or is a procedure call intended (not possible in expression, assignment target must be given as (param,...)=call in this case)?");
 					return false;
 				}
 
 				successfullyResolved = externalFunctionDecl != null && successfullyResolved;
 			} else {
-				reportError("Left hand side of '.' does not own a scope");
+				reportError("Left hand side of '.' does not own a scope.");
 				successfullyResolved = false;
 			}
 		} else {
-			reportError("Left hand side of '.' is not an external type");
+			reportError("Left hand side of '.' is not an external type.");
 			successfullyResolved = false;
 		}
 

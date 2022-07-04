@@ -73,7 +73,7 @@ public class EmitNode extends OrderedReplacementNode
 	protected boolean checkLocal()
 	{
 		if(childrenUnresolved.isEmpty()) {
-			reportError("Emit statement is empty");
+			reportError("The emit statement is empty.");
 			return false;
 		}
 		return true;

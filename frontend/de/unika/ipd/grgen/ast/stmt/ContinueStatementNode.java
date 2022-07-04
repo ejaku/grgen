@@ -66,7 +66,7 @@ public class ContinueStatementNode extends EvalStatementNode
 	public boolean checkStatementLocal(boolean isLHS, DeclNode root, EvalStatementNode enclosingLoop)
 	{
 		if(enclosingLoop == null) {
-			reportError("continue must be nested inside a loop (where to continue?)");
+			reportError("The continue statement must be nested inside a loop (where to continue at otherwise?).");
 			return false;
 		}
 		return true;

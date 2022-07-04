@@ -63,12 +63,13 @@ public class StringStartsWithNode extends BuiltinFunctionInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
-			stringExpr.reportError("This argument to string startsWith expression must be of type string");
+			stringExpr.reportError("The string function method startsWith can only be employed on an object of type string"
+					+ " (but is employed on an object of type " + stringExpr.getType() + ").");
 			return false;
 		}
 		if(!stringToSearchForExpr.getType().isEqual(BasicTypeNode.stringType)) {
-			stringToSearchForExpr.reportError("Argument (string to "
-					+ "search for) to string startsWith expression must be of type string");
+			stringToSearchForExpr.reportError("The string function method startsWith expects as argument (stringToSearchFor) a value of type string"
+					+ " (but is given a value of type " + stringToSearchForExpr.getType() + ").");
 			return false;
 		}
 		return true;

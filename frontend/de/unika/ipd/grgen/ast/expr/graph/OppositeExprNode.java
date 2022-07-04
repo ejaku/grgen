@@ -86,11 +86,13 @@ public class OppositeExprNode extends BuiltinFunctionInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!(edge.getType() instanceof EdgeTypeNode)) {
-			reportError("first argument of opposite(.,.) must be an edge type");
+			reportError("The function opposite expects as 1. argument (edgeToObtainOppositeNodeFrom) a value of type edge"
+					+ " (but is given a value of type " + edge.getType() + ").");
 			return false;
 		}
 		if(!(node.getType() instanceof NodeTypeNode)) {
-			reportError("second argument of opposite(.,.) must be a node type");
+			reportError("The function opposite expects as 2. argument (originalNode) a value of type node"
+					+ " (but is given a value of type " + node.getType() + ").");
 			return false;
 		}
 		return true;

@@ -78,17 +78,19 @@ public class StringIndexOfNode extends BuiltinFunctionInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
-			stringExpr.reportError("This argument to string indexOf expression must be of type string");
+			stringExpr.reportError("The string function method indexOf can only be employed on an object of type string"
+					+ " (but is employed on an object of type " + stringExpr.getType() + ").");
 			return false;
 		}
 		if(!stringToSearchForExpr.getType().isEqual(BasicTypeNode.stringType)) {
-			stringToSearchForExpr.reportError("Argument (string to "
-					+ "search for) to string indexOf expression must be of type string");
+			stringToSearchForExpr.reportError("The string function method indexOf expects as 1. argument (stringToSearchFor) a value of type string"
+					+ " (but is given a value of type " + stringToSearchForExpr.getType() + ").");
 			return false;
 		}
 		if(startIndexExpr != null
 				&& !startIndexExpr.getType().isEqual(BasicTypeNode.intType)) {
-			startIndexExpr.reportError("Argument (start index) to string indexOf expression must be of type int");
+			startIndexExpr.reportError("The string function method indexOf expects as 2. argument (startIndex) a value of type int"
+					+ " (but is given a value of type " + startIndexExpr.getType() + ").");
 			return false;
 		}
 		return true;

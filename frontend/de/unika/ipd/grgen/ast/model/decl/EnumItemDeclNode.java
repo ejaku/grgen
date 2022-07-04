@@ -103,13 +103,13 @@ public class EnumItemDeclNode extends MemberDeclNode
 
 		ExprNode newValue = value.evaluate();
 		if(!(newValue instanceof ConstNode)) {
-			reportError("Initialization of enum item is not constant");
+			reportError("The enum item " + ident + " expects a constant initialization expression.");
 			return false;
 		}
 
 		// Adjust the values type to int, else emit an error.
 		if(!newValue.getType().isCompatibleTo(BasicTypeNode.intType)) {
-			reportError("The type of the initializer must be integer");
+			reportError("The enum item " + ident + " expects an initialization expression of type int, but is given an expression of type " + newValue.getType() + ".");
 			return false;
 		}
 
@@ -133,13 +133,13 @@ public class EnumItemDeclNode extends MemberDeclNode
 		if(cur instanceof EnumItemDeclNode) {
 			enumItem = (EnumItemDeclNode)cur;
 			if(pos == enumItem.pos) {
-				reportError("Enum item must not depend on its own value");
+				reportError("The enum item " + ident + " is not allowed to depend on its own value.");
 				return false;
 			} else if(pos < enumItem.pos) {
-				reportError("Enum item must not depend on a following one");
+				reportError("The enum item " + ident + " is not allowed to depend on a following one.");
 				return false;
 			} else if(visitedEnumItems.contains(enumItem)) {
-				reportError("Circular dependency found on value of enum item \"" + enumItem.getIdentNode() + "\"");
+				reportError("Circular dependency found on value of enum item " + enumItem.getIdentNode() + ".");
 				return false;
 			}
 			visitedEnumItems.add(enumItem);

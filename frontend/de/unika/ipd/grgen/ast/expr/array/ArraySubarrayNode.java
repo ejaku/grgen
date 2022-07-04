@@ -64,11 +64,13 @@ public class ArraySubarrayNode extends ArrayFunctionMethodInvocationBaseExprNode
 	{
 		// target type already checked during resolving into this node
 		if(!startExpr.getType().isEqual(BasicTypeNode.intType)) {
-			startExpr.reportError("First argument (start position) to subarray expression must be of type int");
+			startExpr.reportError("The array function method subarray expects as 1. argument (start position) a value of type int"
+					+ " (but is given a value of type " + startExpr.getType() + ").");
 			return false;
 		}
 		if(!lengthExpr.getType().isEqual(BasicTypeNode.intType)) {
-			lengthExpr.reportError("Second argument (length) to subarray expression must be of type int");
+			lengthExpr.reportError("The array function method subarray expects as 2. argument (length) a value of type int"
+					+ " (but is given a value of type " + lengthExpr.getType() + ").");
 			return false;
 		}
 		return true;

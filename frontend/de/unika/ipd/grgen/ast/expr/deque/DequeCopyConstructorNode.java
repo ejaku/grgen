@@ -78,14 +78,15 @@ public class DequeCopyConstructorNode extends ExprNode
 		boolean success = true;
 
 		if(lhsUnresolved != null) {
-			reportError("Deque copy constructor not allowed in deque initialization in model");
+			reportError("A deque copy constructor is not allowed in a deque initialization in the model.");
 			success = false;
 		} else {
 			if(dequeToCopy.getType() instanceof DequeTypeNode) {
 				DequeTypeNode sourceDequeType = (DequeTypeNode)dequeToCopy.getType();
-				success &= checkCopyConstructorTypes(dequeType.valueType, sourceDequeType.valueType, "Deque", "");
+				success &= checkCopyConstructorTypes(dequeType.valueType, sourceDequeType.valueType, "deque", false);
 			} else {
-				reportError("Deque copy constructor expects deque type");
+				reportError("A deque copy constructor expects a deque type"
+						+ " (but is given " + dequeToCopy.getType() + ").");
 				success = false;
 			}
 		}

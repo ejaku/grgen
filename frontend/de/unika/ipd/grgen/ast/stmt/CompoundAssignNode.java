@@ -114,7 +114,7 @@ public class CompoundAssignNode extends EvalStatementNode
 			if(unresolved.resolve() && unresolved.decl instanceof VarDeclNode) {
 				targetVar = (VarDeclNode)unresolved.decl;
 			} else {
-				reportError("compound assign expects a parameter variable.");
+				reportError("Error in resolving the LHS of the compound assignment, a parameter variable is expected (given is " + unresolved.getIdent() + ").");
 				successfullyResolved = false;
 			}
 		} else if(targetUnresolved instanceof QualIdentNode) {
@@ -122,11 +122,11 @@ public class CompoundAssignNode extends EvalStatementNode
 			if(unresolved.resolve()) {
 				targetQual = unresolved;
 			} else {
-				reportError("compound assign expects a qualified attribute.");
+				reportError("Error in resolving the LHS of the compound assignment, a qualified attribute is expected (given is " + unresolved + ").");
 				successfullyResolved = false;
 			}
 		} else {
-			reportError("internal error - invalid target in compound assign");
+			reportError("Internal error - invalid LHS in compound assignment.");
 			successfullyResolved = false;
 		}
 
@@ -136,7 +136,7 @@ public class CompoundAssignNode extends EvalStatementNode
 				if(unresolved.resolve() && unresolved.decl instanceof VarDeclNode) {
 					targetChangedVar = (VarDeclNode)unresolved.decl;
 				} else {
-					reportError("compound assign changement assign expects a parameter variable.");
+					reportError("Error in resolving the changement assign target of the compound assignment, a parameter variable is expected (given is " + unresolved.getIdent() + ").");
 					successfullyResolved = false;
 				}
 			} else if(targetChangedUnresolved instanceof QualIdentNode) {
@@ -144,7 +144,7 @@ public class CompoundAssignNode extends EvalStatementNode
 				if(unresolved.resolve()) {
 					targetChangedQual = unresolved;
 				} else {
-					reportError("compound assign changement assign expects a qualified attribute.");
+					reportError("Error in resolving the changement assign target of the compound assignment, a qualified attribute is expected (given is " + unresolved + ").");
 					successfullyResolved = false;
 				}
 			} else if(targetChangedUnresolved instanceof VisitedNode) {
@@ -152,11 +152,11 @@ public class CompoundAssignNode extends EvalStatementNode
 				if(unresolved.resolve()) {
 					targetChangedVis = unresolved;
 				} else {
-					reportError("compound assign changement assign expects a visited flag.");
+					reportError("Error in resolving the changement assign target of the compound assignment, a visited flag is expected (given is " + unresolved + ").");
 					successfullyResolved = false;
 				}
 			} else {
-				reportError("internal error - invalid changement assign target in compound assign");
+				reportError("Internal error - invalid changement assign target in compound assignment.");
 				successfullyResolved = false;
 			}
 		}
@@ -170,18 +170,17 @@ public class CompoundAssignNode extends EvalStatementNode
 		TypeNode targetType = targetQual != null ? targetQual.getDecl().getDeclType() : targetVar.getDeclType();
 		if(compoundAssignmentType == CompoundAssignmentType.CONCATENATE
 				&& !(targetType instanceof ArrayTypeNode || targetType instanceof DequeTypeNode)) {
-			(targetQual != null ? targetQual : targetVar).reportError("compound assignment expects a target of array or deque type.");
+			(targetQual != null ? targetQual : targetVar).reportError("Compound assignment expects a LHS of array or deque type (given is type " + targetType + ").");
 			return false;
 		}
 		if(compoundAssignmentType != CompoundAssignmentType.CONCATENATE
 				&& !(targetType instanceof SetTypeNode || targetType instanceof MapTypeNode)) {
-			(targetQual != null ? targetQual : targetVar).reportError("compound assignment expects a target of set or map type.");
+			(targetQual != null ? targetQual : targetVar).reportError("Compound assignment expects a LHS of set or map type (given is type " + targetType + ").");
 			return false;
 		}
 		TypeNode exprType = valueExpr.getType();
 		if(!exprType.isEqual(targetType)) {
-			valueExpr.reportError("the expression value to the "
-					+ "compound assignment must be of type " + targetType.toString());
+			valueExpr.reportError("Cannot compound-assign a value of type " + exprType + " to a variable of type " + targetType + ".");
 			return false;
 		}
 		if(targetChangedUnresolved != null) {
@@ -193,8 +192,8 @@ public class CompoundAssignNode extends EvalStatementNode
 			else if(targetChangedVis != null)
 				targetChangedType = targetChangedVis.getType();
 			if(targetChangedType != BasicTypeNode.booleanType) {
-				targetChangedUnresolved.reportError("the type of the target of the changement assignment "
-						+ "of the compound assignment must be of boolean type ");
+				targetChangedUnresolved.reportError("The type of the target of the changement assignment"
+						+ " of the compound assignment must be boolean (but given is " + targetChangedType + ").");
 				return false;
 			}
 		}

@@ -75,12 +75,14 @@ public class AssertProcNode extends BuiltinProcedureInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!exprs.get(0).getType().isEqual(BasicTypeNode.booleanType)) {
-			exprs.get(0).reportError("first parameter of " + name() + " must be of type boolean (condition to assert on)");
+			exprs.get(0).reportError("The " + name() + " procedure expects as 1. argument (condition to assert on) a value of type boolean"
+					+ " (but is given a value of type " + exprs.get(0).getType() + ").");
 			return false;
 		}
-		
+
 		if(exprs.size() >= 2 && !exprs.get(1).getType().isEqual(BasicTypeNode.stringType)) {
-			exprs.get(1).reportError("second parameter of " + name() + " must be of type string (message)");
+			exprs.get(1).reportError("The " + name() + " procedure expects as 2. argument (message) a value of type string"
+					+ " (but is given a value of type " + exprs.get(1).getType() + ").");
 			return false;
 		}
 

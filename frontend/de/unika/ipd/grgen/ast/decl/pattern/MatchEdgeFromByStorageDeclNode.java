@@ -45,4 +45,14 @@ public abstract class MatchEdgeFromByStorageDeclNode extends EdgeDeclNode
 		else
 			return storageAttribute.getDecl().getDeclType();
 	}
+	
+	protected String getStorageName()
+	{
+		if(storage != null)
+			return storage.toString();
+		else if(storageGlobalVariable != null)
+			return storageGlobalVariable.toString();
+		else
+			return storageAttribute.toString();
+	}
 }

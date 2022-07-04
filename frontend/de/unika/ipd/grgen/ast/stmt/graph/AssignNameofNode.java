@@ -89,12 +89,13 @@ public class AssignNameofNode extends EvalStatementNode
 	protected boolean checkLocal()
 	{
 		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
-			reportError("assignment to name not allowed in function or lhs context");
+			reportError("The nameof() assignment is not allowed in function or pattern part context.");
 			return false;
 		}
 
 		if(rhs.getType() != BasicTypeNode.stringType) {
-			error.error(getCoords(), "The name to be assigned must be a string value");
+			error.error(getCoords(), "The nameof() assignment expects as name to be assigned a value of type string"
+					+ " (but is given a value of type " + rhs.getType() + ").");
 			return false;
 		}
 
@@ -109,7 +110,8 @@ public class AssignNameofNode extends EvalStatementNode
 				return true;
 			}
 
-			reportError("nameof() assignment expects an entity of node or edge or subgraph type");
+			reportError("The nameof() assignment expects as entity to assign to its name a value of type Node or Edge or graph"
+					+ " (but is given a value of type " + lhs.getType() + ").");
 			return false;
 		}
 

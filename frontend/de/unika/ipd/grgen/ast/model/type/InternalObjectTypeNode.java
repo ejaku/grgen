@@ -116,8 +116,10 @@ public class InternalObjectTypeNode extends BaseInternalObjectTypeNode
 				continue;
 			DeclNode decl = (DeclNode)child;
 			if(decl.getDeclType() instanceof InternalTransientObjectTypeNode) {
-				error.error(decl.getCoords(), "no value of a transient object class allowed in an object class, but "
-						+ decl + " is of type " + decl.getDeclType());
+				error.error(decl.getCoords(), "Only transient object classes may contain attributes of transient object class types"
+						+ " (but the attribute " + decl.getIdentNode()
+						+ " is of transient object class type " + decl.getDeclType()
+						+ " in object class " + getIdentNode() + ").");
 				res &= false;
 			}
 		}

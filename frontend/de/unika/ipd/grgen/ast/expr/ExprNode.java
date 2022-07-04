@@ -124,9 +124,9 @@ public abstract class ExprNode extends BaseNode
 		if(expr == ConstNode.getInvalid()) {
 			String msg;
 			if(getType().isCastableTo(targetType)) {
-				msg = "Assignment of " + getType() + " to " + targetType + " without a cast";
+				msg = "Assignment of " + getType() + " to " + targetType + " without a cast.";
 			} else {
-				msg = "Incompatible assignment from " + getType() + " to " + targetType;
+				msg = "Incompatible assignment from " + getType() + " to " + targetType + ".";
 			}
 			error.error(errorCoords, msg);
 			if(getType().toString().equals(targetType.toString()))
@@ -196,28 +196,31 @@ public abstract class ExprNode extends BaseNode
 		return NodeTypeNode.nodeType.getIdentNode();
 	}
 
-	protected boolean checkCopyConstructorTypes(TypeNode declaredType, TypeNode givenType, String containerType,
-			String amendment)
+	protected boolean checkCopyConstructorTypes(TypeNode declaredType, TypeNode givenType,
+			String containerType, boolean isKeyType)
 	{
+		String containerCompartmentAmendment = "";
+		if(containerType.equals("map"))
+			containerCompartmentAmendment = isKeyType ? " key" : " value";
+		
+		String errorMessage = "The " + containerType + " copy constructor expects a(n) " + containerType + containerCompartmentAmendment +  " of " + declaredType
+				+ " but is given a(n) " + containerType + containerCompartmentAmendment + " of " + givenType;
+		
 		if(declaredType instanceof NodeTypeNode && !(givenType instanceof NodeTypeNode)) {
-			reportError(containerType + " copy constructor of node type expects " + containerType + " of node type"
-					+ amendment);
+			reportError(errorMessage + " (which is not a node type).");
 			return false;
 		}
 		if(declaredType instanceof EdgeTypeNode && !(givenType instanceof EdgeTypeNode)) {
-			reportError(containerType + " copy constructor of edge type expects " + containerType + " of edge type"
-					+ amendment);
+			reportError(errorMessage + " (which is not an edge type).");
 			return false;
 		}
 		if(!(declaredType instanceof NodeTypeNode) && !(declaredType instanceof EdgeTypeNode)) {
 			if(givenType instanceof NodeTypeNode || givenType instanceof EdgeTypeNode) {
-				reportError(containerType + " copy constructor of non-node and non-edge type cannot be given a "
-						+ containerType + " of node or edge type" + amendment);
+				reportError(errorMessage + ".");
 				return false;
 			}
 			if(!declaredType.isEqual(givenType)) {
-				reportError(containerType + " copy constructor non-node/edge type not equal to " + containerType
-						+ " of given type" + amendment);
+				reportError(errorMessage + ".");
 				return false;
 			}
 		}

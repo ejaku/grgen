@@ -78,14 +78,15 @@ public class ArrayCopyConstructorNode extends ExprNode
 		boolean success = true;
 
 		if(lhsUnresolved != null) {
-			reportError("Array copy constructor not allowed in array initialization in model");
+			reportError("An array copy constructor is not allowed in an array initialization in the model.");
 			success = false;
 		} else {
 			if(arrayToCopy.getType() instanceof ArrayTypeNode) {
 				ArrayTypeNode sourceArrayType = (ArrayTypeNode)arrayToCopy.getType();
-				success &= checkCopyConstructorTypes(arrayType.valueType, sourceArrayType.valueType, "Array", "");
+				success &= checkCopyConstructorTypes(arrayType.valueType, sourceArrayType.valueType, "array", false);
 			} else {
-				reportError("Array copy constructor expects array type");
+				reportError("An array copy constructor expects an array type"
+						+ " (but is given " + arrayToCopy.getType() + ").");
 				success = false;
 			}
 		}

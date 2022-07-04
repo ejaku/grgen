@@ -65,7 +65,8 @@ public class SynchronizationEnterProcNode extends BuiltinProcedureInvocationBase
 	protected boolean checkLocal()
 	{
 		if(!criticalSectionObjectExpr.getType().isLockableType()) {
-			criticalSectionObjectExpr.reportError("Argument (critical section object) to synchronization enter statement must be not a basic type (with exception of type object).");
+			criticalSectionObjectExpr.reportError("The Synchronization::enter procedure expects as argument (criticalSectionObject) a value that is not of basic type (with exception of type object)"
+					+ " (but is given a value of type " + criticalSectionObjectExpr.getType() + ").");
 			return false;
 		}
 		return true;

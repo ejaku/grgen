@@ -81,7 +81,10 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 		}
 		Pair<ProcedureDeclNode, ExternalProcedureDeclNode> resolved = resolver.resolve(procedureOrExternalProcedureUnresolved, this);
 		if(resolved == null) {
-			procedureOrExternalProcedureUnresolved.reportError("Unknown procedure called -- misspelled procedure name? Or function call intended (not possible when assignment target is given as (param,...)=call denoting a procedure call)?");
+			procedureOrExternalProcedureUnresolved.reportError("Unknown procedure called."
+					+ " (Maybe a misspelled procedure name? Or is a function call intended?"
+					+ " An assignment target within parenthesis denotes a procedure call, as in "
+					+ "(var) = " + procedureOrExternalProcedureUnresolved + "(...)).");
 			return false;
 		}
 		procedureDecl = resolved.fst;
@@ -93,7 +96,7 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 	protected boolean checkLocal()
 	{
 		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
-			reportError("procedure call not allowed in function or lhs context");
+			reportError("Procedure call not allowed in function or pattern part context (attempted on " + procedureOrExternalProcedureUnresolved + ").");
 			return false;
 		}
 		return checkSignatureAdhered();
@@ -125,6 +128,11 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 			return procedureDecl.resultTypesCollectNode.size();
 		else
 			return externalProcedureDecl.resultTypesCollectNode.size();
+	}
+
+	public IdentNode getIdentNode()
+	{
+		return procedureOrExternalProcedureUnresolved;
 	}
 
 	@Override

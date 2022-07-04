@@ -107,17 +107,21 @@ public class ProcedureMethodInvocationNode extends ProcedureInvocationBaseNode
 
 				procedureDecl = resolver.resolve(procedureUnresolved, this);
 				if(procedureDecl == null) {
-					procedureUnresolved.reportError("Unknown procedure method called -- misspelled procedure name? Or function call intended (not possible when assignment target is given as (param,...)=call denoting a procedure call)?");
+					procedureUnresolved.reportError("Unknown procedure method called."
+							+ " (Maybe a misspelled procedure name? Or is a function call intended?"
+							+ " An assignment target within parenthesis denotes a procedure call, as in "
+							+ "(var) = " + owner + "." + procedureUnresolved + "(...)).");
 					return false;
 				}
 
 				successfullyResolved = procedureDecl != null && successfullyResolved;
 			} else {
-				reportError("Left hand side of '.' does not own a scope");
+				reportError("Left hand side of '.' does not own a scope (type " + ownerType + ").");
 				successfullyResolved = false;
 			}
 		} else {
-			reportError("Left hand side of '.' is neither a node nor an edge");
+			reportError("Left hand side of '.' is neither a node nor an edge"
+					+ (owner != null && owner.getDeclType() != null ? "(type " + owner.getDeclType() + ")." : ".") );
 			successfullyResolved = false;
 		}
 
@@ -128,7 +132,7 @@ public class ProcedureMethodInvocationNode extends ProcedureInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
-			reportError("procedure method call not allowed in function or lhs context");
+			reportError("Procedure method call not allowed in function or pattern part context (attempted on " + procedureUnresolved + ").");
 			return false;
 		}
 		return checkSignatureAdhered(procedureDecl, procedureUnresolved, true);

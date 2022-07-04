@@ -78,16 +78,19 @@ public class GetEquivalentExprNode extends BuiltinFunctionInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!(subgraphExpr.getType() instanceof GraphTypeNode)) {
-			subgraphExpr.reportError("(sub)graph expected as first argument to getEquivalent");
+			subgraphExpr.reportError("The function getEquivalent expects as 1. argument (subgraphToCompare) a value of type graph"
+					+ " (but is given a value of type " + subgraphExpr.getType() + ").");
 			return false;
 		}
 		if(!(subgraphSetExpr.getType() instanceof SetTypeNode)) {
-			subgraphSetExpr.reportError("set expected as second argument to getEquivalent");
+			subgraphSetExpr.reportError("The function getEquivalent expects as 2. argument (setOfSubgraphsToCompareAgainst) a value of type set"
+					+ " (but is given a value of type " + subgraphSetExpr.getType() + ").");
 			return false;
 		}
 		SetTypeNode type = (SetTypeNode)subgraphSetExpr.getType();
 		if(!(type.valueType instanceof GraphTypeNode)) {
-			subgraphSetExpr.reportError("set of (sub)graphs expected as second argument to getEquivalent");
+			subgraphSetExpr.reportError("The function getEquivalent expects as 2. argument (setOfSubgraphsToCompareAgainst) a value of type set<graph>"
+					+ " (but is given a value of type " + subgraphSetExpr.getType() + ").");
 			return false;
 		}
 		return true;

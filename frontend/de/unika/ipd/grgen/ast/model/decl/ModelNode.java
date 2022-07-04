@@ -331,8 +331,8 @@ public class ModelNode extends DeclNode
 			InheritanceTypeNode superType = (InheritanceTypeNode)st;
 
 			if(inProgress.contains(superType)) {
-				inhType.getIdentNode().reportError("\"" + inhType.getTypeName() + "\" extends \""
-						+ superType.getTypeName() + "\", which introduces a cycle to the type hierarchy");
+				inhType.getIdentNode().reportError("The class " + inhType.getTypeName() + " extends " + superType.getTypeName()
+					+ " - this introduces a cycle to the type hierarchy.");
 				return false;
 			}
 			if(!done.contains(superType)) {
@@ -391,26 +391,4 @@ public class ModelNode extends DeclNode
 
 		return type;
 	}
-
-	/*
-	 Collection<BaseNode> alreadyExtended = new HashSet<BaseNode>();
-	 TypeNode type = (TypeNode) ((TypeDeclNode)t).getDeclType();
-	 alreadyExtended.add(type);
-	
-	 for ( BaseNode tt : alreadyExtended ) {
-	
-	 if ( !(tt instanceof InheritanceTypeNode) ) continue ;
-	
-	 InheritanceTypeNode inhType = (InheritanceTypeNode) tt;
-	 Collection<BaseNode> superTypes = inhType.getDirectSuperTypes();
-	
-	 for ( BaseNode s : superTypes ) {
-	 if ( alreadyExtended.contains(s) ) {
-	 s.reportError("extending \"" + s + "\" causes cyclic inheritance");
-	 return false;
-	 }
-	 }
-	 alreadyExtended.addAll(superTypes);
-	 }
-	 */
 }

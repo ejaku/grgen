@@ -188,19 +188,19 @@ public class Scope
 		Symbol.Definition def = Symbol.Definition.getInvalid();
 
 		if(sym.isKeyword() && sym.getDefinitionCount() > 0) {
-			reporter.error(coords, "Cannot redefine keyword \"" + sym + "\"");
+			reporter.error(coords, "Cannot redefine keyword " + sym + ".");
 			def = Symbol.Definition.getInvalid(); // do not redefine a keyword
 		} else if(definedHere(sym)) {
 			def = getLocalDef(sym); // the previous definition
-			reporter.error(coords,
-					"Symbol \"" + sym + "\" has already been defined in this scope (at: " + def.coords + ")");
+			reporter.error(coords, "Symbol " + sym + " has already been defined in this scope"
+						+ " (at: " + def.coords + ").");
 			def = Symbol.Definition.getInvalid(); // do not redefine a symbol
 		} else if(defined(sym)
 				&& sym.getSymbolTable().getSymbolTableId() != ParserEnvironment.ITERATEDS
 				&& this.getIdentNode().getSymbol().getSymbolTable().getSymbolTableId() != ParserEnvironment.PACKAGES) {
 			def = getCurrDef(sym); // the previous definition
-			reporter.error(coords,
-					"Symbol \"" + sym + "\" has already been defined in some parent scope (at: " + def.coords + ")");
+			reporter.error(coords, "Symbol " + sym + " has already been defined in some parent scope"
+						+ " (at: " + def.coords + ").");
 			def = Symbol.Definition.getInvalid(); // do not redefine a symbol from a parent scope
 		} else {
 			try {

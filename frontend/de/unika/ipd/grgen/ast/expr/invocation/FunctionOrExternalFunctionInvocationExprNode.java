@@ -82,7 +82,8 @@ public class FunctionOrExternalFunctionInvocationExprNode extends FunctionInvoca
 		Pair<FunctionDeclNode, ExternalFunctionDeclNode> resolved =
 				resolver.resolve(functionOrExternalFunctionUnresolved, this);
 		if(resolved == null) {
-			functionOrExternalFunctionUnresolved.reportError("Unknown function called -- misspelled function name? Or procedure call intended (not possible in expression, assignment target must be given as (param,...)=call in this case)?");
+			functionOrExternalFunctionUnresolved.reportError("Unknown function " + functionOrExternalFunctionUnresolved + " called."
+					+ " A misspelled function name? Or is a procedure call intended (not possible in expression, assignment target must be given as (param,...)=call in this case)?");
 			return false;
 		}
 		functionDecl = resolved.fst;

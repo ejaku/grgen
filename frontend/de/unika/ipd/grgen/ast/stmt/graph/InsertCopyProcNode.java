@@ -71,11 +71,13 @@ public class InsertCopyProcNode extends BuiltinProcedureInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!(graphExpr.getType().equals(BasicTypeNode.graphType))) {
-			reportError("first argument of insertCopy(.,.) must be of graph type (the subgraph to insert into the current graph)");
+			reportError("The insertCopy procedure expects as 1. argument (subgraphToCopyAndInsertIntoTheCurrentGraph) a value of type graph"
+					+ " (but is given a value of type " + graphExpr.getType() + ").");
 			return false;
 		}
 		if(!(nodeExpr.getType() instanceof NodeTypeNode)) {
-			nodeExpr.reportError("node expected as 2nd argument to insertCopy");
+			reportError("The insertCopy procedure expects as 2. argument (nodeToReturnCopyOf) a value of type Node"
+					+ " (but is given a value of type " + nodeExpr.getType() + ").");
 			return false;
 		}
 		return true;

@@ -33,15 +33,15 @@ public class ContainerAccumulationYieldNode extends NestingStatementNode
 		setName(ContainerAccumulationYieldNode.class, "ContainerAccumulationYield");
 	}
 
-	BaseNode iterationVariableUnresolved;
-	BaseNode iterationIndexUnresolved;
+	VarDeclNode iterationVariableUnresolved;
+	VarDeclNode iterationIndexUnresolved;
 	IdentNode containerUnresolved;
 
 	VarDeclNode iterationVariable;
 	VarDeclNode iterationIndex;
 	VarDeclNode container;
 
-	public ContainerAccumulationYieldNode(Coords coords, BaseNode iterationVariable, BaseNode iterationIndex,
+	public ContainerAccumulationYieldNode(Coords coords, VarDeclNode iterationVariable, VarDeclNode iterationIndex,
 			IdentNode container, CollectNode<EvalStatementNode> accumulationStatements)
 	{
 		super(coords, accumulationStatements);
@@ -95,18 +95,18 @@ public class ContainerAccumulationYieldNode extends NestingStatementNode
 		if(container == null)
 			successfullyResolved = false;
 
-		if(iterationVariableUnresolved instanceof VarDeclNode) {
+		if(iterationVariableUnresolved instanceof VarDeclNode) { // defining occurrence, no resolving should be necessary
 			iterationVariable = (VarDeclNode)iterationVariableUnresolved;
 		} else {
-			reportError("error in resolving iteration variable of container accumulation yield.");
+			reportError("Error in resolving the iteration variable of the for loop iterating over a container.");
 			successfullyResolved = false;
 		}
 
 		if(iterationIndexUnresolved != null) {
-			if(iterationIndexUnresolved instanceof VarDeclNode) {
+			if(iterationIndexUnresolved instanceof VarDeclNode) { // defining occurrence, no resolving should be necessary
 				iterationIndex = (VarDeclNode)iterationIndexUnresolved;
 			} else {
-				reportError("error in resolving iteration index variable of container accumulation yield.");
+				reportError("Error in resolving the iteration index variable of the for loop iterating over a container.");
 				successfullyResolved = false;
 			}
 		}

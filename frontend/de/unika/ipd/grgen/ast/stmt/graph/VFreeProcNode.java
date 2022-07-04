@@ -66,7 +66,8 @@ public class VFreeProcNode extends BuiltinProcedureInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!visFlagExpr.getType().isEqual(BasicTypeNode.intType)) {
-			visFlagExpr.reportError("Argument (visited flag id) to vfree statement must be of type int");
+			visFlagExpr.reportError("The vfree procedure expects as argument (visitedFlagId) a value of type int"
+					+ " (but is given a value of type " + visFlagExpr.getType() + ").");
 			return false;
 		}
 		return true;

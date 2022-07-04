@@ -47,7 +47,8 @@ public class ArrayGroupByNode extends ArrayFunctionMethodInvocationBaseExprNode
 		ArrayTypeNode arrayType = getTargetType();
 		if(!(arrayType.valueType instanceof InheritanceTypeNode)
 				&& !(arrayType.valueType instanceof MatchTypeNode)) {
-			reportError("groupBy can only be employed on an array of nodes or edges or class objects or transient class objects or match types or match class types.");
+			targetExpr.reportError("The array function method groupBy can only be employed on an object of type array<nodes, edges, class objects, transient class objects, match types, match class types>"
+					+ " (but is employed on an object of type " + arrayType + ").");
 			return false;
 		}
 
@@ -58,8 +59,8 @@ public class ArrayGroupByNode extends ArrayFunctionMethodInvocationBaseExprNode
 
 		TypeNode memberType = getTypeOfElementToBeExtracted();
 		if(!memberType.isFilterableType()) {
-			targetExpr.reportError("array method groupBy only available for attributes of type "
-					+ TypeNode.getFilterableTypesAsString());
+			targetExpr.reportError("The array function method groupBy is only available for attributes of type "
+					+ TypeNode.getFilterableTypesAsString() + " (but is " + memberType + ").");
 			return false;
 		}
 

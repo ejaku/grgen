@@ -91,8 +91,8 @@ public class AttributeIndexDeclNode extends IndexDeclNode
 		TypeNode type = resolved.getDeclType();
 
 		if(!(type instanceof InheritanceTypeNode)) {
-			typeUnresolved.reportError("Type used for indexing with \"" + getIdentNode() 
-					+ "\" must be a node or edge type" + " (not " + type.getTypeName() + ")");
+			typeUnresolved.reportError("The attribute index " + getIdentNode() + " expects a node or edge type" 
+					+ " (but is given type " + type.getTypeName() + " as base for attribute " + memberUnresolved + ").");
 			return false;
 		}
 		else

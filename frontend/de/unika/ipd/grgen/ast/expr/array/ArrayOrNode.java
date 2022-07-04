@@ -37,7 +37,8 @@ public class ArrayOrNode extends ArrayAccumulationMethodNode
 		// target type already checked during resolving into this node
 		ArrayTypeNode arrayType = getTargetType();
 		if(!arrayType.valueType.isEqual(BasicTypeNode.booleanType)) {
-			targetExpr.reportError("The array value type of the array or method must be boolean.");
+			targetExpr.reportError("The array function method or can only be employed on an object of type array<boolean>"
+					+ " (but is employed on an object of type " + arrayType + ").");
 			return false;
 		}
 		return true;

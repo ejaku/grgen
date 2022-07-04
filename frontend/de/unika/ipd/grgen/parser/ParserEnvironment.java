@@ -336,7 +336,7 @@ public abstract class ParserEnvironment extends Base
 				return matchTypeChild;
 			}
 		}
-		iterated.reportError("No iterated " + actionOrSubpattern.getSymbol().getText() + "." + iterated.getSymbol().getText() + " known.");
+		iterated.reportError("An iterated " + actionOrSubpattern.getSymbol().getText() + "." + iterated.getSymbol().getText() + " is not known.");
 		return IdentNode.getInvalid();
 	}
 

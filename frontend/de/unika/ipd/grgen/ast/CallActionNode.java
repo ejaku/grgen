@@ -253,14 +253,14 @@ public class CallActionNode extends BaseNode
 		if(action != null) {
 			for(FilterFunctionDeclNode filter : filterFunctions.getChildren()) {
 				if(filter.action != action) {
-					reportError("Filter " + filter.getIdentNode().toString()
-							+ " is defined for action " + filter.action.getIdentNode().toString()
-							+ ". It can't be applied to action " + action.getIdentNode().toString());
+					reportError("The filter " + filter.getIdentNode()
+							+ " is defined for the action " + filter.action.getIdentNode() + "."
+							+ " It cannot be applied to the action " + action.getIdentNode() + ".");
 				}
 			}
 		} else {
 			if(filterFunctionsUnresolved.size() > 0)
-				reportError("Match filters can only be applied on tests or rules.");
+				reportError("Match filters can only be applied to tests or rules (not to " + actionUnresolved + ").");
 		}
 
 		return res;
@@ -276,8 +276,8 @@ public class CallActionNode extends BaseNode
 			Collection<? extends ExprNode> actualParams)
 	{
 		if(formalParams.size() != actualParams.size()) {
-			error.error(getCoords(), "Formal and actual parameter(s) of " + actionUnresolved.toString()
-					+ " mismatch in number (" + formalParams.size() + " vs. " + actualParams.size() + ")");
+			error.error(getCoords(), actionUnresolved + " expects " + formalParams.size()
+					+ " arguments, but is given " + actualParams.size() + " arguments.");
 			return false;
 		}
 		
@@ -321,8 +321,8 @@ public class CallActionNode extends BaseNode
 		if(!actualParameterType.isCompatibleTo(formalParameterType)) {
 			String argumentTypeName = actualParameterType.getTypeName();
 			String paramTypeName = formalParameterType.getTypeName();
-			reportError("Cannot convert " + paramPos + ". argument from \"" + argumentTypeName
-					+ "\" to \"" + paramTypeName + "\" (the expected parameter type)");
+			reportError("Cannot convert " + paramPos + ". argument from " + argumentTypeName
+					+ " to " + paramTypeName + " (the expected parameter type of " + actionUnresolved + " at that position).");
 			return false;
 		}
 		
@@ -340,26 +340,25 @@ public class CallActionNode extends BaseNode
 	{
 		// It is ok to have no actual returns, but if there are some, then they have to fit.
 		if(actualReturns.size() > 0 && formalReturns.size() != actualReturns.size()) {
-			error.error(getCoords(),
-					"Formal and actual return-parameter(s) of " + actionUnresolved.toString()
-							+ " mismatch in number (formal:" + formalReturns.size() + " vs. actual:"
-							+ actualReturns.size() + ")");
+			error.error(getCoords(), actionUnresolved + " expects " + formalReturns.size()
+					+ " return arguments, given are " + actualReturns.size() + ".");
 			return false;
 		} 
 		
 		boolean res = true;
 		if(actualReturns.size() > 0) {
 			Iterator<ExecVarDeclNode> iterAR = actualReturns.getChildren().iterator();
+			int returnPos = 0;
 			for(TypeNode formalReturn : formalReturns) {
 				ExecVarDeclNode actualReturn = iterAR.next();
-
-				res &= checkReturn(formalReturn, actualReturn);
+				res &= checkReturn(formalReturn, actualReturn, returnPos);
+				++returnPos;
 			}
 		}
 		return res;
 	}
 
-	private boolean checkReturn(TypeNode formalReturn, ExecVarDeclNode actualReturn)
+	private boolean checkReturn(TypeNode formalReturn, ExecVarDeclNode actualReturn, int returnPos)
 	{
 		TypeNode formalReturnType = formalReturn;
 		TypeNode actualReturnType = actualReturn.getDecl().getDeclType();
@@ -382,10 +381,10 @@ public class CallActionNode extends BaseNode
 			incommensurable = true;
 
 		if(incommensurable) {
-			reportError("Values of formal return type \"" + formalReturnType.getTypeName() + "\""
+			reportError("Cannot assign " + returnPos + ". return argument of type " + formalReturnType
 					+ (isAllBracketed ? " (array<" + formalReturnType.getTypeName() + ">)" : "")
-					+ " cannot be assigned to a variable \"" + actualReturn + "\" of type \""
-					+ actualReturnType.getTypeName() + "\" (action " + actionUnresolved.toString() + ").");
+					+ " to a variable " + actualReturn + " of type " + actualReturnType
+					+ " (when calling " + actionUnresolved + ").");
 			return false;
 		}
 

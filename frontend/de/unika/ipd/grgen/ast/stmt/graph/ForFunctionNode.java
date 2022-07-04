@@ -106,7 +106,16 @@ public class ForFunctionNode extends ForGraphQueryNode
 		} else if(function.getResult() instanceof EdgesExprNode) {
 			return true;
 		} else {
-			reportError("unkonwn function in for function loop.");
+			reportError("Unkonwn function " + function.functionIdent + " in for function loop"
+					+ " (expected is one of "
+					+ "incident, incoming, outgoing, "
+					+ "adjacent, adjacentIncoming, adjacentOutgoing, "
+					+ "reachableEdges, reachableEdgesIncoming, reachableEdgesOutgoing, "
+					+ "reachable, reachableIncoming, reachableOutgoing, "
+					+ "boundedReachableEdges, boundedReachableEdgesIncoming, boundedReachableEdgesOutgoing, "
+					+ "boundedReachable, boundedReachableIncoming, boundedReachableOutgoing, "
+					+ "nodes, edges"
+					+ ").");
 			return false;
 		}
 	}

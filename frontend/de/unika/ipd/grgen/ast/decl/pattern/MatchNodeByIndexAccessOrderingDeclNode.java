@@ -109,8 +109,9 @@ public class MatchNodeByIndexAccessOrderingDeclNode extends MatchNodeByIndexDecl
 			if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
 				String expTypeName = expectedIndexAccessType.getTypeName();
 				String typeName = indexAccessType.getTypeName();
-				ident.reportError("Cannot convert type used in accessing index from \"" + typeName
-						+ "\" to \"" + expTypeName + "\" in match node by index access");
+				expr.reportError("Cannot convert type used in accessing index from " + typeName
+						+ " to " + expTypeName
+						+ " (in match node " + getIdentNode() + " by index access of " + index.getIdentNode() + ").");
 				return false;
 			}
 			if(expr2 != null) {
@@ -118,8 +119,9 @@ public class MatchNodeByIndexAccessOrderingDeclNode extends MatchNodeByIndexDecl
 				if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
 					String expTypeName = expectedIndexAccessType.getTypeName();
 					String typeName = indexAccessType2.getTypeName();
-					ident.reportError("Cannot convert type used in accessing index from \"" + typeName
-							+ "\" to \"" + expTypeName + "\" in match node by index access");
+					expr2.reportError("Cannot convert type used in accessing index from " + typeName
+							+ " to " + expTypeName
+							+ " (in match node " + getIdentNode() + " by index access of " + index.getIdentNode() + ").");
 					return false;
 				}
 			}
@@ -129,19 +131,22 @@ public class MatchNodeByIndexAccessOrderingDeclNode extends MatchNodeByIndexDecl
 		if(!entityType.isCompatibleTo(expectedEntityType) && !expectedEntityType.isCompatibleTo(entityType)) {
 			String expTypeName = expectedEntityType.getTypeName();
 			String typeName = entityType.getTypeName();
-			ident.reportError("Cannot convert index type from \"" + typeName
-					+ "\" to pattern element type \"" + expTypeName + "\" in match node by index access");
+			ident.reportError("Cannot convert index type from " + typeName
+					+ " to pattern element type " + expTypeName
+					+ " (in match node " + getIdentNode() + " by index access of " + index.getIdentNode() + ").");
 			return false;
 		}
 		if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE) {
 			if(expr2 != null && (comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)) {
-				reportError("Match node by index does not support two lower bounds");
+				reportError("Two lower bounds are not supported "
+						+ " (in match node " + getIdentNode() + " by index access of " + index.getIdentNode() + ").");
 				return false;
 			}
 		}
 		if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE) {
 			if(expr2 != null && (comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)) {
-				reportError("Match node by index does not support two upper bounds");
+				reportError("Two upper bounds are not supported "
+						+ " (in match node " + getIdentNode() + " by index access of " + index.getIdentNode() + ").");
 				return false;
 			}
 		}

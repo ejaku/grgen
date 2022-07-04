@@ -120,6 +120,6 @@ public class ExternalProcedureDeclNode extends ProcedureDeclBaseNode
 
 	public static String getKindStr()
 	{
-		return "procedure";
+		return "external procedure";
 	}
 }

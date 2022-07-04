@@ -61,7 +61,7 @@ public class PrePostWalker extends Base implements Walker
 					post.visit(node);
 				}
 			} else
-				Base.error.error("Node was null, while walking");
+				Base.error.error("Internal error: node was null, while walking.");
 		}
 	}
 }

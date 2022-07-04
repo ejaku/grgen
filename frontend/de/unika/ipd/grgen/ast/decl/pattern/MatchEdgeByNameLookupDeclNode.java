@@ -80,7 +80,7 @@ public class MatchEdgeByNameLookupDeclNode extends EdgeDeclNode
 	{
 		boolean res = super.checkLocal();
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-			reportError("Can't employ match edge by index on RHS");
+			reportError("Cannot employ match edge by name index lookup in the rewrite part.");
 			return false;
 		}
 		TypeNode expectedLookupType = StringTypeNode.stringType;
@@ -88,8 +88,8 @@ public class MatchEdgeByNameLookupDeclNode extends EdgeDeclNode
 		if(!lookupType.isCompatibleTo(expectedLookupType)) {
 			String expTypeName = expectedLookupType.getTypeName();
 			String typeName = lookupType.getTypeName();
-			ident.reportError("Cannot convert type used in accessing name map from \"" + typeName
-					+ "\" to \"" + expTypeName + "\" in match edge by name lookup");
+			ident.reportError("Cannot convert type used in accessing name index from " + typeName
+					+ " to " + expTypeName + " in match edge " + getIdentNode() + " by name index lookup.");
 			return false;
 		}
 		return res;

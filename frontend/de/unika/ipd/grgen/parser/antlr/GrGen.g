@@ -233,8 +233,6 @@ tokens {
 // Actions and Patterns
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
 /**
  * Build a main node.
  * It has a collect node with the decls as child
@@ -255,7 +253,7 @@ textActions returns [ UnitNode main = null ]
 		CollectNode<IdentNode> sequenceChilds = new CollectNode<IdentNode>();
 		String actionsName = Util.getActionsNameFromFilename(getFilename());
 		if(!Util.isFilenameValidActionName(getFilename())) {
-			reportError(new de.unika.ipd.grgen.parser.Coords(), "the filename "+getFilename()+" can't be used as action name, must be similar to an identifier");
+			reportError(new de.unika.ipd.grgen.parser.Coords(), "The filename "+getFilename()+" cannot be used as the action name, it must be of the same format as an identifier.");
 		}
 	}
 	: ( usingDecl[modelChilds] )*
@@ -347,7 +345,7 @@ usingDecl [ CollectNode<ModelNode> modelChilds ]
 				String modelName = it.next();
 				File modelFile = env.findModel(modelName);
 				if(modelFile == null) {
-					reportError(getCoords(u), "model \"" + modelName + "\" could not be found");
+					reportError(getCoords(u), "The model " + modelName + " could not be found.");
 				} else {
 					ModelNode model;
 					model = env.parseModel(modelFile);
@@ -363,7 +361,7 @@ usingDecl [ CollectNode<ModelNode> modelChilds ]
 			modelName = modelName.substring(1,modelName.length()-1);
 			File modelFile = env.findModel(modelName);
 			if(modelFile == null) {
-				reportError(getCoords(h), "model \"" + modelName + "\" could not be found");
+				reportError(getCoords(h), "The model " + modelName + " could not be found.");
 			} else {
 				ModelNode model;
 				model = env.parseModel(modelFile);
@@ -417,7 +415,7 @@ packageActionDecl returns [ IdentNode res = env.getDummyIdent() ]
 	: PACKAGE id=packageIdentDecl LBRACE { env.pushScope(id); env.setCurrentPackage(id); }
 		{
 			if(env.isKnownPackage(id.toString()))
-				reportError(id.getCoords(), "The package " + id.toString() + " cannot be defined - a builtin package of the same name already exists");
+				reportError(id.getCoords(), "The package " + id.toString() + " cannot be defined - a builtin package of the same name already exists.");
 		}
 			( declsPatternMatchingOrAttributeEvaluationUnitWithModifier[patternChilds, actionChilds, 
 					matchTypeChilds, filterChilds, matchClassChilds, matchClassFilterChilds, matchTypeIteratedChilds,
@@ -457,14 +455,14 @@ patternModifier [ int mod ] returns [ int res = 0 ]
 	: modifier=INDUCED
 		{
 			if((mod & PatternGraphLhsNode.MOD_INDUCED) != 0) {
-				reportError(getCoords(modifier), "\"induced\" modifier already declared");
+				reportError(getCoords(modifier), "The modifier induced has already been declared.");
 			}
 			res = mod | PatternGraphLhsNode.MOD_INDUCED;
 		}
 	| modifier=EXACT
 		{		
 			if((mod & PatternGraphLhsNode.MOD_EXACT) != 0) {
-				reportError(getCoords(modifier), "\"exact\" modifier already declared");
+				reportError(getCoords(modifier), "The modifier exact has already been declared.");
 			}
 			res = mod | PatternGraphLhsNode.MOD_EXACT;
 		}
@@ -472,21 +470,21 @@ patternModifier [ int mod ] returns [ int res = 0 ]
 		{
 			if(modifier.getText().equals("dpo")) {
 				if((mod & PatternGraphLhsNode.MOD_DANGLING) != 0 || (mod & PatternGraphLhsNode.MOD_IDENTIFICATION) != 0) {
-					reportError(getCoords(modifier), "\"dpo\" or \"dangling\" or \"identification\" modifier dangling already declared");
+					reportError(getCoords(modifier), "The modifier dpo or dangling or identification has already been declared.");
 				}
 				res = mod | PatternGraphLhsNode.MOD_DANGLING | PatternGraphLhsNode.MOD_IDENTIFICATION;
 			} else if(modifier.getText().equals("dangling")) {
 				if((mod & PatternGraphLhsNode.MOD_DANGLING) != 0) {
-					reportError(getCoords(modifier), "\"dangling\" modifier already declared");
+					reportError(getCoords(modifier), "The modifier dangling has already been declared.");
 				}
 				res = mod | PatternGraphLhsNode.MOD_DANGLING;
 			} else if(modifier.getText().equals("identification")) {
 				if((mod & PatternGraphLhsNode.MOD_IDENTIFICATION) != 0) {
-					reportError(getCoords(modifier), "\"identification\" modifier already declared");
+					reportError(getCoords(modifier), "The modifier identification has already been declared.");
 				}
 				res = mod | PatternGraphLhsNode.MOD_IDENTIFICATION;
 			} else {
-				reportError(getCoords(modifier), "unknown modifier "+modifier.getText());
+				reportError(getCoords(modifier), "The modifier "+modifier.getText()+" is not known.");
 			}
 		}
 	;
@@ -528,7 +526,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		RBRACE
 		{
 			if((mod & PatternGraphLhsNode.MOD_DANGLING) != 0 || (mod & PatternGraphLhsNode.MOD_IDENTIFICATION) != 0) {
-				reportError(getCoords(t), "no \"dpo\" or \"dangling\" or \"identification\" modifier allowed for test");
+				reportError(getCoords(t), "None of the modifiers dpo or dangling or identification is allowed for a test.");
 			}
 		}
 		filterDecls[id, actionDecl]
@@ -599,7 +597,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		COLON retType=returnType
 		{
 			if(env.isGlobalFunction(id.toString(), params.getChildren().size()))
-				reportError(id.getCoords(), "The function " + id.toString() + " cannot be defined - a builtin function of the same name and with the same number of parameters already exists");
+				reportError(id.getCoords(), "The function " + id.toString() + " cannot be defined - a builtin function of the same name and with the same number of parameters already exists.");
 		}
 		LBRACE
 			(
@@ -618,7 +616,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		(COLON LPAREN (returnTypeList[retTypes])? RPAREN)?
 		{
 			if(env.isGlobalProcedure(id.toString(), params.getChildren().size()))
-				reportError(id.getCoords(), "The procedure " + id.toString() + " cannot be defined - a builtin procedure of the same name and with the same number of parameters already exists");
+				reportError(id.getCoords(), "The procedure " + id.toString() + " cannot be defined - a builtin procedure of the same name and with the same number of parameters already exists.");
 		}
 		LBRACE
 			( c=computation[false, false, namer, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, PatternGraphLhsNode.getInvalid()]
@@ -667,10 +665,10 @@ defEntitiesOrYieldings [ CollectNode<BaseNode> conn, CollectNode<VarDeclNode> de
 
 reportErrorOnDefEntityOrYielding [ AnonymousScopeNamer namer, int context ]
 	: ( 
-		( d=DEF { reportError(getCoords(d), "A def entity declaration is only allowed in the yield part. Likely a --- separating the pattern part from the yield part is missing"); }
+		( d=DEF { reportError(getCoords(d), "A def entity declaration is only allowed in the yield part. Likely a --- separating the pattern part from the yield part is missing."); }
 		//the iterated filter declaration collides with the iterated declaration, would require additional lookahead, but was not available before, so no help in transforming old grgen specifications, thus way less of importance -> left out
-		//| i=ITERATED ident=iterIdentUse ( filter=filterUse[ident, namer, context] )+ SEMI { reportError(getCoords(i), "An iterated filter declaration is only allowed in the yield part. Likely a --- separating the pattern part from the yield part is missing"); } 
-		| y=YIELD { reportError(getCoords(y), "A yield block is only allowed in the yield part. Likely a --- separating the pattern part from the yield part is missing"); }
+		//| i=ITERATED ident=iterIdentUse ( filter=filterUse[ident, namer, context] )+ SEMI { reportError(getCoords(i), "An iterated filter declaration is only allowed in the yield part. Likely a --- separating the pattern part from the yield part is missing."); } 
+		| y=YIELD { reportError(getCoords(y), "A yield block is only allowed in the yield part. Likely a --- separating the pattern part from the yield part is missing."); }
 		)
 	  )?
 	;
@@ -1226,9 +1224,9 @@ nodeStorageIndexContinuation [ IdentNode id, IdentNode type, AnonymousScopeNamer
 				nodeDecl = new MatchNodeByIndexAccessOrderingDeclNode(id, type, context, 
 						false, idx, os, e, os2, e2, directlyNestingLHSGraph);
 			} else
-				reportError(getCoords(i), "ordered index access expression must start with ascending or descending");
+				reportError(getCoords(i), "An ordered index access expression must start with ascending or descending (given is " + i.getText() + ").");
 			if(idx2 != null && !idx.toString().equals(idx2.toString()))
-				reportError(idx2.getCoords(), "the same index must be used in an ordered index access expression with two constraints");
+				reportError(idx2.getCoords(), "The same index must be used in an ordered index access expression with two constraints (given are " + idx + " and " + idx2 + ").");
 		}
 	| AT LPAREN e=expr[namer, context, false] RPAREN
 		{
@@ -1359,7 +1357,7 @@ defGraphElementInitialization [ AnonymousScopeNamer namer, int context, Constrai
 	: a=ASSIGN e=expr[namer, context, false]
 		{
 			if((context & BaseNode.CONTEXT_COMPUTATION) != BaseNode.CONTEXT_COMPUTATION) {
-				reportError(getCoords(a), "initialization of a def node/edge only allowed in a function");
+				reportError(getCoords(a), "A def node/edge can only be initialized in a function (attempted on " + graphElement.getIdentNode() + ").");
 			} else {
 				if(graphElement != null)
 					graphElement.setInitialization(e);
@@ -1407,7 +1405,7 @@ defVarDeclToBeYieldedTo [ CollectNode<EvalStatementsNode> evals,
 					IdentNode varIdent = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, id.toString(), id.getCoords()));
 					curEval.addChild(new AssignNode(getCoords(a), new IdentExprNode(varIdent, true), e, context, true));
 				} else {
-					reportError(getCoords(y), "a yield expression can only appear in the pattern after the initialization of a def variable (not in the modify/replace part)");
+					reportError(getCoords(y), "A yield expression can only appear in the pattern after the initialization of a def variable (not in the rewrite part).");
 				}
 			}
 			RPAREN
@@ -1444,7 +1442,7 @@ filterUse [ IdentNode iterated, AnonymousScopeNamer namer, int context ] returns
 			{
 				String fullName = idText + "<" + join("_", fvl) + ">";
 				if(args.size() != 0)
-					reportError(getCoords(id), "The filter " + fullName + " expects 0 arguments.");
+					reportError(getCoords(id), "The filter " + fullName + " expects 0 arguments (given are " + args.size() + ").");
 
 				if(idText.equals("assign")) {
 					res = new FilterInvocationLambdaExpressionNode(iterated, getCoords(id), idText, fvl.get(0),
@@ -1455,7 +1453,7 @@ filterUse [ IdentNode iterated, AnonymousScopeNamer namer, int context ] returns
 						$lambdaExprVar.va, $lambdaExprVar.vp, $lambdaExprVar.vi, $lambdaExprVar.vd, e);
 				} else {
 					if(!env.isAutoGeneratedBaseFilterName(idText))
-						reportError(getCoords(id), "Unknown def-variable-based filter " + idText + "! Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach, keepOneForEachAccumulateBy.");
+						reportError(getCoords(id), "Unknown def-variable-based filter " + idText + ". Available are: orderAscendingBy, orderDescendingBy, groupBy, keepSameAsFirst, keepSameAsLast, keepOneForEach, keepOneForEachAccumulateBy.");
 					IdentNode filterAutoGen = new IdentNode(env.occurs(ParserEnvironment.ACTIONS, fullName, getCoords(id)));
 					res = new FilterInvocationNode(iterated, filterAutoGen, args);
 				}
@@ -1463,7 +1461,7 @@ filterUse [ IdentNode iterated, AnonymousScopeNamer namer, int context ] returns
 			else if(idText.equals("auto"))
 			{
 				if(args.size() != 0)
-					reportError(getCoords(id), "The filter " + idText + " expects 0 arguments.");
+					reportError(getCoords(id), "The filter " + idText + " expects 0 arguments (given are " + args.size() + ").");
 				reportError(getCoords(id), "The filter " + idText + " is not supported for iterateds.");
 				/*IdentNode filterAutoGen = new IdentNode(env.occurs(ParserEnvironment.ACTIONS, fullName, getCoords(id)));
 				res = new FilterInvocationNode(iterated, filterAutoGen, args);*/
@@ -1476,7 +1474,7 @@ filterUse [ IdentNode iterated, AnonymousScopeNamer namer, int context ] returns
 			else if(env.isAutoSuppliedFilterName(idText))
 			{
 				if(args.size() != 1)
-					reportError(getCoords(id), "The filter " + idText + " expects 1 arguments.");
+					reportError(getCoords(id), "The filter " + idText + " expects 1 arguments (given are " + args.size() + ").");
 				IdentNode filterAutoSup = new IdentNode(env.occurs(ParserEnvironment.ACTIONS, idText, getCoords(id)));
 				res = new FilterInvocationNode(iterated, filterAutoSup, args);
 			}
@@ -1857,9 +1855,9 @@ edgeStorageIndexContinuation [ IdentNode id, IdentNode type, AnonymousScopeNamer
 				res = new MatchEdgeByIndexAccessOrderingDeclNode(id, type, context, 
 						false, idx, os, e, os2, e2, directlyNestingLHSGraph);
 			} else
-				reportError(getCoords(i), "ordered index access expression must start with ascending or descending");
+				reportError(getCoords(i), "The ordered index access expression must start with ascending or descending (given is " + i.getText() + ").");
 			if(idx2 != null && !idx.toString().equals(idx2.toString()))
-				reportError(idx2.getCoords(), "the same index must be used in an ordered index access expression with two constraints");
+				reportError(idx2.getCoords(), "The same index must be used in an ordered index access expression with two constraints (given are " + idx + " and " + idx2 + ").");
 		}
 	| AT LPAREN e=expr[namer, context, false] RPAREN
 		{
@@ -1895,7 +1893,7 @@ argument [ CollectNode<ExprNode> args, AnonymousScopeNamer namer, int context ] 
 
 yieldArgument [ CollectNode<ExprNode> args, AnonymousScopeNamer namer, int context ] // argument for a subpattern usage or subpattern dependent rewrite usage
 	: y=YIELD arg=expr[namer, context, false]
-		{ args.addChild(arg); if(arg instanceof IdentExprNode) ((IdentExprNode)arg).setYieldedTo(); else reportError(getCoords(y), "Can only yield to an element/variable, defined to by yielded to (def)"); }
+		{ args.addChild(arg); if(arg instanceof IdentExprNode) ((IdentExprNode)arg).setYieldedTo(); else reportError(getCoords(y), "Can only yield to an element/variable (def-ined to by yielded to)."); }
  	;
 
 homStatement returns [ HomNode res = null ]
@@ -2019,14 +2017,14 @@ defEntitiesOrEvals [ CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVar
 
 reportErrorOnDefEntityOrEval
 	: ( 
-		( d=DEF 
-			{ reportError(getCoords(d), "A def entity declaration is only allowed in the yield part. Likely a --- separating the rewrite part from the yield part is missing"); }
+		( d=DEF
+			{ reportError(getCoords(d), "A def entity declaration is only allowed in the yield part. Likely a --- separating the rewrite part from the yield part is missing."); }
 		| (ro=ALTERNATIVE id=altIdentUse SEMI | ro=ITERATED id=iterIdentUse SEMI | ro=PATTERN id=entIdentUse SEMI) 
-			{ reportError(getCoords(ro), "An alternative or iterated or subpattern rewrite order specification is only allowed in the yield part. Likely a --- separating the pattern part from the rewrite part is missing"); }
+			{ reportError(getCoords(ro), "An alternative or iterated or subpattern rewrite order specification is only allowed in the yield part. Likely a --- separating the pattern part from the rewrite part is missing."); }
 		| e=EXEC
-			{ reportError(getCoords(e), "An exec statement is only allowed in the yield part. Likely a --- separating the rewrite part from the yield part is missing"); }
+			{ reportError(getCoords(e), "An exec statement is only allowed in the yield part. Likely a --- separating the rewrite part from the yield part is missing."); }
 		| (e=EMIT | e=EMITDEBUG | e=EMITHERE | e=EMITHEREDEBUG)
-			{ reportError(getCoords(e), "An emit statement is only allowed in the yield part. Likely a --- separating the rewrite part from the yield part is missing"); }
+			{ reportError(getCoords(e), "An emit statement is only allowed in the yield part. Likely a --- separating the rewrite part from the yield part is missing."); }
 		)
 	  )?
 	;
@@ -2297,10 +2295,10 @@ rets [ CollectNode<ExprNode> res, AnonymousScopeNamer namer, int context ]
 	: r=RETURN
 		{
 			if(multipleReturns) {
-				reportError(getCoords(r), "multiple occurrence of return statement in one rule");
+				reportError(getCoords(r), "A return statement may only appear once in a rule.");
 			}
 			if((context & BaseNode.CONTEXT_ACTION_OR_PATTERN) == BaseNode.CONTEXT_PATTERN) {
-				reportError(getCoords(r), "return statement only allowed in actions, not in pattern type declarations");
+				reportError(getCoords(r), "A return statement is only allowed in actions, not in pattern type declarations.");
 			}
 			res.setCoords(getCoords(r));
 		}
@@ -2454,7 +2452,7 @@ typeDecls [ AnonymousScopeNamer namer, CollectNode<IdentNode> types, CollectNode
 		NODE EDGE i=IDENT SEMI
 			{
 				if(!i.getText().equals("unique"))
-					reportError(getCoords(i), "malformed \"node edge unique;\"");
+					reportError(getCoords(i), "Malformed \"node edge unique;\".");
 				else
 					$isUniqueDefined = true;
 			}
@@ -2462,7 +2460,7 @@ typeDecls [ AnonymousScopeNamer namer, CollectNode<IdentNode> types, CollectNode
 		EXTERNAL EMIT (i=IDENT
 				{
 					if(!i.getText().equals("graph"))
-						reportError(getCoords(i), "malformed \"external emit graph class;\"");
+						reportError(getCoords(i), "Malformed \"external emit graph class;\".");
 					else
 						graphFound = true;
 				}
@@ -2487,13 +2485,13 @@ typeDecls [ AnonymousScopeNamer namer, CollectNode<IdentNode> types, CollectNode
 		FOR i=IDENT LBRACK j=IDENT ASSIGN con=constant RBRACK
 			{
 				if(!i.getText().equals("equalsAny"))
-					reportError(getCoords(i), "malformed \"for equalsAny[parallelize=k];\"");
+					reportError(getCoords(i), "Malformed \"for equalsAny[parallelize=k];\".");
 				else if(!j.getText().equals("parallelize"))
-					reportError(getCoords(j), "malformed \"for equalsAny[parallelize=k];\"");
+					reportError(getCoords(j), "Malformed \"for equalsAny[parallelize=k];\".");
 				else {
 					Object icon = ((ConstNode) con).getValue();
 					if(!(icon instanceof Integer))
-						reportError(getCoords(i), "\"for equalsAny[parallelize=k];\" requires an integer constant");
+						reportError(getCoords(i), "\"for equalsAny[parallelize=k];\" requires an integer constant.");
 					else
 						$isoParallel = (Integer)icon;
 				}
@@ -2503,11 +2501,11 @@ typeDecls [ AnonymousScopeNamer namer, CollectNode<IdentNode> types, CollectNode
 		FOR i=FUNCTION LBRACK j=IDENT ASSIGN con=constant RBRACK
 			{
 				if(!j.getText().equals("parallelize"))
-					reportError(getCoords(j), "malformed \"for function[parallelize=true];\"");
+					reportError(getCoords(j), "Malformed \"for function[parallelize=true];\".");
 				else {
 					Object bcon = ((ConstNode) con).getValue();
 					if(!(bcon instanceof Boolean))
-						reportError(getCoords(i), "\"for function[parallelize=true];\" requires a boolean constant");
+						reportError(getCoords(i), "\"for function[parallelize=true];\" requires a boolean constant.");
 					else
 						$areFunctionsParallel = (Boolean)bcon;
 				}
@@ -2517,11 +2515,11 @@ typeDecls [ AnonymousScopeNamer namer, CollectNode<IdentNode> types, CollectNode
 		FOR s=SEQUENCE LBRACK j=IDENT ASSIGN con=constant RBRACK
 			{
 				if(!j.getText().equals("parallelize"))
-					reportError(getCoords(j), "malformed \"for sequence[parallelize=k];\"");
+					reportError(getCoords(j), "Malformed \"for sequence[parallelize=k];\".");
 				else {
 					Object icon = ((ConstNode) con).getValue();
 					if(!(icon instanceof Integer))
-						reportError(getCoords(i), "\"for sequence[parallelize=k];\" requires an integer constant");
+						reportError(getCoords(i), "\"for sequence[parallelize=k];\" requires an integer constant.");
 					else
 						$sequencesParallel = (Integer)icon;
 				}
@@ -2539,7 +2537,7 @@ indexDecl [ CollectNode<IdentNode> indices ] returns [ boolean res = false ]
 			if(i.getText().equals("unique"))
 				res = true;
 			else
-				reportError(getCoords(i), "only unique allowed for an index declaration without body, not \"" + i.getText() + "\"");
+				reportError(getCoords(i), "Only unique allowed for an index declaration without body, not " + i.getText() + ".");
 		}
 	;
 
@@ -2707,7 +2705,7 @@ validIdent returns [ String id = "" ]
 	:	i=~GT
 		{
 			if(i.getType() != IDENT && !env.isLexerKeyword(i.getText()))
-				reportError(getCoords(i), "\"" + i.getText() + "\" is not a valid identifier");
+				reportError(getCoords(i), i.getText() + " is is not a valid identifier.");
 			id = i.getText();
 		}
 	;
@@ -2759,14 +2757,14 @@ edgeExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c, boolean undirected 
 			if(!e.toString().equals(clsId.toString()))
 				c.addChild(e);
 			else
-				reportError(e.getCoords(), "A class must not extend itself");
+				reportError(e.getCoords(), "A class is not allowed to extend itself (" + clsId.toString() + " does so).");
 		}
 	( COMMA e=typeIdentUse
 		{
 			if(!e.toString().equals(clsId.toString()))
 				c.addChild(e);
 			else
-				reportError(e.getCoords(), "A class must not extend itself");
+				reportError(e.getCoords(), "A class is not allowed to extend itself (" + clsId.toString() + " does so).");
 		}
 	)*
 		{
@@ -2791,14 +2789,14 @@ nodeExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c ]
 			if(!t.toString().equals(clsId.toString()))
 				c.addChild(t);
 			else
-				reportError(t.getCoords(), "A class must not extend itself");
+				reportError(t.getCoords(), "A class is not allowed to extend itself (" + clsId.toString() + " does so).");
 		}
 	( COMMA t=typeIdentUse
 		{
 			if(!t.toString().equals(clsId.toString()))
 				c.addChild(t);
 			else
-				reportError(t.getCoords(), "A class must not extend itself");
+				reportError(t.getCoords(), "A class is not allowed to extend itself (" + clsId.toString() + " does so).");
 		}
 	)*
 		{
@@ -2818,14 +2816,14 @@ objectExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c ]
 			if(!t.toString().equals(clsId.toString()))
 				c.addChild(t);
 			else
-				reportError(t.getCoords(), "A class must not extend itself");
+				reportError(t.getCoords(), "A class is not allowed to extend itself (" + clsId.toString() + " does so).");
 		}
 	( COMMA t=typeIdentUse
 		{
 			if(!t.toString().equals(clsId.toString()))
 				c.addChild(t);
 			else
-				reportError(t.getCoords(), "A class must not extend itself");
+				reportError(t.getCoords(), "A class is not allowed to extend itself (" + clsId.toString() + " does so).");
 		}
 	)*
 		{
@@ -2845,14 +2843,14 @@ transientObjectExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c ]
 			if(!t.toString().equals(clsId.toString()))
 				c.addChild(t);
 			else
-				reportError(t.getCoords(), "A class must not extend itself");
+				reportError(t.getCoords(), "A class is not allowed to extend itself (" + clsId.toString() + " does so).");
 		}
 	( COMMA t=typeIdentUse
 		{
 			if(!t.toString().equals(clsId.toString()))
 				c.addChild(t);
 			else
-				reportError(t.getCoords(), "A class must not extend itself");
+				reportError(t.getCoords(), "A class is not allowed to extend itself (" + clsId.toString() + " does so).");
 		}
 	)*
 		{
@@ -2947,14 +2945,14 @@ extExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c ]
 			if(!t.toString().equals(clsId.toString()))
 				c.addChild(t);
 			else
-				reportError(t.getCoords(), "A class must not extend itself");
+				reportError(t.getCoords(), "A class is not allowed to extend itself (" + clsId.toString() + " does so).");
 		}
 	( COMMA t=typeIdentUse
 		{
 			if(!t.toString().equals(clsId.toString()))
 				c.addChild(t);
 			else
-				reportError(t.getCoords(), "A class must not extend itself");
+				reportError(t.getCoords(), "A class is not allowed to extend itself (" + clsId.toString() + " does so).");
 		}
 	)*
 	;
@@ -3301,7 +3299,7 @@ constrDecl [ AnonymousScopeNamer namer, IdentNode clsId ] returns [ ConstructorD
 			res = new ConstructorDeclNode(id, params);
 			
 			if(!id.toString().equals(clsId.toString()))
-				reportError(id.getCoords(), "A constructor must have the name of the containing class");
+				reportError(id.getCoords(), "A constructor must come with the name of the containing class (but " + id.toString() + " is different from " + clsId.toString() + ").");
 		}
 	;
 
@@ -3551,50 +3549,50 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 		{
 			res = new AssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, context); 
 			if(onLHS)
-				reportError(getCoords(d), "Assignment to an attribute is forbidden in yield, only yield assignment to a def variable allowed.");
+				reportError(getCoords(d), "An assignment to an attribute is forbidden in a yield, only an yield assignment to a def variable is allowed.");
 			if(isSimple && dc!=null)
-				reportError(getCoords(dc), "Assignment to an attribute of a global variable is forbidden in simple eval, move it to full eval after --- separator.");
+				reportError(getCoords(dc), "An assignment to an attribute of a global variable is forbidden in a simple eval, move it to a full eval after the --- separator.");
 		}
 	|
 	  (y=YIELD { yielded = true; })? (dc=DOUBLECOLON)? variable=entIdentUse a=ASSIGN e=expr[namer, context, false] SEMI
 		{
 			res = new AssignNode(getCoords(a), new IdentExprNode(variable, yielded), e, context, onLHS);
 			if(isSimple && dc!=null)
-				reportError(getCoords(dc), "Assignment to a global variable is forbidden in simple eval, move it to full eval after --- separator.");
+				reportError(getCoords(dc), "An assignment to a global variable is forbidden in a simple eval, move it to a full eval after the --- separator.");
 			if(isSimple && yielded)
-				reportError(getCoords(y), "Yield assignment to a def entity is forbidden in simple eval, move it to full eval after --- separator.");
+				reportError(getCoords(y), "A yield assignment to a def entity is forbidden in a simple eval, move it to a full eval after the --- separator.");
 		}
 	|
 	  vis=visited[namer, context] a=ASSIGN e=expr[namer, context, false] SEMI
 		{
 			res = new AssignVisitedNode(getCoords(a), vis, e, context);
 			if(onLHS)
-				reportError(getCoords(a), "Assignment to a visited flag is forbidden in yield.");
+				reportError(getCoords(a), "An assignment to a visited flag is forbidden in a yield.");
 		}
 	|
 	  n=NAMEOF LPAREN (id=expr[namer, context, false])? RPAREN a=ASSIGN e=expr[namer, context, false] SEMI
 		{
 			res = new AssignNameofNode(getCoords(a), id, e, context);
 			if(onLHS)
-				reportError(getCoords(a), "Name assignment is forbidden in yield.");
+				reportError(getCoords(a), "A name assignment is forbidden in a yield.");
 		}
 	|
 	  (dc=DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse LBRACK idx=expr[namer, context, false] RBRACK a=ASSIGN e=expr[namer, context, false] SEMI //'false' because this rule is not used for the assignments in enum item decls
 		{
 			res = new AssignIndexedNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, idx, context);
 			if(onLHS)
-				reportError(getCoords(d), "Indexed assignment to an attribute is forbidden in yield, only yield indexed assignment to a def variable allowed.");
+				reportError(getCoords(d), "An indexed assignment to an attribute is forbidden in a yield, only a yield indexed assignment to a def variable is allowed.");
 			if(isSimple && dc!=null)
-				reportError(getCoords(dc), "Indexed assignment to an attribute of a global variable is forbidden in simple eval, move it to full eval after --- separator.");
+				reportError(getCoords(dc), "An indexed assignment to an attribute of a global variable is forbidden in a simple eval, move it to a full eval after the --- separator.");
 		}
 	|
 	  (y=YIELD { yielded = true; })? (dc=DOUBLECOLON)? variable=entIdentUse LBRACK idx=expr[namer, context, false] RBRACK a=ASSIGN e=expr[namer, context, false] SEMI
 		{
 			res = new AssignIndexedNode(getCoords(a), new IdentExprNode(variable, yielded), e, idx, context, onLHS);
 			if(isSimple && dc!=null)
-				reportError(getCoords(dc), "Indexed assignment to a global variable is forbidden in simple eval, move it to full eval after --- separator.");
+				reportError(getCoords(dc), "An indexed assignment to a global variable is forbidden in a simple eval, move it to a full eval after the --- separator.");
 			if(isSimple && yielded)
-				reportError(getCoords(y), "Yield indexed assignment to a def entity is forbidden in simple eval, move it to full eval after --- separator.");
+				reportError(getCoords(y), "A yield indexed assignment to a def entity is forbidden in a simple eval, move it to a full eval after the --- separator.");
 		}
 	| 
 	  (dc=DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse 
@@ -3604,11 +3602,11 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 		{
 			res = new CompoundAssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), cat, e, ccat, tgtChanged);
 			if(onLHS)
-				reportError(getCoords(d), "Compound assignment to an attribute is forbidden in yield, only yield assignment to a def variable allowed.");
+				reportError(getCoords(d), "A compound assignment to an attribute is forbidden in a yield, only a yield assignment to a def variable is allowed.");
 			if(cat == CompoundAssignNode.CompoundAssignmentType.CONCATENATE && ccat!=CompoundAssignNode.CompoundAssignmentType.NONE)
-				reportError(getCoords(d), "No change assignment allowed for array|deque concatenation.");
+				reportError(getCoords(d), "A change assignment is not allowed for array|deque concatenation.");
 			if(isSimple && dc!=null)
-				reportError(getCoords(dc), "Compound assignment to an attribute of a global variable is forbidden in simple eval, move it to full eval after --- separator.");
+				reportError(getCoords(dc), "A compound assignment to an attribute of a global variable is forbidden in a simple eval, move it to a full eval after the --- separator.");
 		}
 	|
 	  (y=YIELD { yielded = true; })? (dc=DOUBLECOLON)? variable=entIdentUse 
@@ -3618,11 +3616,11 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 		{
 			res = new CompoundAssignNode(getCoords(a), new IdentExprNode(variable, yielded), cat, e, ccat, tgtChanged);
 			if(cat == CompoundAssignNode.CompoundAssignmentType.CONCATENATE && ccat!=CompoundAssignNode.CompoundAssignmentType.NONE)
-				reportError(getCoords(d), "No change assignment allowed for array|deque concatenation.");
+				reportError(getCoords(d), "A change assignment is not allowed for array|deque concatenation.");
 			if(isSimple && dc!=null)
-				reportError(getCoords(dc), "Compound assignment to a global variable is forbidden in simple eval, move it to full eval after --- separator.");
+				reportError(getCoords(dc), "A compound assignment to a global variable is forbidden in a simple eval, move it to a full eval after the --- separator.");
 			if(isSimple && yielded)
-				reportError(getCoords(y), "Yield compound assignment to a def entity is forbidden in simple eval, move it to full eval after --- separator.");
+				reportError(getCoords(y), "A yield compound assignment to a def entity is forbidden in a simple eval, move it to a full eval after the --- separator.");
 		}
 	|
 	  de=defEntityToBeYieldedTo[null, null, null, namer, context, directlyNestingLHSGraph] SEMI
@@ -3632,44 +3630,44 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 		{
 			res = new ReturnStatementNode(getCoords(r), returnValues);
 			if(onLHS)
-				reportError(getCoords(r), "Return statement is forbidden in yield.");
+				reportError(getCoords(r), "A return statement is forbidden in a yield.");
 			if(isSimple)
-				reportError(getCoords(r), "Return statement is forbidden in simple eval.");
+				reportError(getCoords(r), "A return statement is forbidden in a simple eval.");
 		}
 	|
 	  f=FOR LPAREN { env.pushScope("for", getCoords(f)); } fc=forContent[getCoords(f), onLHS, isSimple, namer, context, directlyNestingLHSGraph]
 		{
 			res = fc;
 			if(isSimple)
-				reportError(getCoords(f), "For loop is forbidden in simple eval, move it to full eval after --- separator.");
+				reportError(getCoords(f), "A for loop is forbidden in a simple eval, move it to a full eval after the --- separator.");
 		}
 	|
 	  c=CONTINUE SEMI
 		{
 			res = new ContinueStatementNode(getCoords(c));
 			if(isSimple)
-				reportError(getCoords(c), "continue statement is forbidden in simple eval, move it to full eval after --- separator.");
+				reportError(getCoords(c), "A continue statement is forbidden in a simple eval, move it to a full eval after the --- separator.");
 		}
 	|
 	  b=BREAK SEMI
 		{
 			res = new BreakStatementNode(getCoords(b));
 			if(isSimple)
-				reportError(getCoords(b), "break statement is forbidden in simple eval, move it to full eval after --- separator.");
+				reportError(getCoords(b), "A break statement is forbidden in a simple eval, move it to a full eval after the --- separator.");
 		}
 	|
 	  ie=ifelse[onLHS, isSimple, namer, context, directlyNestingLHSGraph]
 		{
 			res = ie;
 			if(isSimple)
-				reportError(ie.getCoords(), "if statement is forbidden in simple eval, move it to full eval after --- separator.");
+				reportError(ie.getCoords(), "An if statement is forbidden in a simple eval, move it to a full eval after the --- separator.");
 		}
 	|
 	  sc=switchcase[onLHS, isSimple, namer, context, directlyNestingLHSGraph]
 		{
 			res = sc;
 			if(isSimple)
-				reportError(sc.getCoords(), "switch statement is forbidden in simple eval, move it to full eval after --- separator.");
+				reportError(sc.getCoords(), "A switch statement is forbidden in a simple eval, move it to a full eval after the --- separator.");
 		}
 	|
 	  w=WHILE LPAREN e=expr[namer, context, false] RPAREN
@@ -3679,7 +3677,7 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 		{
 			res = new WhileStatementNode(getCoords(w), e, cs);
 			if(isSimple)
-				reportError(getCoords(w), "while statement is forbidden in simple eval, move it to full eval after --- separator.");
+				reportError(getCoords(w), "A while statement is forbidden in a simple eval, move it to a full eval after the --- separator.");
 		}
 	|
 	  l=LOCK LPAREN e=expr[namer, context, false] RPAREN
@@ -3689,7 +3687,7 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 		{
 			res = new LockStatementNode(getCoords(l), e, cs);
 			if(isSimple)
-				reportError(getCoords(l), "lock statement is forbidden in simple eval, move it to full eval after --- separator.");
+				reportError(getCoords(l), "A lock statement is forbidden in a simple eval, move it to a full eval after the --- separator.");
 		}
 	|
 	  d=DO 
@@ -3700,7 +3698,7 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 		{
 			res = new DoWhileStatementNode(getCoords(d), cs, e);
 			if(isSimple)
-				reportError(getCoords(d), "do while statement is forbidden in simple eval, move it to full eval after --- separator.");
+				reportError(getCoords(d), "A do while statement is forbidden in a simple eval, move it to a full eval after the --- separator.");
 		}
 	|
 	  (l=LPAREN tgts=targets[onLHS, getCoords(l), ms, namer, context, directlyNestingLHSGraph] RPAREN a=ASSIGN { targetProjs = $tgts.tgtProjs; targets = $tgts.tgts; } )? 
@@ -3710,7 +3708,7 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 				if(!methodCall)
 				{
 					if(isSimple) {
-						reportError(getCoords(i), "Procedure call is forbidden in simple eval, move it to full eval after --- separator.");
+						reportError(getCoords(i), "A procedure call is forbidden in a simple eval, move it to a full eval after the --- separator.");
 					}
 					if(env.isKnownProcedure(pack, i, params))
 					{
@@ -3758,10 +3756,10 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 					if(!attributeMethodCall) 
 					{
 						if(isSimple && dc!=null) {
-							reportError(getCoords(dc), "Method call on global variable is forbidden in simple eval, move it to full eval after --- separator.");
+							reportError(getCoords(dc), "A method call on a global variable is forbidden in a simple eval, move it to a full eval after the --- separator.");
 						}
 						if(isSimple && yielded) {
-							reportError(getCoords(y), "Yield method call on a def entity is forbidden in simple eval, move it to full eval after --- separator.");
+							reportError(getCoords(y), "A yield method call on a def entity is forbidden in a simple eval, move it to a full eval after the --- separator.");
 						}
 						ProcedureMethodInvocationDecisionNode pmi = new ProcedureMethodInvocationDecisionNode(new IdentExprNode(variable, yielded), method_, params, context);
 						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), pmi, targets, context);
@@ -3777,14 +3775,14 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 					else
 					{
 						if(isSimple && dc!=null) {
-							reportError(getCoords(dc), "Method call on an attribute of a global variable is forbidden in simple eval, move it to full eval after --- separator.");
+							reportError(getCoords(dc), "A method call on an attribute of a global variable is forbidden in a simple eval, move it to a full eval after the --- separator.");
 						}
 						if(isSimple && yielded) {
-							reportError(getCoords(y), "Yield method call on an attribute of a def entity is forbidden in simple eval, move it to full eval after --- separator.");
+							reportError(getCoords(y), "A yield method call on an attribute of a def entity is forbidden in a simple eval, move it to a full eval after the --- separator.");
 						}
 						ProcedureMethodInvocationDecisionNode pmi = new ProcedureMethodInvocationDecisionNode(new QualIdentNode(getCoords(d), variable, member), method_, params, context);
 						if(onLHS) {
-							reportError(getCoords(d), "Method call on an attribute is forbidden in yield, only yield method call to a def variable allowed.");
+							reportError(getCoords(d), "A method call on an attribute is forbidden in a yield, only a yield method call to a def variable is allowed.");
 						}
 						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), pmi, targets, context);
 						for(ProjectionExprNode proj : targetProjs.getChildren()) {
@@ -3803,9 +3801,9 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 		{
 			res = new ExecStatementNode(exec, context);
 			if(onLHS)
-				reportError(exec.getCoords(), "exec statement is forbidden in yield.");
+				reportError(exec.getCoords(), "An exec statement is forbidden in a yield.");
 			if(isSimple)
-				reportError(exec.getCoords(), "exec statement is forbidden in simple eval, move it to full eval after --- separator.");
+				reportError(exec.getCoords(), "An exec statement is forbidden in a simple eval, move it to a full eval after the --- separator.");
 		}
 	;
 
@@ -3969,8 +3967,8 @@ forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, boolean i
 			{ env.isKnownForFunction(input.LT(1).getText()) }?
 			function=externalFunctionInvocationExpr[namer, context, false] RPAREN
 			{
-				if(!(function instanceof FunctionInvocationDecisionNode))
-					reportError(function.getCoords(), "unknown function or wrong parameters in for loop over graph access function");
+				if(!(function instanceof FunctionInvocationDecisionNode)) // TODO: print function name
+					reportError(function.getCoords(), "Unknown function (or wrong number of arguments) in for loop iterating over a graph access function.");
 			}
 		LBRACE
 			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
@@ -4026,9 +4024,9 @@ forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, boolean i
 			else if(i.getText().equals("descending"))
 				ascending = false;
 			else
-				reportError(getCoords(i), "ordered index access loop must start with ascending or descending");
+				reportError(getCoords(i), "An ordered index access loop must start with ascending or descending (given is " + i.getText() + ").");
 			if(idx2!=null && !idx.toString().equals(idx2.toString()))
-				reportError(idx2.getCoords(), "the same index must be used in an ordered index access loop with two constraints");
+				reportError(idx2.getCoords(), "The same index must be used in an ordered index access loop with two constraints (given are " + idx + " and " + idx2 + ").");
 			res = new ForIndexAccessOrderingYieldNode(f, iterVar, context, ascending, idx, os, e, os2, e2, directlyNestingLHSGraph, cs);
 		}
 	;
@@ -4207,8 +4205,8 @@ primaryExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] retur
 	| e=externalFunctionInvocationExpr[namer, context, inEnumInit] { res = e; }
 	| e=scanFunctionInvocationExpr[namer, context, inEnumInit] { res = e; }
 	| LPAREN e=expr[namer, context, inEnumInit] { res = e; } RPAREN
-	| p=PLUSPLUS { reportError(getCoords(p), "increment operator \"++\" not supported"); }
-	| q=MINUSMINUS { reportError(getCoords(q), "decrement operator \"--\" not supported"); }
+	| p=PLUSPLUS { reportError(getCoords(p), "An increment operator \"++\" is not supported."); }
+	| q=MINUSMINUS { reportError(getCoords(q), "A decrement operator \"--\" is not supported."); }
 	| i=IDENT
 		{
 			if(i.getText().equals("this") && !env.test(ParserEnvironment.ENTITIES, "this"))
@@ -4475,7 +4473,7 @@ selectorExpr [ AnonymousScopeNamer namer, int context, ExprNode target, boolean 
 							$initExp.va, $initExp.expr,
 							$lambdaExprVar.va, $lambdaExprVar.vp, $lambdaExprVar.vi, $lambdaExprVar.vd, e);
 					} else
-						reportError(id.getCoords(), "Unknown lambda expression method "+ $initExp.filterText + "! Available are: map, removeIf, mapStartWithAccumulateBy.");
+						reportError(id.getCoords(), "Unknown lambda expression method "+ $initExp.filterText + ". Available are: map, removeIf, mapStartWithAccumulateBy.");
 				} else
 					res = new ArrayMapNode(getCoords(d), target, ti, $lambdaExprVar.va, $lambdaExprVar.vi, $lambdaExprVar.vd, e);
 			}

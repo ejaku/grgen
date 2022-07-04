@@ -98,18 +98,20 @@ public class ExternalProcedureMethodInvocationNode extends ProcedureInvocationBa
 
 				externalProcedureDecl = resolver.resolve(externalProcedureUnresolved, this);
 				if(externalProcedureDecl == null) {
-					externalProcedureUnresolved.reportError(
-							"Unknown external procedure method called -- misspelled procedure name? Or function call intended (not possible when assignment target is given as (param,...)=call denoting a procedure call)?");
+					externalProcedureUnresolved.reportError("Unknown external procedure method called."
+							+ " (Maybe a misspelled procedure name? Or is a function call intended?"
+							+ " An assignment target within parenthesis denotes a procedure call, as in "
+							+ "(var) = " + (targetVar != null ? targetVar : targetQual) + "." + externalProcedureUnresolved + "(...)).");
 					return false;
 				}
 
 				successfullyResolved = externalProcedureDecl != null && successfullyResolved;
 			} else {
-				reportError("Left hand side of '.' does not own a scope");
+				reportError("Left hand side of '.' does not own a scope (type " + ownerType + ").");
 				successfullyResolved = false;
 			}
 		} else {
-			reportError("Left hand side of '.' is not an external type");
+			reportError("Left hand side of '.' is not an external type (type " + ownerType + ").");
 			successfullyResolved = false;
 		}
 
@@ -120,7 +122,7 @@ public class ExternalProcedureMethodInvocationNode extends ProcedureInvocationBa
 	protected boolean checkLocal()
 	{
 		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION) {
-			reportError("external procedure method call not allowed in function or lhs context");
+			reportError("External procedure method call not allowed in function or pattern part context (attempted on " + externalProcedureUnresolved + ").");
 			return false;
 		}
 		return checkSignatureAdhered(externalProcedureDecl, externalProcedureUnresolved, true);

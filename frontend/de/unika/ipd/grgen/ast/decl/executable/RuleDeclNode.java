@@ -162,23 +162,24 @@ public class RuleDeclNode extends ActionDeclNode
 	{
 		if(deletedElements.contains(retElem)) {
 			retElem.reportError("The deleted " + retElem.getKind()
-					+ " \"" + retElem.ident + "\" must not be returned");
+					+ " " + retElem.ident + " is not allowed to be returned.");
 			return false;
 		} else if(maybeDeletedElements.contains(retElem)) {
 			retElem.maybeDeleted = true;
 
 			if(!retElem.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
-				String errorMessage = "Returning \"" + retElem.ident + "\" that may be deleted"
+				String errorMessage = "Returning " + retElem.ident + " that may be deleted"
 						+ ", possibly it's homomorphic with a deleted " + retElem.getKind();
 				errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
 
 				if(retElem instanceof EdgeDeclNode) {
-					errorMessage += " or \"" + retElem.ident + "\" is a dangling " + retElem.getKind()
+					errorMessage += " or " + retElem.ident + " is a dangling " + retElem.getKind()
 							+ " and a deleted node exists";
 				}
+				errorMessage += ".";
 				retElem.reportError(errorMessage);
 				return false;
-			}
+ 			}
 		}
 
 		return true;
@@ -208,7 +209,7 @@ public class RuleDeclNode extends ActionDeclNode
 				valid = false;
 
 				expr.reportError("The retyped " + retElem.getKind()
-						+ " \"" + retElem.ident + "\" must not be returned");
+						+ " " + retElem.ident + " is not allowed to be returned.");
 			}
 		}
 
@@ -256,8 +257,9 @@ public class RuleDeclNode extends ActionDeclNode
 				ConstraintDeclNode retypedElem = elem.getRetypedElement();
 
 				if(retypedElem != null) {
-					retypedElem.reportError("The " + elem.getKind() + " "
-							+ elem + " must not retyped to different types");
+					retypedElem.reportError("The " + elem.getKind() + " " + elem 
+							+ " is retyped (to " + retypedElem.getDeclType().getTypeName() + "),"
+							+ " but an element it may be homomorphic to is also retyped (to a different type).");
 				}
 			}
 		}
@@ -283,8 +285,8 @@ public class RuleDeclNode extends ActionDeclNode
 			if(retElem.getRetypedElement() != null) {
 				valid = false;
 
-				retElem.reportError("The retyped " + retElem.getKind()
-						+ " \"" + retElem.ident + "\" must not be deleted");
+				retElem.reportError("The retyped " + retElem.getKind() + " " + retElem.ident
+						+ " is not allowed to be deleted.");
 			}
 		}
 
@@ -342,15 +344,15 @@ public class RuleDeclNode extends ActionDeclNode
 			Set<ConstraintDeclNode> delete, Set<ConstraintDeclNode> maybeDeleted)
 	{
 		if(delete.contains(declNode)) {
-			expr.reportError("The deleted " + declNode.getKind() + " \"" + declNode.ident
-					+ "\" must not be used in an emit(/emitdebug) statement (you may use an emithere(/emitheredebug) instead)");
+			expr.reportError("The deleted " + declNode.getKind() + " " + declNode.ident
+					+ " is not allowed to be referenced in an emit(/emitdebug) statement (you may use an emithere(/emitheredebug) instead).");
 			return false;
 		}
 		if(maybeDeleted.contains(declNode)) {
 			declNode.maybeDeleted = true;
 
 			if(!declNode.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
-				String errorMessage = "Element \"" + declNode.ident + "\" used in emit statement may be deleted"
+				String errorMessage = "The element " + declNode.ident + " used in an emit statement may be deleted"
 						+ ", possibly it's homomorphic with a deleted " + declNode.getKind();
 				errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
 
@@ -359,7 +361,7 @@ public class RuleDeclNode extends ActionDeclNode
 							+ " and a deleted node exists";
 				}
 
-				errorMessage += " (you may use an emithere instead)";
+				errorMessage += " (you may use an emithere instead).";
 
 				expr.reportError(errorMessage);
 
@@ -413,15 +415,15 @@ public class RuleDeclNode extends ActionDeclNode
 		// named replace/modify parts are only allowed in subpatterns
 		String ruleName = ident.toString();
 		if(!right.nameOfGraph.equals(ruleName))
-			this.right.reportError("Named replace/modify parts in rules are not allowed");
+			this.right.reportError("Named rewrite parts (replace/modify) in rules are not allowed.");
 
 		// check if parameters only exists for subpatterns
 		if(right.params.getChildren().size() > 0)
-			this.right.reportError("Parameters for the replace/modify part are only allowed in subpatterns");
+			this.right.reportError("Parameters for the rewrite part (replace/modify) are only allowed in subpatterns.");
 
 		boolean noReturnInPatternOk = true;
 		if(pattern.returns.size() > 0) {
-			reportError("No return statements in pattern parts of rules allowed");
+			reportError("In pattern parts of rules are no return statements allowed.");
 			noReturnInPatternOk = false;
 		}
 

@@ -125,8 +125,8 @@ public class ForIndexAccessOrderingYieldNode extends ForIndexAccessNode
 			if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
 				String expTypeName = expectedIndexAccessType.getTypeName();
 				String typeName = indexAccessType.getTypeName();
-				reportError("Cannot convert type used in accessing index from \"" + typeName + "\" to \"" + expTypeName
-						+ "\" in index access loop");
+				reportError("Cannot convert type used in accessing index from " + typeName + " to " + expTypeName
+						+ " in index access loop (on " + indexUnresolved + ").");
 				return false;
 			}
 			if(expr2 != null) {
@@ -134,8 +134,8 @@ public class ForIndexAccessOrderingYieldNode extends ForIndexAccessNode
 				if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
 					String expTypeName = expectedIndexAccessType.getTypeName();
 					String typeName = indexAccessType2.getTypeName();
-					reportError("Cannot convert type used in accessing index from \"" + typeName + "\" to \""
-							+ expTypeName + "\" in index access loop");
+					reportError("Cannot convert type used in accessing index from " + typeName + " to "
+							+ expTypeName + " in index access loop (on " + indexUnresolved + ").");
 					return false;
 				}
 			}
@@ -145,19 +145,19 @@ public class ForIndexAccessOrderingYieldNode extends ForIndexAccessNode
 		if(!entityType.isCompatibleTo(expectedEntityType) && !expectedEntityType.isCompatibleTo(entityType)) {
 			String expTypeName = expectedEntityType.getTypeName();
 			String typeName = entityType.getTypeName();
-			reportError("Cannot convert index type from \"" + typeName + "\" to type \"" + expTypeName
-					+ "\" in index access loop");
+			reportError("Cannot convert index type from " + typeName + " to " + expTypeName
+					+ " in index access loop (on " + indexUnresolved + ").");
 			return false;
 		}
 		if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE) {
 			if(expr2 != null && (comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)) {
-				reportError("Index access loop does not support two lower bounds");
+				reportError("The index access loop does not support two lower bounds (given when accessing " + indexUnresolved + ").");
 				return false;
 			}
 		}
 		if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE) {
 			if(expr2 != null && (comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)) {
-				reportError("Index access loop does not support two upper bounds");
+				reportError("The index access loop does not support two upper bounds (given when accessing " + indexUnresolved + ").");
 				return false;
 			}
 		}

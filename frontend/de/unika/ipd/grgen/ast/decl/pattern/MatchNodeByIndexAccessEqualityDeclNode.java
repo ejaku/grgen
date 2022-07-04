@@ -86,8 +86,9 @@ public class MatchNodeByIndexAccessEqualityDeclNode extends MatchNodeByIndexDecl
 		if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
 			String expTypeName = expectedIndexAccessType.getTypeName();
 			String typeName = indexAccessType.getTypeName();
-			ident.reportError("Cannot convert type used in accessing index from \"" + typeName
-					+ "\" to \"" + expTypeName + "\" in match node by index access");
+			ident.reportError("Cannot convert type used in accessing index from " + typeName
+					+ " to expected " + expTypeName
+					+ " (in match node " + getIdentNode() + " by index access of " + index.getIdentNode() + ").");
 			return false;
 		}
 		TypeNode expectedEntityType = getDeclType();
@@ -95,8 +96,9 @@ public class MatchNodeByIndexAccessEqualityDeclNode extends MatchNodeByIndexDecl
 		if(!entityType.isCompatibleTo(expectedEntityType) && !expectedEntityType.isCompatibleTo(entityType)) {
 			String expTypeName = expectedEntityType.getTypeName();
 			String typeName = entityType.getTypeName();
-			ident.reportError("Cannot convert index type from \"" + typeName
-					+ "\" to pattern element type \"" + expTypeName + "\" in match node by index access");
+			ident.reportError("Cannot convert index type from " + typeName
+					+ " to pattern element type " + expTypeName
+					+ " (in match node " + getIdentNode() + " by index access of " + index.getIdentNode() + ").");
 			return false;
 		}
 		return res;

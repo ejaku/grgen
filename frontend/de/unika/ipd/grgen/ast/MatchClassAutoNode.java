@@ -17,9 +17,6 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.function.Supplier;
 
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.PackageIdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.AlternativeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.DummyNodeDeclNode;
@@ -118,7 +115,7 @@ public class MatchClassAutoNode extends BaseNode
 	protected boolean checkLocal()
 	{
 		if(matchTypes.getChildren().size() != 2) {
-			reportError("auto(match<T> | match<S>) is only supported on two types");
+			reportError("The auto(match<T> | match<S>) construct is only supported on two types (given are " + matchTypes.getChildren().size() + ").");
 			return false;
 		}
 		
@@ -270,7 +267,7 @@ public class MatchClassAutoNode extends BaseNode
 		if(!decl.getDeclType().isEqual(type)) {
 			reportError("Ambiguous resulting type: the entity " + entity
 					+ " is declared with type " + type
-					+ " and with type + " + decl.getDeclType());
+					+ " and with type + " + decl.getDeclType() + ".");
 			return false;
 		}
 		return true;

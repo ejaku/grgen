@@ -65,7 +65,8 @@ public class SynchronizationExitProcNode extends BuiltinProcedureInvocationBaseN
 	protected boolean checkLocal()
 	{
 		if(!criticalSectionObjectExpr.getType().isLockableType()) {
-			criticalSectionObjectExpr.reportError("Argument (critical section object) to synchronization exit statement must be not a basic type (with exception of type object).");
+			criticalSectionObjectExpr.reportError("The Synchronization::exit procedure expects as argument (criticalSectionObject) a value that is not of basic type (with exception of type object)"
+					+ " (but is given a value of type " + criticalSectionObjectExpr.getType() + ").");
 			return false;
 		}
 		return true;

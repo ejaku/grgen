@@ -37,13 +37,13 @@ public class IteratedAccumulationYieldNode extends NestingStatementNode
 		setName(IteratedAccumulationYieldNode.class, "IteratedAccumulationYield");
 	}
 
-	BaseNode iterationVariableUnresolved;
+	VarDeclNode iterationVariableUnresolved;
 	IdentNode iteratedUnresolved;
 
 	VarDeclNode iterationVariable;
 	IteratedDeclNode iterated;
 
-	public IteratedAccumulationYieldNode(Coords coords, BaseNode iterationVariable, IdentNode iterated,
+	public IteratedAccumulationYieldNode(Coords coords, VarDeclNode iterationVariable, IdentNode iterated,
 			CollectNode<EvalStatementNode> accumulationStatements)
 	{
 		super(coords, accumulationStatements);
@@ -92,13 +92,13 @@ public class IteratedAccumulationYieldNode extends NestingStatementNode
 			iterationVariable = (VarDeclNode)iterationVariableUnresolved;
 		//} else if(accumulationVariableUnresolved instanceof ConstraintDeclNode) {
 		//	accumulationGraphElement = (ConstraintDeclNode)accumulationVariableUnresolved;
-		} else {
-			reportError("error in resolving iteration variable of iterated accumulation yield.");
+		} else { // defining occurrence, no resolving should be necessary
+			reportError("Error in resolving the iteration variable of the for iterated accumulation loop.");
 			successfullyResolved = false;
 		}
 
 		if((iterationVariable.context & BaseNode.CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-			reportError("An iterated accumulation loop can only be used within a yield block in the pattern.");
+			reportError("A for iterated accumulation loop can only be used within a yield block in the pattern.");
 			successfullyResolved = false;
 		}
 
@@ -123,7 +123,7 @@ public class IteratedAccumulationYieldNode extends NestingStatementNode
 		}
 
 		if(!iterationVariableFound) {
-			reportError("can't find iteration variable in iterated");
+			reportError("Cannot find the iteration variable " + iterationVariable + " in the iterated.");
 			successfullyResolved = false;
 		}
 

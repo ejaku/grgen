@@ -18,6 +18,7 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
+import de.unika.ipd.grgen.ast.pattern.NameOrAttributeInitializationNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.util.Checker;
@@ -130,21 +131,25 @@ public class NodeTypeChangeDeclNode extends NodeDeclNode
 			return false;
 
 		if(nameOrAttributeInits.size() > 0) {
-			reportError("A name or attribute initialization is not allowed for a retyped node");
+			NameOrAttributeInitializationNode nameOrAttributeInit = nameOrAttributeInits.get(0);
+			if(nameOrAttributeInit.attributeUnresolved != null)
+				reportError("An attribute initialization is not allowed for a retyped node (occurs for " + nameOrAttributeInit.attributeUnresolved + ").");
+			else
+				reportError("A name initialization ($=) is not allowed for a retyped node.");
 			return false;
 		}
 
 		// check if source node of retype is declared in replace/modify part - no retype of just created node
 		if((old.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS
 			&& !old.defEntityToBeYieldedTo) {
-			reportError("Source node of retype may not be declared in replace/modify part");
+			reportError("The source node of the retyping may not be declared in the rewrite part (replace/modify).");
 			res = false;
 		}
 
 		for(NodeDeclNode mergee : mergees.getChildren()) {
 			if((mergee.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS
 				&& !mergee.defEntityToBeYieldedTo) {
-				reportError("Node of (retype) merge may not be declared in replace/modify part");
+				reportError("A node of a (retyping) merge may not be declared in the rewrite part (replace/modify).");
 				res = false;
 			}
 		}

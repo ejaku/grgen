@@ -67,7 +67,8 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 				copyKind, context, constraints, directlyNestingLhsGraph, maybeNull, defEntityToBeYieldedTo);
 		clone.resolve();
 		if(typeEdgeDecl != null)
-			reportError("A typeof edge cannot be used in an auto statement.");
+			reportError("A typeof edge cannot be used in an auto statement"
+					+ " (as is the case for " + getIdentNode() + ").");
 		return clone;
 	}
 
@@ -145,7 +146,8 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 			EdgeDeclNode cur = typeEdgeDecl.typeEdgeDecl;
 			while(cur != null) {
 				if(visited.contains(cur)) {
-					reportError("Circular typeof/copy not allowed");
+					reportError("Circular typeof/copy not allowed"
+							+ " (as is the case for " + getIdentNode() + ").");
 					return false;
 				}
 				visited.add(cur);
@@ -159,8 +161,8 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 		if(!typeDecl.resolve())
 			return false;
 		if(!(typeDecl.getDeclType() instanceof EdgeTypeNode)) {
-			typeUnresolved.reportError("Type of edge \"" + getIdentNode() + "\" must be a edge type"
-					+ " (not " + typeDecl.getDeclType().getTypeName() + ")");
+			typeUnresolved.reportError("Type of edge " + getIdentNode() + " must be an edge type"
+					+ " (given is " + typeDecl.getDeclType().getTypeName() + ").");
 			return false;
 		}
 
@@ -181,7 +183,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 		while(inheritsType() && (typeEdgeDecl.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			if(firstTime) {
 				firstTime = false;
-				reportWarning("type of edge " + typeEdgeDecl.ident + " is statically known");
+				reportWarning("Type of edge " + typeEdgeDecl.ident + " is statically known (thus typeof pointless).");
 			}
 			typeTypeDecl = typeEdgeDecl.typeTypeDecl;
 			typeEdgeDecl = typeEdgeDecl.typeEdgeDecl;
@@ -249,6 +251,11 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 				directlyNestingLHSGraph!=null ? directlyNestingLHSGraph.getPatternGraph() : null,
 				isMaybeDeleted(), isMaybeRetyped(), defEntityToBeYieldedTo, context);
 		edge.setConstraints(getConstraints());
+
+		if(edge.getConstraints().contains(edge.getType())) {
+			error.error(getCoords(), "The own edge type may not be contained in the type constraint list"
+					+ " (but " + edge.getType() + " is contained for " + getIdentNode() + ").");
+		}
 
 		if(inheritsType()) {
 			edge.setTypeofCopy(typeEdgeDecl.checkIR(Edge.class), copyKind);

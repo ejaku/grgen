@@ -66,7 +66,8 @@ public class DeleteFileProcNode extends BuiltinProcedureInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!(pathExpr.getType().equals(BasicTypeNode.stringType))) {
-			reportError("argument of deleteFile(.) must be of string type (the file path)");
+			reportError("The deleteFile procedure expects as argument (file path) a value of type string"
+					+ " (but is given a value of type " + pathExpr.getType() + ").");
 			return false;
 		}
 		return true;

@@ -100,51 +100,56 @@ public class TypeDeclNode extends DeclNode
 
 		EdgeTypeNode edgeType = (EdgeTypeNode)type;
 
-		boolean extendEdge = extendsEdge(edgeType);
-		boolean extendUEdge = extendsUEdge(edgeType);
+		InheritanceTypeNode extendEdge = extendsEdge(edgeType);
+		InheritanceTypeNode extendUEdge = extendsUEdge(edgeType);
 
-		if(extendEdge && extendUEdge) {
-			reportError("An edge class cannot extend a directed and an undirected edge class");
+		if(extendEdge!=null && extendUEdge!=null) {
+			reportError("An edge class cannot extend a directed and an undirected edge class "
+					+ "(occurs for " + getIdentNode() + " with " + extendEdge.getIdentNode() + " and " + extendUEdge.getIdentNode() + ")");
 			return false;
 		}
-		if((type instanceof ArbitraryEdgeTypeNode) && extendEdge) {
-			reportError("An arbitrary edge class cannot extend a directed edge class");
+		if((type instanceof ArbitraryEdgeTypeNode) && extendEdge!=null) {
+			reportError("An arbitrary edge class cannot extend a directed edge class "
+					+ "(occurs for " + getIdentNode() + " with " + extendEdge.getIdentNode() + ")");
 			return false;
 		}
-		if(type instanceof ArbitraryEdgeTypeNode && extendUEdge) {
-			reportError("An arbitrary edge class cannot extend an undirected edge class");
+		if(type instanceof ArbitraryEdgeTypeNode && extendUEdge!=null) {
+			reportError("An arbitrary edge class cannot extend an undirected edge class "
+					+ "(occurs for " + getIdentNode() + " with " + extendUEdge.getIdentNode() + ")");
 			return false;
 		}
-		if((type instanceof UndirectedEdgeTypeNode) && extendEdge) {
-			reportError("An undirected edge class cannot extend a directed edge class");
+		if((type instanceof UndirectedEdgeTypeNode) && extendEdge!=null) {
+			reportError("An undirected edge class cannot extend a directed edge class "
+					+ "(occurs for " + getIdentNode() + " with " + extendEdge.getIdentNode() + ")");
 			return false;
 		}
-		if(type instanceof DirectedEdgeTypeNode && extendUEdge) {
-			reportError("A directed edge class cannot extend an undirected edge class");
+		if(type instanceof DirectedEdgeTypeNode && extendUEdge!=null) {
+			reportError("A directed edge class cannot extend an undirected edge class "
+					+ "(occurs for " + getIdentNode() + " with " + extendUEdge.getIdentNode() + ")");
 			return false;
 		}
 
 		return true;
 	}
 
-	private static boolean extendsEdge(EdgeTypeNode edgeType)
+	private static InheritanceTypeNode extendsEdge(EdgeTypeNode edgeType)
 	{
 		for(InheritanceTypeNode inh : edgeType.getDirectSuperTypes()) {
 			if(inh instanceof DirectedEdgeTypeNode) {
-				return true;
+				return inh;
 			}
 		}
-		return false;
+		return null;
 	}
 	
-	private static boolean extendsUEdge(EdgeTypeNode edgeType)
+	private static InheritanceTypeNode extendsUEdge(EdgeTypeNode edgeType)
 	{
 		for(InheritanceTypeNode inh : edgeType.getDirectSuperTypes()) {
 			if(inh instanceof UndirectedEdgeTypeNode) {
-				return true;
+				return inh;
 			}
 		}
-		return false;
+		return null;
 	}
 	
 	/**

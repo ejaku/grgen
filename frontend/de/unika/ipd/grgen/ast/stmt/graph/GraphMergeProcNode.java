@@ -77,16 +77,19 @@ public class GraphMergeProcNode extends BuiltinProcedureInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!(targetExpr.getType() instanceof NodeTypeNode)) {
-			reportError("first(target) argument of merge(.,.,.) must be of node type");
+			reportError("The merge procedure expects as 1. argument (target) a value of type Node"
+					+ " (but is given a value of type " + targetExpr.getType() + ").");
 			return false;
 		}
 		if(!(sourceExpr.getType() instanceof NodeTypeNode)) {
-			reportError("second(source) argument of merge(.,.,.) must be of node type");
+			reportError("The merge procedure expects as 2. argument (source) a value of type Node"
+					+ " (but is given a value of type " + sourceExpr.getType() + ").");
 			return false;
 		}
 		if(sourceNameExpr != null
 				&& !(sourceNameExpr.getType().equals(BasicTypeNode.stringType))) {
-			reportError("third(source name) argument of merge(.,.,.) must be of string type");
+			reportError("The merge procedure expects as 3. argument (sourceName) a value of type string"
+					+ " (but is given a value of type " + sourceNameExpr.getType() + ").");
 			return false;
 		}
 		return true;

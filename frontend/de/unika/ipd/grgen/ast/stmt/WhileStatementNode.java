@@ -68,7 +68,7 @@ public class WhileStatementNode extends NestingStatementNode
 	protected boolean checkLocal()
 	{
 		if(!conditionExpr.getType().isEqual(BasicTypeNode.booleanType)) {
-			conditionExpr.reportError("while condition must be of type boolean");
+			conditionExpr.reportError("The condition of the while loop must be of type boolean (but is of type " + conditionExpr.getType() + ").");
 			return false;
 		}
 		return true;

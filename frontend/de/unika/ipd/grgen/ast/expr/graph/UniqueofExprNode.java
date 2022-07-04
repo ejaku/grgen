@@ -81,7 +81,8 @@ public class UniqueofExprNode extends BuiltinFunctionInvocationBaseNode
 				return true;
 			}
 
-			reportError("uniqueof(.) expects an entity of node or edge or subgraph or internal class object type");
+			reportError("The function uniqueof expects as argument (entityToFetchUniqueIdOf) a value of type node or edge or graph or internal class object"
+					+ " (but is given a value of type " + entity.getType() + ").");
 			return false;
 		}
 		return true;

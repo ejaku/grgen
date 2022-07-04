@@ -59,7 +59,8 @@ public class StringLengthNode extends BuiltinFunctionInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
-			stringExpr.reportError("This argument to string length expression must be of type string");
+			stringExpr.reportError("The string function method length can only be employed on an object of type string"
+					+ " (but is employed on an object of type " + stringExpr.getType() + ").");
 			return false;
 		}
 		return true;

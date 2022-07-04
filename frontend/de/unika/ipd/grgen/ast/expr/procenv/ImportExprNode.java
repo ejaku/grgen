@@ -69,7 +69,8 @@ public class ImportExprNode extends BuiltinFunctionInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!(pathExpr.getType() instanceof StringTypeNode)) {
-			pathExpr.reportError("string (with file path) expected as argument to import");
+			reportError("The function import() expects as argument (filePath) a value of type string"
+					+ " (but is given a value of type " + pathExpr.getType() + ").");
 			return false;
 		}
 		return true;

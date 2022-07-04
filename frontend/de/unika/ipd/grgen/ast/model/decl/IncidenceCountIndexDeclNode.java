@@ -98,7 +98,7 @@ public class IncidenceCountIndexDeclNode extends IndexDeclNode
 	protected boolean resolveLocal()
 	{
 		if(startNodeTypeUnresolved == null) {
-			reportError(functionName + "() takes 1-3 parameters.");
+			reportError(functionName + "() expects 1-3 parameters (but already the start node type is missing).");
 			return false;
 		}
 
@@ -129,7 +129,7 @@ public class IncidenceCountIndexDeclNode extends IndexDeclNode
 		direction = FunctionInvocationDecisionNode.getDirection(functionName);
 		if(direction == Direction.INVALID) {
 			reportError(functionName
-					+ "() is not valid, use countIncoming|countOutgoing|countIncident for defining an incidence count index.");
+					+ "() is not a valid incidence count index declaration, expected is one of the count incidence function names countIncoming|countOutgoing|countIncident.");
 			return false;
 		}
 
@@ -141,15 +141,21 @@ public class IncidenceCountIndexDeclNode extends IndexDeclNode
 	protected boolean checkLocal()
 	{
 		if(!(startNodeType instanceof NodeTypeNode)) {
-			reportError("first argument of " + functionName + "(.,.,.) must be a node type");
+			reportError("The count incidence function specification " + functionName + "()"
+					+ " in the incidende count index " + ident + " declaration"
+					+ " expects as 1. type (start node type) a node type, but is given type " + startNodeType + ".");
 			return false;
 		}
 		if(!(incidentEdgeType instanceof EdgeTypeNode)) {
-			reportError("second argument of " + functionName + "(.,.,.) must be an edge type");
+			reportError("The count incidence function specification " + functionName + "()"
+					+ " in the incidende count index " + ident + " declaration"
+					+ " expects as 2. type (incident edge type) an edge type, but is given type " + incidentEdgeType + ".");
 			return false;
 		}
 		if(!(adjacentNodeType instanceof NodeTypeNode)) {
-			reportError("third argument of " + functionName + "(.,.,.) must be a node type");
+			reportError("The count incidence function specification " + functionName + "()"
+					+ " in the incidende count index " + ident + " declaration"
+					+ " expects as 3. type (adjacent node type) a node type, but is given type " + adjacentNodeType + ".");
 			return false;
 		}
 		return true;

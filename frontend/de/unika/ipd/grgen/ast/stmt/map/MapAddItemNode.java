@@ -83,8 +83,8 @@ public class MapAddItemNode extends MapProcedureMethodInvocationBaseNode
 			if(!keyType.isEqual(targetKeyType)) {
 				keyExpr = becomeParent(keyExpr.adjustType(targetKeyType, getCoords()));
 				if(keyExpr == ConstNode.getInvalid()) {
-					keyExpr.reportError("Argument (key) to map add item statement must be of type "
-							+ targetKeyType.toString());
+					keyExpr.reportError("The map add item procedure expects as 1. argument (key) a value of type " + targetKeyType
+							+ " (but is given a value of type " + keyType + ").");
 					return false;
 				}
 			}
@@ -93,16 +93,16 @@ public class MapAddItemNode extends MapProcedureMethodInvocationBaseNode
 			if(!valueType.isEqual(targetValueType)) {
 				valueExpr = becomeParent(valueExpr.adjustType(targetValueType, getCoords()));
 				if(valueExpr == ConstNode.getInvalid()) {
-					valueExpr.reportError("Argument (value) to map add item statement must be of type "
-							+ targetValueType.toString());
+					valueExpr.reportError("The map add item procedure expects as 2. argument (value) a value of type " + targetValueType
+							+ " (but is given a value of type " + valueType + ").");
 					return false;
 				}
 			}
 		} else {
 			TypeNode targetKeyType = targetType.keyType;
 			TypeNode targetValueType = targetType.valueType;
-			return checkType(keyExpr, targetKeyType, "map add item statement", "key")
-					&& checkType(valueExpr, targetValueType, "map add item statement", "value");
+			return checkType(keyExpr, targetKeyType, "map add item procedure", "key")
+					&& checkType(valueExpr, targetValueType, "map add item procedure", "value");
 		}
 		return true;
 	}

@@ -78,15 +78,16 @@ public class MapCopyConstructorNode extends ExprNode
 		boolean success = true;
 
 		if(lhsUnresolved != null) {
-			reportError("Map copy constructor not allowed in map initialization in model");
+			reportError("A map copy constructor is not allowed in a map initialization in the model.");
 			success = false;
 		} else {
 			if(mapToCopy.getType() instanceof MapTypeNode) {
 				MapTypeNode sourceMapType = (MapTypeNode)mapToCopy.getType();
-				success &= checkCopyConstructorTypes(mapType.keyType, sourceMapType.keyType, "Map", " (key type)");
-				success &= checkCopyConstructorTypes(mapType.valueType, sourceMapType.valueType, "Map", " (value type)");
+				success &= checkCopyConstructorTypes(mapType.keyType, sourceMapType.keyType, "map", true);
+				success &= checkCopyConstructorTypes(mapType.valueType, sourceMapType.valueType, "map", false);
 			} else {
-				reportError("Map copy constructor expects map type");
+				reportError("A map copy constructor expects a map type"
+						+ " (but is given " + mapToCopy.getType() + ").");
 				success = false;
 			}
 		}

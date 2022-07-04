@@ -185,16 +185,16 @@ public class DeclExprNode extends ExprNode
 		if(decl instanceof ConstraintDeclNode) {
 			ConstraintDeclNode entity = (ConstraintDeclNode)decl;
 			if(entity.defEntityToBeYieldedTo) {
-				declUnresolved.reportError("A def entity (" + entity
-						+ ") can't be accessed from a " + containingConstruct);
+				declUnresolved.reportError("A def entity (" + entity + ")"
+						+ " cannot be accessed from a " + containingConstruct + ".");
 				return false;
 			}
 		}
 		if(decl instanceof VarDeclNode) {
 			VarDeclNode entity = (VarDeclNode)decl;
 			if(entity.defEntityToBeYieldedTo && !entity.lambdaExpressionVariable) {
-				declUnresolved.reportError("A def variable (" + entity
-						+ ") can't be accessed from a " + containingConstruct);
+				declUnresolved.reportError("A def variable (" + entity + ")"
+						+ " cannot be accessed from a " + containingConstruct + ".");
 				return false;
 			}
 		}

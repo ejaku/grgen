@@ -85,7 +85,7 @@ public class ReturnStatementNode extends EvalStatementNode
 		if(!(root instanceof FunctionDeclNode)
 				&& !(root instanceof ProcedureDeclNode)
 				&& !(root instanceof FilterFunctionDeclNode)) {
-			reportError("return must be nested inside a function or procedure or filter (from where to return?)");
+			reportError("A return statement must be nested inside a function or procedure or filter (or where do you want to return from otherwise?).");
 			return false;
 		}
 		Vector<TypeNode> retTypes;
@@ -121,8 +121,8 @@ public class ReturnStatementNode extends EvalStatementNode
 				res = false;
 				String exprTypeName = retExprType.getTypeName();
 				String parameterTypeName = retDeclType.getTypeName();
-				reportError("Cannot convert " + (i + 1) + ". return parameter from \"" + exprTypeName
-						+ "\" to \"" + parameterTypeName + "\"");
+				reportError("Cannot convert the " + (i + 1) + ". return parameter from the type " + exprTypeName
+						+ " to the expected type " + parameterTypeName + ".");
 			}
 		}
 
@@ -130,7 +130,7 @@ public class ReturnStatementNode extends EvalStatementNode
 		if(actualNumRets != declaredNumRets) {
 			res = false;
 			returnValueExprs.reportError("Trying to return " + actualNumRets + " values, but expected are "
-					+ declaredNumRets + " values, for " + ident);
+					+ declaredNumRets + " values (in " + ident + ").");
 		}
 		return res;
 	}
