@@ -1,0 +1,15 @@
+using patt;
+
+pattern Foo()
+{	
+	.;
+	modify {
+	}
+}
+
+rule r {
+	modify {
+		foo1:Foo();
+		foo1();
+	}
+}

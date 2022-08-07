@@ -87,8 +87,9 @@ public class SubpatternReplNode extends OrderedReplacementNode
 		String patternName = subpattern.type.pattern.nameOfGraph;
 
 		if((subpattern.context & CONTEXT_LHS_OR_RHS) != CONTEXT_LHS) {
-			error.error("A subpattern rewrite application (" + subpatternUnresolved + ") can only be given for a subpattern entity declaration in the pattern part;"
-					+ " a subpattern entity declaration in the rewrite part gets instantiated and cannot be rewritten (remove the parenthesis if the latter is intended).");
+			subpatternUnresolved.reportError("A subpattern rewrite application (" + subpatternUnresolved + "())"
+					+ " can only be given for a subpattern entity declaration from the pattern part, but is given for a subpattern entity declaration from the rewrite part"
+					+ " (only a subpattern entity matched can be rewritten, not one just created).");
 			return false;
 		}
 
