@@ -593,7 +593,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 				}
 			}
 			if(dependencyLevel >= MAX_CHAINING_FOR_STORAGE_MAP_ACCESS) {
-				error.error("Cycle in match node/edge by storage map access or storage attribute detected.");
+				error.error(getIdent().getCoords(), "Cycle in match node/edge by storage map access or storage attribute detected.");
 				break;
 			}
 		} while(somethingChanged);

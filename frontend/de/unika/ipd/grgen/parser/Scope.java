@@ -207,7 +207,7 @@ public class Scope
 				def = sym.define(this, coords);
 				defs.put(sym, def);
 			} catch(SymbolTableException e) {
-				reporter.error(e.getMessage());
+				reporter.error(coords, e.getMessage());
 			}
 		}
 
