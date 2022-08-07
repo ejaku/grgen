@@ -159,7 +159,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 			
 			DeclNode decl = (DeclNode)child;
 			if(decl.getDeclType() instanceof InternalTransientObjectTypeNode) {
-				error.error(decl.getCoords(), "Only transient object classes may contain attributes of transient object class types"
+				decl.reportError("Only transient object classes may contain attributes of transient object class types"
 						+ " (but the attribute " + decl.getIdentNode()
 						+ " is of transient object class type " + decl.getDeclType()
 						+ " in edge class " + getIdentNode() + ").");

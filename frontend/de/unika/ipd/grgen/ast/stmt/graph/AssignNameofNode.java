@@ -94,7 +94,7 @@ public class AssignNameofNode extends EvalStatementNode
 		}
 
 		if(rhs.getType() != BasicTypeNode.stringType) {
-			error.error(getCoords(), "The nameof() assignment expects as name to be assigned a value of type string"
+			reportError("The nameof() assignment expects as name to be assigned a value of type string"
 					+ " (but is given a value of type " + rhs.getType() + ").");
 			return false;
 		}

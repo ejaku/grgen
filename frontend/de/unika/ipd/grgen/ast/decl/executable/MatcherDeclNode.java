@@ -214,14 +214,14 @@ public abstract class MatcherDeclNode extends DeclNode
 
 		boolean noReturnInPattern = true;
 		if(pattern.returns.size() > 0) {
-			error.error(getCoords(), "No return statement in (pattern parts of) " + getConstructName() + " allowed.");
+			reportError("No return statement in (pattern parts of) " + getConstructName() + " allowed.");
 			noReturnInPattern = false;
 		}
 
 		boolean noReturnInNestedReplacement = true;
 		if(right != null) {
 			if(right.patternGraph.returns.size() > 0) {
-				error.error(getCoords(), "No return statement in " + getConstructName() + " allowed.");
+				reportError("No return statement in " + getConstructName() + " allowed.");
 				noReturnInNestedReplacement = false;
 			}
 		}
@@ -611,12 +611,12 @@ public abstract class MatcherDeclNode extends DeclNode
 		for(AlternativeDeclNode alt : pattern.alts.getChildren()) {
 			for(AlternativeCaseDeclNode altCase : alt.getChildren()) {
 				if(right == null && altCase.right != null) {
-					error.error(getCoords(), "No rewrite part (replace/modify) is specified in the " + actionKind
+					reportError("No rewrite part (replace/modify) is specified in the " + actionKind
 							+ " " + ident + " , but one is given in the nested alternative case " + altCase.ident + ".");
 					res = false;
 				}
 				if(right != null && altCase.right == null) {
-					error.error(getCoords(), "A rewrite part (replace/modify) is specified in the " + actionKind
+					reportError("A rewrite part (replace/modify) is specified in the " + actionKind
 							+ " " + ident + ", but none is given in the nested alternative case " + altCase.ident + ".");
 					res = false;
 				}
@@ -625,12 +625,12 @@ public abstract class MatcherDeclNode extends DeclNode
 
 		for(IteratedDeclNode iter : pattern.iters.getChildren()) {
 			if(right == null && iter.right != null) {
-				error.error(getCoords(), "No rewrite part (replace/modify) is specified in the " + actionKind
+				reportError("No rewrite part (replace/modify) is specified in the " + actionKind
 						+ " " + ident + " , but one is given in the nested iterated/multiple/optional " + iter.ident + ".");
 				res = false;
 			}
 			if(right != null && iter.right == null) {
-				error.error(getCoords(), "A rewrite part (replace/modify) is specified in the " + actionKind
+				reportError("A rewrite part (replace/modify) is specified in the " + actionKind
 						+ " " + ident + ", but none is given in the nested iterated/multiple/optional " + iter.ident + ".");
 				res = false;
 			}			
@@ -651,8 +651,7 @@ public abstract class MatcherDeclNode extends DeclNode
 				Vector<DeclNode> parametersInNestedAlternativeCase = altCase.right.patternGraph.getParamDecls();
 
 				if(parametersInNestedAlternativeCase.size() != 0) {
-					error.error(altCase.getCoords(),
-							"No rewrite parameters are allowed in nested alternative cases, but " + parametersInNestedAlternativeCase.size() 
+					altCase.reportError("No rewrite parameters are allowed in nested alternative cases, but " + parametersInNestedAlternativeCase.size() 
 							+ " are given in " + altCase.ident + ".");
 					res = false;
 				}
@@ -666,8 +665,7 @@ public abstract class MatcherDeclNode extends DeclNode
 			Vector<DeclNode> parametersInNestedIterated = iter.right.patternGraph.getParamDecls();
 
 			if(parametersInNestedIterated.size() != 0) {
-				error.error(iter.getCoords(),
-						"No rewrite parameters are allowed in nested iterated/multiple/optional parts, but " + parametersInNestedIterated.size()
+				iter.reportError("No rewrite parameters are allowed in nested iterated/multiple/optional parts, but " + parametersInNestedIterated.size()
 						+ " are given in " + iter.ident + ".");
 				res = false;
 			}

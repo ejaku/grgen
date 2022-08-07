@@ -165,7 +165,7 @@ public class AssignIndexedNode extends EvalStatementNode
 			TypeNode ty = owner.getDeclType();
 
 			if(lhsQual.getDecl().isConst()) {
-				error.error(getCoords(), "An indexed assignment to a const member is not allowed (but " + lhsQual.getDecl().getIdentNode() + " is contant).");
+				reportError("An indexed assignment to a const member is not allowed (but " + lhsQual.getDecl().getIdentNode() + " is contant).");
 				return false;
 			}
 
@@ -173,7 +173,7 @@ public class AssignIndexedNode extends EvalStatementNode
 				InheritanceTypeNode inhTy = (InheritanceTypeNode)ty;
 
 				if(inhTy.isConst()) {
-					error.error(getCoords(), "An indexed assignment to a const type object is not allowed (but " + inhTy + " is constant).");
+					reportError("An indexed assignment to a const type object is not allowed (but " + inhTy + " is constant).");
 					return false;
 				}
 			}
@@ -198,7 +198,7 @@ public class AssignIndexedNode extends EvalStatementNode
 			}
 
 			if(lhsVar.directlyNestingLHSGraph == null && onLHS) {
-				error.error(getCoords(), "An indexed assignment to a global variable (" + lhsVar.getIdentNode() + ") is not allowed from a yield block.");
+				reportError("An indexed assignment to a global variable (" + lhsVar.getIdentNode() + ") is not allowed from a yield block.");
 				return false;
 			}
 		}
@@ -290,10 +290,10 @@ public class AssignIndexedNode extends EvalStatementNode
 		if(lhsQual != null) {
 			Qualification qual = lhsQual.checkIR(Qualification.class);
 			if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).changesType(null)) {
-				error.error(getCoords(), "An assignment to a node whose type will be changed is not allowed.");
+				reportError("An assignment to a node whose type will be changed is not allowed.");
 			}
 			if(qual.getOwner() instanceof Edge && ((Edge)qual.getOwner()).changesType(null)) {
-				error.error(getCoords(), "An assignment to an edge whose type will be changed is not allowed.");
+				reportError("An assignment to an edge whose type will be changed is not allowed.");
 			}
 
 			ExprNode rhsEvaluated = rhs.evaluate();

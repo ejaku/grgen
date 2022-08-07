@@ -113,7 +113,7 @@ public abstract class ConstraintDeclNode extends DeclNode
 			}
 		}
 
-		error.error(getCoords(), "Cannot initialize " + getIdentNode() + " of type " + targetType + " with " + exprType + ".");
+		reportError("Cannot initialize " + getIdentNode() + " of type " + targetType + " with " + exprType + ".");
 		return false;
 	}
 

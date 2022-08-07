@@ -249,7 +249,7 @@ public class NodeDeclNode extends ConstraintDeclNode
 		node.setConstraints(getConstraints());
 
 		if(node.getConstraints().contains(node.getType())) {
-			error.error(getCoords(), "The own node type may not be contained in the type constraint list"
+			reportError("The own node type may not be contained in the type constraint list"
 					+ " (but " + node.getType() + " is contained for " + getIdentNode() + ").");
 		}
 

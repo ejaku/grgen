@@ -95,7 +95,7 @@ public class SubpatternReplNode extends OrderedReplacementNode
 
 		// check whether the used pattern contains one rhs
 		if(right == null) {
-			error.error(getCoords(), "No rewrite part specified in subpattern " + patternName + " (which is referenced by the subpattern rewrite application " + subpatternUnresolved + ").");
+			reportError("No rewrite part specified in subpattern " + patternName + " (which is referenced by the subpattern rewrite application " + subpatternUnresolved + ").");
 			return false;
 		}
 

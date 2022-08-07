@@ -140,12 +140,12 @@ public class ArrayMapNode extends ArrayFunctionMethodInvocationBaseExprNode
 		if(arrayAccessVar != null) {
 			TypeNode arrayAccessVarType = arrayAccessVar.getDeclType();
 			if(!(arrayAccessVarType instanceof ArrayTypeNode)) {
-				error.error(getCoords(), "The array access variable of the array map function method must be of array type"
+				reportError("The array access variable of the array map function method must be of array type"
 						+ " (but is " + arrayAccessVarType + ").");
 				return false;
 			}
 			if(!arrayAccessVarType.isEqual(targetExpr.getType())) {
-				error.error(getCoords(), "The array access variable of the array map function method must be of type " + targetExpr.getType()
+				reportError("The array access variable of the array map function method must be of type " + targetExpr.getType()
 						+ " (but is " + arrayAccessVarType + ").");
 				return false;
 			}
@@ -154,7 +154,7 @@ public class ArrayMapNode extends ArrayFunctionMethodInvocationBaseExprNode
 		if(indexVar != null) {
 			TypeNode indexVarType = indexVar.getDeclType();
 			if(!indexVarType.isEqual(BasicTypeNode.intType)) {
-				error.error(getCoords(), "The index variable of the array map function method must be of int type"
+				reportError("The index variable of the array map function method must be of int type"
 						+ " (but is " + indexVarType + ").");
 				return false;
 			}
@@ -170,14 +170,14 @@ public class ArrayMapNode extends ArrayFunctionMethodInvocationBaseExprNode
 				Collection<TypeNode> superTypes = new HashSet<TypeNode>();
 				exprType.doGetCompatibleToTypes(superTypes);
 				if(!superTypes.contains(resultType)) {
-					error.error(getCoords(), "Type mismatch in the array map function method between the lambda expression value of type " + exprType
+					reportError("Type mismatch in the array map function method between the lambda expression value of type " + exprType
 							+ " and the expected element type " + resultType + " of the resulting array.");
 					return false;
 				}
 			}
 			if(resultType instanceof NodeTypeNode && exprType instanceof EdgeTypeNode
 					|| resultType instanceof EdgeTypeNode && exprType instanceof NodeTypeNode) {
-				error.error(getCoords(), "Type mismatch in the array map function method between the lambda expression value of type " + exprType
+				reportError("Type mismatch in the array map function method between the lambda expression value of type " + exprType
 						+ " and the expected element type " + resultType + " of the resulting array.");
 				return false;
 			}
@@ -188,12 +188,12 @@ public class ArrayMapNode extends ArrayFunctionMethodInvocationBaseExprNode
 
 		if(targetType instanceof NodeTypeNode && elementVarType instanceof EdgeTypeNode
 				|| targetType instanceof EdgeTypeNode && elementVarType instanceof NodeTypeNode) {
-			error.error(getCoords(), "Cannot bind the element variable of type " + elementVarType
+			reportError("Cannot bind the element variable of type " + elementVarType
 					+ " to a value of type " + targetType + " in the array map function method.");
 			return false;
 		}
 		if(!targetType.isCompatibleTo(elementVarType)) {
-			error.error(getCoords(), "Cannot bind the element variable of type " + elementVarType
+			reportError("Cannot bind the element variable of type " + elementVarType
 					+ " to a value of type " + targetType + " in the array map function method.");
 			return false;
 		}

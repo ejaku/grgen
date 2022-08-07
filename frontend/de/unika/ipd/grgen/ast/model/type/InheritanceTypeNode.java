@@ -158,7 +158,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 
 		for(DeclNode member : getAllMembers().values()) {
 			if(member instanceof AbstractMemberDeclNode && !isAbstract()) {
-				error.error(getIdentNode().getCoords(), "The " + getKind() + " " + getTypeName()
+				getIdentNode().reportError("The " + getKind() + " " + getTypeName()
 						+ " must be declared abstract, because member " + member + " is abstract.");
 				res = false;
 			}
@@ -168,7 +168,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 			if(child instanceof DeclNode && !(child instanceof ConstructorDeclNode)) {
 				DeclNode directMember = (DeclNode)child;
 				if(directMember.getIdentNode().toString().equals(getIdentNode().toString())) {
-					error.error(getIdentNode().getCoords(), "The member " + directMember.getIdentNode()
+					getIdentNode().reportError("The member " + directMember.getIdentNode()
 									+ " must be named differently than its containing " + getKind() + " "
 									+ getTypeName() + ".");
 				}
@@ -247,7 +247,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 				if(def == null)
 					def = newDef;
 				else if(def != newDef) {
-					error.error(getIdentNode().getCoords(), "Identifier " + id
+					getIdentNode().reportError("Identifier " + id
 							+ " is ambiguous (other definition at " + def.getCoords() + ")."
 							+ " There must be one unique declaration of a member, in a common parent; or different names must be used for different members. "
 							+ " A method that comes in from more than one parent must be implemented locally, overriding the parental versions.");
@@ -316,7 +316,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 				DeclNode old = members.put(decl.getIdentNode().toString(), decl);
 				if(old != null && !(old instanceof AbstractMemberDeclNode)) {
 					// TODO this should be part of a check (that return false)
-					error.error(decl.getCoords(), "The member " + decl.getIdentNode()
+					decl.reportError("The member " + decl.getIdentNode()
 							+ " of " + getKind() + " " + getIdentNode()
 							+ " is already defined in " + old.getParents() + ".");
 				}

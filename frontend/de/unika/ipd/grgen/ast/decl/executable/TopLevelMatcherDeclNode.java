@@ -31,14 +31,14 @@ public abstract class TopLevelMatcherDeclNode extends MatcherDeclNode
 		for(NodeDeclNode node : right.patternGraph.getNodes()) {
 			if(!node.inheritsType() && node.getDeclType().isAbstract() && !pattern.getNodes().contains(node)
 					&& (node.context & CONTEXT_PARAMETER) != CONTEXT_PARAMETER) {
-				error.error(node.getCoords(), "Instances of abstract node classes are not allowed.");
+				node.reportError("Instances of abstract node classes are not allowed.");
 				abstr = false;
 			}
 		}
 		for(EdgeDeclNode edge : right.patternGraph.getEdges()) {
 			if(!edge.inheritsType() && edge.getDeclType().isAbstract() && !pattern.getEdges().contains(edge)
 					&& (edge.context & CONTEXT_PARAMETER) != CONTEXT_PARAMETER) {
-				error.error(edge.getCoords(), "Instances of abstract edge classes are not allowed.");
+				edge.reportError("Instances of abstract edge classes are not allowed.");
 				abstr = false;
 			}
 		}

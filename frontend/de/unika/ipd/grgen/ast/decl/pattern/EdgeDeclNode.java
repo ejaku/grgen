@@ -251,7 +251,7 @@ public class EdgeDeclNode extends ConstraintDeclNode
 		edge.setConstraints(getConstraints());
 
 		if(edge.getConstraints().contains(edge.getType())) {
-			error.error(getCoords(), "The own edge type may not be contained in the type constraint list"
+			reportError("The own edge type may not be contained in the type constraint list"
 					+ " (but " + edge.getType() + " is contained for " + getIdentNode() + ").");
 		}
 

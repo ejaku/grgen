@@ -276,7 +276,7 @@ public class CallActionNode extends BaseNode
 			Collection<? extends ExprNode> actualParams)
 	{
 		if(formalParams.size() != actualParams.size()) {
-			error.error(getCoords(), actionUnresolved + " expects " + formalParams.size()
+			reportError(actionUnresolved + " expects " + formalParams.size()
 					+ " arguments, but is given " + actualParams.size() + " arguments.");
 			return false;
 		}
@@ -340,7 +340,7 @@ public class CallActionNode extends BaseNode
 	{
 		// It is ok to have no actual returns, but if there are some, then they have to fit.
 		if(actualReturns.size() > 0 && formalReturns.size() != actualReturns.size()) {
-			error.error(getCoords(), actionUnresolved + " expects " + formalReturns.size()
+			reportError(actionUnresolved + " expects " + formalReturns.size()
 					+ " return arguments, given are " + actualReturns.size() + ".");
 			return false;
 		} 
