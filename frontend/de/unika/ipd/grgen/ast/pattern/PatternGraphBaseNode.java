@@ -236,9 +236,9 @@ public abstract class PatternGraphBaseNode extends BaseNode
 	protected boolean isEdgeReuseOk()
 	{
 		boolean edgeUsage = true;
-		HashSet<EdgeCharacter> edges = new HashSet<EdgeCharacter>();
+		HashSet<EdgeDeclNode> edges = new HashSet<EdgeDeclNode>();
 		for(ConnectionCharacter connection : connections.getChildren()) {
-			EdgeCharacter edge = connection.getEdge();
+			EdgeDeclNode edge = connection.getEdge();
 
 			// add() returns false iff edges already contains ec
 			if(edge != null

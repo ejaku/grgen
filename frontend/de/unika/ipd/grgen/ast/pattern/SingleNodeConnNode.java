@@ -127,13 +127,13 @@ public class SingleNodeConnNode extends ConnectionCharacter
 	}
 
 	@Override
-	public EdgeCharacter getEdge()
+	public EdgeDeclNode getEdge()
 	{
 		return null;
 	}
 
 	@Override
-	public NodeCharacter getSrc()
+	public NodeDeclNode getSrc()
 	{
 		assert isResolved();
 
@@ -147,7 +147,7 @@ public class SingleNodeConnNode extends ConnectionCharacter
 	}
 
 	@Override
-	public NodeCharacter getTgt()
+	public NodeDeclNode getTgt()
 	{
 		return null;
 	}

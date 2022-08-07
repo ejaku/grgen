@@ -30,10 +30,8 @@ import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayAccumulationMethodNode;
 import de.unika.ipd.grgen.ast.pattern.ConnectionCharacter;
 import de.unika.ipd.grgen.ast.pattern.ConnectionNode;
-import de.unika.ipd.grgen.ast.pattern.EdgeCharacter;
 import de.unika.ipd.grgen.ast.pattern.ImplicitNegComputer;
 import de.unika.ipd.grgen.ast.pattern.ImplicitNegComputerInduced;
-import de.unika.ipd.grgen.ast.pattern.NodeCharacter;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.Entity;
@@ -267,7 +265,7 @@ public abstract class MatcherDeclNode extends DeclNode
 		}
 
 		PatternGraphLhsNode[] graphs = leftHandGraphs.toArray(new PatternGraphLhsNode[0]);
-		Collection<EdgeCharacter> alreadyReported = new HashSet<EdgeCharacter>();
+		Collection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
 
 		for(int i = 0; i < graphs.length; i++) {
 			for(ConnectionCharacter iConnectionCharacter : graphs[i].getConnections()) {
@@ -294,15 +292,15 @@ public abstract class MatcherDeclNode extends DeclNode
 		return isLhsEdgeReuseOk;
 	}
 
-	private static boolean isLhsEdgeReuseOk(Collection<EdgeCharacter> alreadyReported,
+	private static boolean isLhsEdgeReuseOk(Collection<EdgeDeclNode> alreadyReported,
 			ConnectionNode iConnection, ConnectionNode jConnection)
 	{
 		boolean edgeReuse = true;
 
-		NodeCharacter iSrc = iConnection.getSrc();
-		NodeCharacter iTgt = iConnection.getTgt();
-		NodeCharacter jSrc = jConnection.getSrc();
-		NodeCharacter jTgt = jConnection.getTgt();
+		NodeDeclNode iSrc = iConnection.getSrc();
+		NodeDeclNode iTgt = iConnection.getTgt();
+		NodeDeclNode jSrc = jConnection.getSrc();
+		NodeDeclNode jTgt = jConnection.getTgt();
 
 		assert !(iSrc instanceof NodeTypeChangeDeclNode) : "no type changes in test actions";
 		assert !(iTgt instanceof NodeTypeChangeDeclNode) : "no type changes in test actions";
@@ -827,9 +825,9 @@ public abstract class MatcherDeclNode extends DeclNode
 
 		// add replacement parameters to the current graph
 		for(DeclNode decl : right.patternGraph.getParamDecls()) {
-			if(decl instanceof NodeCharacter) {
+			if(decl instanceof NodeDeclNode) {
 				rightPattern.addReplParameter(decl.checkIR(Node.class));
-				rightPattern.addSingleNode(((NodeCharacter)decl).getNode());
+				rightPattern.addSingleNode(((NodeDeclNode)decl).getNode());
 			} else if(decl instanceof VarDeclNode) {
 				rightPattern.addReplParameter(decl.checkIR(Variable.class));
 				rightPattern.addVariable(((VarDeclNode)decl).getVariable());

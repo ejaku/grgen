@@ -42,13 +42,13 @@ public abstract class ConnectionCharacter extends BaseNode
 	 */
 	public abstract void addEdge(Set<EdgeDeclNode> set);
 
-	public abstract EdgeCharacter getEdge();
+	public abstract EdgeDeclNode getEdge();
 
-	public abstract NodeCharacter getSrc();
+	public abstract NodeDeclNode getSrc();
 
 	public abstract void setSrc(NodeDeclNode src);
 
-	public abstract NodeCharacter getTgt();
+	public abstract NodeDeclNode getTgt();
 
 	public abstract void setTgt(NodeDeclNode tgt);
 

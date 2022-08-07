@@ -19,8 +19,8 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
 import de.unika.ipd.grgen.ast.model.type.InternalTransientObjectTypeNode;
-import de.unika.ipd.grgen.ast.pattern.EdgeCharacter;
-import de.unika.ipd.grgen.ast.pattern.NodeCharacter;
+import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
@@ -107,7 +107,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 
 		TypeNode ownerType = owner.getDeclType();
 
-		if(owner instanceof NodeCharacter || owner instanceof EdgeCharacter) {
+		if(owner instanceof NodeDeclNode || owner instanceof EdgeDeclNode) {
 			if(ownerType instanceof ScopeOwner) {
 				ScopeOwner o = (ScopeOwner)ownerType;
 				o.fixupDefinition(memberUnresolved);

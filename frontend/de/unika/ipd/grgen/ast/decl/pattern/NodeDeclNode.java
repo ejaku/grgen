@@ -22,7 +22,6 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.pattern.NameOrAttributeInitializationNode;
-import de.unika.ipd.grgen.ast.pattern.NodeCharacter;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
@@ -39,7 +38,7 @@ import de.unika.ipd.grgen.ir.pattern.Node;
 /**
  * Declaration of a node.
  */
-public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
+public class NodeDeclNode extends ConstraintDeclNode
 {
 	static {
 		setName(NodeDeclNode.class, "node");
@@ -218,8 +217,10 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		return Color.GREEN;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.pattern.NodeCharacter#getNode() */
-	@Override
+	/**
+	 * Get the IR object correctly casted.
+	 * @return The node IR object.
+	 */
 	public Node getNode()
 	{
 		return checkIR(Node.class);

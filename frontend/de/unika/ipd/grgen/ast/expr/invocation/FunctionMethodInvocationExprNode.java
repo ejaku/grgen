@@ -17,9 +17,9 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.pattern.EdgeCharacter;
-import de.unika.ipd.grgen.ast.pattern.NodeCharacter;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.Entity;
@@ -98,7 +98,7 @@ public class FunctionMethodInvocationExprNode extends FunctionInvocationBaseNode
 		}
 
 		if(ownerResolveResult && owner != null
-				&& (owner instanceof NodeCharacter || owner instanceof EdgeCharacter)) {
+				&& (owner instanceof NodeDeclNode || owner instanceof EdgeDeclNode)) {
 			TypeNode ownerType = owner.getDeclType();
 			if(ownerType instanceof ScopeOwner) {
 				ScopeOwner o = (ScopeOwner)ownerType;
