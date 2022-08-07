@@ -12,7 +12,6 @@
 package de.unika.ipd.grgen.ir.expr;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.type.DefinedMatchType;
 
 public class MatchInit extends Expression

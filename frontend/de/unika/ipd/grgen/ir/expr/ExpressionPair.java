@@ -12,7 +12,6 @@
 package de.unika.ipd.grgen.ir.expr;
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.ir.expr.Expression;
 
 public class ExpressionPair extends IR
 {

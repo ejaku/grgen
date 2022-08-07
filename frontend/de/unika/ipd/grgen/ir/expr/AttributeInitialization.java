@@ -10,7 +10,6 @@ package de.unika.ipd.grgen.ir.expr;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.NeededEntities;
-import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
 
 /**

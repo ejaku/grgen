@@ -7,7 +7,6 @@
 
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
 import de.unika.ipd.grgen.ir.executable.Function;
 import de.unika.ipd.grgen.parser.Coords;
