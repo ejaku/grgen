@@ -33,32 +33,28 @@ import de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 
 /**
- * AST node for an iterated pattern, maybe including replacements.
+ * AST node for an iterated-like pattern (iterated, optional, multiple, iterated-minmax), maybe including replacements.
  */
-public class IteratedDeclNode extends NestedMatcherDeclNode
+public abstract class IteratedDeclNode extends NestedMatcherDeclNode
 {
 	static {
-		setName(IteratedDeclNode.class, "iterated");
+		setName(IteratedDeclNode.class, "iterated-cardinality");
 	}
 
-	private IteratedTypeNode type;
-	private int minMatches;
-	private int maxMatches;
-	private ArrayList<FilterAutoDeclNode> filters;
+	protected IteratedTypeNode type;
+	protected ArrayList<FilterAutoDeclNode> filters;
 
 	/** Type for this declaration. */
-	private static IteratedTypeNode iteratedType = new IteratedTypeNode();
+	protected static IteratedTypeNode iteratedType = new IteratedTypeNode();
 
 	/**
-	 * Make a new iterated rule.
+	 * Make a new iterated-like rule.
 	 * @param left The left hand side (The pattern to match).
 	 * @param right The right hand side.
 	 */
-	public IteratedDeclNode(IdentNode id, PatternGraphLhsNode left, RhsDeclNode right, int minMatches, int maxMatches)
+	protected IteratedDeclNode(IdentNode id, PatternGraphLhsNode left, RhsDeclNode right)
 	{
 		super(id, iteratedType, left, right);
-		this.minMatches = minMatches;
-		this.maxMatches = maxMatches;
 		this.filters = new ArrayList<FilterAutoDeclNode>();
 	}
 
@@ -116,13 +112,12 @@ public class IteratedDeclNode extends NestedMatcherDeclNode
 	@Override
 	protected String getConstructName()
 	{
-		if(minMatches == 0 && maxMatches == 1)
-			return "optional";
-		else if(minMatches == 1 && maxMatches == 0)
-			return "multiple";
-		return "iterated";
+		return "iterated-cardinality";
 	}
 
+	protected abstract int getMinMatches();
+	protected abstract int getMaxMatches();
+		
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
@@ -135,7 +130,7 @@ public class IteratedDeclNode extends NestedMatcherDeclNode
 			return getIR();
 		}
 
-		Rule iteratedRule = new Rule(getIdentNode().getIdent(), minMatches, maxMatches);
+		Rule iteratedRule = new Rule(getIdentNode().getIdent(), getMinMatches(), getMaxMatches());
 
 		// mark this node as already visited
 		setIR(iteratedRule);
@@ -181,6 +176,6 @@ public class IteratedDeclNode extends NestedMatcherDeclNode
 
 	public static String getKindStr()
 	{
-		return "iterated/multiple/optional";
+		return "iterated-cardinality";
 	}
 }

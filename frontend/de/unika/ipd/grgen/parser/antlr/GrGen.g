@@ -2113,7 +2113,15 @@ iterated [ AnonymousScopeNamer namer, int context ] returns [ IteratedDeclNode r
 				{ rightHandSide = rightModify; }
 		)?
 		RBRACE
-		{ res = new IteratedDeclNode(namer.iter(), left, rightHandSide, minMatches, maxMatches); namer.undefIter(); }
+		{
+			if(minMatches == 0 && maxMatches == 1)
+				res = new OptionalDeclNode(namer.iter(), left, rightHandSide);
+			else if(minMatches == 1 && maxMatches == 0)
+				res = new MultipleDeclNode(namer.iter(), left, rightHandSide);
+			else
+				res = new IteratedPureDeclNode(namer.iter(), left, rightHandSide);
+			namer.undefIter();
+		}
 		filterDeclsIterated[name, res]
 		{ env.popScope(); }
 	;
@@ -2147,7 +2155,17 @@ iteratedEBNFNotation [ AnonymousScopeNamer namer, int context ] returns [ Iterat
 	  	   ( COLON ( STAR { maxMatches=0; } | i=NUM_INTEGER { maxMatches = Integer.parseInt(i.getText()); } ) | { maxMatches = minMatches; } )
 		  RBRACK
 	  )
-		{ res = new IteratedDeclNode(namer.iter(), left, rightHandSide, minMatches, maxMatches); namer.undefIter(); }
+		{
+			if(minMatches == 0 && maxMatches == 1)
+				res = new OptionalDeclNode(namer.iter(), left, rightHandSide);
+			else if(minMatches == 1 && maxMatches == 0)
+				res = new MultipleDeclNode(namer.iter(), left, rightHandSide);
+			else if(minMatches == 0 && maxMatches == 0)
+				res = new IteratedPureDeclNode(namer.iter(), left, rightHandSide);
+			else 
+				res = new IteratedMinMaxDeclNode(namer.iter(), left, rightHandSide, minMatches, maxMatches);
+			namer.undefIter();
+		}
 	;
 
 negative [ AnonymousScopeNamer namer, int context ] returns [ PatternGraphLhsNode res = null ]
