@@ -29,12 +29,6 @@ public class IteratedPureDeclNode extends IteratedDeclNode
 	}
 
 	@Override
-	protected String getConstructName()
-	{
-		return "iterated";
-	}
-
-	@Override
 	protected int getMinMatches()
 	{
 		return 0;

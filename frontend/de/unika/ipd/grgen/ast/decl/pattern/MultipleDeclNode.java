@@ -29,12 +29,6 @@ public class MultipleDeclNode extends IteratedDeclNode
 	}
 
 	@Override
-	protected String getConstructName()
-	{
-		return "multiple";
-	}
-
-	@Override
 	protected int getMinMatches()
 	{
 		return 1;

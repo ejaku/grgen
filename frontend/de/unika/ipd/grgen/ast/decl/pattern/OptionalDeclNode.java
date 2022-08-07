@@ -29,12 +29,6 @@ public class OptionalDeclNode extends IteratedDeclNode
 	}
 
 	@Override
-	protected String getConstructName()
-	{
-		return "optional";
-	}
-
-	@Override
 	protected int getMinMatches()
 	{
 		return 0;

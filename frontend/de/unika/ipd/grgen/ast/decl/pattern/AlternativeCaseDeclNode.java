@@ -91,12 +91,6 @@ public class AlternativeCaseDeclNode extends NestedMatcherDeclNode
 		return type != null;
 	}
 
-	@Override
-	protected String getConstructName()
-	{
-		return getKindStr();
-	}
-
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */

@@ -196,6 +196,9 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 		names.put(getClass(), name);
 	}
 
+	// Employs reflection while a simple virtual method overriden in the subclasses would be more appropriate,
+	// but a static method that can be used via reflection is required anyhow by the resolvers and checkers,
+	// so it is better to re-use getKindStr than adding another method to all classes (basically duplicating the functionality).
 	public final String getKind()
 	{
 		String res = "<unknown>";
@@ -208,11 +211,10 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	}
 
 	/**
-	 * Returns a string characterizing the kind of this class, for example "node class" or "rule",
-	 * the string is used for error reporting.
-	 * To be implemented as static method in all classes of relevance,
-	 * will be used via reflection in resolvers and checkers,
-	 * or via the non-static method getKind() (that uses the runtime type of the object).
+	 * Returns a string characterizing the kind of the class, to be used for error reporting (e.g. "node class" or "rule").
+	 * This method is to be implemented as a static method in all classes of relevance,
+	 * it will be used via reflection in the resolvers and checkers,
+	 * and via the non-static method getKind() (that uses the runtime type of the object).
 	 */
 	public static String getKindStr()
 	{

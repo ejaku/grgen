@@ -445,12 +445,6 @@ public class RuleDeclNode extends ActionDeclNode
 				& noAmbiguousRetypes(this.right);
 	}
 	
-	@Override
-	protected String getConstructName()
-	{
-		return getKindStr();
-	}
-
 	public NodeDeclNode tryGetNode(IdentNode ident)
 	{
 		for(NodeDeclNode node : pattern.getNodes()) {

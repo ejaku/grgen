@@ -34,12 +34,6 @@ public class IteratedMinMaxDeclNode extends IteratedDeclNode
 	}
 
 	@Override
-	protected String getConstructName()
-	{
-		return "iterated-minmax";
-	}
-
-	@Override
 	protected int getMinMatches()
 	{
 		return minMatches;

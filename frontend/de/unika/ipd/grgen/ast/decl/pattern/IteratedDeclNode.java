@@ -109,12 +109,6 @@ public abstract class IteratedDeclNode extends NestedMatcherDeclNode
 				& checkFilters(pattern, filters);
 	}
 
-	@Override
-	protected String getConstructName()
-	{
-		return "iterated-cardinality";
-	}
-
 	protected abstract int getMinMatches();
 	protected abstract int getMaxMatches();
 		

@@ -214,26 +214,26 @@ public abstract class MatcherDeclNode extends DeclNode
 
 		boolean noReturnInPattern = true;
 		if(pattern.returns.size() > 0) {
-			reportError("No return statement in (pattern parts of) " + getConstructName() + " allowed.");
+			reportError("No return statement in (pattern parts of) " + getKind() + " allowed.");
 			noReturnInPattern = false;
 		}
 
 		boolean noReturnInNestedReplacement = true;
 		if(right != null) {
 			if(right.patternGraph.returns.size() > 0) {
-				reportError("No return statement in " + getConstructName() + " allowed.");
+				reportError("No return statement in " + getKind() + " allowed.");
 				noReturnInNestedReplacement = false;
 			}
 		}
 
 		boolean rhsReuseOk = true;
 		boolean execParamsNotDeleted = true;
-		boolean sameNumberOfRewriteParts = sameNumberOfRewriteParts(right, getConstructName());
+		boolean sameNumberOfRewriteParts = sameNumberOfRewriteParts(right, getKind());
 		boolean noNestedRewriteParameters = true;
 		if(right != null) {
 			rhsReuseOk = checkRhsReuse(right);
 			execParamsNotDeleted = checkExecParamsNotDeleted(right);
-			noNestedRewriteParameters = noNestedRewriteParameters(right, getConstructName());
+			noNestedRewriteParameters = noNestedRewriteParameters(right, getKind());
 		}
 
 		return leftHandGraphsOk
@@ -245,8 +245,6 @@ public abstract class MatcherDeclNode extends DeclNode
 				& noReturnInNestedReplacement
 				& execParamsNotDeleted;
 	}
-
-	protected abstract String getConstructName();
 
 	protected boolean checkLeft()
 	{

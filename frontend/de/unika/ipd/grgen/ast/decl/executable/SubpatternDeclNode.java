@@ -156,12 +156,6 @@ public class SubpatternDeclNode extends TopLevelMatcherDeclNode
 		return nonActionIsOk & abstr & noAmbiguousRetypes;
 	}
 	
-	@Override
-	protected String getConstructName()
-	{
-		return getKindStr();
-	}
-
 	public PatternGraphLhsNode getPattern()
 	{
 		assert isResolved();
