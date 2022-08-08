@@ -138,12 +138,12 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 		if(actualNumRets != declaredNumRets) {
 			res = false;
 			if(declaredNumRets == 0) {
-				returnArgs.reportError("No return values declared (in rule/test " + ident + ").");
+				returnArgs.reportError("No return values declared (in " + getKind() + " " + ident + ").");
 			} else if(actualNumRets == 0) {
-				reportError("Missing return statement (in rule/test " + ident + ").");
+				reportError("Missing return statement (in " + getKind() + " " + ident + ").");
 			} else {
 				returnArgs.reportError("Return statement has wrong number of parameters, given are " + actualNumRets + ","
-						+ " but declared are " + declaredNumRets + " (in rule/test " + ident + ").");
+						+ " but declared are " + declaredNumRets + " (in " + getKind() + " " + ident + ").");
 			}
 		}
 
@@ -162,7 +162,7 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 			String exprTypeName = retExprType.getTypeName();
 			String parameterTypeName = retParameterType.getTypeName();
 			ident.reportError("Cannot convert " + (i + 1) + ". return parameter from " + exprTypeName
-					+ " to " + parameterTypeName + " (in rule/test " + ident + ").");
+					+ " to " + parameterTypeName + " (in " + getKind() + " " + ident + ").");
 			return res;
 		}
 
@@ -195,7 +195,7 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 			res = false;
 			retExpr.reportError("Return parameter " + retElem.getIdentNode() + " is homomorphic to "
 					+ homElem.getIdentNode() + ", which gets retyped to the incompatible type "
-					+ retypedElemType.getTypeName() + " (in rule/test " + ident + ").");
+					+ retypedElemType.getTypeName() + " (in " + getKind() + " " + ident + ").");
 			return res;
 		}
 
@@ -268,7 +268,7 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 
 		String nodeName = node.getIdentNode().toString();
 		if(!knownNodes.containsKey(nodeName)) {
-			getIdentNode().reportError("Rule/test " + actionName + " does not implement the node " + nodeName
+			getIdentNode().reportError("The " + getKind() + " " + actionName + " does not implement the node " + nodeName
 					+ " expected from match class " + matchTypeName);
 			isOk = false;
 		} else {
@@ -276,20 +276,20 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 			NodeTypeNode type = node.getDeclType();
 			NodeTypeNode typeOfNodeFromPattern = nodeFromPattern.getDeclType();
 			if(!type.isEqual(typeOfNodeFromPattern)) {
-				getIdentNode().reportError("The type of the node " + nodeName + " from the rule/test " + actionName
+				getIdentNode().reportError("The type of the node " + nodeName + " from the " + getKind() + " " + actionName
 						+ " does not equal the type of the node from the match class " + matchTypeName + "."
 						+ " In the match class, " + type.getTypeName() + " is declared, but in the pattern, "
 						+ typeOfNodeFromPattern.getTypeName() + " is declared.");
 				isOk = false;
 			}
 			if(nodeFromPattern.defEntityToBeYieldedTo && !node.defEntityToBeYieldedTo) {
-				getIdentNode().reportError("The node " + nodeName + " from the rule/test " + actionName
+				getIdentNode().reportError("The node " + nodeName + " from the " + getKind() + " " + actionName
 						+ " is a def node, while it is a node in the match class "
 						+ matchTypeName + ".");
 				isOk = false;
 			}
 			if(!nodeFromPattern.defEntityToBeYieldedTo && node.defEntityToBeYieldedTo) {
-				getIdentNode().reportError("The node " + nodeName + " from the rule/test " + actionName
+				getIdentNode().reportError("The node " + nodeName + " from the " + getKind() + " " + actionName
 						+ " is a node, while it is a def node in the match class "
 						+ matchTypeName + ".");
 				isOk = false;
@@ -306,7 +306,7 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 
 		String edgeName = edge.getIdentNode().toString();
 		if(!knownEdges.containsKey(edgeName)) {
-			getIdentNode().reportError("Rule/test " + actionName + " does not implement the edge " + edgeName
+			getIdentNode().reportError("The " + getKind() + " " + actionName + " does not implement the edge " + edgeName
 					+ " expected from match class " + matchTypeName);
 			isOk = false;
 		} else {
@@ -314,20 +314,20 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 			EdgeTypeNode type = edge.getDeclType();
 			EdgeTypeNode typeOfEdgeFromPattern = edgeFromPattern.getDeclType();
 			if(!type.isEqual(typeOfEdgeFromPattern)) {
-				getIdentNode().reportError("The type of the edge " + edgeName + " from the rule/test " + actionName
+				getIdentNode().reportError("The type of the edge " + edgeName + " from the " + getKind() + " " + actionName
 						+ " does not equal the type of the edge from the match class " + matchTypeName + "."
 						+ " In the match class, " + type.getTypeName() + " is declared, but in the pattern, "
 						+ typeOfEdgeFromPattern.getTypeName() + " is declared.");
 				isOk = false;
 			}
 			if(edgeFromPattern.defEntityToBeYieldedTo && !edge.defEntityToBeYieldedTo) {
-				getIdentNode().reportError("The edge " + edgeName + " from the rule/test " + actionName
+				getIdentNode().reportError("The edge " + edgeName + " from the " + getKind() + " " + actionName
 						+ " is a def edge, while it is an edge in the match class "
 						+ matchTypeName + ".");
 				isOk = false;
 			}
 			if(!edgeFromPattern.defEntityToBeYieldedTo && edge.defEntityToBeYieldedTo) {
-				getIdentNode().reportError("The edge " + edgeName + " from the rule/test " + actionName
+				getIdentNode().reportError("The edge " + edgeName + " from the " + getKind() + " " + actionName
 						+ " is an edge, while it is a def edge in the match class "
 						+ matchTypeName + ".");
 				isOk = false;
@@ -344,7 +344,7 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 
 		String varName = var.getIdentNode().toString();
 		if(!knownVariables.containsKey(varName)) {
-			getIdentNode().reportError("Rule/test " + actionName + " does not implement the variable " + varName
+			getIdentNode().reportError("The " + getKind() + " " + actionName + " does not implement the variable " + varName
 					+ " expected from match class " + matchTypeName);
 			isOk = false;
 		} else {
@@ -352,20 +352,20 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 			TypeNode type = var.getDeclType();
 			TypeNode typeOfVarFromPattern = varFromPattern.getDeclType();
 			if(!type.isEqual(typeOfVarFromPattern)) {
-				getIdentNode().reportError("The type of the variable " + varName + " from the rule/test " + actionName
+				getIdentNode().reportError("The type of the variable " + varName + " from the " + getKind() + " " + actionName
 						+ " does not equal the type of the variable from the match class " + matchTypeName + "."
 						+ " In the match class, " + type.getTypeName() + " is declared, but in the pattern, "
 						+ typeOfVarFromPattern.getTypeName() + " is declared.");
 				isOk = false;
 			}
 			if(varFromPattern.defEntityToBeYieldedTo && !var.defEntityToBeYieldedTo) {
-				getIdentNode().reportError("The variable " + varName + " from the rule/test " + actionName
+				getIdentNode().reportError("The variable " + varName + " from the " + getKind() + " " + actionName
 						+ " is a def variable, while it is a variable in the match class "
 						+ matchTypeName + ".");
 				isOk = false;
 			}
 			if(!varFromPattern.defEntityToBeYieldedTo && var.defEntityToBeYieldedTo) {
-				getIdentNode().reportError("The variable " + varName + " from the rule/test " + actionName
+				getIdentNode().reportError("The variable " + varName + " from the " + getKind() + " " + actionName
 						+ " is a variable, while it is a def variable in the match class "
 						+ matchTypeName + ".");
 				isOk = false;
