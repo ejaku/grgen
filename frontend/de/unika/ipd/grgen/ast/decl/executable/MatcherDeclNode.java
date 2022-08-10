@@ -624,14 +624,14 @@ public abstract class MatcherDeclNode extends DeclNode
 		for(IteratedDeclNode iter : pattern.iters.getChildren()) {
 			if(right == null && iter.right != null) {
 				reportError("No rewrite part (replace/modify) is specified in the " + actionKind
-						+ " " + ident + " , but one is given in the nested iterated/multiple/optional " + iter.ident + ".");
+						+ " " + ident + " , but one is given in the nested " + iter.getKind() + " " + iter.ident + ".");
 				res = false;
 			}
 			if(right != null && iter.right == null) {
 				reportError("A rewrite part (replace/modify) is specified in the " + actionKind
-						+ " " + ident + ", but none is given in the nested iterated/multiple/optional " + iter.ident + ".");
+						+ " " + ident + ", but none is given in the nested " + iter.getKind() + " " + iter.ident + ".");
 				res = false;
-			}			
+			}
 		}
 
 		return res;
@@ -663,7 +663,7 @@ public abstract class MatcherDeclNode extends DeclNode
 			Vector<DeclNode> parametersInNestedIterated = iter.right.patternGraph.getParamDecls();
 
 			if(parametersInNestedIterated.size() != 0) {
-				iter.reportError("No rewrite parameters are allowed in nested iterated/multiple/optional parts, but " + parametersInNestedIterated.size()
+				iter.reportError("No rewrite parameters are allowed in nested " + iter.getKind() + " parts, but " + parametersInNestedIterated.size()
 						+ " are given in " + iter.ident + ".");
 				res = false;
 			}
