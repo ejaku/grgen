@@ -168,13 +168,12 @@ public class RuleDeclNode extends ActionDeclNode
 			retElem.maybeDeleted = true;
 
 			if(!retElem.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
-				String errorMessage = "Returning " + retElem.ident + " that may be deleted"
+				String errorMessage = "Returning " + retElem.getKind() + " " + retElem.ident + " that may be deleted"
 						+ ", possibly it's homomorphic with a deleted " + retElem.getKind();
 				errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
 
 				if(retElem instanceof EdgeDeclNode) {
-					errorMessage += " or " + retElem.ident + " is a dangling " + retElem.getKind()
-							+ " and a deleted node exists";
+					errorMessage += " or " + retElem.ident + " is a dangling edge and a deleted node exists.";
 				}
 				errorMessage += ".";
 				retElem.reportError(errorMessage);
@@ -234,34 +233,35 @@ public class RuleDeclNode extends ActionDeclNode
 
 	private static boolean checkElementsInHomSetNotRetypedToDifferentTypes(Set<ConstraintDeclNode> homSet)
 	{
-		boolean multipleRetypes = false;
+		ConstraintDeclNode element = null;
+		ConstraintDeclNode retypedElement = null;
+		ConstraintDeclNode anotherElement = null;
+		ConstraintDeclNode anotherRetypedElement = null;
 
-		InheritanceTypeNode type = null;
-		for(ConstraintDeclNode elem : homSet) {
-			ConstraintDeclNode retypedElem = elem.getRetypedElement();
+		for(ConstraintDeclNode currentElement : homSet) {
+			ConstraintDeclNode currentRetypedElement = currentElement.getRetypedElement();
 
-			if(retypedElem != null) {
-				InheritanceTypeNode currentType = retypedElem.getDeclType();
+			if(currentRetypedElement != null) {
+				InheritanceTypeNode currentType = currentRetypedElement.getDeclType();
 
-				if(type != null && currentType != type) {
-					multipleRetypes = true;
+				if(retypedElement == null) {
+					element = currentElement;
+					retypedElement = currentRetypedElement;
+				} else if(currentType != retypedElement.getDeclType()) {
+					anotherElement = currentElement;
+					anotherRetypedElement = currentRetypedElement;
 					break;
 				}
-
-				type = currentType;
 			}
 		}
 
+		boolean multipleRetypes = anotherElement != null;
 		if(multipleRetypes) {
-			for(ConstraintDeclNode elem : homSet) {
-				ConstraintDeclNode retypedElem = elem.getRetypedElement();
-
-				if(retypedElem != null) {
-					retypedElem.reportError("The " + elem.getKind() + " " + elem 
-							+ " is retyped (to " + retypedElem.getDeclType().getTypeName() + "),"
-							+ " but an element it may be homomorphic to is also retyped (to a different type).");
-				}
-			}
+			retypedElement.reportError("The " + element.getKind() + " " + element
+					+ " is retyped to " + retypedElement.getDeclType().getTypeName() + ","
+					+ " but the " + anotherElement.getKind() + " " + anotherElement
+					+ " it may be homomorphic to is retyped to " + anotherRetypedElement.getDeclType().getTypeName()
+					+ ".");
 		}
 
 		return !multipleRetypes;
@@ -352,13 +352,12 @@ public class RuleDeclNode extends ActionDeclNode
 			declNode.maybeDeleted = true;
 
 			if(!declNode.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
-				String errorMessage = "The element " + declNode.ident + " used in an emit statement may be deleted"
+				String errorMessage = "The " + declNode.getKind() + " " + declNode.ident + " used in an emit statement may be deleted"
 						+ ", possibly it's homomorphic with a deleted " + declNode.getKind();
 				errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
 
 				if(declNode instanceof EdgeDeclNode) {
-					errorMessage += " or \"" + declNode.ident + "\" is a dangling " + declNode.getKind()
-							+ " and a deleted node exists";
+					errorMessage += " or " + declNode.ident + " is a dangling edge and a deleted node exists";
 				}
 
 				errorMessage += " (you may use an emithere instead).";

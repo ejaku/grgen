@@ -584,21 +584,21 @@ public abstract class MatcherDeclNode extends DeclNode
 			Set<ConstraintDeclNode> deletedElements, Set<ConstraintDeclNode> maybeDeletedElements)
 	{
 		if(deletedElements.contains(declNode)) {
-			declNode.reportError("The deleted " + declNode.getKind() + " \"" + declNode.ident
-					+ "\" must not be passed to an exec statement");
+			declNode.reportError("The deleted " + declNode.getKind() + " " + declNode.ident
+					+ " must not be passed to an exec statement");
 			return false;
 		} else if(maybeDeletedElements.contains(declNode)) {
 			declNode.maybeDeleted = true;
 
 			if(!declNode.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
-				String errorMessage = "Parameter \"" + declNode.ident + "\" of exec statement may be deleted"
+				String errorMessage = "Parameter " + declNode.ident + " of exec statement may be deleted"
 						+ ", possibly it's homomorphic with a deleted " + declNode.getKind();
 				errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
 
 				if(declNode instanceof EdgeDeclNode) {
-					errorMessage += " or \"" + declNode.ident + "\" is a dangling edge " 
-							+ " and a deleted node exists";
+					errorMessage += " or " + declNode.ident + " is a dangling edge and a deleted node exists";
 				}
+				errorMessage += ".";
 				declNode.reportError(errorMessage);
 				
 				return false;
