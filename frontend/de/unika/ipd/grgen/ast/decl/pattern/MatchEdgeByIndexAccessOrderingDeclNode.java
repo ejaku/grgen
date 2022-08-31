@@ -111,17 +111,19 @@ public class MatchEdgeByIndexAccessOrderingDeclNode extends MatchEdgeByIndexDecl
 				String typeName = indexAccessType.getTypeName();
 				expr.reportError("Cannot convert type used in accessing index from " + typeName
 						+ " to " + expTypeName
-						+ " (in match edge " + getIdentNode() + " by index access of " + index.getIdentNode() + ").");
+						+ " (in match edge " + getIdentNode() + " by index access of " + index.getIdentNode()
+						+ " [declared at " + index.getCoords() + "]" + ").");
 				return false;
 			}
-			if(expr2 != null) {
+			if(expr2 != null) { // TODO: distinguish lower and upper bound
 				TypeNode indexAccessType2 = expr2.getType();
 				if(!indexAccessType2.isCompatibleTo(expectedIndexAccessType)) {
 					String expTypeName = expectedIndexAccessType.getTypeName();
 					String typeName = indexAccessType2.getTypeName();
 					expr2.reportError("Cannot convert type used in accessing index from " + typeName
 							+ " to " + expTypeName
-							+ " (in match edge " + getIdentNode() + " by index access of " + index.getIdentNode() + ").");
+							+ " (in match edge " + getIdentNode() + " by index access of " + index.getIdentNode()
+							+ " [declared at " + index.getCoords() + "]" + ").");
 					return false;
 				}
 			}
@@ -133,7 +135,8 @@ public class MatchEdgeByIndexAccessOrderingDeclNode extends MatchEdgeByIndexDecl
 			String typeName = entityType.getTypeName();
 			ident.reportError("Cannot convert index type from " + typeName
 					+ " to pattern element type " + expTypeName
-					+ " (in match edge " + getIdentNode() + " by index access of " + index.getIdentNode() + ").");
+					+ " (in match edge " + getIdentNode() + " by index access of " + index.getIdentNode()
+					+ " [declared at " + index.getCoords() + "]" + ").");
 			return false;
 		}
 		if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE) {

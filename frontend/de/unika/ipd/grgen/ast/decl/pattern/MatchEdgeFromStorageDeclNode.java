@@ -76,12 +76,12 @@ public class MatchEdgeFromStorageDeclNode extends MatchEdgeFromByStorageDeclNode
 				} else if(unresolved.decl instanceof EdgeDeclNode) {
 					storageGlobalVariable = (EdgeDeclNode)unresolved.decl;
 				} else {
-					reportError("Match edge from storage expects an edge parameter or a global variable"
+					reportError("Match edge from storage expects an edge storage parameter or an edge global variable"
 							+ " (" + getIdentNode() + " is given neither).");
 					successfullyResolved = false;
 				}
 			} else {
-				reportError("Match edge from storage expects an edge parameter or a global variable"
+				reportError("Match edge from storage expects an edge storage parameter or an edge global variable"
 						+ " (" + getIdentNode() + " is given neither).");
 				successfullyResolved = false;
 			}
@@ -108,14 +108,15 @@ public class MatchEdgeFromStorageDeclNode extends MatchEdgeFromByStorageDeclNode
 	{
 		boolean res = super.checkLocal();
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-			reportError("Cannot employ match edge from storage in the rewrite part.");
+			reportError("Cannot employ match edge from storage in the rewrite part"
+					+ " (as it occurs in match edge " + getIdentNode() + ").");
 			return false;
 		}
 		TypeNode storageType = getStorageType();
 		if(!(storageType instanceof ContainerTypeNode)) {
 			if(storageGlobalVariable == null) {
 				reportError("Match edge from storage expects a parameter variable of collection type"
-						+ " (" + getIdentNode() + " is given " + storageType.getTypeName() + ").");
+						+ " (" + getIdentNode() + " is given " + storageType.getTypeName() + " by " + getStorageName() + ").");
 				return false;
 			}
 		}
@@ -128,11 +129,11 @@ public class MatchEdgeFromStorageDeclNode extends MatchEdgeFromByStorageDeclNode
 		if(!(storageElementType instanceof EdgeTypeNode)) {
 			if(storageGlobalVariable == null) {
 				reportError("Match edge from storage expects the element type to be an edge type"
-						+ " (" + getIdentNode() + " is given " + storageElementType.getTypeName() + ").");
+						+ " (" + getIdentNode() + " is given " + storageElementType.getTypeName() + " accessing " + getStorageName() + ").");
 				return false;
 			} else {
 				reportError("Match edge from storage global variable expects an edge type"
-						+ " (" + getIdentNode() + " is given " + storageElementType.getTypeName() + ").");
+						+ " (" + getIdentNode() + " is given " + storageElementType.getTypeName() + " accessing " + getStorageName() + ").");
 				return false;
 			}
 		}
@@ -143,7 +144,7 @@ public class MatchEdgeFromStorageDeclNode extends MatchEdgeFromByStorageDeclNode
 			String typeName = storageElemType.getTypeName();
 			ident.reportError("Cannot convert storage element type from " + typeName
 					+ " to " + expTypeName + " in match edge from storage"
-					+ " (for " + getIdentNode() + ").");
+					+ " (of " + getIdentNode() + " accessing " + getStorageName() + ").");
 			return false;
 		}
 		return res;

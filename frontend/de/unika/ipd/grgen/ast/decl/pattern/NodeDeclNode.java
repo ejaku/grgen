@@ -136,7 +136,7 @@ public class NodeDeclNode extends ConstraintDeclNode
 			while(cur != null) {
 				if(visited.contains(cur)) {
 					reportError("Circular typeof/copy not allowed"
-							+ " (as is the case for " + getIdentNode() + ").");
+							+ " (as is the case for " + getKind() + " " + getIdentNode() + ").");
 					return false;
 				}
 				visited.add(cur);
@@ -153,9 +153,9 @@ public class NodeDeclNode extends ConstraintDeclNode
 		if(!typeDecl.resolve())
 			return false;
 		if(!(typeDecl.getDeclType() instanceof NodeTypeNode)) {
-			typeUnresolved.reportError("Type of node " + getIdentNode()
-					+ " must be a node type (not " + typeDecl.getDeclType().getTypeName() + ") "
-					+ "(use edge syntax for edges, var for variables, ref for containers).");
+			typeUnresolved.reportError("Type of node " + getIdentNode() + " must be a node type"
+					+ " (given is " + typeDecl.getDeclType().getKind() + " " + typeDecl.getDeclType().getTypeName()
+					+ " - use -edge-> syntax for edges, var for variables, ref for containers).");
 			return false;
 		}
 		return true;
@@ -175,7 +175,8 @@ public class NodeDeclNode extends ConstraintDeclNode
 		while(inheritsType() && (typeNodeDecl.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			if(firstTime) {
 				firstTime = false;
-				reportWarning("Type of node " + typeNodeDecl.ident + " is statically known (thus typeof pointless).");
+				reportWarning("Type of node " + typeNodeDecl.ident + " is statically known"
+						+ " (to be " + typeNodeDecl.getDeclType().getTypeName() + ", the typeof is thus pointless).");
 			}
 			typeTypeDecl = typeNodeDecl.typeTypeDecl;
 			typeNodeDecl = typeNodeDecl.typeNodeDecl;
@@ -248,7 +249,7 @@ public class NodeDeclNode extends ConstraintDeclNode
 				isMaybeDeleted(), isMaybeRetyped(), defEntityToBeYieldedTo, context);
 		node.setConstraints(getConstraints());
 
-		if(node.getConstraints().contains(node.getType())) {
+		if(node.getConstraints().contains(node.getType())) { // TODO: supertype? only subtypes allowed
 			reportError("The own node type may not be contained in the type constraint list"
 					+ " (but " + node.getType() + " is contained for " + getIdentNode() + ").");
 		}

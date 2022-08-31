@@ -146,7 +146,7 @@ public class EdgeDeclNode extends ConstraintDeclNode
 			while(cur != null) {
 				if(visited.contains(cur)) {
 					reportError("Circular typeof/copy not allowed"
-							+ " (as is the case for " + getIdentNode() + ").");
+							+ " (as is the case for " + getKind() + " " + getIdentNode() + ").");
 					return false;
 				}
 				visited.add(cur);
@@ -161,7 +161,7 @@ public class EdgeDeclNode extends ConstraintDeclNode
 			return false;
 		if(!(typeDecl.getDeclType() instanceof EdgeTypeNode)) {
 			typeUnresolved.reportError("Type of edge " + getIdentNode() + " must be an edge type"
-					+ " (given is " + typeDecl.getDeclType().getTypeName() + ").");
+					+ " (given is " + typeDecl.getDeclType().getKind() + " " + typeDecl.getDeclType().getTypeName() + ").");
 			return false;
 		}
 
@@ -182,7 +182,8 @@ public class EdgeDeclNode extends ConstraintDeclNode
 		while(inheritsType() && (typeEdgeDecl.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			if(firstTime) {
 				firstTime = false;
-				reportWarning("Type of edge " + typeEdgeDecl.ident + " is statically known (thus typeof pointless).");
+				reportWarning("Type of edge " + typeEdgeDecl.ident + " is statically known"
+							+ " (to be " + typeEdgeDecl.getDeclType().getTypeName() + ", the typeof is thus pointless).");
 			}
 			typeTypeDecl = typeEdgeDecl.typeTypeDecl;
 			typeEdgeDecl = typeEdgeDecl.typeEdgeDecl;
@@ -250,7 +251,7 @@ public class EdgeDeclNode extends ConstraintDeclNode
 				isMaybeDeleted(), isMaybeRetyped(), defEntityToBeYieldedTo, context);
 		edge.setConstraints(getConstraints());
 
-		if(edge.getConstraints().contains(edge.getType())) {
+		if(edge.getConstraints().contains(edge.getType())) { // TODO: supertype? only subtypes allowed
 			reportError("The own edge type may not be contained in the type constraint list"
 					+ " (but " + edge.getType() + " is contained for " + getIdentNode() + ").");
 		}

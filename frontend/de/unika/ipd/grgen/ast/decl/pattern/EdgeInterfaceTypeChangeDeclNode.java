@@ -82,7 +82,7 @@ public class EdgeInterfaceTypeChangeDeclNode extends EdgeDeclNode
 			return false;
 		if(!(interfaceType.getDeclType() instanceof EdgeTypeNode)) {
 			interfaceTypeUnresolved.reportError("The interface type of edge parameter " + getIdentNode() + " must be an edge type"
-					+ " (given is " + interfaceType.getDeclType().getTypeName() + ").");
+					+ " (given is " + interfaceType.getDeclType().getKind() + " " + interfaceType.getDeclType().getTypeName() + ").");
 			return false;
 		}
 		if(!successfullyResolved)
@@ -91,9 +91,9 @@ public class EdgeInterfaceTypeChangeDeclNode extends EdgeDeclNode
 		EdgeTypeNode interfaceEdgeTypeNode = (EdgeTypeNode)interfaceType.getDeclType();
 		EdgeTypeNode edgeTypeNode = (EdgeTypeNode)typeTypeDecl.getDeclType();
 		if(!edgeTypeNode.isA(interfaceEdgeTypeNode)) {
-			interfaceTypeUnresolved.reportWarning("The interface type " + interfaceEdgeTypeNode.getTypeName()
+			interfaceTypeUnresolved.reportWarning("The interface type " + interfaceEdgeTypeNode.getTypeName() + " [declared at " + interfaceEdgeTypeNode.getCoords() + "]"
 					+ " of edge parameter " + ident.toString()
-					+ " is not a supertype of " + edgeTypeNode.getTypeName() + ".");
+					+ " is not a supertype of " + edgeTypeNode.getTypeName() + " [declared at " + edgeTypeNode.getCoords() + "]" + ".");
 		}
 		return successfullyResolved;
 	}
@@ -115,7 +115,8 @@ public class EdgeInterfaceTypeChangeDeclNode extends EdgeDeclNode
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS)
 			return true;
 
-		constraints.reportError("Rewrite part edge parameters cannot change the interface type, only pattern edges can.");
+		reportError("Rewrite part edge parameters cannot change the interface type, only pattern edges can"
+				+ " (this is violated by " + getIdentNode() + ").");
 		return false;
 	}
 

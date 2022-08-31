@@ -80,7 +80,8 @@ public class MatchNodeByNameLookupDeclNode extends NodeDeclNode
 	{
 		boolean res = super.checkLocal();
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-			reportError("Cannot employ match node by name index lookup in the rewrite part.");
+			reportError("Cannot employ match node by name index lookup in the rewrite part"
+					+ " (as it occurs in match node " + getIdentNode() + ").");
 			return false;
 		}
 		TypeNode expectedLookupType = StringTypeNode.stringType;

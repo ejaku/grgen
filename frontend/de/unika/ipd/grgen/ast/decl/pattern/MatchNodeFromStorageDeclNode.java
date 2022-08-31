@@ -76,12 +76,12 @@ public class MatchNodeFromStorageDeclNode extends MatchNodeFromByStorageDeclNode
 				} else if(unresolved.decl instanceof NodeDeclNode) {
 					storageGlobalVariable = (NodeDeclNode)unresolved.decl;
 				} else {
-					reportError("Match node from storage expects a node parameter or a global variable"
+					reportError("Match node from storage expects a node storage parameter or a node global variable"
 							+ " (" + getIdentNode() + " is given neither).");
 					successfullyResolved = false;
 				}
 			} else {
-				reportError("Match node from storage expects a node parameter or a global variable"
+				reportError("Match node from storage expects a node storage parameter or a node global variable"
 						+ " (" + getIdentNode() + " is given neither).");
 				successfullyResolved = false;
 			}
@@ -108,14 +108,15 @@ public class MatchNodeFromStorageDeclNode extends MatchNodeFromByStorageDeclNode
 	{
 		boolean res = super.checkLocal();
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-			reportError("Cannot employ match node from storage in the rewrite part.");
+			reportError("Cannot employ match node from storage in the rewrite part"
+					+ " (as it occurs in match node " + getIdentNode() + ").");
 			return false;
 		}
 		TypeNode storageType = getStorageType();
 		if(!(storageType instanceof ContainerTypeNode)) {
 			if(storageGlobalVariable == null) {
 				reportError("Match node from storage expects a parameter variable of collection type"
-						+ " (" + getIdentNode() + " is given " + storageType.getTypeName() + ").");
+						+ " (" + getIdentNode() + " is given " + storageType.getTypeName() + " by " + getStorageName() + ").");
 				return false;
 			}
 		}
@@ -128,11 +129,11 @@ public class MatchNodeFromStorageDeclNode extends MatchNodeFromByStorageDeclNode
 		if(!(storageElementType instanceof NodeTypeNode)) {
 			if(storageGlobalVariable == null) {
 				reportError("Match node from storage expects the element type to be a node type"
-						+ " (" + getIdentNode() + " is given " + storageElementType.getTypeName() + ").");
+						+ " (" + getIdentNode() + " is given " + storageElementType.getTypeName() + " accessing " + getStorageName()+ ").");
 				return false;
 			} else {
 				reportError("Match node from storage global variable expects a node type"
-						+ " (" + getIdentNode() + " is given " + storageElementType.getTypeName() + ").");
+						+ " (" + getIdentNode() + " is given " + storageElementType.getTypeName() + " accessing " + getStorageName()+ ").");
 				return false;
 			}
 		}
@@ -143,7 +144,7 @@ public class MatchNodeFromStorageDeclNode extends MatchNodeFromByStorageDeclNode
 			String typeName = storageElemType.getTypeName();
 			ident.reportError("Cannot convert storage element type from " + typeName
 					+ " to " + expTypeName + " in match node from storage"
-					+ " (for " + getIdentNode() + ").");
+					+ " (of " + getIdentNode() + " accessing " + getStorageName() + ").");
 			return false;
 		}
 		return res;

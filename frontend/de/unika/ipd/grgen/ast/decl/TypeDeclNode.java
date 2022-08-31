@@ -105,27 +105,33 @@ public class TypeDeclNode extends DeclNode
 
 		if(extendEdge!=null && extendUEdge!=null) {
 			reportError("An edge class cannot extend a directed and an undirected edge class "
-					+ "(occurs for " + getIdentNode() + " with " + extendEdge.getIdentNode() + " and " + extendUEdge.getIdentNode() + ")");
+					+ "(but this occurs for " + getIdentNode()
+					+ " with " + extendEdge.getIdentNode() + " [declared at " + extendEdge.getCoords() + "]"
+					+ " and " + extendUEdge.getIdentNode() + " [declared at " + extendUEdge.getCoords() + "]" + ")");
 			return false;
 		}
 		if((type instanceof ArbitraryEdgeTypeNode) && extendEdge!=null) {
 			reportError("An arbitrary edge class cannot extend a directed edge class "
-					+ "(occurs for " + getIdentNode() + " with " + extendEdge.getIdentNode() + ")");
+					+ "(but this occurs for " + getIdentNode()
+					+ " with " + extendEdge.getIdentNode() + " [declared at " + extendEdge.getCoords() + "]" + ")");
 			return false;
 		}
 		if(type instanceof ArbitraryEdgeTypeNode && extendUEdge!=null) {
 			reportError("An arbitrary edge class cannot extend an undirected edge class "
-					+ "(occurs for " + getIdentNode() + " with " + extendUEdge.getIdentNode() + ")");
+					+ "(but this occurs for " + getIdentNode()
+					+ " with " + extendUEdge.getIdentNode() + " [declared at " + extendUEdge.getCoords() + "]" + ")");
 			return false;
 		}
 		if((type instanceof UndirectedEdgeTypeNode) && extendEdge!=null) {
 			reportError("An undirected edge class cannot extend a directed edge class "
-					+ "(occurs for " + getIdentNode() + " with " + extendEdge.getIdentNode() + ")");
+					+ "(but this occurs for " + getIdentNode()
+					+ " with " + extendEdge.getIdentNode() + " [declared at " + extendEdge.getCoords() + "]" + ")");
 			return false;
 		}
 		if(type instanceof DirectedEdgeTypeNode && extendUEdge!=null) {
 			reportError("A directed edge class cannot extend an undirected edge class "
-					+ "(occurs for " + getIdentNode() + " with " + extendUEdge.getIdentNode() + ")");
+					+ "(but this occurs for " + getIdentNode()
+					+ " with " + extendUEdge.getIdentNode() + " [declared at " + extendUEdge.getCoords() + "]" + ")");
 			return false;
 		}
 

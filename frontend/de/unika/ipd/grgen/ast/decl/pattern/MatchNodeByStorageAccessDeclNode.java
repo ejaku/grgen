@@ -86,12 +86,12 @@ public class MatchNodeByStorageAccessDeclNode extends MatchNodeFromByStorageDecl
 				} else if(unresolved.decl instanceof NodeDeclNode) {
 					storageGlobalVariable = (NodeDeclNode)unresolved.decl;
 				} else {
-					reportError("Match node by storage access expects a node parameter or a global variable"
+					reportError("Match node by storage access expects a node storage parameter or a node global variable"
 							+ " (" + getIdentNode() + " is given neither).");
 					successfullyResolved = false;
 				}
 			} else {
-				reportError("Match node by storage access expects a node parameter or a global variable"
+				reportError("Match node by storage access expects a node storage parameter or a node global variable"
 						+ " (" + getIdentNode() + " is given neither).");
 				successfullyResolved = false;
 			}
@@ -126,7 +126,8 @@ public class MatchNodeByStorageAccessDeclNode extends MatchNodeFromByStorageDecl
 	{
 		boolean res = super.checkLocal();
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-			reportError("Cannot employ match node by storage access in the rewrite part.");
+			reportError("Cannot employ match node by storage access in the rewrite part"
+					+ " (as it occurs in match node " + getIdentNode() + ").");
 			return false;
 		}
 		TypeNode storageType = getStorageType();
@@ -142,13 +143,13 @@ public class MatchNodeByStorageAccessDeclNode extends MatchNodeFromByStorageDecl
 			String typeName = storageKeyType.getTypeName();
 			ident.reportError("Cannot convert " + typeName
 					+ " to map key type " + expTypeName + " in match node by storage access"
-					+ " (for " + getIdentNode() + " accessing " + getStorageName() + ").");
+					+ " (of " + getIdentNode() + " accessing " + getStorageName() + ").");
 			return false;
 		}
 		TypeNode storageElementType = ((MapTypeNode)storageType).valueType;
 		if(!(storageElementType instanceof NodeTypeNode)) {
 			reportError("Match node by storage access expects a map mapping to a node type"
-					+ " (" + getIdentNode() + " is given " + storageElementType.getTypeName() + ").");
+					+ " (" + getIdentNode() + " is given a map mapping to " + storageElementType.getTypeName() + ").");
 			return false;
 		}
 		NodeTypeNode storageElemType = (NodeTypeNode)storageElementType;
@@ -158,7 +159,7 @@ public class MatchNodeByStorageAccessDeclNode extends MatchNodeFromByStorageDecl
 			String typeName = storageElemType.getTypeName();
 			ident.reportError("Cannot convert map value type " + typeName
 					+ " to the expected pattern element type " + expTypeName + " in match node by storage access"
-					+ " (for " + getIdentNode() + " accessing " + getStorageName() + ").");
+					+ " (of " + getIdentNode() + " accessing " + getStorageName() + ").");
 			return false;
 		}
 		return res;

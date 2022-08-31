@@ -200,7 +200,7 @@ public abstract class RhsDeclNode extends DeclNode
 		for(DeclNode replParam : patternGraph.getParamDecls()) {
 			if(replParam instanceof EdgeDeclNode) {
 				replParam.reportError("Edges are not supported as rewrite parameters"
-						+ " (but " + replParam.getIdentNode() + " is used in that role).");
+						+ " (but the rewrite parameter " + replParam.getIdentNode() + " is an edge).");
 				res = false;
 			}
 		}

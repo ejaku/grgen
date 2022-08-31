@@ -132,24 +132,28 @@ public class NodeTypeChangeDeclNode extends NodeDeclNode
 
 		if(nameOrAttributeInits.size() > 0) {
 			NameOrAttributeInitializationNode nameOrAttributeInit = nameOrAttributeInits.get(0);
-			if(nameOrAttributeInit.attributeUnresolved != null)
-				reportError("An attribute initialization is not allowed for a retyped node (occurs for " + nameOrAttributeInit.attributeUnresolved + ").");
-			else
-				reportError("A name initialization ($=) is not allowed for a retyped node.");
+			if(nameOrAttributeInit.attributeUnresolved != null) {
+				reportError("An attribute initialization is not allowed for a retyped node"
+						+ " (but occurs for " + nameOrAttributeInit.attributeUnresolved + " of " + getIdentNode() + ").");
+			} else {
+				reportError("A name initialization ($=) is not allowed for a retyped node (but occurs for " + getIdentNode() + ").");
+			}
 			return false;
 		}
 
 		// check if source node of retype is declared in replace/modify part - no retype of just created node
 		if((old.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS
 			&& !old.defEntityToBeYieldedTo) {
-			reportError("The source node of the retyping may not be declared in the rewrite part (replace/modify).");
+			reportError("The source node of the retyping may not be declared in the rewrite part (replace/modify)"
+					+ " (this is violated by the source node " + old.getIdentNode() + " of " + getIdentNode() + ").");
 			res = false;
 		}
 
 		for(NodeDeclNode mergee : mergees.getChildren()) {
 			if((mergee.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS
 				&& !mergee.defEntityToBeYieldedTo) {
-				reportError("A node of a (retyping) merge may not be declared in the rewrite part (replace/modify).");
+				reportError("A source node of a (retyping) merge may not be declared in the rewrite part (replace/modify)"
+						+ " (this is violated by the source node " + mergee.getIdentNode() + " of " + getIdentNode() + ").");
 				res = false;
 			}
 		}
