@@ -141,19 +141,19 @@ public class IncidenceCountIndexDeclNode extends IndexDeclNode
 	protected boolean checkLocal()
 	{
 		if(!(startNodeType instanceof NodeTypeNode)) {
-			reportError("The count incidence function specification " + functionName + "()"
+			reportError("The incidence count function specification " + functionName + "()"
 					+ " in the incidende count index " + ident + " declaration"
 					+ " expects as 1. type (start node type) a node type, but is given type " + startNodeType + ".");
 			return false;
 		}
 		if(!(incidentEdgeType instanceof EdgeTypeNode)) {
-			reportError("The count incidence function specification " + functionName + "()"
+			reportError("The incidence count function specification " + functionName + "()"
 					+ " in the incidende count index " + ident + " declaration"
 					+ " expects as 2. type (incident edge type) an edge type, but is given type " + incidentEdgeType + ".");
 			return false;
 		}
 		if(!(adjacentNodeType instanceof NodeTypeNode)) {
-			reportError("The count incidence function specification " + functionName + "()"
+			reportError("The incidence count function specification " + functionName + "()"
 					+ " in the incidende count index " + ident + " declaration"
 					+ " expects as 3. type (adjacent node type) a node type, but is given type " + adjacentNodeType + ".");
 			return false;

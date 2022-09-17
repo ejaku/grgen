@@ -94,7 +94,8 @@ public class TypeofNode extends ExprNode
 		if(entityVarDecl != null
 				&& !(entityVarDecl.getDeclType() instanceof NodeTypeNode)
 				&& !(entityVarDecl.getDeclType() instanceof EdgeTypeNode)) {
-			reportError("The variable in a typeof (" + entityUnresolved + ") must be of node or edge type, but is of type " + entityVarDecl.getDeclType() + ".");
+			reportError("The variable in a typeof (" + entityUnresolved + ") must be of node or edge type, but is of type " + entityVarDecl.getDeclType()
+					+ " (which is a " + entityVarDecl.getDeclType().getKind() + ").");
 			return false;
 		}
 		return true;

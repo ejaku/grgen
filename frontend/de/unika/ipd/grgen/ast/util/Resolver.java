@@ -135,7 +135,7 @@ public abstract class Resolver<T> extends Base
 						+ " cannot find in " + kind + " " + className + ".");
 			}
 		} else {
-			member.reportError("Unknown member " + memberName + ".");
+			member.reportError("The type " + type + " does not support members (when accessing " + memberName + " of the " + type.getKind() + ").");
 		}
 
 		return result;

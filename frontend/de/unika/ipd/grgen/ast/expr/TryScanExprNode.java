@@ -114,19 +114,19 @@ public class TryScanExprNode extends BuiltinFunctionInvocationBaseNode
 			if(type instanceof ContainerTypeNode) {
 				ContainerTypeNode containerType = (ContainerTypeNode)type;
 				if(containerType.getElementType() instanceof InternalObjectTypeNode) {
-					reportError("The construct tryscan<T> disallows a type argument containing a class object type"
+					reportError("The construct tryscan<T> disallows a type argument (of a container type) containing a class object type"
 							+ " (but is given type " + type + ").");
 				} else if(containerType.getElementType() instanceof InternalTransientObjectTypeNode) {
-					reportError("The construct tryscan<T> disallows a type argument containing a transient class object type"
+					reportError("The construct tryscan<T> disallows a type argument (of a container type) containing a transient class object type"
 							+ " (but is given type " + type + ").");
 				}
 				if(type instanceof MapTypeNode) {
 					MapTypeNode mapType = (MapTypeNode)type;
 					if(mapType.keyType instanceof InternalObjectTypeNode) {
-						reportError("The construct tryscan<T> disallows a type argument containing a class object type"
+						reportError("The construct tryscan<T> disallows a type argument (of a container type) containing a class object type"
 								+ " (but is given type " + type + ").");
 					} else if(mapType.keyType instanceof InternalTransientObjectTypeNode) {
-						reportError("The construct tryscan<T> disallows a type argument containing a transient class object type"
+						reportError("The construct tryscan<T> disallows a type argument (of a container type) containing a transient class object type"
 								+ " (but is given type " + type + ").");
 					}
 				}

@@ -74,7 +74,7 @@ public class ArrayExtractNode extends ArrayFunctionMethodInvocationBaseExprNode
 				|| type instanceof ContainerTypeNode
 				|| type instanceof MatchTypeNode) {
 			reportError("The type " + type + " of the element to be extracted"
-					+ " is not an allowed type (basic type or node or edge class - set, map, array, deque are forbidden).");
+					+ " is not an allowed type (basic type or node or edge class - set, map, array, deque, and match are forbidden).");
 			return false;
 		}
 

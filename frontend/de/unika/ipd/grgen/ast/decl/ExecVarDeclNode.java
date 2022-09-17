@@ -75,7 +75,7 @@ public class ExecVarDeclNode extends DeclNode
 
 		DeclNode typeDecl = declOfTypeResolver.resolve(typeUnresolved, this);
 		if(typeDecl instanceof InvalidDeclNode) {
-			typeUnresolved.reportError("Unknown type " + typeUnresolved + " of " + getIdentNode() + ".");
+			typeUnresolved.reportError("The exec variable " + getIdentNode() + " has an unknown type " + typeUnresolved + ".");
 			return false;
 		}
 		type = typeDecl.getDeclType();

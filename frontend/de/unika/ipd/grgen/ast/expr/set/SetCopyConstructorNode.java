@@ -85,7 +85,7 @@ public class SetCopyConstructorNode extends ExprNode
 				SetTypeNode sourceSetType = (SetTypeNode)setToCopy.getType();
 				success &= checkCopyConstructorTypes(setType.valueType, sourceSetType.valueType, "set", false);
 			} else {
-				reportError("A set copy constructor expects a set type"
+				reportError("A set copy constructor expects a value of set type"
 						+ " (but is given " + setToCopy.getType() + ").");
 				success = false;
 			}

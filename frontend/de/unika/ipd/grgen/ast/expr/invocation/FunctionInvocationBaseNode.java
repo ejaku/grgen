@@ -42,6 +42,7 @@ public abstract class FunctionInvocationBaseNode extends FunctionOrBuiltinFuncti
 		int actual = arguments.getChildren().size();
 		if(expected != actual) {
 			unresolved.reportError("The function " + (isMethod ? "method " : "") + functionName
+					+ " [declared at " + fb.getCoords() + "]"
 					+ " expects " + expected + " arguments (given are " + actual + " arguments).");
 			return false;
 		}
@@ -58,7 +59,8 @@ public abstract class FunctionInvocationBaseNode extends FunctionOrBuiltinFuncti
 				String exprTypeName = actualParameterType.getTypeName();
 				String paramTypeName = formalParameterType.getTypeName();
 				unresolved.reportError("Cannot convert " + (i + 1) + ". argument from " + exprTypeName
-						+ " to " + paramTypeName + " (when calling function " + (isMethod ? "method " : "") + functionName + ").");
+						+ " to " + paramTypeName + " (when calling function " + (isMethod ? "method " : "") + functionName
+						+ " [declared at " + fb.getCoords() + "]" + ").");
 			}
 		}
 

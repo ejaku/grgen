@@ -646,7 +646,7 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 			else
 				return new UniqueofExprNode(env.getCoords(), null);
 		default:
-			env.reportError("No function " + functionName + " is known.");
+			env.reportError("A function of name " + functionName + " is not known.");
 			return null;
 		}
 	}

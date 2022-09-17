@@ -122,7 +122,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 			if(member == null)
 				successfullyResolved = false;
 		} else {
-			reportError("Left hand side of '.' is neither a node nor an edge (nor a variable of node/edge type, or match/match class type; in " + this + ").");
+			reportError("Left hand side of '.' is neither a node nor an edge, nor a variable (in " + this + ").");
 			successfullyResolved = false;
 		}
 

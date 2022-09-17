@@ -342,7 +342,7 @@ public class PackageFunctionInvocationDecisionNode extends FunctionInvocationBas
 			} else
 				return new ImportExprNode(env.getCoords(), arguments.get(0));
 		default:
-			env.reportError("no function " + functionName + " known");
+			env.reportError("A function of package::name " + functionName + " is not known."); // TODO: complain about wrong package, then wrong name
 			return null;
 		}
 	}

@@ -86,7 +86,7 @@ public class MapCopyConstructorNode extends ExprNode
 				success &= checkCopyConstructorTypes(mapType.keyType, sourceMapType.keyType, "map", true);
 				success &= checkCopyConstructorTypes(mapType.valueType, sourceMapType.valueType, "map", false);
 			} else {
-				reportError("A map copy constructor expects a map type"
+				reportError("A map copy constructor expects a value of map type to copy"
 						+ " (but is given " + mapToCopy.getType() + ").");
 				success = false;
 			}

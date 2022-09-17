@@ -88,13 +88,13 @@ public class AttributeInitializationNode extends BaseNode
 	{
 		if(attribute.isConst()) {
 			objectInit.reportError("An assignment to a const member is not allowed"
-					+ " (but occurrs for " + attribute + ").");
+					+ " (but occurs for " + attribute + ").");
 			return false;
 		}
 		
 		if(owner.isConst()) {
 			objectInit.reportError("An assignment to an object of const type is not allowed"
-					+ " (but occurrs for " + attribute + " of " + owner.getIdentNode() + ").");
+					+ " (but occurs for " + attribute + " of " + owner.getIdentNode() + ").");
 			return false;
 		}
 
@@ -114,14 +114,14 @@ public class AttributeInitializationNode extends BaseNode
 			exprType.doGetCompatibleToTypes(superTypes);
 			if(!superTypes.contains(targetType)) {
 				objectInit.reportError("Cannot initialize-assign a value of " + exprType
-						+ " to an attribute of " + targetType + " (this occurrs for " + attribute + ").");
+						+ " to an attribute of " + targetType + " (this occurs for " + attribute + ").");
 				return false;
 			}
 		}
 		if(targetType instanceof NodeTypeNode && exprType instanceof EdgeTypeNode
 				|| targetType instanceof EdgeTypeNode && exprType instanceof NodeTypeNode) {
 			objectInit.reportError("Cannot initialize-assign a value of " + exprType
-					+ " to an attribute of " + targetType + " (this occurrs for " + attribute + ").");
+					+ " to an attribute of " + targetType + " (this occurs for " + attribute + ").");
 			return false;
 		}
 		return true;

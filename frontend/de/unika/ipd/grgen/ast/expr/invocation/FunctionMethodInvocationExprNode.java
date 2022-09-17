@@ -106,8 +106,8 @@ public class FunctionMethodInvocationExprNode extends FunctionInvocationBaseNode
 
 				functionDecl = resolver.resolve(functionUnresolved, this);
 				if(functionDecl == null) {
-					functionUnresolved.reportError("Unknown function method " + functionUnresolved + " called."
-							+ " A misspelled function name? Or is a procedure call intended (not possible in expression, assignment target must be given as (param,...)=call in this case)?");
+					functionUnresolved.reportError("A function method of name " + functionUnresolved + " is not known."
+							+ " Is it a misspelled function name? Or is a procedure call intended (this is not possible in an expression, an assignment target must be given as (param,...)=call in that case)?");
 					return false;
 				}
 

@@ -124,9 +124,12 @@ public abstract class ExprNode extends BaseNode
 		if(expr == ConstNode.getInvalid()) {
 			String msg;
 			if(getType().isCastableTo(targetType)) {
-				msg = "Assignment of " + getType() + " to " + targetType + " without a cast.";
+				msg = "Assignment of " + getType() + " [declared at " + getType().getCoords() + "]"
+							+ " to " + targetType + " [declared at " + targetType.getCoords() + "]"
+							+ " without a cast.";
 			} else {
-				msg = "Incompatible assignment from " + getType() + " to " + targetType + ".";
+				msg = "Incompatible assignment from " + getType() + " [declared at " + getType().getCoords() + "]"
+							+ " to " + targetType + " [declared at " + targetType.getCoords() + "]" + ".";
 			}
 			error.error(errorCoords, msg);
 			if(getType().toString().equals(targetType.toString()))

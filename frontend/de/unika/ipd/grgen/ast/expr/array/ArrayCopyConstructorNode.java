@@ -85,7 +85,7 @@ public class ArrayCopyConstructorNode extends ExprNode
 				ArrayTypeNode sourceArrayType = (ArrayTypeNode)arrayToCopy.getType();
 				success &= checkCopyConstructorTypes(arrayType.valueType, sourceArrayType.valueType, "array", false);
 			} else {
-				reportError("An array copy constructor expects an array type"
+				reportError("An array copy constructor expects a value of array type to copy"
 						+ " (but is given " + arrayToCopy.getType() + ").");
 				success = false;
 			}
