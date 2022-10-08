@@ -177,7 +177,7 @@ public class InternalObjectTypeNode extends BaseInternalObjectTypeNode
 
 	public static String getKindStr()
 	{
-		return "object of internal class";
+		return "internal object class";
 	}
 
 	@Override

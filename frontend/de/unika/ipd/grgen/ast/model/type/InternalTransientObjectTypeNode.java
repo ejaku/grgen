@@ -146,7 +146,7 @@ public class InternalTransientObjectTypeNode extends BaseInternalObjectTypeNode
 
 	public static String getKindStr()
 	{
-		return "object of internal transient class";
+		return "internal transient object class";
 	}
 
 	@Override
