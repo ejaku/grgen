@@ -225,7 +225,8 @@ public class ConnectionNode extends ConnectionCharacter
 		DeclaredTypeNode rootType = rootDecl != null ? rootDecl.getDeclType() : null;
 
 		if(!edge.getDeclType().isCompatibleTo(rootType)) {
-			reportError("Edge kind is incompatible with edge type (" + edge.getDeclType() + " and " + rootType + ").");
+			reportError("Edge kind is incompatible with edge type (" + rootType + " with " + edge.getDeclType() +
+					" [declared at " + edge.getDeclType().getCoords() + "]" + ").");
 			return false;
 		}
 
@@ -261,8 +262,8 @@ public class ConnectionNode extends ConnectionCharacter
 			return true; // edge is a def to be yielded to, i.e. output variable
 		}
 
-		edge.reportError("Dangling edges in replace/modify part must have been declared in the pattern part"
-				+ " (declaration in the pattern part missing for " + edge + ").");
+		edge.reportError("Dangling edges in the rewrite part (replace/modify) must have been declared in the pattern part"
+				+ " (a declaration in the pattern part is missing for " + edge + ").");
 		return false;
 	}
 
@@ -305,7 +306,7 @@ public class ConnectionNode extends ConnectionCharacter
 		if(redirectionKind != NO_REDIRECTION) {
 			if((edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 				edge.reportError("An edge to be redirected must have been declared in the pattern (thus matched)"
-						+ " (missing for " + edge.getIdentNode() + ").");
+						+ " (but " + edge.getIdentNode() + " is declared in the rewrite part).");
 				return false;
 			}
 			if(connectionKind != ConnectionKind.DIRECTED) {

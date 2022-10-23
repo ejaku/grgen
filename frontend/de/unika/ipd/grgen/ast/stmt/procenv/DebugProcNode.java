@@ -19,6 +19,7 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
@@ -67,9 +68,12 @@ public abstract class DebugProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(!(exprs.get(0).getType().equals(BasicTypeNode.stringType))) {
-			reportError("The " + shortSignature() + " procedure expects as argument (message) a value of type string"
-					+ " (but is given a value of type " + exprs.get(0).getType() + ").");
+		ExprNode message = exprs.get(0);
+		TypeNode messageType = message.getType();
+		if(!(messageType.equals(BasicTypeNode.stringType))) {
+			reportError("The " + shortSignature() + " procedure expects as argument (message)"
+					+ " a value of type string"
+					+ " (but is given a value of type " + messageType + " [declared at " + messageType.getCoords() + "]" + ").");
 			return false;
 		}
 		return true;

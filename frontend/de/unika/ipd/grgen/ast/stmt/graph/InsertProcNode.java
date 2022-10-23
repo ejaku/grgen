@@ -15,6 +15,7 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
@@ -61,9 +62,11 @@ public class InsertProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(!(graphExpr.getType().equals(BasicTypeNode.graphType))) {
-			reportError("The insert procedure expects as argument (subgraphToInsertIntoTheCurrentGraph) a value of type graph"
-					+ " (but is given a value of type " + graphExpr.getType() + ").");
+		TypeNode graphExprType = graphExpr.getType();
+		if(!(graphExprType.equals(BasicTypeNode.graphType))) {
+			reportError("The insert procedure expects as argument (subgraphToInsertIntoTheCurrentGraph)"
+					+ " a value of type graph"
+					+ " (but is given a value of type " + graphExprType + " [declared at " + graphExprType.getCoords() + "]" + ").");
 			return false;
 		}
 		return true;

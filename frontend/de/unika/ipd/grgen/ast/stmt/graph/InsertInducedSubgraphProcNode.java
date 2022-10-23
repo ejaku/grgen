@@ -70,20 +70,25 @@ public class InsertInducedSubgraphProcNode extends BuiltinProcedureInvocationBas
 	@Override
 	protected boolean checkLocal()
 	{
-		if(!(nodeSetExpr.getType() instanceof SetTypeNode)) {
-			nodeSetExpr.reportError("The insertInducedSubgraph procedure expects as 1. argument (setOfNodes) a value of type set<Node>"
-					+ " (but is given a value of type " + nodeSetExpr.getType() + ").");
+		TypeNode nodeSetExprType = nodeSetExpr.getType();
+		if(!(nodeSetExprType instanceof SetTypeNode)) {
+			nodeSetExpr.reportError("The insertInducedSubgraph procedure expects as 1. argument (setOfNodes)"
+					+ " a value of type set<Node>"
+					+ " (but is given a value of type " + nodeSetExprType + " [declared at " + nodeSetExprType.getCoords() + "]" + ").");
 			return false;
 		}
-		SetTypeNode type = (SetTypeNode)nodeSetExpr.getType();
+		SetTypeNode type = (SetTypeNode)nodeSetExprType;
 		if(!(type.valueType instanceof NodeTypeNode)) {
-			nodeSetExpr.reportError("The insertInducedSubgraph procedure expects as 1. argument (setOfNodes) a value of type set<Node>"
-					+ " (but is given a value of type " + nodeSetExpr.getType() + ").");
+			nodeSetExpr.reportError("The insertInducedSubgraph procedure expects as 1. argument (setOfNodes)"
+					+ " a value of type set<Node>"
+					+ " (but is given a value of type " + nodeSetExprType + " [declared at " + nodeSetExprType.getCoords() + "]" + ").");
 			return false;
 		}
-		if(!(nodeExpr.getType() instanceof NodeTypeNode)) {
-			nodeExpr.reportError("The insertInducedSubgraph procedure expects as 2. argument (node) a value of type Node"
-					+ " (but is given a value of type " + nodeExpr.getType() + ").");
+		TypeNode nodeExprType = nodeExpr.getType();
+		if(!(nodeExprType instanceof NodeTypeNode)) {
+			nodeExpr.reportError("The insertInducedSubgraph procedure expects as 2. argument (node)"
+					+ " a value of type Node"
+					+ " (but is given a value of type " + nodeExprType + " [declared at " + nodeExprType.getCoords() + "]" + ").");
 			return false;
 		}
 		return true;

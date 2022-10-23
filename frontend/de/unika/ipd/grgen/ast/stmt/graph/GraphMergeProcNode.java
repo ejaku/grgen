@@ -16,6 +16,7 @@ import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
@@ -76,21 +77,28 @@ public class GraphMergeProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(!(targetExpr.getType() instanceof NodeTypeNode)) {
-			reportError("The merge procedure expects as 1. argument (target) a value of type Node"
-					+ " (but is given a value of type " + targetExpr.getType() + ").");
+		TypeNode targetExprType = targetExpr.getType();
+		if(!(targetExprType instanceof NodeTypeNode)) {
+			reportError("The merge procedure expects as 1. argument (target)"
+					+ " a value of type Node"
+					+ " (but is given a value of type " + targetExprType + " [declared at " + targetExprType.getCoords() + "]" + ").");
 			return false;
 		}
-		if(!(sourceExpr.getType() instanceof NodeTypeNode)) {
-			reportError("The merge procedure expects as 2. argument (source) a value of type Node"
-					+ " (but is given a value of type " + sourceExpr.getType() + ").");
+		TypeNode sourceExprType = sourceExpr.getType();
+		if(!(sourceExprType instanceof NodeTypeNode)) {
+			reportError("The merge procedure expects as 2. argument (source)"
+					+ " a value of type Node"
+					+ " (but is given a value of type " + sourceExprType + " [declared at " + sourceExprType.getCoords() + "]" + ").");
 			return false;
 		}
-		if(sourceNameExpr != null
-				&& !(sourceNameExpr.getType().equals(BasicTypeNode.stringType))) {
-			reportError("The merge procedure expects as 3. argument (sourceName) a value of type string"
-					+ " (but is given a value of type " + sourceNameExpr.getType() + ").");
-			return false;
+		if(sourceNameExpr != null) {
+			TypeNode sourceNameExprType = sourceNameExpr.getType();
+			if(!(sourceNameExprType.equals(BasicTypeNode.stringType))) {
+				reportError("The merge procedure expects as 3. argument (sourceName)"
+						+ " a value of type string"
+						+ " (but is given a value of type " + sourceNameExprType + " [declared at " + sourceNameExprType.getCoords() + "]" + ").");
+				return false;
+			}
 		}
 		return true;
 	}

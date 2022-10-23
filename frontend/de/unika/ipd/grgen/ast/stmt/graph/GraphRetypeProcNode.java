@@ -33,18 +33,18 @@ public class GraphRetypeProcNode extends BuiltinProcedureInvocationBaseNode
 		setName(GraphRetypeProcNode.class, "retype procedure");
 	}
 
-	private ExprNode entity;
-	private ExprNode entityType;
+	private ExprNode entityExpr;
+	private ExprNode entityTypeExpr;
 
 	Vector<TypeNode> returnTypes;
 
 	public GraphRetypeProcNode(Coords coords, ExprNode entity, ExprNode entityType)
 	{
 		super(coords);
-		this.entity = entity;
-		becomeParent(this.entity);
-		this.entityType = entityType;
-		becomeParent(this.entityType);
+		this.entityExpr = entity;
+		becomeParent(this.entityExpr);
+		this.entityTypeExpr = entityType;
+		becomeParent(this.entityTypeExpr);
 	}
 
 	/** returns children of this node */
@@ -52,8 +52,8 @@ public class GraphRetypeProcNode extends BuiltinProcedureInvocationBaseNode
 	public Collection<BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(entity);
-		children.add(entityType);
+		children.add(entityExpr);
+		children.add(entityTypeExpr);
 		return children;
 	}
 
@@ -71,15 +71,18 @@ public class GraphRetypeProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(entity.getType() instanceof NodeTypeNode && entityType.getType() instanceof NodeTypeNode) {
+		TypeNode entityExprType = entityExpr.getType();
+		TypeNode entityTypeExprType = entityTypeExpr.getType();
+		if(entityExprType instanceof NodeTypeNode && entityTypeExprType instanceof NodeTypeNode) {
 			return true;
 		}
-		if(entity.getType() instanceof EdgeTypeNode && entityType.getType() instanceof EdgeTypeNode) {
+		if(entityExprType instanceof EdgeTypeNode && entityTypeExprType instanceof EdgeTypeNode) {
 			return true;
 		}
 		reportError("The retype procedure expects as 1. argument (node) a value of type Node and as 2. argument (nodeType) a value of type node type,"
 				+ " or as 1. argument (edge) a value of type Edge and as 2. argument (edgeType) a value of type edge type "
-				+ " (but is given values of type " + entity.getType() + " and " + entityType.getType() + ").");
+				+ " (but is given values of type " + entityExprType + " [declared at " + entityExprType.getCoords() + "]"
+				+ " and " + entityTypeExprType + " [declared at " + entityTypeExprType.getCoords() + "]" + ").");
 		return false;
 	}
 
@@ -92,15 +95,15 @@ public class GraphRetypeProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
-		entity = entity.evaluate();
-		entityType = entityType.evaluate();
-		if(entityType.getType() instanceof NodeTypeNode) {
-			GraphRetypeNodeProc retypeNode = new GraphRetypeNodeProc(entity.checkIR(Expression.class),
-					entityType.checkIR(Expression.class), entityType.getType().getType());
+		entityExpr = entityExpr.evaluate();
+		entityTypeExpr = entityTypeExpr.evaluate();
+		if(entityTypeExpr.getType() instanceof NodeTypeNode) {
+			GraphRetypeNodeProc retypeNode = new GraphRetypeNodeProc(entityExpr.checkIR(Expression.class),
+					entityTypeExpr.checkIR(Expression.class), entityTypeExpr.getType().getType());
 			return retypeNode;
 		} else {
-			GraphRetypeEdgeProc retypeEdge = new GraphRetypeEdgeProc(entity.checkIR(Expression.class),
-					entityType.checkIR(Expression.class), entityType.getType().getType());
+			GraphRetypeEdgeProc retypeEdge = new GraphRetypeEdgeProc(entityExpr.checkIR(Expression.class),
+					entityTypeExpr.checkIR(Expression.class), entityTypeExpr.getType().getType());
 			return retypeEdge;
 		}
 	}
@@ -110,7 +113,7 @@ public class GraphRetypeProcNode extends BuiltinProcedureInvocationBaseNode
 	{
 		if(returnTypes == null) {
 			returnTypes = new Vector<TypeNode>();
-			returnTypes.add(entityType.getType());
+			returnTypes.add(entityTypeExpr.getType());
 		}
 		return returnTypes;
 	}

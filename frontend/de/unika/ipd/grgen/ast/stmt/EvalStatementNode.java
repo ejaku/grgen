@@ -35,8 +35,9 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 		if(!givenType.isCompatibleTo(expectedType)) {
 			String givenTypeName = givenType.getTypeName();
 			String expectedTypeName = expectedType.getTypeName();
-			reportError("Cannot convert parameter " + parameter + " of " + statement + " from " + givenTypeName
-					+ " to " + expectedTypeName + ".");
+			reportError("Cannot convert parameter " + parameter + " of " + statement
+					+ " from " + givenTypeName + " [declared at " + givenType.getCoords() + "]"
+					+ " to " + expectedTypeName + " [declared at " + expectedType.getCoords() + "]" + ".");
 			return false;
 		}
 		return true;

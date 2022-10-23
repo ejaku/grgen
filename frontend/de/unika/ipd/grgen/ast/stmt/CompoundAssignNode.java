@@ -170,17 +170,20 @@ public class CompoundAssignNode extends EvalStatementNode
 		TypeNode targetType = targetQual != null ? targetQual.getDecl().getDeclType() : targetVar.getDeclType();
 		if(compoundAssignmentType == CompoundAssignmentType.CONCATENATE
 				&& !(targetType instanceof ArrayTypeNode || targetType instanceof DequeTypeNode)) {
-			(targetQual != null ? targetQual : targetVar).reportError("Compound assignment expects a LHS of array or deque type (given is type " + targetType + ").");
+			(targetQual != null ? targetQual : targetVar).reportError("Compound assignment expects a LHS of array or deque type"
+					+ " (given is type " + targetType + " [declared at " + targetType.getCoords() + "]" + ").");
 			return false;
 		}
 		if(compoundAssignmentType != CompoundAssignmentType.CONCATENATE
 				&& !(targetType instanceof SetTypeNode || targetType instanceof MapTypeNode)) {
-			(targetQual != null ? targetQual : targetVar).reportError("Compound assignment expects a LHS of set or map type (given is type " + targetType + ").");
+			(targetQual != null ? targetQual : targetVar).reportError("Compound assignment expects a LHS of set or map type"
+					+ " (given is type " + targetType + " [declared at " + targetType.getCoords() + "]" + ").");
 			return false;
 		}
 		TypeNode exprType = valueExpr.getType();
 		if(!exprType.isEqual(targetType)) {
-			valueExpr.reportError("Cannot compound-assign a value of type " + exprType + " to a variable of type " + targetType + ".");
+			valueExpr.reportError("Cannot compound-assign a value of type " + exprType + " [declared at " + exprType.getCoords() + "]"
+					+ " to a variable of type " + targetType + " [declared at " + targetType.getCoords() + "]" + ".");
 			return false;
 		}
 		if(targetChangedUnresolved != null) {
@@ -193,7 +196,8 @@ public class CompoundAssignNode extends EvalStatementNode
 				targetChangedType = targetChangedVis.getType();
 			if(targetChangedType != BasicTypeNode.booleanType) {
 				targetChangedUnresolved.reportError("The type of the target of the changement assignment"
-						+ " of the compound assignment must be boolean (but given is " + targetChangedType + ").");
+						+ " of the compound assignment must be boolean"
+						+ " (but given is " + targetChangedType + " [declared at " + targetChangedType.getCoords() + "]" + ").");
 				return false;
 			}
 		}

@@ -20,6 +20,7 @@ import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
@@ -93,25 +94,29 @@ public class AssignNameofNode extends EvalStatementNode
 			return false;
 		}
 
-		if(rhs.getType() != BasicTypeNode.stringType) {
-			reportError("The nameof() assignment expects as name to be assigned a value of type string"
-					+ " (but is given a value of type " + rhs.getType() + ").");
+		TypeNode rhsType = rhs.getType();
+		if(rhsType != BasicTypeNode.stringType) {
+			reportError("The nameof() assignment expects as name to be assigned"
+					+ " a value of type string"
+					+ " (but is given a value of type " + rhsType + " [declared at " + rhsType.getCoords() + "]" + ").");
 			return false;
 		}
 
 		if(lhs != null) {
-			if(lhs.getType().isEqual(BasicTypeNode.graphType)) {
+			TypeNode lhsType = lhs.getType();
+			if(lhsType.isEqual(BasicTypeNode.graphType)) {
 				return true;
 			}
-			if(lhs.getType() instanceof EdgeTypeNode) {
+			if(lhsType instanceof EdgeTypeNode) {
 				return true;
 			}
-			if(lhs.getType() instanceof NodeTypeNode) {
+			if(lhsType instanceof NodeTypeNode) {
 				return true;
 			}
 
-			reportError("The nameof() assignment expects as entity to assign to its name a value of type Node or Edge or graph"
-					+ " (but is given a value of type " + lhs.getType() + ").");
+			reportError("The nameof() assignment expects as entity to assign to its name"
+					+ " a value of type Node or Edge or graph"
+					+ " (but is given a value of type " + lhsType + " [declared at " + lhsType.getCoords() + "]" + ").");
 			return false;
 		}
 

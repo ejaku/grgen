@@ -67,9 +67,11 @@ public class GraphAddCopyNodeProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(!(oldNode.getType() instanceof NodeTypeNode)) {
-			reportError("The addCopy procedure expects as argument (oldNode) a value of type Node"
-					+ " (but is given a value of type " + oldNode.getType() + ").");
+		TypeNode oldNodeType = oldNode.getType();
+		if(!(oldNodeType instanceof NodeTypeNode)) {
+			reportError("The addCopy procedure expects as argument (oldNode)"
+					+ " a value of type Node"
+					+ " (but is given a value of type " + oldNodeType + " [declared at " + oldNodeType.getCoords() + "]" + ").");
 			return false;
 		}
 		return true;

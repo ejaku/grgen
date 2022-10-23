@@ -19,6 +19,7 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
@@ -65,9 +66,11 @@ public class DeleteFileProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(!(pathExpr.getType().equals(BasicTypeNode.stringType))) {
-			reportError("The deleteFile procedure expects as argument (file path) a value of type string"
-					+ " (but is given a value of type " + pathExpr.getType() + ").");
+		TypeNode pathExprType = pathExpr.getType();
+		if(!(pathExprType.equals(BasicTypeNode.stringType))) {
+			reportError("The deleteFile procedure expects as argument (file path)"
+					+ " a value of type string"
+					+ " (but is given a value of type " + pathExprType + " [declared at " + pathExprType.getCoords() + "]" + ").");
 			return false;
 		}
 		return true;

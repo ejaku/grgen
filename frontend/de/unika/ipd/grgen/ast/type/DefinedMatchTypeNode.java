@@ -163,7 +163,7 @@ public class DefinedMatchTypeNode extends MatchTypeNode
 				String filterNameWithEntitySuffix = filter.getFilterNameWithEntitySuffix();
 				if(alreadySeenFilters.contains(filterNameWithEntitySuffix)) {
 					getIdentNode().reportError("The filter " + filterNameWithEntitySuffix
-							+ " was already declared, only one declaration admissible.");
+							+ " was already declared, only one declaration is admissible.");
 					allFilterEntitiesExistAndAreOfAdmissibleType = false;
 				} else {
 					alreadySeenFilters.add(filterNameWithEntitySuffix);

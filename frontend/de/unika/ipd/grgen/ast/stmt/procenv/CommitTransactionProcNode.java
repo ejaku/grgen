@@ -19,6 +19,7 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
@@ -65,9 +66,11 @@ public class CommitTransactionProcNode extends BuiltinProcedureInvocationBaseNod
 	@Override
 	protected boolean checkLocal()
 	{
-		if(!transactionIdExpr.getType().isEqual(BasicTypeNode.intType)) {
-			transactionIdExpr.reportError("The commitTransaction procedure expects as argument (transaction id) a value of type int"
-					+ " (but is given a value of type " + transactionIdExpr.getType() + ").");
+		TypeNode transactionIdExprType = transactionIdExpr.getType();
+		if(!transactionIdExprType.isEqual(BasicTypeNode.intType)) {
+			transactionIdExpr.reportError("The commitTransaction procedure expects as argument (transaction id)"
+					+ " a value of type int"
+					+ " (but is given a value of type " + transactionIdExprType + " [declared at " + transactionIdExprType.getCoords() + "]" + ").");
 			return false;
 		}
 		return true;

@@ -91,7 +91,7 @@ public class InducedNode extends BaseNode
 			// coords of occurrence are not available
 			if(nodes.contains(inducedNode)) {
 				reportWarning("Multiple occurrence of " + inducedNode.getKind() + " "
-						+ inducedNode.getIdentNode().getSymbol().getText() + " in a single induced statement");
+						+ inducedNode.getIdentNode().getSymbol().getText() + " in a single induced statement.");
 			}
 			nodes.add(inducedNode);
 		}

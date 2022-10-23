@@ -19,6 +19,7 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Constant;
@@ -74,16 +75,24 @@ public class AssertProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(!exprs.get(0).getType().isEqual(BasicTypeNode.booleanType)) {
-			exprs.get(0).reportError("The " + name() + " procedure expects as 1. argument (condition to assert on) a value of type boolean"
-					+ " (but is given a value of type " + exprs.get(0).getType() + ").");
+		ExprNode condition = exprs.get(0);
+		TypeNode conditionType = condition.getType();
+		if(!conditionType.isEqual(BasicTypeNode.booleanType)) {
+			condition.reportError("The " + name() + " procedure expects as 1. argument (condition to assert on)"
+					+ " a value of type boolean"
+					+ " (but is given a value of type " + conditionType + " [declared at " + conditionType.getCoords() + "]" + ").");
 			return false;
 		}
 
-		if(exprs.size() >= 2 && !exprs.get(1).getType().isEqual(BasicTypeNode.stringType)) {
-			exprs.get(1).reportError("The " + name() + " procedure expects as 2. argument (message) a value of type string"
-					+ " (but is given a value of type " + exprs.get(1).getType() + ").");
-			return false;
+		if(exprs.size() >= 2) {
+			ExprNode message = exprs.get(1);
+			TypeNode messageType = message.getType();
+			if(!messageType.isEqual(BasicTypeNode.stringType)) {
+				message.reportError("The " + name() + " procedure expects as 2. argument (message)"
+						+ " a value of type string"
+						+ " (but is given a value of type " + messageType + " [declared at " + messageType.getCoords() + "]" + ").");
+				return false;
+			}
 		}
 
 		// regarding remaining parameters: any type goes, must be converted toString in implementation

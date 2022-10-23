@@ -116,12 +116,13 @@ public class ProcedureMethodInvocationNode extends ProcedureInvocationBaseNode
 
 				successfullyResolved = procedureDecl != null && successfullyResolved;
 			} else {
-				reportError("Left hand side of '.' does not own a scope (type " + ownerType + ").");
+				reportError("Left hand side of '.' does not own a scope"
+						+ " (type " + ownerType + " [declared at " + ownerType.getCoords() + "]" + ").");
 				successfullyResolved = false;
 			}
 		} else {
 			reportError("Left hand side of '.' is neither a node nor an edge"
-					+ (owner != null && owner.getDeclType() != null ? "(type " + owner.getDeclType() + ")." : ".") );
+					+ (owner != null && owner.getDeclType() != null ? " (type " + owner.getDeclType() + " [declared at " + owner.getDeclType().getCoords() + "]" + ")." : ".") );
 			successfullyResolved = false;
 		}
 

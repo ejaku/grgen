@@ -64,9 +64,11 @@ public class GraphAddNodeProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(!(nodeType.getType() instanceof NodeTypeNode)) {
-			reportError("The add procedure expects as argument (nodeType) a value of type node type"
-					+ " (but is given a value of type " + nodeType.getType() + ").");
+		TypeNode nodeTypeType = nodeType.getType();
+		if(!(nodeTypeType instanceof NodeTypeNode)) {
+			reportError("The add procedure expects as argument (nodeType)"
+					+ " a value of type node type"
+					+ " (but is given a value of type " + nodeTypeType + " [declared at " + nodeTypeType.getCoords() + "]" + ").");
 			return false;
 		}
 		return true;

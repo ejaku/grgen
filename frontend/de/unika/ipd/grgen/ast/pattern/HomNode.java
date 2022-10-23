@@ -114,12 +114,12 @@ public class HomNode extends BaseNode
 	protected boolean checkLocal()
 	{
 		if(childrenNode.isEmpty() && childrenEdge.isEmpty()) {
-			this.reportError("Hom statement is empty.");
+			this.reportError("The hom statement is empty.");
 			return false;
 		}
 		if(!childrenNode.isEmpty() && !childrenEdge.isEmpty()) {
-			this.reportError("Hom statement may only contain nodes or edges at a time"
-					+ " (this is violated by " + childrenNode.get(0) + " and " + childrenEdge.get(0) + ")");
+			this.reportError("The hom statement may only contain nodes or edges at a time"
+					+ " (this is violated by " + childrenNode.get(0) + " and " + childrenEdge.get(0) + ").");
 			return false;
 		}
 
@@ -152,7 +152,7 @@ public class HomNode extends BaseNode
 		}
 
 		if(isDirectedEdge && isUndirectedEdge) {
-			reportWarning("Hom statement may only contain directed or undirected edges at a time");
+			reportWarning("The hom statement may only contain directed or undirected edges at a time.");
 		}
 	}
 

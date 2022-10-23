@@ -96,8 +96,8 @@ public class NameOrAttributeInitializationNode extends BaseNode
 
 			initialization = becomeParent(initialization.adjustType(targetType, owner.getCoords()));
 			if(initialization == ConstNode.getInvalid()) {
-				owner.reportError("An element name must be initialized with a value of type string"
-						+ " (but is initialized with a value of type " + exprType + ").");
+				owner.reportError("The name of an element must be initialized with a value of type string"
+						+ " (but it is initialized with a value of type " + exprType + ").");
 				return false;
 			}
 
@@ -131,15 +131,15 @@ public class NameOrAttributeInitializationNode extends BaseNode
 			Collection<TypeNode> superTypes = new HashSet<TypeNode>();
 			exprType.doGetCompatibleToTypes(superTypes);
 			if(!superTypes.contains(targetType)) {
-				owner.reportError("Cannot initialize an attribute of type " + targetType
-						+ " with a value of type " + exprType + ".");
+				owner.reportError("Cannot initialize an attribute of type " + targetType + " [declared at " + targetType.getCoords() + "]"
+						+ " with a value of type " + exprType + " [declared at " + exprType.getCoords() + "]" + ".");
 				return false;
 			}
 		}
 		if(targetType instanceof NodeTypeNode && exprType instanceof EdgeTypeNode
 				|| targetType instanceof EdgeTypeNode && exprType instanceof NodeTypeNode) {
-			owner.reportError("Cannot initialize an attribute of type " + targetType
-					+ " with a value of type " + exprType + ".");
+			owner.reportError("Cannot initialize an attribute of type " + targetType + " [declared at " + targetType.getCoords() + "]"
+					+ " with a value of type " + exprType + " [declared at " + exprType.getCoords() + "]" + ".");
 			return false;
 		}
 		return true;

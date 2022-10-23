@@ -127,14 +127,14 @@ public class TotallyHomNode extends BaseNode
 	{
 		if(node != null) {
 			if(!childrenEdge.isEmpty()) {
-				this.reportError("The independent() statement may only contain nodes or edges at a time"
+				this.reportError("The independent statement may only contain nodes or edges at a time"
 						+ " (it specifies the node " + node.getIdentNode() + " to be totally homomorphic, but the edge " + childrenEdge.get(0) + " as exception to be isomorphic).");
 				return false;
 			}
 		}
 		if(edge != null) {
 			if(!childrenNode.isEmpty()) {
-				this.reportError("The independent() statement may only contain nodes or edges at a time"
+				this.reportError("The independent statement may only contain nodes or edges at a time"
 						+ " (it specifies the edge " + edge.getIdentNode() + " to be totally homomorphic, but the node " + childrenNode.get(0) + " as exception to be isomorphic).");
 				return false;
 			}
@@ -171,7 +171,7 @@ public class TotallyHomNode extends BaseNode
 		}
 
 		if(isDirectedEdge && isUndirectedEdge) {
-			reportWarning("Hom statement may only contain directed or undirected edges at a time");
+			reportWarning("The independent statement may only contain directed or undirected edges at a time.");
 		}
 	}
 

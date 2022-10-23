@@ -17,6 +17,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.stmt.LockStatement;
 import de.unika.ipd.grgen.ir.IR;
@@ -66,9 +67,10 @@ public class LockStatementNode extends NestingStatementNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(!lockObjectExpr.getType().isLockableType()) {
+		TypeNode lockObjectExprType = lockObjectExpr.getType();
+		if(!lockObjectExprType.isLockableType()) {
 			lockObjectExpr.reportError("The lock statement expects as lock object a value that is not of basic type (with exception of type object)"
-					+ " (but is given a value of type " + lockObjectExpr.getType() + ").");
+					+ " (but is given a value of type " + lockObjectExprType + " [declared at " + lockObjectExprType.getCoords() + "]" + ").");
 			return false;
 		}
 		return true;

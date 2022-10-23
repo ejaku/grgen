@@ -14,6 +14,7 @@ package de.unika.ipd.grgen.ast.stmt.procenv;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
@@ -36,9 +37,11 @@ public class DebugHighlightProcNode extends DebugProcNode
 	{
 		int paramNum = 0;
 		for(ExprNode expr : exprs.getChildren()) {
-			if(paramNum % 2 == 0 && !(expr.getType().equals(BasicTypeNode.stringType))) {
-				reportError("The " + shortSignature() + " procedure expects as " + paramNum + ". argument (transaction id) a value of type string (a message followed by a sequence of (value, annotation for the value)* must be given)"
-						+ " (but is given a value of type " + expr.getType() + ").");
+			TypeNode exprType = expr.getType();
+			if(paramNum % 2 == 0 && !(exprType.equals(BasicTypeNode.stringType))) {
+				reportError("The " + shortSignature() + " procedure expects as " + paramNum + ". argument"
+						+ " a value of type string (a message followed by a sequence of (value, annotation for the value)* must be given)"
+						+ " (but is given a value of type " + exprType + " [declared at " + exprType.getCoords() + "]" + ").");
 				return false;
 			}
 			++paramNum;

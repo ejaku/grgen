@@ -17,6 +17,7 @@ import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.stmt.NestingStatementNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -57,10 +58,11 @@ public abstract class ForGraphQueryNode extends NestingStatementNode
 
 	protected boolean checkIterationVariable(String forType)
 	{
-		if(!(iterationVariable.getDeclType() instanceof NodeTypeNode)
-				&& !(iterationVariable.getDeclType() instanceof EdgeTypeNode)) {
+		TypeNode iterationVariableType = iterationVariable.getDeclType();
+		if(!(iterationVariableType instanceof NodeTypeNode)
+				&& !(iterationVariableType instanceof EdgeTypeNode)) {
 			reportError("Iteration variable of for " + forType + " loop must be of type Node or Edge"
-					+ " (but is " + iterationVariable.getDeclType() + ").");
+					+ " (but is " + iterationVariableType + " [declared at " + iterationVariableType.getCoords() + "]" + ").");
 			return false;
 		}
 		

@@ -19,6 +19,7 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.VisitedNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
@@ -91,9 +92,11 @@ public class AssignVisitedNode extends EvalStatementNode
 			return false;
 		}
 
-		if(rhs.getType() != BasicTypeNode.booleanType) {
-			reportError("The visited[] assignment expects as value to be assigned a value of type boolean"
-					+ " (but is given a value of type " + rhs.getType() + ").");
+		TypeNode rhsType = rhs.getType();
+		if(rhsType != BasicTypeNode.booleanType) {
+			reportError("The visited[] assignment expects as value to be assigned"
+					+ " a value of type boolean"
+					+ " (but is given a value of type " + rhsType + " [declared at " + rhsType.getCoords() + "]" + ").");
 			return false;
 		}
 		return true;

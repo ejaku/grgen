@@ -17,6 +17,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.stmt.DoWhileStatement;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
@@ -75,8 +76,10 @@ public class DoWhileStatementNode extends NestingStatementNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(!conditionExpr.getType().isEqual(BasicTypeNode.booleanType)) {
-			conditionExpr.reportError("The condition of the do-while loop must be of type boolean (but is of type " + conditionExpr.getType() + ").");
+		TypeNode conditionExprType = conditionExpr.getType();
+		if(!conditionExprType.isEqual(BasicTypeNode.booleanType)) {
+			conditionExpr.reportError("The condition of the do-while loop must be of type boolean"
+					+ " (but is of type " + conditionExprType + " [declared at " + conditionExprType.getCoords() + "]" + ").");
 			return false;
 		}
 		return true;

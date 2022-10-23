@@ -19,6 +19,7 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
@@ -65,9 +66,11 @@ public class VFreeProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(!visFlagExpr.getType().isEqual(BasicTypeNode.intType)) {
-			visFlagExpr.reportError("The vfree procedure expects as argument (visitedFlagId) a value of type int"
-					+ " (but is given a value of type " + visFlagExpr.getType() + ").");
+		TypeNode visFlagExprType = visFlagExpr.getType();
+		if(!visFlagExprType.isEqual(BasicTypeNode.intType)) {
+			visFlagExpr.reportError("The vfree procedure expects as argument (visitedFlagId)"
+					+ " a value of type int"
+					+ " (but is given a value of type " + visFlagExprType + " [declared at " + visFlagExprType.getCoords() + "]" + ").");
 			return false;
 		}
 		return true;

@@ -59,8 +59,10 @@ public abstract class ProcedureInvocationBaseNode extends ProcedureOrBuiltinProc
 				res = false;
 				String exprTypeName = actualParameterType.getTypeName();
 				String paramTypeName = formalParameterType.getTypeName();
-				unresolved.reportError("Cannot convert " + (i + 1) + ". argument from " + exprTypeName
-						+ " to " + paramTypeName + " (when calling procedure " + (isMethod ? "method " : "") + procedureName + ").");
+				unresolved.reportError("Cannot convert " + (i + 1) + ". argument"
+						+ " from " + exprTypeName + " [declared at " + actualParameterType.getCoords() + "]"
+						+ " to " + paramTypeName + " [declared at " + formalParameterType.getCoords() + "]"
+						+ " (when calling procedure " + (isMethod ? "method " : "") + procedureName + " [declared at " + pb.getCoords() + "]" + ").");
 			}
 		}
 

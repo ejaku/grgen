@@ -72,20 +72,25 @@ public class GetEquivalentOrAddProcNode extends BuiltinProcedureInvocationBaseNo
 	@Override
 	protected boolean checkLocal()
 	{
-		if(!(subgraphExpr.getType() instanceof GraphTypeNode)) {
-			subgraphExpr.reportError("The " + name() + " procedure expects as 1. argument (subgraph) a value of type graph"
-					+ " (but is given a value of type " + subgraphExpr.getType() + ").");
+		TypeNode subgraphExprType = subgraphExpr.getType();
+		if(!(subgraphExprType instanceof GraphTypeNode)) {
+			subgraphExpr.reportError("The " + name() + " procedure expects as 1. argument (subgraph)"
+					+ " a value of type graph"
+					+ " (but is given a value of type " + subgraphExprType + " [declared at " + subgraphExprType.getCoords() + "]" + ").");
 			return false;
 		}
-		if(!(subgraphArrayExpr.getType() instanceof ArrayTypeNode)) {
-			subgraphArrayExpr.reportError("The " + name() + " procedure expects as 2. argument a value of type array<graph>"
-					+ " (but is given a value of type " + subgraphArrayExpr.getType() + ").");
+		TypeNode subgraphArrayExprType = subgraphArrayExpr.getType();
+		if(!(subgraphArrayExprType instanceof ArrayTypeNode)) {
+			subgraphArrayExpr.reportError("The " + name() + " procedure expects as 2. argument"
+					+ " a value of type array<graph>"
+					+ " (but is given a value of type " + subgraphArrayExprType + " [declared at " + subgraphArrayExprType.getCoords() + "]" + ").");
 			return false;
 		}
-		ArrayTypeNode type = (ArrayTypeNode)subgraphArrayExpr.getType();
-		if(!(type.valueType instanceof GraphTypeNode)) {
-			subgraphArrayExpr.reportError("The " + name() + " procedure expects as 2. argument a value of type array<graph>"
-					+ " (but is given a value of type " + subgraphArrayExpr.getType() + ").");
+		TypeNode subgraphArrayExprValueType = ((ArrayTypeNode)subgraphArrayExprType).valueType;
+		if(!(subgraphArrayExprValueType instanceof GraphTypeNode)) {
+			subgraphArrayExpr.reportError("The " + name() + " procedure expects as 2. argument"
+					+ " a value of type array<graph>"
+					+ " (but is given a value of type " + subgraphArrayExprType + " [declared at " + subgraphArrayExprType.getCoords() + "]" + ").");
 			return false;
 		}
 		return true;

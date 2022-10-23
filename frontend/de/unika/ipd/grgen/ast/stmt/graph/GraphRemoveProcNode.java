@@ -17,6 +17,7 @@ import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.stmt.graph.GraphRemoveProc;
@@ -63,14 +64,16 @@ public class GraphRemoveProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(entityExpr.getType() instanceof EdgeTypeNode) {
+		TypeNode entityExprType = entityExpr.getType();
+		if(entityExprType instanceof EdgeTypeNode) {
 			return true;
 		}
-		if(entityExpr.getType() instanceof NodeTypeNode) {
+		if(entityExprType instanceof NodeTypeNode) {
 			return true;
 		}
-		reportError("The rem procedure expects as argument (entity) a value of type Node or Edge"
-				+ " (but is given a value of type " + entityExpr.getType() + ").");
+		reportError("The rem procedure expects as argument (entity)"
+				+ " a value of type Node or Edge"
+				+ " (but is given a value of type " + entityExprType + " [declared at " + entityExprType.getCoords() + "]" + ").");
 		return false;
 	}
 

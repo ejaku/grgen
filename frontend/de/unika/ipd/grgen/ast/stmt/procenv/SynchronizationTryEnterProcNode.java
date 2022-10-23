@@ -62,9 +62,11 @@ public class SynchronizationTryEnterProcNode extends BuiltinProcedureInvocationB
 	@Override
 	protected boolean checkLocal()
 	{
-		if(!criticalSectionObjectExpr.getType().isLockableType()) {
-			criticalSectionObjectExpr.reportError("The Synchronization::tryenter procedure expects as argument (criticalSectionObject) a value that is not of basic type (with exception of type object)"
-					+ " (but is given a value of type " + criticalSectionObjectExpr.getType() + ").");
+		TypeNode criticalSectionObjectExprType = criticalSectionObjectExpr.getType();
+		if(!criticalSectionObjectExprType.isLockableType()) {
+			criticalSectionObjectExpr.reportError("The Synchronization::tryenter procedure expects as argument (criticalSectionObject)"
+					+ " a value that is not of basic type (with exception of type object)"
+					+ " (but is given a value of type " + criticalSectionObjectExprType + " [declared at " + criticalSectionObjectExprType.getCoords() + "]" + ").");
 			return false;
 		}
 		return true;

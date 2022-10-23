@@ -19,6 +19,7 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ConstNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.stmt.CaseStatement;
 import de.unika.ipd.grgen.ir.stmt.SwitchStatement;
@@ -76,27 +77,31 @@ public class SwitchStatementNode extends EvalStatementNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(!(switchExpr.getType().isEqual(BasicTypeNode.byteType))
-				&& !(switchExpr.getType().isEqual(BasicTypeNode.shortType))
-				&& !(switchExpr.getType().isEqual(BasicTypeNode.intType))
-				&& !(switchExpr.getType().isEqual(BasicTypeNode.longType))
-				&& !(switchExpr.getType().isEqual(BasicTypeNode.booleanType))
-				&& !(switchExpr.getType().isEqual(BasicTypeNode.stringType))
-				&& !(switchExpr.getType() instanceof EnumTypeNode)) {
-			reportError("The expression switched upon must be of type byte or short or int or long or boolean or string or enum, but is of type " + switchExpr.getType());
+		TypeNode switchExprType = switchExpr.getType();
+		if(!(switchExprType.isEqual(BasicTypeNode.byteType))
+				&& !(switchExprType.isEqual(BasicTypeNode.shortType))
+				&& !(switchExprType.isEqual(BasicTypeNode.intType))
+				&& !(switchExprType.isEqual(BasicTypeNode.longType))
+				&& !(switchExprType.isEqual(BasicTypeNode.booleanType))
+				&& !(switchExprType.isEqual(BasicTypeNode.stringType))
+				&& !(switchExprType instanceof EnumTypeNode)) {
+			reportError("The expression switched upon must be of type byte or short or int or long or boolean or string or enum,"
+					+ " but is of type " + switchExprType + " [declared at " + switchExprType.getCoords() + "].");
 			return false;
 		}
 		boolean defaultVisited = false;
 		for(CaseStatementNode caseStmt : cases.getChildren()) {
-			if(caseStmt.caseConstantExpr != null) {
+			ExprNode caseConstantExpr = caseStmt.caseConstantExpr;
+			if(caseConstantExpr != null) {
 				// just to be sure, the syntax as-such is not allowing non-constants 
-				if(!(caseStmt.caseConstantExpr.evaluate() instanceof ConstNode)) {
+				if(!(caseConstantExpr.evaluate() instanceof ConstNode)) {
 					caseStmt.reportError("A case statement of a switch statement expects a constant expression.");
 					return false;
 				}
-				if(!(caseStmt.caseConstantExpr.getType().isCompatibleTo(switchExpr.getType()))) {
-					caseStmt.reportError("The type " + caseStmt.caseConstantExpr.getType() + " of the case expression"
-							+ " is not compatible to the type " + switchExpr.getType() + " of the switch expression.");
+				TypeNode caseConstantExprType = caseConstantExpr.getType();
+				if(!(caseConstantExprType.isCompatibleTo(switchExprType))) {
+					caseStmt.reportError("The type " + caseConstantExprType + " [declared at " + caseConstantExprType.getCoords() + "]" + " of the case expression"
+							+ " is not compatible to the type " + switchExprType + " [declared at " + switchExprType.getCoords() + "]" + " of the switch expression.");
 					return false;
 				}
 			} else {

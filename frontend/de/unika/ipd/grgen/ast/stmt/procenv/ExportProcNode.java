@@ -19,6 +19,7 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
@@ -71,21 +72,26 @@ public class ExportProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected boolean checkLocal()
 	{
+		TypeNode pathExprType = pathExpr.getType();
 		if(graphExpr != null) {
-			if(!(graphExpr.getType().equals(BasicTypeNode.graphType))) {
-				reportError("The export procedure expects as 1. argument (subgraphToExport) a value of type graph"
-						+ " (but is given a value of type " + graphExpr.getType() + ").");
+			TypeNode graphExprType = graphExpr.getType();
+			if(!(graphExprType.equals(BasicTypeNode.graphType))) {
+				reportError("The export procedure expects as 1. argument (subgraphToExport)"
+						+ " a value of type graph"
+						+ " (but is given a value of type " + graphExprType + " [declared at " + graphExprType.getCoords() + "]" + ").");
 				return false;
 			}
-			if(!(pathExpr.getType().equals(BasicTypeNode.stringType))) {
-				reportError("The export procedure expects as 2. argument (filePath) a value of type string"
-						+ " (but is given a value of type " + pathExpr.getType() + ").");
+			if(!(pathExprType.equals(BasicTypeNode.stringType))) {
+				reportError("The export procedure expects as 2. argument (filePath)"
+						+ " a value of type string"
+						+ " (but is given a value of type " + pathExprType + " [declared at " + pathExprType.getCoords() + "]" + ").");
 				return false;
 			}
 		} else {
-			if(!(pathExpr.getType().equals(BasicTypeNode.stringType))) {
-				reportError("The export procedure expects as argument (filePath) a value of type string"
-						+ " (but is given a value of type " + pathExpr.getType() + ").");
+			if(!(pathExprType.equals(BasicTypeNode.stringType))) {
+				reportError("The export procedure expects as argument (filePath)"
+						+ " a value of type string"
+						+ " (but is given a value of type " + pathExprType + " [declared at " + pathExprType.getCoords() + "]" + ").");
 				return false;
 			}
 		}

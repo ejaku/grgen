@@ -78,19 +78,25 @@ public class GraphAddCopyEdgeProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(!(oldEdge.getType() instanceof EdgeTypeNode)) {
-			reportError("The addCopy procedure expects as 1. argument (oldEdge) a value of type Edge"
-					+ " (but is given a value of type " + oldEdge.getType() + ").");
+		TypeNode oldEdgeType = oldEdge.getType();
+		if(!(oldEdgeType instanceof EdgeTypeNode)) {
+			reportError("The addCopy procedure expects as 1. argument (oldEdge)"
+					+ " a value of type Edge"
+					+ " (but is given a value of type " + oldEdgeType + " [declared at " + oldEdgeType.getCoords() + "]" + ").");
 			return false;
 		}
-		if(!(sourceNode.getType() instanceof NodeTypeNode)) {
-			reportError("The addCopy procedure expects as 2. argument (sourceNode) a value of type Node"
-					+ " (but is given a value of type " + sourceNode.getType() + ").");
+		TypeNode sourceNodeType = sourceNode.getType();
+		if(!(sourceNodeType instanceof NodeTypeNode)) {
+			reportError("The addCopy procedure expects as 2. argument (sourceNode)"
+					+ " a value of type Node"
+					+ " (but is given a value of type " + sourceNodeType + " [declared at " + sourceNodeType.getCoords() + "]" + ").");
 			return false;
 		}
-		if(!(targetNode.getType() instanceof NodeTypeNode)) {
-			reportError("The addCopy procedure expects as 3. argument (targetNode) a value of type Node"
-					+ " (but is given a value of type " + targetNode.getType() + ").");
+		TypeNode targetNodeType = targetNode.getType();
+		if(!(targetNodeType instanceof NodeTypeNode)) {
+			reportError("The addCopy procedure expects as 3. argument (targetNode)"
+					+ " a value of type Node"
+					+ " (but is given a value of type " + targetNodeType + " [declared at " + targetNodeType.getCoords() + "]" + ").");
 			return false;
 		}
 		return true;

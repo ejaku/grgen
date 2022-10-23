@@ -121,8 +121,8 @@ public class ReturnStatementNode extends EvalStatementNode
 				res = false;
 				String exprTypeName = retExprType.getTypeName();
 				String parameterTypeName = retDeclType.getTypeName();
-				reportError("Cannot convert the " + (i + 1) + ". return parameter from the type " + exprTypeName
-						+ " to the expected type " + parameterTypeName + ".");
+				reportError("Cannot convert the " + (i + 1) + ". return parameter from the type " + exprTypeName + " [declared at " + retExprType.getCoords() + "]"
+						+ " to the expected type " + parameterTypeName + " [declared at " + retDeclType.getCoords() + "]" + ".");
 			}
 		}
 

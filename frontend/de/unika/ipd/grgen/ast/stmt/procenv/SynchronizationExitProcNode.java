@@ -19,6 +19,7 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.stmt.procenv.SynchronizationExitProc;
@@ -64,9 +65,11 @@ public class SynchronizationExitProcNode extends BuiltinProcedureInvocationBaseN
 	@Override
 	protected boolean checkLocal()
 	{
-		if(!criticalSectionObjectExpr.getType().isLockableType()) {
-			criticalSectionObjectExpr.reportError("The Synchronization::exit procedure expects as argument (criticalSectionObject) a value that is not of basic type (with exception of type object)"
-					+ " (but is given a value of type " + criticalSectionObjectExpr.getType() + ").");
+		TypeNode criticalSectionObjectExprType = criticalSectionObjectExpr.getType();
+		if(!criticalSectionObjectExprType.isLockableType()) {
+			criticalSectionObjectExpr.reportError("The Synchronization::exit procedure expects as argument (criticalSectionObject)"
+					+ " a value that is not of basic type (with exception of type object)"
+					+ " (but is given a value of type " + criticalSectionObjectExprType + " [declared at " + criticalSectionObjectExprType.getCoords() + "]" + ").");
 			return false;
 		}
 		return true;

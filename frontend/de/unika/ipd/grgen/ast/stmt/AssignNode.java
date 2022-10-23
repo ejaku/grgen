@@ -362,13 +362,15 @@ public class AssignNode extends EvalStatementNode
 			Collection<TypeNode> superTypes = new HashSet<TypeNode>();
 			exprType.doGetCompatibleToTypes(superTypes);
 			if(!superTypes.contains(targetType)) {
-				reportError("Cannot assign a value of type " + exprType + " to a variable of type " + targetType + ".");
+				reportError("Cannot assign a value of type " + exprType + " [declared at " + exprType.getCoords() + "]"
+						+ " to a variable of type " + targetType + " [declared at " + targetType.getCoords() + "]" + ".");
 				return false;
 			}
 		}
 		if(targetType instanceof NodeTypeNode && exprType instanceof EdgeTypeNode
 				|| targetType instanceof EdgeTypeNode && exprType instanceof NodeTypeNode) {
-			reportError("Cannot assign a value of type " + exprType + " to a variable of type " + targetType + ".");
+			reportError("Cannot assign a value of type " + exprType + " [declared at " + exprType.getCoords() + "]"
+					+ " to a variable of type " + targetType + " [declared at " + targetType.getCoords() + "]" + ".");
 			return false;
 		}
 		return true;

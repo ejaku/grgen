@@ -18,6 +18,7 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.stmt.IntegerRangeIterationYield;
@@ -99,16 +100,22 @@ public class IntegerRangeIterationYieldNode extends NestingStatementNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(!iterationVariable.getDeclType().isEqual(BasicTypeNode.intType)) {
-			reportError("The for integer range loop expects an iteration variable of type int (but is given " + iterationVariable.getDeclType() + ").");
+		TypeNode iterationVariableType = iterationVariable.getDeclType();
+		if(!iterationVariableType.isEqual(BasicTypeNode.intType)) {
+			reportError("The for integer range loop expects an iteration variable of type int"
+					+ " (but is given " + iterationVariableType + " [declared at " + iterationVariableType.getCoords() + "]" + ").");
 			return false;
 		}
-		if(!leftExpr.getType().isEqual(BasicTypeNode.intType)) {
-			reportError("The for integer range loop expects a left bound of type int (but is given " + leftExpr.getType() + ").");
+		TypeNode leftExprType = leftExpr.getType();
+		if(!leftExprType.isEqual(BasicTypeNode.intType)) {
+			reportError("The for integer range loop expects a left bound of type int"
+					+ " (but is given " + leftExprType + " [declared at " + leftExprType.getCoords() + "]" + ").");
 			return false;
 		}
-		if(!rightExpr.getType().isEqual(BasicTypeNode.intType)) {
-			reportError("The for integer range loop expects a right bound of type int (but is given " + rightExpr.getType() + ").");
+		TypeNode rightExprType = rightExpr.getType();
+		if(!rightExprType.isEqual(BasicTypeNode.intType)) {
+			reportError("The for integer range loop expects a right bound of type int"
+					+ " (but is given " + rightExprType + " [declared at " + rightExprType.getCoords() + "]" + ").");
 			return false;
 		}
 		return true;

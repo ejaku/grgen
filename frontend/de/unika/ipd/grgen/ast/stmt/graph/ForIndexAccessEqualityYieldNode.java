@@ -102,7 +102,9 @@ public class ForIndexAccessEqualityYieldNode extends ForIndexAccessNode
 		if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
 			String expTypeName = expectedIndexAccessType.getTypeName();
 			String typeName = indexAccessType.getTypeName();
-			reportError("Cannot convert type used in accessing index from " + typeName + " to " + expTypeName
+			reportError("Cannot convert type used in accessing index"
+					+ " from " + typeName + " [declared at " + indexAccessType.getCoords() + "]"
+					+ " to " + expTypeName + " [declared at " + expectedIndexAccessType.getCoords() + "]"
 					+ " in index access loop (on " + indexUnresolved + ").");
 			return false;
 		}
@@ -111,7 +113,9 @@ public class ForIndexAccessEqualityYieldNode extends ForIndexAccessNode
 		if(!entityType.isCompatibleTo(expectedEntityType) && !expectedEntityType.isCompatibleTo(entityType)) {
 			String expTypeName = expectedEntityType.getTypeName();
 			String typeName = entityType.getTypeName();
-			reportError("Cannot convert index type from " + typeName + " to " + expTypeName
+			reportError("Cannot convert index type"
+					+ " from " + typeName + " [declared at " + entityType.getCoords() + "]"
+					+ " to " + expTypeName + " [declared at " + expectedEntityType.getCoords() + "]"
 					+ " in index access loop (on " + indexUnresolved + ").");
 			return false;
 		}

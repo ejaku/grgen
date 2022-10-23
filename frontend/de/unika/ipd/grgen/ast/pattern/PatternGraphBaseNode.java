@@ -200,9 +200,9 @@ public abstract class PatternGraphBaseNode extends BaseNode
 						&& !(paramVar.getDeclType() instanceof InternalObjectTypeNode)
 						&& !(paramVar.getDeclType() instanceof InternalTransientObjectTypeNode)
 						&& !(paramVar.getDeclType() instanceof ExternalObjectTypeNode)) {
-					paramVar.typeUnresolved.reportError("Type of variable " + paramVar.getIdentNode()
+					paramVar.typeUnresolved.reportError("The type of variable " + paramVar.getIdentNode()
 							+ " must be a basic type (like int or string), or an enum, or a container type (set|map|array|deque), or an object type (class) "
-							+ ("(but it is " + paramVar.getDeclType().getTypeName() + ")."));
+							+ ("(but it is " + paramVar.getDeclType().getTypeName() + " [declared at " + paramVar.getDeclType().getCoords() + "]" + ")."));
 					paramsOK = false;
 				}
 			} else
@@ -221,7 +221,8 @@ public abstract class PatternGraphBaseNode extends BaseNode
 				if(subUsage.resolve()) {
 					PatternGraphLhsNode pattern = subUsage.getSubpatternDeclNode().getPattern();
 					if(pattern.hasAbstractElements) {
-						subUsage.reportError("Cannot instantiate a pattern with abstract elements (attempted on " + pattern.nameOfGraph + " with " + subUsage.getIdentNode() + ").");
+						subUsage.reportError("Cannot instantiate a pattern with abstract elements"
+								+ " (attempted with " + subUsage.getIdentNode() + " on " + pattern.nameOfGraph + " [declared at " + pattern.getCoords() + "]" + ").");
 						subUsagesOK = false;
 					}
 				} else
@@ -398,7 +399,7 @@ public abstract class PatternGraphBaseNode extends BaseNode
 			} else if(param instanceof VarDeclNode) {
 				res.add((VarDeclNode)param);
 			} else
-				throw new UnsupportedOperationException("Unsupported parameter (" + param + ")");
+				throw new UnsupportedOperationException("Unsupported parameter (" + param + ").");
 		}
 
 		return res;

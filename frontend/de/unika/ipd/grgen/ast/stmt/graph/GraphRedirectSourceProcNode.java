@@ -17,6 +17,7 @@ import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.stmt.BuiltinProcedureInvocationBaseNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
@@ -78,21 +79,28 @@ public class GraphRedirectSourceProcNode extends BuiltinProcedureInvocationBaseN
 	@Override
 	protected boolean checkLocal()
 	{
-		if(!(edgeExpr.getType() instanceof EdgeTypeNode)) {
-			reportError("The redirectSource procedure expects as 1. argument (edgeToBeRedirected) a value of type Edge"
-					+ " (but is given a value of type " + edgeExpr.getType() + ").");
+		TypeNode edgeExprType = edgeExpr.getType();
+		if(!(edgeExprType instanceof EdgeTypeNode)) {
+			reportError("The redirectSource procedure expects as 1. argument (edgeToBeRedirected)"
+					+ " a value of type Edge"
+					+ " (but is given a value of type " + edgeExprType + " [declared at " + edgeExprType.getCoords() + "]" + ").");
 			return false;
 		}
-		if(!(newSourceExpr.getType() instanceof NodeTypeNode)) {
-			reportError("The redirectSource procedure expects as 2. argument (newSourceNode) a value of type Node"
-					+ " (but is given a value of type " + newSourceExpr.getType() + ").");
+		TypeNode newSourceExprType = newSourceExpr.getType();
+		if(!(newSourceExprType instanceof NodeTypeNode)) {
+			reportError("The redirectSource procedure expects as 2. argument (newSourceNode)"
+					+ " a value of type Node"
+					+ " (but is given a value of type " + newSourceExprType + " [declared at " + newSourceExprType.getCoords() + "]" + ").");
 			return false;
 		}
-		if(oldSourceNameExpr != null
-				&& !(oldSourceNameExpr.getType().equals(BasicTypeNode.stringType))) {
-			reportError("The redirectSource procedure expects as 3. argument (oldSourceName) a value of type string"
-					+ " (but is given a value of type " + oldSourceNameExpr.getType() + ").");
-			return false;
+		if(oldSourceNameExpr != null) {
+			TypeNode oldSourceNameExprType = oldSourceNameExpr.getType();
+			if(!(oldSourceNameExprType.equals(BasicTypeNode.stringType))) {
+				reportError("The redirectSource procedure expects as 3. argument (oldSourceName)"
+						+ " a value of type string"
+						+ " (but is given a value of type " + oldSourceNameExprType + " [declared at " + oldSourceNameExprType.getCoords() + "]" + ").");
+				return false;
+			}
 		}
 		return true;
 	}
