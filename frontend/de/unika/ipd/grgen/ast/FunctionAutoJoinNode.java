@@ -152,7 +152,8 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 			TypeNode rightMemberType = rightMatchType.tryGetMember(sharedName).getDeclType();
 			if(!leftMemberType.isEqual(rightMemberType)) {
 				reportError("The member " + sharedName + " must be of the same type in " 
-						+ leftMatchType.getIdentNode() + " and in " + rightMatchType.getIdentNode()
+						+ leftMatchType.getIdentNode() + " [declared at " + leftMatchType.getCoords() + "]"
+						+ " and in " + rightMatchType.getIdentNode() + " [declared at " + rightMatchType.getCoords() + "]"
 						+ " (but is of type " + leftMemberType.getTypeName() + " and " + rightMemberType.getTypeName() + ").");
 			}
 		}
@@ -199,7 +200,8 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 					TypeNode argumentMemberType = argumentMember.getDeclType();
 					if(!argumentMemberType.isEqual(resultMemberType)) {
 						reportError("The member " + resultMemberName + " must be of the same type in " 
-								+ resultMatchType.getIdentNode() + " and in " + argumentMatchType.getIdentNode()
+								+ resultMatchType.getIdentNode() + " [declared at " + resultMatchType.getCoords() + "]"
+								+ " and in " + argumentMatchType.getIdentNode() + " [declared at " + argumentMatchType.getCoords() + "]"
 								+ " (but is of type " + resultMemberType.getTypeName() + " and " + argumentMemberType.getTypeName() + ").");
 						result = false;
 					}

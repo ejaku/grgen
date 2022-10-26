@@ -266,8 +266,8 @@ public class MatchClassAutoNode extends BaseNode
 		TypeNode type = entitiesToTypes.get(entity);
 		if(!decl.getDeclType().isEqual(type)) {
 			reportError("Ambiguous resulting type: the entity " + entity
-					+ " is declared with type " + type
-					+ " and with type + " + decl.getDeclType() + ".");
+					+ " is declared with type " + type + " [declared at " + type.getCoords() + "]"
+					+ " and with type + " + decl.getDeclType() + " [declared at " + decl.getDeclType().getCoords() + "]" + ".");
 			return false;
 		}
 		return true;

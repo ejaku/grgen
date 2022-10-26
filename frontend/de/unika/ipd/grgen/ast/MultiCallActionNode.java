@@ -91,10 +91,9 @@ public class MultiCallActionNode extends BaseNode
 			MatchClassFilterFunctionDeclNode matchClassFilter =
 					(MatchClassFilterFunctionDeclNode)matchClassFilterReference.getMember();
 			String matchClassReferencedByFilterFunction = matchClassFilter.matchType.getIdentNode().toString();
-			String nameOfFilterFunction = matchClassFilter.getIdentNode().toString();
 
 			for(CallActionNode actionCall : actionCalls.getChildren()) {
-				checkWhetherCalledActionImplementsMatchClass(matchClassReferencedByFilterFunction, nameOfFilterFunction,
+				checkWhetherCalledActionImplementsMatchClass(matchClassReferencedByFilterFunction, matchClassFilter,
 						actionCall);
 			}
 		}
@@ -103,7 +102,7 @@ public class MultiCallActionNode extends BaseNode
 	}
 
 	public static void checkWhetherCalledActionImplementsMatchClass(String matchClassReferencedByFilterFunction,
-			String nameOfFilterFunction, CallActionNode actionCall)
+			MatchClassFilterFunctionDeclNode filterFunction, CallActionNode actionCall)
 	{
 		String nameOfAction = actionCall.getAction().getIdentNode().toString();
 		boolean isMatchClassOfFilterImplementedByAction = false;
@@ -131,14 +130,18 @@ public class MultiCallActionNode extends BaseNode
 				}
 			}
 			
-			if(nameOfFilterFunction != null) {
-				actionCall.reportError("The called filter function " + nameOfFilterFunction
+			// TODO: print coordinates of match class, requires input of match class type instead of only string
+			if(filterFunction != null) {
+				String nameOfFilterFunction = filterFunction.getIdentNode().toString();
+				actionCall.reportError("The called filter function " + nameOfFilterFunction + " [declared at " + filterFunction.getCoords() + "]"
 						+ " is defined for match class " + matchClassReferencedByFilterFunction + "."
-						+ " The action " + nameOfAction + " it is applied on does not implement the match class"
+						+ " The action " + nameOfAction + " [declared at " + actionCall.getAction().getCoords() + "]"
+						+ " it is applied on does not implement the match class"
 						+ " (it implements " + matchClassesImplementedByAction + ").");
 			} else {
 				actionCall.reportError("The multi rule query is defined to return match class " + matchClassReferencedByFilterFunction + "."
-						+ " The action " + nameOfAction + " called in the multi rule query does not implement the match class"
+						+ " The action " + nameOfAction + " [declared at " + actionCall.getAction().getCoords() + "]"
+						+ " called in the multi rule query does not implement the match class"
 						+ " (it implements " + matchClassesImplementedByAction + ").");
 			}
 		}

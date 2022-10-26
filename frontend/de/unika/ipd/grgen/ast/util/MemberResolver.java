@@ -69,7 +69,7 @@ public class MemberResolver<T> extends Base
 			} else {
 				if(scopeDecl.getDeclType() instanceof EnumTypeNode) {
 					identNode.reportError("Resolving failure, see error messages before; unexpected enum member "
-							+ identNode.toString() + " of " + scopeDecl.getDeclType() + ".");
+							+ identNode.toString() + " of " + scopeDecl.getDeclType() + " [declared at " + scopeDecl.getDeclType().getCoords() + "]" + ".");
 					return false;
 				}
 				InheritanceTypeNode typeNode = (InheritanceTypeNode)scopeDecl.getDeclType();
@@ -77,7 +77,7 @@ public class MemberResolver<T> extends Base
 				unresolvedNode = allMembers.get(identNode.toString());
 				if(unresolvedNode == null) {
 					identNode.reportError("Undefined member " + identNode
-							+ " of " + typeNode.getDecl().getIdentNode() + ".");
+							+ " of " + typeNode.getDecl().getIdentNode() + " [declared at " + typeNode.getCoords() + "]" + ".");
 					return false;
 				}
 			}

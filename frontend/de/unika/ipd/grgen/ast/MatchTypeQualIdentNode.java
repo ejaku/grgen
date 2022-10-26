@@ -105,7 +105,7 @@ public class MatchTypeQualIdentNode extends BaseNode /*implements DeclaredCharac
 				memberResolver.resolve(memberUnresolved, this);
 		if(resolved == null) {
 			memberUnresolved.reportError("Call of unknown match class filter function "
-					+ memberUnresolved + " (on " + owner + ").");
+					+ memberUnresolved + " (on " + owner + " [declared at " + owner.getCoords() + "]" + ").");
 			return false;
 		}
 		if(resolved.fst != null)

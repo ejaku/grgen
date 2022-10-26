@@ -253,14 +253,14 @@ public class CallActionNode extends BaseNode
 		if(action != null) {
 			for(FilterFunctionDeclNode filter : filterFunctions.getChildren()) {
 				if(filter.action != action) {
-					reportError("The filter " + filter.getIdentNode()
-							+ " is defined for the action " + filter.action.getIdentNode() + "."
-							+ " It cannot be applied to the action " + action.getIdentNode() + ".");
+					reportError("The filter " + filter.getIdentNode() + " [declared at " + filter.getCoords() + "]"
+							+ " is defined for the action " + filter.action.getIdentNode() + " [declared at " + filter.action.getCoords() + "]" + "."
+							+ " It cannot be applied to the action " + action.getIdentNode() + " [declared at " + action.getCoords() + "]" + ".");
 				}
 			}
 		} else {
 			if(filterFunctionsUnresolved.size() > 0)
-				reportError("Match filters can only be applied to tests or rules (not to " + actionUnresolved + ").");
+				reportError("Match filters can only be applied to tests or rules (but not to " + actionUnresolved + ").");
 		}
 
 		return res;
@@ -276,8 +276,9 @@ public class CallActionNode extends BaseNode
 			Collection<? extends ExprNode> actualParams)
 	{
 		if(formalParams.size() != actualParams.size()) {
-			reportError(actionUnresolved + " expects " + formalParams.size()
-					+ " arguments, but is given " + actualParams.size() + " arguments.");
+			reportError(actionUnresolved + " [declared at " + (action != null ? action.getCoords() : sequence.getCoords()) + "]"
+					+ " expects " + formalParams.size() + " arguments,"
+					+ " but is given " + actualParams.size() + " arguments.");
 			return false;
 		}
 		
@@ -321,8 +322,10 @@ public class CallActionNode extends BaseNode
 		if(!actualParameterType.isCompatibleTo(formalParameterType)) {
 			String argumentTypeName = actualParameterType.getTypeName();
 			String paramTypeName = formalParameterType.getTypeName();
-			reportError("Cannot convert " + paramPos + ". argument from " + argumentTypeName
-					+ " to " + paramTypeName + " (the expected parameter type of " + actionUnresolved + " at that position).");
+			reportError("Cannot convert " + paramPos + ". argument"
+					+ " from " + argumentTypeName + " [declared at " + actualParameterType.getCoords() + "]"
+					+ " to " + paramTypeName + " [declared at " + formalParameterType.getCoords() + "]"
+					+ " (the expected parameter type of " + actionUnresolved + " [declared at " + (action != null ? action.getCoords() : sequence.getCoords()) + "]" + " at that position).");
 			return false;
 		}
 		
@@ -340,8 +343,9 @@ public class CallActionNode extends BaseNode
 	{
 		// It is ok to have no actual returns, but if there are some, then they have to fit.
 		if(actualReturns.size() > 0 && formalReturns.size() != actualReturns.size()) {
-			reportError(actionUnresolved + " expects " + formalReturns.size()
-					+ " return arguments, given are " + actualReturns.size() + ".");
+			reportError(actionUnresolved + " [declared at " + (action != null ? action.getCoords() : sequence.getCoords()) + "]"
+					+ " expects " + formalReturns.size() + " return arguments,"
+					+ " but is given " + actualReturns.size() + " return arguments.");
 			return false;
 		} 
 		
@@ -381,10 +385,10 @@ public class CallActionNode extends BaseNode
 			incommensurable = true;
 
 		if(incommensurable) {
-			reportError("Cannot assign " + returnPos + ". return argument of type " + formalReturnType
+			reportError("Cannot assign " + returnPos + ". return argument of type " + formalReturnType + " [declared at " + formalReturnType.getCoords() + "]"
 					+ (isAllBracketed ? " (array<" + formalReturnType.getTypeName() + ">)" : "")
-					+ " to a variable " + actualReturn + " of type " + actualReturnType
-					+ " (when calling " + actionUnresolved + ").");
+					+ " to a variable " + actualReturn + " of type " + actualReturnType + " [declared at " + actualReturnType.getCoords() + "]"
+					+ " (when calling " + actionUnresolved + " [declared at " + (action != null ? action.getCoords() : sequence.getCoords()) + "]" + ").");
 			return false;
 		}
 
