@@ -151,9 +151,9 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 			TypeNode leftMemberType = leftMatchType.tryGetMember(sharedName).getDeclType();
 			TypeNode rightMemberType = rightMatchType.tryGetMember(sharedName).getDeclType();
 			if(!leftMemberType.isEqual(rightMemberType)) {
-				reportError("The member " + sharedName + " must be of the same type in " 
-						+ leftMatchType.getIdentNode() + " [declared at " + leftMatchType.getCoords() + "]"
-						+ " and in " + rightMatchType.getIdentNode() + " [declared at " + rightMatchType.getCoords() + "]"
+				reportError("The member " + sharedName
+						+ " must be of the same type in " + leftMatchType.toStringWithDeclarationCoords()
+						+ " and in " + rightMatchType.toStringWithDeclarationCoords()
 						+ " (but is of type " + leftMemberType.getTypeName() + " and " + rightMemberType.getTypeName() + ").");
 			}
 		}
@@ -199,9 +199,9 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 				if(argumentMember != null) {
 					TypeNode argumentMemberType = argumentMember.getDeclType();
 					if(!argumentMemberType.isEqual(resultMemberType)) {
-						reportError("The member " + resultMemberName + " must be of the same type in " 
-								+ resultMatchType.getIdentNode() + " [declared at " + resultMatchType.getCoords() + "]"
-								+ " and in " + argumentMatchType.getIdentNode() + " [declared at " + argumentMatchType.getCoords() + "]"
+						reportError("The member " + resultMemberName
+								+ " must be of the same type in " + resultMatchType.toStringWithDeclarationCoords()
+								+ " and in " + argumentMatchType.toStringWithDeclarationCoords()
 								+ " (but is of type " + resultMemberType.getTypeName() + " and " + argumentMemberType.getTypeName() + ").");
 						result = false;
 					}

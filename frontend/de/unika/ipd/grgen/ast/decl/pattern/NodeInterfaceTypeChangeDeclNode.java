@@ -92,9 +92,9 @@ public class NodeInterfaceTypeChangeDeclNode extends NodeDeclNode
 		NodeTypeNode interfaceNodeTypeNode = (NodeTypeNode)interfaceType.getDeclType();
 		NodeTypeNode nodeTypeNode = (NodeTypeNode)typeTypeDecl.getDeclType();
 		if(!nodeTypeNode.isA(interfaceNodeTypeNode)) {
-			interfaceTypeUnresolved.reportWarning("The interface type " + interfaceNodeTypeNode.getTypeName() + " [declared at " + interfaceNodeTypeNode.getCoords() + "]"
+			interfaceTypeUnresolved.reportWarning("The interface type " + interfaceNodeTypeNode.toStringWithDeclarationCoords()
 					+ " of node parameter " + ident.toString()
-					+ " is not a supertype of " + nodeTypeNode.getTypeName() + " [declared at " + nodeTypeNode.getCoords() + "]" + ".");
+					+ " is not a supertype of " + nodeTypeNode.toStringWithDeclarationCoords() + ".");
 		}
 		return successfullyResolved;
 	}

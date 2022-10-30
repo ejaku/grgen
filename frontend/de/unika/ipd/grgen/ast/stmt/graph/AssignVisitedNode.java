@@ -96,7 +96,7 @@ public class AssignVisitedNode extends EvalStatementNode
 		if(rhsType != BasicTypeNode.booleanType) {
 			reportError("The visited[] assignment expects as value to be assigned"
 					+ " a value of type boolean"
-					+ " (but is given a value of type " + rhsType + " [declared at " + rhsType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + rhsType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		return true;

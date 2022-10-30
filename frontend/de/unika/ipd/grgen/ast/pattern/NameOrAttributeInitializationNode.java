@@ -131,15 +131,15 @@ public class NameOrAttributeInitializationNode extends BaseNode
 			Collection<TypeNode> superTypes = new HashSet<TypeNode>();
 			exprType.doGetCompatibleToTypes(superTypes);
 			if(!superTypes.contains(targetType)) {
-				owner.reportError("Cannot initialize an attribute of type " + targetType + " [declared at " + targetType.getCoords() + "]"
-						+ " with a value of type " + exprType + " [declared at " + exprType.getCoords() + "]" + ".");
+				owner.reportError("Cannot initialize an attribute of type " + targetType.toStringWithDeclarationCoords()
+						+ " with a value of type " + exprType.toStringWithDeclarationCoords() + ".");
 				return false;
 			}
 		}
 		if(targetType instanceof NodeTypeNode && exprType instanceof EdgeTypeNode
 				|| targetType instanceof EdgeTypeNode && exprType instanceof NodeTypeNode) {
-			owner.reportError("Cannot initialize an attribute of type " + targetType + " [declared at " + targetType.getCoords() + "]"
-					+ " with a value of type " + exprType + " [declared at " + exprType.getCoords() + "]" + ".");
+			owner.reportError("Cannot initialize an attribute of type " + targetType.toStringWithDeclarationCoords()
+					+ " with a value of type " + exprType.toStringWithDeclarationCoords() + ".");
 			return false;
 		}
 		return true;

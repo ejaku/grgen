@@ -73,7 +73,7 @@ public abstract class DebugProcNode extends BuiltinProcedureInvocationBaseNode
 		if(!(messageType.equals(BasicTypeNode.stringType))) {
 			reportError("The " + shortSignature() + " procedure expects as argument (message)"
 					+ " a value of type string"
-					+ " (but is given a value of type " + messageType + " [declared at " + messageType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + messageType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		return true;

@@ -119,7 +119,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 		int actual = connections.getChildren().size();
 		if(expected != actual) {
 			String patternName = type.ident.toString();
-			ident.reportError("The (sub)pattern " + patternName + " [declared at " + type.getCoords() + "]" + " expects " + expected
+			ident.reportError("The (sub)pattern " + patternName + type.getDeclarationCoords() + " expects " + expected
 					+ " arguments, given by the subpattern usage " + ident.toString() + " are " + actual + " arguments.");
 			return false;
 		}
@@ -153,7 +153,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 				res = false;
 				ident.reportError("The " + (i + 1) + ". subpattern usage argument is yielded to, "
 						+ "but the parameter at this position is not declared as def"
-						+ " (" + parameterElement.getIdentNode() + " in " + type.ident + " [declared at " + type.getCoords() + "]" + " used by " + ident + ").");
+						+ " (" + parameterElement.getIdentNode() + " in " + type.toStringWithDeclarationCoords() + " used by " + ident + ").");
 			}
 		} else { //if(formalParameter instanceof VarDeclNode)
 			VarDeclNode parameterVar = (VarDeclNode)formalParameter;
@@ -161,7 +161,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 				res = false;
 				ident.reportError("The " + (i + 1) + ". subpattern usage argument is yielded to, "
 						+ "but the parameter at this position is not declared as def"
-						+ " (" + parameterVar.getIdentNode() + " in " + type.ident + " [declared at " + type.getCoords() + "]" + " used by " + ident + ").");
+						+ " (" + parameterVar.getIdentNode() + " in " + type.toStringWithDeclarationCoords() + " used by " + ident + ").");
 			}
 		}
 
@@ -172,7 +172,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 				res = false;
 				ident.reportError("Cannot yield to non-def arguments - the " + (i + 1)
 						+ ". subpattern usage argument is yielded to but not declared as def"
-						+ " (" + argumentVar.getIdentNode() + " in " + type.ident + " [declared at " + type.getCoords() + "]" + " used by " + ident + ").");
+						+ " (" + argumentVar.getIdentNode() + " in " + type.toStringWithDeclarationCoords() + " used by " + ident + ").");
 			}
 		} else { //if(argument instanceof ConstraintDeclNode)
 			ConstraintDeclNode argumentElement = (ConstraintDeclNode)argument;
@@ -180,7 +180,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 				res = false;
 				ident.reportError("Cannot yield to non-def arguments - the " + (i + 1)
 						+ ". subpattern usage argument is yielded to but not declared as def"
-						+ " (" + argumentElement.getIdentNode() + " in " + type.ident + " [declared at " + type.getCoords() + "]" + " used by " + ident + ").");
+						+ " (" + argumentElement.getIdentNode() + " in " + type.toStringWithDeclarationCoords() + " used by " + ident + ").");
 			}
 		}
 
@@ -190,7 +190,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 			String paramTypeName = formalParameterType.getTypeName();
 			ident.reportError("The " + (i + 1) + ". subpattern usage argument of type " + exprTypeName
 					+ " cannot be yielded to from the subpattern def parameter type " + paramTypeName
-					+ " (in " + type.ident + " [declared at " + type.getCoords() + "]" + " used by " + ident + ").");
+					+ " (in " + type.toStringWithDeclarationCoords() + " used by " + ident + ").");
 		}
 		
 		return res;
@@ -209,7 +209,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 				res = false;
 				ident.reportError("The " + (i + 1) + ". subpattern usage argument is not yielded to, "
 						+ "but the parameter at this position is declared as def"
-						+ " (" + parameterElement.getIdentNode() + " in " + type.ident + " [declared at " + type.getCoords() + "]" + " used by " + ident + ").");
+						+ " (" + parameterElement.getIdentNode() + " in " + type.toStringWithDeclarationCoords() + " used by " + ident + ").");
 			}
 		} else { //if(formalParameter instanceof VarDeclNode)
 			VarDeclNode parameterVar = (VarDeclNode)formalParameter;
@@ -217,7 +217,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 				res = false;
 				ident.reportError("The " + (i + 1) + ". subpattern usage argument is not yielded to, "
 						+ "but the parameter at this position is declared as def"
-						+ " (" + parameterVar.getIdentNode() + " in " + type.ident + " [declared at " + type.getCoords() + "]" + " used by " + ident + ").");
+						+ " (" + parameterVar.getIdentNode() + " in " + type.toStringWithDeclarationCoords() + " used by " + ident + ").");
 			}
 		}
 
@@ -227,7 +227,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 			String paramTypeName = formalParameterType.getTypeName();
 			ident.reportError("Cannot convert " + (i + 1) + ". subpattern usage argument from " + exprTypeName
 					+ " to " + paramTypeName
-					+ " (in " + type.ident + " [declared at " + type.getCoords() + "]" + " used by " + ident + ").");
+					+ " (in " + type.toStringWithDeclarationCoords() + " used by " + ident + ").");
 		}
 
 		return res;
@@ -249,7 +249,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 						ident.reportError("Cannot use def elements as non-def arguments to subpatterns"
 								+" - the " + (i + 1) + ". subpattern usage argument is declared as def,"
 								+ " but the parameter at this position is not declared as def"
-								+ " (in " + type.ident + " [declared at " + type.getCoords() + "]" + " used by " + ident + ").");
+								+ " (in " + type.toStringWithDeclarationCoords() + " used by " + ident + ").");
 						return false;
 					}
 				}
@@ -263,7 +263,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 						ident.reportError("Cannot use def elements as non-def arguments to subpatterns"+
 								" - the " + (i + 1) + ". subpattern usage argument is declared as def,"
 								+ " but the parameter at this position is not declared as def"
-								+ " (in " + type.ident + " [declared at " + type.getCoords() + "]" + " used by " + ident + ").");
+								+ " (in " + type.toStringWithDeclarationCoords() + " used by " + ident + ").");
 						return false;
 					}
 				}

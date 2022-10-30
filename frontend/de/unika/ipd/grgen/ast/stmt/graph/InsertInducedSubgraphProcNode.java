@@ -74,21 +74,21 @@ public class InsertInducedSubgraphProcNode extends BuiltinProcedureInvocationBas
 		if(!(nodeSetExprType instanceof SetTypeNode)) {
 			nodeSetExpr.reportError("The insertInducedSubgraph procedure expects as 1. argument (setOfNodes)"
 					+ " a value of type set<Node>"
-					+ " (but is given a value of type " + nodeSetExprType + " [declared at " + nodeSetExprType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + nodeSetExprType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		SetTypeNode type = (SetTypeNode)nodeSetExprType;
 		if(!(type.valueType instanceof NodeTypeNode)) {
 			nodeSetExpr.reportError("The insertInducedSubgraph procedure expects as 1. argument (setOfNodes)"
 					+ " a value of type set<Node>"
-					+ " (but is given a value of type " + nodeSetExprType + " [declared at " + nodeSetExprType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + nodeSetExprType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		TypeNode nodeExprType = nodeExpr.getType();
 		if(!(nodeExprType instanceof NodeTypeNode)) {
 			nodeExpr.reportError("The insertInducedSubgraph procedure expects as 2. argument (node)"
 					+ " a value of type Node"
-					+ " (but is given a value of type " + nodeExprType + " [declared at " + nodeExprType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + nodeExprType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		return true;

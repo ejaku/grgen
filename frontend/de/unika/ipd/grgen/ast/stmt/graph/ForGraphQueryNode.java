@@ -62,7 +62,7 @@ public abstract class ForGraphQueryNode extends NestingStatementNode
 		if(!(iterationVariableType instanceof NodeTypeNode)
 				&& !(iterationVariableType instanceof EdgeTypeNode)) {
 			reportError("Iteration variable of for " + forType + " loop must be of type Node or Edge"
-					+ " (but is " + iterationVariableType + " [declared at " + iterationVariableType.getCoords() + "]" + ").");
+					+ " (but is " + iterationVariableType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		

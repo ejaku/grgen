@@ -98,7 +98,7 @@ public class AssignNameofNode extends EvalStatementNode
 		if(rhsType != BasicTypeNode.stringType) {
 			reportError("The nameof() assignment expects as name to be assigned"
 					+ " a value of type string"
-					+ " (but is given a value of type " + rhsType + " [declared at " + rhsType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + rhsType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 
@@ -116,7 +116,7 @@ public class AssignNameofNode extends EvalStatementNode
 
 			reportError("The nameof() assignment expects as entity to assign to its name"
 					+ " a value of type Node or Edge or graph"
-					+ " (but is given a value of type " + lhsType + " [declared at " + lhsType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + lhsType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 

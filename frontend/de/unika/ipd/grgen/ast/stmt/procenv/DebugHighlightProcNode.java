@@ -41,7 +41,7 @@ public class DebugHighlightProcNode extends DebugProcNode
 			if(paramNum % 2 == 0 && !(exprType.equals(BasicTypeNode.stringType))) {
 				reportError("The " + shortSignature() + " procedure expects as " + paramNum + ". argument"
 						+ " a value of type string (a message followed by a sequence of (value, annotation for the value)* must be given)"
-						+ " (but is given a value of type " + exprType + " [declared at " + exprType.getCoords() + "]" + ").");
+						+ " (but is given a value of type " + exprType.toStringWithDeclarationCoords() + ").");
 				return false;
 			}
 			++paramNum;

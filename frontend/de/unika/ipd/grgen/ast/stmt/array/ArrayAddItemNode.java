@@ -89,8 +89,8 @@ public class ArrayAddItemNode extends ArrayProcedureMethodInvocationBaseNode
 				valueExpr = becomeParent(valueExpr.adjustType(targetValueType, getCoords()));
 				if(valueExpr == ConstNode.getInvalid()) {
 					valueExpr.reportError("The array add item procedure expects as 1. argument (value)"
-							+ " a value of type " + targetValueType + " [declared at " + targetValueType.getCoords() + "]"
-							+ " (but is given a value of type " + valueType + " [declared at " + targetValueType.getCoords() + "]" + ").");
+							+ " a value of type " + targetValueType.toStringWithDeclarationCoords()
+							+ " (but is given a value of type " + valueType.toStringWithDeclarationCoords() + ").");
 					return false;
 				}
 			}
@@ -101,7 +101,7 @@ public class ArrayAddItemNode extends ArrayProcedureMethodInvocationBaseNode
 					if(indexExpr == ConstNode.getInvalid()) {
 						indexExpr.reportError("The array add item procedure expects as 2. argument (index)"
 								+ " a value of type int"
-								+ " (but is given a value of type " + indexType + " [declared at " + indexType.getCoords() + "]" + ").");
+								+ " (but is given a value of type " + indexType.toStringWithDeclarationCoords() + ").");
 						return false;
 					}
 				}

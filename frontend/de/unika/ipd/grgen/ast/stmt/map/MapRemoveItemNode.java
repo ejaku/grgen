@@ -85,8 +85,8 @@ public class MapRemoveItemNode extends MapProcedureMethodInvocationBaseNode
 				keyExpr = becomeParent(keyExpr.adjustType(targetKeyType, getCoords()));
 				if(keyExpr == ConstNode.getInvalid()) {
 					keyExpr.reportError("The map rem item procedure expects as argument (key)"
-							+ " a value of type " + targetKeyType + " [declared at " + targetKeyType.getCoords() + "]"
-							+ " (but is given a value of type " + keyType + " [declared at " + keyType.getCoords() + "]" + ").");
+							+ " a value of type " + targetKeyType.toStringWithDeclarationCoords()
+							+ " (but is given a value of type " + keyType.toStringWithDeclarationCoords() + ").");
 					return false;
 				}
 			}

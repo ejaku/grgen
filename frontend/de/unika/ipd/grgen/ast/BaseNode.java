@@ -21,8 +21,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
 import de.unika.ipd.grgen.ast.model.decl.ModelNode;
+import de.unika.ipd.grgen.ast.pattern.PatternGraphBaseNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;
@@ -290,6 +293,30 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	public final void setCoords(Coords coords)
 	{
 		this.coords = coords;
+	}
+
+	/** Get an error message part telling about the coordinates the symbol was declared at 
+	 * (assuming a declaration, to be satisfied by the caller) (prefixed with a space, so it can be used as a drop-in)
+	 * or an empty string in case of invalid or builtin coordinates. */
+	public final String getDeclarationCoords()
+	{
+		if(!coords.hasLocation())
+			return "";
+		if(coords == Coords.getBuiltin())
+			return "";
+		return " [declared at " + getCoords() + "]";
+	}
+
+	public final String toStringWithDeclarationCoords()
+	{
+		if(this instanceof PatternGraphBaseNode)
+			return ((PatternGraphBaseNode)this).nameOfGraph + getDeclarationCoords();
+		if(this instanceof TypeNode) // maybe getDecl()
+			return ((TypeNode)this).getTypeName() + getDeclarationCoords();
+		else if(this instanceof DeclNode)
+			return ((DeclNode)this).getIdentNode().toString()  + getDeclarationCoords();
+		else
+			return toString() + getDeclarationCoords();
 	}
 
 	/**

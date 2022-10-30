@@ -79,8 +79,8 @@ public class SetRemoveItemNode extends SetProcedureMethodInvocationBaseNode
 				valueExpr = becomeParent(valueExpr.adjustType(targetValueType, getCoords()));
 				if(valueExpr == ConstNode.getInvalid()) {
 					valueExpr.reportError("The set rem item procedure expects as argument (value)"
-							+ " a value of type " + targetValueType + " [declared at " + targetValueType.getCoords() + "]"
-							+ " (but is given a value of type " + valueType + " [declared at " + valueType.getCoords() + "]" + ").");
+							+ " a value of type " + targetValueType.toStringWithDeclarationCoords()
+							+ " (but is given a value of type " + valueType.toStringWithDeclarationCoords() + ").");
 					return false;
 				}
 			}

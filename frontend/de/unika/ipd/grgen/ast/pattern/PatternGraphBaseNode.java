@@ -202,7 +202,7 @@ public abstract class PatternGraphBaseNode extends BaseNode
 						&& !(paramVar.getDeclType() instanceof ExternalObjectTypeNode)) {
 					paramVar.typeUnresolved.reportError("The type of variable " + paramVar.getIdentNode()
 							+ " must be a basic type (like int or string), or an enum, or a container type (set|map|array|deque), or an object type (class) "
-							+ ("(but it is " + paramVar.getDeclType().getTypeName() + " [declared at " + paramVar.getDeclType().getCoords() + "]" + ")."));
+							+ ("(but it is " + paramVar.getDeclType().toStringWithDeclarationCoords() + ")."));
 					paramsOK = false;
 				}
 			} else
@@ -222,7 +222,7 @@ public abstract class PatternGraphBaseNode extends BaseNode
 					PatternGraphLhsNode pattern = subUsage.getSubpatternDeclNode().getPattern();
 					if(pattern.hasAbstractElements) {
 						subUsage.reportError("Cannot instantiate a pattern with abstract elements"
-								+ " (attempted with " + subUsage.getIdentNode() + " on " + pattern.nameOfGraph + " [declared at " + pattern.getCoords() + "]" + ").");
+								+ " (attempted with " + subUsage.getIdentNode() + " on " + pattern.toStringWithDeclarationCoords() + ").");
 						subUsagesOK = false;
 					}
 				} else

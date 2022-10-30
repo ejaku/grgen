@@ -70,7 +70,7 @@ public class CommitTransactionProcNode extends BuiltinProcedureInvocationBaseNod
 		if(!transactionIdExprType.isEqual(BasicTypeNode.intType)) {
 			transactionIdExpr.reportError("The commitTransaction procedure expects as argument (transaction id)"
 					+ " a value of type int"
-					+ " (but is given a value of type " + transactionIdExprType + " [declared at " + transactionIdExprType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + transactionIdExprType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		return true;

@@ -113,8 +113,8 @@ public abstract class ConstraintDeclNode extends DeclNode
 			}
 		}
 
-		reportError("Cannot initialize " + getKind() + " " + getIdentNode() + " of type " + targetType + " [declared at " + targetType.getCoords() + "]"
-				+ " with a value of type " + exprType + " [declared at " + exprType.getCoords() + "]" + ".");
+		reportError("Cannot initialize " + getKind() + " " + getIdentNode() + " of type " + targetType.toStringWithDeclarationCoords()
+				+ " with a value of type " + exprType.toStringWithDeclarationCoords() + ".");
 		return false;
 	}
 

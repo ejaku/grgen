@@ -103,19 +103,19 @@ public class IntegerRangeIterationYieldNode extends NestingStatementNode
 		TypeNode iterationVariableType = iterationVariable.getDeclType();
 		if(!iterationVariableType.isEqual(BasicTypeNode.intType)) {
 			reportError("The for integer range loop expects an iteration variable of type int"
-					+ " (but is given " + iterationVariableType + " [declared at " + iterationVariableType.getCoords() + "]" + ").");
+					+ " (but is given " + iterationVariableType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		TypeNode leftExprType = leftExpr.getType();
 		if(!leftExprType.isEqual(BasicTypeNode.intType)) {
 			reportError("The for integer range loop expects a left bound of type int"
-					+ " (but is given " + leftExprType + " [declared at " + leftExprType.getCoords() + "]" + ").");
+					+ " (but is given " + leftExprType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		TypeNode rightExprType = rightExpr.getType();
 		if(!rightExprType.isEqual(BasicTypeNode.intType)) {
 			reportError("The for integer range loop expects a right bound of type int"
-					+ " (but is given " + rightExprType + " [declared at " + rightExprType.getCoords() + "]" + ").");
+					+ " (but is given " + rightExprType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		return true;

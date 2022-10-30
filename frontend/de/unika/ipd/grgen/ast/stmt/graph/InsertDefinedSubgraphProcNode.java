@@ -74,14 +74,14 @@ public class InsertDefinedSubgraphProcNode extends BuiltinProcedureInvocationBas
 		if(!(edgeSetExprType instanceof SetTypeNode)) {
 			edgeSetExpr.reportError("The insertDefinedSubgraph procedure expects as 1. argument (setOfEdges)"
 					+ " a value of type set<AEdge> or set<Edge> or set<UEdge>"
-					+ " (but is given a value of type " + edgeSetExprType + " [declared at " + edgeSetExprType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + edgeSetExprType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		SetTypeNode type = (SetTypeNode)edgeSetExprType;
 		if(!(type.valueType instanceof EdgeTypeNode)) {
 			edgeSetExpr.reportError("The insertDefinedSubgraph procedure expects as 1. argument (setOfEdges)"
 					+ " a value of type set<AEdge> or set<Edge> or set<UEdge>"
-					+ " (but is given a value of type " + edgeSetExprType + " [declared at " + edgeSetExprType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + edgeSetExprType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		EdgeTypeNode edgeValueType = (EdgeTypeNode)type.valueType;
@@ -90,14 +90,14 @@ public class InsertDefinedSubgraphProcNode extends BuiltinProcedureInvocationBas
 				&& edgeValueType != EdgeTypeNode.undirectedEdgeType) {
 			edgeSetExpr.reportError("The insertDefinedSubgraph procedure expects as 1. argument (setOfEdges)"
 					+ " a value of type set<AEdge> or set<Edge> or set<UEdge>"
-					+ " (but is given a value of type " + edgeSetExprType + " [declared at " + edgeSetExprType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + edgeSetExprType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		TypeNode edgeExprType = edgeExpr.getType();
 		if(!(edgeExprType instanceof EdgeTypeNode)) {
 			edgeExpr.reportError("The insertDefinedSubgraph procedure expects as 2. argument (edge)"
 					+ " a value of type AEdge or Edge or UEdge"
-					+ " (but is given a value of type " + edgeExprType + " [declared at " + edgeExprType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + edgeExprType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		return true;

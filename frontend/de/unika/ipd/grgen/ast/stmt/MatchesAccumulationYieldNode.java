@@ -112,7 +112,7 @@ public class MatchesAccumulationYieldNode extends NestingStatementNode
 		TypeNode matchesContainerType = matchesContainer.getDeclType();
 		if(!(matchesContainerType instanceof ArrayTypeNode)) {
 			reportError("The for matches loop expects to iterate an array of matches (of type array<match<rule-name>> or array<match<class match-class-name>>), but is given: "
-					+ matchesContainerType + " [declared at " + matchesContainerType.getCoords() + "]");
+					+ matchesContainerType.toStringWithDeclarationCoords());
 			return false;
 		}
 		TypeNode matchesArrayValueType = ((ArrayTypeNode)matchesContainerType).valueType;
@@ -127,7 +127,7 @@ public class MatchesAccumulationYieldNode extends NestingStatementNode
 				? (MatchTypeNode)matchesContainerActionMatchType : (MatchTypeNode)matchesContainerDefinedMatchType;
 		if(matchesContainerActionMatchType == null && matchesContainerDefinedMatchType == null) {
 			reportError("The for matches loop expects to iterate an array of matches (of type array<match<rule-name>> or array<match<class match-class-name>>), but is given as array element type: "
-					+ matchesArrayValueType + " [declared at " + matchesArrayValueType.getCoords() + "]");
+					+ matchesArrayValueType.toStringWithDeclarationCoords());
 			return false;
 		}
 
@@ -142,13 +142,13 @@ public class MatchesAccumulationYieldNode extends NestingStatementNode
 				? (MatchTypeNode)iterationVariableActionMatchType : (MatchTypeNode)iterationVariableDefinedMatchType;
 		if(iterationVariableActionMatchType == null && iterationVariableDefinedMatchType == null) {
 			reportError("The for matches loop expects an iteration variable of match type (match<rule-name> or match<class match-class-name>), but is given: "
-					+ iterationVariableType + " [declared at " + iterationVariableType.getCoords() + "]");
+					+ iterationVariableType.toStringWithDeclarationCoords());
 			return false;
 		}
 
 		if(!iterationVariableMatchType.isEqual(matchesContainerMatchType)) {
-			reportError("The iteration variable of the for matches loop is of type " + iterationVariableMatchType + " [declared at " + iterationVariableMatchType.getCoords() + "]"
-					+ " but the matches container is of type " + matchesContainerMatchType + " [declared at " + matchesContainerMatchType.getCoords() + "]");
+			reportError("The iteration variable of the for matches loop is of type " + iterationVariableMatchType.toStringWithDeclarationCoords()
+					+ " but the matches container is of type " + matchesContainerMatchType.toStringWithDeclarationCoords());
 			//"(defined by the rule referenced by the filter function)" "(defined by the match class referenced by the match class filter function)"
 			return false;
 		}

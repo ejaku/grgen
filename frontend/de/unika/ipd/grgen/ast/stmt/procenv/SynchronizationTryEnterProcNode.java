@@ -66,7 +66,7 @@ public class SynchronizationTryEnterProcNode extends BuiltinProcedureInvocationB
 		if(!criticalSectionObjectExprType.isLockableType()) {
 			criticalSectionObjectExpr.reportError("The Synchronization::tryenter procedure expects as argument (criticalSectionObject)"
 					+ " a value that is not of basic type (with exception of type object)"
-					+ " (but is given a value of type " + criticalSectionObjectExprType + " [declared at " + criticalSectionObjectExprType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + criticalSectionObjectExprType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		return true;

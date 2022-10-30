@@ -84,8 +84,8 @@ public class MapAddItemNode extends MapProcedureMethodInvocationBaseNode
 				keyExpr = becomeParent(keyExpr.adjustType(targetKeyType, getCoords()));
 				if(keyExpr == ConstNode.getInvalid()) {
 					keyExpr.reportError("The map add item procedure expects as 1. argument (key)"
-							+ " a value of type " + targetKeyType + " [declared at " + targetKeyType.getCoords() + "]"
-							+ " (but is given a value of type " + keyType + " [declared at " + keyType.getCoords() + "]" + ").");
+							+ " a value of type " + targetKeyType.toStringWithDeclarationCoords()
+							+ " (but is given a value of type " + keyType.toStringWithDeclarationCoords() + ").");
 					return false;
 				}
 			}
@@ -95,8 +95,8 @@ public class MapAddItemNode extends MapProcedureMethodInvocationBaseNode
 				valueExpr = becomeParent(valueExpr.adjustType(targetValueType, getCoords()));
 				if(valueExpr == ConstNode.getInvalid()) {
 					valueExpr.reportError("The map add item procedure expects as 2. argument (value)"
-							+ " a value of type " + targetValueType + " [declared at " + targetValueType.getCoords() + "]"
-							+ " (but is given a value of type " + valueType + " [declared at " + valueType.getCoords() + "]" + ").");
+							+ " a value of type " + targetValueType.toStringWithDeclarationCoords()
+							+ " (but is given a value of type " + valueType.toStringWithDeclarationCoords() + ").");
 					return false;
 				}
 			}

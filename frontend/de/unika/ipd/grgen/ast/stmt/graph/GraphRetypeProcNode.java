@@ -81,8 +81,8 @@ public class GraphRetypeProcNode extends BuiltinProcedureInvocationBaseNode
 		}
 		reportError("The retype procedure expects as 1. argument (node) a value of type Node and as 2. argument (nodeType) a value of type node type,"
 				+ " or as 1. argument (edge) a value of type Edge and as 2. argument (edgeType) a value of type edge type "
-				+ " (but is given values of type " + entityExprType + " [declared at " + entityExprType.getCoords() + "]"
-				+ " and " + entityTypeExprType + " [declared at " + entityTypeExprType.getCoords() + "]" + ").");
+				+ " (but is given values of type " + entityExprType.toStringWithDeclarationCoords()
+				+ " and " + entityTypeExprType.toStringWithDeclarationCoords() + ").");
 		return false;
 	}
 

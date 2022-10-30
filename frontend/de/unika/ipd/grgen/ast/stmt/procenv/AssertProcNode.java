@@ -80,7 +80,7 @@ public class AssertProcNode extends BuiltinProcedureInvocationBaseNode
 		if(!conditionType.isEqual(BasicTypeNode.booleanType)) {
 			condition.reportError("The " + name() + " procedure expects as 1. argument (condition to assert on)"
 					+ " a value of type boolean"
-					+ " (but is given a value of type " + conditionType + " [declared at " + conditionType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + conditionType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 
@@ -90,7 +90,7 @@ public class AssertProcNode extends BuiltinProcedureInvocationBaseNode
 			if(!messageType.isEqual(BasicTypeNode.stringType)) {
 				message.reportError("The " + name() + " procedure expects as 2. argument (message)"
 						+ " a value of type string"
-						+ " (but is given a value of type " + messageType + " [declared at " + messageType.getCoords() + "]" + ").");
+						+ " (but is given a value of type " + messageType.toStringWithDeclarationCoords() + ").");
 				return false;
 			}
 		}

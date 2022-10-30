@@ -73,7 +73,7 @@ public class GraphRemoveProcNode extends BuiltinProcedureInvocationBaseNode
 		}
 		reportError("The rem procedure expects as argument (entity)"
 				+ " a value of type Node or Edge"
-				+ " (but is given a value of type " + entityExprType + " [declared at " + entityExprType.getCoords() + "]" + ").");
+				+ " (but is given a value of type " + entityExprType.toStringWithDeclarationCoords() + ").");
 		return false;
 	}
 

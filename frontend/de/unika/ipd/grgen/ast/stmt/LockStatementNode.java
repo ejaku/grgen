@@ -70,7 +70,7 @@ public class LockStatementNode extends NestingStatementNode
 		TypeNode lockObjectExprType = lockObjectExpr.getType();
 		if(!lockObjectExprType.isLockableType()) {
 			lockObjectExpr.reportError("The lock statement expects as lock object a value that is not of basic type (with exception of type object)"
-					+ " (but is given a value of type " + lockObjectExprType + " [declared at " + lockObjectExprType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + lockObjectExprType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		return true;

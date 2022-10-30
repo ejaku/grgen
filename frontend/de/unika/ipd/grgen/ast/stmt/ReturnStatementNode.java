@@ -119,10 +119,8 @@ public class ReturnStatementNode extends EvalStatementNode
 			TypeNode retDeclType = returnFormalParameters.get(i);
 			if(!retExprType.isCompatibleTo(retDeclType)) {
 				res = false;
-				String exprTypeName = retExprType.getTypeName();
-				String parameterTypeName = retDeclType.getTypeName();
-				reportError("Cannot convert the " + (i + 1) + ". return parameter from the type " + exprTypeName + " [declared at " + retExprType.getCoords() + "]"
-						+ " to the expected type " + parameterTypeName + " [declared at " + retDeclType.getCoords() + "]" + ".");
+				reportError("Cannot convert the " + (i + 1) + ". return parameter from the type " + retExprType.toStringWithDeclarationCoords()
+						+ " to the expected type " + retDeclType.toStringWithDeclarationCoords() + ".");
 			}
 		}
 

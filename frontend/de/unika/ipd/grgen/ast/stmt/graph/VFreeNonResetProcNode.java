@@ -70,7 +70,7 @@ public class VFreeNonResetProcNode extends BuiltinProcedureInvocationBaseNode
 		if(!visFlagExprType.isEqual(BasicTypeNode.intType)) {
 			visFlagExpr.reportError("The vfreenonreset procedure expects as argument (visitedFlagId)"
 					+ " a value of type int"
-					+ " (but is given a value of type " + visFlagExprType + " [declared at " + visFlagExprType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + visFlagExprType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		return true;

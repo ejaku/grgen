@@ -81,14 +81,14 @@ public class GraphMergeProcNode extends BuiltinProcedureInvocationBaseNode
 		if(!(targetExprType instanceof NodeTypeNode)) {
 			reportError("The merge procedure expects as 1. argument (target)"
 					+ " a value of type Node"
-					+ " (but is given a value of type " + targetExprType + " [declared at " + targetExprType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + targetExprType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		TypeNode sourceExprType = sourceExpr.getType();
 		if(!(sourceExprType instanceof NodeTypeNode)) {
 			reportError("The merge procedure expects as 2. argument (source)"
 					+ " a value of type Node"
-					+ " (but is given a value of type " + sourceExprType + " [declared at " + sourceExprType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + sourceExprType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		if(sourceNameExpr != null) {
@@ -96,7 +96,7 @@ public class GraphMergeProcNode extends BuiltinProcedureInvocationBaseNode
 			if(!(sourceNameExprType.equals(BasicTypeNode.stringType))) {
 				reportError("The merge procedure expects as 3. argument (sourceName)"
 						+ " a value of type string"
-						+ " (but is given a value of type " + sourceNameExprType + " [declared at " + sourceNameExprType.getCoords() + "]" + ").");
+						+ " (but is given a value of type " + sourceNameExprType.toStringWithDeclarationCoords() + ").");
 				return false;
 			}
 		}

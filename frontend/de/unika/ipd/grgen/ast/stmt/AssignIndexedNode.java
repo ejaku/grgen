@@ -261,11 +261,9 @@ public class AssignIndexedNode extends EvalStatementNode
 			if(keyExprType.isCompatibleTo(keyType))
 				return true;
 
-			String givenTypeName = keyExprType.getTypeName();
-			String expectedTypeName = keyType.getTypeName();
 			reportError("Cannot convert index in assignment"
-					+ " from " + givenTypeName + " [declared at " + keyExprType.getCoords() + "]"
-					+ " to " + expectedTypeName + " [declared at " + keyType.getCoords() + "]" + ".");
+					+ " from " + keyExprType.toStringWithDeclarationCoords()
+					+ " to " + keyType.toStringWithDeclarationCoords() + ".");
 			return false;
 		} else {
 			if(keyExprType.isEqual(keyType))

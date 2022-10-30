@@ -83,14 +83,14 @@ public class GraphRedirectSourceProcNode extends BuiltinProcedureInvocationBaseN
 		if(!(edgeExprType instanceof EdgeTypeNode)) {
 			reportError("The redirectSource procedure expects as 1. argument (edgeToBeRedirected)"
 					+ " a value of type Edge"
-					+ " (but is given a value of type " + edgeExprType + " [declared at " + edgeExprType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + edgeExprType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		TypeNode newSourceExprType = newSourceExpr.getType();
 		if(!(newSourceExprType instanceof NodeTypeNode)) {
 			reportError("The redirectSource procedure expects as 2. argument (newSourceNode)"
 					+ " a value of type Node"
-					+ " (but is given a value of type " + newSourceExprType + " [declared at " + newSourceExprType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + newSourceExprType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		if(oldSourceNameExpr != null) {
@@ -98,7 +98,7 @@ public class GraphRedirectSourceProcNode extends BuiltinProcedureInvocationBaseN
 			if(!(oldSourceNameExprType.equals(BasicTypeNode.stringType))) {
 				reportError("The redirectSource procedure expects as 3. argument (oldSourceName)"
 						+ " a value of type string"
-						+ " (but is given a value of type " + oldSourceNameExprType + " [declared at " + oldSourceNameExprType.getCoords() + "]" + ").");
+						+ " (but is given a value of type " + oldSourceNameExprType.toStringWithDeclarationCoords() + ").");
 				return false;
 			}
 		}

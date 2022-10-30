@@ -71,7 +71,7 @@ public class GraphAddCopyNodeProcNode extends BuiltinProcedureInvocationBaseNode
 		if(!(oldNodeType instanceof NodeTypeNode)) {
 			reportError("The addCopy procedure expects as argument (oldNode)"
 					+ " a value of type Node"
-					+ " (but is given a value of type " + oldNodeType + " [declared at " + oldNodeType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + oldNodeType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		return true;

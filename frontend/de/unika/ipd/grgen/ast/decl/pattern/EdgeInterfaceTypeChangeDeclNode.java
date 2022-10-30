@@ -91,9 +91,9 @@ public class EdgeInterfaceTypeChangeDeclNode extends EdgeDeclNode
 		EdgeTypeNode interfaceEdgeTypeNode = (EdgeTypeNode)interfaceType.getDeclType();
 		EdgeTypeNode edgeTypeNode = (EdgeTypeNode)typeTypeDecl.getDeclType();
 		if(!edgeTypeNode.isA(interfaceEdgeTypeNode)) {
-			interfaceTypeUnresolved.reportWarning("The interface type " + interfaceEdgeTypeNode.getTypeName() + " [declared at " + interfaceEdgeTypeNode.getCoords() + "]"
+			interfaceTypeUnresolved.reportWarning("The interface type " + interfaceEdgeTypeNode.toStringWithDeclarationCoords()
 					+ " of edge parameter " + ident.toString()
-					+ " is not a supertype of " + edgeTypeNode.getTypeName() + " [declared at " + edgeTypeNode.getCoords() + "]" + ".");
+					+ " is not a supertype of " + edgeTypeNode.toStringWithDeclarationCoords() + ".");
 		}
 		return successfullyResolved;
 	}

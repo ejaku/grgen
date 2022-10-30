@@ -310,9 +310,9 @@ public abstract class MatcherDeclNode extends DeclNode
 			&& !( (nestedSource instanceof NodeDeclNode) && ((NodeDeclNode)nestedSource).isDummy() )
 			&& source != nestedSource) {
 			alreadyReported.add(connection.getEdge());
-			nestedConnection.reportError("Reused edge " + nestedConnection.getEdge() + " [declared at " + connection.getEdge().getCoords() + "]"
+			nestedConnection.reportError("Reused edge " + nestedConnection.getEdge().toStringWithDeclarationCoords()
 					+ " does not connect the same (source) nodes"
-					+ " (" + source + " [declared at " + source.getCoords() + "] differs from " + nestedSource + " [declared at " + nestedSource.getCoords() + "]).");
+					+ " (" + source.toStringWithDeclarationCoords() + " differs from " + nestedSource.toStringWithDeclarationCoords() + ").");
 			edgeReuse = false;
 		}
 		if(!( (target instanceof NodeDeclNode) && ((NodeDeclNode)target).isDummy() )
@@ -320,9 +320,9 @@ public abstract class MatcherDeclNode extends DeclNode
 			&& target != nestedTarget
 			&& !alreadyReported.contains(connection.getEdge())) {
 			alreadyReported.add(connection.getEdge());
-			nestedConnection.reportError("Reused edge " + nestedConnection.getEdge() + " [declared at " + connection.getEdge().getCoords() + "]"
+			nestedConnection.reportError("Reused edge " + connection.getEdge().toStringWithDeclarationCoords()
 					+ " does not connect the same (target) nodes"
-					+ " (" + target + " [declared at " + target.getCoords() + "] differs from " + nestedTarget + " [declared at " + nestedTarget.getCoords() + "]).");
+					+ " (" + target.toStringWithDeclarationCoords() + " differs from " + nestedTarget.toStringWithDeclarationCoords() + ").");
 			edgeReuse = false;
 		}
 
@@ -431,17 +431,18 @@ public abstract class MatcherDeclNode extends DeclNode
 					rightConnection.setSrc(leftSource);
 				} else if(!alreadyReported.contains(rightEdge)) {
 					res = false;
-					rightConnection.reportError("The source node (" + leftSource + ") of reused/referenced edge " + leftEdge 
-							+ " [declared at " + leftEdge.getCoords() + "]" + " must be reused/referenced, too.");
+					rightConnection.reportError("The source node (" + leftSource + ")"
+							+ " of reused/referenced edge " + leftEdge.toStringWithDeclarationCoords()
+							+ " must be reused/referenced, too.");
 					alreadyReported.add(rightEdge);
 				}
 			} else if(leftSource != rightSource
 					&& (rightConnection.getRedirectionKind() & ConnectionNode.REDIRECT_SOURCE) != ConnectionNode.REDIRECT_SOURCE
 					&& !alreadyReported.contains(rightEdge)) {
 				res = false;
-				rightConnection.reportError("Reused/referenced edge " + leftEdge + " [declared at " + leftEdge.getCoords() + "]"
+				rightConnection.reportError("Reused/referenced edge " + leftEdge.toStringWithDeclarationCoords()
 						+ " does not connect the same (source) nodes (and is not declared to redirect source)"
-						+ " (" + leftSource + " [declared at " + leftSource.getCoords() + "] differs from " + rightSource + " [declared at " + rightSource.getCoords() + "]).");
+						+ " (" + leftSource.toStringWithDeclarationCoords() + " differs from " + rightSource.toStringWithDeclarationCoords() + ").");
 				alreadyReported.add(rightEdge);
 			}
 		}
@@ -460,7 +461,7 @@ public abstract class MatcherDeclNode extends DeclNode
 				res = false;
 				NodeDeclNode rightSource2 = redirectedFrom.get(leftEdge);
 				rightConnection.reportError("The source of edge " + leftEdge + " is redirected more than once"
-						+ " (" + rightSource + " [declared at " + rightSource.getCoords() + "] and " + rightSource2 + " [declared at " + rightSource2.getCoords() + "]).");
+						+ " (" + rightSource.toStringWithDeclarationCoords() + " and " + rightSource2.toStringWithDeclarationCoords() + ").");
 			}
 			redirectedFrom.put(leftEdge, rightSource);
 		}
@@ -470,7 +471,7 @@ public abstract class MatcherDeclNode extends DeclNode
 			if(leftSource.isDummy() && !rightSource.isDummy()
 					&& (rightConnection.getRedirectionKind() & ConnectionNode.REDIRECT_SOURCE) != ConnectionNode.REDIRECT_SOURCE) {
 				res = false;
-				rightConnection.reportError("Reused edge " + leftEdge + " [declared at " + leftEdge.getCoords() + "]"
+				rightConnection.reportError("Reused edge " + leftEdge.toStringWithDeclarationCoords()
 						+ " dangles on LHS, but has a source node on RHS (" + rightSource + ").");
 				alreadyReported.add(rightEdge);
 			}
@@ -498,17 +499,18 @@ public abstract class MatcherDeclNode extends DeclNode
 					rightConnection.setTgt(leftTarget);
 				} else if(!alreadyReported.contains(rightEdge)) {
 					res = false;
-					rightConnection.reportError("The target node (" + leftTarget + ") of reused/referenced edge " + leftEdge 
-							+ " [declared at " + leftEdge.getCoords() + "]" + " must be reused/referenced, too.");
+					rightConnection.reportError("The target node (" + leftTarget + ")"
+							+ " of reused/referenced edge " + leftEdge.toStringWithDeclarationCoords()
+							+ " must be reused/referenced, too.");
 					alreadyReported.add(rightEdge);
 				}
 			} else if(leftTarget != rightTarget
 					&& (rightConnection.getRedirectionKind() & ConnectionNode.REDIRECT_TARGET) != ConnectionNode.REDIRECT_TARGET
 					&& !alreadyReported.contains(rightEdge)) {
 				res = false;
-				rightConnection.reportError("Reused/referenced edge " + leftEdge + " [declared at " + leftEdge.getCoords() + "]"
+				rightConnection.reportError("Reused/referenced edge " + leftEdge.toStringWithDeclarationCoords()
 						+ " does not connect the same (target) nodes (and is not declared to redirect target)"
-						+ " (" + leftTarget + " [declared at " + leftTarget.getCoords() + "] differs from " + rightTarget + " [declared at " + rightTarget.getCoords() + "]).");
+						+ " (" + leftTarget.toStringWithDeclarationCoords() + " differs from " + rightTarget.toStringWithDeclarationCoords() + ").");
 				alreadyReported.add(rightEdge);
 			}
 		}
@@ -527,7 +529,7 @@ public abstract class MatcherDeclNode extends DeclNode
 				res = false;
 				NodeDeclNode rightTarget2 = redirectedTo.get(leftEdge);
 				rightConnection.reportError("The target of edge " + leftEdge + " is redirected more than once"
-						+ " (" + rightTarget + " [declared at " + rightTarget.getCoords() + "] and " + rightTarget2 + " [declared at " + rightTarget2.getCoords() + "]).");
+						+ " (" + rightTarget.toStringWithDeclarationCoords() + " and " + rightTarget2.toStringWithDeclarationCoords() + ").");
 			}
 			redirectedTo.put(leftEdge, rightTarget);
 		}
@@ -537,7 +539,7 @@ public abstract class MatcherDeclNode extends DeclNode
 			if(leftTarget.isDummy() && !rightTarget.isDummy()
 					&& (rightConnection.getRedirectionKind() & ConnectionNode.REDIRECT_TARGET) != ConnectionNode.REDIRECT_TARGET) {
 				res = false;
-				rightConnection.reportError("Reused edge " + leftEdge + " [declared at " + leftEdge.getCoords() + "]"
+				rightConnection.reportError("Reused edge " + leftEdge.toStringWithDeclarationCoords()
 						+ " dangles on LHS, but has a target node on RHS (" + rightTarget + ").");
 				alreadyReported.add(rightEdge);
 			}

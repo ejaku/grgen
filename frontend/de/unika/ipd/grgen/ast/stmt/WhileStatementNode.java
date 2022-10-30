@@ -71,7 +71,7 @@ public class WhileStatementNode extends NestingStatementNode
 		TypeNode conditionExprType = conditionExpr.getType();
 		if(!conditionExprType.isEqual(BasicTypeNode.booleanType)) {
 			conditionExpr.reportError("The condition of the while loop must be of type boolean"
-					+ " (but is of type " + conditionExprType + " [declared at " + conditionExprType.getCoords() + "]" + ").");
+					+ " (but is of type " + conditionExprType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		return true;

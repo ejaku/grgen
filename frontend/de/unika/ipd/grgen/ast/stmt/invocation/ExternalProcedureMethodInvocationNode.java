@@ -108,12 +108,12 @@ public class ExternalProcedureMethodInvocationNode extends ProcedureInvocationBa
 				successfullyResolved = externalProcedureDecl != null && successfullyResolved;
 			} else {
 				reportError("Left hand side of '.' does not own a scope"
-						+ " (type " + ownerType + " [declared at " + ownerType.getCoords() + "]" + ").");
+						+ " (type " + ownerType.toStringWithDeclarationCoords() + ").");
 				successfullyResolved = false;
 			}
 		} else {
 			reportError("Left hand side of '.' is not an external type"
-					+ " (type " + ownerType + " [declared at " + ownerType.getCoords() + "]" + ").");
+					+ " (type " + ownerType.toStringWithDeclarationCoords() + ").");
 			successfullyResolved = false;
 		}
 

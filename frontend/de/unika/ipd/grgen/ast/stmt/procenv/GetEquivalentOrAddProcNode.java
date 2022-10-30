@@ -76,21 +76,21 @@ public class GetEquivalentOrAddProcNode extends BuiltinProcedureInvocationBaseNo
 		if(!(subgraphExprType instanceof GraphTypeNode)) {
 			subgraphExpr.reportError("The " + name() + " procedure expects as 1. argument (subgraph)"
 					+ " a value of type graph"
-					+ " (but is given a value of type " + subgraphExprType + " [declared at " + subgraphExprType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + subgraphExprType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		TypeNode subgraphArrayExprType = subgraphArrayExpr.getType();
 		if(!(subgraphArrayExprType instanceof ArrayTypeNode)) {
 			subgraphArrayExpr.reportError("The " + name() + " procedure expects as 2. argument"
 					+ " a value of type array<graph>"
-					+ " (but is given a value of type " + subgraphArrayExprType + " [declared at " + subgraphArrayExprType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + subgraphArrayExprType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		TypeNode subgraphArrayExprValueType = ((ArrayTypeNode)subgraphArrayExprType).valueType;
 		if(!(subgraphArrayExprValueType instanceof GraphTypeNode)) {
 			subgraphArrayExpr.reportError("The " + name() + " procedure expects as 2. argument"
 					+ " a value of type array<graph>"
-					+ " (but is given a value of type " + subgraphArrayExprType + " [declared at " + subgraphArrayExprType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + subgraphArrayExprType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		return true;

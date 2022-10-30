@@ -68,7 +68,7 @@ public class GraphAddNodeProcNode extends BuiltinProcedureInvocationBaseNode
 		if(!(nodeTypeType instanceof NodeTypeNode)) {
 			reportError("The add procedure expects as argument (nodeType)"
 					+ " a value of type node type"
-					+ " (but is given a value of type " + nodeTypeType + " [declared at " + nodeTypeType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + nodeTypeType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		return true;

@@ -106,13 +106,13 @@ public class SubpatternReplNode extends OrderedReplacementNode
 	private boolean checkSubpatternSignatureAdhered()
 	{
 		// check if the number of parameters is correct
-		String patternName = subpattern.type.pattern.nameOfGraph;
+		PatternGraphLhsNode pattern = subpattern.type.pattern;
 		RhsDeclNode right = subpattern.type.right;
 		Vector<DeclNode> formalReplacementParameters = right.patternGraph.getParamDecls();
 		int expected = formalReplacementParameters.size();
 		int actual = replConnections.size();
 		if(expected != actual) {
-			subpattern.ident.reportError("The rewrite part specified in " + patternName + " [declared at " + subpattern.getCoords() + "]" + " expects "
+			subpattern.ident.reportError("The rewrite part specified in " + pattern.toStringWithDeclarationCoords() + " expects "
 					+ expected + " parameters, but given by the subpattern rewrite application " + subpatternUnresolved + " are "
 					+ actual + " arguments.");
 			return false;
@@ -136,7 +136,7 @@ public class SubpatternReplNode extends OrderedReplacementNode
 	{
 		boolean res = true;
 	
-		String patternName = subpattern.type.pattern.nameOfGraph;
+		PatternGraphLhsNode pattern = subpattern.type.pattern;
 		
 		TypeNode actualParameterType = actualParameter.getType();
 		TypeNode formalParameterType = formalParameter.getDeclType();
@@ -147,7 +147,7 @@ public class SubpatternReplNode extends OrderedReplacementNode
 				res = false;
 				subpatternUnresolved.reportError("The " + (i + 1) + ". argument to the subpattern rewrite application " + subpatternUnresolved + " is yielded to,"
 						+ " but the rewrite parameter at this position is not declared as def "
-						+ "(" + parameterElement.getIdentNode() + " in " + patternName + " [declared at " + subpattern.getCoords() + "]" + ")" + ".");
+						+ "(" + parameterElement.getIdentNode() + " in " + pattern.toStringWithDeclarationCoords() + ")" + ".");
 			}
 		} else { //if(formalParameter instanceof VarDeclNode)
 			VarDeclNode parameterVar = (VarDeclNode)formalParameter;
@@ -155,7 +155,7 @@ public class SubpatternReplNode extends OrderedReplacementNode
 				res = false;
 				subpatternUnresolved.reportError("The " + (i + 1) + ". argument to the subpattern rewrite application " + subpatternUnresolved + " is yielded to,"
 						+ " but the rewrite parameter at this position is not declared as def " 
-						+ "(" + parameterVar.getIdentNode() + " in " + patternName + " [declared at " + subpattern.getCoords() + "]" + ")" + ".");
+						+ "(" + parameterVar.getIdentNode() + " in " + pattern.toStringWithDeclarationCoords() + ")" + ".");
 			}
 		}
 		
@@ -178,12 +178,10 @@ public class SubpatternReplNode extends OrderedReplacementNode
 		
 		if(!formalParameterType.isCompatibleTo(actualParameterType)) {
 			res = false;
-			String exprTypeName = actualParameterType.getTypeName();
-			String paramTypeName = formalParameterType.getTypeName();
-			subpatternUnresolved.reportError("The " + (i + 1) + ". argument of type " + exprTypeName + " [declared at " + actualParameterType.getCoords() + "]"
+			subpatternUnresolved.reportError("The " + (i + 1) + ". argument of type " + actualParameterType.toStringWithDeclarationCoords()
 					+ " of the subpattern rewrite application " + subpatternUnresolved
-					+ " cannot be yielded to from the rewrite def parameter of incompatible type " + paramTypeName + " [declared at " + formalParameterType.getCoords() + "]"
-					+ " (" + formalParameter.getIdentNode() + " of subpattern " + patternName + " [declared at " + subpattern.getCoords() + "]" + ").");
+					+ " cannot be yielded to from the rewrite def parameter of incompatible type " + formalParameterType.toStringWithDeclarationCoords()
+					+ " (" + formalParameter.getIdentNode() + " of subpattern " + pattern.toStringWithDeclarationCoords() + ").");
 		}
 		
 		return res;
@@ -193,7 +191,7 @@ public class SubpatternReplNode extends OrderedReplacementNode
 	{
 		boolean res = true;
 
-		String patternName = subpattern.type.pattern.nameOfGraph;
+		PatternGraphLhsNode pattern = subpattern.type.pattern;
 
 		TypeNode actualParameterType = actualParameter.getType();
 		TypeNode formalParameterType = formalParameter.getDeclType();
@@ -203,24 +201,22 @@ public class SubpatternReplNode extends OrderedReplacementNode
 			if(parameterElement.defEntityToBeYieldedTo) {
 				res = false;
 				subpatternUnresolved.reportError("The " + (i + 1) + ". argument of the subpattern rewrite application " + subpatternUnresolved + " is not yielded to,"
-						+ " but the rewrite parameter at this position is declared as def (" + parameterElement.getIdentNode() + " in " + patternName + " [declared at " + subpattern.getCoords() + "]" + ")" + ".");
+						+ " but the rewrite parameter at this position is declared as def (" + parameterElement.getIdentNode() + " in " + pattern.toStringWithDeclarationCoords() + ")" + ".");
 			}
 		} else { //if(formalParameter instanceof VarDeclNode)
 			VarDeclNode parameterVar = (VarDeclNode)formalParameter;
 			if(parameterVar.defEntityToBeYieldedTo) {
 				res = false;
 				subpatternUnresolved.reportError("The " + (i + 1) + ". argument of the subpattern rewrite application " + subpatternUnresolved + " is not yielded to,"
-						+ " but the rewrite parameter at this position is declared as def (" + parameterVar.getIdentNode() + " in " + patternName + " [declared at " + subpattern.getCoords() + "]" + ")" + ".");
+						+ " but the rewrite parameter at this position is declared as def (" + parameterVar.getIdentNode() + " in " + pattern.toStringWithDeclarationCoords() + ")" + ".");
 			}
 		}
 		
 		if(!actualParameterType.isCompatibleTo(formalParameterType)) {
 			res = false;
-			String exprTypeName = actualParameterType.getTypeName();
-			String paramTypeName = formalParameterType.getTypeName();
 			subpatternUnresolved.reportError("Cannot convert " + (i + 1) + ". argument of the subpattern rewrite application " + subpatternUnresolved + " from "
-					+ exprTypeName + " [declared at " + actualParameterType.getCoords() + "]" + " to " + paramTypeName + " [declared at " + formalParameterType.getCoords() + "]"
-					+ " (expected by the rewrite parameter " + formalParameter.getIdentNode() + " of subpattern " + patternName + " [declared at " + subpattern.getCoords() + "]" + ").");
+					+ actualParameterType.toStringWithDeclarationCoords() + " to " + formalParameterType.toStringWithDeclarationCoords()
+					+ " (expected by the rewrite parameter " + formalParameter.getIdentNode() + " of subpattern " + pattern.toStringWithDeclarationCoords() + ").");
 		}
 		
 		return res;

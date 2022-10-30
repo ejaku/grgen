@@ -86,7 +86,7 @@ public class SwitchStatementNode extends EvalStatementNode
 				&& !(switchExprType.isEqual(BasicTypeNode.stringType))
 				&& !(switchExprType instanceof EnumTypeNode)) {
 			reportError("The expression switched upon must be of type byte or short or int or long or boolean or string or enum,"
-					+ " but is of type " + switchExprType + " [declared at " + switchExprType.getCoords() + "].");
+					+ " but is of type " + switchExprType.toStringWithDeclarationCoords() + ".");
 			return false;
 		}
 		boolean defaultVisited = false;
@@ -100,8 +100,8 @@ public class SwitchStatementNode extends EvalStatementNode
 				}
 				TypeNode caseConstantExprType = caseConstantExpr.getType();
 				if(!(caseConstantExprType.isCompatibleTo(switchExprType))) {
-					caseStmt.reportError("The type " + caseConstantExprType + " [declared at " + caseConstantExprType.getCoords() + "]" + " of the case expression"
-							+ " is not compatible to the type " + switchExprType + " [declared at " + switchExprType.getCoords() + "]" + " of the switch expression.");
+					caseStmt.reportError("The type " + caseConstantExprType.toStringWithDeclarationCoords() + " of the case expression"
+							+ " is not compatible to the type " + switchExprType.toStringWithDeclarationCoords() + " of the switch expression.");
 					return false;
 				}
 			} else {

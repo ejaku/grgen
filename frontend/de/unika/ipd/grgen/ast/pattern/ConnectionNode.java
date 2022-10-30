@@ -225,8 +225,8 @@ public class ConnectionNode extends ConnectionCharacter
 		DeclaredTypeNode rootType = rootDecl != null ? rootDecl.getDeclType() : null;
 
 		if(!edge.getDeclType().isCompatibleTo(rootType)) {
-			reportError("Edge kind is incompatible with edge type (" + rootType + " with " + edge.getDeclType() +
-					" [declared at " + edge.getDeclType().getCoords() + "]" + ").");
+			reportError("Edge kind is incompatible with edge type"
+					+ " (" + rootType + " with " + edge.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 

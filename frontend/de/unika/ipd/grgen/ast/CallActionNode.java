@@ -253,9 +253,9 @@ public class CallActionNode extends BaseNode
 		if(action != null) {
 			for(FilterFunctionDeclNode filter : filterFunctions.getChildren()) {
 				if(filter.action != action) {
-					reportError("The filter " + filter.getIdentNode() + " [declared at " + filter.getCoords() + "]"
-							+ " is defined for the action " + filter.action.getIdentNode() + " [declared at " + filter.action.getCoords() + "]" + "."
-							+ " It cannot be applied to the action " + action.getIdentNode() + " [declared at " + action.getCoords() + "]" + ".");
+					reportError("The filter " + filter.toStringWithDeclarationCoords()
+							+ " is defined for the action " + filter.action.toStringWithDeclarationCoords() + "."
+							+ " It cannot be applied to the action " + action.toStringWithDeclarationCoords() + ".");
 				}
 			}
 		} else {
@@ -276,7 +276,7 @@ public class CallActionNode extends BaseNode
 			Collection<? extends ExprNode> actualParams)
 	{
 		if(formalParams.size() != actualParams.size()) {
-			reportError(actionUnresolved + " [declared at " + (action != null ? action.getCoords() : sequence.getCoords()) + "]"
+			reportError((action != null ? action.toStringWithDeclarationCoords() : sequence.toStringWithDeclarationCoords())
 					+ " expects " + formalParams.size() + " arguments,"
 					+ " but is given " + actualParams.size() + " arguments.");
 			return false;
@@ -320,12 +320,10 @@ public class CallActionNode extends BaseNode
 			return true;
 
 		if(!actualParameterType.isCompatibleTo(formalParameterType)) {
-			String argumentTypeName = actualParameterType.getTypeName();
-			String paramTypeName = formalParameterType.getTypeName();
 			reportError("Cannot convert " + paramPos + ". argument"
-					+ " from " + argumentTypeName + " [declared at " + actualParameterType.getCoords() + "]"
-					+ " to " + paramTypeName + " [declared at " + formalParameterType.getCoords() + "]"
-					+ " (the expected parameter type of " + actionUnresolved + " [declared at " + (action != null ? action.getCoords() : sequence.getCoords()) + "]" + " at that position).");
+					+ " from " + actualParameterType.toStringWithDeclarationCoords()
+					+ " to " + formalParameterType.toStringWithDeclarationCoords()
+					+ " (the expected parameter type of " + (action != null ? action.toStringWithDeclarationCoords() : sequence.toStringWithDeclarationCoords()) + " at that position).");
 			return false;
 		}
 		
@@ -343,7 +341,7 @@ public class CallActionNode extends BaseNode
 	{
 		// It is ok to have no actual returns, but if there are some, then they have to fit.
 		if(actualReturns.size() > 0 && formalReturns.size() != actualReturns.size()) {
-			reportError(actionUnresolved + " [declared at " + (action != null ? action.getCoords() : sequence.getCoords()) + "]"
+			reportError((action != null ? action.toStringWithDeclarationCoords() : sequence.toStringWithDeclarationCoords())
 					+ " expects " + formalReturns.size() + " return arguments,"
 					+ " but is given " + actualReturns.size() + " return arguments.");
 			return false;
@@ -385,10 +383,10 @@ public class CallActionNode extends BaseNode
 			incommensurable = true;
 
 		if(incommensurable) {
-			reportError("Cannot assign " + returnPos + ". return argument of type " + formalReturnType + " [declared at " + formalReturnType.getCoords() + "]"
+			reportError("Cannot assign " + returnPos + ". return argument of type " + formalReturnType.toStringWithDeclarationCoords()
 					+ (isAllBracketed ? " (array<" + formalReturnType.getTypeName() + ">)" : "")
-					+ " to a variable " + actualReturn + " of type " + actualReturnType + " [declared at " + actualReturnType.getCoords() + "]"
-					+ " (when calling " + actionUnresolved + " [declared at " + (action != null ? action.getCoords() : sequence.getCoords()) + "]" + ").");
+					+ " to a variable " + actualReturn + " of type " + actualReturnType.toStringWithDeclarationCoords()
+					+ " (when calling " + (action != null ? action.toStringWithDeclarationCoords() : sequence.toStringWithDeclarationCoords()) + ").");
 			return false;
 		}
 

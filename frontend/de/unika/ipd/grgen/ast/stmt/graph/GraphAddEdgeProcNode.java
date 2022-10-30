@@ -79,21 +79,21 @@ public class GraphAddEdgeProcNode extends BuiltinProcedureInvocationBaseNode
 		if(!(edgeTypeType instanceof EdgeTypeNode)) {
 			reportError("The add procedure expects as 1. argument (edgeType)"
 					+ " a value of type edge type"
-					+ " (but is given a value of type " + edgeTypeType + " [declared at " + edgeTypeType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + edgeTypeType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		TypeNode sourceNodeType = sourceNode.getType();
 		if(!(sourceNodeType instanceof NodeTypeNode)) {
 			reportError("The add procedure expects as 2. argument (sourceNode)"
 					+ " a value of type Node"
-					+ " (but is given a value of type " + sourceNodeType + " [declared at " + sourceNodeType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + sourceNodeType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		TypeNode targetNodeType = targetNode.getType();
 		if(!(targetNodeType instanceof NodeTypeNode)) {
 			reportError("The add procedure expects as 3. argument (targetNode)"
 					+ " a value of type Node"
-					+ " (but is given a value of type " + targetNodeType + " [declared at " + targetNodeType.getCoords() + "]" + ").");
+					+ " (but is given a value of type " + targetNodeType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		return true;

@@ -32,8 +32,7 @@ public abstract class TopLevelMatcherDeclNode extends MatcherDeclNode
 			if(!node.inheritsType() && node.getDeclType().isAbstract() && !pattern.getNodes().contains(node)
 					&& (node.context & CONTEXT_PARAMETER) != CONTEXT_PARAMETER) {
 				node.reportError("Instances of abstract node classes are not allowed (" + node
-						+ " is declared with the abstract type " + node.getDeclType()
-						+ " [declared at " + node.getDeclType().getCoords() + "]).");
+						+ " is declared with the abstract type " + node.getDeclType().toStringWithDeclarationCoords() + ").");
 				abstr = false;
 			}
 		}
@@ -41,8 +40,7 @@ public abstract class TopLevelMatcherDeclNode extends MatcherDeclNode
 			if(!edge.inheritsType() && edge.getDeclType().isAbstract() && !pattern.getEdges().contains(edge)
 					&& (edge.context & CONTEXT_PARAMETER) != CONTEXT_PARAMETER) {
 				edge.reportError("Instances of abstract edge classes are not allowed (" + edge
-						+ " is declared with the abstract type " + edge.getDeclType()
-						+ " [declared at " + edge.getDeclType().getCoords() + "]).");
+						+ " is declared with the abstract type " + edge.getDeclType().toStringWithDeclarationCoords() + ").");
 				abstr = false;
 			}
 		}
