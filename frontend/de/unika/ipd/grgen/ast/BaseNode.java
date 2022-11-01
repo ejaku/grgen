@@ -309,14 +309,20 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 
 	public final String toStringWithDeclarationCoords()
 	{
+		return userFriendlyToString() + getDeclarationCoords(); // assumption: at least one of both parts is available
+	}
+
+	// TODO: this should be the default -- think about replacing the current toString intended for debugging the compiler/compiler-internal error messages (that should be a differently named method, e.g. toStringExtended)
+	public final String userFriendlyToString()
+	{
 		if(this instanceof PatternGraphBaseNode)
-			return ((PatternGraphBaseNode)this).nameOfGraph + getDeclarationCoords();
+			return ((PatternGraphBaseNode)this).nameOfGraph;
 		if(this instanceof TypeNode) // maybe getDecl()
-			return ((TypeNode)this).getTypeName() + getDeclarationCoords();
+			return ((TypeNode)this).getTypeName();
 		else if(this instanceof DeclNode)
-			return ((DeclNode)this).getIdentNode().toString()  + getDeclarationCoords();
+			return ((DeclNode)this).dotWhenAnonymous();//.getIdentNode().toString();
 		else
-			return toString() + getDeclarationCoords();
+			return toString();
 	}
 
 	/**

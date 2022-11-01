@@ -60,7 +60,7 @@ public class AnonymousScopeNamer
 		if(maybeIdent != null)
 			curAlt.push(maybeIdent);
 		else
-			curAlt.push(new IdentNode(env.define(ParserEnvironment.ALTERNATIVES, "alt_" + altCount, coords)));
+			curAlt.push(new IdentNode(env.define(ParserEnvironment.ALTERNATIVES, "alt_" + altCount, coords).declareAnonymous()));
 		++altCount;
 		altCaseCount = 0;
 	}
@@ -80,7 +80,7 @@ public class AnonymousScopeNamer
 		if(maybeIdent != null)
 			curAltCase.push(maybeIdent);
 		else
-			curAltCase.push(new IdentNode(env.define(ParserEnvironment.ALTERNATIVES, "_" + altCaseCount, coords)));
+			curAltCase.push(new IdentNode(env.define(ParserEnvironment.ALTERNATIVES, "_" + altCaseCount, coords).declareAnonymous()));
 		++altCaseCount;
 	}
 
@@ -99,7 +99,7 @@ public class AnonymousScopeNamer
 		if(maybeIdent != null)
 			curIter.push(maybeIdent);
 		else
-			curIter.push(new IdentNode(env.define(ParserEnvironment.ITERATEDS, "iter_" + iterCount, coords)));
+			curIter.push(new IdentNode(env.define(ParserEnvironment.ITERATEDS, "iter_" + iterCount, coords).declareAnonymous()));
 		++iterCount;
 	}
 
@@ -118,7 +118,7 @@ public class AnonymousScopeNamer
 		if(maybeIdent != null)
 			curNeg.push(maybeIdent);
 		else
-			curNeg.push(new IdentNode(env.define(ParserEnvironment.NEGATIVES, "neg_" + negCount, coords)));
+			curNeg.push(new IdentNode(env.define(ParserEnvironment.NEGATIVES, "neg_" + negCount, coords).declareAnonymous()));
 		++negCount;
 	}
 
@@ -137,7 +137,7 @@ public class AnonymousScopeNamer
 		if(maybeIdent != null)
 			curIdpt.push(maybeIdent);
 		else
-			curIdpt.push(new IdentNode(env.define(ParserEnvironment.INDEPENDENTS, "idpt_" + idptCount, coords)));
+			curIdpt.push(new IdentNode(env.define(ParserEnvironment.INDEPENDENTS, "idpt_" + idptCount, coords).declareAnonymous()));
 		++idptCount;
 	}
 
@@ -156,7 +156,7 @@ public class AnonymousScopeNamer
 		if(maybeIdent != null)
 			curYield = maybeIdent;
 		else
-			curYield = new IdentNode(env.define(ParserEnvironment.COMPUTATION_BLOCKS, "yield_" + yieldCount, coords));
+			curYield = new IdentNode(env.define(ParserEnvironment.COMPUTATION_BLOCKS, "yield_" + yieldCount, coords).declareAnonymous());
 		++yieldCount;
 	}
 
@@ -175,7 +175,7 @@ public class AnonymousScopeNamer
 		if(maybeIdent != null)
 			curEval = maybeIdent;
 		else
-			curEval = new IdentNode(env.define(ParserEnvironment.COMPUTATION_BLOCKS, "eval_" + evalCount, coords));
+			curEval = new IdentNode(env.define(ParserEnvironment.COMPUTATION_BLOCKS, "eval_" + evalCount, coords).declareAnonymous());
 		++evalCount;
 	}
 
@@ -194,7 +194,7 @@ public class AnonymousScopeNamer
 		if(maybeIdent != null)
 			curExprBlock = maybeIdent;
 		else
-			curExprBlock = new IdentNode(env.define(ParserEnvironment.COMPUTATION_BLOCKS, "expr_block_" + exprBlockCount, coords));
+			curExprBlock = new IdentNode(env.define(ParserEnvironment.COMPUTATION_BLOCKS, "expr_block_" + exprBlockCount, coords).declareAnonymous());
 		++exprBlockCount;
 	}
 

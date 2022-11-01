@@ -104,6 +104,11 @@ public class Symbol
 		{
 			this.def = def;
 		}
+		
+		public boolean isAnonymous()
+		{
+			return symbol.text.startsWith("$") || def.anonymous;
+		}
 	}
 
 	/**
@@ -119,6 +124,8 @@ public class Symbol
 		 * get the defined entity.
 		 */
 		protected IdentNode node;
+		
+		protected boolean anonymous = false;
 
 		private static final Definition INVALID = new Definition(Scope.getInvalid(), Coords.INVALID, Symbol.INVALID);
 
@@ -141,6 +148,12 @@ public class Symbol
 		{
 			super(sc, c, sym);
 			def = this;
+		}
+		
+		public Definition declareAnonymous()
+		{
+			anonymous = true;
+			return this;
 		}
 
 		/**

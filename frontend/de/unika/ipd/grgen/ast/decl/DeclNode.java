@@ -86,6 +86,26 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 		return Color.BLUE;
 	}
 
+	public final String emptyWhenAnonymous(String str)
+	{
+		return getIdentNode().getCurrOcc().isAnonymous() ? "" : str;
+	}
+
+	public final String emptyWhenAnonymousPostfix(String prefix)
+	{
+		return getIdentNode().getCurrOcc().isAnonymous() ? "" : prefix + getIdentNode();
+	}
+
+	public final String emptyWhenAnonymousInParenthesis(String prefix)
+	{
+		return getIdentNode().getCurrOcc().isAnonymous() ? "" : prefix + "(" + getIdentNode() + ")";
+	}
+
+	public final String dotWhenAnonymous()
+	{
+		return getIdentNode().getCurrOcc().isAnonymous() ? "." : getIdentNode().toString();
+	}
+
 	public Entity getEntity()
 	{
 		return checkIR(Entity.class);

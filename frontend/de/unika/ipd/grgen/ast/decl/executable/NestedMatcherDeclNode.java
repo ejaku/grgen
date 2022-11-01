@@ -59,7 +59,7 @@ nodeAbstrLoop:
 						continue nodeAbstrLoop;
 					}
 				}
-				node.reportError("Instances of abstract node classes are not allowed (" + node
+				node.reportError("Instances of abstract node classes are not allowed (node" + node.emptyWhenAnonymousPostfix(" ")
 						+ " is declared with the abstract type " + node.getDeclType().toStringWithDeclarationCoords() + ").");
 				abstr = false;
 			}
@@ -76,7 +76,7 @@ edgeAbstrLoop:
 						continue edgeAbstrLoop;
 					}
 				}
-				edge.reportError("Instances of abstract edge classes are not allowed (" + edge
+				edge.reportError("Instances of abstract edge classes are not allowed (edge" + edge.emptyWhenAnonymousPostfix(" ")
 						+ " is declared with the abstract type " + edge.getDeclType().toStringWithDeclarationCoords() + ").");
 				abstr = false;
 			}

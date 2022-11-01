@@ -52,7 +52,7 @@ public abstract class MatchEdgeByIndexDeclNode extends EdgeDeclNode
 		boolean res = super.checkLocal();
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			reportError("Cannot employ match edge by index in the rewrite part"
-					+ " (as it occurs in match edge " + getIdentNode() + " by index access of " + index.getIdentNode() + ").");
+					+ " (as it occurs in match edge" + emptyWhenAnonymousPostfix(" ") + " by index access of " + index.getIdentNode() + ").");
 			res = false;
 		}
 		return res;

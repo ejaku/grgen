@@ -87,12 +87,12 @@ public class MatchNodeByStorageAccessDeclNode extends MatchNodeFromByStorageDecl
 					storageGlobalVariable = (NodeDeclNode)unresolved.decl;
 				} else {
 					reportError("Match node by storage access expects a node storage parameter or a node global variable"
-							+ " (" + getIdentNode() + " is given neither).");
+							+ emptyWhenAnonymous(" (" + getIdentNode() + " is given neither)") + ".");
 					successfullyResolved = false;
 				}
 			} else {
 				reportError("Match node by storage access expects a node storage parameter or a node global variable"
-						+ " (" + getIdentNode() + " is given neither).");
+						+ emptyWhenAnonymous(" (" + getIdentNode() + " is given neither)") + ".");
 				successfullyResolved = false;
 			}
 		} else if(storageUnresolved instanceof QualIdentNode) {
@@ -101,7 +101,7 @@ public class MatchNodeByStorageAccessDeclNode extends MatchNodeFromByStorageDecl
 				storageAttribute = unresolved;
 			} else {
 				reportError("Match node by storage attribute access expects a storage attribute"
-						+ " (" + getIdentNode() + " is given " + unresolved + ").");
+						+ " (but" + emptyWhenAnonymousPostfix(" ") + " is given " + unresolved + ").");
 				successfullyResolved = false;
 			}
 		} else {
@@ -114,7 +114,7 @@ public class MatchNodeByStorageAccessDeclNode extends MatchNodeFromByStorageDecl
 			accessor = (ConstraintDeclNode)accessorUnresolved.decl;
 		} else {
 			reportError("Match node by storage access expects a pattern element as accessor"
-					+ " (" + getIdentNode() + " is given " + accessorUnresolved + ").");
+					+ " (but" + emptyWhenAnonymousPostfix(" ") + " is given " + accessorUnresolved + ").");
 			successfullyResolved = false;
 		}
 		return successfullyResolved;
@@ -127,13 +127,13 @@ public class MatchNodeByStorageAccessDeclNode extends MatchNodeFromByStorageDecl
 		boolean res = super.checkLocal();
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			reportError("Cannot employ match node by storage access in the rewrite part"
-					+ " (as it occurs in match node " + getIdentNode() + ").");
+					+ emptyWhenAnonymous(" (as it occurs in match node " + getIdentNode() + ")") + ".");
 			return false;
 		}
 		TypeNode storageType = getStorageType();
 		if(!(storageType instanceof MapTypeNode)) {
 			reportError("Match node by storage access expects a parameter variable of map type"
-					+ " (" + getIdentNode() + " is given " + storageType.getTypeName() + " by " + getStorageName() + ").");
+					+ " (but" + emptyWhenAnonymousPostfix(" ") + " is given " + storageType.getTypeName() + " by " + getStorageName() + ").");
 			return false;
 		}
 		TypeNode expectedStorageKeyType = ((MapTypeNode)storageType).keyType;
@@ -143,13 +143,13 @@ public class MatchNodeByStorageAccessDeclNode extends MatchNodeFromByStorageDecl
 			String typeName = storageKeyType.getTypeName();
 			ident.reportError("Cannot convert " + typeName
 					+ " to map key type " + expTypeName + " in match node by storage access"
-					+ " (of " + getIdentNode() + " accessing " + getStorageName() + ").");
+					+ " (" + emptyWhenAnonymous("of " + getIdentNode() + " ") + "accessing " + getStorageName() + ").");
 			return false;
 		}
 		TypeNode storageElementType = ((MapTypeNode)storageType).valueType;
 		if(!(storageElementType instanceof NodeTypeNode)) {
 			reportError("Match node by storage access expects a map mapping to a node type"
-					+ " (" + getIdentNode() + " is given a map mapping to " + storageElementType.getTypeName() + ").");
+					+ " (but" + emptyWhenAnonymousPostfix(" ") + " is given a map mapping to " + storageElementType.getTypeName() + ").");
 			return false;
 		}
 		NodeTypeNode storageElemType = (NodeTypeNode)storageElementType;
@@ -159,7 +159,7 @@ public class MatchNodeByStorageAccessDeclNode extends MatchNodeFromByStorageDecl
 			String typeName = storageElemType.getTypeName();
 			ident.reportError("Cannot convert map value type " + typeName
 					+ " to the expected pattern element type " + expTypeName + " in match node by storage access"
-					+ " (of " + getIdentNode() + " accessing " + getStorageName() + ").");
+					+ " (" + emptyWhenAnonymous("of " + getIdentNode() + " ") + "accessing " + getStorageName() + ").");
 			return false;
 		}
 		return res;

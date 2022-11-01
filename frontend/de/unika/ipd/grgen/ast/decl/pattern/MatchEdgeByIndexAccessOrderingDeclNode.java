@@ -111,7 +111,7 @@ public class MatchEdgeByIndexAccessOrderingDeclNode extends MatchEdgeByIndexDecl
 				String typeName = indexAccessType.getTypeName();
 				expr.reportError("Cannot convert type used in accessing index from " + typeName
 						+ " to " + expTypeName
-						+ " (in match edge " + getIdentNode() + " by index access of " + index.toStringWithDeclarationCoords() + ").");
+						+ " (in match edge" + emptyWhenAnonymousPostfix(" ") + " by index access of " + index.toStringWithDeclarationCoords() + ").");
 				return false;
 			}
 			if(expr2 != null) { // TODO: distinguish lower and upper bound
@@ -121,7 +121,7 @@ public class MatchEdgeByIndexAccessOrderingDeclNode extends MatchEdgeByIndexDecl
 					String typeName = indexAccessType2.getTypeName();
 					expr2.reportError("Cannot convert type used in accessing index from " + typeName
 							+ " to " + expTypeName
-							+ " (in match edge " + getIdentNode() + " by index access of " + index.toStringWithDeclarationCoords() + ").");
+							+ " (in match edge" + emptyWhenAnonymousPostfix(" ") + " by index access of " + index.toStringWithDeclarationCoords() + ").");
 					return false;
 				}
 			}
@@ -133,20 +133,20 @@ public class MatchEdgeByIndexAccessOrderingDeclNode extends MatchEdgeByIndexDecl
 			String typeName = entityType.getTypeName();
 			ident.reportError("Cannot convert index type from " + typeName
 					+ " to pattern element type " + expTypeName
-					+ " (in match edge " + getIdentNode() + " by index access of " + index.toStringWithDeclarationCoords() + ").");
+					+ " (in match edge" + emptyWhenAnonymousPostfix(" ") + " by index access of " + index.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE) {
 			if(expr2 != null && (comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)) {
 				reportError("Two lower bounds are not supported "
-						+ " (in match edge " + getIdentNode() + " by index access of " + index.getIdentNode() + ").");
+						+ " (in match edge" + emptyWhenAnonymousPostfix(" ") + " by index access of " + index.getIdentNode() + ").");
 				return false;
 			}
 		}
 		if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE) {
 			if(expr2 != null && (comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)) {
 				reportError("Two upper bounds are not supported "
-						+ " (in match edge " + getIdentNode() + " by index access of " + index.getIdentNode() + ").");
+						+ " (in match edge" + emptyWhenAnonymousPostfix(" ") + " by index access of " + index.getIdentNode() + ").");
 				return false;
 			}
 		}

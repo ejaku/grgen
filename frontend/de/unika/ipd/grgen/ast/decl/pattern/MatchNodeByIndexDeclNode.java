@@ -52,7 +52,7 @@ public abstract class MatchNodeByIndexDeclNode extends NodeDeclNode
 		boolean res = super.checkLocal();
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			reportError("Cannot employ match node by index in the rewrite part"
-					+ " (as it occurs in match node " + getIdentNode() + " by index access of " + index.getIdentNode() + ").");
+					+ " (as it occurs in match node" + emptyWhenAnonymousPostfix(" ") + " by index access of " + index.getIdentNode() + ").");
 			res = false;
 		}
 		return res;

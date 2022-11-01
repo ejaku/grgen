@@ -431,7 +431,7 @@ public abstract class MatcherDeclNode extends DeclNode
 					rightConnection.setSrc(leftSource);
 				} else if(!alreadyReported.contains(rightEdge)) {
 					res = false;
-					rightConnection.reportError("The source node (" + leftSource + ")"
+					rightConnection.reportError("The source node" + leftSource.emptyWhenAnonymousInParenthesis(" ")
 							+ " of reused/referenced edge " + leftEdge.toStringWithDeclarationCoords()
 							+ " must be reused/referenced, too.");
 					alreadyReported.add(rightEdge);
@@ -454,7 +454,7 @@ public abstract class MatcherDeclNode extends DeclNode
 			}
 
 			if(leftSource.equals(rightSource)) {
-				rightConnection.reportWarning("Redirecting edge " + leftEdge + " to same source again (" + rightSource + ").");
+				rightConnection.reportWarning("Redirecting edge " + leftEdge + " to the same source node again (" + rightSource + ").");
 			}
 
 			if(redirectedFrom.containsKey(leftEdge)) {
@@ -472,7 +472,7 @@ public abstract class MatcherDeclNode extends DeclNode
 					&& (rightConnection.getRedirectionKind() & ConnectionNode.REDIRECT_SOURCE) != ConnectionNode.REDIRECT_SOURCE) {
 				res = false;
 				rightConnection.reportError("Reused edge " + leftEdge.toStringWithDeclarationCoords()
-						+ " dangles on LHS, but has a source node on RHS (" + rightSource + ").");
+						+ " dangles on LHS, but has a source node on RHS" + rightSource.emptyWhenAnonymousInParenthesis(" ") + ".");
 				alreadyReported.add(rightEdge);
 			}
 		}
@@ -499,7 +499,7 @@ public abstract class MatcherDeclNode extends DeclNode
 					rightConnection.setTgt(leftTarget);
 				} else if(!alreadyReported.contains(rightEdge)) {
 					res = false;
-					rightConnection.reportError("The target node (" + leftTarget + ")"
+					rightConnection.reportError("The target node" + leftTarget.emptyWhenAnonymousInParenthesis(" ")
 							+ " of reused/referenced edge " + leftEdge.toStringWithDeclarationCoords()
 							+ " must be reused/referenced, too.");
 					alreadyReported.add(rightEdge);
@@ -522,7 +522,7 @@ public abstract class MatcherDeclNode extends DeclNode
 			}
 
 			if(leftTarget.equals(rightTarget)) {
-				rightConnection.reportWarning("Redirecting edge " + leftEdge + " to same target again (" + rightTarget + ").");
+				rightConnection.reportWarning("Redirecting edge " + leftEdge + " to the same target node again (" + rightTarget + ").");
 			}
 
 			if(redirectedTo.containsKey(leftEdge)) {
@@ -540,7 +540,7 @@ public abstract class MatcherDeclNode extends DeclNode
 					&& (rightConnection.getRedirectionKind() & ConnectionNode.REDIRECT_TARGET) != ConnectionNode.REDIRECT_TARGET) {
 				res = false;
 				rightConnection.reportError("Reused edge " + leftEdge.toStringWithDeclarationCoords()
-						+ " dangles on LHS, but has a target node on RHS (" + rightTarget + ").");
+						+ " dangles on LHS, but has a target node on RHS" + rightTarget.emptyWhenAnonymousInParenthesis(" ") + ".");
 				alreadyReported.add(rightEdge);
 			}
 		}
@@ -632,12 +632,12 @@ public abstract class MatcherDeclNode extends DeclNode
 		for(IteratedDeclNode iterated : pattern.iters.getChildren()) {
 			if(right == null && iterated.right != null) {
 				iterated.reportError("No rewrite part (replace/modify) is specified in the " + actionKind + " " + ident
-						+ " , but one is given in the nested " + iterated.getKind() + " " + iterated.ident + ".");
+						+ " , but one is given in the nested " + iterated.getKind() + iterated.emptyWhenAnonymousPostfix(" ") + ".");
 				res = false;
 			}
 			if(right != null && iterated.right == null) {
 				iterated.reportError("A rewrite part (replace/modify) is specified in the " + actionKind + " " + ident
-						+ ", but none is given in the nested " + iterated.getKind() + " " + iterated.ident + ".");
+						+ ", but none is given in the nested " + iterated.getKind() + iterated.emptyWhenAnonymousPostfix(" ") + ".");
 				res = false;
 			}
 		}
@@ -672,7 +672,7 @@ public abstract class MatcherDeclNode extends DeclNode
 
 			if(parametersInNestedIterated.size() != 0) {
 				iterated.reportError("No rewrite parameters are allowed in nested " + iterated.getKind() + " parts, but " + parametersInNestedIterated.size()
-						+ " are given in " + iterated.ident + ".");
+						+ " are given" + iterated.emptyWhenAnonymous(" in " + iterated.ident) + ".");
 				res = false;
 			}
 		}

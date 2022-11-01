@@ -81,7 +81,7 @@ public class MatchNodeByNameLookupDeclNode extends NodeDeclNode
 		boolean res = super.checkLocal();
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			reportError("Cannot employ match node by name index lookup in the rewrite part"
-					+ " (as it occurs in match node " + getIdentNode() + ").");
+					+ emptyWhenAnonymous(" (as it occurs in match node " + getIdentNode() + ")") + ".");
 			return false;
 		}
 		TypeNode expectedLookupType = StringTypeNode.stringType;
@@ -90,7 +90,7 @@ public class MatchNodeByNameLookupDeclNode extends NodeDeclNode
 			String expTypeName = expectedLookupType.getTypeName();
 			String typeName = lookupType.getTypeName();
 			ident.reportError("Cannot convert type used in accessing name index from " + typeName
-					+ " to " + expTypeName + " in match node " + getIdentNode() + " by name index lookup.");
+					+ " to " + expTypeName + " in match node" + emptyWhenAnonymousPostfix(" ") + " by name index lookup.");
 			return false;
 		}
 		return res;
