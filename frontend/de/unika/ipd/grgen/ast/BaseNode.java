@@ -25,6 +25,9 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
 import de.unika.ipd.grgen.ast.model.decl.ModelNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphBaseNode;
+import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
+import de.unika.ipd.grgen.ast.type.MatchTypeActionNode;
+import de.unika.ipd.grgen.ast.type.MatchTypeIteratedNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
@@ -74,9 +77,6 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 
 	/** Print verbose error messages. */
 	private static boolean verboseErrorMsg = true;
-
-	/** coordinates for builtin types and declarations */
-	public static final Coords BUILTIN = new Coords(0, 0, "<builtin>");
 
 	/** Location in the source corresponding to this node */
 	private Coords coords = Coords.getInvalid();
@@ -295,21 +295,46 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 		this.coords = coords;
 	}
 
+	public final String getAtCoords()
+	{
+		return coords.getAtCoords();
+	}
+
 	/** Get an error message part telling about the coordinates the symbol was declared at 
 	 * (assuming a declaration, to be satisfied by the caller) (prefixed with a space, so it can be used as a drop-in)
 	 * or an empty string in case of invalid or builtin coordinates. */
 	public final String getDeclarationCoords()
 	{
-		if(!coords.hasLocation())
-			return "";
-		if(coords == Coords.getBuiltin())
-			return "";
-		return " [declared at " + getCoords() + "]";
+		return coords.getDeclarationCoords(false);
 	}
 
 	public final String toStringWithDeclarationCoords()
 	{
-		return userFriendlyToString() + getDeclarationCoords(); // assumption: at least one of both parts is available
+		boolean implicitly = this instanceof MatchTypeActionNode || this instanceof MatchTypeIteratedNode;
+
+		// assumption: at least one of both parts (name or coordinates) is available
+		if(this instanceof DeclaredTypeNode) {
+			DeclNode decl = ((DeclaredTypeNode)this).getDecl();
+			return userFriendlyToString() + (decl != null ? decl.getCoords().getDeclarationCoords(implicitly) : "");
+		} else
+			return userFriendlyToString() + coords.getDeclarationCoords(implicitly);
+	}
+	
+	public final String toStringWithDeclarationCoordsIfCoordsAreOfInterest()
+	{
+		boolean implicitly = this instanceof MatchTypeActionNode || this instanceof MatchTypeIteratedNode;
+		
+		// assumption: at least one of both parts (name or coordinates) is available
+		if(this instanceof DeclaredTypeNode) {
+			DeclNode decl = ((DeclaredTypeNode)this).getDecl();
+			if(decl == null || decl.getCoords().getDeclarationCoords(implicitly) == "")
+				return "";
+			return " (" + userFriendlyToString() + " is" + (decl != null ? decl.getCoords().getDeclarationCoords(implicitly) : "") + ")";
+		} else {
+			if(coords.getDeclarationCoords(implicitly) == "")
+				return "";
+			return " (" + userFriendlyToString() + " is" + coords.getDeclarationCoords(implicitly) + ")";
+		}
 	}
 
 	// TODO: this should be the default -- think about replacing the current toString intended for debugging the compiler/compiler-internal error messages (that should be a differently named method, e.g. toStringExtended)
@@ -317,10 +342,10 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	{
 		if(this instanceof PatternGraphBaseNode)
 			return ((PatternGraphBaseNode)this).nameOfGraph;
-		if(this instanceof TypeNode) // maybe getDecl()
+		else if(this instanceof TypeNode) // maybe getDecl()
 			return ((TypeNode)this).getTypeName();
 		else if(this instanceof DeclNode)
-			return ((DeclNode)this).dotWhenAnonymous();//.getIdentNode().toString();
+			return ((DeclNode)this).dotOrArrowWhenAnonymous();//.getIdentNode().toString();
 		else
 			return toString();
 	}
@@ -756,7 +781,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 		if(res) {
 			id.setSymDef(def);
 		} else {
-			id.reportError("The identifier " + id + " has not been declared in this scope: " + scope);
+			id.reportError("The identifier " + id + " has not been declared in this scope: " + scope.toStringWithOpeningCoords() + ".");
 		}
 
 		return res;
@@ -818,7 +843,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 		if(res)
 			id.setSymDef(def);
 		else if(reportErr)
-			id.reportError("The identifier " + id + " has not been declared in this scope: " + scope);
+			id.reportError("The identifier " + id + " has not been declared in this scope: " + scope.toStringWithOpeningCoords() + ".");
 
 		return res;
 	}

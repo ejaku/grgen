@@ -129,11 +129,11 @@ public class AssignIndexedNode extends EvalStatementNode
 				if(unresolved.decl instanceof VarDeclNode) {
 					lhsVar = (VarDeclNode)unresolved.decl;
 				} else {
-					reportError("Error in resolving the variable on the LHS of the indexed assignment (given is " + unresolved.getIdent() + ").");
+					reportError("Error in resolving the variable on the left hand side of the indexed assignment (given is " + unresolved.getIdent() + ").");
 					successfullyResolved = false;
 				}
 			} else {
-				reportError("Error in resolving the variable on the LHS of the indexed assignment (given is " + unresolved.getIdent() + ").");
+				reportError("Error in resolving the variable on the left hand side of the indexed assignment (given is " + unresolved.getIdent() + ").");
 				successfullyResolved = false;
 			}
 		} else if(lhsUnresolved instanceof QualIdentNode) {
@@ -141,11 +141,11 @@ public class AssignIndexedNode extends EvalStatementNode
 			if(unresolved.resolve()) {
 				lhsQual = unresolved;
 			} else {
-				reportError("Error in resolving the qualified attribute on the LHS of the indexed assignment (given is " + unresolved + ").");
+				reportError("Error in resolving the qualified attribute on the left hand side of the indexed assignment (given is " + unresolved + ").");
 				successfullyResolved = false;
 			}
 		} else {
-			reportError("Internal error - invalid LHS in indexed assignment.");
+			reportError("Internal error - invalid left hand side in indexed assignment.");
 			successfullyResolved = false;
 		}
 		return successfullyResolved;
@@ -165,7 +165,7 @@ public class AssignIndexedNode extends EvalStatementNode
 			TypeNode ty = owner.getDeclType();
 
 			if(lhsQual.getDecl().isConst()) {
-				reportError("An indexed assignment to a const member is not allowed (but " + lhsQual.getDecl().getIdentNode() + " is contant).");
+				reportError("An indexed assignment to a const member is not allowed (" + lhsQual.getDecl().getIdentNode() + lhsQual.getDecl().getDeclarationCoords() + " is constant).");
 				return false;
 			}
 
@@ -173,7 +173,7 @@ public class AssignIndexedNode extends EvalStatementNode
 				InheritanceTypeNode inhTy = (InheritanceTypeNode)ty;
 
 				if(inhTy.isConst()) {
-					reportError("An indexed assignment to a const type object is not allowed (but " + inhTy + " is constant).");
+					reportError("An indexed assignment to a const type object is not allowed (" + inhTy.toStringWithDeclarationCoords() + " is constant).");
 					return false;
 				}
 			}
@@ -236,7 +236,7 @@ public class AssignIndexedNode extends EvalStatementNode
 			valueType = ((MapTypeNode)targetType).valueType;
 		} else {
 			targetType.reportError("Can only carry out an indexed assignment on an attribute/variable of array/deque/map type"
-					+ " (given is type " + targetType + ").");
+					+ " (given is type " + targetType.getTypeName() + ").");
 			return false;
 		}
 
@@ -263,7 +263,7 @@ public class AssignIndexedNode extends EvalStatementNode
 
 			reportError("Cannot convert index in assignment"
 					+ " from " + keyExprType.toStringWithDeclarationCoords()
-					+ " to " + keyType.toStringWithDeclarationCoords() + ".");
+					+ " to the expected " + keyType.toStringWithDeclarationCoords() + ".");
 			return false;
 		} else {
 			if(keyExprType.isEqual(keyType))

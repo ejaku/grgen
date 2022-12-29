@@ -4,5 +4,5 @@ test r1
 {
 	str:NINT;
 
-	if { indexOf(str.a, "test") != -1; }   // str.a is an int not a string
+	if { str.a.indexOf("test") != -1; }   // str.a is an int not a string
 }

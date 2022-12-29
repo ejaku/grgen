@@ -96,7 +96,7 @@ public class FunctionAutoKeepOneForEachAccumulateByNode extends FunctionAutoNode
 		if(!(arrayType.valueType instanceof MatchTypeActionNode)
 				&& !(arrayType.valueType instanceof DefinedMatchTypeNode)) {
 			reportError("The auto-generated function keepOneForEachAccumulateBy can only be employed on an array of match or match class types"
-					+ " (but is employed on an array of " + arrayType.valueType + ").");
+					+ " (but is employed on an array of " + arrayType.valueType.getTypeName() + ").");
 			return false;
 		}
 
@@ -108,7 +108,7 @@ public class FunctionAutoKeepOneForEachAccumulateByNode extends FunctionAutoNode
 		TypeNode memberType = getTypeOfElementToBeExtracted();
 		if(!memberType.isFilterableType()) {
 			target.reportError("The keepOneForEach argument of the auto-generated function keepOneForEachAccumulateBy is only available for attributes of type "
-					+ TypeNode.getFilterableTypesAsString() + " (but is employed on an attribute of type " + memberType + ").");
+					+ TypeNode.getFilterableTypesAsString() + " (but is employed on an attribute of type " + memberType.getTypeName() + ").");
 			return false;
 		}
 
@@ -119,7 +119,7 @@ public class FunctionAutoKeepOneForEachAccumulateByNode extends FunctionAutoNode
 		TypeNode accumulationMemberType = getTypeOfAccumulationElementToBeExtracted();
 		if(!accumulationMemberType.isAccumulatableType()) {
 			target.reportError("The accumulate argument of the auto-generated function keepOneForEachAccumulateBy is only available for attributes of type "
-					+ TypeNode.getAccumulatableTypesAsString() + " (but is employed on an attribute of type " + accumulationMemberType + ").");
+					+ TypeNode.getAccumulatableTypesAsString() + " (but is employed on an attribute of type " + accumulationMemberType.getTypeName() + ").");
 			return false;
 		}
 
@@ -132,7 +132,7 @@ public class FunctionAutoKeepOneForEachAccumulateByNode extends FunctionAutoNode
 		if(!(functionDecl.getResultType() instanceof ArrayTypeNode)) {
 			reportError("The result type of the function " + functionDecl.getIdentNode()
 					+ " employing the auto-generated function " + functionName()
-					+ " must be an array (but is " + functionDecl.getResultType() + ").");
+					+ " must be an array (but is " + functionDecl.getResultType().getTypeName() + ").");
 			return false;
 		}
 		ArrayTypeNode resultType = (ArrayTypeNode)functionDecl.getResultType();
@@ -141,7 +141,7 @@ public class FunctionAutoKeepOneForEachAccumulateByNode extends FunctionAutoNode
 			reportError("The result type of the function " + functionDecl.getIdentNode()
 					+ " employing the auto-generated function " + functionName()
 					+ " must be an array<match<class T>> or array<match<T>>"
-				+ " (but is " + functionDecl.getResultType() + ").");
+				+ " (but is " + functionDecl.getResultType().getTypeName() + ").");
 			return false;
 		}
 		

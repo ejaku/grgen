@@ -77,12 +77,12 @@ public class MatchNodeFromStorageDeclNode extends MatchNodeFromByStorageDeclNode
 					storageGlobalVariable = (NodeDeclNode)unresolved.decl;
 				} else {
 					reportError("Match node from storage expects a node storage parameter or a node global variable"
-							+ " (" + getIdentNode() + " is given neither).");
+							+ " (but" + emptyWhenAnonymousPostfix(" ") + " is given neither).");
 					successfullyResolved = false;
 				}
 			} else {
 				reportError("Match node from storage expects a node storage parameter or a node global variable"
-						+ " (" + getIdentNode() + " is given neither).");
+						+ " (but" + emptyWhenAnonymousPostfix(" ") + " is given neither).");
 				successfullyResolved = false;
 			}
 		} else if(storageUnresolved instanceof QualIdentNode) {
@@ -91,7 +91,7 @@ public class MatchNodeFromStorageDeclNode extends MatchNodeFromByStorageDeclNode
 				storageAttribute = unresolved;
 			} else {
 				reportError("Match node from storage attribute expects a storage attribute"
-						+ " (" + getIdentNode() + " is given " + unresolved + ").");
+						+ " (but" + emptyWhenAnonymousPostfix(" ") + " is given " + unresolved + ").");
 				successfullyResolved = false;
 			}
 		} else {
@@ -109,14 +109,14 @@ public class MatchNodeFromStorageDeclNode extends MatchNodeFromByStorageDeclNode
 		boolean res = super.checkLocal();
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			reportError("Cannot employ match node from storage in the rewrite part"
-					+ " (as it occurs in match node " + getIdentNode() + ").");
+					+ " (as it occurs in match node" + emptyWhenAnonymousPostfix(" ") + " from " + getStorageName() + ").");
 			return false;
 		}
 		TypeNode storageType = getStorageType();
 		if(!(storageType instanceof ContainerTypeNode)) {
 			if(storageGlobalVariable == null) {
-				reportError("Match node from storage expects a parameter variable of collection type"
-						+ " (" + getIdentNode() + " is given " + storageType.getTypeName() + " by " + getStorageName() + ").");
+				reportError("Match node from storage expects a collection type"
+						+ " (but" + emptyWhenAnonymousPostfix(" ") + " is given " + storageType.getTypeName() + " by " + getStorageName() + ").");
 				return false;
 			}
 		}
@@ -129,22 +129,24 @@ public class MatchNodeFromStorageDeclNode extends MatchNodeFromByStorageDeclNode
 		if(!(storageElementType instanceof NodeTypeNode)) {
 			if(storageGlobalVariable == null) {
 				reportError("Match node from storage expects the element type to be a node type"
-						+ " (" + getIdentNode() + " is given " + storageElementType.getTypeName() + " accessing " + getStorageName()+ ").");
+						+ " (but" + emptyWhenAnonymousPostfix(" ") + " is given " + storageElementType.getKind() + " "
+						+ storageElementType.toStringWithDeclarationCoords() + " accessing " + getStorageName()+ ").");
 				return false;
 			} else {
 				reportError("Match node from storage global variable expects a node type"
-						+ " (" + getIdentNode() + " is given " + storageElementType.getTypeName() + " accessing " + getStorageName()+ ").");
+						+ " (but" + emptyWhenAnonymousPostfix(" ") + " is given " + storageElementType.getKind() + " "
+						+ storageElementType.toStringWithDeclarationCoords() + " accessing " + getStorageName()+ ").");
 				return false;
 			}
 		}
 		NodeTypeNode storageElemType = (NodeTypeNode)storageElementType;
 		NodeTypeNode expectedStorageElemType = getDeclType();
 		if(!expectedStorageElemType.isCompatibleTo(storageElemType)) {
-			String expTypeName = expectedStorageElemType.getTypeName();
-			String typeName = storageElemType.getTypeName();
+			String expTypeName = expectedStorageElemType.toStringWithDeclarationCoords();
+			String typeName = storageElemType.toStringWithDeclarationCoords();
 			ident.reportError("Cannot convert storage element type from " + typeName
-					+ " to " + expTypeName + " in match node from storage"
-					+ " (of " + getIdentNode() + " accessing " + getStorageName() + ").");
+					+ " to the expected " + expTypeName + " in match node from storage"
+					+ " (" + emptyWhenAnonymous("of " + getIdentNode() + " ") + "accessing " + getStorageName() + ").");
 			return false;
 		}
 		return res;

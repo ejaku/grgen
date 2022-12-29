@@ -493,8 +493,14 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 			resultingOperator.resolve();
 		}
 
+		boolean untypedOperator = false;
+		for(TypeNode operandTypeOfOperator : resultingOperator.getOperandTypes()) {
+			if(operandTypeOfOperator == UNTYPED)
+				untypedOperator = true;
+		}
+		
 		// Don't allow untyped to get introduced on type mismatches (one argument untyped -> untyped as result ok)
-		if(resultingOperator.getResultType() == BasicTypeNode.untypedType && !hasUntyped) {
+		if(untypedOperator && !hasUntyped) {
 			resultingOperator = INVALID;
 			resultingOperator.resolve();
 		}

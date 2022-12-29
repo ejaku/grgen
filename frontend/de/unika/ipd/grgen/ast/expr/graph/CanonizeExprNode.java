@@ -58,7 +58,7 @@ public class CanonizeExprNode extends BuiltinFunctionInvocationBaseNode
 			return true;
 		} else {
 			reportError("The function canonize expects as argument a value of type graph"
-					+ " (but is given a value of type " + graphExpr.getType() + ").");
+					+ " (but is given a value of type " + graphExpr.getType().getTypeName() + ").");
 			return false;
 		}
 	}

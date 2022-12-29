@@ -136,7 +136,7 @@ public class NodeTypeNode extends InheritanceTypeNode
 			if(decl.getDeclType() instanceof InternalTransientObjectTypeNode) {
 				decl.reportError("Only transient object classes may contain attributes of transient object class types"
 						+ " (but the attribute " + decl.getIdentNode()
-						+ " is of transient object class type " + decl.getDeclType()
+						+ " is of transient object class type " + decl.getDeclType().toStringWithDeclarationCoords()
 						+ " in node class " + getIdentNode() + ").");
 				res &= false;
 			}

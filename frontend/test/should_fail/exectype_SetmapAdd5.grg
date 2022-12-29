@@ -4,6 +4,6 @@ rule r
 {
 	modify {
 	---
-		exec(x:set<HH> =set<HH> && y:H=varia && {x.add(y)});
+		exec(x:set<HH> =set<HH>{} && y:H=::varia && {x.add(y)});
 	}
 }

@@ -168,12 +168,12 @@ public class RuleDeclNode extends ActionDeclNode
 			retElem.maybeDeleted = true;
 
 			if(!retElem.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
-				String errorMessage = "Returning " + retElem.getKind() + " " + retElem.ident + " that may be deleted"
-						+ ", possibly it's homomorphic with a deleted " + retElem.getKind();
+				String errorMessage = "Returning " + retElem.getKind() + " " + retElem.ident + " that may be deleted.";
+				errorMessage += " Possibly it is homomorphic with a deleted " + retElem.getKind();
 				errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
 
 				if(retElem instanceof EdgeDeclNode) {
-					errorMessage += " or " + retElem.ident + " is a dangling edge and a deleted node exists.";
+					errorMessage += ", or " + retElem.ident + " is a dangling edge and a deleted node exists";
 				}
 				errorMessage += ".";
 				retElem.reportError(errorMessage);
@@ -332,7 +332,7 @@ public class RuleDeclNode extends ActionDeclNode
 			for(BaseNode child : emit.getChildren()) {
 				ExprNode expr = (ExprNode)child;
 				for(ConstraintDeclNode declNode : collectNeededElements(expr)) {
-					valid &= checkEmitElementNotDeleted(declNode, expr, delete, maybeDeleted);
+					valid &= checkEmitElementNotDeleted(declNode, expr, delete, maybeDeleted, emit);
 				}
 			}
 		}
@@ -341,26 +341,29 @@ public class RuleDeclNode extends ActionDeclNode
 	}
 
 	private static boolean checkEmitElementNotDeleted(ConstraintDeclNode declNode, ExprNode expr,
-			Set<ConstraintDeclNode> delete, Set<ConstraintDeclNode> maybeDeleted)
+			Set<ConstraintDeclNode> delete, Set<ConstraintDeclNode> maybeDeleted, EmitNode emit)
 	{
+		String emitVersion = emit.isDebug ? "emitdebug" : "emit";
+		String emitHereVersion = emit.isDebug ? "emitheredebug" : "emithere";
 		if(delete.contains(declNode)) {
 			expr.reportError("The deleted " + declNode.getKind() + " " + declNode.ident
-					+ " is not allowed to be referenced in an emit(/emitdebug) statement (you may use an emithere(/emitheredebug) instead).");
+					+ " is not allowed to be referenced in an " + emitVersion + " statement"
+					+ " (you may use an " + emitHereVersion + " instead).");
 			return false;
 		}
 		if(maybeDeleted.contains(declNode)) {
 			declNode.maybeDeleted = true;
 
 			if(!declNode.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
-				String errorMessage = "The " + declNode.getKind() + " " + declNode.ident + " used in an emit statement may be deleted"
-						+ ", possibly it's homomorphic with a deleted " + declNode.getKind();
+				String errorMessage = "The " + declNode.getKind() + " " + declNode.ident + " used in an " + emitVersion + " statement may be deleted.";
+				errorMessage += " Possibly it is homomorphic with a deleted " + declNode.getKind();
 				errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
 
 				if(declNode instanceof EdgeDeclNode) {
-					errorMessage += " or " + declNode.ident + " is a dangling edge and a deleted node exists";
+					errorMessage += ", or " + declNode.ident + " is a dangling edge and a deleted node exists";
 				}
 
-				errorMessage += " (you may use an emithere instead).";
+				errorMessage += " (you may use an " + emitHereVersion + " instead).";
 
 				expr.reportError(errorMessage);
 

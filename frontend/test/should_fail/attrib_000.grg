@@ -1,0 +1,19 @@
+using attrib_model_001;
+
+rule r {
+	nf : NFLOAT;
+	nd : NDOUBLE;
+	-ef:EFLOAT->;
+	-ed:EDOUBLE->;
+
+	modify {
+		eval {
+			nf.a = 1.0;
+			nd.a = 1.0;
+
+			ef.a = 2.0;
+			ed.a = 2.0;
+		}
+	}
+}
+

@@ -113,15 +113,15 @@ public class AttributeInitializationNode extends BaseNode
 			Collection<TypeNode> superTypes = new HashSet<TypeNode>();
 			exprType.doGetCompatibleToTypes(superTypes);
 			if(!superTypes.contains(targetType)) {
-				objectInit.reportError("Cannot initialize-assign a value of " + exprType
-						+ " to an attribute of " + targetType + " (this occurs for " + attribute + ").");
+				objectInit.reportError("Cannot initialize-assign a value of " + exprType.toStringWithDeclarationCoords()
+						+ " to an attribute of " + targetType.toStringWithDeclarationCoords() + " (this occurs for " + attribute + ").");
 				return false;
 			}
 		}
 		if(targetType instanceof NodeTypeNode && exprType instanceof EdgeTypeNode
 				|| targetType instanceof EdgeTypeNode && exprType instanceof NodeTypeNode) {
-			objectInit.reportError("Cannot initialize-assign a value of " + exprType
-					+ " to an attribute of " + targetType + " (this occurs for " + attribute + ").");
+			objectInit.reportError("Cannot initialize-assign a value of " + exprType.toStringWithDeclarationCoords()
+					+ " to an attribute of " + targetType.toStringWithDeclarationCoords() + " (this occurs for " + attribute + ").");
 			return false;
 		}
 		return true;

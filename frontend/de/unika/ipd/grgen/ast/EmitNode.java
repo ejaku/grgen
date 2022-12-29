@@ -31,7 +31,7 @@ public class EmitNode extends OrderedReplacementNode
 	}
 
 	private Vector<ExprNode> childrenUnresolved = new Vector<ExprNode>();
-	private boolean isDebug;
+	public boolean isDebug;
 
 	public EmitNode(Coords coords, boolean isDebug)
 	{

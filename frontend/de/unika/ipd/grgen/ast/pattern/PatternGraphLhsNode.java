@@ -508,15 +508,21 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 		
 		for(ExprNode exp : conditions.getChildren()) {
 			if(!exp.getType().isEqual(BasicTypeNode.booleanType)) {
-				exp.reportError("Expression in if condition must be of type boolean (but is " + exp.getType() + ").");
+				exp.reportError("Expression in if condition must be of type boolean (but is " + exp.getType().getTypeName() + ").");
 				expr = false;
 			}
 		}
 
 		boolean noReturnInNegOrIdpt = true;
-		if((context & CONTEXT_NEGATIVE) == CONTEXT_NEGATIVE || (context & CONTEXT_INDEPENDENT) == CONTEXT_INDEPENDENT) {
+		if((context & CONTEXT_NEGATIVE) == CONTEXT_NEGATIVE) {
 			if(returns.size() != 0) {
-				reportError("A return is not allowed in a negative or independent block.");
+				reportError("A return is not allowed in a negative block.");
+				noReturnInNegOrIdpt = false;
+			}
+		}
+		if((context & CONTEXT_INDEPENDENT) == CONTEXT_INDEPENDENT) {
+			if(returns.size() != 0) {
+				reportError("A return is not allowed in an independent block.");
 				noReturnInNegOrIdpt = false;
 			}
 		}
@@ -594,13 +600,15 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 	{
 		VarDeclNode variable = tryGetVar(filterVariable);
 		if(variable == null) {
-			errorTarget.reportError("The variable " + filterVariable + " is not known (in filter " + filterNameWithEntitySuffix + ").");
+			errorTarget.reportError("The variable " + filterVariable + " is not known"
+					+ " (in filter " + filterNameWithEntitySuffix + " for " + nameOfGraph + ").");
 			return false;
 		}
 		TypeNode filterVariableType = variable.getDeclType();
 		if(!filterVariableType.isOrderableType()) {
 			errorTarget.reportError("The variable " + filterVariable + " must be of one of the following types: " + TypeNode.getOrderableTypesAsString()
-				+ " (but is " + filterVariableType + ")" + " (in filter " + filterNameWithEntitySuffix + ").");
+				+ " (but is " + filterVariableType.getTypeName() + ")"
+				+ " (in filter " + filterNameWithEntitySuffix + " for " + nameOfGraph + ").");
 			return false;
 		}
 		return true;
@@ -614,13 +622,15 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 		if(entity == null)
 			entity = tryGetVar(filterEntity);
 		if(entity == null) {
-			errorTarget.reportError("The entity " + filterEntity + " is not known (in filter " + filterNameWithEntitySuffix + ").");
+			errorTarget.reportError("The entity " + filterEntity + " is not known"
+					+ " (in filter " + filterNameWithEntitySuffix + " for " + nameOfGraph + ").");
 			return false;
 		}
 		TypeNode filterVariableType = entity.getDeclType();
 		if(!filterVariableType.isFilterableType()) {
 			errorTarget.reportError("The entity " + filterEntity + " must be of one of the following types: " + TypeNode.getFilterableTypesAsString()
-					+ " (but is " + filterVariableType + ")" + " (in filter " + filterNameWithEntitySuffix + ").");
+					+ " (but is " + filterVariableType.getTypeName() + ")"
+					+ " (in filter " + filterNameWithEntitySuffix + " for " + nameOfGraph + ").");
 			return false;
 		}
 		return true;

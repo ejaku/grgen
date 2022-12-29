@@ -76,9 +76,10 @@ public class SetAddItemNode extends SetProcedureMethodInvocationBaseNode
 			TypeNode targetValueType = targetType.valueType;
 			TypeNode valueType = valueExpr.getType();
 			if(!valueType.isEqual(targetValueType)) {
+				ExprNode valueExprOld = valueExpr;
 				valueExpr = becomeParent(valueExpr.adjustType(targetValueType, getCoords()));
 				if(valueExpr == ConstNode.getInvalid()) {
-					valueExpr.reportError("The set add item procedure expects as argument (value)"
+					valueExprOld.reportError("The set add item procedure expects as argument (value)"
 							+ " a value of type " + targetValueType.toStringWithDeclarationCoords()
 							+ " (but is given a value of type " + valueType.toStringWithDeclarationCoords() + ").");
 					return false;

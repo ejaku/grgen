@@ -160,7 +160,7 @@ public class EdgeDeclNode extends ConstraintDeclNode
 		if(!typeDecl.resolve())
 			return false;
 		if(!(typeDecl.getDeclType() instanceof EdgeTypeNode)) {
-			typeUnresolved.reportError("Type of edge " + getIdentNode() + " must be an edge type"
+			typeUnresolved.reportError("Type of edge" + this.emptyWhenAnonymousPostfix(" ") + " must be an edge type"
 					+ " (given is " + typeDecl.getDeclType().getKind() + " " + typeDecl.getDeclType().getTypeName() + ").");
 			return false;
 		}

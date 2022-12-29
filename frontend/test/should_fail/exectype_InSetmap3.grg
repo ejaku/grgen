@@ -4,6 +4,6 @@ rule r
 {
 	modify {
 	---
-		exec(x:set<AA> =set<AA> && y:A=vari && {{y in x}});
+		exec(x:set<AA> =set<AA>{} && y:A=::vari && {{y in x}});
 	}
 }

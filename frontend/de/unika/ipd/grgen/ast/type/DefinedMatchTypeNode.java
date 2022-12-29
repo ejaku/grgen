@@ -201,21 +201,24 @@ public class DefinedMatchTypeNode extends MatchTypeNode
 			if(filter.entities.size() != 1) {
 				getIdentNode().reportError("The filter " + filterNameWithEntitySuffix
 						+ " must be declared with exactly one variable, but is declared with "
-						+ filter.entities.size() + " variables.");
+						+ filter.entities.size() + " variables"
+						+ " (in " + filterNameWithEntitySuffix + " for " + pattern.nameOfGraph + ").");
 				allFilterEntitiesExistAndAreOfAdmissibleType = false;
 			}
 			return allFilterEntitiesExistAndAreOfAdmissibleType;
 		}
 		case "keepOneForEachAccumulateBy":
 			if(filter.entities.size() != 3) {
-				getIdentNode().reportError("The filter " + filterNameWithEntitySuffix
+				getIdentNode().reportError("The filter " + filter.getFilterName()
 						+ " must be declared with exactly one variable, one accumulation variable,"
-						+ " and one accumulation method.");
+						+ " and one accumulation method, but is declared with " + filter.entities.size() + " entities"
+						+ " (in " + filterNameWithEntitySuffix + " for " + pattern.nameOfGraph + ").");
 				return false;
 			} else {
 				if(filter.entities.get(0).equals(filter.entities.get(1))) {
-					getIdentNode().reportError("The accumulation variable " + filter.entities.get(1)
-							+ " must be different from the variable (in the filter " + filterNameWithEntitySuffix + ").");
+					getIdentNode().reportError("The accumulation variable"
+							+ " must be different from the variable " + filter.entities.get(0)
+							+ " (in " + filterNameWithEntitySuffix + " for " + pattern.nameOfGraph + ").");
 					return false;
 				}
 				boolean filterEntityExistsAndIsOfAdmissibleType = pattern.checkFilterEntity(getIdentNode(),
@@ -226,23 +229,24 @@ public class DefinedMatchTypeNode extends MatchTypeNode
 						ArrayAccumulationMethodNode.getArrayMethodNode(filter.entities.get(2));
 				if(accumulationMethod == null) {
 					getIdentNode().reportError("The array accumulation method "
-							+ filter.entities.get(2) + " is not known (in the filter " + filterNameWithEntitySuffix + ").");
+							+ filter.entities.get(2) + " is not known"
+							+ " (in " + filterNameWithEntitySuffix + " for " + pattern.nameOfGraph + ").");
 					return false;
 				}
 				VarDeclNode filterAccumulationVariable = tryGetVar(filter.entities.get(1));
 				if(filterAccumulationVariable == null) {
-					getIdentNode().reportError("Unknown accumulation variable "
-							+ filter.entities.get(1) + " (in the filter " + filterNameWithEntitySuffix + ").");
+					getIdentNode().reportError("Unknown accumulation variable " + filter.entities.get(1)
+							+ " (in " + filterNameWithEntitySuffix + " for " + pattern.nameOfGraph + ").");
 					return false;
 				}
 				TypeNode filterAccumulationVariableType = filterAccumulationVariable.getDeclType();
 				if(!accumulationMethod.isValidTargetTypeOfAccumulation(filterAccumulationVariableType)) {
 					getIdentNode().reportError("The array accumulation method " + filter.entities.get(2)
-							+ " is not applicable to the type " + filterAccumulationVariableType
+							+ " is not applicable to the type " + filterAccumulationVariableType.getTypeName()
 							+ " of the accumulation variable " + filter.entities.get(1)
-							+ " (in the filter " + filterNameWithEntitySuffix + ")"
 							+ " / its result cannot be assigned to the accumulation variable."
-							+ " (Allowed are: " + accumulationMethod.getValidTargetTypesOfAccumulation() + ".)");
+							+ " (Allowed are: " + accumulationMethod.getValidTargetTypesOfAccumulation() + ")"
+							+ " (in " + filterNameWithEntitySuffix + " for " + pattern.nameOfGraph + ").");
 					return false;
 				}
 				return true;

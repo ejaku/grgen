@@ -119,15 +119,19 @@ public class ReturnStatementNode extends EvalStatementNode
 			TypeNode retDeclType = returnFormalParameters.get(i);
 			if(!retExprType.isCompatibleTo(retDeclType)) {
 				res = false;
-				reportError("Cannot convert the " + (i + 1) + ". return parameter from the type " + retExprType.toStringWithDeclarationCoords()
-						+ " to the expected type " + retDeclType.toStringWithDeclarationCoords() + ".");
+				reportError("Cannot convert the " + (i + 1) + ". return parameter"
+						+ " from the type " + retExprType.getTypeName()
+						+ " to the expected type " + retDeclType.getTypeName()
+						+ retExprType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
+						+ retDeclType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
+						+ ".");
 			}
 		}
 
 		//check the number of returned elements
 		if(actualNumRets != declaredNumRets) {
 			res = false;
-			returnValueExprs.reportError("Trying to return " + actualNumRets + " values, but expected are "
+			reportError("Trying to return " + actualNumRets + " values, but expected are "
 					+ declaredNumRets + " values (in " + ident + ").");
 		}
 		return res;

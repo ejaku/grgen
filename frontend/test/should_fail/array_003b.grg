@@ -1,0 +1,11 @@
+using model_init;
+
+rule initializeTypeMismatch {
+	-e:E1->;
+
+	modify {
+		eval {
+			def ref a:array<A> = array<A>[ e ];
+		}
+	}
+}

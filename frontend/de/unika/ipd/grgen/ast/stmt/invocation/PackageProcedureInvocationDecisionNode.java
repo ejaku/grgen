@@ -197,7 +197,7 @@ public class PackageProcedureInvocationDecisionNode extends ProcedureInvocationD
 			if(isDebugProcedure()) { // allowed exceptions
 				return true;
 			} else {
-				reportError("A package procedure call (built-in-procedure) is not allowed in function or pattern part context.");
+				reportError("A package procedure call (built-in-procedure " + procedureIdent + ") is not allowed in function or pattern part context.");
 				return false;
 			}
 		}

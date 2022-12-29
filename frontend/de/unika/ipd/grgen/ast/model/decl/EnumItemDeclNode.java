@@ -109,7 +109,7 @@ public class EnumItemDeclNode extends MemberDeclNode
 
 		// Adjust the values type to int, else emit an error.
 		if(!newValue.getType().isCompatibleTo(BasicTypeNode.intType)) {
-			reportError("The enum item " + ident + " expects an initialization expression of type int, but is given an expression of type " + newValue.getType() + ".");
+			reportError("The enum item " + ident + " expects an initialization expression of type int, but is given an expression of type " + newValue.getType().getTypeName() + ".");
 			return false;
 		}
 

@@ -171,4 +171,9 @@ public class Edge extends GraphEntity
 		}
 		return this.redirectedTarget.get(graph);
 	}
+	
+	public String getKind()
+	{
+		return "edge";
+	}
 }

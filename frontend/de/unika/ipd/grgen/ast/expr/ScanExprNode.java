@@ -94,11 +94,11 @@ public class ScanExprNode extends BuiltinFunctionInvocationBaseNode
 	{
 		if(!(stringExpr.getType() instanceof StringTypeNode)) {
 			if(type != null) {
-				reportError("The construct scan<" + type + "> expects as argument a value of type string"
-						+ " (but is given a value of type " + stringExpr + ").");
+				reportError("The construct scan<" + type.getTypeName() + "> expects as argument a value of type string"
+						+ " (but is given a value of type " + stringExpr.getType().getTypeName() + ").");
 			} else {
 				reportError("The construct scan expects as argument a value of type string"
-						+ " (but is given a value of type " + stringExpr + ").");
+						+ " (but is given a value of type " + stringExpr.getType().getTypeName() + ").");
 			}
 			return false;
 		}
@@ -106,28 +106,28 @@ public class ScanExprNode extends BuiltinFunctionInvocationBaseNode
 		if(type != null) {
 			if(type instanceof InternalObjectTypeNode) {
 				reportError("The construct scan<T> disallows a type argument containing a class object type"
-						+ " (but is given type " + type + ").");
+						+ " (but is given " + type.getKind() + " " + type.getTypeName() + ").");
 			} else if(type instanceof InternalTransientObjectTypeNode) {
 				reportError("The construct scan<T> disallows a type argument containing a transient class object type"
-						+ " (but is given type " + type + ").");
+						+ " (but is given " + type.getKind() + " " + type.getTypeName() + ").");
 			}
 			if(type instanceof ContainerTypeNode) {
 				ContainerTypeNode containerType = (ContainerTypeNode)type;
 				if(containerType.getElementType() instanceof InternalObjectTypeNode) {
 					reportError("The construct scan<T> disallows a type argument (of a container type) containing a class object type"
-							+ " (but is given type " + type + ").");
+							+ " (but is given type " + type.getTypeName() + ").");
 				} else if(containerType.getElementType() instanceof InternalTransientObjectTypeNode) {
 					reportError("The construct scan<T> disallows a type argument (of a container type) containing a transient class object type"
-							+ " (but is given type " + type + ").");
+							+ " (but is given type " + type.getTypeName() + ").");
 				}
 				if(type instanceof MapTypeNode) {
 					MapTypeNode mapType = (MapTypeNode)type;
 					if(mapType.keyType instanceof InternalObjectTypeNode) {
 						reportError("The construct scan<T> disallows a type argument (of a container type) containing a class object type"
-								+ " (but is given type " + type + ").");
+								+ " (but is given type " + type.getTypeName() + ").");
 					} else if(mapType.keyType instanceof InternalTransientObjectTypeNode) {
 						reportError("The construct scan<T> disallows a type argument (of a container type) containing a transient class object type"
-								+ " (but is given type " + type + ").");
+								+ " (but is given type " + type.getTypeName() + ").");
 					}
 				}
 			}

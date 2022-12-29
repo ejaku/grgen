@@ -61,7 +61,7 @@ rule rt
 		eval { ::g_m["foo"] = cc; }
 		eval { ::g_ar[::g_i] = cc; }
 		eval { ::g_de[::g_i] = ::g_ar[::g_i]; }
-		eval { ::g_m["Foo"] = ::g_a.m["Foo"]; }
+		eval { ::g_m["Foo"] = (CC)::g_a.m["Foo"]; }
 		eval { ::g_ar[::g_i] = ::g_a.ar[::g_i]; }
 		eval { ::g_de[::g_i] = ::g_a.de[::g_i]; }
 		eval { ::g_a.m["Foo"] = ::g_m["Foo"]; }

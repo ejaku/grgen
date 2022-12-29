@@ -10,8 +10,7 @@ pattern patWithAlt
     }
 }
 
-// trying to find a patWithAlt afterwards will not find anything,
-// so this should not be valid
+// it should be necessary to specify the alternative case
 rule instantiatePatternWithAlternative
 {
     modify {

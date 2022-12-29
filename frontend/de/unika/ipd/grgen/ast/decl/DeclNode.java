@@ -16,6 +16,10 @@ import java.awt.Color;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.DeclaredCharacter;
 import de.unika.ipd.grgen.ast.IdentNode;
+import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+import de.unika.ipd.grgen.ast.model.type.ArbitraryEdgeTypeNode;
+import de.unika.ipd.grgen.ast.model.type.DirectedEdgeTypeNode;
+import de.unika.ipd.grgen.ast.model.type.UndirectedEdgeTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.Entity;
 
@@ -101,8 +105,18 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 		return getIdentNode().getCurrOcc().isAnonymous() ? "" : prefix + "(" + getIdentNode() + ")";
 	}
 
-	public final String dotWhenAnonymous()
+	public final String dotOrArrowWhenAnonymous()
 	{
+		if(getIdentNode().getCurrOcc().isAnonymous() && this instanceof EdgeDeclNode)
+		{
+			EdgeDeclNode edge = (EdgeDeclNode)this;
+			if(edge.getDeclType() instanceof ArbitraryEdgeTypeNode)
+				return "?--?";
+			else if(edge.getDeclType() instanceof DirectedEdgeTypeNode)
+				return "-->";
+			else if(edge.getDeclType() instanceof UndirectedEdgeTypeNode)
+				return "--";
+		}
 		return getIdentNode().getCurrOcc().isAnonymous() ? "." : getIdentNode().toString();
 	}
 

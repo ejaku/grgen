@@ -67,15 +67,15 @@ public abstract class ContainerSingleElementInitNode extends ContainerInitNode
 					containerItems.replace(oldValueExpr, newValueExpr);
 					if(newValueExpr == ConstNode.getInvalid()) {
 						success = false;
-						item.reportError("The value type " + oldValueExpr.getType()
-								+ " of the initializer doesn't fit to the value type " + containerElementType
-								+ " of the container (" + getContainerType() + ").");
+						oldValueExpr.reportError("The value type " + oldValueExpr.getType().toStringWithDeclarationCoords()
+								+ " of the initializer does not fit to the value type " + containerElementType.toStringWithDeclarationCoords()
+								+ " of the container (" + getContainerType().getTypeName() + ").");
 					}
 				} else {
 					success = false;
-					item.reportError("The value type " + item.getType()
-							+ " of the initializer doesn't fit to the value type " + containerElementType
-							+ " of the container (" + getContainerType()
+					item.reportError("The value type " + item.getType().toStringWithDeclarationCoords()
+							+ " of the initializer does not fit to the value type " + containerElementType.toStringWithDeclarationCoords()
+							+ " of the container (" + getContainerType().getTypeName()
 							+ " -- all items must be of exactly the same type).");
 				}
 			}

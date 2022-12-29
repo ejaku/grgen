@@ -87,17 +87,17 @@ public class MatchEdgeByIndexAccessEqualityDeclNode extends MatchEdgeByIndexDecl
 			String expTypeName = expectedIndexAccessType.getTypeName();
 			String typeName = indexAccessType.getTypeName();
 			ident.reportError("Cannot convert type used in accessing index from " + typeName
-					+ " to expected " + expTypeName
+					+ " to the expected " + expTypeName
 					+ " (in match edge" + emptyWhenAnonymousPostfix(" ") + " by index access of " + index.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		TypeNode expectedEntityType = getDeclType();
 		InheritanceTypeNode entityType = index.getType();
 		if(!entityType.isCompatibleTo(expectedEntityType) && !expectedEntityType.isCompatibleTo(entityType)) {
-			String expTypeName = expectedEntityType.getTypeName();
-			String typeName = entityType.getTypeName();
+			String expTypeName = expectedEntityType.toStringWithDeclarationCoords();
+			String typeName = entityType.toStringWithDeclarationCoords();
 			ident.reportError("Cannot convert index type from " + typeName
-					+ " to pattern element type " + expTypeName
+					+ " to the expected pattern element type " + expTypeName
 					+ " (in match edge" + emptyWhenAnonymousPostfix(" ") + " by index access of " + index.toStringWithDeclarationCoords() + ").");
 			return false;
 		}

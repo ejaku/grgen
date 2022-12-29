@@ -1,7 +1,8 @@
 rule DeleteRule {
     n:Node;
     modify{
-        emit("1 value of attribute found node " + nameof(n) +"\n");
         delete(n);
+	---
+        emit("1 value of attribute found node " + nameof(n) +"\n");
     }
 }

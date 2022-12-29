@@ -119,7 +119,7 @@ public class HomNode extends BaseNode
 		}
 		if(!childrenNode.isEmpty() && !childrenEdge.isEmpty()) {
 			this.reportError("The hom statement may only contain nodes or edges at a time"
-					+ " (this is violated by " + childrenNode.get(0) + " and " + childrenEdge.get(0) + ").");
+					+ " (this is violated by node " + childrenNode.get(0) + " and edge " + childrenEdge.get(0) + ").");
 			return false;
 		}
 

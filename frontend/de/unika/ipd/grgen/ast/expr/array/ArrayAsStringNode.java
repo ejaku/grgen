@@ -71,13 +71,13 @@ public class ArrayAsStringNode extends ArrayFunctionMethodInvocationBaseExprNode
 		ArrayTypeNode arrayMemberType = getTargetType();
 		if(!(arrayMemberType.valueType instanceof StringTypeNode)) {
 			targetExpr.reportError("The array function method asString can only be employed on an object of type array<string>"
-					+ " (but is employed on an object of type " + arrayMemberType + ").");
+					+ " (but is employed on an object of type " + arrayMemberType.getTypeName() + ").");
 			return false;
 		}
 		TypeNode valueType = valueExpr.getType();
 		if(!valueType.isEqual(BasicTypeNode.stringType)) {
 			valueExpr.reportError("The array function method asString expects as argument a value of type string"
-					+ " (but is given a value of type " + valueType + ").");
+					+ " (but is given a value of type " + valueType.getTypeName() + ").");
 			return false;
 		}
 		return true;

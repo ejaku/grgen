@@ -139,7 +139,7 @@ public abstract class ConstraintDeclNode extends DeclNode
 		
 		if(copyKind != CopyKind.None) {
 			reportError("A copy<> construct is not allowed in the pattern part"
-					+ " (but comes with " + getKind() + " " + getIdentNode() + ").");
+					+ emptyWhenAnonymous(" (but comes with the declaration of " + getKind() + " " + getIdentNode() + ")") + ".");
 			return false;
 		}
 		

@@ -70,7 +70,7 @@ public class CountNodesExprNode extends BuiltinFunctionInvocationBaseNode
 	{
 		if(!(nodeType.getType() instanceof NodeTypeNode)) {
 			reportError("The function countNodes expects as argument a value of type node"
-					+ " (but is given a value of type " + nodeType.getType() + ").");
+					+ " (but is given a value of type " + nodeType.getType().getTypeName() + ").");
 			return false;
 		}
 		return true;

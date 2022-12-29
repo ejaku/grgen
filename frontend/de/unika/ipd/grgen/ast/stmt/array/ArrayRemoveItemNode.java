@@ -81,9 +81,10 @@ public class ArrayRemoveItemNode extends ArrayProcedureMethodInvocationBaseNode
 			if(valueExpr != null) {
 				TypeNode valueType = valueExpr.getType();
 				if(!valueType.isEqual(IntTypeNode.intType)) {
+					ExprNode valueExprOld = valueExpr;
 					valueExpr = becomeParent(valueExpr.adjustType(IntTypeNode.intType, getCoords()));
 					if(valueExpr == ConstNode.getInvalid()) {
-						valueExpr.reportError("The array rem item procedure expects as argument (index)"
+						valueExprOld.reportError("The array rem item procedure expects as argument (index)"
 								+ " a value of type int"
 								+ " (but is given a value of type " + valueType.toStringWithDeclarationCoords() + ").");
 						return false;

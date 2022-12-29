@@ -119,4 +119,9 @@ public class Node extends GraphEntity
 	{
 		return pointOfDefinition;
 	}
+	
+	public String getKind()
+	{
+		return "node";
+	}
 }

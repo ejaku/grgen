@@ -811,10 +811,10 @@ edgeHom:
 					error.error(iterated.getIdent().getCoords(),
 							"An unbounded pattern cardinality construct (iterated, multiple, [*])"
 									+ " must contain at least one locally defined node or edge (not being homomorphic to an enclosing element)"
-									+ " or a nested subpattern or alternative not being empty");
+									+ " or a nested subpattern or alternative not being empty.");
 				} else if(iterated.getMaxMatches() > 1) {
 					error.warning(iterated.getIdent().getCoords(),
-							"Maybe empty pattern in pattern cardinality construct (you must expect empty matches)");
+							"Maybe empty pattern in pattern cardinality construct (you must expect empty matches).");
 				}
 			} else {
 				if(iterated.getMinMatches() > 0) {
@@ -906,8 +906,8 @@ edgeHom:
 			} else {
 				// we're on path of only (maybe) empty patterns and see a subpattern already on it again
 				// -> endless loop of this subpattern matching only empty patterns until it gets matched again 
-				error.error(sub.subpatternAction.getIdent().getCoords(), "The subpattern " + sub.subpatternAction.getIdent()
-						+ " (potentially) calls itself again with only empty patterns in between, yielding an endless loop.");
+				error.error(sub.subpatternAction.getIdent().getCoords(), "The (sub)pattern " + sub.subpatternAction.getIdent()
+						+ " (potentially) calls itself again with only empty patterns in between, yielding an endless loop during pattern matching.");
 			}
 		}
 	}
@@ -997,15 +997,15 @@ edgeHom:
 			if(node.getRetypedNode(right) == null)
 				continue;
 			if(alreadyDefinedNodes.contains(node)) {
-				error.error(node.getIdent().getCoords(), "A retyping of nodes from the outside is forbidden"
+				error.error(node.getIdent().getCoords(), "A retyping of nodes from a nesting pattern is forbidden"
 						+ " if they are contained in a construct which can get matched more than once (due to some kind of iterated)"
-						+ " (this is the case for " + node + ").");
+						+ " (this occurs for " + node + ").");
 			} else {
 				for(Node homToRetypedNode : getHomomorphic(node)) {
 					if(alreadyDefinedNodes.contains(homToRetypedNode)) {
-						error.error(node.getIdent().getCoords(), "A retyping of nodes which might be hom to nodes from the outside is forbidden"
+						error.error(node.getIdent().getCoords(), "A retyping of nodes which might be hom to nodes from a nesting pattern is forbidden"
 								+ " if they are contained in a construct which can get matched more than once (due to some kind of iterated)"
-								+ " (this is the case for " + node + ").");
+								+ " (this occurs for " + node + ").");
 					}
 				}
 			}
@@ -1014,15 +1014,15 @@ edgeHom:
 			if(edge.getRetypedEdge(right) == null)
 				continue;
 			if(alreadyDefinedEdges.contains(edge)) {
-				error.error(edge.getIdent().getCoords(), "A retyping of edges from the outside is forbidden"
+				error.error(edge.getIdent().getCoords(), "A retyping of edges from a nesting pattern is forbidden"
 						+ " if they are contained in a construct which can get matched more than once (due to some kind of iterated)"
-						+ " (this is the case for " + edge + ").");
+						+ " (this occurs for " + edge + ").");
 			} else {
 				for(Edge homToRetypedEdge : getHomomorphic(edge)) {
 					if(alreadyDefinedEdges.contains(homToRetypedEdge)) {
-						error.error(edge.getIdent().getCoords(), "A retyping of edges which might be hom to edges from the outside is forbidden"
+						error.error(edge.getIdent().getCoords(), "A retyping of edges which might be hom to edges from a nesting pattern is forbidden"
 								+ " if they are contained in construct which can get matched more than once (due to some kind of iterated)"
-								+ " (this is the case for " + edge + ").");
+								+ " (this occurs for " + edge + ").");
 					}
 				}
 			}

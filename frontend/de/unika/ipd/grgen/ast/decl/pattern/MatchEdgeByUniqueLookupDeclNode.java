@@ -90,7 +90,7 @@ public class MatchEdgeByUniqueLookupDeclNode extends EdgeDeclNode
 			String expTypeName = expectedLookupType.getTypeName();
 			String typeName = lookupType.getTypeName();
 			ident.reportError("Cannot convert type used in accessing unique index from " + typeName
-					+ " to " + expTypeName + " in match edge" + emptyWhenAnonymousPostfix(" ") + " by unique index lookup.");
+					+ " to the expected " + expTypeName + " in match edge" + emptyWhenAnonymousPostfix(" ") + " by unique index lookup.");
 			return false;
 		}
 		return res;

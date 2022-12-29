@@ -48,7 +48,7 @@ public class ArrayKeepOneForEachByNode extends ArrayFunctionMethodInvocationBase
 		if(!(arrayType.valueType instanceof InheritanceTypeNode)
 				&& !(arrayType.valueType instanceof MatchTypeNode)) {
 			targetExpr.reportError("The array function method keepOneForEachBy can only be employed on an object of type array<nodes, edges, class objects, transient class objects, match types, match class types>"
-					+ " (but is employed on an object of type " + arrayType + ").");
+					+ " (but is employed on an object of type " + arrayType.getTypeName() + ").");
 			return false;
 		}
 
@@ -60,7 +60,7 @@ public class ArrayKeepOneForEachByNode extends ArrayFunctionMethodInvocationBase
 		TypeNode memberType = getTypeOfElementToBeExtracted();
 		if(!memberType.isFilterableType()) {
 			targetExpr.reportError("The array function method keepOneForEachBy is only available for attributes of type "
-					+ TypeNode.getFilterableTypesAsString() + " (but is " + memberType + ").");
+					+ TypeNode.getFilterableTypesAsString() + " (but is " + memberType.getTypeName() + ").");
 			return false;
 		}
 

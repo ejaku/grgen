@@ -125,7 +125,7 @@ public class ForIndexAccessOrderingYieldNode extends ForIndexAccessNode
 			if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
 				reportError("Cannot convert type used in accessing index"
 						+ " from " + indexAccessType.toStringWithDeclarationCoords()
-						+ " to " + expectedIndexAccessType.toStringWithDeclarationCoords()
+						+ " to the expected " + expectedIndexAccessType.toStringWithDeclarationCoords()
 						+ " in index access loop (on " + indexUnresolved + ").");
 				return false;
 			}
@@ -134,7 +134,7 @@ public class ForIndexAccessOrderingYieldNode extends ForIndexAccessNode
 				if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
 					reportError("Cannot convert type used in accessing index"
 							+ " from " + indexAccessType2.toStringWithDeclarationCoords()
-							+ " to " + expectedIndexAccessType.toStringWithDeclarationCoords()
+							+ " to the expected " + expectedIndexAccessType.toStringWithDeclarationCoords()
 							+ " in index access loop (on " + indexUnresolved + ").");
 					return false;
 				}
@@ -145,7 +145,7 @@ public class ForIndexAccessOrderingYieldNode extends ForIndexAccessNode
 		if(!entityType.isCompatibleTo(expectedEntityType) && !expectedEntityType.isCompatibleTo(entityType)) {
 			reportError("Cannot convert index type"
 					+ " from " + entityType.toStringWithDeclarationCoords()
-					+ " to " + expectedEntityType.toStringWithDeclarationCoords()
+					+ " to the expected " + expectedEntityType.toStringWithDeclarationCoords()
 					+ " in index access loop (on " + indexUnresolved + ").");
 			return false;
 		}

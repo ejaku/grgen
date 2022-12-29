@@ -131,7 +131,7 @@ public class ArrayMapStartWithAccumulateByNode extends ArrayFunctionMethodInvoca
 		resultValueType = resultValueTypeDecl.getDeclType();
 		if(!(resultValueType instanceof DeclaredTypeNode)
 				|| resultValueType instanceof ContainerTypeNode) {
-			reportError("The type " + resultValueType
+			reportError("The type " + resultValueType.getTypeName()
 					+ " is not an allowed type - set, map, array, deque are forbidden.");
 			return false;
 		}
@@ -157,12 +157,12 @@ public class ArrayMapStartWithAccumulateByNode extends ArrayFunctionMethodInvoca
 			TypeNode initArrayAccessVarType = initArrayAccessVar.getDeclType();
 			if(!(initArrayAccessVarType instanceof ArrayTypeNode)) {
 				reportError("The init array access variable of the array mapStartWithAccumulateBy function method must be of array type"
-						+ " (but is " + initArrayAccessVarType + ").");
+						+ " (but is " + initArrayAccessVarType.getTypeName() + ").");
 				return false;
 			}
 			if(!initArrayAccessVarType.isEqual(targetExpr.getType())) {
-				reportError("The init array access variable of the array mapStartWithAccumulateBy function method must be of type " + targetExpr.getType()
-						+ " (but is " + initArrayAccessVarType + ").");
+				reportError("The init array access variable of the array mapStartWithAccumulateBy function method must be of type " + targetExpr.getType().getTypeName()
+						+ " (but is " + initArrayAccessVarType.getTypeName() + ").");
 				return false;
 			}
 		}
@@ -177,15 +177,15 @@ public class ArrayMapStartWithAccumulateByNode extends ArrayFunctionMethodInvoca
 				Collection<TypeNode> superTypes = new HashSet<TypeNode>();
 				initExprType.doGetCompatibleToTypes(superTypes);
 				if(!superTypes.contains(resultType)) {
-					reportError("Type mismatch in the array mapStartWithAccumulateBy function method between the init lambda expression value of type " + initExprType
-							+ " and the expected element type " + resultType + " of the resulting array.");
+					reportError("Type mismatch in the array mapStartWithAccumulateBy function method between the init lambda expression value of type " + initExprType.toStringWithDeclarationCoords()
+							+ " and the expected element type " + resultType.toStringWithDeclarationCoords() + " of the resulting array.");
 					return false;
 				}
 			}
 			if(resultType instanceof NodeTypeNode && initExprType instanceof EdgeTypeNode
 					|| resultType instanceof EdgeTypeNode && initExprType instanceof NodeTypeNode) {
-				reportError("Type mismatch in the array mapStartWithAccumulateBy function method between the init lambda expression value of type " + initExprType
-						+ " and the expected element type " + resultType + " of the resulting array.");
+				reportError("Type mismatch in the array mapStartWithAccumulateBy function method between the init lambda expression value of " + initExprType.getKind() + " " + initExprType.getTypeName()
+						+ " and the expected " + resultType.getKind() + " element type " + resultType.getTypeName() + " of the resulting array.");
 				return false;
 			}
 		}
@@ -194,20 +194,20 @@ public class ArrayMapStartWithAccumulateByNode extends ArrayFunctionMethodInvoca
 			TypeNode arrayAccessVarType = arrayAccessVar.getDeclType();
 			if(!(arrayAccessVarType instanceof ArrayTypeNode)) {
 				reportError("The array access variable of the array mapStartWithAccumulateBy function method must be of array type"
-						+ " (but is " + arrayAccessVarType + ").");
+						+ " (but is " + arrayAccessVarType.getTypeName() + ").");
 				return false;
 			}
 			if(!arrayAccessVarType.isEqual(targetExpr.getType())) {
-				reportError("The array access variable of the array mapStartWithAccumulateBy function method must be of type " + targetExpr.getType()
-						+ " (but is " + arrayAccessVarType + ").");
+				reportError("The array access variable of the array mapStartWithAccumulateBy function method must be of type " + targetExpr.getType().getTypeName()
+						+ " (but is " + arrayAccessVarType.getTypeName() + ").");
 				return false;
 			}
 		}
 
 		TypeNode previousAccumulationAccessVarType = previousAccumulationAccessVar.getDeclType();
 		if(!previousAccumulationAccessVarType.isEqual(resultValueType)) {
-			reportError("The previous accumulation access variable of the array mapStartWithAccumulateBy function method must be of type " + resultValueType.getType()
-					+ " (but is " + previousAccumulationAccessVarType + ").");
+			reportError("The previous accumulation access variable of the array mapStartWithAccumulateBy function method must be of type " + resultValueType.getTypeName()
+					+ " (but is " + previousAccumulationAccessVarType.getTypeName() + ").");
 			return false;
 		}
 
@@ -215,7 +215,7 @@ public class ArrayMapStartWithAccumulateByNode extends ArrayFunctionMethodInvoca
 			TypeNode indexVarType = indexVar.getDeclType();
 			if(!indexVarType.isEqual(BasicTypeNode.intType)) {
 				reportError("The index variable of the array mapStartWithAccumulateBy function method must be of int type"
-						+ " (but is " + indexVarType + ").");
+						+ " (but is " + indexVarType.getTypeName() + ").");
 				return false;
 			}
 		}
@@ -230,15 +230,15 @@ public class ArrayMapStartWithAccumulateByNode extends ArrayFunctionMethodInvoca
 				Collection<TypeNode> superTypes = new HashSet<TypeNode>();
 				exprType.doGetCompatibleToTypes(superTypes);
 				if(!superTypes.contains(resultType)) {
-					reportError("Type mismatch in the array mapStartWithAccumulateBy function method between the lambda expression value of type " + exprType
-							+ " and the expected element type " + resultType + " of the resulting array.");
+					reportError("Type mismatch in the array mapStartWithAccumulateBy function method between the lambda expression value of type " + exprType.toStringWithDeclarationCoords()
+							+ " and the expected element type " + resultType.toStringWithDeclarationCoords() + " of the resulting array.");
 					return false;
 				}
 			}
 			if(resultType instanceof NodeTypeNode && exprType instanceof EdgeTypeNode
 					|| resultType instanceof EdgeTypeNode && exprType instanceof NodeTypeNode) {
-				reportError("Type mismatch in the array mapStartWithAccumulateBy function method between the lambda expression value of type " + exprType
-						+ " and the expected element type " + resultType + " of the resulting array.");
+				reportError("Type mismatch in the array mapStartWithAccumulateBy function method between the lambda expression value of " + exprType.getKind() + " " + exprType.getTypeName()
+						+ " and the expected " + resultType.getKind() + " element type " + resultType.getTypeName() + " of the resulting array.");
 				return false;
 			}
 		}
@@ -248,13 +248,13 @@ public class ArrayMapStartWithAccumulateByNode extends ArrayFunctionMethodInvoca
 
 		if(targetType instanceof NodeTypeNode && elementVarType instanceof EdgeTypeNode
 				|| targetType instanceof EdgeTypeNode && elementVarType instanceof NodeTypeNode) {
-			reportError("Cannot bind the element variable of type " + elementVarType
-					+ " to a value of type " + targetType + " in the array mapStartWithAccumulateBy function method.");
+			reportError("Cannot bind the element variable of " + elementVarType.getKind() + " " + elementVarType.getTypeName()
+					+ " to a value of " + targetType.getKind() + " " + targetType.getTypeName() + " in the array mapStartWithAccumulateBy function method.");
 			return false;
 		}
 		if(!targetType.isCompatibleTo(elementVarType)) {
-			reportError("Cannot bind the element variable of type " + elementVarType
-					+ " to a value of type " + targetType + " in the array mapStartWithAccumulateBy function method.");
+			reportError("Cannot bind the element variable of type " + elementVarType.toStringWithDeclarationCoords()
+					+ " to a value of type " + targetType.toStringWithDeclarationCoords() + " in the array mapStartWithAccumulateBy function method.");
 			return false;
 		}
 

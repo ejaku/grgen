@@ -1,0 +1,12 @@
+using model_init;
+
+::g_a:A;
+ref ::g_m:map<string,CC>;
+
+rule rt
+{
+	modify {
+	---
+		eval { ::g_m["Foo"] = ::g_a.m["Foo"]; }
+	}
+}

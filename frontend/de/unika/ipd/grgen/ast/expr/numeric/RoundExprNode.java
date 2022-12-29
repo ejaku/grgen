@@ -58,7 +58,7 @@ public class RoundExprNode extends BuiltinFunctionInvocationBaseNode
 			return true;
 		}
 		reportError("The function round() expects as argument a value of type double"
-				+ " (but is given a value of type " + argumentExpr.getType() + ").");
+				+ " (but is given a value of type " + argumentExpr.getType().getTypeName() + ").");
 		return false;
 	}
 

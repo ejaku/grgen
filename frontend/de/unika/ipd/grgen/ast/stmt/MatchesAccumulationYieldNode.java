@@ -148,7 +148,7 @@ public class MatchesAccumulationYieldNode extends NestingStatementNode
 
 		if(!iterationVariableMatchType.isEqual(matchesContainerMatchType)) {
 			reportError("The iteration variable of the for matches loop is of type " + iterationVariableMatchType.toStringWithDeclarationCoords()
-					+ " but the matches container is of type " + matchesContainerMatchType.toStringWithDeclarationCoords());
+					+ " but the elements in the matches container are of type " + matchesContainerMatchType.toStringWithDeclarationCoords() + ".");
 			//"(defined by the rule referenced by the filter function)" "(defined by the match class referenced by the match class filter function)"
 			return false;
 		}

@@ -3,7 +3,7 @@ rule r
 	x:Node;
 
 	alternative {
-		case {
+		case1 {
 			modify {
 				y:Node -e-> y;
 			}

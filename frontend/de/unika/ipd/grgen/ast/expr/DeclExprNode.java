@@ -18,6 +18,8 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.ExecVarDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.model.decl.EnumItemDeclNode;
 import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
@@ -182,11 +184,19 @@ public class DeclExprNode extends ExprNode
 	@Override
 	public boolean noDefElement(String containingConstruct)
 	{
-		if(decl instanceof ConstraintDeclNode) {
-			ConstraintDeclNode entity = (ConstraintDeclNode)decl;
-			if(entity.defEntityToBeYieldedTo) {
-				declUnresolved.reportError("A def entity (" + entity + ")"
-						+ " cannot be accessed from a " + containingConstruct + ".");
+		if(decl instanceof NodeDeclNode) {
+			NodeDeclNode node = (NodeDeclNode)decl;
+			if(node.defEntityToBeYieldedTo) {
+				declUnresolved.reportError("A def node (" + node + ")"
+						+ " cannot be accessed from a(n) " + containingConstruct + ".");
+				return false;
+			}
+		}
+		if(decl instanceof EdgeDeclNode) {
+			EdgeDeclNode edge = (EdgeDeclNode)decl;
+			if(edge.defEntityToBeYieldedTo) {
+				declUnresolved.reportError("A def edge (" + edge + ")"
+						+ " cannot be accessed from a(n) " + containingConstruct + ".");
 				return false;
 			}
 		}
@@ -194,7 +204,7 @@ public class DeclExprNode extends ExprNode
 			VarDeclNode entity = (VarDeclNode)decl;
 			if(entity.defEntityToBeYieldedTo && !entity.lambdaExpressionVariable) {
 				declUnresolved.reportError("A def variable (" + entity + ")"
-						+ " cannot be accessed from a " + containingConstruct + ".");
+						+ " cannot be accessed from a(n) " + containingConstruct + ".");
 				return false;
 			}
 		}

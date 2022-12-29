@@ -189,9 +189,9 @@ public class ConnectionNode extends ConnectionCharacter
 		}
 
 		if(!(edge.getDeclType() instanceof ArbitraryEdgeTypeNode)) {
-			edge.reportWarning("The type of " + edge.getIdentNode().toString() + " differs from "
-					+ getArbitraryEdgeRootTypeDecl().getIdentNode().toString()
-					+ ", please use another edge kind instead of ?--? (e.g. -->)");
+			edge.reportWarning("The type of edge" + edge.emptyWhenAnonymousPostfix(" ") + " differs from "
+					+ getArbitraryEdgeRootTypeDecl().getIdentNode()
+					+ ", please use another edge kind instead of ?--? (e.g. -->).");
 		}
 
 		return;
@@ -225,8 +225,8 @@ public class ConnectionNode extends ConnectionCharacter
 		DeclaredTypeNode rootType = rootDecl != null ? rootDecl.getDeclType() : null;
 
 		if(!edge.getDeclType().isCompatibleTo(rootType)) {
-			reportError("Edge kind is incompatible with edge type"
-					+ " (" + rootType + " with " + edge.toStringWithDeclarationCoords() + ").");
+			reportError("The connection kind of the edge" + edge.emptyWhenAnonymousPostfix(" ") + " is incompatible with the type of the edge"
+					+ " (" + toString(connectionKind) + " with " + edge.getDeclType().toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 
@@ -263,7 +263,7 @@ public class ConnectionNode extends ConnectionCharacter
 		}
 
 		edge.reportError("Dangling edges in the rewrite part (replace/modify) must have been declared in the pattern part"
-				+ " (a declaration in the pattern part is missing for " + edge + ").");
+				+ edge.emptyWhenAnonymous(" (a declaration in the pattern part is missing for " + edge.getIdentNode() + ")") + ".");
 		return false;
 	}
 
@@ -273,7 +273,7 @@ public class ConnectionNode extends ConnectionCharacter
 			if((left.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
 					&& (edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
 				left.reportError("A pattern part def node cannot connect to a pattern part non-def edge"
-					+ " (as is the case with " + left.getIdentNode() + " and " + edge.getIdentNode() + ").");
+					+ " (as is the case with " + left.getIdentNode() + " and " + edge.toStringWithDeclarationCoords() + ").");
 				return false;
 			}
 		}
@@ -281,7 +281,7 @@ public class ConnectionNode extends ConnectionCharacter
 			if((right.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
 					&& (edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
 				right.reportError("A pattern part def node cannot connect to a pattern part non-def edge"
-					+ " (as is the case with " + right.getIdentNode() + " and " + edge.getIdentNode() + ").");
+					+ " (as is the case with " + right.getIdentNode() + " and " + edge.toStringWithDeclarationCoords() + ").");
 				return false;
 			}
 		}
@@ -306,26 +306,26 @@ public class ConnectionNode extends ConnectionCharacter
 		if(redirectionKind != NO_REDIRECTION) {
 			if((edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 				edge.reportError("An edge to be redirected must have been declared in the pattern (thus matched)"
-						+ " (but " + edge.getIdentNode() + " is declared in the rewrite part).");
+						+ " (but edge " + edge.getIdentNode() + " is declared in the rewrite part).");
 				return false;
 			}
 			if(connectionKind != ConnectionKind.DIRECTED) {
 				edge.reportError("Only directed edges may be redirected (to other nodes)"
-						+ " (this is not the case for " + edge.getIdentNode() + ").");
+						+ " (this is not the case for edge " + edge.getIdentNode() + " of connection kind " + toString(connectionKind) + ").");
 				return false;
 			}
 		}
 		if(connectionKind == ConnectionKind.ARBITRARY) {
 			if((edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-				reportError("New instances of ?--? are not allowed in the rewrite part"
-						+ " (this is the case for " + edge.getIdentNode() + ").");
+				edge.reportError("New instances of ?--? are not allowed in the rewrite part"
+						+ edge.emptyWhenAnonymous(" (this is the case for edge " + edge.getIdentNode() + ")") + ".");
 				return false;
 			}
 		}
 		if(connectionKind == ConnectionKind.ARBITRARY_DIRECTED) {
 			if((edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-				reportError("New instances of <--> are not allowed in the rewrite part"
-						+ " (this is the case for " + edge.getIdentNode() + ").");
+				edge.reportError("New instances of <--> are not allowed in the rewrite part"
+						+ edge.emptyWhenAnonymous(" (this is the case for edge " + edge.getIdentNode() + ")") + ".");
 				return false;
 			}
 		}

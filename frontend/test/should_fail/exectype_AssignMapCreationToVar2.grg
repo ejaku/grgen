@@ -4,6 +4,6 @@ rule r
 {
 	modify {
 	---
-		exec(m:int =map<A,HH>);
+		exec(m:int =map<A,HH>{});
 	}
 }

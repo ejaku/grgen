@@ -85,6 +85,20 @@ public class Coords implements Location
 			return "nowhere";
 	}
 
+	public final String getAtCoords()
+	{
+		return " [at " + toString() + "]";
+	}
+	
+	public final String getDeclarationCoords(boolean implicitly)
+	{
+		if(!hasLocation())
+			return "";
+		if(this == Coords.getBuiltin())
+			return "";
+		return " [declared " + (implicitly ? "implicitly " : "") + "at " + toString() + "]";
+	}
+	
 	/**
 	 * @see de.unika.ipd.grgen.util.report.Location#getLocation()
 	 */

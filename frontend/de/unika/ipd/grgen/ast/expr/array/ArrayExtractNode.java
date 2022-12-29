@@ -59,7 +59,7 @@ public class ArrayExtractNode extends ArrayFunctionMethodInvocationBaseExprNode
 		if(!(arrayType.valueType instanceof InheritanceTypeNode)
 				&& !(arrayType.valueType instanceof MatchTypeNode)) {
 			targetExpr.reportError("The array function method extract can only be employed on an object of type array<match<T>, match<T.S>, match<class T>, array<T> where T extends node/edge>"
-					+ " (but is employed on an object of type " + arrayType + ").");
+					+ " (but is employed on an object of type " + arrayType.getTypeName() + ").");
 			return false;
 		}
 
@@ -73,7 +73,7 @@ public class ArrayExtractNode extends ArrayFunctionMethodInvocationBaseExprNode
 		if(!(type instanceof DeclaredTypeNode)
 				|| type instanceof ContainerTypeNode
 				|| type instanceof MatchTypeNode) {
-			reportError("The type " + type + " of the element to be extracted"
+			reportError("The type " + type.getTypeName() + " of the element to be extracted"
 					+ " is not an allowed type (basic type or node or edge class - set, map, array, deque, and match are forbidden).");
 			return false;
 		}

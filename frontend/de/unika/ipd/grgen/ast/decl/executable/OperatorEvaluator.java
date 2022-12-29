@@ -477,7 +477,7 @@ public class OperatorEvaluator
 			if(e[1] instanceof TypeConstNode) {
 				TypeNode type = (TypeNode)((TypeConstNode)e[1]).getValue();
 				is_node2 = type instanceof NodeTypeNode;
-			} else if(e[0] instanceof TypeofNode) {
+			} else if(e[1] instanceof TypeofNode) {
 				TypeNode type = ((TypeofNode)e[1]).getEntity().getDeclType();
 				is_node2 = type instanceof NodeTypeNode;
 			} else

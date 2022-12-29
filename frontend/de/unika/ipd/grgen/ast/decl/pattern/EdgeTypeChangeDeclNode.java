@@ -119,8 +119,8 @@ public class EdgeTypeChangeDeclNode extends EdgeDeclNode
 		// check if source edge of retype is declared in replace/modify part - no retype of just created edge
 		if((old.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS
 			&& !old.defEntityToBeYieldedTo) {
-			reportError("The source edge of the retyping may not be declared in the rewrite part (replace/modify)"
-					+ " (this is violated by the source edge " + old.getIdentNode() + emptyWhenAnonymousPostfix(" of ") + ").");
+			reportError("The original edge of the retyping may not be declared in the rewrite part (replace/modify)"
+					+ " (this is violated by the original edge " + old.getIdentNode() + emptyWhenAnonymousPostfix(" of ") + ").");
 			res = false;
 		}
 

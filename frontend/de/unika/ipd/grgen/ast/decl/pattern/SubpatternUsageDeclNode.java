@@ -153,7 +153,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 				res = false;
 				ident.reportError("The " + (i + 1) + ". subpattern usage argument is yielded to, "
 						+ "but the parameter at this position is not declared as def"
-						+ " (" + parameterElement.getIdentNode() + " in " + type.toStringWithDeclarationCoords() + emptyWhenAnonymous(" used by " + ident) + ").");
+						+ " (" + parameterElement.getIdentNode() + " when using " + type.toStringWithDeclarationCoords() + emptyWhenAnonymous(" by " + ident) + ").");
 			}
 		} else { //if(formalParameter instanceof VarDeclNode)
 			VarDeclNode parameterVar = (VarDeclNode)formalParameter;
@@ -161,7 +161,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 				res = false;
 				ident.reportError("The " + (i + 1) + ". subpattern usage argument is yielded to, "
 						+ "but the parameter at this position is not declared as def"
-						+ " (" + parameterVar.getIdentNode() + " in " + type.toStringWithDeclarationCoords() + emptyWhenAnonymous(" used by " + ident) + ").");
+						+ " (" + parameterVar.getIdentNode() + " when using " + type.toStringWithDeclarationCoords() + emptyWhenAnonymous(" by " + ident) + ").");
 			}
 		}
 
@@ -172,7 +172,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 				res = false;
 				ident.reportError("Cannot yield to non-def arguments - the " + (i + 1)
 						+ ". subpattern usage argument is yielded to but not declared as def"
-						+ " (" + argumentVar.getIdentNode() + " in " + type.toStringWithDeclarationCoords() + emptyWhenAnonymous(" used by " + ident) + ").");
+						+ " (" + argumentVar.getIdentNode() + " when using " + type.toStringWithDeclarationCoords() + emptyWhenAnonymous(" by " + ident) + ").");
 			}
 		} else { //if(argument instanceof ConstraintDeclNode)
 			ConstraintDeclNode argumentElement = (ConstraintDeclNode)argument;
@@ -180,7 +180,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 				res = false;
 				ident.reportError("Cannot yield to non-def arguments - the " + (i + 1)
 						+ ". subpattern usage argument is yielded to but not declared as def"
-						+ " (" + argumentElement.getIdentNode() + " in " + type.toStringWithDeclarationCoords() + emptyWhenAnonymous(" used by " + ident) + ").");
+						+ " (" + argumentElement.getIdentNode() + " when using " + type.toStringWithDeclarationCoords() + emptyWhenAnonymous(" by " + ident) + ").");
 			}
 		}
 
@@ -189,8 +189,11 @@ public class SubpatternUsageDeclNode extends DeclNode
 			String exprTypeName = actualParameterType.getTypeName();
 			String paramTypeName = formalParameterType.getTypeName();
 			ident.reportError("The " + (i + 1) + ". subpattern usage argument of type " + exprTypeName
-					+ " cannot be yielded to from the subpattern def parameter type " + paramTypeName
-					+ " (in " + type.toStringWithDeclarationCoords() + emptyWhenAnonymous(" used by " + ident) + ").");
+					+ " cannot be yielded to from the subpattern def parameter of incompatible type " + paramTypeName
+					+ " (when using " + type.toStringWithDeclarationCoords() + emptyWhenAnonymous(" by " + ident) + ")"
+					+ actualParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
+					+ formalParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
+					+ ".");
 		}
 		
 		return res;
@@ -209,7 +212,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 				res = false;
 				ident.reportError("The " + (i + 1) + ". subpattern usage argument is not yielded to, "
 						+ "but the parameter at this position is declared as def"
-						+ " (" + parameterElement.getIdentNode() + " in " + type.toStringWithDeclarationCoords() + emptyWhenAnonymous(" used by " + ident) + ").");
+						+ " (" + parameterElement.getIdentNode() + " when using " + type.toStringWithDeclarationCoords() + emptyWhenAnonymous(" by " + ident) + ").");
 			}
 		} else { //if(formalParameter instanceof VarDeclNode)
 			VarDeclNode parameterVar = (VarDeclNode)formalParameter;
@@ -217,7 +220,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 				res = false;
 				ident.reportError("The " + (i + 1) + ". subpattern usage argument is not yielded to, "
 						+ "but the parameter at this position is declared as def"
-						+ " (" + parameterVar.getIdentNode() + " in " + type.toStringWithDeclarationCoords() + emptyWhenAnonymous(" used by " + ident) + ").");
+						+ " (" + parameterVar.getIdentNode() + " when using " + type.toStringWithDeclarationCoords() + emptyWhenAnonymous(" by " + ident) + ").");
 			}
 		}
 
@@ -226,8 +229,11 @@ public class SubpatternUsageDeclNode extends DeclNode
 			String exprTypeName = actualParameterType.getTypeName();
 			String paramTypeName = formalParameterType.getTypeName();
 			ident.reportError("Cannot convert " + (i + 1) + ". subpattern usage argument from " + exprTypeName
-					+ " to " + paramTypeName
-					+ " (in " + type.toStringWithDeclarationCoords() + emptyWhenAnonymous(" used by " + ident) + ").");
+					+ " to the expected " + paramTypeName
+					+ " (when using " + type.toStringWithDeclarationCoords() + emptyWhenAnonymous(" by " + ident) + ")"
+					+ actualParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
+					+ formalParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
+ 					+ ".");
 		}
 
 		return res;
@@ -249,7 +255,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 						ident.reportError("Cannot use def elements as non-def arguments to subpatterns"
 								+" - the " + (i + 1) + ". subpattern usage argument is declared as def,"
 								+ " but the parameter at this position is not declared as def"
-								+ " (in " + type.toStringWithDeclarationCoords() + emptyWhenAnonymous(" used by " + ident) + ").");
+								+ " (when using " + type.toStringWithDeclarationCoords() + emptyWhenAnonymous(" by " + ident) + ").");
 						return false;
 					}
 				}
@@ -263,7 +269,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 						ident.reportError("Cannot use def elements as non-def arguments to subpatterns"+
 								" - the " + (i + 1) + ". subpattern usage argument is declared as def,"
 								+ " but the parameter at this position is not declared as def"
-								+ " (in " + type.toStringWithDeclarationCoords() + emptyWhenAnonymous(" used by " + ident) + ").");
+								+ " (when using " + type.toStringWithDeclarationCoords() + emptyWhenAnonymous(" by " + ident) + ").");
 						return false;
 					}
 				}

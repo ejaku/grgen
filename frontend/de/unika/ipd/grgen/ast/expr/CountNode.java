@@ -104,7 +104,7 @@ public class CountNode extends ExprNode
 	public boolean iteratedNotReferenced(String iterName)
 	{
 		if(iterated.getIdentNode().toString().equals(iterName)) {
-			reportError("The iterated cannot be accessed by this nested count(" + iteratedUnresolved + ").");
+			reportError("An iterated cannot be accessed by a nested count, as it occurs with (" + iteratedUnresolved + ").");
 			return false;
 		}
 		return true;

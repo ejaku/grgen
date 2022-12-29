@@ -62,7 +62,7 @@ public class SqrExprNode extends BuiltinFunctionInvocationBaseNode
 			return true;
 		}
 		reportError("The function sqr() expects as argument a value of type double"
-				+ " (but is given a value of type " + expr.getType() + ").");
+				+ " (but is given a value of type " + expr.getType().getTypeName() + ").");
 		return false;
 	}
 

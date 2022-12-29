@@ -143,25 +143,26 @@ public abstract class MatcherDeclNode extends DeclNode
 						filterNameWithEntitySuffix, filterEntity);
 			}
 			if(filter.entities.size() != 1) {
-				reportError(filterNameWithEntitySuffix
-						+ " must be declared with exactly one variable, but is declared with " + filter.entities.size()
-						+ " variables (at " + pattern.nameOfGraph + ").");
+				reportError("The filter " + filter.getFilterName()
+						+ " must be declared with exactly one variable, but is declared with "
+						+ filter.entities.size() + " variables"
+						+ " (in " + filterNameWithEntitySuffix + " for " + pattern.nameOfGraph + ").");
 				allFilterEntitiesExistAndAreOfAdmissibleType = false;
 			}
 			return allFilterEntitiesExistAndAreOfAdmissibleType;
 		}
 		case "keepOneForEachAccumulateBy":
 			if(filter.entities.size() != 3) {
-				getIdentNode().reportError(filterNameWithEntitySuffix
+				getIdentNode().reportError("The filter " + filter.getFilterName()
 						+ " must be declared with exactly one variable, one accumulation variable,"
-						+ " and one accumulation method (but is declared with " + filter.entities.size() + " entities)"
-						+ " (at " + pattern.nameOfGraph + ").");
+						+ " and one accumulation method, but is declared with " + filter.entities.size() + " entities"
+						+ " (in " + filterNameWithEntitySuffix + " for " + pattern.nameOfGraph + ").");
 				return false;
 			} else {
 				if(filter.entities.get(0).equals(filter.entities.get(1))) {
-					getIdentNode().reportError("The accumulation variable " + filter.entities.get(1)
-							+ " must be different from the variable (in " + filterNameWithEntitySuffix + ")"
-							+ " (at " + pattern.nameOfGraph + ").");
+					getIdentNode().reportError("The accumulation variable"
+							+ " must be different from the variable " + filter.entities.get(0)
+							+ " (in " + filterNameWithEntitySuffix + " for " + pattern.nameOfGraph + ").");
 					return false;
 				}
 				boolean filterEntityExistsAndIsOfAdmissibleType = pattern.checkFilterEntity(getIdentNode(),
@@ -172,26 +173,24 @@ public abstract class MatcherDeclNode extends DeclNode
 						ArrayAccumulationMethodNode.getArrayMethodNode(filter.entities.get(2));
 				if(accumulationMethod == null) {
 					getIdentNode().reportError("The array accumulation method "
-							+ filter.entities.get(2) + " is not known (in " + filterNameWithEntitySuffix + ")"
-							+ " (at " + pattern.nameOfGraph + ").");
+							+ filter.entities.get(2) + " is not known"
+							+ " (in " + filterNameWithEntitySuffix + " for " + pattern.nameOfGraph + ").");
 					return false;
 				}
 				VarDeclNode filterAccumulationVariable = pattern.tryGetVar(filter.entities.get(1));
 				if(filterAccumulationVariable == null) {
-					getIdentNode().reportError(filterNameWithEntitySuffix
-							+ ": unknown accumulation variable " + filter.entities.get(1)
-							+ " (at " + pattern.nameOfGraph + ").");
+					getIdentNode().reportError("Unknown accumulation variable " + filter.entities.get(1)
+							+ " (in " + filterNameWithEntitySuffix + " for " + pattern.nameOfGraph + ").");
 					return false;
 				}
 				TypeNode filterAccumulationVariableType = filterAccumulationVariable.getDeclType();
 				if(!accumulationMethod.isValidTargetTypeOfAccumulation(filterAccumulationVariableType)) {
 					getIdentNode().reportError("The array accumulation method " + filter.entities.get(2)
-							+ " is not applicable to the type " + filterAccumulationVariableType
+							+ " is not applicable to the type " + filterAccumulationVariableType.getTypeName()
 							+ " of the accumulation variable " + filter.entities.get(1)
 							+ " / its result cannot be assigned to the accumulation variable."
 							+ " (Allowed are: " + accumulationMethod.getValidTargetTypesOfAccumulation() + ")"
-							+ " (in " + filterNameWithEntitySuffix + ")"
-							+ " (at " + pattern.nameOfGraph + ").");
+							+ " (in " + filterNameWithEntitySuffix + " for " + pattern.nameOfGraph + ").");
 					return false;
 				}
 				return true;
@@ -310,9 +309,9 @@ public abstract class MatcherDeclNode extends DeclNode
 			&& !( (nestedSource instanceof NodeDeclNode) && ((NodeDeclNode)nestedSource).isDummy() )
 			&& source != nestedSource) {
 			alreadyReported.add(connection.getEdge());
-			nestedConnection.reportError("Reused edge " + nestedConnection.getEdge().toStringWithDeclarationCoords()
-					+ " does not connect the same (source) nodes"
-					+ " (" + source.toStringWithDeclarationCoords() + " differs from " + nestedSource.toStringWithDeclarationCoords() + ").");
+			nestedConnection.reportError("Reused edge " + connection.getEdge().userFriendlyToString()
+					+ " does not connect the same source nodes"
+					+ " (" + source.userFriendlyToString() + " differs from nested " + nestedSource.userFriendlyToString() + ").");
 			edgeReuse = false;
 		}
 		if(!( (target instanceof NodeDeclNode) && ((NodeDeclNode)target).isDummy() )
@@ -320,16 +319,17 @@ public abstract class MatcherDeclNode extends DeclNode
 			&& target != nestedTarget
 			&& !alreadyReported.contains(connection.getEdge())) {
 			alreadyReported.add(connection.getEdge());
-			nestedConnection.reportError("Reused edge " + connection.getEdge().toStringWithDeclarationCoords()
-					+ " does not connect the same (target) nodes"
-					+ " (" + target.toStringWithDeclarationCoords() + " differs from " + nestedTarget.toStringWithDeclarationCoords() + ").");
+			nestedConnection.reportError("Reused edge " + connection.getEdge().userFriendlyToString()
+					+ " does not connect the same target nodes"
+					+ " (" + target.userFriendlyToString() + " differs from nested " + nestedTarget.userFriendlyToString() + ").");
 			edgeReuse = false;
 		}
 
 		if(connection.getConnectionKind() != nestedConnection.getConnectionKind()) {
 			alreadyReported.add(connection.getEdge());
-			connection.reportError("Reused edge " + connection.getEdge() + " does not have the same connection kind"
-					+ " (" + ConnectionNode.toString(connection.getConnectionKind()) + " differs from " + ConnectionNode.toString(nestedConnection.getConnectionKind())+ ").");
+			nestedConnection.reportError("Reused edge " + connection.getEdge().userFriendlyToString()
+					+ " does not have the same connection kind"
+					+ " (" + ConnectionNode.toString(connection.getConnectionKind()) + " differs from nested " + ConnectionNode.toString(nestedConnection.getConnectionKind())+ ").");
 			edgeReuse = false;
 		}
 
@@ -432,7 +432,7 @@ public abstract class MatcherDeclNode extends DeclNode
 				} else if(!alreadyReported.contains(rightEdge)) {
 					res = false;
 					rightConnection.reportError("The source node" + leftSource.emptyWhenAnonymousInParenthesis(" ")
-							+ " of reused/referenced edge " + leftEdge.toStringWithDeclarationCoords()
+							+ " of reused/referenced edge " + leftEdge.userFriendlyToString()
 							+ " must be reused/referenced, too.");
 					alreadyReported.add(rightEdge);
 				}
@@ -440,9 +440,9 @@ public abstract class MatcherDeclNode extends DeclNode
 					&& (rightConnection.getRedirectionKind() & ConnectionNode.REDIRECT_SOURCE) != ConnectionNode.REDIRECT_SOURCE
 					&& !alreadyReported.contains(rightEdge)) {
 				res = false;
-				rightConnection.reportError("Reused/referenced edge " + leftEdge.toStringWithDeclarationCoords()
+				rightConnection.reportError("Reused/referenced edge " + leftEdge.userFriendlyToString()
 						+ " does not connect the same (source) nodes (and is not declared to redirect source)"
-						+ " (" + leftSource.toStringWithDeclarationCoords() + " differs from " + rightSource.toStringWithDeclarationCoords() + ").");
+						+ " (" + leftSource.userFriendlyToString() + " differs from " + rightSource.userFriendlyToString() + ").");
 				alreadyReported.add(rightEdge);
 			}
 		}
@@ -461,7 +461,7 @@ public abstract class MatcherDeclNode extends DeclNode
 				res = false;
 				NodeDeclNode rightSource2 = redirectedFrom.get(leftEdge);
 				rightConnection.reportError("The source of edge " + leftEdge + " is redirected more than once"
-						+ " (" + rightSource.toStringWithDeclarationCoords() + " and " + rightSource2.toStringWithDeclarationCoords() + ").");
+						+ " (to " + rightSource.userFriendlyToString() + " and to " + rightSource2.userFriendlyToString() + ").");
 			}
 			redirectedFrom.put(leftEdge, rightSource);
 		}
@@ -471,7 +471,7 @@ public abstract class MatcherDeclNode extends DeclNode
 			if(leftSource.isDummy() && !rightSource.isDummy()
 					&& (rightConnection.getRedirectionKind() & ConnectionNode.REDIRECT_SOURCE) != ConnectionNode.REDIRECT_SOURCE) {
 				res = false;
-				rightConnection.reportError("Reused edge " + leftEdge.toStringWithDeclarationCoords()
+				rightConnection.reportError("Reused edge " + leftEdge.userFriendlyToString()
 						+ " dangles on LHS, but has a source node on RHS" + rightSource.emptyWhenAnonymousInParenthesis(" ") + ".");
 				alreadyReported.add(rightEdge);
 			}
@@ -500,7 +500,7 @@ public abstract class MatcherDeclNode extends DeclNode
 				} else if(!alreadyReported.contains(rightEdge)) {
 					res = false;
 					rightConnection.reportError("The target node" + leftTarget.emptyWhenAnonymousInParenthesis(" ")
-							+ " of reused/referenced edge " + leftEdge.toStringWithDeclarationCoords()
+							+ " of reused/referenced edge " + leftEdge.userFriendlyToString()
 							+ " must be reused/referenced, too.");
 					alreadyReported.add(rightEdge);
 				}
@@ -508,9 +508,9 @@ public abstract class MatcherDeclNode extends DeclNode
 					&& (rightConnection.getRedirectionKind() & ConnectionNode.REDIRECT_TARGET) != ConnectionNode.REDIRECT_TARGET
 					&& !alreadyReported.contains(rightEdge)) {
 				res = false;
-				rightConnection.reportError("Reused/referenced edge " + leftEdge.toStringWithDeclarationCoords()
+				rightConnection.reportError("Reused/referenced edge " + leftEdge.userFriendlyToString()
 						+ " does not connect the same (target) nodes (and is not declared to redirect target)"
-						+ " (" + leftTarget.toStringWithDeclarationCoords() + " differs from " + rightTarget.toStringWithDeclarationCoords() + ").");
+						+ " (" + leftTarget.userFriendlyToString() + " differs from " + rightTarget.userFriendlyToString() + ").");
 				alreadyReported.add(rightEdge);
 			}
 		}
@@ -529,7 +529,7 @@ public abstract class MatcherDeclNode extends DeclNode
 				res = false;
 				NodeDeclNode rightTarget2 = redirectedTo.get(leftEdge);
 				rightConnection.reportError("The target of edge " + leftEdge + " is redirected more than once"
-						+ " (" + rightTarget.toStringWithDeclarationCoords() + " and " + rightTarget2.toStringWithDeclarationCoords() + ").");
+						+ " (to " + rightTarget.userFriendlyToString() + " and to " + rightTarget2.userFriendlyToString() + ").");
 			}
 			redirectedTo.put(leftEdge, rightTarget);
 		}
@@ -539,7 +539,7 @@ public abstract class MatcherDeclNode extends DeclNode
 			if(leftTarget.isDummy() && !rightTarget.isDummy()
 					&& (rightConnection.getRedirectionKind() & ConnectionNode.REDIRECT_TARGET) != ConnectionNode.REDIRECT_TARGET) {
 				res = false;
-				rightConnection.reportError("Reused edge " + leftEdge.toStringWithDeclarationCoords()
+				rightConnection.reportError("Reused edge " + leftEdge.userFriendlyToString()
 						+ " dangles on LHS, but has a target node on RHS" + rightTarget.emptyWhenAnonymousInParenthesis(" ") + ".");
 				alreadyReported.add(rightEdge);
 			}
@@ -587,18 +587,18 @@ public abstract class MatcherDeclNode extends DeclNode
 	{
 		if(deletedElements.contains(declNode)) {
 			declNode.reportError("The deleted " + declNode.getKind() + " " + declNode.ident
-					+ " must not be passed to an exec statement");
+					+ " is not allowed to be passed to an exec statement.");
 			return false;
 		} else if(maybeDeletedElements.contains(declNode)) {
 			declNode.maybeDeleted = true;
 
 			if(!declNode.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
-				String errorMessage = "Parameter " + declNode.ident + " of exec statement may be deleted"
-						+ ", possibly it's homomorphic with a deleted " + declNode.getKind();
+				String errorMessage = "The parameter " + declNode.ident + " of the exec statement may be deleted.";
+				errorMessage += " Possibly it is homomorphic with a deleted " + declNode.getKind();
 				errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
 
 				if(declNode instanceof EdgeDeclNode) {
-					errorMessage += " or " + declNode.ident + " is a dangling edge and a deleted node exists";
+					errorMessage += ", or " + declNode.ident + " is a dangling edge and a deleted node exists";
 				}
 				errorMessage += ".";
 				declNode.reportError(errorMessage);
@@ -618,12 +618,12 @@ public abstract class MatcherDeclNode extends DeclNode
 			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildren()) {
 				if(right == null && alternativeCase.right != null) {
 					alternativeCase.reportError("No rewrite part (replace/modify) is specified in the " + actionKind + " " + ident
-							+ " , but one is given in the nested alternative case " + alternativeCase.ident + ".");
+							+ ", but one is given in the nested " + alternativeCase.getKind() + " " + alternativeCase.ident + ".");
 					res = false;
 				}
 				if(right != null && alternativeCase.right == null) {
 					alternativeCase.reportError("A rewrite part (replace/modify) is specified in the " + actionKind + " " + ident
-							+ ", but none is given in the nested alternative case " + alternativeCase.ident + ".");
+							+ ", but none is given in the nested " + alternativeCase.getKind() + " " + alternativeCase.ident + ".");
 					res = false;
 				}
 			}
@@ -632,7 +632,7 @@ public abstract class MatcherDeclNode extends DeclNode
 		for(IteratedDeclNode iterated : pattern.iters.getChildren()) {
 			if(right == null && iterated.right != null) {
 				iterated.reportError("No rewrite part (replace/modify) is specified in the " + actionKind + " " + ident
-						+ " , but one is given in the nested " + iterated.getKind() + iterated.emptyWhenAnonymousPostfix(" ") + ".");
+						+ ", but one is given in the nested " + iterated.getKind() + iterated.emptyWhenAnonymousPostfix(" ") + ".");
 				res = false;
 			}
 			if(right != null && iterated.right == null) {

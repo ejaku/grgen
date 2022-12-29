@@ -90,7 +90,7 @@ public class MatchNodeByUniqueLookupDeclNode extends NodeDeclNode
 			String expTypeName = expectedLookupType.getTypeName();
 			String typeName = lookupType.getTypeName();
 			ident.reportError("Cannot convert type used in accessing unique index from " + typeName
-					+ " to " + expTypeName + " in match node" + emptyWhenAnonymousPostfix(" ") + " by unique index lookup.");
+					+ " to the expected " + expTypeName + " in match node" + emptyWhenAnonymousPostfix(" ") + " by unique index lookup.");
 			return false;
 		}
 		return res;

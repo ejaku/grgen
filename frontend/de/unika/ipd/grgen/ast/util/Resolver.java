@@ -96,8 +96,8 @@ public abstract class Resolver<T> extends Base
 			if(result == null) {
 				String actionName = topLevelMatcher.getIdentNode().toString();
 				String iteratedName = iterated.getIdentNode().toString();
-				member.reportError("Unknown member " + memberName + ","
-						+ " cannot find in match<" + actionName + "." + iteratedName + ">.");
+				member.reportError("Unknown member " + memberName
+						+ " in match<" + actionName + "." + iteratedName + ">.");
 			}
 		} else if(type instanceof MatchTypeActionNode) {
 			MatchTypeActionNode matchType = (MatchTypeActionNode)type;
@@ -108,8 +108,8 @@ public abstract class Resolver<T> extends Base
 			result = matchType.tryGetMember(member.toString());
 			if(result == null) {
 				String actionName = action.getIdentNode().toString();
-				member.reportError("Unknown member " + memberName + ","
-						+ " cannot find in match< " + actionName + ">.");
+				member.reportError("Unknown member " + memberName
+						+ " in match< " + actionName + ">.");
 			}
 		} else if(type instanceof DefinedMatchTypeNode) {
 			DefinedMatchTypeNode definedMatchType = (DefinedMatchTypeNode)type;
@@ -119,8 +119,8 @@ public abstract class Resolver<T> extends Base
 			result = definedMatchType.tryGetMember(member.toString());
 			if(result == null) {
 				String matchClassName = definedMatchType.getTypeName();
-				member.reportError("Unknown member " + memberName + ","
-						+ " cannot find in match<class " + matchClassName + ">.");
+				member.reportError("Unknown member " + memberName
+						+ " in match<class " + matchClassName + ">.");
 			}
 		} else if(type instanceof InheritanceTypeNode) {
 			ScopeOwner o = (ScopeOwner)type;
@@ -131,8 +131,8 @@ public abstract class Resolver<T> extends Base
 			if(result == null) {
 				String kind = inheritanceType.getKind();
 				String className = inheritanceType.getTypeName();
-				member.reportError("Unknown member " + memberName + ","
-						+ " cannot find in " + kind + " " + className + ".");
+				member.reportError("Unknown member " + memberName
+						+ " in " + kind + " " + className + ".");
 			}
 		} else {
 			member.reportError("The type " + type + " does not support members (when accessing " + memberName + " of the " + type.getKind() + ").");

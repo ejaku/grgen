@@ -82,7 +82,7 @@ public class TargetExprNode extends BuiltinFunctionInvocationBaseNode
 	{
 		if(!(edge.getType() instanceof EdgeTypeNode)) {
 			reportError("The function target expects as argument (edgeToGetTargetNodeFrom) a value of type edge"
-					+ " (but is given a value of type " + edge.getType() + ").");
+					+ " (but is given a value of type " + edge.getType().getTypeName() + ").");
 			return false;
 		}
 		return true;

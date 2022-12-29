@@ -4,6 +4,6 @@ rule r
 {
 	modify {
 	---
-		exec(y:map<AA,HH> =map<AA,HH> ;> {i:boolean=y.size()});
+		exec(y:map<AA,HH> =map<AA,HH>{} ;> {i:boolean=y.size()});
 	}
 }

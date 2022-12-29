@@ -16,17 +16,17 @@ rule r {
 		eval {
 			ni.a = 1;
 			nb.a = true;
-			nf.a = 1.0;
+			nf.a = 1.0f;
 			nd.a = 1.0;
 			ns.a = "";
 
 			ei.a = 2;
 			eb.a = false;
-			ef.a = 2.0;
+			ef.a = 2.0f;
 			ed.a = 2.0;
 			es.a = "Hi!";
 
-			ns.a = nb.a;
+			ns.a = nb.a; // implicit cast to string is supported for convenient model-to-text operations / emitting
 		}
 	}
 }

@@ -2,10 +2,10 @@
 using attrib_model_001;
 
 rule r {
-	pattern {
+	//pattern {
 		x:NINT -e:EINT-> y:NINT;
 		hom(x,e);
-	}
+	//}
 	modify {}
 }
 

@@ -171,7 +171,7 @@ public class CastNode extends ExprNode
 
 		boolean result = fromType.isCastableTo(type);
 		if(!result) {
-			reportError("A cast from " + expr.getType() + " to " + type.getTypeName() + " is not supported.");
+			reportError("A cast from " + expr.getType().toStringWithDeclarationCoords() + " to " + type.toStringWithDeclarationCoords() + " is not supported.");
 		}
 
 		return result;

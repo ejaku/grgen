@@ -128,7 +128,7 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 				result = new ExternalProcedureMethodInvocationNode(targetVar, methodIdent, arguments, context);
 			result.resolve();
 		} else {
-			reportError(targetType + " does not have any procedure methods.");
+			reportError(targetType.getTypeName() + " does not have any procedure methods.");
 		}
 		
 		return result != null;
@@ -343,7 +343,7 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 				&& !(result instanceof ProcedureMethodInvocationNode
 						|| result instanceof ExternalProcedureMethodInvocationNode)
 				&& target instanceof QualIdentNode) {
-			reportError("A procedure method call (built-in-procedure-method) is not allowed in function or pattern part context.");
+			reportError("A procedure method call (built-in-procedure-method " + methodIdent + ") is not allowed in function or pattern part context.");
 			return false;
 		}
 		return true;

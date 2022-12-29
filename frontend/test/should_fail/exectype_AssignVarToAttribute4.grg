@@ -4,6 +4,6 @@ rule r
 {
 	modify {
 	---
-		exec(x:A=::varia ;> s:set<string> =set<string> && {x.s=s}); // x.s is set<foo>
+		exec(x:A=::varia ;> s:set<string> =set<string>{} && {x.s=s}); // x.s is set<foo>
 	}
 }

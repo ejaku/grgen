@@ -87,7 +87,7 @@ public class ArrayLastIndexOfByNode extends ArrayFunctionMethodInvocationBaseExp
 		if(!(arrayType.valueType instanceof InheritanceTypeNode)
 				&& !(arrayType.valueType instanceof MatchTypeNode)) {
 			targetExpr.reportError("The array function method lastIndexOfBy can only be employed on an object of type array<nodes, edges, class objects, transient class objects, match types, match class types>"
-					+ " (but is employed on an object of type " + arrayType + ").");
+					+ " (but is employed on an object of type " + arrayType.getTypeName() + ").");
 			return false;
 		}
 
@@ -98,16 +98,17 @@ public class ArrayLastIndexOfByNode extends ArrayFunctionMethodInvocationBaseExp
 		TypeNode memberType = member.getDeclType();
 		TypeNode valueType = valueExpr.getType();
 		if(!valueType.isEqual(memberType)) {
+			ExprNode valueExprOld = valueExpr;
 			valueExpr = becomeParent(valueExpr.adjustType(memberType, getCoords()));
 			if(valueExpr == ConstNode.getInvalid()) {
-				valueExpr.reportError("The array function method lastIndexOfBy expects as 1. argument (valueToSearchFor) a value of type " + memberType
-						+ " (but is given a value of type " + valueType + ").");
+				valueExprOld.reportError("The array function method lastIndexOfBy expects as 1. argument (valueToSearchFor) a value of type " + memberType.getTypeName()
+						+ " (but is given a value of type " + valueType.getTypeName() + ").");
 				return false;
 			}
 		}
 		if(startIndexExpr != null && !startIndexExpr.getType().isEqual(BasicTypeNode.intType)) {
 			startIndexExpr.reportError("The array function method lastIndexOfBy expects as 2. argument (startIndex) a value of type int"
-					+ " (but is given a value of type " + startIndexExpr.getType() + ").");
+					+ " (but is given a value of type " + startIndexExpr.getType().getTypeName() + ").");
 			return false;
 		}
 		return true;

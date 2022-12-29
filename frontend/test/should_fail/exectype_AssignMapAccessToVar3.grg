@@ -4,6 +4,6 @@ rule r
 {
 	modify {
 	---
-		exec(m:map<AA,HH> =map<AA,HH> ;> a:A=varia && {h:H=m[a]}); // a must be AA, A is not sufficient
+		exec(m:map<AA,HH> =map<AA,HH>{} ;> a:A=::varia && {h:H=m[a]}); // a must be AA, A is not sufficient
 	}
 }

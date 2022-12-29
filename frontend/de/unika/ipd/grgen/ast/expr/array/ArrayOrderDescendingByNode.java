@@ -48,7 +48,7 @@ public class ArrayOrderDescendingByNode extends ArrayFunctionMethodInvocationBas
 		if(!(arrayType.valueType instanceof InheritanceTypeNode)
 				&& !(arrayType.valueType instanceof MatchTypeNode)) {
 			targetExpr.reportError("The array function method orderDescendingBy can only be employed on an object of type array<nodes, edges, class objects, transient class objects, match types, match class types>"
-					+ " (but is employed on an object of type " + arrayType + ").");
+					+ " (but is employed on an object of type " + arrayType.getTypeName() + ").");
 			return false;
 		}
 
@@ -61,7 +61,7 @@ public class ArrayOrderDescendingByNode extends ArrayFunctionMethodInvocationBas
 
 		if(!memberType.isOrderableType()) {
 			targetExpr.reportError("The array function method orderDescendingBy is only available for attributes of type "
-					+ TypeNode.getOrderableTypesAsString() + " (but is " + memberType + ").");
+					+ TypeNode.getOrderableTypesAsString() + " (but is " + memberType.getTypeName() + ").");
 			return false;
 		}
 

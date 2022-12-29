@@ -73,12 +73,12 @@ public class LogExprNode extends BuiltinFunctionInvocationBaseNode
 	{
 		if(!leftExpr.getType().isEqual(BasicTypeNode.doubleType)) {
 			reportError("The function log() expects as 1. argument a value of type double"
-					+ " (but is given a value of type " + leftExpr.getType() + ").");
+					+ " (but is given a value of type " + leftExpr.getType().getTypeName() + ").");
 			return false;
 		}
 		if(rightExpr != null && !rightExpr.getType().isEqual(BasicTypeNode.doubleType)) {
 			reportError("The function log() expects as 2. argument a value of type double"
-					+ " (but is given a value of type " + rightExpr.getType() + ").");
+					+ " (but is given a value of type " + rightExpr.getType().getTypeName() + ").");
 			return false;
 		}
 		return true;

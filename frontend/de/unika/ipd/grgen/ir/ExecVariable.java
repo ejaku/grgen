@@ -23,4 +23,9 @@ public class ExecVariable extends Entity
 	{
 		super(name, ident, type, false, false, context);
 	}
+	
+	public String getKind()
+	{
+		return "exec variable";
+	}
 }

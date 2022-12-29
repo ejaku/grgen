@@ -4,6 +4,6 @@ rule r
 {
 	modify {
 	---
-		exec(x:set<foo> =set<foo> ;> {i:boolean=x.size()});
+		exec(x:set<foo> =set<foo>{} ;> {i:boolean=x.size()});
 	}
 }

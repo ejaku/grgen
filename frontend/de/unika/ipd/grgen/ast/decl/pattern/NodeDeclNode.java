@@ -153,7 +153,7 @@ public class NodeDeclNode extends ConstraintDeclNode
 		if(!typeDecl.resolve())
 			return false;
 		if(!(typeDecl.getDeclType() instanceof NodeTypeNode)) {
-			typeUnresolved.reportError("Type of node " + getIdentNode() + " must be a node type"
+			typeUnresolved.reportError("Type of node" + this.emptyWhenAnonymousPostfix(" ") + " must be a node type"
 					+ " (given is " + typeDecl.getDeclType().getKind() + " " + typeDecl.getDeclType().getTypeName()
 					+ " - use -edge-> syntax for edges, var for variables, ref for containers).");
 			return false;

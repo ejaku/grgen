@@ -87,12 +87,12 @@ public class MatchNodeByStorageAccessDeclNode extends MatchNodeFromByStorageDecl
 					storageGlobalVariable = (NodeDeclNode)unresolved.decl;
 				} else {
 					reportError("Match node by storage access expects a node storage parameter or a node global variable"
-							+ emptyWhenAnonymous(" (" + getIdentNode() + " is given neither)") + ".");
+							+ " (but" + emptyWhenAnonymousPostfix(" ") + " is given neither)" + ".");
 					successfullyResolved = false;
 				}
 			} else {
 				reportError("Match node by storage access expects a node storage parameter or a node global variable"
-						+ emptyWhenAnonymous(" (" + getIdentNode() + " is given neither)") + ".");
+						+ " (but" + emptyWhenAnonymousPostfix(" ") + " is given neither)" + ".");
 				successfullyResolved = false;
 			}
 		} else if(storageUnresolved instanceof QualIdentNode) {
@@ -127,36 +127,37 @@ public class MatchNodeByStorageAccessDeclNode extends MatchNodeFromByStorageDecl
 		boolean res = super.checkLocal();
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			reportError("Cannot employ match node by storage access in the rewrite part"
-					+ emptyWhenAnonymous(" (as it occurs in match node " + getIdentNode() + ")") + ".");
+					+ " (as it occurs in match node" + emptyWhenAnonymousPostfix(" ") + " by " + getStorageName() + ")" + ".");
 			return false;
 		}
 		TypeNode storageType = getStorageType();
 		if(!(storageType instanceof MapTypeNode)) {
-			reportError("Match node by storage access expects a parameter variable of map type"
+			reportError("Match node by storage access expects a map type"
 					+ " (but" + emptyWhenAnonymousPostfix(" ") + " is given " + storageType.getTypeName() + " by " + getStorageName() + ").");
 			return false;
 		}
 		TypeNode expectedStorageKeyType = ((MapTypeNode)storageType).keyType;
 		TypeNode storageKeyType = accessor.getDeclType();
 		if(!storageKeyType.isCompatibleTo(expectedStorageKeyType)) {
-			String expTypeName = expectedStorageKeyType.getTypeName();
-			String typeName = storageKeyType.getTypeName();
+			String expTypeName = expectedStorageKeyType.toStringWithDeclarationCoords();
+			String typeName = storageKeyType.toStringWithDeclarationCoords();
 			ident.reportError("Cannot convert " + typeName
-					+ " to map key type " + expTypeName + " in match node by storage access"
+					+ " to the expected map key type " + expTypeName + " in match node by storage access"
 					+ " (" + emptyWhenAnonymous("of " + getIdentNode() + " ") + "accessing " + getStorageName() + ").");
 			return false;
 		}
 		TypeNode storageElementType = ((MapTypeNode)storageType).valueType;
 		if(!(storageElementType instanceof NodeTypeNode)) {
 			reportError("Match node by storage access expects a map mapping to a node type"
-					+ " (but" + emptyWhenAnonymousPostfix(" ") + " is given a map mapping to " + storageElementType.getTypeName() + ").");
+					+ " (but" + emptyWhenAnonymousPostfix(" ") + " is given a map mapping to "
+					+ storageElementType.getKind() + " " + storageElementType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		NodeTypeNode storageElemType = (NodeTypeNode)storageElementType;
 		NodeTypeNode expectedStorageElemType = getDeclType();
 		if(!expectedStorageElemType.isCompatibleTo(storageElemType)) {
-			String expTypeName = expectedStorageElemType.getTypeName();
-			String typeName = storageElemType.getTypeName();
+			String expTypeName = expectedStorageElemType.toStringWithDeclarationCoords();
+			String typeName = storageElemType.toStringWithDeclarationCoords();
 			ident.reportError("Cannot convert map value type " + typeName
 					+ " to the expected pattern element type " + expTypeName + " in match node by storage access"
 					+ " (" + emptyWhenAnonymous("of " + getIdentNode() + " ") + "accessing " + getStorageName() + ").");

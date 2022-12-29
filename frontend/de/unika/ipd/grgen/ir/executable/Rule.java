@@ -78,7 +78,19 @@ public class Rule extends MatchingAction implements ContainedInPackage
 	/** Have deferred execs been added by using this top level rule, so we have to execute the exec queue? */
 	public boolean mightThereBeDeferredExecs;
 	
-	public enum RuleKind { Rule, Test, Subpattern, Alternative, Iterated };
+	public enum RuleKind { Rule, Test, Subpattern, AlternativeCase, Iterated };
+	public static String toString(RuleKind ruleKind)
+	{
+		switch(ruleKind)
+		{
+		case Rule: return "rule";
+		case Test: return "test";
+		case Subpattern: return "(sub)pattern";
+		case AlternativeCase: return "alternative case";
+		case Iterated: return "iterated";
+		default: throw new RuntimeException("Unexpected case");
+		}
+	}
 	public RuleKind ruleKind;
 
 	/**
@@ -381,9 +393,9 @@ public class Rule extends MatchingAction implements ContainedInPackage
 
 	static void reportMultipleDeleteOrRetype(Entity entity, Rule first, Rule second)
 	{
-		error.error(entity.getIdent().getCoords(), "The entity " + entity.getIdent() + " or a hom entity"
-				+ " may get deleted or retyped in pattern " + first.getIdent() + " (starting at " + first.getIdent().getCoords() + ")"
-				+ " and in pattern " + second.getIdent() + " (starting at " + second.getIdent().getCoords() + ")"
+		error.error(entity.getIdent().getCoords(), "The " + entity.getKind() + " " + entity.getIdent() + " or a hom " + entity.getKind()
+				+ " may get deleted or retyped in " + toString(first.ruleKind) + " " + first.getIdent() + " [declared at " + first.getIdent().getCoords() + "]"
+				+ " and in " + toString(second.ruleKind) + " " + second.getIdent() + " [declared at " + second.getIdent().getCoords() + "]"
 				+ " (only one such place is allowed, determinable at compile time).");
 	}
 
@@ -425,8 +437,8 @@ public class Rule extends MatchingAction implements ContainedInPackage
 
 	static void reportMultipleRetype(Entity entity, Entity homEntity)
 	{
-		error.error(entity.getIdent().getCoords(), "The entity " + entity.getIdent()
-				+ " and the hom entity " + homEntity.getIdent() + " (at " + homEntity.getIdent().getCoords() + ")"
+		error.error(entity.getIdent().getCoords(), "The " + entity.getKind() + " " + entity.getIdent()
+				+ " and the hom " + entity.getKind() + " " + homEntity.getIdent() + homEntity.getIdent().getCoords().getDeclarationCoords(false)
 				+ " are both retyped, so a homomorphically matched graph element may get retyped multiple times.");
 	}
 
@@ -634,7 +646,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 			return neededEntities.iterator().next();
 		else if(neededEntities.size() > 1) {
 			error.error(entity.getIdent().getCoords(), neededEntities.size() + " needed entities for index/name map access of "
-						+ entity.getIdent().toString() + " (only one allowed).");
+						+ entity.getIdent() + " (only one allowed).");
 		}
 		return null;
 	}

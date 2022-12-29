@@ -3672,7 +3672,8 @@ public abstract class CSharpBase
 
 	protected String getTypeNameForCast(Cast cast)
 	{
-		switch(cast.getType().classify()) {
+		Type type = cast.getType();
+		switch(type.classify()) {
 		case IS_STRING:
 			return "string";
 		case IS_BYTE:

@@ -38,7 +38,7 @@ public class ArrayMedNode extends ArrayAccumulationMethodNode
 		ArrayTypeNode arrayType = getTargetType();
 		if(!arrayType.valueType.isAccumulatableType()) {
 			targetExpr.reportError("The array function method med can only be employed on an object of type array<" + TypeNode.getAccumulatableTypesAsString() + ">"
-					+ " (but is employed on an object of type " + arrayType + ").");
+					+ " (but is employed on an object of type " + arrayType.getTypeName() + ").");
 			return false;
 		}
 		return true;

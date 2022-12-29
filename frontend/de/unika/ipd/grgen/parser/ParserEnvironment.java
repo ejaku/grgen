@@ -229,7 +229,7 @@ public abstract class ParserEnvironment extends Base
 	 */
 	private IdentNode predefine(int symTab, String text)
 	{
-		return new IdentNode(define(symTab, text, BaseNode.BUILTIN));
+		return new IdentNode(define(symTab, text, Coords.BUILTIN));
 	}
 
 	/**

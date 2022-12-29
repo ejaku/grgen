@@ -322,7 +322,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 			if(isEmitOrDebugProcedure()) { // allowed exceptions
 				return true;
 			} else {
-				reportError("A procedure call (built-in-procedure) is not allowed in function or pattern part context.");
+				reportError("A procedure call (built-in-procedure " + procedureIdent + ") is not allowed in function or pattern part context.");
 				return false;
 			}
 		}

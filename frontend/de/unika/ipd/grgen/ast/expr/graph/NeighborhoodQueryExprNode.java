@@ -81,17 +81,17 @@ public abstract class NeighborhoodQueryExprNode extends BuiltinFunctionInvocatio
 	{
 		if(!(startNodeExpr.getType() instanceof NodeTypeNode)) {
 			reportError("The function " + shortSignature() + " expects as 1. argument a value of type node"
-					+ " (but is given a value of type " + startNodeExpr.getType() + ").");
+					+ " (but is given a value of type " + startNodeExpr.getType().getTypeName() + ").");
 			return false;
 		}
 		if(!(incidentTypeExpr.getType() instanceof EdgeTypeNode)) {
 			reportError("The function " + shortSignature() + " expects as 2. argument a value of type edge type"
-					+ " (but is given a value of type " + incidentTypeExpr.getType() + ").");
+					+ " (but is given a value of type " + incidentTypeExpr.getType().getTypeName() + ").");
 			return false;
 		}
 		if(!(adjacentTypeExpr.getType() instanceof NodeTypeNode)) {
 			reportError("The function " + shortSignature() + " expects as 3. argument a value of type node type"
-					+ " (but is given a value of type " + adjacentTypeExpr.getType() + ").");
+					+ " (but is given a value of type " + adjacentTypeExpr.getType().getTypeName() + ").");
 			return false;
 		}
 		return true;

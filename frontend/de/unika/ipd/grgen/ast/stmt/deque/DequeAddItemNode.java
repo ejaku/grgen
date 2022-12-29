@@ -86,9 +86,10 @@ public class DequeAddItemNode extends DequeProcedureMethodInvocationBaseNode
 			TypeNode targetValueType = targetType.valueType;
 			TypeNode valueType = valueExpr.getType();
 			if(!valueType.isEqual(targetValueType)) {
+				ExprNode valueExprOld = valueExpr;
 				valueExpr = becomeParent(valueExpr.adjustType(targetValueType, getCoords()));
 				if(valueExpr == ConstNode.getInvalid()) {
-					valueExpr.reportError("The deque add item procedure expects as 1. argument (value)"
+					valueExprOld.reportError("The deque add item procedure expects as 1. argument (value)"
 							+ " a value of type " + targetValueType.toStringWithDeclarationCoords()
 							+ " (but is given a value of type " + valueType.toStringWithDeclarationCoords() + ").");
 					return false;
@@ -97,9 +98,10 @@ public class DequeAddItemNode extends DequeProcedureMethodInvocationBaseNode
 			if(indexExpr != null) {
 				TypeNode indexType = indexExpr.getType();
 				if(!indexType.isEqual(IntTypeNode.intType)) {
+					ExprNode indexExprOld = indexExpr;
 					indexExpr = becomeParent(indexExpr.adjustType(IntTypeNode.intType, getCoords()));
 					if(indexExpr == ConstNode.getInvalid()) {
-						indexExpr.reportError("The deque add item procedure expects as 2. argument (index)"
+						indexExprOld.reportError("The deque add item procedure expects as 2. argument (index)"
 								+ " a value of type int"
 								+ " (but is given a value of type " + indexType.toStringWithDeclarationCoords() + ").");
 						return false;

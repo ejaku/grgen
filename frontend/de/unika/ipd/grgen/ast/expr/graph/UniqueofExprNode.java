@@ -82,7 +82,7 @@ public class UniqueofExprNode extends BuiltinFunctionInvocationBaseNode
 			}
 
 			reportError("The function uniqueof expects as argument (entityToFetchUniqueIdOf) a value of type node or edge or graph or internal class object"
-					+ " (but is given a value of type " + entity.getType() + ").");
+					+ " (but is given a value of type " + entity.getType().getTypeName() + ").");
 			return false;
 		}
 		return true;

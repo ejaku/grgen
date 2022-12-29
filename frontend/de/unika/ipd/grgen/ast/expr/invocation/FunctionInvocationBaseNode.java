@@ -56,7 +56,10 @@ public abstract class FunctionInvocationBaseNode extends FunctionOrBuiltinFuncti
 				String exprTypeName = actualParameterType.getTypeName();
 				String paramTypeName = formalParameterType.getTypeName();
 				unresolved.reportError("Cannot convert " + (i + 1) + ". argument from " + exprTypeName
-						+ " to " + paramTypeName + " (when calling function " + (isMethod ? "method " : "") + fb.toStringWithDeclarationCoords() + ").");
+						+ " to the expected " + paramTypeName + " (when calling function " + (isMethod ? "method " : "") + fb.toStringWithDeclarationCoords() + ")"
+						+ actualParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
+						+ formalParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
+						+ ".");
 			}
 		}
 

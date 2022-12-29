@@ -75,12 +75,12 @@ public class NodeByUniqueExprNode extends BuiltinFunctionInvocationBaseNode
 	{
 		if(!(unique.getType() instanceof IntTypeNode)) {
 			reportError("The function nodeByUnique expects as 1. argument (uniqueIdToSearchFor) a value of type int"
-					+ " (but is given a value of type " + unique.getType() + ").");
+					+ " (but is given a value of type " + unique.getType().getTypeName() + ").");
 			return false;
 		}
 		if(!(nodeType.getType() instanceof NodeTypeNode)) {
 			reportError("The function edgeByUnique expects as 2. argument (typeToObtain) a value of type node type"
-					+ " (but is given a value of type " + nodeType.getType() + ").");
+					+ " (but is given a value of type " + nodeType.getType().getTypeName() + ").");
 			return false;
 		}
 		return true;

@@ -136,15 +136,15 @@ public class AssignNode extends EvalStatementNode
 					lhsGraphElement = (ConstraintDeclNode)unresolved.decl;
 				} else if(unresolved.decl instanceof MemberDeclNode) {
 					//lhsMember = (MemberDeclNode)unresolved.decl;
-					reportError("Error in resolving the LHS of the assignment (given is " + unresolved.getIdent() + ")"
+					reportError("Error in resolving the left hand side of the assignment (given is " + unresolved.getIdent() + ")"
 							+ " (use this." + unresolved.getIdent() + " to access a class member inside a method).");
 					successfullyResolved = false;
 				} else {
-					reportError("Error in resolving the LHS of the assignment, a variable or graph element is expected (given is " + unresolved.getIdent() + ").");
+					reportError("Error in resolving the left hand side of the assignment, a variable or graph element is expected (given is " + unresolved.getIdent() + ").");
 					successfullyResolved = false;
 				}
 			} else {
-				reportError("Error in resolving the LHS of the assignment (given is " + unresolved.getIdent() + ").");
+				reportError("Error in resolving the left hand side of the assignment (given is " + unresolved.getIdent() + ").");
 				successfullyResolved = false;
 			}
 		} else if(lhsUnresolved instanceof QualIdentNode) {
@@ -152,11 +152,11 @@ public class AssignNode extends EvalStatementNode
 			if(unresolved.resolve()) {
 				lhsQual = unresolved;
 			} else {
-				reportError("Error in resolving the qualified attribute on the LHS of the assignment (given is " + unresolved + ").");
+				reportError("Error in resolving the qualified attribute on the left hand side of the assignment (given is " + unresolved + ").");
 				successfullyResolved = false;
 			}
 		} else {
-			reportError("Internal error - invalid LHS in assignment.");
+			reportError("Internal error - invalid left hand side in assignment.");
 			successfullyResolved = false;
 		}
 		return successfullyResolved;
@@ -185,7 +185,9 @@ public class AssignNode extends EvalStatementNode
 		if((context & BaseNode.CONTEXT_FUNCTION_OR_PROCEDURE) == BaseNode.CONTEXT_FUNCTION
 				&& !lhsQual.isMatchAssignment()
 				&& !lhsQual.isTransientObjectAssignment()) {
-			reportError("An assignment to an attribute of a graph element or internal class object is not allowed in function or pattern part context.");
+			reportError("An assignment to an attribute of a graph element or internal class object"
+					+ " is not allowed in function or pattern part context"
+					+ " (but occurrs with " + lhsQual + ").");
 			return false;
 		}
 
@@ -194,7 +196,7 @@ public class AssignNode extends EvalStatementNode
 
 		MemberDeclNode member = lhsQual.getDecl(); // null for match type
 		if(member != null && member.isConst()) {
-			reportError("An assignment to a const member is not allowed (but " + lhsQual.getDecl().getIdentNode() + " is contant).");
+			reportError("An assignment to a const member is not allowed (" + lhsQual.getDecl().getIdentNode() + lhsQual.getDecl().getDeclarationCoords() + " is constant).");
 			return false;
 		}
 
@@ -202,7 +204,7 @@ public class AssignNode extends EvalStatementNode
 			InheritanceTypeNode inhTy = (InheritanceTypeNode)ty;
 
 			if(inhTy.isConst()) {
-				reportError("An assignment to a const type object is not allowed (but " + inhTy + " is constant).");
+				reportError("An assignment to a const type object is not allowed (" + inhTy.toStringWithDeclarationCoords() + " is constant).");
 				return false;
 			}
 		}
@@ -228,13 +230,15 @@ public class AssignNode extends EvalStatementNode
 			if((lhsGraphElement.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION) {
 				if(!identExpr.yieldedTo) {
 					reportError("Only a yield assignment is allowed to a def pattern graph element"
-							+ " (" + lhsGraphElement.getIdentNode() + ").");
+							+ " (" + lhsGraphElement.getIdentNode() + " was declared with def)"
+							+ " (the typical solution is to prepend a yield to the assignment).");
 					return false;
 				}
 			} else {
 				if(identExpr.yieldedTo) {
-					reportError("Use a non-yield assignment to a computation local def pattern graph element"
-							+ " (" + lhsGraphElement.getIdentNode() + ").");
+					reportError("Only a non-yield assignment is allowed to a computation local def pattern graph element"
+							+ " (" + lhsGraphElement.getIdentNode() + " was declared with def in computation context)"
+							+ " (the typical solution is to remove the yield from the assignment).");
 					return false;
 				}
 			}
@@ -242,8 +246,8 @@ public class AssignNode extends EvalStatementNode
 			if((lhsGraphElement.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION) {
 				if((lhsGraphElement.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
 						&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-					reportError("Cannot yield from the RHS to a LHS def pattern graph element"
-							+ " (" + lhsGraphElement.getIdentNode() + ").");
+					reportError("Cannot yield from the right hand side to a left hand side def pattern graph element"
+							+ " (" + lhsGraphElement.getIdentNode() + " was declared in the pattern part).");
 					return false;
 				}
 			}
@@ -255,13 +259,14 @@ public class AssignNode extends EvalStatementNode
 							+ " (" + lhsGraphElement.getIdentNode() + " was declared without def).");
 					return false;
 				}
+
 				reportError("Only a def pattern graph element can be assigned to"
 						+ " (" + lhsGraphElement.getIdentNode() + " was declared without def).");
 				return false;
 			}
 
 			if(lhsGraphElement.directlyNestingLHSGraph == null && onLHS) {
-				reportError("An assignment to a global variable (" + lhsGraphElement.getIdentNode() + ") is not allowed from a yield block.");
+				reportError("An assignment to a global variable (" + lhsGraphElement.toStringWithDeclarationCoords() + ") is not allowed from a yield block.");
 				return false;
 			}
 		}
@@ -284,13 +289,15 @@ public class AssignNode extends EvalStatementNode
 			if((lhsVar.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION) {
 				if(!identExpr.yieldedTo) {
 					reportError("Only a yield assignment is allowed to a def variable"
-							+ " (" + lhsVar.getIdentNode() + ").");
+							+ " (" + lhsVar.getIdentNode() + " was declared with def)"
+							+ " (the typical solution is to prepend a yield to the assignment).");
 					return false;
 				}
 			} else {
 				if(identExpr.yieldedTo) {
-					reportError("Use a non-yield assignment to a computation local def variable"
-							+ " (" + lhsVar.getIdentNode() + ").");
+					reportError("Only a non-yield assignment is allowed to a computation local def variable"
+							+ " (" + lhsVar.getIdentNode() + " was declared with def in computation context)"
+							+ " (the typical solution is to remove the yield from the assignment).");
 					return false;
 				}
 			}
@@ -298,8 +305,8 @@ public class AssignNode extends EvalStatementNode
 			if((lhsVar.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION) {
 				if((lhsVar.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
 						&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-					reportError("Cannot yield from the RHS to a LHS def variable"
-							+ " (" + lhsVar.getIdentNode() + ").");
+					reportError("Cannot yield from the right hand side to a left hand side def variable"
+							+ " (" + lhsVar.getIdentNode() + " was declared in the pattern part).");
 					return false;
 				}
 			}
@@ -312,7 +319,7 @@ public class AssignNode extends EvalStatementNode
 			}
 
 			if(lhsVar.directlyNestingLHSGraph == null && onLHS) {
-				reportError("An assignment to a global variable (" + lhsVar.getIdentNode() + ") is not allowed from a yield block.");
+				reportError("An assignment to a global variable (" + lhsVar.toStringWithDeclarationCoords() + ") is not allowed from a yield block.");
 				return false;
 			}
 		}
@@ -398,10 +405,10 @@ public class AssignNode extends EvalStatementNode
 		if(lhsQual != null) {
 			Qualification qual = lhsQual.checkIR(Qualification.class);
 			if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).changesType(null)) {
-				reportError("An assignment to a node whose type will be changed is not allowed.");
+				reportError("An assignment to a node whose type will be changed is not allowed (but occurs for " + lhsQual + ").");
 			}
 			if(qual.getOwner() instanceof Edge && ((Edge)qual.getOwner()).changesType(null)) {
-				reportError("An assignment to an edge whose type will be changed is not allowed.");
+				reportError("An assignment to an edge whose type will be changed is not allowed (but occurs for " + lhsQual + ").");
 			}
 
 			if(canSetOrMapAssignmentBeBrokenUpIntoStateChangingOperations()) {

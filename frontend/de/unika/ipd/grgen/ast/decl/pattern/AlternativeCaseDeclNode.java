@@ -103,7 +103,7 @@ public class AlternativeCaseDeclNode extends NestedMatcherDeclNode
 			return getIR();
 		}
 
-		Rule altCaseRule = new Rule(getIdentNode().getIdent(), RuleKind.Alternative);
+		Rule altCaseRule = new Rule(getIdentNode().getIdent(), RuleKind.AlternativeCase);
 
 		// mark this node as already visited
 		setIR(altCaseRule);

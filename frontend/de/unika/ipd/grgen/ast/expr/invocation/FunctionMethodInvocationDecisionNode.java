@@ -187,7 +187,7 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 		} else if(targetType instanceof UntypedExecVarTypeNode) {
 			result = new UntypedFunctionMethodInvocationExprNode(methodIdent.getCoords(), arguments);
 		} else {
-			reportError(targetType.toString() + " does not have any function methods.");
+			reportError(targetType.getTypeName() + " does not have any function methods.");
 		}
 		
 		return result != null;

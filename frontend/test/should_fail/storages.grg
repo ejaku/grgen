@@ -1,0 +1,6 @@
+using storages;
+
+test getIndexArrayNN(ref a:array<NN>, item:Node) : (int)
+{
+	return(a.indexOf(item));
+}

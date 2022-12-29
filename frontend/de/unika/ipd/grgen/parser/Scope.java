@@ -193,14 +193,14 @@ public class Scope
 		} else if(definedHere(sym)) {
 			def = getLocalDef(sym); // the previous definition
 			reporter.error(coords, "Symbol " + sym + " has already been defined in this scope"
-						+ " (at: " + def.coords + ").");
+						+ " [at: " + def.coords + "].");
 			def = Symbol.Definition.getInvalid(); // do not redefine a symbol
 		} else if(defined(sym)
 				&& sym.getSymbolTable().getSymbolTableId() != ParserEnvironment.ITERATEDS
 				&& this.getIdentNode().getSymbol().getSymbolTable().getSymbolTableId() != ParserEnvironment.PACKAGES) {
 			def = getCurrDef(sym); // the previous definition
 			reporter.error(coords, "Symbol " + sym + " has already been defined in some parent scope"
-						+ " (at: " + def.coords + ").");
+						+ " [at: " + def.coords + "].");
 			def = Symbol.Definition.getInvalid(); // do not redefine a symbol from a parent scope
 		} else {
 			try {
@@ -231,7 +231,7 @@ public class Scope
 		if(anonIds.containsKey(name))
 			currId = anonIds.get(name).intValue();
 
-		anonIds.put(name, new Integer(currId + 1));
+		anonIds.put(name, Integer.valueOf(currId + 1));
 
 		return define(Symbol.makeAnonymous(name + currId, symTab), coords);
 	}
@@ -327,6 +327,11 @@ public class Scope
 		if(!isRoot())
 			res = res + parent + ".";
 		return res + getName();
+	}
+
+	public final String toStringWithOpeningCoords()
+	{
+		return toString() + " [opened at " + (ident != null ? ident.getCoords() : "0,0") + "]";
 	}
 
 	/**

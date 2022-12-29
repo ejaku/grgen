@@ -110,7 +110,7 @@ public class MatchNodeByIndexAccessOrderingDeclNode extends MatchNodeByIndexDecl
 				String expTypeName = expectedIndexAccessType.getTypeName();
 				String typeName = indexAccessType.getTypeName();
 				expr.reportError("Cannot convert type used in accessing index from " + typeName
-						+ " to " + expTypeName
+						+ " to the expected " + expTypeName
 						+ " (in match node" + emptyWhenAnonymousPostfix(" ") + " by index access of " + index.toStringWithDeclarationCoords() + ").");
 				return false;
 			}
@@ -120,7 +120,7 @@ public class MatchNodeByIndexAccessOrderingDeclNode extends MatchNodeByIndexDecl
 					String expTypeName = expectedIndexAccessType.getTypeName();
 					String typeName = indexAccessType2.getTypeName();
 					expr2.reportError("Cannot convert type used in accessing index from " + typeName
-							+ " to " + expTypeName
+							+ " to the expected " + expTypeName
 							+ " (in match node" + emptyWhenAnonymousPostfix(" ") + " by index access of " + index.toStringWithDeclarationCoords() + ").");
 					return false;
 				}
@@ -129,10 +129,10 @@ public class MatchNodeByIndexAccessOrderingDeclNode extends MatchNodeByIndexDecl
 		TypeNode expectedEntityType = getDeclType();
 		InheritanceTypeNode entityType = index.getType();
 		if(!entityType.isCompatibleTo(expectedEntityType) && !expectedEntityType.isCompatibleTo(entityType)) {
-			String expTypeName = expectedEntityType.getTypeName();
-			String typeName = entityType.getTypeName();
+			String expTypeName = expectedEntityType.toStringWithDeclarationCoords();
+			String typeName = entityType.toStringWithDeclarationCoords();
 			ident.reportError("Cannot convert index type from " + typeName
-					+ " to pattern element type " + expTypeName
+					+ " to the expected pattern element type " + expTypeName
 					+ " (in match node" + emptyWhenAnonymousPostfix(" ") + " by index access of " + index.toStringWithDeclarationCoords() + ").");
 			return false;
 		}

@@ -61,7 +61,7 @@ public class MapPeekNode extends MapFunctionMethodInvocationBaseExprNode
 		// target type already checked during resolving into this node
 		if(!numberExpr.getType().isEqual(BasicTypeNode.intType)) {
 			numberExpr.reportError("The map function method peek expects as argument (number) a value of type int"
-					+ " (but is given a value of type " + numberExpr.getType() + ").");
+					+ " (but is given a value of type " + numberExpr.getType().getTypeName() + ").");
 			return false;
 		}
 		return true;

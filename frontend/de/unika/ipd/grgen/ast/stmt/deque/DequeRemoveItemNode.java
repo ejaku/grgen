@@ -79,9 +79,10 @@ public class DequeRemoveItemNode extends DequeProcedureMethodInvocationBaseNode
 			if(valueExpr != null) {
 				TypeNode valueType = valueExpr.getType();
 				if(!valueType.isEqual(IntTypeNode.intType)) {
+					ExprNode valueExprOld = valueExpr;
 					valueExpr = becomeParent(valueExpr.adjustType(IntTypeNode.intType, getCoords()));
 					if(valueExpr == ConstNode.getInvalid()) {
-						valueExpr.reportError("The deque rem item procedure expects as argument (index)"
+						valueExprOld.reportError("The deque rem item procedure expects as argument (index)"
 								+ " a value of type int"
 								+ " (but is given a value of type " + valueType.toStringWithDeclarationCoords() + ").");
 						return false;

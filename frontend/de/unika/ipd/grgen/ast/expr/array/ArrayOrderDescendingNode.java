@@ -37,7 +37,7 @@ public class ArrayOrderDescendingNode extends ArrayFunctionMethodInvocationBaseE
 		ArrayTypeNode arrayType = getTargetType();
 		if(!(arrayType.valueType.isOrderableType())) {
 			targetExpr.reportError("The array function method orderDescending can only be employed on an object of type array<" + TypeNode.getOrderableTypesAsString() + ">"
-					+ " (but is employed on an object of type " + arrayType + ").");
+					+ " (but is employed on an object of type " + arrayType.getTypeName() + ").");
 		}
 		return true;
 	}

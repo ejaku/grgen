@@ -4,6 +4,6 @@ rule r
 {
 	modify {
 	---
-		exec(x:set<foo> =set<foo> ;> {b:int=x.empty()} );
+		exec(x:set<foo> =set<foo>{} ;> {b:int=x.empty()} );
 	}
 }

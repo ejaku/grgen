@@ -60,7 +60,7 @@ public class RandomNode extends BuiltinFunctionInvocationBaseNode
 		if(numExpr != null
 				&& !numExpr.getType().isEqual(BasicTypeNode.intType)) {
 			reportError("The function random() expects as argument (maximumRandomNumber) a value of type int"
-					+ " (but is given a value of type " + numExpr.getType() + ").");
+					+ " (but is given a value of type " + numExpr.getType().getTypeName() + ").");
 			return false;
 		}
 		return true;

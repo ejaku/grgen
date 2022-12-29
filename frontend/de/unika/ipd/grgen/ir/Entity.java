@@ -146,4 +146,9 @@ public class Entity extends Identifiable
 	{
 		return Collections.singleton(type);
 	}
+	
+	public String getKind()
+	{
+		return "entity";
+	}
 }

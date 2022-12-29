@@ -4,5 +4,5 @@ test r1
 {
 	str:NSTRING;
 
-	if { substring(str.a, "test", 9) != "bla"; }   // "test" not an int
+	if { str.a.substring("test", 9) != "bla"; }   // "test" not an int
 }

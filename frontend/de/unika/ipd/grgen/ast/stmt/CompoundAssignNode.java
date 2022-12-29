@@ -114,7 +114,7 @@ public class CompoundAssignNode extends EvalStatementNode
 			if(unresolved.resolve() && unresolved.decl instanceof VarDeclNode) {
 				targetVar = (VarDeclNode)unresolved.decl;
 			} else {
-				reportError("Error in resolving the LHS of the compound assignment, a parameter variable is expected (given is " + unresolved.getIdent() + ").");
+				reportError("Error in resolving the left hand side of the compound assignment, a parameter variable is expected (given is " + unresolved.getIdent() + ").");
 				successfullyResolved = false;
 			}
 		} else if(targetUnresolved instanceof QualIdentNode) {
@@ -122,11 +122,11 @@ public class CompoundAssignNode extends EvalStatementNode
 			if(unresolved.resolve()) {
 				targetQual = unresolved;
 			} else {
-				reportError("Error in resolving the LHS of the compound assignment, a qualified attribute is expected (given is " + unresolved + ").");
+				reportError("Error in resolving the left hand side of the compound assignment, a qualified attribute is expected (given is " + unresolved + ").");
 				successfullyResolved = false;
 			}
 		} else {
-			reportError("Internal error - invalid LHS in compound assignment.");
+			reportError("Internal error - invalid left hand side in compound assignment.");
 			successfullyResolved = false;
 		}
 
@@ -170,13 +170,13 @@ public class CompoundAssignNode extends EvalStatementNode
 		TypeNode targetType = targetQual != null ? targetQual.getDecl().getDeclType() : targetVar.getDeclType();
 		if(compoundAssignmentType == CompoundAssignmentType.CONCATENATE
 				&& !(targetType instanceof ArrayTypeNode || targetType instanceof DequeTypeNode)) {
-			(targetQual != null ? targetQual : targetVar).reportError("Compound assignment expects a LHS of array or deque type"
+			(targetQual != null ? targetQual : targetVar).reportError("Compound assignment expects a left hand side of array or deque type"
 					+ " (given is type " + targetType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		if(compoundAssignmentType != CompoundAssignmentType.CONCATENATE
 				&& !(targetType instanceof SetTypeNode || targetType instanceof MapTypeNode)) {
-			(targetQual != null ? targetQual : targetVar).reportError("Compound assignment expects a LHS of set or map type"
+			(targetQual != null ? targetQual : targetVar).reportError("Compound assignment expects a left hand side of set or map type"
 					+ " (given is type " + targetType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}

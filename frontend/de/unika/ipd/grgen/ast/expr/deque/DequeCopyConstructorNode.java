@@ -86,7 +86,7 @@ public class DequeCopyConstructorNode extends ExprNode
 				success &= checkCopyConstructorTypes(dequeType.valueType, sourceDequeType.valueType, "deque", false);
 			} else {
 				reportError("A deque copy constructor expects a value of deque type to copy"
-						+ " (but is given " + dequeToCopy.getType() + ").");
+						+ " (but is given " + dequeToCopy.getType().getTypeName() + ").");
 				success = false;
 			}
 		}

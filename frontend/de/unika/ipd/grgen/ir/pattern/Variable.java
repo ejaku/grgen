@@ -40,4 +40,9 @@ public class Variable extends Entity
 	{
 		this.initialization = initialization;
 	}
+	
+	public String getKind()
+	{
+		return "variable";
+	}
 }

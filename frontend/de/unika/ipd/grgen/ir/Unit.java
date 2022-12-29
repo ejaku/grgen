@@ -370,7 +370,7 @@ public class Unit extends IR implements ActionsBearer
 			if(subpatternRule.pattern.isNeverTerminatingSuccessfully(subpatternsAlreadyVisited)) {
 				error.warning(subpatternRule.getIdent().getCoords(), "Matching the subpattern "
 						+ subpatternRule.getIdent()
-						+ " will never terminate successfully (endless recursion on any path, only (potentially) terminated by failing matching)");
+						+ " will never terminate successfully (endless recursion on any path, only (potentially) terminated by failing matching).");
 			}
 			subpatternsAlreadyVisited.clear();
 		}

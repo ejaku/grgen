@@ -93,7 +93,7 @@ public class ExecStatementNode extends EvalStatementNode
 			reportError("An exec inside an evalhere is forbidden"
 					+ " (you may move it outside the evalhere, but note that it is then executed at the end of rewriting).");
 		} else {
-			reportError("An exec inside an eval is forbidden (in an alternative or iterated) -- move it outside of the eval"
+			reportError("An exec inside an eval is forbidden in an alternative or iterated -- move it outside of the eval"
 					+ " (so it becomes a deferred exec, executed at the end of rewriting, on the by-then current graph and the local entities valid at the end of its local rewriting).");
 		}
 		return false;

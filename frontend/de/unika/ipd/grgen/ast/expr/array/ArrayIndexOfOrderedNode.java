@@ -64,10 +64,11 @@ public class ArrayIndexOfOrderedNode extends ArrayFunctionMethodInvocationBaseEx
 		TypeNode valueType = valueExpr.getType();
 		ArrayTypeNode arrayType = getTargetType();
 		if(!valueType.isEqual(arrayType.valueType)) {
+			ExprNode valueExprOld = valueExpr;
 			valueExpr = becomeParent(valueExpr.adjustType(arrayType.valueType, getCoords()));
 			if(valueExpr == ConstNode.getInvalid()) {
-				valueExpr.reportError("The array function method indexOfOrdered expects as 1. argument (valueToSearchFor) a value of type " + arrayType.valueType
-						+ " (but is given a value of type " + valueType + ").");
+				valueExprOld.reportError("The array function method indexOfOrdered expects as 1. argument (valueToSearchFor) a value of type " + arrayType.valueType.toStringWithDeclarationCoords()
+						+ " (but is given a value of type " + valueType.toStringWithDeclarationCoords() + ").");
 				return false;
 			}
 		}

@@ -1287,6 +1287,7 @@ anonymousFirstNodeOrSubpatternDeclaration [ Token c, CollectNode<BaseNode> conn,
 		( AT LPAREN nameAndAttributesInitializationList[nodeDecl, namer, context] RPAREN )?
 		firstEdgeContinuation[nodeDecl, conn, namer, context, directlyNestingLHSGraph] // and continue looking for first edge
 	| // node copy/clone declaration
+		{ id = env.defineAnonymousEntity("node", getCoords(c)); }
 		( COPY { copyKind = CopyKind.Copy; } | CLONE { copyKind = CopyKind.Clone; } ) LT type=entIdentUse GT 
 		{ nodeDecl = new NodeDeclNode(id, type, copyKind, context, constr, directlyNestingLHSGraph); }
 		( AT LPAREN nameAndAttributesInitializationList[nodeDecl, namer, context] RPAREN )?
@@ -4327,9 +4328,10 @@ initObjectExpr [ AnonymousScopeNamer namer, int context ] returns [ ExprNode res
 	}
 	: NEW classIdent=typeIdentUse l=LPAREN RPAREN
 		{ oin = new ObjectInitNode(getCoords(l), classIdent); res = oin; }
-	| NEW classIdent=typeIdentUse { oin = new ObjectInitNode(getCoords(l), classIdent); }
-		AT l=LPAREN (attributesInitializationList[oin, classIdent, namer, context])? RPAREN
-		{ res = oin; }
+	| NEW classIdent=typeIdentUse AT l=LPAREN
+		{ oin = new ObjectInitNode(getCoords(l), classIdent); }
+		(attributesInitializationList[oin, classIdent, namer, context])?
+		RPAREN { res = oin; }
 	;
 
 attributesInitializationList [ ObjectInitNode oi, IdentNode classIdent, AnonymousScopeNamer namer, int context ]

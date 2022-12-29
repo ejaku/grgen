@@ -72,7 +72,7 @@ public class NodesExprNode extends BuiltinFunctionInvocationBaseNode
 	{
 		if(!(nodeType.getType() instanceof NodeTypeNode)) {
 			reportError("The function nodes expects as argument (typeToObtain) a value of type node type"
-					+ " (but is given a value of type " + nodeType.getType() + ").");
+					+ " (but is given a value of type " + nodeType.getType().getTypeName() + ").");
 			return false;
 		}
 		return true;

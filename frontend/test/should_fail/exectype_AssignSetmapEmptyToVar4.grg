@@ -4,6 +4,6 @@ rule r
 {
 	modify {
 	---
-		exec(y:map<AA,HH> =map<AA,HH> ;> {b:int=y.empty()});
+		exec(y:map<AA,HH> =map<AA,HH>{} ;> {b:int=y.empty()});
 	}
 }

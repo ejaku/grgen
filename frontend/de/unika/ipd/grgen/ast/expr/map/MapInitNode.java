@@ -110,15 +110,15 @@ public class MapInitNode extends ContainerInitNode
 					item.switchParenthood(oldKeyExpr, item.keyExpr);
 					if(item.keyExpr == ConstNode.getInvalid()) {
 						success = false;
-						item.keyExpr.reportError("The key type " + oldKeyExpr.getType()
-								+ " of the initializer doesn't fit to the key type " + mapType.keyType
-								+ " of the map (" + mapType + ").");
+						oldKeyExpr.reportError("The key type " + oldKeyExpr.getType().toStringWithDeclarationCoords()
+								+ " of the initializer does not fit to the key type " + mapType.keyType.toStringWithDeclarationCoords()
+								+ " of the map (" + mapType.getTypeName() + ").");
 					}
 				} else {
 					success = false;
-					item.keyExpr.reportError("The key type " + item.keyExpr.getType()
-							+ " of the initializer doesn't fit to the key type " + mapType.keyType
-							+ " of the map (" + mapType
+					item.keyExpr.reportError("The key type " + item.keyExpr.getType().toStringWithDeclarationCoords()
+							+ " of the initializer does not fit to the key type " + mapType.keyType.toStringWithDeclarationCoords()
+							+ " of the map (" + mapType.getTypeName()
 							+ " -- all items must be of exactly the same type).");
 				}
 			}
@@ -129,15 +129,15 @@ public class MapInitNode extends ContainerInitNode
 					item.switchParenthood(oldValueExpr, item.valueExpr);
 					if(item.valueExpr == ConstNode.getInvalid()) {
 						success = false;
-						item.valueExpr.reportError("The value type " + oldValueExpr.getType()
-								+ " of the initializer doesn't fit to the value type " + mapType.valueType
-								+ " of the map (" + mapType + ").");
+						oldValueExpr.reportError("The value type " + oldValueExpr.getType().toStringWithDeclarationCoords()
+								+ " of the initializer does not fit to the value type " + mapType.valueType.toStringWithDeclarationCoords()
+								+ " of the map (" + mapType.getTypeName() + ").");
 					}
 				} else {
 					success = false;
-					item.valueExpr.reportError("The value type " + item.valueExpr.getType()
-							+ " of the initializer doesn't fit to the value type " + mapType.valueType
-							+ " of the map (" + mapType
+					item.valueExpr.reportError("The value type " + item.valueExpr.getType().toStringWithDeclarationCoords()
+							+ " of the initializer does not fit to the value type " + mapType.valueType.toStringWithDeclarationCoords()
+							+ " of the map (" + mapType.getTypeName()
 							+ " -- all items must be of exactly the same type).");
 				}
 			}

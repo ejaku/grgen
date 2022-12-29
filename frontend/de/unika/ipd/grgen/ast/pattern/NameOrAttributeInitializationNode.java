@@ -97,7 +97,7 @@ public class NameOrAttributeInitializationNode extends BaseNode
 			initialization = becomeParent(initialization.adjustType(targetType, owner.getCoords()));
 			if(initialization == ConstNode.getInvalid()) {
 				owner.reportError("The name of an element must be initialized with a value of type string"
-						+ " (but it is initialized with a value of type " + exprType + ").");
+						+ " (but it is initialized with a value of type " + exprType.getTypeName() + ").");
 				return false;
 			}
 
@@ -112,7 +112,7 @@ public class NameOrAttributeInitializationNode extends BaseNode
 
 		if(owner.getDeclType().isConst()) {
 			owner.reportError("An assignment to a const type object is not allowed"
-					+ " (but " + owner.getDeclType() + " is const).");
+					+ " (but " + owner.getDeclType().getTypeName() + " is const).");
 			return false;
 		}
 

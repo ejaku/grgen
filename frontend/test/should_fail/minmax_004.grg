@@ -6,8 +6,8 @@ rule r {
 
 	modify {
 		eval {
-			ns.a = min(ns.a, es.a);
-			ns.a = max(ns.a, es.a);
+			ns.a = Math::min(ns.a, es.a);
+			ns.a = Math::max(ns.a, es.a);
 		}
 	}
 }

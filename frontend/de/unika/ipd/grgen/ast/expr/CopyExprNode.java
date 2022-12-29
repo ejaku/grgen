@@ -83,7 +83,7 @@ public class CopyExprNode extends BuiltinFunctionInvocationBaseNode
 					&& !(type instanceof ExternalObjectTypeNode)
 					&& !(type instanceof ObjectTypeNode)) {
 				sourceExpr.reportError("The copy construct expects as argument a value of type container or graph or class object or transient class object or external object"
-						+ " (but is given a value of type " + type + ").");
+						+ " (but is given a value of " + type.getKind() + " " + type.getTypeName() + ").");
 				return false;
 			}
 		} else {
@@ -94,7 +94,7 @@ public class CopyExprNode extends BuiltinFunctionInvocationBaseNode
 					&& !(type instanceof ExternalObjectTypeNode)
 					&& !(type instanceof ObjectTypeNode)) {
 				sourceExpr.reportError("The clone construct expects as argument a value of type container or match or class object or transient class object or external object"
-						+ " (but is given a value of type " + type + ").");
+						+ " (but is given a value of " + type.getKind() + " " + type.getTypeName() + ").");
 				return false;
 			}
 		}

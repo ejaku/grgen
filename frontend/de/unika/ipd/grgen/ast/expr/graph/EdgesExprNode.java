@@ -72,7 +72,7 @@ public class EdgesExprNode extends BuiltinFunctionInvocationBaseNode
 	{
 		if(!(edgeType.getType() instanceof EdgeTypeNode)) {
 			reportError("The function edges expects as argument (typeToObtain) a value of type edge type"
-					+ " (but is given a value of type " + edgeType.getType() + ").");
+					+ " (but is given a value of type " + edgeType.getType().getTypeName() + ").");
 			return false;
 		}
 		return true;

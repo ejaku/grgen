@@ -38,7 +38,7 @@ public class ArrayOrNode extends ArrayAccumulationMethodNode
 		ArrayTypeNode arrayType = getTargetType();
 		if(!arrayType.valueType.isEqual(BasicTypeNode.booleanType)) {
 			targetExpr.reportError("The array function method or can only be employed on an object of type array<boolean>"
-					+ " (but is employed on an object of type " + arrayType + ").");
+					+ " (but is employed on an object of type " + arrayType.getTypeName() + ").");
 			return false;
 		}
 		return true;

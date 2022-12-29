@@ -75,12 +75,12 @@ public class NodeByNameExprNode extends BuiltinFunctionInvocationBaseNode
 	{
 		if(!(name.getType() instanceof StringTypeNode)) {
 			reportError("The function nodeByName expects as 1. argument (nameToSearchFor) a value of type string"
-					+ " (but is given a value of type " + name.getType() + ").");
+					+ " (but is given a value of type " + name.getType().getTypeName() + ").");
 			return false;
 		}
 		if(!(nodeType.getType() instanceof NodeTypeNode)) {
 			reportError("The function nodeByName expects as 2. argument (typeToObain) a value of type node type"
-					+ " (but is given a value of type " + nodeType.getType() + ").");
+					+ " (but is given a value of type " + nodeType.getType().getTypeName() + ").");
 			return false;
 		}
 		return true;

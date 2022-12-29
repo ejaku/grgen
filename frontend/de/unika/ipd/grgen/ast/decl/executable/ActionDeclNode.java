@@ -161,8 +161,12 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 			res = false;
 			String exprTypeName = retExprType.getTypeName();
 			String parameterTypeName = retParameterType.getTypeName();
-			ident.reportError("Cannot convert " + (i + 1) + ". return parameter from " + exprTypeName
-					+ " to " + parameterTypeName + " (in " + getKind() + " " + ident + ").");
+			ident.reportError("Cannot convert " + (i + 1) + ". return parameter"
+					+ " from "+ exprTypeName + " to the expected " + parameterTypeName
+					+ " (in " + getKind() + " " + ident + ")"
+					+ retExprType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
+					+ retParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
+					+ ".");
 			return res;
 		}
 
@@ -195,7 +199,7 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 			res = false;
 			retExpr.reportError("Return parameter " + retElem.getIdentNode() + " is homomorphic to "
 					+ homElem.getIdentNode() + ", which gets retyped to the incompatible type "
-					+ retypedElemType.getTypeName() + " (in " + getKind() + " " + ident + ").");
+					+ retypedElemType.toStringWithDeclarationCoords() + " (in " + getKind() + " " + ident + ").");
 			return res;
 		}
 
@@ -225,15 +229,12 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 	{
 		boolean isOk = true;
 
-		String actionName = getIdentNode().toString();
-		String matchTypeName = matchType.getIdentNode().toString();
-
 		HashMap<String, NodeDeclNode> knownNodes = new HashMap<String, NodeDeclNode>();
 		for(NodeDeclNode node : pattern.getNodes()) {
 			knownNodes.put(node.getIdentNode().toString(), node);
 		}
 		for(NodeDeclNode node : matchType.getNodes()) {
-			isOk = checkNodeImplemented(node, actionName, matchTypeName, knownNodes);
+			isOk = checkNodeImplemented(node, matchType, knownNodes);
 		}
 
 		HashMap<String, EdgeDeclNode> knownEdges = new HashMap<String, EdgeDeclNode>();
@@ -241,7 +242,7 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 			knownEdges.put(edge.getIdentNode().toString(), edge);
 		}
 		for(EdgeDeclNode edge : matchType.getEdges()) {
-			isOk = checkEdgeImplemented(edge, actionName, matchTypeName, knownEdges);
+			isOk = checkEdgeImplemented(edge, matchType, knownEdges);
 		}
 
 		HashMap<String, VarDeclNode> knownVariables = new HashMap<String, VarDeclNode>();
@@ -255,41 +256,43 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 			knownVariables.put(var.getIdentNode().toString(), var);
 		}
 		for(VarDeclNode var : matchType.getVariables()) {
-			isOk = checkVariableImplemented(var, actionName, matchTypeName, knownVariables);
+			isOk = checkVariableImplemented(var, matchType, knownVariables);
 		}
 
 		return isOk;
 	}
 
-	private boolean checkNodeImplemented(NodeDeclNode node,
-			String actionName, String matchTypeName, HashMap<String, NodeDeclNode> knownNodes)
+	private boolean checkNodeImplemented(NodeDeclNode node, DefinedMatchTypeNode matchType,
+			HashMap<String, NodeDeclNode> knownNodes)
 	{
 		boolean isOk = true;
 
+		String actionName = getKind() + " " + getIdentNode().toString();
+		String matchTypeName = matchType.getIdentNode().toString() + matchType.getDecl().getDeclarationCoords();
 		String nodeName = node.getIdentNode().toString();
 		if(!knownNodes.containsKey(nodeName)) {
-			getIdentNode().reportError("The " + getKind() + " " + actionName + " does not implement the node " + nodeName
-					+ " expected from match class " + matchTypeName);
+			getIdentNode().reportError("The " + actionName + " does not implement the node " + nodeName
+					+ " expected from match class " + matchTypeName + ".");
 			isOk = false;
 		} else {
 			NodeDeclNode nodeFromPattern = knownNodes.get(nodeName);
 			NodeTypeNode type = node.getDeclType();
 			NodeTypeNode typeOfNodeFromPattern = nodeFromPattern.getDeclType();
 			if(!type.isEqual(typeOfNodeFromPattern)) {
-				getIdentNode().reportError("The type of the node " + nodeName + " from the " + getKind() + " " + actionName
+				getIdentNode().reportError("The type of the node " + nodeName + " from the " + actionName
 						+ " does not equal the type of the node from the match class " + matchTypeName + "."
 						+ " In the match class, " + type.getTypeName() + " is declared, but in the pattern, "
 						+ typeOfNodeFromPattern.getTypeName() + " is declared.");
 				isOk = false;
 			}
 			if(nodeFromPattern.defEntityToBeYieldedTo && !node.defEntityToBeYieldedTo) {
-				getIdentNode().reportError("The node " + nodeName + " from the " + getKind() + " " + actionName
+				getIdentNode().reportError("The node " + nodeName + " from the " + actionName
 						+ " is a def node, while it is a node in the match class "
 						+ matchTypeName + ".");
 				isOk = false;
 			}
 			if(!nodeFromPattern.defEntityToBeYieldedTo && node.defEntityToBeYieldedTo) {
-				getIdentNode().reportError("The node " + nodeName + " from the " + getKind() + " " + actionName
+				getIdentNode().reportError("The node " + nodeName + " from the " + actionName
 						+ " is a node, while it is a def node in the match class "
 						+ matchTypeName + ".");
 				isOk = false;
@@ -299,35 +302,37 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 		return isOk;
 	}
 
-	private boolean checkEdgeImplemented(EdgeDeclNode edge,
-			String actionName, String matchTypeName, HashMap<String, EdgeDeclNode> knownEdges)
+	private boolean checkEdgeImplemented(EdgeDeclNode edge, DefinedMatchTypeNode matchType,
+			HashMap<String, EdgeDeclNode> knownEdges)
 	{
 		boolean isOk = true;
 
+		String actionName = getKind() + " " + getIdentNode().toString();
+		String matchTypeName = matchType.getIdentNode().toString() + matchType.getDecl().getDeclarationCoords();
 		String edgeName = edge.getIdentNode().toString();
 		if(!knownEdges.containsKey(edgeName)) {
-			getIdentNode().reportError("The " + getKind() + " " + actionName + " does not implement the edge " + edgeName
-					+ " expected from match class " + matchTypeName);
+			getIdentNode().reportError("The " + actionName + " does not implement the edge " + edgeName
+					+ " expected from match class " + matchTypeName + ".");
 			isOk = false;
 		} else {
 			EdgeDeclNode edgeFromPattern = knownEdges.get(edgeName);
 			EdgeTypeNode type = edge.getDeclType();
 			EdgeTypeNode typeOfEdgeFromPattern = edgeFromPattern.getDeclType();
 			if(!type.isEqual(typeOfEdgeFromPattern)) {
-				getIdentNode().reportError("The type of the edge " + edgeName + " from the " + getKind() + " " + actionName
+				getIdentNode().reportError("The type of the edge " + edgeName + " from the " + actionName
 						+ " does not equal the type of the edge from the match class " + matchTypeName + "."
 						+ " In the match class, " + type.getTypeName() + " is declared, but in the pattern, "
 						+ typeOfEdgeFromPattern.getTypeName() + " is declared.");
 				isOk = false;
 			}
 			if(edgeFromPattern.defEntityToBeYieldedTo && !edge.defEntityToBeYieldedTo) {
-				getIdentNode().reportError("The edge " + edgeName + " from the " + getKind() + " " + actionName
+				getIdentNode().reportError("The edge " + edgeName + " from the " + actionName
 						+ " is a def edge, while it is an edge in the match class "
 						+ matchTypeName + ".");
 				isOk = false;
 			}
 			if(!edgeFromPattern.defEntityToBeYieldedTo && edge.defEntityToBeYieldedTo) {
-				getIdentNode().reportError("The edge " + edgeName + " from the " + getKind() + " " + actionName
+				getIdentNode().reportError("The edge " + edgeName + " from the " + actionName
 						+ " is an edge, while it is a def edge in the match class "
 						+ matchTypeName + ".");
 				isOk = false;
@@ -337,35 +342,37 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 		return isOk;
 	}
 
-	private boolean checkVariableImplemented(VarDeclNode var,
-			String actionName, String matchTypeName, HashMap<String, VarDeclNode> knownVariables)
+	private boolean checkVariableImplemented(VarDeclNode var, DefinedMatchTypeNode matchType,
+			HashMap<String, VarDeclNode> knownVariables)
 	{
 		boolean isOk = true;
 
+		String actionName = getKind() + " " + getIdentNode().toString();
+		String matchTypeName = matchType.getIdentNode().toString() + matchType.getDecl().getDeclarationCoords();
 		String varName = var.getIdentNode().toString();
 		if(!knownVariables.containsKey(varName)) {
-			getIdentNode().reportError("The " + getKind() + " " + actionName + " does not implement the variable " + varName
-					+ " expected from match class " + matchTypeName);
+			getIdentNode().reportError("The " + actionName + " does not implement the variable " + varName
+					+ " expected from match class " + matchTypeName + ".");
 			isOk = false;
 		} else {
 			VarDeclNode varFromPattern = knownVariables.get(varName);
 			TypeNode type = var.getDeclType();
 			TypeNode typeOfVarFromPattern = varFromPattern.getDeclType();
 			if(!type.isEqual(typeOfVarFromPattern)) {
-				getIdentNode().reportError("The type of the variable " + varName + " from the " + getKind() + " " + actionName
+				getIdentNode().reportError("The type of the variable " + varName + " from the " + actionName
 						+ " does not equal the type of the variable from the match class " + matchTypeName + "."
 						+ " In the match class, " + type.getTypeName() + " is declared, but in the pattern, "
 						+ typeOfVarFromPattern.getTypeName() + " is declared.");
 				isOk = false;
 			}
 			if(varFromPattern.defEntityToBeYieldedTo && !var.defEntityToBeYieldedTo) {
-				getIdentNode().reportError("The variable " + varName + " from the " + getKind() + " " + actionName
+				getIdentNode().reportError("The variable " + varName + " from the " + actionName
 						+ " is a def variable, while it is a variable in the match class "
 						+ matchTypeName + ".");
 				isOk = false;
 			}
 			if(!varFromPattern.defEntityToBeYieldedTo && var.defEntityToBeYieldedTo) {
-				getIdentNode().reportError("The variable " + varName + " from the " + getKind() + " " + actionName
+				getIdentNode().reportError("The variable " + varName + " from the " + actionName
 						+ " is a variable, while it is a def variable in the match class "
 						+ matchTypeName + ".");
 				isOk = false;

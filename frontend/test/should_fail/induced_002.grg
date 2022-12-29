@@ -1,8 +1,8 @@
 rule r {
-	pattern {
+	//pattern {
 	    x:Node;
 	    induced(y);
-	}
+	//}
 	replace {
 	}
 }

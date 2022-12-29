@@ -188,9 +188,12 @@ public abstract class InheritanceType extends CompoundType
 					// we have an abstract member, it's OK to overwrite it
 					overridingMembers.put(member, curMember);
 				} else {
-					error.error(member.getIdent().getCoords(), member.toString()
-							+ " of " + member.getOwner() + " is already defined."
-							+ " It is also declared in " + curMember.getOwner() + ".");
+					Type ownerType = member.getOwner();
+					Type curMemberType = curMember.getOwner();
+					String curMemberDeclarationCoords = curMemberType.getIdent().getCoords().getDeclarationCoords(false);
+					error.error(member.getIdent().getCoords(), "The " + member
+							+ " of " + ownerType + " is already defined."
+							+ " It is also declared in " + curMemberType + curMemberDeclarationCoords  + ".");
 				}
 			}
 			allMembers.put(memberName, member);

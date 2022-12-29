@@ -58,9 +58,12 @@ public abstract class ProcedureInvocationBaseNode extends ProcedureOrBuiltinProc
 			if(!actualParameterType.isCompatibleTo(formalParameterType)) {
 				res = false;
 				unresolved.reportError("Cannot convert " + (i + 1) + ". argument"
-						+ " from " + actualParameterType.toStringWithDeclarationCoords()
-						+ " to " + formalParameterType.toStringWithDeclarationCoords()
-						+ " (when calling procedure " + (isMethod ? "method " : "") + pb.toStringWithDeclarationCoords() + ").");
+						+ " from " + actualParameterType.getTypeName()
+						+ " to the expected " + formalParameterType.getTypeName()
+						+ " (when calling procedure " + (isMethod ? "method " : "") + pb.toStringWithDeclarationCoords() + ")"
+						+ actualParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
+						+ formalParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
+						+ ".");
 			}
 		}
 

@@ -70,7 +70,7 @@ public class CountEdgesExprNode extends BuiltinFunctionInvocationBaseNode
 	{
 		if(!(edgeType.getType() instanceof EdgeTypeNode)) {
 			reportError("The function countEdges expects as argument a value of type edge"
-					+ " (but is given a value of type " + edgeType.getType() + ").");
+					+ " (but is given a value of type " + edgeType.getType().getTypeName() + ").");
 			return false;
 		}
 		return true;

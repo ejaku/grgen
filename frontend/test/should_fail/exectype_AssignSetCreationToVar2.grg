@@ -4,6 +4,6 @@ rule r
 {
 	modify {
 	---
-		exec(x:int =set<HH>);
+		exec(x:int =set<HH>{});
 	}
 }

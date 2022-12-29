@@ -25,6 +25,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.type.basic.NullTypeNode;
 import de.unika.ipd.grgen.ast.type.basic.ObjectTypeNode;
+import de.unika.ipd.grgen.ast.type.basic.TypeTypeNode;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -87,7 +88,8 @@ public abstract class ExprNode extends BaseNode
 		TypeNode src = getType();
 
 		if(src.isEqual(tgt)
-				|| src instanceof NodeTypeNode || src instanceof EdgeTypeNode) {
+				|| src instanceof NodeTypeNode && tgt instanceof TypeTypeNode
+				|| src instanceof EdgeTypeNode && tgt instanceof TypeTypeNode) {
 			return this;
 		}
 
@@ -122,17 +124,18 @@ public abstract class ExprNode extends BaseNode
 		ExprNode expr = adjustType(targetType);
 
 		if(expr == ConstNode.getInvalid()) {
+			TypeNode src = getType();
 			String msg;
-			if(getType().isCastableTo(targetType)) {
-				msg = "Assignment of " + getType().toStringWithDeclarationCoords()
+			if(src.isCastableTo(targetType)) {
+				msg = "Assignment of " + src.toStringWithDeclarationCoords()
 							+ " to " + targetType.toStringWithDeclarationCoords()
 							+ " without a cast.";
 			} else {
-				msg = "Incompatible assignment from " + getType().toStringWithDeclarationCoords()
+				msg = "Incompatible assignment from " + src.toStringWithDeclarationCoords()
 							+ " to " + targetType.toStringWithDeclarationCoords() + ".";
 			}
 			error.error(errorCoords, msg);
-			if(getType().toString().equals(targetType.toString()))
+			if(src.toString().equals(targetType.toString()))
 				error.warning(errorCoords, "Check package prefix.");
 		}
 		return expr;
@@ -206,8 +209,8 @@ public abstract class ExprNode extends BaseNode
 		if(containerType.equals("map"))
 			containerCompartmentAmendment = isKeyType ? " key" : " value";
 		
-		String errorMessage = "The " + containerType + " copy constructor expects a(n) " + containerType + containerCompartmentAmendment +  " of " + declaredType
-				+ " but is given a(n) " + containerType + containerCompartmentAmendment + " of " + givenType;
+		String errorMessage = "The " + containerType + " copy constructor expects a(n) " + containerType + containerCompartmentAmendment +  " of type " + declaredType.getTypeName()
+				+ " but is given a(n) " + containerType + containerCompartmentAmendment + " of type " + givenType.getTypeName();
 		
 		if(declaredType instanceof NodeTypeNode && !(givenType instanceof NodeTypeNode)) {
 			reportError(errorMessage + " (which is not a node type).");

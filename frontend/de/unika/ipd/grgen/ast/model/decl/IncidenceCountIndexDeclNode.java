@@ -143,19 +143,19 @@ public class IncidenceCountIndexDeclNode extends IndexDeclNode
 		if(!(startNodeType instanceof NodeTypeNode)) {
 			reportError("The incidence count function specification " + functionName + "()"
 					+ " in the incidende count index " + ident + " declaration"
-					+ " expects as 1. type (start node type) a node type, but is given type " + startNodeType + ".");
+					+ " expects as 1. type (start node type) a node type, but is given type " + startNodeType.getTypeName() + ".");
 			return false;
 		}
 		if(!(incidentEdgeType instanceof EdgeTypeNode)) {
 			reportError("The incidence count function specification " + functionName + "()"
 					+ " in the incidende count index " + ident + " declaration"
-					+ " expects as 2. type (incident edge type) an edge type, but is given type " + incidentEdgeType + ".");
+					+ " expects as 2. type (incident edge type) an edge type, but is given type " + incidentEdgeType.getTypeName() + ".");
 			return false;
 		}
 		if(!(adjacentNodeType instanceof NodeTypeNode)) {
 			reportError("The incidence count function specification " + functionName + "()"
 					+ " in the incidende count index " + ident + " declaration"
-					+ " expects as 3. type (adjacent node type) a node type, but is given type " + adjacentNodeType + ".");
+					+ " expects as 3. type (adjacent node type) a node type, but is given type " + adjacentNodeType.getTypeName() + ".");
 			return false;
 		}
 		return true;
