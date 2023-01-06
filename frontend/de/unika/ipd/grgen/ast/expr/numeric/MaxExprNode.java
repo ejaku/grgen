@@ -63,19 +63,19 @@ public class MaxExprNode extends BuiltinFunctionInvocationBaseNode
 	{
 		if(!leftExpr.getType().isNumericType())
 		{
-			reportError("The function max() expects as 1. argument a value of type " + TypeNode.getNumericTypesAsString()
+			reportError("The function Math::max() expects as 1. argument a value of type " + TypeNode.getNumericTypesAsString()
 					+ " (but is given a value of type " + leftExpr.getType().getTypeName() + ").");
 			return false;
 		}
 		if(!rightExpr.getType().isNumericType())
 		{
-			reportError("The function max() expects as 2. argument a value of type " + TypeNode.getNumericTypesAsString()
+			reportError("The function Math::max() expects as 2. argument a value of type " + TypeNode.getNumericTypesAsString()
 					+ " (but is given a value of type " + rightExpr.getType().getTypeName() + ").");
 			return false;
 		}
 		if(!rightExpr.getType().isEqual(leftExpr.getType()))
 		{
-			reportError("The function max() expects the 1. and 2. argument to be of the same type"
+			reportError("The function Math::max() expects the 1. and 2. argument to be of the same type"
 			+ " (but they are values of type " + leftExpr.getType().getTypeName() + " and " + rightExpr.getType().getTypeName() + ").");
 			return false;
 		}

@@ -69,7 +69,7 @@ public class ImportExprNode extends BuiltinFunctionInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		if(!(pathExpr.getType() instanceof StringTypeNode)) {
-			reportError("The function import() expects as argument (filePath) a value of type string"
+			reportError("The function File::import() expects as argument (filePath) a value of type string"
 					+ " (but is given a value of type " + pathExpr.getType().getTypeName() + ").");
 			return false;
 		}

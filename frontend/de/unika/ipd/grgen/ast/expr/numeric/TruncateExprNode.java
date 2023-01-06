@@ -57,7 +57,7 @@ public class TruncateExprNode extends BuiltinFunctionInvocationBaseNode
 		if(argumentExpr.getType().isEqual(BasicTypeNode.doubleType)) {
 			return true;
 		}
-		reportError("The function truncate() expects as argument a value of type double"
+		reportError("The function Math::truncate() expects as argument a value of type double"
 				+ " (but is given a value of type " + argumentExpr.getType().getTypeName() + ").");
 		return false;
 	}

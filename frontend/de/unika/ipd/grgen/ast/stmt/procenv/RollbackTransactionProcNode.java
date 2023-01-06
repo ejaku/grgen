@@ -68,7 +68,7 @@ public class RollbackTransactionProcNode extends BuiltinProcedureInvocationBaseN
 	{
 		TypeNode transactionIdExprType = transactionIdExpr.getType();
 		if(!transactionIdExprType.isEqual(BasicTypeNode.intType)) {
-			transactionIdExpr.reportError("The rollbackTransaction procedure expects as argument (transactionId)"
+			transactionIdExpr.reportError("The Transaction::rollback procedure expects as argument (transactionId)"
 					+ " a value of type int"
 					+ " (but is given a value of type " + transactionIdExprType.toStringWithDeclarationCoords() + ").");
 			return false;

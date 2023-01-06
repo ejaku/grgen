@@ -68,7 +68,7 @@ public class DeleteFileProcNode extends BuiltinProcedureInvocationBaseNode
 	{
 		TypeNode pathExprType = pathExpr.getType();
 		if(!(pathExprType.equals(BasicTypeNode.stringType))) {
-			reportError("The deleteFile procedure expects as argument (file path)"
+			reportError("The File::delete procedure expects as argument (file path)"
 					+ " a value of type string"
 					+ " (but is given a value of type " + pathExprType.toStringWithDeclarationCoords() + ").");
 			return false;

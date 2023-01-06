@@ -61,7 +61,7 @@ public class SqrExprNode extends BuiltinFunctionInvocationBaseNode
 		if(expr.getType().isEqual(BasicTypeNode.doubleType)) {
 			return true;
 		}
-		reportError("The function sqr() expects as argument a value of type double"
+		reportError("The function Math::sqr() expects as argument a value of type double"
 				+ " (but is given a value of type " + expr.getType().getTypeName() + ").");
 		return false;
 	}
