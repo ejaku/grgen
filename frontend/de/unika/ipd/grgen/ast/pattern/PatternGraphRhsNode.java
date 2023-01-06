@@ -40,7 +40,7 @@ import java.util.Set;
 import java.util.Vector;
 
 /**
- * AST node that represents a graph pattern as it appears within the replace/modify part of some rule
+ * AST node that represents a graph pattern as it appears within the rewrite part of some rule
  */
 public class PatternGraphRhsNode extends PatternGraphBaseNode
 {

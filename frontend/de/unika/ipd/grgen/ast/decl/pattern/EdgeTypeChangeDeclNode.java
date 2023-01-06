@@ -116,10 +116,10 @@ public class EdgeTypeChangeDeclNode extends EdgeDeclNode
 			return false;
 		}
 
-		// check if source edge of retype is declared in replace/modify part - no retype of just created edge
+		// check if source edge of retype is declared in the rewrite part - no retype of just created edge
 		if((old.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS
 			&& !old.defEntityToBeYieldedTo) {
-			reportError("The original edge of the retyping may not be declared in the rewrite part (replace/modify)"
+			reportError("The original edge of the retyping may not be declared in the rewrite part"
 					+ " (this is violated by the original edge " + old.getIdentNode() + emptyWhenAnonymousPostfix(" of ") + ").");
 			res = false;
 		}

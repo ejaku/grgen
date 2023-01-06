@@ -617,12 +617,12 @@ public abstract class MatcherDeclNode extends DeclNode
 		for(AlternativeDeclNode alternative : pattern.alts.getChildren()) {
 			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildren()) {
 				if(right == null && alternativeCase.right != null) {
-					alternativeCase.reportError("No rewrite part (replace/modify) is specified in the " + actionKind + " " + ident
+					alternativeCase.reportError("No rewrite part is specified in the " + actionKind + " " + ident
 							+ ", but one is given in the nested " + alternativeCase.getKind() + " " + alternativeCase.ident + ".");
 					res = false;
 				}
 				if(right != null && alternativeCase.right == null) {
-					alternativeCase.reportError("A rewrite part (replace/modify) is specified in the " + actionKind + " " + ident
+					alternativeCase.reportError("A rewrite part is specified in the " + actionKind + " " + ident
 							+ ", but none is given in the nested " + alternativeCase.getKind() + " " + alternativeCase.ident + ".");
 					res = false;
 				}
@@ -631,12 +631,12 @@ public abstract class MatcherDeclNode extends DeclNode
 
 		for(IteratedDeclNode iterated : pattern.iters.getChildren()) {
 			if(right == null && iterated.right != null) {
-				iterated.reportError("No rewrite part (replace/modify) is specified in the " + actionKind + " " + ident
+				iterated.reportError("No rewrite part is specified in the " + actionKind + " " + ident
 						+ ", but one is given in the nested " + iterated.getKind() + iterated.emptyWhenAnonymousPostfix(" ") + ".");
 				res = false;
 			}
 			if(right != null && iterated.right == null) {
-				iterated.reportError("A rewrite part (replace/modify) is specified in the " + actionKind + " " + ident
+				iterated.reportError("A rewrite part is specified in the " + actionKind + " " + ident
 						+ ", but none is given in the nested " + iterated.getKind() + iterated.emptyWhenAnonymousPostfix(" ") + ".");
 				res = false;
 			}

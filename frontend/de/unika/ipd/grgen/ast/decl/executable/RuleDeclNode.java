@@ -414,14 +414,14 @@ public class RuleDeclNode extends ActionDeclNode
 		PatternGraphRhsNode right = this.right.patternGraph;
 
 		// check if the pattern name equals the rule name
-		// named replace/modify parts are only allowed in subpatterns
+		// named rewrite parts are only allowed in subpatterns
 		String ruleName = ident.toString();
 		if(!right.nameOfGraph.equals(ruleName))
-			this.right.reportError("Named rewrite parts (replace/modify) in rules are not allowed.");
+			this.right.reportError("Named rewrite parts are not allowed in rules.");
 
 		// check if parameters only exists for subpatterns
 		if(right.params.getChildren().size() > 0)
-			this.right.reportError("Parameters for the rewrite part (replace/modify) are only allowed in subpatterns.");
+			this.right.reportError("Parameters for the rewrite part are only allowed in subpatterns.");
 
 		boolean noReturnInPatternOk = true;
 		if(pattern.returns.size() > 0) {

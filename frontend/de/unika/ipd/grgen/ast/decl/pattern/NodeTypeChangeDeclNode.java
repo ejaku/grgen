@@ -141,10 +141,10 @@ public class NodeTypeChangeDeclNode extends NodeDeclNode
 			return false;
 		}
 
-		// check if source node of retype is declared in replace/modify part - no retype of just created node
+		// check if source node of retype is declared in the rewrite part - no retype of just created node
 		if((old.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS
 			&& !old.defEntityToBeYieldedTo) {
-			reportError("The original node of the retyping may not be declared in the rewrite part (replace/modify)"
+			reportError("The original node of the retyping may not be declared in the rewrite part"
 					+ " (this is violated by the original node " + old.getIdentNode() + emptyWhenAnonymousPostfix(" of ") + ").");
 			res = false;
 		}
@@ -152,7 +152,7 @@ public class NodeTypeChangeDeclNode extends NodeDeclNode
 		for(NodeDeclNode mergee : mergees.getChildren()) {
 			if((mergee.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS
 				&& !mergee.defEntityToBeYieldedTo) {
-				reportError("An original node of a (retyping) merge may not be declared in the rewrite part (replace/modify)"
+				reportError("An original node of a (retyping) merge may not be declared in the rewrite part"
 						+ " (this is violated by the original node " + mergee.getIdentNode() + emptyWhenAnonymousPostfix(" of ") + ").");
 				res = false;
 			}

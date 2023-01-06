@@ -262,7 +262,7 @@ public class ConnectionNode extends ConnectionCharacter
 			return true; // edge is a def to be yielded to, i.e. output variable
 		}
 
-		edge.reportError("Dangling edges in the rewrite part (replace/modify) must have been declared in the pattern part"
+		edge.reportError("Dangling edges in the rewrite part must have been declared in the pattern part"
 				+ edge.emptyWhenAnonymous(" (a declaration in the pattern part is missing for " + edge.getIdentNode() + ")") + ".");
 		return false;
 	}
