@@ -98,8 +98,8 @@ public class IteratedQueryExprNode extends ExprNode
 	@Override
 	public boolean noIteratedReference(String containingConstruct)
 	{
-		reportError("The matches of an iterated cannot be accessed with an iterated query [?" + iteratedUnresolved
-				+ "] from a " + containingConstruct + ", only from a yield block or yield expression or eval.");
+		reportError("The matches of an iterated cannot be accessed with an iterated query [?" + iteratedUnresolved + "]"
+				+ " from a " + containingConstruct + ", only from a yield block or yield expression or eval.");
 		return false;
 	}
 
@@ -107,7 +107,7 @@ public class IteratedQueryExprNode extends ExprNode
 	public boolean iteratedNotReferenced(String iterName)
 	{
 		if(iterated.getIdentNode().toString().equals(iterName)) {
-			reportError("An iterated cannot be accessed by a nested iterated query, as it occurs with [?" + iteratedUnresolved + "].");
+			reportError("An iterated query cannot access an iterated it is contained in, as it occurs with [?" + iteratedUnresolved + "].");
 			return false;
 		}
 		return true;
