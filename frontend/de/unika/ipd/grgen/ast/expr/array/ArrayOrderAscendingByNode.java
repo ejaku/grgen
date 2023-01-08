@@ -60,7 +60,7 @@ public class ArrayOrderAscendingByNode extends ArrayFunctionMethodInvocationBase
 		TypeNode memberType = getTypeOfElementToBeExtracted();
 		if(!memberType.isOrderableType()) {
 			targetExpr.reportError("The array function method orderAscendingBy is only available for attributes of type "
-					+ TypeNode.getOrderableTypesAsString() + " (but is " + memberType.getTypeName() + ").");
+					+ TypeNode.getOrderableTypesAsString() + " (but is of type " + memberType.getTypeName() + ").");
 			return false;
 		}
 

@@ -60,7 +60,7 @@ public class ArrayKeepOneForEachByNode extends ArrayFunctionMethodInvocationBase
 		TypeNode memberType = getTypeOfElementToBeExtracted();
 		if(!memberType.isFilterableType()) {
 			targetExpr.reportError("The array function method keepOneForEachBy is only available for attributes of type "
-					+ TypeNode.getFilterableTypesAsString() + " (but is " + memberType.getTypeName() + ").");
+					+ TypeNode.getFilterableTypesAsString() + " (but is of type " + memberType.getTypeName() + ").");
 			return false;
 		}
 

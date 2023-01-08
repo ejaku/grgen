@@ -175,14 +175,14 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 		if(!(functionDecl.getResultType() instanceof ArrayTypeNode)) {
 			reportError("The result type of the function " + functionDecl.getIdentNode()
 					+ " employing the auto-generated function " + functionName()
-					+ " must be an array (but is " + functionDecl.getResultType().getTypeName() + ").");
+					+ " must be an array (but is of type " + functionDecl.getResultType().getTypeName() + ").");
 			return false;
 		}
 		ArrayTypeNode resultType = (ArrayTypeNode)functionDecl.getResultType();
 		if(!(resultType.getElementType() instanceof DefinedMatchTypeNode)) {
 			reportError("The result type of the function " + functionDecl.getIdentNode()
 					+ " employing the auto-generated function " + functionName()
-					+ " must be an array<match<class T>> (but is " + functionDecl.getResultType().getTypeName() + ").");
+					+ " must be an array<match<class T>> (but is of type " + functionDecl.getResultType().getTypeName() + ").");
 			return false;
 		}
 		

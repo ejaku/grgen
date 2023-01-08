@@ -93,7 +93,7 @@ public class ArrayIndexOfOrderedByNode extends ArrayFunctionMethodInvocationBase
 				&& !(memberType.equals(BasicTypeNode.booleanType))
 				&& !(memberType instanceof EnumTypeNode)) {
 			targetExpr.reportError("The array function method indexOfOrderedBy is only available for attributes of type byte, short, int, long, float, double, string, boolean, enum of a graph element"
-					+ " (but is " + memberType.getTypeName() + ")");
+					+ " (but is of type " + memberType.getTypeName() + ")");
 		}
 
 		TypeNode valueType = valueExpr.getType();

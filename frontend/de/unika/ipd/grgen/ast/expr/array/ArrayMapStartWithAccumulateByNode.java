@@ -157,12 +157,12 @@ public class ArrayMapStartWithAccumulateByNode extends ArrayFunctionMethodInvoca
 			TypeNode initArrayAccessVarType = initArrayAccessVar.getDeclType();
 			if(!(initArrayAccessVarType instanceof ArrayTypeNode)) {
 				reportError("The init array access variable of the array mapStartWithAccumulateBy function method must be of array type"
-						+ " (but is " + initArrayAccessVarType.getTypeName() + ").");
+						+ " (but is of type " + initArrayAccessVarType.getTypeName() + ").");
 				return false;
 			}
 			if(!initArrayAccessVarType.isEqual(targetExpr.getType())) {
 				reportError("The init array access variable of the array mapStartWithAccumulateBy function method must be of type " + targetExpr.getType().getTypeName()
-						+ " (but is " + initArrayAccessVarType.getTypeName() + ").");
+						+ " (but is of type " + initArrayAccessVarType.getTypeName() + ").");
 				return false;
 			}
 		}
@@ -194,12 +194,12 @@ public class ArrayMapStartWithAccumulateByNode extends ArrayFunctionMethodInvoca
 			TypeNode arrayAccessVarType = arrayAccessVar.getDeclType();
 			if(!(arrayAccessVarType instanceof ArrayTypeNode)) {
 				reportError("The array access variable of the array mapStartWithAccumulateBy function method must be of array type"
-						+ " (but is " + arrayAccessVarType.getTypeName() + ").");
+						+ " (but is of type " + arrayAccessVarType.getTypeName() + ").");
 				return false;
 			}
 			if(!arrayAccessVarType.isEqual(targetExpr.getType())) {
 				reportError("The array access variable of the array mapStartWithAccumulateBy function method must be of type " + targetExpr.getType().getTypeName()
-						+ " (but is " + arrayAccessVarType.getTypeName() + ").");
+						+ " (but is of type " + arrayAccessVarType.getTypeName() + ").");
 				return false;
 			}
 		}
@@ -207,7 +207,7 @@ public class ArrayMapStartWithAccumulateByNode extends ArrayFunctionMethodInvoca
 		TypeNode previousAccumulationAccessVarType = previousAccumulationAccessVar.getDeclType();
 		if(!previousAccumulationAccessVarType.isEqual(resultValueType)) {
 			reportError("The previous accumulation access variable of the array mapStartWithAccumulateBy function method must be of type " + resultValueType.getTypeName()
-					+ " (but is " + previousAccumulationAccessVarType.getTypeName() + ").");
+					+ " (but is of type " + previousAccumulationAccessVarType.getTypeName() + ").");
 			return false;
 		}
 
@@ -215,7 +215,7 @@ public class ArrayMapStartWithAccumulateByNode extends ArrayFunctionMethodInvoca
 			TypeNode indexVarType = indexVar.getDeclType();
 			if(!indexVarType.isEqual(BasicTypeNode.intType)) {
 				reportError("The index variable of the array mapStartWithAccumulateBy function method must be of int type"
-						+ " (but is " + indexVarType.getTypeName() + ").");
+						+ " (but is of type " + indexVarType.getTypeName() + ").");
 				return false;
 			}
 		}

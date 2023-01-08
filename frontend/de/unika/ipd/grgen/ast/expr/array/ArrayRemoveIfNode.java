@@ -103,12 +103,12 @@ public class ArrayRemoveIfNode extends ArrayFunctionMethodInvocationBaseExprNode
 			TypeNode arrayAccessVarType = arrayAccessVar.getDeclType();
 			if(!(arrayAccessVarType instanceof ArrayTypeNode)) {
 				reportError("The array access variable of the array removeIf function method must be of array type"
-						+ " (but is " + arrayAccessVarType.getTypeName() + ").");
+						+ " (but is of type " + arrayAccessVarType.getTypeName() + ").");
 				return false;
 			}
 			if(!arrayAccessVarType.isEqual(targetExpr.getType())) {
 				reportError("The array access variable of the array removeIf function method must be of type " + targetExpr.getType().getTypeName()
-				+ " (but is " + arrayAccessVarType.getTypeName() + ").");
+				+ " (but is of type " + arrayAccessVarType.getTypeName() + ").");
 				return false;
 			}
 		}
@@ -117,7 +117,7 @@ public class ArrayRemoveIfNode extends ArrayFunctionMethodInvocationBaseExprNode
 			TypeNode indexVarType = indexVar.getDeclType();
 			if(!indexVarType.isEqual(BasicTypeNode.intType)) {
 				reportError("The index variable of the array removeIf function method must be of int type"
-						+ " (but is " + indexVarType.getTypeName() + ").");
+						+ " (but is of type " + indexVarType.getTypeName() + ").");
 				return false;
 			}
 		}
