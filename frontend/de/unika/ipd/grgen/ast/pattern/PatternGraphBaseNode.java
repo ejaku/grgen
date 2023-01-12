@@ -248,7 +248,7 @@ public abstract class PatternGraphBaseNode extends BaseNode
 							&& connection.getTgt() instanceof DummyNodeDeclNode)
 					&& !edges.add(edge)) {
 				EdgeDeclNode edgeDecl = (EdgeDeclNode)edge;
-				edgeDecl.reportError("Edge " + edgeDecl.getIdentNode() + " is used more than once in a pattern graph of this action (" + nameOfGraph +").");
+				edgeDecl.reportError("The edge " + edgeDecl.getIdentNode() + " is used more than once in a pattern graph of this action (" + nameOfGraph +").");
 				edgeUsage = false;
 			}
 		}
