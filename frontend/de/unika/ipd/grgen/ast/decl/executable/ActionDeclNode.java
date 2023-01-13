@@ -138,12 +138,14 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 		if(actualNumRets != declaredNumRets) {
 			res = false;
 			if(declaredNumRets == 0) {
-				returnArgs.reportError("No return values declared (in " + getKind() + " " + ident + ").");
+				returnArgs.reportError("No return parameters are declared in " + getKind() + " " + ident +
+						", but " + actualNumRets + " return arguments are given.");
 			} else if(actualNumRets == 0) {
-				reportError("Missing return statement (in " + getKind() + " " + ident + ").");
+				reportError("A return statement is missing in " + getKind() + " " + ident +
+						", which is declared with " + declaredNumRets + " return parameters.");
 			} else {
-				returnArgs.reportError("Return statement has wrong number of parameters, given are " + actualNumRets + ","
-						+ " but declared are " + declaredNumRets + " (in " + getKind() + " " + ident + ").");
+				returnArgs.reportError("The return statement in " + getKind() + " " + ident + " has a wrong number of arguments,"
+						+ " given are " + actualNumRets + " arguments," + " but declared are " + declaredNumRets + " parameters.");
 			}
 		}
 
@@ -161,7 +163,7 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 			res = false;
 			String exprTypeName = retExprType.getTypeName();
 			String parameterTypeName = retParameterType.getTypeName();
-			ident.reportError("Cannot convert " + (i + 1) + ". return parameter"
+			ident.reportError("Cannot convert " + (i + 1) + ". return argument"
 					+ " from "+ exprTypeName + " to the expected " + parameterTypeName
 					+ " (in " + getKind() + " " + ident + ")"
 					+ retExprType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
@@ -197,7 +199,7 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 				continue;
 
 			res = false;
-			retExpr.reportError("Return parameter " + retElem.getIdentNode() + " is homomorphic to "
+			retExpr.reportError("Return argument " + retElem.getIdentNode() + " is homomorphic to "
 					+ homElem.getIdentNode() + ", which gets retyped to the incompatible type "
 					+ retypedElemType.toStringWithDeclarationCoords() + " (in " + getKind() + " " + ident + ").");
 			return res;
@@ -272,7 +274,7 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 		String nodeName = node.getIdentNode().toString();
 		if(!knownNodes.containsKey(nodeName)) {
 			getIdentNode().reportError("The " + actionName + " does not implement the node " + nodeName
-					+ " expected from match class " + matchTypeName + ".");
+					+ " expected from the match class " + matchTypeName + ".");
 			isOk = false;
 		} else {
 			NodeDeclNode nodeFromPattern = knownNodes.get(nodeName);
@@ -312,7 +314,7 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 		String edgeName = edge.getIdentNode().toString();
 		if(!knownEdges.containsKey(edgeName)) {
 			getIdentNode().reportError("The " + actionName + " does not implement the edge " + edgeName
-					+ " expected from match class " + matchTypeName + ".");
+					+ " expected from the match class " + matchTypeName + ".");
 			isOk = false;
 		} else {
 			EdgeDeclNode edgeFromPattern = knownEdges.get(edgeName);
@@ -352,7 +354,7 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 		String varName = var.getIdentNode().toString();
 		if(!knownVariables.containsKey(varName)) {
 			getIdentNode().reportError("The " + actionName + " does not implement the variable " + varName
-					+ " expected from match class " + matchTypeName + ".");
+					+ " expected from the match class " + matchTypeName + ".");
 			isOk = false;
 		} else {
 			VarDeclNode varFromPattern = knownVariables.get(varName);

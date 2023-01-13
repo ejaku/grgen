@@ -161,19 +161,19 @@ public class RuleDeclNode extends ActionDeclNode
 			Set<ConstraintDeclNode> deletedElements, Set<ConstraintDeclNode> maybeDeletedElements)
 	{
 		if(deletedElements.contains(retElem)) {
-			retElem.reportError("The deleted " + retElem.getKind()
-					+ " " + retElem.ident + " is not allowed to be returned.");
+			retElem.reportError("The deleted " + retElem.getKind() + " " + retElem
+					+ " is not allowed to be returned.");
 			return false;
 		} else if(maybeDeletedElements.contains(retElem)) {
 			retElem.maybeDeleted = true;
 
 			if(!retElem.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
-				String errorMessage = "Returning " + retElem.getKind() + " " + retElem.ident + " that may be deleted.";
+				String errorMessage = "Returning " + retElem.getKind() + " " + retElem + " that may be deleted.";
 				errorMessage += " Possibly it is homomorphic with a deleted " + retElem.getKind();
 				errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
 
 				if(retElem instanceof EdgeDeclNode) {
-					errorMessage += ", or " + retElem.ident + " is a dangling edge and a deleted node exists";
+					errorMessage += ", or " + retElem + " is a dangling edge and a deleted node exists";
 				}
 				errorMessage += ".";
 				retElem.reportError(errorMessage);
@@ -207,8 +207,8 @@ public class RuleDeclNode extends ActionDeclNode
 			if(retElem.getRetypedElement() != null) {
 				valid = false;
 
-				expr.reportError("The retyped " + retElem.getKind()
-						+ " " + retElem.ident + " is not allowed to be returned.");
+				expr.reportError("The retyped " + retElem.getKind() + " " + retElem
+						+ " is not allowed to be returned.");
 			}
 		}
 
@@ -285,7 +285,7 @@ public class RuleDeclNode extends ActionDeclNode
 			if(retElem.getRetypedElement() != null) {
 				valid = false;
 
-				retElem.reportError("The retyped " + retElem.getKind() + " " + retElem.ident
+				retElem.reportError("The retyped " + retElem.getKind() + " " + retElem
 						+ " is not allowed to be deleted.");
 			}
 		}
@@ -346,7 +346,7 @@ public class RuleDeclNode extends ActionDeclNode
 		String emitVersion = emit.isDebug ? "emitdebug" : "emit";
 		String emitHereVersion = emit.isDebug ? "emitheredebug" : "emithere";
 		if(delete.contains(declNode)) {
-			expr.reportError("The deleted " + declNode.getKind() + " " + declNode.ident
+			expr.reportError("The deleted " + declNode.getKind() + " " + declNode
 					+ " is not allowed to be referenced in an " + emitVersion + " statement"
 					+ " (you may use an " + emitHereVersion + " instead).");
 			return false;
@@ -355,12 +355,12 @@ public class RuleDeclNode extends ActionDeclNode
 			declNode.maybeDeleted = true;
 
 			if(!declNode.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
-				String errorMessage = "The " + declNode.getKind() + " " + declNode.ident + " used in an " + emitVersion + " statement may be deleted.";
+				String errorMessage = "The " + declNode.getKind() + " " + declNode + " used in an " + emitVersion + " statement may be deleted.";
 				errorMessage += " Possibly it is homomorphic with a deleted " + declNode.getKind();
 				errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
 
 				if(declNode instanceof EdgeDeclNode) {
-					errorMessage += ", or " + declNode.ident + " is a dangling edge and a deleted node exists";
+					errorMessage += ", or " + declNode + " is a dangling edge and a deleted node exists";
 				}
 
 				errorMessage += " (you may use an " + emitHereVersion + " instead).";
@@ -417,15 +417,15 @@ public class RuleDeclNode extends ActionDeclNode
 		// named rewrite parts are only allowed in subpatterns
 		String ruleName = ident.toString();
 		if(!right.nameOfGraph.equals(ruleName))
-			this.right.reportError("Named rewrite parts are not allowed in rules.");
+			this.right.reportError("Named rewrite parts are not allowed in rules (only in (sub)patterns).");
 
 		// check if parameters only exists for subpatterns
 		if(right.params.getChildren().size() > 0)
-			this.right.reportError("Parameters for the rewrite part are only allowed in subpatterns.");
+			this.right.reportError("Parameters for the rewrite part are not allowed in rules (only in (sub)patterns).");
 
 		boolean noReturnInPatternOk = true;
 		if(pattern.returns.size() > 0) {
-			reportError("In pattern parts of rules are no return statements allowed.");
+			reportError("A return statement is not allowed in the pattern part of a rule.");
 			noReturnInPatternOk = false;
 		}
 
