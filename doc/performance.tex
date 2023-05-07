@@ -396,7 +396,7 @@ but typically no gain can be made from this, as counting the incident edges of a
 An incidence count index must be declared in the model.
 
 \begin{rail}
-IncidenceCountIndexDecl: 'index' IndexName lbrace IncidenceFunction rbrace;
+IncidenceCountIndexDecl: 'index' IndexName lbrace CountIncidenceFunction rbrace;
 CountIncidenceFunction: 
   CountIncidenceFunctionName '(' NodeType ')' |
   CountIncidenceFunctionName '(' NodeType ',' EdgeType ')' |

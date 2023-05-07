@@ -430,7 +430,7 @@ We do not define \texttt{varnode} within the pattern part because this is alread
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Pattern Part}\indexmain{pattern}
+\section{Pattern Part}\indexmain{pattern} \indexmain{pattern part} \indexmain{pattern graph}
 \label{patternpart}
 %\begin{rail}
 %  Pattern: (() + ('exact' | 'induced')) 'pattern' lbrace (()+PatternStatement) rbrace ;
@@ -513,7 +513,7 @@ rule numberNode(var id:int) : (int)
 \begin{rail}
   HomomorphySpecification:
     'hom' '(' (Ident + ',') ')' ';' |
-    'independent' '(' Ident (TypeConstraint)? ')' ';'
+    'independent' '(' Ident (IsoConstraint)? ')' ';'
     ;
 \end{rail}\ixkeyw{hom}\ixkeyw{independent}\ixnterm{HomomorphySpecification}
 
@@ -527,8 +527,12 @@ Inside a NAC/PAC the \texttt{hom} operator may only operate on graph elements th
 Nested \texttt{negative}/\texttt{independent} blocks inherit the \texttt{hom} declarations of their nesting pattern.
 In contrast to previous versions of GrGen \texttt{hom} delarations are non-transitive, i.e \texttt{hom(a,b)} and \texttt{hom(b,c)} don't cause \texttt{hom(a,c)} unless specified.
 
+\begin{rail}
+  IsoConstraint: backslash ( '(' (Ident + '+')  ')' | Ident );
+\end{rail}\ixnterm{IsoConstraint}
+
 The \texttt{independent} operator specifies the node or edge given within the parentheses to be homomorphic to all the other pattern elements.
-With the constraint clause following, exceptions can be given defining the pattern elements it must be distinct to.
+With the \indexed{iso constraint} following, exceptions can be given defining the pattern elements it must be distinct to.
 Thus we got a specification mode requesting homomorphic matching with additional isomorphy exceptions in contrast to the default mode,
 requesting isomorphic matching with additional homomorphy exception.
 It is recommended to \emph{not} use the \texttt{independent} operator, it it potentially dangerous allowing to carry out conflicting rewrites, with an element \texttt{a} to be deleted, element \texttt{b} to be kept, and element \texttt{c} to be retyped, all mapping to the same graph element (you will experience funny effects and/or crashes in this case; the \texttt{hom} operator offers some static checks against this).
@@ -539,15 +543,15 @@ i.e. they can't be referenced by name, cf. \ref{patternelementlocking}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Replace/Modify Part}\indexmain{rewrite graph}
+\section{Rewrite Part with Replace and Modify Modes}\indexmain{rewrite}\indexmain{rewrite graph}\indexmain{rewrite part}
 \label{sec:replacemodify}
-Besides specifying the pattern, a main task of a rule is to specify the transformation of a matched subgraph within the \indexed{host graph}.
-Such a \indexed{transformation specification} defines the transition from the \indexed{left hand side} (LHS) to the \indexed{right hand side} (RHS), i.e.\ which graph elements of a match will be kept, which of them will be deleted and which graph elements have to be newly created.
+A rule not only specifies a pattern to be matched, but a transformation from the pattern aka \indexed{left hand side} (LHS) graph to the \indexed{right hand side} (RHS) graph (i.e. a dependent replacement, dependent insofar that the rewrite is specified based on the pattern).
+On applying the rule, an instance of the pattern is searched for in the \indexed{host graph} (yielding a matched subgraph), and alongside the \indexed{transformation specification} are graph elements of the match kept, graph elements of the match deleted, and graph elements newly created.
 
 %-----------------------------------------------------------------------------------------------
 \subsection{Implicit Definition of the Preservation Morphism\indexmain{preservation morphism} $r$}
 \label{rule:morphismr}
-In theory the transformation specification is done by defining the preservation morphism $r$.
+In graph rewriting theory, the transformation specification is done by defining a preservation morphism $r$.
 \begin{figure}[htbp]
 	\centering
   \begin{tikzpicture}
@@ -573,8 +577,9 @@ In theory the transformation specification is done by defining the preservation 
   \label{rule:figrule}
 \end{figure}
 In \GrG\, the preservation morphism $r$ is defined implicitly by using \indexed{name}s both in pattern \indexed{graphlet}s and rewrite graphlets.
-Remember that a name is bound to each of the graph elements, either user defined or internally defined. If such a name is used in a rewrite graphlet, the denoted graph element will be kept.
-Otherwise the graph element will be deleted.
+Remember that a name is bound to each of the graph elements (either user defined or internally defined).
+If such a name is used in a rewrite graphlet, the denoted graph element will be kept.
+Otherwise the graph element will be deleted (unless modify mode is applied).
 By defining a name in a rewrite graphlet a corresponding graph element will be newly created.
 So in a rewrite pattern \indexed{anonymous} graph elements will always be created.
 Using a name multiple times has the same effect as a single using occurrence.
@@ -600,12 +605,12 @@ If an incident node of an edge gets deleted, the edge will be deleted as well (i
 \subsection{Specification Modes for Graph Transformation}
 For the task of rewriting, \GrG\ provides two different modes: A \emph{replace mode} and a \emph{modify mode}.
 \begin{description}
-  \item[Replace mode] \indexmain{replace mode}The semantics of this mode is to delete every graph element of the pattern that is not used (referenced) in the rewrite part, keep every graph element that is used, and create every additionally defined graph element. ``Using'' means that the name of a graph element occurs in a rewrite graphlet. Attribute calculations are no using occurrences.\\
+  \item[Replace mode] \indexmain{replace mode} The semantics of this mode is to delete every graph element of the pattern that is not used (referenced) in the rewrite part, keep every graph element that is used, and create every additionally defined graph element. ``Using'' means that the name of a graph element occurs in a rewrite graphlet. Attribute calculations are no using occurrences.\\
   In Example~\ref{ex:rule:someruleext} the nodes \texttt{varnode} and \texttt{n3} will be kept. The node \texttt{n1} is replaced by the node \texttt{n5} preserving \texttt{n1}'s edges. The anonymous edge instance between \texttt{n1} and \texttt{n2} only occurs in the pattern and therefore gets deleted.\\
 See Section~\ref{rule:morphismr} for a detailed explanation of the transformation semantics.
-  \item[Modify mode] The \indexed{modify mode} can be regarded as a rewrite part in replace mode, where every pattern graph element is added (occurs) before the first rewrite statement.
+  \item[Modify mode] \indexmain{modify mode} In modify mode, all elements are kept, unless it is explicitly specified that they are to be deleted. The \indexed{modify mode} can be regarded as a rewrite part in replace mode, where every pattern graph element is added (occurs) before the first rewrite statement.
 In particular all the \indexed{anonymous} graph elements are kept.
-Additionally this mode supports the \texttt{delete} operator that deletes every element given as an argument.
+This mode supports a \texttt{delete} operator that deletes every element given as an argument.
 Deletion takes place after all other rewrite operations. Multiple deletion of the same graph element is allowed (but pointless) as well as deletion of just created elements (pointless, too).
 
 \begin{note}
@@ -643,7 +648,8 @@ rule SomeRuleExtModify(varnode: Node): (Node, EdgeTypeB)  {
   Rewrite: ('replace' | 'modify') lbrace (()+RewriteStatement) (() | ReturnStatement) \\
   (()+ExecStatement) rbrace ;
 \end{rail}\ixkeyw{replace}\ixkeyw{modify}\ixnterm{Rewrite}\label{replclause}
-Selects whether replace mode or modify mode is used.
+Selects whether replace mode or modify mode is to be used, opening a block as it is known from other \indexed{block nesting} languages and used in other \GrG-constructs, with elements declared inside not being visible from the outside.
+
 Several rewrite statements describe the transformation from the pattern subgraph to the destination subgraph.
 The \emph{ReturnStatement} was already introduced, for tests it can appear in the pattern part.
 Inside rules it can only be given in the rewrite part.
@@ -660,7 +666,7 @@ The \emph{ExecStatement} will be introduced in chapter \ref{cha:imperativeandsta
 
 The semantics of the various rewrite statements are:
 
-\pagebreak
+%\pagebreak
 
 \begin{description}
   \item[Graphlet] \indexmain{graphlet}Analogous to a pattern graphlet; a specification of a connected subgraph. Its graph elements are either kept because they are elements of the pattern or added otherwise. Names defined in the pattern part must not be redefined in the rewrite graphlet. See Section~\ref{rulebb} for a detailed explanation of graphlets.
