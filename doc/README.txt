@@ -95,7 +95,7 @@ HELP
 ----
 
 For further information refer to the "GrGen.NET User Manual" available
-at http://www.grgen.net.
+at http://www.grgen.net (or http://www.grgen.de).
 
 If you find any bugs or have a suggestion, please send an email to:
     grgen@ipd.info.uni-karlsruhe.de
@@ -187,3 +187,11 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with GrGen.  If not, see <http://www.gnu.org/licenses/>.
 
+-------
+
+The graph viewer yComp, which is, for your convenience, part of the release is closed source and free for academic use only.
+You are esp. not allowed to ship it with a release of your own commercial software, in contrast to the GrGen libraries.
+
+To be more specific, see also https://pp.ipd.kit.edu/firm/yComp.html:
+This software is based on the yFiles library.
+yWorks GmbH granted an academic license for „yFiles“ to IPD Goos: An academic license restricts the use of the software (yComp) to non-commercial purposes (research, teaching, projects, courses and application development).
