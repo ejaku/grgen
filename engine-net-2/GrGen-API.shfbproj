@@ -30,19 +30,20 @@
     </WorkingPath>
     <HelpFileFormat>Website</HelpFileFormat>
     <FrameworkVersion>.NET Framework 4.0</FrameworkVersion>
-    <HelpTitle>GrGen.NET v6.6 API: the libGr class library %28the type exact interface gets generated%29</HelpTitle>
+    <HelpTitle>GrGen.NET v6.7 API: the libGr class library %28the type exact interface gets generated%29</HelpTitle>
     <PresentationStyle>VS2013</PresentationStyle>
     <NamingMethod>MemberName</NamingMethod>
     <SyntaxFilters>C#</SyntaxFilters>
     <DocumentationSources>
       <DocumentationSource sourceFile="bin\lgspBackend.dll" />
-<DocumentationSource sourceFile="bin\lgspBackend.xml" />
-<DocumentationSource sourceFile="bin\libGr.dll" />
-<DocumentationSource sourceFile="bin\libGr.xml" />
-<DocumentationSource sourceFile="bin\graphViewerAndSequenceDebugger.dll" />
-<DocumentationSource sourceFile="bin\graphViewerAndSequenceDebugger.xml" />
-<DocumentationSource sourceFile="bin\libGrShell.dll" />
-<DocumentationSource sourceFile="bin\libGrShell.xml" /></DocumentationSources>
+      <DocumentationSource sourceFile="bin\lgspBackend.xml" />
+      <DocumentationSource sourceFile="bin\libGr.dll" />
+      <DocumentationSource sourceFile="bin\libGr.xml" />
+      <DocumentationSource sourceFile="bin\graphViewerAndSequenceDebugger.dll" />
+      <DocumentationSource sourceFile="bin\graphViewerAndSequenceDebugger.xml" />
+      <DocumentationSource sourceFile="bin\libGrShell.dll" />
+      <DocumentationSource sourceFile="bin\libGrShell.xml" />
+    </DocumentationSources>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="(global)" isDocumented="False" />
       <NamespaceSummaryItem name="de.unika.ipd.grGen.libGr" isDocumented="True" />
@@ -81,6 +82,7 @@
     <IndentHtml>False</IndentHtml>
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
+    <FooterText>German legal requirement: &amp;lt%3ba href=&amp;quot%3bimpressum.html&amp;quot%3b&amp;gt%3bImpressum / Imprint&amp;lt%3b/a&amp;gt%3b and &amp;lt%3ba href=&amp;quot%3bdatenschutz.html&amp;quot%3b&amp;gt%3bDatenschutzerkl&amp;#228%3brung / Privacy Statement&amp;lt%3b/a&amp;gt%3b</FooterText>
   </PropertyGroup>
   <!-- There are no properties for these two groups but they need to appear in
        order for Visual Studio to perform the build. -->

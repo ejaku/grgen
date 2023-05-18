@@ -16,4 +16,4 @@ The home page is:
 
 To learn more about GrGen, take a look at its user manual: 
 
-    http://www.info.uni-karlsruhe.de/software/grgen/GrGenNET-Manual.pdf (or https://github.com/ejaku/grgen/blob/master/doc/grgen.pdf)
+    http://www.grgen.de/GrGenNET-Manual.pdf (or https://github.com/ejaku/grgen/blob/master/doc/grgen.pdf)

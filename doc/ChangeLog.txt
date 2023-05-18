@@ -1,4 +1,9 @@
-﻿v6.6 (2022-04-01)
+﻿v6.7 (2023-05-18)
+ Many error message improvements / UX optimizations in the compiler frontend
+ 
+ Minor documentation improvements (including license clarifications regarding yComp and ipd.info.uni-karlsruhe.de removal)
+ 
+v6.6 (2022-04-01)
  Introduced a graphViewerAndSequenceDebugger library
   - to be employed from user code/at API level for graph display and sequence debugging
   - containing esp. a GraphViewer class and DumpAndShowGraph as well as ShowGraph and EndShowGraph methods

@@ -1,4 +1,4 @@
-GrGen.NET v6.6 (2022-04-01)
+GrGen.NET v6.7 (2023-05-18)
 ---------------------------
 
 This is the GrGen.NET system for graph rewriting.
@@ -98,7 +98,7 @@ For further information refer to the "GrGen.NET User Manual" available
 at http://www.grgen.net (or http://www.grgen.de).
 
 If you find any bugs or have a suggestion, please send an email to:
-    grgen@ipd.info.uni-karlsruhe.de
+    grgen@grgen.de
 
 	
 MAIN AUTHORS FROM IPD
@@ -172,7 +172,7 @@ COPYING
 
 Copyright (C) 2003-2022 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
 
-This file is part of GrGen, Version GrGen.NET 6.6
+This file is part of GrGen, Version GrGen.NET 6.7
 
 GrGen is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
