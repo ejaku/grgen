@@ -11730,7 +11730,7 @@
             Creates an instance with the construct(/variable) that comes with a subgraph prefix (but shouldn't) and the subgraph prefix.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceParserExceptionUserMethodsOnlyAvailableForGraphElements.#ctor(System.String,System.String)">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceParserExceptionUserMethodsOnlyAvailableForInheritanceTypes.#ctor(System.String,System.String)">
             <summary>
             Creates an instance with the type a method is called on (not supporting user methods; and the method).
             </summary>
