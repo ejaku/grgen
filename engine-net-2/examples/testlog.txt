@@ -44,7 +44,10 @@ Errors:
   FilterLambdaExpressionErrorCompiled.grs -> 127
   FilterParameterError.grs -> 127
   FilterParameterErrorCompiled.grs -> 127
+  FunctionMethodParametersInNumberMismatch.grs -> 127
+  FunctionMethodParametersInTypeMismatch.grs -> 127
   FunctionMethodParametersMismatchCompiled.grs -> 127
+  FunctionMethodParametersOutTypeMismatch.grs -> 127
   FunctionMethodUnknown.grs -> 127
   FunctionMethodUnknownCompiled.grs -> 127
   FunctionParametersInNumberMismatch.grs -> 127
@@ -72,7 +75,11 @@ Errors:
   MatchRuleUnknownCompiled.grs -> 127
   OperatorNotFound.grs -> 127
   OperatorNotFoundCompiled.grs -> 127
+  ProcedureMethodParametersInNumberMismatch.grs -> 127
+  ProcedureMethodParametersInTypeMismatch.grs -> 127
   ProcedureMethodParametersMismatchCompiled.grs -> 127
+  ProcedureMethodParametersOutNumberMismatch.grs -> 127
+  ProcedureMethodParametersOutTypeMismatch.grs -> 127
   ProcedureMethodUnknown.grs -> 127
   ProcedureMethodUnknownCompiled.grs -> 127
   ProcedureParametersInNumberMismatch.grs -> 127
