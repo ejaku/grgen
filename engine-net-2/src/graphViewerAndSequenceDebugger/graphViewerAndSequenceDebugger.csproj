@@ -55,6 +55,7 @@
     <Compile Include="ElementRealizers.cs" />
     <Compile Include="GraphAnnotationAndChangesRecorder.cs" />
     <Compile Include="GraphViewer.cs" />
+    <Compile Include="GraphViewerClient.cs" />
     <Compile Include="Highlighter.cs" />
     <Compile Include="MatchMarkerAndAnnotator.cs" />
     <Compile Include="ParseException.cs" />

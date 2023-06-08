@@ -107,7 +107,7 @@ namespace de.unika.ipd.grGen.grShell
         public void UpdateDebuggerDisplayAsNeeded()
         {
             if(InDebugMode)
-                debugger.UpdateYCompDisplay();
+                debugger.UpdateGraphViewerDisplay();
         }
 
         public void DisableDebuggerAfterDeletionAsNeeded(ShellGraphProcessingEnvironment deletedShellGraphProcEnv)
@@ -585,7 +585,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(!InDebugMode)
                 return false;
-            if(!debugger.YCompClient.Sync())
+            if(!debugger.GraphViewerClient.Sync())
             {
                 debugger = null;
                 return false;

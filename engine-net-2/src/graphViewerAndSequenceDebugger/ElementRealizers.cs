@@ -141,9 +141,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         int nextNodeRealizerID = 0;
         int nextEdgeRealizerID = 0;
 
-        // the stream to communicate with yComp, null while no debug underway 
+        // the client to communicate with yComp, null while no debug underway 
         // (but we exist to remember debug node/edge mode command)
-        YCompStream ycompStream = null;
+        YCompClient yCompClient = null;
 
 
         public ElementRealizers()
@@ -166,34 +166,34 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             edgeRealizers[(int)ElementMode.Retyped] = GetEdgeRealizer(GrColor.Aquamarine, GrColor.Black, 3, GrLineStyle.Continuous);
         }
 
-        public void RegisterYComp(YCompClient ycompClient)
+        public void RegisterGraphViewerClient(GraphViewerClient graphViewerClient)
         {
-            if(this.ycompStream != null)
-                throw new Exception("there is already a ycomp stream registered");
+            if(this.yCompClient != null)
+                throw new Exception("there is already a ycomp client registered");
 
-            this.ycompStream = ycompClient.ycompStream;
+            this.yCompClient = graphViewerClient.yCompClient;
 
             foreach(NodeRealizer nr in registeredNodeRealizers.Keys)
             {
-                ycompStream.Write("addNodeRealizer \"" + nr.Name + "\" \""
-                                    + VCGDumper.GetColor(nr.BorderColor) + "\" \""
-                                    + VCGDumper.GetColor(nr.Color) + "\" \""
-                                    + VCGDumper.GetColor(nr.TextColor) + "\" \""
-                                    + VCGDumper.GetNodeShape(nr.Shape) + "\"\n");
+                yCompClient.AddNodeRealizer(nr.Name,
+                                    VCGDumper.GetColor(nr.BorderColor),
+                                    VCGDumper.GetColor(nr.Color),
+                                    VCGDumper.GetColor(nr.TextColor),
+                                    VCGDumper.GetNodeShape(nr.Shape));
             }
             foreach(EdgeRealizer er in registeredEdgeRealizers.Keys)
             {
-                ycompStream.Write("addEdgeRealizer \"" + er.Name + "\" \""
-                                    + VCGDumper.GetColor(er.Color) + "\" \""
-                                    + VCGDumper.GetColor(er.TextColor) + "\" \""
-                                    + er.LineWidth + "\" \"" 
-                                    + VCGDumper.GetLineStyle(er.LineStyle) + "\"\n");
+                yCompClient.AddEdgeRealizer(er.Name,
+                                    VCGDumper.GetColor(er.Color),
+                                    VCGDumper.GetColor(er.TextColor),
+                                    er.LineWidth.ToString(),
+                                    VCGDumper.GetLineStyle(er.LineStyle));
             }
         }
 
-        public void UnregisterYComp()
+        public void UnregisterGraphViewerClient()
         {
-            ycompStream = null;
+            yCompClient = null;
         }
 
         internal String GetNodeRealizer(NodeType type, DumpInfo dumpInfo)
@@ -291,13 +291,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             NodeRealizer nr;
             if(!registeredNodeRealizers.TryGetValue(newNr, out nr))
             {
-                if(ycompStream != null)
+                if(yCompClient != null)
                 {
-                    ycompStream.Write("addNodeRealizer \"" + newNr.Name + "\" \""
-                        + VCGDumper.GetColor(borderColor) + "\" \""
-                        + VCGDumper.GetColor(nodeColor) + "\" \""
-                        + VCGDumper.GetColor(textColor) + "\" \""
-                        + VCGDumper.GetNodeShape(shape) + "\"\n");
+                    yCompClient.AddNodeRealizer(newNr.Name,
+                        VCGDumper.GetColor(borderColor),
+                        VCGDumper.GetColor(nodeColor),
+                        VCGDumper.GetColor(textColor),
+                        VCGDumper.GetNodeShape(shape));
                 }
                 registeredNodeRealizers.Add(newNr, newNr);
                 ++nextNodeRealizerID;
@@ -313,13 +313,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             EdgeRealizer er;
             if(!registeredEdgeRealizers.TryGetValue(newEr, out er))
             {
-                if(ycompStream != null)
+                if(yCompClient != null)
                 {
-                    ycompStream.Write("addEdgeRealizer \"" + newEr.Name + "\" \""
-                        + VCGDumper.GetColor(newEr.Color) + "\" \""
-                        + VCGDumper.GetColor(newEr.TextColor) + "\" \""
-                        + lineWidth + "\" \""
-                        + VCGDumper.GetLineStyle(newEr.LineStyle) + "\"\n");
+                    yCompClient.AddEdgeRealizer(newEr.Name,
+                        VCGDumper.GetColor(newEr.Color),
+                        VCGDumper.GetColor(newEr.TextColor),
+                        lineWidth.ToString(),
+                        VCGDumper.GetLineStyle(newEr.LineStyle));
                 }
                 registeredEdgeRealizers.Add(newEr, newEr);
                 ++nextEdgeRealizerID;

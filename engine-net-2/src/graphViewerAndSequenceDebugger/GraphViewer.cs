@@ -35,10 +35,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             DebuggerGraphProcessingEnvironment debuggerProcEnv = new DebuggerGraphProcessingEnvironment(graph);
             ElementRealizers realizers = new ElementRealizers();
-            ycompServerProxy = new YCompServerProxy(YCompServerProxy.GetFreeTCPPort());
-            ycompClient = new YCompClient(graph, layout ?? "Orthogonal", 20000, ycompServerProxy.port,
+            graphViewerClient = new GraphViewerClient(graph, layout ?? "Orthogonal",
                 debuggerProcEnv.DumpInfo, realizers, debuggerProcEnv.NameToClassObject);
-            ycompClient.UploadGraph();
+            graphViewerClient.UploadGraph();
             RegisterGraphEvents(graph);
             this.graph = graph;
         }
@@ -46,16 +45,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void EndShowGraph()
         {
             UnregisterGraphEvents(graph);
-            ycompClient.Close();
-            ycompClient = null;
-            ycompServerProxy.Close();
-            ycompServerProxy = null;
+            graphViewerClient.Close();
+            graphViewerClient = null;
         }
 
         public void UpdateDisplayAndSync()
         {
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            graphViewerClient.UpdateDisplay();
+            graphViewerClient.Sync();
         }
 
         #region Event Handling
@@ -75,56 +72,56 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void DebugNodeAdded(INode node)
         {
-            ycompClient.AddNode(node);
+            graphViewerClient.AddNode(node);
             if(updateDisplay)
-                ycompClient.UpdateDisplay();
+                graphViewerClient.UpdateDisplay();
         }
 
         public void DebugEdgeAdded(IEdge edge)
         {
-            ycompClient.AddEdge(edge);
+            graphViewerClient.AddEdge(edge);
             if(updateDisplay)
-                ycompClient.UpdateDisplay();
+                graphViewerClient.UpdateDisplay();
         }
 
         public void DebugDeletingNode(INode node)
         {
-            ycompClient.DeleteNode(node);
+            graphViewerClient.DeleteNode(node);
             if(updateDisplay)
-                ycompClient.UpdateDisplay();
+                graphViewerClient.UpdateDisplay();
         }
 
         public void DebugDeletingEdge(IEdge edge)
         {
-            ycompClient.DeleteEdge(edge);
+            graphViewerClient.DeleteEdge(edge);
             if(updateDisplay)
-                ycompClient.UpdateDisplay();
+                graphViewerClient.UpdateDisplay();
         }
 
         public void DebugClearingGraph(IGraph graph)
         {
-            ycompClient.ClearGraph();
+            graphViewerClient.ClearGraph();
         }
 
         public void DebugChangedNodeAttribute(INode node, AttributeType attrType)
         {
-            ycompClient.ChangeNodeAttribute(node, attrType);
+            graphViewerClient.ChangeNodeAttribute(node, attrType);
             if(updateDisplay)
-                ycompClient.UpdateDisplay();
+                graphViewerClient.UpdateDisplay();
         }
 
         public void DebugChangedEdgeAttribute(IEdge edge, AttributeType attrType)
         {
-            ycompClient.ChangeEdgeAttribute(edge, attrType);
+            graphViewerClient.ChangeEdgeAttribute(edge, attrType);
             if(updateDisplay)
-                ycompClient.UpdateDisplay();
+                graphViewerClient.UpdateDisplay();
         }
 
         public void DebugRetypingElement(IGraphElement oldElem, IGraphElement newElem)
         {
-            ycompClient.RetypingElement(oldElem, newElem);
+            graphViewerClient.RetypingElement(oldElem, newElem);
             if(updateDisplay)
-                ycompClient.UpdateDisplay();
+                graphViewerClient.UpdateDisplay();
         }
 
         public void UnregisterGraphEvents(INamedGraph graph)
@@ -142,8 +139,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         #endregion Event Handling
 
-        YCompClient ycompClient;
-        YCompServerProxy ycompServerProxy;
+        GraphViewerClient graphViewerClient;
         INamedGraph graph;
         bool updateDisplay;
 

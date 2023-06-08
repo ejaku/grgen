@@ -283,10 +283,10 @@ namespace ApplicationExample
 
         private static void PrintAndWait(String text, Debugger debugger)
         {
-            if(debugger != null && debugger.YCompClient != null)
-                debugger.YCompClient.UpdateDisplay();
-            if(debugger != null && debugger.YCompClient != null)
-                debugger.YCompClient.Sync();
+            if(debugger != null && debugger.GraphViewerClient != null)
+                debugger.GraphViewerClient.UpdateDisplay();
+            if(debugger != null && debugger.GraphViewerClient != null)
+                debugger.GraphViewerClient.Sync();
             Console.WriteLine(text);
             Console.WriteLine("Press a key to continue...");
             Console.ReadKey(true);

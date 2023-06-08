@@ -105,7 +105,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         protected virtual bool CheckDebuggerAlive()
         {
-            return debugger.YCompClient.Sync();
+            return debugger.GraphViewerClient.Sync();
         }
 
         public GrGenType GetGraphElementType(String typeName)

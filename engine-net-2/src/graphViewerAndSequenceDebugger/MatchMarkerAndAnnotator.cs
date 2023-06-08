@@ -18,14 +18,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     {
         readonly ElementRealizers realizers;
         readonly GraphAnnotationAndChangesRecorder renderRecorder = null;
-        readonly YCompClient ycompClient = null;
+        readonly GraphViewerClient graphViewerClient = null;
 
 
-        public MatchMarkerAndAnnotator(ElementRealizers realizers, GraphAnnotationAndChangesRecorder renderRecorder, YCompClient ycompClient)
+        public MatchMarkerAndAnnotator(ElementRealizers realizers, GraphAnnotationAndChangesRecorder renderRecorder, GraphViewerClient graphViewerClient)
         {
             this.realizers = realizers;
             this.renderRecorder = renderRecorder;
-            this.ycompClient = ycompClient;
+            this.graphViewerClient = graphViewerClient;
         }
 
         public void Mark(int rule, int match, SequenceSomeFromSet seq)
@@ -60,11 +60,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             foreach(INode node in match.Nodes)
             {
-                ycompClient.ChangeNode(node, nodeRealizerName);
+                graphViewerClient.ChangeNode(node, nodeRealizerName);
             }
             foreach(IEdge edge in match.Edges)
             {
-                ycompClient.ChangeEdge(edge, edgeRealizerName);
+                graphViewerClient.ChangeEdge(edge, edgeRealizerName);
             }
             MarkMatches(match.EmbeddedGraphs, nodeRealizerName, edgeRealizerName);
             foreach(IMatches iteratedsMatches in match.Iterateds)
@@ -96,7 +96,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             AnnotateMatch(match, addAnnotation, "", 0, true);
             if(addAnnotation)
             {
-                renderRecorder.AnnotateGraphElements(ycompClient);
+                renderRecorder.AnnotateGraphElements(graphViewerClient);
             }
         }
 
@@ -105,7 +105,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             AnnotateMatches(matches, addAnnotation, "", 0, true);
             if(addAnnotation)
             {
-                renderRecorder.AnnotateGraphElements(ycompClient);
+                renderRecorder.AnnotateGraphElements(graphViewerClient);
             }
         }
 
@@ -117,7 +117,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             if(addAnnotation)
             {
-                renderRecorder.AnnotateGraphElements(ycompClient);
+                renderRecorder.AnnotateGraphElements(graphViewerClient);
             }
         }
 
@@ -155,7 +155,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 }
                 else
                 {
-                    ycompClient.AnnotateElement(node, null);
+                    graphViewerClient.AnnotateElement(node, null);
                     renderRecorder.RemoveNodeAnnotation(node);
                 }
             }
@@ -181,7 +181,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 }
                 else
                 {
-                    ycompClient.AnnotateElement(edge, null);
+                    graphViewerClient.AnnotateElement(edge, null);
                     renderRecorder.RemoveEdgeAnnotation(edge);
                 }
             }

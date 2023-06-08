@@ -22,7 +22,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         readonly ElementRealizers realizers;
         readonly GraphAnnotationAndChangesRecorder renderRecorder;
-        readonly YCompClient ycompClient;
+        readonly GraphViewerClient graphViewerClient;
 
         readonly Stack<SequenceBase> debugSequences;
 
@@ -30,7 +30,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             DebuggerGraphProcessingEnvironment debuggerProcEnv,
             ElementRealizers realizers,
             GraphAnnotationAndChangesRecorder renderRecorder,
-            YCompClient ycompClient,
+            GraphViewerClient graphViewerClient,
             Stack<SequenceBase> debugSequences
         )
         {
@@ -38,7 +38,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.debuggerProcEnv = debuggerProcEnv;
             this.realizers = realizers;
             this.renderRecorder = renderRecorder;
-            this.ycompClient = ycompClient;
+            this.graphViewerClient = graphViewerClient;
             this.debugSequences = debugSequences;
         }
 
@@ -118,24 +118,24 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void DoHighlight(List<object> sources, List<string> annotations)
         {
-            if(ycompClient.dumpInfo.IsExcludedGraph())
-                ycompClient.ClearGraph();
+            if(graphViewerClient.dumpInfo.IsExcludedGraph())
+                graphViewerClient.ClearGraph();
 
             for(int i = 0; i < sources.Count; ++i)
             {
                 HighlightValue(sources[i], annotations[i], true);
             }
 
-            if(ycompClient.dumpInfo.IsExcludedGraph())
+            if(graphViewerClient.dumpInfo.IsExcludedGraph())
             {
                 // highlight values added in highlight value calls to excludedGraphNodesIncluded
-                ycompClient.AddNeighboursAndParentsOfNeededGraphElements();
+                graphViewerClient.AddNeighboursAndParentsOfNeededGraphElements();
             }
 
-            renderRecorder.AnnotateGraphElements(ycompClient);
+            renderRecorder.AnnotateGraphElements(graphViewerClient);
 
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            graphViewerClient.UpdateDisplay();
+            graphViewerClient.Sync();
             Console.WriteLine("Press any key to continue...");
             env.ReadKeyWithCancel();
 
@@ -144,8 +144,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 HighlightValue(sources[i], annotations[i], false);
             }
 
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            graphViewerClient.UpdateDisplay();
+            graphViewerClient.Sync();
 
             Console.WriteLine("End of highlighting");
         }
@@ -205,9 +205,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 if(value[i] is INode && i >= 1)
                 {
                     if(addAnnotation)
-                        ycompClient.AddEdge(name + i, name + "[->]", (INode)value[i-1], (INode)value[i]);
+                        graphViewerClient.AddEdge(name + i, name + "[->]", (INode)value[i-1], (INode)value[i]);
                     else
-                        ycompClient.DeleteEdge(name + i);
+                        graphViewerClient.DeleteEdge(name + i);
                 }
             }
         }
@@ -223,9 +223,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 if(elem is INode && distanceToTop >= 1)
                 {
                     if(addAnnotation)
-                        ycompClient.AddEdge(name + distanceToTop, name + "[->]", (INode)prevElem, (INode)elem);
+                        graphViewerClient.AddEdge(name + distanceToTop, name + "[->]", (INode)prevElem, (INode)elem);
                     else
-                        ycompClient.DeleteEdge(name + distanceToTop);
+                        graphViewerClient.DeleteEdge(name + distanceToTop);
                 }
                 prevElem = elem;
                 ++distanceToTop;
@@ -237,9 +237,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             HighlightSingleValue(source, name + ".Domain", addAnnotation);
             HighlightSingleValue(target, name + ".Range", addAnnotation);
             if(addAnnotation)
-                ycompClient.AddEdge(name + cnt, name, source, target);
+                graphViewerClient.AddEdge(name + cnt, name, source, target);
             else
-                ycompClient.DeleteEdge(name + cnt);
+                graphViewerClient.DeleteEdge(name + cnt);
         }
 
         private void HighlightSingleValue(object value, string name, bool addAnnotation)
@@ -286,16 +286,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             if(addAnnotation)
             {
-                if(ycompClient.dumpInfo.IsExcludedGraph())
-                    ycompClient.AddNodeEvenIfGraphExcluded(node);
+                if(graphViewerClient.dumpInfo.IsExcludedGraph())
+                    graphViewerClient.AddNodeEvenIfGraphExcluded(node);
 
-                ycompClient.ChangeNode(node, realizers.MatchedNodeRealizer);
+                graphViewerClient.ChangeNode(node, realizers.MatchedNodeRealizer);
                 renderRecorder.AddNodeAnnotation(node, name);
             }
             else
             {
-                ycompClient.ChangeNode(node, null);
-                ycompClient.AnnotateElement(node, null);
+                graphViewerClient.ChangeNode(node, null);
+                graphViewerClient.AnnotateElement(node, null);
                 renderRecorder.RemoveNodeAnnotation(node);
             }
         }
@@ -304,16 +304,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             if(addAnnotation)
             {
-                if(ycompClient.dumpInfo.IsExcludedGraph())
-                    ycompClient.AddEdgeEvenIfGraphExcluded(edge);
+                if(graphViewerClient.dumpInfo.IsExcludedGraph())
+                    graphViewerClient.AddEdgeEvenIfGraphExcluded(edge);
 
-                ycompClient.ChangeEdge(edge, realizers.MatchedEdgeRealizer);
+                graphViewerClient.ChangeEdge(edge, realizers.MatchedEdgeRealizer);
                 renderRecorder.AddEdgeAnnotation(edge, name);
             }
             else
             {
-                ycompClient.ChangeEdge(edge, null);
-                ycompClient.AnnotateElement(edge, null);
+                graphViewerClient.ChangeEdge(edge, null);
+                graphViewerClient.AnnotateElement(edge, null);
                 renderRecorder.RemoveEdgeAnnotation(edge);
             }
         }

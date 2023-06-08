@@ -31,15 +31,15 @@ namespace DebuggerExample
         }
 
         /// <summary>
-        /// Ensures that the yComp display is up to date, prints out a message, and waits for a key press.
+        /// Ensures that the graph viewer display is up to date, prints out a message, and waits for a key press.
         /// </summary>
         /// <param name="text">The message to be printed.</param>
         private static void PrintAndWait(String text, Debugger debugger)
         {
-            if(debugger != null && debugger.YCompClient != null)
-                debugger.YCompClient.UpdateDisplay();
-            if(debugger != null && debugger.YCompClient != null)
-                debugger.YCompClient.Sync();
+            if(debugger != null && debugger.GraphViewerClient != null)
+                debugger.GraphViewerClient.UpdateDisplay();
+            if(debugger != null && debugger.GraphViewerClient != null)
+                debugger.GraphViewerClient.Sync();
             Console.WriteLine(text);
             Console.WriteLine("Press a key to continue...");
             Console.ReadKey(true);

@@ -10,7 +10,6 @@
 //#define DUMP_COMMANDS_TO_YCOMP
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -19,8 +18,6 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
 using System.Text;
-
-using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
@@ -103,8 +100,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public readonly Process viewerProcess;
         public readonly int port;
     }
-
-    public delegate void ConnectionLostHandler();
 
     /// <summary>
     /// The stream over which the client communicates with yComp
@@ -228,27 +223,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     {
         TcpClient ycompClient;
         internal YCompStream ycompStream;
-
-        INamedGraph graph;
         
-        public DumpInfo dumpInfo;
-
-        bool isDirty = false;
-        bool isLayoutDirty = false;
-
-        Dictionary<IEdge, bool> hiddenEdges = new Dictionary<IEdge,bool>();
-
-        Dictionary<INode, bool> nodesIncludedWhileGraphExcluded = new Dictionary<INode, bool>();
-        Dictionary<IEdge, bool> edgesIncludedWhileGraphExcluded = new Dictionary<IEdge, bool>();
-
-        String nodeRealizerOverride = null;
-        String edgeRealizerOverride = null;
-
-        private ElementRealizers realizers;
-
         private static Dictionary<String, bool> availableLayouts;
-
-        private Dictionary<string, IObject> nameToClassObject;
 
 
         static YCompClient()
@@ -269,14 +245,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// Creates a new YCompClient instance and connects to the local YComp server.
         /// If it is not available an Exception is thrown.
         /// </summary>
-        public YCompClient(INamedGraph graph, String layoutModule, int connectionTimeout, int port,
-            DumpInfo dumpInfo, ElementRealizers realizers, Dictionary<string, IObject> nameToClassObject)
+        public YCompClient(int connectionTimeout, int port)
         {
             try
             {
-                this.graph = graph;
-                this.dumpInfo = dumpInfo;
-
                 int startTime = Environment.TickCount;
 
                 do
@@ -298,22 +270,23 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
                 ycompStream = new YCompStream(ycompClient);
 
-                SetLayout(layoutModule);
-
-                dumpInfo.OnNodeTypeAppearanceChanged += new NodeTypeAppearanceChangedHandler(OnNodeTypeAppearanceChanged);
-                dumpInfo.OnEdgeTypeAppearanceChanged += new EdgeTypeAppearanceChangedHandler(OnEdgeTypeAppearanceChanged);
-                dumpInfo.OnTypeInfotagsChanged += new TypeInfotagsChangedHandler(OnTypeInfotagsChanged);
-
-                this.realizers = realizers;
-                realizers.RegisterYComp(this);
-
-                this.nameToClassObject = nameToClassObject;
                 // TODO: Add group related events
             }
             catch(Exception ex)
             {
                 throw new Exception("Unable to connect to yComp at port " + port + ": " + ex.Message);
             }
+        }
+
+        public void Close()
+        {
+            if(ycompStream.IsStreamOpen)
+            {
+                ycompStream.Closing = true;     // don't care if exit doesn't work
+                ycompStream.Write("exit\n");
+            }
+            ycompClient.Close();
+            ycompClient = null;
         }
 
 
@@ -327,36 +300,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return availableLayouts.ContainsKey(layoutName);
         }
 
-        /// <summary>
-        /// If non-null, overrides the type dependend node realizer (setter used from debugger for added nodes, other realizers are given directly at methods called by debugger)
-        /// </summary>
-        public String NodeRealizerOverride
-        {
-            get { return nodeRealizerOverride; }
-            set { nodeRealizerOverride = value; }
-        }
-
-        /// <summary>
-        /// If non-null, overrides the type dependend edge realizer (setter used from debugger for added edges, other realizers are given directly at methods called by debugger)
-        /// </summary>
-        public String EdgeRealizerOverride
-        {
-            get { return edgeRealizerOverride; }
-            set { edgeRealizerOverride = value; }
-        }
-
-        public INamedGraph Graph 
-        { 
-            get { return graph; }
-            set
-            { 
-                if(isDirty || isLayoutDirty || hiddenEdges.Count > 0) 
-                    throw new Exception("Internal error: first clear the graph before you switch to a new one!");
-                graph = value;
-                dumpInfo.ElementNameGetter = graph.GetElementName;
-            }
-        }
-
         public event ConnectionLostHandler OnConnectionLost
         {
             add { ycompStream.OnConnectionLost += value; }
@@ -367,6 +310,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             get { return ycompStream.Ready; }
         }
+
         public bool ConnectionLost
         {
             get { return !ycompStream.IsStreamOpen; }
@@ -395,8 +339,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void SetLayout(String moduleName)
         {
             ycompStream.Write("setLayout \"" + moduleName + "\"\n");
-            isDirty = true;
-            isLayoutDirty = true;
         }
 
         /// <summary>
@@ -421,17 +363,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         /// <param name="optionName">The name of the option.</param>
         /// <param name="optionValue">The new value.</param>
-        /// <returns>Null, or a error message, if setting the option failed.</returns>
+        /// <returns>"optionset\n", or a error message, if setting the option failed.</returns>
         public String SetLayoutOption(String optionName, String optionValue)
         {
             ycompStream.Write("setLayoutOption \"" + optionName + "\" \"" + optionValue + "\"\n");
             String msg = ycompStream.Read();
-            if(msg == "optionset\n")
-            {
-                isDirty = true;
-                isLayoutDirty = true;
-                return null;
-            }
             return msg;
         }
 
@@ -441,22 +377,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void ForceLayout()
         {
             ycompStream.Write("layout\n");
-            isLayoutDirty = false;
-            isDirty = false;
         }
 
         /// <summary>
-        /// Relayouts the graph if needed.
+        /// Shows the graph (without relayout).
         /// </summary>
-        public void UpdateDisplay()
+        public void Show()
         {
-            if(isLayoutDirty)
-                ForceLayout();
-            else if(isDirty)
-            {
-                ycompStream.Write("show\n");
-                isDirty = false;
-            }
+            ycompStream.Write("show\n");
         }
 
         /// <summary>
@@ -468,406 +396,77 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return ycompStream.Read() == "sync\n";
         }
 
-        public void AddNode(INode node)
+        public void AddSubgraphNode(String name, String nrName, String nodeLabel)
         {
-            if(IsNodeExcluded(node))
-                return;
-
-            String nrName = nodeRealizerOverride ?? realizers.GetNodeRealizer(node.Type, dumpInfo);
-
-            String name = graph.GetElementName(node);
-            if(dumpInfo.GetGroupNodeType(node.Type) != null)
-                ycompStream.Write("addSubgraphNode \"-1\" \"n" + name + "\" \"" + nrName + "\" \"" + GetElemLabel(node) + "\"\n");
-            else
-                ycompStream.Write("addNode \"-1\" \"n" + name + "\" \"" + nrName + "\" \"" + GetElemLabel(node) + "\"\n");
-            foreach(AttributeType attrType in node.Type.AttributeTypes)
-            {
-                string attrTypeString;
-                string attrValueString;
-                EncodeAttr(attrType, node, out attrTypeString, out attrValueString);
-                ycompStream.Write("changeNodeAttr \"n" + name + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
-                    + attrTypeString + "\" \"" + attrValueString + "\"\n");
-            }
-            isDirty = true;
-            isLayoutDirty = true;
+            ycompStream.Write("addSubgraphNode \"-1\" \"n" + name + "\" \"" + nrName + "\" \"" + nodeLabel + "\"\n");
         }
 
-        public void AddNodeEvenIfGraphExcluded(INode node)
+        public void AddNode(String name, String nrName, String nodeLabel)
         {
-            if(!nodesIncludedWhileGraphExcluded.ContainsKey(node))
-            {
-                AddNode(node);
-                nodesIncludedWhileGraphExcluded.Add(node, true);
-            }
+            ycompStream.Write("addNode \"-1\" \"n" + name + "\" \"" + nrName + "\" \"" + nodeLabel + "\"\n");
         }
 
-        public void AddEdge(IEdge edge)
+        public void SetNodeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString, String attrValueString)
         {
-            if(IsEdgeExcluded(edge))
-                return;
+            ycompStream.Write("changeNodeAttr \"n" + name + "\" \"" + ownerTypeName + "::" + attrTypeName + " : "
+                + attrTypeString + "\" \"" + attrValueString + "\"\n");
+        }
 
-            String edgeRealizerName = edgeRealizerOverride ?? realizers.GetEdgeRealizer(edge.Type, dumpInfo);
-
-            String edgeName = graph.GetElementName(edge);
-            String srcName = graph.GetElementName(edge.Source);
-            String tgtName = graph.GetElementName(edge.Target);
-
-            if(edge.Source != edge.Target)
-            {
-                GroupNodeType srcGroupNodeType = dumpInfo.GetGroupNodeType(edge.Source.Type);
-                GroupNodeType tgtGroupNodeType = dumpInfo.GetGroupNodeType(edge.Target.Type);
-                INode groupNodeFirst = null, groupNodeSecond = null;
-                if(tgtGroupNodeType != null)
-                    groupNodeFirst = edge.Target;
-                if(srcGroupNodeType != null)
-                {
-                    if(groupNodeFirst == null)
-                        groupNodeFirst = edge.Source;
-                    else if(srcGroupNodeType.Priority > tgtGroupNodeType.Priority)
-                    {
-                        groupNodeSecond = groupNodeFirst;
-                        groupNodeFirst = edge.Source;
-                    }
-                    else
-                        groupNodeSecond = edge.Source;
-                }
-
-                GroupMode grpMode = GroupMode.None;
-                bool groupedNode = false;
-                if(groupNodeFirst != null)
-                {
-                    groupedNode = TryGroupNode(groupNodeFirst, edge, srcName, tgtName, srcGroupNodeType, tgtGroupNodeType, ref grpMode);
-                    if(!groupedNode && groupNodeSecond != null)
-                        groupedNode = TryGroupNode(groupNodeSecond, edge, srcName, tgtName, srcGroupNodeType, tgtGroupNodeType, ref grpMode);
-                }
-
-                // If no grouping rule applies, grpMode is GroupMode.None (= 0)
-                if((grpMode & GroupMode.Hidden) != 0)
-                {
-                    hiddenEdges[edge] = true;
-                    isDirty = true;
-                    isLayoutDirty = true;
-                    return;
-                }
-            }
-
+        public void AddEdge(String edgeName, String srcName, String tgtName, String edgeRealizerName, String edgeLabel)
+        {
             ycompStream.Write("addEdge \"e" + edgeName + "\" \"n" + srcName + "\" \"n" + tgtName
-                + "\" \"" + edgeRealizerName + "\" \"" + GetElemLabel(edge) + "\"\n");
-            foreach(AttributeType attrType in edge.Type.AttributeTypes)
-            {
-                string attrTypeString;
-                string attrValueString;
-                EncodeAttr(attrType, edge, out attrTypeString, out attrValueString);
-                ycompStream.Write("changeEdgeAttr \"e" + edgeName + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
-                    + attrTypeString + "\" \"" + attrValueString + "\"\n");
-            }
-            isDirty = true;
-            isLayoutDirty = true;
+                + "\" \"" + edgeRealizerName + "\" \"" + edgeLabel + "\"\n");
         }
 
-        public void AddEdgeEvenIfGraphExcluded(IEdge edge)
+        public void SetEdgeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString, String attrValueString)
         {
-            if(!edgesIncludedWhileGraphExcluded.ContainsKey(edge))
-            {
-                AddEdge(edge);
-                edgesIncludedWhileGraphExcluded.Add(edge, true);
-            }
-        }
-
-        /// <summary>
-        /// Adding of helper edge used in debugging, for visualization of map content
-        /// </summary>
-        public void AddEdge(string edgeName, string edgeLabel, INode source, INode target)
-        {
-            String srcName = graph.GetElementName(source);
-            String tgtName = graph.GetElementName(target);
-
-            ycompStream.Write("addEdge \"e" + edgeName + "\" \"n" + srcName + "\" \"n" + tgtName
-                + "\" \"" + realizers.MatchedEdgeRealizer + "\" \"" + edgeLabel + "\"\n");
-            isDirty = true;
-            isLayoutDirty = true;
-        }
-
-        public void AddNeighboursAndParentsOfNeededGraphElements()
-        {
-            // add all neighbours of elements to graph and excludedGraphElementsIncluded (1-level direct context by default, maybe overriden by user)
-            Set<INode> nodesIncluded = new Set<INode>(); // second variable needed to prevent disturbing iteration
-            foreach(INode node in nodesIncludedWhileGraphExcluded.Keys)
-            {
-                nodesIncluded.Add(node);
-            }
-            for(int i = 0; i < dumpInfo.GetExcludeGraphContextDepth(); ++i)
-            {
-                AddDirectNeighboursOfNeededGraphElements(nodesIncluded);
-            }
-
-            // add all parents of elements to graph and excludedGraphElementsIncluded (n-level nesting)
-            AddParentsOfNeededGraphElements(nodesIncluded);
-        }
-
-        private void AddDirectNeighboursOfNeededGraphElements(Set<INode> nodesIncluded)
-        {
-            foreach(INode node in nodesIncluded)
-            {
-                foreach(IEdge edge in node.Incident)
-                {
-                    AddNodeEvenIfGraphExcluded(edge.Opposite(node));
-                    AddEdgeEvenIfGraphExcluded(edge);
-                }
-            }
-            foreach(INode node in nodesIncludedWhileGraphExcluded.Keys)
-            {
-                if(!nodesIncluded.Contains(node))
-                    nodesIncluded.Add(node);
-            }
-        }
-
-        private void AddParentsOfNeededGraphElements(Set<INode> latelyAddedNodes)
-        {
-            Set<INode> newlyAddedNodes = new Set<INode>();
-
-            // wavefront algorithm, in the following step all nodes added by the previous step are inspected,
-            // until the wave collapses cause no not already added node is added any more
-            while(latelyAddedNodes.Count > 0)
-            {
-                foreach(INode node in latelyAddedNodes)
-                {
-                    bool parentFound = false;
-                    foreach(GroupNodeType groupNodeType in dumpInfo.GroupNodeTypes)
-                    {
-                        foreach(IEdge edge in node.Incoming)
-                        {
-                            INode parent = edge.Source;
-                            if(!groupNodeType.NodeType.IsMyType(parent.Type.TypeID))
-                                continue;
-                            GroupMode grpMode = groupNodeType.GetEdgeGroupMode(edge.Type, node.Type);
-                            if((grpMode & GroupMode.GroupOutgoingNodes) == 0)
-                                continue;
-                            if(!nodesIncludedWhileGraphExcluded.ContainsKey(parent))
-                            {
-                                newlyAddedNodes.Add(parent);
-                                AddNode(parent);
-                                nodesIncludedWhileGraphExcluded.Add(parent, true);
-                                AddEdge(edge);
-                                if(!edgesIncludedWhileGraphExcluded.ContainsKey(edge))
-                                    edgesIncludedWhileGraphExcluded.Add(edge, true);
-                            }
-                            parentFound = true;
-                        }
-                        if(parentFound)
-                            break;
-                        foreach(IEdge edge in node.Outgoing)
-                        {
-                            INode parent = edge.Target;
-                            if(!groupNodeType.NodeType.IsMyType(parent.Type.TypeID))
-                                continue;
-                            GroupMode grpMode = groupNodeType.GetEdgeGroupMode(edge.Type, node.Type);
-                            if((grpMode & GroupMode.GroupIncomingNodes) == 0)
-                                continue;
-                            if(!nodesIncludedWhileGraphExcluded.ContainsKey(parent))
-                            {
-                                newlyAddedNodes.Add(parent);
-                                AddNode(parent);
-                                nodesIncludedWhileGraphExcluded.Add(parent, true);
-                                AddEdge(edge);
-                                if(!edgesIncludedWhileGraphExcluded.ContainsKey(edge))
-                                    edgesIncludedWhileGraphExcluded.Add(edge, true);
-                            }
-                            parentFound = true;
-                        }
-                        if(parentFound)
-                            break;
-                    }
-                }
-                Set<INode> tmp = latelyAddedNodes;
-                latelyAddedNodes = newlyAddedNodes;
-                newlyAddedNodes = tmp;
-                newlyAddedNodes.Clear();
-            }
-        }
-
-        /// <summary>
-        /// Annotates the given element with the given string in double angle brackets
-        /// </summary>
-        /// <param name="elem">The element to be annotated</param>
-        /// <param name="annotation">The annotation string or null, if the annotation is to be removed</param>
-        public void AnnotateElement(IGraphElement elem, String annotation)
-        {
-            if(elem is INode)
-            {
-                INode node = (INode)elem;
-                if(IsNodeExcluded(node))
-                    return;
-                ycompStream.Write("setNodeLabel \"n" + graph.GetElementName(elem) + "\" \""
-                    + (annotation == null ? "" : "<<" + annotation + ">>\\n") + GetElemLabel(elem) + "\"\n");
-            }
-            else
-            {
-                IEdge edge = (IEdge)elem;
-                if(IsEdgeExcluded(edge))
-                    return;
-                ycompStream.Write("setEdgeLabel \"e" + graph.GetElementName(elem) + "\" \""
-                    + (annotation == null ? "" : "<<" + annotation + ">>\\n") + GetElemLabel(elem) + "\"\n");
-            }
-            isDirty = true;
+            ycompStream.Write("changeEdgeAttr \"e" + name + "\" \"" + ownerTypeName + "::" + attrTypeName + " : "
+                + attrTypeString + "\" \"" + attrValueString + "\"\n");
         }
 
         /// <summary>
         /// Sets the node realizer of the given node.
         /// If realizer is null, the realizer for the type of the node is used.
         /// </summary>
-        public void ChangeNode(INode node, String realizer)
+        public void ChangeNode(String nodeName, String realizer)
         {
-            if(IsNodeExcluded(node))
-                return;
-
-            if(realizer == null)
-                realizer = realizers.GetNodeRealizer(node.Type, dumpInfo);
-            String name = graph.GetElementName(node);
-            ycompStream.Write("changeNode \"n" + name + "\" \"" + realizer + "\"\n");
-            isDirty = true;
+            ycompStream.Write("changeNode \"n" + nodeName + "\" \"" + realizer + "\"\n");
         }
 
         /// <summary>
         /// Sets the edge realizer of the given edge.
         /// If realizer is null, the realizer for the type of the edge is used.
         /// </summary>
-        public void ChangeEdge(IEdge edge, String realizer)
+        public void ChangeEdge(String edgeName, String realizer)
         {
-            if(IsEdgeExcluded(edge))
-                return;
-            if(hiddenEdges.ContainsKey(edge))
-                return;
-
-            if(realizer == null)
-                realizer = realizers.GetEdgeRealizer(edge.Type, dumpInfo);
-            String name = graph.GetElementName(edge);
-            ycompStream.Write("changeEdge \"e" + name + "\" \"" + realizer + "\"\n");
-            isDirty = true;
+            ycompStream.Write("changeEdge \"e" + edgeName + "\" \"" + realizer + "\"\n");
         }
 
-        public void ChangeNodeAttribute(INode node, AttributeType attrType)
+        public void SetNodeLabel(String name, String label)
         {
-            if(IsNodeExcluded(node))
-                return;
-
-            String attrTypeString;
-            String attrValueString;
-            EncodeAttr(attrType, node, out attrTypeString, out attrValueString);
-
-            String name = graph.GetElementName(node);
-            ycompStream.Write("changeNodeAttr \"n" + name + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
-                    + attrTypeString + "\" \"" + attrValueString + "\"\n");
-            if(dumpInfo.GetTypeInfoTag(node.Type, attrType) != null)
-            {
-                ycompStream.Write("setNodeLabel \"n" + name + "\" \""
-                    + GetElemLabelWithChangedAttr(node, attrType, attrValueString) + "\"\n");
-            }
-            isDirty = true;
+            ycompStream.Write("setNodeLabel \"n" + name + "\" \"" + label + "\"\n");
         }
 
-        public void ChangeEdgeAttribute(IEdge edge, AttributeType attrType)
+        public void SetEdgeLabel(String name, String label)
         {
-            if(IsEdgeExcluded(edge))
-                return;
-            if(hiddenEdges.ContainsKey(edge))
-                return;
-
-            String attrTypeString;
-            String attrValueString;
-            EncodeAttr(attrType, edge, out attrTypeString, out attrValueString);
-
-            String name = graph.GetElementName(edge);
-            ycompStream.Write("changeEdgeAttr \"e" + name + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
-                    + attrTypeString + "\" \"" + attrValueString + "\"\n");
-            List<InfoTag> infotags = dumpInfo.GetTypeInfoTags(edge.Type);
-            if(dumpInfo.GetTypeInfoTag(edge.Type, attrType) != null)
-                ycompStream.Write("setEdgeLabel \"e" + name + "\" \""
-                    + GetElemLabelWithChangedAttr(edge, attrType, attrValueString) + "\"\n");
-            isDirty = true;
+            ycompStream.Write("setEdgeLabel \"e" + name + "\" \"" + label + "\"\n");
         }
 
-        public void RetypingElement(IGraphElement oldElem, IGraphElement newElem)
+        public void ClearNodeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString)
         {
-            bool isNode = oldElem is INode;
-            GraphElementType oldType = oldElem.Type;
-            GraphElementType newType = newElem.Type;
+            ycompStream.Write("clearNodeAttr \"n" + name + "\" \"" + ownerTypeName + "::" + attrTypeName + " : "
+                + attrTypeString + "\"\n");
+        }
 
-            // TODO: Add element, if old element was excluded, but new element is not
-            if(isNode)
-            {
-                INode oldNode = (INode) oldElem;
-                if(IsNodeExcluded(oldNode))
-                    return;
-            }
-            else
-            {
-                IEdge oldEdge = (IEdge) oldElem;
-                if(IsEdgeExcluded(oldEdge))
-                    return;
-                if(hiddenEdges.ContainsKey(oldEdge))
-                    return;       // TODO: Update group relation
-            }
-
-            String elemKind = isNode ? "Node" : "Edge";
-            String elemNamePrefix = isNode ? "n" : "e";
-            String oldName = elemNamePrefix + graph.GetElementName(oldElem);
-
-            ycompStream.Write("set" + elemKind + "Label \"" + oldName + "\" \"" + GetElemLabel(newElem) + "\"\n");
-
-            // remove the old attributes
-            foreach(AttributeType attrType in oldType.AttributeTypes)
-            {
-                String attrTypeString;
-                String attrValueString;
-                EncodeAttr(attrType, oldElem, out attrTypeString, out attrValueString);
-                ycompStream.Write("clear" + elemKind + "Attr \"" + oldName + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
-                    + attrTypeString + "\"\n");
-            }
-            // set the new attributes
-            foreach(AttributeType attrType in newType.AttributeTypes)
-            {
-                String attrTypeString;
-                String attrValueString;
-                EncodeAttr(attrType, newElem, out attrTypeString, out attrValueString);
-                ycompStream.Write("change" + elemKind + "Attr \"" + oldName + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
-                    + attrTypeString + "\" \"" + attrValueString + "\"\n");
-            }
-
-            if(isNode)
-            {
-                String oldNr = realizers.GetNodeRealizer((NodeType)oldType, dumpInfo);
-                String newNr = realizers.GetNodeRealizer((NodeType)newType, dumpInfo);
-                if(oldNr != newNr)
-                    ChangeNode((INode) oldElem, newNr);
-            }
-            else
-            {
-                String oldEr = realizers.GetEdgeRealizer((EdgeType)oldType, dumpInfo);
-                String newEr = realizers.GetEdgeRealizer((EdgeType)newType, dumpInfo);
-                if(oldEr != newEr)
-                    ChangeEdge((IEdge) oldElem, newEr);
-            }
-
-            String newName = elemNamePrefix + graph.GetElementName(newElem);
-            ycompStream.Write("rename" + elemKind + " \"" + oldName + "\" \"" + newName + "\"\n");
-
-            isDirty = true;
+        public void ClearEdgeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString)
+        {
+            ycompStream.Write("clearEdgeAttr \"e" + name + "\" \"" + ownerTypeName + "::" + attrTypeName + " : "
+                + attrTypeString + "\"\n");
         }
 
         public void DeleteNode(String nodeName)
         {
             ycompStream.Write("deleteNode \"n" + nodeName + "\"\n");
-            isDirty = true;
-            isLayoutDirty = true;
-        }
-
-        public void DeleteNode(INode node)
-        {
-            if(IsNodeExcluded(node))
-                return;
-
-            DeleteNode(graph.GetElementName(node));
         }
 
         public void DeleteEdge(String edgeName)
@@ -875,20 +474,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             // TODO: Update group relation
 
             ycompStream.Write("deleteEdge \"e" + edgeName + "\"\n");
-            isDirty = true;
-            isLayoutDirty = true;
-        }
-
-        public void DeleteEdge(IEdge edge)
-        {
-            // TODO: Update group relation
-
-            if(hiddenEdges.ContainsKey(edge))
-                hiddenEdges.Remove(edge);
-            if(IsEdgeExcluded(edge))
-                return;
-
-            DeleteEdge(graph.GetElementName(edge));
         }
 
         public void RenameNode(String oldName, String newName)
@@ -901,32 +486,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             ycompStream.Write("renameEdge \"e" + oldName + "\" \"e" + newName + "\"\n");
         }
 
-        /// <summary>
-        /// Uploads the graph to YComp, updates the display and makes a synchronisation.
-        /// Does not change the stored graph, even though this is required for naming.
-        /// </summary>
-        public void UploadGraph()
-        {
-            foreach(INode node in graph.Nodes)
-            {
-                AddNode(node);
-            }
-            foreach(IEdge edge in graph.Edges)
-            {
-                AddEdge(edge);
-            }
-            UpdateDisplay();
-            Sync();
-        }
-
         public void ClearGraph()
         {
             ycompStream.Write("deleteGraph\n");
-            isDirty = false;
-            isLayoutDirty = false;
-            hiddenEdges.Clear();
-            nodesIncludedWhileGraphExcluded.Clear();
-            edgesIncludedWhileGraphExcluded.Clear();
         }
 
         public void WaitForElement(bool val)
@@ -934,200 +496,30 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             ycompStream.Write("waitForElement " + (val ? "true" : "false") + "\n");
         }
 
-        public void Close()
+        public void MoveNode(String srcName, String tgtName)
         {
-            realizers.UnregisterYComp();
-            
-            if(ycompStream.IsStreamOpen)
-            {
-                ycompStream.Closing = true;     // don't care if exit doesn't work
-                ycompStream.Write("exit\n");
-            }
-            ycompClient.Close();
-            ycompClient = null;
-
-            dumpInfo.OnNodeTypeAppearanceChanged -= new NodeTypeAppearanceChangedHandler(OnNodeTypeAppearanceChanged);
-            dumpInfo.OnEdgeTypeAppearanceChanged -= new EdgeTypeAppearanceChangedHandler(OnEdgeTypeAppearanceChanged);
-            dumpInfo.OnTypeInfotagsChanged -= new TypeInfotagsChangedHandler(OnTypeInfotagsChanged);
+            ycompStream.Write("moveNode \"n" + srcName + "\" \"n" + tgtName + "\"\n");
         }
 
-        void OnNodeTypeAppearanceChanged(NodeType type)
+        public void AddNodeRealizer(String name, String borderColor, String color, String textColor, String nodeShape)
         {
-            if(dumpInfo.IsExcludedNodeType(type))
-                return;
-
-            String nr = realizers.GetNodeRealizer(type, dumpInfo);
-            foreach(INode node in graph.GetExactNodes(type))
-            {
-                ChangeNode(node, nr);
-            }
-            isDirty = true;
+            ycompStream.Write("addNodeRealizer \"" + name + "\" \""
+                                + borderColor + "\" \""
+                                + color + "\" \""
+                                + textColor + "\" \""
+                                + nodeShape + "\"\n");
         }
 
-        void OnEdgeTypeAppearanceChanged(EdgeType type)
+        public void AddEdgeRealizer(String name, String color, String textColor, String lineWidth, String lineStyle)
         {
-            if(dumpInfo.IsExcludedEdgeType(type))
-                return;
-
-            String er = realizers.GetEdgeRealizer(type, dumpInfo);
-            foreach(IEdge edge in graph.GetExactEdges(type))
-            {
-                ChangeEdge(edge, er);
-            }
-            isDirty = true;
+            ycompStream.Write("addEdgeRealizer \"" + name + "\" \""
+                                + color + "\" \""
+                                + textColor + "\" \""
+                                + lineWidth + "\" \"" 
+                                + lineStyle + "\"\n");
         }
 
-        void OnTypeInfotagsChanged(GraphElementType type)
-        {
-            if(type.IsNodeType)
-            {
-                if(dumpInfo.IsExcludedNodeType((NodeType) type))
-                    return;
-
-                foreach(INode node in graph.GetExactNodes((NodeType)type))
-                {
-                    ycompStream.Write("setNodeLabel \"n" + dumpInfo.GetElementName(node) + "\" \"" + GetElemLabel(node) + "\"\n");
-                }
-            }
-            else
-            {
-                if(dumpInfo.IsExcludedEdgeType((EdgeType) type))
-                    return;
-
-                foreach(IEdge edge in graph.GetExactEdges((EdgeType) type))
-                {
-                    if(IsEdgeExcluded(edge))
-                        return; // additionally checks incident nodes
-
-                    ycompStream.Write("setEdgeLabel \"e" + dumpInfo.GetElementName(edge) + "\" \"" + GetElemLabel(edge) + "\"\n");
-                }
-            }
-            isDirty = true;
-        }
-
-        private bool TryGroupNode(INode groupNode, IEdge edge, String srcName, String tgtName,
-            GroupNodeType srcGroupNodeType, GroupNodeType tgtGroupNodeType, ref GroupMode grpMode)
-        {
-            if(groupNode == edge.Target)
-            {
-                grpMode = tgtGroupNodeType.GetEdgeGroupMode(edge.Type, edge.Source.Type);
-                if((grpMode & GroupMode.GroupIncomingNodes) != 0)
-                {
-                    ycompStream.Write("moveNode \"n" + srcName + "\" \"n" + tgtName + "\"\n");
-                    return true;
-                }
-            }
-            else if(groupNode == edge.Source)
-            {
-                grpMode = srcGroupNodeType.GetEdgeGroupMode(edge.Type, edge.Target.Type);
-                if((grpMode & GroupMode.GroupOutgoingNodes) != 0)
-                {
-                    ycompStream.Write("moveNode \"n" + tgtName + "\" \"n" + srcName + "\"\n");
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private String GetElemLabel(IGraphElement elem)
-        {
-            List<InfoTag> infoTagTypes = dumpInfo.GetTypeInfoTags(elem.Type);
-            String label = dumpInfo.GetElemTypeLabel(elem.Type);
-            bool first = true;
-
-            if(label == null)
-            {
-                label = dumpInfo.GetElementName(elem) + ":" + elem.Type.Name;
-                first = false;
-            }
-
-            if(infoTagTypes != null)
-            {
-                foreach(InfoTag infoTag in infoTagTypes)
-                {
-                    string attrTypeString;
-                    string attrValueString;
-                    EncodeAttr(infoTag.AttributeType, elem, out attrTypeString, out attrValueString);
-
-                    if(!first)
-                        label += "\\n";
-                    else
-                        first = false;
-
-                    if(!infoTag.ShortInfoTag)
-                        label += infoTag.AttributeType.Name + " = ";
-                    label += attrValueString;
-                }
-            }
-
-            return label;
-        }
-
-        private String GetElemLabelWithChangedAttr(IGraphElement elem, AttributeType changedAttrType, String newValue)
-        {
-            List<InfoTag> infoTagTypes = dumpInfo.GetTypeInfoTags(elem.Type);
-            String label = dumpInfo.GetElemTypeLabel(elem.Type);
-            bool first = true;
-
-            if(label == null)
-            {
-                label = dumpInfo.GetElementName(elem) + ":" + elem.Type.Name;
-                first = false;
-            }
-
-            if(infoTagTypes != null)
-            {
-                foreach(InfoTag infoTag in infoTagTypes)
-                {
-                    string attrValueString;
-
-                    if(infoTag.AttributeType == changedAttrType)
-                        attrValueString = newValue;
-                    else
-                    {
-                        string attrTypeString;
-                        EncodeAttr(infoTag.AttributeType, elem, out attrTypeString, out attrValueString);
-                    }
-
-                    if(!first)
-                        label += "\\n";
-                    else
-                        first = false;
-
-                    if(!infoTag.ShortInfoTag)
-                        label += infoTag.AttributeType.Name + " = ";
-                    label += attrValueString;
-                }
-            }
-
-            return label;
-        }
-
-        private void EncodeAttr(AttributeType attrType, IGraphElement elem, out String attrTypeString, out String attrValueString)
-        {
-            if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
-            {
-                EmitHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, nameToClassObject, null);
-                attrValueString = Encode(attrValueString);
-            }
-            else if(attrType.Kind == AttributeKind.ArrayAttr)
-            {
-                EmitHelper.ToString((IList)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, nameToClassObject, null);
-                attrValueString = Encode(attrValueString);
-            }
-            else if(attrType.Kind == AttributeKind.DequeAttr)
-            {
-                EmitHelper.ToString((IDeque)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, nameToClassObject, null);
-                attrValueString = Encode(attrValueString);
-            }
-            else
-            {
-                EmitHelper.ToString(elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, nameToClassObject, null);
-                attrValueString = Encode(attrValueString);
-            }
-        }
-
-        private String Encode(String str)
+        public String Encode(String str)
         {
             if(str == null)
                 return "";
@@ -1137,18 +529,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             sb.Replace("\n", "\\n");
             sb.Replace("\"", "&quot;");
             return sb.ToString();
-        }
-
-        bool IsEdgeExcluded(IEdge edge)
-        {
-            return dumpInfo.IsExcludedEdgeType(edge.Type)
-                || dumpInfo.IsExcludedNodeType(edge.Source.Type)
-                || dumpInfo.IsExcludedNodeType(edge.Target.Type);
-        }
-
-        bool IsNodeExcluded(INode node)
-        {
-            return dumpInfo.IsExcludedNodeType(node.Type);
         }
     }
 }

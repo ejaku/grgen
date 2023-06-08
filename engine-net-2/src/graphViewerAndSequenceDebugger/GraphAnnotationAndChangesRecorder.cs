@@ -77,15 +77,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             annotatedEdges.Clear();
         }
 
-        public void AnnotateGraphElements(YCompClient ycompClient)
+        public void AnnotateGraphElements(GraphViewerClient graphViewerClient)
         {
             foreach(KeyValuePair<INode, string> nodeToName in annotatedNodes)
             {
-                ycompClient.AnnotateElement(nodeToName.Key, nodeToName.Value);
+                graphViewerClient.AnnotateElement(nodeToName.Key, nodeToName.Value);
             }
             foreach(KeyValuePair<IEdge, string> edgeToName in annotatedEdges)
             {
-                ycompClient.AnnotateElement(edgeToName.Key, edgeToName.Value);
+                graphViewerClient.AnnotateElement(edgeToName.Key, edgeToName.Value);
             }
         }
 
@@ -195,44 +195,44 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         // applies changes recorded so far, leaving a graph without visible changes behind (e.g. no annotations)
-        public void ApplyChanges(YCompClient ycompClient)
+        public void ApplyChanges(GraphViewerClient graphViewerClient)
         {
             foreach(INode node in addedNodes.Keys)
             {
-                ycompClient.ChangeNode(node, null);
-                ycompClient.AnnotateElement(node, null);
+                graphViewerClient.ChangeNode(node, null);
+                graphViewerClient.AnnotateElement(node, null);
             }
             foreach(IEdge edge in addedEdges.Keys)
             {
-                ycompClient.ChangeEdge(edge, null);
-                ycompClient.AnnotateElement(edge, null);
+                graphViewerClient.ChangeEdge(edge, null);
+                graphViewerClient.AnnotateElement(edge, null);
             }
 
             foreach(String edgeName in deletedEdges)
             {
-                ycompClient.DeleteEdge(edgeName);
+                graphViewerClient.DeleteEdge(edgeName);
             }
             foreach(String nodeName in deletedNodes)
             {
-                ycompClient.DeleteNode(nodeName);
+                graphViewerClient.DeleteNode(nodeName);
             }
 
             foreach(INode node in retypedNodes.Keys)
             {
-                ycompClient.ChangeNode(node, null);
+                graphViewerClient.ChangeNode(node, null);
             }
             foreach(IEdge edge in retypedEdges.Keys)
             {
-                ycompClient.ChangeEdge(edge, null);
+                graphViewerClient.ChangeEdge(edge, null);
             }
 
             foreach(INode node in annotatedNodes.Keys)
             {
-                ycompClient.AnnotateElement(node, null);
+                graphViewerClient.AnnotateElement(node, null);
             }
             foreach(IEdge edge in annotatedEdges.Keys)
             {
-                ycompClient.AnnotateElement(edge, null);
+                graphViewerClient.AnnotateElement(edge, null);
             }
         }
     }

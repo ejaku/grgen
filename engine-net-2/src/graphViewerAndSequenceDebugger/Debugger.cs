@@ -34,8 +34,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public readonly String debugLayout;
         readonly ElementRealizers realizers;
         readonly GraphAnnotationAndChangesRecorder renderRecorder;
-        YCompClient ycompClient = null;
-        YCompServerProxy ycompServerProxy = null;
+        GraphViewerClient graphViewerClient = null;
 
         bool stepMode = true;
         bool dynamicStepMode = false;
@@ -55,13 +54,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         bool lazyChoice = true;
 
-        public YCompClient YCompClient
+        public GraphViewerClient GraphViewerClient
         {
-            get { return ycompClient; }
+            get { return graphViewerClient; }
         }
+
         public bool ConnectionLost
         {
-            get { return ycompClient.ConnectionLost; }
+            get { return graphViewerClient.ConnectionLost; }
         }
 
         private bool notifyOnConnectionLost;
@@ -74,7 +74,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     if(notifyOnConnectionLost)
                     {
                         notifyOnConnectionLost = false;
-                        ycompClient.OnConnectionLost -= new ConnectionLostHandler(DebugOnConnectionLost);
+                        graphViewerClient.OnConnectionLost -= new ConnectionLostHandler(DebugOnConnectionLost);
                     }
                 }
                 else
@@ -82,7 +82,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     if(!notifyOnConnectionLost)
                     {
                         notifyOnConnectionLost = true;
-                        ycompClient.OnConnectionLost += new ConnectionLostHandler(DebugOnConnectionLost);
+                        graphViewerClient.OnConnectionLost += new ConnectionLostHandler(DebugOnConnectionLost);
                     }
                 }
             }
@@ -118,8 +118,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             this.debugLayout = debugLayout;
 
-            ycompServerProxy = new YCompServerProxy(YCompServerProxy.GetFreeTCPPort());
-            ycompClient = new YCompClient(procEnv.NamedGraph, debugLayout ?? "Orthogonal", 20000, ycompServerProxy.port,
+            graphViewerClient = new GraphViewerClient(procEnv.NamedGraph, debugLayout ?? "Orthogonal",
                 debuggerProcEnv.DumpInfo, realizers, debuggerProcEnv.NameToClassObject);
 
             procEnv.NamedGraph.ReuseOptimization = false;
@@ -148,8 +147,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     }
                 }
 
-                if(!ycompClient.dumpInfo.IsExcludedGraph())
-                    ycompClient.UploadGraph();
+                if(!graphViewerClient.dumpInfo.IsExcludedGraph())
+                    graphViewerClient.UploadGraph();
             }
             catch(OperationCanceledException)
             {
@@ -168,17 +167,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         public void Close()
         {
-            if(ycompClient == null)
+            if(graphViewerClient == null)
                 throw new InvalidOperationException("The debugger has already been closed!");
 
             task.UnregisterActionEvents(task.procEnv);
             task.UnregisterGraphEvents(task.procEnv.NamedGraph);
 
             task.procEnv.NamedGraph.ReuseOptimization = true;
-            ycompClient.Close();
-            ycompClient = null;
-            ycompServerProxy.Close();
-            ycompServerProxy = null;
+            graphViewerClient.Close();
+            graphViewerClient = null;
         }
 
         public void InitNewRewriteSequence(Sequence seq, bool withStepMode)
@@ -232,8 +229,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             alwaysShow = true;
             try
             {
-                ycompClient.UpdateDisplay();
-                ycompClient.Sync();
+                graphViewerClient.UpdateDisplay();
+                graphViewerClient.Sync();
             }
             catch(OperationCanceledException)
             {
@@ -248,11 +245,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 // switch to new graph in YComp
                 task.UnregisterActionEvents(debuggerProcEnv.ProcEnv);
                 task.UnregisterGraphEvents(debuggerProcEnv.ProcEnv.NamedGraph);
-                ycompClient.ClearGraph();
+                graphViewerClient.ClearGraph();
                 debuggerProcEnv = value;
-                ycompClient.Graph = debuggerProcEnv.ProcEnv.NamedGraph;
-                if(!ycompClient.dumpInfo.IsExcludedGraph())
-                    ycompClient.UploadGraph();
+                graphViewerClient.Graph = debuggerProcEnv.ProcEnv.NamedGraph;
+                if(!graphViewerClient.dumpInfo.IsExcludedGraph())
+                    graphViewerClient.UploadGraph();
                 task.RegisterGraphEvents(debuggerProcEnv.ProcEnv.NamedGraph);
                 task.RegisterActionEvents(debuggerProcEnv.ProcEnv);
 
@@ -262,22 +259,22 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void ForceLayout()
         {
-            ycompClient.ForceLayout();
+            graphViewerClient.ForceLayout();
         }
 
-        public void UpdateYCompDisplay()
+        public void UpdateGraphViewerDisplay()
         {
-            ycompClient.UpdateDisplay();
+            graphViewerClient.UpdateDisplay();
         }
 
         public void SetLayout(String layout)
         {
-            ycompClient.SetLayout(layout);
+            graphViewerClient.SetLayout(layout);
         }
 
         public void GetLayoutOptions()
         {
-            String str = ycompClient.GetLayoutOptions();
+            String str = graphViewerClient.GetLayoutOptions();
             Console.WriteLine("Available layout options and their current values:\n\n" + str);
         }
 
@@ -289,7 +286,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// <returns>True, iff yComp did not report an error.</returns>
         public bool SetLayoutOption(String optionName, String optionValue)
         {
-            String errorMessage = ycompClient.SetLayoutOption(optionName, optionValue);
+            String errorMessage = graphViewerClient.SetLayoutOption(optionName, optionValue);
             if(errorMessage != null)
                 Console.WriteLine(errorMessage);
             return errorMessage == null;
@@ -613,18 +610,18 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 return;
             }
             Console.WriteLine("Showing graph for the object specified...");
-            ycompClient.ClearGraph();
-            ycompClient.Graph = graph;
-            ycompClient.UploadGraph();
+            graphViewerClient.ClearGraph();
+            graphViewerClient.Graph = graph;
+            graphViewerClient.UploadGraph();
 
             Console.WriteLine("...press any key to continue...");
             env.ReadKeyWithCancel();
 
             Console.WriteLine("...return to normal graph.");
-            ycompClient.ClearGraph();
-            ycompClient.Graph = task.procEnv.NamedGraph;
-            if(!ycompClient.dumpInfo.IsExcludedGraph())
-                ycompClient.UploadGraph();
+            graphViewerClient.ClearGraph();
+            graphViewerClient.Graph = task.procEnv.NamedGraph;
+            if(!graphViewerClient.dumpInfo.IsExcludedGraph())
+                graphViewerClient.UploadGraph();
 
             Console.WriteLine("Back from as-graph display to debugging.");
         }
@@ -633,7 +630,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             Console.Write("Enter name of variable or id of visited flag to highlight (multiple values may be given comma-separated; just enter for abort): ");
             String str = Console.ReadLine();
-            Highlighter highlighter = new Highlighter(env, debuggerProcEnv, realizers, renderRecorder, ycompClient, task.debugSequences);
+            Highlighter highlighter = new Highlighter(env, debuggerProcEnv, realizers, renderRecorder, graphViewerClient, task.debugSequences);
             List<object> values;
             List<string> annotations;
             highlighter.ComputeHighlight(seq, str, out values, out annotations);
@@ -642,7 +639,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void HandleHighlight(List<object> originalValues, List<string> sourceNames)
         {
-            Highlighter highlighter = new Highlighter(env, debuggerProcEnv, realizers, renderRecorder, ycompClient, task.debugSequences);
+            Highlighter highlighter = new Highlighter(env, debuggerProcEnv, realizers, renderRecorder, graphViewerClient, task.debugSequences);
             highlighter.DoHighlight(originalValues, sourceNames);
         }
 
@@ -751,8 +748,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         public int ChooseDirection(int direction, Sequence seq)
         {
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            graphViewerClient.UpdateDisplay();
+            graphViewerClient.Sync();
 
             context.highlightSeq = seq;
             context.choice = true;
@@ -769,8 +766,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         public int ChooseSequence(int seqToExecute, List<Sequence> sequences, SequenceNAry seq)
         {
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            graphViewerClient.UpdateDisplay();
+            graphViewerClient.Sync();
 
             UserChoiceMenu.ChooseSequencePrintHeader(context, seqToExecute);
 
@@ -797,8 +794,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         private int ChooseSequence(int seqToExecute, List<Sequence> sequences, SequenceParallel seq)
         {
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            graphViewerClient.UpdateDisplay();
+            graphViewerClient.Sync();
 
             UserChoiceMenu.ChooseSequenceParallelPrintHeader(context, seqToExecute);
 
@@ -823,8 +820,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         public double ChoosePoint(double pointToExecute, SequenceWeightedOne seq)
         {
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            graphViewerClient.UpdateDisplay();
+            graphViewerClient.Sync();
 
             UserChoiceMenu.ChoosePointPrintHeader(context, pointToExecute);
 
@@ -861,12 +858,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 return totalMatchToExecute;
             }
 
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            graphViewerClient.UpdateDisplay();
+            graphViewerClient.Sync();
 
             UserChoiceMenu.ChooseMatchSomeFromSetPrintHeader(context, totalMatchToExecute);
 
-            MatchMarkerAndAnnotator matchMarkerAndAnnotator = new MatchMarkerAndAnnotator(realizers, renderRecorder, ycompClient);
+            MatchMarkerAndAnnotator matchMarkerAndAnnotator = new MatchMarkerAndAnnotator(realizers, renderRecorder, graphViewerClient);
 
             do
             {
@@ -874,8 +871,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 int match;
                 seq.FromTotalMatch(totalMatchToExecute, out rule, out match);
                 matchMarkerAndAnnotator.Mark(rule, match, seq);
-                ycompClient.UpdateDisplay();
-                ycompClient.Sync();
+                graphViewerClient.UpdateDisplay();
+                graphViewerClient.Sync();
 
                 context.highlightSeq = seq.Sequences[rule];
                 context.choice = true;
@@ -918,15 +915,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             UserChoiceMenu.ChooseMatchPrintHeader(context, numFurtherMatchesToApply);
 
-            MatchMarkerAndAnnotator matchMarkerAndAnnotator = new MatchMarkerAndAnnotator(realizers, renderRecorder, ycompClient);
+            MatchMarkerAndAnnotator matchMarkerAndAnnotator = new MatchMarkerAndAnnotator(realizers, renderRecorder, graphViewerClient);
 
             if(detailedMode)
             {
                 matchMarkerAndAnnotator.MarkMatches(matches, null, null);
                 matchMarkerAndAnnotator.AnnotateMatches(matches, false);
             }
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            graphViewerClient.UpdateDisplay();
+            graphViewerClient.Sync();
 
             int newMatchToRewrite = matchToApply;
             do
@@ -936,8 +933,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 matchToApply = newMatchToRewrite;
                 matchMarkerAndAnnotator.MarkMatch(matches.GetMatch(matchToApply), realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
                 matchMarkerAndAnnotator.AnnotateMatch(matches.GetMatch(matchToApply), true);
-                ycompClient.UpdateDisplay();
-                ycompClient.Sync();
+                graphViewerClient.UpdateDisplay();
+                graphViewerClient.Sync();
 
                 Console.WriteLine("Showing match " + matchToApply + " (of " + matches.Count + " matches available)");
 
@@ -946,8 +943,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 {
                     matchMarkerAndAnnotator.MarkMatch(matches.GetMatch(matchToApply), null, null);
                     matchMarkerAndAnnotator.AnnotateMatch(matches.GetMatch(matchToApply), false);
-                    ycompClient.UpdateDisplay();
-                    ycompClient.Sync();
+                    graphViewerClient.UpdateDisplay();
+                    graphViewerClient.Sync();
                     return newMatchToRewrite;
                 }
             }
@@ -960,8 +957,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         public int ChooseRandomNumber(int randomNumber, int upperBound, Sequence seq)
         {
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            graphViewerClient.UpdateDisplay();
+            graphViewerClient.Sync();
 
             context.highlightSeq = seq;
             context.choice = true;
@@ -978,8 +975,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         public double ChooseRandomNumber(double randomNumber, Sequence seq)
         {
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            graphViewerClient.UpdateDisplay();
+            graphViewerClient.Sync();
 
             context.highlightSeq = seq;
             context.choice = true;
@@ -995,10 +992,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         public string ChooseGraphElement()
         {
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            graphViewerClient.UpdateDisplay();
+            graphViewerClient.Sync();
 
-            ycompClient.WaitForElement(true);
+            graphViewerClient.WaitForElement(true);
 
             // Allow to abort with ESC
             while(true)
@@ -1006,15 +1003,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 if(Console.KeyAvailable && WorkaroundManager.Workaround.ReadKey(true).Key == ConsoleKey.Escape)
                 {
                     Console.WriteLine("Aborted!");
-                    ycompClient.WaitForElement(false);
+                    graphViewerClient.WaitForElement(false);
                     return null;
                 }
-                if(ycompClient.CommandAvailable)
+                if(graphViewerClient.CommandAvailable)
                     break;
                 Thread.Sleep(100);
             }
 
-            String cmd = ycompClient.ReadCommand();
+            String cmd = graphViewerClient.ReadCommand();
             if(cmd.Length < 7 || !cmd.StartsWith("send "))
             {
                 Console.WriteLine("Unexpected yComp command: \"" + cmd + "\"!");
@@ -1031,8 +1028,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         public object ChooseValue(string type, Sequence seq)
         {
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            graphViewerClient.UpdateDisplay();
+            graphViewerClient.Sync();
 
             context.highlightSeq = seq;
             context.choice = true;
@@ -1057,8 +1054,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             string combinedMessage = EmitHelper.GetMessageForAssertion(task.procEnv, message, values);
             task.procEnv.EmitWriterDebug.WriteLine("Assertion failed! (" + combinedMessage + ")");
 
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            graphViewerClient.UpdateDisplay();
+            graphViewerClient.Sync();
 
             context.highlightSeq = task.lastlyEntered;
             SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
@@ -1116,11 +1113,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             foreach(INode node in match.Nodes)
             {
-                ycompClient.AddNodeEvenIfGraphExcluded(node);
+                graphViewerClient.AddNodeEvenIfGraphExcluded(node);
             }
             foreach(IEdge edge in match.Edges)
             {
-                ycompClient.AddEdgeEvenIfGraphExcluded(edge);
+                graphViewerClient.AddEdgeEvenIfGraphExcluded(edge);
             }
             AddNeededGraphElements(match.EmbeddedGraphs);
             foreach(IMatches iteratedsMatches in match.Iterateds)
@@ -1169,17 +1166,17 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 InternalHalt(cr, node);
             }
 
-            if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
+            if(graphViewerClient.dumpInfo.IsExcludedGraph() && !recordMode)
                 return;
 
-            ycompClient.AddNode(node);
+            graphViewerClient.AddNode(node);
             if(recordMode)
             {
                 String nodeName = renderRecorder.AddedNode(node);
-                ycompClient.AnnotateElement(node, nodeName);
+                graphViewerClient.AnnotateElement(node, nodeName);
             }
             else if(alwaysShow)
-                ycompClient.UpdateDisplay();
+                graphViewerClient.UpdateDisplay();
         }
 
         public void DebugEdgeAdded(IEdge edge)
@@ -1191,17 +1188,17 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 InternalHalt(cr, edge);
             }
 
-            if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
+            if(graphViewerClient.dumpInfo.IsExcludedGraph() && !recordMode)
                 return;
             
-            ycompClient.AddEdge(edge);
+            graphViewerClient.AddEdge(edge);
             if(recordMode)
             {
                 String edgeName = renderRecorder.AddedEdge(edge);
-                ycompClient.AnnotateElement(edge, edgeName);
+                graphViewerClient.AnnotateElement(edge, edgeName);
             }
             else if(alwaysShow)
-                ycompClient.UpdateDisplay();
+                graphViewerClient.UpdateDisplay();
         }
 
         public void DebugDeletingNode(INode node)
@@ -1213,22 +1210,22 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 InternalHalt(cr, node);
             }
 
-            if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
+            if(graphViewerClient.dumpInfo.IsExcludedGraph() && !recordMode)
                 return;
             
             if(!recordMode)
             {
-                ycompClient.DeleteNode(node);
+                graphViewerClient.DeleteNode(node);
                 if(alwaysShow)
-                    ycompClient.UpdateDisplay();
+                    graphViewerClient.UpdateDisplay();
             }
             else
             {
                 renderRecorder.RemoveNodeAnnotation(node);
-                ycompClient.ChangeNode(node, realizers.DeletedNodeRealizer);
+                graphViewerClient.ChangeNode(node, realizers.DeletedNodeRealizer);
 
-                String name = ycompClient.Graph.GetElementName(node);
-                ycompClient.RenameNode(name, "zombie_" + name);
+                String name = graphViewerClient.Graph.GetElementName(node);
+                graphViewerClient.RenameNode(name, "zombie_" + name);
                 renderRecorder.DeletedNode("zombie_" + name);
             }
         }
@@ -1242,38 +1239,38 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 InternalHalt(cr, edge);
             }
 
-            if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
+            if(graphViewerClient.dumpInfo.IsExcludedGraph() && !recordMode)
                 return;
             
             if(!recordMode)
             {
-                ycompClient.DeleteEdge(edge);
+                graphViewerClient.DeleteEdge(edge);
                 if(alwaysShow)
-                    ycompClient.UpdateDisplay();
+                    graphViewerClient.UpdateDisplay();
             }
             else
             {
                 renderRecorder.RemoveEdgeAnnotation(edge);
-                ycompClient.ChangeEdge(edge, realizers.DeletedEdgeRealizer);
+                graphViewerClient.ChangeEdge(edge, realizers.DeletedEdgeRealizer);
 
-                String name = ycompClient.Graph.GetElementName(edge);
-                ycompClient.RenameEdge(name, "zombie_" + name);
+                String name = graphViewerClient.Graph.GetElementName(edge);
+                graphViewerClient.RenameEdge(name, "zombie_" + name);
                 renderRecorder.DeletedEdge("zombie_" + name);
             }
         }
 
         public void DebugClearingGraph(IGraph graph)
         {
-            if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
+            if(graphViewerClient.dumpInfo.IsExcludedGraph() && !recordMode)
                 return;
             
-            ycompClient.ClearGraph();
+            graphViewerClient.ClearGraph();
         }
 
         public void DebugChangedNodeAttribute(INode node, AttributeType attrType)
         {
-            if(!ycompClient.dumpInfo.IsExcludedGraph() || recordMode)
-                ycompClient.ChangeNodeAttribute(node, attrType);
+            if(!graphViewerClient.dumpInfo.IsExcludedGraph() || recordMode)
+                graphViewerClient.ChangeNodeAttribute(node, attrType);
             
             SubruleDebuggingConfigurationRule cr;
             if(debuggerProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.SetAttributes,
@@ -1285,8 +1282,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void DebugChangedEdgeAttribute(IEdge edge, AttributeType attrType)
         {
-            if(!ycompClient.dumpInfo.IsExcludedGraph() || recordMode)
-                ycompClient.ChangeEdgeAttribute(edge, attrType);
+            if(!graphViewerClient.dumpInfo.IsExcludedGraph() || recordMode)
+                graphViewerClient.ChangeEdgeAttribute(edge, attrType);
             
             SubruleDebuggingConfigurationRule cr;
             if(debuggerProcEnv.SubruleDebugConfig.Decide(SubruleDebuggingEvent.SetAttributes,
@@ -1305,10 +1302,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 InternalHalt(cr, oldElem);
             }
 
-            if(ycompClient.dumpInfo.IsExcludedGraph() && !recordMode)
+            if(graphViewerClient.dumpInfo.IsExcludedGraph() && !recordMode)
                 return;
             
-            ycompClient.RetypingElement(oldElem, newElem);
+            graphViewerClient.RetypingElement(oldElem, newElem);
             if(!recordMode)
                 return;
 
@@ -1318,8 +1315,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 INode newNode = (INode) newElem;
                 String name;
                 if(renderRecorder.WasNodeAnnotationReplaced(oldNode, newNode, out name))
-                    ycompClient.AnnotateElement(newElem, name);
-                ycompClient.ChangeNode(newNode, realizers.RetypedNodeRealizer);
+                    graphViewerClient.AnnotateElement(newElem, name);
+                graphViewerClient.ChangeNode(newNode, realizers.RetypedNodeRealizer);
                 renderRecorder.RetypedNode(newNode);
             }
             else
@@ -1328,8 +1325,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 IEdge newEdge = (IEdge) newElem;
                 String name;
                 if(renderRecorder.WasEdgeAnnotationReplaced(oldEdge, newEdge, out name))
-                    ycompClient.AnnotateElement(newElem, name);
-                ycompClient.ChangeEdge(newEdge, realizers.RetypedEdgeRealizer);
+                    graphViewerClient.AnnotateElement(newElem, name);
+                graphViewerClient.ChangeEdge(newEdge, realizers.RetypedEdgeRealizer);
                 renderRecorder.RetypedEdge(newEdge);
             }
         }
@@ -1372,23 +1369,23 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             renderRecorder.RemoveAllAnnotations();
 
-            if(ycompClient.dumpInfo.IsExcludedGraph())
+            if(graphViewerClient.dumpInfo.IsExcludedGraph())
             {
                 if(!recordMode)
-                    ycompClient.ClearGraph();
+                    graphViewerClient.ClearGraph();
 
                 // add all elements from match to graph and excludedGraphElementsIncluded
                 AddNeededGraphElements(matchesList);
 
-                ycompClient.AddNeighboursAndParentsOfNeededGraphElements();
+                graphViewerClient.AddNeighboursAndParentsOfNeededGraphElements();
             }
 
-            MatchMarkerAndAnnotator matchMarkerAndAnnotator = new MatchMarkerAndAnnotator(realizers, renderRecorder, ycompClient);
+            MatchMarkerAndAnnotator matchMarkerAndAnnotator = new MatchMarkerAndAnnotator(realizers, renderRecorder, graphViewerClient);
 
             DebugMatchMark(matchMarkerAndAnnotator, matchesList);
 
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            graphViewerClient.UpdateDisplay();
+            graphViewerClient.Sync();
             Console.WriteLine("Press any key to continue " + (task.debugSequences.Count > 0 ? "(with the matches remaining after filtering/of the selected rule)..." : "..."));
             env.ReadKeyWithCancel();
 
@@ -1567,8 +1564,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(dynamicStepMode && !dynamicStepModeSkip)
             {
                 dynamicStepModeSkip = true;
-                ycompClient.UpdateDisplay();
-                ycompClient.Sync();
+                graphViewerClient.UpdateDisplay();
+                graphViewerClient.Sync();
                 context.highlightSeq = task.lastlyEntered;
                 context.success = true;
                 SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
@@ -1610,34 +1607,34 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             renderRecorder.RemoveAllAnnotations();
             renderRecorder.SetCurrentRuleName(ProducerNames(matches));
 
-            if(ycompClient.dumpInfo.IsExcludedGraph())
+            if(graphViewerClient.dumpInfo.IsExcludedGraph())
             {
                 if(!recordMode)
-                    ycompClient.ClearGraph();
+                    graphViewerClient.ClearGraph();
 
                 // add all elements from match to graph and excludedGraphElementsIncluded
                 AddNeededGraphElements(matches);
 
-                ycompClient.AddNeighboursAndParentsOfNeededGraphElements();
+                graphViewerClient.AddNeighboursAndParentsOfNeededGraphElements();
             }
 
-            MatchMarkerAndAnnotator matchMarkerAndAnnotator = new MatchMarkerAndAnnotator(realizers, renderRecorder, ycompClient);
+            MatchMarkerAndAnnotator matchMarkerAndAnnotator = new MatchMarkerAndAnnotator(realizers, renderRecorder, graphViewerClient);
 
             DebugMatchMark(matchMarkerAndAnnotator, matches);
 
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            graphViewerClient.UpdateDisplay();
+            graphViewerClient.Sync();
             QueryForSkipAsRequired(Count(matches), false);
 
             //matchMarkerAndAnnotator.MarkMatches(matches, null, null);
             DebugMatchUnmark(matchMarkerAndAnnotator, matches);
 
-            renderRecorder.ApplyChanges(ycompClient);
+            renderRecorder.ApplyChanges(graphViewerClient);
             renderRecorder.RemoveAllAnnotations();
             renderRecorder.ResetAllChangedElements();
 
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            graphViewerClient.UpdateDisplay();
+            graphViewerClient.Sync();
         }
 
         private void QueryForSkipAsRequired(int countMatches, bool inMatchByMatchProcessing)
@@ -1709,35 +1706,35 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             Console.WriteLine("Showing single match of " + matches.Producer.Name + " ...");
 
-            renderRecorder.ApplyChanges(ycompClient);
+            renderRecorder.ApplyChanges(graphViewerClient);
             renderRecorder.ResetAllChangedElements();
             renderRecorder.RemoveAllAnnotations();
             renderRecorder.SetCurrentRuleName(matches.Producer.RulePattern.PatternGraph.Name);
 
-            if(ycompClient.dumpInfo.IsExcludedGraph())
+            if(graphViewerClient.dumpInfo.IsExcludedGraph())
             {
                 if(!recordMode)
-                    ycompClient.ClearGraph();
+                    graphViewerClient.ClearGraph();
 
                 // add all elements from match to graph and excludedGraphElementsIncluded
                 AddNeededGraphElements(match);
                 
-                ycompClient.AddNeighboursAndParentsOfNeededGraphElements();
+                graphViewerClient.AddNeighboursAndParentsOfNeededGraphElements();
             }
 
-            MatchMarkerAndAnnotator matchMarkerAndAnnotator = new MatchMarkerAndAnnotator(realizers, renderRecorder, ycompClient);
+            MatchMarkerAndAnnotator matchMarkerAndAnnotator = new MatchMarkerAndAnnotator(realizers, renderRecorder, graphViewerClient);
             matchMarkerAndAnnotator.MarkMatch(match, realizers.MatchedNodeRealizer, realizers.MatchedEdgeRealizer);
             matchMarkerAndAnnotator.AnnotateMatch(match, true);
 
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            graphViewerClient.UpdateDisplay();
+            graphViewerClient.Sync();
             QueryForSkipAsRequired(matches.Count, true);
 
             matchMarkerAndAnnotator.MarkMatch(match, null, null);
 
             recordMode = true;
-            ycompClient.NodeRealizerOverride = realizers.NewNodeRealizer;
-            ycompClient.EdgeRealizerOverride = realizers.NewEdgeRealizer;
+            graphViewerClient.NodeRealizerOverride = realizers.NewNodeRealizer;
+            graphViewerClient.EdgeRealizerOverride = realizers.NewEdgeRealizer;
             renderRecorder.ResetAddedNames();
         }
 
@@ -1748,8 +1745,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void DebugSelectedMatchRewritten()
         {
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            graphViewerClient.UpdateDisplay();
+            graphViewerClient.Sync();
             if(detailedMode && detailedModeShowPostMatches)
             {
                 if(task.skipMode.Count > 0 && task.skipMode[task.skipMode.Count - 1])
@@ -1767,9 +1764,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             // clear annotations after displaying single match so user can choose match to apply (occurs before on match selected is fired)
             recordMode = false;
-            ycompClient.NodeRealizerOverride = null;
-            ycompClient.EdgeRealizerOverride = null;
-            renderRecorder.ApplyChanges(ycompClient);
+            graphViewerClient.NodeRealizerOverride = null;
+            graphViewerClient.EdgeRealizerOverride = null;
+            renderRecorder.ApplyChanges(graphViewerClient);
             renderRecorder.ResetAllChangedElements();
             renderRecorder.RemoveAllAnnotations();
         }
@@ -1800,8 +1797,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             Console.Write("Finished " + ProducerNames(matches) + " - ");
             if(detailedModeShowPostMatches)
             {
-                ycompClient.UpdateDisplay();
-                ycompClient.Sync();
+                graphViewerClient.UpdateDisplay();
+                graphViewerClient.Sync();
                 QueryContinueOrTrace(false);
             }
             else
@@ -1813,12 +1810,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 }
             }
 
-            renderRecorder.ApplyChanges(ycompClient);
+            renderRecorder.ApplyChanges(graphViewerClient);
 
             renderRecorder.ResetAllChangedElements();
             recordMode = false;
-            ycompClient.NodeRealizerOverride = null;
-            ycompClient.EdgeRealizerOverride = null;
+            graphViewerClient.NodeRealizerOverride = null;
+            graphViewerClient.EdgeRealizerOverride = null;
             matchDepth--;
         }
 
@@ -1832,8 +1829,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 if(patternMatchingConstruct is SequenceBase)
                 {
-                    ycompClient.UpdateDisplay();
-                    ycompClient.Sync();
+                    graphViewerClient.UpdateDisplay();
+                    graphViewerClient.Sync();
                     context.highlightSeq = (SequenceBase)task.patternMatchingConstructsExecuted[task.patternMatchingConstructsExecuted.Count - 1];
                     context.success = false;
                     if(task.debugSequences.Count > 0)
@@ -1902,8 +1899,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             // root node of sequence entered and interactive debugging activated
             if(stepMode && task.lastlyEntered == null)
             {
-                ycompClient.UpdateDisplay();
-                ycompClient.Sync();
+                graphViewerClient.UpdateDisplay();
+                graphViewerClient.Sync();
                 if(task.debugSequences.Count > 0)
                 {
                     SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
@@ -1942,8 +1939,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(seq is IPatternMatchingConstruct || seq.HasSequenceType(SequenceType.SequenceCall)
                 || breakpointReached)
             {
-                ycompClient.UpdateDisplay();
-                ycompClient.Sync();
+                graphViewerClient.UpdateDisplay();
+                graphViewerClient.Sync();
                 context.highlightSeq = seq;
                 context.success = false;
                 if(task.debugSequences.Count > 0)
@@ -2143,10 +2140,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
                     InitParallelRewriteSequence(parallelExecutionBegin.sequence, stepMode);
 
-                    ycompClient.ClearGraph();
-                    ycompClient.Graph = parallelExecutionBegin.procEnv.NamedGraph;
-                    if(!ycompClient.dumpInfo.IsExcludedGraph())
-                        ycompClient.UploadGraph();
+                    graphViewerClient.ClearGraph();
+                    graphViewerClient.Graph = parallelExecutionBegin.procEnv.NamedGraph;
+                    if(!graphViewerClient.dumpInfo.IsExcludedGraph())
+                        graphViewerClient.UploadGraph();
                 }
             }
         }
@@ -2191,10 +2188,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             InitParallelRewriteSequence((Sequence)task.debugSequences.Peek(), stepMode);
 
-            ycompClient.ClearGraph();
-            ycompClient.Graph = task.procEnv.NamedGraph;
-            if(!ycompClient.dumpInfo.IsExcludedGraph())
-                ycompClient.UploadGraph();
+            graphViewerClient.ClearGraph();
+            graphViewerClient.Graph = task.procEnv.NamedGraph;
+            if(!graphViewerClient.dumpInfo.IsExcludedGraph())
+                graphViewerClient.UploadGraph();
 
             WorkaroundManager.Workaround.PrintHighlighted("< leaving parallel execution", HighlightingMode.SequenceStart);
             Console.WriteLine();
@@ -2212,10 +2209,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             // with the one at the forefront being the top of the stack; would save clearing and uploading
             task.UnregisterGraphEvents(task.procEnv.NamedGraph);
             WorkaroundManager.Workaround.PrintHighlighted("Entering graph...\n", HighlightingMode.SequenceStart);
-            ycompClient.ClearGraph();
-            ycompClient.Graph = (INamedGraph)newGraph;
-            if(!ycompClient.dumpInfo.IsExcludedGraph())
-                ycompClient.UploadGraph();
+            graphViewerClient.ClearGraph();
+            graphViewerClient.Graph = (INamedGraph)newGraph;
+            if(!graphViewerClient.dumpInfo.IsExcludedGraph())
+                graphViewerClient.UploadGraph();
             task.RegisterGraphEvents((INamedGraph)newGraph);
         }
 
@@ -2227,10 +2224,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             task.UnregisterGraphEvents((INamedGraph)oldGraph);
             WorkaroundManager.Workaround.PrintHighlighted("...leaving graph\n", HighlightingMode.SequenceStart);
-            ycompClient.ClearGraph();
-            ycompClient.Graph = task.procEnv.NamedGraph;
-            if(!ycompClient.dumpInfo.IsExcludedGraph())
-                ycompClient.UploadGraph();
+            graphViewerClient.ClearGraph();
+            graphViewerClient.Graph = task.procEnv.NamedGraph;
+            if(!graphViewerClient.dumpInfo.IsExcludedGraph())
+                graphViewerClient.UploadGraph();
             task.RegisterGraphEvents(task.procEnv.NamedGraph);
         }
 
@@ -2331,8 +2328,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             Console.WriteLine();
 
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            graphViewerClient.UpdateDisplay();
+            graphViewerClient.Sync();
             if(!detailedMode)
             {
                 context.highlightSeq = task.lastlyEntered;
@@ -2349,8 +2346,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             WorkaroundManager.Workaround.PrintHighlighted("Break ", HighlightingMode.Breakpoint);
             Console.WriteLine("because " + cr.ToString(data, task.procEnv.NamedGraph, additionalData));
 
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            graphViewerClient.UpdateDisplay();
+            graphViewerClient.Sync();
             if(!detailedMode)
             {
                 context.highlightSeq = task.lastlyEntered;
@@ -2384,8 +2381,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             Console.WriteLine();
 
-            ycompClient.UpdateDisplay();
-            ycompClient.Sync();
+            graphViewerClient.UpdateDisplay();
+            graphViewerClient.Sync();
             if(!detailedMode)
             {
                 context.highlightSeq = task.lastlyEntered;
