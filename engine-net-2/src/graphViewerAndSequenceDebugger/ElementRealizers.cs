@@ -141,9 +141,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         int nextNodeRealizerID = 0;
         int nextEdgeRealizerID = 0;
 
-        // the client to communicate with yComp, null while no debug underway 
+        // the client to communicate with the basic graph viewer (typically yComp), null while no debug underway 
         // (but we exist to remember debug node/edge mode command)
-        YCompClient yCompClient = null;
+        IBasicGraphViewerClient basicClient = null;
 
 
         public ElementRealizers()
@@ -168,14 +168,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void RegisterGraphViewerClient(GraphViewerClient graphViewerClient)
         {
-            if(this.yCompClient != null)
-                throw new Exception("there is already a ycomp client registered");
+            if(this.basicClient != null)
+                throw new Exception("there is already a basic graph viewer client (yComp) registered");
 
-            this.yCompClient = graphViewerClient.yCompClient;
+            this.basicClient = graphViewerClient.basicClient;
 
             foreach(NodeRealizer nr in registeredNodeRealizers.Keys)
             {
-                yCompClient.AddNodeRealizer(nr.Name,
+                basicClient.AddNodeRealizer(nr.Name,
                                     VCGDumper.GetColor(nr.BorderColor),
                                     VCGDumper.GetColor(nr.Color),
                                     VCGDumper.GetColor(nr.TextColor),
@@ -183,7 +183,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             foreach(EdgeRealizer er in registeredEdgeRealizers.Keys)
             {
-                yCompClient.AddEdgeRealizer(er.Name,
+                basicClient.AddEdgeRealizer(er.Name,
                                     VCGDumper.GetColor(er.Color),
                                     VCGDumper.GetColor(er.TextColor),
                                     er.LineWidth.ToString(),
@@ -193,7 +193,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void UnregisterGraphViewerClient()
         {
-            yCompClient = null;
+            basicClient = null;
         }
 
         internal String GetNodeRealizer(NodeType type, DumpInfo dumpInfo)
@@ -291,9 +291,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             NodeRealizer nr;
             if(!registeredNodeRealizers.TryGetValue(newNr, out nr))
             {
-                if(yCompClient != null)
+                if(basicClient != null)
                 {
-                    yCompClient.AddNodeRealizer(newNr.Name,
+                    basicClient.AddNodeRealizer(newNr.Name,
                         VCGDumper.GetColor(borderColor),
                         VCGDumper.GetColor(nodeColor),
                         VCGDumper.GetColor(textColor),
@@ -313,9 +313,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             EdgeRealizer er;
             if(!registeredEdgeRealizers.TryGetValue(newEr, out er))
             {
-                if(yCompClient != null)
+                if(basicClient != null)
                 {
-                    yCompClient.AddEdgeRealizer(newEr.Name,
+                    basicClient.AddEdgeRealizer(newEr.Name,
                         VCGDumper.GetColor(newEr.Color),
                         VCGDumper.GetColor(newEr.TextColor),
                         lineWidth.ToString(),

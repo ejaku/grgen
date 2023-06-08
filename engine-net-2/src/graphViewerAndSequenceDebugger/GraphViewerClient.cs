@@ -24,7 +24,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     public class GraphViewerClient
     {
         YCompServerProxy yCompServerProxy;
-        internal YCompClient yCompClient;
+        internal IBasicGraphViewerClient basicClient;
 
         INamedGraph graph;
         
@@ -58,7 +58,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             yCompServerProxy = new YCompServerProxy(YCompServerProxy.GetFreeTCPPort());
             int connectionTimeout = 20000;
             int port = yCompServerProxy.port;
-            yCompClient = new YCompClient(connectionTimeout, port);
+            basicClient = new YCompClient(connectionTimeout, port);
 
             SetLayout(layoutModule);
 
@@ -77,8 +77,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             realizers.UnregisterGraphViewerClient();
 
-            yCompClient.Close();
-            yCompClient = null;
+            basicClient.Close();
+            basicClient = null;
 
             yCompServerProxy.Close();
             yCompServerProxy = null;
@@ -89,12 +89,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
 
-        public static IEnumerable<String> AvailableLayouts
+        public IEnumerable<String> AvailableLayouts
         {
             get { return YCompClient.AvailableLayouts; }
         }
 
-        public static bool IsValidLayout(String layoutName)     // TODO: allow case insensitive layout name
+        public bool IsValidLayout(String layoutName)     // TODO: allow case insensitive layout name
         {
             return YCompClient.IsValidLayout(layoutName);
         }
@@ -131,23 +131,23 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public event ConnectionLostHandler OnConnectionLost
         {
-            add { yCompClient.OnConnectionLost += value; }
-            remove { yCompClient.OnConnectionLost -= value; }
+            add { basicClient.OnConnectionLost += value; }
+            remove { basicClient.OnConnectionLost -= value; }
         }
 
         public bool CommandAvailable
         {
-            get { return yCompClient.CommandAvailable; }
+            get { return basicClient.CommandAvailable; }
         }
 
         public bool ConnectionLost
         {
-            get { return yCompClient.ConnectionLost; }
+            get { return basicClient.ConnectionLost; }
         }
 
         public String ReadCommand()
         {
-            return yCompClient.ReadCommand();
+            return basicClient.ReadCommand();
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </param>
         public void SetLayout(String moduleName)
         {
-            yCompClient.SetLayout(moduleName);
+            basicClient.SetLayout(moduleName);
             isDirty = true;
             isLayoutDirty = true;
         }
@@ -179,7 +179,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// and the current values.</returns>
         public String GetLayoutOptions()
         {
-            return yCompClient.GetLayoutOptions();
+            return basicClient.GetLayoutOptions();
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// <returns>Null, or a error message, if setting the option failed.</returns>
         public String SetLayoutOption(String optionName, String optionValue)
         {
-            String msg = yCompClient.SetLayoutOption(optionName, optionValue);
+            String msg = basicClient.SetLayoutOption(optionName, optionValue);
             if(msg == "optionset\n")
             {
                 isDirty = true;
@@ -205,7 +205,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         public void ForceLayout()
         {
-            yCompClient.ForceLayout();
+            basicClient.ForceLayout();
         }
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 ForceLayout();
             else if(isDirty)
             {
-                yCompClient.Show();
+                basicClient.Show();
                 isDirty = false;
             }
         }
@@ -227,7 +227,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         public bool Sync()
         {
-            return yCompClient.Sync();
+            return basicClient.Sync();
         }
 
         public void AddNode(INode node)
@@ -239,15 +239,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             String name = graph.GetElementName(node);
             if(dumpInfo.GetGroupNodeType(node.Type) != null)
-                yCompClient.AddSubgraphNode(name, nrName, GetElemLabel(node));
+                basicClient.AddSubgraphNode(name, nrName, GetElemLabel(node));
             else
-                yCompClient.AddNode(name, nrName, GetElemLabel(node));
+                basicClient.AddNode(name, nrName, GetElemLabel(node));
             foreach(AttributeType attrType in node.Type.AttributeTypes)
             {
                 string attrTypeString;
                 string attrValueString;
                 EncodeAttr(attrType, node, out attrTypeString, out attrValueString);
-                yCompClient.SetNodeAttribute(name, attrType.OwnerType.Name, attrType.Name, attrTypeString, attrValueString);
+                basicClient.SetNodeAttribute(name, attrType.OwnerType.Name, attrType.Name, attrTypeString, attrValueString);
             }
             isDirty = true;
             isLayoutDirty = true;
@@ -312,13 +312,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 }
             }
 
-            yCompClient.AddEdge(edgeName, srcName, tgtName, edgeRealizerName, GetElemLabel(edge));
+            basicClient.AddEdge(edgeName, srcName, tgtName, edgeRealizerName, GetElemLabel(edge));
             foreach(AttributeType attrType in edge.Type.AttributeTypes)
             {
                 string attrTypeString;
                 string attrValueString;
                 EncodeAttr(attrType, edge, out attrTypeString, out attrValueString);
-                yCompClient.SetEdgeAttribute(edgeName, attrType.OwnerType.Name, attrType.Name, attrTypeString, attrValueString);
+                basicClient.SetEdgeAttribute(edgeName, attrType.OwnerType.Name, attrType.Name, attrTypeString, attrValueString);
             }
             isDirty = true;
             isLayoutDirty = true;
@@ -341,7 +341,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             String srcName = graph.GetElementName(source);
             String tgtName = graph.GetElementName(target);
 
-            yCompClient.AddEdge(edgeName, srcName, tgtName, realizers.MatchedEdgeRealizer, edgeLabel);
+            basicClient.AddEdge(edgeName, srcName, tgtName, realizers.MatchedEdgeRealizer, edgeLabel);
             isDirty = true;
             isLayoutDirty = true;
         }
@@ -456,14 +456,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 INode node = (INode)elem;
                 if(IsNodeExcluded(node))
                     return;
-                yCompClient.SetNodeLabel(graph.GetElementName(elem), (annotation == null ? "" : "<<" + annotation + ">>\\n") + GetElemLabel(elem));
+                basicClient.SetNodeLabel(graph.GetElementName(elem), (annotation == null ? "" : "<<" + annotation + ">>\\n") + GetElemLabel(elem));
             }
             else
             {
                 IEdge edge = (IEdge)elem;
                 if(IsEdgeExcluded(edge))
                     return;
-                yCompClient.SetEdgeLabel(graph.GetElementName(elem), (annotation == null ? "" : "<<" + annotation + ">>\\n") + GetElemLabel(elem));
+                basicClient.SetEdgeLabel(graph.GetElementName(elem), (annotation == null ? "" : "<<" + annotation + ">>\\n") + GetElemLabel(elem));
             }
             isDirty = true;
         }
@@ -480,7 +480,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(realizer == null)
                 realizer = realizers.GetNodeRealizer(node.Type, dumpInfo);
             String name = graph.GetElementName(node);
-            yCompClient.ChangeNode(name, realizer);
+            basicClient.ChangeNode(name, realizer);
             isDirty = true;
         }
 
@@ -498,7 +498,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(realizer == null)
                 realizer = realizers.GetEdgeRealizer(edge.Type, dumpInfo);
             String name = graph.GetElementName(edge);
-            yCompClient.ChangeEdge(name, realizer);
+            basicClient.ChangeEdge(name, realizer);
             isDirty = true;
         }
 
@@ -512,10 +512,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             EncodeAttr(attrType, node, out attrTypeString, out attrValueString);
 
             String name = graph.GetElementName(node);
-            yCompClient.SetNodeAttribute(name, attrType.OwnerType.Name, attrType.Name, attrTypeString, attrValueString);
+            basicClient.SetNodeAttribute(name, attrType.OwnerType.Name, attrType.Name, attrTypeString, attrValueString);
             if(dumpInfo.GetTypeInfoTag(node.Type, attrType) != null)
             {
-                yCompClient.SetNodeLabel(name, GetElemLabelWithChangedAttr(node, attrType, attrValueString));
+                basicClient.SetNodeLabel(name, GetElemLabelWithChangedAttr(node, attrType, attrValueString));
             }
             isDirty = true;
         }
@@ -532,10 +532,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             EncodeAttr(attrType, edge, out attrTypeString, out attrValueString);
 
             String name = graph.GetElementName(edge);
-            yCompClient.SetEdgeAttribute(name, attrType.OwnerType.Name, attrType.Name, attrTypeString, attrValueString);
+            basicClient.SetEdgeAttribute(name, attrType.OwnerType.Name, attrType.Name, attrTypeString, attrValueString);
             List<InfoTag> infotags = dumpInfo.GetTypeInfoTags(edge.Type);
             if(dumpInfo.GetTypeInfoTag(edge.Type, attrType) != null)
-                yCompClient.SetEdgeLabel(name, GetElemLabelWithChangedAttr(edge, attrType, attrValueString));
+                basicClient.SetEdgeLabel(name, GetElemLabelWithChangedAttr(edge, attrType, attrValueString));
             isDirty = true;
         }
 
@@ -564,9 +564,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             String oldName = graph.GetElementName(oldElem);
 
             if(isNode)
-                yCompClient.SetNodeLabel(oldName, GetElemLabel(newElem));
+                basicClient.SetNodeLabel(oldName, GetElemLabel(newElem));
             else
-                yCompClient.SetEdgeLabel(oldName, GetElemLabel(newElem));
+                basicClient.SetEdgeLabel(oldName, GetElemLabel(newElem));
 
             // remove the old attributes
             foreach(AttributeType attrType in oldType.AttributeTypes)
@@ -575,9 +575,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 String attrValueString;
                 EncodeAttr(attrType, oldElem, out attrTypeString, out attrValueString);
                 if(isNode)
-                    yCompClient.ClearNodeAttribute(oldName, attrType.OwnerType.Name, attrType.Name, attrTypeString);
+                    basicClient.ClearNodeAttribute(oldName, attrType.OwnerType.Name, attrType.Name, attrTypeString);
                 else
-                    yCompClient.ClearEdgeAttribute(oldName, attrType.OwnerType.Name, attrType.Name, attrTypeString);
+                    basicClient.ClearEdgeAttribute(oldName, attrType.OwnerType.Name, attrType.Name, attrTypeString);
             }
             // set the new attributes
             foreach(AttributeType attrType in newType.AttributeTypes)
@@ -586,9 +586,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 String attrValueString;
                 EncodeAttr(attrType, newElem, out attrTypeString, out attrValueString);
                 if(isNode)
-                    yCompClient.SetNodeAttribute(oldName, attrType.OwnerType.Name, attrType.Name, attrTypeString, attrValueString);
+                    basicClient.SetNodeAttribute(oldName, attrType.OwnerType.Name, attrType.Name, attrTypeString, attrValueString);
                 else
-                    yCompClient.SetEdgeAttribute(oldName, attrType.OwnerType.Name, attrType.Name, attrTypeString, attrValueString);
+                    basicClient.SetEdgeAttribute(oldName, attrType.OwnerType.Name, attrType.Name, attrTypeString, attrValueString);
             }
 
             if(isNode)
@@ -608,16 +608,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             String newName = graph.GetElementName(newElem);
             if(isNode)
-                yCompClient.RenameNode(oldName, newName);
+                basicClient.RenameNode(oldName, newName);
             else
-                yCompClient.RenameEdge(oldName, newName);
+                basicClient.RenameEdge(oldName, newName);
 
             isDirty = true;
         }
 
         public void DeleteNode(String nodeName)
         {
-            yCompClient.DeleteNode(nodeName);
+            basicClient.DeleteNode(nodeName);
             isDirty = true;
             isLayoutDirty = true;
         }
@@ -634,7 +634,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             // TODO: Update group relation
 
-            yCompClient.DeleteEdge(edgeName);
+            basicClient.DeleteEdge(edgeName);
             isDirty = true;
             isLayoutDirty = true;
         }
@@ -653,12 +653,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void RenameNode(String oldName, String newName)
         {
-            yCompClient.RenameNode(oldName, newName);
+            basicClient.RenameNode(oldName, newName);
         }
 
         public void RenameEdge(String oldName, String newName)
         {
-            yCompClient.RenameEdge(oldName, newName);
+            basicClient.RenameEdge(oldName, newName);
         }
 
         /// <summary>
@@ -681,7 +681,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void ClearGraph()
         {
-            yCompClient.ClearGraph();
+            basicClient.ClearGraph();
             isDirty = false;
             isLayoutDirty = false;
             hiddenEdges.Clear();
@@ -691,7 +691,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void WaitForElement(bool val)
         {
-            yCompClient.WaitForElement(val);
+            basicClient.WaitForElement(val);
         }
 
         void OnNodeTypeAppearanceChanged(NodeType type)
@@ -729,7 +729,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
                 foreach(INode node in graph.GetExactNodes((NodeType)type))
                 {
-                    yCompClient.SetNodeLabel(dumpInfo.GetElementName(node), GetElemLabel(node));
+                    basicClient.SetNodeLabel(dumpInfo.GetElementName(node), GetElemLabel(node));
                 }
             }
             else
@@ -742,7 +742,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     if(IsEdgeExcluded(edge))
                         return; // additionally checks incident nodes
 
-                    yCompClient.SetEdgeLabel(dumpInfo.GetElementName(edge), GetElemLabel(edge));
+                    basicClient.SetEdgeLabel(dumpInfo.GetElementName(edge), GetElemLabel(edge));
                 }
             }
             isDirty = true;
@@ -756,7 +756,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 grpMode = tgtGroupNodeType.GetEdgeGroupMode(edge.Type, edge.Source.Type);
                 if((grpMode & GroupMode.GroupIncomingNodes) != 0)
                 {
-                    yCompClient.MoveNode(srcName, tgtName);
+                    basicClient.MoveNode(srcName, tgtName);
                     return true;
                 }
             }
@@ -765,7 +765,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 grpMode = srcGroupNodeType.GetEdgeGroupMode(edge.Type, edge.Target.Type);
                 if((grpMode & GroupMode.GroupOutgoingNodes) != 0)
                 {
-                    yCompClient.MoveNode(tgtName, srcName);
+                    basicClient.MoveNode(tgtName, srcName);
                     return true;
                 }
             }
@@ -851,22 +851,22 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
             {
                 EmitHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, nameToClassObject, null);
-                attrValueString = yCompClient.Encode(attrValueString);
+                attrValueString = basicClient.Encode(attrValueString);
             }
             else if(attrType.Kind == AttributeKind.ArrayAttr)
             {
                 EmitHelper.ToString((IList)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, nameToClassObject, null);
-                attrValueString = yCompClient.Encode(attrValueString);
+                attrValueString = basicClient.Encode(attrValueString);
             }
             else if(attrType.Kind == AttributeKind.DequeAttr)
             {
                 EmitHelper.ToString((IDeque)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, nameToClassObject, null);
-                attrValueString = yCompClient.Encode(attrValueString);
+                attrValueString = basicClient.Encode(attrValueString);
             }
             else
             {
                 EmitHelper.ToString(elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, nameToClassObject, null);
-                attrValueString = yCompClient.Encode(attrValueString);
+                attrValueString = basicClient.Encode(attrValueString);
             }
         }
 

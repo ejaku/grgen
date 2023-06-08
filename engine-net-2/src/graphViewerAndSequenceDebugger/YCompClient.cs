@@ -219,7 +219,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     /// Class communicating with yComp over a socket via the GrGen-yComp protocol,
     /// mainly telling yComp what should be displayed (and how)
     /// </summary>
-    public class YCompClient
+    public class YCompClient : IBasicGraphViewerClient
     {
         TcpClient ycompClient;
         internal YCompStream ycompStream;

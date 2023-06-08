@@ -57,6 +57,7 @@
     <Compile Include="GraphViewer.cs" />
     <Compile Include="GraphViewerClient.cs" />
     <Compile Include="Highlighter.cs" />
+    <Compile Include="IBasicGraphViewerClient.cs" />
     <Compile Include="MatchMarkerAndAnnotator.cs" />
     <Compile Include="ParseException.cs" />
     <Compile Include="PrintSequenceContext.cs" />
