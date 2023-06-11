@@ -1,4 +1,11 @@
-﻿v6.7 (2023-05-18)
+﻿v6.8 (2023-??-??)
+ More demanding prerequisites:
+  Increased required .NET version from 4.0 to 4.7.2 (or mono ?)
+ TODO: some filtering tests broken, introduce stable sort or adapt test results (sort order changed in .NET 4.5)
+
+ Introduced MSAGL as graph viewer (experimental)
+
+v6.7 (2023-05-18)
  Many error message improvements / UX optimizations in the compiler frontend
  
  Minor documentation improvements (including license clarifications regarding yComp and ipd.info.uni-karlsruhe.de removal)
