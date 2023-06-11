@@ -4046,6 +4046,11 @@ showavail:
             debugLayout = layout;
         }
 
+        public void GetDebugLayout()
+        {
+            debugOut.WriteLine("Current layout: " + debugLayout);
+        }
+
         public void GetDebugLayoutOptions()
         {
             seqApplierAndDebugger.GetDebugLayoutOptions();

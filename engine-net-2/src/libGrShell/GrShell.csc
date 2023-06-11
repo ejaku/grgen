@@ -1882,10 +1882,14 @@ void DebugCommand():
             }
         )
     |
-        "get" "layout" "options" LineEnd()
-        {
-            impl.GetDebugLayoutOptions();
-        }
+        "get" "layout"
+        (
+            "options" LineEnd()
+            { impl.GetDebugLayoutOptions(); }
+        |
+            LineEnd()
+            { impl.GetDebugLayout(); }
+        )
     |
         LOOKAHEAD(2)
         "set" "node" DebugSetNode()
