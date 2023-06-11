@@ -78,6 +78,7 @@ namespace de.unika.ipd.grGen.grShell
             catch(Exception e)
             {
                 Console.WriteLine("exit due to " + e.Message);
+                Console.WriteLine(e.StackTrace);
                 errorCode = -2;
             }
             finally
