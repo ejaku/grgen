@@ -7,6 +7,7 @@
 
 // by Edgar Jakumeit
 
+using de.unika.ipd.grGen.libGr;
 using System;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
@@ -102,9 +103,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         void MoveNode(String srcName, String tgtName);
 
-        void AddNodeRealizer(String name, String borderColor, String color, String textColor, String nodeShape);
+        void AddNodeRealizer(String name, GrColor borderColor, GrColor color, GrColor textColor, GrNodeShape nodeShape);
 
-        void AddEdgeRealizer(String name, String color, String textColor, String lineWidth, String lineStyle);
+        void AddEdgeRealizer(String name, GrColor color, GrColor textColor, int lineWidth, GrLineStyle lineStyle);
 
         String Encode(String str);
     }

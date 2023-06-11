@@ -274,7 +274,7 @@ namespace ApplicationExample
             Dictionary<String, String> optMap = new Dictionary<String, String>();
             DebuggerEnvironment debuggerEnv = new DebuggerEnvironment();
             DebuggerGraphProcessingEnvironment debuggerProcEnv = new DebuggerGraphProcessingEnvironment(graph, procEnv);
-            Debugger debugger = new Debugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(), "Organic", optMap);
+            Debugger debugger = new Debugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(), "Organic"/*"SugiyamaScheme"*/, optMap);
             debugger.DetailedModeShowPreMatches = true;
             debugger.DetailedModeShowPostMatches = true;
             debuggerEnv.Debugger = debugger;

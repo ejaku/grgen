@@ -10,6 +10,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 using de.unika.ipd.grGen.libGr;
 
@@ -18,13 +19,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     public delegate void ConnectionLostHandler();
 
     /// <summary>
-    /// Class communicating with yComp (later potentially other live graph viewers), over a simple live graph viewer protocol,
-    /// enriching it with diverse higher-level presentation state handling.
+    /// Class communicating with yComp or MSAGL, over a simple live graph viewer protocol,
+    /// some higher-level shared functionality regarding graph presentation state handling is implemented here.
     /// </summary>
     public class GraphViewerClient
     {
-        YCompServerProxy yCompServerProxy;
-        internal IBasicGraphViewerClient basicClient;
+        YCompServerProxy yCompServerProxy; // not null in case the basicClient is a YCompClient
+        internal IBasicGraphViewerClient basicClient; // either the traditional YCompClient or a MSAGLClient
 
         INamedGraph graph;
         
@@ -47,7 +48,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
 
         /// <summary>
-        /// Creates a new GraphViewerClient instance (internally, it creates a YCompClient and connects to the local YComp server).
+        /// Creates a new GraphViewerClient instance.
+        /// internally, it creates a YCompClient and connects to the local YComp server,
+        /// or creates a MSAGLClient, depending on the layout.
         /// </summary>
         public GraphViewerClient(INamedGraph graph, String layoutModule,
             DumpInfo dumpInfo, ElementRealizers realizers, Dictionary<string, IObject> nameToClassObject)
@@ -55,10 +58,21 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.graph = graph;
             this.dumpInfo = dumpInfo;
 
-            yCompServerProxy = new YCompServerProxy(YCompServerProxy.GetFreeTCPPort());
-            int connectionTimeout = 20000;
-            int port = yCompServerProxy.port;
-            basicClient = new YCompClient(connectionTimeout, port);
+            if(MSAGLClient.IsValidLayout(layoutModule))
+            {
+                System.Windows.Forms.Form form = new System.Windows.Forms.Form();
+                form.Size = new System.Drawing.Size((int)(Screen.PrimaryScreen.Bounds.Width * 0.55), (int)(Screen.PrimaryScreen.Bounds.Height * 0.65));
+                form.StartPosition = FormStartPosition.Manual;
+                form.Location = new System.Drawing.Point(0, 0);
+                basicClient = new MSAGLClient(form);
+            }
+            else // default is yCompClient
+            {
+                yCompServerProxy = new YCompServerProxy(YCompServerProxy.GetFreeTCPPort());
+                int connectionTimeout = 20000;
+                int port = yCompServerProxy.port;
+                basicClient = new YCompClient(connectionTimeout, port);
+            }
 
             SetLayout(layoutModule);
 
@@ -80,7 +94,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             basicClient.Close();
             basicClient = null;
 
-            yCompServerProxy.Close();
+            if(yCompServerProxy != null)
+                yCompServerProxy.Close();
             yCompServerProxy = null;
 
             dumpInfo.OnNodeTypeAppearanceChanged -= new NodeTypeAppearanceChangedHandler(OnNodeTypeAppearanceChanged);

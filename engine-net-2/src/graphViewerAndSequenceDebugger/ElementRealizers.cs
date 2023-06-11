@@ -176,18 +176,18 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             foreach(NodeRealizer nr in registeredNodeRealizers.Keys)
             {
                 basicClient.AddNodeRealizer(nr.Name,
-                                    VCGDumper.GetColor(nr.BorderColor),
-                                    VCGDumper.GetColor(nr.Color),
-                                    VCGDumper.GetColor(nr.TextColor),
-                                    VCGDumper.GetNodeShape(nr.Shape));
+                                    nr.BorderColor,
+                                    nr.Color,
+                                    nr.TextColor,
+                                    nr.Shape);
             }
             foreach(EdgeRealizer er in registeredEdgeRealizers.Keys)
             {
                 basicClient.AddEdgeRealizer(er.Name,
-                                    VCGDumper.GetColor(er.Color),
-                                    VCGDumper.GetColor(er.TextColor),
-                                    er.LineWidth.ToString(),
-                                    VCGDumper.GetLineStyle(er.LineStyle));
+                                    er.Color,
+                                    er.TextColor,
+                                    er.LineWidth,
+                                    er.LineStyle);
             }
         }
 
@@ -294,10 +294,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 if(basicClient != null)
                 {
                     basicClient.AddNodeRealizer(newNr.Name,
-                        VCGDumper.GetColor(borderColor),
-                        VCGDumper.GetColor(nodeColor),
-                        VCGDumper.GetColor(textColor),
-                        VCGDumper.GetNodeShape(shape));
+                        borderColor,
+                        nodeColor,
+                        textColor,
+                        shape);
                 }
                 registeredNodeRealizers.Add(newNr, newNr);
                 ++nextNodeRealizerID;
@@ -316,10 +316,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 if(basicClient != null)
                 {
                     basicClient.AddEdgeRealizer(newEr.Name,
-                        VCGDumper.GetColor(newEr.Color),
-                        VCGDumper.GetColor(newEr.TextColor),
-                        lineWidth.ToString(),
-                        VCGDumper.GetLineStyle(newEr.LineStyle));
+                        newEr.Color,
+                        newEr.TextColor,
+                        lineWidth,
+                        newEr.LineStyle);
                 }
                 registeredEdgeRealizers.Add(newEr, newEr);
                 ++nextEdgeRealizerID;

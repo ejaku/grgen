@@ -47,7 +47,7 @@ namespace YCompExample
             }
 
             GraphViewer graphViewer = new GraphViewer();
-            graphViewer.ShowGraph(graph, "Organic"); // Let yComp observe any changes to the graph
+            graphViewer.ShowGraph(graph, "Organic"); // Let yComp observe any changes to the graph -- by setting a layout of MSAGL you would get MSAGL as graph viewer
 
             NodeType processType = graph.GetNodeType("Process");
             EdgeType nextType = graph.GetEdgeType("next");

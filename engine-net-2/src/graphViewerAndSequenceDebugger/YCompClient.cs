@@ -18,6 +18,7 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
 using System.Text;
+using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
@@ -363,7 +364,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         /// <param name="optionName">The name of the option.</param>
         /// <param name="optionValue">The new value.</param>
-        /// <returns>"optionset\n", or a error message, if setting the option failed.</returns>
+        /// <returns>"optionset\n", or an error message, if setting the option failed.</returns>
         public String SetLayoutOption(String optionName, String optionValue)
         {
             ycompStream.Write("setLayoutOption \"" + optionName + "\" \"" + optionValue + "\"\n");
@@ -472,7 +473,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void DeleteEdge(String edgeName)
         {
             // TODO: Update group relation
-
             ycompStream.Write("deleteEdge \"e" + edgeName + "\"\n");
         }
 
@@ -501,22 +501,22 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             ycompStream.Write("moveNode \"n" + srcName + "\" \"n" + tgtName + "\"\n");
         }
 
-        public void AddNodeRealizer(String name, String borderColor, String color, String textColor, String nodeShape)
+        public void AddNodeRealizer(String name, GrColor borderColor, GrColor color, GrColor textColor, GrNodeShape nodeShape)
         {
             ycompStream.Write("addNodeRealizer \"" + name + "\" \""
-                                + borderColor + "\" \""
-                                + color + "\" \""
-                                + textColor + "\" \""
-                                + nodeShape + "\"\n");
+                                + VCGDumper.GetColor(borderColor) + "\" \""
+                                + VCGDumper.GetColor(color) + "\" \""
+                                + VCGDumper.GetColor(textColor) + "\" \""
+                                + VCGDumper.GetNodeShape(nodeShape) + "\"\n");
         }
 
-        public void AddEdgeRealizer(String name, String color, String textColor, String lineWidth, String lineStyle)
+        public void AddEdgeRealizer(String name, GrColor color, GrColor textColor, int lineWidth, GrLineStyle lineStyle)
         {
             ycompStream.Write("addEdgeRealizer \"" + name + "\" \""
-                                + color + "\" \""
-                                + textColor + "\" \""
+                                + VCGDumper.GetColor(color) + "\" \""
+                                + VCGDumper.GetColor(textColor) + "\" \""
                                 + lineWidth + "\" \"" 
-                                + lineStyle + "\"\n");
+                                + VCGDumper.GetLineStyle(lineStyle) + "\"\n");
         }
 
         public String Encode(String str)

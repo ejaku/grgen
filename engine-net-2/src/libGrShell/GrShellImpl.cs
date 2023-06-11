@@ -4022,12 +4022,18 @@ showavail:
 
         public void SetDebugLayout(String layout)
         {
-            if(layout == null || !YCompClient.IsValidLayout(layout))
+            if(layout == null
+                || !YCompClient.IsValidLayout(layout) && !MSAGLClient.IsValidLayout(layout))
             {
                 if(layout != null)
                     errOut.WriteLine("\"" + layout + "\" is not a valid layout name!");
-                debugOut.WriteLine("Available layouts:");
+                debugOut.WriteLine("Available layouts from yComp:");
                 foreach(String layoutName in YCompClient.AvailableLayouts)
+                {
+                    debugOut.WriteLine(" - " + layoutName);
+                }
+                debugOut.WriteLine("Available layouts from MSAGL:");
+                foreach(String layoutName in MSAGLClient.AvailableLayouts)
                 {
                     debugOut.WriteLine(" - " + layoutName);
                 }
