@@ -57,7 +57,7 @@ namespace de.unika.ipd.grGen.grShell
         private bool silenceExec = false; // print match statistics during sequence execution on timer
         private bool cancelSequence = false;
 
-        private Debugger debugger = null;
+        private ConsoleDebugger debugger = null;
 
         private bool pendingDebugEnable = false;
 
@@ -546,7 +546,7 @@ namespace de.unika.ipd.grGen.grShell
                 impl.debugLayoutOptions.TryGetValue(impl.debugLayout, out optMap);
                 try
                 {
-                    debugger = new Debugger(this, impl.curShellProcEnv, impl.realizers, impl.debugLayout, optMap);
+                    debugger = new ConsoleDebugger(this, impl.curShellProcEnv, impl.realizers, impl.debugLayout, optMap);
                     debugger.DetailedModeShowPreMatches = impl.detailModePreMatchEnabled;
                     debugger.DetailedModeShowPostMatches = impl.detailModePostMatchEnabled;
                     impl.curShellProcEnv.ProcEnv.UserProxy = debugger;

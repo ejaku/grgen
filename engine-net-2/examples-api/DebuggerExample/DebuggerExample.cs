@@ -18,12 +18,12 @@ namespace DebuggerExample
         /// <summary>
         /// Opens the debugger.
         /// </summary>
-        private static Debugger OpenDebugger(INamedGraph graph, IGraphProcessingEnvironment procEnv)
+        private static ConsoleDebugger OpenDebugger(INamedGraph graph, IGraphProcessingEnvironment procEnv)
         {
             Dictionary<String, String> optMap = new Dictionary<String, String>();
             DebuggerEnvironment debuggerEnv = new DebuggerEnvironment();
             DebuggerGraphProcessingEnvironment debuggerProcEnv = new DebuggerGraphProcessingEnvironment(graph, procEnv);
-            Debugger debugger = new Debugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(), "Organic", optMap);
+            ConsoleDebugger debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(), "Organic", optMap);
             debugger.DetailedModeShowPreMatches = true;
             debugger.DetailedModeShowPostMatches = true;
             debuggerEnv.Debugger = debugger;
@@ -34,7 +34,7 @@ namespace DebuggerExample
         /// Ensures that the graph viewer display is up to date, prints out a message, and waits for a key press.
         /// </summary>
         /// <param name="text">The message to be printed.</param>
-        private static void PrintAndWait(String text, Debugger debugger)
+        private static void PrintAndWait(String text, ConsoleDebugger debugger)
         {
             if(debugger != null && debugger.GraphViewerClient != null)
                 debugger.GraphViewerClient.UpdateDisplay();
@@ -72,7 +72,7 @@ namespace DebuggerExample
             graph.AddEdge(nextType, p1, p2);
             graph.AddEdge(nextType, p2, p1);
 
-            Debugger debugger = OpenDebugger(graph, procEnv); // Let yComp observe any changes to the graph, and execute the sequence step by step
+            ConsoleDebugger debugger = OpenDebugger(graph, procEnv); // Let yComp observe any changes to the graph, and execute the sequence step by step
 
             PrintAndWait("Initial 2-process ring constructed. Starting now to initialized 7-process ring with resource and requests.", debugger);
             Sequence sequence = procEnv.ParseSequence("newRule[5] && mountRule && requestRule[7]");

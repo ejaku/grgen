@@ -32,12 +32,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public static readonly IConsoleUI UserInterface = new ConsoleUI(Console.In, Console.Out);
 
-        public Debugger Debugger // has to be set after debugger was constructed
+        public ConsoleDebugger Debugger // has to be set after debugger was constructed
         {
             get { return debugger; }
             set { debugger = value; }
         }
-        private Debugger debugger;
+        private ConsoleDebugger debugger;
 
         public virtual void Cancel()
         {

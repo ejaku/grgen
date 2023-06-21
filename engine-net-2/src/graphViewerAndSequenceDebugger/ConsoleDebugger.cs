@@ -19,7 +19,7 @@ using System.Text;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
-    public class Debugger : IUserProxyForSequenceExecution
+    public class ConsoleDebugger : IUserProxyForSequenceExecution
     {
         readonly IDebuggerEnvironment env;
         DebuggerGraphProcessingEnvironment debuggerProcEnv;
@@ -101,7 +101,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// If null, Orthogonal is used.</param>
         /// <param name="layoutOptions">An dictionary mapping layout option names to their values.
         /// It may be null, if no options are to be applied.</param>
-        public Debugger(IDebuggerEnvironment env, DebuggerGraphProcessingEnvironment debuggerProcEnv,
+        public ConsoleDebugger(IDebuggerEnvironment env, DebuggerGraphProcessingEnvironment debuggerProcEnv,
             ElementRealizers realizers, String debugLayout, Dictionary<String, String> layoutOptions)
         {
             IGraphProcessingEnvironment procEnv = debuggerProcEnv.ProcEnv;

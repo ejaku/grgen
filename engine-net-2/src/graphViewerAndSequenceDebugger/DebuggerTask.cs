@@ -15,7 +15,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     class DebuggerTask
     {
-        public Debugger debugger;
+        public ConsoleDebugger debugger;
         public IGraphProcessingEnvironment procEnv;
         public bool isActive;
         public bool isParentOfActive;
@@ -34,7 +34,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public readonly List<IPatternMatchingConstruct> patternMatchingConstructsExecuted = new List<IPatternMatchingConstruct>();
         public readonly List<bool> skipMode = new List<bool>();
 
-        public DebuggerTask(Debugger debugger, IGraphProcessingEnvironment procEnv)
+        public DebuggerTask(ConsoleDebugger debugger, IGraphProcessingEnvironment procEnv)
         {
             this.debugger = debugger;
             this.procEnv = procEnv;
