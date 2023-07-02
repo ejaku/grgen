@@ -616,7 +616,7 @@ namespace de.unika.ipd.grGen.grShell
 
             if(debugModeActivated && CheckDebuggerAlive())   // enabled debug mode here and didn't loose connection?
             {
-                if(UserInterface.ShowMsgAskForYesNo("Do you want to leave debug mode?"))
+                if(ShowMsgAskForYesNo("Do you want to leave debug mode?"))
                     SetDebugMode(false);
             }
         }
@@ -644,7 +644,7 @@ namespace de.unika.ipd.grGen.grShell
 
             if(debugModeActivated && CheckDebuggerAlive())   // enabled debug mode here and didn't loose connection?
             {
-                if(UserInterface.ShowMsgAskForYesNo("Do you want to leave debug mode?"))
+                if(ShowMsgAskForYesNo("Do you want to leave debug mode?"))
                     SetDebugMode(false);
             }
         }

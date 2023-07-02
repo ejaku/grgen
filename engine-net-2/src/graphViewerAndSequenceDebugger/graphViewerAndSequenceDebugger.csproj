@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BreakpointAndChoicepointEditor.cs" />
-    <Compile Include="ConsoleUI.cs" />
     <Compile Include="ConstantParser.cs" />
     <Compile Include="ConstantParserConstants.cs" />
     <Compile Include="ConstantParserHelper.cs" />

@@ -338,7 +338,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(typeName == null)
             {
-                GrShellSequenceApplierAndDebugger.UserInterface.ShowMsgAskForEnter("Pause..");
+                seqApplierAndDebugger.ShowMsgAskForEnter("Pause..");
                 return null;
             }
 

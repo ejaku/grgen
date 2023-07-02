@@ -23,14 +23,19 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         //void HandleSequenceParserException(SequenceParserException ex); is now a static method in DebuggerEnvironment
         string ShowGraphWith(String programName, String arguments, bool keep);
         IGraphElement GetElemByName(String elemName);
+        void ShowMsgAskForEnter(string msg);
+        bool ShowMsgAskForYesNo(string msg);
+        string ShowMsgAskForString(string msg);
+    }
+
+    public class EOFException : IOException
+    {
     }
 
     public class DebuggerEnvironment : IDebuggerEnvironment
     {
         private static readonly TextWriter debugOut = System.Console.Out;
         private static readonly TextWriter errOut = System.Console.Error;
-
-        public static readonly IConsoleUI UserInterface = new ConsoleUI(Console.In, Console.Out);
 
         public ConsoleDebugger Debugger // has to be set after debugger was constructed
         {
@@ -88,7 +93,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             else // else let the user type in the value
             {
-                String inputValue = UserInterface.ShowMsgAskForString("Enter a value of type " + typeName + ": ");
+                String inputValue = ShowMsgAskForString("Enter a value of type " + typeName + ": ");
                 StringReader reader = new StringReader(inputValue);
                 ConstantParser shellForParsing = new ConstantParser(reader);
                 shellForParsing.SetImpl(new ConstantParserHelper(debugger.DebuggerProcEnv));
@@ -243,6 +248,45 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 return null;
             }
             return elem;
+        }
+
+        public string ReadOrEofErr()
+        {
+            string result = Console.In.ReadLine();
+            if(result == null)
+                throw new EOFException();
+            return result;
+        }
+
+        public void ShowMsgAskForEnter(string msg)
+        {
+            debugOut.Write(msg + " [enter] ");
+            ReadOrEofErr();
+        }
+
+        public bool ShowMsgAskForYesNo(string msg)
+        {
+            while(true)
+            {
+                debugOut.Write(msg + " [y(es)/n(o)] ");
+                string result = ReadOrEofErr();
+                if(result.Equals("y", StringComparison.InvariantCultureIgnoreCase) ||
+                    result.Equals("yes", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return true;
+                }
+                else if(result.Equals("n", StringComparison.InvariantCultureIgnoreCase) ||
+                    result.Equals("no", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return false;
+                }
+            }
+        }
+
+        public string ShowMsgAskForString(string msg)
+        {
+            debugOut.Write(msg);
+            return ReadOrEofErr();
         }
     }
 }
