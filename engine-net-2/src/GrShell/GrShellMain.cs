@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using de.unika.ipd.grGen.graphViewerAndSequenceDebugger;
+using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.grShell
 {
@@ -77,8 +78,8 @@ namespace de.unika.ipd.grGen.grShell
             }
             catch(Exception e)
             {
-                Console.WriteLine("exit due to " + e.Message);
-                Console.WriteLine(e.StackTrace);
+                ConsoleUI.outWriter.WriteLine("exit due to " + e.Message);
+                ConsoleUI.outWriter.WriteLine(e.StackTrace);
                 errorCode = -2;
             }
             finally
@@ -91,13 +92,13 @@ namespace de.unika.ipd.grGen.grShell
 
         private static void PrintVersion()
         {
-            Console.WriteLine(GrShellDriver.VersionString + " (enter \"help\" for a list of commands)");
+            ConsoleUI.outWriter.WriteLine(GrShellDriver.VersionString + " (enter \"help\" for a list of commands)");
         }
 
         private static void ShowPromptAsNeeded(bool showPrompt)
         {
             if(showPrompt)
-                Console.Write("> ");
+                ConsoleUI.outWriter.Write("> ");
         }
 
         private static void ParseArguments(string[] args,
@@ -119,20 +120,20 @@ namespace de.unika.ipd.grGen.grShell
                     {
                         if(command != null)
                         {
-                            Console.WriteLine("Another command has already been specified with -C!");
+                            ConsoleUI.outWriter.WriteLine("Another command has already been specified with -C!");
                             errorCode = -1;
                             showUsage = true;
                             break;
                         }
                         if(i + 1 >= args.Length)
                         {
-                            Console.WriteLine("Missing parameter for -C option!");
+                            ConsoleUI.outWriter.WriteLine("Missing parameter for -C option!");
                             errorCode = -1;
                             showUsage = true;
                             break;
                         }
                         command = args[i + 1];
-                        Console.WriteLine("Will execute: \"" + command + "\"");
+                        ConsoleUI.outWriter.WriteLine("Will execute: \"" + command + "\"");
                         ++i;
                     }
                     else if(args[i] == "-N")
@@ -141,13 +142,13 @@ namespace de.unika.ipd.grGen.grShell
                         showIncludes = true;
                     else if(args[i] == "--help")
                     {
-                        Console.WriteLine("Displays help");
+                        ConsoleUI.outWriter.WriteLine("Displays help");
                         showUsage = true;
                         break;
                     }
                     else
                     {
-                        Console.WriteLine("Illegal option: " + args[i]);
+                        ConsoleUI.outWriter.WriteLine("Illegal option: " + args[i]);
                         showUsage = true;
                         errorCode = -1;
                         break;
@@ -161,7 +162,7 @@ namespace de.unika.ipd.grGen.grShell
                         filename = filename + ".grs";
                         if(!File.Exists(filename))
                         {
-                            Console.WriteLine("The script file \"" + args[i] + "\" or \"" + filename + "\" does not exist!");
+                            ConsoleUI.outWriter.WriteLine("The script file \"" + args[i] + "\" or \"" + filename + "\" does not exist!");
                             showUsage = true;
                             errorCode = -1;
                             break;
@@ -174,15 +175,15 @@ namespace de.unika.ipd.grGen.grShell
 
         private static void PrintUsage()
         {
-            Console.WriteLine("Usage: GrShell [-C <command>] [<grs-file>]...");
-            Console.WriteLine("If called without options, GrShell is started awaiting user input. (Type help for help.)");
-            Console.WriteLine("Options:");
-            Console.WriteLine("  -C <command> Specifies a command to be executed >first<. Using");
-            Console.WriteLine("               ';;' as a delimiter it can actually contain multiple shell commands");
-            Console.WriteLine("               Use '#\u00A7' in that case to terminate contained exec.");
-            Console.WriteLine("  -N           non-interactive non-gui shell which exits on error instead of waiting for user input");
-            Console.WriteLine("  -SI          prints to console when includes are entered and exited");
-            Console.WriteLine("  <grs-file>   Includes the grs-file(s) in the given order");
+            ConsoleUI.outWriter.WriteLine("Usage: GrShell [-C <command>] [<grs-file>]...");
+            ConsoleUI.outWriter.WriteLine("If called without options, GrShell is started awaiting user input. (Type help for help.)");
+            ConsoleUI.outWriter.WriteLine("Options:");
+            ConsoleUI.outWriter.WriteLine("  -C <command> Specifies a command to be executed >first<. Using");
+            ConsoleUI.outWriter.WriteLine("               ';;' as a delimiter it can actually contain multiple shell commands");
+            ConsoleUI.outWriter.WriteLine("               Use '#\u00A7' in that case to terminate contained exec.");
+            ConsoleUI.outWriter.WriteLine("  -N           non-interactive non-gui shell which exits on error instead of waiting for user input");
+            ConsoleUI.outWriter.WriteLine("  -SI          prints to console when includes are entered and exited");
+            ConsoleUI.outWriter.WriteLine("  <grs-file>   Includes the grs-file(s) in the given order");
         }
 
         private static int DetermineAndOpenInputSource(String command, List<String> scriptFilename,
@@ -202,7 +203,7 @@ namespace de.unika.ipd.grGen.grShell
                 }
                 catch(Exception e)
                 {
-                    Console.WriteLine("Unable to read file \"" + scriptFilename[0] + "\": " + e.Message);
+                    ConsoleUI.outWriter.WriteLine("Unable to read file \"" + scriptFilename[0] + "\": " + e.Message);
                     reader = null;
                     showPrompt = false;
                     readFromConsole = false;
@@ -214,7 +215,7 @@ namespace de.unika.ipd.grGen.grShell
             }
             else
             {
-                reader = WorkaroundManager.Workaround.In;
+                reader = ConsoleUI.inReader;
                 showPrompt = true;
                 readFromConsole = true;
             }
@@ -241,7 +242,7 @@ namespace de.unika.ipd.grGen.grShell
                 }
                 catch(Exception e)
                 {
-                    Console.WriteLine("Unable to read file \"" + scriptFilename[0] + "\": " + e.Message);
+                    ConsoleUI.outWriter.WriteLine("Unable to read file \"" + scriptFilename[0] + "\": " + e.Message);
                     return -1;
                 }
                 scriptFilename.RemoveAt(0);
@@ -252,7 +253,7 @@ namespace de.unika.ipd.grGen.grShell
             }
             else
             {
-                shell.ReInit(WorkaroundManager.Workaround.In);
+                shell.ReInit(ConsoleUI.inReader);
                 driver.tokenSources.Pop();
                 driver.tokenSources.Push(shell.token_source);
                 showPrompt = true;

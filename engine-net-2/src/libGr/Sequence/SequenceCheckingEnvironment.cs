@@ -267,12 +267,12 @@ namespace de.unika.ipd.grGen.libGr
 
                 if(!argumentType.StartsWith("array<"))
                 {
-                    Console.Error.WriteLine("An all call expects all return parameters T in an array<T>");
+                    ConsoleUI.errorOutWriter.WriteLine("An all call expects all return parameters T in an array<T>");
                     throw new SequenceParserExceptionCallParameterIssue(invocation, -1, CallParameterIssueType.BadReturnParameter, i);
                 }
                 if(!TypesHelper.IsSameOrSubtype(paramterType, argumentType.Substring(6, ReturnVars[i].Type.Length - 7), Model))
                 {
-                    Console.Error.WriteLine("The arrays of the all call are inconsemurable in their value types");
+                    ConsoleUI.errorOutWriter.WriteLine("The arrays of the all call are inconsemurable in their value types");
                     throw new SequenceParserExceptionCallParameterIssue(invocation, -1, CallParameterIssueType.BadReturnParameter, i);
                 }
             }

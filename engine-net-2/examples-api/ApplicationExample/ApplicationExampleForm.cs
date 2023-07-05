@@ -81,7 +81,7 @@ namespace ApplicationExample
             this.AcceptButton = buttonSendToConsole;
 
             if(showPrompt)
-                Console.WriteLine("Please enter the shell commands in the dialog (only debug commands/keys are available here) (suggestion: paste line-by-line the ApplicationExampleMutex10.grs from the local bin/Debug folder).");
+                ConsoleUI.outWriter.WriteLine("Please enter the shell commands in the dialog (only debug commands/keys are available here) (suggestion: paste line-by-line the ApplicationExampleMutex10.grs from the local bin/Debug folder).");
 
             buttonOpenShell.Enabled = false;
             buttonExecuteMutexInShell.Enabled = false;
@@ -102,7 +102,7 @@ namespace ApplicationExample
                 }
                 catch(Exception e)
                 {
-                    Console.WriteLine("Unable to read file \"" + scriptFilename + "\": " + e.Message);
+                    ConsoleUI.outWriter.WriteLine("Unable to read file \"" + scriptFilename + "\": " + e.Message);
                     reader = null;
                     showPrompt = false;
                     readFromConsole = false;
@@ -126,14 +126,14 @@ namespace ApplicationExample
             // allocate Windows Console and reopen stdout (note: VisualStudio is carring out some redirections in the debugger, 
             // see how to handle these, besides starting outside debugger and attaching after this code was executed (TODO))
             bool result = AllocConsole();
-            Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
+            Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true }); // ConsoleUI is forwarded to the normal Console unless explicitly redefined
         }
 
         private void buttonSendToConsole_Click(object sender, EventArgs e)
         {
             InitReader(textBoxCommandLine.Text + "\n");
 
-            Console.WriteLine("> " + textBoxCommandLine.Text);
+            ConsoleUI.outWriter.WriteLine("> " + textBoxCommandLine.Text);
 
             ExecuteSingleCommand();
         }
@@ -150,7 +150,7 @@ namespace ApplicationExample
             }
             catch(Exception ex)
             {
-                Console.WriteLine("exit due to " + ex.Message);
+                ConsoleUI.outWriter.WriteLine("exit due to " + ex.Message);
                 int errorCode = -2;
                 ShowErrorDialog(errorCode);
             }
@@ -176,7 +176,7 @@ namespace ApplicationExample
             }
             catch(Exception ex)
             {
-                Console.WriteLine("exit due to " + ex.Message);
+                ConsoleUI.outWriter.WriteLine("exit due to " + ex.Message);
                 ShowErrorDialog(-2);
             }
             finally
@@ -254,7 +254,7 @@ namespace ApplicationExample
             }
             catch(Exception ex)
             {
-                Console.WriteLine("Unable to create graph from specification: " + ex.Message);
+                ConsoleUI.outWriter.WriteLine("Unable to create graph from specification: " + ex.Message);
                 graph = null;
                 procEnv = null;
                 return;
@@ -287,9 +287,9 @@ namespace ApplicationExample
                 debugger.GraphViewerClient.UpdateDisplay();
             if(debugger != null && debugger.GraphViewerClient != null)
                 debugger.GraphViewerClient.Sync();
-            Console.WriteLine(text);
-            Console.WriteLine("Press a key to continue...");
-            Console.ReadKey(true);
+            ConsoleUI.outWriter.WriteLine(text);
+            ConsoleUI.outWriter.WriteLine("Press a key to continue...");
+            ConsoleUI.consoleIn.ReadKey(true);
         }
 
         private void buttonExecuteMutex_Click(object sender, EventArgs e)

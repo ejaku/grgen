@@ -107,17 +107,17 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 if(compResults.Errors.HasErrors)
                 {
-                    Console.Error.WriteLine("Illegal model C# source code: " + compResults.Errors.Count + " Errors:");
+                    ConsoleUI.errorOutWriter.WriteLine("Illegal model C# source code: " + compResults.Errors.Count + " Errors:");
                     foreach(CompilerError error in compResults.Errors)
                     {
-                        Console.Error.WriteLine("Line: " + error.Line + " - " + error.ErrorText + " @ " + error.FileName);
+                        ConsoleUI.errorOutWriter.WriteLine("Line: " + error.Line + " - " + error.ErrorText + " @ " + error.FileName);
                     }
                     return false;
                 }
             }
             catch(Exception ex)
             {
-                Console.Error.WriteLine("Unable to compile model: {0}", ex.Message);
+                ConsoleUI.errorOutWriter.WriteLine("Unable to compile model: {0}", ex.Message);
                 return false;
             }
 
@@ -125,7 +125,7 @@ namespace de.unika.ipd.grGen.lgsp
             cc.modelAssemblyName = compParams.OutputAssembly;
             AddAssembly(cc.modelAssembly);
 
-            Console.WriteLine(" - Model assembly \"{0}\" generated.", cc.modelAssemblyName);
+            ConsoleUI.outWriter.WriteLine(" - Model assembly \"{0}\" generated.", cc.modelAssemblyName);
             return true;
         }
 
@@ -142,7 +142,7 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         if(modelType != null)
                         {
-                            Console.Error.WriteLine("The given model contains more than one IGraphModel implementation: '"
+                            ConsoleUI.errorOutWriter.WriteLine("The given model contains more than one IGraphModel implementation: '"
                                 + modelType + "' and '" + type + "'");
                             return null;
                         }
@@ -152,11 +152,11 @@ namespace de.unika.ipd.grGen.lgsp
             }
             catch(ReflectionTypeLoadException e)
             {
-                Console.WriteLine(e);
+                ConsoleUI.outWriter.WriteLine(e);
             }
             if(modelType == null)
             {
-                Console.Error.WriteLine("The given model does not contain an IGraphModel implementation!");
+                ConsoleUI.errorOutWriter.WriteLine("The given model does not contain an IGraphModel implementation!");
                 return null;
             }
 
@@ -240,7 +240,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(sourceFiles.Length == 0)
             {
-                Console.Error.WriteLine("No GrGen.NET source files specified!");
+                ConsoleUI.errorOutWriter.WriteLine("No GrGen.NET source files specified!");
                 return false;
             }
 
@@ -261,7 +261,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if(grGenJava == null || grGenJava.HasExited)
                         return;
 
-                    Console.Error.WriteLine("Aborting...");
+                    ConsoleUI.errorOutWriter.WriteLine("Aborting...");
                     System.Threading.Thread.Sleep(100);     // a short delay to make sure the process is correctly started
                     if(!grGenJava.HasExited)
                         grGenJava.Kill();
@@ -293,7 +293,7 @@ namespace de.unika.ipd.grGen.lgsp
                 startInfo.UseShellExecute = false;
                 try
                 {
-                    Console.CancelKeyPress += ctrlCHandler;
+                    ConsoleUI.consoleIn.CancelKeyPress += ctrlCHandler;
 
                     grGenJava = Process.Start(startInfo);
 
@@ -305,18 +305,18 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 finally
                 {
-                    Console.CancelKeyPress -= ctrlCHandler;
+                    ConsoleUI.consoleIn.CancelKeyPress -= ctrlCHandler;
                 }
             }
             catch(System.ComponentModel.Win32Exception e)
             {
-                Console.Error.WriteLine("Unable to process specification: " + e.Message);
-                Console.Error.WriteLine("Is Java installed and the executable " + javaString + " available in one of the folders of the search path? Search path: " + startInfo.EnvironmentVariables["path"]);
+                ConsoleUI.errorOutWriter.WriteLine("Unable to process specification: " + e.Message);
+                ConsoleUI.errorOutWriter.WriteLine("Is Java installed and the executable " + javaString + " available in one of the folders of the search path? Search path: " + startInfo.EnvironmentVariables["path"]);
                 return false;
             }
             catch(Exception e)
             {
-                Console.Error.WriteLine("Unable to process specification: " + e.Message);
+                ConsoleUI.errorOutWriter.WriteLine("Unable to process specification: " + e.Message);
                 return false;
             }
 
@@ -337,13 +337,13 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     if(line.Contains("ERROR"))
                     {
-                        Console.Error.WriteLine(line);
+                        ConsoleUI.errorOutWriter.WriteLine(line);
                         noError = false;
                         continue;
                     }
                     if(line.Contains("WARNING"))
                     {
-                        Console.Error.WriteLine(line);
+                        ConsoleUI.errorOutWriter.WriteLine(line);
                         continue;
                     }
                     if(line.StartsWith(frontStr) && line.EndsWith(backStr))
@@ -477,7 +477,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private ErrorType ProcessSpecificationImpl(String specFile, String destDir, String tmpDir, String statisticsPath, String[] externalAssemblies)
         {
-            Console.WriteLine("Building libraries...");
+            ConsoleUI.outWriter.WriteLine("Building libraries...");
 
             CompileConfiguration cc = new CompileConfiguration(specFile, destDir, tmpDir, externalAssemblies);
 
@@ -576,13 +576,13 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         errorMsg += String.Format("\r\nLine: {0} - {1}", error.Line, error.ErrorText);
                     }
-                    Console.Error.WriteLine("Illegal actions C# input source code: " + errorMsg);
+                    ConsoleUI.errorOutWriter.WriteLine("Illegal actions C# input source code: " + errorMsg);
                     return ErrorType.GrGenNetError;
                 }
             }
             catch(Exception ex)
             {
-                Console.Error.WriteLine("Unable to compile initial actions: {0}", ex.Message);
+                ConsoleUI.errorOutWriter.WriteLine("Unable to compile initial actions: {0}", ex.Message);
                 return ErrorType.GrGenNetError;
             }
 
@@ -601,7 +601,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             catch(Exception)
             {
-                Console.Error.WriteLine("Unable to read from file \"" + actionsOutputFilename + "\"!");
+                ConsoleUI.errorOutWriter.WriteLine("Unable to read from file \"" + actionsOutputFilename + "\"!");
                 actionsOutputSource = null;
                 return ErrorType.GrGenNetError;
             }
@@ -672,7 +672,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(!actionPointFound)
             {
-                Console.Error.WriteLine("Illegal actions C# input source code: Actions insertion point not found!");
+                ConsoleUI.errorOutWriter.WriteLine("Illegal actions C# input source code: Actions insertion point not found!");
                 return ErrorType.GrGenJavaError;
             }
 
@@ -693,7 +693,7 @@ namespace de.unika.ipd.grGen.lgsp
             LGSPGraphStatistics graphStatistics = null;
             if(statisticsPath != null)
             {
-                Console.WriteLine("Reading graph statistics from {0}", statisticsPath);
+                ConsoleUI.outWriter.WriteLine("Reading graph statistics from {0}", statisticsPath);
                 graphStatistics = new LGSPGraphStatistics(model);
                 GraphStatisticsParserSerializer parserSerializer = new GraphStatisticsParserSerializer(graphStatistics);
                 parserSerializer.Parse(statisticsPath);
@@ -763,11 +763,11 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     errorMsg += String.Format("\r\n{0} at line {1} of {2}: {3}", error.IsWarning ? "Warning" : "ERROR", error.Line, error.FileName, error.ErrorText);
                 }
-                Console.Error.WriteLine("Illegal generated actions C# source code (or erroneous programmed extension), " + errorMsg);
+                ConsoleUI.errorOutWriter.WriteLine("Illegal generated actions C# source code (or erroneous programmed extension), " + errorMsg);
                 return ErrorType.GrGenNetError;
             }
 
-            Console.WriteLine(" - Actions assembly \"{0}\" generated.", compParams.OutputAssembly);
+            ConsoleUI.outWriter.WriteLine(" - Actions assembly \"{0}\" generated.", compParams.OutputAssembly);
             return ErrorType.NoError;
         }
 
@@ -1461,7 +1461,7 @@ namespace de.unika.ipd.grGen.lgsp
                     cc.modelFilename = genModelFiles[0];
                 else if(genModelFiles.Count > 1)
                 {
-                    Console.Error.WriteLine("Multiple models are not supported by ProcessSpecification, yet!");
+                    ConsoleUI.errorOutWriter.WriteLine("Multiple models are not supported by ProcessSpecification, yet!");
                     return ErrorType.GrGenNetError;
                 }
 
@@ -1469,7 +1469,7 @@ namespace de.unika.ipd.grGen.lgsp
                     cc.modelStubFilename = genModelStubFiles[0];
                 else if(genModelStubFiles.Count > 1)
                 {
-                    Console.Error.WriteLine("Multiple model stubs are not supported by ProcessSpecification, yet!");
+                    ConsoleUI.errorOutWriter.WriteLine("Multiple model stubs are not supported by ProcessSpecification, yet!");
                     return ErrorType.GrGenNetError;
                 }
 
@@ -1477,7 +1477,7 @@ namespace de.unika.ipd.grGen.lgsp
                     cc.actionsFilename = genActionsFiles[0];
                 else if(genActionsFiles.Count > 1)
                 {
-                    Console.Error.WriteLine("Multiple action sets are not supported by ProcessSpecification, yet!");
+                    ConsoleUI.errorOutWriter.WriteLine("Multiple action sets are not supported by ProcessSpecification, yet!");
                     return ErrorType.GrGenNetError;
                 }
             }
@@ -1506,7 +1506,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(cc.modelFilename == null || cc.actionsFilename == null)
             {
-                Console.Error.WriteLine("Not all required files have been generated!");
+                ConsoleUI.errorOutWriter.WriteLine("Not all required files have been generated!");
                 return ErrorType.GrGenJavaError;
             }
 
@@ -1526,7 +1526,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             catch(Exception)
             {
-                Console.Error.WriteLine("Unable to read from file \"" + externalActionsExtensionOutputFilename + "\"!");
+                ConsoleUI.errorOutWriter.WriteLine("Unable to read from file \"" + externalActionsExtensionOutputFilename + "\"!");
                 return ErrorType.GrGenNetError;
             }
 
@@ -1539,7 +1539,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 catch(Exception)
                 {
-                    Console.Error.WriteLine("Unable to read from file \"" + externalActionsExtensionFilename + "\"!");
+                    ConsoleUI.errorOutWriter.WriteLine("Unable to read from file \"" + externalActionsExtensionFilename + "\"!");
                     return ErrorType.GrGenNetError;
                 }
             }
@@ -1793,7 +1793,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex);
+                ConsoleUI.outWriter.WriteLine(ex);
                 throw ex;
             }
 

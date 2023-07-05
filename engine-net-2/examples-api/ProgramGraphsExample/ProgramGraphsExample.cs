@@ -31,8 +31,8 @@ namespace ProgramGraphs
             bool success = actions.createProgramGraphPullUp.Apply(procEnv, ref cls, ref mb);
             IMatchesExact<Rule_pullUpMethod.IMatch_pullUpMethod> matchesExact =
                 actions.pullUpMethod.Match(procEnv, 0, cls, mb);
-            Console.WriteLine(matchesExact.Count + " matches found.");
-            Console.WriteLine(matchesExact.FirstExact.node_m5.ToString());
+            ConsoleUI.outWriter.WriteLine(matchesExact.Count + " matches found.");
+            ConsoleUI.outWriter.WriteLine(matchesExact.FirstExact.node_m5.ToString());
 
             graph.Clear();
             
@@ -47,8 +47,8 @@ namespace ProgramGraphs
             param[0] = (Class)returns[0];
             param[1] = (MethodBody)returns[1];
             matchesInexact = actions.GetAction("pullUpMethod").Match(procEnv, 0, param);
-            Console.WriteLine(matchesInexact.Count + " matches found.");
-            Console.WriteLine(matchesInexact.First.getNodeAt((int)Rule_pullUpMethod.pullUpMethod_NodeNums.m5).ToString());
+            ConsoleUI.outWriter.WriteLine(matchesInexact.Count + " matches found.");
+            ConsoleUI.outWriter.WriteLine(matchesInexact.First.getNodeAt((int)Rule_pullUpMethod.pullUpMethod_NodeNums.m5).ToString());
         }
 
         static void Main(string[] args)

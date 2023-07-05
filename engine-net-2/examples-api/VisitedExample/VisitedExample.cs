@@ -150,14 +150,14 @@ namespace VisitedExample
 
         private WalkerResult PreWalker(INode node)
         {
-            Console.WriteLine("Pre: " + graph.GetElementName(node));
+            ConsoleUI.outWriter.WriteLine("Pre: " + graph.GetElementName(node));
             countedNodesPre++;
             return WalkerResult.Proceed;
         }
 
         private WalkerResult PostWalker(INode node)
         {
-            Console.WriteLine("Post: " + graph.GetElementName(node));
+            ConsoleUI.outWriter.WriteLine("Post: " + graph.GetElementName(node));
             countedNodesPost++;
             return WalkerResult.Proceed;
         }
@@ -183,7 +183,7 @@ namespace VisitedExample
             int visitorID = graph.AllocateVisitedFlag();
             DFSWalker dfs = new DFSWalker(graph, PreWalker, PostWalker, visitorID, WalkerMode.Outgoing);
             dfs.DoDFS(nodes[0]);
-            Console.WriteLine("Visited nodes DFS: pre=" + countedNodesPre + " post=" + countedNodesPost);
+            ConsoleUI.outWriter.WriteLine("Visited nodes DFS: pre=" + countedNodesPre + " post=" + countedNodesPost);
 
             graph.ResetVisitedFlag(visitorID);
             countedNodesPre = 0;
@@ -191,7 +191,7 @@ namespace VisitedExample
             bfs.Mode = WalkerMode.Incident;
             bfs.DoBFS(nodes[0]);
 
-            Console.WriteLine("Visited nodes BFS: " + countedNodesPre);
+            ConsoleUI.outWriter.WriteLine("Visited nodes BFS: " + countedNodesPre);
 
             graph.FreeVisitedFlag(visitorID);
         }

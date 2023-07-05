@@ -43,14 +43,14 @@ namespace de.unika.ipd.grGen.testBench
                         oldStatus = "      ";
 
                     if(status != oldStatus)
-                        Console.WriteLine(oldStatus + " -> " + status + ": " + file);
+                        ConsoleUI.outWriter.WriteLine(oldStatus + " -> " + status + ": " + file);
                 }
             }
 		}
 
         static void Usage()
         {
-            Console.WriteLine(
+            ConsoleUI.outWriter.WriteLine(
                   "Usage: TestBench [OPTIONS] [<grg-files>]\n\n"
                 + "Default for <grg-files> is:\n"
                 + "  should_pass" + Path.DirectorySeparatorChar + "*.grg should_warn"
@@ -80,13 +80,13 @@ namespace de.unika.ipd.grGen.testBench
 							case "-a": append = true; break;
 
 							case "-c":
-								Console.Write("Cleaning ...");
+								ConsoleUI.outWriter.Write("Cleaning ...");
 								foreach(String dir in Directory.GetDirectories("."))
 								{
 									foreach(String subdir in Directory.GetDirectories(dir, "*_out"))
 										Directory.Delete(subdir, true);
 								}
-								Console.WriteLine(" OK");
+								ConsoleUI.outWriter.WriteLine(" OK");
 								return;
 
 							case "-d":
@@ -103,7 +103,7 @@ namespace de.unika.ipd.grGen.testBench
                                 return;
 
 							default:
-								Console.WriteLine("Unknown option: " + args[i] + "\n");
+								ConsoleUI.outWriter.WriteLine("Unknown option: " + args[i] + "\n");
                                 Usage();
 								return;
 						}
@@ -136,13 +136,13 @@ namespace de.unika.ipd.grGen.testBench
 				{
 					if(!file.EndsWith(".grg"))
 					{
-						Console.WriteLine("Error: Filename does not end with \".grg\": " + file);
+						ConsoleUI.outWriter.WriteLine("Error: Filename does not end with \".grg\": " + file);
 						continue;
 					}
 
 					if(!File.Exists(file))
 					{
-						Console.WriteLine("Error: File does not exist: " + file);
+						ConsoleUI.outWriter.WriteLine("Error: File does not exist: " + file);
 						continue;
 					}
 
@@ -156,12 +156,12 @@ namespace de.unika.ipd.grGen.testBench
 					}
 					Directory.CreateDirectory(outDir);
 
-					TextWriter oldOut = Console.Out;
+					TextWriter oldOut = ConsoleUI.outWriter;
 
-                    Console.Write("===> TEST " + fileForLog);
+                    ConsoleUI.outWriter.Write("===> TEST " + fileForLog);
 					StringWriter log = new StringWriter();
-					Console.SetError(log);
-					Console.SetOut(log);
+					ConsoleUI.errorOutWriter = log;
+					ConsoleUI.outWriter = log;
 					bool failed = false;
 					try
 					{
@@ -173,30 +173,30 @@ namespace de.unika.ipd.grGen.testBench
 						log.Write(ex.Message);
 					}
 
-					Console.SetOut(oldOut);
+					ConsoleUI.outWriter = oldOut; // TODO: also error out
 
 					String javaOutput = null;
 					String logStr = log.ToString();
 					if(logStr.Contains("Exception in thread"))
 					{
-						Console.WriteLine(" ... ABEND");
+						ConsoleUI.outWriter.WriteLine(" ... ABEND");
                         logFile.WriteLine("ABEND  " + fileForLog);
 					}
 					else if(logStr.Contains("ERROR"))
 					{	
-						Console.WriteLine(" ... ERROR");
+						ConsoleUI.outWriter.WriteLine(" ... ERROR");
                         logFile.WriteLine("ERROR  " + fileForLog);
 					}
 					else if(logStr.Contains("Illegal model") || logStr.Contains("Illegal actions"))
 					{
-						Console.WriteLine(" ... FAILED");
+						ConsoleUI.outWriter.WriteLine(" ... FAILED");
                         logFile.WriteLine("FAILED " + fileForLog);
 					}
 					else if(!failed)
 					{
 					    if(logStr.Contains("WARNING"))
 					    {
-						    Console.WriteLine(" ... WARNED");
+						    ConsoleUI.outWriter.WriteLine(" ... WARNED");
                             logFile.WriteLine("WARNED " + fileForLog);
 					    }
 						else if(File.Exists(outDir + Path.DirectorySeparatorChar + "printOutput.txt"))
@@ -205,33 +205,33 @@ namespace de.unika.ipd.grGen.testBench
 								javaOutput = sr.ReadToEnd();
 							if(javaOutput.Contains("WARNING"))
 							{
-								Console.WriteLine(" ... WARNED");
+								ConsoleUI.outWriter.WriteLine(" ... WARNED");
                                 logFile.WriteLine("WARNED " + fileForLog);
 							}
 							else
 							{
 								javaOutput = null;
-								Console.WriteLine(" ... OK");
+								ConsoleUI.outWriter.WriteLine(" ... OK");
                                 logFile.WriteLine("OK     " + fileForLog);
 							}
 						}
 						else
 						{
-							Console.WriteLine(" ... OK");
+							ConsoleUI.outWriter.WriteLine(" ... OK");
                             logFile.WriteLine("OK     " + fileForLog);
 						}
 					}
 					else
 					{
-						Console.WriteLine(" ... ABEND");
+						ConsoleUI.outWriter.WriteLine(" ... ABEND");
                         logFile.WriteLine("ABEND  " + fileForLog);
 					}
 
 					if(verbose)
 					{
 						if(javaOutput != null)
-							Console.WriteLine(javaOutput);
-						Console.WriteLine(log.ToString());
+							ConsoleUI.outWriter.WriteLine(javaOutput);
+						ConsoleUI.outWriter.WriteLine(log.ToString());
 					}
 				}
 			}

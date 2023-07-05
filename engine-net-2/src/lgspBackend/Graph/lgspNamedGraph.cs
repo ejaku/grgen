@@ -263,7 +263,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void SetElementPrefixName(IGraphElement element, String prefix)
         {
-            Console.WriteLine("Set node prefix name {0}, {1}", element, prefix);
+            ConsoleUI.outWriter.WriteLine("Set node prefix name {0}, {1}", element, prefix);
             String name = prefix;
             int curr = 0;
             while(DifferentElementWithName(element, name))

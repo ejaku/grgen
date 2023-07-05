@@ -45,7 +45,7 @@ namespace de.unika.ipd.grGen.grShell
             try
             {
                 if(showIncludes)
-                    impl.debugOut.WriteLine("Including " + filename);
+                    ConsoleUI.outWriter.WriteLine("Including " + filename);
 
                 TextReader reader = null;
                 if(filename.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase)) {
@@ -71,7 +71,7 @@ namespace de.unika.ipd.grGen.grShell
                         {
                             if(!grShell.ParseShellCommand())
                             {
-                                impl.errOut.WriteLine("Shell command parsing failed in include of \"" + filename + "\" (at nesting level " + tokenSources.Count + ")");
+                                ConsoleUI.errorOutWriter.WriteLine("Shell command parsing failed in include of \"" + filename + "\" (at nesting level " + tokenSources.Count + ")");
                                 return false;
                             }
                         }
@@ -80,7 +80,7 @@ namespace de.unika.ipd.grGen.grShell
                     finally
                     {
                         if(showIncludes)
-                            impl.debugOut.WriteLine("Leaving " + filename);
+                            ConsoleUI.outWriter.WriteLine("Leaving " + filename);
 
                         tokenSources.Pop();
                         grShell.ReInit(tokenSources.Peek());
@@ -89,7 +89,7 @@ namespace de.unika.ipd.grGen.grShell
             }
             catch(Exception e)
             {
-                impl.errOut.WriteLine("Error during include of \"" + filename + "\": " + e.Message);
+                ConsoleUI.errorOutWriter.WriteLine("Error during include of \"" + filename + "\": " + e.Message);
                 return false;
             }
 
@@ -102,7 +102,7 @@ namespace de.unika.ipd.grGen.grShell
 
             Quitting = true;
 
-            impl.debugOut.WriteLine("Bye!\n");
+            ConsoleUI.outWriter.WriteLine("Bye!\n");
         }
 
         public void ParsedIf(SequenceExpression seqExpr)

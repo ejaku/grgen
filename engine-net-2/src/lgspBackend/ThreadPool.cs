@@ -150,9 +150,9 @@ namespace de.unika.ipd.grGen.lgsp
             threadIndex = Array.IndexOf<Thread>(workerThreads, Thread.CurrentThread);
             while(true)
             {
-                //Console.WriteLine("fall to sleep of worker thread " + threadId);
+                //ConsoleUI.outWriter.WriteLine("fall to sleep of worker thread " + threadId);
                 executeParallelTask[threadIndex].WaitOne();
-                //Console.WriteLine("wakeup of worker thread " + threadId);
+                //ConsoleUI.outWriter.WriteLine("wakeup of worker thread " + threadId);
 
                 tasks[threadIndex](arguments[threadIndex]);
 

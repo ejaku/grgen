@@ -34,9 +34,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
     public class DebuggerEnvironment : IDebuggerEnvironment
     {
-        private static readonly TextWriter debugOut = System.Console.Out;
-        private static readonly TextWriter errOut = System.Console.Error;
-
         public ConsoleDebugger Debugger // has to be set after debugger was constructed
         {
             get { return debugger; }
@@ -52,7 +49,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public virtual ConsoleKeyInfo ReadKeyWithCancel()
         {
-            ConsoleKeyInfo key = WorkaroundManager.Workaround.ReadKeyWithControlCAsInput();
+            ConsoleKeyInfo key = ConsoleUI.consoleIn.ReadKeyWithControlCAsInput();
 
             if(key.Key == ConsoleKey.C && (key.Modifiers & ConsoleModifiers.Control) != 0)
                 Cancel();
@@ -66,27 +63,27 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 if(!CheckDebuggerAlive())
                 {
-                    errOut.WriteLine("debug mode must be enabled (yComp available) for asking for a node/edge type");
+                    ConsoleUI.errorOutWriter.WriteLine("debug mode must be enabled (yComp available) for asking for a node/edge type");
                     return null;
                 }
 
-                debugOut.WriteLine("Select an element of type " + typeName + " by double clicking in yComp (ESC for abort)...");
+                ConsoleUI.outWriter.WriteLine("Select an element of type " + typeName + " by double clicking in yComp (ESC for abort)...");
 
                 String id = debugger.ChooseGraphElement();
                 if(id == null)
                     return null;
 
-                debugOut.WriteLine("Received @(\"" + id + "\")");
+                ConsoleUI.outWriter.WriteLine("Received @(\"" + id + "\")");
 
                 IGraphElement elem = graph.GetGraphElement(id);
                 if(elem == null)
                 {
-                    errOut.WriteLine("Graph element does not exist (anymore?).");
+                    ConsoleUI.errorOutWriter.WriteLine("Graph element does not exist (anymore?).");
                     return null;
                 }
                 if(!TypesHelper.IsSameOrSubtype(elem.Type.PackagePrefixedName, typeName, graph.Model))
                 {
-                    errOut.WriteLine(elem.Type.PackagePrefixedName + " is not the same type as/a subtype of " + typeName + ".");
+                    ConsoleUI.errorOutWriter.WriteLine(elem.Type.PackagePrefixedName + " is not the same type as/a subtype of " + typeName + ".");
                     return null;
                 }
                 return elem;
@@ -101,7 +98,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 String valTypeName = TypesHelper.XgrsTypeOfConstant(val, graph.Model);
                 if(!TypesHelper.IsSameOrSubtype(valTypeName, typeName, graph.Model))
                 {
-                    errOut.WriteLine(valTypeName + " is not the same type as/a subtype of " + typeName + ".");
+                    ConsoleUI.errorOutWriter.WriteLine(valTypeName + " is not the same type as/a subtype of " + typeName + ".");
                     return null;
                 }
                 return val;
@@ -123,13 +120,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             type = debugger.DebuggerProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.GetType(typeName);
             if(type != null)
                 return type;
-            errOut.WriteLine("Unknown graph element type: \"{0}\"", typeName);
+            ConsoleUI.errorOutWriter.WriteLine("Unknown graph element type: \"{0}\"", typeName);
             return null;
         }
 
         public static void HandleSequenceParserException(SequenceParserException ex)
         {
-            errOut.WriteLine(ex.Message);
+            ConsoleUI.errorOutWriter.WriteLine(ex.Message);
 
             if(!(ex is SequenceParserExceptionCallParameterIssue))
                 return;
@@ -142,91 +139,91 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(ex.Action != null)
             {
                 IAction action = ex.Action;
-                debugOut.Write("Prototype: {0}", ex.Action.RulePattern.PatternGraph.Name);
+                ConsoleUI.outWriter.Write("Prototype: {0}", ex.Action.RulePattern.PatternGraph.Name);
                 if(action.RulePattern.Inputs.Length != 0)
                 {
-                    debugOut.Write("(");
+                    ConsoleUI.outWriter.Write("(");
                     for(int i = 0; i < action.RulePattern.Inputs.Length; ++i)
                     {
                         if(i > 0)
-                            debugOut.Write(",");
+                            ConsoleUI.outWriter.Write(",");
                         GrGenType type = action.RulePattern.Inputs[i];
-                        debugOut.Write("{0}:{1}", action.RulePattern.InputNames[i], type.PackagePrefixedName);
+                        ConsoleUI.outWriter.Write("{0}:{1}", action.RulePattern.InputNames[i], type.PackagePrefixedName);
                     }
-                    debugOut.Write(")");
+                    ConsoleUI.outWriter.Write(")");
                 }
                 if(action.RulePattern.Outputs.Length != 0)
                 {
-                    debugOut.Write(" : (");
+                    ConsoleUI.outWriter.Write(" : (");
                     bool first = true;
                     foreach(GrGenType type in action.RulePattern.Outputs)
                     {
                         if(first)
                             first = false;
                         else
-                            debugOut.Write(",");
-                        debugOut.Write("{0}", type.PackagePrefixedName);
+                            ConsoleUI.outWriter.Write(",");
+                        ConsoleUI.outWriter.Write("{0}", type.PackagePrefixedName);
                     }
-                    debugOut.Write(")");
+                    ConsoleUI.outWriter.Write(")");
                 }
             }
             else if(ex.Sequence != null)
             {
                 ISequenceDefinition sequence = ex.Sequence;
                 SequenceDefinition seqDef = (SequenceDefinition)sequence;
-                debugOut.Write("Prototype: ");
-                debugOut.Write(seqDef.Symbol);
+                ConsoleUI.outWriter.Write("Prototype: ");
+                ConsoleUI.outWriter.Write(seqDef.Symbol);
             }
             else if(ex.Procedure != null)
             {
                 IProcedureDefinition procedure = ex.Procedure;
-                debugOut.Write("Prototype: {0}", ex.Procedure.Name);
+                ConsoleUI.outWriter.Write("Prototype: {0}", ex.Procedure.Name);
                 if(procedure.Inputs.Length != 0)
                 {
-                    debugOut.Write("(");
+                    ConsoleUI.outWriter.Write("(");
                     for(int i = 0; i < procedure.Inputs.Length; ++i)
                     {
                         if(i > 0)
-                            debugOut.Write(",");
+                            ConsoleUI.outWriter.Write(",");
                         GrGenType type = procedure.Inputs[i];
-                        debugOut.Write("{0}:{1}", procedure.InputNames[i], type.PackagePrefixedName);
+                        ConsoleUI.outWriter.Write("{0}:{1}", procedure.InputNames[i], type.PackagePrefixedName);
                     }
-                    debugOut.Write(")");
+                    ConsoleUI.outWriter.Write(")");
                 }
                 if(procedure.Outputs.Length != 0)
                 {
-                    debugOut.Write(" : (");
+                    ConsoleUI.outWriter.Write(" : (");
                     bool first = true;
                     foreach(GrGenType type in procedure.Outputs)
                     {
                         if(first)
                             first = false;
                         else
-                            debugOut.Write(",");
-                        debugOut.Write("{0}", type.PackagePrefixedName);
+                            ConsoleUI.outWriter.Write(",");
+                        ConsoleUI.outWriter.Write("{0}", type.PackagePrefixedName);
                     }
-                    debugOut.Write(")");
+                    ConsoleUI.outWriter.Write(")");
                 }
             }
             else if(ex.Function != null)
             {
                 IFunctionDefinition function = ex.Function;
-                debugOut.Write("Prototype: {0}", ex.Function.Name);
+                ConsoleUI.outWriter.Write("Prototype: {0}", ex.Function.Name);
                 if(function.Inputs.Length != 0)
                 {
-                    debugOut.Write("(");
+                    ConsoleUI.outWriter.Write("(");
                     for(int i = 0; i < function.Inputs.Length; ++i)
                     {
                         if(i > 0)
-                            debugOut.Write(",");
+                            ConsoleUI.outWriter.Write(",");
                         GrGenType type = function.Inputs[i];
-                        debugOut.Write("{0}:{1}", function.InputNames[i], type.PackagePrefixedName);
+                        ConsoleUI.outWriter.Write("{0}:{1}", function.InputNames[i], type.PackagePrefixedName);
                     }
-                    debugOut.Write(")");
+                    ConsoleUI.outWriter.Write(")");
                 }
-                debugOut.Write(" : {0}", function.Output.PackagePrefixedName);
+                ConsoleUI.outWriter.Write(" : {0}", function.Output.PackagePrefixedName);
             }
-            debugOut.WriteLine();
+            ConsoleUI.outWriter.WriteLine();
         }
 
         public virtual string ShowGraphWith(String programName, String arguments, bool keep)
@@ -244,7 +241,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             IGraphElement elem = debugger.DebuggerProcEnv.ProcEnv.NamedGraph.GetGraphElement(elemName);
             if(elem == null)
             {
-                errOut.WriteLine("Unknown graph element: \"{0}\"", elemName);
+                ConsoleUI.errorOutWriter.WriteLine("Unknown graph element: \"{0}\"", elemName);
                 return null;
             }
             return elem;
@@ -252,7 +249,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public string ReadOrEofErr()
         {
-            string result = Console.In.ReadLine();
+            string result = ConsoleUI.inReader.ReadLine();
             if(result == null)
                 throw new EOFException();
             return result;
@@ -260,7 +257,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void ShowMsgAskForEnter(string msg)
         {
-            debugOut.Write(msg + " [enter] ");
+            ConsoleUI.outWriter.Write(msg + " [enter] ");
             ReadOrEofErr();
         }
 
@@ -268,7 +265,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             while(true)
             {
-                debugOut.Write(msg + " [y(es)/n(o)] ");
+                ConsoleUI.outWriter.Write(msg + " [y(es)/n(o)] ");
                 string result = ReadOrEofErr();
                 if(result.Equals("y", StringComparison.InvariantCultureIgnoreCase) ||
                     result.Equals("yes", StringComparison.InvariantCultureIgnoreCase))
@@ -285,7 +282,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public string ShowMsgAskForString(string msg)
         {
-            debugOut.Write(msg);
+            ConsoleUI.outWriter.Write(msg);
             return ReadOrEofErr();
         }
     }

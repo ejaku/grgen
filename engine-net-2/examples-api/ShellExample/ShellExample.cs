@@ -7,7 +7,7 @@
 
 using System;
 using System.IO;
-using de.unika.ipd.grGen.graphViewerAndSequenceDebugger;
+using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.grShell;
 
 namespace ShellExample
@@ -50,7 +50,7 @@ namespace ShellExample
                 while(!driver.Quitting && !driver.Eof)
                 {
                     if(showPrompt)
-                        Console.Write("> ");
+                        ConsoleUI.outWriter.Write("> ");
 
                     bool success = shell.ParseShellCommand();
 
@@ -65,7 +65,7 @@ namespace ShellExample
             }
             catch(Exception e)
             {
-                Console.WriteLine("exit due to " + e.Message);
+                ConsoleUI.errorOutWriter.WriteLine("exit due to " + e.Message);
                 errorCode = -2;
             }
             finally
@@ -87,7 +87,7 @@ namespace ShellExample
                 }
                 catch(Exception e)
                 {
-                    Console.WriteLine("Unable to read file \"" + scriptFilename + "\": " + e.Message);
+                    ConsoleUI.errorOutWriter.WriteLine("Unable to read file \"" + scriptFilename + "\": " + e.Message);
                     reader = null;
                     showPrompt = false;
                     readFromConsole = false;
@@ -99,7 +99,7 @@ namespace ShellExample
             }
             else
             {
-                reader = WorkaroundManager.Workaround.In;
+                reader = ConsoleUI.inReader;
                 showPrompt = true;
                 readFromConsole = true;
             }
@@ -123,7 +123,7 @@ namespace ShellExample
                 }
                 catch(Exception e)
                 {
-                    Console.WriteLine("Unable to read file \"" + scriptFilename + "\": " + e.Message);
+                    ConsoleUI.errorOutWriter.WriteLine("Unable to read file \"" + scriptFilename + "\": " + e.Message);
                     return -1;
                 }
                 scriptFilename = null; // become an interactive shell
@@ -134,7 +134,7 @@ namespace ShellExample
             }
             else
             {
-                shell.ReInit(WorkaroundManager.Workaround.In);
+                shell.ReInit(ConsoleUI.inReader);
                 driver.tokenSources.Pop();
                 driver.tokenSources.Push(shell.token_source);
                 showPrompt = true;

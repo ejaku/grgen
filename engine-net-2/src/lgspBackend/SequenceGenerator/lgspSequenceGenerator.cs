@@ -100,7 +100,7 @@ namespace de.unika.ipd.grGen.lgsp
                 seq = SequenceParser.ParseSequence(xgrsStr, parserEnv, varDecls, warnings);
                 foreach(string warning in warnings)
                 {
-                    Console.Error.WriteLine("The exec statement \"" + xgrsStr
+                    ConsoleUI.errorOutWriter.WriteLine("The exec statement \"" + xgrsStr
                         + "\" given on line " + lineNr + " reported back:\n" + warning);
                 }
                 seq.Check(env);
@@ -108,13 +108,13 @@ namespace de.unika.ipd.grGen.lgsp
             }
             catch(ParseException ex)
             {
-                Console.Error.WriteLine("The exec statement \"" + xgrsStr
+                ConsoleUI.errorOutWriter.WriteLine("The exec statement \"" + xgrsStr
                     + "\" given on line " + lineNr + " caused the following error:\n" + ex.Message);
                 return false;
             }
             catch(SequenceParserException ex)
             {
-                Console.Error.WriteLine("The exec statement \"" + xgrsStr
+                ConsoleUI.errorOutWriter.WriteLine("The exec statement \"" + xgrsStr
                     + "\" given on line " + lineNr + " caused the following error:\n");
                 HandleSequenceParserException(ex);
                 return false;
@@ -204,7 +204,7 @@ namespace de.unika.ipd.grGen.lgsp
                 seq = SequenceParser.ParseSequence(sequence.XGRS, parserEnv, varDecls, warnings);
                 foreach(string warning in warnings)
                 {
-                    Console.Error.WriteLine("In the defined sequence " + sequence.Name
+                    ConsoleUI.errorOutWriter.WriteLine("In the defined sequence " + sequence.Name
                         + " the exec part \"" + sequence.XGRS
                         + "\" reported back:\n" + warning);
                 }
@@ -213,14 +213,14 @@ namespace de.unika.ipd.grGen.lgsp
             }
             catch(ParseException ex)
             {
-                Console.Error.WriteLine("In the defined sequence " + sequence.Name
+                ConsoleUI.errorOutWriter.WriteLine("In the defined sequence " + sequence.Name
                     + " the exec part \"" + sequence.XGRS
                     + "\" caused the following error:\n" + ex.Message);
                 return false;
             }
             catch(SequenceParserException ex)
             {
-                Console.Error.WriteLine("In the defined sequence " + sequence.Name
+                ConsoleUI.errorOutWriter.WriteLine("In the defined sequence " + sequence.Name
                     + " the exec part \"" + sequence.XGRS
                     + "\" caused the following error:\n");
                 HandleSequenceParserException(ex);
@@ -508,7 +508,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void HandleSequenceParserException(SequenceParserException ex)
         {
-            Console.Error.WriteLine(ex.Message); // as ow now, some errors are handled in the frontend exclusivly (e.g. UnknownRuleOrSequence, or rule call parameter mismatches)
+            ConsoleUI.errorOutWriter.WriteLine(ex.Message); // as ow now, some errors are handled in the frontend exclusivly (e.g. UnknownRuleOrSequence, or rule call parameter mismatches)
 
             // as of now, a function output parameter type mismatch yields only a TypeMismatch (no BadReturnParameter), so no prototype is printed
             if(!(ex is SequenceParserExceptionCallParameterIssue))
@@ -522,35 +522,35 @@ namespace de.unika.ipd.grGen.lgsp
             if(ex.DefType == DefinitionType.Action
                 && seqHelper.actionsTypeInformation.rulesToInputTypes.ContainsKey(ex.Name))
             {
-                Console.Error.Write("Signature of rule/test: {0}", ex.Name);
+                ConsoleUI.errorOutWriter.Write("Signature of rule/test: {0}", ex.Name);
                 PrintInputParams(seqHelper.actionsTypeInformation.rulesToInputTypes[ex.Name]);
                 PrintOutputParams(seqHelper.actionsTypeInformation.rulesToOutputTypes[ex.Name]);
-                Console.Error.WriteLine();
+                ConsoleUI.errorOutWriter.WriteLine();
             }
             else if(ex.DefType == DefinitionType.Sequence
                 && seqHelper.actionsTypeInformation.sequencesToInputTypes.ContainsKey(ex.Name))
             {
-                Console.Error.Write("Signature of sequence: {0}", ex.Name);
+                ConsoleUI.errorOutWriter.Write("Signature of sequence: {0}", ex.Name);
                 PrintInputParams(seqHelper.actionsTypeInformation.sequencesToInputTypes[ex.Name]);
                 PrintOutputParams(seqHelper.actionsTypeInformation.sequencesToOutputTypes[ex.Name]);
-                Console.Error.WriteLine();
+                ConsoleUI.errorOutWriter.WriteLine();
             }
             else if(ex.DefType == DefinitionType.Procedure
                 && seqHelper.actionsTypeInformation.proceduresToInputTypes.ContainsKey(ex.Name))
             {
-                Console.Error.Write("Signature procedure: {0}", ex.Name);
+                ConsoleUI.errorOutWriter.Write("Signature procedure: {0}", ex.Name);
                 PrintInputParams(seqHelper.actionsTypeInformation.proceduresToInputTypes[ex.Name]);
                 PrintOutputParams(seqHelper.actionsTypeInformation.proceduresToOutputTypes[ex.Name]);
-                Console.Error.WriteLine();
+                ConsoleUI.errorOutWriter.WriteLine();
             }
             else if(ex.DefType == DefinitionType.Function
                 && seqHelper.actionsTypeInformation.functionsToInputTypes.ContainsKey(ex.Name))
             {
-                Console.Error.Write("Signature of function: {0}", ex.Name);
+                ConsoleUI.errorOutWriter.Write("Signature of function: {0}", ex.Name);
                 PrintInputParams(seqHelper.actionsTypeInformation.functionsToInputTypes[ex.Name]);
-                Console.Error.Write(" : ");
-                Console.Error.Write(seqHelper.actionsTypeInformation.functionsToOutputType[ex.Name]);
-                Console.Error.WriteLine();
+                ConsoleUI.errorOutWriter.Write(" : ");
+                ConsoleUI.errorOutWriter.Write(seqHelper.actionsTypeInformation.functionsToOutputType[ex.Name]);
+                ConsoleUI.errorOutWriter.WriteLine();
             }
         }
 
@@ -558,14 +558,14 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(nameToInputTypes.Count != 0)
             {
-                Console.Error.Write("(");
+                ConsoleUI.errorOutWriter.Write("(");
                 bool first = true;
                 foreach(String typeName in nameToInputTypes)
                 {
-                    Console.Error.Write("{0}{1}", first ? "" : ", ", typeName);
+                    ConsoleUI.errorOutWriter.Write("{0}{1}", first ? "" : ", ", typeName);
                     first = false;
                 }
-                Console.Error.Write(")");
+                ConsoleUI.errorOutWriter.Write(")");
             }
         }
 
@@ -573,14 +573,14 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(nameToOutputTypes.Count != 0)
             {
-                Console.Error.Write(" : (");
+                ConsoleUI.errorOutWriter.Write(" : (");
                 bool first = true;
                 foreach(String typeName in nameToOutputTypes)
                 {
-                    Console.Error.Write("{0}{1}", first ? "" : ", ", typeName);
+                    ConsoleUI.errorOutWriter.Write("{0}{1}", first ? "" : ", ", typeName);
                     first = false;
                 }
-                Console.Error.Write(")");
+                ConsoleUI.errorOutWriter.Write(")");
             }
         }
     }

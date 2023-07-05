@@ -434,7 +434,7 @@ void LineEnd():
 
 CSHARPCODE
 void errorSkip(ParseException ex) {
-    Console.WriteLine(ex.Message);
+    ConsoleUI.outWriter.WriteLine(ex.Message);
     Token t;
     do
     {

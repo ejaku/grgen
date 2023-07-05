@@ -275,7 +275,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void GetLayoutOptions()
         {
             String str = graphViewerClient.GetLayoutOptions();
-            Console.WriteLine("Available layout options and their current values:\n\n" + str);
+            ConsoleUI.outWriter.WriteLine("Available layout options and their current values:\n\n" + str);
         }
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             String errorMessage = graphViewerClient.SetLayoutOption(optionName, optionValue);
             if(errorMessage != null)
-                Console.WriteLine(errorMessage);
+                ConsoleUI.outWriter.WriteLine(errorMessage);
             return errorMessage == null;
         }
 
@@ -374,7 +374,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                         context.highlightSeq = seq;
                         context.success = false;
                         SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-                        Console.WriteLine();
+                        ConsoleUI.outWriter.WriteLine();
                         break;
                     }
                 case 'w':
@@ -390,7 +390,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                         context.highlightSeq = seq;
                         context.success = false;
                         SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-                        Console.WriteLine();
+                        ConsoleUI.outWriter.WriteLine();
                         break;
                     }
                 case 'l':
@@ -407,12 +407,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 case 'v':
                     HandleShowVariable(seq);
                     SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-                    Console.WriteLine();
+                    ConsoleUI.outWriter.WriteLine();
                     break;
                 case 'j':
                     HandleShowClassObject(seq);
                     SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-                    Console.WriteLine();
+                    ConsoleUI.outWriter.WriteLine();
                     break;
                 case 'p':
                     HandleDump();
@@ -426,15 +426,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 case 't':
                     HandleStackTrace();
                     SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-                    Console.WriteLine();
+                    ConsoleUI.outWriter.WriteLine();
                     break;
                 case 'f':
                     HandleFullState();
                     SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-                    Console.WriteLine();
+                    ConsoleUI.outWriter.WriteLine();
                     break;
                 default:
-                    Console.WriteLine("Illegal command (Key = " + key.Key
+                    ConsoleUI.outWriter.WriteLine("Illegal command (Key = " + key.Key
                         + ")! Only (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, (w)atchpoints, show (v)ariables, show class ob(j)ect, print stack(t)race, (f)ull state, (h)ighlight, dum(p) graph, as (g)raph, and (a)bort allowed!");
                     break;
                 }
@@ -448,12 +448,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             if(lazyChoice)
             {
-                Console.WriteLine("Lazy choice disabled, always requesting user choice on $%[r] / $%v[r] / $%{...}.");
+                ConsoleUI.outWriter.WriteLine("Lazy choice disabled, always requesting user choice on $%[r] / $%v[r] / $%{...}.");
                 lazyChoice = false;
             }
             else
             {
-                Console.WriteLine("Lazy choice enabled, only prompting user on $%[r] / $%v[r] / $%{...} if more matches available than rewrites requested.");
+                ConsoleUI.outWriter.WriteLine("Lazy choice enabled, only prompting user on $%[r] / $%v[r] / $%{...} if more matches available than rewrites requested.");
                 lazyChoice = true;
             }
         }
@@ -469,8 +469,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             do
             {
-                Console.Write("Enter id of class object to emit (with % prefix), of transient class object to emit (with & prefix), or name of variable to emit (or just enter for abort): ");
-                String argument = Console.ReadLine();
+                ConsoleUI.outWriter.Write("Enter id of class object to emit (with % prefix), of transient class object to emit (with & prefix), or name of variable to emit (or just enter for abort): ");
+                String argument = ConsoleUI.inReader.ReadLine();
                 if(argument.Length == 0)
                     return;
 
@@ -493,13 +493,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 if(debuggerProcEnv.NameToClassObject.ContainsKey(objectName))
                 {
                     IObject obj = debuggerProcEnv.NameToClassObject[objectName];
-                    Console.WriteLine(EmitHelper.ToStringAutomatic(obj, task.procEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, task.procEnv));
+                    ConsoleUI.outWriter.WriteLine(EmitHelper.ToStringAutomatic(obj, task.procEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, task.procEnv));
                 }
                 else
-                    Console.WriteLine("Unknown class object id %" + objectName + "!");
+                    ConsoleUI.outWriter.WriteLine("Unknown class object id %" + objectName + "!");
             }
             else
-                Console.WriteLine("Invalid class object id " + argument + "!");
+                ConsoleUI.outWriter.WriteLine("Invalid class object id " + argument + "!");
         }
 
         private void HandleShowClassObjectTransientObject(string argument)
@@ -510,13 +510,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 if(debuggerProcEnv.ProcEnv.Graph.GlobalVariables.GetTransientObject(uniqueId) != null)
                 {
                     ITransientObject obj = debuggerProcEnv.ProcEnv.Graph.GlobalVariables.GetTransientObject(uniqueId);
-                    Console.WriteLine(EmitHelper.ToStringAutomatic(obj, task.procEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, task.procEnv));
+                    ConsoleUI.outWriter.WriteLine(EmitHelper.ToStringAutomatic(obj, task.procEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, task.procEnv));
                 }
                 else
-                    Console.WriteLine("Unknown transient class object id " + argument + "!");
+                    ConsoleUI.outWriter.WriteLine("Unknown transient class object id " + argument + "!");
             }
             else
-                Console.WriteLine("Invalid transient class object id " + argument + "!");
+                ConsoleUI.outWriter.WriteLine("Invalid transient class object id " + argument + "!");
         }
 
         private void HandleShowClassObjectVariable(SequenceBase seq, string argument)
@@ -525,15 +525,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 && GetSequenceVariable(argument, task.debugSequences.Peek(), seq).GetVariableValue(debuggerProcEnv.ProcEnv) != null)
             {
                 object value = GetSequenceVariable(argument, task.debugSequences.Peek(), seq).GetVariableValue(debuggerProcEnv.ProcEnv);
-                Console.WriteLine(EmitHelper.ToStringAutomatic(value, task.procEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, task.procEnv));
+                ConsoleUI.outWriter.WriteLine(EmitHelper.ToStringAutomatic(value, task.procEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, task.procEnv));
             }
             else if(debuggerProcEnv.ProcEnv.GetVariableValue(argument) != null)
             {
                 object value = debuggerProcEnv.ProcEnv.GetVariableValue(argument);
-                Console.WriteLine(EmitHelper.ToStringAutomatic(value, task.procEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, task.procEnv));
+                ConsoleUI.outWriter.WriteLine(EmitHelper.ToStringAutomatic(value, task.procEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, task.procEnv));
             }
             else
-                Console.WriteLine("The given " + argument + " is not a known variable name (of non-null value)!");
+                ConsoleUI.outWriter.WriteLine("The given " + argument + " is not a known variable name (of non-null value)!");
         }
 
         private bool HexToLong(String argument, out long result)
@@ -566,7 +566,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private void HandleDump()
         {
             string filename = env.ShowGraphWith("ycomp", "", false);
-            Console.WriteLine("Showing dumped graph " + filename + " with ycomp");
+            ConsoleUI.outWriter.WriteLine("Showing dumped graph " + filename + " with ycomp");
 
             String undoLog = task.procEnv.TransactionManager.ToString();
             if(undoLog.Length > 0)
@@ -575,7 +575,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 StreamWriter sw = new StreamWriter(filename, false);
                 sw.Write(undoLog);
                 sw.Close();
-                Console.WriteLine("Written undo log to " + filename);
+                ConsoleUI.outWriter.WriteLine("Written undo log to " + filename);
             }
         }
 
@@ -588,7 +588,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             bool abort = parserFetcher.FetchObjectToBeShownAsGraph(seq, out toBeShownAsGraph, out attrType);
             if(abort)
             {
-                Console.WriteLine("Back from as-graph display to debugging.");
+                ConsoleUI.outWriter.WriteLine("Back from as-graph display to debugging.");
                 return;
             }
 
@@ -599,37 +599,37 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     graph = toBeShownAsGraph as INamedGraph;
                 else if(toBeShownAsGraph is IGraph)
                 {
-                    Console.WriteLine("Clone and assign names to unnamed graph for display.");
+                    ConsoleUI.outWriter.WriteLine("Clone and assign names to unnamed graph for display.");
                     graph = (toBeShownAsGraph as IGraph).CloneAndAssignNames();
                 }
             }
             if(graph == null)
             {
-                Console.WriteLine("Was not able to get a named graph for the object specified.");
-                Console.WriteLine("Back from as-graph display to debugging.");
+                ConsoleUI.outWriter.WriteLine("Was not able to get a named graph for the object specified.");
+                ConsoleUI.outWriter.WriteLine("Back from as-graph display to debugging.");
                 return;
             }
-            Console.WriteLine("Showing graph for the object specified...");
+            ConsoleUI.outWriter.WriteLine("Showing graph for the object specified...");
             graphViewerClient.ClearGraph();
             graphViewerClient.Graph = graph;
             graphViewerClient.UploadGraph();
 
-            Console.WriteLine("...press any key to continue...");
+            ConsoleUI.outWriter.WriteLine("...press any key to continue...");
             env.ReadKeyWithCancel();
 
-            Console.WriteLine("...return to normal graph.");
+            ConsoleUI.outWriter.WriteLine("...return to normal graph.");
             graphViewerClient.ClearGraph();
             graphViewerClient.Graph = task.procEnv.NamedGraph;
             if(!graphViewerClient.dumpInfo.IsExcludedGraph())
                 graphViewerClient.UploadGraph();
 
-            Console.WriteLine("Back from as-graph display to debugging.");
+            ConsoleUI.outWriter.WriteLine("Back from as-graph display to debugging.");
         }
 
         private void HandleUserHighlight(SequenceBase seq)
         {
-            Console.Write("Enter name of variable or id of visited flag to highlight (multiple values may be given comma-separated; just enter for abort): ");
-            String str = Console.ReadLine();
+            ConsoleUI.outWriter.Write("Enter name of variable or id of visited flag to highlight (multiple values may be given comma-separated; just enter for abort): ");
+            String str = ConsoleUI.inReader.ReadLine();
             Highlighter highlighter = new Highlighter(env, debuggerProcEnv, realizers, renderRecorder, graphViewerClient, task.debugSequences);
             List<object> values;
             List<string> annotations;
@@ -645,21 +645,21 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void HandleStackTrace()
         {
-            Console.WriteLine("Current sequence call stack is:");
+            ConsoleUI.outWriter.WriteLine("Current sequence call stack is:");
             PrintSequenceContext contextTrace = new PrintSequenceContext();
             SequenceBase[] callStack = task.debugSequences.ToArray();
             for(int i = callStack.Length - 1; i >= 0; --i)
             {
                 contextTrace.highlightSeq = callStack[i].GetCurrentlyExecutedSequenceBase();
                 SequencePrinter.PrintSequenceBase(callStack[i], contextTrace, callStack.Length - i);
-                Console.WriteLine();
+                ConsoleUI.outWriter.WriteLine();
             }
-            Console.WriteLine("continuing execution with:");
+            ConsoleUI.outWriter.WriteLine("continuing execution with:");
         }
 
         private void HandleFullState()
         {
-            Console.WriteLine("Current execution state is:");
+            ConsoleUI.outWriter.WriteLine("Current execution state is:");
             PrintVariables(null, null);
             PrintSequenceContext contextTrace = new PrintSequenceContext();
             SequenceBase[] callStack = task.debugSequences.ToArray();
@@ -668,11 +668,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 SequenceBase currSeq = callStack[i].GetCurrentlyExecutedSequenceBase();
                 contextTrace.highlightSeq = currSeq;
                 SequencePrinter.PrintSequenceBase(callStack[i], contextTrace, callStack.Length - i);
-                Console.WriteLine();
+                ConsoleUI.outWriter.WriteLine();
                 PrintVariables(callStack[i], currSeq != null ? currSeq : callStack[i]);
             }
             PrintVisited();
-            Console.WriteLine("continuing execution with:");
+            ConsoleUI.outWriter.WriteLine("continuing execution with:");
         }
 
         #endregion Methods for directly handling user commands
@@ -683,7 +683,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             if(seq != null)
             {
-                Console.WriteLine("Available local variables:");
+                ConsoleUI.outWriter.WriteLine("Available local variables:");
                 Dictionary<SequenceVariable, SetValueType> seqVars = new Dictionary<SequenceVariable, SetValueType>();
                 List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
                 seqStart.GetLocalVariables(seqVars, constructors, seq);
@@ -699,12 +699,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                         EmitHelper.ToString((IDeque)var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, null);
                     else
                         EmitHelper.ToString(var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, null);
-                    Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
+                    ConsoleUI.outWriter.WriteLine("  " + var.Name + " = " + content + " : " + type);
                 }
             }
             else
             {
-                Console.WriteLine("Available global (non null) variables:");
+                ConsoleUI.outWriter.WriteLine("Available global (non null) variables:");
                 foreach(Variable var in debuggerProcEnv.ProcEnv.Variables)
                 {
                     string type;
@@ -717,7 +717,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                         EmitHelper.ToString((IDeque)var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, null);
                     else
                         EmitHelper.ToString(var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, null);
-                    Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
+                    ConsoleUI.outWriter.WriteLine("  " + var.Name + " = " + content + " : " + type);
                 }
             }
         }
@@ -725,16 +725,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private void PrintVisited()
         {
             List<int> allocatedVisitedFlags = debuggerProcEnv.ProcEnv.NamedGraph.GetAllocatedVisitedFlags();
-            Console.Write("Allocated visited flags are: ");
+            ConsoleUI.outWriter.Write("Allocated visited flags are: ");
             bool first = true;
             foreach(int allocatedVisitedFlag in allocatedVisitedFlags)
             {
                 if(!first)
-                    Console.Write(", ");
-                Console.Write(allocatedVisitedFlag);
+                    ConsoleUI.outWriter.Write(", ");
+                ConsoleUI.outWriter.Write(allocatedVisitedFlag);
                 first = false;
             }
-            Console.WriteLine(".");
+            ConsoleUI.outWriter.WriteLine(".");
         }
 
         #endregion Print variables
@@ -754,7 +754,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             context.highlightSeq = seq;
             context.choice = true;
             SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-            Console.WriteLine();
+            ConsoleUI.outWriter.WriteLine();
             context.choice = false;
 
             return UserChoiceMenu.ChooseDirection(context, env, direction, seq);
@@ -777,7 +777,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 context.choice = true;
                 context.sequences = sequences;
                 SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-                Console.WriteLine();
+                ConsoleUI.outWriter.WriteLine();
                 context.choice = false;
                 context.sequences = null;
 
@@ -804,7 +804,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 context.highlightSeq = sequences[seqToExecute];
                 context.sequences = sequences;
                 SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-                Console.WriteLine();
+                ConsoleUI.outWriter.WriteLine();
                 context.sequences = null;
 
                 bool commit = UserChoiceMenu.ChooseSequence(env, ref seqToExecute, sequences, seq);
@@ -831,7 +831,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 context.choice = true;
                 context.sequences = seq.Sequences;
                 SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-                Console.WriteLine();
+                ConsoleUI.outWriter.WriteLine();
                 context.choice = false;
                 context.sequences = null;
 
@@ -853,8 +853,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             if(seq.NumTotalMatches <= 1 && lazyChoice)
             {
-                WorkaroundManager.Workaround.PrintHighlighted("Skipping choicepoint ", HighlightingMode.Choicepoint);
-                Console.WriteLine("as no choice needed (use the (l) command to toggle this behaviour).");
+                ConsoleUI.consoleOut.PrintHighlighted("Skipping choicepoint ", HighlightingMode.Choicepoint);
+                ConsoleUI.outWriter.WriteLine("as no choice needed (use the (l) command to toggle this behaviour).");
                 return totalMatchToExecute;
             }
 
@@ -879,7 +879,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 context.sequences = seq.Sequences;
                 context.matches = new List<IMatches>(seq.Matches);
                 SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-                Console.WriteLine();
+                ConsoleUI.outWriter.WriteLine();
                 context.choice = false;
                 context.sequences = null;
                 context.matches = null;
@@ -903,13 +903,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             context.highlightSeq = seq;
             context.choice = true;
             SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-            Console.WriteLine();
+            ConsoleUI.outWriter.WriteLine();
             context.choice = false;
 
             if(matches.Count <= 1 + numFurtherMatchesToApply && lazyChoice)
             {
-                WorkaroundManager.Workaround.PrintHighlighted("Skipping choicepoint ", HighlightingMode.Choicepoint);
-                Console.WriteLine("as no choice needed (use the (l) command to toggle this behaviour).");
+                ConsoleUI.consoleOut.PrintHighlighted("Skipping choicepoint ", HighlightingMode.Choicepoint);
+                ConsoleUI.outWriter.WriteLine("as no choice needed (use the (l) command to toggle this behaviour).");
                 return matchToApply;
             }
 
@@ -936,7 +936,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 graphViewerClient.UpdateDisplay();
                 graphViewerClient.Sync();
 
-                Console.WriteLine("Showing match " + matchToApply + " (of " + matches.Count + " matches available)");
+                ConsoleUI.outWriter.WriteLine("Showing match " + matchToApply + " (of " + matches.Count + " matches available)");
 
                 bool commit = UserChoiceMenu.ChooseMatch(env, matchToApply, matches, numFurtherMatchesToApply, seq, out newMatchToRewrite);
                 if(commit)
@@ -963,7 +963,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             context.highlightSeq = seq;
             context.choice = true;
             SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-            Console.WriteLine();
+            ConsoleUI.outWriter.WriteLine();
             context.choice = false;
 
             return UserChoiceMenu.ChooseRandomNumber(randomNumber, upperBound, seq);
@@ -981,7 +981,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             context.highlightSeq = seq;
             context.choice = true;
             SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-            Console.WriteLine();
+            ConsoleUI.outWriter.WriteLine();
             context.choice = false;
 
             return UserChoiceMenu.ChooseRandomNumber(randomNumber, seq);
@@ -1000,9 +1000,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             // Allow to abort with ESC
             while(true)
             {
-                if(Console.KeyAvailable && WorkaroundManager.Workaround.ReadKey(true).Key == ConsoleKey.Escape)
+                if(ConsoleUI.consoleIn.KeyAvailable && ConsoleUI.consoleIn.ReadKey(true).Key == ConsoleKey.Escape)
                 {
-                    Console.WriteLine("Aborted!");
+                    ConsoleUI.outWriter.WriteLine("Aborted!");
                     graphViewerClient.WaitForElement(false);
                     return null;
                 }
@@ -1014,7 +1014,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             String cmd = graphViewerClient.ReadCommand();
             if(cmd.Length < 7 || !cmd.StartsWith("send "))
             {
-                Console.WriteLine("Unexpected yComp command: \"" + cmd + "\"!");
+                ConsoleUI.outWriter.WriteLine("Unexpected yComp command: \"" + cmd + "\"!");
                 return null;
             }
 
@@ -1034,7 +1034,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             context.highlightSeq = seq;
             context.choice = true;
             SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-            Console.WriteLine();
+            ConsoleUI.outWriter.WriteLine();
             context.choice = false;
 
             return UserChoiceMenu.ChooseValue(env, type, seq, debuggerProcEnv.ProcEnv.NamedGraph);
@@ -1059,7 +1059,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             context.highlightSeq = task.lastlyEntered;
             SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-            Console.WriteLine();
+            ConsoleUI.outWriter.WriteLine();
             PrintDebugTracesStack(false);
 
             switch(QueryContinueOnAssertion())
@@ -1085,7 +1085,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             do
             {
-                Console.WriteLine("You may (a)bort, (d)ebug at source code level (external), or (c)ontinue...");
+                ConsoleUI.outWriter.WriteLine("You may (a)bort, (d)ebug at source code level (external), or (c)ontinue...");
 
                 ConsoleKeyInfo key = env.ReadKeyWithCancel();
                 switch(key.KeyChar)
@@ -1347,7 +1347,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             task.skipMode.Add(false);
             if(task.computationsEnteredStack.Count > 0) // only in subrule debugging, otherwise printed by SequenceEntered
             {
-                Console.WriteLine("Entry to " + patternMatchingConstruct.Symbol);
+                ConsoleUI.outWriter.WriteLine("Entry to " + patternMatchingConstruct.Symbol);
             }
         }
 
@@ -1365,7 +1365,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(task.computationsEnteredStack.Count > 0)
                 return;
 
-            Console.WriteLine("PreMatched " + ProducerNames(matchesList));
+            ConsoleUI.outWriter.WriteLine("PreMatched " + ProducerNames(matchesList));
 
             renderRecorder.RemoveAllAnnotations();
 
@@ -1386,7 +1386,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             graphViewerClient.UpdateDisplay();
             graphViewerClient.Sync();
-            Console.WriteLine("Press any key to continue " + (task.debugSequences.Count > 0 ? "(with the matches remaining after filtering/of the selected rule)..." : "..."));
+            ConsoleUI.outWriter.WriteLine("Press any key to continue " + (task.debugSequences.Count > 0 ? "(with the matches remaining after filtering/of the selected rule)..." : "..."));
             env.ReadKeyWithCancel();
 
             DebugMatchUnmark(matchMarkerAndAnnotator, matchesList);
@@ -1569,7 +1569,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 context.highlightSeq = task.lastlyEntered;
                 context.success = true;
                 SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-                Console.WriteLine();
+                ConsoleUI.outWriter.WriteLine();
 
                 if(!QueryUser(task.lastlyEntered))
                 {
@@ -1599,7 +1599,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             if(matchDepth++ > 0 || task.computationsEnteredStack.Count > 0)
             {
-                Console.WriteLine("Matched " + ProducerNames(matches));
+                ConsoleUI.outWriter.WriteLine("Matched " + ProducerNames(matches));
                 if(Count(matches) == 1 && CurrentlyExecutedPatternMatchingConstructIs(PatternMatchingConstructType.RuleCall))
                     return;
             }
@@ -1644,7 +1644,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 || CurrentlyExecutedPatternMatchingConstructIs(PatternMatchingConstructType.MultiRuleAllCall)
                 || CurrentlyExecutedPatternMatchingConstructIs(PatternMatchingConstructType.SomeFromSet))
             {
-                Console.WriteLine(inMatchByMatchProcessing
+                ConsoleUI.outWriter.WriteLine(inMatchByMatchProcessing
                     ? "Press any key to apply rewrite, besides s(k)ip single matches..."
                     : "Press any key to show single matches and apply rewrite, besides s(k)ip single matches...");
                 ConsoleKeyInfo key = env.ReadKeyWithCancel();
@@ -1659,7 +1659,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             else
             {
-                Console.WriteLine(inMatchByMatchProcessing
+                ConsoleUI.outWriter.WriteLine(inMatchByMatchProcessing
                     ? "Press any key to apply rewrite..."
                     : "Press any key to show single matches and apply rewrite...");
                 env.ReadKeyWithCancel();
@@ -1704,7 +1704,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(task.skipMode.Count > 0 && task.skipMode[task.skipMode.Count - 1])
                 return;
 
-            Console.WriteLine("Showing single match of " + matches.Producer.Name + " ...");
+            ConsoleUI.outWriter.WriteLine("Showing single match of " + matches.Producer.Name + " ...");
 
             renderRecorder.ApplyChanges(graphViewerClient);
             renderRecorder.ResetAllChangedElements();
@@ -1752,7 +1752,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 if(task.skipMode.Count > 0 && task.skipMode[task.skipMode.Count - 1])
                     return;
 
-                Console.WriteLine("Rewritten - Debugging detailed continues with any key...");
+                ConsoleUI.outWriter.WriteLine("Rewritten - Debugging detailed continues with any key...");
                 env.ReadKeyWithCancel();
             }
         }
@@ -1794,7 +1794,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(task.computationsEnteredStack.Count > 3 && !detailedModeShowPostMatches)
                 return;
 
-            Console.Write("Finished " + ProducerNames(matches) + " - ");
+            ConsoleUI.outWriter.Write("Finished " + ProducerNames(matches) + " - ");
             if(detailedModeShowPostMatches)
             {
                 graphViewerClient.UpdateDisplay();
@@ -1836,7 +1836,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     if(task.debugSequences.Count > 0)
                     {
                         SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-                        Console.WriteLine();
+                        ConsoleUI.outWriter.WriteLine();
                     }
 
                     /*if(detailedMode && detailedModeShowPostMatches
@@ -1863,7 +1863,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 {
                     if(task.computationsEnteredStack.Count > 0) // only in subrule debugging
                     {
-                        Console.WriteLine("Exit from " + patternMatchingConstruct.Symbol);
+                        ConsoleUI.outWriter.WriteLine("Exit from " + patternMatchingConstruct.Symbol);
                     }
                 }
             }
@@ -1873,7 +1873,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             do
             {
-                Console.WriteLine("Debugging (detailed) continues with any key, besides (f)ull state or (a)bort.");
+                ConsoleUI.outWriter.WriteLine("Debugging (detailed) continues with any key, besides (f)ull state or (a)bort.");
 
                 ConsoleKeyInfo key = env.ReadKeyWithCancel();
                 switch(key.KeyChar)
@@ -1884,7 +1884,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 case 'f':
                     HandleFullState();
                     SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-                    Console.WriteLine();
+                    ConsoleUI.outWriter.WriteLine();
                     PrintDebugTracesStack(true);
                     break;
                 default:
@@ -1904,7 +1904,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 if(task.debugSequences.Count > 0)
                 {
                     SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-                    Console.WriteLine();
+                    ConsoleUI.outWriter.WriteLine();
                 }
                 PrintDebugInstructionsOnEntering();
                 QueryUser(seq);
@@ -1946,7 +1946,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 if(task.debugSequences.Count > 0)
                 {
                     SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-                    Console.WriteLine();
+                    ConsoleUI.outWriter.WriteLine();
                 }
 
                 if(detailedMode && detailedModeShowPostMatches
@@ -2000,21 +2000,21 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             if(task.debugSequences.Count == 1 && seq == task.debugSequences.Peek())
             {
-                WorkaroundManager.Workaround.PrintHighlighted("State at end of sequence ", HighlightingMode.SequenceStart);
+                ConsoleUI.consoleOut.PrintHighlighted("State at end of sequence ", HighlightingMode.SequenceStart);
                 context.highlightSeq = null;
                 SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-                WorkaroundManager.Workaround.PrintHighlighted("< leaving", HighlightingMode.SequenceStart);
-                Console.WriteLine();
+                ConsoleUI.consoleOut.PrintHighlighted("< leaving", HighlightingMode.SequenceStart);
+                ConsoleUI.outWriter.WriteLine();
             }
         }
 
         private void PrintDebugInstructionsOnEntering()
         {
-            WorkaroundManager.Workaround.PrintHighlighted("Debug started", HighlightingMode.SequenceStart);
-            Console.Write(" -- available commands are: (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut of loop, (r)un, ");
-            Console.Write("toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, (w)atchpoints, ");
-            Console.Write("show (v)ariables, show class ob(j)ect, print stack(t)race, (f)ull state, (h)ighlight, dum(p) graph, as (g)raph, ");
-            Console.WriteLine("and (a)bort (plus Ctrl+C for forced abort).");
+            ConsoleUI.consoleOut.PrintHighlighted("Debug started", HighlightingMode.SequenceStart);
+            ConsoleUI.outWriter.Write(" -- available commands are: (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut of loop, (r)un, ");
+            ConsoleUI.outWriter.Write("toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, (w)atchpoints, ");
+            ConsoleUI.outWriter.Write("show (v)ariables, show class ob(j)ect, print stack(t)race, (f)ull state, (h)ighlight, dum(p) graph, as (g)raph, ");
+            ConsoleUI.outWriter.WriteLine("and (a)bort (plus Ctrl+C for forced abort).");
         }
 
         private static bool IsLoop(SequenceBase seq)
@@ -2078,46 +2078,46 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                         else
                             text = "Backtracking possibilities exhausted, fail";
                     }
-                    WorkaroundManager.Workaround.PrintHighlighted(text + ": ", HighlightingMode.SequenceStart);
+                    ConsoleUI.consoleOut.PrintHighlighted(text + ": ", HighlightingMode.SequenceStart);
                     context.highlightSeq = seq;
                     SequencePrinter.PrintSequence((Sequence)seq, context, task.debugSequences.Count);
                     if(!continueLoop)
-                        WorkaroundManager.Workaround.PrintHighlighted("< leaving backtracking brackets", HighlightingMode.SequenceStart);
+                        ConsoleUI.consoleOut.PrintHighlighted("< leaving backtracking brackets", HighlightingMode.SequenceStart);
                 }
                 else if(seq is SequenceDefinition)
                 {
                     SequenceDefinition seqDef = (SequenceDefinition)seq;
-                    WorkaroundManager.Workaround.PrintHighlighted("State at end of sequence call" + ": ", HighlightingMode.SequenceStart);
+                    ConsoleUI.consoleOut.PrintHighlighted("State at end of sequence call" + ": ", HighlightingMode.SequenceStart);
                     context.highlightSeq = seq;
                     SequencePrinter.PrintSequence((Sequence)seq, context, task.debugSequences.Count);
-                    WorkaroundManager.Workaround.PrintHighlighted("< leaving", HighlightingMode.SequenceStart);
+                    ConsoleUI.consoleOut.PrintHighlighted("< leaving", HighlightingMode.SequenceStart);
                 }
                 else if(seq is SequenceExpressionMappingClause)
                 {
-                    WorkaroundManager.Workaround.PrintHighlighted("State at end of mapping step" + ": ", HighlightingMode.SequenceStart);
+                    ConsoleUI.consoleOut.PrintHighlighted("State at end of mapping step" + ": ", HighlightingMode.SequenceStart);
                     context.highlightSeq = seq;
                     SequencePrinter.PrintSequenceExpression((SequenceExpression)seq, context, task.debugSequences.Count);
                     if(!continueLoop)
-                        WorkaroundManager.Workaround.PrintHighlighted("< leaving mapping", HighlightingMode.SequenceStart);
+                        ConsoleUI.consoleOut.PrintHighlighted("< leaving mapping", HighlightingMode.SequenceStart);
                 }
                 else
                 {
-                    WorkaroundManager.Workaround.PrintHighlighted("State at end of iteration step" + ": ", HighlightingMode.SequenceStart);
+                    ConsoleUI.consoleOut.PrintHighlighted("State at end of iteration step" + ": ", HighlightingMode.SequenceStart);
                     context.highlightSeq = seq;
                     SequencePrinter.PrintSequence((Sequence)seq, context, task.debugSequences.Count);
                     if(!continueLoop)
-                        WorkaroundManager.Workaround.PrintHighlighted("< leaving loop", HighlightingMode.SequenceStart);
+                        ConsoleUI.consoleOut.PrintHighlighted("< leaving loop", HighlightingMode.SequenceStart);
                 }
-                Console.WriteLine(" (updating, please wait...)");
+                ConsoleUI.outWriter.WriteLine(" (updating, please wait...)");
             }
         }
 
         public void DebugSpawnSequences(SequenceParallel parallel, params ParallelExecutionBegin[] parallelExecutionBegins)
         {
-            WorkaroundManager.Workaround.PrintHighlighted("parallel execution start" + ": ", HighlightingMode.SequenceStart);
+            ConsoleUI.consoleOut.PrintHighlighted("parallel execution start" + ": ", HighlightingMode.SequenceStart);
             context.highlightSeq = parallel;
             SequencePrinter.PrintSequenceBase(parallel, context, task.debugSequences.Count);
-            Console.WriteLine();
+            ConsoleUI.outWriter.WriteLine();
 
             List<Sequence> sequences = new List<Sequence>(parallel.ParallelChildren);
             int seqToExecute = ChooseSequence(0, sequences, parallel);
@@ -2193,8 +2193,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(!graphViewerClient.dumpInfo.IsExcludedGraph())
                 graphViewerClient.UploadGraph();
 
-            WorkaroundManager.Workaround.PrintHighlighted("< leaving parallel execution", HighlightingMode.SequenceStart);
-            Console.WriteLine();
+            ConsoleUI.consoleOut.PrintHighlighted("< leaving parallel execution", HighlightingMode.SequenceStart);
+            ConsoleUI.outWriter.WriteLine();
 
             dynamicStepMode = false;
         }
@@ -2208,7 +2208,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             // potential future extension: display the stack of graphs instead of only the topmost one
             // with the one at the forefront being the top of the stack; would save clearing and uploading
             task.UnregisterGraphEvents(task.procEnv.NamedGraph);
-            WorkaroundManager.Workaround.PrintHighlighted("Entering graph...\n", HighlightingMode.SequenceStart);
+            ConsoleUI.consoleOut.PrintHighlighted("Entering graph...\n", HighlightingMode.SequenceStart);
             graphViewerClient.ClearGraph();
             graphViewerClient.Graph = (INamedGraph)newGraph;
             if(!graphViewerClient.dumpInfo.IsExcludedGraph())
@@ -2223,7 +2223,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void DebugReturnedFromGraph(IGraph oldGraph)
         {
             task.UnregisterGraphEvents((INamedGraph)oldGraph);
-            WorkaroundManager.Workaround.PrintHighlighted("...leaving graph\n", HighlightingMode.SequenceStart);
+            ConsoleUI.consoleOut.PrintHighlighted("...leaving graph\n", HighlightingMode.SequenceStart);
             graphViewerClient.ClearGraph();
             graphViewerClient.Graph = task.procEnv.NamedGraph;
             if(!graphViewerClient.dumpInfo.IsExcludedGraph())
@@ -2242,7 +2242,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 SubruleComputationType.Entry, message, values);
             task.computationsEnteredStack.Add(entry);
             if(detailedMode && detailedModeShowPostMatches)
-                Console.WriteLine(entry.ToString(false));
+                ConsoleUI.outWriter.WriteLine(entry.ToString(false));
         }
 
         public void DebugExit(string message, params object[] values)
@@ -2257,7 +2257,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 SubruleComputation exit = new SubruleComputation(task.procEnv.NamedGraph,
                     SubruleComputationType.Exit, message, values);
-                Console.WriteLine(exit.ToString(false));
+                ConsoleUI.outWriter.WriteLine(exit.ToString(false));
             }
             if(outOfDetailedMode && (task.computationsEnteredStack.Count <= outOfDetailedModeTarget || task.computationsEnteredStack.Count == 0))
             {
@@ -2280,14 +2280,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             if(task.computationsEnteredStack.Count == 0)
             {
-                Console.Error.WriteLine("Trying to remove from debug trace stack the entry for the exit message/computation: " + message);
-                Console.Error.WriteLine("But found no enclosing message/computation entry as the debug trace stack is empty!");
+                ConsoleUI.errorOutWriter.WriteLine("Trying to remove from debug trace stack the entry for the exit message/computation: " + message);
+                ConsoleUI.errorOutWriter.WriteLine("But found no enclosing message/computation entry as the debug trace stack is empty!");
                 throw new Exception("Mismatch of debug enter / exit, mismatch in Debug::add(message,...) / Debug::rem(message,...)");
             }
             if(task.computationsEnteredStack[posOfEntry].message != message)
             {
-                Console.Error.WriteLine("Trying to remove from debug trace stack the entry for the exit message/computation: " + message);
-                Console.Error.WriteLine("But found as enclosing message/computation entry: " + task.computationsEnteredStack[posOfEntry].message);
+                ConsoleUI.errorOutWriter.WriteLine("Trying to remove from debug trace stack the entry for the exit message/computation: " + message);
+                ConsoleUI.errorOutWriter.WriteLine("But found as enclosing message/computation entry: " + task.computationsEnteredStack[posOfEntry].message);
                 throw new Exception("Mismatch of debug enter / exit, mismatch in Debug::add(message,...) / Debug::rem(message,...)");
             }
             task.computationsEnteredStack.RemoveRange(posOfEntry, task.computationsEnteredStack.Count - posOfEntry);
@@ -2308,7 +2308,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 SubruleComputationType.Emit, message, values);
             task.computationsEnteredStack.Add(emit);
             if(detailedMode)
-                Console.WriteLine(emit.ToString(false));
+                ConsoleUI.outWriter.WriteLine(emit.ToString(false));
         }
 
         public void DebugHalt(string message, params object[] values)
@@ -2320,13 +2320,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 return;
             }
 
-            Console.Write("Halting: " + message);
+            ConsoleUI.outWriter.Write("Halting: " + message);
             for(int i = 0; i < values.Length; ++i)
             {
-                Console.Write(" ");
-                Console.Write(EmitHelper.ToStringAutomatic(values[i], task.procEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, null));
+                ConsoleUI.outWriter.Write(" ");
+                ConsoleUI.outWriter.Write(EmitHelper.ToStringAutomatic(values[i], task.procEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, null));
             }
-            Console.WriteLine();
+            ConsoleUI.outWriter.WriteLine();
 
             graphViewerClient.UpdateDisplay();
             graphViewerClient.Sync();
@@ -2334,7 +2334,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 context.highlightSeq = task.lastlyEntered;
                 SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-                Console.WriteLine();
+                ConsoleUI.outWriter.WriteLine();
                 PrintDebugTracesStack(false);
             }
 
@@ -2343,8 +2343,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void InternalHalt(SubruleDebuggingConfigurationRule cr, object data, params object[] additionalData)
         {
-            WorkaroundManager.Workaround.PrintHighlighted("Break ", HighlightingMode.Breakpoint);
-            Console.WriteLine("because " + cr.ToString(data, task.procEnv.NamedGraph, additionalData));
+            ConsoleUI.consoleOut.PrintHighlighted("Break ", HighlightingMode.Breakpoint);
+            ConsoleUI.outWriter.WriteLine("because " + cr.ToString(data, task.procEnv.NamedGraph, additionalData));
 
             graphViewerClient.UpdateDisplay();
             graphViewerClient.Sync();
@@ -2352,7 +2352,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 context.highlightSeq = task.lastlyEntered;
                 SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-                Console.WriteLine();
+                ConsoleUI.outWriter.WriteLine();
                 PrintDebugTracesStack(false);
             }
 
@@ -2371,15 +2371,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 return;
             }
 
-            Console.Write("Highlighting: " + message);
+            ConsoleUI.outWriter.Write("Highlighting: " + message);
             if(sourceNames.Count > 0)
-                Console.Write(" with annotations");
+                ConsoleUI.outWriter.Write(" with annotations");
             for(int i = 0; i < sourceNames.Count; ++i)
             {
-                Console.Write(" ");
-                Console.Write(sourceNames[i]);
+                ConsoleUI.outWriter.Write(" ");
+                ConsoleUI.outWriter.Write(sourceNames[i]);
             }
-            Console.WriteLine();
+            ConsoleUI.outWriter.WriteLine();
 
             graphViewerClient.UpdateDisplay();
             graphViewerClient.Sync();
@@ -2387,7 +2387,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 context.highlightSeq = task.lastlyEntered;
                 SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-                Console.WriteLine();
+                ConsoleUI.outWriter.WriteLine();
                 PrintDebugTracesStack(false);
             }
 
@@ -2400,12 +2400,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void PrintDebugTracesStack(bool full)
         {
-            Console.WriteLine("Subrule traces stack is:");
+            ConsoleUI.outWriter.WriteLine("Subrule traces stack is:");
             for(int i = 0; i < task.computationsEnteredStack.Count; ++i)
             {
                 if(!full && task.computationsEnteredStack[i].type != SubruleComputationType.Entry)
                     continue;
-                Console.WriteLine(task.computationsEnteredStack[i].ToString(full));
+                ConsoleUI.outWriter.WriteLine(task.computationsEnteredStack[i].ToString(full));
             }
         }
 
@@ -2464,7 +2464,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     {
                         HandleStackTrace();
                         SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-                        Console.WriteLine();
+                        ConsoleUI.outWriter.WriteLine();
                         PrintDebugTracesStack(true);
                         break;
                     }
@@ -2473,7 +2473,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 case 'f':
                     HandleFullState();
                     SequencePrinter.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
-                    Console.WriteLine();
+                    ConsoleUI.outWriter.WriteLine();
                     PrintDebugTracesStack(true);
                     break;
                 default:
@@ -2486,56 +2486,56 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private void PrintDebugInstructions(bool isBottomUpBreak)
         {
             if(!isBottomUpBreak && !EmbeddedSequenceWasEntered())
-                Console.WriteLine("Debugging (detailed) continues with any key, besides (f)ull state or (a)bort.");
+                ConsoleUI.outWriter.WriteLine("Debugging (detailed) continues with any key, besides (f)ull state or (a)bort.");
             else
             {
                 if(!isBottomUpBreak)
                 {
-                    Console.Write("Detailed subrule debugging -- ");
+                    ConsoleUI.outWriter.Write("Detailed subrule debugging -- ");
                     if(EmbeddedSequenceWasEntered())
                     {
-                        Console.Write("(r)un until end of detail debugging, ");
+                        ConsoleUI.outWriter.Write("(r)un until end of detail debugging, ");
                         if(TargetStackLevelForUpInDetailedMode() > 0)
                         {
-                            Console.Write("(u)p from current entry, ");
+                            ConsoleUI.outWriter.Write("(u)p from current entry, ");
                             if(TargetStackLevelForOutInDetailedMode() > 0)
-                                Console.Write("(o)ut of detail debugging entry we are nested in, ");
+                                ConsoleUI.outWriter.Write("(o)ut of detail debugging entry we are nested in, ");
                         }
                     }
                 }
                 else
-                    Console.Write("Watchpoint/halt/highlight hit -- ");
+                    ConsoleUI.outWriter.Write("Watchpoint/halt/highlight hit -- ");
 
                 if(isBottomUpBreak && !stepMode)
-                    Console.Write("(s)tep mode, ");
+                    ConsoleUI.outWriter.Write("(s)tep mode, ");
 
                 if(EmbeddedSequenceWasEntered())
-                    Console.Write("print subrule stack(t)race, (f)ull state, or (a)bort, any other key continues ");
+                    ConsoleUI.outWriter.Write("print subrule stack(t)race, (f)ull state, or (a)bort, any other key continues ");
                 else
-                    Console.Write("(f)ull state, or (a)bort, any other key continues ");
+                    ConsoleUI.outWriter.Write("(f)ull state, or (a)bort, any other key continues ");
 
                 if(!isBottomUpBreak)
-                    Console.WriteLine("detailed debugging.");
+                    ConsoleUI.outWriter.WriteLine("detailed debugging.");
                 else
-                    Console.WriteLine("debugging as before.");
+                    ConsoleUI.outWriter.WriteLine("debugging as before.");
             }
         }
 
         private void PrintDebugInstructions()
         {
-            Console.Write("Detailed subrule debugging -- ");
+            ConsoleUI.outWriter.Write("Detailed subrule debugging -- ");
 
-            Console.Write("(r)un until end of detail debugging, ");
+            ConsoleUI.outWriter.Write("(r)un until end of detail debugging, ");
             if(TargetStackLevelForUpInDetailedMode() > 0)
             {
-                Console.Write("(u)p from current entry, ");
+                ConsoleUI.outWriter.Write("(u)p from current entry, ");
                 if(TargetStackLevelForOutInDetailedMode() > 0)
-                    Console.Write("(o)ut of detail debugging entry we are nested in, ");
+                    ConsoleUI.outWriter.Write("(o)ut of detail debugging entry we are nested in, ");
             }
 
-            Console.Write("print subrule stack(t)race, (f)ull state, or (a)bort, any other key continues ");
+            ConsoleUI.outWriter.Write("print subrule stack(t)race, (f)ull state, or (a)bort, any other key continues ");
 
-            Console.WriteLine("detailed debugging.");
+            ConsoleUI.outWriter.WriteLine("detailed debugging.");
         }
 
         private bool EmbeddedSequenceWasEntered()
@@ -2578,7 +2578,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void DebugOnConnectionLost()
         {
-            Console.WriteLine("Connection to yComp lost!");
+            ConsoleUI.outWriter.WriteLine("Connection to yComp lost!");
             env.Cancel();
         }
 

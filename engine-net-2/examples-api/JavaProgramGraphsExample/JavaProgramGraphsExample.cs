@@ -82,7 +82,7 @@ namespace JavaProgramGraphs
                          && (replaceAccess_Parameter_AccessWithoutLink(c,pe) || replaceAccess_Parameter_AccessWithLinkToExpression(c,pe)) 
                        )*");
 
-            Console.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
+            ConsoleUI.outWriter.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
             procEnv.PerformanceInfo.Reset();
 
             // unmark the body of the expression by searching all occurences and modifying them

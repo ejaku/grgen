@@ -18,8 +18,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     {
         public static int ChooseDirection(PrintSequenceContext context, IDebuggerEnvironment env, int direction, Sequence seq)
         {
-            WorkaroundManager.Workaround.PrintHighlighted("Please choose: Which branch to execute first?", HighlightingMode.Choicepoint);
-            Console.Write(" (l)eft or (r)ight or (s)/(n)/(d) to continue with random choice.  (Random has chosen " + (direction == 0 ? "(l)eft" : "(r)ight") + ") ");
+            ConsoleUI.consoleOut.PrintHighlighted("Please choose: Which branch to execute first?", HighlightingMode.Choicepoint);
+            ConsoleUI.outWriter.Write(" (l)eft or (r)ight or (s)/(n)/(d) to continue with random choice.  (Random has chosen " + (direction == 0 ? "(l)eft" : "(r)ight") + ") ");
 
             do
             {
@@ -27,18 +27,18 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 switch(key.KeyChar)
                 {
                 case 'l':
-                    Console.WriteLine();
+                    ConsoleUI.outWriter.WriteLine();
                     return 0;
                 case 'r':
-                    Console.WriteLine();
+                    ConsoleUI.outWriter.WriteLine();
                     return 1;
                 case 's':
                 case 'n':
                 case 'd':
-                    Console.WriteLine();
+                    ConsoleUI.outWriter.WriteLine();
                     return direction;
                 default:
-                    Console.WriteLine("Illegal choice (Key = " + key.Key
+                    ConsoleUI.outWriter.WriteLine("Illegal choice (Key = " + key.Key
                         + ")! Only (l)eft branch, (r)ight branch, (s)/(n)/(d) to continue allowed! ");
                     break;
                 }
@@ -48,9 +48,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public static void ChooseSequencePrintHeader(PrintSequenceContext context, int seqToExecute)
         {
-            WorkaroundManager.Workaround.PrintHighlighted("Please choose: Which sequence to execute?", HighlightingMode.Choicepoint);
-            Console.WriteLine(" Pre-selecting sequence " + seqToExecute + " chosen by random.");
-            Console.WriteLine("Press (0)...(9) to pre-select the corresponding sequence or (e) to enter the number of the sequence to show."
+            ConsoleUI.consoleOut.PrintHighlighted("Please choose: Which sequence to execute?", HighlightingMode.Choicepoint);
+            ConsoleUI.outWriter.WriteLine(" Pre-selecting sequence " + seqToExecute + " chosen by random.");
+            ConsoleUI.outWriter.WriteLine("Press (0)...(9) to pre-select the corresponding sequence or (e) to enter the number of the sequence to show."
                                 + " Press (s) or (n) or (d) to commit to the pre-selected sequence and continue."
                                 + " Pressing (u) or (o) works like (s)/(n)/(d) but does not ask for the remaining contained sequences.");
         }
@@ -75,25 +75,25 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     int num = key.KeyChar - '0';
                     if(num >= sequences.Count)
                     {
-                        Console.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
+                        ConsoleUI.outWriter.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
                         break;
                     }
                     seqToExecute = num;
                     return false;
                 case 'e':
-                    Console.Write("Enter number of sequence to show: ");
-                    String numStr = Console.ReadLine();
+                    ConsoleUI.outWriter.Write("Enter number of sequence to show: ");
+                    String numStr = ConsoleUI.inReader.ReadLine();
                     if(int.TryParse(numStr, out num))
                     {
                         if(num < 0 || num >= sequences.Count)
                         {
-                            Console.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
+                            ConsoleUI.outWriter.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
                             break;
                         }
                         seqToExecute = num;
                         return false;
                     }
-                    Console.WriteLine("You must enter a valid integer number!");
+                    ConsoleUI.outWriter.WriteLine("You must enter a valid integer number!");
                     break;
                 case 's':
                 case 'n':
@@ -104,7 +104,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     seq.Skip = true; // skip remaining rules (reset after exection of seq)
                     return true;
                 default:
-                    Console.WriteLine("Illegal choice (Key = " + key.Key
+                    ConsoleUI.outWriter.WriteLine("Illegal choice (Key = " + key.Key
                         + ")! Only (0)...(9), (e)nter number, (s)/(n)/(d) to commit and continue, (u)/(o) to commit and skip remaining choices allowed! ");
                     break;
                 }
@@ -114,9 +114,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public static void ChooseSequenceParallelPrintHeader(PrintSequenceContext context, int seqToExecute)
         {
-            WorkaroundManager.Workaround.PrintHighlighted("Please choose: Which sequence to execute in the debugger (others are executed in parallel outside)?", HighlightingMode.Choicepoint);
-            Console.WriteLine(" Pre-selecting first sequence " + seqToExecute + ".");
-            Console.WriteLine("Press (0)...(9) to pre-select the corresponding sequence or (e) to enter the number of the sequence to show."
+            ConsoleUI.consoleOut.PrintHighlighted("Please choose: Which sequence to execute in the debugger (others are executed in parallel outside)?", HighlightingMode.Choicepoint);
+            ConsoleUI.outWriter.WriteLine(" Pre-selecting first sequence " + seqToExecute + ".");
+            ConsoleUI.outWriter.WriteLine("Press (0)...(9) to pre-select the corresponding sequence or (e) to enter the number of the sequence to show."
                                 + " Press (s) or (n) or (d) to commit to the pre-selected sequence and continue.");
         }
 
@@ -140,32 +140,32 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                         int num = key.KeyChar - '0';
                         if(num >= sequences.Count)
                         {
-                            Console.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
+                            ConsoleUI.outWriter.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
                             break;
                         }
                         seqToExecute = num;
                         return false;
                     case 'e':
-                        Console.Write("Enter number of sequence to show: ");
-                        String numStr = Console.ReadLine();
+                        ConsoleUI.outWriter.Write("Enter number of sequence to show: ");
+                        String numStr = ConsoleUI.inReader.ReadLine();
                         if(int.TryParse(numStr, out num))
                         {
                             if(num < 0 || num >= sequences.Count)
                             {
-                                Console.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
+                                ConsoleUI.outWriter.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
                                 break;
                             }
                             seqToExecute = num;
                             return false;
                         }
-                        Console.WriteLine("You must enter a valid integer number!");
+                        ConsoleUI.outWriter.WriteLine("You must enter a valid integer number!");
                         break;
                     case 's':
                     case 'n':
                     case 'd':
                         return true;
                     default:
-                        Console.WriteLine("Illegal choice (Key = " + key.Key
+                        ConsoleUI.outWriter.WriteLine("Illegal choice (Key = " + key.Key
                             + ")! Only (0)...(9), (e)nter number, (s)/(n)/(d) to commit and continue allowed! ");
                         break;
                 }
@@ -175,9 +175,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public static void ChoosePointPrintHeader(PrintSequenceContext context, double pointToExecute)
         {
-            WorkaroundManager.Workaround.PrintHighlighted("Please choose: Which point in the interval series (corresponding to a sequence) to execute?", HighlightingMode.Choicepoint);
-            Console.WriteLine(" Pre-selecting point " + pointToExecute + " chosen by random.");
-            Console.WriteLine("Press (e) to enter a point in the interval series of the sequence to show."
+            ConsoleUI.consoleOut.PrintHighlighted("Please choose: Which point in the interval series (corresponding to a sequence) to execute?", HighlightingMode.Choicepoint);
+            ConsoleUI.outWriter.WriteLine(" Pre-selecting point " + pointToExecute + " chosen by random.");
+            ConsoleUI.outWriter.WriteLine("Press (e) to enter a point in the interval series of the sequence to show."
                                 + " Press (s) or (n) or (d) to commit to the pre-selected sequence and continue.");
         }
 
@@ -190,27 +190,27 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 {
                 case 'e':
                     double num;
-                    Console.Write("Enter point in interval series of sequence to show: ");
-                    String numStr = Console.ReadLine();
+                    ConsoleUI.outWriter.Write("Enter point in interval series of sequence to show: ");
+                    String numStr = ConsoleUI.inReader.ReadLine();
                     if(double.TryParse(numStr, System.Globalization.NumberStyles.Float,
                             System.Globalization.CultureInfo.InvariantCulture, out num))
                     {
                         if(num < 0.0 || num > seq.Numbers[seq.Numbers.Count - 1])
                         {
-                            Console.WriteLine("You must specify a floating point number between 0.0 and " + seq.Numbers[seq.Numbers.Count - 1] + "!");
+                            ConsoleUI.outWriter.WriteLine("You must specify a floating point number between 0.0 and " + seq.Numbers[seq.Numbers.Count - 1] + "!");
                             break;
                         }
                         pointToExecute = num;
                         return false;
                     }
-                    Console.WriteLine("You must enter a valid floating point number!");
+                    ConsoleUI.outWriter.WriteLine("You must enter a valid floating point number!");
                     break;
                 case 's':
                 case 'n':
                 case 'd':
                     return true;
                 default:
-                    Console.WriteLine("Illegal choice (Key = " + key.Key
+                    ConsoleUI.outWriter.WriteLine("Illegal choice (Key = " + key.Key
                         + ")! Only (e)nter number and (s)/(n)/(d) to commit and continue allowed! ");
                     break;
                 }
@@ -220,9 +220,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public static void ChooseMatchSomeFromSetPrintHeader(PrintSequenceContext context, int totalMatchToExecute)
         {
-            WorkaroundManager.Workaround.PrintHighlighted("Please choose: Which match to execute?", HighlightingMode.Choicepoint);
-            Console.WriteLine(" Pre-selecting match " + totalMatchToExecute + " chosen by random.");
-            Console.WriteLine("Press (0)...(9) to pre-select the corresponding match or (e) to enter the number of the match to show."
+            ConsoleUI.consoleOut.PrintHighlighted("Please choose: Which match to execute?", HighlightingMode.Choicepoint);
+            ConsoleUI.outWriter.WriteLine(" Pre-selecting match " + totalMatchToExecute + " chosen by random.");
+            ConsoleUI.outWriter.WriteLine("Press (0)...(9) to pre-select the corresponding match or (e) to enter the number of the match to show."
                                 + " Press (s) or (n) or (d) to commit to the pre-selected match and continue.");
         }
 
@@ -246,32 +246,32 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     int num = key.KeyChar - '0';
                     if(num >= seq.NumTotalMatches)
                     {
-                        Console.WriteLine("You must specify a number between 0 and " + (seq.NumTotalMatches - 1) + "!");
+                        ConsoleUI.outWriter.WriteLine("You must specify a number between 0 and " + (seq.NumTotalMatches - 1) + "!");
                         break;
                     }
                     totalMatchToExecute = num;
                     return false;
                 case 'e':
-                    Console.Write("Enter number of rule to show: ");
-                    String numStr = Console.ReadLine();
+                    ConsoleUI.outWriter.Write("Enter number of rule to show: ");
+                    String numStr = ConsoleUI.inReader.ReadLine();
                     if(int.TryParse(numStr, out num))
                     {
                         if(num < 0 || num >= seq.NumTotalMatches)
                         {
-                            Console.WriteLine("You must specify a number between 0 and " + (seq.NumTotalMatches - 1) + "!");
+                            ConsoleUI.outWriter.WriteLine("You must specify a number between 0 and " + (seq.NumTotalMatches - 1) + "!");
                             break;
                         }
                         totalMatchToExecute = num;
                         return false;
                     }
-                    Console.WriteLine("You must enter a valid integer number!");
+                    ConsoleUI.outWriter.WriteLine("You must enter a valid integer number!");
                     break;
                 case 's':
                 case 'n':
                 case 'd':
                     return true;
                 default:
-                    Console.WriteLine("Illegal choice (Key = " + key.Key
+                    ConsoleUI.outWriter.WriteLine("Illegal choice (Key = " + key.Key
                         + ")! Only (0)...(9), (e)nter number, (s)/(n)/(d) to commit and continue allowed! ");
                     break;
                 }
@@ -281,9 +281,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public static void ChooseMatchPrintHeader(PrintSequenceContext context, int numFurtherMatchesToApply)
         {
-            WorkaroundManager.Workaround.PrintHighlighted("Please choose: Which match to apply?", HighlightingMode.Choicepoint);
-            Console.WriteLine(" Showing the match chosen by random. (" + numFurtherMatchesToApply + " following)");
-            Console.WriteLine("Press (0)...(9) to show the corresponding match or (e) to enter the number of the match to show."
+            ConsoleUI.consoleOut.PrintHighlighted("Please choose: Which match to apply?", HighlightingMode.Choicepoint);
+            ConsoleUI.outWriter.WriteLine(" Showing the match chosen by random. (" + numFurtherMatchesToApply + " following)");
+            ConsoleUI.outWriter.WriteLine("Press (0)...(9) to show the corresponding match or (e) to enter the number of the match to show."
                                 + " Press (s) or (n) or (d) to commit to the currently shown match and continue.");
         }
 
@@ -309,32 +309,32 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     int num = key.KeyChar - '0';
                     if(num >= matches.Count)
                     {
-                        Console.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
+                        ConsoleUI.outWriter.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
                         break;
                     }
                     newMatchToRewrite = num;
                     return false;
                 case 'e':
-                    Console.Write("Enter number of match to show: ");
-                    String numStr = Console.ReadLine();
+                    ConsoleUI.outWriter.Write("Enter number of match to show: ");
+                    String numStr = ConsoleUI.inReader.ReadLine();
                     if(int.TryParse(numStr, out num))
                     {
                         if(num < 0 || num >= matches.Count)
                         {
-                            Console.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
+                            ConsoleUI.outWriter.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
                             break;
                         }
                         newMatchToRewrite = num;
                         return false;
                     }
-                    Console.WriteLine("You must enter a valid integer number!");
+                    ConsoleUI.outWriter.WriteLine("You must enter a valid integer number!");
                     return false;
                 case 's':
                 case 'n':
                 case 'd':
                     return true;
                 default:
-                    Console.WriteLine("Illegal choice (Key = " + key.Key
+                    ConsoleUI.outWriter.WriteLine("Illegal choice (Key = " + key.Key
                         + ")! Only (0)...(9), (e)nter number, (s)/(n)/(d) to commit and continue allowed! ");
                     break;
                 }
@@ -344,11 +344,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public static int ChooseRandomNumber(int randomNumber, int upperBound, Sequence seq)
         {
-            Console.Write("Enter number in range [0.." + upperBound + "[ or press enter to use " + randomNumber + ": ");
+            ConsoleUI.outWriter.Write("Enter number in range [0.." + upperBound + "[ or press enter to use " + randomNumber + ": ");
 
             do
             {
-                String numStr = Console.ReadLine();
+                String numStr = ConsoleUI.inReader.ReadLine();
                 if(numStr == "")
                     return randomNumber;
                 int num;
@@ -356,23 +356,23 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 {
                     if(num < 0 || num >= upperBound)
                     {
-                        Console.WriteLine("You must specify a number between 0 and " + (upperBound - 1) + "!");
+                        ConsoleUI.outWriter.WriteLine("You must specify a number between 0 and " + (upperBound - 1) + "!");
                         continue;
                     }
                     return num;
                 }
-                Console.WriteLine("You must enter a valid integer number!");
+                ConsoleUI.outWriter.WriteLine("You must enter a valid integer number!");
             }
             while(true);
         }
 
         public static double ChooseRandomNumber(double randomNumber, Sequence seq)
         {
-            Console.Write("Enter number in range [0.0 .. 1.0[ or press enter to use " + randomNumber + ": ");
+            ConsoleUI.outWriter.Write("Enter number in range [0.0 .. 1.0[ or press enter to use " + randomNumber + ": ");
 
             do
             {
-                String numStr = Console.ReadLine();
+                String numStr = ConsoleUI.inReader.ReadLine();
                 if(numStr == "")
                     return randomNumber;
                 double num;
@@ -381,12 +381,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 {
                     if(num < 0.0 || num >= 1.0)
                     {
-                        Console.WriteLine("You must specify a number between 0.0 and 1.0 exclusive !");
+                        ConsoleUI.outWriter.WriteLine("You must specify a number between 0.0 and 1.0 exclusive !");
                         continue;
                     }
                     return num;
                 }
-                Console.WriteLine("You must enter a valid double number!");
+                ConsoleUI.outWriter.WriteLine("You must enter a valid double number!");
             }
             while(true);
         }
@@ -397,21 +397,21 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             while(value == null) // bad input case
             {
-                Console.Write("How to proceed? (a)bort user choice (-> value null) or (r)etry:");
+                ConsoleUI.outWriter.Write("How to proceed? (a)bort user choice (-> value null) or (r)etry:");
 
 read_again:
                 ConsoleKeyInfo key = env.ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
                 case 'a':
-                    Console.WriteLine();
+                    ConsoleUI.outWriter.WriteLine();
                     return null;
                 case 'r':
-                    Console.WriteLine();
+                    ConsoleUI.outWriter.WriteLine();
                     value = env.Askfor(type, graph);
                     break;
                 default:
-                    Console.WriteLine("Illegal choice (Key = " + key.Key
+                    ConsoleUI.outWriter.WriteLine("Illegal choice (Key = " + key.Key
                         + ")! Only (a)bort user choice or (r)etry allowed! ");
                     goto read_again;
                 }

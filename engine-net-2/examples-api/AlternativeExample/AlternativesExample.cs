@@ -28,17 +28,17 @@ namespace Alternatives
             // use graph rewrite sequence
             procEnv.ApplyGraphRewriteSequence("createComplex");
 
-            Console.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
-            Console.WriteLine(procEnv.PerformanceInfo.RewritesPerformed + " rewrites performed.");
+            ConsoleUI.outWriter.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
+            ConsoleUI.outWriter.WriteLine(procEnv.PerformanceInfo.RewritesPerformed + " rewrites performed.");
             procEnv.PerformanceInfo.Reset();
 
             // use old inexact interface
             IMatches matches = actions.GetAction("Complex").Match(procEnv, 0, null);
-            Console.WriteLine(matches.Count + " Complex matches found.");
+            ConsoleUI.outWriter.WriteLine(matches.Count + " Complex matches found.");
 
             // use new 2.5 exact interface
             IMatchesExact<Rule_ComplexMax.IMatch_ComplexMax> matchesExact = actions.ComplexMax.Match(procEnv, 0);
-            Console.WriteLine(matchesExact.Count + " ComplexMax matches found.");
+            ConsoleUI.outWriter.WriteLine(matchesExact.Count + " ComplexMax matches found.");
         }
 
         static void Main(string[] args)

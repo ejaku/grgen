@@ -64,7 +64,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		public static string Serialize(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)
 		{
 			return SerializeImpl(attribute, attrType, graph);
-			//Console.WriteLine("Warning: Exporting attribute of object type to null"); // default implementation
+			//ConsoleUI.outWriter.WriteLine("Warning: Exporting attribute of object type to null"); // default implementation
 			//return "null"; // default implementation
 		}
 
@@ -87,8 +87,8 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		public static void External(string line, GRGEN_LIBGR.IGraph graph)
 		{
 			ExternalImpl(line, graph);
-			//Console.Write("Ignoring: "); // default implementation
-			//Console.WriteLine(line); // default implementation
+			//ConsoleUI.outWriter.Write("Ignoring: "); // default implementation
+			//ConsoleUI.outWriter.WriteLine(line); // default implementation
 		}
 
 		// Called during debugging on user request, the implementation must return a named graph representation for the attribute.

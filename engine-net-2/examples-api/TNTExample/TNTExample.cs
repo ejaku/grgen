@@ -28,17 +28,17 @@ namespace TNT
             // use graph rewrite sequence
             procEnv.ApplyGraphRewriteSequence("createTNT");
 
-            Console.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
-            Console.WriteLine(procEnv.PerformanceInfo.RewritesPerformed + " rewrites performed.");
+            ConsoleUI.outWriter.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
+            ConsoleUI.outWriter.WriteLine(procEnv.PerformanceInfo.RewritesPerformed + " rewrites performed.");
             procEnv.PerformanceInfo.Reset();
 
             // use old inexact interface
             IMatches matchesInexact = actions.GetAction("TNT").Match(procEnv, 0, null);
-            Console.WriteLine(matchesInexact.Count + " matches found.");
+            ConsoleUI.outWriter.WriteLine(matchesInexact.Count + " matches found.");
 
             // use new 2.5 exact interface
             IMatchesExact<Rule_ToluolCore.IMatch_ToluolCore> matchesExact = actions.ToluolCore.Match(procEnv, 0);
-            Console.WriteLine(matchesExact.Count + " matches found.");
+            ConsoleUI.outWriter.WriteLine(matchesExact.Count + " matches found.");
         }
 
         static void Main(string[] args)

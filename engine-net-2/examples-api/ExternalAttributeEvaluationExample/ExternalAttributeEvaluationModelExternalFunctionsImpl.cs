@@ -188,7 +188,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
             }
             else
             {
-                Console.WriteLine("Warning: Exporting attribute of object type to null");
+                GRGEN_LIBGR.ConsoleUI.outWriter.WriteLine("Warning: Exporting attribute of object type to null");
                 return "null";
             }
         }
@@ -231,8 +231,8 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 
         public static void ExternalImpl(string line, GRGEN_LIBGR.IGraph graph)
         {
-            Console.Write("Ignoring: "); // default implementation
-            Console.WriteLine(line); // default implementation
+            GRGEN_LIBGR.ConsoleUI.outWriter.Write("Ignoring: "); // default implementation
+            GRGEN_LIBGR.ConsoleUI.outWriter.WriteLine(line); // default implementation
         }
         
         public static GRGEN_LIBGR.INamedGraph AsGraphImpl(object attribute, GRGEN_LIBGR.AttributeType attrType, GRGEN_LIBGR.IGraph graph)

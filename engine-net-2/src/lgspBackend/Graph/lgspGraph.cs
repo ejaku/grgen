@@ -317,9 +317,9 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(!model.AreFunctionsParallelized && !(model.BranchingFactorForEqualsAny > 1))
             {
-                System.Console.Error.WriteLine("A parallelized matcher or graph comparison function requires a parallelized model (declared by \"for function[parallelize=true];\" for parallelized matchers (requiring functions) or \"for equalsAny[parallelize=2];\" (or higher constant) for graph comparison functions).");
-                System.Console.Error.WriteLine("(In case of the former: the (external) functions and function methods are then available in versions supporting parallel execution.)");
-                System.Console.Error.WriteLine("The model does not support parallelization - it seems it was overwritten by a model from a generation run without parallelization.");
+                ConsoleUI.errorOutWriter.WriteLine("A parallelized matcher or graph comparison function requires a parallelized model (declared by \"for function[parallelize=true];\" for parallelized matchers (requiring functions) or \"for equalsAny[parallelize=2];\" (or higher constant) for graph comparison functions).");
+                ConsoleUI.errorOutWriter.WriteLine("(In case of the former: the (external) functions and function methods are then available in versions supporting parallel execution.)");
+                ConsoleUI.errorOutWriter.WriteLine("The model does not support parallelization - it seems it was overwritten by a model from a generation run without parallelization.");
                 throw new NotImplementedException("Parallelized matching not supported.");
             }
 
@@ -1887,7 +1887,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     int startticks = Environment.TickCount;
                     AnalyzeGraph();
-                    Console.WriteLine("Graph '{0}' analyzed in {1} ms.", name, Environment.TickCount - startticks);
+                    ConsoleUI.outWriter.WriteLine("Graph '{0}' analyzed in {1} ms.", name, Environment.TickCount - startticks);
                     return;
                 }
 
@@ -1904,7 +1904,7 @@ namespace de.unika.ipd.grGen.lgsp
                     GraphStatisticsParserSerializer parserSerializer = new GraphStatisticsParserSerializer(statistics);
                     parserSerializer.Serialize((string)args[2]);
 
-                    Console.WriteLine("Statistics about graph written to {0}.", args[2]);
+                    ConsoleUI.outWriter.WriteLine("Statistics about graph written to {0}.", args[2]);
                     return;
                 }
 

@@ -27,19 +27,19 @@ namespace Independent
 
             procEnv.ApplyGraphRewriteSequence("create");
 
-			Console.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
-			Console.WriteLine(procEnv.PerformanceInfo.RewritesPerformed + " rewrites performed.");
+            ConsoleUI.outWriter.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
+            ConsoleUI.outWriter.WriteLine(procEnv.PerformanceInfo.RewritesPerformed + " rewrites performed.");
 			procEnv.PerformanceInfo.Reset();
 
             IMatches matches = actions.GetAction("findIndependent").Match(procEnv, 0, null);
-            Console.WriteLine(matches.Count + " matches found.");
+            ConsoleUI.outWriter.WriteLine(matches.Count + " matches found.");
 
             graph.Clear();
 
             procEnv.ApplyGraphRewriteSequence("createIterated");
 
-            Console.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
-            Console.WriteLine(procEnv.PerformanceInfo.RewritesPerformed + " rewrites performed.");
+            ConsoleUI.outWriter.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
+            ConsoleUI.outWriter.WriteLine(procEnv.PerformanceInfo.RewritesPerformed + " rewrites performed.");
             procEnv.PerformanceInfo.Reset();
 
             IAction_createIterated createIterated = actions.createIterated;
@@ -51,7 +51,7 @@ namespace Independent
 
             IMatchesExact<Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> matchesFindChain =
                 actions.findChainPlusChainToIntIndependent.Match(procEnv, 0, beg, end);
-            Console.WriteLine(matchesFindChain.Count + " matches found.");
+            ConsoleUI.outWriter.WriteLine(matchesFindChain.Count + " matches found.");
         }
 
         static void Main(string[] args)

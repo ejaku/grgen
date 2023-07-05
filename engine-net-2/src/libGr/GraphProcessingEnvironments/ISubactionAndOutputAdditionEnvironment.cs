@@ -108,12 +108,12 @@ namespace de.unika.ipd.grGen.libGr
         IRecorder Recorder { get; set; }
 
         /// <summary>
-        /// The writer used by emit statements. By default this is Console.Out.
+        /// The writer used by emit statements. By default this is ConsoleUI.outWriter (normally forwarded to Console.Out).
         /// </summary>
         TextWriter EmitWriter { get; set; }
 
         /// <summary>
-        /// The writer used by emitdebug statements. This is Console.Out, and can't be redirected to a file in contrast to the EmitWriter.
+        /// The writer used by emitdebug statements. This is ConsoleUI.outWriter (normally forwarded to Console.Out), and can't be redirected to a file in contrast to the EmitWriter.
         /// </summary>
         TextWriter EmitWriterDebug { get; }
 

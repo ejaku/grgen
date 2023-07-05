@@ -22,9 +22,9 @@ namespace YCompExample
         {
             if(graphViewer != null)
                 graphViewer.UpdateDisplayAndSync();
-            Console.WriteLine(text);
-            Console.WriteLine("Press a key to continue...");
-            Console.ReadKey(true);
+            ConsoleUI.outWriter.WriteLine(text);
+            ConsoleUI.outWriter.WriteLine("Press a key to continue...");
+            ConsoleUI.consoleIn.ReadKey(true);
         }
 
         // example showing how to render a graph at API level, tracking changes
@@ -42,7 +42,7 @@ namespace YCompExample
             }
             catch(Exception ex)
             {
-                Console.WriteLine("Unable to create graph from specification: " + ex.Message);
+                ConsoleUI.errorOutWriter.WriteLine("Unable to create graph from specification: " + ex.Message);
                 return;
             }
 
@@ -64,7 +64,7 @@ namespace YCompExample
             PrintAndWait("Initialized 7-process ring with resource and requests.", graphViewer);
 
             graphViewer.EndShowGraph();
-            Console.WriteLine("Do many changes slowing down too much with YComp (not in this example)...");
+            ConsoleUI.outWriter.WriteLine("Do many changes slowing down too much with YComp (not in this example)...");
             procEnv.ApplyGraphRewriteSequence("(takeRule && releaseRule && giveRule)*");
             PrintAndWait("Nothing changed so far on the display.", null);
 

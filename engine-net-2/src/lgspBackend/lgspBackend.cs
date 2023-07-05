@@ -684,7 +684,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(!File.Exists(neededFilename))
                 {
-                    Console.Error.WriteLine("Cannot find used file: \"" + neededFilename + "\"");
+                    ConsoleUI.errorOutWriter.WriteLine("Cannot find used file: \"" + neededFilename + "\"");
                     return true;
                 }
                 // Needed file newer than libraries?

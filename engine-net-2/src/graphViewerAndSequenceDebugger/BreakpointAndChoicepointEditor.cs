@@ -28,16 +28,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void HandleToggleBreakpoints()
         {
-            Console.Write("Available breakpoint positions:\n  ");
+            ConsoleUI.outWriter.Write("Available breakpoint positions:\n  ");
 
             PrintSequenceContext contextBp = new PrintSequenceContext();
             contextBp.bpPosCounter = 0;
             SequencePrinter.PrintSequenceBase(debugSequences.Peek(), contextBp, debugSequences.Count);
-            Console.WriteLine();
+            ConsoleUI.outWriter.WriteLine();
 
             if(contextBp.bpPosCounter == 0)
             {
-                Console.WriteLine("No breakpoint positions available!");
+                ConsoleUI.outWriter.WriteLine("No breakpoint positions available!");
                 return;
             }
 
@@ -50,16 +50,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void HandleToggleChoicepoints()
         {
-            Console.Write("Available choicepoint positions:\n  ");
+            ConsoleUI.outWriter.Write("Available choicepoint positions:\n  ");
 
             PrintSequenceContext contextCp = new PrintSequenceContext();
             contextCp.cpPosCounter = 0;
             SequencePrinter.PrintSequenceBase(debugSequences.Peek(), contextCp, debugSequences.Count);
-            Console.WriteLine();
+            ConsoleUI.outWriter.WriteLine();
 
             if(contextCp.cpPosCounter == 0)
             {
-                Console.WriteLine("No choicepoint positions available!");
+                ConsoleUI.outWriter.WriteLine("No choicepoint positions available!");
                 return;
             }
 
@@ -72,8 +72,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private int HandleTogglePoint(string pointName, int numPositions)
         {
-            Console.WriteLine("Which " + pointName + " to toggle (toggling on is shown by +, off by -)?");
-            Console.WriteLine("Press (0)...(9) to toggle the corresponding " + pointName + " or (e) to enter the number of the " + pointName + " to toggle."
+            ConsoleUI.outWriter.WriteLine("Which " + pointName + " to toggle (toggling on is shown by +, off by -)?");
+            ConsoleUI.outWriter.WriteLine("Press (0)...(9) to toggle the corresponding " + pointName + " or (e) to enter the number of the " + pointName + " to toggle."
                             + " Press (a) to abort.");
 
             do
@@ -94,28 +94,28 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     int num = key.KeyChar - '0';
                     if(num >= numPositions)
                     {
-                        Console.WriteLine("You must specify a number between 0 and " + (numPositions - 1) + "!");
+                        ConsoleUI.outWriter.WriteLine("You must specify a number between 0 and " + (numPositions - 1) + "!");
                         break;
                     }
                     return num;
                 case 'e':
-                    Console.Write("Enter number of " + pointName + " to toggle (-1 for abort): ");
-                    String numStr = Console.ReadLine();
+                    ConsoleUI.outWriter.Write("Enter number of " + pointName + " to toggle (-1 for abort): ");
+                    String numStr = ConsoleUI.inReader.ReadLine();
                     if(int.TryParse(numStr, out num))
                     {
                         if(num < -1 || num >= numPositions)
                         {
-                            Console.WriteLine("You must specify a number between -1 and " + (numPositions - 1) + "!");
+                            ConsoleUI.outWriter.WriteLine("You must specify a number between -1 and " + (numPositions - 1) + "!");
                             break;
                         }
                         return num;
                     }
-                    Console.WriteLine("You must enter a valid integer number!");
+                    ConsoleUI.outWriter.WriteLine("You must enter a valid integer number!");
                     break;
                 case 'a':
                     return -1;
                 default:
-                    Console.WriteLine("Illegal choice (Key = " + key.Key
+                    ConsoleUI.outWriter.WriteLine("Illegal choice (Key = " + key.Key
                         + ")! Only (0)...(9), (e)nter number, (a)bort allowed! ");
                     break;
                 }

@@ -544,7 +544,7 @@ namespace de.unika.ipd.grGen.lgsp
                     ParallelizeHeadBody((LGSPRulePattern)matchingPattern);
                 else {
                     matchingPattern.patternGraph.branchingFactor = 1;
-                    Console.Error.WriteLine("Warning: " + matchingPattern.patternGraph.Name + " not parallelized as no parallelizable loop was found.");
+                    ConsoleUI.errorOutWriter.WriteLine("Warning: " + matchingPattern.patternGraph.Name + " not parallelized as no parallelizable loop was found.");
                 }
             }
             else

@@ -1858,7 +1858,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             catch(NullReferenceException)
             {
-                System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
+                ConsoleUI.errorOutWriter.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
                 throw;
             }
         }
@@ -2237,7 +2237,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             catch(NullReferenceException)
             {
-                System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
+                ConsoleUI.errorOutWriter.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
                 throw;
             }
         }
@@ -2269,7 +2269,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             catch(NullReferenceException)
             {
-                System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
+                ConsoleUI.errorOutWriter.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
                 throw;
             }
         }
@@ -2301,7 +2301,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             catch(NullReferenceException)
             {
-                System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
+                ConsoleUI.errorOutWriter.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
                 throw;
             }
         }
@@ -2520,7 +2520,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             catch(NullReferenceException)
             {
-                System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
+                ConsoleUI.errorOutWriter.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
                 throw;
             }
         }
@@ -3404,7 +3404,7 @@ namespace de.unika.ipd.grGen.libGr
                     SequenceRuleAllCall ruleAll = (SequenceRuleAllCall)Sequences[i];
                     if(ruleAll.Choice)
                     {
-                        Console.WriteLine("Warning: No user choice % available inside {<...>}, removing choice modificator from " + ruleAll.Symbol + " (user choice handled by $%{<...>} construct)");
+                        ConsoleUI.outWriter.WriteLine("Warning: No user choice % available inside {<...>}, removing choice modificator from " + ruleAll.Symbol + " (user choice handled by $%{<...>} construct)");
                         ruleAll.Choice = false;
                     }
                 }
@@ -4115,7 +4115,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             catch(NullReferenceException)
             {
-                System.Console.Error.WriteLine("Null reference exception during rule prefixed sequence execution (null parameter?): " + Symbol);
+                ConsoleUI.errorOutWriter.WriteLine("Null reference exception during rule prefixed sequence execution (null parameter?): " + Symbol);
                 throw;
             }
         }

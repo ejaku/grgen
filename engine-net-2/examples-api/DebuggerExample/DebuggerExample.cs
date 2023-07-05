@@ -40,9 +40,9 @@ namespace DebuggerExample
                 debugger.GraphViewerClient.UpdateDisplay();
             if(debugger != null && debugger.GraphViewerClient != null)
                 debugger.GraphViewerClient.Sync();
-            Console.WriteLine(text);
-            Console.WriteLine("Press a key to continue...");
-            Console.ReadKey(true);
+            ConsoleUI.outWriter.WriteLine(text);
+            ConsoleUI.outWriter.WriteLine("Press a key to continue...");
+            ConsoleUI.consoleIn.ReadKey(true);
         }
 
         // example showing how to debug a sequence at API level (also rendering the graph)
@@ -60,7 +60,7 @@ namespace DebuggerExample
             }
             catch(Exception ex)
             {
-                Console.WriteLine("Unable to create graph from specification: " + ex.Message);
+                ConsoleUI.errorOutWriter.WriteLine("Unable to create graph from specification: " + ex.Message);
                 return;
             }
 

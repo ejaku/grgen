@@ -81,6 +81,7 @@
     <Compile Include="ArrayHelper.cs" />
     <Compile Include="AttributeChangeTypeEmitHelper.cs" />
     <Compile Include="AttributeTypeEmitHelper.cs" />
+    <Compile Include="ConsoleUI.cs" />
     <Compile Include="DequeHelper.cs" />
     <Compile Include="DotNetTypesHelper.cs" />
     <Compile Include="GraphProcessingEnvironments\IGlobalVariables.cs" />
@@ -195,6 +196,7 @@
     <Compile Include="TypesHelper.cs" />
     <Compile Include="IO\VCGDumper.cs" />
     <Compile Include="UberEstimator.cs" />
+    <Compile Include="WorkaroundManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SequenceParser\SequenceParser.csc" />

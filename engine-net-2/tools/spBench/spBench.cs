@@ -729,7 +729,7 @@ namespace spBench
             if(foundMatches != -1)
             {
                 if(procEnv.PerformanceInfo.MatchesFound != foundMatches)
-                    Console.WriteLine("INTERNAL ERROR: Expected " + foundMatches + " matches, but found " + procEnv.PerformanceInfo.MatchesFound);
+                    ConsoleUI.outWriter.WriteLine("INTERNAL ERROR: Expected " + foundMatches + " matches, but found " + procEnv.PerformanceInfo.MatchesFound);
             }
             else
                 foundMatches = procEnv.PerformanceInfo.MatchesFound;
@@ -942,13 +942,13 @@ namespace spBench
             {
                 if((num & 0xfffff) == 0)
                 {
-                    Console.Write("{0,4}. ", num);
-                    Console.WriteLine(ScheduleToString(ctx.Schedule));
+                    ConsoleUI.outWriter.Write("{0,4}. ", num);
+                    ConsoleUI.outWriter.WriteLine(ScheduleToString(ctx.Schedule));
                 }
                 return;
             }
 
-            Console.Write("{0,4}. ", num);
+            ConsoleUI.outWriter.Write("{0,4}. ", num);
 
 /*            SearchOperation[] ops = new SearchOperation[ctx.Schedule.Count];
             ctx.Schedule.CopyTo(ops, 0);*/
@@ -967,12 +967,12 @@ namespace spBench
             CalcScheduleCost(ctx, ops, out costflat, out costbatz, out spcostproduct, out spcostimplproduct, out spcostsum);
 
             String scheduleStr = ScheduleToString(ctx.Schedule);
-            Console.Write(scheduleStr);
+            ConsoleUI.outWriter.Write(scheduleStr);
             for(int j = scheduleStr.Length; j < 50; ++j)
             {
-                Console.Write(' ');
+                ConsoleUI.outWriter.Write(' ');
             }
-            Console.Write(" => C_Flat(P) = {0,9:N4} C(P) = {1,9:N4} C*(S) = {2,9:N4} C_Impl*(S) = {3,9:N4} C+(S) = {4,9:N4}",
+            ConsoleUI.outWriter.Write(" => C_Flat(P) = {0,9:N4} C(P) = {1,9:N4} C*(S) = {2,9:N4} C_Impl*(S) = {3,9:N4} C+(S) = {4,9:N4}",
                 costflat, costbatz, spcostproduct, spcostimplproduct, spcostsum);
 
             int time;
@@ -1026,7 +1026,7 @@ namespace spBench
             else
                 time = -1;
 
-            Console.WriteLine(" time = {0,5} ms", time);
+            ConsoleUI.outWriter.WriteLine(" time = {0,5} ms", time);
             ctx.Results.Add(new SearchPlanResult((SearchPlanID) ctx.SearchPlanID.Clone(), costflat, costbatz, spcostproduct, spcostimplproduct, spcostsum, time));
 
             if(costflat > ctx.MaxCostFlat)
@@ -1231,7 +1231,7 @@ namespace spBench
                 if(nextLGSPIndex >= 0)
                 {
                     ctx.LGSPSPID = (SearchPlanID) ctx.SearchPlanID.Clone();
-                    Console.WriteLine("LGSP SP found (" + num + ")");
+                    ConsoleUI.outWriter.WriteLine("LGSP SP found (" + num + ")");
                 }
             }
             else
@@ -1417,13 +1417,13 @@ namespace spBench
                         if(i + 1 >= args.Length)
                         {
                             error = true;
-                            Console.WriteLine("No <n> specified for -maxlookups!");
+                            ConsoleUI.outWriter.WriteLine("No <n> specified for -maxlookups!");
                             break;
                         }
                         if(!int.TryParse(args[++i], out allowedLookups))
                         {
                             error = true;
-                            Console.WriteLine("<n> must be an integer for -maxlookups!");
+                            ConsoleUI.outWriter.WriteLine("<n> must be an integer for -maxlookups!");
                             break;
                         }
                         break;
@@ -1434,7 +1434,7 @@ namespace spBench
                         if(i + 1 >= args.Length)
                         {
                             error = true;
-                            Console.WriteLine("No xgrs specified for -initgrs!");
+                            ConsoleUI.outWriter.WriteLine("No xgrs specified for -initgrs!");
                             break;
                         }
                         initGRS = args[++i];
@@ -1444,7 +1444,7 @@ namespace spBench
                         if(i + 1 >= args.Length)
                         {
                             error = true;
-                            Console.WriteLine("No rules specified for -gensp!");
+                            ConsoleUI.outWriter.WriteLine("No rules specified for -gensp!");
                             break;
                         }
                         String genSPRuleStr = args[++i];
@@ -1458,7 +1458,7 @@ namespace spBench
                         if(i + 1 >= args.Length)
                         {
                             error = true;
-                            Console.WriteLine("No xgrs specified for -benchgrs!");
+                            ConsoleUI.outWriter.WriteLine("No xgrs specified for -benchgrs!");
                             break;
                         }
                         benchGRS = args[++i];
@@ -1467,14 +1467,14 @@ namespace spBench
                         if(i + 1 >= args.Length)
                         {
                             error = true;
-                            Console.WriteLine("No file specified for -reuse!");
+                            ConsoleUI.outWriter.WriteLine("No file specified for -reuse!");
                             break;
                         }
                         reuseResFile = args[++i];
                         if(!File.Exists(reuseResFile))
                         {
                             error = true;
-                            Console.WriteLine("Old result file \"" + reuseResFile + "\" does not exist!");
+                            ConsoleUI.outWriter.WriteLine("Old result file \"" + reuseResFile + "\" does not exist!");
                         }
                         noBench = true;
                         break;     
@@ -1482,7 +1482,7 @@ namespace spBench
                         if(!int.TryParse(args[++i], out BenchTimeout))
                         {
                             error = true;
-                            Console.WriteLine("<n> must be an integer for -timeout!");
+                            ConsoleUI.outWriter.WriteLine("<n> must be an integer for -timeout!");
                             break;
                         }
                         break;
@@ -1490,7 +1490,7 @@ namespace spBench
                         if(!int.TryParse(args[++i], out BenchTimes))
                         {
                             error = true;
-                            Console.WriteLine("<n> must be an integer for -times!");
+                            ConsoleUI.outWriter.WriteLine("<n> must be an integer for -times!");
                             break;
                         }
                         break;
@@ -1498,7 +1498,7 @@ namespace spBench
                         if(i + 1 >= args.Length)
                         {
                             error = true;
-                            Console.WriteLine("No argument specified for -N!");
+                            ConsoleUI.outWriter.WriteLine("No argument specified for -N!");
                             break;
                         }
                         replaceN = args[++i];
@@ -1507,14 +1507,14 @@ namespace spBench
                         if(i + 1 >= args.Length)
                         {
                             error = true;
-                            Console.WriteLine("No argument specified for -M!");
+                            ConsoleUI.outWriter.WriteLine("No argument specified for -M!");
                             break;
                         }
                         replaceM = args[++i];
                         break;
                     default:
                         error = true;
-                        Console.WriteLine("Illegal option: " + args[i]);
+                        ConsoleUI.outWriter.WriteLine("Illegal option: " + args[i]);
                         break;
                     }                   
                 }
@@ -1524,7 +1524,7 @@ namespace spBench
                     if(!File.Exists(grgFile))
                     {
                         error = true;
-                        Console.WriteLine("Actions specification file \"" + grgFile + "\" does not exist!");
+                        ConsoleUI.outWriter.WriteLine("Actions specification file \"" + grgFile + "\" does not exist!");
                     }
                 }
                 else if(testActionName == null)
@@ -1534,7 +1534,7 @@ namespace spBench
                 else
                 {
                     error = true;
-                    Console.WriteLine("Too many files given!");
+                    ConsoleUI.outWriter.WriteLine("Too many files given!");
                 }
             }
 
@@ -1542,7 +1542,7 @@ namespace spBench
             if(reuseResFile != null && reuseResFile == resultFile)
             {
                 error = true;
-                Console.WriteLine("<oldresfile> may not have the same name as the output file!");
+                ConsoleUI.outWriter.WriteLine("<oldresfile> may not have the same name as the output file!");
             }
 
             if(grgFile == null || testActionName == null)
@@ -1550,7 +1550,7 @@ namespace spBench
 
             if(error)
             {
-                Console.WriteLine("Usage: spBench [OPTIONS] <grg-file> <actionName>\n"
+                ConsoleUI.outWriter.WriteLine("Usage: spBench [OPTIONS] <grg-file> <actionName>\n"
                     + "Options:\n"
                     + "  -nobench               No benchmarking will be performed\n"
                     + "  -count                 Only counts the number of possible searchplans.\n"
@@ -1606,7 +1606,7 @@ namespace spBench
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                ConsoleUI.outWriter.WriteLine(ex.Message);
                 return;
             }
 
@@ -1626,7 +1626,7 @@ namespace spBench
             LGSPAction action = (LGSPAction) actions.GetAction(testActionName);
             if(action == null)
             {
-                Console.WriteLine("Action \"" + testActionName + "\" not found!");
+                ConsoleUI.outWriter.WriteLine("Action \"" + testActionName + "\" not found!");
                 return;
             }
 
@@ -1653,7 +1653,7 @@ namespace spBench
             RecursiveGenAllSearchPlans(ctx, new SearchPlanEdge(SearchOperationType.ActionPreset, ctx.SearchPlanGraph.Root, ctx.SearchPlanGraph.Root, 0),
                 availEdges, ctx.NumVisitedElements);
 
-            Console.WriteLine("Num searchplans: " + num);
+            ConsoleUI.outWriter.WriteLine("Num searchplans: " + num);
 
             if(reuseResFile != null)
             {
@@ -1665,10 +1665,10 @@ namespace spBench
                     while((line = reader.ReadLine()) != null)
                     {
                         String[] parts = line.Split(';');
-//                        Console.WriteLine(i + "/" + ctx.Results.Count + ": " + line);
+//                        ConsoleUI.outWriter.WriteLine(i + "/" + ctx.Results.Count + ": " + line);
                         if(i >= ctx.Results.Count)
                         {
-                            Console.WriteLine("Old result file incompatible because of wrong number of searchplans! (" + i + "/" + ctx.Results.Count + "=" + line + ")");
+                            ConsoleUI.outWriter.WriteLine("Old result file incompatible because of wrong number of searchplans! (" + i + "/" + ctx.Results.Count + "=" + line + ")");
                             return;
                         }
                         int time = int.Parse(parts[parts.Length - 1]);
@@ -1689,17 +1689,17 @@ namespace spBench
                         + ";" + res.SPCostImplProduct.ToString("G20") + ";" + res.SPCostSum.ToString("G20") + ";" + res.Time);
 
                     if(res.ID.Equals(ctx.LGSPSPID))
-                        Console.WriteLine("Number of searchplan chosen by LGSPBackend: " + (i + 1));
+                        ConsoleUI.outWriter.WriteLine("Number of searchplan chosen by LGSPBackend: " + (i + 1));
                 }
             }
             if(ctx.LGSPSPID == null)
-                Console.WriteLine("Original LGSP Searchplan not found! Searchplan is: " + ScheduleToString(ctx.LGSPSSP.Operations));
+                ConsoleUI.outWriter.WriteLine("Original LGSP Searchplan not found! Searchplan is: " + ScheduleToString(ctx.LGSPSSP.Operations));
             else
-                Console.WriteLine("Searchplan chosen by LGSPBackend: " + ScheduleToString(ctx.LGSPSSP.Operations));
+                ConsoleUI.outWriter.WriteLine("Searchplan chosen by LGSPBackend: " + ScheduleToString(ctx.LGSPSSP.Operations));
 
             foreach(SearchOperation op in ctx.LGSPSSP.Operations)
             {
-                Console.WriteLine(SearchOpToString(op) + " = " + op.CostToEnd);
+                ConsoleUI.outWriter.WriteLine(SearchOpToString(op) + " = " + op.CostToEnd);
             }
 
             double timeScale = 400.0F / Math.Log10(ctx.MaxTime);
@@ -1708,7 +1708,7 @@ namespace spBench
 
             if(ctx.Results.Count == 0 || height < 0 || height > 500)
             {
-                Console.WriteLine("No useful data to be painted...");
+                ConsoleUI.outWriter.WriteLine("No useful data to be painted...");
                 return;
             }
 

@@ -18,14 +18,14 @@ namespace MutexExample
     {
         static void PrintResults(int duration, LGSPGraph graph)
         {
-            Console.WriteLine("Mutex benchmark: " + duration + " ms");
-            Console.WriteLine("Number of nodes: " + graph.NumNodes);
-            Console.WriteLine("Number of edges: " + graph.NumEdges);
-            Console.WriteLine("Number of Process nodes: " + graph.GetNumExactNodes(Process.TypeInstance));
-            Console.WriteLine("Number of Resource nodes: " + graph.GetNumExactNodes(Resource.TypeInstance));
-            Console.WriteLine("Number of next edges: " + graph.GetNumExactEdges(next.TypeInstance));
-            Console.WriteLine("Number of request edges: " + graph.GetNumExactEdges(request.TypeInstance));
-            Console.WriteLine("Number of token edges: " + graph.GetNumExactEdges(token.TypeInstance));
+            ConsoleUI.outWriter.WriteLine("Mutex benchmark: " + duration + " ms");
+            ConsoleUI.outWriter.WriteLine("Number of nodes: " + graph.NumNodes);
+            ConsoleUI.outWriter.WriteLine("Number of edges: " + graph.NumEdges);
+            ConsoleUI.outWriter.WriteLine("Number of Process nodes: " + graph.GetNumExactNodes(Process.TypeInstance));
+            ConsoleUI.outWriter.WriteLine("Number of Resource nodes: " + graph.GetNumExactNodes(Resource.TypeInstance));
+            ConsoleUI.outWriter.WriteLine("Number of next edges: " + graph.GetNumExactEdges(next.TypeInstance));
+            ConsoleUI.outWriter.WriteLine("Number of request edges: " + graph.GetNumExactEdges(request.TypeInstance));
+            ConsoleUI.outWriter.WriteLine("Number of token edges: " + graph.GetNumExactEdges(token.TypeInstance));
         }
 
         /// <summary>
@@ -107,19 +107,19 @@ namespace MutexExample
             Action_annotationTestRule annotationTestRule = Action_annotationTestRule.Instance;
             foreach(KeyValuePair<string, string> annotation in annotationTestRule.rulePattern.Annotations)
             {
-                Console.WriteLine("The rule " + annotationTestRule.Name + " is decorated with an annotation " + annotation.Key + " -> " + annotation.Value);
+                ConsoleUI.outWriter.WriteLine("The rule " + annotationTestRule.Name + " is decorated with an annotation " + annotation.Key + " -> " + annotation.Value);
             }
             foreach(IPatternNode node in annotationTestRule.RulePattern.PatternGraph.Nodes)
             {
                 foreach(KeyValuePair<string, string> annotation in node.Annotations)
                 {
-                    Console.WriteLine("The pattern node " + node.Name + " of rule " + annotationTestRule.Name + " is decorated with an annotation " + annotation.Key + " -> " + annotation.Value);
+                    ConsoleUI.outWriter.WriteLine("The pattern node " + node.Name + " of rule " + annotationTestRule.Name + " is decorated with an annotation " + annotation.Key + " -> " + annotation.Value);
                 }
             }
             IAnnotationTestNode testNode = graph.CreateNodeAnnotationTestNode();
             foreach(KeyValuePair<string, string> annotation in testNode.Type.Annotations)
             {
-                Console.WriteLine("The node type " + testNode.Type.Name + " is decorated with an annotation " + annotation.Key + " -> " + annotation.Value);
+                ConsoleUI.outWriter.WriteLine("The node type " + testNode.Type.Name + " is decorated with an annotation " + annotation.Key + " -> " + annotation.Value);
             }
         }
 
@@ -195,7 +195,7 @@ namespace MutexExample
 
         static void PrintUsage()
         {
-            Console.WriteLine("Usage: MutexDirectExample <n> [<alt>]\nwhere <n> is the number of process nodes"
+            ConsoleUI.outWriter.WriteLine("Usage: MutexDirectExample <n> [<alt>]\nwhere <n> is the number of process nodes"
                 + "\nand <alt> a number between 1 and 3");
         }
 
@@ -210,7 +210,7 @@ namespace MutexExample
             int n;
             if(!Int32.TryParse(args[0], out n))
             {
-                Console.WriteLine("Illegal value for n: " + args[0]);
+                ConsoleUI.outWriter.WriteLine("Illegal value for n: " + args[0]);
                 PrintUsage();
                 return;
             }
@@ -220,7 +220,7 @@ namespace MutexExample
             {
                 if(!Int32.TryParse(args[1], out alt) || alt < 1 || alt > 3)
                 {
-                    Console.WriteLine("Illegal value for alt: " + args[0]);
+                    ConsoleUI.outWriter.WriteLine("Illegal value for alt: " + args[0]);
                     PrintUsage();
                     return;
                 }
@@ -239,7 +239,7 @@ namespace MutexExample
                     break;
             }
 
-            Console.ReadKey();
+            ConsoleUI.consoleIn.ReadKey();
         }
     }
 }

@@ -74,7 +74,6 @@
     <Compile Include="UserChoiceMenu.cs" />
     <Compile Include="VariableOrAttributeAccessParserAndValueFetcher.cs" />
     <Compile Include="WatchpointEditor.cs" />
-    <Compile Include="WorkaroundManager.cs" />
     <Compile Include="YCompClient.cs" />
   </ItemGroup>
   <ItemGroup>

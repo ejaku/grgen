@@ -53,7 +53,7 @@ namespace de.unika.ipd.grGen.grGen
                     {
                         if(backendType != null)
                         {
-                            Console.Error.WriteLine("The given backend contains more than one IBackend implementation!");
+                            ConsoleUI.errorOutWriter.WriteLine("The given backend contains more than one IBackend implementation!");
                             return null;
                         }
                         backendType = type;
@@ -61,14 +61,14 @@ namespace de.unika.ipd.grGen.grGen
                 }
                 if(backendType == null)
                 {
-                    Console.Error.WriteLine("The given backend doesn't contain an IBackend implementation!");
+                    ConsoleUI.errorOutWriter.WriteLine("The given backend doesn't contain an IBackend implementation!");
                     return null;
                 }
                 return (IBackend)Activator.CreateInstance(backendType);
             }
             catch(Exception ex)
             {
-                Console.Error.WriteLine("Unable to load backend: {0}", ex.Message);
+                ConsoleUI.errorOutWriter.WriteLine("Unable to load backend: {0}", ex.Message);
                 return null;
             }
         }
@@ -92,14 +92,14 @@ namespace de.unika.ipd.grGen.grGen
                         case "-o":
                             if(i + 1 >= args.Length)
                             {
-                                Console.Error.WriteLine("Missing parameter for -o option!");
+                                ConsoleUI.errorOutWriter.WriteLine("Missing parameter for -o option!");
                                 specFile = null;         // show usage
                                 break;
                             }
                             destDir = args[++i];
                             if(!Directory.Exists(destDir))
                             {
-                                Console.Error.WriteLine("Specified output directory does not exist!");
+                                ConsoleUI.errorOutWriter.WriteLine("Specified output directory does not exist!");
                                 return 1;
                             }
                             if(destDir[destDir.Length - 1] != Path.DirectorySeparatorChar)
@@ -109,20 +109,20 @@ namespace de.unika.ipd.grGen.grGen
                         case "-b":
                             if(i + 1 >= args.Length)
                             {
-                                Console.Error.WriteLine("Missing parameter for -b option!");
+                                ConsoleUI.errorOutWriter.WriteLine("Missing parameter for -b option!");
                                 specFile = null;         // show usage
                                 break;
                             }
                             backend = LoadBackend(args[++i]);
                             if(backend == null)
                                 return 1;
-                            Console.WriteLine("Using backend \"" + backend.Name + "\".");
+                            ConsoleUI.outWriter.WriteLine("Using backend \"" + backend.Name + "\".");
                             break;
 
                         case "-r":
                             if(i + 1 >= args.Length)
                             {
-                                Console.Error.WriteLine("Missing parameter for -r option!");
+                                ConsoleUI.errorOutWriter.WriteLine("Missing parameter for -r option!");
                                 specFile = null;         // show usage
                                 break;
                             }
@@ -146,13 +146,13 @@ namespace de.unika.ipd.grGen.grGen
                         case "-use":
                             if(i + 1 >= args.Length)
                             {
-                                Console.Error.WriteLine("Missing parameter for -use option!");
+                                ConsoleUI.errorOutWriter.WriteLine("Missing parameter for -use option!");
                                 specFile = null;         // show usage
                                 break;
                             }
                             if(dirname != null)
                             {
-                                Console.Error.WriteLine("The -d option may not specify a directory if -use is used!");
+                                ConsoleUI.errorOutWriter.WriteLine("The -d option may not specify a directory if -use is used!");
                                 specFile = null;
                                 break;
                             }
@@ -160,7 +160,7 @@ namespace de.unika.ipd.grGen.grGen
                             flags |= ProcessSpecFlags.UseJavaGeneratedFiles;
                             if(!Directory.Exists(dirname))
                             {
-                                Console.Error.WriteLine("Illegal directory specified! It does not exist!");
+                                ConsoleUI.errorOutWriter.WriteLine("Illegal directory specified! It does not exist!");
                                 return 1;
                             }
                             break;
@@ -168,13 +168,13 @@ namespace de.unika.ipd.grGen.grGen
                         case "-usefull":
                             if(i + 1 >= args.Length)
                             {
-                                Console.Error.WriteLine("Missing parameter for -usefull option!");
+                                ConsoleUI.errorOutWriter.WriteLine("Missing parameter for -usefull option!");
                                 specFile = null;         // show usage
                                 break;
                             }
                             if(dirname != null)
                             {
-                                Console.Error.WriteLine("The -d option may not specify a directory if -usefull is used!");
+                                ConsoleUI.errorOutWriter.WriteLine("The -d option may not specify a directory if -usefull is used!");
                                 specFile = null;
                                 break;
                             }
@@ -182,7 +182,7 @@ namespace de.unika.ipd.grGen.grGen
                             flags |= ProcessSpecFlags.UseAllGeneratedFiles;
                             if(!Directory.Exists(dirname))
                             {
-                                Console.Error.WriteLine("Illegal directory specified! It does not exist!");
+                                ConsoleUI.errorOutWriter.WriteLine("Illegal directory specified! It does not exist!");
                                 return 1;
                             }
                             break;
@@ -211,14 +211,14 @@ namespace de.unika.ipd.grGen.grGen
                         case "-statistics":
                             if(i + 1 >= args.Length)
                             {
-                                Console.Error.WriteLine("Missing parameter for -statistics option!");
+                                ConsoleUI.errorOutWriter.WriteLine("Missing parameter for -statistics option!");
                                 specFile = null;         // show usage
                                 break;
                             }
                             statisticsPath = args[++i];
                             if(!File.Exists(statisticsPath))
                             {
-                                Console.Error.WriteLine("Specified statistics file \"" + statisticsPath + "\" does not exist!");
+                                ConsoleUI.errorOutWriter.WriteLine("Specified statistics file \"" + statisticsPath + "\" does not exist!");
                                 return 1;
                             }
                             break;
@@ -228,7 +228,7 @@ namespace de.unika.ipd.grGen.grGen
                             break;
 
                         default:
-                            Console.Error.WriteLine("Illegal option: " + args[i]);
+                            ConsoleUI.errorOutWriter.WriteLine("Illegal option: " + args[i]);
                             specFile = null;
                             i = args.Length;        // leave for loop
                             break;
@@ -236,7 +236,7 @@ namespace de.unika.ipd.grGen.grGen
                 }
                 else if(specFile != null)
                 {
-                    Console.Error.WriteLine("Two rule specification files specified: \"" + specFile + "\" and \"" + args[i] + "\"");
+                    ConsoleUI.errorOutWriter.WriteLine("Two rule specification files specified: \"" + specFile + "\" and \"" + args[i] + "\"");
                     specFile = null;
                     break;
                 }
@@ -247,7 +247,7 @@ namespace de.unika.ipd.grGen.grGen
 
             if(specFile == null)
             {
-                Console.WriteLine(
+                ConsoleUI.outWriter.WriteLine(
                       "Usage: GrGen [OPTIONS] <grg-file>[.grg]\n"
                     + "Options:\n"
                     + "  -o <output-dir>       Output directory for the generated assemblies\n"
@@ -285,7 +285,7 @@ namespace de.unika.ipd.grGen.grGen
                     specFile += ".grg";
                 else
                 {
-                    Console.Error.WriteLine("The GRG-file \"" + specFile + "\" does not exist!");
+                    ConsoleUI.errorOutWriter.WriteLine("The GRG-file \"" + specFile + "\" does not exist!");
                     return 1;
                 }
             }
@@ -301,7 +301,7 @@ namespace de.unika.ipd.grGen.grGen
                 specDir = specFile.Substring(0, index + 1);
                 if(!Directory.Exists(specDir))
                 {
-                    Console.Error.WriteLine("Something is wrong with the directory of the specification file:\n\"" + specDir + "\" does not exist!");
+                    ConsoleUI.errorOutWriter.WriteLine("Something is wrong with the directory of the specification file:\n\"" + specDir + "\" does not exist!");
                     return 1;
                 }
             }
@@ -327,13 +327,13 @@ namespace de.unika.ipd.grGen.grGen
                 }
                 catch(Exception)
                 {
-                    Console.Error.WriteLine("Unable to create temporary directory \"" + dirname + "\"!");
+                    ConsoleUI.errorOutWriter.WriteLine("Unable to create temporary directory \"" + dirname + "\"!");
                     return 1;
                 }
             }
 
             if((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0)
-                Console.WriteLine("The generated files will be kept in: " + dirname);
+                ConsoleUI.outWriter.WriteLine("The generated files will be kept in: " + dirname);
 
             if(backend == null)
                 backend = LGSPBackend.Instance;
@@ -345,7 +345,7 @@ namespace de.unika.ipd.grGen.grGen
             }
             catch(Exception ex)
             {
-				Console.Error.WriteLine((flags & ProcessSpecFlags.CompileWithDebug) != 0 ? ex.ToString() : ex.Message);
+                ConsoleUI.errorOutWriter.WriteLine((flags & ProcessSpecFlags.CompileWithDebug) != 0 ? ex.ToString() : ex.Message);
                 ret = 1;
             }
 

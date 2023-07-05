@@ -411,15 +411,15 @@ namespace de.unika.ipd.grGen.lgsp
                     LGSPAction[] newActions = matcherGenerator.GenerateActions(graph, modelAssemblyName,
                         actionsAssemblyName, oldActions);
                     int stopticks = Environment.TickCount;
-                    Console.Write("Searchplans for actions ");
+                    ConsoleUI.outWriter.Write("Searchplans for actions ");
                     for(int i = 0; i < oldActions.Length; i++)
                     {
                         actions[oldActions[i].Name] = newActions[i];
                         if(i != 0)
-                            Console.Write(", ");
-                        Console.Write("'" + oldActions[i].Name + "'");
+                            ConsoleUI.outWriter.Write(", ");
+                        ConsoleUI.outWriter.Write("'" + oldActions[i].Name + "'");
                     }
-                    Console.WriteLine(" generated in " + (stopticks - startticks) + " ms.");
+                    ConsoleUI.outWriter.WriteLine(" generated in " + (stopticks - startticks) + " ms.");
                     return;
                 }
 
@@ -464,13 +464,13 @@ namespace de.unika.ipd.grGen.lgsp
                         LGSPGraphStatistics graphStatistics = null;
                         if(StatisticsPath != null)
                         {
-                            Console.WriteLine("static search plans from " + StatisticsPath);
+                            ConsoleUI.outWriter.WriteLine("static search plans from " + StatisticsPath);
                             graphStatistics = new LGSPGraphStatistics(graph.Model);
                             GraphStatisticsParserSerializer parserSerializer = new GraphStatisticsParserSerializer(graphStatistics);
                             parserSerializer.Parse(StatisticsPath);
                         }
                         else
-                            Console.WriteLine("static search plans");
+                            ConsoleUI.outWriter.WriteLine("static search plans");
                         LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(graph.Model);
                         matcherGen.FillInStaticSearchPlans(graphStatistics, InlineIndependents, action);
                     }
@@ -481,7 +481,7 @@ namespace de.unika.ipd.grGen.lgsp
                         usedSubpattern.Key.patternGraph.Explain(sb, graph.Model);
                     }
                     action.patternGraph.Explain(sb, graph.Model);
-                    Console.WriteLine(sb.ToString());
+                    ConsoleUI.outWriter.WriteLine(sb.ToString());
                     return;
                 }
 

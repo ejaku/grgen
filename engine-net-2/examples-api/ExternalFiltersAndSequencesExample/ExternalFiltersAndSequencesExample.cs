@@ -34,13 +34,13 @@ namespace EFS
             // use graph rewrite sequence
             procEnv.ApplyGraphRewriteSequence("(::n)=init");
 
-            Console.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
-            Console.WriteLine(procEnv.PerformanceInfo.RewritesPerformed + " rewrites performed.");
+            ConsoleUI.outWriter.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
+            ConsoleUI.outWriter.WriteLine(procEnv.PerformanceInfo.RewritesPerformed + " rewrites performed.");
             procEnv.PerformanceInfo.Reset();
 
             // use new 2.5 exact interface
             IMatchesExact<Rule_r.IMatch_r> matchesExact = actions.r.Match(procEnv, 0);
-            Console.WriteLine(matchesExact.Count + " matches found.");
+            ConsoleUI.outWriter.WriteLine(matchesExact.Count + " matches found.");
             actions.r.Modify(procEnv, matchesExact.FirstExact);
 
             procEnv.ApplyGraphRewriteSequence("(::x,::y,::z,::u,::v)=foo(42, 3.141, Enu::hurz, \"S21-heiteitei\", true)");

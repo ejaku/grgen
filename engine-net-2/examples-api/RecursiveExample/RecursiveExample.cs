@@ -35,13 +35,13 @@ namespace Recursive
             param[0] = (Node)returns[0];
             param[1] = (Node)returns[1];
             matches = actions.GetAction("chainFromToReverseToCommon").Match(procEnv, 0, param);
-            Console.WriteLine(matches.Count + " matches found.");
+            ConsoleUI.outWriter.WriteLine(matches.Count + " matches found.");
 
             Action_createBlowball createBlowball = Action_createBlowball.Instance;
             matches = createBlowball.Match(procEnv, 0);
             returns = createBlowball.Modify(procEnv, matches.First);
             matches = actions.GetAction("blowball").Match(procEnv, 0, returns);
-            Console.WriteLine(matches.Count + " matches found.");
+            ConsoleUI.outWriter.WriteLine(matches.Count + " matches found.");
 
             graph.Clear();
 
@@ -49,14 +49,14 @@ namespace Recursive
             returns = createChain.Modify(procEnv, matches.First);
             param[0] = (Node)returns[0];
 
-            Console.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
-            Console.WriteLine(procEnv.PerformanceInfo.RewritesPerformed + " rewrites performed.");
+            ConsoleUI.outWriter.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
+            ConsoleUI.outWriter.WriteLine(procEnv.PerformanceInfo.RewritesPerformed + " rewrites performed.");
             procEnv.PerformanceInfo.Reset();
 
             IAction chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards = 
                 actions.GetAction("chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards");
             matches = chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match(procEnv, 0, param);
-            Console.WriteLine(matches.Count + " matches found.");
+            ConsoleUI.outWriter.WriteLine(matches.Count + " matches found.");
         }
 
         static void Main(string[] args)

@@ -28,18 +28,18 @@ namespace edge1
             // use graph rewrite sequence
             procEnv.ApplyGraphRewriteSequence("init3");
 
-			Console.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
-            Console.WriteLine(procEnv.PerformanceInfo.RewritesPerformed + " rewrites performed.");
+            ConsoleUI.outWriter.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
+            ConsoleUI.outWriter.WriteLine(procEnv.PerformanceInfo.RewritesPerformed + " rewrites performed.");
             procEnv.PerformanceInfo.Reset();
 
             // use old inexact interface
             IMatches matches = actions.GetAction("findTripleCircle").Match(procEnv, 0, null);
-            Console.WriteLine(matches.Count + " matches found.");
+            ConsoleUI.outWriter.WriteLine(matches.Count + " matches found.");
 
             // use new exact interface
             IMatchesExact<Rule_findTripleCircle.IMatch_findTripleCircle> matchesExact =
                 actions.findTripleCircle.Match(procEnv, 0);
-            Console.WriteLine(matchesExact.Count + " matches found.");
+            ConsoleUI.outWriter.WriteLine(matchesExact.Count + " matches found.");
             actions.findTripleCircle.Modify(procEnv, matchesExact.FirstExact); // rewrite first match (largely nop, as findTripleCircle is a test)
         }
 

@@ -14,7 +14,7 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
+namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
     /// Workaround fun due to the following bugs:
@@ -22,26 +22,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     ///  - http://bugzilla.ximian.com/show_bug.cgi?id=79711 : Console.ReadKey () appears to not clear key
     ///  - http://bugzilla.ximian.com/show_bug.cgi?id=80330 : Console.ForegroundColor initially does not reflect console color
     /// </summary>
-
-    [Flags]
-    public enum HighlightingMode : int
-    {
-        None = 0,
-        Focus = 1,
-        FocusSucces = 2,
-        LastSuccess = 4,
-        LastFail = 8,
-        Breakpoint = 16,
-        Choicepoint = 32,
-        SequenceStart = 64,
-
-        GrsFile = 128,
-        GrsiFile = 256,
-        GrgFile = 512,
-        GriFile = 1024,
-        GmFile = 2048,
-        Directory = 4096
-    }
 
     [FlagsAttribute]
     public enum EXECUTION_STATE : uint
@@ -53,30 +33,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         ES_CONTINUOUS = 0x80000000,
     }
 
-    public interface IWorkaround
+    public interface IWorkaround : IConsoleOutput, IConsoleInput
     {
         /// <summary>
         /// A TextReader for stdin.
         /// </summary>
         TextReader In { get; }
-
-        /// <summary>
-        /// Reads a key from stdin and optionally displays it in the console.
-        /// </summary>
-        /// <param name="intercept">If true, the key is NOT displayed in the console.</param>
-        /// <returns>A ConsoleKeyInfo object describing the pressed key.</returns>
-        ConsoleKeyInfo ReadKey(bool intercept);
-
-        /// <summary>
-        /// Reads a key from stdin. Does not display it. Also allows Control-C as input.
-        /// </summary>
-        /// <returns>A ConsoleKeyInfo object describing the pressed key.</returns>
-        ConsoleKeyInfo ReadKeyWithControlCAsInput();
-
-        /// <summary>
-        /// Prints the given text in a highlighted form.
-        /// </summary>
-        void PrintHighlighted(String text, HighlightingMode mode);
 
         /// <summary>
         /// Prevents the computer from going into sleep mode or allows it again.
@@ -87,7 +49,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// TODO: LINUX version. Currently Windows only.
         /// </summary>
         /// <param name="prevent">prevent if true, allow if false</param>
-        void PreventComputerGoingIntoSleepMode(bool prevent);
+        void PreventComputerFromGoingIntoSleepMode(bool prevent);
     }
 
     public abstract class MonoWorkaroundConsoleIO : IWorkaround
@@ -169,6 +131,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         public abstract ConsoleKeyInfo ReadKey(bool intercept);
+        public virtual ConsoleKeyInfo ReadKey()
+        {
+            return ReadKey(false);
+        }
         public virtual ConsoleKeyInfo ReadKeyWithControlCAsInput()
         {
             Console.TreatControlCAsInput = true;
@@ -176,9 +142,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             Console.TreatControlCAsInput = false;
             return consoleKeyInfo;
         }
+        public bool KeyAvailable { get { return Console.KeyAvailable; } }
+        public event ConsoleCancelEventHandler CancelKeyPress { add { Console.CancelKeyPress += value; } remove { Console.CancelKeyPress -= value;  } }
 
         public abstract void PrintHighlighted(String text, HighlightingMode mode);
-        public abstract void PreventComputerGoingIntoSleepMode(bool prevent);
+        public abstract void PreventComputerFromGoingIntoSleepMode(bool prevent);
     }
 
     public class MonoLinuxWorkaroundConsoleIO : MonoWorkaroundConsoleIO
@@ -223,7 +191,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return Console.ReadKey(intercept);
         }
 
-        public override void PreventComputerGoingIntoSleepMode(bool prevent)
+        public override void PreventComputerFromGoingIntoSleepMode(bool prevent)
         {
             // TODO - NIY
         }
@@ -297,7 +265,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
 
-        public override void PreventComputerGoingIntoSleepMode(bool prevent)
+        public override void PreventComputerFromGoingIntoSleepMode(bool prevent)
         {
             if(prevent)
                 SetThreadExecutionState(EXECUTION_STATE.ES_SYSTEM_REQUIRED | EXECUTION_STATE.ES_CONTINUOUS);
@@ -350,6 +318,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return Console.ReadKey(intercept);
         }
 
+        public virtual ConsoleKeyInfo ReadKey()
+        {
+            return ReadKey(false);
+        }
+
         public virtual ConsoleKeyInfo ReadKeyWithControlCAsInput()
         {
             Console.TreatControlCAsInput = true;
@@ -358,10 +331,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return consoleKeyInfo;
         }
 
+        public bool KeyAvailable { get { return Console.KeyAvailable; } }
+        public event ConsoleCancelEventHandler CancelKeyPress { add { Console.CancelKeyPress += value; } remove { Console.CancelKeyPress -= value; } }
+
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
 
-        public void PreventComputerGoingIntoSleepMode(bool prevent)
+        public void PreventComputerFromGoingIntoSleepMode(bool prevent)
         {
             if(prevent)
                 SetThreadExecutionState(EXECUTION_STATE.ES_SYSTEM_REQUIRED | EXECUTION_STATE.ES_CONTINUOUS);

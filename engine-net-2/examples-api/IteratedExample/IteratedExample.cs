@@ -32,7 +32,7 @@ namespace Iterated
 
             IMatchesExact<Rule_spanningTree.IMatch_spanningTree> matchesSpanningTree = actions.spanningTree.Match(procEnv, 0, root);
             actions.spanningTree.Modify(procEnv, matchesSpanningTree.FirstExact);
-            Console.WriteLine(matchesSpanningTree.Count + " matches found.");
+            ConsoleUI.outWriter.WriteLine(matchesSpanningTree.Count + " matches found.");
         }
 
         static void Main(string[] args)

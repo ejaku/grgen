@@ -912,17 +912,17 @@ namespace de.unika.ipd.grGen.lgsp
                     continue;
 
                 if(branchingFactor > 1)
-                    Console.Error.WriteLine("Warning: Further parallelize annotation at " + matchingPattern.patternGraph.Name + " found.");
+                    ConsoleUI.errorOutWriter.WriteLine("Warning: Further parallelize annotation at " + matchingPattern.patternGraph.Name + " found.");
                 
                 int value;
                 if(!Int32.TryParse(annotation.Value, out value))
                 {
-                    Console.Error.WriteLine("Warning: Branching factor at " + matchingPattern.patternGraph.Name + " of parallelize annotation is not a valid integer.");
+                    ConsoleUI.errorOutWriter.WriteLine("Warning: Branching factor at " + matchingPattern.patternGraph.Name + " of parallelize annotation is not a valid integer.");
                     continue;
                 }
                 if(value < 2)
                 {
-                    Console.Error.WriteLine("Warning: Branching factor at " + matchingPattern.patternGraph.Name + " of parallelize annotation is below 2.");
+                    ConsoleUI.errorOutWriter.WriteLine("Warning: Branching factor at " + matchingPattern.patternGraph.Name + " of parallelize annotation is below 2.");
                     continue;
                 }
                 branchingFactor = value;
@@ -934,12 +934,12 @@ namespace de.unika.ipd.grGen.lgsp
                 if(branchingFactor > 64)
                 {
                     branchingFactor = 64;
-                    Console.Error.WriteLine("Warning: Branching factor at " + matchingPattern.patternGraph.Name + " of parallelize annotation reduced to the supported maximum of 64.");
+                    ConsoleUI.errorOutWriter.WriteLine("Warning: Branching factor at " + matchingPattern.patternGraph.Name + " of parallelize annotation reduced to the supported maximum of 64.");
                 }
 
                 if(ContainsMaybeNullElement(matchingPattern.patternGraph))
                 {
-                    Console.Error.WriteLine("Warning: " + matchingPattern.patternGraph.Name + " not parallelized because of the maybe null parameter(s), actions using them cannot be parallelized.");
+                    ConsoleUI.errorOutWriter.WriteLine("Warning: " + matchingPattern.patternGraph.Name + " not parallelized because of the maybe null parameter(s), actions using them cannot be parallelized.");
                     branchingFactor = 1;
                     return;
                 }

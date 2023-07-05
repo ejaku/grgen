@@ -100,7 +100,7 @@ namespace BusyBeaver
                        || (curState, curPos)=moveRightRule(curValue, curPos))
                    )[100]");
 
-			Console.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
+			ConsoleUI.outWriter.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found.");
 
             // Reset counters of the PerformanceInfo object
 			procEnv.PerformanceInfo.Reset();
@@ -152,13 +152,13 @@ namespace BusyBeaver
 
             int countTime = Environment.TickCount - stopTime;
 
-			Console.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found."
+            ConsoleUI.outWriter.WriteLine(procEnv.PerformanceInfo.MatchesFound + " matches found."
                 + "\nNumber of ones written: " + numOnes
                 + "\nTime needed for counting ones: " + countTime + " ms");
 
             long endBytes = System.GC.GetTotalMemory(true);
 
-            Console.WriteLine("Time: " + (stopTime - startTime) + " ms"
+            ConsoleUI.outWriter.WriteLine("Time: " + (stopTime - startTime) + " ms"
                 + "\nMemory usage: " + (endBytes - startBytes) + " bytes"
                 + "\nNum nodes: " + graph.NumNodes
                 + "\nNum edges: " + graph.NumEdges);

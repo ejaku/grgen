@@ -35,9 +35,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             do
             {
-                Console.WriteLine("Enter name of variable or attribute access to show as graph (just enter for abort): ");
-                Console.WriteLine("Examples: \"v\", \"v.a\", \"@(\"$0\").a\" ");
-                String str = Console.ReadLine();
+                ConsoleUI.outWriter.WriteLine("Enter name of variable or attribute access to show as graph (just enter for abort): ");
+                ConsoleUI.outWriter.WriteLine("Examples: \"v\", \"v.a\", \"@(\"$0\").a\" ");
+                String str = ConsoleUI.inReader.ReadLine();
                 if(str.Length == 0)
                 {
                     toBeShownAsGraph = null;
@@ -52,24 +52,24 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     IGraphElement elem = ParseAccessByName(str, out attributeName);
                     if(elem == null)
                     {
-                        Console.WriteLine("Can't parse graph access / unknown graph element: " + str);
+                        ConsoleUI.outWriter.WriteLine("Can't parse graph access / unknown graph element: " + str);
                         continue;
                     }
                     if(attributeName == null)
                     {
-                        Console.WriteLine("The result of a graph access is a node or edge, you must access an attribute: " + str);
+                        ConsoleUI.outWriter.WriteLine("The result of a graph access is a node or edge, you must access an attribute: " + str);
                         continue;
                     }
                     attrType = elem.Type.GetAttributeType(attributeName);
                     if(attrType == null)
                     {
-                        Console.WriteLine("Unknown attribute: " + attributeName);
+                        ConsoleUI.outWriter.WriteLine("Unknown attribute: " + attributeName);
                         continue;
                     }
                     object attribute = elem.GetAttribute(attributeName);
                     if(attribute == null)
                     {
-                        Console.WriteLine("Null-valued attribute: " + attributeName);
+                        ConsoleUI.outWriter.WriteLine("Null-valued attribute: " + attributeName);
                         continue;
                     }
 
@@ -83,7 +83,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     object value = ParseVariable(str, seq, out attributeName);
                     if(value == null)
                     {
-                        Console.WriteLine("Can't parse variable / unknown variable / null-valued variable: " + str);
+                        ConsoleUI.outWriter.WriteLine("Can't parse variable / unknown variable / null-valued variable: " + str);
                         continue;
                     }
 
@@ -91,20 +91,20 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     {
                         if(!(value is IGraphElement))
                         {
-                            Console.WriteLine("Can't access attribute, the variable value is not a graph element: " + str);
+                            ConsoleUI.outWriter.WriteLine("Can't access attribute, the variable value is not a graph element: " + str);
                             continue;
                         }
                         IGraphElement elem = (IGraphElement)value;
                         attrType = elem.Type.GetAttributeType(attributeName);
                         if(attrType == null)
                         {
-                            Console.WriteLine("Unknown attribute: " + attributeName);
+                            ConsoleUI.outWriter.WriteLine("Unknown attribute: " + attributeName);
                             continue;
                         }
                         object attribute = elem.GetAttribute(attributeName);
                         if(attribute == null)
                         {
-                            Console.WriteLine("Null-valued attribute: " + attributeName);
+                            ConsoleUI.outWriter.WriteLine("Null-valued attribute: " + attributeName);
                             continue;
                         }
 

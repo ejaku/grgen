@@ -21,7 +21,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     {
         private DebuggerGraphProcessingEnvironment curShellProcEnv = null;
 
-        private readonly TextWriter errOut = System.Console.Error;
+        private readonly TextWriter errOut = ConsoleUI.errorOutWriter;
 
         private IBackend curGraphBackend = LGSPBackend.Instance;
 

@@ -563,7 +563,7 @@ namespace de.unika.ipd.grGen.lgsp
             Sequence seq = SequenceParser.ParseSequence(seqStr, parserEnv, warnings);
             foreach(string warning in warnings)
             {
-                System.Console.Error.WriteLine(warning);
+                ConsoleUI.errorOutWriter.WriteLine(warning);
             }
             return seq;
         }
@@ -576,7 +576,7 @@ namespace de.unika.ipd.grGen.lgsp
             SequenceExpression seqExpr = SequenceParser.ParseSequenceExpression(seqExprStr, predefinedVariables, parserEnv, warnings);
             foreach(string warning in warnings)
             {
-                System.Console.Error.WriteLine(warning);
+                ConsoleUI.errorOutWriter.WriteLine(warning);
             }
             return seqExpr;
         }

@@ -68,7 +68,7 @@ namespace de.unika.ipd.grGen.libGr
             imported.graph = imported.ImportModels(ecoreFilenames, grgFilename, backend, out actions);
             if(xmiFilename != null)
             {
-                Console.WriteLine("Importing graph...");
+                ConsoleUI.outWriter.WriteLine("Importing graph...");
                 imported.ImportGraph(xmiFilename);
             }
             return imported.graph;
@@ -87,7 +87,7 @@ namespace de.unika.ipd.grGen.libGr
                 // Do we have to update the model file (.gm)?
                 if(!File.Exists(modelfilename) || File.GetLastWriteTime(ecoreFilename) > File.GetLastWriteTime(modelfilename))
                 {
-                    Console.WriteLine("Writing model file \"" + modelfilename + "\"...");
+                    ConsoleUI.outWriter.WriteLine("Writing model file \"" + modelfilename + "\"...");
                     using(StreamWriter writer = new StreamWriter(modelfilename))
                         writer.Write(modelText);
                 }

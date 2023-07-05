@@ -23,9 +23,9 @@ namespace MovieDatabase
         {
             if(args.Length < 2 || args.Length > 3)
             {
-                Console.WriteLine("usage: MovieDatabaseBenchmarker <name of rule to apply> <name of grs file to import or number of creation iterations of synthetic graph> [\"sequence to execute\"]");
-                Console.WriteLine("example: MovieDatabaseBenchmarker findCouplesOpt imdb-0005000-50176.movies.xmi.grs");
-                Console.WriteLine("example: MovieDatabaseBenchmarker findCliquesOf3Opt imdb-0130000-712130.movies.xmi.grs \"[cliques3WithRating\\orderDescendingBy<avgRating>\\keepFirst(15)] ;> [cliques3WithRating\\orderDescendingBy<numMovies>\\keepFirst(15)]\"");
+                ConsoleUI.outWriter.WriteLine("usage: MovieDatabaseBenchmarker <name of rule to apply> <name of grs file to import or number of creation iterations of synthetic graph> [\"sequence to execute\"]");
+                ConsoleUI.outWriter.WriteLine("example: MovieDatabaseBenchmarker findCouplesOpt imdb-0005000-50176.movies.xmi.grs");
+                ConsoleUI.outWriter.WriteLine("example: MovieDatabaseBenchmarker findCliquesOf3Opt imdb-0130000-712130.movies.xmi.grs \"[cliques3WithRating\\orderDescendingBy<avgRating>\\keepFirst(15)] ;> [cliques3WithRating\\orderDescendingBy<numMovies>\\keepFirst(15)]\"");
                 return;
             }
 
@@ -41,7 +41,7 @@ namespace MovieDatabase
             int dummy;
             if(Int32.TryParse(args[1], out dummy))
             {
-                Console.WriteLine("Synthesizing test graph with iteration count " + args[1] + " ...");
+                ConsoleUI.outWriter.WriteLine("Synthesizing test graph with iteration count " + args[1] + " ...");
 
                 graph = new MovieDatabaseModelGraph(new LGSPGlobalVariables());
                 actions = new MovieDatabaseActions(graph);
@@ -51,11 +51,11 @@ namespace MovieDatabase
 
                 procEnv.ApplyGraphRewriteSequence("createExample(" + args[1] + ")");
 
-                Console.WriteLine("...needed " + (Environment.TickCount - startTimeSynth) + "ms for synthesizing");
+                ConsoleUI.outWriter.WriteLine("...needed " + (Environment.TickCount - startTimeSynth) + "ms for synthesizing");
             }
             else
             {
-                Console.WriteLine("Importing " + args[1] + " ...");
+                ConsoleUI.outWriter.WriteLine("Importing " + args[1] + " ...");
 
                 // the libGr search plan backend we'll use
                 LGSPBackend backend = LGSPBackend.Instance;
@@ -80,12 +80,12 @@ namespace MovieDatabase
             graph.AnalyzeGraph();
             actions.GenerateActions(args[0]);
 
-            Console.WriteLine("Number of Movie: " + graph.nodesByTypeCounts[graph.Model.NodeModel.GetType("Movie").TypeID]);
-            Console.WriteLine("Number of Actor: " + graph.nodesByTypeCounts[graph.Model.NodeModel.GetType("Actor").TypeID]);
-            Console.WriteLine("Number of Actress: " + graph.nodesByTypeCounts[graph.Model.NodeModel.GetType("Actress").TypeID]);
-            Console.WriteLine("Number of personToMovie: " + graph.edgesByTypeCounts[graph.Model.EdgeModel.GetType("personToMovie").TypeID]);
+            ConsoleUI.outWriter.WriteLine("Number of Movie: " + graph.nodesByTypeCounts[graph.Model.NodeModel.GetType("Movie").TypeID]);
+            ConsoleUI.outWriter.WriteLine("Number of Actor: " + graph.nodesByTypeCounts[graph.Model.NodeModel.GetType("Actor").TypeID]);
+            ConsoleUI.outWriter.WriteLine("Number of Actress: " + graph.nodesByTypeCounts[graph.Model.NodeModel.GetType("Actress").TypeID]);
+            ConsoleUI.outWriter.WriteLine("Number of personToMovie: " + graph.edgesByTypeCounts[graph.Model.EdgeModel.GetType("personToMovie").TypeID]);
 
-            Console.WriteLine("Start matching " + args[0] + " ...");
+            ConsoleUI.outWriter.WriteLine("Start matching " + args[0] + " ...");
 
             int startTime = Environment.TickCount;
 
@@ -93,17 +93,17 @@ namespace MovieDatabase
             IAction ruleToApply = actions.GetAction(args[0]);
             IMatches matches = ruleToApply.Match(procEnv, 0, new object[0]);
 
-            Console.WriteLine("...needed " + (Environment.TickCount - startTime) + "ms for finding the matches");
+            ConsoleUI.outWriter.WriteLine("...needed " + (Environment.TickCount - startTime) + "ms for finding the matches");
 
-            Console.WriteLine("...continue with rewriting...");
+            ConsoleUI.outWriter.WriteLine("...continue with rewriting...");
 
             ruleToApply.ModifyAll(procEnv, matches);
 
-            Console.WriteLine("...needed " + (Environment.TickCount - startTime) + "ms for finding the matches and adding the couples/cliques");
+            ConsoleUI.outWriter.WriteLine("...needed " + (Environment.TickCount - startTime) + "ms for finding the matches and adding the couples/cliques");
 
-            Console.WriteLine("Number of Couple: " + graph.nodesByTypeCounts[graph.Model.NodeModel.GetType("Couple").TypeID]);
-            Console.WriteLine("Number of Clique: " + graph.nodesByTypeCounts[graph.Model.NodeModel.GetType("Clique").TypeID]);
-            Console.WriteLine("Number of commonMovies: " + graph.edgesByTypeCounts[graph.Model.EdgeModel.GetType("commonMovies").TypeID]);
+            ConsoleUI.outWriter.WriteLine("Number of Couple: " + graph.nodesByTypeCounts[graph.Model.NodeModel.GetType("Couple").TypeID]);
+            ConsoleUI.outWriter.WriteLine("Number of Clique: " + graph.nodesByTypeCounts[graph.Model.NodeModel.GetType("Clique").TypeID]);
+            ConsoleUI.outWriter.WriteLine("Number of commonMovies: " + graph.edgesByTypeCounts[graph.Model.EdgeModel.GetType("commonMovies").TypeID]);
 
             if(args.Length == 3)
             {

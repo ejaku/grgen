@@ -33,8 +33,8 @@ namespace de.unika.ipd.grGen.libGr
         public static bool AreSymmetric(IMatch this_, IMatch that, IGraph graph)
         {
 #if LOG_MATCHES
-            Console.WriteLine("match this: " + MatchPrinter.ToString(this_, graph, ""));
-            Console.WriteLine("match that: " + MatchPrinter.ToString(that, graph, ""));
+            ConsoleUI.outWriter.WriteLine("match this: " + MatchPrinter.ToString(this_, graph, ""));
+            ConsoleUI.outWriter.WriteLine("match that: " + MatchPrinter.ToString(that, graph, ""));
 #endif
             if(this_.Pattern != that.Pattern)
                 return false;
@@ -79,7 +79,7 @@ namespace de.unika.ipd.grGen.libGr
                 return false;
 
 #if LOG_MATCHES
-            Console.WriteLine("this is symmetric to that");
+            ConsoleUI.outWriter.WriteLine("this is symmetric to that");
 #endif
             return true;
         }

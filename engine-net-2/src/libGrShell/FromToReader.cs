@@ -10,6 +10,7 @@
 using System;
 using System.Text;
 using System.IO;
+using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.grShell
 {
@@ -55,7 +56,7 @@ namespace de.unika.ipd.grGen.grShell
                         line = wrappedReader.ReadLine();
                         if(line == null)
                         {
-                            System.Console.Error.WriteLine("WARNING: past end searching for replay start line \"" + from + "\"!");
+                            ConsoleUI.errorOutWriter.WriteLine("WARNING: past end searching for replay start line \"" + from + "\"!");
                             return 0;
                         }
                     }
@@ -77,7 +78,7 @@ namespace de.unika.ipd.grGen.grShell
                     if(line == null || line == to)
                     {
                         if(line == null)
-                            System.Console.Error.WriteLine("WARNING: past end searching for replay stop line \"" + to + "\"!");
+                            ConsoleUI.errorOutWriter.WriteLine("WARNING: past end searching for replay stop line \"" + to + "\"!");
                         else
                             endFound = true;
                         int length = bufferWithCarry.Length;

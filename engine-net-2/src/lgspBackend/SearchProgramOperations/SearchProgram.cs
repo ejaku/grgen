@@ -373,7 +373,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
-            //sourceCode.AppendFrontFormat("Console.WriteLine(\"called matcher for {0}\");\n", PatternName);
+            //sourceCode.AppendFrontFormat("GRGEN_LIBGR.ConsoleUI.outWriter.WriteLine(\"called matcher for {0}\");\n", PatternName);
             sourceCode.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
             sourceCode.AppendFront("if(matches == null)\n");
             string matchClassName = RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternName);
@@ -503,7 +503,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.Indent();
 
             sourceCode.AppendFront("threadId = GRGEN_LGSP.WorkerPool.ThreadId;\n");
-            //sourceCode.AppendFrontFormat("Console.WriteLine(\"start work for {0} at threadId \" + threadId);\n", PatternName);
+            //sourceCode.AppendFrontFormat("GRGEN_LIBGR.ConsoleUI.outWriter.WriteLine(\"start work for {0} at threadId \" + threadId);\n", PatternName);
             sourceCode.AppendFront("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = actionEnvParallel;\n");
             sourceCode.AppendFront("int maxMatches = maxMatchesParallel;\n");
             sourceCode.AppendFront("GRGEN_LGSP.LGSPGraph graph = actionEnv.graph;\n");
@@ -544,7 +544,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             OperationsList.Emit(sourceCode);
 
-            //sourceCode.AppendFrontFormat("Console.WriteLine(\"work done for {0} at threadId \" + threadId);\n", PatternName);
+            //sourceCode.AppendFrontFormat("GRGEN_LIBGR.ConsoleUI.outWriter.WriteLine(\"work done for {0} at threadId \" + threadId);\n", PatternName);
             if(EmitProfiling)
             {
                 sourceCode.AppendFrontFormat("if(maxMatches==1) actionEnv.PerformanceInfo.ActionProfiles[\"{0}\"].averagesPerThread[threadId].searchStepsSingle.Add(actionEnv.PerformanceInfo.SearchStepsPerThread[threadId]);\n", PackagePrefixedPatternName);

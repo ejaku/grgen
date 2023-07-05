@@ -50,7 +50,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public virtual string Serialize(object attribute, AttributeType attrType, IGraph graph)
         {
-            Console.WriteLine("Warning: Exporting attribute of object type to null");
+            ConsoleUI.outWriter.WriteLine("Warning: Exporting attribute of object type to null");
             return "null";
         }
 
@@ -61,8 +61,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         public virtual void External(string line, IGraph graph)
         {
-            Console.Write("Ignoring: ");
-            Console.WriteLine(line);
+            ConsoleUI.outWriter.Write("Ignoring: ");
+            ConsoleUI.outWriter.WriteLine(line);
         }
 
         public virtual INamedGraph AsGraph(object attribute, AttributeType attrType, IGraph graph)

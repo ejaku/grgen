@@ -20,7 +20,7 @@ namespace de.unika.ipd.grGen.lgsp
     public class LGSPSubactionAndOutputAdditionEnvironment : LGSPActionExecutionEnvironment, ISubactionAndOutputAdditionEnvironment
     {
         private IRecorder recorder;
-        private TextWriter emitWriter = Console.Out;
+        private TextWriter emitWriter = null;
 
 
         public LGSPSubactionAndOutputAdditionEnvironment(LGSPGraph graph, LGSPActions actions)
@@ -66,13 +66,13 @@ namespace de.unika.ipd.grGen.lgsp
 
         public TextWriter EmitWriter
         {
-            get { return emitWriter; }
+            get { return emitWriter ?? ConsoleUI.outWriter; }
             set { emitWriter = value; }
         }
 
         public TextWriter EmitWriterDebug
         {
-            get { return Console.Out; }
+            get { return ConsoleUI.outWriter; }
         }
 
         #region Events

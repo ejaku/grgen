@@ -1794,11 +1794,11 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.Indent();
 
             // emit matcher assignment, worker signaling, and waiting for completion
-            //sourceCode.AppendFrontFormat("Console.WriteLine(\"signaling of parallel matchers for {0}\");\n", RulePatternClassName);
+            //sourceCode.AppendFrontFormat("GRGEN_LIBGR.ConsoleUI.outWriter.WriteLine(\"signaling of parallel matchers for {0}\");\n", RulePatternClassName);
             sourceCode.AppendFront("maxMatchesFound = false;\n");
             sourceCode.AppendFront("GRGEN_LGSP.WorkerPool.Task = myMatch_parallelized_body;\n");
             sourceCode.AppendFront("GRGEN_LGSP.WorkerPool.StartWork(numThreadsSignaled);\n");
-            //sourceCode.AppendFrontFormat("Console.WriteLine(\"awaiting of parallel matchers for {0}\");\n", RulePatternClassName);
+            //sourceCode.AppendFrontFormat("GRGEN_LIBGR.ConsoleUI.outWriter.WriteLine(\"awaiting of parallel matchers for {0}\");\n", RulePatternClassName);
             sourceCode.AppendFront("GRGEN_LGSP.WorkerPool.WaitForWorkDone();\n");
             
             // emit matches list building from matches lists of the matcher threads (obeying order of sequential iteration)
