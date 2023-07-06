@@ -77,26 +77,77 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The output writer normally mapping to stdout
         /// </summary>
-        public static TextWriter outWriter = System.Console.Out;
+        public static TextWriter outWriter
+        {
+            get
+            {
+                if(_outWriter == null)
+                    _outWriter = System.Console.Out;
+                return _outWriter;
+            }
+            set { _outWriter = value; }
+        }
+        private static TextWriter _outWriter;
 
         /// <summary>
         /// The error output write normally mapping to stderr
         /// </summary>
-        public static TextWriter errorOutWriter = System.Console.Error;
+        public static TextWriter errorOutWriter
+        {
+            get
+            {
+                if(_errorOutWriter == null)
+                    _errorOutWriter = System.Console.Error;
+                return _errorOutWriter;
+            }
+            set { _errorOutWriter = value; }
+        }
+        private static TextWriter _errorOutWriter;
 
         /// <summary>
         /// An interface that allows for highlighted output, typically null unless a debugger session is started
         /// </summary>
-        public static IConsoleOutput consoleOut = WorkaroundManager.Workaround;
+        public static IConsoleOutput consoleOut
+        {
+            get
+            {
+                if(_consoleOut == null)
+                    _consoleOut = WorkaroundManager.Workaround;
+                return _consoleOut;
+            }
+            set { _consoleOut = value; }
+        }
+        private static IConsoleOutput _consoleOut;
 
         /// <summary>
         /// The input reader normally mapping to stdin
         /// </summary>
-        public static TextReader inReader = WorkaroundManager.Workaround.In;
+        public static TextReader inReader
+        {
+            get
+            {
+                if(_inReader == null)
+                    _inReader = WorkaroundManager.Workaround.In;
+                return _inReader;
+            }
+            set { _inReader = value; }
+        }
+        private static TextReader _inReader;
+
 
         /// <summary>
         /// An interface that allows to read keys from the console, typically null unless a debugger session is started
         /// </summary>
-        public static IConsoleInput consoleIn = WorkaroundManager.Workaround;
+        public static IConsoleInput consoleIn
+        {
+            get
+            {
+                if(_consoleIn == null)
+                    _consoleIn = WorkaroundManager.Workaround;
+                return _consoleIn;
+            }
+            set { _consoleIn = value; }
+        }
+        private static IConsoleInput _consoleIn;
     }
 }
