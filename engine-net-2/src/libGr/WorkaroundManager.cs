@@ -350,7 +350,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         public override ConsoleKeyInfo ReadKey(bool intercept)
         {
-            Console.Write("cygwin bash compatibility mode - please enter key and press return:");
+            Console.Write("cygwin bash compatibility mode - please enter a key and press return:");
             int key = Console.Read();
             int returnKey = Console.Read();
             return new ConsoleKeyInfo(Convert.ToChar(key), new ConsoleKey(), false, false, false); // todo: build better key info
@@ -358,7 +358,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override ConsoleKeyInfo ReadKeyWithControlCAsInput()
         {
-            Console.Write("cygwin bash compatibility mode - please enter key and press return (Ctrl-C not working):");
+            Console.Write("cygwin bash compatibility mode - please enter a key and press return (Ctrl-C not working):");
             int key = Console.Read();
             int returnKey = Console.Read();
             return new ConsoleKeyInfo(Convert.ToChar(key), new ConsoleKey(), false, false, false); // todo: build better key info

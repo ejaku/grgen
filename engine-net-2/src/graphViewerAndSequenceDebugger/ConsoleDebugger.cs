@@ -1680,13 +1680,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             StringBuilder combinedName = new StringBuilder();
             bool first = true;
-            foreach(IMatches matches in matchesArray)
+            if(matchesArray != null)
             {
-                if(first)
-                    first = false;
-                else
-                    combinedName.Append(",");
-                combinedName.Append(matches.Producer.Name);
+                foreach(IMatches matches in matchesArray)
+                {
+                    if(first)
+                        first = false;
+                    else
+                        combinedName.Append(",");
+                    combinedName.Append(matches.Producer.Name);
+                }
             }
             return combinedName.ToString();
         }
