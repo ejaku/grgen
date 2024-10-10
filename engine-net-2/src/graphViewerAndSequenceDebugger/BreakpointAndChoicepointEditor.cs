@@ -28,16 +28,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void HandleToggleBreakpoints()
         {
-            ConsoleUI.outWriter.Write("Available breakpoint positions:\n  ");
+            env.outWriter.Write("Available breakpoint positions:\n  ");
 
             PrintSequenceContext contextBp = new PrintSequenceContext();
             contextBp.bpPosCounter = 0;
-            SequencePrinter.PrintSequenceBase(debugSequences.Peek(), contextBp, debugSequences.Count);
-            ConsoleUI.outWriter.WriteLine();
+            new SequencePrinter(env).PrintSequenceBase(debugSequences.Peek(), contextBp, debugSequences.Count);
+            env.outWriter.WriteLine();
 
             if(contextBp.bpPosCounter == 0)
             {
-                ConsoleUI.outWriter.WriteLine("No breakpoint positions available!");
+                env.outWriter.WriteLine("No breakpoint positions available!");
                 return;
             }
 
@@ -50,16 +50,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void HandleToggleChoicepoints()
         {
-            ConsoleUI.outWriter.Write("Available choicepoint positions:\n  ");
+            env.outWriter.Write("Available choicepoint positions:\n  ");
 
             PrintSequenceContext contextCp = new PrintSequenceContext();
             contextCp.cpPosCounter = 0;
-            SequencePrinter.PrintSequenceBase(debugSequences.Peek(), contextCp, debugSequences.Count);
-            ConsoleUI.outWriter.WriteLine();
+            new SequencePrinter(env).PrintSequenceBase(debugSequences.Peek(), contextCp, debugSequences.Count);
+            env.outWriter.WriteLine();
 
             if(contextCp.cpPosCounter == 0)
             {
-                ConsoleUI.outWriter.WriteLine("No choicepoint positions available!");
+                env.outWriter.WriteLine("No choicepoint positions available!");
                 return;
             }
 
@@ -72,8 +72,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private int HandleTogglePoint(string pointName, int numPositions)
         {
-            ConsoleUI.outWriter.WriteLine("Which " + pointName + " to toggle (toggling on is shown by +, off by -)?");
-            ConsoleUI.outWriter.WriteLine("Press (0)...(9) to toggle the corresponding " + pointName + " or (e) to enter the number of the " + pointName + " to toggle."
+            env.outWriter.WriteLine("Which " + pointName + " to toggle (toggling on is shown by +, off by -)?");
+            env.outWriter.WriteLine("Press (0)...(9) to toggle the corresponding " + pointName + " or (e) to enter the number of the " + pointName + " to toggle."
                             + " Press (a) to abort.");
 
             do
@@ -94,28 +94,28 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     int num = key.KeyChar - '0';
                     if(num >= numPositions)
                     {
-                        ConsoleUI.outWriter.WriteLine("You must specify a number between 0 and " + (numPositions - 1) + "!");
+                        env.outWriter.WriteLine("You must specify a number between 0 and " + (numPositions - 1) + "!");
                         break;
                     }
                     return num;
                 case 'e':
-                    ConsoleUI.outWriter.Write("Enter number of " + pointName + " to toggle (-1 for abort): ");
-                    String numStr = ConsoleUI.inReader.ReadLine();
+                    env.outWriter.Write("Enter number of " + pointName + " to toggle (-1 for abort): ");
+                    String numStr = env.inReader.ReadLine();
                     if(int.TryParse(numStr, out num))
                     {
                         if(num < -1 || num >= numPositions)
                         {
-                            ConsoleUI.outWriter.WriteLine("You must specify a number between -1 and " + (numPositions - 1) + "!");
+                            env.outWriter.WriteLine("You must specify a number between -1 and " + (numPositions - 1) + "!");
                             break;
                         }
                         return num;
                     }
-                    ConsoleUI.outWriter.WriteLine("You must enter a valid integer number!");
+                    env.outWriter.WriteLine("You must enter a valid integer number!");
                     break;
                 case 'a':
                     return -1;
                 default:
-                    ConsoleUI.outWriter.WriteLine("Illegal choice (Key = " + key.Key
+                    env.outWriter.WriteLine("Illegal choice (Key = " + key.Key
                         + ")! Only (0)...(9), (e)nter number, (a)bort allowed! ");
                     break;
                 }

@@ -26,6 +26,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         void ShowMsgAskForEnter(string msg);
         bool ShowMsgAskForYesNo(string msg);
         string ShowMsgAskForString(string msg);
+
+        // ConsoleUI -------------------------------------------------------------------------------
+
+        TextWriter outWriter { get; }
+        TextWriter errorOutWriter { get; }
+        IConsoleOutput consoleOut { get; }
+
+        TextReader inReader { get; }
+        IConsoleInput consoleIn { get; }
     }
 
     public class EOFException : IOException
@@ -284,6 +293,33 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             ConsoleUI.outWriter.Write(msg);
             return ReadOrEofErr();
+        }
+
+        // ConsoleUI -------------------------------------------------------------------------------
+
+        public TextWriter outWriter
+        {
+            get { return ConsoleUI.outWriter; }
+        }
+
+        public TextWriter errorOutWriter
+        {
+            get { return ConsoleUI.errorOutWriter; }
+        }
+
+        public IConsoleOutput consoleOut
+        {
+            get { return ConsoleUI.consoleOut; }
+        }
+
+        public TextReader inReader
+        {
+            get { return ConsoleUI.inReader; }
+        }
+
+        public IConsoleInput consoleIn
+        {
+            get { return ConsoleUI.consoleIn; }
         }
     }
 }

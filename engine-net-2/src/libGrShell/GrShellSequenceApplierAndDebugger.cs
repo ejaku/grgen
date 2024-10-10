@@ -349,7 +349,7 @@ namespace de.unika.ipd.grGen.grShell
                 else
                 {
                     ConsoleUI.errorOutWriter.WriteLine("Rewrite sequence aborted after position:");
-                    SequencePrinter.PrintSequence(curGRS, curRule);
+                    SequencePrinter.PrintSequence(curGRS, curRule, this);
                     ConsoleUI.errorOutWriter.WriteLine();
                 }
             }
