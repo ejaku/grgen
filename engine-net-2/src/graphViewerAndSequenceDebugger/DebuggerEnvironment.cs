@@ -31,7 +31,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         // outWriter (errorOutWriter not used in interactive debugger)
         void Write(string value);
+        void Write(string format, params object[] arg);
         void WriteLine(string value);
+        void WriteLine(string format, params object[] arg);
         void WriteLine();
 
         // consoleOut
@@ -42,6 +44,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         // consoleIn
         ConsoleKeyInfo ReadKey(bool intercept);
+        ConsoleKeyInfo ReadKeyWithControlCAsInput();
         bool KeyAvailable { get; }
     }
 
@@ -49,7 +52,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     {
     }
 
-    public class DebuggerEnvironment : IDebuggerEnvironment
+    public abstract class BaseDebuggerEnvironment : IDebuggerEnvironment
     {
         public ConsoleDebugger Debugger // has to be set after debugger was constructed
         {
@@ -66,7 +69,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public virtual ConsoleKeyInfo ReadKeyWithCancel()
         {
-            ConsoleKeyInfo key = ConsoleUI.consoleIn.ReadKeyWithControlCAsInput();
+            ConsoleKeyInfo key = ReadKeyWithControlCAsInput();
 
             if(key.Key == ConsoleKey.C && (key.Modifiers & ConsoleModifiers.Control) != 0)
                 Cancel();
@@ -80,27 +83,27 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 if(!CheckDebuggerAlive())
                 {
-                    ConsoleUI.errorOutWriter.WriteLine("debug mode must be enabled (yComp available) for asking for a node/edge type");
+                    ErrorWriteLine("debug mode must be enabled (yComp available) for asking for a node/edge type");
                     return null;
                 }
 
-                ConsoleUI.outWriter.WriteLine("Select an element of type " + typeName + " by double clicking in yComp (ESC for abort)...");
+                WriteLine("Select an element of type " + typeName + " by double clicking in yComp (ESC for abort)...");
 
                 String id = debugger.ChooseGraphElement();
                 if(id == null)
                     return null;
 
-                ConsoleUI.outWriter.WriteLine("Received @(\"" + id + "\")");
+                WriteLine("Received @(\"" + id + "\")");
 
                 IGraphElement elem = graph.GetGraphElement(id);
                 if(elem == null)
                 {
-                    ConsoleUI.errorOutWriter.WriteLine("Graph element does not exist (anymore?).");
+                    ErrorWriteLine("Graph element does not exist (anymore?).");
                     return null;
                 }
                 if(!TypesHelper.IsSameOrSubtype(elem.Type.PackagePrefixedName, typeName, graph.Model))
                 {
-                    ConsoleUI.errorOutWriter.WriteLine(elem.Type.PackagePrefixedName + " is not the same type as/a subtype of " + typeName + ".");
+                    ErrorWriteLine(elem.Type.PackagePrefixedName + " is not the same type as/a subtype of " + typeName + ".");
                     return null;
                 }
                 return elem;
@@ -115,7 +118,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 String valTypeName = TypesHelper.XgrsTypeOfConstant(val, graph.Model);
                 if(!TypesHelper.IsSameOrSubtype(valTypeName, typeName, graph.Model))
                 {
-                    ConsoleUI.errorOutWriter.WriteLine(valTypeName + " is not the same type as/a subtype of " + typeName + ".");
+                    ErrorWriteLine(valTypeName + " is not the same type as/a subtype of " + typeName + ".");
                     return null;
                 }
                 return val;
@@ -137,7 +140,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             type = debugger.DebuggerProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.GetType(typeName);
             if(type != null)
                 return type;
-            ConsoleUI.errorOutWriter.WriteLine("Unknown graph element type: \"{0}\"", typeName);
+            ErrorWriteLine("Unknown graph element type: \"{0}\"", typeName);
             return null;
         }
 
@@ -258,7 +261,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             IGraphElement elem = debugger.DebuggerProcEnv.ProcEnv.NamedGraph.GetGraphElement(elemName);
             if(elem == null)
             {
-                ConsoleUI.errorOutWriter.WriteLine("Unknown graph element: \"{0}\"", elemName);
+                ErrorWriteLine("Unknown graph element: \"{0}\"", elemName);
                 return null;
             }
             return elem;
@@ -266,7 +269,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public string ReadOrEofErr()
         {
-            string result = ConsoleUI.inReader.ReadLine();
+            string result = ReadLine();
             if(result == null)
                 throw new EOFException();
             return result;
@@ -274,7 +277,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void ShowMsgAskForEnter(string msg)
         {
-            ConsoleUI.outWriter.Write(msg + " [enter] ");
+            Write(msg + " [enter] ");
             ReadOrEofErr();
         }
 
@@ -282,7 +285,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             while(true)
             {
-                ConsoleUI.outWriter.Write(msg + " [y(es)/n(o)] ");
+                Write(msg + " [y(es)/n(o)] ");
                 string result = ReadOrEofErr();
                 if(result.Equals("y", StringComparison.InvariantCultureIgnoreCase) ||
                     result.Equals("yes", StringComparison.InvariantCultureIgnoreCase))
@@ -299,43 +302,111 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public string ShowMsgAskForString(string msg)
         {
-            ConsoleUI.outWriter.Write(msg);
+            Write(msg);
             return ReadOrEofErr();
         }
 
         // ConsoleUI -------------------------------------------------------------------------------
 
-        public void Write(string value)
+        // outWriter
+        public abstract void Write(string value);
+        public abstract void Write(string format, params object[] arg);
+        public abstract void WriteLine(string value);
+        public abstract void WriteLine(string format, params object[] arg);
+        public abstract void WriteLine();
+
+        // errorOutWriter (not used in the interactive debugger, but some methods from the environment are also called from the shell (shared code))
+        public abstract void ErrorWrite(string value);
+        public abstract void ErrorWrite(string format, params object[] arg);
+        public abstract void ErrorWriteLine(string value);
+        public abstract void ErrorWriteLine(string format, params object[] arg);
+        public abstract void ErrorWriteLine();
+        
+        // consoleOut
+        public abstract void PrintHighlighted(String text, HighlightingMode mode);
+        
+        // inReader
+        public abstract string ReadLine();
+        
+        // consoleIn
+        public abstract ConsoleKeyInfo ReadKey(bool intercept);
+        public abstract ConsoleKeyInfo ReadKeyWithControlCAsInput();
+        public abstract bool KeyAvailable { get; }
+    }
+
+    public class DebuggerEnvironment : BaseDebuggerEnvironment
+    {
+        public override void Write(string value)
         {
             ConsoleUI.outWriter.Write(value);
         }
 
-        public void WriteLine(string value)
+        public override void Write(string format, params object[] arg)
+        {
+            ConsoleUI.outWriter.Write(format, arg);
+        }
+
+        public override void WriteLine(string value)
         {
             ConsoleUI.outWriter.WriteLine(value);
         }
 
-        public void WriteLine()
+        public override void WriteLine(string format, params object[] arg)
+        {
+            ConsoleUI.outWriter.WriteLine(format, arg);
+        }
+
+        public override void WriteLine()
         {
             ConsoleUI.outWriter.WriteLine();
         }
 
-        public void PrintHighlighted(String text, HighlightingMode mode)
+        public override void ErrorWrite(string value)
+        {
+            ConsoleUI.errorOutWriter.Write(value);
+        }
+
+        public override void ErrorWrite(string format, params object[] arg)
+        {
+            ConsoleUI.errorOutWriter.Write(format, arg);
+        }
+
+        public override void ErrorWriteLine(string value)
+        {
+            ConsoleUI.errorOutWriter.WriteLine(value);
+        }
+
+        public override void ErrorWriteLine(string format, params object[] arg)
+        {
+            ConsoleUI.errorOutWriter.WriteLine(format, arg);
+        }
+
+        public override void ErrorWriteLine()
+        {
+            ConsoleUI.errorOutWriter.WriteLine();
+        }
+
+        public override void PrintHighlighted(String text, HighlightingMode mode)
         {
             ConsoleUI.consoleOut.PrintHighlighted(text, mode);
         }
 
-        public string ReadLine()
+        public override string ReadLine()
         {
             return ConsoleUI.inReader.ReadLine();
         }
 
-        public ConsoleKeyInfo ReadKey(bool intercept)
+        public override ConsoleKeyInfo ReadKey(bool intercept)
         {
             return ConsoleUI.consoleIn.ReadKey(intercept);
         }
 
-        public bool KeyAvailable
+        public override ConsoleKeyInfo ReadKeyWithControlCAsInput()
+        {
+            return ConsoleUI.consoleIn.ReadKeyWithControlCAsInput();
+        }
+
+        public override bool KeyAvailable
         {
             get { return ConsoleUI.consoleIn.KeyAvailable; }
         }
