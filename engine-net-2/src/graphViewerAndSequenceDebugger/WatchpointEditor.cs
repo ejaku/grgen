@@ -28,13 +28,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void HandleWatchpoints()
         {
-            env.outWriter.WriteLine("List of registered watchpoints:");
+            env.WriteLine("List of registered watchpoints:");
             for(int i = 0; i < debuggerProcEnv.SubruleDebugConfig.ConfigurationRules.Count; ++i)
             {
-                env.outWriter.WriteLine(i + " - " + debuggerProcEnv.SubruleDebugConfig.ConfigurationRules[i].ToString());
+                env.WriteLine(i + " - " + debuggerProcEnv.SubruleDebugConfig.ConfigurationRules[i].ToString());
             }
 
-            env.outWriter.WriteLine("Press (e) to edit, (t) to toggle (enable/disable), or (d) to delete one of the watchpoints."
+            env.WriteLine("Press (e) to edit, (t) to toggle (enable/disable), or (d) to delete one of the watchpoints."
                 + " Press (i) to insert at a specified position, or (p) to append a watchpoint."
                 + " Press (a) to abort.");
 
@@ -49,38 +49,38 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     if(num == -1)
                         break;
                     EditWatchpoint(num);
-                    env.outWriter.WriteLine("Back from watchpoints to debugging.");
+                    env.WriteLine("Back from watchpoints to debugging.");
                     return;
                 case 't':
                     num = QueryWatchpoint("toggle (enable/disable)");
                     if(num == -1)
                         break;
                     ToggleWatchpoint(num);
-                    env.outWriter.WriteLine("Back from watchpoints to debugging.");
+                    env.WriteLine("Back from watchpoints to debugging.");
                     return;
                 case 'd':
                     num = QueryWatchpoint("delete");
                     if(num == -1)
                         break;
                     DeleteWatchpoint(num);
-                    env.outWriter.WriteLine("Back from watchpoints to debugging.");
+                    env.WriteLine("Back from watchpoints to debugging.");
                     return;
                 case 'i':
                     num = QueryWatchpoint("insert");
                     if(num == -1)
                         break;
                     InsertWatchpoint(num);
-                    env.outWriter.WriteLine("Back from watchpoints to debugging.");
+                    env.WriteLine("Back from watchpoints to debugging.");
                     return;
                 case 'p':
                     AppendWatchpoint();
-                    env.outWriter.WriteLine("Back from watchpoints to debugging.");
+                    env.WriteLine("Back from watchpoints to debugging.");
                     return;
                 case 'a':
-                    env.outWriter.WriteLine("Back from watchpoints to debugging.");
+                    env.WriteLine("Back from watchpoints to debugging.");
                     return;
                 default:
-                    env.outWriter.WriteLine("Illegal choice (Key = " + key.Key
+                    env.WriteLine("Illegal choice (Key = " + key.Key
                         + ")! Only (e)dit, (t)oggle, (d)elete, (i)nsert, a(p)pend, or (a)bort allowed! ");
                     break;
                 }
@@ -89,22 +89,22 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private int QueryWatchpoint(string action)
         {
-            env.outWriter.Write("Enter number of watchpoint to " + action + " (-1 for abort): ");
+            env.Write("Enter number of watchpoint to " + action + " (-1 for abort): ");
 
             do
             {
-                String numStr = env.inReader.ReadLine();
+                String numStr = env.ReadLine();
                 int num;
                 if(int.TryParse(numStr, out num))
                 {
                     if(num < -1 || num >= debuggerProcEnv.SubruleDebugConfig.ConfigurationRules.Count)
                     {
-                        env.outWriter.WriteLine("You must specify a number between -1 and " + (debuggerProcEnv.SubruleDebugConfig.ConfigurationRules.Count - 1) + "!");
+                        env.WriteLine("You must specify a number between -1 and " + (debuggerProcEnv.SubruleDebugConfig.ConfigurationRules.Count - 1) + "!");
                         continue;
                     }
                     return num;
                 }
-                env.outWriter.WriteLine("You must enter a valid integer number!");
+                env.WriteLine("You must enter a valid integer number!");
             }
             while(true);
         }
@@ -114,10 +114,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             SubruleDebuggingConfigurationRule cr = debuggerProcEnv.SubruleDebugConfig.ConfigurationRules[num];
             cr = EditOrCreateRule(cr);
             if(cr == null)
-                env.outWriter.WriteLine("aborted");
+                env.WriteLine("aborted");
             else
             {
-                env.outWriter.WriteLine("edited entry " + num + " - " + cr.ToString());
+                env.WriteLine("edited entry " + num + " - " + cr.ToString());
                 debuggerProcEnv.SubruleDebugConfig.Replace(num, cr);
             }
         }
@@ -126,25 +126,25 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             SubruleDebuggingConfigurationRule cr = debuggerProcEnv.SubruleDebugConfig.ConfigurationRules[num];
             cr.Enabled = !cr.Enabled;
-            env.outWriter.WriteLine("toggled entry " + num + " - " + cr.ToString());
+            env.WriteLine("toggled entry " + num + " - " + cr.ToString());
         }
 
         private void DeleteWatchpoint(int num)
         {
             SubruleDebuggingConfigurationRule cr = debuggerProcEnv.SubruleDebugConfig.ConfigurationRules[num];
             debuggerProcEnv.SubruleDebugConfig.Delete(num);
-            env.outWriter.WriteLine("deleted entry " + num + " - " + cr.ToString());
+            env.WriteLine("deleted entry " + num + " - " + cr.ToString());
         }
 
         private void InsertWatchpoint(int num)
         {
             SubruleDebuggingConfigurationRule cr = EditOrCreateRule(null);
             if(cr == null)
-                env.outWriter.WriteLine("aborted");
+                env.WriteLine("aborted");
             else
             {
                 debuggerProcEnv.SubruleDebugConfig.Insert(cr, num);
-                env.outWriter.WriteLine("inserted entry " + num + " - " + cr.ToString());
+                env.WriteLine("inserted entry " + num + " - " + cr.ToString());
             }
         }
 
@@ -152,11 +152,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             SubruleDebuggingConfigurationRule cr = EditOrCreateRule(null);
             if(cr == null)
-                env.outWriter.WriteLine("aborted");
+                env.WriteLine("aborted");
             else
             {
                 debuggerProcEnv.SubruleDebugConfig.Insert(cr);
-                env.outWriter.WriteLine("appended entry " + (debuggerProcEnv.SubruleDebugConfig.ConfigurationRules.Count - 1) + " - " + cr.ToString());
+                env.WriteLine("appended entry " + (debuggerProcEnv.SubruleDebugConfig.ConfigurationRules.Count - 1) + " - " + cr.ToString());
             }
         }
 
@@ -239,18 +239,18 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private SubruleDebuggingEvent DetermineEventTypeToConfigure(SubruleDebuggingConfigurationRule cr)
         {
-            env.outWriter.WriteLine("What event to listen to?");
-            env.outWriter.Write("(0) subrule entry aka Debug::add" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Add ? " or (k)eep\n" : "\n"));
-            env.outWriter.Write("(1) subrule exit aka Debug::rem" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Rem ? " or (k)eep\n" : "\n"));
-            env.outWriter.Write("(2) subrule report aka Debug::emit" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Emit ? " or (k)eep\n" : "\n"));
-            env.outWriter.Write("(3) subrule halt aka Debug::halt" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Halt ? " or (k)eep\n" : "\n"));
-            env.outWriter.Write("(4) subrule highlight aka Debug::highlight" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Highlight ? " or (k)eep\n" : "\n"));
-            env.outWriter.Write("(5) rule match" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Match ? " or (k)eep\n" : "\n"));
-            env.outWriter.Write("(6) graph element creation" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.New ? " or (k)eep\n" : "\n"));
-            env.outWriter.Write("(7) graph element deletion" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Delete ? " or (k)eep\n" : "\n"));
-            env.outWriter.Write("(8) graph element retyping" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Retype ? " or (k)eep\n" : "\n"));
-            env.outWriter.Write("(9) graph element attribute assignment" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.SetAttributes ? " or (k)eep\n" : "\n"));
-            env.outWriter.WriteLine("(a)bort");
+            env.WriteLine("What event to listen to?");
+            env.Write("(0) subrule entry aka Debug::add" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Add ? " or (k)eep\n" : "\n"));
+            env.Write("(1) subrule exit aka Debug::rem" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Rem ? " or (k)eep\n" : "\n"));
+            env.Write("(2) subrule report aka Debug::emit" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Emit ? " or (k)eep\n" : "\n"));
+            env.Write("(3) subrule halt aka Debug::halt" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Halt ? " or (k)eep\n" : "\n"));
+            env.Write("(4) subrule highlight aka Debug::highlight" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Highlight ? " or (k)eep\n" : "\n"));
+            env.Write("(5) rule match" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Match ? " or (k)eep\n" : "\n"));
+            env.Write("(6) graph element creation" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.New ? " or (k)eep\n" : "\n"));
+            env.Write("(7) graph element deletion" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Delete ? " or (k)eep\n" : "\n"));
+            env.Write("(8) graph element retyping" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Retype ? " or (k)eep\n" : "\n"));
+            env.Write("(9) graph element attribute assignment" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.SetAttributes ? " or (k)eep\n" : "\n"));
+            env.WriteLine("(a)bort");
 
             do
             {
@@ -284,7 +284,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                         return cr.DebuggingEvent;
                     else
                     {
-                        env.outWriter.WriteLine("Illegal choice (Key = " + key.Key
+                        env.WriteLine("Illegal choice (Key = " + key.Key
                             + ")! Only (0)...(9), (a)bort allowed! ");
                         break;
                     }
@@ -295,13 +295,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private SubruleMesssageMatchingMode DetermineMessageAndMessageMatchingMode(SubruleDebuggingConfigurationRule cr, out string message)
         {
-            env.outWriter.WriteLine("Enter the subrule message to match.");
+            env.WriteLine("Enter the subrule message to match.");
             if(cr != null)
-                env.outWriter.WriteLine("Empty string for " + cr.MessageToMatch);
+                env.WriteLine("Empty string for " + cr.MessageToMatch);
             else
-                env.outWriter.WriteLine("Empty string to abort.");
+                env.WriteLine("Empty string to abort.");
 
-            message = env.inReader.ReadLine();
+            message = env.ReadLine();
             if(message.Length == 0)
             {
                 if(cr != null)
@@ -310,12 +310,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     return SubruleMesssageMatchingMode.Undefined;
             }
 
-            env.outWriter.WriteLine("How to match the subrule message?");
-            env.outWriter.Write("(0) equals" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.Equals ? " or (k)eep\n" : "\n"));
-            env.outWriter.Write("(1) startsWith" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.StartsWith ? " or (k)eep\n" : "\n"));
-            env.outWriter.Write("(2) endsWith" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.EndsWith ? " or (k)eep\n" : "\n"));
-            env.outWriter.Write("(3) contains" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.Contains ? " or (k)eep\n" : "\n"));
-            env.outWriter.WriteLine("(a)bort");
+            env.WriteLine("How to match the subrule message?");
+            env.Write("(0) equals" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.Equals ? " or (k)eep\n" : "\n"));
+            env.Write("(1) startsWith" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.StartsWith ? " or (k)eep\n" : "\n"));
+            env.Write("(2) endsWith" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.EndsWith ? " or (k)eep\n" : "\n"));
+            env.Write("(3) contains" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.Contains ? " or (k)eep\n" : "\n"));
+            env.WriteLine("(a)bort");
 
             do
             {
@@ -337,7 +337,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                         return cr.MessageMatchingMode;
                     else
                     {
-                        env.outWriter.WriteLine("Illegal choice (Key = " + key.Key
+                        env.WriteLine("Illegal choice (Key = " + key.Key
                             + ")! Only (0)...(3), (a)bort allowed! ");
                         break;
                     }
@@ -350,13 +350,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             do
             {
-                env.outWriter.WriteLine("Enter the name of the action to match.");
+                env.WriteLine("Enter the name of the action to match.");
                 if(cr != null)
-                    env.outWriter.WriteLine("Empty string for " + cr.ActionToMatch.PackagePrefixedName);
+                    env.WriteLine("Empty string for " + cr.ActionToMatch.PackagePrefixedName);
                 else
-                    env.outWriter.WriteLine("Empty string to abort.");
+                    env.WriteLine("Empty string to abort.");
 
-                String actionName = env.inReader.ReadLine();
+                String actionName = env.ReadLine();
                 if(actionName.Length == 0)
                 {
                     if(cr != null)
@@ -367,7 +367,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
                 IAction action = debuggerProcEnv.ProcEnv.Actions.GetAction(actionName);
                 if(action == null)
-                    env.outWriter.WriteLine("Unknown action: " + actionName);
+                    env.WriteLine("Unknown action: " + actionName);
                 else
                     return action;
             }
@@ -407,10 +407,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private SubruleDebuggingMatchGraphElementMode DetermineMatchGraphElementMode(SubruleDebuggingConfigurationRule cr)
         {
-            env.outWriter.WriteLine("Match graph element based on name or based on type?");
-            env.outWriter.Write("(0) by name" + (cr != null && cr.NameToMatch != null ? " or (k)eep\n" : "\n"));
-            env.outWriter.Write("(1) by type" + (cr != null && cr.NameToMatch == null ? " or (k)eep\n" : "\n"));
-            env.outWriter.WriteLine("(a)bort");
+            env.WriteLine("Match graph element based on name or based on type?");
+            env.Write("(0) by name" + (cr != null && cr.NameToMatch != null ? " or (k)eep\n" : "\n"));
+            env.Write("(1) by type" + (cr != null && cr.NameToMatch == null ? " or (k)eep\n" : "\n"));
+            env.WriteLine("(a)bort");
 
             do
             {
@@ -432,7 +432,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     }
                     else
                     {
-                        env.outWriter.WriteLine("Illegal choice (Key = " + key.Key
+                        env.WriteLine("Illegal choice (Key = " + key.Key
                             + ")! Only (0), (1), (a)bort allowed! ");
                         break;
                     }
@@ -444,13 +444,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private bool DetermineMatchGraphElementByName(SubruleDebuggingConfigurationRule cr,
             out string graphElementName)
         {
-            env.outWriter.WriteLine("Enter the graph element name to match.");
+            env.WriteLine("Enter the graph element name to match.");
             if(cr != null)
-                env.outWriter.WriteLine("Empty string for " + cr.NameToMatch);
+                env.WriteLine("Empty string for " + cr.NameToMatch);
             else
-                env.outWriter.WriteLine("Empty string to abort.");
+                env.WriteLine("Empty string to abort.");
 
-            graphElementName = env.inReader.ReadLine();
+            graphElementName = env.ReadLine();
             if(graphElementName.Length == 0)
             {
                 if(cr != null)
@@ -467,13 +467,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             while(true)
             {
-                env.outWriter.WriteLine("Enter the type of the graph element to match.");
+                env.WriteLine("Enter the type of the graph element to match.");
                 if(cr != null)
-                    env.outWriter.WriteLine("Empty string for " + cr.TypeToMatch.PackagePrefixedName);
+                    env.WriteLine("Empty string for " + cr.TypeToMatch.PackagePrefixedName);
                 else
-                    env.outWriter.WriteLine("Empty string to abort.");
+                    env.WriteLine("Empty string to abort.");
 
-                String graphElementTypeName = env.inReader.ReadLine();
+                String graphElementTypeName = env.ReadLine();
                 if(graphElementTypeName.Length == 0)
                 {
                     if(cr != null)
@@ -490,7 +490,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
                 graphElementType = env.GetGraphElementType(graphElementTypeName);
                 if(graphElementType == null)
-                    env.outWriter.WriteLine("Unknown graph element type: " + graphElementTypeName);
+                    env.WriteLine("Unknown graph element type: " + graphElementTypeName);
                 else
                     break;
             }
@@ -500,10 +500,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private SubruleDebuggingMatchGraphElementByTypeMode DetermineMatchGraphElementByTypeMode(SubruleDebuggingConfigurationRule cr)
         {
-            env.outWriter.WriteLine("Only the graph element type or also subtypes?");
-            env.outWriter.Write("(0) also subtypes" + (cr != null && !cr.OnlyThisType ? " or (k)eep\n" : "\n"));
-            env.outWriter.Write("(1) only the type" + (cr != null && cr.OnlyThisType ? " or (k)eep\n" : "\n"));
-            env.outWriter.WriteLine("(a)bort");
+            env.WriteLine("Only the graph element type or also subtypes?");
+            env.Write("(0) also subtypes" + (cr != null && !cr.OnlyThisType ? " or (k)eep\n" : "\n"));
+            env.Write("(1) only the type" + (cr != null && cr.OnlyThisType ? " or (k)eep\n" : "\n"));
+            env.WriteLine("(a)bort");
 
             while(true)
             {
@@ -525,7 +525,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     }
                     else
                     {
-                        env.outWriter.WriteLine("Illegal choice (Key = " + key.Key
+                        env.WriteLine("Illegal choice (Key = " + key.Key
                             + ")! Only (0), (1), (a)bort allowed! ");
                         break;
                     }
@@ -536,10 +536,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private SubruleDebuggingDecision DetermineDecisionAction(SubruleDebuggingConfigurationRule cr)
         {
             // edit or keep decision action
-            env.outWriter.WriteLine("How to react when the event is triggered?");
-            env.outWriter.Write("(0) break" + (cr != null && cr.DecisionOnMatch == SubruleDebuggingDecision.Break ? " or (k)eep\n" : "\n"));
-            env.outWriter.Write("(1) continue" + (cr != null && cr.DecisionOnMatch == SubruleDebuggingDecision.Continue ? " or (k)eep\n" : "\n"));
-            env.outWriter.WriteLine("(a)bort");
+            env.WriteLine("How to react when the event is triggered?");
+            env.Write("(0) break" + (cr != null && cr.DecisionOnMatch == SubruleDebuggingDecision.Break ? " or (k)eep\n" : "\n"));
+            env.Write("(1) continue" + (cr != null && cr.DecisionOnMatch == SubruleDebuggingDecision.Continue ? " or (k)eep\n" : "\n"));
+            env.WriteLine("(a)bort");
 
             do
             {
@@ -557,7 +557,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                         return cr.DecisionOnMatch;
                     else
                     {
-                        env.outWriter.WriteLine("Illegal choice (Key = " + key.Key
+                        env.WriteLine("Illegal choice (Key = " + key.Key
                             + ")! Only (0), (1), (a)bort allowed! ");
                         break;
                     }
@@ -572,13 +572,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             // edit or keep condition if type action or graph change
             do
             {
-                env.outWriter.WriteLine("Conditional rule via sequence expression?");
+                env.WriteLine("Conditional rule via sequence expression?");
                 if(cr != null && cr.IfClause != null)
-                    env.outWriter.WriteLine("Press enter to take over " + cr.IfClause.Symbol + ", enter \"-\" to clear the condition, otherwise enter the sequence expression to apply.");
+                    env.WriteLine("Press enter to take over " + cr.IfClause.Symbol + ", enter \"-\" to clear the condition, otherwise enter the sequence expression to apply.");
                 else
-                    env.outWriter.WriteLine("Press enter if you don't want to add an if part, otherwise enter the sequence expression to apply.");
+                    env.WriteLine("Press enter if you don't want to add an if part, otherwise enter the sequence expression to apply.");
 
-                String ifClauseStr = env.inReader.ReadLine();
+                String ifClauseStr = env.ReadLine();
                 if(ifClauseStr.Length == 0)
                 {
                     if(cr != null)
@@ -609,22 +609,22 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     SequenceExpression ifClause = SequenceParser.ParseSequenceExpression(ifClauseStr, predefinedVariables, parserEnv, warnings);
                     foreach(string warning in warnings)
                     {
-                        env.outWriter.WriteLine("The sequence expression for the if clause reported back: " + warning);
+                        env.WriteLine("The sequence expression for the if clause reported back: " + warning);
                     }
                     return ifClause;
                 }
                 catch(SequenceParserException ex)
                 {
-                    env.outWriter.WriteLine("Unable to parse sequence expression");
+                    env.WriteLine("Unable to parse sequence expression");
                     DebuggerEnvironment.HandleSequenceParserException(ex);
                 }
                 catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
                 {
-                    env.outWriter.WriteLine("Unable to parse sequence expression: " + ex.Message);
+                    env.WriteLine("Unable to parse sequence expression: " + ex.Message);
                 }
                 catch(Exception ex)
                 {
-                    env.outWriter.WriteLine("Unable to parse sequence expression : " + ex);
+                    env.WriteLine("Unable to parse sequence expression : " + ex);
                 }
             }
             while(true);

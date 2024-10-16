@@ -28,16 +28,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void HandleToggleBreakpoints()
         {
-            env.outWriter.Write("Available breakpoint positions:\n  ");
+            env.Write("Available breakpoint positions:\n  ");
 
             PrintSequenceContext contextBp = new PrintSequenceContext();
             contextBp.bpPosCounter = 0;
             new SequencePrinter(env).PrintSequenceBase(debugSequences.Peek(), contextBp, debugSequences.Count);
-            env.outWriter.WriteLine();
+            env.WriteLine();
 
             if(contextBp.bpPosCounter == 0)
             {
-                env.outWriter.WriteLine("No breakpoint positions available!");
+                env.WriteLine("No breakpoint positions available!");
                 return;
             }
 
@@ -50,16 +50,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void HandleToggleChoicepoints()
         {
-            env.outWriter.Write("Available choicepoint positions:\n  ");
+            env.Write("Available choicepoint positions:\n  ");
 
             PrintSequenceContext contextCp = new PrintSequenceContext();
             contextCp.cpPosCounter = 0;
             new SequencePrinter(env).PrintSequenceBase(debugSequences.Peek(), contextCp, debugSequences.Count);
-            env.outWriter.WriteLine();
+            env.WriteLine();
 
             if(contextCp.cpPosCounter == 0)
             {
-                env.outWriter.WriteLine("No choicepoint positions available!");
+                env.WriteLine("No choicepoint positions available!");
                 return;
             }
 
@@ -72,8 +72,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private int HandleTogglePoint(string pointName, int numPositions)
         {
-            env.outWriter.WriteLine("Which " + pointName + " to toggle (toggling on is shown by +, off by -)?");
-            env.outWriter.WriteLine("Press (0)...(9) to toggle the corresponding " + pointName + " or (e) to enter the number of the " + pointName + " to toggle."
+            env.WriteLine("Which " + pointName + " to toggle (toggling on is shown by +, off by -)?");
+            env.WriteLine("Press (0)...(9) to toggle the corresponding " + pointName + " or (e) to enter the number of the " + pointName + " to toggle."
                             + " Press (a) to abort.");
 
             do
@@ -94,28 +94,28 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     int num = key.KeyChar - '0';
                     if(num >= numPositions)
                     {
-                        env.outWriter.WriteLine("You must specify a number between 0 and " + (numPositions - 1) + "!");
+                        env.WriteLine("You must specify a number between 0 and " + (numPositions - 1) + "!");
                         break;
                     }
                     return num;
                 case 'e':
-                    env.outWriter.Write("Enter number of " + pointName + " to toggle (-1 for abort): ");
-                    String numStr = env.inReader.ReadLine();
+                    env.Write("Enter number of " + pointName + " to toggle (-1 for abort): ");
+                    String numStr = env.ReadLine();
                     if(int.TryParse(numStr, out num))
                     {
                         if(num < -1 || num >= numPositions)
                         {
-                            env.outWriter.WriteLine("You must specify a number between -1 and " + (numPositions - 1) + "!");
+                            env.WriteLine("You must specify a number between -1 and " + (numPositions - 1) + "!");
                             break;
                         }
                         return num;
                     }
-                    env.outWriter.WriteLine("You must enter a valid integer number!");
+                    env.WriteLine("You must enter a valid integer number!");
                     break;
                 case 'a':
                     return -1;
                 default:
-                    env.outWriter.WriteLine("Illegal choice (Key = " + key.Key
+                    env.WriteLine("Illegal choice (Key = " + key.Key
                         + ")! Only (0)...(9), (e)nter number, (a)bort allowed! ");
                     break;
                 }

@@ -112,8 +112,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     return;
                 }
             }
-            env.outWriter.WriteLine("Unknown variable " + argument + "!");
-            env.outWriter.WriteLine("Use (v)ariables to print variables and visited flags.");
+            env.WriteLine("Unknown variable " + argument + "!");
+            env.WriteLine("Use (v)ariables to print variables and visited flags.");
         }
 
         public void DoHighlight(List<object> sources, List<string> annotations)
@@ -136,7 +136,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             graphViewerClient.UpdateDisplay();
             graphViewerClient.Sync();
-            env.outWriter.WriteLine("Press any key to continue...");
+            env.WriteLine("Press any key to continue...");
             env.ReadKeyWithCancel();
 
             for(int i = 0; i < sources.Count; ++i)
@@ -147,7 +147,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             graphViewerClient.UpdateDisplay();
             graphViewerClient.Sync();
 
-            env.outWriter.WriteLine("End of highlighting");
+            env.WriteLine("End of highlighting");
         }
 
         private void HighlightValue(object value, string name, bool addAnnotation)
@@ -262,10 +262,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 }
                 else
                 {
-                    env.outWriter.WriteLine("Unknown visited flag id " + (int)(value) + "!");
+                    env.WriteLine("Unknown visited flag id " + (int)(value) + "!");
                     if(name!=null)
-                        env.outWriter.WriteLine("Which is contained in variable " + name + ".");
-                    env.outWriter.WriteLine("Use (v)ariables to print variables and visited flags.");
+                        env.WriteLine("Which is contained in variable " + name + ".");
+                    env.WriteLine("Use (v)ariables to print variables and visited flags.");
                 }
             }
             else if(value is IGraphElement)
@@ -277,8 +277,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             else
             {
-                env.outWriter.WriteLine("The value " + value + (name!=null ? " contained in " + name : "") + " is neither an integer visited flag id nor a graph element, can't highlight!");
-                env.outWriter.WriteLine("Use (v)ariables to print variables and visited flags.");
+                env.WriteLine("The value " + value + (name!=null ? " contained in " + name : "") + " is neither an integer visited flag id nor a graph element, can't highlight!");
+                env.WriteLine("Use (v)ariables to print variables and visited flags.");
             }
         }
 

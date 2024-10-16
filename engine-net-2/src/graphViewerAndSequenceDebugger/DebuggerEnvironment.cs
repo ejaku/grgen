@@ -29,12 +29,20 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         // ConsoleUI -------------------------------------------------------------------------------
 
-        TextWriter outWriter { get; }
-        TextWriter errorOutWriter { get; }
-        IConsoleOutput consoleOut { get; }
+        // outWriter (errorOutWriter not used in interactive debugger)
+        void Write(string value);
+        void WriteLine(string value);
+        void WriteLine();
 
-        TextReader inReader { get; }
-        IConsoleInput consoleIn { get; }
+        // consoleOut
+        void PrintHighlighted(String text, HighlightingMode mode);
+
+        // inReader
+        string ReadLine();
+
+        // consoleIn
+        ConsoleKeyInfo ReadKey(bool intercept);
+        bool KeyAvailable { get; }
     }
 
     public class EOFException : IOException
@@ -297,29 +305,39 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         // ConsoleUI -------------------------------------------------------------------------------
 
-        public TextWriter outWriter
+        public void Write(string value)
         {
-            get { return ConsoleUI.outWriter; }
+            ConsoleUI.outWriter.Write(value);
         }
 
-        public TextWriter errorOutWriter
+        public void WriteLine(string value)
         {
-            get { return ConsoleUI.errorOutWriter; }
+            ConsoleUI.outWriter.WriteLine(value);
         }
 
-        public IConsoleOutput consoleOut
+        public void WriteLine()
         {
-            get { return ConsoleUI.consoleOut; }
+            ConsoleUI.outWriter.WriteLine();
         }
 
-        public TextReader inReader
+        public void PrintHighlighted(String text, HighlightingMode mode)
         {
-            get { return ConsoleUI.inReader; }
+            ConsoleUI.consoleOut.PrintHighlighted(text, mode);
         }
 
-        public IConsoleInput consoleIn
+        public string ReadLine()
         {
-            get { return ConsoleUI.consoleIn; }
+            return ConsoleUI.inReader.ReadLine();
+        }
+
+        public ConsoleKeyInfo ReadKey(bool intercept)
+        {
+            return ConsoleUI.consoleIn.ReadKey(intercept);
+        }
+
+        public bool KeyAvailable
+        {
+            get { return ConsoleUI.consoleIn.KeyAvailable; }
         }
     }
 }
