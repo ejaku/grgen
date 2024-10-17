@@ -49,10 +49,11 @@ namespace de.unika.ipd.grGen.grShell
     }
 
     /// <summary>
-    /// GrShellImpl part that controls applying the sequences and the debugger.
-    /// Inherits from the DebuggerEnvironment, required by the debugger (adapting the base implementation for non-shell usage by overriding as needed).
+    /// GrShellImpl part that controls applying the sequences, optionally utilizing the debugger.
+    /// Inherits from the BaseDebuggerEnvironment, required by the debugger (adapting the base implementation meant for non-shell usage by overriding as needed).
+    /// TODO: check whether overriden behaviour of BaseDebuggerEnvironement is really needed
     /// </summary>
-    public class GrShellSequenceApplierAndDebugger : DebuggerEnvironment
+    public class GrShellSequenceApplierAndDebugger : BaseDebuggerEnvironment
     {
         private bool silenceExec = false; // print match statistics during sequence execution on timer
         private bool cancelSequence = false;
@@ -673,6 +674,83 @@ namespace de.unika.ipd.grGen.grShell
                 return GraphViewer.ShowGraphWithDot(impl.curShellProcEnv, programName, arguments, keep);
             else
                 return GraphViewer.ShowVcgGraph(impl.curShellProcEnv, impl.debugLayout, programName, arguments, keep);
+        }
+
+        // ConsoleUI -------------------------------------------------------------------------------
+
+        public override void Write(string value)
+        {
+            ConsoleUI.outWriter.Write(value);
+        }
+
+        public override void Write(string format, params object[] arg)
+        {
+            ConsoleUI.outWriter.Write(format, arg);
+        }
+
+        public override void WriteLine(string value)
+        {
+            ConsoleUI.outWriter.WriteLine(value);
+        }
+
+        public override void WriteLine(string format, params object[] arg)
+        {
+            ConsoleUI.outWriter.WriteLine(format, arg);
+        }
+
+        public override void WriteLine()
+        {
+            ConsoleUI.outWriter.WriteLine();
+        }
+
+        public override void ErrorWrite(string value)
+        {
+            ConsoleUI.errorOutWriter.Write(value);
+        }
+
+        public override void ErrorWrite(string format, params object[] arg)
+        {
+            ConsoleUI.errorOutWriter.Write(format, arg);
+        }
+
+        public override void ErrorWriteLine(string value)
+        {
+            ConsoleUI.errorOutWriter.WriteLine(value);
+        }
+
+        public override void ErrorWriteLine(string format, params object[] arg)
+        {
+            ConsoleUI.errorOutWriter.WriteLine(format, arg);
+        }
+
+        public override void ErrorWriteLine()
+        {
+            ConsoleUI.errorOutWriter.WriteLine();
+        }
+
+        public override void PrintHighlighted(String text, HighlightingMode mode)
+        {
+            ConsoleUI.consoleOut.PrintHighlighted(text, mode);
+        }
+
+        public override string ReadLine()
+        {
+            return ConsoleUI.inReader.ReadLine();
+        }
+
+        public override ConsoleKeyInfo ReadKey(bool intercept)
+        {
+            return ConsoleUI.consoleIn.ReadKey(intercept);
+        }
+
+        public override ConsoleKeyInfo ReadKeyWithControlCAsInput()
+        {
+            return ConsoleUI.consoleIn.ReadKeyWithControlCAsInput();
+        }
+
+        public override bool KeyAvailable
+        {
+            get { return ConsoleUI.consoleIn.KeyAvailable; }
         }
     }
 }
