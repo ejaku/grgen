@@ -97,6 +97,7 @@ namespace de.unika.ipd.grGen.grShell
 
         private static void ShowPromptAsNeeded(bool showPrompt)
         {
+            // form TODO: bring window to front, debugger window could hide it
             if(showPrompt)
                 ConsoleUI.outWriter.Write("> ");
         }

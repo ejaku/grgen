@@ -59,6 +59,18 @@
     <Compile Include="GraphAnnotationAndChangesRecorder.cs" />
     <Compile Include="GraphViewer.cs" />
     <Compile Include="GraphViewerClient.cs" />
+    <Compile Include="GuiConsoleControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GuiConsoleControl.Designer.cs">
+      <DependentUpon>GuiConsoleControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GuiConsoleDebuggerHost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GuiConsoleDebuggerHost.Designer.cs">
+      <DependentUpon>GuiConsoleDebuggerHost.cs</DependentUpon>
+    </Compile>
     <Compile Include="Highlighter.cs" />
     <Compile Include="IBasicGraphViewerClient.cs" />
     <Compile Include="MatchMarkerAndAnnotator.cs" />
@@ -90,6 +102,14 @@
     <PackageReference Include="Microsoft.Msagl.GraphViewerGDI">
       <Version>1.1.7</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GuiConsoleControl.resx">
+      <DependentUpon>GuiConsoleControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GuiConsoleDebuggerHost.resx">
+      <DependentUpon>GuiConsoleDebuggerHost.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

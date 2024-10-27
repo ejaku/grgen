@@ -1831,7 +1831,7 @@ void DebugCommand():
 {
     Sequence seq;
     SequenceExpression seqExpr = null;
-    String str = null, str2, elemName = null;
+    String str = null, str2, elemName = null, debuggerName = null;
     Token tok;
     bool break_ = false, only = false;
     GrGenType graphElemType = null;
@@ -1937,6 +1937,9 @@ void DebugCommand():
     |
         "on" "set" "attributes" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))?
         { impl.DebugOnSetAttributes(graphElemType, only, elemName, break_, seqExpr); }
+    |
+        "with" debuggerName=WordOrText()
+        { impl.DebugWith(debuggerName); }
     }
     catch(ParseException ex)
     {

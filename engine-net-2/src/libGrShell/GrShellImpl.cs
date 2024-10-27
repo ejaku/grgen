@@ -217,6 +217,7 @@ namespace de.unika.ipd.grGen.grShell
         private readonly NewGraphOptions newGraphOptions = new NewGraphOptions();
 
         private String debugLayout = "Orthogonal";
+        private GraphViewerTypes graphViewerType = GraphViewerTypes.YComp;
 
         /// <summary>
         /// Maps layouts to layout option names to their values.
@@ -3991,6 +3992,27 @@ showavail:
         #endregion "debug on" event watching configuration rules
 
         #region "debug" layout and mode commands
+
+        public void DebugWith(string debuggerName)
+        {
+            if(debuggerName.Equals("msagl", StringComparison.InvariantCultureIgnoreCase))
+            {
+                bool success = seqApplierAndDebugger.DebugWith(GraphViewerTypes.MSAGL);
+                if(success) // error message printed by seqApplierAndDebugger in case of failure
+                    ConsoleUI.outWriter.WriteLine("Changed debugger/graph viewer to MSAGL.");
+            }
+            else if(debuggerName.Equals("ycomp", StringComparison.InvariantCultureIgnoreCase))
+            {
+                bool success = seqApplierAndDebugger.DebugWith(GraphViewerTypes.YComp);
+                if(success) // error message printed by seqApplierAndDebugger in case of failure
+                    ConsoleUI.outWriter.WriteLine("Changed debugger/graph viewer to yComp.");
+            }
+            else
+            {
+                ConsoleUI.errorOutWriter.WriteLine("\"" + debuggerName + "\" is not a valid debugger/graph viewer name!");
+                ConsoleUI.outWriter.WriteLine("Available debuggers/graph viewers are yComp and MSAGL.");
+            }
+        }
 
         public void DebugLayout()
         {

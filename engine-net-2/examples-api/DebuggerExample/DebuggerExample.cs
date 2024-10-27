@@ -23,7 +23,8 @@ namespace DebuggerExample
             Dictionary<String, String> optMap = new Dictionary<String, String>();
             DebuggerEnvironment debuggerEnv = new DebuggerEnvironment();
             DebuggerGraphProcessingEnvironment debuggerProcEnv = new DebuggerGraphProcessingEnvironment(graph, procEnv);
-            ConsoleDebugger debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(), "Organic", optMap);
+            ConsoleDebugger debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
+                /*GraphViewerTypes.YComp*/GraphViewerTypes.MSAGL, /*"Organic"*/"SugiyamaScheme", optMap, null);
             debugger.DetailedModeShowPreMatches = true;
             debugger.DetailedModeShowPostMatches = true;
             debuggerEnv.Debugger = debugger;

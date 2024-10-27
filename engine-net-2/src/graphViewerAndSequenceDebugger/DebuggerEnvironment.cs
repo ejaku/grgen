@@ -411,4 +411,90 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             get { return ConsoleUI.consoleIn.KeyAvailable; }
         }
     }
+
+    public class GuiConsoleDebuggerEnvironment : BaseDebuggerEnvironment
+    {
+        public GuiConsoleDebuggerEnvironment(GuiConsoleControl guiConsoleControl)
+        {
+            this.guiConsoleControl = guiConsoleControl;
+        }
+
+        private GuiConsoleControl guiConsoleControl;
+
+        public override void Write(string value)
+        {
+            guiConsoleControl.Write(value);
+        }
+
+        public override void Write(string format, params object[] arg)
+        {
+            guiConsoleControl.Write(format, arg);
+        }
+
+        public override void WriteLine(string value)
+        {
+            guiConsoleControl.WriteLine(value);
+        }
+
+        public override void WriteLine(string format, params object[] arg)
+        {
+            guiConsoleControl.WriteLine(format, arg);
+        }
+
+        public override void WriteLine()
+        {
+            guiConsoleControl.WriteLine();
+        }
+
+        public override void ErrorWrite(string value)
+        {
+            guiConsoleControl.Write(value);
+        }
+
+        public override void ErrorWrite(string format, params object[] arg)
+        {
+            guiConsoleControl.Write(format, arg);
+        }
+
+        public override void ErrorWriteLine(string value)
+        {
+            guiConsoleControl.WriteLine(value);
+        }
+
+        public override void ErrorWriteLine(string format, params object[] arg)
+        {
+            guiConsoleControl.WriteLine(format, arg);
+        }
+
+        public override void ErrorWriteLine()
+        {
+            guiConsoleControl.WriteLine();
+        }
+
+        public override void PrintHighlighted(String text, HighlightingMode mode)
+        {
+            guiConsoleControl.PrintHighlighted(text, mode);
+        }
+
+        public override string ReadLine()
+        {
+            return guiConsoleControl.ReadLine();
+        }
+
+        public override ConsoleKeyInfo ReadKey(bool intercept)
+        {
+            return guiConsoleControl.ReadKey(intercept);
+        }
+
+        public override ConsoleKeyInfo ReadKeyWithControlCAsInput()
+        {
+            return guiConsoleControl.ReadKeyWithControlCAsInput();
+        }
+
+        public override bool KeyAvailable
+        {
+            get { return guiConsoleControl.KeyAvailable; }
+        }
+    }
+
 }

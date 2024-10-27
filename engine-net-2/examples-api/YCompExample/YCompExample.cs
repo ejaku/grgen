@@ -47,7 +47,7 @@ namespace YCompExample
             }
 
             GraphViewer graphViewer = new GraphViewer();
-            graphViewer.ShowGraph(graph, "Organic"); // Let yComp observe any changes to the graph -- by setting a layout of MSAGL you would get MSAGL as graph viewer
+            graphViewer.ShowGraph(graph, GraphViewerTypes.YComp, "Organic"); // Let yComp observe any changes to the graph -- you could use MSAGL as graph viewer too, with e.g. layout SugiyamaScheme
 
             NodeType processType = graph.GetNodeType("Process");
             EdgeType nextType = graph.GetEdgeType("next");
@@ -68,7 +68,7 @@ namespace YCompExample
             procEnv.ApplyGraphRewriteSequence("(takeRule && releaseRule && giveRule)*");
             PrintAndWait("Nothing changed so far on the display.", null);
 
-            graphViewer.ShowGraph(graph, "Organic");
+            graphViewer.ShowGraph(graph, GraphViewerTypes.YComp, "Organic");
             PrintAndWait("Graph newly uploaded to yComp.", graphViewer);
 
             graphViewer.UpdateDisplay = false;

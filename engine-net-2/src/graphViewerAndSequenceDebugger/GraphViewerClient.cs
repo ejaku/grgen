@@ -16,6 +16,12 @@ using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
+    // potentially available graph viewer client types (debugger types)
+    public enum GraphViewerTypes
+    {
+        YComp, MSAGL
+    }
+
     public delegate void ConnectionLostHandler();
 
     /// <summary>
@@ -50,20 +56,26 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// <summary>
         /// Creates a new GraphViewerClient instance.
         /// internally, it creates a YCompClient and connects to the local YComp server,
-        /// or creates a MSAGLClient, depending on the layout.
+        /// or creates a MSAGLClient, inside the guiConsoleDebuggerHost in case one is supplied,
+        /// depending on the graph viewer type that is requested (the layout is expected to be one of the valid layouts of the corresponding graph viewer client).
         /// </summary>
-        public GraphViewerClient(INamedGraph graph, String layoutModule,
-            DumpInfo dumpInfo, ElementRealizers realizers, Dictionary<string, IObject> nameToClassObject)
+        public GraphViewerClient(INamedGraph graph, GraphViewerTypes graphViewerType, String layoutModule,
+            DumpInfo dumpInfo, ElementRealizers realizers, Dictionary<string, IObject> nameToClassObject,
+            GuiConsoleDebuggerHost guiConsoleDebuggerHost)
         {
             this.graph = graph;
             this.dumpInfo = dumpInfo;
 
-            if(MSAGLClient.IsValidLayout(layoutModule))
+            if(graphViewerType == GraphViewerTypes.MSAGL)
             {
-                System.Windows.Forms.Form form = new System.Windows.Forms.Form();
-                form.Size = new System.Drawing.Size((int)(Screen.PrimaryScreen.Bounds.Width * 0.55), (int)(Screen.PrimaryScreen.Bounds.Height * 0.65));
-                form.StartPosition = FormStartPosition.Manual;
-                form.Location = new System.Drawing.Point(0, 0);
+                System.Windows.Forms.Form form = guiConsoleDebuggerHost;
+                if(form == null)
+                {
+                    form = new System.Windows.Forms.Form();
+                    form.Size = new System.Drawing.Size((int)(Screen.PrimaryScreen.Bounds.Width * 0.55), (int)(Screen.PrimaryScreen.Bounds.Height * 0.65));
+                    form.StartPosition = FormStartPosition.Manual;
+                    form.Location = new System.Drawing.Point(0, 0);
+                }
                 basicClient = new MSAGLClient(form);
             }
             else // default is yCompClient

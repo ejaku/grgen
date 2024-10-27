@@ -98,12 +98,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// <param name="debuggerProcEnv">The debugger graph processing environment to be used by the debugger
         /// (contains the graph processing environment of the top-level graph to be used by the debugger).</param>
         /// <param name="realizers">The element realizers to be used by the debugger.</param>
+        /// <param name="graphViewerType">The type of the graph viewer to be used by the debugger.</param>
         /// <param name="debugLayout">The name of the layout to be used.
         /// If null, Orthogonal is used.</param>
         /// <param name="layoutOptions">An dictionary mapping layout option names to their values.
         /// It may be null, if no options are to be applied.</param>
+        /// <param name="guiConsoleDebuggerHost">An optional debugger host form, in case the graph viewer type MSAGL is requested, the MSAGL graph viewer is added to it (YComp is a standalone application).</param>
         public ConsoleDebugger(IDebuggerEnvironment env, DebuggerGraphProcessingEnvironment debuggerProcEnv,
-            ElementRealizers realizers, String debugLayout, Dictionary<String, String> layoutOptions)
+            ElementRealizers realizers, GraphViewerTypes graphViewerType, String debugLayout, Dictionary<String, String> layoutOptions,
+            GuiConsoleDebuggerHost guiConsoleDebuggerHost)
         {
             IGraphProcessingEnvironment procEnv = debuggerProcEnv.ProcEnv;
 
@@ -120,8 +123,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             this.debugLayout = debugLayout;
 
-            graphViewerClient = new GraphViewerClient(procEnv.NamedGraph, debugLayout ?? "Orthogonal",
-                debuggerProcEnv.DumpInfo, realizers, debuggerProcEnv.NameToClassObject);
+            graphViewerClient = new GraphViewerClient(procEnv.NamedGraph, graphViewerType, debugLayout ?? "Orthogonal",
+                debuggerProcEnv.DumpInfo, realizers, debuggerProcEnv.NameToClassObject, guiConsoleDebuggerHost);
 
             procEnv.NamedGraph.ReuseOptimization = false;
             NotifyOnConnectionLost = true;

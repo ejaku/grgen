@@ -16,8 +16,14 @@ using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
+    /// <summary>
+    /// helper class to
+    /// - employ a graph viewer client from an own program 
+    /// - dump a graph in vcg format and then show it with yComp or dump a graph in dot format and show it with graphviz, also utilized internally
+    /// </summary>
     public class GraphViewer
     {
+        // convenience function to dump a file in vcg format and show it with ycomp
         public static string DumpAndShowGraph(INamedGraph graph, String layout)
         {
             bool keep = true;
@@ -31,12 +37,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
         }
 
-        public void ShowGraph(INamedGraph graph, String layout)
+        public void ShowGraph(INamedGraph graph, GraphViewerTypes type, String layout)
         {
             DebuggerGraphProcessingEnvironment debuggerProcEnv = new DebuggerGraphProcessingEnvironment(graph);
             ElementRealizers realizers = new ElementRealizers();
-            graphViewerClient = new GraphViewerClient(graph, layout ?? "Orthogonal",
-                debuggerProcEnv.DumpInfo, realizers, debuggerProcEnv.NameToClassObject);
+            graphViewerClient = new GraphViewerClient(graph, type, layout ?? (type == GraphViewerTypes.YComp ? "Orthogonal" : "SugiyamaScheme"),
+                debuggerProcEnv.DumpInfo, realizers, debuggerProcEnv.NameToClassObject, null);
             graphViewerClient.UploadGraph();
             RegisterGraphEvents(graph);
             this.graph = graph;
