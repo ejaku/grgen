@@ -50,15 +50,14 @@ namespace de.unika.ipd.grGen.grShell
 
     /// <summary>
     /// GrShellImpl part that controls applying the sequences, optionally utilizing the debugger.
-    /// Inherits from the BaseDebuggerEnvironment, required by the debugger (adapting the base implementation meant for non-shell usage by overriding as needed).
-    /// form TODO: check whether overriden behaviour of BaseDebuggerEnvironement is really needed
+    /// Inherits from the DebuggerEnvironment, required by the debugger (adapting the base implementation meant for non-shell usage by overriding as needed).
+    /// form TODO: check whether overriden behaviour of DebuggerEnvironement is really needed
     /// </summary>
-    public class GrShellSequenceApplierAndDebugger : BaseDebuggerEnvironment
+    public class GrShellSequenceApplierAndDebugger : DebuggerEnvironment
     {
         private bool silenceExec = false; // print match statistics during sequence execution on timer
         private bool cancelSequence = false;
 
-        private GuiConsoleDebuggerEnvironment guiDebuggerEnv;
         private GuiConsoleDebuggerHost host;
 
         private ConsoleDebugger debugger = null;
@@ -76,6 +75,7 @@ namespace de.unika.ipd.grGen.grShell
 
 
         public GrShellSequenceApplierAndDebugger(IGrShellImplForSequenceApplierAndDebugger impl)
+            : base(DebuggerConsoleUI.Instance)
         {
             ConsoleUI.consoleIn.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);
 
@@ -565,7 +565,7 @@ namespace de.unika.ipd.grGen.grShell
                 try
                 {
                     host = new GuiConsoleDebuggerHost();
-                    guiDebuggerEnv = new GuiConsoleDebuggerEnvironment(host.GuiConsoleControl);
+                    TheDebuggerConsoleUI = host.GuiConsoleControl;
                     debugger = new ConsoleDebugger(this, impl.curShellProcEnv, impl.realizers, graphViewerType, impl.debugLayout, optMap, host);
                     debugger.DetailedModeShowPreMatches = impl.detailModePreMatchEnabled;
                     debugger.DetailedModeShowPostMatches = impl.detailModePostMatchEnabled;
@@ -599,7 +599,7 @@ namespace de.unika.ipd.grGen.grShell
                 debugger = null;
                 host.Close();
                 host = null;
-                guiDebuggerEnv = null;
+                TheDebuggerConsoleUI = DebuggerConsoleUI.Instance;
             }
             return true;
         }
@@ -612,7 +612,7 @@ namespace de.unika.ipd.grGen.grShell
             {
                 debugger = null;
                 host = null;
-                guiDebuggerEnv = null;
+                TheDebuggerConsoleUI = DebuggerConsoleUI.Instance;
                 return false;
             }
             return true;
@@ -698,131 +698,6 @@ namespace de.unika.ipd.grGen.grShell
                 return GraphViewer.ShowGraphWithDot(impl.curShellProcEnv, programName, arguments, keep);
             else
                 return GraphViewer.ShowVcgGraph(impl.curShellProcEnv, impl.debugLayout, programName, arguments, keep);
-        }
-
-        // ConsoleUI -------------------------------------------------------------------------------
-
-        public override void Write(string value)
-        {
-            if(guiDebuggerEnv == null)
-                ConsoleUI.outWriter.Write(value);
-            else
-                guiDebuggerEnv.Write(value);
-        }
-
-        public override void Write(string format, params object[] arg)
-        {
-            if(guiDebuggerEnv == null)
-                ConsoleUI.outWriter.Write(format, arg);
-            else
-                guiDebuggerEnv.Write(format, arg);
-        }
-
-        public override void WriteLine(string value)
-        {
-            if(guiDebuggerEnv == null)
-                ConsoleUI.outWriter.WriteLine(value);
-            else
-                guiDebuggerEnv.WriteLine(value);
-        }
-
-        public override void WriteLine(string format, params object[] arg)
-        {
-            if(guiDebuggerEnv == null)
-                ConsoleUI.outWriter.WriteLine(format, arg);
-            else
-                guiDebuggerEnv.WriteLine(format, arg);
-        }
-
-        public override void WriteLine()
-        {
-            if(guiDebuggerEnv == null)
-                ConsoleUI.outWriter.WriteLine();
-            else
-                guiDebuggerEnv.WriteLine();
-        }
-
-        public override void ErrorWrite(string value)
-        {
-            if(guiDebuggerEnv == null)
-                ConsoleUI.errorOutWriter.Write(value);
-            else
-                guiDebuggerEnv.ErrorWrite(value);
-        }
-
-        public override void ErrorWrite(string format, params object[] arg)
-        {
-            if(guiDebuggerEnv == null)
-                ConsoleUI.errorOutWriter.Write(format, arg);
-            else
-                guiDebuggerEnv.ErrorWrite(format, arg);
-        }
-
-        public override void ErrorWriteLine(string value)
-        {
-            if(guiDebuggerEnv == null)
-                ConsoleUI.errorOutWriter.WriteLine(value);
-            else
-                guiDebuggerEnv.ErrorWriteLine(value);
-        }
-
-        public override void ErrorWriteLine(string format, params object[] arg)
-        {
-            if(guiDebuggerEnv == null)
-                ConsoleUI.errorOutWriter.WriteLine(format, arg);
-            else
-                guiDebuggerEnv.ErrorWriteLine(format, arg);
-        }
-
-        public override void ErrorWriteLine()
-        {
-            if(guiDebuggerEnv == null)
-                ConsoleUI.errorOutWriter.WriteLine();
-            else
-                guiDebuggerEnv.ErrorWriteLine();
-        }
-
-        public override void PrintHighlighted(String text, HighlightingMode mode)
-        {
-            if(guiDebuggerEnv == null)
-                ConsoleUI.consoleOut.PrintHighlighted(text, mode);
-            else
-                guiDebuggerEnv.PrintHighlighted(text, mode);
-        }
-
-        public override string ReadLine()
-        {
-            if(guiDebuggerEnv == null)
-                return ConsoleUI.inReader.ReadLine();
-            else
-                return guiDebuggerEnv.ReadLine();
-        }
-
-        public override ConsoleKeyInfo ReadKey(bool intercept)
-        {
-            if(guiDebuggerEnv == null)
-                return ConsoleUI.consoleIn.ReadKey(intercept);
-            else
-                return guiDebuggerEnv.ReadKey(intercept);
-        }
-
-        public override ConsoleKeyInfo ReadKeyWithControlCAsInput()
-        {
-            if(guiDebuggerEnv == null)
-                return ConsoleUI.consoleIn.ReadKeyWithControlCAsInput();
-            else
-                return guiDebuggerEnv.ReadKeyWithControlCAsInput();
-        }
-
-        public override bool KeyAvailable
-        {
-            get
-            {
-                if(guiDebuggerEnv == null)
-                    return ConsoleUI.consoleIn.KeyAvailable;
-                else
-                    return guiDebuggerEnv.KeyAvailable;
-            }
         }
     }
 }

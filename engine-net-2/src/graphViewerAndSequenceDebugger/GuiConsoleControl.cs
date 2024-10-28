@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
-    public partial class GuiConsoleControl : UserControl
+    public partial class GuiConsoleControl : UserControl, IDebuggerConsoleUI
     {
         internal class TextAttributes
         {
@@ -96,31 +96,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void WriteLine()
         {
             theRichTextBox.AppendText("\r\n");
-        }
-
-        public void ErrorWrite(string value)
-        {
-            Write(value);
-        }
-
-        public void ErrorWrite(string format, params object[] arg)
-        {
-            Write(format, arg);
-        }
-
-        public void ErrorWriteLine(string value)
-        {
-            WriteLine(value);
-        }
-
-        public void ErrorWriteLine(string format, params object[] arg)
-        {
-            WriteLine(format, arg);
-        }
-
-        public void ErrorWriteLine()
-        {
-            WriteLine();
         }
 
         public void PrintHighlighted(String text, de.unika.ipd.grGen.libGr.HighlightingMode mode)

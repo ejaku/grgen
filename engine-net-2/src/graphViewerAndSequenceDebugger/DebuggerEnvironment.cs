@@ -14,21 +14,8 @@ using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
-    public interface IDebuggerEnvironment
+    public interface IDebuggerConsoleUI
     {
-        void Cancel();
-        ConsoleKeyInfo ReadKeyWithCancel();
-        object Askfor(String typeName, INamedGraph graph);
-        GrGenType GetGraphElementType(String typeName);
-        //void HandleSequenceParserException(SequenceParserException ex); is now a static method in DebuggerEnvironment
-        string ShowGraphWith(String programName, String arguments, bool keep);
-        IGraphElement GetElemByName(String elemName);
-        void ShowMsgAskForEnter(string msg);
-        bool ShowMsgAskForYesNo(string msg);
-        string ShowMsgAskForString(string msg);
-
-        // ConsoleUI -------------------------------------------------------------------------------
-
         // outWriter (errorOutWriter not used in interactive debugger)
         void Write(string value);
         void Write(string format, params object[] arg);
@@ -48,12 +35,131 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         bool KeyAvailable { get; }
     }
 
+    public class DebuggerConsoleUI : IDebuggerConsoleUI
+    {
+        public static DebuggerConsoleUI Instance
+        {
+            get
+            {
+                if(instance == null)
+                    instance = new DebuggerConsoleUI();
+                return instance;
+            }
+        }
+        static DebuggerConsoleUI instance;
+
+        private DebuggerConsoleUI()
+        {
+        }
+
+        public void Write(string value)
+        {
+            ConsoleUI.outWriter.Write(value);
+        }
+
+        public void Write(string format, params object[] arg)
+        {
+            ConsoleUI.outWriter.Write(format, arg);
+        }
+
+        public void WriteLine(string value)
+        {
+            ConsoleUI.outWriter.WriteLine(value);
+        }
+
+        public void WriteLine(string format, params object[] arg)
+        {
+            ConsoleUI.outWriter.WriteLine(format, arg);
+        }
+
+        public void WriteLine()
+        {
+            ConsoleUI.outWriter.WriteLine();
+        }
+
+        public void ErrorWrite(string value)
+        {
+            ConsoleUI.errorOutWriter.Write(value);
+        }
+
+        public void ErrorWrite(string format, params object[] arg)
+        {
+            ConsoleUI.errorOutWriter.Write(format, arg);
+        }
+
+        public void ErrorWriteLine(string value)
+        {
+            ConsoleUI.errorOutWriter.WriteLine(value);
+        }
+
+        public void ErrorWriteLine(string format, params object[] arg)
+        {
+            ConsoleUI.errorOutWriter.WriteLine(format, arg);
+        }
+
+        public void ErrorWriteLine()
+        {
+            ConsoleUI.errorOutWriter.WriteLine();
+        }
+
+        public void PrintHighlighted(String text, HighlightingMode mode)
+        {
+            ConsoleUI.consoleOut.PrintHighlighted(text, mode);
+        }
+
+        public string ReadLine()
+        {
+            return ConsoleUI.inReader.ReadLine();
+        }
+
+        public ConsoleKeyInfo ReadKey(bool intercept)
+        {
+            return ConsoleUI.consoleIn.ReadKey(intercept);
+        }
+
+        public ConsoleKeyInfo ReadKeyWithControlCAsInput()
+        {
+            return ConsoleUI.consoleIn.ReadKeyWithControlCAsInput();
+        }
+
+        public bool KeyAvailable
+        {
+            get { return ConsoleUI.consoleIn.KeyAvailable; }
+        }
+    }
+
+    public interface IDebuggerEnvironment : IDebuggerConsoleUI
+    {
+        void Cancel();
+        ConsoleKeyInfo ReadKeyWithCancel();
+        object Askfor(String typeName, INamedGraph graph);
+        GrGenType GetGraphElementType(String typeName);
+        //void HandleSequenceParserException(SequenceParserException ex); is now a static method in DebuggerEnvironment
+        string ShowGraphWith(String programName, String arguments, bool keep);
+        IGraphElement GetElemByName(String elemName);
+        void ShowMsgAskForEnter(string msg);
+        bool ShowMsgAskForYesNo(string msg);
+        string ShowMsgAskForString(string msg);
+    }
+
     public class EOFException : IOException
     {
     }
 
-    public abstract class BaseDebuggerEnvironment : IDebuggerEnvironment
+    public class DebuggerEnvironment : IDebuggerEnvironment
     {
+        public DebuggerEnvironment(IDebuggerConsoleUI debuggerConsoleUI)
+        {
+            this.theDebuggerConsoleUI = debuggerConsoleUI;
+        }
+
+        public IDebuggerConsoleUI TheDebuggerConsoleUI // debugger console UI operations are delegated to this object, can be switched in between a gui console or a console
+        {
+            get { return theDebuggerConsoleUI; }
+            set { theDebuggerConsoleUI = value; }
+        }
+        private IDebuggerConsoleUI theDebuggerConsoleUI;
+
         public ConsoleDebugger Debugger // has to be set after debugger was constructed
         {
             get { return debugger; }
@@ -306,195 +412,86 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return ReadOrEofErr();
         }
 
-        // ConsoleUI -------------------------------------------------------------------------------
+        // IDebuggerConsoleUI extended by errorOutWriter methods -------------------------------------------------------------------------------
 
         // outWriter
-        public abstract void Write(string value);
-        public abstract void Write(string format, params object[] arg);
-        public abstract void WriteLine(string value);
-        public abstract void WriteLine(string format, params object[] arg);
-        public abstract void WriteLine();
+        public void Write(string value)
+        {
+            theDebuggerConsoleUI.Write(value);
+        }
+
+        public void Write(string format, params object[] arg)
+        {
+            theDebuggerConsoleUI.Write(format, arg);
+        }
+
+        public void WriteLine(string value)
+        {
+            theDebuggerConsoleUI.WriteLine(value);
+        }
+
+        public void WriteLine(string format, params object[] arg)
+        {
+            theDebuggerConsoleUI.WriteLine(format, arg);
+        }
+
+        public void WriteLine()
+        {
+            theDebuggerConsoleUI.WriteLine();
+        }
 
         // errorOutWriter (not used in the interactive debugger, but some methods from the environment are also called from the shell (shared code))
-        public abstract void ErrorWrite(string value);
-        public abstract void ErrorWrite(string format, params object[] arg);
-        public abstract void ErrorWriteLine(string value);
-        public abstract void ErrorWriteLine(string format, params object[] arg);
-        public abstract void ErrorWriteLine();
+        public void ErrorWrite(string value)
+        {
+            theDebuggerConsoleUI.Write(value);
+        }
+
+        public void ErrorWrite(string format, params object[] arg)
+        {
+            theDebuggerConsoleUI.Write(format, arg);
+        }
+
+        public void ErrorWriteLine(string value)
+        {
+            theDebuggerConsoleUI.WriteLine(value);
+        }
+
+        public void ErrorWriteLine(string format, params object[] arg)
+        {
+            theDebuggerConsoleUI.WriteLine(format, arg);
+        }
+
+        public void ErrorWriteLine()
+        {
+            theDebuggerConsoleUI.WriteLine();
+        }
         
         // consoleOut
-        public abstract void PrintHighlighted(String text, HighlightingMode mode);
+        public void PrintHighlighted(String text, HighlightingMode mode)
+        {
+            theDebuggerConsoleUI.PrintHighlighted(text, mode);
+        }
         
         // inReader
-        public abstract string ReadLine();
+        public string ReadLine()
+        {
+            return theDebuggerConsoleUI.ReadLine();
+        }
         
         // consoleIn
-        public abstract ConsoleKeyInfo ReadKey(bool intercept);
-        public abstract ConsoleKeyInfo ReadKeyWithControlCAsInput();
-        public abstract bool KeyAvailable { get; }
-    }
-
-    public class DebuggerEnvironment : BaseDebuggerEnvironment
-    {
-        public override void Write(string value)
+        public ConsoleKeyInfo ReadKey(bool intercept)
         {
-            ConsoleUI.outWriter.Write(value);
+            return theDebuggerConsoleUI.ReadKey(intercept);
         }
 
-        public override void Write(string format, params object[] arg)
+        public ConsoleKeyInfo ReadKeyWithControlCAsInput()
         {
-            ConsoleUI.outWriter.Write(format, arg);
+            return theDebuggerConsoleUI.ReadKeyWithControlCAsInput();
         }
 
-        public override void WriteLine(string value)
+        public bool KeyAvailable
         {
-            ConsoleUI.outWriter.WriteLine(value);
-        }
-
-        public override void WriteLine(string format, params object[] arg)
-        {
-            ConsoleUI.outWriter.WriteLine(format, arg);
-        }
-
-        public override void WriteLine()
-        {
-            ConsoleUI.outWriter.WriteLine();
-        }
-
-        public override void ErrorWrite(string value)
-        {
-            ConsoleUI.errorOutWriter.Write(value);
-        }
-
-        public override void ErrorWrite(string format, params object[] arg)
-        {
-            ConsoleUI.errorOutWriter.Write(format, arg);
-        }
-
-        public override void ErrorWriteLine(string value)
-        {
-            ConsoleUI.errorOutWriter.WriteLine(value);
-        }
-
-        public override void ErrorWriteLine(string format, params object[] arg)
-        {
-            ConsoleUI.errorOutWriter.WriteLine(format, arg);
-        }
-
-        public override void ErrorWriteLine()
-        {
-            ConsoleUI.errorOutWriter.WriteLine();
-        }
-
-        public override void PrintHighlighted(String text, HighlightingMode mode)
-        {
-            ConsoleUI.consoleOut.PrintHighlighted(text, mode);
-        }
-
-        public override string ReadLine()
-        {
-            return ConsoleUI.inReader.ReadLine();
-        }
-
-        public override ConsoleKeyInfo ReadKey(bool intercept)
-        {
-            return ConsoleUI.consoleIn.ReadKey(intercept);
-        }
-
-        public override ConsoleKeyInfo ReadKeyWithControlCAsInput()
-        {
-            return ConsoleUI.consoleIn.ReadKeyWithControlCAsInput();
-        }
-
-        public override bool KeyAvailable
-        {
-            get { return ConsoleUI.consoleIn.KeyAvailable; }
+            get { return theDebuggerConsoleUI.KeyAvailable; }
         }
     }
-
-    public class GuiConsoleDebuggerEnvironment : BaseDebuggerEnvironment
-    {
-        public GuiConsoleDebuggerEnvironment(GuiConsoleControl guiConsoleControl)
-        {
-            this.guiConsoleControl = guiConsoleControl;
-        }
-
-        private GuiConsoleControl guiConsoleControl;
-
-        public override void Write(string value)
-        {
-            guiConsoleControl.Write(value);
-        }
-
-        public override void Write(string format, params object[] arg)
-        {
-            guiConsoleControl.Write(format, arg);
-        }
-
-        public override void WriteLine(string value)
-        {
-            guiConsoleControl.WriteLine(value);
-        }
-
-        public override void WriteLine(string format, params object[] arg)
-        {
-            guiConsoleControl.WriteLine(format, arg);
-        }
-
-        public override void WriteLine()
-        {
-            guiConsoleControl.WriteLine();
-        }
-
-        public override void ErrorWrite(string value)
-        {
-            guiConsoleControl.Write(value);
-        }
-
-        public override void ErrorWrite(string format, params object[] arg)
-        {
-            guiConsoleControl.Write(format, arg);
-        }
-
-        public override void ErrorWriteLine(string value)
-        {
-            guiConsoleControl.WriteLine(value);
-        }
-
-        public override void ErrorWriteLine(string format, params object[] arg)
-        {
-            guiConsoleControl.WriteLine(format, arg);
-        }
-
-        public override void ErrorWriteLine()
-        {
-            guiConsoleControl.WriteLine();
-        }
-
-        public override void PrintHighlighted(String text, HighlightingMode mode)
-        {
-            guiConsoleControl.PrintHighlighted(text, mode);
-        }
-
-        public override string ReadLine()
-        {
-            return guiConsoleControl.ReadLine();
-        }
-
-        public override ConsoleKeyInfo ReadKey(bool intercept)
-        {
-            return guiConsoleControl.ReadKey(intercept);
-        }
-
-        public override ConsoleKeyInfo ReadKeyWithControlCAsInput()
-        {
-            return guiConsoleControl.ReadKeyWithControlCAsInput();
-        }
-
-        public override bool KeyAvailable
-        {
-            get { return guiConsoleControl.KeyAvailable; }
-        }
-    }
-
 }
