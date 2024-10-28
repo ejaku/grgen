@@ -224,13 +224,13 @@ namespace ApplicationExample
             buttonOpenShell.Enabled = false;
             buttonExecuteMutexInShell.Enabled = false;
 
-            AllocateConsole();
+            AllocateConsole(); // opens console window
 
             LGSPNamedGraph graph;
             LGSPGraphProcessingEnvironment procEnv;
             InitMutexViaAPI(out graph, out procEnv);
 
-            ConsoleDebugger debugger = OpenDebugger(graph, procEnv); // Let yComp observe any changes to the graph, and execute the sequence step by step
+            ConsoleDebugger debugger = OpenDebugger(graph, procEnv, GraphViewerTypes.YComp); // Let yComp observe any changes to the graph, and execute the sequence step by step
 
             PrintAndWait("Initial 2-process ring constructed. Press key to debug sequence.", debugger);
 
@@ -240,6 +240,28 @@ namespace ApplicationExample
             sequence.ResetExecutionState();
 
             MessageBox.Show("Done executing ApplicationExampleMutex example in debugger", "Execution in Debugger completed", MessageBoxButtons.OK);
+        }
+
+        private void buttonExecuteMutexInMSAGLDebugger_Click(object sender, EventArgs e)
+        {
+            buttonOpenShell.Enabled = false;
+            buttonExecuteMutexInShell.Enabled = false;
+
+            LGSPNamedGraph graph;
+            LGSPGraphProcessingEnvironment procEnv;
+            InitMutexViaAPI(out graph, out procEnv);
+
+            // opens a windows forms debugger console
+            ConsoleDebugger debugger = OpenDebugger(graph, procEnv, GraphViewerTypes.MSAGL); // Let MSAGL observe any changes to the graph, and execute the sequence step by step
+
+            PrintAndWait("Initial 2-process ring constructed. Press key to debug sequence.", debugger);
+
+            Sequence sequence = procEnv.ParseSequence("newRule[8] && mountRule && requestRule[10] | (takeRule && releaseRule && giveRule)[10]");
+            debugger.InitNewRewriteSequence(sequence, true);
+            procEnv.ApplyGraphRewriteSequence(sequence);
+            sequence.ResetExecutionState();
+
+            MessageBox.Show("Done executing ApplicationExampleMutex example in msagl debugger", "Execution in Debugger completed", MessageBoxButtons.OK);
         }
 
         private void InitMutexViaAPI(out LGSPNamedGraph graph, out LGSPGraphProcessingEnvironment procEnv)
@@ -269,13 +291,27 @@ namespace ApplicationExample
             graph.AddEdge(nextType, p2, p1);
         }
 
-        private static ConsoleDebugger OpenDebugger(INamedGraph graph, IGraphProcessingEnvironment procEnv)
+        private static ConsoleDebugger OpenDebugger(INamedGraph graph, IGraphProcessingEnvironment procEnv, GraphViewerTypes graphViewerType)
         {
             Dictionary<String, String> optMap = new Dictionary<String, String>();
-            DebuggerEnvironment debuggerEnv = new DebuggerEnvironment();
             DebuggerGraphProcessingEnvironment debuggerProcEnv = new DebuggerGraphProcessingEnvironment(graph, procEnv);
-            ConsoleDebugger debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
-                GraphViewerTypes.YComp/*GraphViewerTypes.MSAGL*/, "Organic"/*"SugiyamaScheme"*/, optMap, null);
+
+            DebuggerEnvironment debuggerEnv = null;
+            ConsoleDebugger debugger = null;
+            if(graphViewerType == GraphViewerTypes.YComp)
+            {
+                debuggerEnv = new DebuggerEnvironment(DebuggerConsoleUI.Instance);
+                debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
+                    graphViewerType, "Organic", optMap, null);
+            }
+            else
+            {
+                GuiConsoleDebuggerHost host = new GuiConsoleDebuggerHost();
+                debuggerEnv = new DebuggerEnvironment(host.GuiConsoleControl);
+                debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
+                    graphViewerType, "SugiyamaScheme", optMap, host);
+            }
+
             debugger.DetailedModeShowPreMatches = true;
             debugger.DetailedModeShowPostMatches = true;
             debuggerEnv.Debugger = debugger;
@@ -288,9 +324,9 @@ namespace ApplicationExample
                 debugger.GraphViewerClient.UpdateDisplay();
             if(debugger != null && debugger.GraphViewerClient != null)
                 debugger.GraphViewerClient.Sync();
-            ConsoleUI.outWriter.WriteLine(text);
-            ConsoleUI.outWriter.WriteLine("Press a key to continue...");
-            ConsoleUI.consoleIn.ReadKey(true);
+            debugger.env.WriteLine(text);
+            debugger.env.WriteLine("Press a key to continue...");
+            debugger.env.ReadKey(true);
         }
 
         private void buttonExecuteMutex_Click(object sender, EventArgs e)

@@ -18,13 +18,27 @@ namespace DebuggerExample
         /// <summary>
         /// Opens the debugger.
         /// </summary>
-        private static ConsoleDebugger OpenDebugger(INamedGraph graph, IGraphProcessingEnvironment procEnv)
+        private static ConsoleDebugger OpenDebugger(INamedGraph graph, IGraphProcessingEnvironment procEnv, GraphViewerTypes graphViewerType)
         {
             Dictionary<String, String> optMap = new Dictionary<String, String>();
-            DebuggerEnvironment debuggerEnv = new DebuggerEnvironment();
             DebuggerGraphProcessingEnvironment debuggerProcEnv = new DebuggerGraphProcessingEnvironment(graph, procEnv);
-            ConsoleDebugger debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
-                /*GraphViewerTypes.YComp*/GraphViewerTypes.MSAGL, /*"Organic"*/"SugiyamaScheme", optMap, null);
+
+            DebuggerEnvironment debuggerEnv = null;
+            ConsoleDebugger debugger = null;
+            if(graphViewerType == GraphViewerTypes.YComp)
+            {
+                debuggerEnv = new DebuggerEnvironment(DebuggerConsoleUI.Instance);
+                debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
+                    graphViewerType, "Organic", optMap, null);
+            }
+            else
+            {
+                GuiConsoleDebuggerHost host = new GuiConsoleDebuggerHost();
+                debuggerEnv = new DebuggerEnvironment(host.GuiConsoleControl);
+                debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
+                    graphViewerType, "SugiyamaScheme", optMap, host);
+            }
+
             debugger.DetailedModeShowPreMatches = true;
             debugger.DetailedModeShowPostMatches = true;
             debuggerEnv.Debugger = debugger;
@@ -41,9 +55,9 @@ namespace DebuggerExample
                 debugger.GraphViewerClient.UpdateDisplay();
             if(debugger != null && debugger.GraphViewerClient != null)
                 debugger.GraphViewerClient.Sync();
-            ConsoleUI.outWriter.WriteLine(text);
-            ConsoleUI.outWriter.WriteLine("Press a key to continue...");
-            ConsoleUI.consoleIn.ReadKey(true);
+            debugger.env.WriteLine(text);
+            debugger.env.WriteLine("Press a key to continue...");
+            debugger.env.ReadKey(true);
         }
 
         // example showing how to debug a sequence at API level (also rendering the graph)
@@ -73,7 +87,11 @@ namespace DebuggerExample
             graph.AddEdge(nextType, p1, p2);
             graph.AddEdge(nextType, p2, p1);
 
-            ConsoleDebugger debugger = OpenDebugger(graph, procEnv); // Let yComp observe any changes to the graph, and execute the sequence step by step
+            // in case of GraphViewerTypes.YComp: uses normal stdout-console of this Console Application in order to print sequence execution, allowing to follow execution step by step,
+            // showing the graph in the external yComp application (changes to the graph are observed, rule applications are highlighted in case of detail mode)
+            // in case of GraphViewerTypes.MSAGL: opens a WindowsForms form with a console-like control in order to print sequence execution, allowing to follow execution step by step, (you could use it directly in a non-console project)
+            // showing the graph with the WindowsForms graph viewer control of the MSAGL library (changes to the graph are observed, rule applications are highlighted in case of detail mode)
+            ConsoleDebugger debugger = OpenDebugger(graph, procEnv, /*GraphViewerTypes.YComp*/GraphViewerTypes.MSAGL);
 
             PrintAndWait("Initial 2-process ring constructed. Starting now to initialized 7-process ring with resource and requests.", debugger);
             Sequence sequence = procEnv.ParseSequence("newRule[5] && mountRule && requestRule[7]");
@@ -81,7 +99,7 @@ namespace DebuggerExample
             procEnv.ApplyGraphRewriteSequence(sequence);
             sequence.ResetExecutionState();
 
-            PrintAndWait("Done constructing. Following sequence won't be debugged, but direct graph changes will be displayed in still open yComp", debugger);
+            PrintAndWait("Done constructing. Following sequence won't be debugged, but direct graph changes will be displayed in the still open graph viewer/debugger", debugger);
 
             procEnv.ApplyGraphRewriteSequence("(takeRule && releaseRule && giveRule)*");
 

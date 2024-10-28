@@ -21,7 +21,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     public class ConsoleDebugger : IUserProxyForSequenceExecution
     {
-        readonly IDebuggerEnvironment env;
+        public readonly IDebuggerEnvironment env;
         DebuggerGraphProcessingEnvironment debuggerProcEnv;
         Stack<DebuggerTask> tasks = new Stack<DebuggerTask>();
         DebuggerTask task

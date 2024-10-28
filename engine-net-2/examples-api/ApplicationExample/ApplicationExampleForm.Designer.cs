@@ -35,6 +35,7 @@
             this.buttonSendToConsole = new System.Windows.Forms.Button();
             this.labelCommandLine = new System.Windows.Forms.Label();
             this.buttonExecuteMutex = new System.Windows.Forms.Button();
+            this.buttonExecuteMutexInMSAGLDebugger = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonOpenShell
@@ -59,11 +60,11 @@
             // 
             // buttonExecuteMutexInDebugger
             // 
-            this.buttonExecuteMutexInDebugger.Location = new System.Drawing.Point(108, 376);
+            this.buttonExecuteMutexInDebugger.Location = new System.Drawing.Point(108, 333);
             this.buttonExecuteMutexInDebugger.Name = "buttonExecuteMutexInDebugger";
             this.buttonExecuteMutexInDebugger.Size = new System.Drawing.Size(522, 70);
             this.buttonExecuteMutexInDebugger.TabIndex = 2;
-            this.buttonExecuteMutexInDebugger.Text = "Execute ApplicationExampleMutex in Debugger...";
+            this.buttonExecuteMutexInDebugger.Text = "Execute ApplicationExampleMutex in Console-Debugger with YComp...";
             this.buttonExecuteMutexInDebugger.UseVisualStyleBackColor = true;
             this.buttonExecuteMutexInDebugger.Click += new System.EventHandler(this.buttonExecuteMutexInDebugger_Click);
             // 
@@ -105,11 +106,22 @@
             this.buttonExecuteMutex.UseVisualStyleBackColor = true;
             this.buttonExecuteMutex.Click += new System.EventHandler(this.buttonExecuteMutex_Click);
             // 
+            // buttonExecuteMutexInMSAGLDebugger
+            // 
+            this.buttonExecuteMutexInMSAGLDebugger.Location = new System.Drawing.Point(108, 425);
+            this.buttonExecuteMutexInMSAGLDebugger.Name = "buttonExecuteMutexInMSAGLDebugger";
+            this.buttonExecuteMutexInMSAGLDebugger.Size = new System.Drawing.Size(522, 70);
+            this.buttonExecuteMutexInMSAGLDebugger.TabIndex = 7;
+            this.buttonExecuteMutexInMSAGLDebugger.Text = "Execute ApplicationExampleMutex in GuiConsole-Debugger with MSAGL...";
+            this.buttonExecuteMutexInMSAGLDebugger.UseVisualStyleBackColor = true;
+            this.buttonExecuteMutexInMSAGLDebugger.Click += new System.EventHandler(this.buttonExecuteMutexInMSAGLDebugger_Click);
+            // 
             // ApplicationExampleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1350, 562);
+            this.Controls.Add(this.buttonExecuteMutexInMSAGLDebugger);
             this.Controls.Add(this.buttonExecuteMutex);
             this.Controls.Add(this.labelCommandLine);
             this.Controls.Add(this.buttonSendToConsole);
@@ -133,6 +145,7 @@
         private System.Windows.Forms.Button buttonSendToConsole;
         private System.Windows.Forms.Label labelCommandLine;
         private System.Windows.Forms.Button buttonExecuteMutex;
+        private System.Windows.Forms.Button buttonExecuteMutexInMSAGLDebugger;
     }
 }
 

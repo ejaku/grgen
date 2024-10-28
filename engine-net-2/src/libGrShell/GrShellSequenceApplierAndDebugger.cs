@@ -564,8 +564,9 @@ namespace de.unika.ipd.grGen.grShell
                 impl.debugLayoutOptions.TryGetValue(impl.debugLayout, out optMap);
                 try
                 {
-                    host = new GuiConsoleDebuggerHost();
-                    TheDebuggerConsoleUI = host.GuiConsoleControl;
+                    host = graphViewerType == GraphViewerTypes.YComp ? null : new GuiConsoleDebuggerHost();
+                    if(host != null)
+                        TheDebuggerConsoleUI = host.GuiConsoleControl;
                     debugger = new ConsoleDebugger(this, impl.curShellProcEnv, impl.realizers, graphViewerType, impl.debugLayout, optMap, host);
                     debugger.DetailedModeShowPreMatches = impl.detailModePreMatchEnabled;
                     debugger.DetailedModeShowPostMatches = impl.detailModePostMatchEnabled;
@@ -597,7 +598,8 @@ namespace de.unika.ipd.grGen.grShell
                 impl.curShellProcEnv.ProcEnv.UserProxy = null;
                 debugger.Close();
                 debugger = null;
-                host.Close();
+                if(host != null)
+                    host.Close();
                 host = null;
                 TheDebuggerConsoleUI = DebuggerConsoleUI.Instance;
             }
