@@ -130,15 +130,19 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
     public interface IDebuggerEnvironment : IDebuggerConsoleUI
     {
-        void Cancel();
         ConsoleKeyInfo ReadKeyWithCancel();
-        object Askfor(String typeName, INamedGraph graph);
+
         GrGenType GetGraphElementType(String typeName);
-        //void HandleSequenceParserException(SequenceParserException ex); is now a static method in DebuggerEnvironment
-        string ShowGraphWith(String programName, String arguments, bool keep);
         IGraphElement GetElemByName(String elemName);
+
+        object Askfor(String typeName, INamedGraph graph);
+
         void ShowMsgAskForEnter(string msg);
         bool ShowMsgAskForYesNo(string msg);
+        int ShowMsgAskForIntegerNumber(string msg);
+        int ShowMsgAskForIntegerNumber(string msg, int defaultOnEmptyInput);
+        double ShowMsgAskForFloatingPointNumber(string msg);
+        double ShowMsgAskForFloatingPointNumber(string msg, double defaultOnEmptyInput);
         string ShowMsgAskForString(string msg);
 
         // lets the user press a key, searches the options from the choiceMenu for the key character in parenthesis, if one is found it is returned
@@ -150,6 +154,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         void PrintInstructions(UserChoiceMenu choiceMenu, string prefix, string suffix);
         // prints the available options to the user, separated by newline, prints the prefix before the instructions and the suffix after the instructions
         void PrintInstructionsSeparateByNewline(UserChoiceMenu choiceMenu, string prefix, string suffix);
+
+        // -----------------------------------------------------------------
+
+        string ShowGraphWith(String programName, String arguments, bool keep);
+        void Cancel();
+        //void HandleSequenceParserException(SequenceParserException ex); is now a static method in DebuggerEnvironment
     }
 
     public enum UserChoiceMenuNames
@@ -331,7 +341,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             else // else let the user type in the value
             {
-                String inputValue = ShowMsgAskForString("Enter a value of type " + typeName + ": ");
+                String inputValue = ShowMsgAskForString("Enter a value of type " + typeName);
                 StringReader reader = new StringReader(inputValue);
                 ConstantParser shellForParsing = new ConstantParser(reader);
                 shellForParsing.SetImpl(new ConstantParserHelper(debugger.DebuggerProcEnv));
@@ -504,9 +514,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public bool ShowMsgAskForYesNo(string msg)
         {
+            Write(msg + " [yes/no/y/n]: ");
             while(true)
             {
-                Write(msg + " [y(es)/n(o)] ");
                 string result = ReadOrEofErr();
                 if(result.Equals("y", StringComparison.InvariantCultureIgnoreCase) ||
                     result.Equals("yes", StringComparison.InvariantCultureIgnoreCase))
@@ -518,12 +528,83 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 {
                     return false;
                 }
+                Write("You must enter one of [yes/no/y/n]: ");
+            }
+        }
+
+        public int ShowMsgAskForIntegerNumber(string msg)
+        {
+            Write(msg + ": ");
+            while(true)
+            {
+                String numStr = ReadOrEofErr();
+                int num;
+                if(int.TryParse(numStr, out num))
+                {
+                    return num;
+                }
+                Write("You must enter a valid integer number, please try again: ");
+            }
+        }
+
+        public int ShowMsgAskForIntegerNumber(string msg, int defaultOnEmptyInput)
+        {
+            Write(msg + ": ");
+            while(true)
+            {
+                String numStr = ReadOrEofErr();
+                if(numStr == "")
+                {
+                    return defaultOnEmptyInput;
+                }
+                int num;
+                if(int.TryParse(numStr, out num))
+                {
+                    return num;
+                }
+                Write("You must enter a valid integer number, please try again: ");
+            }
+        }
+
+        public double ShowMsgAskForFloatingPointNumber(string msg)
+        {
+            Write(msg + ": ");
+            while(true)
+            {
+                String numStr = ReadOrEofErr();
+                double num;
+                if(double.TryParse(numStr, System.Globalization.NumberStyles.Float,
+                                System.Globalization.CultureInfo.InvariantCulture, out num))
+                {
+                    return num;
+                }
+                Write("You must enter a valid floating point number, please try again: ");
+            }
+        }
+
+        public double ShowMsgAskForFloatingPointNumber(string msg, double defaultOnEmptyInput)
+        {
+            Write(msg + ": ");
+            while(true)
+            {
+                String numStr = ReadOrEofErr();
+                if(numStr == "")
+                {
+                    return defaultOnEmptyInput;
+                }
+                double num;
+                if(double.TryParse(numStr, System.Globalization.NumberStyles.Float,
+                                System.Globalization.CultureInfo.InvariantCulture, out num))
+                {
+                    return num;
+                }
+                Write("You must enter a valid floating point number, please try again: ");
             }
         }
 
         public string ShowMsgAskForString(string msg)
         {
-            Write(msg);
+            Write(msg + ": ");
             return ReadOrEofErr();
         }
 

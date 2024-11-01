@@ -111,20 +111,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     seqToExecute = num;
                     return false;
                 case 'e':
-                    env.Write("Enter number of sequence to show: ");
-                    String numStr = env.ReadLine();
-                    if(int.TryParse(numStr, out num))
+                    num = env.ShowMsgAskForIntegerNumber("Enter number of sequence to show");
+                    if(num < 0 || num >= sequences.Count)
                     {
-                        if(num < 0 || num >= sequences.Count)
-                        {
-                            env.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
-                            break;
-                        }
-                        seqToExecute = num;
-                        return false;
+                        env.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
+                        break;
                     }
-                    env.WriteLine("You must enter a valid integer number!");
-                    break;
+                    seqToExecute = num;
+                    return false;
                 case 's':
                 case 'n':
                 case 'd':
@@ -173,20 +167,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                         seqToExecute = num;
                         return false;
                     case 'e':
-                        env.Write("Enter number of sequence to show: ");
-                        String numStr = env.ReadLine();
-                        if(int.TryParse(numStr, out num))
+                        num = env.ShowMsgAskForIntegerNumber("Enter number of sequence to show");
+                        if(num < 0 || num >= sequences.Count)
                         {
-                            if(num < 0 || num >= sequences.Count)
-                            {
-                                env.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
-                                break;
-                            }
-                            seqToExecute = num;
-                            return false;
+                            env.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
+                            break;
                         }
-                        env.WriteLine("You must enter a valid integer number!");
-                        break;
+                        seqToExecute = num;
+                        return false;
                     case 's':
                     case 'n':
                     case 'd':
@@ -213,22 +201,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 switch(key)
                 {
                 case 'e':
-                    double num;
-                    env.Write("Enter point in interval series of sequence to show: ");
-                    String numStr = env.ReadLine();
-                    if(double.TryParse(numStr, System.Globalization.NumberStyles.Float,
-                            System.Globalization.CultureInfo.InvariantCulture, out num))
+                    double num = env.ShowMsgAskForFloatingPointNumber("Enter point in interval series of sequence to show");
+                    if(num < 0.0 || num > seq.Numbers[seq.Numbers.Count - 1])
                     {
-                        if(num < 0.0 || num > seq.Numbers[seq.Numbers.Count - 1])
-                        {
-                            env.WriteLine("You must specify a floating point number between 0.0 and " + seq.Numbers[seq.Numbers.Count - 1] + "!");
-                            break;
-                        }
-                        pointToExecute = num;
-                        return false;
+                        env.WriteLine("You must specify a floating point number between 0.0 and " + seq.Numbers[seq.Numbers.Count - 1] + "!");
+                        break;
                     }
-                    env.WriteLine("You must enter a valid floating point number!");
-                    break;
+                    pointToExecute = num;
+                    return false;
                 case 's':
                 case 'n':
                 case 'd':
@@ -273,20 +253,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     totalMatchToExecute = num;
                     return false;
                 case 'e':
-                    env.Write("Enter number of rule to show: ");
-                    String numStr = env.ReadLine();
-                    if(int.TryParse(numStr, out num))
+                    num = env.ShowMsgAskForIntegerNumber("Enter number of rule to show");
+                    if(num < 0 || num >= seq.NumTotalMatches)
                     {
-                        if(num < 0 || num >= seq.NumTotalMatches)
-                        {
-                            env.WriteLine("You must specify a number between 0 and " + (seq.NumTotalMatches - 1) + "!");
-                            break;
-                        }
-                        totalMatchToExecute = num;
-                        return false;
+                        env.WriteLine("You must specify a number between 0 and " + (seq.NumTotalMatches - 1) + "!");
+                        break;
                     }
-                    env.WriteLine("You must enter a valid integer number!");
-                    break;
+                    totalMatchToExecute = num;
+                    return false;
                 case 's':
                 case 'n':
                 case 'd':
@@ -333,19 +307,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     newMatchToRewrite = num;
                     return false;
                 case 'e':
-                    env.Write("Enter number of match to show: ");
-                    String numStr = env.ReadLine();
-                    if(int.TryParse(numStr, out num))
+                    num = env.ShowMsgAskForIntegerNumber("Enter number of match to show");
+                    if(num < 0 || num >= matches.Count)
                     {
-                        if(num < 0 || num >= matches.Count)
-                        {
-                            env.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
-                            break;
-                        }
-                        newMatchToRewrite = num;
-                        return false;
+                        env.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
+                        break;
                     }
-                    env.WriteLine("You must enter a valid integer number!");
+                    newMatchToRewrite = num;
                     return false;
                 case 's':
                 case 'n':
@@ -362,49 +330,30 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public int ChooseRandomNumber(int randomNumber, int upperBound, Sequence seq)
         {
-            env.Write("Enter number in range [0.." + upperBound + "[ or press enter to use " + randomNumber + ": ");
-
             do
             {
-                String numStr = env.ReadLine();
-                if(numStr == "")
-                    return randomNumber;
-                int num;
-                if(int.TryParse(numStr, out num))
+                int num = env.ShowMsgAskForIntegerNumber("Enter number in range [0.." + upperBound + "[ or press enter to use " + randomNumber, randomNumber);
+                if(num < 0 || num >= upperBound)
                 {
-                    if(num < 0 || num >= upperBound)
-                    {
-                        env.WriteLine("You must specify a number between 0 and " + (upperBound - 1) + "!");
-                        continue;
-                    }
-                    return num;
+                    env.WriteLine("You must specify a number between 0 and " + (upperBound - 1) + "!");
+                    continue;
                 }
-                env.WriteLine("You must enter a valid integer number!");
+                return num;
             }
             while(true);
         }
 
         public double ChooseRandomNumber(double randomNumber, Sequence seq)
         {
-            env.Write("Enter number in range [0.0 .. 1.0[ or press enter to use " + randomNumber + ": ");
-
             do
             {
-                String numStr = env.ReadLine();
-                if(numStr == "")
-                    return randomNumber;
-                double num;
-                if(double.TryParse(numStr, System.Globalization.NumberStyles.Float,
-                                System.Globalization.CultureInfo.InvariantCulture, out num))
+                double num = env.ShowMsgAskForFloatingPointNumber("Enter number in range [0.0 .. 1.0[ or press enter to use " + randomNumber, randomNumber);
+                if(num < 0.0 || num >= 1.0)
                 {
-                    if(num < 0.0 || num >= 1.0)
-                    {
-                        env.WriteLine("You must specify a number between 0.0 and 1.0 exclusive !");
-                        continue;
-                    }
-                    return num;
+                    env.WriteLine("You must specify a number between 0.0 and 1.0 exclusive !");
+                    continue;
                 }
-                env.WriteLine("You must enter a valid double number!");
+                return num;
             }
             while(true);
         }

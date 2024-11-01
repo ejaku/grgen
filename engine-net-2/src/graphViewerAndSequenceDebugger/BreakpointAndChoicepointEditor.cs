@@ -119,19 +119,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     }
                     return num;
                 case 'e':
-                    env.Write("Enter number of " + (pointType == PointType.Breakpoint ? "breakpoint" : "choicepoint") + " to toggle (-1 for abort): ");
-                    String numStr = env.ReadLine();
-                    if(int.TryParse(numStr, out num))
+                    num = env.ShowMsgAskForIntegerNumber("Enter number of " + (pointType == PointType.Breakpoint ? "breakpoint" : "choicepoint") + " to toggle (-1 for abort)");
+                    if(num < -1 || num >= numPositions)
                     {
-                        if(num < -1 || num >= numPositions)
-                        {
-                            env.WriteLine("You must specify a number between -1 and " + (numPositions - 1) + "!");
-                            break;
-                        }
-                        return num;
+                        env.WriteLine("You must specify a number between -1 and " + (numPositions - 1) + "!");
+                        break;
                     }
-                    env.WriteLine("You must enter a valid integer number!");
-                    break;
+                    return num;
                 case 'a':
                     return -1;
                 default:

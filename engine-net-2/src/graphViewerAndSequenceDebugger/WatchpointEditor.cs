@@ -88,22 +88,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private int QueryWatchpoint(string action)
         {
-            env.Write("Enter number of watchpoint to " + action + " (-1 for abort): ");
-
             do
             {
-                String numStr = env.ReadLine();
-                int num;
-                if(int.TryParse(numStr, out num))
+                int num = env.ShowMsgAskForIntegerNumber("Enter number of watchpoint to " + action + " (-1 for abort)");
+                if(num < -1 || num >= debuggerProcEnv.SubruleDebugConfig.ConfigurationRules.Count)
                 {
-                    if(num < -1 || num >= debuggerProcEnv.SubruleDebugConfig.ConfigurationRules.Count)
-                    {
-                        env.WriteLine("You must specify a number between -1 and " + (debuggerProcEnv.SubruleDebugConfig.ConfigurationRules.Count - 1) + "!");
-                        continue;
-                    }
-                    return num;
+                    env.WriteLine("You must specify a number between -1 and " + (debuggerProcEnv.SubruleDebugConfig.ConfigurationRules.Count - 1) + "!");
+                    continue;
                 }
-                env.WriteLine("You must enter a valid integer number!");
+                return num;
             }
             while(true);
         }
