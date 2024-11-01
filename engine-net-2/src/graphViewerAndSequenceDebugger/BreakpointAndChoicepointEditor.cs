@@ -16,9 +16,20 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     class BreakpointAndChoicepointEditor
     {
+        private enum PointType
+        {
+            Breakpoint, Choicepoint
+        }
+
         readonly IDebuggerEnvironment env;
 
         readonly Stack<SequenceBase> debugSequences = new Stack<SequenceBase>();
+
+        UserChoiceMenu whichBreakpointToToggleMenu = new UserChoiceMenu(UserChoiceMenuNames.WhichBreakpointToToggleMenu, new string[] {
+            "(0-9) to toggle the corresponding breakpoint", "(e)nter the number of the breakpoint to toggle", "(a)bort" });
+
+        UserChoiceMenu whichChoicepointToToggleMenu = new UserChoiceMenu(UserChoiceMenuNames.WhichChoicepointToToggleMenu, new string[] {
+            "(0-9) to toggle the corresponding choicepoint", "(e)nter the number of the choicepoint to toggle", "(a)bort" });
 
         public BreakpointAndChoicepointEditor(IDebuggerEnvironment env, Stack<SequenceBase> debugSequences)
         {
@@ -41,7 +52,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 return;
             }
 
-            int pos = HandleTogglePoint("breakpoint", contextBp.bpPosCounter);
+            int pos = HandleTogglePoint(PointType.Breakpoint, contextBp.bpPosCounter);
             if(pos == -1)
                 return;
 
@@ -63,23 +74,32 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 return;
             }
 
-            int pos = HandleTogglePoint("choicepoint", contextCp.cpPosCounter);
+            int pos = HandleTogglePoint(PointType.Choicepoint, contextCp.cpPosCounter);
             if(pos == -1)
                 return;
 
             TogglePointInAllInstances(pos, true);
         }
 
-        private int HandleTogglePoint(string pointName, int numPositions)
+        private int HandleTogglePoint(PointType pointType, int numPositions)
         {
-            env.WriteLine("Which " + pointName + " to toggle (toggling on is shown by +, off by -)?");
-            env.WriteLine("Press (0)...(9) to toggle the corresponding " + pointName + " or (e) to enter the number of the " + pointName + " to toggle."
-                            + " Press (a) to abort.");
+            UserChoiceMenu whichPointToToggleMenu;
+            if(pointType == PointType.Breakpoint)
+            {
+                env.WriteLine("Which breakpoint to toggle (toggling on is shown by +, off by -)?");
+                whichPointToToggleMenu = whichBreakpointToToggleMenu;
+            }
+            else // "choicepoint"
+            {
+                env.WriteLine("Which choicepoint to toggle (toggling on is shown by +, off by -)?");
+                whichPointToToggleMenu = whichChoicepointToToggleMenu;
+            }
+            env.PrintInstructions(whichPointToToggleMenu, "Press ", ".");
 
             do
             {
-                ConsoleKeyInfo key = env.ReadKeyWithCancel();
-                switch (key.KeyChar)
+                char key = env.LetUserChoose(whichPointToToggleMenu);
+                switch (key)
                 {
                 case '0':
                 case '1':
@@ -91,7 +111,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 case '7':
                 case '8':
                 case '9':
-                    int num = key.KeyChar - '0';
+                    int num = key - '0';
                     if(num >= numPositions)
                     {
                         env.WriteLine("You must specify a number between 0 and " + (numPositions - 1) + "!");
@@ -99,7 +119,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     }
                     return num;
                 case 'e':
-                    env.Write("Enter number of " + pointName + " to toggle (-1 for abort): ");
+                    env.Write("Enter number of " + (pointType == PointType.Breakpoint ? "breakpoint" : "choicepoint") + " to toggle (-1 for abort): ");
                     String numStr = env.ReadLine();
                     if(int.TryParse(numStr, out num))
                     {
@@ -115,9 +135,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 case 'a':
                     return -1;
                 default:
-                    env.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (0)...(9), (e)nter number, (a)bort allowed! ");
-                    break;
+                    throw new Exception("Internal error");
                 }
             } while(true);
         }

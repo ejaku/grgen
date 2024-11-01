@@ -9,7 +9,7 @@
 
 using System;
 using System.IO;
-
+using System.Text;
 using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
@@ -140,6 +140,121 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         void ShowMsgAskForEnter(string msg);
         bool ShowMsgAskForYesNo(string msg);
         string ShowMsgAskForString(string msg);
+
+        // lets the user press a key, searches the options from the choiceMenu for the key character in parenthesis, if one is found it is returned
+        // if a key was pressed that is not available in the list of keys, an error message with the available options is printed,
+        // and the user choice is repeated, unless the (any key) choice is admissible (in this case '\0' is returned)
+        char LetUserChoose(UserChoiceMenu choiceMenu);
+
+        // prints the available menu options to the user, separated by comma, prints the prefix before the instructions and the suffix after the instructions
+        void PrintInstructions(UserChoiceMenu choiceMenu, string prefix, string suffix);
+        // prints the available options to the user, separated by newline, prints the prefix before the instructions and the suffix after the instructions
+        void PrintInstructionsSeparateByNewline(UserChoiceMenu choiceMenu, string prefix, string suffix);
+    }
+
+    public enum UserChoiceMenuNames
+    {
+        DebuggerMainSequenceEnteringMenu,
+        SubruleDebuggingMenu,
+        ContinueOnAssertionMenu,
+        SkipAsRequiredInMatchByMatchProcessingMenu,
+        SkipAsRequiredMenu,
+        QueryContinueWhenShowPostDisabledMenu,
+        QueryContinueOrTraceMenu,
+        ChooseDirectionMenu,
+        ChooseSequenceMenu,
+        ChooseSequenceParallelMenu,
+        ChoosePointMenu,
+        ChooseMatchSomeFromSetMenu,
+        ChooseMatchMenu,
+        ChooseValueMenu,
+        WhichBreakpointToToggleMenu,
+        WhichChoicepointToToggleMenu,
+        HandleWatchpointsMenu,
+        WatchpointDetermineEventTypeToConfigureMenu,
+        WatchpointMatchSubruleMessageMenu,
+        WatchpointDetermineMatchGraphElementModeMenu,
+        WatchpointDetermineMatchGraphElementByTypeModeMenu,
+        WatchpointDetermineDecisionActionMenu
+    }
+
+    /// <summary>
+    /// A description of a user choice in the user interface,
+    /// built from an array of options, describing the option/command, giving its command key/character shortcut as a char in parenthesis,
+    /// special cases: (0-9) to allow any keys from 0 ... 9, (any key) to allow any key not listed in the choices, (()) to render a text in simple parenthesis not getting interpreted as key char.
+    /// The name has to distinguish the different available choice menus (it is intended for a later use in a GUI debugger to allow to select an icon set based on it, i.e. it may encompass a group of choice menus with same semantic content).
+    /// </summary>
+    public class UserChoiceMenu
+    {
+        public UserChoiceMenu(UserChoiceMenuNames name, string[] options)
+        {
+            this.name = name;
+            this.options = options;
+        }
+
+        public UserChoiceMenuNames name;
+        public string[] options;
+
+        public string ToOptionsString(bool separateByNewline)
+        {
+            StringBuilder sb = new StringBuilder(OptionsOverallLength(options));
+            bool first = true;
+            foreach(string option in options)
+            {
+                if(first)
+                    first = false;
+                else
+                    sb.Append(separateByNewline ? "\n" : ", ");
+                AppendDoubleParenthesisReplaced(sb, option);
+            }
+            return sb.ToString();
+        }
+
+        private int OptionsOverallLength(string[] options)
+        {
+            int length = 0;
+            for(int i = 0; i < options.Length; ++i)
+            {
+                length += options[i].Length;
+            }
+            return length;
+        }
+
+        // (( and )) are escaped parenthesis that prevent content from getting interpreted but must be pretty printed to simple parenthesis
+        private void AppendDoubleParenthesisReplaced(StringBuilder sb, string text)
+        {
+            bool openingParenthesisBefore = false;
+            bool closingParenthesisBefore = false;
+            foreach(char c in text)
+            {
+                if(c == '(' && openingParenthesisBefore)
+                {
+                    openingParenthesisBefore = false;
+                    continue;
+                }
+                else if(c == ')' && closingParenthesisBefore)
+                {
+                    closingParenthesisBefore = false;
+                    continue;
+                }
+                if(c == '(')
+                {
+                    openingParenthesisBefore = true;
+                    closingParenthesisBefore = false;
+                }
+                else if(c == ')')
+                {
+                    closingParenthesisBefore = true;
+                    openingParenthesisBefore = false;
+                }
+                else
+                {
+                    openingParenthesisBefore = false;
+                    closingParenthesisBefore = false;
+                }
+                sb.Append(c);
+            }
+        }
     }
 
     public class EOFException : IOException
@@ -411,6 +526,43 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             Write(msg);
             return ReadOrEofErr();
         }
+
+        public char LetUserChoose(UserChoiceMenu choiceMenu)
+        {
+            while(true)
+            {
+                ConsoleKeyInfo key = ReadKeyWithCancel();
+                foreach(string option in choiceMenu.options)
+                {
+                    if(option.Contains("(" + key.KeyChar + ")"))
+                        return key.KeyChar;
+                }
+                foreach(string option in choiceMenu.options)
+                {
+                    if(option.Contains("(0-9)") && key.KeyChar - '0' >= 0 && key.KeyChar - '0' <= 9)
+                        return key.KeyChar;
+                }
+                foreach(string option in choiceMenu.options)
+                {
+                    if(option.Contains("(any key)"))
+                        return '\0';
+                }
+
+                theDebuggerConsoleUI.WriteLine("Illegal choice (" + key.KeyChar + "; key = " + key.Key + ")!"
+                        + " Only " + choiceMenu.ToOptionsString(false) + " are allowed!");
+            }
+        }
+
+        public void PrintInstructions(UserChoiceMenu choiceMenu, string prefix, string suffix)
+        {
+            theDebuggerConsoleUI.WriteLine(prefix + choiceMenu.ToOptionsString(false) + suffix);
+        }
+
+        public void PrintInstructionsSeparateByNewline(UserChoiceMenu choiceMenu, string prefix, string suffix)
+        {
+            theDebuggerConsoleUI.WriteLine(prefix + choiceMenu.ToOptionsString(true) + suffix);
+        }
+
 
         // IDebuggerConsoleUI extended by errorOutWriter methods -------------------------------------------------------------------------------
 

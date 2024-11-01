@@ -17,6 +17,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     class WatchpointEditor
     {
+        UserChoiceMenu handleWatchpointsMenu = new UserChoiceMenu(UserChoiceMenuNames.HandleWatchpointsMenu, new string[] {
+            "(e)dit", "(t)oggle ((enable/disable))", "(d)elete",
+            "(i)nsert at a specific position", "a(p)pend", "(a)bort" });
+
         readonly DebuggerGraphProcessingEnvironment debuggerProcEnv;
         readonly IDebuggerEnvironment env;
 
@@ -34,15 +38,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 env.WriteLine(i + " - " + debuggerProcEnv.SubruleDebugConfig.ConfigurationRules[i].ToString());
             }
 
-            env.WriteLine("Press (e) to edit, (t) to toggle (enable/disable), or (d) to delete one of the watchpoints."
-                + " Press (i) to insert at a specified position, or (p) to append a watchpoint."
-                + " Press (a) to abort.");
+            env.PrintInstructions(handleWatchpointsMenu, "Press ", ".");
 
             while(true)
             {
                 int num = -1;
-                ConsoleKeyInfo key = env.ReadKeyWithCancel();
-                switch(key.KeyChar)
+                switch(env.LetUserChoose(handleWatchpointsMenu))
                 {
                 case 'e':
                     num = QueryWatchpoint("edit");
@@ -80,9 +81,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     env.WriteLine("Back from watchpoints to debugging.");
                     return;
                 default:
-                    env.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (e)dit, (t)oggle, (d)elete, (i)nsert, a(p)pend, or (a)bort allowed! ");
-                    break;
+                    throw new Exception("Internal error");
                 }
             }
         }
@@ -239,23 +238,25 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private SubruleDebuggingEvent DetermineEventTypeToConfigure(SubruleDebuggingConfigurationRule cr)
         {
-            env.WriteLine("What event to listen to?");
-            env.Write("(0) subrule entry aka Debug::add" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Add ? " or (k)eep\n" : "\n"));
-            env.Write("(1) subrule exit aka Debug::rem" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Rem ? " or (k)eep\n" : "\n"));
-            env.Write("(2) subrule report aka Debug::emit" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Emit ? " or (k)eep\n" : "\n"));
-            env.Write("(3) subrule halt aka Debug::halt" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Halt ? " or (k)eep\n" : "\n"));
-            env.Write("(4) subrule highlight aka Debug::highlight" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Highlight ? " or (k)eep\n" : "\n"));
-            env.Write("(5) rule match" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Match ? " or (k)eep\n" : "\n"));
-            env.Write("(6) graph element creation" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.New ? " or (k)eep\n" : "\n"));
-            env.Write("(7) graph element deletion" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Delete ? " or (k)eep\n" : "\n"));
-            env.Write("(8) graph element retyping" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Retype ? " or (k)eep\n" : "\n"));
-            env.Write("(9) graph element attribute assignment" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.SetAttributes ? " or (k)eep\n" : "\n"));
-            env.WriteLine("(a)bort");
+            UserChoiceMenu watchpointDetermineEventTypeToConfigureMenu = new UserChoiceMenu(UserChoiceMenuNames.WatchpointDetermineEventTypeToConfigureMenu, new string[] {
+                "(0) subrule entry aka Debug::add" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Add ? " or (k)eep" : ""),
+                "(1) subrule exit aka Debug::rem" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Rem ? " or (k)eep" : ""),
+                "(2) subrule report aka Debug::emit" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Emit ? " or (k)eep" : ""),
+                "(3) subrule halt aka Debug::halt" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Halt ? " or (k)eep" : ""),
+                "(4) subrule highlight aka Debug::highlight" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Highlight ? " or (k)eep" : ""),
+                "(5) rule match" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Match ? " or (k)eep" : ""),
+                "(6) graph element creation" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.New ? " or (k)eep" : ""),
+                "(7) graph element deletion" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Delete ? " or (k)eep" : ""),
+                "(8) graph element retyping" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Retype ? " or (k)eep" : ""),
+                "(9) graph element attribute assignment" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.SetAttributes ? " or (k)eep" : ""),
+                "(a)bort" });
+
+            env.PrintInstructionsSeparateByNewline(watchpointDetermineEventTypeToConfigureMenu, "What event to listen to?\n", "");
 
             do
             {
-                ConsoleKeyInfo key = env.ReadKeyWithCancel();
-                switch(key.KeyChar)
+                char key = env.LetUserChoose(watchpointDetermineEventTypeToConfigureMenu);
+                switch(key)
                 {
                 case '0':
                     return SubruleDebuggingEvent.Add;
@@ -279,15 +280,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     return SubruleDebuggingEvent.SetAttributes;
                 case 'a':
                     return SubruleDebuggingEvent.Undefined;
+                case 'k':
+                    return cr.DebuggingEvent;
                 default:
-                    if(key.KeyChar == 'k' && cr != null)
-                        return cr.DebuggingEvent;
-                    else
-                    {
-                        env.WriteLine("Illegal choice (Key = " + key.Key
-                            + ")! Only (0)...(9), (a)bort allowed! ");
-                        break;
-                    }
+                    throw new Exception("Internal error");
                 }
             }
             while(true);
@@ -310,17 +306,18 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     return SubruleMesssageMatchingMode.Undefined;
             }
 
-            env.WriteLine("How to match the subrule message?");
-            env.Write("(0) equals" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.Equals ? " or (k)eep\n" : "\n"));
-            env.Write("(1) startsWith" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.StartsWith ? " or (k)eep\n" : "\n"));
-            env.Write("(2) endsWith" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.EndsWith ? " or (k)eep\n" : "\n"));
-            env.Write("(3) contains" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.Contains ? " or (k)eep\n" : "\n"));
-            env.WriteLine("(a)bort");
+            UserChoiceMenu watchpointMatchSubruleMessageMenu = new UserChoiceMenu(UserChoiceMenuNames.WatchpointMatchSubruleMessageMenu, new string[] {
+                "(0) equals" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.Equals ? " or (k)eep" : ""),
+                "(1) startsWith" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.StartsWith ? " or (k)eep" : ""),
+                "(2) endsWith" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.EndsWith ? " or (k)eep" : ""),
+                "(3) contains" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.Contains ? " or (k)eep" : ""),
+                "(a)bort" });
+
+            env.PrintInstructionsSeparateByNewline(watchpointMatchSubruleMessageMenu, "How to match the subrule message?\n", "");
 
             do
             {
-                ConsoleKeyInfo key = env.ReadKeyWithCancel();
-                switch(key.KeyChar)
+                switch(env.LetUserChoose(watchpointMatchSubruleMessageMenu))
                 {
                 case '0':
                     return SubruleMesssageMatchingMode.Equals;
@@ -332,15 +329,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     return SubruleMesssageMatchingMode.Contains;
                 case 'a':
                     return SubruleMesssageMatchingMode.Undefined;
+                case 'k':
+                    return cr.MessageMatchingMode;
                 default:
-                    if(key.KeyChar == 'k' && cr != null)
-                        return cr.MessageMatchingMode;
-                    else
-                    {
-                        env.WriteLine("Illegal choice (Key = " + key.Key
-                            + ")! Only (0)...(3), (a)bort allowed! ");
-                        break;
-                    }
+                    throw new Exception("Internal error");
                 }
             }
             while(true);
@@ -407,15 +399,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private SubruleDebuggingMatchGraphElementMode DetermineMatchGraphElementMode(SubruleDebuggingConfigurationRule cr)
         {
-            env.WriteLine("Match graph element based on name or based on type?");
-            env.Write("(0) by name" + (cr != null && cr.NameToMatch != null ? " or (k)eep\n" : "\n"));
-            env.Write("(1) by type" + (cr != null && cr.NameToMatch == null ? " or (k)eep\n" : "\n"));
-            env.WriteLine("(a)bort");
+            UserChoiceMenu watchpointDetermineMatchGraphElementModeMenu = new UserChoiceMenu(UserChoiceMenuNames.WatchpointDetermineMatchGraphElementModeMenu, new string[] {
+                "(0) by name" + (cr != null && cr.NameToMatch != null ? " or (k)eep" : ""),
+                "(1) by type" + (cr != null && cr.NameToMatch == null ? " or (k)eep" : ""),
+                "(a)bort" });
+
+            env.PrintInstructionsSeparateByNewline(watchpointDetermineMatchGraphElementModeMenu, "Match graph element based on name or based on type?\n", "");
 
             do
             {
-                ConsoleKeyInfo key = env.ReadKeyWithCancel();
-                switch(key.KeyChar)
+                switch(env.LetUserChoose(watchpointDetermineMatchGraphElementModeMenu))
                 {
                 case '0':
                     return SubruleDebuggingMatchGraphElementMode.ByName;
@@ -423,19 +416,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     return SubruleDebuggingMatchGraphElementMode.ByType;
                 case 'a':
                     return SubruleDebuggingMatchGraphElementMode.Undefined;
+                case 'k':
+                    return cr.NameToMatch != null ?
+                        SubruleDebuggingMatchGraphElementMode.ByName :
+                        SubruleDebuggingMatchGraphElementMode.ByType;
                 default:
-                    if(key.KeyChar == 'k' && cr != null)
-                    {
-                        return cr.NameToMatch != null ?
-                            SubruleDebuggingMatchGraphElementMode.ByName :
-                            SubruleDebuggingMatchGraphElementMode.ByType;
-                    }
-                    else
-                    {
-                        env.WriteLine("Illegal choice (Key = " + key.Key
-                            + ")! Only (0), (1), (a)bort allowed! ");
-                        break;
-                    }
+                    throw new Exception("Internal error");
                 }
             }
             while(true);
@@ -500,15 +486,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private SubruleDebuggingMatchGraphElementByTypeMode DetermineMatchGraphElementByTypeMode(SubruleDebuggingConfigurationRule cr)
         {
-            env.WriteLine("Only the graph element type or also subtypes?");
-            env.Write("(0) also subtypes" + (cr != null && !cr.OnlyThisType ? " or (k)eep\n" : "\n"));
-            env.Write("(1) only the type" + (cr != null && cr.OnlyThisType ? " or (k)eep\n" : "\n"));
-            env.WriteLine("(a)bort");
+            UserChoiceMenu watchpointDetermineMatchGraphElementByTypeModeMenu = new UserChoiceMenu(UserChoiceMenuNames.WatchpointDetermineMatchGraphElementByTypeModeMenu, new string[] {
+                "(0) also subtypes" + (cr != null && !cr.OnlyThisType ? " or (k)eep" : ""),
+                "(1) only the type" + (cr != null && cr.OnlyThisType ? " or (k)eep" : ""),
+                "(a)bort" });
+
+            env.PrintInstructionsSeparateByNewline(watchpointDetermineMatchGraphElementByTypeModeMenu, "Only the graph element type or also subtypes?\n", "");
 
             while(true)
             {
-                ConsoleKeyInfo key = env.ReadKeyWithCancel();
-                switch(key.KeyChar)
+                switch(env.LetUserChoose(watchpointDetermineMatchGraphElementByTypeModeMenu))
                 {
                 case '0':
                     return SubruleDebuggingMatchGraphElementByTypeMode.IncludingSubtypes;
@@ -516,19 +503,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     return SubruleDebuggingMatchGraphElementByTypeMode.OnlyType;
                 case 'a':
                     return SubruleDebuggingMatchGraphElementByTypeMode.Undefined;
+                case 'k':
+                    return cr.OnlyThisType ? 
+                        SubruleDebuggingMatchGraphElementByTypeMode.OnlyType :
+                        SubruleDebuggingMatchGraphElementByTypeMode.IncludingSubtypes;
                 default:
-                    if(key.KeyChar == 'k' && cr != null)
-                    {
-                        return cr.OnlyThisType ? 
-                            SubruleDebuggingMatchGraphElementByTypeMode.OnlyType :
-                            SubruleDebuggingMatchGraphElementByTypeMode.IncludingSubtypes;
-                    }
-                    else
-                    {
-                        env.WriteLine("Illegal choice (Key = " + key.Key
-                            + ")! Only (0), (1), (a)bort allowed! ");
-                        break;
-                    }
+                    throw new Exception("Internal error");
                 }
             }
         }
@@ -536,10 +516,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private SubruleDebuggingDecision DetermineDecisionAction(SubruleDebuggingConfigurationRule cr)
         {
             // edit or keep decision action
-            env.WriteLine("How to react when the event is triggered?");
-            env.Write("(0) break" + (cr != null && cr.DecisionOnMatch == SubruleDebuggingDecision.Break ? " or (k)eep\n" : "\n"));
-            env.Write("(1) continue" + (cr != null && cr.DecisionOnMatch == SubruleDebuggingDecision.Continue ? " or (k)eep\n" : "\n"));
-            env.WriteLine("(a)bort");
+            UserChoiceMenu watchpointDetermineDecisionActionMenu = new UserChoiceMenu(UserChoiceMenuNames.WatchpointDetermineDecisionActionMenu, new string[] {
+                "(0) break" + (cr != null && cr.DecisionOnMatch == SubruleDebuggingDecision.Break ? " or (k)eep" : ""),
+                "(1) continue" + (cr != null && cr.DecisionOnMatch == SubruleDebuggingDecision.Continue ? " or (k)eep" : ""),
+                "(a)bort" });
+
+            env.PrintInstructionsSeparateByNewline(watchpointDetermineDecisionActionMenu, "How to react when the event is triggered?\n", "");
 
             do
             {
@@ -552,15 +534,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     return SubruleDebuggingDecision.Continue;
                 case 'a':
                     return SubruleDebuggingDecision.Undefined;
+                case 'k':
+                    return cr.DecisionOnMatch;
                 default:
-                    if(key.KeyChar == 'k' && cr != null)
-                        return cr.DecisionOnMatch;
-                    else
-                    {
-                        env.WriteLine("Illegal choice (Key = " + key.Key
-                            + ")! Only (0), (1), (a)bort allowed! ");
-                        break;
-                    }
+                    throw new Exception("Internal error");
                 }
             }
             while(true);

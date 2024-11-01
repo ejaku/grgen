@@ -89,6 +89,27 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
         }
 
+        UserChoiceMenu queryUserMenu;
+        UserChoiceMenu queryContinueOrTraceMenu;
+
+        UserChoiceMenu debuggerMainSequenceEnteringMenu = new UserChoiceMenu(UserChoiceMenuNames.DebuggerMainSequenceEnteringMenu, new string[] {
+                    "(n)ext match", "(d)etailed step", "(s)tep", "step (u)p", "step (o)ut", "(r)un",
+                    "toggle (b)reakpoints", "toggle (c)hoicepoints", "toggle (l)azy choice", "(w)atchpoints",
+                    "show (v)ariables", "show class ob(j)ect", "print stack(t)race", "(f)ull state",
+                    "(h)ighlight", "dum(p) graph", "as (g)raph", "(a)bort" });
+
+        UserChoiceMenu continueOnAssertionMenu = new UserChoiceMenu(UserChoiceMenuNames.ContinueOnAssertionMenu, new string[] {
+                    "(a)bort", "(d)ebug at source code level ((external))", "(c)ontinue" });
+
+        UserChoiceMenu skipAsRequiredInMatchByMatchProcessingMenu = new UserChoiceMenu(UserChoiceMenuNames.SkipAsRequiredInMatchByMatchProcessingMenu, new string[] {
+                    "(any key) to apply rewrite", "s(k)ip single matches" });
+
+        UserChoiceMenu skipAsRequiredMenu = new UserChoiceMenu(UserChoiceMenuNames.SkipAsRequiredMenu, new string[] {
+                    "(any key) to show single matches and apply rewrite", "s(k)ip single matches" });
+
+        UserChoiceMenu queryContinueWhenShowPostDisabledMenu = new UserChoiceMenu(UserChoiceMenuNames.QueryContinueWhenShowPostDisabledMenu, new string[] {
+                    "(any key) to continue", "(f)ull state", "(a)bort" });
+
         /// <summary>
         /// Initializes a new Debugger instance using the given environments, and layout as well as layout options.
         /// All invalid options will be removed from layoutOptions.
@@ -336,8 +357,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             while(true)
             {
-                ConsoleKeyInfo key = env.ReadKeyWithCancel();
-                switch(key.KeyChar)
+                switch(env.LetUserChoose(queryUserMenu))
                 {
                 case 's':
                     stepMode = true;
@@ -439,9 +459,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     env.WriteLine();
                     break;
                 default:
-                    env.WriteLine("Illegal command (Key = " + key.Key
-                        + ")! Only (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, (w)atchpoints, show (v)ariables, show class ob(j)ect, print stack(t)race, (f)ull state, (h)ighlight, dum(p) graph, as (g)raph, and (a)bort allowed!");
-                    break;
+                    throw new Exception("Internal error");
                 }
             }
         }
@@ -762,7 +780,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             env.WriteLine();
             context.choice = false;
 
-            return new UserChoiceMenu(env).ChooseDirection(direction, seq);
+            return new UserProxyChoiceMenu(env).ChooseDirection(direction, seq);
         }
 
         /// <summary>
@@ -774,7 +792,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             graphViewerClient.UpdateDisplay();
             graphViewerClient.Sync();
 
-            UserChoiceMenu menu = new UserChoiceMenu(env);
+            UserProxyChoiceMenu menu = new UserProxyChoiceMenu(env);
             menu.ChooseSequencePrintHeader(seqToExecute);
 
             do
@@ -803,7 +821,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             graphViewerClient.UpdateDisplay();
             graphViewerClient.Sync();
 
-            UserChoiceMenu menu = new UserChoiceMenu(env);
+            UserProxyChoiceMenu menu = new UserProxyChoiceMenu(env);
             menu.ChooseSequenceParallelPrintHeader(seqToExecute);
 
             do
@@ -830,7 +848,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             graphViewerClient.UpdateDisplay();
             graphViewerClient.Sync();
 
-            UserChoiceMenu menu = new UserChoiceMenu(env);
+            UserProxyChoiceMenu menu = new UserProxyChoiceMenu(env);
             menu.ChoosePointPrintHeader(pointToExecute);
 
             do
@@ -869,7 +887,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             graphViewerClient.UpdateDisplay();
             graphViewerClient.Sync();
 
-            UserChoiceMenu menu = new UserChoiceMenu(env);
+            UserProxyChoiceMenu menu = new UserProxyChoiceMenu(env);
             menu.ChooseMatchSomeFromSetPrintHeader(totalMatchToExecute);
 
             MatchMarkerAndAnnotator matchMarkerAndAnnotator = new MatchMarkerAndAnnotator(realizers, renderRecorder, graphViewerClient);
@@ -922,7 +940,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 return matchToApply;
             }
 
-            UserChoiceMenu menu = new UserChoiceMenu(env);
+            UserProxyChoiceMenu menu = new UserProxyChoiceMenu(env);
             menu.ChooseMatchPrintHeader(numFurtherMatchesToApply);
 
             MatchMarkerAndAnnotator matchMarkerAndAnnotator = new MatchMarkerAndAnnotator(realizers, renderRecorder, graphViewerClient);
@@ -976,7 +994,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             env.WriteLine();
             context.choice = false;
 
-            return new UserChoiceMenu(env).ChooseRandomNumber(randomNumber, upperBound, seq);
+            return new UserProxyChoiceMenu(env).ChooseRandomNumber(randomNumber, upperBound, seq);
         }
 
         /// <summary>
@@ -994,7 +1012,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             env.WriteLine();
             context.choice = false;
 
-            return new UserChoiceMenu(env).ChooseRandomNumber(randomNumber, seq);
+            return new UserProxyChoiceMenu(env).ChooseRandomNumber(randomNumber, seq);
         }
 
         /// <summary>
@@ -1047,7 +1065,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             env.WriteLine();
             context.choice = false;
 
-            return new UserChoiceMenu(env).ChooseValue(type, seq, debuggerProcEnv.ProcEnv.NamedGraph);
+            return new UserProxyChoiceMenu(env).ChooseValue(type, seq, debuggerProcEnv.ProcEnv.NamedGraph);
         }
 
         /// <summary>
@@ -1093,24 +1111,19 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         AssertionContinuation QueryContinueOnAssertion()
         {
-            do
-            {
-                env.WriteLine("You may (a)bort, (d)ebug at source code level (external), or (c)ontinue...");
+            env.PrintInstructions(continueOnAssertionMenu, "You may ", "...");
 
-                ConsoleKeyInfo key = env.ReadKeyWithCancel();
-                switch(key.KeyChar)
-                {
-                    case 'a':
-                        return AssertionContinuation.Abort;
-                    case 'd':
-                        return AssertionContinuation.Debug;
-                    case 'c':
-                        return AssertionContinuation.Continue;
-                    default:
-                        break;
-                }
+            switch(env.LetUserChoose(continueOnAssertionMenu))
+            {
+                case 'a':
+                    return AssertionContinuation.Abort;
+                case 'd':
+                    return AssertionContinuation.Debug;
+                case 'c':
+                    return AssertionContinuation.Continue;
+                default:
+                    throw new Exception("Internal error");
             }
-            while(true);
         }
 
 
@@ -1654,17 +1667,18 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 || CurrentlyExecutedPatternMatchingConstructIs(PatternMatchingConstructType.MultiRuleAllCall)
                 || CurrentlyExecutedPatternMatchingConstructIs(PatternMatchingConstructType.SomeFromSet))
             {
-                env.WriteLine(inMatchByMatchProcessing
-                    ? "Press any key to apply rewrite, besides s(k)ip single matches..."
-                    : "Press any key to show single matches and apply rewrite, besides s(k)ip single matches...");
-                ConsoleKeyInfo key = env.ReadKeyWithCancel();
-                switch(key.KeyChar)
+                UserChoiceMenu menu = inMatchByMatchProcessing ? skipAsRequiredInMatchByMatchProcessingMenu : skipAsRequiredMenu;
+                env.PrintInstructions(menu, "Press ", "...");
+
+                switch(env.LetUserChoose(menu))
                 {
                 case 'k':
                     task.skipMode[task.skipMode.Count - 1] = true;
                     break;
-                default:
+                case '\0':
                     break;
+                default:
+                    throw new Exception("Internal error");
                 }
             }
             else
@@ -1717,7 +1731,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(task.skipMode.Count > 0 && task.skipMode[task.skipMode.Count - 1])
                 return;
 
-            env.WriteLine("Showing single match of " + matches.Producer.Name + " ...");
+            env.WriteLine("Showing single match of " + matches.Producer.Name + "...");
 
             renderRecorder.ApplyChanges(graphViewerClient);
             renderRecorder.ResetAllChangedElements();
@@ -1886,10 +1900,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             do
             {
-                env.WriteLine("Debugging (detailed) continues with any key, besides (f)ull state or (a)bort.");
+                env.PrintInstructions(queryContinueWhenShowPostDisabledMenu, "Debugging (detailed) break, press ", "...");
 
-                ConsoleKeyInfo key = env.ReadKeyWithCancel();
-                switch(key.KeyChar)
+                switch(env.LetUserChoose(queryContinueWhenShowPostDisabledMenu))
                 {
                 case 'a':
                     env.Cancel();
@@ -1900,8 +1913,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     env.WriteLine();
                     PrintDebugTracesStack(true);
                     break;
-                default:
+                case '\0':
                     return;
+                default:
+                    throw new Exception("Internal error");
                 }
             }
             while(true);
@@ -1975,7 +1990,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     SequenceSequenceCallInterpreted seqCall = (SequenceSequenceCallInterpreted)seq;
                     if(seqCall.SequenceDef is SequenceDefinitionCompiled)
                     {
-                        PrintDebugInstructions();
+                        PrintDebugInstructionsSubruleDebugging();
                     }
                 }
 
@@ -2023,11 +2038,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void PrintDebugInstructionsOnEntering()
         {
-            env.PrintHighlighted("Debug started", HighlightingMode.SequenceStart);
-            env.Write(" -- available commands are: (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut of loop, (r)un, ");
-            env.Write("toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, (w)atchpoints, ");
-            env.Write("show (v)ariables, show class ob(j)ect, print stack(t)race, (f)ull state, (h)ighlight, dum(p) graph, as (g)raph, ");
-            env.WriteLine("and (a)bort (plus Ctrl+C for forced abort).");
+            env.PrintHighlighted("Debug started", HighlightingMode.SequenceStart); // form TODO: give up on it or try hard with color codes embedded?
+            env.PrintInstructions(debuggerMainSequenceEnteringMenu, " -- available commands are: ", " (plus Ctrl+C for forced abort).");
+            queryUserMenu = debuggerMainSequenceEnteringMenu;
         }
 
         private static bool IsLoop(SequenceBase seq)
@@ -2433,8 +2446,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 PrintDebugInstructions(isBottomUpBreak);
 
-                ConsoleKeyInfo key = env.ReadKeyWithCancel();
-                switch(key.KeyChar)
+                switch(env.LetUserChoose(queryContinueOrTraceMenu))
                 {
                 case 'a':
                     env.Cancel();
@@ -2499,56 +2511,69 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private void PrintDebugInstructions(bool isBottomUpBreak)
         {
             if(!isBottomUpBreak && !EmbeddedSequenceWasEntered())
-                env.WriteLine("Debugging (detailed) continues with any key, besides (f)ull state or (a)bort.");
+            {
+                UserChoiceMenu anyKeyFullStateAbortMenu = new UserChoiceMenu(UserChoiceMenuNames.QueryContinueOrTraceMenu, new string[] {
+                    "(any key) to continue", "(f)ull state", "(a)bort" });
+                env.PrintInstructions(anyKeyFullStateAbortMenu, "Debugging (detailed) break, press ", "...");
+                queryContinueOrTraceMenu = anyKeyFullStateAbortMenu;
+            }
             else
             {
+                List<string> arrayBuilder = new List<string>();
+
                 if(!isBottomUpBreak)
                 {
-                    env.Write("Detailed subrule debugging -- ");
                     if(EmbeddedSequenceWasEntered())
                     {
-                        env.Write("(r)un until end of detail debugging, ");
+                        arrayBuilder.Add("(r)un until end of detail debugging");
                         if(TargetStackLevelForUpInDetailedMode() > 0)
                         {
-                            env.Write("(u)p from current entry, ");
+                            arrayBuilder.Add("(u)p from current entry");
                             if(TargetStackLevelForOutInDetailedMode() > 0)
-                                env.Write("(o)ut of detail debugging entry we are nested in, ");
+                                arrayBuilder.Add("(o)ut of detail debugging entry we are nested in");
                         }
                     }
                 }
-                else
-                    env.Write("Watchpoint/halt/highlight hit -- ");
 
                 if(isBottomUpBreak && !stepMode)
-                    env.Write("(s)tep mode, ");
+                    arrayBuilder.Add("(s)tep mode");
 
                 if(EmbeddedSequenceWasEntered())
-                    env.Write("print subrule stack(t)race, (f)ull state, or (a)bort, any other key continues ");
-                else
-                    env.Write("(f)ull state, or (a)bort, any other key continues ");
+                {
+                    arrayBuilder.Add("print subrule stack(t)race");
+                }
+                arrayBuilder.Add("(f)ull state");
+                arrayBuilder.Add("(a)bort");
+                arrayBuilder.Add("(any key) continues " + (!isBottomUpBreak ? "detailed debugging" : "debugging as before"));
 
+                queryContinueOrTraceMenu = new UserChoiceMenu(UserChoiceMenuNames.QueryContinueOrTraceMenu, arrayBuilder.ToArray());
                 if(!isBottomUpBreak)
-                    env.WriteLine("detailed debugging.");
+                    env.PrintInstructions(queryContinueOrTraceMenu, "Detailed subrule debugging, press ", "");
                 else
-                    env.WriteLine("debugging as before.");
+                    env.PrintInstructions(queryContinueOrTraceMenu, "Watchpoint/halt/highlight hit, press ", "");
             }
         }
 
-        private void PrintDebugInstructions()
+        private void PrintDebugInstructionsSubruleDebugging()
         {
-            env.Write("Detailed subrule debugging -- ");
-
-            env.Write("(r)un until end of detail debugging, ");
+            List<string> arrayBuilder = new List<string>();
+            arrayBuilder.Add("(r)un until end of detail debugging");
             if(TargetStackLevelForUpInDetailedMode() > 0)
             {
-                env.Write("(u)p from current entry, ");
+                arrayBuilder.Add("(u)p from current entry");
                 if(TargetStackLevelForOutInDetailedMode() > 0)
-                    env.Write("(o)ut of detail debugging entry we are nested in, ");
+                    arrayBuilder.Add("(o)ut of detail debugging entry we are nested in");
             }
+            arrayBuilder.Add("print subrule stack(t)race");
+            arrayBuilder.Add("(f)ull state");
+            arrayBuilder.Add("(a)bort");
+            arrayBuilder.Add("(any key) to continue detailed debugging");
 
-            env.Write("print subrule stack(t)race, (f)ull state, or (a)bort, any other key continues ");
+            UserChoiceMenu subruleDebuggingMenu = new UserChoiceMenu(UserChoiceMenuNames.SubruleDebuggingMenu, arrayBuilder.ToArray());
 
-            env.WriteLine("detailed debugging.");
+            env.PrintInstructions(subruleDebuggingMenu, "Detailed subrule debugging, press ", "");
+
+            queryUserMenu = subruleDebuggingMenu;
         }
 
         private bool EmbeddedSequenceWasEntered()

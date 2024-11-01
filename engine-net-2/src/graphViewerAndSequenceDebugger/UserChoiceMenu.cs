@@ -14,11 +14,38 @@ using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
-    class UserChoiceMenu
+    class UserProxyChoiceMenu
     {
         readonly IDebuggerEnvironment env;
 
-        public UserChoiceMenu(IDebuggerEnvironment env)
+        UserChoiceMenu chooseDirectionMenu = new UserChoiceMenu(UserChoiceMenuNames.ChooseDirectionMenu, new string[] {
+            "(l)eft branch", "(r)ight branch", "(s)/(n)/(d) to continue with random choice" });
+
+        UserChoiceMenu chooseSequenceMenu = new UserChoiceMenu(UserChoiceMenuNames.ChooseSequenceMenu, new string[] {
+            "(0-9) to pre-select the corresponding sequence", "(e)nter the number of the sequence to show",
+            "(s) or (n) or (d) to commit to the pre-selected sequence and continue",
+            "(u) or (o) to commit to the pre-selected sequence but skip remaining choices" });
+
+        UserChoiceMenu chooseSequenceParallelMenu = new UserChoiceMenu(UserChoiceMenuNames.ChooseSequenceParallelMenu, new string[] {
+            "(0-9) to pre-select the corresponding sequence", "(e)nter the number of the sequence to show",
+            "(s) or (n) or (d) to commit to the pre-selected sequence and continue" });
+
+        UserChoiceMenu choosePointMenu = new UserChoiceMenu(UserChoiceMenuNames.ChoosePointMenu, new string[] {
+            "(e)nter a point in the interval series of the sequence to show",
+            "(s) or (n) or (d) to commit to the pre-selected sequence and continue" });
+
+        UserChoiceMenu chooseMatchSomeFromSetMenu = new UserChoiceMenu(UserChoiceMenuNames.ChooseMatchSomeFromSetMenu, new string[] {
+            "(0-9) to pre-select the corresponding match", "(e)nter the number of the match to show",
+            "(s) or (n) or (d) to commit to the pre-selected match and continue" });
+
+        UserChoiceMenu chooseMatchMenu = new UserChoiceMenu(UserChoiceMenuNames.ChooseMatchMenu, new string[] {
+            "(0-9) to show the corresponding match", "(e)nter the number of the match to show",
+            "(s) or (n) or (d) to commit to the currently shown match and continue" });
+
+        UserChoiceMenu chooseValueMenu = new UserChoiceMenu(UserChoiceMenuNames.ChooseValueMenu, new string[] {
+            "(a)bort user choice ((-> value null))", "(r)etry" });
+
+        public UserProxyChoiceMenu(IDebuggerEnvironment env)
         {
             this.env = env;
         }
@@ -26,12 +53,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public int ChooseDirection(int direction, Sequence seq)
         {
             env.PrintHighlighted("Please choose: Which branch to execute first?", HighlightingMode.Choicepoint);
-            env.Write(" (l)eft or (r)ight or (s)/(n)/(d) to continue with random choice.  (Random has chosen " + (direction == 0 ? "(l)eft" : "(r)ight") + ") ");
+            env.Write(" Random has chosen " + (direction == 0 ? "(l)eft" : "(r)ight") + ".");
+            env.PrintInstructions(chooseDirectionMenu, "Press ", ".");
 
             do
             {
-                ConsoleKeyInfo key = env.ReadKeyWithCancel();
-                switch(key.KeyChar)
+                switch(env.LetUserChoose(chooseDirectionMenu))
                 {
                 case 'l':
                     env.WriteLine();
@@ -45,9 +72,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     env.WriteLine();
                     return direction;
                 default:
-                    env.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (l)eft branch, (r)ight branch, (s)/(n)/(d) to continue allowed! ");
-                    break;
+                    throw new Exception("Internal error");
                 }
             }
             while(true);
@@ -57,17 +82,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             env.PrintHighlighted("Please choose: Which sequence to execute?", HighlightingMode.Choicepoint);
             env.WriteLine(" Pre-selecting sequence " + seqToExecute + " chosen by random.");
-            env.WriteLine("Press (0)...(9) to pre-select the corresponding sequence or (e) to enter the number of the sequence to show."
-                                + " Press (s) or (n) or (d) to commit to the pre-selected sequence and continue."
-                                + " Pressing (u) or (o) works like (s)/(n)/(d) but does not ask for the remaining contained sequences.");
+            env.PrintInstructions(chooseSequenceMenu, "Press ", ".");
         }
 
         public bool ChooseSequence(ref int seqToExecute, List<Sequence> sequences, SequenceNAry seq)
         {
             do
             {
-                ConsoleKeyInfo key = env.ReadKeyWithCancel();
-                switch(key.KeyChar)
+                char key = env.LetUserChoose(chooseSequenceMenu);
+                switch(key)
                 {
                 case '0':
                 case '1':
@@ -79,7 +102,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 case '7':
                 case '8':
                 case '9':
-                    int num = key.KeyChar - '0';
+                    int num = key - '0';
                     if(num >= sequences.Count)
                     {
                         env.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
@@ -111,9 +134,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     seq.Skip = true; // skip remaining rules (reset after exection of seq)
                     return true;
                 default:
-                    env.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (0)...(9), (e)nter number, (s)/(n)/(d) to commit and continue, (u)/(o) to commit and skip remaining choices allowed! ");
-                    break;
+                    throw new Exception("Internal error");
                 }
             }
             while(true);
@@ -123,16 +144,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             env.PrintHighlighted("Please choose: Which sequence to execute in the debugger (others are executed in parallel outside)?", HighlightingMode.Choicepoint);
             env.WriteLine(" Pre-selecting first sequence " + seqToExecute + ".");
-            env.WriteLine("Press (0)...(9) to pre-select the corresponding sequence or (e) to enter the number of the sequence to show."
-                                + " Press (s) or (n) or (d) to commit to the pre-selected sequence and continue.");
+            env.PrintInstructions(chooseSequenceParallelMenu, "Press ", ".");
         }
 
         public bool ChooseSequence(ref int seqToExecute, List<Sequence> sequences, SequenceParallel seq)
         {
             do
             {
-                ConsoleKeyInfo key = env.ReadKeyWithCancel();
-                switch(key.KeyChar)
+                char key = env.LetUserChoose(chooseSequenceParallelMenu);
+                switch(key)
                 {
                     case '0':
                     case '1':
@@ -144,7 +164,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     case '7':
                     case '8':
                     case '9':
-                        int num = key.KeyChar - '0';
+                        int num = key - '0';
                         if(num >= sequences.Count)
                         {
                             env.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
@@ -172,9 +192,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     case 'd':
                         return true;
                     default:
-                        env.WriteLine("Illegal choice (Key = " + key.Key
-                            + ")! Only (0)...(9), (e)nter number, (s)/(n)/(d) to commit and continue allowed! ");
-                        break;
+                        throw new Exception("Internal error");
                 }
             }
             while(true);
@@ -182,18 +200,17 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void ChoosePointPrintHeader(double pointToExecute)
         {
-            env.PrintHighlighted("Please choose: Which point in the interval series (corresponding to a sequence) to execute?", HighlightingMode.Choicepoint);
+            env.PrintHighlighted("Please choose: Which point in the interval series (corresponding to a sequence) to show?", HighlightingMode.Choicepoint);
             env.WriteLine(" Pre-selecting point " + pointToExecute + " chosen by random.");
-            env.WriteLine("Press (e) to enter a point in the interval series of the sequence to show."
-                                + " Press (s) or (n) or (d) to commit to the pre-selected sequence and continue.");
+            env.PrintInstructions(choosePointMenu, "Press ", ".");
         }
 
         public bool ChoosePoint(ref double pointToExecute, SequenceWeightedOne seq)
         {
             do
             {
-                ConsoleKeyInfo key = env.ReadKeyWithCancel();
-                switch(key.KeyChar)
+                char key = env.LetUserChoose(choosePointMenu);
+                switch(key)
                 {
                 case 'e':
                     double num;
@@ -217,9 +234,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 case 'd':
                     return true;
                 default:
-                    env.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (e)nter number and (s)/(n)/(d) to commit and continue allowed! ");
-                    break;
+                    throw new Exception("Internal error");
                 }
             }
             while(true);
@@ -229,16 +244,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             env.PrintHighlighted("Please choose: Which match to execute?", HighlightingMode.Choicepoint);
             env.WriteLine(" Pre-selecting match " + totalMatchToExecute + " chosen by random.");
-            env.WriteLine("Press (0)...(9) to pre-select the corresponding match or (e) to enter the number of the match to show."
-                                + " Press (s) or (n) or (d) to commit to the pre-selected match and continue.");
+            env.PrintInstructions(chooseMatchSomeFromSetMenu, " Press ", ".");
         }
 
         public bool ChooseMatch(ref int totalMatchToExecute, SequenceSomeFromSet seq)
         {
             do
             {
-                ConsoleKeyInfo key = env.ReadKeyWithCancel();
-                switch(key.KeyChar)
+                char key = env.LetUserChoose(chooseMatchSomeFromSetMenu);
+                switch(key)
                 {
                 case '0':
                 case '1':
@@ -250,7 +264,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 case '7':
                 case '8':
                 case '9':
-                    int num = key.KeyChar - '0';
+                    int num = key - '0';
                     if(num >= seq.NumTotalMatches)
                     {
                         env.WriteLine("You must specify a number between 0 and " + (seq.NumTotalMatches - 1) + "!");
@@ -278,9 +292,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 case 'd':
                     return true;
                 default:
-                    env.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (0)...(9), (e)nter number, (s)/(n)/(d) to commit and continue allowed! ");
-                    break;
+                    throw new Exception("Internal error");
                 }
             }
             while(true);
@@ -289,9 +301,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void ChooseMatchPrintHeader(int numFurtherMatchesToApply)
         {
             env.PrintHighlighted("Please choose: Which match to apply?", HighlightingMode.Choicepoint);
-            env.WriteLine(" Showing the match chosen by random. (" + numFurtherMatchesToApply + " following)");
-            env.WriteLine("Press (0)...(9) to show the corresponding match or (e) to enter the number of the match to show."
-                                + " Press (s) or (n) or (d) to commit to the currently shown match and continue.");
+            env.WriteLine(" Showing the match chosen by random (" + numFurtherMatchesToApply + " following).");
+            env.PrintInstructions(chooseMatchMenu, "Press ", ".");
         }
 
         public bool ChooseMatch(int matchToApply, IMatches matches, int numFurtherMatchesToApply, Sequence seq, out int newMatchToRewrite)
@@ -404,11 +415,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             while(value == null) // bad input case
             {
-                env.Write("How to proceed? (a)bort user choice (-> value null) or (r)etry:");
+                env.PrintInstructions(chooseValueMenu, "How to proceed? ", ": ");
 
-read_again:
-                ConsoleKeyInfo key = env.ReadKeyWithCancel();
-                switch(key.KeyChar)
+                switch(env.LetUserChoose(chooseValueMenu))
                 {
                 case 'a':
                     env.WriteLine();
@@ -418,9 +427,7 @@ read_again:
                     value = env.Askfor(type, graph);
                     break;
                 default:
-                    env.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (a)bort user choice or (r)etry allowed! ");
-                    goto read_again;
+                    throw new Exception("Internal error");
                 }
             }
 
