@@ -316,7 +316,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(typeName == null)
             {
-                seqApplierAndDebugger.ShowMsgAskForEnter("Pause..");
+                seqApplierAndDebugger.PauseUntilEnterPressed("Pause... press enter to continue.");
                 return null;
             }
 

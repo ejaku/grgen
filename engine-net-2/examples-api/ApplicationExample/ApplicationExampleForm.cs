@@ -325,8 +325,7 @@ namespace ApplicationExample
             if(debugger != null && debugger.GraphViewerClient != null)
                 debugger.GraphViewerClient.Sync();
             debugger.env.WriteLine(text);
-            debugger.env.WriteLine("Press a key to continue...");
-            debugger.env.ReadKey(true);
+            debugger.env.PauseUntilAnyKeyPressed("Press any key to continue...");
         }
 
         private void buttonExecuteMutex_Click(object sender, EventArgs e)

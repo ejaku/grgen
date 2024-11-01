@@ -637,8 +637,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             graphViewerClient.Graph = graph;
             graphViewerClient.UploadGraph();
 
-            env.WriteLine("...press any key to continue...");
-            env.ReadKeyWithCancel();
+            env.PauseUntilAnyKeyPressed("...press any key to continue...");
 
             env.WriteLine("...return to normal graph.");
             graphViewerClient.ClearGraph();
@@ -1409,8 +1408,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             graphViewerClient.UpdateDisplay();
             graphViewerClient.Sync();
-            env.WriteLine("Press any key to continue " + (task.debugSequences.Count > 0 ? "(with the matches remaining after filtering/of the selected rule)..." : "..."));
-            env.ReadKeyWithCancel();
+            env.PauseUntilAnyKeyPressed("Press any key to continue " + (task.debugSequences.Count > 0 ? "(with the matches remaining after filtering/of the selected rule)..." : "..."));
 
             DebugMatchUnmark(matchMarkerAndAnnotator, matchesList);
 
@@ -1683,10 +1681,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             else
             {
-                env.WriteLine(inMatchByMatchProcessing
+                env.PauseUntilAnyKeyPressed(inMatchByMatchProcessing
                     ? "Press any key to apply rewrite..."
                     : "Press any key to show single matches and apply rewrite...");
-                env.ReadKeyWithCancel();
             }
         }
 
@@ -1779,8 +1776,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 if(task.skipMode.Count > 0 && task.skipMode[task.skipMode.Count - 1])
                     return;
 
-                env.WriteLine("Rewritten - Debugging detailed continues with any key...");
-                env.ReadKeyWithCancel();
+                env.PauseUntilAnyKeyPressed("Rewritten - Debugging detailed continues with any key...");
             }
         }
 

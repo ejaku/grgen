@@ -231,7 +231,7 @@ namespace de.unika.ipd.grGen.grShell
             curGRS = seq;
             curRule = null;
 
-            ConsoleUI.outWriter.WriteLine("Evaluating Sequence Expression (CTRL+C for abort) ...");
+            ConsoleUI.outWriter.WriteLine("Evaluating Sequence Expression (CTRL+C for abort)...");
             if(debug)
                 ConsoleUI.outWriter.WriteLine(seqExpr.Symbol);
             cancelSequence = false;
@@ -312,7 +312,7 @@ namespace de.unika.ipd.grGen.grShell
             curGRS = seq;
             curRule = null;
 
-            ConsoleUI.outWriter.WriteLine("Executing Graph Rewrite Sequence (CTRL+C for abort) ...");
+            ConsoleUI.outWriter.WriteLine("Executing Graph Rewrite Sequence (CTRL+C for abort)...");
             cancelSequence = false;
             WorkaroundManager.Workaround.PreventComputerFromGoingIntoSleepMode(true);
             impl.curShellProcEnv.ProcEnv.PerformanceInfo.Reset();
@@ -411,7 +411,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             StatisticsSource statisticsSource = (StatisticsSource)state;
             if(!statisticsSource.ActionEnv.HighlightingUnderway)
-                ConsoleUI.outWriter.WriteLine(" ... {0} matches, {1} rewrites, {2} graph changes until now ...", statisticsSource.MatchesFound, statisticsSource.RewritesPerformed, statisticsSource.GraphChanges);
+                ConsoleUI.outWriter.WriteLine(" ...{0} matches, {1} rewrites, {2} graph changes until now...", statisticsSource.MatchesFound, statisticsSource.RewritesPerformed, statisticsSource.GraphChanges);
         }
 
         public override void Cancel()

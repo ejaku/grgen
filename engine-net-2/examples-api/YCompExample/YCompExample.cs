@@ -23,7 +23,7 @@ namespace YCompExample
             if(graphViewer != null)
                 graphViewer.UpdateDisplayAndSync();
             ConsoleUI.outWriter.WriteLine(text);
-            ConsoleUI.outWriter.WriteLine("Press a key to continue...");
+            ConsoleUI.outWriter.WriteLine("Press any key to continue...");
             ConsoleUI.consoleIn.ReadKey(true);
         }
 

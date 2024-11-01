@@ -136,8 +136,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             graphViewerClient.UpdateDisplay();
             graphViewerClient.Sync();
-            env.WriteLine("Press any key to continue...");
-            env.ReadKeyWithCancel();
+            env.PauseUntilAnyKeyPressed("Press any key to continue...");
 
             for(int i = 0; i < sources.Count; ++i)
             {

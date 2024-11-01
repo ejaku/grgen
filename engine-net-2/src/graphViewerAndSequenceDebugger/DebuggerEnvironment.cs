@@ -137,7 +137,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         object Askfor(String typeName, INamedGraph graph);
 
-        void ShowMsgAskForEnter(string msg);
+        void PauseUntilEnterPressed(string msg);
+        void PauseUntilAnyKeyPressed(string msg);
         bool ShowMsgAskForYesNo(string msg);
         int ShowMsgAskForIntegerNumber(string msg);
         int ShowMsgAskForIntegerNumber(string msg, int defaultOnEmptyInput);
@@ -506,15 +507,21 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return result;
         }
 
-        public void ShowMsgAskForEnter(string msg)
+        public void PauseUntilEnterPressed(string msg)
         {
-            Write(msg + " [enter] ");
+            Write(msg);
             ReadOrEofErr();
+        }
+
+        public void PauseUntilAnyKeyPressed(string msg)
+        {
+            WriteLine(msg);
+            ReadKey(true);
         }
 
         public bool ShowMsgAskForYesNo(string msg)
         {
-            Write(msg + " [yes/no/y/n]: ");
+            Write(msg + " Enter (y)es or (n)o: ");
             while(true)
             {
                 string result = ReadOrEofErr();
@@ -528,7 +535,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 {
                     return false;
                 }
-                Write("You must enter one of [yes/no/y/n]: ");
+                Write("You must enter (y)es or (n)o: ");
             }
         }
 
