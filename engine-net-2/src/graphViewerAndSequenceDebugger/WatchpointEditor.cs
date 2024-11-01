@@ -518,8 +518,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             do
             {
-                ConsoleKeyInfo key = env.ReadKeyWithCancel();
-                switch(key.KeyChar)
+                char key = env.LetUserChoose(watchpointDetermineDecisionActionMenu);
+                switch(key)
                 {
                 case '0':
                     return SubruleDebuggingDecision.Break;

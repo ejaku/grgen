@@ -285,8 +285,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             do
             {
-                ConsoleKeyInfo key = env.ReadKeyWithCancel();
-                switch(key.KeyChar)
+                char key = env.LetUserChoose(chooseMatchMenu);
+                switch(key)
                 {
                 case '0':
                 case '1':
@@ -298,7 +298,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 case '7':
                 case '8':
                 case '9':
-                    int num = key.KeyChar - '0';
+                    int num = key - '0';
                     if(num >= matches.Count)
                     {
                         env.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
@@ -320,9 +320,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 case 'd':
                     return true;
                 default:
-                    env.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (0)...(9), (e)nter number, (s)/(n)/(d) to commit and continue allowed! ");
-                    break;
+                    throw new Exception("Internal error");
                 }
             }
             while(true);
