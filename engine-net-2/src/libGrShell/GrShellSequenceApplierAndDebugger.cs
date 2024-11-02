@@ -75,7 +75,7 @@ namespace de.unika.ipd.grGen.grShell
 
 
         public GrShellSequenceApplierAndDebugger(IGrShellImplForSequenceApplierAndDebugger impl)
-            : base(DebuggerConsoleUI.Instance)
+            : base(DebuggerConsoleUI.Instance, DebuggerConsoleUI.Instance)
         {
             ConsoleUI.consoleIn.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);
 
@@ -566,7 +566,10 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     host = graphViewerType == GraphViewerTypes.YComp ? null : new GuiConsoleDebuggerHost();
                     if(host != null)
+                    {
                         TheDebuggerConsoleUI = host.GuiConsoleControl;
+                        TheDebuggerConsoleUIForDataRendering = host.OptionalGuiConsoleControl;
+                    }
                     debugger = new ConsoleDebugger(this, impl.curShellProcEnv, impl.realizers, graphViewerType, impl.debugLayout, optMap, host);
                     debugger.DetailedModeShowPreMatches = impl.detailModePreMatchEnabled;
                     debugger.DetailedModeShowPostMatches = impl.detailModePostMatchEnabled;
@@ -602,6 +605,7 @@ namespace de.unika.ipd.grGen.grShell
                     host.Close();
                 host = null;
                 TheDebuggerConsoleUI = DebuggerConsoleUI.Instance;
+                TheDebuggerConsoleUIForDataRendering = DebuggerConsoleUI.Instance;
             }
             return true;
         }
@@ -615,6 +619,7 @@ namespace de.unika.ipd.grGen.grShell
                 debugger = null;
                 host = null;
                 TheDebuggerConsoleUI = DebuggerConsoleUI.Instance;
+                TheDebuggerConsoleUIForDataRendering = DebuggerConsoleUI.Instance;
                 return false;
             }
             return true;

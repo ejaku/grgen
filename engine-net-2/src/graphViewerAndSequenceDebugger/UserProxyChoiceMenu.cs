@@ -52,7 +52,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public int ChooseDirection(int direction, Sequence seq)
         {
-            env.PrintHighlighted("Please choose: Which branch to execute first?", HighlightingMode.Choicepoint);
+            env.PrintHighlightedUserDialog("Please choose: Which branch to execute first?", HighlightingMode.Choicepoint);
             env.Write(" Random has chosen " + (direction == 0 ? "(l)eft" : "(r)ight") + ".");
             env.PrintInstructions(chooseDirectionMenu, "Press ", ".");
 
@@ -80,7 +80,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void ChooseSequencePrintHeader(int seqToExecute)
         {
-            env.PrintHighlighted("Please choose: Which sequence to execute?", HighlightingMode.Choicepoint);
+            env.PrintHighlightedUserDialog("Please choose: Which sequence to execute?", HighlightingMode.Choicepoint);
             env.WriteLine(" Pre-selecting sequence " + seqToExecute + " chosen by random.");
             env.PrintInstructions(chooseSequenceMenu, "Press ", ".");
         }
@@ -136,7 +136,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void ChooseSequenceParallelPrintHeader(int seqToExecute)
         {
-            env.PrintHighlighted("Please choose: Which sequence to execute in the debugger (others are executed in parallel outside)?", HighlightingMode.Choicepoint);
+            env.PrintHighlightedUserDialog("Please choose: Which sequence to execute in the debugger (others are executed in parallel outside)?", HighlightingMode.Choicepoint);
             env.WriteLine(" Pre-selecting first sequence " + seqToExecute + ".");
             env.PrintInstructions(chooseSequenceParallelMenu, "Press ", ".");
         }
@@ -188,7 +188,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void ChoosePointPrintHeader(double pointToExecute)
         {
-            env.PrintHighlighted("Please choose: Which point in the interval series (corresponding to a sequence) to show?", HighlightingMode.Choicepoint);
+            env.PrintHighlightedUserDialog("Please choose: Which point in the interval series (corresponding to a sequence) to show?", HighlightingMode.Choicepoint);
             env.WriteLine(" Pre-selecting point " + pointToExecute + " chosen by random.");
             env.PrintInstructions(choosePointMenu, "Press ", ".");
         }
@@ -222,7 +222,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void ChooseMatchSomeFromSetPrintHeader(int totalMatchToExecute)
         {
-            env.PrintHighlighted("Please choose: Which match to execute?", HighlightingMode.Choicepoint);
+            env.PrintHighlightedUserDialog("Please choose: Which match to execute?", HighlightingMode.Choicepoint);
             env.WriteLine(" Pre-selecting match " + totalMatchToExecute + " chosen by random.");
             env.PrintInstructions(chooseMatchSomeFromSetMenu, " Press ", ".");
         }
@@ -274,7 +274,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void ChooseMatchPrintHeader(int numFurtherMatchesToApply)
         {
-            env.PrintHighlighted("Please choose: Which match to apply?", HighlightingMode.Choicepoint);
+            env.PrintHighlightedUserDialog("Please choose: Which match to apply?", HighlightingMode.Choicepoint);
             env.WriteLine(" Showing the match chosen by random (" + numFurtherMatchesToApply + " following).");
             env.PrintInstructions(chooseMatchMenu, "Press ", ".");
         }

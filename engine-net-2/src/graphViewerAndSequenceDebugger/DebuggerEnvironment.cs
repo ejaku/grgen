@@ -14,6 +14,7 @@ using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
+    // ConsoleUI for user dialog
     public interface IDebuggerConsoleUI
     {
         // outWriter (errorOutWriter not used in interactive debugger)
@@ -23,8 +24,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         void WriteLine(string format, params object[] arg);
         void WriteLine();
 
-        // consoleOut
-        void PrintHighlighted(String text, HighlightingMode mode);
+        // consoleOut for user dialog
+        void PrintHighlightedUserDialog(String text, HighlightingMode mode);
 
         // inReader
         string ReadLine();
@@ -35,7 +36,23 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         bool KeyAvailable { get; }
     }
 
-    public class DebuggerConsoleUI : IDebuggerConsoleUI
+    // ConsoleUI for data rendering (of the main work object)
+    public interface IDebuggerConsoleUIForDataRendering
+    {
+        // outWriter for data rendering (errorOutWriter not used in interactive debugger and even less in data rendering)
+        void WriteDataRendering(string value);
+        void WriteDataRendering(string format, params object[] arg);
+        void WriteLineDataRendering(string value);
+        void WriteLineDataRendering(string format, params object[] arg);
+        void WriteLineDataRendering();
+
+        // consoleOut
+        void PrintHighlighted(String text, HighlightingMode mode);
+
+        // inReader and consoleIn are not used in data rendering
+    }
+
+    public class DebuggerConsoleUI : IDebuggerConsoleUI, IDebuggerConsoleUIForDataRendering
     {
         public static DebuggerConsoleUI Instance
         {
@@ -102,7 +119,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             ConsoleUI.errorOutWriter.WriteLine();
         }
 
-        public void PrintHighlighted(String text, HighlightingMode mode)
+        public void PrintHighlightedUserDialog(String text, HighlightingMode mode)
         {
             ConsoleUI.consoleOut.PrintHighlighted(text, mode);
         }
@@ -126,9 +143,41 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             get { return ConsoleUI.consoleIn.KeyAvailable; }
         }
+
+        // -----------------------------------------------------------------
+
+        public void WriteDataRendering(string value)
+        {
+            ConsoleUI.outWriter.Write(value);
+        }
+
+        public void WriteDataRendering(string format, params object[] arg)
+        {
+            ConsoleUI.outWriter.Write(format, arg);
+        }
+
+        public void WriteLineDataRendering(string value)
+        {
+            ConsoleUI.outWriter.WriteLine(value);
+        }
+
+        public void WriteLineDataRendering(string format, params object[] arg)
+        {
+            ConsoleUI.outWriter.WriteLine(format, arg);
+        }
+
+        public void WriteLineDataRendering()
+        {
+            ConsoleUI.outWriter.WriteLine();
+        }
+
+        public void PrintHighlighted(String text, HighlightingMode mode)
+        {
+            ConsoleUI.consoleOut.PrintHighlighted(text, mode);
+        }
     }
 
-    public interface IDebuggerEnvironment : IDebuggerConsoleUI
+    public interface IDebuggerEnvironment : IDebuggerConsoleUI, IDebuggerConsoleUIForDataRendering
     {
         ConsoleKeyInfo ReadKeyWithCancel();
 
@@ -274,9 +323,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
     public class DebuggerEnvironment : IDebuggerEnvironment
     {
-        public DebuggerEnvironment(IDebuggerConsoleUI debuggerConsoleUI)
+        public DebuggerEnvironment(IDebuggerConsoleUI debuggerConsoleUI, IDebuggerConsoleUIForDataRendering debuggerConsoleUIForDataRendering)
         {
             this.theDebuggerConsoleUI = debuggerConsoleUI;
+            this.theDebuggerConsoleUIForDataRendering = debuggerConsoleUIForDataRendering;
         }
 
         public IDebuggerConsoleUI TheDebuggerConsoleUI // debugger console UI operations are delegated to this object, can be switched in between a gui console or a console
@@ -285,6 +335,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             set { theDebuggerConsoleUI = value; }
         }
         private IDebuggerConsoleUI theDebuggerConsoleUI;
+
+        public IDebuggerConsoleUIForDataRendering TheDebuggerConsoleUIForDataRendering // debugger console UI operations for data rendering are delegated to this object, can be switched in between a gui console or a console (in case of a console it is typically mapped to the normal debugger console)
+        {
+            get { return theDebuggerConsoleUIForDataRendering; }
+            set { theDebuggerConsoleUIForDataRendering = value; }
+        }
+        private IDebuggerConsoleUIForDataRendering theDebuggerConsoleUIForDataRendering;
 
         public ConsoleDebugger Debugger // has to be set after debugger was constructed
         {
@@ -652,7 +709,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
 
-        // IDebuggerConsoleUI extended by errorOutWriter methods -------------------------------------------------------------------------------
+        // IDebuggerEnvironment consisting of -----------------------------------------------------------------------------------
+        // IDebuggerConsoleUI extended by errorOutWriter methods ----------------------------------
 
         // outWriter
         public void Write(string value)
@@ -707,11 +765,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
         
         // consoleOut
-        public void PrintHighlighted(String text, HighlightingMode mode)
+        public void PrintHighlightedUserDialog(String text, HighlightingMode mode)
         {
-            theDebuggerConsoleUI.PrintHighlighted(text, mode);
+            theDebuggerConsoleUI.PrintHighlightedUserDialog(text, mode);
         }
-        
+
         // inReader
         public string ReadLine()
         {
@@ -732,6 +790,38 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public bool KeyAvailable
         {
             get { return theDebuggerConsoleUI.KeyAvailable; }
+        }
+
+        // IDebuggerConsoleUIForDataRendering -----------------------------------------------------
+
+        public void WriteDataRendering(string value)
+        {
+            theDebuggerConsoleUIForDataRendering.WriteDataRendering(value);
+        }
+
+        public void WriteDataRendering(string format, params object[] arg)
+        {
+            theDebuggerConsoleUIForDataRendering.WriteDataRendering(format, arg);
+        }
+
+        public void WriteLineDataRendering(string value)
+        {
+            theDebuggerConsoleUIForDataRendering.WriteLineDataRendering(value);
+        }
+
+        public void WriteLineDataRendering(string format, params object[] arg)
+        {
+            theDebuggerConsoleUIForDataRendering.WriteLineDataRendering(format, arg);
+        }
+
+        public void WriteLineDataRendering()
+        {
+            theDebuggerConsoleUIForDataRendering.WriteLineDataRendering();
+        }
+
+        public void PrintHighlighted(String text, HighlightingMode mode)
+        {
+            theDebuggerConsoleUIForDataRendering.PrintHighlighted(text, mode);
         }
     }
 }

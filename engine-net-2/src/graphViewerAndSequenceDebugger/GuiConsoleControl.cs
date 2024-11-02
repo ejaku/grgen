@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
-    public partial class GuiConsoleControl : UserControl, IDebuggerConsoleUI
+    public partial class GuiConsoleControl : UserControl, IDebuggerConsoleUI, IDebuggerConsoleUIForDataRendering
     {
         internal class TextAttributes
         {
@@ -58,6 +58,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             theRichTextBox.KeyPress += GuiConsoleRichTextBox_KeyPress;
 
             theRichTextBox.ReadOnly = true;
+            theRichTextBox.HideSelection = false;
         }
 
         private void GuiConsoleRichTextBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -98,45 +99,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             theRichTextBox.AppendText("\r\n");
         }
 
-        public void PrintHighlighted(String text, de.unika.ipd.grGen.libGr.HighlightingMode mode)
+        public void PrintHighlightedUserDialog(String text, de.unika.ipd.grGen.libGr.HighlightingMode mode)
         {
-            Color oldColor = theRichTextBox.SelectionColor;
-            Color oldBackColor = theRichTextBox.BackColor;
-            Font oldFont = theRichTextBox.Font;
-
-            TextAttributes textAttributes = HighlightingModeToTextAttributes(mode);
-            theRichTextBox.SelectionColor = textAttributes.foregroundColor;
-            theRichTextBox.SelectionBackColor = textAttributes.backgroundColor;
-            theRichTextBox.SelectionFont = new Font(theRichTextBox.Font, textAttributes.fontStyle);
-            Write(text);
-
-            theRichTextBox.SelectionColor = oldColor;
-            theRichTextBox.BackColor = oldBackColor;
-            theRichTextBox.Font = oldFont;
-        }
-
-        // TODO: Printing should use low level color codes, there should be a layer translating high level semantic meaning to color codes
-        private static TextAttributes HighlightingModeToTextAttributes(libGr.HighlightingMode mode)
-        {
-            switch(mode)
-            {
-                case libGr.HighlightingMode.Focus: return new TextAttributes(Color.Yellow, Color.Black, FontStyle.Bold);
-                case libGr.HighlightingMode.FocusSucces: return new TextAttributes(Color.Green, Color.Black, FontStyle.Bold);
-                case libGr.HighlightingMode.LastSuccess: return new TextAttributes(Color.Black, Color.Green);
-                case libGr.HighlightingMode.LastFail: return new TextAttributes(Color.Black, Color.Red);
-                case libGr.HighlightingMode.Breakpoint: return new TextAttributes(Color.Red);
-                case libGr.HighlightingMode.Choicepoint: return new TextAttributes(Color.Magenta);
-                case libGr.HighlightingMode.SequenceStart: return new TextAttributes(Color.Blue);
-
-                case libGr.HighlightingMode.GrsFile: return new TextAttributes(Color.Red);
-                case libGr.HighlightingMode.GrsiFile: return new TextAttributes(Color.Magenta);
-                case libGr.HighlightingMode.GrgFile: return new TextAttributes(Color.Green);
-                case libGr.HighlightingMode.GriFile: return new TextAttributes(Color.Cyan);
-                case libGr.HighlightingMode.GmFile: return new TextAttributes(Color.Blue);
-                case libGr.HighlightingMode.Directory: return new TextAttributes(Color.Yellow);
-
-                default: return new TextAttributes(Color.White);
-            }
+            PrintHighlighted(text, mode);
         }
 
         public string ReadLine()
@@ -197,6 +162,74 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     Application.DoEvents();
                     return false;
                 }
+            }
+        }
+
+        //--------------------------------
+
+        public void WriteDataRendering(string value)
+        {
+            Write(value);
+        }
+
+        public void WriteDataRendering(string format, params object[] arg)
+        {
+            Write(format, arg);
+        }
+
+        public void WriteLineDataRendering(string value)
+        {
+            WriteLine(value);
+        }
+
+        public void WriteLineDataRendering(string format, params object[] arg)
+        {
+            WriteLine(format, arg);
+        }
+
+        public void WriteLineDataRendering()
+        {
+            WriteLine();
+        }
+
+        public void PrintHighlighted(String text, de.unika.ipd.grGen.libGr.HighlightingMode mode)
+        {
+            Color oldColor = theRichTextBox.SelectionColor;
+            Color oldBackColor = theRichTextBox.BackColor;
+            Font oldFont = theRichTextBox.Font;
+
+            TextAttributes textAttributes = HighlightingModeToTextAttributes(mode);
+            theRichTextBox.SelectionColor = textAttributes.foregroundColor;
+            theRichTextBox.SelectionBackColor = textAttributes.backgroundColor;
+            theRichTextBox.SelectionFont = new Font(theRichTextBox.Font, textAttributes.fontStyle);
+            WriteDataRendering(text);
+
+            theRichTextBox.SelectionColor = oldColor;
+            theRichTextBox.BackColor = oldBackColor;
+            theRichTextBox.Font = oldFont;
+        }
+
+        // TODO: Printing should use low level color codes, there should be a layer translating high level semantic meaning to color codes
+        private static TextAttributes HighlightingModeToTextAttributes(libGr.HighlightingMode mode)
+        {
+            switch(mode)
+            {
+                case libGr.HighlightingMode.Focus: return new TextAttributes(Color.Yellow, Color.Black, FontStyle.Bold);
+                case libGr.HighlightingMode.FocusSucces: return new TextAttributes(Color.Green, Color.Black, FontStyle.Bold);
+                case libGr.HighlightingMode.LastSuccess: return new TextAttributes(Color.Black, Color.Green);
+                case libGr.HighlightingMode.LastFail: return new TextAttributes(Color.Black, Color.Red);
+                case libGr.HighlightingMode.Breakpoint: return new TextAttributes(Color.Red);
+                case libGr.HighlightingMode.Choicepoint: return new TextAttributes(Color.Magenta);
+                case libGr.HighlightingMode.SequenceStart: return new TextAttributes(Color.Blue);
+
+                case libGr.HighlightingMode.GrsFile: return new TextAttributes(Color.Red);
+                case libGr.HighlightingMode.GrsiFile: return new TextAttributes(Color.Magenta);
+                case libGr.HighlightingMode.GrgFile: return new TextAttributes(Color.Green);
+                case libGr.HighlightingMode.GriFile: return new TextAttributes(Color.Cyan);
+                case libGr.HighlightingMode.GmFile: return new TextAttributes(Color.Blue);
+                case libGr.HighlightingMode.Directory: return new TextAttributes(Color.Yellow);
+
+                default: return new TextAttributes(Color.White);
             }
         }
     }

@@ -39,7 +39,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void HandleToggleBreakpoints()
         {
-            env.Write("Available breakpoint positions:\n  ");
+            env.WriteDataRendering("Available breakpoint positions:\n  ");
 
             PrintSequenceContext contextBp = new PrintSequenceContext();
             contextBp.bpPosCounter = 0;
@@ -48,7 +48,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             if(contextBp.bpPosCounter == 0)
             {
-                env.WriteLine("No breakpoint positions available!");
+                env.WriteLineDataRendering("No breakpoint positions available!");
                 return;
             }
 
@@ -61,7 +61,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void HandleToggleChoicepoints()
         {
-            env.Write("Available choicepoint positions:\n  ");
+            env.WriteDataRendering("Available choicepoint positions:\n  ");
 
             PrintSequenceContext contextCp = new PrintSequenceContext();
             contextCp.cpPosCounter = 0;
@@ -70,7 +70,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             if(contextCp.cpPosCounter == 0)
             {
-                env.WriteLine("No choicepoint positions available!");
+                env.WriteLineDataRendering("No choicepoint positions available!");
                 return;
             }
 

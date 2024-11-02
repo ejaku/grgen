@@ -300,14 +300,14 @@ namespace ApplicationExample
             ConsoleDebugger debugger = null;
             if(graphViewerType == GraphViewerTypes.YComp)
             {
-                debuggerEnv = new DebuggerEnvironment(DebuggerConsoleUI.Instance);
+                debuggerEnv = new DebuggerEnvironment(DebuggerConsoleUI.Instance, DebuggerConsoleUI.Instance);
                 debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
                     graphViewerType, "Organic", optMap, null);
             }
             else
             {
                 GuiConsoleDebuggerHost host = new GuiConsoleDebuggerHost();
-                debuggerEnv = new DebuggerEnvironment(host.GuiConsoleControl);
+                debuggerEnv = new DebuggerEnvironment(host.GuiConsoleControl, host.OptionalGuiConsoleControl);
                 debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
                     graphViewerType, "SugiyamaScheme", optMap, host);
             }

@@ -32,10 +32,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void HandleWatchpoints()
         {
-            env.WriteLine("List of registered watchpoints:");
+            env.WriteLineDataRendering("List of registered watchpoints:");
             for(int i = 0; i < debuggerProcEnv.SubruleDebugConfig.ConfigurationRules.Count; ++i)
             {
-                env.WriteLine(i + " - " + debuggerProcEnv.SubruleDebugConfig.ConfigurationRules[i].ToString());
+                env.WriteLineDataRendering(i + " - " + debuggerProcEnv.SubruleDebugConfig.ConfigurationRules[i].ToString());
             }
 
             env.PrintInstructions(handleWatchpointsMenu, "Press ", ".");
