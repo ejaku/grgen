@@ -19,7 +19,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     {
         UserChoiceMenu handleWatchpointsMenu = new UserChoiceMenu(UserChoiceMenuNames.HandleWatchpointsMenu, new string[] {
             "(e)dit", "(t)oggle ((enable/disable))", "(d)elete",
-            "(i)nsert at a specific position", "a(p)pend", "(a)bort" });
+            "(i)nsert at a specific position", "a(p)pend", "(a)bort/(r)eturn from watchpoints menu" });
 
         readonly DebuggerGraphProcessingEnvironment debuggerProcEnv;
         readonly IDebuggerEnvironment env;
@@ -32,16 +32,17 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void HandleWatchpoints()
         {
-            env.WriteLineDataRendering("List of registered watchpoints:");
-            for(int i = 0; i < debuggerProcEnv.SubruleDebugConfig.ConfigurationRules.Count; ++i)
-            {
-                env.WriteLineDataRendering(i + " - " + debuggerProcEnv.SubruleDebugConfig.ConfigurationRules[i].ToString());
-            }
-
-            env.PrintInstructions(handleWatchpointsMenu, "Press ", ".");
-
             while(true)
             {
+                env.Clear();
+                env.WriteLineDataRendering("List of registered watchpoints:");
+                for(int i = 0; i < debuggerProcEnv.SubruleDebugConfig.ConfigurationRules.Count; ++i)
+                {
+                    env.WriteLineDataRendering(i + " - " + debuggerProcEnv.SubruleDebugConfig.ConfigurationRules[i].ToString());
+                }
+
+                env.PrintInstructions(handleWatchpointsMenu, "Press ", ".");
+
                 int num = -1;
                 switch(env.LetUserChoose(handleWatchpointsMenu))
                 {
@@ -50,34 +51,30 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     if(num == -1)
                         break;
                     EditWatchpoint(num);
-                    env.WriteLine("Back from watchpoints to debugging.");
-                    return;
+                    break;
                 case 't':
                     num = QueryWatchpoint("toggle (enable/disable)");
                     if(num == -1)
                         break;
                     ToggleWatchpoint(num);
-                    env.WriteLine("Back from watchpoints to debugging.");
-                    return;
+                    break;
                 case 'd':
                     num = QueryWatchpoint("delete");
                     if(num == -1)
                         break;
                     DeleteWatchpoint(num);
-                    env.WriteLine("Back from watchpoints to debugging.");
-                    return;
+                    break;
                 case 'i':
                     num = QueryWatchpoint("insert");
                     if(num == -1)
                         break;
                     InsertWatchpoint(num);
-                    env.WriteLine("Back from watchpoints to debugging.");
-                    return;
+                    break;
                 case 'p':
                     AppendWatchpoint();
-                    env.WriteLine("Back from watchpoints to debugging.");
-                    return;
+                    break;
                 case 'a':
+                case 'r':
                     env.WriteLine("Back from watchpoints to debugging.");
                     return;
                 default:

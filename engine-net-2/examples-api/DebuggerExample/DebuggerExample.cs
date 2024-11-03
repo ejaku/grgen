@@ -33,8 +33,9 @@ namespace DebuggerExample
             }
             else
             {
-                GuiConsoleDebuggerHost host = new GuiConsoleDebuggerHost();
-                debuggerEnv = new DebuggerEnvironment(host.GuiConsoleControl, host.OptionalGuiConsoleControl);
+                bool twoPane = true; // true: use two panes (consoles), false: one console
+                GuiConsoleDebuggerHost host = new GuiConsoleDebuggerHost(twoPane);
+                debuggerEnv = new DebuggerEnvironment(host.GuiConsoleControl, twoPane ? host.OptionalGuiConsoleControl : host.GuiConsoleControl);
                 debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
                     graphViewerType, "SugiyamaScheme", optMap, host);
             }

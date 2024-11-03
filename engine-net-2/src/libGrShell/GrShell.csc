@@ -1882,6 +1882,7 @@ void DebugCommand():
             }
         )
     |
+        LOOKAHEAD(2)
         "get" "layout"
         (
             "options" LineEnd()
@@ -1890,6 +1891,17 @@ void DebugCommand():
             LineEnd()
             { impl.GetDebugLayout(); }
         )
+    |
+        LOOKAHEAD(2)
+        "set" "option" str=WordOrText() str2=AnyString() LineEnd()
+            {
+                impl.SetDebugOption(str, str2);
+            }
+    |
+        "get" "options" LineEnd()
+            {
+                impl.GetDebugOptions();
+            }
     |
         LOOKAHEAD(2)
         "set" "node" DebugSetNode()

@@ -13,9 +13,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     public partial class GuiConsoleDebuggerHost : Form
     {
-        public GuiConsoleDebuggerHost()
+        public GuiConsoleDebuggerHost(bool twoPane)
         {
             InitializeComponent();
+            TwoPane = twoPane;
         }
     }
 }

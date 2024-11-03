@@ -93,6 +93,7 @@ namespace de.unika.ipd.grGen.grShell
         bool nonDebugNonGuiExitOnError { get; }
         String debugLayout { get; }
         Dictionary<String, Dictionary<String, String>> debugLayoutOptions { get; }
+        Dictionary<String, String> debugOptions { get; }
         bool detailModePreMatchEnabled { get; }
         bool detailModePostMatchEnabled { get; }
         GrGenType GetGraphElementType(String typeName);
@@ -160,6 +161,10 @@ namespace de.unika.ipd.grGen.grShell
         {
             get { return debugLayoutOptions; }
         }
+        Dictionary<String, String> IGrShellImplForSequenceApplierAndDebugger.debugOptions
+        {
+            get { return debugOptions; }
+        }
         bool IGrShellImplForSequenceApplierAndDebugger.detailModePreMatchEnabled
         {
             get { return detailModePreMatchEnabled; }
@@ -225,6 +230,11 @@ namespace de.unika.ipd.grGen.grShell
         /// if the options were set before yComp was attached.
         /// </summary>
         private readonly Dictionary<String, Dictionary<String, String>> debugLayoutOptions = new Dictionary<String, Dictionary<String, String>>();
+
+        /// <summary>
+        /// Maps debug option names to their values.
+        /// </summary>
+        private readonly Dictionary<String, String> debugOptions = new Dictionary<String, String>();
 
         bool detailModePreMatchEnabled = false;
         bool detailModePostMatchEnabled = true;
@@ -4069,6 +4079,20 @@ showavail:
             {
                 optMap[optionName] = optionValue;
                 ChangeOrientationIfNecessary(optionName, optionValue);
+            }
+        }
+
+        public void GetDebugOptions()
+        {
+            seqApplierAndDebugger.GetDebugOptions();
+        }
+
+        public void SetDebugOption(String optionName, String optionValue)
+        {
+            // only remember option if no error was reported (no error in case debugger was not started yet, option is then remembered for next startup)
+            if(seqApplierAndDebugger.SetDebugOption(optionName, optionValue))
+            {
+                debugOptions[optionName] = optionValue;
             }
         }
 

@@ -39,6 +39,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void HandleToggleBreakpoints()
         {
+            env.Clear();
             env.WriteDataRendering("Available breakpoint positions:\n  ");
 
             PrintSequenceContext contextBp = new PrintSequenceContext();
@@ -61,6 +62,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void HandleToggleChoicepoints()
         {
+            env.Clear();
             env.WriteDataRendering("Available choicepoint positions:\n  ");
 
             PrintSequenceContext contextCp = new PrintSequenceContext();

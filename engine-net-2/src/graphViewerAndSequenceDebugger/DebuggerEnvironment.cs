@@ -49,7 +49,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         // consoleOut
         void PrintHighlighted(String text, HighlightingMode mode);
 
+        void Clear();
+
         // inReader and consoleIn are not used in data rendering
+
+        // flicker prevention/performance optimization
+        void SuspendImmediateExecution();
+        void RestartImmediateExecution();
     }
 
     public class DebuggerConsoleUI : IDebuggerConsoleUI, IDebuggerConsoleUIForDataRendering
@@ -175,6 +181,21 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             ConsoleUI.consoleOut.PrintHighlighted(text, mode);
         }
+
+        public void Clear()
+        {
+            ConsoleUI.consoleOut.Clear();
+        }
+
+        public void SuspendImmediateExecution()
+        {
+            // nop
+        }
+
+        public void RestartImmediateExecution()
+        {
+            // nop
+        }
     }
 
     public interface IDebuggerEnvironment : IDebuggerConsoleUI, IDebuggerConsoleUIForDataRendering
@@ -210,6 +231,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         string ShowGraphWith(String programName, String arguments, bool keep);
         void Cancel();
         //void HandleSequenceParserException(SequenceParserException ex); is now a static method in DebuggerEnvironment
+
+        bool TwoPane { get; }
     }
 
     public enum UserChoiceMenuNames
@@ -708,6 +731,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             theDebuggerConsoleUI.WriteLine(prefix + choiceMenu.ToOptionsString(true) + suffix);
         }
 
+        public bool TwoPane
+        {
+            get { return TheDebuggerConsoleUI != TheDebuggerConsoleUIForDataRendering; }
+        }
 
         // IDebuggerEnvironment consisting of -----------------------------------------------------------------------------------
         // IDebuggerConsoleUI extended by errorOutWriter methods ----------------------------------
@@ -822,6 +849,21 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void PrintHighlighted(String text, HighlightingMode mode)
         {
             theDebuggerConsoleUIForDataRendering.PrintHighlighted(text, mode);
+        }
+
+        public void Clear()
+        {
+            theDebuggerConsoleUIForDataRendering.Clear();
+        }
+
+        public void SuspendImmediateExecution()
+        {
+            theDebuggerConsoleUIForDataRendering.SuspendImmediateExecution();
+        }
+
+        public void RestartImmediateExecution()
+        {
+            theDebuggerConsoleUIForDataRendering.RestartImmediateExecution();
         }
     }
 }

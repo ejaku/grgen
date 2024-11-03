@@ -146,6 +146,10 @@ namespace de.unika.ipd.grGen.libGr
         public event ConsoleCancelEventHandler CancelKeyPress { add { Console.CancelKeyPress += value; } remove { Console.CancelKeyPress -= value;  } }
 
         public abstract void PrintHighlighted(String text, HighlightingMode mode);
+        public void Clear()
+        {
+            Console.Clear();
+        }
         public abstract void PreventComputerFromGoingIntoSleepMode(bool prevent);
     }
 
@@ -306,6 +310,11 @@ namespace de.unika.ipd.grGen.libGr
             Console.Write(text);
             Console.ForegroundColor = oldForegroundColor;
             Console.BackgroundColor = oldBackgroundColor;
+        }
+
+        public void Clear()
+        {
+            Console.Clear();
         }
 
         public TextReader In

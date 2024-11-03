@@ -13,6 +13,7 @@ using System.IO;
 using System.Threading;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.graphViewerAndSequenceDebugger;
+using System.Text;
 
 namespace de.unika.ipd.grGen.grShell
 {
@@ -164,6 +165,50 @@ namespace de.unika.ipd.grGen.grShell
             }
 
             return debugger.SetLayoutOption(optionName, optionValue);
+        }
+
+        public bool GetDebugOptionTwoPane()
+        {
+            if(impl.debugOptions.ContainsKey("twopane"))
+                return Boolean.Parse(impl.debugOptions["twopane"]);
+            else
+                return true; // default true, but only applied in case of MSAGL based debugger
+        }
+
+        public void GetDebugOptions()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("twopane" + " = " + GetDebugOptionTwoPane());
+            WriteLine("Available options and their current values:\n\n" + sb.ToString());
+        }
+
+        public bool SetDebugOption(String optionName, String optionValue)
+        {
+            if(optionName == "twopane")
+            {
+                bool optionValueBoolean;
+                if(!Boolean.TryParse(optionValue, out optionValueBoolean))
+                    return false;
+                else
+                {
+                    TwoPane = optionValueBoolean; // real storing occurrs in the calling impl upon return with value true
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public new bool TwoPane
+        {
+            get { return base.TwoPane; }
+            set
+            {
+                if(host != null) // make this property true if possible, but debug option must be set in the impl
+                {
+                    host.TwoPane = value;
+                    TheDebuggerConsoleUIForDataRendering = value ? host.OptionalGuiConsoleControl : host.GuiConsoleControl;
+                }
+            }
         }
 
         public void SetMatchModePre(bool enable)
@@ -564,11 +609,11 @@ namespace de.unika.ipd.grGen.grShell
                 impl.debugLayoutOptions.TryGetValue(impl.debugLayout, out optMap);
                 try
                 {
-                    host = graphViewerType == GraphViewerTypes.YComp ? null : new GuiConsoleDebuggerHost();
+                    host = graphViewerType == GraphViewerTypes.YComp ? null : new GuiConsoleDebuggerHost(GetDebugOptionTwoPane());
                     if(host != null)
                     {
                         TheDebuggerConsoleUI = host.GuiConsoleControl;
-                        TheDebuggerConsoleUIForDataRendering = host.OptionalGuiConsoleControl;
+                        TheDebuggerConsoleUIForDataRendering = GetDebugOptionTwoPane() ? host.OptionalGuiConsoleControl : host.GuiConsoleControl;
                     }
                     debugger = new ConsoleDebugger(this, impl.curShellProcEnv, impl.realizers, graphViewerType, impl.debugLayout, optMap, host);
                     debugger.DetailedModeShowPreMatches = impl.detailModePreMatchEnabled;

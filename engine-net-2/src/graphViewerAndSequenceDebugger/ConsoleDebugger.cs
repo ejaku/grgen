@@ -398,6 +398,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                         breakpointEditor.HandleToggleBreakpoints();
                         context.highlightSeq = seq;
                         context.success = false;
+                        env.Clear();
                         printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
                         env.WriteLineDataRendering();
                         break;
@@ -406,6 +407,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     {
                         WatchpointEditor watchpointEditor = new WatchpointEditor(debuggerProcEnv, env);
                         watchpointEditor.HandleWatchpoints();
+                        context.highlightSeq = seq;
+                        context.success = false;
+                        env.Clear();
+                        printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
+                        env.WriteLineDataRendering();
                         break;
                     }
                 case 'c':
@@ -414,6 +420,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                         choicepointEditor.HandleToggleChoicepoints();
                         context.highlightSeq = seq;
                         context.success = false;
+                        env.Clear();
                         printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
                         env.WriteLineDataRendering();
                         break;
@@ -483,6 +490,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void HandleShowVariable(SequenceBase seq)
         {
+            env.Clear();
             PrintVariables(null, null);
             PrintVariables(task.debugSequences.Peek(), seq);
             PrintVisited();
@@ -667,6 +675,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void HandleStackTrace()
         {
+            env.Clear();
             env.WriteLineDataRendering("Current sequence call stack is:");
             PrintSequenceContext contextTrace = new PrintSequenceContext();
             SequenceBase[] callStack = task.debugSequences.ToArray();
@@ -681,6 +690,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void HandleFullState()
         {
+            env.Clear();
             env.WriteLineDataRendering("Current execution state is:");
             PrintVariables(null, null);
             PrintSequenceContext contextTrace = new PrintSequenceContext();
@@ -775,6 +785,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             context.highlightSeq = seq;
             context.choice = true;
+            env.Clear();
             printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
             env.WriteLineDataRendering();
             context.choice = false;
@@ -799,6 +810,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 context.highlightSeq = sequences[seqToExecute];
                 context.choice = true;
                 context.sequences = sequences;
+                env.Clear();
                 printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
                 env.WriteLineDataRendering();
                 context.choice = false;
@@ -827,6 +839,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 context.highlightSeq = sequences[seqToExecute];
                 context.sequences = sequences;
+                env.Clear();
                 printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
                 env.WriteLineDataRendering();
                 context.sequences = null;
@@ -855,6 +868,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 context.highlightSeq = seq.Sequences[seq.GetSequenceFromPoint(pointToExecute)];
                 context.choice = true;
                 context.sequences = seq.Sequences;
+                env.Clear();
                 printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
                 env.WriteLineDataRendering();
                 context.choice = false;
@@ -904,6 +918,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 context.choice = true;
                 context.sequences = seq.Sequences;
                 context.matches = new List<IMatches>(seq.Matches);
+                env.Clear();
                 printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
                 env.WriteLineDataRendering();
                 context.choice = false;
@@ -928,6 +943,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             context.highlightSeq = seq;
             context.choice = true;
+            env.Clear();
             printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
             env.WriteLineDataRendering();
             context.choice = false;
@@ -989,6 +1005,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             context.highlightSeq = seq;
             context.choice = true;
+            env.Clear();
             printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
             env.WriteLineDataRendering();
             context.choice = false;
@@ -1007,6 +1024,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             context.highlightSeq = seq;
             context.choice = true;
+            env.Clear();
             printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
             env.WriteLineDataRendering();
             context.choice = false;
@@ -1060,6 +1078,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             context.highlightSeq = seq;
             context.choice = true;
+            env.Clear();
             printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
             env.WriteLineDataRendering();
             context.choice = false;
@@ -1085,6 +1104,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             graphViewerClient.Sync();
 
             context.highlightSeq = task.lastlyEntered;
+            env.Clear();
             printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
             env.WriteLineDataRendering();
             PrintDebugTracesStack(false);
@@ -1589,8 +1609,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 graphViewerClient.Sync();
                 context.highlightSeq = task.lastlyEntered;
                 context.success = true;
+                env.SuspendImmediateExecution();
+                env.Clear();
                 printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
                 env.WriteLineDataRendering();
+                env.RestartImmediateExecution();
 
                 if(!QueryUser(task.lastlyEntered))
                 {
@@ -1858,6 +1881,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     context.success = false;
                     if(task.debugSequences.Count > 0)
                     {
+                        env.Clear();
                         printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
                         env.WriteLineDataRendering();
                     }
@@ -1927,8 +1951,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 graphViewerClient.Sync();
                 if(task.debugSequences.Count > 0)
                 {
+                    env.SuspendImmediateExecution();
+                    env.Clear();
                     printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
                     env.WriteLineDataRendering();
+                    env.RestartImmediateExecution();
                 }
                 PrintDebugInstructionsOnEntering();
                 QueryUser(seq);
@@ -1969,8 +1996,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 context.success = false;
                 if(task.debugSequences.Count > 0)
                 {
+                    env.SuspendImmediateExecution();
+                    env.Clear();
                     printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
                     env.WriteLineDataRendering();
+                    env.RestartImmediateExecution();
                 }
 
                 if(detailedMode && detailedModeShowPostMatches
@@ -2026,9 +2056,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 env.PrintHighlighted("State at end of sequence ", HighlightingMode.SequenceStart);
                 context.highlightSeq = null;
+                env.SuspendImmediateExecution();
+                env.Clear();
                 printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
                 env.PrintHighlighted("< leaving", HighlightingMode.SequenceStart);
                 env.WriteLineDataRendering();
+                env.RestartImmediateExecution();
+                if(env.TwoPane)
+                    env.PauseUntilAnyKeyPressed("Showing sequence state when leaving sequence, press any key to continue...");
             }
         }
 
@@ -2087,6 +2122,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             if(stepMode || dynamicStepMode)
             {
+                env.SuspendImmediateExecution();
+                env.Clear();
                 if(seq is SequenceBacktrack)
                 {
                     SequenceBacktrack seqBack = (SequenceBacktrack)seq;
@@ -2130,7 +2167,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     if(!continueLoop)
                         env.PrintHighlighted("< leaving loop", HighlightingMode.SequenceStart);
                 }
-                env.WriteLine(" (updating, please wait...)");
+                if(env.TwoPane)
+                    env.PauseUntilAnyKeyPressed("Showing sequence state when leaving construct, press any key to continue...");
+                else
+                    env.WriteLine(" (updating, please wait...)");
+                env.RestartImmediateExecution();
             }
         }
 
@@ -2355,6 +2396,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(!detailedMode)
             {
                 context.highlightSeq = task.lastlyEntered;
+                env.Clear();
                 printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
                 env.WriteLineDataRendering();
                 PrintDebugTracesStack(false);
@@ -2373,6 +2415,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(!detailedMode)
             {
                 context.highlightSeq = task.lastlyEntered;
+                env.Clear();
                 printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
                 env.WriteLineDataRendering();
                 PrintDebugTracesStack(false);
@@ -2408,6 +2451,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(!detailedMode)
             {
                 context.highlightSeq = task.lastlyEntered;
+                env.Clear();
                 printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
                 env.WriteLineDataRendering();
                 PrintDebugTracesStack(false);

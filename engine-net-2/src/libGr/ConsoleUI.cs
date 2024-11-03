@@ -38,6 +38,11 @@ namespace de.unika.ipd.grGen.libGr
         /// Prints the given text in a highlighted form.
         /// </summary>
         void PrintHighlighted(String text, HighlightingMode mode);
+
+        /// <summary>
+        /// Clears console display.
+        /// </summary>
+        void Clear();
     }
 
     public interface IConsoleInput

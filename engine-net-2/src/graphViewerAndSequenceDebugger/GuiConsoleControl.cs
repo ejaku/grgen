@@ -48,6 +48,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         char enteredKey = '\0';
         bool escapePressed = false;
 
+        public bool EnableClear
+        {
+            get { return enableClear; }
+            set { enableClear = value; }
+        }
+        bool enableClear = false;
+
         //--------------------------------
 
         public GuiConsoleControl()
@@ -214,8 +221,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             switch(mode)
             {
-                case libGr.HighlightingMode.Focus: return new TextAttributes(Color.Yellow, Color.Black, FontStyle.Bold);
-                case libGr.HighlightingMode.FocusSucces: return new TextAttributes(Color.Green, Color.Black, FontStyle.Bold);
+                case libGr.HighlightingMode.Focus: return new TextAttributes(Color.Yellow, Color.Black/*, FontStyle.Bold*/); // side effect of jumpy display due to increased text size is considered worse than the additional visual cue of bolding
+                case libGr.HighlightingMode.FocusSucces: return new TextAttributes(Color.Green, Color.Black/*, FontStyle.Bold*/);
                 case libGr.HighlightingMode.LastSuccess: return new TextAttributes(Color.Black, Color.Green);
                 case libGr.HighlightingMode.LastFail: return new TextAttributes(Color.Black, Color.Red);
                 case libGr.HighlightingMode.Breakpoint: return new TextAttributes(Color.Red);
@@ -231,6 +238,28 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
                 default: return new TextAttributes(Color.White);
             }
+        }
+
+        public void Clear()
+        {
+            if(enableClear)
+                theRichTextBox.Clear();
+        }
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, IntPtr lp);
+        private const int WM_SETREDRAW = 0x0b;
+
+        public void SuspendImmediateExecution()
+        {
+            // form TODO: buffer Writes in StringBuilder and write at once
+            SendMessage(theRichTextBox.Handle, WM_SETREDRAW, (IntPtr)0, IntPtr.Zero);
+        }
+
+        public void RestartImmediateExecution()
+        {
+            SendMessage(theRichTextBox.Handle, WM_SETREDRAW, (IntPtr)1, IntPtr.Zero);
+            theRichTextBox.Invalidate();
         }
     }
 }

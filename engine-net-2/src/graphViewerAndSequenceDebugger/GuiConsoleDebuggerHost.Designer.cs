@@ -106,5 +106,25 @@
 
         private System.Windows.Forms.Splitter theOptionalSplitter;
         //private Microsoft.Msagl.GraphViewerGdi.GViewer gv = null; -- gets created by the msagl client, a behavior needed if it is used without debugger as a plain graph viewer
+
+        public bool TwoPane
+        {
+            get { return theOptionalGuiConsoleControl.Visible; }
+            set
+            {
+                if(value)
+                {
+                    theOptionalGuiConsoleControl.Visible = true;
+                    theOptionalGuiConsoleControl.EnableClear = true;
+                    theOptionalSplitter.Visible = true;
+                }
+                else
+                {
+                    theOptionalGuiConsoleControl.Visible = false;
+                    theOptionalGuiConsoleControl.EnableClear = false;
+                    theOptionalSplitter.Visible = false;
+                }
+            }
+        }
     }
 }
