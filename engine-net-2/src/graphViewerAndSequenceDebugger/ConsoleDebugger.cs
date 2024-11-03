@@ -2167,11 +2167,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     if(!continueLoop)
                         env.PrintHighlighted("< leaving loop", HighlightingMode.SequenceStart);
                 }
+                env.RestartImmediateExecution();
                 if(env.TwoPane)
                     env.PauseUntilAnyKeyPressed("Showing sequence state when leaving construct, press any key to continue...");
                 else
                     env.WriteLine(" (updating, please wait...)");
-                env.RestartImmediateExecution();
             }
         }
 

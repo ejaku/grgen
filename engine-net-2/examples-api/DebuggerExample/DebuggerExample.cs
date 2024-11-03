@@ -29,7 +29,7 @@ namespace DebuggerExample
             {
                 debuggerEnv = new DebuggerEnvironment(DebuggerConsoleUI.Instance, DebuggerConsoleUI.Instance);
                 debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
-                    graphViewerType, "Organic", optMap, null);
+                    graphViewerType, "Organic"/*"Hierarchic"*/, optMap, null);
             }
             else
             {
@@ -37,7 +37,7 @@ namespace DebuggerExample
                 GuiConsoleDebuggerHost host = new GuiConsoleDebuggerHost(twoPane);
                 debuggerEnv = new DebuggerEnvironment(host.GuiConsoleControl, twoPane ? host.OptionalGuiConsoleControl : host.GuiConsoleControl);
                 debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
-                    graphViewerType, "SugiyamaScheme", optMap, host);
+                    graphViewerType, "MDS"/*"SugiyamaScheme"*/, optMap, host);
             }
 
             debugger.DetailedModeShowPreMatches = true;
@@ -100,6 +100,7 @@ namespace DebuggerExample
             sequence.ResetExecutionState();
 
             PrintAndWait("Done constructing. Following sequence won't be debugged, but direct graph changes will be displayed in the still open graph viewer/debugger", debugger);
+            debugger.AbortRewriteSequence(); // ensure step mode is off
 
             procEnv.ApplyGraphRewriteSequence("(takeRule && releaseRule && giveRule)*");
 

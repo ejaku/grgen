@@ -71,6 +71,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
         static DebuggerConsoleUI instance;
 
+        public bool EnableClear
+        {
+            get { return enableClear; }
+            set { enableClear = value; }
+        }
+        bool enableClear = false;
+
         private DebuggerConsoleUI()
         {
         }
@@ -184,7 +191,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void Clear()
         {
-            ConsoleUI.consoleOut.Clear();
+            if(enableClear)
+                ConsoleUI.consoleOut.Clear();
         }
 
         public void SuspendImmediateExecution()

@@ -302,7 +302,7 @@ namespace ApplicationExample
             {
                 debuggerEnv = new DebuggerEnvironment(DebuggerConsoleUI.Instance, DebuggerConsoleUI.Instance);
                 debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
-                    graphViewerType, "Organic", optMap, null);
+                    graphViewerType, "Organic"/*"Hierarchic"*/, optMap, null);
             }
             else
             {
@@ -310,7 +310,7 @@ namespace ApplicationExample
                 GuiConsoleDebuggerHost host = new GuiConsoleDebuggerHost(twoPane);
                 debuggerEnv = new DebuggerEnvironment(host.GuiConsoleControl, twoPane ? host.OptionalGuiConsoleControl : host.GuiConsoleControl);
                 debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
-                    graphViewerType, "SugiyamaScheme", optMap, host);
+                    graphViewerType, "MDS"/*"SugiyamaScheme"*/, optMap, host);
             }
 
             debugger.DetailedModeShowPreMatches = true;
