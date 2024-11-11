@@ -70,6 +70,11 @@ namespace de.unika.ipd.grGen.libGr
         bool GraphElementUniquenessIsEnsured { get; }
 
         /// <summary>
+        /// If true you may query the (non-transient class) objects with GetUniqueId for their unique id (GetObjectName is based on the unique id)
+        /// </summary>
+        bool ObjectUniquenessIsEnsured { get; }
+
+        /// <summary>
         /// If true you may query the graph with GetGraphElement for a graph element of a given unique id
         /// </summary>
         bool GraphElementsAreAccessibleByUniqueId { get; }

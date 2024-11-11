@@ -1,0 +1,9 @@
+using uniqueTestModelWithoutUniqueDeclarations;
+
+rule t
+{
+	-e:Edge{unique[42]}->;
+	
+	modify {
+	}
+}

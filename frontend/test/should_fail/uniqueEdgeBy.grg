@@ -1,0 +1,10 @@
+using uniqueTestModelWithoutUniqueDeclarations;
+
+rule t
+{
+	-e:Edge->;
+	if { edgeByUnique(42) == e; }
+	
+	modify {
+	}
+}

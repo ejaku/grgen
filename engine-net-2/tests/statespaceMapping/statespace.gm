@@ -29,4 +29,5 @@ edge class StatespaceEdgeRed extends StatespaceEdge;
 edge class StatespaceEdgeGreen extends StatespaceEdge;
 edge class StatespaceEdgeBlue extends StatespaceEdge;
 
+object class unique;
 for equalsAny[parallelize=2];

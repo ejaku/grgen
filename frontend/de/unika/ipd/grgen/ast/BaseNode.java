@@ -579,6 +579,8 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	 */
 	public static final boolean manifestAST(UnitNode node)
 	{
+		UnitNode.setRoot(node); // gives quick access to some general model flags in checking
+
 		// resolve AST
 		boolean resolved = node.resolve();
 

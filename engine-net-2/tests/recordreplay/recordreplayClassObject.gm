@@ -22,3 +22,5 @@ class Graph
 	value:int;
 	children:array<Graph>;
 }
+
+object class unique;

@@ -92,7 +92,7 @@ namespace de.unika.ipd.grGen.libGr
         TokenKind tokenKind; // gives the kind of token matched lately
         readonly StringBuilder tokenContent; // the buffer with the token matched lately
         readonly Dictionary<string, INamedGraph> nameToSubgraph = new Dictionary<string, INamedGraph>(); // maps subgraph name to subgraph
-        readonly Dictionary<INamedGraph, Dictionary<string, IObject>> graphToNameToClassObject = new Dictionary<INamedGraph, Dictionary<string, IObject>>(); // indexed by graph, maps "persistent" name to class object
+        readonly Dictionary<INamedGraph, ObjectNamerAndIndexer> graphToObjectNamerAndIndexer = new Dictionary<INamedGraph, ObjectNamerAndIndexer>(); // indexed by graph, maps "persistent" name to class object
         readonly AttributeType intAttrType = new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 
         /// <summary>
@@ -312,7 +312,7 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             nameToSubgraph.Add(graph.Name, graph);
-            graphToNameToClassObject[graph] = new Dictionary<string, IObject>();
+            graphToObjectNamerAndIndexer[graph] = new ObjectNamerAndIndexer(!graph.Model.ObjectUniquenessIsEnsured, true, graph.Model.ObjectUniquenessIsEnsured);
         }
 
         private void ParseNewSubgraphCommand()
@@ -325,7 +325,7 @@ namespace de.unika.ipd.grGen.libGr
 
             graph = (INamedGraph)graph.CreateEmptyEquivalent(graphName);
             nameToSubgraph.Add(graphName, graph);
-            graphToNameToClassObject[graph] = new Dictionary<string, IObject>();
+            graphToObjectNamerAndIndexer[graph] = new ObjectNamerAndIndexer(!graph.Model.ObjectUniquenessIsEnsured, true, graph.Model.ObjectUniquenessIsEnsured);
         }
 
         private void ParseNewGraphElementCommand()
@@ -535,7 +535,12 @@ namespace de.unika.ipd.grGen.libGr
             if(owner is IGraphElement)
                 return graph.GetElementName((IGraphElement)owner);
             else
-                return ((IObject)owner).GetObjectName();
+            {
+                if(graph.Model.ObjectUniquenessIsEnsured)
+                    return ((IObject)owner).GetObjectName();
+                else
+                    return graphToObjectNamerAndIndexer[graph].GetName((IObject)owner, true); // we can afford the expensive O(n) implementation, as this is only needed in order to print an exception message
+            }
         }
 
         private void ContainerRem(IAttributeBearer owner, String attrName, object keyObj)
@@ -665,7 +670,7 @@ namespace de.unika.ipd.grGen.libGr
             Match(TokenKind.LPARENTHESIS);
             string elemName = ParseText();
             Match(TokenKind.RPARENTHESIS);
-            return graphToNameToClassObject[graph][elemName];
+            return graphToObjectNamerAndIndexer[graph].GetObject(elemName);
         }
 
         private NodeType ParseNodeType()
@@ -950,9 +955,15 @@ namespace de.unika.ipd.grGen.libGr
                     Match(TokenKind.EQUAL);
                     string persistentName = ParseStringValue();
                     ObjectType classObjectType = graph.Model.ObjectModel.GetType(type);
-                    IObject classObject = classObjectType.CreateObject(graph, persistentName);
-                    Debug.Assert(classObject.GetObjectName() == persistentName);
-                    graphToNameToClassObject[graph][persistentName] = classObject;
+                    IObject classObject;
+                    if(graph.Model.ObjectUniquenessIsEnsured)
+                    {
+                        classObject = classObjectType.CreateObject(graph, persistentName);
+                        Debug.Assert(classObject.GetObjectName() == persistentName);
+                    }
+                    else
+                        classObject = classObjectType.CreateObject(graph, null);
+                    graphToObjectNamerAndIndexer[graph].AssignName(classObject, persistentName);
                     while(LookaheadToken() == TokenKind.COMMA) // , AttrName = Value
                     {
                         Match(TokenKind.COMMA);
@@ -1037,9 +1048,15 @@ namespace de.unika.ipd.grGen.libGr
                 Match(TokenKind.EQUAL);
                 string persistentName = ParseStringValue();
                 ObjectType classObjectType = graph.Model.ObjectModel.GetType(type);
-                IObject classObject = classObjectType.CreateObject(graph, persistentName);
-                Debug.Assert(classObject.GetObjectName() == persistentName);
-                graphToNameToClassObject[graph][persistentName] = classObject;
+                IObject classObject;
+                if(graph.Model.ObjectUniquenessIsEnsured)
+                {
+                    classObject = classObjectType.CreateObject(graph, persistentName);
+                    Debug.Assert(classObject.GetObjectName() == persistentName);
+                }
+                else
+                    classObject = classObjectType.CreateObject(graph, null);
+                graphToObjectNamerAndIndexer[graph].AssignName(classObject, persistentName);
                 while(LookaheadToken() == TokenKind.COMMA) // , AttrName = Value
                 {
                     Match(TokenKind.COMMA);

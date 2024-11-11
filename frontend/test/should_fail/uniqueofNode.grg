@@ -1,0 +1,10 @@
+using uniqueTestModelWithoutUniqueDeclarations;
+
+rule t
+{
+	n:Node;
+	if { uniqueof(n)==42; }
+	
+	modify {
+	}
+}

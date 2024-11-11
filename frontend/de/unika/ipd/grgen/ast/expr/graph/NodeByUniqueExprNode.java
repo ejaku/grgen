@@ -79,8 +79,12 @@ public class NodeByUniqueExprNode extends BuiltinFunctionInvocationBaseNode
 			return false;
 		}
 		if(!(nodeType.getType() instanceof NodeTypeNode)) {
-			reportError("The function edgeByUnique expects as 2. argument (typeToObtain) a value of type node type"
+			reportError("The function nodeByUnique expects as 2. argument (typeToObtain) a value of type node type"
 					+ " (but is given a value of type " + nodeType.getType().getTypeName() + ").");
+			return false;
+		}
+		if(!UnitNode.getRoot().getModel().IsUniqueIndexDefined()) {
+			reportError("The function nodeByUnique expects a model with a unique index, but the required index unique; declaration is missing in the model specification.");
 			return false;
 		}
 		return true;

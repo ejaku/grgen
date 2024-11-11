@@ -65,6 +65,8 @@ public class UnitNode extends BaseNode
 		setName(UnitNode.class, "unit declaration");
 	}
 
+	private static UnitNode root; // added this for quick access to some model flags, could be considered a bit smelly regarding architecture, but having no access to the root could be considered strange
+
 	private ModelNode stdModel;
 	private CollectNode<ModelNode> models;
 
@@ -156,7 +158,20 @@ public class UnitNode extends BaseNode
 
 	public void addModel(ModelNode model)
 	{
+		// the CSharp backend does not allow for multiple models (it will throw an exception in that case),
+		// but for historic reasons there is code support for multiple models in the code that comes before it
+		// multiple model references are combined into one model in the parser, there the model flags are merged,
+		// neither the models nor the flags get merged that are added here with this function stemming from the by now unsupported command line arguments
+		// this function will be used even nowadays in case the user supplies no rules file, but only a model file (in this case no further merging is needed)
+		// other outdated backends used in the FIRM compiler may still support multiple models, but they don't support the features that require/support model flags
+		// the grgen.net compiler using this JAVA frontend will not supply multiple models, this is only possible when it is used directly
+		// TODO: reconsider this code during a code cleaning run
 		models.addChild(model);
+	}
+
+	public ModelNode getModel()
+	{
+		return models.get(0); // see comment above, there should be only/exactly one model when resolving starts, with flags combined from all models, when the CSharp backend is targeted
 	}
 
 	/** returns children of this node */
@@ -431,5 +446,17 @@ public class UnitNode extends BaseNode
 		}
 
 		return res;
+	}
+
+	public static UnitNode getRoot()
+	{
+		return UnitNode.root;
+	}
+
+	public static void setRoot(UnitNode root)
+	{
+		if(UnitNode.root != null)
+			throw new RuntimeException("Internal error, change of root node");
+		UnitNode.root = root;
 	}
 }

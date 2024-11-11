@@ -32,6 +32,7 @@ namespace de.unika.ipd.grGen.lgsp
         public abstract IEnumerable<ValidateInfo> ValidateInfo { get; }
         public abstract IEnumerable<IndexDescription> IndexDescriptions { get; }
         public abstract bool GraphElementUniquenessIsEnsured { get; }
+        public abstract bool ObjectUniquenessIsEnsured { get; }
         public abstract bool GraphElementsAreAccessibleByUniqueId { get; }
         public abstract bool AreFunctionsParallelized { get; }
         public abstract int BranchingFactorForEqualsAny { get; }

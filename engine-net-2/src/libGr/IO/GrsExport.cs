@@ -50,25 +50,6 @@ namespace de.unika.ipd.grGen.libGr
         public bool areGraphAttributesExported = false; // needed due to Recorder
 
         public int numInternalClassObjects = 0;
-
-        private Dictionary<String, IObject> persistentNameToObject = new Dictionary<string, IObject>();
-
-        public bool HasPersistentName(IObject obj)
-        {
-            return persistentNameToObject.ContainsKey(obj.GetObjectName());
-        }
-
-        public string GetOrAssignPersistentName(IObject obj)
-        {
-            if(HasPersistentName(obj))
-                return obj.GetObjectName();
-            else
-            {
-                String persistentName = obj.GetObjectName();
-                persistentNameToObject.Add(persistentName, obj);
-                return persistentName;
-            }
-        }
     }
 
     public class MainGraphExportContext : GraphExportContext
@@ -76,6 +57,8 @@ namespace de.unika.ipd.grGen.libGr
         public MainGraphExportContext(INamedGraph graph)
             : base(null, graph)
         {
+            // we have to emit object exactly at their first occurrence, assigning a name if needed
+            objectNamerAndIndexer = new ObjectNamerAndIndexer(true, false, graph.Model.ObjectUniquenessIsEnsured);
         }
 
         // the name used for export may be different from the real graph name
@@ -85,6 +68,19 @@ namespace de.unika.ipd.grGen.libGr
 
         public bool noNewGraph = false;
         public Dictionary<String, Dictionary<String, String>> typesToAttributesToSkip = null;
+
+
+        private ObjectNamerAndIndexer objectNamerAndIndexer; // globally unique names, not per-graph
+
+        public bool HasPersistentName(IObject obj)
+        {
+            return objectNamerAndIndexer.GetName(obj) != null;
+        }
+
+        public string GetOrAssignPersistentName(IObject obj)
+        {
+            return objectNamerAndIndexer.GetOrAssignName(obj);
+        }
     }
 
     /// <summary>

@@ -1,3 +1,5 @@
+#using "nodeedgebyuniqueStdModel.gm"
+
 rule rn : (Node)
 {
 	-e:Edge->;

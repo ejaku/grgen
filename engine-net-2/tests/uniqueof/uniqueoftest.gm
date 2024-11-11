@@ -16,3 +16,4 @@ class O
 }
 
 index unique;
+object class unique;

@@ -187,9 +187,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     else
                     {
                         if(entry.Key is IGraphElement)
-                            HighlightSingleValue(entry.Key, name + ".Domain -> " + EmitHelper.ToString(entry.Value, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, null), addAnnotation);
+                            HighlightSingleValue(entry.Key, name + ".Domain -> " + EmitHelper.ToString(entry.Value, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, null), addAnnotation);
                         if(entry.Value is IGraphElement)
-                            HighlightSingleValue(entry.Value, EmitHelper.ToString(entry.Key, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.NameToClassObject, null) + " -> " + name + ".Range", addAnnotation);
+                            HighlightSingleValue(entry.Value, EmitHelper.ToString(entry.Key, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, null) + " -> " + name + ".Range", addAnnotation);
                     }
                 }
             }

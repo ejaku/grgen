@@ -533,8 +533,8 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(!GraphExists())
                 return null;
-            IObject obj;
-            if(!curShellProcEnv.NameToClassObject.TryGetValue(objName, out obj))
+            IObject obj = curShellProcEnv.objectNamerAndIndexer.GetObject(objName);
+            if(obj == null)
             {
                 ConsoleUI.errorOutWriter.WriteLine("Unknown class object: \"{0}\"", objName);
                 return null;
@@ -546,8 +546,8 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(!GraphExists())
                 return null;
-            IObject obj;
-            if(!curShellProcEnv.NameToClassObject.TryGetValue(elemOrObjName, out obj))
+            IObject obj = curShellProcEnv.objectNamerAndIndexer.GetObject(elemOrObjName);
+            if(obj == null)
             {
                 IGraphElement elem = curShellProcEnv.ProcEnv.NamedGraph.GetGraphElement(elemOrObjName);
                 if(elem == null)
@@ -1794,7 +1794,7 @@ namespace de.unika.ipd.grGen.grShell
                 return;
 
             shellGraphProcEnv.ProcEnv.Graph.Clear();
-            shellGraphProcEnv.NameToClassObject.Clear();
+            shellGraphProcEnv.objectNamerAndIndexer.Clear();
         }
 
         public bool DestroyGraph(ShellGraphProcessingEnvironment shellGraphProcEnv, bool shellGraphSpecified)
@@ -2379,7 +2379,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(elemDef.TypeName == null)
             {
-                return curShellProcEnv.NameToClassObject[elemDef.ElemName];
+                return curShellProcEnv.objectNamerAndIndexer.GetObject(elemDef.ElemName);
             }
             else
             {
@@ -2403,12 +2403,7 @@ namespace de.unika.ipd.grGen.grShell
                     IObject obj = objType.CreateObject(curShellProcEnv.ProcEnv.NamedGraph, elemDef.ElemName);
                     if(elemDef.ElemName != null)
                     {
-                        if(curShellProcEnv.NameToClassObject.ContainsKey(elemDef.ElemName))
-                        {
-                            ConsoleUI.errorOutWriter.WriteLine("Object name/id \"{0}\" already in use!", elemDef.ElemName);
-                            throw new Exception("Class object name/id already in use");
-                        }
-                        curShellProcEnv.NameToClassObject.Add(elemDef.ElemName, obj);
+                        curShellProcEnv.objectNamerAndIndexer.AssignName(obj, elemDef.ElemName);
                         foreach(Param objAttr in elemDef.Attributes)
                         {
                             obj.SetAttribute(objAttr.Key, GetObjectOrParseAttributeValue(objAttr.ObjectValue,
@@ -2873,22 +2868,16 @@ namespace de.unika.ipd.grGen.grShell
                 throw new Exception("Internal error - unsupported type!");
         }
 
-        // maybe todo: expensive, would benefit from reverse dictionary, to be taken into account if used often
         public String GetNameOfGraphElementOrClassObject(IAttributeBearer owner)
         {
             if(!GraphExists())
                 return null;
             if(owner is IGraphElement)
                 return curShellProcEnv.ProcEnv.NamedGraph.GetElementName((IGraphElement)owner);
+            else if(owner is IObject)
+                return curShellProcEnv.objectNamerAndIndexer.GetName((IObject)owner); // TODO: maybe get from object, previously reverse search
             else
-            {
-                foreach(KeyValuePair<string, IObject> keyValuePair in curShellProcEnv.NameToClassObject)
-                {
-                    if(keyValuePair.Value == owner)
-                        return keyValuePair.Key;
-                }
-            }
-            return null;
+                return null;
         }
 
         public void ShowElementAttributes(IAttributeBearer owner)
@@ -2906,7 +2895,7 @@ namespace de.unika.ipd.grGen.grShell
             foreach(AttributeType attrType in owner.Type.AttributeTypes)
             {
                 ConsoleUI.outWriter.WriteLine(" - {0}::{1} = {2}", attrType.OwnerType.PackagePrefixedName,
-                    attrType.Name, EmitHelper.ToStringAutomatic(owner.GetAttribute(attrType.Name), curShellProcEnv.ProcEnv.NamedGraph, false, curShellProcEnv.NameToClassObject, null));
+                    attrType.Name, EmitHelper.ToStringAutomatic(owner.GetAttribute(attrType.Name), curShellProcEnv.ProcEnv.NamedGraph, false, curShellProcEnv.objectNamerAndIndexer, null));
             }
         }
 
@@ -2920,7 +2909,7 @@ namespace de.unika.ipd.grGen.grShell
                 return;
 
             ConsoleUI.outWriter.Write("The value of attribute \"" + attributeName + "\" is: \"");
-            ConsoleUI.outWriter.Write(EmitHelper.ToStringAutomatic(owner.GetAttribute(attributeName), curShellProcEnv.ProcEnv.NamedGraph, false, curShellProcEnv.NameToClassObject, null));
+            ConsoleUI.outWriter.Write(EmitHelper.ToStringAutomatic(owner.GetAttribute(attributeName), curShellProcEnv.ProcEnv.NamedGraph, false, curShellProcEnv.objectNamerAndIndexer, null));
             ConsoleUI.outWriter.WriteLine("\".");
         }
 
@@ -3097,21 +3086,21 @@ namespace de.unika.ipd.grGen.grShell
                 if(val.GetType().Name=="Dictionary`2")
                 {
                     EmitHelper.ToString((IDictionary)val, out type, out content,
-                        null, curShellProcEnv!=null ? curShellProcEnv.ProcEnv.NamedGraph : null, false, curShellProcEnv!=null ? curShellProcEnv.NameToClassObject : null, null);
+                        null, curShellProcEnv!=null ? curShellProcEnv.ProcEnv.NamedGraph : null, false, curShellProcEnv!=null ? curShellProcEnv.objectNamerAndIndexer : null, null);
                     ConsoleUI.outWriter.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
                 }
                 else if(val.GetType().Name == "List`1")
                 {
                     EmitHelper.ToString((IList)val, out type, out content,
-                        null, curShellProcEnv != null ? curShellProcEnv.ProcEnv.NamedGraph : null, false, curShellProcEnv != null ? curShellProcEnv.NameToClassObject : null, null);
+                        null, curShellProcEnv != null ? curShellProcEnv.ProcEnv.NamedGraph : null, false, curShellProcEnv != null ? curShellProcEnv.objectNamerAndIndexer : null, null);
                     ConsoleUI.outWriter.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
                 }
                 else if(val.GetType().Name == "Deque`1")
                 {
                     EmitHelper.ToString((IDeque)val, out type, out content,
-                        null, curShellProcEnv != null ? curShellProcEnv.ProcEnv.NamedGraph : null, false, curShellProcEnv != null ? curShellProcEnv.NameToClassObject : null, null);
+                        null, curShellProcEnv != null ? curShellProcEnv.ProcEnv.NamedGraph : null, false, curShellProcEnv != null ? curShellProcEnv.objectNamerAndIndexer : null, null);
                     ConsoleUI.outWriter.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
                 }
@@ -3130,7 +3119,7 @@ namespace de.unika.ipd.grGen.grShell
                     return;
                 }
                 EmitHelper.ToString(val, out type, out content,
-                    null, curShellProcEnv!=null ? curShellProcEnv.ProcEnv.NamedGraph : null, false, curShellProcEnv != null ? curShellProcEnv.NameToClassObject : null, null);
+                    null, curShellProcEnv!=null ? curShellProcEnv.ProcEnv.NamedGraph : null, false, curShellProcEnv != null ? curShellProcEnv.objectNamerAndIndexer : null, null);
                 ConsoleUI.outWriter.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                 return;
             }
@@ -4626,7 +4615,7 @@ showavail:
                 }
             }
 
-            Dictionary<IObject, IObject> alreadyVisitedObjectMap = new Dictionary<IObject, IObject>();
+            Dictionary<IObject, IObject> alreadyVisitedObjectsSet = new Dictionary<IObject, IObject>();
 
             foreach(INode node in oldToNewNodeMap.Values)
             {
@@ -4634,7 +4623,7 @@ showavail:
                 {
                     if(IsInternalClassObjectUsedInAttribute(attr))
                     {
-                        RenameAttribute(node, attr, alreadyVisitedObjectMap);
+                        RenameAttribute(node, attr, alreadyVisitedObjectsSet);
                     }
                 }
             }
@@ -4647,7 +4636,7 @@ showavail:
                     {
                         if(IsInternalClassObjectUsedInAttribute(attr))
                         {
-                            RenameAttribute(edge, attr, alreadyVisitedObjectMap);
+                            RenameAttribute(edge, attr, alreadyVisitedObjectsSet);
                         }
                     }
                 }
@@ -4677,18 +4666,18 @@ showavail:
             return false;
         }
 
-        private void RenameAttribute(IAttributeBearer obj, AttributeType attr, IDictionary<IObject, IObject> alreadyVisitedObjectMap)
+        private void RenameAttribute(IAttributeBearer obj, AttributeType attr, IDictionary<IObject, IObject> alreadyVisitedObjectsSet)
         {
             if(attr.Kind == AttributeKind.InternalClassObjectAttr)
             {
-                RenameInternalClassObject((IObject)obj.GetAttribute(attr.Name), alreadyVisitedObjectMap);
+                RenameInternalClassObject((IObject)obj.GetAttribute(attr.Name), alreadyVisitedObjectsSet);
             }
             else if(attr.Kind == AttributeKind.SetAttr)
             {
                 IDictionary set = (IDictionary)obj.GetAttribute(attr.Name);
                 foreach(IObject value in set)
                 {
-                    RenameInternalClassObject(value, alreadyVisitedObjectMap);
+                    RenameInternalClassObject(value, alreadyVisitedObjectsSet);
                 }
             }
             else if(attr.Kind == AttributeKind.MapAttr)
@@ -4698,14 +4687,14 @@ showavail:
                 {
                     foreach(IObject key in map.Keys)
                     {
-                        RenameInternalClassObject(key, alreadyVisitedObjectMap);
+                        RenameInternalClassObject(key, alreadyVisitedObjectsSet);
                     }
                 }
                 if(attr.ValueType.Kind == AttributeKind.InternalClassObjectAttr)
                 {
                     foreach(IObject value in map.Values)
                     {
-                        RenameInternalClassObject(value, alreadyVisitedObjectMap);
+                        RenameInternalClassObject(value, alreadyVisitedObjectsSet);
                     }
                 }
             }
@@ -4714,7 +4703,7 @@ showavail:
                 IList array = (IList)obj.GetAttribute(attr.Name);
                 foreach(IObject value in array)
                 {
-                    RenameInternalClassObject(value, alreadyVisitedObjectMap);
+                    RenameInternalClassObject(value, alreadyVisitedObjectsSet);
                 }
             }
             else if(attr.Kind == AttributeKind.DequeAttr)
@@ -4722,20 +4711,20 @@ showavail:
                 IDeque deque = (IDeque)obj.GetAttribute(attr.Name);
                 foreach(IObject value in deque)
                 {
-                    RenameInternalClassObject(value, alreadyVisitedObjectMap);
+                    RenameInternalClassObject(value, alreadyVisitedObjectsSet);
                 }
             }
         }
 
-        private void RenameInternalClassObject(IObject obj, IDictionary<IObject, IObject> alreadyVisitedObjectMap)
+        private void RenameInternalClassObject(IObject obj, IDictionary<IObject, IObject> alreadyVisitedObjectsSet)
         {
             if(obj == null)
                 return;
 
-            if(alreadyVisitedObjectMap.ContainsKey(obj))
+            if(alreadyVisitedObjectsSet.ContainsKey(obj))
                 return;
 
-            alreadyVisitedObjectMap.Add(obj, null);
+            alreadyVisitedObjectsSet.Add(obj, null);
 
             obj.SetUniqueId(CurrentGraph.GlobalVariables.FetchObjectUniqueId());
 
@@ -4743,7 +4732,7 @@ showavail:
             {
                 if(IsInternalClassObjectUsedInAttribute(attr))
                 {
-                    RenameAttribute(obj, attr, alreadyVisitedObjectMap);
+                    RenameAttribute(obj, attr, alreadyVisitedObjectsSet);
                 }
             }
         }

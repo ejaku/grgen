@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
+import de.unika.ipd.grgen.ast.UnitNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
@@ -91,6 +92,10 @@ public class MatchEdgeByUniqueLookupDeclNode extends EdgeDeclNode
 			String typeName = lookupType.getTypeName();
 			ident.reportError("Cannot convert type used in accessing unique index from " + typeName
 					+ " to the expected " + expTypeName + " in match edge" + emptyWhenAnonymousPostfix(" ") + " by unique index lookup.");
+			return false;
+		}
+		if(!UnitNode.getRoot().getModel().IsUniqueIndexDefined()) {
+			reportError("The match edge by unique index lookup expects a model with a unique index, but the required index unique; declaration is missing in the model specification.");
 			return false;
 		}
 		return res;

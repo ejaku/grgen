@@ -1,0 +1,9 @@
+using uniqueTestModelWithoutUniqueDeclarations;
+
+rule t
+{
+	n:Node{unique[42]};
+	
+	modify {
+	}
+}

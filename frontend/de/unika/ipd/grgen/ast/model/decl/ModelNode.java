@@ -72,6 +72,7 @@ public class ModelNode extends DeclNode
 	private boolean isEqualClassDefined;
 	private boolean isLowerClassDefined;
 	private boolean isUniqueDefined;
+	private boolean isUniqueClassDefined;
 	private boolean isUniqueIndexDefined;
 	private boolean areFunctionsParallel;
 	private int isoParallel;
@@ -82,7 +83,7 @@ public class ModelNode extends DeclNode
 			CollectNode<IdentNode> indices, CollectNode<ModelNode> usedModels,
 			boolean isEmitClassDefined, boolean isEmitGraphClassDefined, boolean isCopyClassDefined,
 			boolean isEqualClassDefined, boolean isLowerClassDefined,
-			boolean isUniqueDefined, boolean isUniqueIndexDefined,
+			boolean isUniqueDefined, boolean isUniqueClassDefined, boolean isUniqueIndexDefined,
 			boolean areFunctionsParallel, int isoParallel, int sequencesParallel)
 	{
 		super(id, modelType);
@@ -105,6 +106,7 @@ public class ModelNode extends DeclNode
 		this.isEqualClassDefined = isEqualClassDefined;
 		this.isLowerClassDefined = isLowerClassDefined;
 		this.isUniqueDefined = isUniqueDefined;
+		this.isUniqueClassDefined = isUniqueClassDefined;
 		this.isUniqueIndexDefined = isUniqueIndexDefined;
 		this.areFunctionsParallel = areFunctionsParallel;
 		this.isoParallel = isoParallel;
@@ -228,6 +230,11 @@ public class ModelNode extends DeclNode
 		return isUniqueDefined;
 	}
 
+	public boolean IsUniqueClassDefined()
+	{
+		return isUniqueClassDefined;
+	}
+
 	public boolean IsUniqueIndexDefined()
 	{
 		return isUniqueIndexDefined;
@@ -288,7 +295,7 @@ public class ModelNode extends DeclNode
 		Ident id = ident.checkIR(Ident.class);
 		Model res = new Model(id, isEmitClassDefined, isEmitGraphClassDefined, isCopyClassDefined,
 				isEqualClassDefined, isLowerClassDefined,
-				isUniqueDefined, isUniqueIndexDefined,
+				isUniqueDefined, isUniqueClassDefined, isUniqueIndexDefined,
 				areFunctionsParallel, isoParallel, sequencesParallel);
 		for(ModelNode model : usedModels.getChildren()) {
 			res.addUsedModel(model.getModel());

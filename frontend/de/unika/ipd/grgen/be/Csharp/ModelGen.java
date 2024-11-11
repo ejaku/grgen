@@ -838,7 +838,7 @@ public class ModelGen extends CSharpBase
 					+ (extName == null ? typeref + ".typeVar, " : "") + "newSource, newTarget)\n");
 		} else if(type instanceof InternalObjectType) {
 			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base("
-					+ (extName == null ? typeref + ".typeVar, " : "") + "graph.GlobalVariables.FetchObjectUniqueId())\n");
+					+ (extName == null ? typeref + ".typeVar, " : "") + (model.isUniqueClassDefined() ? "graph.GlobalVariables.FetchObjectUniqueId()" : "-1") + ")\n");
 		} else {
 			routedSB.appendFront("private " + routedClassName + "(" + routedDeclName + " oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base("
 					+ (extName == null ? typeref + ".typeVar" : "") + ")\n");
@@ -2261,13 +2261,23 @@ deque_init_loop:
 			} else {
 				sb.appendFront("if(uniqueId != -1) {\n");
 				sb.indent();
-				sb.appendFront(allocName + " newObject = new " + allocName + "(graph.GlobalVariables.FetchObjectUniqueId(uniqueId));\n");
-				sb.appendFront("((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);\n");
-				sb.appendFront("return newObject;\n");
+				if(model.isUniqueClassDefined())
+				{
+					sb.appendFront(allocName + " newObject = new " + allocName + "("
+							+ "graph.GlobalVariables.FetchObjectUniqueId(uniqueId)" + ");\n");
+					sb.appendFront("((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);\n");
+					sb.appendFront("return newObject;\n");
+				}
+				else
+				{
+					sb.appendFront("throw new Exception(\"The model of the object class type "
+							+ typeident + " does not support uniqueIds!\");\n");
+				}
 				sb.unindent();
 				sb.appendFront("} else {\n");
 				sb.indent();
-				sb.appendFront(allocName + " newObject = new " + allocName + "(graph.GlobalVariables.FetchObjectUniqueId());\n");
+				sb.appendFront(allocName + " newObject = new " + allocName + "("
+						+ (model.isUniqueClassDefined() ? "graph.GlobalVariables.FetchObjectUniqueId()" : "-1") + ");\n");
 				sb.appendFront("((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);\n");
 				sb.appendFront("return newObject;\n");
 				sb.unindent();
@@ -3669,6 +3679,8 @@ commonLoop:
 		sb.appendFront("}\n");
 		sb.appendFront("public override bool GraphElementUniquenessIsEnsured { get { return "
 				+ (model.isUniqueDefined() ? "true" : "false") + "; } }\n");
+		sb.appendFront("public override bool ObjectUniquenessIsEnsured { get { return "
+				+ (model.isUniqueClassDefined() ? "true" : "false") + "; } }\n");
 		sb.appendFront("public override bool GraphElementsAreAccessibleByUniqueId { get { return "
 				+ (model.isUniqueIndexDefined() ? "true" : "false") + "; } }\n");
 		sb.appendFront("public override bool AreFunctionsParallelized { get { return "

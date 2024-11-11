@@ -1,0 +1,10 @@
+using uniqueTestModelWithoutUniqueDeclarations;
+
+rule t
+{
+	-e:Edge->;
+	if { uniqueof(e)==42; }
+	
+	modify {
+	}
+}

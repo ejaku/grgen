@@ -74,3 +74,5 @@ edge class EDequeSetMap
 	s:set<Group>;
 	m:map<Group,Group>;
 }
+
+object class unique;

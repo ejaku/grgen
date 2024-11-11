@@ -2220,7 +2220,9 @@ public abstract class CSharpBase
 			sb.append("new " + formatDefinedMatchType(mi.getMatchType()) + "()");
 		} else if(expr instanceof InternalObjectInit) {
 			InternalObjectInit ioi = (InternalObjectInit)expr;
-			String fetchUniqueIdIfObject = ioi.getBaseInternalObjectType() instanceof InternalObjectType ? "graph.GlobalVariables.FetchObjectUniqueId()" : "";
+			String fetchUniqueIdIfObject = "";
+			if(ioi.getBaseInternalObjectType() instanceof InternalObjectType)
+				fetchUniqueIdIfObject = modifyGenerationState.model().isUniqueClassDefined() ? "graph.GlobalVariables.FetchObjectUniqueId()" : "-1";
 			if(ioi.attributeInitializations.isEmpty()) {
 				sb.append("new " + formatBaseInternalObjectType(ioi.getBaseInternalObjectType()) + "(" + fetchUniqueIdIfObject + ")");
 			} else {
@@ -4075,6 +4077,7 @@ public abstract class CSharpBase
 		sb.append(") {\n");
 		sb.indent();
 
+		// uniqueIdUsageIfObject has to be -1 in case of isUniqueClassDefined(), an assert could be added...
 		String uniqueIdUsageIfObject = internalObjectInit.getBaseInternalObjectType() instanceof InternalObjectType ? "uniqueId" : "";
 		sb.appendFront(attrType + " " + internalObjectName + " = " +
 				"new " + attrType + "(" + uniqueIdUsageIfObject + ");\n");

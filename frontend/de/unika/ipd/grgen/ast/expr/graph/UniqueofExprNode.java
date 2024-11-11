@@ -72,12 +72,24 @@ public class UniqueofExprNode extends BuiltinFunctionInvocationBaseNode
 				return true;
 			}
 			if(entity.getType() instanceof EdgeTypeNode) {
+				if(!UnitNode.getRoot().getModel().IsUniqueDefined() && !UnitNode.getRoot().getModel().IsUniqueIndexDefined()) {
+					reportError("The function uniqueof applied to an argument of edge type expects a model with uniqueId support, but the required node edge unique; declaration is missing in the model specification.");
+					return false;
+				}
 				return true;
 			}
 			if(entity.getType() instanceof NodeTypeNode) {
+				if(!UnitNode.getRoot().getModel().IsUniqueDefined() && !UnitNode.getRoot().getModel().IsUniqueIndexDefined()) {
+					reportError("The function uniqueof applied to an argument of node type expects a model with uniqueId support, but the required node edge unique; declaration is missing in the model specification.");
+					return false;
+				}
 				return true;
 			}
 			if(entity.getType() instanceof InternalObjectTypeNode) {
+				if(!UnitNode.getRoot().getModel().IsUniqueClassDefined()) {
+					reportError("The function uniqueof applied to an argument of (object) class type expects a model with uniqueId support, but the required object class unique; declaration is missing in the model specification.");
+					return false;
+				}
 				return true;
 			}
 

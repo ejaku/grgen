@@ -24,7 +24,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public readonly Dictionary<string, INamedGraph> NameToSubgraph = new Dictionary<string, INamedGraph>(); // maps subgraph name to subgraph
 
-        public readonly Dictionary<string, IObject> NameToClassObject = new Dictionary<string, IObject>(); // maps "transient" name to class object
+        // the debugger shows internal class objects to the user including a unique name, and offers to access the objects by name
+        // (in addition the shell has commands to define objects with name/uniqueId and access them by name/uniqueId)
+        // - so we create object names in case the model does not supply them
+        // - so we request the name to object index
+        // (in the constructor calls below) (note that some objects are simply not visited by the debugger, so only some objects may receive a name)
+        public readonly ObjectNamerAndIndexer objectNamerAndIndexer; // maps "transient" name to class object
 
 
         // creates a temporary internal named graph required by the debugger
@@ -35,6 +40,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             SubruleDebugConfig = new SubruleDebuggingConfiguration();
             ProcEnv = new LGSPGraphProcessingEnvironment(Graph, null);
             NameToSubgraph.Add(Graph.Name, Graph);
+            objectNamerAndIndexer = new ObjectNamerAndIndexer(!graph.Model.ObjectUniquenessIsEnsured, true, graph.Model.ObjectUniquenessIsEnsured);
         }
 
         public DebuggerGraphProcessingEnvironment(INamedGraph graph)
@@ -44,6 +50,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             SubruleDebugConfig = new SubruleDebuggingConfiguration();
             ProcEnv = new LGSPGraphProcessingEnvironment((LGSPNamedGraph)graph, null);
             NameToSubgraph.Add(Graph.Name, Graph);
+            objectNamerAndIndexer = new ObjectNamerAndIndexer(!graph.Model.ObjectUniquenessIsEnsured, true, graph.Model.ObjectUniquenessIsEnsured);
         }
 
         public DebuggerGraphProcessingEnvironment(INamedGraph graph, IGraphProcessingEnvironment procEnv)
@@ -53,6 +60,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             SubruleDebugConfig = new SubruleDebuggingConfiguration();
             ProcEnv = procEnv;
             NameToSubgraph.Add(Graph.Name, Graph);
+            objectNamerAndIndexer = new ObjectNamerAndIndexer(!graph.Model.ObjectUniquenessIsEnsured, true, graph.Model.ObjectUniquenessIsEnsured);
         }
     }
 }

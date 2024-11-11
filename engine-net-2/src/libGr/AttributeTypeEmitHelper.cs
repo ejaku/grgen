@@ -26,11 +26,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="attrType">The attribute type of the dictionary if available, otherwise null</param>
         /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
         /// <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
-        /// <param name="nameToObject">If not null, the names of visited objects are added</param>
+        /// <param name="objectNamerAndIndexer">If not null, it is used to name the visited objects or collect them</param>
         /// <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
         public static void ToString(IDictionary setmap, out string type, out string content,
             AttributeType attrType, IGraph graph, bool firstLevelObjectEmitted,
-            IDictionary<string, IObject> nameToObject, IGraphProcessingEnvironment procEnv)
+            ObjectNamerAndIndexer objectNamerAndIndexer, IGraphProcessingEnvironment procEnv)
         {
             Type keyType;
             Type valueType;
@@ -47,12 +47,12 @@ namespace de.unika.ipd.grGen.libGr
                 if(valueType == typeof(SetValueType))
                 {
                     type = "set<" + keyType.Name + ">";
-                    AppendSet(sb, setmap, attrValueType, graph, firstLevelObjectEmitted, nameToObject, procEnv);
+                    AppendSet(sb, setmap, attrValueType, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv);
                 }
                 else
                 {
                     type = "map<" + keyType.Name + "," + valueType.Name + ">";
-                    AppendMap(sb, setmap, attrKeyType, attrValueType, graph, firstLevelObjectEmitted, nameToObject, procEnv);
+                    AppendMap(sb, setmap, attrKeyType, attrValueType, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv);
                 }
             }
             else
@@ -63,7 +63,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         private static void AppendSet(StringBuilder sb, IDictionary set, AttributeType attrValueType, IGraph graph, 
-            bool firstLevelObjectEmitted, IDictionary<string, IObject> nameToObject, IGraphProcessingEnvironment procEnv)
+            bool firstLevelObjectEmitted, ObjectNamerAndIndexer objectNamerAndIndexer, IGraphProcessingEnvironment procEnv)
         {
             bool first = true;
             foreach(DictionaryEntry entry in set)
@@ -74,15 +74,15 @@ namespace de.unika.ipd.grGen.libGr
                     sb.Append(",");
 
                 if(attrValueType != null)
-                    sb.Append(ToString(entry.Key, attrValueType, graph, firstLevelObjectEmitted, nameToObject, procEnv));
+                    sb.Append(ToString(entry.Key, attrValueType, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv));
                 else
-                    sb.Append(ToStringAutomatic(entry.Key, graph, firstLevelObjectEmitted, nameToObject, procEnv));
+                    sb.Append(ToStringAutomatic(entry.Key, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv));
             }
         }
 
         private static void AppendMap(StringBuilder sb, IDictionary setmap, 
             AttributeType attrKeyType, AttributeType attrValueType, IGraph graph,
-            bool firstLevelObjectEmitted, IDictionary<string, IObject> nameToObject, IGraphProcessingEnvironment procEnv)
+            bool firstLevelObjectEmitted, ObjectNamerAndIndexer objectNamerAndIndexer, IGraphProcessingEnvironment procEnv)
         {
             bool first = true;
             foreach(DictionaryEntry entry in setmap)
@@ -93,14 +93,14 @@ namespace de.unika.ipd.grGen.libGr
                     sb.Append(",");
 
                 if(attrKeyType != null)
-                    sb.Append(ToString(entry.Key, attrKeyType, graph, firstLevelObjectEmitted, nameToObject, procEnv));
+                    sb.Append(ToString(entry.Key, attrKeyType, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv));
                 else
-                    sb.Append(ToStringAutomatic(entry.Key, graph, firstLevelObjectEmitted, nameToObject, procEnv));
+                    sb.Append(ToStringAutomatic(entry.Key, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv));
                 sb.Append("->");
                 if(attrValueType != null)
-                    sb.Append(ToString(entry.Value, attrValueType, graph, firstLevelObjectEmitted, nameToObject, procEnv));
+                    sb.Append(ToString(entry.Value, attrValueType, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv));
                 else
-                    sb.Append(ToStringAutomatic(entry.Value, graph, firstLevelObjectEmitted, nameToObject, procEnv));
+                    sb.Append(ToStringAutomatic(entry.Value, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv));
             }
         }
 
@@ -113,11 +113,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="attrType">The attribute type of the array if available, otherwise null</param>
         /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
         /// <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
-        /// <param name="nameToObject">If not null, the names of visited objects are added</param>
+        /// <param name="objectNamerAndIndexer">If not null, it is used to name the visited objects or collect them</param>
         /// <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
         public static void ToString(IList array, out string type, out string content,
             AttributeType attrType, IGraph graph, bool firstLevelObjectEmitted,
-            IDictionary<string, IObject> nameToObject, IGraphProcessingEnvironment procEnv)
+            ObjectNamerAndIndexer objectNamerAndIndexer, IGraphProcessingEnvironment procEnv)
         {
             Type valueType;
             ContainerHelper.GetListType(array, out valueType);
@@ -130,7 +130,7 @@ namespace de.unika.ipd.grGen.libGr
             if(array != null)
             {
                 type = "array<" + valueType.Name + ">";
-                AppendArray(sb, array, attrValueType, graph, firstLevelObjectEmitted, nameToObject, procEnv);
+                AppendArray(sb, array, attrValueType, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv);
             }
             else
                 type = "<INVALID>";
@@ -140,7 +140,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         private static void AppendArray(StringBuilder sb, IList array, AttributeType attrValueType, IGraph graph,
-            bool firstLevelObjectEmitted, IDictionary<string, IObject> nameToObject, IGraphProcessingEnvironment procEnv)
+            bool firstLevelObjectEmitted, ObjectNamerAndIndexer objectNamerAndIndexer, IGraphProcessingEnvironment procEnv)
         {
             bool first = true;
             foreach(object entry in array)
@@ -150,9 +150,9 @@ namespace de.unika.ipd.grGen.libGr
                 else
                     sb.Append(",");
                 if(attrValueType != null)
-                    sb.Append(ToString(entry, attrValueType, graph, firstLevelObjectEmitted, nameToObject, procEnv));
+                    sb.Append(ToString(entry, attrValueType, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv));
                 else
-                    sb.Append(ToStringAutomatic(entry, graph, firstLevelObjectEmitted, nameToObject, procEnv));
+                    sb.Append(ToStringAutomatic(entry, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv));
             }
         }
 
@@ -165,11 +165,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="attrType">The attribute type of the deque if available, otherwise null</param>
         /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
         /// <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
-        /// <param name="nameToObject">If not null, the names of visited objects are added</param>
+        /// <param name="objectNamerAndIndexer">If not null, it is used to name the visited objects or collect them</param>
         /// <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
         public static void ToString(IDeque deque, out string type, out string content,
             AttributeType attrType, IGraph graph, bool firstLevelObjectEmitted,
-            IDictionary<string, IObject> nameToObject, IGraphProcessingEnvironment procEnv)
+            ObjectNamerAndIndexer objectNamerAndIndexer, IGraphProcessingEnvironment procEnv)
         {
             Type valueType;
             ContainerHelper.GetDequeType(deque, out valueType);
@@ -182,7 +182,7 @@ namespace de.unika.ipd.grGen.libGr
             if(deque != null)
             {
                 type = "deque<" + valueType.Name + ">";
-                AppendDeque(sb, deque, attrValueType, graph, firstLevelObjectEmitted, nameToObject, procEnv);
+                AppendDeque(sb, deque, attrValueType, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv);
             }
             else
                 type = "<INVALID>";
@@ -192,7 +192,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         private static void AppendDeque(StringBuilder sb, IDeque deque, AttributeType attrValueType, IGraph graph,
-            bool firstLevelObjectEmitted, IDictionary<string, IObject> nameToObject, IGraphProcessingEnvironment procEnv)
+            bool firstLevelObjectEmitted, ObjectNamerAndIndexer objectNamerAndIndexer, IGraphProcessingEnvironment procEnv)
         {
             bool first = true;
             foreach(object entry in deque)
@@ -203,9 +203,9 @@ namespace de.unika.ipd.grGen.libGr
                     sb.Append(",");
 
                 if(attrValueType != null)
-                    sb.Append(ToString(entry, attrValueType, graph, firstLevelObjectEmitted, nameToObject, procEnv));
+                    sb.Append(ToString(entry, attrValueType, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv));
                 else
-                    sb.Append(ToStringAutomatic(entry, graph, firstLevelObjectEmitted, nameToObject, procEnv));
+                    sb.Append(ToStringAutomatic(entry, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv));
             }
         }
 
@@ -218,15 +218,15 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="attrType">The attribute type of the value (may be null)</param>
         /// <param name="graph">The graph with the model and the element names</param>
         /// <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
-        /// <param name="nameToObject">If not null, the names of visited objects are added</param>
+        /// <param name="objectNamerAndIndexer">If not null, it is used to name the visited objects or collect them</param>
         /// <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
         public static void ToString(object value, out string type, out string content,
             AttributeType attrType, IGraph graph, bool firstLevelObjectEmitted,
-            IDictionary<string, IObject> nameToObject, IGraphProcessingEnvironment procEnv)
+            ObjectNamerAndIndexer objectNamerAndIndexer, IGraphProcessingEnvironment procEnv)
         {
             if(attrType == null)
             {
-                ToString(value, out type, out content, graph, firstLevelObjectEmitted, nameToObject, procEnv);
+                ToString(value, out type, out content, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv);
                 return;
             }
 
@@ -237,37 +237,37 @@ namespace de.unika.ipd.grGen.libGr
             if(type == "object")
                 content = ToStringObject(value, attrType, graph);
             else
-                content = ToString(value, attrType, graph, firstLevelObjectEmitted, nameToObject, procEnv);
+                content = ToString(value, attrType, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv);
         }
 
         private static void ToString(object value, out string type, out string content, IGraph graph,
-            bool firstLevelObjectEmitted, IDictionary<string, IObject> nameToObject, IGraphProcessingEnvironment procEnv)
+            bool firstLevelObjectEmitted, ObjectNamerAndIndexer objectNamerAndIndexer, IGraphProcessingEnvironment procEnv)
         {
             if(value == null)
             {
                 type = "<INVALID>";
-                content = ToString(value, null, graph, firstLevelObjectEmitted, nameToObject, procEnv);
+                content = ToString(value, null, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv);
                 return;
             }
 
             if(value is IMatch)
             {
                 type = "IMatch";
-                content = ToString((IMatch)value, graph, firstLevelObjectEmitted, nameToObject, procEnv);
+                content = ToString((IMatch)value, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv);
                 return;
             }
 
             if(value is IObject)
             {
                 type = ((IObject)value).Type.PackagePrefixedName;
-                content = ToString((IObject)value, graph, firstLevelObjectEmitted, nameToObject, procEnv);
+                content = ToString((IObject)value, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv);
                 return;
             }
 
             if(value is ITransientObject)
             {
                 type = ((ITransientObject)value).Type.PackagePrefixedName;
-                content = ToString((ITransientObject)value, graph, firstLevelObjectEmitted, nameToObject, procEnv);
+                content = ToString((ITransientObject)value, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv);
                 return;
             }
 
@@ -284,7 +284,7 @@ namespace de.unika.ipd.grGen.libGr
             if(type == "object")
                 content = ToStringObject(value, null, graph);
             else
-                content = ToString(value, null, graph, firstLevelObjectEmitted, nameToObject, procEnv);
+                content = ToString(value, null, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv);
         }
 
         /// <summary>
@@ -295,17 +295,17 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="graph">The graph with the model and the element names</param>
         /// <returns>String representation of the scalar.</returns>
         /// <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
-        /// <param name="nameToObject">If not null, the names of visited objects are added</param>
+        /// <param name="objectNamerAndIndexer">If not null, it is used to name the visited objects or collect them</param>
         /// <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
         private static string ToString(object value, AttributeType attrType, IGraph graph,
-            bool firstLevelObjectEmitted, IDictionary<string, IObject> nameToObject, IGraphProcessingEnvironment procEnv)
+            bool firstLevelObjectEmitted, ObjectNamerAndIndexer objectNamerAndIndexer, IGraphProcessingEnvironment procEnv)
         {
             if(value is IMatch)
-                return ToString((IMatch)value, graph, firstLevelObjectEmitted, nameToObject, procEnv);
+                return ToString((IMatch)value, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv);
             if(value is IObject)
-                return ToString((IObject)value, graph, firstLevelObjectEmitted, nameToObject, procEnv);
+                return ToString((IObject)value, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv);
             if(value is ITransientObject)
-                return ToString((ITransientObject)value, graph, firstLevelObjectEmitted, nameToObject, procEnv);
+                return ToString((ITransientObject)value, graph, firstLevelObjectEmitted, objectNamerAndIndexer, procEnv);
 
             // enums are bitches, sometimes ToString gives the symbolic name, sometimes only the integer value
             // we always want the symbolic name, enforce this here

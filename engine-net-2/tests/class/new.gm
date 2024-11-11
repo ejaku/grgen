@@ -1,3 +1,5 @@
+object class unique;
+
 class Barfuss
 {
 	i:int;

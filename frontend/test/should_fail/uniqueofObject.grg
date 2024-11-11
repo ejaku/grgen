@@ -1,0 +1,9 @@
+using uniqueTestModelWithoutUniqueDeclarations;
+
+rule t
+{
+	if { uniqueof(new Object())==42; }
+	
+	modify {
+	}
+}

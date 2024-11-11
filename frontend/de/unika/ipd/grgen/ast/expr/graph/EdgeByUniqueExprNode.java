@@ -83,6 +83,10 @@ public class EdgeByUniqueExprNode extends BuiltinFunctionInvocationBaseNode
 					+ " (but is given a value of type " + edgeType.getType().getTypeName() + ").");
 			return false;
 		}
+		if(!UnitNode.getRoot().getModel().IsUniqueIndexDefined()) {
+			reportError("The function edgeByUnique expects a model with a unique index, but the required index unique; declaration is missing in the model specification.");
+			return false;
+		}
 		return true;
 	}
 

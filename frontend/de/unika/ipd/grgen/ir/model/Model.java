@@ -58,6 +58,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	private boolean isEqualClassDefined;
 	private boolean isLowerClassDefined;
 	private boolean isUniqueDefined;
+	private boolean isUniqueClassDefined;
 	private boolean isUniqueIndexDefined;
 	private boolean areFunctionsParallel;
 	private int isoParallel;
@@ -71,7 +72,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 
 	public Model(Ident ident, boolean isEmitClassDefined, boolean isEmitGraphClassDefined, boolean isCopyClassDefined,
 			boolean isEqualClassDefined, boolean isLowerClassDefined,
-			boolean isUniqueDefined, boolean isUniqueIndexDefined,
+			boolean isUniqueDefined, boolean isUniqueClassDefined, boolean isUniqueIndexDefined,
 			boolean areFunctionsParallel, int isoParallel, int sequencesParallel)
 	{
 		super("model", ident);
@@ -82,6 +83,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 		this.isEqualClassDefined = isEqualClassDefined;
 		this.isLowerClassDefined = isLowerClassDefined;
 		this.isUniqueDefined = isUniqueDefined;
+		this.isUniqueClassDefined = isUniqueClassDefined;
 		this.isUniqueIndexDefined = isUniqueIndexDefined;
 		this.areFunctionsParallel = areFunctionsParallel;
 		this.isoParallel = isoParallel;
@@ -334,6 +336,11 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	public void forceUniqueDefined()
 	{
 		isUniqueDefined = true;
+	}
+
+	public boolean isUniqueClassDefined()
+	{
+		return isUniqueClassDefined;
 	}
 
 	public boolean isUniqueIndexDefined()
