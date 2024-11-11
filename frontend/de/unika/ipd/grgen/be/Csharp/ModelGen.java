@@ -2264,7 +2264,7 @@ deque_init_loop:
 				if(model.isUniqueClassDefined())
 				{
 					sb.appendFront(allocName + " newObject = new " + allocName + "("
-							+ "graph.GlobalVariables.FetchObjectUniqueId(uniqueId)" + ");\n");
+							+ "graph.GlobalVariables.RequestObjectUniqueId(uniqueId)" + ");\n");
 					sb.appendFront("((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);\n");
 					sb.appendFront("return newObject;\n");
 				}

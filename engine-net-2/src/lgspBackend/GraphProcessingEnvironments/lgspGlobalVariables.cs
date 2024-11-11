@@ -413,22 +413,17 @@ namespace de.unika.ipd.grGen.lgsp
         public long FetchObjectUniqueId()
         {
             long uniqueId = Interlocked.Increment(ref objectUniqueIdSource);
-            return uniqueId - 1;
+            return uniqueId - 1; // TODO: why not start with -1?
         }
 
-        public long FetchObjectUniqueId(long idToObtain)
+        public long RequestObjectUniqueId(long idToObtain)
         {
             // not possible to check against this condition and throw an exception -- requests may come out of order
             if(idToObtain < objectUniqueIdSource)
-            {
                 return idToObtain;
-            }
 
-            while(objectUniqueIdSource != idToObtain)
-            {
-                ++objectUniqueIdSource;
-            }
-            ++objectUniqueIdSource;
+            objectUniqueIdSource = idToObtain;
+            ++objectUniqueIdSource; // id source is one further than the value returned
 
             return idToObtain;
         }

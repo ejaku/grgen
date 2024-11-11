@@ -112,8 +112,15 @@ namespace de.unika.ipd.grGen.libGr
         /// Fetches a unique id for an internal class object (non-transient).
         /// May be called concurrently from multiple threads.
         /// </summary>
+        /// <returns>The fetched id.</returns>
         long FetchObjectUniqueId();
 
-        long FetchObjectUniqueId(long idToObtain);
+        /// <summary>
+        /// Requests a specific unique id for an internal class object (non-transient).
+        /// This allows to adapt the internal id source so this id cannot be fetched anymore (as well as all ids that are lower than this one).
+        /// </summary>
+        /// <param name="idToObtain">The id to request.</param>
+        /// <returns>The requested id if successful.</returns>
+        long RequestObjectUniqueId(long idToObtain);
     }
 }
