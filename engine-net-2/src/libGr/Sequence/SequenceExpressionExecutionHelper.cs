@@ -2580,32 +2580,32 @@ namespace de.unika.ipd.grGen.libGr
                 if(leftType == "string")
                 {
                     if(rightType.StartsWith("set<"))
-                        return (string)leftValue + EmitHelper.ToString((IDictionary)rightValue, graph, false, null, null);
+                        return (string)leftValue + EmitHelper.ToString((IDictionary)rightValue, graph, false, null, null, null);
                     else if(rightType.StartsWith("map<"))
-                        return (string)leftValue + EmitHelper.ToString((IDictionary)rightValue, graph, false, null, null);
+                        return (string)leftValue + EmitHelper.ToString((IDictionary)rightValue, graph, false, null, null, null);
                     else if(rightType.StartsWith("array<"))
-                        return (string)leftValue + EmitHelper.ToString((IList)rightValue, graph, false, null, null);
+                        return (string)leftValue + EmitHelper.ToString((IList)rightValue, graph, false, null, null, null);
                     else if(rightType.StartsWith("deque<"))
-                        return (string)leftValue + EmitHelper.ToString((IDeque)rightValue, graph, false, null, null);
+                        return (string)leftValue + EmitHelper.ToString((IDeque)rightValue, graph, false, null, null, null);
                     else if(rightType == "string")
                         return (string)leftValue + (string)rightValue;
                     else
-                        return (string)leftValue + EmitHelper.ToString(rightValue, graph, false, null, null);
+                        return (string)leftValue + EmitHelper.ToString(rightValue, graph, false, null, null, null);
                 }
                 else //rightType == "string"
                 {
                     if(leftType.StartsWith("set<"))
-                        return EmitHelper.ToString((IDictionary)leftValue, graph, false, null, null) + (string)rightValue;
+                        return EmitHelper.ToString((IDictionary)leftValue, graph, false, null, null, null) + (string)rightValue;
                     else if(leftType.StartsWith("map<"))
-                        return EmitHelper.ToString((IDictionary)leftValue, graph, false, null, null) + (string)rightValue;
+                        return EmitHelper.ToString((IDictionary)leftValue, graph, false, null, null, null) + (string)rightValue;
                     else if(leftType.StartsWith("array<"))
-                        return EmitHelper.ToString((IList)leftValue, graph, false, null, null) + (string)rightValue;
+                        return EmitHelper.ToString((IList)leftValue, graph, false, null, null, null) + (string)rightValue;
                     else if(leftType.StartsWith("deque<"))
-                        return EmitHelper.ToString((IDeque)leftValue, graph, false, null, null) + (string)rightValue;
+                        return EmitHelper.ToString((IDeque)leftValue, graph, false, null, null, null) + (string)rightValue;
                     else if(leftType == "string")
                         return (string)leftValue + (string)rightValue;
                     else
-                        return EmitHelper.ToString(leftValue, graph, false, null, null) + (string)rightValue;
+                        return EmitHelper.ToString(leftValue, graph, false, null, null, null) + (string)rightValue;
                 }
             }
             else if(balancedType.StartsWith("array<"))

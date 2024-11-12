@@ -145,7 +145,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.debugLayout = debugLayout;
 
             graphViewerClient = new GraphViewerClient(procEnv.NamedGraph, graphViewerType, debugLayout ?? "Orthogonal",
-                debuggerProcEnv.DumpInfo, realizers, debuggerProcEnv.objectNamerAndIndexer, guiConsoleDebuggerHost);
+                debuggerProcEnv.DumpInfo, realizers, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, guiConsoleDebuggerHost);
 
             procEnv.NamedGraph.ReuseOptimization = false;
             NotifyOnConnectionLost = true;
@@ -523,7 +523,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 String objectName = String.Format("%{0,00000000:X}", uniqueId);
                 IObject obj = debuggerProcEnv.objectNamerAndIndexer.GetObject(objectName);
                 if(obj != null)
-                    env.WriteLineDataRendering(EmitHelper.ToStringAutomatic(obj, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, task.procEnv));
+                    env.WriteLineDataRendering(EmitHelper.ToStringAutomatic(obj, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
                 else
                     env.WriteLine("Unknown class object id " + objectName + "!");
             }
@@ -536,10 +536,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             long uniqueId;
             if(HexToLong(argument.Substring(1), out uniqueId))
             {
-                if(debuggerProcEnv.ProcEnv.Graph.GlobalVariables.GetTransientObject(uniqueId) != null)
+                if(debuggerProcEnv.transientObjectNamerAndIndexer.GetTransientObject(uniqueId) != null)
                 {
-                    ITransientObject obj = debuggerProcEnv.ProcEnv.Graph.GlobalVariables.GetTransientObject(uniqueId);
-                    env.WriteLineDataRendering(EmitHelper.ToStringAutomatic(obj, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, task.procEnv));
+                    ITransientObject obj = debuggerProcEnv.transientObjectNamerAndIndexer.GetTransientObject(uniqueId);
+                    env.WriteLineDataRendering(EmitHelper.ToStringAutomatic(obj, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
                 }
                 else
                     env.WriteLine("Unknown transient class object id " + argument + "!");
@@ -554,12 +554,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 && GetSequenceVariable(argument, task.debugSequences.Peek(), seq).GetVariableValue(debuggerProcEnv.ProcEnv) != null)
             {
                 object value = GetSequenceVariable(argument, task.debugSequences.Peek(), seq).GetVariableValue(debuggerProcEnv.ProcEnv);
-                env.WriteLineDataRendering(EmitHelper.ToStringAutomatic(value, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, task.procEnv));
+                env.WriteLineDataRendering(EmitHelper.ToStringAutomatic(value, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
             }
             else if(debuggerProcEnv.ProcEnv.GetVariableValue(argument) != null)
             {
                 object value = debuggerProcEnv.ProcEnv.GetVariableValue(argument);
-                env.WriteLineDataRendering(EmitHelper.ToStringAutomatic(value, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, task.procEnv));
+                env.WriteLineDataRendering(EmitHelper.ToStringAutomatic(value, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
             }
             else
                 env.WriteLine("The given " + argument + " is not a known variable name (of non-null value)!");
@@ -722,13 +722,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     string type;
                     string content;
                     if(var.LocalVariableValue is IDictionary)
-                        EmitHelper.ToString((IDictionary)var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, null);
+                        EmitHelper.ToString((IDictionary)var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
                     else if(var.LocalVariableValue is IList)
-                        EmitHelper.ToString((IList)var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, null);
+                        EmitHelper.ToString((IList)var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
                     else if(var.LocalVariableValue is IDeque)
-                        EmitHelper.ToString((IDeque)var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, null);
+                        EmitHelper.ToString((IDeque)var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
                     else
-                        EmitHelper.ToString(var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, null);
+                        EmitHelper.ToString(var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
                     env.WriteLineDataRendering("  " + var.Name + " = " + content + " : " + type);
                 }
             }
@@ -740,13 +740,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     string type;
                     string content;
                     if(var.Value is IDictionary)
-                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, null);
+                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
                     else if(var.Value is IList)
-                        EmitHelper.ToString((IList)var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, null);
+                        EmitHelper.ToString((IList)var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
                     else if(var.Value is IDeque)
-                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, null);
+                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
                     else
-                        EmitHelper.ToString(var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, null);
+                        EmitHelper.ToString(var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
                     env.WriteLineDataRendering("  " + var.Name + " = " + content + " : " + type);
                 }
             }
@@ -2385,7 +2385,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             for(int i = 0; i < values.Length; ++i)
             {
                 env.Write(" ");
-                env.Write(EmitHelper.ToStringAutomatic(values[i], task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, null));
+                env.Write(EmitHelper.ToStringAutomatic(values[i], task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null));
             }
             env.WriteLine();
 

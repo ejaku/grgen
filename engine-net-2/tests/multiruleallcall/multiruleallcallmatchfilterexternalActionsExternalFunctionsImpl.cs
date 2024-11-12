@@ -23,10 +23,10 @@ namespace de.unika.ipd.grGen.Action_multiruleallcallmatchfilterexternal
                 GRGEN_MODEL.IN n = (GRGEN_MODEL.IN)(m.node_n);
                 m.var_idef = n.@i + f;
                 procEnv.EmitWriter.Write("the value of variable \"n.i\" of type int is: ");
-                procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(n.@i, graph, false, null, null));
+                procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(n.@i, graph, false, null, null, null));
                 procEnv.EmitWriter.Write("\n");
                 procEnv.EmitWriter.Write("the value of variable \"idef\" of type int is: ");
-                procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(m.var_idef, graph, false, null, null));
+                procEnv.EmitWriter.Write(GRGEN_LIBGR.EmitHelper.ToStringNonNull(m.var_idef, graph, false, null, null, null));
                 procEnv.EmitWriter.Write("\n");
             }
             matchesExact.RemoveRange(1, matchesExact.Count - 1);

@@ -95,6 +95,7 @@
     <Compile Include="Graph\IDeepEqualityComparer.cs" />
     <Compile Include="Graph\ITransientObject.cs" />
     <Compile Include="Graph\ITyped.cs" />
+    <Compile Include="Graph\ObjectNamerAndIndexer.cs" />
     <Compile Include="Graph\ObjectType.cs" />
     <Compile Include="Graph\InheritanceType.cs" />
     <Compile Include="Graph\EdgeType.cs" />

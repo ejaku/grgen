@@ -29,7 +29,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         // - so we create object names in case the model does not supply them
         // - so we request the name to object index
         // (in the constructor calls below) (note that some objects are simply not visited by the debugger, so only some objects may receive a name)
-        public readonly ObjectNamerAndIndexer objectNamerAndIndexer; // maps "transient" name to class object
+        public readonly ObjectNamerAndIndexer objectNamerAndIndexer; // maps name to class object and the other way round
+        public readonly TransientObjectNamerAndIndexer transientObjectNamerAndIndexer; // maps name to transient class object and the other way round
 
 
         // creates a temporary internal named graph required by the debugger
@@ -41,6 +42,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             ProcEnv = new LGSPGraphProcessingEnvironment(Graph, null);
             NameToSubgraph.Add(Graph.Name, Graph);
             objectNamerAndIndexer = new ObjectNamerAndIndexer(!graph.Model.ObjectUniquenessIsEnsured, true, graph.Model.ObjectUniquenessIsEnsured);
+            transientObjectNamerAndIndexer = new TransientObjectNamerAndIndexer();
         }
 
         public DebuggerGraphProcessingEnvironment(INamedGraph graph)
@@ -51,6 +53,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             ProcEnv = new LGSPGraphProcessingEnvironment((LGSPNamedGraph)graph, null);
             NameToSubgraph.Add(Graph.Name, Graph);
             objectNamerAndIndexer = new ObjectNamerAndIndexer(!graph.Model.ObjectUniquenessIsEnsured, true, graph.Model.ObjectUniquenessIsEnsured);
+            transientObjectNamerAndIndexer = new TransientObjectNamerAndIndexer();
         }
 
         public DebuggerGraphProcessingEnvironment(INamedGraph graph, IGraphProcessingEnvironment procEnv)
@@ -61,6 +64,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             ProcEnv = procEnv;
             NameToSubgraph.Add(Graph.Name, Graph);
             objectNamerAndIndexer = new ObjectNamerAndIndexer(!graph.Model.ObjectUniquenessIsEnsured, true, graph.Model.ObjectUniquenessIsEnsured);
+            transientObjectNamerAndIndexer = new TransientObjectNamerAndIndexer();
         }
     }
 }

@@ -93,20 +93,7 @@ namespace de.unika.ipd.grGen.libGr
         #endregion Variables management
 
 
-        #region Transient Object id handling
-
-        /// <summary>
-        /// Assigns a unique id to the given transient object (for the same object, always the same id is returned).
-        /// Thereafter, the returned id can be used in GetTransientObject to obtain the corresponding object.
-        /// </summary>
-        long GetUniqueId(ITransientObject transientObject);
-
-        /// <summary>
-        /// Returns the transient object belonging to the given id, or null if no transient object is bound to the id.
-        /// </summary>
-        ITransientObject GetTransientObject(long uniqueId);
-
-        #endregion Transient Object id handling
+        #region (Internal) Object id handling
 
         /// <summary>
         /// Fetches a unique id for an internal class object (non-transient).
@@ -122,5 +109,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="idToObtain">The id to request.</param>
         /// <returns>The requested id if successful.</returns>
         long RequestObjectUniqueId(long idToObtain);
+
+        #endregion (Internal) Object id handling
     }
 }

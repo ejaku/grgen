@@ -25,16 +25,6 @@ namespace de.unika.ipd.grGen.lgsp
         protected readonly Dictionary<IGraphElement, LinkedList<Variable>> ElementMap = new Dictionary<IGraphElement, LinkedList<Variable>>();
         protected readonly Dictionary<String, Variable> VariableMap = new Dictionary<String, Variable>();
 
-        private readonly Dictionary<ITransientObject, long> transientObjectToUniqueId = new Dictionary<ITransientObject, long>();
-        private readonly Dictionary<long, ITransientObject> uniqueIdToTransientObject = new Dictionary<long, ITransientObject>();
-        
-        // Source for assigning unique ids to internal transient class objects.
-        private long transientObjectUniqueIdSource = 0;
-
-        private long FetchTransientObjectUniqueId()
-        {
-            return transientObjectUniqueIdSource++;
-        }
 
         void RemovingNodeListener(INode node)
         {
@@ -224,6 +214,7 @@ namespace de.unika.ipd.grGen.lgsp
             graph.OnClearingGraph -= ClearGraphListener;
         }
 
+
         #region Variables management
 
         public LinkedList<Variable> GetElementVariables(IGraphElement elem)
@@ -380,30 +371,7 @@ namespace de.unika.ipd.grGen.lgsp
         #endregion Variables management
 
 
-        #region Transient Object id handling
-
-        public long GetUniqueId(ITransientObject transientObject)
-        {
-            if(transientObject == null)
-                return -1;
-
-            if(!transientObjectToUniqueId.ContainsKey(transientObject))
-            {
-                long uniqueId = FetchTransientObjectUniqueId();
-                transientObjectToUniqueId[transientObject] = uniqueId;
-                uniqueIdToTransientObject[uniqueId] = transientObject;
-            }
-            return transientObjectToUniqueId[transientObject];
-        }
-
-        public ITransientObject GetTransientObject(long uniqueId)
-        {
-            ITransientObject transientObject;
-            uniqueIdToTransientObject.TryGetValue(uniqueId, out transientObject);
-            return transientObject;
-        }
-
-        #endregion Transient Object id handling
+        #region (Internal) Object id handling
 
         /// <summary>
         /// Source for assigning unique ids to internal class objects.
@@ -432,5 +400,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             objectUniqueIdSource = 0;
         }
+
+        #endregion (Internal) Object id handling
     }
 }

@@ -296,7 +296,7 @@ namespace de.unika.ipd.grGen.grShell
                 seq.ResetExecutionState();
                 ConsoleUI.outWriter.WriteLine("Evaluating Sequence Expression done after {0} ms with result: {1}",
                     (impl.curShellProcEnv.ProcEnv.PerformanceInfo.TimeNeeded * 1000).ToString("F1", System.Globalization.CultureInfo.InvariantCulture),
-                    EmitHelper.ToStringAutomatic(result, impl.curShellProcEnv.ProcEnv.Graph, false, impl.curShellProcEnv.objectNamerAndIndexer, null));
+                    EmitHelper.ToStringAutomatic(result, impl.curShellProcEnv.ProcEnv.Graph, false, impl.curShellProcEnv.objectNamerAndIndexer, impl.curShellProcEnv.transientObjectNamerAndIndexer, null));
                 if(impl.newGraphOptions.Profile)
                     ConsoleUI.outWriter.WriteLine(" - {0} search steps executed", impl.curShellProcEnv.ProcEnv.PerformanceInfo.SearchSteps);
 #if DEBUGACTIONS || MATCHREWRITEDETAIL // spread over multiple files now, search for the corresponding defines to reactivate

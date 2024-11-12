@@ -42,7 +42,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             DebuggerGraphProcessingEnvironment debuggerProcEnv = new DebuggerGraphProcessingEnvironment(graph);
             ElementRealizers realizers = new ElementRealizers();
             graphViewerClient = new GraphViewerClient(graph, type, layout ?? (type == GraphViewerTypes.YComp ? "Orthogonal" : "SugiyamaScheme"),
-                debuggerProcEnv.DumpInfo, realizers, debuggerProcEnv.objectNamerAndIndexer, null);
+                debuggerProcEnv.DumpInfo, realizers, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
             graphViewerClient.UploadGraph();
             RegisterGraphEvents(graph);
             this.graph = graph;

@@ -51,6 +51,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         ElementRealizers realizers;
 
         ObjectNamerAndIndexer objectNamerAndIndexer;
+        TransientObjectNamerAndIndexer transientObjectNamerAndIndexer;
 
 
         /// <summary>
@@ -60,7 +61,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// depending on the graph viewer type that is requested (the layout is expected to be one of the valid layouts of the corresponding graph viewer client).
         /// </summary>
         public GraphViewerClient(INamedGraph graph, GraphViewerTypes graphViewerType, String layoutModule,
-            DumpInfo dumpInfo, ElementRealizers realizers, ObjectNamerAndIndexer objectNamerAndIndexer,
+            DumpInfo dumpInfo, ElementRealizers realizers,
+            ObjectNamerAndIndexer objectNamerAndIndexer, TransientObjectNamerAndIndexer transientObjectNamerAndIndexer,
             GuiConsoleDebuggerHost guiConsoleDebuggerHost)
         {
             this.graph = graph;
@@ -96,6 +98,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             realizers.RegisterGraphViewerClient(this);
 
             this.objectNamerAndIndexer = objectNamerAndIndexer;
+            this.transientObjectNamerAndIndexer = transientObjectNamerAndIndexer;
             // TODO: Add group related events
         }
 
@@ -877,22 +880,22 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
             {
-                EmitHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, objectNamerAndIndexer, null);
+                EmitHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
                 attrValueString = basicClient.Encode(attrValueString);
             }
             else if(attrType.Kind == AttributeKind.ArrayAttr)
             {
-                EmitHelper.ToString((IList)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, objectNamerAndIndexer, null);
+                EmitHelper.ToString((IList)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
                 attrValueString = basicClient.Encode(attrValueString);
             }
             else if(attrType.Kind == AttributeKind.DequeAttr)
             {
-                EmitHelper.ToString((IDeque)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, objectNamerAndIndexer, null);
+                EmitHelper.ToString((IDeque)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
                 attrValueString = basicClient.Encode(attrValueString);
             }
             else
             {
-                EmitHelper.ToString(elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, objectNamerAndIndexer, null);
+                EmitHelper.ToString(elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
                 attrValueString = basicClient.Encode(attrValueString);
             }
         }

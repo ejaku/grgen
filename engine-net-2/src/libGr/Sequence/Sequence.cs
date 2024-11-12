@@ -7799,7 +7799,7 @@ namespace de.unika.ipd.grGen.libGr
                 sb.Append("(");
                 for(int i = 0; i < ArgumentExpressions.Length; ++i)
                 {
-                    sb.Append(EmitHelper.ToStringAutomatic(ArgumentExpressions[i].Evaluate(procEnv), procEnv.Graph, false, null, null));
+                    sb.Append(EmitHelper.ToStringAutomatic(ArgumentExpressions[i].Evaluate(procEnv), procEnv.Graph, false, null, null, null));
                     if(i != ArgumentExpressions.Length - 1)
                         sb.Append(",");
                 }
