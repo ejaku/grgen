@@ -16,6 +16,8 @@ namespace de.unika.ipd.grGen.libGr
     /// An interface to be implemented by classes whose objects can be compared for deep attribute value equality
     /// This excludes structures with shortcuts and cycles (acyclic and cyclic graphs),
     /// only classes without further nesting, or lists, or trees are supported.
+    /// TODO: extend to structures including shortcuts and cycles, but excluding aliasing.
+    /// Was(/is) of minor importance because internal class objects are meant to enrich the graph with memory-efficient extensions, lists and trees (not with hand-written graphs supplying only inefficient pattern-matching and manipulation).
     /// </summary>
     public interface IDeepEqualityComparer
     {
@@ -24,6 +26,7 @@ namespace de.unika.ipd.grGen.libGr
         /// which means the scalar attributes are equal, the container attributes are memberwise deeply equal, and object attributes are deeply equal.
         /// (If types are unequal the result is false.)
         /// Visited objects are/have to be stored in the visited objects dictionary in order to detect shortcuts and cycles.
+        /// TODO: extend to structures including shortcuts and cycles, but excluding aliasing, with a visited objects map instead of a set.
         /// </summary>
         bool IsDeeplyEqual(IDeepEqualityComparer that, IDictionary<object, object> visitedObjects);
     }
