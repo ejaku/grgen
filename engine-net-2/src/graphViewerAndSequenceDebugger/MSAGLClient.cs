@@ -47,9 +47,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             availableLayouts = new Dictionary<string, bool>();
             availableLayouts.Add("SugiyamaScheme", true); // similar to Hierarchic
-            availableLayouts.Add("MDS", true);
+            availableLayouts.Add("MDS", true); // roughly similar to Organic
             availableLayouts.Add("Ranking", true);
-            availableLayouts.Add("IcrementalLayout", true); // roughly similar to Organic
+            availableLayouts.Add("IcrementalLayout", true);
         }
 
         /// <summary>
