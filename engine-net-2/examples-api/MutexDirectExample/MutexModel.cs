@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Thu Jan 06 09:32:14 CET 2022
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Mon Nov 18 19:45:48 CET 2024
 
 using System;
 using System.Collections.Generic;
@@ -2861,7 +2861,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return newObject;
 		}
 
-		private @Object(GRGEN_MODEL.@Object oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.ObjectType_Object.typeVar, graph.GlobalVariables.FetchObjectUniqueId())
+		private @Object(GRGEN_MODEL.@Object oldElem, GRGEN_LIBGR.IGraph graph, IDictionary<object, object> oldToNewObjectMap) : base(GRGEN_MODEL.ObjectType_Object.typeVar, -1)
 		{
 			if(oldToNewObjectMap != null)
 				oldToNewObjectMap.Add(oldElem, this);
@@ -2951,11 +2951,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override GRGEN_LIBGR.IObject CreateObject(GRGEN_LIBGR.IGraph graph, long uniqueId)
 		{
 			if(uniqueId != -1) {
-				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.GlobalVariables.FetchObjectUniqueId(uniqueId));
-				((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
-				return newObject;
+				throw new Exception("The model of the object class type Object does not support uniqueIds!");
 			} else {
-				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(graph.GlobalVariables.FetchObjectUniqueId());
+				GRGEN_MODEL.@Object newObject = new GRGEN_MODEL.@Object(-1);
 				((GRGEN_LIBGR.BaseGraph)graph).ObjectCreated(newObject);
 				return newObject;
 			}
@@ -3651,6 +3649,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return null;
 		}
 		public override bool GraphElementUniquenessIsEnsured { get { return false; } }
+		public override bool ObjectUniquenessIsEnsured { get { return false; } }
 		public override bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
 		public override bool AreFunctionsParallelized { get { return false; } }
 		public override int BranchingFactorForEqualsAny { get { return 0; } }

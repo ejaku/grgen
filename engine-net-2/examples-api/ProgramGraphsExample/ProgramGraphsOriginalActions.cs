@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Thu Jan 06 09:32:18 CET 2022
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Mon Nov 18 19:45:53 CET 2024
 
 //#pragma warning disable CS0219, CS0162
 #pragma warning disable 219, 162

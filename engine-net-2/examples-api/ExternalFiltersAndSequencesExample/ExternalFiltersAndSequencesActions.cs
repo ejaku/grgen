@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Thu Jan 06 09:31:50 CET 2022
+// Generated from "..\..\examples\ExternalFiltersAndSequencesExample\ExternalFiltersAndSequences.grg" on Mon Nov 18 19:45:27 CET 2024
 
 //#pragma warning disable CS0219, CS0162
 #pragma warning disable 219, 162
@@ -4636,7 +4636,7 @@ procEnv.SetVariableValue("b", tmpvar_14b);
 			for(int index_0=0; index_0<entry_1.Count; ++index_0)
 			{
 				GRGEN_ACTIONS.Rule_filterBass.IMatch_filterBass var_m = entry_1[index_0];
-				string tempvar_2 = (string )(GRGEN_LIBGR.GraphHelper.Nameof(var_m.node_n, graph) + GRGEN_LIBGR.EmitHelper.ToStringNonNull(var_f, graph, false, null, null));
+				string tempvar_2 = (string )(GRGEN_LIBGR.GraphHelper.Nameof(var_m.node_n, graph) + GRGEN_LIBGR.EmitHelper.ToStringNonNull(var_f, graph, false, null, null, null));
 				var_m.var_s = tempvar_2;
 			}
 			matches.FromListExact();
