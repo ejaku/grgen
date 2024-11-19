@@ -51,7 +51,7 @@ show var x
 show var y
 
 eval [?array_removeIf_index(array<string>["sack","ze","fix"])]
-exec (::z)=array_removeIf_index(array<string>["ouuuh!","le","prophète"])
+exec (::z)=array_removeIf_index(array<string>["ouuuh!","le","prophete"])
 show var z
 
 exec (::z)=rexec_index
