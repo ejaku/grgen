@@ -45,19 +45,20 @@ The \GrShell\ is a readily available execution environment that is sufficient fo
 But even when you want to integrate a graph based algorithmic core into your existing .NET application, 
 or are forced to write one because you must supply a long-running application reacting to events from the environment, esp. to user input,
 may you be interested in additionally using the \GrShell\ because of its debugging abilities.
-Employing the graph viewer \yComp\ it can visualize the graph at any time during execution.
+Employing the graph viewer \yComp{}(or alternatively MSAGL) it can visualize the graph at any time during execution.
 Moreover, it can visualize the application of a rule, highlighting the matched pattern in the host graph, and the changes carried out.
 It can do so for actions executed from a sequence, which can be executed step-by-step, under debugger control, highlighting the currently executed rule in the sequence.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Tools}
 
-All the programs and libraries of \GrG\ are open source licensed under \indexed{LGPL}.
+All the programs and libraries of \GrG\ are open source licensed under \indexed{LGPL}\cite{LGPL3}.
 Notice that the \yComp\ graph viewer is not a part of \GrG ; \yComp\ (cf. \url{https://pp.ipd.kit.edu/firm/yComp.html}) is closed source and ships with its own license granted by \yFiles\ for academic use --
 this means above all that you are not allowed to ship it with a release of your own commercial software, in contrast to the \GrG\ libraries.
-To be more specific: an academic license restricts the use of the software (\yComp) to non-commercial purposes (research, teaching, projects, courses and application development).
+To be more specific: an academic license restricts the use of the software (\yComp) to \emph{non-commercial} purposes (research, teaching, projects, courses and application development).
+Utilizing the internal MSAGL based graph viewer saves you from license issues due to its permissive MIT license, but it lacks the sophistication of \yComp{}.
 
-Executing a generated graph rewrite system requires .NET 4.0 or later (or mono 3.0); compiling and debugging a graph rewrite system in addition requires JAVA 1.8 or later. 
+Executing a generated graph rewrite system requires .NET Framework\cite{NET} version 4.7.2 or mono\cite{MONO} version 3.0, or later; compiling (and debugging) a graph rewrite system in addition requires JAVA\cite{JAVA} version 1.8 or later. 
 You find the tools in the \texttt{bin} subdirectory of your \GrG\ installation.
 
 %-----------------------------------------------------------------------------------------------

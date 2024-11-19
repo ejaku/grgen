@@ -43,7 +43,7 @@ The generated file \texttt{FooModel.cs} opens the namespace \texttt{de.unika.ipd
 It contains for every node or edge class \texttt{Bar} an interface \texttt{IBar}, which offers C\# properties giving access to the attributes, and is inheriting in the same way as specified in the model file.
 This builds the exact interface of the model, it is implemented by a sealed class \texttt{Bar} with generated code and with code from the lgsp backend.
 Furthermore, the namespace contains a model class \texttt{FooGraphModel} implementing the interface \texttt{de.unika.ipd.grGen.libGr.IGraphModel},
-which supports iteration over the entities defined in the model, using further generic(i.e. inexact) interfaces from libGr.
+which supports iteration over the entities defined in the model, using further generic(i.e. inexact) interfaces from libGr (plus gives access to some model properties).
 Finally, the namespace contains a class \texttt{FooGraph} defining an \texttt{LGSPGraph} of a model equivalent to \texttt{FooGraphModel}; 
 it contains convenience functions to easily create nodes and edges of exact type in the graph.
 
@@ -405,7 +405,7 @@ b = bla;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Graph Viewer and Debugger}
-The \texttt{graphViewerAndSequenceDebugger} project contains convenience interfaces that allow you to access the graph viewer and the sequence debugger easily from API level (you have to include the \texttt{graphViewerAndSequenceDebugger.dll} in order to do so).
+The \texttt{graphViewerAndSequenceDebugger} project contains convenience interfaces that allow you to access the graph viewer and the sequence debugger easily from API level (you have to include the \texttt{graphViewerAndSequenceDebugger.dll} in order to do so, note its package reference to the NuGet package \texttt{Microsoft.Msagl.GraphViewerGDI} requiring the inclusion of \texttt{System.Resources.Extensions} with a \texttt{bindingRedirect} in the \texttt{app.config} of your application).
 
 The \texttt{GraphViewer} class esp. offers methods to
 \begin{itemize}
@@ -413,11 +413,11 @@ The \texttt{GraphViewer} class esp. offers methods to
 	\item dump a graph to a file in a graph visualization format and show it (\texttt{Dump\-And\-Show\-Graph})
 \end{itemize}
 
-The \texttt{examples-api/YCompExample/YCompExample.cs} shows how to use \yComp{} in order to display a graph (and changes to it), as well as to dump a graph as a \texttt{.vcg} file and render it (utilizing parts of the \texttt{Mutex} example).
+The \texttt{examples-api/YCompExample/YCompExample.cs} shows how to use the \texttt{GraphViewer} class with \yComp{} (or alternatively MSAGL) in order to display a graph (and changes to it), as well as to dump a graph as a \texttt{.vcg} file and render it (utilizing parts of the \texttt{Mutex} example).
 
-The \texttt{Debugger} class allows you to execute a graph rewrite sequence under debugger control (\texttt{Apply\-Graph\-Rewrite\-Sequence}), once it is configured esp. with the required environments (\texttt{Debugger\-Environment} and \texttt{Debugger\-Graph\-Processing\-Environment}).
+The \texttt{ConsoleDebugger} class allows you to execute a graph rewrite sequence under debugger control (\texttt{Apply\-Graph\-Rewrite\-Sequence}) from your own application, once it is configured properly esp. with the required environments (\texttt{Debugger\-Environment} and \texttt{Debugger\-Graph\-Processing\-Environment}).
 
-The \texttt{examples-api/DebuggerExample/DebuggerExample.cs} shows how to execute a sequence in the debugger (in a command line window) (utilizing parts of the \texttt{Mutex} example).
+The \texttt{examples-api/DebuggerExample/DebuggerExample.cs} shows how to execute a sequence in the debugger (in a stdout command line window in case of \texttt{GraphViewerTypes.YComp}, or in a WindowsForms command line window emulation in case of \texttt{GraphViewerTypes.MSAGL}) (utilizing parts of the \texttt{Mutex} example; and a \texttt{Gui\-Console\-Control}, hosted in a \texttt{Gui\-Console\-Debugger\-Host} in case of the WindowsForms example).
 
 
 \subsubsection*{libGrShell}
@@ -445,7 +445,7 @@ inheriting from each other as stated in the external class declarations.
 	\item within the \texttt{de.unika.ipd.grGen.expression} namespace a public partial class named \texttt{ExternalProcedures} with a body of comments giving the expected procedure prototypes.
 \end{itemize}
 
-%\pagebreak
+\pagebreak
 
 \noindent The generated partial classes come without implementation, you must implement them in a file named \texttt{Foo\-Model\-External\-Functions\-Impl.cs}, located in the folder of the \texttt{Foo\-Model\-External\-Functions.cs} file, by replicating them, and fleshing them out:
 \begin{itemize}

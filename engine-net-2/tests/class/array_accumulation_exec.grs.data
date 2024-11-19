@@ -9,13 +9,13 @@
 "[Simple{%:%4,i:1,j:2},Simple{%:%5,i:0,j:1},Simple{%:%6,i:2,j:3},Simple{%:%7,i:1,j:2}]"
 0
 0
-"[Simple{%:%5,i:0,j:1},Simple{%:%7,i:1,j:2},Simple{%:%4,i:1,j:2},Simple{%:%6,i:2,j:3}]"
+"[Simple{%:%5,i:0,j:1},Simple{%:%4,i:1,j:2},Simple{%:%7,i:1,j:2},Simple{%:%6,i:2,j:3}]"
 0
 0
 "[Simple{%:%8,i:1,j:2},Simple{%:%9,i:0,j:1},Simple{%:%A,i:2,j:3},Simple{%:%B,i:1,j:2}]"
 0
 0
-"[Simple{%:%A,i:2,j:3},Simple{%:%B,i:1,j:2},Simple{%:%8,i:1,j:2},Simple{%:%9,i:0,j:1}]"
+"[Simple{%:%A,i:2,j:3},Simple{%:%8,i:1,j:2},Simple{%:%B,i:1,j:2},Simple{%:%9,i:0,j:1}]"
 0
 0
 "[Simple{%:%C,i:1,j:2},Simple{%:%D,i:0,j:1},Simple{%:%E,i:2,j:3},Simple{%:%F,i:1,j:2}]"

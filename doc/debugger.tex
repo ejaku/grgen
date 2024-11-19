@@ -1,8 +1,9 @@
 \chapter{Visualization and Debugging}\indexmain{Debugger}
 \label{chapdebugger}
 
-This chapter gives an introduction into the visualization capabilities of yComp and into the graphical debugger of \GrG, which is offered by \GrShell\ in combination with yComp (the following commands are \GrShell-commands).
-
+This chapter gives an introduction into the visualization and debugging capabilities of \GrG.
+They are offered by a console debugger (either rendered on a stdout-console or a WindowsForms console like display),
+in combination with the graph viewer application \yComp{} or a builtin graph viewer based on the MSAGL library, that can also be used in your own application via an API, and the configuration commands offered by \GrShell\ (which is the traditional execution host of the console debugger).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Graph Visualization Commands (Nested Layout)}\label{sub:visual}\indexmain{visualization}\indexmainsee{layout}{visualization}\indexmainsee{visualization}{group node}\indexmain{nested layout}\indexmainsee{nested layout}{group node}\indexmain{nested graph}\indexmainsee{nested graph}{group node}
@@ -204,7 +205,10 @@ Notice the infotags on the \texttt{rating} and \texttt{avgRating} attributes.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{yComp Usage}
 
-\yComp\indexmain{yComp} \cite{ycomp} is the default graph viewer of GrGen, and -- when started as a server process -- can be controlled by the debugger of GrShell via a TCP/IP connection.
+\yComp\indexmain{yComp}\cite{ycomp} (a graph viewer application originally targeting compiler construction, based on the yFiles library) is the default graph viewer of GrGen, and -- when started as a server process -- can be controlled by the debugger via a TCP/IP connection.
+
+The available layouts of \yComp{} are: \texttt{Random}, \texttt{Hierarchic}, \texttt{Organic}, \texttt{Orthogonal}, \texttt{Circular}, \texttt{Tree}, \texttt{Diagonal}, \texttt{Incremental Hierarchic}, \texttt{Compilergraph}, see \ref{sec:debuggercommands} for more.
+
 Besides the things already mentioned in \ref{tools:ycomp}, we want to give the following hints:
 \begin{itemize}
 	\item when started on a dump, you must press the rightmost play button to start layout
@@ -218,32 +222,88 @@ Besides the things already mentioned in \ref{tools:ycomp}, we want to give the f
 	\item you can search with \texttt{Ctrl-f} or \texttt{/} for the persistent name or an attribute value (or by clicking into the left search field), the matching elements get highlighted
 \end{itemize}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MSAGL Usage}
+
+MSAGL\indexmain{MSAGL}\cite{MSAGL}, an abbreviation of Microsoft Automatic Graph Layout, is a .NET library and tool for graph layout and viewing.
+MSAGL is not a standalone application, in contrast to yComp, but a library that is linked into \GrG\ (and used at API level).
+Technically, the debugger using MSAGL as graph viewer can be embedded into your own .NET program by utilizing the \texttt{graph\-Viewer\-And\-Sequence\-Debugger} assembly of \GrG\ (i.e. you can use it on API level, like MSAGL).
+Legally, this is possible because MSAGL comes with the very permissive \indexed{MIT license}\cite{MITLicense}, in contrast to the \yComp{} license purchased by IPD Goos from yWorks that restricts its use to academic purposes, and esp. does not allow you to ship it with a release of your own software.
+\GrG\ itself is licensed as LGPL, so you can ship it with your own (even commercial) program - the functionality of the MSAGL based graph viewer is limited compared to what \yComp{} offers, though.
+
+The available layouts of MSAGL are: \texttt{SugiyamaScheme}, \texttt{MDS}, \texttt{Ranking}, \texttt{IcrementalLayout}, see \ref{sec:debuggercommands} for more.
+
+In order to use it from \GrShell{}, you have to employ the \texttt{debug with} command.
+\begin{rail}
+  'debug' 'with' ( 'yComp' | 'MSAGL' )
+\end{rail}\ixkeyw{debug}\ixkeyw{with}
+Switches the graphical part of the debugger (the graph viewer) in between yComp and MSAGL (with \yComp{} being the default).
+If MSAGL is used, the debugger is displayed in a WindowsForms\cite{WinForms} console like control instead of a stdout console.
+
+The program graph from \texttt{examples/JavaProgramGraphs-GraBaTs08} looks like depicted in Figures~\ref{figprogramgraph3} and Figures~\ref{figprogramgraph4} (compared to the \yComp{}-rendering in Figures~\ref{figprogramgraph1} and \ref{figprogramgraph2}).
+
+\begin{figure}[phtb]
+  \centering
+  \includegraphics[width=0.99\textwidth]{fig/screen-msagl-overview}
+  \caption{The initial program graph rendered with MSAGL and layout SugiyamaScheme, utilized by a debugger with two console panes}
+  \label{figprogramgraph3}
+\end{figure}
+
+\begin{figure}[phtb]
+  \centering
+  \includegraphics[width=0.80\textwidth]{fig/screen-msagl-detail}
+  \caption{Some details of the ``Node'' class of the initial program graph}
+  \label{figprogramgraph4}
+\end{figure}
+
+The WindowsForms based debugger that uses MSAGL as graph viewer supplies a two pane mode, it is enabled by default in this case (when \yComp{} is used, only the single \GrShell{}-console is employed, irrespective of this setting), you may disable it (or enable it again) with the configuration option:
+\begin{rail}
+  'debug' 'set' 'option' 'twopane' ( 'true' | 'false' )
+\end{rail}\ixkeyw{debug}\ixkeyw{set}\ixkeyw{option}\ixkeyw{twopane}
+In two pane mode of the debugger, two consoles are employed, one for data rendering and one for user dialog.
+The data rendering console only displays the current work object at a time (typically the sequence that gets debugged, in its current state), instead of the complete output history, which still holds for the user dialog console, esp. in order to allow you to inspect the subrule traces log.
+
+You may find out whether two pane mode is enabled with the following command:
+\begin{rail}
+  'debug' 'get' 'options'
+\end{rail}\ixkeyw{debug}\ixkeyw{get}\ixkeyw{options}
+Lists the available debug options.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Debugging Related Commands}
+\section{Debugging Related Commands}\label{sec:debuggercommands}
 
 \begin{rail}
   'debug' ( 'enable' | 'disable' )
 \end{rail}\ixkeyw{debug}\ixkeyw{enable}\ixkeyw{disable}
 Enables and disables the \indexed{debug mode}.
-The debug mode shows the current working graph in a \yComp\ window.
-All changes to the working graph are tracked by \yComp\ immediately.
+The debug mode shows the current working graph in a \yComp{} or MSAGL window.
+All changes to the working graph are tracked by the graph viewer immediately.
 
 \begin{rail}
   'debug' 'set' 'layout' ( (Text)? | 'option' Name String ) ;
 \end{rail}\ixkeyw{debug}\ixkeyw{set}\ixkeyw{layout}\ixkeyw{option}
 Sets the default graph \indexed{layout algorithm} to \emph{Text}.
 If \emph{Text} is omitted, a list of the available layout algorithms is displayed.
-The following layout algorithms are supported: \texttt{Random}, \texttt{Hierarchic}, \texttt{Organic}, \texttt{Orthogonal}, \texttt{Circular}, \texttt{Tree}, \texttt{Diagonal}, \texttt{Incremental Hierarchic}, \texttt{Compilergraph}.
+The \texttt{option} version allows you to specify layout options by name value pairs.
+The available layout options can be listed by the succeeding command.
+
+The following layout algorithms are supported by \yComp{}: \texttt{Random}, \texttt{Hierarchic}, \texttt{Organic}, \texttt{Orthogonal}, \texttt{Circular}, \texttt{Tree}, \texttt{Diagonal}, \texttt{Incremental Hierarchic}, \texttt{Compilergraph}.
 For technical graphs \texttt{Hierarchic} works normally best; \texttt{Compilergraph} is a version of \texttt{Hierarchic} cutting some edges, it may be of interest if \texttt{Hierarchic} contains too many crossing edges.
 \texttt{Organic} is the other general purpose layout algorithm available to be tried out early; the other layout algorithms are rather special, but this should not deter you from using them if they fit to your task ;).
-The \texttt{option} version allows to specify layout options by name value pairs.
-The available layout options can be listed by the following command.
+
+The following layout algorithms are supported by MSAGL: \texttt{SugiyamaScheme}, \texttt{MDS}, \texttt{Ranking}, \texttt{IcrementalLayout}.
+We recommend to use \texttt{SugiyamaScheme} in place of \texttt{Hierarchic}, and \texttt{MDS} in place of \texttt{Organic}.
 
 \begin{rail}
   'debug' 'get' 'layout' 'options';
 \end{rail}\ixkeyw{debug}\ixkeyw{get}\ixkeyw{layout}\ixkeyw{options}
 Prints a list of the available layout options of the currently active layout algorithm.
+
+\begin{rail}
+  'debug' 'get' 'layout';
+\end{rail}\ixkeyw{debug}\ixkeyw{get}\ixkeyw{layout}
+Prints the currently set layout.
 
 \begin{rail}
   'debug' 'layout';
@@ -300,7 +360,7 @@ The rules that matched the last time during sequence execution are shown on dark
 the rules that failed the last time during sequence execution are shown on dark red background;
 at the begin of a new loop iteration the highlighting state of the rules contained in the loop is reset.
 
-During execution, \yComp\footnote{Make sure, that the path to your \texttt{\indexed{yComp.jar}} package is set correctly in the \texttt{ycomp} shell script within \GrG's \texttt{/bin} directory.}\indexmain{yComp}
+During execution, \yComp\footnote{Make sure, that the path to your \texttt{\indexed{yComp.jar}} package is set correctly in the \texttt{ycomp} shell script within \GrG's \texttt{/bin} directory.}\indexmain{yComp}/MSAGL
 displays the current graph at each single step, and on request highlights a rule application, marking the matches in the graph, and showing the changes to the graph stemming from that rule application.
 
 %\pagebreak %manual break to get two pages with halfway broken layout instead of one with deeply broken

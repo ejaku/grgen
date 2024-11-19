@@ -54,7 +54,7 @@ The \emph{FunctionParallelization} and \emph{EqualsAnyParallelization} are expla
 \begin{rail}
   ObjectClass: 'class' IdentDecl (() | 'extends' (ObjectType+',')) \\
     (';' | lbrace AttributeDeclarations rbrace);
-\end{rail}\ixkeyw{class}\ixkeyw{extends}\ixnterm{ObjectClass}\ixnterm{TransientObjectClass}
+\end{rail}\ixkeyw{class}\ixkeyw{extends}\ixnterm{ObjectClass}
 An \emph{ObjectClass} definition defines a new \indexed{object type}.
 Object types can inherit\indexmain{inheritance} from other object types (defined within the same file).
 If the \texttt{extends} clause is omitted, \emph{ObjectType} will inherit from the built-in type \texttt{\indexed{Object}}, the root type of all internal class objects.
@@ -62,11 +62,17 @@ Note that \texttt{Object} is not the same as \texttt{object}, the root type of a
 Optionally objects can possess attributes.
 The keywords \texttt{abstract} and \texttt{const} have the same meaning as for node and edge types, i.e. non-instantiable values and unmodifiable attributes, cf. \ref{nodeandedgetypes}.
 
-Objects of object classes are automatically assigned a unique id upon creation (of type \texttt{long}).
-This id is used in serialization and parsing of values of object types, it is displayed in the debugger, and can be queryied with the \texttt{uniqueof} function (which has the signature \texttt{uniqueof(.:ObjectType):long}, note the \texttt{long} compared to the \texttt{int} of the graph elements).
+\begin{rail}
+  UniqueObjectConstraintDecl: 'object' 'class' 'unique' ';';
+\end{rail}\ixnterm{UniqueObjectConstraintDecl}\ixkeyw{unique}
+
+You may request the assignment of a unique id upon creation for an object of an object class with a declaration in the model (of type \texttt{long}).
+In case it is available, it is used in serialization and parsing of values of object types, it is displayed in the debugger, and it can be queried with the \texttt{uniqueof} function (which has the signature \texttt{uniqueof(.:ObjectType):long}, note the \texttt{long} compared to the \texttt{int} when applied to nodes, edges, and (sub)graphs).
+In case it is not available, is an id assigned on the fly as needed -- but not stored, so another id may be assigned later on.
 
 \begin{example}
 \begin{grgen}
+object class unique;
 class Bar;
 class Foo extends Bar
 {
@@ -86,7 +92,7 @@ node class N
 \begin{rail}
   TransientObjectClass: 'transient' 'class' IdentDecl (() | 'extends' (TransientObjectType+',')) \\
     (';' | lbrace AttributeDeclarations rbrace);
-\end{rail}\ixkeyw{class}\ixkeyw{extends}\ixnterm{ObjectClass}\ixnterm{TransientObjectClass}
+\end{rail}\ixkeyw{class}\ixkeyw{extends}\ixnterm{TransientObjectClass}
 An \emph{TransientObjectClass} definition defines a new \indexed{transient object type}.
 Transient object types can inherit\indexmain{inheritance} from other transient object types (defined within the same file).
 If the \texttt{extends} clause is omitted, \emph{TransientObjectType} will inherit from the built-in type \texttt{\indexed{TransientObject}}, the root type of all internal transient class objects.
@@ -95,7 +101,7 @@ The keywords \texttt{abstract} and \texttt{const} have the same meaning as for n
 
 In contrast to class objects, transient class objects cannot be stored in the graph, i.e. attributes of transient class type are forbidden.
 They are meant for processing purpose only (their semantics are geared towards that use case).
-Neither are transient classes assigned a unique id.
+Neither are transient classes assigned a lasting unique id (ids are assigned on the fly in the debugger or the shell as needed in order to support debugging).
 Transient objects can reference non-transient objects, though.
 
 Objects and transient objects can be casted downwards and upwards in the type hierarchy (a cast to a more specific type only succeeds if the runtime type of the object is of that specific type or a subtype), the same holds for nodes and edges (this is not to be mistaken with the retype construct from Section \ref{sec:retype} that also supports cross-casts and is always succeeding (potentially yielding a target type having nothing in common with the source type besides the name/unique-id))).
