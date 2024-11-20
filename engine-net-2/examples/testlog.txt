@@ -5,6 +5,7 @@ AntWorld-GraBaTs08:
   AntWorld_ExtendAtAimless.grs -> 0
   AntWorld_ExtendAtEndOfRound.grs -> 0
   AntWorld_ExtendAtEndOfRound_NoGammel.grs -> 0
+  AntWorld_ExtendAtEndOfRound_NoGammel_Interpreted.grs -> 0
   AntWorld_GrowWithFirst.grs -> 0
   AntWorld_RememberBorder.grs -> 0
 Clique:

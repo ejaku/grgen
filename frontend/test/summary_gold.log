@@ -548,6 +548,7 @@ OK     should_pass/object_user_manual.grg
 OK     should_pass/package.grg
 OK     should_pass/packageGlobal.grg
 OK     should_pass/packageactions.grg
+OK     should_pass/packageactionsFatThusNotInlinedSubpatterns.grg
 OK     should_pass/packageactionsfiltercheck.grg
 OK     should_pass/packagemultibacktrackmatchfilter.grg
 OK     should_pass/packagemultiruleallcall.grg
@@ -1670,5 +1671,12 @@ ERROR  should_fail/unary_005.grg
 ERROR  should_fail/unary_006.grg
 ERROR  should_fail/unary_007.grg
 ERROR  should_fail/unary_008.grg
+ERROR  should_fail/uniqueEdgeBy.grg
+ERROR  should_fail/uniqueEdgeByIndex.grg
+ERROR  should_fail/uniqueNodeBy.grg
+ERROR  should_fail/uniqueNodeByIndex.grg
+ERROR  should_fail/uniqueofEdge.grg
+ERROR  should_fail/uniqueofNode.grg
+ERROR  should_fail/uniqueofObject.grg
 ERROR  should_fail/visit_001.grg
 ERROR  should_fail/yield_expression_only_in_lhs_def_var_initialization.grg
