@@ -4,17 +4,12 @@
         <name>graphViewerAndSequenceDebugger</name>
     </assembly>
     <members>
-        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleUI">
-            <summary>
-            Console interface for simple user prompts (e.g. for debugging)
-            </summary>
-        </member>
         <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConstantParserHelper">
             <summary>
             Contains helper code for the constant parser, interacts with the constant parser.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.#ctor(de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IDebuggerEnvironment,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DebuggerGraphProcessingEnvironment,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ElementRealizers,System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.#ctor(de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IDebuggerEnvironment,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DebuggerGraphProcessingEnvironment,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ElementRealizers,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerTypes,System.String,System.Collections.Generic.Dictionary{System.String,System.String},de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleDebuggerHost)">
             <summary>
             Initializes a new Debugger instance using the given environments, and layout as well as layout options.
             All invalid options will be removed from layoutOptions.
@@ -24,17 +19,19 @@
             <param name="debuggerProcEnv">The debugger graph processing environment to be used by the debugger
             (contains the graph processing environment of the top-level graph to be used by the debugger).</param>
             <param name="realizers">The element realizers to be used by the debugger.</param>
+            <param name="graphViewerType">The type of the graph viewer to be used by the debugger.</param>
             <param name="debugLayout">The name of the layout to be used.
             If null, Orthogonal is used.</param>
             <param name="layoutOptions">An dictionary mapping layout option names to their values.
             It may be null, if no options are to be applied.</param>
+            <param name="guiConsoleDebuggerHost">An optional debugger host form, in case the graph viewer type MSAGL is requested, the MSAGL graph viewer is added to it (YComp is a standalone application).</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.Close">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.Close">
             <summary>
             Closes the debugger.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.SetLayoutOption(System.String,System.String)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.SetLayoutOption(System.String,System.String)">
             <summary>
             Sets a layout option for the current layout in yComp.
             </summary>
@@ -42,111 +39,119 @@
             <param name="optionValue">The new value for the option.</param>
             <returns>True, iff yComp did not report an error.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.GetParentSequence(de.unika.ipd.grGen.libGr.SequenceBase,de.unika.ipd.grGen.libGr.SequenceBase)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.GetParentSequence(de.unika.ipd.grGen.libGr.SequenceBase,de.unika.ipd.grGen.libGr.SequenceBase)">
             <summary>
             Searches in the given sequence base seq for the parent sequence base of the sequence base childseq.
             </summary>
             <returns>The parent sequence base of childseq or null, if no parent has been found.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.QueryUser(de.unika.ipd.grGen.libGr.SequenceBase)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.QueryUser(de.unika.ipd.grGen.libGr.SequenceBase)">
             <summary>
             Debugger method waiting for user commands
             </summary>
             <param name="seq"></param>
             <returns></returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.ChooseDirection(System.Int32,de.unika.ipd.grGen.libGr.Sequence)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.ChooseDirection(System.Int32,de.unika.ipd.grGen.libGr.Sequence)">
             <summary>
             returns the maybe user altered direction of execution for the sequence given
             the randomly chosen directions is supplied; 0: execute left operand first, 1: execute right operand first
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.ChooseSequence(System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.Sequence},de.unika.ipd.grGen.libGr.SequenceNAry)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.ChooseSequence(System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.Sequence},de.unika.ipd.grGen.libGr.SequenceNAry)">
             <summary>
             returns the maybe user altered sequence to execute next for the sequence given
             the randomly chosen sequence is supplied; the object with all available sequences is supplied
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.ChooseSequence(System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.Sequence},de.unika.ipd.grGen.libGr.SequenceParallel)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.ChooseSequence(System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.Sequence},de.unika.ipd.grGen.libGr.SequenceParallel)">
             <summary>
             returns the maybe user altered sequence to execute next for the sequence given
             the randomly chosen sequence is supplied; the object with all available sequences is supplied
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.ChoosePoint(System.Double,de.unika.ipd.grGen.libGr.SequenceWeightedOne)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.ChoosePoint(System.Double,de.unika.ipd.grGen.libGr.SequenceWeightedOne)">
             <summary>
             returns the maybe user altered point within the interval series, denoting the sequence to execute next
             the randomly chosen point is supplied; the sequence with the intervals and their corresponding sequences is supplied
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.ChooseMatch(System.Int32,de.unika.ipd.grGen.libGr.SequenceSomeFromSet)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.ChooseMatch(System.Int32,de.unika.ipd.grGen.libGr.SequenceSomeFromSet)">
             <summary>
             returns the maybe user altered rule to execute next for the sequence given
             the randomly chosen rule is supplied; the object with all available rules is supplied
             a list of all found matches is supplied, too
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.ChooseMatch(System.Int32,de.unika.ipd.grGen.libGr.IMatches,System.Int32,de.unika.ipd.grGen.libGr.Sequence)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.ChooseMatch(System.Int32,de.unika.ipd.grGen.libGr.IMatches,System.Int32,de.unika.ipd.grGen.libGr.Sequence)">
             <summary>
             returns the maybe user altered match to apply next for the sequence given
             the randomly chosen match is supplied; the object with all available matches is supplied
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.ChooseRandomNumber(System.Int32,System.Int32,de.unika.ipd.grGen.libGr.Sequence)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.ChooseRandomNumber(System.Int32,System.Int32,de.unika.ipd.grGen.libGr.Sequence)">
             <summary>
             returns the maybe user altered random number in the range 0 - upperBound exclusive for the sequence given
             the random number chosen is supplied
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.ChooseRandomNumber(System.Double,de.unika.ipd.grGen.libGr.Sequence)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.ChooseRandomNumber(System.Double,de.unika.ipd.grGen.libGr.Sequence)">
             <summary>
             returns the maybe user altered random number in the range 0.0 - 1.0 exclusive for the sequence given
             the random number chosen is supplied
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.ChooseGraphElement">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.ChooseGraphElement">
             <summary>
             returns the id/persistent name of a node/edge chosen by the user in yComp
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.ChooseValue(System.String,de.unika.ipd.grGen.libGr.Sequence)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.ChooseValue(System.String,de.unika.ipd.grGen.libGr.Sequence)">
             <summary>
             returns a user chosen/input value of the given type
             no random input value is supplied, the user must give a value
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.HandleAssert(System.Boolean,System.Func{System.Boolean},System.Func{System.String},System.Func{System.Object}[])">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.HandleAssert(System.Boolean,System.Func{System.Boolean},System.Func{System.String},System.Func{System.Object}[])">
             <summary>
             Queries the user whether to continue execution, processes the assertion given the user choice (internally).
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.DebugEndOfIteration(System.Boolean,de.unika.ipd.grGen.libGr.SequenceBase)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.DebugEndOfIteration(System.Boolean,de.unika.ipd.grGen.libGr.SequenceBase)">
             <summary>
             informs debugger about the end of a loop iteration, so it can display the state at the end of the iteration
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.DebugSwitchToGraph(de.unika.ipd.grGen.libGr.IGraph)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.DebugSwitchToGraph(de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             informs debugger about the change of the graph, so it can switch yComp display to the new one
             called just before switch with the new one, the old one is the current graph
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.DebugReturnedFromGraph(de.unika.ipd.grGen.libGr.IGraph)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.DebugReturnedFromGraph(de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             informs debugger about the change of the graph, so it can switch yComp display to the new one
             called just after the switch with the old one, the new one is the current graph
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.DebugHighlight(System.String,System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.String})">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.DebugHighlight(System.String,System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.String})">
             <summary>
             highlights the values in the graphs if debugging is active (annotating them with the source names)
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.QueryContinueOrTrace(System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.QueryContinueOrTrace(System.Boolean)">
             <summary>
             Asks in case of a breakpoint outside the sequence whether to
             - print a full (t)race stack dump or even a (f)ull state dump
             - continue execution (any other key)
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.UserChoiceMenu">
+            <summary>
+            A description of a user choice in the user interface,
+            built from an array of options, describing the option/command, giving its command key/character shortcut as a char in parenthesis,
+            special cases: (0-9) to allow any keys from 0 ... 9, (any key) to allow any key not listed in the choices, (()) to render a text in simple parenthesis not getting interpreted as key char.
+            The name has to distinguish the different available choice menus (it is intended for a later use in a GUI debugger to allow to select an icon set based on it, i.e. it may encompass a group of choice menus with same semantic content).
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DebuggerTask.Close">
@@ -196,6 +201,13 @@
             Not to be mistaken with the Recorder/IRecorder that is used to serialize changes that occur to the graph to a file.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewer">
+            <summary>
+            helper class to
+            - employ a graph viewer client from an own program 
+            - dump a graph in vcg format and then show it with yComp or dump a graph in dot format and show it with graphviz, also utilized internally
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewer.IsDotExecutable(System.String)">
             <summary>
             Tells whether the name is one of the dot renderers from graphviz
@@ -218,6 +230,242 @@
             Executes the specified viewer and deletes the dump file after the viewer has exited
             </summary>
             <param name="obj">A ShowGraphParam object</param>
+        </member>
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient">
+            <summary>
+            Class communicating with yComp or MSAGL, over a simple live graph viewer protocol,
+            some higher-level shared functionality regarding graph presentation state handling is implemented here.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.#ctor(de.unika.ipd.grGen.libGr.INamedGraph,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerTypes,System.String,de.unika.ipd.grGen.libGr.DumpInfo,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ElementRealizers,de.unika.ipd.grGen.libGr.ObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.TransientObjectNamerAndIndexer,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleDebuggerHost)">
+            <summary>
+            Creates a new GraphViewerClient instance.
+            internally, it creates a YCompClient and connects to the local YComp server,
+            or creates a MSAGLClient, inside the guiConsoleDebuggerHost in case one is supplied,
+            depending on the graph viewer type that is requested (the layout is expected to be one of the valid layouts of the corresponding graph viewer client).
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.NodeRealizerOverride">
+            <summary>
+            If non-null, overrides the type dependent node realizer (setter used from debugger for added nodes, other realizers are given directly at methods called by debugger)
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.EdgeRealizerOverride">
+            <summary>
+            If non-null, overrides the type dependent edge realizer (setter used from debugger for added edges, other realizers are given directly at methods called by debugger)
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.SetLayout(System.String)">
+            <summary>
+            Sets the current layouter of yComp
+            </summary>
+            <param name="moduleName">The name of the layouter.
+                Can be one of:
+                - Random
+                - Hierarchic
+                - Organic
+                - Orthogonal
+                - Circular
+                - Tree
+                - Diagonal
+                - Incremental Hierarchic
+                - Compilergraph
+            </param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.GetLayoutOptions">
+            <summary>
+            Retrieves the available options of the current layouter of yComp and the current values.
+            </summary>
+            <returns>A description of the available options of the current layouter of yComp
+            and the current values.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.SetLayoutOption(System.String,System.String)">
+            <summary>
+            Sets a layout option of the current layouter of yComp.
+            </summary>
+            <param name="optionName">The name of the option.</param>
+            <param name="optionValue">The new value.</param>
+            <returns>Null, or a error message, if setting the option failed.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.ForceLayout">
+            <summary>
+            Forces yComp to relayout the graph.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.UpdateDisplay">
+            <summary>
+            Relayouts the graph if needed.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.Sync">
+            <summary>
+            Sends a "sync" request and waits for a "sync" answer
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.AddEdge(System.String,System.String,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode)">
+            <summary>
+            Adding of helper edge used in debugging, for visualization of map content
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.AnnotateElement(de.unika.ipd.grGen.libGr.IGraphElement,System.String)">
+            <summary>
+            Annotates the given element with the given string in double angle brackets
+            </summary>
+            <param name="elem">The element to be annotated</param>
+            <param name="annotation">The annotation string or null, if the annotation is to be removed</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.ChangeNode(de.unika.ipd.grGen.libGr.INode,System.String)">
+            <summary>
+            Sets the node realizer of the given node.
+            If realizer is null, the realizer for the type of the node is used.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.ChangeEdge(de.unika.ipd.grGen.libGr.IEdge,System.String)">
+            <summary>
+            Sets the edge realizer of the given edge.
+            If realizer is null, the realizer for the type of the edge is used.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.UploadGraph">
+            <summary>
+            Uploads the graph to YComp, updates the display and makes a synchronisation.
+            Does not change the stored graph, even though this is required for naming.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl.components">
+            <summary> 
+            Erforderliche Designervariable.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl.Dispose(System.Boolean)">
+            <summary> 
+            Verwendete Ressourcen bereinigen.
+            </summary>
+            <param name="disposing">True, wenn verwaltete Ressourcen gelöscht werden sollen; andernfalls False.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl.InitializeComponent">
+            <summary> 
+            Erforderliche Methode für die Designerunterstützung. 
+            Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleDebuggerHost.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleDebuggerHost.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleDebuggerHost.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IBasicGraphViewerClient">
+            <summary>
+            Interface to the basic graph viewer clients
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IBasicGraphViewerClient.GetLayoutOptions">
+            <summary>
+            Retrieves the available options of the current layouter of yComp and the current values.
+            </summary>
+            <returns>A description of the available options of the current layouter of yComp
+            and the current values.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IBasicGraphViewerClient.SetLayoutOption(System.String,System.String)">
+            <summary>
+            Sets a layout option of the current layouter of yComp.
+            </summary>
+            <param name="optionName">The name of the option.</param>
+            <param name="optionValue">The new value.</param>
+            <returns>"optionset\n", or a error message, if setting the option failed.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IBasicGraphViewerClient.ForceLayout">
+            <summary>
+            Forces yComp to relayout the graph.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IBasicGraphViewerClient.Show">
+            <summary>
+            Shows the graph (without relayout).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IBasicGraphViewerClient.Sync">
+            <summary>
+            Sends a "sync" request and waits for a "sync" answer
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IBasicGraphViewerClient.ChangeNode(System.String,System.String)">
+            <summary>
+            Sets the node realizer of the given node.
+            If realizer is null, the realizer for the type of the node is used.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IBasicGraphViewerClient.ChangeEdge(System.String,System.String)">
+            <summary>
+            Sets the edge realizer of the given edge.
+            If realizer is null, the realizer for the type of the edge is used.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient">
+            <summary>
+            Class communicating with the MSAGL library
+            TODO: still some issues, esp. with node nesting
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.#ctor(System.Windows.Forms.Form)">
+            <summary>
+            Creates a new MSAGLClient instance, adding its GViewer control to the form (at position 0).
+            </summary>
+        </member>
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.SetLayout(System.String)" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.GetLayoutOptions">
+            <summary>
+            Retrieves the available options of the current layouter of MSAGL and the current values.
+            </summary>
+            <returns>A description of the available options of the current layouter of MSAGL
+            and the current values.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.SetLayoutOption(System.String,System.String)">
+            <summary>
+            Sets a layout option of the current layouter of MSAGL.
+            </summary>
+            <param name="optionName">The name of the option.</param>
+            <param name="optionValue">The new value.</param>
+            <returns>"optionset\n", or an error message, if setting the option failed.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.ForceLayout">
+            <summary>
+            Forces MSAGL to relayout the graph.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.Show">
+            <summary>
+            Shows the graph (without relayout).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.Sync">
+            <summary>
+            Sends a "sync" request and waits for a "sync" answer
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.ChangeNode(System.String,System.String)">
+            <summary>
+            Sets the node realizer of the given node.
+            If realizer is null, the realizer for the type of the node is used.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.ChangeEdge(System.String,System.String)">
+            <summary>
+            Sets the edge realizer of the given edge.
+            If realizer is null, the realizer for the type of the edge is used.
+            </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ParseException">
             <summary>
@@ -334,7 +582,7 @@
             <param name="seqExpr">The sequence expression to be printed</param>
             <param name="context">The print context</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.SequencePrinter.PrintSequence(de.unika.ipd.grGen.libGr.Sequence,de.unika.ipd.grGen.libGr.SequenceBase,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.HighlightingMode,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.PrintSequenceContext)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.SequencePrinter.PrintSequence(de.unika.ipd.grGen.libGr.Sequence,de.unika.ipd.grGen.libGr.SequenceBase,de.unika.ipd.grGen.libGr.HighlightingMode)">
             <summary>
             Prints the given sequence adding parentheses if needed according to the print context.
             </summary>
@@ -342,7 +590,7 @@
             <param name="parent">The parent of the sequence or null if the sequence is a root</param>
             <param name="context">The print context</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.SequencePrinter.PrintSequence(de.unika.ipd.grGen.libGr.Sequence,de.unika.ipd.grGen.libGr.Sequence)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.SequencePrinter.PrintSequence(de.unika.ipd.grGen.libGr.Sequence,de.unika.ipd.grGen.libGr.Sequence,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IDebuggerEnvironment)">
             <summary>
             Called from shell after an debugging abort highlighting the lastly executed rule
             </summary>
@@ -467,76 +715,6 @@
             
              from this method for such cases in the release version of your parser.
         </member>
-        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.HighlightingMode">
-            <summary>
-            Workaround fun due to the following bugs:
-             - http://bugzilla.ximian.com/show_bug.cgi?id=80176 : Console.In.Read doesn't allow line-oriented input
-             - http://bugzilla.ximian.com/show_bug.cgi?id=79711 : Console.ReadKey () appears to not clear key
-             - http://bugzilla.ximian.com/show_bug.cgi?id=80330 : Console.ForegroundColor initially does not reflect console color
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IWorkaround.In">
-            <summary>
-            A TextReader for stdin.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IWorkaround.ReadKey(System.Boolean)">
-            <summary>
-            Reads a key from stdin and optionally displays it in the console.
-            </summary>
-            <param name="intercept">If true, the key is NOT displayed in the console.</param>
-            <returns>A ConsoleKeyInfo object describing the pressed key.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IWorkaround.ReadKeyWithControlCAsInput">
-            <summary>
-            Reads a key from stdin. Does not display it. Also allows Control-C as input.
-            </summary>
-            <returns>A ConsoleKeyInfo object describing the pressed key.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IWorkaround.PrintHighlighted(System.String,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.HighlightingMode)">
-            <summary>
-            Prints the given text in a highlighted form.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IWorkaround.PreventComputerGoingIntoSleepMode(System.Boolean)">
-            <summary>
-            Prevents the computer from going into sleep mode or allows it again.
-            To be set when you start a long running computation without user interaction or network I/O,
-            to be reset afterwards (so the computer can fall asleep again in case there's nothing going on).
-            Not calling this function the computer would fall asleep after a while even at 100% CPU usage and disk usage,
-            as might happen if you are executing some graph rewrite sequences for an excessive simulation.
-            TODO: LINUX version. Currently Windows only.
-            </summary>
-            <param name="prevent">prevent if true, allow if false</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MonoLinuxWorkaroundConsoleIO.PrintHighlighted(System.String,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.HighlightingMode)">
-            <summary>
-            Prints the given text in the chosen highlighting mode on the console
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MonoWindowsWorkaroundConsoleIO.PrintHighlighted(System.String,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.HighlightingMode)">
-            <summary>
-            Prints the given text in the chosen highlighting mode on the console
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MonoWindowsWorkaroundConsoleIO.ReadKey(System.Boolean)">
-            <summary>
-            Reads a key from stdin and optionally displays it in the console.
-            Additionally it ignores several incorrect keys returned by Mono on Windows.
-            </summary>
-            <param name="intercept">If true, the key is NOT displayed in the console.</param>
-            <returns>A ConsoleKeyInfo object describing the pressed key.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.NoWorkaroundConsoleIO.PrintHighlighted(System.String,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.HighlightingMode)">
-            <summary>
-            Prints the given text in the chosen highlighting mode on the console
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.WorkaroundManager.Workaround">
-            <summary>
-            An appropriate IWorkaround instance for the used CLR and operating system.
-            </summary>
-        </member>
         <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompServerProxy">
             <summary>
             Class starting the yComp server (on a specific socket)
@@ -578,20 +756,10 @@
             mainly telling yComp what should be displayed (and how)
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.#ctor(de.unika.ipd.grGen.libGr.INamedGraph,System.String,System.Int32,System.Int32,de.unika.ipd.grGen.libGr.DumpInfo,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ElementRealizers,System.Collections.Generic.Dictionary{System.String,de.unika.ipd.grGen.libGr.IObject})">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.#ctor(System.Int32,System.Int32)">
             <summary>
             Creates a new YCompClient instance and connects to the local YComp server.
             If it is not available an Exception is thrown.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.NodeRealizerOverride">
-            <summary>
-            If non-null, overrides the type dependend node realizer (setter used from debugger for added nodes, other realizers are given directly at methods called by debugger)
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.EdgeRealizerOverride">
-            <summary>
-            If non-null, overrides the type dependend edge realizer (setter used from debugger for added edges, other realizers are given directly at methods called by debugger)
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.SetLayout(System.String)">
@@ -624,16 +792,16 @@
             </summary>
             <param name="optionName">The name of the option.</param>
             <param name="optionValue">The new value.</param>
-            <returns>Null, or a error message, if setting the option failed.</returns>
+            <returns>"optionset\n", or an error message, if setting the option failed.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.ForceLayout">
             <summary>
             Forces yComp to relayout the graph.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.UpdateDisplay">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.Show">
             <summary>
-            Relayouts the graph if needed.
+            Shows the graph (without relayout).
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.Sync">
@@ -641,34 +809,16 @@
             Sends a "sync" request and waits for a "sync" answer
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.AddEdge(System.String,System.String,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode)">
-            <summary>
-            Adding of helper edge used in debugging, for visualization of map content
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.AnnotateElement(de.unika.ipd.grGen.libGr.IGraphElement,System.String)">
-            <summary>
-            Annotates the given element with the given string in double angle brackets
-            </summary>
-            <param name="elem">The element to be annotated</param>
-            <param name="annotation">The annotation string or null, if the annotation is to be removed</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.ChangeNode(de.unika.ipd.grGen.libGr.INode,System.String)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.ChangeNode(System.String,System.String)">
             <summary>
             Sets the node realizer of the given node.
             If realizer is null, the realizer for the type of the node is used.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.ChangeEdge(de.unika.ipd.grGen.libGr.IEdge,System.String)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.ChangeEdge(System.String,System.String)">
             <summary>
             Sets the edge realizer of the given edge.
             If realizer is null, the realizer for the type of the edge is used.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompClient.UploadGraph">
-            <summary>
-            Uploads the graph to YComp, updates the display and makes a synchronisation.
-            Does not change the stored graph, even though this is required for naming.
             </summary>
         </member>
     </members>

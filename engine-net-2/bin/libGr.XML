@@ -1867,7 +1867,7 @@
             <param name="attrType">The attribute type of the Deque</param>
             <param name="graph">The graph with the model and the element names</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IDictionary,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IDictionary,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,de.unika.ipd.grGen.libGr.ObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.TransientObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Returns a string representation of the given dictionary
             </summary>
@@ -1877,10 +1877,11 @@
             <param name="attrType">The attribute type of the dictionary if available, otherwise null</param>
             <param name="graph">The graph with the model and the element names if available, otherwise null</param>
             <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
-            <param name="nameToObject">If not null, the names of visited objects are added</param>
+            <param name="objectNamerAndIndexer">If not null, it is used to name the visited objects or collect them</param>
+            <param name="transientObjectNamerAndIndexer">If not null, it is used to name the visited transient objects or collect them</param>
             <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IList,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IList,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,de.unika.ipd.grGen.libGr.ObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.TransientObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Returns a string representation of the given List
             </summary>
@@ -1890,10 +1891,11 @@
             <param name="attrType">The attribute type of the array if available, otherwise null</param>
             <param name="graph">The graph with the model and the element names if available, otherwise null</param>
             <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
-            <param name="nameToObject">If not null, the names of visited objects are added</param>
+            <param name="objectNamerAndIndexer">If not null, it is used to name the visited objects or collect them</param>
+            <param name="transientObjectNamerAndIndexer">If not null, it is used to name the visited transient objects or collect them</param>
             <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,de.unika.ipd.grGen.libGr.ObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.TransientObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Returns a string representation of the given Deque
             </summary>
@@ -1903,10 +1905,11 @@
             <param name="attrType">The attribute type of the deque if available, otherwise null</param>
             <param name="graph">The graph with the model and the element names if available, otherwise null</param>
             <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
-            <param name="nameToObject">If not null, the names of visited objects are added</param>
+            <param name="objectNamerAndIndexer">If not null, it is used to name the visited objects or collect them</param>
+            <param name="transientObjectNamerAndIndexer">If not null, it is used to name the visited transient objects or collect them</param>
             <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,de.unika.ipd.grGen.libGr.ObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.TransientObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Returns a string representation of the given non-container value
             </summary>
@@ -1916,10 +1919,11 @@
             <param name="attrType">The attribute type of the value (may be null)</param>
             <param name="graph">The graph with the model and the element names</param>
             <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
-            <param name="nameToObject">If not null, the names of visited objects are added</param>
+            <param name="objectNamerAndIndexer">If not null, it is used to name the visited objects or collect them</param>
+            <param name="transientObjectNamerAndIndexer">If not null, it is used to name the visited transient objects or collect them</param>
             <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,de.unika.ipd.grGen.libGr.ObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.TransientObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Returns a string representation of the given non-container value
             </summary>
@@ -1928,7 +1932,8 @@
             <param name="graph">The graph with the model and the element names</param>
             <returns>String representation of the scalar.</returns>
             <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
-            <param name="nameToObject">If not null, the names of visited objects are added</param>
+            <param name="objectNamerAndIndexer">If not null, it is used to name the visited objects or collect them</param>
+            <param name="transientObjectNamerAndIndexer">If not null, it is used to name the visited transient objects or collect them</param>
             <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToStringObject(System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
@@ -1941,71 +1946,141 @@
             <param name="graph">The graph with the model and the element names</param>
             <returns>String representation of the scalar.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToStringAutomatic(System.Object,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToStringAutomatic(System.Object,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,de.unika.ipd.grGen.libGr.ObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.TransientObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Returns a string representation of the given value, might be a scalar, a dictionary, a list, or a deque
             </summary>
             <param name="value">The value of which to get the string representation</param>
             <param name="graph">The graph with the model and the element names if available, otherwise null</param>
             <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
-            <param name="nameToObject">If not null, the names of visited objects are added</param>
+            <param name="objectNamerAndIndexer">If not null, it is used to name the visited objects or collect them</param>
+            <param name="transientObjectNamerAndIndexer">If not null, it is used to name the visited transient objects or collect them</param>
             <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
             <returns>string representation of value</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToStringNonNull(System.Object,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToStringNonNull(System.Object,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,de.unika.ipd.grGen.libGr.ObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.TransientObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Returns a string representation of the given value, which must be not null (for emit,record)
             </summary>
             <param name="value">The value of which to get the string representation</param>
             <param name="graph">The graph with the model and the element names if available, otherwise null</param>
             <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
-            <param name="nameToObject">If not null, the names of visited objects are added</param>
+            <param name="objectNamerAndIndexer">If not null, it is used to name the visited objects or collect them</param>
+            <param name="transientObjectNamerAndIndexer">If not null, it is used to name the visited transient objects or collect them</param>
             <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
             <returns>string representation of the value</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,de.unika.ipd.grGen.libGr.ObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.TransientObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Returns a string representation of the given dictionary
             </summary>
             <param name="setmap">The dictionary of which to get the string representation</param>
             <param name="graph">The graph with the model and the element names if available, otherwise null</param>
             <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
-            <param name="nameToObject">If not null, the names of visited objects are added</param>
+            <param name="objectNamerAndIndexer">If not null, it is used to name the visited objects or collect them</param>
+            <param name="transientObjectNamerAndIndexer">If not null, it is used to name the visited transient objects or collect them</param>
             <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
             <returns>string representation of dictionary</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IList,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Collections.IList,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,de.unika.ipd.grGen.libGr.ObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.TransientObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Returns a string representation of the given List
             </summary>
             <param name="array">The List of which to get the string representation</param>
             <param name="graph">The graph with the model and the element names if available, otherwise null</param>
             <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
-            <param name="nameToObject">If not null, the names of visited objects are added</param>
+            <param name="objectNamerAndIndexer">If not null, it is used to name the visited objects or collect them</param>
+            <param name="transientObjectNamerAndIndexer">If not null, it is used to name the visited transient objects or collect them</param>
             <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
             <returns>string representation of List</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(de.unika.ipd.grGen.libGr.IDeque,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,de.unika.ipd.grGen.libGr.ObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.TransientObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Returns a string representation of the given Deque
             </summary>
             <param name="deque">The Deque of which to get the string representation</param>
             <param name="graph">The graph with the model and the element names if available, otherwise null</param>
             <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
-            <param name="nameToObject">If not null, the names of visited objects are added</param>
+            <param name="objectNamerAndIndexer">If not null, it is used to name the visited objects or collect them</param>
+            <param name="transientObjectNamerAndIndexer">If not null, it is used to name the visited transient objects or collect them</param>
             <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
             <returns>string representation of Deque</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,System.Collections.Generic.IDictionary{System.String,de.unika.ipd.grGen.libGr.IObject},de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
+        <member name="M:de.unika.ipd.grGen.libGr.EmitHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.IGraph,System.Boolean,de.unika.ipd.grGen.libGr.ObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.TransientObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Returns a string representation of the given scalar value
             </summary>
             <param name="value">The scalar value of which to get the string representation</param>
             <param name="graph">The graph with the model and the element names if available, otherwise null</param>
             <param name="firstLevelObjectEmitted">Prevents emitting of further objects and thus infinite regressions</param>
-            <param name="nameToObject">If not null, the names of visited objects are added</param>
+            <param name="objectNamerAndIndexer">If not null, it is used to name the visited objects or collect them</param>
+            <param name="transientObjectNamerAndIndexer">If not null, it is used to name the visited transient objects or collect them</param>
             <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
             <returns>string representation of scalar value</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IConsoleOutput.PrintHighlighted(System.String,de.unika.ipd.grGen.libGr.HighlightingMode)">
+            <summary>
+            Prints the given text in a highlighted form.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IConsoleOutput.Clear">
+            <summary>
+            Clears console display.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IConsoleInput.ReadKey(System.Boolean)">
+            <summary>
+            Reads a key from stdin and optionally displays it in the console.
+            </summary>
+            <param name="intercept">If true, the key is NOT displayed in the console.</param>
+            <returns>A ConsoleKeyInfo object describing the pressed key.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IConsoleInput.ReadKey">
+            <summary>
+            Reads a key from stdin and displays it in the console.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IConsoleInput.ReadKeyWithControlCAsInput">
+            <summary>
+            Reads a key from stdin. Does not display it. Also allows Control-C as input.
+            </summary>
+            <returns>A ConsoleKeyInfo object describing the pressed key.</returns>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IConsoleInput.KeyAvailable">
+            <summary>
+            Gets a value indicating whether a key press is available in the input stream.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.ConsoleUI">
+            <summary>
+            Class that allows for console input/output, normally stdin, stdout, stderr, extended by dedicated stuff,
+            but also in a GUI environment offering mechanisms for console input/output.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.ConsoleUI.outWriter">
+            <summary>
+            The output writer normally mapping to stdout
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.ConsoleUI.errorOutWriter">
+            <summary>
+            The error output write normally mapping to stderr
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.ConsoleUI.consoleOut">
+            <summary>
+            An interface that allows for highlighted output, typically null unless a debugger session is started
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.ConsoleUI.inReader">
+            <summary>
+            The input reader normally mapping to stdin
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.ConsoleUI.consoleIn">
+            <summary>
+            An interface that allows to read keys from the console, typically null unless a debugger session is started
+            </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.TypesHelper">
             <summary>
@@ -2140,22 +2215,20 @@
             <param name="name">The name of the variable to access</param>
             <returns>The value of the variable accessed (read on get, written on set)</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGlobalVariables.GetUniqueId(de.unika.ipd.grGen.libGr.ITransientObject)">
-            <summary>
-            Assigns a unique id to the given transient object (for the same object, always the same id is returned).
-            Thereafter, the returned id can be used in GetTransientObject to obtain the corresponding object.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGlobalVariables.GetTransientObject(System.Int64)">
-            <summary>
-            Returns the transient object belonging to the given id, or null if no transient object is bound to the id.
-            </summary>
-        </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGlobalVariables.FetchObjectUniqueId">
             <summary>
             Fetches a unique id for an internal class object (non-transient).
             May be called concurrently from multiple threads.
             </summary>
+            <returns>The fetched id.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGlobalVariables.RequestObjectUniqueId(System.Int64)">
+            <summary>
+            Requests a specific unique id for an internal class object (non-transient).
+            This allows to adapt the internal id source so this id cannot be fetched anymore (as well as all ids that are lower than this one).
+            </summary>
+            <param name="idToObtain">The id to request.</param>
+            <returns>The requested id if successful.</returns>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.BaseObjectType">
             <summary>
@@ -2488,6 +2561,8 @@
             An interface to be implemented by classes whose objects can be compared for deep attribute value equality
             This excludes structures with shortcuts and cycles (acyclic and cyclic graphs),
             only classes without further nesting, or lists, or trees are supported.
+            TODO: extend to structures including shortcuts and cycles, but excluding aliasing.
+            Was(/is) of minor importance because internal class objects are meant to enrich the graph with memory-efficient extensions, lists and trees (not with hand-written graphs supplying only inefficient pattern-matching and manipulation).
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IDeepEqualityComparer.IsDeeplyEqual(de.unika.ipd.grGen.libGr.IDeepEqualityComparer,System.Collections.Generic.IDictionary{System.Object,System.Object})">
@@ -2496,6 +2571,7 @@
             which means the scalar attributes are equal, the container attributes are memberwise deeply equal, and object attributes are deeply equal.
             (If types are unequal the result is false.)
             Visited objects are/have to be stored in the visited objects dictionary in order to detect shortcuts and cycles.
+            TODO: extend to structures including shortcuts and cycles, but excluding aliasing, with a visited objects map instead of a set.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.ITransientObject">
@@ -2566,6 +2642,7 @@
             Creates an object according to this type.
             Requires the graph to fetch the unique id / the name,
             in case the unique id is given (!= -1) it is taken, or an exception is thrown in case the id is already in use or id fetching has passed its value.
+            In case of !ObjectUniquenessIsEnsured, -1 is expected.
             </summary>
             <returns>The created object.</returns>
         </member>
@@ -2575,6 +2652,7 @@
             Requires the graph to fetch the unique id / the name,
             in case the name is given and valid it is taken, or an exception is thrown in case the name/id is already in use or id fetching has passed its value.
             The name is expected in format "%" + uniqueId (if null, a name is fetched).
+            In case of !ObjectUniquenessIsEnsured, null is expected.
             </summary>
             <returns>The created object.</returns>
         </member>
@@ -6958,6 +7036,11 @@
             If true you may query the graph elements with GetUniqueId for their unique id
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.ObjectUniquenessIsEnsured">
+            <summary>
+            If true you may query the (non-transient class) objects with GetUniqueId for their unique id (GetObjectName is based on the unique id)
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.GraphElementsAreAccessibleByUniqueId">
             <summary>
             If true you may query the graph with GetGraphElement for a graph element of a given unique id
@@ -9995,12 +10078,12 @@
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.ISubactionAndOutputAdditionEnvironment.EmitWriter">
             <summary>
-            The writer used by emit statements. By default this is Console.Out.
+            The writer used by emit statements. By default this is ConsoleUI.outWriter (normally forwarded to Console.Out).
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.ISubactionAndOutputAdditionEnvironment.EmitWriterDebug">
             <summary>
-            The writer used by emitdebug statements. This is Console.Out, and can't be redirected to a file in contrast to the EmitWriter.
+            The writer used by emitdebug statements. This is ConsoleUI.outWriter (normally forwarded to Console.Out), and can't be redirected to a file in contrast to the EmitWriter.
             </summary>
         </member>
         <member name="E:de.unika.ipd.grGen.libGr.ISubactionAndOutputAdditionEnvironment.OnSwitchingToSubgraph">
@@ -12262,6 +12345,58 @@
             present leaning with weights to get a preference for more current values, going into the direction of a sliding average, 
             truncated average to achieve resilience against outliers (compared to the average),
             and to not underestimate the volume (compared to the median in case about half of the values are small).
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.EXECUTION_STATE">
+            <summary>
+            Workaround fun due to the following bugs:
+             - http://bugzilla.ximian.com/show_bug.cgi?id=80176 : Console.In.Read doesn't allow line-oriented input
+             - http://bugzilla.ximian.com/show_bug.cgi?id=79711 : Console.ReadKey () appears to not clear key
+             - http://bugzilla.ximian.com/show_bug.cgi?id=80330 : Console.ForegroundColor initially does not reflect console color
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IWorkaround.In">
+            <summary>
+            A TextReader for stdin.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IWorkaround.PreventComputerFromGoingIntoSleepMode(System.Boolean)">
+            <summary>
+            Prevents the computer from going into sleep mode or allows it again.
+            To be set when you start a long running computation without user interaction or network I/O,
+            to be reset afterwards (so the computer can fall asleep again in case there's nothing going on).
+            Not calling this function the computer would fall asleep after a while even at 100% CPU usage and disk usage,
+            as might happen if you are executing some graph rewrite sequences for an excessive simulation.
+            TODO: LINUX version. Currently Windows only.
+            </summary>
+            <param name="prevent">prevent if true, allow if false</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.MonoLinuxWorkaroundConsoleIO.PrintHighlighted(System.String,de.unika.ipd.grGen.libGr.HighlightingMode)">
+            <summary>
+            Prints the given text in the chosen highlighting mode on the console
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.MonoWindowsWorkaroundConsoleIO.PrintHighlighted(System.String,de.unika.ipd.grGen.libGr.HighlightingMode)">
+            <summary>
+            Prints the given text in the chosen highlighting mode on the console
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.MonoWindowsWorkaroundConsoleIO.ReadKey(System.Boolean)">
+            <summary>
+            Reads a key from stdin and optionally displays it in the console.
+            Additionally it ignores several incorrect keys returned by Mono on Windows.
+            </summary>
+            <param name="intercept">If true, the key is NOT displayed in the console.</param>
+            <returns>A ConsoleKeyInfo object describing the pressed key.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.NoWorkaroundConsoleIO.PrintHighlighted(System.String,de.unika.ipd.grGen.libGr.HighlightingMode)">
+            <summary>
+            Prints the given text in the chosen highlighting mode on the console
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.WorkaroundManager.Workaround">
+            <summary>
+            An appropriate IWorkaround instance for the used CLR and operating system.
             </summary>
         </member>
     </members>

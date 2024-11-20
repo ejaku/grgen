@@ -7342,7 +7342,7 @@
             holding the task object whose connections need to be filled before being pushed on the open tasks stack
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.TypeOfTaskVariable(System.String,System.Boolean,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.TypeOfTaskVariable(System.String,System.String,System.Boolean,System.Boolean)">
             <summary>
             Returns name of the type of the task variable
             </summary>

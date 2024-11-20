@@ -27,6 +27,11 @@
             if the options were set before yComp was attached.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.grShell.GrShellImpl.debugOptions">
+            <summary>
+            Maps debug option names to their values.
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.grShell.GrShellImpl.ShowAvailableAttributes(System.Collections.Generic.IEnumerable{de.unika.ipd.grGen.libGr.AttributeType},de.unika.ipd.grGen.libGr.GrGenType)">
             <summary>
             Displays the attribute types and names for the given attrTypes.
@@ -47,8 +52,9 @@
         </member>
         <member name="T:de.unika.ipd.grGen.grShell.GrShellSequenceApplierAndDebugger">
             <summary>
-            GrShellImpl part that controls applying the sequences and the debugger.
-            Inherits from the DebuggerEnvironment, required by the debugger (adapting the base implementation for non-shell usage by overriding as needed).
+            GrShellImpl part that controls applying the sequences, optionally utilizing the debugger.
+            Inherits from the DebuggerEnvironment, required by the debugger (adapting the base implementation meant for non-shell usage by overriding as needed).
+            form TODO: check whether overriden behaviour of DebuggerEnvironement is really needed
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.grShell.GrShellSequenceApplierAndDebugger.SetDebugMode(System.Boolean)">
