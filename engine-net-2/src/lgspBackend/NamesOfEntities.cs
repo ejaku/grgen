@@ -163,15 +163,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Returns name of the type of the task variable
         /// </summary>
-        public static string TypeOfTaskVariable(string subpatternName, bool isAlternative, bool isIterated)
+        public static string TypeOfTaskVariable(string subpatternName, string packageName, bool isAlternative, bool isIterated)
         {
             Debug.Assert(!(isAlternative && isIterated));
             if(isAlternative)
                 return "AlternativeAction_" + subpatternName;
             if(isIterated)
                 return "IteratedAction_" + subpatternName;
-            return
-                "PatternAction_" + subpatternName;
+            return (packageName != null ? packageName + "." : "") + "PatternAction_" + subpatternName;
         }
 
         /// <summary>

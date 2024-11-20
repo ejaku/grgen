@@ -1102,7 +1102,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             while(cur != null);
 
-            Dictionary<PatternNode, List<PatternEdge>> nodeToEdges = new Dictionary<PatternNode, List<PatternEdge>>();
+            Dictionary<PatternNode, List<PatternEdge>> nodeToEdges = new Dictionary<PatternNode, List<PatternEdge>>(); // incident edges
             foreach(KeyValuePair<PatternNode, PatternNode> node in nodes)
             {
                 nodeToEdges.Add(node.Key, new List<PatternEdge>());
@@ -1117,7 +1117,7 @@ namespace de.unika.ipd.grGen.lgsp
                     edges[edge] = edge;
 
                     PatternNode source = cur.GetSource(edge);
-                    if(source!=null && !nodeToEdges[source].Contains(edge))
+                    if(source != null && !nodeToEdges[source].Contains(edge))
                         nodeToEdges[source].Add(edge);
                     PatternNode target = cur.GetTarget(edge);
                     if(target != null && !nodeToEdges[target].Contains(edge))
@@ -1139,7 +1139,7 @@ namespace de.unika.ipd.grGen.lgsp
                 foreach(PatternEdge edge in cur.edges)
                 {
                     PatternNode source = cur.GetSource(edge);
-                    if(source!=null && !edgeToNodes[edge].Contains(source))
+                    if(source != null && !edgeToNodes[edge].Contains(source))
                         edgeToNodes[edge].Add(source);
                     PatternNode target = cur.GetTarget(edge);
                     if(target != null && !edgeToNodes[edge].Contains(target))
@@ -1149,8 +1149,8 @@ namespace de.unika.ipd.grGen.lgsp
             }
             while(cur != null);
 
-            if(nodes.Count==0)
-                return edges.Count<=1;
+            if(nodes.Count == 0)
+                return edges.Count <= 1;
 
             Dictionary<PatternNode, PatternNode>.Enumerator enumerator = nodes.GetEnumerator();
             enumerator.MoveNext();
@@ -1186,6 +1186,8 @@ namespace de.unika.ipd.grGen.lgsp
         {
             foreach(PatternEdge edge in nodeToEdges[parent])
             {
+                edge.visited = true;
+
                 foreach(PatternNode node in edgeToNodes[edge])
                 {
                     if(node == parent)

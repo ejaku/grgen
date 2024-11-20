@@ -1101,6 +1101,7 @@ namespace de.unika.ipd.grGen.lgsp
                     new PushSubpatternTask(
                         PushAndPopSubpatternTaskTypes.Subpattern,
                         subpattern.matchingPatternOfEmbeddedGraph.name,
+                        subpattern.matchingPatternOfEmbeddedGraph.patternGraph.package,
                         subpattern.name,
                         connectionName,
                         argumentExpressions,
@@ -1134,6 +1135,7 @@ namespace de.unika.ipd.grGen.lgsp
                         negativeIndependentNamePrefix,
                         PushAndPopSubpatternTaskTypes.Subpattern,
                         subpattern.matchingPatternOfEmbeddedGraph.name,
+                        subpattern.matchingPatternOfEmbeddedGraph.patternGraph.package,
                         subpattern.name,
                         env.parallelized
                     );
@@ -1147,6 +1149,7 @@ namespace de.unika.ipd.grGen.lgsp
                         negativeIndependentNamePrefix,
                         PushAndPopSubpatternTaskTypes.Iterated,
                         iterated.iteratedPattern.name,
+                        null,
                         iterated.iteratedPattern.pathPrefix,
                         env.parallelized
                     );
@@ -1160,6 +1163,7 @@ namespace de.unika.ipd.grGen.lgsp
                         negativeIndependentNamePrefix,
                         PushAndPopSubpatternTaskTypes.Alternative,
                         alternative.name,
+                        null,
                         alternative.pathPrefix,
                         env.parallelized
                     );

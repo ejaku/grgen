@@ -29,6 +29,7 @@ namespace de.unika.ipd.grGen.lgsp
         public PushSubpatternTask(
             PushAndPopSubpatternTaskTypes type,
             string subpatternName,
+            string subpatternPackageName,
             string subpatternElementName,
             string[] connectionName,
             string[] argumentExpressions,
@@ -42,6 +43,7 @@ namespace de.unika.ipd.grGen.lgsp
             Debug.Assert(type == PushAndPopSubpatternTaskTypes.Subpattern);
             Type = type;
             SubpatternName = subpatternName;
+            SubpatternPackageName = subpatternPackageName;
             SubpatternElementName = subpatternElementName;
 
             ConnectionName = connectionName;
@@ -103,7 +105,7 @@ namespace de.unika.ipd.grGen.lgsp
                 builder.AppendFront("PushSubpatternTask Iterated ");
 
             if(Type == PushAndPopSubpatternTaskTypes.Subpattern)
-                builder.AppendFormat("{0} of {1} ", SubpatternElementName, SubpatternName);
+                builder.AppendFormat("{0} of {1} ", SubpatternElementName, SubpatternPackageName != null ? SubpatternPackageName + "." + SubpatternName : SubpatternName);
             else
                 builder.AppendFormat("{0}/{1} ", PathPrefix, AlternativeOrIteratedName);
 
@@ -136,7 +138,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 // create matching task for subpattern
                 variableContainingTask = NamesOfEntities.TaskVariable(SubpatternElementName, NegativeIndependentNamePrefix);
-                string typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(SubpatternName, false, false);
+                string typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(SubpatternName, SubpatternPackageName, false, false);
                 sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(actionEnv, {2}openTasks{3});\n",
                     typeOfVariableContainingTask, variableContainingTask, NegativeIndependentNamePrefix, parallelizationThreadId);
             }
@@ -144,7 +146,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 // create matching task for alternative
                 variableContainingTask = NamesOfEntities.TaskVariable(AlternativeOrIteratedName, NegativeIndependentNamePrefix);
-                string typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(PathPrefix + AlternativeOrIteratedName, true, false);
+                string typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(PathPrefix + AlternativeOrIteratedName, null, true, false);
                 string patternGraphPath = RulePatternClassName + ".Instance.";
                 if(RulePatternClassName.Substring(RulePatternClassName.IndexOf('_')+1) == PathPrefixInRulePatternClass.Substring(0, PathPrefixInRulePatternClass.Length-1))
                     patternGraphPath += "patternGraph";
@@ -159,7 +161,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 // create matching task for iterated
                 variableContainingTask = NamesOfEntities.TaskVariable(AlternativeOrIteratedName, NegativeIndependentNamePrefix);
-                string typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(PathPrefix + AlternativeOrIteratedName, false, true);
+                string typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(PathPrefix + AlternativeOrIteratedName, null, false, true);
                 sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(actionEnv, {2}openTasks{3});\n",
                     typeOfVariableContainingTask, variableContainingTask, NegativeIndependentNamePrefix, parallelizationThreadId);
             }
@@ -185,6 +187,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public readonly PushAndPopSubpatternTaskTypes Type;
         public readonly string SubpatternName; // only valid if Type==Subpattern
+        public readonly string SubpatternPackageName; // only valid if Type==Subpattern
         public readonly string SubpatternElementName; // only valid if Type==Subpattern
         readonly string PathPrefix; // only valid if Type==Alternative|Iterated
         readonly string AlternativeOrIteratedName; // only valid if Type==Alternative|Iterated
@@ -207,7 +210,8 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public PopSubpatternTask(string negativeIndependentNamePrefix,
             PushAndPopSubpatternTaskTypes type,
-            string subpatternOrAlternativeOrIteratedName, 
+            string subpatternOrAlternativeOrIteratedName,
+            string subpatternPackageName,
             string subpatternElementNameOrPathPrefix,
             bool parallel)
         {
@@ -216,6 +220,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(type == PushAndPopSubpatternTaskTypes.Subpattern)
             {
                 SubpatternName = subpatternOrAlternativeOrIteratedName;
+                SubpatternPackageName = subpatternPackageName;
                 SubpatternElementName = subpatternElementNameOrPathPrefix;
             }
             else if(type == PushAndPopSubpatternTaskTypes.Alternative)
@@ -268,17 +273,17 @@ namespace de.unika.ipd.grGen.lgsp
             if(Type == PushAndPopSubpatternTaskTypes.Subpattern)
             {
                 variableContainingTask = NamesOfEntities.TaskVariable(SubpatternElementName, NegativeIndependentNamePrefix);
-                typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(SubpatternName, false, false);
+                typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(SubpatternName, SubpatternPackageName, false, false);
             }
             else if(Type == PushAndPopSubpatternTaskTypes.Alternative)
             {
                 variableContainingTask = NamesOfEntities.TaskVariable(AlternativeOrIteratedName, NegativeIndependentNamePrefix);
-                typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(PathPrefix + AlternativeOrIteratedName, true, false);
+                typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(PathPrefix + AlternativeOrIteratedName, null, true, false);
             }
             else // if(Type==PushAndPopSubpatternTaskTypes.Iterated)
             {
                 variableContainingTask = NamesOfEntities.TaskVariable(AlternativeOrIteratedName, NegativeIndependentNamePrefix);
-                typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(PathPrefix + AlternativeOrIteratedName, false, true);
+                typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(PathPrefix + AlternativeOrIteratedName, null, false, true);
             }
             string parallelizationThreadId = Parallel ? ", threadId" : "";
             sourceCode.AppendFrontFormat("{0}.releaseTask({1}{2});\n", 
@@ -287,6 +292,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public readonly PushAndPopSubpatternTaskTypes Type;
         public readonly string SubpatternName; // only valid if Type==Subpattern
+        public readonly string SubpatternPackageName; // only valid if Type==Subpattern
         public readonly string SubpatternElementName; // only valid if Type==Subpattern
         public readonly string PathPrefix; // only valid if Type==Alternative|Iterated
         public readonly string AlternativeOrIteratedName; // only valid if Type==Alternative|Iterated
