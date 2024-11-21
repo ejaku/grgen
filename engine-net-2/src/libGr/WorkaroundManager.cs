@@ -46,10 +46,40 @@ namespace de.unika.ipd.grGen.libGr
         /// to be reset afterwards (so the computer can fall asleep again in case there's nothing going on).
         /// Not calling this function the computer would fall asleep after a while even at 100% CPU usage and disk usage,
         /// as might happen if you are executing some graph rewrite sequences for an excessive simulation.
-        /// TODO: LINUX version. Currently Windows only.
+        /// TODO: LINUX version. Currently Windows only. Silent nop.
         /// </summary>
         /// <param name="prevent">prevent if true, allow if false</param>
         void PreventComputerFromGoingIntoSleepMode(bool prevent);
+
+        /// <summary>
+        /// Allocates the console.
+        /// TODO: LINUX version. Currently Windows only. Silent nop.
+        /// </summary>
+        bool AllocTheConsole();
+
+        /// <summary>
+        /// Attaches the console.
+        /// TODO: LINUX version. Currently Windows only. Silent nop.
+        /// </summary>
+        bool AttachTheConsole(int pid);
+
+        /// <summary>
+        /// Frees the console.
+        /// TODO: LINUX version. Currently Windows only. Silent nop.
+        /// </summary>
+        bool FreeTheConsole();
+
+        /// <summary>
+        /// Prevents redrawing of the given window.
+        /// TODO: LINUX version. Currently Windows only. Silent nop.
+        /// </summary>
+        void PreventRedraw(IntPtr hWnd);
+
+        /// <summary>
+        /// Allows redrawing of the given window.
+        /// TODO: LINUX version. Currently Windows only. Silent nop.
+        /// </summary>
+        void AllowRedraw(IntPtr hWnd);
     }
 
     public abstract class MonoWorkaroundConsoleIO : IWorkaround
@@ -151,6 +181,13 @@ namespace de.unika.ipd.grGen.libGr
             Console.Clear();
         }
         public abstract void PreventComputerFromGoingIntoSleepMode(bool prevent);
+
+        public abstract bool AllocTheConsole();
+        public abstract bool AttachTheConsole(int pid);
+        public abstract bool FreeTheConsole();
+
+        public abstract void PreventRedraw(IntPtr hWnd);
+        public abstract void AllowRedraw(IntPtr hWnd);
     }
 
     public class MonoLinuxWorkaroundConsoleIO : MonoWorkaroundConsoleIO
@@ -196,6 +233,34 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override void PreventComputerFromGoingIntoSleepMode(bool prevent)
+        {
+            // TODO - NIY
+        }
+
+        public override bool AllocTheConsole()
+        {
+            // TODO - NIY
+            return false;
+        }
+
+        public override bool AttachTheConsole(int pid)
+        {
+            // TODO - NIY
+            return false;
+        }
+
+        public override bool FreeTheConsole()
+        {
+            // TODO - NIY
+            return false;
+        }
+
+        public override void PreventRedraw(IntPtr hWnd)
+        {
+            // TODO - NIY
+        }
+
+        public override void AllowRedraw(IntPtr hWnd)
         {
             // TODO - NIY
         }
@@ -276,8 +341,46 @@ namespace de.unika.ipd.grGen.libGr
             else
                 SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS);
         }
+
+        // import Win32 API console functionality
+        [System.Runtime.InteropServices.DllImport("kernel32.dll")]
+        private static extern bool AllocConsole();
+        [System.Runtime.InteropServices.DllImport("kernel32.dll")]
+        private static extern bool AttachConsole(int pid);
+        [System.Runtime.InteropServices.DllImport("kernel32.dll")]
+        private static extern bool FreeConsole();
+
+        public override bool AllocTheConsole()
+        {
+            return AllocConsole();
+        }
+
+        public override bool AttachTheConsole(int pid)
+        {
+            return AttachConsole(pid);
+        }
+
+        public override bool FreeTheConsole()
+        {
+            return FreeConsole();
+        }
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, IntPtr lp);
+        private const int WM_SETREDRAW = 0x0b;
+
+        public override void PreventRedraw(IntPtr hWnd)
+        {
+            SendMessage(hWnd, WM_SETREDRAW, (IntPtr)0, IntPtr.Zero);
+        }
+
+        public override void AllowRedraw(IntPtr hWnd)
+        {
+            SendMessage(hWnd, WM_SETREDRAW, (IntPtr)1, IntPtr.Zero);
+        }
     }
 
+    // vanilla Windows version
     public class NoWorkaroundConsoleIO : IWorkaround
     {
         /// <summary>
@@ -352,6 +455,43 @@ namespace de.unika.ipd.grGen.libGr
                 SetThreadExecutionState(EXECUTION_STATE.ES_SYSTEM_REQUIRED | EXECUTION_STATE.ES_CONTINUOUS);
             else
                 SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS);
+        }
+
+        // import Win32 API console functionality
+        [System.Runtime.InteropServices.DllImport("kernel32.dll")]
+        private static extern bool AllocConsole();
+        [System.Runtime.InteropServices.DllImport("kernel32.dll")]
+        private static extern bool AttachConsole(int pid);
+        [System.Runtime.InteropServices.DllImport("kernel32.dll")]
+        private static extern bool FreeConsole();
+
+        public bool AllocTheConsole()
+        {
+            return AllocConsole();
+        }
+
+        public bool AttachTheConsole(int pid)
+        {
+            return AttachConsole(pid);
+        }
+
+        public bool FreeTheConsole()
+        {
+            return FreeConsole();
+        }
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, IntPtr lp);
+        private const int WM_SETREDRAW = 0x0b;
+
+        public void PreventRedraw(IntPtr hWnd)
+        {
+            SendMessage(hWnd, WM_SETREDRAW, (IntPtr)0, IntPtr.Zero);
+        }
+
+        public void AllowRedraw(IntPtr hWnd)
+        {
+            SendMessage(hWnd, WM_SETREDRAW, (IntPtr)1, IntPtr.Zero);
         }
     }
 

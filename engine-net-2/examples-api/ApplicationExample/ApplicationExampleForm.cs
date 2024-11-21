@@ -15,14 +15,6 @@ namespace ApplicationExample
 
     public partial class ApplicationExampleForm : Form
     {
-        // import Win32 API console functionality
-        [System.Runtime.InteropServices.DllImport("kernel32.dll")]
-        private static extern bool AllocConsole();
-        [System.Runtime.InteropServices.DllImport("kernel32.dll")]
-        private static extern bool AttachConsole(int pid);
-        [System.Runtime.InteropServices.DllImport("kernel32.dll")]
-        private static extern bool FreeConsole();
-
         public ApplicationExampleForm()
         {
             InitializeComponent();
@@ -125,7 +117,7 @@ namespace ApplicationExample
         {
             // allocate Windows Console and reopen stdout (note: VisualStudio is carring out some redirections in the debugger, 
             // see how to handle these, besides starting outside debugger and attaching after this code was executed (TODO))
-            bool result = AllocConsole();
+            bool result = WorkaroundManager.Workaround.AllocTheConsole();
             Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true }); // ConsoleUI is forwarded to the normal Console unless explicitly redefined
         }
 
