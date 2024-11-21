@@ -80,6 +80,7 @@ namespace de.unika.ipd.grGen.grShell
             {
                 ConsoleUI.outWriter.WriteLine("exit due to " + e.Message);
                 ConsoleUI.outWriter.WriteLine(e.StackTrace);
+                ConsoleUI.outWriter.WriteLine(e.Source);
                 errorCode = -2;
             }
             finally
