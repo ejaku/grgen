@@ -53,20 +53,20 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// Creates a new MSAGLClient instance, adding its GViewer control to the form (at position 0).
+        /// Creates a new MSAGLClient instance, adding its GViewer control to the hosting form (at position 0).
         /// </summary>
-        public MSAGLClient(System.Windows.Forms.Form form)
+        public MSAGLClient(System.Windows.Forms.Form host)
         {
             gViewer = new Microsoft.Msagl.GraphViewerGdi.GViewer(); // if your application doesn't start from this line complaining about System.Resources.Extensions, you have to add a PackageReference to the project file of your app, plus a bindingRedirect to the app.config of your app, see the GrShell project for an example
             Graph graph = new Microsoft.Msagl.Drawing.Graph("graph");
             gViewer.Graph = graph;
-            form.SuspendLayout();
+            host.SuspendLayout();
             gViewer.Dock = System.Windows.Forms.DockStyle.Fill;
             gViewer.MinimumSize = new System.Drawing.Size(50, 50);
-            form.Controls.Add(gViewer);
-            form.Controls.SetChildIndex(gViewer, 0);
-            form.ResumeLayout();
-            form.Show();
+            host.Controls.Add(gViewer);
+            host.Controls.SetChildIndex(gViewer, 0);
+            host.ResumeLayout();
+            host.Show();
             System.Windows.Forms.Application.DoEvents();
         }
 

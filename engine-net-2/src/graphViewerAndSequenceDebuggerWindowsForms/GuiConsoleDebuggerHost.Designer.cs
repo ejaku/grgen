@@ -91,7 +91,7 @@
         #endregion
 
         private GuiConsoleControl theGuiConsoleControl;
-        public GuiConsoleControl GuiConsoleControl
+        public IDebuggerConsoleUICombined GuiConsoleControl
         {
             get { return theGuiConsoleControl; }
         }
@@ -99,7 +99,7 @@
         private System.Windows.Forms.Splitter theSplitter;
 
         private GuiConsoleControl theOptionalGuiConsoleControl;
-        public GuiConsoleControl OptionalGuiConsoleControl
+        public IDebuggerConsoleUICombined OptionalGuiConsoleControl
         {
             get { return theOptionalGuiConsoleControl; }
         }

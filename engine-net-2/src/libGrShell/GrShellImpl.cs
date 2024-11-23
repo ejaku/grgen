@@ -4026,17 +4026,17 @@ showavail:
         public void SetDebugLayout(String layout)
         {
             if(layout == null
-                || !YCompClient.IsValidLayout(layout) && !MSAGLClient.IsValidLayout(layout))
+                || !GraphViewerClient.IsValidLayout(GraphViewerTypes.YComp, layout) && !GraphViewerClient.IsValidLayout(GraphViewerTypes.MSAGL, layout))
             {
                 if(layout != null)
                     ConsoleUI.errorOutWriter.WriteLine("\"" + layout + "\" is not a valid layout name!");
                 ConsoleUI.outWriter.WriteLine("Available layouts from yComp:");
-                foreach(String layoutName in YCompClient.AvailableLayouts)
+                foreach(String layoutName in GraphViewerClient.AvailableLayouts(GraphViewerTypes.YComp))
                 {
                     ConsoleUI.outWriter.WriteLine(" - " + layoutName);
                 }
                 ConsoleUI.outWriter.WriteLine("Available layouts from MSAGL:");
-                foreach(String layoutName in MSAGLClient.AvailableLayouts)
+                foreach(String layoutName in GraphViewerClient.AvailableLayouts(GraphViewerTypes.MSAGL))
                 {
                     ConsoleUI.outWriter.WriteLine(" - " + layoutName);
                 }

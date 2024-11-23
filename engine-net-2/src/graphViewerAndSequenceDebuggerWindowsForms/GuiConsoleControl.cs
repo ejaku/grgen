@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
-    public partial class GuiConsoleControl : UserControl, IDebuggerConsoleUI, IDebuggerConsoleUIForDataRendering
+    public partial class GuiConsoleControl : UserControl, IDebuggerConsoleUICombined
     {
         internal class TextAttributes
         {

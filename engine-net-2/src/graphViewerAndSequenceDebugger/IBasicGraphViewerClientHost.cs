@@ -7,16 +7,13 @@
 
 // by Edgar Jakumeit
 
-using System.Windows.Forms;
-
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
-    public partial class GuiConsoleDebuggerHost : Form
+    /// <summary>
+    /// interface to the host object that will contain the basic graph viewer client (also visually)
+    /// </summary>
+    public interface IBasicGraphViewerClientHost
     {
-        public GuiConsoleDebuggerHost(bool twoPane)
-        {
-            InitializeComponent();
-            TwoPane = twoPane;
-        }
+        // currently an empty interface, the dynamic type must be additionally a WindowsForms form
     }
 }

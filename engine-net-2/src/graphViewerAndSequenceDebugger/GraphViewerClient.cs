@@ -10,7 +10,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Windows.Forms;
+using System.Reflection;
 
 using de.unika.ipd.grGen.libGr;
 
@@ -34,13 +34,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         internal IBasicGraphViewerClient basicClient; // either the traditional YCompClient or a MSAGLClient
 
         INamedGraph graph;
-        
+
         public DumpInfo dumpInfo;
 
         bool isDirty = false;
         bool isLayoutDirty = false;
 
-        Dictionary<IEdge, bool> hiddenEdges = new Dictionary<IEdge,bool>();
+        Dictionary<IEdge, bool> hiddenEdges = new Dictionary<IEdge, bool>();
 
         Dictionary<INode, bool> nodesIncludedWhileGraphExcluded = new Dictionary<INode, bool>();
         Dictionary<IEdge, bool> edgesIncludedWhileGraphExcluded = new Dictionary<IEdge, bool>();
@@ -53,32 +53,40 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         ObjectNamerAndIndexer objectNamerAndIndexer;
         TransientObjectNamerAndIndexer transientObjectNamerAndIndexer;
 
+        static Dictionary<String, bool> availableMSAGLLayouts;
+
+
+        static GraphViewerClient()
+        {
+            availableMSAGLLayouts = new Dictionary<string, bool>();
+            availableMSAGLLayouts.Add("SugiyamaScheme", true);
+            availableMSAGLLayouts.Add("MDS", true);
+            availableMSAGLLayouts.Add("Ranking", true);
+            availableMSAGLLayouts.Add("IcrementalLayout", true);
+        }
 
         /// <summary>
         /// Creates a new GraphViewerClient instance.
         /// internally, it creates a YCompClient and connects to the local YComp server,
-        /// or creates a MSAGLClient, inside the guiConsoleDebuggerHost in case one is supplied,
+        /// or creates a MSAGLClient, inside the basicGraphViewerClientHost (which may be a GuiConsoleDebuggerHost) in case one is supplied,
         /// depending on the graph viewer type that is requested (the layout is expected to be one of the valid layouts of the corresponding graph viewer client).
         /// </summary>
         public GraphViewerClient(INamedGraph graph, GraphViewerTypes graphViewerType, String layoutModule,
             DumpInfo dumpInfo, ElementRealizers realizers,
             ObjectNamerAndIndexer objectNamerAndIndexer, TransientObjectNamerAndIndexer transientObjectNamerAndIndexer,
-            GuiConsoleDebuggerHost guiConsoleDebuggerHost)
+            IBasicGraphViewerClientHost basicGraphViewerClientHost)
         {
             this.graph = graph;
             this.dumpInfo = dumpInfo;
 
             if(graphViewerType == GraphViewerTypes.MSAGL)
             {
-                System.Windows.Forms.Form form = guiConsoleDebuggerHost;
-                if(form == null)
-                {
-                    form = new System.Windows.Forms.Form();
-                    form.Size = new System.Drawing.Size((int)(Screen.PrimaryScreen.Bounds.Width * 0.55), (int)(Screen.PrimaryScreen.Bounds.Height * 0.65));
-                    form.StartPosition = FormStartPosition.Manual;
-                    form.Location = new System.Drawing.Point(0, 0);
-                }
-                basicClient = new MSAGLClient(form);
+                IHostCreator guiConsoleDebuggerHostCreator = GetGuiConsoleDebuggerHostCreator();
+                IBasicGraphViewerClientCreator basicGraphViewerClientCreator = GetBasicGraphViewerClientCreator();
+                IBasicGraphViewerClientHost host = basicGraphViewerClientHost;
+                if(host == null)
+                    host = guiConsoleDebuggerHostCreator.CreateBasicGraphViewerClientHost();
+                basicClient = basicGraphViewerClientCreator.Create(graphViewerType, host);
             }
             else // default is yCompClient
             {
@@ -102,6 +110,64 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             // TODO: Add group related events
         }
 
+        /// <summary>
+        /// returns a host creator from graphViewerAndSequenceDebuggerWindowsForms.dll
+        /// </summary>
+        public static IHostCreator GetGuiConsoleDebuggerHostCreator()
+        {
+            Type guiConsoleDebuggerHostCreatorType = GetSingleImplementationOfInterfaceFromAssembly("graphViewerAndSequenceDebuggerWindowsForms.dll", "IHostCreator");
+            IHostCreator guiConsoleDebuggerHostCreator = (IHostCreator)Activator.CreateInstance(guiConsoleDebuggerHostCreatorType);
+            return guiConsoleDebuggerHostCreator;
+        }
+
+        private static IBasicGraphViewerClientCreator GetBasicGraphViewerClientCreator()
+        {
+            Type basicGraphViewerClientCreatorType = GetSingleImplementationOfInterfaceFromAssembly("graphViewerAndSequenceDebuggerWindowsForms.dll", "IBasicGraphViewerClientCreator");
+            IBasicGraphViewerClientCreator basicGraphViewerClientCreator = (IBasicGraphViewerClientCreator)Activator.CreateInstance(basicGraphViewerClientCreatorType);
+            return basicGraphViewerClientCreator;
+        }
+
+        private static Type GetSingleImplementationOfInterfaceFromAssembly(string assemblyName, string interfaceName)
+        {
+            Assembly callingAssembly = Assembly.GetCallingAssembly();
+            string pathPrefix = System.IO.Path.GetDirectoryName(callingAssembly.Location);
+            Assembly assembly = Assembly.LoadFrom(pathPrefix + System.IO.Path.DirectorySeparatorChar + assemblyName); // maybe todo: search path instead of same path as calling graphViewerAndSequenceDebugger.dll?
+
+            Type typeImplementingInterface = null;
+            try
+            {
+                foreach(Type type in assembly.GetTypes())
+                {
+                    if(!type.IsClass || type.IsNotPublic)
+                        continue;
+                    if(type.GetInterface(interfaceName) != null)
+                    {
+                        if(typeImplementingInterface != null)
+                        {
+                            throw new ArgumentException(
+                                "The assembly " + assemblyName + " contains more than one " + interfaceName + " implementation!");
+                        }
+                        typeImplementingInterface = type;
+                    }
+                }
+            }
+            catch(ReflectionTypeLoadException e)
+            {
+                String errorMsg = "";
+                foreach(Exception ex in e.LoaderExceptions)
+                {
+                    errorMsg += "- " + ex.Message + Environment.NewLine;
+                }
+                if(errorMsg.Length == 0)
+                    errorMsg = e.Message;
+                throw new ArgumentException(errorMsg);
+            }
+            if(typeImplementingInterface == null)
+                throw new ArgumentException("The assembly " + assemblyName + " does not contain an " + interfaceName + " implementation!");
+
+            return typeImplementingInterface;
+        }
+
         public void Close()
         {
             realizers.UnregisterGraphViewerClient();
@@ -118,15 +184,34 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             dumpInfo.OnTypeInfotagsChanged -= new TypeInfotagsChangedHandler(OnTypeInfotagsChanged);
         }
 
-
-        public IEnumerable<String> AvailableLayouts
+        public static IEnumerable<String> AvailableLayouts(GraphViewerTypes type)
         {
-            get { return YCompClient.AvailableLayouts; }
+            if(type == GraphViewerTypes.YComp)
+                return YCompClient.AvailableLayouts;
+            else if(type == GraphViewerTypes.MSAGL)
+            {
+                // better to be handled by the corresponding graph viewer client that has that knowledge,
+                // but this would require to create an instance of a dll we don't want to instantiate for technology reasons unless really requested
+                // this function is also used for general error checking/printing without prior request, though
+                return availableMSAGLLayouts.Keys;
+            }
+            else
+                return null;
         }
 
-        public bool IsValidLayout(String layoutName)     // TODO: allow case insensitive layout name
+        public static bool IsValidLayout(GraphViewerTypes type, String layoutName)     // TODO: allow case insensitive layout name
         {
-            return YCompClient.IsValidLayout(layoutName);
+            if(type == GraphViewerTypes.YComp)
+                return YCompClient.IsValidLayout(layoutName);
+            else if(type == GraphViewerTypes.MSAGL)
+            {
+                // better to be handled by the corresponding graph viewer client that has that knowledge,
+                // but this would require to create an instance of a dll we don't want to instantiate for technology reasons unless really requested
+                // this function is also used for general error checking/printing without prior request, though
+                return availableMSAGLLayouts.ContainsKey(layoutName);
+            }
+            else
+                return false;
         }
 
         /// <summary>

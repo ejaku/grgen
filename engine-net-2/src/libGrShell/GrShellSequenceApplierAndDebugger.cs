@@ -59,7 +59,7 @@ namespace de.unika.ipd.grGen.grShell
         private bool silenceExec = false; // print match statistics during sequence execution on timer
         private bool cancelSequence = false;
 
-        private GuiConsoleDebuggerHost host;
+        private IGuiConsoleDebuggerHost host;
 
         private ConsoleDebugger debugger = null;
 
@@ -609,9 +609,12 @@ namespace de.unika.ipd.grGen.grShell
                 impl.debugLayoutOptions.TryGetValue(impl.debugLayout, out optMap);
                 try
                 {
-                    host = graphViewerType == GraphViewerTypes.YComp ? null : new GuiConsoleDebuggerHost(GetDebugOptionTwoPane());
-                    if(host != null)
+                    host = null;
+                    if(graphViewerType != GraphViewerTypes.YComp)
                     {
+                        IHostCreator guiConsoleDebuggerHostCreator = GraphViewerClient.GetGuiConsoleDebuggerHostCreator();
+                        host = guiConsoleDebuggerHostCreator.CreateGuiConsoleDebuggerHost(GetDebugOptionTwoPane());
+
                         TheDebuggerConsoleUI = host.GuiConsoleControl;
                         TheDebuggerConsoleUIForDataRendering = GetDebugOptionTwoPane() ? host.OptionalGuiConsoleControl : host.GuiConsoleControl;
                     }

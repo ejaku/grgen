@@ -37,12 +37,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
         }
 
-        public void ShowGraph(INamedGraph graph, GraphViewerTypes type, String layout)
+        // in case of GraphViewerTypes.MSAGL, you may hand in a WindowsForms Form implementing IBasicGraphViewerClientHost, the GViewer control will then be added to its controls
+        public void ShowGraph(INamedGraph graph, GraphViewerTypes type, String layout, IBasicGraphViewerClientHost host)
         {
             DebuggerGraphProcessingEnvironment debuggerProcEnv = new DebuggerGraphProcessingEnvironment(graph);
             ElementRealizers realizers = new ElementRealizers();
             graphViewerClient = new GraphViewerClient(graph, type, layout ?? (type == GraphViewerTypes.YComp ? "Orthogonal" : "SugiyamaScheme"),
-                debuggerProcEnv.DumpInfo, realizers, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
+                debuggerProcEnv.DumpInfo, realizers, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, host);
             graphViewerClient.UploadGraph();
             RegisterGraphEvents(graph);
             this.graph = graph;

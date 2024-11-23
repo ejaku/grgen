@@ -58,7 +58,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         void RestartImmediateExecution();
     }
 
-    public class DebuggerConsoleUI : IDebuggerConsoleUI, IDebuggerConsoleUIForDataRendering
+    public interface IDebuggerConsoleUICombined : IDebuggerConsoleUI, IDebuggerConsoleUIForDataRendering
+    {
+    }
+
+    public class DebuggerConsoleUI : IDebuggerConsoleUICombined
     {
         public static DebuggerConsoleUI Instance
         {

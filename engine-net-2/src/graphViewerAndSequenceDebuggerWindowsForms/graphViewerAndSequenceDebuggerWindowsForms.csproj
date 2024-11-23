@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{77133185-36B5-4134-9F5B-C6AC0AEF9BD5}</ProjectGuid>
+    <ProjectGuid>{88133185-36B5-4134-9F5B-C6AC0AEF9BD6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>graphViewerAndSequenceDebugger</RootNamespace>
-    <AssemblyName>graphViewerAndSequenceDebugger</AssemblyName>
+    <RootNamespace>graphViewerAndSequenceDebuggerWindowsForms</RootNamespace>
+    <AssemblyName>graphViewerAndSequenceDebuggerWindowsForms</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -31,13 +31,14 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\bin\graphViewerAndSequenceDebugger.xml</DocumentationFile>
+    <DocumentationFile>..\..\bin\graphViewerAndSequenceDebuggerWindowsForms.xml</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,40 +46,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BreakpointAndChoicepointEditor.cs" />
-    <Compile Include="ConstantParser.cs" />
-    <Compile Include="ConstantParserConstants.cs" />
-    <Compile Include="ConstantParserHelper.cs" />
-    <Compile Include="ConstantParserTokenManager.cs" />
-    <Compile Include="ConsoleDebugger.cs" />
-    <Compile Include="DebuggerEnvironment.cs" />
-    <Compile Include="DebuggerGraphProcessingEnvironment.cs" />
-    <Compile Include="DebuggerTask.cs" />
-    <Compile Include="ElementRealizers.cs" />
-    <Compile Include="GraphAnnotationAndChangesRecorder.cs" />
-    <Compile Include="GraphViewer.cs" />
-    <Compile Include="GraphViewerClient.cs" />
-    <Compile Include="Highlighter.cs" />
-    <Compile Include="IBasicGraphViewerClient.cs" />
-    <Compile Include="IBasicGraphViewerClientCreator.cs" />
-    <Compile Include="IBasicGraphViewerClientHost.cs" />
-    <Compile Include="IGuiConsoleDebuggerHost.cs" />
-    <Compile Include="IHostCreator.cs" />
-    <Compile Include="MatchMarkerAndAnnotator.cs" />
-    <Compile Include="ParseException.cs" />
-    <Compile Include="PrintSequenceContext.cs" />
+    <Compile Include="BasicGraphViewerClientCreator.cs" />
+    <Compile Include="HostCreator.cs" />
+    <Compile Include="BasicGraphViewerClientHost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GuiConsoleControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GuiConsoleControl.Designer.cs">
+      <DependentUpon>GuiConsoleControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GuiConsoleDebuggerHost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GuiConsoleDebuggerHost.Designer.cs">
+      <DependentUpon>GuiConsoleDebuggerHost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MSAGLClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SequencePrinter.cs" />
-    <Compile Include="SimpleCharStream.cs" />
-    <Compile Include="SubruleDebugging.cs" />
-    <Compile Include="Token.cs" />
-    <Compile Include="TokenMgrError.cs" />
-    <Compile Include="UserProxyChoiceMenu.cs" />
-    <Compile Include="VariableOrAttributeAccessParserAndValueFetcher.cs" />
-    <Compile Include="WatchpointEditor.cs" />
-    <Compile Include="YCompClient.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\graphViewerAndSequenceDebugger\graphViewerAndSequenceDebugger.csproj">
+      <Project>{77133185-36B5-4134-9F5B-C6AC0AEF9BD5}</Project>
+      <Name>graphViewerAndSequenceDebugger</Name>
+    </ProjectReference>
     <ProjectReference Include="..\lgspBackend\lgspBackend.csproj">
       <Project>{28747063-d1d2-4626-b1f1-84cc201b2063}</Project>
       <Name>lgspBackend</Name>
@@ -87,6 +79,19 @@
       <Project>{57a2e7a1-058e-4ebd-85e9-a65c3304fa49}</Project>
       <Name>libGr</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Msagl.GraphViewerGDI">
+      <Version>1.1.7</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GuiConsoleControl.resx">
+      <DependentUpon>GuiConsoleControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GuiConsoleDebuggerHost.resx">
+      <DependentUpon>GuiConsoleDebuggerHost.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -124,10 +124,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// If null, Orthogonal is used.</param>
         /// <param name="layoutOptions">An dictionary mapping layout option names to their values.
         /// It may be null, if no options are to be applied.</param>
-        /// <param name="guiConsoleDebuggerHost">An optional debugger host form, in case the graph viewer type MSAGL is requested, the MSAGL graph viewer is added to it (YComp is a standalone application).</param>
+        /// <param name="guiConsoleDebuggerHost">An optional debugger host, in case the graph viewer type MSAGL is requested, the MSAGL graph viewer form is added to that form (YComp is a standalone application).</param>
         public ConsoleDebugger(IDebuggerEnvironment env, DebuggerGraphProcessingEnvironment debuggerProcEnv,
             ElementRealizers realizers, GraphViewerTypes graphViewerType, String debugLayout, Dictionary<String, String> layoutOptions,
-            GuiConsoleDebuggerHost guiConsoleDebuggerHost)
+            IGuiConsoleDebuggerHost guiConsoleDebuggerHost)
         {
             IGraphProcessingEnvironment procEnv = debuggerProcEnv.ProcEnv;
 

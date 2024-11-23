@@ -13,7 +13,7 @@ using System;
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     /// <summary>
-    /// Interface to the basic graph viewer clients
+    /// interface to the basic graph viewer clients (yComp and MSAGL, offering the core graph viewer functionality, utilized by the GraphViewerClient that adds its own functionality)
     /// </summary>
     public interface IBasicGraphViewerClient
     {
