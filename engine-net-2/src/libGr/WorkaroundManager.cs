@@ -527,9 +527,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 if(workaround == null)
                 {
-                    if(Type.GetType("Mono.Runtime") != null)
+                    if(IsMono)
                     {
-                        if(Environment.OSVersion.Platform == PlatformID.Unix)
+                        if(IsLinux)
                             workaround = new MonoLinuxWorkaroundConsoleIO();
                         else
                             workaround = new MonoWindowsWorkaroundConsoleIO();
@@ -543,6 +543,22 @@ namespace de.unika.ipd.grGen.libGr
                     }
                 }
                 return workaround;
+            }
+        }
+
+        public static bool IsMono
+        {
+            get
+            {
+                return Type.GetType("Mono.Runtime") != null;
+            }
+        }
+
+        public static bool IsLinux
+        {
+            get
+            {
+                return Environment.OSVersion.Platform == PlatformID.Unix;
             }
         }
 

@@ -35,7 +35,7 @@
             // 
             this.theRichTextBox.BackColor = System.Drawing.Color.Black;
             this.theRichTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.theRichTextBox.Font = new System.Drawing.Font("Lucida Console", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.theRichTextBox.Font = new System.Drawing.Font("Courier New", 11F);
             this.theRichTextBox.ForeColor = System.Drawing.Color.White;
             this.theRichTextBox.Location = new System.Drawing.Point(0, 0);
             this.theRichTextBox.Name = "theRichTextBox";

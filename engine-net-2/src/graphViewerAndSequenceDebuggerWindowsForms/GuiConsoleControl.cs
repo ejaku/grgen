@@ -66,6 +66,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             theRichTextBox.ReadOnly = true;
             theRichTextBox.HideSelection = false;
+
+            // we prefer Courier New, but if this one is not available, the system's generic monospace default font
+            theRichTextBox.Font = new Font("Courier New", 11);
+            if(theRichTextBox.Font.FontFamily != FontFamily.GenericMonospace)
+                theRichTextBox.Font = new Font(FontFamily.GenericMonospace, 11);
+            theRichTextBox.SelectionFont = new Font("Courier New", 11);
+            if(theRichTextBox.SelectionFont.FontFamily != FontFamily.GenericMonospace)
+                theRichTextBox.SelectionFont = new Font(FontFamily.GenericMonospace, 11);
         }
 
         private void GuiConsoleRichTextBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -93,17 +101,17 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void WriteLine(string value)
         {
-            theRichTextBox.AppendText(value + "\r\n");
+            theRichTextBox.AppendText(value + Environment.NewLine);
         }
 
         public void WriteLine(string format, params object[] arg)
         {
-            theRichTextBox.AppendText(String.Format(format, arg) + "\r\n");
+            theRichTextBox.AppendText(String.Format(format, arg) + Environment.NewLine);
         }
 
         public void WriteLine()
         {
-            theRichTextBox.AppendText("\r\n");
+            theRichTextBox.AppendText(Environment.NewLine);
         }
 
         public void PrintHighlightedUserDialog(String text, de.unika.ipd.grGen.libGr.HighlightingMode mode)
@@ -202,18 +210,18 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void PrintHighlighted(String text, de.unika.ipd.grGen.libGr.HighlightingMode mode)
         {
             Color oldColor = theRichTextBox.SelectionColor;
-            Color oldBackColor = theRichTextBox.BackColor;
-            Font oldFont = theRichTextBox.Font;
+            Color oldBackColor = theRichTextBox.SelectionBackColor;
+            Font oldFont = theRichTextBox.SelectionFont;
 
             TextAttributes textAttributes = HighlightingModeToTextAttributes(mode);
             theRichTextBox.SelectionColor = textAttributes.foregroundColor;
             theRichTextBox.SelectionBackColor = textAttributes.backgroundColor;
-            theRichTextBox.SelectionFont = new Font(theRichTextBox.Font, textAttributes.fontStyle);
+            theRichTextBox.SelectionFont = new Font(theRichTextBox.SelectionFont, textAttributes.fontStyle);
             WriteDataRendering(text);
 
             theRichTextBox.SelectionColor = oldColor;
-            theRichTextBox.BackColor = oldBackColor;
-            theRichTextBox.Font = oldFont;
+            theRichTextBox.SelectionBackColor = oldBackColor;
+            theRichTextBox.SelectionFont = oldFont;
         }
 
         // TODO: Printing should use low level color codes, there should be a layer translating high level semantic meaning to color codes
@@ -221,13 +229,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             switch(mode)
             {
-                case libGr.HighlightingMode.Focus: return new TextAttributes(Color.Yellow, Color.Black/*, FontStyle.Bold*/); // side effect of jumpy display due to increased text size is considered worse than the additional visual cue of bolding
-                case libGr.HighlightingMode.FocusSucces: return new TextAttributes(Color.Green, Color.Black/*, FontStyle.Bold*/);
-                case libGr.HighlightingMode.LastSuccess: return new TextAttributes(Color.Black, Color.Green);
-                case libGr.HighlightingMode.LastFail: return new TextAttributes(Color.Black, Color.Red);
+                case libGr.HighlightingMode.Focus: return new TextAttributes(Color.Yellow, Color.Black, FontStyle.Bold); // with Courier New the width stays the same when using bold face, with generic monospace hopefully too, so re-enabled (side effect of jumpy display due to increased text size is considered worse than the additional visual cue of bolding)
+                case libGr.HighlightingMode.FocusSucces: return new TextAttributes(Color.Lime, Color.Black, FontStyle.Bold);
+                case libGr.HighlightingMode.LastSuccess: return libGr.WorkaroundManager.IsMono ? new TextAttributes(Color.Green) : new TextAttributes(Color.Black, Color.Green); // workaround fun as it seems that the mono RichTextBox is not able to change the selection background color
+                case libGr.HighlightingMode.LastFail: return libGr.WorkaroundManager.IsMono ? new TextAttributes(Color.DarkRed) : new TextAttributes(Color.Black, Color.DarkRed);
                 case libGr.HighlightingMode.Breakpoint: return new TextAttributes(Color.Red);
                 case libGr.HighlightingMode.Choicepoint: return new TextAttributes(Color.Magenta);
-                case libGr.HighlightingMode.SequenceStart: return new TextAttributes(Color.Blue);
+                case libGr.HighlightingMode.SequenceStart: return new TextAttributes(Color.SkyBlue);
 
                 case libGr.HighlightingMode.GrsFile: return new TextAttributes(Color.Red);
                 case libGr.HighlightingMode.GrsiFile: return new TextAttributes(Color.Magenta);
