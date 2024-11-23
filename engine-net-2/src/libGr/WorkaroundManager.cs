@@ -192,37 +192,58 @@ namespace de.unika.ipd.grGen.libGr
 
     public class MonoLinuxWorkaroundConsoleIO : MonoWorkaroundConsoleIO
     {
+        const string RESET = "\x1b[0m";
+        const string BOLD = "\x1b[1m";
+
+        const string BLACK = "\x1b[30m";
+        const string RED = "\x1b[31m";
+        const string GREEN = "\x1b[32m";
+        const string YELLOW = "\x1b[33m";
+        const string BLUE = "\x1b[34m";
+        const string MAGENTA = "\x1b[35m";
+        const string CYAN = "\x1b[36m";
+        const string WHITE = "\x1b[37m";
+
+        const string BLACK_BACKGROUND = "\x1b[40m";
+        const string RED_BACKGROUND = "\x1b[41m";
+        const string GREEN_BACKGROUND = "\x1b[42m";
+        const string YELLOW_BACKGROUND = "\x1b[43m";
+        const string BLUE_BACKGROUND = "\x1b[44m";
+        const string MAGENTA_BACKGROUND = "\x1b[45m";
+        const string CYAN_BACKGROUND = "\x1b[46m";
+        const string WHITE_BACKGROUND = "\x1b[47m";
+
         /// <summary>
         /// Prints the given text in the chosen highlighting mode on the console
         /// </summary>
         public override void PrintHighlighted(String text, HighlightingMode mode)
         {
             if((mode & HighlightingMode.Focus) == HighlightingMode.Focus)
-                Console.Write("\x1b[1m\x1b[33m\x1b[40m" + text + "\x1b[0m"); // bold, yellow fg, black bg
+                Console.Write(BOLD + YELLOW + text + RESET);
             else if((mode & HighlightingMode.FocusSucces) == HighlightingMode.FocusSucces)
-                Console.Write("\x1b[1m\x1b[32m\x1b[40m" + text + "\x1b[0m"); // bold, green fg, black bg
+                Console.Write(BOLD + GREEN + text + RESET);
             else if((mode & HighlightingMode.LastSuccess) == HighlightingMode.LastSuccess)
-                Console.Write("\x1b[42m" + text + "\x1b[0m"); // green bg
+                Console.Write(GREEN_BACKGROUND + BLACK + text + RESET);
             else if((mode & HighlightingMode.LastFail) == HighlightingMode.LastFail)
-                Console.Write("\x1b[41m" + text + "\x1b[0m"); // red bg
+                Console.Write(RED_BACKGROUND + BLACK + text + RESET);
             else if((mode & HighlightingMode.Breakpoint) == HighlightingMode.Breakpoint)
-                Console.Write("\x1b[31m" + text + "\x1b[0m"); // red fg
+                Console.Write(RED + text + RESET);
             else if((mode & HighlightingMode.Choicepoint) == HighlightingMode.Choicepoint)
-                Console.Write("\x1b[35m" + text + "\x1b[0m"); // magenta fg
+                Console.Write(MAGENTA + text + RESET);
             else if((mode & HighlightingMode.SequenceStart) == HighlightingMode.SequenceStart)
-                Console.Write("\x1b[34m" + text + "\x1b[0m"); // blue fg
+                Console.Write(BLUE + text + RESET);
             else if((mode & HighlightingMode.GrsFile) == HighlightingMode.GrsFile)
-                Console.Write("\x1b[31m" + text + "\x1b[0m"); // red fg
+                Console.Write(RED + text + RESET);
             else if((mode & HighlightingMode.GrsiFile) == HighlightingMode.GrsiFile)
-                Console.Write("\x1b[35m" + text + "\x1b[0m"); // magenta fg
+                Console.Write(MAGENTA + text + RESET);
             else if((mode & HighlightingMode.GrgFile) == HighlightingMode.GrgFile)
-                Console.Write("\x1b[32m" + text + "\x1b[0m"); // green fg
+                Console.Write(GREEN + text + RESET);
             else if((mode & HighlightingMode.GriFile) == HighlightingMode.GriFile)
-                Console.Write("\x1b[36m" + text + "\x1b[0m"); // cyan fg
+                Console.Write(CYAN + text + RESET);
             else if((mode & HighlightingMode.GmFile) == HighlightingMode.GmFile)
-                Console.Write("\x1b[34m" + text + "\x1b[0m"); // blue fg
+                Console.Write(BLUE + text + RESET);
             else if((mode & HighlightingMode.Directory) == HighlightingMode.Directory)
-                Console.Write("\x1b[43m" + text + "\x1b[0m"); // yellow bg
+                Console.Write(YELLOW_BACKGROUND + text + RESET);
             else
                 Console.Write(text); // normal
         }
@@ -285,7 +306,7 @@ namespace de.unika.ipd.grGen.libGr
             if((mode & HighlightingMode.FocusSucces) == HighlightingMode.FocusSucces) Console.ForegroundColor = ConsoleColor.Green;
             if((mode & HighlightingMode.LastSuccess) == HighlightingMode.LastSuccess) Console.BackgroundColor = ConsoleColor.DarkGreen;
             if((mode & HighlightingMode.LastFail) == HighlightingMode.LastFail) Console.BackgroundColor = ConsoleColor.DarkRed;
-            if((mode & HighlightingMode.Focus) == HighlightingMode.Focus || (mode & HighlightingMode.FocusSucces) == HighlightingMode.FocusSucces) Console.BackgroundColor = ConsoleColor.Black;
+            if((mode & HighlightingMode.LastSuccess) == HighlightingMode.LastSuccess || (mode & HighlightingMode.LastFail) == HighlightingMode.LastFail) Console.ForegroundColor = ConsoleColor.Black;
             if((mode & HighlightingMode.Breakpoint) == HighlightingMode.Breakpoint) Console.ForegroundColor = ConsoleColor.Red;
             if((mode & HighlightingMode.Choicepoint) == HighlightingMode.Choicepoint) Console.ForegroundColor = ConsoleColor.Magenta;
             if((mode & HighlightingMode.SequenceStart) == HighlightingMode.SequenceStart) Console.ForegroundColor = ConsoleColor.Blue;
@@ -400,7 +421,7 @@ namespace de.unika.ipd.grGen.libGr
             if((mode & HighlightingMode.FocusSucces) == HighlightingMode.FocusSucces) Console.ForegroundColor = ConsoleColor.Green;
             if((mode & HighlightingMode.LastSuccess) == HighlightingMode.LastSuccess) Console.BackgroundColor = ConsoleColor.DarkGreen;
             if((mode & HighlightingMode.LastFail) == HighlightingMode.LastFail) Console.BackgroundColor = ConsoleColor.DarkRed;
-            if((mode & HighlightingMode.Focus) == HighlightingMode.Focus || (mode & HighlightingMode.FocusSucces) == HighlightingMode.FocusSucces) Console.BackgroundColor = ConsoleColor.Black;
+            if((mode & HighlightingMode.LastSuccess) == HighlightingMode.LastSuccess || (mode & HighlightingMode.LastFail) == HighlightingMode.LastFail) Console.ForegroundColor = ConsoleColor.Black;
             if((mode & HighlightingMode.Breakpoint) == HighlightingMode.Breakpoint) Console.ForegroundColor = ConsoleColor.Red;
             if((mode & HighlightingMode.Choicepoint) == HighlightingMode.Choicepoint) Console.ForegroundColor = ConsoleColor.Magenta;
             if((mode & HighlightingMode.SequenceStart) == HighlightingMode.SequenceStart) Console.ForegroundColor = ConsoleColor.Blue;
