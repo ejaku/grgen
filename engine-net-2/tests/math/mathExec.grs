@@ -41,7 +41,7 @@ eval Math::log(4.0, 2.0)
 eval Math::log(Math::e())
 
 eval Math::sgn(-2.0)
-
+# note that Mono on LINUX delivers different results for the sin/tan of pi tests causing test failures
 eval Math::sin(Math::pi())
 
 eval Math::cos(Math::pi())

@@ -591,6 +591,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return elem;
         }
 
+        // TODO: no idea what this is good for or what's the best way to cope with it, under Mono-LINUX it throws, maybe some issue in the MonoWorkaroundConsoleTextReader
         public string ReadOrEofErr()
         {
             string result = ReadLine();

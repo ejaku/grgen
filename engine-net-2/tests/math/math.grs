@@ -70,7 +70,7 @@ show var res
 exec { emit("--------------------------------------------------\n") }
 
 # -----------------------------------------------------------
-
+# note that Mono on LINUX delivers different results for the sin/tan of pi tests causing test failures
 exec (::res)=sin
 show var res
 
