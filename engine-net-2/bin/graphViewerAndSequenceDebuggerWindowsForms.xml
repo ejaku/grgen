@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>graphViewerAndSequenceDebuggerWindowsForms</name>
+    </assembly>
+    <members>
+        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl.components">
+            <summary> 
+            Erforderliche Designervariable.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl.Dispose(System.Boolean)">
+            <summary> 
+            Verwendete Ressourcen bereinigen.
+            </summary>
+            <param name="disposing">True, wenn verwaltete Ressourcen gelöscht werden sollen; andernfalls False.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl.InitializeComponent">
+            <summary> 
+            Erforderliche Methode für die Designerunterstützung. 
+            Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleDebuggerHost.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleDebuggerHost.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleDebuggerHost.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient">
+            <summary>
+            Class communicating with the MSAGL library
+            TODO: still some issues, esp. with node nesting
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.#ctor(System.Windows.Forms.Form)">
+            <summary>
+            Creates a new MSAGLClient instance, adding its GViewer control to the hosting form (at position 0).
+            </summary>
+        </member>
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.SetLayout(System.String)" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.GetLayoutOptions">
+            <summary>
+            Retrieves the available options of the current layouter of MSAGL and the current values.
+            </summary>
+            <returns>A description of the available options of the current layouter of MSAGL
+            and the current values.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.SetLayoutOption(System.String,System.String)">
+            <summary>
+            Sets a layout option of the current layouter of MSAGL.
+            </summary>
+            <param name="optionName">The name of the option.</param>
+            <param name="optionValue">The new value.</param>
+            <returns>"optionset\n", or an error message, if setting the option failed.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.ForceLayout">
+            <summary>
+            Forces MSAGL to relayout the graph.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.Show">
+            <summary>
+            Shows the graph (without relayout).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.Sync">
+            <summary>
+            Sends a "sync" request and waits for a "sync" answer
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.ChangeNode(System.String,System.String)">
+            <summary>
+            Sets the node realizer of the given node.
+            If realizer is null, the realizer for the type of the node is used.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.ChangeEdge(System.String,System.String)">
+            <summary>
+            Sets the edge realizer of the given edge.
+            If realizer is null, the realizer for the type of the edge is used.
+            </summary>
+        </member>
+    </members>
+</doc>

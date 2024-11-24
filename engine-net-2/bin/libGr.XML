@@ -12367,9 +12367,39 @@
             to be reset afterwards (so the computer can fall asleep again in case there's nothing going on).
             Not calling this function the computer would fall asleep after a while even at 100% CPU usage and disk usage,
             as might happen if you are executing some graph rewrite sequences for an excessive simulation.
-            TODO: LINUX version. Currently Windows only.
+            TODO: LINUX version. Currently Windows only. Silent nop.
             </summary>
             <param name="prevent">prevent if true, allow if false</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IWorkaround.AllocTheConsole">
+            <summary>
+            Allocates the console.
+            TODO: LINUX version. Currently Windows only. Silent nop.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IWorkaround.AttachTheConsole(System.Int32)">
+            <summary>
+            Attaches the console.
+            TODO: LINUX version. Currently Windows only. Silent nop.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IWorkaround.FreeTheConsole">
+            <summary>
+            Frees the console.
+            TODO: LINUX version. Currently Windows only. Silent nop.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IWorkaround.PreventRedraw(System.IntPtr)">
+            <summary>
+            Prevents redrawing of the given window.
+            TODO: LINUX version. Currently Windows only. Silent nop.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IWorkaround.AllowRedraw(System.IntPtr)">
+            <summary>
+            Allows redrawing of the given window.
+            TODO: LINUX version. Currently Windows only. Silent nop.
+            </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.MonoLinuxWorkaroundConsoleIO.PrintHighlighted(System.String,de.unika.ipd.grGen.libGr.HighlightingMode)">
             <summary>

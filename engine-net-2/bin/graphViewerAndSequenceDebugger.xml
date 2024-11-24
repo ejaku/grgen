@@ -9,7 +9,7 @@
             Contains helper code for the constant parser, interacts with the constant parser.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.#ctor(de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IDebuggerEnvironment,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DebuggerGraphProcessingEnvironment,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ElementRealizers,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerTypes,System.String,System.Collections.Generic.Dictionary{System.String,System.String},de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleDebuggerHost)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.#ctor(de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IDebuggerEnvironment,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DebuggerGraphProcessingEnvironment,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ElementRealizers,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerTypes,System.String,System.Collections.Generic.Dictionary{System.String,System.String},de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IGuiConsoleDebuggerHost)">
             <summary>
             Initializes a new Debugger instance using the given environments, and layout as well as layout options.
             All invalid options will be removed from layoutOptions.
@@ -24,7 +24,7 @@
             If null, Orthogonal is used.</param>
             <param name="layoutOptions">An dictionary mapping layout option names to their values.
             It may be null, if no options are to be applied.</param>
-            <param name="guiConsoleDebuggerHost">An optional debugger host form, in case the graph viewer type MSAGL is requested, the MSAGL graph viewer is added to it (YComp is a standalone application).</param>
+            <param name="guiConsoleDebuggerHost">An optional debugger host, in case the graph viewer type MSAGL is requested, the MSAGL graph viewer form is added to that form (YComp is a standalone application).</param>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.Close">
             <summary>
@@ -237,12 +237,17 @@
             some higher-level shared functionality regarding graph presentation state handling is implemented here.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.#ctor(de.unika.ipd.grGen.libGr.INamedGraph,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerTypes,System.String,de.unika.ipd.grGen.libGr.DumpInfo,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ElementRealizers,de.unika.ipd.grGen.libGr.ObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.TransientObjectNamerAndIndexer,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleDebuggerHost)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.#ctor(de.unika.ipd.grGen.libGr.INamedGraph,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerTypes,System.String,de.unika.ipd.grGen.libGr.DumpInfo,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ElementRealizers,de.unika.ipd.grGen.libGr.ObjectNamerAndIndexer,de.unika.ipd.grGen.libGr.TransientObjectNamerAndIndexer,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IBasicGraphViewerClientHost)">
             <summary>
             Creates a new GraphViewerClient instance.
             internally, it creates a YCompClient and connects to the local YComp server,
-            or creates a MSAGLClient, inside the guiConsoleDebuggerHost in case one is supplied,
+            or creates a MSAGLClient, inside the basicGraphViewerClientHost (which may be a GuiConsoleDebuggerHost) in case one is supplied,
             depending on the graph viewer type that is requested (the layout is expected to be one of the valid layouts of the corresponding graph viewer client).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.GetGuiConsoleDebuggerHostCreator">
+            <summary>
+            returns a host creator from graphViewerAndSequenceDebuggerWindowsForms.dll
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient.NodeRealizerOverride">
@@ -332,43 +337,9 @@
             Does not change the stored graph, even though this is required for naming.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl.components">
-            <summary> 
-            Erforderliche Designervariable.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl.Dispose(System.Boolean)">
-            <summary> 
-            Verwendete Ressourcen bereinigen.
-            </summary>
-            <param name="disposing">True, wenn verwaltete Ressourcen gelöscht werden sollen; andernfalls False.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl.InitializeComponent">
-            <summary> 
-            Erforderliche Methode für die Designerunterstützung. 
-            Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleDebuggerHost.components">
-            <summary>
-            Required designer variable.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleDebuggerHost.Dispose(System.Boolean)">
-            <summary>
-            Clean up any resources being used.
-            </summary>
-            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleDebuggerHost.InitializeComponent">
-            <summary>
-            Required method for Designer support - do not modify
-            the contents of this method with the code editor.
-            </summary>
-        </member>
         <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IBasicGraphViewerClient">
             <summary>
-            Interface to the basic graph viewer clients
+            interface to the basic graph viewer clients (yComp and MSAGL, offering the core graph viewer functionality, utilized by the GraphViewerClient that adds its own functionality)
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IBasicGraphViewerClient.GetLayoutOptions">
@@ -413,58 +384,26 @@
             If realizer is null, the realizer for the type of the edge is used.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient">
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IBasicGraphViewerClientCreator">
             <summary>
-            Class communicating with the MSAGL library
-            TODO: still some issues, esp. with node nesting
+            interface to an object that allows to create basic graph viewer clients (internal use by the public GraphViewerClient)
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.#ctor(System.Windows.Forms.Form)">
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IBasicGraphViewerClientHost">
             <summary>
-            Creates a new MSAGLClient instance, adding its GViewer control to the form (at position 0).
+            interface to the host object that will contain the basic graph viewer client (also visually)
             </summary>
         </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.SetLayout(System.String)" ignoriert -->
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.GetLayoutOptions">
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IGuiConsoleDebuggerHost">
             <summary>
-            Retrieves the available options of the current layouter of MSAGL and the current values.
-            </summary>
-            <returns>A description of the available options of the current layouter of MSAGL
-            and the current values.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.SetLayoutOption(System.String,System.String)">
-            <summary>
-            Sets a layout option of the current layouter of MSAGL.
-            </summary>
-            <param name="optionName">The name of the option.</param>
-            <param name="optionValue">The new value.</param>
-            <returns>"optionset\n", or an error message, if setting the option failed.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.ForceLayout">
-            <summary>
-            Forces MSAGL to relayout the graph.
+            interface to the host object that contains the console(s) to be used by the gui console debugger
+            and that will contain the basic graph viewer client (also visually)
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.Show">
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IHostCreator">
             <summary>
-            Shows the graph (without relayout).
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.Sync">
-            <summary>
-            Sends a "sync" request and waits for a "sync" answer
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.ChangeNode(System.String,System.String)">
-            <summary>
-            Sets the node realizer of the given node.
-            If realizer is null, the realizer for the type of the node is used.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.ChangeEdge(System.String,System.String)">
-            <summary>
-            Sets the edge realizer of the given edge.
-            If realizer is null, the realizer for the type of the edge is used.
+            interface to an object that allows to create hosts, for one a host for a (basic) graph viewer (client), for the other a host for a (gui) console debugger (which is an extension of a basic graph viewer client)
+            you may use GraphViewerClient.GetGuiConsoleDebuggerHostCreator() to obtain a creator object (from graphViewerAndSequenceDebuggerWindowsForms.dll)
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ParseException">
