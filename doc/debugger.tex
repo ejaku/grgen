@@ -150,7 +150,7 @@ The following example consisting of Figures~\ref{figprogramgraph1} and \ref{figp
 \begin{itemize}
 	\item nesting to show containment
 	\item color coding to distinguish different classes of elements (yellow for classes, magenta for methods, cyan for variables, and green for expressions and statements)
-	\item the typical rendering of the \texttt{Hierarchic} layout (it's advanced version \texttt{Compilergraph} to be more exact)
+	\item the typical rendering of the \texttt{Hierarchic} layout (its advanced version \texttt{Compilergraph} to be more exact)
 \end{itemize}
 
 \begin{figure}[htbp]
@@ -227,7 +227,7 @@ Besides the things already mentioned in \ref{tools:ycomp}, we want to give the f
 
 MSAGL\indexmain{MSAGL}\cite{MSAGL}, an abbreviation of Microsoft Automatic Graph Layout, is a .NET library and tool for graph layout and viewing.
 MSAGL is not a standalone application, in contrast to yComp, but a library that is linked into \GrG\ (and used at API level).
-Technically, the debugger using MSAGL as graph viewer can be embedded into your own .NET program by utilizing the \texttt{graph\-Viewer\-And\-Sequence\-Debugger} assembly of \GrG\ (i.e. you can use it on API level, like MSAGL).
+Technically, the debugger using MSAGL as graph viewer can be embedded into your own .NET program by utilizing the \texttt{graph\-Viewer\-And\-Sequence\-Debugger.dll} and the \texttt{graph\-Viewer\-And\-Sequence\-Debugger\-Windows\-Forms.dll} of \GrG\ (i.e. you can use it on API level, like MSAGL).
 Legally, this is possible because MSAGL comes with the very permissive \indexed{MIT license}\cite{MITLicense}, in contrast to the \yComp{} license purchased by IPD Goos from yWorks that restricts its use to academic purposes, and esp. does not allow you to ship it with a release of your own software.
 \GrG\ itself is licensed as LGPL, so you can ship it with your own (even commercial) program - the functionality of the MSAGL based graph viewer is limited compared to what \yComp{} offers, though.
 
@@ -367,6 +367,8 @@ displays the current graph at each single step, and on request highlights a rule
 
 Besides deciding on what is shown from the application of the current rule, you also determine with the debug commands where to continue debugging, i.e. the rule focused next;
 but of course this depends strongly on the following flow of execution, esp. the fact whether the execution of the currently active rule succeeds/fails, and the execution state in general.
+
+%maybe todo: explain s(k)ip mode/skipping
 
 With the \texttt{s} debug command (step) you execute the current rewrite rule (trying to match it, applying the rewrite on success) and then continue with the next rule in the sequence.
 

@@ -405,7 +405,7 @@ b = bla;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Graph Viewer and Debugger}
-The \texttt{graphViewerAndSequenceDebugger} project contains convenience interfaces that allow you to access the graph viewer and the sequence debugger easily from API level (you have to include the \texttt{graphViewerAndSequenceDebugger.dll} in order to do so, note its package reference to the NuGet package \texttt{Microsoft.Msagl.GraphViewerGDI} requiring the inclusion of \texttt{System.Resources.Extensions} with a \texttt{bindingRedirect} in the \texttt{app.config} of your application).
+The \texttt{graph\-Viewer\-And\-Sequence\-Debugger} project contains convenience interfaces that allow you to access the graph viewer and the sequence debugger easily from API level (you have to include the \texttt{graph\-Viewer\-And\-Sequence\-Debugger.dll} in order to do so, and in case you want to use be MSAGL based debugger, you have to make the \texttt{graph\-Viewer\-And\-Sequence\-Debugger\-Windows\-Forms.dll} available laying besides the aforementioned dynamic link library, note its package reference to the NuGet package \texttt{Microsoft.Msagl.Graph\-Viewer\-GDI} requiring the inclusion of \texttt{System.Resources.Extensions} with a \texttt{binding\-Redirect} in the \texttt{app.config} of your application (the \texttt{GrShell.csproj} from the sources may serve as an example)).
 
 The \texttt{GraphViewer} class esp. offers methods to
 \begin{itemize}

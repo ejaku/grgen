@@ -1,4 +1,8 @@
-		   GNU LESSER GENERAL PUBLIC LICENSE
+For most of GrGen.NET, the following LGPL holds.
+For yComp, an academic license granted by yWorks holds, see more in the README.txt.
+For the MSAGL component, the MIT license holds, see more in the README.txt.
+
+                   GNU LESSER GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
  Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>

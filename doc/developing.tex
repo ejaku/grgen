@@ -23,8 +23,8 @@ It can be built with the included \texttt{Makefile} on Linux or the \texttt{Make
 Alternatively, you may add the \texttt{de} subfolder and the jars in the \texttt{jars} subfolder to your favourite IDE, but then you must take care of the ANTLR parser generation pre-build-step on your own. 
 
 The backend is available in the \texttt{engine-net-2} subdirectory. 
-It contains a VisualStudio 2015 solution file containing projects for the \texttt{libGr}, the \texttt{lgspBackend} (libGr-Search-Plan-Backend), and the \texttt{GrShell}.
-Before you can build the solution, you have to execute \texttt{./src/lib\-Gr/gen\-parser.bat}, \texttt{./src/graph\-Viewer\-And\-Sequence\-Debugger/gen\-parser.bat}, \texttt{./src/lib\-Gr\-Shell/gen\-parser.bat} (or \texttt{./src/lib\-Gr/gen\-parser.sh}, \texttt{./src/graph\-Viewer\-And\-Sequence\-Debugger/gen\-parser.sh}, \texttt{./src/lib\-Gr\-Shell/gen\-parser.sh}) in order to get the CSharpCC parsers for the rewrite sequences and the shell generated.
+It contains a VisualStudio 2017 solution file containing projects for the \texttt{libGr}, the \texttt{lgspBackend} (libGr-Search-Plan-Backend), the \texttt{graph\-Viewer\-And\-Sequence\-Debugger} and its extension by MSAGL in \texttt{graph\-Viewer\-And\-Sequence\-Debugger\-Windows\-Forms}, the \texttt{lib\-Gr\-Shell}, and the \texttt{GrGen} compiler (backend) as well as the \texttt{GrShell}.
+Before you can build the solution, you have to execute \texttt{./src/lib\-Gr/gen\-parser.bat}, \texttt{./src/graph\-Viewer\-And\-Sequence\-Debugger/gen\-parser.bat}, \texttt{./src/lib\-Gr\-Shell/gen\-parser.bat} (or \texttt{./src/lib\-Gr/gen\-parser.sh}, \texttt{./src/graph\-Viewer\-And\-Sequence\-Debugger/gen\-parser.sh}, \texttt{./src/lib\-Gr\-Shell/gen\-parser.sh}) in order to get the CSharpCC parsers for the rewrite sequences, the constant literals, and the shell generated.
 Under LINUX you may use \texttt{make\_linux.sh} to get a complete build.
 To get the API examples generated you must execute \texttt{./genlibs.bat}.
 
@@ -79,14 +79,14 @@ All the 3 ringlists (type, in, out) are doubly linked to allow for fast insertio
 For every \texttt{next} field there is also a \texttt{prev} field available that references the previous element in the ringlist (\texttt{typePrev}, \texttt{inPrev}, \texttt{outPrev}).
 The figure \ref{figincidenceexampleringlists} gives the ringlist implementation of the example graph depicted in figure \ref{figincidenceexample}. 
 
-\begin{figure}[htbp]
+\begin{figure}[phtb]
   \centering
   \includegraphics[width=0.75\textwidth]{fig/IncidenceExample}
   \caption{Incidence example situation}
   \label{figincidenceexample}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[phtb]
   \centering
   \includegraphics[width=0.75\textwidth]{fig/IncidenceExampleRinglists}
   \caption{Ringlist implementation of incidence example}

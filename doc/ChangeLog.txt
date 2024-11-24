@@ -1,10 +1,57 @@
-﻿v6.8 (2023-??-??)
+﻿v7.0 (2024-11-24)
  More demanding prerequisites:
-  Increased required .NET version from 4.0 to 4.7.2 (or mono ?)
- TODO: some filtering tests broken, introduce stable sort or adapt test results (sort order changed in .NET 4.5)
+  Increased the required .NET framework version from 4.0 to 4.7.2 (and if mono is used: from mono 3.8 to mono 5.10)
+   - primarily because of the new optional MSAGL based debugger and its prerequisites, esp. comprising WindowsForms
+   - beware of the changed sort order (stability) from .NET 4.5 on
 
- Introduced MSAGL as graph viewer (experimental)
+ Introduced MSAGL (Microsoft Automatic Graph Layout) as an in-app graph viewer
+  - to be more precise: the WindowsForms-GViewer class from this .NET-library
+  - the MSAGL library comes with a liberal MIT license, so you can ship it with your own application,
+    in contrast to yComp which is legally way less permissive due to its academic license granted by yWorks for yFiles;
+    the graphViewerAndSequenceDebugger.dll and the graphViewerAndSequenceDebuggerWindowsForms.dll from GrGen.NET are licensed under LGPL
+ 
+ Added a gui console debugger, based on a WindowsForms console-like display
+  - it allows (together with MSAGL) for graphical debugging of sequence and rule execution within a .NET WindowsForms user application
+    not requiring the external yComp application or a stdout-console, or the GrShell application - i.e. it can be utilized on API level
+  - the GrShell console application can be configured to use it, too,
+    replacing its own console and the external yComp graph viewer by an internal graphical UI pop-up window during the debugging session
 
+ Added a two-pane mode to the WindowsForms-Console debugger, with a data rendering console being separate from a user dialog console
+  the data rendering console only shows the current work object at a time, instead of the complete output history,
+  which still holds for the user dialog console, esp. in order to allow to inspect the subrule traces log
+
+ Introduced new commands to the GrShell in order to allow to configure these new debugger options
+  - debug with MSAGL|yComp allows to switch the graph viewer/debugger in between MSAGL and yComp
+  - debug set option twopane true|false allows to switch in between a single combined console
+     and a data rendering plus a user dialog console, the default of twopane mode when it is not set is true,
+	 but this option is only applied when the debugger is used with MSAGL graph display
+  - the debug get options command allows to list the options of the debugger (twopane currently being the only one)
+  - debug get layout allows to easily inspect the currently set layout
+
+ The watchpoint menu in the debugger must be exited explicitly now instead of the implicit exit after first user operation
+ Improved the highlighting of the result of an executed rule in the old console debugger
+
+ The uniqueId of the internal class objects is an optional feature by now, 
+  you have to declare "object class unique;" in the model file(s) in order to use it
+  (this allows to optimize it away in case it is not declared, esp. in order to reduce the cache/memory footprint (NIY))
+
+ API changes:
+  - you need a bindingRedirect of System.Resources.Extensions to a newer version in your app.config, 
+    if you want to use the graphViewerAndSequenceDebuggerWindowsForms.csproj/.dll in your project
+    like it is applied in the app.config of the GrShell (and a package reference to System.Resources.Extensions in the first place)
+    this is a requirement of the added PackageReference to Microsoft.Msagl.GraphViewerGDI
+  - adapted api examples to show the new graph viewer / debugger based on the WindowsForms console and MSAGL
+  - the gui console debugger is implemented by the very same ConsoleDebugger core, but changes in the environment classes;
+    it employs a GuiConsoleControl user control inside a GuiConsoleDebuggerHost form towards this purpose
+  - the model interface tells about the object class unique; declaration with a new ObjectUniquenessIsEnsured property
+
+ Bugfixes:
+ - carried out a subrule debugging bugfix, plus a few minor fixes
+
+ User manual adaptations and corrections
+
+--------------------------------------------------------------------------------------------------------
+ 
 v6.7 (2023-05-18)
  Many error message improvements / UX optimizations in the compiler frontend
  

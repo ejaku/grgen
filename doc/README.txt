@@ -1,4 +1,4 @@
-GrGen.NET v6.7 (2023-05-18)
+GrGen.NET v7.0 (2024-11-24)
 ---------------------------
 
 This is the GrGen.NET system for graph rewriting.
@@ -7,15 +7,15 @@ It consists of two parts of components:
   specifications into efficient .NET assemblies performing the rewrites,
   which are supported by the runtime environment implemented by LibGr
   and the lgspBackend.
-- the rapid prototyping environment offered by GrShell and yComp
+- the rapid prototyping environment offered by GrShell and yComp (or MSAGL)
 
 
 INSTALL
 -------
 
 You need the following system setup for GrGen.NET:
-  - Microsoft .NET 4.0 or above
-    OR Mono 3.8.0 or above
+  - Microsoft .NET Framework 4.7.2 or above
+    OR Mono 5.10.0 or above
   - Java 1.8 or above
 
 For Linux:
@@ -95,7 +95,7 @@ HELP
 ----
 
 For further information refer to the "GrGen.NET User Manual" available
-at http://www.grgen.net (or http://www.grgen.de).
+at http://www.grgen.de (or http://www.grgen.net).
 
 If you find any bugs or have a suggestion, please send an email to:
     grgen@grgen.de
@@ -170,9 +170,9 @@ Caroline von Totth
 COPYING
 -------
 
-Copyright (C) 2003-2023 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
+Copyright (C) 2003-2024 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
 
-This file is part of GrGen, Version GrGen.NET 6.7
+This file is part of GrGen, Version GrGen.NET 7.0
 
 GrGen is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
