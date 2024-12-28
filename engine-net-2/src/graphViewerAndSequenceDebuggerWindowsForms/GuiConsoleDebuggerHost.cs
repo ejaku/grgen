@@ -17,6 +17,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             InitializeComponent();
             TwoPane = twoPane;
+            theGuiConsoleControl.Select(); // ensure it receives keyboard input
         }
     }
 }

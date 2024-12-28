@@ -59,7 +59,8 @@ namespace de.unika.ipd.grGen.grShell
         private bool silenceExec = false; // print match statistics during sequence execution on timer
         private bool cancelSequence = false;
 
-        private IGuiConsoleDebuggerHost host;
+        private IGuiConsoleDebuggerHost guiConsoleDebuggerHost;
+        private IBasicGraphViewerClientHost basicGraphViewerClientHost;
 
         private ConsoleDebugger debugger = null;
 
@@ -203,10 +204,10 @@ namespace de.unika.ipd.grGen.grShell
             get { return base.TwoPane; }
             set
             {
-                if(host != null) // make this property true if possible, but debug option must be set in the impl
+                if(guiConsoleDebuggerHost != null) // make this property true if possible, but debug option must be set in the impl
                 {
-                    host.TwoPane = value;
-                    TheDebuggerConsoleUIForDataRendering = value ? host.OptionalGuiConsoleControl : host.GuiConsoleControl;
+                    guiConsoleDebuggerHost.TwoPane = value;
+                    TheDebuggerConsoleUIForDataRendering = value ? guiConsoleDebuggerHost.OptionalGuiConsoleControl : guiConsoleDebuggerHost.GuiConsoleControl;
                 }
             }
         }
@@ -609,16 +610,22 @@ namespace de.unika.ipd.grGen.grShell
                 impl.debugLayoutOptions.TryGetValue(impl.debugLayout, out optMap);
                 try
                 {
-                    host = null;
+                    guiConsoleDebuggerHost = null;
+                    basicGraphViewerClientHost = null;
                     if(graphViewerType != GraphViewerTypes.YComp)
                     {
-                        IHostCreator guiConsoleDebuggerHostCreator = GraphViewerClient.GetGuiConsoleDebuggerHostCreator();
-                        host = guiConsoleDebuggerHostCreator.CreateGuiConsoleDebuggerHost(GetDebugOptionTwoPane());
+                        IHostCreator hostCreator = GraphViewerClient.GetGuiConsoleDebuggerHostCreator();
+                        guiConsoleDebuggerHost = hostCreator.CreateGuiConsoleDebuggerHost(GetDebugOptionTwoPane());
+                        basicGraphViewerClientHost = hostCreator.CreateBasicGraphViewerClientHost();
 
-                        TheDebuggerConsoleUI = host.GuiConsoleControl;
-                        TheDebuggerConsoleUIForDataRendering = GetDebugOptionTwoPane() ? host.OptionalGuiConsoleControl : host.GuiConsoleControl;
+                        TheDebuggerConsoleUI = guiConsoleDebuggerHost.GuiConsoleControl;
+                        TheDebuggerConsoleUIForDataRendering = GetDebugOptionTwoPane() ? guiConsoleDebuggerHost.OptionalGuiConsoleControl : guiConsoleDebuggerHost.GuiConsoleControl;
                     }
-                    debugger = new ConsoleDebugger(this, impl.curShellProcEnv, impl.realizers, graphViewerType, impl.debugLayout, optMap, host);
+                    debugger = new ConsoleDebugger(this, impl.curShellProcEnv, impl.realizers, graphViewerType, impl.debugLayout, optMap, basicGraphViewerClientHost);
+                    if(graphViewerType != GraphViewerTypes.YComp)
+                    {
+                        guiConsoleDebuggerHost.Show();
+                    }
                     debugger.DetailedModeShowPreMatches = impl.detailModePreMatchEnabled;
                     debugger.DetailedModeShowPostMatches = impl.detailModePostMatchEnabled;
                     impl.curShellProcEnv.ProcEnv.UserProxy = debugger;
@@ -649,9 +656,10 @@ namespace de.unika.ipd.grGen.grShell
                 impl.curShellProcEnv.ProcEnv.UserProxy = null;
                 debugger.Close();
                 debugger = null;
-                if(host != null)
-                    host.Close();
-                host = null;
+                if(guiConsoleDebuggerHost != null)
+                    guiConsoleDebuggerHost.Close();
+                guiConsoleDebuggerHost = null;
+                basicGraphViewerClientHost = null;
                 TheDebuggerConsoleUI = DebuggerConsoleUI.Instance;
                 TheDebuggerConsoleUIForDataRendering = DebuggerConsoleUI.Instance;
             }
@@ -665,7 +673,8 @@ namespace de.unika.ipd.grGen.grShell
             if(!debugger.GraphViewerClient.Sync())
             {
                 debugger = null;
-                host = null;
+                guiConsoleDebuggerHost = null;
+                basicGraphViewerClientHost = null;
                 TheDebuggerConsoleUI = DebuggerConsoleUI.Instance;
                 TheDebuggerConsoleUIForDataRendering = DebuggerConsoleUI.Instance;
                 return false;

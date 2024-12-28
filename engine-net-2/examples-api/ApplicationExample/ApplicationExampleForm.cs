@@ -299,11 +299,13 @@ namespace ApplicationExample
             else
             {
                 bool twoPane = true; // true: use two panes (consoles), false: one console
-                IHostCreator guiConsoleDebuggerHostCreator = GraphViewerClient.GetGuiConsoleDebuggerHostCreator();
-                IGuiConsoleDebuggerHost host = guiConsoleDebuggerHostCreator.CreateGuiConsoleDebuggerHost(twoPane);
-                debuggerEnv = new DebuggerEnvironment(host.GuiConsoleControl, twoPane ? host.OptionalGuiConsoleControl : host.GuiConsoleControl);
+                IHostCreator hostCreator = GraphViewerClient.GetGuiConsoleDebuggerHostCreator();
+                IGuiConsoleDebuggerHost guiConsoleDebuggerHost = hostCreator.CreateGuiConsoleDebuggerHost(twoPane);
+                IBasicGraphViewerClientHost basicGraphViewerClientHost = hostCreator.CreateBasicGraphViewerClientHost();
+                debuggerEnv = new DebuggerEnvironment(guiConsoleDebuggerHost.GuiConsoleControl, twoPane ? guiConsoleDebuggerHost.OptionalGuiConsoleControl : guiConsoleDebuggerHost.GuiConsoleControl);
                 debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
-                    graphViewerType, "MDS"/*"SugiyamaScheme"*/, optMap, host);
+                    graphViewerType, "MDS"/*"SugiyamaScheme"*/, optMap, basicGraphViewerClientHost);
+                guiConsoleDebuggerHost.Show();
             }
 
             debugger.DetailedModeShowPreMatches = true;

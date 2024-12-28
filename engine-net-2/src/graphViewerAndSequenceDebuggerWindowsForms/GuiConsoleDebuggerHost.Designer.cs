@@ -28,60 +28,50 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.theSplitter = new System.Windows.Forms.Splitter();
-            this.theOptionalSplitter = new System.Windows.Forms.Splitter();
             this.theOptionalGuiConsoleControl = new de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl();
+            this.theOptionalSplitter = new System.Windows.Forms.Splitter();
             this.theGuiConsoleControl = new de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl();
             this.SuspendLayout();
             // 
-            // theSplitter
+            // theOptionalGuiConsoleControl
             // 
-            this.theSplitter.Cursor = System.Windows.Forms.Cursors.HSplit;
-            this.theSplitter.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.theSplitter.Location = new System.Drawing.Point(0, 681);
-            this.theSplitter.Name = "theSplitter";
-            this.theSplitter.Size = new System.Drawing.Size(1774, 10);
-            this.theSplitter.TabIndex = 1;
-            this.theSplitter.TabStop = false;
+            this.theOptionalGuiConsoleControl.Dock = System.Windows.Forms.DockStyle.Top;
+            this.theOptionalGuiConsoleControl.EnableClear = false;
+            this.theOptionalGuiConsoleControl.Location = new System.Drawing.Point(0, 0);
+            this.theOptionalGuiConsoleControl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.theOptionalGuiConsoleControl.Name = "theOptionalGuiConsoleControl";
+            this.theOptionalGuiConsoleControl.Size = new System.Drawing.Size(1163, 214);
+            this.theOptionalGuiConsoleControl.TabIndex = 0;
             // 
             // theOptionalSplitter
             // 
-            this.theOptionalSplitter.Cursor = System.Windows.Forms.Cursors.HSplit;
-            this.theOptionalSplitter.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.theOptionalSplitter.Location = new System.Drawing.Point(0, 233);
+            this.theOptionalSplitter.Dock = System.Windows.Forms.DockStyle.Top;
+            this.theOptionalSplitter.Location = new System.Drawing.Point(0, 214);
             this.theOptionalSplitter.Name = "theOptionalSplitter";
-            this.theOptionalSplitter.Size = new System.Drawing.Size(1774, 10);
-            this.theOptionalSplitter.TabIndex = 3;
+            this.theOptionalSplitter.Size = new System.Drawing.Size(1163, 3);
+            this.theOptionalSplitter.TabIndex = 1;
             this.theOptionalSplitter.TabStop = false;
-            // 
-            // theOptionalGuiConsoleControl
-            // 
-            this.theOptionalGuiConsoleControl.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.theOptionalGuiConsoleControl.Location = new System.Drawing.Point(0, 243);
-            this.theOptionalGuiConsoleControl.MinimumSize = new System.Drawing.Size(50, 50);
-            this.theOptionalGuiConsoleControl.Name = "theOptionalGuiConsoleControl";
-            this.theOptionalGuiConsoleControl.Size = new System.Drawing.Size(1774, 438);
-            this.theOptionalGuiConsoleControl.TabIndex = 2;
             // 
             // theGuiConsoleControl
             // 
-            this.theGuiConsoleControl.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.theGuiConsoleControl.Location = new System.Drawing.Point(0, 691);
-            this.theGuiConsoleControl.MinimumSize = new System.Drawing.Size(50, 50);
+            this.theGuiConsoleControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.theGuiConsoleControl.EnableClear = false;
+            this.theGuiConsoleControl.Location = new System.Drawing.Point(0, 217);
+            this.theGuiConsoleControl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.theGuiConsoleControl.Name = "theGuiConsoleControl";
-            this.theGuiConsoleControl.Size = new System.Drawing.Size(1774, 438);
-            this.theGuiConsoleControl.TabIndex = 0;
+            this.theGuiConsoleControl.Size = new System.Drawing.Size(1163, 456);
+            this.theGuiConsoleControl.TabIndex = 2;
             // 
             // GuiConsoleDebuggerHost
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1774, 1129);
+            this.ClientSize = new System.Drawing.Size(1163, 673);
+            this.Controls.Add(this.theGuiConsoleControl);
             this.Controls.Add(this.theOptionalSplitter);
             this.Controls.Add(this.theOptionalGuiConsoleControl);
-            this.Controls.Add(this.theSplitter);
-            this.Controls.Add(this.theGuiConsoleControl);
-            this.MinimumSize = new System.Drawing.Size(320, 200);
+            this.Margin = new System.Windows.Forms.Padding(2);
+            this.MinimumSize = new System.Drawing.Size(168, 123);
             this.Name = "GuiConsoleDebuggerHost";
             this.Text = "GuiConsoleDebuggerHost";
             this.ResumeLayout(false);
@@ -90,21 +80,18 @@
 
         #endregion
 
+        private GuiConsoleControl theOptionalGuiConsoleControl;
+        private System.Windows.Forms.Splitter theOptionalSplitter;
         private GuiConsoleControl theGuiConsoleControl;
+
         public IDebuggerConsoleUICombined GuiConsoleControl
         {
             get { return theGuiConsoleControl; }
         }
-
-        private System.Windows.Forms.Splitter theSplitter;
-
-        private GuiConsoleControl theOptionalGuiConsoleControl;
         public IDebuggerConsoleUICombined OptionalGuiConsoleControl
         {
             get { return theOptionalGuiConsoleControl; }
         }
-
-        private System.Windows.Forms.Splitter theOptionalSplitter;
         //private Microsoft.Msagl.GraphViewerGdi.GViewer gv = null; -- gets created by the msagl client, a behavior needed if it is used without debugger as a plain graph viewer
 
         public bool TwoPane

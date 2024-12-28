@@ -11,13 +11,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     /// <summary>
     /// interface to the host object that contains the console(s) to be used by the gui console debugger
-    /// and that will contain the basic graph viewer client (also visually)
     /// </summary>
-    public interface IGuiConsoleDebuggerHost : IBasicGraphViewerClientHost
+    public interface IGuiConsoleDebuggerHost
     {
         IDebuggerConsoleUICombined GuiConsoleControl { get; }
         IDebuggerConsoleUICombined OptionalGuiConsoleControl { get; }
         bool TwoPane { get; set; }
+        void Show();
         void Close();
     }
 }

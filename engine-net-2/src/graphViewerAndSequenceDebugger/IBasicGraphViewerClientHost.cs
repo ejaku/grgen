@@ -14,6 +14,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     /// </summary>
     public interface IBasicGraphViewerClientHost
     {
-        // currently an empty interface, the dynamic type must be additionally a WindowsForms form
+        // the dynamic type must be additionally a WindowsForms form
+        void Close();
     }
 }
