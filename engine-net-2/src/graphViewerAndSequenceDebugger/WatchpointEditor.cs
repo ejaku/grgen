@@ -18,8 +18,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     class WatchpointEditor
     {
         UserChoiceMenu handleWatchpointsMenu = new UserChoiceMenu(UserChoiceMenuNames.HandleWatchpointsMenu, new string[] {
-            "(e)dit", "(t)oggle ((enable/disable))", "(d)elete",
-            "(i)nsert at a specific position", "a(p)pend", "(a)bort/(r)eturn from watchpoints menu" });
+            "watchpointEdit", "watchpointToggle", "watchpointDelete", "watchpointInsert", "watchpointAppend", "watchpointAbortReturn" });
 
         readonly DebuggerGraphProcessingEnvironment debuggerProcEnv;
         readonly IDebuggerEnvironment env;
@@ -229,17 +228,17 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private SubruleDebuggingEvent DetermineEventTypeToConfigure(SubruleDebuggingConfigurationRule cr)
         {
             UserChoiceMenu watchpointDetermineEventTypeToConfigureMenu = new UserChoiceMenu(UserChoiceMenuNames.WatchpointDetermineEventTypeToConfigureMenu, new string[] {
-                "(0) subrule entry aka Debug::add" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Add ? " or (k)eep" : ""),
-                "(1) subrule exit aka Debug::rem" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Rem ? " or (k)eep" : ""),
-                "(2) subrule report aka Debug::emit" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Emit ? " or (k)eep" : ""),
-                "(3) subrule halt aka Debug::halt" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Halt ? " or (k)eep" : ""),
-                "(4) subrule highlight aka Debug::highlight" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Highlight ? " or (k)eep" : ""),
-                "(5) rule match" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Match ? " or (k)eep" : ""),
-                "(6) graph element creation" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.New ? " or (k)eep" : ""),
-                "(7) graph element deletion" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Delete ? " or (k)eep" : ""),
-                "(8) graph element retyping" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Retype ? " or (k)eep" : ""),
-                "(9) graph element attribute assignment" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.SetAttributes ? " or (k)eep" : ""),
-                "(a)bort" });
+                "watchpointEventEntry" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Add ? "Keep" : ""),
+                "watchpointEventExit" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Rem ? "Keep" : ""),
+                "watchpointEventReport" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Emit ? "Keep" : ""),
+                "watchpointEventHalt" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Halt ? "Keep" : ""),
+                "watchpointEventHighlight" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Highlight ? "Keep" : ""),
+                "watchpointEventMatch" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Match ? "Keep" : ""),
+                "watchpointEventCreation" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.New ? "Keep" : ""),
+                "watchpointEventDeletion" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Delete ? "Keep" : ""),
+                "watchpointEventRetyping" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.Retype ? "Keep" : ""),
+                "watchpointEventAssignment" + (cr != null && cr.DebuggingEvent == SubruleDebuggingEvent.SetAttributes ? "Keep" : ""),
+                "watchpointAbort" });
 
             env.PrintInstructionsSeparateByNewline(watchpointDetermineEventTypeToConfigureMenu, "What event to listen to?\n", "");
 
@@ -297,11 +296,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
 
             UserChoiceMenu watchpointMatchSubruleMessageMenu = new UserChoiceMenu(UserChoiceMenuNames.WatchpointMatchSubruleMessageMenu, new string[] {
-                "(0) equals" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.Equals ? " or (k)eep" : ""),
-                "(1) startsWith" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.StartsWith ? " or (k)eep" : ""),
-                "(2) endsWith" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.EndsWith ? " or (k)eep" : ""),
-                "(3) contains" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.Contains ? " or (k)eep" : ""),
-                "(a)bort" });
+                "watchpointMessageMatchingEquals" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.Equals ? "Keep" : ""),
+                "watchpointMessageMatchingStartsWith" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.StartsWith ? "Keep" : ""),
+                "watchpointMessageMatchingEndsWith" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.EndsWith ? "Keep" : ""),
+                "watchpointMessageMatchingContains" + (cr != null && cr.MessageMatchingMode == SubruleMesssageMatchingMode.Contains ? "Keep" : ""),
+                "watchpointAbort" });
 
             env.PrintInstructionsSeparateByNewline(watchpointMatchSubruleMessageMenu, "How to match the subrule message?\n", "");
 
@@ -390,9 +389,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private SubruleDebuggingMatchGraphElementMode DetermineMatchGraphElementMode(SubruleDebuggingConfigurationRule cr)
         {
             UserChoiceMenu watchpointDetermineMatchGraphElementModeMenu = new UserChoiceMenu(UserChoiceMenuNames.WatchpointDetermineMatchGraphElementModeMenu, new string[] {
-                "(0) by name" + (cr != null && cr.NameToMatch != null ? " or (k)eep" : ""),
-                "(1) by type" + (cr != null && cr.NameToMatch == null ? " or (k)eep" : ""),
-                "(a)bort" });
+                "watchpointGraphElementMatchingByName" + (cr != null && cr.NameToMatch != null ? "Keep" : ""),
+                "watchpointGraphElementMatchingByType" + (cr != null && cr.NameToMatch == null ? "Keep" : ""),
+                "watchpointAbort" });
 
             env.PrintInstructionsSeparateByNewline(watchpointDetermineMatchGraphElementModeMenu, "Match graph element based on name or based on type?\n", "");
 
@@ -477,9 +476,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private SubruleDebuggingMatchGraphElementByTypeMode DetermineMatchGraphElementByTypeMode(SubruleDebuggingConfigurationRule cr)
         {
             UserChoiceMenu watchpointDetermineMatchGraphElementByTypeModeMenu = new UserChoiceMenu(UserChoiceMenuNames.WatchpointDetermineMatchGraphElementByTypeModeMenu, new string[] {
-                "(0) also subtypes" + (cr != null && !cr.OnlyThisType ? " or (k)eep" : ""),
-                "(1) only the type" + (cr != null && cr.OnlyThisType ? " or (k)eep" : ""),
-                "(a)bort" });
+                "watchpointGraphElementMatchingByTypeAlsoSubtypes" + (cr != null && !cr.OnlyThisType ? "Keep" : ""),
+                "watchpointGraphElementMatchingByTypeOnlyTheType" + (cr != null && cr.OnlyThisType ? "Keep" : ""),
+                "watchpointAbort" });
 
             env.PrintInstructionsSeparateByNewline(watchpointDetermineMatchGraphElementByTypeModeMenu, "Only the graph element type or also subtypes?\n", "");
 
@@ -507,9 +506,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             // edit or keep decision action
             UserChoiceMenu watchpointDetermineDecisionActionMenu = new UserChoiceMenu(UserChoiceMenuNames.WatchpointDetermineDecisionActionMenu, new string[] {
-                "(0) break" + (cr != null && cr.DecisionOnMatch == SubruleDebuggingDecision.Break ? " or (k)eep" : ""),
-                "(1) continue" + (cr != null && cr.DecisionOnMatch == SubruleDebuggingDecision.Continue ? " or (k)eep" : ""),
-                "(a)bort" });
+                "watchpointDecisionActionBreak" + (cr != null && cr.DecisionOnMatch == SubruleDebuggingDecision.Break ? "Keep" : ""),
+                "watchpointDecisionActionContinue" + (cr != null && cr.DecisionOnMatch == SubruleDebuggingDecision.Continue ? "Keep" : ""),
+                "watchpointAbort" });
 
             env.PrintInstructionsSeparateByNewline(watchpointDetermineDecisionActionMenu, "How to react when the event is triggered?\n", "");
 

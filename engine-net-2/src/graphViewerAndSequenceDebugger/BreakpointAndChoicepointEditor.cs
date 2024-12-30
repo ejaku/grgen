@@ -26,10 +26,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         readonly Stack<SequenceBase> debugSequences = new Stack<SequenceBase>();
 
         UserChoiceMenu whichBreakpointToToggleMenu = new UserChoiceMenu(UserChoiceMenuNames.WhichBreakpointToToggleMenu, new string[] {
-            "(0-9) to toggle the corresponding breakpoint", "(e)nter the number of the breakpoint to toggle", "(a)bort" });
+            "breakpointNumberToToggle", "breakpointEnterNumberToToggle", "breakpointChoicepointAbort" });
 
         UserChoiceMenu whichChoicepointToToggleMenu = new UserChoiceMenu(UserChoiceMenuNames.WhichChoicepointToToggleMenu, new string[] {
-            "(0-9) to toggle the corresponding choicepoint", "(e)nter the number of the choicepoint to toggle", "(a)bort" });
+            "choicepointNumberToToggle", "choicepointEnterNumberToToggle", "breakpointChoicepointAbort" });
 
         public BreakpointAndChoicepointEditor(IDebuggerEnvironment env, Stack<SequenceBase> debugSequences)
         {

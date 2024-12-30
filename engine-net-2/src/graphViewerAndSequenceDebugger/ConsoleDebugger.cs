@@ -93,22 +93,22 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         UserChoiceMenu queryContinueOrTraceMenu;
 
         UserChoiceMenu debuggerMainSequenceEnteringMenu = new UserChoiceMenu(UserChoiceMenuNames.DebuggerMainSequenceEnteringMenu, new string[] {
-                    "(n)ext match", "(d)etailed step", "(s)tep", "step (u)p", "step (o)ut", "(r)un",
-                    "toggle (b)reakpoints", "toggle (c)hoicepoints", "toggle (l)azy choice", "(w)atchpoints",
-                    "show (v)ariables", "show class ob(j)ect", "print stack(t)race", "(f)ull state",
-                    "(h)ighlight", "dum(p) graph", "as (g)raph", "(a)bort" });
+                    "commandNextMatch", "commandDetailedStep", "commandStep", "commandStepUp", "commandStepOut", "commandRun",
+                    "commandToggleBreakpoints", "commandToggleChoicepoints", "commandToggleLazyChoice", "commandWatchpoints",
+                    "commandShowVariables", "commandShowClassObject", "commandPrintStacktrace", "commandFullState",
+                    "commandHighlight", "commandDumpGraph", "commandAsGraph", "commandAbort" });
 
         UserChoiceMenu continueOnAssertionMenu = new UserChoiceMenu(UserChoiceMenuNames.ContinueOnAssertionMenu, new string[] {
-                    "(a)bort", "(d)ebug at source code level ((external))", "(c)ontinue" });
+                    "commandAbort", "commandDebugAtSourceCodeLevel", "commandContinue" });
 
         UserChoiceMenu skipAsRequiredInMatchByMatchProcessingMenu = new UserChoiceMenu(UserChoiceMenuNames.SkipAsRequiredInMatchByMatchProcessingMenu, new string[] {
-                    "(any key) to apply rewrite", "s(k)ip single matches" });
+                    "commandContinueApplyRewrite", "commandSkipSingleMatches" });
 
         UserChoiceMenu skipAsRequiredMenu = new UserChoiceMenu(UserChoiceMenuNames.SkipAsRequiredMenu, new string[] {
-                    "(any key) to show single matches and apply rewrite", "s(k)ip single matches" });
+                    "commandContinueShowSingleMatchesAndApplyRewrite", "commandSkipSingleMatches" });
 
         UserChoiceMenu queryContinueWhenShowPostDisabledMenu = new UserChoiceMenu(UserChoiceMenuNames.QueryContinueWhenShowPostDisabledMenu, new string[] {
-                    "(any key) to continue", "(f)ull state", "(a)bort" });
+                    "commandContinueAnyKey", "commandFullState", "commandAbort" });
 
         /// <summary>
         /// Initializes a new Debugger instance using the given environments, and layout as well as layout options.
@@ -2551,7 +2551,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(!isBottomUpBreak && !EmbeddedSequenceWasEntered())
             {
                 UserChoiceMenu anyKeyFullStateAbortMenu = new UserChoiceMenu(UserChoiceMenuNames.QueryContinueOrTraceMenu, new string[] {
-                    "(any key) to continue", "(f)ull state", "(a)bort" });
+                    "commandContinueAnyKey", "commandFullState", "commandAbort" });
                 env.PrintInstructions(anyKeyFullStateAbortMenu, "Debugging (detailed) break, press ", "...");
                 queryContinueOrTraceMenu = anyKeyFullStateAbortMenu;
             }
@@ -2563,26 +2563,29 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 {
                     if(EmbeddedSequenceWasEntered())
                     {
-                        arrayBuilder.Add("(r)un until end of detail debugging");
+                        arrayBuilder.Add("commandRunUntilEndOfDetailedDebugging");
                         if(TargetStackLevelForUpInDetailedMode() > 0)
                         {
-                            arrayBuilder.Add("(u)p from current entry");
+                            arrayBuilder.Add("commandUpFromCurrentEntry");
                             if(TargetStackLevelForOutInDetailedMode() > 0)
-                                arrayBuilder.Add("(o)ut of detail debugging entry we are nested in");
+                                arrayBuilder.Add("commandOutOfDetailedDebuggingEntry");
                         }
                     }
                 }
 
                 if(isBottomUpBreak && !stepMode)
-                    arrayBuilder.Add("(s)tep mode");
+                    arrayBuilder.Add("commandStepMode");
 
                 if(EmbeddedSequenceWasEntered())
                 {
-                    arrayBuilder.Add("print subrule stack(t)race");
+                    arrayBuilder.Add("commandPrintSubruleStacktrace");
                 }
-                arrayBuilder.Add("(f)ull state");
-                arrayBuilder.Add("(a)bort");
-                arrayBuilder.Add("(any key) continues " + (!isBottomUpBreak ? "detailed debugging" : "debugging as before"));
+                arrayBuilder.Add("commandFullState");
+                arrayBuilder.Add("commandAbort");
+                if(!isBottomUpBreak)
+                    arrayBuilder.Add("commandContinueDetailedDebugging");
+                else
+                    arrayBuilder.Add("commandContinueDebuggingAsBefore");
 
                 queryContinueOrTraceMenu = new UserChoiceMenu(UserChoiceMenuNames.QueryContinueOrTraceMenu, arrayBuilder.ToArray());
                 if(!isBottomUpBreak)
@@ -2595,17 +2598,17 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private void PrintDebugInstructionsSubruleDebugging()
         {
             List<string> arrayBuilder = new List<string>();
-            arrayBuilder.Add("(r)un until end of detail debugging");
+            arrayBuilder.Add("commandRunUntilEndOfDetailedDebugging");
             if(TargetStackLevelForUpInDetailedMode() > 0)
             {
-                arrayBuilder.Add("(u)p from current entry");
+                arrayBuilder.Add("commandUpFromCurrentEntry");
                 if(TargetStackLevelForOutInDetailedMode() > 0)
-                    arrayBuilder.Add("(o)ut of detail debugging entry we are nested in");
+                    arrayBuilder.Add("commandOutOfDetailedDebuggingEntry");
             }
-            arrayBuilder.Add("print subrule stack(t)race");
-            arrayBuilder.Add("(f)ull state");
-            arrayBuilder.Add("(a)bort");
-            arrayBuilder.Add("(any key) to continue detailed debugging");
+            arrayBuilder.Add("commandPrintSubruleStacktrace");
+            arrayBuilder.Add("commandFullState");
+            arrayBuilder.Add("commandAbort");
+            arrayBuilder.Add("commandContinueAnyKeyDetailedDebugging");
 
             UserChoiceMenu subruleDebuggingMenu = new UserChoiceMenu(UserChoiceMenuNames.SubruleDebuggingMenu, arrayBuilder.ToArray());
 

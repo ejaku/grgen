@@ -1,0 +1,408 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="breakpointChoicepointAbort" xml:space="preserve">
+    <value>(a)bort</value>
+  </data>
+  <data name="breakpointEnterNumberToToggle" xml:space="preserve">
+    <value>(e)nter the number of the breakpoint to toggle</value>
+  </data>
+  <data name="breakpointNumberToToggle" xml:space="preserve">
+    <value>(0-9) to toggle the corresponding breakpoint</value>
+  </data>
+  <data name="choicepointEnterNumberToToggle" xml:space="preserve">
+    <value>(e)nter the number of the choicepoint to toggle</value>
+  </data>
+  <data name="choicepointNumberToToggle" xml:space="preserve">
+    <value>(0-9) to toggle the corresponding choicepoint</value>
+  </data>
+  <data name="chooseEnterNumberOfMatch" xml:space="preserve">
+    <value>(e)nter the number of the match to pre-select</value>
+  </data>
+  <data name="chooseEnterNumberOfSequence" xml:space="preserve">
+    <value>(e)nter the number of the sequence to pre-select</value>
+  </data>
+  <data name="chooseEnterPoint" xml:space="preserve">
+    <value>(e)nter a point in the interval series of the sequence to pre-select</value>
+  </data>
+  <data name="chooseLeft" xml:space="preserve">
+    <value>(l)eft branch</value>
+  </data>
+  <data name="chooseNumberOfMatch" xml:space="preserve">
+    <value>(0-9) to pre-select the corresponding match</value>
+  </data>
+  <data name="chooseNumberOfSequence" xml:space="preserve">
+    <value>(0-9) to pre-select the corresponding sequence</value>
+  </data>
+  <data name="choosePreselected" xml:space="preserve">
+    <value>(s) or (n) or (d) to commit to the pre-selected sequence and continue</value>
+  </data>
+  <data name="choosePreselectedAndSkipRemaining" xml:space="preserve">
+    <value>(u) or (o) to commit to the pre-selected sequence but skip remaining choices</value>
+  </data>
+  <data name="choosePreselectedBranch" xml:space="preserve">
+    <value>(s) or (n) or (d) to commit to the randomly chosen branch resp. sequence and continue</value>
+  </data>
+  <data name="choosePreselectedMatch" xml:space="preserve">
+    <value>(s) or (n) or (d) to commit to the pre-selected match and continue</value>
+  </data>
+  <data name="chooseRight" xml:space="preserve">
+    <value>(r)ight branch</value>
+  </data>
+  <data name="chooseValueAbort" xml:space="preserve">
+    <value>(a)bort user choice ((-&gt; value null))</value>
+  </data>
+  <data name="chooseValueRetry" xml:space="preserve">
+    <value>(r)etry</value>
+  </data>
+  <data name="commandAbort" xml:space="preserve">
+    <value>(a)bort</value>
+  </data>
+  <data name="commandAsGraph" xml:space="preserve">
+    <value>as (g)raph</value>
+  </data>
+  <data name="commandContinue" xml:space="preserve">
+    <value>(c)ontinue</value>
+  </data>
+  <data name="commandContinueAnyKey" xml:space="preserve">
+    <value>(any key) to continue</value>
+  </data>
+  <data name="commandContinueApplyRewrite" xml:space="preserve">
+    <value>(any key) to apply rewrite</value>
+  </data>
+  <data name="commandContinueDebuggingAsBefore" xml:space="preserve">
+    <value>(any key) continues debugging as before</value>
+  </data>
+  <data name="commandContinueDetailedDebugging" xml:space="preserve">
+    <value>(any key) continues detailed debugging</value>
+  </data>
+  <data name="commandContinueShowSingleMatchesAndApplyRewrite" xml:space="preserve">
+    <value>(any key) to show single matches and apply rewrite</value>
+  </data>
+  <data name="commandDebugAtSourceCodeLevel" xml:space="preserve">
+    <value>(d)ebug at source code level ((external))</value>
+  </data>
+  <data name="commandDetailedStep" xml:space="preserve">
+    <value>(d)etailed step</value>
+  </data>
+  <data name="commandDumpGraph" xml:space="preserve">
+    <value>dum(p) graph</value>
+  </data>
+  <data name="commandFullState" xml:space="preserve">
+    <value>(f)ull state</value>
+  </data>
+  <data name="commandHighlight" xml:space="preserve">
+    <value>(h)ighlight</value>
+  </data>
+  <data name="commandNextMatch" xml:space="preserve">
+    <value>(n)ext match</value>
+  </data>
+  <data name="commandOutOfDetailedDebuggingEntry" xml:space="preserve">
+    <value>(o)ut of detailed debugging entry we are nested in</value>
+  </data>
+  <data name="commandPrintStacktrace" xml:space="preserve">
+    <value>print stack(t)race</value>
+  </data>
+  <data name="commandPrintSubruleStacktrace" xml:space="preserve">
+    <value>print subrule stack(t)race</value>
+  </data>
+  <data name="commandRun" xml:space="preserve">
+    <value>(r)un</value>
+  </data>
+  <data name="commandRunUntilEndOfDetailedDebugging" xml:space="preserve">
+    <value>(r)un until end of detailed debugging</value>
+  </data>
+  <data name="commandShowClassObject" xml:space="preserve">
+    <value>show class ob(j)ect</value>
+  </data>
+  <data name="commandShowVariables" xml:space="preserve">
+    <value>show (v)ariables</value>
+  </data>
+  <data name="commandSkipSingleMatches" xml:space="preserve">
+    <value>s(k)ip single matches</value>
+  </data>
+  <data name="commandStep" xml:space="preserve">
+    <value>(s)tep</value>
+  </data>
+  <data name="commandStepMode" xml:space="preserve">
+    <value>(s)tep mode</value>
+  </data>
+  <data name="commandStepOut" xml:space="preserve">
+    <value>step (o)ut</value>
+  </data>
+  <data name="commandStepUp" xml:space="preserve">
+    <value>step (u)p</value>
+  </data>
+  <data name="commandToggleBreakpoints" xml:space="preserve">
+    <value>toggle (b)reakpoints</value>
+  </data>
+  <data name="commandToggleChoicepoints" xml:space="preserve">
+    <value>toggle (c)hoicepoints</value>
+  </data>
+  <data name="commandToggleLazyChoice" xml:space="preserve">
+    <value>toggle (l)azy choice</value>
+  </data>
+  <data name="commandUpFromCurrentEntry" xml:space="preserve">
+    <value>(u)p from current entry</value>
+  </data>
+  <data name="commandWatchpoints" xml:space="preserve">
+    <value>(w)atchpoints</value>
+  </data>
+  <data name="watchpointAbort" xml:space="preserve">
+    <value>(a)bort</value>
+  </data>
+  <data name="watchpointAbortReturn" xml:space="preserve">
+    <value>(a)bort/(r)eturn from watchpoints menu</value>
+  </data>
+  <data name="watchpointAppend" xml:space="preserve">
+    <value>a(p)pend</value>
+  </data>
+  <data name="watchpointDecisionActionBreak" xml:space="preserve">
+    <value>(0) break</value>
+  </data>
+  <data name="watchpointDecisionActionBreakKeep" xml:space="preserve">
+    <value>(0) break or (k)eep</value>
+  </data>
+  <data name="watchpointDecisionActionContinue" xml:space="preserve">
+    <value>(1) continue</value>
+  </data>
+  <data name="watchpointDecisionActionContinueKeep" xml:space="preserve">
+    <value>(1) continue or (k)eep</value>
+  </data>
+  <data name="watchpointDelete" xml:space="preserve">
+    <value>(d)elete</value>
+  </data>
+  <data name="watchpointEdit" xml:space="preserve">
+    <value>(e)dit</value>
+  </data>
+  <data name="watchpointEventAssignment" xml:space="preserve">
+    <value>(9) graph element attribute assignment</value>
+  </data>
+  <data name="watchpointEventAssignmentKeep" xml:space="preserve">
+    <value>(9) graph element attribute assignment or (k)eep</value>
+  </data>
+  <data name="watchpointEventCreation" xml:space="preserve">
+    <value>(6) graph element creation</value>
+  </data>
+  <data name="watchpointEventCreationKeep" xml:space="preserve">
+    <value>(6) graph element creation or (k)eep</value>
+  </data>
+  <data name="watchpointEventDeletion" xml:space="preserve">
+    <value>(7) graph element deletion</value>
+  </data>
+  <data name="watchpointEventDeletionKeep" xml:space="preserve">
+    <value>(7) graph element deletion or (k)eep</value>
+  </data>
+  <data name="watchpointEventEntry" xml:space="preserve">
+    <value>(0) subrule entry aka Debug::add</value>
+  </data>
+  <data name="watchpointEventEntryKeep" xml:space="preserve">
+    <value>(0) subrule entry aka Debug::add or (k)eep</value>
+  </data>
+  <data name="watchpointEventExit" xml:space="preserve">
+    <value>(1) subrule exit aka Debug::rem</value>
+  </data>
+  <data name="watchpointEventExitKeep" xml:space="preserve">
+    <value>(1) subrule exit aka Debug::rem or (k)eep</value>
+  </data>
+  <data name="watchpointEventHalt" xml:space="preserve">
+    <value>(3) subrule halt aka Debug::halt</value>
+  </data>
+  <data name="watchpointEventHaltKeep" xml:space="preserve">
+    <value>(3) subrule halt aka Debug::halt or (k)eep</value>
+  </data>
+  <data name="watchpointEventHighlight" xml:space="preserve">
+    <value>(4) subrule highlight aka Debug::highlight</value>
+  </data>
+  <data name="watchpointEventHighlightKeep" xml:space="preserve">
+    <value>(4) subrule highlight aka Debug::highlight or (k)eep</value>
+  </data>
+  <data name="watchpointEventMatch" xml:space="preserve">
+    <value>(5) rule match</value>
+  </data>
+  <data name="watchpointEventMatchKeep" xml:space="preserve">
+    <value>(5) rule match or (k)eep</value>
+  </data>
+  <data name="watchpointEventReport" xml:space="preserve">
+    <value>(2) subrule report aka Debug::emit</value>
+  </data>
+  <data name="watchpointEventReportKeep" xml:space="preserve">
+    <value>(2) subrule report aka Debug::emit or (k)eep</value>
+  </data>
+  <data name="watchpointEventRetyping" xml:space="preserve">
+    <value>(8) graph element retyping</value>
+  </data>
+  <data name="watchpointEventRetypingKeep" xml:space="preserve">
+    <value>(8) graph element retyping or (k)eep</value>
+  </data>
+  <data name="watchpointGraphElementMatchingByName" xml:space="preserve">
+    <value>(0) by name</value>
+  </data>
+  <data name="watchpointGraphElementMatchingByNameKeep" xml:space="preserve">
+    <value>(0) by name or (k)eep</value>
+  </data>
+  <data name="watchpointGraphElementMatchingByType" xml:space="preserve">
+    <value>(1) by type</value>
+  </data>
+  <data name="watchpointGraphElementMatchingByTypeAlsoSubtypes" xml:space="preserve">
+    <value>(0) also subtypes</value>
+  </data>
+  <data name="watchpointGraphElementMatchingByTypeAlsoSubtypesKeep" xml:space="preserve">
+    <value>(0) also subtypes or (k)eep</value>
+  </data>
+  <data name="watchpointGraphElementMatchingByTypeKeep" xml:space="preserve">
+    <value>(1) by type or (k)eep</value>
+  </data>
+  <data name="watchpointGraphElementMatchingByTypeOnlyTheType" xml:space="preserve">
+    <value>(1) only the type</value>
+  </data>
+  <data name="watchpointGraphElementMatchingByTypeOnlyTheTypeKeep" xml:space="preserve">
+    <value>(1) only the type or (k)eep</value>
+  </data>
+  <data name="watchpointInsert" xml:space="preserve">
+    <value>(i)nsert at a specific position</value>
+  </data>
+  <data name="watchpointMessageMatchingContains" xml:space="preserve">
+    <value>(3) contains</value>
+  </data>
+  <data name="watchpointMessageMatchingContainsKeep" xml:space="preserve">
+    <value>(3) contains or (k)eep</value>
+  </data>
+  <data name="watchpointMessageMatchingEndsWith" xml:space="preserve">
+    <value>(2) endsWith</value>
+  </data>
+  <data name="watchpointMessageMatchingEndsWithKeep" xml:space="preserve">
+    <value>(2) endsWith or (k)eep</value>
+  </data>
+  <data name="watchpointMessageMatchingEquals" xml:space="preserve">
+    <value>(0) equals</value>
+  </data>
+  <data name="watchpointMessageMatchingEqualsKeep" xml:space="preserve">
+    <value>(0) equals or (k)eep</value>
+  </data>
+  <data name="watchpointMessageMatchingStartsWith" xml:space="preserve">
+    <value>(1) startsWith</value>
+  </data>
+  <data name="watchpointMessageMatchingStartsWithKeep" xml:space="preserve">
+    <value>(1) startsWith or (k)eep</value>
+  </data>
+  <data name="watchpointToggle" xml:space="preserve">
+    <value>(t)oggle ((enable/disable))</value>
+  </data>
+</root>

@@ -8,6 +8,7 @@
 // by Edgar Jakumeit, Moritz Kroll
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using de.unika.ipd.grGen.libGr;
@@ -275,19 +276,27 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
     /// <summary>
     /// A description of a user choice in the user interface,
-    /// built from an array of options, describing the option/command, giving its command key/character shortcut as a char in parenthesis,
+    /// built from an array of options, describing the option/command, which must be a unique name from the resources, mapping to the command string, giving its command key/character shortcut as a char in parenthesis,
     /// special cases: (0-9) to allow any keys from 0 ... 9, (any key) to allow any key not listed in the choices, (()) to render a text in simple parenthesis not getting interpreted as key char.
-    /// The name has to distinguish the different available choice menus (it is intended for a later use in a GUI debugger to allow to select an icon set based on it, i.e. it may encompass a group of choice menus with same semantic content).
+    /// The name should distinguish the different available choice menus.
     /// </summary>
     public class UserChoiceMenu
     {
-        public UserChoiceMenu(UserChoiceMenuNames name, string[] options)
+        public UserChoiceMenu(UserChoiceMenuNames name, string[] optionNames)
         {
             this.name = name;
-            this.options = options;
+            this.optionNames = optionNames;
+            List<string> arrayBuilder = new List<string>();
+            foreach(String optionName in optionNames)
+            {
+                String option = global::graphViewerAndSequenceDebugger.Properties.Resources.ResourceManager.GetString(optionName);
+                arrayBuilder.Add(option);
+            }
+            this.options = arrayBuilder.ToArray();
         }
 
         public UserChoiceMenuNames name;
+        public string[] optionNames;
         public string[] options;
 
         public string ToOptionsString(bool separateByNewline)

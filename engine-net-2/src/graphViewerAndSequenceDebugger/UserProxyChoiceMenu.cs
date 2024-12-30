@@ -19,31 +19,25 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         readonly IDebuggerEnvironment env;
 
         UserChoiceMenu chooseDirectionMenu = new UserChoiceMenu(UserChoiceMenuNames.ChooseDirectionMenu, new string[] {
-            "(l)eft branch", "(r)ight branch", "(s)/(n)/(d) to continue with random choice" });
+            "chooseLeft", "chooseRight", "choosePreselectedBranch" });
 
         UserChoiceMenu chooseSequenceMenu = new UserChoiceMenu(UserChoiceMenuNames.ChooseSequenceMenu, new string[] {
-            "(0-9) to pre-select the corresponding sequence", "(e)nter the number of the sequence to show",
-            "(s) or (n) or (d) to commit to the pre-selected sequence and continue",
-            "(u) or (o) to commit to the pre-selected sequence but skip remaining choices" });
+            "chooseNumberOfSequence", "chooseEnterNumberOfSequence", "choosePreselected", "choosePreselectedAndSkipRemaining" });
 
         UserChoiceMenu chooseSequenceParallelMenu = new UserChoiceMenu(UserChoiceMenuNames.ChooseSequenceParallelMenu, new string[] {
-            "(0-9) to pre-select the corresponding sequence", "(e)nter the number of the sequence to show",
-            "(s) or (n) or (d) to commit to the pre-selected sequence and continue" });
+            "chooseNumberOfSequence", "chooseEnterNumberOfSequence", "choosePreselected" });
 
         UserChoiceMenu choosePointMenu = new UserChoiceMenu(UserChoiceMenuNames.ChoosePointMenu, new string[] {
-            "(e)nter a point in the interval series of the sequence to show",
-            "(s) or (n) or (d) to commit to the pre-selected sequence and continue" });
+            "chooseEnterPoint", "choosePreselected" });
 
         UserChoiceMenu chooseMatchSomeFromSetMenu = new UserChoiceMenu(UserChoiceMenuNames.ChooseMatchSomeFromSetMenu, new string[] {
-            "(0-9) to pre-select the corresponding match", "(e)nter the number of the match to show",
-            "(s) or (n) or (d) to commit to the pre-selected match and continue" });
+            "chooseNumberOfMatch", "chooseEnterNumberOfMatch", "choosePreselectedMatch" });
 
         UserChoiceMenu chooseMatchMenu = new UserChoiceMenu(UserChoiceMenuNames.ChooseMatchMenu, new string[] {
-            "(0-9) to show the corresponding match", "(e)nter the number of the match to show",
-            "(s) or (n) or (d) to commit to the currently shown match and continue" });
+            "chooseNumberOfMatch", "chooseEnterNumberOfMatch", "choosePreselectedMatch" });
 
         UserChoiceMenu chooseValueMenu = new UserChoiceMenu(UserChoiceMenuNames.ChooseValueMenu, new string[] {
-            "(a)bort user choice ((-> value null))", "(r)etry" });
+            "chooseValueAbort", "chooseValueRetry" });
 
         public UserProxyChoiceMenu(IDebuggerEnvironment env)
         {
