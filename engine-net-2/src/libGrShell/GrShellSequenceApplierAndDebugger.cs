@@ -62,8 +62,6 @@ namespace de.unika.ipd.grGen.grShell
         private IGuiConsoleDebuggerHost guiConsoleDebuggerHost;
         private IBasicGraphViewerClientHost basicGraphViewerClientHost;
 
-        private ConsoleDebugger debugger = null;
-
         private bool pendingDebugEnable = false;
 
         private Sequence curGRS;

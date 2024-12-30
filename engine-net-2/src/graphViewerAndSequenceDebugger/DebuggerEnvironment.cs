@@ -383,7 +383,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             get { return debugger; }
             set { debugger = value; }
         }
-        private ConsoleDebugger debugger;
+        protected ConsoleDebugger debugger;
 
         public virtual void Cancel()
         {
