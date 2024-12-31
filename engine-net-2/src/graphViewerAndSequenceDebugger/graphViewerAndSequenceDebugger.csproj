@@ -50,7 +50,7 @@
     <Compile Include="ConstantParserConstants.cs" />
     <Compile Include="ConstantParserHelper.cs" />
     <Compile Include="ConstantParserTokenManager.cs" />
-    <Compile Include="ConsoleDebugger.cs" />
+    <Compile Include="Debugger.cs" />
     <Compile Include="DebuggerEnvironment.cs" />
     <Compile Include="DebuggerGraphProcessingEnvironment.cs" />
     <Compile Include="DebuggerTask.cs" />

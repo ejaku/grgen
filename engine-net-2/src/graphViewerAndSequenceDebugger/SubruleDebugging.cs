@@ -385,7 +385,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             case SubruleDebuggingEvent.Match:
                 {
                     IMatches[] matches = (IMatches[])data;
-                    sb.Append(ConsoleDebugger.ProducerNames(matches));
+                    sb.Append(Debugger.ProducerNames(matches));
                     break;
                 }
             case SubruleDebuggingEvent.New:

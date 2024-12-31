@@ -405,12 +405,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
         private IDebuggerGUIForDataRendering theDebuggerGUIForDataRendering;
 
-        public ConsoleDebugger Debugger // has to be set after debugger was constructed
+        public Debugger Debugger // has to be set after debugger was constructed
         {
             get { return debugger; }
             set { debugger = value; }
         }
-        protected ConsoleDebugger debugger;
+        protected Debugger debugger;
 
         private UserChoiceMenu choiceMenuContinueAnyKey = new UserChoiceMenu(UserChoiceMenuNames.PauseContinueMenu, new string[] { "commandContinueAnyKey" });
 

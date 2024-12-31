@@ -19,7 +19,7 @@ using System.Text;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
-    public class ConsoleDebugger : IUserProxyForSequenceExecution
+    public class Debugger : IUserProxyForSequenceExecution
     {
         public readonly IDebuggerEnvironment env;
         DebuggerGraphProcessingEnvironment debuggerProcEnv;
@@ -125,7 +125,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// <param name="layoutOptions">An dictionary mapping layout option names to their values.
         /// It may be null, if no options are to be applied.</param>
         /// <param name="basicGraphViewerClientHost">An optional basic graph viewer client host, in case the graph viewer type MSAGL is requested, the MSAGL graph viewer form is added to that form (YComp is a standalone application).</param>
-        public ConsoleDebugger(IDebuggerEnvironment env, DebuggerGraphProcessingEnvironment debuggerProcEnv,
+        public Debugger(IDebuggerEnvironment env, DebuggerGraphProcessingEnvironment debuggerProcEnv,
             ElementRealizers realizers, GraphViewerTypes graphViewerType, String debugLayout, Dictionary<String, String> layoutOptions,
             IBasicGraphViewerClientHost basicGraphViewerClientHost)
         {

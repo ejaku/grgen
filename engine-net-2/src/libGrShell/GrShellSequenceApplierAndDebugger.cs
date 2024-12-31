@@ -651,7 +651,7 @@ namespace de.unika.ipd.grGen.grShell
                         TheDebuggerConsoleUI = guiConsoleDebuggerHost.GuiConsoleControl;
                         TheDebuggerConsoleUIForDataRendering = GetDebugOptionTwoPane() ? guiConsoleDebuggerHost.OptionalGuiConsoleControl : guiConsoleDebuggerHost.GuiConsoleControl;
                     }
-                    debugger = new ConsoleDebugger(this, impl.curShellProcEnv, impl.realizers, graphViewerType, impl.debugLayout, optMap, basicGraphViewerClientHost);
+                    debugger = new Debugger(this, impl.curShellProcEnv, impl.realizers, graphViewerType, impl.debugLayout, optMap, basicGraphViewerClientHost);
                     if(graphViewerType != GraphViewerTypes.YComp)
                     {
                         guiConsoleDebuggerHost.Show();

@@ -18,17 +18,17 @@ namespace DebuggerExample
         /// <summary>
         /// Opens the debugger.
         /// </summary>
-        private static ConsoleDebugger OpenDebugger(INamedGraph graph, IGraphProcessingEnvironment procEnv, GraphViewerTypes graphViewerType)
+        private static Debugger OpenDebugger(INamedGraph graph, IGraphProcessingEnvironment procEnv, GraphViewerTypes graphViewerType)
         {
             Dictionary<String, String> optMap = new Dictionary<String, String>();
             DebuggerGraphProcessingEnvironment debuggerProcEnv = new DebuggerGraphProcessingEnvironment(graph, procEnv);
 
             DebuggerEnvironment debuggerEnv = null;
-            ConsoleDebugger debugger = null;
+            Debugger debugger = null;
             if(graphViewerType == GraphViewerTypes.YComp)
             {
                 debuggerEnv = new DebuggerEnvironment(DebuggerConsoleUI.Instance, DebuggerConsoleUI.Instance, null);
-                debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
+                debugger = new Debugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
                     graphViewerType, "Organic"/*"Hierarchic"*/, optMap, null);
             }
             else
@@ -49,7 +49,7 @@ namespace DebuggerExample
                     debuggerEnv = new DebuggerEnvironment(guiConsoleDebuggerHost.GuiConsoleControl, twoPane ? guiConsoleDebuggerHost.OptionalGuiConsoleControl : guiConsoleDebuggerHost.GuiConsoleControl, null);
                 }
                 IBasicGraphViewerClientHost basicGraphViewerClientHost = hostCreator.CreateBasicGraphViewerClientHost();
-                debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
+                debugger = new Debugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
                     graphViewerType, "MDS"/*"SugiyamaScheme"*/, optMap, basicGraphViewerClientHost);
                 if(guiConsoleDebuggerHost != null)
                     guiConsoleDebuggerHost.Show();
@@ -65,7 +65,7 @@ namespace DebuggerExample
         /// Ensures that the graph viewer display is up to date, prints out a message, and waits for a key press.
         /// </summary>
         /// <param name="text">The message to be printed.</param>
-        private static void PrintAndWait(String text, ConsoleDebugger debugger)
+        private static void PrintAndWait(String text, Debugger debugger)
         {
             if(debugger != null && debugger.GraphViewerClient != null)
                 debugger.GraphViewerClient.UpdateDisplay();
@@ -106,7 +106,7 @@ namespace DebuggerExample
             // showing the graph in the external yComp application (changes to the graph are observed, rule applications are highlighted in case of detail mode)
             // in case of GraphViewerTypes.MSAGL: opens a WindowsForms form with a console-like control in order to print sequence execution, allowing to follow execution step by step, (you could use it directly in a non-console project)
             // showing the graph with the WindowsForms graph viewer control of the MSAGL library (changes to the graph are observed, rule applications are highlighted in case of detail mode)
-            ConsoleDebugger debugger = OpenDebugger(graph, procEnv, /*GraphViewerTypes.YComp*/GraphViewerTypes.MSAGL);
+            Debugger debugger = OpenDebugger(graph, procEnv, /*GraphViewerTypes.YComp*/GraphViewerTypes.MSAGL);
 
             PrintAndWait("Initial 2-process ring constructed. Starting now to initialized 7-process ring with resource and requests.", debugger);
             Sequence sequence = procEnv.ParseSequence("newRule[5] && mountRule && requestRule[7]");

@@ -222,7 +222,7 @@ namespace ApplicationExample
             LGSPGraphProcessingEnvironment procEnv;
             InitMutexViaAPI(out graph, out procEnv);
 
-            ConsoleDebugger debugger = OpenDebugger(graph, procEnv, GraphViewerTypes.YComp); // Let yComp observe any changes to the graph, and execute the sequence step by step
+            Debugger debugger = OpenDebugger(graph, procEnv, GraphViewerTypes.YComp); // Let yComp observe any changes to the graph, and execute the sequence step by step
 
             PrintAndWait("Initial 2-process ring constructed. Press key to debug sequence.", debugger);
 
@@ -244,7 +244,7 @@ namespace ApplicationExample
             InitMutexViaAPI(out graph, out procEnv);
 
             // opens a windows forms debugger console
-            ConsoleDebugger debugger = OpenDebugger(graph, procEnv, GraphViewerTypes.MSAGL); // Let MSAGL observe any changes to the graph, and execute the sequence step by step
+            Debugger debugger = OpenDebugger(graph, procEnv, GraphViewerTypes.MSAGL); // Let MSAGL observe any changes to the graph, and execute the sequence step by step
 
             PrintAndWait("Initial 2-process ring constructed. Press key to debug sequence.", debugger);
 
@@ -283,17 +283,17 @@ namespace ApplicationExample
             graph.AddEdge(nextType, p2, p1);
         }
 
-        private static ConsoleDebugger OpenDebugger(INamedGraph graph, IGraphProcessingEnvironment procEnv, GraphViewerTypes graphViewerType)
+        private static Debugger OpenDebugger(INamedGraph graph, IGraphProcessingEnvironment procEnv, GraphViewerTypes graphViewerType)
         {
             Dictionary<String, String> optMap = new Dictionary<String, String>();
             DebuggerGraphProcessingEnvironment debuggerProcEnv = new DebuggerGraphProcessingEnvironment(graph, procEnv);
 
             DebuggerEnvironment debuggerEnv = null;
-            ConsoleDebugger debugger = null;
+            Debugger debugger = null;
             if(graphViewerType == GraphViewerTypes.YComp)
             {
                 debuggerEnv = new DebuggerEnvironment(DebuggerConsoleUI.Instance, DebuggerConsoleUI.Instance, null);
-                debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
+                debugger = new Debugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
                     graphViewerType, "Organic"/*"Hierarchic"*/, optMap, null);
             }
             else
@@ -314,7 +314,7 @@ namespace ApplicationExample
                     debuggerEnv = new DebuggerEnvironment(guiConsoleDebuggerHost.GuiConsoleControl, twoPane ? guiConsoleDebuggerHost.OptionalGuiConsoleControl : guiConsoleDebuggerHost.GuiConsoleControl, null);
                 }
                 IBasicGraphViewerClientHost basicGraphViewerClientHost = hostCreator.CreateBasicGraphViewerClientHost();
-                debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
+                debugger = new Debugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
                     graphViewerType, "MDS"/*"SugiyamaScheme"*/, optMap, basicGraphViewerClientHost);
                 if(guiConsoleDebuggerHost != null)
                     guiConsoleDebuggerHost.Show();
@@ -326,7 +326,7 @@ namespace ApplicationExample
             return debugger;
         }
 
-        private static void PrintAndWait(String text, ConsoleDebugger debugger)
+        private static void PrintAndWait(String text, Debugger debugger)
         {
             if(debugger != null && debugger.GraphViewerClient != null)
                 debugger.GraphViewerClient.UpdateDisplay();
