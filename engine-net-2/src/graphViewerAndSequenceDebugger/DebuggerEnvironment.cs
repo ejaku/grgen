@@ -59,6 +59,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         void RestartImmediateExecution();
     }
 
+    // interface extension of the GUI debugger compared to the two pane mode debugger consoles / GUI for data rendering (of the main work object as graph)
+    public interface IDebuggerGUIForDataRendering
+    {
+        void SetContext(UserChoiceMenu userChoiceMenu);
+
+        // TODO: basic graph viewer client interface to render non-text data, maybe also some list/table interface for non-textual display
+    }
+
     public interface IDebuggerConsoleUICombined : IDebuggerConsoleUI, IDebuggerConsoleUIForDataRendering
     {
     }
@@ -246,6 +254,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         //void HandleSequenceParserException(SequenceParserException ex); is now a static method in DebuggerEnvironment
 
         bool TwoPane { get; }
+        bool Gui { get; }
     }
 
     public enum UserChoiceMenuNames
@@ -271,7 +280,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         WatchpointMatchSubruleMessageMenu,
         WatchpointDetermineMatchGraphElementModeMenu,
         WatchpointDetermineMatchGraphElementByTypeModeMenu,
-        WatchpointDetermineDecisionActionMenu
+        WatchpointDetermineDecisionActionMenu,
+        PauseContinueMenu
     }
 
     /// <summary>
@@ -367,10 +377,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
     public class DebuggerEnvironment : IDebuggerEnvironment
     {
-        public DebuggerEnvironment(IDebuggerConsoleUI debuggerConsoleUI, IDebuggerConsoleUIForDataRendering debuggerConsoleUIForDataRendering)
+        public DebuggerEnvironment(IDebuggerConsoleUI debuggerConsoleUI, IDebuggerConsoleUIForDataRendering debuggerConsoleUIForDataRendering, IDebuggerGUIForDataRendering debuggerGUIForDataRendering)
         {
             this.theDebuggerConsoleUI = debuggerConsoleUI;
             this.theDebuggerConsoleUIForDataRendering = debuggerConsoleUIForDataRendering;
+            this.theDebuggerGUIForDataRendering = debuggerGUIForDataRendering;
         }
 
         public IDebuggerConsoleUI TheDebuggerConsoleUI // debugger console UI operations are delegated to this object, can be switched in between a gui console or a console
@@ -387,12 +398,21 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
         private IDebuggerConsoleUIForDataRendering theDebuggerConsoleUIForDataRendering;
 
+        public IDebuggerGUIForDataRendering TheDebuggerGUIForDataRendering // debugger GUI operations for data rendering are delegated to this object
+        {
+            get { return theDebuggerGUIForDataRendering; }
+            set { theDebuggerGUIForDataRendering = value; }
+        }
+        private IDebuggerGUIForDataRendering theDebuggerGUIForDataRendering;
+
         public ConsoleDebugger Debugger // has to be set after debugger was constructed
         {
             get { return debugger; }
             set { debugger = value; }
         }
         protected ConsoleDebugger debugger;
+
+        private UserChoiceMenu choiceMenuContinueAnyKey = new UserChoiceMenu(UserChoiceMenuNames.PauseContinueMenu, new string[] { "commandContinueAnyKey" });
 
         public virtual void Cancel()
         {
@@ -618,6 +638,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void PauseUntilAnyKeyPressed(string msg)
         {
             WriteLine(msg);
+
+            if(theDebuggerGUIForDataRendering != null)
+                theDebuggerGUIForDataRendering.SetContext(choiceMenuContinueAnyKey);
+
             ReadKey(true);
         }
 
@@ -719,6 +743,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public char LetUserChoose(UserChoiceMenu choiceMenu)
         {
+            if(theDebuggerGUIForDataRendering != null)
+                theDebuggerGUIForDataRendering.SetContext(choiceMenu);
+
             while(true)
             {
                 ConsoleKeyInfo key = ReadKeyWithCancel();
@@ -756,6 +783,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public bool TwoPane
         {
             get { return TheDebuggerConsoleUI != TheDebuggerConsoleUIForDataRendering; }
+        }
+
+        public bool Gui
+        {
+            get { return TheDebuggerGUIForDataRendering != null; }
         }
 
         // IDebuggerEnvironment consisting of -----------------------------------------------------------------------------------

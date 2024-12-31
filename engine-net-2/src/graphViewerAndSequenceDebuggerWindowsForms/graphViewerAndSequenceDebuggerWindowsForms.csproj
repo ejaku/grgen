@@ -47,6 +47,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicGraphViewerClientCreator.cs" />
+    <Compile Include="GuiDebuggerHost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GuiDebuggerHost.Designer.cs">
+      <DependentUpon>GuiDebuggerHost.cs</DependentUpon>
+    </Compile>
     <Compile Include="HostCreator.cs" />
     <Compile Include="BasicGraphViewerClientHost.cs">
       <SubType>Form</SubType>
@@ -91,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GuiConsoleDebuggerHost.resx">
       <DependentUpon>GuiConsoleDebuggerHost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GuiDebuggerHost.resx">
+      <DependentUpon>GuiDebuggerHost.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -92,7 +92,6 @@
         {
             get { return theOptionalGuiConsoleControl; }
         }
-        //private Microsoft.Msagl.GraphViewerGdi.GViewer gv = null; -- gets created by the msagl client, a behavior needed if it is used without debugger as a plain graph viewer
 
         public bool TwoPane
         {

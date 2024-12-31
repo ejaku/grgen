@@ -11,14 +11,19 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     public class HostCreator : IHostCreator
     {
+        public IBasicGraphViewerClientHost CreateBasicGraphViewerClientHost()
+        {
+            return new BasicGraphViewerClientHost();
+        }
+
         public IGuiConsoleDebuggerHost CreateGuiConsoleDebuggerHost(bool twoPane)
         {
             return new GuiConsoleDebuggerHost(twoPane);
         }
 
-        public IBasicGraphViewerClientHost CreateBasicGraphViewerClientHost()
+        public IGuiDebuggerHost CreateGuiDebuggerHost()
         {
-            return new BasicGraphViewerClientHost();
+            return new GuiDebuggerHost();
         }
     }
 }

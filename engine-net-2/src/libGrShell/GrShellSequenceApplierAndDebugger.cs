@@ -75,7 +75,7 @@ namespace de.unika.ipd.grGen.grShell
 
 
         public GrShellSequenceApplierAndDebugger(IGrShellImplForSequenceApplierAndDebugger impl)
-            : base(DebuggerConsoleUI.Instance, DebuggerConsoleUI.Instance)
+            : base(DebuggerConsoleUI.Instance, DebuggerConsoleUI.Instance, null)
         {
             ConsoleUI.consoleIn.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);
 
@@ -174,10 +174,19 @@ namespace de.unika.ipd.grGen.grShell
                 return true; // default true, but only applied in case of MSAGL based debugger
         }
 
+        public bool GetDebugOptionGui()
+        {
+            if(impl.debugOptions.ContainsKey("gui"))
+                return Boolean.Parse(impl.debugOptions["gui"]);
+            else
+                return true; // default true, but only applied in case of MSAGL based debugger
+        }
+
         public void GetDebugOptions()
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("twopane" + " = " + GetDebugOptionTwoPane());
+            sb.AppendLine("gui" + " = " + GetDebugOptionGui());
             WriteLine("Available options and their current values:\n\n" + sb.ToString());
         }
 
@@ -194,6 +203,17 @@ namespace de.unika.ipd.grGen.grShell
                 }
                 return true;
             }
+            else if(optionName == "gui")
+            {
+                bool optionValueBoolean;
+                if(!Boolean.TryParse(optionValue, out optionValueBoolean))
+                    return false;
+                else
+                {
+                    Gui = optionValueBoolean; // real storing occurrs in the calling impl upon return with value true
+                }
+                return true;
+            }
             return false;
         }
 
@@ -207,6 +227,15 @@ namespace de.unika.ipd.grGen.grShell
                     guiConsoleDebuggerHost.TwoPane = value;
                     TheDebuggerConsoleUIForDataRendering = value ? guiConsoleDebuggerHost.OptionalGuiConsoleControl : guiConsoleDebuggerHost.GuiConsoleControl;
                 }
+            }
+        }
+
+        public new bool Gui
+        {
+            get { return base.Gui; }
+            set
+            {
+                // silent skip is sufficient as of now, TODO: the debug options are a bit scruffy
             }
         }
 
@@ -613,8 +642,11 @@ namespace de.unika.ipd.grGen.grShell
                     if(graphViewerType != GraphViewerTypes.YComp)
                     {
                         IHostCreator hostCreator = GraphViewerClient.GetGuiConsoleDebuggerHostCreator();
-                        guiConsoleDebuggerHost = hostCreator.CreateGuiConsoleDebuggerHost(GetDebugOptionTwoPane());
+                        guiConsoleDebuggerHost = GetDebugOptionGui() ? hostCreator.CreateGuiDebuggerHost() : hostCreator.CreateGuiConsoleDebuggerHost(GetDebugOptionTwoPane());
                         basicGraphViewerClientHost = hostCreator.CreateBasicGraphViewerClientHost();
+
+                        if(GetDebugOptionGui())
+                            TheDebuggerGUIForDataRendering = ((IGuiDebuggerHost)guiConsoleDebuggerHost).MainWorkObjectGuiGraphRenderer;
 
                         TheDebuggerConsoleUI = guiConsoleDebuggerHost.GuiConsoleControl;
                         TheDebuggerConsoleUIForDataRendering = GetDebugOptionTwoPane() ? guiConsoleDebuggerHost.OptionalGuiConsoleControl : guiConsoleDebuggerHost.GuiConsoleControl;
@@ -660,6 +692,7 @@ namespace de.unika.ipd.grGen.grShell
                 basicGraphViewerClientHost = null;
                 TheDebuggerConsoleUI = DebuggerConsoleUI.Instance;
                 TheDebuggerConsoleUIForDataRendering = DebuggerConsoleUI.Instance;
+                TheDebuggerGUIForDataRendering = null;
             }
             return true;
         }
@@ -675,6 +708,7 @@ namespace de.unika.ipd.grGen.grShell
                 basicGraphViewerClientHost = null;
                 TheDebuggerConsoleUI = DebuggerConsoleUI.Instance;
                 TheDebuggerConsoleUIForDataRendering = DebuggerConsoleUI.Instance;
+                TheDebuggerGUIForDataRendering = null;
                 return false;
             }
             return true;

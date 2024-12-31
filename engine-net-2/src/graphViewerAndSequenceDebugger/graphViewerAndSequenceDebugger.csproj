@@ -63,6 +63,7 @@
     <Compile Include="IBasicGraphViewerClientCreator.cs" />
     <Compile Include="IBasicGraphViewerClientHost.cs" />
     <Compile Include="IGuiConsoleDebuggerHost.cs" />
+    <Compile Include="IGuiDebuggerHost.cs" />
     <Compile Include="IHostCreator.cs" />
     <Compile Include="MatchMarkerAndAnnotator.cs" />
     <Compile Include="ParseException.cs" />

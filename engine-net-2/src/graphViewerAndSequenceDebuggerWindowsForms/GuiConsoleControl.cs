@@ -76,6 +76,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 theRichTextBox.SelectionFont = new Font(FontFamily.GenericMonospace, 11);
         }
 
+        // simulates user input
+        public void EnterKey(char key)
+        {
+            enteredKey = key;
+        }
+
         private void GuiConsoleRichTextBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             escapePressed = e.KeyData == Keys.Escape;

@@ -292,20 +292,32 @@ namespace ApplicationExample
             ConsoleDebugger debugger = null;
             if(graphViewerType == GraphViewerTypes.YComp)
             {
-                debuggerEnv = new DebuggerEnvironment(DebuggerConsoleUI.Instance, DebuggerConsoleUI.Instance);
+                debuggerEnv = new DebuggerEnvironment(DebuggerConsoleUI.Instance, DebuggerConsoleUI.Instance, null);
                 debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
                     graphViewerType, "Organic"/*"Hierarchic"*/, optMap, null);
             }
             else
             {
-                bool twoPane = true; // true: use two panes (consoles), false: one console
+                bool gui = true; // true: use a gui debugger (two pane is then automatically true)
                 IHostCreator hostCreator = GraphViewerClient.GetGuiConsoleDebuggerHostCreator();
-                IGuiConsoleDebuggerHost guiConsoleDebuggerHost = hostCreator.CreateGuiConsoleDebuggerHost(twoPane);
+                IGuiConsoleDebuggerHost guiConsoleDebuggerHost;
+                if(gui)
+                {
+                    IGuiDebuggerHost guiDebuggerHost = hostCreator.CreateGuiDebuggerHost();
+                    debuggerEnv = new DebuggerEnvironment(guiDebuggerHost.InputOutputAndLogGuiConsoleControl, guiDebuggerHost.MainWorkObjectGuiConsoleControl, guiDebuggerHost.MainWorkObjectGuiGraphRenderer);
+                    guiConsoleDebuggerHost = guiDebuggerHost;
+                }
+                else
+                {
+                    bool twoPane = true; // true: use two panes (consoles), false: one console
+                    guiConsoleDebuggerHost = hostCreator.CreateGuiConsoleDebuggerHost(twoPane);
+                    debuggerEnv = new DebuggerEnvironment(guiConsoleDebuggerHost.GuiConsoleControl, twoPane ? guiConsoleDebuggerHost.OptionalGuiConsoleControl : guiConsoleDebuggerHost.GuiConsoleControl, null);
+                }
                 IBasicGraphViewerClientHost basicGraphViewerClientHost = hostCreator.CreateBasicGraphViewerClientHost();
-                debuggerEnv = new DebuggerEnvironment(guiConsoleDebuggerHost.GuiConsoleControl, twoPane ? guiConsoleDebuggerHost.OptionalGuiConsoleControl : guiConsoleDebuggerHost.GuiConsoleControl);
                 debugger = new ConsoleDebugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
                     graphViewerType, "MDS"/*"SugiyamaScheme"*/, optMap, basicGraphViewerClientHost);
-                guiConsoleDebuggerHost.Show();
+                if(guiConsoleDebuggerHost != null)
+                    guiConsoleDebuggerHost.Show();
             }
 
             debugger.DetailedModeShowPreMatches = true;
