@@ -113,8 +113,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         ///     Can be one of:
         ///      - SugiyamaScheme,
         ///      - MDS,
-        //       - Ranking,
-        //       - IcrementalLayout
+        ///      - Ranking,
+        ///      - IcrementalLayout
         /// </param>
         public void SetLayout(String moduleName)
         {
