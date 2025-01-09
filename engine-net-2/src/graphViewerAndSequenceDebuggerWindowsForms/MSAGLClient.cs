@@ -308,7 +308,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void ClearGraph()
         {
-            foreach(Node node in gViewer.Graph.Nodes)
+            List<Node> nodes = new List<Node>(gViewer.Graph.Nodes);
+            foreach(Node node in nodes)
             {
                 gViewer.Graph.RemoveNode(node);
             }
