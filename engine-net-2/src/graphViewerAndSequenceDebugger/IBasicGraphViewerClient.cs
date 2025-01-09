@@ -89,13 +89,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         void ClearEdgeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString);
 
-        void DeleteNode(String nodeName);
+        void DeleteNode(String nodeName, String oldNodeName); // only nodeName required - scruffy hack - it seems MSAGL doesn't update its internal data structures if the id/name of a graph element is changed - this allows to implement the temporary zombie_ + old-name handling of deleted nodes/edges in the graph viewer for rule rewrite debugging
 
-        void DeleteEdge(String edgeName);
+        void DeleteEdge(String edgeName, String oldEdgeName); // only edgeName required - scruffy hack - it seems MSAGL doesn't update its internal data structures if the id/name of a graph element is changed - this allows to implement the temporary zombie_ + old-name handling of deleted nodes/edges in the graph viewer for rule rewrite debugging
 
-        void RenameNode(String oldName, String newName);
+        void RenameNode(String oldName, String newName); // this does't work with MSAGL it seems, don't use it / rely on it - GUI TODO: is this needed at all?
 
-        void RenameEdge(String oldName, String newName);
+        void RenameEdge(String oldName, String newName); // this does't work with MSAGL it seems, don't use it / rely on it - GUI TODO: is this needed at all?
 
         void ClearGraph();
 

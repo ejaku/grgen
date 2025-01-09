@@ -465,12 +465,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 + attrTypeString + "\"\n");
         }
 
-        public void DeleteNode(String nodeName)
+        public void DeleteNode(String nodeName, String oldNodeName)
         {
             ycompStream.Write("deleteNode \"n" + nodeName + "\"\n");
         }
 
-        public void DeleteEdge(String edgeName)
+        public void DeleteEdge(String edgeName, String oldEdgeName)
         {
             // TODO: Update group relation
             ycompStream.Write("deleteEdge \"e" + edgeName + "\"\n");

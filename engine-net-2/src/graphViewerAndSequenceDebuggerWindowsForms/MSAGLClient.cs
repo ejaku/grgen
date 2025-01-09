@@ -275,23 +275,33 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             // TODO - for edge name remove tooltip of kind E::a:T, used during retyping
         }
 
-        public void DeleteNode(String nodeName)
+        public void DeleteNode(String nodeName, String oldNodeName)
         {
-            gViewer.Graph.RemoveNode(gViewer.Graph.FindNode(nodeName));
+            Node node = gViewer.Graph.FindNode(nodeName);
+            if(node == null)
+                node = gViewer.Graph.FindNode(oldNodeName);
+            gViewer.Graph.RemoveNode(node);
         }
 
-        public void DeleteEdge(String edgeName)
+        public void DeleteEdge(String edgeName, String oldEdgeName)
         {
             // TODO: Update group relation
-            gViewer.Graph.RemoveEdge(gViewer.Graph.EdgeById(edgeName));
+            Edge edge = gViewer.Graph.EdgeById(edgeName);
+            if(edge == null && oldEdgeName != null)
+                edge = gViewer.Graph.EdgeById(oldEdgeName);
+            gViewer.Graph.RemoveEdge(edge);
+
             nameToEdge.Remove(edgeName);
+            if(oldEdgeName != null)
+                nameToEdge.Remove(oldEdgeName);
         }
 
         public void RenameNode(String oldName, String newName)
         {
             // deleted nodes are shown as zombie_oldName, rename for retyping is not needed anymore, the name is kept
             Node node = gViewer.Graph.FindNode(oldName);
-            node.Attr.Id = newName;
+            //node.Id = newName; only changes MSAGL internal attribute, but node map entry that seems to be used by FindNode is not changed -- maybe change manually // GUI TODO
+            //node.Attr.Id = newName; don't know what's the exact relationship to node.Id, but edges only have an Attr.Id
         }
 
         public void RenameEdge(String oldName, String newName)
@@ -300,9 +310,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             Edge edge;
             if(nameToEdge.TryGetValue(oldName, out edge))
             {
-                nameToEdge.Remove(oldName);
-                nameToEdge.Add(newName, edge);
-                edge.Attr.Id = newName;
+                //nameToEdge.Remove(oldName); // GUI TODO
+                //nameToEdge.Add(newName, edge);
+                //edge.Attr.Id = newName;
             }
         }
 

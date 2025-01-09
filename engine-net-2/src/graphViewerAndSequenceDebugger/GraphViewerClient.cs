@@ -730,9 +730,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             isDirty = true;
         }
 
-        public void DeleteNode(String nodeName)
+        public void DeleteNode(String nodeName, String oldNodeName)
         {
-            basicClient.DeleteNode(nodeName);
+            basicClient.DeleteNode(nodeName, oldNodeName);
             isDirty = true;
             isLayoutDirty = true;
         }
@@ -742,14 +742,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(IsNodeExcluded(node))
                 return;
 
-            DeleteNode(graph.GetElementName(node));
+            DeleteNode(graph.GetElementName(node), null);
         }
 
-        public void DeleteEdge(String edgeName)
+        public void DeleteEdge(String edgeName, String oldEdgeName)
         {
             // TODO: Update group relation
 
-            basicClient.DeleteEdge(edgeName);
+            basicClient.DeleteEdge(edgeName, oldEdgeName);
             isDirty = true;
             isLayoutDirty = true;
         }
@@ -763,7 +763,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(IsEdgeExcluded(edge))
                 return;
 
-            DeleteEdge(graph.GetElementName(edge));
+            DeleteEdge(graph.GetElementName(edge), null);
         }
 
         public void RenameNode(String oldName, String newName)

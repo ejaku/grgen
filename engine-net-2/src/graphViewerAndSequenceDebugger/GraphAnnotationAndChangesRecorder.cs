@@ -36,8 +36,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private readonly Dictionary<INode, bool> addedNodes = new Dictionary<INode, bool>();
         private readonly Dictionary<IEdge, bool> addedEdges = new Dictionary<IEdge, bool>();
 
-        private readonly List<String> deletedNodes = new List<String>();
-        private readonly List<String> deletedEdges = new List<String>();
+        private readonly List<KeyValuePair<String, String>> deletedNodes = new List<KeyValuePair<String, String>>();
+        private readonly List<KeyValuePair<String, String>> deletedEdges = new List<KeyValuePair<String, String>>();
 
         private readonly Dictionary<INode, bool> retypedNodes = new Dictionary<INode, bool>();
         private readonly Dictionary<IEdge, bool> retypedEdges = new Dictionary<IEdge, bool>();
@@ -142,14 +142,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 return "newly added";
         }
 
-        public void DeletedNode(String nodeName)
+        public void DeletedNode(String nodeName, String oldNodeName)
         {
-            deletedNodes.Add(nodeName);
+            deletedNodes.Add(new KeyValuePair<String, String>(nodeName, oldNodeName)); // special handling for the zombie_ nodes -- GUI TODO: needed at all?
         }
 
-        public void DeletedEdge(String edgeName)
+        public void DeletedEdge(String edgeName, String oldEdgeName)
         {
-            deletedEdges.Add(edgeName);
+            deletedEdges.Add(new KeyValuePair<String, String>(edgeName, oldEdgeName)); // special handling for the zombie_ edges -- GUI TODO: needed at all?
         }
 
         public bool WasNodeAnnotationReplaced(INode oldNode, INode newNode, out String name)
@@ -208,13 +208,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 graphViewerClient.AnnotateElement(edge, null);
             }
 
-            foreach(String edgeName in deletedEdges)
+            foreach(KeyValuePair<String, String> edgeNames in deletedEdges)
             {
-                graphViewerClient.DeleteEdge(edgeName);
+                graphViewerClient.DeleteEdge(edgeNames.Key, edgeNames.Value);
             }
-            foreach(String nodeName in deletedNodes)
+            foreach(KeyValuePair<String, String> nodeNames in deletedNodes)
             {
-                graphViewerClient.DeleteNode(nodeName);
+                graphViewerClient.DeleteNode(nodeNames.Key, nodeNames.Value);
             }
 
             foreach(INode node in retypedNodes.Keys)
