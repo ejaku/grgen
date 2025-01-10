@@ -264,6 +264,12 @@
   <data name="commandWatchpoints" xml:space="preserve">
     <value>(w)atchpoints</value>
   </data>
+  <data name="viewRefresh" xml:space="preserve">
+    <value>refresh view (x)</value>
+  </data>
+  <data name="viewSwitch" xml:space="preserve">
+    <value>switch view (y)</value>
+  </data>
   <data name="watchpointAbort" xml:space="preserve">
     <value>(a)bort</value>
   </data>

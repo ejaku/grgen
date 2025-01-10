@@ -244,8 +244,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             do
             {
-                char key = env.LetUserChoose(watchpointDetermineEventTypeToConfigureMenu);
-                switch(key)
+                char character = env.LetUserChoose(watchpointDetermineEventTypeToConfigureMenu);
+                switch(character)
                 {
                 case '0':
                     return SubruleDebuggingEvent.Add;
@@ -514,8 +514,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             do
             {
-                char key = env.LetUserChoose(watchpointDetermineDecisionActionMenu);
-                switch(key)
+                char character = env.LetUserChoose(watchpointDetermineDecisionActionMenu);
+                switch(character)
                 {
                 case '0':
                     return SubruleDebuggingDecision.Break;

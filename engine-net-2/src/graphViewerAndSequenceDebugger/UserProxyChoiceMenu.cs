@@ -83,8 +83,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             do
             {
-                char key = env.LetUserChoose(chooseSequenceMenu);
-                switch(key)
+                char character = env.LetUserChoose(chooseSequenceMenu);
+                switch(character)
                 {
                 case '0':
                 case '1':
@@ -96,7 +96,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 case '7':
                 case '8':
                 case '9':
-                    int num = key - '0';
+                    int num = character - '0';
                     if(num >= sequences.Count)
                     {
                         env.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
@@ -139,8 +139,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             do
             {
-                char key = env.LetUserChoose(chooseSequenceParallelMenu);
-                switch(key)
+                char character = env.LetUserChoose(chooseSequenceParallelMenu);
+                switch(character)
                 {
                     case '0':
                     case '1':
@@ -152,7 +152,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     case '7':
                     case '8':
                     case '9':
-                        int num = key - '0';
+                        int num = character - '0';
                         if(num >= sequences.Count)
                         {
                             env.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
@@ -191,8 +191,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             do
             {
-                char key = env.LetUserChoose(choosePointMenu);
-                switch(key)
+                char character = env.LetUserChoose(choosePointMenu);
+                switch(character)
                 {
                 case 'e':
                     double num = env.ShowMsgAskForFloatingPointNumber("Enter point in interval series of sequence to show");
@@ -225,8 +225,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             do
             {
-                char key = env.LetUserChoose(chooseMatchSomeFromSetMenu);
-                switch(key)
+                char character = env.LetUserChoose(chooseMatchSomeFromSetMenu);
+                switch(character)
                 {
                 case '0':
                 case '1':
@@ -238,7 +238,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 case '7':
                 case '8':
                 case '9':
-                    int num = key - '0';
+                    int num = character - '0';
                     if(num >= seq.NumTotalMatches)
                     {
                         env.WriteLine("You must specify a number between 0 and " + (seq.NumTotalMatches - 1) + "!");
@@ -279,8 +279,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             do
             {
-                char key = env.LetUserChoose(chooseMatchMenu);
-                switch(key)
+                char character = env.LetUserChoose(chooseMatchMenu);
+                switch(character)
                 {
                 case '0':
                 case '1':
@@ -292,7 +292,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 case '7':
                 case '8':
                 case '9':
-                    int num = key - '0';
+                    int num = character - '0';
                     if(num >= matches.Count)
                     {
                         env.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");

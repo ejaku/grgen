@@ -65,6 +65,7 @@
     <Compile Include="IGuiConsoleDebuggerHost.cs" />
     <Compile Include="IGuiDebuggerHost.cs" />
     <Compile Include="IHostCreator.cs" />
+    <Compile Include="ISequencePrinter.cs" />
     <Compile Include="MatchMarkerAndAnnotator.cs" />
     <Compile Include="ParseException.cs" />
     <Compile Include="PrintSequenceContext.cs" />
@@ -75,6 +76,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SequencePrinter.cs" />
+    <Compile Include="SequenceRenderer.cs" />
     <Compile Include="SimpleCharStream.cs" />
     <Compile Include="SubruleDebugging.cs" />
     <Compile Include="Token.cs" />

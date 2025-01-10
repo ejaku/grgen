@@ -48,7 +48,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         bool topLevelRuleChanged = true;
         bool alwaysShow = true;
 
-        SequencePrinter printer = null;
+        ISequencePrinter printer = null;
+        SequencePrinter theSequencePrinter = null;
+        SequenceRenderer theSequenceRenderer = null;
         PrintSequenceContext context = null;
 
         int matchDepth = 0;
@@ -110,6 +112,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         UserChoiceMenu queryContinueWhenShowPostDisabledMenu = new UserChoiceMenu(UserChoiceMenuNames.QueryContinueWhenShowPostDisabledMenu, new string[] {
                     "commandContinueAnyKey", "commandFullState", "commandAbort" });
 
+        UserChoiceMenu switchRefreshViewAdditionalGuiMenu = new UserChoiceMenu(UserChoiceMenuNames.SwitchRefreshViewMenu, new string[] {
+                    "viewSwitch", "viewRefresh" });
+
         /// <summary>
         /// Initializes a new Debugger instance using the given environments, and layout as well as layout options.
         /// All invalid options will be removed from layoutOptions.
@@ -137,7 +142,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             this.realizers = realizers;
 
-            this.printer = new SequencePrinter(env);
+            this.theSequencePrinter = new SequencePrinter(env);
+            this.printer = theSequencePrinter;
             this.context = new PrintSequenceContext();
 
             this.renderRecorder = new GraphAnnotationAndChangesRecorder();
@@ -357,7 +363,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             while(true)
             {
-                switch(env.LetUserChoose(queryUserMenu))
+                ConsoleKey key;
+                switch(env.LetUserChoose(queryUserMenu, switchRefreshViewAdditionalGuiMenu, out key))
                 {
                 case 's':
                     stepMode = true;
@@ -394,7 +401,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     return false;
                 case 'b':
                     {
-                        BreakpointAndChoicepointEditor breakpointEditor = new BreakpointAndChoicepointEditor(env, task.debugSequences);
+                        BreakpointAndChoicepointEditor breakpointEditor = new BreakpointAndChoicepointEditor(env, printer, task.debugSequences);
                         breakpointEditor.HandleToggleBreakpoints();
                         context.highlightSeq = seq;
                         context.success = false;
@@ -416,7 +423,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     }
                 case 'c':
                     {
-                        BreakpointAndChoicepointEditor choicepointEditor = new BreakpointAndChoicepointEditor(env, task.debugSequences);
+                        BreakpointAndChoicepointEditor choicepointEditor = new BreakpointAndChoicepointEditor(env, printer, task.debugSequences);
                         choicepointEditor.HandleToggleChoicepoints();
                         context.highlightSeq = seq;
                         context.success = false;
@@ -464,6 +471,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     HandleFullState();
                     printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
                     env.WriteLineDataRendering();
+                    break;
+                case 'x':
+                    HandleRefreshView();
+                    break;
+                case 'y':
+                    HandleSwitchView();
                     break;
                 default:
                     throw new Exception("Internal error");
@@ -705,6 +718,28 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             env.WriteLineDataRendering("continuing execution with:");
         }
 
+        void HandleRefreshView()
+        {
+            // refresh from main menu, should also work in submenus, GUI TODO
+            env.SuspendImmediateExecution();
+            env.Clear();
+            printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
+            env.WriteLineDataRendering();
+            env.RestartImmediateExecution();
+        }
+
+        void HandleSwitchView()
+        {
+            if(printer is SequencePrinter)
+            {
+                if(theSequenceRenderer == null)
+                    theSequenceRenderer = new SequenceRenderer(env);
+                printer = theSequenceRenderer;
+            }
+            else
+                printer = theSequencePrinter;
+        }
+
         #endregion Methods for directly handling user commands
 
         #region Print variables
@@ -755,16 +790,17 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private void PrintVisited()
         {
             List<int> allocatedVisitedFlags = debuggerProcEnv.ProcEnv.NamedGraph.GetAllocatedVisitedFlags();
-            env.WriteDataRendering("Allocated visited flags are: ");
+            StringBuilder sb = new StringBuilder();
+            sb.Append("Allocated visited flags are: ");
             bool first = true;
             foreach(int allocatedVisitedFlag in allocatedVisitedFlags)
             {
                 if(!first)
-                    env.WriteDataRendering(", ");
-                env.WriteDataRendering(allocatedVisitedFlag.ToString());
+                    sb.Append(", ");
+                sb.Append(allocatedVisitedFlag.ToString());
                 first = false;
             }
-            env.WriteLineDataRendering(".");
+            env.WriteLineDataRendering(sb.ToString() + ".");
         }
 
         #endregion Print variables

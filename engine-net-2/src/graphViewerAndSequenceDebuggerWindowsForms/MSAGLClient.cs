@@ -13,6 +13,7 @@ using Microsoft.Msagl.GraphViewerGdi;
 using Microsoft.Msagl.Drawing;
 using de.unika.ipd.grGen.libGr;
 using System.Text;
+using System.Diagnostics;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
@@ -56,6 +57,24 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// Creates a new MSAGLClient instance, adding its GViewer control to the hosting form (at position 0).
         /// </summary>
         public MSAGLClient(System.Windows.Forms.Form host)
+        {
+            gViewer = new Microsoft.Msagl.GraphViewerGdi.GViewer(); // if your application doesn't start from this line complaining about System.Resources.Extensions, you have to add a PackageReference to the project file of your app, plus a bindingRedirect to the app.config of your app, see the GrShell project for an example
+            Graph graph = new Microsoft.Msagl.Drawing.Graph("graph");
+            gViewer.Graph = graph;
+            host.SuspendLayout();
+            gViewer.Dock = System.Windows.Forms.DockStyle.Fill;
+            gViewer.MinimumSize = new System.Drawing.Size(50, 50);
+            host.Controls.Add(gViewer);
+            host.Controls.SetChildIndex(gViewer, 0);
+            host.ResumeLayout();
+            host.Show();
+            System.Windows.Forms.Application.DoEvents();
+        }
+
+        /// <summary>
+        /// Creates a new MSAGLClient instance, adding its GViewer control to the hosting form (at position 0).
+        /// </summary>
+        public MSAGLClient(System.Windows.Forms.SplitterPanel host)
         {
             gViewer = new Microsoft.Msagl.GraphViewerGdi.GViewer(); // if your application doesn't start from this line complaining about System.Resources.Extensions, you have to add a PackageReference to the project file of your app, plus a bindingRedirect to the app.config of your app, see the GrShell project for an example
             Graph graph = new Microsoft.Msagl.Drawing.Graph("graph");
@@ -400,7 +419,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         // Box, Triangle, Circle, Ellipse, Rhomb, Hexagon,
         // Trapeze, UpTrapeze, LParallelogram, RParallelogram
         private static readonly Shape[] nodeShapes = { Shape.Box, Shape.Triangle, Shape.Circle, Shape.Ellipse, Shape.Diamond, Shape.Hexagon,
-            Shape.Trapezium, Shape.Trapezium, Shape.Parallelogram, Shape.Parallelogram };
+            Shape.Trapezium, Shape.Trapezium, Shape.Parallelogram, Shape.Parallelogram }; // todo: some shapes are not supported, change them to supported but not fitting ones?
 
         public static Color GetColor(GrColor color)
         {
@@ -441,6 +460,18 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             edge.Attr.ClearStyles();
             edge.Attr.AddStyle(edgeRealizers[edgeRealizerName].lineStyle);
             edge.Label.FontColor = edgeRealizers[edgeRealizerName].textColor;
+        }
+
+        //--------------------------------------
+
+        public void HideViewer()
+        {
+            gViewer.Hide();
+        }
+
+        public void ShowViewer()
+        {
+            gViewer.Show();
         }
     }
 }

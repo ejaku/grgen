@@ -502,6 +502,24 @@ namespace graphViewerAndSequenceDebugger.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die refresh view (x) ähnelt.
+        /// </summary>
+        internal static string viewRefresh {
+            get {
+                return ResourceManager.GetString("viewRefresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die switch view (y) ähnelt.
+        /// </summary>
+        internal static string viewSwitch {
+            get {
+                return ResourceManager.GetString("viewSwitch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die (a)bort ähnelt.
         /// </summary>
         internal static string watchpointAbort {

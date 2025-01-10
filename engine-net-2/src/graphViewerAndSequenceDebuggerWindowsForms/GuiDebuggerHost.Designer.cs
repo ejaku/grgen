@@ -55,6 +55,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.highlightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dumpGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.asGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.switchViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.theToolStrip = new System.Windows.Forms.ToolStrip();
             this.continueToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.nextMatchToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -81,7 +84,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.theMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.debuggingCommandsToolStripMenuItem,
             this.breakpointsToolStripMenuItem,
-            this.stateDisplayToolStripMenuItem});
+            this.stateDisplayToolStripMenuItem,
+            this.viewToolStripMenuItem});
             resources.ApplyResources(this.theMenuStrip, "theMenuStrip");
             this.theMenuStrip.Name = "theMenuStrip";
             // 
@@ -196,6 +200,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             // 
             // toggleLazyChoiceToolStripMenuItem
             // 
+            this.toggleLazyChoiceToolStripMenuItem.Checked = true;
+            this.toggleLazyChoiceToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             resources.ApplyResources(this.toggleLazyChoiceToolStripMenuItem, "toggleLazyChoiceToolStripMenuItem");
             this.toggleLazyChoiceToolStripMenuItem.Name = "toggleLazyChoiceToolStripMenuItem";
             this.toggleLazyChoiceToolStripMenuItem.Click += new System.EventHandler(this.toggleLazyChoiceToolStripMenuItem_Click);
@@ -267,6 +273,26 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             resources.ApplyResources(this.asGraphToolStripMenuItem, "asGraphToolStripMenuItem");
             this.asGraphToolStripMenuItem.Name = "asGraphToolStripMenuItem";
             this.asGraphToolStripMenuItem.Click += new System.EventHandler(this.asGraphToolStripMenuItem_Click);
+            // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.switchViewToolStripMenuItem,
+            this.refreshViewToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            resources.ApplyResources(this.viewToolStripMenuItem, "viewToolStripMenuItem");
+            // 
+            // switchViewToolStripMenuItem
+            // 
+            this.switchViewToolStripMenuItem.Name = "switchViewToolStripMenuItem";
+            resources.ApplyResources(this.switchViewToolStripMenuItem, "switchViewToolStripMenuItem");
+            this.switchViewToolStripMenuItem.Click += new System.EventHandler(this.switchViewToolStripMenuItem_Click);
+            // 
+            // refreshViewToolStripMenuItem
+            // 
+            this.refreshViewToolStripMenuItem.Name = "refreshViewToolStripMenuItem";
+            resources.ApplyResources(this.refreshViewToolStripMenuItem, "refreshViewToolStripMenuItem");
+            this.refreshViewToolStripMenuItem.Click += new System.EventHandler(this.refreshViewToolStripMenuItem_Click);
             // 
             // theToolStrip
             // 
@@ -442,6 +468,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private System.Windows.Forms.ToolStripButton abortToolStripButton;
         private System.Windows.Forms.ToolStripButton skipSingleMatchesToolStripButton;
         private System.Windows.Forms.ToolStripMenuItem debugAtSourceCodeLevelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem switchViewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem refreshViewToolStripMenuItem;
 
         public IDebuggerGUIForDataRendering MainWorkObjectGuiGraphRenderer
         {

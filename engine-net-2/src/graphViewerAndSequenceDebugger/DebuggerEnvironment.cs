@@ -37,34 +37,50 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         bool KeyAvailable { get; }
     }
 
-    // ConsoleUI for data rendering (of the main work object)
-    public interface IDebuggerConsoleUIForDataRendering
+    public interface IDebuggerUIForDataRendering
     {
-        // outWriter for data rendering (errorOutWriter not used in interactive debugger and even less in data rendering)
-        void WriteDataRendering(string value);
-        void WriteDataRendering(string format, params object[] arg);
+        // base version of outWriter for data rendering, TODO: also implemented by the graph GUI version, resulting in a list of lines
         void WriteLineDataRendering(string value);
         void WriteLineDataRendering(string format, params object[] arg);
         void WriteLineDataRendering();
 
-        // consoleOut
-        void PrintHighlighted(String text, HighlightingMode mode);
-
         void Clear();
-
-        // inReader and consoleIn are not used in data rendering
 
         // flicker prevention/performance optimization
         void SuspendImmediateExecution();
         void RestartImmediateExecution();
     }
 
-    // interface extension of the GUI debugger compared to the two pane mode debugger consoles / GUI for data rendering (of the main work object as graph)
-    public interface IDebuggerGUIForDataRendering
+    // ConsoleUI for data rendering (of the main work object)
+    public interface IDebuggerConsoleUIForDataRendering : IDebuggerUIForDataRendering
     {
-        void SetContext(UserChoiceMenu userChoiceMenu);
+        // outWriter for data rendering (errorOutWriter not used in interactive debugger and even less in data rendering)
+        void WriteDataRendering(string value);
+        void WriteDataRendering(string format, params object[] arg);
+        //void WriteLineDataRendering(string value);
+        //void WriteLineDataRendering(string format, params object[] arg);
+        //void WriteLineDataRendering();
 
-        // TODO: basic graph viewer client interface to render non-text data, maybe also some list/table interface for non-textual display
+        // consoleOut
+        void PrintHighlighted(String text, HighlightingMode mode);
+
+        //void Clear();
+
+        // inReader and consoleIn are not used in data rendering
+
+        // flicker prevention/performance optimization
+        //void SuspendImmediateExecution();
+        //void RestartImmediateExecution();
+    }
+
+    // interface extension of the GUI debugger compared to the two pane mode debugger consoles / GUI for data rendering (of the main work object as graph)
+    public interface IDebuggerGUIForDataRendering : IDebuggerUIForDataRendering
+    {
+        void SetContext(UserChoiceMenu userChoiceMenu, UserChoiceMenu additionalGuiUserChoiceMenu); // GUI TODO: move out to the IDebuggerEnvironment(?) (and the IGuiDebuggerHost(?))
+
+        IBasicGraphViewerClient graphViewer { get; } // for graphical rendering of the sequence AST better ASG; GUI TODO: maybe slighthly reduced interface for internal use in DLL form only
+
+        // GUI TODO: maybe also some list/table interface for non-textual display
     }
 
     public interface IDebuggerConsoleUICombined : IDebuggerConsoleUI, IDebuggerConsoleUIForDataRendering
@@ -240,6 +256,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         // lets the user press a key, searches the options from the choiceMenu for the key character in parenthesis, if one is found it is returned
         // if a key was pressed that is not available in the list of keys, an error message with the available options is printed,
         // and the user choice is repeated, unless the (any key) choice is admissible (in this case '\0' is returned)
+        // the additional GUI choice menu is not printed to the user, but allows for additional user input, it is intended for extra options in the gui debugger
+        char LetUserChoose(UserChoiceMenu choiceMenu, UserChoiceMenu additionalGuiChoiceMenu, out ConsoleKey key);
         char LetUserChoose(UserChoiceMenu choiceMenu);
 
         // prints the available menu options to the user, separated by comma, prints the prefix before the instructions and the suffix after the instructions
@@ -255,6 +273,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         bool TwoPane { get; }
         bool Gui { get; }
+
+        IDebuggerGUIForDataRendering guiForDataRendering { get; } // TODO: maybe better place existing
     }
 
     public enum UserChoiceMenuNames
@@ -281,7 +301,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         WatchpointDetermineMatchGraphElementModeMenu,
         WatchpointDetermineMatchGraphElementByTypeModeMenu,
         WatchpointDetermineDecisionActionMenu,
-        PauseContinueMenu
+        PauseContinueMenu,
+        SwitchRefreshViewMenu
     }
 
     /// <summary>
@@ -404,6 +425,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             set { theDebuggerGUIForDataRendering = value; }
         }
         private IDebuggerGUIForDataRendering theDebuggerGUIForDataRendering;
+
+        public IDebuggerGUIForDataRendering guiForDataRendering
+        {
+            get { return theDebuggerGUIForDataRendering; }
+        }
 
         public Debugger Debugger // has to be set after debugger was constructed
         {
@@ -640,7 +666,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             WriteLine(msg);
 
             if(theDebuggerGUIForDataRendering != null)
-                theDebuggerGUIForDataRendering.SetContext(choiceMenuContinueAnyKey);
+                theDebuggerGUIForDataRendering.SetContext(choiceMenuContinueAnyKey, null);
 
             ReadKey(true);
         }
@@ -741,32 +767,95 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return ReadOrEofErr();
         }
 
-        public char LetUserChoose(UserChoiceMenu choiceMenu)
+        public char LetUserChoose(UserChoiceMenu choiceMenu, UserChoiceMenu additionalGuiChoiceMenu, out ConsoleKey key)
         {
             if(theDebuggerGUIForDataRendering != null)
-                theDebuggerGUIForDataRendering.SetContext(choiceMenu);
+                theDebuggerGUIForDataRendering.SetContext(choiceMenu, additionalGuiChoiceMenu);
 
             while(true)
             {
-                ConsoleKeyInfo key = ReadKeyWithCancel();
-                foreach(string option in choiceMenu.options)
-                {
-                    if(option.Contains("(" + key.KeyChar + ")"))
-                        return key.KeyChar;
-                }
-                foreach(string option in choiceMenu.options)
-                {
-                    if(option.Contains("(0-9)") && key.KeyChar - '0' >= 0 && key.KeyChar - '0' <= 9)
-                        return key.KeyChar;
-                }
-                foreach(string option in choiceMenu.options)
-                {
-                    if(option.Contains("(any key)"))
-                        return '\0';
-                }
+                ConsoleKeyInfo keyInfo = ReadKeyWithCancel();
 
-                theDebuggerConsoleUI.WriteLine("Illegal choice (" + key.KeyChar + "; key = " + key.Key + ")!"
+                char character;
+                if(ChoiceMenuContainsKey(keyInfo, choiceMenu, out character, out key))
+                    return character;
+                if(additionalGuiChoiceMenu != null && ChoiceMenuContainsKey(keyInfo, additionalGuiChoiceMenu, out character, out key))
+                    return character;
+
+                theDebuggerConsoleUI.WriteLine("Illegal choice (" + keyInfo.KeyChar + "; key = " + keyInfo.Key + ")!"
                         + " Only " + choiceMenu.ToOptionsString(false) + " are allowed!");
+            }
+        }
+
+        public char LetUserChoose(UserChoiceMenu choiceMenu)
+        {
+            ConsoleKey key;
+            return LetUserChoose(choiceMenu, null, out key);
+        }
+
+        private bool ChoiceMenuContainsKey(ConsoleKeyInfo keyInfo, UserChoiceMenu choiceMenu, out char character, out ConsoleKey key)
+        {
+            character = keyInfo.KeyChar;
+            key = keyInfo.Key;
+
+            foreach(string option in choiceMenu.options)
+            {
+                if(option.Contains("(" + keyInfo.KeyChar + ")"))
+                    return true;
+            }
+            foreach(string option in choiceMenu.options)
+            {
+                if(option.Contains(FunctionKeyToMenuPlaceholder(keyInfo.Key)))
+                {
+                    character = '\0';
+                    return true;
+                }
+            }
+            foreach(string option in choiceMenu.options)
+            {
+                if(option.Contains("(0-9)") && keyInfo.KeyChar - '0' >= 0 && keyInfo.KeyChar - '0' <= 9)
+                    return true;
+            }
+            foreach(string option in choiceMenu.options)
+            {
+                if(option.Contains("(any key)"))
+                {
+                    character = '\0';
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private string FunctionKeyToMenuPlaceholder(ConsoleKey functionKey)
+        {
+            switch(functionKey)
+            {
+                case ConsoleKey.F1: return "(F1)";
+                case ConsoleKey.F2: return "(F2)";
+                case ConsoleKey.F3: return "(F3)";
+                case ConsoleKey.F4: return "(F4)";
+                case ConsoleKey.F5: return "(F5)";
+                case ConsoleKey.F6: return "(F6)";
+                case ConsoleKey.F7: return "(F7)";
+                case ConsoleKey.F8: return "(F8)";
+                case ConsoleKey.F9: return "(F9)";
+                case ConsoleKey.F10: return "(F10)";
+                case ConsoleKey.F11: return "(F11)";
+                case ConsoleKey.F12: return "(F12)";
+                case ConsoleKey.F13: return "(F13)";
+                case ConsoleKey.F14: return "(F14)";
+                case ConsoleKey.F15: return "(F15)";
+                case ConsoleKey.F16: return "(F16)";
+                case ConsoleKey.F17: return "(F17)";
+                case ConsoleKey.F18: return "(F18)";
+                case ConsoleKey.F19: return "(F19)";
+                case ConsoleKey.F20: return "(F20)";
+                case ConsoleKey.F21: return "(F21)";
+                case ConsoleKey.F22: return "(F22)";
+                case ConsoleKey.F23: return "(F23)";
+                case ConsoleKey.F24: return "(F24)";
+                default: return "()";
             }
         }
 

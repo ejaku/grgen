@@ -15,7 +15,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     public partial class GuiDebuggerHost : Form, IGuiDebuggerHost, IDebuggerGUIForDataRendering // TODO: introduce own object or really use this one to implement IDebuggerGUIForDataRendering?
     {
         UserChoiceMenu currentUserChoiceMenu;
+        UserChoiceMenu currentAdditionalGuiUserChoiceMenu;
         Dictionary<string, ToolStripItem[]> optionNameToControls; // map of menu option names aka commands from application logic to GUI controls implementing these commands/options
+        MSAGLClient msaglClient;
 
         public GuiDebuggerHost()
         {
@@ -24,6 +26,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             inputOutputAndLogGuiConsoleControl.Select(); // ensure it receives keyboard input
 
             FillMappingOfOptionNamesToToolStripItems();
+
+            msaglClient = new MSAGLClient(theSplitContainer.Panel1);
+            msaglClient.HideViewer();
+            // GUI todo: configuring of graph layout of sequences is done in the SequenceRenderer ... what's the best place?
+            // GUI todo: maybe configure viewer, toolbar on top looks a bit ugly
         }
 
         private void FillMappingOfOptionNamesToToolStripItems()
@@ -61,6 +68,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             Fill("commandToggleLazyChoice", toggleLazyChoiceToolStripMenuItem);
             Fill("commandUpFromCurrentEntry", stepUpToolStripMenuItem, stepUpToolStripButton);
             Fill("commandWatchpoints", watchpointsToolStripMenuItem);
+            Fill("viewSwitch", switchViewToolStripMenuItem);
+            Fill("viewRefresh", refreshViewToolStripMenuItem);
         }
 
         private void Fill(string optionName, params ToolStripItem[] controls)
@@ -68,12 +77,55 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             optionNameToControls.Add(optionName, controls);
         }
 
-        public void SetContext(UserChoiceMenu userChoiceMenu)
+        public void SetContext(UserChoiceMenu userChoiceMenu, UserChoiceMenu additionalGuiUserChoiceMenu)
         {
             if(currentUserChoiceMenu != null)
                 EnableDisableControls(currentUserChoiceMenu, false);
+            if(currentAdditionalGuiUserChoiceMenu != null)
+                EnableDisableControls(currentAdditionalGuiUserChoiceMenu, false);
+
             EnableDisableControls(userChoiceMenu, true);
+            if(additionalGuiUserChoiceMenu != null)
+                EnableDisableControls(additionalGuiUserChoiceMenu, true);
+
             currentUserChoiceMenu = userChoiceMenu;
+            currentAdditionalGuiUserChoiceMenu = additionalGuiUserChoiceMenu;
+        }
+
+        public IBasicGraphViewerClient graphViewer
+        {
+            get { return msaglClient; }
+        }
+
+        // outWriter for data rendering, base version, also implemented by the graph GUI version, resulting in a list of lines
+        public void WriteLineDataRendering(string value)
+        {
+            // GUI TODO: write to graph viewer
+        }
+
+        public void WriteLineDataRendering(string format, params object[] arg)
+        {
+            // GUI TODO: write to graph viewer
+        }
+
+        public void WriteLineDataRendering()
+        {
+            // GUI TODO: write to graph viewer
+        }
+
+        public void Clear()
+        {
+            // GUI TODO: forward to graph viewer, as of now ClearGraph() is called manually (not targeted any more: soft clear, clears console but not the graph viewer, as often the graph viewer content is only modified - this is the implementation of the graph viewer render)
+        }
+
+        public void SuspendImmediateExecution()
+        {
+            SuspendLayout();
+        }
+
+        public void RestartImmediateExecution()
+        {
+            ResumeLayout();
         }
 
         private void EnableDisableControls(UserChoiceMenu userChoiceMenu, bool enable)
@@ -94,11 +146,21 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private char GetKey(ToolStripItem clicked)
         {
             string command = GetCommand(clicked);
-            for(int i=0; i < currentUserChoiceMenu.optionNames.Length; ++i)
+            for(int i = 0; i < currentUserChoiceMenu.optionNames.Length; ++i) // GUI TODO: move to UserChoiceMenu?, introduce helper function
             {
                 if(currentUserChoiceMenu.optionNames[i] == command)
                 {
                     return GetKey(currentUserChoiceMenu.options[i]);
+                }
+            }
+            if(currentAdditionalGuiUserChoiceMenu != null)
+            {
+                for(int i = 0; i < currentAdditionalGuiUserChoiceMenu.optionNames.Length; ++i)
+                {
+                    if(currentAdditionalGuiUserChoiceMenu.optionNames[i] == command)
+                    {
+                        return GetKey(currentAdditionalGuiUserChoiceMenu.options[i]);
+                    }
                 }
             }
             return ' ';
@@ -112,14 +174,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 {
                     if(item == clicked)
                     {
-                        return keyValuePair.Key;
+                        return keyValuePair.Key; // GUI TODO: first match might be not the right one, filter to the enabled command instead of the first matching... works until now becaues it works for the by far most important of such overloaded button cases, continue with any key
                     }
                 }
             }
             return "";
         }
 
-        private char GetKey(string commandOption)
+        private char GetKey(string commandOption) // GUI TODO: move to UserChoiceMenu?
         {
             int indexOfOpeningParenthesis = -1;
             int indexOfClosingParenthesis = 0;
@@ -131,13 +193,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 if(indexOfOpeningParenthesis == -1 || indexOfClosingParenthesis == -1)
                     break; // only placeholder keys that are skipped are contained in the command (or none at all, but that would be illegal)
                 if(commandOption[indexOfOpeningParenthesis + 1] == '(' // skip escaped parenthesis in the form of (())
-                    || indexOfClosingParenthesis > indexOfOpeningParenthesis + 2) // skip number special (0-9), also skipping (any key)
+                    || indexOfClosingParenthesis > indexOfOpeningParenthesis + 2) // skip number special (0-9), function keys (F1..F24), also skipping (any key)
                     indexOfOpeningParenthesis = indexOfClosingParenthesis;
                 else
                     return commandOption[indexOfOpeningParenthesis + 1]; // return first matching key
             }
 
-            return ' '; // return space in case no key was found, this is commonly the case if the option contains only (any key)
+            return '\0'; // return null char in case no key was found, this is commonly the case if the option contains only (any key) (GUI TODO: return space again in this case)
         }
 
         private void nextMatchToolStripMenuItem_Click(object sender, System.EventArgs e)
@@ -202,6 +264,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void toggleLazyChoiceToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
+            if(toggleLazyChoiceToolStripMenuItem.Checked)
+            {
+                toggleLazyChoiceToolStripMenuItem.Checked = false;
+            }
+            else
+            {
+                toggleLazyChoiceToolStripMenuItem.Checked = true;
+            }
             inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
         }
 
@@ -241,6 +311,27 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         private void asGraphToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+        }
+
+        private void switchViewToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            if(switchViewToolStripMenuItem.Checked)
+            {
+                theSplitContainer.Panel1.Controls[0].Hide();
+                switchViewToolStripMenuItem.Checked = false;
+            }
+            else
+            {
+                theSplitContainer.Panel1.Controls[0].Show();
+                switchViewToolStripMenuItem.Checked = true;
+            }
+            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            //inputOutputAndLogGuiConsoleControl.EnterKey(GetKey(refreshViewToolStripMenuItem)); // GUI TODO: immediately following refresh so the new view is displayed without user intervention
+        }
+
+        private void refreshViewToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
             inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
         }

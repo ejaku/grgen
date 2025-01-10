@@ -222,7 +222,7 @@
     <value>False</value>
   </data>
   <data name="toggleBreakpointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>215, 22</value>
   </data>
   <data name="toggleBreakpointsToolStripMenuItem.Text" xml:space="preserve">
     <value>Toggle &amp;breakpoints</value>
@@ -231,7 +231,7 @@
     <value>False</value>
   </data>
   <data name="toggleChoicepointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>215, 22</value>
   </data>
   <data name="toggleChoicepointsToolStripMenuItem.Text" xml:space="preserve">
     <value>Toggle &amp;choicepoints</value>
@@ -240,16 +240,16 @@
     <value>False</value>
   </data>
   <data name="toggleLazyChoiceToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>215, 22</value>
   </data>
   <data name="toggleLazyChoiceToolStripMenuItem.Text" xml:space="preserve">
-    <value>Toggle &amp;lazy choice</value>
+    <value>Enable &amp;lazy choice (toggle)</value>
   </data>
   <data name="watchpointsToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="watchpointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>215, 22</value>
   </data>
   <data name="watchpointsToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Watchpoints</value>
@@ -264,7 +264,7 @@
     <value>False</value>
   </data>
   <data name="showVariablesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>167, 22</value>
   </data>
   <data name="showVariablesToolStripMenuItem.Text" xml:space="preserve">
     <value>Show &amp;variables</value>
@@ -273,7 +273,7 @@
     <value>False</value>
   </data>
   <data name="showClassObjectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>167, 22</value>
   </data>
   <data name="showClassObjectToolStripMenuItem.Text" xml:space="preserve">
     <value>Show class ob&amp;ject</value>
@@ -282,7 +282,7 @@
     <value>False</value>
   </data>
   <data name="printStacktraceToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>167, 22</value>
   </data>
   <data name="printStacktraceToolStripMenuItem.Text" xml:space="preserve">
     <value>Print stack&amp;trace</value>
@@ -291,7 +291,7 @@
     <value>False</value>
   </data>
   <data name="printFullStateToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>167, 22</value>
   </data>
   <data name="printFullStateToolStripMenuItem.Text" xml:space="preserve">
     <value>Print &amp;full state</value>
@@ -300,7 +300,7 @@
     <value>False</value>
   </data>
   <data name="highlightToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>167, 22</value>
   </data>
   <data name="highlightToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Highlight</value>
@@ -309,7 +309,7 @@
     <value>False</value>
   </data>
   <data name="dumpGraphToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>167, 22</value>
   </data>
   <data name="dumpGraphToolStripMenuItem.Text" xml:space="preserve">
     <value>Dum&amp;p graph</value>
@@ -318,16 +318,34 @@
     <value>False</value>
   </data>
   <data name="asGraphToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>167, 22</value>
   </data>
   <data name="asGraphToolStripMenuItem.Text" xml:space="preserve">
     <value>As &amp;graph</value>
   </data>
   <data name="stateDisplayToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 20</value>
+    <value>85, 20</value>
   </data>
   <data name="stateDisplayToolStripMenuItem.Text" xml:space="preserve">
     <value>State display</value>
+  </data>
+  <data name="switchViewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>363, 22</value>
+  </data>
+  <data name="switchViewToolStripMenuItem.Text" xml:space="preserve">
+    <value>Enable graphical display (switch view to sequence AST)</value>
+  </data>
+  <data name="refreshViewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>363, 22</value>
+  </data>
+  <data name="refreshViewToolStripMenuItem.Text" xml:space="preserve">
+    <value>Refresh view</value>
+  </data>
+  <data name="viewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
+  </data>
+  <data name="viewToolStripMenuItem.Text" xml:space="preserve">
+    <value>View</value>
   </data>
   <data name="theMenuStrip.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -606,9 +624,6 @@
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>800, 450</value>
   </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>GuiDebuggerHost</value>
   </data>
@@ -754,6 +769,24 @@
     <value>asGraphToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;asGraphToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;viewToolStripMenuItem.Name" xml:space="preserve">
+    <value>viewToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;viewToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;switchViewToolStripMenuItem.Name" xml:space="preserve">
+    <value>switchViewToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;switchViewToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;refreshViewToolStripMenuItem.Name" xml:space="preserve">
+    <value>refreshViewToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;refreshViewToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;continueToolStripButton.Name" xml:space="preserve">

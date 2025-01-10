@@ -22,7 +22,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         readonly IDebuggerEnvironment env;
-
+        readonly ISequencePrinter printer;
         readonly Stack<SequenceBase> debugSequences = new Stack<SequenceBase>();
 
         UserChoiceMenu whichBreakpointToToggleMenu = new UserChoiceMenu(UserChoiceMenuNames.WhichBreakpointToToggleMenu, new string[] {
@@ -31,20 +31,21 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         UserChoiceMenu whichChoicepointToToggleMenu = new UserChoiceMenu(UserChoiceMenuNames.WhichChoicepointToToggleMenu, new string[] {
             "choicepointNumberToToggle", "choicepointEnterNumberToToggle", "breakpointChoicepointAbort" });
 
-        public BreakpointAndChoicepointEditor(IDebuggerEnvironment env, Stack<SequenceBase> debugSequences)
+        public BreakpointAndChoicepointEditor(IDebuggerEnvironment env, ISequencePrinter printer, Stack<SequenceBase> debugSequences)
         {
             this.env = env;
+            this.printer = printer;
             this.debugSequences = debugSequences;
         }
 
         public void HandleToggleBreakpoints()
         {
             env.Clear();
-            env.WriteDataRendering("Available breakpoint positions:\n  ");
+            env.WriteLineDataRendering("Available breakpoint positions:");
 
             PrintSequenceContext contextBp = new PrintSequenceContext();
             contextBp.bpPosCounter = 0;
-            new SequencePrinter(env).PrintSequenceBase(debugSequences.Peek(), contextBp, debugSequences.Count);
+            printer.PrintSequenceBase(debugSequences.Peek(), contextBp, debugSequences.Count);
             env.WriteLine();
 
             if(contextBp.bpPosCounter == 0)
@@ -63,11 +64,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void HandleToggleChoicepoints()
         {
             env.Clear();
-            env.WriteDataRendering("Available choicepoint positions:\n  ");
+            env.WriteLineDataRendering("Available choicepoint positions:");
 
             PrintSequenceContext contextCp = new PrintSequenceContext();
             contextCp.cpPosCounter = 0;
-            new SequencePrinter(env).PrintSequenceBase(debugSequences.Peek(), contextCp, debugSequences.Count);
+            printer.PrintSequenceBase(debugSequences.Peek(), contextCp, debugSequences.Count);
             env.WriteLine();
 
             if(contextCp.cpPosCounter == 0)
@@ -100,8 +101,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             do
             {
-                char key = env.LetUserChoose(whichPointToToggleMenu);
-                switch (key)
+                char character = env.LetUserChoose(whichPointToToggleMenu);
+                switch (character)
                 {
                 case '0':
                 case '1':
@@ -113,7 +114,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 case '7':
                 case '8':
                 case '9':
-                    int num = key - '0';
+                    int num = character - '0';
                     if(num >= numPositions)
                     {
                         env.WriteLine("You must specify a number between 0 and " + (numPositions - 1) + "!");
