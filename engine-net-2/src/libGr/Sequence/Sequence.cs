@@ -3460,9 +3460,9 @@ namespace de.unika.ipd.grGen.libGr
                 for(int i = 0; i < Sequences.Count; ++i)
                 {
                     if(IsNonRandomRuleAllCall(i))
-                        numTotalMatches += Math.Min(Matches[i].Count, 1);
-                    else
                         numTotalMatches += Matches[i].Count;
+                    else
+                        numTotalMatches += Math.Min(Matches[i].Count, 1); 
                 }
                 return numTotalMatches;
             }
@@ -3477,9 +3477,9 @@ namespace de.unika.ipd.grGen.libGr
                 rule = i;
                 if(IsNonRandomRuleAllCall(i))
                 {
-                    if(Matches[i].Count > 0)
+                    for(int j = 0; j < Matches[i].Count; ++j)
                     {
-                        match = 0;
+                        match = j;
                         if(curMatch == totalMatch)
                             return;
                         ++curMatch;
@@ -3487,9 +3487,9 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 else
                 {
-                    for(int j = 0; j < Matches[i].Count; ++j)
+                    if(Matches[i].Count > 0)
                     {
-                        match = j;
+                        match = 0;
                         if(curMatch == totalMatch)
                             return;
                         ++curMatch;

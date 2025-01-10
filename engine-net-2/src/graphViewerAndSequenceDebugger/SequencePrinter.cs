@@ -705,7 +705,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 PrintChoice(seqSome);
                 ++context.cpPosCounter;
-                env.PrintHighlighted(seqSome.Choice ? "$%{<" : "${<", highlightingMode);
+                env.PrintHighlighted((seqSome.Choice ? "$%" : "$") + "{<", highlightingMode);
                 bool first = true;
                 foreach(Sequence seqChild in seqSome.Children)
                 {
@@ -717,7 +717,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     context.cpPosCounter = cpPosCounterBackup;
                     first = false;
                 }
-                env.PrintHighlighted(")}", highlightingMode);
+                env.PrintHighlighted(">}", highlightingMode);
                 return;
             }
 
@@ -729,9 +729,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             if(highlight && context.choice)
             {
-                env.PrintHighlighted("$%{<", HighlightingMode.Choicepoint);
+                env.PrintHighlighted("$%" + "{<", HighlightingMode.Choicepoint);
                 bool first = true;
-                int numCurTotalMatch = 0;
+                int numCurTotalMatch = 0; // potential todo: pre-compute the match numbers in another loop, so there's no dependency in between the loops
                 foreach(Sequence seqChild in seqSome.Children)
                 {
                     if(!first)
@@ -744,7 +744,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                         {
                             if(seqChild == context.sequences[i] && context.matches[i].Count > 0)
                             {
-                                PrintListOfMatchesNumbers(ref numCurTotalMatch, seqSome.IsNonRandomRuleAllCall(i) ? 1 : context.matches[i].Count);
+                                PrintListOfMatchesNumbers(ref numCurTotalMatch, seqSome.IsNonRandomRuleAllCall(i) ? context.matches[i].Count : 1);
                             }
                         }
                     }
@@ -766,7 +766,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(seqSome == context.highlightSeq)
                 highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
-            env.PrintHighlighted(seqSome.Random ? (seqSome.Choice ? "$%{<" : "${<") : "{<", highlightingModeLocal);
+            env.PrintHighlighted(seqSome.Random ? ((seqSome.Choice ? "$%" : "$") + "{<") : "{<", highlightingModeLocal);
             PrintChildren(seqSome, highlightingMode, highlightingModeLocal);
             env.PrintHighlighted(">}", highlightingModeLocal);
         }
