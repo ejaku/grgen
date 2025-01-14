@@ -174,11 +174,32 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 {
                     if(item == clicked)
                     {
-                        return keyValuePair.Key; // GUI TODO: first match might be not the right one, filter to the enabled command instead of the first matching... works until now becaues it works for the by far most important of such overloaded button cases, continue with any key
+                        // first match might be not the right one, filter to the dynamically enabled command instead of the statically first matching
+                        // e.g. the continue button may be enabled by many different commands, with different accelerator keys (but only one at a time, from the current user choice menu, or the additional one)
+                        string command = keyValuePair.Key;
+                        if(IsCurrentlyAvailable(command, currentUserChoiceMenu) || IsCurrentlyAvailable(command, currentAdditionalGuiUserChoiceMenu))
+                        {
+                            return command;
+                        }
                     }
                 }
             }
             return "";
+        }
+
+        private bool IsCurrentlyAvailable(string command, UserChoiceMenu userChoiceMenu)
+        {
+            if(userChoiceMenu == null)
+                return false;
+
+            for(int i = 0; i < userChoiceMenu.optionNames.Length; ++i) // GUI TODO: move to UserChoiceMenu?
+            {
+                if(userChoiceMenu.optionNames[i] == command)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private char GetKey(string commandOption) // GUI TODO: move to UserChoiceMenu?
@@ -189,9 +210,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             while(true)
             {
                 indexOfOpeningParenthesis = commandOption.IndexOf('(', indexOfOpeningParenthesis + 1);
+                if(indexOfOpeningParenthesis == -1)
+                    break; // may happen when only placeholder keys that are skipped are contained in the command (or none at all, but that would be illegal)
                 indexOfClosingParenthesis = commandOption.IndexOf(')', indexOfOpeningParenthesis);
-                if(indexOfOpeningParenthesis == -1 || indexOfClosingParenthesis == -1)
-                    break; // only placeholder keys that are skipped are contained in the command (or none at all, but that would be illegal)
+                if(indexOfClosingParenthesis == -1)
+                    break; // may happen when only placeholder keys that are skipped are contained in the command (or none at all, but that would be illegal)
                 if(commandOption[indexOfOpeningParenthesis + 1] == '(' // skip escaped parenthesis in the form of (())
                     || indexOfClosingParenthesis > indexOfOpeningParenthesis + 2) // skip number special (0-9), function keys (F1..F24), also skipping (any key)
                     indexOfOpeningParenthesis = indexOfClosingParenthesis;
@@ -199,7 +222,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     return commandOption[indexOfOpeningParenthesis + 1]; // return first matching key
             }
 
-            return '\0'; // return null char in case no key was found, this is commonly the case if the option contains only (any key) (GUI TODO: return space again in this case)
+            return ' '; // return space in case no key was found, this is commonly the case if the option contains only (any key)
         }
 
         private void nextMatchToolStripMenuItem_Click(object sender, System.EventArgs e)
