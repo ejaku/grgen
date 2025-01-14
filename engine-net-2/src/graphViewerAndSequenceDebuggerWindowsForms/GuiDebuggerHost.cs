@@ -7,6 +7,7 @@
 
 // by Edgar Jakumeit
 
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -143,7 +144,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
         }
 
-        private char GetKey(ToolStripItem clicked)
+        private KeyValuePair<char, ConsoleKey> GetKey(ToolStripItem clicked)
         {
             string command = GetCommand(clicked);
             for(int i = 0; i < currentUserChoiceMenu.optionNames.Length; ++i) // GUI TODO: move to UserChoiceMenu?, introduce helper function
@@ -163,7 +164,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     }
                 }
             }
-            return ' ';
+            return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.NoName);
         }
 
         private string GetCommand(ToolStripItem clicked) // reverse search should be ok performance wise, no premature optimization
@@ -184,67 +185,79 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     }
                 }
             }
-            return "";
+            throw new Exception("Internal error - no command found");
         }
 
         private void nextMatchToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void detailedStepToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void stepToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void stepUpToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void stepOutToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void runToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void abortToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void continueToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void skipSingleMatchesToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void debugAtSourceCodeLevelToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void toggleBreakpointsToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void toggleChoicepointsToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void toggleLazyChoiceToolStripMenuItem_Click(object sender, System.EventArgs e)
@@ -257,47 +270,56 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 toggleLazyChoiceToolStripMenuItem.Checked = true;
             }
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void watchpointsToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void showVariablesToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void showClassObjectToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void printStacktraceToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void printFullStateToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void highlightToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void dumpGraphToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void asGraphToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void switchViewToolStripMenuItem_Click(object sender, System.EventArgs e)
@@ -312,58 +334,69 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 theSplitContainer.Panel1.Controls[0].Show();
                 switchViewToolStripMenuItem.Checked = true;
             }
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
             //inputOutputAndLogGuiConsoleControl.EnterKey(GetKey(refreshViewToolStripMenuItem)); // GUI TODO: immediately following refresh so the new view is displayed without user intervention
         }
 
         private void refreshViewToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void continueToolStripButton_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void nextMatchToolStripButton_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void detailedStepToolStripButton_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void stepToolStripButton_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void stepUpToolStripButton_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void stepOutToolStripButton_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void runToolStripButton_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void abortToolStripButton_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
         private void skipSingleMatchesToolStripButton_Click(object sender, System.EventArgs e)
         {
-            inputOutputAndLogGuiConsoleControl.EnterKey(GetKey((ToolStripItem)sender));
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
     }
 }

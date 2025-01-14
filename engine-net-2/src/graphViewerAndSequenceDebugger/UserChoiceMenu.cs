@@ -140,7 +140,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return false;
         }
 
-        public static char GetKey(string commandOption)
+        public static KeyValuePair<char, ConsoleKey> GetKey(string commandOption)
         {
             int indexOfOpeningParenthesis = -1;
             int indexOfClosingParenthesis = 0;
@@ -153,14 +153,55 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 indexOfClosingParenthesis = commandOption.IndexOf(')', indexOfOpeningParenthesis);
                 if(indexOfClosingParenthesis == -1)
                     break; // may happen when only placeholder keys that are skipped are contained in the command (or none at all, but that would be illegal)
-                if(commandOption[indexOfOpeningParenthesis + 1] == '(' // skip escaped parenthesis in the form of (())
-                    || indexOfClosingParenthesis > indexOfOpeningParenthesis + 2) // skip number special (0-9), function keys (F1..F24), also skipping (any key)
+                if(commandOption[indexOfOpeningParenthesis + 1] == 'F') // return the first contained function key (F1..F24)
+                {
+                    return MenuPlaceholderToFunctionKey(commandOption.Substring(indexOfOpeningParenthesis, indexOfClosingParenthesis - indexOfOpeningParenthesis + 1));
+                }
+                else if(commandOption[indexOfOpeningParenthesis + 1] == '(' // skip escaped parenthesis in the form of (())
+                    || indexOfClosingParenthesis > indexOfOpeningParenthesis + 2) // skip number special (0-9), also skipping (any key)
+                {
                     indexOfOpeningParenthesis = indexOfClosingParenthesis;
+                }
                 else
-                    return commandOption[indexOfOpeningParenthesis + 1]; // return first matching key
+                    return new KeyValuePair<char, ConsoleKey>(commandOption[indexOfOpeningParenthesis + 1], ConsoleKey.NoName); // return first matching key
             }
 
-            return ' '; // return space in case no key was found, this is commonly the case if the option contains only (any key)
+            if(commandOption.Contains("(any key)"))
+                return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.NoName); // return space in case the option contains only (any key)
+
+            throw new Exception("Internal error - no command option that can generate a key");
+        }
+
+        private static KeyValuePair<char, ConsoleKey> MenuPlaceholderToFunctionKey(string commandOption)
+        {
+            switch(commandOption)
+            {
+                case "(F1)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F1);
+                case "(F2)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F2);
+                case "(F3)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F3);
+                case "(F4)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F4);
+                case "(F5)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F5);
+                case "(F6)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F6);
+                case "(F7)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F7);
+                case "(F8)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F8);
+                case "(F9)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F9);
+                case "(F10)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F10);
+                case "(F11)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F11);
+                case "(F12)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F12);
+                case "(F13)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F13);
+                case "(F14)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F14);
+                case "(F15)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F15);
+                case "(F16)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F16);
+                case "(F17)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F17);
+                case "(F18)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F18);
+                case "(F19)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F19);
+                case "(F20)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F20);
+                case "(F21)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F21);
+                case "(F22)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F22);
+                case "(F23)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F23);
+                case "(F24)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F24);
+                default: throw new Exception("Internal error - unknown function key in command options");
+            }
         }
     }
 }

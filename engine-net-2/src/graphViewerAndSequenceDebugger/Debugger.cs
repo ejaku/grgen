@@ -363,8 +363,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             while(true)
             {
-                ConsoleKey key;
-                switch(env.LetUserChoose(queryUserMenu, switchRefreshViewAdditionalGuiMenu, out key))
+                ConsoleKeyInfo key = env.LetUserChoose(queryUserMenu, switchRefreshViewAdditionalGuiMenu);
+                switch(key.KeyChar)
                 {
                 case 's':
                     stepMode = true;
@@ -472,11 +472,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     printer.PrintSequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
                     env.WriteLineDataRendering();
                     break;
-                case 'x':
-                    HandleRefreshView();
-                    break;
-                case 'y':
-                    HandleSwitchView();
+                case ' ':
+                    if(key.Key == ConsoleKey.F5)
+                        HandleRefreshView();
+                    else if(key.Key == ConsoleKey.F8)
+                        HandleSwitchView();
+                    else
+                        throw new Exception("Internal error");
                     break;
                 default:
                     throw new Exception("Internal error");
@@ -1730,7 +1732,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 case 'k':
                     task.skipMode[task.skipMode.Count - 1] = true;
                     break;
-                case '\0':
+                case ' ':
                     break;
                 default:
                     throw new Exception("Internal error");
@@ -1967,7 +1969,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     env.WriteLineDataRendering();
                     PrintDebugTracesStack(true);
                     break;
-                case '\0':
+                case ' ':
                     return;
                 default:
                     throw new Exception("Internal error");

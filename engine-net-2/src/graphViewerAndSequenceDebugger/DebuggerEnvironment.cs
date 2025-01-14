@@ -255,9 +255,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         // lets the user press a key, searches the options from the choiceMenu for the key character in parenthesis, if one is found it is returned
         // if a key was pressed that is not available in the list of keys, an error message with the available options is printed,
-        // and the user choice is repeated, unless the (any key) choice is admissible (in this case '\0' is returned)
+        // and the user choice is repeated, unless the (any key) choice is admissible (in this case ' ' is returned)
         // the additional GUI choice menu is not printed to the user, but allows for additional user input, it is intended for extra options in the gui debugger
-        char LetUserChoose(UserChoiceMenu choiceMenu, UserChoiceMenu additionalGuiChoiceMenu, out ConsoleKey key);
+        ConsoleKeyInfo LetUserChoose(UserChoiceMenu choiceMenu, UserChoiceMenu additionalGuiChoiceMenu);
         char LetUserChoose(UserChoiceMenu choiceMenu);
 
         // prints the available menu options to the user, separated by comma, prints the prefix before the instructions and the suffix after the instructions
@@ -653,62 +653,51 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return ReadOrEofErr();
         }
 
-        public char LetUserChoose(UserChoiceMenu choiceMenu, UserChoiceMenu additionalGuiChoiceMenu, out ConsoleKey key)
+        public ConsoleKeyInfo LetUserChoose(UserChoiceMenu choiceMenu, UserChoiceMenu additionalGuiChoiceMenu)
         {
             if(theDebuggerGUIForDataRendering != null)
                 theDebuggerGUIForDataRendering.SetContext(choiceMenu, additionalGuiChoiceMenu);
 
             while(true)
             {
-                ConsoleKeyInfo keyInfo = ReadKeyWithCancel();
+                ConsoleKeyInfo key = ReadKeyWithCancel();
 
-                char character;
-                if(ChoiceMenuContainsKey(keyInfo, choiceMenu, out character, out key))
-                    return character;
-                if(additionalGuiChoiceMenu != null && ChoiceMenuContainsKey(keyInfo, additionalGuiChoiceMenu, out character, out key))
-                    return character;
+                if(ChoiceMenuContainsKey(key, choiceMenu))
+                    return key;
+                if(additionalGuiChoiceMenu != null && ChoiceMenuContainsKey(key, additionalGuiChoiceMenu))
+                    return key;
 
-                theDebuggerConsoleUI.WriteLine("Illegal choice (" + keyInfo.KeyChar + "; key = " + keyInfo.Key + ")!"
+                theDebuggerConsoleUI.WriteLine("Illegal choice (" + key.KeyChar + "; key = " + key.Key + ")!"
                         + " Only " + choiceMenu.ToOptionsString(false) + " are allowed!");
             }
         }
 
         public char LetUserChoose(UserChoiceMenu choiceMenu)
         {
-            ConsoleKey key;
-            return LetUserChoose(choiceMenu, null, out key);
+            return LetUserChoose(choiceMenu, null).KeyChar;
         }
 
-        private bool ChoiceMenuContainsKey(ConsoleKeyInfo keyInfo, UserChoiceMenu choiceMenu, out char character, out ConsoleKey key)
+        private bool ChoiceMenuContainsKey(ConsoleKeyInfo key, UserChoiceMenu choiceMenu)
         {
-            character = keyInfo.KeyChar;
-            key = keyInfo.Key;
-
             foreach(string option in choiceMenu.options)
             {
-                if(option.Contains("(" + keyInfo.KeyChar + ")"))
+                if(option.Contains("(" + key.KeyChar + ")"))
                     return true;
             }
             foreach(string option in choiceMenu.options)
             {
-                if(option.Contains(FunctionKeyToMenuPlaceholder(keyInfo.Key)))
-                {
-                    character = '\0';
+                if(option.Contains(FunctionKeyToMenuPlaceholder(key.Key)))
                     return true;
-                }
             }
             foreach(string option in choiceMenu.options)
             {
-                if(option.Contains("(0-9)") && keyInfo.KeyChar - '0' >= 0 && keyInfo.KeyChar - '0' <= 9)
+                if(option.Contains("(0-9)") && key.KeyChar - '0' >= 0 && key.KeyChar - '0' <= 9)
                     return true;
             }
             foreach(string option in choiceMenu.options)
             {
                 if(option.Contains("(any key)"))
-                {
-                    character = '\0';
                     return true;
-                }
             }
             return false;
         }

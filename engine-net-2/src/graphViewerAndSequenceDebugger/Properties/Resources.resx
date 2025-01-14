@@ -265,10 +265,10 @@
     <value>(w)atchpoints</value>
   </data>
   <data name="viewRefresh" xml:space="preserve">
-    <value>refresh view (x)</value>
+    <value>refresh view (F5)</value>
   </data>
   <data name="viewSwitch" xml:space="preserve">
-    <value>switch view (y)</value>
+    <value>switch view (F8)</value>
   </data>
   <data name="watchpointAbort" xml:space="preserve">
     <value>(a)bort</value>

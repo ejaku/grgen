@@ -502,7 +502,7 @@ namespace graphViewerAndSequenceDebugger.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die refresh view (x) ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die refresh view (F5) ähnelt.
         /// </summary>
         internal static string viewRefresh {
             get {
@@ -511,7 +511,7 @@ namespace graphViewerAndSequenceDebugger.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die switch view (y) ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die switch view (F8) ähnelt.
         /// </summary>
         internal static string viewSwitch {
             get {

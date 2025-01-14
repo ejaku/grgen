@@ -45,7 +45,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         //--------------------------------
 
-        char enteredKey = '\0';
+        char enteredCharacter = '\0';
+        ConsoleKey enteredKey = ConsoleKey.NoName;
         bool escapePressed = false;
 
         public bool EnableClear
@@ -77,8 +78,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         // simulates user input
-        public void EnterKey(char key)
+        public void EnterKey(char character, ConsoleKey key)
         {
+            enteredCharacter = character;
             enteredKey = key;
         }
 
@@ -89,7 +91,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void GuiConsoleRichTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            enteredKey = e.KeyChar;
+            enteredCharacter = e.KeyChar;
             e.Handled = true;
         }
 
@@ -130,16 +132,18 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             string lineRead = "";
             while(true)
             {
-                if(enteredKey != '\0')
+                if(enteredCharacter != '\0')
                 {
-                    Write(new string(enteredKey, 1));
-                    if(enteredKey == '\n' || enteredKey == '\r')
+                    Write(new string(enteredCharacter, 1));
+                    if(enteredCharacter == '\n' || enteredCharacter == '\r')
                     {
-                        enteredKey = '\0';
+                        enteredCharacter = '\0';
+                        enteredKey = ConsoleKey.NoName;
                         return lineRead;
                     }
-                    lineRead += enteredKey;
-                    enteredKey = '\0';
+                    lineRead += enteredCharacter;
+                    enteredCharacter = '\0';
+                    enteredKey = ConsoleKey.NoName;
                 }
                 System.Threading.Thread.Sleep(1);
                 Application.DoEvents();
@@ -150,13 +154,17 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             while(true)
             {
-                if(enteredKey != '\0')
+                if(enteredCharacter != '\0')
                 {
                     if(!intercept)
-                        Write(new string(enteredKey, 1));
+                        Write(new string(enteredCharacter, 1));
                     // TODO: full ConsoleKey mapping? not needed as ow now, but for the sake of completeness; code available on the net?
-                    ConsoleKeyInfo ret = new ConsoleKeyInfo(enteredKey, escapePressed ? ConsoleKey.Escape : (enteredKey == '\u0003' ? ConsoleKey.C : ConsoleKey.NoName), false, false, enteredKey == '\u0003' ? true : false);
-                    enteredKey = '\0';
+                    ConsoleKey key = escapePressed ? ConsoleKey.Escape : (enteredCharacter == '\u0003' ? ConsoleKey.C : ConsoleKey.NoName);
+                    if(enteredKey >= ConsoleKey.F1 && enteredKey <= ConsoleKey.F24)
+                        key = enteredKey;
+                    ConsoleKeyInfo ret = new ConsoleKeyInfo(enteredCharacter, key, false, false, enteredCharacter == '\u0003' ? true : false);
+                    enteredCharacter = '\0';
+                    enteredKey = ConsoleKey.NoName;
                     return ret;
                 }
                 System.Threading.Thread.Sleep(1);
@@ -173,7 +181,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             get
             {
-                if(enteredKey != '\0')
+                if(enteredCharacter != '\0')
                 {
                     return true;
                 }
