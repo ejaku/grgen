@@ -662,9 +662,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 ConsoleKeyInfo key = ReadKeyWithCancel();
 
-                if(ChoiceMenuContainsKey(ref key, choiceMenu))
+                if(choiceMenu.ContainsKey(ref key))
                     return key;
-                if(additionalGuiChoiceMenu != null && ChoiceMenuContainsKey(ref key, additionalGuiChoiceMenu))
+                if(additionalGuiChoiceMenu != null && additionalGuiChoiceMenu.ContainsKey(ref key))
                     return key;
 
                 theDebuggerConsoleUI.WriteLine("Illegal choice (" + key.KeyChar + "; key = " + key.Key + ")!"
@@ -675,67 +675,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public char LetUserChoose(UserChoiceMenu choiceMenu)
         {
             return LetUserChoose(choiceMenu, null).KeyChar;
-        }
-
-        private bool ChoiceMenuContainsKey(ref ConsoleKeyInfo key, UserChoiceMenu choiceMenu)
-        {
-            foreach(string option in choiceMenu.options)
-            {
-                if(option.Contains("(" + key.KeyChar + ")"))
-                    return true;
-            }
-            foreach(string option in choiceMenu.options)
-            {
-                if(option.Contains(FunctionKeyToMenuPlaceholder(key.Key)))
-                    return true;
-            }
-            foreach(string option in choiceMenu.options)
-            {
-                if(option.Contains("(0-9)") && key.KeyChar - '0' >= 0 && key.KeyChar - '0' <= 9)
-                    return true;
-            }
-            foreach(string option in choiceMenu.options)
-            {
-                if(option.Contains("(any key)"))
-                {
-                    // return space character instead of the one stemming from the really pressed key in case of any key
-                    key = new ConsoleKeyInfo(' ', key.Key, (key.Modifiers & ConsoleModifiers.Shift) == ConsoleModifiers.Shift, (key.Modifiers & ConsoleModifiers.Alt) == ConsoleModifiers.Alt, (key.Modifiers & ConsoleModifiers.Control) == ConsoleModifiers.Control);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private string FunctionKeyToMenuPlaceholder(ConsoleKey functionKey)
-        {
-            switch(functionKey)
-            {
-                case ConsoleKey.F1: return "(F1)";
-                case ConsoleKey.F2: return "(F2)";
-                case ConsoleKey.F3: return "(F3)";
-                case ConsoleKey.F4: return "(F4)";
-                case ConsoleKey.F5: return "(F5)";
-                case ConsoleKey.F6: return "(F6)";
-                case ConsoleKey.F7: return "(F7)";
-                case ConsoleKey.F8: return "(F8)";
-                case ConsoleKey.F9: return "(F9)";
-                case ConsoleKey.F10: return "(F10)";
-                case ConsoleKey.F11: return "(F11)";
-                case ConsoleKey.F12: return "(F12)";
-                case ConsoleKey.F13: return "(F13)";
-                case ConsoleKey.F14: return "(F14)";
-                case ConsoleKey.F15: return "(F15)";
-                case ConsoleKey.F16: return "(F16)";
-                case ConsoleKey.F17: return "(F17)";
-                case ConsoleKey.F18: return "(F18)";
-                case ConsoleKey.F19: return "(F19)";
-                case ConsoleKey.F20: return "(F20)";
-                case ConsoleKey.F21: return "(F21)";
-                case ConsoleKey.F22: return "(F22)";
-                case ConsoleKey.F23: return "(F23)";
-                case ConsoleKey.F24: return "(F24)";
-                default: return "()";
-            }
         }
 
         public void PrintInstructions(UserChoiceMenu choiceMenu, string prefix, string suffix)

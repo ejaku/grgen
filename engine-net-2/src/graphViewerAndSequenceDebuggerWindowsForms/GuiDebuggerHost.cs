@@ -147,23 +147,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private KeyValuePair<char, ConsoleKey> GetKey(ToolStripItem clicked)
         {
             string command = GetCommand(clicked);
-            for(int i = 0; i < currentUserChoiceMenu.optionNames.Length; ++i) // GUI TODO: move to UserChoiceMenu?, introduce helper function
-            {
-                if(currentUserChoiceMenu.optionNames[i] == command)
-                {
-                    return UserChoiceMenu.GetKey(currentUserChoiceMenu.options[i]);
-                }
-            }
+            KeyValuePair<char, ConsoleKey> key = currentUserChoiceMenu.GetKey(command);
+            if(key.Key != '\0')
+                return key;
             if(currentAdditionalGuiUserChoiceMenu != null)
-            {
-                for(int i = 0; i < currentAdditionalGuiUserChoiceMenu.optionNames.Length; ++i)
-                {
-                    if(currentAdditionalGuiUserChoiceMenu.optionNames[i] == command)
-                    {
-                        return UserChoiceMenu.GetKey(currentAdditionalGuiUserChoiceMenu.options[i]);
-                    }
-                }
-            }
+                key = currentAdditionalGuiUserChoiceMenu.GetKey(command);
+            if(key.Key != '\0')
+                return key;
             return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.NoName);
         }
 

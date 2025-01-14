@@ -140,33 +140,45 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return false;
         }
 
-        public static KeyValuePair<char, ConsoleKey> GetKey(string commandOption)
+        public KeyValuePair<char, ConsoleKey> GetKey(string command)
+        {
+            for(int i = 0; i < optionNames.Length; ++i)
+            {
+                if(optionNames[i] == command)
+                {
+                    return GetKeyFromCommandOption(options[i]);
+                }
+            }
+            return new KeyValuePair<char, ConsoleKey>('\0', ConsoleKey.NoName);
+        }
+
+        private static KeyValuePair<char, ConsoleKey> GetKeyFromCommandOption(string option)
         {
             int indexOfOpeningParenthesis = -1;
             int indexOfClosingParenthesis = 0;
 
             while(true)
             {
-                indexOfOpeningParenthesis = commandOption.IndexOf('(', indexOfOpeningParenthesis + 1);
+                indexOfOpeningParenthesis = option.IndexOf('(', indexOfOpeningParenthesis + 1);
                 if(indexOfOpeningParenthesis == -1)
                     break; // may happen when only placeholder keys that are skipped are contained in the command (or none at all, but that would be illegal)
-                indexOfClosingParenthesis = commandOption.IndexOf(')', indexOfOpeningParenthesis);
+                indexOfClosingParenthesis = option.IndexOf(')', indexOfOpeningParenthesis);
                 if(indexOfClosingParenthesis == -1)
                     break; // may happen when only placeholder keys that are skipped are contained in the command (or none at all, but that would be illegal)
-                if(commandOption[indexOfOpeningParenthesis + 1] == 'F') // return the first contained function key (F1..F24)
+                if(option[indexOfOpeningParenthesis + 1] == 'F') // return the first contained function key (F1..F24)
                 {
-                    return MenuPlaceholderToFunctionKey(commandOption.Substring(indexOfOpeningParenthesis, indexOfClosingParenthesis - indexOfOpeningParenthesis + 1));
+                    return MenuPlaceholderToFunctionKey(option.Substring(indexOfOpeningParenthesis, indexOfClosingParenthesis - indexOfOpeningParenthesis + 1));
                 }
-                else if(commandOption[indexOfOpeningParenthesis + 1] == '(' // skip escaped parenthesis in the form of (())
+                else if(option[indexOfOpeningParenthesis + 1] == '(' // skip escaped parenthesis in the form of (())
                     || indexOfClosingParenthesis > indexOfOpeningParenthesis + 2) // skip number special (0-9), also skipping (any key)
                 {
                     indexOfOpeningParenthesis = indexOfClosingParenthesis;
                 }
                 else
-                    return new KeyValuePair<char, ConsoleKey>(commandOption[indexOfOpeningParenthesis + 1], ConsoleKey.NoName); // return first matching key
+                    return new KeyValuePair<char, ConsoleKey>(option[indexOfOpeningParenthesis + 1], ConsoleKey.NoName); // return first matching key
             }
 
-            if(commandOption.Contains("(any key)"))
+            if(option.Contains("(any key)"))
                 return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.NoName); // return space in case the option contains only (any key)
 
             throw new Exception("Internal error - no command option that can generate a key");
@@ -201,6 +213,67 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 case "(F23)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F23);
                 case "(F24)": return new KeyValuePair<char, ConsoleKey>(' ', ConsoleKey.F24);
                 default: throw new Exception("Internal error - unknown function key in command options");
+            }
+        }
+
+        public bool ContainsKey(ref ConsoleKeyInfo key)
+        {
+            foreach(string option in options)
+            {
+                if(option.Contains("(" + key.KeyChar + ")")) // TODO: escaped parenthesis content should be skipped
+                    return true;
+            }
+            foreach(string option in options)
+            {
+                if(option.Contains(FunctionKeyToMenuPlaceholder(key.Key)))
+                    return true;
+            }
+            foreach(string option in options)
+            {
+                if(option.Contains("(0-9)") && key.KeyChar - '0' >= 0 && key.KeyChar - '0' <= 9)
+                    return true;
+            }
+            foreach(string option in options)
+            {
+                if(option.Contains("(any key)"))
+                {
+                    // return space character instead of the one stemming from the really pressed key in case of any key
+                    key = new ConsoleKeyInfo(' ', key.Key, (key.Modifiers & ConsoleModifiers.Shift) == ConsoleModifiers.Shift, (key.Modifiers & ConsoleModifiers.Alt) == ConsoleModifiers.Alt, (key.Modifiers & ConsoleModifiers.Control) == ConsoleModifiers.Control);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private static string FunctionKeyToMenuPlaceholder(ConsoleKey functionKey)
+        {
+            switch(functionKey)
+            {
+                case ConsoleKey.F1: return "(F1)";
+                case ConsoleKey.F2: return "(F2)";
+                case ConsoleKey.F3: return "(F3)";
+                case ConsoleKey.F4: return "(F4)";
+                case ConsoleKey.F5: return "(F5)";
+                case ConsoleKey.F6: return "(F6)";
+                case ConsoleKey.F7: return "(F7)";
+                case ConsoleKey.F8: return "(F8)";
+                case ConsoleKey.F9: return "(F9)";
+                case ConsoleKey.F10: return "(F10)";
+                case ConsoleKey.F11: return "(F11)";
+                case ConsoleKey.F12: return "(F12)";
+                case ConsoleKey.F13: return "(F13)";
+                case ConsoleKey.F14: return "(F14)";
+                case ConsoleKey.F15: return "(F15)";
+                case ConsoleKey.F16: return "(F16)";
+                case ConsoleKey.F17: return "(F17)";
+                case ConsoleKey.F18: return "(F18)";
+                case ConsoleKey.F19: return "(F19)";
+                case ConsoleKey.F20: return "(F20)";
+                case ConsoleKey.F21: return "(F21)";
+                case ConsoleKey.F22: return "(F22)";
+                case ConsoleKey.F23: return "(F23)";
+                case ConsoleKey.F24: return "(F24)";
+                default: return "()";
             }
         }
     }
