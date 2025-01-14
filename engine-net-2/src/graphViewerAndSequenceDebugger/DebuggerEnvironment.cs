@@ -662,9 +662,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 ConsoleKeyInfo key = ReadKeyWithCancel();
 
-                if(ChoiceMenuContainsKey(key, choiceMenu))
+                if(ChoiceMenuContainsKey(ref key, choiceMenu))
                     return key;
-                if(additionalGuiChoiceMenu != null && ChoiceMenuContainsKey(key, additionalGuiChoiceMenu))
+                if(additionalGuiChoiceMenu != null && ChoiceMenuContainsKey(ref key, additionalGuiChoiceMenu))
                     return key;
 
                 theDebuggerConsoleUI.WriteLine("Illegal choice (" + key.KeyChar + "; key = " + key.Key + ")!"
@@ -677,7 +677,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return LetUserChoose(choiceMenu, null).KeyChar;
         }
 
-        private bool ChoiceMenuContainsKey(ConsoleKeyInfo key, UserChoiceMenu choiceMenu)
+        private bool ChoiceMenuContainsKey(ref ConsoleKeyInfo key, UserChoiceMenu choiceMenu)
         {
             foreach(string option in choiceMenu.options)
             {
@@ -697,7 +697,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             foreach(string option in choiceMenu.options)
             {
                 if(option.Contains("(any key)"))
+                {
+                    // return space character instead of the one stemming from the really pressed key in case of any key
+                    key = new ConsoleKeyInfo(' ', key.Key, (key.Modifiers & ConsoleModifiers.Shift) == ConsoleModifiers.Shift, (key.Modifiers & ConsoleModifiers.Alt) == ConsoleModifiers.Alt, (key.Modifiers & ConsoleModifiers.Control) == ConsoleModifiers.Control);
                     return true;
+                }
             }
             return false;
         }
