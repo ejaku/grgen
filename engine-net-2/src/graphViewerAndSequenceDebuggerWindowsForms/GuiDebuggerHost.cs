@@ -150,7 +150,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 if(currentUserChoiceMenu.optionNames[i] == command)
                 {
-                    return GetKey(currentUserChoiceMenu.options[i]);
+                    return UserChoiceMenu.GetKey(currentUserChoiceMenu.options[i]);
                 }
             }
             if(currentAdditionalGuiUserChoiceMenu != null)
@@ -159,7 +159,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 {
                     if(currentAdditionalGuiUserChoiceMenu.optionNames[i] == command)
                     {
-                        return GetKey(currentAdditionalGuiUserChoiceMenu.options[i]);
+                        return UserChoiceMenu.GetKey(currentAdditionalGuiUserChoiceMenu.options[i]);
                     }
                 }
             }
@@ -177,7 +177,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                         // first match might be not the right one, filter to the dynamically enabled command instead of the statically first matching
                         // e.g. the continue button may be enabled by many different commands, with different accelerator keys (but only one at a time, from the current user choice menu, or the additional one)
                         string command = keyValuePair.Key;
-                        if(IsCurrentlyAvailable(command, currentUserChoiceMenu) || IsCurrentlyAvailable(command, currentAdditionalGuiUserChoiceMenu))
+                        if(currentUserChoiceMenu.IsCurrentlyAvailable(command) || (currentAdditionalGuiUserChoiceMenu != null ? currentAdditionalGuiUserChoiceMenu.IsCurrentlyAvailable(command) : false))
                         {
                             return command;
                         }
@@ -185,44 +185,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 }
             }
             return "";
-        }
-
-        private bool IsCurrentlyAvailable(string command, UserChoiceMenu userChoiceMenu)
-        {
-            if(userChoiceMenu == null)
-                return false;
-
-            for(int i = 0; i < userChoiceMenu.optionNames.Length; ++i) // GUI TODO: move to UserChoiceMenu?
-            {
-                if(userChoiceMenu.optionNames[i] == command)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private char GetKey(string commandOption) // GUI TODO: move to UserChoiceMenu?
-        {
-            int indexOfOpeningParenthesis = -1;
-            int indexOfClosingParenthesis = 0;
-
-            while(true)
-            {
-                indexOfOpeningParenthesis = commandOption.IndexOf('(', indexOfOpeningParenthesis + 1);
-                if(indexOfOpeningParenthesis == -1)
-                    break; // may happen when only placeholder keys that are skipped are contained in the command (or none at all, but that would be illegal)
-                indexOfClosingParenthesis = commandOption.IndexOf(')', indexOfOpeningParenthesis);
-                if(indexOfClosingParenthesis == -1)
-                    break; // may happen when only placeholder keys that are skipped are contained in the command (or none at all, but that would be illegal)
-                if(commandOption[indexOfOpeningParenthesis + 1] == '(' // skip escaped parenthesis in the form of (())
-                    || indexOfClosingParenthesis > indexOfOpeningParenthesis + 2) // skip number special (0-9), function keys (F1..F24), also skipping (any key)
-                    indexOfOpeningParenthesis = indexOfClosingParenthesis;
-                else
-                    return commandOption[indexOfOpeningParenthesis + 1]; // return first matching key
-            }
-
-            return ' '; // return space in case no key was found, this is commonly the case if the option contains only (any key)
         }
 
         private void nextMatchToolStripMenuItem_Click(object sender, System.EventArgs e)

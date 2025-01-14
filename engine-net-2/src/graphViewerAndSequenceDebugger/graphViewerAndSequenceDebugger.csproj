@@ -81,6 +81,7 @@
     <Compile Include="SubruleDebugging.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="TokenMgrError.cs" />
+    <Compile Include="UserChoiceMenu.cs" />
     <Compile Include="UserProxyChoiceMenu.cs" />
     <Compile Include="VariableOrAttributeAccessParserAndValueFetcher.cs" />
     <Compile Include="WatchpointEditor.cs" />
