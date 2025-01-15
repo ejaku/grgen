@@ -27,11 +27,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             inputOutputAndLogGuiConsoleControl.Select(); // ensure it receives keyboard input
 
             FillMappingOfOptionNamesToToolStripItems();
-
-            msaglClient = new MSAGLClient(theSplitContainer.Panel1);
-            msaglClient.HideViewer();
-            // GUI todo: configuring of graph layout of sequences is done in the SequenceRenderer ... what's the best place?
-            // GUI todo: maybe configure viewer, toolbar on top looks a bit ugly
         }
 
         private void FillMappingOfOptionNamesToToolStripItems()
@@ -316,12 +311,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             if(switchViewToolStripMenuItem.Checked)
             {
-                theSplitContainer.Panel1.Controls[0].Hide();
+                msaglClient.Close();
+                msaglClient = null;
                 switchViewToolStripMenuItem.Checked = false;
             }
             else
             {
-                theSplitContainer.Panel1.Controls[0].Show();
+                msaglClient = new MSAGLClient(theSplitContainer.Panel1);
+                // GUI todo: configuring of graph layout of sequences is done in the SequenceRenderer ... keep it?
+                // GUI todo: maybe configure viewer, toolbar on top looks a bit ugly
                 switchViewToolStripMenuItem.Checked = true;
             }
             KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);

@@ -49,8 +49,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         bool alwaysShow = true;
 
         ISequenceDisplayer sequenceDisplayer = null;
-        SequencePrinter theSequencePrinter = null;
-        SequenceRenderer theSequenceRenderer = null;
         DisplaySequenceContext context = null;
 
         int matchDepth = 0;
@@ -142,8 +140,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             this.realizers = realizers;
 
-            this.theSequencePrinter = new SequencePrinter(env);
-            this.sequenceDisplayer = theSequencePrinter;
+            this.sequenceDisplayer = new SequencePrinter(env);
             this.context = new DisplaySequenceContext();
 
             this.renderRecorder = new GraphAnnotationAndChangesRecorder();
@@ -733,13 +730,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         void HandleSwitchView()
         {
             if(sequenceDisplayer is SequencePrinter)
-            {
-                if(theSequenceRenderer == null)
-                    theSequenceRenderer = new SequenceRenderer(env);
-                sequenceDisplayer = theSequenceRenderer;
-            }
+                sequenceDisplayer = new SequenceRenderer(env);
             else
-                sequenceDisplayer = theSequencePrinter;
+                sequenceDisplayer = new SequencePrinter(env);
         }
 
         #endregion Methods for directly handling user commands

@@ -40,7 +40,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     public class MSAGLClient : IBasicGraphViewerClient
     {
         public GViewer gViewer;
-        
+        System.Windows.Forms.Form formHost;
+        System.Windows.Forms.SplitterPanel splitterPanelHost;
+
         private static Dictionary<String, bool> availableLayouts;
 
 
@@ -66,6 +68,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             gViewer.MinimumSize = new System.Drawing.Size(50, 50);
             host.Controls.Add(gViewer);
             host.Controls.SetChildIndex(gViewer, 0);
+            formHost = host;
             host.ResumeLayout();
             host.Show();
             System.Windows.Forms.Application.DoEvents();
@@ -84,6 +87,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             gViewer.MinimumSize = new System.Drawing.Size(50, 50);
             host.Controls.Add(gViewer);
             host.Controls.SetChildIndex(gViewer, 0);
+            splitterPanelHost = host;
             host.ResumeLayout();
             host.Show();
             System.Windows.Forms.Application.DoEvents();
@@ -91,6 +95,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void Close()
         {
+            if(formHost != null)
+                formHost.Controls.Remove(gViewer);
+            if(splitterPanelHost != null)
+                splitterPanelHost.Controls.Remove(gViewer);
+            gViewer.Dispose();
+            gViewer = null;
         }
 
 
