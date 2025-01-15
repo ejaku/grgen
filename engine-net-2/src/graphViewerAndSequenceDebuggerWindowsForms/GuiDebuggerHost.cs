@@ -325,8 +325,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 switchViewToolStripMenuItem.Checked = true;
             }
             KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
-            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
-            //inputOutputAndLogGuiConsoleControl.EnterKey(GetKey(refreshViewToolStripMenuItem)); // GUI TODO: immediately following refresh so the new view is displayed without user intervention
+            KeyValuePair<char, ConsoleKey> nextKey = GetKey(refreshViewToolStripMenuItem); // key of an immediately following refresh so the new view is displayed without user intervention
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value, nextKey.Key, nextKey.Value);
         }
 
         private void refreshViewToolStripMenuItem_Click(object sender, System.EventArgs e)

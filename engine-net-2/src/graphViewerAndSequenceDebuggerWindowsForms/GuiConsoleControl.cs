@@ -48,6 +48,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         char enteredCharacter = '\0';
         ConsoleKey enteredKey = ConsoleKey.NoName;
         bool escapePressed = false;
+        char enteredNextCharacter = '\0'; // mini queue of 2 entries (potential TODO: introduce real queue)
+        ConsoleKey enteredNextKey = ConsoleKey.NoName;
 
         public bool EnableClear
         {
@@ -82,6 +84,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             enteredCharacter = character;
             enteredKey = key;
+        }
+
+        // simulates user input and following user input
+        public void EnterKey(char character, ConsoleKey key, char nextCharacter, ConsoleKey nextKey)
+        {
+            enteredCharacter = character;
+            enteredKey = key;
+            enteredNextCharacter = nextCharacter;
+            enteredNextKey = nextKey;
         }
 
         private void GuiConsoleRichTextBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -137,13 +148,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     Write(new string(enteredCharacter, 1));
                     if(enteredCharacter == '\n' || enteredCharacter == '\r')
                     {
-                        enteredCharacter = '\0';
-                        enteredKey = ConsoleKey.NoName;
+                        ClearEnteredKey();
                         return lineRead;
                     }
                     lineRead += enteredCharacter;
-                    enteredCharacter = '\0';
-                    enteredKey = ConsoleKey.NoName;
+                    ClearEnteredKey();
                 }
                 System.Threading.Thread.Sleep(1);
                 Application.DoEvents();
@@ -163,8 +172,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     if(enteredKey >= ConsoleKey.F1 && enteredKey <= ConsoleKey.F24)
                         key = enteredKey;
                     ConsoleKeyInfo ret = new ConsoleKeyInfo(enteredCharacter, key, false, false, enteredCharacter == '\u0003' ? true : false);
-                    enteredCharacter = '\0';
-                    enteredKey = ConsoleKey.NoName;
+                    ClearEnteredKey();
                     return ret;
                 }
                 System.Threading.Thread.Sleep(1);
@@ -191,6 +199,19 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     Application.DoEvents();
                     return false;
                 }
+            }
+        }
+
+        private void ClearEnteredKey()
+        {
+            enteredCharacter = '\0';
+            enteredKey = ConsoleKey.NoName;
+            if(enteredNextCharacter != '\0')
+            {
+                enteredCharacter = enteredNextCharacter;
+                enteredKey = enteredNextKey;
+                enteredNextCharacter = '\0';
+                enteredNextKey = ConsoleKey.NoName;
             }
         }
 
