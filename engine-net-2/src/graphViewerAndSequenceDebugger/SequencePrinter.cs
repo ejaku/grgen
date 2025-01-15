@@ -15,32 +15,32 @@ using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
-    public class SequencePrinter : ISequencePrinter
+    public class SequencePrinter : ISequenceDisplayer
     {
         readonly IDebuggerEnvironment env;
-        PrintSequenceContext context;
+        DisplaySequenceContext context;
 
         public SequencePrinter(IDebuggerEnvironment env)
         {
             this.env = env;
         }
 
-        public void PrintSequenceBase(SequenceBase seqBase, PrintSequenceContext context, int nestingLevel)
+        public void DisplaySequenceBase(SequenceBase seqBase, DisplaySequenceContext context, int nestingLevel)
         {
             if(seqBase is Sequence)
-                PrintSequence((Sequence)seqBase, context, nestingLevel);
+                DisplaySequence((Sequence)seqBase, context, nestingLevel);
             else
-                PrintSequenceExpression((SequenceExpression)seqBase, context, nestingLevel);
+                DisplaySequenceExpression((SequenceExpression)seqBase, context, nestingLevel);
         }
 
-        public void PrintSequence(Sequence seq, PrintSequenceContext context, int nestingLevel)
+        public void DisplaySequence(Sequence seq, DisplaySequenceContext context, int nestingLevel)
         {
             this.context = context;
             env.PrintHighlighted(nestingLevel + ">", HighlightingMode.SequenceStart);
             PrintSequence(seq, null, HighlightingMode.None);
         }
 
-        public void PrintSequenceExpression(SequenceExpression seqExpr, PrintSequenceContext context, int nestingLevel)
+        public void DisplaySequenceExpression(SequenceExpression seqExpr, DisplaySequenceContext context, int nestingLevel)
         {
             this.context = context;
             env.PrintHighlighted(nestingLevel + ">", HighlightingMode.SequenceStart);
@@ -1128,9 +1128,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         public static void PrintSequence(Sequence seq, Sequence highlight, IDebuggerEnvironment env)
         {
-            PrintSequenceContext context = new PrintSequenceContext();
+            DisplaySequenceContext context = new DisplaySequenceContext();
             context.highlightSeq = highlight;
-            new SequencePrinter(env).PrintSequence(seq, context, 0);
+            new SequencePrinter(env).DisplaySequence(seq, context, 0);
             // TODO: what to do if abort came within sequence called from top sequence?
         }
 

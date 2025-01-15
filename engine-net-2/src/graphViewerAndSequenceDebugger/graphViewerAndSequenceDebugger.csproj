@@ -65,10 +65,10 @@
     <Compile Include="IGuiConsoleDebuggerHost.cs" />
     <Compile Include="IGuiDebuggerHost.cs" />
     <Compile Include="IHostCreator.cs" />
-    <Compile Include="ISequencePrinter.cs" />
+    <Compile Include="ISequenceDisplayer.cs" />
     <Compile Include="MatchMarkerAndAnnotator.cs" />
     <Compile Include="ParseException.cs" />
-    <Compile Include="PrintSequenceContext.cs" />
+    <Compile Include="DisplaySequenceContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

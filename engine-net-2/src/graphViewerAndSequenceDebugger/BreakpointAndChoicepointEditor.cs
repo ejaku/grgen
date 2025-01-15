@@ -22,7 +22,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         readonly IDebuggerEnvironment env;
-        readonly ISequencePrinter printer;
+        readonly ISequenceDisplayer sequenceDisplayer;
         readonly Stack<SequenceBase> debugSequences = new Stack<SequenceBase>();
 
         UserChoiceMenu whichBreakpointToToggleMenu = new UserChoiceMenu(UserChoiceMenuNames.WhichBreakpointToToggleMenu, new string[] {
@@ -31,10 +31,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         UserChoiceMenu whichChoicepointToToggleMenu = new UserChoiceMenu(UserChoiceMenuNames.WhichChoicepointToToggleMenu, new string[] {
             "choicepointNumberToToggle", "choicepointEnterNumberToToggle", "breakpointChoicepointAbort" });
 
-        public BreakpointAndChoicepointEditor(IDebuggerEnvironment env, ISequencePrinter printer, Stack<SequenceBase> debugSequences)
+        public BreakpointAndChoicepointEditor(IDebuggerEnvironment env, ISequenceDisplayer sequenceDisplayer, Stack<SequenceBase> debugSequences)
         {
             this.env = env;
-            this.printer = printer;
+            this.sequenceDisplayer = sequenceDisplayer;
             this.debugSequences = debugSequences;
         }
 
@@ -43,9 +43,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             env.Clear();
             env.WriteLineDataRendering("Available breakpoint positions:");
 
-            PrintSequenceContext contextBp = new PrintSequenceContext();
+            DisplaySequenceContext contextBp = new DisplaySequenceContext();
             contextBp.bpPosCounter = 0;
-            printer.PrintSequenceBase(debugSequences.Peek(), contextBp, debugSequences.Count);
+            sequenceDisplayer.DisplaySequenceBase(debugSequences.Peek(), contextBp, debugSequences.Count);
             env.WriteLine();
 
             if(contextBp.bpPosCounter == 0)
@@ -66,9 +66,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             env.Clear();
             env.WriteLineDataRendering("Available choicepoint positions:");
 
-            PrintSequenceContext contextCp = new PrintSequenceContext();
+            DisplaySequenceContext contextCp = new DisplaySequenceContext();
             contextCp.cpPosCounter = 0;
-            printer.PrintSequenceBase(debugSequences.Peek(), contextCp, debugSequences.Count);
+            sequenceDisplayer.DisplaySequenceBase(debugSequences.Peek(), contextCp, debugSequences.Count);
             env.WriteLine();
 
             if(contextCp.cpPosCounter == 0)

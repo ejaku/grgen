@@ -13,7 +13,7 @@ using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
-    public class PrintSequenceContext
+    public class DisplaySequenceContext
     {
         /// <summary>
         /// A counter increased for every potential breakpoint position and printed next to a potential breakpoint.
