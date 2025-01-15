@@ -442,11 +442,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     return false;
                 case 'v':
                     HandleShowVariable(seq);
+                    env.Clear();
                     displayer.DisplaySequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
                     env.WriteLineDataRendering();
                     break;
                 case 'j':
                     HandleShowClassObject(seq);
+                    env.Clear();
                     displayer.DisplaySequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
                     env.WriteLineDataRendering();
                     break;
@@ -461,11 +463,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     break;
                 case 't':
                     HandleStackTrace();
+                    env.Clear();
                     displayer.DisplaySequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
                     env.WriteLineDataRendering();
                     break;
                 case 'f':
                     HandleFullState();
+                    env.Clear();
                     displayer.DisplaySequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count);
                     env.WriteLineDataRendering();
                     break;
@@ -506,6 +510,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             PrintVariables(null, null);
             PrintVariables(task.debugSequences.Peek(), seq);
             PrintVisited();
+            if(env.TwoPane)
+                env.PauseUntilAnyKeyPressed("Press any key to return from variable display...");
         }
 
         private void HandleShowClassObject(SequenceBase seq)
@@ -695,7 +701,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 displayer.DisplaySequenceBase(callStack[i], contextTrace, callStack.Length - i);
                 env.WriteLineDataRendering();
             }
-            env.WriteLineDataRendering("continuing execution with:");
+            if(env.TwoPane)
+                env.PauseUntilAnyKeyPressed("Press any key to return from stack trace display...");
+            else
+                env.WriteLineDataRendering("continuing execution with:");
         }
 
         private void HandleFullState()
@@ -714,7 +723,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 PrintVariables(callStack[i], currSeq != null ? currSeq : callStack[i]);
             }
             PrintVisited();
-            env.WriteLineDataRendering("continuing execution with:");
+            if(env.TwoPane)
+                env.PauseUntilAnyKeyPressed("Press any key to return from full state display...");
+            else
+                env.WriteLineDataRendering("continuing execution with:");
         }
 
         void HandleRefreshView()
