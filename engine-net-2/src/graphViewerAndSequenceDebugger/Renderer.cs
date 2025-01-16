@@ -17,16 +17,29 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     /// </summary>
     public class Renderer : IDisplayer
     {
+        private IDebuggerEnvironment env;
         private SequenceRenderer sequenceRenderer;
+
+        private int nodeIdSource;
 
         public Renderer(IDebuggerEnvironment env)
         {
+            this.env = env;
             sequenceRenderer = new SequenceRenderer(env);
+
+            // GUI TODO: correct place?
+            IDebuggerGUIForDataRendering debuggerGUIForDataRendering = env.guiForDataRendering;
+            debuggerGUIForDataRendering.graphViewer.AddNodeRealizer("nrStd", GrColor.Black, GrColor.White, GrColor.Black, GrNodeShape.Box);
+            debuggerGUIForDataRendering.graphViewer.AddEdgeRealizer("erStd", GrColor.Black, GrColor.Black, 1, GrLineStyle.Continuous);
         }
 
         public void BeginOfDisplay(string header)
         {
-            ; // TODO: Clear, ignore header
+            // GUI TODO: handling of header
+            env.guiForDataRendering.graphViewer.ClearGraph();
+            env.guiForDataRendering.graphViewer.Show();
+
+            nodeIdSource = 0;
         }
 
         public void DisplaySequenceBase(SequenceBase seqBase, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix)
@@ -46,7 +59,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void DisplayLine(string lineToBeShown)
         {
-            ; // TODO: render linked list of lines
+            string nodeName = "line_" + nodeIdSource.ToString();
+            env.guiForDataRendering.graphViewer.AddNode(nodeName, "nrStd", lineToBeShown);
+            if(nodeIdSource > 0)
+            {
+                string previousNodeName = "line_" + (nodeIdSource - 1).ToString();
+                env.guiForDataRendering.graphViewer.AddEdge((nodeIdSource - 1).ToString() + "->" + nodeIdSource.ToString(), previousNodeName, nodeName, "erStd", "");
+            }
+            env.guiForDataRendering.graphViewer.Show();
+            ++nodeIdSource;
         }
     }
 }

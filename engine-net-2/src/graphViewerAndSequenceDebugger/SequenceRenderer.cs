@@ -93,7 +93,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             this.context = context;
             //env.PrintHighlighted(prefix + nestingLevel + ">", HighlightingMode.SequenceStart); // GUI TODO: prefix+nestingLevel/postfix rendering
-            env.guiForDataRendering.graphViewer.ClearGraph();
+            //env.guiForDataRendering.graphViewer.ClearGraph(); remove, not needed anymore since BeginOfDisplay
 
             PrintSequence(seq, null, HighlightingMode.None); // GUI TODO: rename
 
@@ -106,7 +106,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             this.context = context;
             //env.PrintHighlighted(prefix + nestingLevel + ">", HighlightingMode.SequenceStart); // GUI TODO: prefix+nestingLevel/postfix rendering
-            env.guiForDataRendering.graphViewer.ClearGraph();
+            //env.guiForDataRendering.graphViewer.ClearGraph(); remove, not needed anymore since BeginOfDisplay
 
             PrintSequenceExpression(seqExpr, null, HighlightingMode.None);
 
@@ -1951,7 +1951,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 env.PrintHighlighted(GetBreakPrefix((ISequenceSpecial)seqExpr), HighlightingMode.Breakpoint);
                 ++context.bpPosCounter;
-                return;
+                return; // GUI TODO: very strange return -- no expression is printed thereafter, this does not make a lot of sense
             }
 
             switch(seqExpr.SequenceExpressionType)

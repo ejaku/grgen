@@ -499,7 +499,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void HandleShowVariable(SequenceBase seq)
         {
-            env.Clear();
+            displayer.BeginOfDisplay("");
             PrintVariables(null, null);
             PrintVariables(task.debugSequences.Peek(), seq);
             PrintVisited();
@@ -509,6 +509,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void HandleShowClassObject(SequenceBase seq)
         {
+            displayer.BeginOfDisplay("");
             do
             {
                 env.Write("Enter id of class object to emit (with % prefix), of transient class object to emit (with & prefix), or name of variable to emit (or just enter for abort): ");
@@ -1946,7 +1947,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     return;                               // never reached
                 case 'f':
                     HandleFullState(false);
-                    displayer.DisplaySequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count, "", "");
+                    displayer.DisplaySequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count, "", ""); // GUI TODO: sequence is already printed in full state, thus nodes/edges added, and no clear through BeginOfDisplay since then, causing a duplicate graph element crash
                     PrintDebugTracesStack(true);
                     break;
                 case ' ':
@@ -2532,7 +2533,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                         return;
                 case 'f':
                     HandleFullState(false);
-                    displayer.DisplaySequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count, "", "");
+                    displayer.DisplaySequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count, "", ""); // GUI TODO: sequence is already printed in full state, thus nodes/edges added, and no clear through BeginOfDisplay since then, causing a duplicate graph element crash
                     PrintDebugTracesStack(true);
                     break;
                 default:

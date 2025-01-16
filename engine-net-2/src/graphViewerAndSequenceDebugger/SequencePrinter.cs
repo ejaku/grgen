@@ -1735,7 +1735,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 PrintBreak((ISequenceSpecial)seqExpr);
                 ++context.bpPosCounter;
-                return;
+                return; // GUI TODO: very strange return -- no expression is printed thereafter, this does not make a lot of sense
             }
 
             switch(seqExpr.SequenceExpressionType)
