@@ -38,7 +38,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 displayer.BeginOfDisplay("List of registered watchpoints:");
                 for(int i = 0; i < debuggerProcEnv.SubruleDebugConfig.ConfigurationRules.Count; ++i)
                 {
-                    env.WriteLineDataRendering(i + " - " + debuggerProcEnv.SubruleDebugConfig.ConfigurationRules[i].ToString());
+                    displayer.DisplayLine(i + " - " + debuggerProcEnv.SubruleDebugConfig.ConfigurationRules[i].ToString());
                 }
 
                 env.PrintInstructions(handleWatchpointsMenu, "Press ", ".");

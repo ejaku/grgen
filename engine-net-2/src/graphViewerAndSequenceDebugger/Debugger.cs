@@ -534,7 +534,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 String objectName = String.Format("%{0,00000000:X}", uniqueId);
                 IObject obj = debuggerProcEnv.objectNamerAndIndexer.GetObject(objectName);
                 if(obj != null)
-                    env.WriteLineDataRendering(EmitHelper.ToStringAutomatic(obj, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
+                    displayer.DisplayLine(EmitHelper.ToStringAutomatic(obj, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
                 else
                     env.WriteLine("Unknown class object id " + objectName + "!");
             }
@@ -550,7 +550,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 if(debuggerProcEnv.transientObjectNamerAndIndexer.GetTransientObject(uniqueId) != null)
                 {
                     ITransientObject obj = debuggerProcEnv.transientObjectNamerAndIndexer.GetTransientObject(uniqueId);
-                    env.WriteLineDataRendering(EmitHelper.ToStringAutomatic(obj, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
+                    displayer.DisplayLine(EmitHelper.ToStringAutomatic(obj, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
                 }
                 else
                     env.WriteLine("Unknown transient class object id " + argument + "!");
@@ -565,12 +565,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 && GetSequenceVariable(argument, task.debugSequences.Peek(), seq).GetVariableValue(debuggerProcEnv.ProcEnv) != null)
             {
                 object value = GetSequenceVariable(argument, task.debugSequences.Peek(), seq).GetVariableValue(debuggerProcEnv.ProcEnv);
-                env.WriteLineDataRendering(EmitHelper.ToStringAutomatic(value, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
+                displayer.DisplayLine(EmitHelper.ToStringAutomatic(value, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
             }
             else if(debuggerProcEnv.ProcEnv.GetVariableValue(argument) != null)
             {
                 object value = debuggerProcEnv.ProcEnv.GetVariableValue(argument);
-                env.WriteLineDataRendering(EmitHelper.ToStringAutomatic(value, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
+                displayer.DisplayLine(EmitHelper.ToStringAutomatic(value, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
             }
             else
                 env.WriteLine("The given " + argument + " is not a known variable name (of non-null value)!");
@@ -695,7 +695,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(env.TwoPane && pauseAsNeeded)
                 env.PauseUntilAnyKeyPressed("Press any key to return from stack trace display...");
             else
-                env.WriteLineDataRendering("continuing execution with:");
+                displayer.DisplayLine("continuing execution with:");
         }
 
         private void HandleFullState(bool pauseAsNeeded)
@@ -715,7 +715,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(env.TwoPane && pauseAsNeeded)
                 env.PauseUntilAnyKeyPressed("Press any key to return from full state display...");
             else
-                env.WriteLineDataRendering("continuing execution with:");
+                displayer.DisplayLine("continuing execution with:");
         }
 
         void HandleRefreshView()
@@ -743,7 +743,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             if(seq != null)
             {
-                env.WriteLineDataRendering("Available local variables:");
+                displayer.DisplayLine("Available local variables:");
                 Dictionary<SequenceVariable, SetValueType> seqVars = new Dictionary<SequenceVariable, SetValueType>();
                 List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
                 seqStart.GetLocalVariables(seqVars, constructors, seq);
@@ -759,12 +759,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                         EmitHelper.ToString((IDeque)var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
                     else
                         EmitHelper.ToString(var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
-                    env.WriteLineDataRendering("  " + var.Name + " = " + content + " : " + type);
+                    displayer.DisplayLine("  " + var.Name + " = " + content + " : " + type);
                 }
             }
             else
             {
-                env.WriteLineDataRendering("Available global (non null) variables:");
+                displayer.DisplayLine("Available global (non null) variables:");
                 foreach(Variable var in debuggerProcEnv.ProcEnv.Variables)
                 {
                     string type;
@@ -777,7 +777,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                         EmitHelper.ToString((IDeque)var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
                     else
                         EmitHelper.ToString(var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
-                    env.WriteLineDataRendering("  " + var.Name + " = " + content + " : " + type);
+                    displayer.DisplayLine("  " + var.Name + " = " + content + " : " + type);
                 }
             }
         }
@@ -795,7 +795,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 sb.Append(allocatedVisitedFlag.ToString());
                 first = false;
             }
-            env.WriteLineDataRendering(sb.ToString() + ".");
+            displayer.DisplayLine(sb.ToString() + ".");
         }
 
         #endregion Print variables
@@ -2304,7 +2304,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 SubruleComputationType.Entry, message, values);
             task.computationsEnteredStack.Add(entry);
             if(detailedMode && detailedModeShowPostMatches)
-                env.WriteLineDataRendering(entry.ToString(false)); // subrule traces log interpreted as main data object, entry to embedded sequence
+                displayer.DisplayLine(entry.ToString(false)); // subrule traces log interpreted as main data object, entry to embedded sequence
         }
 
         public void DebugExit(string message, params object[] values)
@@ -2319,7 +2319,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 SubruleComputation exit = new SubruleComputation(task.procEnv.NamedGraph,
                     SubruleComputationType.Exit, message, values);
-                env.WriteLineDataRendering(exit.ToString(false)); // subrule traces log interpreted as main data object, exit from embedded sequence
+                displayer.DisplayLine(exit.ToString(false)); // subrule traces log interpreted as main data object, exit from embedded sequence
             }
             if(outOfDetailedMode && (task.computationsEnteredStack.Count <= outOfDetailedModeTarget || task.computationsEnteredStack.Count == 0))
             {
@@ -2462,12 +2462,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void PrintDebugTracesStack(bool full)
         {
-            env.WriteLineDataRendering("Subrule traces stack is:");
+            displayer.DisplayLine("Subrule traces stack is:");
             for(int i = 0; i < task.computationsEnteredStack.Count; ++i)
             {
                 if(!full && task.computationsEnteredStack[i].type != SubruleComputationType.Entry)
                     continue;
-                env.WriteLineDataRendering(task.computationsEnteredStack[i].ToString(full));
+                displayer.DisplayLine(task.computationsEnteredStack[i].ToString(full));
             }
         }
 
