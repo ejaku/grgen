@@ -29,29 +29,24 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             ; // TODO: Clear, print header
         }
 
-        public void DisplaySequenceBase(SequenceBase seqBase, DisplaySequenceContext context, int nestingLevel)
+        public void DisplaySequenceBase(SequenceBase seqBase, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix)
         {
-            sequencePrinter.DisplaySequenceBase(seqBase, context, nestingLevel);
+            sequencePrinter.DisplaySequenceBase(seqBase, context, nestingLevel, prefix, postfix);
         }
 
-        public void DisplaySequence(Sequence seq, DisplaySequenceContext context, int nestingLevel)
+        public void DisplaySequence(Sequence seq, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix)
         {
-            sequencePrinter.DisplaySequence(seq, context, nestingLevel);
+            sequencePrinter.DisplaySequence(seq, context, nestingLevel, prefix, postfix);
         }
 
-        public void DisplaySequenceExpression(SequenceExpression seqExpr, DisplaySequenceContext context, int nestingLevel)
+        public void DisplaySequenceExpression(SequenceExpression seqExpr, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix)
         {
-            sequencePrinter.DisplaySequenceExpression(seqExpr, context, nestingLevel);
+            sequencePrinter.DisplaySequenceExpression(seqExpr, context, nestingLevel, prefix, postfix);
         }
 
         public void DisplayLine(string lineToBeShown)
         {
             ; // TODO: write line
-        }
-
-        public void EndOfDisplay(string emptyPlaceholder)
-        {
-            ; // TODO: print newline
         }
     }
 }

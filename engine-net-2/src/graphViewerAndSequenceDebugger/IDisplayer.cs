@@ -12,7 +12,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     /// <summary>
     /// Interface used to display debugger output (sequences via the sequence displayer part, but also regular output, described by semantic content as fas as possible (targeted)).
     /// It is implemented by a Printer printing to the textual console and a Renderer rendering as a graph.
-    /// Display of main content is screen / frame based, begin/end 
+    /// Display of main content is screen / frame based, begin and implicit end at next begin
     /// - marks frame borders on single console, 
     /// - determines screen content lifetime in case of main console,
     /// - and determines window content lifetime in case of gui Debugger (this works because the MSAGL graph renderer is deterministic - at least it seems to be so as of now).
@@ -25,20 +25,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// <param name="header">A header line printed to the console serving as a frame.</param>
         void BeginOfDisplay(string header);
 
-        //void DisplaySequenceBase(SequenceBase seqBase, DisplaySequenceContext context, int nestingLevel); inherited from ISequenceDisplayer
-        //void DisplaySequence(Sequence seq, DisplaySequenceContext context, int nestingLevel); inherited from ISequenceDisplayer
-        //void DisplaySequenceExpression(SequenceExpression seqExpr, DisplaySequenceContext context, int nestingLevel); inherited from ISequenceDisplayer
+        //void DisplaySequenceBase(SequenceBase seqBase, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix); inherited from ISequenceDisplayer
+        //void DisplaySequence(Sequence seq, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix); inherited from ISequenceDisplayer
+        //void DisplaySequenceExpression(SequenceExpression seqExpr, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix); inherited from ISequenceDisplayer
 
         /// <summary>
         /// Displays a text line.
         /// Semantically poor, but ok for the beginning/maybe later on special tasks, but should be replaced/implemented by semantically richer objects.
         /// </summary>
         void DisplayLine(string lineToBeShown);
-
-        /// <summary>
-        /// Ends main content display.
-        /// </summary>
-        /// <param name="emptyPlaceholder">When not null, no content was displayed, instead the placeholder should be displayed to the user.</param>
-        void EndOfDisplay(string emptyPlaceholder);
     }
 }

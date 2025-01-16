@@ -21,24 +21,33 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// Displays the given root sequence base according to the display context.
         /// Switches in between displaying a sequence and a sequence expression.
         /// </summary>
-        /// <param name="seq">The sequence base to be displayed</param>
+        /// <param name="seqBase">The sequence base to be displayed</param>
         /// <param name="context">The display context</param>
-        /// <param name="nestingLevel">The level the sequence is nested in</param>
-        void DisplaySequenceBase(SequenceBase seqBase, DisplaySequenceContext context, int nestingLevel);
+        /// <param name="nestingLevel">The level the sequence is nested in, typically displayed as prefix</param>
+        /// <param name="prefix">A prefix to be displayed before the sequence</param>
+        /// <param name="postfix">A postfix to be displayed after the sequence</param>
+        void DisplaySequenceBase(SequenceBase seqBase, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix);
 
         /// <summary>
         /// Displays the given root sequence (adding parentheses if needed) according to the display context.
         /// </summary>
         /// <param name="seq">The sequence to be displayed</param>
         /// <param name="context">The display context</param>
-        /// <param name="nestingLevel">The level the sequence is nested in</param>
-        void DisplaySequence(Sequence seq, DisplaySequenceContext context, int nestingLevel);
+        /// <param name="nestingLevel">The level the sequence is nested in, typically displayed as prefix</param>
+        /// <param name="prefix">A prefix to be displayed before the sequence</param>
+        /// <param name="postfix">A postfix to be displayed after the sequence</param>
+        void DisplaySequence(Sequence seq, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix);
 
         /// <summary>
         /// Displays the given root sequence expression according to the display context.
         /// </summary>
         /// <param name="seqExpr">The sequence expression to be displayed</param>
         /// <param name="context">The display context</param>
-        void DisplaySequenceExpression(SequenceExpression seqExpr, DisplaySequenceContext context, int nestingLevel);
+        /// <param name="nestingLevel">The level the sequence is nested in, typically displayed as prefix</param>
+        /// <param name="prefix">A prefix to be displayed before the sequence</param>
+        /// <param name="postfix">A postfix to be displayed after the sequence</param>
+        void DisplaySequenceExpression(SequenceExpression seqExpr, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix);
+
+        // potential TODO: introduce versions without nestingLevel, prefix, postfix
     }
 }

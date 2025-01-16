@@ -25,26 +25,30 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.env = env;
         }
 
-        public void DisplaySequenceBase(SequenceBase seqBase, DisplaySequenceContext context, int nestingLevel)
+        public void DisplaySequenceBase(SequenceBase seqBase, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix)
         {
             if(seqBase is Sequence)
-                DisplaySequence((Sequence)seqBase, context, nestingLevel);
+                DisplaySequence((Sequence)seqBase, context, nestingLevel, prefix, postfix);
             else
-                DisplaySequenceExpression((SequenceExpression)seqBase, context, nestingLevel);
+                DisplaySequenceExpression((SequenceExpression)seqBase, context, nestingLevel, prefix, postfix);
         }
 
-        public void DisplaySequence(Sequence seq, DisplaySequenceContext context, int nestingLevel)
+        public void DisplaySequence(Sequence seq, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix)
         {
             this.context = context;
-            env.PrintHighlighted(nestingLevel + ">", HighlightingMode.SequenceStart);
+            env.PrintHighlighted(prefix + nestingLevel + ">", HighlightingMode.SequenceStart);
             PrintSequence(seq, null, HighlightingMode.None);
+            env.PrintHighlighted(postfix, HighlightingMode.SequenceStart);
+            env.WriteLineDataRendering();
         }
 
-        public void DisplaySequenceExpression(SequenceExpression seqExpr, DisplaySequenceContext context, int nestingLevel)
+        public void DisplaySequenceExpression(SequenceExpression seqExpr, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix)
         {
             this.context = context;
-            env.PrintHighlighted(nestingLevel + ">", HighlightingMode.SequenceStart);
+            env.PrintHighlighted(prefix + nestingLevel + ">", HighlightingMode.SequenceStart);
             PrintSequenceExpression(seqExpr, null, HighlightingMode.None);
+            env.PrintHighlighted(postfix, HighlightingMode.SequenceStart);
+            env.WriteLineDataRendering();
         }
 
         /// <summary>
@@ -1130,7 +1134,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             DisplaySequenceContext context = new DisplaySequenceContext();
             context.highlightSeq = highlight;
-            new SequencePrinter(env).DisplaySequence(seq, context, 0);
+            new SequencePrinter(env).DisplaySequence(seq, context, 0, "", "");
             // TODO: what to do if abort came within sequence called from top sequence?
         }
 

@@ -45,11 +45,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             DisplaySequenceContext contextBp = new DisplaySequenceContext();
             contextBp.bpPosCounter = 0;
-            sequenceDisplayer.DisplaySequenceBase(debugSequences.Peek(), contextBp, debugSequences.Count);
-            env.WriteLine();
+            sequenceDisplayer.DisplaySequenceBase(debugSequences.Peek(), contextBp, debugSequences.Count, "", "");
 
             if(contextBp.bpPosCounter == 0)
             {
+                // GUI todo: ensure this is also shown in two pane mode
                 env.WriteLineDataRendering("No breakpoint positions available!");
                 return;
             }
@@ -68,11 +68,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             DisplaySequenceContext contextCp = new DisplaySequenceContext();
             contextCp.cpPosCounter = 0;
-            sequenceDisplayer.DisplaySequenceBase(debugSequences.Peek(), contextCp, debugSequences.Count);
-            env.WriteLine();
+            sequenceDisplayer.DisplaySequenceBase(debugSequences.Peek(), contextCp, debugSequences.Count, "", "");
 
             if(contextCp.cpPosCounter == 0)
             {
+                // GUI todo: ensure this is also shown in two pane mode
                 env.WriteLineDataRendering("No choicepoint positions available!");
                 return;
             }
