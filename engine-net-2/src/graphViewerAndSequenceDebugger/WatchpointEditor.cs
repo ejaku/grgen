@@ -22,19 +22,20 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         readonly DebuggerGraphProcessingEnvironment debuggerProcEnv;
         readonly IDebuggerEnvironment env;
+        readonly IDisplayer displayer;
 
-        public WatchpointEditor(DebuggerGraphProcessingEnvironment debuggerProcEnv, IDebuggerEnvironment env)
+        public WatchpointEditor(DebuggerGraphProcessingEnvironment debuggerProcEnv, IDebuggerEnvironment env, IDisplayer displayer)
         {
             this.debuggerProcEnv = debuggerProcEnv;
             this.env = env;
+            this.displayer = displayer;
         }
 
         public void HandleWatchpoints()
         {
             while(true)
             {
-                env.Clear();
-                env.WriteLineDataRendering("List of registered watchpoints:");
+                displayer.BeginOfDisplay("List of registered watchpoints:");
                 for(int i = 0; i < debuggerProcEnv.SubruleDebugConfig.ConfigurationRules.Count; ++i)
                 {
                     env.WriteLineDataRendering(i + " - " + debuggerProcEnv.SubruleDebugConfig.ConfigurationRules[i].ToString());

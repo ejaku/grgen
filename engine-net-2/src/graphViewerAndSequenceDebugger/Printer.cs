@@ -17,16 +17,20 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     /// </summary>
     public class Printer : IDisplayer
     {
+        private IDebuggerEnvironment env;
         private SequencePrinter sequencePrinter;
 
         public Printer(IDebuggerEnvironment env)
         {
+            this.env = env;
             sequencePrinter = new SequencePrinter(env);
         }
 
         public void BeginOfDisplay(string header)
         {
-            ; // TODO: Clear, print header
+            env.Clear();
+            if(header.Length > 0)
+                env.WriteLineDataRendering(header);
         }
 
         public void DisplaySequenceBase(SequenceBase seqBase, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix)
@@ -46,7 +50,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void DisplayLine(string lineToBeShown)
         {
-            ; // TODO: write line
+            env.WriteLineDataRendering(lineToBeShown);
         }
     }
 }
