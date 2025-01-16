@@ -49,8 +49,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             if(contextBp.bpPosCounter == 0)
             {
-                // GUI todo: ensure this is also shown in two pane mode
-                env.WriteLineDataRendering("No breakpoint positions available!");
+                if(env.TwoPane)
+                    env.PauseUntilAnyKeyPressed("No breakpoint positions available, press any key to continue...");
+                else
+                    env.WriteLine("No breakpoint positions available!");
                 return;
             }
 
@@ -72,8 +74,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             if(contextCp.cpPosCounter == 0)
             {
-                // GUI todo: ensure this is also shown in two pane mode
-                env.WriteLineDataRendering("No choicepoint positions available!");
+                if(env.TwoPane)
+                    env.PauseUntilAnyKeyPressed("No choicepoint positions available, press any key to continue...");
+                else
+                    env.WriteLine("No choicepoint positions available!");
                 return;
             }
 
