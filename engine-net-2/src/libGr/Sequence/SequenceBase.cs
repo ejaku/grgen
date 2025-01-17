@@ -110,7 +110,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="that">The sequence base to be copied.</param>
         protected SequenceBase(SequenceBase that)
         {
-            id = that.id;
+            //id = that.id; -- since the introduction of sequence rendering there's a good reason that ids are really unique even for copies, while there is no benefit in them being the same (I assume there are better ways to implement copy tracking if needed somewhen in the future)
+            id = idSource;
+            ++idSource;
             executionState = SequenceExecutionState.NotYet;
         }
 
@@ -158,8 +160,8 @@ namespace de.unika.ipd.grGen.libGr
         public abstract String Symbol { get; }
 
         /// <summary>
-        /// returns the sequence /expresion id - every sequence /expression is assigned a unique id used in xgrs code generation
-        /// for copies the old id is just taken over, does not cause problems as code is only generated once per defined sequence
+        /// returns the sequence /expresion id - every sequence /expression is assigned a unique id that is used in xgrs code generation and in sequence rendering
+        /// for copies a new id is generated, too, this does not cause problems as code is only generated once per defined sequence
         /// </summary>
         public int Id { get { return id; } }
 
