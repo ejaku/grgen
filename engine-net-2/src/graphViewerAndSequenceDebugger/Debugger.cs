@@ -500,7 +500,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private void HandleShowVariable(SequenceBase seq)
         {
             displayer.BeginOfDisplay("");
-            PrintVariables(null, null);
+            PrintGlobalVariables();
             PrintVariables(task.debugSequences.Peek(), seq);
             PrintVisited();
             if(env.TwoPane)
@@ -518,92 +518,51 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     return;
 
                 if(argument.StartsWith("%"))
-                    HandleShowClassObjectObject(argument);
+                    ShowClassObjectObject(argument);
                 else if(argument.StartsWith("&"))
-                    HandleShowClassObjectTransientObject(argument);
+                    ShowClassObjectTransientObject(argument);
                 else
-                    HandleShowClassObjectVariable(seq, argument);
+                    ShowClassObjectVariable(seq, argument);
             }
             while(true);
         }
 
-        private void HandleShowClassObjectObject(string argument)
+        private void HandleStackTrace(bool pauseAsNeeded)
         {
-            long uniqueId;
-            if(HexToLong(argument.Substring(1), out uniqueId))
+            displayer.BeginOfDisplay("Current sequence call stack is:");
+            DisplaySequenceContext contextTrace = new DisplaySequenceContext();
+            SequenceBase[] callStack = task.debugSequences.ToArray();
+            for(int i = callStack.Length - 1; i >= 0; --i)
             {
-                String objectName = String.Format("%{0,00000000:X}", uniqueId);
-                IObject obj = debuggerProcEnv.objectNamerAndIndexer.GetObject(objectName);
-                if(obj != null)
-                    displayer.DisplayLine(EmitHelper.ToStringAutomatic(obj, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
-                else
-                    env.WriteLine("Unknown class object id " + objectName + "!");
+                contextTrace.highlightSeq = callStack[i].GetCurrentlyExecutedSequenceBase();
+                displayer.DisplaySequenceBase(callStack[i], contextTrace, callStack.Length - i, "", "");
             }
+            if(env.TwoPane && pauseAsNeeded)
+                env.PauseUntilAnyKeyPressed("Press any key to return from stack trace display...");
             else
-                env.WriteLine("Invalid class object id " + argument + "!");
+                displayer.DisplayLine("continuing execution with:");
         }
 
-        private void HandleShowClassObjectTransientObject(string argument)
+        private void HandleFullState(bool pauseAsNeeded)
         {
-            long uniqueId;
-            if(HexToLong(argument.Substring(1), out uniqueId))
+            displayer.BeginOfDisplay("Current execution state is:");
+            PrintGlobalVariables();
+            DisplaySequenceContext contextTrace = new DisplaySequenceContext();
+            SequenceBase[] callStack = task.debugSequences.ToArray();
+            for(int i = callStack.Length - 1; i >= 0; --i)
             {
-                if(debuggerProcEnv.transientObjectNamerAndIndexer.GetTransientObject(uniqueId) != null)
-                {
-                    ITransientObject obj = debuggerProcEnv.transientObjectNamerAndIndexer.GetTransientObject(uniqueId);
-                    displayer.DisplayLine(EmitHelper.ToStringAutomatic(obj, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
-                }
-                else
-                    env.WriteLine("Unknown transient class object id " + argument + "!");
+                SequenceBase currSeq = callStack[i].GetCurrentlyExecutedSequenceBase();
+                contextTrace.highlightSeq = currSeq;
+                displayer.DisplaySequenceBase(callStack[i], contextTrace, callStack.Length - i, "", "");
+                PrintVariables(callStack[i], currSeq != null ? currSeq : callStack[i]);
             }
+            PrintVisited();
+            if(env.TwoPane && pauseAsNeeded)
+                env.PauseUntilAnyKeyPressed("Press any key to return from full state display...");
             else
-                env.WriteLine("Invalid transient class object id " + argument + "!");
+                displayer.DisplayLine("continuing execution with:");
         }
 
-        private void HandleShowClassObjectVariable(SequenceBase seq, string argument)
-        {
-            if(GetSequenceVariable(argument, task.debugSequences.Peek(), seq) != null
-                && GetSequenceVariable(argument, task.debugSequences.Peek(), seq).GetVariableValue(debuggerProcEnv.ProcEnv) != null)
-            {
-                object value = GetSequenceVariable(argument, task.debugSequences.Peek(), seq).GetVariableValue(debuggerProcEnv.ProcEnv);
-                displayer.DisplayLine(EmitHelper.ToStringAutomatic(value, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
-            }
-            else if(debuggerProcEnv.ProcEnv.GetVariableValue(argument) != null)
-            {
-                object value = debuggerProcEnv.ProcEnv.GetVariableValue(argument);
-                displayer.DisplayLine(EmitHelper.ToStringAutomatic(value, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
-            }
-            else
-                env.WriteLine("The given " + argument + " is not a known variable name (of non-null value)!");
-        }
-
-        private bool HexToLong(String argument, out long result)
-        {
-            try
-            {
-                result = Convert.ToInt64(argument, 16);
-                return true;
-            }
-            catch(Exception)
-            {
-                result = -1;
-                return false;
-            }
-        }
-
-        private SequenceVariable GetSequenceVariable(String name, SequenceBase seqStart, SequenceBase seq)
-        {
-            Dictionary<SequenceVariable, SetValueType> seqVars = new Dictionary<SequenceVariable, SetValueType>();
-            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
-            seqStart.GetLocalVariables(seqVars, constructors, seq);
-            foreach(SequenceVariable var in seqVars.Keys)
-            {
-                if(name == var.Name)
-                    return var;
-            }
-            return null;
-        }
-        
         private void HandleDump()
         {
             string filename = env.ShowGraphWith("ycomp", "", false);
@@ -683,42 +642,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             highlighter.DoHighlight(originalValues, sourceNames);
         }
 
-        private void HandleStackTrace(bool pauseAsNeeded)
-        {
-            displayer.BeginOfDisplay("Current sequence call stack is:");
-            DisplaySequenceContext contextTrace = new DisplaySequenceContext();
-            SequenceBase[] callStack = task.debugSequences.ToArray();
-            for(int i = callStack.Length - 1; i >= 0; --i)
-            {
-                contextTrace.highlightSeq = callStack[i].GetCurrentlyExecutedSequenceBase();
-                displayer.DisplaySequenceBase(callStack[i], contextTrace, callStack.Length - i, "", "");
-            }
-            if(env.TwoPane && pauseAsNeeded)
-                env.PauseUntilAnyKeyPressed("Press any key to return from stack trace display...");
-            else
-                displayer.DisplayLine("continuing execution with:");
-        }
-
-        private void HandleFullState(bool pauseAsNeeded)
-        {
-            displayer.BeginOfDisplay("Current execution state is:");
-            PrintVariables(null, null);
-            DisplaySequenceContext contextTrace = new DisplaySequenceContext();
-            SequenceBase[] callStack = task.debugSequences.ToArray();
-            for(int i = callStack.Length - 1; i >= 0; --i)
-            {
-                SequenceBase currSeq = callStack[i].GetCurrentlyExecutedSequenceBase();
-                contextTrace.highlightSeq = currSeq;
-                displayer.DisplaySequenceBase(callStack[i], contextTrace, callStack.Length - i, "", "");
-                PrintVariables(callStack[i], currSeq != null ? currSeq : callStack[i]);
-            }
-            PrintVisited();
-            if(env.TwoPane && pauseAsNeeded)
-                env.PauseUntilAnyKeyPressed("Press any key to return from full state display...");
-            else
-                displayer.DisplayLine("continuing execution with:");
-        }
-
         void HandleRefreshView()
         {
             // refresh from main menu, should also work in submenus, GUI TODO
@@ -738,48 +661,46 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         #endregion Methods for directly handling user commands
 
-        #region Print variables
+        #region Print variables and Show class objects
 
         private void PrintVariables(SequenceBase seqStart, SequenceBase seq)
         {
-            if(seq != null)
+            displayer.DisplayLine("Available local variables:");
+            Dictionary<SequenceVariable, SetValueType> seqVars = new Dictionary<SequenceVariable, SetValueType>();
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
+            seqStart.GetLocalVariables(seqVars, constructors, seq);
+            foreach(SequenceVariable var in seqVars.Keys)
             {
-                displayer.DisplayLine("Available local variables:");
-                Dictionary<SequenceVariable, SetValueType> seqVars = new Dictionary<SequenceVariable, SetValueType>();
-                List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
-                seqStart.GetLocalVariables(seqVars, constructors, seq);
-                foreach(SequenceVariable var in seqVars.Keys)
-                {
-                    string type;
-                    string content;
-                    if(var.LocalVariableValue is IDictionary)
-                        EmitHelper.ToString((IDictionary)var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
-                    else if(var.LocalVariableValue is IList)
-                        EmitHelper.ToString((IList)var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
-                    else if(var.LocalVariableValue is IDeque)
-                        EmitHelper.ToString((IDeque)var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
-                    else
-                        EmitHelper.ToString(var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
-                    displayer.DisplayLine("  " + var.Name + " = " + content + " : " + type);
-                }
+                string type;
+                string content;
+                if(var.LocalVariableValue is IDictionary)
+                    EmitHelper.ToString((IDictionary)var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
+                else if(var.LocalVariableValue is IList)
+                    EmitHelper.ToString((IList)var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
+                else if(var.LocalVariableValue is IDeque)
+                    EmitHelper.ToString((IDeque)var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
+                else
+                    EmitHelper.ToString(var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
+                displayer.DisplayLine("  " + var.Name + " = " + content + " : " + type);
             }
-            else
+        }
+
+        private void PrintGlobalVariables()
+        {
+            displayer.DisplayLine("Available global (non null) variables:");
+            foreach(Variable var in debuggerProcEnv.ProcEnv.Variables)
             {
-                displayer.DisplayLine("Available global (non null) variables:");
-                foreach(Variable var in debuggerProcEnv.ProcEnv.Variables)
-                {
-                    string type;
-                    string content;
-                    if(var.Value is IDictionary)
-                        EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
-                    else if(var.Value is IList)
-                        EmitHelper.ToString((IList)var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
-                    else if(var.Value is IDeque)
-                        EmitHelper.ToString((IDeque)var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
-                    else
-                        EmitHelper.ToString(var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
-                    displayer.DisplayLine("  " + var.Name + " = " + content + " : " + type);
-                }
+                string type;
+                string content;
+                if(var.Value is IDictionary)
+                    EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
+                else if(var.Value is IList)
+                    EmitHelper.ToString((IList)var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
+                else if(var.Value is IDeque)
+                    EmitHelper.ToString((IDeque)var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
+                else
+                    EmitHelper.ToString(var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
+                displayer.DisplayLine("  " + var.Name + " = " + content + " : " + type);
             }
         }
 
@@ -799,7 +720,84 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             displayer.DisplayLine(sb.ToString() + ".");
         }
 
-        #endregion Print variables
+        private void ShowClassObjectObject(string argument)
+        {
+            long uniqueId;
+            if(HexToLong(argument.Substring(1), out uniqueId))
+            {
+                String objectName = String.Format("%{0,00000000:X}", uniqueId);
+                IObject obj = debuggerProcEnv.objectNamerAndIndexer.GetObject(objectName);
+                if(obj != null)
+                    displayer.DisplayLine(EmitHelper.ToStringAutomatic(obj, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
+                else
+                    env.WriteLine("Unknown class object id " + objectName + "!");
+            }
+            else
+                env.WriteLine("Invalid class object id " + argument + "!");
+        }
+
+        private void ShowClassObjectTransientObject(string argument)
+        {
+            long uniqueId;
+            if(HexToLong(argument.Substring(1), out uniqueId))
+            {
+                if(debuggerProcEnv.transientObjectNamerAndIndexer.GetTransientObject(uniqueId) != null)
+                {
+                    ITransientObject obj = debuggerProcEnv.transientObjectNamerAndIndexer.GetTransientObject(uniqueId);
+                    displayer.DisplayLine(EmitHelper.ToStringAutomatic(obj, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
+                }
+                else
+                    env.WriteLine("Unknown transient class object id " + argument + "!");
+            }
+            else
+                env.WriteLine("Invalid transient class object id " + argument + "!");
+        }
+
+        private void ShowClassObjectVariable(SequenceBase seq, string argument)
+        {
+            if(GetSequenceVariable(argument, task.debugSequences.Peek(), seq) != null
+                && GetSequenceVariable(argument, task.debugSequences.Peek(), seq).GetVariableValue(debuggerProcEnv.ProcEnv) != null)
+            {
+                object value = GetSequenceVariable(argument, task.debugSequences.Peek(), seq).GetVariableValue(debuggerProcEnv.ProcEnv);
+                displayer.DisplayLine(EmitHelper.ToStringAutomatic(value, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
+            }
+            else if(debuggerProcEnv.ProcEnv.GetVariableValue(argument) != null)
+            {
+                object value = debuggerProcEnv.ProcEnv.GetVariableValue(argument);
+                displayer.DisplayLine(EmitHelper.ToStringAutomatic(value, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
+            }
+            else
+                env.WriteLine("The given " + argument + " is not a known variable name (of non-null value)!");
+        }
+
+        private bool HexToLong(String argument, out long result)
+        {
+            try
+            {
+                result = Convert.ToInt64(argument, 16);
+                return true;
+            }
+            catch(Exception)
+            {
+                result = -1;
+                return false;
+            }
+        }
+
+        private SequenceVariable GetSequenceVariable(String name, SequenceBase seqStart, SequenceBase seq)
+        {
+            Dictionary<SequenceVariable, SetValueType> seqVars = new Dictionary<SequenceVariable, SetValueType>();
+            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
+            seqStart.GetLocalVariables(seqVars, constructors, seq);
+            foreach(SequenceVariable var in seqVars.Keys)
+            {
+                if(name == var.Name)
+                    return var;
+            }
+            return null;
+        }
+
+        #endregion Print variables and Show class objects
 
 
         #region Possible user choices during sequence execution
