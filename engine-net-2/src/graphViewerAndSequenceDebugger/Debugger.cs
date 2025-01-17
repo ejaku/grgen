@@ -539,8 +539,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             if(env.TwoPane && pauseAsNeeded)
                 env.PauseUntilAnyKeyPressed("Press any key to return from stack trace display...");
-            else
-                displayer.DisplayLine("continuing execution with:");
         }
 
         private void HandleFullState(bool pauseAsNeeded)
@@ -559,8 +557,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             PrintVisited();
             if(env.TwoPane && pauseAsNeeded)
                 env.PauseUntilAnyKeyPressed("Press any key to return from full state display...");
-            else
-                displayer.DisplayLine("continuing execution with:");
         }
 
         private void HandleDump()
@@ -1945,7 +1941,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     return;                               // never reached
                 case 'f':
                     HandleFullState(false);
-                    displayer.DisplaySequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count, "", ""); // GUI TODO: sequence is already printed in full state, thus nodes/edges added, and no clear through BeginOfDisplay since then, causing a duplicate graph element crash
                     PrintDebugTracesStack(true);
                     break;
                 case ' ':
@@ -2133,7 +2128,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(stepMode || dynamicStepMode)
             {
                 env.SuspendImmediateExecution();
-                env.Clear();
+                displayer.BeginOfDisplay("");
                 if(seq is SequenceBacktrack)
                 {
                     SequenceBacktrack seqBack = (SequenceBacktrack)seq;
@@ -2523,7 +2518,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     if(task.computationsEnteredStack.Count > 0)
                     {
                         HandleStackTrace(false);
-                        displayer.DisplaySequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count, "", "");
                         PrintDebugTracesStack(true);
                         break;
                     }
@@ -2531,7 +2525,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                         return;
                 case 'f':
                     HandleFullState(false);
-                    displayer.DisplaySequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count, "", ""); // GUI TODO: sequence is already printed in full state, thus nodes/edges added, and no clear through BeginOfDisplay since then, causing a duplicate graph element crash
                     PrintDebugTracesStack(true);
                     break;
                 default:
