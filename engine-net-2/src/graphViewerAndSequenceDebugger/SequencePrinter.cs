@@ -27,28 +27,46 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void DisplaySequenceBase(SequenceBase seqBase, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix)
         {
-            if(seqBase is Sequence)
-                DisplaySequence((Sequence)seqBase, context, nestingLevel, prefix, postfix);
-            else
-                DisplaySequenceExpression((SequenceExpression)seqBase, context, nestingLevel, prefix, postfix);
+            DisplaySequenceBase(seqBase, context, nestingLevel, prefix, postfix, null);
         }
 
         public void DisplaySequence(Sequence seq, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix)
+        {
+            DisplaySequence(seq, context, nestingLevel, prefix, postfix, null);
+        }
+
+        public void DisplaySequenceExpression(SequenceExpression seqExpr, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix)
+        {
+            DisplaySequenceExpression(seqExpr, context, nestingLevel, prefix, postfix, null);
+        }
+
+        public string DisplaySequenceBase(SequenceBase seqBase, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix, string groupNodeName)
+        {
+            if(seqBase is Sequence)
+                DisplaySequence((Sequence)seqBase, context, nestingLevel, prefix, postfix, groupNodeName);
+            else
+                DisplaySequenceExpression((SequenceExpression)seqBase, context, nestingLevel, prefix, postfix, groupNodeName);
+            return null;
+        }
+
+        public string DisplaySequence(Sequence seq, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix, string groupNodeName)
         {
             this.context = context;
             env.PrintHighlighted(prefix + nestingLevel + ">", HighlightingMode.SequenceStart);
             PrintSequence(seq, null, HighlightingMode.None);
             env.PrintHighlighted(postfix, HighlightingMode.SequenceStart);
             env.WriteLineDataRendering();
+            return null;
         }
 
-        public void DisplaySequenceExpression(SequenceExpression seqExpr, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix)
+        public string DisplaySequenceExpression(SequenceExpression seqExpr, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix, string groupNodeName)
         {
             this.context = context;
             env.PrintHighlighted(prefix + nestingLevel + ">", HighlightingMode.SequenceStart);
             PrintSequenceExpression(seqExpr, null, HighlightingMode.None);
             env.PrintHighlighted(postfix, HighlightingMode.SequenceStart);
             env.WriteLineDataRendering();
+            return null;
         }
 
         /// <summary>

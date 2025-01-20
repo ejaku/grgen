@@ -457,12 +457,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     HandleUserHighlight(seq);
                     break;
                 case 't':
-                    HandleStackTrace(true);
+                    HandleStackTrace();
                     displayer.BeginOfDisplay("");
                     displayer.DisplaySequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count, "", "");
                     break;
                 case 'f':
-                    HandleFullState(true);
+                    HandleFullState();
                     displayer.BeginOfDisplay("");
                     displayer.DisplaySequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count, "", "");
                     break;
@@ -500,9 +500,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private void HandleShowVariable(SequenceBase seq)
         {
             displayer.BeginOfDisplay("");
-            PrintGlobalVariables();
-            PrintVariables(task.debugSequences.Peek(), seq);
-            PrintVisited();
+            displayer.DisplayVariables(task.debugSequences.Peek(), seq, debuggerProcEnv);
             if(env.TwoPane)
                 env.PauseUntilAnyKeyPressed("Press any key to return from variable display...");
         }
@@ -527,35 +525,19 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             while(true);
         }
 
-        private void HandleStackTrace(bool pauseAsNeeded)
+        private void HandleStackTrace()
         {
             displayer.BeginOfDisplay("Current sequence call stack is:");
-            DisplaySequenceContext contextTrace = new DisplaySequenceContext();
-            SequenceBase[] callStack = task.debugSequences.ToArray();
-            for(int i = callStack.Length - 1; i >= 0; --i)
-            {
-                contextTrace.highlightSeq = callStack[i].GetCurrentlyExecutedSequenceBase();
-                displayer.DisplaySequenceBase(callStack[i], contextTrace, callStack.Length - i, "", "");
-            }
-            if(env.TwoPane && pauseAsNeeded)
+            DisplayStackTraces(false, false, false);
+            if(env.TwoPane) // a pause is needed when being called from main menu in two pane mode cause there it acts as sub-dialog, after a bottom-up break debugging should just continue after printing the state
                 env.PauseUntilAnyKeyPressed("Press any key to return from stack trace display...");
         }
 
-        private void HandleFullState(bool pauseAsNeeded)
+        private void HandleFullState()
         {
             displayer.BeginOfDisplay("Current execution state is:");
-            PrintGlobalVariables();
-            DisplaySequenceContext contextTrace = new DisplaySequenceContext();
-            SequenceBase[] callStack = task.debugSequences.ToArray();
-            for(int i = callStack.Length - 1; i >= 0; --i)
-            {
-                SequenceBase currSeq = callStack[i].GetCurrentlyExecutedSequenceBase();
-                contextTrace.highlightSeq = currSeq;
-                displayer.DisplaySequenceBase(callStack[i], contextTrace, callStack.Length - i, "", "");
-                PrintVariables(callStack[i], currSeq != null ? currSeq : callStack[i]);
-            }
-            PrintVisited();
-            if(env.TwoPane && pauseAsNeeded)
+            DisplayFullState(false);
+            if(env.TwoPane) // a pause is needed when being called from main menu in two pane mode cause there it acts as sub-dialog, after a bottom-up break debugging should just continue after printing the state
                 env.PauseUntilAnyKeyPressed("Press any key to return from full state display...");
         }
 
@@ -657,64 +639,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         #endregion Methods for directly handling user commands
 
-        #region Print variables and Show class objects
-
-        private void PrintVariables(SequenceBase seqStart, SequenceBase seq)
-        {
-            displayer.DisplayLine("Available local variables:");
-            Dictionary<SequenceVariable, SetValueType> seqVars = new Dictionary<SequenceVariable, SetValueType>();
-            List<SequenceExpressionConstructor> constructors = new List<SequenceExpressionConstructor>();
-            seqStart.GetLocalVariables(seqVars, constructors, seq);
-            foreach(SequenceVariable var in seqVars.Keys)
-            {
-                string type;
-                string content;
-                if(var.LocalVariableValue is IDictionary)
-                    EmitHelper.ToString((IDictionary)var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
-                else if(var.LocalVariableValue is IList)
-                    EmitHelper.ToString((IList)var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
-                else if(var.LocalVariableValue is IDeque)
-                    EmitHelper.ToString((IDeque)var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
-                else
-                    EmitHelper.ToString(var.LocalVariableValue, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
-                displayer.DisplayLine("  " + var.Name + " = " + content + " : " + type);
-            }
-        }
-
-        private void PrintGlobalVariables()
-        {
-            displayer.DisplayLine("Available global (non null) variables:");
-            foreach(Variable var in debuggerProcEnv.ProcEnv.Variables)
-            {
-                string type;
-                string content;
-                if(var.Value is IDictionary)
-                    EmitHelper.ToString((IDictionary)var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
-                else if(var.Value is IList)
-                    EmitHelper.ToString((IList)var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
-                else if(var.Value is IDeque)
-                    EmitHelper.ToString((IDeque)var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
-                else
-                    EmitHelper.ToString(var.Value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
-                displayer.DisplayLine("  " + var.Name + " = " + content + " : " + type);
-            }
-        }
-
-        private void PrintVisited()
-        {
-            List<int> allocatedVisitedFlags = debuggerProcEnv.ProcEnv.NamedGraph.GetAllocatedVisitedFlags();
-            StringBuilder sb = new StringBuilder();
-            sb.Append("Allocated visited flags are: ");
-            bool first = true;
-            foreach(int allocatedVisitedFlag in allocatedVisitedFlags)
-            {
-                if(!first)
-                    sb.Append(", ");
-                sb.Append(allocatedVisitedFlag.ToString());
-                first = false;
-            }
-            displayer.DisplayLine(sb.ToString() + ".");
-        }
+        #region Show class objects
 
         private void ShowClassObjectObject(string argument)
         {
@@ -793,7 +718,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return null;
         }
 
-        #endregion Print variables and Show class objects
+        #endregion Show class objects
 
 
         #region Possible user choices during sequence execution
@@ -1120,8 +1045,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             context.highlightSeq = task.lastlyEntered;
             displayer.BeginOfDisplay("");
-            displayer.DisplaySequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count, "", "");
-            PrintDebugTracesStack(false);
+            DisplayStackTraces(true, true, false);
 
             switch(QueryContinueOnAssertion())
             {
@@ -1940,8 +1864,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     env.Cancel();
                     return;                               // never reached
                 case 'f':
-                    HandleFullState(false);
-                    PrintDebugTracesStack(true);
+                    displayer.BeginOfDisplay("Current execution state with subrule entries stack is:");
+                    DisplayFullState(true);
                     break;
                 case ' ':
                     return;
@@ -2390,8 +2314,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 context.highlightSeq = task.lastlyEntered;
                 displayer.BeginOfDisplay("");
-                displayer.DisplaySequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count, "", "");
-                PrintDebugTracesStack(false);
+                DisplayStackTraces(true, true, false);
             }
 
             QueryContinueOrTrace(true);
@@ -2408,8 +2331,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 context.highlightSeq = task.lastlyEntered;
                 displayer.BeginOfDisplay("");
-                displayer.DisplaySequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count, "", "");
-                PrintDebugTracesStack(false);
+                DisplayStackTraces(true, true, false);
             }
 
             QueryContinueOrTrace(true);
@@ -2443,8 +2365,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 context.highlightSeq = task.lastlyEntered;
                 displayer.BeginOfDisplay("");
-                displayer.DisplaySequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count, "", "");
-                PrintDebugTracesStack(false);
+                DisplayStackTraces(true, true, false);
             }
 
             task.procEnv.HighlightingUnderway = true;
@@ -2454,15 +2375,24 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             QueryContinueOrTrace(true);
         }
 
-        private void PrintDebugTracesStack(bool full)
+        // TODO somewhen: debatable whether this function with onlyTopOfInterpretedSequences==true should be seen as a stack traces display, its just the current sequence that should be displayed, when properly implemented (at quite some effort) the compiled sequences would integrate into the interpreted sequence call stack
+        private void DisplayStackTraces(bool onlyTopOfInterpretedSequences, bool includingSubruleTraces, bool fullSubruleTracesEntries)
         {
-            displayer.DisplayLine("Subrule traces stack is:");
-            for(int i = 0; i < task.computationsEnteredStack.Count; ++i)
-            {
-                if(!full && task.computationsEnteredStack[i].type != SubruleComputationType.Entry)
-                    continue;
-                displayer.DisplayLine(task.computationsEnteredStack[i].ToString(full));
-            }
+            SequenceBase[] callStack = task.debugSequences.ToArray();
+            if(onlyTopOfInterpretedSequences)
+                callStack = new SequenceBase[] { callStack[0] };
+            SubruleComputation[] subruleComputationsStack = null;
+            if(includingSubruleTraces)
+                subruleComputationsStack = task.computationsEnteredStack.ToArray();
+            displayer.DisplayCallStacks(callStack, subruleComputationsStack, fullSubruleTracesEntries);
+        }
+
+        private void DisplayFullState(bool includingSubruleTraces)
+        {
+            SubruleComputation[] subruleComputationsStack = null;
+            if(includingSubruleTraces)
+                subruleComputationsStack = task.computationsEnteredStack.ToArray();
+            displayer.DisplayFullState(task.debugSequences.ToArray(), subruleComputationsStack, debuggerProcEnv);
         }
 
         /// <summary>
@@ -2517,15 +2447,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 case 't':
                     if(task.computationsEnteredStack.Count > 0)
                     {
-                        HandleStackTrace(false);
-                        PrintDebugTracesStack(true);
+                        displayer.BeginOfDisplay("Current sequence call stack with subrule entries stack is:");
+                        DisplayStackTraces(false, true, true);
                         break;
                     }
                     else
                         return;
                 case 'f':
-                    HandleFullState(false);
-                    PrintDebugTracesStack(true);
+                    displayer.BeginOfDisplay("Current execution state with subrule entries stack is:");
+                    DisplayFullState(true);
                     break;
                 default:
                     return;

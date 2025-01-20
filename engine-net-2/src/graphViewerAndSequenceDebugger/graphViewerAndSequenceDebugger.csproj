@@ -54,6 +54,7 @@
     <Compile Include="DebuggerEnvironment.cs" />
     <Compile Include="DebuggerGraphProcessingEnvironment.cs" />
     <Compile Include="DebuggerTask.cs" />
+    <Compile Include="Displayer.cs" />
     <Compile Include="ElementRealizers.cs" />
     <Compile Include="GraphAnnotationAndChangesRecorder.cs" />
     <Compile Include="GraphViewer.cs" />

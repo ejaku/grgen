@@ -48,6 +48,45 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// <param name="postfix">A postfix to be displayed after the sequence</param>
         void DisplaySequenceExpression(SequenceExpression seqExpr, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix);
 
+
+        /// <summary>
+        /// Displays the given root sequence base according to the display context.
+        /// Switches in between displaying a sequence and a sequence expression.
+        /// </summary>
+        /// <param name="seqBase">The sequence base to be displayed</param>
+        /// <param name="context">The display context</param>
+        /// <param name="nestingLevel">The level the sequence is nested in, typically displayed as prefix</param>
+        /// <param name="prefix">A prefix to be displayed before the sequence</param>
+        /// <param name="postfix">A postfix to be displayed after the sequence</param>
+        /// <param name="groupNodeName">If not null, the sequence gets nested into the corresponding group node in graph rendering</param>
+        /// <returns>The sequence renderer returns the name of the node added (for wiring into a more encompassing graph), the sequence printer returns null</returns>
+        string DisplaySequenceBase(SequenceBase seqBase, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix, string groupNodeName);
+
+        /// <summary>
+        /// Displays the given root sequence (adding parentheses if needed) according to the display context.
+        /// </summary>
+        /// <param name="seq">The sequence to be displayed</param>
+        /// <param name="context">The display context</param>
+        /// <param name="nestingLevel">The level the sequence is nested in, typically displayed as prefix</param>
+        /// <param name="prefix">A prefix to be displayed before the sequence</param>
+        /// <param name="postfix">A postfix to be displayed after the sequence</param>
+        /// <param name="groupNodeName">If not null, the sequence gets nested into the corresponding group node in graph rendering</param>
+        /// <returns>The sequence renderer returns the name of the node added (for wiring into a more encompassing graph), the sequence printer returns null</returns>
+        string DisplaySequence(Sequence seq, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix, string groupNodeName);
+
+        /// <summary>
+        /// Displays the given root sequence expression according to the display context.
+        /// </summary>
+        /// <param name="seqExpr">The sequence expression to be displayed</param>
+        /// <param name="context">The display context</param>
+        /// <param name="nestingLevel">The level the sequence is nested in, typically displayed as prefix</param>
+        /// <param name="prefix">A prefix to be displayed before the sequence</param>
+        /// <param name="postfix">A postfix to be displayed after the sequence</param>
+        /// <param name="groupNodeName">If not null, the sequence gets nested into the corresponding group node in graph rendering</param>
+        /// <returns>The sequence renderer returns the name of the node added (for wiring into a more encompassing graph), the sequence printer returns null</returns>
+        string DisplaySequenceExpression(SequenceExpression seqExpr, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix, string groupNodeName);
+
+
         // potential TODO: introduce versions without nestingLevel, prefix, postfix
     }
 }

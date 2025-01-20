@@ -20,6 +20,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     {
         readonly IDebuggerEnvironment env;
         DisplaySequenceContext context;
+        string groupNodeName; // the name of the group node the sequence should be contained in (null in case no containment is required)
 
         private string GetUniqueEdgeName(String fromNodeName, String toNodeName)
         {
@@ -83,28 +84,46 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void DisplaySequenceBase(SequenceBase seqBase, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix)
         {
-            if(seqBase is Sequence)
-                DisplaySequence((Sequence)seqBase, context, nestingLevel, prefix, postfix);
-            else
-                DisplaySequenceExpression((SequenceExpression)seqBase, context, nestingLevel, prefix, postfix);
+            DisplaySequenceBase(seqBase, context, nestingLevel, prefix, postfix, null);
         }
 
         public void DisplaySequence(Sequence seq, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix)
         {
-            this.context = context;
-            //env.PrintHighlighted(prefix + nestingLevel + ">", HighlightingMode.SequenceStart); // GUI TODO: prefix+nestingLevel/postfix rendering
-            //env.guiForDataRendering.graphViewer.ClearGraph(); remove, not needed anymore since BeginOfDisplay
-
-            PrintSequence(seq, null, HighlightingMode.None); // GUI TODO: rename
-
-            //env.PrintHighlighted(postfix, HighlightingMode.SequenceStart);
-            env.guiForDataRendering.graphViewer.Show();
-
+            DisplaySequence(seq, context, nestingLevel, prefix, postfix, null);
         }
 
         public void DisplaySequenceExpression(SequenceExpression seqExpr, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix)
         {
+            DisplaySequenceExpression(seqExpr, context, nestingLevel, prefix, postfix, null);
+        }
+
+        public string DisplaySequenceBase(SequenceBase seqBase, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix, string groupNodeName)
+        {
+            if(seqBase is Sequence)
+                return DisplaySequence((Sequence)seqBase, context, nestingLevel, prefix, postfix, groupNodeName);
+            else
+                return DisplaySequenceExpression((SequenceExpression)seqBase, context, nestingLevel, prefix, postfix, groupNodeName);
+        }
+
+        public string DisplaySequence(Sequence seq, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix, string groupNodeName)
+        {
             this.context = context;
+            this.groupNodeName = groupNodeName;
+            //env.PrintHighlighted(prefix + nestingLevel + ">", HighlightingMode.SequenceStart); // GUI TODO: prefix+nestingLevel/postfix rendering
+            //env.guiForDataRendering.graphViewer.ClearGraph(); remove, not needed anymore since BeginOfDisplay
+
+            string sequenceNode = PrintSequence(seq, null, HighlightingMode.None); // GUI TODO: rename
+
+            //env.PrintHighlighted(postfix, HighlightingMode.SequenceStart);
+            env.guiForDataRendering.graphViewer.Show();
+
+            return sequenceNode;
+        }
+
+        public string DisplaySequenceExpression(SequenceExpression seqExpr, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix, string groupNodeName)
+        {
+            this.context = context;
+            this.groupNodeName = groupNodeName;
             //env.PrintHighlighted(prefix + nestingLevel + ">", HighlightingMode.SequenceStart); // GUI TODO: prefix+nestingLevel/postfix rendering
             //env.guiForDataRendering.graphViewer.ClearGraph(); remove, not needed anymore since BeginOfDisplay
 
@@ -114,12 +133,22 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 && seqExpr.SequenceExpressionType != SequenceExpressionType.MultiRuleQuery
                 && seqExpr.SequenceExpressionType != SequenceExpressionType.MappingClause)
             {
-                String expressionNodeName = seqExpr.Id.ToString();
-                env.guiForDataRendering.graphViewer.AddNode(expressionNodeName, GetNodeRealizer(HighlightingMode.None), seqExpr.Symbol); // also render top level sequence expression in case it was none of the rule based ones
+                AddNode(seqExpr, HighlightingMode.None, seqExpr.Symbol); // also render top level sequence expression in case it was none of the rule based ones
             }
 
             //env.PrintHighlighted(postfix, HighlightingMode.SequenceStart);
             env.guiForDataRendering.graphViewer.Show();
+
+            return null;
+        }
+
+        private string AddNode(SequenceBase seqBase, HighlightingMode highlightingMode, string label)
+        {
+            String nodeName = seqBase.Id.ToString();
+            env.guiForDataRendering.graphViewer.AddNode(nodeName, GetNodeRealizer(highlightingMode), label);
+            if(groupNodeName != null)
+                env.guiForDataRendering.graphViewer.MoveNode(nodeName, groupNodeName);
+            return nodeName;
         }
 
         /// <summary>
@@ -127,7 +156,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         /// <param name="seq">The sequence to be printed</param>
         /// <param name="parent">The parent of the sequence or null if the sequence is a root</param>
-        /// <param name="context">The print context</param>
+        /// <param name="highlightingMode">The highlighting mode to be used</param>
         /// <returns>The unique name of the node inserted for the rendered sequence</returns>
         private string PrintSequence(Sequence seq, SequenceBase parent, HighlightingMode highlightingMode)
         {
@@ -239,11 +268,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             case SequenceType.AssignVarToVar:
             case SequenceType.AssignConstToVar:
             case SequenceType.DeclareVariable:
-                {
-                    String assignVarNodeName = seq.Id.ToString();
-                    env.guiForDataRendering.graphViewer.AddNode(assignVarNodeName, GetNodeRealizer(highlightingMode), seq.Symbol);
-                    return assignVarNodeName;
-                }
+                return AddNode(seq, highlightingMode, seq.Symbol);
             case SequenceType.AssignContainerConstructorToVar:
                 return PrintSequenceAssignContainerConstructorToVar((SequenceAssignContainerConstructorToVar)seq, parent, highlightingMode);
             default:
@@ -263,8 +288,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 int cpPosCounter = context.cpPosCounter;
                 string choicePrefix = GetChoicePrefix(seqBin);
                 ++context.cpPosCounter;
-                String operatorNodeNameChoiceRun = seqBin.Id.ToString();
-                env.guiForDataRendering.graphViewer.AddNode(operatorNodeNameChoiceRun, GetNodeRealizer(HighlightingMode.Choicepoint), choicePrefix + seqBin.OperatorSymbol);
+                String operatorNodeNameChoiceRun = AddNode(seqBin, HighlightingMode.Choicepoint, choicePrefix + seqBin.OperatorSymbol);
                 String rightNodeNameChoiceRun = PrintSequence(seqBin.Right, seqBin, highlightingMode);
                 env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeNameChoiceRun, rightNodeNameChoiceRun), operatorNodeNameChoiceRun, rightNodeNameChoiceRun, GetEdgeRealizer(highlightingMode), "right");
                 String leftNodeNameChoiceRun = PrintSequence(seqBin.Left, seqBin, highlightingMode);
@@ -274,8 +298,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             if(seqBin == context.highlightSeq && context.choice)
             {
-                String operatorNodeNameChoiceRun = seqBin.Id.ToString();
-                env.guiForDataRendering.graphViewer.AddNode(operatorNodeNameChoiceRun, GetNodeRealizer(HighlightingMode.Choicepoint), seqBin.OperatorSymbol);
+                String operatorNodeNameChoiceRun = AddNode(seqBin, HighlightingMode.Choicepoint, seqBin.OperatorSymbol);
                 String rightNodeNameChoiceRun = PrintSequence(seqBin.Right, seqBin, highlightingMode);
                 env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeNameChoiceRun, rightNodeNameChoiceRun), operatorNodeNameChoiceRun, rightNodeNameChoiceRun, GetEdgeRealizer(HighlightingMode.Choicepoint), "(r)ight");
                 String leftNodeNameChoiceRun = PrintSequence(seqBin.Left, seqBin, highlightingMode);
@@ -283,8 +306,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 return operatorNodeNameChoiceRun;
             }
 
-            String operatorNodeName = seqBin.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingMode), seqBin.OperatorSymbol);
+            String operatorNodeName = AddNode(seqBin, highlightingMode, seqBin.OperatorSymbol);
             String rightNodeName = PrintSequence(seqBin.Right, seqBin, highlightingMode); // it seems the layout algorithm puts the first added child to the right and the last added child to the left
             env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, rightNodeName), operatorNodeName, rightNodeName, GetEdgeRealizer(highlightingMode), "right");
             String leftNodeName = PrintSequence(seqBin.Left, seqBin, highlightingMode);
@@ -294,8 +316,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string PrintSequenceIfThen(SequenceIfThen seqIfThen, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            String operatorNodeName = seqIfThen.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingMode), "if{.;.}");
+            String operatorNodeName = AddNode(seqIfThen, highlightingMode, "if{.;.}");
             String trueCaseNodeName = PrintSequence(seqIfThen.Right, seqIfThen, highlightingMode);
             env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, trueCaseNodeName), operatorNodeName, trueCaseNodeName, GetEdgeRealizer(highlightingMode), "trueCase");
             String conditionNodeName = PrintSequence(seqIfThen.Left, seqIfThen, highlightingMode);
@@ -305,8 +326,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string PrintSequenceNot(SequenceNot seqNot, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            String operatorNodeName = seqNot.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingMode), seqNot.OperatorSymbol);
+            String operatorNodeName = AddNode(seqNot, highlightingMode, seqNot.OperatorSymbol);
             String subNodeName = PrintSequence(seqNot.Seq, seqNot, highlightingMode);
             env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, subNodeName), operatorNodeName, subNodeName, GetEdgeRealizer(highlightingMode), "operand");
             return operatorNodeName;
@@ -314,8 +334,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string PrintSequenceIterationMin(SequenceIterationMin seqMin, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            String operatorNodeName = seqMin.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingMode), ".[" + seqMin.MinExpr.Symbol + ":*]");
+            String operatorNodeName = AddNode(seqMin, highlightingMode, ".[" + seqMin.MinExpr.Symbol + ":*]");
             String subNodeName = PrintSequence(seqMin.Seq, seqMin, highlightingMode);
             env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, subNodeName), operatorNodeName, subNodeName, GetEdgeRealizer(highlightingMode), "loopedBody");
             //String minExprNodeName = PrintSequenceExpression(seqMin.MinExpr, seqMin, highlightingMode);
@@ -325,8 +344,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string PrintSequenceIterationMinMax(SequenceIterationMinMax seqMinMax, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            String operatorNodeName = seqMinMax.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingMode), ".[" + seqMinMax.MinExpr.Symbol + ":" + seqMinMax.MaxExpr.Symbol + "]");
+            String operatorNodeName = AddNode(seqMinMax, highlightingMode, ".[" + seqMinMax.MinExpr.Symbol + ":" + seqMinMax.MaxExpr.Symbol + "]");
             String subNodeName = PrintSequence(seqMinMax.Seq, seqMinMax, highlightingMode);
             env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, subNodeName), operatorNodeName, subNodeName, GetEdgeRealizer(highlightingMode), "loopedBody");
             //String minExprNodeName = PrintSequenceExpression(seqMinMax.MinExpr, seqMinMax, highlightingMode);
@@ -338,8 +356,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string PrintSequenceTransaction(SequenceTransaction seqTrans, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            String operatorNodeName = seqTrans.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingMode), "<.>");
+            String operatorNodeName = AddNode(seqTrans, highlightingMode, "<.>");
             String subNodeName = PrintSequence(seqTrans.Seq, seqTrans, highlightingMode);
             env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, subNodeName), operatorNodeName, subNodeName, GetEdgeRealizer(highlightingMode), "sub");
             return operatorNodeName;
@@ -351,8 +368,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(seqBack == context.highlightSeq)
                 highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
-            String operatorNodeName = seqBack.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingModeLocal), "<<.;;.>>");
+            String operatorNodeName = AddNode(seqBack, highlightingModeLocal, "<<.;;.>>");
             String subNodeName = PrintSequence(seqBack.Seq, seqBack, highlightingMode);
             env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, subNodeName), operatorNodeName, subNodeName, GetEdgeRealizer(highlightingMode), "sub");
             String ruleNodeName = PrintSequence(seqBack.Rule, seqBack, highlightingModeLocal);
@@ -366,8 +382,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(seqBack == context.highlightSeq)
                 highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
-            String operatorNodeName = seqBack.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingModeLocal), "<<...;;.>>");
+            String operatorNodeName = AddNode(seqBack, highlightingModeLocal, "<<...;;.>>");
             String subNodeName = PrintSequence(seqBack.Seq, seqBack, highlightingMode);
             env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, subNodeName), operatorNodeName, subNodeName, GetEdgeRealizer(highlightingMode), "sub");
             String ruleNodeName = PrintSequence(seqBack.Rules, seqBack, highlightingModeLocal);
@@ -381,8 +396,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(seqBack == context.highlightSeq)
                 highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
-            String operatorNodeName = seqBack.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingModeLocal), "<<[[...]]>>");
+            String operatorNodeName = AddNode(seqBack, highlightingModeLocal, "<<[[...]]>>");
 
             for(int i = seqBack.MultiRulePrefixedSequence.RulePrefixedSequences.Count - 1; i >= 0; --i)
             {
@@ -392,8 +406,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 if(seqRulePrefixedSequence == context.highlightSeq)
                     highlightingModeRulePrefixedSequence = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
-                String subOperatorNodeName = seqRulePrefixedSequence.Id.ToString();
-                env.guiForDataRendering.graphViewer.AddNode(subOperatorNodeName, GetNodeRealizer(highlightingModeRulePrefixedSequence), "for{.;.}");
+                String subOperatorNodeName = AddNode(seqRulePrefixedSequence, highlightingModeRulePrefixedSequence, "for{.;.}");
                 env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, subOperatorNodeName), operatorNodeName, subOperatorNodeName, GetEdgeRealizer(highlightingMode), "sub" + i);
 
                 String subNodeName = PrintSequence(seqRulePrefixedSequence.Sequence, seqRulePrefixedSequence, highlightingMode);
@@ -416,8 +429,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string PrintSequencePause(SequencePause seqPause, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            String operatorNodeName = seqPause.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingMode), "/./");
+            String operatorNodeName = AddNode(seqPause, highlightingMode, "/./");
             String subNodeName = PrintSequence(seqPause.Seq, seqPause, highlightingMode);
             env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, subNodeName), operatorNodeName, subNodeName, GetEdgeRealizer(highlightingMode), "sub");
             return operatorNodeName;
@@ -435,8 +447,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             sb.Append(".");
             sb.Append("}");
 
-            String operatorNodeName = seqFor.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingMode), sb.ToString());
+            String operatorNodeName = AddNode(seqFor, highlightingMode, sb.ToString());
             String subNodeName = PrintSequence(seqFor.Seq, seqFor, highlightingMode);
             env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, subNodeName), operatorNodeName, subNodeName, GetEdgeRealizer(highlightingMode), "loopedBody");
             return operatorNodeName;
@@ -444,8 +455,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string PrintSequenceForIntegerRange(SequenceForIntegerRange seqFor, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            String operatorNodeName = seqFor.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingMode), "for{" + seqFor.Var.Name + " in [" + seqFor.Left.Symbol + ":" + seqFor.Right.Symbol + "]; .}");
+            String operatorNodeName = AddNode(seqFor, highlightingMode, "for{" + seqFor.Var.Name + " in [" + seqFor.Left.Symbol + ":" + seqFor.Right.Symbol + "]; .}");
             //String minExprNodeName = PrintSequenceExpression(seqFor.Left, seqFor, highlightingMode);
             //env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, minExprNodeName), operatorNodeName, minExprNodeName, GetEdgeRealizer(highlightingMode), "minExpr");
             //String maxExprNodeName = PrintSequenceExpression(seqFor.Right, seqFor, highlightingMode);
@@ -468,8 +478,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             sb.Append(".");
             sb.Append("}");
 
-            String operatorNodeName = seqFor.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingMode), sb.ToString());
+            String operatorNodeName = AddNode(seqFor, highlightingMode, sb.ToString());
             //String minExprNodeName = PrintSequenceExpression(seqFor.Expr, seqFor, highlightingMode);
             //env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, minExprNodeName), operatorNodeName, minExprNodeName, GetEdgeRealizer(highlightingMode), "expr");
             String subNodeName = PrintSequence(seqFor.Seq, seqFor, highlightingMode);
@@ -520,8 +529,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             sb.Append(".");
             sb.Append("}");
 
-            String operatorNodeName = seqFor.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingMode), sb.ToString());
+            String operatorNodeName = AddNode(seqFor, highlightingMode, sb.ToString());
 
             /*if(seqFor.From() != null && seqFor.To() != null)
             {
@@ -548,8 +556,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string PrintSequenceForFunction(SequenceForFunction seqFor, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            String operatorNodeName = seqFor.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingMode), "for{" + seqFor.Var.Name + " in " + seqFor.FunctionSymbol + "(); .}");
+            String operatorNodeName = AddNode(seqFor, highlightingMode, "for{" + seqFor.Var.Name + " in " + seqFor.FunctionSymbol + "(); .}");
 
             string argumentsAsString = null;
             /*string[] argumentExprNodeNames = */PrintArguments(seqFor.ArgExprs, seqFor, highlightingMode, ref argumentsAsString); // TODO: PrintArguments is/was called with parent, strange, copy n paste omission or intended?
@@ -571,8 +578,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(seqFor == context.highlightSeq)
                 highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
-            String operatorNodeName = seqFor.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingModeLocal), "for{" + seqFor.Var.Name + " in [?.]; .}");
+            String operatorNodeName = AddNode(seqFor, highlightingModeLocal, "for{" + seqFor.Var.Name + " in [?.]; .}");
             String subNodeName = PrintSequence(seqFor.Seq, seqFor, highlightingMode);
             env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, subNodeName), operatorNodeName, subNodeName, GetEdgeRealizer(highlightingMode), "loopedBody");
             String ruleNodeName = PrintSequence(seqFor.Rule, seqFor, highlightingModeLocal);
@@ -597,12 +603,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     sb.Append("<<");
             }
 
-            String operatorNodeName = seqExecInSub.Id.ToString();
             HighlightingMode highlightingModeInContext = indexInParallelExecute != -1 ? highlightingModeLocal : highlightingMode;
             HighlightingMode finalHighlightingMode = highlightingModeInContext;
             if(indexInParallelExecute != -1 && context.sequences != null && (seqExecInSub == context.highlightSeq || seqExecInSub == context.sequences[indexInParallelExecute]))
                 finalHighlightingMode = HighlightingMode.Choicepoint;
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(finalHighlightingMode), sb.ToString());
+            String operatorNodeName = AddNode(seqExecInSub, finalHighlightingMode, sb.ToString());
 
             /*String subgraphExprNodeName = PrintSequenceExpression(seqExecInSub.SubgraphExpr, seqExecInSub, highlightingModeInContext);
             env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, subgraphExprNodeName), operatorNodeName, subgraphExprNodeName, GetEdgeRealizer(highlightingModeInContext), "subgraphExpr");
@@ -622,8 +627,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(seqParallelExec == context.highlightSeq)
                 highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
-            String operatorNodeName = seqParallelExec.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingModeLocal), "parallel");
+            String operatorNodeName = AddNode(seqParallelExec, highlightingModeLocal, "parallel");
 
             for(int i = seqParallelExec.InSubgraphExecutions.Count - 1; i >= 0; --i)
             {
@@ -641,8 +645,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(seqParallelArrayExec == context.highlightSeq)
                 highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
-            String operatorNodeName = seqParallelArrayExec.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingModeLocal), "parallel array");
+            String operatorNodeName = AddNode(seqParallelArrayExec, highlightingModeLocal, "parallel array");
 
             for(int i = seqParallelArrayExec.InSubgraphExecutions.Count - 1; i >= 0; --i)
             {
@@ -656,8 +659,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string PrintSequenceLock(SequenceLock seqLock, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            String operatorNodeName = seqLock.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingMode), "lock(" + seqLock.LockObjectExpr + "){.}");
+            String operatorNodeName = AddNode(seqLock, highlightingMode, "lock(" + seqLock.LockObjectExpr + "){.}");
             String subNodeName = PrintSequence(seqLock.Seq, seqLock, highlightingMode);
             env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, subNodeName), operatorNodeName, subNodeName, GetEdgeRealizer(highlightingMode), "sub");
             //String lockObjectExprNodeName = PrintSequenceExpression(seqLock.LockObjectExpr, seqLock, highlightingMode);
@@ -667,8 +669,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string PrintSequenceIfThenElse(SequenceIfThenElse seqIf, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            String operatorNodeName = seqIf.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingMode), "if{.;.;.}");
+            String operatorNodeName = AddNode(seqIf, highlightingMode, "if{.;.;.}");
             String falseCaseNodeName = PrintSequence(seqIf.FalseCase, seqIf, highlightingMode);
             env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, falseCaseNodeName), operatorNodeName, falseCaseNodeName, GetEdgeRealizer(highlightingMode), "falseCase");
             String trueCaseNodeName = PrintSequence(seqIf.TrueCase, seqIf, highlightingMode);
@@ -682,10 +683,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             if(context.cpPosCounter >= 0)
             {
-                String operatorNodeNameChoiceRun = seqN.Id.ToString();
                 string choicePrefix = GetChoicePrefix(seqN);
                 ++context.cpPosCounter;
-                env.guiForDataRendering.graphViewer.AddNode(operatorNodeNameChoiceRun, GetNodeRealizer(HighlightingMode.Choicepoint), choicePrefix + (seqN.Choice ? "$%" : "$") + seqN.OperatorSymbol + "(...)");
+                String operatorNodeNameChoiceRun = AddNode(seqN, HighlightingMode.Choicepoint, choicePrefix + (seqN.Choice ? "$%" : "$") + seqN.OperatorSymbol + "(...)");
                 for(int iChoiceRun = seqN.Sequences.Count - 1; iChoiceRun >= 0; --iChoiceRun)
                 {
                     string childNodeNameChoiceRun = PrintSequence(seqN.Sequences[iChoiceRun], seqN, highlightingMode);
@@ -702,8 +702,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             if(highlight && context.choice)
             {
-                String operatorNodeNameChoiceRun = seqN.Id.ToString();
-                env.guiForDataRendering.graphViewer.AddNode(operatorNodeNameChoiceRun, GetNodeRealizer(HighlightingMode.Choicepoint), (seqN.Choice ? "$%" : "$") + seqN.OperatorSymbol + "(...)");
+                String operatorNodeNameChoiceRun = AddNode(seqN, HighlightingMode.Choicepoint, (seqN.Choice ? "$%" : "$") + seqN.OperatorSymbol + "(...)");
 
                 for(int iChoiceRun = seqN.Sequences.Count - 1; iChoiceRun >= 0; --iChoiceRun)
                 {
@@ -738,8 +737,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 return operatorNodeNameChoiceRun;
             }
 
-            String operatorNodeName = seqN.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(HighlightingMode.Choicepoint), (seqN.Choice ? "$%" : "$") + seqN.OperatorSymbol + "(...)");
+            String operatorNodeName = AddNode(seqN, HighlightingMode.Choicepoint, (seqN.Choice ? "$%" : "$") + seqN.OperatorSymbol + "(...)");
             PrintChildren(seqN, operatorNodeName, highlightingMode, highlightingMode);
 
             return operatorNodeName;
@@ -749,10 +747,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             if(context.cpPosCounter >= 0)
             {
-                String operatorNodeNameChoiceRun = seqWeighted.Id.ToString();
                 string choicePrefix = GetChoicePrefix(seqWeighted);
                 ++context.cpPosCounter;
-                env.guiForDataRendering.graphViewer.AddNode(operatorNodeNameChoiceRun, GetNodeRealizer(highlightingMode), choicePrefix + (seqWeighted.Choice ? "$%" : "$") + seqWeighted.OperatorSymbol + "(...)");
+                String operatorNodeNameChoiceRun = AddNode(seqWeighted, highlightingMode, choicePrefix + (seqWeighted.Choice ? "$%" : "$") + seqWeighted.OperatorSymbol + "(...)");
                 for(int iChoiceRun = seqWeighted.Sequences.Count - 1; iChoiceRun >= 0; --iChoiceRun)
                 {
                     string childNodeNameChoiceRun = PrintSequence(seqWeighted.Sequences[iChoiceRun], seqWeighted, highlightingMode);
@@ -770,8 +767,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             if(highlight && context.choice)
             {
-                String operatorNodeNameChoiceRun = seqWeighted.Id.ToString();
-                env.guiForDataRendering.graphViewer.AddNode(operatorNodeNameChoiceRun, GetNodeRealizer(HighlightingMode.Choicepoint), (seqWeighted.Choice ? "$%" : "$") + seqWeighted.OperatorSymbol + "(...)");
+                String operatorNodeNameChoiceRun = AddNode(seqWeighted, HighlightingMode.Choicepoint, (seqWeighted.Choice ? "$%" : "$") + seqWeighted.OperatorSymbol + "(...)");
                 for(int iChoiceRun = seqWeighted.Sequences.Count - 1; iChoiceRun >= 0; --iChoiceRun)
                 {
                     SequenceBase highlightSeqBackup = context.highlightSeq;
@@ -797,8 +793,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 return operatorNodeNameChoiceRun;
             }
 
-            String operatorNodeName = seqWeighted.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingMode), (seqWeighted.Choice ? "$%" : "$") + seqWeighted.OperatorSymbol + "(...)");
+            String operatorNodeName = AddNode(seqWeighted, highlightingMode, (seqWeighted.Choice ? "$%" : "$") + seqWeighted.OperatorSymbol + "(...)");
             for(int i = seqWeighted.Sequences.Count - 1; i >= 0; --i)
             {
                 string childNodeName = PrintSequence(seqWeighted.Sequences[i], seqWeighted, highlightingMode);
@@ -814,10 +809,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(context.cpPosCounter >= 0
                 && seqSome.Random)
             {
-                String operatorNodeNameChoiceRun = seqSome.Id.ToString();
                 string choicePrefix = GetChoicePrefix(seqSome);
                 ++context.cpPosCounter;
-                env.guiForDataRendering.graphViewer.AddNode(operatorNodeNameChoiceRun, GetNodeRealizer(highlightingMode), choicePrefix + (seqSome.Choice ? "$%" : "$") + "{<...>}");
+                String operatorNodeNameChoiceRun = AddNode(seqSome, highlightingMode, choicePrefix + (seqSome.Choice ? "$%" : "$") + "{<...>}");
                 for(int iChoiceRun = seqSome.Sequences.Count - 1; iChoiceRun >= 0; --iChoiceRun)
                 {
                     Sequence seqChildChoiceRun = seqSome.Sequences[iChoiceRun];
@@ -838,8 +832,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             if(highlight && context.choice)
             {
-                String operatorNodeNameChoiceRun = seqSome.Id.ToString();
-                env.guiForDataRendering.graphViewer.AddNode(operatorNodeNameChoiceRun, GetNodeRealizer(HighlightingMode.Choicepoint), (seqSome.Choice ? "$%" : "$") + "{<...>}");
+                String operatorNodeNameChoiceRun = AddNode(seqSome, HighlightingMode.Choicepoint, (seqSome.Choice ? "$%" : "$") + "{<...>}");
                 int numCurTotalMatch = 0; // potential todo: pre-compute the match numbers in another loop, so there's no dependency in between the loops
                 for(int i = 0; i < context.matches.Count; ++i)
                     numCurTotalMatch += seqSome.IsNonRandomRuleAllCall(i) ? context.matches[i].Count : 1;
@@ -882,8 +875,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(seqSome == context.highlightSeq)
                 highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
-            String operatorNodeName = seqSome.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingModeLocal), (seqSome.Random ? (seqSome.Choice ? "$%" : "$") : "") + "{<...>}");
+            String operatorNodeName = AddNode(seqSome, highlightingModeLocal, (seqSome.Random ? (seqSome.Choice ? "$%" : "$") : "") + "{<...>}");
             PrintChildren(seqSome, operatorNodeName, highlightingMode, highlightingModeLocal);
 
             return operatorNodeName;
@@ -895,8 +887,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(seqMulti == context.highlightSeq)
                 highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
-            String operatorNodeName = seqMulti.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingModeLocal), "[[...]]");
+            String operatorNodeName = AddNode(seqMulti, highlightingModeLocal, "[[...]]");
 
             for(int i = seqMulti.RulePrefixedSequences.Count - 1; i >= 0; --i)
             {
@@ -906,8 +897,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 if(seqRulePrefixedSequence == context.highlightSeq)
                     highlightingModeRulePrefixedSequence = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
-                String subOperatorNodeName = seqRulePrefixedSequence.Id.ToString();
-                env.guiForDataRendering.graphViewer.AddNode(subOperatorNodeName, GetNodeRealizer(highlightingModeRulePrefixedSequence), "for{.;.}");
+                String subOperatorNodeName = AddNode(seqRulePrefixedSequence, highlightingModeRulePrefixedSequence, "for{.;.}");
                 env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, subOperatorNodeName), operatorNodeName, subOperatorNodeName, GetEdgeRealizer(highlightingMode), "sub" + i);
 
                 String subNodeName = PrintSequence(seqRulePrefixedSequence.Sequence, seqRulePrefixedSequence, highlightingMode);
@@ -934,8 +924,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(seqMulti == context.highlightSeq)
                 highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
-            String operatorNodeName = seqMulti.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingModeLocal), "[[...]]");
+            String operatorNodeName = AddNode(seqMulti, highlightingModeLocal, "[[...]]");
             PrintChildren(seqMulti, operatorNodeName, highlightingMode, highlightingModeLocal);
 
             StringBuilder sb = new StringBuilder();
@@ -956,8 +945,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(seqRulePrefixedSequence == context.highlightSeq)
                 highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
-            String operatorNodeName = seqRulePrefixedSequence.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingModeLocal), "[for{.;.}]");
+            String operatorNodeName = AddNode(seqRulePrefixedSequence, highlightingModeLocal, "[for{.;.}]");
             String rightNodeName = PrintSequence(seqRulePrefixedSequence.Sequence, seqRulePrefixedSequence, highlightingMode);
             env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, rightNodeName), operatorNodeName, rightNodeName, GetEdgeRealizer(highlightingMode), "sub");
             String leftNodeName = PrintSequence(seqRulePrefixedSequence.Rule, seqRulePrefixedSequence, highlightingModeLocal);
@@ -1033,8 +1021,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string PrintSequenceSequenceCall(SequenceSequenceCallInterpreted seq, SequenceBase parent, HighlightingMode highlightingMode, string prefix)
         {
-            String callNodeName = seq.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(callNodeName, GetNodeRealizer(highlightingMode), "");
+            String callNodeName = AddNode(seq, highlightingMode, "");
 
             StringBuilder sb = new StringBuilder();
             sb.Append(prefix);
@@ -1089,8 +1076,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string PrintSequenceRuleCall(SequenceRuleCall seq, SequenceBase parent, HighlightingMode highlightingMode, string prefix)
         {
-            String callNodeName = seq.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(callNodeName, GetNodeRealizer(highlightingMode), "");
+            String callNodeName = AddNode(seq, highlightingMode, "");
 
             StringBuilder sb = new StringBuilder();
             sb.Append(prefix);
@@ -1108,8 +1094,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string PrintSequenceRuleAllCall(SequenceRuleAllCall seq, SequenceBase parent, HighlightingMode highlightingMode, string prefix)
         {
-            String callNodeName = seq.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(callNodeName, GetNodeRealizer(highlightingMode), "");
+            String callNodeName = AddNode(seq, highlightingMode, "");
 
             StringBuilder sb = new StringBuilder();
             sb.Append(prefix);
@@ -1130,8 +1115,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string PrintSequenceRuleCountAllCall(SequenceRuleCountAllCall seq, SequenceBase parent, HighlightingMode highlightingMode, string prefix)
         {
-            String callNodeName = seq.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(callNodeName, GetNodeRealizer(highlightingMode), "");
+            String callNodeName = AddNode(seq, highlightingMode, "");
 
             StringBuilder sb = new StringBuilder();
             sb.Append(prefix);
@@ -1239,16 +1223,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string PrintSequenceBooleanComputation(SequenceBooleanComputation seqComp, SequenceBase parent, HighlightingMode highlightingMode, string prefix)
         {
-            String computationNodeName = seqComp.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(computationNodeName, GetNodeRealizer(highlightingMode), prefix + seqComp.Computation.Symbol);
+            String computationNodeName = AddNode(seqComp, highlightingMode, prefix + seqComp.Computation.Symbol);
             //PrintSequenceComputation(seqComp.Computation, seqComp, highlightingMode);
             return computationNodeName;
         }
 
         private string PrintSequenceAssignSequenceResultToVar(SequenceAssignSequenceResultToVar seqAss, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            String assignSequenceResultNodeName = seqAss.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(assignSequenceResultNodeName, GetNodeRealizer(highlightingMode), "(." + seqAss.OperatorSymbol + seqAss.DestVar.Name + ")");
+            String assignSequenceResultNodeName = AddNode(seqAss, highlightingMode, "(." + seqAss.OperatorSymbol + seqAss.DestVar.Name + ")");
             String subNodeName = PrintSequence(seqAss.Seq, seqAss, highlightingMode);
             env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(assignSequenceResultNodeName, subNodeName), assignSequenceResultNodeName, subNodeName, GetEdgeRealizer(highlightingMode), "sub");
             return assignSequenceResultNodeName;
@@ -1257,20 +1239,20 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         // Choice highlightable user assignments
         private string PrintSequenceAssignChoiceHighlightable(Sequence seq, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            String assignChoiceNodeName = seq.Id.ToString();
+            String assignChoiceNodeName;
 
             if(context.cpPosCounter >= 0
                 && (seq is SequenceAssignRandomIntToVar || seq is SequenceAssignRandomDoubleToVar))
             {
-                env.guiForDataRendering.graphViewer.AddNode(assignChoiceNodeName, GetNodeRealizer(highlightingMode), GetChoicePrefix((SequenceRandomChoice)seq) + seq.Symbol);
+                assignChoiceNodeName = AddNode(seq, highlightingMode, GetChoicePrefix((SequenceRandomChoice)seq) + seq.Symbol);
                 ++context.cpPosCounter;
                 return assignChoiceNodeName;
             }
 
             if(seq == context.highlightSeq && context.choice)
-                env.guiForDataRendering.graphViewer.AddNode(assignChoiceNodeName, GetNodeRealizer(HighlightingMode.Choicepoint), seq.Symbol);
+                assignChoiceNodeName = AddNode(seq, HighlightingMode.Choicepoint, seq.Symbol);
             else
-                env.guiForDataRendering.graphViewer.AddNode(assignChoiceNodeName, GetNodeRealizer(highlightingMode), seq.Symbol);
+                assignChoiceNodeName = AddNode(seq, highlightingMode, seq.Symbol);
             return assignChoiceNodeName;
         }
 
@@ -1282,8 +1264,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(seqDef.ExecutionState == SequenceExecutionState.Fail)
                 highlightingModeLocal = HighlightingMode.LastFail;
 
-            string sequenceDefNodeName = seqDef.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(sequenceDefNodeName, GetNodeRealizer(highlightingModeLocal), seqDef.Symbol + ": ");
+            string sequenceDefNodeName = AddNode(seqDef, highlightingModeLocal, seqDef.Symbol + ": ");
             string seqName = PrintSequence(seqDef.Seq, seqDef.Seq, highlightingMode);
             env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(sequenceDefNodeName, seqName), sequenceDefNodeName, seqName, GetEdgeRealizer(highlightingMode), "body");
 
@@ -1292,8 +1273,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string PrintSequenceAssignContainerConstructorToVar(SequenceAssignContainerConstructorToVar seq, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            string sequenceAssignNodeName = seq.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(sequenceAssignNodeName, GetNodeRealizer(highlightingMode), seq.DestVar + "=" + seq.Constructor.Symbol);
+            string sequenceAssignNodeName = AddNode(seq, highlightingMode, seq.DestVar + "=" + seq.Constructor.Symbol);
             //PrintSequenceExpression(seq.Constructor, seq, highlightingMode);
             return sequenceAssignNodeName;
         }
@@ -3732,8 +3712,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(seqExprMultiRuleQuery == context.highlightSeq)
                 highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
-            String operatorNodeName = seqExprMultiRuleQuery.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingModeLocal), "[?[...]]");
+            String operatorNodeName = AddNode(seqExprMultiRuleQuery, highlightingModeLocal, "[?[...]]");
 
             for(int i = seqExprMultiRuleQuery.MultiRuleCall.Sequences.Count - 1; i >= 0; --i)
             {
@@ -3748,8 +3727,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 PrintRuleCallString(null, rule, parent, highlightingMode, ref ruleCallAsString);
                 rsb.Append(ruleCallAsString);
 
-                String ruleNodeName = rule.Id.ToString();
-                env.guiForDataRendering.graphViewer.AddNode(ruleNodeName, GetNodeRealizer(highlightingMode), rsb.ToString());
+                String ruleNodeName = AddNode(rule, highlightingMode, rsb.ToString());
                 env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, ruleNodeName), operatorNodeName, ruleNodeName, GetEdgeRealizer(highlightingMode), "rule" + i);
             }
 
@@ -3770,8 +3748,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(seqExprMappingClause == context.highlightSeq)
                 highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
-            String operatorNodeName = seqExprMappingClause.Id.ToString();
-            env.guiForDataRendering.graphViewer.AddNode(operatorNodeName, GetNodeRealizer(highlightingModeLocal), "[:...:]");
+            String operatorNodeName = AddNode(seqExprMappingClause, highlightingModeLocal, "[:...:]");
 
             for(int i = seqExprMappingClause.MultiRulePrefixedSequence.RulePrefixedSequences.Count - 1; i >= 0; --i)
             {
@@ -3781,8 +3758,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 if(seqRulePrefixedSequence == context.highlightSeq)
                     highlightingModeRulePrefixedSequence = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
-                String subOperatorNodeName = seqRulePrefixedSequence.Id.ToString();
-                env.guiForDataRendering.graphViewer.AddNode(subOperatorNodeName, GetNodeRealizer(highlightingModeRulePrefixedSequence), "for{.;.}");
+                String subOperatorNodeName = AddNode(seqRulePrefixedSequence, highlightingModeRulePrefixedSequence, "for{.;.}");
                 env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, subOperatorNodeName), operatorNodeName, subOperatorNodeName, GetEdgeRealizer(highlightingMode), "sub" + i);
 
                 String subNodeName = PrintSequence(seqRulePrefixedSequence.Sequence, seqRulePrefixedSequence, highlightingMode);
