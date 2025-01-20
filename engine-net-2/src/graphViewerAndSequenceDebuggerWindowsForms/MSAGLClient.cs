@@ -352,6 +352,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 gViewer.Graph.RemoveNode(node);
             }
+            foreach(KeyValuePair<String, Subgraph> nameToSubgraph in gViewer.Graph.SubgraphMap) // maybe recursive, maybe exclude root subgraph, but it seems to work this way...
+            {
+                gViewer.Graph.RootSubgraph.RemoveSubgraph(nameToSubgraph.Value);
+            }
+            foreach(Edge edge in gViewer.Graph.Edges)
+            {
+                throw new Exception("Should be empty after clearing nodes and subgraphs");
+            }
             nameToEdge.Clear();
         }
 
