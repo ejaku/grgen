@@ -1213,7 +1213,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string RenderSequenceAssignContainerConstructorToVar(SequenceAssignContainerConstructorToVar seq, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            string sequenceAssignNodeName = AddNode(seq, highlightingMode, seq.DestVar + "=" + seq.Constructor.Symbol);
+            string sequenceAssignNodeName = AddNode(seq, highlightingMode, seq.DestVar.Name + "=" + seq.Constructor.Symbol);
             //PrintSequenceExpression(seq.Constructor, seq, highlightingMode);
             return sequenceAssignNodeName;
         }

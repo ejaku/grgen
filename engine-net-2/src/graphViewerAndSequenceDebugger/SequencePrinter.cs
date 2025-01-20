@@ -70,7 +70,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// Prints the given sequence (adding parentheses if needed) according to the print context.
+        /// Prints the given sequence (adding parentheses if needed) according to the display context.
         /// </summary>
         /// <param name="seq">The sequence to be printed</param>
         /// <param name="parent">The parent of the sequence or null if the sequence is a root</param>
@@ -1097,7 +1097,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void PrintSequenceAssignContainerConstructorToVar(SequenceAssignContainerConstructorToVar seq, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            env.PrintHighlighted(seq.DestVar + "=", highlightingMode);
+            env.PrintHighlighted(seq.DestVar.Name + "=", highlightingMode);
             PrintSequenceExpression(seq.Constructor, seq, highlightingMode);
         }
 
