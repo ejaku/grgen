@@ -2298,7 +2298,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 SubruleComputationType.Entry, message, values);
             task.computationsEnteredStack.Add(entry);
             if(detailedMode && detailedModeShowPostMatches)
-                displayer.DisplayLine(entry.ToString(false)); // subrule traces log interpreted as main data object, entry to embedded sequence
+                env.WriteLine(entry.ToString(false)); // subrule traces log, entry to embedded sequence
         }
 
         public void DebugExit(string message, params object[] values)
@@ -2313,7 +2313,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 SubruleComputation exit = new SubruleComputation(task.procEnv.NamedGraph,
                     SubruleComputationType.Exit, message, values);
-                displayer.DisplayLine(exit.ToString(false)); // subrule traces log interpreted as main data object, exit from embedded sequence
+                env.WriteLine(exit.ToString(false)); // subrule traces log, exit from embedded sequence
             }
             if(outOfDetailedMode && (task.computationsEnteredStack.Count <= outOfDetailedModeTarget || task.computationsEnteredStack.Count == 0))
             {
