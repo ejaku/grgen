@@ -169,6 +169,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 {
                     return MenuPlaceholderToFunctionKey(option.Substring(indexOfOpeningParenthesis, indexOfClosingParenthesis - indexOfOpeningParenthesis + 1));
                 }
+                else if(indexOfClosingParenthesis == indexOfOpeningParenthesis + 4
+                    && option[indexOfOpeningParenthesis + 1] == 'E'
+                    && option[indexOfOpeningParenthesis + 2] == 'S'
+                    && option[indexOfOpeningParenthesis + 3] == 'C')
+                {
+                    return new KeyValuePair<char, ConsoleKey>('\u001B', ConsoleKey.Escape); // return first matching key
+                }
                 else if(option[indexOfOpeningParenthesis + 1] == '(' // skip escaped parenthesis in the form of (())
                     || indexOfClosingParenthesis > indexOfOpeningParenthesis + 2) // skip number special (0-9), also skipping (any key)
                 {
@@ -221,6 +228,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             foreach(string option in options)
             {
                 if(option.Contains("(" + key.KeyChar + ")")) // TODO: escaped parenthesis content should be skipped
+                    return true;
+            }
+            foreach(string option in options)
+            {
+                if(option.Contains("(ESC)") && key.Key == ConsoleKey.Escape)
                     return true;
             }
             foreach(string option in options)
