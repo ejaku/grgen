@@ -502,6 +502,15 @@ namespace graphViewerAndSequenceDebugger.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die (ESC) to cancel entering of a textline ähnelt.
+        /// </summary>
+        internal static string enterLineCancel {
+            get {
+                return ResourceManager.GetString("enterLineCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die refresh view (F5) ähnelt.
         /// </summary>
         internal static string viewRefresh {

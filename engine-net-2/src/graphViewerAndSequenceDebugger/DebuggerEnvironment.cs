@@ -325,6 +325,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         protected Debugger debugger;
 
         private UserChoiceMenu choiceMenuContinueAnyKey = new UserChoiceMenu(UserChoiceMenuNames.PauseContinueMenu, new string[] { "commandContinueAnyKey" });
+        private UserChoiceMenu choiceMenuEnterLineCancel = new UserChoiceMenu(UserChoiceMenuNames.EnterLineCancel, new string[] { "enterLineCancel" });
 
         public virtual void Cancel()
         {
@@ -761,6 +762,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         // inReader
         public string ReadLine()
         {
+            // GUI TODO: fits here or better introduce another ReadLine with maybe more semantic meaning/no GUI disabling?
+            if(theDebuggerGUIForDataRendering != null)
+                theDebuggerGUIForDataRendering.SetContext(choiceMenuEnterLineCancel, null);
+
             return theDebuggerConsoleUI.ReadLine();
         }
         

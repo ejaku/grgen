@@ -66,6 +66,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             Fill("commandWatchpoints", watchpointsToolStripMenuItem);
             Fill("viewSwitch", switchViewToolStripMenuItem);
             Fill("viewRefresh", refreshViewToolStripMenuItem);
+            Fill("enterLineCancel", backAbortToolStripButton);
         }
 
         private void Fill(string optionName, params ToolStripItem[] controls)
@@ -382,6 +383,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         private void skipSingleMatchesToolStripButton_Click(object sender, System.EventArgs e)
+        {
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
+        }
+
+        private void backAbortToolStripButton_Click(object sender, System.EventArgs e)
         {
             KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
             inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);

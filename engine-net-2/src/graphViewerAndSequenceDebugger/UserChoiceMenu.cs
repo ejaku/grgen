@@ -39,7 +39,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         WatchpointDetermineMatchGraphElementByTypeModeMenu,
         WatchpointDetermineDecisionActionMenu,
         PauseContinueMenu,
-        SwitchRefreshViewMenu
+        SwitchRefreshViewMenu,
+        EnterLineCancel
     }
 
     /// <summary>

@@ -165,5 +165,8 @@
   <ItemGroup>
     <None Include="IconImages\Watchpoints.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\BackAbort.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

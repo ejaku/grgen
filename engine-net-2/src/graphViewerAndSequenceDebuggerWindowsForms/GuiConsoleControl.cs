@@ -151,6 +151,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                         ClearEnteredKey();
                         return lineRead;
                     }
+                    else if(enteredCharacter == '\u001B')
+                    {
+                        ClearEnteredKey();
+                        WriteLine(); // to be revisited when a real ESC key press is supported as a means of canceling input (also on the real text console), as of now only entering an empty line is interpreted as a means of canceling input, and realized by the GUI by sending fake ESC key presses
+                        return "";
+                    }
                     lineRead += enteredCharacter;
                     ClearEnteredKey();
                 }

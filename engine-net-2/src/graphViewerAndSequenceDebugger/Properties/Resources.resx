@@ -264,6 +264,9 @@
   <data name="commandWatchpoints" xml:space="preserve">
     <value>(w)atchpoints</value>
   </data>
+  <data name="enterLineCancel" xml:space="preserve">
+    <value>(ESC) to cancel entering of a textline</value>
+  </data>
   <data name="viewRefresh" xml:space="preserve">
     <value>refresh view (F5)</value>
   </data>

@@ -68,6 +68,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.runToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.abortToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.skipSingleMatchesToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.backAbortToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.theSplitContainer = new System.Windows.Forms.SplitContainer();
             this.mainWorkObjectGuiConsoleControl = new de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl();
             this.inputOutputAndLogGuiConsoleControl = new de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl();
@@ -305,7 +307,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.stepOutToolStripButton,
             this.runToolStripButton,
             this.abortToolStripButton,
-            this.skipSingleMatchesToolStripButton});
+            this.skipSingleMatchesToolStripButton,
+            this.toolStripSeparator1,
+            this.backAbortToolStripButton});
             resources.ApplyResources(this.theToolStrip, "theToolStrip");
             this.theToolStrip.Name = "theToolStrip";
             // 
@@ -380,6 +384,19 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.skipSingleMatchesToolStripButton.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.SkipSingleMatches;
             this.skipSingleMatchesToolStripButton.Name = "skipSingleMatchesToolStripButton";
             this.skipSingleMatchesToolStripButton.Click += new System.EventHandler(this.skipSingleMatchesToolStripButton_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+            // 
+            // backAbortToolStripButton
+            // 
+            this.backAbortToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.backAbortToolStripButton, "backAbortToolStripButton");
+            this.backAbortToolStripButton.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.BackAbort;
+            this.backAbortToolStripButton.Name = "backAbortToolStripButton";
+            this.backAbortToolStripButton.Click += new System.EventHandler(this.backAbortToolStripButton_Click);
             // 
             // theSplitContainer
             // 
@@ -471,6 +488,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem switchViewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem refreshViewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton backAbortToolStripButton;
 
         public IDebuggerGUIForDataRendering MainWorkObjectGuiGraphRenderer
         {

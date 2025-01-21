@@ -73,6 +73,16 @@ namespace graphViewerAndSequenceDebuggerWindowsForms.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BackAbort {
+            get {
+                object obj = ResourceManager.GetObject("BackAbort", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Breakpoints {
             get {
                 object obj = ResourceManager.GetObject("Breakpoints", resourceCulture);
