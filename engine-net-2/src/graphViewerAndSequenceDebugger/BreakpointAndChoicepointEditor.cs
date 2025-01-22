@@ -49,7 +49,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(contextBp.bpPosCounter == 0)
             {
                 if(env.TwoPane)
-                    env.PauseUntilAnyKeyPressed("No breakpoint positions available, press any key to continue...");
+                    env.PauseUntilAnyKeyPressedToContinueDialog("No breakpoint positions available, press any key to continue...");
                 else
                     env.WriteLine("No breakpoint positions available!");
                 return;
@@ -73,7 +73,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(contextCp.cpPosCounter == 0)
             {
                 if(env.TwoPane)
-                    env.PauseUntilAnyKeyPressed("No choicepoint positions available, press any key to continue...");
+                    env.PauseUntilAnyKeyPressedToContinueDialog("No choicepoint positions available, press any key to continue...");
                 else
                     env.WriteLine("No choicepoint positions available!");
                 return;

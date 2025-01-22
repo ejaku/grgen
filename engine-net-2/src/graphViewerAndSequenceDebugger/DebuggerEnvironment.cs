@@ -245,7 +245,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         object Askfor(String typeName, INamedGraph graph);
 
         void PauseUntilEnterPressed(string msg);
-        void PauseUntilAnyKeyPressed(string msg);
+        void PauseUntilAnyKeyPressedToResumeDebugging(string msg);
+        void PauseUntilAnyKeyPressedToContinueDialog(string msg);
         bool ShowMsgAskForYesNo(string msg);
         int ShowMsgAskForIntegerNumber(string msg);
         int ShowMsgAskForIntegerNumber(string msg, int defaultOnEmptyInput);
@@ -548,7 +549,17 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             ReadOrEofErr();
         }
 
-        public void PauseUntilAnyKeyPressed(string msg)
+        public void PauseUntilAnyKeyPressedToResumeDebugging(string msg)
+        {
+            WriteLine(msg);
+
+            if(theDebuggerGUIForDataRendering != null)
+                theDebuggerGUIForDataRendering.SetContext(choiceMenuContinueAnyKey, null);
+
+            ReadKey(true);
+        }
+
+        public void PauseUntilAnyKeyPressedToContinueDialog(string msg)
         {
             WriteLine(msg);
 

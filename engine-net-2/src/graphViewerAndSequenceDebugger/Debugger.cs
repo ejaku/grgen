@@ -502,7 +502,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             displayer.BeginOfDisplay("");
             displayer.DisplayVariables(task.debugSequences.Peek(), seq, debuggerProcEnv);
             if(env.TwoPane)
-                env.PauseUntilAnyKeyPressed("Press any key to return from variable display...");
+                env.PauseUntilAnyKeyPressedToContinueDialog("Press any key to return from variable display...");
         }
 
         private void HandleShowClassObject(SequenceBase seq)
@@ -530,7 +530,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             displayer.BeginOfDisplay("Current sequence call stack is:");
             DisplayStackTraces(false, false, false);
             if(env.TwoPane) // a pause is needed when being called from main menu in two pane mode cause there it acts as sub-dialog, after a bottom-up break debugging should just continue after printing the state
-                env.PauseUntilAnyKeyPressed("Press any key to return from stack trace display...");
+                env.PauseUntilAnyKeyPressedToContinueDialog("Press any key to return from stack trace display...");
         }
 
         private void HandleFullState()
@@ -538,7 +538,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             displayer.BeginOfDisplay("Current execution state is:");
             DisplayFullState(false);
             if(env.TwoPane) // a pause is needed when being called from main menu in two pane mode cause there it acts as sub-dialog, after a bottom-up break debugging should just continue after printing the state
-                env.PauseUntilAnyKeyPressed("Press any key to return from full state display...");
+                env.PauseUntilAnyKeyPressedToContinueDialog("Press any key to return from full state display...");
         }
 
         private void HandleDump()
@@ -592,7 +592,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             graphViewerClient.Graph = graph;
             graphViewerClient.UploadGraph();
 
-            env.PauseUntilAnyKeyPressed("...press any key to continue...");
+            env.PauseUntilAnyKeyPressedToContinueDialog("...press any key to continue...");
 
             env.WriteLine("...return to normal graph.");
             graphViewerClient.ClearGraph();
@@ -1366,7 +1366,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             graphViewerClient.UpdateDisplay();
             graphViewerClient.Sync();
-            env.PauseUntilAnyKeyPressed("Press any key to continue " + (task.debugSequences.Count > 0 ? "(with the matches remaining after filtering/of the selected rule)..." : "..."));
+            env.PauseUntilAnyKeyPressedToResumeDebugging("Press any key to continue " + (task.debugSequences.Count > 0 ? "(with the matches remaining after filtering/of the selected rule)..." : "..."));
 
             DebugMatchUnmark(matchMarkerAndAnnotator, matchesList);
 
@@ -1641,7 +1641,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             else
             {
-                env.PauseUntilAnyKeyPressed(inMatchByMatchProcessing
+                env.PauseUntilAnyKeyPressedToResumeDebugging(inMatchByMatchProcessing
                     ? "Press any key to apply rewrite..."
                     : "Press any key to show single matches and apply rewrite...");
             }
@@ -1736,7 +1736,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 if(task.skipMode.Count > 0 && task.skipMode[task.skipMode.Count - 1])
                     return;
 
-                env.PauseUntilAnyKeyPressed("Rewritten - Debugging detailed continues with any key...");
+                env.PauseUntilAnyKeyPressedToResumeDebugging("Rewritten - Debugging detailed continues with any key...");
             }
         }
 
@@ -1992,7 +1992,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 displayer.DisplaySequenceBase(task.debugSequences.Peek(), context, task.debugSequences.Count, "State at end of sequence ", "< leaving");
                 env.RestartImmediateExecution();
                 if(env.TwoPane)
-                    env.PauseUntilAnyKeyPressed("Showing sequence state when leaving sequence, press any key to continue...");
+                    env.PauseUntilAnyKeyPressedToResumeDebugging("Showing sequence state when leaving sequence, press any key to continue...");
             }
         }
 
@@ -2087,7 +2087,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 }
                 env.RestartImmediateExecution();
                 if(env.TwoPane)
-                    env.PauseUntilAnyKeyPressed("Showing sequence state when leaving construct, press any key to continue...");
+                    env.PauseUntilAnyKeyPressedToResumeDebugging("Showing sequence state when leaving construct, press any key to continue...");
                 else
                     env.WriteLine(" (updating, please wait...)");
             }

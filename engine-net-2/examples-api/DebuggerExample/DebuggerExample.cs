@@ -72,7 +72,7 @@ namespace DebuggerExample
             if(debugger != null && debugger.GraphViewerClient != null)
                 debugger.GraphViewerClient.Sync();
             debugger.env.WriteLine(text);
-            debugger.env.PauseUntilAnyKeyPressed("Press any key to continue...");
+            debugger.env.PauseUntilAnyKeyPressedToResumeDebugging("Press any key to continue..."); // depending on the situation PauseUntilAnyKeyPressedToContinueDialog may be more appropriate
         }
 
         // example showing how to debug a sequence at API level (also rendering the graph)
