@@ -46,6 +46,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             contextBp.bpPosCounter = 0;
             displayer.DisplaySequenceBase(debugSequences.Peek(), contextBp, debugSequences.Count, "", "");
 
+            HandleToggleBreakpoints(contextBp);
+
+            env.WriteLine("Back from breakpoints to debugging.");
+        }
+
+        private void HandleToggleBreakpoints(DisplaySequenceContext contextBp)
+        {
             if(contextBp.bpPosCounter == 0)
             {
                 if(env.TwoPane)
@@ -70,6 +77,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             contextCp.cpPosCounter = 0;
             displayer.DisplaySequenceBase(debugSequences.Peek(), contextCp, debugSequences.Count, "", "");
 
+            HandleToggleChoicepoints(contextCp);
+
+            env.WriteLine("Back from choicepoints to debugging.");
+        }
+
+        private void HandleToggleChoicepoints(DisplaySequenceContext contextCp)
+        {
             if(contextCp.cpPosCounter == 0)
             {
                 if(env.TwoPane)
@@ -124,7 +138,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     }
                     return num;
                 case 'e':
-                    num = env.ShowMsgAskForIntegerNumber("Enter number of " + (pointType == PointType.Breakpoint ? "breakpoint" : "choicepoint") + " to toggle (-1 for abort)");
+                    num = env.ShowMsgAskForIntegerNumber("Enter number of " + (pointType == PointType.Breakpoint ? "breakpoint" : "choicepoint") + " to toggle (just enter for abort)", -1);
                     if(num < -1 || num >= numPositions)
                     {
                         env.WriteLine("You must specify a number between -1 and " + (numPositions - 1) + "!");

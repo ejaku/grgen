@@ -601,7 +601,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 {
                     return num;
                 }
-                Write("You must enter a valid integer number, please try again: ");
+                Write("You must enter an integer number, please try again: ");
             }
         }
 
@@ -620,7 +620,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 {
                     return num;
                 }
-                Write("You must enter a valid integer number, please try again: ");
+                Write("You must enter an integer number (or just press enter), please try again: ");
             }
         }
 

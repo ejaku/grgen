@@ -146,7 +146,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             graphViewerClient.UpdateDisplay();
             graphViewerClient.Sync();
 
-            env.WriteLine("End of highlighting");
+            env.WriteLine("Back from highlighting to debugging.");
         }
 
         private void HighlightValue(object value, string name, bool addAnnotation)

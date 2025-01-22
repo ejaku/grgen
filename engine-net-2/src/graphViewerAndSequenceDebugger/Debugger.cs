@@ -502,7 +502,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             displayer.BeginOfDisplay("");
             displayer.DisplayVariables(task.debugSequences.Peek(), seq, debuggerProcEnv);
             if(env.TwoPane)
+            {
                 env.PauseUntilAnyKeyPressedToContinueDialog("Press any key to return from variable display...");
+                env.WriteLine("Back from variables to debugging.");
+            }
         }
 
         private void HandleShowClassObject(SequenceBase seq)
@@ -513,7 +516,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 env.Write("Enter id of class object to emit (with % prefix), of transient class object to emit (with & prefix), or name of variable to emit (or just enter for abort): ");
                 String argument = env.ReadLine();
                 if(argument.Length == 0)
+                {
+                    env.WriteLine("Back from class objects to debugging.");
                     return;
+                }
 
                 if(argument.StartsWith("%"))
                     ShowClassObjectObject(argument);
@@ -530,7 +536,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             displayer.BeginOfDisplay("Current sequence call stack is:");
             DisplayStackTraces(false, false, false);
             if(env.TwoPane) // a pause is needed when being called from main menu in two pane mode cause there it acts as sub-dialog, after a bottom-up break debugging should just continue after printing the state
+            {
                 env.PauseUntilAnyKeyPressedToContinueDialog("Press any key to return from stack trace display...");
+                env.WriteLine("Back from stack trace to debugging.");
+            }
         }
 
         private void HandleFullState()
@@ -538,7 +547,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             displayer.BeginOfDisplay("Current execution state is:");
             DisplayFullState(false);
             if(env.TwoPane) // a pause is needed when being called from main menu in two pane mode cause there it acts as sub-dialog, after a bottom-up break debugging should just continue after printing the state
+            {
                 env.PauseUntilAnyKeyPressedToContinueDialog("Press any key to return from full state display...");
+                env.WriteLine("Back from full state to debugging.");
+            }
         }
 
         private void HandleDump()
