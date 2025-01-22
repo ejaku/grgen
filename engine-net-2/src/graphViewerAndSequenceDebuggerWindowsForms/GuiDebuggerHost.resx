@@ -218,23 +218,44 @@
   <data name="debuggingCommandsToolStripMenuItem.Text" xml:space="preserve">
     <value>Debugging commands</value>
   </data>
-  <data name="toggleBreakpointsToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+  <data name="breakpointsToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="toggleBreakpointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="breakpointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>215, 22</value>
   </data>
-  <data name="toggleBreakpointsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Toggle &amp;breakpoints</value>
+  <data name="breakpointsToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Breakpoints...</value>
   </data>
-  <data name="toggleChoicepointsToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+  <data name="toggleBreakpointToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="toggleChoicepointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="toggleBreakpointToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>215, 22</value>
   </data>
-  <data name="toggleChoicepointsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Toggle &amp;choicepoints</value>
+  <data name="toggleBreakpointToolStripMenuItem.Text" xml:space="preserve">
+    <value>Toggle breakpoint</value>
+  </data>
+  <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>212, 6</value>
+  </data>
+  <data name="choicepointsToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="choicepointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 22</value>
+  </data>
+  <data name="choicepointsToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Choicepoints...</value>
+  </data>
+  <data name="toggleChoicepointToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="toggleChoicepointToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 22</value>
+  </data>
+  <data name="toggleChoicepointToolStripMenuItem.Text" xml:space="preserve">
+    <value>Toggle choicepoint</value>
   </data>
   <data name="toggleLazyChoiceToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -245,6 +266,9 @@
   <data name="toggleLazyChoiceToolStripMenuItem.Text" xml:space="preserve">
     <value>Enable &amp;lazy choice (toggle)</value>
   </data>
+  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>212, 6</value>
+  </data>
   <data name="watchpointsToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -252,64 +276,109 @@
     <value>215, 22</value>
   </data>
   <data name="watchpointsToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Watchpoints</value>
+    <value>&amp;Watchpoints...</value>
   </data>
-  <data name="breakpointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 20</value>
+  <data name="editWatchpointToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
-  <data name="breakpointsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Breakpoints</value>
+  <data name="editWatchpointToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 22</value>
+  </data>
+  <data name="editWatchpointToolStripMenuItem.Text" xml:space="preserve">
+    <value>Edit watchpoint</value>
+  </data>
+  <data name="toggleWatchpointToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="toggleWatchpointToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 22</value>
+  </data>
+  <data name="toggleWatchpointToolStripMenuItem.Text" xml:space="preserve">
+    <value>Toggle watchpoint</value>
+  </data>
+  <data name="deleteWatchpointToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="deleteWatchpointToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 22</value>
+  </data>
+  <data name="deleteWatchpointToolStripMenuItem.Text" xml:space="preserve">
+    <value>Delete watchpoint</value>
+  </data>
+  <data name="insertWatchpointToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="insertWatchpointToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 22</value>
+  </data>
+  <data name="insertWatchpointToolStripMenuItem.Text" xml:space="preserve">
+    <value>Insert watchpoint</value>
+  </data>
+  <data name="appendWatchpointToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="appendWatchpointToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 22</value>
+  </data>
+  <data name="appendWatchpointToolStripMenuItem.Text" xml:space="preserve">
+    <value>Append watchpoint</value>
+  </data>
+  <data name="breakpointEditingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>116, 20</value>
+  </data>
+  <data name="breakpointEditingToolStripMenuItem.Text" xml:space="preserve">
+    <value>Breakpoint editing</value>
   </data>
   <data name="showVariablesToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="showVariablesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
+    <value>176, 22</value>
   </data>
   <data name="showVariablesToolStripMenuItem.Text" xml:space="preserve">
-    <value>Show &amp;variables</value>
+    <value>Show &amp;variables...</value>
   </data>
   <data name="showClassObjectToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="showClassObjectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
+    <value>176, 22</value>
   </data>
   <data name="showClassObjectToolStripMenuItem.Text" xml:space="preserve">
-    <value>Show class ob&amp;ject</value>
+    <value>Show class ob&amp;ject...</value>
   </data>
   <data name="printStacktraceToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="printStacktraceToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
+    <value>176, 22</value>
   </data>
   <data name="printStacktraceToolStripMenuItem.Text" xml:space="preserve">
-    <value>Print stack&amp;trace</value>
+    <value>Print stack&amp;trace...</value>
   </data>
   <data name="printFullStateToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="printFullStateToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
+    <value>176, 22</value>
   </data>
   <data name="printFullStateToolStripMenuItem.Text" xml:space="preserve">
-    <value>Print &amp;full state</value>
+    <value>Print &amp;full state...</value>
   </data>
   <data name="highlightToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="highlightToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
+    <value>176, 22</value>
   </data>
   <data name="highlightToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Highlight</value>
+    <value>&amp;Highlight...</value>
   </data>
   <data name="dumpGraphToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="dumpGraphToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
+    <value>176, 22</value>
   </data>
   <data name="dumpGraphToolStripMenuItem.Text" xml:space="preserve">
     <value>Dum&amp;p graph</value>
@@ -318,10 +387,10 @@
     <value>False</value>
   </data>
   <data name="asGraphToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
+    <value>176, 22</value>
   </data>
   <data name="asGraphToolStripMenuItem.Text" xml:space="preserve">
-    <value>As &amp;graph</value>
+    <value>As &amp;graph...</value>
   </data>
   <data name="stateDisplayToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>85, 20</value>
@@ -651,6 +720,9 @@
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>800, 450</value>
   </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>GuiDebuggerHost</value>
   </data>
@@ -660,82 +732,16 @@
   <data name="&gt;&gt;debuggingCommandsToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;nextMatchToolStripMenuItem.Name" xml:space="preserve">
-    <value>nextMatchToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;nextMatchToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;detailedStepToolStripMenuItem.Name" xml:space="preserve">
-    <value>detailedStepToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;detailedStepToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;stepToolStripMenuItem.Name" xml:space="preserve">
-    <value>stepToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;stepToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;stepUpToolStripMenuItem.Name" xml:space="preserve">
-    <value>stepUpToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;stepUpToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;stepOutToolStripMenuItem.Name" xml:space="preserve">
-    <value>stepOutToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;stepOutToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;runToolStripMenuItem.Name" xml:space="preserve">
-    <value>runToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;runToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;abortToolStripMenuItem.Name" xml:space="preserve">
-    <value>abortToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;abortToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;continueToolStripMenuItem.Name" xml:space="preserve">
-    <value>continueToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;continueToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;skipSingleMatchesToolStripMenuItem.Name" xml:space="preserve">
-    <value>skipSingleMatchesToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;skipSingleMatchesToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;debugAtSourceCodeLevelToolStripMenuItem.Name" xml:space="preserve">
     <value>debugAtSourceCodeLevelToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;debugAtSourceCodeLevelToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;breakpointsToolStripMenuItem.Name" xml:space="preserve">
-    <value>breakpointsToolStripMenuItem</value>
+  <data name="&gt;&gt;breakpointEditingToolStripMenuItem.Name" xml:space="preserve">
+    <value>breakpointEditingToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;breakpointsToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toggleBreakpointsToolStripMenuItem.Name" xml:space="preserve">
-    <value>toggleBreakpointsToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;toggleBreakpointsToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toggleChoicepointsToolStripMenuItem.Name" xml:space="preserve">
-    <value>toggleChoicepointsToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;toggleChoicepointsToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;breakpointEditingToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toggleLazyChoiceToolStripMenuItem.Name" xml:space="preserve">
@@ -744,52 +750,10 @@
   <data name="&gt;&gt;toggleLazyChoiceToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;watchpointsToolStripMenuItem.Name" xml:space="preserve">
-    <value>watchpointsToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;watchpointsToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;stateDisplayToolStripMenuItem.Name" xml:space="preserve">
     <value>stateDisplayToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;stateDisplayToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;showVariablesToolStripMenuItem.Name" xml:space="preserve">
-    <value>showVariablesToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;showVariablesToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;showClassObjectToolStripMenuItem.Name" xml:space="preserve">
-    <value>showClassObjectToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;showClassObjectToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;printStacktraceToolStripMenuItem.Name" xml:space="preserve">
-    <value>printStacktraceToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;printStacktraceToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;printFullStateToolStripMenuItem.Name" xml:space="preserve">
-    <value>printFullStateToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;printFullStateToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;highlightToolStripMenuItem.Name" xml:space="preserve">
-    <value>highlightToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;highlightToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;dumpGraphToolStripMenuItem.Name" xml:space="preserve">
-    <value>dumpGraphToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;dumpGraphToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;asGraphToolStripMenuItem.Name" xml:space="preserve">
@@ -814,6 +778,60 @@
     <value>refreshViewToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;refreshViewToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
+    <value>toolStripSeparator1</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator2.Name" xml:space="preserve">
+    <value>toolStripSeparator2</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator3.Name" xml:space="preserve">
+    <value>toolStripSeparator3</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toggleChoicepointToolStripMenuItem.Name" xml:space="preserve">
+    <value>toggleChoicepointToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;toggleChoicepointToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;appendWatchpointToolStripMenuItem.Name" xml:space="preserve">
+    <value>appendWatchpointToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;appendWatchpointToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;insertWatchpointToolStripMenuItem.Name" xml:space="preserve">
+    <value>insertWatchpointToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;insertWatchpointToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;editWatchpointToolStripMenuItem.Name" xml:space="preserve">
+    <value>editWatchpointToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;editWatchpointToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;deleteWatchpointToolStripMenuItem.Name" xml:space="preserve">
+    <value>deleteWatchpointToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;deleteWatchpointToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toggleWatchpointToolStripMenuItem.Name" xml:space="preserve">
+    <value>toggleWatchpointToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;toggleWatchpointToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;continueToolStripButton.Name" xml:space="preserve">
@@ -870,12 +888,6 @@
   <data name="&gt;&gt;skipSingleMatchesToolStripButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
-    <value>toolStripSeparator1</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;backAbortToolStripButton.Name" xml:space="preserve">
     <value>backAbortToolStripButton</value>
   </data>
@@ -887,6 +899,120 @@
   </data>
   <data name="&gt;&gt;continueDialogToolStripButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;nextMatchToolStripMenuItem.Name" xml:space="preserve">
+    <value>nextMatchToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;nextMatchToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;detailedStepToolStripMenuItem.Name" xml:space="preserve">
+    <value>detailedStepToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;detailedStepToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;stepToolStripMenuItem.Name" xml:space="preserve">
+    <value>stepToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;stepToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;stepUpToolStripMenuItem.Name" xml:space="preserve">
+    <value>stepUpToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;stepUpToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;stepOutToolStripMenuItem.Name" xml:space="preserve">
+    <value>stepOutToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;stepOutToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;runToolStripMenuItem.Name" xml:space="preserve">
+    <value>runToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;runToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;abortToolStripMenuItem.Name" xml:space="preserve">
+    <value>abortToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;abortToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;continueToolStripMenuItem.Name" xml:space="preserve">
+    <value>continueToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;continueToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;skipSingleMatchesToolStripMenuItem.Name" xml:space="preserve">
+    <value>skipSingleMatchesToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;skipSingleMatchesToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;breakpointsToolStripMenuItem.Name" xml:space="preserve">
+    <value>breakpointsToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;breakpointsToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toggleBreakpointToolStripMenuItem.Name" xml:space="preserve">
+    <value>toggleBreakpointToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;toggleBreakpointToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;choicepointsToolStripMenuItem.Name" xml:space="preserve">
+    <value>choicepointsToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;choicepointsToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;watchpointsToolStripMenuItem.Name" xml:space="preserve">
+    <value>watchpointsToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;watchpointsToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;showVariablesToolStripMenuItem.Name" xml:space="preserve">
+    <value>showVariablesToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;showVariablesToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;showClassObjectToolStripMenuItem.Name" xml:space="preserve">
+    <value>showClassObjectToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;showClassObjectToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;printStacktraceToolStripMenuItem.Name" xml:space="preserve">
+    <value>printStacktraceToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;printStacktraceToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;printFullStateToolStripMenuItem.Name" xml:space="preserve">
+    <value>printFullStateToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;printFullStateToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;highlightToolStripMenuItem.Name" xml:space="preserve">
+    <value>highlightToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;highlightToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;dumpGraphToolStripMenuItem.Name" xml:space="preserve">
+    <value>dumpGraphToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;dumpGraphToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>GuiDebuggerHost</value>

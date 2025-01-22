@@ -171,5 +171,23 @@
   <ItemGroup>
     <None Include="IconImages\ContinueDialog.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\AddWatchpoint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\DeleteWatchpoint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\EditWatchpoint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\ToggleBreakpoint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\ToggleChoicepoint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\ToggleWatchpoint.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

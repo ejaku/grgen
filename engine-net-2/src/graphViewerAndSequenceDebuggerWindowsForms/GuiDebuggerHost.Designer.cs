@@ -32,33 +32,27 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GuiDebuggerHost));
             this.theMenuStrip = new System.Windows.Forms.MenuStrip();
             this.debuggingCommandsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.nextMatchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.detailedStepToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.stepToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.stepUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.stepOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.abortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.continueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.skipSingleMatchesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugAtSourceCodeLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.breakpointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toggleBreakpointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toggleChoicepointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.breakpointEditingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toggleLazyChoiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.watchpointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stateDisplayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showVariablesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showClassObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.printStacktraceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.printFullStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.highlightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dumpGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.asGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.switchViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.theToolStrip = new System.Windows.Forms.ToolStrip();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.theSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toggleChoicepointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.appendWatchpointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.insertWatchpointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editWatchpointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteWatchpointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toggleWatchpointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainWorkObjectGuiConsoleControl = new de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl();
+            this.inputOutputAndLogGuiConsoleControl = new de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl();
             this.continueToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.nextMatchToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.detailedStepToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -68,12 +62,27 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.runToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.abortToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.skipSingleMatchesToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.backAbortToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.continueDialogToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.theSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.mainWorkObjectGuiConsoleControl = new de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl();
-            this.inputOutputAndLogGuiConsoleControl = new de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl();
+            this.nextMatchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.detailedStepToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stepToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stepUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stepOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.abortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.continueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.skipSingleMatchesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.breakpointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toggleBreakpointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.choicepointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.watchpointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showVariablesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showClassObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printStacktraceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printFullStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.highlightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dumpGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.theMenuStrip.SuspendLayout();
             this.theToolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.theSplitContainer)).BeginInit();
@@ -86,7 +95,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             // 
             this.theMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.debuggingCommandsToolStripMenuItem,
-            this.breakpointsToolStripMenuItem,
+            this.breakpointEditingToolStripMenuItem,
             this.stateDisplayToolStripMenuItem,
             this.viewToolStripMenuItem});
             resources.ApplyResources(this.theMenuStrip, "theMenuStrip");
@@ -108,98 +117,30 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.debuggingCommandsToolStripMenuItem.Name = "debuggingCommandsToolStripMenuItem";
             resources.ApplyResources(this.debuggingCommandsToolStripMenuItem, "debuggingCommandsToolStripMenuItem");
             // 
-            // nextMatchToolStripMenuItem
-            // 
-            resources.ApplyResources(this.nextMatchToolStripMenuItem, "nextMatchToolStripMenuItem");
-            this.nextMatchToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.NextMatch;
-            this.nextMatchToolStripMenuItem.Name = "nextMatchToolStripMenuItem";
-            this.nextMatchToolStripMenuItem.Click += new System.EventHandler(this.nextMatchToolStripMenuItem_Click);
-            // 
-            // detailedStepToolStripMenuItem
-            // 
-            resources.ApplyResources(this.detailedStepToolStripMenuItem, "detailedStepToolStripMenuItem");
-            this.detailedStepToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.DetailedStep;
-            this.detailedStepToolStripMenuItem.Name = "detailedStepToolStripMenuItem";
-            this.detailedStepToolStripMenuItem.Click += new System.EventHandler(this.detailedStepToolStripMenuItem_Click);
-            // 
-            // stepToolStripMenuItem
-            // 
-            resources.ApplyResources(this.stepToolStripMenuItem, "stepToolStripMenuItem");
-            this.stepToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Step;
-            this.stepToolStripMenuItem.Name = "stepToolStripMenuItem";
-            this.stepToolStripMenuItem.Click += new System.EventHandler(this.stepToolStripMenuItem_Click);
-            // 
-            // stepUpToolStripMenuItem
-            // 
-            resources.ApplyResources(this.stepUpToolStripMenuItem, "stepUpToolStripMenuItem");
-            this.stepUpToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.StepUp;
-            this.stepUpToolStripMenuItem.Name = "stepUpToolStripMenuItem";
-            this.stepUpToolStripMenuItem.Click += new System.EventHandler(this.stepUpToolStripMenuItem_Click);
-            // 
-            // stepOutToolStripMenuItem
-            // 
-            resources.ApplyResources(this.stepOutToolStripMenuItem, "stepOutToolStripMenuItem");
-            this.stepOutToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.StepOut;
-            this.stepOutToolStripMenuItem.Name = "stepOutToolStripMenuItem";
-            this.stepOutToolStripMenuItem.Click += new System.EventHandler(this.stepOutToolStripMenuItem_Click);
-            // 
-            // runToolStripMenuItem
-            // 
-            resources.ApplyResources(this.runToolStripMenuItem, "runToolStripMenuItem");
-            this.runToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Run;
-            this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-            this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
-            // 
-            // abortToolStripMenuItem
-            // 
-            resources.ApplyResources(this.abortToolStripMenuItem, "abortToolStripMenuItem");
-            this.abortToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Abort;
-            this.abortToolStripMenuItem.Name = "abortToolStripMenuItem";
-            this.abortToolStripMenuItem.Click += new System.EventHandler(this.abortToolStripMenuItem_Click);
-            // 
-            // continueToolStripMenuItem
-            // 
-            resources.ApplyResources(this.continueToolStripMenuItem, "continueToolStripMenuItem");
-            this.continueToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Continue;
-            this.continueToolStripMenuItem.Name = "continueToolStripMenuItem";
-            this.continueToolStripMenuItem.Click += new System.EventHandler(this.continueToolStripMenuItem_Click);
-            // 
-            // skipSingleMatchesToolStripMenuItem
-            // 
-            resources.ApplyResources(this.skipSingleMatchesToolStripMenuItem, "skipSingleMatchesToolStripMenuItem");
-            this.skipSingleMatchesToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.SkipSingleMatches;
-            this.skipSingleMatchesToolStripMenuItem.Name = "skipSingleMatchesToolStripMenuItem";
-            this.skipSingleMatchesToolStripMenuItem.Click += new System.EventHandler(this.skipSingleMatchesToolStripMenuItem_Click);
-            // 
             // debugAtSourceCodeLevelToolStripMenuItem
             // 
             resources.ApplyResources(this.debugAtSourceCodeLevelToolStripMenuItem, "debugAtSourceCodeLevelToolStripMenuItem");
             this.debugAtSourceCodeLevelToolStripMenuItem.Name = "debugAtSourceCodeLevelToolStripMenuItem";
             this.debugAtSourceCodeLevelToolStripMenuItem.Click += new System.EventHandler(this.debugAtSourceCodeLevelToolStripMenuItem_Click);
             // 
-            // breakpointsToolStripMenuItem
+            // breakpointEditingToolStripMenuItem
             // 
-            this.breakpointsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toggleBreakpointsToolStripMenuItem,
-            this.toggleChoicepointsToolStripMenuItem,
+            this.breakpointEditingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.breakpointsToolStripMenuItem,
+            this.toggleBreakpointToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.choicepointsToolStripMenuItem,
+            this.toggleChoicepointToolStripMenuItem,
             this.toggleLazyChoiceToolStripMenuItem,
-            this.watchpointsToolStripMenuItem});
-            this.breakpointsToolStripMenuItem.Name = "breakpointsToolStripMenuItem";
-            resources.ApplyResources(this.breakpointsToolStripMenuItem, "breakpointsToolStripMenuItem");
-            // 
-            // toggleBreakpointsToolStripMenuItem
-            // 
-            resources.ApplyResources(this.toggleBreakpointsToolStripMenuItem, "toggleBreakpointsToolStripMenuItem");
-            this.toggleBreakpointsToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Breakpoints;
-            this.toggleBreakpointsToolStripMenuItem.Name = "toggleBreakpointsToolStripMenuItem";
-            this.toggleBreakpointsToolStripMenuItem.Click += new System.EventHandler(this.toggleBreakpointsToolStripMenuItem_Click);
-            // 
-            // toggleChoicepointsToolStripMenuItem
-            // 
-            resources.ApplyResources(this.toggleChoicepointsToolStripMenuItem, "toggleChoicepointsToolStripMenuItem");
-            this.toggleChoicepointsToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Choicepoints;
-            this.toggleChoicepointsToolStripMenuItem.Name = "toggleChoicepointsToolStripMenuItem";
-            this.toggleChoicepointsToolStripMenuItem.Click += new System.EventHandler(this.toggleChoicepointsToolStripMenuItem_Click);
+            this.toolStripSeparator2,
+            this.watchpointsToolStripMenuItem,
+            this.editWatchpointToolStripMenuItem,
+            this.toggleWatchpointToolStripMenuItem,
+            this.deleteWatchpointToolStripMenuItem,
+            this.insertWatchpointToolStripMenuItem,
+            this.appendWatchpointToolStripMenuItem});
+            this.breakpointEditingToolStripMenuItem.Name = "breakpointEditingToolStripMenuItem";
+            resources.ApplyResources(this.breakpointEditingToolStripMenuItem, "breakpointEditingToolStripMenuItem");
             // 
             // toggleLazyChoiceToolStripMenuItem
             // 
@@ -208,13 +149,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             resources.ApplyResources(this.toggleLazyChoiceToolStripMenuItem, "toggleLazyChoiceToolStripMenuItem");
             this.toggleLazyChoiceToolStripMenuItem.Name = "toggleLazyChoiceToolStripMenuItem";
             this.toggleLazyChoiceToolStripMenuItem.Click += new System.EventHandler(this.toggleLazyChoiceToolStripMenuItem_Click);
-            // 
-            // watchpointsToolStripMenuItem
-            // 
-            resources.ApplyResources(this.watchpointsToolStripMenuItem, "watchpointsToolStripMenuItem");
-            this.watchpointsToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Watchpoints;
-            this.watchpointsToolStripMenuItem.Name = "watchpointsToolStripMenuItem";
-            this.watchpointsToolStripMenuItem.Click += new System.EventHandler(this.watchpointsToolStripMenuItem_Click);
             // 
             // stateDisplayToolStripMenuItem
             // 
@@ -228,48 +162,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.asGraphToolStripMenuItem});
             this.stateDisplayToolStripMenuItem.Name = "stateDisplayToolStripMenuItem";
             resources.ApplyResources(this.stateDisplayToolStripMenuItem, "stateDisplayToolStripMenuItem");
-            // 
-            // showVariablesToolStripMenuItem
-            // 
-            resources.ApplyResources(this.showVariablesToolStripMenuItem, "showVariablesToolStripMenuItem");
-            this.showVariablesToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Variables;
-            this.showVariablesToolStripMenuItem.Name = "showVariablesToolStripMenuItem";
-            this.showVariablesToolStripMenuItem.Click += new System.EventHandler(this.showVariablesToolStripMenuItem_Click);
-            // 
-            // showClassObjectToolStripMenuItem
-            // 
-            resources.ApplyResources(this.showClassObjectToolStripMenuItem, "showClassObjectToolStripMenuItem");
-            this.showClassObjectToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Objects;
-            this.showClassObjectToolStripMenuItem.Name = "showClassObjectToolStripMenuItem";
-            this.showClassObjectToolStripMenuItem.Click += new System.EventHandler(this.showClassObjectToolStripMenuItem_Click);
-            // 
-            // printStacktraceToolStripMenuItem
-            // 
-            resources.ApplyResources(this.printStacktraceToolStripMenuItem, "printStacktraceToolStripMenuItem");
-            this.printStacktraceToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Stacktrace;
-            this.printStacktraceToolStripMenuItem.Name = "printStacktraceToolStripMenuItem";
-            this.printStacktraceToolStripMenuItem.Click += new System.EventHandler(this.printStacktraceToolStripMenuItem_Click);
-            // 
-            // printFullStateToolStripMenuItem
-            // 
-            resources.ApplyResources(this.printFullStateToolStripMenuItem, "printFullStateToolStripMenuItem");
-            this.printFullStateToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.FullState;
-            this.printFullStateToolStripMenuItem.Name = "printFullStateToolStripMenuItem";
-            this.printFullStateToolStripMenuItem.Click += new System.EventHandler(this.printFullStateToolStripMenuItem_Click);
-            // 
-            // highlightToolStripMenuItem
-            // 
-            resources.ApplyResources(this.highlightToolStripMenuItem, "highlightToolStripMenuItem");
-            this.highlightToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Highlight;
-            this.highlightToolStripMenuItem.Name = "highlightToolStripMenuItem";
-            this.highlightToolStripMenuItem.Click += new System.EventHandler(this.highlightToolStripMenuItem_Click);
-            // 
-            // dumpGraphToolStripMenuItem
-            // 
-            resources.ApplyResources(this.dumpGraphToolStripMenuItem, "dumpGraphToolStripMenuItem");
-            this.dumpGraphToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Graph;
-            this.dumpGraphToolStripMenuItem.Name = "dumpGraphToolStripMenuItem";
-            this.dumpGraphToolStripMenuItem.Click += new System.EventHandler(this.dumpGraphToolStripMenuItem_Click);
             // 
             // asGraphToolStripMenuItem
             // 
@@ -314,6 +206,88 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.continueDialogToolStripButton});
             resources.ApplyResources(this.theToolStrip, "theToolStrip");
             this.theToolStrip.Name = "theToolStrip";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+            // 
+            // theSplitContainer
+            // 
+            resources.ApplyResources(this.theSplitContainer, "theSplitContainer");
+            this.theSplitContainer.Name = "theSplitContainer";
+            // 
+            // theSplitContainer.Panel1
+            // 
+            this.theSplitContainer.Panel1.Controls.Add(this.mainWorkObjectGuiConsoleControl);
+            // 
+            // theSplitContainer.Panel2
+            // 
+            this.theSplitContainer.Panel2.Controls.Add(this.inputOutputAndLogGuiConsoleControl);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
+            // 
+            // toggleChoicepointToolStripMenuItem
+            // 
+            resources.ApplyResources(this.toggleChoicepointToolStripMenuItem, "toggleChoicepointToolStripMenuItem");
+            this.toggleChoicepointToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.ToggleChoicepoint;
+            this.toggleChoicepointToolStripMenuItem.Name = "toggleChoicepointToolStripMenuItem";
+            this.toggleChoicepointToolStripMenuItem.Click += new System.EventHandler(this.toggleChoicepointToolStripMenuItem_Click);
+            // 
+            // appendWatchpointToolStripMenuItem
+            // 
+            resources.ApplyResources(this.appendWatchpointToolStripMenuItem, "appendWatchpointToolStripMenuItem");
+            this.appendWatchpointToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.AddWatchpoint;
+            this.appendWatchpointToolStripMenuItem.Name = "appendWatchpointToolStripMenuItem";
+            this.appendWatchpointToolStripMenuItem.Click += new System.EventHandler(this.appendWatchpointToolStripMenuItem_Click);
+            // 
+            // insertWatchpointToolStripMenuItem
+            // 
+            resources.ApplyResources(this.insertWatchpointToolStripMenuItem, "insertWatchpointToolStripMenuItem");
+            this.insertWatchpointToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.AddWatchpoint;
+            this.insertWatchpointToolStripMenuItem.Name = "insertWatchpointToolStripMenuItem";
+            this.insertWatchpointToolStripMenuItem.Click += new System.EventHandler(this.insertWatchpointToolStripMenuItem_Click);
+            // 
+            // editWatchpointToolStripMenuItem
+            // 
+            resources.ApplyResources(this.editWatchpointToolStripMenuItem, "editWatchpointToolStripMenuItem");
+            this.editWatchpointToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.EditWatchpoint;
+            this.editWatchpointToolStripMenuItem.Name = "editWatchpointToolStripMenuItem";
+            this.editWatchpointToolStripMenuItem.Click += new System.EventHandler(this.editWatchpointToolStripMenuItem_Click);
+            // 
+            // deleteWatchpointToolStripMenuItem
+            // 
+            resources.ApplyResources(this.deleteWatchpointToolStripMenuItem, "deleteWatchpointToolStripMenuItem");
+            this.deleteWatchpointToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.DeleteWatchpoint;
+            this.deleteWatchpointToolStripMenuItem.Name = "deleteWatchpointToolStripMenuItem";
+            this.deleteWatchpointToolStripMenuItem.Click += new System.EventHandler(this.deleteWatchpointToolStripMenuItem_Click);
+            // 
+            // toggleWatchpointToolStripMenuItem
+            // 
+            resources.ApplyResources(this.toggleWatchpointToolStripMenuItem, "toggleWatchpointToolStripMenuItem");
+            this.toggleWatchpointToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.ToggleWatchpoint;
+            this.toggleWatchpointToolStripMenuItem.Name = "toggleWatchpointToolStripMenuItem";
+            this.toggleWatchpointToolStripMenuItem.Click += new System.EventHandler(this.toggleWatchpointToolStripMenuItem_Click);
+            // 
+            // mainWorkObjectGuiConsoleControl
+            // 
+            resources.ApplyResources(this.mainWorkObjectGuiConsoleControl, "mainWorkObjectGuiConsoleControl");
+            this.mainWorkObjectGuiConsoleControl.EnableClear = false;
+            this.mainWorkObjectGuiConsoleControl.Name = "mainWorkObjectGuiConsoleControl";
+            // 
+            // inputOutputAndLogGuiConsoleControl
+            // 
+            resources.ApplyResources(this.inputOutputAndLogGuiConsoleControl, "inputOutputAndLogGuiConsoleControl");
+            this.inputOutputAndLogGuiConsoleControl.EnableClear = false;
+            this.inputOutputAndLogGuiConsoleControl.Name = "inputOutputAndLogGuiConsoleControl";
             // 
             // continueToolStripButton
             // 
@@ -387,11 +361,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.skipSingleMatchesToolStripButton.Name = "skipSingleMatchesToolStripButton";
             this.skipSingleMatchesToolStripButton.Click += new System.EventHandler(this.skipSingleMatchesToolStripButton_Click);
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
-            // 
             // backAbortToolStripButton
             // 
             this.backAbortToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -408,30 +377,138 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.continueDialogToolStripButton.Name = "continueDialogToolStripButton";
             this.continueDialogToolStripButton.Click += new System.EventHandler(this.continueDialogToolStripButton_Click);
             // 
-            // theSplitContainer
+            // nextMatchToolStripMenuItem
             // 
-            resources.ApplyResources(this.theSplitContainer, "theSplitContainer");
-            this.theSplitContainer.Name = "theSplitContainer";
+            resources.ApplyResources(this.nextMatchToolStripMenuItem, "nextMatchToolStripMenuItem");
+            this.nextMatchToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.NextMatch;
+            this.nextMatchToolStripMenuItem.Name = "nextMatchToolStripMenuItem";
+            this.nextMatchToolStripMenuItem.Click += new System.EventHandler(this.nextMatchToolStripMenuItem_Click);
             // 
-            // theSplitContainer.Panel1
+            // detailedStepToolStripMenuItem
             // 
-            this.theSplitContainer.Panel1.Controls.Add(this.mainWorkObjectGuiConsoleControl);
+            resources.ApplyResources(this.detailedStepToolStripMenuItem, "detailedStepToolStripMenuItem");
+            this.detailedStepToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.DetailedStep;
+            this.detailedStepToolStripMenuItem.Name = "detailedStepToolStripMenuItem";
+            this.detailedStepToolStripMenuItem.Click += new System.EventHandler(this.detailedStepToolStripMenuItem_Click);
             // 
-            // theSplitContainer.Panel2
+            // stepToolStripMenuItem
             // 
-            this.theSplitContainer.Panel2.Controls.Add(this.inputOutputAndLogGuiConsoleControl);
+            resources.ApplyResources(this.stepToolStripMenuItem, "stepToolStripMenuItem");
+            this.stepToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Step;
+            this.stepToolStripMenuItem.Name = "stepToolStripMenuItem";
+            this.stepToolStripMenuItem.Click += new System.EventHandler(this.stepToolStripMenuItem_Click);
             // 
-            // mainWorkObjectGuiConsoleControl
+            // stepUpToolStripMenuItem
             // 
-            resources.ApplyResources(this.mainWorkObjectGuiConsoleControl, "mainWorkObjectGuiConsoleControl");
-            this.mainWorkObjectGuiConsoleControl.EnableClear = false;
-            this.mainWorkObjectGuiConsoleControl.Name = "mainWorkObjectGuiConsoleControl";
+            resources.ApplyResources(this.stepUpToolStripMenuItem, "stepUpToolStripMenuItem");
+            this.stepUpToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.StepUp;
+            this.stepUpToolStripMenuItem.Name = "stepUpToolStripMenuItem";
+            this.stepUpToolStripMenuItem.Click += new System.EventHandler(this.stepUpToolStripMenuItem_Click);
             // 
-            // inputOutputAndLogGuiConsoleControl
+            // stepOutToolStripMenuItem
             // 
-            resources.ApplyResources(this.inputOutputAndLogGuiConsoleControl, "inputOutputAndLogGuiConsoleControl");
-            this.inputOutputAndLogGuiConsoleControl.EnableClear = false;
-            this.inputOutputAndLogGuiConsoleControl.Name = "inputOutputAndLogGuiConsoleControl";
+            resources.ApplyResources(this.stepOutToolStripMenuItem, "stepOutToolStripMenuItem");
+            this.stepOutToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.StepOut;
+            this.stepOutToolStripMenuItem.Name = "stepOutToolStripMenuItem";
+            this.stepOutToolStripMenuItem.Click += new System.EventHandler(this.stepOutToolStripMenuItem_Click);
+            // 
+            // runToolStripMenuItem
+            // 
+            resources.ApplyResources(this.runToolStripMenuItem, "runToolStripMenuItem");
+            this.runToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Run;
+            this.runToolStripMenuItem.Name = "runToolStripMenuItem";
+            this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
+            // 
+            // abortToolStripMenuItem
+            // 
+            resources.ApplyResources(this.abortToolStripMenuItem, "abortToolStripMenuItem");
+            this.abortToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Abort;
+            this.abortToolStripMenuItem.Name = "abortToolStripMenuItem";
+            this.abortToolStripMenuItem.Click += new System.EventHandler(this.abortToolStripMenuItem_Click);
+            // 
+            // continueToolStripMenuItem
+            // 
+            resources.ApplyResources(this.continueToolStripMenuItem, "continueToolStripMenuItem");
+            this.continueToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Continue;
+            this.continueToolStripMenuItem.Name = "continueToolStripMenuItem";
+            this.continueToolStripMenuItem.Click += new System.EventHandler(this.continueToolStripMenuItem_Click);
+            // 
+            // skipSingleMatchesToolStripMenuItem
+            // 
+            resources.ApplyResources(this.skipSingleMatchesToolStripMenuItem, "skipSingleMatchesToolStripMenuItem");
+            this.skipSingleMatchesToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.SkipSingleMatches;
+            this.skipSingleMatchesToolStripMenuItem.Name = "skipSingleMatchesToolStripMenuItem";
+            this.skipSingleMatchesToolStripMenuItem.Click += new System.EventHandler(this.skipSingleMatchesToolStripMenuItem_Click);
+            // 
+            // breakpointsToolStripMenuItem
+            // 
+            resources.ApplyResources(this.breakpointsToolStripMenuItem, "breakpointsToolStripMenuItem");
+            this.breakpointsToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Breakpoints;
+            this.breakpointsToolStripMenuItem.Name = "breakpointsToolStripMenuItem";
+            this.breakpointsToolStripMenuItem.Click += new System.EventHandler(this.toggleBreakpointsToolStripMenuItem_Click);
+            // 
+            // toggleBreakpointToolStripMenuItem
+            // 
+            resources.ApplyResources(this.toggleBreakpointToolStripMenuItem, "toggleBreakpointToolStripMenuItem");
+            this.toggleBreakpointToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.ToggleBreakpoint;
+            this.toggleBreakpointToolStripMenuItem.Name = "toggleBreakpointToolStripMenuItem";
+            this.toggleBreakpointToolStripMenuItem.Click += new System.EventHandler(this.toggleBreakpointToolStripMenuItem_Click);
+            // 
+            // choicepointsToolStripMenuItem
+            // 
+            resources.ApplyResources(this.choicepointsToolStripMenuItem, "choicepointsToolStripMenuItem");
+            this.choicepointsToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Choicepoints;
+            this.choicepointsToolStripMenuItem.Name = "choicepointsToolStripMenuItem";
+            this.choicepointsToolStripMenuItem.Click += new System.EventHandler(this.toggleChoicepointsToolStripMenuItem_Click);
+            // 
+            // watchpointsToolStripMenuItem
+            // 
+            resources.ApplyResources(this.watchpointsToolStripMenuItem, "watchpointsToolStripMenuItem");
+            this.watchpointsToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Watchpoints;
+            this.watchpointsToolStripMenuItem.Name = "watchpointsToolStripMenuItem";
+            this.watchpointsToolStripMenuItem.Click += new System.EventHandler(this.watchpointsToolStripMenuItem_Click);
+            // 
+            // showVariablesToolStripMenuItem
+            // 
+            resources.ApplyResources(this.showVariablesToolStripMenuItem, "showVariablesToolStripMenuItem");
+            this.showVariablesToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Variables;
+            this.showVariablesToolStripMenuItem.Name = "showVariablesToolStripMenuItem";
+            this.showVariablesToolStripMenuItem.Click += new System.EventHandler(this.showVariablesToolStripMenuItem_Click);
+            // 
+            // showClassObjectToolStripMenuItem
+            // 
+            resources.ApplyResources(this.showClassObjectToolStripMenuItem, "showClassObjectToolStripMenuItem");
+            this.showClassObjectToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Objects;
+            this.showClassObjectToolStripMenuItem.Name = "showClassObjectToolStripMenuItem";
+            this.showClassObjectToolStripMenuItem.Click += new System.EventHandler(this.showClassObjectToolStripMenuItem_Click);
+            // 
+            // printStacktraceToolStripMenuItem
+            // 
+            resources.ApplyResources(this.printStacktraceToolStripMenuItem, "printStacktraceToolStripMenuItem");
+            this.printStacktraceToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Stacktrace;
+            this.printStacktraceToolStripMenuItem.Name = "printStacktraceToolStripMenuItem";
+            this.printStacktraceToolStripMenuItem.Click += new System.EventHandler(this.printStacktraceToolStripMenuItem_Click);
+            // 
+            // printFullStateToolStripMenuItem
+            // 
+            resources.ApplyResources(this.printFullStateToolStripMenuItem, "printFullStateToolStripMenuItem");
+            this.printFullStateToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.FullState;
+            this.printFullStateToolStripMenuItem.Name = "printFullStateToolStripMenuItem";
+            this.printFullStateToolStripMenuItem.Click += new System.EventHandler(this.printFullStateToolStripMenuItem_Click);
+            // 
+            // highlightToolStripMenuItem
+            // 
+            resources.ApplyResources(this.highlightToolStripMenuItem, "highlightToolStripMenuItem");
+            this.highlightToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Highlight;
+            this.highlightToolStripMenuItem.Name = "highlightToolStripMenuItem";
+            this.highlightToolStripMenuItem.Click += new System.EventHandler(this.highlightToolStripMenuItem_Click);
+            // 
+            // dumpGraphToolStripMenuItem
+            // 
+            resources.ApplyResources(this.dumpGraphToolStripMenuItem, "dumpGraphToolStripMenuItem");
+            this.dumpGraphToolStripMenuItem.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Graph;
+            this.dumpGraphToolStripMenuItem.Name = "dumpGraphToolStripMenuItem";
+            this.dumpGraphToolStripMenuItem.Click += new System.EventHandler(this.dumpGraphToolStripMenuItem_Click);
             // 
             // GuiDebuggerHost
             // 
@@ -460,7 +537,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private System.Windows.Forms.MenuStrip theMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem debuggingCommandsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nextMatchToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem breakpointsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem breakpointEditingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stateDisplayToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem detailedStepToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stepToolStripMenuItem;
@@ -468,8 +545,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private System.Windows.Forms.ToolStripMenuItem stepOutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem abortToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toggleBreakpointsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toggleChoicepointsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem breakpointsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem choicepointsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toggleLazyChoiceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem watchpointsToolStripMenuItem;
         private System.Windows.Forms.ToolStrip theToolStrip;
@@ -501,6 +578,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton backAbortToolStripButton;
         private System.Windows.Forms.ToolStripButton continueDialogToolStripButton;
+        private System.Windows.Forms.ToolStripMenuItem toggleBreakpointToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem toggleChoicepointToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editWatchpointToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toggleWatchpointToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteWatchpointToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem insertWatchpointToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem appendWatchpointToolStripMenuItem;
 
         public IDebuggerGUIForDataRendering MainWorkObjectGuiGraphRenderer
         {

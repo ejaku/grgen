@@ -59,11 +59,20 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             Fill("commandStepMode", stepToolStripMenuItem, stepToolStripButton);
             Fill("commandStepOut", stepOutToolStripMenuItem, stepOutToolStripButton);
             Fill("commandStepUp", stepUpToolStripMenuItem, stepUpToolStripButton);
-            Fill("commandToggleBreakpoints", toggleBreakpointsToolStripMenuItem);
-            Fill("commandToggleChoicepoints", toggleChoicepointsToolStripMenuItem);
+            Fill("commandToggleBreakpoints", breakpointsToolStripMenuItem);
+            Fill("breakpointEnterNumberToToggle", toggleBreakpointToolStripMenuItem);
+            Fill("breakpointChoicepointAbort", backAbortToolStripButton); // maybe split
+            Fill("commandToggleChoicepoints", choicepointsToolStripMenuItem);
+            Fill("choicepointEnterNumberToToggle", toggleChoicepointToolStripMenuItem);
             Fill("commandToggleLazyChoice", toggleLazyChoiceToolStripMenuItem);
             Fill("commandUpFromCurrentEntry", stepUpToolStripMenuItem, stepUpToolStripButton);
             Fill("commandWatchpoints", watchpointsToolStripMenuItem);
+            Fill("watchpointEdit", editWatchpointToolStripMenuItem);
+            Fill("watchpointToggle", toggleWatchpointToolStripMenuItem);
+            Fill("watchpointDelete", deleteWatchpointToolStripMenuItem);
+            Fill("watchpointInsert", insertWatchpointToolStripMenuItem);
+            Fill("watchpointAppend", appendWatchpointToolStripMenuItem);
+            Fill("watchpointAbortReturn", backAbortToolStripButton);
             Fill("viewSwitch", switchViewToolStripMenuItem);
             Fill("viewRefresh", refreshViewToolStripMenuItem);
             Fill("enterLineCancel", backAbortToolStripButton);
@@ -241,7 +250,19 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
 
+        private void toggleBreakpointToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
+        }
+
         private void toggleChoicepointsToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
+        }
+
+        private void toggleChoicepointToolStripMenuItem_Click(object sender, EventArgs e)
         {
             KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
             inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
@@ -262,6 +283,36 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         private void watchpointsToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
+        }
+
+        private void editWatchpointToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
+        }
+
+        private void toggleWatchpointToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
+        }
+
+        private void deleteWatchpointToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
+        }
+
+        private void insertWatchpointToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
+        }
+
+        private void appendWatchpointToolStripMenuItem_Click(object sender, EventArgs e)
         {
             KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
             inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);

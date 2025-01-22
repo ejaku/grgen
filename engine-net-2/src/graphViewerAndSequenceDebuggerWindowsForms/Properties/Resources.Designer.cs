@@ -73,6 +73,16 @@ namespace graphViewerAndSequenceDebuggerWindowsForms.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap AddWatchpoint {
+            get {
+                object obj = ResourceManager.GetObject("AddWatchpoint", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BackAbort {
             get {
                 object obj = ResourceManager.GetObject("BackAbort", resourceCulture);
@@ -123,9 +133,29 @@ namespace graphViewerAndSequenceDebuggerWindowsForms.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap DeleteWatchpoint {
+            get {
+                object obj = ResourceManager.GetObject("DeleteWatchpoint", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap DetailedStep {
             get {
                 object obj = ResourceManager.GetObject("DetailedStep", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap EditWatchpoint {
+            get {
+                object obj = ResourceManager.GetObject("EditWatchpoint", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -236,6 +266,36 @@ namespace graphViewerAndSequenceDebuggerWindowsForms.Properties {
         internal static System.Drawing.Bitmap StepUp {
             get {
                 object obj = ResourceManager.GetObject("StepUp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ToggleBreakpoint {
+            get {
+                object obj = ResourceManager.GetObject("ToggleBreakpoint", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ToggleChoicepoint {
+            get {
+                object obj = ResourceManager.GetObject("ToggleChoicepoint", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ToggleWatchpoint {
+            get {
+                object obj = ResourceManager.GetObject("ToggleWatchpoint", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
