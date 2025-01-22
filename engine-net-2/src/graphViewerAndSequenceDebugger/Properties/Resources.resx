@@ -180,11 +180,11 @@
   <data name="commandContinue" xml:space="preserve">
     <value>(c)ontinue</value>
   </data>
-  <data name="commandContinueAnyKey" xml:space="preserve">
-    <value>(any key) to continue</value>
-  </data>
   <data name="commandContinueApplyRewrite" xml:space="preserve">
     <value>(any key) to apply rewrite</value>
+  </data>
+  <data name="commandContinueDebuggingAnyKey" xml:space="preserve">
+    <value>(any key) to continue</value>
   </data>
   <data name="commandContinueDebuggingAsBefore" xml:space="preserve">
     <value>(any key) continues debugging as before</value>
@@ -266,6 +266,9 @@
   </data>
   <data name="enterLineCancel" xml:space="preserve">
     <value>(ESC) to cancel entering of a textline</value>
+  </data>
+  <data name="pauseContinueDialogAnyKey" xml:space="preserve">
+    <value>(any key) to continue</value>
   </data>
   <data name="viewRefresh" xml:space="preserve">
     <value>refresh view (F5)</value>

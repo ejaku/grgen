@@ -70,6 +70,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.skipSingleMatchesToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.backAbortToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.continueDialogToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.theSplitContainer = new System.Windows.Forms.SplitContainer();
             this.mainWorkObjectGuiConsoleControl = new de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl();
             this.inputOutputAndLogGuiConsoleControl = new de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl();
@@ -309,7 +310,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.abortToolStripButton,
             this.skipSingleMatchesToolStripButton,
             this.toolStripSeparator1,
-            this.backAbortToolStripButton});
+            this.backAbortToolStripButton,
+            this.continueDialogToolStripButton});
             resources.ApplyResources(this.theToolStrip, "theToolStrip");
             this.theToolStrip.Name = "theToolStrip";
             // 
@@ -397,6 +399,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.backAbortToolStripButton.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.BackAbort;
             this.backAbortToolStripButton.Name = "backAbortToolStripButton";
             this.backAbortToolStripButton.Click += new System.EventHandler(this.backAbortToolStripButton_Click);
+            // 
+            // continueDialogToolStripButton
+            // 
+            this.continueDialogToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.continueDialogToolStripButton, "continueDialogToolStripButton");
+            this.continueDialogToolStripButton.Image = global::graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.ContinueDialog;
+            this.continueDialogToolStripButton.Name = "continueDialogToolStripButton";
+            this.continueDialogToolStripButton.Click += new System.EventHandler(this.continueDialogToolStripButton_Click);
             // 
             // theSplitContainer
             // 
@@ -490,6 +500,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private System.Windows.Forms.ToolStripMenuItem refreshViewToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton backAbortToolStripButton;
+        private System.Windows.Forms.ToolStripButton continueDialogToolStripButton;
 
         public IDebuggerGUIForDataRendering MainWorkObjectGuiGraphRenderer
         {

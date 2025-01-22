@@ -497,6 +497,18 @@
   <data name="backAbortToolStripButton.Text" xml:space="preserve">
     <value>Back / Abort</value>
   </data>
+  <data name="continueDialogToolStripButton.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="continueDialogToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="continueDialogToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 22</value>
+  </data>
+  <data name="continueDialogToolStripButton.Text" xml:space="preserve">
+    <value>continueDialogToolStripButton</value>
+  </data>
   <data name="theToolStrip.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 24</value>
   </data>
@@ -868,6 +880,12 @@
     <value>backAbortToolStripButton</value>
   </data>
   <data name="&gt;&gt;backAbortToolStripButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;continueDialogToolStripButton.Name" xml:space="preserve">
+    <value>continueDialogToolStripButton</value>
+  </data>
+  <data name="&gt;&gt;continueDialogToolStripButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

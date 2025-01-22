@@ -36,7 +36,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             Fill("commandAbort", abortToolStripMenuItem, abortToolStripButton);
             Fill("commandAsGraph", asGraphToolStripMenuItem);
             Fill("commandContinue", continueToolStripMenuItem, continueToolStripButton); // assert - maybe dedicated menu, then also dedicated commandAbort for assert separate from the regular commandAbort
-            Fill("commandContinueAnyKey", continueToolStripMenuItem, continueToolStripButton);
+            Fill("commandContinueDebuggingAnyKey", continueToolStripMenuItem, continueToolStripButton);
             Fill("commandContinueApplyRewrite", continueToolStripMenuItem, continueToolStripButton);
             Fill("commandContinueDebuggingAsBefore", continueToolStripMenuItem, continueToolStripButton);
             Fill("commandContinueDetailedDebugging", continueToolStripMenuItem, continueToolStripButton);
@@ -67,6 +67,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             Fill("viewSwitch", switchViewToolStripMenuItem);
             Fill("viewRefresh", refreshViewToolStripMenuItem);
             Fill("enterLineCancel", backAbortToolStripButton);
+            Fill("pauseContinueDialogAnyKey", continueDialogToolStripButton);
         }
 
         private void Fill(string optionName, params ToolStripItem[] controls)
@@ -389,6 +390,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         private void backAbortToolStripButton_Click(object sender, System.EventArgs e)
+        {
+            KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
+            inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
+        }
+
+        private void continueDialogToolStripButton_Click(object sender, System.EventArgs e)
         {
             KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
             inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);

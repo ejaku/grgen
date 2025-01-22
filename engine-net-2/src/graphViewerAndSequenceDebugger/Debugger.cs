@@ -108,7 +108,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     "commandContinueShowSingleMatchesAndApplyRewrite", "commandSkipSingleMatches" });
 
         UserChoiceMenu queryContinueWhenShowPostDisabledMenu = new UserChoiceMenu(UserChoiceMenuNames.QueryContinueWhenShowPostDisabledMenu, new string[] {
-                    "commandContinueAnyKey", "commandFullState", "commandAbort" });
+                    "commandContinueDebuggingAnyKey", "commandFullState", "commandAbort" });
 
         UserChoiceMenu switchRefreshViewAdditionalGuiMenu = new UserChoiceMenu(UserChoiceMenuNames.SwitchRefreshViewMenu, new string[] {
                     "viewSwitch", "viewRefresh" });
@@ -2469,7 +2469,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(!isBottomUpBreak && !EmbeddedSequenceWasEntered())
             {
                 UserChoiceMenu anyKeyFullStateAbortMenu = new UserChoiceMenu(UserChoiceMenuNames.QueryContinueOrTraceMenu, new string[] {
-                    "commandContinueAnyKey", "commandFullState", "commandAbort" });
+                    "commandContinueDebuggingAnyKey", "commandFullState", "commandAbort" });
                 env.PrintInstructions(anyKeyFullStateAbortMenu, "Debugging (detailed) break, press ", "...");
                 queryContinueOrTraceMenu = anyKeyFullStateAbortMenu;
             }

@@ -168,5 +168,8 @@
   <ItemGroup>
     <None Include="IconImages\BackAbort.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\ContinueDialog.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

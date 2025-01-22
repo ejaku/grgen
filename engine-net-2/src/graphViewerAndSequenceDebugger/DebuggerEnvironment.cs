@@ -325,7 +325,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
         protected Debugger debugger;
 
-        private UserChoiceMenu choiceMenuContinueAnyKey = new UserChoiceMenu(UserChoiceMenuNames.PauseContinueMenu, new string[] { "commandContinueAnyKey" });
+        private UserChoiceMenu choiceMenuResumeDebuggingAnyKey = new UserChoiceMenu(UserChoiceMenuNames.ResumeDebuggingMenu, new string[] { "commandContinueDebuggingAnyKey" });
+        private UserChoiceMenu choiceMenuPauseContinueDialogAnyKey = new UserChoiceMenu(UserChoiceMenuNames.PauseContinueMenu, new string[] { "pauseContinueDialogAnyKey" });
         private UserChoiceMenu choiceMenuEnterLineCancel = new UserChoiceMenu(UserChoiceMenuNames.EnterLineCancel, new string[] { "enterLineCancel" });
 
         public virtual void Cancel()
@@ -554,7 +555,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             WriteLine(msg);
 
             if(theDebuggerGUIForDataRendering != null)
-                theDebuggerGUIForDataRendering.SetContext(choiceMenuContinueAnyKey, null);
+                theDebuggerGUIForDataRendering.SetContext(choiceMenuResumeDebuggingAnyKey, null);
 
             ReadKey(true);
         }
@@ -564,7 +565,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             WriteLine(msg);
 
             if(theDebuggerGUIForDataRendering != null)
-                theDebuggerGUIForDataRendering.SetContext(choiceMenuContinueAnyKey, null);
+                theDebuggerGUIForDataRendering.SetContext(choiceMenuPauseContinueDialogAnyKey, null);
 
             ReadKey(true);
         }

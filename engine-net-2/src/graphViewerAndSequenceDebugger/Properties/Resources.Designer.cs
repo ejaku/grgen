@@ -250,20 +250,20 @@ namespace graphViewerAndSequenceDebugger.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die (any key) to continue ähnelt.
-        /// </summary>
-        internal static string commandContinueAnyKey {
-            get {
-                return ResourceManager.GetString("commandContinueAnyKey", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die (any key) to apply rewrite ähnelt.
         /// </summary>
         internal static string commandContinueApplyRewrite {
             get {
                 return ResourceManager.GetString("commandContinueApplyRewrite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die (any key) to continue ähnelt.
+        /// </summary>
+        internal static string commandContinueDebuggingAnyKey {
+            get {
+                return ResourceManager.GetString("commandContinueDebuggingAnyKey", resourceCulture);
             }
         }
         
@@ -507,6 +507,15 @@ namespace graphViewerAndSequenceDebugger.Properties {
         internal static string enterLineCancel {
             get {
                 return ResourceManager.GetString("enterLineCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die (any key) to continue ähnelt.
+        /// </summary>
+        internal static string pauseContinueDialogAnyKey {
+            get {
+                return ResourceManager.GetString("pauseContinueDialogAnyKey", resourceCulture);
             }
         }
         
