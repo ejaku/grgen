@@ -69,6 +69,21 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         //public void DisplayVariables(SequenceBase seqStart, SequenceBase seq, DebuggerGraphProcessingEnvironment debuggerProcEnv); inherited from Displayer
         //public void DisplayFullState(SequenceBase[] callStack, SubruleComputation[] subruleStack, DebuggerGraphProcessingEnvironment debuggerProcEnv); inherited from Displayer
 
+        public override void DisplayObject(object obj, IGraphProcessingEnvironment procEnv, DebuggerGraphProcessingEnvironment debuggerProcEnv)
+        {
+            env.WriteLineDataRendering(EmitHelper.ToStringAutomatic(obj, procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, procEnv));
+        }
+
+        public override void DisplayClassObject(IObject obj, IGraphProcessingEnvironment procEnv, DebuggerGraphProcessingEnvironment debuggerProcEnv)
+        {
+            env.WriteLineDataRendering(EmitHelper.ToStringAutomatic(obj, procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, procEnv));
+        }
+        
+        public override void DisplayTransientClassObject(ITransientObject obj, IGraphProcessingEnvironment procEnv, DebuggerGraphProcessingEnvironment debuggerProcEnv)
+        {
+            env.WriteLineDataRendering(EmitHelper.ToStringAutomatic(obj, procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, procEnv));
+        }
+
         public override void DisplayLine(string lineToBeShown)
         {
             env.WriteLineDataRendering(lineToBeShown);

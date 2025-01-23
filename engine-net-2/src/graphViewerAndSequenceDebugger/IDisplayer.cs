@@ -48,6 +48,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         // maybe TODO: input of the current debugger DisplaySequenceContext for the top of stack, somewhen, if really needed (instead of only highlighting of the currently executed sequence)
         void DisplayFullState (SequenceBase[] callStack, SubruleComputation[] subruleStack, DebuggerGraphProcessingEnvironment debuggerProcEnv);
 
+        // displays the object
+        void DisplayObject(object obj, IGraphProcessingEnvironment procEnv, DebuggerGraphProcessingEnvironment debuggerProcEnv);
+
+        // displays the class object
+        void DisplayClassObject(IObject obj, IGraphProcessingEnvironment procEnv, DebuggerGraphProcessingEnvironment debuggerProcEnv);
+
+        // displays the transient class object
+        void DisplayTransientClassObject(ITransientObject obj, IGraphProcessingEnvironment procEnv, DebuggerGraphProcessingEnvironment debuggerProcEnv);
+
         /// <summary>
         /// Displays a text line.
         /// Semantically poor, but ok for the beginning/maybe later on special tasks, but should be replaced/implemented by semantically richer objects.

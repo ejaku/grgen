@@ -25,6 +25,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public abstract string DisplaySequenceBase(SequenceBase seqBase, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix, string groupNodeName);
         public abstract string DisplaySequence(Sequence seq, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix, string groupNodeName);
         public abstract string DisplaySequenceExpression(SequenceExpression seqExpr, DisplaySequenceContext context, int nestingLevel, string prefix, string postfix, string groupNodeName);
+        public abstract void DisplayObject(object obj, IGraphProcessingEnvironment procEnv, DebuggerGraphProcessingEnvironment debuggerProcEnv);
+        public abstract void DisplayClassObject(IObject obj, IGraphProcessingEnvironment procEnv, DebuggerGraphProcessingEnvironment debuggerProcEnv);
+        public abstract void DisplayTransientClassObject(ITransientObject obj, IGraphProcessingEnvironment procEnv, DebuggerGraphProcessingEnvironment debuggerProcEnv);
         public abstract void DisplayLine(string lineToBeShown);
 
         public void DisplayCallStacks(SequenceBase[] callStack, SubruleComputation[] subruleStack, bool fullSubruleTracesEntries)

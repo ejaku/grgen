@@ -661,7 +661,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 String objectName = String.Format("%{0,00000000:X}", uniqueId);
                 IObject obj = debuggerProcEnv.objectNamerAndIndexer.GetObject(objectName);
                 if(obj != null)
-                    displayer.DisplayLine(EmitHelper.ToStringAutomatic(obj, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
+                    displayer.DisplayClassObject(obj, task.procEnv, debuggerProcEnv);
                 else
                     env.WriteLine("Unknown class object id " + objectName + "!");
             }
@@ -674,11 +674,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             long uniqueId;
             if(HexToLong(argument.Substring(1), out uniqueId))
             {
-                if(debuggerProcEnv.transientObjectNamerAndIndexer.GetTransientObject(uniqueId) != null)
-                {
-                    ITransientObject obj = debuggerProcEnv.transientObjectNamerAndIndexer.GetTransientObject(uniqueId);
-                    displayer.DisplayLine(EmitHelper.ToStringAutomatic(obj, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
-                }
+                ITransientObject obj = debuggerProcEnv.transientObjectNamerAndIndexer.GetTransientObject(uniqueId);
+                if(obj != null)
+                    displayer.DisplayTransientClassObject(obj, task.procEnv, debuggerProcEnv);
                 else
                     env.WriteLine("Unknown transient class object id " + argument + "!");
             }
@@ -692,12 +690,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 && GetSequenceVariable(argument, task.debugSequences.Peek(), seq).GetVariableValue(debuggerProcEnv.ProcEnv) != null)
             {
                 object value = GetSequenceVariable(argument, task.debugSequences.Peek(), seq).GetVariableValue(debuggerProcEnv.ProcEnv);
-                displayer.DisplayLine(EmitHelper.ToStringAutomatic(value, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
+                displayer.DisplayObject(value, task.procEnv, debuggerProcEnv);
             }
             else if(debuggerProcEnv.ProcEnv.GetVariableValue(argument) != null)
             {
                 object value = debuggerProcEnv.ProcEnv.GetVariableValue(argument);
-                displayer.DisplayLine(EmitHelper.ToStringAutomatic(value, task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, task.procEnv));
+                displayer.DisplayObject(value, task.procEnv, debuggerProcEnv);
             }
             else
                 env.WriteLine("The given " + argument + " is not a known variable name (of non-null value)!");

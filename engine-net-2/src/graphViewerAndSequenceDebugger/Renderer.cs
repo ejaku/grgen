@@ -8,6 +8,7 @@
 // by Edgar Jakumeit
 
 using de.unika.ipd.grGen.libGr;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -85,6 +86,23 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         //public void DisplayVariables(SequenceBase seqStart, SequenceBase seq, DebuggerGraphProcessingEnvironment debuggerProcEnv); inherited from Displayer
         //public void DisplayFullState(SequenceBase[] callStack, SubruleComputation[] subruleStack, DebuggerGraphProcessingEnvironment debuggerProcEnv); inherited from Displayer
 
+        public override void DisplayObject(object obj, IGraphProcessingEnvironment procEnv, DebuggerGraphProcessingEnvironment debuggerProcEnv)
+        {
+            string str = EmitHelper.ToStringAutomatic(obj, procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, procEnv);
+            env.guiForDataRendering.graphViewer.AddNode(FetchNodeName(), "nrStd", str);
+            Show();
+        }
+
+        public override void DisplayClassObject(IObject obj, IGraphProcessingEnvironment procEnv, DebuggerGraphProcessingEnvironment debuggerProcEnv)
+        {
+            DisplayBaseObject(obj, /*"%:" +*/debuggerProcEnv.objectNamerAndIndexer.GetOrAssignName(obj) + " : " + obj.Type.PackagePrefixedName, procEnv, debuggerProcEnv);
+        }
+
+        public override void DisplayTransientClassObject(ITransientObject obj, IGraphProcessingEnvironment procEnv, DebuggerGraphProcessingEnvironment debuggerProcEnv)
+        {
+            DisplayBaseObject(obj, /*"&:" +*/"&" + debuggerProcEnv.transientObjectNamerAndIndexer.GetUniqueId(obj) + " : " + obj.Type.PackagePrefixedName, procEnv, debuggerProcEnv);
+        }
+
         public override void DisplayLine(string lineToBeShown)
         {
             string nodeName = "line_" + lineNodeIdSource.ToString();
@@ -151,7 +169,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
                 //DisplayLine("  " + seqVar.Name + " = " + content + " : " + type);
                 string nodeName = FetchNodeName(); // TODO: when rendering a real ASG containing data flow we likely need a name based on variable name (and stack frame)
-                env.guiForDataRendering.graphViewer.AddNode(nodeName, "nr" + GroupNodeTypes.GlobalVariables.ToString(), seqVar.Name + " = " + content + " : " + type);
+                env.guiForDataRendering.graphViewer.AddNode(nodeName, "nr" + GroupNodeTypes.LocalVariables.ToString(), seqVar.Name + " = " + content + " : " + type);
                 env.guiForDataRendering.graphViewer.MoveNode(nodeName, variablesGroupNodeName);
             }
             if(groupNodeName != null)
@@ -204,6 +222,33 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         protected override void Show()
         {
             env.guiForDataRendering.graphViewer.Show();
+        }
+
+        private void DisplayBaseObject(IBaseObject obj, string nameAndType, IGraphProcessingEnvironment procEnv, DebuggerGraphProcessingEnvironment debuggerProcEnv)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(nameAndType);
+            foreach(AttributeType attrType in obj.Type.AttributeTypes)
+            {
+                string attrTypeString;
+                string attrValueString;
+                GetAttributeString(attrType, obj, procEnv.NamedGraph, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, out attrTypeString, out attrValueString);
+                sb.AppendLine(attrType.OwnerType.Name + "::" + attrType.Name + " : " + attrTypeString + " = " + attrValueString);
+            }
+            env.guiForDataRendering.graphViewer.AddNode(FetchNodeName(), "nrStd", sb.ToString());
+            Show();
+        }
+
+        private void GetAttributeString(AttributeType attrType, IAttributeBearer obj, IGraph graph, ObjectNamerAndIndexer objectNamerAndIndexer, TransientObjectNamerAndIndexer transientObjectNamerAndIndexer, out string attrTypeString, out string attrValueString)
+        {
+            if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
+                EmitHelper.ToString((IDictionary)obj.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
+            else if(attrType.Kind == AttributeKind.ArrayAttr)
+                EmitHelper.ToString((IList)obj.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
+            else if(attrType.Kind == AttributeKind.DequeAttr)
+                EmitHelper.ToString((IDeque)obj.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
+            else
+                EmitHelper.ToString(obj.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
         }
     }
 }
