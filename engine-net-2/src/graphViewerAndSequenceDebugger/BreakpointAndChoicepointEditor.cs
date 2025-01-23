@@ -141,7 +141,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     num = env.ShowMsgAskForIntegerNumber("Enter number of " + (pointType == PointType.Breakpoint ? "breakpoint" : "choicepoint") + " to toggle (just enter for abort)", -1);
                     if(num < -1 || num >= numPositions)
                     {
-                        env.WriteLine("You must specify a number between -1 and " + (numPositions - 1) + "!");
+                        env.WriteLine("You must specify a number between 0 and " + (numPositions - 1) + "!");
                         break;
                     }
                     return num;

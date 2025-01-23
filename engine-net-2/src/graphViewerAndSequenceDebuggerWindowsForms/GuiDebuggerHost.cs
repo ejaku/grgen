@@ -73,6 +73,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             Fill("watchpointInsert", insertWatchpointToolStripMenuItem);
             Fill("watchpointAppend", appendWatchpointToolStripMenuItem);
             Fill("watchpointAbortReturn", backAbortToolStripButton);
+            Fill("watchpointAbort", backAbortToolStripButton);
             Fill("viewSwitch", switchViewToolStripMenuItem);
             Fill("viewRefresh", refreshViewToolStripMenuItem);
             Fill("enterLineCancel", backAbortToolStripButton);

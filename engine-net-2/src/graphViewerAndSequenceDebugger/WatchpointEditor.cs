@@ -87,10 +87,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             do
             {
-                int num = env.ShowMsgAskForIntegerNumber("Enter number of watchpoint to " + action + " (-1 for abort)");
+                int num = env.ShowMsgAskForIntegerNumber("Enter number of watchpoint to " + action + " (just enter for abort)", -1);
                 if(num < -1 || num >= debuggerProcEnv.SubruleDebugConfig.ConfigurationRules.Count)
                 {
-                    env.WriteLine("You must specify a number between -1 and " + (debuggerProcEnv.SubruleDebugConfig.ConfigurationRules.Count - 1) + "!");
+                    env.WriteLine("You must specify a number between 0 and " + (debuggerProcEnv.SubruleDebugConfig.ConfigurationRules.Count - 1) + "!");
                     continue;
                 }
                 return num;
@@ -543,7 +543,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 if(cr != null && cr.IfClause != null)
                     env.WriteLine("Press enter to take over " + cr.IfClause.Symbol + ", enter \"-\" to clear the condition, otherwise enter the sequence expression to apply.");
                 else
-                    env.WriteLine("Press enter if you don't want to add an if part, otherwise enter the sequence expression to apply.");
+                    env.WriteLine("Press enter if you don't want to add an if part, otherwise enter the sequence expression to apply."); // GUI TODO: back abort doesn't fit that greatly here
 
                 String ifClauseStr = env.ReadLine();
                 if(ifClauseStr.Length == 0)
