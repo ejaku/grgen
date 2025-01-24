@@ -205,7 +205,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         public void ForceLayout()
         {
+            //gViewer.NeedToCalculateLayout = true;
             gViewer.Graph = gViewer.Graph;
+            //gViewer.NeedToCalculateLayout = false;
+            //gViewer.Graph = gViewer.Graph;
             System.Windows.Forms.Application.DoEvents();
         }
 
@@ -309,7 +312,48 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             Node node = gViewer.Graph.FindNode(nodeName);
             if(node == null)
                 node = gViewer.Graph.FindNode(oldNodeName);
-            gViewer.Graph.RemoveNode(node);
+
+            if(node != null)
+            {
+                gViewer.Graph.RemoveNode(node);
+
+                Subgraph root = gViewer.Graph.RootSubgraph;
+                foreach(Subgraph sub in root.AllSubgraphsDepthFirst())
+                {
+                    sub.RemoveNode(node);
+                }
+            }
+            else
+            {
+                if(gViewer.Graph.SubgraphMap.ContainsKey(nodeName))
+                {
+                    Subgraph subgraph = gViewer.Graph.SubgraphMap[nodeName];
+
+                    MoveChildrenToParent(subgraph);
+
+                    subgraph.ParentSubgraph.RemoveSubgraph(subgraph);
+                }
+                else
+                {
+                    throw new Exception("Unknown node");
+                }
+            }
+        }
+
+        private void MoveChildrenToParent(Subgraph subgraph)
+        {
+            List<Node> subgraphNodes = new List<Node>(subgraph.Nodes);
+            foreach(Node n in subgraphNodes)
+            {
+                subgraph.RemoveNode(n);
+                subgraph.ParentSubgraph.AddNode(n);
+            }
+            List<Subgraph> subgraphSubgraphs = new List<Subgraph>(subgraph.Subgraphs);
+            foreach(Subgraph sub in subgraphSubgraphs)
+            {
+                subgraph.RemoveSubgraph(sub);
+                subgraph.ParentSubgraph.AddSubgraph(sub);
+            }
         }
 
         public void DeleteEdge(String edgeName, String oldEdgeName)
