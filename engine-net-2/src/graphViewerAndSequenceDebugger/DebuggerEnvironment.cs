@@ -680,9 +680,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 if(additionalGuiChoiceMenu != null && additionalGuiChoiceMenu.ContainsKey(ref key))
                     return key;
 
-                theDebuggerConsoleUI.WriteLine("Illegal choice (" + key.KeyChar + "; key = " + key.Key + ")!"
+                theDebuggerConsoleUI.WriteLine("Illegal choice (" + EscapeNewline(new string(key.KeyChar, 1)) + "; key = " + key.Key + ")!\n"
                         + " Only " + choiceMenu.ToOptionsString(false) + " are allowed!");
             }
+        }
+
+        string EscapeNewline(string input)
+        {
+            return input.Replace("\n", "\\n").Replace("\r", "\\r").Replace("\0", "\\0").Replace("\b", "\\b");
         }
 
         public char LetUserChoose(UserChoiceMenu choiceMenu)
