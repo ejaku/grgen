@@ -50,6 +50,7 @@ namespace TestMSAGL
             }
             graphViewer.AddNodeRealizer("nr1", GrColor.Black, GrColor.Yellow, GrColor.Black, GrNodeShape.Box);
             graphViewer.AddNodeRealizer("nrsub1", GrColor.Black, GrColor.DarkYellow, GrColor.Black, GrNodeShape.Box);
+            graphViewer.AddEdgeRealizer("er1", GrColor.Black, GrColor.Black, 1, GrLineStyle.Continuous);
         }
 
         private void buttonAddNestedGroupThenFillIt_Click(object sender, EventArgs e)
@@ -82,6 +83,17 @@ namespace TestMSAGL
 
             graphViewer.MoveNode("nestedNestedNode", "nestedGroup");
             graphViewer.MoveNode("nestedGroup", "group");
+
+            graphViewer.Show();
+        }
+
+        private void buttonAddEdges_Click(object sender, EventArgs e)
+        {
+            graphViewer.AddEdge("e1", "group", "nestedGroup", "er1", "e1");
+            graphViewer.AddEdge("e2", "nestedNestedNode", "nestedNode", "er1", "e2");
+            graphViewer.AddEdge("e3", "group", "node", "er1", "e3");
+            graphViewer.AddEdge("e4", "node", "nestedNestedNode", "er1", "e4");
+            graphViewer.AddEdge("e5", "nestedNode", "nestedNode", "er1", "e5");
 
             graphViewer.Show();
         }

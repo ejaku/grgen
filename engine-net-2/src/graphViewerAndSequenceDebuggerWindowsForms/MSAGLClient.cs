@@ -254,6 +254,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             Edge edge = gViewer.Graph.AddEdge(srcName, edgeName, tgtName);
             nameToEdge.Add(edgeName, edge);
+            edgeToName.Add(edge, edgeName);
             ApplyRealizer(edge, edgeRealizerName);
             edge.LabelText = edgeLabel;
         }
@@ -315,6 +316,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             if(node != null)
             {
+                DeleteAllEdges(node);
+
                 gViewer.Graph.RemoveNode(node);
 
                 Subgraph root = gViewer.Graph.RootSubgraph;
@@ -330,6 +333,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     Subgraph subgraph = gViewer.Graph.SubgraphMap[nodeName];
 
                     MoveChildrenToParent(subgraph);
+
+                    DeleteAllEdges(subgraph);
 
                     subgraph.ParentSubgraph.RemoveSubgraph(subgraph);
                 }
@@ -356,6 +361,30 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
         }
 
+        public void DeleteAllEdges(Node node)
+        {
+            List<Edge> edges = new List<Edge>(node.Edges);
+            foreach(Edge edge in edges)
+            {
+                String edgeName = edgeToName[edge];
+                nameToEdge.Remove(edgeName);
+                edgeToName.Remove(edge);
+                gViewer.Graph.RemoveEdge(edge);
+            }
+        }
+
+        public void DeleteAllEdges(Subgraph subgraph)
+        {
+            List<Edge> edges = new List<Edge>(subgraph.Edges);
+            foreach(Edge edge in edges)
+            {
+                String edgeName = edgeToName[edge];
+                nameToEdge.Remove(edgeName);
+                edgeToName.Remove(edge);
+                gViewer.Graph.RemoveEdge(edge);
+            }
+        }
+
         public void DeleteEdge(String edgeName, String oldEdgeName)
         {
             // TODO: Update group relation
@@ -365,6 +394,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             gViewer.Graph.RemoveEdge(edge);
 
             nameToEdge.Remove(edgeName);
+            edgeToName.Remove(edge);
             if(oldEdgeName != null)
                 nameToEdge.Remove(oldEdgeName);
         }
@@ -405,6 +435,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 throw new Exception("Should be empty after clearing nodes and subgraphs");
             }
             nameToEdge.Clear();
+            edgeToName.Clear();
         }
 
         public void WaitForElement(bool val)
@@ -460,6 +491,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         Dictionary<String, MSAGLEdgeRealizer> edgeRealizers = new Dictionary<string, MSAGLEdgeRealizer>();
 
         Dictionary<String, Edge> nameToEdge = new Dictionary<string, Edge>();
+        Dictionary<Edge, String> edgeToName = new Dictionary<Edge, string>();
 
         //maps by index to GrColor defined in dumpInterface.cs:
         //Black, Blue, Green, Cyan, Red, Purple, Brown, Grey,

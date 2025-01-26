@@ -39,6 +39,7 @@ namespace TestMSAGL
             this.buttonCreate = new System.Windows.Forms.Button();
             this.buttonDeleteNestedNode = new System.Windows.Forms.Button();
             this.buttonDeleteNode = new System.Windows.Forms.Button();
+            this.buttonAddEdges = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // comboBoxGraphViewerChooser
@@ -76,7 +77,7 @@ namespace TestMSAGL
             // 
             // buttonDeleteNestedNestedNode
             // 
-            this.buttonDeleteNestedNestedNode.Location = new System.Drawing.Point(13, 257);
+            this.buttonDeleteNestedNestedNode.Location = new System.Drawing.Point(12, 284);
             this.buttonDeleteNestedNestedNode.Name = "buttonDeleteNestedNestedNode";
             this.buttonDeleteNestedNestedNode.Size = new System.Drawing.Size(175, 23);
             this.buttonDeleteNestedNestedNode.TabIndex = 3;
@@ -86,7 +87,7 @@ namespace TestMSAGL
             // 
             // buttonDeleteNestedGroup
             // 
-            this.buttonDeleteNestedGroup.Location = new System.Drawing.Point(12, 199);
+            this.buttonDeleteNestedGroup.Location = new System.Drawing.Point(11, 226);
             this.buttonDeleteNestedGroup.Name = "buttonDeleteNestedGroup";
             this.buttonDeleteNestedGroup.Size = new System.Drawing.Size(175, 23);
             this.buttonDeleteNestedGroup.TabIndex = 4;
@@ -96,7 +97,7 @@ namespace TestMSAGL
             // 
             // buttonDeleteGroup
             // 
-            this.buttonDeleteGroup.Location = new System.Drawing.Point(13, 141);
+            this.buttonDeleteGroup.Location = new System.Drawing.Point(12, 168);
             this.buttonDeleteGroup.Name = "buttonDeleteGroup";
             this.buttonDeleteGroup.Size = new System.Drawing.Size(175, 23);
             this.buttonDeleteGroup.TabIndex = 5;
@@ -106,7 +107,7 @@ namespace TestMSAGL
             // 
             // buttonClearGraph
             // 
-            this.buttonClearGraph.Location = new System.Drawing.Point(13, 315);
+            this.buttonClearGraph.Location = new System.Drawing.Point(12, 342);
             this.buttonClearGraph.Name = "buttonClearGraph";
             this.buttonClearGraph.Size = new System.Drawing.Size(175, 23);
             this.buttonClearGraph.TabIndex = 6;
@@ -126,7 +127,7 @@ namespace TestMSAGL
             // 
             // buttonDeleteNestedNode
             // 
-            this.buttonDeleteNestedNode.Location = new System.Drawing.Point(13, 228);
+            this.buttonDeleteNestedNode.Location = new System.Drawing.Point(12, 255);
             this.buttonDeleteNestedNode.Name = "buttonDeleteNestedNode";
             this.buttonDeleteNestedNode.Size = new System.Drawing.Size(175, 23);
             this.buttonDeleteNestedNode.TabIndex = 8;
@@ -136,7 +137,7 @@ namespace TestMSAGL
             // 
             // buttonDeleteNode
             // 
-            this.buttonDeleteNode.Location = new System.Drawing.Point(13, 170);
+            this.buttonDeleteNode.Location = new System.Drawing.Point(12, 197);
             this.buttonDeleteNode.Name = "buttonDeleteNode";
             this.buttonDeleteNode.Size = new System.Drawing.Size(175, 23);
             this.buttonDeleteNode.TabIndex = 9;
@@ -144,11 +145,22 @@ namespace TestMSAGL
             this.buttonDeleteNode.UseVisualStyleBackColor = true;
             this.buttonDeleteNode.Click += new System.EventHandler(this.buttonDeleteNode_Click);
             // 
+            // buttonAddEdges
+            // 
+            this.buttonAddEdges.Location = new System.Drawing.Point(13, 117);
+            this.buttonAddEdges.Name = "buttonAddEdges";
+            this.buttonAddEdges.Size = new System.Drawing.Size(174, 23);
+            this.buttonAddEdges.TabIndex = 10;
+            this.buttonAddEdges.Text = "AddEdges";
+            this.buttonAddEdges.UseVisualStyleBackColor = true;
+            this.buttonAddEdges.Click += new System.EventHandler(this.buttonAddEdges_Click);
+            // 
             // MSAGLTestHost
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(199, 559);
+            this.Controls.Add(this.buttonAddEdges);
             this.Controls.Add(this.buttonDeleteNode);
             this.Controls.Add(this.buttonDeleteNestedNode);
             this.Controls.Add(this.buttonCreate);
@@ -178,6 +190,7 @@ namespace TestMSAGL
         private System.Windows.Forms.Button buttonCreate;
         private System.Windows.Forms.Button buttonDeleteNestedNode;
         private System.Windows.Forms.Button buttonDeleteNode;
+        private System.Windows.Forms.Button buttonAddEdges;
     }
 }
 
