@@ -206,7 +206,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     if(addAnnotation)
                         graphViewerClient.AddEdge(name + i, name + "[->]", (INode)value[i-1], (INode)value[i]);
                     else
-                        graphViewerClient.DeleteEdge(name + i, null);
+                        graphViewerClient.DeleteEdge(name + i);
                 }
             }
         }
@@ -224,7 +224,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     if(addAnnotation)
                         graphViewerClient.AddEdge(name + distanceToTop, name + "[->]", (INode)prevElem, (INode)elem);
                     else
-                        graphViewerClient.DeleteEdge(name + distanceToTop, null);
+                        graphViewerClient.DeleteEdge(name + distanceToTop);
                 }
                 prevElem = elem;
                 ++distanceToTop;
@@ -238,7 +238,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(addAnnotation)
                 graphViewerClient.AddEdge(name + cnt, name, source, target);
             else
-                graphViewerClient.DeleteEdge(name + cnt, null);
+                graphViewerClient.DeleteEdge(name + cnt);
         }
 
         private void HighlightSingleValue(object value, string name, bool addAnnotation)

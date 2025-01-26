@@ -1215,8 +1215,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 graphViewerClient.ChangeNode(node, realizers.DeletedNodeRealizer);
 
                 String name = graphViewerClient.Graph.GetElementName(node);
-                graphViewerClient.RenameNode(name, "zombie_" + name);
-                renderRecorder.DeletedNode("zombie_" + name, name);
+                renderRecorder.DeletedNode(name); // rename to zombie_ + name removed
             }
         }
 
@@ -1244,8 +1243,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 graphViewerClient.ChangeEdge(edge, realizers.DeletedEdgeRealizer);
 
                 String name = graphViewerClient.Graph.GetElementName(edge);
-                graphViewerClient.RenameEdge(name, "zombie_" + name);
-                renderRecorder.DeletedEdge("zombie_" + name, name);
+                renderRecorder.DeletedEdge(name); // rename to zombie_ + name removed
             }
         }
 

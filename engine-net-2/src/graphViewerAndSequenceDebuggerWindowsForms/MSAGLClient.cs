@@ -308,11 +308,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             // TODO - for edge name remove tooltip of kind E::a:T, used during retyping
         }
 
-        public void DeleteNode(String nodeName, String oldNodeName)
+        public void DeleteNode(String nodeName)
         {
             Node node = gViewer.Graph.FindNode(nodeName);
-            if(node == null)
-                node = gViewer.Graph.FindNode(oldNodeName);
 
             if(node != null)
             {
@@ -385,7 +383,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
         }
 
-        public void DeleteEdge(String edgeName, String oldEdgeName)
+        public void DeleteEdge(String edgeName)
         {
             // TODO: Update group relation // GUI TODO: it seems EdgeById does not work at all
             /*Edge edge = gViewer.Graph.EdgeById(edgeName);
@@ -400,13 +398,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 nameToEdge.Remove(edgeName);
                 edgeToName.Remove(edge);
             }
-            else if(nameToEdge.ContainsKey(oldEdgeName))
-            {
-                Edge edge = nameToEdge[oldEdgeName];
-                gViewer.Graph.RemoveEdge(edge);
-                nameToEdge.Remove(oldEdgeName);
-                edgeToName.Remove(edge);
-            }
             else
             {
                 throw new Exception("Unknown edge");
@@ -415,22 +406,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void RenameNode(String oldName, String newName)
         {
-            // deleted nodes are shown as zombie_oldName, rename for retyping is not needed anymore, the name is kept
-            Node node = gViewer.Graph.FindNode(oldName);
-            //node.Id = newName; only changes MSAGL internal attribute, but node map entry that seems to be used by FindNode is not changed -- maybe change manually // GUI TODO
-            //node.Attr.Id = newName; don't know what's the exact relationship to node.Id, but edges only have an Attr.Id
+            throw new NotImplementedException(); // the simple solution of just assigning node.Id or node.Attr.Id was not sufficient, but as it is not needed anymore, I just leave it like this (future TODO: purge RenameNode (alternative: implement it))
         }
 
         public void RenameEdge(String oldName, String newName)
         {
-            // deleted edges are shown as zombie_oldName, rename for retyping is not needed anymore, the name is kept
-            Edge edge;
-            if(nameToEdge.TryGetValue(oldName, out edge))
-            {
-                //nameToEdge.Remove(oldName); // GUI TODO
-                //nameToEdge.Add(newName, edge);
-                //edge.Attr.Id = newName; GUI TODO: can this be used instead of edgeToName? label itself could be set to another text string
-            }
+            throw new NotImplementedException(); // the simple solution of just assigning edge.Attr.Id was not sufficient, but as it is not needed anymore, I just leave it like this (future TODO: purge RenameEdge (alternative: implement it))
         }
 
         public void ClearGraph()

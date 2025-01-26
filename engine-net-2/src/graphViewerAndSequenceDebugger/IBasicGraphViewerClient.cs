@@ -89,13 +89,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         void ClearEdgeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString);
 
-        void DeleteNode(String nodeName, String oldNodeName); // only nodeName required - scruffy hack - it seems MSAGL doesn't update its internal data structures if the id/name of a graph element is changed - this allows to implement the temporary zombie_ + old-name handling of deleted nodes/edges in the graph viewer for rule rewrite debugging
+        void DeleteNode(String nodeName);
 
-        void DeleteEdge(String edgeName, String oldEdgeName); // only edgeName required - scruffy hack - it seems MSAGL doesn't update its internal data structures if the id/name of a graph element is changed - this allows to implement the temporary zombie_ + old-name handling of deleted nodes/edges in the graph viewer for rule rewrite debugging
+        void DeleteEdge(String edgeName);
 
-        void RenameNode(String oldName, String newName); // this does't work with MSAGL it seems, don't use it / rely on it - GUI TODO: is this needed at all?
+        void RenameNode(String oldName, String newName); // deprecated - used in the past (for retyping, zombie_-names of deleted elements), not needed anymore (esp. due to the current behavior of the named graph), does't work with MSAGL, you have to take care of this if you want to use it again
 
-        void RenameEdge(String oldName, String newName); // this does't work with MSAGL it seems, don't use it / rely on it - GUI TODO: is this needed at all?
+        void RenameEdge(String oldName, String newName); // deprecated - used in the past (for retyping, zombie_-names of deleted elements), not needed anymore (esp. due to the current behavior of the named graph), does't work with MSAGL, you have to take care of this if you want to use it again
 
         void ClearGraph();
 

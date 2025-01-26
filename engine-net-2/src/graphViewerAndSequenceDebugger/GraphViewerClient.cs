@@ -721,18 +721,19 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     ChangeEdge((IEdge)oldElem, newEr);
             }
 
-            String newName = graph.GetElementName(newElem);
-            if(isNode)
-                basicClient.RenameNode(oldName, newName);
-            else
-                basicClient.RenameEdge(oldName, newName);
+            // retyping keeps the name constant (was maybe different somewhen in the past), so this code is not needed (anymore)
+            //String newName = graph.GetElementName(newElem);
+            //if(isNode)
+            //    basicClient.RenameNode(oldName, newName);
+            //else
+            //    basicClient.RenameEdge(oldName, newName);
 
             isDirty = true;
         }
 
-        public void DeleteNode(String nodeName, String oldNodeName)
+        public void DeleteNode(String nodeName)
         {
-            basicClient.DeleteNode(nodeName, oldNodeName);
+            basicClient.DeleteNode(nodeName);
             isDirty = true;
             isLayoutDirty = true;
         }
@@ -742,14 +743,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(IsNodeExcluded(node))
                 return;
 
-            DeleteNode(graph.GetElementName(node), null);
+            DeleteNode(graph.GetElementName(node));
         }
 
-        public void DeleteEdge(String edgeName, String oldEdgeName)
+        public void DeleteEdge(String edgeName)
         {
             // TODO: Update group relation
 
-            basicClient.DeleteEdge(edgeName, oldEdgeName);
+            basicClient.DeleteEdge(edgeName);
             isDirty = true;
             isLayoutDirty = true;
         }
@@ -763,18 +764,18 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(IsEdgeExcluded(edge))
                 return;
 
-            DeleteEdge(graph.GetElementName(edge), null);
+            DeleteEdge(graph.GetElementName(edge));
         }
 
-        public void RenameNode(String oldName, String newName)
-        {
-            basicClient.RenameNode(oldName, newName);
-        }
+        //public void RenameNode(String oldName, String newName) // TODO: purge
+        //{
+        //    basicClient.RenameNode(oldName, newName);
+        //}
 
-        public void RenameEdge(String oldName, String newName)
-        {
-            basicClient.RenameEdge(oldName, newName);
-        }
+        //public void RenameEdge(String oldName, String newName) // TODO: purge
+        //{
+        //    basicClient.RenameEdge(oldName, newName);
+        //}
 
         /// <summary>
         /// Uploads the graph to YComp, updates the display and makes a synchronisation.

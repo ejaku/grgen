@@ -399,12 +399,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void AddSubgraphNode(String name, String nrName, String nodeLabel)
         {
-            ycompStream.Write("addSubgraphNode \"-1\" \"n" + name + "\" \"" + nrName + "\" \"" + nodeLabel + "\"\n");
+            ycompStream.Write("addSubgraphNode \"-1\" \"n" + name + "\" \"" + nrName + "\" \"" + nodeLabel + "\"\n"); // -1 is for subgraph parent, could be added directly instead of a later MoveNode
         }
 
         public void AddNode(String name, String nrName, String nodeLabel)
         {
-            ycompStream.Write("addNode \"-1\" \"n" + name + "\" \"" + nrName + "\" \"" + nodeLabel + "\"\n");
+            ycompStream.Write("addNode \"-1\" \"n" + name + "\" \"" + nrName + "\" \"" + nodeLabel + "\"\n"); // -1 is for subgraph parent, could be added directly instead of a later MoveNode
         }
 
         public void SetNodeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString, String attrValueString)
@@ -465,12 +465,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 + attrTypeString + "\"\n");
         }
 
-        public void DeleteNode(String nodeName, String oldNodeName)
+        public void DeleteNode(String nodeName)
         {
             ycompStream.Write("deleteNode \"n" + nodeName + "\"\n");
         }
 
-        public void DeleteEdge(String edgeName, String oldEdgeName)
+        public void DeleteEdge(String edgeName)
         {
             // TODO: Update group relation
             ycompStream.Write("deleteEdge \"e" + edgeName + "\"\n");
@@ -478,12 +478,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void RenameNode(String oldName, String newName)
         {
-            ycompStream.Write("renameNode \"n" + oldName + "\" \"n" + newName + "\"\n");
+            ycompStream.Write("renameNode \"n" + oldName + "\" \"n" + newName + "\"\n"); // changes the name(==id) by which the node is accessible
         }
 
         public void RenameEdge(String oldName, String newName)
         {
-            ycompStream.Write("renameEdge \"e" + oldName + "\" \"e" + newName + "\"\n");
+            ycompStream.Write("renameEdge \"e" + oldName + "\" \"e" + newName + "\"\n"); // changes the name(==id) by which the edge is accessible
         }
 
         public void ClearGraph()
