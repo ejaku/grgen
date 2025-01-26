@@ -387,16 +387,30 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void DeleteEdge(String edgeName, String oldEdgeName)
         {
-            // TODO: Update group relation
-            Edge edge = gViewer.Graph.EdgeById(edgeName);
+            // TODO: Update group relation // GUI TODO: it seems EdgeById does not work at all
+            /*Edge edge = gViewer.Graph.EdgeById(edgeName);
             if(edge == null && oldEdgeName != null)
                 edge = gViewer.Graph.EdgeById(oldEdgeName);
-            gViewer.Graph.RemoveEdge(edge);
+            gViewer.Graph.RemoveEdge(edge);*/
 
-            nameToEdge.Remove(edgeName);
-            edgeToName.Remove(edge);
-            if(oldEdgeName != null)
+            if(nameToEdge.ContainsKey(edgeName))
+            {
+                Edge edge = nameToEdge[edgeName];
+                gViewer.Graph.RemoveEdge(edge);
+                nameToEdge.Remove(edgeName);
+                edgeToName.Remove(edge);
+            }
+            else if(nameToEdge.ContainsKey(oldEdgeName))
+            {
+                Edge edge = nameToEdge[oldEdgeName];
+                gViewer.Graph.RemoveEdge(edge);
                 nameToEdge.Remove(oldEdgeName);
+                edgeToName.Remove(edge);
+            }
+            else
+            {
+                throw new Exception("Unknown edge");
+            }
         }
 
         public void RenameNode(String oldName, String newName)
@@ -415,7 +429,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 //nameToEdge.Remove(oldName); // GUI TODO
                 //nameToEdge.Add(newName, edge);
-                //edge.Attr.Id = newName;
+                //edge.Attr.Id = newName; GUI TODO: can this be used instead of edgeToName? label itself could be set to another text string
             }
         }
 

@@ -89,11 +89,12 @@ namespace TestMSAGL
 
         private void buttonAddEdges_Click(object sender, EventArgs e)
         {
-            graphViewer.AddEdge("e1", "group", "nestedGroup", "er1", "e1");
-            graphViewer.AddEdge("e2", "nestedNestedNode", "nestedNode", "er1", "e2");
-            graphViewer.AddEdge("e3", "group", "node", "er1", "e3");
-            graphViewer.AddEdge("e4", "node", "nestedNestedNode", "er1", "e4");
-            graphViewer.AddEdge("e5", "nestedNode", "nestedNode", "er1", "e5");
+            graphViewer.AddEdge("e1", "group", "nestedGroup", "er1", "le1");
+            graphViewer.AddEdge("e2", "nestedNestedNode", "nestedNode", "er1", "le2");
+            graphViewer.AddEdge("e3", "group", "node", "er1", "le3");
+            graphViewer.AddEdge("e4", "node", "nestedNestedNode", "er1", "le4");
+            graphViewer.AddEdge("e5", "nestedNode", "nestedNode", "er1", "le5");
+            graphViewer.AddEdge("e6", "node", "node", "er1", "le6");
 
             graphViewer.Show();
         }
@@ -130,6 +131,42 @@ namespace TestMSAGL
         private void buttonClearGraph_Click(object sender, EventArgs e)
         {
             graphViewer.ClearGraph();
+            graphViewer.Show();
+        }
+
+        private void buttonDeleteE1_Click(object sender, EventArgs e)
+        {
+            graphViewer.DeleteEdge("e1", "e1");
+            graphViewer.Show();
+        }
+
+        private void buttonDeleteE2_Click(object sender, EventArgs e)
+        {
+            graphViewer.DeleteEdge("e2", "e2");
+            graphViewer.Show();
+        }
+
+        private void buttonDeleteE3_Click(object sender, EventArgs e)
+        {
+            graphViewer.DeleteEdge("e3", "e3");
+            graphViewer.Show();
+        }
+
+        private void buttonDeleteE4_Click(object sender, EventArgs e)
+        {
+            graphViewer.DeleteEdge("e4", "e4");
+            graphViewer.Show();
+        }
+
+        private void buttonDeleteE5_Click(object sender, EventArgs e)
+        {
+            graphViewer.DeleteEdge("e5", "e5");
+            graphViewer.Show();
+        }
+
+        private void buttonDeleteE6_Click(object sender, EventArgs e)
+        {
+            graphViewer.DeleteEdge("e6", "e6");
             graphViewer.Show();
         }
     }

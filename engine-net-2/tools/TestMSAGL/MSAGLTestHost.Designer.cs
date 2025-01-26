@@ -40,6 +40,12 @@ namespace TestMSAGL
             this.buttonDeleteNestedNode = new System.Windows.Forms.Button();
             this.buttonDeleteNode = new System.Windows.Forms.Button();
             this.buttonAddEdges = new System.Windows.Forms.Button();
+            this.buttonDeleteE1 = new System.Windows.Forms.Button();
+            this.buttonDeleteE2 = new System.Windows.Forms.Button();
+            this.buttonDeleteE3 = new System.Windows.Forms.Button();
+            this.buttonDeleteE4 = new System.Windows.Forms.Button();
+            this.buttonDeleteE5 = new System.Windows.Forms.Button();
+            this.buttonDeleteE6 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // comboBoxGraphViewerChooser
@@ -77,7 +83,7 @@ namespace TestMSAGL
             // 
             // buttonDeleteNestedNestedNode
             // 
-            this.buttonDeleteNestedNestedNode.Location = new System.Drawing.Point(12, 284);
+            this.buttonDeleteNestedNestedNode.Location = new System.Drawing.Point(13, 280);
             this.buttonDeleteNestedNestedNode.Name = "buttonDeleteNestedNestedNode";
             this.buttonDeleteNestedNestedNode.Size = new System.Drawing.Size(175, 23);
             this.buttonDeleteNestedNestedNode.TabIndex = 3;
@@ -87,7 +93,7 @@ namespace TestMSAGL
             // 
             // buttonDeleteNestedGroup
             // 
-            this.buttonDeleteNestedGroup.Location = new System.Drawing.Point(11, 226);
+            this.buttonDeleteNestedGroup.Location = new System.Drawing.Point(12, 222);
             this.buttonDeleteNestedGroup.Name = "buttonDeleteNestedGroup";
             this.buttonDeleteNestedGroup.Size = new System.Drawing.Size(175, 23);
             this.buttonDeleteNestedGroup.TabIndex = 4;
@@ -97,7 +103,7 @@ namespace TestMSAGL
             // 
             // buttonDeleteGroup
             // 
-            this.buttonDeleteGroup.Location = new System.Drawing.Point(12, 168);
+            this.buttonDeleteGroup.Location = new System.Drawing.Point(13, 164);
             this.buttonDeleteGroup.Name = "buttonDeleteGroup";
             this.buttonDeleteGroup.Size = new System.Drawing.Size(175, 23);
             this.buttonDeleteGroup.TabIndex = 5;
@@ -107,7 +113,7 @@ namespace TestMSAGL
             // 
             // buttonClearGraph
             // 
-            this.buttonClearGraph.Location = new System.Drawing.Point(12, 342);
+            this.buttonClearGraph.Location = new System.Drawing.Point(13, 524);
             this.buttonClearGraph.Name = "buttonClearGraph";
             this.buttonClearGraph.Size = new System.Drawing.Size(175, 23);
             this.buttonClearGraph.TabIndex = 6;
@@ -127,7 +133,7 @@ namespace TestMSAGL
             // 
             // buttonDeleteNestedNode
             // 
-            this.buttonDeleteNestedNode.Location = new System.Drawing.Point(12, 255);
+            this.buttonDeleteNestedNode.Location = new System.Drawing.Point(13, 251);
             this.buttonDeleteNestedNode.Name = "buttonDeleteNestedNode";
             this.buttonDeleteNestedNode.Size = new System.Drawing.Size(175, 23);
             this.buttonDeleteNestedNode.TabIndex = 8;
@@ -137,7 +143,7 @@ namespace TestMSAGL
             // 
             // buttonDeleteNode
             // 
-            this.buttonDeleteNode.Location = new System.Drawing.Point(12, 197);
+            this.buttonDeleteNode.Location = new System.Drawing.Point(13, 193);
             this.buttonDeleteNode.Name = "buttonDeleteNode";
             this.buttonDeleteNode.Size = new System.Drawing.Size(175, 23);
             this.buttonDeleteNode.TabIndex = 9;
@@ -155,11 +161,77 @@ namespace TestMSAGL
             this.buttonAddEdges.UseVisualStyleBackColor = true;
             this.buttonAddEdges.Click += new System.EventHandler(this.buttonAddEdges_Click);
             // 
+            // buttonDeleteE1
+            // 
+            this.buttonDeleteE1.Location = new System.Drawing.Point(12, 330);
+            this.buttonDeleteE1.Name = "buttonDeleteE1";
+            this.buttonDeleteE1.Size = new System.Drawing.Size(175, 23);
+            this.buttonDeleteE1.TabIndex = 11;
+            this.buttonDeleteE1.Text = "DeleteE1";
+            this.buttonDeleteE1.UseVisualStyleBackColor = true;
+            this.buttonDeleteE1.Click += new System.EventHandler(this.buttonDeleteE1_Click);
+            // 
+            // buttonDeleteE2
+            // 
+            this.buttonDeleteE2.Location = new System.Drawing.Point(12, 359);
+            this.buttonDeleteE2.Name = "buttonDeleteE2";
+            this.buttonDeleteE2.Size = new System.Drawing.Size(175, 23);
+            this.buttonDeleteE2.TabIndex = 12;
+            this.buttonDeleteE2.Text = "DeleteE2";
+            this.buttonDeleteE2.UseVisualStyleBackColor = true;
+            this.buttonDeleteE2.Click += new System.EventHandler(this.buttonDeleteE2_Click);
+            // 
+            // buttonDeleteE3
+            // 
+            this.buttonDeleteE3.Location = new System.Drawing.Point(12, 388);
+            this.buttonDeleteE3.Name = "buttonDeleteE3";
+            this.buttonDeleteE3.Size = new System.Drawing.Size(175, 23);
+            this.buttonDeleteE3.TabIndex = 13;
+            this.buttonDeleteE3.Text = "DeleteE3";
+            this.buttonDeleteE3.UseVisualStyleBackColor = true;
+            this.buttonDeleteE3.Click += new System.EventHandler(this.buttonDeleteE3_Click);
+            // 
+            // buttonDeleteE4
+            // 
+            this.buttonDeleteE4.Location = new System.Drawing.Point(12, 417);
+            this.buttonDeleteE4.Name = "buttonDeleteE4";
+            this.buttonDeleteE4.Size = new System.Drawing.Size(175, 23);
+            this.buttonDeleteE4.TabIndex = 14;
+            this.buttonDeleteE4.Text = "DeleteE4";
+            this.buttonDeleteE4.UseVisualStyleBackColor = true;
+            this.buttonDeleteE4.Click += new System.EventHandler(this.buttonDeleteE4_Click);
+            // 
+            // buttonDeleteE5
+            // 
+            this.buttonDeleteE5.Location = new System.Drawing.Point(12, 446);
+            this.buttonDeleteE5.Name = "buttonDeleteE5";
+            this.buttonDeleteE5.Size = new System.Drawing.Size(175, 23);
+            this.buttonDeleteE5.TabIndex = 15;
+            this.buttonDeleteE5.Text = "DeleteE5";
+            this.buttonDeleteE5.UseVisualStyleBackColor = true;
+            this.buttonDeleteE5.Click += new System.EventHandler(this.buttonDeleteE5_Click);
+            // 
+            // buttonDeleteE6
+            // 
+            this.buttonDeleteE6.Location = new System.Drawing.Point(11, 475);
+            this.buttonDeleteE6.Name = "buttonDeleteE6";
+            this.buttonDeleteE6.Size = new System.Drawing.Size(175, 23);
+            this.buttonDeleteE6.TabIndex = 16;
+            this.buttonDeleteE6.Text = "DeleteE6";
+            this.buttonDeleteE6.UseVisualStyleBackColor = true;
+            this.buttonDeleteE6.Click += new System.EventHandler(this.buttonDeleteE6_Click);
+            // 
             // MSAGLTestHost
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(199, 559);
+            this.Controls.Add(this.buttonDeleteE6);
+            this.Controls.Add(this.buttonDeleteE5);
+            this.Controls.Add(this.buttonDeleteE4);
+            this.Controls.Add(this.buttonDeleteE3);
+            this.Controls.Add(this.buttonDeleteE2);
+            this.Controls.Add(this.buttonDeleteE1);
             this.Controls.Add(this.buttonAddEdges);
             this.Controls.Add(this.buttonDeleteNode);
             this.Controls.Add(this.buttonDeleteNestedNode);
@@ -191,6 +263,12 @@ namespace TestMSAGL
         private System.Windows.Forms.Button buttonDeleteNestedNode;
         private System.Windows.Forms.Button buttonDeleteNode;
         private System.Windows.Forms.Button buttonAddEdges;
+        private System.Windows.Forms.Button buttonDeleteE1;
+        private System.Windows.Forms.Button buttonDeleteE2;
+        private System.Windows.Forms.Button buttonDeleteE3;
+        private System.Windows.Forms.Button buttonDeleteE4;
+        private System.Windows.Forms.Button buttonDeleteE5;
+        private System.Windows.Forms.Button buttonDeleteE6;
     }
 }
 
