@@ -19,6 +19,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     {
         void Close();
 
+        void SleepAndDoEvents(); // only implemented in the graph viewer client of the internal WindowsForms based MSAGL graph viewer, the graph viewer client (proxy) of the external yComp app only sleeps without pumping WindowsForms event
+
         event ConnectionLostHandler OnConnectionLost; // may come directly, may come only when a Sync is executed, depending on the implementation; may come when the connection to yComp is lost, or when the MSAGL host window is closed
 
         bool CommandAvailable { get; }

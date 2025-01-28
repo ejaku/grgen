@@ -113,6 +113,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             gViewer = null;
         }
 
+        public void SleepAndDoEvents()
+        {
+            System.Threading.Thread.Sleep(1);
+            Application.DoEvents();
+        }
+
 
         public static IEnumerable<String> AvailableLayouts
         {

@@ -290,6 +290,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             ycompClient = null;
         }
 
+        public void SleepAndDoEvents()
+        {
+            System.Threading.Thread.Sleep(1);
+        }
+
 
         public static IEnumerable<String> AvailableLayouts
         {
