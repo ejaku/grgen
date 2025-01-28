@@ -18,7 +18,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         UserChoiceMenu currentUserChoiceMenu;
         UserChoiceMenu currentAdditionalGuiUserChoiceMenu;
         Dictionary<string, ToolStripItem[]> optionNameToControls; // map of menu option names aka commands from application logic to GUI controls implementing these commands/options
-        MSAGLClient msaglClient;
+        MSAGLClient msaglClient; //private Microsoft.Msagl.GraphViewerGdi.GViewer gv = null; -- gets created by the msagl client, a behavior needed if it is used without debugger as a plain graph viewer
+        IDebugger debugger;
 
         public GuiDebuggerHost()
         {
@@ -85,6 +86,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             optionNameToControls.Add(optionName, controls);
         }
 
+        // IDebuggerGUIForDataRendering ------------------------------
+
         public void SetContext(UserChoiceMenu userChoiceMenu, UserChoiceMenu additionalGuiUserChoiceMenu)
         {
             if(currentUserChoiceMenu != null)
@@ -104,6 +107,49 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             get { return msaglClient; }
         }
+
+        // IGuiDebuggerHost ------------------------------
+
+        public IDebuggerGUIForDataRendering MainWorkObjectGuiGraphRenderer
+        {
+            get { return this; }
+        }
+        public IDebuggerConsoleUICombined MainWorkObjectGuiConsoleControl
+        {
+            get { return mainWorkObjectGuiConsoleControl; }
+        }
+        public IDebuggerConsoleUICombined InputOutputAndLogGuiConsoleControl
+        {
+            get { return inputOutputAndLogGuiConsoleControl; }
+        }
+
+        // IGuiConsoleDebuggerHost ------------------------------
+
+        public IDebuggerConsoleUICombined GuiConsoleControl
+        {
+            get { return inputOutputAndLogGuiConsoleControl; }
+        }
+        public IDebuggerConsoleUICombined OptionalGuiConsoleControl
+        {
+            get { return mainWorkObjectGuiConsoleControl; }
+        }
+
+        public bool TwoPane
+        {
+            get { return true; }
+            set {; } // todo: maybe throw not implemented exception instead of silent ignoring
+        }
+
+        //public void Show(); by the Form
+        //public void Close(); by the Form
+
+        public IDebugger Debugger
+        {
+            get { return debugger; }
+            set { debugger = value; }
+        }
+
+        // ------------------------------
 
         // outWriter for data rendering, base version, also implemented by the graph GUI version, resulting in a list of lines
         public void WriteLineDataRendering(string value)
@@ -184,6 +230,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             throw new Exception("Internal error - no command found");
         }
+
+        // ------------------------------
 
         private void nextMatchToolStripMenuItem_Click(object sender, System.EventArgs e)
         {

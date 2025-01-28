@@ -83,34 +83,5 @@
         private GuiConsoleControl theOptionalGuiConsoleControl;
         private System.Windows.Forms.Splitter theOptionalSplitter;
         private GuiConsoleControl theGuiConsoleControl;
-
-        public IDebuggerConsoleUICombined GuiConsoleControl
-        {
-            get { return theGuiConsoleControl; }
-        }
-        public IDebuggerConsoleUICombined OptionalGuiConsoleControl
-        {
-            get { return theOptionalGuiConsoleControl; }
-        }
-
-        public bool TwoPane
-        {
-            get { return theOptionalGuiConsoleControl.Visible; }
-            set
-            {
-                if(value)
-                {
-                    theOptionalGuiConsoleControl.Visible = true;
-                    theOptionalGuiConsoleControl.EnableClear = true;
-                    theOptionalSplitter.Visible = true;
-                }
-                else
-                {
-                    theOptionalGuiConsoleControl.Visible = false;
-                    theOptionalGuiConsoleControl.EnableClear = false;
-                    theOptionalSplitter.Visible = false;
-                }
-            }
-        }
     }
 }

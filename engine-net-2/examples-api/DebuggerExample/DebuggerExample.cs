@@ -51,8 +51,8 @@ namespace DebuggerExample
                 IBasicGraphViewerClientHost basicGraphViewerClientHost = hostCreator.CreateBasicGraphViewerClientHost();
                 debugger = new Debugger(debuggerEnv, debuggerProcEnv, new ElementRealizers(),
                     graphViewerType, "MDS"/*"SugiyamaScheme"*/, optMap, basicGraphViewerClientHost);
-                if(guiConsoleDebuggerHost != null)
-                    guiConsoleDebuggerHost.Show();
+                guiConsoleDebuggerHost.Debugger = debugger;
+                guiConsoleDebuggerHost.Show();
             }
 
             debugger.DetailedModeShowPreMatches = true;

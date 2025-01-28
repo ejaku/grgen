@@ -13,11 +13,56 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     public partial class GuiConsoleDebuggerHost : Form, IGuiConsoleDebuggerHost
     {
+        IDebugger debugger;
+
         public GuiConsoleDebuggerHost(bool twoPane)
         {
             InitializeComponent();
             TwoPane = twoPane;
             theGuiConsoleControl.Select(); // ensure it receives keyboard input
         }
+
+        // IGuiConsoleDebuggerHost ----------------------------------
+
+        public IDebuggerConsoleUICombined GuiConsoleControl
+        {
+            get { return theGuiConsoleControl; }
+        }
+        public IDebuggerConsoleUICombined OptionalGuiConsoleControl
+        {
+            get { return theOptionalGuiConsoleControl; }
+        }
+
+        public bool TwoPane
+        {
+            get { return theOptionalGuiConsoleControl.Visible; }
+            set
+            {
+                if(value)
+                {
+                    theOptionalGuiConsoleControl.Visible = true;
+                    theOptionalGuiConsoleControl.EnableClear = true;
+                    theOptionalSplitter.Visible = true;
+                }
+                else
+                {
+                    theOptionalGuiConsoleControl.Visible = false;
+                    theOptionalGuiConsoleControl.EnableClear = false;
+                    theOptionalSplitter.Visible = false;
+                }
+            }
+        }
+
+        //public void Show(); by the Form
+
+        //public void Close(); by the Form
+        
+        public IDebugger Debugger
+        {
+            get { return debugger; }
+            set { debugger = value; }
+        }
+
+        // ----------------------------------
     }
 }

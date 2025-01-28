@@ -587,35 +587,5 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private System.Windows.Forms.ToolStripMenuItem deleteWatchpointToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem insertWatchpointToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem appendWatchpointToolStripMenuItem;
-
-        public IDebuggerGUIForDataRendering MainWorkObjectGuiGraphRenderer
-        {
-            get { return this; }
-        }
-        public IDebuggerConsoleUICombined MainWorkObjectGuiConsoleControl
-        {
-            get { return mainWorkObjectGuiConsoleControl; }
-        }
-        public IDebuggerConsoleUICombined InputOutputAndLogGuiConsoleControl
-        {
-            get { return inputOutputAndLogGuiConsoleControl; }
-        }
-
-        public IDebuggerConsoleUICombined GuiConsoleControl
-        {
-            get { return inputOutputAndLogGuiConsoleControl; }
-        }
-        public IDebuggerConsoleUICombined OptionalGuiConsoleControl
-        {
-            get { return mainWorkObjectGuiConsoleControl; }
-        }
-
-        public bool TwoPane
-        {
-            get { return true; }
-            set { ; } // todo: maybe throw not implemented exception instead of silent ignoring
-        }
-
-        //private Microsoft.Msagl.GraphViewerGdi.GViewer gv = null; -- gets created by the msagl client, a behavior needed if it is used without debugger as a plain graph viewer
     }
 }

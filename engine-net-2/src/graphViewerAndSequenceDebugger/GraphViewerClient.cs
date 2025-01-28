@@ -87,6 +87,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 if(host == null)
                     host = guiConsoleDebuggerHostCreator.CreateBasicGraphViewerClientHost();
                 basicClient = basicGraphViewerClientCreator.Create(graphViewerType, host);
+                host.BasicGraphViewerClient = basicClient;
             }
             else // default is yCompClient
             {

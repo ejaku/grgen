@@ -19,5 +19,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         bool TwoPane { get; set; }
         void Show();
         void Close();
+        IDebugger Debugger { get; set; } // allows to set the debugger the implementation of this interface is intended to host
     }
 }

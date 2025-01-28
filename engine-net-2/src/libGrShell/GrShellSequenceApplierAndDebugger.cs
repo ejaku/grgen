@@ -654,6 +654,7 @@ namespace de.unika.ipd.grGen.grShell
                     debugger = new Debugger(this, impl.curShellProcEnv, impl.realizers, graphViewerType, impl.debugLayout, optMap, basicGraphViewerClientHost);
                     if(graphViewerType != GraphViewerTypes.YComp)
                     {
+                        guiConsoleDebuggerHost.Debugger = debugger;
                         guiConsoleDebuggerHost.Show();
                     }
                     debugger.DetailedModeShowPreMatches = impl.detailModePreMatchEnabled;

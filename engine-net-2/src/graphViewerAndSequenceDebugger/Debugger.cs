@@ -19,7 +19,13 @@ using System.Text;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
-    public class Debugger : IUserProxyForSequenceExecution
+    public interface IDebugger // interface towards the hosts (/the classes from the environment)
+    {
+        // nothing needed yet, the GUI (console) debuggers should behave like the Console debugger, and that works without an extra interface / is debugger (application logic) driven
+        // but in the future they may be extended with functionality surpassing what is available on the Console, e.g. for information display in additional windows
+    }
+
+    public class Debugger : IDebugger, IUserProxyForSequenceExecution
     {
         public readonly IDebuggerEnvironment env;
         DebuggerGraphProcessingEnvironment debuggerProcEnv;

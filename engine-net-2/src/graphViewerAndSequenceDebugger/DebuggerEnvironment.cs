@@ -318,12 +318,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             get { return theDebuggerGUIForDataRendering; }
         }
 
-        public Debugger Debugger // has to be set after debugger was constructed
+        public Debugger Debugger // has to be set after debugger was constructed (when used by external apps)
         {
             get { return debugger; }
             set { debugger = value; }
         }
-        protected Debugger debugger;
+        protected Debugger debugger; // set be the GrShellSequenceApplierAndDebugger
 
         private UserChoiceMenu choiceMenuResumeDebuggingAnyKey = new UserChoiceMenu(UserChoiceMenuNames.ResumeDebuggingMenu, new string[] { "commandContinueDebuggingAnyKey" });
         private UserChoiceMenu choiceMenuPauseContinueDialogAnyKey = new UserChoiceMenu(UserChoiceMenuNames.PauseContinueMenu, new string[] { "pauseContinueDialogAnyKey" });
