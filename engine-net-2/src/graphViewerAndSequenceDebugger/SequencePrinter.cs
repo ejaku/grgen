@@ -234,10 +234,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void PrintSequenceBinary(SequenceBinary seqBin, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            if(context.cpPosCounter >= 0 && seqBin.Random)
+            if(context.sequenceIdToChoicepointPosMap != null && seqBin.Random)
             {
-                int cpPosCounter = context.cpPosCounter;
-                ++context.cpPosCounter;
                 PrintSequence(seqBin.Left, seqBin, highlightingMode);
                 PrintChoice(seqBin);
                 env.PrintHighlighted(seqBin.OperatorSymbol + " ", highlightingMode);
@@ -569,10 +567,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void PrintSequenceNAry(SequenceNAry seqN, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            if(context.cpPosCounter >= 0)
+            if(context.sequenceIdToChoicepointPosMap != null)
             {
                 PrintChoice(seqN);
-                ++context.cpPosCounter;
                 env.PrintHighlighted((seqN.Choice ? "$%" : "$") + seqN.OperatorSymbol + "(", highlightingMode);
                 bool first = true;
                 foreach(Sequence seqChild in seqN.Children)
@@ -631,10 +628,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void PrintSequenceWeightedOne(SequenceWeightedOne seqWeighted, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            if(context.cpPosCounter >= 0)
+            if(context.sequenceIdToChoicepointPosMap != null)
             {
                 PrintChoice(seqWeighted);
-                ++context.cpPosCounter;
                 env.PrintHighlighted((seqWeighted.Choice ? "$%" : "$") + seqWeighted.OperatorSymbol + "(", highlightingMode);
                 bool first = true;
                 for(int i = 0; i < seqWeighted.Sequences.Count; ++i)
@@ -704,21 +700,20 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void PrintSequenceSomeFromSet(SequenceSomeFromSet seqSome, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            if(context.cpPosCounter >= 0
+            if(context.sequenceIdToChoicepointPosMap != null
                 && seqSome.Random)
             {
                 PrintChoice(seqSome);
-                ++context.cpPosCounter;
                 env.PrintHighlighted((seqSome.Choice ? "$%" : "$") + "{<", highlightingMode);
                 bool first = true;
                 foreach(Sequence seqChild in seqSome.Children)
                 {
                     if(!first)
                         env.PrintHighlighted(", ", highlightingMode);
-                    int cpPosCounterBackup = context.cpPosCounter;
-                    context.cpPosCounter = -1; // rules within some-from-set are not choicepointable
+                    Dictionary<int, int> sequenceIdToChoicepointPosMapBackup = context.sequenceIdToChoicepointPosMap; // TODO: this works? choicepoint numbers maybe not displayed this way, but still assigned on the outside...
+                    context.sequenceIdToChoicepointPosMap = null; // rules within some-from-set are not choicepointable
                     PrintSequence(seqChild, seqSome, highlightingMode);
-                    context.cpPosCounter = cpPosCounterBackup;
+                    context.sequenceIdToChoicepointPosMap = sequenceIdToChoicepointPosMapBackup;
                     first = false;
                 }
                 env.PrintHighlighted(">}", highlightingMode);
@@ -847,18 +842,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void PrintSequenceBreakpointable(Sequence seq, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            if(context.bpPosCounter >= 0)
+            if(context.sequenceIdToBreakpointPosMap != null)
             {
                 PrintBreak((SequenceSpecial)seq);
-                ++context.bpPosCounter;
             }
 
-            if(context.cpPosCounter >= 0
+            if(context.sequenceIdToChoicepointPosMap != null
                 && seq is SequenceRandomChoice
                 && ((SequenceRandomChoice)seq).Random)
             {
                 PrintChoice((SequenceRandomChoice)seq);
-                ++context.cpPosCounter;
             }
 
             HighlightingMode highlightingModeLocal = highlightingMode;
@@ -1068,12 +1061,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         // Choice highlightable user assignments
         private void PrintSequenceAssignChoiceHighlightable(Sequence seq, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            if(context.cpPosCounter >= 0
+            if(context.sequenceIdToChoicepointPosMap != null
                 && (seq is SequenceAssignRandomIntToVar || seq is SequenceAssignRandomDoubleToVar))
             {
                 PrintChoice((SequenceRandomChoice)seq);
                 env.PrintHighlighted(seq.Symbol, highlightingMode);
-                ++context.cpPosCounter;
                 return;
             }
 
@@ -1117,17 +1109,17 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private void PrintChoice(SequenceRandomChoice seq)
         {
             if(seq.Choice)
-                env.PrintHighlighted("-%" + context.cpPosCounter + "-:", HighlightingMode.Choicepoint);
+                env.PrintHighlighted("-%" + context.sequenceIdToChoicepointPosMap[((SequenceBase)seq).Id] + "-:", HighlightingMode.Choicepoint);
             else
-                env.PrintHighlighted("+%" + context.cpPosCounter + "+:", HighlightingMode.Choicepoint);
+                env.PrintHighlighted("+%" + context.sequenceIdToChoicepointPosMap[((SequenceBase)seq).Id] + "+:", HighlightingMode.Choicepoint);
         }
 
         private void PrintBreak(ISequenceSpecial seq)
         {
             if(seq.Special)
-                env.PrintHighlighted("-%" + context.bpPosCounter + "-:", HighlightingMode.Breakpoint);
+                env.PrintHighlighted("-%" + context.sequenceIdToBreakpointPosMap[((SequenceBase)seq).Id] + "-:", HighlightingMode.Breakpoint);
             else
-                env.PrintHighlighted("+%" + context.bpPosCounter + "+:", HighlightingMode.Breakpoint);
+                env.PrintHighlighted("+%" + context.sequenceIdToBreakpointPosMap[((SequenceBase)seq).Id] + "+:", HighlightingMode.Breakpoint);
         }
 
         private void PrintListOfMatchesNumbers(ref int numCurTotalMatch, int numMatches)
@@ -1748,11 +1740,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void PrintSequenceExpression(SequenceExpression seqExpr, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            if(context.bpPosCounter >= 0
+            if(context.sequenceIdToBreakpointPosMap != null
                 && seqExpr is ISequenceSpecial)
             {
                 PrintBreak((ISequenceSpecial)seqExpr);
-                ++context.bpPosCounter;
                 return; // GUI TODO: very strange return -- no expression is printed thereafter, this does not make a lot of sense
             }
 

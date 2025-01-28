@@ -16,18 +16,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     public class DisplaySequenceContext
     {
         /// <summary>
-        /// A counter increased for every potential breakpoint position and printed next to a potential breakpoint.
-        /// If bpPosCounter is smaller than zero, no such counter is used or printed.
-        /// If bpPosCounter is greater than or equal zero, the following highlighting values are irrelvant.
+        /// If not null, gives a mapping of the sequences by id to the breakpoint positions to be displayed.
+        /// Used for highlighting breakpoints during printing and rendering.
         /// </summary>
-        public int bpPosCounter = -1;
+        public Dictionary<int, int> sequenceIdToBreakpointPosMap = null;
 
         /// <summary>
-        /// A counter increased for every potential choice position and printed next to a potential choicepoint.
-        /// If cpPosCounter is smaller than zero, no such counter is used or printed.
-        /// If cpPosCounter is greater than or equal zero, the following highlighting values are irrelvant.
+        /// If not null, gives a mapping of the sequences by id to the choicepoint positions to be displayed.
+        /// Used for highlighting choicepoints during printing and rendering.
         /// </summary>
-        public int cpPosCounter = -1;
+        public Dictionary<int, int> sequenceIdToChoicepointPosMap = null;
 
         /// <summary> The sequence to be highlighted or null </summary>
         public SequenceBase highlightSeq = null;

@@ -41,9 +41,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void HandleToggleBreakpoints()
         {
             displayer.BeginOfDisplay("Available breakpoint positions:");
+           
+            Dictionary<int, int> sequenceIdToBreakpointPosMap = new Dictionary<int, int>();
+            int bpPosCounter = 0; // A counter increased for every potential breakpoint position
+            CollectBreakpointableSequences(debugSequences.Peek(), ref bpPosCounter, sequenceIdToBreakpointPosMap);
 
             DisplaySequenceContext contextBp = new DisplaySequenceContext();
-            contextBp.bpPosCounter = 0;
+            contextBp.sequenceIdToBreakpointPosMap = sequenceIdToBreakpointPosMap;
             displayer.DisplaySequenceBase(debugSequences.Peek(), contextBp, debugSequences.Count, "", "");
 
             HandleToggleBreakpoints(contextBp);
@@ -53,7 +57,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void HandleToggleBreakpoints(DisplaySequenceContext contextBp)
         {
-            if(contextBp.bpPosCounter == 0)
+            if(contextBp.sequenceIdToBreakpointPosMap.Count == 0)
             {
                 if(env.TwoPane)
                     env.PauseUntilAnyKeyPressedToContinueDialog("No breakpoint positions available, press any key to continue...");
@@ -62,7 +66,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 return;
             }
 
-            int pos = HandleTogglePoint(PointType.Breakpoint, contextBp.bpPosCounter);
+            int pos = HandleTogglePoint(PointType.Breakpoint, contextBp.sequenceIdToBreakpointPosMap.Count);
             if(pos == -1)
                 return;
 
@@ -73,8 +77,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             displayer.BeginOfDisplay("Available choicepoint positions:");
 
+            Dictionary<int, int> sequenceIdToChoicepointPosMap = new Dictionary<int, int>();
+            int cpPosCounter = 0; // A counter increased for every potential choice position
+            CollectChoicepointableSequences(debugSequences.Peek(), ref cpPosCounter, sequenceIdToChoicepointPosMap);
+
             DisplaySequenceContext contextCp = new DisplaySequenceContext();
-            contextCp.cpPosCounter = 0;
+            contextCp.sequenceIdToChoicepointPosMap = sequenceIdToChoicepointPosMap;
             displayer.DisplaySequenceBase(debugSequences.Peek(), contextCp, debugSequences.Count, "", "");
 
             HandleToggleChoicepoints(contextCp);
@@ -84,7 +92,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void HandleToggleChoicepoints(DisplaySequenceContext contextCp)
         {
-            if(contextCp.cpPosCounter == 0)
+            if(contextCp.sequenceIdToChoicepointPosMap.Count == 0)
             {
                 if(env.TwoPane)
                     env.PauseUntilAnyKeyPressedToContinueDialog("No choicepoint positions available, press any key to continue...");
@@ -93,7 +101,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 return;
             }
 
-            int pos = HandleTogglePoint(PointType.Choicepoint, contextCp.cpPosCounter);
+            int pos = HandleTogglePoint(PointType.Choicepoint, contextCp.sequenceIdToChoicepointPosMap.Count);
             if(pos == -1)
                 return;
 
@@ -167,7 +175,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             bpSeq.Special = !bpSeq.Special;
         }
 
-        private ISequenceSpecial GetSequenceAtBreakpointPosition(SequenceBase seq, int bpPos, ref int counter)
+        private ISequenceSpecial GetSequenceAtBreakpointPosition(SequenceBase seq, int bpPos, ref int counter) // TODO: use new map instead of counter
         {
             if(seq is ISequenceSpecial)
             {
@@ -184,7 +192,20 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return null;
         }
 
-        private SequenceRandomChoice GetSequenceAtChoicepointPosition(SequenceBase seq, int cpPos, ref int counter)
+        private void CollectBreakpointableSequences(SequenceBase seq, ref int counter, Dictionary<int, int> sequenceIdToBreakpointPosMap)
+        {
+            if(seq is ISequenceSpecial)
+            {
+                sequenceIdToBreakpointPosMap.Add(seq.Id, counter);
+                counter++;
+            }
+            foreach(SequenceBase child in seq.ChildrenBase)
+            {
+                CollectBreakpointableSequences(child, ref counter, sequenceIdToBreakpointPosMap);
+            }
+        }
+
+        private SequenceRandomChoice GetSequenceAtChoicepointPosition(SequenceBase seq, int cpPos, ref int counter) // TODO: use new map instead of counter
         {
             if(seq is SequenceRandomChoice && ((SequenceRandomChoice)seq).Random)
             {
@@ -200,7 +221,20 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             return null;
         }
-        
+
+        private void CollectChoicepointableSequences(SequenceBase seq, ref int counter, Dictionary<int, int> sequenceIdToChoicepointPosMap)
+        {
+            if(seq is SequenceRandomChoice && ((SequenceRandomChoice)seq).Random)
+            {
+                sequenceIdToChoicepointPosMap.Add(seq.Id, counter);
+                counter++;
+            }
+            foreach(SequenceBase child in seq.ChildrenBase)
+            {
+                CollectChoicepointableSequences(child, ref counter, sequenceIdToChoicepointPosMap);
+            }
+        }
+
         private void TogglePointInAllInstances(int pos, bool choice)
         {
             if(debugSequences.Count > 1)

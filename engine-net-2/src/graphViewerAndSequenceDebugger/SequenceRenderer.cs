@@ -223,11 +223,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string RenderSequenceBinary(SequenceBinary seqBin, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            if(context.cpPosCounter >= 0 && seqBin.Random)
+            if(context.sequenceIdToChoicepointPosMap != null && seqBin.Random)
             {
-                int cpPosCounter = context.cpPosCounter;
                 string choicePrefix = GetChoicePrefix(seqBin);
-                ++context.cpPosCounter;
                 String operatorNodeNameChoiceRun = AddNode(seqBin, HighlightingMode.Choicepoint, choicePrefix + seqBin.OperatorSymbol);
                 String rightNodeNameChoiceRun = RenderSequence(seqBin.Right, seqBin, highlightingMode);
                 env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeNameChoiceRun, rightNodeNameChoiceRun), operatorNodeNameChoiceRun, rightNodeNameChoiceRun, GetEdgeRealizer(highlightingMode), "right");
@@ -621,10 +619,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string RenderSequenceNAry(SequenceNAry seqN, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            if(context.cpPosCounter >= 0)
+            if(context.sequenceIdToChoicepointPosMap != null)
             {
                 string choicePrefix = GetChoicePrefix(seqN);
-                ++context.cpPosCounter;
                 String operatorNodeNameChoiceRun = AddNode(seqN, HighlightingMode.Choicepoint, choicePrefix + (seqN.Choice ? "$%" : "$") + seqN.OperatorSymbol + "(...)");
                 for(int iChoiceRun = seqN.Sequences.Count - 1; iChoiceRun >= 0; --iChoiceRun)
                 {
@@ -685,10 +682,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string RenderSequenceWeightedOne(SequenceWeightedOne seqWeighted, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            if(context.cpPosCounter >= 0)
+            if(context.sequenceIdToChoicepointPosMap != null)
             {
                 string choicePrefix = GetChoicePrefix(seqWeighted);
-                ++context.cpPosCounter;
                 String operatorNodeNameChoiceRun = AddNode(seqWeighted, highlightingMode, choicePrefix + (seqWeighted.Choice ? "$%" : "$") + seqWeighted.OperatorSymbol + "(...)");
                 for(int iChoiceRun = seqWeighted.Sequences.Count - 1; iChoiceRun >= 0; --iChoiceRun)
                 {
@@ -746,19 +742,18 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string RenderSequenceSomeFromSet(SequenceSomeFromSet seqSome, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            if(context.cpPosCounter >= 0
+            if(context.sequenceIdToChoicepointPosMap != null
                 && seqSome.Random)
             {
                 string choicePrefix = GetChoicePrefix(seqSome);
-                ++context.cpPosCounter;
                 String operatorNodeNameChoiceRun = AddNode(seqSome, highlightingMode, choicePrefix + (seqSome.Choice ? "$%" : "$") + "{<...>}");
                 for(int iChoiceRun = seqSome.Sequences.Count - 1; iChoiceRun >= 0; --iChoiceRun)
                 {
                     Sequence seqChildChoiceRun = seqSome.Sequences[iChoiceRun];
-                    int cpPosCounterBackup = context.cpPosCounter;
-                    context.cpPosCounter = -1; // rules within some-from-set are not choicepointable
+                    Dictionary<int, int> sequenceIdToChoicepointPosMapBackup = context.sequenceIdToChoicepointPosMap; // TODO: this works? choicepoint numbers maybe not displayed this way, but still assigned on the outside...
+                    context.sequenceIdToChoicepointPosMap = null; // rules within some-from-set are not choicepointable
                     string childNodeNameChoiceRun = RenderSequence(seqChildChoiceRun, seqSome, highlightingMode);
-                    context.cpPosCounter = cpPosCounterBackup;
+                    context.sequenceIdToChoicepointPosMap = sequenceIdToChoicepointPosMapBackup;
                     env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeNameChoiceRun, childNodeNameChoiceRun), operatorNodeNameChoiceRun, childNodeNameChoiceRun, GetEdgeRealizer(highlightingMode), "child" + iChoiceRun);
                 }
                 return operatorNodeNameChoiceRun;
@@ -897,19 +892,17 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             HighlightingMode highlightingModeOverride = HighlightingMode.None;
             string prefix = "";
-            if(context.bpPosCounter >= 0)
+            if(context.sequenceIdToBreakpointPosMap != null)
             {
                 prefix = GetBreakPrefix((SequenceSpecial)seq);
-                ++context.bpPosCounter;
                 highlightingModeOverride = HighlightingMode.Breakpoint;
             }
 
-            if(context.cpPosCounter >= 0
+            if(context.sequenceIdToChoicepointPosMap != null
                 && seq is SequenceRandomChoice
                 && ((SequenceRandomChoice)seq).Random)
             {
                 prefix = GetChoicePrefix((SequenceRandomChoice)seq);
-                ++context.cpPosCounter;
                 highlightingModeOverride = HighlightingMode.Choicepoint;
             }
 
@@ -1181,11 +1174,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             String assignChoiceNodeName;
 
-            if(context.cpPosCounter >= 0
+            if(context.sequenceIdToChoicepointPosMap != null
                 && (seq is SequenceAssignRandomIntToVar || seq is SequenceAssignRandomDoubleToVar))
             {
                 assignChoiceNodeName = AddNode(seq, highlightingMode, GetChoicePrefix((SequenceRandomChoice)seq) + seq.Symbol);
-                ++context.cpPosCounter;
                 return assignChoiceNodeName;
             }
 
@@ -1231,17 +1223,17 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private string GetChoicePrefix(SequenceRandomChoice seq)
         {
             if(seq.Choice)
-                return "-%" + context.cpPosCounter + "-:"; // HighlightingMode.Choicepoint
+                return "-%" + context.sequenceIdToChoicepointPosMap[((SequenceBase)seq).Id] + "-:"; // HighlightingMode.Choicepoint
             else
-                return "+%" + context.cpPosCounter + "+:"; // HighlightingMode.Choicepoint
+                return "+%" + context.sequenceIdToChoicepointPosMap[((SequenceBase)seq).Id] + "+:"; // HighlightingMode.Choicepoint
         }
 
         private string GetBreakPrefix(ISequenceSpecial seq)
         {
             if(seq.Special)
-                return "-%" + context.bpPosCounter + "-:"; // HighlightingMode.Breakpoint
+                return "-%" + context.sequenceIdToBreakpointPosMap[((SequenceBase)seq).Id] + "-:"; // HighlightingMode.Breakpoint
             else
-                return "+%" + context.bpPosCounter + "+:"; // HighlightingMode.Breakpoint
+                return "+%" + context.sequenceIdToBreakpointPosMap[((SequenceBase)seq).Id] + "+:"; // HighlightingMode.Breakpoint
         }
 
         private string GetListOfMatchesNumbers(int numCurTotalMatch, int numMatches)
@@ -1854,11 +1846,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void PrintSequenceExpression(SequenceExpression seqExpr, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            if(context.bpPosCounter >= 0
+            if(context.sequenceIdToBreakpointPosMap != null
                 && seqExpr is ISequenceSpecial)
             {
                 env.PrintHighlighted(GetBreakPrefix((ISequenceSpecial)seqExpr), HighlightingMode.Breakpoint);
-                ++context.bpPosCounter;
                 return; // GUI TODO: very strange return -- no expression is printed thereafter, this does not make a lot of sense
             }
 
