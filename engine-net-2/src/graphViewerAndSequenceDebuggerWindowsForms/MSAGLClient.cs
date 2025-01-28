@@ -349,7 +349,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 }
                 else
                 {
-                    throw new Exception("Unknown node");
+                    Console.Error.WriteLine("Warning: DeleteNode: Unknown node: " + nodeName);
                 }
             }
         }
@@ -411,7 +411,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             else
             {
-                throw new Exception("Unknown edge");
+                Console.Error.WriteLine("Warning: DeleteEdge: Unknown edge: " + edgeName);
             }
         }
 
