@@ -68,7 +68,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public bool ConnectionLost
         {
-            get { return graphViewerClient.ConnectionLost; }
+            get { return graphViewerClient == null || graphViewerClient.ConnectionLost; }
         }
 
         private bool notifyOnConnectionLost;
@@ -2589,7 +2589,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void DebugOnConnectionLost()
         {
-            env.WriteLine("Connection to yComp lost!");
+            env.WriteLine("Connection to the graph viewer lost!");
             env.Cancel();
         }
 

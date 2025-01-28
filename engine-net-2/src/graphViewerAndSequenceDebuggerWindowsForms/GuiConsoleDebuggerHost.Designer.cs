@@ -74,6 +74,7 @@
             this.MinimumSize = new System.Drawing.Size(168, 123);
             this.Name = "GuiConsoleDebuggerHost";
             this.Text = "GuiConsoleDebuggerHost";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.GuiConsoleDebuggerHost_FormClosed);
             this.ResumeLayout(false);
 
         }

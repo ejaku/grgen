@@ -64,5 +64,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         // ----------------------------------
+
+        private void GuiConsoleDebuggerHost_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            theGuiConsoleControl.Cancel();
+        }
     }
 }

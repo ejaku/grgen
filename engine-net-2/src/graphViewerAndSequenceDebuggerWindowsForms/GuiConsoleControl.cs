@@ -50,6 +50,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         bool escapePressed = false;
         char enteredNextCharacter = '\0'; // mini queue of 2 entries (potential TODO: introduce real queue)
         ConsoleKey enteredNextKey = ConsoleKey.NoName;
+        bool cancel = false;
+
+        public void Cancel()
+        {
+            cancel = true;
+        }
 
         public bool EnableClear
         {
@@ -143,6 +149,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             string lineRead = "";
             while(true)
             {
+                if(cancel)
+                    throw new OperationCanceledException();
                 if(enteredCharacter != '\0')
                 {
                     Write(new string(enteredCharacter, 1));
@@ -169,6 +177,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             while(true)
             {
+                if(cancel)
+                    return new ConsoleKeyInfo('\u0003', ConsoleKey.C, false, false, true); // TODO: maybe throw new OperationCanceledException(); cause this is ReadKey without WithControlCAsInput
                 if(enteredCharacter != '\0')
                 {
                     if(!intercept)

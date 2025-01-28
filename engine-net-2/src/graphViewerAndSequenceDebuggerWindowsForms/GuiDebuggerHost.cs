@@ -500,5 +500,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             KeyValuePair<char, ConsoleKey> key = GetKey((ToolStripItem)sender);
             inputOutputAndLogGuiConsoleControl.EnterKey(key.Key, key.Value);
         }
+
+        private void GuiDebuggerHost_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            inputOutputAndLogGuiConsoleControl.Cancel();
+        }
     }
 }

@@ -13,7 +13,7 @@ using Microsoft.Msagl.GraphViewerGdi;
 using Microsoft.Msagl.Drawing;
 using de.unika.ipd.grGen.libGr;
 using System.Text;
-using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
@@ -40,8 +40,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     public class MSAGLClient : IBasicGraphViewerClient
     {
         public GViewer gViewer;
-        System.Windows.Forms.Form formHost;
-        System.Windows.Forms.SplitterPanel splitterPanelHost;
+        Form formHost;
+        bool hostClosed = false;
+        SplitterPanel splitterPanelHost;
 
         private static Dictionary<String, bool> availableLayouts;
 
@@ -58,29 +59,30 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// <summary>
         /// Creates a new MSAGLClient instance, adding its GViewer control to the hosting form (at position 0).
         /// </summary>
-        public MSAGLClient(System.Windows.Forms.Form host)
+        public MSAGLClient(Form host)
         {
-            gViewer = new Microsoft.Msagl.GraphViewerGdi.GViewer(); // if your application doesn't start from this line complaining about System.Resources.Extensions, you have to add a PackageReference to the project file of your app, plus a bindingRedirect to the app.config of your app, see the GrShell project for an example
-            Graph graph = new Microsoft.Msagl.Drawing.Graph("graph");
+            gViewer = new GViewer(); // if your application doesn't start from this line complaining about System.Resources.Extensions, you have to add a PackageReference to the project file of your app, plus a bindingRedirect to the app.config of your app, see the GrShell project for an example
+            Graph graph = new Graph("graph");
             gViewer.Graph = graph;
             host.SuspendLayout();
-            gViewer.Dock = System.Windows.Forms.DockStyle.Fill;
+            gViewer.Dock = DockStyle.Fill;
             gViewer.MinimumSize = new System.Drawing.Size(50, 50);
             host.Controls.Add(gViewer);
             host.Controls.SetChildIndex(gViewer, 0);
             formHost = host;
             host.ResumeLayout();
             host.Show();
-            System.Windows.Forms.Application.DoEvents();
+            host.FormClosed += Host_FormClosed;
+            Application.DoEvents();
         }
 
         /// <summary>
-        /// Creates a new MSAGLClient instance, adding its GViewer control to the hosting form (at position 0).
+        /// Creates a new MSAGLClient instance, adding its GViewer control to the hosting splitter panel (at position 0) (not for main graph rendering).
         /// </summary>
-        public MSAGLClient(System.Windows.Forms.SplitterPanel host)
+        public MSAGLClient(SplitterPanel host)
         {
-            gViewer = new Microsoft.Msagl.GraphViewerGdi.GViewer(); // if your application doesn't start from this line complaining about System.Resources.Extensions, you have to add a PackageReference to the project file of your app, plus a bindingRedirect to the app.config of your app, see the GrShell project for an example
-            Graph graph = new Microsoft.Msagl.Drawing.Graph("graph");
+            gViewer = new GViewer(); // if your application doesn't start from this line complaining about System.Resources.Extensions, you have to add a PackageReference to the project file of your app, plus a bindingRedirect to the app.config of your app, see the GrShell project for an example
+            Graph graph = new Graph("graph");
             gViewer.Graph = graph;
             host.SuspendLayout();
             gViewer.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -90,13 +92,21 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             splitterPanelHost = host;
             host.ResumeLayout();
             host.Show();
-            System.Windows.Forms.Application.DoEvents();
+            Application.DoEvents();
+        }
+
+        private void Host_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
+        {
+            hostClosed = true; // cannot call OnConnectionLost() directly, wrong thread
         }
 
         public void Close()
         {
             if(formHost != null)
+            {
                 formHost.Controls.Remove(gViewer);
+                formHost.Close();
+            }
             if(splitterPanelHost != null)
                 splitterPanelHost.Controls.Remove(gViewer);
             gViewer.Dispose();
@@ -114,11 +124,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return availableLayouts.ContainsKey(layoutName);
         }
 
-        public event ConnectionLostHandler OnConnectionLost
-        {
-            add { ; }
-            remove { ; }
-        }
+        public event ConnectionLostHandler OnConnectionLost;
 
         public bool CommandAvailable
         {
@@ -127,7 +133,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public bool ConnectionLost
         {
-            get { return false; }
+            get { return hostClosed; }
         }
 
         public String ReadCommand()
@@ -222,11 +228,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// Sends a "sync" request and waits for a "sync" answer
+        /// We're in synch as long as our hosting form is not closed
         /// </summary>
         public bool Sync()
         {
-            return true; // no tcp/ip communication in between causing the viewer and the execution thread to get out of synch, so nothing to be done
+            if(hostClosed)
+            {
+                if(OnConnectionLost != null)
+                    OnConnectionLost();
+            }
+            return !hostClosed;
         }
 
         public void AddSubgraphNode(String name, String nrName, String nodeLabel)

@@ -19,7 +19,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     {
         void Close();
 
-        event ConnectionLostHandler OnConnectionLost;
+        event ConnectionLostHandler OnConnectionLost; // may come directly, may come only when a Sync is executed, depending on the implementation; may come when the connection to yComp is lost, or when the MSAGL host window is closed
 
         bool CommandAvailable { get; }
 

@@ -519,6 +519,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.Controls.Add(this.theMenuStrip);
             this.MainMenuStrip = this.theMenuStrip;
             this.Name = "GuiDebuggerHost";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.GuiDebuggerHost_FormClosed);
             this.theMenuStrip.ResumeLayout(false);
             this.theMenuStrip.PerformLayout();
             this.theToolStrip.ResumeLayout(false);

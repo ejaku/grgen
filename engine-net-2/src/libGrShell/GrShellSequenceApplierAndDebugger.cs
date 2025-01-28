@@ -343,6 +343,9 @@ namespace de.unika.ipd.grGen.grShell
                 if(timer != null)
                     timer.Dispose();
                 ConsoleUI.errorOutWriter.WriteLine("Sequence expression aborted!");
+                debugger.Close();
+                if(guiConsoleDebuggerHost != null)
+                    guiConsoleDebuggerHost.Close();
             }
             WorkaroundManager.Workaround.PreventComputerFromGoingIntoSleepMode(false);
             curGRS = null;
@@ -431,6 +434,9 @@ namespace de.unika.ipd.grGen.grShell
                     SequencePrinter.PrintSequence(curGRS, curRule, this); // form TODO: to be printed to ConsolUI, not to the debugger...
                     ConsoleUI.errorOutWriter.WriteLine();
                 }
+                debugger.Close();
+                if(guiConsoleDebuggerHost != null)
+                    guiConsoleDebuggerHost.Close();
             }
             WorkaroundManager.Workaround.PreventComputerFromGoingIntoSleepMode(false);
             curRule = null;
