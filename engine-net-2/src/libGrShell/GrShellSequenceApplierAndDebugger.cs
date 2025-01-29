@@ -431,7 +431,7 @@ namespace de.unika.ipd.grGen.grShell
                 else
                 {
                     ConsoleUI.errorOutWriter.WriteLine("Rewrite sequence aborted after position:");
-                    SequencePrinter.PrintSequence(curGRS, curRule, this); // form TODO: to be printed to ConsolUI, not to the debugger...
+                    SequencePrinter.PrintSequence(curGRS, curRule, new DebuggerEnvironment(DebuggerConsoleUI.Instance, DebuggerConsoleUI.Instance, null)); // ensure printing to the console, the gui debugger hosts are in a bad state here...
                     ConsoleUI.errorOutWriter.WriteLine();
                 }
                 debugger.Close();
