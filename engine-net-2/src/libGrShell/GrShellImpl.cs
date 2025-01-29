@@ -1165,7 +1165,7 @@ namespace de.unika.ipd.grGen.grShell
                 ConsoleUI.outWriter.WriteLine("\nNo further help available.");
 
             ConsoleUI.outWriter.WriteLine("\nList of available commands for \"new\":\n"
-                + " - new graph <filename> [<graphname>]\n"
+                + " - new [new] graph <filename> [<graphname>]\n"
                 + "   Creates a graph from the given .gm or .grg file and optionally\n"
                 + "   assigns it the given name.\n\n"
                 + " - new [<var>][:<type>['('[$=<name>,][<attributes>]')']]\n"
@@ -1192,6 +1192,10 @@ namespace de.unika.ipd.grGen.grShell
                 + " - new set lazynic (on | off)\n"
                 + "   switches on/off whether to execute negatives, independents, and conditions\n"
                 + "   lazily only at the end of matching (normally asap)\n"
+                + " - new set nodebugevents (on | off)\n"
+                + "   switches on/off debugging related action events\n"
+                + " - new set noevents (on | off)\n"
+                + "   switches on/off attribute change events\n"
                 + " - new set noinline (on | off)\n"
                 + "   switches on/off whether to inline subpatterns\n"
                 + " - new set profile (on | off)\n"
@@ -1283,7 +1287,9 @@ namespace de.unika.ipd.grGen.grShell
                 + " - show graph <program> [<arguments>]\n"
                 + "   Shows the current graph with the given program and optional arguments.\n"
                 + "   The program determines the format used for dumping (either .vcg or .dot)\n"
-                + "   Example: show graph ycomp\n\n"
+                + "   Example: show graph ycomp\n"
+                + "   Example: show graph dot (graphviz must be in the search path)\n"
+                + "   Example: show graph MSAGL (no dumping but in-memory display)\n\n"
                 + " - show graphs\n"
                 + "   Lists the names of the currently loaded graphs.\n\n"
                 + " - show actions\n"
@@ -1303,18 +1309,29 @@ namespace de.unika.ipd.grGen.grShell
 
             ConsoleUI.outWriter.WriteLine("\nList of available commands for \"debug\":\n"
                 + " - debug (exec | xgrs) <xgrs>\n"
-                + "   Debugs the given XGRS.\n\n"
+                + "   Debugs the given extended graph rewrite sequence.\n\n"
+                + " - debug eval <expr>\n"
+                + "   Debugs the given sequence expression.\n\n"
                 + " - debug (enable | disable)\n"
                 + "   Enables/disables debug mode.\n\n"
                 + " - debug layout\n"
                 + "   Forces yComp to relayout the graph.\n\n"
                 + " - debug set layout [<algo>]\n"
-                + "   Selects the layout algorithm for yComp. If algorithm is not given,\n"
+                + "   Selects the layout algorithm. If algorithm is not given,\n"
                 + "   all available layout algorithms are listed.\n\n"
+                + " - debug get layout\n"
+                + "   Lists the currently selected layout algorithm (also see above).\n\n"
                 + " - debug get layout options\n"
                 + "   Lists all available layout options for the current layout algorithm.\n\n"
                 + " - debug set layout option <name> <value>\n"
-                + "   Sets the value of the given layout option.\n\n");
+                + "   Sets the value of the given layout option.\n\n"
+                + " - debug with (MSAGL | yComp)\n"
+                + "   Switches to debugging with a WindowsForms GUI and a MSAGL graph viewer,\n"
+                + "   or to debugging with a console UI and the external yComp graph viewer.\n\n"
+                + " - debug get options\n"
+                + "   Lists all available debugging options.\n\n"
+                + " - debug set option <name> <value>\n"
+                + "   Sets the value of the given debugging option.\n\n");
         }
 
         public void HelpDump(List<String> commands)
