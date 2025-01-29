@@ -328,6 +328,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private UserChoiceMenu choiceMenuResumeDebuggingAnyKey = new UserChoiceMenu(UserChoiceMenuNames.ResumeDebuggingMenu, new string[] { "commandContinueDebuggingAnyKey" });
         private UserChoiceMenu choiceMenuPauseContinueDialogAnyKey = new UserChoiceMenu(UserChoiceMenuNames.PauseContinueMenu, new string[] { "pauseContinueDialogAnyKey" });
         private UserChoiceMenu choiceMenuEnterLineCancel = new UserChoiceMenu(UserChoiceMenuNames.EnterLineCancel, new string[] { "enterLineCancel" });
+        private UserChoiceMenu choiceMenuNoChoice = new UserChoiceMenu(UserChoiceMenuNames.NoChoice, new string[] { }); // used to disable all controls when debugger runs for indefinite time
 
         public virtual void Cancel()
         {
@@ -554,20 +555,22 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             WriteLine(msg);
 
-            if(theDebuggerGUIForDataRendering != null)
-                theDebuggerGUIForDataRendering.SetContext(choiceMenuResumeDebuggingAnyKey, null);
+            ApplyChoiceMenu(choiceMenuResumeDebuggingAnyKey, null);
 
             ReadKey(true);
+
+            DisableControls();
         }
 
         public void PauseUntilAnyKeyPressedToContinueDialog(string msg)
         {
             WriteLine(msg);
 
-            if(theDebuggerGUIForDataRendering != null)
-                theDebuggerGUIForDataRendering.SetContext(choiceMenuPauseContinueDialogAnyKey, null);
+            ApplyChoiceMenu(choiceMenuPauseContinueDialogAnyKey, null);
 
             ReadKey(true);
+
+            DisableControls();
         }
 
         public bool ShowMsgAskForYesNo(string msg)
@@ -668,12 +671,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public ConsoleKeyInfo LetUserChoose(UserChoiceMenu choiceMenu, UserChoiceMenu additionalGuiChoiceMenu)
         {
-            if(theDebuggerGUIForDataRendering != null)
-                theDebuggerGUIForDataRendering.SetContext(choiceMenu, additionalGuiChoiceMenu);
-
             while(true)
             {
+                ApplyChoiceMenu(choiceMenu, additionalGuiChoiceMenu);
+
                 ConsoleKeyInfo key = ReadKeyWithCancel();
+
+                DisableControls();
 
                 if(choiceMenu.ContainsKey(ref key))
                     return key;
@@ -688,6 +692,18 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         string EscapeNewline(string input)
         {
             return input.Replace("\n", "\\n").Replace("\r", "\\r").Replace("\0", "\\0").Replace("\b", "\\b");
+        }
+
+        private void ApplyChoiceMenu(UserChoiceMenu choiceMenu, UserChoiceMenu additionalGuiChoiceMenu)
+        {
+            if(theDebuggerGUIForDataRendering != null)
+                theDebuggerGUIForDataRendering.SetContext(choiceMenu, additionalGuiChoiceMenu);
+        }
+
+        private void DisableControls()
+        {
+            if(theDebuggerGUIForDataRendering != null)
+                theDebuggerGUIForDataRendering.SetContext(choiceMenuNoChoice, null);
         }
 
         public char LetUserChoose(UserChoiceMenu choiceMenu)
@@ -780,10 +796,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public string ReadLine()
         {
             // GUI TODO: fits here or better introduce another ReadLine with maybe more semantic meaning/no GUI disabling?
-            if(theDebuggerGUIForDataRendering != null)
-                theDebuggerGUIForDataRendering.SetContext(choiceMenuEnterLineCancel, null);
+            ApplyChoiceMenu(choiceMenuEnterLineCancel, null);
 
-            return theDebuggerConsoleUI.ReadLine();
+            string lineRead = theDebuggerConsoleUI.ReadLine();
+
+            DisableControls();
+
+            return lineRead;
         }
         
         // consoleIn

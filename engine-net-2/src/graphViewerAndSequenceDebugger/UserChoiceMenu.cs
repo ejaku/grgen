@@ -41,7 +41,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         ResumeDebuggingMenu,
         SwitchRefreshViewMenu,
         EnterLineCancel,
-        PauseContinueMenu
+        PauseContinueMenu,
+        NoChoice
     }
 
     /// <summary>
