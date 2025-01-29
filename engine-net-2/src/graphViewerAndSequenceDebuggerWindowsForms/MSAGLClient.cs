@@ -457,11 +457,25 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void MoveNode(String srcName, String tgtName)
         {
+            if(srcName == tgtName)
+            {
+                Console.Error.WriteLine("Warning: MoveNode to self: Cannot move source: " + srcName + " to target: " + tgtName);
+                return;
+            }
+
             Node node = gViewer.Graph.AddNode(srcName);
-            if(node is Subgraph)
-                gViewer.Graph.SubgraphMap[tgtName].AddSubgraph(node as Subgraph);
+            Subgraph subgraph;
+            if(gViewer.Graph.SubgraphMap.TryGetValue(tgtName, out subgraph))
+            {
+                if(node is Subgraph)
+                    subgraph.AddSubgraph(node as Subgraph);
+                else
+                    subgraph.AddNode(node);
+            }
             else
-                gViewer.Graph.SubgraphMap[tgtName].AddNode(node);
+            {
+                Console.Error.WriteLine("Warning: MoveNode: Unknown target subgraph: " + tgtName);
+            }
         }
 
         public void AddNodeRealizer(String name, GrColor borderColor, GrColor color, GrColor textColor, GrNodeShape nodeShape)

@@ -216,7 +216,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             string nodeName = idSource.ToString();
             ++idSource;
-            return nodeName;
+            return "rn" + nodeName; // renderer node name based on the idSource could coincide with node names from the sequence renderer that are based on the sequence id, disambiguate by name prefix
         }
 
         protected override void Show()
