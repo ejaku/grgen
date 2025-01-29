@@ -193,7 +193,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             case SequenceType.RuleAllCall:
             case SequenceType.RuleCountAllCall:
             case SequenceType.BooleanComputation:
-                return RenderSequenceBreakpointable((Sequence)seq, parent, highlightingMode);
+                return RenderSequenceBreakpointable((Sequence)seq, parent, highlightingMode, "");
             case SequenceType.AssignSequenceResultToVar:
             case SequenceType.OrAssignSequenceResultToVar:
             case SequenceType.AndAssignSequenceResultToVar:
@@ -888,7 +888,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return operatorNodeName;
         }
 
-        private string RenderSequenceBreakpointable(Sequence seq, SequenceBase parent, HighlightingMode highlightingMode)
+        private string RenderSequenceBreakpointable(Sequence seq, SequenceBase parent, HighlightingMode highlightingMode, string prefixFromOuterConstruct)
         {
             HighlightingMode highlightingModeOverride = HighlightingMode.None;
             string prefix = "";
@@ -927,9 +927,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
 
             if(seq.Contains(context.highlightSeq) && seq != context.highlightSeq)
-                return RenderSequenceAtom(seq, parent, highlightingMode, prefix);
+                return RenderSequenceAtom(seq, parent, highlightingMode, prefixFromOuterConstruct + prefix);
             else
-                return RenderSequenceAtom(seq, parent, highlightingModeOverride != HighlightingMode.None ? highlightingModeOverride : highlightingModeLocal, prefix); // GUI TODO: review override
+                return RenderSequenceAtom(seq, parent, highlightingModeOverride != HighlightingMode.None ? highlightingModeOverride : highlightingModeLocal, prefixFromOuterConstruct + prefix); // GUI TODO: review override
         }
 
         private string RenderSequenceAtom(Sequence seq, SequenceBase parent, HighlightingMode highlightingMode, string prefix)
@@ -1222,6 +1222,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string GetChoicePrefix(SequenceRandomChoice seq)
         {
+            if(!context.sequenceIdToChoicepointPosMap.ContainsKey(((SequenceBase)seq).Id))
+                return ""; // tests/rules in sequence expressions are not choicepointable (at the moment)
             if(seq.Choice)
                 return "-%" + context.sequenceIdToChoicepointPosMap[((SequenceBase)seq).Id] + "-:"; // HighlightingMode.Choicepoint
             else
@@ -1230,6 +1232,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private string GetBreakPrefix(ISequenceSpecial seq)
         {
+            if(!context.sequenceIdToBreakpointPosMap.ContainsKey(((SequenceBase)seq).Id))
+                return ""; // tests/rules in sequence expressions are not breakpointable (at the moment)
             if(seq.Special)
                 return "-%" + context.sequenceIdToBreakpointPosMap[((SequenceBase)seq).Id] + "-:"; // HighlightingMode.Breakpoint
             else
@@ -1846,13 +1850,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void PrintSequenceExpression(SequenceExpression seqExpr, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            if(context.sequenceIdToBreakpointPosMap != null
-                && seqExpr is ISequenceSpecial)
-            {
-                env.PrintHighlighted(GetBreakPrefix((ISequenceSpecial)seqExpr), HighlightingMode.Breakpoint);
-                return; // GUI TODO: very strange return -- no expression is printed thereafter, this does not make a lot of sense
-            }
-
             switch(seqExpr.SequenceExpressionType)
             {
             case SequenceExpressionType.Conditional:
@@ -3617,12 +3614,18 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void PrintSequenceExpressionRuleQuery(SequenceExpressionRuleQuery seqExprRuleQuery, SequenceBase parent, HighlightingMode highlightingMode)
         {
+            string prefix = "";
+            if(context.sequenceIdToBreakpointPosMap != null)
+            {
+                prefix = GetBreakPrefix(seqExprRuleQuery);
+            }
+
             HighlightingMode highlightingModeLocal = highlightingMode;
             if(seqExprRuleQuery == context.highlightSeq)
                 highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
 
             // GUI todo: edges from top-level sequence expression node to queries/mappings contained, instead of sea of nodes; and of course full solution with sequence expression tree
-            RenderSequence(seqExprRuleQuery.RuleCall, seqExprRuleQuery, highlightingModeLocal); // rule all call with test flag, thus [?r]
+            RenderSequenceBreakpointable(seqExprRuleQuery.RuleCall, seqExprRuleQuery, highlightingModeLocal, prefix); // rule all call with test flag, thus [?r]
         }
 
         private void PrintSequenceExpressionMultiRuleQuery(SequenceExpressionMultiRuleQuery seqExprMultiRuleQuery, SequenceBase parent, HighlightingMode highlightingMode)

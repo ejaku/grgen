@@ -1108,6 +1108,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void PrintChoice(SequenceRandomChoice seq)
         {
+            if(!context.sequenceIdToChoicepointPosMap.ContainsKey(((SequenceBase)seq).Id))
+                return; // tests/rules in sequence expressions are not choicepointable (at the moment)
             if(seq.Choice)
                 env.PrintHighlighted("-%" + context.sequenceIdToChoicepointPosMap[((SequenceBase)seq).Id] + "-:", HighlightingMode.Choicepoint);
             else
@@ -1116,6 +1118,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void PrintBreak(ISequenceSpecial seq)
         {
+            if(!context.sequenceIdToBreakpointPosMap.ContainsKey(((SequenceBase)seq).Id))
+                return; // tests/rules in sequence expressions are not breakpointable (at the moment)
             if(seq.Special)
                 env.PrintHighlighted("-%" + context.sequenceIdToBreakpointPosMap[((SequenceBase)seq).Id] + "-:", HighlightingMode.Breakpoint);
             else
@@ -1740,13 +1744,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void PrintSequenceExpression(SequenceExpression seqExpr, SequenceBase parent, HighlightingMode highlightingMode)
         {
-            if(context.sequenceIdToBreakpointPosMap != null
-                && seqExpr is ISequenceSpecial)
-            {
-                PrintBreak((ISequenceSpecial)seqExpr);
-                return; // GUI TODO: very strange return -- no expression is printed thereafter, this does not make a lot of sense
-            }
-
             switch(seqExpr.SequenceExpressionType)
             {
             case SequenceExpressionType.Conditional:
@@ -3511,6 +3508,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void PrintSequenceExpressionRuleQuery(SequenceExpressionRuleQuery seqExprRuleQuery, SequenceBase parent, HighlightingMode highlightingMode)
         {
+            if(context.sequenceIdToBreakpointPosMap != null)
+            {
+                PrintBreak((ISequenceSpecial)seqExprRuleQuery);
+            }
+
             HighlightingMode highlightingModeLocal = highlightingMode;
             if(seqExprRuleQuery == context.highlightSeq)
                 highlightingModeLocal = context.success ? HighlightingMode.FocusSucces : HighlightingMode.Focus;
