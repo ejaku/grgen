@@ -1,6 +1,6 @@
 ﻿/*
- * GrGen: graph rewrite generator tool -- release GrGen.NET 7.0
- * Copyright (C) 2003-2024 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 7.1
+ * Copyright (C) 2003-2025 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
  * www.grgen.net
  */
@@ -17,7 +17,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Universität Karlsruhe, IPD Goos")]
 [assembly: AssemblyProduct("ApplicationExample")]
-[assembly: AssemblyCopyright("Copyright © 2003-2024 Universität Karlsruhe, IPD Goos; and free programmers")]
+[assembly: AssemblyCopyright("Copyright © 2003-2025 Universität Karlsruhe, IPD Goos; and free programmers")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -39,6 +39,6 @@ using System.Runtime.InteropServices;
 // Sie können alle Werte angeben oder Standardwerte für die Build- und Revisionsnummern verwenden,
 // übernehmen, indem Sie "*" eingeben:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("7.0.0.0")]
-[assembly: AssemblyInformationalVersionAttribute("GrGen.NET 7.0")]
-[assembly: AssemblyFileVersion("7.0.0.0")]
+[assembly: AssemblyVersion("7.1.0.0")]
+[assembly: AssemblyInformationalVersionAttribute("GrGen.NET 7.1")]
+[assembly: AssemblyFileVersion("7.1.0.0")]
