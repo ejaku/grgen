@@ -121,6 +121,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return guiConsoleDebuggerHostCreator;
         }
 
+        public static IDoEventsCaller GetDoEventsCaller()
+        {
+            Type doEventsCallerType = GetSingleImplementationOfInterfaceFromAssembly("graphViewerAndSequenceDebuggerWindowsForms.dll", "IDoEventsCaller");
+            IDoEventsCaller doEventsCaller = (IDoEventsCaller)Activator.CreateInstance(doEventsCallerType);
+            return doEventsCaller;
+        }
+
         private static IBasicGraphViewerClientCreator GetBasicGraphViewerClientCreator()
         {
             Type basicGraphViewerClientCreatorType = GetSingleImplementationOfInterfaceFromAssembly("graphViewerAndSequenceDebuggerWindowsForms.dll", "IBasicGraphViewerClientCreator");

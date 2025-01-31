@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicGraphViewerClientCreator.cs" />
+    <Compile Include="DoEventsCaller.cs" />
     <Compile Include="GuiDebuggerHost.cs">
       <SubType>Form</SubType>
     </Compile>

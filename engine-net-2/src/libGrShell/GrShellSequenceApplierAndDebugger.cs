@@ -345,7 +345,10 @@ namespace de.unika.ipd.grGen.grShell
                 ConsoleUI.errorOutWriter.WriteLine("Sequence expression aborted!");
                 debugger.Close();
                 if(guiConsoleDebuggerHost != null)
+                {
                     guiConsoleDebuggerHost.Close();
+                    GraphViewerClient.GetDoEventsCaller().DoEvents(); // required by mono/Linux so that the windows are really closed
+                }
             }
             WorkaroundManager.Workaround.PreventComputerFromGoingIntoSleepMode(false);
             curGRS = null;
@@ -436,7 +439,10 @@ namespace de.unika.ipd.grGen.grShell
                 }
                 debugger.Close();
                 if(guiConsoleDebuggerHost != null)
+                {
                     guiConsoleDebuggerHost.Close();
+                    GraphViewerClient.GetDoEventsCaller().DoEvents(); // required by mono/Linux so that the windows are really closed
+                }
             }
             WorkaroundManager.Workaround.PreventComputerFromGoingIntoSleepMode(false);
             curRule = null;
