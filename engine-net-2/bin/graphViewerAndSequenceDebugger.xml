@@ -9,7 +9,7 @@
             Contains helper code for the constant parser, interacts with the constant parser.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.#ctor(de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IDebuggerEnvironment,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DebuggerGraphProcessingEnvironment,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ElementRealizers,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerTypes,System.String,System.Collections.Generic.Dictionary{System.String,System.String},de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IGuiConsoleDebuggerHost)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.#ctor(de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IDebuggerEnvironment,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DebuggerGraphProcessingEnvironment,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ElementRealizers,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerTypes,System.String,System.Collections.Generic.Dictionary{System.String,System.String},de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IBasicGraphViewerClientHost)">
             <summary>
             Initializes a new Debugger instance using the given environments, and layout as well as layout options.
             All invalid options will be removed from layoutOptions.
@@ -24,14 +24,14 @@
             If null, Orthogonal is used.</param>
             <param name="layoutOptions">An dictionary mapping layout option names to their values.
             It may be null, if no options are to be applied.</param>
-            <param name="guiConsoleDebuggerHost">An optional debugger host, in case the graph viewer type MSAGL is requested, the MSAGL graph viewer form is added to that form (YComp is a standalone application).</param>
+            <param name="basicGraphViewerClientHost">An optional basic graph viewer client host, in case the graph viewer type MSAGL is requested, the MSAGL graph viewer form is added to that form (YComp is a standalone application).</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.Close">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.Close">
             <summary>
             Closes the debugger.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.SetLayoutOption(System.String,System.String)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.SetLayoutOption(System.String,System.String)">
             <summary>
             Sets a layout option for the current layout in yComp.
             </summary>
@@ -39,119 +39,111 @@
             <param name="optionValue">The new value for the option.</param>
             <returns>True, iff yComp did not report an error.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.GetParentSequence(de.unika.ipd.grGen.libGr.SequenceBase,de.unika.ipd.grGen.libGr.SequenceBase)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.GetParentSequence(de.unika.ipd.grGen.libGr.SequenceBase,de.unika.ipd.grGen.libGr.SequenceBase)">
             <summary>
             Searches in the given sequence base seq for the parent sequence base of the sequence base childseq.
             </summary>
             <returns>The parent sequence base of childseq or null, if no parent has been found.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.QueryUser(de.unika.ipd.grGen.libGr.SequenceBase)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.QueryUser(de.unika.ipd.grGen.libGr.SequenceBase)">
             <summary>
             Debugger method waiting for user commands
             </summary>
             <param name="seq"></param>
             <returns></returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.ChooseDirection(System.Int32,de.unika.ipd.grGen.libGr.Sequence)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.ChooseDirection(System.Int32,de.unika.ipd.grGen.libGr.Sequence)">
             <summary>
             returns the maybe user altered direction of execution for the sequence given
             the randomly chosen directions is supplied; 0: execute left operand first, 1: execute right operand first
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.ChooseSequence(System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.Sequence},de.unika.ipd.grGen.libGr.SequenceNAry)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.ChooseSequence(System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.Sequence},de.unika.ipd.grGen.libGr.SequenceNAry)">
             <summary>
             returns the maybe user altered sequence to execute next for the sequence given
             the randomly chosen sequence is supplied; the object with all available sequences is supplied
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.ChooseSequence(System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.Sequence},de.unika.ipd.grGen.libGr.SequenceParallel)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.ChooseSequence(System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.Sequence},de.unika.ipd.grGen.libGr.SequenceParallel)">
             <summary>
             returns the maybe user altered sequence to execute next for the sequence given
             the randomly chosen sequence is supplied; the object with all available sequences is supplied
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.ChoosePoint(System.Double,de.unika.ipd.grGen.libGr.SequenceWeightedOne)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.ChoosePoint(System.Double,de.unika.ipd.grGen.libGr.SequenceWeightedOne)">
             <summary>
             returns the maybe user altered point within the interval series, denoting the sequence to execute next
             the randomly chosen point is supplied; the sequence with the intervals and their corresponding sequences is supplied
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.ChooseMatch(System.Int32,de.unika.ipd.grGen.libGr.SequenceSomeFromSet)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.ChooseMatch(System.Int32,de.unika.ipd.grGen.libGr.SequenceSomeFromSet)">
             <summary>
             returns the maybe user altered rule to execute next for the sequence given
             the randomly chosen rule is supplied; the object with all available rules is supplied
             a list of all found matches is supplied, too
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.ChooseMatch(System.Int32,de.unika.ipd.grGen.libGr.IMatches,System.Int32,de.unika.ipd.grGen.libGr.Sequence)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.ChooseMatch(System.Int32,de.unika.ipd.grGen.libGr.IMatches,System.Int32,de.unika.ipd.grGen.libGr.Sequence)">
             <summary>
             returns the maybe user altered match to apply next for the sequence given
             the randomly chosen match is supplied; the object with all available matches is supplied
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.ChooseRandomNumber(System.Int32,System.Int32,de.unika.ipd.grGen.libGr.Sequence)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.ChooseRandomNumber(System.Int32,System.Int32,de.unika.ipd.grGen.libGr.Sequence)">
             <summary>
             returns the maybe user altered random number in the range 0 - upperBound exclusive for the sequence given
             the random number chosen is supplied
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.ChooseRandomNumber(System.Double,de.unika.ipd.grGen.libGr.Sequence)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.ChooseRandomNumber(System.Double,de.unika.ipd.grGen.libGr.Sequence)">
             <summary>
             returns the maybe user altered random number in the range 0.0 - 1.0 exclusive for the sequence given
             the random number chosen is supplied
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.ChooseGraphElement">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.ChooseGraphElement">
             <summary>
             returns the id/persistent name of a node/edge chosen by the user in yComp
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.ChooseValue(System.String,de.unika.ipd.grGen.libGr.Sequence)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.ChooseValue(System.String,de.unika.ipd.grGen.libGr.Sequence)">
             <summary>
             returns a user chosen/input value of the given type
             no random input value is supplied, the user must give a value
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.HandleAssert(System.Boolean,System.Func{System.Boolean},System.Func{System.String},System.Func{System.Object}[])">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.HandleAssert(System.Boolean,System.Func{System.Boolean},System.Func{System.String},System.Func{System.Object}[])">
             <summary>
             Queries the user whether to continue execution, processes the assertion given the user choice (internally).
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.DebugEndOfIteration(System.Boolean,de.unika.ipd.grGen.libGr.SequenceBase)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.DebugEndOfIteration(System.Boolean,de.unika.ipd.grGen.libGr.SequenceBase)">
             <summary>
             informs debugger about the end of a loop iteration, so it can display the state at the end of the iteration
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.DebugSwitchToGraph(de.unika.ipd.grGen.libGr.IGraph)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.DebugSwitchToGraph(de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             informs debugger about the change of the graph, so it can switch yComp display to the new one
             called just before switch with the new one, the old one is the current graph
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.DebugReturnedFromGraph(de.unika.ipd.grGen.libGr.IGraph)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.DebugReturnedFromGraph(de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             informs debugger about the change of the graph, so it can switch yComp display to the new one
             called just after the switch with the old one, the new one is the current graph
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.DebugHighlight(System.String,System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.String})">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.DebugHighlight(System.String,System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.String})">
             <summary>
             highlights the values in the graphs if debugging is active (annotating them with the source names)
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ConsoleDebugger.QueryContinueOrTrace(System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger.QueryContinueOrTrace(System.Boolean)">
             <summary>
             Asks in case of a breakpoint outside the sequence whether to
             - print a full (t)race stack dump or even a (f)ull state dump
             - continue execution (any other key)
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.UserChoiceMenu">
-            <summary>
-            A description of a user choice in the user interface,
-            built from an array of options, describing the option/command, giving its command key/character shortcut as a char in parenthesis,
-            special cases: (0-9) to allow any keys from 0 ... 9, (any key) to allow any key not listed in the choices, (()) to render a text in simple parenthesis not getting interpreted as key char.
-            The name has to distinguish the different available choice menus (it is intended for a later use in a GUI debugger to allow to select an icon set based on it, i.e. it may encompass a group of choice menus with same semantic content).
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DebuggerTask.Close">
@@ -177,6 +169,12 @@
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DebuggerTask.UnregisterActionEvents(de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Unregisters the events previously registered with RegisterActionEvents()
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Displayer">
+            <summary>
+            Common base class with shared functionality for displaying debugger data.
+            It serves as the parent class for a Printer printing to the textual console and a Renderer rendering as a graph.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.NodeRealizer">
@@ -217,6 +215,12 @@
             <summary>
             Shows the graph dumped in dot format with graphviz (one of its renderers specified by programName, plus the arguments.
             The .dot and .pgn files are deleted if !keep (the return value is the filename of the dot file).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewer.ShowGraphWithMSAGL(de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DebuggerGraphProcessingEnvironment,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Shows the graph with MSAGL (without dumping - but like the other static ShowGraph functions without registering to the graph update events, i.e. without live graph updating on changes).
+            TODO: dump into a format supported by MSAGL and call an external MSAGL viewer app (supply one if none exists yet).
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewer.ShowVcgGraph(de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DebuggerGraphProcessingEnvironment,System.String,System.String,System.String,System.Boolean)">
@@ -394,17 +398,125 @@
             interface to the host object that will contain the basic graph viewer client (also visually)
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IDisplayer">
+            <summary>
+            Interface used to display debugger output (sequences via the sequence displayer part, but also regular output, described by semantic content as fas as possible (targeted)).
+            It is implemented by a Printer printing to the textual console and a Renderer rendering as a graph.
+            Display of main content is screen / frame based, begin and implicit end at next begin
+            - marks frame borders on single console, 
+            - determines screen content lifetime in case of main console,
+            - and determines window content lifetime in case of gui Debugger (this works because the MSAGL graph renderer is deterministic - at least it seems to be so as of now).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IDisplayer.BeginOfDisplay(System.String)">
+            <summary>
+            Begins main content display.
+            </summary>
+            <param name="header">A header line printed to the console serving as a frame.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IDisplayer.DisplayLine(System.String)">
+            <summary>
+            Displays a text line.
+            Semantically poor, but ok for the beginning/maybe later on special tasks, but should be replaced/implemented by semantically richer objects.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IDoEventsCaller">
+            <summary>
+            interface that allows to execute the WindowsForms message loop (Application.DoEvents).
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IGuiConsoleDebuggerHost">
             <summary>
             interface to the host object that contains the console(s) to be used by the gui console debugger
-            and that will contain the basic graph viewer client (also visually)
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IGuiDebuggerHost">
+            <summary>
+            interface to the host object that contains the gui and esp. the console(s) to be used by the gui console debugger
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IHostCreator">
             <summary>
-            interface to an object that allows to create hosts, for one a host for a (basic) graph viewer (client), for the other a host for a (gui) console debugger (which is an extension of a basic graph viewer client)
+            interface to an object that allows to create hosts, 
+            for one a host for a (basic) graph viewer (client) (that is required for a pure graph viewer, and a part required for a full debugger based on one of the following debuggers), 
+            for the other a host for a gui console debugger,
+            or a host for a gui debugger (which is an extension of a gui console debugger)
             you may use GraphViewerClient.GetGuiConsoleDebuggerHostCreator() to obtain a creator object (from graphViewerAndSequenceDebuggerWindowsForms.dll)
             </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ISequenceDisplayer">
+            <summary>
+            Interface used to display a sequence or sequence expression.
+            It is implemented by a Printer printing to the textual console and a Renderer rendering as a graph.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ISequenceDisplayer.DisplaySequenceBase(de.unika.ipd.grGen.libGr.SequenceBase,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DisplaySequenceContext,System.Int32,System.String,System.String)">
+            <summary>
+            Displays the given root sequence base according to the display context.
+            Switches in between displaying a sequence and a sequence expression.
+            </summary>
+            <param name="seqBase">The sequence base to be displayed</param>
+            <param name="context">The display context</param>
+            <param name="nestingLevel">The level the sequence is nested in, typically displayed as prefix</param>
+            <param name="prefix">A prefix to be displayed before the sequence</param>
+            <param name="postfix">A postfix to be displayed after the sequence</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ISequenceDisplayer.DisplaySequence(de.unika.ipd.grGen.libGr.Sequence,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DisplaySequenceContext,System.Int32,System.String,System.String)">
+            <summary>
+            Displays the given root sequence (adding parentheses if needed) according to the display context.
+            </summary>
+            <param name="seq">The sequence to be displayed</param>
+            <param name="context">The display context</param>
+            <param name="nestingLevel">The level the sequence is nested in, typically displayed as prefix</param>
+            <param name="prefix">A prefix to be displayed before the sequence</param>
+            <param name="postfix">A postfix to be displayed after the sequence</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ISequenceDisplayer.DisplaySequenceExpression(de.unika.ipd.grGen.libGr.SequenceExpression,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DisplaySequenceContext,System.Int32,System.String,System.String)">
+            <summary>
+            Displays the given root sequence expression according to the display context.
+            </summary>
+            <param name="seqExpr">The sequence expression to be displayed</param>
+            <param name="context">The display context</param>
+            <param name="nestingLevel">The level the sequence is nested in, typically displayed as prefix</param>
+            <param name="prefix">A prefix to be displayed before the sequence</param>
+            <param name="postfix">A postfix to be displayed after the sequence</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ISequenceDisplayer.DisplaySequenceBase(de.unika.ipd.grGen.libGr.SequenceBase,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DisplaySequenceContext,System.Int32,System.String,System.String,System.String)">
+            <summary>
+            Displays the given root sequence base according to the display context.
+            Switches in between displaying a sequence and a sequence expression.
+            </summary>
+            <param name="seqBase">The sequence base to be displayed</param>
+            <param name="context">The display context</param>
+            <param name="nestingLevel">The level the sequence is nested in, typically displayed as prefix</param>
+            <param name="prefix">A prefix to be displayed before the sequence</param>
+            <param name="postfix">A postfix to be displayed after the sequence</param>
+            <param name="groupNodeName">If not null, the sequence gets nested into the corresponding group node in graph rendering</param>
+            <returns>The sequence renderer returns the name of the node added (for wiring into a more encompassing graph), the sequence printer returns null</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ISequenceDisplayer.DisplaySequence(de.unika.ipd.grGen.libGr.Sequence,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DisplaySequenceContext,System.Int32,System.String,System.String,System.String)">
+            <summary>
+            Displays the given root sequence (adding parentheses if needed) according to the display context.
+            </summary>
+            <param name="seq">The sequence to be displayed</param>
+            <param name="context">The display context</param>
+            <param name="nestingLevel">The level the sequence is nested in, typically displayed as prefix</param>
+            <param name="prefix">A prefix to be displayed before the sequence</param>
+            <param name="postfix">A postfix to be displayed after the sequence</param>
+            <param name="groupNodeName">If not null, the sequence gets nested into the corresponding group node in graph rendering</param>
+            <returns>The sequence renderer returns the name of the node added (for wiring into a more encompassing graph), the sequence printer returns null</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ISequenceDisplayer.DisplaySequenceExpression(de.unika.ipd.grGen.libGr.SequenceExpression,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DisplaySequenceContext,System.Int32,System.String,System.String,System.String)">
+            <summary>
+            Displays the given root sequence expression according to the display context.
+            </summary>
+            <param name="seqExpr">The sequence expression to be displayed</param>
+            <param name="context">The display context</param>
+            <param name="nestingLevel">The level the sequence is nested in, typically displayed as prefix</param>
+            <param name="prefix">A prefix to be displayed before the sequence</param>
+            <param name="postfix">A postfix to be displayed after the sequence</param>
+            <param name="groupNodeName">If not null, the sequence gets nested into the corresponding group node in graph rendering</param>
+            <returns>The sequence renderer returns the name of the node added (for wiring into a more encompassing graph), the sequence printer returns null</returns>
         </member>
         <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ParseException">
             <summary>
@@ -420,7 +532,7 @@
             </para>
             </remarks>
         </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ParseException.#ctor(de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Token,System.Int32[][],System.String[])" ignoriert -->
+        <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ParseException.#ctor(de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Token,System.Int32[][],System.String[])" -->
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ParseException.#ctor">
             The following constructors are for use by you for whatever
             purpose you can think of.  Constructing the exception in this
@@ -468,62 +580,48 @@
             when these raw version cannot be used as part of an ASCII
             string literal.
         </member>
-        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.PrintSequenceContext.bpPosCounter">
+        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DisplaySequenceContext.sequenceIdToBreakpointPosMap">
             <summary>
-            A counter increased for every potential breakpoint position and printed next to a potential breakpoint.
-            If bpPosCounter is smaller than zero, no such counter is used or printed.
-            If bpPosCounter is greater than or equal zero, the following highlighting values are irrelvant.
+            If not null, gives a mapping of the sequences by id to the breakpoint positions to be displayed.
+            Used for highlighting breakpoints during printing and rendering.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.PrintSequenceContext.cpPosCounter">
+        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DisplaySequenceContext.sequenceIdToChoicepointPosMap">
             <summary>
-            A counter increased for every potential choice position and printed next to a potential choicepoint.
-            If cpPosCounter is smaller than zero, no such counter is used or printed.
-            If cpPosCounter is greater than or equal zero, the following highlighting values are irrelvant.
+            If not null, gives a mapping of the sequences by id to the choicepoint positions to be displayed.
+            Used for highlighting choicepoints during printing and rendering.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.PrintSequenceContext.highlightSeq">
+        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DisplaySequenceContext.highlightSeq">
             <summary> The sequence to be highlighted or null </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.PrintSequenceContext.success">
+        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DisplaySequenceContext.success">
             <summary> The sequence to be highlighted was already successfully matched? </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.PrintSequenceContext.choice">
+        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DisplaySequenceContext.choice">
             <summary> The sequence to be highlighted requires a direction choice? </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.PrintSequenceContext.sequences">
+        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DisplaySequenceContext.sequences">
             <summary> If not null, gives the sequences to choose amongst </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.PrintSequenceContext.matches">
+        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DisplaySequenceContext.matches">
             <summary> If not null, gives the matches of the sequences to choose amongst </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.SequencePrinter.PrintSequenceBase(de.unika.ipd.grGen.libGr.SequenceBase,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.PrintSequenceContext,System.Int32)">
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Printer">
             <summary>
-            Prints the given root sequence base according to the print context.
-            Switches in between printing a sequence and a sequence expression.
+            Class used to print debugger output in text form to the user, see IDisplayer for more comments.
+            Sits in between the debugger and the debugger environment.
             </summary>
-            <param name="seq">The sequence base to be printed</param>
-            <param name="context">The print context</param>
-            <param name="nestingLevel">The level the sequence is nested in</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.SequencePrinter.PrintSequence(de.unika.ipd.grGen.libGr.Sequence,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.PrintSequenceContext,System.Int32)">
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Renderer">
             <summary>
-            Prints the given root sequence adding parentheses if needed according to the print context.
+            Class used to render debugger output in graph form to the user, see IDisplayer for more comments.
+            Sits in between the debugger and the debugger environment.
             </summary>
-            <param name="seq">The sequence to be printed</param>
-            <param name="context">The print context</param>
-            <param name="nestingLevel">The level the sequence is nested in</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.SequencePrinter.PrintSequenceExpression(de.unika.ipd.grGen.libGr.SequenceExpression,de.unika.ipd.grGen.graphViewerAndSequenceDebugger.PrintSequenceContext,System.Int32)">
-            <summary>
-            Prints the given root sequence expression according to the print context.
-            </summary>
-            <param name="seqExpr">The sequence expression to be printed</param>
-            <param name="context">The print context</param>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.SequencePrinter.PrintSequence(de.unika.ipd.grGen.libGr.Sequence,de.unika.ipd.grGen.libGr.SequenceBase,de.unika.ipd.grGen.libGr.HighlightingMode)">
             <summary>
-            Prints the given sequence adding parentheses if needed according to the print context.
+            Prints the given sequence (adding parentheses if needed) according to the display context.
             </summary>
             <param name="seq">The sequence to be printed</param>
             <param name="parent">The parent of the sequence or null if the sequence is a root</param>
@@ -533,6 +631,15 @@
             <summary>
             Called from shell after an debugging abort highlighting the lastly executed rule
             </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.SequenceRenderer.RenderSequence(de.unika.ipd.grGen.libGr.Sequence,de.unika.ipd.grGen.libGr.SequenceBase,de.unika.ipd.grGen.libGr.HighlightingMode)">
+            <summary>
+            Renders the given sequence according to the display context into a graph.
+            </summary>
+            <param name="seq">The sequence to be rendered</param>
+            <param name="parent">The parent of the sequence or null if the sequence is a root</param>
+            <param name="highlightingMode">The highlighting mode to be used</param>
+            <returns>The unique name of the node inserted for the rendered sequence</returns>
         </member>
         <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.SimpleCharStream">
             <summary>
@@ -654,6 +761,14 @@
             
              from this method for such cases in the release version of your parser.
         </member>
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.UserChoiceMenu">
+            <summary>
+            A description of a user choice in the user interface,
+            built from an array of options, describing the option/command, which must be a unique name from the resources, mapping to the command string, giving its command key/character shortcut as a char in parenthesis,
+            special cases: (0-9) to allow any keys from 0 ... 9, (any key) to allow any key not listed in the choices, (()) to render a text in simple parenthesis not getting interpreted as key char.
+            The name should distinguish the different available choice menus.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.YCompServerProxy">
             <summary>
             Class starting the yComp server (on a specific socket)
@@ -758,6 +873,522 @@
             <summary>
             Sets the edge realizer of the given edge.
             If realizer is null, the realizer for the type of the edge is used.
+            </summary>
+        </member>
+        <member name="T:graphViewerAndSequenceDebugger.Properties.Resources">
+            <summary>
+              Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.ResourceManager">
+            <summary>
+              Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.Culture">
+            <summary>
+              Überschreibt die CurrentUICulture-Eigenschaft des aktuellen Threads für alle
+              Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.breakpointChoicepointAbort">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (a)bort ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.breakpointEnterNumberToToggle">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (e)nter the number of the breakpoint to toggle ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.breakpointNumberToToggle">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (0-9) to toggle the corresponding breakpoint ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.choicepointEnterNumberToToggle">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (e)nter the number of the choicepoint to toggle ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.choicepointNumberToToggle">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (0-9) to toggle the corresponding choicepoint ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.chooseEnterNumberOfMatch">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (e)nter the number of the match to pre-select ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.chooseEnterNumberOfSequence">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (e)nter the number of the sequence to pre-select ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.chooseEnterPoint">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (e)nter a point in the interval series of the sequence to pre-select ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.chooseLeft">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (l)eft branch ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.chooseNumberOfMatch">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (0-9) to pre-select the corresponding match ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.chooseNumberOfSequence">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (0-9) to pre-select the corresponding sequence ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.choosePreselected">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (s) or (n) or (d) to commit to the pre-selected sequence and continue ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.choosePreselectedAndSkipRemaining">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (u) or (o) to commit to the pre-selected sequence but skip remaining choices ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.choosePreselectedBranch">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (s) or (n) or (d) to commit to the randomly chosen branch resp. sequence and continue ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.choosePreselectedMatch">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (s) or (n) or (d) to commit to the pre-selected match and continue ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.chooseRight">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (r)ight branch ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.chooseValueAbort">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (a)bort user choice ((-&gt; value null)) ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.chooseValueRetry">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (r)etry ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandAbort">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (a)bort ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandAsGraph">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die as (g)raph ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandContinue">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (c)ontinue ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandContinueApplyRewrite">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (any key) to apply rewrite ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandContinueDebuggingAnyKey">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (any key) to continue ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandContinueDebuggingAsBefore">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (any key) continues debugging as before ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandContinueDetailedDebugging">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (any key) continues detailed debugging ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandContinueShowSingleMatchesAndApplyRewrite">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (any key) to show single matches and apply rewrite ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandDebugAtSourceCodeLevel">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (d)ebug at source code level ((external)) ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandDetailedStep">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (d)etailed step ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandDumpGraph">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die dum(p) graph ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandFullState">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (f)ull state ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandHighlight">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (h)ighlight ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandNextMatch">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (n)ext match ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandOutOfDetailedDebuggingEntry">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (o)ut of detailed debugging entry we are nested in ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandPrintStacktrace">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die print stack(t)race ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandPrintSubruleStacktrace">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die print subrule stack(t)race ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandRun">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (r)un ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandRunUntilEndOfDetailedDebugging">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (r)un until end of detailed debugging ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandShowClassObject">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die show class ob(j)ect ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandShowVariables">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die show (v)ariables ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandSkipSingleMatches">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die s(k)ip single matches ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandStep">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (s)tep ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandStepMode">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (s)tep mode ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandStepOut">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die step (o)ut ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandStepUp">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die step (u)p ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandToggleBreakpoints">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die toggle (b)reakpoints ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandToggleChoicepoints">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die toggle (c)hoicepoints ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandToggleLazyChoice">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die toggle (l)azy choice ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandUpFromCurrentEntry">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (u)p from current entry ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.commandWatchpoints">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (w)atchpoints ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.enterLineCancel">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (ESC) to cancel entering of a textline ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.pauseContinueDialogAnyKey">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (any key) to continue ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.viewRefresh">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die refresh view (F5) ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.viewSwitch">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die switch view (F8) ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointAbort">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (a)bort ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointAbortReturn">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (a)bort/(r)eturn from watchpoints menu ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointAppend">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die a(p)pend ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointDecisionActionBreak">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (0) break ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointDecisionActionBreakKeep">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (0) break or (k)eep ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointDecisionActionContinue">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (1) continue ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointDecisionActionContinueKeep">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (1) continue or (k)eep ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointDelete">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (d)elete ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointEdit">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (e)dit ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointEventAssignment">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (9) graph element attribute assignment ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointEventAssignmentKeep">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (9) graph element attribute assignment or (k)eep ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointEventCreation">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (6) graph element creation ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointEventCreationKeep">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (6) graph element creation or (k)eep ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointEventDeletion">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (7) graph element deletion ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointEventDeletionKeep">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (7) graph element deletion or (k)eep ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointEventEntry">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (0) subrule entry aka Debug::add ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointEventEntryKeep">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (0) subrule entry aka Debug::add or (k)eep ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointEventExit">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (1) subrule exit aka Debug::rem ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointEventExitKeep">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (1) subrule exit aka Debug::rem or (k)eep ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointEventHalt">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (3) subrule halt aka Debug::halt ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointEventHaltKeep">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (3) subrule halt aka Debug::halt or (k)eep ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointEventHighlight">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (4) subrule highlight aka Debug::highlight ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointEventHighlightKeep">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (4) subrule highlight aka Debug::highlight or (k)eep ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointEventMatch">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (5) rule match ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointEventMatchKeep">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (5) rule match or (k)eep ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointEventReport">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (2) subrule report aka Debug::emit ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointEventReportKeep">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (2) subrule report aka Debug::emit or (k)eep ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointEventRetyping">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (8) graph element retyping ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointEventRetypingKeep">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (8) graph element retyping or (k)eep ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointGraphElementMatchingByName">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (0) by name ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointGraphElementMatchingByNameKeep">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (0) by name or (k)eep ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointGraphElementMatchingByType">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (1) by type ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointGraphElementMatchingByTypeAlsoSubtypes">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (0) also subtypes ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointGraphElementMatchingByTypeAlsoSubtypesKeep">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (0) also subtypes or (k)eep ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointGraphElementMatchingByTypeKeep">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (1) by type or (k)eep ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointGraphElementMatchingByTypeOnlyTheType">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (1) only the type ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointGraphElementMatchingByTypeOnlyTheTypeKeep">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (1) only the type or (k)eep ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointInsert">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (i)nsert at a specific position ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointMessageMatchingContains">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (3) contains ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointMessageMatchingContainsKeep">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (3) contains or (k)eep ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointMessageMatchingEndsWith">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (2) endsWith ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointMessageMatchingEndsWithKeep">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (2) endsWith or (k)eep ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointMessageMatchingEquals">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (0) equals ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointMessageMatchingEqualsKeep">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (0) equals or (k)eep ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointMessageMatchingStartsWith">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (1) startsWith ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointMessageMatchingStartsWithKeep">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (1) startsWith or (k)eep ähnelt.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebugger.Properties.Resources.watchpointToggle">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die (t)oggle ((enable/disable)) ähnelt.
             </summary>
         </member>
     </members>

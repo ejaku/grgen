@@ -4,6 +4,23 @@
         <name>graphViewerAndSequenceDebuggerWindowsForms</name>
     </assembly>
     <members>
+        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiDebuggerHost.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiDebuggerHost.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiDebuggerHost.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl.components">
             <summary> 
             Erforderliche Designervariable.
@@ -49,7 +66,23 @@
             Creates a new MSAGLClient instance, adding its GViewer control to the hosting form (at position 0).
             </summary>
         </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.SetLayout(System.String)" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.#ctor(System.Windows.Forms.SplitterPanel)">
+            <summary>
+            Creates a new MSAGLClient instance, adding its GViewer control to the hosting splitter panel (at position 0) (not for main graph rendering).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.SetLayout(System.String)">
+            <summary>
+            Sets the current layouter of MSAGL
+            </summary>
+            <param name="moduleName">The name of the layouter.
+                Can be one of:
+                 - SugiyamaScheme,
+                 - MDS,
+                 - Ranking,
+                 - IcrementalLayout
+            </param>
+        </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.GetLayoutOptions">
             <summary>
             Retrieves the available options of the current layouter of MSAGL and the current values.
@@ -77,7 +110,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.Sync">
             <summary>
-            Sends a "sync" request and waits for a "sync" answer
+            We're in synch as long as our hosting form is not closed
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.ChangeNode(System.String,System.String)">
@@ -90,6 +123,152 @@
             <summary>
             Sets the edge realizer of the given edge.
             If realizer is null, the realizer for the type of the edge is used.
+            </summary>
+        </member>
+        <member name="T:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources">
+            <summary>
+              Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.ResourceManager">
+            <summary>
+              Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Culture">
+            <summary>
+              Überschreibt die CurrentUICulture-Eigenschaft des aktuellen Threads für alle
+              Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Abort">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.AddWatchpoint">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.BackAbort">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Breakpoints">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Choicepoints">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Continue">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.ContinueDialog">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.DeleteWatchpoint">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.DetailedStep">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.EditWatchpoint">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.FullState">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Graph">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Highlight">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.NextMatch">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Objects">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Run">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.SkipSingleMatches">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Stacktrace">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Step">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.StepOut">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.StepUp">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.ToggleBreakpoint">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.ToggleChoicepoint">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.ToggleWatchpoint">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Variables">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources.Watchpoints">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
             </summary>
         </member>
     </members>

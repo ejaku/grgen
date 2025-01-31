@@ -10232,7 +10232,7 @@
             </para>
             </remarks>
         </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.sequenceParser.ParseException.#ctor(de.unika.ipd.grGen.libGr.sequenceParser.Token,System.Int32[][],System.String[])" ignoriert -->
+        <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.libGr.sequenceParser.ParseException.#ctor(de.unika.ipd.grGen.libGr.sequenceParser.Token,System.Int32[][],System.String[])" -->
         <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.ParseException.#ctor">
             The following constructors are for use by you for whatever
             purpose you can think of.  Constructing the exception in this
@@ -11254,8 +11254,8 @@
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.SequenceBase.Id">
             <summary>
-            returns the sequence /expresion id - every sequence /expression is assigned a unique id used in xgrs code generation
-            for copies the old id is just taken over, does not cause problems as code is only generated once per defined sequence
+            returns the sequence /expresion id - every sequence /expression is assigned a unique id that is used in xgrs code generation and in sequence rendering
+            for copies a new id is generated, too, this does not cause problems as code is only generated once per defined sequence
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.SequenceBase.id">

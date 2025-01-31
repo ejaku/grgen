@@ -85,7 +85,7 @@
             </para>
             </remarks>
         </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.grShell.ParseException.#ctor(de.unika.ipd.grGen.grShell.Token,System.Int32[][],System.String[])" ignoriert -->
+        <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.grShell.ParseException.#ctor(de.unika.ipd.grGen.grShell.Token,System.Int32[][],System.String[])" -->
         <member name="M:de.unika.ipd.grGen.grShell.ParseException.#ctor">
             The following constructors are for use by you for whatever
             purpose you can think of.  Constructing the exception in this
