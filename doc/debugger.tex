@@ -2,7 +2,7 @@
 \label{chapdebugger}
 
 This chapter gives an introduction into the visualization and debugging capabilities of \GrG.
-They are offered by a console debugger (either rendered on a stdout-console or a WindowsForms console like display),
+They are offered by a console debugger (either rendered on a stdout-console or a WindowsForms console like display) or a GUI debugger containing an input/output console,
 in combination with the graph viewer application \yComp{} or a builtin graph viewer based on the MSAGL library, that can also be used in your own application via an API, and the configuration commands offered by \GrShell\ (which is the traditional execution host of the console debugger).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -33,6 +33,8 @@ The executables must be available in the search path of the system (so you have 
 
 The temporary file(s) will be deleted when the application \emph{Filename} is terminated, in case \GrShell\ is still running at this time.
 If the \texttt{keep} parameter was specified, the file(s) will be kept instead.
+
+You may also specify \texttt{MSAGL} (see \ref{sec:MSAGL} for more on MSAGL). Note that no file will be dumped in this case, and that the shell will be frozen until you close the graph viewer window (furthermore, parameters will be ignored). 
 
 \begin{rail}
   'dump' 'graph' Filename
@@ -223,47 +225,59 @@ Besides the things already mentioned in \ref{tools:ycomp}, we want to give the f
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MSAGL Usage}
+\section{MSAGL Usage}\label{sec:MSAGL}
 
-MSAGL\indexmain{MSAGL}\cite{MSAGL}, an abbreviation of Microsoft Automatic Graph Layout, is a .NET library and tool for graph layout and viewing.
-MSAGL is not a standalone application, in contrast to yComp, but a library that is linked into \GrG\ (and used at API level).
-Technically, the debugger using MSAGL as graph viewer can be embedded into your own .NET program by utilizing the \texttt{graph\-Viewer\-And\-Sequence\-Debugger.dll} and the \texttt{graph\-Viewer\-And\-Sequence\-Debugger\-Windows\-Forms.dll} of \GrG\ (i.e. you can use it on API level, like MSAGL).
-Legally, this is possible because MSAGL comes with the very permissive \indexed{MIT license}\cite{MITLicense}, in contrast to the \yComp{} license purchased by IPD Goos from yWorks that restricts its use to academic purposes, and esp. does not allow you to ship it with a release of your own software.
-\GrG\ itself is licensed as LGPL, so you can ship it with your own (even commercial) program - the functionality of the MSAGL based graph viewer is limited compared to what \yComp{} offers, though.
+\MSAGL\indexmain{MSAGL}\cite{MSAGL}, an abbreviation of Microsoft Automatic Graph Layout, is a .NET library and tool for graph layout and viewing.
+\MSAGL{} is not a standalone application, in contrast to \yComp{}, but a library that is linked into \GrG\ (and used at API level).
+Technically, the debugger using \MSAGL{} as graph viewer can be embedded into your own .NET program by utilizing the \texttt{graph\-Viewer\-And\-Sequence\-Debugger.dll} and the \texttt{graph\-Viewer\-And\-Sequence\-Debugger\-Windows\-Forms.dll} of \GrG\ (i.e. you can use it on API level, like \MSAGL{}).
+Legally, this is possible because \MSAGL{} comes with the very permissive \indexed{MIT license}\cite{MITLicense}, in contrast to the \yComp{} license purchased by IPD Goos from yWorks that restricts its use to academic purposes, and esp. does not allow you to ship it with a release of your own software.
+\GrG\ itself is licensed as LGPL, so you can ship it with your own (even commercial) program - the functionality of the \MSAGL{} based graph viewer is limited compared to what \yComp{} offers, though.
 
-The available layouts of MSAGL are: \texttt{SugiyamaScheme}, \texttt{MDS}, \texttt{Ranking}, \texttt{IcrementalLayout}, see \ref{sec:debuggercommands} for more.
+The available layouts of \MSAGL{} are: \texttt{SugiyamaScheme}, \texttt{MDS}, \texttt{Ranking}, \texttt{IcrementalLayout}, see \ref{sec:debuggercommands} for more.
 
 In order to use it from \GrShell{}, you have to employ the \texttt{debug with} command.
 \begin{rail}
   'debug' 'with' ( 'yComp' | 'MSAGL' )
 \end{rail}\ixkeyw{debug}\ixkeyw{with}
-Switches the graphical part of the debugger (the graph viewer) in between yComp and MSAGL (with \yComp{} being the default).
-If MSAGL is used, the debugger is displayed in a WindowsForms\cite{WinForms} console like control instead of a stdout console.
+Switches the graphical part of the debugger (the graph viewer) in between \yComp{} and \MSAGL{} (with \yComp{} being the default).
+If \MSAGL{} is used, the debugger is displayed in a WindowsForms\cite{WinForms} console like control (potentially supported by a real GUI) instead of on a stdout console.
 
-The program graph from \texttt{examples/JavaProgramGraphs-GraBaTs08} looks like depicted in Figures~\ref{figprogramgraph3} and Figures~\ref{figprogramgraph4} (compared to the \yComp{}-rendering in Figures~\ref{figprogramgraph1} and \ref{figprogramgraph2}).
+The program graph from \texttt{examples/JavaProgramGraphs-GraBaTs08} looks like depicted in Figures~\ref{figprogramgraph3} and \ref{figprogramgraph4} (compared to the \yComp{}-rendering in Figures~\ref{figprogramgraph1} and \ref{figprogramgraph2}).
 
-\begin{figure}[phtb]
+\begin{figure}[hptb]
   \centering
   \includegraphics[width=0.99\textwidth]{fig/screen-msagl-overview}
-  \caption{The initial program graph rendered with MSAGL and layout SugiyamaScheme, utilized by a debugger with two console panes}
+  \caption{The initial program graph rendered with \MSAGL{} and layout SugiyamaScheme, utilized by a debugger with two console panes}
   \label{figprogramgraph3}
 \end{figure}
 
-\begin{figure}[phtb]
+\begin{figure}[hptb]
   \centering
-  \includegraphics[width=0.80\textwidth]{fig/screen-msagl-detail}
-  \caption{Some details of the ``Node'' class of the initial program graph}
+  \includegraphics[width=0.99\textwidth]{fig/screen-msagl-detail}
+  \caption{Some contents of the ``Node'' class of the initial program graph, shown in the GUI debugger, with an upper pane sequence rendered in graph form, i.e. as an abstract syntax tree}
   \label{figprogramgraph4}
 \end{figure}
 
-The WindowsForms based debugger that uses MSAGL as graph viewer supplies a two pane mode, it is enabled by default in this case (when \yComp{} is used, only the single \GrShell{}-console is employed, irrespective of this setting), you may disable it (or enable it again) with the configuration option:
+The WindowsForms based debugger that uses \MSAGL{} as graph viewer supplies a two pane mode, it is enabled by default when gui mode is not enabled (when \yComp{} is used, only the single \GrShell{}-console is employed, irrespective of this setting or the gui mode setting), you may disable it (or enable it again) with the configuration option:
 \begin{rail}
   'debug' 'set' 'option' 'twopane' ( 'true' | 'false' )
 \end{rail}\ixkeyw{debug}\ixkeyw{set}\ixkeyw{option}\ixkeyw{twopane}
 In two pane mode of the debugger, two consoles are employed, one for data rendering and one for user dialog.
-The data rendering console only displays the current work object at a time (typically the sequence that gets debugged, in its current state), instead of the complete output history, which still holds for the user dialog console, esp. in order to allow you to inspect the subrule traces log.
+The data rendering console only displays the current work object (at a time -- typically the sequence that gets debugged, in its current state), instead of the complete output history, which still holds for the user dialog console, esp. in order to allow you to inspect the subrule traces log.
+Figure~\ref{figprogramgraph3} shows an example screenshot of the two pane mode.
 
-You may find out whether two pane mode is enabled with the following command:
+The debugger also offers a gui mode as an extension of twopane mode, it is enabled by default in case you debug with \MSAGL{} (when \yComp{} is used, only the single \GrShell{}-console is employed, irrespective of this setting), you may disable it (or enable it again) with the configuration option:
+\begin{rail}
+  'debug' 'set' 'option' 'gui' ( 'true' | 'false' )
+\end{rail}\ixkeyw{debug}\ixkeyw{set}\ixkeyw{option}\ixkeyw{gui}
+In gui mode of the debugger, the two consoles are enriched by a GUI frame offering a menu bar and a toolbar.
+The menu bar contains the main debugger menu commands (the same that are available in the console main menu), some commands from the submenus/subdialogs, plus the continuation options that are offered during a debugging break; some commands from the submenus/subdialogs on the other hand are only available on the input/output console as of now.
+The toolbar contains the execution controlling commands plus the continuation options.
+
+The data rendering console view can be switched to a display in graph form, in that case sequences are rendered graphically in form of an abstract syntax tree (and the call stack in form of group nodes representing stack frames, containing their sequences, and local variables in case of a full state dump).
+Figure~\ref{figprogramgraph4} shows an example screenshot of the gui mode.
+
+You may find out which mode is enabled with the following command:
 \begin{rail}
   'debug' 'get' 'options'
 \end{rail}\ixkeyw{debug}\ixkeyw{get}\ixkeyw{options}
@@ -277,7 +291,7 @@ Lists the available debug options.
   'debug' ( 'enable' | 'disable' )
 \end{rail}\ixkeyw{debug}\ixkeyw{enable}\ixkeyw{disable}
 Enables and disables the \indexed{debug mode}.
-The debug mode shows the current working graph in a \yComp{} or MSAGL window.
+The debug mode shows the current working graph in a \yComp{} or \MSAGL{} window.
 All changes to the working graph are tracked by the graph viewer immediately.
 
 \begin{rail}
@@ -292,7 +306,7 @@ The following layout algorithms are supported by \yComp{}: \texttt{Random}, \tex
 For technical graphs \texttt{Hierarchic} works normally best; \texttt{Compilergraph} is a version of \texttt{Hierarchic} cutting some edges, it may be of interest if \texttt{Hierarchic} contains too many crossing edges.
 \texttt{Organic} is the other general purpose layout algorithm available to be tried out early; the other layout algorithms are rather special, but this should not deter you from using them if they fit to your task ;).
 
-The following layout algorithms are supported by MSAGL: \texttt{SugiyamaScheme}, \texttt{MDS}, \texttt{Ranking}, \texttt{IcrementalLayout}.
+The following layout algorithms are supported by \MSAGL{}: \texttt{SugiyamaScheme}, \texttt{MDS}, \texttt{Ranking}, \texttt{IcrementalLayout}.
 We recommend to use \texttt{SugiyamaScheme} in place of \texttt{Hierarchic}, and \texttt{MDS} in place of \texttt{Organic}.
 
 \begin{rail}
@@ -319,6 +333,8 @@ Forces re-layout of the graph shown in yComp (same as pressing the play button w
 Configures the display of the visual debug states for the nodes/edges.
 The following modes are supported: \texttt{matched}, \texttt{created}, \texttt{deleted}, \texttt{retyped}.
 Change this if you e.g. want the matched elements to be marked more visibly, or added/deleted elements to be colored green/red (instead of red/grey).
+
+\pagebreak
 
 \begin{rail}
   'debug' 'set' 'match' 'mode' ('pre' | 'post') ('enable' | 'disable');

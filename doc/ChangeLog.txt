@@ -1,4 +1,61 @@
-﻿v7.0 (2024-11-24)
+﻿v7.1 (2025-01-31)
+ Introduced a GUI debugger
+  this graphical debugger is based on the two pane mode console debugger
+  (with its separation into a main work object display and a user input/output console),
+  extended by a menubar and a toolbar, plus the ability to switch the main work object display into a graph rendering
+  (instead of a text printing on a console),
+  this esp. includes a graphical rendering of sequences in form of an abstract syntax tree (and stack frames as nested nodes)
+
+ Added a debug option named gui that allows to enable/disable the new debugger
+  debug set option gui true|false allows to switch in between the debugger gui and the single or twin console debugger
+   the default of gui mode when it is not set is true,
+   but this option is only applied when the debugger is used with MSAGL graph display
+ 
+ Extended the "show graph" shell command by support for the graph viewer MSAGL
+  use "show graph MSAGL" to obtain a rendering of the current host graph with the MSAGL library,
+  but note that the graph is not dumped and the window has to be closed before you can continue working with the GrShell
+
+ The graph viewer client window (showing the host graph) is now displayed as a separate windows, as in the case of yComp
+  (instead of being a part of the debugger window)
+
+ UX optimizations in the debugger: switched most of the debugger menus not directly controlling execution flow into sub-dialogs that
+  - require at least a key press before the main debugger dialog is entered again
+    (explicit exit is only required by some of them, though - as of now)
+  - print a message when returning back from a sub-dialog to the main debugger menu (so the UI state is always known)
+  - removed some content mangling
+ The breakpoint/choicepoint/watchpoint enter number queries expect now an empty string instead of -1 to abort 
+  (this is an uniformization with the GUI debugger and its back/abort button to cancel the current user query,
+   and its continue paused dialog button)
+ Some smaller UI changes/polishings
+
+ API changes (and technical changes):
+  - an IHostCreator makes it possible to assemble the new GUI debugger,
+    it is realized internally by the same debugger core (Debugger) used to supply the console debugger,
+    extended by a GuiDebuggerHost (and an IBasicGraphViewerClientHost) plus the DebuggerEnvironment
+    (the IBasicGraphViewerClientCreator can be of help if you want to create the MSAGLClient manually,
+     but typically this is taken care for you)
+  - added references in the GUI hosts (GuiConsoleDebuggerHost, GuiDebuggerHost, BasicGraphViewerClientHost)
+    to their hosted application logic objects
+  - internally, the debugger utilizes a Displayer interface/common base to display the main work object,
+    it is implemented by a Printer printing to the textual console and a Renderer rendering as a graph
+    the debugger/host interaction occurs esp. via the UserChoiceMenu
+  - extended the MSAGL support in the GraphViewer
+    (also when rendering the host graph: removed renaming of retyped elements,
+     and temporary renaming of deleted elements to "zombie_" + name before finally purging them)
+  - the MSAGL client now notifies the debugger when its hosting form is closed (mapping to OnConnectionLost when Sync is called)
+
+ Bugfixes:
+  - many bugfixes for the MSAGL graph viewer (when deleting nodes/group nodes, edges, on clearing the graph)
+  - fixed null pointer exception (that occurs during debugging, 
+    esp. when configuring a graph element type data breakpoint in the watchpoint editor)
+  - several smaller fixes (esp. related to the some-from-set sequence and container constructor assignment display)
+  - added missing GrShell help entries
+
+ User manual adaptations and corrections
+
+--------------------------------------------------------------------------------------------------------
+
+v7.0 (2024-11-24)
  More demanding prerequisites:
   Increased the required .NET framework version from 4.0 to 4.7.2 (and if mono is used: from mono 3.8 to mono 5.10)
    - primarily because of the new optional MSAGL based debugger and its prerequisites, esp. comprising WindowsForms
@@ -24,7 +81,7 @@
   - debug with MSAGL|yComp allows to switch the graph viewer/debugger in between MSAGL and yComp
   - debug set option twopane true|false allows to switch in between a single combined console
      and a data rendering plus a user dialog console, the default of twopane mode when it is not set is true,
-	 but this option is only applied when the debugger is used with MSAGL graph display
+     but this option is only applied when the debugger is used with MSAGL graph display
   - the debug get options command allows to list the options of the debugger (twopane currently being the only one)
   - debug get layout allows to easily inspect the currently set layout
 
