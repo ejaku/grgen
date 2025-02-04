@@ -398,11 +398,17 @@
   <data name="stateDisplayToolStripMenuItem.Text" xml:space="preserve">
     <value>State display</value>
   </data>
+  <data name="switchViewToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="switchViewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>363, 22</value>
   </data>
   <data name="switchViewToolStripMenuItem.Text" xml:space="preserve">
     <value>Enable graphical display (switch view to sequence AST)</value>
+  </data>
+  <data name="refreshViewToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="refreshViewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>363, 22</value>
@@ -631,7 +637,7 @@
     <value>mainWorkObjectGuiConsoleControl</value>
   </data>
   <data name="&gt;&gt;mainWorkObjectGuiConsoleControl.Type" xml:space="preserve">
-    <value>de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl, graphViewerAndSequenceDebuggerWindowsForms, Version=7.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl, graphViewerAndSequenceDebuggerWindowsForms, Version=7.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mainWorkObjectGuiConsoleControl.Parent" xml:space="preserve">
     <value>theSplitContainer.Panel1</value>
@@ -670,7 +676,7 @@
     <value>inputOutputAndLogGuiConsoleControl</value>
   </data>
   <data name="&gt;&gt;inputOutputAndLogGuiConsoleControl.Type" xml:space="preserve">
-    <value>de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl, graphViewerAndSequenceDebuggerWindowsForms, Version=7.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl, graphViewerAndSequenceDebuggerWindowsForms, Version=7.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;inputOutputAndLogGuiConsoleControl.Parent" xml:space="preserve">
     <value>theSplitContainer.Panel2</value>
