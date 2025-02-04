@@ -195,6 +195,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.task.RegisterGraphEvents(procEnv.NamedGraph);
             this.task.RegisterActionEvents(procEnv);
             this.task.isActive = true;
+
+            queryUserMenu = debuggerMainSequenceEnteringMenu; // applies in case a sequence is executed without debug applied to it but a debug enable was issued before, and then a breakpoint is hit, that was pre-configured into the sequence with the special flag % (before the breakpoint is hit, everything is disabled in the (G)UI except the close button/Ctrl-C)
         }
 
         /// <summary>
