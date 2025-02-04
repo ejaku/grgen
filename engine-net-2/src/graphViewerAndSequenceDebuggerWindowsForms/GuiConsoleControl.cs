@@ -116,26 +116,36 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void Write(string value)
         {
+            if(cancel)
+                return;
             theRichTextBox.AppendText(value);
         }
 
         public void Write(string format, params object[] arg)
         {
+            if(cancel)
+                return;
             theRichTextBox.AppendText(String.Format(format, arg));
         }
 
         public void WriteLine(string value)
         {
+            if(cancel)
+                return;
             theRichTextBox.AppendText(value + Environment.NewLine);
         }
 
         public void WriteLine(string format, params object[] arg)
         {
+            if(cancel)
+                return;
             theRichTextBox.AppendText(String.Format(format, arg) + Environment.NewLine);
         }
 
         public void WriteLine()
         {
+            if(cancel)
+                return;
             theRichTextBox.AppendText(Environment.NewLine);
         }
 
@@ -260,6 +270,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void PrintHighlighted(String text, de.unika.ipd.grGen.libGr.HighlightingMode mode)
         {
+            if(cancel)
+                return;
+
             Color oldColor = theRichTextBox.SelectionColor;
             Color oldBackColor = theRichTextBox.SelectionBackColor;
             Font oldFont = theRichTextBox.SelectionFont;
@@ -301,18 +314,24 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void Clear()
         {
+            if(cancel)
+                return;
             if(enableClear)
                 theRichTextBox.Clear();
         }
 
         public void SuspendImmediateExecution()
         {
+            if(cancel)
+                return;
             // form TODO: buffer Writes in StringBuilder and write at once
             libGr.WorkaroundManager.Workaround.PreventRedraw(theRichTextBox.Handle);
         }
 
         public void RestartImmediateExecution()
         {
+            if(cancel)
+                return;
             libGr.WorkaroundManager.Workaround.AllowRedraw(theRichTextBox.Handle);
             theRichTextBox.Invalidate();
         }
