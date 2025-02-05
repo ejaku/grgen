@@ -1,4 +1,13 @@
-﻿v7.1 (2025-01-31)
+﻿v7.1.1 (2025-02-05)
+ A non-responsiveness notice is printed now to the user in case debug enable is used with MSAGL
+
+ Bugfixes:
+  - fixed crash on selecting switch view/refresh view menu entries while their functionality is not available (by disabling them)
+  - fixed crash when debug enable is used, then a sequence started with only exec, and then a breakpoint is hit
+  - fixed crash on output to the GUI console control after its rich text box was disposed
+  - fixed non-closing debugger host window after debug disable when using Mono/Linux
+
+v7.1 (2025-01-31)
  Introduced a GUI debugger
   this graphical debugger is based on the two pane mode console debugger
   (with its separation into a main work object display and a user input/output console),
