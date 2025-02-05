@@ -704,7 +704,10 @@ namespace de.unika.ipd.grGen.grShell
                 debugger.Close();
                 debugger = null;
                 if(guiConsoleDebuggerHost != null)
+                {
                     guiConsoleDebuggerHost.Close();
+                    GraphViewerClient.GetDoEventsCaller().DoEvents(); // required by mono/Linux so that the windows are really closed
+                }
                 guiConsoleDebuggerHost = null;
                 basicGraphViewerClientHost = null;
                 TheDebuggerConsoleUI = DebuggerConsoleUI.Instance;
