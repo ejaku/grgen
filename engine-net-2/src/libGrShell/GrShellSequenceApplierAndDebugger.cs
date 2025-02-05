@@ -72,6 +72,10 @@ namespace de.unika.ipd.grGen.grShell
         private readonly IGrShellImplForSequenceApplierAndDebugger impl;
 
         private GraphViewerTypes graphViewerType = GraphViewerTypes.YComp;
+        public GraphViewerTypes GraphViewerType
+        {
+            get { return graphViewerType; }
+        }
 
 
         public GrShellSequenceApplierAndDebugger(IGrShellImplForSequenceApplierAndDebugger impl)

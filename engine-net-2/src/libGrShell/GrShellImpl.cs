@@ -222,7 +222,6 @@ namespace de.unika.ipd.grGen.grShell
         private readonly NewGraphOptions newGraphOptions = new NewGraphOptions();
 
         private String debugLayout = "Orthogonal";
-        private GraphViewerTypes graphViewerType = GraphViewerTypes.YComp;
 
         /// <summary>
         /// Maps layouts to layout option names to their values.
@@ -3374,6 +3373,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public bool SetDebugMode(bool enable)
         {
+            if(enable && seqApplierAndDebugger.GraphViewerType == GraphViewerTypes.MSAGL)
+                ConsoleUI.outWriter.WriteLine("Note that the MSAGL-based debugger GUI will be frozen unless you debug a sequence (/graph changes occur).");
             return seqApplierAndDebugger.SetDebugMode(enable);
         }
 
