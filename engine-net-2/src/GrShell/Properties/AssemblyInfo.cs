@@ -37,6 +37,6 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("7.1.0.0")]
-[assembly: AssemblyInformationalVersionAttribute("GrGen.NET 7.1")]
-[assembly: AssemblyFileVersion("7.1.0.0")]
+[assembly: AssemblyVersion("7.1.1.0")]
+[assembly: AssemblyInformationalVersionAttribute("GrGen.NET 7.1.1")]
+[assembly: AssemblyFileVersion("7.1.1.0")]
