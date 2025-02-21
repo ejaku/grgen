@@ -150,6 +150,8 @@ import de.unika.ipd.grgen.ir.expr.graph.DefinedSubgraphExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EdgeByNameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EdgeByUniqueExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EdgesExpr;
+import de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessFromToExpr;
+import de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessSameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EmptyExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EqualsAnyExpr;
 import de.unika.ipd.grgen.ir.expr.graph.GetEquivalentExpr;
@@ -2030,6 +2032,36 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			NodesFromIndexAccessFromToExpr nfiaft = (NodesFromIndexAccessFromToExpr)expr;
 			IndexAccessOrdering iao = nfiaft.getIndexAccessOrdering();
 			sb.append("new GRGEN_EXPR.NodesFromIndexAccessFromTo(");
+			sb.append("\"GRGEN_MODEL." + model.getIdent() + "IndexSet\", ");
+			sb.append("GRGEN_MODEL." + model.getIdent() + "GraphModel.GetIndexDescription(\""
+					+ iao.index.getIdent() + "\"), ");
+			sb.append(iao.includingFrom() ? "true" : "false");
+			sb.append(", ");
+			sb.append(iao.includingTo() ? "true" : "false");
+			sb.append(", ");
+			if(iao.from() != null)
+				genExpressionTree(sb, iao.from(), className, pathPrefix, alreadyDefinedEntityToName);
+			else
+				sb.append("null");
+			sb.append(", ");
+			if(iao.to() != null)
+				genExpressionTree(sb, iao.to(), className, pathPrefix, alreadyDefinedEntityToName);
+			else
+				sb.append("null");
+			sb.append(")");
+		} else if(expr instanceof EdgesFromIndexAccessSameExpr) {
+			EdgesFromIndexAccessSameExpr efias = (EdgesFromIndexAccessSameExpr)expr;
+			IndexAccessEquality iae = efias.getIndexAccessEquality();
+			sb.append("new GRGEN_EXPR.EdgesFromIndexAccessSame(");
+			sb.append("\"GRGEN_MODEL." + model.getIdent() + "IndexSet\", ");
+			sb.append("GRGEN_MODEL." + model.getIdent() + "GraphModel.GetIndexDescription(\""
+					+ iae.index.getIdent() + "\"), ");
+			genExpressionTree(sb, iae.expr, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		} else if(expr instanceof EdgesFromIndexAccessFromToExpr) {
+			EdgesFromIndexAccessFromToExpr efiaft = (EdgesFromIndexAccessFromToExpr)expr;
+			IndexAccessOrdering iao = efiaft.getIndexAccessOrdering();
+			sb.append("new GRGEN_EXPR.EdgesFromIndexAccessFromTo(");
 			sb.append("\"GRGEN_MODEL." + model.getIdent() + "IndexSet\", ");
 			sb.append("GRGEN_MODEL." + model.getIdent() + "GraphModel.GetIndexDescription(\""
 					+ iao.index.getIdent() + "\"), ");

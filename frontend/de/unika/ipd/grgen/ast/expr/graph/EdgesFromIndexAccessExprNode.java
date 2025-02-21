@@ -21,19 +21,19 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * A node yielding the nodes from an index (base class without constraints, the constrained ones inherit from this one).
+ * A node yielding the edges from an index (base class without constraints, the constrained ones inherit from this one).
  */
-public abstract class NodesFromIndexAccessExprNode extends BuiltinFunctionInvocationBaseNode
+public abstract class EdgesFromIndexAccessExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(NodesFromIndexAccessExprNode.class, "nodes from index access expr");
+		setName(EdgesFromIndexAccessExprNode.class, "edges from index access expr");
 	}
 
 	protected ExprNode indexUnresolved;
 	protected IndexDeclNode index;
 	private SetTypeNode setTypeNode;
 
-	protected NodesFromIndexAccessExprNode(Coords coords, ExprNode index)
+	protected EdgesFromIndexAccessExprNode(Coords coords, ExprNode index)
 	{
 		super(coords);
 		this.indexUnresolved = index;
@@ -76,7 +76,7 @@ public abstract class NodesFromIndexAccessExprNode extends BuiltinFunctionInvoca
 			}
 		}
 		successfullyResolved &= index != null;
-		setTypeNode = new SetTypeNode(getNodeRoot());
+		setTypeNode = new SetTypeNode(getEdgeRoot());
 		successfullyResolved &= setTypeNode.resolve();
 		return successfullyResolved;
 	}
@@ -85,7 +85,7 @@ public abstract class NodesFromIndexAccessExprNode extends BuiltinFunctionInvoca
 	protected boolean checkLocal()
 	{
 		boolean res = true;
-		TypeNode expectedEntityType = getNodeRoot().getDecl().getDeclType();
+		TypeNode expectedEntityType = getEdgeRoot().getDecl().getDeclType();
 		TypeNode entityType = index.getType();
 		if(!entityType.isCompatibleTo(expectedEntityType)) {
 			reportError("The function " + shortSignature() + " expects as 1. argument (index " + indexUnresolved + ") a value of type index on " + expectedEntityType.toStringWithDeclarationCoords()

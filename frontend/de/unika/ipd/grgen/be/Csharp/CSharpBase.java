@@ -120,6 +120,8 @@ import de.unika.ipd.grgen.ir.expr.graph.DefinedSubgraphExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EdgeByNameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EdgeByUniqueExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EdgesExpr;
+import de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessFromToExpr;
+import de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessSameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EmptyExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EqualsAnyExpr;
 import de.unika.ipd.grgen.ir.expr.graph.GetEquivalentExpr;
@@ -2867,6 +2869,38 @@ public abstract class CSharpBase
 			NodesFromIndexAccessFromToExpr nfiaft = (NodesFromIndexAccessFromToExpr)expr;
 			IndexAccessOrdering iao = nfiaft.getIndexAccessOrdering();
 			sb.append("GRGEN_LIBGR.IndexHelper.NodesFromIndexFromTo(((GRGEN_MODEL." + modifyGenerationState.model().getIdent() + "IndexSet)graph.Indices)." + iao.index.getIdent() + ", ");
+			if(iao.from() != null)
+				genExpression(sb, iao.from(), modifyGenerationState);
+			else
+				sb.append("null");
+			sb.append(", ");
+			sb.append(iao.includingFrom() ? "true" : "false");
+			sb.append(", ");
+			if(iao.to() != null)
+				genExpression(sb, iao.to(), modifyGenerationState);
+			else
+				sb.append("null");
+			sb.append(", ");
+			sb.append(iao.includingTo() ? "true" : "false");
+			if(modifyGenerationState.emitProfilingInstrumentation())
+				sb.append(", actionEnv");
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
+			sb.append(")");
+		} else if(expr instanceof EdgesFromIndexAccessSameExpr) {
+			EdgesFromIndexAccessSameExpr efias = (EdgesFromIndexAccessSameExpr)expr;
+			IndexAccessEquality iae = efias.getIndexAccessEquality();
+			sb.append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexSame(((GRGEN_MODEL." + modifyGenerationState.model().getIdent() + "IndexSet)graph.Indices)." + iae.index.getIdent() + ", ");
+			genExpression(sb, iae.expr, modifyGenerationState);
+			if(modifyGenerationState.emitProfilingInstrumentation())
+				sb.append(", actionEnv");
+			if(modifyGenerationState.isToBeParallelizedActionExisting())
+				sb.append(", threadId");
+			sb.append(")");
+		} else if(expr instanceof EdgesFromIndexAccessFromToExpr) {
+			EdgesFromIndexAccessFromToExpr efiaft = (EdgesFromIndexAccessFromToExpr)expr;
+			IndexAccessOrdering iao = efiaft.getIndexAccessOrdering();
+			sb.append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexFromTo(((GRGEN_MODEL." + modifyGenerationState.model().getIdent() + "IndexSet)graph.Indices)." + iao.index.getIdent() + ", ");
 			if(iao.from() != null)
 				genExpression(sb, iao.from(), modifyGenerationState);
 			else

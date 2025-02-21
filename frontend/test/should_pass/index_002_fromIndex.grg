@@ -33,3 +33,32 @@ rule i {
 		}
 	}
 }
+
+rule ei {
+	if{ edgesFromIndex(bari).size() > 0; }
+	if{ edgesFromIndexSame(bari, 42).size() > 0; }
+	if{ edgesFromIndexFrom(bari, 42).size() > 0; }
+	if{ edgesFromIndexFromExclusive(bari, 42).size() > 0; }
+	if{ edgesFromIndexTo(bari, 42).size() > 0; }
+	if{ edgesFromIndexToExclusive(bari, 42).size() > 0; }
+	if{ edgesFromIndexFromTo(bari, f(), 42).size() > 0; }
+	if{ edgesFromIndexFromExclusiveTo(bari, f(), 42).size() > 0; }
+	if{ edgesFromIndexFromToExclusive(bari, f(), 42).size() > 0; }
+	if{ edgesFromIndexFromExclusiveToExclusive(bari, f(), 42).size() > 0; }
+	
+	modify {
+		eval {
+			def var s:int;
+			s = edgesFromIndex(bari).size();
+			s = edgesFromIndexSame(bari, 42).size();
+			s = edgesFromIndexFrom(bari, 42).size();
+			s = edgesFromIndexFromExclusive(bari, 42).size();
+			s = edgesFromIndexTo(bari, 42).size();
+			s = edgesFromIndexToExclusive(bari, 42).size();
+			s = edgesFromIndexFromTo(bari, f(), 42).size();
+			s = edgesFromIndexFromExclusiveTo(bari, f(), 42).size();
+			s = edgesFromIndexFromToExclusive(bari, f(), 42).size();
+			s = edgesFromIndexFromExclusiveToExclusive(bari, f(), 42).size();
+		}
+	}
+}

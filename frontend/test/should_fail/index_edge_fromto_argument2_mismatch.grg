@@ -1,0 +1,8 @@
+#using "index_edge_where_non_index_expected_model.gm"
+
+rule i {
+	if{ edgesFromIndexFromTo(fooi, 42, 42.0).size() > 0; }
+	
+	modify {
+	}
+}

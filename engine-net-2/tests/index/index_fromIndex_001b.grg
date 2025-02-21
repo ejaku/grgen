@@ -1,0 +1,141 @@
+#using "index_model_001b.gm"
+
+rule efi() : (set<AEdge>) {
+	---
+	def ref s:set<AEdge>;
+	yield {
+		yield s = edgesFromIndex(foo);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + edgesFromIndex(foo) + "\n");
+		return(s);
+	}
+}
+
+rule efis() : (set<AEdge>) {
+	---
+	def ref s:set<AEdge>;
+	yield {
+		yield s = edgesFromIndexSame(foo, 3);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + edgesFromIndexSame(foo, 3) + "\n");
+		return(s);
+	}
+}
+
+rule efif() : (set<AEdge>) {
+	---
+	def ref s:set<AEdge>;
+	yield {
+		yield s = edgesFromIndexFrom(foo, 2);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + edgesFromIndexFrom(foo, 2) + "\n");
+		return(s);
+	}
+}
+
+rule efife() : (set<AEdge>) {
+	---
+	def ref s:set<AEdge>;
+	yield {
+		yield s = edgesFromIndexFromExclusive(foo, 2);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + edgesFromIndexFromExclusive(foo, 2) + "\n");
+		return(s);
+	}
+}
+
+rule efit() : (set<AEdge>) {
+	---
+	def ref s:set<AEdge>;
+	yield {
+		yield s = edgesFromIndexTo(foo, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + edgesFromIndexTo(foo, 4) + "\n");
+		return(s);
+	}
+}
+
+rule efite() : (set<AEdge>) {
+	---
+	def ref s:set<AEdge>;
+	yield {
+		yield s = edgesFromIndexToExclusive(foo, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + edgesFromIndexToExclusive(foo, 4) + "\n");
+		return(s);
+	}
+}
+
+rule efift() : (set<AEdge>) {
+	---
+	def ref s:set<AEdge>;
+	yield {
+		yield s = edgesFromIndexFromTo(foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + edgesFromIndexFromTo(foo, 2, 4) + "\n");
+		return(s);
+	}
+}
+
+rule efifet() : (set<AEdge>) {
+	---
+	def ref s:set<AEdge>;
+	yield {
+		yield s = edgesFromIndexFromExclusiveTo(foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + edgesFromIndexFromExclusiveTo(foo, 2, 4) + "\n");
+		return(s);
+	}
+}
+
+rule efifte() : (set<AEdge>) {
+	---
+	def ref s:set<AEdge>;
+	yield {
+		yield s = edgesFromIndexFromToExclusive(foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + edgesFromIndexFromToExclusive(foo, 2, 4) + "\n");
+		return(s);
+	}
+}
+
+rule efifete() : (set<AEdge>) {
+	---
+	def ref s:set<AEdge>;
+	yield {
+		yield s = edgesFromIndexFromExclusiveToExclusive(foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + edgesFromIndexFromExclusiveToExclusive(foo, 2, 4) + "\n");
+		return(s);
+	}
+}

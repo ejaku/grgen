@@ -1,0 +1,6 @@
+edge class E
+{
+	i : int;
+}
+
+index fooi { E.i }

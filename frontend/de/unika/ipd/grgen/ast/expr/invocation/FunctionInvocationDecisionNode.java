@@ -36,6 +36,8 @@ import de.unika.ipd.grgen.ast.expr.graph.DefinedSubgraphExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EdgeByNameExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EdgeByUniqueExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EdgesExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessFromToExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessSameExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EmptyExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EqualsAnyExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.GetEquivalentExprNode;
@@ -622,6 +624,44 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return null;
 			} else {
 				return new NodesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), arguments.get(1), functionName.contains("FromExclusive"), arguments.get(2), functionName.contains("ToExclusive"));
+			}
+		case "edgesFromIndex":
+			if(arguments.size() != 1) {
+				env.reportError("edgesFromIndex() expects 1 argument (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new EdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), null, false, null, false);
+			}
+		case "edgesFromIndexSame":
+			if(arguments.size() != 2) {
+				env.reportError("edgesFromIndexSame() expects 2 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new EdgesFromIndexAccessSameExprNode(env.getCoords(), arguments.get(0), arguments.get(1));
+			}
+		case "edgesFromIndexFrom":
+		case "edgesFromIndexFromExclusive":
+		case "edgesFromIndexTo":
+		case "edgesFromIndexToExclusive":
+			if(arguments.size() != 2) {
+				env.reportError(functionName + "() expects 2 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				if(functionName.startsWith("edgesFromIndexFrom")) {
+					return new EdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), arguments.get(1), functionName.endsWith("Exclusive"), null, false);
+				} else {
+					return new EdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), null, false, arguments.get(1), functionName.endsWith("Exclusive"));
+				}
+			}
+		case "edgesFromIndexFromTo":
+		case "edgesFromIndexFromExclusiveTo":
+		case "edgesFromIndexFromToExclusive":
+		case "edgesFromIndexFromExclusiveToExclusive":
+			if(arguments.size() != 3) {
+				env.reportError(functionName + "() expects 3 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new EdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), arguments.get(1), functionName.contains("FromExclusive"), arguments.get(2), functionName.contains("ToExclusive"));
 			}
 		case "inducedSubgraph":
 			if(arguments.size() != 1) {

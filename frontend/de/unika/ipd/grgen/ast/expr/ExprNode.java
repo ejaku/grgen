@@ -197,7 +197,17 @@ public abstract class ExprNode extends BaseNode
 		return EdgeTypeNode.arbitraryEdgeType.getIdentNode();
 	}
 
+	public static IdentNode getEdgeRoot()
+	{
+		return EdgeTypeNode.arbitraryEdgeType.getIdentNode();
+	}
+
 	public static IdentNode getNodeRoot(ExprNode nodeTypeExpr)
+	{
+		return NodeTypeNode.nodeType.getIdentNode();
+	}
+
+	public static IdentNode getNodeRoot() 
 	{
 		return NodeTypeNode.nodeType.getIdentNode();
 	}

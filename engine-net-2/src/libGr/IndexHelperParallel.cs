@@ -62,5 +62,53 @@ namespace de.unika.ipd.grGen.libGr
             }
             return nodesSet;
         }
+
+        /// <summary>
+        /// Returns the edges in the index whose attribute is the same as the value given, as set
+        /// </summary>
+        public static Dictionary<IEdge, SetValueType> EdgesFromIndexSame(IAttributeIndex index, object value, int threadId)
+        {
+            Dictionary<IEdge, SetValueType> edgesSet = new Dictionary<IEdge, SetValueType>();
+            foreach(IEdge edge in GetIndexEnumerable(index, value))
+            {
+                edgesSet[edge] = null;
+            }
+            return edgesSet;
+        }
+
+        public static Dictionary<IEdge, SetValueType> EdgesFromIndexSame(IAttributeIndex index, object value, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            Dictionary<IEdge, SetValueType> edgesSet = new Dictionary<IEdge, SetValueType>();
+            foreach(IEdge edge in GetIndexEnumerable(index, value))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                edgesSet[edge] = null;
+            }
+            return edgesSet;
+        }
+
+        /// <summary>
+        /// Returns the edges in the index whose attribute is in the range from from to to, as set
+        /// </summary>
+        public static Dictionary<IEdge, SetValueType> EdgesFromIndexFromTo(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, int threadId)
+        {
+            Dictionary<IEdge, SetValueType> edgesSet = new Dictionary<IEdge, SetValueType>();
+            foreach(IEdge edge in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                edgesSet[edge] = null;
+            }
+            return edgesSet;
+        }
+
+        public static Dictionary<IEdge, SetValueType> EdgesFromIndexFromTo(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            Dictionary<IEdge, SetValueType> edgesSet = new Dictionary<IEdge, SetValueType>();
+            foreach(IEdge edge in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                edgesSet[edge] = null;
+            }
+            return edgesSet;
+        }
     }
 }

@@ -1,0 +1,6 @@
+rule i(ref s:set<Edge>) {
+	if{ edgesFromIndex(s).size() > 0; }
+	
+	modify {
+	}
+}
