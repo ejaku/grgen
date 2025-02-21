@@ -1,0 +1,35 @@
+#using "index_model_002.gm"
+
+function f() : int
+{
+	return(0);
+}
+
+rule i {
+	if{ nodesFromIndex(fooi).size() > 0; }
+	if{ nodesFromIndexSame(fooi, 42).size() > 0; }
+	if{ nodesFromIndexFrom(fooi, 42).size() > 0; }
+	if{ nodesFromIndexFromExclusive(fooi, 42).size() > 0; }
+	if{ nodesFromIndexTo(fooi, 42).size() > 0; }
+	if{ nodesFromIndexToExclusive(fooi, 42).size() > 0; }
+	if{ nodesFromIndexFromTo(fooi, f(), 42).size() > 0; }
+	if{ nodesFromIndexFromExclusiveTo(fooi, f(), 42).size() > 0; }
+	if{ nodesFromIndexFromToExclusive(fooi, f(), 42).size() > 0; }
+	if{ nodesFromIndexFromExclusiveToExclusive(fooi, f(), 42).size() > 0; }
+	
+	modify {
+		eval {
+			def var s:int;
+			s = nodesFromIndex(fooi).size();
+			s = nodesFromIndexSame(fooi, 42).size();
+			s = nodesFromIndexFrom(fooi, 42).size();
+			s = nodesFromIndexFromExclusive(fooi, 42).size();
+			s = nodesFromIndexTo(fooi, 42).size();
+			s = nodesFromIndexToExclusive(fooi, 42).size();
+			s = nodesFromIndexFromTo(fooi, f(), 42).size();
+			s = nodesFromIndexFromExclusiveTo(fooi, f(), 42).size();
+			s = nodesFromIndexFromToExclusive(fooi, f(), 42).size();
+			s = nodesFromIndexFromExclusiveToExclusive(fooi, f(), 42).size();
+		}
+	}
+}

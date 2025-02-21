@@ -1,0 +1,6 @@
+rule i(ref s:set<Node>) {
+	if{ nodesFromIndex(s).size() > 0; }
+	
+	modify {
+	}
+}

@@ -1,0 +1,141 @@
+#using "index_model_001.gm"
+
+rule nfi() : (set<Node>) {
+	---
+	def ref s:set<Node>;
+	yield {
+		yield s = nodesFromIndex(foo);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndex(foo) + "\n");
+		return(s);
+	}
+}
+
+rule nfis() : (set<Node>) {
+	---
+	def ref s:set<Node>;
+	yield {
+		yield s = nodesFromIndexSame(foo, 3);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexSame(foo, 3) + "\n");
+		return(s);
+	}
+}
+
+rule nfif() : (set<Node>) {
+	---
+	def ref s:set<Node>;
+	yield {
+		yield s = nodesFromIndexFrom(foo, 2);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexFrom(foo, 2) + "\n");
+		return(s);
+	}
+}
+
+rule nfife() : (set<Node>) {
+	---
+	def ref s:set<Node>;
+	yield {
+		yield s = nodesFromIndexFromExclusive(foo, 2);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexFromExclusive(foo, 2) + "\n");
+		return(s);
+	}
+}
+
+rule nfit() : (set<Node>) {
+	---
+	def ref s:set<Node>;
+	yield {
+		yield s = nodesFromIndexTo(foo, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexTo(foo, 4) + "\n");
+		return(s);
+	}
+}
+
+rule nfite() : (set<Node>) {
+	---
+	def ref s:set<Node>;
+	yield {
+		yield s = nodesFromIndexToExclusive(foo, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexToExclusive(foo, 4) + "\n");
+		return(s);
+	}
+}
+
+rule nfift() : (set<Node>) {
+	---
+	def ref s:set<Node>;
+	yield {
+		yield s = nodesFromIndexFromTo(foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexFromTo(foo, 2, 4) + "\n");
+		return(s);
+	}
+}
+
+rule nfifet() : (set<Node>) {
+	---
+	def ref s:set<Node>;
+	yield {
+		yield s = nodesFromIndexFromExclusiveTo(foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexFromExclusiveTo(foo, 2, 4) + "\n");
+		return(s);
+	}
+}
+
+rule nfifte() : (set<Node>) {
+	---
+	def ref s:set<Node>;
+	yield {
+		yield s = nodesFromIndexFromToExclusive(foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexFromToExclusive(foo, 2, 4) + "\n");
+		return(s);
+	}
+}
+
+rule nfifete() : (set<Node>) {
+	---
+	def ref s:set<Node>;
+	yield {
+		yield s = nodesFromIndexFromExclusiveToExclusive(foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexFromExclusiveToExclusive(foo, 2, 4) + "\n");
+		return(s);
+	}
+}

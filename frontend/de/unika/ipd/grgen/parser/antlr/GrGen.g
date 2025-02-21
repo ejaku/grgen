@@ -4243,9 +4243,11 @@ primaryExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] retur
 			if(i.getText().equals("this") && !env.test(ParserEnvironment.ENTITIES, "this"))
 				res = new ThisExprNode(getCoords(i));
 			else {
-				// Entity names can overwrite type names
-				if(env.test(ParserEnvironment.ENTITIES, i.getText()) || !env.test(ParserEnvironment.TYPES, i.getText()))
+				// entity names overwrite index names and type names
+				if(env.test(ParserEnvironment.ENTITIES, i.getText()) || (!env.test(ParserEnvironment.TYPES, i.getText()) && !env.test(ParserEnvironment.INDICES, i.getText())))
 					id = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
+				else if(env.test(ParserEnvironment.INDICES, i.getText()))
+					id = new IdentNode(env.occurs(ParserEnvironment.INDICES, i.getText(), getCoords(i)));
 				else
 					id = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
 				res = new IdentExprNode(id);

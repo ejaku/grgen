@@ -733,6 +733,19 @@ public abstract class ParserEnvironment extends Base
 		case "isBoundedReachableEdgesOutgoing":
 		case "isBoundedReachableEdges":
 			return numParams >= 3 && numParams <= 5;
+		case "nodesFromIndex":
+			return numParams == 1;
+		case "nodesFromIndexSame":
+		case "nodesFromIndexFrom":
+		case "nodesFromIndexFromExclusive":
+		case "nodesFromIndexTo":
+		case "nodesFromIndexToExclusive":
+			return numParams == 2;
+		case "nodesFromIndexFromTo":
+		case "nodesFromIndexFromExclusiveTo":
+		case "nodesFromIndexFromToExclusive":
+		case "nodesFromIndexFromExclusiveToExclusive":
+			return numParams == 3;
 		case "random":
 			return numParams >= 0 && numParams <= 1;
 		case "canonize":

@@ -166,6 +166,8 @@ import de.unika.ipd.grgen.ir.expr.graph.Nameof;
 import de.unika.ipd.grgen.ir.expr.graph.NodeByNameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.NodeByUniqueExpr;
 import de.unika.ipd.grgen.ir.expr.graph.NodesExpr;
+import de.unika.ipd.grgen.ir.expr.graph.NodesFromIndexAccessFromToExpr;
+import de.unika.ipd.grgen.ir.expr.graph.NodesFromIndexAccessSameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.OppositeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.ReachableEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.ReachableNodeExpr;
@@ -243,6 +245,8 @@ import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
 import de.unika.ipd.grgen.ir.model.type.InternalTransientObjectType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
+import de.unika.ipd.grgen.ir.pattern.IndexAccessEquality;
+import de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
 import de.unika.ipd.grgen.ir.pattern.IteratedFiltering;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.Variable;
@@ -2012,6 +2016,36 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			genExpressionTree(sb, ibre.getIncidentEdgeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			genExpressionTree(sb, ibre.getAdjacentNodeTypeExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		} else if(expr instanceof NodesFromIndexAccessSameExpr) {
+			NodesFromIndexAccessSameExpr nfias = (NodesFromIndexAccessSameExpr)expr;
+			IndexAccessEquality iae = nfias.getIndexAccessEquality();
+			sb.append("new GRGEN_EXPR.NodesFromIndexAccessSame(");
+			sb.append("\"GRGEN_MODEL." + model.getIdent() + "IndexSet\", ");
+			sb.append("GRGEN_MODEL." + model.getIdent() + "GraphModel.GetIndexDescription(\""
+					+ iae.index.getIdent() + "\"), ");
+			genExpressionTree(sb, iae.expr, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		} else if(expr instanceof NodesFromIndexAccessFromToExpr) {
+			NodesFromIndexAccessFromToExpr nfiaft = (NodesFromIndexAccessFromToExpr)expr;
+			IndexAccessOrdering iao = nfiaft.getIndexAccessOrdering();
+			sb.append("new GRGEN_EXPR.NodesFromIndexAccessFromTo(");
+			sb.append("\"GRGEN_MODEL." + model.getIdent() + "IndexSet\", ");
+			sb.append("GRGEN_MODEL." + model.getIdent() + "GraphModel.GetIndexDescription(\""
+					+ iao.index.getIdent() + "\"), ");
+			sb.append(iao.includingFrom() ? "true" : "false");
+			sb.append(", ");
+			sb.append(iao.includingTo() ? "true" : "false");
+			sb.append(", ");
+			if(iao.from() != null)
+				genExpressionTree(sb, iao.from(), className, pathPrefix, alreadyDefinedEntityToName);
+			else
+				sb.append("null");
+			sb.append(", ");
+			if(iao.to() != null)
+				genExpressionTree(sb, iao.to(), className, pathPrefix, alreadyDefinedEntityToName);
+			else
+				sb.append("null");
 			sb.append(")");
 		} else if(expr instanceof InducedSubgraphExpr) {
 			InducedSubgraphExpr is = (InducedSubgraphExpr)expr;

@@ -1,0 +1,8 @@
+#using "index_where_non_index_expected_model.gm"
+
+rule i {
+	if{ nodesFromIndexFromTo(fooi, 42.0, 42).size() > 0; }
+	
+	modify {
+	}
+}

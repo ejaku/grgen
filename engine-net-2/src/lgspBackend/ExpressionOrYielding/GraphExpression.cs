@@ -4385,6 +4385,139 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression returning a set of nodes from an index with matching attribute values based on equality comparison
+    /// </summary>
+    public class NodesFromIndexAccessSame : Expression
+    {
+        public NodesFromIndexAccessSame(String indexSetType, IndexDescription index, Expression expr)
+        {
+            IndexSetType = indexSetType;
+            Index = index;
+            Expr = expr;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new NodesFromIndexAccessSame(IndexSetType, Index, Expr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("GRGEN_LIBGR.IndexHelper.NodesFromIndexSame((({0})graph.Indices).{1}, ", IndexSetType, Index.Name);
+            Expr.Emit(sourceCode);
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Expr;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public readonly String IndexSetType;
+        public readonly IndexDescription Index;
+        public readonly Expression Expr;
+        bool Parallel;
+        bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning a set of nodes from an index with matching attribute values based on ordering comparison
+    /// </summary>
+    public class NodesFromIndexAccessFromTo : Expression
+    {
+        public NodesFromIndexAccessFromTo(String indexSetType, IndexDescription index,
+            bool includingFrom, bool includingTo,
+            Expression from, Expression to)
+        {
+            IndexSetType = indexSetType;
+            Index = index;
+            IncludingFrom = includingFrom;
+            IncludingTo = includingTo;
+            From = from;
+            To = to;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new NodesFromIndexAccessFromTo(IndexSetType, Index, 
+                IncludingFrom, IncludingTo, From != null ? From.Copy(renameSuffix) : null, To != null ? To.Copy(renameSuffix) : null);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("GRGEN_LIBGR.IndexHelper.NodesFromIndexFromTo((({0})graph.Indices).{1}, ", IndexSetType, Index.Name);
+
+            if(From != null)
+                From.Emit(sourceCode);
+            else
+                sourceCode.Append("null");
+            sourceCode.Append(", ");
+            if(IncludingFrom)
+                sourceCode.Append("true");
+            else
+                sourceCode.Append("false");
+            sourceCode.Append(", ");
+
+            if(To != null)
+                To.Emit(sourceCode);
+            else
+                sourceCode.Append("null");
+            sourceCode.Append(", ");
+            if(IncludingTo)
+                sourceCode.Append("true");
+            else
+                sourceCode.Append("false");
+
+            if(Profiling)
+                sourceCode.AppendFront(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            if(From != null)
+                yield return From;
+            if(To != null)
+                yield return To;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public readonly String IndexSetType;
+        public readonly IndexDescription Index;
+        public readonly bool IncludingFrom;
+        public readonly bool IncludingTo;
+        public readonly Expression From;
+        public readonly Expression To;
+        bool Parallel;
+        bool Profiling;
+    }
+
+    /// <summary>
     /// Class representing expression returning the induced subgraph from the given set of nodes
     /// </summary>
     public class InducedSubgraph : Expression

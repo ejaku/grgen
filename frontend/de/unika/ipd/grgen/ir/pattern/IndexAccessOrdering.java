@@ -40,20 +40,20 @@ public class IndexAccessOrdering extends IndexAccess
 			if(expr != null) {
 				if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE)
 					return expr;
-				if(expr2 != null) {
-					if(comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)
-						return expr2;
-				}
+			}
+			if(expr2 != null) {
+				if(comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)
+					return expr2;
 			}
 			return null;
 		} else {
 			if(expr != null) {
 				if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE)
 					return expr;
-				if(expr2 != null) {
-					if(comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)
-						return expr2;
-				}
+			}
+			if(expr2 != null) {
+				if(comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)
+					return expr2;
 			}
 			return null;
 		}
@@ -65,20 +65,20 @@ public class IndexAccessOrdering extends IndexAccess
 			if(expr != null) {
 				if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE)
 					return expr;
-				if(expr2 != null) {
-					if(comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)
-						return expr2;
-				}
+			}
+			if(expr2 != null) {
+				if(comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)
+					return expr2;
 			}
 			return null;
 		} else {
 			if(expr != null) {
 				if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE)
 					return expr;
-				if(expr2 != null) {
-					if(comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)
-						return expr2;
-				}
+			}
+			if(expr2 != null) {
+				if(comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)
+					return expr2;
 			}
 			return null;
 		}
@@ -90,20 +90,20 @@ public class IndexAccessOrdering extends IndexAccess
 			if(expr != null) {
 				if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE)
 					return comp == OperatorDeclNode.Operator.GE;
-				if(expr2 != null) {
-					if(comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)
-						return comp2 == OperatorDeclNode.Operator.GE;
-				}
+			}
+			if(expr2 != null) {
+				if(comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)
+					return comp2 == OperatorDeclNode.Operator.GE;
 			}
 			return false; // dummy/don't care
 		} else {
 			if(expr != null) {
 				if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE)
 					return comp == OperatorDeclNode.Operator.LE;
-				if(expr2 != null) {
-					if(comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)
-						return comp2 == OperatorDeclNode.Operator.LE;
-				}
+			}
+			if(expr2 != null) {
+				if(comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)
+					return comp2 == OperatorDeclNode.Operator.LE;
 			}
 			return false; // dummy/don't care
 		}
@@ -115,20 +115,20 @@ public class IndexAccessOrdering extends IndexAccess
 			if(expr != null) {
 				if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE)
 					return comp == OperatorDeclNode.Operator.LE;
-				if(expr2 != null) {
-					if(comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)
-						return comp2 == OperatorDeclNode.Operator.LE;
-				}
+			}
+			if(expr2 != null) {
+				if(comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)
+					return comp2 == OperatorDeclNode.Operator.LE;
 			}
 			return false; // dummy/don't care
 		} else {
 			if(expr != null) {
 				if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE)
 					return comp == OperatorDeclNode.Operator.GE;
-				if(expr2 != null) {
-					if(comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)
-						return comp2 == OperatorDeclNode.Operator.GE;
-				}
+			}
+			if(expr2 != null) {
+				if(comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)
+					return comp2 == OperatorDeclNode.Operator.GE;
 			}
 			return false; // dummy/don't care
 		}

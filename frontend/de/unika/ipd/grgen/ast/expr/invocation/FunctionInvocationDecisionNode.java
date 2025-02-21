@@ -50,6 +50,8 @@ import de.unika.ipd.grgen.ast.expr.graph.IsReachableNodeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.NodeByNameExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.NodeByUniqueExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.NodesExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessFromToExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessSameExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.OppositeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.ReachableEdgeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.ReachableNodeExprNode;
@@ -583,6 +585,44 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return null;
 			}
 		}
+		case "nodesFromIndex":
+			if(arguments.size() != 1) {
+				env.reportError("nodesFromIndex() expects 1 argument (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new NodesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), null, false, null, false);
+			}
+		case "nodesFromIndexSame":
+			if(arguments.size() != 2) {
+				env.reportError("nodesFromIndexSame() expects 2 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new NodesFromIndexAccessSameExprNode(env.getCoords(), arguments.get(0), arguments.get(1));
+			}
+		case "nodesFromIndexFrom":
+		case "nodesFromIndexFromExclusive":
+		case "nodesFromIndexTo":
+		case "nodesFromIndexToExclusive":
+			if(arguments.size() != 2) {
+				env.reportError(functionName + "() expects 2 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				if(functionName.startsWith("nodesFromIndexFrom")) {
+					return new NodesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), arguments.get(1), functionName.endsWith("Exclusive"), null, false);
+				} else {
+					return new NodesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), null, false, arguments.get(1), functionName.endsWith("Exclusive"));
+				}
+			}
+		case "nodesFromIndexFromTo":
+		case "nodesFromIndexFromExclusiveTo":
+		case "nodesFromIndexFromToExclusive":
+		case "nodesFromIndexFromExclusiveToExclusive":
+			if(arguments.size() != 3) {
+				env.reportError(functionName + "() expects 3 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new NodesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), arguments.get(1), functionName.contains("FromExclusive"), arguments.get(2), functionName.contains("ToExclusive"));
+			}
 		case "inducedSubgraph":
 			if(arguments.size() != 1) {
 				env.reportError("inducedSubgraph() expects 1 argument (given are " + arguments.size() + " arguments).");

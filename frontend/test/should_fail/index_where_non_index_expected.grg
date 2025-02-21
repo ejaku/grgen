@@ -1,0 +1,13 @@
+#using "index_where_non_index_expected_model.gm"
+
+function f(var x:int) : int
+{
+	return(x);
+}
+
+rule i {
+	if{ f(fooi) > 0; }
+	
+	modify {
+	}
+}
