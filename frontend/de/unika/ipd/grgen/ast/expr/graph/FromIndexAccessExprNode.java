@@ -21,19 +21,19 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * A node yielding the edges from an index (base class without constraints, the constrained ones inherit from this one).
+ * A node yielding the graph elements (nodes or edges) from an index (base class without constraints, the constrained ones inherit from this one).
  */
-public abstract class EdgesFromIndexAccessExprNode extends BuiltinFunctionInvocationBaseNode
+public abstract class FromIndexAccessExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(EdgesFromIndexAccessExprNode.class, "edges from index access expr");
+		setName(FromIndexAccessExprNode.class, "from index access expr");
 	}
 
 	protected ExprNode indexUnresolved;
 	protected IndexDeclNode index;
 	private SetTypeNode setTypeNode;
 
-	protected EdgesFromIndexAccessExprNode(Coords coords, ExprNode index)
+	protected FromIndexAccessExprNode(Coords coords, ExprNode index)
 	{
 		super(coords);
 		this.indexUnresolved = index;
@@ -76,7 +76,7 @@ public abstract class EdgesFromIndexAccessExprNode extends BuiltinFunctionInvoca
 			}
 		}
 		successfullyResolved &= index != null;
-		setTypeNode = new SetTypeNode(getEdgeRoot());
+		setTypeNode = new SetTypeNode(getRoot());
 		successfullyResolved &= setTypeNode.resolve();
 		return successfullyResolved;
 	}
@@ -85,7 +85,7 @@ public abstract class EdgesFromIndexAccessExprNode extends BuiltinFunctionInvoca
 	protected boolean checkLocal()
 	{
 		boolean res = true;
-		TypeNode expectedEntityType = getEdgeRoot().getDecl().getDeclType();
+		TypeNode expectedEntityType = getRoot().getDecl().getDeclType();
 		TypeNode entityType = index.getType();
 		if(!entityType.isCompatibleTo(expectedEntityType)) {
 			reportError("The function " + shortSignature() + " expects as 1. argument (index " + indexUnresolved + ") a value of type index on " + expectedEntityType.toStringWithDeclarationCoords()
@@ -95,10 +95,12 @@ public abstract class EdgesFromIndexAccessExprNode extends BuiltinFunctionInvoca
 		return res;
 	}
 
+	protected abstract IdentNode getRoot();
+
 	protected abstract String shortSignature();
-	
+
 	protected abstract IR constructIR();
-	
+
 	@Override
 	public TypeNode getType()
 	{
