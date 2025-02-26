@@ -4385,31 +4385,25 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing expression returning a set of nodes from an index with matching attribute values based on equality comparison
+    /// Class representing expression accessing an index based on equality comparison
     /// </summary>
-    public class NodesFromIndexAccessSame : Expression
+    public abstract class FromIndexAccessSame : Expression
     {
-        public NodesFromIndexAccessSame(String indexSetType, IndexDescription index, Expression expr)
+        protected FromIndexAccessSame(String indexSetType, IndexDescription index, Expression expr)
         {
             IndexSetType = indexSetType;
             Index = index;
             Expr = expr;
         }
 
-        public override Expression Copy(string renameSuffix)
+        protected void EmitArguments(SourceBuilder sourceCode)
         {
-            return new NodesFromIndexAccessSame(IndexSetType, Index, Expr.Copy(renameSuffix));
-        }
-
-        public override void Emit(SourceBuilder sourceCode)
-        {
-            sourceCode.AppendFrontFormat("GRGEN_LIBGR.IndexHelper.NodesFromIndexSame((({0})graph.Indices).{1}, ", IndexSetType, Index.Name);
+            sourceCode.AppendFormat("(({0})graph.Indices).{1}, ", IndexSetType, Index.Name);
             Expr.Emit(sourceCode);
             if(Profiling)
-                sourceCode.AppendFront(", actionEnv");
+                sourceCode.Append(", actionEnv");
             if(Parallel)
                 sourceCode.Append(", threadId");
-            sourceCode.Append(")");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
@@ -4435,11 +4429,11 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing expression returning a set of nodes from an index with matching attribute values based on ordering comparison
+    /// Class representing expression accessing an index based on ordering comparison
     /// </summary>
-    public class NodesFromIndexAccessFromTo : Expression
+    public abstract class FromIndexAccessFromTo : Expression
     {
-        public NodesFromIndexAccessFromTo(String indexSetType, IndexDescription index,
+        protected FromIndexAccessFromTo(String indexSetType, IndexDescription index,
             bool includingFrom, bool includingTo,
             Expression from, Expression to)
         {
@@ -4449,6 +4443,100 @@ namespace de.unika.ipd.grGen.expression
             IncludingTo = includingTo;
             From = from;
             To = to;
+        }
+
+        protected void EmitArguments(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFormat("(({0})graph.Indices).{1}, ", IndexSetType, Index.Name);
+
+            if(From != null)
+                From.Emit(sourceCode);
+            else
+                sourceCode.Append("null");
+            sourceCode.Append(", ");
+            if(IncludingFrom)
+                sourceCode.Append("true");
+            else
+                sourceCode.Append("false");
+            sourceCode.Append(", ");
+
+            if(To != null)
+                To.Emit(sourceCode);
+            else
+                sourceCode.Append("null");
+            sourceCode.Append(", ");
+            if(IncludingTo)
+                sourceCode.Append("true");
+            else
+                sourceCode.Append("false");
+
+            if(Profiling)
+                sourceCode.Append(", actionEnv");
+            if(Parallel)
+                sourceCode.Append(", threadId");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            if(From != null)
+                yield return From;
+            if(To != null)
+                yield return To;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        public readonly String IndexSetType;
+        public readonly IndexDescription Index;
+        public readonly bool IncludingFrom;
+        public readonly bool IncludingTo;
+        public readonly Expression From;
+        public readonly Expression To;
+        bool Parallel;
+        bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning a set of nodes from an index with matching attribute values based on equality comparison
+    /// </summary>
+    public class NodesFromIndexAccessSame : FromIndexAccessSame
+    {
+        public NodesFromIndexAccessSame(String indexSetType, IndexDescription index, Expression expr)
+            : base(indexSetType, index, expr)
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new NodesFromIndexAccessSame(IndexSetType, Index, Expr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.IndexHelper.NodesFromIndexSame(");
+            base.EmitArguments(sourceCode);
+            sourceCode.Append(")");
+        }
+    }
+
+    /// <summary>
+    /// Class representing expression returning a set of nodes from an index with matching attribute values based on ordering comparison
+    /// </summary>
+    public class NodesFromIndexAccessFromTo : FromIndexAccessFromTo
+    {
+        public NodesFromIndexAccessFromTo(String indexSetType, IndexDescription index,
+            bool includingFrom, bool includingTo,
+            Expression from, Expression to)
+            : base(indexSetType, index, includingFrom, includingTo, from, to)
+        {
         }
 
         public override Expression Copy(string renameSuffix)
@@ -4459,74 +4547,20 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFrontFormat("GRGEN_LIBGR.IndexHelper.NodesFromIndexFromTo((({0})graph.Indices).{1}, ", IndexSetType, Index.Name);
-
-            if(From != null)
-                From.Emit(sourceCode);
-            else
-                sourceCode.Append("null");
-            sourceCode.Append(", ");
-            if(IncludingFrom)
-                sourceCode.Append("true");
-            else
-                sourceCode.Append("false");
-            sourceCode.Append(", ");
-
-            if(To != null)
-                To.Emit(sourceCode);
-            else
-                sourceCode.Append("null");
-            sourceCode.Append(", ");
-            if(IncludingTo)
-                sourceCode.Append("true");
-            else
-                sourceCode.Append("false");
-
-            if(Profiling)
-                sourceCode.AppendFront(", actionEnv");
-            if(Parallel)
-                sourceCode.Append(", threadId");
+            sourceCode.Append("GRGEN_LIBGR.IndexHelper.NodesFromIndexFromTo(");
+            base.EmitArguments(sourceCode);
             sourceCode.Append(")");
         }
-
-        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
-        {
-            if(From != null)
-                yield return From;
-            if(To != null)
-                yield return To;
-        }
-
-        public override void SetNeedForParallelizedVersion(bool parallel)
-        {
-            Parallel = parallel;
-        }
-
-        public override void SetNeedForProfiling(bool profiling)
-        {
-            Profiling = profiling;
-        }
-
-        public readonly String IndexSetType;
-        public readonly IndexDescription Index;
-        public readonly bool IncludingFrom;
-        public readonly bool IncludingTo;
-        public readonly Expression From;
-        public readonly Expression To;
-        bool Parallel;
-        bool Profiling;
     }
 
     /// <summary>
     /// Class representing expression returning a set of edges from an index with matching attribute values based on equality comparison
     /// </summary>
-    public class EdgesFromIndexAccessSame : Expression
+    public class EdgesFromIndexAccessSame : FromIndexAccessSame
     {
         public EdgesFromIndexAccessSame(String indexSetType, IndexDescription index, Expression expr)
+            : base(indexSetType, index, expr)
         {
-            IndexSetType = indexSetType;
-            Index = index;
-            Expr = expr;
         }
 
         public override Expression Copy(string renameSuffix)
@@ -4536,52 +4570,22 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFrontFormat("GRGEN_LIBGR.IndexHelper.EdgesFromIndexSame((({0})graph.Indices).{1}, ", IndexSetType, Index.Name);
-            Expr.Emit(sourceCode);
-            if(Profiling)
-                sourceCode.AppendFront(", actionEnv");
-            if(Parallel)
-                sourceCode.Append(", threadId");
+            sourceCode.Append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexSame(");
+            base.EmitArguments(sourceCode);
             sourceCode.Append(")");
         }
-
-        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
-        {
-            yield return Expr;
-        }
-
-        public override void SetNeedForParallelizedVersion(bool parallel)
-        {
-            Parallel = parallel;
-        }
-
-        public override void SetNeedForProfiling(bool profiling)
-        {
-            Profiling = profiling;
-        }
-
-        public readonly String IndexSetType;
-        public readonly IndexDescription Index;
-        public readonly Expression Expr;
-        bool Parallel;
-        bool Profiling;
     }
 
     /// <summary>
     /// Class representing expression returning a set of edges from an index with matching attribute values based on ordering comparison
     /// </summary>
-    public class EdgesFromIndexAccessFromTo : Expression
+    public class EdgesFromIndexAccessFromTo : FromIndexAccessFromTo
     {
         public EdgesFromIndexAccessFromTo(String indexSetType, IndexDescription index,
             bool includingFrom, bool includingTo,
             Expression from, Expression to)
+            : base(indexSetType, index, includingFrom, includingTo, from, to)
         {
-            IndexSetType = indexSetType;
-            Index = index;
-            IncludingFrom = includingFrom;
-            IncludingTo = includingTo;
-            From = from;
-            To = to;
         }
 
         public override Expression Copy(string renameSuffix)
@@ -4592,62 +4596,108 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFrontFormat("GRGEN_LIBGR.IndexHelper.EdgesFromIndexFromTo((({0})graph.Indices).{1}, ", IndexSetType, Index.Name);
-
-            if(From != null)
-                From.Emit(sourceCode);
-            else
-                sourceCode.Append("null");
-            sourceCode.Append(", ");
-            if(IncludingFrom)
-                sourceCode.Append("true");
-            else
-                sourceCode.Append("false");
-            sourceCode.Append(", ");
-
-            if(To != null)
-                To.Emit(sourceCode);
-            else
-                sourceCode.Append("null");
-            sourceCode.Append(", ");
-            if(IncludingTo)
-                sourceCode.Append("true");
-            else
-                sourceCode.Append("false");
-
-            if(Profiling)
-                sourceCode.AppendFront(", actionEnv");
-            if(Parallel)
-                sourceCode.Append(", threadId");
+            sourceCode.Append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexFromTo(");
+            base.EmitArguments(sourceCode);
             sourceCode.Append(")");
         }
+    }
 
-        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+    /// <summary>
+    /// Class representing expression returning a count of the nodes from an index with matching attribute values based on equality comparison
+    /// </summary>
+    public class CountNodesFromIndexAccessSame : FromIndexAccessSame
+    {
+        public CountNodesFromIndexAccessSame(String indexSetType, IndexDescription index, Expression expr)
+            : base(indexSetType, index, expr)
         {
-            if(From != null)
-                yield return From;
-            if(To != null)
-                yield return To;
         }
 
-        public override void SetNeedForParallelizedVersion(bool parallel)
+        public override Expression Copy(string renameSuffix)
         {
-            Parallel = parallel;
+            return new CountNodesFromIndexAccessSame(IndexSetType, Index, Expr.Copy(renameSuffix));
         }
 
-        public override void SetNeedForProfiling(bool profiling)
+        public override void Emit(SourceBuilder sourceCode)
         {
-            Profiling = profiling;
+            sourceCode.Append("GRGEN_LIBGR.IndexHelper.CountNodesFromIndexSame(");
+            base.EmitArguments(sourceCode);
+            sourceCode.Append(")");
+        }
+    }
+
+    /// <summary>
+    /// Class representing expression returning a count of the nodes from an index with matching attribute values based on ordering comparison
+    /// </summary>
+    public class CountNodesFromIndexAccessFromTo : FromIndexAccessFromTo
+    {
+        public CountNodesFromIndexAccessFromTo(String indexSetType, IndexDescription index,
+            bool includingFrom, bool includingTo,
+            Expression from, Expression to)
+            : base(indexSetType, index, includingFrom, includingTo, from, to)
+        {
         }
 
-        public readonly String IndexSetType;
-        public readonly IndexDescription Index;
-        public readonly bool IncludingFrom;
-        public readonly bool IncludingTo;
-        public readonly Expression From;
-        public readonly Expression To;
-        bool Parallel;
-        bool Profiling;
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountNodesFromIndexAccessFromTo(IndexSetType, Index,
+                IncludingFrom, IncludingTo, From != null ? From.Copy(renameSuffix) : null, To != null ? To.Copy(renameSuffix) : null);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.IndexHelper.CountNodesFromIndexFromTo(");
+            base.EmitArguments(sourceCode);
+            sourceCode.Append(")");
+        }
+    }
+
+    /// <summary>
+    /// Class representing expression returning a count of the edges from an index with matching attribute values based on equality comparison
+    /// </summary>
+    public class CountEdgesFromIndexAccessSame : FromIndexAccessSame
+    {
+        public CountEdgesFromIndexAccessSame(String indexSetType, IndexDescription index, Expression expr)
+            : base(indexSetType, index, expr)
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountEdgesFromIndexAccessSame(IndexSetType, Index, Expr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.IndexHelper.CountEdgesFromIndexSame(");
+            base.EmitArguments(sourceCode);
+            sourceCode.Append(")");
+        }
+    }
+
+    /// <summary>
+    /// Class representing expression returning a count of the edges from an index with matching attribute values based on ordering comparison
+    /// </summary>
+    public class CountEdgesFromIndexAccessFromTo : FromIndexAccessFromTo
+    {
+        public CountEdgesFromIndexAccessFromTo(String indexSetType, IndexDescription index,
+            bool includingFrom, bool includingTo,
+            Expression from, Expression to)
+            : base(indexSetType, index, includingFrom, includingTo, from, to)
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new CountEdgesFromIndexAccessFromTo(IndexSetType, Index,
+                IncludingFrom, IncludingTo, From != null ? From.Copy(renameSuffix) : null, To != null ? To.Copy(renameSuffix) : null);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.IndexHelper.CountEdgesFromIndexFromTo(");
+            base.EmitArguments(sourceCode);
+            sourceCode.Append(")");
+        }
     }
 
     /// <summary>

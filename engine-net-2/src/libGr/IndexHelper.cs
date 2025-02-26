@@ -39,11 +39,6 @@ namespace de.unika.ipd.grGen.libGr
             return nodesSet;
         }
 
-        private static IEnumerable<IGraphElement> GetIndexEnumerable(IAttributeIndex index, object value)
-        {
-            return index.LookupElements(value);
-        }
-
         /// <summary>
         /// Returns the nodes in the index whose attribute is in the range from from to to, as set
         /// </summary>
@@ -66,6 +61,159 @@ namespace de.unika.ipd.grGen.libGr
                 nodesSet[node] = null;
             }
             return nodesSet;
+        }
+
+        /// <summary>
+        /// Returns the edges in the index whose attribute is the same as the value given, as set
+        /// </summary>
+        public static Dictionary<IEdge, SetValueType> EdgesFromIndexSame(IAttributeIndex index, object value)
+        {
+            Dictionary<IEdge, SetValueType> edgesSet = new Dictionary<IEdge, SetValueType>();
+            foreach(IEdge edge in GetIndexEnumerable(index, value))
+            {
+                edgesSet[edge] = null;
+            }
+            return edgesSet;
+        }
+
+        public static Dictionary<IEdge, SetValueType> EdgesFromIndexSame(IAttributeIndex index, object value, IActionExecutionEnvironment actionEnv)
+        {
+            Dictionary<IEdge, SetValueType> edgesSet = new Dictionary<IEdge, SetValueType>();
+            foreach(IEdge edge in GetIndexEnumerable(index, value))
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                edgesSet[edge] = null;
+            }
+            return edgesSet;
+        }
+
+        /// <summary>
+        /// Returns the edges in the index whose attribute is in the range from from to to, as set
+        /// </summary>
+        public static Dictionary<IEdge, SetValueType> EdgesFromIndexFromTo(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo)
+        {
+            Dictionary<IEdge, SetValueType> edgesSet = new Dictionary<IEdge, SetValueType>();
+            foreach(IEdge edge in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                edgesSet[edge] = null;
+            }
+            return edgesSet;
+        }
+
+        public static Dictionary<IEdge, SetValueType> EdgesFromIndexFromTo(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, IActionExecutionEnvironment actionEnv)
+        {
+            Dictionary<IEdge, SetValueType> edgesSet = new Dictionary<IEdge, SetValueType>();
+            foreach(IEdge edge in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                edgesSet[edge] = null;
+            }
+            return edgesSet;
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Returns the count of nodes in the index whose attribute is the same as the value given
+        /// </summary>
+        public static int CountNodesFromIndexSame(IAttributeIndex index, object value)
+        {
+            int count = 0;
+            foreach(INode node in GetIndexEnumerable(index, value))
+            {
+                ++count;
+            }
+            return count;
+        }
+
+        public static int CountNodesFromIndexSame(IAttributeIndex index, object value, IActionExecutionEnvironment actionEnv)
+        {
+            int count = 0;
+            foreach(INode node in GetIndexEnumerable(index, value))
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                ++count;
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// Returns the count of the nodes in the index whose attribute is in the range from from to to
+        /// </summary>
+        public static int CountNodesFromIndexFromTo(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo)
+        {
+            int count = 0;
+            foreach(INode node in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                ++count;
+            }
+            return count;
+        }
+
+        public static int CountNodesFromIndexFromTo(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, IActionExecutionEnvironment actionEnv)
+        {
+            int count = 0;
+            foreach(INode node in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                ++count;
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// Returns the count of the edges in the index whose attribute is the same as the value given
+        /// </summary>
+        public static int CountEdgesFromIndexSame(IAttributeIndex index, object value)
+        {
+            int count = 0;
+            foreach(IEdge edge in GetIndexEnumerable(index, value))
+            {
+                ++count;
+            }
+            return count;
+        }
+
+        public static int CountEdgesFromIndexSame(IAttributeIndex index, object value, IActionExecutionEnvironment actionEnv)
+        {
+            int count = 0;
+            foreach(IEdge edge in GetIndexEnumerable(index, value))
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                ++count;
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// Returns the count of the edges in the index whose attribute is in the range from from to to
+        /// </summary>
+        public static int CountEdgesFromIndexFromTo(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo)
+        {
+            int count = 0;
+            foreach(IEdge edge in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                ++count;
+            }
+            return count;
+        }
+
+        public static int CountEdgesFromIndexFromTo(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, IActionExecutionEnvironment actionEnv)
+        {
+            int count = 0;
+            foreach(IEdge edge in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                ++count;
+            }
+            return count;
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        private static IEnumerable<IGraphElement> GetIndexEnumerable(IAttributeIndex index, object value)
+        {
+            return index.LookupElements(value);
         }
 
         private static IEnumerable<IGraphElement> GetIndexEnumerable(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo)
@@ -115,54 +263,6 @@ namespace de.unika.ipd.grGen.libGr
                     return index.LookupElementsAscending();
                 }
             }
-        }
-
-        /// <summary>
-        /// Returns the edges in the index whose attribute is the same as the value given, as set
-        /// </summary>
-        public static Dictionary<IEdge, SetValueType> EdgesFromIndexSame(IAttributeIndex index, object value)
-        {
-            Dictionary<IEdge, SetValueType> edgesSet = new Dictionary<IEdge, SetValueType>();
-            foreach(IEdge edge in GetIndexEnumerable(index, value))
-            {
-                edgesSet[edge] = null;
-            }
-            return edgesSet;
-        }
-
-        public static Dictionary<IEdge, SetValueType> EdgesFromIndexSame(IAttributeIndex index, object value, IActionExecutionEnvironment actionEnv)
-        {
-            Dictionary<IEdge, SetValueType> edgesSet = new Dictionary<IEdge, SetValueType>();
-            foreach(IEdge edge in GetIndexEnumerable(index, value))
-            {
-                ++actionEnv.PerformanceInfo.SearchSteps;
-                edgesSet[edge] = null;
-            }
-            return edgesSet;
-        }
-
-        /// <summary>
-        /// Returns the edges in the index whose attribute is in the range from from to to, as set
-        /// </summary>
-        public static Dictionary<IEdge, SetValueType> EdgesFromIndexFromTo(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo)
-        {
-            Dictionary<IEdge, SetValueType> edgesSet = new Dictionary<IEdge, SetValueType>();
-            foreach(IEdge edge in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
-            {
-                edgesSet[edge] = null;
-            }
-            return edgesSet;
-        }
-
-        public static Dictionary<IEdge, SetValueType> EdgesFromIndexFromTo(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, IActionExecutionEnvironment actionEnv)
-        {
-            Dictionary<IEdge, SetValueType> edgesSet = new Dictionary<IEdge, SetValueType>();
-            foreach(IEdge edge in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
-            {
-                ++actionEnv.PerformanceInfo.SearchSteps;
-                edgesSet[edge] = null;
-            }
-            return edgesSet;
         }
     }
 }

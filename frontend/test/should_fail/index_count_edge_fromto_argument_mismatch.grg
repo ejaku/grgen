@@ -1,0 +1,8 @@
+#using "index_count_edge_model.gm"
+
+rule i {
+	if{ countEdgesFromIndexFromTo(fooi, 42, enu::bar) > 0; }
+	
+	modify {
+	}
+}

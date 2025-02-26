@@ -1,0 +1,141 @@
+#using "index_model_001.gm"
+
+rule cnfi() : (int) {
+	---
+	def var s:int;
+	yield {
+		yield s = countNodesFromIndex(foo);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + countNodesFromIndex(foo) + "\n");
+		return(s);
+	}
+}
+
+rule cnfis() : (int) {
+	---
+	def var s:int;
+	yield {
+		yield s = countNodesFromIndexSame(foo, 3);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + countNodesFromIndexSame(foo, 3) + "\n");
+		return(s);
+	}
+}
+
+rule cnfif() : (int) {
+	---
+	def var s:int;
+	yield {
+		yield s = countNodesFromIndexFrom(foo, 2);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + countNodesFromIndexFrom(foo, 2) + "\n");
+		return(s);
+	}
+}
+
+rule cnfife() : (int) {
+	---
+	def var s:int;
+	yield {
+		yield s = countNodesFromIndexFromExclusive(foo, 2);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + countNodesFromIndexFromExclusive(foo, 2) + "\n");
+		return(s);
+	}
+}
+
+rule cnfit() : (int) {
+	---
+	def var s:int;
+	yield {
+		yield s = countNodesFromIndexTo(foo, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + countNodesFromIndexTo(foo, 4) + "\n");
+		return(s);
+	}
+}
+
+rule cnfite() : (int) {
+	---
+	def var s:int;
+	yield {
+		yield s = countNodesFromIndexToExclusive(foo, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + countNodesFromIndexToExclusive(foo, 4) + "\n");
+		return(s);
+	}
+}
+
+rule cnfift() : (int) {
+	---
+	def var s:int;
+	yield {
+		yield s = countNodesFromIndexFromTo(foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + countNodesFromIndexFromTo(foo, 2, 4) + "\n");
+		return(s);
+	}
+}
+
+rule cnfifet() : (int) {
+	---
+	def var s:int;
+	yield {
+		yield s = countNodesFromIndexFromExclusiveTo(foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + countNodesFromIndexFromExclusiveTo(foo, 2, 4) + "\n");
+		return(s);
+	}
+}
+
+rule cnfifte() : (int) {
+	---
+	def var s:int;
+	yield {
+		yield s = countNodesFromIndexFromToExclusive(foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + countNodesFromIndexFromToExclusive(foo, 2, 4) + "\n");
+		return(s);
+	}
+}
+
+rule cnfifete() : (int) {
+	---
+	def var s:int;
+	yield {
+		yield s = countNodesFromIndexFromExclusiveToExclusive(foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + countNodesFromIndexFromExclusiveToExclusive(foo, 2, 4) + "\n");
+		return(s);
+	}
+}

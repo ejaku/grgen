@@ -1,0 +1,64 @@
+#using "index_model_002.gm"
+
+function f() : int
+{
+	return(0);
+}
+
+rule i {
+	if{ countNodesFromIndex(fooi) > 0; }
+	if{ countNodesFromIndexSame(fooi, 42) > 0; }
+	if{ countNodesFromIndexFrom(fooi, 42) > 0; }
+	if{ countNodesFromIndexFromExclusive(fooi, 42) > 0; }
+	if{ countNodesFromIndexTo(fooi, 42) > 0; }
+	if{ countNodesFromIndexToExclusive(fooi, 42) > 0; }
+	if{ countNodesFromIndexFromTo(fooi, f(), 42) > 0; }
+	if{ countNodesFromIndexFromExclusiveTo(fooi, f(), 42) > 0; }
+	if{ countNodesFromIndexFromToExclusive(fooi, f(), 42) > 0; }
+	if{ countNodesFromIndexFromExclusiveToExclusive(fooi, f(), 42) > 0; }
+	
+	modify {
+		eval {
+			def var s:int;
+			s = countNodesFromIndex(fooi);
+			s = countNodesFromIndexSame(fooi, 42);
+			s = countNodesFromIndexFrom(fooi, 42);
+			s = countNodesFromIndexFromExclusive(fooi, 42);
+			s = countNodesFromIndexTo(fooi, 42);
+			s = countNodesFromIndexToExclusive(fooi, 42);
+			s = countNodesFromIndexFromTo(fooi, f(), 42);
+			s = countNodesFromIndexFromExclusiveTo(fooi, f(), 42);
+			s = countNodesFromIndexFromToExclusive(fooi, f(), 42);
+			s = countNodesFromIndexFromExclusiveToExclusive(fooi, f(), 42);
+		}
+	}
+}
+
+rule ei {
+	if{ countEdgesFromIndex(bari) > 0; }
+	if{ countEdgesFromIndexSame(bari, 42) > 0; }
+	if{ countEdgesFromIndexFrom(bari, 42) > 0; }
+	if{ countEdgesFromIndexFromExclusive(bari, 42) > 0; }
+	if{ countEdgesFromIndexTo(bari, 42) > 0; }
+	if{ countEdgesFromIndexToExclusive(bari, 42) > 0; }
+	if{ countEdgesFromIndexFromTo(bari, f(), 42) > 0; }
+	if{ countEdgesFromIndexFromExclusiveTo(bari, f(), 42) > 0; }
+	if{ countEdgesFromIndexFromToExclusive(bari, f(), 42) > 0; }
+	if{ countEdgesFromIndexFromExclusiveToExclusive(bari, f(), 42) > 0; }
+	
+	modify {
+		eval {
+			def var s:int;
+			s = countEdgesFromIndex(bari);
+			s = countEdgesFromIndexSame(bari, 42);
+			s = countEdgesFromIndexFrom(bari, 42);
+			s = countEdgesFromIndexFromExclusive(bari, 42);
+			s = countEdgesFromIndexTo(bari, 42);
+			s = countEdgesFromIndexToExclusive(bari, 42);
+			s = countEdgesFromIndexFromTo(bari, f(), 42);
+			s = countEdgesFromIndexFromExclusiveTo(bari, f(), 42);
+			s = countEdgesFromIndexFromToExclusive(bari, f(), 42);
+			s = countEdgesFromIndexFromExclusiveToExclusive(bari, f(), 42);
+		}
+	}
+}

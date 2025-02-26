@@ -28,8 +28,12 @@ import de.unika.ipd.grgen.ast.expr.graph.CountAdjacentNodeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.CountBoundedReachableEdgeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.CountBoundedReachableNodeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.CountEdgesExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.CountEdgesFromIndexAccessFromToExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.CountEdgesFromIndexAccessSameExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.CountIncidentEdgeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.CountNodesExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.CountNodesFromIndexAccessFromToExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.CountNodesFromIndexAccessSameExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.CountReachableEdgeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.CountReachableNodeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.DefinedSubgraphExprNode;
@@ -662,6 +666,82 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return null;
 			} else {
 				return new EdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), arguments.get(1), functionName.contains("FromExclusive"), arguments.get(2), functionName.contains("ToExclusive"));
+			}
+		case "countNodesFromIndex":
+			if(arguments.size() != 1) {
+				env.reportError("countNodesFromIndex() expects 1 argument (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new CountNodesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), null, false, null, false);
+			}
+		case "countNodesFromIndexSame":
+			if(arguments.size() != 2) {
+				env.reportError("countNodesFromIndexSame() expects 2 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new CountNodesFromIndexAccessSameExprNode(env.getCoords(), arguments.get(0), arguments.get(1));
+			}
+		case "countNodesFromIndexFrom":
+		case "countNodesFromIndexFromExclusive":
+		case "countNodesFromIndexTo":
+		case "countNodesFromIndexToExclusive":
+			if(arguments.size() != 2) {
+				env.reportError(functionName + "() expects 2 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				if(functionName.startsWith("countNodesFromIndexFrom")) {
+					return new CountNodesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), arguments.get(1), functionName.endsWith("Exclusive"), null, false);
+				} else {
+					return new CountNodesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), null, false, arguments.get(1), functionName.endsWith("Exclusive"));
+				}
+			}
+		case "countNodesFromIndexFromTo":
+		case "countNodesFromIndexFromExclusiveTo":
+		case "countNodesFromIndexFromToExclusive":
+		case "countNodesFromIndexFromExclusiveToExclusive":
+			if(arguments.size() != 3) {
+				env.reportError(functionName + "() expects 3 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new CountNodesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), arguments.get(1), functionName.contains("FromExclusive"), arguments.get(2), functionName.contains("ToExclusive"));
+			}
+		case "countEdgesFromIndex":
+			if(arguments.size() != 1) {
+				env.reportError("countEdgesFromIndex() expects 1 argument (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new CountEdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), null, false, null, false);
+			}
+		case "countEdgesFromIndexSame":
+			if(arguments.size() != 2) {
+				env.reportError("countEdgesFromIndexSame() expects 2 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new CountEdgesFromIndexAccessSameExprNode(env.getCoords(), arguments.get(0), arguments.get(1));
+			}
+		case "countEdgesFromIndexFrom":
+		case "countEdgesFromIndexFromExclusive":
+		case "countEdgesFromIndexTo":
+		case "countEdgesFromIndexToExclusive":
+			if(arguments.size() != 2) {
+				env.reportError(functionName + "() expects 2 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				if(functionName.startsWith("countEdgesFromIndexFrom")) {
+					return new CountEdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), arguments.get(1), functionName.endsWith("Exclusive"), null, false);
+				} else {
+					return new CountEdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), null, false, arguments.get(1), functionName.endsWith("Exclusive"));
+				}
+			}
+		case "countEdgesFromIndexFromTo":
+		case "countEdgesFromIndexFromExclusiveTo":
+		case "countEdgesFromIndexFromToExclusive":
+		case "countEdgesFromIndexFromExclusiveToExclusive":
+			if(arguments.size() != 3) {
+				env.reportError(functionName + "() expects 3 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new CountEdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), arguments.get(1), functionName.contains("FromExclusive"), arguments.get(2), functionName.contains("ToExclusive"));
 			}
 		case "inducedSubgraph":
 			if(arguments.size() != 1) {

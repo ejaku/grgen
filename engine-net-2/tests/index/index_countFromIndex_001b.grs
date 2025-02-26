@@ -1,0 +1,41 @@
+new graph "index/index_countFromIndex_001b"
+
+new :Node($="0")
+
+new @("0") -:E($="$1", i=1)-> @("0")
+new @("0") -:E($="$2", i=2)-> @("0")
+new @("0") -:E($="$3", i=3)-> @("0")
+new @("0") -:E($="$4", i=4)-> @("0")
+new @("0") -:E($="$5", i=5)-> @("0")
+
+exec (::s)=cefi
+show var s
+
+exec (::s)=cefis
+show var s
+
+exec (::s)=cefif
+show var s
+
+exec (::s)=cefife
+show var s
+
+exec (::s)=cefit
+show var s
+
+exec (::s)=cefite
+show var s
+
+exec (::s)=cefift
+show var s
+
+exec (::s)=cefifet
+show var s
+
+exec (::s)=cefifte
+show var s
+
+exec (::s)=cefifete
+show var s
+
+quit

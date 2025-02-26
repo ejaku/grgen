@@ -1,0 +1,11 @@
+enum enu
+{
+	bar, baz, qux
+}
+
+edge class E
+{
+	i : enu;
+}
+
+index fooi { E.i }

@@ -1,0 +1,8 @@
+#using "index_count_edge_model.gm"
+
+rule i(ref s:set<enu>) {
+	if{ countEdgesFromIndex(s) > 0; }
+	
+	modify {
+	}
+}

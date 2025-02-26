@@ -1,0 +1,8 @@
+#using "index_count_edge_model.gm"
+
+rule i {
+	if{ countEdgesFromIndexSame(fooi, "42") > 0; }
+	
+	modify {
+	}
+}

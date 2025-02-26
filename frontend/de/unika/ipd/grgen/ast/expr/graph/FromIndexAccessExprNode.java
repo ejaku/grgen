@@ -7,16 +7,12 @@
 
 package de.unika.ipd.grgen.ast.expr.graph;
 
-import java.util.Collection;
-import java.util.Vector;
-
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.IdentExprNode;
 import de.unika.ipd.grgen.ast.model.decl.IndexDeclNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
@@ -31,31 +27,12 @@ public abstract class FromIndexAccessExprNode extends BuiltinFunctionInvocationB
 
 	protected ExprNode indexUnresolved;
 	protected IndexDeclNode index;
-	private SetTypeNode setTypeNode;
 
 	protected FromIndexAccessExprNode(Coords coords, ExprNode index)
 	{
 		super(coords);
 		this.indexUnresolved = index;
 		becomeParent(this.indexUnresolved);
-	}
-
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren()
-	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(indexUnresolved, index));
-		return children;
-	}
-
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames()
-	{
-		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("index");
-		return childrenNames;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
@@ -76,8 +53,6 @@ public abstract class FromIndexAccessExprNode extends BuiltinFunctionInvocationB
 			}
 		}
 		successfullyResolved &= index != null;
-		setTypeNode = new SetTypeNode(getRoot());
-		successfullyResolved &= setTypeNode.resolve();
 		return successfullyResolved;
 	}
 
@@ -100,10 +75,4 @@ public abstract class FromIndexAccessExprNode extends BuiltinFunctionInvocationB
 	protected abstract String shortSignature();
 
 	protected abstract IR constructIR();
-
-	@Override
-	public TypeNode getType()
-	{
-		return setTypeNode;
-	}
 }

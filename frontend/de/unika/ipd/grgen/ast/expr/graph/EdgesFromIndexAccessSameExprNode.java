@@ -9,6 +9,8 @@ package de.unika.ipd.grgen.ast.expr.graph;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
+import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessSameExpr;
@@ -25,9 +27,21 @@ public class EdgesFromIndexAccessSameExprNode extends FromIndexAccessSameExprNod
 		setName(EdgesFromIndexAccessSameExprNode.class, "edges from index access same expr");
 	}
 
+	private SetTypeNode setTypeNode;
+
 	public EdgesFromIndexAccessSameExprNode(Coords coords, ExprNode index, ExprNode expr)
 	{
 		super(coords, index, expr);
+	}
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
+	protected boolean resolveLocal()
+	{
+		boolean successfullyResolved = super.resolveLocal();
+		setTypeNode = new SetTypeNode(getRoot());
+		successfullyResolved &= setTypeNode.resolve();
+		return successfullyResolved;
 	}
 
 	@Override
@@ -40,6 +54,12 @@ public class EdgesFromIndexAccessSameExprNode extends FromIndexAccessSameExprNod
 	protected String shortSignature()
 	{
 		return "edgesFromIndexSame(.,.)";
+	}
+
+	@Override
+	public TypeNode getType()
+	{
+		return setTypeNode;
 	}
 
 	@Override

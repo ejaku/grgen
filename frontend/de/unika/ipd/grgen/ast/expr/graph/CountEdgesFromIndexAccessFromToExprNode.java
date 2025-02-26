@@ -10,26 +10,24 @@ package de.unika.ipd.grgen.ast.expr.graph;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessFromToExpr;
+import de.unika.ipd.grgen.ir.expr.graph.CountEdgesFromIndexAccessFromToExpr;
 import de.unika.ipd.grgen.ir.model.Index;
 import de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * A node yielding the edges from an index by accessing a range from a certain value to a certain value (one or both may be optional).
+ * A node yielding the count of edges from an index by accessing a range from a certain value to a certain value (one or both may be optional).
  */
-public class EdgesFromIndexAccessFromToExprNode extends FromIndexAccessFromToExprNode
+public class CountEdgesFromIndexAccessFromToExprNode extends FromIndexAccessFromToExprNode
 {
 	static {
-		setName(EdgesFromIndexAccessFromToExprNode.class, "edges from index access from to expr");
+		setName(CountEdgesFromIndexAccessFromToExprNode.class, "count edges from index access from to expr");
 	}
 
-	private SetTypeNode setTypeNode;
-
-	public EdgesFromIndexAccessFromToExprNode(Coords coords, ExprNode index, ExprNode fromExpr, boolean fromExclusive, ExprNode toExpr, boolean toExclusive)
+	public CountEdgesFromIndexAccessFromToExprNode(Coords coords, ExprNode index, ExprNode fromExpr, boolean fromExclusive, ExprNode toExpr, boolean toExclusive)
 	{
 		super(coords, index, fromExpr, fromExclusive, toExpr, toExclusive);
 	}
@@ -39,8 +37,7 @@ public class EdgesFromIndexAccessFromToExprNode extends FromIndexAccessFromToExp
 	protected boolean resolveLocal()
 	{
 		boolean successfullyResolved = super.resolveLocal();
-		setTypeNode = new SetTypeNode(getRoot());
-		successfullyResolved &= setTypeNode.resolve();
+		successfullyResolved &= getType().resolve();
 		return successfullyResolved;
 	}
 
@@ -53,13 +50,13 @@ public class EdgesFromIndexAccessFromToExprNode extends FromIndexAccessFromToExp
 	@Override
 	protected String shortSignature()
 	{
-		return "edgesFromIndex" + fromPart() + toPart() + "(" + argumentsPart() + ")";
+		return "countEdgesFromIndex" + fromPart() + toPart() + "(" + argumentsPart() + ")";
 	}
 
 	@Override
 	public TypeNode getType()
 	{
-		return setTypeNode;
+		return BasicTypeNode.intType;
 	}
 
 	@Override
@@ -69,7 +66,7 @@ public class EdgesFromIndexAccessFromToExprNode extends FromIndexAccessFromToExp
 			fromExpr = fromExpr.evaluate();
 		if(toExpr != null)
 			toExpr = toExpr.evaluate();
-		return new EdgesFromIndexAccessFromToExpr(
+		return new CountEdgesFromIndexAccessFromToExpr(
 				new IndexAccessOrdering(index.checkIR(Index.class), true,
 						fromOperator(), fromExpr != null ? fromExpr.checkIR(Expression.class) : null, 
 						toOperator(), toExpr != null ? toExpr.checkIR(Expression.class) : null),

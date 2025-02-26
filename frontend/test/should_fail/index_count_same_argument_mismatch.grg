@@ -1,0 +1,8 @@
+#using "index_count_model.gm"
+
+rule i {
+	if{ countNodesFromIndexSame(fooi, new O()) > 0; }
+	
+	modify {
+	}
+}

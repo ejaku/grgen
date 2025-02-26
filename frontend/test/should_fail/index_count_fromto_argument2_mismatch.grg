@@ -1,0 +1,8 @@
+#using "index_count_model.gm"
+
+rule i {
+	if{ countNodesFromIndexFromTo(fooi, 42.0, "mismatching-string") > 0; }
+	
+	modify {
+	}
+}

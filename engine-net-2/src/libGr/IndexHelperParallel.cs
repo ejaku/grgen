@@ -110,5 +110,103 @@ namespace de.unika.ipd.grGen.libGr
             }
             return edgesSet;
         }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Returns the count of the nodes in the index whose attribute is the same as the value given
+        /// </summary>
+        public static int CountNodesFromIndexSame(IAttributeIndex index, object value, int threadId)
+        {
+            int count = 0;
+            foreach(INode node in GetIndexEnumerable(index, value))
+            {
+                ++count;
+            }
+            return count;
+        }
+
+        public static int CountNodesFromIndexSame(IAttributeIndex index, object value, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            int count = 0;
+            foreach(INode node in GetIndexEnumerable(index, value))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                ++count;
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// Returns the count of the nodes in the index whose attribute is in the range from from to to
+        /// </summary>
+        public static int CountNodesFromIndexFromTo(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, int threadId)
+        {
+            int count = 0;
+            foreach(INode node in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                ++count;
+            }
+            return count;
+        }
+
+        public static int CountNodesFromIndexFromTo(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            int count = 0;
+            foreach(INode node in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                ++count;
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// Returns the count of the edges in the index whose attribute is the same as the value given
+        /// </summary>
+        public static int CountEdgesFromIndexSame(IAttributeIndex index, object value, int threadId)
+        {
+            int count = 0;
+            foreach(IEdge edge in GetIndexEnumerable(index, value))
+            {
+                ++count;
+            }
+            return count;
+        }
+
+        public static int CountEdgesFromIndexSame(IAttributeIndex index, object value, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            int count = 0;
+            foreach(IEdge edge in GetIndexEnumerable(index, value))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                ++count;
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// Returns the count of the edges in the index whose attribute is in the range from from to to
+        /// </summary>
+        public static int CountEdgesFromIndexFromTo(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, int threadId)
+        {
+            int count = 0;
+            foreach(IEdge edge in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                ++count;
+            }
+            return count;
+        }
+
+        public static int CountEdgesFromIndexFromTo(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            int count = 0;
+            foreach(IEdge edge in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                ++count;
+            }
+            return count;
+        }
     }
 }

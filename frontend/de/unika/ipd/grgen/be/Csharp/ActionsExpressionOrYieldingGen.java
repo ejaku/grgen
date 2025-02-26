@@ -142,8 +142,12 @@ import de.unika.ipd.grgen.ir.expr.graph.CountAdjacentNodeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.CountBoundedReachableEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.CountBoundedReachableNodeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.CountEdgesExpr;
+import de.unika.ipd.grgen.ir.expr.graph.CountEdgesFromIndexAccessFromToExpr;
+import de.unika.ipd.grgen.ir.expr.graph.CountEdgesFromIndexAccessSameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.CountIncidentEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.CountNodesExpr;
+import de.unika.ipd.grgen.ir.expr.graph.CountNodesFromIndexAccessFromToExpr;
+import de.unika.ipd.grgen.ir.expr.graph.CountNodesFromIndexAccessSameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.CountReachableEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.CountReachableNodeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.DefinedSubgraphExpr;
@@ -2023,61 +2027,49 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			NodesFromIndexAccessSameExpr nfias = (NodesFromIndexAccessSameExpr)expr;
 			IndexAccessEquality iae = nfias.getIndexAccessEquality();
 			sb.append("new GRGEN_EXPR.NodesFromIndexAccessSame(");
-			sb.append("\"GRGEN_MODEL." + model.getIdent() + "IndexSet\", ");
-			sb.append("GRGEN_MODEL." + model.getIdent() + "GraphModel.GetIndexDescription(\""
-					+ iae.index.getIdent() + "\"), ");
-			genExpressionTree(sb, iae.expr, className, pathPrefix, alreadyDefinedEntityToName);
+			genIndexAccessEquality(sb, iae, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		} else if(expr instanceof NodesFromIndexAccessFromToExpr) {
 			NodesFromIndexAccessFromToExpr nfiaft = (NodesFromIndexAccessFromToExpr)expr;
 			IndexAccessOrdering iao = nfiaft.getIndexAccessOrdering();
 			sb.append("new GRGEN_EXPR.NodesFromIndexAccessFromTo(");
-			sb.append("\"GRGEN_MODEL." + model.getIdent() + "IndexSet\", ");
-			sb.append("GRGEN_MODEL." + model.getIdent() + "GraphModel.GetIndexDescription(\""
-					+ iao.index.getIdent() + "\"), ");
-			sb.append(iao.includingFrom() ? "true" : "false");
-			sb.append(", ");
-			sb.append(iao.includingTo() ? "true" : "false");
-			sb.append(", ");
-			if(iao.from() != null)
-				genExpressionTree(sb, iao.from(), className, pathPrefix, alreadyDefinedEntityToName);
-			else
-				sb.append("null");
-			sb.append(", ");
-			if(iao.to() != null)
-				genExpressionTree(sb, iao.to(), className, pathPrefix, alreadyDefinedEntityToName);
-			else
-				sb.append("null");
+			genIndexAccessOrdering(sb, iao, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		} else if(expr instanceof EdgesFromIndexAccessSameExpr) {
 			EdgesFromIndexAccessSameExpr efias = (EdgesFromIndexAccessSameExpr)expr;
 			IndexAccessEquality iae = efias.getIndexAccessEquality();
 			sb.append("new GRGEN_EXPR.EdgesFromIndexAccessSame(");
-			sb.append("\"GRGEN_MODEL." + model.getIdent() + "IndexSet\", ");
-			sb.append("GRGEN_MODEL." + model.getIdent() + "GraphModel.GetIndexDescription(\""
-					+ iae.index.getIdent() + "\"), ");
-			genExpressionTree(sb, iae.expr, className, pathPrefix, alreadyDefinedEntityToName);
+			genIndexAccessEquality(sb, iae, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		} else if(expr instanceof EdgesFromIndexAccessFromToExpr) {
 			EdgesFromIndexAccessFromToExpr efiaft = (EdgesFromIndexAccessFromToExpr)expr;
 			IndexAccessOrdering iao = efiaft.getIndexAccessOrdering();
 			sb.append("new GRGEN_EXPR.EdgesFromIndexAccessFromTo(");
-			sb.append("\"GRGEN_MODEL." + model.getIdent() + "IndexSet\", ");
-			sb.append("GRGEN_MODEL." + model.getIdent() + "GraphModel.GetIndexDescription(\""
-					+ iao.index.getIdent() + "\"), ");
-			sb.append(iao.includingFrom() ? "true" : "false");
-			sb.append(", ");
-			sb.append(iao.includingTo() ? "true" : "false");
-			sb.append(", ");
-			if(iao.from() != null)
-				genExpressionTree(sb, iao.from(), className, pathPrefix, alreadyDefinedEntityToName);
-			else
-				sb.append("null");
-			sb.append(", ");
-			if(iao.to() != null)
-				genExpressionTree(sb, iao.to(), className, pathPrefix, alreadyDefinedEntityToName);
-			else
-				sb.append("null");
+			genIndexAccessOrdering(sb, iao, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		} else if(expr instanceof CountNodesFromIndexAccessSameExpr) {
+			CountNodesFromIndexAccessSameExpr cnfias = (CountNodesFromIndexAccessSameExpr)expr;
+			IndexAccessEquality iae = cnfias.getIndexAccessEquality();
+			sb.append("new GRGEN_EXPR.CountNodesFromIndexAccessSame(");
+			genIndexAccessEquality(sb, iae, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		} else if(expr instanceof CountNodesFromIndexAccessFromToExpr) {
+			CountNodesFromIndexAccessFromToExpr cnfiaft = (CountNodesFromIndexAccessFromToExpr)expr;
+			IndexAccessOrdering iao = cnfiaft.getIndexAccessOrdering();
+			sb.append("new GRGEN_EXPR.CountNodesFromIndexAccessFromTo(");
+			genIndexAccessOrdering(sb, iao, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		} else if(expr instanceof CountEdgesFromIndexAccessSameExpr) {
+			CountEdgesFromIndexAccessSameExpr cefias = (CountEdgesFromIndexAccessSameExpr)expr;
+			IndexAccessEquality iae = cefias.getIndexAccessEquality();
+			sb.append("new GRGEN_EXPR.CountEdgesFromIndexAccessSame(");
+			genIndexAccessEquality(sb, iae, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		} else if(expr instanceof CountEdgesFromIndexAccessFromToExpr) {
+			CountEdgesFromIndexAccessFromToExpr cefiaft = (CountEdgesFromIndexAccessFromToExpr)expr;
+			IndexAccessOrdering iao = cefiaft.getIndexAccessOrdering();
+			sb.append("new GRGEN_EXPR.CountEdgesFromIndexAccessFromTo(");
+			genIndexAccessOrdering(sb, iao, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		} else if(expr instanceof InducedSubgraphExpr) {
 			InducedSubgraphExpr is = (InducedSubgraphExpr)expr;
@@ -2280,6 +2272,36 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			sb.append(")");
 		} else
 			throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
+	}
+
+	private void genIndexAccessEquality(SourceBuilder sb, IndexAccessEquality iae, String className,
+			String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
+	{
+		sb.append("\"GRGEN_MODEL." + model.getIdent() + "IndexSet\", ");
+		sb.append("GRGEN_MODEL." + model.getIdent() + "GraphModel.GetIndexDescription(\""
+				+ iae.index.getIdent() + "\"), ");
+		genExpressionTree(sb, iae.expr, className, pathPrefix, alreadyDefinedEntityToName);
+	}
+
+	private void genIndexAccessOrdering(SourceBuilder sb, IndexAccessOrdering iao, String className,
+			String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
+	{
+		sb.append("\"GRGEN_MODEL." + model.getIdent() + "IndexSet\", ");
+		sb.append("GRGEN_MODEL." + model.getIdent() + "GraphModel.GetIndexDescription(\""
+				+ iao.index.getIdent() + "\"), ");
+		sb.append(iao.includingFrom() ? "true" : "false");
+		sb.append(", ");
+		sb.append(iao.includingTo() ? "true" : "false");
+		sb.append(", ");
+		if(iao.from() != null)
+			genExpressionTree(sb, iao.from(), className, pathPrefix, alreadyDefinedEntityToName);
+		else
+			sb.append("null");
+		sb.append(", ");
+		if(iao.to() != null)
+			genExpressionTree(sb, iao.to(), className, pathPrefix, alreadyDefinedEntityToName);
+		else
+			sb.append("null");
 	}
 
 	//////////////////////

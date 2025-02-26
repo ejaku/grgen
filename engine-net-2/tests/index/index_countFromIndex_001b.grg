@@ -1,0 +1,141 @@
+#using "index_model_001b.gm"
+
+rule cefi() : (int) {
+	---
+	def var s:int;
+	yield {
+		yield s = countEdgesFromIndex(foo);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + countEdgesFromIndex(foo) + "\n");
+		return(s);
+	}
+}
+
+rule cefis() : (int) {
+	---
+	def var s:int;
+	yield {
+		yield s = countEdgesFromIndexSame(foo, 3);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + countEdgesFromIndexSame(foo, 3) + "\n");
+		return(s);
+	}
+}
+
+rule cefif() : (int) {
+	---
+	def var s:int;
+	yield {
+		yield s = countEdgesFromIndexFrom(foo, 2);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + countEdgesFromIndexFrom(foo, 2) + "\n");
+		return(s);
+	}
+}
+
+rule cefife() : (int) {
+	---
+	def var s:int;
+	yield {
+		yield s = countEdgesFromIndexFromExclusive(foo, 2);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + countEdgesFromIndexFromExclusive(foo, 2) + "\n");
+		return(s);
+	}
+}
+
+rule cefit() : (int) {
+	---
+	def var s:int;
+	yield {
+		yield s = countEdgesFromIndexTo(foo, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + countEdgesFromIndexTo(foo, 4) + "\n");
+		return(s);
+	}
+}
+
+rule cefite() : (int) {
+	---
+	def var s:int;
+	yield {
+		yield s = countEdgesFromIndexToExclusive(foo, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + countEdgesFromIndexToExclusive(foo, 4) + "\n");
+		return(s);
+	}
+}
+
+rule cefift() : (int) {
+	---
+	def var s:int;
+	yield {
+		yield s = countEdgesFromIndexFromTo(foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + countEdgesFromIndexFromTo(foo, 2, 4) + "\n");
+		return(s);
+	}
+}
+
+rule cefifet() : (int) {
+	---
+	def var s:int;
+	yield {
+		yield s = countEdgesFromIndexFromExclusiveTo(foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + countEdgesFromIndexFromExclusiveTo(foo, 2, 4) + "\n");
+		return(s);
+	}
+}
+
+rule cefifte() : (int) {
+	---
+	def var s:int;
+	yield {
+		yield s = countEdgesFromIndexFromToExclusive(foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + countEdgesFromIndexFromToExclusive(foo, 2, 4) + "\n");
+		return(s);
+	}
+}
+
+rule cefifete() : (int) {
+	---
+	def var s:int;
+	yield {
+		yield s = countEdgesFromIndexFromExclusiveToExclusive(foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + countEdgesFromIndexFromExclusiveToExclusive(foo, 2, 4) + "\n");
+		return(s);
+	}
+}

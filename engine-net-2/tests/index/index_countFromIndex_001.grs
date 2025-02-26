@@ -1,0 +1,39 @@
+new graph "index/index_countFromIndex_001"
+
+new :N($="$1", i=1)
+new :N($="$2", i=2)
+new :N($="$3", i=3)
+new :N($="$4", i=4)
+new :N($="$5", i=5)
+
+exec (::s)=cnfi
+show var s
+
+exec (::s)=cnfis
+show var s
+
+exec (::s)=cnfif
+show var s
+
+exec (::s)=cnfife
+show var s
+
+exec (::s)=cnfit
+show var s
+
+exec (::s)=cnfite
+show var s
+
+exec (::s)=cnfift
+show var s
+
+exec (::s)=cnfifet
+show var s
+
+exec (::s)=cnfifte
+show var s
+
+exec (::s)=cnfifete
+show var s
+
+quit

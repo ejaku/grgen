@@ -10,26 +10,24 @@ package de.unika.ipd.grgen.ast.expr.graph;
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
-import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.graph.NodesFromIndexAccessSameExpr;
+import de.unika.ipd.grgen.ir.expr.graph.CountEdgesFromIndexAccessSameExpr;
 import de.unika.ipd.grgen.ir.model.Index;
 import de.unika.ipd.grgen.ir.pattern.IndexAccessEquality;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * A node yielding the nodes from an index by accessing using a comparison for equality.
+ * A node yielding the count of edges from an index by accessing using a comparison for equality.
  */
-public class NodesFromIndexAccessSameExprNode extends FromIndexAccessSameExprNode
+public class CountEdgesFromIndexAccessSameExprNode extends FromIndexAccessSameExprNode
 {
 	static {
-		setName(NodesFromIndexAccessSameExprNode.class, "nodes from index access same expr");
+		setName(CountEdgesFromIndexAccessSameExprNode.class, "count edges from index access same expr");
 	}
 
-	private SetTypeNode setTypeNode;
-
-	public NodesFromIndexAccessSameExprNode(Coords coords, ExprNode index, ExprNode expr)
+	public CountEdgesFromIndexAccessSameExprNode(Coords coords, ExprNode index, ExprNode expr)
 	{
 		super(coords, index, expr);
 	}
@@ -39,34 +37,33 @@ public class NodesFromIndexAccessSameExprNode extends FromIndexAccessSameExprNod
 	protected boolean resolveLocal()
 	{
 		boolean successfullyResolved = super.resolveLocal();
-		setTypeNode = new SetTypeNode(getRoot());
-		successfullyResolved &= setTypeNode.resolve();
+		successfullyResolved &= getType().resolve();
 		return successfullyResolved;
 	}
 
 	@Override
 	protected IdentNode getRoot()
 	{
-		return getNodeRoot();
+		return getEdgeRoot();
 	}
 
 	@Override
 	protected String shortSignature()
 	{
-		return "nodesFromIndexSame(.,.)";
+		return "countEdgesFromIndexSame(.,.)";
 	}
 
 	@Override
 	public TypeNode getType()
 	{
-		return setTypeNode;
+		return BasicTypeNode.intType;
 	}
 
 	@Override
 	protected IR constructIR()
 	{
 		expr = expr.evaluate();
-		return new NodesFromIndexAccessSameExpr(
+		return new CountEdgesFromIndexAccessSameExpr(
 				new IndexAccessEquality(index.checkIR(Index.class), expr.checkIR(Expression.class)),
 				getType().getType());
 	}

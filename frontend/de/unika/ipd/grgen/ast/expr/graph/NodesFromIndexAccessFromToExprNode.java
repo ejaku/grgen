@@ -9,6 +9,8 @@ package de.unika.ipd.grgen.ast.expr.graph;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
+import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.graph.NodesFromIndexAccessFromToExpr;
@@ -25,9 +27,21 @@ public class NodesFromIndexAccessFromToExprNode extends FromIndexAccessFromToExp
 		setName(NodesFromIndexAccessFromToExprNode.class, "nodes from index access from to expr");
 	}
 
+	private SetTypeNode setTypeNode;
+
 	public NodesFromIndexAccessFromToExprNode(Coords coords, ExprNode index, ExprNode fromExpr, boolean fromExclusive, ExprNode toExpr, boolean toExclusive)
 	{
 		super(coords, index, fromExpr, fromExclusive, toExpr, toExclusive);
+	}
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	@Override
+	protected boolean resolveLocal()
+	{
+		boolean successfullyResolved = super.resolveLocal();
+		setTypeNode = new SetTypeNode(getRoot());
+		successfullyResolved &= setTypeNode.resolve();
+		return successfullyResolved;
 	}
 
 	@Override
@@ -40,6 +54,12 @@ public class NodesFromIndexAccessFromToExprNode extends FromIndexAccessFromToExp
 	protected String shortSignature()
 	{
 		return "nodesFromIndex" + fromPart() + toPart() + "(" + argumentsPart() + ")";
+	}
+
+	@Override
+	public TypeNode getType()
+	{
+		return setTypeNode;
 	}
 
 	@Override

@@ -1,0 +1,6 @@
+rule i(ref s:set<Node>) {
+	if{ countNodesFromIndex(s) > 0; }
+	
+	modify {
+	}
+}

@@ -1,0 +1,8 @@
+node class N
+{
+	i : double;
+}
+
+index fooi { N.i }
+
+class O;

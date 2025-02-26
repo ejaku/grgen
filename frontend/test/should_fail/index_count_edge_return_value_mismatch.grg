@@ -1,0 +1,13 @@
+#using "index_count_edge_model.gm"
+
+function f(var s:short) : int
+{
+	return(s);
+}
+
+rule i {
+	if{ f(countEdgesFromIndex(fooi)) > 0; }
+	
+	modify {
+	}
+}
