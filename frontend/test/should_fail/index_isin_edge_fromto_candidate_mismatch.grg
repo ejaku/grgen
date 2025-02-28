@@ -1,0 +1,10 @@
+#using "index_count_edge_model.gm"
+
+rule i {
+	n:Node;
+	
+	if{ isInEdgesFromIndexFromTo(n, fooi, enu::qux, enu::bar); }
+	
+	modify {
+	}
+}

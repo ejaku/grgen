@@ -1,0 +1,141 @@
+#using "index_model_001.gm"
+
+rule iinfi(n:Node) : (boolean) {
+	---
+	def var s:boolean;
+	yield {
+		yield s = isInNodesFromIndex(n, foo);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + isInNodesFromIndex(n, foo) + "\n");
+		return(s);
+	}
+}
+
+rule iinfis(n:Node) : (boolean) {
+	---
+	def var s:boolean;
+	yield {
+		yield s = isInNodesFromIndexSame(n, foo, 3);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + isInNodesFromIndexSame(n, foo, 3) + "\n");
+		return(s);
+	}
+}
+
+rule iinfif(n:Node) : (boolean) {
+	---
+	def var s:boolean;
+	yield {
+		yield s = isInNodesFromIndexFrom(n, foo, 2);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + isInNodesFromIndexFrom(n, foo, 2) + "\n");
+		return(s);
+	}
+}
+
+rule iinfife(n:Node) : (boolean) {
+	---
+	def var s:boolean;
+	yield {
+		yield s = isInNodesFromIndexFromExclusive(n, foo, 2);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + isInNodesFromIndexFromExclusive(n, foo, 2) + "\n");
+		return(s);
+	}
+}
+
+rule iinfit(n:Node) : (boolean) {
+	---
+	def var s:boolean;
+	yield {
+		yield s = isInNodesFromIndexTo(n, foo, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + isInNodesFromIndexTo(n, foo, 4) + "\n");
+		return(s);
+	}
+}
+
+rule iinfite(n:Node) : (boolean) {
+	---
+	def var s:boolean;
+	yield {
+		yield s = isInNodesFromIndexToExclusive(n, foo, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + isInNodesFromIndexToExclusive(n, foo, 4) + "\n");
+		return(s);
+	}
+}
+
+rule iinfift(n:Node) : (boolean) {
+	---
+	def var s:boolean;
+	yield {
+		yield s = isInNodesFromIndexFromTo(n, foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + isInNodesFromIndexFromTo(n, foo, 2, 4) + "\n");
+		return(s);
+	}
+}
+
+rule iinfifet(n:Node) : (boolean) {
+	---
+	def var s:boolean;
+	yield {
+		yield s = isInNodesFromIndexFromExclusiveTo(n, foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + isInNodesFromIndexFromExclusiveTo(n, foo, 2, 4) + "\n");
+		return(s);
+	}
+}
+
+rule iinfifte(n:Node) : (boolean) {
+	---
+	def var s:boolean;
+	yield {
+		yield s = isInNodesFromIndexFromToExclusive(n, foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + isInNodesFromIndexFromToExclusive(n, foo, 2, 4) + "\n");
+		return(s);
+	}
+}
+
+rule iinfifete(n:Node) : (boolean) {
+	---
+	def var s:boolean;
+	yield {
+		yield s = isInNodesFromIndexFromExclusiveToExclusive(n, foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + isInNodesFromIndexFromExclusiveToExclusive(n, foo, 2, 4) + "\n");
+		return(s);
+	}
+}

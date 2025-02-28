@@ -1,0 +1,10 @@
+#using "index_count_model.gm"
+
+rule i {
+	n:N;
+
+	if{ isInNodesFromIndexSame(n, fooi, new O()); }
+	
+	modify {
+	}
+}

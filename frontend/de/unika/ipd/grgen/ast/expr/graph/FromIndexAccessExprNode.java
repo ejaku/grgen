@@ -63,11 +63,17 @@ public abstract class FromIndexAccessExprNode extends BuiltinFunctionInvocationB
 		TypeNode expectedEntityType = getRoot().getDecl().getDeclType();
 		TypeNode entityType = index.getType();
 		if(!entityType.isCompatibleTo(expectedEntityType)) {
-			reportError("The function " + shortSignature() + " expects as 1. argument (index " + indexUnresolved + ") a value of type index on " + expectedEntityType.toStringWithDeclarationCoords()
+			int indexArgumentNumber = 1 + indexShift();
+			reportError("The function " + shortSignature() + " expects as " + indexArgumentNumber + ". argument (index " + indexUnresolved + ") a value of type index on " + expectedEntityType.toStringWithDeclarationCoords()
 					+ " (but is given a value of type index on " + entityType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}	
 		return res;
+	}
+
+	protected int indexShift() // the isIn(Nodes|Edges)FromIndex methods start with the candidate to be checked, shifting the regular parameter numbers by one
+	{
+		return 0;
 	}
 
 	protected abstract IdentNode getRoot();

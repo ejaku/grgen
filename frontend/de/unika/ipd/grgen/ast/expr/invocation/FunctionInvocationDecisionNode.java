@@ -50,6 +50,10 @@ import de.unika.ipd.grgen.ast.expr.graph.InducedSubgraphExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.IsAdjacentNodeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.IsBoundedReachableEdgeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.IsBoundedReachableNodeExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.IsInEdgesFromIndexAccessFromToExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.IsInEdgesFromIndexAccessSameExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.IsInNodesFromIndexAccessFromToExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.IsInNodesFromIndexAccessSameExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.IsIncidentEdgeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.IsReachableEdgeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.IsReachableNodeExprNode;
@@ -742,6 +746,82 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return null;
 			} else {
 				return new CountEdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), arguments.get(1), functionName.contains("FromExclusive"), arguments.get(2), functionName.contains("ToExclusive"));
+			}
+		case "isInNodesFromIndex":
+			if(arguments.size() != 2) {
+				env.reportError("isInNodesFromIndex() expects 2 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new IsInNodesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), arguments.get(1), null, false, null, false);
+			}
+		case "isInNodesFromIndexSame":
+			if(arguments.size() != 3) {
+				env.reportError("isInNodesFromIndexSame() expects 3 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new IsInNodesFromIndexAccessSameExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2));
+			}
+		case "isInNodesFromIndexFrom":
+		case "isInNodesFromIndexFromExclusive":
+		case "isInNodesFromIndexTo":
+		case "isInNodesFromIndexToExclusive":
+			if(arguments.size() != 3) {
+				env.reportError(functionName + "() expects 3 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				if(functionName.startsWith("isInNodesFromIndexFrom")) {
+					return new IsInNodesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), functionName.endsWith("Exclusive"), null, false);
+				} else {
+					return new IsInNodesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), arguments.get(1), null, false, arguments.get(2), functionName.endsWith("Exclusive"));
+				}
+			}
+		case "isInNodesFromIndexFromTo":
+		case "isInNodesFromIndexFromExclusiveTo":
+		case "isInNodesFromIndexFromToExclusive":
+		case "isInNodesFromIndexFromExclusiveToExclusive":
+			if(arguments.size() != 4) {
+				env.reportError(functionName + "() expects 4 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new IsInNodesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), functionName.contains("FromExclusive"), arguments.get(3), functionName.contains("ToExclusive"));
+			}
+		case "isInEdgesFromIndex":
+			if(arguments.size() != 2) {
+				env.reportError("isInEdgesFromIndex() expects 2 argument (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new IsInEdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), arguments.get(1), null, false, null, false);
+			}
+		case "isInEdgesFromIndexSame":
+			if(arguments.size() != 3) {
+				env.reportError("isInEdgesFromIndexSame() expects 3 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new IsInEdgesFromIndexAccessSameExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2));
+			}
+		case "isInEdgesFromIndexFrom":
+		case "isInEdgesFromIndexFromExclusive":
+		case "isInEdgesFromIndexTo":
+		case "isInEdgesFromIndexToExclusive":
+			if(arguments.size() != 3) {
+				env.reportError(functionName + "() expects 3 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				if(functionName.startsWith("isInEdgesFromIndexFrom")) {
+					return new IsInEdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), functionName.endsWith("Exclusive"), null, false);
+				} else {
+					return new IsInEdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), arguments.get(1), null, false, arguments.get(2), functionName.endsWith("Exclusive"));
+				}
+			}
+		case "isInEdgesFromIndexFromTo":
+		case "isInEdgesFromIndexFromExclusiveTo":
+		case "isInEdgesFromIndexFromToExclusive":
+		case "isInEdgesFromIndexFromExclusiveToExclusive":
+			if(arguments.size() != 4) {
+				env.reportError(functionName + "() expects 4 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new IsInEdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), functionName.contains("FromExclusive"), arguments.get(3), functionName.contains("ToExclusive"));
 			}
 		case "inducedSubgraph":
 			if(arguments.size() != 1) {

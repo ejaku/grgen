@@ -135,6 +135,10 @@ import de.unika.ipd.grgen.ir.expr.graph.InducedSubgraphExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsAdjacentNodeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsBoundedReachableEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsBoundedReachableNodeExpr;
+import de.unika.ipd.grgen.ir.expr.graph.IsInEdgesFromIndexAccessFromToExpr;
+import de.unika.ipd.grgen.ir.expr.graph.IsInEdgesFromIndexAccessSameExpr;
+import de.unika.ipd.grgen.ir.expr.graph.IsInNodesFromIndexAccessFromToExpr;
+import de.unika.ipd.grgen.ir.expr.graph.IsInNodesFromIndexAccessSameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsIncidentEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsReachableEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsReachableNodeExpr;
@@ -2905,6 +2909,38 @@ public abstract class CSharpBase
 			CountEdgesFromIndexAccessFromToExpr cefiaft = (CountEdgesFromIndexAccessFromToExpr)expr;
 			IndexAccessOrdering iao = cefiaft.getIndexAccessOrdering();
 			sb.append("GRGEN_LIBGR.IndexHelper.CountEdgesFromIndexFromTo(");
+			genIndexAccessOrdering(sb, iao, modifyGenerationState);
+			sb.append(")");
+		} else if(expr instanceof IsInNodesFromIndexAccessSameExpr) {
+			IsInNodesFromIndexAccessSameExpr iinfias = (IsInNodesFromIndexAccessSameExpr)expr;
+			IndexAccessEquality iae = iinfias.getIndexAccessEquality();
+			sb.append("GRGEN_LIBGR.IndexHelper.IsInNodesFromIndexSame(");
+			genExpression(sb, iinfias.getCandidateExpr(), modifyGenerationState);
+			sb.append(", ");
+			genIndexAccessEquality(sb, iae, modifyGenerationState);
+			sb.append(")");
+		} else if(expr instanceof IsInNodesFromIndexAccessFromToExpr) {
+			IsInNodesFromIndexAccessFromToExpr iinfiaft = (IsInNodesFromIndexAccessFromToExpr)expr;
+			IndexAccessOrdering iao = iinfiaft.getIndexAccessOrdering();
+			sb.append("GRGEN_LIBGR.IndexHelper.IsInNodesFromIndexFromTo(");
+			genExpression(sb, iinfiaft.getCandidateExpr(), modifyGenerationState);
+			sb.append(", ");
+			genIndexAccessOrdering(sb, iao, modifyGenerationState);
+			sb.append(")");
+		} else if(expr instanceof IsInEdgesFromIndexAccessSameExpr) {
+			IsInEdgesFromIndexAccessSameExpr iiefias = (IsInEdgesFromIndexAccessSameExpr)expr;
+			IndexAccessEquality iae = iiefias.getIndexAccessEquality();
+			sb.append("GRGEN_LIBGR.IndexHelper.IsInEdgesFromIndexSame(");
+			genExpression(sb, iiefias.getCandidateExpr(), modifyGenerationState);
+			sb.append(", ");
+			genIndexAccessEquality(sb, iae, modifyGenerationState);
+			sb.append(")");
+		} else if(expr instanceof IsInEdgesFromIndexAccessFromToExpr) {
+			IsInEdgesFromIndexAccessFromToExpr iiefiaft = (IsInEdgesFromIndexAccessFromToExpr)expr;
+			IndexAccessOrdering iao = iiefiaft.getIndexAccessOrdering();
+			sb.append("GRGEN_LIBGR.IndexHelper.IsInEdgesFromIndexFromTo(");
+			genExpression(sb, iiefiaft.getCandidateExpr(), modifyGenerationState);
+			sb.append(", ");
 			genIndexAccessOrdering(sb, iao, modifyGenerationState);
 			sb.append(")");
 		} else if(expr instanceof InducedSubgraphExpr) {

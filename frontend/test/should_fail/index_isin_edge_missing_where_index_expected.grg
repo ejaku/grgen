@@ -1,0 +1,10 @@
+#using "index_count_edge_model.gm"
+
+rule i(ref s:set<enu>) {
+	-e:E->;
+	
+	if{ isInEdgesFromIndex(e, s); }
+	
+	modify {
+	}
+}

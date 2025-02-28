@@ -1,0 +1,15 @@
+#using "index_count_model.gm"
+
+function f(ref s:O) : int
+{
+	return(42);
+}
+
+rule i {
+	n:Node;
+	
+	if{ f(isInNodesFromIndex(n, fooi)); }
+	
+	modify {
+	}
+}

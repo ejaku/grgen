@@ -4701,6 +4701,126 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression returning whether the candidate node is contained in the nodes from an index with matching attribute values based on equality comparison
+    /// </summary>
+    public class IsInNodesFromIndexAccessSame : FromIndexAccessSame
+    {
+        public IsInNodesFromIndexAccessSame(Expression candidate, String indexSetType, IndexDescription index, Expression expr)
+            : base(indexSetType, index, expr)
+        {
+            this.Candidate = candidate;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IsInNodesFromIndexAccessSame(Candidate.Copy(renameSuffix), IndexSetType, Index, Expr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.IndexHelper.IsInNodesFromIndexSame(");
+            Candidate.Emit(sourceCode);
+            sourceCode.Append(", ");
+            base.EmitArguments(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        readonly Expression Candidate;
+    }
+
+    /// <summary>
+    /// Class representing expression returning whether the candidate node is contained in the nodes from an index with matching attribute values based on ordering comparison
+    /// </summary>
+    public class IsInNodesFromIndexAccessFromTo : FromIndexAccessFromTo
+    {
+        public IsInNodesFromIndexAccessFromTo(Expression candidate, 
+            String indexSetType, IndexDescription index,
+            bool includingFrom, bool includingTo,
+            Expression from, Expression to)
+            : base(indexSetType, index, includingFrom, includingTo, from, to)
+        {
+            this.Candidate = candidate;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IsInNodesFromIndexAccessFromTo(Candidate.Copy(renameSuffix), IndexSetType, Index,
+                IncludingFrom, IncludingTo, From != null ? From.Copy(renameSuffix) : null, To != null ? To.Copy(renameSuffix) : null);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.IndexHelper.IsInNodesFromIndexFromTo(");
+            Candidate.Emit(sourceCode);
+            sourceCode.Append(", ");
+            base.EmitArguments(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        readonly Expression Candidate;
+    }
+
+    /// <summary>
+    /// Class representing expression returning whether the candidate edge is contained in the edges from an index with matching attribute values based on equality comparison
+    /// </summary>
+    public class IsInEdgesFromIndexAccessSame : FromIndexAccessSame
+    {
+        public IsInEdgesFromIndexAccessSame(Expression candidate, String indexSetType, IndexDescription index, Expression expr)
+            : base(indexSetType, index, expr)
+        {
+            this.Candidate = candidate;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IsInEdgesFromIndexAccessSame(Candidate.Copy(renameSuffix), IndexSetType, Index, Expr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.IndexHelper.IsInEdgesFromIndexSame(");
+            Candidate.Emit(sourceCode);
+            sourceCode.Append(", ");
+            base.EmitArguments(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        readonly Expression Candidate;
+    }
+
+    /// <summary>
+    /// Class representing expression returning whether the candidate edge is contained in the edges from an index with matching attribute values based on ordering comparison
+    /// </summary>
+    public class IsInEdgesFromIndexAccessFromTo : FromIndexAccessFromTo
+    {
+        public IsInEdgesFromIndexAccessFromTo(Expression candidate,
+            String indexSetType, IndexDescription index,
+            bool includingFrom, bool includingTo,
+            Expression from, Expression to)
+            : base(indexSetType, index, includingFrom, includingTo, from, to)
+        {
+            this.Candidate = candidate;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IsInEdgesFromIndexAccessFromTo(Candidate.Copy(renameSuffix), IndexSetType, Index,
+                IncludingFrom, IncludingTo, From != null ? From.Copy(renameSuffix) : null, To != null ? To.Copy(renameSuffix) : null);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.IndexHelper.IsInEdgesFromIndexFromTo(");
+            Candidate.Emit(sourceCode);
+            sourceCode.Append(", ");
+            base.EmitArguments(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        readonly Expression Candidate;
+    }
+
+    /// <summary>
     /// Class representing expression returning the induced subgraph from the given set of nodes
     /// </summary>
     public class InducedSubgraph : Expression

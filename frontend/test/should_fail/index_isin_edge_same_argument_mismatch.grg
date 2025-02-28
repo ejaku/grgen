@@ -1,0 +1,10 @@
+#using "index_count_edge_model.gm"
+
+rule i {
+	-e:E->;
+	
+	if{ isInEdgesFromIndexSame(e, fooi, "42"); }
+	
+	modify {
+	}
+}

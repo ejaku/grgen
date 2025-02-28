@@ -72,7 +72,8 @@ public abstract class FromIndexAccessSameExprNode extends FromIndexAccessExprNod
 		if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
 			String expTypeName = expectedIndexAccessType.getTypeName();
 			String typeName = indexAccessType.getTypeName();
-			reportError("The function " + shortSignature() + " expects as 2. argument (expr) a value of type " + expTypeName
+			int argumentNumber = 2 + indexShift();
+			reportError("The function " + shortSignature() + " expects as " + argumentNumber + ". argument (expr) a value of type " + expTypeName
 					+ " (but is given a value of type " + typeName + ").");
 			return false;
 		}

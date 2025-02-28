@@ -1,0 +1,141 @@
+#using "index_model_001b.gm"
+
+rule iiefi(?-e:AEdge-?) : (boolean) {
+	---
+	def var s:boolean;
+	yield {
+		yield s = isInEdgesFromIndex(e, foo);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + isInEdgesFromIndex(e, foo) + "\n");
+		return(s);
+	}
+}
+
+rule iiefis(-e:Edge->) : (boolean) {
+	---
+	def var s:boolean;
+	yield {
+		yield s = isInEdgesFromIndexSame(e, foo, 3);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + isInEdgesFromIndexSame(e, foo, 3) + "\n");
+		return(s);
+	}
+}
+
+rule iiefif(-e:Edge->) : (boolean) {
+	---
+	def var s:boolean;
+	yield {
+		yield s = isInEdgesFromIndexFrom(e, foo, 2);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + isInEdgesFromIndexFrom(e, foo, 2) + "\n");
+		return(s);
+	}
+}
+
+rule iiefife(-e:Edge->) : (boolean) {
+	---
+	def var s:boolean;
+	yield {
+		yield s = isInEdgesFromIndexFromExclusive(e, foo, 2);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + isInEdgesFromIndexFromExclusive(e, foo, 2) + "\n");
+		return(s);
+	}
+}
+
+rule iiefit(-e:Edge->) : (boolean) {
+	---
+	def var s:boolean;
+	yield {
+		yield s = isInEdgesFromIndexTo(e, foo, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + isInEdgesFromIndexTo(e, foo, 4) + "\n");
+		return(s);
+	}
+}
+
+rule iiefite(-e:Edge->) : (boolean) {
+	---
+	def var s:boolean;
+	yield {
+		yield s = isInEdgesFromIndexToExclusive(e, foo, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + isInEdgesFromIndexToExclusive(e, foo, 4) + "\n");
+		return(s);
+	}
+}
+
+rule iiefift(-e:Edge->) : (boolean) {
+	---
+	def var s:boolean;
+	yield {
+		yield s = isInEdgesFromIndexFromTo(e, foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + isInEdgesFromIndexFromTo(e, foo, 2, 4) + "\n");
+		return(s);
+	}
+}
+
+rule iiefifet(-e:Edge->) : (boolean) {
+	---
+	def var s:boolean;
+	yield {
+		yield s = isInEdgesFromIndexFromExclusiveTo(e, foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + isInEdgesFromIndexFromExclusiveTo(e, foo, 2, 4) + "\n");
+		return(s);
+	}
+}
+
+rule iiefifte(-e:Edge->) : (boolean) {
+	---
+	def var s:boolean;
+	yield {
+		yield s = isInEdgesFromIndexFromToExclusive(e, foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + isInEdgesFromIndexFromToExclusive(e, foo, 2, 4) + "\n");
+		return(s);
+	}
+}
+
+rule iiefifete(-e:Edge->) : (boolean) {
+	---
+	def var s:boolean;
+	yield {
+		yield s = isInEdgesFromIndexFromExclusiveToExclusive(e, foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + isInEdgesFromIndexFromExclusiveToExclusive(e, foo, 2, 4) + "\n");
+		return(s);
+	}
+}

@@ -90,18 +90,19 @@ public abstract class FromIndexAccessFromToExprNode extends FromIndexAccessExprN
 			if(!fromIndexAccessType.isCompatibleTo(expectedIndexAccessType)) {
 				String expTypeName = expectedIndexAccessType.getTypeName();
 				String typeName = fromIndexAccessType.getTypeName();
-				reportError("The function " + shortSignature() + " expects as 2. argument (fromExpr) a value of type " + expTypeName
+				int fromArgumentNumber = 2 + indexShift();
+				reportError("The function " + shortSignature() + " expects as " + fromArgumentNumber + ". argument (fromExpr) a value of type " + expTypeName
 						+ " (but is given a value of type " + typeName + ").");
 				return false;
 			}
 		}
 		if(toExpr != null) {
-			String argumentNumber = fromExpr != null ? "3" : "2"; 
 			TypeNode toIndexAccessType = toExpr.getType();
 			if(!toIndexAccessType.isCompatibleTo(expectedIndexAccessType)) {
 				String expTypeName = expectedIndexAccessType.getTypeName();
 				String typeName = toIndexAccessType.getTypeName();
-				reportError("The function " + shortSignature() + " expects as " + argumentNumber + ". argument (toExpr) a value of type " + expTypeName
+				int toArgumentNumber = (fromExpr != null ? 3 : 2) + indexShift();
+				reportError("The function " + shortSignature() + " expects as " + toArgumentNumber + ". argument (toExpr) a value of type " + expTypeName
 						+ " (but is given a value of type " + typeName + ").");
 				return false;
 			}

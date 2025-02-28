@@ -1,0 +1,68 @@
+#using "index_model_002.gm"
+
+function f() : int
+{
+	return(0);
+}
+
+rule i {
+	n:N;
+	
+	if{ isInNodesFromIndex(n, fooi); }
+	if{ isInNodesFromIndexSame(n, fooi, 42); }
+	if{ isInNodesFromIndexFrom(n, fooi, 42); }
+	if{ isInNodesFromIndexFromExclusive(n, fooi, 42); }
+	if{ isInNodesFromIndexTo(n, fooi, 42); }
+	if{ isInNodesFromIndexToExclusive(n, fooi, 42); }
+	if{ isInNodesFromIndexFromTo(n, fooi, f(), 42); }
+	if{ isInNodesFromIndexFromExclusiveTo(n, fooi, f(), 42); }
+	if{ isInNodesFromIndexFromToExclusive(n, fooi, f(), 42); }
+	if{ isInNodesFromIndexFromExclusiveToExclusive(n, fooi, f(), 42); }
+	
+	modify {
+		eval {
+			def var s:boolean;
+			s = isInNodesFromIndex(n, fooi);
+			s = isInNodesFromIndexSame(n, fooi, 42);
+			s = isInNodesFromIndexFrom(n, fooi, 42);
+			s = isInNodesFromIndexFromExclusive(n, fooi, 42);
+			s = isInNodesFromIndexTo(n, fooi, 42);
+			s = isInNodesFromIndexToExclusive(n, fooi, 42);
+			s = isInNodesFromIndexFromTo(n, fooi, f(), 42);
+			s = isInNodesFromIndexFromExclusiveTo(n, fooi, f(), 42);
+			s = isInNodesFromIndexFromToExclusive(n, fooi, f(), 42);
+			s = isInNodesFromIndexFromExclusiveToExclusive(n, fooi, f(), 42);
+		}
+	}
+}
+
+rule ei {
+	-e:E->;
+	
+	if{ isInEdgesFromIndex(e, bari); }
+	if{ isInEdgesFromIndexSame(e, bari, 42); }
+	if{ isInEdgesFromIndexFrom(e, bari, 42); }
+	if{ isInEdgesFromIndexFromExclusive(e, bari, 42); }
+	if{ isInEdgesFromIndexTo(e, bari, 42); }
+	if{ isInEdgesFromIndexToExclusive(e, bari, 42); }
+	if{ isInEdgesFromIndexFromTo(e, bari, f(), 42); }
+	if{ isInEdgesFromIndexFromExclusiveTo(e, bari, f(), 42); }
+	if{ isInEdgesFromIndexFromToExclusive(e, bari, f(), 42); }
+	if{ isInEdgesFromIndexFromExclusiveToExclusive(e, bari, f(), 42); }
+	
+	modify {
+		eval {
+			def var s:boolean;
+			s = isInEdgesFromIndexSame(e, bari, 42);
+			s = isInEdgesFromIndex(e, bari);
+			s = isInEdgesFromIndexFrom(e, bari, 42);
+			s = isInEdgesFromIndexFromExclusive(e, bari, 42);
+			s = isInEdgesFromIndexTo(e, bari, 42);
+			s = isInEdgesFromIndexToExclusive(e, bari, 42);
+			s = isInEdgesFromIndexFromTo(e, bari, f(), 42);
+			s = isInEdgesFromIndexFromExclusiveTo(e, bari, f(), 42);
+			s = isInEdgesFromIndexFromToExclusive(e, bari, f(), 42);
+			s = isInEdgesFromIndexFromExclusiveToExclusive(e, bari, f(), 42);
+		}
+	}
+}

@@ -165,6 +165,10 @@ import de.unika.ipd.grgen.ir.expr.graph.InducedSubgraphExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsAdjacentNodeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsBoundedReachableEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsBoundedReachableNodeExpr;
+import de.unika.ipd.grgen.ir.expr.graph.IsInEdgesFromIndexAccessFromToExpr;
+import de.unika.ipd.grgen.ir.expr.graph.IsInEdgesFromIndexAccessSameExpr;
+import de.unika.ipd.grgen.ir.expr.graph.IsInNodesFromIndexAccessFromToExpr;
+import de.unika.ipd.grgen.ir.expr.graph.IsInNodesFromIndexAccessSameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsIncidentEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsReachableEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsReachableNodeExpr;
@@ -2069,6 +2073,38 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			CountEdgesFromIndexAccessFromToExpr cefiaft = (CountEdgesFromIndexAccessFromToExpr)expr;
 			IndexAccessOrdering iao = cefiaft.getIndexAccessOrdering();
 			sb.append("new GRGEN_EXPR.CountEdgesFromIndexAccessFromTo(");
+			genIndexAccessOrdering(sb, iao, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		} else if(expr instanceof IsInNodesFromIndexAccessSameExpr) {
+			IsInNodesFromIndexAccessSameExpr iinfias = (IsInNodesFromIndexAccessSameExpr)expr;
+			IndexAccessEquality iae = iinfias.getIndexAccessEquality();
+			sb.append("new GRGEN_EXPR.IsInNodesFromIndexAccessSame(");
+			genExpressionTree(sb, iinfias.getCandidateExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genIndexAccessEquality(sb, iae, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		} else if(expr instanceof IsInNodesFromIndexAccessFromToExpr) {
+			IsInNodesFromIndexAccessFromToExpr iinfiaft = (IsInNodesFromIndexAccessFromToExpr)expr;
+			IndexAccessOrdering iao = iinfiaft.getIndexAccessOrdering();
+			sb.append("new GRGEN_EXPR.IsInNodesFromIndexAccessFromTo(");
+			genExpressionTree(sb, iinfiaft.getCandidateExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genIndexAccessOrdering(sb, iao, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		} else if(expr instanceof IsInEdgesFromIndexAccessSameExpr) {
+			IsInEdgesFromIndexAccessSameExpr iiefias = (IsInEdgesFromIndexAccessSameExpr)expr;
+			IndexAccessEquality iae = iiefias.getIndexAccessEquality();
+			sb.append("new GRGEN_EXPR.IsInEdgesFromIndexAccessSame(");
+			genExpressionTree(sb, iiefias.getCandidateExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genIndexAccessEquality(sb, iae, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		} else if(expr instanceof IsInEdgesFromIndexAccessFromToExpr) {
+			IsInEdgesFromIndexAccessFromToExpr iiefiaft = (IsInEdgesFromIndexAccessFromToExpr)expr;
+			IndexAccessOrdering iao = iiefiaft.getIndexAccessOrdering();
+			sb.append("new GRGEN_EXPR.IsInEdgesFromIndexAccessFromTo(");
+			genExpressionTree(sb, iiefiaft.getCandidateExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
 			genIndexAccessOrdering(sb, iao, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		} else if(expr instanceof InducedSubgraphExpr) {

@@ -1,0 +1,10 @@
+#using "index_count_model.gm"
+
+rule i {
+	n:N;
+
+	if{ isInNodesFromIndexFromTo(n, fooi, 42.0, "mismatching-string"); }
+	
+	modify {
+	}
+}

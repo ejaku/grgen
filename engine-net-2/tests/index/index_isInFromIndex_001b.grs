@@ -1,0 +1,42 @@
+new graph "index/index_isInFromIndex_001b"
+
+new n0:Node($="0")
+new @("0") -e0:E($="$0", i=1)-> @("0")
+
+new @("0") -e1:E($="$1", i=1)-> @("0")
+new @("0") -e2:E($="$2", i=2)-> @("0")
+new @("0") -e3:E($="$3", i=3)-> @("0")
+new @("0") -e4:E($="$4", i=4)-> @("0")
+new @("0") -e5:E($="$5", i=5)-> @("0")
+
+exec (::s)=iiefi(::e3)
+show var s
+
+exec (::s)=iiefis(::e3)
+show var s
+
+exec (::s)=iiefif(::e3)
+show var s
+
+exec (::s)=iiefife(::e3)
+show var s
+
+exec (::s)=iiefit(::e3)
+show var s
+
+exec (::s)=iiefite(::e3)
+show var s
+
+exec (::s)=iiefift(::e3)
+show var s
+
+exec (::s)=iiefifet(::e3)
+show var s
+
+exec (::s)=iiefifte(::e3)
+show var s
+
+exec (::s)=iiefifete(::e3)
+show var s
+
+quit

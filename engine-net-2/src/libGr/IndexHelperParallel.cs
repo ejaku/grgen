@@ -208,5 +208,103 @@ namespace de.unika.ipd.grGen.libGr
             }
             return count;
         }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Returns whether the candidate node is contained in the nodes in the index whose attribute is the same as the value given
+        /// </summary>
+        public static bool IsInNodesFromIndexSame(INode candidate, IAttributeIndex index, object value, int threadId)
+        {
+            foreach(INode node in GetIndexEnumerable(index, value))
+            {
+                if(node == candidate)
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool IsInNodesFromIndexSame(INode candidate, IAttributeIndex index, object value, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            foreach(INode node in GetIndexEnumerable(index, value))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(node == candidate)
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Returns whether the candidate node is contained in the nodes in the index whose attribute is in the range from from to to
+        /// </summary>
+        public static bool IsInNodesFromIndexFromTo(INode candidate, IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, int threadId)
+        {
+            foreach(INode node in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                if(node == candidate)
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool IsInNodesFromIndexFromTo(INode candidate, IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            foreach(INode node in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(node == candidate)
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Returns whether the candidate edge is contained in the edges in the index whose attribute is the same as the value given
+        /// </summary>
+        public static bool IsInEdgesFromIndexSame(IEdge candidate, IAttributeIndex index, object value, int threadId)
+        {
+            foreach(IEdge edge in GetIndexEnumerable(index, value))
+            {
+                if(edge == candidate)
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool IsInEdgesFromIndexSame(IEdge candidate, IAttributeIndex index, object value, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            foreach(IEdge edge in GetIndexEnumerable(index, value))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(edge == candidate)
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Returns whether the candidate edge is contained in the edges in the index whose attribute is in the range from from to to
+        /// </summary>
+        public static bool IsInEdgesFromIndexFromTo(IEdge candidate, IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, int threadId)
+        {
+            foreach(IEdge edge in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                if(edge == candidate)
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool IsInEdgesFromIndexFromTo(IEdge candidate, IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            foreach(IEdge edge in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(edge == candidate)
+                    return true;
+            }
+            return false;
+        }
     }
 }

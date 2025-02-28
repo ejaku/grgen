@@ -1,0 +1,8 @@
+rule i(ref s:set<Node>) {
+	n:Node;
+	
+	if{ isInNodesFromIndex(n, s); }
+	
+	modify {
+	}
+}

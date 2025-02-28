@@ -1,0 +1,10 @@
+#using "index_count_model.gm"
+
+rule i {
+	-e:Edge->;
+	
+	if{ isInNodesFromIndexSame(e, fooi, 42.0); }
+	
+	modify {
+	}
+}
