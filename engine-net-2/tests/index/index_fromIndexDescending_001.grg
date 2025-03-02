@@ -1,0 +1,141 @@
+#using "index_model_001.gm"
+
+rule nfi() : (array<Node>) {
+	---
+	def ref s:array<Node>;
+	yield {
+		yield s = nodesFromIndexAsArrayDescending(foo);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexAsArrayDescending(foo) + "\n");
+		return(s);
+	}
+}
+
+rule nfis() : (array<Node>) {
+	---
+	def ref s:array<Node>;
+	yield {
+		yield s = nodesFromIndexSameAsArray(foo, 3);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexSameAsArray(foo, 3) + "\n");
+		return(s);
+	}
+}
+
+rule nfif() : (array<Node>) {
+	---
+	def ref s:array<Node>;
+	yield {
+		yield s = nodesFromIndexToAsArrayDescending(foo, 2);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexToAsArrayDescending(foo, 2) + "\n");
+		return(s);
+	}
+}
+
+rule nfife() : (array<Node>) {
+	---
+	def ref s:array<Node>;
+	yield {
+		yield s = nodesFromIndexToExclusiveAsArrayDescending(foo, 2);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexToExclusiveAsArrayDescending(foo, 2) + "\n");
+		return(s);
+	}
+}
+
+rule nfit() : (array<Node>) {
+	---
+	def ref s:array<Node>;
+	yield {
+		yield s = nodesFromIndexFromAsArrayDescending(foo, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexFromAsArrayDescending(foo, 4) + "\n");
+		return(s);
+	}
+}
+
+rule nfite() : (array<Node>) {
+	---
+	def ref s:array<Node>;
+	yield {
+		yield s = nodesFromIndexFromExclusiveAsArrayDescending(foo, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexFromExclusiveAsArrayDescending(foo, 4) + "\n");
+		return(s);
+	}
+}
+
+rule nfift() : (array<Node>) {
+	---
+	def ref s:array<Node>;
+	yield {
+		yield s = nodesFromIndexFromToAsArrayDescending(foo, 4, 2);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexFromToAsArrayDescending(foo, 4, 2) + "\n");
+		return(s);
+	}
+}
+
+rule nfifet() : (array<Node>) {
+	---
+	def ref s:array<Node>;
+	yield {
+		yield s = nodesFromIndexFromToExclusiveAsArrayDescending(foo, 4, 2);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexFromToExclusiveAsArrayDescending(foo, 4, 2) + "\n");
+		return(s);
+	}
+}
+
+rule nfifte() : (array<Node>) {
+	---
+	def ref s:array<Node>;
+	yield {
+		yield s = nodesFromIndexFromExclusiveToAsArrayDescending(foo, 4, 2);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexFromExclusiveToAsArrayDescending(foo, 4, 2) + "\n");
+		return(s);
+	}
+}
+
+rule nfifete() : (array<Node>) {
+	---
+	def ref s:array<Node>;
+	yield {
+		yield s = nodesFromIndexFromExclusiveToExclusiveAsArrayDescending(foo, 4, 2);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexFromExclusiveToExclusiveAsArrayDescending(foo, 4, 2) + "\n");
+		return(s);
+	}
+}

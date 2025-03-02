@@ -1,0 +1,64 @@
+#using "index_model_002.gm"
+
+function f() : int
+{
+	return(0);
+}
+
+rule i {
+	if{ nodesFromIndexAsArrayDescending(fooi).size() > 0; }
+	if{ nodesFromIndexSameAsArray(fooi, 42).size() > 0; }
+	if{ nodesFromIndexFromAsArrayDescending(fooi, 42).size() > 0; }
+	if{ nodesFromIndexFromExclusiveAsArrayDescending(fooi, 42).size() > 0; }
+	if{ nodesFromIndexToAsArrayDescending(fooi, 42).size() > 0; }
+	if{ nodesFromIndexToExclusiveAsArrayDescending(fooi, 42).size() > 0; }
+	if{ nodesFromIndexFromToAsArrayDescending(fooi, f(), 42).size() > 0; }
+	if{ nodesFromIndexFromExclusiveToAsArrayDescending(fooi, f(), 42).size() > 0; }
+	if{ nodesFromIndexFromToExclusiveAsArrayDescending(fooi, f(), 42).size() > 0; }
+	if{ nodesFromIndexFromExclusiveToExclusiveAsArrayDescending(fooi, f(), 42).size() > 0; }
+	
+	modify {
+		eval {
+			def var s:int;
+			s = nodesFromIndexAsArrayDescending(fooi).size();
+			s = nodesFromIndexSameAsArray(fooi, 42).size();
+			s = nodesFromIndexFromAsArrayDescending(fooi, 42).size();
+			s = nodesFromIndexFromExclusiveAsArrayDescending(fooi, 42).size();
+			s = nodesFromIndexToAsArrayDescending(fooi, 42).size();
+			s = nodesFromIndexToExclusiveAsArrayDescending(fooi, 42).size();
+			s = nodesFromIndexFromToAsArrayDescending(fooi, f(), 42).size();
+			s = nodesFromIndexFromExclusiveToAsArrayDescending(fooi, f(), 42).size();
+			s = nodesFromIndexFromToExclusiveAsArrayDescending(fooi, f(), 42).size();
+			s = nodesFromIndexFromExclusiveToExclusiveAsArrayDescending(fooi, f(), 42).size();
+		}
+	}
+}
+
+rule ei {
+	if{ edgesFromIndexAsArrayDescending(bari).size() > 0; }
+	if{ edgesFromIndexSameAsArray(bari, 42).size() > 0; }
+	if{ edgesFromIndexFromAsArrayDescending(bari, 42).size() > 0; }
+	if{ edgesFromIndexFromExclusiveAsArrayDescending(bari, 42).size() > 0; }
+	if{ edgesFromIndexToAsArrayDescending(bari, 42).size() > 0; }
+	if{ edgesFromIndexToExclusiveAsArrayDescending(bari, 42).size() > 0; }
+	if{ edgesFromIndexFromToAsArrayDescending(bari, f(), 42).size() > 0; }
+	if{ edgesFromIndexFromExclusiveToAsArrayDescending(bari, f(), 42).size() > 0; }
+	if{ edgesFromIndexFromToExclusiveAsArrayDescending(bari, f(), 42).size() > 0; }
+	if{ edgesFromIndexFromExclusiveToExclusiveAsArrayDescending(bari, f(), 42).size() > 0; }
+	
+	modify {
+		eval {
+			def var s:int;
+			s = edgesFromIndexAsArrayDescending(bari).size();
+			s = edgesFromIndexSameAsArray(bari, 42).size();
+			s = edgesFromIndexFromAsArrayDescending(bari, 42).size();
+			s = edgesFromIndexFromExclusiveAsArrayDescending(bari, 42).size();
+			s = edgesFromIndexToAsArrayDescending(bari, 42).size();
+			s = edgesFromIndexToExclusiveAsArrayDescending(bari, 42).size();
+			s = edgesFromIndexFromToAsArrayDescending(bari, f(), 42).size();
+			s = edgesFromIndexFromExclusiveToAsArrayDescending(bari, f(), 42).size();
+			s = edgesFromIndexFromToExclusiveAsArrayDescending(bari, f(), 42).size();
+			s = edgesFromIndexFromExclusiveToExclusiveAsArrayDescending(bari, f(), 42).size();
+		}
+	}
+}

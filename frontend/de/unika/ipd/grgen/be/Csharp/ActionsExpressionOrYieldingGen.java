@@ -2030,25 +2030,43 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		} else if(expr instanceof NodesFromIndexAccessSameExpr) {
 			NodesFromIndexAccessSameExpr nfias = (NodesFromIndexAccessSameExpr)expr;
 			IndexAccessEquality iae = nfias.getIndexAccessEquality();
-			sb.append("new GRGEN_EXPR.NodesFromIndexAccessSame(");
+			if(nfias.getType() instanceof SetType) {
+				sb.append("new GRGEN_EXPR.NodesFromIndexAccessSame(");
+			} else {
+				sb.append("new GRGEN_EXPR.NodesFromIndexAccessSameAsArray(");
+			}
 			genIndexAccessEquality(sb, iae, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		} else if(expr instanceof NodesFromIndexAccessFromToExpr) {
 			NodesFromIndexAccessFromToExpr nfiaft = (NodesFromIndexAccessFromToExpr)expr;
 			IndexAccessOrdering iao = nfiaft.getIndexAccessOrdering();
-			sb.append("new GRGEN_EXPR.NodesFromIndexAccessFromTo(");
+			if(nfiaft.getType() instanceof SetType) {
+				sb.append("new GRGEN_EXPR.NodesFromIndexAccessFromTo(");
+			} else {
+				sb.append("new GRGEN_EXPR.NodesFromIndexAccessFromToAsArray(");
+				sb.append(nfiaft.isAscending() ? "true, " : "false, ");
+			}
 			genIndexAccessOrdering(sb, iao, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		} else if(expr instanceof EdgesFromIndexAccessSameExpr) {
 			EdgesFromIndexAccessSameExpr efias = (EdgesFromIndexAccessSameExpr)expr;
 			IndexAccessEquality iae = efias.getIndexAccessEquality();
-			sb.append("new GRGEN_EXPR.EdgesFromIndexAccessSame(");
+			if(efias.getType() instanceof SetType) {
+				sb.append("new GRGEN_EXPR.EdgesFromIndexAccessSame(");
+			} else {
+				sb.append("new GRGEN_EXPR.EdgesFromIndexAccessSameAsArray(");
+			}
 			genIndexAccessEquality(sb, iae, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		} else if(expr instanceof EdgesFromIndexAccessFromToExpr) {
 			EdgesFromIndexAccessFromToExpr efiaft = (EdgesFromIndexAccessFromToExpr)expr;
 			IndexAccessOrdering iao = efiaft.getIndexAccessOrdering();
-			sb.append("new GRGEN_EXPR.EdgesFromIndexAccessFromTo(");
+			if(efiaft.getType() instanceof SetType) {
+				sb.append("new GRGEN_EXPR.EdgesFromIndexAccessFromTo(");
+			} else {
+				sb.append("new GRGEN_EXPR.EdgesFromIndexAccessFromToAsArray(");
+				sb.append(efiaft.isAscending() ? "true, " : "false, ");
+			}
 			genIndexAccessOrdering(sb, iao, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		} else if(expr instanceof CountNodesFromIndexAccessSameExpr) {

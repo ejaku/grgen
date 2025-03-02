@@ -1,0 +1,141 @@
+#using "index_model_001b.gm"
+
+rule efi() : (array<AEdge>) {
+	---
+	def ref s:array<AEdge>;
+	yield {
+		yield s = edgesFromIndexAsArrayAscending(foo);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + edgesFromIndexAsArrayAscending(foo) + "\n");
+		return(s);
+	}
+}
+
+rule efis() : (array<AEdge>) {
+	---
+	def ref s:array<AEdge>;
+	yield {
+		yield s = edgesFromIndexSameAsArray(foo, 3);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + edgesFromIndexSameAsArray(foo, 3) + "\n");
+		return(s);
+	}
+}
+
+rule efif() : (array<AEdge>) {
+	---
+	def ref s:array<AEdge>;
+	yield {
+		yield s = edgesFromIndexFromAsArrayAscending(foo, 2);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + edgesFromIndexFromAsArrayAscending(foo, 2) + "\n");
+		return(s);
+	}
+}
+
+rule efife() : (array<AEdge>) {
+	---
+	def ref s:array<AEdge>;
+	yield {
+		yield s = edgesFromIndexFromExclusiveAsArrayAscending(foo, 2);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + edgesFromIndexFromExclusiveAsArrayAscending(foo, 2) + "\n");
+		return(s);
+	}
+}
+
+rule efit() : (array<AEdge>) {
+	---
+	def ref s:array<AEdge>;
+	yield {
+		yield s = edgesFromIndexToAsArrayAscending(foo, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + edgesFromIndexToAsArrayAscending(foo, 4) + "\n");
+		return(s);
+	}
+}
+
+rule efite() : (array<AEdge>) {
+	---
+	def ref s:array<AEdge>;
+	yield {
+		yield s = edgesFromIndexToExclusiveAsArrayAscending(foo, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + edgesFromIndexToExclusiveAsArrayAscending(foo, 4) + "\n");
+		return(s);
+	}
+}
+
+rule efift() : (array<AEdge>) {
+	---
+	def ref s:array<AEdge>;
+	yield {
+		yield s = edgesFromIndexFromToAsArrayAscending(foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + edgesFromIndexFromToAsArrayAscending(foo, 2, 4) + "\n");
+		return(s);
+	}
+}
+
+rule efifet() : (array<AEdge>) {
+	---
+	def ref s:array<AEdge>;
+	yield {
+		yield s = edgesFromIndexFromExclusiveToAsArrayAscending(foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + edgesFromIndexFromExclusiveToAsArrayAscending(foo, 2, 4) + "\n");
+		return(s);
+	}
+}
+
+rule efifte() : (array<AEdge>) {
+	---
+	def ref s:array<AEdge>;
+	yield {
+		yield s = edgesFromIndexFromToExclusiveAsArrayAscending(foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + edgesFromIndexFromToExclusiveAsArrayAscending(foo, 2, 4) + "\n");
+		return(s);
+	}
+}
+
+rule efifete() : (array<AEdge>) {
+	---
+	def ref s:array<AEdge>;
+	yield {
+		yield s = edgesFromIndexFromExclusiveToExclusiveAsArrayAscending(foo, 2, 4);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + edgesFromIndexFromExclusiveToExclusiveAsArrayAscending(foo, 2, 4) + "\n");
+		return(s);
+	}
+}

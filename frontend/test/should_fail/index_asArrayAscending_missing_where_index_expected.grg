@@ -1,0 +1,6 @@
+rule i(ref s:array<Node>) {
+	if{ nodesFromIndexAsArrayAscending(s).size() > 0; }
+	
+	modify {
+	}
+}

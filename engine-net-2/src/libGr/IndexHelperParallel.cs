@@ -306,5 +306,151 @@ namespace de.unika.ipd.grGen.libGr
             }
             return false;
         }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Returns the nodes in the index whose attribute is the same as the value given, as array
+        /// </summary>
+        public static List<INode> NodesFromIndexSameAsArray(IAttributeIndex index, object value, int threadId)
+        {
+            List<INode> nodesArray = new List<INode>();
+            foreach(INode node in GetIndexEnumerable(index, value))
+            {
+                nodesArray.Add(node);
+            }
+            return nodesArray;
+        }
+
+        public static List<INode> NodesFromIndexSameAsArray(IAttributeIndex index, object value, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            List<INode> nodesArray = new List<INode>();
+            foreach(INode node in GetIndexEnumerable(index, value))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                nodesArray.Add(node);
+            }
+            return nodesArray;
+        }
+
+        /// <summary>
+        /// Returns the nodes in the index whose attribute is in the range from from to to, as array, ordered ascendingly
+        /// </summary>
+        public static List<INode> NodesFromIndexFromToAsArrayAscending(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, int threadId)
+        {
+            List<INode> nodesArray = new List<INode>();
+            foreach(INode node in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                nodesArray.Add(node);
+            }
+            return nodesArray;
+        }
+
+        public static List<INode> NodesFromIndexFromToAsArrayAscending(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            List<INode> nodesArray = new List<INode>();
+            foreach(INode node in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                nodesArray.Add(node);
+            }
+            return nodesArray;
+        }
+
+        /// <summary>
+        /// Returns the nodes in the index whose attribute is in the range from from to to, as array, ordered descendingly
+        /// </summary>
+        public static List<INode> NodesFromIndexFromToAsArrayDescending(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, int threadId)
+        {
+            List<INode> nodesArray = new List<INode>();
+            foreach(INode node in GetIndexEnumerableDescending(index, from, includingFrom, to, includingTo))
+            {
+                nodesArray.Add(node);
+            }
+            return nodesArray;
+        }
+
+        public static List<INode> NodesFromIndexFromToAsArrayDescending(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            List<INode> nodesArray = new List<INode>();
+            foreach(INode node in GetIndexEnumerableDescending(index, from, includingFrom, to, includingTo))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                nodesArray.Add(node);
+            }
+            return nodesArray;
+        }
+
+        /// <summary>
+        /// Returns the edges in the index whose attribute is the same as the value given, as array
+        /// </summary>
+        public static List<IEdge> EdgesFromIndexSameAsArray(IAttributeIndex index, object value, int threadId)
+        {
+            List<IEdge> edgesArray = new List<IEdge>();
+            foreach(IEdge edge in GetIndexEnumerable(index, value))
+            {
+                edgesArray.Add(edge);
+            }
+            return edgesArray;
+        }
+
+        public static List<IEdge> EdgesFromIndexSameAsArray(IAttributeIndex index, object value, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            List<IEdge> edgesArray = new List<IEdge>();
+            foreach(IEdge edge in GetIndexEnumerable(index, value))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                edgesArray.Add(edge);
+            }
+            return edgesArray;
+        }
+
+        /// <summary>
+        /// Returns the edges in the index whose attribute is in the range from from to to, as array, ordered ascendingly
+        /// </summary>
+        public static List<IEdge> EdgesFromIndexFromToAsArrayAscending(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, int threadId)
+        {
+            List<IEdge> edgesArray = new List<IEdge>();
+            foreach(IEdge edge in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                edgesArray.Add(edge);
+            }
+            return edgesArray;
+        }
+
+        public static List<IEdge> EdgesFromIndexFromToAsArrayAscending(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            List<IEdge> edgesArray = new List<IEdge>();
+            foreach(IEdge edge in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                edgesArray.Add(edge);
+            }
+            return edgesArray;
+        }
+
+        /// <summary>
+        /// Returns the edges in the index whose attribute is in the range from from to to, as array, ordered descendingly
+        /// </summary>
+        public static List<IEdge> EdgesFromIndexFromToAsArrayDescending(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, int threadId)
+        {
+            List<IEdge> edgesArray = new List<IEdge>();
+            foreach(IEdge edge in GetIndexEnumerableDescending(index, from, includingFrom, to, includingTo))
+            {
+                edgesArray.Add(edge);
+            }
+            return edgesArray;
+        }
+
+        public static List<IEdge> EdgesFromIndexFromToAsArrayDescending(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            List<IEdge> edgesArray = new List<IEdge>();
+            foreach(IEdge edge in GetIndexEnumerableDescending(index, from, includingFrom, to, includingTo))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                edgesArray.Add(edge);
+            }
+            return edgesArray;
+        }
     }
 }

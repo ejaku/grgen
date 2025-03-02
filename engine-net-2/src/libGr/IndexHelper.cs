@@ -309,6 +309,152 @@ namespace de.unika.ipd.grGen.libGr
 
         //////////////////////////////////////////////////////////////////////////////////////////////
 
+        /// <summary>
+        /// Returns the nodes in the index whose attribute is the same as the value given, as array
+        /// </summary>
+        public static List<INode> NodesFromIndexSameAsArray(IAttributeIndex index, object value)
+        {
+            List<INode> nodesArray = new List<INode>();
+            foreach(INode node in GetIndexEnumerable(index, value))
+            {
+                nodesArray.Add(node);
+            }
+            return nodesArray;
+        }
+
+        public static List<INode> NodesFromIndexSameAsArray(IAttributeIndex index, object value, IActionExecutionEnvironment actionEnv)
+        {
+            List<INode> nodesArray = new List<INode>();
+            foreach(INode node in GetIndexEnumerable(index, value))
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                nodesArray.Add(node);
+            }
+            return nodesArray;
+        }
+
+        /// <summary>
+        /// Returns the nodes in the index whose attribute is in the range from from to to, as array, ordered ascendingly
+        /// </summary>
+        public static List<INode> NodesFromIndexFromToAsArrayAscending(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo)
+        {
+            List<INode> nodesArray = new List<INode>();
+            foreach(INode node in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                nodesArray.Add(node);
+            }
+            return nodesArray;
+        }
+
+        public static List<INode> NodesFromIndexFromToAsArrayAscending(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, IActionExecutionEnvironment actionEnv)
+        {
+            List<INode> nodesArray = new List<INode>();
+            foreach(INode node in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                nodesArray.Add(node);
+            }
+            return nodesArray;
+        }
+
+        /// <summary>
+        /// Returns the nodes in the index whose attribute is in the range from from to to, as array, ordered descendingly
+        /// </summary>
+        public static List<INode> NodesFromIndexFromToAsArrayDescending(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo)
+        {
+            List<INode> nodesArray = new List<INode>();
+            foreach(INode node in GetIndexEnumerableDescending(index, from, includingFrom, to, includingTo))
+            {
+                nodesArray.Add(node);
+            }
+            return nodesArray;
+        }
+
+        public static List<INode> NodesFromIndexFromToAsArrayDescending(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, IActionExecutionEnvironment actionEnv)
+        {
+            List<INode> nodesArray = new List<INode>();
+            foreach(INode node in GetIndexEnumerableDescending(index, from, includingFrom, to, includingTo))
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                nodesArray.Add(node);
+            }
+            return nodesArray;
+        }
+
+        /// <summary>
+        /// Returns the edges in the index whose attribute is the same as the value given, as array
+        /// </summary>
+        public static List<IEdge> EdgesFromIndexSameAsArray(IAttributeIndex index, object value)
+        {
+            List<IEdge> edgesArray = new List<IEdge>();
+            foreach(IEdge edge in GetIndexEnumerable(index, value))
+            {
+                edgesArray.Add(edge);
+            }
+            return edgesArray;
+        }
+
+        public static List<IEdge> EdgesFromIndexSameAsArray(IAttributeIndex index, object value, IActionExecutionEnvironment actionEnv)
+        {
+            List<IEdge> edgesArray = new List<IEdge>();
+            foreach(IEdge edge in GetIndexEnumerable(index, value))
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                edgesArray.Add(edge);
+            }
+            return edgesArray;
+        }
+
+        /// <summary>
+        /// Returns the edges in the index whose attribute is in the range from from to to, as array, ordered ascendingly
+        /// </summary>
+        public static List<IEdge> EdgesFromIndexFromToAsArrayAscending(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo)
+        {
+            List<IEdge> edgesArray = new List<IEdge>();
+            foreach(IEdge edge in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                edgesArray.Add(edge);
+            }
+            return edgesArray;
+        }
+
+        public static List<IEdge> EdgesFromIndexFromToAsArrayAscending(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, IActionExecutionEnvironment actionEnv)
+        {
+            List<IEdge> edgesArray = new List<IEdge>();
+            foreach(IEdge edge in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                edgesArray.Add(edge);
+            }
+            return edgesArray;
+        }
+
+        /// <summary>
+        /// Returns the edges in the index whose attribute is in the range from from to to, as array, ordered descendingly
+        /// </summary>
+        public static List<IEdge> EdgesFromIndexFromToAsArrayDescending(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo)
+        {
+            List<IEdge> edgesArray = new List<IEdge>();
+            foreach(IEdge edge in GetIndexEnumerableDescending(index, from, includingFrom, to, includingTo))
+            {
+                edgesArray.Add(edge);
+            }
+            return edgesArray;
+        }
+
+        public static List<IEdge> EdgesFromIndexFromToAsArrayDescendings(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, IActionExecutionEnvironment actionEnv)
+        {
+            List<IEdge> edgesArray = new List<IEdge>();
+            foreach(IEdge edge in GetIndexEnumerableDescending(index, from, includingFrom, to, includingTo))
+            {
+                ++actionEnv.PerformanceInfo.SearchSteps;
+                edgesArray.Add(edge);
+            }
+            return edgesArray;
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
         private static IEnumerable<IGraphElement> GetIndexEnumerable(IAttributeIndex index, object value)
         {
             return index.LookupElements(value);
@@ -359,6 +505,55 @@ namespace de.unika.ipd.grGen.libGr
                 else
                 {
                     return index.LookupElementsAscending();
+                }
+            }
+        }
+
+        private static IEnumerable<IGraphElement> GetIndexEnumerableDescending(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo)
+        {
+            if(from != null)
+            {
+                if(includingFrom)
+                {
+                    if(to != null)
+                    {
+                        if(includingTo)
+                            return index.LookupElementsDescendingFromInclusiveToInclusive(from, to);
+                        else
+                            return index.LookupElementsDescendingFromInclusiveToExclusive(from, to);
+                    }
+                    else
+                    {
+                        return index.LookupElementsDescendingFromInclusive(from);
+                    }
+                }
+                else
+                {
+                    if(to != null)
+                    {
+                        if(includingTo)
+                            return index.LookupElementsDescendingFromExclusiveToInclusive(from, to);
+                        else
+                            return index.LookupElementsDescendingFromExclusiveToExclusive(from, to);
+                    }
+                    else
+                    {
+                        return index.LookupElementsDescendingFromExclusive(from);
+                    }
+                }
+            }
+            else
+            {
+                if(to != null)
+                {
+                    if(includingTo)
+                        return index.LookupElementsDescendingToInclusive(to);
+                    else
+                        return index.LookupElementsDescendingToExclusive(to);
+                }
+                else
+                {
+                    return index.LookupElementsDescending();
                 }
             }
         }

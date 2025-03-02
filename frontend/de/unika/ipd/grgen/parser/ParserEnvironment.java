@@ -811,6 +811,50 @@ public abstract class ParserEnvironment extends Base
 		case "isInEdgesFromIndexFromToExclusive":
 		case "isInEdgesFromIndexFromExclusiveToExclusive":
 			return numParams == 4;
+		case "nodesFromIndexAsArrayAscending":
+		case "nodesFromIndexAsArrayDescending":
+			return numParams == 1;
+		case "nodesFromIndexSameAsArray":
+		case "nodesFromIndexFromAsArrayAscending":
+		case "nodesFromIndexFromExclusiveAsArrayAscending":
+		case "nodesFromIndexToAsArrayAscending":
+		case "nodesFromIndexToExclusiveAsArrayAscending":
+		case "nodesFromIndexFromAsArrayDescending":
+		case "nodesFromIndexFromExclusiveAsArrayDescending":
+		case "nodesFromIndexToAsArrayDescending":
+		case "nodesFromIndexToExclusiveAsArrayDescending":
+			return numParams == 2;
+		case "nodesFromIndexFromToAsArrayAscending":
+		case "nodesFromIndexFromExclusiveToAsArrayAscending":
+		case "nodesFromIndexFromToExclusiveAsArrayAscending":
+		case "nodesFromIndexFromExclusiveToExclusiveAsArrayAscending":
+		case "nodesFromIndexFromToAsArrayDescending":
+		case "nodesFromIndexFromExclusiveToAsArrayDescending":
+		case "nodesFromIndexFromToExclusiveAsArrayDescending":
+		case "nodesFromIndexFromExclusiveToExclusiveAsArrayDescending":
+			return numParams == 3;
+		case "edgesFromIndexAsArrayAscending":
+		case "edgesFromIndexAsArrayDescending":
+			return numParams == 1;
+		case "edgesFromIndexSameAsArray":
+		case "edgesFromIndexFromAsArrayAscending":
+		case "edgesFromIndexFromExclusiveAsArrayAscending":
+		case "edgesFromIndexToAsArrayAscending":
+		case "edgesFromIndexToExclusiveAsArrayAscending":
+		case "edgesFromIndexFromAsArrayDescending":
+		case "edgesFromIndexFromExclusiveAsArrayDescending":
+		case "edgesFromIndexToAsArrayDescending":
+		case "edgesFromIndexToExclusiveAsArrayDescending":
+			return numParams == 2;
+		case "edgesFromIndexFromToAsArrayAscending":
+		case "edgesFromIndexFromExclusiveToAsArrayAscending":
+		case "edgesFromIndexFromToExclusiveAsArrayAscending":
+		case "edgesFromIndexFromExclusiveToExclusiveAsArrayAscending":
+		case "edgesFromIndexFromToAsArrayDescending":
+		case "edgesFromIndexFromExclusiveToAsArrayDescending":
+		case "edgesFromIndexFromToExclusiveAsArrayDescending":
+		case "edgesFromIndexFromExclusiveToExclusiveAsArrayDescending":
+			return numParams == 3;
 		case "random":
 			return numParams >= 0 && numParams <= 1;
 		case "canonize":

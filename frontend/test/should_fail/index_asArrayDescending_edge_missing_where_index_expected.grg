@@ -1,0 +1,6 @@
+rule i(ref s:array<Edge>) {
+	if{ edgesFromIndexAsArrayDescending(s).size() > 0; }
+	
+	modify {
+	}
+}

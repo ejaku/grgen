@@ -2866,25 +2866,49 @@ public abstract class CSharpBase
 		} else if(expr instanceof NodesFromIndexAccessSameExpr) {
 			NodesFromIndexAccessSameExpr nfias = (NodesFromIndexAccessSameExpr)expr;
 			IndexAccessEquality iae = nfias.getIndexAccessEquality();
-			sb.append("GRGEN_LIBGR.IndexHelper.NodesFromIndexSame(");
+			if(nfias.getType() instanceof SetType) {
+				sb.append("GRGEN_LIBGR.IndexHelper.NodesFromIndexSame(");
+			} else {
+				sb.append("GRGEN_LIBGR.IndexHelper.NodesFromIndexSameAsArray(");
+			}
 			genIndexAccessEquality(sb, iae, modifyGenerationState);
 			sb.append(")");
 		} else if(expr instanceof NodesFromIndexAccessFromToExpr) {
 			NodesFromIndexAccessFromToExpr nfiaft = (NodesFromIndexAccessFromToExpr)expr;
 			IndexAccessOrdering iao = nfiaft.getIndexAccessOrdering();
-			sb.append("GRGEN_LIBGR.IndexHelper.NodesFromIndexFromTo(");
+			if(nfiaft.getType() instanceof SetType) {
+				sb.append("GRGEN_LIBGR.IndexHelper.NodesFromIndexFromTo(");
+			} else {
+				if(nfiaft.isAscending()) {
+					sb.append("GRGEN_LIBGR.IndexHelper.NodesFromIndexFromToAsArrayAscending(");
+				} else {
+					sb.append("GRGEN_LIBGR.IndexHelper.NodesFromIndexFromToAsArrayDescending(");
+				}
+			}
 			genIndexAccessOrdering(sb, iao, modifyGenerationState);
 			sb.append(")");
 		} else if(expr instanceof EdgesFromIndexAccessSameExpr) {
 			EdgesFromIndexAccessSameExpr efias = (EdgesFromIndexAccessSameExpr)expr;
 			IndexAccessEquality iae = efias.getIndexAccessEquality();
-			sb.append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexSame(");
+			if(efias.getType() instanceof SetType) {
+				sb.append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexSame(");
+			} else {
+				sb.append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexSameAsArray(");
+			}
 			genIndexAccessEquality(sb, iae, modifyGenerationState);
 			sb.append(")");
 		} else if(expr instanceof EdgesFromIndexAccessFromToExpr) {
 			EdgesFromIndexAccessFromToExpr efiaft = (EdgesFromIndexAccessFromToExpr)expr;
 			IndexAccessOrdering iao = efiaft.getIndexAccessOrdering();
-			sb.append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexFromTo(");
+			if(efiaft.getType() instanceof SetType) {
+				sb.append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexFromTo(");
+			} else {
+				if(efiaft.isAscending()) {
+					sb.append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexFromToAsArrayAscending(");
+				} else {
+					sb.append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexFromToAsArrayDescending(");
+				}
+			}
 			genIndexAccessOrdering(sb, iao, modifyGenerationState);
 			sb.append(")");
 		} else if(expr instanceof CountNodesFromIndexAccessSameExpr) {

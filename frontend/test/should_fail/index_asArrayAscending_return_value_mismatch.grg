@@ -1,0 +1,13 @@
+#using "index_where_non_index_expected_model.gm"
+
+function f(ref s:array<Edge>) : int
+{
+	return(s.size());
+}
+
+rule i {
+	if{ f(nodesFromIndexAsArrayAscending(fooi)) > 0; }
+	
+	modify {
+	}
+}

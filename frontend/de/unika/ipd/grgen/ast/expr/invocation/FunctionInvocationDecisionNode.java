@@ -40,7 +40,9 @@ import de.unika.ipd.grgen.ast.expr.graph.DefinedSubgraphExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EdgeByNameExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EdgeByUniqueExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EdgesExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessFromToAsArrayExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessFromToExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessSameAsArrayExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessSameExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EmptyExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EqualsAnyExprNode;
@@ -60,7 +62,9 @@ import de.unika.ipd.grgen.ast.expr.graph.IsReachableNodeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.NodeByNameExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.NodeByUniqueExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.NodesExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessFromToAsArrayExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessFromToExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessSameAsArrayExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessSameExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.OppositeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.ReachableEdgeExprNode;
@@ -822,6 +826,100 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return null;
 			} else {
 				return new IsInEdgesFromIndexAccessFromToExprNode(env.getCoords(), arguments.get(0), arguments.get(1), arguments.get(2), functionName.contains("FromExclusive"), arguments.get(3), functionName.contains("ToExclusive"));
+			}
+		case "nodesFromIndexAsArrayAscending":
+		case "nodesFromIndexAsArrayDescending":
+			if(arguments.size() != 1) {
+				env.reportError(functionName + "() expects 1 argument (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new NodesFromIndexAccessFromToAsArrayExprNode(env.getCoords(), arguments.get(0), functionName.contains("Ascending"), null, false, null, false);
+			}
+		case "nodesFromIndexSameAsArray":
+			if(arguments.size() != 2) {
+				env.reportError("nodesFromIndexSameAsArray() expects 2 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new NodesFromIndexAccessSameAsArrayExprNode(env.getCoords(), arguments.get(0), arguments.get(1));
+			}
+		case "nodesFromIndexFromAsArrayAscending":
+		case "nodesFromIndexFromExclusiveAsArrayAscending":
+		case "nodesFromIndexToAsArrayAscending":
+		case "nodesFromIndexToExclusiveAsArrayAscending":
+		case "nodesFromIndexFromAsArrayDescending":
+		case "nodesFromIndexFromExclusiveAsArrayDescending":
+		case "nodesFromIndexToAsArrayDescending":
+		case "nodesFromIndexToExclusiveAsArrayDescending":
+			if(arguments.size() != 2) {
+				env.reportError(functionName + "() expects 2 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				if(functionName.startsWith("nodesFromIndexFrom")) {
+					return new NodesFromIndexAccessFromToAsArrayExprNode(env.getCoords(), arguments.get(0), functionName.contains("Ascending"), arguments.get(1), functionName.contains("Exclusive"), null, false);
+				} else {
+					return new NodesFromIndexAccessFromToAsArrayExprNode(env.getCoords(), arguments.get(0), functionName.contains("Ascending"), null, false, arguments.get(1), functionName.contains("Exclusive"));
+				}
+			}
+		case "nodesFromIndexFromToAsArrayAscending":
+		case "nodesFromIndexFromExclusiveToAsArrayAscending":
+		case "nodesFromIndexFromToExclusiveAsArrayAscending":
+		case "nodesFromIndexFromExclusiveToExclusiveAsArrayAscending":
+		case "nodesFromIndexFromToAsArrayDescending":
+		case "nodesFromIndexFromExclusiveToAsArrayDescending":
+		case "nodesFromIndexFromToExclusiveAsArrayDescending":
+		case "nodesFromIndexFromExclusiveToExclusiveAsArrayDescending":
+			if(arguments.size() != 3) {
+				env.reportError(functionName + "() expects 3 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new NodesFromIndexAccessFromToAsArrayExprNode(env.getCoords(), arguments.get(0), functionName.contains("Ascending"), arguments.get(1), functionName.contains("FromExclusive"), arguments.get(2), functionName.contains("ToExclusive"));
+			}
+		case "edgesFromIndexAsArrayAscending":
+		case "edgesFromIndexAsArrayDescending":
+			if(arguments.size() != 1) {
+				env.reportError(functionName + "() expects 1 argument (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new EdgesFromIndexAccessFromToAsArrayExprNode(env.getCoords(), arguments.get(0), functionName.contains("Ascending"), null, false, null, false);
+			}
+		case "edgesFromIndexSameAsArray":
+			if(arguments.size() != 2) {
+				env.reportError("edgesFromIndexSameAsArray() expects 2 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new EdgesFromIndexAccessSameAsArrayExprNode(env.getCoords(), arguments.get(0), arguments.get(1));
+			}
+		case "edgesFromIndexFromAsArrayAscending":
+		case "edgesFromIndexFromExclusiveAsArrayAscending":
+		case "edgesFromIndexToAsArrayAscending":
+		case "edgesFromIndexToExclusiveAsArrayAscending":
+		case "edgesFromIndexFromAsArrayDescending":
+		case "edgesFromIndexFromExclusiveAsArrayDescending":
+		case "edgesFromIndexToAsArrayDescending":
+		case "edgesFromIndexToExclusiveAsArrayDescending":
+			if(arguments.size() != 2) {
+				env.reportError(functionName + "() expects 2 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				if(functionName.startsWith("edgesFromIndexFrom")) {
+					return new EdgesFromIndexAccessFromToAsArrayExprNode(env.getCoords(), arguments.get(0), functionName.contains("Ascending"), arguments.get(1), functionName.contains("Exclusive"), null, false);
+				} else {
+					return new EdgesFromIndexAccessFromToAsArrayExprNode(env.getCoords(), arguments.get(0), functionName.contains("Ascending"), null, false, arguments.get(1), functionName.contains("Exclusive"));
+				}
+			}
+		case "edgesFromIndexFromToAsArrayAscending":
+		case "edgesFromIndexFromExclusiveToAsArrayAscending":
+		case "edgesFromIndexFromToExclusiveAsArrayAscending":
+		case "edgesFromIndexFromExclusiveToExclusiveAsArrayAscending":
+		case "edgesFromIndexFromToAsArrayDescending":
+		case "edgesFromIndexFromExclusiveToAsArrayDescending":
+		case "edgesFromIndexFromToExclusiveAsArrayDescending":
+		case "edgesFromIndexFromExclusiveToExclusiveAsArrayDescending":
+			if(arguments.size() != 3) {
+				env.reportError(functionName + "() expects 3 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new EdgesFromIndexAccessFromToAsArrayExprNode(env.getCoords(), arguments.get(0), functionName.contains("Ascending"), arguments.get(1), functionName.contains("FromExclusive"), arguments.get(2), functionName.contains("ToExclusive"));
 			}
 		case "inducedSubgraph":
 			if(arguments.size() != 1) {

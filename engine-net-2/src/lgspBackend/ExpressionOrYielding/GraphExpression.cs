@@ -4821,6 +4821,118 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression returning an array of nodes from an index with matching attribute values based on equality comparison
+    /// </summary>
+    public class NodesFromIndexAccessSameAsArray : FromIndexAccessSame
+    {
+        public NodesFromIndexAccessSameAsArray(String indexSetType, IndexDescription index, Expression expr)
+            : base(indexSetType, index, expr)
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new NodesFromIndexAccessSameAsArray(IndexSetType, Index, Expr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.IndexHelper.NodesFromIndexSameAsArray(");
+            base.EmitArguments(sourceCode);
+            sourceCode.Append(")");
+        }
+    }
+
+    /// <summary>
+    /// Class representing expression returning an array of nodes from an index with matching attribute values based on ordering comparison
+    /// </summary>
+    public class NodesFromIndexAccessFromToAsArray : FromIndexAccessFromTo
+    {
+        public NodesFromIndexAccessFromToAsArray(bool ascending,
+            String indexSetType, IndexDescription index,
+            bool includingFrom, bool includingTo,
+            Expression from, Expression to)
+            : base(indexSetType, index, includingFrom, includingTo, from, to)
+        {
+            this.Ascending = ascending;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new NodesFromIndexAccessFromToAsArray(Ascending, IndexSetType, Index,
+                IncludingFrom, IncludingTo, From != null ? From.Copy(renameSuffix) : null, To != null ? To.Copy(renameSuffix) : null);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if(Ascending)
+                sourceCode.Append("GRGEN_LIBGR.IndexHelper.NodesFromIndexFromToAsArrayAscending(");
+            else
+                sourceCode.Append("GRGEN_LIBGR.IndexHelper.NodesFromIndexFromToAsArrayDescending(");
+            base.EmitArguments(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        bool Ascending;
+    }
+
+    /// <summary>
+    /// Class representing expression returning an array of edges from an index with matching attribute values based on equality comparison
+    /// </summary>
+    public class EdgesFromIndexAccessSameAsArray : FromIndexAccessSame
+    {
+        public EdgesFromIndexAccessSameAsArray(String indexSetType, IndexDescription index, Expression expr)
+            : base(indexSetType, index, expr)
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new EdgesFromIndexAccessSameAsArray(IndexSetType, Index, Expr.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexSameAsArray(");
+            base.EmitArguments(sourceCode);
+            sourceCode.Append(")");
+        }
+    }
+
+    /// <summary>
+    /// Class representing expression returning an array of edges from an index with matching attribute values based on ordering comparison
+    /// </summary>
+    public class EdgesFromIndexAccessFromToAsArray : FromIndexAccessFromTo
+    {
+        public EdgesFromIndexAccessFromToAsArray(bool ascending,
+            String indexSetType, IndexDescription index,
+            bool includingFrom, bool includingTo,
+            Expression from, Expression to)
+            : base(indexSetType, index, includingFrom, includingTo, from, to)
+        {
+            this.Ascending = ascending;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new EdgesFromIndexAccessFromToAsArray(Ascending, IndexSetType, Index,
+                IncludingFrom, IncludingTo, From != null ? From.Copy(renameSuffix) : null, To != null ? To.Copy(renameSuffix) : null);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if(Ascending)
+                sourceCode.Append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexFromToAsArrayAscending(");
+            else
+                sourceCode.Append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexFromToAsArrayDescending(");
+            base.EmitArguments(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        bool Ascending;
+    }
+
+    /// <summary>
     /// Class representing expression returning the induced subgraph from the given set of nodes
     /// </summary>
     public class InducedSubgraph : Expression
