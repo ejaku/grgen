@@ -1,0 +1,44 @@
+#using "index_model_001.gm"
+
+rule equivalences() {
+	if { countNodesFromIndex(foo) == nodesFromIndex(foo).size(); }
+	if { countNodesFromIndexFromTo(foo, 2, 4) == nodesFromIndexFromTo(foo, 2, 4).size(); }
+	
+	if { isInNodesFromIndexTo(nodeByName("$4"), foo, 4) == nodeByName("$4") in nodesFromIndexTo(foo, 4); }
+	if { isInNodesFromIndexToExclusive(nodeByName("$4"), foo, 4) == nodeByName("$4") in nodesFromIndexToExclusive(foo, 4); }
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + countNodesFromIndex(foo) + "\n");
+		emit("The value of attribute foo is " + nodesFromIndex(foo).size() + "\n");
+		emit("The value of attribute foo is " + countNodesFromIndexFromTo(foo, 2, 4) + "\n");
+		emit("The value of attribute foo is " + nodesFromIndexFromTo(foo, 2, 4).size() + "\n");
+
+		emit("The value of attribute bar is " + isInNodesFromIndexTo(nodeByName("$4"), foo, 4) + "\n");
+		emit("The value of attribute bar is " + (nodeByName("$4") in nodesFromIndexTo(foo, 4)) + "\n");
+		emit("The value of attribute bar is " + isInNodesFromIndexToExclusive(nodeByName("$4"), foo, 4) + "\n");
+		emit("The value of attribute bar is " + (nodeByName("$4") in nodesFromIndexToExclusive(foo, 4)) + "\n");
+	}
+}
+
+rule equivalencesArray() {
+	if { nodesFromIndexAsArrayAscending(foo) == nodesFromIndexAsArrayDescending(foo).reverse(); }
+	if { nodesFromIndexFromToAsArrayDescending(foo, 4, 2) == nodesFromIndexFromToAsArrayAscending(foo, 2, 4).reverse(); }
+	
+	if { array<N>(nodesFromIndexFromToAsArrayAscending(foo, 2, 4)) == set<N>(nodesFromIndexFromTo(foo, 2, 4)).asArray().orderAscendingBy<i>(); }
+	if { array<N>(nodesFromIndexAsArrayDescending(foo)) == nodesFromIndex(foo).asArray().map<N>{value:Node -> (N)value}.orderDescendingBy<i>(); }
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexAsArrayAscending(foo) + "\n");
+		emit("The value of attribute foo is " + nodesFromIndexAsArrayDescending(foo).reverse() + "\n");
+		emit("The value of attribute foo is " + nodesFromIndexFromToAsArrayDescending(foo, 4, 2) + "\n");
+		emit("The value of attribute foo is " + nodesFromIndexFromToAsArrayAscending(foo, 2, 4).reverse() + "\n");
+
+		emit("The value of attribute bar is " + array<N>(nodesFromIndexFromToAsArrayAscending(foo, 2, 4)) + "\n");
+		emit("The value of attribute bar is " + set<N>(nodesFromIndexFromTo(foo, 2, 4)).asArray().orderAscendingBy<i>() + "\n");
+		emit("The value of attribute bar is " + array<N>(nodesFromIndexAsArrayDescending(foo)) + "\n");
+		emit("The value of attribute bar is " + array<N>(nodesFromIndex(foo).asArray()).orderDescendingBy<i>() + "\n");
+		//emit("The value of attribute bar is " + nodesFromIndex(foo).asArray().map<N>{value:Node -> (N)value}.orderDescendingBy<i>() + "\n"); TODO
+	}
+}

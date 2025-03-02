@@ -1,0 +1,14 @@
+new graph "index/index_fromIndex_equivalences_001b"
+
+new :Node($="0")
+
+new @("0") -:E($="$1", i=1)-> @("0")
+new @("0") -:E($="$2", i=2)-> @("0")
+new @("0") -:E($="$3", i=3)-> @("0")
+new @("0") -:E($="$4", i=4)-> @("0")
+new @("0") -:E($="$5", i=5)-> @("0")
+
+exec equivalences
+exec equivalencesArray
+
+quit

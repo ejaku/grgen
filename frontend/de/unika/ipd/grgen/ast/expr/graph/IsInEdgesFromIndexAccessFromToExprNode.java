@@ -85,7 +85,6 @@ public class IsInEdgesFromIndexAccessFromToExprNode extends FromIndexAccessFromT
 		TypeNode indexedEntityRootType = getRoot().getDecl().getDeclType();
 		TypeNode candidateType = candidateExpr.getType();
 		if(!candidateType.isCompatibleTo(indexedEntityRootType)) {
-			int argumentNumber = 1 + indexShift();
 			reportError("The function " + shortSignature() + " expects as 1. argument (candidateExpr) a value of type " + indexedEntityRootType
 					+ " (but is given a value of type " + candidateType.toStringWithDeclarationCoords() + ").");
 			return false;

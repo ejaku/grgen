@@ -216,6 +216,9 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static bool IsInNodesFromIndexSame(INode candidate, IAttributeIndex index, object value, int threadId)
         {
+            if(!candidate.Type.IsA(((AttributeIndexDescription)index.Description).GraphElementType))
+                return false;
+
             foreach(INode node in GetIndexEnumerable(index, value))
             {
                 if(node == candidate)
@@ -226,6 +229,9 @@ namespace de.unika.ipd.grGen.libGr
 
         public static bool IsInNodesFromIndexSame(INode candidate, IAttributeIndex index, object value, IActionExecutionEnvironment actionEnv, int threadId)
         {
+            if(!candidate.Type.IsA(((AttributeIndexDescription)index.Description).GraphElementType))
+                return false;
+
             foreach(INode node in GetIndexEnumerable(index, value))
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
@@ -240,6 +246,9 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static bool IsInNodesFromIndexFromTo(INode candidate, IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, int threadId)
         {
+            if(!candidate.Type.IsA(((AttributeIndexDescription)index.Description).GraphElementType))
+                return false;
+
             foreach(INode node in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
             {
                 if(node == candidate)
@@ -250,6 +259,9 @@ namespace de.unika.ipd.grGen.libGr
 
         public static bool IsInNodesFromIndexFromTo(INode candidate, IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, IActionExecutionEnvironment actionEnv, int threadId)
         {
+            if(!candidate.Type.IsA(((AttributeIndexDescription)index.Description).GraphElementType))
+                return false;
+
             foreach(INode node in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
@@ -264,6 +276,9 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static bool IsInEdgesFromIndexSame(IEdge candidate, IAttributeIndex index, object value, int threadId)
         {
+            if(!candidate.Type.IsA(((AttributeIndexDescription)index.Description).GraphElementType))
+                return false;
+
             foreach(IEdge edge in GetIndexEnumerable(index, value))
             {
                 if(edge == candidate)
@@ -274,6 +289,9 @@ namespace de.unika.ipd.grGen.libGr
 
         public static bool IsInEdgesFromIndexSame(IEdge candidate, IAttributeIndex index, object value, IActionExecutionEnvironment actionEnv, int threadId)
         {
+            if(!candidate.Type.IsA(((AttributeIndexDescription)index.Description).GraphElementType))
+                return false;
+
             foreach(IEdge edge in GetIndexEnumerable(index, value))
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
@@ -288,6 +306,9 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static bool IsInEdgesFromIndexFromTo(IEdge candidate, IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, int threadId)
         {
+            if(!candidate.Type.IsA(((AttributeIndexDescription)index.Description).GraphElementType))
+                return false;
+
             foreach(IEdge edge in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
             {
                 if(edge == candidate)
@@ -298,6 +319,9 @@ namespace de.unika.ipd.grGen.libGr
 
         public static bool IsInEdgesFromIndexFromTo(IEdge candidate, IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, IActionExecutionEnvironment actionEnv, int threadId)
         {
+            if(!candidate.Type.IsA(((AttributeIndexDescription)index.Description).GraphElementType))
+                return false;
+
             foreach(IEdge edge in GetIndexEnumerable(index, from, includingFrom, to, includingTo))
             {
                 ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];

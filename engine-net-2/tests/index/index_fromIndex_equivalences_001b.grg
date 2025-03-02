@@ -1,0 +1,44 @@
+#using "index_model_001b.gm"
+
+rule equivalences() {
+	if { countEdgesFromIndex(foo) == edgesFromIndex(foo).size(); }
+	if { countEdgesFromIndexFromTo(foo, 2, 4) == edgesFromIndexFromTo(foo, 2, 4).size(); }
+	
+	if { isInEdgesFromIndexTo(edgeByName("$4"), foo, 4) == edgeByName("$4") in edgesFromIndexTo(foo, 4); }
+	if { isInEdgesFromIndexToExclusive(edgeByName("$4"), foo, 4) == edgeByName("$4") in edgesFromIndexToExclusive(foo, 4); }
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + countEdgesFromIndex(foo) + "\n");
+		emit("The value of attribute foo is " + edgesFromIndex(foo).size() + "\n");
+		emit("The value of attribute foo is " + countEdgesFromIndexFromTo(foo, 2, 4) + "\n");
+		emit("The value of attribute foo is " + edgesFromIndexFromTo(foo, 2, 4).size() + "\n");
+
+		emit("The value of attribute bar is " + isInEdgesFromIndexTo(edgeByName("$4"), foo, 4) + "\n");
+		emit("The value of attribute bar is " + (edgeByName("$4") in edgesFromIndexTo(foo, 4)) + "\n");
+		emit("The value of attribute bar is " + isInEdgesFromIndexToExclusive(edgeByName("$4"), foo, 4) + "\n");
+		emit("The value of attribute bar is " + (edgeByName("$4") in edgesFromIndexToExclusive(foo, 4)) + "\n");
+	}
+}
+
+rule equivalencesArray() {
+	if { edgesFromIndexAsArrayAscending(foo) == edgesFromIndexAsArrayDescending(foo).reverse(); }
+	if { edgesFromIndexFromToAsArrayDescending(foo, 4, 2) == edgesFromIndexFromToAsArrayAscending(foo, 2, 4).reverse(); }
+	
+	if { array<E>(edgesFromIndexFromToAsArrayAscending(foo, 2, 4)) == set<E>(edgesFromIndexFromTo(foo, 2, 4)).asArray().orderAscendingBy<i>(); }
+	if { array<E>(edgesFromIndexAsArrayDescending(foo)) == edgesFromIndex(foo).asArray().map<E>{value:AEdge -> (E)value}.orderDescendingBy<i>(); }
+	
+	modify {
+	---
+		emit("The value of attribute foo is " + edgesFromIndexAsArrayAscending(foo) + "\n");
+		emit("The value of attribute foo is " + edgesFromIndexAsArrayDescending(foo).reverse() + "\n");
+		emit("The value of attribute foo is " + edgesFromIndexFromToAsArrayDescending(foo, 4, 2) + "\n");
+		emit("The value of attribute foo is " + edgesFromIndexFromToAsArrayAscending(foo, 2, 4).reverse() + "\n");
+
+		emit("The value of attribute bar is " + array<E>(edgesFromIndexFromToAsArrayAscending(foo, 2, 4)) + "\n");
+		emit("The value of attribute bar is " + set<E>(edgesFromIndexFromTo(foo, 2, 4)).asArray().orderAscendingBy<i>() + "\n");
+		emit("The value of attribute bar is " + array<E>(edgesFromIndexAsArrayDescending(foo)) + "\n");
+		emit("The value of attribute bar is " + array<E>(edgesFromIndex(foo).asArray()).orderDescendingBy<i>() + "\n");
+		//emit("The value of attribute bar is " + edgesFromIndex(foo).asArray().map<E>{value:AEdge -> (E)value}.orderDescendingBy<i>() + "\n"); TODO
+	}
+}
