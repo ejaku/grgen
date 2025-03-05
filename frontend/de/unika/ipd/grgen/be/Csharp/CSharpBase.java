@@ -1154,6 +1154,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ia));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("(");
 				genExpression(sb, ia.getTargetExpr(), modifyGenerationState);
 				sb.append("[");
@@ -1169,6 +1170,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ia));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("((GRGEN_LIBGR.IIncidenceCountIndex)graph.Indices.GetIndex(\"" + ia.getTarget().getIdent()
 						+ "\")).GetIncidenceCount(");
 				//sb.append("(" + formatElementInterfaceRef(ia.getKeyExpr().getType()) + ")(");
@@ -1181,6 +1183,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ms));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("(");
 				genExpression(sb, ms.getTargetExpr(), modifyGenerationState);
 				sb.append(").Count");
@@ -1190,6 +1193,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(me));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("((");
 				genExpression(sb, me.getTargetExpr(), modifyGenerationState);
 				sb.append(").Count==0)");
@@ -1199,6 +1203,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(md));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.Domain(");
 				genExpression(sb, md.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -1208,6 +1213,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(mr));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.Range(");
 				genExpression(sb, mr.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -1217,6 +1223,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(maa));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.MapAsArray(");
 				genExpression(sb, maa.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -1226,6 +1233,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(mp));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.Peek(");
 				genExpression(sb, mp.getTargetExpr(), modifyGenerationState);
 				sb.append(", ");
@@ -1237,6 +1245,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ss));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("(");
 				genExpression(sb, ss.getTargetExpr(), modifyGenerationState);
 				sb.append(").Count");
@@ -1246,6 +1255,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(se));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("((");
 				genExpression(sb, se.getTargetExpr(), modifyGenerationState);
 				sb.append(").Count==0)");
@@ -1255,6 +1265,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(sp));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.Peek(");
 				genExpression(sb, sp.getTargetExpr(), modifyGenerationState);
 				sb.append(", ");
@@ -1266,6 +1277,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(saa));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.SetAsArray(");
 				genExpression(sb, saa.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -1275,6 +1287,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(as));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("(");
 				genExpression(sb, as.getTargetExpr(), modifyGenerationState);
 				sb.append(").Count");
@@ -1284,6 +1297,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ae));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("((");
 				genExpression(sb, ae.getTargetExpr(), modifyGenerationState);
 				sb.append(").Count==0)");
@@ -1293,6 +1307,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ap));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.Peek(");
 				genExpression(sb, ap.getTargetExpr(), modifyGenerationState);
 				if(ap.getNumberExpr() != null) {
@@ -1306,6 +1321,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ai));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.IndexOf(");
 				genExpression(sb, ai.getTargetExpr(), modifyGenerationState);
 				sb.append(", ");
@@ -1322,6 +1338,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(aib));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				if(arrayValueType instanceof InheritanceType) {
 					sb.append("GRGEN_MODEL.ArrayHelper_"
 							+ aib.getTargetType().getValueType().getIdent().toString() + "_"
@@ -1387,6 +1404,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(aio));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.IndexOfOrdered(");
 				genExpression(sb, aio.getTargetExpr(), modifyGenerationState);
 				sb.append(", ");
@@ -1399,6 +1417,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(aiob));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				if(arrayValueType instanceof InheritanceType) {
 					sb.append("GRGEN_MODEL.ArrayHelper_"
 							+ aiob.getTargetType().getValueType().getIdent().toString() + "_"
@@ -1448,6 +1467,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ali));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.LastIndexOf(");
 				genExpression(sb, ali.getTargetExpr(), modifyGenerationState);
 				sb.append(", ");
@@ -1464,6 +1484,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(alib));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				if(arrayValueType instanceof InheritanceType) {
 					sb.append("GRGEN_MODEL.ArrayHelper_"
 							+ alib.getTargetType().getValueType().getIdent().toString() + "_"
@@ -1529,6 +1550,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(as));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.Subarray(");
 				genExpression(sb, as.getTargetExpr(), modifyGenerationState);
 				sb.append(", ");
@@ -1542,6 +1564,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(aoa));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayOrderAscending(");
 				genExpression(sb, aoa.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -1551,6 +1574,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(aod));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayOrderDescending(");
 				genExpression(sb, aod.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -1560,6 +1584,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ag));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayGroup(");
 				genExpression(sb, ag.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -1569,6 +1594,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ako));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayKeepOneForEach(");
 				genExpression(sb, ako.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -1579,6 +1605,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(aoab));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				if(arrayValueType instanceof InheritanceType) {
 					InheritanceType graphElementType = (InheritanceType)arrayValueType;
 					String arrayHelperClassName = getPackagePrefixDot(graphElementType) + "ArrayHelper_"
@@ -1622,6 +1649,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(aodb));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				if(arrayValueType instanceof InheritanceType) {
 					InheritanceType graphElementType = (InheritanceType)arrayValueType;
 					String arrayHelperClassName = getPackagePrefixDot(graphElementType) + "ArrayHelper_"
@@ -1665,6 +1693,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(agb));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				if(arrayValueType instanceof InheritanceType) {
 					InheritanceType graphElementType = (InheritanceType)arrayValueType;
 					String arrayHelperClassName = getPackagePrefixDot(graphElementType) + "ArrayHelper_"
@@ -1708,6 +1737,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(akob));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				if(arrayValueType instanceof InheritanceType) {
 					InheritanceType graphElementType = (InheritanceType)arrayValueType;
 					String arrayHelperClassName = getPackagePrefixDot(graphElementType) + "ArrayHelper_"
@@ -1750,6 +1780,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ar));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayReverse(");
 				genExpression(sb, ar.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -1759,6 +1790,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ar));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.Shuffle(");
 				genExpression(sb, ar.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -1768,6 +1800,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ae));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				Type arrayValueType = ae.getTargetType().getValueType();
 				if(arrayValueType instanceof InheritanceType) {
 					InheritanceType graphElementType = (InheritanceType)arrayValueType;
@@ -1809,6 +1842,7 @@ public abstract class CSharpBase
 				sb.append(modifyGenerationState.mapExprToTempVar().get(am));
 			} else {
 				// call of generated array map method
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
 				am.collectNeededEntities(needs);
 				String arrayMapName = "ArrayMap_" + am.getId();
@@ -1844,6 +1878,7 @@ public abstract class CSharpBase
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ari));
 			} else {
 				// call of generated array removeIf method
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
 				ari.collectNeededEntities(needs);
 				String arrayRemoveIfName = "ArrayRemoveIf_" + ari.getId();
@@ -1879,6 +1914,7 @@ public abstract class CSharpBase
 				sb.append(modifyGenerationState.mapExprToTempVar().get(am));
 			} else {
 				// call of generated array map start with accumulate by method
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.COMPUTATION_CONTEXT, Needs.LAMBDAS));
 				am.collectNeededEntities(needs);
 				String arrayMapName = "ArrayMapStartWithAccumulateBy_" + am.getId();
@@ -1913,6 +1949,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(aas));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayAsSet(");
 				genExpression(sb, aas.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -1922,6 +1959,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(aad));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayAsDeque(");
 				genExpression(sb, aad.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -1931,6 +1969,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(aam));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayAsMap(");
 				genExpression(sb, aam.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -1940,6 +1979,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(aas));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.ArrayAsString(");
 				genExpression(sb, aas.getTargetExpr(), modifyGenerationState);
 				sb.append(", ");
@@ -1951,6 +1991,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(as));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.Sum(");
 				genExpression(sb, as.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -1960,6 +2001,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ap));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.Prod(");
 				genExpression(sb, ap.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -1969,6 +2011,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(am));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.Min(");
 				genExpression(sb, am.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -1978,6 +2021,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(am));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.Max(");
 				genExpression(sb, am.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -1987,6 +2031,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(aa));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.Avg(");
 				genExpression(sb, aa.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -1996,6 +2041,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(am));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.Med(");
 				genExpression(sb, am.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -2005,6 +2051,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(amu));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.MedUnordered(");
 				genExpression(sb, amu.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -2014,6 +2061,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(av));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.Var(");
 				genExpression(sb, av.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -2023,6 +2071,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ad));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.Dev(");
 				genExpression(sb, ad.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -2032,6 +2081,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(aa));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.And(");
 				genExpression(sb, aa.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -2041,6 +2091,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ao));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.Or(");
 				genExpression(sb, ao.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -2050,6 +2101,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(ds));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("(");
 				genExpression(sb, ds.getTargetExpr(), modifyGenerationState);
 				sb.append(").Count");
@@ -2059,6 +2111,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(de));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("((");
 				genExpression(sb, de.getTargetExpr(), modifyGenerationState);
 				sb.append(").Count==0)");
@@ -2068,6 +2121,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(dp));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.Peek(");
 				genExpression(sb, dp.getTargetExpr(), modifyGenerationState);
 				if(dp.getNumberExpr() != null) {
@@ -2081,6 +2135,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(di));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.IndexOf(");
 				genExpression(sb, di.getTargetExpr(), modifyGenerationState);
 				sb.append(", ");
@@ -2096,6 +2151,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(dli));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.LastIndexOf(");
 				genExpression(sb, dli.getTargetExpr(), modifyGenerationState);
 				sb.append(", ");
@@ -2111,6 +2167,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(dsd));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.Subdeque(");
 				genExpression(sb, dsd.getTargetExpr(), modifyGenerationState);
 				sb.append(", ");
@@ -2124,6 +2181,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(das));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.DequeAsSet(");
 				genExpression(sb, das.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -2133,6 +2191,7 @@ public abstract class CSharpBase
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.mapExprToTempVar().get(daa));
 			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
 				sb.append("GRGEN_LIBGR.ContainerHelper.DequeAsArray(");
 				genExpression(sb, daa.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
@@ -2256,40 +2315,59 @@ public abstract class CSharpBase
 				}
 				sb.append(")");
 			}
-
 		} else if(expr instanceof MapCopyConstructor) {
 			MapCopyConstructor mcc = (MapCopyConstructor)expr;
-			sb.append("GRGEN_LIBGR.ContainerHelper.FillMap(");
-			sb.append("new " + formatType(mcc.getMapType()) + "(), ");
-			sb.append("\"" + formatSequenceType(mcc.getMapType().getKeyType()) + "\", ");
-			sb.append("\"" + formatSequenceType(mcc.getMapType().getValueType()) + "\", ");
-			genExpression(sb, mcc.getMapToCopy(), modifyGenerationState);
-			sb.append(", graph.Model");
-			sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(mcc));
+			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
+				sb.append("GRGEN_LIBGR.ContainerHelper.FillMap(");
+				sb.append("new " + formatType(mcc.getMapType()) + "(), ");
+				sb.append("\"" + formatSequenceType(mcc.getMapType().getKeyType()) + "\", ");
+				sb.append("\"" + formatSequenceType(mcc.getMapType().getValueType()) + "\", ");
+				genExpression(sb, mcc.getMapToCopy(), modifyGenerationState);
+				sb.append(", graph.Model");
+				sb.append(")");
+			}
 		} else if(expr instanceof SetCopyConstructor) {
 			SetCopyConstructor scc = (SetCopyConstructor)expr;
-			sb.append("GRGEN_LIBGR.ContainerHelper.FillSet(");
-			sb.append("new " + formatType(scc.getSetType()) + "(), ");
-			sb.append("\"" + formatSequenceType(scc.getSetType().getValueType()) + "\", ");
-			genExpression(sb, scc.getSetToCopy(), modifyGenerationState);
-			sb.append(", graph.Model");
-			sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(scc));
+			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
+				sb.append("GRGEN_LIBGR.ContainerHelper.FillSet(");
+				sb.append("new " + formatType(scc.getSetType()) + "(), ");
+				sb.append("\"" + formatSequenceType(scc.getSetType().getValueType()) + "\", ");
+				genExpression(sb, scc.getSetToCopy(), modifyGenerationState);
+				sb.append(", graph.Model");
+				sb.append(")");
+			}
 		} else if(expr instanceof ArrayCopyConstructor) {
 			ArrayCopyConstructor acc = (ArrayCopyConstructor)expr;
-			sb.append("GRGEN_LIBGR.ContainerHelper.FillArray(");
-			sb.append("new " + formatType(acc.getArrayType()) + "(), ");
-			sb.append("\"" + formatSequenceType(acc.getArrayType().getValueType()) + "\", ");
-			genExpression(sb, acc.getArrayToCopy(), modifyGenerationState);
-			sb.append(", graph.Model");
-			sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(acc));
+			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
+				sb.append("GRGEN_LIBGR.ContainerHelper.FillArray(");
+				sb.append("new " + formatType(acc.getArrayType()) + "(), ");
+				sb.append("\"" + formatSequenceType(acc.getArrayType().getValueType()) + "\", ");
+				genExpression(sb, acc.getArrayToCopy(), modifyGenerationState);
+				sb.append(", graph.Model");
+				sb.append(")");
+			}
 		} else if(expr instanceof DequeCopyConstructor) {
 			DequeCopyConstructor dcc = (DequeCopyConstructor)expr;
-			sb.append("GRGEN_LIBGR.ContainerHelper.FillDeque(");
-			sb.append("new " + formatType(dcc.getDequeType()) + "(), ");
-			sb.append("\"" + formatSequenceType(dcc.getDequeType().getValueType()) + "\", ");
-			genExpression(sb, dcc.getDequeToCopy(), modifyGenerationState);
-			sb.append(", graph.Model");
-			sb.append(")");
+			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(dcc));
+			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
+				sb.append("GRGEN_LIBGR.ContainerHelper.FillDeque(");
+				sb.append("new " + formatType(dcc.getDequeType()) + "(), ");
+				sb.append("\"" + formatSequenceType(dcc.getDequeType().getValueType()) + "\", ");
+				genExpression(sb, dcc.getDequeToCopy(), modifyGenerationState);
+				sb.append(", graph.Model");
+				sb.append(")");
+			}
 		} else if(expr instanceof FunctionInvocationExpr) {
 			FunctionInvocationExpr fi = (FunctionInvocationExpr)expr;
 			sb.append("GRGEN_ACTIONS." + getPackagePrefixDot(fi.getFunction()) + "Functions."
@@ -3210,6 +3288,12 @@ public abstract class CSharpBase
 			sb.append(", actionEnv");
 		if(modifyGenerationState.isToBeParallelizedActionExisting())
 			sb.append(", threadId");
+	}
+
+	protected void switchToVarForResultAsNeeded(ExpressionGenerationState modifyGenerationState)
+	{
+		if(modifyGenerationState != null && modifyGenerationState.switchToVarForResultAfterFirstVarUsage())
+			modifyGenerationState.switchToVarForResult();
 	}
 
 	protected String formatAttributeTypeObject(Type t)

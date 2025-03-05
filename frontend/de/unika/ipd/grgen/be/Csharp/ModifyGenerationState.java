@@ -217,6 +217,18 @@ class ModifyGenerationState implements ModifyGenerationStateConst
 	}
 
 	@Override
+	public boolean switchToVarForResultAfterFirstVarUsage()
+	{
+		return switchToVarForResultAfterFirstVarUsage;
+	}
+
+	@Override
+	public void switchToVarForResult()
+	{
+		useVarForResult = true;
+	}
+
+	@Override
 	public Model model()
 	{
 		return model;
@@ -284,6 +296,7 @@ class ModifyGenerationState implements ModifyGenerationStateConst
 
 	public HashMap<Expression, String> mapExprToTempVar = new LinkedHashMap<Expression, String>();
 	public boolean useVarForResult;
+	public boolean switchToVarForResultAfterFirstVarUsage;
 
 	private Model model;
 	private String matchClassName;

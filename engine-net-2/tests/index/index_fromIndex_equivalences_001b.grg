@@ -38,7 +38,6 @@ rule equivalencesArray() {
 		emit("The value of attribute bar is " + array<E>(edgesFromIndexFromToAsArrayAscending(foo, 2, 4)) + "\n");
 		emit("The value of attribute bar is " + set<E>(edgesFromIndexFromTo(foo, 2, 4)).asArray().orderAscendingBy<i>() + "\n");
 		emit("The value of attribute bar is " + array<E>(edgesFromIndexAsArrayDescending(foo)) + "\n");
-		emit("The value of attribute bar is " + array<E>(edgesFromIndex(foo).asArray()).orderDescendingBy<i>() + "\n");
-		//emit("The value of attribute bar is " + edgesFromIndex(foo).asArray().map<E>{value:AEdge -> (E)value}.orderDescendingBy<i>() + "\n"); TODO
+		emit("The value of attribute bar is " + edgesFromIndex(foo).asArray().map<E>{value:AEdge -> (E)value}.orderDescendingBy<i>() + "\n");
 	}
 }

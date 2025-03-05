@@ -12,11 +12,14 @@
 
 package de.unika.ipd.grgen.be.Csharp;
 
+import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Map;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.NeededEntities.Needs;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.model.Model;
@@ -28,6 +31,7 @@ import de.unika.ipd.grgen.ir.stmt.ExecStatement;
 import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
 import de.unika.ipd.grgen.ir.type.DefinedMatchType;
 import de.unika.ipd.grgen.ir.type.MatchType;
+import de.unika.ipd.grgen.util.Pair;
 import de.unika.ipd.grgen.util.SourceBuilder;
 
 public class ModifyExecGen extends CSharpBase
@@ -100,60 +104,13 @@ public class ModifyExecGen extends CSharpBase
 	}
 
 	public void genImperativeStatements(SourceBuilder sb, ModifyGenerationTask task,
-			ModifyGenerationState state, ModifyGenerationStateConst stateConst, NeededEntities needs,
+			ModifyGenerationState state, ModifyGenerationStateConst stateConst, NeededEntities needsInput,
 			String pathPrefix, String packagePrefixedActionName)
 	{
 		if(state.emitProfilingInstrumentation() && pathPrefix.equals("")
 				&& !task.isSubpattern && task.typeOfTask == ModifyGenerationTask.TYPE_OF_TASK_MODIFY)
 			genExecProfilingStart(sb);
 
-		collectContainerExprsNeededByImperativeStatements(task, needs);
-		state.InitNeeds(needs.containerExprs);
-		genContainerVariablesBeforeImperativeStatements(sb, stateConst);
-
-		state.useVarForResult = true;
-		genImperativeStatements(sb, stateConst, task, pathPrefix);
-		state.useVarForResult = false;
-
-		state.ClearContainerExprs();
-
-		if(state.emitProfilingInstrumentation() && pathPrefix.equals("")
-				&& !task.isSubpattern && task.typeOfTask == ModifyGenerationTask.TYPE_OF_TASK_MODIFY)
-			genExecProfilingStop(sb, packagePrefixedActionName);
-	}
-
-	private static void genExecProfilingStart(SourceBuilder sb)
-	{
-		sb.appendFront("long searchStepsAtBeginExec = actionEnv.PerformanceInfo.SearchSteps;\n");
-	}
-
-	private static void collectContainerExprsNeededByImperativeStatements(ModifyGenerationTask task,
-			NeededEntities needs)
-	{
-		for(ImperativeStmt istmt : task.right.getImperativeStmts()) {
-			if(istmt instanceof Emit) {
-				Emit emit = (Emit)istmt;
-				for(Expression arg : emit.getArguments()) {
-					arg.collectNeededEntities(needs);
-				}
-			}
-		}
-	}
-
-	private void genContainerVariablesBeforeImperativeStatements(SourceBuilder sb, ModifyGenerationStateConst state)
-	{
-		for(Map.Entry<Expression, String> entry : state.mapExprToTempVar().entrySet()) {
-			Expression expr = entry.getKey();
-			String varName = entry.getValue();
-			sb.appendFront(formatAttributeType(expr.getType()) + " " + varName + " = ");
-			genExpression(sb, expr, state);
-			sb.append(";\n");
-		}
-	}
-
-	private void genImperativeStatements(SourceBuilder sb, ModifyGenerationStateConst state,
-			ModifyGenerationTask task, String pathPrefix)
-	{
 		if(!task.mightThereBeDeferredExecs) { // procEnv was already emitted in case of deferred execs
 			if(!task.right.getImperativeStmts().isEmpty()) { // we need it?
 				// see genSubpatternModificationCalls why not simply emitting in case of !task.right.getImperativeStmts().isEmpty()
@@ -167,16 +124,81 @@ public class ModifyExecGen extends CSharpBase
 			sb.appendFront("procEnv.sequencesManager.ExecuteDeferredSequencesThenExitRuleModify(procEnv);\n");
 		}
 
+		state.ClearContainerExprs();
 		for(ImperativeStmt istmt : task.right.getImperativeStmts()) {
-			if(istmt instanceof Emit) {
-				Emit emit = (Emit)istmt;
-				genEmit(sb, state, emit);
-			} else if(istmt instanceof Exec) {
-				Exec exec = (Exec)istmt;
-				genExec(sb, task, pathPrefix, exec);
-			} else
-				assert false : "unknown ImperativeStmt: " + istmt + " in " + task.left.getNameOfGraph();
+			NeededEntities needs = new NeededEntities(EnumSet.of(Needs.CONTAINER_EXPRS));
+			collectContainerExprsNeededByImperativeStatement(istmt, needs);
+			state.InitNeeds(needs.containerExprs);
+
+			sb.appendFront("{\n");
+			sb.indent();
+			genContainerVariablesBeforeImperativeStatement(sb, state);
+
+			state.useVarForResult = true;
+			genImperativeStatement(sb, stateConst, task, istmt, pathPrefix);
+			state.useVarForResult = false;
+
+			sb.unindent();
+			sb.appendFront("}\n");
+
+			state.ClearContainerExprs();
 		}
+
+		if(state.emitProfilingInstrumentation() && pathPrefix.equals("")
+				&& !task.isSubpattern && task.typeOfTask == ModifyGenerationTask.TYPE_OF_TASK_MODIFY)
+			genExecProfilingStop(sb, packagePrefixedActionName);
+	}
+
+	private static void genExecProfilingStart(SourceBuilder sb)
+	{
+		sb.appendFront("long searchStepsAtBeginExec = actionEnv.PerformanceInfo.SearchSteps;\n");
+	}
+
+	private static void collectContainerExprsNeededByImperativeStatement(ImperativeStmt istmt, 
+			NeededEntities needs)
+	{
+		if(istmt instanceof Emit) {
+			Emit emit = (Emit)istmt;
+			for(Expression arg : emit.getArguments()) {
+				arg.collectNeededEntities(needs);
+			}
+		}
+	}
+
+	private void genContainerVariablesBeforeImperativeStatement(SourceBuilder sb, ModifyGenerationState state)
+	{
+		// the container expressions are visited and inserted into the LinkedHashSet from the needs in preorder, and transferred to a LinkedHashMap in iteration order
+		ArrayList<Pair<Expression, String>> array = new ArrayList<Pair<Expression, String>>();
+		for(Map.Entry<Expression, String> entry : state.mapExprToTempVar().entrySet()) {
+			array.add(new Pair<Expression, String>(entry.getKey(), entry.getValue()));
+		}
+
+		// iterate in reverse order so that contained container expressions are evaluated before their containing expressions
+		for(int i = array.size() - 1; i >= 0; --i) {
+			Expression expr = array.get(i).first;
+			String varName = array.get(i).second;
+			sb.appendFront(formatAttributeType(expr.getType()) + " " + varName + " = ");
+
+			state.switchToVarForResultAfterFirstVarUsage = true;
+			genExpression(sb, expr, state);
+			state.switchToVarForResultAfterFirstVarUsage = false;
+			state.useVarForResult = false;
+
+			sb.append(";\n");
+		}
+	}
+
+	private void genImperativeStatement(SourceBuilder sb, ModifyGenerationStateConst state,
+			ModifyGenerationTask task, ImperativeStmt istmt, String pathPrefix)
+	{
+		if(istmt instanceof Emit) {
+			Emit emit = (Emit)istmt;
+			genEmit(sb, state, emit);
+		} else if(istmt instanceof Exec) {
+			Exec exec = (Exec)istmt;
+			genExec(sb, task, pathPrefix, exec);
+		} else
+			assert false : "unknown ImperativeStmt: " + istmt + " in " + task.left.getNameOfGraph();
 	}
 
 	private static void genExecProfilingStop(SourceBuilder sb, String packagePrefixedActionName)

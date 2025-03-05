@@ -38,7 +38,13 @@ rule equivalencesArray() {
 		emit("The value of attribute bar is " + array<N>(nodesFromIndexFromToAsArrayAscending(foo, 2, 4)) + "\n");
 		emit("The value of attribute bar is " + set<N>(nodesFromIndexFromTo(foo, 2, 4)).asArray().orderAscendingBy<i>() + "\n");
 		emit("The value of attribute bar is " + array<N>(nodesFromIndexAsArrayDescending(foo)) + "\n");
+		emit("The value of attribute bar is " + nodesFromIndex(foo).asArray().map<N>{value:Node -> (N)value}.orderDescendingBy<i>() + "\n");
+	}
+}
+
+rule extraCodeGenTest() {
+	modify {
+	---
 		emit("The value of attribute bar is " + array<N>(nodesFromIndex(foo).asArray()).orderDescendingBy<i>() + "\n");
-		//emit("The value of attribute bar is " + nodesFromIndex(foo).asArray().map<N>{value:Node -> (N)value}.orderDescendingBy<i>() + "\n"); TODO
 	}
 }

@@ -24,6 +24,10 @@ public interface ExpressionGenerationState
 
 	boolean useVarForResult();
 
+	boolean switchToVarForResultAfterFirstVarUsage();
+
+	void switchToVarForResult();
+
 	Model model();
 
 	boolean isToBeParallelizedActionExisting();
