@@ -46,6 +46,7 @@ import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessSameAsArrayExprNode
 import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessSameExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EmptyExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EqualsAnyExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.FromIndexAccessFromToPartExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.GetEquivalentExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.IncidentEdgeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.InducedSubgraphExprNode;
@@ -64,6 +65,7 @@ import de.unika.ipd.grgen.ast.expr.graph.NodeByUniqueExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.NodesExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessFromToAsArrayExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessFromToExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessMultipleFromToExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessSameAsArrayExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessSameExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.OppositeExprNode;
@@ -920,6 +922,21 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return null;
 			} else {
 				return new EdgesFromIndexAccessFromToAsArrayExprNode(env.getCoords(), arguments.get(0), functionName.contains("Ascending"), arguments.get(1), functionName.contains("FromExclusive"), arguments.get(2), functionName.contains("ToExclusive"));
+			}
+		case "nodesFromIndexMultipleFromTo":
+			if(arguments.size() % 3 != 0) {
+				env.reportError("nodesFromIndexMultipleFromTo() expects a multiple of 3 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				NodesFromIndexAccessMultipleFromToExprNode indexAccessMultiple = new NodesFromIndexAccessMultipleFromToExprNode(env.getCoords());
+ 				for(int i = 0; i < arguments.size(); i += 3)
+				{
+					ExprNode index = arguments.get(i);
+					ExprNode fromExpr = arguments.get(i + 1);
+					ExprNode toExpr = arguments.get(i + 2);
+					indexAccessMultiple.addIndexAccessExpr(new FromIndexAccessFromToPartExprNode(index.getCoords(), index, fromExpr, false, toExpr, false, i, indexAccessMultiple));
+				}
+				return indexAccessMultiple;
 			}
 		case "inducedSubgraph":
 			if(arguments.size() != 1) {

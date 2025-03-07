@@ -177,6 +177,7 @@ import de.unika.ipd.grgen.ir.expr.graph.NodeByNameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.NodeByUniqueExpr;
 import de.unika.ipd.grgen.ir.expr.graph.NodesExpr;
 import de.unika.ipd.grgen.ir.expr.graph.NodesFromIndexAccessFromToExpr;
+import de.unika.ipd.grgen.ir.expr.graph.NodesFromIndexAccessMultipleFromToExpr;
 import de.unika.ipd.grgen.ir.expr.graph.NodesFromIndexAccessSameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.OppositeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.ReachableEdgeExpr;
@@ -2124,6 +2125,20 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			genExpressionTree(sb, iiefiaft.getCandidateExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			genIndexAccessOrdering(sb, iao, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		} else if(expr instanceof NodesFromIndexAccessMultipleFromToExpr) {
+			NodesFromIndexAccessMultipleFromToExpr nfiamft = (NodesFromIndexAccessMultipleFromToExpr)expr;
+			sb.append("new GRGEN_EXPR.NodesFromIndexAccessMultipleFromTo(");
+			boolean first = true;
+			for(IndexAccessOrdering iao : nfiamft.getIndexAccesses()) {
+				if(first)
+					first = false;
+				else
+					sb.append(",");
+				sb.append("new GRGEN_EXPR.FromIndexAccessFromToPart(");
+				genIndexAccessOrdering(sb, iao, className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(")");
+			}
 			sb.append(")");
 		} else if(expr instanceof InducedSubgraphExpr) {
 			InducedSubgraphExpr is = (InducedSubgraphExpr)expr;

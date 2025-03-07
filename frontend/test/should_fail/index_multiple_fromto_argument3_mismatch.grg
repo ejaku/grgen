@@ -1,0 +1,8 @@
+#using "index_multiple_model.gm"
+
+rule i {
+	if{ nodesFromIndexMultipleFromTo(Ni, 0, 1, N2j, 42.0, 42).size() > 0; }
+	
+	modify {
+	}
+}

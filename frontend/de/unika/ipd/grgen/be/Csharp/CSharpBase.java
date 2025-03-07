@@ -147,6 +147,7 @@ import de.unika.ipd.grgen.ir.expr.graph.NodeByNameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.NodeByUniqueExpr;
 import de.unika.ipd.grgen.ir.expr.graph.NodesExpr;
 import de.unika.ipd.grgen.ir.expr.graph.NodesFromIndexAccessFromToExpr;
+import de.unika.ipd.grgen.ir.expr.graph.NodesFromIndexAccessMultipleFromToExpr;
 import de.unika.ipd.grgen.ir.expr.graph.NodesFromIndexAccessSameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.OppositeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.ReachableEdgeExpr;
@@ -2950,6 +2951,7 @@ public abstract class CSharpBase
 				sb.append("GRGEN_LIBGR.IndexHelper.NodesFromIndexSameAsArray(");
 			}
 			genIndexAccessEquality(sb, iae, modifyGenerationState);
+			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
 			sb.append(")");
 		} else if(expr instanceof NodesFromIndexAccessFromToExpr) {
 			NodesFromIndexAccessFromToExpr nfiaft = (NodesFromIndexAccessFromToExpr)expr;
@@ -2964,6 +2966,7 @@ public abstract class CSharpBase
 				}
 			}
 			genIndexAccessOrdering(sb, iao, modifyGenerationState);
+			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
 			sb.append(")");
 		} else if(expr instanceof EdgesFromIndexAccessSameExpr) {
 			EdgesFromIndexAccessSameExpr efias = (EdgesFromIndexAccessSameExpr)expr;
@@ -2974,6 +2977,7 @@ public abstract class CSharpBase
 				sb.append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexSameAsArray(");
 			}
 			genIndexAccessEquality(sb, iae, modifyGenerationState);
+			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
 			sb.append(")");
 		} else if(expr instanceof EdgesFromIndexAccessFromToExpr) {
 			EdgesFromIndexAccessFromToExpr efiaft = (EdgesFromIndexAccessFromToExpr)expr;
@@ -2988,12 +2992,14 @@ public abstract class CSharpBase
 				}
 			}
 			genIndexAccessOrdering(sb, iao, modifyGenerationState);
+			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
 			sb.append(")");
 		} else if(expr instanceof CountNodesFromIndexAccessSameExpr) {
 			CountNodesFromIndexAccessSameExpr cnfias = (CountNodesFromIndexAccessSameExpr)expr;
 			IndexAccessEquality iae = cnfias.getIndexAccessEquality();
 			sb.append("GRGEN_LIBGR.IndexHelper.CountNodesFromIndexSame(");
 			genIndexAccessEquality(sb, iae, modifyGenerationState);
+			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
 			sb.append(")");
 		} else if(expr instanceof CountNodesFromIndexAccessFromToExpr) {
 			CountNodesFromIndexAccessFromToExpr cnfiaft = (CountNodesFromIndexAccessFromToExpr)expr;
@@ -3006,12 +3012,14 @@ public abstract class CSharpBase
 			IndexAccessEquality iae = cefias.getIndexAccessEquality();
 			sb.append("GRGEN_LIBGR.IndexHelper.CountEdgesFromIndexSame(");
 			genIndexAccessEquality(sb, iae, modifyGenerationState);
+			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
 			sb.append(")");
 		} else if(expr instanceof CountEdgesFromIndexAccessFromToExpr) {
 			CountEdgesFromIndexAccessFromToExpr cefiaft = (CountEdgesFromIndexAccessFromToExpr)expr;
 			IndexAccessOrdering iao = cefiaft.getIndexAccessOrdering();
 			sb.append("GRGEN_LIBGR.IndexHelper.CountEdgesFromIndexFromTo(");
 			genIndexAccessOrdering(sb, iao, modifyGenerationState);
+			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
 			sb.append(")");
 		} else if(expr instanceof IsInNodesFromIndexAccessSameExpr) {
 			IsInNodesFromIndexAccessSameExpr iinfias = (IsInNodesFromIndexAccessSameExpr)expr;
@@ -3020,6 +3028,7 @@ public abstract class CSharpBase
 			genExpression(sb, iinfias.getCandidateExpr(), modifyGenerationState);
 			sb.append(", ");
 			genIndexAccessEquality(sb, iae, modifyGenerationState);
+			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
 			sb.append(")");
 		} else if(expr instanceof IsInNodesFromIndexAccessFromToExpr) {
 			IsInNodesFromIndexAccessFromToExpr iinfiaft = (IsInNodesFromIndexAccessFromToExpr)expr;
@@ -3028,6 +3037,7 @@ public abstract class CSharpBase
 			genExpression(sb, iinfiaft.getCandidateExpr(), modifyGenerationState);
 			sb.append(", ");
 			genIndexAccessOrdering(sb, iao, modifyGenerationState);
+			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
 			sb.append(")");
 		} else if(expr instanceof IsInEdgesFromIndexAccessSameExpr) {
 			IsInEdgesFromIndexAccessSameExpr iiefias = (IsInEdgesFromIndexAccessSameExpr)expr;
@@ -3036,6 +3046,7 @@ public abstract class CSharpBase
 			genExpression(sb, iiefias.getCandidateExpr(), modifyGenerationState);
 			sb.append(", ");
 			genIndexAccessEquality(sb, iae, modifyGenerationState);
+			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
 			sb.append(")");
 		} else if(expr instanceof IsInEdgesFromIndexAccessFromToExpr) {
 			IsInEdgesFromIndexAccessFromToExpr iiefiaft = (IsInEdgesFromIndexAccessFromToExpr)expr;
@@ -3044,6 +3055,22 @@ public abstract class CSharpBase
 			genExpression(sb, iiefiaft.getCandidateExpr(), modifyGenerationState);
 			sb.append(", ");
 			genIndexAccessOrdering(sb, iao, modifyGenerationState);
+			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
+			sb.append(")");
+		} else if(expr instanceof NodesFromIndexAccessMultipleFromToExpr) {
+			NodesFromIndexAccessMultipleFromToExpr nfiamft = (NodesFromIndexAccessMultipleFromToExpr)expr;
+			sb.append("GRGEN_LIBGR.IndexHelper.NodesFromIndexMultipleFromTo(");
+			genProfilingAndOrParallelizationArgumentsAtBegin(sb, modifyGenerationState);
+			boolean first = true;
+			for(IndexAccessOrdering iao : nfiamft.getIndexAccesses()) {
+				if(first)
+					first = false;
+				else
+					sb.append(",");
+				sb.append("new GRGEN_LIBGR.IndexHelper.IndexAccess(");
+				genIndexAccessOrdering(sb, iao, modifyGenerationState);
+				sb.append(")");
+			}
 			sb.append(")");
 		} else if(expr instanceof InducedSubgraphExpr) {
 			InducedSubgraphExpr is = (InducedSubgraphExpr)expr;
@@ -3262,10 +3289,6 @@ public abstract class CSharpBase
 	{
 		sb.append("((GRGEN_MODEL." + modifyGenerationState.model().getIdent() + "IndexSet)graph.Indices)." + iae.index.getIdent() + ", ");
 		genExpression(sb, iae.expr, modifyGenerationState);
-		if(modifyGenerationState.emitProfilingInstrumentation())
-			sb.append(", actionEnv");
-		if(modifyGenerationState.isToBeParallelizedActionExisting())
-			sb.append(", threadId");
 	}
 
 	void genIndexAccessOrdering(SourceBuilder sb, IndexAccessOrdering iao, ExpressionGenerationState modifyGenerationState)
@@ -3284,10 +3307,22 @@ public abstract class CSharpBase
 			sb.append("null");
 		sb.append(", ");
 		sb.append(iao.includingTo() ? "true" : "false");
+	}
+
+	void genProfilingAndOrParallelizationArguments(SourceBuilder sb, ExpressionGenerationState modifyGenerationState)
+	{
 		if(modifyGenerationState.emitProfilingInstrumentation())
 			sb.append(", actionEnv");
 		if(modifyGenerationState.isToBeParallelizedActionExisting())
 			sb.append(", threadId");
+	}
+
+	void genProfilingAndOrParallelizationArgumentsAtBegin(SourceBuilder sb, ExpressionGenerationState modifyGenerationState)
+	{
+		if(modifyGenerationState.emitProfilingInstrumentation())
+			sb.append("actionEnv, ");
+		if(modifyGenerationState.isToBeParallelizedActionExisting())
+			sb.append("threadId, ");
 	}
 
 	protected void switchToVarForResultAsNeeded(ExpressionGenerationState modifyGenerationState)

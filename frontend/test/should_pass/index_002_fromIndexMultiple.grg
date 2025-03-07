@@ -1,0 +1,23 @@
+#using "index_model_002.gm"
+
+rule i {
+	if{ nodesFromIndexMultipleFromTo(fooi, 0, 42, food, 0.0, 42.0, foos, "a", "zzzzzzzzzz").size() > 0; }
+	
+	modify {
+		eval {
+			def var s:int;
+			s = nodesFromIndexMultipleFromTo(fooi, 0, 42, food, 0.0, 42.0, foos, "a", "zzzzzzzzzz").size();
+		}
+	}
+}
+
+/*rule ei {
+	if{ edgesFromIndexMultipleFromTo(bari, 0, 42, bard, 0.0, 42.0, bars, "a", "zzzzzzzzzz").size() > 0; }
+	
+	modify {
+		eval {
+			def var s:int;
+			s = edgesFromIndexMultipleFromTo(bari, 0, 42, bard, 0.0, 42.0, bars, "a", "zzzzzzzzzz").size();
+		}
+	}
+}*/

@@ -40,7 +40,8 @@ public abstract class FromIndexAccessExprNode extends BuiltinFunctionInvocationB
 	{
 		boolean successfullyResolved = true;
 		if(!(indexUnresolved instanceof IdentExprNode)) {
-			reportError("Index identifier (expression) required.");
+			int indexArgumentNumber = 1 + indexShift();
+			reportError("The function " + shortSignature() + " expects as " + indexArgumentNumber + ". argument (index) an index identifier.");
 			successfullyResolved = false;
 		} else {
 			boolean indexResolved = indexUnresolved.resolve();
@@ -48,7 +49,8 @@ public abstract class FromIndexAccessExprNode extends BuiltinFunctionInvocationB
 				if(((IdentExprNode)indexUnresolved).decl instanceof IndexDeclNode) {
 					index = (IndexDeclNode)((IdentExprNode)indexUnresolved).decl;
 				} else {
-					reportError("Index (type) required.");
+					int indexArgumentNumber = 1 + indexShift();
+					reportError("The function " + shortSignature() + " expects as " + indexArgumentNumber + ". argument (index) a declared index (given is " + ((IdentExprNode)indexUnresolved).decl.getDecl().toString() + ").");
 				}
 			}
 		}
@@ -64,7 +66,7 @@ public abstract class FromIndexAccessExprNode extends BuiltinFunctionInvocationB
 		TypeNode entityType = index.getType();
 		if(!entityType.isCompatibleTo(expectedEntityType)) {
 			int indexArgumentNumber = 1 + indexShift();
-			reportError("The function " + shortSignature() + " expects as " + indexArgumentNumber + ". argument (index " + indexUnresolved + ") a value of type index on " + expectedEntityType.toStringWithDeclarationCoords()
+			reportError("The function " + shortSignature() + " expects as " + indexArgumentNumber + ". argument (index) a value of type index on " + expectedEntityType.toStringWithDeclarationCoords()
 					+ " (but is given a value of type index on " + entityType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}	

@@ -476,5 +476,107 @@ namespace de.unika.ipd.grGen.libGr
             }
             return edgesArray;
         }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        public static Dictionary<INode, SetValueType> NodesFromIndexMultipleFromTo(int threadId, params IndexAccess[] indexAccesses)
+        {
+            return NodesFromIndexMultipleFromTo(new List<IndexAccess>(indexAccesses), threadId);
+        }
+
+        /// <summary>
+        /// Returns the nodes that appear in the result sets of all index accesses/queries (multi-index-join), as set
+        /// </summary>
+        public static Dictionary<INode, SetValueType> NodesFromIndexMultipleFromTo(List<IndexAccess> indexAccesses, int threadId)
+        {
+            if(indexAccesses.Count == 0)
+                throw new System.Exception("At least one index access must be given");
+
+            foreach(IndexAccess indexAccess in indexAccesses)
+            {
+                indexAccess.NumberOfResults = CountNodesFromIndexFromTo(indexAccess.Index, indexAccess.From, indexAccess.IncludingFrom, indexAccess.To, indexAccess.IncludingTo, threadId);
+            }
+
+            indexAccesses.Sort(TheIndexAccessComparer);
+
+            // the initial set are the nodes from the first index query
+            Dictionary<INode, SetValueType> nodesSet = new Dictionary<INode, SetValueType>(indexAccesses[0].NumberOfResults);
+            foreach(INode node in GetIndexEnumerable(indexAccesses[0].Index, indexAccesses[0].From, indexAccesses[0].IncludingFrom, indexAccesses[0].To, indexAccesses[0].IncludingTo))
+            {
+                nodesSet.Add(node, null);
+            }
+
+            // a series of sets is produced by reducing to the nodes that appear also in the result sets of the queries of the other indices, index query by index query
+            for(int i = 1; i < indexAccesses.Count; ++i)
+            {
+                nodesSet = RemoveNodesThatDontAppearInTheIndexAccessResult(nodesSet, indexAccesses[i], threadId);
+            }
+
+            return nodesSet;
+        }
+
+        private static Dictionary<INode, SetValueType> RemoveNodesThatDontAppearInTheIndexAccessResult(Dictionary<INode, SetValueType> nodesSet, IndexAccess indexAccess, int threadId)
+        {
+            Dictionary<INode, SetValueType> resultSet = new Dictionary<INode, SetValueType>(nodesSet.Count);
+            foreach(INode node in GetIndexEnumerable(indexAccess.Index, indexAccess.From, indexAccess.IncludingFrom, indexAccess.To, indexAccess.IncludingTo))
+            {
+                if(nodesSet.ContainsKey(node))
+                {
+                    resultSet.Add(node, null);
+                }
+            }
+            return resultSet;
+        }
+
+        public static Dictionary<INode, SetValueType> NodesFromIndexMultipleFromTo(IActionExecutionEnvironment actionEnv, int threadId, params IndexAccess[] indexAccesses)
+        {
+            return NodesFromIndexMultipleFromTo(new List<IndexAccess>(indexAccesses), actionEnv, threadId);
+        }
+
+        /// <summary>
+        /// Returns the nodes that appear in the result sets of all index accesses/queries (multi-index-join), as set
+        /// </summary>
+        public static Dictionary<INode, SetValueType> NodesFromIndexMultipleFromTo(List<IndexAccess> indexAccesses, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            if(indexAccesses.Count == 0)
+                throw new System.Exception("At least one index access must be given");
+
+            foreach(IndexAccess indexAccess in indexAccesses)
+            {
+                indexAccess.NumberOfResults = CountNodesFromIndexFromTo(indexAccess.Index, indexAccess.From, indexAccess.IncludingFrom, indexAccess.To, indexAccess.IncludingTo, actionEnv, threadId);
+            }
+
+            indexAccesses.Sort(TheIndexAccessComparer);
+
+            // the initial set are the nodes from the first index query
+            Dictionary<INode, SetValueType> nodesSet = new Dictionary<INode, SetValueType>(indexAccesses[0].NumberOfResults);
+            foreach(INode node in GetIndexEnumerable(indexAccesses[0].Index, indexAccesses[0].From, indexAccesses[0].IncludingFrom, indexAccesses[0].To, indexAccesses[0].IncludingTo))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                nodesSet.Add(node, null);
+            }
+
+            // a series of sets is produced by reducing to the nodes that appear also in the result sets of the queries of the other indices, index query by index query
+            for(int i = 1; i < indexAccesses.Count; ++i)
+            {
+                nodesSet = RemoveNodesThatDontAppearInTheIndexAccessResult(nodesSet, indexAccesses[i], actionEnv, threadId);
+            }
+
+            return nodesSet;
+        }
+
+        private static Dictionary<INode, SetValueType> RemoveNodesThatDontAppearInTheIndexAccessResult(Dictionary<INode, SetValueType> nodesSet, IndexAccess indexAccess, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            Dictionary<INode, SetValueType> resultSet = new Dictionary<INode, SetValueType>(nodesSet.Count);
+            foreach(INode node in GetIndexEnumerable(indexAccess.Index, indexAccess.From, indexAccess.IncludingFrom, indexAccess.To, indexAccess.IncludingTo))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(nodesSet.ContainsKey(node))
+                {
+                    resultSet.Add(node, null);
+                }
+            }
+            return resultSet;
+        }
     }
 }

@@ -1,0 +1,6 @@
+node class N
+{
+	x : int;
+}
+
+index ix { N.x }

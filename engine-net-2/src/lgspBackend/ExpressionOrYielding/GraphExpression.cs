@@ -4445,7 +4445,7 @@ namespace de.unika.ipd.grGen.expression
             To = to;
         }
 
-        protected void EmitArguments(SourceBuilder sourceCode)
+        public void EmitArguments(SourceBuilder sourceCode)
         {
             sourceCode.AppendFormat("(({0})graph.Indices).{1}, ", IndexSetType, Index.Name);
 
@@ -4469,7 +4469,10 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.Append("true");
             else
                 sourceCode.Append("false");
+        }
 
+        protected void EmitProfilingAndOrParallelizationArguments(SourceBuilder sourceCode)
+        {
             if(Profiling)
                 sourceCode.Append(", actionEnv");
             if(Parallel)
@@ -4502,6 +4505,30 @@ namespace de.unika.ipd.grGen.expression
         public readonly Expression To;
         bool Parallel;
         bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression accessing an index based on ordering comparison
+    /// </summary>
+    public class FromIndexAccessFromToPart : FromIndexAccessFromTo
+    {
+        public FromIndexAccessFromToPart(String indexSetType, IndexDescription index,
+            bool includingFrom, bool includingTo,
+            Expression from, Expression to)
+            : base(indexSetType, index, includingFrom, includingTo, from, to)
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new FromIndexAccessFromToPart(IndexSetType, Index,
+                IncludingFrom, IncludingTo, From != null ? From.Copy(renameSuffix) : null, To != null ? To.Copy(renameSuffix) : null);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            throw new Exception("Not implemented! Only used as part class.");
+        }
     }
 
     /// <summary>
@@ -4549,6 +4576,7 @@ namespace de.unika.ipd.grGen.expression
         {
             sourceCode.Append("GRGEN_LIBGR.IndexHelper.NodesFromIndexFromTo(");
             base.EmitArguments(sourceCode);
+            base.EmitProfilingAndOrParallelizationArguments(sourceCode);
             sourceCode.Append(")");
         }
     }
@@ -4598,6 +4626,7 @@ namespace de.unika.ipd.grGen.expression
         {
             sourceCode.Append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexFromTo(");
             base.EmitArguments(sourceCode);
+            base.EmitProfilingAndOrParallelizationArguments(sourceCode);
             sourceCode.Append(")");
         }
     }
@@ -4647,6 +4676,7 @@ namespace de.unika.ipd.grGen.expression
         {
             sourceCode.Append("GRGEN_LIBGR.IndexHelper.CountNodesFromIndexFromTo(");
             base.EmitArguments(sourceCode);
+            base.EmitProfilingAndOrParallelizationArguments(sourceCode);
             sourceCode.Append(")");
         }
     }
@@ -4696,6 +4726,7 @@ namespace de.unika.ipd.grGen.expression
         {
             sourceCode.Append("GRGEN_LIBGR.IndexHelper.CountEdgesFromIndexFromTo(");
             base.EmitArguments(sourceCode);
+            base.EmitProfilingAndOrParallelizationArguments(sourceCode);
             sourceCode.Append(")");
         }
     }
@@ -4754,6 +4785,7 @@ namespace de.unika.ipd.grGen.expression
             Candidate.Emit(sourceCode);
             sourceCode.Append(", ");
             base.EmitArguments(sourceCode);
+            base.EmitProfilingAndOrParallelizationArguments(sourceCode);
             sourceCode.Append(")");
         }
 
@@ -4814,6 +4846,7 @@ namespace de.unika.ipd.grGen.expression
             Candidate.Emit(sourceCode);
             sourceCode.Append(", ");
             base.EmitArguments(sourceCode);
+            base.EmitProfilingAndOrParallelizationArguments(sourceCode);
             sourceCode.Append(")");
         }
 
@@ -4870,6 +4903,7 @@ namespace de.unika.ipd.grGen.expression
             else
                 sourceCode.Append("GRGEN_LIBGR.IndexHelper.NodesFromIndexFromToAsArrayDescending(");
             base.EmitArguments(sourceCode);
+            base.EmitProfilingAndOrParallelizationArguments(sourceCode);
             sourceCode.Append(")");
         }
 
@@ -4926,10 +4960,78 @@ namespace de.unika.ipd.grGen.expression
             else
                 sourceCode.Append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexFromToAsArrayDescending(");
             base.EmitArguments(sourceCode);
+            base.EmitProfilingAndOrParallelizationArguments(sourceCode);
             sourceCode.Append(")");
         }
 
         bool Ascending;
+    }
+
+    /// <summary>
+    /// Class representing expression returning a set of nodes from an index with matching attribute values based on ordering comparison
+    /// </summary>
+    public class NodesFromIndexAccessMultipleFromTo : Expression
+    {
+        public NodesFromIndexAccessMultipleFromTo(params FromIndexAccessFromToPart[] indexAccesses)
+        {
+            IndexAccesses = indexAccesses;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            FromIndexAccessFromToPart[] copy = new FromIndexAccessFromToPart[IndexAccesses.Length];
+            for(int i=0; i < IndexAccesses.Length; ++i)
+            {
+                copy[i] = (FromIndexAccessFromToPart)IndexAccesses[i].Copy(renameSuffix);
+            }
+            return new NodesFromIndexAccessMultipleFromTo(copy);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.IndexHelper.NodesFromIndexMultipleFromTo(");
+            EmitProfilingAndOrParallelizationArgumentsAtBegin(sourceCode);
+            bool first = true;
+            foreach(FromIndexAccessFromTo indexAccess in IndexAccesses)
+            {
+                if(first)
+                    first = false;
+                else
+                    sourceCode.Append(", ");
+                sourceCode.Append("new GRGEN_LIBGR.IndexHelper.IndexAccess(");
+                indexAccess.EmitArguments(sourceCode);
+                sourceCode.Append(")");
+            }
+            sourceCode.Append(")");
+        }
+
+        public void EmitProfilingAndOrParallelizationArgumentsAtBegin(SourceBuilder sourceCode)
+        {
+            if(Profiling)
+                sourceCode.Append("actionEnv, ");
+            if(Parallel)
+                sourceCode.Append("threadId, ");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            foreach(FromIndexAccessFromTo indexAccess in IndexAccesses)
+                yield return indexAccess;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        FromIndexAccessFromTo[] IndexAccesses;
+        bool Parallel;
+        bool Profiling;
     }
 
     /// <summary>

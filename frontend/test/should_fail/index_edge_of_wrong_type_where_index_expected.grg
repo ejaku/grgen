@@ -1,0 +1,8 @@
+#using "index_multiple_model.gm"
+
+rule i() {
+	if{ edgesFromIndex(Ni).size() > 0; }
+	
+	modify {
+	}
+}

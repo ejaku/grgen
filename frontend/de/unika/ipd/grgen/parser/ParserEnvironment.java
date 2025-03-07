@@ -855,6 +855,8 @@ public abstract class ParserEnvironment extends Base
 		case "edgesFromIndexFromToExclusiveAsArrayDescending":
 		case "edgesFromIndexFromExclusiveToExclusiveAsArrayDescending":
 			return numParams == 3;
+		case "nodesFromIndexMultipleFromTo":
+			return numParams >= 3;
 		case "random":
 			return numParams >= 0 && numParams <= 1;
 		case "canonize":

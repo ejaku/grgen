@@ -1,0 +1,25 @@
+node class N
+{
+	i : int;
+}
+
+node class N1 extends N
+{
+	j : int;
+}
+
+node class N2 extends N
+{
+	j : int;
+}
+
+index Ni { N.i }
+index N1j { N1.j }
+index N2j { N2.j }
+
+edge class E
+{
+	i : int;
+}
+
+index Ei { E.i }

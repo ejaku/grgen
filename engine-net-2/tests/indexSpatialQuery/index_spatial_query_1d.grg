@@ -1,0 +1,27 @@
+#using "index_spatial_query_1d.gm"
+
+rule getNodesFromUnitBoundingBoxAroundNode(n:N) : (set<Node>, set<Node>)
+{
+	---
+	def ref s:set<Node>;
+	yield {
+		yield s = nodesFromIndexFromTo(ix, n.x - 1, n.x + 1);
+	}
+	
+	modify {
+		return (s, nodesFromIndexFromTo(ix, n.x - 1, n.x + 1));
+	}
+}
+
+rule getNodesFromBoundingBoxAroundNode(n:N, var delta:int) : (set<Node>, set<Node>)
+{
+	---
+	def ref s:set<Node>;
+	yield {
+		yield s = nodesFromIndexFromTo(ix, n.x - delta, n.x + delta);
+	}
+	
+	modify {
+		return (s, nodesFromIndexFromTo(ix, n.x - delta, n.x + delta));
+	}
+}

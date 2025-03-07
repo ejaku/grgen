@@ -1,0 +1,6 @@
+rule i {
+	if{ edgesFromIndex(1 + 1).size() > 0; }
+	
+	modify {
+	}
+}

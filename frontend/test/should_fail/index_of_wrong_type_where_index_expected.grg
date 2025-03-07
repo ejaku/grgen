@@ -1,0 +1,8 @@
+#using "index_multiple_model.gm"
+
+rule i() {
+	if{ nodesFromIndex(Ei).size() > 0; }
+	
+	modify {
+	}
+}

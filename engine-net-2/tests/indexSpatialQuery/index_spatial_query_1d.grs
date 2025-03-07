@@ -1,0 +1,33 @@
+new graph "indexSpatialQuery/index_spatial_query_1d"
+
+new :N($="(0)", x=0)
+new :N($="(1)", x=1)
+new :N($="(2)", x=2)
+
+new :N($="(99)", x=99)
+
+exec (::s, ::t)=getNodesFromUnitBoundingBoxAroundNode(@("(0)"))
+show var s
+show var t
+
+exec (::s, ::t)=getNodesFromUnitBoundingBoxAroundNode(@("(1)"))
+show var s
+show var t
+
+exec (::s, ::t)=getNodesFromUnitBoundingBoxAroundNode(@("(2)"))
+show var s
+show var t
+
+exec (::s, ::t)=getNodesFromUnitBoundingBoxAroundNode(@("(99)"))
+show var s
+show var t
+
+exec (::s, ::t)=getNodesFromBoundingBoxAroundNode(@("(0)"), 1)
+show var s
+show var t
+
+exec (::s, ::t)=getNodesFromBoundingBoxAroundNode(@("(0)"), 100)
+show var s
+show var t
+
+quit
