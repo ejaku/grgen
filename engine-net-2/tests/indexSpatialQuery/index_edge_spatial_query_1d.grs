@@ -1,0 +1,35 @@
+new graph "indexSpatialQuery/index_edge_spatial_query_1d"
+
+new n:Node
+
+new n -:E($="(0)", x=0)-> n
+new n -:E($="(1)", x=1)-> n
+new n -:E($="(2)", x=2)-> n
+
+new n -:E($="(99)", x=99)-> n
+
+exec (::s, ::t)=getEdgesFromUnitBoundingBoxAroundEdge(@("(0)"))
+show var s
+show var t
+
+exec (::s, ::t)=getEdgesFromUnitBoundingBoxAroundEdge(@("(1)"))
+show var s
+show var t
+
+exec (::s, ::t)=getEdgesFromUnitBoundingBoxAroundEdge(@("(2)"))
+show var s
+show var t
+
+exec (::s, ::t)=getEdgesFromUnitBoundingBoxAroundEdge(@("(99)"))
+show var s
+show var t
+
+exec (::s, ::t)=getEdgesFromBoundingBoxAroundEdge(@("(0)"), 1)
+show var s
+show var t
+
+exec (::s, ::t)=getEdgesFromBoundingBoxAroundEdge(@("(0)"), 100)
+show var s
+show var t
+
+quit

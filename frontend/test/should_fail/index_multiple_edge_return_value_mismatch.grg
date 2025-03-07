@@ -1,0 +1,13 @@
+#using "index_multiple_model.gm"
+
+function f(var s:int) : int
+{
+	return(s);
+}
+
+rule i {
+	if{ f(edgesFromIndexMultipleFromTo(Ei, 0, 1)) > 0; }
+	
+	modify {
+	}
+}

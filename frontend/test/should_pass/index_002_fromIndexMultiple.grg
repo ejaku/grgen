@@ -11,7 +11,7 @@ rule i {
 	}
 }
 
-/*rule ei {
+rule ei {
 	if{ edgesFromIndexMultipleFromTo(bari, 0, 42, bard, 0.0, 42.0, bars, "a", "zzzzzzzzzz").size() > 0; }
 	
 	modify {
@@ -20,4 +20,4 @@ rule i {
 			s = edgesFromIndexMultipleFromTo(bari, 0, 42, bard, 0.0, 42.0, bars, "a", "zzzzzzzzzz").size();
 		}
 	}
-}*/
+}

@@ -578,5 +578,107 @@ namespace de.unika.ipd.grGen.libGr
             }
             return resultSet;
         }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        public static Dictionary<IEdge, SetValueType> EdgesFromIndexMultipleFromTo(int threadId, params IndexAccess[] indexAccesses)
+        {
+            return EdgesFromIndexMultipleFromTo(new List<IndexAccess>(indexAccesses), threadId);
+        }
+
+        /// <summary>
+        /// Returns the edges that appear in the result sets of all index accesses/queries (multi-index-join), as set
+        /// </summary>
+        public static Dictionary<IEdge, SetValueType> EdgesFromIndexMultipleFromTo(List<IndexAccess> indexAccesses, int threadId)
+        {
+            if(indexAccesses.Count == 0)
+                throw new System.Exception("At least one index access must be given");
+
+            foreach(IndexAccess indexAccess in indexAccesses)
+            {
+                indexAccess.NumberOfResults = CountEdgesFromIndexFromTo(indexAccess.Index, indexAccess.From, indexAccess.IncludingFrom, indexAccess.To, indexAccess.IncludingTo, threadId);
+            }
+
+            indexAccesses.Sort(TheIndexAccessComparer);
+
+            // the initial set are the edges from the first index query
+            Dictionary<IEdge, SetValueType> edgesSet = new Dictionary<IEdge, SetValueType>(indexAccesses[0].NumberOfResults);
+            foreach(IEdge edge in GetIndexEnumerable(indexAccesses[0].Index, indexAccesses[0].From, indexAccesses[0].IncludingFrom, indexAccesses[0].To, indexAccesses[0].IncludingTo))
+            {
+                edgesSet.Add(edge, null);
+            }
+
+            // a series of sets is produced by reducing to the edges that appear also in the result sets of the queries of the other indices, index query by index query
+            for(int i = 1; i < indexAccesses.Count; ++i)
+            {
+                edgesSet = RemoveEdgesThatDontAppearInTheIndexAccessResult(edgesSet, indexAccesses[i], threadId);
+            }
+
+            return edgesSet;
+        }
+
+        private static Dictionary<IEdge, SetValueType> RemoveEdgesThatDontAppearInTheIndexAccessResult(Dictionary<IEdge, SetValueType> edgesSet, IndexAccess indexAccess, int threadId)
+        {
+            Dictionary<IEdge, SetValueType> resultSet = new Dictionary<IEdge, SetValueType>(edgesSet.Count);
+            foreach(IEdge edge in GetIndexEnumerable(indexAccess.Index, indexAccess.From, indexAccess.IncludingFrom, indexAccess.To, indexAccess.IncludingTo))
+            {
+                if(edgesSet.ContainsKey(edge))
+                {
+                    resultSet.Add(edge, null);
+                }
+            }
+            return resultSet;
+        }
+
+        public static Dictionary<IEdge, SetValueType> EdgesFromIndexMultipleFromTo(IActionExecutionEnvironment actionEnv, int threadId, params IndexAccess[] indexAccesses)
+        {
+            return EdgesFromIndexMultipleFromTo(new List<IndexAccess>(indexAccesses), actionEnv, threadId);
+        }
+
+        /// <summary>
+        /// Returns the edges that appear in the result sets of all index accesses/queries (multi-index-join), as set
+        /// </summary>
+        public static Dictionary<IEdge, SetValueType> EdgesFromIndexMultipleFromTo(List<IndexAccess> indexAccesses, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            if(indexAccesses.Count == 0)
+                throw new System.Exception("At least one index access must be given");
+
+            foreach(IndexAccess indexAccess in indexAccesses)
+            {
+                indexAccess.NumberOfResults = CountEdgesFromIndexFromTo(indexAccess.Index, indexAccess.From, indexAccess.IncludingFrom, indexAccess.To, indexAccess.IncludingTo, actionEnv, threadId);
+            }
+
+            indexAccesses.Sort(TheIndexAccessComparer);
+
+            // the initial set are the edges from the first index query
+            Dictionary<IEdge, SetValueType> edgesSet = new Dictionary<IEdge, SetValueType>(indexAccesses[0].NumberOfResults);
+            foreach(IEdge edge in GetIndexEnumerable(indexAccesses[0].Index, indexAccesses[0].From, indexAccesses[0].IncludingFrom, indexAccesses[0].To, indexAccesses[0].IncludingTo))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                edgesSet.Add(edge, null);
+            }
+
+            // a series of sets is produced by reducing to the edges that appear also in the result sets of the queries of the other indices, index query by index query
+            for(int i = 1; i < indexAccesses.Count; ++i)
+            {
+                edgesSet = RemoveEdgesThatDontAppearInTheIndexAccessResult(edgesSet, indexAccesses[i], actionEnv, threadId);
+            }
+
+            return edgesSet;
+        }
+
+        private static Dictionary<IEdge, SetValueType> RemoveEdgesThatDontAppearInTheIndexAccessResult(Dictionary<IEdge, SetValueType> edgesSet, IndexAccess indexAccess, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            Dictionary<IEdge, SetValueType> resultSet = new Dictionary<IEdge, SetValueType>(edgesSet.Count);
+            foreach(IEdge edge in GetIndexEnumerable(indexAccess.Index, indexAccess.From, indexAccess.IncludingFrom, indexAccess.To, indexAccess.IncludingTo))
+            {
+                ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+                if(edgesSet.ContainsKey(edge))
+                {
+                    resultSet.Add(edge, null);
+                }
+            }
+            return resultSet;
+        }
     }
 }

@@ -1,0 +1,8 @@
+edge class E
+{
+	x : float;
+	y : float;
+}
+
+index ix { E.x }
+index iy { E.y }

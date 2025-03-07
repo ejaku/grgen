@@ -1,0 +1,27 @@
+#using "index_edge_spatial_query_1d.gm"
+
+rule getEdgesFromUnitBoundingBoxAroundEdge(-e:E->) : (set<AEdge>, set<AEdge>)
+{
+	---
+	def ref s:set<AEdge>;
+	yield {
+		yield s = edgesFromIndexFromTo(ix, e.x - 1, e.x + 1);
+	}
+	
+	modify {
+		return (s, edgesFromIndexFromTo(ix, e.x - 1, e.x + 1));
+	}
+}
+
+rule getEdgesFromBoundingBoxAroundEdge(-e:E->, var delta:int) : (set<AEdge>, set<AEdge>)
+{
+	---
+	def ref s:set<AEdge>;
+	yield {
+		yield s = edgesFromIndexFromTo(ix, e.x - delta, e.x + delta);
+	}
+	
+	modify {
+		return (s, edgesFromIndexFromTo(ix, e.x - delta, e.x + delta));
+	}
+}

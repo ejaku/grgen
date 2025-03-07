@@ -1,0 +1,17 @@
+edge class Point3dEdge
+{
+	x : double;
+	y : double;
+	z : double;
+}
+
+index ix { Point3dEdge.x }
+index iy { Point3dEdge.y }
+index iz { Point3dEdge.z }
+
+class Point3d
+{
+	x : double;
+	y : double;
+	z : double;
+}

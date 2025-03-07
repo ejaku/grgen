@@ -5035,6 +5035,73 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression returning a set of edges from an index with matching attribute values based on ordering comparison
+    /// </summary>
+    public class EdgesFromIndexAccessMultipleFromTo : Expression
+    {
+        public EdgesFromIndexAccessMultipleFromTo(params FromIndexAccessFromToPart[] indexAccesses)
+        {
+            IndexAccesses = indexAccesses;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            FromIndexAccessFromToPart[] copy = new FromIndexAccessFromToPart[IndexAccesses.Length];
+            for(int i = 0; i < IndexAccesses.Length; ++i)
+            {
+                copy[i] = (FromIndexAccessFromToPart)IndexAccesses[i].Copy(renameSuffix);
+            }
+            return new EdgesFromIndexAccessMultipleFromTo(copy);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexMultipleFromTo(");
+            EmitProfilingAndOrParallelizationArgumentsAtBegin(sourceCode);
+            bool first = true;
+            foreach(FromIndexAccessFromTo indexAccess in IndexAccesses)
+            {
+                if(first)
+                    first = false;
+                else
+                    sourceCode.Append(", ");
+                sourceCode.Append("new GRGEN_LIBGR.IndexHelper.IndexAccess(");
+                indexAccess.EmitArguments(sourceCode);
+                sourceCode.Append(")");
+            }
+            sourceCode.Append(")");
+        }
+
+        public void EmitProfilingAndOrParallelizationArgumentsAtBegin(SourceBuilder sourceCode)
+        {
+            if(Profiling)
+                sourceCode.Append("actionEnv, ");
+            if(Parallel)
+                sourceCode.Append("threadId, ");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            foreach(FromIndexAccessFromTo indexAccess in IndexAccesses)
+                yield return indexAccess;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        FromIndexAccessFromTo[] IndexAccesses;
+        bool Parallel;
+        bool Profiling;
+    }
+
+    /// <summary>
     /// Class representing expression returning the induced subgraph from the given set of nodes
     /// </summary>
     public class InducedSubgraph : Expression

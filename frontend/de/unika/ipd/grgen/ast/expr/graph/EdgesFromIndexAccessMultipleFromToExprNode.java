@@ -11,32 +11,32 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.expr.graph.NodesFromIndexAccessMultipleFromToExpr;
+import de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessMultipleFromToExpr;
 import de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * A node yielding the nodes from multiple indices (by accessing a range from a certain value to a certain value, each time).
+ * A node yielding the edges from multiple indices (by accessing a range from a certain value to a certain value, each time).
  */
-public class NodesFromIndexAccessMultipleFromToExprNode extends FromIndexAccessMultipleFromToExprNode
+public class EdgesFromIndexAccessMultipleFromToExprNode extends FromIndexAccessMultipleFromToExprNode
 {
 	static {
-		setName(NodesFromIndexAccessMultipleFromToExprNode.class, "nodes from index access multiple from to expr");
+		setName(EdgesFromIndexAccessMultipleFromToExprNode.class, "edges from index access multiple from to expr");
 	}
 
-	public NodesFromIndexAccessMultipleFromToExprNode(Coords coords)
+	public EdgesFromIndexAccessMultipleFromToExprNode(Coords coords)
 	{
 		super(coords);
 	}
 
 	protected IdentNode getRoot()
 	{
-		return getNodeRoot();
+		return getEdgeRoot();
 	}
 
 	protected String shortSignature()
 	{
-		return "nodesFromIndexMultipleFromTo" + "(" + argumentsPart() + ")";
+		return "edgesFromIndexMultipleFromTo" + "(" + argumentsPart() + ")";
 	}
 
 	@Override
@@ -47,6 +47,6 @@ public class NodesFromIndexAccessMultipleFromToExprNode extends FromIndexAccessM
 		{
 			indexAccesses.add(indexAccessExpr.constructIRPart());
 		}
-		return new NodesFromIndexAccessMultipleFromToExpr(indexAccesses, getType().getType());
+		return new EdgesFromIndexAccessMultipleFromToExpr(indexAccesses, getType().getType());
 	}
 }

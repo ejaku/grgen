@@ -61,6 +61,7 @@ public abstract class FromIndexAccessExprNode extends BuiltinFunctionInvocationB
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal()
 	{
+		//note the early exit in checkLocal of FromIndexAccessMultipleFromToExprNode if the same index check fails (silently), when the parts FromIndexAccessFromToPartExprNode inheriting from this class are inspected 
 		boolean res = true;
 		TypeNode expectedEntityType = getRoot().getDecl().getDeclType();
 		TypeNode entityType = index.getType();

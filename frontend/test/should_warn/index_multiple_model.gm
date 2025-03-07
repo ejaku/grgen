@@ -22,4 +22,16 @@ edge class E
 	i : int;
 }
 
+edge class E1 extends E
+{
+	j : int;
+}
+
+edge class E2 extends E
+{
+	j : int;
+}
+
 index Ei { E.i }
+index E1j { E1.j }
+index E2j { E2.j }

@@ -1,0 +1,14 @@
+#using "index_edge_multiple_spatial_query_3d.gm"
+
+rule getEdgesFromBoundingBox(ref center:Point3d, var delta:double) : (set<AEdge>, set<AEdge>)
+{
+	---
+	def ref s:set<AEdge>;
+	yield {
+		yield s = edgesFromIndexMultipleFromTo(ix, center.x - delta, center.x + delta, iy, center.y - delta, center.y + delta, iz, center.z - delta, center.z + delta);
+	}
+	
+	modify {
+		return (s, edgesFromIndexMultipleFromTo(ix, center.x - delta, center.x + delta, iy, center.y - delta, center.y + delta, iz, center.z - delta, center.z + delta));
+	}
+}

@@ -1,0 +1,6 @@
+edge class E
+{
+	x : int;
+}
+
+index ix { E.x }

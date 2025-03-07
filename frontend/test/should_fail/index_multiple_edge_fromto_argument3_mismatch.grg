@@ -1,0 +1,8 @@
+#using "index_multiple_model.gm"
+
+rule i {
+	if{ edgesFromIndexMultipleFromTo(Ei, 0, 1, E2j, 42.0, 42).size() > 0; }
+	
+	modify {
+	}
+}

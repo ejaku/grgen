@@ -42,11 +42,13 @@ import de.unika.ipd.grgen.ast.expr.graph.EdgeByUniqueExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EdgesExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessFromToAsArrayExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessFromToExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessMultipleFromToExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessSameAsArrayExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessSameExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EmptyExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EqualsAnyExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.FromIndexAccessFromToPartExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.FromIndexAccessMultipleFromToExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.GetEquivalentExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.IncidentEdgeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.InducedSubgraphExprNode;
@@ -924,11 +926,13 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return new EdgesFromIndexAccessFromToAsArrayExprNode(env.getCoords(), arguments.get(0), functionName.contains("Ascending"), arguments.get(1), functionName.contains("FromExclusive"), arguments.get(2), functionName.contains("ToExclusive"));
 			}
 		case "nodesFromIndexMultipleFromTo":
+		case "edgesFromIndexMultipleFromTo":
 			if(arguments.size() % 3 != 0) {
-				env.reportError("nodesFromIndexMultipleFromTo() expects a multiple of 3 arguments (given are " + arguments.size() + " arguments).");
+				env.reportError(functionName + "() expects a multiple of 3 arguments (given are " + arguments.size() + " arguments).");
 				return null;
 			} else {
-				NodesFromIndexAccessMultipleFromToExprNode indexAccessMultiple = new NodesFromIndexAccessMultipleFromToExprNode(env.getCoords());
+				FromIndexAccessMultipleFromToExprNode indexAccessMultiple = functionName.equals("nodesFromIndexMultipleFromTo") ? 
+						new NodesFromIndexAccessMultipleFromToExprNode(env.getCoords()) : new EdgesFromIndexAccessMultipleFromToExprNode(env.getCoords());
  				for(int i = 0; i < arguments.size(); i += 3)
 				{
 					ExprNode index = arguments.get(i);

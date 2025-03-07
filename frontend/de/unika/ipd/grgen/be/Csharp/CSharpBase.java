@@ -125,6 +125,7 @@ import de.unika.ipd.grgen.ir.expr.graph.EdgeByNameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EdgeByUniqueExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EdgesExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessFromToExpr;
+import de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessMultipleFromToExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessSameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EmptyExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EqualsAnyExpr;
@@ -3063,6 +3064,21 @@ public abstract class CSharpBase
 			genProfilingAndOrParallelizationArgumentsAtBegin(sb, modifyGenerationState);
 			boolean first = true;
 			for(IndexAccessOrdering iao : nfiamft.getIndexAccesses()) {
+				if(first)
+					first = false;
+				else
+					sb.append(",");
+				sb.append("new GRGEN_LIBGR.IndexHelper.IndexAccess(");
+				genIndexAccessOrdering(sb, iao, modifyGenerationState);
+				sb.append(")");
+			}
+			sb.append(")");
+		} else if(expr instanceof EdgesFromIndexAccessMultipleFromToExpr) {
+			EdgesFromIndexAccessMultipleFromToExpr efiamft = (EdgesFromIndexAccessMultipleFromToExpr)expr;
+			sb.append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexMultipleFromTo(");
+			genProfilingAndOrParallelizationArgumentsAtBegin(sb, modifyGenerationState);
+			boolean first = true;
+			for(IndexAccessOrdering iao : efiamft.getIndexAccesses()) {
 				if(first)
 					first = false;
 				else
