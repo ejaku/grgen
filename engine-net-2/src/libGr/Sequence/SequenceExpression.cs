@@ -2108,6 +2108,8 @@ namespace de.unika.ipd.grGen.libGr
             CheckBaseObjectTypeIsKnown(env, ConstructedType, ", constructor type/argument");
             if(AttributeInitializationList != null)
             {
+                base.Check(env); // check children
+
                 foreach(KeyValuePair<String, SequenceExpression> attributeInitialization in AttributeInitializationList)
                 {
                     String attributeType = env.TypeOfMemberOrAttribute(ConstructedType, attributeInitialization.Key);
