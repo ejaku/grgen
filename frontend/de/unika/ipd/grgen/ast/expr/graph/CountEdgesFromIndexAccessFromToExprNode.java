@@ -27,7 +27,7 @@ public class CountEdgesFromIndexAccessFromToExprNode extends FromIndexAccessFrom
 		setName(CountEdgesFromIndexAccessFromToExprNode.class, "count edges from index access from to expr");
 	}
 
-	public CountEdgesFromIndexAccessFromToExprNode(Coords coords, ExprNode index, ExprNode fromExpr, boolean fromExclusive, ExprNode toExpr, boolean toExclusive)
+	public CountEdgesFromIndexAccessFromToExprNode(Coords coords, BaseNode index, ExprNode fromExpr, boolean fromExclusive, ExprNode toExpr, boolean toExclusive)
 	{
 		super(coords, index, fromExpr, fromExclusive, toExpr, toExclusive);
 	}

@@ -30,7 +30,7 @@ public abstract class FromIndexAccessFromToExprNode extends FromIndexAccessExprN
 	protected ExprNode toExpr;
 	protected boolean toExclusive;
 
-	public FromIndexAccessFromToExprNode(Coords coords, ExprNode index, ExprNode fromExpr, boolean fromExclusive, ExprNode toExpr, boolean toExclusive)
+	public FromIndexAccessFromToExprNode(Coords coords, BaseNode index, ExprNode fromExpr, boolean fromExclusive, ExprNode toExpr, boolean toExclusive)
 	{
 		super(coords, index);
 		this.fromExpr = fromExpr;

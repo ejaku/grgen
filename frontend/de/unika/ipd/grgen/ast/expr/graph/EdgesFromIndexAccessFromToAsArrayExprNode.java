@@ -30,7 +30,7 @@ public class EdgesFromIndexAccessFromToAsArrayExprNode extends FromIndexAccessFr
 	private ArrayTypeNode arrayTypeNode;
 	private boolean ascending;
 
-	public EdgesFromIndexAccessFromToAsArrayExprNode(Coords coords, ExprNode index, boolean ascending, ExprNode fromExpr, boolean fromExclusive, ExprNode toExpr, boolean toExclusive)
+	public EdgesFromIndexAccessFromToAsArrayExprNode(Coords coords, BaseNode index, boolean ascending, ExprNode fromExpr, boolean fromExclusive, ExprNode toExpr, boolean toExclusive)
 	{
 		super(coords, index, fromExpr, fromExclusive, toExpr, toExclusive);
 		this.ascending = ascending;

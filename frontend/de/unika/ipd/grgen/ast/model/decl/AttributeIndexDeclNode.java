@@ -143,4 +143,9 @@ public class AttributeIndexDeclNode extends IndexDeclNode
 				type.checkIR(InheritanceType.class), member.checkIR(Entity.class));
 		return attributeIndex;
 	}
+
+	public static String getKindStr()
+	{
+		return "attribute index";
+	}
 }

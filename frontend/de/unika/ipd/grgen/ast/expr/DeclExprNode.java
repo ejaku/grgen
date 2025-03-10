@@ -22,7 +22,6 @@ import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.model.decl.EnumItemDeclNode;
-import de.unika.ipd.grgen.ast.model.decl.IndexDeclNode;
 import de.unika.ipd.grgen.ast.model.decl.MemberDeclNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
@@ -110,7 +109,6 @@ public class DeclExprNode extends ExprNode
 		memberResolver.getResult(VarDeclNode.class);
 		memberResolver.getResult(ExecVarDeclNode.class);
 		memberResolver.getResult(ConstraintDeclNode.class);
-		memberResolver.getResult(IndexDeclNode.class);
 		decl = memberResolver.getResult();
 
 		return memberResolver.finish();

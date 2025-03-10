@@ -9,10 +9,9 @@ package de.unika.ipd.grgen.ast.expr.graph;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.expr.IdentExprNode;
 import de.unika.ipd.grgen.ast.model.decl.IndexDeclNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
@@ -25,37 +24,29 @@ public abstract class FromIndexAccessExprNode extends BuiltinFunctionInvocationB
 		setName(FromIndexAccessExprNode.class, "from index access expr");
 	}
 
-	protected ExprNode indexUnresolved;
+	protected BaseNode indexUnresolved;
 	protected IndexDeclNode index;
 
-	protected FromIndexAccessExprNode(Coords coords, ExprNode index)
+	protected FromIndexAccessExprNode(Coords coords, BaseNode index)
 	{
 		super(coords);
 		this.indexUnresolved = index;
 		becomeParent(this.indexUnresolved);
 	}
 
+	private static DeclarationResolver<IndexDeclNode> indexResolver =
+			new DeclarationResolver<IndexDeclNode>(IndexDeclNode.class);
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal()
 	{
-		boolean successfullyResolved = true;
-		if(!(indexUnresolved instanceof IdentExprNode)) {
+		//boolean fixupWorked = fixupDefinition(indexUnresolved, indexUnresolved.getScope()); -- could be needed when used in a method in the model before the index declaration
+		index = indexResolver.resolve(indexUnresolved, this);
+		if(index == null) {
 			int indexArgumentNumber = 1 + indexShift();
-			reportError("The function " + shortSignature() + " expects as " + indexArgumentNumber + ". argument (index) an index identifier.");
-			successfullyResolved = false;
-		} else {
-			boolean indexResolved = indexUnresolved.resolve();
-			if(indexResolved) {
-				if(((IdentExprNode)indexUnresolved).decl instanceof IndexDeclNode) {
-					index = (IndexDeclNode)((IdentExprNode)indexUnresolved).decl;
-				} else {
-					int indexArgumentNumber = 1 + indexShift();
-					reportError("The function " + shortSignature() + " expects as " + indexArgumentNumber + ". argument (index) a declared index (given is " + ((IdentExprNode)indexUnresolved).decl.getDecl().toString() + ").");
-				}
-			}
+			reportError("The function " + shortSignature() + " expects as " + indexArgumentNumber + ". argument (index) a declared index (given is " + indexUnresolved.toStringWithDeclarationCoords() + ").");
 		}
-		successfullyResolved &= index != null;
-		return successfullyResolved;
+		return index != null;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */

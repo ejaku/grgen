@@ -194,4 +194,9 @@ public class IncidenceCountIndexDeclNode extends IndexDeclNode
 				adjacentNodeType.checkIR(NodeType.class));
 		return incidenceCountIndex;
 	}
+
+	public static String getKindStr()
+	{
+		return "incidence count index";
+	}
 }

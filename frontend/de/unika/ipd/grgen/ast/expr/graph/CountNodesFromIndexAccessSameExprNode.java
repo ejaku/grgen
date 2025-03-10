@@ -27,7 +27,7 @@ public class CountNodesFromIndexAccessSameExprNode extends FromIndexAccessSameEx
 		setName(CountNodesFromIndexAccessSameExprNode.class, "count nodes from index access same expr");
 	}
 
-	public CountNodesFromIndexAccessSameExprNode(Coords coords, ExprNode index, ExprNode expr)
+	public CountNodesFromIndexAccessSameExprNode(Coords coords, BaseNode index, ExprNode expr)
 	{
 		super(coords, index, expr);
 	}

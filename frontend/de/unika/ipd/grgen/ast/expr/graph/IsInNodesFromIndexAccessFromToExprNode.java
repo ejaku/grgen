@@ -32,7 +32,7 @@ public class IsInNodesFromIndexAccessFromToExprNode extends FromIndexAccessFromT
 
 	private ExprNode candidateExpr;
 	
-	public IsInNodesFromIndexAccessFromToExprNode(Coords coords, ExprNode candidateExpr, ExprNode index, ExprNode fromExpr, boolean fromExclusive, ExprNode toExpr, boolean toExclusive)
+	public IsInNodesFromIndexAccessFromToExprNode(Coords coords, ExprNode candidateExpr, BaseNode index, ExprNode fromExpr, boolean fromExclusive, ExprNode toExpr, boolean toExclusive)
 	{
 		super(coords, index, fromExpr, fromExclusive, toExpr, toExclusive);
 		this.candidateExpr = candidateExpr;

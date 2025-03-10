@@ -27,7 +27,7 @@ public class CountEdgesFromIndexAccessSameExprNode extends FromIndexAccessSameEx
 		setName(CountEdgesFromIndexAccessSameExprNode.class, "count edges from index access same expr");
 	}
 
-	public CountEdgesFromIndexAccessSameExprNode(Coords coords, ExprNode index, ExprNode expr)
+	public CountEdgesFromIndexAccessSameExprNode(Coords coords, BaseNode index, ExprNode expr)
 	{
 		super(coords, index, expr);
 	}

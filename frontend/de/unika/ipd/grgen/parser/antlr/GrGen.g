@@ -4233,6 +4233,8 @@ primaryExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] retur
 	| e=constant { res = e; }
 	| e=typeOf { res = e; }
 	| e=newInitExpr[namer, context] { res = e; }
+	| { env.isIsInIndexFunction(input.LT(1).getText()) }? f=funcOrExtFuncIdentUse LPAREN cand=expr[namer, context, inEnumInit] COMMA idx=indexIdentUse e=indexFunctionInvocationExprContinuation[f, cand, idx, namer, context, inEnumInit] { res = e; }
+	| { env.isNonIsInIndexFunction(input.LT(1).getText()) }? f=funcOrExtFuncIdentUse LPAREN idx=indexIdentUse e=indexFunctionInvocationExprContinuation[f, null, idx, namer, context, inEnumInit] { res = e; }
 	| e=externalFunctionInvocationExpr[namer, context, inEnumInit] { res = e; }
 	| e=scanFunctionInvocationExpr[namer, context, inEnumInit] { res = e; }
 	| LPAREN e=expr[namer, context, inEnumInit] { res = e; } RPAREN
@@ -4243,11 +4245,9 @@ primaryExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] retur
 			if(i.getText().equals("this") && !env.test(ParserEnvironment.ENTITIES, "this"))
 				res = new ThisExprNode(getCoords(i));
 			else {
-				// entity names overwrite index names and type names
-				if(env.test(ParserEnvironment.ENTITIES, i.getText()) || (!env.test(ParserEnvironment.TYPES, i.getText()) && !env.test(ParserEnvironment.INDICES, i.getText())))
+				// entity names overwrite type names
+				if(env.test(ParserEnvironment.ENTITIES, i.getText()) || !env.test(ParserEnvironment.TYPES, i.getText()))
 					id = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
-				else if(env.test(ParserEnvironment.INDICES, i.getText()))
-					id = new IdentNode(env.occurs(ParserEnvironment.INDICES, i.getText(), getCoords(i)));
 				else
 					id = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
 				res = new IdentExprNode(id);
@@ -4429,6 +4429,29 @@ globalsAccessExpr returns [ ExprNode res = env.initExprNode() ]
 			id = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
 			res = new IdentExprNode(id);
 		}
+	;
+
+indexFunctionInvocationExprContinuation [ IdentNode funcIdent, ExprNode cand, IdentNode idx, AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	@init {
+		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
+		if(cand != null)
+			params.addChild(cand);
+		params.addChild(idx);
+	}
+	: RPAREN
+		{ res = new IndexFunctionInvocationDecisionNode(funcIdent, params, env); }
+	| COMMA e=expr[namer, context, inEnumInit] { params.addChild(e); }
+		(
+			RPAREN { res = new IndexFunctionInvocationDecisionNode(funcIdent, params, env); } 
+		|
+			COMMA e=expr[namer, context, inEnumInit] { params.addChild(e); } e=multipleIndexFunctionInvocationExprContinuation[funcIdent, params, namer, context, inEnumInit] { res = e; }
+		)
+	;
+
+multipleIndexFunctionInvocationExprContinuation [ IdentNode funcIdent, CollectNode<BaseNode> params, AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	: RPAREN
+		{ res = new IndexFunctionInvocationDecisionNode(funcIdent, params, env); }
+	| COMMA idx=indexIdentUse { params.addChild(idx); } COMMA e=expr[namer, context, inEnumInit] { params.addChild(e); } COMMA e=expr[namer, context, inEnumInit] { params.addChild(e); } e=multipleIndexFunctionInvocationExprContinuation[funcIdent, params, namer, context, inEnumInit] { res = e; }
 	;
 
 externalFunctionInvocationExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]

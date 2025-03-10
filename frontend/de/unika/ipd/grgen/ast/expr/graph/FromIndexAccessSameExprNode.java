@@ -26,7 +26,7 @@ public abstract class FromIndexAccessSameExprNode extends FromIndexAccessExprNod
 
 	protected ExprNode expr;
 
-	public FromIndexAccessSameExprNode(Coords coords, ExprNode index, ExprNode expr)
+	public FromIndexAccessSameExprNode(Coords coords, BaseNode index, ExprNode expr)
 	{
 		super(coords, index);
 		this.expr = expr;

@@ -29,7 +29,7 @@ public class NodesFromIndexAccessSameExprNode extends FromIndexAccessSameExprNod
 
 	private SetTypeNode setTypeNode;
 
-	public NodesFromIndexAccessSameExprNode(Coords coords, ExprNode index, ExprNode expr)
+	public NodesFromIndexAccessSameExprNode(Coords coords, BaseNode index, ExprNode expr)
 	{
 		super(coords, index, expr);
 	}

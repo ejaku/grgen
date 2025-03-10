@@ -29,7 +29,7 @@ public class NodesFromIndexAccessSameAsArrayExprNode extends FromIndexAccessSame
 
 	private ArrayTypeNode arrayTypeNode;
 
-	public NodesFromIndexAccessSameAsArrayExprNode(Coords coords, ExprNode index, ExprNode expr)
+	public NodesFromIndexAccessSameAsArrayExprNode(Coords coords, BaseNode index, ExprNode expr)
 	{
 		super(coords, index, expr);
 	}

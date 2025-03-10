@@ -733,131 +733,6 @@ public abstract class ParserEnvironment extends Base
 		case "isBoundedReachableEdgesOutgoing":
 		case "isBoundedReachableEdges":
 			return numParams >= 3 && numParams <= 5;
-		case "nodesFromIndex":
-			return numParams == 1;
-		case "nodesFromIndexSame":
-		case "nodesFromIndexFrom":
-		case "nodesFromIndexFromExclusive":
-		case "nodesFromIndexTo":
-		case "nodesFromIndexToExclusive":
-			return numParams == 2;
-		case "nodesFromIndexFromTo":
-		case "nodesFromIndexFromExclusiveTo":
-		case "nodesFromIndexFromToExclusive":
-		case "nodesFromIndexFromExclusiveToExclusive":
-			return numParams == 3;
-		case "edgesFromIndex":
-			return numParams == 1;
-		case "edgesFromIndexSame":
-		case "edgesFromIndexFrom":
-		case "edgesFromIndexFromExclusive":
-		case "edgesFromIndexTo":
-		case "edgesFromIndexToExclusive":
-			return numParams == 2;
-		case "edgesFromIndexFromTo":
-		case "edgesFromIndexFromExclusiveTo":
-		case "edgesFromIndexFromToExclusive":
-		case "edgesFromIndexFromExclusiveToExclusive":
-			return numParams == 3;
-		case "countNodesFromIndex":
-			return numParams == 1;
-		case "countNodesFromIndexSame":
-		case "countNodesFromIndexFrom":
-		case "countNodesFromIndexFromExclusive":
-		case "countNodesFromIndexTo":
-		case "countNodesFromIndexToExclusive":
-			return numParams == 2;
-		case "countNodesFromIndexFromTo":
-		case "countNodesFromIndexFromExclusiveTo":
-		case "countNodesFromIndexFromToExclusive":
-		case "countNodesFromIndexFromExclusiveToExclusive":
-			return numParams == 3;
-		case "countEdgesFromIndex":
-			return numParams == 1;
-		case "countEdgesFromIndexSame":
-		case "countEdgesFromIndexFrom":
-		case "countEdgesFromIndexFromExclusive":
-		case "countEdgesFromIndexTo":
-		case "countEdgesFromIndexToExclusive":
-			return numParams == 2;
-		case "countEdgesFromIndexFromTo":
-		case "countEdgesFromIndexFromExclusiveTo":
-		case "countEdgesFromIndexFromToExclusive":
-		case "countEdgesFromIndexFromExclusiveToExclusive":
-			return numParams == 3;
-		case "isInNodesFromIndex":
-			return numParams == 2;
-		case "isInNodesFromIndexSame":
-		case "isInNodesFromIndexFrom":
-		case "isInNodesFromIndexFromExclusive":
-		case "isInNodesFromIndexTo":
-		case "isInNodesFromIndexToExclusive":
-			return numParams == 3;
-		case "isInNodesFromIndexFromTo":
-		case "isInNodesFromIndexFromExclusiveTo":
-		case "isInNodesFromIndexFromToExclusive":
-		case "isInNodesFromIndexFromExclusiveToExclusive":
-			return numParams == 4;
-		case "isInEdgesFromIndex":
-			return numParams == 2;
-		case "isInEdgesFromIndexSame":
-		case "isInEdgesFromIndexFrom":
-		case "isInEdgesFromIndexFromExclusive":
-		case "isInEdgesFromIndexTo":
-		case "isInEdgesFromIndexToExclusive":
-			return numParams == 3;
-		case "isInEdgesFromIndexFromTo":
-		case "isInEdgesFromIndexFromExclusiveTo":
-		case "isInEdgesFromIndexFromToExclusive":
-		case "isInEdgesFromIndexFromExclusiveToExclusive":
-			return numParams == 4;
-		case "nodesFromIndexAsArrayAscending":
-		case "nodesFromIndexAsArrayDescending":
-			return numParams == 1;
-		case "nodesFromIndexSameAsArray":
-		case "nodesFromIndexFromAsArrayAscending":
-		case "nodesFromIndexFromExclusiveAsArrayAscending":
-		case "nodesFromIndexToAsArrayAscending":
-		case "nodesFromIndexToExclusiveAsArrayAscending":
-		case "nodesFromIndexFromAsArrayDescending":
-		case "nodesFromIndexFromExclusiveAsArrayDescending":
-		case "nodesFromIndexToAsArrayDescending":
-		case "nodesFromIndexToExclusiveAsArrayDescending":
-			return numParams == 2;
-		case "nodesFromIndexFromToAsArrayAscending":
-		case "nodesFromIndexFromExclusiveToAsArrayAscending":
-		case "nodesFromIndexFromToExclusiveAsArrayAscending":
-		case "nodesFromIndexFromExclusiveToExclusiveAsArrayAscending":
-		case "nodesFromIndexFromToAsArrayDescending":
-		case "nodesFromIndexFromExclusiveToAsArrayDescending":
-		case "nodesFromIndexFromToExclusiveAsArrayDescending":
-		case "nodesFromIndexFromExclusiveToExclusiveAsArrayDescending":
-			return numParams == 3;
-		case "edgesFromIndexAsArrayAscending":
-		case "edgesFromIndexAsArrayDescending":
-			return numParams == 1;
-		case "edgesFromIndexSameAsArray":
-		case "edgesFromIndexFromAsArrayAscending":
-		case "edgesFromIndexFromExclusiveAsArrayAscending":
-		case "edgesFromIndexToAsArrayAscending":
-		case "edgesFromIndexToExclusiveAsArrayAscending":
-		case "edgesFromIndexFromAsArrayDescending":
-		case "edgesFromIndexFromExclusiveAsArrayDescending":
-		case "edgesFromIndexToAsArrayDescending":
-		case "edgesFromIndexToExclusiveAsArrayDescending":
-			return numParams == 2;
-		case "edgesFromIndexFromToAsArrayAscending":
-		case "edgesFromIndexFromExclusiveToAsArrayAscending":
-		case "edgesFromIndexFromToExclusiveAsArrayAscending":
-		case "edgesFromIndexFromExclusiveToExclusiveAsArrayAscending":
-		case "edgesFromIndexFromToAsArrayDescending":
-		case "edgesFromIndexFromExclusiveToAsArrayDescending":
-		case "edgesFromIndexFromToExclusiveAsArrayDescending":
-		case "edgesFromIndexFromExclusiveToExclusiveAsArrayDescending":
-			return numParams == 3;
-		case "nodesFromIndexMultipleFromTo":
-		case "edgesFromIndexMultipleFromTo":
-			return numParams >= 3;
 		case "random":
 			return numParams >= 0 && numParams <= 1;
 		case "canonize":
@@ -878,6 +753,149 @@ public abstract class ParserEnvironment extends Base
 			return numParams == 1 || numParams == 0;
 		case "uniqueof":
 			return numParams == 1 || numParams == 0;
+		default:
+			return false;
+		}
+	}
+
+	public static boolean isIsInIndexFunction(String name)
+	{
+		switch(name)
+		{
+		case "isInNodesFromIndex":
+			return true;//return numParams == 2;
+		case "isInNodesFromIndexSame":
+		case "isInNodesFromIndexFrom":
+		case "isInNodesFromIndexFromExclusive":
+		case "isInNodesFromIndexTo":
+		case "isInNodesFromIndexToExclusive":
+			return true;//return numParams == 3;
+		case "isInNodesFromIndexFromTo":
+		case "isInNodesFromIndexFromExclusiveTo":
+		case "isInNodesFromIndexFromToExclusive":
+		case "isInNodesFromIndexFromExclusiveToExclusive":
+			return true;//return numParams == 4;
+		case "isInEdgesFromIndex":
+			return true;//return numParams == 2;
+		case "isInEdgesFromIndexSame":
+		case "isInEdgesFromIndexFrom":
+		case "isInEdgesFromIndexFromExclusive":
+		case "isInEdgesFromIndexTo":
+		case "isInEdgesFromIndexToExclusive":
+			return true;//return numParams == 3;
+		case "isInEdgesFromIndexFromTo":
+		case "isInEdgesFromIndexFromExclusiveTo":
+		case "isInEdgesFromIndexFromToExclusive":
+		case "isInEdgesFromIndexFromExclusiveToExclusive":
+			return true;//return numParams == 4;
+		default:
+			return false;
+		}
+	}
+
+	public static boolean isNonIsInIndexFunction(String name)
+	{
+		switch(name)
+		{
+		case "nodesFromIndex":
+			return true;//return numParams == 1;
+		case "nodesFromIndexSame":
+		case "nodesFromIndexFrom":
+		case "nodesFromIndexFromExclusive":
+		case "nodesFromIndexTo":
+		case "nodesFromIndexToExclusive":
+			return true;//return numParams == 2;
+		case "nodesFromIndexFromTo":
+		case "nodesFromIndexFromExclusiveTo":
+		case "nodesFromIndexFromToExclusive":
+		case "nodesFromIndexFromExclusiveToExclusive":
+			return true;//return numParams == 3;
+		case "edgesFromIndex":
+			return true;//return numParams == 1;
+		case "edgesFromIndexSame":
+		case "edgesFromIndexFrom":
+		case "edgesFromIndexFromExclusive":
+		case "edgesFromIndexTo":
+		case "edgesFromIndexToExclusive":
+			return true;//return numParams == 2;
+		case "edgesFromIndexFromTo":
+		case "edgesFromIndexFromExclusiveTo":
+		case "edgesFromIndexFromToExclusive":
+		case "edgesFromIndexFromExclusiveToExclusive":
+			return true;//return numParams == 3;
+		case "countNodesFromIndex":
+			return true;//return numParams == 1;
+		case "countNodesFromIndexSame":
+		case "countNodesFromIndexFrom":
+		case "countNodesFromIndexFromExclusive":
+		case "countNodesFromIndexTo":
+		case "countNodesFromIndexToExclusive":
+			return true;//return numParams == 2;
+		case "countNodesFromIndexFromTo":
+		case "countNodesFromIndexFromExclusiveTo":
+		case "countNodesFromIndexFromToExclusive":
+		case "countNodesFromIndexFromExclusiveToExclusive":
+			return true;//return numParams == 3;
+		case "countEdgesFromIndex":
+			return true;//return numParams == 1;
+		case "countEdgesFromIndexSame":
+		case "countEdgesFromIndexFrom":
+		case "countEdgesFromIndexFromExclusive":
+		case "countEdgesFromIndexTo":
+		case "countEdgesFromIndexToExclusive":
+			return true;//return numParams == 2;
+		case "countEdgesFromIndexFromTo":
+		case "countEdgesFromIndexFromExclusiveTo":
+		case "countEdgesFromIndexFromToExclusive":
+		case "countEdgesFromIndexFromExclusiveToExclusive":
+			return true;//return numParams == 3;
+		case "nodesFromIndexAsArrayAscending":
+		case "nodesFromIndexAsArrayDescending":
+			return true;//return numParams == 1;
+		case "nodesFromIndexSameAsArray":
+		case "nodesFromIndexFromAsArrayAscending":
+		case "nodesFromIndexFromExclusiveAsArrayAscending":
+		case "nodesFromIndexToAsArrayAscending":
+		case "nodesFromIndexToExclusiveAsArrayAscending":
+		case "nodesFromIndexFromAsArrayDescending":
+		case "nodesFromIndexFromExclusiveAsArrayDescending":
+		case "nodesFromIndexToAsArrayDescending":
+		case "nodesFromIndexToExclusiveAsArrayDescending":
+			return true;//return numParams == 2;
+		case "nodesFromIndexFromToAsArrayAscending":
+		case "nodesFromIndexFromExclusiveToAsArrayAscending":
+		case "nodesFromIndexFromToExclusiveAsArrayAscending":
+		case "nodesFromIndexFromExclusiveToExclusiveAsArrayAscending":
+		case "nodesFromIndexFromToAsArrayDescending":
+		case "nodesFromIndexFromExclusiveToAsArrayDescending":
+		case "nodesFromIndexFromToExclusiveAsArrayDescending":
+		case "nodesFromIndexFromExclusiveToExclusiveAsArrayDescending":
+			return true;//return numParams == 3;
+		case "edgesFromIndexAsArrayAscending":
+		case "edgesFromIndexAsArrayDescending":
+			return true;//return numParams == 1;
+		case "edgesFromIndexSameAsArray":
+		case "edgesFromIndexFromAsArrayAscending":
+		case "edgesFromIndexFromExclusiveAsArrayAscending":
+		case "edgesFromIndexToAsArrayAscending":
+		case "edgesFromIndexToExclusiveAsArrayAscending":
+		case "edgesFromIndexFromAsArrayDescending":
+		case "edgesFromIndexFromExclusiveAsArrayDescending":
+		case "edgesFromIndexToAsArrayDescending":
+		case "edgesFromIndexToExclusiveAsArrayDescending":
+			return true;//return numParams == 2;
+		case "edgesFromIndexFromToAsArrayAscending":
+		case "edgesFromIndexFromExclusiveToAsArrayAscending":
+		case "edgesFromIndexFromToExclusiveAsArrayAscending":
+		case "edgesFromIndexFromExclusiveToExclusiveAsArrayAscending":
+		case "edgesFromIndexFromToAsArrayDescending":
+		case "edgesFromIndexFromExclusiveToAsArrayDescending":
+		case "edgesFromIndexFromToExclusiveAsArrayDescending":
+		case "edgesFromIndexFromExclusiveToExclusiveAsArrayDescending":
+			return true;//return numParams == 3;
+		case "nodesFromIndexMultipleFromTo":
+		case "edgesFromIndexMultipleFromTo":
+			return true;//return numParams >= 3;
 		default:
 			return false;
 		}

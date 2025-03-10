@@ -1,0 +1,11 @@
+node class M
+{
+	i : int;
+}
+
+node class N
+{
+	x : int;
+}
+
+index i { N.x }

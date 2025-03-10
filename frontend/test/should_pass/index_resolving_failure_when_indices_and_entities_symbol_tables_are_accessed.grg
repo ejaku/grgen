@@ -1,0 +1,9 @@
+#using "index_resolving_failure_when_indices_and_entities_symbol_tables_are_accessed.gm"
+
+rule r
+{
+	modify {
+		---
+		emit(nodesFromIndex(i)); // failed because M.i is an entry in the entities symbol table causing the resolving of the IdentExprNode on i not to be carried out in the indices symbol table
+	}
+}

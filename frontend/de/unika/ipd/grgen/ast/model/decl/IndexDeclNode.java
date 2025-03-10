@@ -33,4 +33,9 @@ public abstract class IndexDeclNode extends DeclNode
 	public abstract InheritanceTypeNode getType();
 	
 	public abstract TypeNode getExpectedAccessType();
+
+	public static String getKindStr()
+	{
+		return "index";
+	}
 }

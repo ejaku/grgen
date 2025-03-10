@@ -29,7 +29,7 @@ public class EdgesFromIndexAccessFromToExprNode extends FromIndexAccessFromToExp
 
 	private SetTypeNode setTypeNode;
 
-	public EdgesFromIndexAccessFromToExprNode(Coords coords, ExprNode index, ExprNode fromExpr, boolean fromExclusive, ExprNode toExpr, boolean toExclusive)
+	public EdgesFromIndexAccessFromToExprNode(Coords coords, BaseNode index, ExprNode fromExpr, boolean fromExclusive, ExprNode toExpr, boolean toExclusive)
 	{
 		super(coords, index, fromExpr, fromExclusive, toExpr, toExclusive);
 	}

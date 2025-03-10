@@ -13,7 +13,6 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
-import de.unika.ipd.grgen.ast.expr.IdentExprNode;
 import de.unika.ipd.grgen.ast.model.decl.IndexDeclNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
@@ -110,7 +109,7 @@ public abstract class FromIndexAccessMultipleFromToExprNode extends BuiltinFunct
 		for(FromIndexAccessFromToPartExprNode indexAccessExpr : indexAccessExprs.getChildren()) {
 			int indexArgumentNumber = 1 + indexShift;
 			if(indicesUsed.contains(indexAccessExpr.index)) {
-				reportWarning("The function " + shortSignature() + " uses as " + indexArgumentNumber + ". argument (index) the index " + ((IdentExprNode)indexAccessExpr.indexUnresolved).decl.getDecl().toString()
+				reportWarning("The function " + shortSignature() + " uses as " + indexArgumentNumber + ". argument (index) the index " + indexAccessExpr.index.toStringWithDeclarationCoords()
 						+ " for another time (combine the queried ranges into one).");
 			} else {
 				indicesUsed.add(indexAccessExpr.index);

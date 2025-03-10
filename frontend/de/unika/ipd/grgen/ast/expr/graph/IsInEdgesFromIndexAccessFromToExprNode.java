@@ -32,7 +32,7 @@ public class IsInEdgesFromIndexAccessFromToExprNode extends FromIndexAccessFromT
 
 	private ExprNode candidateExpr;
 	
-	public IsInEdgesFromIndexAccessFromToExprNode(Coords coords, ExprNode candidateExpr, ExprNode index, ExprNode fromExpr, boolean fromExclusive, ExprNode toExpr, boolean toExclusive)
+	public IsInEdgesFromIndexAccessFromToExprNode(Coords coords, ExprNode candidateExpr, BaseNode index, ExprNode fromExpr, boolean fromExclusive, ExprNode toExpr, boolean toExclusive)
 	{
 		super(coords, index, fromExpr, fromExclusive, toExpr, toExclusive);
 		this.candidateExpr = candidateExpr;

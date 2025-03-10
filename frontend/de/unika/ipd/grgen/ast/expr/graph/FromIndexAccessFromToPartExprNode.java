@@ -28,7 +28,7 @@ public class FromIndexAccessFromToPartExprNode extends FromIndexAccessFromToExpr
 	int indexShiftCausedByPartNumber;
 	FromIndexAccessMultipleFromToExprNode wholeExpr;
 	
-	public FromIndexAccessFromToPartExprNode(Coords coords, ExprNode index, ExprNode fromExpr, boolean fromExclusive, ExprNode toExpr, boolean toExclusive, int indexShiftCausedByPartNumber, FromIndexAccessMultipleFromToExprNode wholeExpr)
+	public FromIndexAccessFromToPartExprNode(Coords coords, BaseNode index, ExprNode fromExpr, boolean fromExclusive, ExprNode toExpr, boolean toExclusive, int indexShiftCausedByPartNumber, FromIndexAccessMultipleFromToExprNode wholeExpr)
 	{
 		super(coords, index, fromExpr, fromExclusive, toExpr, toExclusive);
 		this.indexShiftCausedByPartNumber = indexShiftCausedByPartNumber;

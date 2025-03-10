@@ -29,7 +29,7 @@ public class EdgesFromIndexAccessSameAsArrayExprNode extends FromIndexAccessSame
 
 	private ArrayTypeNode arrayTypeNode;
 
-	public EdgesFromIndexAccessSameAsArrayExprNode(Coords coords, ExprNode index, ExprNode expr)
+	public EdgesFromIndexAccessSameAsArrayExprNode(Coords coords, BaseNode index, ExprNode expr)
 	{
 		super(coords, index, expr);
 	}

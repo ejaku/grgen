@@ -32,7 +32,7 @@ public class IsInNodesFromIndexAccessSameExprNode extends FromIndexAccessSameExp
 
 	private ExprNode candidateExpr;
 	
-	public IsInNodesFromIndexAccessSameExprNode(Coords coords, ExprNode candidateExpr, ExprNode index, ExprNode expr)
+	public IsInNodesFromIndexAccessSameExprNode(Coords coords, ExprNode candidateExpr, BaseNode index, ExprNode expr)
 	{
 		super(coords, index, expr);
 		this.candidateExpr = candidateExpr;
