@@ -25,3 +25,26 @@ rule getNodesFromBoundingBoxAroundNode(n:N, var delta:int) : (set<Node>, set<Nod
 		return (s, nodesFromIndexFromTo(ix, n.x - delta, n.x + delta));
 	}
 }
+
+rule getNodesFromBoundingBoxAroundNodeByMatching(var x:int, var delta:int) : (N)
+{
+	neighbor:N{multiple(ix >= x - delta, ix <= x + delta)};
+	
+	modify {
+		return (neighbor);
+	}
+}
+
+rule getNodesFromBoundingBoxAroundNodeByMatchingNeighboringNodes(n:N, var delta:int) : (N)
+{
+	neighbor:N{multiple(ix >= n.x - delta, ix <= n.x + delta)};
+	hom(neighbor, n);
+	
+	modify {
+		return (neighbor);
+	}
+}
+
+test dataFileMatchingHelper
+{
+}

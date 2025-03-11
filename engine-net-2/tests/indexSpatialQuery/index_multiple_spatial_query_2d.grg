@@ -1,0 +1,37 @@
+#using "index_multiple_spatial_query_2d.gm"
+
+rule getNodesFromBoundingBox(var x:float, var y:float, var delta:float) : (set<Node>, set<Node>)
+{
+	---
+	def ref s:set<Node>;
+	yield {
+		yield s = nodesFromIndexMultipleFromTo(ix, x - delta, x + delta, iy, y - delta, y + delta);
+	}
+	
+	modify {
+		return (s, nodesFromIndexMultipleFromTo(ix, x - delta, x + delta, iy, y - delta, y + delta));
+	}
+}
+
+rule getNodesFromBoundingBoxByMatching(var x:float, var y:float, var delta:float) : (N)
+{
+	n:N{multiple(ix >= x - delta, ix <= x + delta, iy >= y - delta, iy <= y + delta)};
+	
+	modify {
+		return(n);
+	}
+}
+
+rule getNodesFromBoundingBoxByMatchingNeighboringNodes(center:N, var delta:float) : (N)
+{
+	n:N{multiple(ix >= center.x - delta, ix <= center.x + delta, iy >= center.y - delta, iy <= center.y + delta)};
+	hom(n, center);
+	
+	modify {
+		return(n);
+	}
+}
+
+test dataFileMatchingHelper
+{
+}

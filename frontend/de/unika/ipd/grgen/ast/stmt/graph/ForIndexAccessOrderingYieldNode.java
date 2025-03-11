@@ -131,7 +131,7 @@ public class ForIndexAccessOrderingYieldNode extends ForIndexAccessNode
 			}
 			if(expr2 != null) {
 				TypeNode indexAccessType2 = expr2.getType();
-				if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
+				if(!indexAccessType2.isCompatibleTo(expectedIndexAccessType)) {
 					reportError("Cannot convert type used in accessing index"
 							+ " from " + indexAccessType2.toStringWithDeclarationCoords()
 							+ " to the expected " + expectedIndexAccessType.toStringWithDeclarationCoords()
@@ -151,14 +151,14 @@ public class ForIndexAccessOrderingYieldNode extends ForIndexAccessNode
 		}
 		if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE) {
 			if(expr2 != null && (comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)) {
-				reportError("The index access loop does not support two lower bounds"
+				reportError("The index access loop does not support two upper bounds"
 						+ " (given when accessing " + indexUnresolved + ").");
 				return false;
 			}
 		}
 		if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE) {
 			if(expr2 != null && (comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)) {
-				reportError("The index access loop does not support two upper bounds"
+				reportError("The index access loop does not support two lower bounds"
 						+ " (given when accessing " + indexUnresolved + ").");
 				return false;
 			}

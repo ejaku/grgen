@@ -1,0 +1,10 @@
+#using "index_multiple_model.gm"
+
+rule i {
+	n1:N1;
+	n2:N2;
+	n:N{multiple(Ni >= n1.j, Ni <= n2.j)};
+	
+	modify {
+	}
+}

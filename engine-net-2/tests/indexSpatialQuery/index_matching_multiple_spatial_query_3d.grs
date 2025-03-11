@@ -1,0 +1,76 @@
+new graph "indexSpatialQuery/index_multiple_spatial_query_3d"
+
+new :Point3dNode($="(-1,-1,-1)", x=-1.0, y=-1.0, z=-1.0)
+new :Point3dNode($="(0,-1,-1)", x=0.0, y=-1.0, z=-1.0)
+new :Point3dNode($="(1,-1,-1)", x=1.0, y=-1.0, z=-1.0)
+new :Point3dNode($="(-1,0,-1)", x=-1.0, y=0.0, z=-1.0)
+new :Point3dNode($="(0,0,-1)", x=0.0, y=0.0, z=-1.0)
+new :Point3dNode($="(1,0,-1)", x=1.0, y=0.0, z=-1.0)
+new :Point3dNode($="(-1,1,-1)", x=-1.0, y=1.0, z=-1.0)
+new :Point3dNode($="(0,1,-1)", x=0.0, y=1.0, z=-1.0)
+new :Point3dNode($="(1,1,-1)", x=1.0, y=1.0, z=-1.0)
+
+new :Point3dNode($="(-1,-1,0)", x=-1.0, y=-1.0, z=0.0)
+new :Point3dNode($="(0,-1,0)", x=0.0, y=-1.0, z=0.0)
+new :Point3dNode($="(1,-1,0)", x=1.0, y=-1.0, z=0.0)
+new :Point3dNode($="(-1,0,0)", x=-1.0, y=0.0, z=0.0)
+new :Point3dNode($="(0,0,0)", x=0.0, y=0.0, z=0.0)
+new :Point3dNode($="(1,0,0)", x=1.0, y=0.0, z=0.0)
+new :Point3dNode($="(-1,1,0)", x=-1.0, y=1.0, z=0.0)
+new :Point3dNode($="(0,1,0)", x=0.0, y=1.0, z=0.0)
+new :Point3dNode($="(1,1,0)", x=1.0, y=1.0, z=0.0)
+
+new :Point3dNode($="(-1,-1,1)", x=-1.0, y=-1.0, z=1.0)
+new :Point3dNode($="(0,-1,1)", x=0.0, y=-1.0, z=1.0)
+new :Point3dNode($="(1,-1,1)", x=1.0, y=-1.0, z=1.0)
+new :Point3dNode($="(-1,0,1)", x=-1.0, y=0.0, z=1.0)
+new :Point3dNode($="(0,0,1)", x=0.0, y=0.0, z=1.0)
+new :Point3dNode($="(1,0,1)", x=1.0, y=0.0, z=1.0)
+new :Point3dNode($="(-1,1,1)", x=-1.0, y=1.0, z=1.0)
+new :Point3dNode($="(0,1,1)", x=0.0, y=1.0, z=1.0)
+new :Point3dNode($="(1,1,1)", x=1.0, y=1.0, z=1.0)
+
+new :Point3dNode($="(99,99,99)", x=99.0, y=99.0, z=99.0)
+
+eps = 0.0001
+show var eps
+
+exec (::s)=[getNodesFromBoundingBoxByMatching(new Point3d@(x=-1.0, y=-1.0, z=-1.0), 1.0 + ::eps)]
+exec (::t)=[getNodesFromBoundingBoxByMatchingNeighboringNodes(@("(-1,-1,-1)"), 1.0 + ::eps)]
+exec dataFileMatchingHelper
+show var s
+show var t
+
+exec (::s)=[getNodesFromBoundingBoxByMatching(new Point3d@(x=1.0, y=0.0, z=1.0), 1.0 + ::eps)]
+exec (::t)=[getNodesFromBoundingBoxByMatchingNeighboringNodes(@("(1,0,1)"), 1.0 + ::eps)]
+exec dataFileMatchingHelper
+show var s
+show var t
+
+exec (::s)=[getNodesFromBoundingBoxByMatching(new Point3d@(x=1.0, y=0.0, z=0.0), 1.0 + ::eps)]
+exec (::t)=[getNodesFromBoundingBoxByMatchingNeighboringNodes(@("(1,0,0)"), 1.0 + ::eps)]
+exec dataFileMatchingHelper
+show var s
+show var t
+
+exec (::s)=[getNodesFromBoundingBoxByMatching(new Point3d@(x=0.0, y=0.0, z=0.0), 1.0 + ::eps)]
+exec (::t)=[getNodesFromBoundingBoxByMatchingNeighboringNodes(@("(0,0,0)"), 1.0 + ::eps)]
+exec dataFileMatchingHelper
+show var s
+show var t
+
+exec (::s)=[getNodesFromBoundingBoxByMatching(new Point3d@(x=99.0, y=99.0, z=99.0), 1.0 + ::eps)]
+exec (::t)=[getNodesFromBoundingBoxByMatchingNeighboringNodes(@("(99,99,99)"), 1.0 + ::eps)]
+show var s
+show var t
+
+exec (::s)=[getNodesFromBoundingBoxByMatching(new Point3d@(x=99.0, y=99.0, z=99.0), 100.0 + ::eps)]
+exec (::t)=[getNodesFromBoundingBoxByMatchingNeighboringNodes(@("(99,99,99)"), 100.0 + ::eps)]
+show var s
+show var t
+
+exec (::s)=[getNodesFromBoundingBoxByMatching(new Point3d@(x=0.9, y=0.9, z=0.9), 0.5 + ::eps)]
+show var s
+show var s
+
+quit

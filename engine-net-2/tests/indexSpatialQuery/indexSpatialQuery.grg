@@ -1,0 +1,44 @@
+#using "index_multiple_spatial_query_3d.gm"
+
+var ::delta:double;
+
+// match neighbor that is nearby in space even if unconnected
+rule matchNeighboring : (Point3dNode, Point3dNode)
+{
+	. --> n:Point3dNode;
+	neighbor:Point3dNode{multiple(ix >= n.x - delta, ix <= n.x + delta, iy >= n.y - delta, iy <= n.y + delta, iz >= n.z - delta, iz <= n.z + delta)} --> .;
+	
+	modify {
+		return(n, neighbor);
+	}
+}
+
+// reduce cartesian product of unconnected components to the ones nearby in space
+rule checkNeighboring : (Point3dNode, Point3dNode)
+{
+	. --> n:Point3dNode;
+	neighbor:Point3dNode --> .;
+
+	if {
+		neighbor in nodesFromIndexMultipleFromTo(ix, n.x - delta, n.x + delta, iy, n.y - delta, n.y + delta, iz, n.z - delta, n.z + delta);
+	}
+	
+	modify {
+		return (n, neighbor);
+	}
+}
+
+rule init
+{
+	modify {
+		. --> n:Point3dNode;
+		eval { n.x = 0; n.y = 0; n.z = 0; nameof(n) = "n"; }
+		
+		n1:Point3dNode --> .;
+		eval { n1.x = 1; n1.y = 0; n1.z = 0; nameof(n1) = "n1"; }
+		n2:Point3dNode --> .;
+		eval { n2.x = 10; n2.y = 0; n2.z = 0; nameof(n2) = "n2"; }
+		n3:Point3dNode --> .;
+		eval { n3.x = 0; n3.y = 15; n3.z = 15; nameof(n3) = "n3"; }
+	}
+}

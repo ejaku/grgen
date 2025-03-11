@@ -1,0 +1,8 @@
+#using "index_multiple_model.gm"
+
+rule i {
+	-e:E{ascending(Ni >= 0, Ni <= 1)}->;
+	
+	modify {
+	}
+}

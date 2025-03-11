@@ -1004,7 +1004,7 @@ namespace de.unika.ipd.grGen.lgsp
     public abstract class IndexAccess
     {
         /// <summary>
-        /// The index accessed
+        /// The index accessed, null in case of a MultipleIndexAccess
         /// </summary>
         public readonly IndexDescription Index;
 
@@ -1253,6 +1253,147 @@ namespace de.unika.ipd.grGen.lgsp
                 return "descending(" + Index.Name + ")";
             else
                 return "descending(" + fromStr + " " + toStr + ")";
+        }
+    }
+
+    /// <summary>
+    /// Part class for multiple index accesses.
+    /// </summary>
+    public class PartIndexAccess
+    {
+        /// <summary>
+        /// The index accessed
+        /// </summary>
+        public readonly IndexDescription Index;
+
+        public Expression From;
+        public readonly bool IncludingFrom;
+        public Expression To;
+        public readonly bool IncludingTo;
+
+        public PartIndexAccess(IndexDescription index,
+            Expression from, bool includingFrom,
+            Expression to, bool includingTo)
+        {
+            Index = index;
+            From = from;
+            IncludingFrom = includingFrom;
+            To = to;
+            IncludingTo = includingTo;
+        }
+
+        public PartIndexAccess Copy(string nameSuffix)
+        {
+            return new PartIndexAccess(Index,
+                From != null ? From.Copy(nameSuffix) : null, IncludingFrom,
+                To != null ? To.Copy(nameSuffix) : null, IncludingTo);
+        }
+
+        public void PatchUsersOfCopiedElements(string renameSuffix,
+            Dictionary<PatternNode, PatternNode> nodeToCopy,
+            Dictionary<PatternEdge, PatternEdge> edgeToCopy)
+        {
+            if(From != null)
+                From = From.Copy(renameSuffix);
+            if(To != null)
+                To = To.Copy(renameSuffix);
+        }
+
+        public override string ToString()
+        {
+            String fromStr = "";
+            SourceBuilder sbFrom = new SourceBuilder();
+            if(From != null)
+            {
+                sbFrom.Append(Index.Name);
+                if(IncludingFrom)
+                    sbFrom.Append(">=");
+                else
+                    sbFrom.Append(">");
+                From.Emit(sbFrom);
+                fromStr = sbFrom.ToString();
+            }
+            String toStr = "";
+            SourceBuilder sbTo = new SourceBuilder();
+            if(To != null)
+            {
+                sbTo.Append(Index.Name);
+                if(IncludingTo)
+                    sbTo.Append("<=");
+                else
+                    sbTo.Append("<");
+                To.Emit(sbTo);
+                toStr = sbTo.ToString();
+            }
+            if(From == null && To == null)
+                return Index.Name;
+            else
+                return fromStr + " " + toStr;
+        }
+    }
+
+    /// <summary>
+    /// Representation of an index access of multiple indices, used to bind a pattern element.
+    /// </summary>
+    public class MultipleIndexAccess : IndexAccess
+    {
+        /// <summary>
+        /// The single index accesses of this multiple index join
+        /// </summary>
+        public PartIndexAccess[] IndexAccesses;
+
+        public MultipleIndexAccess(PatternElement neededElement, bool variablesNeeded,
+            params PartIndexAccess[] indexAccesses)
+            : base(null, neededElement, variablesNeeded)
+        {
+            IndexAccesses = indexAccesses;
+        }
+
+        public override IndexAccess Copy(string nameSuffix)
+        {
+            PartIndexAccess[] indexAccessesCopy = new PartIndexAccess[IndexAccesses.Length];
+            for(int i = 0; i < IndexAccesses.Length; ++i)
+            {
+                indexAccessesCopy[i] = IndexAccesses[i].Copy(nameSuffix);
+            }
+            return new MultipleIndexAccess(NeededElement, VariablesNeeded, indexAccessesCopy);
+        }
+
+        public override void PatchUsersOfCopiedElements(string renameSuffix,
+            Dictionary<PatternNode, PatternNode> nodeToCopy,
+            Dictionary<PatternEdge, PatternEdge> edgeToCopy)
+        {
+            if(NeededElement != null)
+            {
+                if(NeededElement is PatternNode)
+                {
+                    if(nodeToCopy.ContainsKey((PatternNode)NeededElement))
+                        NeededElement = nodeToCopy[(PatternNode)NeededElement];
+                }
+                else
+                {
+                    if(edgeToCopy.ContainsKey((PatternEdge)NeededElement))
+                        NeededElement = edgeToCopy[(PatternEdge)NeededElement];
+                }
+            }
+
+            foreach(PartIndexAccess part in IndexAccesses)
+            {
+                part.PatchUsersOfCopiedElements(renameSuffix, nodeToCopy, edgeToCopy);
+            }
+        }
+
+        public override string ToString()
+        {
+            SourceBuilder sb = new SourceBuilder();
+            sb.Append("multiple(");
+            foreach(PartIndexAccess part in IndexAccesses)
+            {
+                sb.Append(part.ToString());
+                sb.Append(" - ");
+            }
+            sb.Append(")");
+            return sb.ToString();
         }
     }
 

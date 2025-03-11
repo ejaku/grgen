@@ -3103,23 +3103,55 @@ public class ActionsGen extends CSharpBase
 								? formatEntity(neededEntity, pathPrefix, alreadyDefinedEntityToName) + ", "
 								: "null, ");
 				sb.append(!needs.variables.isEmpty() ? "true, " : "false, ");
-				if(indexAccess.from() != null) {
-					eyGen.genExpressionTree(sb, indexAccess.from(), className, pathPrefixForElements,
-							alreadyDefinedEntityToName);
-				} else
-					sb.append("null");
-				sb.append(", " + (indexAccess.includingFrom() ? "true, " : "false, "));
-				if(indexAccess.to() != null) {
-					eyGen.genExpressionTree(sb, indexAccess.to(), className, pathPrefixForElements,
-							alreadyDefinedEntityToName);
-				} else
-					sb.append("null");
-				sb.append(", " + (indexAccess.includingTo() ? "true" : "false"));
+				genFromTo(indexAccess, sb, className, alreadyDefinedEntityToName, pathPrefixForElements);
 				sb.append("), ");
 			}
+		} else if(!entity.multipleIndexAccesses.isEmpty()) {
+			NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.VARS, Needs.CONTAINER_EXPRS));
+			for(IndexAccessOrdering indexAccess : entity.multipleIndexAccesses) {
+				indexAccess.collectNeededEntities(needs);
+			}
+			Entity neededEntity = getAtMostOneNeededGraphElement(needs, parameters);
+
+			sb.append("new GRGEN_LGSP.MultipleIndexAccess(");
+			sb.append(neededEntity != null
+					? formatEntity(neededEntity, pathPrefix, alreadyDefinedEntityToName) + ", "
+					: "null, ");
+			sb.append(!needs.variables.isEmpty() ? "true, " : "false, ");
+			boolean first = true;
+			for(IndexAccessOrdering indexAccess : entity.multipleIndexAccesses) {
+				if(first)
+					first = false;
+				else
+					sb.append(", ");
+				sb.append("new GRGEN_LGSP.PartIndexAccess(");
+				sb.append("GRGEN_MODEL." + model.getIdent() + "GraphModel.GetIndexDescription(\""
+						+ indexAccess.index.getIdent() + "\"), ");
+				genFromTo(indexAccess, sb, className, alreadyDefinedEntityToName, pathPrefixForElements);
+				sb.append(")");
+			}
+			sb.append("),");
 		} else {
 			sb.append("null, ");
 		}
+	}
+	
+	private void genFromTo(IndexAccessOrdering indexAccess, SourceBuilder sb,
+			String className, HashMap<Entity, String> alreadyDefinedEntityToName,
+			String pathPrefixForElements)
+	{
+		if(indexAccess.from() != null) {
+			eyGen.genExpressionTree(sb, indexAccess.from(), className, pathPrefixForElements,
+					alreadyDefinedEntityToName);
+		} else
+			sb.append("null");
+		sb.append(", " + (indexAccess.includingFrom() ? "true, " : "false, "));
+		if(indexAccess.to() != null) {
+			eyGen.genExpressionTree(sb, indexAccess.to(), className, pathPrefixForElements,
+					alreadyDefinedEntityToName);
+		} else
+			sb.append("null");
+		sb.append(", " + (indexAccess.includingTo() ? "true" : "false"));
 	}
 
 	private void genNameLookup(SourceBuilder sb, String pathPrefix,

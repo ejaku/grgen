@@ -1,0 +1,17 @@
+node class Point3dNode
+{
+	x : double;
+	y : double;
+	z : double;
+}
+
+index ix { Point3dNode.x }
+index iy { Point3dNode.y }
+index iz { Point3dNode.z }
+
+class Point3d
+{
+	x : double;
+	y : double;
+	z : double;
+}

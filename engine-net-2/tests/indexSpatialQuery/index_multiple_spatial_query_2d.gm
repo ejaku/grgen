@@ -1,0 +1,8 @@
+node class N
+{
+	x : float;
+	y : float;
+}
+
+index ix { N.x }
+index iy { N.y }

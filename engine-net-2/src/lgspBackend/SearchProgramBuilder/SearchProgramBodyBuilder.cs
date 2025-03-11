@@ -1412,9 +1412,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
             string negativeIndependentNamePrefix = helper.NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
-            string iterationType = TypesHelper.TypeName(index.Index is AttributeIndexDescription ?
-                ((AttributeIndexDescription)index.Index).GraphElementType :
-                ((IncidenceCountIndexDescription)index.Index).StartNodeType);
+            string iterationType = GetIterationTypeFromIndex(index, isNode, model);
             string indexSetType = NamesOfEntities.IndexSetType(model.ModelName);
 
             // iterate available index elements
@@ -1473,7 +1471,7 @@ namespace de.unika.ipd.grGen.lgsp
                         packagePrefixedActionName,
                         !firstLoopPassed);
             }
-            else //if(index is IndexAccessDescending)
+            else if(index is IndexAccessDescending)
             {
                 IndexAccessDescending indexDescending = (IndexAccessDescending)index;
                 SourceBuilder fromExpression = new SourceBuilder();
@@ -1505,6 +1503,45 @@ namespace de.unika.ipd.grGen.lgsp
                         emitProfiling,
                         packagePrefixedActionName,
                         !firstLoopPassed);
+            }
+            else //if(index is MultipleIndexAccess)
+            {
+                MultipleIndexAccess multipleIndexAccess = (MultipleIndexAccess)index;
+                IndexAccessMultiplePart[] multipleParts = new IndexAccessMultiplePart[multipleIndexAccess.IndexAccesses.Length];
+                for(int i = 0; i < multipleIndexAccess.IndexAccesses.Length; ++i)
+                {
+                    PartIndexAccess part = multipleIndexAccess.IndexAccesses[i];
+                    SourceBuilder fromExpression = new SourceBuilder();
+                    if(part.From != null)
+                    {
+                        part.From.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
+                        part.From.Emit(fromExpression);
+                    }
+                    SourceBuilder toExpression = new SourceBuilder();
+                    if(part.To != null)
+                    {
+                        part.To.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
+                        part.To.Emit(toExpression);
+                    }
+                    multipleParts[i] = new IndexAccessMultiplePart(part.Index.Name, indexSetType,
+                        part.From != null ? fromExpression.ToString() : null, part.IncludingFrom,
+                        part.To != null ? toExpression.ToString() : null, part.IncludingTo);
+                }
+
+                elementsIteration =
+                    new GetCandidateByIteration(
+                        GetCandidateByIterationType.IndexElements,
+                        target.PatternElement.Name,
+                        iterationType,
+                        indexSetType,
+                        IndexAccessType.Multiple,
+                        isNode,
+                        parallelized,
+                        emitProfiling,
+                        packagePrefixedActionName,
+                        !firstLoopPassed,
+                        multipleParts
+                        );
             }
             firstLoopPassed = true;
 
@@ -3667,9 +3704,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
             PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
-            string iterationType = TypesHelper.TypeName(index.Index is AttributeIndexDescription ?
-                ((AttributeIndexDescription)index.Index).GraphElementType :
-                ((IncidenceCountIndexDescription)index.Index).StartNodeType);
+            string iterationType = GetIterationTypeFromIndex(index, isNode, model);
             string indexSetType = NamesOfEntities.IndexSetType(model.ModelName);
 
             // iterate available index elements
@@ -3734,7 +3769,7 @@ namespace de.unika.ipd.grGen.lgsp
                         packagePrefixedActionName,
                         !firstLoopPassed);
             }
-            else //if(index is IndexAccessDescending)
+            else if(index is IndexAccessDescending)
             {
                 IndexAccessDescending indexDescending = (IndexAccessDescending)index;
                 SourceBuilder fromExpression = new SourceBuilder();
@@ -3770,6 +3805,48 @@ namespace de.unika.ipd.grGen.lgsp
                         packagePrefixedActionName,
                         !firstLoopPassed);
             }
+            else //if(index is MultipleIndexAccess)
+            {
+                MultipleIndexAccess multipleIndexAccess = (MultipleIndexAccess)index;
+                IndexAccessMultiplePart[] multipleParts = new IndexAccessMultiplePart[multipleIndexAccess.IndexAccesses.Length];
+                for(int i = 0; i < multipleIndexAccess.IndexAccesses.Length; ++i)
+                {
+                    PartIndexAccess part = multipleIndexAccess.IndexAccesses[i];
+                    SourceBuilder fromExpression = new SourceBuilder();
+                    if(part.From != null)
+                    {
+                        part.From.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
+                        part.From.Emit(fromExpression);
+                    }
+                    SourceBuilder toExpression = new SourceBuilder();
+                    if(part.To != null)
+                    {
+                        part.To.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
+                        part.To.Emit(toExpression);
+                    }
+                    multipleParts[i] = new IndexAccessMultiplePart(part.Index.Name, indexSetType,
+                        part.From != null ? fromExpression.ToString() : null, part.IncludingFrom,
+                        part.To != null ? toExpression.ToString() : null, part.IncludingTo);
+                }
+
+                elementsIteration =
+                    new GetCandidateByIterationParallelSetup(
+                        GetCandidateByIterationType.IndexElements,
+                        target.PatternElement.Name,
+                        iterationType,
+                        indexSetType,
+                        IndexAccessType.Multiple,
+                        isNode,
+                        rulePatternClassName,
+                        patternGraph.name,
+                        parameterNames,
+                        helper.wasIndependentInlined(patternGraph, indexOfSchedule),
+                        emitProfiling,
+                        packagePrefixedActionName,
+                        !firstLoopPassed,
+                        multipleParts
+                        );
+            }
             return insertionPoint.Append(elementsIteration);
         }
 
@@ -3788,9 +3865,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
             string negativeIndependentNamePrefix = ""; // parallel operations only in main pattern, in nested negatives/independents not supported
-            string iterationType = TypesHelper.TypeName(index.Index is AttributeIndexDescription ?
-                ((AttributeIndexDescription)index.Index).GraphElementType :
-                ((IncidenceCountIndexDescription)index.Index).StartNodeType);
+            string iterationType = GetIterationTypeFromIndex(index, isNode, model);
             string indexSetType = NamesOfEntities.IndexSetType(model.ModelName);
 
             // iterate available index elements
@@ -3847,7 +3922,7 @@ namespace de.unika.ipd.grGen.lgsp
                         packagePrefixedActionName,
                         !firstLoopPassed);
             }
-            else //if(index is IndexAccessDescending)
+            else if(index is IndexAccessDescending)
             {
                 IndexAccessDescending indexDescending = (IndexAccessDescending)index;
                 SourceBuilder fromExpression = new SourceBuilder();
@@ -3878,6 +3953,44 @@ namespace de.unika.ipd.grGen.lgsp
                         emitProfiling,
                         packagePrefixedActionName,
                         !firstLoopPassed);
+            }
+            else //if(index is MultipleIndexAccess)
+            {
+                MultipleIndexAccess multipleIndexAccess = (MultipleIndexAccess)index;
+                IndexAccessMultiplePart[] multipleParts = new IndexAccessMultiplePart[multipleIndexAccess.IndexAccesses.Length];
+                for(int i = 0; i < multipleIndexAccess.IndexAccesses.Length; ++i)
+                {
+                    PartIndexAccess part = multipleIndexAccess.IndexAccesses[i];
+                    SourceBuilder fromExpression = new SourceBuilder();
+                    if(part.From != null)
+                    {
+                        part.From.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
+                        part.From.Emit(fromExpression);
+                    }
+                    SourceBuilder toExpression = new SourceBuilder();
+                    if(part.To != null)
+                    {
+                        part.To.EmitLambdaExpressionImplementationMethods(arrayPerElementMethodBuilder);
+                        part.To.Emit(toExpression);
+                    }
+                    multipleParts[i] = new IndexAccessMultiplePart(part.Index.Name, indexSetType,
+                        part.From != null ? fromExpression.ToString() : null, part.IncludingFrom,
+                        part.To != null ? toExpression.ToString() : null, part.IncludingTo);
+                }
+
+                elementsIteration =
+                    new GetCandidateByIterationParallel(
+                        GetCandidateByIterationType.IndexElements,
+                        target.PatternElement.Name,
+                        iterationType,
+                        indexSetType,
+                        IndexAccessType.Multiple,
+                        isNode,
+                        emitProfiling,
+                        packagePrefixedActionName,
+                        !firstLoopPassed,
+                        multipleParts
+                        );
             }
             firstLoopPassed = true;
 
@@ -4287,6 +4400,16 @@ namespace de.unika.ipd.grGen.lgsp
 
             return insertionPoint;
         }
-    }
+
+        public static string GetIterationTypeFromIndex(IndexAccess index, bool isNode, IGraphModel model)
+        {
+            if(index.Index == null)
+                return TypesHelper.TypeName(isNode ? (GrGenType)model.NodeModel.RootType : (GrGenType)model.EdgeModel.RootType);
+            else if(index.Index is AttributeIndexDescription)
+                return TypesHelper.TypeName(((AttributeIndexDescription)index.Index).GraphElementType);
+            else
+                return TypesHelper.TypeName(((IncidenceCountIndexDescription)index.Index).StartNodeType);
+        }
+   }
 }
 

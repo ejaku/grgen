@@ -1,0 +1,37 @@
+#using "index_multiple_spatial_query_3d.gm"
+
+rule getNodesFromBoundingBox(ref center:Point3d, var delta:double) : (set<Node>, set<Node>)
+{
+	---
+	def ref s:set<Node>;
+	yield {
+		yield s = nodesFromIndexMultipleFromTo(ix, center.x - delta, center.x + delta, iy, center.y - delta, center.y + delta, iz, center.z - delta, center.z + delta);
+	}
+	
+	modify {
+		return (s, nodesFromIndexMultipleFromTo(ix, center.x - delta, center.x + delta, iy, center.y - delta, center.y + delta, iz, center.z - delta, center.z + delta));
+	}
+}
+
+rule getNodesFromBoundingBoxByMatching(ref center:Point3d, var delta:double) : (Point3dNode)
+{
+	n:Point3dNode{multiple(ix >= center.x - delta, ix <= center.x + delta, iy >= center.y - delta, iy <= center.y + delta, iz >= center.z - delta, iz <= center.z + delta)};
+	
+	modify {
+		return(n);
+	}
+}
+
+rule getNodesFromBoundingBoxByMatchingNeighboringNodes(center:Point3dNode, var delta:double) : (Point3dNode)
+{
+	n:Point3dNode{multiple(ix >= center.x - delta, ix <= center.x + delta, iy >= center.y - delta, iy <= center.y + delta, iz >= center.z - delta, iz <= center.z + delta)};
+	hom(n, center);
+	
+	modify {
+		return(n);
+	}
+}
+
+test dataFileMatchingHelper
+{
+}

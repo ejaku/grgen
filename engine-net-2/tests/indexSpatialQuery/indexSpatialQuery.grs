@@ -1,0 +1,40 @@
+new graph "indexSpatialQuery/indexSpatialQuery"
+
+delta = 1.1
+show var delta
+
+exec init
+
+exec (::s, ::t)=[matchNeighboring]
+show var s
+show var t
+
+exec (::s, ::t)=[checkNeighboring]
+show var s
+show var t
+
+delta = 10.1
+show var delta
+
+exec (::s, ::t)=[matchNeighboring]
+show var s
+show var t
+
+exec (::s, ::t)=[checkNeighboring]
+show var s
+show var t
+
+delta = 15.1
+show var delta
+
+exec (::s, ::t)=[matchNeighboring]
+show var s
+show var t
+
+exec (::s, ::t)=[checkNeighboring]
+show var s
+show var t
+
+#TODO: order by distance
+
+quit

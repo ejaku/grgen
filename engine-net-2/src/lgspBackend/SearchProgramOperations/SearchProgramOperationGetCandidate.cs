@@ -59,7 +59,28 @@ namespace de.unika.ipd.grGen.lgsp
     {
         Equality,
         Ascending,
-        Descending
+        Descending,
+        Multiple
+    }
+
+    class IndexAccessMultiplePart
+    {
+        public IndexAccessMultiplePart(string indexName, string indexSetType, string indexFrom, bool fromIncluded, string indexTo, bool toIncluded)
+        {
+            IndexName = indexName;
+            IndexSetType = indexSetType;
+            IndexFrom = indexFrom;
+            IndexFromIncluded = fromIncluded;
+            IndexTo = indexTo;
+            IndexToIncluded = toIncluded;
+        }
+
+        public readonly string IndexName;
+        public readonly string IndexSetType;
+        public readonly string IndexFrom;
+        public readonly bool IndexFromIncluded;
+        public readonly string IndexTo;
+        public readonly bool IndexToIncluded;
     }
 
     /// <summary>
@@ -205,6 +226,35 @@ namespace de.unika.ipd.grGen.lgsp
             EmitProfiling = emitProfiling;
             PackagePrefixedActionName = packagePrefixedActionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
+        }
+
+        public GetCandidateByIteration(
+            GetCandidateByIterationType type,
+            string patternElementName,
+            string indexIterationType,
+            string indexSetType,
+            IndexAccessType indexAccessType,
+            bool isNode,
+            bool parallel,
+            bool emitProfiling,
+            string packagePrefixedActionName,
+            bool emitFirstLoopProfiling,
+            params IndexAccessMultiplePart[] indexAccessMultipleParts)
+        : base(patternElementName)
+        {
+            Debug.Assert(type == GetCandidateByIterationType.IndexElements);
+            Type = type;
+            IndexName = "multiple"; // fake name used in dumping/for comments
+            IterationType = indexIterationType;
+            IndexSetType = indexSetType;
+            Debug.Assert(indexAccessType == IndexAccessType.Multiple);
+            IndexAccessType = indexAccessType;
+            IsNode = isNode;
+            Parallel = parallel;
+            EmitProfiling = emitProfiling;
+            PackagePrefixedActionName = packagePrefixedActionName;
+            EmitFirstLoopProfiling = emitFirstLoopProfiling;
+            IndexAccessMultipleParts = indexAccessMultipleParts;
         }
 
         public GetCandidateByIteration(
@@ -413,30 +463,13 @@ namespace de.unika.ipd.grGen.lgsp
                 // emit loop header with variable containing container entry
                 string indexIterationVariable =
                     NamesOfEntities.CandidateIterationIndexEntry(PatternElementName);
-                sourceCode.AppendFrontFormat("foreach({0} {1} in (({2})graph.Indices).{3}.",
-                        IterationType, indexIterationVariable, IndexSetType, IndexName);
-                if(IndexAccessType==IndexAccessType.Equality)
-                {
-                    sourceCode.AppendFormat("Lookup({0}))\n", IndexEqual);
-                }
+                sourceCode.AppendFrontFormat("foreach({0} {1} in ",
+                        IterationType, indexIterationVariable);
+                if(IndexAccessType != IndexAccessType.Multiple)
+                    sourceCode.Append(GetIndexElementsSource(IndexAccessType, IndexSetType, IndexName, IndexEqual, IndexFrom, IndexFromIncluded, IndexTo, IndexToIncluded));
                 else
-                {
-                    String accessType = IndexAccessType == IndexAccessType.Ascending ? "Ascending" : "Descending";
-                    String indexFromIncluded = IndexFromIncluded ? "Inclusive" : "Exclusive";
-                    String indexToIncluded = IndexToIncluded ? "Inclusive" : "Exclusive";
-                    if(IndexFrom != null && IndexTo != null)
-                        sourceCode.AppendFormat("Lookup{0}From{1}To{2}({3}, {4}))\n",
-                            accessType, indexFromIncluded, indexToIncluded, IndexFrom, IndexTo);
-                    else if(IndexFrom != null)
-                        sourceCode.AppendFormat("Lookup{0}From{1}({2}))\n",
-                            accessType, indexFromIncluded, IndexFrom);
-                    else if(IndexTo != null)
-                        sourceCode.AppendFormat("Lookup{0}To{1}({2}))\n",
-                            accessType, indexToIncluded, IndexTo);
-                    else
-                        sourceCode.AppendFormat("Lookup{0}())\n",
-                            accessType);
-                }
+                    sourceCode.Append(GetIndexElementsSource(IndexSetType, IsNode, IndexAccessMultipleParts));
+                sourceCode.Append(")\n");
 
                 // open loop
                 sourceCode.AppendFront("{\n");
@@ -625,6 +658,57 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
+        // TODO: with a common base class many parameters would not be needed...
+        public static string GetIndexElementsSource(IndexAccessType IndexAccessType, string IndexSetType, string IndexName, string IndexEqual, string IndexFrom, bool IndexFromIncluded, string IndexTo, bool IndexToIncluded)
+        {
+            SourceBuilder sourceCode = new SourceBuilder();
+            sourceCode.AppendFormat("(({0})graph.Indices).{1}.",
+                    IndexSetType, IndexName);
+            if(IndexAccessType == IndexAccessType.Equality)
+            {
+                sourceCode.AppendFormat("Lookup({0})", IndexEqual);
+            }
+            else
+            {
+                String accessType = IndexAccessType == IndexAccessType.Ascending ? "Ascending" : "Descending";
+                String indexFromIncluded = IndexFromIncluded ? "Inclusive" : "Exclusive";
+                String indexToIncluded = IndexToIncluded ? "Inclusive" : "Exclusive";
+                if(IndexFrom != null && IndexTo != null)
+                    sourceCode.AppendFormat("Lookup{0}From{1}To{2}({3}, {4})",
+                        accessType, indexFromIncluded, indexToIncluded, IndexFrom, IndexTo);
+                else if(IndexFrom != null)
+                    sourceCode.AppendFormat("Lookup{0}From{1}({2})",
+                        accessType, indexFromIncluded, IndexFrom);
+                else if(IndexTo != null)
+                    sourceCode.AppendFormat("Lookup{0}To{1}({2})",
+                        accessType, indexToIncluded, IndexTo);
+                else
+                    sourceCode.AppendFormat("Lookup{0}()",
+                        accessType);
+            }
+            return sourceCode.ToString();
+        }
+
+        public static string GetIndexElementsSource(string IndexSetType, bool IsNode, IndexAccessMultiplePart[] IndexAccessMultipleParts)
+        {
+            SourceBuilder sourceCode = new SourceBuilder();
+            sourceCode.AppendFormat("GRGEN_LIBGR.IndexHelper.{0}FromIndexMultipleFromTo(", IsNode ? "Nodes" : "Edges"); // we call the non-profiling version as profiling is handled in the loop body - but this way the index crawling steps are not counted - TODO
+            bool first = true;
+            foreach(IndexAccessMultiplePart part in IndexAccessMultipleParts)
+            {
+                if(first)
+                    first = false;
+                else
+                    sourceCode.Append(", ");
+                String indexFromIncluded = part.IndexFromIncluded ? "true" : "false";
+                String indexToIncluded = part.IndexToIncluded ? "true" : "false";
+                sourceCode.AppendFormat("new GRGEN_LIBGR.IndexHelper.IndexAccess((({0})graph.Indices).{1}, {2}, {3}, {4}, {5})",
+                    IndexSetType, part.IndexName, part.IndexFrom, indexFromIncluded, part.IndexTo, indexToIncluded);
+            }
+            sourceCode.Append(").Keys");
+            return sourceCode.ToString();
+        }
+
         public override bool IsSearchNestingOperation()
         {
             return true;
@@ -651,6 +735,7 @@ namespace de.unika.ipd.grGen.lgsp
         public readonly bool IndexFromIncluded; // only available if IndexElements
         public readonly string IndexTo; // only available if IndexElements
         public readonly bool IndexToIncluded; // only available if IndexElements
+        public readonly IndexAccessMultiplePart[] IndexAccessMultipleParts; // only available if IndexElements
         public readonly string StartingPointNodeName; // from pattern - only available if IncidentEdges
         public readonly IncidentEdgeType EdgeType; // only available if IncidentEdges
         public readonly bool Parallel;
@@ -794,6 +879,33 @@ namespace de.unika.ipd.grGen.lgsp
             EmitProfiling = emitProfiling;
             PackagePrefixedActionName = packagePrefixedActionName;
             EmitFirstLoopProfiling = emitFirstLoopProfiling;
+        }
+
+        public GetCandidateByIterationParallel(
+            GetCandidateByIterationType type,
+            string patternElementName,
+            string indexIterationType,
+            string indexSetType,
+            IndexAccessType indexAccessType,
+            bool isNode,
+            bool emitProfiling,
+            string packagePrefixedActionName,
+            bool emitFirstLoopProfiling,
+            params IndexAccessMultiplePart[] indexAccessMultipleParts)
+        : base(patternElementName)
+        {
+            Debug.Assert(type == GetCandidateByIterationType.IndexElements);
+            Type = type;
+            IndexName = "multiple"; // fake name used in dumping/for comments
+            IterationType = indexIterationType;
+            IndexSetType = indexSetType;
+            Debug.Assert(indexAccessType == IndexAccessType.Multiple);
+            IndexAccessType = indexAccessType;
+            IsNode = isNode;
+            EmitProfiling = emitProfiling;
+            PackagePrefixedActionName = packagePrefixedActionName;
+            EmitFirstLoopProfiling = emitFirstLoopProfiling;
+            IndexAccessMultipleParts = indexAccessMultipleParts;
         }
 
         public GetCandidateByIterationParallel(
@@ -1281,6 +1393,7 @@ namespace de.unika.ipd.grGen.lgsp
         public readonly bool IndexFromIncluded; // only available if IndexElements
         public readonly string IndexTo; // only available if IndexElements
         public readonly bool IndexToIncluded; // only available if IndexElements
+        public readonly IndexAccessMultiplePart[] IndexAccessMultipleParts; // only available if IndexElements
         public readonly string StartingPointNodeName; // from pattern - only available if IncidentEdges
         public readonly IncidentEdgeType EdgeType; // only available if IncidentEdges
         public readonly bool EmitProfiling;
@@ -1470,6 +1583,41 @@ namespace de.unika.ipd.grGen.lgsp
         public GetCandidateByIterationParallelSetup(
             GetCandidateByIterationType type,
             string patternElementName,
+            string indexIterationType,
+            string indexSetType,
+            IndexAccessType indexAccessType,
+            bool isNode,
+            string rulePatternClassName,
+            string patternName,
+            string[] parameterNames,
+            bool wasIndependentInlined,
+            bool emitProfiling,
+            string packagePrefixedActionName,
+            bool emitFirstLoopProfiling,
+            params IndexAccessMultiplePart[] indexAccessMultipleParts)
+        : base(patternElementName)
+        {
+            Debug.Assert(type == GetCandidateByIterationType.IndexElements);
+            Type = type;
+            IndexName = "multiple"; // fake name used in dumping/for comments
+            IterationType = indexIterationType;
+            IndexSetType = indexSetType;
+            Debug.Assert(indexAccessType == IndexAccessType.Multiple);
+            IndexAccessType = indexAccessType;
+            IsNode = isNode;
+            RulePatternClassName = rulePatternClassName;
+            PatternName = patternName;
+            ParameterNames = parameterNames;
+            WasIndependentInlined = wasIndependentInlined;
+            EmitProfiling = emitProfiling;
+            PackagePrefixedActionName = packagePrefixedActionName;
+            EmitFirstLoopProfiling = emitFirstLoopProfiling;
+            IndexAccessMultipleParts = indexAccessMultipleParts;
+        }
+
+        public GetCandidateByIterationParallelSetup(
+            GetCandidateByIterationType type,
+            string patternElementName,
             string startingPointNodeName,
             IncidentEdgeType edgeType,
             string rulePatternClassName,
@@ -1631,65 +1779,23 @@ namespace de.unika.ipd.grGen.lgsp
                 // initialize variable containing candidates from parallelized next candidate
                 string variableContainingParallelizedIterator =
                     NamesOfEntities.IterationParallelizationIterator(PatternElementName);
-                sourceCode.AppendFrontFormat("{0} = (({1})graph.Indices).{2}.",
-                    variableContainingParallelizedIterator, IndexSetType, IndexName);
-
-                if(IndexAccessType == IndexAccessType.Equality)
-                {
-                    sourceCode.AppendFormat("Lookup({0}).GetEnumerator();\n", IndexEqual);
-                }
+                sourceCode.AppendFrontFormat("{0} = ",
+                    variableContainingParallelizedIterator);
+                if(IndexAccessType != IndexAccessType.Multiple)
+                    sourceCode.Append(GetCandidateByIteration.GetIndexElementsSource(IndexAccessType, IndexSetType, IndexName, IndexEqual, IndexFrom, IndexFromIncluded, IndexTo, IndexToIncluded));
                 else
-                {
-                    String accessType = IndexAccessType == IndexAccessType.Ascending ? "Ascending" : "Descending";
-                    String indexFromIncluded = IndexFromIncluded ? "Inclusive" : "Exclusive";
-                    String indexToIncluded = IndexToIncluded ? "Inclusive" : "Exclusive";
-                    if(IndexFrom != null && IndexTo != null)
-                        sourceCode.AppendFormat("Lookup{0}From{1}To{2}({3}, {4}).GetEnumerator();\n",
-                            accessType, indexFromIncluded, indexToIncluded, IndexFrom, IndexTo);
-                    else if(IndexFrom != null)
-                        sourceCode.AppendFormat("Lookup{0}From{1}({2}).GetEnumerator();\n",
-                            accessType, indexFromIncluded, IndexFrom);
-                    else if(IndexTo != null)
-                        sourceCode.AppendFormat("Lookup{0}To{1}({2}).GetEnumerator();\n",
-                            accessType, indexToIncluded, IndexTo);
-                    else
-                        sourceCode.AppendFormat("Lookup{0}().GetEnumerator();\n",
-                            accessType);
-                }
+                    sourceCode.Append(GetCandidateByIteration.GetIndexElementsSource(IndexSetType, IsNode, IndexAccessMultipleParts));
+                sourceCode.Append(".GetEnumerator();\n");
 
                 // emit prerun determining the number of threads to wake up             
-                sourceCode.AppendFrontFormat("foreach({0} indexPreIteration in (({1})graph.Indices).{2}.",
-                        IterationType, IndexSetType, IndexName);
-                if(IndexAccessType == IndexAccessType.Equality)
-                {
-                    sourceCode.AppendFormat("Lookup({0}))\n", IndexEqual);
-                }
+                sourceCode.AppendFrontFormat("foreach({0} indexPreIteration in ",
+                        IterationType);
+                if(IndexAccessType != IndexAccessType.Multiple)
+                    sourceCode.Append(GetCandidateByIteration.GetIndexElementsSource(IndexAccessType, IndexSetType, IndexName, IndexEqual, IndexFrom, IndexFromIncluded, IndexTo, IndexToIncluded));
                 else
-                {
-                    String accessType = IndexAccessType == IndexAccessType.Ascending ? "Ascending" : "Descending";
-                    String indexFromIncluded = IndexFromIncluded ? "Inclusive" : "Exclusive";
-                    String indexToIncluded = IndexToIncluded ? "Inclusive" : "Exclusive";
-                    if(IndexFrom != null && IndexTo != null)
-                    {
-                        sourceCode.AppendFormat("Lookup{0}From{1}To{2}({3}, {4}))\n",
-                            accessType, indexFromIncluded, indexToIncluded, IndexFrom, IndexTo);
-                    }
-                    else if(IndexFrom != null)
-                    {
-                        sourceCode.AppendFormat("Lookup{0}From{1}({2}))\n",
-                            accessType, indexFromIncluded, IndexFrom);
-                    }
-                    else if(IndexTo != null)
-                    {
-                        sourceCode.AppendFormat("Lookup{0}To{1}({2}))\n",
-                            accessType, indexToIncluded, IndexTo);
-                    }
-                    else
-                    {
-                        sourceCode.AppendFormat("Lookup{0}())\n",
-                            accessType);
-                    }
-                }
+                    sourceCode.Append(GetCandidateByIteration.GetIndexElementsSource(IndexSetType, IsNode, IndexAccessMultipleParts));
+                sourceCode.Append(")\n");
+
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
                 sourceCode.AppendFront("++numThreadsSignaled;\n");
@@ -2031,6 +2137,7 @@ namespace de.unika.ipd.grGen.lgsp
         public readonly bool IndexFromIncluded; // only available if IndexElements
         public readonly string IndexTo; // only available if IndexElements
         public readonly bool IndexToIncluded; // only available if IndexElements
+        public readonly IndexAccessMultiplePart[] IndexAccessMultipleParts; // only available if IndexElements
         public readonly string StartingPointNodeName; // from pattern - only available if IncidentEdges
         public readonly IncidentEdgeType EdgeType; // only available if IncidentEdges
         public readonly string RulePatternClassName;

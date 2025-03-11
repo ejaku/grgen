@@ -51,6 +51,9 @@ public abstract class GraphEntity extends Entity
 	/** The index from which to get the node or edge, if any (i.e. not null)*/
 	public IndexAccess indexAccess = null;
 
+	/** The indices from which to get the node or edge when using a multiple index query, if any (i.e. not empty)*/
+	public Vector<IndexAccessOrdering> multipleIndexAccesses = new Vector<IndexAccessOrdering>();
+
 	/** The name map access used to get the node or edge, if any (i.e. not null)*/
 	public NameLookup nameMapAccess = null;
 
@@ -223,6 +226,11 @@ public abstract class GraphEntity extends Entity
 	public void setIndex(IndexAccess indexAccess)
 	{
 		this.indexAccess = indexAccess;
+	}
+	
+	public void addIndex(IndexAccessOrdering indexAccess)
+	{
+		this.multipleIndexAccesses.add(indexAccess);
 	}
 
 	public void setNameMapAccess(NameLookup nameMapAccess)

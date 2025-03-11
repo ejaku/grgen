@@ -33,6 +33,7 @@ import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.pattern.Alternative;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
+import de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacement;
 import de.unika.ipd.grgen.ir.pattern.OrderedReplacements;
@@ -511,6 +512,20 @@ public class Rule extends MatchingAction implements ContainedInPackage
 						}
 					}
 				}
+				if(!node.multipleIndexAccesses.isEmpty()) {
+					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
+					for(IndexAccessOrdering indexAccess : node.multipleIndexAccesses) {
+						indexAccess.collectNeededEntities(needs);
+					}
+					GraphEntity indexGraphEntity = getAtMostOneNeededGraphElement(needs, node);
+					if(indexGraphEntity != null) {
+						if(node.getDependencyLevel() <= indexGraphEntity.getDependencyLevel()) {
+							node.incrementDependencyLevel();
+							dependencyLevel = Math.max(node.getDependencyLevel(), dependencyLevel);
+							somethingChanged = true;
+						}
+					}
+				}
 				if(node.nameMapAccess != null) {
 					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
 					node.nameMapAccess.collectNeededEntities(needs);
@@ -563,6 +578,20 @@ public class Rule extends MatchingAction implements ContainedInPackage
 				if(edge.indexAccess != null) {
 					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
 					edge.indexAccess.collectNeededEntities(needs);
+					GraphEntity indexGraphEntity = getAtMostOneNeededGraphElement(needs, edge);
+					if(indexGraphEntity != null) {
+						if(edge.getDependencyLevel() <= indexGraphEntity.getDependencyLevel()) {
+							edge.incrementDependencyLevel();
+							dependencyLevel = Math.max(edge.getDependencyLevel(), dependencyLevel);
+							somethingChanged = true;
+						}
+					}
+				}
+				if(!edge.multipleIndexAccesses.isEmpty()) {
+					NeededEntities needs = new NeededEntities(EnumSet.of(Needs.NODES, Needs.EDGES, Needs.CONTAINER_EXPRS));
+					for(IndexAccessOrdering indexAccess : edge.multipleIndexAccesses) {
+						indexAccess.collectNeededEntities(needs);
+					}
 					GraphEntity indexGraphEntity = getAtMostOneNeededGraphElement(needs, edge);
 					if(indexGraphEntity != null) {
 						if(edge.getDependencyLevel() <= indexGraphEntity.getDependencyLevel()) {
@@ -629,7 +658,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 				continue;
 			if(node.isDefToBeYieldedTo()) {
 				error.error(entity.getIdent().getCoords(), "Cannot use a def node (" + node.getIdent() + ")"
-						+ " for index/name map access of " + entity.getIdent() + ".");
+						+ " for an index access or name map access of " + entity.getIdent() + ".");
 			}
 			neededEntities.add(node);
 		}
@@ -638,15 +667,15 @@ public class Rule extends MatchingAction implements ContainedInPackage
 				continue;
 			if(edge.isDefToBeYieldedTo()) {
 				error.error(entity.getIdent().getCoords(), "Cannot use a def edge (" + edge.getIdent() + ")"
-						+ " for index/name map access of " + entity.getIdent() + ".");
+						+ " for an index access or name map access of " + entity.getIdent() + ".");
 			}
 			neededEntities.add(edge);
 		}
 		if(neededEntities.size() == 1)
 			return neededEntities.iterator().next();
 		else if(neededEntities.size() > 1) {
-			error.error(entity.getIdent().getCoords(), neededEntities.size() + " needed entities for index/name map access of "
-						+ entity.getIdent() + " (only one allowed).");
+			error.error(entity.getIdent().getCoords(), "There are " + neededEntities.size() + " entities needed for an index access or name map access of "
+						+ entity.getIdent() + " (only one is allowed).");
 		}
 		return null;
 	}

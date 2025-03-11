@@ -1,0 +1,44 @@
+new graph "indexSpatialQuery/index_spatial_query_1d"
+
+new :N($="(0)", x=0)
+new :N($="(1)", x=1)
+new :N($="(2)", x=2)
+
+new :N($="(99)", x=99)
+
+exec (::s)=[getNodesFromBoundingBoxAroundNodeByMatching(0, 1)]
+exec (::t)=[getNodesFromBoundingBoxAroundNodeByMatchingNeighboringNodes(@("(0)"), 1)]
+exec dataFileMatchingHelper
+show var s
+show var t
+
+exec (::s)=[getNodesFromBoundingBoxAroundNodeByMatching(1, 1)]
+exec (::t)=[getNodesFromBoundingBoxAroundNodeByMatchingNeighboringNodes(@("(1)"), 1)]
+exec dataFileMatchingHelper
+show var s
+show var t
+
+exec (::s)=[getNodesFromBoundingBoxAroundNodeByMatching(2, 1)]
+exec (::t)=[getNodesFromBoundingBoxAroundNodeByMatchingNeighboringNodes(@("(2)"), 1)]
+exec dataFileMatchingHelper
+show var s
+show var t
+
+exec (::s)=[getNodesFromBoundingBoxAroundNodeByMatching(99, 1)]
+exec (::t)=[getNodesFromBoundingBoxAroundNodeByMatchingNeighboringNodes(@("(99)"), 1)]
+show var s
+show var t
+
+exec (::s)=[getNodesFromBoundingBoxAroundNodeByMatching(0, 1)]
+exec (::t)=[getNodesFromBoundingBoxAroundNodeByMatchingNeighboringNodes(@("(0)"), 1)]
+exec dataFileMatchingHelper
+show var s
+show var t
+
+exec (::s)=[getNodesFromBoundingBoxAroundNodeByMatching(0, 100)]
+exec (::t)=[getNodesFromBoundingBoxAroundNodeByMatchingNeighboringNodes(@("(0)"), 100)]
+exec dataFileMatchingHelper
+show var s
+show var t
+
+quit

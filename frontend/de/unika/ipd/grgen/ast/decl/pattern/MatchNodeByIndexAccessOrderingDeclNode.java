@@ -116,7 +116,7 @@ public class MatchNodeByIndexAccessOrderingDeclNode extends MatchNodeByIndexDecl
 			}
 			if(expr2 != null) { // TODO: distinguish lower and upper bound
 				TypeNode indexAccessType2 = expr2.getType();
-				if(!indexAccessType.isCompatibleTo(expectedIndexAccessType)) {
+				if(!indexAccessType2.isCompatibleTo(expectedIndexAccessType)) {
 					String expTypeName = expectedIndexAccessType.getTypeName();
 					String typeName = indexAccessType2.getTypeName();
 					expr2.reportError("Cannot convert type used in accessing index from " + typeName
@@ -138,14 +138,14 @@ public class MatchNodeByIndexAccessOrderingDeclNode extends MatchNodeByIndexDecl
 		}
 		if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE) {
 			if(expr2 != null && (comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)) {
-				reportError("Two lower bounds are not supported "
+				reportError("Two upper bounds are not supported "
 						+ " (in match node" + emptyWhenAnonymousPostfix(" ") + " by index access of " + index.getIdentNode() + ").");
 				return false;
 			}
 		}
 		if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE) {
 			if(expr2 != null && (comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)) {
-				reportError("Two upper bounds are not supported "
+				reportError("Two lower bounds are not supported "
 						+ " (in match node" + emptyWhenAnonymousPostfix(" ") + " by index access of " + index.getIdentNode() + ").");
 				return false;
 			}

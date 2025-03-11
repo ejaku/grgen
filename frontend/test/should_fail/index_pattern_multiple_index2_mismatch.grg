@@ -1,0 +1,8 @@
+#using "index_multiple_model.gm"
+
+rule i {
+	n:N{multiple(Ni >= 0, Ni <= 1, Ei >= 42, Ei <= 44)};
+	
+	modify {
+	}
+}

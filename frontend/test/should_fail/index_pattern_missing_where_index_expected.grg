@@ -1,0 +1,8 @@
+#using "index_multiple_model.gm"
+
+rule i(ref s:set<int>) {
+	n:N{ascending(s >= 0, s <= 1)};
+	
+	modify {
+	}
+}

@@ -1228,10 +1228,21 @@ nodeStorageIndexContinuation [ IdentNode id, IdentNode type, AnonymousScopeNamer
 				nodeDecl = new MatchNodeByIndexAccessOrderingDeclNode(id, type, context, 
 						false, idx, os, e, os2, e2, directlyNestingLHSGraph);
 			} else
-				reportError(getCoords(i), "An ordered index access expression must start with ascending or descending (given is " + i.getText() + ").");
+				reportError(getCoords(i), "An ordered index access must start with ascending or descending (given is " + i.getText() + ").");
 			if(idx2 != null && !idx.toString().equals(idx2.toString()))
-				reportError(idx2.getCoords(), "The same index must be used in an ordered index access expression with two constraints (given are " + idx + " and " + idx2 + ").");
+				reportError(idx2.getCoords(), "The same index must be used in an ordered index access with two constraints (given are " + idx + " and " + idx2 + ").");
 		}
+	| i=MULTIPLE
+			{ nodeDecl = new MatchNodeByIndexAccessMultipleDeclNode(id, type, context, directlyNestingLHSGraph); }
+		LPAREN
+			idx=indexIdentUse os=relOS e=expr[namer, context, false] COMMA idx2=indexIdentUse os2=relOS e2=expr[namer, context, false]
+			{ 
+				((MatchNodeByIndexAccessMultipleDeclNode)nodeDecl).addIndexAccessPart(new MatchNodeByIndexAccessOrderingPartNode(idx, os, e, os2, e2, (MatchNodeByIndexAccessMultipleDeclNode)nodeDecl));
+				if(idx2 != null && !idx.toString().equals(idx2.toString()))
+					reportError(idx2.getCoords(), "The same index must be used with the two constraints per index of a multiple index access (given are " + idx + " and " + idx2 + ").");
+			}
+			nodeMultipleIndexContinuation[(MatchNodeByIndexAccessMultipleDeclNode)nodeDecl, namer, context, directlyNestingLHSGraph]
+		RPAREN
 	| AT LPAREN e=expr[namer, context, false] RPAREN
 		{
 			nodeDecl = new MatchNodeByNameLookupDeclNode(id, type, context, 
@@ -1242,6 +1253,18 @@ nodeStorageIndexContinuation [ IdentNode id, IdentNode type, AnonymousScopeNamer
 			nodeDecl = new MatchNodeByUniqueLookupDeclNode(id, type, context,
 						e, directlyNestingLHSGraph);
 		}
+	;
+
+nodeMultipleIndexContinuation [ MatchNodeByIndexAccessMultipleDeclNode nodeDecl, AnonymousScopeNamer namer, int context,
+		PatternGraphLhsNode directlyNestingLHSGraph ]
+	: COMMA idx=indexIdentUse os=relOS e=expr[namer, context, false] COMMA idx2=indexIdentUse os2=relOS e2=expr[namer, context, false]
+		{ 
+			nodeDecl.addIndexAccessPart(new MatchNodeByIndexAccessOrderingPartNode(idx, os, e, os2, e2, nodeDecl));
+			if(idx2 != null && !idx.toString().equals(idx2.toString()))
+				reportError(idx2.getCoords(), "The same index must be used with the two constraints per index of a multiple index access (given are " + idx + " and " + idx2 + ").");
+		}
+		nodeMultipleIndexContinuation[nodeDecl, namer, context, directlyNestingLHSGraph]
+	|
 	;
 
 relOS returns [ OperatorDeclNode.Operator os = OperatorDeclNode.Operator.ERROR ]
@@ -1860,9 +1883,9 @@ edgeStorageIndexContinuation [ IdentNode id, IdentNode type, AnonymousScopeNamer
 				res = new MatchEdgeByIndexAccessOrderingDeclNode(id, type, context, 
 						false, idx, os, e, os2, e2, directlyNestingLHSGraph);
 			} else
-				reportError(getCoords(i), "The ordered index access expression must start with ascending or descending (given is " + i.getText() + ").");
+				reportError(getCoords(i), "An ordered index access must start with ascending or descending (given is " + i.getText() + ").");
 			if(idx2 != null && !idx.toString().equals(idx2.toString()))
-				reportError(idx2.getCoords(), "The same index must be used in an ordered index access expression with two constraints (given are " + idx + " and " + idx2 + ").");
+				reportError(idx2.getCoords(), "The same index must be used in an ordered index access with two constraints (given are " + idx + " and " + idx2 + ").");
 		}
 	| AT LPAREN e=expr[namer, context, false] RPAREN
 		{

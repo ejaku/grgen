@@ -1,0 +1,8 @@
+#using "index_multiple_model.gm"
+
+rule i {
+	-e:E{ascending(Ei >= 0, E1j <= 1)}->;
+
+	modify {
+	}
+}
