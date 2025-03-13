@@ -114,6 +114,7 @@ import de.unika.ipd.grgen.ir.expr.graph.CountBoundedReachableNodeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.CountEdgesExpr;
 import de.unika.ipd.grgen.ir.expr.graph.CountEdgesFromIndexAccessFromToExpr;
 import de.unika.ipd.grgen.ir.expr.graph.CountEdgesFromIndexAccessSameExpr;
+import de.unika.ipd.grgen.ir.expr.graph.CountIncidenceFromIndexExpr;
 import de.unika.ipd.grgen.ir.expr.graph.CountIncidentEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.CountNodesExpr;
 import de.unika.ipd.grgen.ir.expr.graph.CountNodesFromIndexAccessFromToExpr;
@@ -131,7 +132,6 @@ import de.unika.ipd.grgen.ir.expr.graph.EmptyExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EqualsAnyExpr;
 import de.unika.ipd.grgen.ir.expr.graph.GetEquivalentExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IncidentEdgeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.IndexedIncidenceCountIndexAccessExpr;
 import de.unika.ipd.grgen.ir.expr.graph.InducedSubgraphExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsAdjacentNodeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsBoundedReachableEdgeExpr;
@@ -1167,16 +1167,16 @@ public abstract class CSharpBase
 					sb.append(")");
 				sb.append("])");
 			}
-		} else if(expr instanceof IndexedIncidenceCountIndexAccessExpr) {
-			IndexedIncidenceCountIndexAccessExpr ia = (IndexedIncidenceCountIndexAccessExpr)expr;
+		} else if(expr instanceof CountIncidenceFromIndexExpr) {
+			CountIncidenceFromIndexExpr cifi = (CountIncidenceFromIndexExpr)expr;
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
-				sb.append(modifyGenerationState.mapExprToTempVar().get(ia));
+				sb.append(modifyGenerationState.mapExprToTempVar().get(cifi));
 			} else {
 				switchToVarForResultAsNeeded(modifyGenerationState);
-				sb.append("((GRGEN_LIBGR.IIncidenceCountIndex)graph.Indices.GetIndex(\"" + ia.getTarget().getIdent()
+				sb.append("((GRGEN_LIBGR.IIncidenceCountIndex)graph.Indices.GetIndex(\"" + cifi.getIndex().getIdent()
 						+ "\")).GetIncidenceCount(");
 				//sb.append("(" + formatElementInterfaceRef(ia.getKeyExpr().getType()) + ")(");
-				genExpression(sb, ia.getKeyExpr(), modifyGenerationState);
+				genExpression(sb, cifi.getKeyExpr(), modifyGenerationState);
 				//sb.append(")");
 				sb.append(")");
 			}

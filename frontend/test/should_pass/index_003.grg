@@ -173,49 +173,49 @@ test t5(var x:int) {
 rule indexaccess {
 	n:N;
 	
-	if{foo[n]==42;}
-	if{bar[n]==42;}
-	if{baz[n]==42;}
+	if{countFromIndex(foo, n)==42;}
+	if{countFromIndex(bar, n)==42;}
+	if{countFromIndex(baz, n)==42;}
 
-	if{foo2[n]==42;}
-	if{bar2[n]==42;}
-	if{baz2[n]==42;}
+	if{countFromIndex(foo2, n)==42;}
+	if{countFromIndex(bar2, n)==42;}
+	if{countFromIndex(baz2, n)==42;}
 
-	if{foo3[n]==42;}
-	if{bar3[n]==42;}
-	if{baz3[n]==42;}
+	if{countFromIndex(foo3, n)==42;}
+	if{countFromIndex(bar3, n)==42;}
+	if{countFromIndex(baz3, n)==42;}
 
-	if{foo4[n]==42;}
-	if{bar4[n]==42;}
-	if{baz4[n]==42;}
+	if{countFromIndex(foo4, n)==42;}
+	if{countFromIndex(bar4, n)==42;}
+	if{countFromIndex(baz4, n)==42;}
 
-	if{foo5[n]==42;}
-	if{bar5[n]==42;}
-	if{baz5[n]==42;}
+	if{countFromIndex(foo5, n)==42;}
+	if{countFromIndex(bar5, n)==42;}
+	if{countFromIndex(baz5, n)==42;}
 	
 	modify {
 	---
 		def var i:int;
 		eval {
-			yield i = foo[n];
-			yield i = bar[n];
-			yield i = baz[n];
+			yield i = countFromIndex(foo, n);
+			yield i = countFromIndex(bar, n);
+			yield i = countFromIndex(baz, n);
 
-			yield i = foo2[n];
-			yield i = bar2[n];
-			yield i = baz2[n];
+			yield i = countFromIndex(foo2, n);
+			yield i = countFromIndex(bar2, n);
+			yield i = countFromIndex(baz2, n);
 
-			yield i = foo3[n];
-			yield i = bar3[n];
-			yield i = baz3[n];
+			yield i = countFromIndex(foo3, n);
+			yield i = countFromIndex(bar3, n);
+			yield i = countFromIndex(baz3, n);
 
-			yield i = foo4[n];
-			yield i = bar4[n];
-			yield i = baz4[n];
+			yield i = countFromIndex(foo4, n);
+			yield i = countFromIndex(bar4, n);
+			yield i = countFromIndex(baz4, n);
 
-			yield i = foo5[n];
-			yield i = bar5[n];
-			yield i = baz5[n];
+			yield i = countFromIndex(foo5, n);
+			yield i = countFromIndex(bar5, n);
+			yield i = countFromIndex(baz5, n);
 		}
 	}
 }

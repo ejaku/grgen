@@ -896,6 +896,8 @@ public abstract class ParserEnvironment extends Base
 		case "nodesFromIndexMultipleFromTo":
 		case "edgesFromIndexMultipleFromTo":
 			return true;//return numParams >= 3;
+		case "countFromIndex":
+			return true;//return numParams == 2;
 		default:
 			return false;
 		}

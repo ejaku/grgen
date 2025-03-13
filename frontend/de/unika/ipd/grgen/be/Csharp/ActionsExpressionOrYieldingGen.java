@@ -144,6 +144,7 @@ import de.unika.ipd.grgen.ir.expr.graph.CountBoundedReachableNodeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.CountEdgesExpr;
 import de.unika.ipd.grgen.ir.expr.graph.CountEdgesFromIndexAccessFromToExpr;
 import de.unika.ipd.grgen.ir.expr.graph.CountEdgesFromIndexAccessSameExpr;
+import de.unika.ipd.grgen.ir.expr.graph.CountIncidenceFromIndexExpr;
 import de.unika.ipd.grgen.ir.expr.graph.CountIncidentEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.CountNodesExpr;
 import de.unika.ipd.grgen.ir.expr.graph.CountNodesFromIndexAccessFromToExpr;
@@ -161,7 +162,6 @@ import de.unika.ipd.grgen.ir.expr.graph.EmptyExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EqualsAnyExpr;
 import de.unika.ipd.grgen.ir.expr.graph.GetEquivalentExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IncidentEdgeExpr;
-import de.unika.ipd.grgen.ir.expr.graph.IndexedIncidenceCountIndexAccessExpr;
 import de.unika.ipd.grgen.ir.expr.graph.InducedSubgraphExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsAdjacentNodeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsBoundedReachableEdgeExpr;
@@ -621,12 +621,12 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			if(ia.getKeyExpr() instanceof GraphEntityExpression)
 				sb.append(", \"" + formatElementInterfaceRef(ia.getKeyExpr().getType()) + "\"");
 			sb.append(")");
-		} else if(expr instanceof IndexedIncidenceCountIndexAccessExpr) {
-			IndexedIncidenceCountIndexAccessExpr ia = (IndexedIncidenceCountIndexAccessExpr)expr;
+		} else if(expr instanceof CountIncidenceFromIndexExpr) {
+			CountIncidenceFromIndexExpr cifi = (CountIncidenceFromIndexExpr)expr;
 			sb.append("new GRGEN_EXPR.IncidenceCountIndexAccess(");
-			sb.append("\"" + ia.getTarget().getIdent() + "\", ");
-			genExpressionTree(sb, ia.getKeyExpr(), className, pathPrefix, alreadyDefinedEntityToName);
-			sb.append(", \"" + formatElementInterfaceRef(ia.getKeyExpr().getType()) + "\"");
+			sb.append("\"" + cifi.getIndex().getIdent() + "\", ");
+			genExpressionTree(sb, cifi.getKeyExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", \"" + formatElementInterfaceRef(cifi.getKeyExpr().getType()) + "\"");
 			sb.append(")");
 		} else if(expr instanceof MapSizeExpr) {
 			MapSizeExpr ms = (MapSizeExpr)expr;

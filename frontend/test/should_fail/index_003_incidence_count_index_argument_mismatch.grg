@@ -1,0 +1,7 @@
+#using "index_model_003.gm"
+
+test indexaccess {
+	n:N -e:E->;
+	
+	if{ countFromIndex(foo, e)==42; }
+}

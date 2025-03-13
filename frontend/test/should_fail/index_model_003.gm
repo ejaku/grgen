@@ -1,0 +1,10 @@
+node class N
+{
+	i:int;
+}
+
+edge class E;
+
+index foo { countIncident(Node) }
+
+index bar { N.i }

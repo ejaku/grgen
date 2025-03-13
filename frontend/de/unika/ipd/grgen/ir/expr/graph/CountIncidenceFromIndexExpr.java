@@ -16,15 +16,15 @@ import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.model.IncidenceCountIndex;
 import de.unika.ipd.grgen.ir.type.basic.IntType;
 
-public class IndexedIncidenceCountIndexAccessExpr extends Expression
+public class CountIncidenceFromIndexExpr extends Expression
 {
-	IncidenceCountIndex target;
+	IncidenceCountIndex index;
 	Expression keyExpr;
 
-	public IndexedIncidenceCountIndexAccessExpr(IncidenceCountIndex target, Expression keyExpr)
+	public CountIncidenceFromIndexExpr(IncidenceCountIndex target, Expression keyExpr)
 	{
-		super("indexed incidence count index access expression", IntType.getType());
-		this.target = target;
+		super("count incidence from index access expression", IntType.getType());
+		this.index = target;
 		this.keyExpr = keyExpr;
 	}
 
@@ -35,9 +35,9 @@ public class IndexedIncidenceCountIndexAccessExpr extends Expression
 		keyExpr.collectNeededEntities(needs);
 	}
 
-	public IncidenceCountIndex getTarget()
+	public IncidenceCountIndex getIndex()
 	{
-		return target;
+		return index;
 	}
 
 	public Expression getKeyExpr()

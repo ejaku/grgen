@@ -4261,9 +4261,6 @@ unaryExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns
 	| (LPAREN typeIdentUse RPAREN unaryExpr[new AnonymousScopeNamer(null), 0, false]) =>
 		p=LPAREN id=typeIdentUse RPAREN e=unaryExpr[namer, context, inEnumInit]
 		{ res = new CastNode(getCoords(p), id, e); }
-	| { env.test(ParserEnvironment.INDICES, input.LT(1).getText()) }?
-		i=IDENT l=LBRACK key=expr[namer, context, inEnumInit] RBRACK
-		{ res = new IndexedIncidenceCountIndexAccessExprNode(getCoords(l), new IdentNode(env.occurs(ParserEnvironment.INDICES, i.getText(), getCoords(i))), key); }
 	| e=primaryExpr[namer, context, inEnumInit] ( (LBRACK ~PLUS | DOT) => e=selectorExpr[namer, context, e, inEnumInit] )* { res = e; }
 	; 
 

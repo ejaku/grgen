@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
 import de.unika.ipd.grgen.ast.expr.ConstNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.decl.IncidenceCountIndexDeclNode;
@@ -24,24 +25,24 @@ import de.unika.ipd.grgen.ast.type.basic.IntTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.expr.Expression;
-import de.unika.ipd.grgen.ir.expr.graph.IndexedIncidenceCountIndexAccessExpr;
+import de.unika.ipd.grgen.ir.expr.graph.CountIncidenceFromIndexExpr;
 import de.unika.ipd.grgen.ir.model.IncidenceCountIndex;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class IndexedIncidenceCountIndexAccessExprNode extends ExprNode
+public class CountIncidenceFromIndexExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(IndexedIncidenceCountIndexAccessExprNode.class, "indexed incidence count index access expression");
+		setName(CountIncidenceFromIndexExprNode.class, "count incidence from index access expression");
 	}
 
-	private IdentNode targetUnresolved;
-	private IncidenceCountIndexDeclNode target;
+	private BaseNode indexUnresolved;
+	private IncidenceCountIndexDeclNode index;
 	private ExprNode keyExpr;
 
-	public IndexedIncidenceCountIndexAccessExprNode(Coords coords, IdentNode target, ExprNode keyExpr)
+	public CountIncidenceFromIndexExprNode(Coords coords, BaseNode index, ExprNode keyExpr)
 	{
 		super(coords);
-		this.targetUnresolved = becomeParent(target);
+		this.indexUnresolved = becomeParent(index);
 		this.keyExpr = becomeParent(keyExpr);
 	}
 
@@ -49,7 +50,7 @@ public class IndexedIncidenceCountIndexAccessExprNode extends ExprNode
 	public Collection<? extends BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(targetUnresolved, target));
+		children.add(getValidVersion(indexUnresolved, index));
 		children.add(keyExpr);
 		return children;
 	}
@@ -58,7 +59,7 @@ public class IndexedIncidenceCountIndexAccessExprNode extends ExprNode
 	public Collection<String> getChildrenNames()
 	{
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("target");
+		childrenNames.add("index");
 		childrenNames.add("keyExpr");
 		return childrenNames;
 	}
@@ -71,15 +72,19 @@ public class IndexedIncidenceCountIndexAccessExprNode extends ExprNode
 	protected boolean resolveLocal()
 	{
 		boolean successfullyResolved = super.resolveLocal();
-		target = indexResolver.resolve(targetUnresolved, this);
-		successfullyResolved &= target != null;
+		index = indexResolver.resolve(indexUnresolved, this);
+		if(index == null) {
+			reportError("The function countFromIndex(.,.) expects as 1. argument (index) an incidence count index"
+							+ " (but is given " + indexUnresolved.toStringWithDeclarationCoords() + ").");
+		}
+		successfullyResolved &= index != null;
 		return successfullyResolved;
 	}
 
 	@Override
 	protected boolean checkLocal()
 	{
-		TypeNode keyType = target.getType();
+		TypeNode keyType = index.getType();
 		TypeNode keyExprType = keyExpr.getType();
 
 		if(keyExprType instanceof InheritanceTypeNode) {
@@ -88,9 +93,9 @@ public class IndexedIncidenceCountIndexAccessExprNode extends ExprNode
 
 			String givenTypeName = keyExprType.getTypeName();
 			String expectedTypeName = keyType.getTypeName();
-			reportError("Cannot convert type used in accessing index from " + givenTypeName
-					+ " to the expected " + expectedTypeName
-					+ " (in indexed incidence index access of " + target.getIdentNode() + ").");
+			reportError("The function countFromIndex(.,.) expects as 2. argument (keyExpr) a value of type " + expectedTypeName
+							+ " (but is given a value of type " + givenTypeName + ").");
+
 			return false;
 		} else {
 			if(keyExprType.isEqual(keyType))
@@ -111,7 +116,7 @@ public class IndexedIncidenceCountIndexAccessExprNode extends ExprNode
 	protected IR constructIR()
 	{
 		keyExpr = keyExpr.evaluate();
-		return new IndexedIncidenceCountIndexAccessExpr(target.checkIR(IncidenceCountIndex.class),
+		return new CountIncidenceFromIndexExpr(index.checkIR(IncidenceCountIndex.class),
 				keyExpr.checkIR(Expression.class));
 	}
 }

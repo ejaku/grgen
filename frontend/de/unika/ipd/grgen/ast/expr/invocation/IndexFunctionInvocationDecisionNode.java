@@ -19,6 +19,7 @@ import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.CountEdgesFromIndexAccessFromToExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.CountEdgesFromIndexAccessSameExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.CountIncidenceFromIndexExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.CountNodesFromIndexAccessFromToExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.CountNodesFromIndexAccessSameExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessFromToAsArrayExprNode;
@@ -438,6 +439,13 @@ public class IndexFunctionInvocationDecisionNode extends FunctionOrBuiltinFuncti
 					indexAccessMultiple.addIndexAccessExpr(new FromIndexAccessFromToPartExprNode(index.getCoords(), index, fromExpr, false, toExpr, false, i, indexAccessMultiple));
 				}
 				return indexAccessMultiple;
+			}
+		case "countFromIndex":
+			if(arguments.size() != 2) {
+				env.reportError("countFromIndex() expects 2 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new CountIncidenceFromIndexExprNode(env.getCoords(), arguments.get(0), (ExprNode)arguments.get(1));
 			}
 		default:
 			env.reportError("An index function of name " + functionName + " is not known.");
