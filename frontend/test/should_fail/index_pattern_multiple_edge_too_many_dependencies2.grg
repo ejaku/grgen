@@ -1,0 +1,10 @@
+#using "index_multiple_model.gm"
+
+rule i {
+	-e1:E1->;
+	-e2:E2->;
+	-e:E{multiple(Ei >= e1.j, Ei <= 0, E1j >= e2.j, E1j <= 1)}->;
+	
+	modify {
+	}
+}

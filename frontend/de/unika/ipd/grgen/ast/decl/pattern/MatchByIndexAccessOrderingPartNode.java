@@ -25,10 +25,10 @@ import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.model.Index;
 import de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
 
-public class MatchNodeByIndexAccessOrderingPartNode extends BaseNode
+public class MatchByIndexAccessOrderingPartNode extends BaseNode
 {
 	static {
-		setName(MatchNodeByIndexAccessOrderingPartNode.class, "match node by index access ordering part");
+		setName(MatchByIndexAccessOrderingPartNode.class, "match by index access ordering part");
 	}
 
 	private IdentNode indexUnresolved;
@@ -39,12 +39,12 @@ public class MatchNodeByIndexAccessOrderingPartNode extends BaseNode
 	private OperatorDeclNode.Operator comp2;
 	private ExprNode expr2;
 
-	MatchNodeByIndexAccessMultipleDeclNode wholeNodeDecl;
+	ConstraintDeclNode wholeNodeDecl;
 
-	public MatchNodeByIndexAccessOrderingPartNode(IdentNode index,
+	public MatchByIndexAccessOrderingPartNode(IdentNode index,
 			OperatorDeclNode.Operator comp, ExprNode expr,
 			OperatorDeclNode.Operator comp2, ExprNode expr2,
-			MatchNodeByIndexAccessMultipleDeclNode wholeNodeDecl)
+			ConstraintDeclNode wholeNodeDecl)
 	{
 		super(index.getCoords());
 		this.indexUnresolved = index;
@@ -106,6 +106,7 @@ public class MatchNodeByIndexAccessOrderingPartNode extends BaseNode
 	protected boolean checkLocal()
 	{
 		boolean res = true;
+		String kindStr = wholeNodeDecl instanceof MatchNodeByIndexAccessMultipleDeclNode ? "node" : "edge";
 		if(expr != null) {
 			TypeNode expectedIndexAccessType = index.getExpectedAccessType();
 			TypeNode indexAccessType = expr.getType();
@@ -114,7 +115,7 @@ public class MatchNodeByIndexAccessOrderingPartNode extends BaseNode
 				String typeName = indexAccessType.getTypeName();
 				expr.reportError("Cannot convert type used in accessing index from " + typeName
 						+ " to the expected " + expTypeName
-						+ " (in match node" + wholeNodeDecl.emptyWhenAnonymousPostfix(" ") + " by index access of " + index.toStringWithDeclarationCoords() + ").");
+						+ " (in match " + kindStr + wholeNodeDecl.emptyWhenAnonymousPostfix(" ") + " by index access of " + index.toStringWithDeclarationCoords() + ").");
 				res = false;
 			}
 			if(expr2 != null) { // TODO: distinguish lower and upper bound
@@ -124,7 +125,7 @@ public class MatchNodeByIndexAccessOrderingPartNode extends BaseNode
 					String typeName = indexAccessType2.getTypeName();
 					expr2.reportError("Cannot convert type used in accessing index from " + typeName
 							+ " to the expected " + expTypeName
-							+ " (in match node" + wholeNodeDecl.emptyWhenAnonymousPostfix(" ") + " by index access of " + index.toStringWithDeclarationCoords() + ").");
+							+ " (in match " + kindStr + wholeNodeDecl.emptyWhenAnonymousPostfix(" ") + " by index access of " + index.toStringWithDeclarationCoords() + ").");
 					res = false;
 				}
 			}
@@ -136,20 +137,20 @@ public class MatchNodeByIndexAccessOrderingPartNode extends BaseNode
 			String typeName = entityType.toStringWithDeclarationCoords();
 			wholeNodeDecl.ident.reportError("Cannot convert index type from " + typeName
 					+ " to the expected pattern element type " + expTypeName
-					+ " (in match node" + wholeNodeDecl.emptyWhenAnonymousPostfix(" ") + " by index access of " + index.toStringWithDeclarationCoords() + ").");
+					+ " (in match " + kindStr + wholeNodeDecl.emptyWhenAnonymousPostfix(" ") + " by index access of " + index.toStringWithDeclarationCoords() + ").");
 			res = false;
 		}
 		if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE) {
 			if(expr2 != null && (comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)) {
-				reportError("Two upper bounds are not supported "
-						+ " (in match node" + wholeNodeDecl.emptyWhenAnonymousPostfix(" ") + " by index access of " + index.getIdentNode() + ").");
+				reportError("Two upper bounds are not supported"
+						+ " (in match " + kindStr + wholeNodeDecl.emptyWhenAnonymousPostfix(" ") + " by index access of " + index.getIdentNode() + ").");
 				res = false;
 			}
 		}
 		if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE) {
 			if(expr2 != null && (comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)) {
-				reportError("Two lower bounds are not supported "
-						+ " (in match node" + wholeNodeDecl.emptyWhenAnonymousPostfix(" ") + " by index access of " + index.getIdentNode() + ").");
+				reportError("Two lower bounds are not supported"
+						+ " (in match " + kindStr + wholeNodeDecl.emptyWhenAnonymousPostfix(" ") + " by index access of " + index.getIdentNode() + ").");
 				res = false;
 			}
 		}

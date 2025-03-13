@@ -1237,7 +1237,7 @@ nodeStorageIndexContinuation [ IdentNode id, IdentNode type, AnonymousScopeNamer
 		LPAREN
 			idx=indexIdentUse os=relOS e=expr[namer, context, false] COMMA idx2=indexIdentUse os2=relOS e2=expr[namer, context, false]
 			{ 
-				((MatchNodeByIndexAccessMultipleDeclNode)nodeDecl).addIndexAccessPart(new MatchNodeByIndexAccessOrderingPartNode(idx, os, e, os2, e2, (MatchNodeByIndexAccessMultipleDeclNode)nodeDecl));
+				((MatchNodeByIndexAccessMultipleDeclNode)nodeDecl).addIndexAccessPart(new MatchByIndexAccessOrderingPartNode(idx, os, e, os2, e2, (MatchNodeByIndexAccessMultipleDeclNode)nodeDecl));
 				if(idx2 != null && !idx.toString().equals(idx2.toString()))
 					reportError(idx2.getCoords(), "The same index must be used with the two constraints per index of a multiple index access (given are " + idx + " and " + idx2 + ").");
 			}
@@ -1259,7 +1259,7 @@ nodeMultipleIndexContinuation [ MatchNodeByIndexAccessMultipleDeclNode nodeDecl,
 		PatternGraphLhsNode directlyNestingLHSGraph ]
 	: COMMA idx=indexIdentUse os=relOS e=expr[namer, context, false] COMMA idx2=indexIdentUse os2=relOS e2=expr[namer, context, false]
 		{ 
-			nodeDecl.addIndexAccessPart(new MatchNodeByIndexAccessOrderingPartNode(idx, os, e, os2, e2, nodeDecl));
+			nodeDecl.addIndexAccessPart(new MatchByIndexAccessOrderingPartNode(idx, os, e, os2, e2, nodeDecl));
 			if(idx2 != null && !idx.toString().equals(idx2.toString()))
 				reportError(idx2.getCoords(), "The same index must be used with the two constraints per index of a multiple index access (given are " + idx + " and " + idx2 + ").");
 		}
@@ -1858,45 +1858,68 @@ edgeTypeContinuation [ IdentNode id, AnonymousScopeNamer namer, int context, Pat
 	;
 
 edgeStorageIndexContinuation [ IdentNode id, IdentNode type, AnonymousScopeNamer namer, int context,
-		PatternGraphLhsNode directlyNestingLHSGraph ] returns [ EdgeDeclNode res = null ]
+		PatternGraphLhsNode directlyNestingLHSGraph ] returns [ EdgeDeclNode edgeDecl = null ]
 	: (DOUBLECOLON)? oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK (DOUBLECOLON)? mapAccess=entIdentUse RBRACK)?
 		{
 			if(mapAccess == null) {
-				res = new MatchEdgeFromStorageDeclNode(id, type, context, 
+				edgeDecl = new MatchEdgeFromStorageDeclNode(id, type, context, 
 					attr == null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
 			} else {
-				res = new MatchEdgeByStorageAccessDeclNode(id, type, context, 
+				edgeDecl = new MatchEdgeByStorageAccessDeclNode(id, type, context, 
 					attr == null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
 			}
 		}
 	| idx=indexIdentUse EQUAL e=expr[namer, context, false]
 		{
-			res = new MatchEdgeByIndexAccessEqualityDeclNode(id, type, context, 
+			edgeDecl = new MatchEdgeByIndexAccessEqualityDeclNode(id, type, context, 
 						idx, e, directlyNestingLHSGraph);
 		}
 	| i=IDENT LPAREN idx=indexIdentUse (os=relOS e=expr[namer, context, false] (COMMA idx2=indexIdentUse os2=relOS e2=expr[namer, context, false])?)? RPAREN
 		{
 			if(i.getText().equals("ascending")) {
-				res = new MatchEdgeByIndexAccessOrderingDeclNode(id, type, context, 
+				edgeDecl = new MatchEdgeByIndexAccessOrderingDeclNode(id, type, context, 
 						true, idx, os, e, os2, e2, directlyNestingLHSGraph);
 			} else if(i.getText().equals("descending")) {
-				res = new MatchEdgeByIndexAccessOrderingDeclNode(id, type, context, 
+				edgeDecl = new MatchEdgeByIndexAccessOrderingDeclNode(id, type, context, 
 						false, idx, os, e, os2, e2, directlyNestingLHSGraph);
 			} else
 				reportError(getCoords(i), "An ordered index access must start with ascending or descending (given is " + i.getText() + ").");
 			if(idx2 != null && !idx.toString().equals(idx2.toString()))
 				reportError(idx2.getCoords(), "The same index must be used in an ordered index access with two constraints (given are " + idx + " and " + idx2 + ").");
 		}
+	| i=MULTIPLE
+			{ edgeDecl = new MatchEdgeByIndexAccessMultipleDeclNode(id, type, context, directlyNestingLHSGraph); }
+		LPAREN
+			idx=indexIdentUse os=relOS e=expr[namer, context, false] COMMA idx2=indexIdentUse os2=relOS e2=expr[namer, context, false]
+			{ 
+				((MatchEdgeByIndexAccessMultipleDeclNode)edgeDecl).addIndexAccessPart(new MatchByIndexAccessOrderingPartNode(idx, os, e, os2, e2, (MatchEdgeByIndexAccessMultipleDeclNode)edgeDecl));
+				if(idx2 != null && !idx.toString().equals(idx2.toString()))
+					reportError(idx2.getCoords(), "The same index must be used with the two constraints per index of a multiple index access (given are " + idx + " and " + idx2 + ").");
+			}
+			edgeMultipleIndexContinuation[(MatchEdgeByIndexAccessMultipleDeclNode)edgeDecl, namer, context, directlyNestingLHSGraph]
+		RPAREN
 	| AT LPAREN e=expr[namer, context, false] RPAREN
 		{
-			res = new MatchEdgeByNameLookupDeclNode(id, type, context, 
+			edgeDecl = new MatchEdgeByNameLookupDeclNode(id, type, context, 
 						e, directlyNestingLHSGraph);
 		}
 	| {input.LT(1).getText().equals("unique")}? i=IDENT LBRACK e=expr[namer, context, false] RBRACK
 		{
-			res = new MatchEdgeByUniqueLookupDeclNode(id, type, context,
+			edgeDecl = new MatchEdgeByUniqueLookupDeclNode(id, type, context,
 						e, directlyNestingLHSGraph);
 		}
+	;
+
+edgeMultipleIndexContinuation [ MatchEdgeByIndexAccessMultipleDeclNode edgeDecl, AnonymousScopeNamer namer, int context,
+		PatternGraphLhsNode directlyNestingLHSGraph ]
+	: COMMA idx=indexIdentUse os=relOS e=expr[namer, context, false] COMMA idx2=indexIdentUse os2=relOS e2=expr[namer, context, false]
+		{ 
+			edgeDecl.addIndexAccessPart(new MatchByIndexAccessOrderingPartNode(idx, os, e, os2, e2, edgeDecl));
+			if(idx2 != null && !idx.toString().equals(idx2.toString()))
+				reportError(idx2.getCoords(), "The same index must be used with the two constraints per index of a multiple index access (given are " + idx + " and " + idx2 + ").");
+		}
+		edgeMultipleIndexContinuation[edgeDecl, namer, context, directlyNestingLHSGraph]
+	|
 	;
 
 nameAndAttributesInitializationList [ ConstraintDeclNode cdl, AnonymousScopeNamer namer, int context ]

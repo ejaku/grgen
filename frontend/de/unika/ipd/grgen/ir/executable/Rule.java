@@ -674,7 +674,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 		if(neededEntities.size() == 1)
 			return neededEntities.iterator().next();
 		else if(neededEntities.size() > 1) {
-			error.error(entity.getIdent().getCoords(), "There are " + neededEntities.size() + " entities needed for an index access or name map access of "
+			error.error(entity.getIdent().getCoords(), "There are " + neededEntities.size() + " entities specified in an index access or name map access of "
 						+ entity.getIdent() + " (only one is allowed).");
 		}
 		return null;

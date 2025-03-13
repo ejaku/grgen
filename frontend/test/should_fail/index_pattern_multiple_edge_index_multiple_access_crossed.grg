@@ -1,0 +1,8 @@
+#using "index_multiple_model.gm"
+
+rule i {
+	-e:E{multiple(Ei >= 0, E1j <= 1, E2j >= 42, Ei <= 44)}->;
+
+	modify {
+	}
+}

@@ -23,17 +23,17 @@ import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.pattern.Node;
+import de.unika.ipd.grgen.ir.pattern.Edge;
 
-public class MatchNodeByIndexAccessMultipleDeclNode extends NodeDeclNode
+public class MatchEdgeByIndexAccessMultipleDeclNode extends EdgeDeclNode
 {
 	static {
-		setName(MatchNodeByIndexAccessMultipleDeclNode.class, "match node by index access multiple decl");
+		setName(MatchEdgeByIndexAccessMultipleDeclNode.class, "match edge by index access multiple decl");
 	}
 
 	protected CollectNode<MatchByIndexAccessOrderingPartNode> indexAccessParts = new CollectNode<MatchByIndexAccessOrderingPartNode>();
 
-	public MatchNodeByIndexAccessMultipleDeclNode(IdentNode id, BaseNode type, int context,
+	public MatchEdgeByIndexAccessMultipleDeclNode(IdentNode id, BaseNode type, int context,
 			PatternGraphLhsNode directlyNestingLHSGraph)
 	{
 		super(id, type, CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
@@ -50,7 +50,7 @@ public class MatchNodeByIndexAccessMultipleDeclNode extends NodeDeclNode
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(getValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
+		children.add(getValidVersion(typeUnresolved, typeEdgeDecl, typeTypeDecl));
 		children.add(constraints);
 		children.add(indexAccessParts);
 		return children;
@@ -83,8 +83,8 @@ public class MatchNodeByIndexAccessMultipleDeclNode extends NodeDeclNode
 		boolean res = super.checkLocal();
 		
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-			reportError("Cannot employ match node by index multiple in the rewrite part"
-					+ " (as it occurs in match node" + emptyWhenAnonymousPostfix(" ") + " by multiple index access).");
+			reportError("Cannot employ match edge by index multiple in the rewrite part"
+					+ " (as it occurs in match edge" + emptyWhenAnonymousPostfix(" ") + " by multiple index access).");
 			res = false;
 		}
 		
@@ -118,7 +118,7 @@ public class MatchNodeByIndexAccessMultipleDeclNode extends NodeDeclNode
 		HashSet<IndexDeclNode> indicesUsed = new HashSet<IndexDeclNode>();
 		for(MatchByIndexAccessOrderingPartNode indexAccessPart : indexAccessParts.getChildren()) {
 			if(indicesUsed.contains(indexAccessPart.index)) {
-				reportWarning("The match node by index multiple uses the index " + indexAccessPart.index.toStringWithDeclarationCoords()
+				reportWarning("The match edge by index multiple uses the index " + indexAccessPart.index.toStringWithDeclarationCoords()
 						+ " for another time (combine the queried ranges into one).");
 			} else {
 				indicesUsed.add(indexAccessPart.index);
@@ -136,13 +136,13 @@ public class MatchNodeByIndexAccessMultipleDeclNode extends NodeDeclNode
 			return getIR();
 		}
 
-		Node node = (Node)super.constructIR();
+		Edge edge = (Edge)super.constructIR();
 
-		setIR(node);
+		setIR(edge);
 
 		for(MatchByIndexAccessOrderingPartNode partNode : indexAccessParts.getChildren()) {
-			node.addIndex(partNode.constructIRPart());
+			edge.addIndex(partNode.constructIRPart());
 		}
-		return node;
+		return edge;
 	}
 }

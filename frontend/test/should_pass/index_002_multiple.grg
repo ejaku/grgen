@@ -2,7 +2,7 @@
 
 rule i {
 	n:N{multiple(fooi>=42, fooi<1000, food>=42.0, food<1000)};
-	//-e:E{multiple(bari<42, bari>0, bard<42.0, bard>0)}->;
+	-e:E{multiple(bari<42, bari>0, bard<42.0, bard>0)}->;
 	
 	modify {
 	}
@@ -10,7 +10,7 @@ rule i {
 
 rule ip(var x:int, var y:int, var z:int) {
 	n:N{multiple(fooi>=x, fooi<y, food>=x, food<y)};
-	//-e:E{multiple(bari<x, bari>z, bard<x, bard>z)}->;
+	-e:E{multiple(bari<x, bari>z, bard<x, bard>z)}->;
 	
 	modify {
 	}
@@ -18,7 +18,7 @@ rule ip(var x:int, var y:int, var z:int) {
 
 rule ie(x:N) {
 	n:N{multiple(fooi>=x.i, fooi<x.i, food>=x.d, food<x.d)};
-	//-e:E{multiple(bari<n.i-x.i, bari>n.i+x.i, bard<n.d-x.d, bard>n.d+x.d)}->;
+	-e:E{multiple(bari<n.i-x.i, bari>n.i+x.i, bard<n.d-x.d, bard>n.d+x.d)}->;
 	
 	modify {
 	}

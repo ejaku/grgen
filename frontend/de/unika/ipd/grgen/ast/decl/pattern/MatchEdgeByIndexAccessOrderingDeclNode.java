@@ -138,14 +138,14 @@ public class MatchEdgeByIndexAccessOrderingDeclNode extends MatchEdgeByIndexDecl
 		}
 		if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE) {
 			if(expr2 != null && (comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)) {
-				reportError("Two upper bounds are not supported "
+				reportError("Two upper bounds are not supported"
 						+ " (in match edge" + emptyWhenAnonymousPostfix(" ") + " by index access of " + index.getIdentNode() + ").");
 				res = false;
 			}
 		}
 		if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE) {
 			if(expr2 != null && (comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)) {
-				reportError("Two lower bounds are not supported "
+				reportError("Two lower bounds are not supported"
 						+ " (in match edge" + emptyWhenAnonymousPostfix(" ") + " by index access of " + index.getIdentNode() + ").");
 				res = false;
 			}

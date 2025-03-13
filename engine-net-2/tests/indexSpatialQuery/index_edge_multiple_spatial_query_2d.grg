@@ -12,3 +12,26 @@ rule getEdgesFromBoundingBox(var x:float, var y:float, var delta:float) : (set<A
 		return (s, edgesFromIndexMultipleFromTo(ix, x - delta, x + delta, iy, y - delta, y + delta));
 	}
 }
+
+rule getEdgesFromBoundingBoxByMatching(var x:float, var y:float, var delta:float) : (E)
+{
+	-e:E{multiple(ix >= x - delta, ix <= x + delta, iy >= y - delta, iy <= y + delta)}->;
+	
+	modify {
+		return(e);
+	}
+}
+
+rule getEdgesFromBoundingBoxByMatchingNeighboringEdges(-center:E->, var delta:float) : (E)
+{
+	-e:E{multiple(ix >= center.x - delta, ix <= center.x + delta, iy >= center.y - delta, iy <= center.y + delta)}->;
+	hom(e, center);
+	
+	modify {
+		return(e);
+	}
+}
+
+test dataFileMatchingHelper
+{
+}

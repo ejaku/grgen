@@ -25,3 +25,26 @@ rule getEdgesFromBoundingBoxAroundEdge(-e:E->, var delta:int) : (set<AEdge>, set
 		return (s, edgesFromIndexFromTo(ix, e.x - delta, e.x + delta));
 	}
 }
+
+rule getEdgesFromBoundingBoxAroundEdgeByMatching(var x:int, var delta:int) : (E)
+{
+	-neighbor:E{multiple(ix >= x - delta, ix <= x + delta)}->;
+	
+	modify {
+		return (neighbor);
+	}
+}
+
+rule getEdgesFromBoundingBoxAroundEdgeByMatchingNeighboringEdges(-e:E->, var delta:int) : (E)
+{
+	-neighbor:E{multiple(ix >= e.x - delta, ix <= e.x + delta)}->;
+	hom(neighbor, e);
+	
+	modify {
+		return (neighbor);
+	}
+}
+
+test dataFileMatchingHelper
+{
+}

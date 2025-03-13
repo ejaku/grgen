@@ -1,0 +1,8 @@
+#using "index_multiple_model.gm"
+
+rule i(ref s:set<int>) {
+	-e:E{multiple(Ei >= 0, Ei <= 1, s >= 42, s <= 44)}->;
+	
+	modify {
+	}
+}
