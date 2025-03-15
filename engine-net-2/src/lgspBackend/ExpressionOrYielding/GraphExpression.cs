@@ -4385,30 +4385,27 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing expression accessing an index based on equality comparison
+    /// Class representing expression accessing an index
     /// </summary>
-    public abstract class FromIndexAccessSame : Expression
+    public abstract class FromIndexAccess : Expression
     {
-        protected FromIndexAccessSame(String indexSetType, IndexDescription index, Expression expr)
+        protected FromIndexAccess(String indexSetType, IndexDescription index)
         {
             IndexSetType = indexSetType;
             Index = index;
-            Expr = expr;
         }
 
-        protected void EmitArguments(SourceBuilder sourceCode)
+        public virtual void EmitArguments(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFormat("(({0})graph.Indices).{1}, ", IndexSetType, Index.Name);
-            Expr.Emit(sourceCode);
+            sourceCode.AppendFormat("(({0})graph.Indices).{1}", IndexSetType, Index.Name);
+        }
+
+        protected void EmitProfilingAndOrParallelizationArguments(SourceBuilder sourceCode)
+        {
             if(Profiling)
                 sourceCode.Append(", actionEnv");
             if(Parallel)
                 sourceCode.Append(", threadId");
-        }
-
-        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
-        {
-            yield return Expr;
         }
 
         public override void SetNeedForParallelizedVersion(bool parallel)
@@ -4423,31 +4420,58 @@ namespace de.unika.ipd.grGen.expression
 
         public readonly String IndexSetType;
         public readonly IndexDescription Index;
-        public readonly Expression Expr;
         bool Parallel;
         bool Profiling;
     }
 
     /// <summary>
+    /// Class representing expression accessing an index based on equality comparison
+    /// </summary>
+    public abstract class FromIndexAccessSame : FromIndexAccess
+    {
+        protected FromIndexAccessSame(String indexSetType, IndexDescription index, Expression expr)
+            : base(indexSetType, index)
+        {
+            Expr = expr;
+        }
+
+        public override void EmitArguments(SourceBuilder sourceCode)
+        {
+            base.EmitArguments(sourceCode);
+            sourceCode.AppendFormat(", ");
+
+            Expr.Emit(sourceCode);
+            EmitProfilingAndOrParallelizationArguments(sourceCode);
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Expr;
+        }
+
+        public readonly Expression Expr;
+    }
+
+    /// <summary>
     /// Class representing expression accessing an index based on ordering comparison
     /// </summary>
-    public abstract class FromIndexAccessFromTo : Expression
+    public abstract class FromIndexAccessFromTo : FromIndexAccess
     {
         protected FromIndexAccessFromTo(String indexSetType, IndexDescription index,
             bool includingFrom, bool includingTo,
             Expression from, Expression to)
+            : base(indexSetType, index)
         {
-            IndexSetType = indexSetType;
-            Index = index;
             IncludingFrom = includingFrom;
             IncludingTo = includingTo;
             From = from;
             To = to;
         }
 
-        public void EmitArguments(SourceBuilder sourceCode)
+        public override void EmitArguments(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFormat("(({0})graph.Indices).{1}, ", IndexSetType, Index.Name);
+            base.EmitArguments(sourceCode);
+            sourceCode.AppendFormat(", ");
 
             if(From != null)
                 From.Emit(sourceCode);
@@ -4471,14 +4495,6 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.Append("false");
         }
 
-        protected void EmitProfilingAndOrParallelizationArguments(SourceBuilder sourceCode)
-        {
-            if(Profiling)
-                sourceCode.Append(", actionEnv");
-            if(Parallel)
-                sourceCode.Append(", threadId");
-        }
-
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
         {
             if(From != null)
@@ -4487,24 +4503,10 @@ namespace de.unika.ipd.grGen.expression
                 yield return To;
         }
 
-        public override void SetNeedForParallelizedVersion(bool parallel)
-        {
-            Parallel = parallel;
-        }
-
-        public override void SetNeedForProfiling(bool profiling)
-        {
-            Profiling = profiling;
-        }
-
-        public readonly String IndexSetType;
-        public readonly IndexDescription Index;
         public readonly bool IncludingFrom;
         public readonly bool IncludingTo;
         public readonly Expression From;
         public readonly Expression To;
-        bool Parallel;
-        bool Profiling;
     }
 
     /// <summary>
@@ -5099,6 +5101,89 @@ namespace de.unika.ipd.grGen.expression
         FromIndexAccessFromTo[] IndexAccesses;
         bool Parallel;
         bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the bottom/top node from an index with the lowest/highest attribute value
+    /// </summary>
+    public class MinMaxNodeFromIndex : FromIndexAccess
+    {
+        public MinMaxNodeFromIndex(String indexSetType, IndexDescription index, bool isMin)
+            : base(indexSetType, index)
+        {
+            IsMin = isMin;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new MinMaxNodeFromIndex(IndexSetType, Index, IsMin);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if(IsMin)
+                sourceCode.Append("GRGEN_LIBGR.IndexHelper.MinNodeFromIndex(");
+            else
+                sourceCode.Append("GRGEN_LIBGR.IndexHelper.MaxNodeFromIndex(");
+            base.EmitArguments(sourceCode);
+            base.EmitProfilingAndOrParallelizationArguments(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public readonly bool IsMin;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the bottom/top edge from an index with the lowest/highest attribute value
+    /// </summary>
+    public class MinMaxEdgeFromIndex : FromIndexAccess
+    {
+        public MinMaxEdgeFromIndex(String indexSetType, IndexDescription index, bool isMin)
+            : base(indexSetType, index)
+        {
+            IsMin = isMin;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new MinMaxEdgeFromIndex(IndexSetType, Index, IsMin);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if(IsMin)
+                sourceCode.Append("GRGEN_LIBGR.IndexHelper.MinEdgeFromIndex(");
+            else
+                sourceCode.Append("GRGEN_LIBGR.IndexHelper.MaxEdgeFromIndex(");
+            base.EmitArguments(sourceCode);
+            base.EmitProfilingAndOrParallelizationArguments(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public readonly bool IsMin;
+    }
+
+    /// <summary>
+    /// Class representing expression returning the size of an index
+    /// </summary>
+    public class IndexSize : FromIndexAccess
+    {
+        public IndexSize(String indexSetType, IndexDescription index)
+            : base(indexSetType, index)
+        {
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new IndexSize(IndexSetType, Index);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(");
+            base.EmitArguments(sourceCode);
+            sourceCode.Append(").Size");
+        }
     }
 
     /// <summary>

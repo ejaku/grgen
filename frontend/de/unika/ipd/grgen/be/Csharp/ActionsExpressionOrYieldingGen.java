@@ -162,6 +162,7 @@ import de.unika.ipd.grgen.ir.expr.graph.EmptyExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EqualsAnyExpr;
 import de.unika.ipd.grgen.ir.expr.graph.GetEquivalentExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IncidentEdgeExpr;
+import de.unika.ipd.grgen.ir.expr.graph.IndexSizeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.InducedSubgraphExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsAdjacentNodeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsBoundedReachableEdgeExpr;
@@ -173,6 +174,7 @@ import de.unika.ipd.grgen.ir.expr.graph.IsInNodesFromIndexAccessSameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsIncidentEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsReachableEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsReachableNodeExpr;
+import de.unika.ipd.grgen.ir.expr.graph.MinMaxFromIndexExpr;
 import de.unika.ipd.grgen.ir.expr.graph.Nameof;
 import de.unika.ipd.grgen.ir.expr.graph.NodeByNameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.NodeByUniqueExpr;
@@ -2154,6 +2156,25 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 				genIndexAccessOrdering(sb, iao, className, pathPrefix, alreadyDefinedEntityToName);
 				sb.append(")");
 			}
+			sb.append(")");
+		} else if(expr instanceof MinMaxFromIndexExpr) {
+			MinMaxFromIndexExpr mmfi = (MinMaxFromIndexExpr)expr;
+			if(mmfi.getType() instanceof NodeType) {
+				sb.append("new GRGEN_EXPR.MinMaxNodeFromIndex(");
+			} else {
+				sb.append("new GRGEN_EXPR.MinMaxEdgeFromIndex(");
+			}
+			sb.append("\"GRGEN_MODEL." + model.getIdent() + "IndexSet\", ");
+			sb.append("GRGEN_MODEL." + model.getIdent() + "GraphModel.GetIndexDescription(\""
+					+ mmfi.index.getIdent() + "\"), ");
+			sb.append(mmfi.isMin() ? "true" : "false");
+			sb.append(")");
+		} else if(expr instanceof IndexSizeExpr) {
+			IndexSizeExpr is = (IndexSizeExpr)expr;
+			sb.append("new GRGEN_EXPR.IndexSize(");
+			sb.append("\"GRGEN_MODEL." + model.getIdent() + "IndexSet\", ");
+			sb.append("GRGEN_MODEL." + model.getIdent() + "GraphModel.GetIndexDescription(\""
+					+ is.index.getIdent() + "\")");
 			sb.append(")");
 		} else if(expr instanceof InducedSubgraphExpr) {
 			InducedSubgraphExpr is = (InducedSubgraphExpr)expr;

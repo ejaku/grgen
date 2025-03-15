@@ -132,6 +132,7 @@ import de.unika.ipd.grgen.ir.expr.graph.EmptyExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EqualsAnyExpr;
 import de.unika.ipd.grgen.ir.expr.graph.GetEquivalentExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IncidentEdgeExpr;
+import de.unika.ipd.grgen.ir.expr.graph.IndexSizeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.InducedSubgraphExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsAdjacentNodeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsBoundedReachableEdgeExpr;
@@ -143,6 +144,7 @@ import de.unika.ipd.grgen.ir.expr.graph.IsInNodesFromIndexAccessSameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsIncidentEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsReachableEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IsReachableNodeExpr;
+import de.unika.ipd.grgen.ir.expr.graph.MinMaxFromIndexExpr;
 import de.unika.ipd.grgen.ir.expr.graph.Nameof;
 import de.unika.ipd.grgen.ir.expr.graph.NodeByNameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.NodeByUniqueExpr;
@@ -3088,6 +3090,28 @@ public abstract class CSharpBase
 				sb.append(")");
 			}
 			sb.append(")");
+		} else if(expr instanceof MinMaxFromIndexExpr) {
+			MinMaxFromIndexExpr mmfi = (MinMaxFromIndexExpr)expr;
+			if(mmfi.getType() instanceof NodeType) {
+				if(mmfi.isMin()) {
+					sb.append("GRGEN_LIBGR.IndexHelper.MinNodeFromIndex(");
+				} else {
+					sb.append("GRGEN_LIBGR.IndexHelper.MaxNodeFromIndex(");
+				}
+			} else {
+				if(mmfi.isMin()) {
+					sb.append("GRGEN_LIBGR.IndexHelper.MinEdgeFromIndex(");
+				} else {
+					sb.append("GRGEN_LIBGR.IndexHelper.MaxEdgeFromIndex(");
+				}
+			}
+			sb.append("((GRGEN_MODEL." + modifyGenerationState.model().getIdent() + "IndexSet)graph.Indices)." + mmfi.index.getIdent());
+			genProfilingAndOrParallelizationArguments(sb, modifyGenerationState);
+			sb.append(")");
+		} else if(expr instanceof IndexSizeExpr) {
+			IndexSizeExpr mmfi = (IndexSizeExpr)expr;
+			sb.append("(((GRGEN_MODEL." + modifyGenerationState.model().getIdent() + "IndexSet)graph.Indices)." + mmfi.index.getIdent());
+			sb.append(").Size");
 		} else if(expr instanceof InducedSubgraphExpr) {
 			InducedSubgraphExpr is = (InducedSubgraphExpr)expr;
 			sb.append("GRGEN_LIBGR.GraphHelper.InducedSubgraph((IDictionary<GRGEN_LIBGR.INode, GRGEN_LIBGR.SetValueType>)");

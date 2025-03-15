@@ -1,0 +1,9 @@
+#using "index_min_max_size_model.gm"
+
+rule r {
+	n:N -e:E->;
+	if { minNodeFromIndex(n) in nodesFromIndex(fooi); }
+	
+	modify {
+	}
+}

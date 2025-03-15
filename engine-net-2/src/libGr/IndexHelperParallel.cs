@@ -680,5 +680,73 @@ namespace de.unika.ipd.grGen.libGr
             }
             return resultSet;
         }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Returns the bottom node with lowest indexed value from the index, or null
+        /// </summary>
+        public static INode MinNodeFromIndex(IAttributeIndex index, int threadId)
+        {
+            IEnumerator<IGraphElement> enumerator = index.LookupElementsAscending().GetEnumerator();
+            return enumerator.MoveNext() ? enumerator.Current as INode : null;
+        }
+
+        public static INode MinNodeFromIndex(IAttributeIndex index, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            IEnumerator<IGraphElement> enumerator = index.LookupElementsAscending().GetEnumerator();
+            ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+            return enumerator.MoveNext() ? enumerator.Current as INode : null;
+        }
+
+        /// <summary>
+        /// Returns the top node with highest indexed value from the index, or null
+        /// </summary>
+        public static INode MaxNodeFromIndex(IAttributeIndex index, int threadId)
+        {
+            IEnumerator<IGraphElement> enumerator = index.LookupElementsDescending().GetEnumerator();
+            return enumerator.MoveNext() ? enumerator.Current as INode : null;
+        }
+
+        public static INode MaxNodeFromIndex(IAttributeIndex index, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            IEnumerator<IGraphElement> enumerator = index.LookupElementsDescending().GetEnumerator();
+            ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+            return enumerator.MoveNext() ? enumerator.Current as INode : null;
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Returns the bottom edge with lowest indexed value from the index, or null
+        /// </summary>
+        public static IEdge MinEdgeFromIndex(IAttributeIndex index, int threadId)
+        {
+            IEnumerator<IGraphElement> enumerator = index.LookupElementsAscending().GetEnumerator();
+            return enumerator.MoveNext() ? enumerator.Current as IEdge : null;
+        }
+
+        public static IEdge MinEdgeFromIndex(IAttributeIndex index, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            IEnumerator<IGraphElement> enumerator = index.LookupElementsAscending().GetEnumerator();
+            ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+            return enumerator.MoveNext() ? enumerator.Current as IEdge : null;
+        }
+
+        /// <summary>
+        /// Returns the top edge with highest indexed value from the index, or null
+        /// </summary>
+        public static IEdge MaxEdgeFromIndex(IAttributeIndex index, int threadId)
+        {
+            IEnumerator<IGraphElement> enumerator = index.LookupElementsDescending().GetEnumerator();
+            return enumerator.MoveNext() ? enumerator.Current as IEdge : null;
+        }
+
+        public static IEdge MaxEdgeFromIndex(IAttributeIndex index, IActionExecutionEnvironment actionEnv, int threadId)
+        {
+            IEnumerator<IGraphElement> enumerator = index.LookupElementsDescending().GetEnumerator();
+            ++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];
+            return enumerator.MoveNext() ? enumerator.Current as IEdge : null;
+        }
     }
 }

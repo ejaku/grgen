@@ -1,0 +1,94 @@
+#using "index_min_max_size_model.gm"
+
+rule ri {
+	n:N -e:E-> n;
+	
+	if { minNodeFromIndex(fooi) in nodesFromIndex(fooi); }
+	if { maxNodeFromIndex(fooi) in nodesFromIndex(fooi); }
+
+	if { minEdgeFromIndex(bari) in edgesFromIndex(bari); }
+	if { maxEdgeFromIndex(bari) in edgesFromIndex(bari); }
+
+	if { indexSize(fooi) == indexSize(bari); }
+	
+	modify {
+		eval {
+			n.b = minNodeFromIndex(fooi) in nodesFromIndex(fooi);
+			n.b = maxNodeFromIndex(fooi) in nodesFromIndex(fooi);
+			
+			e.b = minEdgeFromIndex(bari) in edgesFromIndex(bari);
+			e.b = maxEdgeFromIndex(bari) in edgesFromIndex(bari);
+			
+			n.b = indexSize(fooi) > 42;
+			e.b = indexSize(bari) < 42;
+		}
+	}
+}
+
+rule rd {
+	n:N -e:E-> n;
+	
+	if { minNodeFromIndex(food) in nodesFromIndex(food); }
+	if { maxNodeFromIndex(food) in nodesFromIndex(food); }
+
+	if { minEdgeFromIndex(bard) in edgesFromIndex(bard); }
+	if { maxEdgeFromIndex(bard) in edgesFromIndex(bard); }
+
+	if { indexSize(food) == indexSize(bard); }
+	
+	modify {
+		eval {
+			n.b = minNodeFromIndex(food) in nodesFromIndex(food);
+			n.b = maxNodeFromIndex(food) in nodesFromIndex(food);
+			
+			e.b = minEdgeFromIndex(bard) in edgesFromIndex(bard);
+			e.b = maxEdgeFromIndex(bard) in edgesFromIndex(bard);
+			
+			n.b = indexSize(food) > 42;
+			e.b = indexSize(bard) < 42;
+		}
+	}
+}
+
+rule rs {
+	n:N -e:E-> n;
+	
+	if { minNodeFromIndex(foos) in nodesFromIndex(foos); }
+	if { maxNodeFromIndex(foos) in nodesFromIndex(foos); }
+
+	if { minEdgeFromIndex(bars) in edgesFromIndex(bars); }
+	if { maxEdgeFromIndex(bars) in edgesFromIndex(bars); }
+
+	if { indexSize(foos) == indexSize(bars); }
+	
+	modify {
+		eval {
+			n.b = minNodeFromIndex(foos) in nodesFromIndex(foos);
+			n.b = maxNodeFromIndex(foos) in nodesFromIndex(foos);
+			
+			e.b = minEdgeFromIndex(bars) in edgesFromIndex(bars);
+			e.b = maxEdgeFromIndex(bars) in edgesFromIndex(bars);
+			
+			n.b = indexSize(foos) > 42;
+			e.b = indexSize(bars) < 42;
+		}
+	}
+}
+
+rule ric {
+	n:N -e:E-> n;
+	
+	if { minNodeFromIndex(ic) in nodesFromIndex(ic); }
+	if { maxNodeFromIndex(ic) in nodesFromIndex(ic); }
+
+	if { indexSize(ic) == 0; }
+	
+	modify {
+		eval {
+			n.b = minNodeFromIndex(ic) in nodesFromIndex(ic);
+			n.b = maxNodeFromIndex(ic) in nodesFromIndex(ic);
+			
+			n.b = indexSize(ic) > 42;
+		}
+	}
+}

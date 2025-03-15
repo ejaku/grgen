@@ -29,10 +29,13 @@ import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessSameAsArrayExprNode
 import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessSameExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.FromIndexAccessFromToPartExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.FromIndexAccessMultipleFromToExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.IndexSizeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.IsInEdgesFromIndexAccessFromToExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.IsInEdgesFromIndexAccessSameExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.IsInNodesFromIndexAccessFromToExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.IsInNodesFromIndexAccessSameExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.MinMaxEdgeFromIndexExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.MinMaxNodeFromIndexExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessFromToAsArrayExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessFromToExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessMultipleFromToExprNode;
@@ -446,6 +449,41 @@ public class IndexFunctionInvocationDecisionNode extends FunctionOrBuiltinFuncti
 				return null;
 			} else {
 				return new CountIncidenceFromIndexExprNode(env.getCoords(), arguments.get(0), (ExprNode)arguments.get(1));
+			}
+		case "minNodeFromIndex":
+			if(arguments.size() != 1) {
+				env.reportError("minNodeFromIndex() expects 1 argument (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new MinMaxNodeFromIndexExprNode(env.getCoords(), arguments.get(0), true);
+			}
+		case "maxNodeFromIndex":
+			if(arguments.size() != 1) {
+				env.reportError("maxNodeFromIndex() expects 1 argument (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new MinMaxNodeFromIndexExprNode(env.getCoords(), arguments.get(0), false);
+			}
+		case "minEdgeFromIndex":
+			if(arguments.size() != 1) {
+				env.reportError("minEdgeFromIndex() expects 1 argument (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new MinMaxEdgeFromIndexExprNode(env.getCoords(), arguments.get(0), true);
+			}
+		case "maxEdgeFromIndex":
+			if(arguments.size() != 1) {
+				env.reportError("maxEdgeFromIndex() expects 1 argument (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new MinMaxEdgeFromIndexExprNode(env.getCoords(), arguments.get(0), false);
+			}
+		case "indexSize":
+			if(arguments.size() != 1) {
+				env.reportError("indexSize() expects 1 argument (given are " + arguments.size() + " arguments).");
+				return null;
+			} else {
+				return new IndexSizeExprNode(env.getCoords(), arguments.get(0));
 			}
 		default:
 			env.reportError("An index function of name " + functionName + " is not known.");

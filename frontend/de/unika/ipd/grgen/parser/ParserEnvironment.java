@@ -898,6 +898,12 @@ public abstract class ParserEnvironment extends Base
 			return true;//return numParams >= 3;
 		case "countFromIndex":
 			return true;//return numParams == 2;
+		case "minNodeFromIndex":
+		case "maxNodeFromIndex":
+		case "minEdgeFromIndex":
+		case "maxEdgeFromIndex":
+		case "indexSize":
+			return true;//return numParams == 1;
 		default:
 			return false;
 		}

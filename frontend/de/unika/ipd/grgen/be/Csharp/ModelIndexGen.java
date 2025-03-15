@@ -129,6 +129,9 @@ public class ModelIndexGen extends CSharpBase
 				+ modelName + ".GetIndexDescription(" + indexNum + "); } }\n");
 		sb.append("\n");
 
+		sb.appendFront("public int Size { get { return count; } }\n");
+		sb.append("\n");
+
 		sb.appendFront("protected class TreeNode\n");
 		sb.appendFront("{\n");
 		sb.indent();
@@ -1202,6 +1205,9 @@ public class ModelIndexGen extends CSharpBase
 
 		sb.appendFront("public GRGEN_LIBGR.IndexDescription Description { get { return "
 				+ modelName + ".GetIndexDescription(" + indexNum + "); } }\n");
+		sb.append("\n");
+
+		sb.appendFront("public int Size { get { return count; } }\n");
 		sb.append("\n");
 
 		sb.appendFront("protected class TreeNode\n");

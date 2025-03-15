@@ -21,6 +21,11 @@ namespace de.unika.ipd.grGen.libGr
         /// The description of the index.
         /// </summary>
         IndexDescription Description { get; }
+
+        /// <summary>
+        /// The number of elements in the index.
+        /// </summary>
+        int Size { get; }
     }
 
     /// <summary>

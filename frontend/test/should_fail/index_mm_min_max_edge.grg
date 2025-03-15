@@ -1,0 +1,10 @@
+#using "index_min_max_size_model.gm"
+
+rule ri {
+	n:N -e:E-> n;
+	
+	if { minEdgeFromIndex(fooi) in edgesFromIndex(bari); }
+	
+	modify {
+	}
+}

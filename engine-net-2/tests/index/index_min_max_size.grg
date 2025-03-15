@@ -1,0 +1,63 @@
+#using "index_model_min_max_size.gm"
+
+rule testall() {
+	---
+	def minnode:Node;
+	yield {
+		yield minnode = minNodeFromIndex(foo);
+	}
+	def maxnode:Node;
+	yield {
+		yield maxnode = maxNodeFromIndex(foo);
+	}
+	def minincidentnode:Node;
+	yield {
+		yield minincidentnode = minNodeFromIndex(baz);
+	}
+	def maxincidentnode:Node;
+	yield {
+		yield maxincidentnode = maxNodeFromIndex(baz);
+	}
+	def -minedge:Edge->;
+	yield {
+		yield minedge = (Edge)minEdgeFromIndex(bar);
+	}
+	def -maxedge:Edge->;
+	yield {
+		yield maxedge = (Edge)maxEdgeFromIndex(bar);
+	}
+	def var sizenodeindex:int;
+	yield {
+		yield sizenodeindex = indexSize(foo);
+	}
+	def var sizeincidentnodeindex:int;
+	yield {
+		yield sizeincidentnodeindex = indexSize(baz);
+	}
+	def var sizeedgeindex:int;
+	yield {
+		yield sizeedgeindex = indexSize(bar);
+	}
+	
+	modify {
+	---
+		emit("The value of attribute minnode is "); emit(minnode); emit("\n");
+		emit("The value of attribute minnode is "); emit(minNodeFromIndex(foo)); emit("\n");
+		emit("The value of attribute maxnode is "); emit(maxnode); emit("\n");
+		emit("The value of attribute maxnode is "); emit(maxNodeFromIndex(foo)); emit("\n");
+		emit("The value of attribute minincidentnode is "); emit(minincidentnode); emit("\n");
+		emit("The value of attribute minincidentnode is "); emit(minNodeFromIndex(baz)); emit("\n");
+		emit("The value of attribute maxincidentnode is "); emit(maxincidentnode); emit("\n");
+		emit("The value of attribute maxincidentnode is "); emit(maxNodeFromIndex(baz)); emit("\n");
+		emit("The value of attribute minedge is "); emit(minedge); emit("\n");
+		emit("The value of attribute minedge is "); emit(minEdgeFromIndex(bar)); emit("\n");
+		emit("The value of attribute maxedge is "); emit(maxedge); emit("\n");
+		emit("The value of attribute maxedge is "); emit(maxEdgeFromIndex(bar)); emit("\n");
+		emit("The value of attribute sizenodeindex is "); emit(sizenodeindex); emit("\n");
+		emit("The value of attribute sizenodeindex is "); emit(indexSize(foo)); emit("\n");
+		emit("The value of attribute sizeincidentnodeindex is "); emit(sizeincidentnodeindex); emit("\n");
+		emit("The value of attribute sizeincidentnodeindex is "); emit(indexSize(baz)); emit("\n");
+		emit("The value of attribute sizeedgeindex is "); emit(sizeedgeindex); emit("\n");
+		emit("The value of attribute sizeedgeindex is "); emit(indexSize(bar)); emit("\n");
+	}
+}
