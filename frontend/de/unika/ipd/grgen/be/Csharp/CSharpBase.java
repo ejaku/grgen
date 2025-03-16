@@ -2962,7 +2962,7 @@ public abstract class CSharpBase
 			if(nfiaft.getType() instanceof SetType) {
 				sb.append("GRGEN_LIBGR.IndexHelper.NodesFromIndexFromTo(");
 			} else {
-				if(nfiaft.isAscending()) {
+				if(iao.ascending) {
 					sb.append("GRGEN_LIBGR.IndexHelper.NodesFromIndexFromToAsArrayAscending(");
 				} else {
 					sb.append("GRGEN_LIBGR.IndexHelper.NodesFromIndexFromToAsArrayDescending(");
@@ -2988,7 +2988,7 @@ public abstract class CSharpBase
 			if(efiaft.getType() instanceof SetType) {
 				sb.append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexFromTo(");
 			} else {
-				if(efiaft.isAscending()) {
+				if(iao.ascending) {
 					sb.append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexFromToAsArrayAscending(");
 				} else {
 					sb.append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexFromToAsArrayDescending(");

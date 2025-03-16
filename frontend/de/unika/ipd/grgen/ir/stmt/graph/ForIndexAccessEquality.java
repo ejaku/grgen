@@ -21,6 +21,7 @@ import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 
 /**
  * Represents a for index access for a certain value in the IR.
+ * deprecated, TODO: purge
  */
 public class ForIndexAccessEquality extends EvalStatement
 {

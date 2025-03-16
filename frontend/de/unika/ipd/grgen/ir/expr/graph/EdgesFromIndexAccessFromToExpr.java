@@ -14,30 +14,16 @@ import de.unika.ipd.grgen.ir.type.Type;
 public class EdgesFromIndexAccessFromToExpr extends EdgesFromIndexAccessExpr
 {
 	private final IndexAccessOrdering indexAccess;
-	private final boolean ascending;
 
 	public EdgesFromIndexAccessFromToExpr(IndexAccessOrdering indexAccess, Type type)
 	{
 		super(indexAccess.index, type);
 		this.indexAccess = indexAccess;
-		this.ascending = true; // dummy assignment, value is not of importance in this constructor for the set type
-	}
-
-	public EdgesFromIndexAccessFromToExpr(IndexAccessOrdering indexAccess, boolean ascending, Type type)
-	{
-		super(indexAccess.index, type);
-		this.indexAccess = indexAccess;
-		this.ascending = ascending;
 	}
 
 	public IndexAccessOrdering getIndexAccessOrdering()
 	{
 		return indexAccess;
-	}
-
-	public boolean isAscending()
-	{
-		return ascending;
 	}
 
 	/** @see de.unika.ipd.grgen.ir.expr.Expression#collectNeededEntities() */

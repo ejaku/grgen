@@ -8,6 +8,7 @@
 package de.unika.ipd.grgen.ast.expr.graph;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
@@ -65,6 +66,24 @@ public class EdgesFromIndexAccessFromToAsArrayExprNode extends FromIndexAccessFr
 	}
 
 	@Override
+	protected OperatorDeclNode.Operator fromOperator()
+	{
+		if(ascending)
+			return fromExclusive ? OperatorDeclNode.Operator.GT : OperatorDeclNode.Operator.GE;
+		else
+			return fromExclusive ? OperatorDeclNode.Operator.LT : OperatorDeclNode.Operator.LE;
+	}
+
+	@Override
+	protected OperatorDeclNode.Operator toOperator()
+	{
+		if(ascending)
+			return toExclusive ? OperatorDeclNode.Operator.LT : OperatorDeclNode.Operator.LE;
+		else
+			return toExclusive ? OperatorDeclNode.Operator.GT : OperatorDeclNode.Operator.GE;
+	}
+
+	@Override
 	protected IR constructIR()
 	{
 		if(fromExpr != null)
@@ -72,9 +91,9 @@ public class EdgesFromIndexAccessFromToAsArrayExprNode extends FromIndexAccessFr
 		if(toExpr != null)
 			toExpr = toExpr.evaluate();
 		return new EdgesFromIndexAccessFromToExpr(
-				new IndexAccessOrdering(index.checkIR(Index.class), true,
+				new IndexAccessOrdering(index.checkIR(Index.class), ascending,
 						fromOperator(), fromExpr != null ? fromExpr.checkIR(Expression.class) : null, 
 						toOperator(), toExpr != null ? toExpr.checkIR(Expression.class) : null),
-				ascending, getType().getType());
+				getType().getType());
 	}
 }

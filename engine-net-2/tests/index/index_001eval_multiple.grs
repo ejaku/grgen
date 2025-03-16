@@ -1,0 +1,30 @@
+new graph "index/index_001eval_multiple"
+
+new :N($="1", i=1, j="a")
+new :N($="2", i=2, j="b")
+new :N($="3", i=3, j="c")
+new :N($="4", i=4, j="d")
+new :N($="5", i=5, j="e")
+new :N($="6", i=6, j="f")
+new :N($="7", i=7, j="g")
+new :N($="8", i=8, j="h")
+new :N($="9", i=9, j="i")
+new :N($="10", i=10, j="j")
+new :N($="11", i=11, j="k")
+new :N($="12", i=12, j="l")
+new :N($="13", i=13, j="m")
+new :N($="14", i=14, j="n")
+new :N($="15", i=15, j="o")
+new :N($="16", i=16, j="p")
+new :N($="17", i=17, j="q")
+new :N($="18", i=18, j="r")
+new :N($="19", i=19, j="s")
+new :N($="20", i=20, j="t")
+
+exec rfrom5to13_fromatoi
+exec rfrom5to13_fromjtoz
+exec rfrom1to10_fromatoj
+exec rfrom1to10_fromktoz
+exec rfrommintomaxmultiple
+
+quit

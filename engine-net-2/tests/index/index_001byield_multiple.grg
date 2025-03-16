@@ -1,0 +1,96 @@
+#using "index_model_001b_multiple.gm"
+
+rule rfrom5to13_fromatoi {
+---
+	def ref s:set<E> = set<E>{};
+	yield {
+		for(n:E in edgesFromIndexMultipleFromTo(foo, 5, 13, bar, "a", "i")) {
+			yield s.add(n);
+		}
+	}
+	
+	modify {
+	---
+		eval {
+			for(n:E in s) {
+				emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n");
+			}
+		}
+	}
+}
+
+rule rfrom5to13_fromjtoz {
+---
+	def ref s:set<E> = set<E>{};
+	yield {
+		for(n:E in edgesFromIndexMultipleFromTo(foo, 5, 13, bar, "j", "z")) {
+			yield s.add(n);
+		}
+	}
+	
+	modify {
+	---
+		eval {
+			for(n:E in s) {
+				emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n");
+			}
+		}
+	}
+}
+
+rule rfrom1to10_fromatoj {
+---
+	def ref s:set<E> = set<E>{};
+	yield {
+		for(n:E in edgesFromIndexMultipleFromTo(foo, 1, 10, bar, "a", "j")) {
+			yield s.add(n);
+		}
+	}
+	
+	modify {
+	---
+		eval {
+			for(n:E in s) {
+				emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n");
+			}
+		}
+	}
+}
+
+rule rfrom1to10_fromktoz {
+---
+	def ref s:set<E> = set<E>{};
+	yield {
+		for(n:E in edgesFromIndexMultipleFromTo(foo, 1, 10, bar, "k", "z")) {
+			yield s.add(n);
+		}
+	}
+	
+	modify {
+	---
+		eval {
+			for(n:E in s) {
+				emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n");
+			}
+		}
+	}
+}
+
+rule rfrommintomaxmultiple {
+---
+	def ref s:set<E> = set<E>{};
+	yield {
+		for(n:E in edgesFromIndexMultipleFromTo(foo, ((E)minEdgeFromIndex(foo)).i, ((E)maxEdgeFromIndex(foo)).i, bar, ((E)minEdgeFromIndex(bar)).j, ((E)maxEdgeFromIndex(bar)).j)) {
+			yield s.add(n);
+		}
+	}
+	
+	modify {
+	---
+		eval {
+			for(n:E in s) {
+				emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n");
+			}
+		}
+	}
+}

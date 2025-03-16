@@ -334,6 +334,8 @@ public class IndexFunctionInvocationDecisionNode extends FunctionOrBuiltinFuncti
 			}
 		case "nodesFromIndexAsArrayAscending":
 		case "nodesFromIndexAsArrayDescending":
+		case "nodesFromIndexAscending":
+		case "nodesFromIndexDescending":
 			if(arguments.size() != 1) {
 				env.reportError(functionName + "() expects 1 argument (given are " + arguments.size() + " arguments).");
 				return null;
@@ -355,6 +357,14 @@ public class IndexFunctionInvocationDecisionNode extends FunctionOrBuiltinFuncti
 		case "nodesFromIndexFromExclusiveAsArrayDescending":
 		case "nodesFromIndexToAsArrayDescending":
 		case "nodesFromIndexToExclusiveAsArrayDescending":
+		case "nodesFromIndexFromAscending":
+		case "nodesFromIndexFromExclusiveAscending":
+		case "nodesFromIndexToAscending":
+		case "nodesFromIndexToExclusiveAscending":
+		case "nodesFromIndexFromDescending":
+		case "nodesFromIndexFromExclusiveDescending":
+		case "nodesFromIndexToDescending":
+		case "nodesFromIndexToExclusiveDescending":
 			if(arguments.size() != 2) {
 				env.reportError(functionName + "() expects 2 arguments (given are " + arguments.size() + " arguments).");
 				return null;
@@ -373,6 +383,14 @@ public class IndexFunctionInvocationDecisionNode extends FunctionOrBuiltinFuncti
 		case "nodesFromIndexFromExclusiveToAsArrayDescending":
 		case "nodesFromIndexFromToExclusiveAsArrayDescending":
 		case "nodesFromIndexFromExclusiveToExclusiveAsArrayDescending":
+		case "nodesFromIndexFromToAscending":
+		case "nodesFromIndexFromExclusiveToAscending":
+		case "nodesFromIndexFromToExclusiveAscending":
+		case "nodesFromIndexFromExclusiveToExclusiveAscending":
+		case "nodesFromIndexFromToDescending":
+		case "nodesFromIndexFromExclusiveToDescending":
+		case "nodesFromIndexFromToExclusiveDescending":
+		case "nodesFromIndexFromExclusiveToExclusiveDescending":
 			if(arguments.size() != 3) {
 				env.reportError(functionName + "() expects 3 arguments (given are " + arguments.size() + " arguments).");
 				return null;
@@ -381,6 +399,8 @@ public class IndexFunctionInvocationDecisionNode extends FunctionOrBuiltinFuncti
 			}
 		case "edgesFromIndexAsArrayAscending":
 		case "edgesFromIndexAsArrayDescending":
+		case "edgesFromIndexAscending":
+		case "edgesFromIndexDescending":
 			if(arguments.size() != 1) {
 				env.reportError(functionName + "() expects 1 argument (given are " + arguments.size() + " arguments).");
 				return null;
@@ -402,6 +422,14 @@ public class IndexFunctionInvocationDecisionNode extends FunctionOrBuiltinFuncti
 		case "edgesFromIndexFromExclusiveAsArrayDescending":
 		case "edgesFromIndexToAsArrayDescending":
 		case "edgesFromIndexToExclusiveAsArrayDescending":
+		case "edgesFromIndexFromAscending":
+		case "edgesFromIndexFromExclusiveAscending":
+		case "edgesFromIndexToAscending":
+		case "edgesFromIndexToExclusiveAscending":
+		case "edgesFromIndexFromDescending":
+		case "edgesFromIndexFromExclusiveDescending":
+		case "edgesFromIndexToDescending":
+		case "edgesFromIndexToExclusiveDescending":
 			if(arguments.size() != 2) {
 				env.reportError(functionName + "() expects 2 arguments (given are " + arguments.size() + " arguments).");
 				return null;
@@ -420,6 +448,14 @@ public class IndexFunctionInvocationDecisionNode extends FunctionOrBuiltinFuncti
 		case "edgesFromIndexFromExclusiveToAsArrayDescending":
 		case "edgesFromIndexFromToExclusiveAsArrayDescending":
 		case "edgesFromIndexFromExclusiveToExclusiveAsArrayDescending":
+		case "edgesFromIndexFromToAscending":
+		case "edgesFromIndexFromExclusiveToAscending":
+		case "edgesFromIndexFromToExclusiveAscending":
+		case "edgesFromIndexFromExclusiveToExclusiveAscending":
+		case "edgesFromIndexFromToDescending":
+		case "edgesFromIndexFromExclusiveToDescending":
+		case "edgesFromIndexFromToExclusiveDescending":
+		case "edgesFromIndexFromExclusiveToExclusiveDescending":
 			if(arguments.size() != 3) {
 				env.reportError(functionName + "() expects 3 arguments (given are " + arguments.size() + " arguments).");
 				return null;

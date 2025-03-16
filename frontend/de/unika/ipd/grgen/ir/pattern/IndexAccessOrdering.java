@@ -14,6 +14,8 @@ import de.unika.ipd.grgen.ir.model.Index;
 
 /**
  * Class for accessing an index by ordering, binding a pattern element
+ * input: lower and upper bounds (each or both may be optional, output: from/to (each or both may be optional)
+ * when ascending, lower bound is from and upper bound is to, when descending, lower bound is to and upper bound is from
  */
 public class IndexAccessOrdering extends IndexAccess
 {
@@ -37,7 +39,7 @@ public class IndexAccessOrdering extends IndexAccess
 	public Expression from()
 	{
 		if(ascending) {
-			if(expr != null) {
+			if(expr != null) { // return lower bound from expr or expr2
 				if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE)
 					return expr;
 			}
@@ -47,7 +49,7 @@ public class IndexAccessOrdering extends IndexAccess
 			}
 			return null;
 		} else {
-			if(expr != null) {
+			if(expr != null) { // return upper bound from expr or expr2
 				if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE)
 					return expr;
 			}
@@ -62,7 +64,7 @@ public class IndexAccessOrdering extends IndexAccess
 	public Expression to()
 	{
 		if(ascending) {
-			if(expr != null) {
+			if(expr != null) { // return upper bound from expr or expr2
 				if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE)
 					return expr;
 			}
@@ -72,7 +74,7 @@ public class IndexAccessOrdering extends IndexAccess
 			}
 			return null;
 		} else {
-			if(expr != null) {
+			if(expr != null) { // return lower bound from expr or expr2
 				if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE)
 					return expr;
 			}

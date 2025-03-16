@@ -155,8 +155,14 @@ import de.unika.ipd.grgen.ir.expr.graph.AdjacentNodeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.BoundedReachableEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.BoundedReachableNodeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EdgesExpr;
+import de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessFromToExpr;
+import de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessMultipleFromToExpr;
+import de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessSameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IncidentEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.NodesExpr;
+import de.unika.ipd.grgen.ir.expr.graph.NodesFromIndexAccessFromToExpr;
+import de.unika.ipd.grgen.ir.expr.graph.NodesFromIndexAccessMultipleFromToExpr;
+import de.unika.ipd.grgen.ir.expr.graph.NodesFromIndexAccessSameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.ReachableEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.ReachableNodeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.Visited;
@@ -2394,6 +2400,121 @@ public class ModifyEvalGen extends CSharpBase
 			sb.appendFront(formatElementInterfaceRef(ff.getIterationVar().getType()) + " "
 					+ formatEntity(ff.getIterationVar()));
 			sb.append(" = " + "(" + formatElementInterfaceRef(ff.getIterationVar().getType()) + ")edge_" + id + ";\n");
+		} else if(ff.getFunction() instanceof NodesFromIndexAccessSameExpr || ff.getFunction() instanceof EdgesFromIndexAccessSameExpr) {
+			IndexAccessEquality iae;
+			if(ff.getFunction() instanceof NodesFromIndexAccessSameExpr) {
+				iae = ((NodesFromIndexAccessSameExpr)ff.getFunction()).getIndexAccessEquality();
+			} else {
+				iae = ((EdgesFromIndexAccessSameExpr)ff.getFunction()).getIndexAccessEquality();
+			}
+			
+			sb.appendFront("foreach( " + formatElementInterfaceRef(ff.getIterationVar().getType()) +
+					" " + formatEntity(ff.getIterationVar()) + " in ((" +
+					"GRGEN_MODEL." + model.getIdent() + "IndexSet" + ")graph.Indices)." + iae.index.getIdent() +
+					".Lookup(");
+			genExpression(sb, iae.expr, state);
+			sb.append(") )");
+			sb.appendFront("{\n");
+			sb.indent();
+
+			if(state.emitProfilingInstrumentation()) {
+				if(state.isToBeParallelizedActionExisting())
+					sb.appendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+				else
+					sb.appendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+			}
+		} else if(ff.getFunction() instanceof NodesFromIndexAccessFromToExpr || ff.getFunction() instanceof EdgesFromIndexAccessFromToExpr) {
+			IndexAccessOrdering iao;
+			if(ff.getFunction() instanceof NodesFromIndexAccessFromToExpr) {
+				iao = ((NodesFromIndexAccessFromToExpr)ff.getFunction()).getIndexAccessOrdering();
+			} else {
+				iao = ((EdgesFromIndexAccessFromToExpr)ff.getFunction()).getIndexAccessOrdering();
+			}
+
+			sb.appendFront("foreach( " + formatElementInterfaceRef(ff.getIterationVar().getType()) +
+					" " + formatEntity(ff.getIterationVar()) + " in ((" +
+					"GRGEN_MODEL." + model.getIdent() + "IndexSet" + ")graph.Indices)." + iao.index.getIdent() +
+					".Lookup");
+			if(iao.ascending)
+				sb.append("Ascending");
+			else
+				sb.append("Descending");
+			if(iao.from() != null && iao.to() != null) {
+				sb.append("From");
+				if(iao.includingFrom())
+					sb.append("Inclusive");
+				else
+					sb.append("Exclusive");
+				sb.append("To");
+				if(iao.includingTo())
+					sb.append("Inclusive");
+				else
+					sb.append("Exclusive");
+				sb.append("(");
+				genExpression(sb, iao.from(), state);
+				sb.append(", ");
+				genExpression(sb, iao.to(), state);
+			} else if(iao.from() != null) {
+				sb.append("From");
+				if(iao.includingFrom())
+					sb.append("Inclusive");
+				else
+					sb.append("Exclusive");
+				sb.append("(");
+				genExpression(sb, iao.from(), state);
+			} else if(iao.to() != null) {
+				sb.append("To");
+				if(iao.includingTo())
+					sb.append("Inclusive");
+				else
+					sb.append("Exclusive");
+				sb.append("(");
+				genExpression(sb, iao.to(), state);
+			} else {
+				sb.append("(");
+			}
+			sb.append(") )\n");
+			sb.appendFront("{\n");
+			sb.indent();
+
+			if(state.emitProfilingInstrumentation()) {
+				if(state.isToBeParallelizedActionExisting())
+					sb.appendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+				else
+					sb.appendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+			}
+		} else if(ff.getFunction() instanceof NodesFromIndexAccessMultipleFromToExpr || ff.getFunction() instanceof EdgesFromIndexAccessMultipleFromToExpr) {
+			sb.appendFront("foreach( " + formatElementInterfaceRef(ff.getIterationVar().getType()) +
+					" " + formatEntity(ff.getIterationVar()) + " in ");
+
+			Vector<IndexAccessOrdering> iaos;
+			if(ff.getFunction() instanceof NodesFromIndexAccessMultipleFromToExpr) {
+				NodesFromIndexAccessMultipleFromToExpr nfiamft = (NodesFromIndexAccessMultipleFromToExpr)ff.getFunction();
+				sb.append("GRGEN_LIBGR.IndexHelper.NodesFromIndexMultipleFromTo(");
+				iaos = nfiamft.getIndexAccesses();
+			} else {
+				EdgesFromIndexAccessMultipleFromToExpr efiamft = (EdgesFromIndexAccessMultipleFromToExpr)ff.getFunction();
+				sb.append("GRGEN_LIBGR.IndexHelper.EdgesFromIndexMultipleFromTo(");
+				iaos = efiamft.getIndexAccesses();
+			}
+
+			if(state.emitProfilingInstrumentation())
+				sb.append("actionEnv, ");
+			if(state.isToBeParallelizedActionExisting())
+				sb.append("threadId, ");
+			boolean first = true;
+			for(IndexAccessOrdering iao : iaos) {
+				if(first)
+					first = false;
+				else
+					sb.append(",");
+				sb.append("new GRGEN_LIBGR.IndexHelper.IndexAccess(");
+				genIndexAccessOrdering(sb, iao, state);
+				sb.append(")");
+			}
+			sb.append(").Keys)\n");
+			sb.appendFront("{\n");
+			sb.indent();
 		}
 
 		genEvals(sb, state, ff.getLoopedStatements());

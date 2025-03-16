@@ -1,0 +1,17 @@
+node class N
+{
+	i : int;
+	d : double;
+}
+
+edge class E
+{
+	i : int;
+	d : double;
+}
+
+index foo { N.i }
+index food { N.d }
+
+index bar { E.i }
+index bard { E.d }

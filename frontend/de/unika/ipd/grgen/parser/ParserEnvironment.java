@@ -938,6 +938,58 @@ public abstract class ParserEnvironment extends Base
 		}
 	}
 
+	public static boolean isKnownForIndexFunction(String name)
+	{
+		switch(name) {
+		case "nodesFromIndexSame":
+		case "edgesFromIndexSame":
+			return true;
+		case "nodesFromIndexAscending":
+		case "nodesFromIndexFromAscending":
+		case "nodesFromIndexFromExclusiveAscending":
+		case "nodesFromIndexToAscending":
+		case "nodesFromIndexToExclusiveAscending":
+		case "nodesFromIndexFromToAscending":
+		case "nodesFromIndexFromExclusiveToAscending":
+		case "nodesFromIndexFromToExclusiveAscending":
+		case "nodesFromIndexFromExclusiveToExclusiveAscending":
+		case "edgesFromIndexAscending":
+		case "edgesFromIndexFromAscending":
+		case "edgesFromIndexFromExclusiveAscending":
+		case "edgesFromIndexToAscending":
+		case "edgesFromIndexToExclusiveAscending":
+		case "edgesFromIndexFromToAscending":
+		case "edgesFromIndexFromExclusiveToAscending":
+		case "edgesFromIndexFromToExclusiveAscending":
+		case "edgesFromIndexFromExclusiveToExclusiveAscending":
+			return true;
+		case "nodesFromIndexDescending":
+		case "nodesFromIndexFromDescending":
+		case "nodesFromIndexFromExclusiveDescending":
+		case "nodesFromIndexToDescending":
+		case "nodesFromIndexToExclusiveDescending":
+		case "nodesFromIndexFromToDescending":
+		case "nodesFromIndexFromExclusiveToDescending":
+		case "nodesFromIndexFromToExclusiveDescending":
+		case "nodesFromIndexFromExclusiveToExclusiveDescending":
+		case "edgesFromIndexDescending":
+		case "edgesFromIndexFromDescending":
+		case "edgesFromIndexFromExclusiveDescending":
+		case "edgesFromIndexToDescending":
+		case "edgesFromIndexToExclusiveDescending":
+		case "edgesFromIndexFromToDescending":
+		case "edgesFromIndexFromExclusiveToDescending":
+		case "edgesFromIndexFromToExclusiveDescending":
+		case "edgesFromIndexFromExclusiveToExclusiveDescending":
+			return true;
+		case "nodesFromIndexMultipleFromTo":
+		case "edgesFromIndexMultipleFromTo":
+			return true;
+		default:
+			return false;
+		}
+	}
+
 	public static boolean isKnownProcedure(Token pack, Token i, CollectNode<ExprNode> params)
 	{
 		if(isFileProcedure(pack, i, params)

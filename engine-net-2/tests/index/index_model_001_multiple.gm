@@ -1,0 +1,8 @@
+node class N
+{
+	i : int;
+	j : string;
+}
+
+index foo { N.i }
+index bar { N.j }

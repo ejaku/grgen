@@ -4879,17 +4879,33 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing expression returning an array of nodes from an index with matching attribute values based on ordering comparison
+    /// Base class representing expression returning an array from an index with matching attribute values based on ordering comparison
     /// </summary>
-    public class NodesFromIndexAccessFromToAsArray : FromIndexAccessFromTo
+    public abstract class FromIndexAccessFromToAsArray : FromIndexAccessFromTo
     {
-        public NodesFromIndexAccessFromToAsArray(bool ascending,
+        protected FromIndexAccessFromToAsArray(bool ascending,
             String indexSetType, IndexDescription index,
             bool includingFrom, bool includingTo,
             Expression from, Expression to)
             : base(indexSetType, index, includingFrom, includingTo, from, to)
         {
             this.Ascending = ascending;
+        }
+
+        public bool Ascending;
+    }
+
+    /// <summary>
+    /// Class representing expression returning an array of nodes from an index with matching attribute values based on ordering comparison
+    /// </summary>
+    public class NodesFromIndexAccessFromToAsArray : FromIndexAccessFromToAsArray
+    {
+        public NodesFromIndexAccessFromToAsArray(bool ascending,
+            String indexSetType, IndexDescription index,
+            bool includingFrom, bool includingTo,
+            Expression from, Expression to)
+            : base(ascending, indexSetType, index, includingFrom, includingTo, from, to)
+        {
         }
 
         public override Expression Copy(string renameSuffix)
@@ -4908,8 +4924,6 @@ namespace de.unika.ipd.grGen.expression
             base.EmitProfilingAndOrParallelizationArguments(sourceCode);
             sourceCode.Append(")");
         }
-
-        bool Ascending;
     }
 
     /// <summary>
@@ -4938,15 +4952,14 @@ namespace de.unika.ipd.grGen.expression
     /// <summary>
     /// Class representing expression returning an array of edges from an index with matching attribute values based on ordering comparison
     /// </summary>
-    public class EdgesFromIndexAccessFromToAsArray : FromIndexAccessFromTo
+    public class EdgesFromIndexAccessFromToAsArray : FromIndexAccessFromToAsArray
     {
         public EdgesFromIndexAccessFromToAsArray(bool ascending,
             String indexSetType, IndexDescription index,
             bool includingFrom, bool includingTo,
             Expression from, Expression to)
-            : base(indexSetType, index, includingFrom, includingTo, from, to)
+            : base(ascending, indexSetType, index, includingFrom, includingTo, from, to)
         {
-            this.Ascending = ascending;
         }
 
         public override Expression Copy(string renameSuffix)
@@ -4965,18 +4978,55 @@ namespace de.unika.ipd.grGen.expression
             base.EmitProfilingAndOrParallelizationArguments(sourceCode);
             sourceCode.Append(")");
         }
-
-        bool Ascending;
     }
 
     /// <summary>
-    /// Class representing expression returning a set of nodes from an index with matching attribute values based on ordering comparison
+    /// Class representing expression returning a set from a multiple index access
     /// </summary>
-    public class NodesFromIndexAccessMultipleFromTo : Expression
+    public abstract class FromIndexAccessMultipleFromTo : Expression
     {
-        public NodesFromIndexAccessMultipleFromTo(params FromIndexAccessFromToPart[] indexAccesses)
+        public FromIndexAccessMultipleFromTo(params FromIndexAccessFromToPart[] indexAccesses)
         {
             IndexAccesses = indexAccesses;
+        }
+
+        public void EmitProfilingAndOrParallelizationArgumentsAtBegin(SourceBuilder sourceCode)
+        {
+            if(Profiling)
+                sourceCode.Append("actionEnv, ");
+            if(Parallel)
+                sourceCode.Append("threadId, ");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            foreach(FromIndexAccessFromTo indexAccess in IndexAccesses)
+                yield return indexAccess;
+        }
+
+        public override void SetNeedForParallelizedVersion(bool parallel)
+        {
+            Parallel = parallel;
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            Profiling = profiling;
+        }
+
+        protected FromIndexAccessFromTo[] IndexAccesses;
+        bool Parallel;
+        bool Profiling;
+    }
+
+    /// <summary>
+    /// Class representing expression returning a set of nodes from a multiple index access
+    /// </summary>
+    public class NodesFromIndexAccessMultipleFromTo : FromIndexAccessMultipleFromTo
+    {
+        public NodesFromIndexAccessMultipleFromTo(params FromIndexAccessFromToPart[] indexAccesses)
+            : base(indexAccesses)
+        {
         }
 
         public override Expression Copy(string renameSuffix)
@@ -5006,50 +5056,22 @@ namespace de.unika.ipd.grGen.expression
             }
             sourceCode.Append(")");
         }
-
-        public void EmitProfilingAndOrParallelizationArgumentsAtBegin(SourceBuilder sourceCode)
-        {
-            if(Profiling)
-                sourceCode.Append("actionEnv, ");
-            if(Parallel)
-                sourceCode.Append("threadId, ");
-        }
-
-        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
-        {
-            foreach(FromIndexAccessFromTo indexAccess in IndexAccesses)
-                yield return indexAccess;
-        }
-
-        public override void SetNeedForParallelizedVersion(bool parallel)
-        {
-            Parallel = parallel;
-        }
-
-        public override void SetNeedForProfiling(bool profiling)
-        {
-            Profiling = profiling;
-        }
-
-        FromIndexAccessFromTo[] IndexAccesses;
-        bool Parallel;
-        bool Profiling;
     }
 
     /// <summary>
-    /// Class representing expression returning a set of edges from an index with matching attribute values based on ordering comparison
+    /// Class representing expression returning a set of edges from a multiple index access
     /// </summary>
-    public class EdgesFromIndexAccessMultipleFromTo : Expression
+    public class EdgesFromIndexAccessMultipleFromTo : FromIndexAccessMultipleFromTo
     {
         public EdgesFromIndexAccessMultipleFromTo(params FromIndexAccessFromToPart[] indexAccesses)
+            : base(indexAccesses)
         {
-            IndexAccesses = indexAccesses;
         }
 
         public override Expression Copy(string renameSuffix)
         {
             FromIndexAccessFromToPart[] copy = new FromIndexAccessFromToPart[IndexAccesses.Length];
-            for(int i = 0; i < IndexAccesses.Length; ++i)
+            for(int i=0; i < IndexAccesses.Length; ++i)
             {
                 copy[i] = (FromIndexAccessFromToPart)IndexAccesses[i].Copy(renameSuffix);
             }
@@ -5073,34 +5095,6 @@ namespace de.unika.ipd.grGen.expression
             }
             sourceCode.Append(")");
         }
-
-        public void EmitProfilingAndOrParallelizationArgumentsAtBegin(SourceBuilder sourceCode)
-        {
-            if(Profiling)
-                sourceCode.Append("actionEnv, ");
-            if(Parallel)
-                sourceCode.Append("threadId, ");
-        }
-
-        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
-        {
-            foreach(FromIndexAccessFromTo indexAccess in IndexAccesses)
-                yield return indexAccess;
-        }
-
-        public override void SetNeedForParallelizedVersion(bool parallel)
-        {
-            Parallel = parallel;
-        }
-
-        public override void SetNeedForProfiling(bool profiling)
-        {
-            Profiling = profiling;
-        }
-
-        FromIndexAccessFromTo[] IndexAccesses;
-        bool Parallel;
-        bool Profiling;
     }
 
     /// <summary>

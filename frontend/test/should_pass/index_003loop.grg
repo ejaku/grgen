@@ -7,106 +7,106 @@ rule t(var x:int)
 	def ref res:set<Node> = set<Node>{};
 	yield
 	{
-		for(n:Node in {foo==42})
+		for(n:Node in nodesFromIndexSame(foo, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {bar==42})
+		for(n:Node in nodesFromIndexSame(bar, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {baz==42})
-		{
-			res.add(n);
-		}
-
-		for(n:N in {ascending(foo)})
-		{
-			res.add(n);
-		}
-		for(n:N in {ascending(bar)})
-		{
-			res.add(n);
-		}
-		for(n:N in {ascending(baz)})
+		for(n:Node in nodesFromIndexSame(baz, 42))
 		{
 			res.add(n);
 		}
 
-		for(n:N in {descending(foo)})
+		for(n:N in nodesFromIndexAscending(foo))
 		{
 			res.add(n);
 		}
-		for(n:N in {descending(bar)})
+		for(n:N in nodesFromIndexAscending(bar))
 		{
 			res.add(n);
 		}
-		for(n:N in {descending(baz)})
+		for(n:N in nodesFromIndexAscending(baz))
+		{
+			res.add(n);
+		}
+
+		for(n:N in nodesFromIndexDescending(foo))
+		{
+			res.add(n);
+		}
+		for(n:N in nodesFromIndexDescending(bar))
+		{
+			res.add(n);
+		}
+		for(n:N in nodesFromIndexDescending(baz))
 		{
 			res.add(n);
 		}
 		
-		for(n:Node in {ascending(foo>=42)})
+		for(n:Node in nodesFromIndexFromAscending(foo, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {ascending(bar>=42)})
+		for(n:Node in nodesFromIndexFromAscending(bar, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {ascending(baz>=42)})
-		{
-			res.add(n);
-		}
-		
-		for(n:Node in {descending(foo<42)})
-		{
-			res.add(n);
-		}
-		for(n:Node in {descending(bar<42)})
-		{
-			res.add(n);
-		}
-		for(n:Node in {descending(baz<42)})
+		for(n:Node in nodesFromIndexFromAscending(baz, 42))
 		{
 			res.add(n);
 		}
 		
-		for(n:Node in {ascending(foo>=42, foo<1000)})
+		for(n:Node in nodesFromIndexFromExclusiveDescending(foo, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {ascending(bar>=42, bar<1000)})
+		for(n:Node in nodesFromIndexFromExclusiveDescending(bar, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {ascending(baz>=42, baz<1000)})
+		for(n:Node in nodesFromIndexFromExclusiveDescending(baz, 42))
+		{
+			res.add(n);
+		}
+		
+		for(n:Node in nodesFromIndexFromToExclusiveAscending(foo, 42, 1000))
+		{
+			res.add(n);
+		}
+		for(n:Node in nodesFromIndexFromToExclusiveAscending(bar, 42, 1000))
+		{
+			res.add(n);
+		}
+		for(n:Node in nodesFromIndexFromToExclusiveAscending(baz, 42, 1000))
 		{
 			res.add(n);
 		}
 
-		for(n:Node in {descending(foo>x-42, foo<=x)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(foo, x, x-42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {descending(bar>x-42, bar<=x)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(bar, x, x-42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {descending(baz>x-42, baz<=x)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(baz, x, x-42))
 		{
 			res.add(n);
 		}
 
-		for(n:Node in {descending(foo>m.i-42, foo<=m.i)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(foo, m.i, m.i-42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {descending(bar>m.i-42, bar<=m.i)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(bar, m.i, m.i-42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {descending(baz>m.i-42, baz<=m.i)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(baz, m.i, m.i-42))
 		{
 			res.add(n);
 		}
@@ -117,106 +117,106 @@ rule t(var x:int)
 		def ref res_:set<Node> = set<Node>{};
 		eval
 		{
-			for(n:Node in {foo==42})
+			for(n:Node in nodesFromIndexSame(foo, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {bar==42})
+			for(n:Node in nodesFromIndexSame(bar, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {baz==42})
-			{
-				res_.add(n);
-			}
-
-			for(n:N in {ascending(foo)})
-			{
-				res_.add(n);
-			}
-			for(n:N in {ascending(bar)})
-			{
-				res_.add(n);
-			}
-			for(n:N in {ascending(baz)})
+			for(n:Node in nodesFromIndexSame(baz, 42))
 			{
 				res_.add(n);
 			}
 
-			for(n:N in {descending(foo)})
+			for(n:N in nodesFromIndexAscending(foo))
 			{
 				res_.add(n);
 			}
-			for(n:N in {descending(bar)})
+			for(n:N in nodesFromIndexAscending(bar))
 			{
 				res_.add(n);
 			}
-			for(n:N in {descending(baz)})
+			for(n:N in nodesFromIndexAscending(baz))
+			{
+				res_.add(n);
+			}
+
+			for(n:N in nodesFromIndexDescending(foo))
+			{
+				res_.add(n);
+			}
+			for(n:N in nodesFromIndexDescending(bar))
+			{
+				res_.add(n);
+			}
+			for(n:N in nodesFromIndexDescending(baz))
 			{
 				res_.add(n);
 			}
 			
-			for(n:Node in {ascending(foo>=42)})
+			for(n:Node in nodesFromIndexFromAscending(foo, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {ascending(bar>=42)})
+			for(n:Node in nodesFromIndexFromAscending(bar, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {ascending(baz>=42)})
-			{
-				res_.add(n);
-			}
-			
-			for(n:Node in {descending(foo<42)})
-			{
-				res_.add(n);
-			}
-			for(n:Node in {descending(bar<42)})
-			{
-				res_.add(n);
-			}
-			for(n:Node in {descending(baz<42)})
+			for(n:Node in nodesFromIndexFromAscending(baz, 42))
 			{
 				res_.add(n);
 			}
 			
-			for(n:Node in {ascending(foo>=42, foo<1000)})
+			for(n:Node in nodesFromIndexFromExclusiveDescending(foo, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {ascending(bar>=42, bar<1000)})
+			for(n:Node in nodesFromIndexFromExclusiveDescending(bar, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {ascending(baz>=42, baz<1000)})
+			for(n:Node in nodesFromIndexFromExclusiveDescending(baz, 42))
+			{
+				res_.add(n);
+			}
+			
+			for(n:Node in nodesFromIndexFromToExclusiveAscending(foo, 42, 1000))
+			{
+				res_.add(n);
+			}
+			for(n:Node in nodesFromIndexFromToExclusiveAscending(bar, 42, 1000))
+			{
+				res_.add(n);
+			}
+			for(n:Node in nodesFromIndexFromToExclusiveAscending(baz, 42, 1000))
 			{
 				res_.add(n);
 			}
 
-			for(n:Node in {descending(foo>x-42, foo<=x)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(foo, x, x-42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {descending(bar>x-42, bar<=x)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(bar, x, x-42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {descending(baz>x-42, baz<=x)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(baz, x, x-42))
 			{
 				res_.add(n);
 			}
 
-			for(n:Node in {descending(foo>m.i-42, foo<=m.i)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(foo, m.i, m.i-42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {descending(bar>m.i-42, bar<=m.i)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(bar, m.i, m.i-42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {descending(baz>m.i-42, baz<=m.i)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(baz, m.i, m.i-42))
 			{
 				res_.add(n);
 			}
@@ -231,106 +231,106 @@ rule t2(var x:int)
 	def ref res:set<Node> = set<Node>{};
 	yield
 	{
-		for(n:Node in {foo2==42})
+		for(n:Node in nodesFromIndexSame(foo2, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {bar2==42})
+		for(n:Node in nodesFromIndexSame(bar2, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {baz2==42})
-		{
-			res.add(n);
-		}
-
-		for(n:N in {ascending(foo2)})
-		{
-			res.add(n);
-		}
-		for(n:N in {ascending(bar2)})
-		{
-			res.add(n);
-		}
-		for(n:N in {ascending(baz2)})
+		for(n:Node in nodesFromIndexSame(baz2, 42))
 		{
 			res.add(n);
 		}
 
-		for(n:N in {descending(foo2)})
+		for(n:N in nodesFromIndexAscending(foo2))
 		{
 			res.add(n);
 		}
-		for(n:N in {descending(bar2)})
+		for(n:N in nodesFromIndexAscending(bar2))
 		{
 			res.add(n);
 		}
-		for(n:N in {descending(baz2)})
+		for(n:N in nodesFromIndexAscending(baz2))
+		{
+			res.add(n);
+		}
+
+		for(n:N in nodesFromIndexDescending(foo2))
+		{
+			res.add(n);
+		}
+		for(n:N in nodesFromIndexDescending(bar2))
+		{
+			res.add(n);
+		}
+		for(n:N in nodesFromIndexDescending(baz2))
 		{
 			res.add(n);
 		}
 		
-		for(n:Node in {ascending(foo2>=42)})
+		for(n:Node in nodesFromIndexFromAscending(foo2, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {ascending(bar2>=42)})
+		for(n:Node in nodesFromIndexFromAscending(bar2, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {ascending(baz2>=42)})
-		{
-			res.add(n);
-		}
-		
-		for(n:Node in {descending(foo2<42)})
-		{
-			res.add(n);
-		}
-		for(n:Node in {descending(bar2<42)})
-		{
-			res.add(n);
-		}
-		for(n:Node in {descending(baz2<42)})
+		for(n:Node in nodesFromIndexFromAscending(baz2, 42))
 		{
 			res.add(n);
 		}
 		
-		for(n:Node in {ascending(foo2>=42, foo2<1000)})
+		for(n:Node in nodesFromIndexFromExclusiveDescending(foo2, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {ascending(bar2>=42, bar2<1000)})
+		for(n:Node in nodesFromIndexFromExclusiveDescending(bar2, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {ascending(baz2>=42, baz2<1000)})
+		for(n:Node in nodesFromIndexFromExclusiveDescending(baz2, 42))
+		{
+			res.add(n);
+		}
+		
+		for(n:Node in nodesFromIndexFromToExclusiveAscending(foo2, 42, 1000))
+		{
+			res.add(n);
+		}
+		for(n:Node in nodesFromIndexFromToExclusiveAscending(bar2, 42, 1000))
+		{
+			res.add(n);
+		}
+		for(n:Node in nodesFromIndexFromToExclusiveAscending(baz2, 42, 1000))
 		{
 			res.add(n);
 		}
 
-		for(n:Node in {descending(foo2>x-42, foo2<=x)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(foo2, x, x-42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {descending(bar2>x-42, bar2<=x)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(bar2, x, x-42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {descending(baz2>x-42, baz2<=x)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(baz2, x, x-42))
 		{
 			res.add(n);
 		}
 
-		for(n:Node in {descending(foo2>m.i-42, foo2<=m.i)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(foo2, m.i, m.i-42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {descending(bar2>m.i-42, bar2<=m.i)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(bar2, m.i, m.i-42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {descending(baz2>m.i-42, baz2<=m.i)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(baz2, m.i, m.i-42))
 		{
 			res.add(n);
 		}
@@ -341,106 +341,106 @@ rule t2(var x:int)
 		def ref res_:set<Node> = set<Node>{};
 		eval
 		{
-			for(n:Node in {foo2==42})
+			for(n:Node in nodesFromIndexSame(foo2, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {bar2==42})
+			for(n:Node in nodesFromIndexSame(bar2, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {baz2==42})
-			{
-				res_.add(n);
-			}
-
-			for(n:N in {ascending(foo2)})
-			{
-				res_.add(n);
-			}
-			for(n:N in {ascending(bar2)})
-			{
-				res_.add(n);
-			}
-			for(n:N in {ascending(baz2)})
+			for(n:Node in nodesFromIndexSame(baz2, 42))
 			{
 				res_.add(n);
 			}
 
-			for(n:N in {descending(foo2)})
+			for(n:N in nodesFromIndexAscending(foo2))
 			{
 				res_.add(n);
 			}
-			for(n:N in {descending(bar2)})
+			for(n:N in nodesFromIndexAscending(bar2))
 			{
 				res_.add(n);
 			}
-			for(n:N in {descending(baz2)})
+			for(n:N in nodesFromIndexAscending(baz2))
+			{
+				res_.add(n);
+			}
+
+			for(n:N in nodesFromIndexDescending(foo2))
+			{
+				res_.add(n);
+			}
+			for(n:N in nodesFromIndexDescending(bar2))
+			{
+				res_.add(n);
+			}
+			for(n:N in nodesFromIndexDescending(baz2))
 			{
 				res_.add(n);
 			}
 			
-			for(n:Node in {ascending(foo2>=42)})
+			for(n:Node in nodesFromIndexFromAscending(foo2, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {ascending(bar2>=42)})
+			for(n:Node in nodesFromIndexFromAscending(bar2, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {ascending(baz2>=42)})
-			{
-				res_.add(n);
-			}
-			
-			for(n:Node in {descending(foo2<42)})
-			{
-				res_.add(n);
-			}
-			for(n:Node in {descending(bar2<42)})
-			{
-				res_.add(n);
-			}
-			for(n:Node in {descending(baz2<42)})
+			for(n:Node in nodesFromIndexFromAscending(baz2, 42))
 			{
 				res_.add(n);
 			}
 			
-			for(n:Node in {ascending(foo2>=42, foo2<1000)})
+			for(n:Node in nodesFromIndexFromExclusiveDescending(foo2, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {ascending(bar2>=42, bar2<1000)})
+			for(n:Node in nodesFromIndexFromExclusiveDescending(bar2, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {ascending(baz2>=42, baz2<1000)})
+			for(n:Node in nodesFromIndexFromExclusiveDescending(baz2, 42))
+			{
+				res_.add(n);
+			}
+			
+			for(n:Node in nodesFromIndexFromToExclusiveAscending(foo2, 42, 1000))
+			{
+				res_.add(n);
+			}
+			for(n:Node in nodesFromIndexFromToExclusiveAscending(bar2, 42, 1000))
+			{
+				res_.add(n);
+			}
+			for(n:Node in nodesFromIndexFromToExclusiveAscending(baz2, 42, 1000))
 			{
 				res_.add(n);
 			}
 
-			for(n:Node in {descending(foo2>x-42, foo2<=x)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(foo2, x, x-42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {descending(bar2>x-42, bar2<=x)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(bar2, x, x-42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {descending(baz2>x-42, baz2<=x)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(baz2, x, x-42))
 			{
 				res_.add(n);
 			}
 
-			for(n:Node in {descending(foo2>m.i-42, foo2<=m.i)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(foo2, m.i, m.i-42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {descending(bar2>m.i-42, bar2<=m.i)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(bar2, m.i, m.i-42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {descending(baz2>m.i-42, baz2<=m.i)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(baz2, m.i, m.i-42))
 			{
 				res_.add(n);
 			}
@@ -455,106 +455,106 @@ rule t3(var x:int)
 	def ref res:set<Node> = set<Node>{};
 	yield
 	{
-		for(n:Node in {foo3==42})
-		{
-			res.add(n);
-		}		
-		for(n:Node in {bar3==42})
+		for(n:Node in nodesFromIndexSame(foo3, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {baz3==42})
+		for(n:Node in nodesFromIndexSame(bar3, 42))
 		{
 			res.add(n);
 		}
-
-		for(n:N in {ascending(foo3)})
-		{
-			res.add(n);
-		}
-		for(n:N in {ascending(bar3)})
-		{
-			res.add(n);
-		}
-		for(n:N in {ascending(baz3)})
+		for(n:Node in nodesFromIndexSame(baz3, 42))
 		{
 			res.add(n);
 		}
 
-		for(n:N in {descending(foo3)})
+		for(n:N in nodesFromIndexAscending(foo3))
 		{
 			res.add(n);
 		}
-		for(n:N in {descending(bar3)})
+		for(n:N in nodesFromIndexAscending(bar3))
 		{
 			res.add(n);
 		}
-		for(n:N in {descending(baz3)})
+		for(n:N in nodesFromIndexAscending(baz3))
+		{
+			res.add(n);
+		}
+
+		for(n:N in nodesFromIndexDescending(foo3))
+		{
+			res.add(n);
+		}
+		for(n:N in nodesFromIndexDescending(bar3))
+		{
+			res.add(n);
+		}
+		for(n:N in nodesFromIndexDescending(baz3))
 		{
 			res.add(n);
 		}
 		
-		for(n:Node in {ascending(foo3>=42)})
+		for(n:Node in nodesFromIndexFromAscending(foo3, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {ascending(bar3>=42)})
+		for(n:Node in nodesFromIndexFromAscending(bar3, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {ascending(baz3>=42)})
-		{
-			res.add(n);
-		}
-		
-		for(n:Node in {descending(foo3<42)})
-		{
-			res.add(n);
-		}
-		for(n:Node in {descending(bar3<42)})
-		{
-			res.add(n);
-		}
-		for(n:Node in {descending(baz3<42)})
+		for(n:Node in nodesFromIndexFromAscending(baz3, 42))
 		{
 			res.add(n);
 		}
 		
-		for(n:Node in {ascending(foo3>=42, foo3<1000)})
+		for(n:Node in nodesFromIndexFromExclusiveDescending(foo3, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {ascending(bar3>=42, bar3<1000)})
+		for(n:Node in nodesFromIndexFromExclusiveDescending(bar3, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {ascending(baz3>=42, baz3<1000)})
+		for(n:Node in nodesFromIndexFromExclusiveDescending(baz3, 42))
+		{
+			res.add(n);
+		}
+		
+		for(n:Node in nodesFromIndexFromToExclusiveAscending(foo3, 42, 1000))
+		{
+			res.add(n);
+		}
+		for(n:Node in nodesFromIndexFromToExclusiveAscending(bar3, 42, 1000))
+		{
+			res.add(n);
+		}
+		for(n:Node in nodesFromIndexFromToExclusiveAscending(baz3, 42, 1000))
 		{
 			res.add(n);
 		}
 
-		for(n:Node in {descending(foo3>x-42, foo3<=x)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(foo3, x, x-42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {descending(bar3>x-42, bar3<=x)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(bar3, x, x-42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {descending(baz3>x-42, baz3<=x)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(baz3, x, x-42))
 		{
 			res.add(n);
 		}
 
-		for(n:Node in {descending(foo3>m.i-42, foo3<=m.i)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(foo3, m.i, m.i-42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {descending(bar3>m.i-42, bar3<=m.i)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(bar3, m.i, m.i-42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {descending(baz3>m.i-42, baz3<=m.i)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(baz3, m.i, m.i-42))
 		{
 			res.add(n);
 		}
@@ -565,106 +565,106 @@ rule t3(var x:int)
 		def ref res_:set<Node> = set<Node>{};
 		eval
 		{
-			for(n:Node in {foo3==42})
-			{
-				res_.add(n);
-			}		
-			for(n:Node in {bar3==42})
+			for(n:Node in nodesFromIndexSame(foo3, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {baz3==42})
+			for(n:Node in nodesFromIndexSame(bar3, 42))
 			{
 				res_.add(n);
 			}
-
-			for(n:N in {ascending(foo3)})
-			{
-				res_.add(n);
-			}
-			for(n:N in {ascending(bar3)})
-			{
-				res_.add(n);
-			}
-			for(n:N in {ascending(baz3)})
+			for(n:Node in nodesFromIndexSame(baz3, 42))
 			{
 				res_.add(n);
 			}
 
-			for(n:N in {descending(foo3)})
+			for(n:N in nodesFromIndexAscending(foo3))
 			{
 				res_.add(n);
 			}
-			for(n:N in {descending(bar3)})
+			for(n:N in nodesFromIndexAscending(bar3))
 			{
 				res_.add(n);
 			}
-			for(n:N in {descending(baz3)})
+			for(n:N in nodesFromIndexAscending(baz3))
+			{
+				res_.add(n);
+			}
+
+			for(n:N in nodesFromIndexDescending(foo3))
+			{
+				res_.add(n);
+			}
+			for(n:N in nodesFromIndexDescending(bar3))
+			{
+				res_.add(n);
+			}
+			for(n:N in nodesFromIndexDescending(baz3))
 			{
 				res_.add(n);
 			}
 			
-			for(n:Node in {ascending(foo3>=42)})
+			for(n:Node in nodesFromIndexFromAscending(foo3, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {ascending(bar3>=42)})
+			for(n:Node in nodesFromIndexFromAscending(bar3, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {ascending(baz3>=42)})
-			{
-				res_.add(n);
-			}
-			
-			for(n:Node in {descending(foo3<42)})
-			{
-				res_.add(n);
-			}
-			for(n:Node in {descending(bar3<42)})
-			{
-				res_.add(n);
-			}
-			for(n:Node in {descending(baz3<42)})
+			for(n:Node in nodesFromIndexFromAscending(baz3, 42))
 			{
 				res_.add(n);
 			}
 			
-			for(n:Node in {ascending(foo3>=42, foo3<1000)})
+			for(n:Node in nodesFromIndexFromExclusiveDescending(foo3, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {ascending(bar3>=42, bar3<1000)})
+			for(n:Node in nodesFromIndexFromExclusiveDescending(bar3, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {ascending(baz3>=42, baz3<1000)})
+			for(n:Node in nodesFromIndexFromExclusiveDescending(baz3, 42))
+			{
+				res_.add(n);
+			}
+			
+			for(n:Node in nodesFromIndexFromToExclusiveAscending(foo3, 42, 1000))
+			{
+				res_.add(n);
+			}
+			for(n:Node in nodesFromIndexFromToExclusiveAscending(bar3, 42, 1000))
+			{
+				res_.add(n);
+			}
+			for(n:Node in nodesFromIndexFromToExclusiveAscending(baz3, 42, 1000))
 			{
 				res_.add(n);
 			}
 
-			for(n:Node in {descending(foo3>x-42, foo3<=x)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(foo3, x, x-42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {descending(bar3>x-42, bar3<=x)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(bar3, x, x-42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {descending(baz3>x-42, baz3<=x)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(baz3, x, x-42))
 			{
 				res_.add(n);
 			}
 
-			for(n:Node in {descending(foo3>m.i-42, foo3<=m.i)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(foo3, m.i, m.i-42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {descending(bar3>m.i-42, bar3<=m.i)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(bar3, m.i, m.i-42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {descending(baz3>m.i-42, baz3<=m.i)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(baz3, m.i, m.i-42))
 			{
 				res_.add(n);
 			}
@@ -679,106 +679,106 @@ rule t4(var x:int)
 	def ref res:set<Node> = set<Node>{};
 	yield
 	{
-		for(n:Node in {foo4==42})
+		for(n:Node in nodesFromIndexSame(foo4, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {bar4==42})
+		for(n:Node in nodesFromIndexSame(bar4, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {baz4==42})
-		{
-			res.add(n);
-		}
-
-		for(n:N in {ascending(foo4)})
-		{
-			res.add(n);
-		}
-		for(n:N in {ascending(bar4)})
-		{
-			res.add(n);
-		}
-		for(n:N in {ascending(baz4)})
+		for(n:Node in nodesFromIndexSame(baz4, 42))
 		{
 			res.add(n);
 		}
 
-		for(n:N in {descending(foo4)})
+		for(n:N in nodesFromIndexAscending(foo4))
 		{
 			res.add(n);
 		}
-		for(n:N in {descending(bar4)})
+		for(n:N in nodesFromIndexAscending(bar4))
 		{
 			res.add(n);
 		}
-		for(n:N in {descending(baz4)})
+		for(n:N in nodesFromIndexAscending(baz4))
+		{
+			res.add(n);
+		}
+
+		for(n:N in nodesFromIndexDescending(foo4))
+		{
+			res.add(n);
+		}
+		for(n:N in nodesFromIndexDescending(bar4))
+		{
+			res.add(n);
+		}
+		for(n:N in nodesFromIndexDescending(baz4))
 		{
 			res.add(n);
 		}
 		
-		for(n:Node in {ascending(foo4>=42)})
+		for(n:Node in nodesFromIndexFromAscending(foo4, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {ascending(bar4>=42)})
+		for(n:Node in nodesFromIndexFromAscending(bar4, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {ascending(baz4>=42)})
-		{
-			res.add(n);
-		}
-		
-		for(n:Node in {descending(foo4<42)})
-		{
-			res.add(n);
-		}
-		for(n:Node in {descending(bar4<42)})
-		{
-			res.add(n);
-		}
-		for(n:Node in {descending(baz4<42)})
+		for(n:Node in nodesFromIndexFromAscending(baz4, 42))
 		{
 			res.add(n);
 		}
 		
-		for(n:Node in {ascending(foo4>=42, foo4<1000)})
+		for(n:Node in nodesFromIndexFromExclusiveDescending(foo4, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {ascending(bar4>=42, bar4<1000)})
+		for(n:Node in nodesFromIndexFromExclusiveDescending(bar4, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {ascending(baz4>=42, baz4<1000)})
+		for(n:Node in nodesFromIndexFromExclusiveDescending(baz4, 42))
+		{
+			res.add(n);
+		}
+		
+		for(n:Node in nodesFromIndexFromToExclusiveAscending(foo4, 42, 1000))
+		{
+			res.add(n);
+		}
+		for(n:Node in nodesFromIndexFromToExclusiveAscending(bar4, 42, 1000))
+		{
+			res.add(n);
+		}
+		for(n:Node in nodesFromIndexFromToExclusiveAscending(baz4, 42, 1000))
 		{
 			res.add(n);
 		}
 
-		for(n:Node in {descending(foo4>x-42, foo4<=x)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(foo4, x, x-42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {descending(bar4>x-42, bar4<=x)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(bar4, x, x-42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {descending(baz4>x-42, baz4<=x)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(baz4, x, x-42))
 		{
 			res.add(n);
 		}
 
-		for(n:Node in {descending(foo4>m.i-42, foo4<=m.i)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(foo4, m.i, m.i-42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {descending(bar4>m.i-42, bar4<=m.i)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(bar4, m.i, m.i-42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {descending(baz4>m.i-42, baz4<=m.i)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(baz4, m.i, m.i-42))
 		{
 			res.add(n);
 		}
@@ -789,106 +789,106 @@ rule t4(var x:int)
 		def ref res_:set<Node> = set<Node>{};
 		eval
 		{
-			for(n:Node in {foo4==42})
+			for(n:Node in nodesFromIndexSame(foo4, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {bar4==42})
+			for(n:Node in nodesFromIndexSame(bar4, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {baz4==42})
-			{
-				res_.add(n);
-			}
-
-			for(n:N in {ascending(foo4)})
-			{
-				res_.add(n);
-			}
-			for(n:N in {ascending(bar4)})
-			{
-				res_.add(n);
-			}
-			for(n:N in {ascending(baz4)})
+			for(n:Node in nodesFromIndexSame(baz4, 42))
 			{
 				res_.add(n);
 			}
 
-			for(n:N in {descending(foo4)})
+			for(n:N in nodesFromIndexAscending(foo4))
 			{
 				res_.add(n);
 			}
-			for(n:N in {descending(bar4)})
+			for(n:N in nodesFromIndexAscending(bar4))
 			{
 				res_.add(n);
 			}
-			for(n:N in {descending(baz4)})
+			for(n:N in nodesFromIndexAscending(baz4))
+			{
+				res_.add(n);
+			}
+
+			for(n:N in nodesFromIndexDescending(foo4))
+			{
+				res_.add(n);
+			}
+			for(n:N in nodesFromIndexDescending(bar4))
+			{
+				res_.add(n);
+			}
+			for(n:N in nodesFromIndexDescending(baz4))
 			{
 				res_.add(n);
 			}
 			
-			for(n:Node in {ascending(foo4>=42)})
+			for(n:Node in nodesFromIndexFromAscending(foo4, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {ascending(bar4>=42)})
+			for(n:Node in nodesFromIndexFromAscending(bar4, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {ascending(baz4>=42)})
-			{
-				res_.add(n);
-			}
-			
-			for(n:Node in {descending(foo4<42)})
-			{
-				res_.add(n);
-			}
-			for(n:Node in {descending(bar4<42)})
-			{
-				res_.add(n);
-			}
-			for(n:Node in {descending(baz4<42)})
+			for(n:Node in nodesFromIndexFromAscending(baz4, 42))
 			{
 				res_.add(n);
 			}
 			
-			for(n:Node in {ascending(foo4>=42, foo4<1000)})
+			for(n:Node in nodesFromIndexFromExclusiveDescending(foo4, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {ascending(bar4>=42, bar4<1000)})
+			for(n:Node in nodesFromIndexFromExclusiveDescending(bar4, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {ascending(baz4>=42, baz4<1000)})
+			for(n:Node in nodesFromIndexFromExclusiveDescending(baz4, 42))
+			{
+				res_.add(n);
+			}
+			
+			for(n:Node in nodesFromIndexFromToExclusiveAscending(foo4, 42, 1000))
+			{
+				res_.add(n);
+			}
+			for(n:Node in nodesFromIndexFromToExclusiveAscending(bar4, 42, 1000))
+			{
+				res_.add(n);
+			}
+			for(n:Node in nodesFromIndexFromToExclusiveAscending(baz4, 42, 1000))
 			{
 				res_.add(n);
 			}
 
-			for(n:Node in {descending(foo4>x-42, foo4<=x)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(foo4, x, x-42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {descending(bar4>x-42, bar4<=x)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(bar4, x, x-42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {descending(baz4>x-42, baz4<=x)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(baz4, x, x-42))
 			{
 				res_.add(n);
 			}
 
-			for(n:Node in {descending(foo4>m.i-42, foo4<=m.i)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(foo4, m.i, m.i-42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {descending(bar4>m.i-42, bar4<=m.i)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(bar4, m.i, m.i-42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {descending(baz4>m.i-42, baz4<=m.i)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(baz4, m.i, m.i-42))
 			{
 				res_.add(n);
 			}
@@ -903,106 +903,106 @@ rule t5(var x:int)
 	def ref res:set<Node> = set<Node>{};
 	yield
 	{
-		for(n:Node in {foo5==42})
+		for(n:Node in nodesFromIndexSame(foo5, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {bar5==42})
+		for(n:Node in nodesFromIndexSame(bar5, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {baz5==42})
-		{
-			res.add(n);
-		}
-
-		for(n:N in {ascending(foo5)})
-		{
-			res.add(n);
-		}
-		for(n:N in {ascending(bar5)})
-		{
-			res.add(n);
-		}
-		for(n:N in {ascending(baz5)})
+		for(n:Node in nodesFromIndexSame(baz5, 42))
 		{
 			res.add(n);
 		}
 
-		for(n:N in {descending(foo5)})
+		for(n:N in nodesFromIndexAscending(foo5))
 		{
 			res.add(n);
 		}
-		for(n:N in {descending(bar5)})
+		for(n:N in nodesFromIndexAscending(bar5))
 		{
 			res.add(n);
 		}
-		for(n:N in {descending(baz5)})
+		for(n:N in nodesFromIndexAscending(baz5))
+		{
+			res.add(n);
+		}
+
+		for(n:N in nodesFromIndexDescending(foo5))
+		{
+			res.add(n);
+		}
+		for(n:N in nodesFromIndexDescending(bar5))
+		{
+			res.add(n);
+		}
+		for(n:N in nodesFromIndexDescending(baz5))
 		{
 			res.add(n);
 		}
 		
-		for(n:Node in {ascending(foo5>=42)})
+		for(n:Node in nodesFromIndexFromAscending(foo5, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {ascending(bar5>=42)})
+		for(n:Node in nodesFromIndexFromAscending(bar5, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {ascending(baz5>=42)})
-		{
-			res.add(n);
-		}
-		
-		for(n:Node in {descending(foo5<42)})
-		{
-			res.add(n);
-		}
-		for(n:Node in {descending(bar5<42)})
-		{
-			res.add(n);
-		}
-		for(n:Node in {descending(baz5<42)})
+		for(n:Node in nodesFromIndexFromAscending(baz5, 42))
 		{
 			res.add(n);
 		}
 		
-		for(n:Node in {ascending(foo5>=42, foo5<1000)})
+		for(n:Node in nodesFromIndexFromExclusiveDescending(foo5, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {ascending(bar5>=42, bar5<1000)})
+		for(n:Node in nodesFromIndexFromExclusiveDescending(bar5, 42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {ascending(baz5>=42, baz5<1000)})
+		for(n:Node in nodesFromIndexFromExclusiveDescending(baz5, 42))
+		{
+			res.add(n);
+		}
+		
+		for(n:Node in nodesFromIndexFromToExclusiveAscending(foo5, 42, 1000))
+		{
+			res.add(n);
+		}
+		for(n:Node in nodesFromIndexFromToExclusiveAscending(bar5, 42, 1000))
+		{
+			res.add(n);
+		}
+		for(n:Node in nodesFromIndexFromToExclusiveAscending(baz5, 42, 1000))
 		{
 			res.add(n);
 		}
 
-		for(n:Node in {descending(foo5>x-42, foo5<=x)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(foo5, x, x-42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {descending(bar5>x-42, bar5<=x)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(bar5, x, x-42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {descending(baz5>x-42, baz5<=x)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(baz5, x, x-42))
 		{
 			res.add(n);
 		}
 
-		for(n:Node in {descending(foo5>m.i-42, foo5<=m.i)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(foo5, m.i, m.i-42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {descending(bar5>m.i-42, bar5<=m.i)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(bar5, m.i, m.i-42))
 		{
 			res.add(n);
 		}
-		for(n:Node in {descending(baz5>m.i-42, baz5<=m.i)})
+		for(n:Node in nodesFromIndexFromToExclusiveDescending(baz5, m.i, m.i-42))
 		{
 			res.add(n);
 		}
@@ -1013,106 +1013,106 @@ rule t5(var x:int)
 		def ref res_:set<Node> = set<Node>{};
 		eval
 		{
-			for(n:Node in {foo5==42})
+			for(n:Node in nodesFromIndexSame(foo5, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {bar5==42})
+			for(n:Node in nodesFromIndexSame(bar5, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {baz5==42})
-			{
-				res_.add(n);
-			}
-
-			for(n:N in {ascending(foo5)})
-			{
-				res_.add(n);
-			}
-			for(n:N in {ascending(bar5)})
-			{
-				res_.add(n);
-			}
-			for(n:N in {ascending(baz5)})
+			for(n:Node in nodesFromIndexSame(baz5, 42))
 			{
 				res_.add(n);
 			}
 
-			for(n:N in {descending(foo5)})
+			for(n:N in nodesFromIndexAscending(foo5))
 			{
 				res_.add(n);
 			}
-			for(n:N in {descending(bar5)})
+			for(n:N in nodesFromIndexAscending(bar5))
 			{
 				res_.add(n);
 			}
-			for(n:N in {descending(baz5)})
+			for(n:N in nodesFromIndexAscending(baz5))
+			{
+				res_.add(n);
+			}
+
+			for(n:N in nodesFromIndexDescending(foo5))
+			{
+				res_.add(n);
+			}
+			for(n:N in nodesFromIndexDescending(bar5))
+			{
+				res_.add(n);
+			}
+			for(n:N in nodesFromIndexDescending(baz5))
 			{
 				res_.add(n);
 			}
 			
-			for(n:Node in {ascending(foo5>=42)})
+			for(n:Node in nodesFromIndexFromAscending(foo5, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {ascending(bar5>=42)})
+			for(n:Node in nodesFromIndexFromAscending(bar5, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {ascending(baz5>=42)})
-			{
-				res_.add(n);
-			}
-			
-			for(n:Node in {descending(foo5<42)})
-			{
-				res_.add(n);
-			}
-			for(n:Node in {descending(bar5<42)})
-			{
-				res_.add(n);
-			}
-			for(n:Node in {descending(baz5<42)})
+			for(n:Node in nodesFromIndexFromAscending(baz5, 42))
 			{
 				res_.add(n);
 			}
 			
-			for(n:Node in {ascending(foo5>=42, foo5<1000)})
+			for(n:Node in nodesFromIndexFromExclusiveDescending(foo5, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {ascending(bar5>=42, bar5<1000)})
+			for(n:Node in nodesFromIndexFromExclusiveDescending(bar5, 42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {ascending(baz5>=42, baz5<1000)})
+			for(n:Node in nodesFromIndexFromExclusiveDescending(baz5, 42))
+			{
+				res_.add(n);
+			}
+			
+			for(n:Node in nodesFromIndexFromToExclusiveAscending(foo5, 42, 1000))
+			{
+				res_.add(n);
+			}
+			for(n:Node in nodesFromIndexFromToExclusiveAscending(bar5, 42, 1000))
+			{
+				res_.add(n);
+			}
+			for(n:Node in nodesFromIndexFromToExclusiveAscending(baz5, 42, 1000))
 			{
 				res_.add(n);
 			}
 
-			for(n:Node in {descending(foo5>x-42, foo5<=x)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(foo5, x, x-42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {descending(bar5>x-42, bar5<=x)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(bar5, x, x-42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {descending(baz5>x-42, baz5<=x)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(baz5, x, x-42))
 			{
 				res_.add(n);
 			}
 
-			for(n:Node in {descending(foo5>m.i-42, foo5<=m.i)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(foo5, m.i, m.i-42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {descending(bar5>m.i-42, bar5<=m.i)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(bar5, m.i, m.i-42))
 			{
 				res_.add(n);
 			}
-			for(n:Node in {descending(baz5>m.i-42, baz5<=m.i)})
+			for(n:Node in nodesFromIndexFromToExclusiveDescending(baz5, m.i, m.i-42))
 			{
 				res_.add(n);
 			}

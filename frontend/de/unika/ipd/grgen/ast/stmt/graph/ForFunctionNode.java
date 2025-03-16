@@ -20,11 +20,19 @@ import de.unika.ipd.grgen.ast.expr.graph.AdjacentNodeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.BoundedReachableEdgeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.BoundedReachableNodeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EdgesExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessFromToAsArrayExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessMultipleFromToExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.EdgesFromIndexAccessSameExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.IncidentEdgeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.NodesExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessFromToAsArrayExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessMultipleFromToExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.NodesFromIndexAccessSameExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.ReachableEdgeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.ReachableNodeExprNode;
 import de.unika.ipd.grgen.ast.expr.invocation.FunctionInvocationDecisionNode;
+import de.unika.ipd.grgen.ast.expr.invocation.FunctionOrBuiltinFunctionInvocationBaseNode;
+import de.unika.ipd.grgen.ast.expr.invocation.IndexFunctionInvocationDecisionNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.stmt.graph.ForFunction;
@@ -43,14 +51,18 @@ public class ForFunctionNode extends ForGraphQueryNode
 	}
 
 	FunctionInvocationDecisionNode function;
+	IndexFunctionInvocationDecisionNode indexFunction;
 
 	
-	public ForFunctionNode(Coords coords, BaseNode iterationVariable, FunctionInvocationDecisionNode function,
+	public ForFunctionNode(Coords coords, BaseNode iterationVariable, FunctionOrBuiltinFunctionInvocationBaseNode function,
 			CollectNode<EvalStatementNode> loopedStatements)
 	{
 		super(coords, iterationVariable, loopedStatements);
-		this.function = function;
-		becomeParent(this.function);
+		if(function instanceof FunctionInvocationDecisionNode) { 
+			this.function = becomeParent((FunctionInvocationDecisionNode)function);
+		} else {
+			this.indexFunction = becomeParent((IndexFunctionInvocationDecisionNode)function);
+		}
 	}
 
 	/** returns children of this node */
@@ -59,7 +71,7 @@ public class ForFunctionNode extends ForGraphQueryNode
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(iterationVariableUnresolved, iterationVariable));
-		children.add(function);
+		children.add(function != null ? function : indexFunction);
 		children.add(statements);
 		return children;
 	}
@@ -89,34 +101,66 @@ public class ForFunctionNode extends ForGraphQueryNode
 			return false;
 		}
 
-		if(function.getResult() instanceof IncidentEdgeExprNode) {
-			return true;
-		} else if(function.getResult() instanceof AdjacentNodeExprNode) {
-			return true;
-		} else if(function.getResult() instanceof ReachableEdgeExprNode) {
-			return true;
-		} else if(function.getResult() instanceof ReachableNodeExprNode) {
-			return true;
-		} else if(function.getResult() instanceof BoundedReachableEdgeExprNode) {
-			return true;
-		} else if(function.getResult() instanceof BoundedReachableNodeExprNode) {
-			return true;
-		} else if(function.getResult() instanceof NodesExprNode) {
-			return true;
-		} else if(function.getResult() instanceof EdgesExprNode) {
-			return true;
+		if(function != null) {
+			if(function.getResult() instanceof IncidentEdgeExprNode) {
+				return true;
+			} else if(function.getResult() instanceof AdjacentNodeExprNode) {
+				return true;
+			} else if(function.getResult() instanceof ReachableEdgeExprNode) {
+				return true;
+			} else if(function.getResult() instanceof ReachableNodeExprNode) {
+				return true;
+			} else if(function.getResult() instanceof BoundedReachableEdgeExprNode) {
+				return true;
+			} else if(function.getResult() instanceof BoundedReachableNodeExprNode) {
+				return true;
+			} else if(function.getResult() instanceof NodesExprNode) {
+				return true;
+			} else if(function.getResult() instanceof EdgesExprNode) {
+				return true;
+			} else {
+				reportError("Unkonwn function " + function.functionIdent + " in for function loop"
+						+ " (expected is one of "
+						+ "incident, incoming, outgoing, "
+						+ "adjacent, adjacentIncoming, adjacentOutgoing, "
+						+ "reachableEdges, reachableEdgesIncoming, reachableEdgesOutgoing, "
+						+ "reachable, reachableIncoming, reachableOutgoing, "
+						+ "boundedReachableEdges, boundedReachableEdgesIncoming, boundedReachableEdgesOutgoing, "
+						+ "boundedReachable, boundedReachableIncoming, boundedReachableOutgoing, "
+						+ "nodes, edges"
+						+ ").");
+				return false;
+			}
 		} else {
-			reportError("Unkonwn function " + function.functionIdent + " in for function loop"
-					+ " (expected is one of "
-					+ "incident, incoming, outgoing, "
-					+ "adjacent, adjacentIncoming, adjacentOutgoing, "
-					+ "reachableEdges, reachableEdgesIncoming, reachableEdgesOutgoing, "
-					+ "reachable, reachableIncoming, reachableOutgoing, "
-					+ "boundedReachableEdges, boundedReachableEdgesIncoming, boundedReachableEdgesOutgoing, "
-					+ "boundedReachable, boundedReachableIncoming, boundedReachableOutgoing, "
-					+ "nodes, edges"
-					+ ").");
-			return false;
+			if(indexFunction.getResult() instanceof NodesFromIndexAccessSameExprNode) {
+				return true;
+			} else if(indexFunction.getResult() instanceof EdgesFromIndexAccessSameExprNode) {
+				return true;
+			} else if(indexFunction.getResult() instanceof NodesFromIndexAccessFromToAsArrayExprNode) {
+				return true;
+			} else if(indexFunction.getResult() instanceof EdgesFromIndexAccessFromToAsArrayExprNode) {
+				return true;
+			} else if(indexFunction.getResult() instanceof NodesFromIndexAccessMultipleFromToExprNode) {
+				return true;
+			} else if(indexFunction.getResult() instanceof EdgesFromIndexAccessMultipleFromToExprNode) {
+				return true;
+			} else {
+				reportError("Unkonwn index function " + function.functionIdent + " in for function loop"
+						+ " (expected is one of "
+						+ "nodesFromIndexSame, edgesFromIndexSame, "
+						+ "nodesFromIndexAscending, nodesFromIndexDescending, edgesFromIndexAscending, edgesFromIndexDescending, "
+						+ "nodesFromIndexFromAscending, nodesFromIndexFromExclusiveAscending, nodesFromIndexToAscending, nodesFromIndexToExclusiveAscending, "
+						+ "nodesFromIndexFromDescending, nodesFromIndexFromExclusiveDescending, nodesFromIndexToDescending, nodesFromIndexToExclusiveDescending, "
+						+ "nodesFromIndexFromToAscending, nodesFromIndexFromExclusiveToAscending, nodesFromIndexFromToExclusiveAscending, nodesFromIndexFromExclusiveToExclusiveAscending, "
+						+ "nodesFromIndexFromToDescending, nodesFromIndexFromExclusiveToDescending, nodesFromIndexFromToExclusiveDescending, nodesFromIndexFromExclusiveToExclusiveDescending, "
+						+ "edgesFromIndexFromAscending, edgesFromIndexFromExclusiveAscending, edgesFromIndexToAscending, edgesFromIndexToExclusiveAscending, "
+						+ "edgesFromIndexFromDescending, edgesFromIndexFromExclusiveDescending, edgesFromIndexToDescending, edgesFromIndexToExclusiveDescending, "
+						+ "edgesFromIndexFromToAscending, edgesFromIndexFromExclusiveToAscending, edgesFromIndexFromToExclusiveAscending, edgesFromIndexFromExclusiveToExclusiveAscending, "
+						+ "edgesFromIndexFromToDescending, edgesFromIndexFromExclusiveToDescending, edgesFromIndexFromToExclusiveDescending, edgesFromIndexFromExclusiveToExclusiveDescending, "
+						+ "nodesFromIndexMultipleFromTo, edgesFromIndexMultipleFromTo"
+						+ ").");
+				return false;
+			}
 		}
 	}
 
@@ -129,7 +173,7 @@ public class ForFunctionNode extends ForGraphQueryNode
 	@Override
 	protected IR constructIR()
 	{
-		ForFunction ff = new ForFunction(iterationVariable.checkIR(Variable.class), function.checkIR(Expression.class));
+		ForFunction ff = new ForFunction(iterationVariable.checkIR(Variable.class), function != null ? function.checkIR(Expression.class) : indexFunction.checkIR(Expression.class));
 		for(EvalStatementNode accumulationStatement : statements.getChildren()) {
 			ff.addLoopedStatement(accumulationStatement.checkIR(EvalStatement.class));
 		}

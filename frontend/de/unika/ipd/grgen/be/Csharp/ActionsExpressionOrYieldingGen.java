@@ -2048,7 +2048,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 				sb.append("new GRGEN_EXPR.NodesFromIndexAccessFromTo(");
 			} else {
 				sb.append("new GRGEN_EXPR.NodesFromIndexAccessFromToAsArray(");
-				sb.append(nfiaft.isAscending() ? "true, " : "false, ");
+				sb.append(iao.ascending ? "true, " : "false, ");
 			}
 			genIndexAccessOrdering(sb, iao, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
@@ -2069,7 +2069,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 				sb.append("new GRGEN_EXPR.EdgesFromIndexAccessFromTo(");
 			} else {
 				sb.append("new GRGEN_EXPR.EdgesFromIndexAccessFromToAsArray(");
-				sb.append(efiaft.isAscending() ? "true, " : "false, ");
+				sb.append(iao.ascending ? "true, " : "false, ");
 			}
 			genIndexAccessOrdering(sb, iao, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
@@ -3063,6 +3063,36 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			EdgesExpr edgesExpr = (EdgesExpr)ff.getFunction();
 			SourceBuilder sbtmp = new SourceBuilder();
 			genExpressionTree(sbtmp, edgesExpr, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(sbtmp.toString() + ", ");
+		} else if(ff.getFunction() instanceof NodesFromIndexAccessSameExpr) {
+			NodesFromIndexAccessSameExpr fromIndexExpr = (NodesFromIndexAccessSameExpr)ff.getFunction();
+			SourceBuilder sbtmp = new SourceBuilder();
+			genExpressionTree(sbtmp, fromIndexExpr, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(sbtmp.toString() + ", ");
+		} else if(ff.getFunction() instanceof EdgesFromIndexAccessSameExpr) {
+			EdgesFromIndexAccessSameExpr fromIndexExpr = (EdgesFromIndexAccessSameExpr)ff.getFunction();
+			SourceBuilder sbtmp = new SourceBuilder();
+			genExpressionTree(sbtmp, fromIndexExpr, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(sbtmp.toString() + ", ");
+		} else if(ff.getFunction() instanceof NodesFromIndexAccessFromToExpr) {
+			NodesFromIndexAccessFromToExpr fromIndexExpr = (NodesFromIndexAccessFromToExpr)ff.getFunction();
+			SourceBuilder sbtmp = new SourceBuilder();
+			genExpressionTree(sbtmp, fromIndexExpr, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(sbtmp.toString() + ", ");
+		} else if(ff.getFunction() instanceof EdgesFromIndexAccessFromToExpr) {
+			EdgesFromIndexAccessFromToExpr fromIndexExpr = (EdgesFromIndexAccessFromToExpr)ff.getFunction();
+			SourceBuilder sbtmp = new SourceBuilder();
+			genExpressionTree(sbtmp, fromIndexExpr, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(sbtmp.toString() + ", ");
+		} else if(ff.getFunction() instanceof NodesFromIndexAccessMultipleFromToExpr) {
+			NodesFromIndexAccessMultipleFromToExpr fromIndexExpr = (NodesFromIndexAccessMultipleFromToExpr)ff.getFunction();
+			SourceBuilder sbtmp = new SourceBuilder();
+			genExpressionTree(sbtmp, fromIndexExpr, className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(sbtmp.toString() + ", ");
+		} else if(ff.getFunction() instanceof EdgesFromIndexAccessMultipleFromToExpr) {
+			EdgesFromIndexAccessMultipleFromToExpr fromIndexExpr = (EdgesFromIndexAccessMultipleFromToExpr)ff.getFunction();
+			SourceBuilder sbtmp = new SourceBuilder();
+			genExpressionTree(sbtmp, fromIndexExpr, className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(sbtmp.toString() + ", ");
 		}
 		sb.append("new GRGEN_EXPR.Yielding[] { ");

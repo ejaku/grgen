@@ -16,6 +16,7 @@ import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.parser.Coords;
 
+//deprecated, TODO: purge
 public abstract class ForIndexAccessNode extends ForGraphQueryNode
 {
 	static {

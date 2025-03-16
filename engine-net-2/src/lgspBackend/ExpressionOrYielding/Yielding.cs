@@ -1550,6 +1550,97 @@ namespace de.unika.ipd.grGen.expression
 
                 sourceCode.AppendFront(VariableType + " " + NamesOfEntities.Variable(Variable) + " = (" + VariableType + ") edge_" + Id + ";\n");
             }
+            else if(Function is NodesFromIndexAccessSame || Function is EdgesFromIndexAccessSame)
+            {
+                FromIndexAccessSame fromIndex = (FromIndexAccessSame)Function;
+                sourceCode.AppendFrontFormat("foreach({0} {1} in (({2})graph.Indices).{3}.Lookup(",
+                    VariableType, NamesOfEntities.Variable(Variable), fromIndex.IndexSetType, fromIndex.Index.Name);
+                fromIndex.Expr.Emit(sourceCode);
+                sourceCode.Append("))\n");
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                if(Profiling)
+                {
+                    if(Parallel)
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    else
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
+            }
+            else if(Function is NodesFromIndexAccessFromToAsArray || Function is EdgesFromIndexAccessFromToAsArray)
+            {
+                FromIndexAccessFromToAsArray fromIndex = (FromIndexAccessFromToAsArray)Function;
+                sourceCode.AppendFrontFormat("foreach({0} {1} in (({2})graph.Indices).{3}.Lookup",
+                    VariableType, NamesOfEntities.Variable(Variable), fromIndex.IndexSetType, fromIndex.Index.Name);
+
+                if(fromIndex.Ascending)
+                    sourceCode.Append("Ascending");
+                else
+                    sourceCode.Append("Descending");
+                if(fromIndex.From != null && fromIndex.To != null)
+                {
+                    sourceCode.Append("From");
+                    if(fromIndex.IncludingFrom)
+                        sourceCode.Append("Inclusive");
+                    else
+                        sourceCode.Append("Exclusive");
+                    sourceCode.Append("To");
+                    if(fromIndex.IncludingTo)
+                        sourceCode.Append("Inclusive");
+                    else
+                        sourceCode.Append("Exclusive");
+                    sourceCode.Append("(");
+                    fromIndex.From.Emit(sourceCode); ;
+                    sourceCode.Append(", ");
+                    fromIndex.To.Emit(sourceCode); ;
+                }
+                else if(fromIndex.From != null)
+                {
+                    sourceCode.Append("From");
+                    if(fromIndex.IncludingFrom)
+                        sourceCode.Append("Inclusive");
+                    else
+                        sourceCode.Append("Exclusive");
+                    sourceCode.Append("(");
+                    fromIndex.From.Emit(sourceCode); ;
+                }
+                else if(fromIndex.To != null)
+                {
+                    sourceCode.Append("To");
+                    if(fromIndex.IncludingTo)
+                        sourceCode.Append("Inclusive");
+                    else
+                        sourceCode.Append("Exclusive");
+                    sourceCode.Append("(");
+                    fromIndex.To.Emit(sourceCode); ;
+                }
+                else
+                {
+                    sourceCode.Append("(");
+                }
+
+                sourceCode.Append("))\n");
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                if(Profiling)
+                {
+                    if(Parallel)
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchStepsPerThread[threadId];\n");
+                    else
+                        sourceCode.AppendFront("++actionEnv.PerformanceInfo.SearchSteps;\n");
+                }
+            }
+            else if(Function is NodesFromIndexAccessMultipleFromTo || Function is EdgesFromIndexAccessMultipleFromTo)
+            {
+                FromIndexAccessMultipleFromTo fromIndex = (FromIndexAccessMultipleFromTo)Function;
+                sourceCode.AppendFrontFormat("foreach({0} {1} in ", VariableType, NamesOfEntities.Variable(Variable));
+                fromIndex.Emit(sourceCode);
+                sourceCode.Append(".Keys)\n");
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+            }
 
             foreach(Yielding statement in Statements)
             {

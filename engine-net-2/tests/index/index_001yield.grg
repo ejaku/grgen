@@ -4,7 +4,7 @@ rule r13 {
 ---
 	def n:N;
 	yield {
-		for(m:N in {foo==13}) {
+		for(m:N in nodesFromIndexSame(foo, 13)) {
 			yield n = m;
 			break;
 		}
@@ -20,7 +20,7 @@ rule rascending {
 ---
 	def n:N;
 	yield {
-		for(m:N in {ascending(foo)}) {
+		for(m:N in nodesFromIndexAscending(foo)) {
 			yield n = m;
 			break;
 		}
@@ -36,7 +36,7 @@ rule rdescending {
 ---
 	def n:N;
 	yield {
-		for(m:N in {descending(foo)}) {
+		for(m:N in nodesFromIndexDescending(foo)) {
 			yield n = m;
 			break;
 		}
@@ -52,7 +52,7 @@ rule rascendinglargerthan5lowerequal13 {
 ---
 	def n:N;
 	yield {
-		for(m:N in {ascending(foo>5, foo<=13)}) {
+		for(m:N in nodesFromIndexFromExclusiveToAscending(foo, 5, 13)) {
 			yield n = m;
 			break;
 		}
@@ -68,7 +68,7 @@ rule rascendinglargerequal5 {
 ---
 	def n:N;
 	yield {
-		for(m:N in {ascending(foo>=5)}) {
+		for(m:N in nodesFromIndexFromAscending(foo, 5)) {
 			yield n = m;
 			break;
 		}
@@ -84,7 +84,7 @@ rule rascendinglowerthan13 {
 ---
 	def n:N;
 	yield {
-		for(m:N in {ascending(foo<13)}) {
+		for(m:N in nodesFromIndexToExclusiveAscending(foo, 13)) {
 			yield n = m;
 			break;
 		}
@@ -100,7 +100,7 @@ rule rdescendinglowerthan13largerequal5 {
 ---
 	def n:N;
 	yield {
-		for(m:N in {descending(foo<13, foo>=5)}) {
+		for(m:N in nodesFromIndexFromExclusiveToDescending(foo, 13, 5)) {
 			yield n = m;
 			break;
 		}
@@ -116,7 +116,7 @@ rule rdescendinglowerequal13 {
 ---
 	def n:N;
 	yield {
-		for(m:N in {descending(foo<=13)}) {
+		for(m:N in nodesFromIndexFromDescending(foo, 13)) {
 			yield n = m;
 			break;
 		}
@@ -132,7 +132,7 @@ rule rdescendinglargerthan5 {
 ---
 	def n:N;
 	yield {
-		for(m:N in {descending(foo>5)}) {
+		for(m:N in nodesFromIndexToExclusiveDescending(foo, 5)) {
 			yield n = m;
 			break;
 		}

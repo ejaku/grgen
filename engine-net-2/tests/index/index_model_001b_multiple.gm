@@ -1,0 +1,8 @@
+edge class E
+{
+	i : int;
+	j : string;
+}
+
+index foo { E.i }
+index bar { E.j }

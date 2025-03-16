@@ -4041,18 +4041,23 @@ forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, boolean i
 			res = new ContainerAccumulationYieldNode(f, iterVar, iterIndex, containerIdentUse, cs);
 		}
 	| type=typeIdentUse IN
+		(
 			{ env.isKnownForFunction(input.LT(1).getText()) }?
 			function=externalFunctionInvocationExpr[namer, context, false] RPAREN
 			{
 				if(!(function instanceof FunctionInvocationDecisionNode)) // TODO: print function name
 					reportError(function.getCoords(), "Unknown function (or wrong number of arguments) in for loop iterating over a graph access function.");
 			}
+		|
+			{ env.isKnownForIndexFunction(input.LT(1).getText()) }?
+			funcIdent=funcOrExtFuncIdentUse LPAREN idx=indexIdentUse function=indexFunctionInvocationExprContinuation[funcIdent, null, idx, namer, context, false] RPAREN
+		)
 		LBRACE
 			cs=computations[onLHS, isSimple, context, directlyNestingLHSGraph]
 		RBRACE { env.popScope(); }
 		{
 			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context, null);
-			res = new ForFunctionNode(f, iterVar, (FunctionInvocationDecisionNode)function, cs);
+			res = new ForFunctionNode(f, iterVar, (FunctionOrBuiltinFunctionInvocationBaseNode)function, cs);
 		}
 	| MATCH LT actionIdent=actionIdentUse GT IN i=IDENT RPAREN
 		LBRACE
@@ -4087,6 +4092,7 @@ forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, boolean i
 		{
 			iterVar = new VarDeclNode(leftVar, type, directlyNestingLHSGraph, context, null);
 			res = new ForIndexAccessEqualityYieldNode(f, iterVar, context, idx, e, directlyNestingLHSGraph, cs);
+			reportWarning(f, "the for(. in { idx == .}) loop is deprecated, use for(. in nodesFromIndexSame(idx, .)) or for(. in edgesFromIndexSame(idx, .)) instead.");
 		}
 	| type=typeIdentUse IN LBRACE i=IDENT LPAREN idx=indexIdentUse (os=relOS e=expr[namer, context, false]
 			(COMMA idx2=indexIdentUse os2=relOS e2=expr[namer, context, false])?)? RPAREN RBRACE RPAREN
@@ -4105,6 +4111,7 @@ forContentTypedIteration [ Coords f, IdentNode leftVar, boolean onLHS, boolean i
 			if(idx2!=null && !idx.toString().equals(idx2.toString()))
 				reportError(idx2.getCoords(), "The same index must be used in an ordered index access loop with two constraints (given are " + idx + " and " + idx2 + ").");
 			res = new ForIndexAccessOrderingYieldNode(f, iterVar, context, ascending, idx, os, e, os2, e2, directlyNestingLHSGraph, cs);
+			reportWarning(f, "the for(. in { ascending(idx >= ., idx <=. )}) loop is deprecated, use for(. in nodesFromIndexFromToAscending(idx, ., .)) or for(. in edgesFromIndexFromToAscending(idx, ., .)) instead (or their descending versions).");
 		}
 	;
 

@@ -30,6 +30,7 @@ import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 import de.unika.ipd.grgen.ir.stmt.graph.ForIndexAccessEquality;
 import de.unika.ipd.grgen.parser.Coords;
 
+// deprecated, TODO: purge
 public class ForIndexAccessEqualityYieldNode extends ForIndexAccessNode
 {
 	static {

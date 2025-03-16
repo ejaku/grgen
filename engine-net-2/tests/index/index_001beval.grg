@@ -4,7 +4,7 @@ rule r13 {
 	modify {
 	---
 		eval {
-			for(n:E in {foo==13}) {
+			for(n:E in edgesFromIndexSame(foo, 13)) {
 				emit("The value of attribute i is " + n.i + "\n");
 			}
 		}
@@ -15,7 +15,7 @@ rule rascending {
 	modify {
 	---
 		eval {
-			for(n:E in {ascending(foo)}) {
+			for(n:E in edgesFromIndexAscending(foo)) {
 				emit("The value of attribute i is " + n.i + "\n");
 			}
 		}
@@ -26,7 +26,7 @@ rule rdescending {
 	modify {
 	---
 		eval {
-			for(n:E in {descending(foo)}) {
+			for(n:E in edgesFromIndexDescending(foo)) {
 				emit("The value of attribute i is " + n.i + "\n");
 			}
 		}
@@ -37,7 +37,7 @@ rule rascendinglargerthan5lowerequal13 {
 	modify {
 	---
 		eval {
-			for(n:E in {ascending(foo>5, foo<=13)}) {
+			for(n:E in edgesFromIndexFromExclusiveToAscending(foo, 5, 13)) {
 				emit("The value of attribute i is " + n.i + "\n");
 			}
 		}
@@ -48,7 +48,7 @@ rule rascendinglargerequal5 {
 	modify {
 	---
 		eval {
-			for(n:E in {ascending(foo>=5)}) {
+			for(n:E in edgesFromIndexFromAscending(foo, 5)) {
 				emit("The value of attribute i is " + n.i + "\n");
 			}
 		}
@@ -59,7 +59,7 @@ rule rascendinglowerthan13 {
 	modify {
 	---
 		eval {
-			for(n:E in {ascending(foo<13)}) {
+			for(n:E in edgesFromIndexToExclusiveAscending(foo, 13)) {
 				emit("The value of attribute i is " + n.i + "\n");
 			}
 		}
@@ -70,7 +70,7 @@ rule rdescendinglowerthan13largerequal5 {
 	modify {
 	---
 		eval {
-			for(n:E in {descending(foo<13, foo>=5)}) {
+			for(n:E in edgesFromIndexFromExclusiveToDescending(foo, 13, 5)) {
 				emit("The value of attribute i is " + n.i + "\n");
 			}
 		}
@@ -81,7 +81,7 @@ rule rdescendinglowerequal13 {
 	modify {
 	---
 		eval {
-			for(n:E in {descending(foo<=13)}) {
+			for(n:E in edgesFromIndexFromDescending(foo, 13)) {
 				emit("The value of attribute i is " + n.i + "\n");
 			}
 		}
@@ -92,7 +92,7 @@ rule rdescendinglargerthan5 {
 	modify {
 	---
 		eval {
-			for(n:E in {descending(foo>5)}) {
+			for(n:E in edgesFromIndexToExclusiveDescending(foo, 5)) {
 				emit("The value of attribute i is " + n.i + "\n");
 			}
 		}
