@@ -1485,45 +1485,45 @@ Sequence SimpleSequence():
             { varDecls.PopScope(variableList1); } "}"
         {
             if(str == "adjacent") {
-                return new SequenceForFunction(SequenceType.ForAdjacentNodes, fromVar, argExprs, seq, variableList1);
+                return new SequenceForAdjacentNodes(SequenceType.ForAdjacentNodes, fromVar, argExprs, seq, variableList1);
             } else if(str == "adjacentIncoming") {
-                return new SequenceForFunction(SequenceType.ForAdjacentNodesViaIncoming, fromVar, argExprs, seq, variableList1);
+                return new SequenceForAdjacentNodes(SequenceType.ForAdjacentNodesViaIncoming, fromVar, argExprs, seq, variableList1);
             } else if(str == "adjacentOutgoing") {
-                return new SequenceForFunction(SequenceType.ForAdjacentNodesViaOutgoing, fromVar, argExprs, seq, variableList1);
+                return new SequenceForAdjacentNodes(SequenceType.ForAdjacentNodesViaOutgoing, fromVar, argExprs, seq, variableList1);
             } else if(str == "incident") {
-                return new SequenceForFunction(SequenceType.ForIncidentEdges, fromVar, argExprs, seq, variableList1);
+                return new SequenceForIncidentEdges(SequenceType.ForIncidentEdges, fromVar, argExprs, seq, variableList1);
             } else if(str == "incoming") {
-                return new SequenceForFunction(SequenceType.ForIncomingEdges, fromVar, argExprs, seq, variableList1);
+                return new SequenceForIncidentEdges(SequenceType.ForIncomingEdges, fromVar, argExprs, seq, variableList1);
             } else if(str == "outgoing") {
-                return new SequenceForFunction(SequenceType.ForOutgoingEdges, fromVar, argExprs, seq, variableList1);
+                return new SequenceForIncidentEdges(SequenceType.ForOutgoingEdges, fromVar, argExprs, seq, variableList1);
             } else if(str == "reachable") {
-                return new SequenceForFunction(SequenceType.ForReachableNodes, fromVar, argExprs, seq, variableList1);
+                return new SequenceForReachableNodes(SequenceType.ForReachableNodes, fromVar, argExprs, seq, variableList1);
             } else if(str == "reachableIncoming") {
-                return new SequenceForFunction(SequenceType.ForReachableNodesViaIncoming, fromVar, argExprs, seq, variableList1);
+                return new SequenceForReachableNodes(SequenceType.ForReachableNodesViaIncoming, fromVar, argExprs, seq, variableList1);
             } else if(str == "reachableOutgoing") {
-                return new SequenceForFunction(SequenceType.ForReachableNodesViaOutgoing, fromVar, argExprs, seq, variableList1);
+                return new SequenceForReachableNodes(SequenceType.ForReachableNodesViaOutgoing, fromVar, argExprs, seq, variableList1);
             } else if(str == "reachableEdges") {
-                return new SequenceForFunction(SequenceType.ForReachableEdges, fromVar, argExprs, seq, variableList1);
+                return new SequenceForReachableEdges(SequenceType.ForReachableEdges, fromVar, argExprs, seq, variableList1);
             } else if(str == "reachableEdgesIncoming") {
-                return new SequenceForFunction(SequenceType.ForReachableEdgesViaIncoming, fromVar, argExprs, seq, variableList1);
+                return new SequenceForReachableEdges(SequenceType.ForReachableEdgesViaIncoming, fromVar, argExprs, seq, variableList1);
             } else if(str == "reachableEdgesOutgoing") {
-                return new SequenceForFunction(SequenceType.ForReachableEdgesViaOutgoing, fromVar, argExprs, seq, variableList1);
+                return new SequenceForReachableEdges(SequenceType.ForReachableEdgesViaOutgoing, fromVar, argExprs, seq, variableList1);
             } else if(str == "boundedReachable") {
-                return new SequenceForFunction(SequenceType.ForBoundedReachableNodes, fromVar, argExprs, seq, variableList1);
+                return new SequenceForBoundedReachableNodes(SequenceType.ForBoundedReachableNodes, fromVar, argExprs, seq, variableList1);
             } else if(str == "boundedReachableIncoming") {
-                return new SequenceForFunction(SequenceType.ForBoundedReachableNodesViaIncoming, fromVar, argExprs, seq, variableList1);
+                return new SequenceForBoundedReachableNodes(SequenceType.ForBoundedReachableNodesViaIncoming, fromVar, argExprs, seq, variableList1);
             } else if(str == "boundedReachableOutgoing") {
-                return new SequenceForFunction(SequenceType.ForBoundedReachableNodesViaOutgoing, fromVar, argExprs, seq, variableList1);
+                return new SequenceForBoundedReachableNodes(SequenceType.ForBoundedReachableNodesViaOutgoing, fromVar, argExprs, seq, variableList1);
             } else if(str == "boundedReachableEdges") {
-                return new SequenceForFunction(SequenceType.ForBoundedReachableEdges, fromVar, argExprs, seq, variableList1);
+                return new SequenceForBoundedReachableEdges(SequenceType.ForBoundedReachableEdges, fromVar, argExprs, seq, variableList1);
             } else if(str == "boundedReachableEdgesIncoming") {
-                return new SequenceForFunction(SequenceType.ForBoundedReachableEdgesViaIncoming, fromVar, argExprs, seq, variableList1);
+                return new SequenceForBoundedReachableEdges(SequenceType.ForBoundedReachableEdgesViaIncoming, fromVar, argExprs, seq, variableList1);
             } else if(str == "boundedReachableEdgesOutgoing") {
-                return new SequenceForFunction(SequenceType.ForBoundedReachableEdgesViaOutgoing, fromVar, argExprs, seq, variableList1);
+                return new SequenceForBoundedReachableEdges(SequenceType.ForBoundedReachableEdgesViaOutgoing, fromVar, argExprs, seq, variableList1);
             } else if(str == "nodes") {
-                return new SequenceForFunction(SequenceType.ForNodes, fromVar, argExprs, seq, variableList1);
+                return new SequenceForNodes(SequenceType.ForNodes, fromVar, argExprs, seq, variableList1);
             } else if(str == "edges") {
-                return new SequenceForFunction(SequenceType.ForEdges, fromVar, argExprs, seq, variableList1);
+                return new SequenceForEdges(SequenceType.ForEdges, fromVar, argExprs, seq, variableList1);
             }
         }
     | 
