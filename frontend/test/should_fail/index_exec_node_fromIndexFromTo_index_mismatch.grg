@@ -1,0 +1,6 @@
+#using "index_exec_model.gm"
+
+sequence s(j:int)
+{
+	{ i:set<Node>=nodesFromIndexFrom(j, j) }
+}

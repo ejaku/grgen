@@ -1,0 +1,31 @@
+new graph "index/index_fromIndex_001b"
+
+new n:Node($="$0")
+
+new n -:E($="$1", i=1)-> n
+new n -:E($="$2", i=2)-> n
+new n -:E($="$3", i=3)-> n
+new n -:E($="$4", i=4)-> n
+new n -:E($="$5", i=5)-> n
+
+exec { emit("The value of attribute foo is " + edgesFromIndex(foo) + "\n") }
+
+exec { emit("The value of attribute foo is " + edgesFromIndexSame(foo, 3) + "\n") }
+
+exec { emit("The value of attribute foo is " + edgesFromIndexFrom(foo, 2) + "\n") }
+
+exec { emit("The value of attribute foo is " + edgesFromIndexFromExclusive(foo, 2) + "\n") }
+
+exec { emit("The value of attribute foo is " + edgesFromIndexTo(foo, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + edgesFromIndexToExclusive(foo, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + edgesFromIndexFromTo(foo, 2, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + edgesFromIndexFromExclusiveTo(foo, 2, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + edgesFromIndexFromToExclusive(foo, 2, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + edgesFromIndexFromExclusiveToExclusive(foo, 2, 4) + "\n") }
+
+quit

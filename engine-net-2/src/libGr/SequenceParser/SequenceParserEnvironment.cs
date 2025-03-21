@@ -1194,6 +1194,169 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             }
         }
 
+        public bool IsIndexFunction(string indexFunctionName)
+        {
+            switch(indexFunctionName)
+            {
+                case "nodesFromIndex": return true;
+                case "edgesFromIndex": return true;
+                case "nodesFromIndexSame": return true;
+                case "edgesFromIndexSame": return true;
+                case "nodesFromIndexFrom": return true;
+                case "nodesFromIndexFromExclusive": return true;
+                case "nodesFromIndexTo": return true;
+                case "nodesFromIndexToExclusive": return true;
+                case "nodesFromIndexFromTo": return true;
+                case "nodesFromIndexFromExclusiveTo": return true;
+                case "nodesFromIndexFromToExclusive": return true;
+                case "nodesFromIndexFromExclusiveToExclusive": return true;
+                case "edgesFromIndexFrom": return true;
+                case "edgesFromIndexFromExclusive": return true;
+                case "edgesFromIndexTo": return true;
+                case "edgesFromIndexToExclusive": return true;
+                case "edgesFromIndexFromTo": return true;
+                case "edgesFromIndexFromExclusiveTo": return true;
+                case "edgesFromIndexFromToExclusive": return true;
+                case "edgesFromIndexFromExclusiveToExclusive": return true;
+                default: return false;
+            }
+        }
+
+        public SequenceExpression CreateSequenceExpressionIndexFunctionCall(String indexFunctionName,
+            List<SequenceExpression> argExprs)
+        {
+            switch(indexFunctionName)
+            {
+                case "nodesFromIndex":
+                    {
+                        if(argExprs.Count != 1)
+                            throw new ParseException("\"nodesFromIndex\" expects 1 parameter");
+                        return new SequenceExpressionNodesFromIndexFromTo(getArgument(argExprs, 0), null, true, null, true, SequenceExpressionType.NodesFromIndex);
+                    }
+                case "edgesFromIndex":
+                    {
+                        if(argExprs.Count != 1)
+                            throw new ParseException("\"edgesFromIndex\" expects 1 parameter");
+                        return new SequenceExpressionEdgesFromIndexFromTo(getArgument(argExprs, 0), null, true, null, true, SequenceExpressionType.EdgesFromIndex);
+                    }
+                case "nodesFromIndexSame":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"nodesFromIndexSame\" expects 2 parameters");
+                        return new SequenceExpressionNodesFromIndexSame(getArgument(argExprs, 0), getArgument(argExprs, 1), SequenceExpressionType.NodesFromIndexSame);
+                    }
+                case "edgesFromIndexSame":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"edgesFromIndexSame\" expects 2 parameters");
+                        return new SequenceExpressionEdgesFromIndexSame(getArgument(argExprs, 0), getArgument(argExprs, 1), SequenceExpressionType.EdgesFromIndexSame);
+                    }
+                case "nodesFromIndexFrom":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"nodesFromIndexFrom\" expects 2 parameters");
+                        return new SequenceExpressionNodesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), true, null, true, SequenceExpressionType.NodesFromIndexFrom);
+                    }
+                case "nodesFromIndexFromExclusive":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"nodesFromIndexFromExclusive\" expects 2 parameters");
+                        return new SequenceExpressionNodesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), false, null, true, SequenceExpressionType.NodesFromIndexFromExclusive);
+                    }
+                case "nodesFromIndexTo":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"nodesFromIndexTo\" expects 2 parameters");
+                        return new SequenceExpressionNodesFromIndexFromTo(getArgument(argExprs, 0), null, true, getArgument(argExprs, 1), true, SequenceExpressionType.NodesFromIndexTo);
+                    }
+                case "nodesFromIndexToExclusive":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"nodesFromIndexToExclusive\" expects 2 parameters");
+                        return new SequenceExpressionNodesFromIndexFromTo(getArgument(argExprs, 0), null, true, getArgument(argExprs, 1), false, SequenceExpressionType.NodesFromIndexToExclusive);
+                    }
+                case "nodesFromIndexFromTo":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"nodesFromIndexFromTo\" expects 3 parameters");
+                        return new SequenceExpressionNodesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), true, getArgument(argExprs, 2), true, SequenceExpressionType.NodesFromIndexFromTo);
+                    }
+                case "nodesFromIndexFromExclusiveTo":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"nodesFromIndexFromExclusiveTo\" expects 3 parameters");
+                        return new SequenceExpressionNodesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), false, getArgument(argExprs, 2), true, SequenceExpressionType.NodesFromIndexFromExclusiveTo);
+                    }
+                case "nodesFromIndexFromToExclusive":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"nodesFromIndexFromToExclusive\" expects 3 parameters");
+                        return new SequenceExpressionNodesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), true, getArgument(argExprs, 2), false, SequenceExpressionType.NodesFromIndexFromToExclusive);
+                    }
+                case "nodesFromIndexFromExclusiveToExclusive":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"nodesFromIndexFromExclusiveToExclusive\" expects 3 parameters");
+                        return new SequenceExpressionNodesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), false, getArgument(argExprs, 2), false, SequenceExpressionType.NodesFromIndexFromExclusiveToExclusive);
+                    }
+                case "edgesFromIndexFrom":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"edgesFromIndexFrom\" expects 2 parameters");
+                        return new SequenceExpressionEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), true, null, true, SequenceExpressionType.EdgesFromIndexFrom);
+                    }
+                case "edgesFromIndexFromExclusive":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"edgesFromIndexFromExclusive\" expects 2 parameters");
+                        return new SequenceExpressionEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), false, null, true, SequenceExpressionType.EdgesFromIndexFromExclusive);
+                    }
+                case "edgesFromIndexTo":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"edgesFromIndexTo\" expects 2 parameters");
+                        return new SequenceExpressionEdgesFromIndexFromTo(getArgument(argExprs, 0), null, true, getArgument(argExprs, 1), true, SequenceExpressionType.EdgesFromIndexTo);
+                    }
+                case "edgesFromIndexToExclusive":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"edgesFromIndexToExclusive\" expects 2 parameters");
+                        return new SequenceExpressionEdgesFromIndexFromTo(getArgument(argExprs, 0), null, true, getArgument(argExprs, 1), false, SequenceExpressionType.EdgesFromIndexToExclusive);
+                    }
+                case "edgesFromIndexFromTo":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"edgesFromIndexFromTo\" expects 3 parameters");
+                        return new SequenceExpressionEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), true, getArgument(argExprs, 2), true, SequenceExpressionType.EdgesFromIndexFromTo);
+                    }
+                case "edgesFromIndexFromExclusiveTo":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"edgesFromIndexFromExclusiveTo\" expects 3 parameters");
+                        return new SequenceExpressionEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), false, getArgument(argExprs, 2), true, SequenceExpressionType.EdgesFromIndexFromExclusiveTo);
+                    }
+                case "edgesFromIndexFromToExclusive":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"edgesFromIndexFromToExclusive\" expects 3 parameters");
+                        return new SequenceExpressionEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), true, getArgument(argExprs, 2), false, SequenceExpressionType.EdgesFromIndexFromToExclusive);
+                    }
+                case "edgesFromIndexFromExclusiveToExclusive":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"edgesFromIndexFromExclusiveToExclusive\" expects 3 parameters");
+                        return new SequenceExpressionEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), false, getArgument(argExprs, 2), false, SequenceExpressionType.EdgesFromIndexFromExclusiveToExclusive);
+                    }
+                default:
+                    throw new ParseException("Unknown index function name: \"" + indexFunctionName + "\"!"
+                        + " (available are nodesFromIndex|edgesFromIndex|nodesFromIndexSame|edgesFromIndexSame"
+                        + "|nodesFromIndexFrom|nodesFromIndexFromExclusive|nodesFromIndexTo|nodesFromIndexToExclusive"
+                        + "|nodesFromIndexFromTo|nodesFromIndexFromExclusiveTo|nodesFromIndexFromToExclusive|nodesFromIndexFromExclusiveToExclusive"
+                        + "|edgesFromIndexFrom|edgesFromIndexFromExclusive|edgesFromIndexTo|edgesFromIndexToExclusive"
+                        + "|edgesFromIndexFromTo|edgesFromIndexFromExclusiveTo|edgesFromIndexFromToExclusive|edgesFromIndexFromExclusiveToExclusive");
+            }
+        }
+
         public SequenceExpression CreateSequenceExpressionFunctionMethodCall(SequenceExpression targetExpr,
             String functionMethodName, List<SequenceExpression> argExprs)
         {

@@ -1236,7 +1236,7 @@ Sequence SimpleSequence():
     int num = 0;
     RelOpDirection left = RelOpDirection.Undefined, right = RelOpDirection.Undefined;
     double numDouble = 0.0;
-    String str, attrName = null, indexName = null, indexName2 = null;
+    String str, indexName = null, indexName2 = null;
     object constant;
 }
 {
@@ -2228,14 +2228,38 @@ SequenceComputation ProcedureOrMethodCall():
 
 SequenceExpression FunctionCall():
 {
-    String function, package = null;
+    String function, package = null, indexFunction;
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
 }
 {
+    LOOKAHEAD( { GetToken(1).kind == WORD && env.IsIndexFunction(GetToken(1).image) } )
+    indexFunction=Word() "(" IndexArguments(argExprs) ")"
+    {
+        return env.CreateSequenceExpressionIndexFunctionCall(indexFunction, argExprs);
+    }
+|
     (LOOKAHEAD(2) package=Word() "::")? 
     function=Word() "(" (Arguments(argExprs))? ")"
     {
         return env.CreateSequenceExpressionFunctionCall(function, package, argExprs);
+    }
+}
+
+void IndexArguments(List<SequenceExpression> argExprs):
+{
+}
+{
+    IndexArgument(argExprs) ( "," Argument(argExprs) )*
+}
+
+void IndexArgument(List<SequenceExpression> argExprs):
+{
+    String indexName;
+}
+{
+    indexName=Word()
+    {
+        argExprs.Add(new SequenceExpressionIndexUse(indexName));
     }
 }
 

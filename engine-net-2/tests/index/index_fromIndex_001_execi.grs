@@ -1,0 +1,29 @@
+new graph "index/index_fromIndex_001"
+
+new :N($="$1", i=1)
+new :N($="$2", i=2)
+new :N($="$3", i=3)
+new :N($="$4", i=4)
+new :N($="$5", i=5)
+
+exec { emit("The value of attribute foo is " + nodesFromIndex(foo) + "\n") }
+
+exec { emit("The value of attribute foo is " + nodesFromIndexSame(foo, 3) + "\n") }
+
+exec { emit("The value of attribute foo is " + nodesFromIndexFrom(foo, 2) + "\n") }
+
+exec { emit("The value of attribute foo is " + nodesFromIndexFromExclusive(foo, 2) + "\n") }
+
+exec { emit("The value of attribute foo is " + nodesFromIndexTo(foo, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + nodesFromIndexToExclusive(foo, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + nodesFromIndexFromTo(foo, 2, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + nodesFromIndexFromExclusiveTo(foo, 2, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + nodesFromIndexFromToExclusive(foo, 2, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + nodesFromIndexFromExclusiveToExclusive(foo, 2, 4) + "\n") }
+
+quit

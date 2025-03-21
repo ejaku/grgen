@@ -1,0 +1,6 @@
+#using "index_exec_model.gm"
+
+sequence s(j:double)
+{
+	{ i:set<AEdge>=edgesFromIndexFromTo(bari, j, 42) }
+}

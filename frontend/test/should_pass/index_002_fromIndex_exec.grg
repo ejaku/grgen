@@ -1,0 +1,44 @@
+#using "index_model_002.gm"
+
+function f() : int
+{
+	return(0);
+}
+
+rule i {
+	modify {
+		---
+		def var s:int;
+		exec( {
+				s = nodesFromIndex(fooi).size();
+				s = nodesFromIndexSame(fooi, 42).size();
+				s = nodesFromIndexFrom(fooi, 42).size();
+				s = nodesFromIndexFromExclusive(fooi, 42).size();
+				s = nodesFromIndexTo(fooi, 42).size();
+				s = nodesFromIndexToExclusive(fooi, 42).size();
+				s = nodesFromIndexFromTo(fooi, f(), 42).size();
+				s = nodesFromIndexFromExclusiveTo(fooi, f(), 42).size();
+				s = nodesFromIndexFromToExclusive(fooi, f(), 42).size();
+				s = nodesFromIndexFromExclusiveToExclusive(fooi, f(), 42).size()
+			} );
+	}
+}
+
+rule ei {
+	modify {
+		---
+		def var s:int;
+		exec( {
+			s = edgesFromIndex(bari).size();
+			s = edgesFromIndexSame(bari, 42).size();
+			s = edgesFromIndexFrom(bari, 42).size();
+			s = edgesFromIndexFromExclusive(bari, 42).size();
+			s = edgesFromIndexTo(bari, 42).size();
+			s = edgesFromIndexToExclusive(bari, 42).size();
+			s = edgesFromIndexFromTo(bari, f(), 42).size();
+			s = edgesFromIndexFromExclusiveTo(bari, f(), 42).size();
+			s = edgesFromIndexFromToExclusive(bari, f(), 42).size();
+			s = edgesFromIndexFromExclusiveToExclusive(bari, f(), 42).size()
+		} );
+	}
+}

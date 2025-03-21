@@ -28,7 +28,7 @@ namespace de.unika.ipd.grGen.libGr
         Equal, NotEqual, Lower, LowerEqual, Greater, GreaterEqual, StructuralEqual,
         ShiftLeft, ShiftRight, ShiftRightUnsigned,
         Plus, Minus, Mul, Div, Mod, // nice-to-have addition: all the other operators and functions/methods from the rule language expressions
-        Constant, Variable, This, New,
+        Constant, Variable, This, New, IndexUse,
         MatchClassConstructor,
         SetConstructor, MapConstructor, ArrayConstructor, DequeConstructor,
         SetCopyConstructor, MapCopyConstructor, ArrayCopyConstructor, DequeCopyConstructor,
@@ -80,6 +80,12 @@ namespace de.unika.ipd.grGen.libGr
         IsReachableEdges, IsReachableEdgesViaIncoming, IsReachableEdgesViaOutgoing,
         IsBoundedReachableNodes, IsBoundedReachableNodesViaIncoming, IsBoundedReachableNodesViaOutgoing,
         IsBoundedReachableEdges, IsBoundedReachableEdgesViaIncoming, IsBoundedReachableEdgesViaOutgoing,
+        NodesFromIndex, EdgesFromIndex,
+        NodesFromIndexSame, EdgesFromIndexSame,
+        NodesFromIndexFrom, NodesFromIndexFromExclusive, NodesFromIndexTo, NodesFromIndexToExclusive,
+        NodesFromIndexFromTo, NodesFromIndexFromExclusiveTo, NodesFromIndexFromToExclusive, NodesFromIndexFromExclusiveToExclusive,
+        EdgesFromIndexFrom, EdgesFromIndexFromExclusive, EdgesFromIndexTo, EdgesFromIndexToExclusive,
+        EdgesFromIndexFromTo, EdgesFromIndexFromExclusiveTo, EdgesFromIndexFromToExclusive, EdgesFromIndexFromExclusiveToExclusive,
         InducedSubgraph, DefinedSubgraph,
         EqualsAny, GetEquivalent,
         Nameof, Uniqueof, Typeof,
@@ -10189,6 +10195,491 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol
         {
             get { return FunctionSymbol + "(" + SourceNode.Symbol + "," + EndElement.Symbol + (EdgeType != null ? "," + EdgeType.Symbol : "") + (OppositeNodeType != null ? "," + OppositeNodeType.Symbol : "") + ")"; }
+        }
+    }
+
+    public class SequenceExpressionIndexUse : SequenceExpression
+    {
+        public string IndexName;
+
+        public SequenceExpressionIndexUse(string indexName)
+            : base(SequenceExpressionType.IndexUse)
+        {
+            IndexName = indexName;
+        }
+
+        protected SequenceExpressionIndexUse(SequenceExpressionIndexUse that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+           : base(that)
+        {
+            IndexName = that.IndexName;
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionIndexUse(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(GetIndexDescription(env.Model) == null)
+                throw new SequenceParserExceptionIndexUnknown(Symbol);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "index type";
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            return procEnv.Graph.Indices.GetIndex(IndexName);
+        }
+
+        public IndexDescription GetIndexDescription(IGraphModel model)
+        {
+            foreach(IndexDescription indexDescription in model.IndexDescriptions)
+            {
+                if(indexDescription.Name == IndexName)
+                    return indexDescription;
+            }
+            return null;
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get { yield break; }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return IndexName; }
+        }
+    }
+
+    public abstract class SequenceExpressionFromIndex : SequenceExpression
+    {
+        public readonly SequenceExpression Index;
+        public readonly int ArgumentShift;
+        public bool EmitProfiling;
+
+        public SequenceExpressionFromIndex(SequenceExpression index, SequenceExpressionType type)
+            : base(type)
+        {
+            Index = index;
+            ArgumentShift = 0;
+        }
+
+        protected SequenceExpressionFromIndex(SequenceExpressionFromIndex that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that)
+        {
+            Index = that.Index.CopyExpression(originalToCopy, procEnv);
+            EmitProfiling = that.EmitProfiling;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            try
+            {
+                base.Check(env); // check children
+            }
+            catch(SequenceParserExceptionIndexUnknown)
+            {
+                // fire exception with improved error message, the check only tells about the unknown index, not about the context in form of the function trying to use it
+                throw new SequenceParserExceptionIndexUnknown(Index.Symbol, FunctionSymbol + String.Format(", {0}. argument", 1 + ArgumentShift));
+            }
+
+            IndexDescription indexDescription = GetIndexDescription(env.Model);
+            if(!TypesHelper.IsSameOrSubtype(TypesHelper.DotNetTypeToXgrsType(indexDescription.IndexedType), RootType, env.Model))
+                throw new SequenceParserExceptionTypeMismatch(FunctionSymbol + String.Format(", {0}. argument - indexed type", 1 + ArgumentShift), RootType, TypesHelper.DotNetTypeToXgrsType(indexDescription.IndexedType));
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            EmitProfiling = profiling;
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Index.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get { yield return Index; }
+        }
+
+        protected IndexDescription GetIndexDescription(IGraphModel model)
+        {
+            return ((SequenceExpressionIndexUse)Index).GetIndexDescription(model); // internal error if cast fails (due to the positional index arguments when index functions are parsed - the index name may be unknown)
+        }
+
+        protected abstract string FunctionSymbol { get; }
+        protected abstract string RootType { get; } // the node/edge root depending on the return type of the function, must fit to the indexed type
+    }
+
+    public abstract class SequenceExpressionFromIndexSame : SequenceExpressionFromIndex
+    {
+        public readonly SequenceExpression Value;
+
+        public SequenceExpressionFromIndexSame(SequenceExpression index, SequenceExpression value, SequenceExpressionType type)
+            : base(index, type)
+        {
+            Value = value;
+        }
+
+        protected SequenceExpressionFromIndexSame(SequenceExpressionFromIndexSame that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+            Value = that.Value.CopyExpression(originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env);
+
+            IndexDescription indexDescription = GetIndexDescription(env.Model);
+            if(Value != null && Value.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+            {
+                if(!TypesHelper.IsSameOrSubtype(Value.Type(env), TypesHelper.AttributeTypeToXgrsType(indexDescription.IndexAccessType), env.Model))
+                    throw new SequenceParserExceptionTypeMismatch(FunctionSymbol + String.Format(", {0}. argument", 2 + ArgumentShift), TypesHelper.AttributeTypeToXgrsType(indexDescription.IndexAccessType), Value.Type(env));
+            }
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Index.GetLocalVariables(variables, constructors);
+            Value.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return Index;
+                yield return Value;
+            }
+        }
+
+        public override string Symbol
+        {
+            get { return FunctionSymbol + "(" + Index.Symbol + "," + Value.Symbol + ")"; }
+        }
+    }
+
+    public abstract class SequenceExpressionFromIndexFromTo : SequenceExpressionFromIndex
+    {
+        public readonly SequenceExpression From;
+        public readonly bool IncludingFrom;
+        public readonly SequenceExpression To;
+        public readonly bool IncludingTo;
+
+        public SequenceExpressionFromIndexFromTo(SequenceExpression index, SequenceExpression from, bool includingFrom, SequenceExpression to, bool includingTo, SequenceExpressionType type)
+            : base(index, type)
+        {
+            From = from;
+            IncludingFrom = includingFrom;
+            To = to;
+            IncludingTo = includingTo;
+        }
+
+        protected SequenceExpressionFromIndexFromTo(SequenceExpressionFromIndexFromTo that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+            if(that.From != null)
+                From = that.From.CopyExpression(originalToCopy, procEnv);
+            IncludingFrom = that.IncludingFrom;
+            if(that.To != null)
+                To = that.To.CopyExpression(originalToCopy, procEnv);
+            IncludingTo = that.IncludingTo;
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env);
+
+            IndexDescription indexDescription = GetIndexDescription(env.Model);
+            if(From != null && From.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+            {
+                if(!TypesHelper.IsSameOrSubtype(From.Type(env), TypesHelper.AttributeTypeToXgrsType(indexDescription.IndexAccessType), env.Model))
+                    throw new SequenceParserExceptionTypeMismatch(FunctionSymbol + String.Format(", {0}. argument", 2 + ArgumentShift), TypesHelper.AttributeTypeToXgrsType(indexDescription.IndexAccessType), From.Type(env));
+            }
+            if(To != null && To.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+            {
+                if(!TypesHelper.IsSameOrSubtype(To.Type(env), TypesHelper.AttributeTypeToXgrsType(indexDescription.IndexAccessType), env.Model))
+                    throw new SequenceParserExceptionTypeMismatch(FunctionSymbol + String.Format(", {0}. argument", 3 + ArgumentShift), TypesHelper.AttributeTypeToXgrsType(indexDescription.IndexAccessType), To.Type(env));
+            }
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Index.GetLocalVariables(variables, constructors);
+            if(From != null)
+                From.GetLocalVariables(variables, constructors);
+            if(To != null)
+                To.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return Index;
+                if(From != null)
+                    yield return From;
+                if(To != null)
+                    yield return To;
+            }
+        }
+
+        public override string Symbol
+        {
+            get { return FunctionSymbol + "(" + Index.Symbol + (From != null ? "," + From.Symbol : "") + (To != null ? "," + To.Symbol : "") + ")"; }
+        }
+    }
+
+    public class SequenceExpressionNodesFromIndexSame : SequenceExpressionFromIndexSame
+    {
+        public SequenceExpressionNodesFromIndexSame(SequenceExpression index, SequenceExpression value, SequenceExpressionType type)
+            : base(index, value, type)
+        {
+        }
+
+        protected SequenceExpressionNodesFromIndexSame(SequenceExpressionNodesFromIndexSame that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionNodesFromIndexSame(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "set<Node>";
+        }
+
+        protected override string RootType
+        {
+            get { return "Node"; }
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            IAttributeIndex index = (IAttributeIndex)Index.Evaluate(procEnv);
+            object value = Value.Evaluate(procEnv);
+
+            if(EmitProfiling)
+                return IndexHelper.NodesFromIndexSame(index, value, procEnv);
+            else
+                return IndexHelper.NodesFromIndexSame(index, value);
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        protected override string FunctionSymbol
+        {
+            get { return "nodesFromIndexSame"; }
+        }
+    }
+
+    public class SequenceExpressionEdgesFromIndexSame : SequenceExpressionFromIndexSame
+    {
+        public SequenceExpressionEdgesFromIndexSame(SequenceExpression index, SequenceExpression value, SequenceExpressionType type)
+            : base(index, value, type)
+        {
+        }
+
+        protected SequenceExpressionEdgesFromIndexSame(SequenceExpressionEdgesFromIndexSame that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionEdgesFromIndexSame(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "set<AEdge>";
+        }
+
+        protected override string RootType
+        {
+            get { return "AEdge"; }
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            IAttributeIndex index = (IAttributeIndex)Index.Evaluate(procEnv);
+            object value = Value.Evaluate(procEnv);
+
+            if(EmitProfiling)
+                return IndexHelper.EdgesFromIndexSame(index, value, procEnv);
+            else
+                return IndexHelper.EdgesFromIndexSame(index, value);
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        protected override string FunctionSymbol
+        {
+            get { return "edgesFromIndexSame"; }
+        }
+    }
+
+    public class SequenceExpressionNodesFromIndexFromTo : SequenceExpressionFromIndexFromTo
+    {
+        public SequenceExpressionNodesFromIndexFromTo(SequenceExpression index, SequenceExpression from, bool includingFrom, SequenceExpression to, bool includingTo, SequenceExpressionType type)
+            : base(index, from, includingFrom, to, includingTo, type)
+        {
+        }
+
+        protected SequenceExpressionNodesFromIndexFromTo(SequenceExpressionNodesFromIndexFromTo that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionNodesFromIndexFromTo(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "set<Node>";
+        }
+
+        protected override string RootType
+        {
+            get { return "Node"; }
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            IAttributeIndex index = (IAttributeIndex)Index.Evaluate(procEnv);
+            object from = From != null ? From.Evaluate(procEnv) : null;
+            object to = To != null ? To.Evaluate(procEnv) : null;
+
+            if(EmitProfiling)
+                return IndexHelper.NodesFromIndexFromTo(index, from, IncludingFrom, to, IncludingTo, procEnv);
+            else
+                return IndexHelper.NodesFromIndexFromTo(index, from, IncludingFrom, to, IncludingTo);
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        protected override string FunctionSymbol
+        {
+            get
+            {
+                if(From == null && To == null)
+                    return "nodesFromIndex";
+                else if(To == null)
+                    return IncludingFrom ? "nodesFromIndexFrom" : "nodesFromIndexFromExclusive";
+                else if(From == null)
+                    return IncludingTo ? "nodesFromIndexTo" : "nodesFromIndexToExclusive";
+                else
+                {
+                    if(IncludingFrom && IncludingTo)
+                        return "nodesFromIndexFromTo";
+                    else if(IncludingFrom)
+                        return "nodesFromIndexFromToExclusive";
+                    else if(IncludingTo)
+                        return "nodesFromIndexFromExclusiveTo";
+                    else
+                        return "nodesFromIndexFromExclusiveToExclusive";
+                }
+            }
+        }
+    }
+
+    public class SequenceExpressionEdgesFromIndexFromTo : SequenceExpressionFromIndexFromTo
+    {
+        public SequenceExpressionEdgesFromIndexFromTo(SequenceExpression index, SequenceExpression from, bool includingFrom, SequenceExpression to, bool includingTo, SequenceExpressionType type)
+            : base(index, from, includingFrom, to, includingTo, type)
+        {
+        }
+
+        protected SequenceExpressionEdgesFromIndexFromTo(SequenceExpressionEdgesFromIndexFromTo that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionEdgesFromIndexFromTo(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "set<AEdge>";
+        }
+
+        protected override string RootType
+        {
+            get { return "AEdge"; }
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            IAttributeIndex index = (IAttributeIndex)Index.Evaluate(procEnv);
+            object from = From != null ? From.Evaluate(procEnv) : null;
+            object to = To != null ? To.Evaluate(procEnv) : null;
+
+            if(EmitProfiling)
+                return IndexHelper.EdgesFromIndexFromTo(index, from, IncludingFrom, to, IncludingTo, procEnv);
+            else
+                return IndexHelper.EdgesFromIndexFromTo(index, from, IncludingFrom, to, IncludingTo);
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        protected override string FunctionSymbol
+        {
+            get
+            {
+                if(From == null && To == null)
+                    return "edgesFromIndex";
+                else if(To == null)
+                    return IncludingFrom ? "edgesFromIndexFrom" : "edgesFromIndexFromExclusive";
+                else if(From == null)
+                    return IncludingTo ? "edgesFromIndexTo" : "edgesFromIndexToExclusive";
+                else
+                {
+                    if(IncludingFrom && IncludingTo)
+                        return "edgesFromIndexFromTo";
+                    else if(IncludingFrom)
+                        return "edgesFromIndexFromToExclusive";
+                    else if(IncludingTo)
+                        return "edgesFromIndexFromExclusiveTo";
+                    else
+                        return "edgesFromIndexFromExclusiveToExclusive";
+                }
+            }
         }
     }
 

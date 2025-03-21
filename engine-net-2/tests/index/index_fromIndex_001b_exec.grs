@@ -1,0 +1,41 @@
+new graph "index/index_fromIndex_001b_exec"
+
+new n:Node($="$0")
+
+new n -:E($="$1", i=1)-> n
+new n -:E($="$2", i=2)-> n
+new n -:E($="$3", i=3)-> n
+new n -:E($="$4", i=4)-> n
+new n -:E($="$5", i=5)-> n
+
+exec (::s)=efi
+show var s
+
+exec (::s)=efis
+show var s
+
+exec (::s)=efif
+show var s
+
+exec (::s)=efife
+show var s
+
+exec (::s)=efit
+show var s
+
+exec (::s)=efite
+show var s
+
+exec (::s)=efift
+show var s
+
+exec (::s)=efifet
+show var s
+
+exec (::s)=efifte
+show var s
+
+exec (::s)=efifete
+show var s
+
+quit

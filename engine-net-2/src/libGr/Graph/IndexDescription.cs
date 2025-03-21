@@ -26,6 +26,16 @@ namespace de.unika.ipd.grGen.libGr
         {
             Name = name;
         }
+
+        /// <summary>
+        /// The base type of the graph elements stored in the index
+        /// </summary>
+        public abstract GrGenType IndexedType { get; }
+
+        /// <summary>
+        /// The type used in accessing the index (i.e. the type of the attribute in case of an attribute index, or int in case of an incidence count index)
+        /// </summary>
+        public abstract AttributeType IndexAccessType { get; }
     }
 
     /// <summary>
@@ -50,6 +60,16 @@ namespace de.unika.ipd.grGen.libGr
         {
             GraphElementType = graphElementType;
             AttributeType = attributeType;
+        }
+
+        public override GrGenType IndexedType
+        {
+            get { return GraphElementType; }
+        }
+
+        public override AttributeType IndexAccessType
+        {
+            get { return AttributeType; }
         }
     }
 
@@ -85,6 +105,8 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public readonly NodeType AdjacentNodeType;
 
+        private static readonly AttributeType IntegerAttributeType = new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
+
         public IncidenceCountIndexDescription(string name, IncidenceDirection direction,
             NodeType startNodeType, EdgeType incidentEdgeType, NodeType adjacentNodeType)
             : base(name)
@@ -93,6 +115,16 @@ namespace de.unika.ipd.grGen.libGr
             StartNodeType = startNodeType;
             IncidentEdgeType = incidentEdgeType;
             AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override GrGenType IndexedType
+        {
+            get { return StartNodeType; }
+        }
+
+        public override AttributeType IndexAccessType
+        {
+            get { return IntegerAttributeType; }
         }
     }
 }

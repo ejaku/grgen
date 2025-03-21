@@ -259,6 +259,34 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceExpressionType.DefinedSubgraph:
                 return GetSequenceExpressionDefinedSubgraph((SequenceExpressionDefinedSubgraph)expr, source);
 
+            // index expressions
+            case SequenceExpressionType.IndexUse:
+                return GetSequenceExpressionIndexUse((SequenceExpressionIndexUse)expr, source);
+            case SequenceExpressionType.NodesFromIndex:
+            case SequenceExpressionType.NodesFromIndexFrom:
+            case SequenceExpressionType.NodesFromIndexFromExclusive:
+            case SequenceExpressionType.NodesFromIndexTo:
+            case SequenceExpressionType.NodesFromIndexToExclusive:
+            case SequenceExpressionType.NodesFromIndexFromTo:
+            case SequenceExpressionType.NodesFromIndexFromExclusiveTo:
+            case SequenceExpressionType.NodesFromIndexFromToExclusive:
+            case SequenceExpressionType.NodesFromIndexFromExclusiveToExclusive:
+                return GetSequenceExpressionNodesFromIndexFromTo((SequenceExpressionNodesFromIndexFromTo)expr, source);
+            case SequenceExpressionType.NodesFromIndexSame:
+                return GetSequenceExpressionNodesFromIndexSame((SequenceExpressionNodesFromIndexSame)expr, source);
+            case SequenceExpressionType.EdgesFromIndex:
+            case SequenceExpressionType.EdgesFromIndexFrom:
+            case SequenceExpressionType.EdgesFromIndexFromExclusive:
+            case SequenceExpressionType.EdgesFromIndexTo:
+            case SequenceExpressionType.EdgesFromIndexToExclusive:
+            case SequenceExpressionType.EdgesFromIndexFromTo:
+            case SequenceExpressionType.EdgesFromIndexFromExclusiveTo:
+            case SequenceExpressionType.EdgesFromIndexFromToExclusive:
+            case SequenceExpressionType.EdgesFromIndexFromExclusiveToExclusive:
+                return GetSequenceExpressionEdgesFromIndexFromTo((SequenceExpressionEdgesFromIndexFromTo)expr, source);
+            case SequenceExpressionType.EdgesFromIndexSame:
+                return GetSequenceExpressionEdgesFromIndexSame((SequenceExpressionEdgesFromIndexSame)expr, source);
+
             // container expressions
             case SequenceExpressionType.InContainerOrString:
                 return GetSequenceExpressionInContainerOrString((SequenceExpressionInContainerOrString)expr, source);
@@ -2115,6 +2143,67 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         #endregion Graph expressions
+
+        //-------------------------------------------------------------------------------------------------------------------
+
+        #region Index expressions
+
+        private string GetSequenceExpressionIndexUse(SequenceExpressionIndexUse seqIndexUse, SourceBuilder source)
+        {
+            return "graph.Indices.GetIndex(\"" + seqIndexUse.IndexName + "\")";
+        }
+
+        private string GetSequenceExpressionNodesFromIndexFromTo(SequenceExpressionNodesFromIndexFromTo seqNodesFromIndexFromTo, SourceBuilder source)
+        {
+            string index = GetSequenceExpression(seqNodesFromIndexFromTo.Index, source);
+            string from = seqNodesFromIndexFromTo.From != null ? GetSequenceExpression(seqNodesFromIndexFromTo.From, source) : "null";
+            string includingFrom = seqNodesFromIndexFromTo.IncludingFrom ? "true" : "false";
+            string to = seqNodesFromIndexFromTo.To != null ? GetSequenceExpression(seqNodesFromIndexFromTo.To, source) : "null";
+            string includingTo = seqNodesFromIndexFromTo.IncludingTo ? "true" : "false";
+
+            string profilingArgument = seqNodesFromIndexFromTo.EmitProfiling ? ", procEnv" : "";
+
+            return "GRGEN_LIBGR.IndexHelper.NodesFromIndexFromTo((GRGEN_LIBGR.IAttributeIndex)" + index
+                + ", " + from + ", " + includingFrom + ", " + to + ", " + includingTo + profilingArgument + ")";
+        }
+
+        private string GetSequenceExpressionNodesFromIndexSame(SequenceExpressionNodesFromIndexSame seqNodesFromIndexSame, SourceBuilder source)
+        {
+            string index = GetSequenceExpression(seqNodesFromIndexSame.Index, source);
+            string value = GetSequenceExpression(seqNodesFromIndexSame.Value, source);
+
+            string profilingArgument = seqNodesFromIndexSame.EmitProfiling ? ", procEnv" : "";
+
+            return "GRGEN_LIBGR.IndexHelper.NodesFromIndexSame((GRGEN_LIBGR.IAttributeIndex)" + index
+                + ", " + value + profilingArgument + ")";
+        }
+
+        private string GetSequenceExpressionEdgesFromIndexFromTo(SequenceExpressionEdgesFromIndexFromTo seqEdgesFromIndexFromTo, SourceBuilder source)
+        {
+            string index = GetSequenceExpression(seqEdgesFromIndexFromTo.Index, source);
+            string from = seqEdgesFromIndexFromTo.From != null ? GetSequenceExpression(seqEdgesFromIndexFromTo.From, source) : "null";
+            string includingFrom = seqEdgesFromIndexFromTo.IncludingFrom ? "true" : "false";
+            string to = seqEdgesFromIndexFromTo.To != null ? GetSequenceExpression(seqEdgesFromIndexFromTo.To, source) : "null";
+            string includingTo = seqEdgesFromIndexFromTo.IncludingTo ? "true" : "false";
+
+            string profilingArgument = seqEdgesFromIndexFromTo.EmitProfiling ? ", procEnv" : "";
+
+            return "GRGEN_LIBGR.IndexHelper.EdgesFromIndexFromTo((GRGEN_LIBGR.IAttributeIndex)" + index
+                + ", " + from + ", " + includingFrom + ", " + to + ", " + includingTo + profilingArgument + ")";
+        }
+
+        private string GetSequenceExpressionEdgesFromIndexSame(SequenceExpressionEdgesFromIndexSame seqEdgesFromIndexSame, SourceBuilder source)
+        {
+            string index = GetSequenceExpression(seqEdgesFromIndexSame.Index, source);
+            string value = GetSequenceExpression(seqEdgesFromIndexSame.Value, source);
+
+            string profilingArgument = seqEdgesFromIndexSame.EmitProfiling ? ", procEnv" : "";
+
+            return "GRGEN_LIBGR.IndexHelper.EdgesFromIndexSame((GRGEN_LIBGR.IAttributeIndex)" + index
+                + ", " + value + profilingArgument + ")";
+        }
+
+        #endregion Index expressions
 
         //-------------------------------------------------------------------------------------------------------------------
 

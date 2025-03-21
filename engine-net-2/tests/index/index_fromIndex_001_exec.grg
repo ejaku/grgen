@@ -1,0 +1,82 @@
+#using "index_model_001.gm"
+
+rule nfi() : (set<Node>) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + nodesFromIndex(foo) + "\n") } );
+		return(nodesFromIndex(foo));
+	}
+}
+
+
+rule nfis() : (set<Node>) {
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexSame(foo, 3) + "\n");
+		return(nodesFromIndexSame(foo, 3));
+	}
+}
+
+rule nfif() : (set<Node>) {
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexFrom(foo, 2) + "\n");
+		return(nodesFromIndexFrom(foo, 2));
+	}
+}
+
+rule nfife() : (set<Node>) {
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexFromExclusive(foo, 2) + "\n");
+		return(nodesFromIndexFromExclusive(foo, 2));
+	}
+}
+
+rule nfit() : (set<Node>) {
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexTo(foo, 4) + "\n");
+		return(nodesFromIndexTo(foo, 4));
+	}
+}
+
+rule nfite() : (set<Node>) {
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexToExclusive(foo, 4) + "\n");
+		return(nodesFromIndexToExclusive(foo, 4));
+	}
+}
+
+rule nfift() : (set<Node>) {
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexFromTo(foo, 2, 4) + "\n");
+		return(nodesFromIndexFromTo(foo, 2, 4));
+	}
+}
+
+rule nfifet() : (set<Node>) {
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexFromExclusiveTo(foo, 2, 4) + "\n");
+		return(nodesFromIndexFromExclusiveTo(foo, 2, 4));
+	}
+}
+
+rule nfifte() : (set<Node>) {
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexFromToExclusive(foo, 2, 4) + "\n");
+		return(nodesFromIndexFromToExclusive(foo, 2, 4));
+	}
+}
+
+rule nfifete() : (set<Node>) {
+	modify {
+	---
+		emit("The value of attribute foo is " + nodesFromIndexFromExclusiveToExclusive(foo, 2, 4) + "\n");
+		return(nodesFromIndexFromExclusiveToExclusive(foo, 2, 4));
+	}
+}

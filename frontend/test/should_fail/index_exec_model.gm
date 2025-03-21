@@ -1,0 +1,12 @@
+node class N
+{
+	i : int;
+}
+
+edge class E
+{
+	i : int;
+}
+
+index fooi { N.i }
+index bari { E.i }

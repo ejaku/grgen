@@ -223,6 +223,40 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
+    public class SequenceParserExceptionIndexUnknown : SequenceParserExceptionIndexIssue
+    {
+        public override String Name { get { return IndexName; } }
+        public readonly String IndexName;
+
+        public override String Context { get { return IndexUsageContext; } }
+        public readonly String IndexUsageContext;
+
+        /// <summary>
+        /// Creates an instance with the name of the unknown index.
+        /// </summary>
+        public SequenceParserExceptionIndexUnknown(String indexName)
+        {
+            IndexName = indexName;
+        }
+
+        /// <summary>
+        /// Creates an instance with the name of the unknown index plus the usage context.
+        /// </summary>
+        public SequenceParserExceptionIndexUnknown(String indexName, String indexUsageContext)
+            : this(indexName)
+        {
+            IndexUsageContext = indexUsageContext;
+        }
+
+        public override string Message
+        {
+            get
+            {
+                return "The index \"" + IndexName + "\" is not known" + (IndexUsageContext != null ? " (used in " + IndexUsageContext + ")": "");
+            }
+        }
+    }
+
     public class SequenceParserExceptionIndexUnknownAccessDirection : SequenceParserExceptionIndexIssue
     {
         public override String Name { get { return IndexAccessDirection; } }
