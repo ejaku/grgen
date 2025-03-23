@@ -1,0 +1,29 @@
+new graph "index/index_fromIndex_001"
+
+new :N($="$1", i=1)
+new :N($="$2", i=2)
+new :N($="$3", i=3)
+new :N($="$4", i=4)
+new :N($="$5", i=5)
+
+exec { emit("The value of attribute foo is " + countNodesFromIndex(foo) + "\n") }
+
+exec { emit("The value of attribute foo is " + countNodesFromIndexSame(foo, 3) + "\n") }
+
+exec { emit("The value of attribute foo is " + countNodesFromIndexFrom(foo, 2) + "\n") }
+
+exec { emit("The value of attribute foo is " + countNodesFromIndexFromExclusive(foo, 2) + "\n") }
+
+exec { emit("The value of attribute foo is " + countNodesFromIndexTo(foo, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + countNodesFromIndexToExclusive(foo, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + countNodesFromIndexFromTo(foo, 2, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + countNodesFromIndexFromExclusiveTo(foo, 2, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + countNodesFromIndexFromToExclusive(foo, 2, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + countNodesFromIndexFromExclusiveToExclusive(foo, 2, 4) + "\n") }
+
+quit

@@ -1,0 +1,82 @@
+#using "index_model_001.gm"
+
+rule cnfi() : (int) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + countNodesFromIndex(foo) + "\n") } );
+		return(countNodesFromIndex(foo));
+	}
+}
+
+
+rule cnfis() : (int) {
+	modify {
+	---
+		emit("The value of attribute foo is " + countNodesFromIndexSame(foo, 3) + "\n");
+		return(countNodesFromIndexSame(foo, 3));
+	}
+}
+
+rule cnfif() : (int) {
+	modify {
+	---
+		emit("The value of attribute foo is " + countNodesFromIndexFrom(foo, 2) + "\n");
+		return(countNodesFromIndexFrom(foo, 2));
+	}
+}
+
+rule cnfife() : (int) {
+	modify {
+	---
+		emit("The value of attribute foo is " + countNodesFromIndexFromExclusive(foo, 2) + "\n");
+		return(countNodesFromIndexFromExclusive(foo, 2));
+	}
+}
+
+rule cnfit() : (int) {
+	modify {
+	---
+		emit("The value of attribute foo is " + countNodesFromIndexTo(foo, 4) + "\n");
+		return(countNodesFromIndexTo(foo, 4));
+	}
+}
+
+rule cnfite() : (int) {
+	modify {
+	---
+		emit("The value of attribute foo is " + countNodesFromIndexToExclusive(foo, 4) + "\n");
+		return(countNodesFromIndexToExclusive(foo, 4));
+	}
+}
+
+rule cnfift() : (int) {
+	modify {
+	---
+		emit("The value of attribute foo is " + countNodesFromIndexFromTo(foo, 2, 4) + "\n");
+		return(countNodesFromIndexFromTo(foo, 2, 4));
+	}
+}
+
+rule cnfifet() : (int) {
+	modify {
+	---
+		emit("The value of attribute foo is " + countNodesFromIndexFromExclusiveTo(foo, 2, 4) + "\n");
+		return(countNodesFromIndexFromExclusiveTo(foo, 2, 4));
+	}
+}
+
+rule cnfifte() : (int) {
+	modify {
+	---
+		emit("The value of attribute foo is " + countNodesFromIndexFromToExclusive(foo, 2, 4) + "\n");
+		return(countNodesFromIndexFromToExclusive(foo, 2, 4));
+	}
+}
+
+rule cnfifete() : (int) {
+	modify {
+	---
+		emit("The value of attribute foo is " + countNodesFromIndexFromExclusiveToExclusive(foo, 2, 4) + "\n");
+		return(countNodesFromIndexFromExclusiveToExclusive(foo, 2, 4));
+	}
+}

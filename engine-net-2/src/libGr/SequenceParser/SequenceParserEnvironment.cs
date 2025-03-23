@@ -1218,6 +1218,26 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                 case "edgesFromIndexFromExclusiveTo": return true;
                 case "edgesFromIndexFromToExclusive": return true;
                 case "edgesFromIndexFromExclusiveToExclusive": return true;
+                case "countNodesFromIndex": return true;
+                case "countEdgesFromIndex": return true;
+                case "countNodesFromIndexSame": return true;
+                case "countEdgesFromIndexSame": return true;
+                case "countNodesFromIndexFrom": return true;
+                case "countNodesFromIndexFromExclusive": return true;
+                case "countNodesFromIndexTo": return true;
+                case "countNodesFromIndexToExclusive": return true;
+                case "countNodesFromIndexFromTo": return true;
+                case "countNodesFromIndexFromExclusiveTo": return true;
+                case "countNodesFromIndexFromToExclusive": return true;
+                case "countNodesFromIndexFromExclusiveToExclusive": return true;
+                case "countEdgesFromIndexFrom": return true;
+                case "countEdgesFromIndexFromExclusive": return true;
+                case "countEdgesFromIndexTo": return true;
+                case "countEdgesFromIndexToExclusive": return true;
+                case "countEdgesFromIndexFromTo": return true;
+                case "countEdgesFromIndexFromExclusiveTo": return true;
+                case "countEdgesFromIndexFromToExclusive": return true;
+                case "countEdgesFromIndexFromExclusiveToExclusive": return true;
                 default: return false;
             }
         }
@@ -1347,13 +1367,138 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                             throw new ParseException("\"edgesFromIndexFromExclusiveToExclusive\" expects 3 parameters");
                         return new SequenceExpressionEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), false, getArgument(argExprs, 2), false, SequenceExpressionType.EdgesFromIndexFromExclusiveToExclusive);
                     }
+                case "countNodesFromIndex":
+                    {
+                        if(argExprs.Count != 1)
+                            throw new ParseException("\"countNodesFromIndex\" expects 1 parameter");
+                        return new SequenceExpressionCountNodesFromIndexFromTo(getArgument(argExprs, 0), null, true, null, true, SequenceExpressionType.CountNodesFromIndex);
+                    }
+                case "countEdgesFromIndex":
+                    {
+                        if(argExprs.Count != 1)
+                            throw new ParseException("\"countEdgesFromIndex\" expects 1 parameter");
+                        return new SequenceExpressionCountEdgesFromIndexFromTo(getArgument(argExprs, 0), null, true, null, true, SequenceExpressionType.CountEdgesFromIndex);
+                    }
+                case "countNodesFromIndexSame":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"countNodesFromIndexSame\" expects 2 parameters");
+                        return new SequenceExpressionCountNodesFromIndexSame(getArgument(argExprs, 0), getArgument(argExprs, 1), SequenceExpressionType.CountNodesFromIndexSame);
+                    }
+                case "countEdgesFromIndexSame":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"countEdgesFromIndexSame\" expects 2 parameters");
+                        return new SequenceExpressionCountEdgesFromIndexSame(getArgument(argExprs, 0), getArgument(argExprs, 1), SequenceExpressionType.CountEdgesFromIndexSame);
+                    }
+                case "countNodesFromIndexFrom":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"countNodesFromIndexFrom\" expects 2 parameters");
+                        return new SequenceExpressionCountNodesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), true, null, true, SequenceExpressionType.CountNodesFromIndexFrom);
+                    }
+                case "countNodesFromIndexFromExclusive":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"countNodesFromIndexFromExclusive\" expects 2 parameters");
+                        return new SequenceExpressionCountNodesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), false, null, true, SequenceExpressionType.CountNodesFromIndexFromExclusive);
+                    }
+                case "countNodesFromIndexTo":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"countNodesFromIndexTo\" expects 2 parameters");
+                        return new SequenceExpressionCountNodesFromIndexFromTo(getArgument(argExprs, 0), null, true, getArgument(argExprs, 1), true, SequenceExpressionType.CountNodesFromIndexTo);
+                    }
+                case "countNodesFromIndexToExclusive":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"countNodesFromIndexToExclusive\" expects 2 parameters");
+                        return new SequenceExpressionCountNodesFromIndexFromTo(getArgument(argExprs, 0), null, true, getArgument(argExprs, 1), false, SequenceExpressionType.CountNodesFromIndexToExclusive);
+                    }
+                case "countNodesFromIndexFromTo":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"countNodesFromIndexFromTo\" expects 3 parameters");
+                        return new SequenceExpressionCountNodesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), true, getArgument(argExprs, 2), true, SequenceExpressionType.CountNodesFromIndexFromTo);
+                    }
+                case "countNodesFromIndexFromExclusiveTo":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"countNodesFromIndexFromExclusiveTo\" expects 3 parameters");
+                        return new SequenceExpressionCountNodesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), false, getArgument(argExprs, 2), true, SequenceExpressionType.CountNodesFromIndexFromExclusiveTo);
+                    }
+                case "countNodesFromIndexFromToExclusive":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"countNodesFromIndexFromToExclusive\" expects 3 parameters");
+                        return new SequenceExpressionCountNodesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), true, getArgument(argExprs, 2), false, SequenceExpressionType.CountNodesFromIndexFromToExclusive);
+                    }
+                case "countNodesFromIndexFromExclusiveToExclusive":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"countNodesFromIndexFromExclusiveToExclusive\" expects 3 parameters");
+                        return new SequenceExpressionCountNodesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), false, getArgument(argExprs, 2), false, SequenceExpressionType.CountNodesFromIndexFromExclusiveToExclusive);
+                    }
+                case "countEdgesFromIndexFrom":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"countEdgesFromIndexFrom\" expects 2 parameters");
+                        return new SequenceExpressionCountEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), true, null, true, SequenceExpressionType.CountEdgesFromIndexFrom);
+                    }
+                case "countEdgesFromIndexFromExclusive":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"countEdgesFromIndexFromExclusive\" expects 2 parameters");
+                        return new SequenceExpressionCountEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), false, null, true, SequenceExpressionType.CountEdgesFromIndexFromExclusive);
+                    }
+                case "countEdgesFromIndexTo":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"countEdgesFromIndexTo\" expects 2 parameters");
+                        return new SequenceExpressionCountEdgesFromIndexFromTo(getArgument(argExprs, 0), null, true, getArgument(argExprs, 1), true, SequenceExpressionType.CountEdgesFromIndexTo);
+                    }
+                case "countEdgesFromIndexToExclusive":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"countEdgesFromIndexToExclusive\" expects 2 parameters");
+                        return new SequenceExpressionCountEdgesFromIndexFromTo(getArgument(argExprs, 0), null, true, getArgument(argExprs, 1), false, SequenceExpressionType.CountEdgesFromIndexToExclusive);
+                    }
+                case "countEdgesFromIndexFromTo":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"countEdgesFromIndexFromTo\" expects 3 parameters");
+                        return new SequenceExpressionCountEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), true, getArgument(argExprs, 2), true, SequenceExpressionType.CountEdgesFromIndexFromTo);
+                    }
+                case "countEdgesFromIndexFromExclusiveTo":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"countEdgesFromIndexFromExclusiveTo\" expects 3 parameters");
+                        return new SequenceExpressionCountEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), false, getArgument(argExprs, 2), true, SequenceExpressionType.CountEdgesFromIndexFromExclusiveTo);
+                    }
+                case "countEdgesFromIndexFromToExclusive":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"countEdgesFromIndexFromToExclusive\" expects 3 parameters");
+                        return new SequenceExpressionCountEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), true, getArgument(argExprs, 2), false, SequenceExpressionType.CountEdgesFromIndexFromToExclusive);
+                    }
+                case "countEdgesFromIndexFromExclusiveToExclusive":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"countEdgesFromIndexFromExclusiveToExclusive\" expects 3 parameters");
+                        return new SequenceExpressionCountEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), false, getArgument(argExprs, 2), false, SequenceExpressionType.CountEdgesFromIndexFromExclusiveToExclusive);
+                    }
                 default:
                     throw new ParseException("Unknown index function name: \"" + indexFunctionName + "\"!"
                         + " (available are nodesFromIndex|edgesFromIndex|nodesFromIndexSame|edgesFromIndexSame"
                         + "|nodesFromIndexFrom|nodesFromIndexFromExclusive|nodesFromIndexTo|nodesFromIndexToExclusive"
                         + "|nodesFromIndexFromTo|nodesFromIndexFromExclusiveTo|nodesFromIndexFromToExclusive|nodesFromIndexFromExclusiveToExclusive"
                         + "|edgesFromIndexFrom|edgesFromIndexFromExclusive|edgesFromIndexTo|edgesFromIndexToExclusive"
-                        + "|edgesFromIndexFromTo|edgesFromIndexFromExclusiveTo|edgesFromIndexFromToExclusive|edgesFromIndexFromExclusiveToExclusive");
+                        + "|edgesFromIndexFromTo|edgesFromIndexFromExclusiveTo|edgesFromIndexFromToExclusive|edgesFromIndexFromExclusiveToExclusive"
+                        + "|countNodesFromIndex|countEdgesFromIndex|countNodesFromIndexSame|countEdgesFromIndexSame"
+                        + "|countNodesFromIndexFrom|countNodesFromIndexFromExclusive|countNodesFromIndexTo|countNodesFromIndexToExclusive"
+                        + "|countNodesFromIndexFromTo|countNodesFromIndexFromExclusiveTo|countNodesFromIndexFromToExclusive|countNodesFromIndexFromExclusiveToExclusive"
+                        + "|countEdgesFromIndexFrom|countEdgesFromIndexFromExclusive|countEdgesFromIndexTo|countEdgesFromIndexToExclusive"
+                        + "|countEdgesFromIndexFromTo|countEdgesFromIndexFromExclusiveTo|countEdgesFromIndexFromToExclusive|countEdgesFromIndexFromExclusiveToExclusive");
             }
         }
 

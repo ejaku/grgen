@@ -1,0 +1,44 @@
+#using "index_model_002.gm"
+
+function f() : int
+{
+	return(0);
+}
+
+rule i {
+	modify {
+		---
+		def var s:int;
+		exec( {
+				s = countNodesFromIndex(fooi);
+				s = countNodesFromIndexSame(fooi, 42);
+				s = countNodesFromIndexFrom(fooi, 42);
+				s = countNodesFromIndexFromExclusive(fooi, 42);
+				s = countNodesFromIndexTo(fooi, 42);
+				s = countNodesFromIndexToExclusive(fooi, 42);
+				s = countNodesFromIndexFromTo(fooi, f(), 42);
+				s = countNodesFromIndexFromExclusiveTo(fooi, f(), 42);
+				s = countNodesFromIndexFromToExclusive(fooi, f(), 42);
+				s = countNodesFromIndexFromExclusiveToExclusive(fooi, f(), 42)
+			} );
+	}
+}
+
+rule ei {
+	modify {
+		---
+		def var s:int;
+		exec( {
+			s = countEdgesFromIndex(bari);
+			s = countEdgesFromIndexSame(bari, 42);
+			s = countEdgesFromIndexFrom(bari, 42);
+			s = countEdgesFromIndexFromExclusive(bari, 42);
+			s = countEdgesFromIndexTo(bari, 42);
+			s = countEdgesFromIndexToExclusive(bari, 42);
+			s = countEdgesFromIndexFromTo(bari, f(), 42);
+			s = countEdgesFromIndexFromExclusiveTo(bari, f(), 42);
+			s = countEdgesFromIndexFromToExclusive(bari, f(), 42);
+			s = countEdgesFromIndexFromExclusiveToExclusive(bari, f(), 42)
+		} );
+	}
+}

@@ -286,6 +286,30 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionEdgesFromIndexFromTo((SequenceExpressionEdgesFromIndexFromTo)expr, source);
             case SequenceExpressionType.EdgesFromIndexSame:
                 return GetSequenceExpressionEdgesFromIndexSame((SequenceExpressionEdgesFromIndexSame)expr, source);
+            case SequenceExpressionType.CountNodesFromIndex:
+            case SequenceExpressionType.CountNodesFromIndexFrom:
+            case SequenceExpressionType.CountNodesFromIndexFromExclusive:
+            case SequenceExpressionType.CountNodesFromIndexTo:
+            case SequenceExpressionType.CountNodesFromIndexToExclusive:
+            case SequenceExpressionType.CountNodesFromIndexFromTo:
+            case SequenceExpressionType.CountNodesFromIndexFromExclusiveTo:
+            case SequenceExpressionType.CountNodesFromIndexFromToExclusive:
+            case SequenceExpressionType.CountNodesFromIndexFromExclusiveToExclusive:
+                return GetSequenceExpressionCountNodesFromIndexFromTo((SequenceExpressionCountNodesFromIndexFromTo)expr, source);
+            case SequenceExpressionType.CountNodesFromIndexSame:
+                return GetSequenceExpressionCountNodesFromIndexSame((SequenceExpressionCountNodesFromIndexSame)expr, source);
+            case SequenceExpressionType.CountEdgesFromIndex:
+            case SequenceExpressionType.CountEdgesFromIndexFrom:
+            case SequenceExpressionType.CountEdgesFromIndexFromExclusive:
+            case SequenceExpressionType.CountEdgesFromIndexTo:
+            case SequenceExpressionType.CountEdgesFromIndexToExclusive:
+            case SequenceExpressionType.CountEdgesFromIndexFromTo:
+            case SequenceExpressionType.CountEdgesFromIndexFromExclusiveTo:
+            case SequenceExpressionType.CountEdgesFromIndexFromToExclusive:
+            case SequenceExpressionType.CountEdgesFromIndexFromExclusiveToExclusive:
+                return GetSequenceExpressionCountEdgesFromIndexFromTo((SequenceExpressionCountEdgesFromIndexFromTo)expr, source);
+            case SequenceExpressionType.CountEdgesFromIndexSame:
+                return GetSequenceExpressionCountEdgesFromIndexSame((SequenceExpressionCountEdgesFromIndexSame)expr, source);
 
             // container expressions
             case SequenceExpressionType.InContainerOrString:
@@ -2200,6 +2224,56 @@ namespace de.unika.ipd.grGen.lgsp
             string profilingArgument = seqEdgesFromIndexSame.EmitProfiling ? ", procEnv" : "";
 
             return "GRGEN_LIBGR.IndexHelper.EdgesFromIndexSame((GRGEN_LIBGR.IAttributeIndex)" + index
+                + ", " + value + profilingArgument + ")";
+        }
+
+        private string GetSequenceExpressionCountNodesFromIndexFromTo(SequenceExpressionCountNodesFromIndexFromTo seqCountNodesFromIndexFromTo, SourceBuilder source)
+        {
+            string index = GetSequenceExpression(seqCountNodesFromIndexFromTo.Index, source);
+            string from = seqCountNodesFromIndexFromTo.From != null ? GetSequenceExpression(seqCountNodesFromIndexFromTo.From, source) : "null";
+            string includingFrom = seqCountNodesFromIndexFromTo.IncludingFrom ? "true" : "false";
+            string to = seqCountNodesFromIndexFromTo.To != null ? GetSequenceExpression(seqCountNodesFromIndexFromTo.To, source) : "null";
+            string includingTo = seqCountNodesFromIndexFromTo.IncludingTo ? "true" : "false";
+
+            string profilingArgument = seqCountNodesFromIndexFromTo.EmitProfiling ? ", procEnv" : "";
+
+            return "GRGEN_LIBGR.IndexHelper.CountNodesFromIndexFromTo((GRGEN_LIBGR.IAttributeIndex)" + index
+                + ", " + from + ", " + includingFrom + ", " + to + ", " + includingTo + profilingArgument + ")";
+        }
+
+        private string GetSequenceExpressionCountNodesFromIndexSame(SequenceExpressionCountNodesFromIndexSame seqCountNodesFromIndexSame, SourceBuilder source)
+        {
+            string index = GetSequenceExpression(seqCountNodesFromIndexSame.Index, source);
+            string value = GetSequenceExpression(seqCountNodesFromIndexSame.Value, source);
+
+            string profilingArgument = seqCountNodesFromIndexSame.EmitProfiling ? ", procEnv" : "";
+
+            return "GRGEN_LIBGR.IndexHelper.CountNodesFromIndexSame((GRGEN_LIBGR.IAttributeIndex)" + index
+                + ", " + value + profilingArgument + ")";
+        }
+
+        private string GetSequenceExpressionCountEdgesFromIndexFromTo(SequenceExpressionCountEdgesFromIndexFromTo seqCountEdgesFromIndexFromTo, SourceBuilder source)
+        {
+            string index = GetSequenceExpression(seqCountEdgesFromIndexFromTo.Index, source);
+            string from = seqCountEdgesFromIndexFromTo.From != null ? GetSequenceExpression(seqCountEdgesFromIndexFromTo.From, source) : "null";
+            string includingFrom = seqCountEdgesFromIndexFromTo.IncludingFrom ? "true" : "false";
+            string to = seqCountEdgesFromIndexFromTo.To != null ? GetSequenceExpression(seqCountEdgesFromIndexFromTo.To, source) : "null";
+            string includingTo = seqCountEdgesFromIndexFromTo.IncludingTo ? "true" : "false";
+
+            string profilingArgument = seqCountEdgesFromIndexFromTo.EmitProfiling ? ", procEnv" : "";
+
+            return "GRGEN_LIBGR.IndexHelper.CountEdgesFromIndexFromTo((GRGEN_LIBGR.IAttributeIndex)" + index
+                + ", " + from + ", " + includingFrom + ", " + to + ", " + includingTo + profilingArgument + ")";
+        }
+
+        private string GetSequenceExpressionCountEdgesFromIndexSame(SequenceExpressionCountEdgesFromIndexSame seqCountEdgesFromIndexSame, SourceBuilder source)
+        {
+            string index = GetSequenceExpression(seqCountEdgesFromIndexSame.Index, source);
+            string value = GetSequenceExpression(seqCountEdgesFromIndexSame.Value, source);
+
+            string profilingArgument = seqCountEdgesFromIndexSame.EmitProfiling ? ", procEnv" : "";
+
+            return "GRGEN_LIBGR.IndexHelper.CountEdgesFromIndexSame((GRGEN_LIBGR.IAttributeIndex)" + index
                 + ", " + value + profilingArgument + ")";
         }
 

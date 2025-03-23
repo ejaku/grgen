@@ -1,0 +1,82 @@
+#using "index_model_001b.gm"
+
+rule cefi() : (int) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + countEdgesFromIndex(foo) + "\n") } );
+		return(countEdgesFromIndex(foo));
+	}
+}
+
+
+rule cefis() : (int) {
+	modify {
+	---
+		emit("The value of attribute foo is " + countEdgesFromIndexSame(foo, 3) + "\n");
+		return(countEdgesFromIndexSame(foo, 3));
+	}
+}
+
+rule cefif() : (int) {
+	modify {
+	---
+		emit("The value of attribute foo is " + countEdgesFromIndexFrom(foo, 2) + "\n");
+		return(countEdgesFromIndexFrom(foo, 2));
+	}
+}
+
+rule cefife() : (int) {
+	modify {
+	---
+		emit("The value of attribute foo is " + countEdgesFromIndexFromExclusive(foo, 2) + "\n");
+		return(countEdgesFromIndexFromExclusive(foo, 2));
+	}
+}
+
+rule cefit() : (int) {
+	modify {
+	---
+		emit("The value of attribute foo is " + countEdgesFromIndexTo(foo, 4) + "\n");
+		return(countEdgesFromIndexTo(foo, 4));
+	}
+}
+
+rule cefite() : (int) {
+	modify {
+	---
+		emit("The value of attribute foo is " + countEdgesFromIndexToExclusive(foo, 4) + "\n");
+		return(countEdgesFromIndexToExclusive(foo, 4));
+	}
+}
+
+rule cefift() : (int) {
+	modify {
+	---
+		emit("The value of attribute foo is " + countEdgesFromIndexFromTo(foo, 2, 4) + "\n");
+		return(countEdgesFromIndexFromTo(foo, 2, 4));
+	}
+}
+
+rule cefifet() : (int) {
+	modify {
+	---
+		emit("The value of attribute foo is " + countEdgesFromIndexFromExclusiveTo(foo, 2, 4) + "\n");
+		return(countEdgesFromIndexFromExclusiveTo(foo, 2, 4));
+	}
+}
+
+rule cefifte() : (int) {
+	modify {
+	---
+		emit("The value of attribute foo is " + countEdgesFromIndexFromToExclusive(foo, 2, 4) + "\n");
+		return(countEdgesFromIndexFromToExclusive(foo, 2, 4));
+	}
+}
+
+rule cefifete() : (int) {
+	modify {
+	---
+		emit("The value of attribute foo is " + countEdgesFromIndexFromExclusiveToExclusive(foo, 2, 4) + "\n");
+		return(countEdgesFromIndexFromExclusiveToExclusive(foo, 2, 4));
+	}
+}

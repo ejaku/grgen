@@ -80,12 +80,16 @@ namespace de.unika.ipd.grGen.libGr
         IsReachableEdges, IsReachableEdgesViaIncoming, IsReachableEdgesViaOutgoing,
         IsBoundedReachableNodes, IsBoundedReachableNodesViaIncoming, IsBoundedReachableNodesViaOutgoing,
         IsBoundedReachableEdges, IsBoundedReachableEdgesViaIncoming, IsBoundedReachableEdgesViaOutgoing,
-        NodesFromIndex, EdgesFromIndex,
-        NodesFromIndexSame, EdgesFromIndexSame,
+        NodesFromIndex, EdgesFromIndex, NodesFromIndexSame, EdgesFromIndexSame,
         NodesFromIndexFrom, NodesFromIndexFromExclusive, NodesFromIndexTo, NodesFromIndexToExclusive,
         NodesFromIndexFromTo, NodesFromIndexFromExclusiveTo, NodesFromIndexFromToExclusive, NodesFromIndexFromExclusiveToExclusive,
         EdgesFromIndexFrom, EdgesFromIndexFromExclusive, EdgesFromIndexTo, EdgesFromIndexToExclusive,
         EdgesFromIndexFromTo, EdgesFromIndexFromExclusiveTo, EdgesFromIndexFromToExclusive, EdgesFromIndexFromExclusiveToExclusive,
+        CountNodesFromIndex, CountEdgesFromIndex, CountNodesFromIndexSame, CountEdgesFromIndexSame,
+        CountNodesFromIndexFrom, CountNodesFromIndexFromExclusive, CountNodesFromIndexTo, CountNodesFromIndexToExclusive,
+        CountNodesFromIndexFromTo, CountNodesFromIndexFromExclusiveTo, CountNodesFromIndexFromToExclusive, CountNodesFromIndexFromExclusiveToExclusive,
+        CountEdgesFromIndexFrom, CountEdgesFromIndexFromExclusive, CountEdgesFromIndexTo, CountEdgesFromIndexToExclusive,
+        CountEdgesFromIndexFromTo, CountEdgesFromIndexFromExclusiveTo, CountEdgesFromIndexFromToExclusive, CountEdgesFromIndexFromExclusiveToExclusive,
         InducedSubgraph, DefinedSubgraph,
         EqualsAny, GetEquivalent,
         Nameof, Uniqueof, Typeof,
@@ -10678,6 +10682,242 @@ namespace de.unika.ipd.grGen.libGr
                         return "edgesFromIndexFromExclusiveTo";
                     else
                         return "edgesFromIndexFromExclusiveToExclusive";
+                }
+            }
+        }
+    }
+
+    public class SequenceExpressionCountNodesFromIndexSame : SequenceExpressionFromIndexSame
+    {
+        public SequenceExpressionCountNodesFromIndexSame(SequenceExpression index, SequenceExpression value, SequenceExpressionType type)
+            : base(index, value, type)
+        {
+        }
+
+        protected SequenceExpressionCountNodesFromIndexSame(SequenceExpressionCountNodesFromIndexSame that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionCountNodesFromIndexSame(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "int";
+        }
+
+        protected override string RootType
+        {
+            get { return "Node"; }
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            IAttributeIndex index = (IAttributeIndex)Index.Evaluate(procEnv);
+            object value = Value.Evaluate(procEnv);
+
+            if(EmitProfiling)
+                return IndexHelper.CountNodesFromIndexSame(index, value, procEnv);
+            else
+                return IndexHelper.CountNodesFromIndexSame(index, value);
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        protected override string FunctionSymbol
+        {
+            get { return "countNodesFromIndexSame"; }
+        }
+    }
+
+    public class SequenceExpressionCountEdgesFromIndexSame : SequenceExpressionFromIndexSame
+    {
+        public SequenceExpressionCountEdgesFromIndexSame(SequenceExpression index, SequenceExpression value, SequenceExpressionType type)
+            : base(index, value, type)
+        {
+        }
+
+        protected SequenceExpressionCountEdgesFromIndexSame(SequenceExpressionCountEdgesFromIndexSame that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionCountEdgesFromIndexSame(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "int";
+        }
+
+        protected override string RootType
+        {
+            get { return "AEdge"; }
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            IAttributeIndex index = (IAttributeIndex)Index.Evaluate(procEnv);
+            object value = Value.Evaluate(procEnv);
+
+            if(EmitProfiling)
+                return IndexHelper.CountEdgesFromIndexSame(index, value, procEnv);
+            else
+                return IndexHelper.CountEdgesFromIndexSame(index, value);
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        protected override string FunctionSymbol
+        {
+            get { return "countEdgesFromIndexSame"; }
+        }
+    }
+
+    public class SequenceExpressionCountNodesFromIndexFromTo : SequenceExpressionFromIndexFromTo
+    {
+        public SequenceExpressionCountNodesFromIndexFromTo(SequenceExpression index, SequenceExpression from, bool includingFrom, SequenceExpression to, bool includingTo, SequenceExpressionType type)
+            : base(index, from, includingFrom, to, includingTo, type)
+        {
+        }
+
+        protected SequenceExpressionCountNodesFromIndexFromTo(SequenceExpressionCountNodesFromIndexFromTo that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionCountNodesFromIndexFromTo(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "int";
+        }
+
+        protected override string RootType
+        {
+            get { return "Node"; }
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            IAttributeIndex index = (IAttributeIndex)Index.Evaluate(procEnv);
+            object from = From != null ? From.Evaluate(procEnv) : null;
+            object to = To != null ? To.Evaluate(procEnv) : null;
+
+            if(EmitProfiling)
+                return IndexHelper.CountNodesFromIndexFromTo(index, from, IncludingFrom, to, IncludingTo, procEnv);
+            else
+                return IndexHelper.CountNodesFromIndexFromTo(index, from, IncludingFrom, to, IncludingTo);
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        protected override string FunctionSymbol
+        {
+            get
+            {
+                if(From == null && To == null)
+                    return "countNodesFromIndex";
+                else if(To == null)
+                    return IncludingFrom ? "countNodesFromIndexFrom" : "countNodesFromIndexFromExclusive";
+                else if(From == null)
+                    return IncludingTo ? "countNodesFromIndexTo" : "countNodesFromIndexToExclusive";
+                else
+                {
+                    if(IncludingFrom && IncludingTo)
+                        return "countNodesFromIndexFromTo";
+                    else if(IncludingFrom)
+                        return "countNodesFromIndexFromToExclusive";
+                    else if(IncludingTo)
+                        return "countNodesFromIndexFromExclusiveTo";
+                    else
+                        return "countNodesFromIndexFromExclusiveToExclusive";
+                }
+            }
+        }
+    }
+
+    public class SequenceExpressionCountEdgesFromIndexFromTo : SequenceExpressionFromIndexFromTo
+    {
+        public SequenceExpressionCountEdgesFromIndexFromTo(SequenceExpression index, SequenceExpression from, bool includingFrom, SequenceExpression to, bool includingTo, SequenceExpressionType type)
+            : base(index, from, includingFrom, to, includingTo, type)
+        {
+        }
+
+        protected SequenceExpressionCountEdgesFromIndexFromTo(SequenceExpressionCountEdgesFromIndexFromTo that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionCountEdgesFromIndexFromTo(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "int";
+        }
+
+        protected override string RootType
+        {
+            get { return "AEdge"; }
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            IAttributeIndex index = (IAttributeIndex)Index.Evaluate(procEnv);
+            object from = From != null ? From.Evaluate(procEnv) : null;
+            object to = To != null ? To.Evaluate(procEnv) : null;
+
+            if(EmitProfiling)
+                return IndexHelper.CountEdgesFromIndexFromTo(index, from, IncludingFrom, to, IncludingTo, procEnv);
+            else
+                return IndexHelper.CountEdgesFromIndexFromTo(index, from, IncludingFrom, to, IncludingTo);
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        protected override string FunctionSymbol
+        {
+            get
+            {
+                if(From == null && To == null)
+                    return "countEdgesFromIndex";
+                else if(To == null)
+                    return IncludingFrom ? "countEdgesFromIndexFrom" : "countEdgesFromIndexFromExclusive";
+                else if(From == null)
+                    return IncludingTo ? "countEdgesFromIndexTo" : "countEdgesFromIndexToExclusive";
+                else
+                {
+                    if(IncludingFrom && IncludingTo)
+                        return "countEdgesFromIndexFromTo";
+                    else if(IncludingFrom)
+                        return "countEdgesFromIndexFromToExclusive";
+                    else if(IncludingTo)
+                        return "countEdgesFromIndexFromExclusiveTo";
+                    else
+                        return "countEdgesFromIndexFromExclusiveToExclusive";
                 }
             }
         }
