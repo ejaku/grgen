@@ -466,7 +466,7 @@ namespace de.unika.ipd.grGen.libGr
             return edgesArray;
         }
 
-        public static List<IEdge> EdgesFromIndexFromToAsArrayDescendings(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, IActionExecutionEnvironment actionEnv)
+        public static List<IEdge> EdgesFromIndexFromToAsArrayDescending(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo, IActionExecutionEnvironment actionEnv)
         {
             List<IEdge> edgesArray = new List<IEdge>();
             foreach(IEdge edge in GetIndexEnumerableDescending(index, from, includingFrom, to, includingTo))

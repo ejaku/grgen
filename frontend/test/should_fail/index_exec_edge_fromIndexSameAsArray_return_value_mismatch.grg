@@ -1,0 +1,6 @@
+#using "index_exec_model.gm"
+
+sequence s(i:array<Node>)
+{
+	{ i=edgesFromIndexSameAsArray(bari, 42) }
+}

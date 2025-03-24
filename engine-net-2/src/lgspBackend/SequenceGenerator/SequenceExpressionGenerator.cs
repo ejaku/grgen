@@ -334,6 +334,48 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionIsInEdgesFromIndexFromTo((SequenceExpressionIsInEdgesFromIndexFromTo)expr, source);
             case SequenceExpressionType.IsInEdgesFromIndexSame:
                 return GetSequenceExpressionIsInEdgesFromIndexSame((SequenceExpressionIsInEdgesFromIndexSame)expr, source);
+            case SequenceExpressionType.NodesFromIndexAsArrayAscending:
+            case SequenceExpressionType.NodesFromIndexFromAsArrayAscending:
+            case SequenceExpressionType.NodesFromIndexFromExclusiveAsArrayAscending:
+            case SequenceExpressionType.NodesFromIndexToAsArrayAscending:
+            case SequenceExpressionType.NodesFromIndexToExclusiveAsArrayAscending:
+            case SequenceExpressionType.NodesFromIndexFromToAsArrayAscending:
+            case SequenceExpressionType.NodesFromIndexFromExclusiveToAsArrayAscending:
+            case SequenceExpressionType.NodesFromIndexFromToExclusiveAsArrayAscending:
+            case SequenceExpressionType.NodesFromIndexFromExclusiveToExclusiveAsArrayAscending:
+            case SequenceExpressionType.NodesFromIndexAsArrayDescending:
+            case SequenceExpressionType.NodesFromIndexFromAsArrayDescending:
+            case SequenceExpressionType.NodesFromIndexFromExclusiveAsArrayDescending:
+            case SequenceExpressionType.NodesFromIndexToAsArrayDescending:
+            case SequenceExpressionType.NodesFromIndexToExclusiveAsArrayDescending:
+            case SequenceExpressionType.NodesFromIndexFromToAsArrayDescending:
+            case SequenceExpressionType.NodesFromIndexFromExclusiveToAsArrayDescending:
+            case SequenceExpressionType.NodesFromIndexFromToExclusiveAsArrayDescending:
+            case SequenceExpressionType.NodesFromIndexFromExclusiveToExclusiveAsArrayDescending:
+                return GetSequenceExpressionNodesFromIndexFromToAsArray((SequenceExpressionNodesFromIndexFromToAsArray)expr, source);
+            case SequenceExpressionType.NodesFromIndexSameAsArray:
+                return GetSequenceExpressionNodesFromIndexSameAsArray((SequenceExpressionNodesFromIndexSameAsArray)expr, source);
+            case SequenceExpressionType.EdgesFromIndexAsArrayAscending:
+            case SequenceExpressionType.EdgesFromIndexFromAsArrayAscending:
+            case SequenceExpressionType.EdgesFromIndexFromExclusiveAsArrayAscending:
+            case SequenceExpressionType.EdgesFromIndexToAsArrayAscending:
+            case SequenceExpressionType.EdgesFromIndexToExclusiveAsArrayAscending:
+            case SequenceExpressionType.EdgesFromIndexFromToAsArrayAscending:
+            case SequenceExpressionType.EdgesFromIndexFromExclusiveToAsArrayAscending:
+            case SequenceExpressionType.EdgesFromIndexFromToExclusiveAsArrayAscending:
+            case SequenceExpressionType.EdgesFromIndexFromExclusiveToExclusiveAsArrayAscending:
+            case SequenceExpressionType.EdgesFromIndexAsArrayDescending:
+            case SequenceExpressionType.EdgesFromIndexFromAsArrayDescending:
+            case SequenceExpressionType.EdgesFromIndexFromExclusiveAsArrayDescending:
+            case SequenceExpressionType.EdgesFromIndexToAsArrayDescending:
+            case SequenceExpressionType.EdgesFromIndexToExclusiveAsArrayDescending:
+            case SequenceExpressionType.EdgesFromIndexFromToAsArrayDescending:
+            case SequenceExpressionType.EdgesFromIndexFromExclusiveToAsArrayDescending:
+            case SequenceExpressionType.EdgesFromIndexFromToExclusiveAsArrayDescending:
+            case SequenceExpressionType.EdgesFromIndexFromExclusiveToExclusiveAsArrayDescending:
+                return GetSequenceExpressionEdgesFromIndexFromToAsArray((SequenceExpressionEdgesFromIndexFromToAsArray)expr, source);
+            case SequenceExpressionType.EdgesFromIndexSameAsArray:
+                return GetSequenceExpressionEdgesFromIndexSameAsArray((SequenceExpressionEdgesFromIndexSameAsArray)expr, source);
 
             // container expressions
             case SequenceExpressionType.InContainerOrString:
@@ -2352,6 +2394,58 @@ namespace de.unika.ipd.grGen.lgsp
             string profilingArgument = seqIsInEdgesFromIndexSame.EmitProfiling ? ", procEnv" : "";
 
             return "GRGEN_LIBGR.IndexHelper.IsInEdgesFromIndexSame((GRGEN_LIBGR.IEdge)" + candidate + ", (GRGEN_LIBGR.IAttributeIndex)" + index
+                + ", " + value + profilingArgument + ")";
+        }
+
+        private string GetSequenceExpressionNodesFromIndexFromToAsArray(SequenceExpressionNodesFromIndexFromToAsArray seqNodesFromIndexFromToAsArray, SourceBuilder source)
+        {
+            string index = GetSequenceExpression(seqNodesFromIndexFromToAsArray.Index, source);
+            string from = seqNodesFromIndexFromToAsArray.From != null ? GetSequenceExpression(seqNodesFromIndexFromToAsArray.From, source) : "null";
+            string includingFrom = seqNodesFromIndexFromToAsArray.IncludingFrom ? "true" : "false";
+            string to = seqNodesFromIndexFromToAsArray.To != null ? GetSequenceExpression(seqNodesFromIndexFromToAsArray.To, source) : "null";
+            string includingTo = seqNodesFromIndexFromToAsArray.IncludingTo ? "true" : "false";
+            string ascending = seqNodesFromIndexFromToAsArray.Ascending ? "Ascending" : "Descending";
+
+            string profilingArgument = seqNodesFromIndexFromToAsArray.EmitProfiling ? ", procEnv" : "";
+
+            return "GRGEN_LIBGR.IndexHelper.NodesFromIndexFromToAsArray" + ascending + "((GRGEN_LIBGR.IAttributeIndex)" + index
+                + ", " + from + ", " + includingFrom + ", " + to + ", " + includingTo + profilingArgument + ")";
+        }
+
+        private string GetSequenceExpressionNodesFromIndexSameAsArray(SequenceExpressionNodesFromIndexSameAsArray seqNodesFromIndexSameAsArray, SourceBuilder source)
+        {
+            string index = GetSequenceExpression(seqNodesFromIndexSameAsArray.Index, source);
+            string value = GetSequenceExpression(seqNodesFromIndexSameAsArray.Value, source);
+
+            string profilingArgument = seqNodesFromIndexSameAsArray.EmitProfiling ? ", procEnv" : "";
+
+            return "GRGEN_LIBGR.IndexHelper.NodesFromIndexSameAsArray((GRGEN_LIBGR.IAttributeIndex)" + index
+                + ", " + value + profilingArgument + ")";
+        }
+
+        private string GetSequenceExpressionEdgesFromIndexFromToAsArray(SequenceExpressionEdgesFromIndexFromToAsArray seqEdgesFromIndexFromToAsArray, SourceBuilder source)
+        {
+            string index = GetSequenceExpression(seqEdgesFromIndexFromToAsArray.Index, source);
+            string from = seqEdgesFromIndexFromToAsArray.From != null ? GetSequenceExpression(seqEdgesFromIndexFromToAsArray.From, source) : "null";
+            string includingFrom = seqEdgesFromIndexFromToAsArray.IncludingFrom ? "true" : "false";
+            string to = seqEdgesFromIndexFromToAsArray.To != null ? GetSequenceExpression(seqEdgesFromIndexFromToAsArray.To, source) : "null";
+            string includingTo = seqEdgesFromIndexFromToAsArray.IncludingTo ? "true" : "false";
+            string ascending = seqEdgesFromIndexFromToAsArray.Ascending ? "Ascending" : "Descending";
+
+            string profilingArgument = seqEdgesFromIndexFromToAsArray.EmitProfiling ? ", procEnv" : "";
+
+            return "GRGEN_LIBGR.IndexHelper.EdgesFromIndexFromToAsArray" + ascending + "((GRGEN_LIBGR.IAttributeIndex)" + index
+                + ", " + from + ", " + includingFrom + ", " + to + ", " + includingTo + profilingArgument + ")";
+        }
+
+        private string GetSequenceExpressionEdgesFromIndexSameAsArray(SequenceExpressionEdgesFromIndexSameAsArray seqEdgesFromIndexSame, SourceBuilder source)
+        {
+            string index = GetSequenceExpression(seqEdgesFromIndexSame.Index, source);
+            string value = GetSequenceExpression(seqEdgesFromIndexSame.Value, source);
+
+            string profilingArgument = seqEdgesFromIndexSame.EmitProfiling ? ", procEnv" : "";
+
+            return "GRGEN_LIBGR.IndexHelper.EdgesFromIndexSameAsArray((GRGEN_LIBGR.IAttributeIndex)" + index
                 + ", " + value + profilingArgument + ")";
         }
 

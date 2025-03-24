@@ -19,6 +19,7 @@ namespace de.unika.ipd.grGen.libGr
     /// Specifies the actual subtype of a sequence expression.
     /// A new expression type -> you must add the corresponding class down below 
     /// and adapt the lgspSequenceGenerator.
+    /// TODO: This enum should be questioned as it is highly redundant with the hierarchy of the classes implementing it, and could be reduced to the subcases it is really needed (some values don't have their own dedicated classes).
     /// </summary>
     public enum SequenceExpressionType
     {
@@ -95,6 +96,17 @@ namespace de.unika.ipd.grGen.libGr
         IsInNodesFromIndexFromTo, IsInNodesFromIndexFromExclusiveTo, IsInNodesFromIndexFromToExclusive, IsInNodesFromIndexFromExclusiveToExclusive,
         IsInEdgesFromIndexFrom, IsInEdgesFromIndexFromExclusive, IsInEdgesFromIndexTo, IsInEdgesFromIndexToExclusive,
         IsInEdgesFromIndexFromTo, IsInEdgesFromIndexFromExclusiveTo, IsInEdgesFromIndexFromToExclusive, IsInEdgesFromIndexFromExclusiveToExclusive,
+        NodesFromIndexSameAsArray, EdgesFromIndexSameAsArray,
+        NodesFromIndexAsArrayAscending, EdgesFromIndexAsArrayAscending,
+        NodesFromIndexFromAsArrayAscending, NodesFromIndexFromExclusiveAsArrayAscending, NodesFromIndexToAsArrayAscending, NodesFromIndexToExclusiveAsArrayAscending,
+        NodesFromIndexFromToAsArrayAscending, NodesFromIndexFromExclusiveToAsArrayAscending, NodesFromIndexFromToExclusiveAsArrayAscending, NodesFromIndexFromExclusiveToExclusiveAsArrayAscending,
+        EdgesFromIndexFromAsArrayAscending, EdgesFromIndexFromExclusiveAsArrayAscending, EdgesFromIndexToAsArrayAscending, EdgesFromIndexToExclusiveAsArrayAscending,
+        EdgesFromIndexFromToAsArrayAscending, EdgesFromIndexFromExclusiveToAsArrayAscending, EdgesFromIndexFromToExclusiveAsArrayAscending, EdgesFromIndexFromExclusiveToExclusiveAsArrayAscending,
+        NodesFromIndexAsArrayDescending, EdgesFromIndexAsArrayDescending,
+        NodesFromIndexFromAsArrayDescending, NodesFromIndexFromExclusiveAsArrayDescending, NodesFromIndexToAsArrayDescending, NodesFromIndexToExclusiveAsArrayDescending,
+        NodesFromIndexFromToAsArrayDescending, NodesFromIndexFromExclusiveToAsArrayDescending, NodesFromIndexFromToExclusiveAsArrayDescending, NodesFromIndexFromExclusiveToExclusiveAsArrayDescending,
+        EdgesFromIndexFromAsArrayDescending, EdgesFromIndexFromExclusiveAsArrayDescending, EdgesFromIndexToAsArrayDescending, EdgesFromIndexToExclusiveAsArrayDescending,
+        EdgesFromIndexFromToAsArrayDescending, EdgesFromIndexFromExclusiveToAsArrayDescending, EdgesFromIndexFromToExclusiveAsArrayDescending, EdgesFromIndexFromExclusiveToExclusiveAsArrayDescending,
         InducedSubgraph, DefinedSubgraph,
         EqualsAny, GetEquivalent,
         Nameof, Uniqueof, Typeof,
@@ -10363,6 +10375,11 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "set<" + RootType + ">";
+        }
+
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
             List<SequenceExpressionConstructor> constructors)
         {
@@ -10382,57 +10399,6 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol
         {
             get { return FunctionSymbol + "(" + Index.Symbol + "," + Value.Symbol + ")"; }
-        }
-    }
-
-    public abstract class SequenceExpressionIsInIndexSame : SequenceExpressionFromIndexSame
-    {
-        public readonly SequenceExpression Candidate;
-
-        public SequenceExpressionIsInIndexSame(SequenceExpression candidate, SequenceExpression index, SequenceExpression value, SequenceExpressionType type)
-            : base(index, value, 1, type)
-        {
-            Candidate = candidate;
-        }
-
-        protected SequenceExpressionIsInIndexSame(SequenceExpressionIsInIndexSame that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
-          : base(that, originalToCopy, procEnv)
-        {
-            Candidate = that.Candidate.CopyExpression(originalToCopy, procEnv);
-        }
-
-        public override void Check(SequenceCheckingEnvironment env)
-        {
-            base.Check(env);
-
-            if(Candidate != null && Candidate.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
-            {
-                if(!TypesHelper.IsSameOrSubtype(Candidate.Type(env), RootType, env.Model))
-                    throw new SequenceParserExceptionTypeMismatch(FunctionSymbol + String.Format(", {0}. argument", 1), RootType, Candidate.Type(env));
-            }
-        }
-
-        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
-            List<SequenceExpressionConstructor> constructors)
-        {
-            Candidate.GetLocalVariables(variables, constructors);
-            Index.GetLocalVariables(variables, constructors);
-            Value.GetLocalVariables(variables, constructors);
-        }
-
-        public override IEnumerable<SequenceExpression> ChildrenExpression
-        {
-            get
-            {
-                yield return Candidate;
-                yield return Index;
-                yield return Value;
-            }
-        }
-
-        public override string Symbol
-        {
-            get { return FunctionSymbol + "(" + Candidate.Symbol + "," + Index.Symbol + "," + Value.Symbol + ")"; }
         }
     }
 
@@ -10480,6 +10446,11 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "set<" + RootType + ">";
+        }
+
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
             List<SequenceExpressionConstructor> constructors)
         {
@@ -10508,6 +10479,62 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
+    public abstract class SequenceExpressionIsInIndexSame : SequenceExpressionFromIndexSame
+    {
+        public readonly SequenceExpression Candidate;
+
+        public SequenceExpressionIsInIndexSame(SequenceExpression candidate, SequenceExpression index, SequenceExpression value, SequenceExpressionType type)
+            : base(index, value, 1, type)
+        {
+            Candidate = candidate;
+        }
+
+        protected SequenceExpressionIsInIndexSame(SequenceExpressionIsInIndexSame that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+            Candidate = that.Candidate.CopyExpression(originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env);
+
+            if(Candidate != null && Candidate.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+            {
+                if(!TypesHelper.IsSameOrSubtype(Candidate.Type(env), RootType, env.Model))
+                    throw new SequenceParserExceptionTypeMismatch(FunctionSymbol + String.Format(", {0}. argument", 1), RootType, Candidate.Type(env));
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "boolean";
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Candidate.GetLocalVariables(variables, constructors);
+            Index.GetLocalVariables(variables, constructors);
+            Value.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return Candidate;
+                yield return Index;
+                yield return Value;
+            }
+        }
+
+        public override string Symbol
+        {
+            get { return FunctionSymbol + "(" + Candidate.Symbol + "," + Index.Symbol + "," + Value.Symbol + ")"; }
+        }
+    }
+
     public abstract class SequenceExpressionIsInIndexFromTo : SequenceExpressionFromIndexFromTo
     {
         public readonly SequenceExpression Candidate;
@@ -10533,6 +10560,11 @@ namespace de.unika.ipd.grGen.libGr
                 if(!TypesHelper.IsSameOrSubtype(Candidate.Type(env), RootType, env.Model))
                     throw new SequenceParserExceptionTypeMismatch(FunctionSymbol + String.Format(", {0}. argument", 1), RootType, Candidate.Type(env));
             }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "boolean";
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -10565,6 +10597,82 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
+    public abstract class SequenceExpressionCountFromIndexSame : SequenceExpressionFromIndexSame
+    {
+        public SequenceExpressionCountFromIndexSame(SequenceExpression index, SequenceExpression value, SequenceExpressionType type)
+            : base(index, value, 0, type)
+        {
+        }
+
+        protected SequenceExpressionCountFromIndexSame(SequenceExpressionCountFromIndexSame that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "int";
+        }
+    }
+
+    public abstract class SequenceExpressionCountFromIndexFromTo : SequenceExpressionFromIndexFromTo
+    {
+        public SequenceExpressionCountFromIndexFromTo(SequenceExpression index, SequenceExpression from, bool includingFrom, SequenceExpression to, bool includingTo, SequenceExpressionType type)
+            : base(index, from, includingFrom, to, includingTo, 0, type)
+        {
+        }
+
+        protected SequenceExpressionCountFromIndexFromTo(SequenceExpressionCountFromIndexFromTo that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "int";
+        }
+    }
+
+    public abstract class SequenceExpressionFromIndexSameAsArray : SequenceExpressionFromIndexSame
+    {
+        public SequenceExpressionFromIndexSameAsArray(SequenceExpression index, SequenceExpression value, SequenceExpressionType type)
+            : base(index, value, 0, type)
+        {
+        }
+
+        protected SequenceExpressionFromIndexSameAsArray(SequenceExpressionFromIndexSameAsArray that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "array<" + RootType + ">";
+        }
+    }
+
+    public abstract class SequenceExpressionFromIndexFromToAsArray : SequenceExpressionFromIndexFromTo
+    {
+        public readonly bool Ascending;
+
+        public SequenceExpressionFromIndexFromToAsArray(SequenceExpression index, SequenceExpression from, bool includingFrom, SequenceExpression to, bool includingTo, bool ascending, SequenceExpressionType type)
+            : base(index, from, includingFrom, to, includingTo, 0, type)
+        {
+            Ascending = ascending;
+        }
+
+        protected SequenceExpressionFromIndexFromToAsArray(SequenceExpressionFromIndexFromToAsArray that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+            Ascending = that.Ascending;
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "array<" + RootType + ">";
+        }
+    }
+
     public class SequenceExpressionNodesFromIndexSame : SequenceExpressionFromIndexSame
     {
         public SequenceExpressionNodesFromIndexSame(SequenceExpression index, SequenceExpression value, SequenceExpressionType type)
@@ -10580,11 +10688,6 @@ namespace de.unika.ipd.grGen.libGr
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             return new SequenceExpressionNodesFromIndexSame(this, originalToCopy, procEnv);
-        }
-
-        public override String Type(SequenceCheckingEnvironment env)
-        {
-            return "set<Node>";
         }
 
         protected override string RootType
@@ -10631,11 +10734,6 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceExpressionEdgesFromIndexSame(this, originalToCopy, procEnv);
         }
 
-        public override String Type(SequenceCheckingEnvironment env)
-        {
-            return "set<AEdge>";
-        }
-
         protected override string RootType
         {
             get { return "AEdge"; }
@@ -10678,11 +10776,6 @@ namespace de.unika.ipd.grGen.libGr
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             return new SequenceExpressionNodesFromIndexFromTo(this, originalToCopy, procEnv);
-        }
-
-        public override String Type(SequenceCheckingEnvironment env)
-        {
-            return "set<Node>";
         }
 
         protected override string RootType
@@ -10749,11 +10842,6 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceExpressionEdgesFromIndexFromTo(this, originalToCopy, procEnv);
         }
 
-        public override String Type(SequenceCheckingEnvironment env)
-        {
-            return "set<AEdge>";
-        }
-
         protected override string RootType
         {
             get { return "AEdge"; }
@@ -10801,10 +10889,10 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionCountNodesFromIndexSame : SequenceExpressionFromIndexSame
+    public class SequenceExpressionCountNodesFromIndexSame : SequenceExpressionCountFromIndexSame
     {
         public SequenceExpressionCountNodesFromIndexSame(SequenceExpression index, SequenceExpression value, SequenceExpressionType type)
-            : base(index, value, 0, type)
+            : base(index, value, type)
         {
         }
 
@@ -10816,11 +10904,6 @@ namespace de.unika.ipd.grGen.libGr
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             return new SequenceExpressionCountNodesFromIndexSame(this, originalToCopy, procEnv);
-        }
-
-        public override String Type(SequenceCheckingEnvironment env)
-        {
-            return "int";
         }
 
         protected override string RootType
@@ -10850,10 +10933,10 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionCountEdgesFromIndexSame : SequenceExpressionFromIndexSame
+    public class SequenceExpressionCountEdgesFromIndexSame : SequenceExpressionCountFromIndexSame
     {
         public SequenceExpressionCountEdgesFromIndexSame(SequenceExpression index, SequenceExpression value, SequenceExpressionType type)
-            : base(index, value, 0, type)
+            : base(index, value, type)
         {
         }
 
@@ -10865,11 +10948,6 @@ namespace de.unika.ipd.grGen.libGr
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             return new SequenceExpressionCountEdgesFromIndexSame(this, originalToCopy, procEnv);
-        }
-
-        public override String Type(SequenceCheckingEnvironment env)
-        {
-            return "int";
         }
 
         protected override string RootType
@@ -10899,10 +10977,10 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionCountNodesFromIndexFromTo : SequenceExpressionFromIndexFromTo
+    public class SequenceExpressionCountNodesFromIndexFromTo : SequenceExpressionCountFromIndexFromTo
     {
         public SequenceExpressionCountNodesFromIndexFromTo(SequenceExpression index, SequenceExpression from, bool includingFrom, SequenceExpression to, bool includingTo, SequenceExpressionType type)
-            : base(index, from, includingFrom, to, includingTo, 0, type)
+            : base(index, from, includingFrom, to, includingTo, type)
         {
         }
 
@@ -10914,11 +10992,6 @@ namespace de.unika.ipd.grGen.libGr
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             return new SequenceExpressionCountNodesFromIndexFromTo(this, originalToCopy, procEnv);
-        }
-
-        public override String Type(SequenceCheckingEnvironment env)
-        {
-            return "int";
         }
 
         protected override string RootType
@@ -10968,10 +11041,10 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceExpressionCountEdgesFromIndexFromTo : SequenceExpressionFromIndexFromTo
+    public class SequenceExpressionCountEdgesFromIndexFromTo : SequenceExpressionCountFromIndexFromTo
     {
         public SequenceExpressionCountEdgesFromIndexFromTo(SequenceExpression index, SequenceExpression from, bool includingFrom, SequenceExpression to, bool includingTo, SequenceExpressionType type)
-            : base(index, from, includingFrom, to, includingTo, 0, type)
+            : base(index, from, includingFrom, to, includingTo, type)
         {
         }
 
@@ -10983,11 +11056,6 @@ namespace de.unika.ipd.grGen.libGr
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             return new SequenceExpressionCountEdgesFromIndexFromTo(this, originalToCopy, procEnv);
-        }
-
-        public override String Type(SequenceCheckingEnvironment env)
-        {
-            return "int";
         }
 
         protected override string RootType
@@ -11054,11 +11122,6 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceExpressionIsInNodesFromIndexSame(this, originalToCopy, procEnv);
         }
 
-        public override String Type(SequenceCheckingEnvironment env)
-        {
-            return "boolean";
-        }
-
         protected override string RootType
         {
             get { return "Node"; }
@@ -11104,11 +11167,6 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceExpressionIsInEdgesFromIndexSame(this, originalToCopy, procEnv);
         }
 
-        public override String Type(SequenceCheckingEnvironment env)
-        {
-            return "boolean";
-        }
-
         protected override string RootType
         {
             get { return "AEdge"; }
@@ -11152,11 +11210,6 @@ namespace de.unika.ipd.grGen.libGr
         internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
         {
             return new SequenceExpressionIsInNodesFromIndexFromTo(this, originalToCopy, procEnv);
-        }
-
-        public override String Type(SequenceCheckingEnvironment env)
-        {
-            return "boolean";
         }
 
         protected override string RootType
@@ -11224,11 +11277,6 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceExpressionIsInEdgesFromIndexFromTo(this, originalToCopy, procEnv);
         }
 
-        public override String Type(SequenceCheckingEnvironment env)
-        {
-            return "boolean";
-        }
-
         protected override string RootType
         {
             get { return "AEdge"; }
@@ -11272,6 +11320,244 @@ namespace de.unika.ipd.grGen.libGr
                         return "isInEdgesFromIndexFromExclusiveTo";
                     else
                         return "isInEdgesFromIndexFromExclusiveToExclusive";
+                }
+            }
+        }
+    }
+
+    public class SequenceExpressionNodesFromIndexSameAsArray : SequenceExpressionFromIndexSameAsArray
+    {
+        public SequenceExpressionNodesFromIndexSameAsArray(SequenceExpression index, SequenceExpression value, SequenceExpressionType type)
+            : base(index, value, type)
+        {
+        }
+
+        protected SequenceExpressionNodesFromIndexSameAsArray(SequenceExpressionNodesFromIndexSameAsArray that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionNodesFromIndexSameAsArray(this, originalToCopy, procEnv);
+        }
+
+        protected override string RootType
+        {
+            get { return "Node"; }
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            IAttributeIndex index = (IAttributeIndex)Index.Evaluate(procEnv);
+            object value = Value.Evaluate(procEnv);
+
+            if(EmitProfiling)
+                return IndexHelper.NodesFromIndexSameAsArray(index, value, procEnv);
+            else
+                return IndexHelper.NodesFromIndexSameAsArray(index, value);
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        protected override string FunctionSymbol
+        {
+            get { return "nodesFromIndexSameAsArray"; }
+        }
+    }
+
+    public class SequenceExpressionEdgesFromIndexSameAsArray : SequenceExpressionFromIndexSameAsArray
+    {
+        public SequenceExpressionEdgesFromIndexSameAsArray(SequenceExpression index, SequenceExpression value, SequenceExpressionType type)
+            : base(index, value, type)
+        {
+        }
+
+        protected SequenceExpressionEdgesFromIndexSameAsArray(SequenceExpressionEdgesFromIndexSameAsArray that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionEdgesFromIndexSameAsArray(this, originalToCopy, procEnv);
+        }
+
+        protected override string RootType
+        {
+            get { return "AEdge"; }
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            IAttributeIndex index = (IAttributeIndex)Index.Evaluate(procEnv);
+            object value = Value.Evaluate(procEnv);
+
+            if(EmitProfiling)
+                return IndexHelper.EdgesFromIndexSameAsArray(index, value, procEnv);
+            else
+                return IndexHelper.EdgesFromIndexSameAsArray(index, value);
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        protected override string FunctionSymbol
+        {
+            get { return "edgesFromIndexSameAsArray"; }
+        }
+    }
+
+    public class SequenceExpressionNodesFromIndexFromToAsArray : SequenceExpressionFromIndexFromToAsArray
+    {
+        public SequenceExpressionNodesFromIndexFromToAsArray(SequenceExpression index, SequenceExpression from, bool includingFrom, SequenceExpression to, bool includingTo, bool ascending, SequenceExpressionType type)
+            : base(index, from, includingFrom, to, includingTo, ascending, type)
+        {
+        }
+
+        protected SequenceExpressionNodesFromIndexFromToAsArray(SequenceExpressionNodesFromIndexFromToAsArray that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionNodesFromIndexFromToAsArray(this, originalToCopy, procEnv);
+        }
+
+        protected override string RootType
+        {
+            get { return "Node"; }
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            IAttributeIndex index = (IAttributeIndex)Index.Evaluate(procEnv);
+            object from = From != null ? From.Evaluate(procEnv) : null;
+            object to = To != null ? To.Evaluate(procEnv) : null;
+
+            if(EmitProfiling)
+            {
+                if(Ascending)
+                    return IndexHelper.NodesFromIndexFromToAsArrayAscending(index, from, IncludingFrom, to, IncludingTo, procEnv);
+                else
+                    return IndexHelper.NodesFromIndexFromToAsArrayDescending(index, from, IncludingFrom, to, IncludingTo, procEnv);
+            }
+            else
+            {
+                if(Ascending)
+                    return IndexHelper.NodesFromIndexFromToAsArrayAscending(index, from, IncludingFrom, to, IncludingTo);
+                else
+                    return IndexHelper.NodesFromIndexFromToAsArrayDescending(index, from, IncludingFrom, to, IncludingTo);
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        protected override string FunctionSymbol
+        {
+            get
+            {
+                string suffix = Ascending ? "AsArrayAscending" : "AsArrayDescending";
+                if(From == null && To == null)
+                    return "nodesFromIndex" + suffix;
+                else if(To == null)
+                    return IncludingFrom ? "nodesFromIndexFrom" + suffix : "nodesFromIndexFromExclusive" + suffix;
+                else if(From == null)
+                    return IncludingTo ? "nodesFromIndexTo" + suffix : "nodesFromIndexToExclusive" + suffix;
+                else
+                {
+                    if(IncludingFrom && IncludingTo)
+                        return "nodesFromIndexFromTo" + suffix;
+                    else if(IncludingFrom)
+                        return "nodesFromIndexFromToExclusive" + suffix;
+                    else if(IncludingTo)
+                        return "nodesFromIndexFromExclusiveTo" + suffix;
+                    else
+                        return "nodesFromIndexFromExclusiveToExclusive" + suffix;
+                }
+            }
+        }
+    }
+
+    public class SequenceExpressionEdgesFromIndexFromToAsArray : SequenceExpressionFromIndexFromToAsArray
+    {
+        public SequenceExpressionEdgesFromIndexFromToAsArray(SequenceExpression index, SequenceExpression from, bool includingFrom, SequenceExpression to, bool includingTo, bool ascending, SequenceExpressionType type)
+            : base(index, from, includingFrom, to, includingTo, ascending, type)
+        {
+        }
+
+        protected SequenceExpressionEdgesFromIndexFromToAsArray(SequenceExpressionEdgesFromIndexFromToAsArray that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionEdgesFromIndexFromToAsArray(this, originalToCopy, procEnv);
+        }
+
+        protected override string RootType
+        {
+            get { return "AEdge"; }
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            IAttributeIndex index = (IAttributeIndex)Index.Evaluate(procEnv);
+            object from = From != null ? From.Evaluate(procEnv) : null;
+            object to = To != null ? To.Evaluate(procEnv) : null;
+
+            if(EmitProfiling)
+            {
+                if(Ascending)
+                    return IndexHelper.EdgesFromIndexFromToAsArrayAscending(index, from, IncludingFrom, to, IncludingTo, procEnv);
+                else
+                    return IndexHelper.EdgesFromIndexFromToAsArrayDescending(index, from, IncludingFrom, to, IncludingTo, procEnv);
+            }
+            else
+            {
+                if(Ascending)
+                    return IndexHelper.EdgesFromIndexFromToAsArrayAscending(index, from, IncludingFrom, to, IncludingTo);
+                else
+                    return IndexHelper.EdgesFromIndexFromToAsArrayDescending(index, from, IncludingFrom, to, IncludingTo);
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        protected override string FunctionSymbol
+        {
+            get
+            {
+                string suffix = Ascending ? "AsArrayAscending" : "AsArrayDescending";
+                if(From == null && To == null)
+                    return "edgesFromIndex" + suffix;
+                else if(To == null)
+                    return IncludingFrom ? "edgesFromIndexFrom" + suffix : "edgesFromIndexFromExclusive" + suffix;
+                else if(From == null)
+                    return IncludingTo ? "edgesFromIndexTo" + suffix : "edgesFromIndexToExclusive" + suffix;
+                else
+                {
+                    if(IncludingFrom && IncludingTo)
+                        return "edgesFromIndexFromTo" + suffix;
+                    else if(IncludingFrom)
+                        return "edgesFromIndexFromToExclusive" + suffix;
+                    else if(IncludingTo)
+                        return "edgesFromIndexFromExclusiveTo" + suffix;
+                    else
+                        return "edgesFromIndexFromExclusiveToExclusive" + suffix;
                 }
             }
         }

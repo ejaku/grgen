@@ -1,0 +1,6 @@
+#using "index_exec_model.gm"
+
+sequence s(i:array<AEdge>, j:int)
+{
+	{ i=edgesFromIndexSameAsArray(j, j) }
+}

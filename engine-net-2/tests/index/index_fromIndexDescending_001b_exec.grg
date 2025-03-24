@@ -1,0 +1,81 @@
+#using "index_model_001b.gm"
+
+rule efi() : (array<AEdge>) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + edgesFromIndexAsArrayDescending(foo) + "\n") } );
+		return(edgesFromIndexAsArrayDescending(foo));
+	}
+}
+
+rule efis() : (array<AEdge>) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + edgesFromIndexSameAsArray(foo, 3) + "\n") } );
+		return(edgesFromIndexSameAsArray(foo, 3));
+	}
+}
+
+rule efif() : (array<AEdge>) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + edgesFromIndexToAsArrayDescending(foo, 2) + "\n") } );
+		return(edgesFromIndexToAsArrayDescending(foo, 2));
+	}
+}
+
+rule efife() : (array<AEdge>) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + edgesFromIndexToExclusiveAsArrayDescending(foo, 2) + "\n") } );
+		return(edgesFromIndexToExclusiveAsArrayDescending(foo, 2));
+	}
+}
+
+rule efit() : (array<AEdge>) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + edgesFromIndexFromAsArrayDescending(foo, 4) + "\n") } );
+		return(edgesFromIndexFromAsArrayDescending(foo, 4));
+	}
+}
+
+rule efite() : (array<AEdge>) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + edgesFromIndexFromExclusiveAsArrayDescending(foo, 4) + "\n") } );
+		return(edgesFromIndexFromExclusiveAsArrayDescending(foo, 4));
+	}
+}
+
+rule efift() : (array<AEdge>) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + edgesFromIndexFromToAsArrayDescending(foo, 4, 2) + "\n") } );
+		return(edgesFromIndexFromToAsArrayDescending(foo, 4, 2));
+	}
+}
+
+rule efifet() : (array<AEdge>) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + edgesFromIndexFromToExclusiveAsArrayDescending(foo, 4, 2) + "\n") } );
+		return(edgesFromIndexFromToExclusiveAsArrayDescending(foo, 4, 2));
+	}
+}
+
+rule efifte() : (array<AEdge>) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + edgesFromIndexFromExclusiveToAsArrayDescending(foo, 4, 2) + "\n") } );
+		return(edgesFromIndexFromExclusiveToAsArrayDescending(foo, 4, 2));
+	}
+}
+
+rule efifete() : (array<AEdge>) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + edgesFromIndexFromExclusiveToExclusiveAsArrayDescending(foo, 4, 2) + "\n") } );
+		return(edgesFromIndexFromExclusiveToExclusiveAsArrayDescending(foo, 4, 2));
+	}
+}

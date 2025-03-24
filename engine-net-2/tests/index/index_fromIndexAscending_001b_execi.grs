@@ -1,0 +1,31 @@
+new graph "index/index_fromIndex_001b"
+
+new n:Node($="$0")
+
+new n -:E($="$1", i=1)-> n
+new n -:E($="$2", i=2)-> n
+new n -:E($="$3", i=3)-> n
+new n -:E($="$4", i=4)-> n
+new n -:E($="$5", i=5)-> n
+
+exec { emit("The value of attribute foo is " + edgesFromIndexAsArrayAscending(foo) + "\n") }
+
+exec { emit("The value of attribute foo is " + edgesFromIndexSameAsArray(foo, 3) + "\n") }
+
+exec { emit("The value of attribute foo is " + edgesFromIndexFromAsArrayAscending(foo, 2) + "\n") }
+
+exec { emit("The value of attribute foo is " + edgesFromIndexFromExclusiveAsArrayAscending(foo, 2) + "\n") }
+
+exec { emit("The value of attribute foo is " + edgesFromIndexToAsArrayAscending(foo, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + edgesFromIndexToExclusiveAsArrayAscending(foo, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + edgesFromIndexFromToAsArrayAscending(foo, 2, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + edgesFromIndexFromExclusiveToAsArrayAscending(foo, 2, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + edgesFromIndexFromToExclusiveAsArrayAscending(foo, 2, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + edgesFromIndexFromExclusiveToExclusiveAsArrayAscending(foo, 2, 4) + "\n") }
+
+quit

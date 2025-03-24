@@ -1,0 +1,29 @@
+new graph "index/index_fromIndex_001"
+
+new :N($="$1", i=1)
+new :N($="$2", i=2)
+new :N($="$3", i=3)
+new :N($="$4", i=4)
+new :N($="$5", i=5)
+
+exec { emit("The value of attribute foo is " + nodesFromIndexAsArrayAscending(foo) + "\n") }
+
+exec { emit("The value of attribute foo is " + nodesFromIndexSameAsArray(foo, 3) + "\n") }
+
+exec { emit("The value of attribute foo is " + nodesFromIndexFromAsArrayAscending(foo, 2) + "\n") }
+
+exec { emit("The value of attribute foo is " + nodesFromIndexFromExclusiveAsArrayAscending(foo, 2) + "\n") }
+
+exec { emit("The value of attribute foo is " + nodesFromIndexToAsArrayAscending(foo, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + nodesFromIndexToExclusiveAsArrayAscending(foo, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + nodesFromIndexFromToAsArrayAscending(foo, 2, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + nodesFromIndexFromExclusiveToAsArrayAscending(foo, 2, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + nodesFromIndexFromToExclusiveAsArrayAscending(foo, 2, 4) + "\n") }
+
+exec { emit("The value of attribute foo is " + nodesFromIndexFromExclusiveToExclusiveAsArrayAscending(foo, 2, 4) + "\n") }
+
+quit

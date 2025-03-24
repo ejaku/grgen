@@ -1,0 +1,39 @@
+new graph "index/index_fromIndexAscending_001_exec"
+
+new :N($="$1", i=1)
+new :N($="$2", i=2)
+new :N($="$3", i=3)
+new :N($="$4", i=4)
+new :N($="$5", i=5)
+
+exec (::s)=nfi
+show var s
+
+exec (::s)=nfis
+show var s
+
+exec (::s)=nfif
+show var s
+
+exec (::s)=nfife
+show var s
+
+exec (::s)=nfit
+show var s
+
+exec (::s)=nfite
+show var s
+
+exec (::s)=nfift
+show var s
+
+exec (::s)=nfifet
+show var s
+
+exec (::s)=nfifte
+show var s
+
+exec (::s)=nfifete
+show var s
+
+quit

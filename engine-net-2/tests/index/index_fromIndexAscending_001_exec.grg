@@ -1,0 +1,81 @@
+#using "index_model_001.gm"
+
+rule nfi() : (array<Node>) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + nodesFromIndexAsArrayAscending(foo) + "\n") } );
+		return(nodesFromIndexAsArrayAscending(foo));
+	}
+}
+
+rule nfis() : (array<Node>) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + nodesFromIndexSameAsArray(foo, 3) + "\n") } );
+		return(nodesFromIndexSameAsArray(foo, 3));
+	}
+}
+
+rule nfif() : (array<Node>) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + nodesFromIndexFromAsArrayAscending(foo, 2) + "\n") } );
+		return(nodesFromIndexFromAsArrayAscending(foo, 2));
+	}
+}
+
+rule nfife() : (array<Node>) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + nodesFromIndexFromExclusiveAsArrayAscending(foo, 2) + "\n") } );
+		return(nodesFromIndexFromExclusiveAsArrayAscending(foo, 2));
+	}
+}
+
+rule nfit() : (array<Node>) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + nodesFromIndexToAsArrayAscending(foo, 4) + "\n") } );
+		return(nodesFromIndexToAsArrayAscending(foo, 4));
+	}
+}
+
+rule nfite() : (array<Node>) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + nodesFromIndexToExclusiveAsArrayAscending(foo, 4) + "\n") } );
+		return(nodesFromIndexToExclusiveAsArrayAscending(foo, 4));
+	}
+}
+
+rule nfift() : (array<Node>) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + nodesFromIndexFromToAsArrayAscending(foo, 2, 4) + "\n") } );
+		return(nodesFromIndexFromToAsArrayAscending(foo, 2, 4));
+	}
+}
+
+rule nfifet() : (array<Node>) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + nodesFromIndexFromExclusiveToAsArrayAscending(foo, 2, 4) + "\n") } );
+		return(nodesFromIndexFromExclusiveToAsArrayAscending(foo, 2, 4));
+	}
+}
+
+rule nfifte() : (array<Node>) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + nodesFromIndexFromToExclusiveAsArrayAscending(foo, 2, 4) + "\n") } );
+		return(nodesFromIndexFromToExclusiveAsArrayAscending(foo, 2, 4));
+	}
+}
+
+rule nfifete() : (array<Node>) {
+	modify {
+	---
+		exec( { emit("The value of attribute foo is " + nodesFromIndexFromExclusiveToExclusiveAsArrayAscending(foo, 2, 4) + "\n") } );
+		return(nodesFromIndexFromExclusiveToExclusiveAsArrayAscending(foo, 2, 4));
+	}
+}

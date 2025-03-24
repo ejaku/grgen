@@ -1,0 +1,44 @@
+#using "index_model_002.gm"
+
+function f() : int
+{
+	return(0);
+}
+
+rule i {
+	modify {
+		---
+		def var s:int;
+		exec( {
+			s = nodesFromIndexAsArrayAscending(fooi).size();
+			s = nodesFromIndexSameAsArray(fooi, 42).size();
+			s = nodesFromIndexFromAsArrayAscending(fooi, 42).size();
+			s = nodesFromIndexFromExclusiveAsArrayAscending(fooi, 42).size();
+			s = nodesFromIndexToAsArrayAscending(fooi, 42).size();
+			s = nodesFromIndexToExclusiveAsArrayAscending(fooi, 42).size();
+			s = nodesFromIndexFromToAsArrayAscending(fooi, f(), 42).size();
+			s = nodesFromIndexFromExclusiveToAsArrayAscending(fooi, f(), 42).size();
+			s = nodesFromIndexFromToExclusiveAsArrayAscending(fooi, f(), 42).size();
+			s = nodesFromIndexFromExclusiveToExclusiveAsArrayAscending(fooi, f(), 42).size();
+		} );
+	}
+}
+
+rule ei {
+	modify {
+		---
+		def var s:int;
+		exec( {
+			s = edgesFromIndexAsArrayAscending(bari).size();
+			s = edgesFromIndexSameAsArray(bari, 42).size();
+			s = edgesFromIndexFromAsArrayAscending(bari, 42).size();
+			s = edgesFromIndexFromExclusiveAsArrayAscending(bari, 42).size();
+			s = edgesFromIndexToAsArrayAscending(bari, 42).size();
+			s = edgesFromIndexToExclusiveAsArrayAscending(bari, 42).size();
+			s = edgesFromIndexFromToAsArrayAscending(bari, f(), 42).size();
+			s = edgesFromIndexFromExclusiveToAsArrayAscending(bari, f(), 42).size();
+			s = edgesFromIndexFromToExclusiveAsArrayAscending(bari, f(), 42).size();
+			s = edgesFromIndexFromExclusiveToExclusiveAsArrayAscending(bari, f(), 42).size();
+		} );
+	}
+}
