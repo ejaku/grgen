@@ -1,0 +1,31 @@
+new graph "index/index_isInFromIndex_001_exec"
+
+new n0:Node($="$0")
+
+new n1:N($="$1", i=1)
+new n2:N($="$2", i=2)
+new n3:N($="$3", i=3)
+new n4:N($="$4", i=4)
+new n5:N($="$5", i=5)
+
+eval isInNodesFromIndex(::n3, foo)
+
+eval isInNodesFromIndexSame(::n3, foo, 3)
+
+eval isInNodesFromIndexFrom(::n3, foo, 2)
+
+eval isInNodesFromIndexFromExclusive(::n3, foo, 2)
+
+eval isInNodesFromIndexTo(::n3, foo, 4)
+
+eval isInNodesFromIndexToExclusive(::n3, foo, 4)
+
+eval isInNodesFromIndexFromTo(::n3, foo, 2, 4)
+
+eval isInNodesFromIndexFromExclusiveTo(::n3, foo, 2, 4)
+
+eval isInNodesFromIndexFromToExclusive(::n3, foo, 2, 4)
+
+eval isInNodesFromIndexFromExclusiveToExclusive(::n3, foo, 2, 4)
+
+quit

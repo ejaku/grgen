@@ -8,11 +8,10 @@ rule efi() : (set<AEdge>) {
 	}
 }
 
-
 rule efis() : (set<AEdge>) {
 	modify {
 	---
-		emit("The value of attribute foo is " + edgesFromIndexSame(foo, 3) + "\n");
+		exec( { emit("The value of attribute foo is " + edgesFromIndexSame(foo, 3) + "\n") } );
 		return(edgesFromIndexSame(foo, 3));
 	}
 }
@@ -20,7 +19,7 @@ rule efis() : (set<AEdge>) {
 rule efif() : (set<AEdge>) {
 	modify {
 	---
-		emit("The value of attribute foo is " + edgesFromIndexFrom(foo, 2) + "\n");
+		exec( { emit("The value of attribute foo is " + edgesFromIndexFrom(foo, 2) + "\n") } );
 		return(edgesFromIndexFrom(foo, 2));
 	}
 }
@@ -28,7 +27,7 @@ rule efif() : (set<AEdge>) {
 rule efife() : (set<AEdge>) {
 	modify {
 	---
-		emit("The value of attribute foo is " + edgesFromIndexFromExclusive(foo, 2) + "\n");
+		exec( { emit("The value of attribute foo is " + edgesFromIndexFromExclusive(foo, 2) + "\n") } );
 		return(edgesFromIndexFromExclusive(foo, 2));
 	}
 }
@@ -36,7 +35,7 @@ rule efife() : (set<AEdge>) {
 rule efit() : (set<AEdge>) {
 	modify {
 	---
-		emit("The value of attribute foo is " + edgesFromIndexTo(foo, 4) + "\n");
+		exec( { emit("The value of attribute foo is " + edgesFromIndexTo(foo, 4) + "\n") } );
 		return(edgesFromIndexTo(foo, 4));
 	}
 }
@@ -44,7 +43,7 @@ rule efit() : (set<AEdge>) {
 rule efite() : (set<AEdge>) {
 	modify {
 	---
-		emit("The value of attribute foo is " + edgesFromIndexToExclusive(foo, 4) + "\n");
+		exec( { emit("The value of attribute foo is " + edgesFromIndexToExclusive(foo, 4) + "\n") } );
 		return(edgesFromIndexToExclusive(foo, 4));
 	}
 }
@@ -52,7 +51,7 @@ rule efite() : (set<AEdge>) {
 rule efift() : (set<AEdge>) {
 	modify {
 	---
-		emit("The value of attribute foo is " + edgesFromIndexFromTo(foo, 2, 4) + "\n");
+		exec( { emit("The value of attribute foo is " + edgesFromIndexFromTo(foo, 2, 4) + "\n") } );
 		return(edgesFromIndexFromTo(foo, 2, 4));
 	}
 }
@@ -60,7 +59,7 @@ rule efift() : (set<AEdge>) {
 rule efifet() : (set<AEdge>) {
 	modify {
 	---
-		emit("The value of attribute foo is " + edgesFromIndexFromExclusiveTo(foo, 2, 4) + "\n");
+		exec( { emit("The value of attribute foo is " + edgesFromIndexFromExclusiveTo(foo, 2, 4) + "\n") } );
 		return(edgesFromIndexFromExclusiveTo(foo, 2, 4));
 	}
 }
@@ -68,7 +67,7 @@ rule efifet() : (set<AEdge>) {
 rule efifte() : (set<AEdge>) {
 	modify {
 	---
-		emit("The value of attribute foo is " + edgesFromIndexFromToExclusive(foo, 2, 4) + "\n");
+		exec( { emit("The value of attribute foo is " + edgesFromIndexFromToExclusive(foo, 2, 4) + "\n") } );
 		return(edgesFromIndexFromToExclusive(foo, 2, 4));
 	}
 }
@@ -76,7 +75,7 @@ rule efifte() : (set<AEdge>) {
 rule efifete() : (set<AEdge>) {
 	modify {
 	---
-		emit("The value of attribute foo is " + edgesFromIndexFromExclusiveToExclusive(foo, 2, 4) + "\n");
+		exec( { emit("The value of attribute foo is " + edgesFromIndexFromExclusiveToExclusive(foo, 2, 4) + "\n") } );
 		return(edgesFromIndexFromExclusiveToExclusive(foo, 2, 4));
 	}
 }

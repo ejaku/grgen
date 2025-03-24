@@ -2232,8 +2232,14 @@ SequenceExpression FunctionCall():
     List<SequenceExpression> argExprs = new List<SequenceExpression>();
 }
 {
-    LOOKAHEAD( { GetToken(1).kind == WORD && env.IsIndexFunction(GetToken(1).image) } )
+    LOOKAHEAD( { GetToken(1).kind == WORD && env.IsNonIsInIndexFunction(GetToken(1).image) } )
     indexFunction=Word() "(" IndexArguments(argExprs) ")"
+    {
+        return env.CreateSequenceExpressionIndexFunctionCall(indexFunction, argExprs);
+    }
+|
+    LOOKAHEAD( { GetToken(1).kind == WORD && env.IsIsInIndexFunction(GetToken(1).image) } )
+    indexFunction=Word() "(" Argument(argExprs) "," IndexArguments(argExprs) ")"
     {
         return env.CreateSequenceExpressionIndexFunctionCall(indexFunction, argExprs);
     }

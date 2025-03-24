@@ -1,0 +1,6 @@
+#using "index_exec_model.gm"
+
+sequence s(e:E, j:double)
+{
+	{ i:set<Node>=isInNodesFromIndexFromTo(e, fooi, 0, 42) }
+}

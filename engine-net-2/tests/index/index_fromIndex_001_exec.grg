@@ -8,11 +8,10 @@ rule nfi() : (set<Node>) {
 	}
 }
 
-
 rule nfis() : (set<Node>) {
 	modify {
 	---
-		emit("The value of attribute foo is " + nodesFromIndexSame(foo, 3) + "\n");
+		exec( { emit("The value of attribute foo is " + nodesFromIndexSame(foo, 3) + "\n") } );
 		return(nodesFromIndexSame(foo, 3));
 	}
 }
@@ -20,7 +19,7 @@ rule nfis() : (set<Node>) {
 rule nfif() : (set<Node>) {
 	modify {
 	---
-		emit("The value of attribute foo is " + nodesFromIndexFrom(foo, 2) + "\n");
+		exec( { emit("The value of attribute foo is " + nodesFromIndexFrom(foo, 2) + "\n") } );
 		return(nodesFromIndexFrom(foo, 2));
 	}
 }
@@ -28,7 +27,7 @@ rule nfif() : (set<Node>) {
 rule nfife() : (set<Node>) {
 	modify {
 	---
-		emit("The value of attribute foo is " + nodesFromIndexFromExclusive(foo, 2) + "\n");
+		exec( { emit("The value of attribute foo is " + nodesFromIndexFromExclusive(foo, 2) + "\n") } );
 		return(nodesFromIndexFromExclusive(foo, 2));
 	}
 }
@@ -36,7 +35,7 @@ rule nfife() : (set<Node>) {
 rule nfit() : (set<Node>) {
 	modify {
 	---
-		emit("The value of attribute foo is " + nodesFromIndexTo(foo, 4) + "\n");
+		exec( { emit("The value of attribute foo is " + nodesFromIndexTo(foo, 4) + "\n") } );
 		return(nodesFromIndexTo(foo, 4));
 	}
 }
@@ -44,7 +43,7 @@ rule nfit() : (set<Node>) {
 rule nfite() : (set<Node>) {
 	modify {
 	---
-		emit("The value of attribute foo is " + nodesFromIndexToExclusive(foo, 4) + "\n");
+		exec( { emit("The value of attribute foo is " + nodesFromIndexToExclusive(foo, 4) + "\n") } );
 		return(nodesFromIndexToExclusive(foo, 4));
 	}
 }
@@ -52,7 +51,7 @@ rule nfite() : (set<Node>) {
 rule nfift() : (set<Node>) {
 	modify {
 	---
-		emit("The value of attribute foo is " + nodesFromIndexFromTo(foo, 2, 4) + "\n");
+		exec( { emit("The value of attribute foo is " + nodesFromIndexFromTo(foo, 2, 4) + "\n") } );
 		return(nodesFromIndexFromTo(foo, 2, 4));
 	}
 }
@@ -60,7 +59,7 @@ rule nfift() : (set<Node>) {
 rule nfifet() : (set<Node>) {
 	modify {
 	---
-		emit("The value of attribute foo is " + nodesFromIndexFromExclusiveTo(foo, 2, 4) + "\n");
+		exec( { emit("The value of attribute foo is " + nodesFromIndexFromExclusiveTo(foo, 2, 4) + "\n") } );
 		return(nodesFromIndexFromExclusiveTo(foo, 2, 4));
 	}
 }
@@ -68,7 +67,7 @@ rule nfifet() : (set<Node>) {
 rule nfifte() : (set<Node>) {
 	modify {
 	---
-		emit("The value of attribute foo is " + nodesFromIndexFromToExclusive(foo, 2, 4) + "\n");
+		exec( { emit("The value of attribute foo is " + nodesFromIndexFromToExclusive(foo, 2, 4) + "\n") } );
 		return(nodesFromIndexFromToExclusive(foo, 2, 4));
 	}
 }
@@ -76,7 +75,7 @@ rule nfifte() : (set<Node>) {
 rule nfifete() : (set<Node>) {
 	modify {
 	---
-		emit("The value of attribute foo is " + nodesFromIndexFromExclusiveToExclusive(foo, 2, 4) + "\n");
+		exec( { emit("The value of attribute foo is " + nodesFromIndexFromExclusiveToExclusive(foo, 2, 4) + "\n") } );
 		return(nodesFromIndexFromExclusiveToExclusive(foo, 2, 4));
 	}
 }

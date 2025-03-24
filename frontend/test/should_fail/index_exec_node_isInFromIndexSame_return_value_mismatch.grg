@@ -1,0 +1,6 @@
+#using "index_exec_model.gm"
+
+sequence s(i:short)
+{
+	{ i=isInNodesFromIndexSame(::n, fooi, 42) }
+}

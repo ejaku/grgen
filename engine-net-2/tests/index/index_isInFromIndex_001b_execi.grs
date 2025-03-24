@@ -1,0 +1,32 @@
+new graph "index/index_isInFromIndex_001b_exec"
+
+new n0:Node($="0")
+new @("0") -e0:Edge($="$0")-> @("0")
+
+new @("0") -e1:E($="$1", i=1)-> @("0")
+new @("0") -e2:E($="$2", i=2)-> @("0")
+new @("0") -e3:E($="$3", i=3)-> @("0")
+new @("0") -e4:E($="$4", i=4)-> @("0")
+new @("0") -e5:E($="$5", i=5)-> @("0")
+
+eval isInEdgesFromIndex(::e3, foo)
+
+eval isInEdgesFromIndexSame(::e3, foo, 3)
+
+eval isInEdgesFromIndexFrom(::e3, foo, 2)
+
+eval isInEdgesFromIndexFromExclusive(::e3, foo, 2)
+
+eval isInEdgesFromIndexTo(::e3, foo, 4)
+
+eval isInEdgesFromIndexToExclusive(::e3, foo, 4)
+
+eval isInEdgesFromIndexFromTo(::e3, foo, 2, 4)
+
+eval isInEdgesFromIndexFromExclusiveTo(::e3, foo, 2, 4)
+
+eval isInEdgesFromIndexFromToExclusive(::e3, foo, 2, 4)
+
+eval isInEdgesFromIndexFromExclusiveToExclusive(::e3, foo, 2, 4)
+
+quit

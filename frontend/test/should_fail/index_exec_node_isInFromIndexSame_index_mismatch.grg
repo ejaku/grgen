@@ -1,0 +1,6 @@
+#using "index_exec_model.gm"
+
+sequence s(i:set<Node>, j:int)
+{
+	{ i=isInNodesFromIndexSame(::n, j, j) }
+}

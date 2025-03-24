@@ -1,0 +1,6 @@
+#using "index_exec_model.gm"
+
+sequence s(n:N, j:double)
+{
+	{ i:set<AEdge>=isInEdgesFromIndexFromTo(n, bari, 0, 42) }
+}

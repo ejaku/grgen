@@ -1,0 +1,48 @@
+#using "index_model_002.gm"
+
+function f() : int
+{
+	return(0);
+}
+
+rule i {
+	n:N;
+	
+	modify {
+		---
+		def var s:boolean;
+		exec( {
+				s = isInNodesFromIndex(n, fooi);
+				s = isInNodesFromIndexSame(n, fooi, 42);
+				s = isInNodesFromIndexFrom(n, fooi, 42);
+				s = isInNodesFromIndexFromExclusive(n, fooi, 42);
+				s = isInNodesFromIndexTo(n, fooi, 42);
+				s = isInNodesFromIndexToExclusive(n, fooi, 42);
+				s = isInNodesFromIndexFromTo(n, fooi, f(), 42);
+				s = isInNodesFromIndexFromExclusiveTo(n, fooi, f(), 42);
+				s = isInNodesFromIndexFromToExclusive(n, fooi, f(), 42);
+				s = isInNodesFromIndexFromExclusiveToExclusive(n, fooi, f(), 42)
+			} );
+	}
+}
+
+rule ei {
+	-e:E->;
+	
+	modify {
+		---
+		def var s:boolean;
+		exec( {
+			s = isInEdgesFromIndex(e, bari);
+			s = isInEdgesFromIndexSame(e, bari, 42);
+			s = isInEdgesFromIndexFrom(e, bari, 42);
+			s = isInEdgesFromIndexFromExclusive(e, bari, 42);
+			s = isInEdgesFromIndexTo(e, bari, 42);
+			s = isInEdgesFromIndexToExclusive(e, bari, 42);
+			s = isInEdgesFromIndexFromTo(e, bari, f(), 42);
+			s = isInEdgesFromIndexFromExclusiveTo(e, bari, f(), 42);
+			s = isInEdgesFromIndexFromToExclusive(e, bari, f(), 42);
+			s = isInEdgesFromIndexFromExclusiveToExclusive(e, bari, f(), 42)
+		} );
+	}
+}

@@ -1,0 +1,6 @@
+#using "index_exec_model.gm"
+
+sequence s(n:N, i:set<AEdge>, j:int)
+{
+	{ i=isInEdgesFromIndexSame(n, bari, j) }
+}

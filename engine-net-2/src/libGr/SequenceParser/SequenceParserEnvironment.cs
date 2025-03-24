@@ -1194,7 +1194,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             }
         }
 
-        public bool IsIndexFunction(string indexFunctionName)
+        public bool IsNonIsInIndexFunction(string indexFunctionName)
         {
             switch(indexFunctionName)
             {
@@ -1238,6 +1238,34 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                 case "countEdgesFromIndexFromExclusiveTo": return true;
                 case "countEdgesFromIndexFromToExclusive": return true;
                 case "countEdgesFromIndexFromExclusiveToExclusive": return true;
+                default: return false;
+            }
+        }
+
+        public bool IsIsInIndexFunction(string indexFunctionName)
+        {
+            switch(indexFunctionName)
+            {
+                case "isInNodesFromIndex": return true;
+                case "isInEdgesFromIndex": return true;
+                case "isInNodesFromIndexSame": return true;
+                case "isInEdgesFromIndexSame": return true;
+                case "isInNodesFromIndexFrom": return true;
+                case "isInNodesFromIndexFromExclusive": return true;
+                case "isInNodesFromIndexTo": return true;
+                case "isInNodesFromIndexToExclusive": return true;
+                case "isInNodesFromIndexFromTo": return true;
+                case "isInNodesFromIndexFromExclusiveTo": return true;
+                case "isInNodesFromIndexFromToExclusive": return true;
+                case "isInNodesFromIndexFromExclusiveToExclusive": return true;
+                case "isInEdgesFromIndexFrom": return true;
+                case "isInEdgesFromIndexFromExclusive": return true;
+                case "isInEdgesFromIndexTo": return true;
+                case "isInEdgesFromIndexToExclusive": return true;
+                case "isInEdgesFromIndexFromTo": return true;
+                case "isInEdgesFromIndexFromExclusiveTo": return true;
+                case "isInEdgesFromIndexFromToExclusive": return true;
+                case "isInEdgesFromIndexFromExclusiveToExclusive": return true;
                 default: return false;
             }
         }
@@ -1487,6 +1515,126 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                             throw new ParseException("\"countEdgesFromIndexFromExclusiveToExclusive\" expects 3 parameters");
                         return new SequenceExpressionCountEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), false, getArgument(argExprs, 2), false, SequenceExpressionType.CountEdgesFromIndexFromExclusiveToExclusive);
                     }
+                case "isInNodesFromIndex":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"isInNodesFromIndex\" expects 2 parameters");
+                        return new SequenceExpressionIsInNodesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), null, true, null, true, SequenceExpressionType.IsInNodesFromIndex);
+                    }
+                case "isInEdgesFromIndex":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"isInEdgesFromIndex\" expects 2 parameters");
+                        return new SequenceExpressionIsInEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), null, true, null, true, SequenceExpressionType.IsInEdgesFromIndex);
+                    }
+                case "isInNodesFromIndexSame":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"isInNodesFromIndexSame\" expects 3 parameters");
+                        return new SequenceExpressionIsInNodesFromIndexSame(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), SequenceExpressionType.IsInNodesFromIndexSame);
+                    }
+                case "isInEdgesFromIndexSame":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"isInEdgesFromIndexSame\" expects 3 parameters");
+                        return new SequenceExpressionIsInEdgesFromIndexSame(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), SequenceExpressionType.IsInEdgesFromIndexSame);
+                    }
+                case "isInNodesFromIndexFrom":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"isInNodesFromIndexFrom\" expects 3 parameters");
+                        return new SequenceExpressionIsInNodesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), true, null, true, SequenceExpressionType.IsInNodesFromIndexFrom);
+                    }
+                case "isInNodesFromIndexFromExclusive":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"isInNodesFromIndexFromExclusive\" expects 3 parameters");
+                        return new SequenceExpressionIsInNodesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), false, null, true, SequenceExpressionType.IsInNodesFromIndexFromExclusive);
+                    }
+                case "isInNodesFromIndexTo":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"isInNodesFromIndexTo\" expects 3 parameters");
+                        return new SequenceExpressionIsInNodesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), null, true, getArgument(argExprs, 2), true, SequenceExpressionType.IsInNodesFromIndexTo);
+                    }
+                case "isInNodesFromIndexToExclusive":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"isInNodesFromIndexToExclusive\" expects 3 parameters");
+                        return new SequenceExpressionIsInNodesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), null, true, getArgument(argExprs, 2), false, SequenceExpressionType.IsInNodesFromIndexToExclusive);
+                    }
+                case "isInNodesFromIndexFromTo":
+                    {
+                        if(argExprs.Count != 4)
+                            throw new ParseException("\"isInNodesFromIndexFromTo\" expects 4 parameters");
+                        return new SequenceExpressionIsInNodesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), true, getArgument(argExprs, 3), true, SequenceExpressionType.IsInNodesFromIndexFromTo);
+                    }
+                case "isInNodesFromIndexFromExclusiveTo":
+                    {
+                        if(argExprs.Count != 4)
+                            throw new ParseException("\"isInNodesFromIndexFromExclusiveTo\" expects 4 parameters");
+                        return new SequenceExpressionIsInNodesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), false, getArgument(argExprs, 3), true, SequenceExpressionType.IsInNodesFromIndexFromExclusiveTo);
+                    }
+                case "isInNodesFromIndexFromToExclusive":
+                    {
+                        if(argExprs.Count != 4)
+                            throw new ParseException("\"isInNodesFromIndexFromToExclusive\" expects 4 parameters");
+                        return new SequenceExpressionIsInNodesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), true, getArgument(argExprs, 3), false, SequenceExpressionType.IsInNodesFromIndexFromToExclusive);
+                    }
+                case "isInNodesFromIndexFromExclusiveToExclusive":
+                    {
+                        if(argExprs.Count != 4)
+                            throw new ParseException("\"isInNodesFromIndexFromExclusiveToExclusive\" expects 4 parameters");
+                        return new SequenceExpressionIsInNodesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), false, getArgument(argExprs, 3), false, SequenceExpressionType.IsInNodesFromIndexFromExclusiveToExclusive);
+                    }
+                case "isInEdgesFromIndexFrom":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"isInEdgesFromIndexFrom\" expects 3 parameters");
+                        return new SequenceExpressionIsInEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), true, null, true, SequenceExpressionType.IsInEdgesFromIndexFrom);
+                    }
+                case "isInEdgesFromIndexFromExclusive":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"isInEdgesFromIndexFromExclusive\" expects 3 parameters");
+                        return new SequenceExpressionIsInEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), false, null, true, SequenceExpressionType.IsInEdgesFromIndexFromExclusive);
+                    }
+                case "isInEdgesFromIndexTo":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"isInEdgesFromIndexTo\" expects 3 parameters");
+                        return new SequenceExpressionIsInEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), null, true, getArgument(argExprs, 2), true, SequenceExpressionType.IsInEdgesFromIndexTo);
+                    }
+                case "isInEdgesFromIndexToExclusive":
+                    {
+                        if(argExprs.Count != 3)
+                            throw new ParseException("\"isInEdgesFromIndexToExclusive\" expects 3 parameters");
+                        return new SequenceExpressionIsInEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), null, true, getArgument(argExprs, 2), false, SequenceExpressionType.IsInEdgesFromIndexToExclusive);
+                    }
+                case "isInEdgesFromIndexFromTo":
+                    {
+                        if(argExprs.Count != 4)
+                            throw new ParseException("\"isInEdgesFromIndexFromTo\" expects 4 parameters");
+                        return new SequenceExpressionIsInEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), true, getArgument(argExprs, 3), true, SequenceExpressionType.IsInEdgesFromIndexFromTo);
+                    }
+                case "isInEdgesFromIndexFromExclusiveTo":
+                    {
+                        if(argExprs.Count != 4)
+                            throw new ParseException("\"isInEdgesFromIndexFromExclusiveTo\" expects 4 parameters");
+                        return new SequenceExpressionIsInEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), false, getArgument(argExprs, 3), true, SequenceExpressionType.IsInEdgesFromIndexFromExclusiveTo);
+                    }
+                case "isInEdgesFromIndexFromToExclusive":
+                    {
+                        if(argExprs.Count != 4)
+                            throw new ParseException("\"isInEdgesFromIndexFromToExclusive\" expects 4 parameters");
+                        return new SequenceExpressionIsInEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), true, getArgument(argExprs, 3), false, SequenceExpressionType.IsInEdgesFromIndexFromToExclusive);
+                    }
+                case "isInEdgesFromIndexFromExclusiveToExclusive":
+                    {
+                        if(argExprs.Count != 4)
+                            throw new ParseException("\"isInEdgesFromIndexFromExclusiveToExclusive\" expects 4 parameters");
+                        return new SequenceExpressionIsInEdgesFromIndexFromTo(getArgument(argExprs, 0), getArgument(argExprs, 1), getArgument(argExprs, 2), false, getArgument(argExprs, 3), false, SequenceExpressionType.IsInEdgesFromIndexFromExclusiveToExclusive);
+                    }
                 default:
                     throw new ParseException("Unknown index function name: \"" + indexFunctionName + "\"!"
                         + " (available are nodesFromIndex|edgesFromIndex|nodesFromIndexSame|edgesFromIndexSame"
@@ -1498,7 +1646,13 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                         + "|countNodesFromIndexFrom|countNodesFromIndexFromExclusive|countNodesFromIndexTo|countNodesFromIndexToExclusive"
                         + "|countNodesFromIndexFromTo|countNodesFromIndexFromExclusiveTo|countNodesFromIndexFromToExclusive|countNodesFromIndexFromExclusiveToExclusive"
                         + "|countEdgesFromIndexFrom|countEdgesFromIndexFromExclusive|countEdgesFromIndexTo|countEdgesFromIndexToExclusive"
-                        + "|countEdgesFromIndexFromTo|countEdgesFromIndexFromExclusiveTo|countEdgesFromIndexFromToExclusive|countEdgesFromIndexFromExclusiveToExclusive");
+                        + "|countEdgesFromIndexFromTo|countEdgesFromIndexFromExclusiveTo|countEdgesFromIndexFromToExclusive|countEdgesFromIndexFromExclusiveToExclusive"
+                        + "|isInNodesFromIndex|isInEdgesFromIndex|isInNodesFromIndexSame|isInEdgesFromIndexSame"
+                        + "|isInNodesFromIndexFrom|isInNodesFromIndexFromExclusive|isInNodesFromIndexTo|isInNodesFromIndexToExclusive"
+                        + "|isInNodesFromIndexFromTo|isInNodesFromIndexFromExclusiveTo|isInNodesFromIndexFromToExclusive|isInNodesFromIndexFromExclusiveToExclusive"
+                        + "|isInEdgesFromIndexFrom|isInEdgesFromIndexFromExclusive|isInEdgesFromIndexTo|isInEdgesFromIndexToExclusive"
+                        + "|isInEdgesFromIndexFromTo|isInEdgesFromIndexFromExclusiveTo|isInEdgesFromIndexFromToExclusive|isInEdgesFromIndexFromExclusiveToExclusive"
+                        + ")");
             }
         }
 

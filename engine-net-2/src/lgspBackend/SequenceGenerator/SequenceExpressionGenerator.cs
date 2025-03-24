@@ -310,6 +310,30 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionCountEdgesFromIndexFromTo((SequenceExpressionCountEdgesFromIndexFromTo)expr, source);
             case SequenceExpressionType.CountEdgesFromIndexSame:
                 return GetSequenceExpressionCountEdgesFromIndexSame((SequenceExpressionCountEdgesFromIndexSame)expr, source);
+            case SequenceExpressionType.IsInNodesFromIndex:
+            case SequenceExpressionType.IsInNodesFromIndexFrom:
+            case SequenceExpressionType.IsInNodesFromIndexFromExclusive:
+            case SequenceExpressionType.IsInNodesFromIndexTo:
+            case SequenceExpressionType.IsInNodesFromIndexToExclusive:
+            case SequenceExpressionType.IsInNodesFromIndexFromTo:
+            case SequenceExpressionType.IsInNodesFromIndexFromExclusiveTo:
+            case SequenceExpressionType.IsInNodesFromIndexFromToExclusive:
+            case SequenceExpressionType.IsInNodesFromIndexFromExclusiveToExclusive:
+                return GetSequenceExpressionIsInNodesFromIndexFromTo((SequenceExpressionIsInNodesFromIndexFromTo)expr, source);
+            case SequenceExpressionType.IsInNodesFromIndexSame:
+                return GetSequenceExpressionIsInNodesFromIndexSame((SequenceExpressionIsInNodesFromIndexSame)expr, source);
+            case SequenceExpressionType.IsInEdgesFromIndex:
+            case SequenceExpressionType.IsInEdgesFromIndexFrom:
+            case SequenceExpressionType.IsInEdgesFromIndexFromExclusive:
+            case SequenceExpressionType.IsInEdgesFromIndexTo:
+            case SequenceExpressionType.IsInEdgesFromIndexToExclusive:
+            case SequenceExpressionType.IsInEdgesFromIndexFromTo:
+            case SequenceExpressionType.IsInEdgesFromIndexFromExclusiveTo:
+            case SequenceExpressionType.IsInEdgesFromIndexFromToExclusive:
+            case SequenceExpressionType.IsInEdgesFromIndexFromExclusiveToExclusive:
+                return GetSequenceExpressionIsInEdgesFromIndexFromTo((SequenceExpressionIsInEdgesFromIndexFromTo)expr, source);
+            case SequenceExpressionType.IsInEdgesFromIndexSame:
+                return GetSequenceExpressionIsInEdgesFromIndexSame((SequenceExpressionIsInEdgesFromIndexSame)expr, source);
 
             // container expressions
             case SequenceExpressionType.InContainerOrString:
@@ -2274,6 +2298,60 @@ namespace de.unika.ipd.grGen.lgsp
             string profilingArgument = seqCountEdgesFromIndexSame.EmitProfiling ? ", procEnv" : "";
 
             return "GRGEN_LIBGR.IndexHelper.CountEdgesFromIndexSame((GRGEN_LIBGR.IAttributeIndex)" + index
+                + ", " + value + profilingArgument + ")";
+        }
+
+        private string GetSequenceExpressionIsInNodesFromIndexFromTo(SequenceExpressionIsInNodesFromIndexFromTo seqIsInNodesFromIndexFromTo, SourceBuilder source)
+        {
+            string candidate = GetSequenceExpression(seqIsInNodesFromIndexFromTo.Candidate, source);
+            string index = GetSequenceExpression(seqIsInNodesFromIndexFromTo.Index, source);
+            string from = seqIsInNodesFromIndexFromTo.From != null ? GetSequenceExpression(seqIsInNodesFromIndexFromTo.From, source) : "null";
+            string includingFrom = seqIsInNodesFromIndexFromTo.IncludingFrom ? "true" : "false";
+            string to = seqIsInNodesFromIndexFromTo.To != null ? GetSequenceExpression(seqIsInNodesFromIndexFromTo.To, source) : "null";
+            string includingTo = seqIsInNodesFromIndexFromTo.IncludingTo ? "true" : "false";
+
+            string profilingArgument = seqIsInNodesFromIndexFromTo.EmitProfiling ? ", procEnv" : "";
+
+            return "GRGEN_LIBGR.IndexHelper.IsInNodesFromIndexFromTo((GRGEN_LIBGR.INode)" + candidate + ", (GRGEN_LIBGR.IAttributeIndex)" + index
+                + ", " + from + ", " + includingFrom + ", " + to + ", " + includingTo + profilingArgument + ")";
+        }
+
+        private string GetSequenceExpressionIsInNodesFromIndexSame(SequenceExpressionIsInNodesFromIndexSame seqIsInNodesFromIndexSame, SourceBuilder source)
+        {
+            string candidate = GetSequenceExpression(seqIsInNodesFromIndexSame.Candidate, source);
+            string index = GetSequenceExpression(seqIsInNodesFromIndexSame.Index, source);
+            string value = GetSequenceExpression(seqIsInNodesFromIndexSame.Value, source);
+
+            string profilingArgument = seqIsInNodesFromIndexSame.EmitProfiling ? ", procEnv" : "";
+
+            return "GRGEN_LIBGR.IndexHelper.IsInNodesFromIndexSame((GRGEN_LIBGR.INode)" + candidate + ", (GRGEN_LIBGR.IAttributeIndex)" + index
+                + ", " + value + profilingArgument + ")";
+        }
+
+        private string GetSequenceExpressionIsInEdgesFromIndexFromTo(SequenceExpressionIsInEdgesFromIndexFromTo seqIsInEdgesFromIndexFromTo, SourceBuilder source)
+        {
+            string candidate = GetSequenceExpression(seqIsInEdgesFromIndexFromTo.Candidate, source);
+            string index = GetSequenceExpression(seqIsInEdgesFromIndexFromTo.Index, source);
+            string from = seqIsInEdgesFromIndexFromTo.From != null ? GetSequenceExpression(seqIsInEdgesFromIndexFromTo.From, source) : "null";
+            string includingFrom = seqIsInEdgesFromIndexFromTo.IncludingFrom ? "true" : "false";
+            string to = seqIsInEdgesFromIndexFromTo.To != null ? GetSequenceExpression(seqIsInEdgesFromIndexFromTo.To, source) : "null";
+            string includingTo = seqIsInEdgesFromIndexFromTo.IncludingTo ? "true" : "false";
+
+            string profilingArgument = seqIsInEdgesFromIndexFromTo.EmitProfiling ? ", procEnv" : "";
+
+            return "GRGEN_LIBGR.IndexHelper.IsInEdgesFromIndexFromTo((GRGEN_LIBGR.IEdge)" + candidate + ", (GRGEN_LIBGR.IAttributeIndex)" + index
+                + ", " + from + ", " + includingFrom + ", " + to + ", " + includingTo + profilingArgument + ")";
+        }
+
+        private string GetSequenceExpressionIsInEdgesFromIndexSame(SequenceExpressionIsInEdgesFromIndexSame seqIsInEdgesFromIndexSame, SourceBuilder source)
+        {
+            string candidate = GetSequenceExpression(seqIsInEdgesFromIndexSame.Candidate, source);
+            string index = GetSequenceExpression(seqIsInEdgesFromIndexSame.Index, source);
+            string value = GetSequenceExpression(seqIsInEdgesFromIndexSame.Value, source);
+
+            string profilingArgument = seqIsInEdgesFromIndexSame.EmitProfiling ? ", procEnv" : "";
+
+            return "GRGEN_LIBGR.IndexHelper.IsInEdgesFromIndexSame((GRGEN_LIBGR.IEdge)" + candidate + ", (GRGEN_LIBGR.IAttributeIndex)" + index
                 + ", " + value + profilingArgument + ")";
         }
 
