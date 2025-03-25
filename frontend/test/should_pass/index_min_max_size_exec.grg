@@ -1,0 +1,19 @@
+#using "index_min_max_size_model.gm"
+
+rule ri {
+	n:N -e:E-> n;
+	
+	modify {
+	---
+		exec( {
+			n.b = minNodeFromIndex(fooi) in nodesFromIndex(fooi);
+			n.b = maxNodeFromIndex(fooi) in nodesFromIndex(fooi);
+			
+			e.b = minEdgeFromIndex(bari) in edgesFromIndex(bari);
+			e.b = maxEdgeFromIndex(bari) in edgesFromIndex(bari);
+			
+			n.b = indexSize(fooi) > 42;
+			e.b = indexSize(bari) < 42
+		} );
+	}
+}

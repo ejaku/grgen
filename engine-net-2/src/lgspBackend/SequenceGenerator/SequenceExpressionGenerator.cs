@@ -382,6 +382,16 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionNodesFromIndexMultipleFromTo((SequenceExpressionNodesFromIndexMultipleFromTo)expr, source);
             case SequenceExpressionType.EdgesFromIndexMultipleFromTo:
                 return GetSequenceExpressionEdgesFromIndexMultipleFromTo((SequenceExpressionEdgesFromIndexMultipleFromTo)expr, source);
+            case SequenceExpressionType.MinNodeFromIndex:
+                return GetSequenceExpressionMinNodeFromIndex((SequenceExpressionMinNodeFromIndex)expr, source);
+            case SequenceExpressionType.MaxNodeFromIndex:
+                return GetSequenceExpressionMaxNodeFromIndex((SequenceExpressionMaxNodeFromIndex)expr, source);
+            case SequenceExpressionType.MinEdgeFromIndex:
+                return GetSequenceExpressionMinEdgeFromIndex((SequenceExpressionMinEdgeFromIndex)expr, source);
+            case SequenceExpressionType.MaxEdgeFromIndex:
+                return GetSequenceExpressionMaxEdgeFromIndex((SequenceExpressionMaxEdgeFromIndex)expr, source);
+            case SequenceExpressionType.IndexSize:
+                return GetSequenceExpressionIndexSize((SequenceExpressionIndexSize)expr, source);
 
             // container expressions
             case SequenceExpressionType.InContainerOrString:
@@ -2486,7 +2496,6 @@ namespace de.unika.ipd.grGen.lgsp
         {
             string parts = GetSequenceExpressionFromIndexMultipleFromToParts(seqNodesFromIndexMultipleFromTo, source);
             string profilingArgument = seqNodesFromIndexMultipleFromTo.EmitProfiling ? "procEnv, " : "";
-
             return "GRGEN_LIBGR.IndexHelper.NodesFromIndexMultipleFromTo(" + profilingArgument + parts + ")";
         }
 
@@ -2494,8 +2503,41 @@ namespace de.unika.ipd.grGen.lgsp
         {
             string parts = GetSequenceExpressionFromIndexMultipleFromToParts(seqEdgesFromIndexMultipleFromTo, source);
             string profilingArgument = seqEdgesFromIndexMultipleFromTo.EmitProfiling ? "procEnv, " : "";
-
             return "GRGEN_LIBGR.IndexHelper.EdgesFromIndexMultipleFromTo(" + profilingArgument + parts + ")";
+        }
+
+        private string GetSequenceExpressionMinNodeFromIndex(SequenceExpressionMinNodeFromIndex seqMinNodeFromIndex, SourceBuilder source)
+        {
+            string index = GetSequenceExpression(seqMinNodeFromIndex.Index, source);
+            string profilingArgument = seqMinNodeFromIndex.EmitProfiling ? ", procEnv" : "";
+            return "GRGEN_LIBGR.IndexHelper.MinNodeFromIndex((GRGEN_LIBGR.IAttributeIndex)" + index + profilingArgument + ")";
+        }
+
+        private string GetSequenceExpressionMaxNodeFromIndex(SequenceExpressionMaxNodeFromIndex seqMaxNodeFromIndex, SourceBuilder source)
+        {
+            string index = GetSequenceExpression(seqMaxNodeFromIndex.Index, source);
+            string profilingArgument = seqMaxNodeFromIndex.EmitProfiling ? ", procEnv" : "";
+            return "GRGEN_LIBGR.IndexHelper.MaxNodeFromIndex((GRGEN_LIBGR.IAttributeIndex)" + index + profilingArgument + ")";
+        }
+
+        private string GetSequenceExpressionMinEdgeFromIndex(SequenceExpressionMinEdgeFromIndex seqMinEdgeFromIndex, SourceBuilder source)
+        {
+            string index = GetSequenceExpression(seqMinEdgeFromIndex.Index, source);
+            string profilingArgument = seqMinEdgeFromIndex.EmitProfiling ? ", procEnv" : "";
+            return "GRGEN_LIBGR.IndexHelper.MinEdgeFromIndex((GRGEN_LIBGR.IAttributeIndex)" + index + profilingArgument + ")";
+        }
+
+        private string GetSequenceExpressionMaxEdgeFromIndex(SequenceExpressionMaxEdgeFromIndex seqMaxEdgeFromIndex, SourceBuilder source)
+        {
+            string index = GetSequenceExpression(seqMaxEdgeFromIndex.Index, source);
+            string profilingArgument = seqMaxEdgeFromIndex.EmitProfiling ? ", procEnv" : "";
+            return "GRGEN_LIBGR.IndexHelper.MaxEdgeFromIndex((GRGEN_LIBGR.IAttributeIndex)" + index + profilingArgument + ")";
+        }
+
+        private string GetSequenceExpressionIndexSize(SequenceExpressionIndexSize seqIndexSize, SourceBuilder source)
+        {
+            string index = GetSequenceExpression(seqIndexSize.Index, source);
+            return "((GRGEN_LIBGR.IIndex)" + index + ").Size";
         }
 
         #endregion Index expressions

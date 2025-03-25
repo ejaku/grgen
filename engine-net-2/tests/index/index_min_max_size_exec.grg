@@ -1,0 +1,18 @@
+#using "index_model_min_max_size.gm"
+
+rule testall() {
+	modify {
+	---
+		exec( {
+			emit("The value of attribute minnode is "); emit(minNodeFromIndex(foo)); emit("\n");
+			emit("The value of attribute maxnode is "); emit(maxNodeFromIndex(foo)); emit("\n");
+			emit("The value of attribute minincidentnode is "); emit(minNodeFromIndex(baz)); emit("\n");
+			emit("The value of attribute maxincidentnode is "); emit(maxNodeFromIndex(baz)); emit("\n");
+			emit("The value of attribute minedge is "); emit(minEdgeFromIndex(bar)); emit("\n");
+			emit("The value of attribute maxedge is "); emit(maxEdgeFromIndex(bar)); emit("\n");
+			emit("The value of attribute sizenodeindex is "); emit(indexSize(foo)); emit("\n");
+			emit("The value of attribute sizeincidentnodeindex is "); emit(indexSize(baz)); emit("\n");
+			emit("The value of attribute sizeedgeindex is "); emit(indexSize(bar)); emit("\n");
+		} );
+	}
+}

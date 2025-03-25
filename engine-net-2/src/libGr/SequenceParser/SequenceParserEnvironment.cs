@@ -1276,6 +1276,11 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                 case "edgesFromIndexFromExclusiveToAsArrayDescending": return true;
                 case "edgesFromIndexFromToExclusiveAsArrayDescending": return true;
                 case "edgesFromIndexFromExclusiveToExclusiveAsArrayDescending": return true;
+                case "minNodeFromIndex": return true;
+                case "maxNodeFromIndex": return true;
+                case "minEdgeFromIndex": return true;
+                case "maxEdgeFromIndex": return true;
+                case "indexSize": return true;
                 default: return false;
             }
         }
@@ -1933,6 +1938,36 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                         }
                         return seqExprMultiple;
                     }
+                case "minNodeFromIndex":
+                    {
+                        if(argExprs.Count != 1)
+                            throw new ParseException("\"minNodeFromIndex\" expects 1 parameter");
+                        return new SequenceExpressionMinNodeFromIndex(getArgument(argExprs, 0), SequenceExpressionType.MinNodeFromIndex);
+                    }
+                case "maxNodeFromIndex":
+                    {
+                        if(argExprs.Count != 1)
+                            throw new ParseException("\"maxNodeFromIndex\" expects 1 parameter");
+                        return new SequenceExpressionMaxNodeFromIndex(getArgument(argExprs, 0), SequenceExpressionType.MaxNodeFromIndex);
+                    }
+                case "minEdgeFromIndex":
+                    {
+                        if(argExprs.Count != 1)
+                            throw new ParseException("\"minEdgeFromIndex\" expects 1 parameter");
+                        return new SequenceExpressionMinEdgeFromIndex(getArgument(argExprs, 0), SequenceExpressionType.MinEdgeFromIndex);
+                    }
+                case "maxEdgeFromIndex":
+                    {
+                        if(argExprs.Count != 1)
+                            throw new ParseException("\"maxEdgeFromIndex\" expects 1 parameter");
+                        return new SequenceExpressionMaxEdgeFromIndex(getArgument(argExprs, 0), SequenceExpressionType.MaxEdgeFromIndex);
+                    }
+                case "indexSize":
+                    {
+                        if(argExprs.Count != 1)
+                            throw new ParseException("\"indexSize\" expects 1 parameter");
+                        return new SequenceExpressionIndexSize(getArgument(argExprs, 0), SequenceExpressionType.IndexSize);
+                    }
                 default:
                     throw new ParseException("Unknown index function name: \"" + indexFunctionName + "\"!"
                         + " (available are nodesFromIndex|edgesFromIndex|nodesFromIndexSame|edgesFromIndexSame"
@@ -1961,6 +1996,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                         + "|edgesFromIndexFromAsArrayDescending|edgesFromIndexFromExclusiveAsArrayDescending|edgesFromIndexToAsArrayDescending|edgesFromIndexToExclusiveAsArrayDescending"
                         + "|edgesFromIndexFromToAsArrayDescending|edgesFromIndexFromExclusiveToAsArrayDescending|edgesFromIndexFromToExclusiveAsArrayDescending|edgesFromIndexFromExclusiveToExclusiveAsArrayDescending"
                         + "|nodesFromIndexMultipleFromTo|edgesFromIndexMultipleFromTo"
+                        + "|minNodeFromIndex|maxNodeFromIndex|minEdgeFromIndex|maxEdgeFromIndex|indexSize"
                         + ")");
             }
         }

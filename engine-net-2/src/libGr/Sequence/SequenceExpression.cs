@@ -108,6 +108,7 @@ namespace de.unika.ipd.grGen.libGr
         EdgesFromIndexFromAsArrayDescending, EdgesFromIndexFromExclusiveAsArrayDescending, EdgesFromIndexToAsArrayDescending, EdgesFromIndexToExclusiveAsArrayDescending,
         EdgesFromIndexFromToAsArrayDescending, EdgesFromIndexFromExclusiveToAsArrayDescending, EdgesFromIndexFromToExclusiveAsArrayDescending, EdgesFromIndexFromExclusiveToExclusiveAsArrayDescending,
         FromIndexMultipleFromToPart, NodesFromIndexMultipleFromTo, EdgesFromIndexMultipleFromTo,
+        MinNodeFromIndex, MaxNodeFromIndex, MinEdgeFromIndex, MaxEdgeFromIndex, IndexSize,
         InducedSubgraph, DefinedSubgraph,
         EqualsAny, GetEquivalent,
         Nameof, Uniqueof, Typeof,
@@ -11793,6 +11794,266 @@ namespace de.unika.ipd.grGen.libGr
         protected override string FunctionSymbol
         {
             get { return "edgesFromIndexMultipleFromTo"; }
+        }
+    }
+
+    public abstract class SequenceExpressionMinMaxFromIndex : SequenceExpressionFromIndex
+    {
+        public SequenceExpressionMinMaxFromIndex(SequenceExpression index, SequenceExpressionType type)
+            : base(index, 0, type)
+        {
+        }
+
+        protected SequenceExpressionMinMaxFromIndex(SequenceExpressionMinMaxFromIndex that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return RootType;
+        }
+
+        public override string Symbol
+        {
+            get { return FunctionSymbol + "(" + Index.Symbol + ")"; }
+        }
+    }
+
+    public class SequenceExpressionMinNodeFromIndex : SequenceExpressionMinMaxFromIndex
+    {
+        public SequenceExpressionMinNodeFromIndex(SequenceExpression index, SequenceExpressionType type)
+            : base(index, type)
+        {
+        }
+
+        protected SequenceExpressionMinNodeFromIndex(SequenceExpressionMinNodeFromIndex that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMinNodeFromIndex(this, originalToCopy, procEnv);
+        }
+
+        protected override string RootType
+        {
+            get { return "Node"; }
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            IAttributeIndex index = (IAttributeIndex)Index.Evaluate(procEnv);
+
+            if(EmitProfiling)
+                return IndexHelper.MinNodeFromIndex(index, procEnv);
+            else
+                return IndexHelper.MinNodeFromIndex(index);
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        protected override string FunctionSymbol
+        {
+            get { return "minNodeFromIndex"; }
+        }
+    }
+
+    public class SequenceExpressionMaxNodeFromIndex : SequenceExpressionMinMaxFromIndex
+    {
+        public SequenceExpressionMaxNodeFromIndex(SequenceExpression index, SequenceExpressionType type)
+            : base(index, type)
+        {
+        }
+
+        protected SequenceExpressionMaxNodeFromIndex(SequenceExpressionMaxNodeFromIndex that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMaxNodeFromIndex(this, originalToCopy, procEnv);
+        }
+
+        protected override string RootType
+        {
+            get { return "Node"; }
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            IAttributeIndex index = (IAttributeIndex)Index.Evaluate(procEnv);
+
+            if(EmitProfiling)
+                return IndexHelper.MaxNodeFromIndex(index, procEnv);
+            else
+                return IndexHelper.MaxNodeFromIndex(index);
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        protected override string FunctionSymbol
+        {
+            get { return "maxNodeFromIndex"; }
+        }
+    }
+
+    public class SequenceExpressionMinEdgeFromIndex : SequenceExpressionMinMaxFromIndex
+    {
+        public SequenceExpressionMinEdgeFromIndex(SequenceExpression index, SequenceExpressionType type)
+            : base(index, type)
+        {
+        }
+
+        protected SequenceExpressionMinEdgeFromIndex(SequenceExpressionMinEdgeFromIndex that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMinEdgeFromIndex(this, originalToCopy, procEnv);
+        }
+
+        protected override string RootType
+        {
+            get { return "AEdge"; }
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            IAttributeIndex index = (IAttributeIndex)Index.Evaluate(procEnv);
+
+            if(EmitProfiling)
+                return IndexHelper.MinEdgeFromIndex(index, procEnv);
+            else
+                return IndexHelper.MinEdgeFromIndex(index);
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        protected override string FunctionSymbol
+        {
+            get { return "minEdgeFromIndex"; }
+        }
+    }
+
+    public class SequenceExpressionMaxEdgeFromIndex : SequenceExpressionMinMaxFromIndex
+    {
+        public SequenceExpressionMaxEdgeFromIndex(SequenceExpression index, SequenceExpressionType type)
+            : base(index, type)
+        {
+        }
+
+        protected SequenceExpressionMaxEdgeFromIndex(SequenceExpressionMaxEdgeFromIndex that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionMaxEdgeFromIndex(this, originalToCopy, procEnv);
+        }
+
+        protected override string RootType
+        {
+            get { return "AEdge"; }
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            IAttributeIndex index = (IAttributeIndex)Index.Evaluate(procEnv);
+
+            if(EmitProfiling)
+                return IndexHelper.MaxEdgeFromIndex(index, procEnv);
+            else
+                return IndexHelper.MaxEdgeFromIndex(index);
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        protected override string FunctionSymbol
+        {
+            get { return "maxEdgeFromIndex"; }
+        }
+    }
+
+    public class SequenceExpressionIndexSize : SequenceExpressionFromIndex
+    {
+        public SequenceExpressionIndexSize(SequenceExpression index, SequenceExpressionType type)
+            : base(index, 0, type)
+        {
+        }
+
+        protected SequenceExpressionIndexSize(SequenceExpressionIndexSize that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionIndexSize(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            try
+            {
+                foreach(SequenceComputation childSeq in Children)
+                {
+                    childSeq.Check(env); // check children without calling base
+                }
+            }
+            catch(SequenceParserExceptionIndexUnknown)
+            {
+                // fire exception with improved error message, the check only tells about the unknown index, not about the context in form of the function trying to use it
+                throw new SequenceParserExceptionIndexUnknown(Index.Symbol, FunctionSymbol + String.Format(", {0}. argument", 1));
+            }
+        }
+
+        protected override string RootType
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "int";
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            IAttributeIndex index = (IAttributeIndex)Index.Evaluate(procEnv);
+            return index.Size;
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return FunctionSymbol + "(" + Index.Symbol + ")"; }
+        }
+
+        protected override string FunctionSymbol
+        {
+            get { return "indexSize"; }
         }
     }
 

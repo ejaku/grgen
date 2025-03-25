@@ -1,0 +1,10 @@
+#using "index_min_max_size_model.gm"
+
+rule r {
+	n:N -e:E->;
+	
+	modify {
+	---
+		exec( {{ indexSize(n)==0 }} );
+	}
+}

@@ -1,0 +1,33 @@
+new graph "index/index_min_max_size_exec"
+
+exec testall
+
+new n1:N($="$1", i=1)
+
+exec testall
+
+new n2:N($="$2", i=2)
+new n1 -:E($="$E1", i=1)-> n2
+
+exec testall
+
+new n3:N($="$3", i=3)
+new n1 -:E($="$E2", i=2)-> n3
+
+exec testall
+
+new n4:N($="$4", i=4)
+new n1 -:E($="$E3", i=3)-> n4
+
+exec testall
+
+new n5:N($="$5", i=5)
+new n2 -:E($="$E4", i=4)-> n5
+
+exec testall
+
+new n6:Node($="$6")
+
+exec testall
+
+quit

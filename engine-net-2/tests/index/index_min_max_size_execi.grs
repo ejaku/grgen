@@ -1,0 +1,48 @@
+new graph "index/index_min_max_size"
+
+def testall()\
+{\
+	{\
+		emit("The value of attribute minnode is "); emit(minNodeFromIndex(foo)); emit("\n");\
+		emit("The value of attribute maxnode is "); emit(maxNodeFromIndex(foo)); emit("\n");\
+		emit("The value of attribute minincidentnode is "); emit(minNodeFromIndex(baz)); emit("\n");\
+		emit("The value of attribute maxincidentnode is "); emit(maxNodeFromIndex(baz)); emit("\n");\
+		emit("The value of attribute minedge is "); emit(minEdgeFromIndex(bar)); emit("\n");\
+		emit("The value of attribute maxedge is "); emit(maxEdgeFromIndex(bar)); emit("\n");\
+		emit("The value of attribute sizenodeindex is "); emit(indexSize(foo)); emit("\n");\
+		emit("The value of attribute sizeincidentnodeindex is "); emit(indexSize(baz)); emit("\n");\
+		emit("The value of attribute sizeedgeindex is "); emit(indexSize(bar)); emit("\n")\
+	}\
+}
+
+exec testall
+
+new n1:N($="$1", i=1)
+
+exec testall
+
+new n2:N($="$2", i=2)
+new n1 -:E($="$E1", i=1)-> n2
+
+exec testall
+
+new n3:N($="$3", i=3)
+new n1 -:E($="$E2", i=2)-> n3
+
+exec testall
+
+new n4:N($="$4", i=4)
+new n1 -:E($="$E3", i=3)-> n4
+
+exec testall
+
+new n5:N($="$5", i=5)
+new n2 -:E($="$E4", i=4)-> n5
+
+exec testall
+
+new n6:Node($="$6")
+
+exec testall
+
+quit
