@@ -1308,6 +1308,16 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             }
         }
 
+        public bool IsMultipleIndexFunction(string indexFunctionName)
+        {
+            switch(indexFunctionName)
+            {
+                case "nodesFromIndexMultipleFromTo": return true;
+                case "edgesFromIndexMultipleFromTo": return true;
+                default: return false;
+            }
+        }
+
         public SequenceExpression CreateSequenceExpressionIndexFunctionCall(String indexFunctionName,
             List<SequenceExpression> argExprs)
         {
@@ -1901,6 +1911,28 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                             throw new ParseException("\"edgesFromIndexFromExclusiveToExclusiveAsArrayDescending\" expects 3 parameters");
                         return new SequenceExpressionEdgesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), false, getArgument(argExprs, 2), false, false, SequenceExpressionType.EdgesFromIndexFromExclusiveToExclusiveAsArrayDescending);
                     }
+                case "nodesFromIndexMultipleFromTo":
+                    {
+                        if(argExprs.Count % 3 != 0)
+                            throw new ParseException("\"nodesFromIndexMultipleFromTo\" expects a multiple of 3 parameters");
+                        SequenceExpressionNodesFromIndexMultipleFromTo seqExprMultiple = new SequenceExpressionNodesFromIndexMultipleFromTo(SequenceExpressionType.NodesFromIndexMultipleFromTo);
+                        for(int i = 0; i < argExprs.Count; i += 3)
+                        {
+                            seqExprMultiple.Add(new SequenceExpressionFromIndexFromToPart(getArgument(argExprs, i), getArgument(argExprs, i + 1), true, getArgument(argExprs, i + 2), true, i, seqExprMultiple, SequenceExpressionType.FromIndexMultipleFromToPart));
+                        }
+                        return seqExprMultiple;
+                    }
+                case "edgesFromIndexMultipleFromTo":
+                    {
+                        if(argExprs.Count % 3 != 0)
+                            throw new ParseException("\"edgesFromIndexMultipleFromTo\" expects a multiple of 3 parameters");
+                        SequenceExpressionEdgesFromIndexMultipleFromTo seqExprMultiple = new SequenceExpressionEdgesFromIndexMultipleFromTo(SequenceExpressionType.EdgesFromIndexMultipleFromTo);
+                        for(int i = 0; i < argExprs.Count; i += 3)
+                        {
+                            seqExprMultiple.Add(new SequenceExpressionFromIndexFromToPart(getArgument(argExprs, i), getArgument(argExprs, i + 1), true, getArgument(argExprs, i + 2), true, i, seqExprMultiple, SequenceExpressionType.FromIndexMultipleFromToPart));
+                        }
+                        return seqExprMultiple;
+                    }
                 default:
                     throw new ParseException("Unknown index function name: \"" + indexFunctionName + "\"!"
                         + " (available are nodesFromIndex|edgesFromIndex|nodesFromIndexSame|edgesFromIndexSame"
@@ -1928,6 +1960,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                         + "|nodesFromIndexFromToAsArrayDescending|nodesFromIndexFromExclusiveToAsArrayDescending|nodesFromIndexFromToExclusiveAsArrayDescending|nodesFromIndexFromExclusiveToExclusiveAsArrayDescending"
                         + "|edgesFromIndexFromAsArrayDescending|edgesFromIndexFromExclusiveAsArrayDescending|edgesFromIndexToAsArrayDescending|edgesFromIndexToExclusiveAsArrayDescending"
                         + "|edgesFromIndexFromToAsArrayDescending|edgesFromIndexFromExclusiveToAsArrayDescending|edgesFromIndexFromToExclusiveAsArrayDescending|edgesFromIndexFromExclusiveToExclusiveAsArrayDescending"
+                        + "|nodesFromIndexMultipleFromTo|edgesFromIndexMultipleFromTo"
                         + ")");
             }
         }

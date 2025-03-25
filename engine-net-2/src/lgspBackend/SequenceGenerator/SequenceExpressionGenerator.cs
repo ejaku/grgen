@@ -376,6 +376,12 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionEdgesFromIndexFromToAsArray((SequenceExpressionEdgesFromIndexFromToAsArray)expr, source);
             case SequenceExpressionType.EdgesFromIndexSameAsArray:
                 return GetSequenceExpressionEdgesFromIndexSameAsArray((SequenceExpressionEdgesFromIndexSameAsArray)expr, source);
+            case SequenceExpressionType.FromIndexMultipleFromToPart:
+                return GetSequenceExpressionFromIndexFromToPart((SequenceExpressionFromIndexFromToPart)expr, source);
+            case SequenceExpressionType.NodesFromIndexMultipleFromTo:
+                return GetSequenceExpressionNodesFromIndexMultipleFromTo((SequenceExpressionNodesFromIndexMultipleFromTo)expr, source);
+            case SequenceExpressionType.EdgesFromIndexMultipleFromTo:
+                return GetSequenceExpressionEdgesFromIndexMultipleFromTo((SequenceExpressionEdgesFromIndexMultipleFromTo)expr, source);
 
             // container expressions
             case SequenceExpressionType.InContainerOrString:
@@ -2447,6 +2453,49 @@ namespace de.unika.ipd.grGen.lgsp
 
             return "GRGEN_LIBGR.IndexHelper.EdgesFromIndexSameAsArray((GRGEN_LIBGR.IAttributeIndex)" + index
                 + ", " + value + profilingArgument + ")";
+        }
+
+        private string GetSequenceExpressionFromIndexFromToPart(SequenceExpressionFromIndexFromToPart seqFromIndexFromToPart, SourceBuilder source)
+        {
+            string index = GetSequenceExpression(seqFromIndexFromToPart.Index, source);
+            string from = seqFromIndexFromToPart.From != null ? GetSequenceExpression(seqFromIndexFromToPart.From, source) : "null";
+            string includingFrom = seqFromIndexFromToPart.IncludingFrom ? "true" : "false";
+            string to = seqFromIndexFromToPart.To != null ? GetSequenceExpression(seqFromIndexFromToPart.To, source) : "null";
+            string includingTo = seqFromIndexFromToPart.IncludingTo ? "true" : "false";
+
+            return "new GRGEN_LIBGR.IndexHelper.IndexAccess((GRGEN_LIBGR.IAttributeIndex)" + index
+                + ", " + from + ", " + includingFrom + ", " + to + ", " + includingTo + ")";
+        }
+
+        private string GetSequenceExpressionFromIndexMultipleFromToParts(SequenceExpressionFromIndexMultipleFromTo seqFromIndexMultipleFromTo, SourceBuilder source)
+        {
+            StringBuilder sb = new StringBuilder();
+            bool first = true;
+            foreach(SequenceExpressionFromIndexFromToPart part in seqFromIndexMultipleFromTo.PartsEnumerator)
+            {
+                if(first)
+                    first = false;
+                else
+                    sb.Append(", ");
+                sb.Append(GetSequenceExpression(part, source));
+            }
+            return sb.ToString();
+        }
+
+        private string GetSequenceExpressionNodesFromIndexMultipleFromTo(SequenceExpressionNodesFromIndexMultipleFromTo seqNodesFromIndexMultipleFromTo, SourceBuilder source)
+        {
+            string parts = GetSequenceExpressionFromIndexMultipleFromToParts(seqNodesFromIndexMultipleFromTo, source);
+            string profilingArgument = seqNodesFromIndexMultipleFromTo.EmitProfiling ? "procEnv, " : "";
+
+            return "GRGEN_LIBGR.IndexHelper.NodesFromIndexMultipleFromTo(" + profilingArgument + parts + ")";
+        }
+
+        private string GetSequenceExpressionEdgesFromIndexMultipleFromTo(SequenceExpressionEdgesFromIndexMultipleFromTo seqEdgesFromIndexMultipleFromTo, SourceBuilder source)
+        {
+            string parts = GetSequenceExpressionFromIndexMultipleFromToParts(seqEdgesFromIndexMultipleFromTo, source);
+            string profilingArgument = seqEdgesFromIndexMultipleFromTo.EmitProfiling ? "procEnv, " : "";
+
+            return "GRGEN_LIBGR.IndexHelper.EdgesFromIndexMultipleFromTo(" + profilingArgument + parts + ")";
         }
 
         #endregion Index expressions

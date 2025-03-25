@@ -1,0 +1,6 @@
+#using "index_exec_multiple_model.gm"
+
+sequence s
+{
+	{ i:set<AEdge>=nodesFromIndexMultipleFromTo(fooi, 0, 1, food, 42.0, 42.0 + 1) }
+}

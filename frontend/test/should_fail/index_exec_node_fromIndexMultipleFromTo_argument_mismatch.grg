@@ -1,0 +1,6 @@
+#using "index_exec_multiple_model.gm"
+
+sequence s(j:double)
+{
+	{ i:set<Node>=nodesFromIndexMultipleFromTo(fooi, j, 42, food, 0.0, 1.0) }
+}

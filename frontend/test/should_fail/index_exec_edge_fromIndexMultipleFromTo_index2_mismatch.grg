@@ -1,0 +1,6 @@
+#using "index_exec_multiple_model.gm"
+
+sequence s(j:int)
+{
+	{ i:set<AEdge>=edgesFromIndexMultipleFromTo(bari, 0, 1, food, 42.0, 42.0 + 1) }
+}

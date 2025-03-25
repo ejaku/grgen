@@ -32,6 +32,16 @@ rule getNodesFromBoundingBoxByMatchingNeighboringNodes(center:N, var delta:float
 	}
 }
 
+rule getNodesFromBoundingBoxExec(var x:float, var y:float, var delta:float) : (set<Node>)
+{
+	modify {
+	---
+		def ref s:set<Node>;
+		exec( { s = nodesFromIndexMultipleFromTo(ix, x - delta, x + delta, iy, y - delta, y + delta); } );
+		return(s);
+	}
+}
+
 test dataFileMatchingHelper
 {
 }

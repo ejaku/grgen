@@ -2244,6 +2244,12 @@ SequenceExpression FunctionCall():
         return env.CreateSequenceExpressionIndexFunctionCall(indexFunction, argExprs);
     }
 |
+    LOOKAHEAD( { GetToken(1).kind == WORD && env.IsMultipleIndexFunction(GetToken(1).image) } )
+    indexFunction=Word() "(" IndexArgument(argExprs) "," Argument(argExprs) "," Argument(argExprs) IndexArgumentsMultiple(argExprs) ")"
+    {
+        return env.CreateSequenceExpressionIndexFunctionCall(indexFunction, argExprs);
+    }
+|
     (LOOKAHEAD(2) package=Word() "::")? 
     function=Word() "(" (Arguments(argExprs))? ")"
     {
@@ -2256,6 +2262,13 @@ void IndexArguments(List<SequenceExpression> argExprs):
 }
 {
     IndexArgument(argExprs) ( "," Argument(argExprs) )*
+}
+
+void IndexArgumentsMultiple(List<SequenceExpression> argExprs):
+{
+}
+{
+    ("," IndexArgument(argExprs) "," Argument(argExprs) "," Argument(argExprs) IndexArgumentsMultiple(argExprs) )? 
 }
 
 void IndexArgument(List<SequenceExpression> argExprs):

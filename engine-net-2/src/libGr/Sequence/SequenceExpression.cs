@@ -107,6 +107,7 @@ namespace de.unika.ipd.grGen.libGr
         NodesFromIndexFromToAsArrayDescending, NodesFromIndexFromExclusiveToAsArrayDescending, NodesFromIndexFromToExclusiveAsArrayDescending, NodesFromIndexFromExclusiveToExclusiveAsArrayDescending,
         EdgesFromIndexFromAsArrayDescending, EdgesFromIndexFromExclusiveAsArrayDescending, EdgesFromIndexToAsArrayDescending, EdgesFromIndexToExclusiveAsArrayDescending,
         EdgesFromIndexFromToAsArrayDescending, EdgesFromIndexFromExclusiveToAsArrayDescending, EdgesFromIndexFromToExclusiveAsArrayDescending, EdgesFromIndexFromExclusiveToExclusiveAsArrayDescending,
+        FromIndexMultipleFromToPart, NodesFromIndexMultipleFromTo, EdgesFromIndexMultipleFromTo,
         InducedSubgraph, DefinedSubgraph,
         EqualsAny, GetEquivalent,
         Nameof, Uniqueof, Typeof,
@@ -11560,6 +11561,238 @@ namespace de.unika.ipd.grGen.libGr
                         return "edgesFromIndexFromExclusiveToExclusive" + suffix;
                 }
             }
+        }
+    }
+
+    public class SequenceExpressionFromIndexFromToPart : SequenceExpressionFromIndexFromTo
+    {
+        SequenceExpressionFromIndexMultipleFromTo Parent; // backlink
+
+        public SequenceExpressionFromIndexFromToPart(SequenceExpression index, SequenceExpression from, bool includingFrom, SequenceExpression to, bool includingTo, int argumentShift, SequenceExpressionFromIndexMultipleFromTo parent, SequenceExpressionType type)
+            : base(index, from, includingFrom, to, includingTo, argumentShift, type)
+        {
+            Parent = parent;
+        }
+
+        protected SequenceExpressionFromIndexFromToPart(SequenceExpressionFromIndexFromToPart that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionFromIndexFromToPart(this, originalToCopy, procEnv);
+        }
+
+        protected override string RootType
+        {
+            get { return Parent.RootType; }
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            IAttributeIndex index = (IAttributeIndex)Index.Evaluate(procEnv);
+            object from = From != null ? From.Evaluate(procEnv) : null;
+            object to = To != null ? To.Evaluate(procEnv) : null;
+
+            return new IndexHelper.IndexAccess(index, from, IncludingFrom, to, IncludingTo);
+        }
+
+        public override int Precedence
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public override string Symbol
+        {
+            get { return Index.Symbol + "," + From.Symbol + "," + To.Symbol; } // only called explicitly from parent
+        }
+
+        protected override string FunctionSymbol
+        {
+            get { return Parent.Symbol; } // used in error messages from checking in base class
+        }
+    }
+
+    public abstract class SequenceExpressionFromIndexMultipleFromTo : SequenceExpression
+    {
+        protected List<SequenceExpressionFromIndexFromToPart> Parts;
+        public bool EmitProfiling;
+
+        public SequenceExpressionFromIndexMultipleFromTo(SequenceExpressionType type)
+            : base(type)
+        {
+            Parts = new List<SequenceExpressionFromIndexFromToPart>();
+        }
+
+        protected SequenceExpressionFromIndexMultipleFromTo(SequenceExpressionFromIndexMultipleFromTo that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that)
+        {
+            Parts = new List<SequenceExpressionFromIndexFromToPart>();
+            foreach(SequenceExpressionFromIndexFromToPart part in that.Parts)
+            {
+                Parts.Add((SequenceExpressionFromIndexFromToPart)part.CopyExpression(originalToCopy, procEnv));
+            }
+            EmitProfiling = that.EmitProfiling;
+        }
+
+        public void Add(SequenceExpressionFromIndexFromToPart part)
+        {
+            Parts.Add(part);
+        }
+
+        public IEnumerable<SequenceExpressionFromIndexFromToPart> PartsEnumerator
+        {
+            get { return Parts; }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "set<" + RootType + ">";
+        }
+
+        public abstract string RootType { get; }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            foreach(SequenceExpressionFromIndexFromToPart part in Parts)
+            {
+                part.GetLocalVariables(variables, constructors);
+            }
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            EmitProfiling = profiling;
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                foreach(SequenceExpressionFromIndexFromToPart part in Parts)
+                {
+                    yield return part;
+                }
+            }
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(FunctionSymbol);
+                sb.Append("(");
+                bool first = true;
+                foreach(SequenceExpressionFromIndexFromToPart part in Parts)
+                {
+                    if(first)
+                        first = false;
+                    else
+                        sb.Append(",");
+                    sb.Append(part.Symbol);
+                }
+                sb.Append(")");
+                return sb.ToString();
+            }
+        }
+
+        protected abstract string FunctionSymbol { get; }
+    }
+
+    public class SequenceExpressionNodesFromIndexMultipleFromTo : SequenceExpressionFromIndexMultipleFromTo
+    {
+        public SequenceExpressionNodesFromIndexMultipleFromTo(SequenceExpressionType type)
+            : base(type)
+        {
+        }
+
+        protected SequenceExpressionNodesFromIndexMultipleFromTo(SequenceExpressionNodesFromIndexMultipleFromTo that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionNodesFromIndexMultipleFromTo(this, originalToCopy, procEnv);
+        }
+
+        public override string RootType
+        {
+            get { return "Node"; }
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            List<IndexHelper.IndexAccess> indexAccesses = new List<IndexHelper.IndexAccess>();
+            foreach(SequenceExpressionFromIndexFromToPart part in Parts)
+            {
+                indexAccesses.Add((IndexHelper.IndexAccess)part.ExecuteImpl(procEnv));
+            }
+
+            if(EmitProfiling)
+                return IndexHelper.NodesFromIndexMultipleFromTo(indexAccesses, procEnv);
+            else
+                return IndexHelper.NodesFromIndexMultipleFromTo(indexAccesses);
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        protected override string FunctionSymbol
+        {
+            get { return "nodesFromIndexMultipleFromTo"; }
+        }
+    }
+
+    public class SequenceExpressionEdgesFromIndexMultipleFromTo : SequenceExpressionFromIndexMultipleFromTo
+    {
+        public SequenceExpressionEdgesFromIndexMultipleFromTo(SequenceExpressionType type)
+            : base(type)
+        {
+        }
+
+        protected SequenceExpressionEdgesFromIndexMultipleFromTo(SequenceExpressionEdgesFromIndexMultipleFromTo that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionEdgesFromIndexMultipleFromTo(this, originalToCopy, procEnv);
+        }
+
+        public override string RootType
+        {
+            get { return "AEdge"; }
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            List<IndexHelper.IndexAccess> indexAccesses = new List<IndexHelper.IndexAccess>();
+            foreach(SequenceExpressionFromIndexFromToPart part in Parts)
+            {
+                indexAccesses.Add((IndexHelper.IndexAccess)part.ExecuteImpl(procEnv));
+            }
+
+            if(EmitProfiling)
+                return IndexHelper.EdgesFromIndexMultipleFromTo(indexAccesses, procEnv);
+            else
+                return IndexHelper.EdgesFromIndexMultipleFromTo(indexAccesses);
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        protected override string FunctionSymbol
+        {
+            get { return "edgesFromIndexMultipleFromTo"; }
         }
     }
 

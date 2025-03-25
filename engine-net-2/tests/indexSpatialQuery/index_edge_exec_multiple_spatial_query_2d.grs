@@ -1,0 +1,55 @@
+new graph "indexSpatialQuery/index_edge_multiple_spatial_query_2d"
+
+new n:Node
+
+new n -:E($="(-1,-1)", x=-1.0f, y=-1.0f)-> n
+new n -:E($="(0,-1)", x=0.0f, y=-1.0f)-> n
+new n -:E($="(1,-1)", x=1.0f, y=-1.0f)-> n
+new n -:E($="(-1,0)", x=-1.0f, y=0.0f)-> n
+new n -:E($="(0,0)", x=0.0f, y=0.0f)-> n
+new n -:E($="(1,0)", x=1.0f, y=0.0f)-> n
+new n -:E($="(-1,1)", x=-1.0f, y=1.0f)-> n
+new n -:E($="(0,1)", x=0.0f, y=1.0f)-> n
+new n -:E($="(1,1)", x=1.0f, y=1.0f)-> n
+
+new n -:E($="(99,99)", x=99.0f, y=99.0f)-> n
+
+eps = 0.0001f
+show var eps
+
+def getEdgesFromBoundingBoxSeq(x:float, y:float, delta:float) : (res:set<AEdge>)\
+{\
+	{ res = edgesFromIndexMultipleFromTo(ix, x - delta, x + delta, iy, y - delta, y + delta) }\
+}
+
+exec (::s)=getEdgesFromBoundingBoxExec(-1.0f, -1.0f, 1.0f + ::eps)
+exec (::t)=getEdgesFromBoundingBoxSeq(-1.0f, -1.0f, 1.0f + ::eps)
+show var s
+show var t
+
+exec (::s)=getEdgesFromBoundingBoxExec(1.0f, 0.0f, 1.0f + ::eps)
+exec (::t)=getEdgesFromBoundingBoxSeq(1.0f, 0.0f, 1.0f + ::eps)
+show var s
+show var t
+
+exec (::s)=getEdgesFromBoundingBoxExec(0.0f, 0.0f, 1.0f + ::eps)
+exec (::t)=getEdgesFromBoundingBoxSeq(0.0f, 0.0f, 1.0f + ::eps)
+show var s
+show var t
+
+exec (::s)=getEdgesFromBoundingBoxExec(99.0f, 99.0f, 1.0f + ::eps)
+exec (::t)=getEdgesFromBoundingBoxSeq(99.0f, 99.0f, 1.0f + ::eps)
+show var s
+show var t
+
+exec (::s)=getEdgesFromBoundingBoxExec(0.0f, 0.0f, 100.0f + ::eps)
+exec (::t)=getEdgesFromBoundingBoxSeq(0.0f, 0.0f, 100.0f + ::eps)
+show var s
+show var t
+
+exec (::s)=getEdgesFromBoundingBoxExec(0.9f, 0.9f, 0.5f + ::eps)
+exec (::t)=getEdgesFromBoundingBoxSeq(0.9f, 0.9f, 0.5f + ::eps)
+show var s
+show var t
+
+quit

@@ -1,0 +1,6 @@
+#using "index_exec_multiple_model.gm"
+
+sequence s
+{
+	{ i:set<Node>=edgesFromIndexMultipleFromTo(bari, 0, 1, bard, 42.0, 42.0 + 1) }
+}

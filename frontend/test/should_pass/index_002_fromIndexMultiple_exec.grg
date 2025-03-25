@@ -1,0 +1,19 @@
+#using "index_model_002.gm"
+
+rule i {
+	modify {
+	---
+		exec( {
+			s:int = nodesFromIndexMultipleFromTo(fooi, 0, 42, food, 0.0, 42.0, foos, "a", "zzzzzzzzzz").size();
+		} );
+	}
+}
+
+rule ei {
+	modify {
+	---
+		exec( {
+			s:int = edgesFromIndexMultipleFromTo(bari, 0, 42, bard, 0.0, 42.0, bars, "a", "zzzzzzzzzz").size();
+		} );
+	}
+}

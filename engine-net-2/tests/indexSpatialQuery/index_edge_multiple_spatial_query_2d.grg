@@ -32,6 +32,16 @@ rule getEdgesFromBoundingBoxByMatchingNeighboringEdges(-center:E->, var delta:fl
 	}
 }
 
+rule getEdgesFromBoundingBoxExec(var x:float, var y:float, var delta:float) : (set<AEdge>)
+{
+	modify {
+	---
+		def ref s:set<AEdge>;
+		exec( { s = edgesFromIndexMultipleFromTo(ix, x - delta, x + delta, iy, y - delta, y + delta); } );
+		return(s);
+	}
+}
+
 test dataFileMatchingHelper
 {
 }
