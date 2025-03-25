@@ -4494,14 +4494,13 @@ indexFunctionInvocationExprContinuation [ IdentNode funcIdent, ExprNode cand, Id
 		(
 			RPAREN { res = new IndexFunctionInvocationDecisionNode(funcIdent, params, env); } 
 		|
-			COMMA e=expr[namer, context, inEnumInit] { params.addChild(e); } e=multipleIndexFunctionInvocationExprContinuation[funcIdent, params, namer, context, inEnumInit] { res = e; }
+			COMMA e=expr[namer, context, inEnumInit] { params.addChild(e); } multipleIndexFunctionInvocationExprContinuation[funcIdent, params, namer, context, inEnumInit]
+				RPAREN { res = new IndexFunctionInvocationDecisionNode(funcIdent, params, env); }
 		)
 	;
 
-multipleIndexFunctionInvocationExprContinuation [ IdentNode funcIdent, CollectNode<BaseNode> params, AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	: RPAREN
-		{ res = new IndexFunctionInvocationDecisionNode(funcIdent, params, env); }
-	| COMMA idx=indexIdentUse { params.addChild(idx); } COMMA e=expr[namer, context, inEnumInit] { params.addChild(e); } COMMA e=expr[namer, context, inEnumInit] { params.addChild(e); } e=multipleIndexFunctionInvocationExprContinuation[funcIdent, params, namer, context, inEnumInit] { res = e; }
+multipleIndexFunctionInvocationExprContinuation [ IdentNode funcIdent, CollectNode<BaseNode> params, AnonymousScopeNamer namer, int context, boolean inEnumInit ]
+	: ( COMMA idx=indexIdentUse { params.addChild(idx); } ( COMMA e=expr[namer, context, inEnumInit] { params.addChild(e); } ( COMMA e=expr[namer, context, inEnumInit] { params.addChild(e); } multipleIndexFunctionInvocationExprContinuation[funcIdent, params, namer, context, inEnumInit] )? )? )?
 	;
 
 externalFunctionInvocationExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]

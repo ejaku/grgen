@@ -2268,7 +2268,7 @@ void IndexArgumentsMultiple(List<SequenceExpression> argExprs):
 {
 }
 {
-    ("," IndexArgument(argExprs) "," Argument(argExprs) "," Argument(argExprs) IndexArgumentsMultiple(argExprs) )? 
+    ( "," IndexArgument(argExprs) ( "," Argument(argExprs) ( "," Argument(argExprs) IndexArgumentsMultiple(argExprs) )? )? )?
 }
 
 void IndexArgument(List<SequenceExpression> argExprs):
