@@ -1,0 +1,6 @@
+#using "index_exec_multiple_model.gm"
+
+sequence s(j:int)
+{
+	for{e:AEdge in edgesFromIndexMultipleFromTo(j, j, j + 1, bari, 0, 42); true }
+}

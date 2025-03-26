@@ -21,15 +21,15 @@ new :N($="13", i=13)
 new :N($="12", i=12)
 new :N($="11", i=11)
 
-exec for{n:N in {foo==13}; {emit("The value of attribute i is ", n.i, "\n")} }
-exec for{n:N in {ascending(foo)}; {emit("The value of attribute i is ", n.i, "\n")} }
-exec for{n:N in {descending(foo)}; {emit("The value of attribute i is ", n.i, "\n")} }
-exec for{n:N in {ascending(foo>5, foo<=13)}; {emit("The value of attribute i is ", n.i, "\n")} }
-exec for{n:N in {ascending(foo>=5)}; {emit("The value of attribute i is ", n.i, "\n")} }
-exec for{n:N in {ascending(foo<13)}; {emit("The value of attribute i is ", n.i, "\n")} }
-exec for{n:N in {descending(foo<13, foo>=5)}; {emit("The value of attribute i is ", n.i, "\n")} }
-exec for{n:N in {descending(foo<=13)}; {emit("The value of attribute i is ", n.i, "\n")} }
-exec for{n:N in {descending(foo>5)}; {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in nodesFromIndexSame(foo, 13); {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in nodesFromIndexAscending(foo); {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in nodesFromIndexDescending(foo); {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in nodesFromIndexFromExclusiveToAscending(foo, 5, 13); {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in nodesFromIndexFromAscending(foo, 5); {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in nodesFromIndexToExclusiveAscending(foo, 13); {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in nodesFromIndexFromExclusiveToDescending(foo, 13, 5); {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in nodesFromIndexFromDescending(foo, 13); {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in nodesFromIndexToExclusiveDescending(foo, 5); {emit("The value of attribute i is ", n.i, "\n")} }
 
 delete node @("2")
 delete node @("4")
@@ -42,14 +42,14 @@ delete node @("16")
 delete node @("18")
 delete node @("20")
 
-exec for{n:N in {foo==13}; {emit("The value of attribute i is ", n.i, "\n")} }
-exec for{n:N in {ascending(foo)}; {emit("The value of attribute i is ", n.i, "\n")} }
-exec for{n:N in {descending(foo)}; {emit("The value of attribute i is ", n.i, "\n")} }
-exec for{n:N in {ascending(foo>5, foo<=13)}; {emit("The value of attribute i is ", n.i, "\n")} }
-exec for{n:N in {ascending(foo>=5)}; {emit("The value of attribute i is ", n.i, "\n")} }
-exec for{n:N in {ascending(foo<13)}; {emit("The value of attribute i is ", n.i, "\n")} }
-exec for{n:N in {descending(foo<13, foo>=5)}; {emit("The value of attribute i is ", n.i, "\n")} }
-exec for{n:N in {descending(foo<=13)}; {emit("The value of attribute i is ", n.i, "\n")} }
-exec for{n:N in {descending(foo>5)}; {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in nodesFromIndexSame(foo, 13); {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in nodesFromIndexAscending(foo); {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in nodesFromIndexDescending(foo); {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in nodesFromIndexFromExclusiveToAscending(foo, 5, 13); {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in nodesFromIndexFromAscending(foo, 5); {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in nodesFromIndexToExclusiveAscending(foo, 13); {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in nodesFromIndexFromExclusiveToDescending(foo, 13, 5); {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in nodesFromIndexFromDescending(foo, 13); {emit("The value of attribute i is ", n.i, "\n")} }
+exec for{n:N in nodesFromIndexToExclusiveDescending(foo, 5); {emit("The value of attribute i is ", n.i, "\n")} }
 
 quit

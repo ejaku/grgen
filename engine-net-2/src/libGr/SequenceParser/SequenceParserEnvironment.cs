@@ -455,6 +455,87 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
         }
 
 
+        public bool IsForFunction(String functionName)
+        {
+            switch(functionName)
+            {
+                case "adjacent": return true;
+                case "adjacentIncoming": return true;
+                case "adjacentOutgoing": return true;
+                case "incident": return true;
+                case "incoming": return true;
+                case "outgoing": return true;
+                case "reachable": return true;
+                case "reachableIncoming": return true;
+                case "reachableOutgoing": return true;
+                case "reachableEdges": return true;
+                case "reachableEdgesIncoming": return true;
+                case "reachableEdgesOutgoing": return true;
+                case "boundedReachable": return true;
+                case "boundedReachableIncoming": return true;
+                case "boundedReachableOutgoing": return true;
+                case "boundedReachableEdges": return true;
+                case "boundedReachableEdgesIncoming": return true;
+                case "boundedReachableEdgesOutgoing": return true;
+                case "nodes": return true;
+                case "edges": return true;
+                default: return false;
+            }
+        }
+
+        public SequenceForFunction CreateSequenceForFunction(String functionName, SequenceVariable fromVar, List<SequenceExpression> argExprs, Sequence seq, List<SequenceVariable> variableList1)
+        {
+            switch(functionName)
+            {
+                case "adjacent":
+                    return new SequenceForAdjacentNodes(SequenceType.ForAdjacentNodes, fromVar, argExprs, seq, variableList1);
+                case "adjacentIncoming":
+                    return new SequenceForAdjacentNodes(SequenceType.ForAdjacentNodesViaIncoming, fromVar, argExprs, seq, variableList1);
+                case "adjacentOutgoing":
+                    return new SequenceForAdjacentNodes(SequenceType.ForAdjacentNodesViaOutgoing, fromVar, argExprs, seq, variableList1);
+                case "incident":
+                    return new SequenceForIncidentEdges(SequenceType.ForIncidentEdges, fromVar, argExprs, seq, variableList1);
+                case "incoming":
+                    return new SequenceForIncidentEdges(SequenceType.ForIncomingEdges, fromVar, argExprs, seq, variableList1);
+                case "outgoing":
+                    return new SequenceForIncidentEdges(SequenceType.ForOutgoingEdges, fromVar, argExprs, seq, variableList1);
+                case "reachable":
+                    return new SequenceForReachableNodes(SequenceType.ForReachableNodes, fromVar, argExprs, seq, variableList1);
+                case "reachableIncoming":
+                    return new SequenceForReachableNodes(SequenceType.ForReachableNodesViaIncoming, fromVar, argExprs, seq, variableList1);
+                case "reachableOutgoing":
+                    return new SequenceForReachableNodes(SequenceType.ForReachableNodesViaOutgoing, fromVar, argExprs, seq, variableList1);
+                case "reachableEdges":
+                    return new SequenceForReachableEdges(SequenceType.ForReachableEdges, fromVar, argExprs, seq, variableList1);
+                case "reachableEdgesIncoming":
+                    return new SequenceForReachableEdges(SequenceType.ForReachableEdgesViaIncoming, fromVar, argExprs, seq, variableList1);
+                case "reachableEdgesOutgoing":
+                    return new SequenceForReachableEdges(SequenceType.ForReachableEdgesViaOutgoing, fromVar, argExprs, seq, variableList1);
+                case "boundedReachable":
+                    return new SequenceForBoundedReachableNodes(SequenceType.ForBoundedReachableNodes, fromVar, argExprs, seq, variableList1);
+                case "boundedReachableIncoming":
+                    return new SequenceForBoundedReachableNodes(SequenceType.ForBoundedReachableNodesViaIncoming, fromVar, argExprs, seq, variableList1);
+                case "boundedReachableOutgoing":
+                    return new SequenceForBoundedReachableNodes(SequenceType.ForBoundedReachableNodesViaOutgoing, fromVar, argExprs, seq, variableList1);
+                case "boundedReachableEdges":
+                    return new SequenceForBoundedReachableEdges(SequenceType.ForBoundedReachableEdges, fromVar, argExprs, seq, variableList1);
+                case "boundedReachableEdgesIncoming":
+                    return new SequenceForBoundedReachableEdges(SequenceType.ForBoundedReachableEdgesViaIncoming, fromVar, argExprs, seq, variableList1);
+                case "boundedReachableEdgesOutgoing":
+                    return new SequenceForBoundedReachableEdges(SequenceType.ForBoundedReachableEdgesViaOutgoing, fromVar, argExprs, seq, variableList1);
+                case "nodes":
+                    return new SequenceForNodes(SequenceType.ForNodes, fromVar, argExprs, seq, variableList1);
+                case "edges":
+                    return new SequenceForEdges(SequenceType.ForEdges, fromVar, argExprs, seq, variableList1);
+                default:
+                    throw new ParseException("Unknown for function name: \"" + functionName + "\"!"
+                                + " (available are adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing"
+                                + "|reachable|reachableIncoming|reachableOutgoing|reachableEdges|reachableEdgesIncoming|reachableEdgesOutgoing"
+                                + "|boundedReachable|boundedReachableIncoming|boundedReachableOutgoing|boundedReachableEdges|boundedReachableEdgesIncoming|boundedReachableEdgesOutgoing"
+                                + "|nodes|edges)");
+            }
+        }
+
         public SequenceExpression CreateSequenceExpressionFunctionCall(String functionName, String package,
             List<SequenceExpression> argExprs)
         {
@@ -1175,7 +1256,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                     if(functionName == "valloc" || functionName == "add" || functionName == "retype" || functionName == "insertInduced" || functionName == "insertDefined")
                         throw new ParseException("\"" + functionName + "\" is a procedure, call with (var)=" + functionName + "();");
                     else
-                        throw new ParseException("Unknown function name: \"" + functionName + "\"!"
+                        throw new ParseException("Unknown function name: \"" + functionName + "\"!" // TODO: function names missing
                             + " (available are nodes|edges|empty|size|adjacent|adjacentIncoming|adjacentOutgoing|incident|incoming|outgoing"
                             + "|reachable|reachableIncoming|reachableOutgoing|reachableEdges|reachableEdgesIncoming|reachableEdgesOutgoing"
                             + "|boundedReachable|boundedReachableIncoming|boundedReachableOutgoing|boundedReachableEdges|boundedReachableEdgesIncoming|boundedReachableEdgesOutgoing"
@@ -1191,6 +1272,134 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                             + "|File::exists|File::import|copy|random|canonize|nodeByName|edgeByName|nodeByUnique|edgeByUnique|typeof"
                             + " or one of the functionNames defined in the .grg:" + GetFunctionNames() + ")");
                 }
+            }
+        }
+
+        public bool IsForIndexFunction(String functionName)
+        {
+            switch(functionName)
+            {
+                case "nodesFromIndexSame": return true;
+                case "edgesFromIndexSame": return true;
+                case "nodesFromIndexAscending": return true;
+                case "edgesFromIndexAscending": return true;
+                case "nodesFromIndexFromAscending": return true;
+                case "nodesFromIndexFromExclusiveAscending": return true;
+                case "nodesFromIndexToAscending": return true;
+                case "nodesFromIndexToExclusiveAscending": return true;
+                case "nodesFromIndexFromToAscending": return true;
+                case "nodesFromIndexFromExclusiveToAscending": return true;
+                case "nodesFromIndexFromToExclusiveAscending": return true;
+                case "nodesFromIndexFromExclusiveToExclusiveAscending": return true;
+                case "edgesFromIndexFromAscending": return true;
+                case "edgesFromIndexFromExclusiveAscending": return true;
+                case "edgesFromIndexToAscending": return true;
+                case "edgesFromIndexToExclusiveAscending": return true;
+                case "edgesFromIndexFromToAscending": return true;
+                case "edgesFromIndexFromExclusiveToAscending": return true;
+                case "edgesFromIndexFromToExclusiveAscending": return true;
+                case "edgesFromIndexFromExclusiveToExclusiveAscending": return true;
+                case "nodesFromIndexDescending": return true;
+                case "edgesFromIndexDescending": return true;
+                case "nodesFromIndexFromDescending": return true;
+                case "nodesFromIndexFromExclusiveDescending": return true;
+                case "nodesFromIndexToDescending": return true;
+                case "nodesFromIndexToExclusiveDescending": return true;
+                case "nodesFromIndexFromToDescending": return true;
+                case "nodesFromIndexFromExclusiveToDescending": return true;
+                case "nodesFromIndexFromToExclusiveDescending": return true;
+                case "nodesFromIndexFromExclusiveToExclusiveDescending": return true;
+                case "edgesFromIndexFromDescending": return true;
+                case "edgesFromIndexFromExclusiveDescending": return true;
+                case "edgesFromIndexToDescending": return true;
+                case "edgesFromIndexToExclusiveDescending": return true;
+                case "edgesFromIndexFromToDescending": return true;
+                case "edgesFromIndexFromExclusiveToDescending": return true;
+                case "edgesFromIndexFromToExclusiveDescending": return true;
+                case "edgesFromIndexFromExclusiveToExclusiveDescending": return true;
+                default: return false;
+            }
+        }
+
+        public bool IsForMultipleIndexFunction(String functionName)
+        {
+            switch(functionName)
+            {
+                case "nodesFromIndexMultipleFromTo": return true;
+                case "edgesFromIndexMultipleFromTo": return true;
+                default: return false;
+            }
+        }
+
+        public SequenceForFunction CreateSequenceForIndexFunction(String indexFunctionName, SequenceVariable fromVar, List<SequenceExpression> argExprs, Sequence seq, List<SequenceVariable> variableList1)
+        {
+            SequenceExpression indexFunctionCall = CreateSequenceExpressionIndexFunctionCall(indexFunctionName, argExprs);
+
+            switch(indexFunctionName)
+            {
+                case "nodesFromIndexSame":
+                    return new SequenceForNodesFromIndexSame(SequenceType.ForNodesFromIndexSame, indexFunctionCall, fromVar, argExprs, seq, variableList1);
+                case "edgesFromIndexSame":
+                    return new SequenceForEdgesFromIndexSame(SequenceType.ForEdgesFromIndexSame, indexFunctionCall, fromVar, argExprs, seq, variableList1);
+                case "nodesFromIndexAscending":
+                case "nodesFromIndexFromAscending":
+                case "nodesFromIndexFromExclusiveAscending":
+                case "nodesFromIndexToAscending":
+                case "nodesFromIndexToExclusiveAscending":
+                case "nodesFromIndexFromToAscending":
+                case "nodesFromIndexFromExclusiveToAscending":
+                case "nodesFromIndexFromToExclusiveAscending":
+                case "nodesFromIndexFromExclusiveToExclusiveAscending":
+                    return new SequenceForNodesFromIndexFromTo(SequenceType.ForNodesFromIndexFromTo, indexFunctionCall, fromVar, argExprs, seq, variableList1);
+                case "edgesFromIndexAscending":
+                case "edgesFromIndexFromAscending":
+                case "edgesFromIndexFromExclusiveAscending":
+                case "edgesFromIndexToAscending":
+                case "edgesFromIndexToExclusiveAscending":
+                case "edgesFromIndexFromToAscending":
+                case "edgesFromIndexFromExclusiveToAscending":
+                case "edgesFromIndexFromToExclusiveAscending":
+                case "edgesFromIndexFromExclusiveToExclusiveAscending":
+                    return new SequenceForEdgesFromIndexFromTo(SequenceType.ForEdgesFromIndexFromTo, indexFunctionCall, fromVar, argExprs, seq, variableList1);
+                case "nodesFromIndexDescending":
+                case "nodesFromIndexFromDescending":
+                case "nodesFromIndexFromExclusiveDescending":
+                case "nodesFromIndexToDescending":
+                case "nodesFromIndexToExclusiveDescending":
+                case "nodesFromIndexFromToDescending":
+                case "nodesFromIndexFromExclusiveToDescending":
+                case "nodesFromIndexFromToExclusiveDescending":
+                case "nodesFromIndexFromExclusiveToExclusiveDescending":
+                    return new SequenceForNodesFromIndexFromTo(SequenceType.ForNodesFromIndexFromTo, indexFunctionCall, fromVar, argExprs, seq, variableList1);
+                case "edgesFromIndexDescending":
+                case "edgesFromIndexFromDescending":
+                case "edgesFromIndexFromExclusiveDescending":
+                case "edgesFromIndexToDescending":
+                case "edgesFromIndexToExclusiveDescending":
+                case "edgesFromIndexFromToDescending":
+                case "edgesFromIndexFromExclusiveToDescending":
+                case "edgesFromIndexFromToExclusiveDescending":
+                case "edgesFromIndexFromExclusiveToExclusiveDescending":
+                    return new SequenceForEdgesFromIndexFromTo(SequenceType.ForEdgesFromIndexFromTo, indexFunctionCall, fromVar, argExprs, seq, variableList1);
+                case "nodesFromIndexMultipleFromTo":
+                    return new SequenceForNodesFromMultipleIndexFromTo(SequenceType.ForNodesFromMultipleIndexFromTo, indexFunctionCall, fromVar, argExprs, seq, variableList1);
+                case "edgesFromIndexMultipleFromTo":
+                    return new SequenceForEdgesFromMultipleIndexFromTo(SequenceType.ForEdgesFromMultipleIndexFromTo, indexFunctionCall, fromVar, argExprs, seq, variableList1);
+                default:
+                    throw new ParseException("Unknown for indexfunction name: \"" + indexFunctionName + "\"!"
+                            + " (available are nodesFromIndexSame|edgesFromIndexSame"
+                            + "|nodesFromIndexAscending|edgesFromIndexAscending"
+                            + "|nodesFromIndexFromAscending|nodesFromIndexFromExclusiveAscending|nodesFromIndexToAscending|nodesFromIndexToExclusiveAscending|"
+                            + "|nodesFromIndexFromToAscending|nodesFromIndexFromExclusiveToAscending|nodesFromIndexFromToExclusiveAscending|nodesFromIndexFromExclusiveToExclusiveAscending"
+                            + "|edgesFromIndexFromAscending|edgesFromIndexFromExclusiveAscending|edgesFromIndexToAscending|edgesFromIndexToExclusiveAscending|"
+                            + "|edgesFromIndexFromToAscending|edgesFromIndexFromExclusiveToAscending|edgesFromIndexFromToExclusiveAscending|edgesFromIndexFromExclusiveToExclusiveAscending"
+                            + "|nodesFromIndexDescending|edgesFromIndexDescending"
+                            + "|nodesFromIndexFromDescending|nodesFromIndexFromExclusiveDescending|nodesFromIndexToDescending|nodesFromIndexToExclusiveDescending|"
+                            + "|nodesFromIndexFromToDescending|nodesFromIndexFromExclusiveToDescending|nodesFromIndexFromToExclusiveDescending|nodesFromIndexFromExclusiveToExclusiveDescending"
+                            + "|edgesFromIndexFromDescending|edgesFromIndexFromExclusiveDescending|edgesFromIndexToDescending|edgesFromIndexToExclusiveDescending|"
+                            + "|edgesFromIndexFromToDescending|edgesFromIndexFromExclusiveToDescending|edgesFromIndexFromToExclusiveDescending|edgesFromIndexFromExclusiveToExclusiveDescending"
+                            + "|nodesFromIndexMultipleFromTo|edgesFromIndexMultipleFromTo"
+                            + ")");
             }
         }
 
@@ -1701,219 +1910,255 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                         return new SequenceExpressionEdgesFromIndexSameAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), SequenceExpressionType.EdgesFromIndexSameAsArray);
                     }
                 case "nodesFromIndexAsArrayAscending":
+                case "nodesFromIndexAscending":
                     {
                         if(argExprs.Count != 1)
-                            throw new ParseException("\"nodesFromIndexAsArrayAscending\" expects 1 parameter");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 1 parameter");
                         return new SequenceExpressionNodesFromIndexFromToAsArray(getArgument(argExprs, 0), null, true, null, true, true, SequenceExpressionType.NodesFromIndexAsArrayAscending);
                     }
                 case "edgesFromIndexAsArrayAscending":
+                case "edgesFromIndexAscending":
                     {
                         if(argExprs.Count != 1)
-                            throw new ParseException("\"edgesFromIndexAsArrayAscending\" expects 1 parameter");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 1 parameter");
                         return new SequenceExpressionEdgesFromIndexFromToAsArray(getArgument(argExprs, 0), null, true, null, true, true, SequenceExpressionType.EdgesFromIndexAsArrayAscending);
                     }
                 case "nodesFromIndexFromAsArrayAscending":
+                case "nodesFromIndexFromAscending":
                     {
                         if(argExprs.Count != 2)
-                            throw new ParseException("\"nodesFromIndexFromAsArrayAscending\" expects 2 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 2 parameters");
                         return new SequenceExpressionNodesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), true, null, true, true, SequenceExpressionType.NodesFromIndexFromAsArrayAscending);
                     }
                 case "nodesFromIndexFromExclusiveAsArrayAscending":
+                case "nodesFromIndexFromExclusiveAscending":
                     {
                         if(argExprs.Count != 2)
-                            throw new ParseException("\"nodesFromIndexFromExclusiveAsArrayAscending\" expects 2 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 2 parameters");
                         return new SequenceExpressionNodesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), false, null, true, true, SequenceExpressionType.NodesFromIndexFromExclusiveAsArrayAscending);
                     }
                 case "nodesFromIndexToAsArrayAscending":
+                case "nodesFromIndexToAscending":
                     {
                         if(argExprs.Count != 2)
-                            throw new ParseException("\"nodesFromIndexToAsArrayAscending\" expects 2 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 2 parameters");
                         return new SequenceExpressionNodesFromIndexFromToAsArray(getArgument(argExprs, 0), null, true, getArgument(argExprs, 1), true, true, SequenceExpressionType.NodesFromIndexToAsArrayAscending);
                     }
                 case "nodesFromIndexToExclusiveAsArrayAscending":
+                case "nodesFromIndexToExclusiveAscending":
                     {
                         if(argExprs.Count != 2)
-                            throw new ParseException("\"nodesFromIndexToExclusiveAsArrayAscending\" expects 2 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 2 parameters");
                         return new SequenceExpressionNodesFromIndexFromToAsArray(getArgument(argExprs, 0), null, true, getArgument(argExprs, 1), false, true, SequenceExpressionType.NodesFromIndexToExclusiveAsArrayAscending);
                     }
                 case "nodesFromIndexFromToAsArrayAscending":
+                case "nodesFromIndexFromToAscending":
                     {
                         if(argExprs.Count != 3)
-                            throw new ParseException("\"nodesFromIndexFromToAsArrayAscending\" expects 3 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 3 parameters");
                         return new SequenceExpressionNodesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), true, getArgument(argExprs, 2), true, true, SequenceExpressionType.NodesFromIndexFromToAsArrayAscending);
                     }
                 case "nodesFromIndexFromExclusiveToAsArrayAscending":
+                case "nodesFromIndexFromExclusiveToAscending":
                     {
                         if(argExprs.Count != 3)
-                            throw new ParseException("\"nodesFromIndexFromExclusiveToAsArrayAscending\" expects 3 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 3 parameters");
                         return new SequenceExpressionNodesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), false, getArgument(argExprs, 2), true, true, SequenceExpressionType.NodesFromIndexFromExclusiveToAsArrayAscending);
                     }
                 case "nodesFromIndexFromToExclusiveAsArrayAscending":
+                case "nodesFromIndexFromToExclusiveAscending":
                     {
                         if(argExprs.Count != 3)
-                            throw new ParseException("\"nodesFromIndexFromToExclusiveAsArrayAscending\" expects 3 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 3 parameters");
                         return new SequenceExpressionNodesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), true, getArgument(argExprs, 2), false, true, SequenceExpressionType.NodesFromIndexFromToExclusiveAsArrayAscending);
                     }
                 case "nodesFromIndexFromExclusiveToExclusiveAsArrayAscending":
+                case "nodesFromIndexFromExclusiveToExclusiveAscending":
                     {
                         if(argExprs.Count != 3)
-                            throw new ParseException("\"nodesFromIndexFromExclusiveToExclusiveAsArrayAscending\" expects 3 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 3 parameters");
                         return new SequenceExpressionNodesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), false, getArgument(argExprs, 2), false, true, SequenceExpressionType.NodesFromIndexFromExclusiveToExclusiveAsArrayAscending);
                     }
                 case "edgesFromIndexFromAsArrayAscending":
+                case "edgesFromIndexFromAscending":
                     {
                         if(argExprs.Count != 2)
-                            throw new ParseException("\"edgesFromIndexFromAsArrayAscending\" expects 2 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 2 parameters");
                         return new SequenceExpressionEdgesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), true, null, true, true, SequenceExpressionType.EdgesFromIndexFromAsArrayAscending);
                     }
                 case "edgesFromIndexFromExclusiveAsArrayAscending":
+                case "edgesFromIndexFromExclusiveAscending":
                     {
                         if(argExprs.Count != 2)
-                            throw new ParseException("\"edgesFromIndexFromExclusiveAsArrayAscending\" expects 2 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 2 parameters");
                         return new SequenceExpressionEdgesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), false, null, true, true, SequenceExpressionType.EdgesFromIndexFromExclusiveAsArrayAscending);
                     }
                 case "edgesFromIndexToAsArrayAscending":
+                case "edgesFromIndexToAscending":
                     {
                         if(argExprs.Count != 2)
-                            throw new ParseException("\"edgesFromIndexToAsArrayAscending\" expects 2 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 2 parameters");
                         return new SequenceExpressionEdgesFromIndexFromToAsArray(getArgument(argExprs, 0), null, true, getArgument(argExprs, 1), true, true, SequenceExpressionType.EdgesFromIndexToAsArrayAscending);
                     }
                 case "edgesFromIndexToExclusiveAsArrayAscending":
+                case "edgesFromIndexToExclusiveAscending":
                     {
                         if(argExprs.Count != 2)
-                            throw new ParseException("\"edgesFromIndexToExclusiveAsArrayAscending\" expects 2 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 2 parameters");
                         return new SequenceExpressionEdgesFromIndexFromToAsArray(getArgument(argExprs, 0), null, true, getArgument(argExprs, 1), false, true, SequenceExpressionType.EdgesFromIndexToExclusiveAsArrayAscending);
                     }
                 case "edgesFromIndexFromToAsArrayAscending":
+                case "edgesFromIndexFromToAscending":
                     {
                         if(argExprs.Count != 3)
-                            throw new ParseException("\"edgesFromIndexFromToAsArrayAscending\" expects 3 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 3 parameters");
                         return new SequenceExpressionEdgesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), true, getArgument(argExprs, 2), true, true, SequenceExpressionType.EdgesFromIndexFromToAsArrayAscending);
                     }
                 case "edgesFromIndexFromExclusiveToAsArrayAscending":
+                case "edgesFromIndexFromExclusiveToAscending":
                     {
                         if(argExprs.Count != 3)
-                            throw new ParseException("\"edgesFromIndexFromExclusiveToAsArrayAscending\" expects 3 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 3 parameters");
                         return new SequenceExpressionEdgesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), false, getArgument(argExprs, 2), true, true, SequenceExpressionType.EdgesFromIndexFromExclusiveToAsArrayAscending);
                     }
                 case "edgesFromIndexFromToExclusiveAsArrayAscending":
+                case "edgesFromIndexFromToExclusiveAscending":
                     {
                         if(argExprs.Count != 3)
-                            throw new ParseException("\"edgesFromIndexFromToExclusiveAsArrayAscending\" expects 3 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 3 parameters");
                         return new SequenceExpressionEdgesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), true, getArgument(argExprs, 2), false, true, SequenceExpressionType.EdgesFromIndexFromToExclusiveAsArrayAscending);
                     }
                 case "edgesFromIndexFromExclusiveToExclusiveAsArrayAscending":
+                case "edgesFromIndexFromExclusiveToExclusiveAscending":
                     {
                         if(argExprs.Count != 3)
-                            throw new ParseException("\"edgesFromIndexFromExclusiveToExclusiveAsArrayAscending\" expects 3 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 3 parameters");
                         return new SequenceExpressionEdgesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), false, getArgument(argExprs, 2), false, true, SequenceExpressionType.EdgesFromIndexFromExclusiveToExclusiveAsArrayAscending);
                     }
                 case "nodesFromIndexAsArrayDescending":
+                case "nodesFromIndexDescending":
                     {
                         if(argExprs.Count != 1)
-                            throw new ParseException("\"nodesFromIndexAsArrayDescending\" expects 1 parameter");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 1 parameter");
                         return new SequenceExpressionNodesFromIndexFromToAsArray(getArgument(argExprs, 0), null, true, null, true, false, SequenceExpressionType.NodesFromIndexAsArrayDescending);
                     }
                 case "edgesFromIndexAsArrayDescending":
+                case "edgesFromIndexDescending":
                     {
                         if(argExprs.Count != 1)
-                            throw new ParseException("\"edgesFromIndexAsArrayDescending\" expects 1 parameter");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 1 parameter");
                         return new SequenceExpressionEdgesFromIndexFromToAsArray(getArgument(argExprs, 0), null, true, null, true, false, SequenceExpressionType.EdgesFromIndexAsArrayDescending);
                     }
                 case "nodesFromIndexFromAsArrayDescending":
+                case "nodesFromIndexFromDescending":
                     {
                         if(argExprs.Count != 2)
-                            throw new ParseException("\"nodesFromIndexFromAsArrayDescending\" expects 2 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 2 parameters");
                         return new SequenceExpressionNodesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), true, null, true, false, SequenceExpressionType.NodesFromIndexFromAsArrayDescending);
                     }
                 case "nodesFromIndexFromExclusiveAsArrayDescending":
+                case "nodesFromIndexFromExclusiveDescending":
                     {
                         if(argExprs.Count != 2)
-                            throw new ParseException("\"nodesFromIndexFromExclusiveAsArrayDescending\" expects 2 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 2 parameters");
                         return new SequenceExpressionNodesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), false, null, true, false, SequenceExpressionType.NodesFromIndexFromExclusiveAsArrayDescending);
                     }
                 case "nodesFromIndexToAsArrayDescending":
+                case "nodesFromIndexToDescending":
                     {
                         if(argExprs.Count != 2)
-                            throw new ParseException("\"nodesFromIndexToAsArrayDescending\" expects 2 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 2 parameters");
                         return new SequenceExpressionNodesFromIndexFromToAsArray(getArgument(argExprs, 0), null, true, getArgument(argExprs, 1), true, false, SequenceExpressionType.NodesFromIndexToAsArrayDescending);
                     }
                 case "nodesFromIndexToExclusiveAsArrayDescending":
+                case "nodesFromIndexToExclusiveDescending":
                     {
                         if(argExprs.Count != 2)
-                            throw new ParseException("\"nodesFromIndexToExclusiveAsArrayDescending\" expects 2 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 2 parameters");
                         return new SequenceExpressionNodesFromIndexFromToAsArray(getArgument(argExprs, 0), null, true, getArgument(argExprs, 1), false, false, SequenceExpressionType.NodesFromIndexToExclusiveAsArrayDescending);
                     }
                 case "nodesFromIndexFromToAsArrayDescending":
+                case "nodesFromIndexFromToDescending":
                     {
                         if(argExprs.Count != 3)
-                            throw new ParseException("\"nodesFromIndexFromToAsArrayDescending\" expects 3 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 3 parameters");
                         return new SequenceExpressionNodesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), true, getArgument(argExprs, 2), true, false, SequenceExpressionType.NodesFromIndexFromToAsArrayDescending);
                     }
                 case "nodesFromIndexFromExclusiveToAsArrayDescending":
+                case "nodesFromIndexFromExclusiveToDescending":
                     {
                         if(argExprs.Count != 3)
-                            throw new ParseException("\"nodesFromIndexFromExclusiveToAsArrayDescending\" expects 3 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 3 parameters");
                         return new SequenceExpressionNodesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), false, getArgument(argExprs, 2), true, false, SequenceExpressionType.NodesFromIndexFromExclusiveToAsArrayDescending);
                     }
                 case "nodesFromIndexFromToExclusiveAsArrayDescending":
+                case "nodesFromIndexFromToExclusiveDescending":
                     {
                         if(argExprs.Count != 3)
-                            throw new ParseException("\"nodesFromIndexFromToExclusiveAsArrayDescending\" expects 3 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 3 parameters");
                         return new SequenceExpressionNodesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), true, getArgument(argExprs, 2), false, false, SequenceExpressionType.NodesFromIndexFromToExclusiveAsArrayDescending);
                     }
                 case "nodesFromIndexFromExclusiveToExclusiveAsArrayDescending":
+                case "nodesFromIndexFromExclusiveToExclusiveDescending":
                     {
                         if(argExprs.Count != 3)
-                            throw new ParseException("\"nodesFromIndexFromExclusiveToExclusiveAsArrayDescending\" expects 3 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 3 parameters");
                         return new SequenceExpressionNodesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), false, getArgument(argExprs, 2), false, false, SequenceExpressionType.NodesFromIndexFromExclusiveToExclusiveAsArrayDescending);
                     }
                 case "edgesFromIndexFromAsArrayDescending":
+                case "edgesFromIndexFromDescending":
                     {
                         if(argExprs.Count != 2)
-                            throw new ParseException("\"edgesFromIndexFromAsArrayDescending\" expects 2 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 2 parameters");
                         return new SequenceExpressionEdgesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), true, null, true, false, SequenceExpressionType.EdgesFromIndexFromAsArrayDescending);
                     }
                 case "edgesFromIndexFromExclusiveAsArrayDescending":
+                case "edgesFromIndexFromExclusiveDescending":
                     {
                         if(argExprs.Count != 2)
-                            throw new ParseException("\"edgesFromIndexFromExclusiveAsArrayDescending\" expects 2 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 2 parameters");
                         return new SequenceExpressionEdgesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), false, null, true, false, SequenceExpressionType.EdgesFromIndexFromExclusiveAsArrayDescending);
                     }
                 case "edgesFromIndexToAsArrayDescending":
+                case "edgesFromIndexToDescending":
                     {
                         if(argExprs.Count != 2)
-                            throw new ParseException("\"edgesFromIndexToAsArrayDescending\" expects 2 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 2 parameters");
                         return new SequenceExpressionEdgesFromIndexFromToAsArray(getArgument(argExprs, 0), null, true, getArgument(argExprs, 1), true, false, SequenceExpressionType.EdgesFromIndexToAsArrayDescending);
                     }
                 case "edgesFromIndexToExclusiveAsArrayDescending":
+                case "edgesFromIndexToExclusiveDescending":
                     {
                         if(argExprs.Count != 2)
-                            throw new ParseException("\"edgesFromIndexToExclusiveAsArrayDescending\" expects 2 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 2 parameters");
                         return new SequenceExpressionEdgesFromIndexFromToAsArray(getArgument(argExprs, 0), null, true, getArgument(argExprs, 1), false, false, SequenceExpressionType.EdgesFromIndexToExclusiveAsArrayDescending);
                     }
                 case "edgesFromIndexFromToAsArrayDescending":
+                case "edgesFromIndexFromToDescending":
                     {
                         if(argExprs.Count != 3)
-                            throw new ParseException("\"edgesFromIndexFromToAsArrayDescending\" expects 3 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 3 parameters");
                         return new SequenceExpressionEdgesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), true, getArgument(argExprs, 2), true, false, SequenceExpressionType.EdgesFromIndexFromToAsArrayDescending);
                     }
                 case "edgesFromIndexFromExclusiveToAsArrayDescending":
+                case "edgesFromIndexFromExclusiveToDescending":
                     {
                         if(argExprs.Count != 3)
-                            throw new ParseException("\"edgesFromIndexFromExclusiveToAsArrayDescending\" expects 3 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 3 parameters");
                         return new SequenceExpressionEdgesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), false, getArgument(argExprs, 2), true, false, SequenceExpressionType.EdgesFromIndexFromExclusiveToAsArrayDescending);
                     }
                 case "edgesFromIndexFromToExclusiveAsArrayDescending":
+                case "edgesFromIndexFromToExclusiveDescending":
                     {
                         if(argExprs.Count != 3)
-                            throw new ParseException("\"edgesFromIndexFromToExclusiveAsArrayDescending\" expects 3 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 3 parameters");
                         return new SequenceExpressionEdgesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), true, getArgument(argExprs, 2), false, false, SequenceExpressionType.EdgesFromIndexFromToExclusiveAsArrayDescending);
                     }
                 case "edgesFromIndexFromExclusiveToExclusiveAsArrayDescending":
+                case "edgesFromIndexFromExclusiveToExclusiveDescending":
                     {
                         if(argExprs.Count != 3)
-                            throw new ParseException("\"edgesFromIndexFromExclusiveToExclusiveAsArrayDescending\" expects 3 parameters");
+                            throw new ParseException("\"" + indexFunctionName + "\" expects 3 parameters");
                         return new SequenceExpressionEdgesFromIndexFromToAsArray(getArgument(argExprs, 0), getArgument(argExprs, 1), false, getArgument(argExprs, 2), false, false, SequenceExpressionType.EdgesFromIndexFromExclusiveToExclusiveAsArrayDescending);
                     }
                 case "nodesFromIndexMultipleFromTo":

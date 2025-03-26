@@ -1,0 +1,6 @@
+#using "index_exec_multiple_model.gm"
+
+sequence s(j:int)
+{
+	for{n:Node in nodesFromIndexMultipleFromTo(j, j, j + 1, fooi, 0, 42); true }
+}

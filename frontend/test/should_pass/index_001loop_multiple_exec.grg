@@ -1,0 +1,25 @@
+#using "index_model_001_multiple.gm"
+
+rule r(x:N, var i:int)
+{
+	modify {
+	---
+		def ref res:set<Node> = set<Node>{};
+		def ref resi:set<Edge> = set<Edge>{};
+		exec(
+			for{n:N in nodesFromIndexMultipleFromTo(foo, 0, 42, food, 0.0, 42.0); { res.add(n) } } ;>
+			for{e:E in edgesFromIndexMultipleFromTo(bar, 0, 42, bard, 0.0, 42.0); { resi.add(e) } }
+		);
+	}
+}
+
+procedure r(x:N, var i:int) : (set<Node>, set<Edge>)
+{
+	def ref res:set<Node> = set<Node>{};
+	def ref resi:set<Edge> = set<Edge>{};
+	exec(
+		for{n:N in nodesFromIndexMultipleFromTo(foo, 0, 42, food, 0.0, 42.0); { res.add(n) } } ;>
+		for{e:E in edgesFromIndexMultipleFromTo(bar, 0, 42, bard, 0.0, 42.0); { resi.add(e) } }
+	);
+	return(res, resi);
+}

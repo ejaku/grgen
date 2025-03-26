@@ -146,6 +146,21 @@ namespace de.unika.ipd.grGen.lgsp
                 EmitSequenceForNodesEdges((SequenceForFunction)seq, source);
                 break;
 
+            case SequenceType.ForNodesFromIndexSame:
+            case SequenceType.ForEdgesFromIndexSame:
+                EmitSequenceForFromIndexSameFunction((SequenceForFromIndexFunction)seq, source);
+                break;
+
+            case SequenceType.ForNodesFromIndexFromTo:
+            case SequenceType.ForEdgesFromIndexFromTo:
+                EmitSequenceForFromIndexFromToFunction((SequenceForFromIndexFunction)seq, source);
+                break;
+
+            case SequenceType.ForNodesFromMultipleIndexFromTo:
+            case SequenceType.ForEdgesFromMultipleIndexFromTo:
+                EmitSequenceForFromMultipleIndexFromToFunction((SequenceForFromIndexFunction)seq, source);
+                break;
+
             case SequenceType.ForMatch:
                 new SequenceForMatchGenerator((SequenceForMatch)seq, exprGen, seqHelper, fireDebugEvents)
                     .Emit(source, this);
@@ -702,7 +717,6 @@ namespace de.unika.ipd.grGen.lgsp
             String entryVar = "entry_" + seqFor.Id;
             source.AppendFrontFormat("foreach(GRGEN_LIBGR.IGraphElement {0} in {1}.LookupElements",
                 entryVar, indexVar);
-
             if(seqFor.Ascending)
                 source.Append("Ascending");
             else
@@ -758,6 +772,131 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront(seqHelper.SetVar(seqFor.Var, entryVar));
 
             EmitSequence(seqFor.Seq, source);
+
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        private void EmitSequenceForFromIndexSameFunction(SequenceForFromIndexFunction seqFor, SourceBuilder source)
+        {
+            SequenceExpressionFromIndexSame seqFromIndexSame = (SequenceExpressionFromIndexSame)seqFor.IndexFunctionCall;
+
+            source.AppendFront(COMP_HELPER.SetResultVar(seqFor, "true"));
+
+            String indexVar = "index_" + seqFor.Id;
+            source.AppendFrontFormat("GRGEN_LIBGR.IAttributeIndex {0} = (GRGEN_LIBGR.IAttributeIndex)procEnv.Graph.Indices.GetIndex(\"{1}\");\n", indexVar, ((SequenceExpressionIndexUse)seqFromIndexSame.Index).IndexName);
+            String entryVar = "entry_" + seqFor.Id;
+            source.AppendFrontFormat("foreach(GRGEN_LIBGR.IGraphElement {0} in {1}.LookupElements",
+                entryVar, indexVar);
+            source.Append("(");
+            source.Append(exprGen.GetSequenceExpression(seqFromIndexSame.Value, source));
+            source.Append("))\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            if(emitProfiling)
+                source.AppendFront("++procEnv.PerformanceInfo.SearchSteps;\n");
+            source.AppendFront(seqHelper.SetVar(seqFor.Var, entryVar));
+
+            EmitSequence(seqFor.Seq, source);
+
+            source.AppendFront(COMP_HELPER.SetResultVar(seqFor, COMP_HELPER.GetResultVar(seqFor) + " & " + COMP_HELPER.GetResultVar(seqFor.Seq)));
+
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        private void EmitSequenceForFromIndexFromToFunction(SequenceForFromIndexFunction seqFor, SourceBuilder source)
+        {
+            SequenceExpressionFromIndexFromToAsArray seqFromIndexFromTo = (SequenceExpressionFromIndexFromToAsArray)seqFor.IndexFunctionCall;
+
+            source.AppendFront(COMP_HELPER.SetResultVar(seqFor, "true"));
+
+            String indexVar = "index_" + seqFor.Id;
+            source.AppendFrontFormat("GRGEN_LIBGR.IAttributeIndex {0} = (GRGEN_LIBGR.IAttributeIndex)procEnv.Graph.Indices.GetIndex(\"{1}\");\n", indexVar, ((SequenceExpressionIndexUse)seqFromIndexFromTo.Index).IndexName);
+            String entryVar = "entry_" + seqFor.Id;
+            source.AppendFrontFormat("foreach(GRGEN_LIBGR.IGraphElement {0} in {1}.LookupElements",
+                entryVar, indexVar);
+            if(seqFromIndexFromTo.Ascending)
+                source.Append("Ascending");
+            else
+                source.Append("Descending");
+            if(seqFromIndexFromTo.From != null && seqFromIndexFromTo.To != null)
+            {
+                source.Append("From");
+                if(seqFromIndexFromTo.IncludingFrom)
+                    source.Append("Inclusive");
+                else
+                    source.Append("Exclusive");
+                source.Append("To");
+                if(seqFromIndexFromTo.IncludingTo)
+                    source.Append("Inclusive");
+                else
+                    source.Append("Exclusive");
+                source.Append("(");
+                source.Append(exprGen.GetSequenceExpression(seqFromIndexFromTo.From, source));
+                source.Append(", ");
+                source.Append(exprGen.GetSequenceExpression(seqFromIndexFromTo.To, source));
+            }
+            else if(seqFromIndexFromTo.From != null)
+            {
+                source.Append("From");
+                if(seqFromIndexFromTo.IncludingFrom)
+                    source.Append("Inclusive");
+                else
+                    source.Append("Exclusive");
+                source.Append("(");
+                source.Append(exprGen.GetSequenceExpression(seqFromIndexFromTo.From, source));
+            }
+            else if(seqFromIndexFromTo.To != null)
+            {
+                source.Append("To");
+                if(seqFromIndexFromTo.IncludingTo)
+                    source.Append("Inclusive");
+                else
+                    source.Append("Exclusive");
+                source.Append("(");
+                source.Append(exprGen.GetSequenceExpression(seqFromIndexFromTo.To, source));
+            }
+            else
+            {
+                source.Append("(");
+            }
+
+            source.Append("))\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            if(emitProfiling)
+                source.AppendFront("++procEnv.PerformanceInfo.SearchSteps;\n");
+            source.AppendFront(seqHelper.SetVar(seqFor.Var, entryVar));
+
+            EmitSequence(seqFor.Seq, source);
+
+            source.AppendFront(COMP_HELPER.SetResultVar(seqFor, COMP_HELPER.GetResultVar(seqFor) + " & " + COMP_HELPER.GetResultVar(seqFor.Seq)));
+
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        private void EmitSequenceForFromMultipleIndexFromToFunction(SequenceForFromIndexFunction seqFor, SourceBuilder source)
+        {
+            SequenceExpressionFromIndexMultipleFromTo seqFromIndexMultiple = (SequenceExpressionFromIndexMultipleFromTo)seqFor.IndexFunctionCall;
+
+            source.AppendFront(COMP_HELPER.SetResultVar(seqFor, "true"));
+
+            String entryVar = "entry_" + seqFor.Id;
+            String indexAccessExpr = exprGen.GetSequenceExpression(seqFromIndexMultiple, source); // takes care of profiling because it is explicitly set even though the index function call expression is not a children
+            source.AppendFrontFormat("foreach(GRGEN_LIBGR.IGraphElement {0} in {1}.Keys)\n",
+                entryVar, indexAccessExpr);
+            source.AppendFront("{\n");
+            source.Indent();
+
+            source.AppendFront(seqHelper.SetVar(seqFor.Var, entryVar));
+
+            EmitSequence(seqFor.Seq, source);
+
+            source.AppendFront(COMP_HELPER.SetResultVar(seqFor, COMP_HELPER.GetResultVar(seqFor) + " & " + COMP_HELPER.GetResultVar(seqFor.Seq)));
 
             source.Unindent();
             source.AppendFront("}\n");

@@ -1457,6 +1457,7 @@ Sequence SimpleSequence():
             LOOKAHEAD(2) indexName=Word() "==" expr=Expression() "}" ";" seq2=RewriteSequence()
                 { varDecls.PopScope(variableList1); } "}"
             {
+                warnings.Add("WARNING: the for{. in { idx == .}; .} loop is deprecated, use for{. in nodesFromIndexSame(idx, .); .} or for{. in edgesFromIndexSame(idx, .); .} instead.");
                 return new SequenceForIndexAccessEquality(fromVar, indexName, expr, seq2, variableList1);
             }
         |
@@ -1477,55 +1478,10 @@ Sequence SimpleSequence():
                     if(indexName != indexName2)
                         throw new SequenceParserExceptionIndexConflictingNames(indexName, indexName2);
                 }
+                warnings.Add("WARNING: the for{. in { ascending(idx >= ., idx <=. )}; .} loop is deprecated, use for{. in nodesFromIndexFromToAscending(idx, ., .); .} or for{. in edgesFromIndexFromToAscending(idx, ., .); .} instead (or their descending versions).");
                 return new SequenceForIndexAccessOrdering(fromVar, ascending, indexName, expr, left, expr2, right, seq2, variableList1);
             }
         )
-    |
-        LOOKAHEAD(3) "in" str=Word() "(" (Arguments(argExprs))? ")" ";" seq=RewriteSequence()
-            { varDecls.PopScope(variableList1); } "}"
-        {
-            if(str == "adjacent") {
-                return new SequenceForAdjacentNodes(SequenceType.ForAdjacentNodes, fromVar, argExprs, seq, variableList1);
-            } else if(str == "adjacentIncoming") {
-                return new SequenceForAdjacentNodes(SequenceType.ForAdjacentNodesViaIncoming, fromVar, argExprs, seq, variableList1);
-            } else if(str == "adjacentOutgoing") {
-                return new SequenceForAdjacentNodes(SequenceType.ForAdjacentNodesViaOutgoing, fromVar, argExprs, seq, variableList1);
-            } else if(str == "incident") {
-                return new SequenceForIncidentEdges(SequenceType.ForIncidentEdges, fromVar, argExprs, seq, variableList1);
-            } else if(str == "incoming") {
-                return new SequenceForIncidentEdges(SequenceType.ForIncomingEdges, fromVar, argExprs, seq, variableList1);
-            } else if(str == "outgoing") {
-                return new SequenceForIncidentEdges(SequenceType.ForOutgoingEdges, fromVar, argExprs, seq, variableList1);
-            } else if(str == "reachable") {
-                return new SequenceForReachableNodes(SequenceType.ForReachableNodes, fromVar, argExprs, seq, variableList1);
-            } else if(str == "reachableIncoming") {
-                return new SequenceForReachableNodes(SequenceType.ForReachableNodesViaIncoming, fromVar, argExprs, seq, variableList1);
-            } else if(str == "reachableOutgoing") {
-                return new SequenceForReachableNodes(SequenceType.ForReachableNodesViaOutgoing, fromVar, argExprs, seq, variableList1);
-            } else if(str == "reachableEdges") {
-                return new SequenceForReachableEdges(SequenceType.ForReachableEdges, fromVar, argExprs, seq, variableList1);
-            } else if(str == "reachableEdgesIncoming") {
-                return new SequenceForReachableEdges(SequenceType.ForReachableEdgesViaIncoming, fromVar, argExprs, seq, variableList1);
-            } else if(str == "reachableEdgesOutgoing") {
-                return new SequenceForReachableEdges(SequenceType.ForReachableEdgesViaOutgoing, fromVar, argExprs, seq, variableList1);
-            } else if(str == "boundedReachable") {
-                return new SequenceForBoundedReachableNodes(SequenceType.ForBoundedReachableNodes, fromVar, argExprs, seq, variableList1);
-            } else if(str == "boundedReachableIncoming") {
-                return new SequenceForBoundedReachableNodes(SequenceType.ForBoundedReachableNodesViaIncoming, fromVar, argExprs, seq, variableList1);
-            } else if(str == "boundedReachableOutgoing") {
-                return new SequenceForBoundedReachableNodes(SequenceType.ForBoundedReachableNodesViaOutgoing, fromVar, argExprs, seq, variableList1);
-            } else if(str == "boundedReachableEdges") {
-                return new SequenceForBoundedReachableEdges(SequenceType.ForBoundedReachableEdges, fromVar, argExprs, seq, variableList1);
-            } else if(str == "boundedReachableEdgesIncoming") {
-                return new SequenceForBoundedReachableEdges(SequenceType.ForBoundedReachableEdgesViaIncoming, fromVar, argExprs, seq, variableList1);
-            } else if(str == "boundedReachableEdgesOutgoing") {
-                return new SequenceForBoundedReachableEdges(SequenceType.ForBoundedReachableEdgesViaOutgoing, fromVar, argExprs, seq, variableList1);
-            } else if(str == "nodes") {
-                return new SequenceForNodes(SequenceType.ForNodes, fromVar, argExprs, seq, variableList1);
-            } else if(str == "edges") {
-                return new SequenceForEdges(SequenceType.ForEdges, fromVar, argExprs, seq, variableList1);
-            }
-        }
     | 
         LOOKAHEAD(3)
         ("->" fromVar2=Variable())? "in" fromVar3=VariableUse() ";" seq=RewriteSequence()
@@ -1534,11 +1490,36 @@ Sequence SimpleSequence():
             return new SequenceForContainer(fromVar, fromVar2, fromVar3, seq, variableList1);
         }
     |
+        LOOKAHEAD(3)
         "in" "[" expr=Expression() ":" expr2=Expression() "]" ";" seq=RewriteSequence()
             { varDecls.PopScope(variableList1); } "}"
         {
             return new SequenceForIntegerRange(fromVar, expr, expr2, seq, variableList1);
         }
+    |
+        "in"
+        (
+            LOOKAHEAD( { GetToken(1).kind == WORD && env.IsForFunction(GetToken(1).image) } )
+            str=Word() "(" (Arguments(argExprs))? ")" ";" seq=RewriteSequence()
+                { varDecls.PopScope(variableList1); } "}"
+            {
+                return env.CreateSequenceForFunction(str, fromVar, argExprs, seq, variableList1);
+            }
+        |
+            LOOKAHEAD( { GetToken(1).kind == WORD && env.IsForIndexFunction(GetToken(1).image) } )
+            str=Word() "(" IndexArguments(argExprs) ")" ";" seq=RewriteSequence()
+                { varDecls.PopScope(variableList1); } "}"
+            {
+                return env.CreateSequenceForIndexFunction(str, fromVar, argExprs, seq, variableList1);
+            }
+        |
+            LOOKAHEAD( { GetToken(1).kind == WORD && env.IsForMultipleIndexFunction(GetToken(1).image) } )
+            str=Word() "(" IndexArgument(argExprs) "," Argument(argExprs) "," Argument(argExprs) IndexArgumentsMultiple(argExprs) ")" ";" seq=RewriteSequence()
+                { varDecls.PopScope(variableList1); } "}"
+            {
+                return env.CreateSequenceForIndexFunction(str, fromVar, argExprs, seq, variableList1);
+            }
+        )
     )
 |
     seqInSubgraph = InSubgraphSequence(false)

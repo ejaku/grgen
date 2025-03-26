@@ -1,0 +1,6 @@
+#using "index_exec_model.gm"
+
+sequence s(j:int)
+{
+	for{e:AEdge in edgesFromIndexFromToAscending(j, j, j + 1); true }
+}

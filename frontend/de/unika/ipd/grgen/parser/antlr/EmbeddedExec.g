@@ -219,12 +219,7 @@ seqForSeqRemainder [ ExecNode xg, CollectNode<BaseNode> returns ]
 	options { k = 4; }
 	: (RARROW { xg.append(" -> "); } seqEntity[xg])? IN { xg.append(" in "); } seqVarUse[xg]
 			SEMI { xg.append("; "); } sequence[xg] { env.popScope(); } RBRACE { xg.append("}"); }
-	| IN { xg.append(" in "); } { env.isKnownForFunction(input.LT(1).getText()) }?
-			i=IDENT LPAREN { xg.append(i.getText()); xg.append("("); }
-			(expr1=seqExpression[xg] (COMMA { xg.append(","); } expr2=seqExpression[xg] 
-				(COMMA { xg.append(","); } expr3=seqExpression[xg] (COMMA { xg.append(","); } expr4=seqExpression[xg])? )? 
-					)? )?
-			RPAREN { xg.append(")"); }
+	| IN { xg.append(" in "); } seqForFunctionRemainder[xg]
 			SEMI { xg.append("; "); } sequence[xg] { env.popScope(); } RBRACE { xg.append("}"); }
 	| IN { xg.append(" in "); } LBRACE { xg.append("{"); } seqIndex[xg] EQUAL { xg.append(" == "); } seqExpression[xg] 
 		RBRACE { xg.append("}"); } SEMI { xg.append("; "); } sequence[xg] { env.popScope(); } RBRACE { xg.append("}"); }
@@ -237,6 +232,23 @@ seqForSeqRemainder [ ExecNode xg, CollectNode<BaseNode> returns ]
 			SEMI { xg.append("; "); } sequence[xg] { env.popScope(); } RBRACE { xg.append("}"); }
 	| IN LBRACK { xg.append(" in ["); } left=seqExpression[xg] COLON { xg.append(" : "); } right=seqExpression[xg] RBRACK { xg.append("]"); }
 			SEMI { xg.append("; "); } sequence[xg] { env.popScope(); } RBRACE { xg.append("}"); }
+	;
+
+seqForFunctionRemainder [ ExecNode xg ]
+	: { env.isKnownForFunction(input.LT(1).getText()) }?
+		i=IDENT LPAREN { xg.append(i.getText()); xg.append("("); }
+		(expr1=seqExpression[xg] (COMMA { xg.append(","); } expr2=seqExpression[xg] 
+			(COMMA { xg.append(","); } expr3=seqExpression[xg] (COMMA { xg.append(","); } expr4=seqExpression[xg])? )? 
+				)? )?
+		RPAREN { xg.append(")"); }
+	| { env.isKnownForIndexFunction(input.LT(1).getText()) }?
+		i=IDENT LPAREN { xg.append(i.getText()); xg.append("("); }
+			seqForIndexFunctionCallParameters[xg]
+		RPAREN { xg.append(")"); }
+	;
+
+seqForIndexFunctionCallParameters [ ExecNode xg ]
+	: fromExpr=seqExpression[xg] ( COMMA { xg.append(","); } fromExpr2=seqExpression[xg] )*
 	;
 
 seqCompoundComputation [ ExecNode xg ]

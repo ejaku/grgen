@@ -1,0 +1,6 @@
+#using "index_exec_model.gm"
+
+sequence s(j:int)
+{
+	for{n:Node in nodesFromIndexSame(j, j); true }
+}

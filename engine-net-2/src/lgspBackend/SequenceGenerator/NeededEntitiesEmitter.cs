@@ -165,6 +165,12 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceType.ForBoundedReachableEdgesViaOutgoing:
             case SequenceType.ForNodes:
             case SequenceType.ForEdges:
+            case SequenceType.ForNodesFromIndexSame:
+            case SequenceType.ForEdgesFromIndexSame:
+            case SequenceType.ForNodesFromIndexFromTo:
+            case SequenceType.ForEdgesFromIndexFromTo:
+            case SequenceType.ForNodesFromMultipleIndexFromTo:
+            case SequenceType.ForEdgesFromMultipleIndexFromTo:
                 {
                     SequenceForFunction seqFor = (SequenceForFunction)seq;
                     EmitVarIfNew(seqFor.Var, source);

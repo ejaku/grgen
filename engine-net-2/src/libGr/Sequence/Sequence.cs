@@ -39,6 +39,7 @@ namespace de.unika.ipd.grGen.libGr
         ForBoundedReachableNodes, ForBoundedReachableNodesViaIncoming, ForBoundedReachableNodesViaOutgoing,
         ForBoundedReachableEdges, ForBoundedReachableEdgesViaIncoming, ForBoundedReachableEdgesViaOutgoing,
         ForNodes, ForEdges,
+        ForNodesFromIndexSame, ForEdgesFromIndexSame, ForNodesFromIndexFromTo, ForEdgesFromIndexFromTo, ForNodesFromMultipleIndexFromTo, ForEdgesFromMultipleIndexFromTo,
         Transaction, Backtrack, MultiBacktrack, MultiSequenceBacktrack, Pause,
         IterationMin, IterationMinMax,
         RuleCall, RuleAllCall, RuleCountAllCall, RulePrefixedSequence,
@@ -5721,77 +5722,9 @@ namespace de.unika.ipd.grGen.libGr
             IAttributeIndex index = (IAttributeIndex)procEnv.Graph.Indices.GetIndex(IndexName);
             IEnumerable<IGraphElement> enumerator;
             if(Ascending)
-            {
-                if(From() != null && To() != null)
-                {
-                    if(IncludingFrom())
-                    {
-                        if(IncludingTo())
-                            enumerator = index.LookupElementsAscendingFromInclusiveToInclusive(From().Evaluate(procEnv), To().Evaluate(procEnv));
-                        else
-                            enumerator = index.LookupElementsAscendingFromInclusiveToExclusive(From().Evaluate(procEnv), To().Evaluate(procEnv));
-                    }
-                    else
-                    {
-                        if(IncludingTo())
-                            enumerator = index.LookupElementsAscendingFromExclusiveToInclusive(From().Evaluate(procEnv), To().Evaluate(procEnv));
-                        else
-                            enumerator = index.LookupElementsAscendingFromExclusiveToExclusive(From().Evaluate(procEnv), To().Evaluate(procEnv));
-                    }
-                }
-                else if(From() != null)
-                {
-                    if(IncludingFrom())
-                        enumerator = index.LookupElementsAscendingFromInclusive(From().Evaluate(procEnv));
-                    else
-                        enumerator = index.LookupElementsAscendingFromExclusive(From().Evaluate(procEnv));
-                }
-                else if(To() != null)
-                {
-                    if(IncludingTo())
-                        enumerator = index.LookupElementsAscendingToInclusive(To().Evaluate(procEnv));
-                    else
-                        enumerator = index.LookupElementsAscendingToExclusive(To().Evaluate(procEnv));
-                }
-                else
-                    enumerator = index.LookupElementsAscending();
-            }
+                enumerator = IndexHelper.GetIndexEnumerable(index, From().Evaluate(procEnv), IncludingFrom(), To().Evaluate(procEnv), IncludingTo());
             else
-            {
-                if(From() != null && To() != null)
-                {
-                    if(IncludingFrom())
-                    {
-                        if(IncludingTo())
-                            enumerator = index.LookupElementsDescendingFromInclusiveToInclusive(From().Evaluate(procEnv), To().Evaluate(procEnv));
-                        else
-                            enumerator = index.LookupElementsDescendingFromInclusiveToExclusive(From().Evaluate(procEnv), To().Evaluate(procEnv));
-                    }
-                    else
-                    {
-                        if(IncludingTo())
-                            enumerator = index.LookupElementsDescendingFromExclusiveToInclusive(From().Evaluate(procEnv), To().Evaluate(procEnv));
-                        else
-                            enumerator = index.LookupElementsDescendingFromExclusiveToExclusive(From().Evaluate(procEnv), To().Evaluate(procEnv));
-                    }
-                }
-                else if(From() != null)
-                {
-                    if(IncludingFrom())
-                        enumerator = index.LookupElementsDescendingFromInclusive(From().Evaluate(procEnv));
-                    else
-                        enumerator = index.LookupElementsDescendingFromExclusive(From().Evaluate(procEnv));
-                }
-                else if(To() != null)
-                {
-                    if(IncludingTo())
-                        enumerator = index.LookupElementsDescendingToInclusive(To().Evaluate(procEnv));
-                    else
-                        enumerator = index.LookupElementsDescendingToExclusive(To().Evaluate(procEnv));
-                }
-                else
-                    enumerator = index.LookupElementsDescending();
-            }
+                enumerator = IndexHelper.GetIndexEnumerableDescending(index, From().Evaluate(procEnv), IncludingFrom(), To().Evaluate(procEnv), IncludingTo());
 
             bool first = true;
             foreach(IGraphElement elem in enumerator)
@@ -6892,7 +6825,324 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
     }
-    
+
+    public abstract class SequenceForFromIndexFunction : SequenceForFunction
+    {
+        public readonly SequenceExpression IndexFunctionCall;
+
+        protected SequenceForFromIndexFunction(SequenceType sequenceType, SequenceExpression indexFunctionCall, SequenceVariable var,
+            List<SequenceExpression> argExprs, Sequence seq,
+            List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
+            : base(sequenceType, var, argExprs, seq, variablesFallingOutOfScopeOnLeavingFor)
+        {
+            IndexFunctionCall = indexFunctionCall;
+        }
+
+        protected SequenceForFromIndexFunction(SequenceForFromIndexFunction that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env);
+            IndexFunctionCall.Check(env); // not part of children, beware of issues
+        }
+
+        public override void SetNeedForProfiling(bool profiling)
+        {
+            EmitProfiling = profiling;
+            IndexFunctionCall.SetNeedForProfilingRecursive(profiling);
+        }
+    }
+
+    public abstract class SequenceForFromIndexWithDedicatedProfilingApply : SequenceForFromIndexFunction
+    {
+        public SequenceForFromIndexWithDedicatedProfilingApply(SequenceType sequenceType, SequenceExpression indexFunctionCall, SequenceVariable var,
+            List<SequenceExpression> argExprs, Sequence seq,
+            List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
+            : base(sequenceType, indexFunctionCall, var, argExprs, seq, variablesFallingOutOfScopeOnLeavingFor)
+        {
+        }
+
+        protected SequenceForFromIndexWithDedicatedProfilingApply(SequenceForFromIndexWithDedicatedProfilingApply that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            if(EmitProfiling)
+                return ApplyImplProfiling(procEnv);
+
+            bool res = true;
+            bool first = true;
+            foreach(IGraphElement nodeOrEdge in GetLoopIterator(procEnv))
+            {
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(nodeOrEdge, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+
+        protected bool ApplyImplProfiling(IGraphProcessingEnvironment procEnv)
+        {
+            bool res = true;
+            bool first = true;
+            foreach(IGraphElement nodeOrEdge in GetLoopIterator(procEnv))
+            {
+                ++procEnv.PerformanceInfo.SearchSteps;
+                if(!first)
+                    procEnv.EndOfIteration(true, this);
+                Var.SetVariableValue(nodeOrEdge, procEnv);
+                Seq.ResetExecutionState();
+                res &= Seq.Apply(procEnv);
+                first = false;
+            }
+            procEnv.EndOfIteration(false, this);
+            return res;
+        }
+    }
+
+    public class SequenceForNodesFromIndexSame : SequenceForFromIndexWithDedicatedProfilingApply
+    {
+        public SequenceForNodesFromIndexSame(SequenceType sequenceType, SequenceExpression indexFunctionCall, SequenceVariable var,
+            List<SequenceExpression> argExprs, Sequence seq,
+            List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
+            : base(sequenceType, indexFunctionCall, var, argExprs, seq, variablesFallingOutOfScopeOnLeavingFor)
+        {
+        }
+
+        protected SequenceForNodesFromIndexSame(SequenceForNodesFromIndexSame that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceForNodesFromIndexSame(this, originalToCopy, procEnv);
+        }
+
+        protected override string GetVariableRootType()
+        {
+            return "Node";
+        }
+
+        protected override IEnumerable GetLoopIterator(IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionFromIndexSame indexFunctionCall = (SequenceExpressionFromIndexSame)IndexFunctionCall;
+            return indexFunctionCall.GetLoopIterator(procEnv);
+        }
+
+        public override string FunctionSymbol
+        {
+            get { return "nodesFromIndexSame"; }
+        }
+    }
+
+    public class SequenceForEdgesFromIndexSame : SequenceForFromIndexWithDedicatedProfilingApply
+    {
+        public SequenceForEdgesFromIndexSame(SequenceType sequenceType, SequenceExpression indexFunctionCall, SequenceVariable var,
+            List<SequenceExpression> argExprs, Sequence seq,
+            List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
+            : base(sequenceType, indexFunctionCall, var, argExprs, seq, variablesFallingOutOfScopeOnLeavingFor)
+        {
+        }
+
+        protected SequenceForEdgesFromIndexSame(SequenceForEdgesFromIndexSame that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceForEdgesFromIndexSame(this, originalToCopy, procEnv);
+        }
+
+        protected override string GetVariableRootType()
+        {
+            return "AEdge";
+        }
+
+        protected override IEnumerable GetLoopIterator(IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionFromIndexSame indexFunctionCall = (SequenceExpressionFromIndexSame)IndexFunctionCall;
+            return indexFunctionCall.GetLoopIterator(procEnv);
+        }
+
+        public override string FunctionSymbol
+        {
+            get { return "edgesFromIndexSame"; }
+        }
+    }
+
+    public class SequenceForNodesFromIndexFromTo : SequenceForFromIndexWithDedicatedProfilingApply
+    {
+        public SequenceForNodesFromIndexFromTo(SequenceType sequenceType, SequenceExpression indexFunctionCall, SequenceVariable var,
+            List<SequenceExpression> argExprs, Sequence seq,
+            List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
+            : base(sequenceType, indexFunctionCall, var, argExprs, seq, variablesFallingOutOfScopeOnLeavingFor)
+        {
+            ((SequenceExpressionFromIndexFromToAsArray)indexFunctionCall).IsUsedInLoop = true;
+        }
+
+        protected SequenceForNodesFromIndexFromTo(SequenceForNodesFromIndexFromTo that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceForNodesFromIndexFromTo(this, originalToCopy, procEnv);
+        }
+
+        protected override string GetVariableRootType()
+        {
+            return "Node";
+        }
+
+        protected override IEnumerable GetLoopIterator(IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionFromIndexFromToAsArray indexFunctionCall = (SequenceExpressionFromIndexFromToAsArray)IndexFunctionCall;
+            return indexFunctionCall.GetLoopIterator(procEnv);
+        }
+
+        public override string FunctionSymbol
+        {
+            get
+            {
+                SequenceExpressionFromIndexFromToAsArray indexFunctionCall = (SequenceExpressionFromIndexFromToAsArray)IndexFunctionCall;
+                return indexFunctionCall.FunctionSymbol;
+            }
+        }
+    }
+
+    public class SequenceForEdgesFromIndexFromTo : SequenceForFromIndexWithDedicatedProfilingApply
+    {
+        public SequenceForEdgesFromIndexFromTo(SequenceType sequenceType, SequenceExpression indexFunctionCall, SequenceVariable var,
+            List<SequenceExpression> argExprs, Sequence seq,
+            List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
+            : base(sequenceType, indexFunctionCall, var, argExprs, seq, variablesFallingOutOfScopeOnLeavingFor)
+        {
+            ((SequenceExpressionFromIndexFromToAsArray)indexFunctionCall).IsUsedInLoop = true;
+        }
+
+        protected SequenceForEdgesFromIndexFromTo(SequenceForEdgesFromIndexFromTo that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceForEdgesFromIndexFromTo(this, originalToCopy, procEnv);
+        }
+
+        protected override string GetVariableRootType()
+        {
+            return "AEdge";
+        }
+
+        protected override IEnumerable GetLoopIterator(IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionFromIndexFromToAsArray indexFunctionCall = (SequenceExpressionFromIndexFromToAsArray)IndexFunctionCall;
+            return indexFunctionCall.GetLoopIterator(procEnv);
+        }
+
+        public override string FunctionSymbol
+        {
+            get
+            {
+                SequenceExpressionFromIndexFromToAsArray indexFunctionCall = (SequenceExpressionFromIndexFromToAsArray)IndexFunctionCall;
+                return indexFunctionCall.FunctionSymbol;
+            }
+        }
+    }
+
+    public class SequenceForNodesFromMultipleIndexFromTo : SequenceForFromIndexFunction
+    {
+        public SequenceForNodesFromMultipleIndexFromTo(SequenceType sequenceType, SequenceExpression indexFunctionCall, SequenceVariable var,
+            List<SequenceExpression> argExprs, Sequence seq,
+            List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
+            : base(sequenceType, indexFunctionCall, var, argExprs, seq, variablesFallingOutOfScopeOnLeavingFor)
+        {
+        }
+
+        protected SequenceForNodesFromMultipleIndexFromTo(SequenceForNodesFromMultipleIndexFromTo that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceForNodesFromMultipleIndexFromTo(this, originalToCopy, procEnv);
+        }
+
+        protected override string GetVariableRootType()
+        {
+            return "Node";
+        }
+
+        protected override IEnumerable GetLoopIterator(IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionFromIndexMultipleFromTo indexFunctionCall = (SequenceExpressionFromIndexMultipleFromTo)IndexFunctionCall;
+            Dictionary<INode, SetValueType> nodeSet = (Dictionary<INode, SetValueType>)indexFunctionCall.ExecuteImpl(procEnv); // takes care of profiling because it is explicitly set even though the index function call expression is not a children
+            return nodeSet.Keys;
+        }
+
+        public override string FunctionSymbol
+        {
+            get
+            {
+                return "nodesFromIndexMultipleFromTo";
+            }
+        }
+    }
+
+    public class SequenceForEdgesFromMultipleIndexFromTo : SequenceForFromIndexFunction
+    {
+        public SequenceForEdgesFromMultipleIndexFromTo(SequenceType sequenceType, SequenceExpression indexFunctionCall, SequenceVariable var,
+            List<SequenceExpression> argExprs, Sequence seq,
+            List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
+            : base(sequenceType, indexFunctionCall, var, argExprs, seq, variablesFallingOutOfScopeOnLeavingFor)
+        {
+        }
+
+        protected SequenceForEdgesFromMultipleIndexFromTo(SequenceForEdgesFromMultipleIndexFromTo that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceForEdgesFromMultipleIndexFromTo(this, originalToCopy, procEnv);
+        }
+
+        protected override string GetVariableRootType()
+        {
+            return "AEdge";
+        }
+
+        protected override IEnumerable GetLoopIterator(IGraphProcessingEnvironment procEnv)
+        {
+            SequenceExpressionFromIndexMultipleFromTo indexFunctionCall = (SequenceExpressionFromIndexMultipleFromTo)IndexFunctionCall;
+            Dictionary<IEdge, SetValueType> edgeSet = (Dictionary<IEdge, SetValueType>)indexFunctionCall.ExecuteImpl(procEnv); // takes care of profiling because it is explicitly set even though the index function call expression is not a children
+            return edgeSet.Keys;
+        }
+
+        public override string FunctionSymbol
+        {
+            get
+            {
+                return "edgesFromIndexMultipleFromTo";
+            }
+        }
+    }
+
     public class SequenceForMatch : SequenceUnary, IPatternMatchingConstruct
     {
         public readonly SequenceVariable Var;

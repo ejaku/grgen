@@ -10345,7 +10345,7 @@ namespace de.unika.ipd.grGen.libGr
             return ((SequenceExpressionIndexUse)Index).GetIndexDescription(model); // internal error if cast fails (due to the positional index arguments when index functions are parsed - the index name may be unknown)
         }
 
-        protected abstract string FunctionSymbol { get; }
+        public abstract string FunctionSymbol { get; }
         protected abstract string RootType { get; } // the node/edge root depending on the return type of the function, must fit to the indexed type
     }
 
@@ -10380,6 +10380,13 @@ namespace de.unika.ipd.grGen.libGr
         public override String Type(SequenceCheckingEnvironment env)
         {
             return "set<" + RootType + ">";
+        }
+
+        public IEnumerable GetLoopIterator(IGraphProcessingEnvironment procEnv)
+        {
+            IAttributeIndex index = (IAttributeIndex)Index.Evaluate(procEnv);
+            object value = Value.Evaluate(procEnv);
+            return index.LookupElements(value);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -10656,11 +10663,13 @@ namespace de.unika.ipd.grGen.libGr
     public abstract class SequenceExpressionFromIndexFromToAsArray : SequenceExpressionFromIndexFromTo
     {
         public readonly bool Ascending;
+        public bool IsUsedInLoop;
 
         public SequenceExpressionFromIndexFromToAsArray(SequenceExpression index, SequenceExpression from, bool includingFrom, SequenceExpression to, bool includingTo, bool ascending, SequenceExpressionType type)
             : base(index, from, includingFrom, to, includingTo, 0, type)
         {
             Ascending = ascending;
+            IsUsedInLoop = false;
         }
 
         protected SequenceExpressionFromIndexFromToAsArray(SequenceExpressionFromIndexFromToAsArray that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
@@ -10672,6 +10681,17 @@ namespace de.unika.ipd.grGen.libGr
         public override String Type(SequenceCheckingEnvironment env)
         {
             return "array<" + RootType + ">";
+        }
+
+        public IEnumerable GetLoopIterator(IGraphProcessingEnvironment procEnv)
+        {
+            IAttributeIndex index = (IAttributeIndex)Index.Evaluate(procEnv);
+            object from = From != null ? From.Evaluate(procEnv) : null;
+            object to = To != null ? To.Evaluate(procEnv) : null;
+            if(Ascending)
+                return IndexHelper.GetIndexEnumerable(index, from, IncludingFrom, to, IncludingTo);
+            else
+                return IndexHelper.GetIndexEnumerableDescending(index, from, IncludingFrom, to, IncludingTo);
         }
     }
 
@@ -10713,7 +10733,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        protected override string FunctionSymbol
+        public override string FunctionSymbol
         {
             get { return "nodesFromIndexSame"; }
         }
@@ -10757,7 +10777,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        protected override string FunctionSymbol
+        public override string FunctionSymbol
         {
             get { return "edgesFromIndexSame"; }
         }
@@ -10802,7 +10822,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        protected override string FunctionSymbol
+        public override string FunctionSymbol
         {
             get
             {
@@ -10866,7 +10886,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        protected override string FunctionSymbol
+        public override string FunctionSymbol
         {
             get
             {
@@ -10929,7 +10949,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        protected override string FunctionSymbol
+        public override string FunctionSymbol
         {
             get { return "countNodesFromIndexSame"; }
         }
@@ -10973,7 +10993,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        protected override string FunctionSymbol
+        public override string FunctionSymbol
         {
             get { return "countEdgesFromIndexSame"; }
         }
@@ -11018,7 +11038,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        protected override string FunctionSymbol
+        public override string FunctionSymbol
         {
             get
             {
@@ -11082,7 +11102,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        protected override string FunctionSymbol
+        public override string FunctionSymbol
         {
             get
             {
@@ -11146,7 +11166,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        protected override string FunctionSymbol
+        public override string FunctionSymbol
         {
             get { return "isInNodesFromIndexSame"; }
         }
@@ -11191,7 +11211,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        protected override string FunctionSymbol
+        public override string FunctionSymbol
         {
             get { return "isInEdgesFromIndexSame"; }
         }
@@ -11237,7 +11257,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        protected override string FunctionSymbol
+        public override string FunctionSymbol
         {
             get
             {
@@ -11302,7 +11322,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        protected override string FunctionSymbol
+        public override string FunctionSymbol
         {
             get
             {
@@ -11365,7 +11385,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        protected override string FunctionSymbol
+        public override string FunctionSymbol
         {
             get { return "nodesFromIndexSameAsArray"; }
         }
@@ -11409,7 +11429,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        protected override string FunctionSymbol
+        public override string FunctionSymbol
         {
             get { return "edgesFromIndexSameAsArray"; }
         }
@@ -11464,28 +11484,40 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        protected override string FunctionSymbol
+        string BaseFunctionSymbol
         {
             get
             {
-                string suffix = Ascending ? "AsArrayAscending" : "AsArrayDescending";
                 if(From == null && To == null)
-                    return "nodesFromIndex" + suffix;
+                    return "nodesFromIndex";
                 else if(To == null)
-                    return IncludingFrom ? "nodesFromIndexFrom" + suffix : "nodesFromIndexFromExclusive" + suffix;
+                    return IncludingFrom ? "nodesFromIndexFrom" : "nodesFromIndexFromExclusive";
                 else if(From == null)
-                    return IncludingTo ? "nodesFromIndexTo" + suffix : "nodesFromIndexToExclusive" + suffix;
+                    return IncludingTo ? "nodesFromIndexTo" : "nodesFromIndexToExclusive";
                 else
                 {
                     if(IncludingFrom && IncludingTo)
-                        return "nodesFromIndexFromTo" + suffix;
+                        return "nodesFromIndexFromTo";
                     else if(IncludingFrom)
-                        return "nodesFromIndexFromToExclusive" + suffix;
+                        return "nodesFromIndexFromToExclusive";
                     else if(IncludingTo)
-                        return "nodesFromIndexFromExclusiveTo" + suffix;
+                        return "nodesFromIndexFromExclusiveTo";
                     else
-                        return "nodesFromIndexFromExclusiveToExclusive" + suffix;
+                        return "nodesFromIndexFromExclusiveToExclusive";
                 }
+            }
+        }
+
+        public override string FunctionSymbol
+        {
+            get
+            {
+                string suffix;
+                if(IsUsedInLoop)
+                    suffix = Ascending ? "Ascending" : "Descending";
+                else
+                    suffix = Ascending ? "AsArrayAscending" : "AsArrayDescending";
+                return BaseFunctionSymbol + suffix;
             }
         }
     }
@@ -11539,28 +11571,40 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        protected override string FunctionSymbol
+        string BaseFunctionSymbol
         {
             get
             {
-                string suffix = Ascending ? "AsArrayAscending" : "AsArrayDescending";
                 if(From == null && To == null)
-                    return "edgesFromIndex" + suffix;
+                    return "edgesFromIndex";
                 else if(To == null)
-                    return IncludingFrom ? "edgesFromIndexFrom" + suffix : "edgesFromIndexFromExclusive" + suffix;
+                    return IncludingFrom ? "edgesFromIndexFrom" : "edgesFromIndexFromExclusive";
                 else if(From == null)
-                    return IncludingTo ? "edgesFromIndexTo" + suffix : "edgesFromIndexToExclusive" + suffix;
+                    return IncludingTo ? "edgesFromIndexTo" : "edgesFromIndexToExclusive";
                 else
                 {
                     if(IncludingFrom && IncludingTo)
-                        return "edgesFromIndexFromTo" + suffix;
+                        return "edgesFromIndexFromTo";
                     else if(IncludingFrom)
-                        return "edgesFromIndexFromToExclusive" + suffix;
+                        return "edgesFromIndexFromToExclusive";
                     else if(IncludingTo)
-                        return "edgesFromIndexFromExclusiveTo" + suffix;
+                        return "edgesFromIndexFromExclusiveTo";
                     else
-                        return "edgesFromIndexFromExclusiveToExclusive" + suffix;
+                        return "edgesFromIndexFromExclusiveToExclusive";
                 }
+            }
+        }
+
+        public override string FunctionSymbol
+        {
+            get
+            {
+                string suffix;
+                if(IsUsedInLoop)
+                    suffix = Ascending ? "Ascending" : "Descending";
+                else
+                    suffix = Ascending ? "AsArrayAscending" : "AsArrayDescending";
+                return BaseFunctionSymbol + suffix;
             }
         }
     }
@@ -11609,7 +11653,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return Index.Symbol + "," + From.Symbol + "," + To.Symbol; } // only called explicitly from parent
         }
 
-        protected override string FunctionSymbol
+        public override string FunctionSymbol
         {
             get { return Parent.Symbol; } // used in error messages from checking in base class
         }
@@ -11857,7 +11901,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        protected override string FunctionSymbol
+        public override string FunctionSymbol
         {
             get { return "minNodeFromIndex"; }
         }
@@ -11900,7 +11944,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        protected override string FunctionSymbol
+        public override string FunctionSymbol
         {
             get { return "maxNodeFromIndex"; }
         }
@@ -11943,7 +11987,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        protected override string FunctionSymbol
+        public override string FunctionSymbol
         {
             get { return "minEdgeFromIndex"; }
         }
@@ -11986,7 +12030,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return 8; }
         }
 
-        protected override string FunctionSymbol
+        public override string FunctionSymbol
         {
             get { return "maxEdgeFromIndex"; }
         }
@@ -12051,7 +12095,7 @@ namespace de.unika.ipd.grGen.libGr
             get { return FunctionSymbol + "(" + Index.Symbol + ")"; }
         }
 
-        protected override string FunctionSymbol
+        public override string FunctionSymbol
         {
             get { return "indexSize"; }
         }

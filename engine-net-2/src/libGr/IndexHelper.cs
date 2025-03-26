@@ -791,12 +791,12 @@ namespace de.unika.ipd.grGen.libGr
 
         //////////////////////////////////////////////////////////////////////////////////////////////
 
-        private static IEnumerable<IGraphElement> GetIndexEnumerable(IAttributeIndex index, object value)
+        public static IEnumerable<IGraphElement> GetIndexEnumerable(IAttributeIndex index, object value)
         {
             return index.LookupElements(value);
         }
 
-        private static IEnumerable<IGraphElement> GetIndexEnumerable(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo)
+        public static IEnumerable<IGraphElement> GetIndexEnumerable(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo)
         {
             if(from != null)
             {
@@ -845,7 +845,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        private static IEnumerable<IGraphElement> GetIndexEnumerableDescending(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo)
+        public static IEnumerable<IGraphElement> GetIndexEnumerableDescending(IAttributeIndex index, object from, bool includingFrom, object to, bool includingTo)
         {
             if(from != null)
             {

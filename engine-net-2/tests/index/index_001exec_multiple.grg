@@ -1,0 +1,58 @@
+#using "index_model_001_multiple.gm"
+
+rule rfrom5to13_fromatoi {
+	modify {
+	---
+		exec(
+			for{n:N in nodesFromIndexMultipleFromTo(foo, 5, 13, bar, "a", "i");
+				{ emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n") }
+			}
+		);
+	}
+}
+
+rule rfrom5to13_fromjtoz {
+	modify {
+	---
+		exec(
+			for{n:N in nodesFromIndexMultipleFromTo(foo, 5, 13, bar, "j", "z");
+				{ emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n") }
+			}
+		);
+	}
+}
+
+rule rfrom1to10_fromatoj {
+	modify {
+	---
+		exec(
+			for{n:N in nodesFromIndexMultipleFromTo(foo, 1, 10, bar, "a", "j");
+				{ emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n") }
+			}
+		);
+	}
+}
+
+rule rfrom1to10_fromktoz {
+	modify {
+	---
+		exec(
+			for{n:N in nodesFromIndexMultipleFromTo(foo, 1, 10, bar, "k", "z");
+				{ emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n") }
+			}
+		);
+	}
+}
+
+rule rfrommintomaxmultiple {
+	modify {
+	---
+		exec(
+			//for{n:N in nodesFromIndexMultipleFromTo(foo, ((N)minNodeFromIndex(foo)).i, ((N)maxNodeFromIndex(foo)).i, bar, ((N)minNodeFromIndex(bar)).j, ((N)maxNodeFromIndex(bar)).j); ...}
+			minFoo:N ;> { minFoo=(N)minNodeFromIndex(foo) } ;> maxFoo:N ;> { maxFoo=(N)maxNodeFromIndex(foo) } ;> minBar:N ;> { minBar=(N)minNodeFromIndex(bar) } ;> maxBar:N ;> { maxBar=(N)maxNodeFromIndex(bar) } ;>
+			for{n:N in nodesFromIndexMultipleFromTo(foo, minFoo.i, maxFoo.i, bar, minBar.j, maxBar.j);
+				{ emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n") }
+			}
+		);
+	}
+}

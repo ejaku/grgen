@@ -1,0 +1,58 @@
+#using "index_model_001b_multiple.gm"
+
+rule rfrom5to13_fromatoi {
+	modify {
+	---
+		exec(
+			for{n:E in edgesFromIndexMultipleFromTo(foo, 5, 13, bar, "a", "i");
+				{ emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n") }
+			}
+		);
+	}
+}
+
+rule rfrom5to13_fromjtoz {
+	modify {
+	---
+		exec(
+			for{n:E in edgesFromIndexMultipleFromTo(foo, 5, 13, bar, "j", "z");
+				{ emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n") }
+			}
+		);
+	}
+}
+
+rule rfrom1to10_fromatoj {
+	modify {
+	---
+		exec(
+			for{n:E in edgesFromIndexMultipleFromTo(foo, 1, 10, bar, "a", "j");
+				{ emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n") }
+			}
+		);
+	}
+}
+
+rule rfrom1to10_fromktoz {
+	modify {
+	---
+		exec(
+			for{n:E in edgesFromIndexMultipleFromTo(foo, 1, 10, bar, "k", "z");
+				{ emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n") }
+			}
+		);
+	}
+}
+
+rule rfrommintomaxmultiple {
+	modify {
+	---
+		exec(
+			//for{n:E in edgesFromIndexMultipleFromTo(foo, ((E)minEdgeFromIndex(foo)).i, ((E)maxEdgeFromIndex(foo)).i, bar, ((E)minEdgeFromIndex(bar)).j, ((E)maxEdgeFromIndex(bar)).j); ...}
+			minFoo:E ;> { minFoo=(E)minEdgeFromIndex(foo) } ;> maxFoo:E ;> { maxFoo=(E)maxEdgeFromIndex(foo) } ;> minBar:E ;> { minBar=(E)minEdgeFromIndex(bar) } ;> maxBar:E ;> { maxBar=(E)maxEdgeFromIndex(bar) } ;>
+			for{n:E in edgesFromIndexMultipleFromTo(foo, minFoo.i, maxFoo.i, bar, minBar.j, maxBar.j);
+				{ emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n") }
+			}
+		);
+	}
+}
