@@ -299,5 +299,161 @@ namespace de.unika.ipd.grGen.libGr
 
             return false;
         }
+
+        /////////////////////////////////////////////////////////////////////////////////
+
+        public static int Min(Dictionary<SByte, SetValueType> set)
+        {
+            int min = SByte.MaxValue;
+            foreach(SByte elem in set.Keys)
+            {
+                min = Math.Min(min, elem);
+            }
+            return min;
+        }
+
+        public static int Min(Dictionary<Int16, SetValueType> set)
+        {
+            int min = Int16.MaxValue;
+            foreach(Int16 elem in set.Keys)
+            {
+                min = Math.Min(min, elem);
+            }
+            return min;
+        }
+
+        public static int Min(Dictionary<Int32, SetValueType> set)
+        {
+            int min = Int32.MaxValue;
+            foreach(Int32 elem in set.Keys)
+            {
+                min = Math.Min(min, elem);
+            }
+            return min;
+        }
+
+        public static long Min(Dictionary<Int64, SetValueType> set)
+        {
+            long min = Int64.MaxValue;
+            foreach(Int64 elem in set.Keys)
+            {
+                min = Math.Min(min, elem);
+            }
+            return min;
+        }
+
+        public static float Min(Dictionary<Single, SetValueType> set)
+        {
+            float min = Single.MaxValue;
+            foreach(Single elem in set.Keys)
+            {
+                min = Math.Min(min, elem);
+            }
+            return min;
+        }
+
+        public static double Min(Dictionary<Double, SetValueType> set)
+        {
+            double min = Double.MaxValue;
+            foreach(Double elem in set.Keys)
+            {
+                min = Math.Min(min, elem);
+            }
+            return min;
+        }
+
+        public static object Min(IDictionary set)
+        {
+            if(set is Dictionary<SByte, SetValueType>)
+                return Min(set as Dictionary<SByte, SetValueType>);
+            else if(set is Dictionary<Int16, SetValueType>)
+                return Min(set as Dictionary<Int16, SetValueType>);
+            else if(set is Dictionary<Int32, SetValueType>)
+                return Min(set as Dictionary<Int32, SetValueType>);
+            else if(set is Dictionary<Int64, SetValueType>)
+                return Min(set as Dictionary<Int64, SetValueType>);
+            else if(set is Dictionary<Single, SetValueType>)
+                return Min(set as Dictionary<Single, SetValueType>);
+            else
+                return Min(set as Dictionary<Double, SetValueType>);
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////
+
+        public static int Max(Dictionary<SByte, SetValueType> set)
+        {
+            int max = SByte.MinValue;
+            foreach(SByte elem in set.Keys)
+            {
+                max = Math.Max(max, elem);
+            }
+            return max;
+        }
+
+        public static int Max(Dictionary<Int16, SetValueType> set)
+        {
+            int max = Int16.MinValue;
+            foreach(Int16 elem in set.Keys)
+            {
+                max = Math.Max(max, elem);
+            }
+            return max;
+        }
+
+        public static int Max(Dictionary<Int32, SetValueType> set)
+        {
+            int max = Int32.MinValue;
+            foreach(Int32 elem in set.Keys)
+            {
+                max = Math.Max(max, elem);
+            }
+            return max;
+        }
+
+        public static long Max(Dictionary<Int64, SetValueType> set)
+        {
+            long max = Int64.MinValue;
+            foreach(Int64 elem in set.Keys)
+            {
+                max = Math.Max(max, elem);
+            }
+            return max;
+        }
+
+        public static float Max(Dictionary<Single, SetValueType> set)
+        {
+            float max = Single.MinValue;
+            foreach(Single elem in set.Keys)
+            {
+                max = Math.Max(max, elem);
+            }
+            return max;
+        }
+
+        public static double Max(Dictionary<Double, SetValueType> set)
+        {
+            double max = Double.MinValue;
+            foreach(Double elem in set.Keys)
+            {
+                max = Math.Max(max, elem);
+            }
+            return max;
+        }
+
+        public static object Max(IDictionary set)
+        {
+            if(set is Dictionary<SByte, SetValueType>)
+                return Max(set as Dictionary<SByte, SetValueType>);
+            else if(set is Dictionary<Int16, SetValueType>)
+                return Max(set as Dictionary<Int16, SetValueType>);
+            else if(set is Dictionary<Int32, SetValueType>)
+                return Max(set as Dictionary<Int32, SetValueType>);
+            else if(set is Dictionary<Int64, SetValueType>)
+                return Max(set as Dictionary<Int64, SetValueType>);
+            else if(set is Dictionary<Single, SetValueType>)
+                return Max(set as Dictionary<Single, SetValueType>);
+            else
+                return Max(set as Dictionary<Double, SetValueType>);
+        }
     }
 }

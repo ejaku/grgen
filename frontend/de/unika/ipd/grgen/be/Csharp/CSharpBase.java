@@ -209,6 +209,8 @@ import de.unika.ipd.grgen.ir.expr.set.SetAsArrayExpr;
 import de.unika.ipd.grgen.ir.expr.set.SetCopyConstructor;
 import de.unika.ipd.grgen.ir.expr.set.SetEmptyExpr;
 import de.unika.ipd.grgen.ir.expr.set.SetInit;
+import de.unika.ipd.grgen.ir.expr.set.SetMaxExpr;
+import de.unika.ipd.grgen.ir.expr.set.SetMinExpr;
 import de.unika.ipd.grgen.ir.expr.set.SetPeekExpr;
 import de.unika.ipd.grgen.ir.expr.set.SetSizeExpr;
 import de.unika.ipd.grgen.ir.expr.string.StringAsArray;
@@ -1274,6 +1276,26 @@ public abstract class CSharpBase
 				genExpression(sb, sp.getTargetExpr(), modifyGenerationState);
 				sb.append(", ");
 				genExpression(sb, sp.getNumberExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		} else if(expr instanceof SetMinExpr) {
+			SetMinExpr sm = (SetMinExpr)expr;
+			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(sm));
+			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
+				sb.append("GRGEN_LIBGR.ContainerHelper.Min(");
+				genExpression(sb, sm.getTargetExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		} else if(expr instanceof SetMaxExpr) {
+			SetMaxExpr sm = (SetMaxExpr)expr;
+			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(sm));
+			} else {
+				switchToVarForResultAsNeeded(modifyGenerationState);
+				sb.append("GRGEN_LIBGR.ContainerHelper.Max(");
+				genExpression(sb, sm.getTargetExpr(), modifyGenerationState);
 				sb.append(")");
 			}
 		} else if(expr instanceof SetAsArrayExpr) {

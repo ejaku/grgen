@@ -239,6 +239,8 @@ import de.unika.ipd.grgen.ir.expr.set.SetAsArrayExpr;
 import de.unika.ipd.grgen.ir.expr.set.SetCopyConstructor;
 import de.unika.ipd.grgen.ir.expr.set.SetEmptyExpr;
 import de.unika.ipd.grgen.ir.expr.set.SetInit;
+import de.unika.ipd.grgen.ir.expr.set.SetMaxExpr;
+import de.unika.ipd.grgen.ir.expr.set.SetMinExpr;
 import de.unika.ipd.grgen.ir.expr.set.SetPeekExpr;
 import de.unika.ipd.grgen.ir.expr.set.SetSizeExpr;
 import de.unika.ipd.grgen.ir.expr.string.StringAsArray;
@@ -678,6 +680,16 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			genExpressionTree(sb, sp.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			genExpressionTree(sb, sp.getNumberExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		} else if(expr instanceof SetMinExpr) {
+			SetMinExpr sm = (SetMinExpr)expr;
+			sb.append("new GRGEN_EXPR.SetMin(");
+			genExpressionTree(sb, sm.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		} else if(expr instanceof SetMaxExpr) {
+			SetMaxExpr sm = (SetMaxExpr)expr;
+			sb.append("new GRGEN_EXPR.SetMax(");
+			genExpressionTree(sb, sm.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		} else if(expr instanceof SetAsArrayExpr) {
 			SetAsArrayExpr saa = (SetAsArrayExpr)expr;

@@ -1,0 +1,15 @@
+#using "set_model_002.gm"
+
+rule r
+{
+	a:A;
+	
+	if { set<int>{0,1,2}.min() < a.intSet.max(); }
+	
+	modify {
+		eval {
+			def var minVal:int = a.intSet.min();
+			def var maxVal:int = set<int>{0,1,2}.max();
+		}
+	}
+}

@@ -70,6 +70,8 @@ import de.unika.ipd.grgen.ast.expr.map.MapRangeNode;
 import de.unika.ipd.grgen.ast.expr.map.MapSizeNode;
 import de.unika.ipd.grgen.ast.expr.set.SetAsArrayNode;
 import de.unika.ipd.grgen.ast.expr.set.SetEmptyNode;
+import de.unika.ipd.grgen.ast.expr.set.SetMaxNode;
+import de.unika.ipd.grgen.ast.expr.set.SetMinNode;
 import de.unika.ipd.grgen.ast.expr.set.SetPeekNode;
 import de.unika.ipd.grgen.ast.expr.set.SetSizeNode;
 import de.unika.ipd.grgen.ast.expr.string.StringAsArrayNode;
@@ -340,6 +342,18 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 				return null;
 			} else
 				return new SetPeekNode(env.getCoords(), targetExpr, arguments.get(0));
+		case "min":
+			if(arguments.size() != 0) {
+				env.reportError("set<T>.min() expects 0 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else
+				return new SetMinNode(env.getCoords(), targetExpr);
+		case "max":
+			if(arguments.size() != 0) {
+				env.reportError("set<T>.max() expects 0 arguments (given are " + arguments.size() + " arguments).");
+				return null;
+			} else
+				return new SetMaxNode(env.getCoords(), targetExpr);
 		case "asArray":
 			if(arguments.size() != 0) {
 				env.reportError("set<T>.asArray() expects 0 arguments (given are " + arguments.size() + " arguments).");

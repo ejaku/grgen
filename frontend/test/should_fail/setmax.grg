@@ -1,0 +1,7 @@
+rule r
+{
+	if { set<Node>{}.max() != null; }
+	
+	modify {
+	}
+}

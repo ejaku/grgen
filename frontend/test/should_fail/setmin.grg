@@ -1,0 +1,7 @@
+rule r
+{
+	if { set<object>{}.min() != null; }
+	
+	modify {
+	}
+}

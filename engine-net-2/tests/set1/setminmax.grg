@@ -1,0 +1,27 @@
+using set1;
+
+rule minmaxTest(ref niceSet:set<double>)
+{
+	a:A;
+	
+---
+	def var min:int;
+	def var max:int;
+	def var niceMin:double;
+	def var niceMax:double;
+	
+	yield {
+		yield min = a.ac.min();
+		yield niceMin = niceSet.min();
+		yield max = a.ac.max();
+		yield niceMax = niceSet.max();
+	}
+
+	 modify {
+	---
+		emit("1 value of attribute 5 6 " + min + "\n");
+		emit("1 value of attribute 5 6 " + max + "\n");
+		emit("1 value of attribute 5 6 " + niceMin + "\n");
+		emit("1 value of attribute 5 6 " + niceMax + "\n");
+	}
+}
