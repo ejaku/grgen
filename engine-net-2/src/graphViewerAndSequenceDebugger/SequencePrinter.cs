@@ -1900,11 +1900,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             case SequenceExpressionType.ArrayProd:
                 PrintSequenceExpressionArrayProd((SequenceExpressionArrayProd)seqExpr, parent, highlightingMode);
                 break;
-            case SequenceExpressionType.ArrayMin:
-                PrintSequenceExpressionArrayMin((SequenceExpressionArrayMin)seqExpr, parent, highlightingMode);
+            case SequenceExpressionType.ArrayOrSetMin:
+                PrintSequenceExpressionArrayOrSetMin((SequenceExpressionArrayOrSetMin)seqExpr, parent, highlightingMode);
                 break;
-            case SequenceExpressionType.ArrayMax:
-                PrintSequenceExpressionArrayMax((SequenceExpressionArrayMax)seqExpr, parent, highlightingMode);
+            case SequenceExpressionType.ArrayOrSetMax:
+                PrintSequenceExpressionArrayOrSetMax((SequenceExpressionArrayOrSetMax)seqExpr, parent, highlightingMode);
                 break;
             case SequenceExpressionType.ArrayAvg:
                 PrintSequenceExpressionArrayAvg((SequenceExpressionArrayAvg)seqExpr, parent, highlightingMode);
@@ -2632,13 +2632,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             env.PrintHighlighted(".prod()", highlightingMode);
         }
 
-        private void PrintSequenceExpressionArrayMin(SequenceExpressionArrayMin seqExprArrayMin, SequenceBase parent, HighlightingMode highlightingMode)
+        private void PrintSequenceExpressionArrayOrSetMin(SequenceExpressionArrayOrSetMin seqExprArrayMin, SequenceBase parent, HighlightingMode highlightingMode)
         {
             PrintSequenceExpression(seqExprArrayMin.ContainerExpr, seqExprArrayMin, highlightingMode);
             env.PrintHighlighted(".min()", highlightingMode);
         }
 
-        private void PrintSequenceExpressionArrayMax(SequenceExpressionArrayMax seqExprArrayMax, SequenceBase parent, HighlightingMode highlightingMode)
+        private void PrintSequenceExpressionArrayOrSetMax(SequenceExpressionArrayOrSetMax seqExprArrayMax, SequenceBase parent, HighlightingMode highlightingMode)
         {
             PrintSequenceExpression(seqExprArrayMax.ContainerExpr, seqExprArrayMax, highlightingMode);
             env.PrintHighlighted(".max()", highlightingMode);

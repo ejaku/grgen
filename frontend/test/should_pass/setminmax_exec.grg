@@ -1,0 +1,12 @@
+#using "set_model_002.gm"
+
+rule r
+{
+	a:A;
+	
+	modify {
+	---
+		exec( {{ set<int>{0,1,2}.min() < a.intSet.max() && a.intSet.min() > set<int>{0,1,2}.max() }} );
+		exec( {{ ::x.min() < ::x.max() }} );
+	}
+}

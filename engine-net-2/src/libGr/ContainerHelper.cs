@@ -292,6 +292,36 @@ namespace de.unika.ipd.grGen.libGr
 
         /////////////////////////////////////////////////////////////////////////////////
 
+        public static object ContainerMin(object container)
+        {
+            if(container is IList)
+            {
+                IList array = (IList)container;
+                return Min(array);
+            }
+            else
+            {
+                IDictionary set = (IDictionary)container;
+                return Min(set);
+            }
+        }
+
+        public static object ContainerMax(object container)
+        {
+            if(container is IList)
+            {
+                IList array = (IList)container;
+                return Max(array);
+            }
+            else
+            {
+                IDictionary set = (IDictionary)container;
+                return Max(set);
+            }
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////
+
         public static void AssignAttribute(object target, object value, string attributeName, IGraph graph)
         {
             if(target is IGraphElement)

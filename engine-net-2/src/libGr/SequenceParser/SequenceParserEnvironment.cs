@@ -2267,6 +2267,18 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                     throw new ParseException("\"" + functionMethodName + "\" expects none or one parameter)");
                 return new SequenceExpressionContainerPeek(targetExpr, argExprs.Count != 0 ? argExprs[0] : null);
             }
+            else if(functionMethodName == "min")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayOrSetMin(targetExpr);
+            }
+            else if(functionMethodName == "max")
+            {
+                if(argExprs.Count != 0)
+                    throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
+                return new SequenceExpressionArrayOrSetMax(targetExpr);
+            }
             else if(functionMethodName == "sum")
             {
                 if(argExprs.Count != 0)
@@ -2278,18 +2290,6 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                 if(argExprs.Count != 0)
                     throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
                 return new SequenceExpressionArrayProd(targetExpr);
-            }
-            else if(functionMethodName == "min")
-            {
-                if(argExprs.Count != 0)
-                    throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
-                return new SequenceExpressionArrayMin(targetExpr);
-            }
-            else if(functionMethodName == "max")
-            {
-                if(argExprs.Count != 0)
-                    throw new ParseException("\"" + functionMethodName + "\" expects no parameters)");
-                return new SequenceExpressionArrayMax(targetExpr);
             }
             else if(functionMethodName == "avg")
             {

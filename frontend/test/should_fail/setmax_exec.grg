@@ -1,0 +1,4 @@
+sequence s
+{
+	{{ set<Node>{}.max() != null }}
+}

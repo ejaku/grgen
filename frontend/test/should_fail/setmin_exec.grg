@@ -1,0 +1,4 @@
+sequence s
+{
+	{{ set<object>{}.min() != null }}
+}

@@ -6,22 +6,34 @@ rule minmaxTest(ref niceSet:set<double>)
 	
 ---
 	def var min:int;
-	def var max:int;
-	def var niceMin:double;
 	def var niceMax:double;
 	
 	yield {
 		yield min = a.ac.min();
-		yield niceMin = niceSet.min();
-		yield max = a.ac.max();
 		yield niceMax = niceSet.max();
 	}
 
-	 modify {
+	modify {
 	---
 		emit("1 value of attribute 5 6 " + min + "\n");
-		emit("1 value of attribute 5 6 " + max + "\n");
-		emit("1 value of attribute 5 6 " + niceMin + "\n");
+		emit("1 value of attribute 5 6 " + a.ac.max() + "\n");
+		emit("1 value of attribute 5 6 " + niceSet.min() + "\n");
 		emit("1 value of attribute 5 6 " + niceMax + "\n");
+	}
+}
+
+rule minmaxTestExec
+{
+	a:A;
+	
+---
+	modify {
+	---
+		exec( {
+			emit("1 value of attribute 5 6 " + a.ac.min() + "\n");
+			emit("1 value of attribute 5 6 " + set<int>{1,2}.max() + "\n");
+			emit("1 value of attribute 5 6 " + ::niceSetGlob.min() + "\n");
+			emit("1 value of attribute 5 6 " + ::niceSetGlob.max() + "\n");
+		} );
 	}
 }

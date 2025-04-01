@@ -1,0 +1,11 @@
+new graph set1/setminmax
+
+new na:A
+na.ac
+
+niceSetGlob = set<double>{42.42, 44.44, 43.43}
+show var niceSetGlob
+
+exec minmaxTestExec
+
+quit
