@@ -4722,7 +4722,7 @@ namespace de.unika.ipd.grGen.libGr
             if(containerValue is IDictionary)
                 return ContainerHelper.Min((IDictionary)containerValue);
             else
-                return ContainerHelper.Min((IList)procEnv);
+                return ContainerHelper.Min((IList)containerValue);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -4799,7 +4799,7 @@ namespace de.unika.ipd.grGen.libGr
             if(containerValue is IDictionary)
                 return ContainerHelper.Max((IDictionary)containerValue);
             else
-                return ContainerHelper.Max((IList)procEnv);
+                return ContainerHelper.Max((IList)containerValue);
 
         }
 
