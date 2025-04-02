@@ -1,0 +1,14 @@
+node class N
+{
+	i : int;
+}
+
+node class N2 extends N
+{
+}
+
+node class N3 extends N2
+{
+}
+
+index foo { N2.i }

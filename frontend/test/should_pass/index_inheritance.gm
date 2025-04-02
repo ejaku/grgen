@@ -1,0 +1,20 @@
+node class N
+{
+	i : int;
+}
+
+node class N2 extends N
+{
+}
+
+edge class E
+{
+	i : int;
+}
+
+edge class E2 extends E
+{
+}
+
+index foo { N2.i }
+index bar { E2.i }

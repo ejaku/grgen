@@ -1,0 +1,13 @@
+#using "index_inheritance.gm"
+
+rule r {
+	n2:N2{ascending(foo>=42)} -e2:E2{ascending(bar<42)}-> n2;
+	
+	if { nodesFromIndex(foo).size() > 0 && edgesFromIndex(bar).size() > 0; }
+	
+	replace {
+	---
+		def var res:int;
+		eval { yield res = nodesFromIndex(foo).size() + edgesFromIndex(bar).size(); }
+	}
+}

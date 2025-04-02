@@ -3999,7 +3999,7 @@ commonLoop:
 		sb.appendFront("new GRGEN_LIBGR.AttributeIndexDescription(");
 		sb.append("\"" + index.getIdent() + "\", ");
 		sb.append(formatTypeClassName(index.type) + ".typeVar, ");
-		sb.append(formatTypeClassName(index.type) + "." + formatAttributeTypeName(index.entity));
+		sb.append(formatTypeClassName(index.entity.getOwner()) + "." + formatAttributeTypeName(index.entity));
 		sb.append("),\n");
 	}
 

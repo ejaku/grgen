@@ -1,0 +1,12 @@
+#using "index_model_001_inheritance.gm"
+
+rule rall {
+	n:N{ascending(foo)};
+	
+	if{ n in nodesFromIndex(foo); }
+	
+	modify {
+	---
+		emit("The value of attribute i is " + n.i + "\n");
+	}
+}
