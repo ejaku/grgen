@@ -53,10 +53,10 @@ rule findCliquesOf4Opt[parallelize=16]
 	if{ uniqueof(pn1) < uniqueof(pn2); }
 	if{ uniqueof(pn2) < uniqueof(pn3); }
 	if{ uniqueof(pn3) < uniqueof(pn4); }
-	if{ countPersonToMovie[pn1] >= 3; }
-	if{ countPersonToMovie[pn2] >= 3; }
-	if{ countPersonToMovie[pn3] >= 3; }
-	if{ countPersonToMovie[pn4] >= 3; }
+	if{ countFromIndex(countPersonToMovie, pn1) >= 3; }
+	if{ countFromIndex(countPersonToMovie, pn2) >= 3; }
+	if{ countFromIndex(countPersonToMovie, pn3) >= 3; }
+	if{ countFromIndex(countPersonToMovie, pn4) >= 3; }
 	
 	modify {
 		c:Clique;

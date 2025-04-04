@@ -49,9 +49,9 @@ rule findCliquesOf3Opt[parallelize=16]
 	}
 	if{ uniqueof(pn1) < uniqueof(pn2); }
 	if{ uniqueof(pn2) < uniqueof(pn3); }
-	if{ countPersonToMovie[pn1] >= 3; }
-	if{ countPersonToMovie[pn2] >= 3; }
-	if{ countPersonToMovie[pn3] >= 3; }
+	if{ countFromIndex(countPersonToMovie, pn1) >= 3; }
+	if{ countFromIndex(countPersonToMovie, pn2) >= 3; }
+	if{ countFromIndex(countPersonToMovie, pn3) >= 3; }
 	
 	modify {
 		c:Clique;
@@ -136,8 +136,8 @@ function getIndexOfLeastConnectedPerson(ref persons:array<Person>) : int
 	def var value:int = 2147483647;
 	for(i:int->p:Person in persons)
 	{
-		if(countPersonToMovie[p] <= value) {
-			value = countPersonToMovie[p];
+		if(countFromIndex(countPersonToMovie, p) <= value) {
+			value = countFromIndex(countPersonToMovie, p);
 			idx = i;
 		}
 	}
