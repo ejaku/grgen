@@ -418,16 +418,17 @@ namespace de.unika.ipd.grGen.lgsp
                 if(!NeverAboveMaxIsoSpace)
                     sourceCode.Append("(isoSpace < (int) GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE ? ");
 
+                string typeOfGraphElementWithUniqueId = IsNode ? "GRGEN_LGSP.LGSPNodeWithUniqueId" : "GRGEN_LGSP.LGSPEdgeWithUniqueId";
                 string isMatchedBit = "(uint)GRGEN_LGSP.LGSPElemFlagsParallel.IS_MATCHED << isoSpace";
                 if(LockForAllThreads)
                 {
-                    sourceCode.AppendFormat("( flagsPerElement0[{0}.uniqueId] & {1} ) != 0",
-                        variableContainingCandidate, isMatchedBit);
+                    sourceCode.AppendFormat("( flagsPerElement0[(({0}){1}).uniqueId] & {2} ) != 0",
+                        typeOfGraphElementWithUniqueId, variableContainingCandidate, isMatchedBit);
                 }
                 else
                 {
-                    sourceCode.AppendFormat("( flagsPerElement[{0}.uniqueId] & {1} ) != 0",
-                        variableContainingCandidate, isMatchedBit);
+                    sourceCode.AppendFormat("( flagsPerElement[(({0}){1}).uniqueId] & {2} ) != 0",
+                        typeOfGraphElementWithUniqueId, variableContainingCandidate, isMatchedBit);
                 }
 
                 if(!NeverAboveMaxIsoSpace)
@@ -581,8 +582,10 @@ namespace de.unika.ipd.grGen.lgsp
                 if(!NeverAboveMaxIsoSpace)
                     sourceCode.Append("(isoSpace < (int) GRGEN_LGSP.LGSPElemFlagsParallel.MAX_ISO_SPACE ? ");
 
+                string typeOfGraphElementWithUniqueId = IsNode ? "GRGEN_LGSP.LGSPNodeWithUniqueId" : "GRGEN_LGSP.LGSPEdgeWithUniqueId";
                 string isMatchedBit = "(uint)GRGEN_LGSP.LGSPElemFlagsParallel.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
-                sourceCode.AppendFormat("( flagsPerElementGlobal[{0}.uniqueId] & {1} ) == {1}",
+                sourceCode.AppendFormat("( flagsPerElementGlobal[(({0}){1}).uniqueId] & {2} ) == {2}",
+                    typeOfGraphElementWithUniqueId,
                     variableContainingCandidate,
                     isMatchedBit);
 

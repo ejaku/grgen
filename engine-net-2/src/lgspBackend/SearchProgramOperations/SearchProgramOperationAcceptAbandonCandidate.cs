@@ -59,24 +59,29 @@ namespace de.unika.ipd.grGen.lgsp
                     sourceCode.Indent();
                 }
 
+                string typeOfGraphElementWithUniqueId = IsNode ? "GRGEN_LGSP.LGSPNodeWithUniqueId" : "GRGEN_LGSP.LGSPEdgeWithUniqueId";
                 string isMatchedBit = "(uint)GRGEN_LGSP.LGSPElemFlagsParallel.IS_MATCHED << isoSpace";
                 if(LockForAllThreads)
                 {
-                    sourceCode.AppendFrontFormat("{0} = flagsPerElement0[{1}.uniqueId] & {2};\n",
+                    sourceCode.AppendFrontFormat("{0} = flagsPerElement0[(({1}){2}).uniqueId] & {3};\n",
                         variableContainingBackupOfMappedMember,
+                        typeOfGraphElementWithUniqueId,
                         variableContainingCandidate,
                         isMatchedBit);
-                    sourceCode.AppendFrontFormat("for(int i=0; i<numWorkerThreads; ++i) graph.flagsPerThreadPerElement[i][{0}.uniqueId] |= (ushort)({1});\n",
+                    sourceCode.AppendFrontFormat("for(int i=0; i<numWorkerThreads; ++i) graph.flagsPerThreadPerElement[i][(({0}){1}).uniqueId] |= (ushort)({2});\n",
+                        typeOfGraphElementWithUniqueId,
                         variableContainingCandidate,
                         isMatchedBit);
                 }
                 else
                 {
-                    sourceCode.AppendFrontFormat("{0} = flagsPerElement[{1}.uniqueId] & {2};\n",
+                    sourceCode.AppendFrontFormat("{0} = flagsPerElement[(({1}){2}).uniqueId] & {3};\n",
                         variableContainingBackupOfMappedMember,
+                        typeOfGraphElementWithUniqueId,
                         variableContainingCandidate,
                         isMatchedBit);
-                    sourceCode.AppendFrontFormat("flagsPerElement[{0}.uniqueId] |= (ushort)({1});\n",
+                    sourceCode.AppendFrontFormat("flagsPerElement[(({0}){1}).uniqueId] |= (ushort)({2});\n",
+                        typeOfGraphElementWithUniqueId,
                         variableContainingCandidate,
                         isMatchedBit);
                 }
@@ -194,12 +199,15 @@ namespace de.unika.ipd.grGen.lgsp
                     sourceCode.Indent();
                 }
 
+                string typeOfGraphElementWithUniqueId = IsNode ? "GRGEN_LGSP.LGSPNodeWithUniqueId" : "GRGEN_LGSP.LGSPEdgeWithUniqueId";
                 string isMatchedBit = "(uint)GRGEN_LGSP.LGSPElemFlagsParallel.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
-                sourceCode.AppendFrontFormat("{0} = flagsPerElementGlobal[{1}.uniqueId] & {2};\n",
+                sourceCode.AppendFrontFormat("{0} = flagsPerElementGlobal[(({1}){2}).uniqueId] & {3};\n",
                     variableContainingBackupOfMappedMember,
+                    typeOfGraphElementWithUniqueId,
                     variableContainingCandidate,
                     isMatchedBit);
-                sourceCode.AppendFrontFormat("flagsPerElementGlobal[{0}.uniqueId] |= (ushort)({1});\n",
+                sourceCode.AppendFrontFormat("flagsPerElementGlobal[(({0}){1}).uniqueId] |= (ushort)({2});\n",
+                    typeOfGraphElementWithUniqueId,
                     variableContainingCandidate,
                     isMatchedBit);
 
@@ -350,17 +358,20 @@ namespace de.unika.ipd.grGen.lgsp
                     sourceCode.Indent();
                 }
 
+                string typeOfGraphElementWithUniqueId = IsNode ? "GRGEN_LGSP.LGSPNodeWithUniqueId" : "GRGEN_LGSP.LGSPEdgeWithUniqueId";
                 string isMatchedBit = "(uint)GRGEN_LGSP.LGSPElemFlagsParallel.IS_MATCHED << isoSpace";
                 if(LockForAllThreads)
                 {
-                    sourceCode.AppendFrontFormat("for(int i=0; i<numWorkerThreads; ++i) graph.flagsPerThreadPerElement[i][{0}.uniqueId] &= (ushort)(~({1}) | {2});\n",
+                    sourceCode.AppendFrontFormat("for(int i=0; i<numWorkerThreads; ++i) graph.flagsPerThreadPerElement[i][(({0}){1}).uniqueId] &= (ushort)(~({2}) | {3});\n",
+                        typeOfGraphElementWithUniqueId,
                         variableContainingCandidate,
                         isMatchedBit,
                         variableContainingBackupOfMappedMember);
                 }
                 else
                 {
-                    sourceCode.AppendFrontFormat("flagsPerElement[{0}.uniqueId] &= (ushort)(~({1}) | {2});\n",
+                    sourceCode.AppendFrontFormat("flagsPerElement[(({0}){1}).uniqueId] &= (ushort)(~({2}) | {3});\n",
+                        typeOfGraphElementWithUniqueId,
                         variableContainingCandidate,
                         isMatchedBit, 
                         variableContainingBackupOfMappedMember);
@@ -478,8 +489,10 @@ namespace de.unika.ipd.grGen.lgsp
                     sourceCode.Indent();
                 }
 
+                string typeOfGraphElementWithUniqueId = IsNode ? "GRGEN_LGSP.LGSPNodeWithUniqueId" : "GRGEN_LGSP.LGSPEdgeWithUniqueId";
                 string isMatchedBit = "(uint)GRGEN_LGSP.LGSPElemFlagsParallel.IS_MATCHED_BY_ENCLOSING_PATTERN << isoSpace";
-                sourceCode.AppendFrontFormat("flagsPerElementGlobal[{0}.uniqueId] &= (ushort)(~({1}) | {2});\n",
+                sourceCode.AppendFrontFormat("flagsPerElementGlobal[(({0}){1}).uniqueId] &= (ushort)(~({2}) | {3});\n",
+                    typeOfGraphElementWithUniqueId,
                     variableContainingCandidate,
                     isMatchedBit,
                     variableContainingBackupOfMappedMember);

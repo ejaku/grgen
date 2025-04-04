@@ -1537,13 +1537,13 @@ namespace de.unika.ipd.grGen.lgsp
         public override void SetInternallyVisited(IGraphElement elem, bool visited, int threadId)
         {
             List<ushort> flagsPerElement = flagsPerThreadPerElement[threadId];
-            LGSPNode node = elem as LGSPNode;
+            LGSPNodeWithUniqueId node = elem as LGSPNodeWithUniqueId;
             if(visited)
             {
                 if(node != null)
                     flagsPerElement[node.uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_VISITED_INTERNALLY;
                 else
-                    flagsPerElement[(elem as LGSPEdge).uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_VISITED_INTERNALLY;
+                    flagsPerElement[(elem as LGSPEdgeWithUniqueId).uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_VISITED_INTERNALLY;
             }
             else
             {
@@ -1551,7 +1551,7 @@ namespace de.unika.ipd.grGen.lgsp
                     flagsPerElement[node.uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_VISITED_INTERNALLY;
                 else
                 {
-                    flagsPerElement[(elem as LGSPEdge).uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_VISITED_INTERNALLY;
+                    flagsPerElement[(elem as LGSPEdgeWithUniqueId).uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_VISITED_INTERNALLY;
                 }
             }
         }
@@ -1566,11 +1566,11 @@ namespace de.unika.ipd.grGen.lgsp
         public override bool IsInternallyVisited(IGraphElement elem, int threadId)
         {
             List<ushort> flagsPerElement = flagsPerThreadPerElement[threadId];
-            LGSPNode node = elem as LGSPNode;
+            LGSPNodeWithUniqueId node = elem as LGSPNodeWithUniqueId;
             if(node != null)
                 return (flagsPerElement[node.uniqueId] & (ushort)LGSPElemFlagsParallel.IS_VISITED_INTERNALLY) == (ushort)LGSPElemFlagsParallel.IS_VISITED_INTERNALLY;
             else
-                return (flagsPerElement[(elem as LGSPEdge).uniqueId] & (ushort)LGSPElemFlagsParallel.IS_VISITED_INTERNALLY) == (ushort)LGSPElemFlagsParallel.IS_VISITED_INTERNALLY;
+                return (flagsPerElement[(elem as LGSPEdgeWithUniqueId).uniqueId] & (ushort)LGSPElemFlagsParallel.IS_VISITED_INTERNALLY) == (ushort)LGSPElemFlagsParallel.IS_VISITED_INTERNALLY;
         }
 
         #endregion Visited flag for internal use management

@@ -63,14 +63,15 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public abstract void Emit(SourceBuilder builder, bool parallel);
 
-        public void EmitMatchedCheckAndSet(SourceBuilder builder, bool parallel)
+        public void EmitMatchedCheckAndSet(SourceBuilder builder, bool parallel, bool isNode)
         {
             if(parallel)
             {
+                string typeOfGraphElementWithUniqueId = isNode ? "GRGEN_LGSP.LGSPNodeWithUniqueId" : "GRGEN_LGSP.LGSPEdgeWithUniqueId";
                 builder.AppendFrontFormat("List<ushort> flagsPerElement{0} = graph.flagsPerThreadPerElement[threadId];\n", this.Id);
-                builder.AppendFrontFormat("if((flagsPerElement{0}[candidate{0}.uniqueId] & (ushort)GRGEN_LGSP.LGSPElemFlagsParallel.IS_MATCHED) != 0)\n", this.Id);
+                builder.AppendFrontFormat("if((flagsPerElement{0}[(({1})candidate{0}).uniqueId] & (ushort)GRGEN_LGSP.LGSPElemFlagsParallel.IS_MATCHED) != 0)\n", this.Id, typeOfGraphElementWithUniqueId);
                 builder.AppendFrontIndented("continue;\n");
-                builder.AppendFrontFormat("flagsPerElement{0}[candidate{0}.uniqueId] |= (ushort)GRGEN_LGSP.LGSPElemFlagsParallel.IS_MATCHED;\n", this.Id);
+                builder.AppendFrontFormat("flagsPerElement{0}[(({1})candidate{0}).uniqueId] |= (ushort)GRGEN_LGSP.LGSPElemFlagsParallel.IS_MATCHED;\n", this.Id, typeOfGraphElementWithUniqueId);
             }
             else
             {
@@ -80,10 +81,13 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public void EmitMatchedReset(SourceBuilder builder, bool parallel)
+        public void EmitMatchedReset(SourceBuilder builder, bool parallel, bool isNode)
         {
             if(parallel)
-                builder.AppendFrontFormat("flagsPerElement{0}[candidate{0}.uniqueId] &= (ushort)~GRGEN_LGSP.LGSPElemFlagsParallel.IS_MATCHED;\n", this.Id);
+            {
+                string typeOfGraphElementWithUniqueId = isNode ? "GRGEN_LGSP.LGSPNodeWithUniqueId" : "GRGEN_LGSP.LGSPEdgeWithUniqueId";
+                builder.AppendFrontFormat("flagsPerElement{0}[(({1})candidate{0}).uniqueId] &= (ushort)~GRGEN_LGSP.LGSPElemFlagsParallel.IS_MATCHED;\n", this.Id, typeOfGraphElementWithUniqueId);
+            }
             else
                 builder.AppendFrontFormat("candidate{0}.lgspFlags &= ~((uint)GRGEN_LGSP.LGSPElemFlags.IS_MATCHED);\n", this.Id);
         }
@@ -274,9 +278,9 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFrontFormat("for(GRGEN_LGSP.LGSPNode head{0} = graph.nodesByTypeHeads[{1}], candidate{0} = head{0}.lgspTypeNext; candidate{0} != head{0}; candidate{0} = candidate{0}.lgspTypeNext)\n", this.Id, targetType);
             builder.AppendFront("{\n");
             builder.Indent();
-            EmitMatchedCheckAndSet(builder, parallel);
+            EmitMatchedCheckAndSet(builder, parallel, true);
             next.Emit(builder, parallel);
-            EmitMatchedReset(builder, parallel);
+            EmitMatchedReset(builder, parallel, true);
             builder.Unindent();
             builder.AppendFront("}\n");
         }
@@ -304,12 +308,12 @@ namespace de.unika.ipd.grGen.lgsp
             for(LGSPNode head = graph.nodesByTypeHeads[targetType], candidate = head.lgspTypeNext; candidate != head; candidate = candidate.lgspTypeNext)
             {
                 List<ushort> flagsPerElement = graph.flagsPerThreadPerElement[threadId];
-                if((flagsPerElement[candidate.uniqueId] & (ushort)LGSPElemFlagsParallel.IS_MATCHED) != 0)
+                if((flagsPerElement[((LGSPNodeWithUniqueId)candidate).uniqueId] & (ushort)LGSPElemFlagsParallel.IS_MATCHED) != 0)
                     continue;
-                flagsPerElement[candidate.uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_MATCHED;
+                flagsPerElement[((LGSPNodeWithUniqueId)candidate).uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_MATCHED;
                 node = candidate;
                 matched |= next.Execute(graph, includingAttributes, matches, threadId);
-                flagsPerElement[candidate.uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_MATCHED;
+                flagsPerElement[((LGSPNodeWithUniqueId)candidate).uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_MATCHED;
                 if(matches == null && matched)
                     return true;
             }
@@ -341,9 +345,9 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFrontFormat("for(GRGEN_LGSP.LGSPEdge head{0} = graph.edgesByTypeHeads[{1}], candidate{0} = head{0}.lgspTypeNext; candidate{0} != head{0}; candidate{0} = candidate{0}.lgspTypeNext)\n", this.Id, targetType);
             builder.AppendFront("{\n");
             builder.Indent();
-            EmitMatchedCheckAndSet(builder, parallel);
+            EmitMatchedCheckAndSet(builder, parallel, false);
             next.Emit(builder, parallel);
-            EmitMatchedReset(builder, parallel);
+            EmitMatchedReset(builder, parallel, false);
             builder.Unindent();
             builder.AppendFront("}\n");
         }
@@ -371,12 +375,12 @@ namespace de.unika.ipd.grGen.lgsp
             for(LGSPEdge head = graph.edgesByTypeHeads[targetType], candidate = head.lgspTypeNext; candidate != head; candidate = candidate.lgspTypeNext)
             {
                 List<ushort> flagsPerElement = graph.flagsPerThreadPerElement[threadId];
-                if((flagsPerElement[candidate.uniqueId] & (ushort)LGSPElemFlagsParallel.IS_MATCHED) != 0)
+                if((flagsPerElement[((LGSPEdgeWithUniqueId)candidate).uniqueId] & (ushort)LGSPElemFlagsParallel.IS_MATCHED) != 0)
                     continue;
-                flagsPerElement[candidate.uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_MATCHED;
+                flagsPerElement[((LGSPEdgeWithUniqueId)candidate).uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_MATCHED;
                 edge = candidate;
                 matched |= next.Execute(graph, includingAttributes, matches, threadId);
-                flagsPerElement[candidate.uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_MATCHED;
+                flagsPerElement[((LGSPEdgeWithUniqueId)candidate).uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_MATCHED;
                 if(matches == null && matched)
                     return true;
             }
@@ -469,9 +473,9 @@ namespace de.unika.ipd.grGen.lgsp
             builder.Indent();
             builder.AppendFrontFormat("if(candidate{0}.lgspType.TypeID != {1})\n", this.Id, targetType);
             builder.AppendFrontIndented("continue;\n");
-            EmitMatchedCheckAndSet(builder, parallel);
+            EmitMatchedCheckAndSet(builder, parallel, false);
             next.Emit(builder, parallel);
-            EmitMatchedReset(builder, parallel);
+            EmitMatchedReset(builder, parallel, false);
             builder.Unindent();
             builder.AppendFront("}\n");
             builder.AppendFrontFormat("while((candidate{0} = candidate{0}.lgspInNext) != head{0});\n", this.Id);
@@ -516,12 +520,12 @@ namespace de.unika.ipd.grGen.lgsp
                     List<ushort> flagsPerElement = graph.flagsPerThreadPerElement[threadId];
                     if(candidate.lgspType.TypeID != targetType)
                         continue;
-                    if((flagsPerElement[candidate.uniqueId] & (ushort)LGSPElemFlagsParallel.IS_MATCHED) != 0)
+                    if((flagsPerElement[((LGSPEdgeWithUniqueId)candidate).uniqueId] & (ushort)LGSPElemFlagsParallel.IS_MATCHED) != 0)
                         continue;
-                    flagsPerElement[candidate.uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_MATCHED;
+                    flagsPerElement[((LGSPEdgeWithUniqueId)candidate).uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_MATCHED;
                     edge = candidate;
                     matched |= next.Execute(graph, includingAttributes, matches, threadId);
-                    flagsPerElement[candidate.uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_MATCHED;
+                    flagsPerElement[((LGSPEdgeWithUniqueId)candidate).uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_MATCHED;
                     if(matches == null && matched)
                         return true;
                 }
@@ -565,9 +569,9 @@ namespace de.unika.ipd.grGen.lgsp
             builder.Indent();
             builder.AppendFrontFormat("if(candidate{0}.lgspType.TypeID != {1})\n", this.Id, targetType);
             builder.AppendFrontIndented("continue;\n");
-            EmitMatchedCheckAndSet(builder, parallel);
+            EmitMatchedCheckAndSet(builder, parallel, false);
             next.Emit(builder, parallel);
-            EmitMatchedReset(builder, parallel);
+            EmitMatchedReset(builder, parallel, false);
             builder.Unindent();
             builder.AppendFront("}\n");
             builder.AppendFrontFormat("while((candidate{0} = candidate{0}.lgspOutNext) != head{0});\n", this.Id);
@@ -612,12 +616,12 @@ namespace de.unika.ipd.grGen.lgsp
                     List<ushort> flagsPerElement = graph.flagsPerThreadPerElement[threadId];
                     if(candidate.lgspType.TypeID != targetType)
                         continue;
-                    if((flagsPerElement[candidate.uniqueId] & (ushort)LGSPElemFlagsParallel.IS_MATCHED) != 0)
+                    if((flagsPerElement[((LGSPEdgeWithUniqueId)candidate).uniqueId] & (ushort)LGSPElemFlagsParallel.IS_MATCHED) != 0)
                         continue;
-                    flagsPerElement[candidate.uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_MATCHED;
+                    flagsPerElement[((LGSPEdgeWithUniqueId)candidate).uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_MATCHED;
                     edge = candidate;
                     matched |= next.Execute(graph, includingAttributes, matches, threadId);
-                    flagsPerElement[candidate.uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_MATCHED;
+                    flagsPerElement[((LGSPEdgeWithUniqueId)candidate).uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_MATCHED;
                     if(matches == null && matched)
                         return true;
                 }
@@ -662,9 +666,9 @@ namespace de.unika.ipd.grGen.lgsp
             builder.Indent();
             builder.AppendFrontFormat("if(candidate{0}.lgspType.TypeID != {1})\n", this.Id, targetType);
             builder.AppendFrontIndented("continue;\n");
-            EmitMatchedCheckAndSet(builder, parallel);
+            EmitMatchedCheckAndSet(builder, parallel, false);
             next.Emit(builder, parallel);
-            EmitMatchedReset(builder, parallel);
+            EmitMatchedReset(builder, parallel, false);
             builder.Unindent();
             builder.AppendFront("}\n");
             builder.AppendFrontFormat("while((candidate{0} = (direction{1}==0 ? candidate{0}.lgspInhead : candidate{0}.lgspOuthead)) != head{0});\n", this.Id, directionVariable.Id);
@@ -709,12 +713,12 @@ namespace de.unika.ipd.grGen.lgsp
                     List<ushort> flagsPerElement = graph.flagsPerThreadPerElement[threadId];
                     if(candidate.lgspType.TypeID != targetType)
                         continue;
-                    if((flagsPerElement[candidate.uniqueId] & (ushort)LGSPElemFlagsParallel.IS_MATCHED) != 0)
+                    if((flagsPerElement[((LGSPEdgeWithUniqueId)candidate).uniqueId] & (ushort)LGSPElemFlagsParallel.IS_MATCHED) != 0)
                         continue;
-                    flagsPerElement[candidate.uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_MATCHED;
+                    flagsPerElement[((LGSPEdgeWithUniqueId)candidate).uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_MATCHED;
                     edge = candidate;
                     matched |= next.Execute(graph, includingAttributes, matches, threadId);
-                    flagsPerElement[candidate.uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_MATCHED;
+                    flagsPerElement[((LGSPEdgeWithUniqueId)candidate).uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_MATCHED;
                     if(matches == null && matched)
                         return true;
                 }
@@ -754,9 +758,9 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFrontFormat("GRGEN_LGSP.LGSPNode candidate{0} = candidate{1}.lgspTarget;\n", this.Id, source.Id);
             builder.AppendFrontFormat("if(candidate{0}.lgspType.TypeID != {1})\n", this.Id, targetType);
             builder.AppendFrontIndented("continue;\n");
-            EmitMatchedCheckAndSet(builder, parallel);
+            EmitMatchedCheckAndSet(builder, parallel, true);
             next.Emit(builder, parallel);
-            EmitMatchedReset(builder, parallel);
+            EmitMatchedReset(builder, parallel, true);
             builder.Unindent();
             builder.AppendFront("} while(false);\n");
         }
@@ -781,12 +785,12 @@ namespace de.unika.ipd.grGen.lgsp
             LGSPNode candidate = source.edge.lgspTarget;
             if(candidate.lgspType.TypeID != targetType)
                 return false;
-            if((flagsPerElement[candidate.uniqueId] & (ushort)LGSPElemFlagsParallel.IS_MATCHED) != 0)
+            if((flagsPerElement[((LGSPNodeWithUniqueId)candidate).uniqueId] & (ushort)LGSPElemFlagsParallel.IS_MATCHED) != 0)
                 return false;
-            flagsPerElement[candidate.uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_MATCHED;
+            flagsPerElement[((LGSPNodeWithUniqueId)candidate).uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_MATCHED;
             node = candidate;
             bool matched = next.Execute(graph, includingAttributes, matches, threadId);
-            flagsPerElement[candidate.uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_MATCHED;
+            flagsPerElement[((LGSPNodeWithUniqueId)candidate).uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_MATCHED;
             return matched;
         }
 
@@ -820,9 +824,9 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFrontFormat("GRGEN_LGSP.LGSPNode candidate{0} = candidate{1}.lgspSource;\n", this.Id, source.Id);
             builder.AppendFrontFormat("if(candidate{0}.lgspType.TypeID != {1})\n", this.Id, targetType);
             builder.AppendFrontIndented("continue;\n");
-            EmitMatchedCheckAndSet(builder, parallel);
+            EmitMatchedCheckAndSet(builder, parallel, true);
             next.Emit(builder, parallel);
-            EmitMatchedReset(builder, parallel);
+            EmitMatchedReset(builder, parallel, true);
             builder.Unindent();
             builder.AppendFront("} while(false);\n");
         }
@@ -847,12 +851,12 @@ namespace de.unika.ipd.grGen.lgsp
             LGSPNode candidate = source.edge.lgspSource;
             if(candidate.lgspType.TypeID != targetType)
                 return false;
-            if((flagsPerElement[candidate.uniqueId] & (ushort)LGSPElemFlagsParallel.IS_MATCHED) != 0)
+            if((flagsPerElement[((LGSPNodeWithUniqueId)candidate).uniqueId] & (ushort)LGSPElemFlagsParallel.IS_MATCHED) != 0)
                 return false;
-            flagsPerElement[candidate.uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_MATCHED;
+            flagsPerElement[((LGSPNodeWithUniqueId)candidate).uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_MATCHED;
             node = candidate;
             bool matched = next.Execute(graph, includingAttributes, matches, threadId);
-            flagsPerElement[candidate.uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_MATCHED;
+            flagsPerElement[((LGSPNodeWithUniqueId)candidate).uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_MATCHED;
             return matched;
         }
 
@@ -888,9 +892,9 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFrontFormat("GRGEN_LGSP.LGSPNode candidate{0} = direction{2} == 0 ? candidate{1}.lgspSource : candidate{1}.lgspTarget;\n", this.Id, source.Id, directionVariable.Id);
             builder.AppendFrontFormat("if(candidate{0}.lgspType.TypeID != {1})\n", this.Id, targetType);
             builder.AppendFrontIndented("continue;\n");
-            EmitMatchedCheckAndSet(builder, parallel);
+            EmitMatchedCheckAndSet(builder, parallel, true);
             next.Emit(builder, parallel);
-            EmitMatchedReset(builder, parallel);
+            EmitMatchedReset(builder, parallel, true);
             builder.Unindent();
             builder.AppendFront("} while(false);\n");
         }
@@ -915,12 +919,12 @@ namespace de.unika.ipd.grGen.lgsp
             LGSPNode candidate = directionVariable.direction == 0 ? source.edge.lgspSource : source.edge.lgspTarget;
             if(candidate.lgspType.TypeID != targetType)
                 return false;
-            if((flagsPerElement[candidate.uniqueId] & (ushort)LGSPElemFlagsParallel.IS_MATCHED) != 0)
+            if((flagsPerElement[((LGSPNodeWithUniqueId)candidate).uniqueId] & (ushort)LGSPElemFlagsParallel.IS_MATCHED) != 0)
                 return false;
-            flagsPerElement[candidate.uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_MATCHED;
+            flagsPerElement[((LGSPNodeWithUniqueId)candidate).uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_MATCHED;
             node = candidate;
             bool matched = next.Execute(graph, includingAttributes, matches, threadId);
-            flagsPerElement[candidate.uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_MATCHED;
+            flagsPerElement[((LGSPNodeWithUniqueId)candidate).uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_MATCHED;
             return matched;
         }
 
@@ -957,9 +961,9 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFrontFormat("GRGEN_LGSP.LGSPNode candidate{0} = candidate{2} == candidate{1}.lgspSource ? candidate{1}.lgspTarget : candidate{1}.lgspSource;\n", this.Id, source.Id, theOther.Id);
             builder.AppendFrontFormat("if(candidate{0}.lgspType.TypeID != {1})\n", this.Id, targetType);
             builder.AppendFrontIndented("continue;\n");
-            EmitMatchedCheckAndSet(builder, parallel);
+            EmitMatchedCheckAndSet(builder, parallel, true);
             next.Emit(builder, parallel);
-            EmitMatchedReset(builder, parallel);
+            EmitMatchedReset(builder, parallel, true);
             builder.Unindent();
             builder.AppendFront("} while(false);\n");
         }
@@ -984,12 +988,12 @@ namespace de.unika.ipd.grGen.lgsp
             LGSPNode candidate = theOther.node == source.edge.lgspSource ? source.edge.lgspTarget : source.edge.lgspSource;
             if(candidate.lgspType.TypeID != targetType)
                 return false;
-            if((flagsPerElement[candidate.uniqueId] & (ushort)LGSPElemFlagsParallel.IS_MATCHED) != 0)
+            if((flagsPerElement[((LGSPNodeWithUniqueId)candidate).uniqueId] & (ushort)LGSPElemFlagsParallel.IS_MATCHED) != 0)
                 return false;
-            flagsPerElement[candidate.uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_MATCHED;
+            flagsPerElement[((LGSPNodeWithUniqueId)candidate).uniqueId] |= (ushort)LGSPElemFlagsParallel.IS_MATCHED;
             node = candidate;
             bool matched = next.Execute(graph, includingAttributes, matches, threadId);
-            flagsPerElement[candidate.uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_MATCHED;
+            flagsPerElement[((LGSPNodeWithUniqueId)candidate).uniqueId] &= (ushort)~LGSPElemFlagsParallel.IS_MATCHED;
             return matched;
         }
 

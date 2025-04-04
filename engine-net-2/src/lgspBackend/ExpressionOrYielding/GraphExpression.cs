@@ -219,9 +219,9 @@ namespace de.unika.ipd.grGen.expression
             {
                 sourceCode.Append("(");
                 if(Type == UniqueofType.Node)
-                    sourceCode.Append("(GRGEN_LGSP.LGSPNode)");
+                    sourceCode.Append("(GRGEN_LGSP.LGSPNodeWithUniqueId)");
                 else if(Type == UniqueofType.Edge)
-                    sourceCode.Append("(GRGEN_LGSP.LGSPEdge)");
+                    sourceCode.Append("(GRGEN_LGSP.LGSPEdgeWithUniqueId)");
                 else if(Type == UniqueofType.Graph)
                     sourceCode.Append("(GRGEN_LGSP.LGSPGraph)");
                 else //if(Type == UniqueofType.ClassObject)

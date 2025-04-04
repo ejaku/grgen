@@ -553,6 +553,9 @@ public class ModelGen extends CSharpBase
 	{
 		boolean isNode = type instanceof NodeType;
 		String kindStr = isNode ? "Node" : "Edge";
+		String baseClass = "GRGEN_LGSP.LGSP" + kindStr;
+		if(model.isUniqueDefined())
+			baseClass += "WithUniqueId";
 		String elemname = formatInheritanceClassName(type);
 		String elemref = formatInheritanceClassRef(type);
 		String extName = type.getExternalName();
@@ -566,8 +569,8 @@ public class ModelGen extends CSharpBase
 
 		if(extName == null) {
 			sb.append("\n");
-			sb.appendFront("public sealed partial class " + elemname + " : GRGEN_LGSP.LGSP"
-					+ kindStr + ", " + ielemref + "\n");
+			sb.appendFront("public sealed partial class " + elemname + " : "
+					+ baseClass + ", " + ielemref + "\n");
 			sb.appendFront("{\n");
 			sb.indent();
 		} else { // what's that? = for "Embedding the graph rewrite system GrGen.NET into C#" (see corresponding master thesis, mono c# compiler extension)

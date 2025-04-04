@@ -64,7 +64,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public virtual void NodeAdded(INode node)
         {
-            LGSPNode nodeUnique = (LGSPNode)node;
+            LGSPNodeWithUniqueId nodeUnique = (LGSPNodeWithUniqueId)node;
             if(heap.Count == 1) // empty (one dummy needed for simpler arithmetic)
             {
                 nodeUnique.uniqueId = nextNewId;
@@ -81,7 +81,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public virtual void EdgeAdded(IEdge edge)
         {
-            LGSPEdge edgeUnique = (LGSPEdge)edge;
+            LGSPEdgeWithUniqueId edgeUnique = (LGSPEdgeWithUniqueId)edge;
             if(heap.Count == 1) // empty (one dummy needed for simpler arithmetic)
             {
                 edgeUnique.uniqueId = nextNewId;
@@ -98,30 +98,30 @@ namespace de.unika.ipd.grGen.lgsp
 
         public virtual void RemovingNode(INode node)
         {
-            LGSPNode nodeUnique = (LGSPNode)node;
+            LGSPNodeWithUniqueId nodeUnique = (LGSPNodeWithUniqueId)node;
             Insert(nodeUnique.uniqueId);
             //nodeUnique.uniqueId = -1; an index needs to access the old id
         }
 
         public virtual void RemovingEdge(IEdge edge)
         {
-            LGSPEdge edgeUnique = (LGSPEdge)edge;
+            LGSPEdgeWithUniqueId edgeUnique = (LGSPEdgeWithUniqueId)edge;
             Insert(edgeUnique.uniqueId);
             //edgeUnique.uniqueId = -1; an index needs to access the old id
         }
 
         public virtual void RetypingNode(INode oldNode, INode newNode)
         {
-            LGSPNode oldNodeUnique = (LGSPNode)oldNode;
-            LGSPNode newNodeUnique = (LGSPNode)newNode;
+            LGSPNodeWithUniqueId oldNodeUnique = (LGSPNodeWithUniqueId)oldNode;
+            LGSPNodeWithUniqueId newNodeUnique = (LGSPNodeWithUniqueId)newNode;
             newNodeUnique.uniqueId = oldNodeUnique.uniqueId;
             //oldNodeUnique.uniqueId = -1; an index needs to access the old id
         }
 
         public virtual void RetypingEdge(IEdge oldEdge, IEdge newEdge)
         {
-            LGSPEdge oldEdgeUnique = (LGSPEdge)oldEdge;
-            LGSPEdge newEdgeUnique = (LGSPEdge)newEdge;
+            LGSPEdgeWithUniqueId oldEdgeUnique = (LGSPEdgeWithUniqueId)oldEdge;
+            LGSPEdgeWithUniqueId newEdgeUnique = (LGSPEdgeWithUniqueId)newEdge;
             newEdgeUnique.uniqueId = oldEdgeUnique.uniqueId;
             //oldEdgeUnique.uniqueId = -1; an index needs to access the old id
         }
@@ -282,7 +282,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void NodeAdded(INode node)
         {
-            LGSPNode nodeUnique = (LGSPNode)node;
+            LGSPNodeWithUniqueId nodeUnique = (LGSPNodeWithUniqueId)node;
             if(heap.Count == 1) // empty (one dummy needed for simpler arithmetic)
             {
                 nodeUnique.uniqueId = nextNewId;
@@ -301,7 +301,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void EdgeAdded(IEdge edge)
         {
-            LGSPEdge edgeUnique = (LGSPEdge)edge;
+            LGSPEdgeWithUniqueId edgeUnique = (LGSPEdgeWithUniqueId)edge;
             if(heap.Count == 1) // empty (one dummy needed for simpler arithmetic)
             {
                 edgeUnique.uniqueId = nextNewId;
@@ -320,7 +320,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void RemovingNode(INode node)
         {
-            LGSPNode nodeUnique = (LGSPNode)node;
+            LGSPNodeWithUniqueId nodeUnique = (LGSPNodeWithUniqueId)node;
             Insert(nodeUnique.uniqueId);
             //nodeUnique.uniqueId = -1; an index needs to access the old id
             index[nodeUnique.uniqueId] = null;
@@ -328,7 +328,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void RemovingEdge(IEdge edge)
         {
-            LGSPEdge edgeUnique = (LGSPEdge)edge;
+            LGSPEdgeWithUniqueId edgeUnique = (LGSPEdgeWithUniqueId)edge;
             Insert(edgeUnique.uniqueId);
             //edgeUnique.uniqueId = -1; an index needs to access the old id
             index[edgeUnique.uniqueId] = null;
@@ -336,8 +336,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void RetypingNode(INode oldNode, INode newNode)
         {
-            LGSPNode oldNodeUnique = (LGSPNode)oldNode;
-            LGSPNode newNodeUnique = (LGSPNode)newNode;
+            LGSPNodeWithUniqueId oldNodeUnique = (LGSPNodeWithUniqueId)oldNode;
+            LGSPNodeWithUniqueId newNodeUnique = (LGSPNodeWithUniqueId)newNode;
             newNodeUnique.uniqueId = oldNodeUnique.uniqueId;
             //oldNodeUnique.uniqueId = -1; an index needs to access the old id
             index[newNodeUnique.uniqueId] = newNode;
@@ -345,8 +345,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void RetypingEdge(IEdge oldEdge, IEdge newEdge)
         {
-            LGSPEdge oldEdgeUnique = (LGSPEdge)oldEdge;
-            LGSPEdge newEdgeUnique = (LGSPEdge)newEdge;
+            LGSPEdgeWithUniqueId oldEdgeUnique = (LGSPEdgeWithUniqueId)oldEdge;
+            LGSPEdgeWithUniqueId newEdgeUnique = (LGSPEdgeWithUniqueId)newEdge;
             newEdgeUnique.uniqueId = oldEdgeUnique.uniqueId;
             //oldEdgeUnique.uniqueId = -1; an index needs to access the old id
             index[newEdgeUnique.uniqueId] = newEdge;

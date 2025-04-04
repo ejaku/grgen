@@ -4951,8 +4951,8 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public static long Uniqueof(object entity, IGraph graph)
         {
-            if(entity is IGraphElement)
-                return ((IGraphElement)entity).GetUniqueId();
+            if(entity is IIdentifiable) // may be implemented by objects also implementing IGraphElement
+                return ((IIdentifiable)entity).GetUniqueId();
             else if(entity is IObject)
                 return ((IObject)entity).GetUniqueId();
             else if(entity is IGraph)

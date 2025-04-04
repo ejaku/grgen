@@ -908,9 +908,9 @@ public abstract class CSharpBase
 			else {
 				sb.append("(");
 				if(uo.getEntity().getType() instanceof NodeType)
-					sb.append("(GRGEN_LGSP.LGSPNode)");
+					sb.append("(GRGEN_LGSP.LGSPNodeWithUniqueId)");
 				else if(uo.getEntity().getType() instanceof EdgeType)
-					sb.append("(GRGEN_LGSP.LGSPEdge)");
+					sb.append("(GRGEN_LGSP.LGSPEdgeWithUniqueId)");
 				else if(uo.getEntity().getType() instanceof InternalObjectType)
 					sb.append("(GRGEN_LGSP.LGSPObject)");
 				else

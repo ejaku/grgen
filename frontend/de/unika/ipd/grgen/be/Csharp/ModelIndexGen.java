@@ -1004,7 +1004,7 @@ public class ModelIndexGen extends CSharpBase
 		String attributeType = formatAttributeType(index.entity);
 		String attributeName = index.entity.getIdent().toString();
 		String graphElementType = formatElementInterfaceRef(index.type);
-		String castForUnique = index.type instanceof NodeType ? " as GRGEN_LGSP.LGSPNode" : " as GRGEN_LGSP.LGSPEdge";
+		String castForUnique = index.type instanceof NodeType ? " as GRGEN_LGSP.LGSPNodeWithUniqueId" : " as GRGEN_LGSP.LGSPEdgeWithUniqueId";
 
 		sb.appendFront("private void Skew(ref TreeNode current)\n");
 		sb.appendFront("{\n");
@@ -1994,7 +1994,7 @@ public class ModelIndexGen extends CSharpBase
 	void genIndexAATreeBalancingInsertionDeletion(IncidenceCountIndex index)
 	{
 		String graphElementType = formatElementInterfaceRef(index.getStartNodeType());
-		String castForUnique = " as GRGEN_LGSP.LGSPNode";
+		String castForUnique = " as GRGEN_LGSP.LGSPNodeWithUniqueId";
 
 		sb.appendFront("private void Skew(ref TreeNode current)\n");
 		sb.appendFront("{\n");

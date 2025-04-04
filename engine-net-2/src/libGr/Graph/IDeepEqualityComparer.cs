@@ -18,6 +18,7 @@ namespace de.unika.ipd.grGen.libGr
     /// only classes without further nesting, or lists, or trees are supported.
     /// TODO: extend to structures including shortcuts and cycles, but excluding aliasing.
     /// Was(/is) of minor importance because internal class objects are meant to enrich the graph with memory-efficient extensions, lists and trees (not with hand-written graphs supplying only inefficient pattern-matching and manipulation).
+    /// TODO: rename to sth like IDeeplyEqualityComparable
     /// </summary>
     public interface IDeepEqualityComparer
     {

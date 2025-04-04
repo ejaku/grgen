@@ -31,11 +31,6 @@ namespace de.unika.ipd.grGen.lgsp
         public uint lgspFlags;
 
         /// <summary>
-        /// contains a unique id if uniqueness was declared
-        /// </summary>
-        public int uniqueId;
-
-        /// <summary>
         /// Previous node in the list containing all the nodes of one type.
         /// The node is not part of a graph, iff typePrev is null.
         /// If typePrev is null and typeNext is not null, this node has been retyped and typeNext
@@ -475,17 +470,6 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Gets the unique id of the node.
-        /// Only available if unique ids for nodes and edges were declared in the model
-        /// (or implicitely switched on by parallelization or the declaration of some index).
-        /// </summary>
-        /// <returns>The unique id of the graph element (an arbitrary number in case uniqueness was not requested).</returns>
-        public int GetUniqueId()
-        {
-            return uniqueId;
-        }
-
-        /// <summary>
         /// Indexer that gives access to the attributes of the graph element.
         /// </summary>
         public object this[string attrName]
@@ -580,6 +564,34 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// Class implementing nodes with a unique id in the libGr search plan backend (employed if uniqueness was declared in the model)
+    /// </summary>
+    [DebuggerDisplay("LGSPNodeWithUniqueId ({Type})")]
+    public abstract class LGSPNodeWithUniqueId : LGSPNode, IIdentifiable
+    {
+        /// <summary>
+        /// contains a unique id
+        /// </summary>
+        public int uniqueId;
+
+        protected LGSPNodeWithUniqueId(NodeType nodeType)
+            : base(nodeType)
+        {
+        }
+
+        /// <summary>
+        /// Gets the unique id of the node.
+        /// Only available if unique ids for nodes and edges were declared in the model
+        /// (or implicitely switched on by parallelization or the declaration of some index).
+        /// </summary>
+        /// <returns>The unique id (of the graph element).</returns>
+        public int GetUniqueId()
+        {
+            return uniqueId;
+        }
+    }
+
+    /// <summary>
     /// Special head node of the lists containing all the nodes of one type
     /// </summary>
     [DebuggerDisplay("LGSPNodeHead")]
@@ -651,11 +663,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// contains some booleans coded as bitvector
         /// </summary>
         public uint lgspFlags;
-
-        /// <summary>
-        /// contains a unique id if uniqueness was declared
-        /// </summary>
-        public int uniqueId;
 
         /// <summary>
         /// Previous edge in the list containing all the edges of one type.
@@ -834,17 +841,6 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Gets the unique id of the edge.
-        /// Only available if unique ids for nodes and edges were declared in the model
-        /// (or implicitely switched on by parallelization or the declaration of some index).
-        /// </summary>
-        /// <returns>The unique id of the graph element (an arbitrary number in case uniqueness was not requested).</returns>
-        public int GetUniqueId()
-        {
-            return uniqueId;
-        }
-
-        /// <summary>
         /// Indexer that gives access to the attributes of the graph element.
         /// </summary>
         public object this[string attrName]
@@ -939,6 +935,40 @@ namespace de.unika.ipd.grGen.lgsp
         public override string ToString()
         {
             return Type.ToString();
+        }
+    }
+
+    /// <summary>
+    /// Class implementing edges with a unique id in the libGr search plan backend (employed if uniqueness was declared in the model)
+    /// </summary>
+    [DebuggerDisplay("LGSPEdgeWithUniqueId ({Source} -{Type}-> {Target})")]
+    public abstract class LGSPEdgeWithUniqueId : LGSPEdge, IIdentifiable
+    {
+        /// <summary>
+        /// contains a unique id
+        /// </summary>
+        public int uniqueId;
+
+        /// <summary>
+        /// Instantiates an LGSPEdge object.
+        /// </summary>
+        /// <param name="edgeType">The edge type.</param>
+        /// <param name="sourceNode">The source node.</param>
+        /// <param name="targetNode">The target node.</param>
+        protected LGSPEdgeWithUniqueId(EdgeType edgeType, LGSPNode sourceNode, LGSPNode targetNode)
+            : base(edgeType, sourceNode, targetNode)
+        {
+        }
+
+        /// <summary>
+        /// Gets the unique id of the edge.
+        /// Only available if unique ids for nodes and edges were declared in the model
+        /// (or implicitely switched on by parallelization or the declaration of some index).
+        /// </summary>
+        /// <returns>The unique id (of the graph element).</returns>
+        public int GetUniqueId()
+        {
+            return uniqueId;
         }
     }
 
