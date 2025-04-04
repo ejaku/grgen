@@ -109,7 +109,7 @@ namespace de.unika.ipd.grGen.libGr
         EdgesFromIndexFromAsArrayDescending, EdgesFromIndexFromExclusiveAsArrayDescending, EdgesFromIndexToAsArrayDescending, EdgesFromIndexToExclusiveAsArrayDescending,
         EdgesFromIndexFromToAsArrayDescending, EdgesFromIndexFromExclusiveToAsArrayDescending, EdgesFromIndexFromToExclusiveAsArrayDescending, EdgesFromIndexFromExclusiveToExclusiveAsArrayDescending,
         FromIndexMultipleFromToPart, NodesFromIndexMultipleFromTo, EdgesFromIndexMultipleFromTo,
-        MinNodeFromIndex, MaxNodeFromIndex, MinEdgeFromIndex, MaxEdgeFromIndex, IndexSize,
+        MinNodeFromIndex, MaxNodeFromIndex, MinEdgeFromIndex, MaxEdgeFromIndex, IndexSize, CountFromIndex,
         InducedSubgraph, DefinedSubgraph,
         EqualsAny, GetEquivalent,
         Nameof, Uniqueof, Typeof,
@@ -12108,6 +12108,90 @@ namespace de.unika.ipd.grGen.libGr
         public override string FunctionSymbol
         {
             get { return "indexSize"; }
+        }
+    }
+
+    public class SequenceExpressionCountFromIndex : SequenceExpressionFromIndex
+    {
+        public readonly SequenceExpression Key;
+
+        public SequenceExpressionCountFromIndex(SequenceExpression index, SequenceExpression key, SequenceExpressionType type)
+            : base(index, 0, type)
+        {
+            Key = key;
+        }
+
+        protected SequenceExpressionCountFromIndex(SequenceExpressionCountFromIndex that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionCountFromIndex(this, originalToCopy, procEnv);
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(Key.Type(env) != "") // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+            {
+                IndexDescription indexDescription = GetIndexDescription(env.Model);
+                if(!(indexDescription is IncidenceCountIndexDescription))
+                    throw new SequenceParserExceptionIncidenceCountIndexExpected(Index.Symbol, FunctionSymbol + String.Format(", {0}. argument", 1));
+
+                // maybe TODO more precise type check with TypesHelper.DotNetTypeToXgrsType(indexDescription.IndexedType) instead of RootType
+                if(!TypesHelper.IsSameOrSubtype(Key.Type(env), RootType, env.Model))
+                    throw new SequenceParserExceptionTypeMismatch(FunctionSymbol + String.Format(", {0}. argument - key type", 2), RootType, Key.Type(env));
+            }
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "int";
+        }
+
+        protected override string RootType
+        {
+            get { return "Node"; }
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            IIncidenceCountIndex index = (IIncidenceCountIndex)Index.Evaluate(procEnv);
+            IGraphElement key = (IGraphElement)Key.Evaluate(procEnv);
+            return index.GetIncidenceCount(key); // maybe TODO increment SearchSteps from PerformanceInfo on EmitProfiling
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Key.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get
+            {
+                yield return Index;
+                yield return Key;
+            }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string FunctionSymbol
+        {
+            get { return "countFromIndex"; }
+        }
+
+        public override string Symbol
+        {
+            get { return FunctionSymbol + "(" + Index.Symbol + "," + Key.Symbol + ")"; }
         }
     }
 

@@ -47,6 +47,12 @@ show var b
 show var c
 show var d
 
+exec (::a,::b)=fooincidencecountexec(@("1"), @("7")) ;> { ::c = countFromIndex(foo, @("1")); ::d = countFromIndex(qux, @("7")) }
+show var a
+show var b
+show var c
+show var d
+
 delete node @("9")
 delete node @("5")
 delete edge @("e9")

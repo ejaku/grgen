@@ -219,3 +219,33 @@ rule t5(var x:int)
 		);
 	}
 }
+
+rule indexaccess {
+	n:N;
+	
+	modify {
+	---
+		def var i:int;
+		exec ( {
+			i = countFromIndex(foo, n);
+			i = countFromIndex(bar, n);
+			i = countFromIndex(baz, n);
+
+			i = countFromIndex(foo2, n);
+			i = countFromIndex(bar2, n);
+			i = countFromIndex(baz2, n);
+
+			i = countFromIndex(foo3, n);
+			i = countFromIndex(bar3, n);
+			i = countFromIndex(baz3, n);
+
+			i = countFromIndex(foo4, n);
+			i = countFromIndex(bar4, n);
+			i = countFromIndex(baz4, n);
+
+			i = countFromIndex(foo5, n);
+			i = countFromIndex(bar5, n);
+			i = countFromIndex(baz5, n)
+		} );
+	}
+}

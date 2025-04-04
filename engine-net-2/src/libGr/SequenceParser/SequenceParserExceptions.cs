@@ -257,6 +257,40 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
+    public class SequenceParserExceptionIncidenceCountIndexExpected : SequenceParserExceptionIndexIssue
+    {
+        public override String Name { get { return IndexName; } }
+        public readonly String IndexName;
+
+        public override String Context { get { return IndexUsageContext; } }
+        public readonly String IndexUsageContext;
+
+        /// <summary>
+        /// Creates an instance with the name of the unknown index.
+        /// </summary>
+        public SequenceParserExceptionIncidenceCountIndexExpected(String indexName)
+        {
+            IndexName = indexName;
+        }
+
+        /// <summary>
+        /// Creates an instance with the name of the index plus the usage context.
+        /// </summary>
+        public SequenceParserExceptionIncidenceCountIndexExpected(String indexName, String indexUsageContext)
+            : this(indexName)
+        {
+            IndexUsageContext = indexUsageContext;
+        }
+
+        public override string Message
+        {
+            get
+            {
+                return "The index/entity \"" + IndexName + "\" is not an incidence count index" + (IndexUsageContext != null ? " (used in " + IndexUsageContext + ")" : "");
+            }
+        }
+    }
+
     public class SequenceParserExceptionIndexUnknownAccessDirection : SequenceParserExceptionIndexIssue
     {
         public override String Name { get { return IndexAccessDirection; } }

@@ -392,6 +392,8 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionMaxEdgeFromIndex((SequenceExpressionMaxEdgeFromIndex)expr, source);
             case SequenceExpressionType.IndexSize:
                 return GetSequenceExpressionIndexSize((SequenceExpressionIndexSize)expr, source);
+            case SequenceExpressionType.CountFromIndex:
+                return GetSequenceExpressionCountFromIndex((SequenceExpressionCountFromIndex)expr, source);
 
             // container expressions
             case SequenceExpressionType.InContainerOrString:
@@ -2538,6 +2540,13 @@ namespace de.unika.ipd.grGen.lgsp
         {
             string index = GetSequenceExpression(seqIndexSize.Index, source);
             return "((GRGEN_LIBGR.IIndex)" + index + ").Size";
+        }
+
+        private string GetSequenceExpressionCountFromIndex(SequenceExpressionCountFromIndex seqCountFromIndex, SourceBuilder source)
+        {
+            string index = GetSequenceExpression(seqCountFromIndex.Index, source);
+            string key = GetSequenceExpression(seqCountFromIndex.Key, source);
+            return "((GRGEN_LIBGR.IIncidenceCountIndex)" + index + ").GetIncidenceCount(" + key + ")";
         }
 
         #endregion Index expressions

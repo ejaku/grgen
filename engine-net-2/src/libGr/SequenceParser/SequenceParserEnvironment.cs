@@ -1490,6 +1490,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                 case "minEdgeFromIndex": return true;
                 case "maxEdgeFromIndex": return true;
                 case "indexSize": return true;
+                case "countFromIndex": return true;
                 default: return false;
             }
         }
@@ -2213,6 +2214,12 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                             throw new ParseException("\"indexSize\" expects 1 parameter");
                         return new SequenceExpressionIndexSize(getArgument(argExprs, 0), SequenceExpressionType.IndexSize);
                     }
+                case "countFromIndex":
+                    {
+                        if(argExprs.Count != 2)
+                            throw new ParseException("\"countFromIndex\" expects 2 parameters");
+                        return new SequenceExpressionCountFromIndex(getArgument(argExprs, 0), getArgument(argExprs, 1), SequenceExpressionType.CountFromIndex);
+                    }
                 default:
                     throw new ParseException("Unknown index function name: \"" + indexFunctionName + "\"!"
                         + " (available are nodesFromIndex|edgesFromIndex|nodesFromIndexSame|edgesFromIndexSame"
@@ -2241,7 +2248,7 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
                         + "|edgesFromIndexFromAsArrayDescending|edgesFromIndexFromExclusiveAsArrayDescending|edgesFromIndexToAsArrayDescending|edgesFromIndexToExclusiveAsArrayDescending"
                         + "|edgesFromIndexFromToAsArrayDescending|edgesFromIndexFromExclusiveToAsArrayDescending|edgesFromIndexFromToExclusiveAsArrayDescending|edgesFromIndexFromExclusiveToExclusiveAsArrayDescending"
                         + "|nodesFromIndexMultipleFromTo|edgesFromIndexMultipleFromTo"
-                        + "|minNodeFromIndex|maxNodeFromIndex|minEdgeFromIndex|maxEdgeFromIndex|indexSize"
+                        + "|minNodeFromIndex|maxNodeFromIndex|minEdgeFromIndex|maxEdgeFromIndex|indexSize|countFromIndex"
                         + ")");
             }
         }

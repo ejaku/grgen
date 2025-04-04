@@ -188,6 +188,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         /// <summary>
         /// Lookup the incidence count of the graph element given.
+        /// TODO: Shouldn't the parameter be of type INode?
         /// </summary>
         int GetIncidenceCount(IGraphElement element);
     }

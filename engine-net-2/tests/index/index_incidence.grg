@@ -195,6 +195,11 @@ rule fooincidencecount(n:Node, m:N) : (int,int,int,int) {
 	}
 }
 
+sequence fooincidencecountexec(n:Node, m:N) : (i1a:int, i1b:int) {
+	{ i1a = countFromIndex(foo, n);
+	  i1b = countFromIndex(qux, m) }
+}
+
 rule retypeNToNode(n:N) : (Node)
 {
 	modify {

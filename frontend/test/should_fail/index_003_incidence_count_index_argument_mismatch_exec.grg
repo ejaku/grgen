@@ -1,0 +1,10 @@
+#using "index_model_003.gm"
+
+rule indexaccess {
+	n:N -e:E->;
+	
+	modify {
+	---
+		exec( { { countFromIndex(foo, e)==42 } } );
+	}
+}
