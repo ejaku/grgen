@@ -57,6 +57,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	private boolean isCopyClassDefined;
 	private boolean isEqualClassDefined;
 	private boolean isLowerClassDefined;
+	private boolean isGraphofDefined;
 	private boolean isUniqueDefined;
 	private boolean isUniqueClassDefined;
 	private boolean isUniqueIndexDefined;
@@ -71,7 +72,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	private Collection<InheritanceType> allInheritanceTypes;
 
 	public Model(Ident ident, boolean isEmitClassDefined, boolean isEmitGraphClassDefined, boolean isCopyClassDefined,
-			boolean isEqualClassDefined, boolean isLowerClassDefined,
+			boolean isEqualClassDefined, boolean isLowerClassDefined, boolean isGraphofDefined,
 			boolean isUniqueDefined, boolean isUniqueClassDefined, boolean isUniqueIndexDefined,
 			boolean areFunctionsParallel, int isoParallel, int sequencesParallel)
 	{
@@ -82,6 +83,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 		this.isCopyClassDefined = isCopyClassDefined;
 		this.isEqualClassDefined = isEqualClassDefined;
 		this.isLowerClassDefined = isLowerClassDefined;
+		this.isGraphofDefined = isGraphofDefined;
 		this.isUniqueDefined = isUniqueDefined;
 		this.isUniqueClassDefined = isUniqueClassDefined;
 		this.isUniqueIndexDefined = isUniqueIndexDefined;
@@ -326,6 +328,11 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	public boolean isLowerClassDefined()
 	{
 		return isLowerClassDefined;
+	}
+
+	public boolean isGraphofDefined()
+	{
+		return isGraphofDefined;
 	}
 
 	public boolean isUniqueDefined()

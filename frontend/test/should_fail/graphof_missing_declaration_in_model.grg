@@ -1,0 +1,10 @@
+#using "graphof_fail_model.gm"
+
+rule r() {
+	n:N -e:E-> n;
+	if{ graphof(n) != graphof(e); }
+---
+	
+	modify {
+	}
+}

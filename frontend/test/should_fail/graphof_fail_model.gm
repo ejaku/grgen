@@ -1,0 +1,9 @@
+node class N
+{
+	s : string;
+}
+
+edge class E
+{
+	s : string;
+}

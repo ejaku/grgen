@@ -1,0 +1,44 @@
+new set keepdebug on
+new new graph "graphof/graphoftest"
+
+exec init
+
+exec uniqueofgraphof
+
+exec graphofcomparison(this)
+
+exec deletePattern
+
+exec createPattern
+
+exec uniqueofgraphof
+
+exec graphofcomparison(this)
+
+exec retypePattern
+
+exec uniqueofgraphof
+
+exec graphofcomparison(this)
+
+exec (::gr) = createInduced
+
+exec in ::gr { uniqueofgraphof }
+
+exec graphofcomparison(::gr)
+
+exec in ::gr { deletePattern }
+
+exec in ::gr { init }
+
+exec in ::gr { uniqueofgraphof }
+
+exec graphofcomparison(::gr)
+
+exec in ::gr { retypePattern }
+
+exec in ::gr { uniqueofgraphof }
+
+exec graphofcomparison(::gr)
+
+quit

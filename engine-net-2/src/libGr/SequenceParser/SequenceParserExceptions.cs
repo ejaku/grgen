@@ -812,4 +812,30 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
     }
+
+    public class SequenceParserExceptionModelFlagDeclarationMissing : SequenceParserException
+    {
+        public override String Name { get { return MissingFlagDeclaration; } }
+        public readonly String MissingFlagDeclaration;
+        public override String Context { get { return FlagUser; } }
+        public readonly String FlagUser;
+
+
+        /// <summary>
+        /// Creates an instance with the expected declaration of the missing flag and the function that requires the flag to be set.
+        /// </summary>
+        public SequenceParserExceptionModelFlagDeclarationMissing(String missingFlagDeclaration, String flagUser)
+        {
+            MissingFlagDeclaration = missingFlagDeclaration;
+            FlagUser = flagUser;
+        }
+
+        public override string Message
+        {
+            get
+            {
+                return "A \"" + MissingFlagDeclaration + "\" declaration is missing in the model (it is required by \"" + FlagUser + "\")!";
+            }
+        }
+    }
 }

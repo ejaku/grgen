@@ -1,0 +1,15 @@
+new graph "graphof/graphoftest"
+
+exec init
+
+exec uniqueofgraphofexec ;> (n:N, e:E)=matchPattern ;> { emit("The value of attribute noattribute is " + uniqueof(graphof(n)) + "\n"); emit("The value of attribute noattribute is " + uniqueof(graphof(e)) + "\n") }
+
+exec graphofcomparisonexec(this) ;> (n:N, e:E)=matchPattern ;> { emit("The value of attribute noattribute is " + (graphof(n) == this) + "\n"); emit("The value of attribute noattribute is " + (graphof(e) == this) + "\n") }
+
+exec (::gr) = createInduced
+
+exec in ::gr { uniqueofgraphofexec ;> (n:N, e:E)=matchPattern ;> { emit("The value of attribute noattribute is " + uniqueof(graphof(n)) + "\n"); emit("The value of attribute noattribute is " + uniqueof(graphof(e)) + "\n") } }
+
+exec graphofcomparisonexec(::gr) ;> (n:N, e:E)=matchPattern ;> { emit("The value of attribute noattribute is " + (graphof(n) == ::gr) + "\n"); emit("The value of attribute noattribute is " + (graphof(e) == ::gr) + "\n") }
+
+quit

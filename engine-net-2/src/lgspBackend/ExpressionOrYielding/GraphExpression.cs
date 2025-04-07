@@ -245,6 +245,37 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing graphof expression
+    /// </summary>
+    public class Graphof : Expression
+    {
+        public Graphof(Expression entity)
+        {
+            Entity = entity;
+        }
+
+        public override Expression Copy(string renameSuffix)
+        {
+            return new Graphof(Entity.Copy(renameSuffix));
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(");
+            sourceCode.Append("(GRGEN_LIBGR.IContained)");
+            Entity.Emit(sourceCode);
+            sourceCode.Append(").GetContainingGraph()");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Entity;
+        }
+
+        readonly Expression Entity;
+    }
+
+    /// <summary>
     /// Class representing this expression
     /// </summary>
     public class This : Expression

@@ -1,0 +1,12 @@
+#using "graphof_model.gm"
+
+rule r {
+	n:N -e:E-> n;
+	
+	modify {
+	---
+		def var j:graph;
+		def var b:boolean;
+		exec( { j = graphof(n); j = graphof(e); b = graphof(n) != this } );
+	}
+}

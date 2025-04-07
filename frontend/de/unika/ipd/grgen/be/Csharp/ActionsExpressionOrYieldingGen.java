@@ -161,6 +161,7 @@ import de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessSameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EmptyExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EqualsAnyExpr;
 import de.unika.ipd.grgen.ir.expr.graph.GetEquivalentExpr;
+import de.unika.ipd.grgen.ir.expr.graph.Graphof;
 import de.unika.ipd.grgen.ir.expr.graph.IncidentEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IndexSizeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.InducedSubgraphExpr;
@@ -431,6 +432,11 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 				sb.append("GRGEN_EXPR.UniqueofType.ClassObject");
 			else
 				sb.append("GRGEN_EXPR.UniqueofType.Graph");
+			sb.append(")");
+		} else if(expr instanceof Graphof) {
+			Graphof go = (Graphof)expr;
+			sb.append("new GRGEN_EXPR.Graphof(");
+			genExpressionTree(sb, go.getEntity(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		} else if(expr instanceof ExistsFileExpr) {
 			ExistsFileExpr efe = (ExistsFileExpr)expr;

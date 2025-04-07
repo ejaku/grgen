@@ -1,0 +1,10 @@
+#using "graphof_model.gm"
+
+rule r {
+	n:N -e:E-> n;
+	
+	modify {
+	---
+		exec ( { i:int = graphof(n) } );
+	}
+}

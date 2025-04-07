@@ -1,0 +1,13 @@
+#using "graphof_model.gm"
+
+rule r {
+	n:N -e:E-> n;
+	
+	modify {
+	---
+		def var i:int;
+		eval {
+			yield i = graphof(n);
+		}
+	}
+}

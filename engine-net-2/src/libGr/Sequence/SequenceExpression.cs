@@ -112,7 +112,7 @@ namespace de.unika.ipd.grGen.libGr
         MinNodeFromIndex, MaxNodeFromIndex, MinEdgeFromIndex, MaxEdgeFromIndex, IndexSize, CountFromIndex,
         InducedSubgraph, DefinedSubgraph,
         EqualsAny, GetEquivalent,
-        Nameof, Uniqueof, Typeof,
+        Nameof, Uniqueof, Graphof, Typeof,
         ExistsFile, Import,
         Copy,
         Canonize,
@@ -7591,6 +7591,9 @@ namespace de.unika.ipd.grGen.libGr
         {
             base.Check(env); // check children
 
+            if(!env.Model.GraphElementsAreAccessibleByUniqueId)
+                throw new SequenceParserExceptionModelFlagDeclarationMissing("index unique;", "nodeByUnique()");
+
             if(NodeUniqueId.Type(env) != "")
             {
                 if(NodeUniqueId.Type(env) != "int")
@@ -7673,6 +7676,9 @@ namespace de.unika.ipd.grGen.libGr
         public override void Check(SequenceCheckingEnvironment env)
         {
             base.Check(env); // check children
+
+            if(!env.Model.GraphElementsAreAccessibleByUniqueId)
+                throw new SequenceParserExceptionModelFlagDeclarationMissing("index unique;", "edgeByUnique()");
 
             if(EdgeUniqueId.Type(env) != "")
             {
@@ -12613,6 +12619,9 @@ namespace de.unika.ipd.grGen.libGr
             {
                 base.Check(env); // check children
 
+                if(NamedEntity.Type(env) == "")
+                    return;
+
                 if(!TypesHelper.IsSameOrSubtype(NamedEntity.Type(env), "Node", env.Model)
                     && !TypesHelper.IsSameOrSubtype(NamedEntity.Type(env), "AEdge", env.Model)
                     && !TypesHelper.IsSameOrSubtype(NamedEntity.Type(env), "graph", env.Model))
@@ -12698,6 +12707,22 @@ namespace de.unika.ipd.grGen.libGr
             {
                 base.Check(env); // check children
 
+                if(UniquelyIdentifiedEntity.Type(env) == "")
+                    return;
+
+                if(TypesHelper.IsSameOrSubtype(UniquelyIdentifiedEntity.Type(env), "Node", env.Model)
+                    || TypesHelper.IsSameOrSubtype(UniquelyIdentifiedEntity.Type(env), "AEdge", env.Model))
+                {
+                    if(!env.Model.GraphElementUniquenessIsEnsured)
+                        throw new SequenceParserExceptionModelFlagDeclarationMissing("node edge unique;", "uniqueof()");
+                }
+
+                if(TypesHelper.IsSameOrSubtype(UniquelyIdentifiedEntity.Type(env), "Object", env.Model))
+                {
+                    if(!env.Model.ObjectUniquenessIsEnsured)
+                        throw new SequenceParserExceptionModelFlagDeclarationMissing("object class unique;", "uniqueof()");
+                }
+
                 if(!TypesHelper.IsSameOrSubtype(UniquelyIdentifiedEntity.Type(env), "Node", env.Model)
                     && !TypesHelper.IsSameOrSubtype(UniquelyIdentifiedEntity.Type(env), "AEdge", env.Model)
                     && !TypesHelper.IsSameOrSubtype(UniquelyIdentifiedEntity.Type(env), "graph", env.Model)
@@ -12741,6 +12766,76 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol
         {
             get { return "uniqueof(" + (UniquelyIdentifiedEntity != null ? UniquelyIdentifiedEntity.Symbol : "") + ")"; }
+        }
+    }
+
+    public class SequenceExpressionGraphof : SequenceExpression
+    {
+        public readonly SequenceExpression Entity;
+
+        public SequenceExpressionGraphof(SequenceExpression entity)
+            : base(SequenceExpressionType.Graphof)
+        {
+            Entity = entity;
+        }
+
+        protected SequenceExpressionGraphof(SequenceExpressionGraphof that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+          : base(that)
+        {
+            Entity = that.Entity.CopyExpression(originalToCopy, procEnv);
+        }
+
+        internal override SequenceExpression CopyExpression(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceExpressionGraphof(this, originalToCopy, procEnv);
+        }
+
+        public override String Type(SequenceCheckingEnvironment env)
+        {
+            return "graph";
+        }
+
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            if(!env.Model.GraphElementsReferenceContainingGraph)
+                throw new SequenceParserExceptionModelFlagDeclarationMissing("node edge graph;", "graphof()");
+
+            if(Entity.Type(env) == "")
+                return;
+
+            if(!TypesHelper.IsSameOrSubtype(Entity.Type(env), "Node", env.Model)
+                && !TypesHelper.IsSameOrSubtype(Entity.Type(env), "AEdge", env.Model))
+            {
+                throw new SequenceParserExceptionTypeMismatch(Symbol, "node or edge type", Entity.Type(env));
+            }
+        }
+
+        public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
+        {
+            return ((IContained)Entity.Evaluate(procEnv)).GetContainingGraph();
+        }
+
+        public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
+            List<SequenceExpressionConstructor> constructors)
+        {
+            Entity.GetLocalVariables(variables, constructors);
+        }
+
+        public override IEnumerable<SequenceExpression> ChildrenExpression
+        {
+            get {  yield return Entity; }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "graphof(" + Entity.Symbol + ")"; }
         }
     }
 

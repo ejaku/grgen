@@ -1,0 +1,11 @@
+using uniqueTestModelWithoutUniqueDeclarations;
+
+rule t
+{
+	-e:Edge->;
+	
+	modify {
+	---
+		exec( { { uniqueof(e)==42 } } );
+	}
+}

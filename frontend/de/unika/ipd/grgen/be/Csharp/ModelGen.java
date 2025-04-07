@@ -556,6 +556,8 @@ public class ModelGen extends CSharpBase
 		String baseClass = "GRGEN_LGSP.LGSP" + kindStr;
 		if(model.isUniqueDefined())
 			baseClass += "WithUniqueId";
+		if(model.isGraphofDefined())
+			baseClass += "WithReferenceToContainingGraph";
 		String elemname = formatInheritanceClassName(type);
 		String elemref = formatInheritanceClassRef(type);
 		String extName = type.getExternalName();
@@ -3680,6 +3682,8 @@ commonLoop:
 		sb.appendFront("return null;\n");
 		sb.unindent();
 		sb.appendFront("}\n");
+		sb.appendFront("public override bool GraphElementsReferenceContainingGraph { get { return "
+				+ (model.isGraphofDefined() ? "true" : "false") + "; } }\n");
 		sb.appendFront("public override bool GraphElementUniquenessIsEnsured { get { return "
 				+ (model.isUniqueDefined() ? "true" : "false") + "; } }\n");
 		sb.appendFront("public override bool ObjectUniquenessIsEnsured { get { return "

@@ -65,7 +65,12 @@ namespace de.unika.ipd.grGen.libGr
         IEnumerable<IndexDescription> IndexDescriptions { get; }
 
         /// <summary>
-        /// If true you may query the graph elements with GetUniqueId for their unique id
+        /// If true, the graph elements point to their containing graph and may be queried with GetContainingGraph for it (cast to IContained needed)
+        /// </summary>
+        bool GraphElementsReferenceContainingGraph { get; }
+
+        /// <summary>
+        /// If true, the graph elements contain a unique id and you may query with GetUniqueId for their unique id (cast to IIdentifiable needed)
         /// </summary>
         bool GraphElementUniquenessIsEnsured { get; }
 

@@ -613,6 +613,12 @@ namespace de.unika.ipd.grGen.lgsp
 
             ++changesCounter;
 
+            ISetableContained nodeWithSetableContained = node as ISetableContained;
+            if(nodeWithSetableContained != null)
+            {
+                IGraph oldGraph = nodeWithSetableContained.SetContainingGraph(this);
+                System.Diagnostics.Debug.Assert(oldGraph == null, "Trying to add a node that is already contained in a graph");
+            }
 #if CHECK_RINGLISTS
             CheckTypeRinglistBroken(head);
 #endif
@@ -644,6 +650,12 @@ namespace de.unika.ipd.grGen.lgsp
 
             ++changesCounter;
 
+            ISetableContained edgeWithSetableContained = edge as ISetableContained;
+            if(edgeWithSetableContained != null)
+            {
+                IGraph oldGraph = edgeWithSetableContained.SetContainingGraph(this);
+                System.Diagnostics.Debug.Assert(oldGraph == null, "Trying to add an edge that is already contained in a graph");
+            }
 #if CHECK_RINGLISTS
             CheckTypeRinglistBroken(head);
 #endif
@@ -736,6 +748,13 @@ namespace de.unika.ipd.grGen.lgsp
 
             ++changesCounter;
 
+            ISetableContained nodeWithSetableContained = node as ISetableContained;
+            if(nodeWithSetableContained != null)
+            {
+                IGraph oldGraph = nodeWithSetableContained.SetContainingGraph(null);
+                System.Diagnostics.Debug.Assert(oldGraph == this, "Trying to remove a node from another graph");
+            }
+
             if(reuseOptimization)
                 node.Recycle();
 
@@ -782,6 +801,13 @@ namespace de.unika.ipd.grGen.lgsp
 
             ++changesCounter;
 
+            ISetableContained edgeWithSetableContained = edge as ISetableContained;
+            if(edgeWithSetableContained != null)
+            {
+                IGraph oldGraph = edgeWithSetableContained.SetContainingGraph(null);
+                System.Diagnostics.Debug.Assert(oldGraph == this, "Trying to remove an edge from another graph");
+            }
+
             if(reuseOptimization)
                 lgspEdge.Recycle();
 
@@ -815,14 +841,14 @@ namespace de.unika.ipd.grGen.lgsp
         {
             ClearingGraph();
 
-            for(int i = 0; i < model.NodeModel.Types.Length; ++i)
+            for(int i = 0; i < model.NodeModel.Types.Length; ++i) // maybe TODO: set contained graph to null - but elements are not recycled...
             {
                 LGSPNode head = nodesByTypeHeads[i];
                 head.lgspTypeNext = head;
                 head.lgspTypePrev = head;
                 nodesByTypeCounts[i] = 0;
             }
-            for(int i = 0; i < model.EdgeModel.Types.Length; ++i)
+            for(int i = 0; i < model.EdgeModel.Types.Length; ++i) // maybe TODO: set contained graph to null - but elements are not recycled...
             {
                 LGSPEdge head = edgesByTypeHeads[i];
                 head.lgspTypeNext = head;
@@ -902,6 +928,13 @@ namespace de.unika.ipd.grGen.lgsp
                 newNode.lgspTypePrev = oldNode.lgspTypePrev;
                 oldNode.lgspTypeNext.lgspTypePrev = newNode;
                 oldNode.lgspTypePrev.lgspTypeNext = newNode;
+
+                ISetableContained newNodeWithSetableContained = newNode as ISetableContained;
+                if(newNodeWithSetableContained != null)
+                {
+                    IGraph oldGraph = newNodeWithSetableContained.SetContainingGraph(this);
+                    System.Diagnostics.Debug.Assert(oldGraph == null, "Trying to add a node that is already contained in a graph");
+                }
             }
             oldNode.lgspTypeNext = newNode;			// indicate replacement (checked in rewrite for hom nodes)
 			oldNode.lgspTypePrev = null;			// indicate node is node valid anymore
@@ -935,6 +968,13 @@ namespace de.unika.ipd.grGen.lgsp
             newNode.lgspInhead = inHead;
 
             ++changesCounter;
+
+            ISetableContained oldNodeWithSetableContained = oldNode as ISetableContained;
+            if(oldNodeWithSetableContained != null)
+            {
+                IGraph oldGraph = oldNodeWithSetableContained.SetContainingGraph(null);
+                System.Diagnostics.Debug.Assert(oldGraph == this, "Trying to remove a node from another graph");
+            }
 
             if(reuseOptimization)
                 oldNode.Recycle();
@@ -986,6 +1026,13 @@ namespace de.unika.ipd.grGen.lgsp
 			oldEdge.lgspTypeNext = newEdge;			// indicate replacement (checked in rewrite for hom edges)
 			oldEdge.lgspTypePrev = null;			// indicate edge is node valid anymore
 
+            ISetableContained newEdgeWithSetableContained = newEdge as ISetableContained;
+            if(newEdgeWithSetableContained != null)
+            {
+                IGraph oldGraph = newEdgeWithSetableContained.SetContainingGraph(this);
+                System.Diagnostics.Debug.Assert(oldGraph == null, "Trying to add an edge that is already contained in a graph");
+            }
+
             // Reassign source node
             LGSPNode src = oldEdge.lgspSource;
             if(src.lgspOuthead == oldEdge)
@@ -1031,6 +1078,13 @@ namespace de.unika.ipd.grGen.lgsp
             oldEdge.lgspInPrev = null;
 
             ++changesCounter;
+
+            ISetableContained oldEdgeWithSetableContained = oldEdge as ISetableContained;
+            if(oldEdgeWithSetableContained != null)
+            {
+                IGraph oldGraph = oldEdgeWithSetableContained.SetContainingGraph(null);
+                System.Diagnostics.Debug.Assert(oldGraph == this, "Trying to remove an edge from another graph");
+            }
 
             if(reuseOptimization)
                 oldEdge.Recycle();

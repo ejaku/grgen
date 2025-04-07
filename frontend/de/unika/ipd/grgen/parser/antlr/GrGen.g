@@ -295,6 +295,10 @@ textActions returns [ UnitNode main = null ]
 				for(ModelNode modelChild : modelChilds.getChildren()) {
 					isLowerClassDefined |= modelChild.IsLowerClassDefined();
 				}
+				boolean isGraphofDefined = false;
+				for(ModelNode modelChild : modelChilds.getChildren()) {
+					isGraphofDefined |= modelChild.IsGraphofDefined();
+				}
 				boolean isUniqueDefined = false;
 				for(ModelNode modelChild : modelChilds.getChildren()) {
 					isUniqueDefined |= modelChild.IsUniqueDefined();
@@ -323,7 +327,7 @@ textActions returns [ UnitNode main = null ]
 						new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), 
 						new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), modelChilds, 
 						isEmitClassDefined, isEmitGraphClassDefined, isCopyClassDefined, 
-						isEqualClassDefined, isLowerClassDefined,
+						isEqualClassDefined, isLowerClassDefined, isGraphofDefined,
 						isUniqueDefined, isUniqueClassDefined, isUniqueIndexDefined,
 						areFunctionsParallel, isoParallel, sequencesParallel);
 				modelChilds = new CollectNode<ModelNode>();
@@ -2495,7 +2499,7 @@ textTypes returns [ ModelNode model = null ]
 				modelChilds.addChild(env.getStdModel());
 			model = new ModelNode(id, packages, types, externalFuncs, externalProcs, indices, modelChilds,
 				$specialClasses.isEmitClassDefined, $specialClasses.isEmitGraphClassDefined, $specialClasses.isCopyClassDefined, 
-				$specialClasses.isEqualClassDefined, $specialClasses.isLowerClassDefined,
+				$specialClasses.isEqualClassDefined, $specialClasses.isLowerClassDefined, $specialClasses.isGraphofDefined,
 				$specialClasses.isUniqueDefined, $specialClasses.isUniqueClassDefined, $specialClasses.isUniqueIndexDefined,
 				$specialClasses.areFunctionsParallel, $specialClasses.isoParallel, $specialClasses.sequencesParallel);
 		}
@@ -2505,7 +2509,7 @@ typeDecls [ AnonymousScopeNamer namer, CollectNode<IdentNode> types, CollectNode
 		CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs, 
 		CollectNode<IdentNode> indices ]
 		returns [ boolean isEmitClassDefined = false, boolean isEmitGraphClassDefined = false, boolean isCopyClassDefined = false, 
-				boolean isEqualClassDefined = false, boolean isLowerClassDefined = false,
+				boolean isEqualClassDefined = false, boolean isLowerClassDefined = false, boolean isGraphofDefined = false,
 				boolean isUniqueDefined = false, boolean isUniqueClassDefined, boolean isUniqueIndexDefined = false,
 				boolean areFunctionsParallel = false, int isoParallel = 0, int sequencesParallel = 0 ]
 	@init {
@@ -2520,10 +2524,12 @@ typeDecls [ AnonymousScopeNamer namer, CollectNode<IdentNode> types, CollectNode
 	  |
 		NODE EDGE i=IDENT SEMI
 			{
-				if(!i.getText().equals("unique"))
-					reportError(getCoords(i), "Malformed \"node edge unique;\".");
-				else
+				if(!i.getText().equals("unique") && !i.getText().equals("graph"))
+					reportError(getCoords(i), "Malformed \"node edge unique;\" or \"node edge graph;\".");
+				else if(i.getText().equals("unique"))
 					$isUniqueDefined = true;
+				else
+					$isGraphofDefined = true;
 			}
 	  |
 		o=IDENT CLASS i=IDENT SEMI

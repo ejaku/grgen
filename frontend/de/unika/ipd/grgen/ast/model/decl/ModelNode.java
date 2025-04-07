@@ -71,6 +71,7 @@ public class ModelNode extends DeclNode
 	private boolean isCopyClassDefined;
 	private boolean isEqualClassDefined;
 	private boolean isLowerClassDefined;
+	private boolean isGraphofDefined;
 	private boolean isUniqueDefined;
 	private boolean isUniqueClassDefined;
 	private boolean isUniqueIndexDefined;
@@ -82,7 +83,7 @@ public class ModelNode extends DeclNode
 			CollectNode<IdentNode> externalFuncs, CollectNode<IdentNode> externalProcs,
 			CollectNode<IdentNode> indices, CollectNode<ModelNode> usedModels,
 			boolean isEmitClassDefined, boolean isEmitGraphClassDefined, boolean isCopyClassDefined,
-			boolean isEqualClassDefined, boolean isLowerClassDefined,
+			boolean isEqualClassDefined, boolean isLowerClassDefined, boolean isGraphofDefined,
 			boolean isUniqueDefined, boolean isUniqueClassDefined, boolean isUniqueIndexDefined,
 			boolean areFunctionsParallel, int isoParallel, int sequencesParallel)
 	{
@@ -105,6 +106,7 @@ public class ModelNode extends DeclNode
 		this.isCopyClassDefined = isCopyClassDefined;
 		this.isEqualClassDefined = isEqualClassDefined;
 		this.isLowerClassDefined = isLowerClassDefined;
+		this.isGraphofDefined = isGraphofDefined;
 		this.isUniqueDefined = isUniqueDefined;
 		this.isUniqueClassDefined = isUniqueClassDefined;
 		this.isUniqueIndexDefined = isUniqueIndexDefined;
@@ -225,6 +227,11 @@ public class ModelNode extends DeclNode
 		return isLowerClassDefined;
 	}
 
+	public boolean IsGraphofDefined()
+	{
+		return isGraphofDefined;
+	}
+
 	public boolean IsUniqueDefined()
 	{
 		return isUniqueDefined;
@@ -294,7 +301,7 @@ public class ModelNode extends DeclNode
 	{
 		Ident id = ident.checkIR(Ident.class);
 		Model res = new Model(id, isEmitClassDefined, isEmitGraphClassDefined, isCopyClassDefined,
-				isEqualClassDefined, isLowerClassDefined,
+				isEqualClassDefined, isLowerClassDefined, isGraphofDefined,
 				isUniqueDefined, isUniqueClassDefined, isUniqueIndexDefined,
 				areFunctionsParallel, isoParallel, sequencesParallel);
 		for(ModelNode model : usedModels.getChildren()) {

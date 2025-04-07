@@ -1,0 +1,22 @@
+#using "graphof_model.gm"
+
+rule r {
+	n:N -e:E-> n;
+	if{ graphof(n) != graphof(e) && graphof(n) == this; }
+---
+	def var gr:graph;
+	yield {
+		yield gr = graphof(n);
+	}
+	
+	modify {
+	---
+		def var j:graph;
+		def var b:boolean;
+		eval {
+			yield j = graphof(n);
+			yield j = graphof(e);
+			yield b = graphof(n) != this;
+		}
+	}
+}

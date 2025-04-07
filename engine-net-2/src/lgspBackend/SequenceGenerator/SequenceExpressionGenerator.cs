@@ -157,6 +157,8 @@ namespace de.unika.ipd.grGen.lgsp
                 return GetSequenceExpressionNameof((SequenceExpressionNameof)expr, source);
             case SequenceExpressionType.Uniqueof:
                 return GetSequenceExpressionUniqueof((SequenceExpressionUniqueof)expr, source);
+            case SequenceExpressionType.Graphof:
+                return GetSequenceExpressionGraphof((SequenceExpressionGraphof)expr, source);
             case SequenceExpressionType.This:
                 return GetSequenceExpressionThis((SequenceExpressionThis)expr, source);
             case SequenceExpressionType.ElementFromGraph:
@@ -1751,6 +1753,11 @@ namespace de.unika.ipd.grGen.lgsp
                 return "GRGEN_LIBGR.GraphHelper.Uniqueof(" + GetSequenceExpression(seqUniqueof.UniquelyIdentifiedEntity, source) + ", graph)";
             else
                 return "GRGEN_LIBGR.GraphHelper.Uniqueof(null, graph)";
+        }
+
+        private string GetSequenceExpressionGraphof(SequenceExpressionGraphof seqGraphof, SourceBuilder source)
+        {
+            return "((GRGEN_LIBGR.IContained)(" + GetSequenceExpression(seqGraphof.Entity, source) + ")).GetContainingGraph()";
         }
 
         private string GetSequenceExpressionThis(SequenceExpressionThis seqThis, SourceBuilder source)

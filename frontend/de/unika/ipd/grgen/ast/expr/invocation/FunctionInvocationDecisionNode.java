@@ -39,6 +39,7 @@ import de.unika.ipd.grgen.ast.expr.graph.EdgesExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EmptyExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.EqualsAnyExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.GetEquivalentExprNode;
+import de.unika.ipd.grgen.ast.expr.graph.GraphofExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.IncidentEdgeExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.InducedSubgraphExprNode;
 import de.unika.ipd.grgen.ast.expr.graph.IsAdjacentNodeExprNode;
@@ -645,6 +646,12 @@ public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 				return new UniqueofExprNode(env.getCoords(), arguments.get(0));
 			else
 				return new UniqueofExprNode(env.getCoords(), null);
+		case "graphof":
+			if(arguments.size() != 1) {
+				env.reportError("graphof() expects 1 argument (given are " + arguments.size() + " arguments).");
+				return null;
+			} else
+				return new GraphofExprNode(env.getCoords(), arguments.get(0));
 		default:
 			env.reportError("A function of name " + functionName + " is not known.");
 			return null;

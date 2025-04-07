@@ -89,6 +89,7 @@
     <Compile Include="Graph\IAttributeBearer.cs" />
     <Compile Include="Graph\IBaseObject.cs" />
     <Compile Include="Graph\ICallable.cs" />
+    <Compile Include="Graph\IContained.cs" />
     <Compile Include="Graph\IEdge.cs" />
     <Compile Include="Graph\INode.cs" />
     <Compile Include="Graph\IObject.cs" />

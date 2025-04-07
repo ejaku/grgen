@@ -980,8 +980,14 @@ namespace de.unika.ipd.grGen.libGr.sequenceParser
             else if(functionName == "uniqueof" && PackageIsNullOrGlobal(package))
             {
                 if(argExprs.Count > 1)
-                    throw new ParseException("\"" + functionName + "\" expects none (for the unique id of of the current graph) or 1 parameter (for the unique if of the node/edge/subgraph given as parameter)");
+                    throw new ParseException("\"" + functionName + "\" expects none (for the unique id of of the current graph) or 1 parameter (for the unique id of the node/edge/subgraph given as parameter)");
                 return new SequenceExpressionUniqueof(getArgument(argExprs, 0));
+            }
+            else if(functionName == "graphof" && PackageIsNullOrGlobal(package))
+            {
+                if(argExprs.Count != 1)
+                    throw new ParseException("\"" + functionName + "\" expects 1 parameter (the node/edge to get the containing graph of)");
+                return new SequenceExpressionGraphof(getArgument(argExprs, 0));
             }
             else if(functionName == "typeof" && PackageIsNullOrGlobal(package))
             {

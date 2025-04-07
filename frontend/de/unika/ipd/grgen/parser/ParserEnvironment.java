@@ -146,7 +146,7 @@ public abstract class ParserEnvironment extends Base
 		stdModel = new ModelNode(predefine(ENTITIES, "Std"), stdModelPackages, stdModelChilds,
 				new CollectNode<IdentNode>(), new CollectNode<IdentNode>(),
 				new CollectNode<IdentNode>(), new CollectNode<ModelNode>(),
-				false, false, false, false, false, false, false, false, false, 0, 0);
+				false, false, false, false, false, false, false, false, false, false, 0, 0);
 
 		// The node type root
 		NodeTypeNode nodeRootType = new NodeTypeNode(new CollectNode<IdentNode>(), new CollectNode<BaseNode>(), 0, null);
@@ -753,6 +753,8 @@ public abstract class ParserEnvironment extends Base
 			return numParams == 1 || numParams == 0;
 		case "uniqueof":
 			return numParams == 1 || numParams == 0;
+		case "graphof":
+			return numParams == 1;
 		default:
 			return false;
 		}

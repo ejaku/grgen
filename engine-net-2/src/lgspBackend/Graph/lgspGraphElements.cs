@@ -574,6 +574,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public int uniqueId;
 
+        /// <summary>
+        /// Instantiates an LGSPNodeWithUniqueId object.
+        /// </summary>
+        /// <param name="nodeType">The node type.</param>
         protected LGSPNodeWithUniqueId(NodeType nodeType)
             : base(nodeType)
         {
@@ -588,6 +592,94 @@ namespace de.unika.ipd.grGen.lgsp
         public int GetUniqueId()
         {
             return uniqueId;
+        }
+    }
+
+    /// <summary>
+    /// Class implementing nodes with a reference to the containing graph in the libGr search plan backend (employed if graph containment tracking was declared in the model)
+    /// </summary>
+    [DebuggerDisplay("LGSPNodeWithReferenceToContainingGraph ({Type})")]
+    public abstract class LGSPNodeWithReferenceToContainingGraph : LGSPNode, IContained, ISetableContained
+    {
+        /// <summary>
+        /// points to the containing graph
+        /// </summary>
+        public IGraph containingGraph;
+
+        /// <summary>
+        /// Instantiates an LGSPNodeWithReferenceToContainingGraph object.
+        /// </summary>
+        /// <param name="nodeType">The node type.</param>
+        protected LGSPNodeWithReferenceToContainingGraph(NodeType nodeType)
+            : base(nodeType)
+        {
+        }
+
+        /// <summary>
+        /// Gets the containing graph of the graph element.
+        /// Only available if graph containment tracking for nodes and edges was declared in the model.
+        /// </summary>
+        /// <returns>The containing graph (of the graph element).</returns>
+        public IGraph GetContainingGraph()
+        {
+            return containingGraph;
+        }
+
+        /// <summary>
+        /// Sets the containing graph of the graph element.
+        /// Only available if graph containment tracking for nodes and edges was declared in the model.
+        /// </summary>
+        /// <param name="graph">The new containing graph.</param>
+        /// <returns>The old containing graph (of the graph element).</returns>
+        public IGraph SetContainingGraph(IGraph graph)
+        {
+            IGraph oldContainingGraph = containingGraph;
+            containingGraph = graph;
+            return oldContainingGraph;
+        }
+    }
+
+    /// <summary>
+    /// Class implementing nodes with a unique id and with a reference to the containing graph in the libGr search plan backend (employed if uniqueness was declared in the model and graph containment tracking was declared in the model)
+    /// </summary>
+    [DebuggerDisplay("LGSPNodeWithUniqueIdWithReferenceToContainingGraph ({Type})")]
+    public abstract class LGSPNodeWithUniqueIdWithReferenceToContainingGraph : LGSPNodeWithUniqueId, IContained, ISetableContained
+    {
+        /// <summary>
+        /// points to the containing graph
+        /// </summary>
+        public IGraph containingGraph;
+
+        /// <summary>
+        /// Instantiates an LGSPNodeWithUniqueIdWithReferenceToContainingGraph object.
+        /// </summary>
+        /// <param name="nodeType">The node type.</param>
+        protected LGSPNodeWithUniqueIdWithReferenceToContainingGraph(NodeType nodeType)
+            : base(nodeType)
+        {
+        }
+
+        /// <summary>
+        /// Gets the containing graph of the graph element.
+        /// Only available if graph containment tracking for nodes and edges was declared in the model.
+        /// </summary>
+        /// <returns>The containing graph (of the graph element).</returns>
+        public IGraph GetContainingGraph()
+        {
+            return containingGraph;
+        }
+
+        /// <summary>
+        /// Sets the containing graph of the graph element.
+        /// Only available if graph containment tracking for nodes and edges was declared in the model.
+        /// </summary>
+        /// <param name="graph">The new containing graph.</param>
+        /// <returns>The old containing graph (of the graph element).</returns>
+        public IGraph SetContainingGraph(IGraph graph)
+        {
+            IGraph oldContainingGraph = containingGraph;
+            containingGraph = graph;
+            return oldContainingGraph;
         }
     }
 
@@ -950,7 +1042,7 @@ namespace de.unika.ipd.grGen.lgsp
         public int uniqueId;
 
         /// <summary>
-        /// Instantiates an LGSPEdge object.
+        /// Instantiates an LGSPEdgeWithUniqueId object.
         /// </summary>
         /// <param name="edgeType">The edge type.</param>
         /// <param name="sourceNode">The source node.</param>
@@ -969,6 +1061,98 @@ namespace de.unika.ipd.grGen.lgsp
         public int GetUniqueId()
         {
             return uniqueId;
+        }
+    }
+
+    /// <summary>
+    /// Class implementing edges with a reference to the containing graph in the libGr search plan backend (employed if graph containment tracking was declared in the model)
+    /// </summary>
+    [DebuggerDisplay("LGSPEdgeWithReferenceToContainingGraph ({Source} -{Type}-> {Target})")]
+    public abstract class LGSPEdgeWithReferenceToContainingGraph : LGSPEdge, IContained, ISetableContained
+    {
+        /// <summary>
+        /// points to the containing graph
+        /// </summary>
+        public IGraph containingGraph;
+
+        /// <summary>
+        /// Instantiates an LGSPEdgeWithReferenceToContainingGraph object.
+        /// </summary>
+        /// <param name="edgeType">The edge type.</param>
+        /// <param name="sourceNode">The source node.</param>
+        /// <param name="targetNode">The target node.</param>
+        protected LGSPEdgeWithReferenceToContainingGraph(EdgeType edgeType, LGSPNode sourceNode, LGSPNode targetNode)
+            : base(edgeType, sourceNode, targetNode)
+        {
+        }
+
+        /// <summary>
+        /// Gets the containing graph of the graph element.
+        /// Only available if graph containment tracking for nodes and edges was declared in the model.
+        /// </summary>
+        /// <returns>The containing graph (of the graph element).</returns>
+        public IGraph GetContainingGraph()
+        {
+            return containingGraph;
+        }
+
+        /// <summary>
+        /// Sets the containing graph of the graph element.
+        /// Only available if graph containment tracking for nodes and edges was declared in the model.
+        /// </summary>
+        /// <param name="graph">The new containing graph.</param>
+        /// <returns>The old containing graph (of the graph element).</returns>
+        public IGraph SetContainingGraph(IGraph graph)
+        {
+            IGraph oldContainingGraph = containingGraph;
+            containingGraph = graph;
+            return oldContainingGraph;
+        }
+    }
+
+    /// <summary>
+    /// Class implementing edges with a unique id and with a reference to the containing graph in the libGr search plan backend (employed if uniqueness was declared in the model and graph containment tracking was declared in the model)
+    /// </summary>
+    [DebuggerDisplay("LGSPEdgeWithUniqueIdWithReferenceToContainingGraph ({Source} -{Type}-> {Target})")]
+    public abstract class LGSPEdgeWithUniqueIdWithReferenceToContainingGraph : LGSPEdgeWithUniqueId, IContained, ISetableContained
+    {
+        /// <summary>
+        /// points to the containing graph
+        /// </summary>
+        public IGraph containingGraph;
+
+        /// <summary>
+        /// Instantiates an LGSPEdgeWithUniqueIdWithReferenceToContainingGraph object.
+        /// </summary>
+        /// <param name="edgeType">The edge type.</param>
+        /// <param name="sourceNode">The source node.</param>
+        /// <param name="targetNode">The target node.</param>
+        protected LGSPEdgeWithUniqueIdWithReferenceToContainingGraph(EdgeType edgeType, LGSPNode sourceNode, LGSPNode targetNode)
+            : base(edgeType, sourceNode, targetNode)
+        {
+        }
+
+        /// <summary>
+        /// Gets the containing graph of the graph element.
+        /// Only available if graph containment tracking for nodes and edges was declared in the model.
+        /// </summary>
+        /// <returns>The containing graph (of the graph element).</returns>
+        public IGraph GetContainingGraph()
+        {
+            return containingGraph;
+        }
+
+        /// <summary>
+        /// Sets the containing graph of the graph element.
+        /// Only available if graph containment tracking for nodes and edges was declared in the model.
+        /// </summary>
+        /// <param name="graph">The new containing graph.</param>
+        /// <returns>The old containing graph (of the graph element).</returns>
+        public IGraph SetContainingGraph(IGraph graph)
+        {
+            IGraph oldContainingGraph = containingGraph;
+            containingGraph = graph;
+            return oldContainingGraph;
         }
     }
 

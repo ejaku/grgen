@@ -1,0 +1,15 @@
+new graph "graphof/graphoftest"
+
+exec init
+
+exec uniqueofgraphof
+
+exec graphofcomparison(this)
+
+exec (::gr) = createInduced
+
+exec in ::gr { uniqueofgraphof }
+
+exec graphofcomparison(::gr)
+
+quit

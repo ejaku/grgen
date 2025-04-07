@@ -131,6 +131,7 @@ import de.unika.ipd.grgen.ir.expr.graph.EdgesFromIndexAccessSameExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EmptyExpr;
 import de.unika.ipd.grgen.ir.expr.graph.EqualsAnyExpr;
 import de.unika.ipd.grgen.ir.expr.graph.GetEquivalentExpr;
+import de.unika.ipd.grgen.ir.expr.graph.Graphof;
 import de.unika.ipd.grgen.ir.expr.graph.IncidentEdgeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.IndexSizeExpr;
 import de.unika.ipd.grgen.ir.expr.graph.InducedSubgraphExpr;
@@ -921,6 +922,12 @@ public abstract class CSharpBase
 				else
 					sb.append(").uniqueId");
 			}
+		} else if(expr instanceof Graphof) {
+			Graphof go = (Graphof)expr;
+			sb.append("(");
+			sb.append("(GRGEN_LIBGR.IContained)");
+			genExpression(sb, go.getEntity(), modifyGenerationState);
+			sb.append(").GetContainingGraph()");
 		} else if(expr instanceof ExistsFileExpr) {
 			ExistsFileExpr efe = (ExistsFileExpr)expr;
 			sb.append("global::System.IO.File.Exists((string)");

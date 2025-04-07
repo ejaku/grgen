@@ -1,0 +1,10 @@
+#using "graphof_model.gm"
+
+rule r(var i:int) {
+	n:N -e:E-> n;
+	if{ graphof(i) != graphof(e); }
+---
+	
+	modify {
+	}
+}

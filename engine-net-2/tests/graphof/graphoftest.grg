@@ -1,0 +1,116 @@
+#using "graphoftest.gm"
+
+rule init
+{
+	modify {
+		n:N -e:E-> n; m:Node;
+	}
+}
+
+rule uniqueofgraphof
+{
+	n:N -e:E-> n;
+---	
+	def var uniqueofgraphofnode:int;
+	def var uniqueofgraphofedge:int;
+	
+	yield {
+		yield uniqueofgraphofnode = uniqueof(graphof(n));
+		yield uniqueofgraphofedge = uniqueof(graphof(e));
+	}
+	
+	modify {
+	---
+		emit("The value of attribute noattribute is " + uniqueofgraphofnode + "\n");
+		emit("The value of attribute noattribute is " + uniqueofgraphofedge + "\n");
+		emit("The value of attribute noattribute is " + uniqueof(graphof(n)) + "\n");
+		emit("The value of attribute noattribute is " + uniqueof(graphof(e)) + "\n");
+	}
+}
+
+rule graphofcomparison(var g:graph)
+{
+	n:N -e:E-> n;
+---	
+	def var graphofnode:boolean;
+	def var graphofedge:boolean;
+	
+	yield {
+		yield graphofnode = graphof(n) == g;
+		yield graphofedge = graphof(e) == g;
+	}
+	
+	modify {
+	---
+		emit("The value of attribute noattribute is " + graphofnode + "\n");
+		emit("The value of attribute noattribute is " + graphofedge + "\n");
+		emit("The value of attribute noattribute is " + (graphof(n) == g) + "\n");
+		emit("The value of attribute noattribute is " + (graphof(e) == g) + "\n");
+	}
+}
+
+rule createInduced : (graph)
+{
+	n:N -e:E-> n;
+
+	modify {
+		return(inducedSubgraph(set<Node>{n}));
+	}
+}
+
+rule deletePattern
+{
+	n:N -e:E-> n;
+	
+	replace {
+	}
+}
+
+rule createPattern
+{
+	modify {
+		n:N -e:E-> n;
+	}
+}
+
+rule retypePattern
+{
+	n:N -e:E-> n;
+	
+	modify {
+		-e1:E1<e>->;
+		n1:N1<n>;
+	}
+}
+
+test matchPattern : (N, E)
+{
+	n:N -e:E-> n;
+	return(n,e);
+}
+
+rule uniqueofgraphofexec
+{
+	n:N -e:E-> n;
+	
+	modify {
+	---
+		exec( {
+			emit("The value of attribute noattribute is " + uniqueof(graphof(n)) + "\n");
+			emit("The value of attribute noattribute is " + uniqueof(graphof(e)) + "\n")
+		} );
+	}
+}
+
+rule graphofcomparisonexec(var g:graph)
+{
+	n:N -e:E-> n;
+	
+	modify {
+	---
+		exec( {
+			emit("The value of attribute noattribute is " + (graphof(n) == g) + "\n");
+			emit("The value of attribute noattribute is " + (graphof(e) == g) + "\n")
+		} );
+	}
+}
