@@ -1,0 +1,56 @@
+#using "index_model_001b_multiple.gm"
+
+rule rfrom5to13_fromatoi {
+	-n:E{multiple(foo >= 5, foo <= 13, bar >= "a", bar <= "i")}->;
+
+	modify {
+	---
+		eval {
+			emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n");
+		}
+	}
+}
+
+rule rfrom5to13_fromjtoz {
+	-n:E{multiple(foo >= 5, foo <= 13, bar >= "j", bar <= "z")}->;
+
+	modify {
+	---
+		eval {
+			emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n");
+		}
+	}
+}
+
+rule rfrom1to10_fromatoj {
+	-n:E{multiple(foo >= 1, foo <= 10, bar >= "a", bar <= "j")}->;
+
+	modify {
+	---
+		eval {
+			emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n");
+		}
+	}
+}
+
+rule rfrom1to10_fromktoz {
+	-n:E{multiple(foo >= 1, foo <= 10, bar >= "k", bar <= "z")}->;
+
+	modify {
+	---
+		eval {
+			emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n");
+		}
+	}
+}
+
+rule rfrommintomaxmultiple {
+	-n:E{multiple(foo >= ((E)minEdgeFromIndex(foo)).i, foo <= ((E)maxEdgeFromIndex(foo)).i, bar >= ((E)minEdgeFromIndex(bar)).j, bar <= ((E)maxEdgeFromIndex(bar)).j)}->;
+
+	modify {
+	---
+		eval {
+			emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n");
+		}
+	}
+}

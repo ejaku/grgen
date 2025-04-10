@@ -1,18 +1,10 @@
 #using "index_model_001_multiple.gm"
 
 rule rfrom5to13_fromatoi {
----
-	def ref s:set<N> = set<N>{};
-	yield {
-		for(n:N in nodesFromIndexMultipleFromTo(foo, 5, 13, bar, "a", "i")) {
-			yield s.add(n);
-		}
-	}
-	
 	modify {
 	---
 		eval {
-			for(n:N in s) {
+			for(n:N in nodesFromIndexMultipleFromTo(foo, 5, 13, bar, "a", "i")) {
 				emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n");
 			}
 		}
@@ -20,18 +12,10 @@ rule rfrom5to13_fromatoi {
 }
 
 rule rfrom5to13_fromjtoz {
----
-	def ref s:set<N> = set<N>{};
-	yield {
-		for(n:N in nodesFromIndexMultipleFromTo(foo, 5, 13, bar, "j", "z")) {
-			yield s.add(n);
-		}
-	}
-	
 	modify {
 	---
 		eval {
-			for(n:N in s) {
+			for(n:N in nodesFromIndexMultipleFromTo(foo, 5, 13, bar, "j", "z")) {
 				emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n");
 			}
 		}
@@ -39,18 +23,10 @@ rule rfrom5to13_fromjtoz {
 }
 
 rule rfrom1to10_fromatoj {
----
-	def ref s:set<N> = set<N>{};
-	yield {
-		for(n:N in nodesFromIndexMultipleFromTo(foo, 1, 10, bar, "a", "j")) {
-			yield s.add(n);
-		}
-	}
-	
 	modify {
 	---
 		eval {
-			for(n:N in s) {
+			for(n:N in nodesFromIndexMultipleFromTo(foo, 1, 10, bar, "a", "j")) {
 				emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n");
 			}
 		}
@@ -58,18 +34,10 @@ rule rfrom1to10_fromatoj {
 }
 
 rule rfrom1to10_fromktoz {
----
-	def ref s:set<N> = set<N>{};
-	yield {
-		for(n:N in nodesFromIndexMultipleFromTo(foo, 1, 10, bar, "k", "z")) {
-			yield s.add(n);
-		}
-	}
-	
 	modify {
 	---
 		eval {
-			for(n:N in s) {
+			for(n:N in nodesFromIndexMultipleFromTo(foo, 1, 10, bar, "k", "z")) {
 				emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n");
 			}
 		}
@@ -77,18 +45,10 @@ rule rfrom1to10_fromktoz {
 }
 
 rule rfrommintomaxmultiple {
----
-	def ref s:set<N> = set<N>{};
-	yield {
-		for(n:N in nodesFromIndexMultipleFromTo(foo, ((N)minNodeFromIndex(foo)).i, ((N)maxNodeFromIndex(foo)).i, bar, ((N)minNodeFromIndex(bar)).j, ((N)maxNodeFromIndex(bar)).j)) {
-			yield s.add(n);
-		}
-	}
-	
 	modify {
 	---
 		eval {
-			for(n:N in s) {
+			for(n:N in nodesFromIndexMultipleFromTo(foo, ((N)minNodeFromIndex(foo)).i, ((N)maxNodeFromIndex(foo)).i, bar, ((N)minNodeFromIndex(bar)).j, ((N)maxNodeFromIndex(bar)).j)) {
 				emit("The value of attribute (i,j) is (" + n.i + "," + n.j + ")\n");
 			}
 		}
