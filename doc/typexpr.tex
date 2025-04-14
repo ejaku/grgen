@@ -250,19 +250,19 @@ If one operand is \texttt{double} the operation is carried out with 64 Bits, oth
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{String Expressions}
+\section{String Expressions}\label{sec:stringexprs}
 
 String expressions combine string values by string operations, with integer numbers used as helpers to denote positions in the strings (and giving the result of length counting).
 
 \begin{rail}
   StringExpr: PrimaryExpr (MethodSelector)? | StringExpr '+' StringExpr | StringExpr 'in' StringExpr;
-  MethodSelector: '.' FunctionIdent '(' (Variable*',') ')' (MethodSelector)?;
+  MethodSelector: '.' FunctionIdent '(' (Expression*',') ')' (MethodSelector)?;
 \end{rail}\ixnterm{StringExpr}\ixnterm{MethodSelector}
 The operator \texttt{+} concatenates two strings.
 The operator \texttt{in} returns \texttt{true} if the left string is contained in the right string (\texttt{false} otherwise).
 
 Several operations on strings -- and other types -- are available in method call notation.
-The methods given with the \emph{MethodSelector} may be chained (the function methods -- all string methods are function methods, but the container types introduced in Chapter~\ref{sec:builtingenerictypes} also offer procedure methods, those are statements and not expressions and cannot be chained).
+The methods given with the \emph{MethodSelector} may be chained (the function methods -- all string methods are function methods, see~\ref{sub:funcmethcall} for more on this topic we preview here, but the container types introduced in Chapter~\ref{sec:builtingenerictypes} also offer procedure methods (cf.~\ref{sub:procmethcall}), those are statements and not expressions and cannot be chained).
 The available string methods are:
 
 \begin{description}
@@ -341,6 +341,7 @@ After we've seen all the ways to combine expressions, finally we'll have a look 
 		| '::' GlobalVarIdent
 		| MemberAccess
 		| FunctionCall
+		| IndexFunctionCall
 		| ScanTryscanCall
 		| IteratedQuery
 		| CastExpr
@@ -390,9 +391,9 @@ The member access \texttt{n.a} returns the value of the attribute \texttt{a} of 
 A \emph{VarIdent} returns the value of the denoted variable, a \emph{GlobalVarIdent} \texttt{::x} returns the value of the graph-global variable \texttt{x}.
 
 \begin{rail}
-  FunctionCall: FunctionIdent '(' (() | Expr + ',') ')';
-\end{rail}\ixnterm{FunctionCall}
-A function call employs an external (attribute evaluation) function (cf. \ref{sub:extfct}), or a (internal) user-defined function (see \ref{sub:functions}), or a built-in function.
+  FunctionCall: FunctionIdent '(' (() | Expression + ',') ')';
+\end{rail}
+A function call employs an external (attribute evaluation) function (cf. \ref{sub:extfct}), or a (internal) user-defined function (see \ref{sub:functions}, there you find the syntax definition we replicate here as a preview), or a built-in function (you find more on the \emph{IndexFunctionCall} in \ref{sec:attributeindices} and on the \emph{ScanTryscanCall} in \ref{sec:scantryscan}).
 Available built-in functions are e.g. \texttt{nameof}, \texttt{uniqueof}, and \texttt{random}.
 
 The \texttt{nameof} function returns the name of the given graph element as \texttt{string}

@@ -41,7 +41,12 @@ Compound assignments combine a binary expression with an assignment.
 
 Constructor literals may be used to create and initialize containers;
 a copy constructor allows to get a new container, of duplicated content and potentially different type.
-And finally iteration over the elements in the container is supported with a \texttt{for} loop.
+And finally iteration over the elements in the container is supported with a \texttt{for} loop, cf.~\ref{sub:controlflow}.
+
+\begin{rail}
+  ForContainerHeader: 'for' '(' Var ':' Type 'in' ContainerVar ')';
+  ForContainerWithIndexVarHeader: 'for' '(' IndexVar ':' Type '->' Var ':' Type 'in' ContainerVar ')' ;
+\end{rail}\ixkeyw{in}\ixkeyw{for}\ixnterm{ForContainerHeader}\ixnterm{ForContainerWithIndexVarHeader}
 
 These operations are available in the rule language, as an extension of the expressions from \ref{cha:typeexpr} and the computation statements from \ref{cha:computations}; 
 most of them are available in the sequence computations language, too
@@ -70,6 +75,8 @@ Set expressions consist of the known mathematical set operations, plus some oper
 \item[\texttt{.size()}] returns the number of elements in the set, as \texttt{int}
 \item[\texttt{.empty()}] returns whether the set is empty, as \texttt{boolean}
 \item[\texttt{.peek(num)}] returns the element which comes at position \texttt{num:int} in the sequence of enumeration, as \texttt{T} for \verb#set<T>#; the higher the number, the longer retrieval takes
+\item[\texttt{.min()}] returns the minimum of the elements in the set, as \texttt{T'} for \texttt{set<T>} (see \ref{sec:accumulation} regarding \texttt{T'})
+\item[\texttt{.max()}] returns the maximum of the elements in the set, as \texttt{T'} for \texttt{set<T>} (see \ref{sec:accumulation} regarding \texttt{T'}).
 \item[\texttt{.asArray()}] returns an array of the set content, as \verb#array<T># for \verb#set<T>#, in enumeration order
 \end{description}
 
@@ -99,7 +106,7 @@ Set expressions consist of the known mathematical set operations, plus some oper
 The binary set operators require the left and right operands to be of identical type \verb#set<T>#.
 The operator \texttt{x in s} denotes set membership $x \in s$, returning whether the set contains the given element, as \texttt{boolean}.
 It is a O(1) operation for sets.
-Furthermore, the container may be iterated over with a \texttt{for} loop, as introduced in  \ref{sub:controlflow}.
+Furthermore, the container may be iterated over with a \texttt{for} loop, as introduced in \ref{sub:controlflow}.
 The set only allows for non-indexed iteration.
 
 The relational expressions (already introduced in \ref{sec:relational}) used to compare entities of different kinds, mapping them to the type boolean, are extended to sets according to table~\ref{compset}:

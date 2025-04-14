@@ -8,7 +8,7 @@
 Besides the types already introduced, \GrG\ offers support for a \texttt{\indexed{graph}} type.
 If used explicitly, it denotes a subgraph of the host graph, which can be used for storing and comparing subgraphs of the current host graph. (Because of the "there is only a single host graph"-design of GrGen you must explicitly descend to the nested subgraph if you intend to process it, see \ref{sec:graphnesting}).
 
-But more important are the large number of global functions (with call syntax as already introduced in \ref{sec:primexpr}) and global procedures (with call syntax as already introduced in \ref{sec:proccall}) that implicitly operate on the single host graph (and thus on the graph type).
+But more important are the large number of global functions (with call syntax as already introduced in \ref{sec:primexpr}) and global procedures (with call syntax as already introduced in \ref{sub:proccall}) that implicitly operate on the single host graph (and thus on the graph type).
 There are update functions available that allow to manipulate the graph available with \texttt{add}, \texttt{rem} and \texttt{retype}.
 The host graph may be queried for all \texttt{nodes} or \texttt{edges} of a given type.
 An edge may be queried for its \texttt{source} and \texttt{target} elements,
@@ -113,23 +113,27 @@ The neighbourhood query function can be used in four possible ways:
 Expression:
   FunctionName '(' StartNodeExpr ')' ;
 \end{rail}
-	\item[Iteration loops:] The neighbourhood function is employed from a for loop that allows to iterate the neighbouring entities of the start node. No set needs to be built here. But if the source node has multiple edges to a target node, it might be iterated multiple times. And an edge may be iterated twice in case of the undirected functions.
+
+	\item[Iteration loops:] The neighbourhood function is employed from a for loop (cf.~\ref{sub:controlflow}) that allows to iterate the neighbouring entities of the start node. No set needs to be built here. But if the source node has multiple edges to a target node, it might be iterated multiple times. And an edge may be iterated twice in case of the undirected functions.
 \begin{rail}
-ForLoop: 
-  'for' '(' Name ':' Type 'in' FunctionName '(' StartNodeExpr ')' \\ lbrace Statements rbrace;
-\end{rail}
+  ForFunctionHeader: 'for' '(' Var ':' Type 'in' FunctionName '(' Arguments ')' ')';
+\end{rail}\ixkeyw{in}\ixkeyw{for}\ixnterm{ForFunctionHeader}
+Such a for graph accessing function loop is also available for the nodes/edges functions introduced above,
+and many of the following (graph query by neighbourhood, including the transitive, only excluding the with-remaining-depth) functions, defining a general way of accessing the graph elements from the host graph.
+
 	\item[Counted functions:] The counted neighbourhood function returns the count of neighbouring entities of the start node. This is at least as efficient as calling \texttt{size()} on the resulting set of the plain neighbourhood function, often it is more efficient.
 \begin{rail}
 Expression:
   CountedFunctionName '(' StartNodeExpr ')' ;
 \end{rail}
-The \emph{CountedFunctionName} is built from the \emph{FunctionName} by prepending \texttt{count} and switching the first charecter of \emph{FunctionName} to upper case.
-	\item[Boolean functions:] The neighbourhood function is employed in a boolean predicate version that allows the check whether a second target entity is in the queried neighbourhood of the start node. The computation has the smallest internal processing overhead of the three options and stops as soon as a positive result is obtained.
+The \emph{CountedFunctionName} is built from the \emph{FunctionName} by prepending \texttt{count} and switching the first character of \emph{FunctionName} to upper case.
+
+	\item[Boolean functions:] The neighbourhood function is employed in a boolean predicate version that allows to check whether a second target entity is in the queried neighbourhood of the start node. The computation has the smallest internal processing overhead of the three options and stops as soon as a positive result is obtained.
 \begin{rail}
 Expression:
   FunctionNamePredicate '(' StartNodeExpr ',' TargetEntity ')' ;
 \end{rail}
-The \emph{FunctionNamePredicate} is built from the \emph{FunctionName} by prepending \texttt{is} and switching the first charecter of \emph{FunctionName} to upper case.
+The \emph{FunctionNamePredicate} is built from the \emph{FunctionName} by prepending \texttt{is} and switching the first character of \emph{FunctionName} to upper case.
 \end{description}
 
 
@@ -730,8 +734,8 @@ Please note that transactions may be nested; those functions are used in impleme
 The procedures \texttt{assert} and \texttt{assertAlways} allow to ensure that a specific condition holds, which must be given as first parameter, a message to be printed in case the condition is false may be given as second parameter, further parameters are appended to the \indexed{assertion} message (after having been transformed to strings).
 
 \begin{description}
-\item[\texttt{assert(.(,.)*)}] fires when the condition yields false and assertions are enabled, cf. \ref{enableassertions} (only in that case is the condition evaluated, the same holds for the other arguments).
-\item[\texttt{assertAlways(.(,.)*)}] fires always when the condition yields false.
+\item[\texttt{assert(.[,.]*)}] fires when the condition yields false and assertions are enabled, cf. \ref{enableassertions} (only in that case is the condition evaluated, the same holds for the other arguments).
+\item[\texttt{assertAlways(.[,.]*)}] fires always when the condition yields false.
 \end{description}
 
 A firing aborts program execution by default, or allows you to choose in the debugger how to proceed (in between program abort, external debugging, and execution continuation).
@@ -747,8 +751,8 @@ Besides there are procedures to emit text or record graph changes available:
 \end{rail}\label{recstmt}\indexmain{record}\indexmain{emit}\indexmain{emitdebug}
 
 \begin{description}
-\item[\texttt{emit(.(,.)*)}] writes the argument value, or the comma separated list of argument values, to stdout, or to a file if output was redirected (with the shell command \texttt{redirect emit}). The argument(s) must be of string type, but any type is automatically casted into its string representation as needed. Prefer comma separated arguments over string concatenation, they are are more efficient as no intermediate strings need to be computed, just to be garbage collected thereafter.
-\item[\texttt{emitdebug(.(,.)*)}] writes the argument value, or the comma separated list of argument values, always to stdout, even if file output was redirected. Besides that, the other explanations for \texttt{emit} apply.
+\item[\texttt{emit(.[,.]*)}] writes the argument value, or the comma separated list of argument values, to stdout, or to a file if output was redirected (with the shell command \texttt{redirect emit}). The argument(s) must be of string type, but any type is automatically casted into its string representation as needed. Prefer comma separated arguments over string concatenation, they are are more efficient as no intermediate strings need to be computed, just to be garbage collected thereafter.
+\item[\texttt{emitdebug(.[,.]*)}] writes the argument value, or the comma separated list of argument values, always to stdout, even if file output was redirected. Besides that, the other explanations for \texttt{emit} apply.
 \item[\texttt{record(.)}] writes the argument value, typically a text string, to the currently ongoing graph change recordings (see \ref{recordnreplay}).
 This feature allows to mark states reached during the transformation process in order to replay only interesting parts of a recording.
 It is recommended to write only comment label lines, i.e. \verb/"#"/, some label, and \verb/"\n"/.\end{description}

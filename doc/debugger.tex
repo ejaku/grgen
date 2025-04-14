@@ -533,21 +533,21 @@ The debugging commands are used for one to directly display information, but for
 
 The available commands are:
 \begin{description}
-\item[\texttt{Debug::add(message(,object)*)}] to be called when a subrule computation or an interesting piece of code is entered.
+\item[\texttt{Debug::add(message[,object]*)}] to be called when a subrule computation or an interesting piece of code is entered.
 The message is added to the debug messages stack of the debugger.
 Besides the mandatory \texttt{message:string}, an arbitrary number of other parameters may be given (of arbitrary type).
-\item[\texttt{Debug::rem(message(,object)*)}] to be called when a subrule computation or an interesting piece of code is exited.
+\item[\texttt{Debug::rem(message[,object]*)}] to be called when a subrule computation or an interesting piece of code is exited.
 The topmost entry message on the messages stack is removed.
 It is checked that the message of the topmost added entry is identical to the message of current removal -- you must always call \texttt{add} and \texttt{rem} in pairs!
 The \texttt{emit} messages on the way to the topmost \texttt{add} are removed. 
 Besides the mandatory \texttt{message:string}, an arbitrary number of other parameters may be given (of arbitrary type).
-\item[\texttt{Debug::emit(message(,object)*)}] to be called when some interesting points in the code are passed.
+\item[\texttt{Debug::emit(message[,object]*)}] to be called when some interesting points in the code are passed.
 The message is added to the debug messages stack of the debugger.
 Besides the mandatory \texttt{message:string}, an arbitrary number of other parameters may be given (of arbitrary type).
-\item[\texttt{Debug::halt(message(,object)*)}] to be called when some point in the code is reached that is so interesting that you want the execution to break in the debugger. 
+\item[\texttt{Debug::halt(message[,object]*)}] to be called when some point in the code is reached that is so interesting that you want the execution to break in the debugger. 
 If called, the debugger halts execution, displays the messages stack in its current state, and prints out the halt message with its parameters.
 Besides the mandatory \texttt{message:string}, an arbitrary number of other parameters may be given (of arbitrary type).
-\item[\texttt{Debug::highlight(message(,object,string)*)}] to be called when some point in the code is reached that is so interesting that you want the execution to break in the debugger, 
+\item[\texttt{Debug::highlight(message[,object,string]*)}] to be called when some point in the code is reached that is so interesting that you want the execution to break in the debugger, 
 in order to highlight some nodes or edges graphically in the debugger, in the same way they are highlighted when an action is matched.
 If called, the debugger halts execution, displays the messages stack in its current state, and displays the nodes and edges passed with the additional parameters highlighted in the graph.
 The additional parameters must be given in pairs, first the entity to display, then the string that entry will be annotated with in the debugger.

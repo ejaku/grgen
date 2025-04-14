@@ -366,9 +366,9 @@ in addition to the methods defined in Chapter~\ref{cha:typeexpr}.
 %(Furthermore, external functions methods and computation methods may be declared, callable with the same syntax, too.)
 
 %-----------------------------------------------------------------------------------------------
-\subsection{Function Method Definition and Call}\label{sub:functionmethods}\label{sec:funcmethcall} 
+\subsection{Function Method Definition and Call}\label{sub:functionmethods}\label{sub:funcmethcall} 
 
-Function methods are defined in exactly the same way as functions are defined, just inside the hosting class.
+Function methods are defined in exactly the same way as functions (cf.~\ref{sub:functions}) are defined, just inside the hosting class.
 They have the same requirements, 
 i.e. exactly one output value must be returned, 
 and they must be side-effect free, which especially means that they are not allowed to change the attributes of their hosting type.
@@ -382,8 +382,9 @@ and they must be side-effect free, which especially means that they are not allo
 \end{rail}\ixnterm{FunctionMethodCall}
 
 A such defined function method may then be called as an expression atom from anywhere in the rule language file where an expression is required; or even from the sequence computations (where an expression is required).
-In contrast to a regular function call with a method call target prefix added, separated by a dot (defining the value of the \texttt{this} reference; the call target prefix may be a variable or an attribute of an object/element, or a full expression).
+In contrast to a regular function call (cf.~\ref{sub:funccall}) with a method call target prefix added, separated by a dot (defining the value of the \texttt{this} reference; the call target prefix may be a variable or an attribute of an object/element, or a full expression).
 The built-in function methods listed in \ref{funcmethstab} are called with the same syntax.
+The syntax of function method calls was already previewed in \ref{sec:stringexprs}, including the ability to chain function method calls.
 
 Inside the function methods, the special entity \texttt{this} is available.
 It allows to access the attributes and methods of the type the method is contained in.
@@ -484,9 +485,9 @@ the usage of \texttt{this} is mandatory in \GrG~in order to access the attribute
 \end{table}
 
 %-----------------------------------------------------------------------------------------------
-\subsection{Procedure Method Definition And Call}\label{sub:proceduremethods}\label{sec:procmethcall} 
+\subsection{Procedure Method Definition And Call}\label{sub:proceduremethods}\label{sub:procmethcall} 
 
-Procedure methods are defined in exactly the same way as procedures are defined, just inside the hosting class.
+Procedure methods are defined in exactly the same way as procedures (cf.~\ref{sub:procedures}) are defined, just inside the hosting class.
 They may return an arbitrary number of return values, and are thus only callable as a statement.
 They are allowed to manipulate the graph and esp. the object/element they are contained in as needed, while being executed;
 so you are free to call other procedures -- but in contrast to global procedures, you cannot include exec statements.
@@ -502,7 +503,7 @@ so you are free to call other procedures -- but in contrast to global procedures
 \end{rail}\ixnterm{ProcedureMethodCall}\ixnterm{MethodTarget}
 
 A such defined procedure may then be called as a statement atom from anywhere in the rule language file where an attribute evaluation statement (/computation) is required; or even from the sequence computations (where a statement is required).
-In contrast to a regular procedure call with a method target prefix added, separated by a dot (defining the \texttt{this} value; the call target prefix may be a variable or an attribute of an object/element).
+In contrast to a regular procedure call (cf.~\ref{sub:proccall}) with a method target prefix added, separated by a dot (defining the \texttt{this} value; the call target prefix may be a variable or an attribute of an object/element).
 The built-in procedure methods listed in \ref{procmethstab} are called with the same syntax.
 
 Inside the procedure method, the special entity \texttt{this} is available.
@@ -813,6 +814,19 @@ Switching the location of processing is a feature only available in the sequence
 A simplified and more lightweight version of the full switch just introduced is available for single rule calls with syntax \verb#g.r#; so a method call in the plain sequences (above the sequence computations) denotes in fact a temporary subgraph switch.
 This is syntactic sugar for the dedicated switch containing only a single rule application as sequence.
 The syntax of rule application is extended by the grammar rule above to allow for this is.
+
+\begin{rail}
+  ReferenceToContainingGraphDecl: 'node' 'edge' 'graph' ';';
+\end{rail}\ixnterm{ReferenceToContainingGraphDecl}
+
+If you work with multiple graphs or nested graphs, and esp. with nodes/edges being stored in variables that don't belong to the graph getting currently processed, or even being contained in member variables of a different graph, you are likely interested in fetching the (originally) containing graph of the node/edge so you can switch to it and continue processing inside it.
+The capability to do so can be requested with a \texttt{node edge graph;} declaration in the model.
+This incurs an additional cost of a 4 bytes reference to the containing graph per graph element in case of a 32bit CLR, and a cost of a 8 bytes reference to the containing graph per graph element in case of a 64bit CLR.
+
+The reference to the containing graph may be queried from the rule language expressions or the sequence expressions with the \texttt{\indexed{graphof}} function:
+\begin{description}
+\item[\texttt{graphof(.)}] returns the containing graph (type \texttt{graph}) of the given node or edge.
+\end{description}
 
 The \emph{information hiding} shown by the graph attributes is comparable to the information hiding shown by the objects in \emph{object-oriented programming}, there the attributes but especially the neighbouring elements are only known to the containing object and accessible to the methods of the object.
 In \emph{graph-oriented programming} are the attributes but especially the neighboring elements known to the containing graph, the connecting topology is open for \emph{pattern matching}.

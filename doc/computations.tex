@@ -130,14 +130,13 @@ Computations may be executed repeatedly by the \texttt{while} and \texttt{do-whi
 
 %\section{Container iteration}
 
+A for loop is available for iterating a range of integers, with the lower and the upper bounds specified.
 The containers introduced in chapter \ref{cha:container} may be iterated over with a for loop, one assigning the current value to a variable, the other assigning the current index and the current value to a variable.
 Note that you can only iterate directly over a container variable, not over a container typed attribute --- as of now, you have to assign a container typed attribute to a container variable in case you want to iterate over it.
-Furthermore, a for loop is available for iterating a range of integers, with the lower and the upper bounds specified.
-Moreover, a for loop is available for iterating the graph elements stored in an index, with the lower and upper bounds specified, see \ref{sub:indexusage} for more on this and the \emph{ForIndexAccessHeader}.
+Furthermore, a for loop is available for iterating the nodes or edges of the host graph with multiple graph access functions, as introduced in chapter \ref{cha:graph}. 
+Moreover, a for loop is available for iterating the graph elements stored in an index, with multiple index access functions, see chapter \ref{cha:indices} or more precisely \ref{sub:indexusage} for more on this.
 \begin{rail}
-  ForLoop: (ForHeader | IndexedForHeader | ForRangeHeader | ForIndexAccessHeader) lbrace (Statement*) rbrace;
-  ForHeader: 'for' '(' Var ':' Type 'in' ContainerVar ')';
-  IndexedForHeader: 'for' '(' IndexVar ':' Type '->' Var ':' Type 'in' ContainerVar ')' ;
+  ForLoop: (ForRangeHeader | ForContainerHeader | ForContainerWithIndexVarHeader | ForFunctionHeader | ForIndexFunctionHeader) lbrace (Statement*) rbrace;
   ForRangeHeader: 'for' '(' Var ':' 'int' 'in' '[' IntExpr ':' IntExpr ']' ')';
 \end{rail}\ixkeyw{in}\ixkeyw{for}\ixnterm{ForLoop}
 
@@ -205,7 +204,7 @@ Besides, several built-in functions and procedures are available, ready to be ca
 (Furthermore, external functions and procedures may be declared, callable with the same syntax, too.)
 
 %-----------------------------------------------------------------------------------------------
-\subsection{Function Definition and Call}\label{sub:functions}\label{sec:funccall} 
+\subsection{Function Definition and Call (and Quick Reference Tables)}\label{sub:functions}\label{sub:funccall} 
 
 Functions return exactly one output value, and can thus be used from the expressions with their compositional semantics.
 They are side-effect free, meaning they are not allowed to change the graph while being executed ---
@@ -231,8 +230,9 @@ The type of the one return value must be compatible to the return type specified
 \end{rail}\ixkeyw{return}\ixnterm{ReturnStatement}
 
 \begin{rail}
-  FunctionCall: FunctionIdent '(' (Expression * ',') ')' ;
-\end{rail}\ixnterm{FunctionCall}
+  FunctionCall: FunctionIdent '(' Arguments ')' ;
+  Arguments: ((Expression) * ',') ;
+\end{rail}\ixnterm{FunctionCall}\ixnterm{Arguments}
 
 \begin{example}
 An example showing how functions are declared and used.
@@ -261,7 +261,8 @@ test example : (int)
 \end{example}
 
 A such defined function may then be called as an expression atom from anywhere in the rule language file where an expression is required; or even from the sequence computations where an expression is required.
-Besides the built-in functions that are called with the same syntax;
+In case you are missing them: these are functions from outside a class, you find more on function methods and their calls in Section~\ref{sub:funcmethcall}.
+The built-in functions are called with the same syntax;
 table~\ref{funcstab} and table~\ref{funcstab2} list the global built-in functions of the rule language at a glance,
 table~\ref{packagefuncstab} lists the built-in functions contained in built-in packages at a glance.
 
@@ -305,10 +306,10 @@ The three functions above allow optional edge and node type constraints, too.\\
 \hline
 \texttt{inducedSubgraph(set<Node>):graph}\\
 \texttt{definedSubgraph(set<Edge>):graph}\\
-\texttt{equalsAny(graph, set<graph>):boolean}\\
-\texttt{equalsAnyStructurally(graph, set<graph>):boolean}\\
-\texttt{getEquivalent(graph, set<graph>):graph}\\
-\texttt{getEquivalentStructurally(graph, set<graph>):graph}\\
+\texttt{equalsAny(graph,set<graph>):boolean}\\
+\texttt{equalsAnyStructurally(graph,set<graph>):boolean}\\
+\texttt{getEquivalent(graph,set<graph>):graph}\\
+\texttt{getEquivalentStructurally(graph,set<graph>):graph}\\
 \texttt{copy(graph):graph}\\
 \texttt{clone(match<r>):match<r>}\\
 \texttt{clone(match<class mc>):match<class mc>}\\
@@ -450,7 +451,7 @@ The three functions above allow optional edge and node type constraints, too.\\
 
 
 %-----------------------------------------------------------------------------------------------
-\subsection{Procedure Definition And Call}\label{sub:procedures}\label{sec:proccall} 
+\subsection{Procedure Definition And Call (and Quick Reference Tables)}\label{sub:procedures}\label{sub:proccall} 
 %You may call any of the built-in procedures that will be introduced in the following chapters or any of your defined procedures just for its side effects, throwing away the result.
 
 Procedures may return between zero and $k$ (arbitrary, but statically fixed) output values, and are thus only callable as a statement, with (or without) a multiple-value assignment.
@@ -474,7 +475,7 @@ It must be always ended with a return statement; the type of the return values m
 \end{rail}\ixkeyw{return}\ixnterm{ReturnStatement}
 
 \begin{rail}
-  ProcedureCall: (OutputAssignment)? ProcedureIdent '(' (Expression * ',') ')' ;
+  ProcedureCall: (OutputAssignment)? ProcedureIdent '(' Arguments ')' ;
   OutputAssignment: '(' (AssignmentTarget + ',') ')' '=' ;
 \end{rail}\ixnterm{ProcedureCall}\ixnterm{OutputAssignment}\ixnterm{AssignmentTarget}
 
@@ -516,7 +517,8 @@ rule example : (int,int)
 \end{example}
 
 A such defined procedure may then be called as a statement atom from anywhere in the rule language file where an attribute evaluation (/computation) is required; or even from the sequence computations where a statement is required.
-Besides the built-in procedures that are called with the same syntax;
+In case you are missing them: these are procedures from outside a class, you find more on procedure methods and their calls in Section~\ref{sub:procmethcall}.
+The built-in procedures are called with the same syntax;
 table~\ref{procstab} lists the global built-in procedures of the rule language at a glance,
 table~\ref{packageprocstab} lists the built-in procedures contained in built-in packages at a glance.
 
@@ -553,15 +555,15 @@ The \emph{AssignmentTarget} may be any of the LHS expressions supported by the d
 \texttt{vreset(int)}\\
 \texttt{vfreenonreset(int)}\\
 \hline
-\texttt{emit(string(,string)*)}\\
-\texttt{emitdebug(string(,string)*)}\\
+\texttt{emit(string[,string]*)}\\
+\texttt{emitdebug(string[,string]*)}\\
 \texttt{record(string)}\\
 \hline
 \texttt{getEquivalentOrAdd(graph,array<graph>):(graph)}\\
 \texttt{getEquivalentStructurallyOrAdd(graph,array<graph>):(graph)}\\
 \hline
-\texttt{assert(boolean(,string(,object)*))}\\
-\texttt{assertAlways(boolean(,string(,object)*))}\\
+\texttt{assert(boolean[,string[,object]*])}\\
+\texttt{assertAlways(boolean[,string[,object]*])}\\
 \hline
 \end{tabular}
 \caption{Global procedures at a glance}
@@ -583,11 +585,11 @@ The \emph{AssignmentTarget} may be any of the LHS expressions supported by the d
 \texttt{Transaction::commit(int)}\\
 \texttt{Transaction::rollback(int)}\\
 \hline
-\texttt{Debug::add(string(,object)*)}\\
-\texttt{Debug::rem(string(,object)*)}\\
-\texttt{Debug::emit(string(,object)*)}\\
-\texttt{Debug::halt(string(,object)*)}\\
-\texttt{Debug::highlight(string(,object,string)*)}\\
+\texttt{Debug::add(string[,object]*)}\\
+\texttt{Debug::rem(string[,object]*)}\\
+\texttt{Debug::emit(string[,object]*)}\\
+\texttt{Debug::halt(string[,object]*)}\\
+\texttt{Debug::highlight(string[,object,string]*)}\\
 \hline
 \texttt{Synchronization::enter(object)}\\
 \texttt{Synchronization::tryenter(object):(boolean)}\\

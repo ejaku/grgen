@@ -136,7 +136,7 @@ The accumulation variable of the \texttt{keepOneForEachAccumulateBy} filter must
 \item[\texttt{keepSameAsLast<v>}] filters away all matches with \texttt{v} values that are not equal to the \texttt{v} value of the last match.
 \end{description}
 
-The \texttt{orderAscendingBy<.(,.)*>} and \texttt{orderDescendingBy<.(,.)*>} allow to specify more than one variable, all others (with exception of \texttt{keepOneForEachAccumulateBy} and \texttt{auto}) support only one variable.
+The \texttt{orderAscendingBy<.[,.]*>} and \texttt{orderDescendingBy<.[,.]*>} allow to specify more than one variable, all others (with exception of \texttt{keepOneForEachAccumulateBy} and \texttt{auto}) support only one variable.
 The order-by filters order the matches in order of the (def) variables, e.g. \texttt{orderAscendingBy<v,w>} orders the matches primarily by \texttt{v} and secondarily by \texttt{w}, i.e in case the values of the first def variable are equal, the values of the second one decide.
  
 Besides those variable-based filters you may use the automorphic matches filter to purge \indexed{symmetric matches}.
