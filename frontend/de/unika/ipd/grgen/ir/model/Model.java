@@ -59,6 +59,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	private boolean isLowerClassDefined;
 	private boolean isGraphofDefined;
 	private boolean isUniqueDefined;
+	private boolean isUniqueResulting;
 	private boolean isUniqueClassDefined;
 	private boolean isUniqueIndexDefined;
 	private boolean areFunctionsParallel;
@@ -85,6 +86,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 		this.isLowerClassDefined = isLowerClassDefined;
 		this.isGraphofDefined = isGraphofDefined;
 		this.isUniqueDefined = isUniqueDefined;
+		this.isUniqueResulting = isUniqueDefined;
 		this.isUniqueClassDefined = isUniqueClassDefined;
 		this.isUniqueIndexDefined = isUniqueIndexDefined;
 		this.areFunctionsParallel = areFunctionsParallel;
@@ -343,6 +345,16 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	public void forceUniqueDefined()
 	{
 		isUniqueDefined = true;
+	}
+
+	public boolean isUniqueResulting()
+	{
+		return isUniqueResulting;
+	}
+
+	public void forceUniqueResulting()
+	{
+		isUniqueResulting = true;
 	}
 
 	public boolean isUniqueClassDefined()

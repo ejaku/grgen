@@ -70,9 +70,14 @@ namespace de.unika.ipd.grGen.libGr
         bool GraphElementsReferenceContainingGraph { get; }
 
         /// <summary>
-        /// If true, the graph elements contain a unique id and you may query with GetUniqueId for their unique id (cast to IIdentifiable needed)
+        /// If true, the graph elements contain a unique id and you may query with GetUniqueId for their unique id (cast to IIdentifiable needed) (this could be also the case because of internal technical/implementation reasons)
         /// </summary>
         bool GraphElementUniquenessIsEnsured { get; }
+
+        /// <summary>
+        /// If true, the user requested graph element uniqueness with a "node edge unique;" or a "unique index;" declaration in the model. This implies GraphElementUniquenessIsEnsured.
+        /// </summary>
+        bool GraphElementUniquenessIsUserRequested { get; }
 
         /// <summary>
         /// If true you may query the (non-transient class) objects with GetUniqueId for their unique id (GetObjectName is based on the unique id)
@@ -80,7 +85,7 @@ namespace de.unika.ipd.grGen.libGr
         bool ObjectUniquenessIsEnsured { get; }
 
         /// <summary>
-        /// If true you may query the graph with GetGraphElement for a graph element of a given unique id
+        /// If true you may query the graph with GetGraphElement for a graph element of a given unique id (the user requested graph element accessability by the unique id with a "unique index;" declaration in the model, this implies GraphElementUniquenessIsUserRequested)
         /// </summary>
         bool GraphElementsAreAccessibleByUniqueId { get; }
 

@@ -109,16 +109,20 @@ modloop:
 			}
 		}
 
-		boolean forceUnique = false;
+		boolean forceUniqueDefined = false;
 		for(Model model : unit.getModels()) {
 			if(model.isUniqueIndexDefined())
-				forceUnique = true;
+				forceUniqueDefined = true;
+		}
+
+		boolean forceUniqueResulting = forceUniqueDefined;
+		for(Model model : unit.getModels()) {
 			if(model.areFunctionsParallel())
-				forceUnique = true;
+				forceUniqueResulting = true;
 			if(model.isoParallel() > 0)
-				forceUnique = true;
+				forceUniqueResulting = true;
 			for(@SuppressWarnings("unused") Index index : model.getIndices()) {
-				forceUnique = true;
+				forceUniqueResulting = true;
 			}
 		}
 
@@ -126,8 +130,10 @@ modloop:
 		ModelGen modelGen = new ModelGen(this, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 		boolean modelGenerated = false;
 		for(Model model : unit.getModels()) {
-			if(forceUnique)
+			if(forceUniqueDefined)
 				model.forceUniqueDefined();
+			if(forceUniqueResulting)
+				model.forceUniqueResulting();
 
 			modelGen.genModel(model);
 

@@ -554,7 +554,7 @@ public class ModelGen extends CSharpBase
 		boolean isNode = type instanceof NodeType;
 		String kindStr = isNode ? "Node" : "Edge";
 		String baseClass = "GRGEN_LGSP.LGSP" + kindStr;
-		if(model.isUniqueDefined())
+		if(model.isUniqueResulting())
 			baseClass += "WithUniqueId";
 		if(model.isGraphofDefined())
 			baseClass += "WithReferenceToContainingGraph";
@@ -598,8 +598,8 @@ public class ModelGen extends CSharpBase
 			stubsb.append("\n");
 
 			sb.append("\n");
-			sb.appendFront("public abstract class " + elemname + " : GRGEN_LGSP.LGSP"
-					+ kindStr + ", " + ielemref + "\n");
+			sb.appendFront("public abstract class " + elemname + " : "
+					+ baseClass + ", " + ielemref + "\n");
 			sb.appendFront("{\n");
 			sb.indent();
 		}
@@ -850,7 +850,7 @@ public class ModelGen extends CSharpBase
 		}
 		routedSB.appendFront("{\n");
 		routedSB.indent();
-		if(model.isUniqueDefined() && (type instanceof NodeType || type instanceof EdgeType))
+		if(model.isUniqueResulting() && (type instanceof NodeType || type instanceof EdgeType))
 			routedSB.appendFront("uniqueId = oldElem.uniqueId;\n");
 
 		if(type instanceof InternalObjectType || type instanceof InternalTransientObjectType) {
@@ -3685,6 +3685,8 @@ commonLoop:
 		sb.appendFront("public override bool GraphElementsReferenceContainingGraph { get { return "
 				+ (model.isGraphofDefined() ? "true" : "false") + "; } }\n");
 		sb.appendFront("public override bool GraphElementUniquenessIsEnsured { get { return "
+				+ (model.isUniqueResulting() ? "true" : "false") + "; } }\n");
+		sb.appendFront("public override bool GraphElementUniquenessIsUserRequested { get { return "
 				+ (model.isUniqueDefined() ? "true" : "false") + "; } }\n");
 		sb.appendFront("public override bool ObjectUniquenessIsEnsured { get { return "
 				+ (model.isUniqueClassDefined() ? "true" : "false") + "; } }\n");
@@ -4040,7 +4042,7 @@ commonLoop:
 		if(model.isUniqueIndexDefined())
 			sb.appendFront("return new GRGEN_LGSP.LGSPUniquenessIndex((GRGEN_LGSP.LGSPGraph)graph); "
 					+ "// must be called before the indices so that its event handler is registered first, doing the unique id computation the indices depend upon\n");
-		else if(model.isUniqueDefined())
+		else if(model.isUniqueResulting())
 			sb.appendFront("return new GRGEN_LGSP.LGSPUniquenessEnsurer((GRGEN_LGSP.LGSPGraph)graph); "
 					+ "// must be called before the indices so that its event handler is registered first, doing the unique id computation the indices depend upon\n");
 		else
@@ -4055,7 +4057,7 @@ commonLoop:
 		sb.appendFront("public override void FillIndexSetAsClone(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IGraph originalGraph, "
 				+ "IDictionary<GRGEN_LIBGR.IGraphElement, GRGEN_LIBGR.IGraphElement> oldToNewMap) {\n");
 		sb.indent();
-		if(model.isUniqueDefined()) {
+		if(model.isUniqueResulting()) {
 			sb.appendFront("((GRGEN_LGSP.LGSPUniquenessEnsurer)graph.UniquenessHandler).FillAsClone("
 					+ "(GRGEN_LGSP.LGSPUniquenessEnsurer)originalGraph.UniquenessHandler, oldToNewMap);\n");
 		}

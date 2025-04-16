@@ -1,3 +1,5 @@
 for function[parallelize=true];
 
 node class N;
+
+node edge unique;

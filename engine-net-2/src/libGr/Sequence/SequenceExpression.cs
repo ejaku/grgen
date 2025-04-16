@@ -12713,7 +12713,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(TypesHelper.IsSameOrSubtype(UniquelyIdentifiedEntity.Type(env), "Node", env.Model)
                     || TypesHelper.IsSameOrSubtype(UniquelyIdentifiedEntity.Type(env), "AEdge", env.Model))
                 {
-                    if(!env.Model.GraphElementUniquenessIsEnsured)
+                    if(!env.Model.GraphElementUniquenessIsUserRequested)
                         throw new SequenceParserExceptionModelFlagDeclarationMissing("node edge unique;", "uniqueof()");
                 }
 

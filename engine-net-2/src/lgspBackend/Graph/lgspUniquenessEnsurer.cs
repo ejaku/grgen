@@ -22,7 +22,7 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPUniquenessEnsurer(LGSPGraph graph)
         {
             if(!graph.Model.GraphElementUniquenessIsEnsured)
-                throw new Exception("Internal error, uniqueness ensurer constructed although uniqueness was not requested");
+                throw new Exception("Internal error, uniqueness ensurer constructed although uniqueness does not have to be ensured");
 
             if(graph.NumNodes > 0 || graph.NumEdges > 0)
                 throw new Exception("Graph must be empty!");
