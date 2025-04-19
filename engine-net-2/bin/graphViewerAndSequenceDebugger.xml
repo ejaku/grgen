@@ -532,7 +532,7 @@
             </para>
             </remarks>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ParseException.#ctor(de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Token,System.Int32[][],System.String[])" -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ParseException.#ctor(de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Token,System.Int32[][],System.String[])" ignoriert -->
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ParseException.#ctor">
             The following constructors are for use by you for whatever
             purpose you can think of.  Constructing the exception in this

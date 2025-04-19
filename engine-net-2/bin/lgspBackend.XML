@@ -194,6 +194,16 @@
             Class representing a set peek expression.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.SetMin">
+            <summary>
+            Class representing an set min(imum) expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.SetMax">
+            <summary>
+            Class representing an set max(imum) expression.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.SetAsArray">
             <summary>
             Class representing a set as array expression.
@@ -1192,6 +1202,11 @@
             Class representing unique id expression
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.Graphof">
+            <summary>
+            Class representing graphof expression
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.This">
             <summary>
             Class representing this expression
@@ -1550,6 +1565,141 @@
         <member name="T:de.unika.ipd.grGen.expression.IsBoundedReachableEdges">
             <summary>
             Class representing expression returning whether the end edge is reachable from the start node within the given depth via incident edges
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.FromIndexAccess">
+            <summary>
+            Class representing expression accessing an index
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.FromIndexAccessSame">
+            <summary>
+            Class representing expression accessing an index based on equality comparison
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.FromIndexAccessFromTo">
+            <summary>
+            Class representing expression accessing an index based on ordering comparison
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.FromIndexAccessFromToPart">
+            <summary>
+            Class representing expression accessing an index based on ordering comparison
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.NodesFromIndexAccessSame">
+            <summary>
+            Class representing expression returning a set of nodes from an index with matching attribute values based on equality comparison
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.NodesFromIndexAccessFromTo">
+            <summary>
+            Class representing expression returning a set of nodes from an index with matching attribute values based on ordering comparison
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.EdgesFromIndexAccessSame">
+            <summary>
+            Class representing expression returning a set of edges from an index with matching attribute values based on equality comparison
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.EdgesFromIndexAccessFromTo">
+            <summary>
+            Class representing expression returning a set of edges from an index with matching attribute values based on ordering comparison
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountNodesFromIndexAccessSame">
+            <summary>
+            Class representing expression returning a count of the nodes from an index with matching attribute values based on equality comparison
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountNodesFromIndexAccessFromTo">
+            <summary>
+            Class representing expression returning a count of the nodes from an index with matching attribute values based on ordering comparison
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountEdgesFromIndexAccessSame">
+            <summary>
+            Class representing expression returning a count of the edges from an index with matching attribute values based on equality comparison
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.CountEdgesFromIndexAccessFromTo">
+            <summary>
+            Class representing expression returning a count of the edges from an index with matching attribute values based on ordering comparison
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IsInNodesFromIndexAccessSame">
+            <summary>
+            Class representing expression returning whether the candidate node is contained in the nodes from an index with matching attribute values based on equality comparison
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IsInNodesFromIndexAccessFromTo">
+            <summary>
+            Class representing expression returning whether the candidate node is contained in the nodes from an index with matching attribute values based on ordering comparison
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IsInEdgesFromIndexAccessSame">
+            <summary>
+            Class representing expression returning whether the candidate edge is contained in the edges from an index with matching attribute values based on equality comparison
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IsInEdgesFromIndexAccessFromTo">
+            <summary>
+            Class representing expression returning whether the candidate edge is contained in the edges from an index with matching attribute values based on ordering comparison
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.NodesFromIndexAccessSameAsArray">
+            <summary>
+            Class representing expression returning an array of nodes from an index with matching attribute values based on equality comparison
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.FromIndexAccessFromToAsArray">
+            <summary>
+            Base class representing expression returning an array from an index with matching attribute values based on ordering comparison
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.NodesFromIndexAccessFromToAsArray">
+            <summary>
+            Class representing expression returning an array of nodes from an index with matching attribute values based on ordering comparison
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.EdgesFromIndexAccessSameAsArray">
+            <summary>
+            Class representing expression returning an array of edges from an index with matching attribute values based on equality comparison
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.EdgesFromIndexAccessFromToAsArray">
+            <summary>
+            Class representing expression returning an array of edges from an index with matching attribute values based on ordering comparison
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.FromIndexAccessMultipleFromTo">
+            <summary>
+            Class representing expression returning a set from a multiple index access
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.NodesFromIndexAccessMultipleFromTo">
+            <summary>
+            Class representing expression returning a set of nodes from a multiple index access
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.EdgesFromIndexAccessMultipleFromTo">
+            <summary>
+            Class representing expression returning a set of edges from a multiple index access
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.MinMaxNodeFromIndex">
+            <summary>
+            Class representing expression returning the bottom/top node from an index with the lowest/highest attribute value
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.MinMaxEdgeFromIndex">
+            <summary>
+            Class representing expression returning the bottom/top edge from an index with the lowest/highest attribute value
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.IndexSize">
+            <summary>
+            Class representing expression returning the size of an index
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.InducedSubgraph">
@@ -3990,11 +4140,6 @@
             contains some booleans coded as bitvector
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPNode.uniqueId">
-            <summary>
-            contains a unique id if uniqueness was declared
-            </summary>
-        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPNode.lgspTypePrev">
             <summary>
             Previous node in the list containing all the nodes of one type.
@@ -4130,14 +4275,6 @@
             Returns true, if the typed object is compatible to the given type.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.GetUniqueId">
-            <summary>
-            Gets the unique id of the node.
-            Only available if unique ids for nodes and edges were declared in the model
-            (or implicitely switched on by parallelization or the declaration of some index).
-            </summary>
-            <returns>The unique id of the graph element (an arbitrary number in case uniqueness was not requested).</returns>
-        </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPNode.Item(System.String)">
             <summary>
             Indexer that gives access to the attributes of the graph element.
@@ -4224,6 +4361,92 @@
             </summary>
             <returns>The name of the type of this node.</returns>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPNodeWithUniqueId">
+            <summary>
+            Class implementing nodes with a unique id in the libGr search plan backend (employed if uniqueness was declared in the model)
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPNodeWithUniqueId.uniqueId">
+            <summary>
+            contains a unique id
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNodeWithUniqueId.#ctor(de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Instantiates an LGSPNodeWithUniqueId object.
+            </summary>
+            <param name="nodeType">The node type.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNodeWithUniqueId.GetUniqueId">
+            <summary>
+            Gets the unique id of the node.
+            Only available if unique ids for nodes and edges were declared in the model
+            (or implicitely switched on by parallelization or the declaration of some index).
+            </summary>
+            <returns>The unique id (of the graph element).</returns>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPNodeWithReferenceToContainingGraph">
+            <summary>
+            Class implementing nodes with a reference to the containing graph in the libGr search plan backend (employed if graph containment tracking was declared in the model)
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPNodeWithReferenceToContainingGraph.containingGraph">
+            <summary>
+            points to the containing graph
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNodeWithReferenceToContainingGraph.#ctor(de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Instantiates an LGSPNodeWithReferenceToContainingGraph object.
+            </summary>
+            <param name="nodeType">The node type.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNodeWithReferenceToContainingGraph.GetContainingGraph">
+            <summary>
+            Gets the containing graph of the graph element.
+            Only available if graph containment tracking for nodes and edges was declared in the model.
+            </summary>
+            <returns>The containing graph (of the graph element).</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNodeWithReferenceToContainingGraph.SetContainingGraph(de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Sets the containing graph of the graph element.
+            Only available if graph containment tracking for nodes and edges was declared in the model.
+            </summary>
+            <param name="graph">The new containing graph.</param>
+            <returns>The old containing graph (of the graph element).</returns>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPNodeWithUniqueIdWithReferenceToContainingGraph">
+            <summary>
+            Class implementing nodes with a unique id and with a reference to the containing graph in the libGr search plan backend (employed if uniqueness was declared in the model and graph containment tracking was declared in the model)
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPNodeWithUniqueIdWithReferenceToContainingGraph.containingGraph">
+            <summary>
+            points to the containing graph
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNodeWithUniqueIdWithReferenceToContainingGraph.#ctor(de.unika.ipd.grGen.libGr.NodeType)">
+            <summary>
+            Instantiates an LGSPNodeWithUniqueIdWithReferenceToContainingGraph object.
+            </summary>
+            <param name="nodeType">The node type.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNodeWithUniqueIdWithReferenceToContainingGraph.GetContainingGraph">
+            <summary>
+            Gets the containing graph of the graph element.
+            Only available if graph containment tracking for nodes and edges was declared in the model.
+            </summary>
+            <returns>The containing graph (of the graph element).</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNodeWithUniqueIdWithReferenceToContainingGraph.SetContainingGraph(de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Sets the containing graph of the graph element.
+            Only available if graph containment tracking for nodes and edges was declared in the model.
+            </summary>
+            <param name="graph">The new containing graph.</param>
+            <returns>The old containing graph (of the graph element).</returns>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPNodeHead">
             <summary>
             Special head node of the lists containing all the nodes of one type
@@ -4242,11 +4465,6 @@
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspFlags">
             <summary>
             contains some booleans coded as bitvector
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.uniqueId">
-            <summary>
-            contains a unique id if uniqueness was declared
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspTypePrev">
@@ -4372,14 +4590,6 @@
             Returns true, if the typed object is compatible to the given type.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.GetUniqueId">
-            <summary>
-            Gets the unique id of the edge.
-            Only available if unique ids for nodes and edges were declared in the model
-            (or implicitely switched on by parallelization or the declaration of some index).
-            </summary>
-            <returns>The unique id of the graph element (an arbitrary number in case uniqueness was not requested).</returns>
-        </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPEdge.Item(System.String)">
             <summary>
             Indexer that gives access to the attributes of the graph element.
@@ -4469,6 +4679,98 @@
             Returns the name of the type of this edge.
             </summary>
             <returns>The name of the type of this edge.</returns>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPEdgeWithUniqueId">
+            <summary>
+            Class implementing edges with a unique id in the libGr search plan backend (employed if uniqueness was declared in the model)
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdgeWithUniqueId.uniqueId">
+            <summary>
+            contains a unique id
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdgeWithUniqueId.#ctor(de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.lgsp.LGSPNode,de.unika.ipd.grGen.lgsp.LGSPNode)">
+            <summary>
+            Instantiates an LGSPEdgeWithUniqueId object.
+            </summary>
+            <param name="edgeType">The edge type.</param>
+            <param name="sourceNode">The source node.</param>
+            <param name="targetNode">The target node.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdgeWithUniqueId.GetUniqueId">
+            <summary>
+            Gets the unique id of the edge.
+            Only available if unique ids for nodes and edges were declared in the model
+            (or implicitely switched on by parallelization or the declaration of some index).
+            </summary>
+            <returns>The unique id (of the graph element).</returns>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPEdgeWithReferenceToContainingGraph">
+            <summary>
+            Class implementing edges with a reference to the containing graph in the libGr search plan backend (employed if graph containment tracking was declared in the model)
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdgeWithReferenceToContainingGraph.containingGraph">
+            <summary>
+            points to the containing graph
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdgeWithReferenceToContainingGraph.#ctor(de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.lgsp.LGSPNode,de.unika.ipd.grGen.lgsp.LGSPNode)">
+            <summary>
+            Instantiates an LGSPEdgeWithReferenceToContainingGraph object.
+            </summary>
+            <param name="edgeType">The edge type.</param>
+            <param name="sourceNode">The source node.</param>
+            <param name="targetNode">The target node.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdgeWithReferenceToContainingGraph.GetContainingGraph">
+            <summary>
+            Gets the containing graph of the graph element.
+            Only available if graph containment tracking for nodes and edges was declared in the model.
+            </summary>
+            <returns>The containing graph (of the graph element).</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdgeWithReferenceToContainingGraph.SetContainingGraph(de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Sets the containing graph of the graph element.
+            Only available if graph containment tracking for nodes and edges was declared in the model.
+            </summary>
+            <param name="graph">The new containing graph.</param>
+            <returns>The old containing graph (of the graph element).</returns>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPEdgeWithUniqueIdWithReferenceToContainingGraph">
+            <summary>
+            Class implementing edges with a unique id and with a reference to the containing graph in the libGr search plan backend (employed if uniqueness was declared in the model and graph containment tracking was declared in the model)
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdgeWithUniqueIdWithReferenceToContainingGraph.containingGraph">
+            <summary>
+            points to the containing graph
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdgeWithUniqueIdWithReferenceToContainingGraph.#ctor(de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.lgsp.LGSPNode,de.unika.ipd.grGen.lgsp.LGSPNode)">
+            <summary>
+            Instantiates an LGSPEdgeWithUniqueIdWithReferenceToContainingGraph object.
+            </summary>
+            <param name="edgeType">The edge type.</param>
+            <param name="sourceNode">The source node.</param>
+            <param name="targetNode">The target node.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdgeWithUniqueIdWithReferenceToContainingGraph.GetContainingGraph">
+            <summary>
+            Gets the containing graph of the graph element.
+            Only available if graph containment tracking for nodes and edges was declared in the model.
+            </summary>
+            <returns>The containing graph (of the graph element).</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdgeWithUniqueIdWithReferenceToContainingGraph.SetContainingGraph(de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Sets the containing graph of the graph element.
+            Only available if graph containment tracking for nodes and edges was declared in the model.
+            </summary>
+            <param name="graph">The new containing graph.</param>
+            <returns>The old containing graph (of the graph element).</returns>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPEdgeHead">
             <summary>
@@ -6586,7 +6888,7 @@
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.IndexAccess.Index">
             <summary>
-            The index accessed
+            The index accessed, null in case of a MultipleIndexAccess
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.IndexAccess.NeededElement">
@@ -6614,6 +6916,26 @@
         <member name="T:de.unika.ipd.grGen.lgsp.IndexAccessDescending">
             <summary>
             Representation of an index access, accessed by enumerating descendingly.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.PartIndexAccess">
+            <summary>
+            Part class for multiple index accesses.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PartIndexAccess.Index">
+            <summary>
+            The index accessed
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.MultipleIndexAccess">
+            <summary>
+            Representation of an index access of multiple indices, used to bind a pattern element.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.MultipleIndexAccess.IndexAccesses">
+            <summary>
+            The single index accesses of this multiple index join
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.NameLookup">

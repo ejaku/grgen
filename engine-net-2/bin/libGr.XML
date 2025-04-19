@@ -2360,6 +2360,31 @@
             <param name="arguments">An array with the arguments to the method.</param>
             <returns>An array with the return values of procedure application. Only valid until the next call of this method.</returns>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.IContained">
+            <summary>
+            Gives access to the graph containing the graph element
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IContained.GetContainingGraph">
+            <summary>
+            Gets the containing graph of the graph element.
+            Only available if graph containment tracking for nodes and edges was declared in the model.
+            </summary>
+            <returns>The containing graph (of the graph element).</returns>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.ISetableContained">
+            <summary>
+            Allows to write the graph field defining the containing graph - for internal use only (don't complain if you use it and mess up the internal state).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ISetableContained.SetContainingGraph(de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Sets the containing graph of the graph element.
+            Only available if graph containment tracking for nodes and edges was declared in the model.
+            </summary>
+            <param name="graph">The new containing graph.</param>
+            <returns>The old containing graph (of the graph element).</returns>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.IEdge">
             <summary>
             A GrGen edge (arbitrary direction)
@@ -2563,6 +2588,7 @@
             only classes without further nesting, or lists, or trees are supported.
             TODO: extend to structures including shortcuts and cycles, but excluding aliasing.
             Was(/is) of minor importance because internal class objects are meant to enrich the graph with memory-efficient extensions, lists and trees (not with hand-written graphs supplying only inefficient pattern-matching and manipulation).
+            TODO: rename to sth like IDeeplyEqualityComparable
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IDeepEqualityComparer.IsDeeplyEqual(de.unika.ipd.grGen.libGr.IDeepEqualityComparer,System.Collections.Generic.IDictionary{System.Object,System.Object})">
@@ -2614,6 +2640,19 @@
             <summary>
             Returns true, if the typed object is compatible to the given type
             </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.IIdentifiable">
+            <summary>
+            An unique id bearer
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IIdentifiable.GetUniqueId">
+            <summary>
+            Gets the unique id of the graph element.
+            Only available if unique ids for nodes and edges were declared in the model
+            (or implicitely switched on by parallelization or the declaration of some index).
+            </summary>
+            <returns>The unique id (of the graph element).</returns>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.ObjectType">
             <summary>
@@ -3275,6 +3314,266 @@
             <summary>
             The name of the entity/type in case of a global type,
             the name of the entity/type prefixed by the name of the package otherwise (separated by a double colon).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.NodesFromIndexSame(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object)">
+            <summary>
+            Returns the nodes in the index whose attribute is the same as the value given, as set
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.NodesFromIndexFromTo(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Boolean,System.Object,System.Boolean)">
+            <summary>
+            Returns the nodes in the index whose attribute is in the range from from to to, as set
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.EdgesFromIndexSame(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object)">
+            <summary>
+            Returns the edges in the index whose attribute is the same as the value given, as set
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.EdgesFromIndexFromTo(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Boolean,System.Object,System.Boolean)">
+            <summary>
+            Returns the edges in the index whose attribute is in the range from from to to, as set
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.CountNodesFromIndexSame(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object)">
+            <summary>
+            Returns the count of nodes in the index whose attribute is the same as the value given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.CountNodesFromIndexFromTo(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Boolean,System.Object,System.Boolean)">
+            <summary>
+            Returns the count of the nodes in the index whose attribute is in the range from from to to
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.CountEdgesFromIndexSame(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object)">
+            <summary>
+            Returns the count of the edges in the index whose attribute is the same as the value given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.CountEdgesFromIndexFromTo(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Boolean,System.Object,System.Boolean)">
+            <summary>
+            Returns the count of the edges in the index whose attribute is in the range from from to to
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.IsInNodesFromIndexSame(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object)">
+            <summary>
+            Returns whether the candidate node is contained in the nodes in the index whose attribute is the same as the value given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.IsInNodesFromIndexFromTo(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Boolean,System.Object,System.Boolean)">
+            <summary>
+            Returns whether the candidate node is contained in the nodes in the index whose attribute is in the range from from to to
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.IsInEdgesFromIndexSame(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object)">
+            <summary>
+            Returns whether the candidate edge is contained in the edges in the index whose attribute is the same as the value given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.IsInEdgesFromIndexFromTo(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Boolean,System.Object,System.Boolean)">
+            <summary>
+            Returns whether the candidate edge is contained in the edges in the index whose attribute is in the range from from to to
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.NodesFromIndexSameAsArray(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object)">
+            <summary>
+            Returns the nodes in the index whose attribute is the same as the value given, as array
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.NodesFromIndexFromToAsArrayAscending(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Boolean,System.Object,System.Boolean)">
+            <summary>
+            Returns the nodes in the index whose attribute is in the range from from to to, as array, ordered ascendingly
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.NodesFromIndexFromToAsArrayDescending(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Boolean,System.Object,System.Boolean)">
+            <summary>
+            Returns the nodes in the index whose attribute is in the range from from to to, as array, ordered descendingly
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.EdgesFromIndexSameAsArray(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object)">
+            <summary>
+            Returns the edges in the index whose attribute is the same as the value given, as array
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.EdgesFromIndexFromToAsArrayAscending(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Boolean,System.Object,System.Boolean)">
+            <summary>
+            Returns the edges in the index whose attribute is in the range from from to to, as array, ordered ascendingly
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.EdgesFromIndexFromToAsArrayDescending(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Boolean,System.Object,System.Boolean)">
+            <summary>
+            Returns the edges in the index whose attribute is in the range from from to to, as array, ordered descendingly
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.NodesFromIndexMultipleFromTo(System.Collections.Generic.List{de.unika.ipd.grGen.libGr.IndexHelper.IndexAccess})">
+            <summary>
+            Returns the nodes that appear in the result sets of all index accesses/queries (multi-index-join), as set
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.NodesFromIndexMultipleFromTo(System.Collections.Generic.List{de.unika.ipd.grGen.libGr.IndexHelper.IndexAccess},de.unika.ipd.grGen.libGr.IActionExecutionEnvironment)">
+            <summary>
+            Returns the nodes that appear in the result sets of all index accesses/queries (multi-index-join), as set
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.EdgesFromIndexMultipleFromTo(System.Collections.Generic.List{de.unika.ipd.grGen.libGr.IndexHelper.IndexAccess})">
+            <summary>
+            Returns the edges that appear in the result sets of all index accesses/queries (multi-index-join), as set
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.EdgesFromIndexMultipleFromTo(System.Collections.Generic.List{de.unika.ipd.grGen.libGr.IndexHelper.IndexAccess},de.unika.ipd.grGen.libGr.IActionExecutionEnvironment)">
+            <summary>
+            Returns the edges that appear in the result sets of all index accesses/queries (multi-index-join), as set
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.MinNodeFromIndex(de.unika.ipd.grGen.libGr.IAttributeIndex)">
+            <summary>
+            Returns the bottom node with lowest indexed value from the index, or null
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.MaxNodeFromIndex(de.unika.ipd.grGen.libGr.IAttributeIndex)">
+            <summary>
+            Returns the top node with highest indexed value from the index, or null
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.MinEdgeFromIndex(de.unika.ipd.grGen.libGr.IAttributeIndex)">
+            <summary>
+            Returns the bottom edge with lowest indexed value from the index, or null
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.MaxEdgeFromIndex(de.unika.ipd.grGen.libGr.IAttributeIndex)">
+            <summary>
+            Returns the top edge with highest indexed value from the index, or null
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.NodesFromIndexSame(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Int32)">
+            <summary>
+            Returns the nodes in the index whose attribute is the same as the value given, as set
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.NodesFromIndexFromTo(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Boolean,System.Object,System.Boolean,System.Int32)">
+            <summary>
+            Returns the nodes in the index whose attribute is in the range from from to to, as set
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.EdgesFromIndexSame(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Int32)">
+            <summary>
+            Returns the edges in the index whose attribute is the same as the value given, as set
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.EdgesFromIndexFromTo(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Boolean,System.Object,System.Boolean,System.Int32)">
+            <summary>
+            Returns the edges in the index whose attribute is in the range from from to to, as set
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.CountNodesFromIndexSame(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Int32)">
+            <summary>
+            Returns the count of the nodes in the index whose attribute is the same as the value given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.CountNodesFromIndexFromTo(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Boolean,System.Object,System.Boolean,System.Int32)">
+            <summary>
+            Returns the count of the nodes in the index whose attribute is in the range from from to to
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.CountEdgesFromIndexSame(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Int32)">
+            <summary>
+            Returns the count of the edges in the index whose attribute is the same as the value given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.CountEdgesFromIndexFromTo(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Boolean,System.Object,System.Boolean,System.Int32)">
+            <summary>
+            Returns the count of the edges in the index whose attribute is in the range from from to to
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.IsInNodesFromIndexSame(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Int32)">
+            <summary>
+            Returns whether the candidate node is contained in the nodes in the index whose attribute is the same as the value given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.IsInNodesFromIndexFromTo(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Boolean,System.Object,System.Boolean,System.Int32)">
+            <summary>
+            Returns whether the candidate node is contained in the nodes in the index whose attribute is in the range from from to to
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.IsInEdgesFromIndexSame(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Int32)">
+            <summary>
+            Returns whether the candidate edge is contained in the edges in the index whose attribute is the same as the value given
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.IsInEdgesFromIndexFromTo(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Boolean,System.Object,System.Boolean,System.Int32)">
+            <summary>
+            Returns whether the candidate edge is contained in the edges in the index whose attribute is in the range from from to to
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.NodesFromIndexSameAsArray(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Int32)">
+            <summary>
+            Returns the nodes in the index whose attribute is the same as the value given, as array
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.NodesFromIndexFromToAsArrayAscending(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Boolean,System.Object,System.Boolean,System.Int32)">
+            <summary>
+            Returns the nodes in the index whose attribute is in the range from from to to, as array, ordered ascendingly
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.NodesFromIndexFromToAsArrayDescending(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Boolean,System.Object,System.Boolean,System.Int32)">
+            <summary>
+            Returns the nodes in the index whose attribute is in the range from from to to, as array, ordered descendingly
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.EdgesFromIndexSameAsArray(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Int32)">
+            <summary>
+            Returns the edges in the index whose attribute is the same as the value given, as array
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.EdgesFromIndexFromToAsArrayAscending(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Boolean,System.Object,System.Boolean,System.Int32)">
+            <summary>
+            Returns the edges in the index whose attribute is in the range from from to to, as array, ordered ascendingly
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.EdgesFromIndexFromToAsArrayDescending(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Object,System.Boolean,System.Object,System.Boolean,System.Int32)">
+            <summary>
+            Returns the edges in the index whose attribute is in the range from from to to, as array, ordered descendingly
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.NodesFromIndexMultipleFromTo(System.Collections.Generic.List{de.unika.ipd.grGen.libGr.IndexHelper.IndexAccess},System.Int32)">
+            <summary>
+            Returns the nodes that appear in the result sets of all index accesses/queries (multi-index-join), as set
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.NodesFromIndexMultipleFromTo(System.Collections.Generic.List{de.unika.ipd.grGen.libGr.IndexHelper.IndexAccess},de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,System.Int32)">
+            <summary>
+            Returns the nodes that appear in the result sets of all index accesses/queries (multi-index-join), as set
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.EdgesFromIndexMultipleFromTo(System.Collections.Generic.List{de.unika.ipd.grGen.libGr.IndexHelper.IndexAccess},System.Int32)">
+            <summary>
+            Returns the edges that appear in the result sets of all index accesses/queries (multi-index-join), as set
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.EdgesFromIndexMultipleFromTo(System.Collections.Generic.List{de.unika.ipd.grGen.libGr.IndexHelper.IndexAccess},de.unika.ipd.grGen.libGr.IActionExecutionEnvironment,System.Int32)">
+            <summary>
+            Returns the edges that appear in the result sets of all index accesses/queries (multi-index-join), as set
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.MinNodeFromIndex(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Int32)">
+            <summary>
+            Returns the bottom node with lowest indexed value from the index, or null
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.MaxNodeFromIndex(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Int32)">
+            <summary>
+            Returns the top node with highest indexed value from the index, or null
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.MinEdgeFromIndex(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Int32)">
+            <summary>
+            Returns the bottom edge with lowest indexed value from the index, or null
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IndexHelper.MaxEdgeFromIndex(de.unika.ipd.grGen.libGr.IAttributeIndex,System.Int32)">
+            <summary>
+            Returns the top edge with highest indexed value from the index, or null
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IAlternative">
@@ -6973,14 +7272,6 @@
             or null, if this element has not been replaced or is still a valid member of a graph.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraphElement.GetUniqueId">
-            <summary>
-            Gets the unique id of the graph element.
-            Only available if unique ids for nodes and edges were declared in the model
-            (or implicitely switched on by parallelization or the declaration of some index).
-            </summary>
-            <returns>The unique id of the graph element (an arbitrary number in case uniqueness was not requested).</returns>
-        </member>
         <member name="T:de.unika.ipd.grGen.libGr.IGraphModel">
             <summary>
             A model of a GrGen graph.
@@ -7031,9 +7322,19 @@
             Enumerates the descriptions of all attribute and incidence count indices declared in this model.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.GraphElementsReferenceContainingGraph">
+            <summary>
+            If true, the graph elements point to their containing graph and may be queried with GetContainingGraph for it (cast to IContained needed)
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.GraphElementUniquenessIsEnsured">
             <summary>
-            If true you may query the graph elements with GetUniqueId for their unique id
+            If true, the graph elements contain a unique id and you may query with GetUniqueId for their unique id (cast to IIdentifiable needed) (this could be also the case because of internal technical/implementation reasons)
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.GraphElementUniquenessIsUserRequested">
+            <summary>
+            If true, the user requested graph element uniqueness with a "node edge unique;" or a "unique index;" declaration in the model. This implies GraphElementUniquenessIsEnsured.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.ObjectUniquenessIsEnsured">
@@ -7043,7 +7344,7 @@
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.GraphElementsAreAccessibleByUniqueId">
             <summary>
-            If true you may query the graph with GetGraphElement for a graph element of a given unique id
+            If true you may query the graph with GetGraphElement for a graph element of a given unique id (the user requested graph element accessability by the unique id with a "unique index;" declaration in the model, this implies GraphElementUniquenessIsUserRequested)
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraphModel.AreFunctionsParallelized">
@@ -7273,6 +7574,11 @@
             The description of the index.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IIndex.Size">
+            <summary>
+            The number of elements in the index.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.IAttributeIndex">
             <summary>
             A single attribute index.
@@ -7433,6 +7739,7 @@
         <member name="M:de.unika.ipd.grGen.libGr.IIncidenceCountIndex.GetIncidenceCount(de.unika.ipd.grGen.libGr.IGraphElement)">
             <summary>
             Lookup the incidence count of the graph element given.
+            TODO: Shouldn't the parameter be of type INode?
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IIndexSet">
@@ -7535,6 +7842,16 @@
         <member name="F:de.unika.ipd.grGen.libGr.IndexDescription.Name">
             <summary>
             The name the index was declared with
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IndexDescription.IndexedType">
+            <summary>
+            The base type of the graph elements stored in the index
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IndexDescription.IndexAccessType">
+            <summary>
+            The type used in accessing the index (i.e. the type of the attribute in case of an attribute index, or int in case of an incidence count index)
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.AttributeIndexDescription">
@@ -10232,7 +10549,7 @@
             </para>
             </remarks>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.libGr.sequenceParser.ParseException.#ctor(de.unika.ipd.grGen.libGr.sequenceParser.Token,System.Int32[][],System.String[])" -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.sequenceParser.ParseException.#ctor(de.unika.ipd.grGen.libGr.sequenceParser.Token,System.Int32[][],System.String[])" ignoriert -->
         <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.ParseException.#ctor">
             The following constructors are for use by you for whatever
             purpose you can think of.  Constructing the exception in this
@@ -11592,6 +11909,7 @@
             Specifies the actual subtype of a sequence expression.
             A new expression type -> you must add the corresponding class down below 
             and adapt the lgspSequenceGenerator.
+            TODO: This enum should be questioned as it is highly redundant with the hierarchy of the classes implementing it, and could be reduced to the subcases it is really needed (some values don't have their own dedicated classes).
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceExpression">
@@ -11818,6 +12136,26 @@
             Creates an instance with the type a method is called on (not supporting user methods; and the method).
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceParserExceptionIndexUnknown.#ctor(System.String)">
+            <summary>
+            Creates an instance with the name of the unknown index.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceParserExceptionIndexUnknown.#ctor(System.String,System.String)">
+            <summary>
+            Creates an instance with the name of the unknown index plus the usage context.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceParserExceptionIncidenceCountIndexExpected.#ctor(System.String)">
+            <summary>
+            Creates an instance with the name of the unknown index.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceParserExceptionIncidenceCountIndexExpected.#ctor(System.String,System.String)">
+            <summary>
+            Creates an instance with the name of the index plus the usage context.
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceParserExceptionIndexUnknownAccessDirection.#ctor(System.String,System.String)">
             <summary>
             Creates an instance with the erroneous index access direction (and the name of the index).
@@ -11973,6 +12311,11 @@
         <member name="M:de.unika.ipd.grGen.libGr.SequenceParserExceptionOperatorNotFound.#ctor(System.String,System.String,System.String,System.String)">
             <summary>
             Creates an instance when an operator is not available for the supplied types.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceParserExceptionModelFlagDeclarationMissing.#ctor(System.String,System.String)">
+            <summary>
+            Creates an instance with the expected declaration of the missing flag and the function that requires the flag to be set.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceExpressionExecutionHelper">
