@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Mon Nov 18 19:45:57 CET 2024
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Sat Apr 19 15:10:09 CEST 2025
 
 using System;
 using System.Collections.Generic;
@@ -1291,7 +1291,9 @@ namespace de.unika.ipd.grGen.Model_Std
 					return indexDescriptions[i];
 			return null;
 		}
+		public override bool GraphElementsReferenceContainingGraph { get { return false; } }
 		public override bool GraphElementUniquenessIsEnsured { get { return false; } }
+		public override bool GraphElementUniquenessIsUserRequested { get { return false; } }
 		public override bool ObjectUniquenessIsEnsured { get { return false; } }
 		public override bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
 		public override bool AreFunctionsParallelized { get { return false; } }

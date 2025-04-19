@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Mon Nov 18 19:45:37 CET 2024
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Sat Apr 19 15:09:46 CEST 2025
 
 //#pragma warning disable CS0219, CS0162
 #pragma warning disable 219, 162

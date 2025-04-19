@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Mon Nov 18 19:45:57 CET 2024
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Sat Apr 19 15:10:09 CEST 2025
 
 //#pragma warning disable CS0219, CS0162
 #pragma warning disable 219, 162

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Mon Nov 18 19:45:24 CET 2024
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sat Apr 19 15:09:31 CEST 2025
 
 //#pragma warning disable CS0219, CS0162
 #pragma warning disable 219, 162
@@ -420,7 +420,9 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			}
 			actionEnv.SelectedMatchRewritten();
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			ApplyXGRS_init2_0(procEnv, (GRGEN_MODEL.IN)node_n);
+			{
+				ApplyXGRS_init2_0(procEnv, (GRGEN_MODEL.IN)node_n);
+			}
 			return;
 		}
 		private static string[] init2_addedNodeNames = new string[] { "n" };

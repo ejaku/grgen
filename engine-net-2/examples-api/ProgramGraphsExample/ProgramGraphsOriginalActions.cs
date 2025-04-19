@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Mon Nov 18 19:45:53 CET 2024
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Sat Apr 19 15:10:04 CEST 2025
 
 //#pragma warning disable CS0219, CS0162
 #pragma warning disable 219, 162
@@ -11924,7 +11924,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			graph.SettingAddedEdgeNames( InsertHelperEdgesForNestedLayout_addedEdgeNames );
 			actionEnv.SelectedMatchRewritten();
 			GRGEN_LGSP.LGSPGraphProcessingEnvironment procEnv = (GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv;
-			ApplyXGRS_InsertHelperEdgesForNestedLayout_0(procEnv);
+			{
+				ApplyXGRS_InsertHelperEdgesForNestedLayout_0(procEnv);
+			}
 			return;
 		}
 		private static string[] InsertHelperEdgesForNestedLayout_addedNodeNames = new string[] {  };

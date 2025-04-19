@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Mon Nov 18 19:45:40 CET 2024
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sat Apr 19 15:09:49 CEST 2025
 
 using System;
 using System.Collections.Generic;
@@ -11616,7 +11616,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 					return indexDescriptions[i];
 			return null;
 		}
+		public override bool GraphElementsReferenceContainingGraph { get { return false; } }
 		public override bool GraphElementUniquenessIsEnsured { get { return false; } }
+		public override bool GraphElementUniquenessIsUserRequested { get { return false; } }
 		public override bool ObjectUniquenessIsEnsured { get { return false; } }
 		public override bool GraphElementsAreAccessibleByUniqueId { get { return false; } }
 		public override bool AreFunctionsParallelized { get { return false; } }
