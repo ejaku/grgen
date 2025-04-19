@@ -60,26 +60,12 @@ It is crucial for achieving high performance to prevent following graph structur
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Find, Don't Search}
 It is better to find elements with certain characteristics straight ahead without search,
-utilizing a data structure that allows to tell the elements that follow the characteristic apart from the ones that do not,
-than to search for them, traversing each and every node or edge in the graph, subjecting it to a test for the characteristic.
-
-Welcome to indices as known from database parlance.
-In \GrG{} the following types of indices are supported:
-\begin{enumerate}
-	\item Type indices
-	\item Neighbourhood indices
-	\item Attribute indices
-	\item Incidence count indices
-	\item Name index
-	\item Uniqueness index
-\end{enumerate}
-
-You find more on them in Chapter~\ref{cha:indices}.
+utilizing indices as already introduced in Chapter~\ref{cha:indices}.
 
 %-----------------------------------------------------------------------------
 \subsection{Consequences For Optimization}
 
-The consequences of the type indices~\ref{sec:typeindices} and the neighbourhood indices~\ref{sec:neighbourhoodindices} for optimization are:
+The consequences of the automatically used type indices~\ref{sec:typeindices} and neighbourhood indices~\ref{sec:neighbourhoodindices} for optimization are:
 
 \subsubsection*{Use types!}
 Fine grain types cause a fast lookup of the first pattern element(s), or more exactly: they cause a small list of candidate elements for the first pattern element to be tried.
@@ -232,11 +218,30 @@ The more fine grain a graph is typed, the better are the statistics regarding th
 
 \subsection{Consequences For Optimization, II}
 
-The consequences of the attribute indices~\ref{sec:attributeindices} and incidence count indices~\ref{sec:incidencecountindices} for optimization are: TODO.
+The most important consequence of the attribute, incidence count, unique id, and name indices for optimization is that you have to use them explicitly in order to achieve a speed-up (in contrast to the type and neighbourhood indices which are used implicitly):
 
-\subsection{Consequences For Optimization, III}
+If you need to find nodes/edges quickly by attribute value, then an attribute index~\ref{sec:attributeindices} will do the trick.
+It is used similarly to a database index on a column of choice.
+But unfortunately not applied automatically upon an attribute constraint in an if part, you have to explicitly use a node/edge with an index access suffix; or an index function call in an if part.
+Remember you can query by multiple indices that get joined, which allows for spatial querying, see Example~\ref{ex:spatialquery} for more on this.
+Note that an index may degrade performance when you carry out a lot of graph manipulations (assignments to the indexed attribute, and element addition to or removal from the graph that also counts as attribute change, as the index has to be maintained then which is an $O(log(n))$ operation), and only a few lookups on it.
+The implementations for unique ids and names (discussed later) could be used to implement database-like keys, but because of their special semantics you may prefer an attribute index.
 
-The consequences of the name index~\ref{sec:nameindex} and the uniqueness index~\ref{sec:uniqueness} for optimization are: TODO.
+If you need to find nodes by the count of incident edges, which is typically used with algorithms that repeatedly process the nodes with the highest amount of connections or the nodes with the lowest amount of connections, an incidence count indices~\ref{sec:incidencecountindices} will be your friend.
+It could be also helpful with densely connected graphs when counts are needed (counting incident edges is faster for sparsely connected graphs).
+But this index also needs to maintained at the price of an $O(log(n))$ operation per element addition to or removal from the graph.
+
+If you need a unique id similarly to a database key, the uniqueness index~\ref{sec:uniqueness} may be of interest.
+It is more efficient than an attribute index on a corresponding integer attribute ($O(1)$), but does not allow for range queries (it can be seen as a key-value store). The uniqueness constraint already ensures you get graph elements with a unique id, but does not allow to fetch the elements quickly based on the id. You may also need to employ an attribute index when you have to ensure that a once assigned id is never re-assigned -- the unique ids from the unique index are reused by new graph elements when their original graph elements are removed from the graph.
+
+Another way to obtain a unique id similarly to a database key is the name index~\ref{sec:nameindex}.
+It is more efficient than an attribute index on a corresponding string attribute ($O(1)$), but does not allow for range queries (it too can be seen as a key-value store, which is built-in and automatically used when you work with the \GrShell{}). There is no distinction into a constraint and an index, you always get both, i.e. the ability to quickly fetch the name of a graph element, and the ability to quickly fetch a graph elements by its name.
+Names are automatically assigned and incremented (unless you overwrite them explicitly), but not automatically re-used during the lifetime of the host graph (in contrast to the unique ids).
+
+With a low number of nodes and edges, working without indices may be the fastest approach - you evade the cost of building and maintaining the index (as well as the additional memory cost, as always, you trade time against space), but have to pay more during searches, as you have to inspect more elements subjecting them to a test for the property that is answered quickly by the index.
+With a low number of nodes and edges, working without types or explicit indices may be also the fastest approach regarding the combined speed of development and execution, as development is faster and execution fast enough.
+But this does not scale, the higher the amount of nodes and edges, the more do you need the implicit and the explicit indices (so that your solution stays feasible as the problem size increases).
+(Of course, it would be best regarding development time if \emph{all} available indices would be used implicitly/automatically by the search planner (like the type and neighbourhood indices) instead of explicitly, but well, this level of declarative convenience of the language would have to be implemented imperatively-manually first in the runtime-system(/the compiler)...)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Location Passing and Memorization}

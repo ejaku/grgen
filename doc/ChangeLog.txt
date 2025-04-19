@@ -1,4 +1,210 @@
-﻿v7.1.1 (2025-02-05)
+﻿v7.2 (2025-04-19)
+ Introduced a full blown (attribute) index access interface:
+
+  Introduced several nodesFromIndex functions to the rule language and the sequences that allow to query an (attribute) index:
+  - nodesFromIndex(idx:index):set<Node>
+    returns all nodes stored in the index idx
+  - nodesFromIndexSame(idx:index, value:T):set<Node>
+    returns all nodes stored in the index whose indexed attribute equals the given value
+  - nodesFromIndexFrom(idx:index, from:T):set<Node>
+    returns all nodes stored in the index whose indexed attribute starts at from
+  - nodesFromIndexFromExclusive(idx:index, from:T):set<Node>
+    returns all nodes stored in the index whose indexed attribute starts at from excluding from itself
+  - nodesFromIndexTo(idx:index, to:T):set<Node>
+    returns all nodes stored in the index whose indexed attribute ends at to
+  - nodesFromIndexToExclusive(idx:index, to:T):set<Node>
+    returns all nodes stored in the index whose indexed attribute ends at to excluding to itself
+  - nodesFromIndexFromTo(idx:index, from:T, to:T):set<Node>
+    returns all nodes stored in the index whose indexed attribute lies in the range [from, to]
+  - nodesFromIndexFromExclusiveTo(idx:index, from:T, to:T):set<Node>
+    returns all nodes stored in the index whose indexed attribute lies in the range ]from, to]
+  - nodesFromIndexFromToExclusive(idx:index, from:T, to:T):set<Node>
+    returns all nodes stored in the index whose indexed attribute lies in the range [from, to[
+  - nodesFromIndexFromExclusiveToExclusive(idx:index, from:T, to:T):set<Node>
+    returns all nodes stored in the index whose indexed attribute lies in the range ]from, to[
+
+  Also introduced several edgesFromIndex functions to the rule language and the sequences that allow to query an (attribute) index:
+  - edgesFromIndex(idx:index):set<AEdge>
+    returns all edges stored in the index idx
+  - edgesFromIndexSame(idx:index, value:T):set<AEdge>
+    returns all edges stored in the index whose indexed attribute equals the given value
+  - edgesFromIndexFrom(idx:index, from:T):set<AEdge>
+    returns all edges stored in the index whose indexed attribute starts at from
+  - edgesFromIndexFromExclusive(idx:index, from:T):set<AEdge>
+    returns all edges stored in the index whose indexed attribute starts at from excluding from itself
+  - edgesFromIndexTo(idx:index, to:T):set<AEdge>
+    returns all edges stored in the index whose indexed attribute ends at to
+  - edgesFromIndexToExclusive(idx:index, to:T):set<AEdge>
+    returns all edges stored in the index whose indexed attribute ends at to excluding to itself
+  - edgesFromIndexFromTo(idx:index, from:T, to:T):set<AEdge>
+    returns all edges stored in the index whose indexed attribute lies in the range [from, to]
+  - edgesFromIndexFromExclusiveTo(idx:index, from:T, to:T):set<AEdge>
+    returns all edges stored in the index whose indexed attribute lies in the range ]from, to]
+  - edgesFromIndexFromToExclusive(idx:index, from:T, to:T):set<AEdge>
+    returns all edges stored in the index whose indexed attribute lies in the range [from, to[
+  - edgesFromIndexFromExclusiveToExclusive(idx:index, from:T, to:T):set<AEdge>
+    returns all edges stored in the index whose indexed attribute lies in the range ]from, to[
+
+  Introduced several countNodesFromIndex and countEdgesFromIndex functions to the rule language and the sequences 
+   that allow to query an (attribute) index for the count of the contained elements:
+  - countNodesFromIndex(idx:index):int returns the count of nodes stored in the index idx, 
+    similar count-ed versions exist for the other nodesFromIndex functions, with the same parameters as their non-count counterparts,
+    and accordingly derived meaning
+  - countEdgesFromIndex(idx:index):int returns the count of edges stored in the index idx,
+    similar count-ed versions exist for the other edgesFromIndex functions, with the same parameters as their non-count counterparts,
+    and accordingly derived meaning
+
+  Introduced several isInNodesFromIndex and isInEdgesFromIndex functions to the rule language and the sequences
+   that allow to query whether an (attribute) index contains a candidate graph element:
+  - isInNodesFromIndex(candidate:Node, idx:index):boolean returns whether the candidate node is stored in the index idx,
+    similar containment checking versions exist for the other nodesFromIndex functions,
+    with the same parameters as their non-isIn counterparts (to specify the attribute values to take a look at),
+    and accordingly derived meaning
+  - isInEdgesFromIndex(candidate:AEdge, idx:index):boolean returns whether the candidate edge is stored in the index idx,
+    similar containment checking versions exist for the other edgesFromIndex functions,
+    with the same parameters as their non-isIn counterparts (to specify the attribute values to take a look at),
+    and accordingly derived meaning
+
+  Introduced several nodesFromIndexAsArray and edgesFromIndexAsArray functions to the rule language and the sequences
+   that allow to query an (attribute) index resulting in an (ordered) array:
+  - nodesFromIndexSameAsArray(idx:index, value:T):array<Node>
+    returns all nodes stored in the index idx with the given attribute value (of type T), as array
+  - nodesFromIndexAsArrayAscending(idx:index):array<Node>
+    returns all nodes stored in the index idx as array, ordered ascendingly by the value of the attribute,
+    similar versions exist for the other nodesFromIndex functions, with the same parameters as their set returning counterparts,
+    and accordingly derived meaning
+  - nodesFromIndexAsArrayDescending(idx:index):array<Node>
+    returns all nodes stored in the index idx as array, ordered descendingly by the value of the attribute,
+    similar versions exist for the other nodesFromIndex functions, with the same parameters as their set returning counterparts,
+    and accordingly derived meaning
+  - edgesFromIndexSameAsArray(idx:index, value:T):array<AEdge>
+    returns all edges stored in the index idx with the given attribute value (of type T), as array
+  - edgesFromIndexAsArrayAscending(idx:index):array<AEdge>
+    returns all edges stored in the index idx as array, ordered ascendingly by the value of the attribute,
+    similar versions exist for the other edgesFromIndex functions, with the same parameters as their set returning counterparts,
+    and accordingly derived meaning
+  - edgesFromIndexAsArrayDescending(idx:index):array<AEdge>
+    returns all edges stored in the index idx as array, ordered descendingly by the value of the attribute,
+    similar versions exist for the other edgesFromIndex functions, with the same parameters as their set returning counterparts,
+    and accordingly derived meaning
+  - note the difference between from/to and [lower-bound, upper-bound], for ascending from=lower-bound and to=upper-bound,
+    but for descending from=upper-bound and to=lower-bound
+
+  Deprecated the old index querying loops that use the same query syntax as in the patterns, which looks simply awkward,
+   added (for function) index querying loops to the (statements of the) rule language and to the sequences instead:
+  - the index querying loops are of the form for(elem:GraphElementType in indexLoopQueryingFunction(params)),
+    with indexLoopQueryingFunction being one of the nodesFromIndexAsArray or edgesFromIndexAsArray functions,
+    with the AsArray removed (retaining the Ascending or Descending as it applies)
+  - the index querying loops in the sequences are of the form for{elem:GraphElementType in indexLoopQueryingFunction(params); seq }
+
+  Introduced helper functions to obtain the lowest and the highest values from an index,
+   as well as its size, to the rule language and the sequences:
+  - minNodeFromIndex(idx:index):Node
+    returns the bottom node with the lowest value stored in the index or null if there is no node existing in the index
+    (one of the nodes with lowest attribute value to be more specific, in case several nodes with the same value exist)
+  - maxNodeFromIndex(idx:index):Node
+    returns the top node with the highest value stored in the index or null if there is no node existing in the index
+    (one of the nodes with highest attribute value to be more specific, in case several nodes with the same value exist)
+  - minEdgeFromIndex(idx:index):AEdge
+    returns the bottom edge with the lowest value stored in the index or null if there is no edge existing in the index
+    (one of the edges with lowest attribute value to be more specific, in case several edges with the same value exist)
+  - maxEdgeFromIndex(idx:index):AEdge
+    returns the top edge with the highest value stored in the index or null if there is no edge existing in the index
+    (one of the edges with highest attribute value to be more specific, in case several edges with the same value exist)
+  - indexSize(idx:index):int
+    returns the number of elements stored in the index
+
+  Replaced the index[element] indexed access syntax returning the incidence count stored in an incidence count index
+   by a function countFromIndex(index, element)
+   (this saves us hassles in case an entity is named like the index, and fits better to the other index access functions)
+
+  Improved the compiler error messages related to the indices
+
+ Introduced a multiple index access interface (multi index joins):
+
+  Introduced multi index queries in the patterns of the rule language for querying multiple indices for nodes:
+  - with syntax node:NodeType{ multiple(idx rel-op value, idx rel-op value [, idx rel-op value, idx rel-op value]*) }
+    to specify a lower and an upper bound, for each index queried; in order to bind the pattern node of the given type
+
+  Introduced a nodesFromIndexMultipleFromTo function to the rule language and the sequences
+   that allows to query multiple (attribute) indices (and may be used for spatial queries):
+  - nodesFromIndexMultipleFromTo(idx:index, from:T, to:T [, idx:index, from:T, to:T]*):set<Node>
+    returns the nodes stored in all the listed indices whose indexed attribute lies in the range [from, to], for each index
+    (i.e. a multi-index-join/an efficient result set intersection is computed)
+
+  Introduced multi index queries in the patterns of the rule language for querying multiple indices for edges:
+  - with syntax -edge:EdgeType{ multiple(idx rel-op value, idx rel-op value [, idx rel-op value, idx rel-op value]*) }->
+    to specify a lower and an upper bound, for each index queried; in order to bind the pattern edge of the given type
+
+  Introduced an edgesFromIndexMultipleFromTo function to the rule language and the sequences
+   that allows to query multiple (attribute) indices (and may be used for spatial queries):
+  - edgesFromIndexMultipleFromTo(idx:index, from:T, to:T [, idx:index, from:T, to:T]*):set<AEdge>
+    returns the edges stored in all the listed indices whose indexed attribute lies in the range [from, to], for each index 
+    (i.e. a multi-index-join/an efficient result set intersection is computed)
+
+  Added (for function) multiple index querying loops to the (statements of the) rule language:
+  - the multiple index querying loops are of the form 
+    for(node:NodeType in nodesFromIndexMultipleFromTo(idx, from, to [, idx, from, to]*)) { stmts } or
+    for(edge:EdgeType in edgesFromIndexMultipleFromTo(idx, from, to [, idx, from, to]*)) { stmts } 
+    (so they are modeled like the multiple index querying functions from the expressions).
+  - note the difference between from/to and [lower-bound, upper-bound], for ascending from=lower-bound and to=upper-bound,
+    but for descending from=upper-bound and to=lower-bound
+
+  Extended the sequences by the multiple index querying loops that are available in the rule language statements:
+  - the multiple index querying loops in the sequences are of the form
+    for{node:NodeType in nodesFromIndexMultipleFromTo(idx, from, to [, idx, from, to]*); seq } or
+    for{edge:EdgeType in edgesFromIndexMultipleFromTo(idx, from, to [, idx, from, to]*); seq }
+
+  The semantic tests from indexSpatialQuery show how to implement spatial querying with multiple per-coordinate indices 
+   and the nodesFromIndexMultipleFromTo multi-index-join function (emulating a spatial index - this technique
+   is not as efficient as a true spatial index, but way better than a comparison against all elements of the graph (database))
+
+ Implemented minimum and maximum methods on sets in the rule language and sequences
+  set<T>.min():T' returning the lowest element from the set, for T=byte|short|int|long|float|double, T'=T but int for byte|short
+  set<T>.max():T' returning the greatest element from the set, for T=byte|short|int|long|float|double, T'=T but int for byte|short
+
+ Added graphof support / optional being-contained-in backlinks to the nodes and edges:
+ - added a function graphof(Node|Edge):graph returning a reference to the graph containing the given entity
+   to the rule language, as well as to the sequences
+ - it requires a "node edge graph;"-declaration in the model
+ - when given, a containingGraph field is made available via inheritance from new base classes including it,
+   which are inheriting themelves from LGSPNode/LGSPEdge
+
+ Changed the implementation of the uniqueness constraint (internal/API-level modeling improvement)
+ - a uniqueId field is now only available in the nodes and edges if the "node edge unique;"-declaration is given in the model
+   (or included because of other declarations)
+ - it is made available via inheritance from new base classes including it, which are inheriting themelves from LGSPNode/LGSPEdge
+ - the uniqueof, nodeByUnique, edgeByUnique functions only work in case the uniqueness constraint was specified 
+   or the unique index requested
+
+ API changes:
+ - added a Size property to the IIndex interface
+ - extended the IndexDescription by properties to return the IndexedType and the IndexAccessType (directly)
+ - GraphElementUniquenessIsUserRequested is now distinguished from GraphElementUniquenessIsEnsured in the graph model interface
+ - added an IndexHelper class containing the implementation of the new index access functions
+ - added an IIdentifiable interface, the INode/IEdge implementing objects have to be checked for/casted to IIdentifiable,
+   as the context requires, in order to access the uniqueId field (resulting from a "node edge unique;"-declaration)
+ - added an IContained interface, the INode/IEdge implementing objects have to be checked for/casted to IContained,
+   as the context requires, in order to access the containingGraph field (resulting from a "node edge graph;"-declaration)
+
+ Bugfixes:
+ - fixed a major bug causing incompilable code when an index was declared on an attribute that was defined in a supertype
+ - fixed an index access bug when descending order was used
+ - fixed a bug when an index symbol occurred also in the entities symbol table
+   by keeping the entity namespace and the index namespace accesses strictly separate
+ - the sequence functions nodeByUnique, edgeByUnique, and uniqueof show now an error message 
+   when they are used without their required declarations in the model
+ - fixed bugs regarding the generation/usage of temporary container variables
+   (that potentially showed when more than one container construct was used in an expression, esp. when copy constructors were used)
+ - bugfix for the new operator in the sequences (the bug caused e.g. a strange error when a unary minus/negative number 
+    was used in the attribute initialization list of the to be constructed type)
+ - fixed bugs in the sequence expressions related to untyped variables 
+
+ Adapted the user manual to the changes in the meantime, also carried out some improvements and corrections
+
+--------------------------------------------------------------------------------------------------------
+
+v7.1.1 (2025-02-05)
  A non-responsiveness notice is printed now to the user in case debug enable is used with MSAGL
 
  Bugfixes:

@@ -8,8 +8,8 @@ rule findCouplesOpt[parallelize=16]
         if{ atLeastThreeCommonMovies(pn1, pn2); }
     }
     if{ uniqueof(pn1) < uniqueof(pn2); }
-    if{ countPersonToMovie[pn1] >= 3; }
-    if{ countPersonToMovie[pn2] >= 3; }
+    if{ countFromIndex(countPersonToMovie, pn1) >= 3; }
+    if{ countFromIndex(countPersonToMovie, pn2) >= 3; }
 ---
     def ref common:set<Node>;
     yield {

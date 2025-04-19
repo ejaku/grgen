@@ -329,6 +329,7 @@ The three functions above allow optional edge and node type constraints, too.\\
 \texttt{edgeByName(string[,EdgeType]):Edge}\\
 \texttt{nodeByUnique(int[,NodeType]):Node}\\
 \texttt{edgeByUnique(int[,EdgeType]):Edge}\\
+\texttt{graphof(Node/Edge):graph}\\
 \hline
 \end{tabular}
 \caption{Global functions at a glance, part I}
@@ -758,7 +759,8 @@ separated into pattern and rewrite part, and into expressions and statements.
 \texttt{for(v:T in c) \{S1\} } & Executes \texttt{S1} for each value \texttt{v} contained in container \texttt{c}.\\
 \texttt{for(i:T->v:S in c) \{S1\} } & Executes \texttt{S1} for each key/position to value pair \texttt{(i,v)} contained in container \texttt{c}.\\
 \texttt{for(i:int in [l:r]) \{S1\} } & Executes \texttt{S1} for each integer \texttt{i} in the range from \texttt{l} to \texttt{r}, in steps of 1, upwards if \texttt{l<=r}, otherwise downwards.\\
-\texttt{for(n:N in \{asc.(idx>7)\}) \{S1\}}	& Execute \texttt{S1} for every \texttt{n} in the index \texttt{idx}, in ascending order, from \texttt{7} exclusive on. \texttt{asc.} abbreviates \texttt{ascending}, is not valid syntax as such.\\
+\texttt{for(n:N in func(...)) \{S1\}}	& Execute \texttt{S1} for every \texttt{n} in the graph query function \texttt{func}\\
+\texttt{for(n:N in indexFunc(...)) \{S1\}}	& Execute \texttt{S1} for every \texttt{n} in the index query function \texttt{indexFunc}\\
 \texttt{lock(exp) \{ S1 \}} & Evaluates \texttt{exp} and locks it, then \texttt{S1} is executed, afterwards releasing the lock.\\
 \hline
 \texttt{break} & Aborts execution of the containing loop.\\

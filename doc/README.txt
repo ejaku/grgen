@@ -1,5 +1,5 @@
-GrGen.NET v7.1.1 (2025-02-05)
------------------------------
+GrGen.NET v7.2 (2025-04-19)
+---------------------------
 
 This is the GrGen.NET system for graph rewriting.
 It consists of two parts of components:
@@ -9,7 +9,7 @@ It consists of two parts of components:
   and the lgspBackend.
 - the rapid prototyping environment offered by GrShell with the 
   console or the GUI debugger, and the yComp or MSAGL graph viewer
-  (MSAGL and the debugger can be also used from your application)
+  (MSAGL and the debugger can be also used from your own application)
 
 
 INSTALL
@@ -174,7 +174,7 @@ COPYING
 
 Copyright (C) 2003-2025 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
 
-This file is part of GrGen, Version GrGen.NET 7.1
+This file is part of GrGen, Version GrGen.NET 7.2
 
 GrGen is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by

@@ -1,5 +1,6 @@
 \chapter{Indices}\label{cha:indices} \indexmain{indices}
 
+Matching patterns in a graph is based on searching for the elements of interest.
 It is better to find elements with certain characteristics straight ahead without search,
 utilizing a data structure that allows to tell the elements that follow the characteristic apart from the ones that do not,
 than to search for them, traversing each and every node or edge in the graph, subjecting it to a test for the characteristic.
@@ -63,7 +64,7 @@ Saving on the memory needed for the generality and programming productivity is w
 %-----------------------------------------------------------------------------
 \section{Attribute Indices}\label{sec:attributeindices}
 In addition to the built-in type and neighbourhood indices, you may declare attribute indices.
-An attribute index allows to do a lookup based on an attribute value, or a range of attribute values.
+An attribute index allows to execute a graph element lookup based on an attribute value of interest, or a range of attribute values.
 This stands in contrast to the default behaviour of carrying out a lookup on a type, visiting all $n$ elements of the type, filtering them down to the elements of interest (within range) with an attribute condition.
 If this means you have to inspect a lot of values while searching only for a few ones, you should use an attribute index and benefit from its massively improved selectivity for the lookup.
 It requires only $O(log(n))$ to search for the first element, and $O(k)$ for the $k$ elements within the bounds specified.
@@ -86,9 +87,8 @@ Following the \texttt{index} keyword, a name for the index is specified; in the 
 \subsection*{Usage in the rules}\label{sub:indexusage}
 
 In the pattern part you may ask for an element to get bound to an element from an index;
-this is syntactically specified by giving the index access enclosed in left and right braces after the element declaration.
-If the type of the element retrieved from the index is not compatible to the type of the pattern element specified,
-or if the index is empty, matching fails.
+this is syntactically specified by giving the index access enclosed in left and right braces (curly brackets) after the element declaration.
+If the type of the element retrieved from the index is not compatible to the type of the pattern element specified, the retrieved candidate is not bound to the pattern element, and matching continues with the next candidate from the index, if the available candidates fitting to the attribute condition are exhausted or if the index is empty, matching fails.
 The elements from the index are successively bound to the pattern element, then the rest of the pattern is bound and checked, until the requested number of matches is found.
 
 \begin{rail}
@@ -99,7 +99,7 @@ The elements from the index are successively bound to the pattern element, then 
 \end{rail}\ixnterm{IndexAccess}
 
 The pattern element may be bound to the elements from the index with an attribute value equal to a specified value,
-or to the elements from the index in ascending or descending order.
+or to the elements from the index that lie within up to two bounds, in ascending or descending order (ordered access).
 In case of ordered access, you may specify no bound, this is typically only of interest when a single match is requested, the one with the highest or lowest attribute value (satisfying the other constraints of the pattern), or you may specify a lower bound, or an upper bound, or a lower \emph{and} an upper bound.
 
 \begin{rail}
@@ -112,8 +112,8 @@ In case of ordered access, you may specify no bound, this is typically only of i
     Expression ',' IndexName ( ',' Expression (',' Expression)? )? ;
 \end{rail}\ixnterm{IndexFunctionCall}\ixnterm{IndexArguments}
 
-The second way to access an index is from index query functions which are available in the expressions of the rule language, as well as in the expressions of the sequence computations.
-The set returning index query functions are (the non-index-name arguments are of the type of the indexed attribute):
+A second way to access an index is from index query functions which are available in the expressions of the rule language, as well as in the expressions of the sequence computations.
+There are multiple ones available, the index query functions returning a set of nodes are (the non-index-name arguments are of the type of the indexed attribute):
 
 \begin{description}
 \item[\texttt{nodesFromIndex(.)}] returns all nodes from the given index, as set.
@@ -128,15 +128,17 @@ The set returning index query functions are (the non-index-name arguments are of
 \item[\texttt{nodesFromIndexFromExclusiveToExclusive(.,.,.)}] returns all nodes from the given index that are greater than the second argument and lower than the third argument, as set.
 \end{description}
 
-The index query functions can be used in five possible ways (the functions support/require all the arguments listed above, we only give the index for brevity): 
+The very same ones exists also for edges (their name starts then with \texttt{edgesFromIndex} instead of \texttt{nodesFromIndex}, and they return a \texttt{set<AEdge>} instead of a \texttt{set<Node>}).
+
+The index query functions can be used in five possible ways (all functions support/require all the arguments listed above, in the following description we only give the index for brevity): 
 \begin{description}
-	\item[Set functions:] The index query function returns a set of contained entities. It builds an unordered set that is likely thrown away thereafter, so esp. for large sets this functions is less efficient than the other versions.
+	\item[Set functions:] The index query function returns a set of contained entities. It builds an unordered set that is likely thrown away thereafter, so esp. for large sets this functions as such is less efficient than the other versions that inspect the index directly without building an intermediate data structure.
 \begin{rail}
 Expression:
   IndexFunctionName '(' IndexName ')' ;
 \end{rail}
 
-	\item[Array functions:] The index query function returns an array of contained entities. It builds an ordered array that is likely thrown away thereafter, so esp. for large arrays this functions is less efficient than the other versions (with exception of the set version, as set building is more expensive than array building). It allows to specify whether the entities are to be ordered ascendingly alongside the indexed attribute or descendingly.
+	\item[Array functions:] The index query function returns an array of contained entities. It builds an ordered array that is likely thrown away thereafter, so esp. for large arrays this functions as such is less efficient than the other versions (with exception of the set version, as set building is more expensive than array building). It allows to specify whether the entities are to be ordered ascendingly alongside the indexed attribute or descendingly.
 Please note that the descending version requires the upper bound as first post-index argument and the lower bound as second post-index argument, whereas the ascending version like the unordered versions expects the lower bound as first post-index argument and the upper bound as second post-index argument.
 \begin{rail}
 Expression:
@@ -145,7 +147,7 @@ Expression:
 The \emph{IndexArrayFunctionName} is built from the \emph{IndexFunctionName} by appending \texttt{AsArrayAscending} or \texttt{AsArrayDescending}.
 In case of the \texttt{nodesFromIndexSame} function only \texttt{AsArray} is appended.
 
-	\item[Iteration loops:] The index function is employed from a for loop that allows to iterate the entities from the index. No set/array needs to be built here (but you need to use a statement/must be in statement context).
+	\item[Iteration loops:] The index function is employed in a for loop that allows to iterate the entities from the index. No set/array needs to be built here (but a statement is used/you must be in statement context).
 Please note that the descending version requires the upper bound as first post-index argument and the lower bound as second post-index argument, whereas the ascending version like the unordered versions expects the lower bound as first post-index argument and the upper bound as second post-index argument.
 
 %Such a for function loop is also available for many of the following index functions, defining a general way of accessing the graph elements from an index.
@@ -159,14 +161,14 @@ In case of the \texttt{nodesFromIndexSame}/\texttt{edgesFromIndexSame} function 
 So the index can be accessed from the statements of the rule language in the form of a (for function) loop, cf.~\ref{sub:controlflow}.
 The iteration variable is bound to the graph element retrieved from the index, and then, for each such element, the body is executed.
 
-	\item[Counted functions:] The counted index function returns the count of entities from the index. This is more efficient than calling \texttt{size()} on the resulting set/array of the plain index function; note that for fetching the count of all entities in the index, \texttt{indexSize} is most efficient and should be preferred over \texttt{countNodesFromIndex}/\texttt{countEdgesFromIndex} ($O(1)$ instead of $O(n)$).
+	\item[Counted functions:] The counted index function returns the count of entities from the index. This is more efficient than calling \texttt{size()} on the resulting set/array of the plain index function; note that for fetching the count of all the entities in the index, \texttt{indexSize} is most efficient and should be preferred over \texttt{countNodesFromIndex}/\texttt{countEdgesFromIndex} ($O(1)$ instead of $O(n)$).
 \begin{rail}
 Expression:
   CountedIndexFunctionName '(' IndexName ')' ;
 \end{rail}
 The \emph{CountedIndexFunctionName} is built from the \emph{IndexFunctionName} by prepending \texttt{count} and switching the first character of \emph{IndexFunctionName} to upper case.
 
-	\item[Boolean functions:] The index function is employed in a boolean predicate version that allows to check whether a target entity is in the queried index. This is more efficient than calling \texttt{in} on the resulting set and esp. array of the plain index function. The computation stops as soon as a positive result is obtained.
+	\item[Boolean functions:] The index function is employed in a boolean predicate version that allows to check whether a target entity is in the queried index. This is more efficient than calling \texttt{in} on the resulting set (and even more so on the resulting array) of the plain index function. The computation stops as soon as a positive result is obtained.
 \begin{rail}
 Expression:
   IndexFunctionNamePredicate '(' TargetEntity ',' IndexName ')' ;
@@ -182,7 +184,7 @@ Moreover, the index can be queried from the sequence expressions with the same i
 \end{rail}\ixnterm{IndexAccessLoopSequence}
 
 
-\begin{example}
+\begin{example}\label{ex:indexaccess}
 The following index \texttt{foo} allows to quickly fetch nodes of type \texttt{N} (or a subtype) based on the value of its attribute \texttt{i}.
 
 \begin{grgen}
@@ -195,7 +197,7 @@ index foo { N.i }
 Fetching typically occurs in the rules, binding a pattern element based on the constraints specified with the lookup.
 The test \texttt{t} only matches if a node is found whose attribute \texttt{i} matches the parameter \texttt{j}.
 The rule \texttt{r} ascendingly binds the nodes whose attribute \texttt{i} is greater than or equal $5$ and lower than $13$.
-The ascendingly means that the node \texttt{n} with smallest attribute \texttt{i} is matched that satisfies the other constraints of the pattern (if there are no further constraints like in this example, it is the node with smallest attribute satisfying the limits of the index access).
+The ascendingly means that the node \texttt{n} with smallest attribute \texttt{i} is matched that satisfies the other constraints of the pattern (if there are no further constraints like in this example, it is the node with the smallest attribute satisfying the limits of the index access).
 
 \begin{grgen}
 test t(var j:int) {
@@ -215,7 +217,7 @@ rule r {
 \end{example}
 
 \begin{example}
-A similar index access (similar to the previous example) from the expressions may look like:
+A similar index access (similar to the previous Example~\ref{ex:indexaccess}) from the expressions may look like:
 
 \begin{grgen}
 test t(var j:int) {
@@ -244,7 +246,9 @@ rule rd {
       }
     }
     exec (
-      for{n:N in nodesFromIndexFromDescending(foo, 13)}; {emit("The value of attribute i is ", n.i, "\n")} }
+      for{n:N in nodesFromIndexFromDescending(foo, 13);
+        { emit("The value of attribute i is ", n.i, "\n") }
+      }
     );
   }
 }
@@ -253,35 +257,36 @@ rule rd {
 \end{example}
 
 
-\subsubsection*{Helper functions}
+\subsubsection*{Non-attribute-comparing functions}
 
-An index may also be queried for the entities with the lowest or the highest attribute value, as well as for its size;
+An index may also be queried directly for the entities with the lowest or the highest attribute value, as well as for its size;
 with the following index query functions which are available in the expressions of the rule language, as well as in the expressions of the sequence computations.
 
 \begin{description}
-\item[\texttt{minNodeFromIndex(.)}] returns the node from the given index with the lowest attribute value (the starting node).
-\item[\texttt{maxNodeFromIndex(.)}] returns the node from the given index with the highest attribute value (the ending node).
-\item[\texttt{minEdgeFromIndex(.)}] returns the edge from the given index with the lowest attribute value (the starting edge).
-\item[\texttt{maxEdgeFromIndex(.)}] returns the edge from the given index with the highest attribute value (the ending ending).
+\item[\texttt{minNodeFromIndex(.)}] returns the node from the given index with the lowest attribute value (the starting node, which is one of the nodes with the lowest attribute value in case several ones exists), or null if the index is empty.
+\item[\texttt{maxNodeFromIndex(.)}] returns the node from the given index with the highest attribute value (the ending node, which is one of the nodes with the highest attribute value in case several ones exists), or null if the index is empty.
+\item[\texttt{minEdgeFromIndex(.)}] returns the edge from the given index with the lowest attribute value (the starting edge, which is one of the edges with the lowest attribute value in case several ones exists), or null if the index is empty.
+\item[\texttt{maxEdgeFromIndex(.)}] returns the edge from the given index with the highest attribute value (the ending edge, which is one of the edges with the lowest attribute value in case several ones exists), or null if the index is empty.
 \item[\texttt{indexSize(.)}] returns the size of the given index, as \texttt{int}.
 \end{description}
 
 
 \subsection*{Multiple index queries and spatial queries}\label{sub:indexusage}
 
-In the pattern part you may ask for an element to get bound to an element from multiple indices;
-the element must be contained in all the specified indices, lying within the specified bounds for each of them (i.e. multi index join is carried out, which can be seen as a result set intersection).
+In the pattern you may ask for a pattern element to get bound to a graph element from multiple indices;
+the graph element must be contained in all the specified indices, lying within the specified bounds for each of them (i.e. a multi index join is carried out, which can be seen as a result set intersection, implemented in an efficient way).
 
 This is specified syntactically similar to an \emph{IndexAccess} (see above).
-If the type of the element retrieved from the index is not compatible to the type of the pattern element specified,
-or if the index join is empty, matching fails.
+If the type of the element retrieved from the indices is not compatible to the type of the pattern element specified, the retrieved candidate is not bound to the pattern element, and matching continues with the next candidate from the indices, if the available candidates fitting to the multiple attribute conditions are exhausted or if the index join is empty, matching fails.
+The elements from the indices are successively bound to the pattern element, then the rest of the pattern is bound and checked, until the requested number of matches is found.
+
 
 \begin{rail}
   MultipleIndexAccess:
     lbrace 'multiple' '(' ((IndexBound ',' IndexBound)+(',')) ')' rbrace;
 \end{rail}\ixnterm{MultipleIndexAccess}
 
-You must always specify a lower and an upper bound, for each index queried. You may use the \texttt{minNodeFromIndex}/\texttt{maxNodeFromIndex}/\texttt{minEdgeFromIndex}/\texttt{maxEdgeFromIndex} functions (see below) to obtain lowest lower and highest upper bounds, so you can emulate the functions with only one bound or even no bound.
+You must always specify a lower and an upper bound, for each index queried. You may use the \texttt{minNodeFromIndex}/\texttt{maxNodeFromIndex}/\texttt{minEdgeFromIndex}/\texttt{maxEdgeFromIndex} functions (see above) to obtain lowest lower and highest upper bounds, so you can emulate single index accesses with only one bound or even no bound (the same holds for the following multiple index access functions).
 
 \begin{rail}
   IndexFunctionCall:
@@ -290,15 +295,17 @@ You must always specify a lower and an upper bound, for each index queried. You 
     ( (IndexName ',' Expression ',' Expression) ) + (',') ;
 \end{rail}\ixnterm{IndexFunctionCall}\ixnterm{MultipleIndexArguments}
 
-The second way to access an index is from index access functions which are available in the expressions of the rule language, as well as in the expressions of the sequence computations.
+\pagebreak
+
+A second way to access multiple indices is from multiple index access functions which are available in the expressions of the rule language, as well as in the expressions of the sequence computations.
 
 \begin{description}
-\item[\texttt{nodesFromIndexMultipleFromTo(.,.,.[,.,.,.]*)}] returns all nodes from the join of the given indices as set, i.e. the intersection of the result sets of the simple index queries, which are of the form: the indexed attribute of the index given as $k$th argument must be greater or equal than the $k + 1$ argument and lower or equal than the $k + 2$ argument, where $k \in 1, 3, 6, \ldots$.
-\item[\texttt{edgesFromIndexMultipleFromTo(.,.,.[,.,.,.]*)}] returns all edges from the join of the given indices as set, i.e. the intersection of the result sets of the simple index queries, which are of the form: the indexed attribute of the index given as $k$th argument must be greater or equal than the $k + 1$ argument and lower or equal than the $k + 2$ argument, where $k \in 1, 3, 6, \ldots$.
+\item[\texttt{nodesFromIndexMultipleFromTo(.,.,.[,.,.,.]*)}] returns all nodes from the join of the given indices as a set, i.e. the intersection of the result sets of the simple index queries, which are of the form: the indexed attribute of the index given as $k$th argument must be greater or equal than the $k + 1$ argument and lower or equal than the $k + 2$ argument, where $k \in 1, 3, 6, \ldots$
+\item[\texttt{edgesFromIndexMultipleFromTo(.,.,.[,.,.,.]*)}] returns all edges from the join of the given indices as a set, i.e. the intersection of the result sets of the simple index queries, which are of the form: the indexed attribute of the index given as $k$th argument must be greater or equal than the $k + 1$ argument and lower or equal than the $k + 2$ argument, where $k \in 1, 3, 6, \ldots$
 \end{description}
 
 
-\begin{example}
+\begin{example}\label{ex:multiindexaccess}
 The following index \texttt{foo} allows to quickly fetch nodes of type \texttt{N} (or a subtype) based on the value of their attribute \texttt{i}, the index \texttt{bar} inspects the value of its attribute \texttt{j} towards this purpose.
 
 \begin{grgen}
@@ -313,7 +320,7 @@ index bar { N.j }
 \end{grgen}
 
 Fetching typically occurs in the rules, binding a pattern element based on the constraints specified with the lookup.
-The rule \texttt{r} carries out a \texttt{multiple} index access (multi index join), it binds the nodes whose attribute \texttt{i} is greater than or equal $5$ and lower than $13$, and whose attribute \texttt{j} is greater or equal "`a"' and lower or equal "`i"'.
+The rule \texttt{r} carries out a \texttt{multiple} index access (multi index join), it binds the nodes whose attribute \texttt{i} is greater than or equal $5$ and lower than or equal $13$, and whose attribute \texttt{j} is greater than or equal "a" and lower than or equal "i".
 
 \begin{grgen}
 rule r {
@@ -330,7 +337,7 @@ rule r {
 
 \begin{example}
 
-A similar index access (similar to the previous example) from the expressions may look like:
+A similar index access (similar to the previous Example~\ref{ex:multiindexaccess}) from the expressions may look like:
 
 \begin{grgen}
 rule r {
@@ -371,11 +378,11 @@ rule rd {
 
 The multiple index access can be used to carry out spatial queries (emulating a spatial index by utilizing one index per dimension).
 
-The fabricated index examples geared at testing can be found in the \texttt{tests/index} directory.
-The following more interesting spatial query examples can be found in the \texttt{tests/indexSpatialQuery} directory.
+The fabricated index examples geared at testing from which excerpts were shown above can be found in the \texttt{tests/index} directory.
+The following more interesting spatial query examples can be found in the \texttt{tests/index\-Spatial\-Query} directory.
 
 
-\begin{example}
+\begin{example}\label{ex:spatialquery}
 The following indices \texttt{ix}, \texttt{iy}, \texttt{iz} allow to quickly fetch neighboring nodes in a 3 dimensional space (so each coordinate has its own index).
 
 \begin{grgen}
@@ -396,7 +403,7 @@ class Point3d {
 }
 \end{grgen}
 
-You may use it in rules to match pattern elements that are unconnected by nearness in space (fetching all nodes that are within a bounding box around the node of interest; note that the nodes are not matched by distance, you have to apply a post-matches filter in order achieve this goal).
+You may use them in rules to match pattern elements that are unconnected by nearness in space (fetching all nodes that are within a bounding box around the node of interest; note that the nodes are not matched ordered by distance, you have to apply a post-matches filter in order achieve this goal).
 
 The rule \texttt{matchNeighboring} applied with all-bracketing matches all nodes \texttt{neighbor} that are within
 \texttt{delta}-difference to all the coordinates of the node \texttt{n} in $3$-dimensional space.
@@ -416,7 +423,7 @@ rule matchNeighboring : (Point3dNode, Point3dNode) {
 }
 \end{grgen}
 
-You may use it in the rules to check matched pattern elements for nearness in space with the functions.
+You may use them in the rules to check matched pattern elements for nearness in space with the functions.
 
 \begin{grgen}
 // reduce cartesian product of unconnected components to the ones nearby in space
@@ -445,6 +452,7 @@ Table~\ref{indexreturningnodestab} and table~\ref{indexnodestab}, as well as tab
 \begin{tabular}{|l|}
 \hline
 \texttt{nodesFromIndexSame(Index,T):set<Node>}\\
+\hline
 \texttt{nodesFromIndexSameAsArray(Index,T):array<Node>}\\
 \hline
 \texttt{nodesFromIndex(Index):set<Node>}\\
@@ -477,12 +485,14 @@ Table~\ref{indexreturningnodestab} and table~\ref{indexnodestab}, as well as tab
 \texttt{nodesFromIndexFromToExclusiveAsArrayDescending(Index,T,T):array<Node>}\\
 \texttt{nodesFromIndexFromExclusiveToExclusiveAsArrayDescending(Index,T,T):array<Node>}\\
 \hline
-\texttt{nodesFromIndexMultipleFromTo(Index,T,T[,Index\_k,T\_k,T\_k]+):set<Node>}\\
+\texttt{nodesFromIndexMultipleFromTo(Index,T,T[,Index\_k,T\_k,T\_k]*):set<Node>}\\
 \hline
 \end{tabular}
 \caption{Index functions returning nodes at a glance}
 \label{indexreturningnodestab}
 \end{table}
+
+\pagebreak
 
 %\makeatletter
 \begin{table}[htbp]
@@ -523,12 +533,15 @@ Table~\ref{indexreturningnodestab} and table~\ref{indexnodestab}, as well as tab
 \label{indexnodestab}
 \end{table}
 
+\pagebreak
+
 %\makeatletter
 \begin{table}[htbp]
 \centering
 \begin{tabular}{|l|}
 \hline
 \texttt{edgesFromIndexSame(Index,T):set<AEdge>}\\
+\hline
 \texttt{edgesFromIndexSameAsArray(Index,T):array<AEdge>}\\
 \hline
 \texttt{edgesFromIndex(Index):set<AEdge>}\\
@@ -561,12 +574,14 @@ Table~\ref{indexreturningnodestab} and table~\ref{indexnodestab}, as well as tab
 \texttt{edgesFromIndexFromToExclusiveAsArrayDescending(Index,T,T):array<AEdge>}\\
 \texttt{edgesFromIndexFromExclusiveToExclusiveAsArrayDescending(Index,T,T):array<AEdge>}\\
 \hline
-\texttt{edgesFromIndexMultipleFromTo(Index,T,T[,Index\_k,T\_k,T\_k]+):set<AEdge>}\\
+\texttt{edgesFromIndexMultipleFromTo(Index,T,T[,Index\_k,T\_k,T\_k]*):set<AEdge>}\\
 \hline
 \end{tabular}
 \caption{Index functions returning edges at a glance}
 \label{indexreturningedgestab}
 \end{table}
+
+\pagebreak
 
 %\makeatletter
 \begin{table}[htbp]
@@ -671,7 +686,7 @@ rule r() {
 	
   modify {
   ---
-    emit("count outgoing(Node): ", bar[n], "\n");
+    emit("count outgoing(Node): ", countFromIndex(bar, n), "\n");
   }
 }
 \end{grgen}
@@ -773,7 +788,7 @@ This incurs an additional cost of a 4 bytes unique id field per graph element.
 
 The uniqueness \emph{index} allows in addition to fetch a graph element by its unique id, extending the uniqueness property to an index allowing for quick graph element lookup.
 You may see it as a key-value store from the unique ids to their graph elements.
-This one is realized with an array of unique ids to graph elements.
+This one is realized with an array/list of unique ids to graph elements (thus the cost is at most about twice the number of elements ever held multiplied by 4 bytes on a 32bit CLR and 8 bytes on a 64bit CLR).
 
 So lookup is carried out efficiently in $O(1)$ either way.
 Maintaining the uniqueness information is in $O(log(n))$, but much less on average, as the ids of deleted elements have to be stored in a heap (the data structure, not the memory model) for quick reuse of the lowest one upon graph element addition (this way we ensure a maximally packed id range, which keeps the index array and the is-matched-bit-arrays of the parallelized matchers small and packed).

@@ -248,9 +248,9 @@ Table~\ref{seqtab} lists most of the operations of the advanced graph rewrite se
 \hline
 \texttt{for\{v in u; s\}} & Execute \texttt{s} for every \texttt{v} in storage set \texttt{u}. One \texttt{s} failing pins the execution result to failure.\\
 \texttt{for\{v->w in u; s\}} & Execute \texttt{s} for every pair (\texttt{v},\texttt{w} in storage map \texttt{u}. One \texttt{s} failing pins the execution result to failure.\\
-\texttt{for\{v in func(...); s\}} & Execute \texttt{s} for every node/edge in func, which may be nodes/edges, or incident/adjacent, or reachable/boundedReachable. One \texttt{s} failing pins the execution result to failure.\\
 \texttt{for\{v:int in [l:u]; s\}} & Execute \texttt{s} for every \texttt{v} in the integer range starting at \texttt{l} and ending at \texttt{u}, upwards by one if \texttt{l<=r}, otherwise downwards by one. One \texttt{s} failing pins the execution result to failure.\\
-\texttt{for\{v:N in \{asc.(idx>7)\}; s\}} & Execute \texttt{s} for every \texttt{v} in the index \texttt{idx}, in ascending order, from \texttt{7} exclusive on. One \texttt{s} failing pins the execution result to failure. \texttt{asc.} abbreviates \texttt{ascending}, is not valid syntax as such.\\
+\texttt{for\{v in func(...); s\}} & Execute \texttt{s} for every node/edge in the graph query function \texttt{func}, which may be nodes/edges, or incident/adjacent, or reachable/boundedReachable. One \texttt{s} failing pins the execution result to failure.\\
+\texttt{for\{v:N in indexFunc(...); s\}} & Execute \texttt{s} for every \texttt{v} in the index query function \texttt{indexFunc}. One \texttt{s} failing pins the execution result to failure.\\
 \hline
 \texttt{\{comp\}}	& An unspecified sequence computation (see table \ref{comptab}).\\
 \hline

@@ -1,7 +1,7 @@
 function getCommonMovies(pn1:Person, pn2:Person) : set<Node>
 {
     def ref common:set<Node> = set<Node>{};
-    if(countPersonToMovie[pn1] >= countPersonToMovie[pn2]) {
+    if(countFromIndex(countPersonToMovie, pn1) >= countFromIndex(countPersonToMovie, pn2)) {
         def ref movies:set<Node> = adjacentOutgoing(pn2, personToMovie);
         for(movie:Node in adjacentOutgoing(pn1, personToMovie)) {
             if(movie in movies) {
