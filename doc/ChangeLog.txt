@@ -1,4 +1,7 @@
-﻿v7.2 (2025-04-19)
+﻿v7.2.1 (2025-04-22)
+ Adapted Notepad++ syntax highlighting to the recent changes
+
+v7.2 (2025-04-19)
  Introduced a full blown (attribute) index access interface:
 
   Introduced several nodesFromIndex functions to the rule language and the sequences that allow to query an (attribute) index:
