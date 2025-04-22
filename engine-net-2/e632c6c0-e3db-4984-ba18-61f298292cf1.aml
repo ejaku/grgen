@@ -12,7 +12,7 @@
            a specific number of sub-topics when creating the outline.  Specify
            zero (0) to limit it to top-level sections only.  -->
       <!-- <autoOutline /> -->
-      <para>This is an introduction into the Application Programming Interface of the GrGen.NET v7.1 system,
+      <para>This is an introduction into the Application Programming Interface of the GrGen.NET v7.2 system,
       	i.e. the libGr and the assemblies generated from the model and rule specifications.
       	We'll have a look at the	
 		<list class="bullet">
@@ -25,7 +25,7 @@
       	From the input file <localUri>Foo.grg</localUri> the <application>grgen.exe</application> compiler generates the output files <localUri>FooModel.cs</localUri> for the model and <localUri>FooActions.cs</localUri> for the actions,
 		<list class="bullet">
 		  <listItem>defining the exact interface</listItem>
-		  <listItem>implementing the exact interface with generated code and code from the lgsp backend (i.e. entities from <codeInline>de.unika.ipd.grGen.lgsp</codeInline>, the <legacyUnderline>libGr Search Plan Backend documentation is included for convenience, but does not define the API</legacyUnderline>)</listItem>
+		  <listItem>implementing the exact interface with generated code and code from the lgsp backend (i.e. entities from <codeInline>de.unika.ipd.grGen.lgsp</codeInline>, the <legacyUnderline>libGr Search Plan Backend documentation is included for convenience, but does not define the API, it is just needed for a bit of plumbing</legacyUnderline>)</listItem>
 		  <listItem>and implementing the generic interface from <codeInline>de.unika.ipd.grGen.libGr</codeInline> using the entities mentioned in both points above</listItem>
 		</list>
 
@@ -143,8 +143,8 @@ Further on, the environment offers driver or helper objects for transaction mana
         <!-- Uncomment this to create a sub-section outline
         <autoOutline /> -->
         <para>
-The <codeInline>GraphViewer</codeInline> offers the functionality to display a graph continuously, following its changes, as well as to just render a snapshot of it.
-The <codeInline>ConsoleDebugger</codeInline> allows you to execute sequences stepwise under debugger control (in a console window).
+The <codeInline>GraphViewer</codeInline> offers an entry point to the functionality to display a graph continuously, following its changes, as well as to just render a snapshot of it; the <codeInline>GraphViewerClient</codeInline> together with the two <codeInline>IBasicGraphViewerClient</codeInline>s, the <codeInline>YCompClient</codeInline> and the <codeInline>MSAGLClient</codeInline> implement it.
+The <codeInline>Debugger</codeInline> allows you to execute sequences stepwise under debugger control, in a console window with a <codeInline>Printer</codeInline> or a GUI window with a <codeInline>Renderer</codeInline> (implementing an <codeInline>IDisplayer</codeInline>); requiring an <codeInline>IDebuggerEnvironment</codeInline> that allows to communicate with the UI (and a <codeInline>DebuggerGraphProcessingEnvironment</codeInline>).
 They are contained in the graphViewerAndSequencesDebugger and in the graphViewerAndSequencesDebuggerWindowsForms project; in the libGrShell project do you find the <codeInline>GrShell</codeInline> that allows you to employ GrShell-functionality from your own code (once it was generated).
         </para>
       </content>
@@ -323,6 +323,15 @@ They are contained in the graphViewerAndSequencesDebugger and in the graphViewer
 
       <codeEntityReference>T:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment</codeEntityReference>
       <codeEntityReference>T:de.unika.ipd.grGen.libGr.Porter</codeEntityReference>
+      
+      <codeEntityReference>T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewer</codeEntityReference>
+      <codeEntityReference>T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GraphViewerClient</codeEntityReference>
+
+      <codeEntityReference>T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Debugger</codeEntityReference>
+      <codeEntityReference>T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.DebuggerEnvironment</codeEntityReference>
+
+      <codeEntityReference>T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiDebuggerHost</codeEntityReference>
+      <codeEntityReference>T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient</codeEntityReference>
     </relatedTopics>
   </developerConceptualDocument>
 </topic>
