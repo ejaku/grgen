@@ -10,71 +10,115 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using de.unika.ipd.grGen.graphViewerAndSequenceDebugger;
 using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.grShell
 {
+    public class GrShellConfigurationAndControlState
+    {
+        public String command;
+        public List<String> scriptFilenames; // list of files not yet processed/to be processed, is filled and then reduced filename by filename
+        public bool showUsage;
+        public bool nonDebugNonGuiExitOnError;
+        public bool showIncludes;
+
+        public bool showPrompt;
+        public bool readFromConsole;
+
+        public GrShellConfigurationAndControlState()
+        {
+            Init();
+        }
+
+        public void Init()
+        {
+            command = null;
+            scriptFilenames = new List<String>();
+            showUsage = false;
+            nonDebugNonGuiExitOnError = false;
+            showIncludes = false;
+
+            showPrompt = true;
+            readFromConsole = true;
+        }
+    }
+
+    public class GrShellComponents
+    {
+        public TextReader reader;
+
+        public GrShell shell;
+        public GrShellImpl shellImpl;
+        public IGrShellImplForDriver impl;
+        public GrShellDriver driver;
+    }
+
     public class GrShellMain
     {
         static int Main(string[] args)
         {
-            String command = null;
-            List<String> scriptFilename = new List<String>();
-            bool showUsage = false;
-            bool nonDebugNonGuiExitOnError = false;
-            bool showIncludes = false;
-            int errorCode = 0; // 0==success, the return value
-
             PrintVersion();
 
-            ParseArguments(args,
-                out command, out scriptFilename, out showUsage,
-                out nonDebugNonGuiExitOnError, out showIncludes, out errorCode);
+            GrShellConfigurationAndControlState config;
+            GrShellComponents components;
+            int errorCode = ConstructShell(args, out config, out components);
+            if(errorCode != 0)
+                return errorCode;
 
-            if(showUsage)
+            return ExecuteShell(config, components);
+        }
+
+        private static void PrintVersion()
+        {
+            ConsoleUI.outWriter.WriteLine(GrShellDriver.VersionString + " (enter \"help\" for a list of commands)");
+        }
+
+        private static int ConstructShell(string[] args, out GrShellConfigurationAndControlState config, out GrShellComponents components)
+        {
+            int errorCode = 0; // 0==success
+
+            config = new GrShellConfigurationAndControlState();
+            components = null;
+            errorCode = ParseArguments(args, ref config);
+
+            if(config.showUsage)
             {
                 PrintUsage();
                 return errorCode;
             }
 
-            TextReader reader;
-            bool showPrompt;
-            bool readFromConsole;
-
-            errorCode = DetermineAndOpenInputSource(command, scriptFilename, 
-                out reader, out showPrompt, out readFromConsole);
+            components = new GrShellComponents();
+            errorCode = DetermineAndOpenInputSource(config, components);
             if(errorCode != 0)
                 return errorCode;
 
-            GrShell shell = new GrShell(reader);
-            GrShellImpl shellImpl = new GrShellImpl();
-            IGrShellImplForDriver impl = shellImpl;
-            GrShellDriver driver = new GrShellDriver(shell, impl);
-            shell.SetImpl(shellImpl);
-            shell.SetDriver(driver);
-            driver.tokenSources.Push(shell.token_source);
-            driver.showIncludes = showIncludes;
-            impl.nonDebugNonGuiExitOnError = nonDebugNonGuiExitOnError;
+            CreateAndWireComponents(components);
+            components.driver.showIncludes = config.showIncludes;
+            components.impl.nonDebugNonGuiExitOnError = config.nonDebugNonGuiExitOnError;
+
+            return errorCode;
+        }
+
+        private static int ExecuteShell(GrShellConfigurationAndControlState config, GrShellComponents components)
+        {
+            int errorCode = 0; // 0==success
 
             try
             {
-                driver.conditionalEvaluationResults.Push(true);
+                components.driver.conditionalEvaluationResults.Push(true);
 
-                while(!driver.Quitting && !driver.Eof)
+                while(!components.driver.Quitting && !components.driver.Eof)
                 {
-                    ShowPromptAsNeeded(showPrompt);
+                    ShowPromptAsNeeded(config.showPrompt);
 
-                    bool success = shell.ParseShellCommand();
+                    bool success = components.shell.ParseShellCommand();
 
-                    errorCode = HandleEofOrErrorIfNonConsoleShell(scriptFilename, success, nonDebugNonGuiExitOnError,
-                        shell, driver,
-                        ref reader, ref showPrompt, ref readFromConsole);
+                    errorCode = HandleEofOrErrorIfNonConsoleShell(success, config, components);
                     if(errorCode != 0)
                         return errorCode;
                 }
 
-                driver.conditionalEvaluationResults.Pop();
+                components.driver.conditionalEvaluationResults.Pop();
             }
             catch(Exception e)
             {
@@ -85,15 +129,10 @@ namespace de.unika.ipd.grGen.grShell
             }
             finally
             {
-                impl.Cleanup();
+                components.impl.Cleanup();
             }
 
             return errorCode;
-        }
-
-        private static void PrintVersion()
-        {
-            ConsoleUI.outWriter.WriteLine(GrShellDriver.VersionString + " (enter \"help\" for a list of commands)");
         }
 
         private static void ShowPromptAsNeeded(bool showPrompt)
@@ -103,16 +142,11 @@ namespace de.unika.ipd.grGen.grShell
                 ConsoleUI.outWriter.Write("> ");
         }
 
-        private static void ParseArguments(string[] args,
-            out String command, out List<String> scriptFilename, out bool showUsage,
-            out bool nonDebugNonGuiExitOnError, out bool showIncludes, out int errorCode)
+        private static int ParseArguments(string[] args, ref GrShellConfigurationAndControlState config)
         {
-            command = null;
-            scriptFilename = new List<String>();
-            showUsage = false;
-            nonDebugNonGuiExitOnError = false;
-            showIncludes = false;
-            errorCode = 0; // 0==success, the return value
+            int errorCode = 0; // 0==success
+
+            config.Init();
 
             for(int i = 0; i < args.Length; ++i)
             {
@@ -120,38 +154,38 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     if(args[i] == "-C")
                     {
-                        if(command != null)
+                        if(config.command != null)
                         {
                             ConsoleUI.outWriter.WriteLine("Another command has already been specified with -C!");
                             errorCode = -1;
-                            showUsage = true;
+                            config.showUsage = true;
                             break;
                         }
                         if(i + 1 >= args.Length)
                         {
                             ConsoleUI.outWriter.WriteLine("Missing parameter for -C option!");
                             errorCode = -1;
-                            showUsage = true;
+                            config.showUsage = true;
                             break;
                         }
-                        command = args[i + 1];
-                        ConsoleUI.outWriter.WriteLine("Will execute: \"" + command + "\"");
+                        config.command = args[i + 1];
+                        ConsoleUI.outWriter.WriteLine("Will execute: \"" + config.command + "\"");
                         ++i;
                     }
                     else if(args[i] == "-N")
-                        nonDebugNonGuiExitOnError = true;
+                        config.nonDebugNonGuiExitOnError = true;
                     else if(args[i] == "-SI")
-                        showIncludes = true;
+                        config.showIncludes = true;
                     else if(args[i] == "--help")
                     {
                         ConsoleUI.outWriter.WriteLine("Displays help");
-                        showUsage = true;
+                        config.showUsage = true;
                         break;
                     }
                     else
                     {
                         ConsoleUI.outWriter.WriteLine("Illegal option: " + args[i]);
-                        showUsage = true;
+                        config.showUsage = true;
                         errorCode = -1;
                         break;
                     }
@@ -165,14 +199,16 @@ namespace de.unika.ipd.grGen.grShell
                         if(!File.Exists(filename))
                         {
                             ConsoleUI.outWriter.WriteLine("The script file \"" + args[i] + "\" or \"" + filename + "\" does not exist!");
-                            showUsage = true;
+                            config.showUsage = true;
                             errorCode = -1;
                             break;
                         }
                     }
-                    scriptFilename.Add(filename);
+                    config.scriptFilenames.Add(filename);
                 }
             }
+
+            return errorCode;
         }
 
         private static void PrintUsage()
@@ -188,80 +224,89 @@ namespace de.unika.ipd.grGen.grShell
             ConsoleUI.outWriter.WriteLine("  <grs-file>   Includes the grs-file(s) in the given order");
         }
 
-        private static int DetermineAndOpenInputSource(String command, List<String> scriptFilename,
-            out TextReader reader, out bool showPrompt, out bool readFromConsole)
+        private static int DetermineAndOpenInputSource(GrShellConfigurationAndControlState config, GrShellComponents components)
         {
-            if(command != null)
+            if(config.command != null)
             {
-                reader = new StringReader(command);
-                showPrompt = false;
-                readFromConsole = false;
+                components.reader = new StringReader(config.command);
+                config.showPrompt = false;
+                config.readFromConsole = false;
             }
-            else if(scriptFilename.Count != 0)
+            else if(config.scriptFilenames.Count != 0)
             {
                 try
                 {
-                    reader = new StreamReader((String)scriptFilename[0]);
+                    components.reader = new StreamReader((String)config.scriptFilenames[0]);
                 }
                 catch(Exception e)
                 {
-                    ConsoleUI.outWriter.WriteLine("Unable to read file \"" + scriptFilename[0] + "\": " + e.Message);
-                    reader = null;
-                    showPrompt = false;
-                    readFromConsole = false;
+                    ConsoleUI.outWriter.WriteLine("Unable to read file \"" + config.scriptFilenames[0] + "\": " + e.Message);
+                    components.reader = null;
+                    config.showPrompt = false;
+                    config.readFromConsole = false;
                     return -1;
                 }
-                scriptFilename.RemoveAt(0);
-                showPrompt = false;
-                readFromConsole = false;
+                config.scriptFilenames.RemoveAt(0);
+                config.showPrompt = false;
+                config.readFromConsole = false;
             }
             else
             {
-                reader = ConsoleUI.inReader;
-                showPrompt = true;
-                readFromConsole = true;
+                components.reader = ConsoleUI.inReader;
+                config.showPrompt = true;
+                config.readFromConsole = true;
             }
 
             return 0;
         }
 
-        private static int HandleEofOrErrorIfNonConsoleShell(List<String> scriptFilename, bool success, bool nonDebugNonGuiExitOnError, 
-            GrShell shell, GrShellDriver driver,
-            ref TextReader reader, ref bool showPrompt, ref bool readFromConsole)
+        private static void CreateAndWireComponents(GrShellComponents components)
         {
-            if(readFromConsole || (!driver.Eof && success))
+            components.shell = new GrShell(components.reader);
+            components.shellImpl = new GrShellImpl();
+            components.impl = components.shellImpl;
+            components.driver = new GrShellDriver(components.shell, components.impl);
+            components.shell.SetImpl(components.shellImpl);
+            components.shell.SetDriver(components.driver);
+            components.driver.tokenSources.Push(components.shell.token_source);
+        }
+
+        private static int HandleEofOrErrorIfNonConsoleShell(bool success,
+            GrShellConfigurationAndControlState config, GrShellComponents components)
+        {
+            if(config.readFromConsole || (!components.driver.Eof && success))
                 return 0;
 
-            if(nonDebugNonGuiExitOnError && !success)
+            if(config.nonDebugNonGuiExitOnError && !success)
                 return -1;
 
-            if(scriptFilename.Count != 0)
+            if(config.scriptFilenames.Count != 0)
             {
                 TextReader newReader;
                 try
                 {
-                    newReader = new StreamReader((String)scriptFilename[0]);
+                    newReader = new StreamReader((String)config.scriptFilenames[0]);
                 }
                 catch(Exception e)
                 {
-                    ConsoleUI.outWriter.WriteLine("Unable to read file \"" + scriptFilename[0] + "\": " + e.Message);
+                    ConsoleUI.outWriter.WriteLine("Unable to read file \"" + config.scriptFilenames[0] + "\": " + e.Message);
                     return -1;
                 }
-                scriptFilename.RemoveAt(0);
-                shell.ReInit(newReader);
-                driver.Eof = false;
-                reader.Close();
-                reader = newReader;
+                config.scriptFilenames.RemoveAt(0);
+                components.shell.ReInit(newReader);
+                components.driver.Eof = false;
+                components.reader.Close();
+                components.reader = newReader;
             }
             else
             {
-                shell.ReInit(ConsoleUI.inReader);
-                driver.tokenSources.Pop();
-                driver.tokenSources.Push(shell.token_source);
-                showPrompt = true;
-                readFromConsole = true;
-                driver.Eof = false;
-                reader.Close();
+                components.shell.ReInit(ConsoleUI.inReader);
+                components.driver.tokenSources.Pop();
+                components.driver.tokenSources.Push(components.shell.token_source);
+                config.showPrompt = true;
+                config.readFromConsole = true;
+                components.driver.Eof = false;
+                components.reader.Close();
             }
 
             return 0;
