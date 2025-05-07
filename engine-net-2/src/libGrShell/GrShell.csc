@@ -1091,7 +1091,7 @@ void ShellCommand():
         {
             if(str1 != "time")
             {
-                ConsoleUI.outWriter.WriteLine("The new seed as integer or the word \"time\" for setting the current time as seed is expected!");
+                ConsoleUI.errorOutWriter.WriteLine("The new seed in the form of an integer value or the word \"time\" for setting the current time as seed is expected!");
                 noError = false;
             }
             else impl.SetRandomSeed(Environment.TickCount);
@@ -1277,7 +1277,7 @@ void ShellCommand():
     }
     catch(ParseException ex)
     {
-        ConsoleUI.outWriter.WriteLine(ex.Message);
+        ConsoleUI.errorOutWriter.WriteLine(ex.Message);
         throw new ParseException("Unknown command. Enter \"help\" to get a list of commands.");
     }
 }
@@ -1366,8 +1366,8 @@ void NewCommand():
     }
     catch(ParseException ex)
     {
-        ConsoleUI.outWriter.WriteLine(ex.Message);
-        ConsoleUI.outWriter.WriteLine("Invalid command!");
+        ConsoleUI.errorOutWriter.WriteLine(ex.Message);
+        ConsoleUI.errorOutWriter.WriteLine("Invalid command!");
         impl.HelpNew(new List<String>());
         errorSkipSilent();
         noError = false;
@@ -1544,8 +1544,8 @@ void SelectCommand():
     }
     catch(ParseException ex)
     {
-        ConsoleUI.outWriter.WriteLine(ex.Message);
-        ConsoleUI.outWriter.WriteLine("Invalid command!");
+        ConsoleUI.errorOutWriter.WriteLine(ex.Message);
+        ConsoleUI.errorOutWriter.WriteLine("Invalid command!");
         impl.HelpSelect(new List<String>());
         errorSkipSilent();
         noError = false;
@@ -1591,8 +1591,8 @@ void DeleteCommand():
     }
     catch(ParseException ex)
     {
-        ConsoleUI.outWriter.WriteLine(ex.Message);
-        ConsoleUI.outWriter.WriteLine("Invalid command!");
+        ConsoleUI.errorOutWriter.WriteLine(ex.Message);
+        ConsoleUI.errorOutWriter.WriteLine("Invalid command!");
         impl.HelpDelete(new List<String>());
         errorSkipSilent();
         noError = false;
@@ -1620,8 +1620,8 @@ void RetypeCommand():
     }
     catch(ParseException ex)
     {
-        ConsoleUI.outWriter.WriteLine(ex.Message);
-        ConsoleUI.outWriter.WriteLine("Invalid command!");
+        ConsoleUI.errorOutWriter.WriteLine(ex.Message);
+        ConsoleUI.errorOutWriter.WriteLine("Invalid command!");
         impl.HelpRetype(new List<String>());
         errorSkipSilent();
         noError = false;
@@ -1649,8 +1649,8 @@ void RedirectCommand():
     }
     catch(ParseException ex)
     {
-        ConsoleUI.outWriter.WriteLine(ex.Message);
-        ConsoleUI.outWriter.WriteLine("Invalid command!");
+        ConsoleUI.errorOutWriter.WriteLine(ex.Message);
+        ConsoleUI.errorOutWriter.WriteLine("Invalid command!");
         impl.HelpRedirect(new List<String>());
         errorSkipSilent();
         noError = false;
@@ -1738,8 +1738,8 @@ void ShowCommand():
     }
     catch(ParseException ex)
     {
-        ConsoleUI.outWriter.WriteLine(ex.Message);
-        ConsoleUI.outWriter.WriteLine("Invalid command!");
+        ConsoleUI.errorOutWriter.WriteLine(ex.Message);
+        ConsoleUI.errorOutWriter.WriteLine("Invalid command!");
         impl.HelpShow(new List<String>());
         errorSkipSilent();
         noError = false;
@@ -1955,8 +1955,8 @@ void DebugCommand():
     }
     catch(ParseException ex)
     {
-        ConsoleUI.outWriter.WriteLine(ex.Message);
-        ConsoleUI.outWriter.WriteLine("Invalid command!");
+        ConsoleUI.errorOutWriter.WriteLine(ex.Message);
+        ConsoleUI.errorOutWriter.WriteLine("Invalid command!");
         impl.HelpDebug(new List<String>());
         errorSkipSilent();
         noError = false;
@@ -2077,7 +2077,7 @@ void DebugSetMatch():
         }
         else
         {
-            ConsoleUI.outWriter.WriteLine("Unknown match mode (available are pre and post)!");
+            ConsoleUI.errorOutWriter.WriteLine("Unknown match mode (available are pre and post)!");
             noError = false;
         }
     }
@@ -2110,8 +2110,8 @@ void DumpCommand():
     }
     catch(ParseException ex)
     {
-        ConsoleUI.outWriter.WriteLine(ex.Message);
-        ConsoleUI.outWriter.WriteLine("Invalid command!");
+        ConsoleUI.errorOutWriter.WriteLine(ex.Message);
+        ConsoleUI.errorOutWriter.WriteLine("Invalid command!");
         impl.HelpDump(new List<String>());
         errorSkipSilent();
         noError = false;
@@ -2253,7 +2253,7 @@ void DumpAddNode():
                 case "outgoing": groupMode = GroupMode.GroupOutgoingNodes; break;
                 case "any":      groupMode = GroupMode.GroupAllNodes;      break;
                 default:
-                    ConsoleUI.outWriter.WriteLine("Group mode must be one of: no, incoming, outgoing, any");
+                    ConsoleUI.errorOutWriter.WriteLine("Group mode must be one of: no, incoming, outgoing, any");
                     noError = false;
                     return;
             }
@@ -2261,7 +2261,7 @@ void DumpAddNode():
             {
                 if(groupMode == GroupMode.None)
                 {
-                    ConsoleUI.outWriter.WriteLine("The 'hidden' modifier can not be used with the group mode 'no'!");
+                    ConsoleUI.errorOutWriter.WriteLine("The 'hidden' modifier can not be used with the group mode 'no'!");
                     noError = false;
                     return;
                 }
@@ -2352,7 +2352,7 @@ List<String> SpacedParametersAndLineEnd():
 
 CSHARPCODE
 void errorSkip(ParseException ex) {
-    ConsoleUI.outWriter.WriteLine(ex.Message);
+    ConsoleUI.errorOutWriter.WriteLine(ex.Message);
     Token t;
     do
     {

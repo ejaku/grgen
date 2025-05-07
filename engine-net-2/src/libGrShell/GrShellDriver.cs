@@ -22,7 +22,7 @@ namespace de.unika.ipd.grGen.grShell
         // stack of token sources, for a new file included, a new token source is created, while the old ones are kept so we can restore its state
         public readonly Stack<GrShellTokenManager> tokenSources = new Stack<GrShellTokenManager>();
 
-        // stack of results of evaluating "if expr commands endif" statements; entire file/session is enclosed in true (safing us from special case handling) 
+        // stack of results of evaluating "if expr commands endif" statements; entire file/session is enclosed in true (saving us from special case handling) 
         public readonly Stack<bool> conditionalEvaluationResults = new Stack<bool>();
 
         public bool Quitting = false;
