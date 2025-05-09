@@ -134,6 +134,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationExample", "examp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMSAGL", "tools\TestMSAGL\TestMSAGL.csproj", "{173422DE-FAB3-4473-9702-A4FBA866E5C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShellExampleWindowsForms", "examples-api\ShellExampleWindowsForms\ShellExampleWindowsForms.csproj", "{17B63989-2CFA-4255-9419-6292B36890AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -372,6 +374,14 @@ Global
 		{173422DE-FAB3-4473-9702-A4FBA866E5C9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{173422DE-FAB3-4473-9702-A4FBA866E5C9}.Release|x86.ActiveCfg = Release|Any CPU
 		{173422DE-FAB3-4473-9702-A4FBA866E5C9}.Release|x86.Build.0 = Release|Any CPU
+		{17B63989-2CFA-4255-9419-6292B36890AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17B63989-2CFA-4255-9419-6292B36890AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17B63989-2CFA-4255-9419-6292B36890AF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{17B63989-2CFA-4255-9419-6292B36890AF}.Debug|x86.Build.0 = Debug|Any CPU
+		{17B63989-2CFA-4255-9419-6292B36890AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17B63989-2CFA-4255-9419-6292B36890AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17B63989-2CFA-4255-9419-6292B36890AF}.Release|x86.ActiveCfg = Release|Any CPU
+		{17B63989-2CFA-4255-9419-6292B36890AF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -405,6 +415,7 @@ Global
 		{7F7A5C9F-C781-46FA-936F-0B0DBCD0B9DC} = {79EDF59C-7019-4B42-AC6C-9BDA8ADCB9D5}
 		{A3424189-B2A7-455B-A7A5-BFCA20DA53F7} = {79EDF59C-7019-4B42-AC6C-9BDA8ADCB9D5}
 		{173422DE-FAB3-4473-9702-A4FBA866E5C9} = {2D0AFB3F-4243-4CE2-9A96-2B02425EAFF5}
+		{17B63989-2CFA-4255-9419-6292B36890AF} = {79EDF59C-7019-4B42-AC6C-9BDA8ADCB9D5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9F35A053-34A6-44FB-8EC8-32E93CA1C106}
