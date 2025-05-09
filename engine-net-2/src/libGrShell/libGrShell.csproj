@@ -67,7 +67,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +75,7 @@
     <Compile Include="GrShellConstants.cs" />
     <Compile Include="GrShellDriver.cs" />
     <Compile Include="GrShellImpl.cs" />
+    <Compile Include="GrShellMainHelper.cs" />
     <Compile Include="GrShellSequenceApplierAndDebugger.cs" />
     <Compile Include="GrShellTokenManager.cs" />
     <Compile Include="ParseException.cs" />
