@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
-    public partial class GuiDebuggerHost : Form, IGuiDebuggerHost, IDebuggerGUIForDataRendering // TODO: introduce own object or really use this one to implement IDebuggerGUIForDataRendering?
+    public partial class GuiDebuggerHost : Form, IGuiDebuggerHost, ITwinConsoleUIDataRenderingGUI // TODO: introduce own object or really use this one to implement IDebuggerGUIForDataRendering?
     {
         UserChoiceMenu currentUserChoiceMenu;
         UserChoiceMenu currentAdditionalGuiUserChoiceMenu;
@@ -114,26 +114,26 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         // IGuiDebuggerHost ------------------------------
 
-        public IDebuggerGUIForDataRendering MainWorkObjectGuiGraphRenderer
+        public ITwinConsoleUIDataRenderingGUI MainWorkObjectGuiGraphRenderer
         {
             get { return this; }
         }
-        public IDebuggerConsoleUICombined MainWorkObjectGuiConsoleControl
+        public ITwinConsoleUICombinedConsole MainWorkObjectGuiConsoleControl
         {
             get { return mainWorkObjectGuiConsoleControl; }
         }
-        public IDebuggerConsoleUICombined InputOutputAndLogGuiConsoleControl
+        public ITwinConsoleUICombinedConsole InputOutputAndLogGuiConsoleControl
         {
             get { return inputOutputAndLogGuiConsoleControl; }
         }
 
         // IGuiConsoleDebuggerHost ------------------------------
 
-        public IDebuggerConsoleUICombined GuiConsoleControl
+        public ITwinConsoleUICombinedConsole GuiConsoleControl
         {
             get { return inputOutputAndLogGuiConsoleControl; }
         }
-        public IDebuggerConsoleUICombined OptionalGuiConsoleControl
+        public ITwinConsoleUICombinedConsole OptionalGuiConsoleControl
         {
             get { return mainWorkObjectGuiConsoleControl; }
         }

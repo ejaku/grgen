@@ -15,8 +15,8 @@ using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
-    // ConsoleUI for user dialog
-    public interface IDebuggerConsoleUI
+    // (twin) ConsoleUI for user dialog
+    public interface ITwinConsoleUIInputOutputConsole
     {
         // outWriter (errorOutWriter not used in interactive debugger)
         void Write(string value);
@@ -37,7 +37,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         bool KeyAvailable { get; }
     }
 
-    public interface IDebuggerUIForDataRendering
+    public interface ITwinConsoleUIDataRenderingBase // TODO: really worthwhile?
     {
         // base version of outWriter for data rendering, TODO: also implemented by the graph GUI version, resulting in a list of lines
         void WriteLineDataRendering(string value);
@@ -51,8 +51,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         void RestartImmediateExecution();
     }
 
-    // ConsoleUI for data rendering (of the main work object)
-    public interface IDebuggerConsoleUIForDataRendering : IDebuggerUIForDataRendering
+    // (twin) ConsoleUI for data rendering (of the main work object)
+    public interface ITwinConsoleUIDataRenderingConsole : ITwinConsoleUIDataRenderingBase
     {
         // outWriter for data rendering (errorOutWriter not used in interactive debugger and even less in data rendering)
         void WriteDataRendering(string value);
@@ -74,7 +74,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     }
 
     // interface extension of the GUI debugger compared to the two pane mode debugger consoles / GUI for data rendering (of the main work object as graph)
-    public interface IDebuggerGUIForDataRendering : IDebuggerUIForDataRendering
+    public interface ITwinConsoleUIDataRenderingGUI : ITwinConsoleUIDataRenderingBase
     {
         void SetContext(UserChoiceMenu userChoiceMenu, UserChoiceMenu additionalGuiUserChoiceMenu); // GUI TODO: move out to the IDebuggerEnvironment(?) (and the IGuiDebuggerHost(?))
 
@@ -83,11 +83,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         // GUI TODO: maybe also some list/table interface for non-textual display
     }
 
-    public interface IDebuggerConsoleUICombined : IDebuggerConsoleUI, IDebuggerConsoleUIForDataRendering
+    public interface ITwinConsoleUICombinedConsole : ITwinConsoleUIInputOutputConsole, ITwinConsoleUIDataRenderingConsole
     {
     }
 
-    public class DebuggerConsoleUI : IDebuggerConsoleUICombined
+    public class DebuggerConsoleUI : ITwinConsoleUICombinedConsole
     {
         public static DebuggerConsoleUI Instance
         {
@@ -235,7 +235,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
     }
 
-    public interface IDebuggerEnvironment : IDebuggerConsoleUI, IDebuggerConsoleUIForDataRendering
+    public interface IDebuggerEnvironment : ITwinConsoleUIInputOutputConsole, ITwinConsoleUIDataRenderingConsole
     {
         ConsoleKeyInfo ReadKeyWithCancel();
 
@@ -275,7 +275,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         bool TwoPane { get; }
         bool Gui { get; }
 
-        IDebuggerGUIForDataRendering guiForDataRendering { get; } // TODO: maybe better place existing
+        ITwinConsoleUIDataRenderingGUI guiForDataRendering { get; } // TODO: maybe better place existing
     }
 
 
@@ -285,35 +285,35 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
     public class DebuggerEnvironment : IDebuggerEnvironment
     {
-        public DebuggerEnvironment(IDebuggerConsoleUI debuggerConsoleUI, IDebuggerConsoleUIForDataRendering debuggerConsoleUIForDataRendering, IDebuggerGUIForDataRendering debuggerGUIForDataRendering)
+        public DebuggerEnvironment(ITwinConsoleUIInputOutputConsole debuggerConsoleUI, ITwinConsoleUIDataRenderingConsole debuggerConsoleUIForDataRendering, ITwinConsoleUIDataRenderingGUI debuggerGUIForDataRendering)
         {
             this.theDebuggerConsoleUI = debuggerConsoleUI;
             this.theDebuggerConsoleUIForDataRendering = debuggerConsoleUIForDataRendering;
             this.theDebuggerGUIForDataRendering = debuggerGUIForDataRendering;
         }
 
-        public IDebuggerConsoleUI TheDebuggerConsoleUI // debugger console UI operations are delegated to this object, can be switched in between a gui console or a console
+        public ITwinConsoleUIInputOutputConsole TheDebuggerConsoleUI // debugger console UI operations are delegated to this object, can be switched in between a gui console or a console
         {
             get { return theDebuggerConsoleUI; }
             set { theDebuggerConsoleUI = value; }
         }
-        private IDebuggerConsoleUI theDebuggerConsoleUI;
+        private ITwinConsoleUIInputOutputConsole theDebuggerConsoleUI;
 
-        public IDebuggerConsoleUIForDataRendering TheDebuggerConsoleUIForDataRendering // debugger console UI operations for data rendering are delegated to this object, can be switched in between a gui console or a console (in case of a console it is typically mapped to the normal debugger console)
+        public ITwinConsoleUIDataRenderingConsole TheDebuggerConsoleUIForDataRendering // debugger console UI operations for data rendering are delegated to this object, can be switched in between a gui console or a console (in case of a console it is typically mapped to the normal debugger console)
         {
             get { return theDebuggerConsoleUIForDataRendering; }
             set { theDebuggerConsoleUIForDataRendering = value; }
         }
-        private IDebuggerConsoleUIForDataRendering theDebuggerConsoleUIForDataRendering;
+        private ITwinConsoleUIDataRenderingConsole theDebuggerConsoleUIForDataRendering;
 
-        public IDebuggerGUIForDataRendering TheDebuggerGUIForDataRendering // debugger GUI operations for data rendering are delegated to this object
+        public ITwinConsoleUIDataRenderingGUI TheDebuggerGUIForDataRendering // debugger GUI operations for data rendering are delegated to this object
         {
             get { return theDebuggerGUIForDataRendering; }
             set { theDebuggerGUIForDataRendering = value; }
         }
-        private IDebuggerGUIForDataRendering theDebuggerGUIForDataRendering;
+        private ITwinConsoleUIDataRenderingGUI theDebuggerGUIForDataRendering;
 
-        public IDebuggerGUIForDataRendering guiForDataRendering
+        public ITwinConsoleUIDataRenderingGUI guiForDataRendering
         {
             get { return theDebuggerGUIForDataRendering; }
         }

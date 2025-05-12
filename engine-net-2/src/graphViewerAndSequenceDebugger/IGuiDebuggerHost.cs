@@ -14,8 +14,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     /// </summary>
     public interface IGuiDebuggerHost : IGuiConsoleDebuggerHost
     {
-        IDebuggerGUIForDataRendering MainWorkObjectGuiGraphRenderer { get; }
-        IDebuggerConsoleUICombined MainWorkObjectGuiConsoleControl { get; }
-        IDebuggerConsoleUICombined InputOutputAndLogGuiConsoleControl { get; }
+        ITwinConsoleUIDataRenderingGUI MainWorkObjectGuiGraphRenderer { get; }
+        ITwinConsoleUICombinedConsole MainWorkObjectGuiConsoleControl { get; }
+        ITwinConsoleUICombinedConsole InputOutputAndLogGuiConsoleControl { get; }
     }
 }

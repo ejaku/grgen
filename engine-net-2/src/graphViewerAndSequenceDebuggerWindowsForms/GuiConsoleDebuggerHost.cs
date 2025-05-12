@@ -24,11 +24,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         // IGuiConsoleDebuggerHost ----------------------------------
 
-        public IDebuggerConsoleUICombined GuiConsoleControl
+        public ITwinConsoleUICombinedConsole GuiConsoleControl
         {
             get { return theGuiConsoleControl; }
         }
-        public IDebuggerConsoleUICombined OptionalGuiConsoleControl
+        public ITwinConsoleUICombinedConsole OptionalGuiConsoleControl
         {
             get { return theOptionalGuiConsoleControl; }
         }

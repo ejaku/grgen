@@ -3746,7 +3746,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private void RegisterRealizers()
         {
             // GUI TODO: configure graph viewer here or at some other place?
-            IDebuggerGUIForDataRendering debuggerGUIForDataRendering = env.guiForDataRendering;
+            ITwinConsoleUIDataRenderingGUI debuggerGUIForDataRendering = env.guiForDataRendering;
             IBasicGraphViewerClient graphViewer = debuggerGUIForDataRendering.graphViewer;
 
             // GUI TODO: implement realizers for Breakpoint/Choicepoint and Focus/FocusSuccess combined, maybe also LastSuccess/LastFail...

@@ -32,7 +32,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             sequenceRenderer = new SequenceRenderer(env);
 
             // GUI TODO: correct place?
-            IDebuggerGUIForDataRendering debuggerGUIForDataRendering = env.guiForDataRendering;
+            ITwinConsoleUIDataRenderingGUI debuggerGUIForDataRendering = env.guiForDataRendering;
             debuggerGUIForDataRendering.graphViewer.AddNodeRealizer("nrStd", GrColor.Black, GrColor.White, GrColor.Black, GrNodeShape.Box);
             debuggerGUIForDataRendering.graphViewer.AddEdgeRealizer("erStd", GrColor.Black, GrColor.Black, 1, GrLineStyle.Continuous);
 

@@ -14,8 +14,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     /// </summary>
     public interface IGuiConsoleDebuggerHost
     {
-        IDebuggerConsoleUICombined GuiConsoleControl { get; }
-        IDebuggerConsoleUICombined OptionalGuiConsoleControl { get; }
+        ITwinConsoleUICombinedConsole GuiConsoleControl { get; }
+        ITwinConsoleUICombinedConsole OptionalGuiConsoleControl { get; }
         bool TwoPane { get; set; }
         void Show();
         void Close();
