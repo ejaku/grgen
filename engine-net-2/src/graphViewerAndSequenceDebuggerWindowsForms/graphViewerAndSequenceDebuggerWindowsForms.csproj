@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicGraphViewerClientCreator.cs" />
-    <Compile Include="DoEventsCaller.cs" />
     <Compile Include="GuiDebuggerHost.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -57,12 +56,6 @@
     <Compile Include="HostCreator.cs" />
     <Compile Include="BasicGraphViewerClientHost.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GuiConsoleControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GuiConsoleControl.Designer.cs">
-      <DependentUpon>GuiConsoleControl.cs</DependentUpon>
     </Compile>
     <Compile Include="GuiConsoleDebuggerHost.cs">
       <SubType>Form</SubType>
@@ -87,6 +80,10 @@
       <Project>{28747063-d1d2-4626-b1f1-84cc201b2063}</Project>
       <Name>lgspBackend</Name>
     </ProjectReference>
+    <ProjectReference Include="..\libConsoleAndOSWindowsForms\libConsoleAndOSWindowsForms.csproj">
+      <Project>{120c45f5-2caf-46bb-9f64-838e9e557d61}</Project>
+      <Name>libConsoleAndOSWindowsForms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\libConsoleAndOS\libConsoleAndOS.csproj">
       <Project>{f7a0a66b-136b-4e4c-83a6-5e0bdf92be6f}</Project>
       <Name>libConsoleAndOS</Name>
@@ -102,9 +99,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="GuiConsoleControl.resx">
-      <DependentUpon>GuiConsoleControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GuiConsoleDebuggerHost.resx">
       <DependentUpon>GuiConsoleDebuggerHost.cs</DependentUpon>
     </EmbeddedResource>

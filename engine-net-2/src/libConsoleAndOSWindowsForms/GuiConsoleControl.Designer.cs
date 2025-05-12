@@ -1,4 +1,4 @@
-﻿namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
+﻿namespace de.unika.ipd.grGen.libConsoleAndOS
 {
     partial class GuiConsoleControl
     {

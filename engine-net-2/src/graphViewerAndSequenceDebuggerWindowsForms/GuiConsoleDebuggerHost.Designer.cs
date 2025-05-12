@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.theOptionalGuiConsoleControl = new de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl();
+            this.theOptionalGuiConsoleControl = new de.unika.ipd.grGen.libConsoleAndOS.GuiConsoleControl();
             this.theOptionalSplitter = new System.Windows.Forms.Splitter();
-            this.theGuiConsoleControl = new de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl();
+            this.theGuiConsoleControl = new de.unika.ipd.grGen.libConsoleAndOS.GuiConsoleControl();
             this.SuspendLayout();
             // 
             // theOptionalGuiConsoleControl
@@ -81,8 +81,8 @@
 
         #endregion
 
-        private GuiConsoleControl theOptionalGuiConsoleControl;
+        private de.unika.ipd.grGen.libConsoleAndOS.GuiConsoleControl theOptionalGuiConsoleControl;
         private System.Windows.Forms.Splitter theOptionalSplitter;
-        private GuiConsoleControl theGuiConsoleControl;
+        private de.unika.ipd.grGen.libConsoleAndOS.GuiConsoleControl theGuiConsoleControl;
     }
 }

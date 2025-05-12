@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F7A0A66B-136B-4E4C-83A6-5E0BDF92BE6F}</ProjectGuid>
+    <ProjectGuid>{120C45F5-2CAF-46BB-9F64-838E9E557D61}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>libConsoleAndOS</RootNamespace>
-    <AssemblyName>libConsoleAndOS</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>libConsoleAndOSWindowsForms</RootNamespace>
+    <AssemblyName>libConsoleAndOSWindowsForms</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,6 +33,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,12 +43,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleUI.cs" />
-    <Compile Include="IDoEventsCaller.cs" />
+    <Compile Include="DoEventsCaller.cs" />
+    <Compile Include="GuiConsoleControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GuiConsoleControl.Designer.cs">
+      <DependentUpon>GuiConsoleControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GuiConsoleControlAdapters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TwinConsoleUI.cs" />
-    <Compile Include="TypeCreator.cs" />
-    <Compile Include="WorkaroundManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GuiConsoleControl.resx">
+      <DependentUpon>GuiConsoleControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libConsoleAndOS\libConsoleAndOS.csproj">
+      <Project>{f7a0a66b-136b-4e4c-83a6-5e0bdf92be6f}</Project>
+      <Name>libConsoleAndOS</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

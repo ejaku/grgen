@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.console = new de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl();
+            this.console = new de.unika.ipd.grGen.libConsoleAndOS.GuiConsoleControl();
             this.SuspendLayout();
             // 
             // console
@@ -56,7 +56,7 @@
 
         #endregion
 
-        public de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl console;
+        public de.unika.ipd.grGen.libConsoleAndOS.GuiConsoleControl console;
     }
 }
 

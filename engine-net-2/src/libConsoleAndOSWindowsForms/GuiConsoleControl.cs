@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 using de.unika.ipd.grGen.libGr;
 
-namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
+namespace de.unika.ipd.grGen.libConsoleAndOS
 {
     public partial class GuiConsoleControl : UserControl, ITwinConsoleUICombinedConsole
     {

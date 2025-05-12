@@ -7,15 +7,13 @@
 
 // by Edgar Jakumeit
 
-using System.Windows.Forms;
-
-namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
+namespace de.unika.ipd.grGen.libConsoleAndOS
 {
-    public class DoEventsCaller : IDoEventsCaller
+    /// <summary>
+    /// interface that allows to execute the WindowsForms message loop (Application.DoEvents).
+    /// </summary>
+    public interface IDoEventsCaller
     {
-        public void DoEvents()
-        {
-            Application.DoEvents();
-        }
+        void DoEvents();
     }
 }

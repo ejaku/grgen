@@ -1,6 +1,7 @@
-﻿using de.unika.ipd.grGen.grShell;
-using System;
+﻿using System;
 using System.Windows.Forms;
+using de.unika.ipd.grGen.grShell;
+using de.unika.ipd.grGen.libConsoleAndOS;
 
 namespace ShellExampleWindowsForms
 {

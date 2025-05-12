@@ -64,7 +64,6 @@
     <Compile Include="IBasicGraphViewerClientCreator.cs" />
     <Compile Include="IBasicGraphViewerClientHost.cs" />
     <Compile Include="IDisplayer.cs" />
-    <Compile Include="IDoEventsCaller.cs" />
     <Compile Include="IGuiConsoleDebuggerHost.cs" />
     <Compile Include="IGuiDebuggerHost.cs" />
     <Compile Include="IHostCreator.cs" />

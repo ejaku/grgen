@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using de.unika.ipd.grGen.libConsoleAndOS;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.graphViewerAndSequenceDebugger;
 using System.Text;
@@ -351,7 +352,7 @@ namespace de.unika.ipd.grGen.grShell
                 if(guiConsoleDebuggerHost != null)
                 {
                     guiConsoleDebuggerHost.Close();
-                    GraphViewerClient.GetDoEventsCaller().DoEvents(); // required by mono/Linux so that the windows are really closed
+                    TypeCreator.GetDoEventsCaller().DoEvents(); // required by mono/Linux so that the windows are really closed
                 }
             }
             WorkaroundManager.Workaround.PreventComputerFromGoingIntoSleepMode(false);
@@ -445,7 +446,7 @@ namespace de.unika.ipd.grGen.grShell
                 if(guiConsoleDebuggerHost != null)
                 {
                     guiConsoleDebuggerHost.Close();
-                    GraphViewerClient.GetDoEventsCaller().DoEvents(); // required by mono/Linux so that the windows are really closed
+                    TypeCreator.GetDoEventsCaller().DoEvents(); // required by mono/Linux so that the windows are really closed
                 }
             }
             WorkaroundManager.Workaround.PreventComputerFromGoingIntoSleepMode(false);
@@ -706,7 +707,7 @@ namespace de.unika.ipd.grGen.grShell
                 if(guiConsoleDebuggerHost != null)
                 {
                     guiConsoleDebuggerHost.Close();
-                    GraphViewerClient.GetDoEventsCaller().DoEvents(); // required by mono/Linux so that the windows are really closed
+                    TypeCreator.GetDoEventsCaller().DoEvents(); // required by mono/Linux so that the windows are really closed
                 }
                 guiConsoleDebuggerHost = null;
                 basicGraphViewerClientHost = null;

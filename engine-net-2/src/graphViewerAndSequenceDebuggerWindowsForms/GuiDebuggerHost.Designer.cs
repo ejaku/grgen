@@ -1,5 +1,4 @@
-﻿
-namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
+﻿namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     partial class GuiDebuggerHost
     {
@@ -51,8 +50,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.editWatchpointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteWatchpointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toggleWatchpointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mainWorkObjectGuiConsoleControl = new de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl();
-            this.inputOutputAndLogGuiConsoleControl = new de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl();
+            this.mainWorkObjectGuiConsoleControl = new de.unika.ipd.grGen.libConsoleAndOS.GuiConsoleControl();
+            this.inputOutputAndLogGuiConsoleControl = new de.unika.ipd.grGen.libConsoleAndOS.GuiConsoleControl();
             this.continueToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.nextMatchToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.detailedStepToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -553,8 +552,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private System.Windows.Forms.ToolStrip theToolStrip;
         private System.Windows.Forms.ToolStripButton continueToolStripButton;
         private System.Windows.Forms.SplitContainer theSplitContainer;
-        private de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl mainWorkObjectGuiConsoleControl;
-        private de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl inputOutputAndLogGuiConsoleControl;
+        private de.unika.ipd.grGen.libConsoleAndOS.GuiConsoleControl mainWorkObjectGuiConsoleControl;
+        private de.unika.ipd.grGen.libConsoleAndOS.GuiConsoleControl inputOutputAndLogGuiConsoleControl;
         private System.Windows.Forms.ToolStripMenuItem continueToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showVariablesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showClassObjectToolStripMenuItem;

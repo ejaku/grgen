@@ -90,6 +90,10 @@
       <Project>{77133185-36b5-4134-9f5b-c6ac0aef9bd5}</Project>
       <Name>graphViewerAndSequenceDebugger</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\libConsoleAndOSWindowsForms\libConsoleAndOSWindowsForms.csproj">
+      <Project>{120c45f5-2caf-46bb-9f64-838e9e557d61}</Project>
+      <Name>libConsoleAndOSWindowsForms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\libConsoleAndOS\libConsoleAndOS.csproj">
       <Project>{f7a0a66b-136b-4e4c-83a6-5e0bdf92be6f}</Project>
       <Name>libConsoleAndOS</Name>
