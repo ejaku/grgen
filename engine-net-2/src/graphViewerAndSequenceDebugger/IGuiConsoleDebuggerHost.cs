@@ -7,6 +7,8 @@
 
 // by Edgar Jakumeit
 
+using de.unika.ipd.grGen.libGr;
+
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     /// <summary>

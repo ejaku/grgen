@@ -11,6 +11,8 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
+using de.unika.ipd.grGen.libGr;
+
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     public partial class GuiConsoleControl : UserControl, ITwinConsoleUICombinedConsole

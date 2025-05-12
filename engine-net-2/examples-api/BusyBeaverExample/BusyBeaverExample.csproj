@@ -40,6 +40,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\lgspBackend.dll</HintPath>
     </Reference>
+    <Reference Include="libConsoleAndOS, Version=7.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\libConsoleAndOS.dll</HintPath>
+    </Reference>
     <Reference Include="libGr, Version=2.6.26740.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\libGr.dll</HintPath>

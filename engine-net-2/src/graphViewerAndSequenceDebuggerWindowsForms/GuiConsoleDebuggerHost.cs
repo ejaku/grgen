@@ -8,6 +8,7 @@
 // by Edgar Jakumeit
 
 using System.Windows.Forms;
+using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {

@@ -161,6 +161,10 @@
     <Compile Include="ExpressionOrYielding\Yielding.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\libConsoleAndOS\libConsoleAndOS.csproj">
+      <Project>{f7a0a66b-136b-4e4c-83a6-5e0bdf92be6f}</Project>
+      <Name>libConsoleAndOS</Name>
+    </ProjectReference>
     <ProjectReference Include="..\libGr\libGr.csproj">
       <Project>{57A2E7A1-058E-4EBD-85E9-A65C3304FA49}</Project>
       <Name>libGr</Name>

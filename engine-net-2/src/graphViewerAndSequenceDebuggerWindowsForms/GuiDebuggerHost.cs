@@ -10,6 +10,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {

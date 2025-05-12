@@ -81,7 +81,6 @@
     <Compile Include="ArrayHelper.cs" />
     <Compile Include="AttributeChangeTypeEmitHelper.cs" />
     <Compile Include="AttributeTypeEmitHelper.cs" />
-    <Compile Include="ConsoleUI.cs" />
     <Compile Include="DequeHelper.cs" />
     <Compile Include="DotNetTypesHelper.cs" />
     <Compile Include="GraphProcessingEnvironments\IGlobalVariables.cs" />
@@ -201,10 +200,15 @@
     <Compile Include="TypesHelper.cs" />
     <Compile Include="IO\VCGDumper.cs" />
     <Compile Include="UberEstimator.cs" />
-    <Compile Include="WorkaroundManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SequenceParser\SequenceParser.csc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libConsoleAndOS\libConsoleAndOS.csproj">
+      <Project>{f7a0a66b-136b-4e4c-83a6-5e0bdf92be6f}</Project>
+      <Name>libConsoleAndOS</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -48,6 +48,10 @@
       <Project>{28747063-D1D2-4626-B1F1-84CC201B2063}</Project>
       <Name>lgspBackend</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\libConsoleAndOS\libConsoleAndOS.csproj">
+      <Project>{f7a0a66b-136b-4e4c-83a6-5e0bdf92be6f}</Project>
+      <Name>libConsoleAndOS</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\libGr\libGr.csproj">
       <Project>{57A2E7A1-058E-4EBD-85E9-A65C3304FA49}</Project>
       <Name>libGr</Name>

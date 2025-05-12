@@ -38,9 +38,20 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="graphViewerAndSequenceDebugger, Version=7.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\graphViewerAndSequenceDebugger.dll</HintPath>
+    </Reference>
+    <Reference Include="graphViewerAndSequenceDebuggerWindowsForms, Version=7.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\graphViewerAndSequenceDebuggerWindowsForms.dll</HintPath>
+    </Reference>
     <Reference Include="lgspBackend, Version=2.6.26740.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\lgspBackend.dll</HintPath>
+    </Reference>
+    <Reference Include="libConsoleAndOS">
+      <HintPath>..\..\bin\libConsoleAndOS.dll</HintPath>
     </Reference>
     <Reference Include="libGr, Version=2.6.26740.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -62,16 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\graphViewerAndSequenceDebuggerWindowsForms\graphViewerAndSequenceDebuggerWindowsForms.csproj">
-      <Project>{88133185-36b5-4134-9f5b-c6ac0aef9bd6}</Project>
-      <Name>graphViewerAndSequenceDebuggerWindowsForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\graphViewerAndSequenceDebugger\graphViewerAndSequenceDebugger.csproj">
-      <Project>{77133185-36b5-4134-9f5b-c6ac0aef9bd5}</Project>
-      <Name>graphViewerAndSequenceDebugger</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Resources.Extensions">
