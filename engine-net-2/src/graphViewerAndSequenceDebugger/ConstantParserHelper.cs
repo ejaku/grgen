@@ -9,6 +9,7 @@
 
 using System;
 using System.IO;
+using de.unika.ipd.grGen.libConsoleAndOS;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.lgsp;
 

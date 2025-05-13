@@ -9,9 +9,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using de.unika.ipd.grGen.libConsoleAndOS;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.libGr.sequenceParser;
-using System.Threading;
 
 namespace de.unika.ipd.grGen.lgsp
 {

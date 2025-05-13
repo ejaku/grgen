@@ -6,10 +6,11 @@
  */
 
 using System;
+using System.Collections.Generic;
+using de.unika.ipd.grGen.libConsoleAndOS;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.lgsp;
 using de.unika.ipd.grGen.graphViewerAndSequenceDebugger;
-using System.Collections.Generic;
 
 namespace DebuggerExample
 {

@@ -10,7 +10,6 @@
 using System;
 using System.IO;
 using System.Text;
-using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.libConsoleAndOS
 {

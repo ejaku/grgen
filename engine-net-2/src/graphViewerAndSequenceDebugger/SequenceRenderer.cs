@@ -10,9 +10,10 @@
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
-
-using de.unika.ipd.grGen.libGr;
 using System.Text;
+
+using de.unika.ipd.grGen.libConsoleAndOS;
+using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {

@@ -14,7 +14,7 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace de.unika.ipd.grGen.libGr
+namespace de.unika.ipd.grGen.libConsoleAndOS
 {
     /// <summary>
     /// Workaround fun due to the following bugs:

@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Text;
+using de.unika.ipd.grGen.libConsoleAndOS;
 
 namespace de.unika.ipd.grGen.libGr
 {

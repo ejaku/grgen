@@ -6,6 +6,7 @@
  */
 
 using System;
+using de.unika.ipd.grGen.libConsoleAndOS;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.lgsp;
 using de.unika.ipd.grGen.graphViewerAndSequenceDebugger;

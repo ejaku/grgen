@@ -12,11 +12,12 @@ using System.Collections.Generic;
 using System.CodeDom.Compiler;
 using Microsoft.CSharp;
 using System.Reflection;
-
-using de.unika.ipd.grGen.libGr;
 using System.IO;
-using de.unika.ipd.grGen.libGr.sequenceParser;
 using System.Text;
+
+using de.unika.ipd.grGen.libConsoleAndOS;
+using de.unika.ipd.grGen.libGr;
+using de.unika.ipd.grGen.libGr.sequenceParser;
 
 namespace de.unika.ipd.grGen.lgsp
 {

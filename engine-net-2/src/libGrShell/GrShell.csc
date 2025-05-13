@@ -11,6 +11,7 @@ PARSER_BEGIN(GrShell)
     using System.Collections.Generic;
     using System.IO;
     using System.Text.RegularExpressions;
+    using de.unika.ipd.grGen.libConsoleAndOS;
     using de.unika.ipd.grGen.libGr;
 
     public class GrShell {

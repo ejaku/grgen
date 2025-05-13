@@ -9,7 +9,7 @@
 
 using System;
 
-namespace de.unika.ipd.grGen.libGr
+namespace de.unika.ipd.grGen.libConsoleAndOS
 {
     // (twin) ConsoleUI for user dialog
     public interface ITwinConsoleUIInputOutputConsole

@@ -10,7 +10,7 @@
 using System;
 using System.IO;
 
-namespace de.unika.ipd.grGen.libGr
+namespace de.unika.ipd.grGen.libConsoleAndOS
 {
     [Flags]
     public enum HighlightingMode : int

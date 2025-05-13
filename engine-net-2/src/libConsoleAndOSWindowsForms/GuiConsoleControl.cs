@@ -11,8 +11,6 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-using de.unika.ipd.grGen.libGr;
-
 namespace de.unika.ipd.grGen.libConsoleAndOS
 {
     public partial class GuiConsoleControl : UserControl, ITwinConsoleUICombinedConsole
@@ -151,7 +149,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
             theRichTextBox.AppendText(Environment.NewLine);
         }
 
-        public void PrintHighlightedUserDialog(String text, de.unika.ipd.grGen.libGr.HighlightingMode mode)
+        public void PrintHighlightedUserDialog(String text, HighlightingMode mode)
         {
             PrintHighlighted(text, mode);
         }
@@ -270,7 +268,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
             WriteLine();
         }
 
-        public void PrintHighlighted(String text, de.unika.ipd.grGen.libGr.HighlightingMode mode)
+        public void PrintHighlighted(String text, HighlightingMode mode)
         {
             if(cancel)
                 return;
@@ -291,24 +289,24 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
         }
 
         // TODO: Printing should use low level color codes, there should be a layer translating high level semantic meaning to color codes
-        private static TextAttributes HighlightingModeToTextAttributes(libGr.HighlightingMode mode)
+        private static TextAttributes HighlightingModeToTextAttributes(HighlightingMode mode)
         {
             switch(mode)
             {
-                case libGr.HighlightingMode.Focus: return new TextAttributes(Color.Yellow, Color.Black, FontStyle.Bold); // with Courier New the width stays the same when using bold face, with generic monospace hopefully too, so re-enabled (side effect of jumpy display due to increased text size is considered worse than the additional visual cue of bolding)
-                case libGr.HighlightingMode.FocusSucces: return new TextAttributes(Color.Lime, Color.Black, FontStyle.Bold);
-                case libGr.HighlightingMode.LastSuccess: return libGr.WorkaroundManager.IsMono ? new TextAttributes(Color.Green) : new TextAttributes(Color.Black, Color.Green); // workaround fun as it seems that the mono RichTextBox is not able to change the selection background color
-                case libGr.HighlightingMode.LastFail: return libGr.WorkaroundManager.IsMono ? new TextAttributes(Color.DarkRed) : new TextAttributes(Color.Black, Color.DarkRed);
-                case libGr.HighlightingMode.Breakpoint: return new TextAttributes(Color.Red);
-                case libGr.HighlightingMode.Choicepoint: return new TextAttributes(Color.Magenta);
-                case libGr.HighlightingMode.SequenceStart: return new TextAttributes(Color.SkyBlue);
+                case HighlightingMode.Focus: return new TextAttributes(Color.Yellow, Color.Black, FontStyle.Bold); // with Courier New the width stays the same when using bold face, with generic monospace hopefully too, so re-enabled (side effect of jumpy display due to increased text size is considered worse than the additional visual cue of bolding)
+                case HighlightingMode.FocusSucces: return new TextAttributes(Color.Lime, Color.Black, FontStyle.Bold);
+                case HighlightingMode.LastSuccess: return WorkaroundManager.IsMono ? new TextAttributes(Color.Green) : new TextAttributes(Color.Black, Color.Green); // workaround fun as it seems that the mono RichTextBox is not able to change the selection background color
+                case HighlightingMode.LastFail: return WorkaroundManager.IsMono ? new TextAttributes(Color.DarkRed) : new TextAttributes(Color.Black, Color.DarkRed);
+                case HighlightingMode.Breakpoint: return new TextAttributes(Color.Red);
+                case HighlightingMode.Choicepoint: return new TextAttributes(Color.Magenta);
+                case HighlightingMode.SequenceStart: return new TextAttributes(Color.SkyBlue);
 
-                case libGr.HighlightingMode.GrsFile: return new TextAttributes(Color.Red);
-                case libGr.HighlightingMode.GrsiFile: return new TextAttributes(Color.Magenta);
-                case libGr.HighlightingMode.GrgFile: return new TextAttributes(Color.Green);
-                case libGr.HighlightingMode.GriFile: return new TextAttributes(Color.Cyan);
-                case libGr.HighlightingMode.GmFile: return new TextAttributes(Color.Blue);
-                case libGr.HighlightingMode.Directory: return new TextAttributes(Color.Yellow);
+                case HighlightingMode.GrsFile: return new TextAttributes(Color.Red);
+                case HighlightingMode.GrsiFile: return new TextAttributes(Color.Magenta);
+                case HighlightingMode.GrgFile: return new TextAttributes(Color.Green);
+                case HighlightingMode.GriFile: return new TextAttributes(Color.Cyan);
+                case HighlightingMode.GmFile: return new TextAttributes(Color.Blue);
+                case HighlightingMode.Directory: return new TextAttributes(Color.Yellow);
 
                 default: return new TextAttributes(Color.White);
             }
@@ -327,14 +325,14 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
             if(cancel)
                 return;
             // form TODO: buffer Writes in StringBuilder and write at once
-            libGr.WorkaroundManager.Workaround.PreventRedraw(theRichTextBox.Handle);
+            WorkaroundManager.Workaround.PreventRedraw(theRichTextBox.Handle);
         }
 
         public void RestartImmediateExecution()
         {
             if(cancel)
                 return;
-            libGr.WorkaroundManager.Workaround.AllowRedraw(theRichTextBox.Handle);
+            WorkaroundManager.Workaround.AllowRedraw(theRichTextBox.Handle);
             theRichTextBox.Invalidate();
         }
     }

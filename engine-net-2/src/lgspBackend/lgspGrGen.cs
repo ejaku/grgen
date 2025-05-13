@@ -18,6 +18,7 @@ using System.CodeDom.Compiler;
 using System.Reflection;
 using System.Diagnostics;
 
+using de.unika.ipd.grGen.libConsoleAndOS;
 using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.lgsp

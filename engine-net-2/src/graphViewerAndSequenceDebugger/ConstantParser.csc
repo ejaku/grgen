@@ -8,6 +8,7 @@ PARSER_BEGIN(ConstantParser)
     namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger;
     using System;
     using System.Collections;
+    using de.unika.ipd.grGen.libConsoleAndOS;
     using de.unika.ipd.grGen.libGr;
 
     public class ConstantParser {

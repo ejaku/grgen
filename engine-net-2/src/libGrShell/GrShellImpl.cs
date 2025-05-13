@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using de.unika.ipd.grGen.libConsoleAndOS;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.libGr.sequenceParser;
 using de.unika.ipd.grGen.lgsp;

@@ -8,9 +8,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using de.unika.ipd.grGen.libConsoleAndOS;
+using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.lgsp;
 using de.unika.ipd.grGen.Model_Std;
-using de.unika.ipd.grGen.libGr;
 
 namespace VisitedExample
 {
