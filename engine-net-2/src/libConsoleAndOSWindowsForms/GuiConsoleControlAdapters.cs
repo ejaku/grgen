@@ -40,19 +40,35 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
             wrappedGuiConsoleControl.Write(format, arg);
         }
 
+        // TODO: code using Invoke also for the other non-WriteLine-methods (as needed - the only needed instance as of now is for the PrintStatistics timer in the shell)
+        delegate void WriteLineSingleArgumentDelegate(string value);
         public override void WriteLine(string value)
         {
-            wrappedGuiConsoleControl.WriteLine(value);
+            WriteLineSingleArgumentDelegate writeLine = wrappedGuiConsoleControl.WriteLine;
+            if(wrappedGuiConsoleControl.InvokeRequired)
+                wrappedGuiConsoleControl.Invoke(writeLine, value);
+            else
+                wrappedGuiConsoleControl.WriteLine(value);
         }
 
+        delegate void WriteLineMultipleArgumentsDelegate(string format, object[] arg);
         public override void WriteLine(string format, params object[] arg)
         {
-            wrappedGuiConsoleControl.WriteLine(format, arg);
+            WriteLineMultipleArgumentsDelegate writeLine = wrappedGuiConsoleControl.WriteLine;
+            if(wrappedGuiConsoleControl.InvokeRequired)
+                wrappedGuiConsoleControl.Invoke(writeLine, format, arg);
+            else
+                wrappedGuiConsoleControl.WriteLine(format, arg);
         }
 
+        delegate void WriteLineNoArgumentsDelegate();
         public override void WriteLine()
         {
-            wrappedGuiConsoleControl.WriteLine();
+            WriteLineNoArgumentsDelegate writeLine = wrappedGuiConsoleControl.WriteLine;
+            if(wrappedGuiConsoleControl.InvokeRequired)
+                wrappedGuiConsoleControl.Invoke(writeLine);
+            else
+                wrappedGuiConsoleControl.WriteLine();
         }
 
         public override Encoding Encoding
