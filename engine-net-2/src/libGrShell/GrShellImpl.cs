@@ -1607,134 +1607,28 @@ namespace de.unika.ipd.grGen.grShell
 
             if(specFilename.EndsWith(".cs", StringComparison.OrdinalIgnoreCase) || specFilename.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
             {
-                IGlobalVariables globalVariables = new LGSPGlobalVariables();
-                INamedGraph graph;
-                try
-                {
-                    graph = curGraphBackend.CreateNamedGraph(specFilename, globalVariables, graphName, backendParameters);
-                }
-                catch(Exception e)
-                {
-                    ConsoleUI.errorOutWriter.WriteLine("Unable to create graph with model \"{0}\":\n{1}", specFilename, e.Message);
+                bool success = NewGraphFromTargetFile(specFilename, graphName);
+                if(!success)
                     return false;
-                }
-                try
-                {
-                    curShellProcEnv = new ShellGraphProcessingEnvironment(graph, backendFilename, backendParameters, specFilename);
-                }
-                catch(Exception ex)
-                {
-                    ConsoleUI.errorOutWriter.WriteLine(ex);
-                    ConsoleUI.errorOutWriter.WriteLine("Unable to create new graph: {0}", ex.Message);
-                    return false;
-                }
-                shellProcEnvs.Add(curShellProcEnv);
-                ConsoleUI.outWriter.WriteLine("New graph \"{0}\" of model \"{1}\" created.", graphName, graph.Model.ModelName);
             }
             else
             {
-                if(!File.Exists(specFilename))
-                {
-                    String ruleFilename = specFilename + ".grg";
-                    if(!File.Exists(ruleFilename))
-                    {
-                        String gmFilename = specFilename + ".gm";
-                        if(!File.Exists(gmFilename))
-                        {
-                            ConsoleUI.errorOutWriter.WriteLine("The specification file \"" + specFilename + "\" or \"" + ruleFilename + "\" or \"" + gmFilename + "\" does not exist!");
-                            return false;
-                        }
-                        else
-                            specFilename = gmFilename;
-                    }
-                    else
-                        specFilename = ruleFilename;
-                }
+                String correctedSpecFilename = AppendFilenameSuffixAsNeeded(specFilename);
+                if(correctedSpecFilename == null)
+                    return false; // error message already emitted
+                specFilename = correctedSpecFilename;
 
                 if(specFilename.EndsWith(".gm", StringComparison.OrdinalIgnoreCase))
                 {
-                    IGlobalVariables globalVariables = new LGSPGlobalVariables();
-                    INamedGraph graph;
-                    try
-                    {
-                        ProcessSpecFlags flags = newGraphOptions.KeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles;
-                        if(newGraphOptions.Profile)
-                            flags |= ProcessSpecFlags.Profile;
-                        if(newGraphOptions.NoDebugEvents)
-                            flags |= ProcessSpecFlags.NoDebugEvents;
-                        if(newGraphOptions.NoEvents)
-                            flags |= ProcessSpecFlags.NoEvents;
-                        if(newGraphOptions.LazyNIC)
-                            flags |= ProcessSpecFlags.LazyNIC;
-                        if(newGraphOptions.NoInline)
-                            flags |= ProcessSpecFlags.Noinline;
-                        if(forceRebuild)
-                            flags |= ProcessSpecFlags.GenerateEvenIfSourcesDidNotChange;
-                        graph = curGraphBackend.CreateNamedFromSpec(specFilename, globalVariables, graphName, null,
-                            flags, newGraphOptions.ExternalAssembliesReferenced, 0);
-                    }
-                    catch(Exception e)
-                    {
-                        ConsoleUI.errorOutWriter.WriteLine("Unable to create graph from specification file \"{0}\":\n{1}\nStack:\n({2})\n", specFilename, e.Message, e.StackTrace);
+                    bool success = NewGraphFromModelFile(specFilename, graphName, forceRebuild);
+                    if(!success)
                         return false;
-                    }
-                    try
-                    {
-                        curShellProcEnv = new ShellGraphProcessingEnvironment(graph, backendFilename, backendParameters, specFilename);
-                    }
-                    catch(Exception ex)
-                    {
-                        ConsoleUI.errorOutWriter.WriteLine(ex);
-                        ConsoleUI.errorOutWriter.WriteLine("Unable to create new graph: {0}", ex.Message);
-                        return false;
-                    }
-                    shellProcEnvs.Add(curShellProcEnv);
-                    ConsoleUI.outWriter.WriteLine("New graph \"{0}\" created from spec file \"{1}\".", graphName, specFilename);
                 }
                 else if(specFilename.EndsWith(".grg", StringComparison.OrdinalIgnoreCase))
                 {
-                    IGlobalVariables globalVariables = new LGSPGlobalVariables();
-                    INamedGraph graph;
-                    IActions actions;
-                    
-                    try
-                    {
-                        ProcessSpecFlags flags = newGraphOptions.KeepDebug ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug : ProcessSpecFlags.UseNoExistingFiles;
-                        if(newGraphOptions.Profile)
-                            flags |= ProcessSpecFlags.Profile;
-                        if(newGraphOptions.NoDebugEvents)
-                            flags |= ProcessSpecFlags.NoDebugEvents;
-                        if(newGraphOptions.NoEvents)
-                            flags |= ProcessSpecFlags.NoEvents;
-                        if(newGraphOptions.LazyNIC)
-                            flags |= ProcessSpecFlags.LazyNIC;
-                        if(newGraphOptions.NoInline)
-                            flags |= ProcessSpecFlags.Noinline;
-                        if(forceRebuild)
-                            flags |= ProcessSpecFlags.GenerateEvenIfSourcesDidNotChange;
-                        curGraphBackend.CreateNamedFromSpec(specFilename, globalVariables, graphName, newGraphOptions.Statistics,
-                            flags, newGraphOptions.ExternalAssembliesReferenced, 0,
-                            out graph, out actions);
-                    }
-                    catch(Exception e)
-                    {
-                        ConsoleUI.errorOutWriter.WriteLine("Unable to create graph from specification file \"{0}\":\n{1}\nStack:\n({2})\n", specFilename, e.Message, e.StackTrace);
+                    bool success = NewGraphFromActionsFile(specFilename, graphName, forceRebuild);
+                    if(!success)
                         return false;
-                    }
-
-                    try
-                    {
-                        curShellProcEnv = new ShellGraphProcessingEnvironment(graph, backendFilename, backendParameters, specFilename);
-                    }
-                    catch(Exception ex)
-                    {
-                        ConsoleUI.errorOutWriter.WriteLine(ex);
-                        ConsoleUI.errorOutWriter.WriteLine("Unable to create new shell processing environment: {0}", ex.Message);
-                        return false;
-                    }
-                    curShellProcEnv.ProcEnv.Actions = actions;
-                    shellProcEnvs.Add(curShellProcEnv);
-                    ConsoleUI.outWriter.WriteLine("New graph \"{0}\" and actions created from spec file \"{1}\".", graphName, specFilename);
                 }
                 else
                 {
@@ -1743,12 +1637,150 @@ namespace de.unika.ipd.grGen.grShell
                 }
             }
 
+            shellProcEnvs.Add(curShellProcEnv);
             seqApplierAndDebugger.RestartDebuggerOnNewGraphAsNeeded();
 
             return true;
         }
 
-   		public bool AddNewGraph(String graphName)
+        private bool NewGraphFromTargetFile(String specFilename, String graphName)
+        {
+            IGlobalVariables globalVariables = new LGSPGlobalVariables();
+            INamedGraph graph;
+            try
+            {
+                graph = curGraphBackend.CreateNamedGraph(specFilename, globalVariables, graphName, backendParameters);
+            }
+            catch(Exception e)
+            {
+                ConsoleUI.errorOutWriter.WriteLine("Unable to create graph with model \"{0}\":\n{1}", specFilename, e.Message);
+                return false;
+            }
+
+            try
+            {
+                curShellProcEnv = new ShellGraphProcessingEnvironment(graph, backendFilename, backendParameters, specFilename);
+            }
+            catch(Exception ex)
+            {
+                ConsoleUI.errorOutWriter.WriteLine(ex);
+                ConsoleUI.errorOutWriter.WriteLine("Unable to create new graph: {0}", ex.Message);
+                return false;
+            }
+
+            ConsoleUI.outWriter.WriteLine("New graph \"{0}\" of model \"{1}\" created.", graphName, graph.Model.ModelName);
+            return true;
+        }
+
+        private static String AppendFilenameSuffixAsNeeded(String specFilename)
+        {
+            if(!File.Exists(specFilename))
+            {
+                String ruleFilename = specFilename + ".grg";
+                if(!File.Exists(ruleFilename))
+                {
+                    String gmFilename = specFilename + ".gm";
+                    if(!File.Exists(gmFilename))
+                    {
+                        ConsoleUI.errorOutWriter.WriteLine("The specification file \"" + specFilename + "\" or \"" + ruleFilename + "\" or \"" + gmFilename + "\" does not exist!");
+                        return null;
+                    }
+                    else
+                        specFilename = gmFilename;
+                }
+                else
+                    specFilename = ruleFilename;
+            }
+            return specFilename;
+        }
+
+        private bool NewGraphFromModelFile(String specFilename, String graphName, bool forceRebuild)
+        {
+            IGlobalVariables globalVariables = new LGSPGlobalVariables();
+            INamedGraph graph;
+            try
+            {
+                ProcessSpecFlags flags = NewGraphOptionsToFlags(newGraphOptions, forceRebuild);
+                graph = curGraphBackend.CreateNamedFromSpec(specFilename, globalVariables, graphName, null,
+                    flags, newGraphOptions.ExternalAssembliesReferenced, 0);
+            }
+            catch(Exception e)
+            {
+                ConsoleUI.errorOutWriter.WriteLine("Unable to create graph from specification file \"{0}\":\n{1}\nStack:\n({2})\n", specFilename, e.Message, e.StackTrace);
+                return false;
+            }
+
+            try
+            {
+                curShellProcEnv = new ShellGraphProcessingEnvironment(graph, backendFilename, backendParameters, specFilename);
+            }
+            catch(Exception ex)
+            {
+                ConsoleUI.errorOutWriter.WriteLine(ex);
+                ConsoleUI.errorOutWriter.WriteLine("Unable to create new graph: {0}", ex.Message);
+                return false;
+            }
+
+            ConsoleUI.outWriter.WriteLine("New graph \"{0}\" created from spec file \"{1}\".", graphName, specFilename);
+            return true;
+        }
+
+        private bool NewGraphFromActionsFile(String specFilename, String graphName, bool forceRebuild)
+        {
+            IGlobalVariables globalVariables = new LGSPGlobalVariables();
+            INamedGraph graph;
+            IActions actions;
+
+            try
+            {
+                ProcessSpecFlags flags = NewGraphOptionsToFlags(newGraphOptions, forceRebuild);
+                curGraphBackend.CreateNamedFromSpec(specFilename, globalVariables, graphName, newGraphOptions.Statistics,
+                    flags, newGraphOptions.ExternalAssembliesReferenced, 0,
+                    out graph, out actions);
+            }
+            catch(Exception e)
+            {
+                ConsoleUI.errorOutWriter.WriteLine("Unable to create graph from specification file \"{0}\":\n{1}\nStack:\n({2})\n", specFilename, e.Message, e.StackTrace);
+                return false;
+            }
+
+            try
+            {
+                curShellProcEnv = new ShellGraphProcessingEnvironment(graph, backendFilename, backendParameters, specFilename);
+                curShellProcEnv.ProcEnv.Actions = actions;
+            }
+            catch(Exception ex)
+            {
+                ConsoleUI.errorOutWriter.WriteLine(ex);
+                ConsoleUI.errorOutWriter.WriteLine("Unable to create new shell processing environment: {0}", ex.Message);
+                return false;
+            }
+
+            ConsoleUI.outWriter.WriteLine("New graph \"{0}\" and actions created from spec file \"{1}\".", graphName, specFilename);
+            return true;
+        }
+
+        private static ProcessSpecFlags NewGraphOptionsToFlags(NewGraphOptions newGraphOptions, bool forceRebuild)
+        {
+            ProcessSpecFlags flags = newGraphOptions.KeepDebug
+                ? ProcessSpecFlags.KeepGeneratedFiles | ProcessSpecFlags.CompileWithDebug
+                : ProcessSpecFlags.UseNoExistingFiles;
+            if(newGraphOptions.Profile)
+                flags |= ProcessSpecFlags.Profile;
+            if(newGraphOptions.NoDebugEvents)
+                flags |= ProcessSpecFlags.NoDebugEvents;
+            if(newGraphOptions.NoEvents)
+                flags |= ProcessSpecFlags.NoEvents;
+            if(newGraphOptions.LazyNIC)
+                flags |= ProcessSpecFlags.LazyNIC;
+            if(newGraphOptions.NoInline)
+                flags |= ProcessSpecFlags.Noinline;
+            if(forceRebuild)
+                flags |= ProcessSpecFlags.GenerateEvenIfSourcesDidNotChange;
+            return flags;
+        }
+
+        public bool AddNewGraph(String graphName)
         {
             if(curShellProcEnv.NameToSubgraph.ContainsKey(graphName))
             {
