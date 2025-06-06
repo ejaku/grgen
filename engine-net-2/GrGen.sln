@@ -142,6 +142,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libConsoleAndOS", "src\libC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libConsoleAndOSWindowsForms", "src\libConsoleAndOSWindowsForms\libConsoleAndOSWindowsForms.csproj", "{120C45F5-2CAF-46BB-9F64-838E9E557D61}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libGrPersistenceProviderSQLite", "src\libGrPersistenceProviderSQLite\libGrPersistenceProviderSQLite.csproj", "{5240A51B-3425-4A3A-A9BB-22FDA8147A7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -412,6 +414,14 @@ Global
 		{120C45F5-2CAF-46BB-9F64-838E9E557D61}.Release|Any CPU.Build.0 = Release|Any CPU
 		{120C45F5-2CAF-46BB-9F64-838E9E557D61}.Release|x86.ActiveCfg = Release|Any CPU
 		{120C45F5-2CAF-46BB-9F64-838E9E557D61}.Release|x86.Build.0 = Release|Any CPU
+		{5240A51B-3425-4A3A-A9BB-22FDA8147A7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5240A51B-3425-4A3A-A9BB-22FDA8147A7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5240A51B-3425-4A3A-A9BB-22FDA8147A7D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5240A51B-3425-4A3A-A9BB-22FDA8147A7D}.Debug|x86.Build.0 = Debug|Any CPU
+		{5240A51B-3425-4A3A-A9BB-22FDA8147A7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5240A51B-3425-4A3A-A9BB-22FDA8147A7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5240A51B-3425-4A3A-A9BB-22FDA8147A7D}.Release|x86.ActiveCfg = Release|Any CPU
+		{5240A51B-3425-4A3A-A9BB-22FDA8147A7D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

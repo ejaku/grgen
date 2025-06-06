@@ -1,0 +1,32 @@
+new graph "persistentgraph/persistentgraph" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename.db;Version=3;"
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+
+show num nodes
+
+new graph "persistentgraph/persistentgraph" "some non-persistent graph"
+
+exec init
+
+show num nodes
+
+new graph "persistentgraph/persistentgraph" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename.db;Version=3;"
+
+show num nodes
+
+exec init
+
+show num nodes
+
+new graph "persistentgraph/persistentgraph" "some non-persistent graph"
+
+show num nodes
+
+new graph "persistentgraph/persistentgraph" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename.db;Version=3;"
+
+show num nodes
+
+exec [del]
+
+show num nodes
+
+quit

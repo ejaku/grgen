@@ -1,0 +1,17 @@
+#using "persistentgraph.gm"
+
+rule init
+{
+	modify {
+		n:Node;// --> n;
+	}
+}
+
+rule del
+{
+	n:Node;
+	
+	modify {
+		delete(n);
+	}
+}

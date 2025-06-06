@@ -107,6 +107,7 @@
     <Compile Include="INamed.cs" />
     <Compile Include="IndexHelper.cs" />
     <Compile Include="IndexHelperParallel.cs" />
+    <Compile Include="IPersistenceProvider.cs" />
     <Compile Include="MapHelper.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="PatternsAndMatches\IAlternative.cs" />

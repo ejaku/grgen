@@ -68,26 +68,52 @@ namespace de.unika.ipd.grGen.lgsp
             return new LGSPNamedGraph(graphModel, globalVariables, graphName, capacity);
         }
 
+        public INamedGraph CreatePersistentNamedGraph(IGraphModel graphModel, IGlobalVariables globalVariables, string graphName,
+            String persistenceProvider, String connectionParameters, params String[] parameters)
+        {
+            int capacity = 0;
+            if(parameters != null)
+            {
+                foreach(String parameter in parameters)
+                {
+                    if(parameter.StartsWith("capacity="))
+                        capacity = int.Parse(parameter.Substring("capacity=".Length));
+                }
+            }
+            return new LGSPPersistentNamedGraph(graphModel, globalVariables, graphName, capacity,
+                persistenceProvider, connectionParameters);
+        }
+
         public IGraph CreateGraph(String modelFilename, IGlobalVariables globalVariables, String graphName, params String[] parameters)
         {
-            return CreateGraph(modelFilename, globalVariables, graphName, false, parameters);
+            return CreateGraph(modelFilename, globalVariables, graphName, false, null, null, parameters);
         }
 
         public INamedGraph CreateNamedGraph(String modelFilename, IGlobalVariables globalVariables, String graphName, params String[] parameters)
         {
-            return (INamedGraph)CreateGraph(modelFilename, globalVariables, graphName, true, parameters);
+            return (INamedGraph)CreateGraph(modelFilename, globalVariables, graphName, true, null, null, parameters);
+        }
+
+        public INamedGraph CreatePersistentNamedGraph(String modelFilename, IGlobalVariables globalVariables, String graphName,
+            String persistenceProvider, String connectionParameters, params String[] parameters)
+        {
+            return (INamedGraph)CreateGraph(modelFilename, globalVariables, graphName, true, 
+                persistenceProvider, connectionParameters, parameters);
         }
 
         /// <summary>
-        /// Creates a new LGSPGraph or LGSPNamedGraph backend instance with the graph model provided by the graph model file and a name.
+        /// Creates a new LGSPGraph or LGSPNamedGraph or LGSPPersistentNamedGraph backend instance with the graph model provided by the graph model file and a name.
         /// </summary>
         /// <param name="modelFilename">Filename of a graph model file.</param>
         /// <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
         /// <param name="graphName">Name of the graph.</param>
         /// <param name="named">Returns a named graph if true otherwise a non-named graph. You must cast the LGSPGraph returned to the inherited LGSPNamedGraph if named=true.</param>
+        /// <param name="persistenceProvider">The name of the persistence provider (for the persistent named graph) - if not null, a persistent (named) graph is created.</param>
+        /// <param name="connectionParameters">The connection parameters to configure the persistence provider.</param>
         /// <param name="parameters">Backend specific parameters.</param>
         /// <returns>The new IGraph backend instance.</returns>
-        public LGSPGraph CreateGraph(String modelFilename, IGlobalVariables globalVariables, String graphName, bool named, params String[] parameters)
+        public LGSPGraph CreateGraph(String modelFilename, IGlobalVariables globalVariables, String graphName, bool named,
+            String persistenceProvider, String connectionParameters, params String[] parameters)
         {
             Assembly assembly;
 
@@ -127,7 +153,17 @@ namespace de.unika.ipd.grGen.lgsp
                 String modelDllFilename;
                 if(MustGenerate(modelFilename, null, ProcessSpecFlags.UseNoExistingFiles, out modelDllFilename))
                     LGSPGrGen.ProcessSpecification(modelFilename, null, ProcessSpecFlags.UseNoExistingFiles, new String[0]);
-                return named ? (LGSPNamedGraph)CreateNamedGraph(modelDllFilename, globalVariables, graphName, parameters) : (LGSPGraph)CreateGraph(modelDllFilename, globalVariables, graphName, parameters);
+                if(persistenceProvider != null)
+                {
+                    return (LGSPPersistentNamedGraph)CreatePersistentNamedGraph(modelDllFilename, globalVariables, graphName,
+                        persistenceProvider, connectionParameters, parameters);
+                }
+                else
+                {
+                    return named
+                        ? (LGSPNamedGraph)CreateNamedGraph(modelDllFilename, globalVariables, graphName, parameters)
+                        : (LGSPGraph)CreateGraph(modelDllFilename, globalVariables, graphName, parameters);
+                }
             }
             else
             {
@@ -176,7 +212,17 @@ namespace de.unika.ipd.grGen.lgsp
                         capacity = int.Parse(parameter.Substring("capacity=".Length));
                 }
             }
-            return named ? new LGSPNamedGraph(graphModel, globalVariables, graphName, capacity) : new LGSPGraph(graphModel, globalVariables, graphName);
+            if(persistenceProvider != null)
+            {
+                return new LGSPPersistentNamedGraph(graphModel, globalVariables, graphName, capacity,
+                    persistenceProvider, connectionParameters);
+            }
+            else
+            {
+                return named
+                    ? new LGSPNamedGraph(graphModel, globalVariables, graphName, capacity)
+                    : new LGSPGraph(graphModel, globalVariables, graphName);
+            }
         }
 
         Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
@@ -775,7 +821,7 @@ namespace de.unika.ipd.grGen.lgsp
         #endregion CreateFromSpec helper functions
 
         /// <summary>
-        /// Creates a new LGSPGraph or LGSPNamedGraph and LGSPActions instance from the specified specification file.
+        /// Creates a new LGSPGraph or LGSPNamedGraph or LGSPPersistentNamedGraph and LGSPActions instance from the specified specification file.
         /// If the according dlls do not exist or are out of date, the needed processing steps are performed automatically.
         /// </summary>
         /// <param name="grgFilename">Filename of the rule specification file (.grg).</param>
@@ -786,12 +832,15 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="externalAssemblies">List of external assemblies to reference.</param>
         /// <param name="named">Returns a named graph if true otherwise a non-named graph. You must cast the LGSPGraph returned to the inherited LGSPNamedGraph if named=true.</param>
         /// <param name="capacity">The initial capacity for the name maps, only used if named (performance optimization, use 0 if unsure).</param>
+        /// <param name="persistenceProvider">The name of the persistence provider (for the persistent named graph) - if not null, a persistent (named) graph is created.</param>
+        /// <param name="connectionParameters">The connection parameters to configure the persistence provider.</param>
         /// <param name="newGraph">Returns the new graph.</param>
         /// <param name="newActions">Returns the new BaseActions object.</param>
         /// <exception cref="System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
         /// <exception cref="System.Exception">Thrown, when something goes wrong.</exception>
         public void CreateFromSpec(String grgFilename, IGlobalVariables globalVariables, String graphName, String statisticsPath,
             ProcessSpecFlags flags, List<String> externalAssemblies, bool named, int capacity,
+            String persistenceProvider, String connectionParameters,
             out LGSPGraph newGraph, out LGSPActions newActions)
         {
             if(!File.Exists(grgFilename))
@@ -802,7 +851,17 @@ namespace de.unika.ipd.grGen.lgsp
             if(MustGenerate(grgFilename, statisticsPath, flags, out actionsFilename, out modelFilename))
                 LGSPGrGen.ProcessSpecification(grgFilename, statisticsPath, flags, externalAssemblies.ToArray());
 
-            newGraph = named ? (LGSPNamedGraph)CreateNamedGraph(modelFilename, globalVariables, graphName, "capacity=" + capacity.ToString()) : (LGSPGraph)CreateGraph(modelFilename, globalVariables, graphName);
+            if(persistenceProvider != null)
+            {
+                newGraph = (LGSPPersistentNamedGraph)CreatePersistentNamedGraph(modelFilename, globalVariables, graphName,
+                    persistenceProvider, connectionParameters, "capacity=" + capacity.ToString());
+            }
+            else
+            {
+                newGraph = named
+                    ? (LGSPNamedGraph)CreateNamedGraph(modelFilename, globalVariables, graphName, "capacity=" + capacity.ToString())
+                    : (LGSPGraph)CreateGraph(modelFilename, globalVariables, graphName);
+            }
             newActions = LGSPActions.LoadActions(actionsFilename, newGraph);
         }
 
@@ -811,7 +870,9 @@ namespace de.unika.ipd.grGen.lgsp
         {
             LGSPGraph graph;
             LGSPActions actions;
-            CreateFromSpec(grgFilename, globalVariables, graphName, statisticsPath, flags, externalAssemblies, false, 0, out graph, out actions);
+            CreateFromSpec(grgFilename, globalVariables, graphName, statisticsPath, 
+                flags, externalAssemblies, false, 0, null, null,
+                out graph, out actions);
             newGraph = graph;
             newActions = actions;
         }
@@ -822,7 +883,23 @@ namespace de.unika.ipd.grGen.lgsp
         {
             LGSPGraph graph;
             LGSPActions actions;
-            CreateFromSpec(grgFilename, globalVariables, graphName, statisticsPath, flags, externalAssemblies, true, capacity, out graph, out actions);
+            CreateFromSpec(grgFilename, globalVariables, graphName, statisticsPath,
+                flags, externalAssemblies, true, capacity, null, null,
+                out graph, out actions);
+            newGraph = (LGSPNamedGraph)graph;
+            newActions = actions;
+        }
+
+        public void CreatePersistentNamedFromSpec(string grgFilename, IGlobalVariables globalVariables, string graphName, String statisticsPath,
+            ProcessSpecFlags flags, List<String> externalAssemblies, int capacity,
+            String persistenceProvider, String connectionParameters,
+            out INamedGraph newGraph, out IActions newActions)
+        {
+            LGSPGraph graph;
+            LGSPActions actions;
+            CreateFromSpec(grgFilename, globalVariables, graphName, statisticsPath, flags,
+                externalAssemblies, true, capacity, persistenceProvider, connectionParameters,
+                out graph, out actions);
             newGraph = (LGSPNamedGraph)graph;
             newActions = actions;
         }
@@ -844,7 +921,8 @@ namespace de.unika.ipd.grGen.lgsp
         {
             LGSPGraph graph;
             LGSPActions actions;
-            CreateFromSpec(grgFilename, globalVariables, GetNextGraphName(), statisticsPath, ProcessSpecFlags.UseNoExistingFiles, new List<String>(), false, 0,
+            CreateFromSpec(grgFilename, globalVariables, GetNextGraphName(), statisticsPath,
+                ProcessSpecFlags.UseNoExistingFiles, new List<String>(), false, 0, null, null,
                 out graph, out actions);
             newGraph = graph;
             newActions = actions;
@@ -868,14 +946,43 @@ namespace de.unika.ipd.grGen.lgsp
         {
             LGSPGraph graph;
             LGSPActions actions;
-            CreateFromSpec(grgFilename, globalVariables, GetNextGraphName(), statisticsPath, ProcessSpecFlags.UseNoExistingFiles, new List<String>(), true, capacity,
+            CreateFromSpec(grgFilename, globalVariables, GetNextGraphName(), statisticsPath,
+                ProcessSpecFlags.UseNoExistingFiles, new List<String>(), true, capacity, null, null,
                 out graph, out actions);
             newGraph = (LGSPNamedGraph)graph;
             newActions = actions;
         }
 
         /// <summary>
-        /// Creates a new LGSPGraph or LGSPNamedGraph instance from the specified specification file.
+        /// Creates a new LGSPPersistentNamedGraph and LGSPActions instance from the specified specification file.
+        /// If the according dlls do not exist or are out of date, the needed processing steps are performed automatically.
+        /// A name for the graph is automatically generated.
+        /// </summary>
+        /// <param name="grgFilename">Filename of the rule specification file (.grg).</param>
+        /// <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
+        /// <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
+        /// <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
+        /// <param name="persistenceProvider">The name of the persistence provider (for the persistent named graph).</param>
+        /// <param name="connectionParameters">The connection parameters to configure the persistence provider.</param>
+        /// <param name="newGraph">Returns the new persistent named graph.</param>
+        /// <param name="newActions">Returns the new BaseActions object.</param>
+        /// <exception cref="System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
+        /// <exception cref="System.Exception">Thrown, when something goes wrong.</exception>
+        public void CreatePersistentNamedFromSpec(String grgFilename, IGlobalVariables globalVariables, String statisticsPath, int capacity,
+            String persistenceProvider, String connectionParameters,
+            out LGSPPersistentNamedGraph newGraph, out LGSPActions newActions)
+        {
+            LGSPGraph graph;
+            LGSPActions actions;
+            CreateFromSpec(grgFilename, globalVariables, GetNextGraphName(), statisticsPath,
+                ProcessSpecFlags.UseNoExistingFiles, new List<String>(), true, capacity, persistenceProvider, connectionParameters,
+                out graph, out actions);
+            newGraph = (LGSPPersistentNamedGraph)graph;
+            newActions = actions;
+        }
+
+        /// <summary>
+        /// Creates a new LGSPGraph or LGSPNamedGraph or LGSPPersistentNamedGraph instance from the specified specification file.
         /// If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
         /// </summary>
         /// <param name="gmFilename">Filename of the model specification file (.gm).</param>
@@ -886,11 +993,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="externalAssemblies">List of external assemblies to reference.</param>
         /// <param name="named">Returns a named graph if true otherwise a non-named graph. You must cast the LGSPGraph returned to the inherited LGSPNamedGraph if named=true.</param>
         /// <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
+        /// <param name="persistenceProvider">The name of the persistence provider (for the persistent named graph) - if not null, a persistent (named) graph is created.</param>
+        /// <param name="connectionParameters">The connection parameters to configure the persistence provider.</param>
         /// <exception cref="System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
         /// <exception cref="System.Exception">Thrown, when something goes wrong.</exception>
-        /// <returns>The new LGSPGraph or LGSPNamedGraph instance.</returns>
+        /// <returns>The new LGSPGraph or LGSPNamedGraph or LGSPPersistentNamedGraph instance.</returns>
         public LGSPGraph CreateFromSpec(String gmFilename, IGlobalVariables globalVariables, String graphName, String statisticsPath,
-            ProcessSpecFlags flags, List<String> externalAssemblies, bool named, int capacity)
+            ProcessSpecFlags flags, List<String> externalAssemblies, bool named, int capacity,
+            String persistenceProvider, String connectionParameters)
         {
             if(!File.Exists(gmFilename))
                 throw new FileNotFoundException("The model specification file \"" + gmFilename + "\" does not exist!", gmFilename);
@@ -899,19 +1009,28 @@ namespace de.unika.ipd.grGen.lgsp
             if(MustGenerate(gmFilename, statisticsPath, flags, out modelFilename))
                 LGSPGrGen.ProcessSpecification(gmFilename, statisticsPath, flags, externalAssemblies.ToArray());
 
-            return CreateGraph(modelFilename, globalVariables, graphName, named, "capacity=" + capacity.ToString());
+            return CreateGraph(modelFilename, globalVariables, graphName, named, persistenceProvider, connectionParameters, "capacity=" + capacity.ToString());
         }
 
         public IGraph CreateFromSpec(String gmFilename, IGlobalVariables globalVariables, String graphName, String statisticsPath, 
             ProcessSpecFlags flags, List<String> externalAssemblies)
         {
-            return CreateFromSpec(gmFilename, globalVariables, graphName, statisticsPath, flags, externalAssemblies, false, 0);
+            return CreateFromSpec(gmFilename, globalVariables, graphName, statisticsPath,
+                flags, externalAssemblies, false, 0, null, null);
         }
 
         public INamedGraph CreateNamedFromSpec(String gmFilename, IGlobalVariables globalVariables, String graphName, String statisticsPath, 
             ProcessSpecFlags flags, List<String> externalAssemblies, int capacity)
         {
-            return (LGSPNamedGraph)CreateFromSpec(gmFilename, globalVariables, graphName, statisticsPath, flags, externalAssemblies, true, capacity);
+            return (LGSPNamedGraph)CreateFromSpec(gmFilename, globalVariables, graphName, statisticsPath,
+                flags, externalAssemblies, true, capacity, null, null);
+        }
+
+        public INamedGraph CreatePersistentNamedFromSpec(String gmFilename, IGlobalVariables globalVariables, String graphName, String statisticsPath,
+            ProcessSpecFlags flags, List<String> externalAssemblies, int capacity, String persistenceProvider, String connectionParameters)
+        {
+            return (LGSPPersistentNamedGraph)CreateFromSpec(gmFilename, globalVariables, graphName, statisticsPath,
+                flags, externalAssemblies, true, capacity, persistenceProvider, connectionParameters);
         }
 
         /// <summary>
@@ -927,7 +1046,7 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPGraph CreateFromSpec(String gmFilename, IGlobalVariables globalVariables)
         {
             return CreateFromSpec(gmFilename, globalVariables, GetNextGraphName(), null,
-                ProcessSpecFlags.UseNoExistingFiles, new List<String>(), false, 0);
+                ProcessSpecFlags.UseNoExistingFiles, new List<String>(), false, 0, null, null);
         }
 
         /// <summary>
@@ -944,7 +1063,27 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPNamedGraph CreateNamedFromSpec(String gmFilename, IGlobalVariables globalVariables, int capacity)
         {
             return (LGSPNamedGraph)CreateFromSpec(gmFilename, globalVariables, GetNextGraphName(), null,
-                ProcessSpecFlags.UseNoExistingFiles, new List<String>(), true, capacity);
+                ProcessSpecFlags.UseNoExistingFiles, new List<String>(), true, capacity, null, null);
+        }
+
+        /// <summary>
+        /// Creates a new LGSPPersistentNamedGraph instance from the specified specification file.
+        /// If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
+        /// A name for the graph is automatically generated.
+        /// </summary>
+        /// <param name="gmFilename">Filename of the model specification file (.gm).</param>
+        /// <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
+        /// <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
+        /// <param name="persistenceProvider">The name of the persistence provider (for the persistent named graph).</param>
+        /// <param name="connectionParameters">The connection parameters to configure the persistence provider.</param>
+        /// <exception cref="System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
+        /// <exception cref="System.Exception">Thrown, when something goes wrong.</exception>
+        /// <returns>The new LGSPPersistentNamedGraph instance.</returns>
+        public LGSPPersistentNamedGraph CreatePersistentNamedFromSpec(String gmFilename, IGlobalVariables globalVariables, int capacity,
+            String persistenceProvider, String connectionParameters)
+        {
+            return (LGSPPersistentNamedGraph)CreateFromSpec(gmFilename, globalVariables, GetNextGraphName(), null,
+                ProcessSpecFlags.UseNoExistingFiles, new List<String>(), true, capacity, persistenceProvider, connectionParameters);
         }
 
         /// <summary>

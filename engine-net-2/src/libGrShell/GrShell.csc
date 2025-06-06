@@ -157,6 +157,7 @@ TOKEN: {
 |   < OPTIONS: "options" >
 |   < PARSE: "parse" >
 |   < PARSER: "parser" >
+|   < PERSIST: "persist" >
 |   < PROFILE: "profile" >
 |   < PWD: "pwd" >
 |   < QUIT: "quit" >
@@ -1290,6 +1291,7 @@ void ShellCommand():
 void NewCommand():
 {
     String modelFilename, path, graphName = "DefaultGraph";
+    String persistenceProvider = null, connectionParameters = null;
     INode srcNode, tgtNode;
     ElementDef elemDef;
     bool directed, on = false;
@@ -1297,9 +1299,9 @@ void NewCommand():
 {
     try
     {
-        ("new" { on = true; })? "graph" modelFilename=Filename() (graphName=WordOrText())? LineEnd() // new new
+        ("new" { on = true; })? "graph" modelFilename=Filename() (graphName=WordOrText())? ("persist" "with" persistenceProvider=WordOrText() "to" connectionParameters=QuotedText())? LineEnd()
         {
-            noError = impl.NewGraph(modelFilename, graphName, on);
+            noError = impl.NewGraph(modelFilename, graphName, on, persistenceProvider, connectionParameters);
         }
     |
         "add" "reference" path=Filename() LineEnd()

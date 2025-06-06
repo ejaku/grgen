@@ -20,7 +20,7 @@ using de.unika.ipd.grGen.libGr;
 namespace de.unika.ipd.grGen.lgsp
 {
     /// <summary>
-    /// An implementation of the IGraph interface.
+    /// The default implementation of the IGraph interface of the libGrSearchPlanBackend.
     /// </summary>
     public class LGSPGraph : BaseGraph
     {
@@ -40,7 +40,7 @@ namespace de.unika.ipd.grGen.lgsp
             ++graphIDSource;
         }
 
-        private readonly int graphID;
+        protected readonly int graphID;
         public override int GraphId { get { return graphID; } }
 
         private String name;
@@ -52,7 +52,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         private readonly IIndexSet indices;
         private readonly LGSPUniquenessEnsurer uniquenessEnsurer; // not null if unique ids for nodes/edges were requested
-        private readonly LGSPGlobalVariables globalVariables;
+        protected readonly LGSPGlobalVariables globalVariables;
 
         // Used as storage space for the name for the SettingAddedEdgeNames event, in case of redirection
         public readonly string[] nameOfSingleElementAdded = new string[1];
@@ -1899,7 +1899,7 @@ namespace de.unika.ipd.grGen.lgsp
             throw new Exception("Internal error: Node not in graph");
         }
 
-        private void FillCustomCommandDescriptions()
+        protected void FillCustomCommandDescriptions()
         {
             customCommandsToDescriptions.Add("analyze",
                 "- analyze: Analyzes the graph. The generated information can then be\n" +

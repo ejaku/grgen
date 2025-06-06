@@ -15,7 +15,7 @@ using de.unika.ipd.grGen.libGr;
 namespace de.unika.ipd.grGen.lgsp
 {
     /// <summary>
-    /// An implementation of the INamedGraph interface.
+    /// The default implementation of the INamedGraph interface of the libGrSearchPlanBackend.
     /// </summary>
     public class LGSPNamedGraph : LGSPGraph, INamedGraph
     {

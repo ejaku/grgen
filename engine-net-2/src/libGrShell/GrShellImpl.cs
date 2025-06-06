@@ -1596,7 +1596,8 @@ namespace de.unika.ipd.grGen.grShell
 
         #region "new graph" commands
 
-        public bool NewGraph(String specFilename, String graphName, bool forceRebuild)
+        public bool NewGraph(String specFilename, String graphName, bool forceRebuild,
+            String persistenceProvider, String connectionParameters)
         {
             if(!BackendExists())
                 return false;
@@ -1607,7 +1608,7 @@ namespace de.unika.ipd.grGen.grShell
 
             if(specFilename.EndsWith(".cs", StringComparison.OrdinalIgnoreCase) || specFilename.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
             {
-                bool success = NewGraphFromTargetFile(specFilename, graphName);
+                bool success = NewGraphFromTargetFile(specFilename, graphName, persistenceProvider, connectionParameters);
                 if(!success)
                     return false;
             }
@@ -1620,13 +1621,13 @@ namespace de.unika.ipd.grGen.grShell
 
                 if(specFilename.EndsWith(".gm", StringComparison.OrdinalIgnoreCase))
                 {
-                    bool success = NewGraphFromModelFile(specFilename, graphName, forceRebuild);
+                    bool success = NewGraphFromModelFile(specFilename, graphName, forceRebuild, persistenceProvider, connectionParameters);
                     if(!success)
                         return false;
                 }
                 else if(specFilename.EndsWith(".grg", StringComparison.OrdinalIgnoreCase))
                 {
-                    bool success = NewGraphFromActionsFile(specFilename, graphName, forceRebuild);
+                    bool success = NewGraphFromActionsFile(specFilename, graphName, forceRebuild, persistenceProvider, connectionParameters);
                     if(!success)
                         return false;
                 }
@@ -1643,13 +1644,19 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
-        private bool NewGraphFromTargetFile(String specFilename, String graphName)
+        private bool NewGraphFromTargetFile(String specFilename, String graphName, String persistenceProvider, String connectionParameters)
         {
             IGlobalVariables globalVariables = new LGSPGlobalVariables();
             INamedGraph graph;
             try
             {
-                graph = curGraphBackend.CreateNamedGraph(specFilename, globalVariables, graphName, backendParameters);
+                if(persistenceProvider != null)
+                {
+                    graph = curGraphBackend.CreatePersistentNamedGraph(specFilename, globalVariables, graphName,
+                        persistenceProvider, connectionParameters, backendParameters);
+                }
+                else
+                    graph = curGraphBackend.CreateNamedGraph(specFilename, globalVariables, graphName, backendParameters);
             }
             catch(Exception e)
             {
@@ -1694,15 +1701,24 @@ namespace de.unika.ipd.grGen.grShell
             return specFilename;
         }
 
-        private bool NewGraphFromModelFile(String specFilename, String graphName, bool forceRebuild)
+        private bool NewGraphFromModelFile(String specFilename, String graphName, bool forceRebuild, String persistenceProvider, String connectionParameters)
         {
             IGlobalVariables globalVariables = new LGSPGlobalVariables();
             INamedGraph graph;
             try
             {
                 ProcessSpecFlags flags = NewGraphOptionsToFlags(newGraphOptions, forceRebuild);
-                graph = curGraphBackend.CreateNamedFromSpec(specFilename, globalVariables, graphName, null,
-                    flags, newGraphOptions.ExternalAssembliesReferenced, 0);
+                if(persistenceProvider != null)
+                {
+                    graph = curGraphBackend.CreatePersistentNamedFromSpec(specFilename, globalVariables, graphName, null,
+                        flags, newGraphOptions.ExternalAssembliesReferenced, 0,
+                        persistenceProvider, connectionParameters);
+                }
+                else
+                {
+                    graph = curGraphBackend.CreateNamedFromSpec(specFilename, globalVariables, graphName, null,
+                        flags, newGraphOptions.ExternalAssembliesReferenced, 0);
+                }
             }
             catch(Exception e)
             {
@@ -1725,7 +1741,7 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
-        private bool NewGraphFromActionsFile(String specFilename, String graphName, bool forceRebuild)
+        private bool NewGraphFromActionsFile(String specFilename, String graphName, bool forceRebuild, String persistenceProvider, String connectionParameters)
         {
             IGlobalVariables globalVariables = new LGSPGlobalVariables();
             INamedGraph graph;
@@ -1734,9 +1750,19 @@ namespace de.unika.ipd.grGen.grShell
             try
             {
                 ProcessSpecFlags flags = NewGraphOptionsToFlags(newGraphOptions, forceRebuild);
-                curGraphBackend.CreateNamedFromSpec(specFilename, globalVariables, graphName, newGraphOptions.Statistics,
-                    flags, newGraphOptions.ExternalAssembliesReferenced, 0,
-                    out graph, out actions);
+                if(persistenceProvider != null)
+                {
+                    curGraphBackend.CreatePersistentNamedFromSpec(specFilename, globalVariables, graphName, newGraphOptions.Statistics,
+                        flags, newGraphOptions.ExternalAssembliesReferenced, 0,
+                        persistenceProvider, connectionParameters,
+                        out graph, out actions);
+                }
+                else
+                {
+                    curGraphBackend.CreateNamedFromSpec(specFilename, globalVariables, graphName, newGraphOptions.Statistics,
+                        flags, newGraphOptions.ExternalAssembliesReferenced, 0,
+                        out graph, out actions);
+                }
             }
             catch(Exception e)
             {

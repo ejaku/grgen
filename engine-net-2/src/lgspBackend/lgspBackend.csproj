@@ -70,6 +70,7 @@
     <Compile Include="GraphProcessingEnvironments\lgspGlobalVariables.cs" />
     <Compile Include="Graph\GraphStatisticsParserSerializer.cs" />
     <Compile Include="Graph\lgspObject.cs" />
+    <Compile Include="Graph\lgspPersistentNamedGraph.cs" />
     <Compile Include="Graph\lgspTransientObject.cs" />
     <Compile Include="MatcherGenerator\FilterGenerator.cs" />
     <Compile Include="GraphComparison\GraphComparisonMatcher.cs" />
