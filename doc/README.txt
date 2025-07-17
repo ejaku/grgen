@@ -226,3 +226,9 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-------
+
+Graph persistence is implemented using SQLite.
+The code and documentation in System.Data.SQLite as well as SQLite proper have been dedicated to the public domain.
+The System.Data.SQLite.Linq and System.Data.SQLite.EF6 assemblies are compiled from files covered by the Microsoft Public License (MS-PL) - but they are not used in implementing graph persistence.
