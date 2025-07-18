@@ -1,0 +1,37 @@
+#using "persistentgraph2.gm"
+
+rule init
+{
+	modify {
+		n:N -e1:E1-> n1:N1 -e12:E12-> n12:N12;
+		n -e2:E2-> n2:N2 -e:E-> n12;
+	}
+}
+
+test find : (N,N1,N2,N12,E,E1,E2,E12)
+{
+	n:N -e1:E1-> n1:N1 -e12:E12-> n12:N12;
+	n -e2:E2-> n2:N2 -e:E-> n12;
+	return(n,n1,n2,n12,e,e1,e2,e12);
+}
+
+rule delEdges
+{
+	-e1:E1->;
+	-e2:E2->;
+	-e12:E12->;
+	-e:E->;
+	
+	modify {
+		delete(e1,e2,e12,e);
+	}
+}
+
+rule delNodes
+{
+	n:N; n1:N1; n2:N2; n12:N12;
+	
+	modify {
+		delete(n,n1,n2,n12);
+	}
+}

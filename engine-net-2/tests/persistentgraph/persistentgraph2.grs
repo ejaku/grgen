@@ -1,0 +1,149 @@
+! rm ../testgraphfilename2.db
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+new graph "persistentgraph/persistentgraph2" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename2.db;Version=3;"
+
+show num nodes N
+show num nodes N1
+show num nodes N2
+show num nodes N12
+
+show num edges E
+show num edges E1
+show num edges E2
+show num edges E12
+
+new graph "persistentgraph/persistentgraph2" "some non-persistent graph"
+
+exec init
+
+show num nodes N
+show num nodes N1
+show num nodes N2
+show num nodes N12
+
+show num edges E
+show num edges E1
+show num edges E2
+show num edges E12
+
+new graph "persistentgraph/persistentgraph2" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename2.db;Version=3;"
+
+show num nodes N
+show num nodes N1
+show num nodes N2
+show num nodes N12
+
+show num edges E
+show num edges E1
+show num edges E2
+show num edges E12
+
+exec init
+
+show num nodes N
+show num nodes N1
+show num nodes N2
+show num nodes N12
+
+show num edges E
+show num edges E1
+show num edges E2
+show num edges E12
+
+new graph "persistentgraph/persistentgraph2" "some non-persistent graph"
+
+show num nodes N
+show num nodes N1
+show num nodes N2
+show num nodes N12
+
+show num edges E
+show num edges E1
+show num edges E2
+show num edges E12
+
+new graph "persistentgraph/persistentgraph2" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename2.db;Version=3;"
+
+show num nodes N
+show num nodes N1
+show num nodes N2
+show num nodes N12
+
+show num edges E
+show num edges E1
+show num edges E2
+show num edges E12
+
+exec (::n,::n1,::n2,::n12,::e,::e1,::e2,::e12)=find
+
+show n.s
+
+show n1.s
+show n1.by
+show n1.sh
+show n1.i
+show n1.l
+
+show n2.s
+show n2.f
+show n2.d
+
+show n12.s
+show n12.by
+show n12.sh
+show n12.i
+show n12.l
+show n12.s
+show n12.f
+show n12.d
+show n12.b
+show n12.e
+
+show e.s
+
+show e1.s
+show e1.by
+show e1.sh
+show e1.i
+show e1.l
+
+show e2.s
+show e2.f
+show e2.d
+
+show e12.s
+show e12.by
+show e12.sh
+show e12.i
+show e12.l
+show e12.s
+show e12.f
+show e12.d
+show e12.b
+show e12.e
+
+exec delEdges
+
+show num nodes N
+show num nodes N1
+show num nodes N2
+show num nodes N12
+
+show num edges E
+show num edges E1
+show num edges E2
+show num edges E12
+
+exec delNodes
+
+show num nodes N
+show num nodes N1
+show num nodes N2
+show num nodes N12
+
+show num edges E
+show num edges E1
+show num edges E2
+show num edges E12
+
+quit

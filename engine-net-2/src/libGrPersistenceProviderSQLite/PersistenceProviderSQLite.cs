@@ -216,7 +216,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 case AttributeKind.LongAttr: return "INT";
                 case AttributeKind.BooleanAttr: return "INT";
                 case AttributeKind.StringAttr: return "TEXT";
-                case AttributeKind.EnumAttr: return "INT";
+                case AttributeKind.EnumAttr: return "TEXT";
                 case AttributeKind.FloatAttr: return "REAL";
                 case AttributeKind.DoubleAttr: return "REAL";
                 default: throw new Exception("Non-scalar attribute kind");
@@ -519,13 +519,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             int index = attributeNameToColumnIndex[UniquifyName(attributeType.Name)];
             switch(attributeType.Kind)
             {
-                case AttributeKind.ByteAttr: return reader.GetByte(index);
+                case AttributeKind.ByteAttr: return (SByte)reader.GetInt16(index);
                 case AttributeKind.ShortAttr: return reader.GetInt16(index);
                 case AttributeKind.IntegerAttr: return reader.GetInt32(index);
                 case AttributeKind.LongAttr: return reader.GetInt64(index);
                 case AttributeKind.BooleanAttr: return reader.GetBoolean(index);
                 case AttributeKind.StringAttr: return reader.GetString(index);
-                case AttributeKind.EnumAttr: return attributeType.EnumType[reader.GetInt32(index)]; // TODO: EnumMember result needed? TODO: multiple names mapping to int?
+                case AttributeKind.EnumAttr: return Enum.Parse(attributeType.EnumType.EnumType, reader.GetString(index));
                 case AttributeKind.FloatAttr: return reader.GetFloat(index);
                 case AttributeKind.DoubleAttr: return reader.GetDouble(index);
                 default: throw new Exception("Non-scalar attribute kind");

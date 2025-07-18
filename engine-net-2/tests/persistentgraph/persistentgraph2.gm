@@ -1,0 +1,51 @@
+enum ENU { a, b, c }
+
+node class N
+{
+	s:string = "foo";
+}
+
+node class N1 extends N
+{
+	by:byte = 1y;
+	sh:short = 2s;
+	i:int = 3;
+	l:long = 42L;
+}
+
+node class N2 extends N
+{
+	f:float = 3.141592654f;
+	d:double = 42.0;
+}
+
+node class N12 extends N1, N2
+{
+	b:boolean = true;
+	e:ENU = ENU::b;
+}
+
+edge class E
+{
+	s:string = "foo";
+}
+
+edge class E1 extends E
+{
+	by:byte = 1y;
+	sh:short = 2s;
+	i:int = 3;
+	l:long = 42L;
+}
+
+edge class E2 extends E
+{
+	f:float = 3.141592654f;
+	d:double = 42.0;
+}
+
+edge class E12 extends E1, E2
+{
+	b:boolean = true;
+	e:ENU = ENU::b;
+}
