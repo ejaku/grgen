@@ -1,4 +1,4 @@
-#using "persistentgraph2.gm"
+#using "persistentgraph_attributed.gm"
 
 rule init
 {
