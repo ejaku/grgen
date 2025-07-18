@@ -29,14 +29,14 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         // one command per node type; reading is only carried out initally, so prepared statements are only locally needed for reading
         SQLiteCommand createNodeCommand; // topology
         SQLiteCommand[] createNodeCommands; // per-type
-        SQLiteCommand[] updateNodeCommands;
+        Dictionary<String, SQLiteCommand>[] updateNodeCommands; // per-type, per-attribute
         SQLiteCommand deleteNodeCommand; // topology
         SQLiteCommand[] deleteNodeCommands; // per-type
 
         // one command per edge type; reading is only carried out initally, so prepared statements are only locally needed for reading
         SQLiteCommand createEdgeCommand; // topology
         SQLiteCommand[] createEdgeCommands; // per-type
-        SQLiteCommand[] updateEdgeCommands;
+        Dictionary<String, SQLiteCommand>[] updateEdgeCommands; // per-type, per-attribute
         SQLiteCommand deleteEdgeCommand; // topology
         SQLiteCommand[] deleteEdgeCommands; // per-type
 
@@ -536,6 +536,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         #region Graph modification handling preparations
 
+        // TODO: maybe lazy initialization...
         private void PrepareStatementsForGraphModifications()
         {
             createNodeCommand = PrepareNodeInsert();
@@ -551,15 +552,27 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 createEdgeCommands[edgeType.TypeID] = PrepareInsert(edgeType, "edgeId");
             }
 
-            updateNodeCommands = new SQLiteCommand[graph.Model.NodeModel.Types.Length];
+            updateNodeCommands = new Dictionary<String, SQLiteCommand>[graph.Model.NodeModel.Types.Length];
             foreach(NodeType nodeType in graph.Model.NodeModel.Types)
             {
-                // updateNodeCommands[nodeType.TypeID] = new SQLiteCommand(command.ToString(), connection); TODO
+                updateNodeCommands[nodeType.TypeID] = new Dictionary<String, SQLiteCommand>(nodeType.NumAttributes);
+                foreach(AttributeType attributeType in nodeType.AttributeTypes)
+                {
+                    if(!IsScalarType(attributeType))
+                        continue;
+                    updateNodeCommands[nodeType.TypeID][attributeType.Name] = PrepareUpdate(nodeType, "nodeId", attributeType);
+                }
             }
-            updateEdgeCommands = new SQLiteCommand[graph.Model.EdgeModel.Types.Length];
+            updateEdgeCommands = new Dictionary<String, SQLiteCommand>[graph.Model.EdgeModel.Types.Length];
             foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
             {
-                // updateEdgeCommands[edgeType.TypeID] = new SQLiteCommand(command.ToString(), connection); TODO
+                updateEdgeCommands[edgeType.TypeID] = new Dictionary<String, SQLiteCommand>(edgeType.NumAttributes);
+                foreach(AttributeType attributeType in edgeType.AttributeTypes)
+                {
+                    if(!IsScalarType(attributeType))
+                        continue;
+                    updateEdgeCommands[edgeType.TypeID][attributeType.Name] = PrepareUpdate(edgeType, "edgeId", attributeType);
+                }
             }
 
             deleteNodeCommand = PrepareTopologyDelete("nodes", "nodeId");
@@ -644,6 +657,24 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             command.Append("(");
             command.Append(parameterNames.ToString());
             command.Append(")");
+
+            return new SQLiteCommand(command.ToString(), connection);
+        }
+
+        private SQLiteCommand PrepareUpdate(InheritanceType type, string idName, AttributeType attributeType)
+        {
+            String tableName = EscapeTableName(type.PackagePrefixedName);
+            StringBuilder command = new StringBuilder();
+            command.Append("UPDATE ");
+            command.Append(tableName);
+            command.Append(" SET ");
+            command.Append(UniquifyName(attributeType.Name));
+            command.Append(" = ");
+            command.Append("@" + UniquifyName(attributeType.Name));
+            command.Append(" WHERE ");
+            command.Append(idName);
+            command.Append(" == ");
+            command.Append("@" + idName);
 
             return new SQLiteCommand(command.ToString(), connection);
         }
@@ -861,12 +892,29 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         public void ChangingNodeAttribute(INode node, AttributeType attrType,
                 AttributeChangeType changeType, object newValue, object keyValue)
         {
-            //updateNodeCommands;
+            if(!IsScalarType(attrType))
+                return; // TODO: also handle these
+
+            SQLiteCommand updateNodeCommand = updateNodeCommands[node.Type.TypeID][attrType.Name];
+            updateNodeCommand.Parameters.Clear();
+            updateNodeCommand.Parameters.AddWithValue("@nodeId", NodeToDbId[node]);
+            updateNodeCommand.Parameters.AddWithValue("@" + UniquifyName(attrType.Name), newValue);
+
+            int rowsAffected = updateNodeCommand.ExecuteNonQuery();
         }
 
         public void ChangingEdgeAttribute(IEdge edge, AttributeType attrType,
                 AttributeChangeType changeType, object newValue, object keyValue)
         {
+            if(!IsScalarType(attrType))
+                return; // TODO: also handle these
+
+            SQLiteCommand updateEdgeCommand = updateEdgeCommands[edge.Type.TypeID][attrType.Name];
+            updateEdgeCommand.Parameters.Clear();
+            updateEdgeCommand.Parameters.AddWithValue("@edgeId", EdgeToDbId[edge]);
+            updateEdgeCommand.Parameters.AddWithValue("@" + UniquifyName(attrType.Name), newValue);
+
+            int rowsAffected = updateEdgeCommand.ExecuteNonQuery();
         }
 
         public void ChangingObjectAttribute(IObject obj, AttributeType attrType,

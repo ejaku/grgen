@@ -15,6 +15,52 @@ test find : (N,N1,N2,N12,E,E1,E2,E12)
 	return(n,n1,n2,n12,e,e1,e2,e12);
 }
 
+rule assignAttributes
+{
+	n:N -e1:E1-> n1:N1 -e12:E12-> n12:N12;
+	n -e2:E2-> n2:N2 -e:E-> n12;
+	
+	modify {
+		eval {
+			n.s = "n";
+			
+			n1.s = "n1";
+			n1.by = 42y;
+			n1.sh = 43s;
+			n1.i = 44;
+			n1.l = 1337l;
+			
+			n2.s = "n2";
+			n2.f = 0.0f;
+			n2.d = 1.0;
+			
+			n12.s = "n12";
+			n12.l = 444l;
+			n12.d = 444.4;
+			n12.b = false;
+			n12.e = ENU::a;
+			
+			e1.s = "e1";
+			e1.by = 42y;
+			e1.sh = 43s;
+			e1.i = 44;
+			e1.l = 1337l;
+			
+			e2.s = "e2";
+			e2.f = 0.0f;
+			e2.d = 1.0;
+			
+			e12.s = "e12";
+			e12.l = 444l;
+			e12.d = 444.4;
+			e12.b = false;
+			e12.e = ENU::c;
+			
+			e.s = "e";
+		}
+	}
+}
+
 rule delEdges
 {
 	-e1:E1->;
