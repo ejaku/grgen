@@ -15,6 +15,13 @@ test find : (N,N1,N2,N12,E,E1,E2,E12)
 	return(n,n1,n2,n12,e,e1,e2,e12);
 }
 
+test findRetyped : (N,N1,N2,M,E,E1,E2,D)
+{
+	n:N -e1:E1-> n1:N1 -e12:D-> n12:M;
+	n -e2:E2-> n2:N2 -e:E-> n12;
+	return(n,n1,n2,n12,e,e1,e2,e12);
+}
+
 rule assignAttributes
 {
 	n:N -e1:E1-> n1:N1 -e12:E12-> n12:N12;
@@ -58,6 +65,17 @@ rule assignAttributes
 			
 			e.s = "e";
 		}
+	}
+}
+
+rule retypeNodeEdge
+{
+	n:N12;
+	-e:E12->;
+	
+	modify {
+		m:M<n>;
+		-d:D<e>->;
 	}
 }
 

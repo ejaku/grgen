@@ -25,6 +25,13 @@ node class N12 extends N1, N2
 	e:ENU = ENU::b;
 }
 
+node class M extends N1, N2
+{
+	s = "bar";
+	e:ENU = ENU::c;
+	bla:int = 1234;
+}
+
 edge class E
 {
 	s:string = "foo";
@@ -48,4 +55,11 @@ edge class E12 extends E1, E2
 {
 	b:boolean = true;
 	e:ENU = ENU::b;
+}
+
+edge class D extends E1, E2
+{
+	s = "bar";
+	e:ENU = ENU::c;
+	bla:int = 1234;
 }
