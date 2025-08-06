@@ -1,0 +1,62 @@
+! rm ../testgraphfilename5.db
+
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+new graph "persistentgraph/persistentgraph_nested" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename5.db;Version=3;"
+
+show num nodes N
+show num edges
+
+new graph "persistentgraph/persistentgraph_nested" "some non-persistent graph"
+
+exec init
+exec initNestedPart #writes a file to the working directory which is .. so the test driver is not going to try to execute it as a test
+
+show num nodes N
+show num edges
+
+exec (::n1,::n2,::n3,::n4)=find
+show var n1
+#show n1.nested - it seems the rm command is not working with a .. path ... increasing ids are shown, stemming from zombie graphs in the database - purging is not implemented yet
+show var n2
+show var n3
+show var n4
+
+new graph "persistentgraph/persistentgraph_nested" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename5.db;Version=3;"
+
+show num nodes N
+show num edges
+
+exec init
+exec initNestedPart
+
+show num nodes N
+show num edges
+
+exec (::n1,::n2,::n3,::n4)=find
+show var n1
+show var n2
+show var n3
+show var n4
+
+new graph "persistentgraph/persistentgraph_nested" "some non-persistent graph"
+
+show num nodes N
+show num edges
+
+new graph "persistentgraph/persistentgraph_nested" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename5.db;Version=3;"
+
+show num nodes N
+show num edges
+
+exec (::n1,::n2,::n3,::n4)=find
+show var n1
+show var n2
+show var n3
+show var n4
+
+clear graph
+
+show num nodes N
+show num edges
+
+quit

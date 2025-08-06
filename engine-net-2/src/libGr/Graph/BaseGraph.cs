@@ -28,6 +28,8 @@ namespace de.unika.ipd.grGen.libGr
         public abstract bool ReuseOptimization { get; set; }
         public abstract long ChangesCounter{ get; }
 
+        public abstract void RegisterProcessingEnvironment(IGraphProcessingEnvironment procEnv);
+
         public int NumNodes
         {
             get { return GetNumCompatibleNodes(Model.NodeModel.RootType); }

@@ -66,6 +66,11 @@ namespace de.unika.ipd.grGen.lgsp
             return persistenceProvider;
         }
 
+        public override void RegisterProcessingEnvironment(IGraphProcessingEnvironment procEnv)
+        {
+            persistenceProvider.RegisterToListenToProcessingEnvironmentEvents(procEnv);
+        }
+
         #region Copy Constructors
 
         /// <summary>

@@ -1667,6 +1667,7 @@ namespace de.unika.ipd.grGen.grShell
             try
             {
                 curShellProcEnv = new ShellGraphProcessingEnvironment(graph, backendFilename, backendParameters, specFilename);
+                graph.RegisterProcessingEnvironment(curShellProcEnv.ProcEnv);
             }
             catch(Exception ex)
             {
@@ -1729,6 +1730,7 @@ namespace de.unika.ipd.grGen.grShell
             try
             {
                 curShellProcEnv = new ShellGraphProcessingEnvironment(graph, backendFilename, backendParameters, specFilename);
+                graph.RegisterProcessingEnvironment(curShellProcEnv.ProcEnv);
             }
             catch(Exception ex)
             {
@@ -1773,6 +1775,7 @@ namespace de.unika.ipd.grGen.grShell
             try
             {
                 curShellProcEnv = new ShellGraphProcessingEnvironment(graph, backendFilename, backendParameters, specFilename);
+                graph.RegisterProcessingEnvironment(curShellProcEnv.ProcEnv);
                 curShellProcEnv.ProcEnv.Actions = actions;
             }
             catch(Exception ex)

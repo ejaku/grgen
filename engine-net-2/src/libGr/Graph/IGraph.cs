@@ -271,6 +271,13 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         long ChangesCounter { get; }
 
+        /// <summary>
+        /// Allows a persistent graph to track changes to subgraphs (by following switch-to / return-from subgraph events)
+        /// Otherwise a NOP.
+        /// </summary>
+        /// <param name="procEnv">The graph processing environment used in processing the graph (this graph, in the form of the top-level host graph)</param>
+        void RegisterProcessingEnvironment(IGraphProcessingEnvironment procEnv);
+
 
         /// <summary>
         /// The total number of nodes in the graph.

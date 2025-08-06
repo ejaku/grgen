@@ -22,13 +22,19 @@ namespace de.unika.ipd.grGen.libGr
         void Open(string connectionParameters);
 
         /// <summary>
-        /// fills the given named graph from the content stored in the repository, or creates the repository if it does not exist yet
-        /// the graph must be empty (but its model must be known)
+        /// fills the given host graph from the content stored in the repository, or creates the repository if it does not exist yet
+        /// the named graph must be empty (but its model must be known) (the graph is going to be the host graph/top-level graph of a system of graphs referenced from it)
         /// the persistence provider registers as listener at the graph (just filled by reading from the repository)
         /// it listens to change events and persists the ongoing modification of the graph to the repository
         /// errors are reported by exception
         /// </summary>
-        void ReadPersistentGraphAndRegisterToListenToGraphModifications(INamedGraph namedGraph); // TODO: also procEnv as parameter, or maybe a RegisterToListenToProcessingEnvironmentEvents
+        void ReadPersistentGraphAndRegisterToListenToGraphModifications(INamedGraph hostGraph);
+
+        /// <summary>
+        /// registers as listener of switch to subgraph and return from subgraph events at the graph processing environment
+        /// needed when subgraphs are to be processed (todo: also a performance and durability enhancement due to persistence transaction handling)
+        /// </summary>
+        void RegisterToListenToProcessingEnvironmentEvents(IGraphProcessingEnvironment procEnv);
 
         /// <summary>
         /// closes the repository / disconnects from the respository

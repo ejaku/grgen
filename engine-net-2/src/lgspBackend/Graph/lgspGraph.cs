@@ -87,6 +87,11 @@ namespace de.unika.ipd.grGen.lgsp
             get { return changesCounter; }
         }
 
+        public override void RegisterProcessingEnvironment(IGraphProcessingEnvironment procEnv)
+        {
+            // NOP, of interest to the persistent graph(s)
+        }
+
 
         /// <summary>
         /// Stores the statistics about the last analyze pass of the graph
