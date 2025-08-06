@@ -111,7 +111,10 @@ namespace de.unika.ipd.grGen.libGr
         {
             FileInfo fi = new FileInfo(importFilename);
             long fileSize = fi.Length;
-            return Import(new StreamReader(importFilename), fileSize, modelOverride, backend, out actions);
+            using(StreamReader sr = new StreamReader(importFilename))
+            {
+                return Import(sr, fileSize, modelOverride, backend, out actions);
+            }
         }
 
         /// <summary>
@@ -168,7 +171,10 @@ namespace de.unika.ipd.grGen.libGr
         {
             FileInfo fi = new FileInfo(importFilename);
             long fileSize = fi.Length;
-            return Import(new StreamReader(importFilename), fileSize, backend, graphModel, out actions);
+            using(StreamReader sr = new StreamReader(importFilename))
+            {
+                return Import(sr, fileSize, backend, graphModel, out actions);
+            }
         }
         
         /// <summary>
