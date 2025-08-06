@@ -51,6 +51,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void SwitchToSubgraph(IGraph newGraph)
         {
+            if(newGraph == null)
+                throw new Exception("A switch to a null subgraph is forbidden");
             ((LGSPGlobalVariables)Graph.GlobalVariables).StopListening(Graph);
             base.SwitchToSubgraph(newGraph);
             ((LGSPGlobalVariables)newGraph.GlobalVariables).StartListening(newGraph);
