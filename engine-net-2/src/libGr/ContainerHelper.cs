@@ -439,6 +439,8 @@ namespace de.unika.ipd.grGen.libGr
                 IGraphElement element, String AttributeName, object value, out AttributeType attrType)
         {
             attrType = element.Type.GetAttributeType(AttributeName);
+            if(attrType == null)
+                throw new Exception("Unknown attribute " + AttributeName);
             if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
             {
                 Type keyType, valueType;
@@ -469,6 +471,8 @@ namespace de.unika.ipd.grGen.libGr
                 IObject element, String AttributeName, object value, out AttributeType attrType)
         {
             attrType = element.Type.GetAttributeType(AttributeName);
+            if(attrType == null)
+                throw new Exception("Unknown attribute " + AttributeName);
             if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
             {
                 Type keyType, valueType;

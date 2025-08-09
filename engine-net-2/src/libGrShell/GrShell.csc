@@ -1670,7 +1670,7 @@ void ShowCommand():
     String args = null;
     NodeType nodeType = null;
     EdgeType edgeType = null;
-    IGraphElement elem = null;
+    IAttributeBearer elem = null;
     bool typeProvided = false;
     bool only = false;
     bool keep = false;
@@ -1734,7 +1734,7 @@ void ShowCommand():
             impl.ShowProfile(str);
         }
     |
-        elem=GraphElement() "." str=AttributeName() LineEnd()
+        elem=GraphElementOrClassObject() "." str=AttributeName() LineEnd()
         {
             impl.ShowElementAttribute(elem, str);
         }

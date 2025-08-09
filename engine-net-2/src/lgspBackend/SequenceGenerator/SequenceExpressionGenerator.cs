@@ -1217,10 +1217,13 @@ namespace de.unika.ipd.grGen.lgsp
 
         private string GetSequenceExpressionNew(SequenceExpressionNew seqNew, SourceBuilder source)
         {
+            string uniqueIdSource = "-1";
+            if(model.ObjectUniquenessIsEnsured)
+                uniqueIdSource = "procEnv.Graph.GlobalVariables.FetchObjectUniqueId()";
             if(seqNew.AttributeInitializationList == null)
             {
                 if(TypesHelper.GetObjectType(seqNew.ConstructedType, model) != null)
-                    return "procEnv.Graph.Model.ObjectModel.GetType(\"" + seqNew.ConstructedType + "\").CreateObject(procEnv.Graph, procEnv.Graph.GlobalVariables.FetchObjectUniqueId())";
+                    return "procEnv.Graph.Model.ObjectModel.GetType(\"" + seqNew.ConstructedType + "\").CreateObject(procEnv.Graph, " + uniqueIdSource + ")";
                 else //if(TypesHelper.GetTransientObjectType(seqNew.ConstructedType, model) != null)
                     return "procEnv.Graph.Model.TransientObjectModel.GetType(\"" + seqNew.ConstructedType + "\").CreateTransientObject()";
             }
@@ -1230,7 +1233,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sb.Append("fillFromSequence_" + seqNew.Id + "(");
                 BaseObjectType objectType = env.Model.ObjectModel.GetType(seqNew.ConstructedType);
                 if(objectType != null)
-                    sb.Append("procEnv.Graph.GlobalVariables.FetchObjectUniqueId()");
+                    sb.Append(uniqueIdSource);
                 for(int i = 0; i < seqNew.AttributeInitializationList.Count; ++i)
                 {
                     KeyValuePair<string, SequenceExpression> attributeInitialization = seqNew.AttributeInitializationList[i];

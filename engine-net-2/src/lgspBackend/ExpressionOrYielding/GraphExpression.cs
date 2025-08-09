@@ -33,11 +33,11 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("((GRGEN_LIBGR.IGraph)");
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.Equal((GRGEN_LIBGR.IGraph)(");
             Left.Emit(sourceCode);
-            sourceCode.Append(").IsIsomorph((GRGEN_LIBGR.IGraph)");
+            sourceCode.Append("), (GRGEN_LIBGR.IGraph)(");
             Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            sourceCode.Append("))");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
@@ -68,11 +68,11 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("!((GRGEN_LIBGR.IGraph)");
+            sourceCode.Append("!GRGEN_LIBGR.GraphHelper.Equal((GRGEN_LIBGR.IGraph)(");
             Left.Emit(sourceCode);
-            sourceCode.Append(").IsIsomorph((GRGEN_LIBGR.IGraph)");
+            sourceCode.Append("), (GRGEN_LIBGR.IGraph)(");
             Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            sourceCode.Append("))");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
@@ -103,11 +103,11 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("((GRGEN_LIBGR.IGraph)");
+            sourceCode.Append("GRGEN_LIBGR.GraphHelper.HasSameStructure((GRGEN_LIBGR.IGraph)(");
             Left.Emit(sourceCode);
-            sourceCode.Append(").HasSameStructure((GRGEN_LIBGR.IGraph)");
+            sourceCode.Append("), (GRGEN_LIBGR.IGraph)(");
             Right.Emit(sourceCode);
-            sourceCode.Append(")");
+            sourceCode.Append("))");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()

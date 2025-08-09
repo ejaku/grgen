@@ -3608,11 +3608,11 @@ public abstract class CSharpBase
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(")");
 			} else if(opType instanceof GraphType) {
-				sb.append("((GRGEN_LIBGR.IGraph)");
+				sb.append("GRGEN_LIBGR.GraphHelper.Equal((GRGEN_LIBGR.IGraph)(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(").IsIsomorph((GRGEN_LIBGR.IGraph)");
+				sb.append("), (GRGEN_LIBGR.IGraph)(");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
+				sb.append("))");
 			} else if(opType instanceof InternalObjectType) {
 				sb.append("GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.IObject)(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
@@ -3652,11 +3652,11 @@ public abstract class CSharpBase
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(")");
 			} else if(opType instanceof GraphType) {
-				sb.append("!((GRGEN_LIBGR.IGraph)");
+				sb.append("!GRGEN_LIBGR.GraphHelper.Equal((GRGEN_LIBGR.IGraph)(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(").IsIsomorph((GRGEN_LIBGR.IGraph)");
+				sb.append("), (GRGEN_LIBGR.IGraph)(");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
+				sb.append("))");
 			} else if(opType instanceof InternalObjectType) {
 				sb.append("!GRGEN_LIBGR.ContainerHelper.IsEqual((GRGEN_LIBGR.IObject)(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
@@ -3749,11 +3749,11 @@ public abstract class CSharpBase
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
 				sb.append(", new Dictionary<object, object>())");
 			} else {
-				sb.append("((GRGEN_LIBGR.IGraph)");
+				sb.append("GRGEN_LIBGR.GraphHelper.HasSameStructure((GRGEN_LIBGR.IGraph)(");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
-				sb.append(").HasSameStructure((GRGEN_LIBGR.IGraph)");
+				sb.append("), (GRGEN_LIBGR.IGraph)(");
 				genExpression(sb, op.getOperand(1), modifyGenerationState);
-				sb.append(")");
+				sb.append("))");
 			}
 			break;
 		}
