@@ -20,6 +20,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
     /// <summary>
     /// An implementation of the IPersistenceProvider that allows to persist changes to a named graph to an SQLite database
     /// (so a kind of named graph DAO; utilizing a package reference to the official SQLite ADO.NET driver).
+    /// (Design idea: everything reachable from the host graph is stored in the database, in contrast to all graphs/nodes/edges/objects created at runtime, with the elements visible due to graph processing events lying in between)
     /// </summary>
     public class PersistenceProviderSQLite : IPersistenceProvider
     {
@@ -136,7 +137,14 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         SQLiteCommand readGraphsCommand;
         long HOST_GRAPH_ID = 0;
 
+        // prepared statements for handling objects
+        SQLiteCommand createObjectCommand; // topology
+        SQLiteCommand[] createObjectCommands; // per-type
+        SQLiteCommand[] readObjectCommands; // per-type joined with topology
+        Dictionary<String, SQLiteCommand>[] updateObjectCommands; // per-type, per-attribute
+
         Stack<INamedGraph> graphs; // the stack of graphs getting processed, the first entry being the host graph
+        INamedGraph host; // I'd prefer to use a property accessing the stack, but this would require to create an array...
         INamedGraph graph { get { return graphs.Peek(); } } // the current graph
 
         IGraphProcessingEnvironment procEnv; // the graph processing environment to switch the current graph in case of to-subgraph switches (todo: and for db-transaction handling)
@@ -148,9 +156,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         Dictionary<IEdge, long> EdgeToDbId;
         Dictionary<long, INamedGraph> DbIdToGraph;
         Dictionary<INamedGraph, long> GraphToDbId;
-        //Dictionary<long, IObject> DbIdToObject;
-        //Dictionary<IObject, long> ObjectToDbId;
-        // TODO: persistent id of graphs
+        Dictionary<long, IObject> DbIdToObject;
+        Dictionary<IObject, long> ObjectToDbId;
         Dictionary<long, string> DbIdToTypeName;
         Dictionary<string, long> TypeNameToDbId;
 
@@ -173,6 +180,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
             graphs = new Stack<INamedGraph>();
             graphs.Push(hostGraph);
+            host = hostGraph;
 
             CreateSchemaIfNotExistsOrAdaptToCompatibleChanges();
             // TODO: CleanUnusedSubgraphAndObjectReferencesAndCompactifyContainerChangeHistory();
@@ -189,8 +197,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             EdgeToDbId = new Dictionary<IEdge, long>();
             DbIdToGraph = new Dictionary<long, INamedGraph>();
             GraphToDbId = new Dictionary<INamedGraph, long>();
-            //DbIdToObject = new Dictionary<long, IObject>();
-            //ObjectToDbId = new Dictionary<IObject, long>();
+            DbIdToObject = new Dictionary<long, IObject>();
+            ObjectToDbId = new Dictionary<IObject, long>();
             DbIdToTypeName = new Dictionary<long, string>();
             TypeNameToDbId = new Dictionary<string, long>();
 
@@ -206,7 +214,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             CreateNodesTable();
             CreateEdgesTable();
             CreateGraphsTable();
-            //CreateObjectsTable();
+            CreateObjectsTable();
         }
 
         private void CreateTypesWithAttributeTables()
@@ -226,10 +234,10 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 CreateInheritanceTypeTable(edgeType, "edgeId");
             }
 
-            /*foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
+            foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
             {
                 CreateInheritanceTypeTable(objectType, "objectId");
-            }*/
+            }
         }
 
         private void CreateNodesTable()
@@ -263,11 +271,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 );
         }
 
-        /*private void CreateObjectsTable()
+        private void CreateObjectsTable()
         {
-            CreateTable("objects", "objectId"
+            CreateTable("objects", "objectId",
+                "typeId", "INTEGER NOT NULL",
+                "name", "TEXT NOT NULL"
                 );
-        }*/
+        }
 
         private void CreateTypesTable()
         {
@@ -283,7 +293,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             List<String> columnNamesAndTypes = new List<String>(); // ArrayBuilder
             foreach(AttributeType attributeType in type.AttributeTypes)
             {
-                if(!IsScalarType(attributeType) && !IsGraphType(attributeType)) // TODO: container type, internal object type, external/object type.
+                if(!IsScalarType(attributeType) && !IsGraphType(attributeType) && !IsObjectType(attributeType)) // TODO: container type, external/object type.
                     continue;
 
                 columnNamesAndTypes.Add(UniquifyName(attributeType.Name));
@@ -317,6 +327,11 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             return attributeType.Kind == AttributeKind.GraphAttr;
         }
 
+        private bool IsObjectType(AttributeType attributeType)
+        {
+            return attributeType.Kind == AttributeKind.InternalClassObjectAttr;
+        }
+
         private string AttributeTypeToSQLiteType(AttributeType attributeType) // TODO: Basic/ScalarSQLiteType()? separate by attribute type?
         {
             switch(attributeType.Kind)
@@ -331,6 +346,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 case AttributeKind.FloatAttr: return "REAL";
                 case AttributeKind.DoubleAttr: return "REAL";
                 case AttributeKind.GraphAttr: return "INTEGER"; // non-scalar type, but reference type with simple mapping (container types have a complex mapping)
+                case AttributeKind.InternalClassObjectAttr: return "INTEGER"; // non-scalar type, but reference type with simple mapping (container types have a complex mapping)
                 default: throw new Exception("Non-scalar attribute kind");
             }
         }
@@ -394,10 +410,10 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 {
                     FillUnknownType(typeNameToKind, fillTypeCommand, edgeType, TypeKind.EdgeClass);
                 }
-                /*foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
+                foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
                 {
                     FillUnknownType(typeNameToKind, fillTypeCommand, objectType, TypeKind.ObjectClass);
-                }*/
+                }
             }
 
             InsertGraphIfMissing(HOST_GRAPH_ID, TypeNameToDbId["graph"]);
@@ -528,6 +544,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 readEdgeCommands[edgeType.TypeID] = PrepareStatementsForReadingEdges(edgeType);
             }
 
+            readObjectCommands = new SQLiteCommand[graph.Model.ObjectModel.Types.Length];
+
+            foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
+            {
+                readObjectCommands[objectType.TypeID] = PrepareStatementsForReadingObjects(objectType);
+            }
+
             // pass 0 - load all graphs (without elements and without the host graph, which was already processed/inserted before) (an alternative would be to load only the host graph, and the others on-demand lazily, creating proxy objects for them - but this would be more coding effort, defy purging, and when carrying out eager loading, it's better not to load graph-by-graph but all at once; later todo when graph types are introduced: load by type)
             ReadGraphsWithoutHostGraph();
 
@@ -541,13 +564,33 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 ReadEdges(edgeType, readEdgeCommands[edgeType.TypeID]);
             }
 
-            // pass 2 - wire references/patch the references into the attributes - TODO
+            // pass 2 - load all objects
+            foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
+            {
+                ReadObjects(objectType, readObjectCommands[objectType.TypeID]);
+            }
+
+            // pass I - wire references/patch the references into the attributes (TODO - split this into helper methods like PatchReferencesFromDatabase)
+            // 2nd full table scan, type table by type table, patching (TODO: node/edge) object references (graphs were handled before) in the nodes/edges/objects (in-memory), accessed by their database-id to type mapping
+            foreach(NodeType nodeType in graph.Model.NodeModel.Types)
+            {
+                PatchNodes(nodeType, readNodeCommands[nodeType.TypeID]);
+            }
+            foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
+            {
+                PatchEdges(edgeType, readEdgeCommands[edgeType.TypeID]);
+            }
+            foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
+            {
+                PatchObjects(objectType, readObjectCommands[objectType.TypeID]);
+            }
 
             // references to nodes/edges from different graphs are not supported as of now in import/export, because persistent names only hold in the current graph, keep this in db persistence handling
             // but the user could assign references to elements from another graph to an attribute, so todo: maybe relax that constraint, requiring a model supporting graphof, and a global post-patching step after everything was read locally, until a check that the user doesn't assign references to elements from another graph is implemented
 
-            // cleaning pass (TODO)
+            // cleaning pass (TODO) -- the ones from database that are not reachable in-memory from the host graph on
             PurgeUnreachableGraphs(); // after all references to the graphs are known, we can purge the ones not in use; node/edge references are not a prerequisite for this (it only must be ensured all of them were instantiated before), but containers which may also contain graph references
+            PurgeUnreachableObjects(); // after all references to the objects are known, we can purge the ones not in use (similar to a full garbage collection run in .NET)
         }
 
         private SQLiteCommand PrepareStatementForReadingGraphs()
@@ -597,7 +640,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             AddQueryColumn(columnNames, "name");
             foreach(AttributeType attributeType in nodeType.AttributeTypes)
             {
-                if(!IsScalarType(attributeType) && !IsGraphType(attributeType))
+                if(!IsScalarType(attributeType) && !IsGraphType(attributeType) && !IsObjectType(attributeType))
                     continue;
                 AddQueryColumn(columnNames, UniquifyName(attributeType.Name));
             }
@@ -625,7 +668,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             AddQueryColumn(columnNames, "name");
             foreach(AttributeType attributeType in edgeType.AttributeTypes)
             {
-                if(!IsScalarType(attributeType) && !IsGraphType(attributeType))
+                if(!IsScalarType(attributeType) && !IsGraphType(attributeType) && !IsObjectType(attributeType))
                     continue;
                 AddQueryColumn(columnNames, UniquifyName(attributeType.Name));
             }
@@ -635,6 +678,30 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             command.Append(" FROM ");
             command.Append(topologyTableName);
             command.Append(" NATURAL JOIN "); // on edgeId
+            command.Append(tableName);
+            return new SQLiteCommand(command.ToString(), connection);
+        }
+
+        private SQLiteCommand PrepareStatementsForReadingObjects(ObjectType objectType)
+        {
+            String topologyTableName = "objects";
+            String tableName = EscapeTableName(objectType.PackagePrefixedName);
+            StringBuilder columnNames = new StringBuilder();
+            AddQueryColumn(columnNames, "objectId");
+            AddQueryColumn(columnNames, "typeId");
+            AddQueryColumn(columnNames, "name");
+            foreach(AttributeType attributeType in objectType.AttributeTypes)
+            {
+                if(!IsScalarType(attributeType) && !IsGraphType(attributeType) && !IsObjectType(attributeType))
+                    continue;
+                AddQueryColumn(columnNames, UniquifyName(attributeType.Name));
+            }
+            StringBuilder command = new StringBuilder();
+            command.Append("SELECT ");
+            command.Append(columnNames.ToString());
+            command.Append(" FROM ");
+            command.Append(topologyTableName);
+            command.Append(" NATURAL JOIN "); // on objectId
             command.Append(tableName);
             return new SQLiteCommand(command.ToString(), connection);
         }
@@ -708,9 +775,115 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
         }
 
+        private void ReadObjects(ObjectType objectType, SQLiteCommand readObjectCommand)
+        {
+            using(SQLiteDataReader reader = readObjectCommand.ExecuteReader())
+            {
+                Dictionary<string, int> attributeNameToColumnIndex = GetNameToColumnIndexMapping(reader);
+
+                while(reader.Read())
+                {
+                    String name = reader.GetString(attributeNameToColumnIndex["name"]);
+                    IObject classObject = objectType.CreateObject(host, graph.Model.ObjectUniquenessIsEnsured ? name : null);
+
+                    foreach(AttributeType attributeType in objectType.AttributeTypes)
+                    {
+                        object attributeValue;
+                        if(IsScalarType(attributeType))
+                            attributeValue = GetScalarValue(attributeType, reader, attributeNameToColumnIndex);
+                        else if(IsGraphType(attributeType))
+                            attributeValue = GetGraphValue(attributeType, reader, attributeNameToColumnIndex);
+                        else
+                            continue;
+                        classObject.SetAttribute(attributeType.Name, attributeValue);
+                    }
+
+                    long objectId = reader.GetInt64(attributeNameToColumnIndex["objectId"]);
+                    AddObjectWithDbIdToDbIdMapping(classObject, objectId);
+                }
+            }
+        }
+
+        private void PatchNodes(NodeType nodeType, SQLiteCommand readNodeCommand)
+        {
+            using(SQLiteDataReader reader = readNodeCommand.ExecuteReader())
+            {
+                Dictionary<string, int> attributeNameToColumnIndex = GetNameToColumnIndexMapping(reader);
+
+                while(reader.Read())
+                {
+                    long nodeId = reader.GetInt64(attributeNameToColumnIndex["nodeId"]);
+                    INode node = DbIdToNode[nodeId];
+
+                    foreach(AttributeType attributeType in nodeType.AttributeTypes)
+                    {
+                        object attributeValue;
+                        if(IsObjectType(attributeType))
+                            attributeValue = GetObjectValue(attributeType, reader, attributeNameToColumnIndex);
+                        else
+                            continue;
+                        node.SetAttribute(attributeType.Name, attributeValue);
+                    }
+                }
+            }
+        }
+
+        private void PatchEdges(EdgeType edgeType, SQLiteCommand readEdgeCommand)
+        {
+            using(SQLiteDataReader reader = readEdgeCommand.ExecuteReader())
+            {
+                Dictionary<string, int> attributeNameToColumnIndex = GetNameToColumnIndexMapping(reader);
+
+                while(reader.Read())
+                {
+                    long edgeId = reader.GetInt64(attributeNameToColumnIndex["edgeId"]);
+                    IEdge edge = DbIdToEdge[edgeId];
+
+                    foreach(AttributeType attributeType in edgeType.AttributeTypes)
+                    {
+                        object attributeValue;
+                        if(IsObjectType(attributeType))
+                            attributeValue = GetObjectValue(attributeType, reader, attributeNameToColumnIndex);
+                        else
+                            continue;
+                        edge.SetAttribute(attributeType.Name, attributeValue);
+                    }
+                }
+            }
+        }
+
+        private void PatchObjects(ObjectType objectType, SQLiteCommand readObjectCommand)
+        {
+            using(SQLiteDataReader reader = readObjectCommand.ExecuteReader())
+            {
+                Dictionary<string, int> attributeNameToColumnIndex = GetNameToColumnIndexMapping(reader);
+
+                while(reader.Read())
+                {
+                    long objectId = reader.GetInt64(attributeNameToColumnIndex["objectId"]);
+                    IObject classObject = DbIdToObject[objectId];
+
+                    foreach(AttributeType attributeType in objectType.AttributeTypes)
+                    {
+                        object attributeValue;
+                        if(IsObjectType(attributeType))
+                            attributeValue = GetObjectValue(attributeType, reader, attributeNameToColumnIndex);
+                        else
+                            continue;
+                        classObject.SetAttribute(attributeType.Name, attributeValue);
+                    }
+                }
+            }
+        }
+
         private void PurgeUnreachableGraphs()
         {
             // TODO: implement -- collect all graphs reachable from the host graph, purge the ones in the database that are not reachable
+        }
+
+        private void PurgeUnreachableObjects()
+        {
+            // TODO: implement -- collect all objects reachable from the host graph, purge the ones in the database that are not reachable
         }
 
         private Dictionary<string, int> GetNameToColumnIndexMapping(SQLiteDataReader reader)
@@ -751,6 +924,15 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             return DbIdToGraph[dbid];
         }
 
+        private IObject GetObjectValue(AttributeType attributeType, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
+        {
+            int index = attributeNameToColumnIndex[UniquifyName(attributeType.Name)];
+            if(reader.IsDBNull(index))
+                return null;
+            long dbid = reader.GetInt64(index);
+            return DbIdToObject[dbid];
+        }
+
         #endregion Initial graph reading
 
         #region Graph modification handling preparations
@@ -773,6 +955,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 createEdgeCommands[edgeType.TypeID] = PrepareInsert(edgeType, "edgeId");
             }
 
+            createObjectCommand = PrepareObjectInsert();
+            createObjectCommands = new SQLiteCommand[graph.Model.ObjectModel.Types.Length];
+            foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
+            {
+                createObjectCommands[objectType.TypeID] = PrepareInsert(objectType, "objectId");
+            }
+
             retypeNodeCommand = PrepareRetype("nodes", "nodeId");
             retypeEdgeCommand = PrepareRetype("edges", "edgeId");
 
@@ -782,7 +971,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 updateNodeCommands[nodeType.TypeID] = new Dictionary<String, SQLiteCommand>(nodeType.NumAttributes);
                 foreach(AttributeType attributeType in nodeType.AttributeTypes)
                 {
-                    if(!IsScalarType(attributeType) && !IsGraphType(attributeType))
+                    if(!IsScalarType(attributeType) && !IsGraphType(attributeType) && !IsObjectType(attributeType))
                         continue;
                     updateNodeCommands[nodeType.TypeID][attributeType.Name] = PrepareUpdate(nodeType, "nodeId", attributeType);
                 }
@@ -793,9 +982,21 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 updateEdgeCommands[edgeType.TypeID] = new Dictionary<String, SQLiteCommand>(edgeType.NumAttributes);
                 foreach(AttributeType attributeType in edgeType.AttributeTypes)
                 {
-                    if(!IsScalarType(attributeType) && !IsGraphType(attributeType))
+                    if(!IsScalarType(attributeType) && !IsGraphType(attributeType) && !IsObjectType(attributeType))
                         continue;
                     updateEdgeCommands[edgeType.TypeID][attributeType.Name] = PrepareUpdate(edgeType, "edgeId", attributeType);
+                }
+            }
+
+            updateObjectCommands = new Dictionary<String, SQLiteCommand>[graph.Model.ObjectModel.Types.Length];
+            foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
+            {
+                updateObjectCommands[objectType.TypeID] = new Dictionary<String, SQLiteCommand>(objectType.NumAttributes);
+                foreach(AttributeType attributeType in objectType.AttributeTypes)
+                {
+                    if(!IsScalarType(attributeType) && !IsGraphType(attributeType) && !IsObjectType(attributeType))
+                        continue;
+                    updateObjectCommands[objectType.TypeID][attributeType.Name] = PrepareUpdate(objectType, "objectId", attributeType);
                 }
             }
 
@@ -905,6 +1106,28 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             return new SQLiteCommand(command.ToString(), connection);
         }
 
+        private SQLiteCommand PrepareObjectInsert()
+        {
+            String tableName = "objects";
+            StringBuilder columnNames = new StringBuilder();
+            StringBuilder parameterNames = new StringBuilder();
+            // the id of the concept (objectId) being the same as the primary key is defined by the dbms
+            AddInsertParameter(columnNames, parameterNames, "typeId");
+            AddInsertParameter(columnNames, parameterNames, "name");
+            StringBuilder command = new StringBuilder();
+            command.Append("INSERT INTO ");
+            command.Append(tableName);
+            command.Append("(");
+            command.Append(columnNames.ToString());
+            command.Append(")");
+            command.Append(" VALUES");
+            command.Append("(");
+            command.Append(parameterNames.ToString());
+            command.Append(")");
+
+            return new SQLiteCommand(command.ToString(), connection);
+        }
+
         private SQLiteCommand PrepareInsert(InheritanceType type, string idName)
         {
             String tableName = EscapeTableName(type.PackagePrefixedName);
@@ -913,7 +1136,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             AddInsertParameter(columnNames, parameterNames, idName);
             foreach(AttributeType attributeType in type.AttributeTypes)
             {
-                if(!IsScalarType(attributeType) && !IsGraphType(attributeType))
+                if(!IsScalarType(attributeType) && !IsGraphType(attributeType) && !IsObjectType(attributeType))
                     continue;
                 AddInsertParameter(columnNames, parameterNames, UniquifyName(attributeType.Name));
             }
@@ -1029,7 +1252,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
             graph.OnNodeAdded += NodeAdded;
             graph.OnEdgeAdded += EdgeAdded;
-            graph.OnObjectCreated += ObjectCreated;
+            //graph.OnObjectCreated += ObjectCreated; not used, the database representation of objects is created when they are assigned to an element reachable from the host graph
 
             graph.OnRemovingNode += RemovingNode;
             graph.OnRemovingEdge += RemovingEdge;
@@ -1053,7 +1276,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
             graph.OnNodeAdded -= NodeAdded;
             graph.OnEdgeAdded -= EdgeAdded;
-            graph.OnObjectCreated -= ObjectCreated;
+            //graph.OnObjectCreated -= ObjectCreated; not used, the database representation of objects is created when they are assigned to an element reachable from the host graph
 
             graph.OnRemovingNode -= RemovingNode;
             graph.OnRemovingEdge -= RemovingEdge;
@@ -1093,22 +1316,15 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             long rowId = connection.LastInsertRowId;
             AddNodeWithDbIdToDbIdMapping(node, rowId);
 
-            // pre-run adding graphs if needed, otherwise during command builing below the command would be filled and executed (indirectly) another time, wreaking havoc on the parameters of the command
-            foreach(AttributeType attributeType in node.Type.AttributeTypes)
-            {
-                if(IsGraphType(attributeType)) // programmatically normally a node is added with default attribute values, but at least in WriteGraph completely assigned attributes are fed to NodeAdded
-                {
-                    object value = node.GetAttribute(attributeType.Name);
-                    AddGraphAsNeeded((INamedGraph)value);
-                }
-            }
+            // pre-run adding graphs and objects if needed, otherwise during command builing below the command would be filled and executed (indirectly) another time, wreaking havoc on the parameters of the command
+            AddReferencesToDatabase(node);
 
             SQLiteCommand addNodeCommand = createNodeCommands[node.Type.TypeID];
             addNodeCommand.Parameters.Clear();
             addNodeCommand.Parameters.AddWithValue("@nodeId", rowId);
             foreach(AttributeType attributeType in node.Type.AttributeTypes)
             {
-                if(!IsScalarType(attributeType) && !IsGraphType(attributeType))
+                if(!IsScalarType(attributeType) && !IsGraphType(attributeType) && !IsObjectType(attributeType))
                     continue;
                 object value = node.GetAttribute(attributeType.Name);
                 addNodeCommand.Parameters.AddWithValue("@" + UniquifyName(attributeType.Name), ValueOrIdOfReferencedElement(value, attributeType));
@@ -1134,31 +1350,20 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             long rowId = connection.LastInsertRowId;
             AddEdgeWithDbIdToDbIdMapping(edge, rowId);
 
-            // pre-run adding graphs if needed, otherwise during command builing below the command would be filled and executed (indirectly) another time, wreaking havoc on the parameters of the command
-            foreach(AttributeType attributeType in edge.Type.AttributeTypes)
-            {
-                if(IsGraphType(attributeType)) // programmatically normally an edge is added with default attribute values, but at least in WriteGraph completely assigned attributes are fed to EdgeAdded
-                {
-                    object value = edge.GetAttribute(attributeType.Name);
-                    AddGraphAsNeeded((INamedGraph)value);
-                }
-            }
+            // pre-run adding graphs and objects if needed, otherwise during command builing below the command would be filled and executed (indirectly) another time, wreaking havoc on the parameters of the command
+            AddReferencesToDatabase(edge);
 
             SQLiteCommand addEdgeCommand = createEdgeCommands[edge.Type.TypeID];
             addEdgeCommand.Parameters.Clear();
             addEdgeCommand.Parameters.AddWithValue("@edgeId", rowId);
             foreach(AttributeType attributeType in edge.Type.AttributeTypes)
             {
-                if(!IsScalarType(attributeType) && !IsGraphType(attributeType))
+                if(!IsScalarType(attributeType) && !IsGraphType(attributeType) && !IsObjectType(attributeType))
                     continue;
                 object value = edge.GetAttribute(attributeType.Name);
                 addEdgeCommand.Parameters.AddWithValue("@" + UniquifyName(attributeType.Name), ValueOrIdOfReferencedElement(value, attributeType));
             }
             rowsAffected = addEdgeCommand.ExecuteNonQuery();
-        }
-
-        public void ObjectCreated(IObject value)
-        {
         }
 
         public void RemovingNode(INode node)
@@ -1207,11 +1412,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         public void ChangingNodeAttribute(INode node, AttributeType attrType,
                 AttributeChangeType changeType, object newValue, object keyValue)
         {
-            if(!IsScalarType(attrType) && !IsGraphType(attrType))
+            if(!IsScalarType(attrType) && !IsGraphType(attrType) && !IsObjectType(attrType))
                 return; // TODO: also handle these
 
             if(IsGraphType(attrType))
                 AddGraphAsNeeded((INamedGraph)newValue);
+            else if(IsObjectType(attrType))
+                AddObjectAsNeeded((IObject)newValue);
 
             SQLiteCommand updateNodeCommand = updateNodeCommands[node.Type.TypeID][attrType.Name];
             updateNodeCommand.Parameters.Clear();
@@ -1224,11 +1431,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         public void ChangingEdgeAttribute(IEdge edge, AttributeType attrType,
                 AttributeChangeType changeType, object newValue, object keyValue)
         {
-            if(!IsScalarType(attrType) && !IsGraphType(attrType))
+            if(!IsScalarType(attrType) && !IsGraphType(attrType) && !IsObjectType(attrType))
                 return; // TODO: also handle these
 
             if(IsGraphType(attrType))
                 AddGraphAsNeeded((INamedGraph)newValue);
+            else if(IsObjectType(attrType))
+                AddObjectAsNeeded((IObject)newValue);
 
             SQLiteCommand updateEdgeCommand = updateEdgeCommands[edge.Type.TypeID][attrType.Name];
             updateEdgeCommand.Parameters.Clear();
@@ -1241,6 +1450,20 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         public void ChangingObjectAttribute(IObject obj, AttributeType attrType,
                 AttributeChangeType changeType, object newValue, object keyValue)
         {
+            if(!IsScalarType(attrType) && !IsGraphType(attrType) && !IsObjectType(attrType))
+                return; // TODO: also handle these
+
+            if(IsGraphType(attrType))
+                AddGraphAsNeeded((INamedGraph)newValue);
+            else if(IsObjectType(attrType))
+                AddObjectAsNeeded((IObject)newValue);
+
+            SQLiteCommand updateObjectCommand = updateObjectCommands[obj.Type.TypeID][attrType.Name];
+            updateObjectCommand.Parameters.Clear();
+            updateObjectCommand.Parameters.AddWithValue("@objectId", ObjectToDbId[obj]);
+            updateObjectCommand.Parameters.AddWithValue("@" + UniquifyName(attrType.Name), ValueOrIdOfReferencedElement(newValue, attrType));
+
+            int rowsAffected = updateObjectCommand.ExecuteNonQuery();
         }
 
         public void ChangedNodeAttribute(INode node, AttributeType attrType)
@@ -1274,7 +1497,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             addNodeCommand.Parameters.AddWithValue("@nodeId", dbid);
             foreach(AttributeType attributeType in newNode.Type.AttributeTypes)
             {
-                if(!IsScalarType(attributeType) && !IsGraphType(attributeType))
+                if(!IsScalarType(attributeType) && !IsGraphType(attributeType) && !IsObjectType(attributeType))
                     continue;
                 object value = newNode.GetAttribute(attributeType.Name);
                 addNodeCommand.Parameters.AddWithValue("@" + UniquifyName(attributeType.Name), ValueOrIdOfReferencedElement(value, attributeType));
@@ -1307,7 +1530,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             addEdgeCommand.Parameters.AddWithValue("@edgeId", dbid);
             foreach(AttributeType attributeType in newEdge.Type.AttributeTypes)
             {
-                if(!IsScalarType(attributeType) && !IsGraphType(attributeType))
+                if(!IsScalarType(attributeType) && !IsGraphType(attributeType) && !IsObjectType(attributeType))
                     continue;
                 object value = newEdge.GetAttribute(attributeType.Name);
                 addEdgeCommand.Parameters.AddWithValue("@" + UniquifyName(attributeType.Name), ValueOrIdOfReferencedElement(value, attributeType));
@@ -1347,6 +1570,117 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             {
                 EdgeAdded(edge, graph);
             }
+        }
+
+        private void AddObjectAsNeeded(IObject obj)
+        {
+            if(obj == null)
+                return;
+            if(!ObjectToDbId.ContainsKey(obj))
+            {
+                WriteObjectBaseEntry(obj);
+                AddReferencesToDatabase(obj);
+                CompleteObjectEntry(obj);
+            }
+        }
+
+        // add the references contained in the attributes of the root object given as input argument, assuming the input object itself was already handled
+        // this first step could be saved, when the input object were not to be added to the database before, merging it with AddObjectsAndReferencesToDatabase - at the price of complexity, a node/edge add would be carried out, an object add would be left to this method (not sure whether this tradeoff is worthwhile, tbd/todo somewhen later)
+        private void AddReferencesToDatabase(IAttributeBearer root)
+        {
+            Stack<IAttributeBearer> todos = null; // DFS worklist for objects
+
+            foreach(AttributeType attributeType in root.Type.AttributeTypes)
+            {
+                if(IsGraphType(attributeType))
+                {
+                    object val = root.GetAttribute(attributeType.Name);
+                    AddGraphAsNeeded((INamedGraph)val);
+                }
+                else if(IsObjectType(attributeType))
+                {
+                    object val = root.GetAttribute(attributeType.Name);
+                    IObject obj = (IObject)val;
+                    if(obj != null)
+                    {
+                        if(!ObjectToDbId.ContainsKey(obj))
+                        {
+                            if(todos == null)
+                                todos = new Stack<IAttributeBearer>();
+                            todos.Push(obj);
+                        }
+                    }
+                }
+            }
+
+            if(todos != null)
+                AddObjectsAndReferencesToDatabase(todos);
+        }
+
+        private void AddObjectsAndReferencesToDatabase(Stack<IAttributeBearer> todos)
+        {
+            while(todos.Count > 0)
+            {
+                IAttributeBearer current = todos.Pop();
+
+                bool objectWritten = false;
+                if(current is IObject)
+                {
+                    if(!ObjectToDbId.ContainsKey((IObject)current))
+                    {
+                        WriteObjectBaseEntry((IObject)current);
+                        objectWritten = true;
+                    }
+                }
+
+                foreach(AttributeType attributeType in current.Type.AttributeTypes)
+                {
+                    if(IsGraphType(attributeType))
+                    {
+                        object val = current.GetAttribute(attributeType.Name);
+                        AddGraphAsNeeded((INamedGraph)val);
+                    }
+                    else if(IsObjectType(attributeType))
+                    {
+                        object val = current.GetAttribute(attributeType.Name);
+                        IObject obj = (IObject)val;
+                        if(obj != null)
+                        {
+                            if(!ObjectToDbId.ContainsKey(obj))
+                                todos.Push(obj);
+                        }
+                    }
+                }
+
+                if(objectWritten)
+                    CompleteObjectEntry((IObject)current);
+            }
+        }
+
+        private void WriteObjectBaseEntry(IObject obj)
+        {
+            SQLiteCommand addObjectTopologyCommand = createObjectCommand;
+            addObjectTopologyCommand.Parameters.Clear();
+            addObjectTopologyCommand.Parameters.AddWithValue("@typeId", TypeNameToDbId[obj.Type.PackagePrefixedName]);
+            addObjectTopologyCommand.Parameters.AddWithValue("@name", obj.GetObjectName());
+            int rowsAffected = addObjectTopologyCommand.ExecuteNonQuery();
+            long rowId = connection.LastInsertRowId;
+            AddObjectWithDbIdToDbIdMapping(obj, rowId);
+        }
+
+        private void CompleteObjectEntry(IObject obj)
+        {
+            SQLiteCommand addObjectCommand = createObjectCommands[obj.Type.TypeID];
+            addObjectCommand.Parameters.Clear();
+            addObjectCommand.Parameters.AddWithValue("@objectId", ObjectToDbId[obj]);
+            foreach(AttributeType attributeType in obj.Type.AttributeTypes)
+            {
+                if(!IsScalarType(attributeType) && !IsGraphType(attributeType) && !IsObjectType(attributeType))
+                    continue;
+                object val = obj.GetAttribute(attributeType.Name);
+                addObjectCommand.Parameters.AddWithValue("@" + UniquifyName(attributeType.Name), ValueOrIdOfReferencedElement(val, attributeType));
+            }
+            int rowsAffected = addObjectCommand.ExecuteNonQuery();
         }
 
         #endregion Listen to graph changes in order to persist them
@@ -1445,6 +1779,12 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             GraphToDbId.Add(graph, dbid);
         }
 
+        private void AddObjectWithDbIdToDbIdMapping(IObject obj, long dbid)
+        {
+            DbIdToObject.Add(dbid, obj);
+            ObjectToDbId.Add(obj, dbid);
+        }
+
         private void AddTypeNameWithDbIdToDbIdMapping(String typeName, long dbid)
         {
             DbIdToTypeName.Add(dbid, typeName);
@@ -1456,6 +1796,11 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             if(IsGraphType(attrType))
             {
                 return newValue != null ? (object)GraphToDbId[(INamedGraph)newValue] : (object)DBNull.Value;
+            }
+
+            if(IsObjectType(attrType))
+            {
+                return newValue != null ? (object)ObjectToDbId[(IObject)newValue] : (object)DBNull.Value;
             }
 
             return newValue;

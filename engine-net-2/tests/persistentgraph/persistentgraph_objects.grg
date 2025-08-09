@@ -1,0 +1,131 @@
+#using "persistentgraph_objects.gm"
+
+rule init
+{
+	modify {
+		n:N;
+		
+		eval {
+			def ref o:O = new O();
+			n.root = o;
+			
+			def ref o1:O1 = new O1();
+			o.o1 = o1;
+			def ref o2:O2 = new O2();
+			o.o2 = o2;
+			
+			def ref o12:O12 = new O12();
+			o1.o12 = o12;
+			o1.o12_2 = o12;
+			
+			o2.o2_o12 = o12;
+			
+			o12.o = o;
+		}
+
+	---
+		eval { n.nested1 = inducedSubgraph(set<Node>{ n }); }
+		exec( { ::g = inducedSubgraph(set<Node>{ }) } ;>  in ::g { { (::nn)=add(N); ::gn = inducedSubgraph(set<Node>{ }) } ;> in ::gn { { (nnn:N)=add(N); ::nn.root = new O(); nno:O = ::nn.root; nno.s = "tux"; nnn.root = new O(); nnno:O = nnn.root; nnno.s = "hax" } } ;> {  ::nn.nested1 = ::gn } } ;> { n.nested2 = ::g }); // also checks assignment in context of another graph, at least for objects it must work (alternative: assign O of nn directly...) decided for 2 piece chain.
+	}
+}
+
+test find : (N)
+{
+	n:N;
+	if{ n.root != null && isObjectStructureAvailable(n.root); }
+	return(n);
+}
+
+test findSimple : (N)
+{
+	n:N;
+	if{ n.root != null; }
+	return(n);
+}
+
+rule showAvailabilityOfNestedGraphs
+{
+	n:N;
+	
+	modify {
+	---
+		emit("The value of attribute \"nested1-nested2\" is: \"" + (n.nested1 != null ? "true" : "false") + (n.nested2 != null ? "-true" : "-false") + "\"\n");
+	}
+}
+
+function isObjectStructureAvailable(ref o:O) : boolean
+{
+	if(o.o1 == null) {
+		return(false);
+	}
+	def ref o1:O1 = o.o1;
+	if(o.o2 == null) {
+		return(false);
+	}
+	def ref o2:O2 = o.o2;
+	
+	if(o1.o12 == null) {
+		return(false);
+	}
+	def ref o12:O12 = o1.o12;
+	if(o1.o12_2 == null) {
+		return(false);
+	}
+	def ref o12_2:O12 = o1.o12_2;
+
+	if(o2.o2_o12 == null) {
+		return(false);
+	}
+	def ref o2_o12:O12 = o2.o2_o12;
+	
+	if(o12 != o12_2 || o12_2 != o2_o12) {
+		return(false);
+	}
+	
+	if(o12.o == null) {
+		return(false);
+	}
+	if(o12.o != o) {
+		return(false);
+	}
+	
+	return(isObjectStructureWellAttributed(o, o1, o2, o12));
+}
+
+function isObjectStructureWellAttributed(ref o:O, ref o1:O1, ref o2:O2, ref o12:O12) : boolean
+{
+	if(o.s != "foo") {
+		return(false);
+	}
+	
+	if(o1.s != "bar"
+		|| o1.by != 1y
+		|| o1.sh != 2s
+		|| o1.i != 3
+		|| o1.l != 42L)
+	{
+		return(false);
+	}
+	
+	if(o2.s != "baz"
+		|| o2.f != 3.141592654f
+		|| o2.d != 42.0)
+	{
+		return(false);
+	}
+	
+	if(o12.s != "qux"
+		|| o12.by != 1y
+		|| o12.sh != 2s
+		|| o12.i != 3
+		|| o12.l != 42L
+		|| o12.f != 3.141592654f
+		|| o12.d != 42.0
+		|| o12.b != true
+		|| o12.e != ENU::b)
+	{
+		return(false);
+	}
+	
+	return(true);
+}
