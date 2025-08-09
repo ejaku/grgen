@@ -1,0 +1,121 @@
+! rm ../testgraphfilename7.db
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+new graph "persistentgraph/persistentgraph_objects" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename7.db;Version=3;"
+
+show num nodes N
+
+exec init
+
+show num nodes N
+
+exec find
+exec (::n)=findSimple && { ::o = ::n.root }
+
+show var o
+
+exec { (::res, ::o1, ::o2, ::o12, ::oend) = getObjectStructure(::o) }
+show var res
+show var oend
+eval isObjectStructureWellAttributedAfterAssignment(::o, ::o1, ::o2, ::o12)
+
+show o.s
+
+show o1.s
+show o1.by
+show o1.sh
+show o1.i
+show o1.l
+
+show o2.s
+show o2.f
+show o2.d
+
+show o12.s
+show o12.by
+show o12.sh
+show o12.i
+show o12.l
+show o12.f
+show o12.d
+show o12.b
+show o12.e
+
+exec { assignAttributes(::o, ::o1, ::o2, ::o12) }
+
+exec find
+exec (::n)=findSimple && { ::o = ::n.root }
+
+show var o
+
+exec { (::res, ::o1, ::o2, ::o12, ::oend) = getObjectStructure(::o) }
+show var res
+show var oend
+eval isObjectStructureWellAttributedAfterAssignment(::o, ::o1, ::o2, ::o12)
+
+show o.s
+
+show o1.s
+show o1.by
+show o1.sh
+show o1.i
+show o1.l
+
+show o2.s
+show o2.f
+show o2.d
+
+show o12.s
+show o12.by
+show o12.sh
+show o12.i
+show o12.l
+show o12.f
+show o12.d
+show o12.b
+show o12.e
+
+new graph "persistentgraph/persistentgraph_objects" "some non-persistent graph"
+
+show num nodes N
+
+new graph "persistentgraph/persistentgraph_objects" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename7.db;Version=3;"
+
+show num nodes N
+
+exec find
+exec (::n)=findSimple && { ::o = ::n.root }
+
+show var o
+
+exec { (::res, ::o1, ::o2, ::o12, ::oend) = getObjectStructure(::o) }
+show var res
+show var oend
+eval isObjectStructureWellAttributedAfterAssignment(::o, ::o1, ::o2, ::o12)
+
+show o.s
+
+show o1.s
+show o1.by
+show o1.sh
+show o1.i
+show o1.l
+
+show o2.s
+show o2.f
+show o2.d
+
+show o12.s
+show o12.by
+show o12.sh
+show o12.i
+show o12.l
+show o12.f
+show o12.d
+show o12.b
+show o12.e
+
+exec { clear() }
+
+show num nodes N
+
+quit

@@ -129,3 +129,109 @@ function isObjectStructureWellAttributed(ref o:O, ref o1:O1, ref o2:O2, ref o12:
 	
 	return(true);
 }
+
+procedure getObjectStructure(ref o:O) : (boolean, O1, O2, O12, O)
+{
+	if(o.o1 == null) {
+		return(false, null, null, null, null);
+	}
+	def ref o1:O1 = o.o1;
+	if(o.o2 == null) {
+		return(false, o1, null, null, null);
+	}
+	def ref o2:O2 = o.o2;
+	
+	if(o1.o12 == null) {
+		return(false, o1, o2, null, null);
+	}
+	def ref o12:O12 = o1.o12;
+	if(o1.o12_2 == null) {
+		return(false, o1, o2, o12, null);
+	}
+	def ref o12_2:O12 = o1.o12_2;
+
+	if(o2.o2_o12 == null) {
+		return(false, o1, o2, o12, null);
+	}
+	def ref o2_o12:O12 = o2.o2_o12;
+	
+	if(o12 != o12_2 || o12_2 != o2_o12) {
+		return(false, o1, o2, o12, null);
+	}
+	
+	if(o12.o == null) {
+		return(false, o1, o2, o12, null);
+	}
+	if(o12.o != o) {
+		return(false, o1, o2, o12, o12.o);
+	}
+	
+	return(true, o1, o2, o12, o12.o);
+}
+
+procedure assignAttributes(ref o:O, ref o1:O1, ref o2:O2, ref o12:O12)
+{
+	// small easter egg to celebrate commit nr 4711
+	o.s = "kölsch";
+	
+	o1.s = "himmel";
+	o1.by = 11y;
+	o1.sh = 11s;
+	o1.i = 4711;
+	o1.l = 4711L;
+	
+	def ref newO2:O2 = new O2();
+	newO2.o2_o12 = o2.o2_o12;
+	o.o2 = newO2;
+	
+	newO2.s = "ääd";
+	newO2.f = 11.11f;
+	newO2.d = 11.11;
+	
+	o12.s = "olle kamelle"; // tataaaaaa von den jecken jungs - die bürokraten grüßen das narrengericht
+	o12.l = 11111111;
+	o12.d = 47.11;
+	
+	o12.b = false;
+	o12.e = ENU::a;
+	
+	return;
+}
+
+function isObjectStructureWellAttributedAfterAssignment(ref o:O, ref o1:O1, ref o2:O2, ref o12:O12) : boolean
+{
+	if(o.s != "kölsch") {
+		return(false);
+	}
+	
+	if(o1.s != "himmel"
+		|| o1.by != 11y
+		|| o1.sh != 11s
+		|| o1.i != 4711
+		|| o1.l != 4711L)
+	{
+		return(false);
+	}
+	
+	if(o2.s != "ääd"
+		|| o2.f != 11.11f
+		|| o2.d != 11.11)
+	{
+		return(false);
+	}
+	
+	if(o12.s != "olle kamelle"
+		|| o12.by != 1y // old stuff
+		|| o12.sh != 2s // old stuff
+		|| o12.i != 3 // old stuff
+		|| o12.l != 11111111
+		|| o12.f != 3.141592654f // old stuff
+		|| o12.d != 47.11
+		|| o12.b != false
+		|| o12.e != ENU::a)
+	{
+		return(false);
+	}
+	
+	return(true);
+}

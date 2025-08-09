@@ -1450,6 +1450,9 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         public void ChangingObjectAttribute(IObject obj, AttributeType attrType,
                 AttributeChangeType changeType, object newValue, object keyValue)
         {
+            if(!ObjectToDbId.ContainsKey(obj))
+                return; // object not known to the graph means we receive an update notification for an object that is not reachable (yet) from the graph -- to be ignored, when the object becomes known, the by-then current attribute will be written
+
             if(!IsScalarType(attrType) && !IsGraphType(attrType) && !IsObjectType(attrType))
                 return; // TODO: also handle these
 
