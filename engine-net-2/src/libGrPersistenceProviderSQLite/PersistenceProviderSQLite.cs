@@ -206,7 +206,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             CreateTypesWithAttributeTables();
 
             // TODO: adapt to compatible changes (i.e. to user changes of the model, these are reflected in the types/attributes, the basic schema will be pretty constant)
-            // to be supported: extension by attributes; in case of incompatible changes: report to the user that he has to carry out the adaptation on his own with SQL commands
+            // to be supported: extension by attributes; in case of incompatible changes: report to the user that he has to carry out the adaptation on his own with SQL commands (also TODO: be as robust as possible when model flags change)
         }
 
         private void CreateIdentityAndTopologyTables()

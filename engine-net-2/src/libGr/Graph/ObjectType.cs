@@ -79,7 +79,7 @@ namespace de.unika.ipd.grGen.libGr
                 throw new Exception("Name must be in format % + uniqueId (prefix is not the percent character)");
 
             long uniqueId;
-            if(long.TryParse(name.Substring(1), out uniqueId))
+            if(long.TryParse(name.Substring(1), System.Globalization.NumberStyles.HexNumber, null, out uniqueId))
             {
                 return uniqueId;
             }

@@ -1,4 +1,4 @@
-! rm ../testgraphfilename.db
+! rm testgraphfilename.db
 #the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
 new graph "persistentgraph/persistentgraph_basic" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename.db;Version=3;"
 

@@ -1,0 +1,61 @@
+enum ENU { a, b, c }
+
+object class unique;
+
+node class N
+{
+	root:O;
+	
+	nested1:graph;
+	nested2:graph;
+}
+
+abstract class BO
+{
+	s:string = "foo";
+}
+
+class O extends BO
+{
+	o1:O1;
+	o2:O2;
+}
+
+abstract class BO1 extends BO
+{
+	s = "bar";
+	by:byte = 1y;
+	sh:short = 2s;
+	i:int = 3;
+	l:long = 42L;
+}
+
+class O1 extends BO1
+{
+	o12:O12;
+	o12_2:O12;
+}
+
+abstract class BO2 extends BO
+{
+	s = "baz";
+	f:float = 3.141592654f;
+	d:double = 42.0;
+}
+
+class O2 extends BO2
+{
+	o2_o12:O12;
+}
+
+abstract class BO12 extends BO1, BO2
+{
+	s = "qux";
+	b:boolean = true;
+	e:ENU = ENU::b;
+}
+
+class O12 extends BO12
+{
+	o:O;
+}
