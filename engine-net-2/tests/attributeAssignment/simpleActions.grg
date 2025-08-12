@@ -1,0 +1,84 @@
+#using "simpleModel.gm"
+
+rule init
+{
+	modify {
+		n:N -e:E-> n;
+		eval {
+			def ref o:O = new O();
+			n.o = o;
+		}
+	}
+}
+
+rule assign
+{
+	n:N -e:E-> n;
+	
+	modify {
+		eval {
+			def ref o:O = n.o;
+			o.i = 42;
+			n.i = 42;
+			e.i = 42;
+		}
+	}
+}
+
+test find : (N, E, O)
+{
+	n:N -e:E-> n;
+	if{ n.o != null; }	
+	return(n,e,n.o);
+}
+
+test isDefaultAttributed(n:N, -e:E->, ref o:O)
+{
+	if{ n.i == 0; e.i == 0; o.i == 0; }
+}
+
+test isWellAttributed(n:N, -e:E->, ref o:O)
+{
+	if{ n.i == 42; e.i == 42; o.i == 42; }
+}
+
+sequence assignSeq
+{
+	(n:N, e:E, o:O)=find ;> { n.i = 42; e.i = 42; o.i = 42 }
+}
+
+sequence assignSeqDynamicType
+{
+	(::n, ::e, ::o)=find ;> { ::n.i = 42; ::e.i = 42; ::o.i = 42 }
+}
+
+// ------------------------------------------------------------------------------------
+
+rule assignTransientObject(ref to:TO)
+{
+	modify {
+		eval {
+			to.i = 42;
+		}
+	}
+}
+
+test isDefaultAttributedTransientObject(ref to:TO)
+{
+	if{ to.i == 0; }
+}
+
+test isWellAttributedTransientObject(ref to:TO)
+{
+	if{ to.i == 42; }
+}
+
+sequence assignSeqTransientObject(to:TO)
+{
+	{ to.i = 42 }
+}
+
+sequence assignSeqDynamicTypeTransientObject
+{
+	{ ::to.i = 42 }
+}

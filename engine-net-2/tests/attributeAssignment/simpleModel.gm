@@ -1,0 +1,21 @@
+node class N
+{
+	i:int;
+	g:graph;
+	o:O;
+}
+
+edge class E
+{
+	i:int;
+}
+
+class O
+{
+	i:int;
+}
+
+transient class TO
+{
+	i:int;
+}

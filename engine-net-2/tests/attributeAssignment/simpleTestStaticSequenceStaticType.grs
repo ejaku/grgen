@@ -1,0 +1,31 @@
+#attribute assignments fire events, have to be tested thoroughly -- real test in persistentgraph employing an event consumer -- here only a smoke test
+new graph "attributeAssignment/simpleActions"
+
+show num nodes N
+show num edges E
+
+exec init
+
+show num nodes N
+show num edges E
+
+exec (::n,::e,::o)=find
+exec isDefaultAttributed(::n,::e,::o)
+exec isWellAttributed(::n,::e,::o)
+exec assignSeq
+exec isDefaultAttributed(::n,::e,::o)
+exec isWellAttributed(::n,::e,::o)
+
+exec { ::n.g = inducedSubgraph(set<Node>{ }) } ;>  in ::n.g { init } ;> { ::nested = ::n.g }
+
+show num nodes N
+show num edges E
+
+exec in ::nested { (::n,::e,::o)=find }
+exec in ::nested {isDefaultAttributed(::n,::e,::o) }
+exec in ::nested {isWellAttributed(::n,::e,::o) }
+exec in ::nested { assignSeq }
+exec in ::nested {isDefaultAttributed(::n,::e,::o) }
+exec in ::nested {isWellAttributed(::n,::e,::o) }
+
+quit

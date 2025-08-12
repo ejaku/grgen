@@ -1,0 +1,20 @@
+new graph "attributeAssignment/simpleActions"
+
+exec { ::to = new TO() }
+exec isDefaultAttributedTransientObject(::to)
+exec isWellAttributedTransientObject(::to)
+exec assignSeqDynamicTypeTransientObject
+exec isDefaultAttributedTransientObject(::to)
+exec isWellAttributedTransientObject(::to)
+
+show num nodes
+
+exec { ::nested = inducedSubgraph(set<Node>{ }) } ;>  in ::nested { ::nto = new TO() }
+
+exec in ::nested { isDefaultAttributedTransientObject(::nto) }
+exec in ::nested { isWellAttributedTransientObject(::nto) }
+exec in ::nested { { ::to = ::nto } ;> assignSeqDynamicTypeTransientObject }
+exec in ::nested { isDefaultAttributedTransientObject(::nto) }
+exec in ::nested { isWellAttributedTransientObject(::nto) }
+
+quit

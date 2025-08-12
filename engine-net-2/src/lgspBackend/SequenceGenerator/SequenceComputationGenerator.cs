@@ -1582,7 +1582,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(TypesHelper.GetGraphElementType(tgtAttr.DestVar.Type, model) != null)
                 {
-                    EmitAttributeAssignWithEventInitialization(tgtAttr, element, attrType, value, sourceValueComputation, source);
+                    EmitAttributeAssignWithEventInitializationGraphElement(tgtAttr, element, attrType, value, sourceValueComputation, source);
 
                     EmitAttributeChangingEvent(tgtAttr.Id, AttributeChangeType.Assign, value, "null", source);
 
@@ -1590,16 +1590,24 @@ namespace de.unika.ipd.grGen.lgsp
 
                     EmitAttributeChangedEvent(tgtAttr.Id, source);
                 }
-                else
+                else if(TypesHelper.GetObjectType(tgtAttr.DestVar.Type, model) != null)
                 {
-                    EmitAttributeAssignInitialization(tgtAttr, element, attrType, value, sourceValueComputation, source);
+                    EmitAttributeAssignWithEventInitializationObject(tgtAttr, element, attrType, value, sourceValueComputation, source);
+
+                    EmitAttributeChangingEvent(tgtAttr.Id, AttributeChangeType.Assign, value, "null", source);
+
+                    source.AppendFrontFormat("{0}.SetAttribute(\"{1}\", {2});\n", element, tgtAttr.AttributeName, value);
+                }
+                else // transient object type
+                {
+                    EmitAttributeAssignInitializationTransientObject(tgtAttr, element, attrType, value, sourceValueComputation, source);
 
                     source.AppendFrontFormat("{0}.SetAttribute(\"{1}\", {2});\n", element, tgtAttr.AttributeName, value);
                 }
             }
             else
             {
-                source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
+                source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation); // when handling statically not known type: element not declared because not needed for call, only value
                 source.AppendFrontFormat("GRGEN_LIBGR.ContainerHelper.AssignAttribute({0}, {1}, {2}, {3});\n",
                     seqHelper.GetVar(tgtAttr.DestVar), value, "\"" + tgtAttr.AttributeName + "\"", "graph");
             }
@@ -1607,7 +1615,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront(COMP_HELPER.SetResultVar(tgtAttr, "value_" + tgtAttr.Id));
         }
 
-        private void EmitAttributeAssignWithEventInitialization(AssignmentTargetAttribute tgtAttr, String element, String attrType, 
+        private void EmitAttributeAssignWithEventInitializationGraphElement(AssignmentTargetAttribute tgtAttr, String element, String attrType, 
             String value, string sourceValueComputation, SourceBuilder source)
         {
             source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
@@ -1618,10 +1626,21 @@ namespace de.unika.ipd.grGen.lgsp
                 value, element, tgtAttr.AttributeName, attrType);
         }
 
-        private void EmitAttributeAssignInitialization(AssignmentTargetAttribute tgtAttr, String element, String attrType,
+        private void EmitAttributeAssignWithEventInitializationObject(AssignmentTargetAttribute tgtAttr, String element, String attrType,
             String value, string sourceValueComputation, SourceBuilder source)
         {
-            source.AppendFrontFormat("GRGEN_LIBGR.IBaseObject {0} = (GRGEN_LIBGR.IBaseObject){1};\n",
+            source.AppendFrontFormat("GRGEN_LIBGR.IObject {0} = (GRGEN_LIBGR.IObject){1};\n",
+                element, seqHelper.GetVar(tgtAttr.DestVar));
+            source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0};\n", attrType);
+            source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
+            source.AppendFrontFormat("{0} = GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer({1}, \"{2}\", {0}, out {3});\n",
+                value, element, tgtAttr.AttributeName, attrType);
+        }
+
+        private void EmitAttributeAssignInitializationTransientObject(AssignmentTargetAttribute tgtAttr, String element, String attrType,
+            String value, string sourceValueComputation, SourceBuilder source)
+        {
+            source.AppendFrontFormat("GRGEN_LIBGR.ITransientObject {0} = (GRGEN_LIBGR.ITransientObject){1};\n",
                 element, seqHelper.GetVar(tgtAttr.DestVar));
             source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
         }
