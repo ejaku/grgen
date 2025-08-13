@@ -131,6 +131,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         Dictionary<String, SQLiteCommand>[] updateEdgeCommands; // per-type, per-attribute
         SQLiteCommand deleteEdgeCommand; // topology
         SQLiteCommand[] deleteEdgeCommands; // per-type
+        SQLiteCommand redirectEdgeCommand; // topology
 
         // prepared statements for handling graphs
         SQLiteCommand createGraphCommand;
@@ -148,6 +149,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         INamedGraph graph { get { return graphs.Peek(); } } // the current graph
 
         IGraphProcessingEnvironment procEnv; // the graph processing environment to switch the current graph in case of to-subgraph switches (todo: and for db-transaction handling)
+
+        IEdge edgeGettingRedirected;
 
         // database id to concept mappings, and vice versa
         Dictionary<long, INode> DbIdToNode; // the ids in node/edge mappings are globally unique due to the topology tables, the per-type tables only reference them
@@ -1036,6 +1039,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             retypeNodeCommand = PrepareRetype("nodes", "nodeId");
             retypeEdgeCommand = PrepareRetype("edges", "edgeId");
 
+            redirectEdgeCommand = PrepareRedirectEdge();
+
             updateNodeCommands = new Dictionary<String, SQLiteCommand>[graph.Model.NodeModel.Types.Length];
             foreach(NodeType nodeType in graph.Model.NodeModel.Types)
             {
@@ -1242,6 +1247,27 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             return new SQLiteCommand(command.ToString(), connection);
         }
 
+        private SQLiteCommand PrepareRedirectEdge()
+        {
+            StringBuilder command = new StringBuilder();
+            command.Append("UPDATE ");
+            command.Append("edges");
+            command.Append(" SET ");
+            command.Append("sourceNodeId");
+            command.Append(" = ");
+            command.Append("@" + "sourceNodeId");
+            command.Append(", ");
+            command.Append("targetNodeId");
+            command.Append(" = ");
+            command.Append("@" + "targetNodeId");
+            command.Append(" WHERE ");
+            command.Append("edgeId");
+            command.Append(" == ");
+            command.Append("@" + "edgeId");
+
+            return new SQLiteCommand(command.ToString(), connection);
+        }
+
         private SQLiteCommand PrepareUpdate(InheritanceType type, string idName, AttributeType attributeType)
         {
             String tableName = EscapeTableName(type.PackagePrefixedName);
@@ -1407,6 +1433,18 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         public void EdgeAdded(IEdge edge)
         {
+            if(edge == edgeGettingRedirected)
+            {
+                redirectEdgeCommand.Parameters.Clear();
+                redirectEdgeCommand.Parameters.AddWithValue("@edgeId", EdgeToDbId[edge]);
+                redirectEdgeCommand.Parameters.AddWithValue("@sourceNodeId", NodeToDbId[edge.Source]); // not yet, but somewhen nodes from another graph may be used, then it might be necessary to add their graph as needed
+                redirectEdgeCommand.Parameters.AddWithValue("@targetNodeId", NodeToDbId[edge.Target]);
+                int rowsAffected = redirectEdgeCommand.ExecuteNonQuery();
+
+                edgeGettingRedirected = null;
+                return;
+            }
+
             WriteEdgeBaseEntry(edge, graph);
             AddReferencesToDatabase(edge); // pre-run adding graphs and objects if needed, otherwise completion would run into re-entry issues (during command builing the command would be filled and executed (indirectly) another time, wreaking havoc on the parameters of the command)
             CompleteEdgeEntry(edge);
@@ -1458,6 +1496,9 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         public void RemovingEdge(IEdge edge)
         {
+            if(edge == edgeGettingRedirected)
+                return;
+
             SQLiteCommand deleteEdgeTopologyCommand = this.deleteEdgeCommand;
             deleteEdgeTopologyCommand.Parameters.Clear();
             deleteEdgeTopologyCommand.Parameters.AddWithValue("@edgeId", EdgeToDbId[edge]);
@@ -1626,6 +1667,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         public void RedirectingEdge(IEdge edge)
         {
+            // edge is going to be removed and readded thereafter, in order to keep its database id, we just redirect it
+            edgeGettingRedirected = edge;
         }
 
         private void AddGraphAsNeeded(INamedGraph graph)

@@ -1,0 +1,43 @@
+! rm testgraphfilename4b.db
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+
+new graph "persistentgraph/persistentgraph_attributed" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename4b.db;Version=3;"
+
+show num nodes N
+show num edges E
+
+exec init
+
+show num nodes N
+show num edges E
+
+exec (::n,::n1,::n2,::n12,::e,::e1,::e2,::e12)=findRedirected
+exec (::n,::n1,::n2,::n12,::e,::e1,::e2,::e12)=find
+
+exec redirectEdges
+
+show num nodes N
+show num edges E
+
+exec (::n,::n1,::n2,::n12,::e,::e1,::e2,::e12)=find
+exec (::n,::n1,::n2,::n12,::e,::e1,::e2,::e12)=findRedirected
+
+new graph "persistentgraph/persistentgraph_attributed" "some non-persistent graph"
+
+show num nodes N
+show num edges E
+
+new graph "persistentgraph/persistentgraph_attributed" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename4b.db;Version=3;"
+
+show num nodes N
+show num edges E
+
+exec (::n,::n1,::n2,::n12,::e,::e1,::e2,::e12)=find
+exec (::n,::n1,::n2,::n12,::e,::e1,::e2,::e12)=findRedirected
+
+exec { clear() }
+
+show num nodes N
+show num edges E
+
+quit

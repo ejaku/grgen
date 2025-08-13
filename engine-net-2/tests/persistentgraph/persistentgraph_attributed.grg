@@ -22,6 +22,13 @@ test findRetyped : (N,N1,N2,M,E,E1,E2,D)
 	return(n,n1,n2,n12,e,e1,e2,e12);
 }
 
+test findRedirected : (N,N1,N2,N12,E,E1,E2,E12)
+{
+	n:N -e2:E2-> n1:N1 -e:E-> n12:N12;
+	n -e1:E1-> n2:N2 <-e12:E12- n12;
+	return(n,n1,n2,n12,e,e1,e2,e12);
+}
+
 rule assignAttributes
 {
 	n:N -e1:E1-> n1:N1 -e12:E12-> n12:N12;
@@ -76,6 +83,19 @@ rule retypeNodeEdge
 	modify {
 		m:M<n>;
 		-d:D<e>->;
+	}
+}
+
+rule redirectEdges
+{
+	n:N -e1:E1-> n1:N1 -e12:E12-> n12:N12;
+	n -e2:E2-> n2:N2 -e:E-> n12;
+	
+	modify {
+		n -e1->! n2;
+		n -e2->! n1;
+		n1 !-e->;
+		n2 !<-e12-! n12;
 	}
 }
 
