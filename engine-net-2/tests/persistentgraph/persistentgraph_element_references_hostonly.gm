@@ -1,0 +1,22 @@
+node edge graph; // required by persistent graph when node/edge references are employed, to be relaxed in case there is always only the host graph available (and no other graphs) (TODO)
+
+node class N
+{
+	n:N;
+	e:E;
+	o:O;
+}
+
+edge class E
+{
+	n:N;
+	e:E;
+	o:O;
+}
+
+class O
+{
+	n:N;
+	e:E;
+	o:O;
+}

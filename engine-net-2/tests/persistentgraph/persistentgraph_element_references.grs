@@ -1,0 +1,70 @@
+! rm testgraphfilename10.db
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+new graph "persistentgraph/persistentgraph_element_references" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename10.db;Version=3;"
+
+show num nodes N
+show num edges E
+
+new graph "persistentgraph/persistentgraph_element_references" "some non-persistent graph"
+
+show num nodes N
+show num edges E
+
+exec init
+exec initNested
+exec (::n,::e,::o)=find
+exec in ::n.g { find }
+exec in ::e.g { find }
+exec in ::o.g { find }
+
+show node n
+show edge e
+show var o #should be show object o
+
+show num nodes N
+show num edges E
+
+new graph "persistentgraph/persistentgraph_element_references" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename10.db;Version=3;"
+
+show num nodes N
+show num edges E
+
+exec init
+exec initNested
+exec (::n,::e,::o)=find
+exec in ::n.g { find }
+exec in ::e.g { find }
+exec in ::o.g { find }
+
+show node n
+show edge e
+show var o #should be show object o
+
+show num nodes N
+show num edges E
+
+new graph "persistentgraph/persistentgraph_element_references" "some non-persistent graph"
+
+show num nodes N
+show num edges E
+
+new graph "persistentgraph/persistentgraph_element_references" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename10.db;Version=3;"
+
+show num nodes N
+show num edges E
+
+exec (::n,::e,::o)=find
+exec in ::n.g { find }
+exec in ::e.g { find }
+exec in ::o.g { find }
+
+show node n
+show edge e
+show var o #should be show object o
+
+clear graph
+
+show num nodes N
+show num edges E
+
+quit

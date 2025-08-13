@@ -1,0 +1,26 @@
+#using "persistentgraph_element_references_hostonly.gm"
+
+rule init
+{
+	modify {
+		n:N -e:E-> n;
+		eval {
+			def ref o:O = new O();
+			n.o = o; e.o = o;
+			o.o = o; o.n = n; o.e = e;
+		}
+		eval { n.n = n; n.e = e; e.n = n; e.e = e; }
+	}
+}
+
+test find : (N, E, O)
+{
+	n:N -e:E-> n;
+	if{ n.o != null; n.o == e.o; n.o == n.o.o; }
+	
+	if{ n.n == n && n.e == e; }
+	if{ e.n == n && e.e == e; }
+	if{ n.o.n == n && n.o.e == e; }
+	
+	return(n,e,n.o);
+}

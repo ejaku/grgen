@@ -8158,6 +8158,8 @@ namespace de.unika.ipd.grGen.libGr
             else
             {
                 object source = Source.Evaluate(procEnv);
+                if(source == null)
+                    throw new Exception("Trying to access null with " + Symbol);
                 if(source is IMatch)
                     return SequenceExpressionMatchAccess.Execute(procEnv, (IMatch)source, AttributeOrElementName);
                 else if(source is IGraphElement)
