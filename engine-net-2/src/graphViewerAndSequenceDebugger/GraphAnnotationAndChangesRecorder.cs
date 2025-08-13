@@ -42,6 +42,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private readonly Dictionary<INode, bool> retypedNodes = new Dictionary<INode, bool>();
         private readonly Dictionary<IEdge, bool> retypedEdges = new Dictionary<IEdge, bool>();
 
+        private readonly Dictionary<IEdge, bool> redirectedEdges = new Dictionary<IEdge, bool>();
+
 
         public void AddNodeAnnotation(INode node, String name)
         {
@@ -184,6 +186,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             retypedEdges[edge] = true;
         }
 
+        public void RedirectEdge(IEdge edge)
+        {
+            redirectedEdges[edge] = true;
+        }
+
+        public bool IsEdgeRedirected(IEdge edge)
+        {
+            return redirectedEdges.ContainsKey(edge);
+        }
+
         public void ResetAllChangedElements()
         {
             addedNodes.Clear();
@@ -192,6 +204,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             retypedEdges.Clear();
             deletedEdges.Clear();
             deletedNodes.Clear();
+            redirectedEdges.Clear();
         }
 
         // applies changes recorded so far, leaving a graph without visible changes behind (e.g. no annotations)

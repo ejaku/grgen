@@ -1195,6 +1195,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 String edgeName = renderRecorder.AddedEdge(edge);
                 graphViewerClient.AnnotateElement(edge, edgeName);
+                if(renderRecorder.IsEdgeRedirected(edge))
+                    graphViewerClient.ChangeEdge(edge, realizers.RedirectedEdgeRealizer);
             }
             else if(alwaysShow)
                 graphViewerClient.UpdateDisplay();
@@ -1248,11 +1250,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             else
             {
-                renderRecorder.RemoveEdgeAnnotation(edge);
-                graphViewerClient.ChangeEdge(edge, realizers.DeletedEdgeRealizer);
+                if(renderRecorder.IsEdgeRedirected(edge))
+                    graphViewerClient.DeleteEdge(edge); // redirection is handled by deletion and addition, but real deletion is deferred, so addition with same name would crash (and renaming elements is not working properly with MSAGL) (alternative in order to get old behaviour would be to add here a zombie edge with fake name just to be deleted)
+                else
+                {
+                    renderRecorder.RemoveEdgeAnnotation(edge);
+                    graphViewerClient.ChangeEdge(edge, realizers.DeletedEdgeRealizer);
 
-                String name = graphViewerClient.Graph.GetElementName(edge);
-                renderRecorder.DeletedEdge(name); // rename to zombie_ + name removed
+                    String name = graphViewerClient.Graph.GetElementName(edge);
+                    renderRecorder.DeletedEdge(name); // rename to zombie_ + name removed
+                }
             }
         }
 
@@ -1326,6 +1333,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 graphViewerClient.ChangeEdge(newEdge, realizers.RetypedEdgeRealizer);
                 renderRecorder.RetypedEdge(newEdge);
             }
+        }
+
+        public void DebugRedirectingEdge(IEdge edge)
+        {
+            renderRecorder.RedirectEdge(edge);
         }
 
         public void DebugSettingAddedNodeNames(string[] namesOfNodesAdded)

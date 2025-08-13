@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 
 using de.unika.ipd.grGen.libGr;
+using de.unika.ipd.grGen.libConsoleAndOS;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
@@ -78,7 +79,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
     public enum ElementMode
     {
-        Normal = 0, Matched = 1, Created = 2, Deleted = 3, Retyped = 4
+        Normal = 0, Matched = 1, Created = 2, Deleted = 3, Retyped = 4, Redirected = 5
     }
 
     /// <summary>
@@ -128,10 +129,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             get { return edgeRealizers[(int)ElementMode.Retyped].Name; }
         }
+        public String RedirectedEdgeRealizer
+        {
+            get { return edgeRealizers[(int)ElementMode.Redirected].Name; }
+        }
 
         // the realizers registered to yComp for display during debugging
         readonly NodeRealizer[] nodeRealizers = new NodeRealizer[5];
-        readonly EdgeRealizer[] edgeRealizers = new EdgeRealizer[5];
+        readonly EdgeRealizer[] edgeRealizers = new EdgeRealizer[6];
 
         // set with all the realizers registered to yComp
         readonly Dictionary<NodeRealizer, NodeRealizer> registeredNodeRealizers = new Dictionary<NodeRealizer, NodeRealizer>();
@@ -164,6 +169,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             edgeRealizers[(int)ElementMode.Created] = GetEdgeRealizer(GrColor.YellowGreen, GrColor.Black, 3, GrLineStyle.Continuous);
             edgeRealizers[(int)ElementMode.Deleted] = GetEdgeRealizer(GrColor.LightGrey, GrColor.Black, 3, GrLineStyle.Continuous);
             edgeRealizers[(int)ElementMode.Retyped] = GetEdgeRealizer(GrColor.Aquamarine, GrColor.Black, 3, GrLineStyle.Continuous);
+            edgeRealizers[(int)ElementMode.Redirected] = GetEdgeRealizer(GrColor.Pink, GrColor.Black, 3, GrLineStyle.Continuous);
         }
 
         public void RegisterGraphViewerClient(GraphViewerClient graphViewerClient)
@@ -214,6 +220,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void ChangeNodeColor(ElementMode mode, GrColor color)
         {
+            if(mode == ElementMode.Redirected)
+            {
+                ConsoleUI.errorOutWriter.WriteLine("The mode " + mode + " is not supported for nodes!");
+                return;
+            }
+
             nodeRealizers[(int)mode] = GetNodeRealizer(
                 color,
                 nodeRealizers[(int)mode].BorderColor,
@@ -223,6 +235,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void ChangeNodeBorderColor(ElementMode mode, GrColor borderColor)
         {
+            if(mode == ElementMode.Redirected)
+            {
+                ConsoleUI.errorOutWriter.WriteLine("The mode " + mode + " is not supported for nodes!");
+                return;
+            }
+
             nodeRealizers[(int)mode] = GetNodeRealizer(
                 nodeRealizers[(int)mode].Color,
                 borderColor,
@@ -232,6 +250,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void ChangeNodeTextColor(ElementMode mode, GrColor textColor)
         {
+            if(mode == ElementMode.Redirected)
+            {
+                ConsoleUI.errorOutWriter.WriteLine("The mode " + mode + " is not supported for nodes!");
+                return;
+            }
+
             nodeRealizers[(int)mode] = GetNodeRealizer(
                 nodeRealizers[(int)mode].Color,
                 nodeRealizers[(int)mode].BorderColor,
@@ -241,6 +265,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void ChangeNodeShape(ElementMode mode, GrNodeShape shape)
         {
+            if(mode == ElementMode.Redirected)
+            {
+                ConsoleUI.errorOutWriter.WriteLine("The mode " + mode + " is not supported for nodes!");
+                return;
+            }
+
             nodeRealizers[(int)mode] = GetNodeRealizer(
                 nodeRealizers[(int)mode].Color,
                 nodeRealizers[(int)mode].BorderColor,

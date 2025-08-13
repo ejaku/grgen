@@ -100,6 +100,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 debugger.DebugRetypingElement(oldElem, newElem);
         }
 
+        private void DebugRedirectingEdge(IEdge edge)
+        {
+            if(isActive)
+                debugger.DebugRedirectingEdge(edge);
+        }
+
         private void DebugSettingAddedNodeNames(string[] namesOfNodesAdded)
         {
             if(isActive)
@@ -252,6 +258,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             graph.OnChangedEdgeAttribute += DebugChangedEdgeAttribute;
             graph.OnRetypingNode += DebugRetypingElement;
             graph.OnRetypingEdge += DebugRetypingElement;
+            graph.OnRedirectingEdge += DebugRedirectingEdge;
             graph.OnSettingAddedNodeNames += DebugSettingAddedNodeNames;
             graph.OnSettingAddedEdgeNames += DebugSettingAddedEdgeNames;
         }
@@ -302,6 +309,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             graph.OnChangedEdgeAttribute -= DebugChangedEdgeAttribute;
             graph.OnRetypingNode -= DebugRetypingElement;
             graph.OnRetypingEdge -= DebugRetypingElement;
+            graph.OnRedirectingEdge -= DebugRedirectingEdge;
             graph.OnSettingAddedNodeNames -= DebugSettingAddedNodeNames;
             graph.OnSettingAddedEdgeNames -= DebugSettingAddedEdgeNames;
         }

@@ -9,7 +9,7 @@ rule init
 
 rule r
 {
-	n:Node --> m:Node --> l:Node --> n;	
+	n:Node --> m:Node -e:Edge-> l:Node --> n;	
 ---
 	def var i:int = 0;
 	
@@ -17,6 +17,7 @@ rule r
 		delete(n);
 		:Node<m>;
 		l --> :Node;
+		m !<-e-! l;
 	}
 }
 
