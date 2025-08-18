@@ -118,7 +118,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         SQLiteCommand createNodeCommand; // topology
         SQLiteCommand[] createNodeCommands; // per-type
         SQLiteCommand[] readNodeCommands; // per-type joined with topology
-        SQLiteCommand retypeNodeCommand; // topology
         Dictionary<String, SQLiteCommand>[] updateNodeCommands; // per-type, per-attribute
         SQLiteCommand deleteNodeCommand; // topology
         SQLiteCommand[] deleteNodeCommands; // per-type
@@ -127,10 +126,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         SQLiteCommand createEdgeCommand; // topology
         SQLiteCommand[] createEdgeCommands; // per-type
         SQLiteCommand[] readEdgeCommands; // per-type joined with topology
-        SQLiteCommand retypeEdgeCommand; // topology
         Dictionary<String, SQLiteCommand>[] updateEdgeCommands; // per-type, per-attribute
         SQLiteCommand deleteEdgeCommand; // topology
         SQLiteCommand[] deleteEdgeCommands; // per-type
+
+        // database edge redirections, due to a node retype requiring an adaptation to the new node id, or a domain object/application layer edge redirect
+        SQLiteCommand updateEdgeSourceCommand; // topology
+        SQLiteCommand updateEdgeTargetCommand; // topology
         SQLiteCommand redirectEdgeCommand; // topology
 
         // prepared statements for handling graphs
@@ -1036,9 +1038,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 createObjectCommands[objectType.TypeID] = PrepareInsert(objectType, "objectId");
             }
 
-            retypeNodeCommand = PrepareRetype("nodes", "nodeId");
-            retypeEdgeCommand = PrepareRetype("edges", "edgeId");
-
+            updateEdgeSourceCommand = PrepareUpdateEdgeSource();
+            updateEdgeTargetCommand = PrepareUpdateEdgeTarget();
             redirectEdgeCommand = PrepareRedirectEdge();
 
             updateNodeCommands = new Dictionary<String, SQLiteCommand>[graph.Model.NodeModel.Types.Length];
@@ -1230,19 +1231,36 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             return new SQLiteCommand(command.ToString(), connection);
         }
 
-        private SQLiteCommand PrepareRetype(String tableName, String idName)
+        private SQLiteCommand PrepareUpdateEdgeSource()
         {
             StringBuilder command = new StringBuilder();
             command.Append("UPDATE ");
-            command.Append(tableName);
+            command.Append("edges");
             command.Append(" SET ");
-            command.Append("typeId");
+            command.Append("sourceNodeId");
             command.Append(" = ");
-            command.Append("@" + "typeId");
+            command.Append("@" + "sourceNodeId");
             command.Append(" WHERE ");
-            command.Append(idName);
+            command.Append("edgeId");
             command.Append(" == ");
-            command.Append("@" + idName);
+            command.Append("@" + "edgeId");
+
+            return new SQLiteCommand(command.ToString(), connection);
+        }
+
+        private SQLiteCommand PrepareUpdateEdgeTarget()
+        {
+            StringBuilder command = new StringBuilder();
+            command.Append("UPDATE ");
+            command.Append("edges");
+            command.Append(" SET ");
+            command.Append("targetNodeId");
+            command.Append(" = ");
+            command.Append("@" + "targetNodeId");
+            command.Append(" WHERE ");
+            command.Append("edgeId");
+            command.Append(" == ");
+            command.Append("@" + "edgeId");
 
             return new SQLiteCommand(command.ToString(), connection);
         }
@@ -1601,68 +1619,36 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         public void RetypingNode(INode oldNode, INode newNode)
         {
-            long dbid = NodeToDbId[oldNode];
-            
-            // only change type id
-            SQLiteCommand retypeNodeTopologyCommand = retypeNodeCommand;
-            retypeNodeTopologyCommand.Parameters.Clear();
-            retypeNodeTopologyCommand.Parameters.AddWithValue("@typeId", TypeNameToDbId[newNode.Type.PackagePrefixedName]);
-            retypeNodeTopologyCommand.Parameters.AddWithValue("@nodeId", dbid);
-            int rowsAffected = retypeNodeTopologyCommand.ExecuteNonQuery();
+            // remove old entry and insert new entry -- this way, stale references that appear in-memory in this situation can be also detected on database level
+            // (accepted price compared to just updating the old topology entry with the new type id, i.e. esp. keeping the old node id: performance reduction due to the insert/delete of the topology entry, and esp. the incident edges patching)
+            RemovingNode(oldNode);
+            NodeAdded(newNode);
 
-            // delete old object from old table (must occur before as retype to own type possible)
-            SQLiteCommand deleteNodeCommand = deleteNodeCommands[oldNode.Type.TypeID];
-            deleteNodeCommand.Parameters.Clear();
-            deleteNodeCommand.Parameters.AddWithValue("@nodeId", dbid);
-            rowsAffected = deleteNodeCommand.ExecuteNonQuery();
-
-            // insert new object -- same id, normally different table, new attributes
-            SQLiteCommand addNodeCommand = createNodeCommands[newNode.Type.TypeID];
-            addNodeCommand.Parameters.Clear();
-            addNodeCommand.Parameters.AddWithValue("@nodeId", dbid);
-            foreach(AttributeType attributeType in newNode.Type.AttributeTypes)
+            // update all incident edges to the new node id
+            foreach(IEdge outgoingEdge in oldNode.Outgoing)
             {
-                if(!IsScalarType(attributeType) && !IsGraphType(attributeType) && !IsObjectType(attributeType))
-                    continue;
-                object value = newNode.GetAttribute(attributeType.Name);
-                addNodeCommand.Parameters.AddWithValue("@" + UniquifyName(attributeType.Name), ValueOrIdOfReferencedElement(value, attributeType));
+                SQLiteCommand updateEdgeSourceCommand = this.updateEdgeSourceCommand;
+                updateEdgeSourceCommand.Parameters.Clear();
+                updateEdgeSourceCommand.Parameters.AddWithValue("@edgeId", EdgeToDbId[outgoingEdge]);
+                updateEdgeSourceCommand.Parameters.AddWithValue("@sourceNodeId", NodeToDbId[newNode]);
+                int rowsAffected = updateEdgeSourceCommand.ExecuteNonQuery();
             }
-            rowsAffected = addNodeCommand.ExecuteNonQuery();
-
-            ReplaceNodeInDbIdMapping(oldNode, newNode, dbid);
+            foreach(IEdge incomingEdge in oldNode.Incoming)
+            {
+                SQLiteCommand updateEdgeTargetCommand = this.updateEdgeTargetCommand;
+                updateEdgeTargetCommand.Parameters.Clear();
+                updateEdgeTargetCommand.Parameters.AddWithValue("@edgeId", EdgeToDbId[incomingEdge]);
+                updateEdgeTargetCommand.Parameters.AddWithValue("@targetNodeId", NodeToDbId[newNode]);
+                int rowsAffected = updateEdgeTargetCommand.ExecuteNonQuery();
+            }
         }
 
         public void RetypingEdge(IEdge oldEdge, IEdge newEdge)
         {
-            long dbid = EdgeToDbId[oldEdge];
-
-            // only change type id
-            SQLiteCommand retypeEdgeTopologyCommand = retypeEdgeCommand;
-            retypeEdgeTopologyCommand.Parameters.Clear();
-            retypeEdgeTopologyCommand.Parameters.AddWithValue("@typeId", TypeNameToDbId[newEdge.Type.PackagePrefixedName]);
-            retypeEdgeTopologyCommand.Parameters.AddWithValue("@edgeId", dbid);
-            int rowsAffected = retypeEdgeTopologyCommand.ExecuteNonQuery();
-
-            // delete old object from old table (must occur before as retype to own type possible)
-            SQLiteCommand deleteEdgeCommand = deleteEdgeCommands[oldEdge.Type.TypeID];
-            deleteEdgeCommand.Parameters.Clear();
-            deleteEdgeCommand.Parameters.AddWithValue("@edgeId", dbid);
-            rowsAffected = deleteEdgeCommand.ExecuteNonQuery();
-
-            // insert new object -- same id, normally different table, new attributes
-            SQLiteCommand addEdgeCommand = createEdgeCommands[newEdge.Type.TypeID];
-            addEdgeCommand.Parameters.Clear();
-            addEdgeCommand.Parameters.AddWithValue("@edgeId", dbid);
-            foreach(AttributeType attributeType in newEdge.Type.AttributeTypes)
-            {
-                if(!IsScalarType(attributeType) && !IsGraphType(attributeType) && !IsObjectType(attributeType))
-                    continue;
-                object value = newEdge.GetAttribute(attributeType.Name);
-                addEdgeCommand.Parameters.AddWithValue("@" + UniquifyName(attributeType.Name), ValueOrIdOfReferencedElement(value, attributeType));
-            }
-            rowsAffected = addEdgeCommand.ExecuteNonQuery();
-
-            ReplaceEdgeInDbIdMapping(oldEdge, newEdge, dbid);
+            // remove old entry and insert new entry -- this way, stale references that appear in-memory in this situation can be also detected on database level
+            // (accepted price compared to just updating the old topology entry with the new type id, i.e. esp. keeping the old edge id: performance reduction due to the insert/delete of the topology entry)
+            RemovingEdge(oldEdge);
+            EdgeAdded(newEdge);
         }
 
         public void RedirectingEdge(IEdge edge)
@@ -1895,15 +1881,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             NodeToDbId.Remove(node);
         }
 
-        private void ReplaceNodeInDbIdMapping(INode oldNode, INode newNode, long dbid)
-        {
-            Debug.Assert(NodeToDbId[oldNode] == dbid);
-            DbIdToNode.Remove(dbid);
-            NodeToDbId.Remove(oldNode);
-            DbIdToNode.Add(dbid, newNode);
-            NodeToDbId.Add(newNode, dbid);
-        }
-
         private void AddEdgeWithDbIdToDbIdMapping(IEdge edge, long dbid)
         {
             DbIdToEdge.Add(dbid, edge);
@@ -1914,15 +1891,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
             DbIdToEdge.Remove(EdgeToDbId[edge]);
             EdgeToDbId.Remove(edge);
-        }
-
-        private void ReplaceEdgeInDbIdMapping(IEdge oldEdge, IEdge newEdge, long dbid)
-        {
-            Debug.Assert(EdgeToDbId[oldEdge] == dbid);
-            DbIdToEdge.Remove(dbid);
-            EdgeToDbId.Remove(oldEdge);
-            DbIdToEdge.Add(dbid, newEdge);
-            EdgeToDbId.Add(newEdge, dbid);
         }
 
         private void AddGraphWithDbIdToDbIdMapping(INamedGraph graph, long dbid)
