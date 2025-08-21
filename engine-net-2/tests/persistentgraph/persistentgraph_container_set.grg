@@ -1,0 +1,73 @@
+#using "persistentgraph_container_set.gm"
+
+rule init
+{
+	modify {
+		n:N -e:E-> n;
+		n -e2:Edge-> n -e3:Edge-> n;
+		eval {
+			n.o = new O();
+			e.o = new O();
+		}
+	}
+}
+
+test find : (N, E, O, O)
+{
+	n:N -e:E-> n;
+	if{ n.o != e.o; }
+	return(n,e,n.o,e.o);
+}
+
+rule assignAttributes
+{
+	n:N -e:E-> n;
+	n -e2:Edge-> n -e3:Edge-> n;
+	
+	modify {
+		eval {
+			n.s_s = null;
+			n.s_by = set<byte>{ 42y };
+			n.s_sh = set<short>{ };
+			n.s_i = set<int>{ 1, 2, 3 };
+			n.s_l = set<long>{ 50L };
+			n.s_f = set<float>{ 1.0f, 0.0f };
+			n.s_d = set<double>{ 1337.1337 };
+			n.s_b = set<boolean>{ };
+			n.s_e = set<ENU>{ ENU::b };
+			
+			n.s_N = set<N>{ n };
+			n.s_Ed = set<Edge>{ e, e2, e3 };
+			n.s_O = set<O>{ e.o };
+			
+			e.s_s = null;
+			e.s_by = set<byte>{ 42y };
+			e.s_sh = set<short>{ };
+			e.s_i = set<int>{ 1, 2, 3, 4, 5, 6, 7 };
+			e.s_l = set<long>{ 50L };
+			e.s_f = set<float>{ 1.0f, 0.0f };
+			e.s_d = set<double>{ 1337.1337 };
+			e.s_b = set<boolean>{ };
+			e.s_e = set<ENU>{ ENU::b };
+			
+			e.s_N = set<N>{ n };
+			e.s_Ed = set<Edge>{ e, e2 };
+			e.s_O = set<O>{ n.o };
+
+			def ref o:O = n.o;
+			o.s_s = null;
+			o.s_by = set<byte>{ 42y };
+			o.s_sh = set<short>{ };
+			o.s_i = set<int>{ 1 };
+			o.s_l = set<long>{ 50L };
+			o.s_f = set<float>{ 1.0f, 0.5f, 0.0f };
+			o.s_d = set<double>{ 1337.1337 };
+			o.s_b = set<boolean>{ };
+			o.s_e = set<ENU>{ ENU::b };
+			
+			o.s_N = set<N>{ n };
+			o.s_Ed = set<Edge>{ e, e2, e3 };
+			o.s_O = set<O>{ n.o, e.o };
+		}
+	}
+}

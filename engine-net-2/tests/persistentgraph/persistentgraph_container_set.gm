@@ -1,0 +1,56 @@
+enum ENU { a, b, c }
+
+node class N
+{
+	o:O = null;
+	
+	s_s:set<string> = { "foo" };
+	s_by:set<byte> = { 1y, 2y, 3y };
+	s_sh:set<short> = { };
+	s_i:set<int> = { };
+	s_l:set<long> = { 42L };
+	s_f:set<float> = { 3.141592654f, 2.718281828f };
+	s_d:set<double> = { 44.0 };
+	s_b:set<boolean> = { true };
+	s_e:set<ENU> = { ENU::a, ENU::c };
+	
+	s_N:set<N> = { };
+	s_Ed:set<Edge> = { };
+	s_O:set<O> = { };
+}
+
+edge class E
+{
+	o:O = null;
+	
+	s_s:set<string> = { "bar" };
+	s_by:set<byte> = { };
+	s_sh:set<short> = { 1s, 2s, 3s };
+	s_i:set<int> = { };
+	s_l:set<long> = { 42L, 43L };
+	s_f:set<float> = { 3.141592654f, 2.718281828f };
+	s_d:set<double> = { 43.0, 44.0 };
+	s_b:set<boolean> = { true, false };
+	s_e:set<ENU> = { ENU::b };
+	
+	s_N:set<N> = { };
+	s_Ed:set<Edge> = { };
+	s_O:set<O> = { };
+}
+
+class O
+{
+	s_s:set<string> = { "baz" };
+	s_by:set<byte> = { };
+	s_sh:set<short> = { };
+	s_i:set<int> = { 1, 2, 3 };
+	s_l:set<long> = { 44L };
+	s_f:set<float> = { 3.141592654f, 2.718281828f };
+	s_d:set<double> = { 42.0 };
+	s_b:set<boolean> = { false };
+	s_e:set<ENU> = { ENU::b, ENU::c };
+	
+	s_N:set<N> = { };
+	s_Ed:set<Edge> = { };
+	s_O:set<O> = { };
+}
