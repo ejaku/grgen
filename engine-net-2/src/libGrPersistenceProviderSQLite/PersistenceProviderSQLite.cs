@@ -2081,35 +2081,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
             Stack<IAttributeBearer> todos = null; // DFS worklist for objects
 
-            foreach(AttributeType attributeType in root.Type.AttributeTypes)
-            {
-                if(IsGraphType(attributeType))
-                {
-                    object val = root.GetAttribute(attributeType.Name);
-                    AddGraphAsNeeded((INamedGraph)val);
-                }
-                else if(IsObjectType(attributeType))
-                {
-                    object val = root.GetAttribute(attributeType.Name);
-                    IObject obj = (IObject)val;
-                    if(obj != null)
-                    {
-                        if(!ObjectToDbId.ContainsKey(obj))
-                        {
-                            if(todos == null)
-                                todos = new Stack<IAttributeBearer>();
-                            todos.Push(obj);
-                        }
-                    }
-                }
-                else if(IsGraphElementType(attributeType))
-                {
-                    object val = root.GetAttribute(attributeType.Name);
-                    if(val != null)
-                        AddGraphAsNeeded((INamedGraph)((IContained)val).GetContainingGraph());
-                }
-                // container TODO: add references stored in container attribute (not container itself)
-            }
+            AddObjectsToTodosAndReferencesToDatabase(root, ref todos);
 
             if(todos != null)
                 AddObjectsAndReferencesToDatabase(todos);
@@ -2131,35 +2103,43 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     }
                 }
 
-                foreach(AttributeType attributeType in current.Type.AttributeTypes)
-                {
-                    if(IsGraphType(attributeType))
-                    {
-                        object val = current.GetAttribute(attributeType.Name);
-                        AddGraphAsNeeded((INamedGraph)val);
-                    }
-                    else if(IsObjectType(attributeType))
-                    {
-                        object val = current.GetAttribute(attributeType.Name);
-                        IObject obj = (IObject)val;
-                        if(obj != null)
-                        {
-                            if(!ObjectToDbId.ContainsKey(obj))
-                                todos.Push(obj);
-                        }
-                    }
-                    else if(IsGraphElementType(attributeType))
-                    {
-                        object val = current.GetAttribute(attributeType.Name);
-                        if(val != null)
-                            AddGraphAsNeeded((INamedGraph)((IContained)val).GetContainingGraph());
-                    }
-                    // container TODO: add references stored in container attribute (not container itself)
-                    // maybe TODO: introduce helper function for loop body, same as used in calling function
-                }
+                AddObjectsToTodosAndReferencesToDatabase(current, ref todos);
 
                 if(objectWritten)
                     CompleteObjectEntry((IObject)current);
+            }
+        }
+
+        private void AddObjectsToTodosAndReferencesToDatabase(IAttributeBearer current, ref Stack<IAttributeBearer> todos)
+        {
+            foreach(AttributeType attributeType in current.Type.AttributeTypes)
+            {
+                if(IsGraphType(attributeType))
+                {
+                    object val = current.GetAttribute(attributeType.Name);
+                    AddGraphAsNeeded((INamedGraph)val);
+                }
+                else if(IsObjectType(attributeType))
+                {
+                    object val = current.GetAttribute(attributeType.Name);
+                    IObject obj = (IObject)val;
+                    if(obj != null)
+                    {
+                        if(!ObjectToDbId.ContainsKey(obj))
+                        {
+                            if(todos == null)
+                                todos = new Stack<IAttributeBearer>();
+                            todos.Push(obj);
+                        }
+                    }
+                }
+                else if(IsGraphElementType(attributeType))
+                {
+                    object val = current.GetAttribute(attributeType.Name);
+                    if(val != null)
+                        AddGraphAsNeeded((INamedGraph)((IContained)val).GetContainingGraph());
+                }
+                // container TODO: add references stored in container attribute (not container itself)
             }
         }
 
