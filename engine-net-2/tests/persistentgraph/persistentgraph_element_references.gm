@@ -1,4 +1,4 @@
-node edge graph; // required by persistent graph when node/edge references are employed together with graph references
+node edge graph; // required by persistent graph when node/edge references are employed
 
 node class N
 {

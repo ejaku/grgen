@@ -231,10 +231,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             {
                 result |= TypeContainsGraphElementReferences(objectType);
             }
-            foreach(TransientObjectType transientObjectType in model.TransientObjectModel.Types)
-            {
-                result |= TypeContainsGraphElementReferences(transientObjectType);
-            }
             return result;
         }
 
@@ -244,6 +240,11 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             {
                 if(IsGraphElementType(attributeType))
                     return true;
+                if(IsSupportedContainerType(attributeType))
+                {
+                    if(IsGraphElementType(attributeType.ValueType)) // container todo: also KeyType in case of a map
+                        return true;
+                }
             }
             return false;
         }
@@ -2114,32 +2115,55 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
             foreach(AttributeType attributeType in current.Type.AttributeTypes)
             {
-                if(IsGraphType(attributeType))
+                if(IsSupportedContainerType(attributeType))
+                    AddObjectsToTodosAndReferencesToDatabaseFromContainer(current, attributeType, ref todos);
+                else
                 {
                     object val = current.GetAttribute(attributeType.Name);
-                    AddGraphAsNeeded((INamedGraph)val);
+                    AddObjectsToTodosAndReferencesToDatabase(attributeType, val, ref todos);
                 }
-                else if(IsObjectType(attributeType))
+            }
+        }
+
+        private void AddObjectsToTodosAndReferencesToDatabaseFromContainer(IAttributeBearer current, AttributeType attributeType, ref Stack<IAttributeBearer> todos)
+        {
+            if(attributeType.Kind == AttributeKind.SetAttr)
+            {
+                object val = current.GetAttribute(attributeType.Name);
+                IDictionary set = (IDictionary)val;
+                if(set != null)
                 {
-                    object val = current.GetAttribute(attributeType.Name);
-                    IObject obj = (IObject)val;
-                    if(obj != null)
+                    foreach(DictionaryEntry entry in set)
                     {
-                        if(!ObjectToDbId.ContainsKey(obj))
-                        {
-                            if(todos == null)
-                                todos = new Stack<IAttributeBearer>();
-                            todos.Push(obj);
-                        }
+                        AddObjectsToTodosAndReferencesToDatabase(attributeType.ValueType, entry.Key, ref todos);
                     }
                 }
-                else if(IsGraphElementType(attributeType))
+            }
+        }
+
+        private void AddObjectsToTodosAndReferencesToDatabase(AttributeType attributeType, object val, ref Stack<IAttributeBearer> todos)
+        {
+            if(IsGraphType(attributeType))
+            {
+                AddGraphAsNeeded((INamedGraph)val);
+            }
+            else if(IsObjectType(attributeType))
+            {
+                IObject obj = (IObject)val;
+                if(obj != null)
                 {
-                    object val = current.GetAttribute(attributeType.Name);
-                    if(val != null)
-                        AddGraphAsNeeded((INamedGraph)((IContained)val).GetContainingGraph());
+                    if(!ObjectToDbId.ContainsKey(obj))
+                    {
+                        if(todos == null)
+                            todos = new Stack<IAttributeBearer>();
+                        todos.Push(obj);
+                    }
                 }
-                // container TODO: add references stored in container attribute (not container itself)
+            }
+            else if(IsGraphElementType(attributeType))
+            {
+                if(val != null)
+                    AddGraphAsNeeded((INamedGraph)((IContained)val).GetContainingGraph());
             }
         }
 
@@ -2251,6 +2275,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 // add all container entries - explode complete container into series of adds, i.e. put-elements
                 foreach(DictionaryEntry entry in set)
                 {
+                    if(IsGraphType(attributeType.ValueType))
+                        AddGraphAsNeeded((INamedGraph)entry.Key);
+                    else if(IsObjectType(attributeType.ValueType))
+                        AddObjectAsNeeded((IObject)entry.Key);
+                    else if(IsGraphElementType(attributeType.ValueType))
+                        AddGraphAsNeeded((INamedGraph)((IContained)entry.Key).GetContainingGraph());
+
                     entryId = ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, owningElementId, owningElementIdColumnName, ContainerCommand.PutElement, entry.Key, null);
                 }
             }

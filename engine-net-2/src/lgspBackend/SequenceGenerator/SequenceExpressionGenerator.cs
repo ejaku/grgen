@@ -1193,11 +1193,14 @@ namespace de.unika.ipd.grGen.lgsp
             string element = "((GRGEN_LIBGR.IAttributeBearer)" + GetSequenceExpression(seqAttr.Source, source) + ")";
             string value = element + ".GetAttribute(\"" + seqAttr.AttributeName + "\")";
             string type = seqAttr.Type(env);
-            if(type == ""
-                    || type.StartsWith("set<") || type.StartsWith("map<")
-                    || type.StartsWith("array<") || type.StartsWith("deque<"))
+            if(type == "")
             {
                 return "GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(" + element + ", \"" + seqAttr.AttributeName + "\", " + value + ")";
+            }
+            else if(type.StartsWith("set<") || type.StartsWith("map<")
+                    || type.StartsWith("array<") || type.StartsWith("deque<"))
+            {
+                return "((" + TypesHelper.XgrsTypeToCSharpType(type, env.Model) + ")" + "GRGEN_LIBGR.ContainerHelper.IfAttributeOfElementIsContainerThenCloneContainer(" + element + ", \"" + seqAttr.AttributeName + "\", " + value + "))";
             }
             else
             {
