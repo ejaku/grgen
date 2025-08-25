@@ -441,23 +441,26 @@ namespace de.unika.ipd.grGen.libGr
             attrType = element.Type.GetAttributeType(AttributeName);
             if(attrType == null)
                 throw new Exception("Unknown attribute " + AttributeName);
-            if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
+            if(value != null)
             {
-                Type keyType, valueType;
-                ContainerHelper.GetDictionaryTypes(element.GetAttribute(AttributeName), out keyType, out valueType);
-                return ContainerHelper.NewDictionary(keyType, valueType, value); // by-value-semantics -> clone dictionary
-            }
-            else if(attrType.Kind == AttributeKind.ArrayAttr)
-            {
-                Type valueType;
-                ContainerHelper.GetListType(element.GetAttribute(AttributeName), out valueType);
-                return ContainerHelper.NewList(valueType, value); // by-value-semantics -> clone array
-            }
-            else if(attrType.Kind == AttributeKind.DequeAttr)
-            {
-                Type valueType;
-                ContainerHelper.GetDequeType(element.GetAttribute(AttributeName), out valueType);
-                return ContainerHelper.NewDeque(valueType, value); // by-value-semantics -> clone deque
+                if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
+                {
+                    Type keyType, valueType;
+                    ContainerHelper.GetDictionaryTypes(element.GetAttribute(AttributeName), out keyType, out valueType);
+                    return ContainerHelper.NewDictionary(keyType, valueType, value); // by-value-semantics -> clone dictionary
+                }
+                else if(attrType.Kind == AttributeKind.ArrayAttr)
+                {
+                    Type valueType;
+                    ContainerHelper.GetListType(element.GetAttribute(AttributeName), out valueType);
+                    return ContainerHelper.NewList(valueType, value); // by-value-semantics -> clone array
+                }
+                else if(attrType.Kind == AttributeKind.DequeAttr)
+                {
+                    Type valueType;
+                    ContainerHelper.GetDequeType(element.GetAttribute(AttributeName), out valueType);
+                    return ContainerHelper.NewDeque(valueType, value); // by-value-semantics -> clone deque
+                }
             }
             return value;
         }
@@ -473,23 +476,26 @@ namespace de.unika.ipd.grGen.libGr
             attrType = element.Type.GetAttributeType(AttributeName);
             if(attrType == null)
                 throw new Exception("Unknown attribute " + AttributeName);
-            if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
+            if(value != null)
             {
-                Type keyType, valueType;
-                ContainerHelper.GetDictionaryTypes(element.GetAttribute(AttributeName), out keyType, out valueType);
-                return ContainerHelper.NewDictionary(keyType, valueType, value); // by-value-semantics -> clone dictionary
-            }
-            else if(attrType.Kind == AttributeKind.ArrayAttr)
-            {
-                Type valueType;
-                ContainerHelper.GetListType(element.GetAttribute(AttributeName), out valueType);
-                return ContainerHelper.NewList(valueType, value); // by-value-semantics -> clone array
-            }
-            else if(attrType.Kind == AttributeKind.DequeAttr)
-            {
-                Type valueType;
-                ContainerHelper.GetDequeType(element.GetAttribute(AttributeName), out valueType);
-                return ContainerHelper.NewDeque(valueType, value); // by-value-semantics -> clone deque
+                if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
+                {
+                    Type keyType, valueType;
+                    ContainerHelper.GetDictionaryTypes(element.GetAttribute(AttributeName), out keyType, out valueType);
+                    return ContainerHelper.NewDictionary(keyType, valueType, value); // by-value-semantics -> clone dictionary
+                }
+                else if(attrType.Kind == AttributeKind.ArrayAttr)
+                {
+                    Type valueType;
+                    ContainerHelper.GetListType(element.GetAttribute(AttributeName), out valueType);
+                    return ContainerHelper.NewList(valueType, value); // by-value-semantics -> clone array
+                }
+                else if(attrType.Kind == AttributeKind.DequeAttr)
+                {
+                    Type valueType;
+                    ContainerHelper.GetDequeType(element.GetAttribute(AttributeName), out valueType);
+                    return ContainerHelper.NewDeque(valueType, value); // by-value-semantics -> clone deque
+                }
             }
             return value;
         }

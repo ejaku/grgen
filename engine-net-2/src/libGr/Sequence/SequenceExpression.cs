@@ -16157,7 +16157,12 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
-            IGraphElement owner = (IGraphElement)TargetExpr.Evaluate(procEnv);
+            object ownerCandidate = TargetExpr.Evaluate(procEnv);
+            if(ownerCandidate == null)
+                throw new Exception("Function method call " + Symbol + " on null!");
+            IGraphElement owner = ownerCandidate as IGraphElement;
+            if(owner == null)
+                throw new Exception("Function method call " + Symbol + " expects a node or edge as target (but is given " + ownerCandidate.GetType() + ") (maybe a procedure call is intended?)!");
             FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
             return owner.ApplyFunctionMethod(procEnv, procEnv.Graph, Name, Arguments);
         }

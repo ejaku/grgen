@@ -1120,7 +1120,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             {
                 case AttributeKind.SetAttr:
                     IDictionary set = (IDictionary)container;
-                    set.Add(value, null);
+                    set[value] = null;
                     break;
                 default:
                     throw new Exception("Unknown container type");
@@ -2211,7 +2211,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         SQLiteCommand updatingInsert = GetUpdateContainerCommand(owningElement, attributeType);
                         string owningElementIdColumnName;
                         long owningElementId = GetDbIdAndColumnName(owningElement, out owningElementIdColumnName);
-                        long entryId = ExecuteUpdatingInsert(updatingInsert, attributeType, owningElementId, owningElementIdColumnName, ContainerCommand.PutElement, newValue, null);
+                        long entryId = ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, owningElementId, owningElementIdColumnName, ContainerCommand.PutElement, newValue, null);
                         break;
                     }
                 case AttributeChangeType.RemoveElement:
@@ -2219,7 +2219,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         SQLiteCommand updatingInsert = GetUpdateContainerCommand(owningElement, attributeType);
                         string owningElementIdColumnName;
                         long owningElementId = GetDbIdAndColumnName(owningElement, out owningElementIdColumnName);
-                        long entryId = ExecuteUpdatingInsert(updatingInsert, attributeType, owningElementId, owningElementIdColumnName, ContainerCommand.RemoveElement, newValue, null);
+                        long entryId = ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, owningElementId, owningElementIdColumnName, ContainerCommand.RemoveElement, newValue, null);
                         break;
                     }
                 case AttributeChangeType.AssignElement:

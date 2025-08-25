@@ -3600,11 +3600,16 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
-            IGraphElement owner;
+            object ownerCandidate;
             if(TargetExpr != null)
-                owner = (IGraphElement)TargetExpr.Evaluate(procEnv);
+                ownerCandidate = TargetExpr.Evaluate(procEnv);
             else
-                owner = (IGraphElement)TargetVar.GetVariableValue(procEnv);
+                ownerCandidate = TargetVar.GetVariableValue(procEnv);
+            if(ownerCandidate == null)
+                throw new Exception("Procedure method call " + Symbol + " on null!");
+            IGraphElement owner = ownerCandidate as IGraphElement;
+            if(owner == null)
+                throw new Exception("Procedure method call " + Symbol + " expects a node or edge as target (but is given " + ownerCandidate.GetType() + ")!");
             FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
             object[] resultValues = owner.ApplyProcedureMethod(procEnv, procEnv.Graph, Name, Arguments);
             if(ReturnVars.Length > 0)

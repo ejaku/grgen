@@ -1,0 +1,138 @@
+! rm testgraphfilename_set_addrem.db
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+new graph "persistentgraph/persistentgraph_container_set" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_set_addrem.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_set" "some non-persistent graph"
+
+exec init
+exec (::n,::e,::o,::o2,::e2,::e3)=findExtended
+exec { ::n.s_s = null;\
+::n.s_by.clear(); ::n.s_by.add(42y);\
+::n.s_i.add(1); ::n.s_i.add(2); ::n.s_i.add(3);\
+::n.s_l.rem(42l); ::n.s_l.add(50L);\
+::n.s_f.rem(3.141592654f); ::n.s_f.rem(2.718281828f); ::n.s_f.add(0.0f); ::n.s_f.add(1.0f);\
+::n.s_d.rem(44.0); ::n.s_d.add(1337.1337);\
+::n.s_b.rem(true);\
+::n.s_e.rem(ENU::a); ::n.s_e.rem(ENU::c); ::n.s_e.add(ENU::b);\
+::n.s_N.add(::n);\
+::n.s_Ed.add(::e); ::n.s_Ed.add(::e2); ::n.s_Ed.add(::e3);\
+::n.s_O.add(::e.o);\
+::e.s_s = null;\
+::e.s_by.add(42y);\
+::e.s_sh.clear();\
+::e.s_i.add(1); ::e.s_i.add(2); ::e.s_i.add(3); ::e.s_i.add(4); ::e.s_i.add(5); ::e.s_i.add(6); ::e.s_i.add(7);\
+::e.s_l.rem(42l); ::e.s_l.rem(43l); ::e.s_l.add(50L);\
+::e.s_f.rem(3.141592654f); ::e.s_f.rem(2.718281828f); ::e.s_f.add(1.0f); ::e.s_f.add(0.0f);\
+::e.s_d.rem(43.0); ::e.s_d.rem(44.0); ::e.s_d.add(1337.1337);\
+::e.s_b.rem(true); ::e.s_b.rem(false);\
+::e.s_e = ::e.s_e;\
+::e.s_N.add(::n);\
+::e.s_Ed.add(::e); ::e.s_Ed.add(::e2);\
+::e.s_O.add(::n.o);\
+::o.s_s = null;\
+::o.s_by.add(42y);\
+::o.s_sh = ::o.s_sh;\
+::o.s_i.rem(2); ::o.s_i.rem(3);\
+::o.s_l.rem(44l); ::o.s_l.add(50L);\
+::o.s_f.rem(3.141592654f); ::o.s_f.rem(2.718281828f); ::o.s_f.add(1.0f); ::o.s_f.add(0.5f); ::o.s_f.add(0.0f);\
+::o.s_d.rem(42.0); ::o.s_d.add(1337.1337);\
+::o.s_b.rem(false);\
+::o.s_e.rem(ENU::c);\
+::o.s_N.add(::n);\
+::o.s_Ed.add(::e); ::o.s_Ed.add(::e2); ::o.s_Ed.add(::e3);\
+::o.s_O.add(::n.o); ::o.s_O.add(::e.o)\
+}
+
+show node n
+show edge e
+show var o
+show var o2
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_set" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_set_addrem.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+exec init
+exec (::n,::e,::o,::o2,::e2,::e3)=findExtended
+exec { ::n.s_s = null;\
+::n.s_by.clear(); ::n.s_by.add(42y);\
+::n.s_i.add(1); ::n.s_i.add(2); ::n.s_i.add(3);\
+::n.s_l.rem(42l); ::n.s_l.add(50L);\
+::n.s_f.rem(3.141592654f); ::n.s_f.rem(2.718281828f); ::n.s_f.add(0.0f); ::n.s_f.add(1.0f);\
+::n.s_d.rem(44.0); ::n.s_d.add(1337.1337);\
+::n.s_b.rem(true);\
+::n.s_e.rem(ENU::a); ::n.s_e.rem(ENU::c); ::n.s_e.add(ENU::b);\
+::n.s_N.add(::n);\
+::n.s_Ed.add(::e); ::n.s_Ed.add(::e2); ::n.s_Ed.add(::e3);\
+::n.s_O.add(::e.o);\
+::e.s_s = null;\
+::e.s_by.add(42y);\
+::e.s_sh.clear();\
+::e.s_i.add(1); ::e.s_i.add(2); ::e.s_i.add(3); ::e.s_i.add(4); ::e.s_i.add(5); ::e.s_i.add(6); ::e.s_i.add(7);\
+::e.s_l.rem(42l); ::e.s_l.rem(43l); ::e.s_l.add(50L);\
+::e.s_f.rem(3.141592654f); ::e.s_f.rem(2.718281828f); ::e.s_f.add(1.0f); ::e.s_f.add(0.0f);\
+::e.s_d.rem(43.0); ::e.s_d.rem(44.0); ::e.s_d.add(1337.1337);\
+::e.s_b.rem(true); ::e.s_b.rem(false);\
+::e.s_e = ::e.s_e;\
+::e.s_N.add(::n);\
+::e.s_Ed.add(::e); ::e.s_Ed.add(::e2);\
+::e.s_O.add(::n.o);\
+::o.s_s = null;\
+::o.s_by.add(42y);\
+::o.s_sh = ::o.s_sh;\
+::o.s_i.rem(2); ::o.s_i.rem(3);\
+::o.s_l.rem(44l); ::o.s_l.add(50L);\
+::o.s_f.rem(3.141592654f); ::o.s_f.rem(2.718281828f); ::o.s_f.add(1.0f); ::o.s_f.add(0.5f); ::o.s_f.add(0.0f);\
+::o.s_d.rem(42.0); ::o.s_d.add(1337.1337);\
+::o.s_b.rem(false);\
+::o.s_e.rem(ENU::c);\
+::o.s_N.add(::n);\
+::o.s_Ed.add(::e); ::o.s_Ed.add(::e2); ::o.s_Ed.add(::e3);\
+::o.s_O.add(::n.o); ::o.s_O.add(::e.o)\
+}
+
+show node n
+show edge e
+show var o
+show var o2
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_set" "some non-persistent graph"
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_set" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_set_addrem.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+exec (::n,::e,::o,::o2)=find
+
+show node n
+show edge e
+show var o
+show var o2
+
+clear graph
+
+show num nodes N
+show num edges E
+show num edges
+
+quit

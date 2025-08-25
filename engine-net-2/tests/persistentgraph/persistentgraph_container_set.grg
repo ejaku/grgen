@@ -19,6 +19,14 @@ test find : (N, E, O, O)
 	return(n,e,n.o,e.o);
 }
 
+test findExtended : (N, E, O, O, Edge, Edge)
+{
+	n:N -e:E-> n;
+	n -e2:Edge-> n -e3:Edge-> n;
+	if{ n.o != e.o; }
+	return(n,e,n.o,e.o,e2,e3);
+}
+
 rule assignAttributes
 {
 	n:N -e:E-> n;
