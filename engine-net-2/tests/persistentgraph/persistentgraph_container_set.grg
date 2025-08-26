@@ -12,6 +12,14 @@ rule init
 	}
 }
 
+rule deleteNodeAndIncidentEdges
+{
+	n:N;
+	modify {
+		delete(n); // edges implicitly
+	}
+}
+
 test find : (N, E, O, O)
 {
 	n:N -e:E-> n;

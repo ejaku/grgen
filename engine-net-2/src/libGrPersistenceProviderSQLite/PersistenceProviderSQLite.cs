@@ -126,6 +126,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         Dictionary<String, SQLiteCommand>[] updateNodeContainerCommands; // per-type, per-container-attribute (inserting container updating commands)
         SQLiteCommand deleteNodeCommand; // topology
         SQLiteCommand[] deleteNodeCommands; // per-type
+        Dictionary<String, SQLiteCommand>[] deleteNodeContainerCommands; // per-type, per-container-attribute
 
         // prepared statements for handling edges (assuming available edge related tables)
         SQLiteCommand createEdgeCommand; // topology
@@ -136,6 +137,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         Dictionary<String, SQLiteCommand>[] updateEdgeContainerCommands; // per-type, per-container-attribute (inserting container updating commands)
         SQLiteCommand deleteEdgeCommand; // topology
         SQLiteCommand[] deleteEdgeCommands; // per-type
+        Dictionary<String, SQLiteCommand>[] deleteEdgeContainerCommands; // per-type, per-container-attribute
 
         // database edge redirections, due to a node retype requiring an adaptation to the new node id, or a domain object/application layer edge redirect
         SQLiteCommand updateEdgeSourceCommand; // topology
@@ -1402,11 +1404,33 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             {
                 deleteNodeCommands[nodeType.TypeID] = PrepareDelete(nodeType, "nodeId");
             }
+            deleteNodeContainerCommands = new Dictionary<String, SQLiteCommand>[graph.Model.NodeModel.Types.Length];
+            foreach(NodeType nodeType in graph.Model.NodeModel.Types)
+            {
+                deleteNodeContainerCommands[nodeType.TypeID] = new Dictionary<string, SQLiteCommand>();
+                foreach(AttributeType attributeType in nodeType.AttributeTypes)
+                {
+                    if(!IsSupportedContainerType(attributeType))
+                        continue;
+                    deleteNodeContainerCommands[nodeType.TypeID][attributeType.Name] = PrepareContainerDelete(nodeType, "nodeId", attributeType);
+                }
+            }
             deleteEdgeCommand = PrepareTopologyDelete("edges", "edgeId");
             deleteEdgeCommands = new SQLiteCommand[graph.Model.EdgeModel.Types.Length];
             foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
             {
                 deleteEdgeCommands[edgeType.TypeID] = PrepareDelete(edgeType, "edgeId");
+            }
+            deleteEdgeContainerCommands = new Dictionary<String, SQLiteCommand>[graph.Model.EdgeModel.Types.Length];
+            foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
+            {
+                deleteEdgeContainerCommands[edgeType.TypeID] = new Dictionary<string, SQLiteCommand>();
+                foreach(AttributeType attributeType in edgeType.AttributeTypes)
+                {
+                    if(!IsSupportedContainerType(attributeType))
+                        continue;
+                    deleteEdgeContainerCommands[edgeType.TypeID][attributeType.Name] = PrepareContainerDelete(edgeType, "edgeId", attributeType);
+                }
             }
         }
 
@@ -1674,6 +1698,21 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             return new SQLiteCommand(command.ToString(), connection);
         }
 
+        private SQLiteCommand PrepareContainerDelete(InheritanceType type, string ownerIdColumnName, AttributeType attributeType)
+        {
+            String tableName = EscapeTableName(type.PackagePrefixedName + "_" + attributeType.Name); // container todo: could yield a name already in use; general todo: SQLite/SQL is case insensitive
+
+            StringBuilder command = new StringBuilder();
+            command.Append("DELETE FROM ");
+            command.Append(tableName);
+            command.Append(" WHERE ");
+            command.Append(ownerIdColumnName);
+            command.Append("==");
+            command.Append("@" + ownerIdColumnName);
+
+            return new SQLiteCommand(command.ToString(), connection);
+        }
+
         #endregion Graph modification handling preparations
 
         private string EscapeTableName(string name)
@@ -1856,7 +1895,15 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             deleteNodeCommand.Parameters.AddWithValue("@nodeId", NodeToDbId[node]);
             rowsAffected = deleteNodeCommand.ExecuteNonQuery();
 
-            // container TODO: remove container entries from container attribute tables of that attribute bearer
+            foreach(AttributeType attributeType in node.Type.AttributeTypes)
+            {
+                if(!IsSupportedContainerType(attributeType))
+                    continue;
+                SQLiteCommand deleteNodeContainerCommand = deleteNodeContainerCommands[node.Type.TypeID][attributeType.Name];
+                deleteNodeContainerCommand.Parameters.Clear();
+                deleteNodeContainerCommand.Parameters.AddWithValue("@nodeId", NodeToDbId[node]);
+                rowsAffected = deleteNodeContainerCommand.ExecuteNonQuery();
+            }
 
             RemoveNodeFromDbIdMapping(node);
         }
@@ -1876,7 +1923,15 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             deleteEdgeCommand.Parameters.AddWithValue("@edgeId", EdgeToDbId[edge]);
             rowsAffected = deleteEdgeCommand.ExecuteNonQuery();
 
-            // container TODO: remove container entries from container attribute tables of that attribute bearer
+            foreach(AttributeType attributeType in edge.Type.AttributeTypes)
+            {
+                if(!IsSupportedContainerType(attributeType))
+                    continue;
+                SQLiteCommand deleteEdgeContainerCommand = deleteEdgeContainerCommands[edge.Type.TypeID][attributeType.Name];
+                deleteEdgeContainerCommand.Parameters.Clear();
+                deleteEdgeContainerCommand.Parameters.AddWithValue("@edgeId", EdgeToDbId[edge]);
+                rowsAffected = deleteEdgeContainerCommand.ExecuteNonQuery();
+            }
 
             RemoveEdgeFromDbIdMapping(edge);
         }
