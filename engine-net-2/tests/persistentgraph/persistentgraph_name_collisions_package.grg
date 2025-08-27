@@ -1,0 +1,58 @@
+#using "persistentgraph_name_collisions_package.gm"
+
+rule init
+{
+	modify {
+		n1:pack::N;
+		n2:pack__N;
+		n3:pack__N_a;
+		n1 -e1:pack::E-> n1;
+		n2 -e2:pack::E_a-> n2;
+		n3 -e3:pack__E_a-> n3;
+	}
+}
+
+test find : (pack::N, pack__N, pack__N_a, pack::E, pack::E_a, pack__E_a)
+{
+	n1:pack::N;
+	n2:pack__N;
+	n3:pack__N_a;
+	n1 -e1:pack::E-> n1;
+	n2 -e2:pack::E_a-> n2;
+	n3 -e3:pack__E_a-> n3;
+	return(n1,n2,n3,e1,e2,e3);
+}
+
+rule assignAttributes
+{
+	n1:pack::N;
+	n2:pack__N;
+	n3:pack__N_a;
+	n1 -e1:pack::E-> n1;
+	n2 -e2:pack::E_a-> n2;
+	n3 -e3:pack__E_a-> n3;
+	if{ e1.a.empty() && n2.a.empty(); }
+	
+	modify {
+		eval {
+			e1.a = set<string>{ "blaukraut", "bleibt", "blaukraut", "und", "brautkleid", "bleibt", "brautkleid" };
+			n2.a = set<string>{ "ein", "vogel", "wollte", "hochzeit", "feiern", "fiderallala" };
+			n3.justSomeNormalNonContainerAttributeToCheckNonContainerNamesWithoutARealReason = 0xAFFE;
+		}
+	}
+}
+
+rule delPattern
+{
+	n1:pack::N;
+	n2:pack__N;
+	n3:pack__N_a;
+	n1 -e1:pack::E-> n1;
+	n2 -e2:pack::E_a-> n2;
+	n3 -e3:pack__E_a-> n3;
+
+	
+	modify {
+		delete(n1,n2,n3,e1,e2,e3);
+	}
+}

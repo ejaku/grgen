@@ -378,14 +378,14 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private void CreateInheritanceTypeTable(InheritanceType type, String idColumnName)
         {
-            String tableName = EscapeTableName(type.PackagePrefixedName);
+            String tableName = GetUniqueTableName(type.Package, type.Name);
             List<String> columnNamesAndTypes = new List<String>(); // ArrayBuilder
             foreach(AttributeType attributeType in type.AttributeTypes)
             {
                 if(!IsAttributeTypeMappedToDatabaseColumn(attributeType))
                     continue;
 
-                columnNamesAndTypes.Add(UniquifyName(attributeType.Name));
+                columnNamesAndTypes.Add(GetUniqueColumnName(attributeType.Name));
                 columnNamesAndTypes.Add(AttributeTypeToSQLiteType(attributeType));
             }
 
@@ -394,7 +394,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private void CreateContainerTypeTable(InheritanceType type, String ownerIdColumnName, AttributeType attributeType)
         {
-            String tableName = EscapeTableName(type.PackagePrefixedName + "_" + attributeType.Name); // container todo: encode container type into name (or maybe entry in types table) ... to allow database <-> model synch
+            String tableName = GetUniqueTableName(type.Package, type.Name, attributeType.Name);
             List<String> columnNamesAndTypes = new List<String>(); // ArrayBuilder
 
             columnNamesAndTypes.Add(ownerIdColumnName);
@@ -817,7 +817,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
             // later TODO: handling of zombies in tables (out-of-graph nodes, depending on semantic model, in current semantic model not possible)
             String topologyTableName = "nodes";
-            String tableName = EscapeTableName(nodeType.PackagePrefixedName);
+            String tableName = GetUniqueTableName(nodeType.Package, nodeType.Name);
             StringBuilder columnNames = new StringBuilder();
             AddQueryColumn(columnNames, "nodeId");
             AddQueryColumn(columnNames, "typeId");
@@ -827,7 +827,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             {
                 if(!IsAttributeTypeMappedToDatabaseColumn(attributeType))
                     continue;
-                AddQueryColumn(columnNames, UniquifyName(attributeType.Name));
+                AddQueryColumn(columnNames, GetUniqueColumnName(attributeType.Name));
             }
             StringBuilder command = new StringBuilder();
             command.Append("SELECT ");
@@ -843,7 +843,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
             // later TODO: handling of zombies in tables (out-of-graph edges, depending on semantic model, in current semantic model not possible)
             String topologyTableName = "edges";
-            String tableName = EscapeTableName(edgeType.PackagePrefixedName);
+            String tableName = GetUniqueTableName(edgeType.Package, edgeType.Name);
             StringBuilder columnNames = new StringBuilder();
             AddQueryColumn(columnNames, "edgeId");
             AddQueryColumn(columnNames, "typeId");
@@ -855,7 +855,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             {
                 if(!IsAttributeTypeMappedToDatabaseColumn(attributeType))
                     continue;
-                AddQueryColumn(columnNames, UniquifyName(attributeType.Name));
+                AddQueryColumn(columnNames, GetUniqueColumnName(attributeType.Name));
             }
             StringBuilder command = new StringBuilder();
             command.Append("SELECT ");
@@ -870,7 +870,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         private SQLiteCommand PrepareStatementsForReadingObjects(ObjectType objectType)
         {
             String topologyTableName = "objects";
-            String tableName = EscapeTableName(objectType.PackagePrefixedName);
+            String tableName = GetUniqueTableName(objectType.Package, objectType.Name);
             StringBuilder columnNames = new StringBuilder();
             AddQueryColumn(columnNames, "objectId");
             AddQueryColumn(columnNames, "typeId");
@@ -879,7 +879,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             {
                 if(!IsAttributeTypeMappedToDatabaseColumn(attributeType))
                     continue;
-                AddQueryColumn(columnNames, UniquifyName(attributeType.Name));
+                AddQueryColumn(columnNames, GetUniqueColumnName(attributeType.Name));
             }
             StringBuilder command = new StringBuilder();
             command.Append("SELECT ");
@@ -894,7 +894,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         // attributes of container type don't appear as a column in the type table of its owner type, they come with an entire table on their own (per container attribute of their owner type)
         private SQLiteCommand PrepareStatementsForReadingContainerAttributes(InheritanceType inheritanceType, String ownerIdColumnName, AttributeType attributeType)
         {
-            String tableName = EscapeTableName(inheritanceType.PackagePrefixedName + "_" + attributeType.Name);
+            String tableName = GetUniqueTableName(inheritanceType.Package, inheritanceType.Name, attributeType.Name);
             StringBuilder columnNames = new StringBuilder();
             AddQueryColumn(columnNames, "entryId");
             AddQueryColumn(columnNames, ownerIdColumnName);
@@ -1179,7 +1179,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private object GetScalarValue(AttributeType attributeType, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
         {
-            return GetScalarValueFromSpecifiedColumn(attributeType, UniquifyName(attributeType.Name), reader, attributeNameToColumnIndex);
+            return GetScalarValueFromSpecifiedColumn(attributeType, GetUniqueColumnName(attributeType.Name), reader, attributeNameToColumnIndex);
         }
 
         private object GetScalarValueFromSpecifiedColumn(AttributeType attributeType, String columnName, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
@@ -1202,7 +1202,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private IGraph GetGraphValue(AttributeType attributeType, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
         {
-            return GetGraphValueFromSpecifiedColumn(UniquifyName(attributeType.Name), reader, attributeNameToColumnIndex);
+            return GetGraphValueFromSpecifiedColumn(GetUniqueColumnName(attributeType.Name), reader, attributeNameToColumnIndex);
         }
 
         private IGraph GetGraphValueFromSpecifiedColumn(String columnName, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
@@ -1216,7 +1216,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private IObject GetObjectValue(AttributeType attributeType, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
         {
-            return GetObjectValueFromSpecifiedColumn(UniquifyName(attributeType.Name), reader, attributeNameToColumnIndex);
+            return GetObjectValueFromSpecifiedColumn(GetUniqueColumnName(attributeType.Name), reader, attributeNameToColumnIndex);
         }
 
         private IObject GetObjectValueFromSpecifiedColumn(String columnName, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
@@ -1230,7 +1230,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private IGraphElement GetGraphElement(AttributeType attributeType, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
         {
-            int index = attributeNameToColumnIndex[UniquifyName(attributeType.Name)];
+            int index = attributeNameToColumnIndex[GetUniqueColumnName(attributeType.Name)];
             if(reader.IsDBNull(index))
                 return null;
             long dbid = reader.GetInt64(index);
@@ -1551,7 +1551,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private SQLiteCommand PrepareInsert(InheritanceType type, string idName)
         {
-            String tableName = EscapeTableName(type.PackagePrefixedName);
+            String tableName = GetUniqueTableName(type.Package, type.Name);
             StringBuilder columnNames = new StringBuilder();
             StringBuilder parameterNames = new StringBuilder();
             AddInsertParameter(columnNames, parameterNames, idName);
@@ -1559,7 +1559,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             {
                 if(!IsAttributeTypeMappedToDatabaseColumn(attributeType))
                     continue;
-                AddInsertParameter(columnNames, parameterNames, UniquifyName(attributeType.Name));
+                AddInsertParameter(columnNames, parameterNames, GetUniqueColumnName(attributeType.Name));
             }
             StringBuilder command = new StringBuilder();
             command.Append("INSERT INTO ");
@@ -1577,7 +1577,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private SQLiteCommand PrepareContainerUpdatingInsert(InheritanceType type, string ownerIdColumnName, AttributeType attributeType)
         {
-            String tableName = EscapeTableName(type.PackagePrefixedName + "_" + attributeType.Name); // container todo: could yield a name already in use; general todo: SQLite/SQL is case insensitive
+            String tableName = GetUniqueTableName(type.Package, type.Name, attributeType.Name);
             StringBuilder columnNames = new StringBuilder();
             StringBuilder parameterNames = new StringBuilder();
             // the id of the container element (entryId) being the same as the primary key is defined by the dbms
@@ -1656,14 +1656,14 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private SQLiteCommand PrepareUpdate(InheritanceType type, string idName, AttributeType attributeType)
         {
-            String tableName = EscapeTableName(type.PackagePrefixedName);
+            String tableName = GetUniqueTableName(type.Package, type.Name);
             StringBuilder command = new StringBuilder();
             command.Append("UPDATE ");
             command.Append(tableName);
             command.Append(" SET ");
-            command.Append(UniquifyName(attributeType.Name));
+            command.Append(GetUniqueColumnName(attributeType.Name));
             command.Append(" = ");
-            command.Append("@" + UniquifyName(attributeType.Name));
+            command.Append("@" + GetUniqueColumnName(attributeType.Name));
             command.Append(" WHERE ");
             command.Append(idName);
             command.Append(" == ");
@@ -1687,7 +1687,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private SQLiteCommand PrepareDelete(InheritanceType type, String idName)
         {
-            String tableName = EscapeTableName(type.PackagePrefixedName);
+            String tableName = GetUniqueTableName(type.Package, type.Name);
             StringBuilder command = new StringBuilder();
             command.Append("DELETE FROM ");
             command.Append(tableName);
@@ -1701,7 +1701,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private SQLiteCommand PrepareContainerDelete(InheritanceType type, string ownerIdColumnName, AttributeType attributeType)
         {
-            String tableName = EscapeTableName(type.PackagePrefixedName + "_" + attributeType.Name); // container todo: could yield a name already in use; general todo: SQLite/SQL is case insensitive
+            String tableName = GetUniqueTableName(type.Package, type.Name, attributeType.Name);
 
             StringBuilder command = new StringBuilder();
             command.Append("DELETE FROM ");
@@ -1716,17 +1716,73 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         #endregion Graph modification handling preparations
 
-        private string EscapeTableName(string name)
+        private string GetUniqueTableName(string package, string name)
         {
-            return UniquifyName(name.Replace(':', '_')); // TODO: could lead to issues in case user uses packages (separated by :: from the type), as well as type names containing _
+            return EscapeName(package, name, null);
         }
 
-        // attribute name defined by user could collide with fixed column names used to model the graph,
-        // type name defined by user could collide with fixed table names used to model the graph
-        // SQLite(/SQL standard) is case insensitive, but GrGen attributes/types are case sensitive
-        private string UniquifyName(string columnName)
+        private string GetUniqueTableName(string package, string name, string attributeName)
         {
-            return columnName + "_prvt_name_collisn_sufx_" + GetMd5(columnName);
+            return EscapeName(package, name, attributeName);
+        }
+
+        private string GetUniqueColumnName(string attributeName)
+        {
+            return EscapeName(null, null, attributeName);
+        }
+
+        // a type/attribute name defined by the user could collide with the fixed table/column names used to model the graph,
+        // the way package::typename/typename.attribute names are combined to get a valid database name could lead to name conflicts with the names chosen by the user,
+        // the SQLite(/SQL standard) DBMS is case insensitive, but GrGen attributes/types are case sensitive
+        // so a name disamgiguation scheme is needed, we add a hash suffix based on the domain name to the database name towards this purpose
+        private string EscapeName(string package, string name, string attributeName)
+        {
+            string ambiguousName = PotentiallyAmbiguousDatabaseName(package, name, attributeName);
+            string unambiguousName = UnambiguousDomainName(package, name, attributeName);
+            string nameConflictResolutionSuffix = "_prvt_name_collisn_sufx_" + GetMd5(unambiguousName);
+            return ambiguousName + nameConflictResolutionSuffix;
+        }
+
+        private string PotentiallyAmbiguousDatabaseName(string package, string name, string attributeName)
+        {
+            StringBuilder sb = new StringBuilder();
+            if(package != null)
+            {
+                sb.Append(package);
+                sb.Append("__");
+            }
+            if(name != null)
+            {
+                sb.Append(name);
+            }
+            if(attributeName != null)
+            {
+                if(name != null)
+                    sb.Append("_");
+                sb.Append(attributeName);
+            }
+            return sb.ToString(); // could apply ToLower so it is clearer what is semantically happening, but this would hamper readability
+        }
+
+        private string UnambiguousDomainName(string package, string name, string attributeName)
+        {
+            StringBuilder sb = new StringBuilder();
+            if(package != null)
+            {
+                sb.Append(package);
+                sb.Append("::");
+            }
+            if(name != null)
+            {
+                sb.Append(name);
+            }
+            if(attributeName != null)
+            {
+                if(name != null)
+                    sb.Append(".");
+                sb.Append(attributeName);
+            }
+            return sb.ToString();
         }
 
         private string GetMd5(string input)
@@ -1848,7 +1904,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 if(!IsAttributeTypeMappedToDatabaseColumn(attributeType))
                     continue;
                 object value = node.GetAttribute(attributeType.Name);
-                addNodeCommand.Parameters.AddWithValue("@" + UniquifyName(attributeType.Name), ValueOrIdOfReferencedElement(value, attributeType));
+                addNodeCommand.Parameters.AddWithValue("@" + GetUniqueColumnName(attributeType.Name), ValueOrIdOfReferencedElement(value, attributeType));
             }
             int rowsAffected = addNodeCommand.ExecuteNonQuery();
 
@@ -1898,7 +1954,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 if(!IsAttributeTypeMappedToDatabaseColumn(attributeType))
                     continue;
                 object value = edge.GetAttribute(attributeType.Name);
-                addEdgeCommand.Parameters.AddWithValue("@" + UniquifyName(attributeType.Name), ValueOrIdOfReferencedElement(value, attributeType));
+                addEdgeCommand.Parameters.AddWithValue("@" + GetUniqueColumnName(attributeType.Name), ValueOrIdOfReferencedElement(value, attributeType));
             }
             int rowsAffected = addEdgeCommand.ExecuteNonQuery();
 
@@ -1991,7 +2047,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 SQLiteCommand updateNodeCommand = updateNodeCommands[node.Type.TypeID][attrType.Name];
                 updateNodeCommand.Parameters.Clear();
                 updateNodeCommand.Parameters.AddWithValue("@nodeId", NodeToDbId[node]);
-                updateNodeCommand.Parameters.AddWithValue("@" + UniquifyName(attrType.Name), ValueOrIdOfReferencedElement(newValue, attrType));
+                updateNodeCommand.Parameters.AddWithValue("@" + GetUniqueColumnName(attrType.Name), ValueOrIdOfReferencedElement(newValue, attrType));
 
                 int rowsAffected = updateNodeCommand.ExecuteNonQuery();
             }
@@ -2017,7 +2073,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 SQLiteCommand updateEdgeCommand = updateEdgeCommands[edge.Type.TypeID][attrType.Name];
                 updateEdgeCommand.Parameters.Clear();
                 updateEdgeCommand.Parameters.AddWithValue("@edgeId", EdgeToDbId[edge]);
-                updateEdgeCommand.Parameters.AddWithValue("@" + UniquifyName(attrType.Name), ValueOrIdOfReferencedElement(newValue, attrType));
+                updateEdgeCommand.Parameters.AddWithValue("@" + GetUniqueColumnName(attrType.Name), ValueOrIdOfReferencedElement(newValue, attrType));
 
                 int rowsAffected = updateEdgeCommand.ExecuteNonQuery();
             }
@@ -2046,7 +2102,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 SQLiteCommand updateObjectCommand = updateObjectCommands[obj.Type.TypeID][attrType.Name];
                 updateObjectCommand.Parameters.Clear();
                 updateObjectCommand.Parameters.AddWithValue("@objectId", ObjectToDbId[obj]);
-                updateObjectCommand.Parameters.AddWithValue("@" + UniquifyName(attrType.Name), ValueOrIdOfReferencedElement(newValue, attrType));
+                updateObjectCommand.Parameters.AddWithValue("@" + GetUniqueColumnName(attrType.Name), ValueOrIdOfReferencedElement(newValue, attrType));
 
                 int rowsAffected = updateObjectCommand.ExecuteNonQuery();
             }
@@ -2265,7 +2321,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 if(!IsAttributeTypeMappedToDatabaseColumn(attributeType))
                     continue;
                 object val = obj.GetAttribute(attributeType.Name);
-                addObjectCommand.Parameters.AddWithValue("@" + UniquifyName(attributeType.Name), ValueOrIdOfReferencedElement(val, attributeType));
+                addObjectCommand.Parameters.AddWithValue("@" + GetUniqueColumnName(attributeType.Name), ValueOrIdOfReferencedElement(val, attributeType));
             }
             int rowsAffected = addObjectCommand.ExecuteNonQuery();
 

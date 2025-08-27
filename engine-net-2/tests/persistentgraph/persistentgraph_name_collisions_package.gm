@@ -1,0 +1,23 @@
+package pack
+{
+	node class N;
+	
+	edge class E
+	{
+		a:set<string> = { };
+	}
+	
+	edge class E_a;
+}
+
+node class pack__N
+{
+	a:set<string> = { };
+}
+
+node class pack__N_a
+{
+	justSomeNormalNonContainerAttributeToCheckNonContainerNamesWithoutARealReason : int;
+}
+
+edge class pack__E_a;

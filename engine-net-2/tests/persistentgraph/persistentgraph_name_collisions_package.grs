@@ -1,0 +1,85 @@
+! rm testgraphfilename_name_collisions_package.db
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+new graph "persistentgraph/persistentgraph_name_collisions_package" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_name_collisions_package.db;Version=3;"
+
+show num nodes pack::N
+show num nodes pack__N
+show num nodes pack__N_a
+show num edges pack::E
+show num edges pack::E_a
+show num edges pack__E_a
+
+new graph "persistentgraph/persistentgraph_name_collisions_package" "some non-persistent graph"
+
+exec init
+
+show num nodes pack::N
+show num nodes pack__N
+show num nodes pack__N_a
+show num edges pack::E
+show num edges pack::E_a
+show num edges pack__E_a
+
+new graph "persistentgraph/persistentgraph_name_collisions_package" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_name_collisions_package.db;Version=3;"
+
+show num nodes pack::N
+show num nodes pack__N
+show num nodes pack__N_a
+show num edges pack::E
+show num edges pack::E_a
+show num edges pack__E_a
+
+exec init
+exec (::n1, ::n2, ::n3, ::e1, ::e2, ::e3)=find
+
+show n2.a
+show e1.a
+show n3.justSomeNormalNonContainerAttributeToCheckNonContainerNamesWithoutARealReason
+
+exec assignAttributes
+
+show n2.a
+show e1.a
+show n3.justSomeNormalNonContainerAttributeToCheckNonContainerNamesWithoutARealReason
+
+show num nodes pack::N
+show num nodes pack__N
+show num nodes pack__N_a
+show num edges pack::E
+show num edges pack::E_a
+show num edges pack__E_a
+
+new graph "persistentgraph/persistentgraph_name_collisions_package" "some non-persistent graph"
+
+show num nodes pack::N
+show num nodes pack__N
+show num nodes pack__N_a
+show num edges pack::E
+show num edges pack::E_a
+show num edges pack__E_a
+
+new graph "persistentgraph/persistentgraph_name_collisions_package" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_name_collisions_package.db;Version=3;"
+
+show num nodes pack::N
+show num nodes pack__N
+show num nodes pack__N_a
+show num edges pack::E
+show num edges pack::E_a
+show num edges pack__E_a
+
+exec (::n1, ::n2, ::n3, ::e1, ::e2, ::e3)=find
+
+show n2.a
+show e1.a
+show n3.justSomeNormalNonContainerAttributeToCheckNonContainerNamesWithoutARealReason
+
+exec delPattern
+
+show num nodes pack::N
+show num nodes pack__N
+show num nodes pack__N_a
+show num edges pack::E
+show num edges pack::E_a
+show num edges pack__E_a
+
+quit
