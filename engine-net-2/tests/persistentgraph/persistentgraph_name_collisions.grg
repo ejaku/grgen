@@ -1,0 +1,46 @@
+#using "persistentgraph_name_collisions.gm"
+
+rule init
+{
+	modify {
+		n:n --> N:N;
+	}
+}
+
+test find : (n,N)
+{
+	n:n --> N:N;
+	return(n,N);
+}
+
+rule assignAttributes
+{
+	n:n --> N:N;
+	if{ n.s == "foo" && n.S == "bar"; }
+	if{ N.s == "deifi" && N.S == "luja"; }
+	if{ n.st.empty() && n.sT.empty() && n.St.empty() && n.ST.empty(); }
+	
+	modify {
+		eval {
+			n.s = "baz";
+			n.S = "qux";
+			
+			N.s = "kaiser";
+			N.S = "schmarrn";
+			
+			n.st.add("all"); 
+			n.sT.add("nutse");
+			n.St.add("in");
+			n.ST.add("tataratze");
+		}
+	}
+}
+
+rule delNodes
+{
+	n:n --> N:N;
+	
+	modify {
+		delete(n,N);
+	}
+}

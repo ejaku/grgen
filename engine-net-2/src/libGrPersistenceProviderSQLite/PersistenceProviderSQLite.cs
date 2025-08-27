@@ -12,6 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Diagnostics;
+using System.Security.Cryptography;
 using System.Text;
 using de.unika.ipd.grGen.libConsoleAndOS;
 using de.unika.ipd.grGen.libGr;
@@ -1722,9 +1723,30 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         // attribute name defined by user could collide with fixed column names used to model the graph,
         // type name defined by user could collide with fixed table names used to model the graph
+        // SQLite(/SQL standard) is case insensitive, but GrGen attributes/types are case sensitive
         private string UniquifyName(string columnName)
         {
-            return columnName + "_prvt_name_collisn_sufx";
+            return columnName + "_prvt_name_collisn_sufx_" + GetMd5(columnName);
+        }
+
+        private string GetMd5(string input)
+        {
+            using(MD5 md5 = MD5.Create()) // todo in case of performance issues: name mapping could be cached in a loopkup table, always same names used due to fixed model
+            {
+                byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+                return HexString(hashBytes);
+            }
+        }
+
+        private string HexString(byte[] input)
+        {
+            StringBuilder sb = new StringBuilder(input.Length * 2);
+            for(int i = 0; i < input.Length; ++i)
+            {
+                sb.AppendFormat("{0:X2}", input[i]);
+            }
+            return sb.ToString();
         }
 
         private void AddInsertParameter(StringBuilder columnNames, StringBuilder parameterNames, String name)

@@ -1,0 +1,17 @@
+node class n
+{
+	s:string = "foo";
+	S:string = "bar";
+	
+	st:set<string> = {};
+	St:set<string> = {};
+	sT:set<string> = {};
+	ST:set<string> = {};
+}
+
+node class N
+{
+	s:string = "deifi";
+	S:string = "luja";
+}
+

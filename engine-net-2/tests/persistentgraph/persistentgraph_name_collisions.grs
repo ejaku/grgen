@@ -1,0 +1,60 @@
+! rm testgraphfilename_name_collisions.db
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+new graph "persistentgraph/persistentgraph_name_collisions" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_name_collisions.db;Version=3;"
+
+show num nodes n
+show num nodes N
+
+new graph "persistentgraph/persistentgraph_name_collisions" "some non-persistent graph"
+
+exec init
+
+show num nodes n
+show num nodes N
+
+new graph "persistentgraph/persistentgraph_name_collisions" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_name_collisions.db;Version=3;"
+
+show num nodes n
+show num nodes N
+
+exec init
+exec (::n,::N)=find
+
+show n.s
+show n.S
+show N.s
+show N.S
+
+exec assignAttributes
+
+show n.s
+show n.S
+show N.s
+show N.S
+
+show num nodes n
+show num nodes N
+
+new graph "persistentgraph/persistentgraph_name_collisions" "some non-persistent graph"
+
+show num nodes n
+show num nodes N
+
+new graph "persistentgraph/persistentgraph_name_collisions" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_name_collisions.db;Version=3;"
+
+show num nodes n
+show num nodes N
+
+exec (::n,::N)=find
+
+show n.s
+show n.S
+show N.s
+show N.S
+
+exec delNodes
+
+show num nodes n
+show num nodes N
+
+quit
