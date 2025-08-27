@@ -288,6 +288,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         private void CreateTypesWithAttributeTables()
         {
             CreateTypesTable();
+            CreateAttributeTypesTable();
             AddUnknownModelTypesToTypesTable();
 
             // TODO: create configuration and status table, a key-value-store, esp. including version, plus later stuff?
@@ -374,6 +375,16 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 "kind", "INT NOT NULL",
                 "name", "TEXT NOT NULL"
                 );
+        }
+
+        private void CreateAttributeTypesTable()
+        {
+            CreateTable("attributeTypes", "attributeTypeId",
+                "typeId", "INTEGER NOT NULL",
+                "attributeName", "TEXT NOT NULL",
+                "xgrsType", "TEXT NOT NULL"
+                );
+            AddIndex("attributeTypes", "typeId");
         }
 
         private void CreateInheritanceTypeTable(InheritanceType type, String idColumnName)
@@ -557,9 +568,11 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             {
                 if(typeNameToKind[type.PackagePrefixedName] != kind)
                     throw new Exception("The " + kind + " " + type.PackagePrefixedName + " is of a different kind in the database (" + typeNameToKind[type.PackagePrefixedName] + ")!");
+                FillUnknownAttributeTypes(type); // todo: adapt to changes, as of now the attribute types are only written to have a representation of the model of the persistently stored graph (for later use) (and cleared before re-insertion)
                 return;
             }
             FillType(fillTypeCommand, type, kind);
+            FillUnknownAttributeTypes(type);
         }
 
         private void FillType(SQLiteCommand fillTypeCommand, InheritanceType type, TypeKind kind)
@@ -581,6 +594,66 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             StringBuilder parameterNames = new StringBuilder();
             AddInsertParameter(columnNames, parameterNames, "kind");
             AddInsertParameter(columnNames, parameterNames, "name");
+
+            StringBuilder command = new StringBuilder();
+            command.Append("INSERT INTO ");
+            command.Append(tableName);
+            command.Append("(");
+            command.Append(columnNames.ToString());
+            command.Append(")");
+            command.Append(" VALUES");
+            command.Append("(");
+            command.Append(parameterNames.ToString());
+            command.Append(")");
+
+            return new SQLiteCommand(command.ToString(), connection);
+        }
+
+        private void FillUnknownAttributeTypes(InheritanceType type)
+        {
+            using(SQLiteCommand removeTypeFromAttributeTypesCommand = PrepareTopologyDelete("attributeTypes", "typeId"))
+            {
+                RemoveAttributeTypes(removeTypeFromAttributeTypesCommand, type);
+            }
+
+            using(SQLiteCommand fillAttributeTypeCommand = GetFillAttributeTypeCommand())
+            {
+                foreach(AttributeType attributeType in type.AttributeTypes)
+                {
+                    FillAttributeType(fillAttributeTypeCommand, attributeType, type);
+                }
+            }
+        }
+
+        private void RemoveAttributeTypes(SQLiteCommand removeTypeFromAttributeTypesCommand, InheritanceType type)
+        {
+            removeTypeFromAttributeTypesCommand.Parameters.Clear();
+            removeTypeFromAttributeTypesCommand.Parameters.AddWithValue("@typeId", TypeNameToDbId[type.PackagePrefixedName]);
+
+            int rowsAffected = removeTypeFromAttributeTypesCommand.ExecuteNonQuery();
+        }
+
+        private long FillAttributeType(SQLiteCommand fillAttributeTypeCommand, AttributeType attributeType, InheritanceType type)
+        {
+            fillAttributeTypeCommand.Parameters.Clear();
+            fillAttributeTypeCommand.Parameters.AddWithValue("@typeId", TypeNameToDbId[type.PackagePrefixedName]);
+            fillAttributeTypeCommand.Parameters.AddWithValue("@attributeName", attributeType.Name);
+            fillAttributeTypeCommand.Parameters.AddWithValue("@xgrsType", TypesHelper.AttributeTypeToXgrsType(attributeType));
+
+            int rowsAffected = fillAttributeTypeCommand.ExecuteNonQuery();
+
+            long rowId = connection.LastInsertRowId; // attributeTypeId
+            return rowId;
+        }
+
+        private SQLiteCommand GetFillAttributeTypeCommand()
+        {
+            String tableName = "attributeTypes";
+            StringBuilder columnNames = new StringBuilder();
+            StringBuilder parameterNames = new StringBuilder();
+            AddInsertParameter(columnNames, parameterNames, "typeId");
+            AddInsertParameter(columnNames, parameterNames, "attributeName");
+            AddInsertParameter(columnNames, parameterNames, "xgrsType");
 
             StringBuilder command = new StringBuilder();
             command.Append("INSERT INTO ");
