@@ -1,0 +1,5 @@
+node class N
+{
+	s:string = null;
+	ss:string = "";
+}

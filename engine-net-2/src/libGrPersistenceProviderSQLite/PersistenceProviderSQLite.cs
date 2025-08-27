@@ -1265,7 +1265,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 case AttributeKind.IntegerAttr: return reader.GetInt32(index);
                 case AttributeKind.LongAttr: return reader.GetInt64(index);
                 case AttributeKind.BooleanAttr: return reader.GetBoolean(index);
-                case AttributeKind.StringAttr: return reader.GetString(index);
+                case AttributeKind.StringAttr: return reader.IsDBNull(index) ? null :reader.GetString(index);
                 case AttributeKind.EnumAttr: return Enum.Parse(attributeType.EnumType.EnumType, reader.GetString(index));
                 case AttributeKind.FloatAttr: return reader.GetFloat(index);
                 case AttributeKind.DoubleAttr: return reader.GetDouble(index);

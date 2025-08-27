@@ -1,0 +1,26 @@
+#using "persistentgraph_attributed_nullstring.gm"
+
+rule init
+{
+	modify {
+		n:N;
+	}
+}
+
+test find : (N)
+{
+	n:N;
+	return(n);
+}
+
+rule assignAttributes
+{
+	n:N;
+	
+	modify {
+		eval {
+			n.s = "gontschenfrieda";
+			n.ss = null; 
+		}
+	}
+}

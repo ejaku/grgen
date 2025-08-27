@@ -1,0 +1,57 @@
+! rm testgraphfilename_attributed_nullstring.db
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+new graph "persistentgraph/persistentgraph_attributed_nullstring" "some non-persistent graph"
+
+show num nodes N
+
+exec init
+exec (::n)=find
+show n.s
+show n.ss
+exec assignAttributes
+show n.s
+show n.ss
+
+show num nodes N
+
+new graph "persistentgraph/persistentgraph_attributed_nullstring" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_attributed_nullstring.db;Version=3;"
+
+show num nodes N
+
+exec init
+exec (::n)=find
+show n.s
+show n.ss
+
+show num nodes N
+
+new graph "persistentgraph/persistentgraph_attributed_nullstring" "some non-persistent graph"
+
+show num nodes N
+
+new graph "persistentgraph/persistentgraph_attributed_nullstring" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_attributed_nullstring.db;Version=3;"
+
+show num nodes N
+
+exec (::n)=find
+show n.s
+show n.ss
+exec assignAttributes
+show n.s
+show n.ss
+
+new graph "persistentgraph/persistentgraph_attributed_nullstring" "some non-persistent graph"
+
+show num nodes N
+
+new graph "persistentgraph/persistentgraph_attributed_nullstring" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_attributed_nullstring.db;Version=3;"
+
+show num nodes N
+
+exec (::n)=find
+show n.s
+show n.ss
+
+clear graph
+
+quit
