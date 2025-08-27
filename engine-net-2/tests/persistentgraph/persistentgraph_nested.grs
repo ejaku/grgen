@@ -1,7 +1,7 @@
-! rm testgraphfilename5.db
+! rm testgraphfilename_nested.db
 
 #the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
-new graph "persistentgraph/persistentgraph_nested" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename5.db;Version=3;"
+new graph "persistentgraph/persistentgraph_nested" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_nested.db;Version=3;"
 
 show num nodes N
 show num edges
@@ -21,7 +21,7 @@ show var n2
 show var n3
 show var n4
 
-new graph "persistentgraph/persistentgraph_nested" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename5.db;Version=3;"
+new graph "persistentgraph/persistentgraph_nested" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_nested.db;Version=3;"
 
 show num nodes N
 show num edges
@@ -43,7 +43,7 @@ new graph "persistentgraph/persistentgraph_nested" "some non-persistent graph"
 show num nodes N
 show num edges
 
-new graph "persistentgraph/persistentgraph_nested" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename5.db;Version=3;"
+new graph "persistentgraph/persistentgraph_nested" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_nested.db;Version=3;"
 
 show num nodes N
 show num edges

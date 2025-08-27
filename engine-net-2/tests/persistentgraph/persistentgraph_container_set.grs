@@ -1,6 +1,6 @@
-! rm testgraphfilename_set.db
+! rm testgraphfilename_container_set.db
 #the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
-new graph "persistentgraph/persistentgraph_container_set" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_set.db;Version=3;"
+new graph "persistentgraph/persistentgraph_container_set" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_set.db;Version=3;"
 
 show num nodes N
 show num edges E
@@ -18,7 +18,7 @@ show var o2
 show num nodes N
 show num edges E
 
-new graph "persistentgraph/persistentgraph_container_set" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_set.db;Version=3;"
+new graph "persistentgraph/persistentgraph_container_set" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_set.db;Version=3;"
 
 show num nodes N
 show num edges E
@@ -39,7 +39,7 @@ new graph "persistentgraph/persistentgraph_container_set" "some non-persistent g
 show num nodes N
 show num edges E
 
-new graph "persistentgraph/persistentgraph_container_set" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_set.db;Version=3;"
+new graph "persistentgraph/persistentgraph_container_set" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_set.db;Version=3;"
 
 show num nodes N
 show num edges E

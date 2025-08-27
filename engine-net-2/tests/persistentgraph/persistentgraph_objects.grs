@@ -1,6 +1,6 @@
-! rm testgraphfilename6.db
+! rm testgraphfilename_objects.db
 #the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
-new graph "persistentgraph/persistentgraph_objects" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename6.db;Version=3;"
+new graph "persistentgraph/persistentgraph_objects" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_objects.db;Version=3;"
 
 show num nodes
 
@@ -21,7 +21,7 @@ show n.root
 exec in ::n.nested1 { (::n)=findSimple <; showAvailabilityOfNestedGraphs }
 show n.root
 
-new graph "persistentgraph/persistentgraph_objects" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename6.db;Version=3;"
+new graph "persistentgraph/persistentgraph_objects" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_objects.db;Version=3;"
 
 show num nodes
 
@@ -42,7 +42,7 @@ new graph "persistentgraph/persistentgraph_objects" "some non-persistent graph"
 
 show num nodes
 
-new graph "persistentgraph/persistentgraph_objects" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename6.db;Version=3;"
+new graph "persistentgraph/persistentgraph_objects" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_objects.db;Version=3;"
 
 show num nodes
 

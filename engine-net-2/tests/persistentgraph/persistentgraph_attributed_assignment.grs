@@ -1,6 +1,6 @@
-! rm testgraphfilename3.db
+! rm testgraphfilename_attributed_assignment.db
 #the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
-new graph "persistentgraph/persistentgraph_attributed" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename3.db;Version=3;"
+new graph "persistentgraph/persistentgraph_attributed" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_attributed_assignment.db;Version=3;"
 
 show num nodes N
 show num nodes N1
@@ -130,7 +130,7 @@ show num edges E1
 show num edges E2
 show num edges E12
 
-new graph "persistentgraph/persistentgraph_attributed" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename3.db;Version=3;"
+new graph "persistentgraph/persistentgraph_attributed" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_attributed_assignment.db;Version=3;"
 
 show num nodes N
 show num nodes N1
