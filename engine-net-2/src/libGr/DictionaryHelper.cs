@@ -77,6 +77,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(keyType == null || valueType == null || oldDictionary == null)
                 throw new NullReferenceException();
+            if(!(oldDictionary is IDictionary))
+                throw new ArgumentException("Creating a set/map as a clone expects an IDictionary, given is " + oldDictionary.GetType());
 
             Type genDictType = typeof(Dictionary<,>);
             Type dictType = genDictType.MakeGenericType(keyType, valueType);

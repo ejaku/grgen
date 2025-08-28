@@ -3229,18 +3229,20 @@ namespace de.unika.ipd.grGen.grShell
             }
             catch(SequenceParserException ex)
             {
-                ConsoleUI.outWriter.WriteLine("Unable to parse sequence definition at line " + tok.beginLine);
+                ConsoleUI.errorOutWriter.WriteLine("Unable to parse sequence definition at line " + tok.beginLine + ":");
                 GrShellSequenceApplierAndDebugger.HandleSequenceParserException(ex);
                 noError = false;
             }
             catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
             {
-                ConsoleUI.outWriter.WriteLine("Unable to process sequence definition at line " + tok.beginLine + ": " + ex.Message);
+                ConsoleUI.errorOutWriter.WriteLine("Unable to process sequence definition at line " + tok.beginLine + ":");
+                ConsoleUI.errorOutWriter.WriteLine(ex.Message);
                 noError = false;
             }
             catch(Exception ex)
             {
-                ConsoleUI.outWriter.WriteLine("Unable to process sequence definition at line " + tok.beginLine + ": " + ex);
+                ConsoleUI.errorOutWriter.WriteLine("Unable to process sequence definition at line " + tok.beginLine + ":");
+                ConsoleUI.errorOutWriter.WriteLine(ex);
                 ConsoleUI.outWriter.WriteLine("(You tried to overwrite a compiled sequence?)");
                 noError = false;
             }
@@ -3275,20 +3277,22 @@ namespace de.unika.ipd.grGen.grShell
             }
             catch(SequenceParserException ex)
             {
-                ConsoleUI.outWriter.WriteLine("Unable to parse sequence expression at line " + tok.beginLine);
+                ConsoleUI.errorOutWriter.WriteLine("Unable to parse sequence expression at line " + tok.beginLine + ":");
                 GrShellSequenceApplierAndDebugger.HandleSequenceParserException(ex);
                 noError = false;
                 return null;
             }
             catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
             {
-                ConsoleUI.outWriter.WriteLine("Unable to parse sequence expression at line " + tok.beginLine + ": " + ex.Message);
+                ConsoleUI.errorOutWriter.WriteLine("Unable to parse sequence expression at line " + tok.beginLine + ":");
+                ConsoleUI.errorOutWriter.WriteLine(ex.Message);
                 noError = false;
                 return null;
             }
             catch(Exception ex)
             {
-                ConsoleUI.outWriter.WriteLine("Unable to parse sequence expression at line " + tok.beginLine + ": " + ex);
+                ConsoleUI.errorOutWriter.WriteLine("Unable to parse sequence expression at line " + tok.beginLine + ":");
+                ConsoleUI.errorOutWriter.WriteLine(ex);
                 noError = false;
                 return null;
             }
@@ -3304,18 +3308,20 @@ namespace de.unika.ipd.grGen.grShell
             }
             catch(SequenceParserException ex)
             {
-                ConsoleUI.outWriter.WriteLine("Unable to parse sequence expression at line " + tok.beginLine);
+                ConsoleUI.errorOutWriter.WriteLine("\nUnable to evaluate sequence expression at line " + tok.beginLine + ":");
                 GrShellSequenceApplierAndDebugger.HandleSequenceParserException(ex);
                 noError = false;
             }
             catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
             {
-                ConsoleUI.outWriter.WriteLine("Unable to parse sequence expression at line " + tok.beginLine + ": " + ex.Message);
+                ConsoleUI.errorOutWriter.WriteLine("\nUnable to evaluate sequence expression at line " + tok.beginLine + ":");
+                ConsoleUI.errorOutWriter.WriteLine(ex.Message);
                 noError = false;
             }
             catch(Exception ex)
             {
-                ConsoleUI.outWriter.WriteLine("Unable to parse sequence expression at line " + tok.beginLine + ": " + ex);
+                ConsoleUI.errorOutWriter.WriteLine("\nUnable to evaluate sequence expression at line " + tok.beginLine + ":");
+                ConsoleUI.errorOutWriter.WriteLine(ex);
                 noError = false;
             }
         }
@@ -3336,20 +3342,22 @@ namespace de.unika.ipd.grGen.grShell
             }
             catch(SequenceParserException ex)
             {
-                ConsoleUI.outWriter.WriteLine("Unable to parse sequence at line " + tok.beginLine);
+                ConsoleUI.errorOutWriter.WriteLine("Unable to parse sequence at line " + tok.beginLine + ":");
                 GrShellSequenceApplierAndDebugger.HandleSequenceParserException(ex);
                 noError = false;
                 return null;
             }
             catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
             {
-                ConsoleUI.outWriter.WriteLine("Unable to parse sequence at line " + tok.beginLine + ": " + ex.Message);
+                ConsoleUI.errorOutWriter.WriteLine("Unable to parse sequence at line " + tok.beginLine + ":");
+                ConsoleUI.errorOutWriter.WriteLine(ex.Message);
                 noError = false;
                 return null;
             }
             catch(Exception ex)
             {
-                ConsoleUI.outWriter.WriteLine("Unable to parse sequence at line " + tok.beginLine + ": " + ex);
+                ConsoleUI.errorOutWriter.WriteLine("Unable to parse sequence at line " + tok.beginLine + ":");
+                ConsoleUI.errorOutWriter.WriteLine(ex);
                 noError = false;
                 return null;
             }
@@ -3365,18 +3373,20 @@ namespace de.unika.ipd.grGen.grShell
             }
             catch(SequenceParserException ex)
             {
-                ConsoleUI.outWriter.WriteLine("Unable to execute sequence at line " + tok.beginLine);
+                ConsoleUI.errorOutWriter.WriteLine("\nUnable to execute sequence at line " + tok.beginLine + ":");
                 GrShellSequenceApplierAndDebugger.HandleSequenceParserException(ex);
                 noError = false;
             }
             catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
             {
-                ConsoleUI.outWriter.WriteLine("Unable to execute sequence at line " + tok.beginLine + ": " + ex.Message);
+                ConsoleUI.errorOutWriter.WriteLine("\nUnable to execute sequence at line " + tok.beginLine + ":");
+                ConsoleUI.errorOutWriter.WriteLine(ex.Message);
                 noError = false;
             }
             catch(Exception ex)
             {
-                ConsoleUI.outWriter.WriteLine("Unable to execute sequence at line " + tok.beginLine + ": " + ex);
+                ConsoleUI.errorOutWriter.WriteLine("\nUnable to execute sequence at line " + tok.beginLine + ":");
+                ConsoleUI.errorOutWriter.WriteLine(ex);
                 noError = false;
             }
         }
@@ -3391,18 +3401,20 @@ namespace de.unika.ipd.grGen.grShell
             }
             catch(SequenceParserException ex)
             {
-                ConsoleUI.outWriter.WriteLine("Unable to debug execute sequence at line " + tok.beginLine);
+                ConsoleUI.errorOutWriter.WriteLine("\nUnable to debug execute sequence at line " + tok.beginLine + ":");
                 GrShellSequenceApplierAndDebugger.HandleSequenceParserException(ex);
                 noError = false;
             }
             catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
             {
-                ConsoleUI.outWriter.WriteLine("Unable to debug execute sequence at line " + tok.beginLine + ": " + ex.Message);
+                ConsoleUI.errorOutWriter.WriteLine("\nUnable to debug execute sequence at line " + tok.beginLine + ":");
+                ConsoleUI.errorOutWriter.WriteLine(ex.Message);
                 noError = false;
             }
             catch(Exception ex)
             {
-                ConsoleUI.outWriter.WriteLine("Unable to debug execute sequence at line " + tok.beginLine + ": " + ex);
+                ConsoleUI.errorOutWriter.WriteLine("\nUnable to debug execute sequence at line " + tok.beginLine + ":");
+                ConsoleUI.errorOutWriter.WriteLine(ex);
                 noError = false;
             }
         }
@@ -3417,18 +3429,20 @@ namespace de.unika.ipd.grGen.grShell
             }
             catch(SequenceParserException ex)
             {
-                ConsoleUI.outWriter.WriteLine("Unable to debug evaluate sequence expression at line " + tok.beginLine);
+                ConsoleUI.errorOutWriter.WriteLine("\nUnable to debug evaluate sequence expression at line " + tok.beginLine + ":");
                 GrShellSequenceApplierAndDebugger.HandleSequenceParserException(ex);
                 noError = false;
             }
             catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
             {
-                ConsoleUI.outWriter.WriteLine("Unable to debug evaluate sequence expression at line " + tok.beginLine + ": " + ex.Message);
+                ConsoleUI.errorOutWriter.WriteLine("\nUnable to debug evaluate sequence expression at line " + tok.beginLine + ":");
+                ConsoleUI.errorOutWriter.WriteLine(ex.Message);
                 noError = false;
             }
             catch(Exception ex)
             {
-                ConsoleUI.outWriter.WriteLine("Unable to debug evaluate sequence expression at line " + tok.beginLine + ": " + ex);
+                ConsoleUI.errorOutWriter.WriteLine("\nUnable to debug evaluate sequence expression at line " + tok.beginLine + ":");
+                ConsoleUI.errorOutWriter.WriteLine(ex);
                 noError = false;
             }
         }

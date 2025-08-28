@@ -13,6 +13,7 @@ using System.Collections;
 using System.Text;
 using System.IO;
 using System.Threading;
+using de.unika.ipd.grGen.libConsoleAndOS;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -116,6 +117,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Executes this sequence computation.
+        /// Complete execution including execution infrastructure, the specific functionality is implemented by calling ExecuteImpl.
         /// </summary>
         /// <param name="procEnv">The graph processing environment on which this sequence computation is to be evaluated.
         ///     Contains especially the graph on which this sequence computation is to be evaluated.
@@ -129,7 +131,16 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("Before executing sequence " + Id + ": " + Symbol);
 #endif
-            object res = ExecuteImpl(procEnv);
+            object res;
+            try
+            {
+                res = ExecuteImpl(procEnv);
+            }
+            catch(Exception ex)
+            {
+                ConsoleUI.errorOutWriter.WriteLine("Exception during execution of sequence computation " + Symbol);
+                throw ex;
+            }
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("After executing sequence " + Id + ": " + Symbol + " result " + res);
 #endif
@@ -310,8 +321,8 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
-            left.ExecuteImpl(procEnv);
-            return right.ExecuteImpl(procEnv);
+            left.Execute(procEnv);
+            return right.Execute(procEnv);
         }
 
         public override void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -1090,7 +1101,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
-            object value = SourceValueProvider.ExecuteImpl(procEnv);
+            object value = SourceValueProvider.Execute(procEnv);
             Target.Assign(value, procEnv);
             return value;
         }
@@ -3238,14 +3249,14 @@ namespace de.unika.ipd.grGen.libGr
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
             if(ReturnVars.Count > 0)
-                ReturnVars[0].SetVariableValue(BuiltinProcedure.ExecuteImpl(procEnv), procEnv);
+                ReturnVars[0].SetVariableValue(BuiltinProcedure.Execute(procEnv), procEnv);
             else
             {
                 if(BuiltinProcedure is SequenceComputationGraphAdd)
                 {
                     SequenceComputationGraphAdd add = (SequenceComputationGraphAdd)BuiltinProcedure;
                 }
-                BuiltinProcedure.ExecuteImpl(procEnv);
+                BuiltinProcedure.Execute(procEnv);
             }
             return null;
         }
@@ -3377,17 +3388,17 @@ namespace de.unika.ipd.grGen.libGr
                 sb.Append(")=");
             }
             sb.Append(Name);
+            sb.Append("(");
             if(ArgumentExpressions.Length > 0)
             {
-                sb.Append("(");
                 for(int i = 0; i < ArgumentExpressions.Length; ++i)
                 {
                     sb.Append(ArgumentExpressions[i].Symbol);
                     if(i != ArgumentExpressions.Length - 1)
                         sb.Append(",");
                 }
-                sb.Append(")");
             }
+            sb.Append(")");
             return sb.ToString();
         }
 
@@ -3657,17 +3668,17 @@ namespace de.unika.ipd.grGen.libGr
             if(TargetVar != null)
                 sb.Append(TargetVar.ToString() + ".");
             sb.Append(Name);
+            sb.Append("(");
             if(ArgumentExpressions.Length > 0)
             {
-                sb.Append("(");
                 for(int i = 0; i < ArgumentExpressions.Length; ++i)
                 {
                     sb.Append(ArgumentExpressions[i].Symbol);
                     if(i != ArgumentExpressions.Length - 1)
                         sb.Append(",");
                 }
-                sb.Append(")");
             }
+            sb.Append(")");
             return sb.ToString();
         }
     }

@@ -136,6 +136,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Applies this sequence.
+        /// Complete application including execution infrastructure, the specific functionality is implemented by calling ApplyImpl.
         /// </summary>
         /// <param name="procEnv">The graph processing environment on which this sequence is to be applied.
         ///     Contains especially the graph on which this sequence is to be applied.
@@ -150,7 +151,16 @@ namespace de.unika.ipd.grGen.libGr
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("Before executing sequence " + Id + ": " + Symbol);
 #endif
-            bool res = ApplyImpl(procEnv);
+            bool res;
+            try
+            {
+                res = ApplyImpl(procEnv);
+            }
+            catch(Exception ex)
+            {
+                ConsoleUI.errorOutWriter.WriteLine("Exception while applying sequence " + Symbol);
+                throw ex;
+            }
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("After executing sequence " + Id + ": " + Symbol + " result " + res);
 #endif
@@ -7091,7 +7101,7 @@ namespace de.unika.ipd.grGen.libGr
         protected override IEnumerable GetLoopIterator(IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionFromIndexMultipleFromTo indexFunctionCall = (SequenceExpressionFromIndexMultipleFromTo)IndexFunctionCall;
-            Dictionary<INode, SetValueType> nodeSet = (Dictionary<INode, SetValueType>)indexFunctionCall.ExecuteImpl(procEnv); // takes care of profiling because it is explicitly set even though the index function call expression is not a children
+            Dictionary<INode, SetValueType> nodeSet = (Dictionary<INode, SetValueType>)indexFunctionCall.Execute(procEnv); // takes care of profiling because it is explicitly set even though the index function call expression is not a children
             return nodeSet.Keys;
         }
 
@@ -7131,7 +7141,7 @@ namespace de.unika.ipd.grGen.libGr
         protected override IEnumerable GetLoopIterator(IGraphProcessingEnvironment procEnv)
         {
             SequenceExpressionFromIndexMultipleFromTo indexFunctionCall = (SequenceExpressionFromIndexMultipleFromTo)IndexFunctionCall;
-            Dictionary<IEdge, SetValueType> edgeSet = (Dictionary<IEdge, SetValueType>)indexFunctionCall.ExecuteImpl(procEnv); // takes care of profiling because it is explicitly set even though the index function call expression is not a children
+            Dictionary<IEdge, SetValueType> edgeSet = (Dictionary<IEdge, SetValueType>)indexFunctionCall.Execute(procEnv); // takes care of profiling because it is explicitly set even though the index function call expression is not a children
             return edgeSet.Keys;
         }
 

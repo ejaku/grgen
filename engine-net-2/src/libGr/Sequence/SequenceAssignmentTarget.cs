@@ -10,6 +10,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections;
+using de.unika.ipd.grGen.libConsoleAndOS;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -85,12 +86,33 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Assigns a value to this assignment target.
+        /// Complete assignment including execution infrastructure, the specific functionality is implemented by calling AssignImpl.
         /// </summary>
         /// <param name="value">The value to assign.</param>
         /// <param name="procEnv">The graph processing environment on which this assignment is to be executed.
         ///     Containing especially the graph on which this assignment is to be executed.
         ///     And the user proxy queried when choices are due.</param>
-        public abstract void Assign(object value, IGraphProcessingEnvironment procEnv);
+        public void Assign(object value, IGraphProcessingEnvironment procEnv)
+        {
+            try
+            {
+                AssignImpl(value, procEnv);
+            }
+            catch(Exception ex)
+            {
+                ConsoleUI.errorOutWriter.WriteLine("Exception during assignment to target " + Symbol);
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Assigns a value to this assignment target. This function represents the actual implementation of the assignment.
+        /// </summary>
+        /// <param name="value">The value to assign.</param>
+        /// <param name="procEnv">The graph processing environment on which this assignment is to be executed.
+        ///     Containing especially the graph on which this assignment is to be executed.
+        ///     And the user proxy queried when choices are due.</param>
+        public abstract void AssignImpl(object value, IGraphProcessingEnvironment procEnv);
 
         public override sealed object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
@@ -130,7 +152,7 @@ namespace de.unika.ipd.grGen.libGr
             return DestVar.Type;
         }
 
-        public override void Assign(object value, IGraphProcessingEnvironment procEnv)
+        public override void AssignImpl(object value, IGraphProcessingEnvironment procEnv)
         {
             DestVar.SetVariableValue(value, procEnv);
         }
@@ -178,7 +200,7 @@ namespace de.unika.ipd.grGen.libGr
             return DestVar.Type;
         }
 
-        public override void Assign(object value, IGraphProcessingEnvironment procEnv)
+        public override void AssignImpl(object value, IGraphProcessingEnvironment procEnv)
         {
             throw new Exception("yield is only available in the compiled sequences (exec)");
         }
@@ -262,7 +284,7 @@ namespace de.unika.ipd.grGen.libGr
                 return TypesHelper.ExtractSrc(DestVar.Type) ?? "";
         }
 
-        public override void Assign(object value, IGraphProcessingEnvironment procEnv)
+        public override void AssignImpl(object value, IGraphProcessingEnvironment procEnv)
         {
             object container = DestVar.GetVariableValue(procEnv);
             object key = KeyExpression.Evaluate(procEnv);
@@ -354,7 +376,7 @@ namespace de.unika.ipd.grGen.libGr
             return TypesHelper.AttributeTypeToXgrsType(attributeType);
         }
 
-        public override void Assign(object value, IGraphProcessingEnvironment procEnv)
+        public override void AssignImpl(object value, IGraphProcessingEnvironment procEnv)
         {
             ContainerHelper.AssignAttribute(DestVar.GetVariableValue(procEnv), value, AttributeName, procEnv.Graph);
         }
@@ -459,7 +481,7 @@ namespace de.unika.ipd.grGen.libGr
                 return TypesHelper.ExtractSrc(DestVar.Type) ?? "";
         }
 
-        public override void Assign(object value, IGraphProcessingEnvironment procEnv)
+        public override void AssignImpl(object value, IGraphProcessingEnvironment procEnv)
         {
             ContainerHelper.AssignAttributeIndexed(DestVar.GetVariableValue(procEnv), KeyExpression.Evaluate(procEnv),
                 value, AttributeName, procEnv.Graph);
@@ -527,7 +549,7 @@ namespace de.unika.ipd.grGen.libGr
             return "boolean";
         }
 
-        public override void Assign(object value, IGraphProcessingEnvironment procEnv)
+        public override void AssignImpl(object value, IGraphProcessingEnvironment procEnv)
         {
             IGraphElement elem = (IGraphElement)GraphElementVar.GetVariableValue(procEnv);
             int visitedFlag = VisitedFlagExpression != null ? (int)VisitedFlagExpression.Evaluate(procEnv) : 0;

@@ -195,6 +195,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(valueType == null || oldList == null)
                 throw new NullReferenceException();
+            if(!(oldList is IList))
+                throw new ArgumentException("Creating an array as a clone expects an IList, given is " + oldList.GetType());
 
             Type genListType = typeof(List<>);
             Type listType = genListType.MakeGenericType(valueType);

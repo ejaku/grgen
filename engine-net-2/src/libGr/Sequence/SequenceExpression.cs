@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Text;
 using System.IO;
+using de.unika.ipd.grGen.libConsoleAndOS;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -196,7 +197,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Evaluates this sequence expression.
-        /// Implemented by calling execute, every expression is a computation.
+        /// Complete evaluation including execution infrastructure, the specific functionality is implemented by calling ExecuteImpl - every expression is a computation.
         /// </summary>
         /// <param name="procEnv">The graph processing environment on which this sequence expression is to be evaluated.
         ///     Contains especially the graph on which this sequence expression is to be evaluated.
@@ -204,7 +205,15 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The value resulting from computing this sequence expression</returns>
         public object Evaluate(IGraphProcessingEnvironment procEnv)
         {
-            return ExecuteImpl(procEnv);
+            try
+            {
+                return ExecuteImpl(procEnv);
+            }
+            catch(Exception ex)
+            {
+                ConsoleUI.errorOutWriter.WriteLine("Exception during execution of sequence expression " + Symbol);
+                throw ex;
+            }
         }
 
         public override IEnumerable<SequenceComputation> Children
@@ -7760,7 +7769,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
-            return ((IEdge)Edge.ExecuteImpl(procEnv)).Source;
+            return ((IEdge)Edge.Execute(procEnv)).Source;
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
@@ -7807,7 +7816,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
-            return ((IEdge)Edge.ExecuteImpl(procEnv)).Target;
+            return ((IEdge)Edge.Execute(procEnv)).Target;
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
@@ -7857,7 +7866,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
-            return ((IEdge)Edge.ExecuteImpl(procEnv)).Opposite((INode)Node.ExecuteImpl(procEnv));
+            return ((IEdge)Edge.Execute(procEnv)).Opposite((INode)Node.Execute(procEnv));
         }
 
         public override IEnumerable<SequenceExpression> ChildrenExpression
@@ -11792,7 +11801,7 @@ namespace de.unika.ipd.grGen.libGr
             List<IndexHelper.IndexAccess> indexAccesses = new List<IndexHelper.IndexAccess>();
             foreach(SequenceExpressionFromIndexFromToPart part in Parts)
             {
-                indexAccesses.Add((IndexHelper.IndexAccess)part.ExecuteImpl(procEnv));
+                indexAccesses.Add((IndexHelper.IndexAccess)part.Execute(procEnv));
             }
 
             if(EmitProfiling)
@@ -11839,7 +11848,7 @@ namespace de.unika.ipd.grGen.libGr
             List<IndexHelper.IndexAccess> indexAccesses = new List<IndexHelper.IndexAccess>();
             foreach(SequenceExpressionFromIndexFromToPart part in Parts)
             {
-                indexAccesses.Add((IndexHelper.IndexAccess)part.ExecuteImpl(procEnv));
+                indexAccesses.Add((IndexHelper.IndexAccess)part.Execute(procEnv));
             }
 
             if(EmitProfiling)
@@ -15936,17 +15945,17 @@ namespace de.unika.ipd.grGen.libGr
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(Name);
+            sb.Append("(");
             if(ArgumentExpressions.Length > 0)
             {
-                sb.Append("(");
                 for(int i = 0; i < ArgumentExpressions.Length; ++i)
                 {
                     sb.Append(ArgumentExpressions[i].Symbol);
                     if(i != ArgumentExpressions.Length - 1)
                         sb.Append(",");
                 }
-                sb.Append(")");
             }
+            sb.Append(")");
             return sb.ToString();
         }
 

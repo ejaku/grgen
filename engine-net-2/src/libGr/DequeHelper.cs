@@ -189,6 +189,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(valueType == null || oldDeque == null)
                 throw new NullReferenceException();
+            if(!(oldDeque is IDeque))
+                throw new ArgumentException("Creating a deque as a clone expects an IDeque, given is " + oldDeque.GetType());
 
             Type genDequeType = typeof(Deque<>);
             Type dequeType = genDequeType.MakeGenericType(valueType);
