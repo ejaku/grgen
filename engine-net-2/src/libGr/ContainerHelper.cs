@@ -390,6 +390,8 @@ namespace de.unika.ipd.grGen.libGr
                 object container = elem.GetAttribute(attributeName);
                 AttributeType attrType = elem.Type.GetAttributeType(attributeName);
 
+                BaseGraph.ChangingAttributeAssignElement(graph, elem, attrType, value, key);
+
                 if(container is IList)
                 {
                     IList array = (IList)container;

@@ -1,0 +1,104 @@
+! rm testgraphfilename_container_array_assign_element.db
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+new graph "persistentgraph/persistentgraph_container_array" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_array_assign_element.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_array" "some non-persistent graph"
+
+show num nodes N
+show num edges E
+show num edges
+
+exec init
+exec (::n,::e,::o,::o2,::e2,::e3)=findExtended
+exec { ::n.a_s[0] = "bodensee";\
+::n.a_by[0] = 3y; ::n.a_by[1] = 2y; ::n.a_by[2] = 1y;\
+::n.a_sh.add(0s); ::n.a_sh[0] = 1S;\
+::n.a_f[1] = 3.141592654f; ::n.a_f[0] = 2.718281828f;\
+::n.a_b[0] = false;\
+::n.a_e[1] = ENU::a;\
+::n.a_N.add(null); ::n.a_N[0] = ::n;\
+::n.a_O.add(::e.o); ::n.a_O[0] = null;\
+::e.a_s[0] = "teufelstisch";\
+::e.a_l[0] = 42l; ::e.a_l[1] = 1337L;\
+::e.a_Ed.add(::e); ::e.a_Ed[0] = ::e2;\
+::o.a_s[0] = "marienschlucht";\
+::o.a_i[0] = 3; ::o.a_i[1] = 2; ::o.a_i[2] = 1;\
+::o.a_d[0] = 1337.1337;\
+::o.a_b[0] = true;\
+::o.a_O.add(::n.o); ::o.a_O.add(::n.o); ::o.a_O[1] = ::e.o\
+}
+
+show num nodes N
+show num edges E
+show num edges
+
+show node n
+show edge e
+show var o
+show var o2
+
+new graph "persistentgraph/persistentgraph_container_array" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_array_assign_element.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+exec init
+exec (::n,::e,::o,::o2,::e2,::e3)=findExtended
+exec { ::n.a_s[0] = "bodensee";\
+::n.a_by[0] = 3y; ::n.a_by[1] = 2y; ::n.a_by[2] = 1y;\
+::n.a_sh.add(0s); ::n.a_sh[0] = 1S;\
+::n.a_f[1] = 3.141592654f; ::n.a_f[0] = 2.718281828f;\
+::n.a_b[0] = false;\
+::n.a_e[1] = ENU::a;\
+::n.a_N.add(null); ::n.a_N[0] = ::n;\
+::n.a_O.add(::e.o); ::n.a_O[0] = null;\
+::e.a_s[0] = "teufelstisch";\
+::e.a_l[0] = 42l; ::e.a_l[1] = 1337L;\
+::e.a_Ed.add(::e); ::e.a_Ed[0] = ::e2;\
+::o.a_s[0] = "marienschlucht";\
+::o.a_i[0] = 3; ::o.a_i[1] = 2; ::o.a_i[2] = 1;\
+::o.a_d[0] = 1337.1337;\
+::o.a_b[0] = true;\
+::o.a_O.add(::n.o); ::o.a_O.add(::n.o); ::o.a_O[1] = ::e.o\
+}
+
+show num nodes N
+show num edges E
+show num edges
+
+show node n
+show edge e
+show var o
+show var o2
+
+new graph "persistentgraph/persistentgraph_container_array" "some non-persistent graph"
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_array" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_array_assign_element.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+exec (::n,::e,::o,::o2)=find
+
+show node n
+show edge e
+show var o
+show var o2
+
+clear graph
+
+show num nodes N
+show num edges E
+show num edges
+
+quit

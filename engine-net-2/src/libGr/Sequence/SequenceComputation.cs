@@ -912,7 +912,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(elem != null)
             {
-                for(int i = array.Count; i >= 0; --i)
+                for(int i = array.Count - 1; i >= 0; --i)
                 {
                     BaseGraph.ChangingAttributeRemoveElement(procEnv.Graph, elem, attrType, i);
                 }
@@ -930,7 +930,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(elem != null)
             {
-                for(int i = deque.Count; i >= 0; --i)
+                for(int i = deque.Count - 1; i >= 0; --i)
                 {
                     BaseGraph.ChangingAttributeRemoveElement(procEnv.Graph, elem, attrType, i);
                 }

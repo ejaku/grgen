@@ -184,6 +184,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         Dictionary<long, IEdge> DbIdToZombieEdge;
         Dictionary<IEdge, long> ZombieEdgeToDbId;
 
+        readonly AttributeType IntegerAttributeType = new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
+
 
         public PersistenceProviderSQLite()
         {
@@ -414,8 +416,11 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             columnNamesAndTypes.Add("INT"); // TINYINT doesn't work
             columnNamesAndTypes.Add("value");
             columnNamesAndTypes.Add(AttributeTypeToSQLiteType(attributeType.ValueType));
-            //columnNamesAndTypes.Add("key");
-            //columnNamesAndTypes.Add(AttributeTypeToSQLiteType(attributeType.KeyType));
+            if(attributeType.Kind != AttributeKind.SetAttr)
+            {
+                columnNamesAndTypes.Add("key");
+                columnNamesAndTypes.Add(AttributeTypeToSQLiteType(IntegerAttributeType/*attributeType.KeyType*/));
+            }
 
             CreateTable(tableName, "entryId", columnNamesAndTypes.ToArray()); // the entryId denotes the row local to this table, the ownerIdColumnName is a local copy of the global id from the corresponding topology table
 
@@ -469,7 +474,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private bool IsSupportedContainerType(AttributeType attributeType)
         {
-            return attributeType.Kind == AttributeKind.SetAttr; // container TODO: array, map, deque
+            return attributeType.Kind == AttributeKind.SetAttr // container TODO: map, deque
+                || attributeType.Kind == AttributeKind.ArrayAttr;
         }
 
         // TODO: separate references from scalars (from containers)
@@ -973,7 +979,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             AddQueryColumn(columnNames, ownerIdColumnName);
             AddQueryColumn(columnNames, "command");
             AddQueryColumn(columnNames, "value");
-            //AddQueryColumn(columnNames, "key");
+            if(attributeType.Kind != AttributeKind.SetAttr)
+                AddQueryColumn(columnNames, "key");
             StringBuilder command = new StringBuilder();
             command.Append("SELECT ");
             command.Append(columnNames.ToString());
@@ -1120,13 +1127,26 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     long entryId = reader.GetInt64(attributeNameToColumnIndex["entryId"]);
                     long ownerId = reader.GetInt64(attributeNameToColumnIndex[owningElementIdColumnName]);
                     byte command = reader.GetByte(attributeNameToColumnIndex["command"]);
+
                     object value = null;
-                    if(command != (byte)ContainerCommand.AssignEmptyContainer && command != (byte)ContainerCommand.AssignNull)
-                        value = GetContainerEntryValue(attributeType.ValueType, reader, attributeNameToColumnIndex);
-                    //object key = ReadContainerEntryKey(attributeType.KeyType, reader, attributeNameToColumnIndex);
+                    object key = null;
+                    if(attributeType.Kind == AttributeKind.SetAttr)
+                    {
+                        value = GetContainerEntry(attributeType.ValueType, reader, attributeNameToColumnIndex, "value");
+                    }
+                    else if(attributeType.Kind == AttributeKind.ArrayAttr/* || attributeType.Kind == AttributeKind.DequeAttr*/)
+                    {
+                        value = GetContainerEntry(attributeType.ValueType, reader, attributeNameToColumnIndex, "value");
+                        key = GetContainerEntry(IntegerAttributeType, reader, attributeNameToColumnIndex, "key");
+                    }
+                    /*else if(attributeType.Kind == AttributeKind.MapAttr)
+                    {
+                        key = GetContainerEntry(attributeType.KeyType, reader, attributeNameToColumnIndex, "key");
+                        value = GetContainerEntry(attributeType.ValueType, reader, attributeNameToColumnIndex, "value");
+                    }*/
 
                     IAttributeBearer element = GetElement(inheritanceType, ownerId);
-                    ApplyContainerCommandToElement(element, attributeType, (ContainerCommand)command, value, null);
+                    ApplyContainerCommandToElement(element, attributeType, (ContainerCommand)command, value, key);
                 }
             }
 
@@ -1168,8 +1188,11 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         break;
                     }
                 case ContainerCommand.AssignElement:
-                    // container TODO
-                    break;
+                    {
+                        object container = element.GetAttribute(attributeType.Name);
+                        ApplyContainerAssignElementCommand(container, attributeType, value, key);
+                        break;
+                    }
                 case ContainerCommand.AssignNull:
                     element.SetAttribute(attributeType.Name, null);
                     break;
@@ -1185,8 +1208,12 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     Type dstType = typeof(SetValueType);
                     IDictionary set = ContainerHelper.NewDictionary(srcType, dstType);
                     return set;
+                case AttributeKind.ArrayAttr:
+                    Type valueType = attributeType.ValueType.Type;
+                    IList array = ContainerHelper.NewList(valueType);
+                    return array;
                 default:
-                    throw new Exception("Unknown container type");
+                    throw new Exception("Unsupported container type");
             }
         }
 
@@ -1198,8 +1225,15 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     IDictionary set = (IDictionary)container;
                     set[value] = null;
                     break;
+                case AttributeKind.ArrayAttr:
+                    IList array = (IList)container;
+                    if(key == null)
+                        array.Add(value);
+                    else
+                        array.Insert((int)key, value);
+                    break;
                 default:
-                    throw new Exception("Unknown container type");
+                    throw new Exception("Unsupported container type");
             }
         }
 
@@ -1211,8 +1245,28 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     IDictionary set = (IDictionary)container;
                     set.Remove(value);
                     break;
+                case AttributeKind.ArrayAttr:
+                    IList array = (IList)container;
+                    if(key == null)
+                        array.RemoveAt(array.Count - 1);
+                    else
+                        array.RemoveAt((int)key);
+                    break;
                 default:
-                    throw new Exception("Unknown container type");
+                    throw new Exception("Unsupported container type");
+            }
+        }
+
+        private void ApplyContainerAssignElementCommand(object container, AttributeType attributeType, object value, object key)
+        {
+            switch(attributeType.Kind)
+            {
+                case AttributeKind.ArrayAttr:
+                    IList array = (IList)container;
+                    array[(int)key] = value;
+                    break;
+                default:
+                    throw new Exception("Unsupported container type");
             }
         }
 
@@ -1258,6 +1312,19 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         private object GetScalarValueFromSpecifiedColumn(AttributeType attributeType, String columnName, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
         {
             int index = attributeNameToColumnIndex[columnName];
+            return GetScalarValueFromSpecifiedColumn(attributeType, reader, index);
+        }
+
+        private object GetScalarValueOrNullFromSpecifiedColumn(AttributeType attributeType, String columnName, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
+        {
+            int index = attributeNameToColumnIndex[columnName];
+            if(reader.IsDBNull(index))
+                return null;
+            return GetScalarValueFromSpecifiedColumn(attributeType, reader, index);
+        }
+
+        private object GetScalarValueFromSpecifiedColumn(AttributeType attributeType, SQLiteDataReader reader, int index)
+        {
             switch(attributeType.Kind)
             {
                 case AttributeKind.ByteAttr: return (SByte)reader.GetInt16(index);
@@ -1265,7 +1332,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 case AttributeKind.IntegerAttr: return reader.GetInt32(index);
                 case AttributeKind.LongAttr: return reader.GetInt64(index);
                 case AttributeKind.BooleanAttr: return reader.GetBoolean(index);
-                case AttributeKind.StringAttr: return reader.IsDBNull(index) ? null :reader.GetString(index);
+                case AttributeKind.StringAttr: return reader.IsDBNull(index) ? null : reader.GetString(index);
                 case AttributeKind.EnumAttr: return Enum.Parse(attributeType.EnumType.EnumType, reader.GetString(index));
                 case AttributeKind.FloatAttr: return reader.GetFloat(index);
                 case AttributeKind.DoubleAttr: return reader.GetDouble(index);
@@ -1314,16 +1381,17 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         }
 
         // maybe TODO: ReadContainerEntryValue, also rename the other GetXXX to ReadXXX?
-        private object GetContainerEntryValue(AttributeType attributeType, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
+        private object GetContainerEntry(AttributeType attributeType, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex, String columnName)
         {
+            Debug.Assert(columnName == "value" || columnName == "key");
             if(IsScalarType(attributeType))
-                return GetScalarValueFromSpecifiedColumn(attributeType, "value", reader, attributeNameToColumnIndex);
+                return GetScalarValueOrNullFromSpecifiedColumn(attributeType, columnName, reader, attributeNameToColumnIndex);
             else if(IsGraphType(attributeType))
-                return GetGraphValueFromSpecifiedColumn("value", reader, attributeNameToColumnIndex);
+                return GetGraphValueFromSpecifiedColumn(columnName, reader, attributeNameToColumnIndex);
             else if(IsObjectType(attributeType))
-                return GetObjectValueFromSpecifiedColumn("value", reader, attributeNameToColumnIndex);
+                return GetObjectValueFromSpecifiedColumn(columnName, reader, attributeNameToColumnIndex);
             else if(IsGraphElementType(attributeType))
-                return GetGraphElementFromSpecifiedColumnOrZombieIfNotExisting(attributeType, "value", reader, attributeNameToColumnIndex); // zombies can only appear for nodes and edges, graphs and objects are garbage collected (after the read process), so zombies can not appear (neither can they for value types)
+                return GetGraphElementFromSpecifiedColumnOrZombieIfNotExisting(attributeType, columnName, reader, attributeNameToColumnIndex); // zombies can only appear for nodes and edges, graphs and objects are garbage collected (after the read process), so zombies can not appear (neither can they for value types)
             throw new Exception("Unsupported container type");
         }
 
@@ -1657,6 +1725,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             AddInsertParameter(columnNames, parameterNames, ownerIdColumnName);
             AddInsertParameter(columnNames, parameterNames, "command");
             AddInsertParameter(columnNames, parameterNames, "value");
+            if(attributeType.Kind != AttributeKind.SetAttr)
+                AddInsertParameter(columnNames, parameterNames, "key");
 
             StringBuilder command = new StringBuilder();
             command.Append("INSERT INTO ");
@@ -2345,6 +2415,18 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     }
                 }
             }
+            else if(attributeType.Kind == AttributeKind.ArrayAttr)
+            {
+                object val = current.GetAttribute(attributeType.Name);
+                IList array = (IList)val;
+                if(array != null)
+                {
+                    foreach(object entry in array)
+                    {
+                        AddObjectsToTodosAndReferencesToDatabase(attributeType.ValueType, entry, ref todos);
+                    }
+                }
+            }
         }
 
         private void AddObjectsToTodosAndReferencesToDatabase(AttributeType attributeType, object val, ref Stack<IAttributeBearer> todos)
@@ -2417,7 +2499,9 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         SQLiteCommand updatingInsert = GetUpdateContainerCommand(owningElement, attributeType);
                         string owningElementIdColumnName;
                         long owningElementId = GetDbIdAndColumnName(owningElement, out owningElementIdColumnName);
-                        long entryId = ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, owningElementId, owningElementIdColumnName, ContainerCommand.PutElement, newValue, null);
+                        long entryId = attributeType.Kind==AttributeKind.SetAttr
+                                ? ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, owningElementId, owningElementIdColumnName, ContainerCommand.PutElement, newValue)
+                                : ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, IntegerAttributeType, owningElementId, owningElementIdColumnName, ContainerCommand.PutElement, newValue, keyValue);
                         break;
                     }
                 case AttributeChangeType.RemoveElement:
@@ -2425,12 +2509,19 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         SQLiteCommand updatingInsert = GetUpdateContainerCommand(owningElement, attributeType);
                         string owningElementIdColumnName;
                         long owningElementId = GetDbIdAndColumnName(owningElement, out owningElementIdColumnName);
-                        long entryId = ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, owningElementId, owningElementIdColumnName, ContainerCommand.RemoveElement, newValue, null);
-                        break;
+                        long entryId = attributeType.Kind == AttributeKind.SetAttr
+                                ? ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, owningElementId, owningElementIdColumnName, ContainerCommand.RemoveElement, newValue)
+                                : ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, IntegerAttributeType, owningElementId, owningElementIdColumnName, ContainerCommand.RemoveElement, newValue, keyValue);
+                            break;
                     }
                 case AttributeChangeType.AssignElement:
-                    // container TODO
-                    break;
+                    {
+                        SQLiteCommand updatingInsert = GetUpdateContainerCommand(owningElement, attributeType);
+                        string owningElementIdColumnName;
+                        long owningElementId = GetDbIdAndColumnName(owningElement, out owningElementIdColumnName);
+                        long entryId = ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, attributeType.KeyType, owningElementId, owningElementIdColumnName, ContainerCommand.AssignElement, newValue, keyValue);
+                        break;
+                    }
             }
         }
 
@@ -2460,6 +2551,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
             if(attributeType.Kind == AttributeKind.SetAttr)
                 WriteSetEntries((IDictionary)container, attributeType, owningElement);
+            else if(attributeType.Kind == AttributeKind.ArrayAttr)
+                WriteArrayEntries((IList)container, attributeType, owningElement);
             // container TODO: other container types
         }
 
@@ -2472,11 +2565,11 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             SQLiteCommand updatingInsert = GetUpdateContainerCommand(owningElement, attributeType);
             if(set == null)
             {
-                long entryId = ExecuteUpdatingInsert(updatingInsert, attributeType, owningElementId, owningElementIdColumnName, ContainerCommand.AssignNull, null, null); ;
+                long entryId = ExecuteUpdatingInsertNullValue(updatingInsert, owningElementId, owningElementIdColumnName, ContainerCommand.AssignNull);
             }
             else
             {
-                long entryId = ExecuteUpdatingInsert(updatingInsert, attributeType, owningElementId, owningElementIdColumnName, ContainerCommand.AssignEmptyContainer, null, null);
+                long entryId = ExecuteUpdatingInsertNullValue(updatingInsert, owningElementId, owningElementIdColumnName, ContainerCommand.AssignEmptyContainer);
 
                 // add all container entries - explode complete container into series of adds, i.e. put-elements
                 foreach(DictionaryEntry entry in set)
@@ -2488,18 +2581,82 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     else if(IsGraphElementType(attributeType.ValueType))
                         AddGraphAsNeeded((INamedGraph)((IContained)entry.Key).GetContainingGraph());
 
-                    entryId = ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, owningElementId, owningElementIdColumnName, ContainerCommand.PutElement, entry.Key, null);
+                    entryId = ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, owningElementId, owningElementIdColumnName, ContainerCommand.PutElement, entry.Key);
                 }
             }
         }
 
-        private long ExecuteUpdatingInsert(SQLiteCommand updatingInsert, AttributeType attributeType, long owningElementId, string owningElementIdColumnName, ContainerCommand command, object value, object key)
+        private void WriteArrayEntries(IList array, AttributeType attributeType, IAttributeBearer owningElement)
+        {
+            string owningElementIdColumnName;
+            long owningElementId = GetDbIdAndColumnName(owningElement, out owningElementIdColumnName);
+
+            // new entire container
+            SQLiteCommand updatingInsert = GetUpdateContainerCommand(owningElement, attributeType);
+            if(array == null)
+            {
+                long entryId = ExecuteUpdatingInsertNullValueAndKey(updatingInsert, owningElementId, owningElementIdColumnName, ContainerCommand.AssignNull); ;
+            }
+            else
+            {
+                long entryId = ExecuteUpdatingInsertNullValueAndKey(updatingInsert, owningElementId, owningElementIdColumnName, ContainerCommand.AssignEmptyContainer);
+
+                // add all container entries - explode complete container into series of adds, i.e. put-elements
+                foreach(object entry in array)
+                {
+                    if(IsGraphType(attributeType.ValueType))
+                        AddGraphAsNeeded((INamedGraph)entry);
+                    else if(IsObjectType(attributeType.ValueType))
+                        AddObjectAsNeeded((IObject)entry);
+                    else if(IsGraphElementType(attributeType.ValueType))
+                        AddGraphAsNeeded((INamedGraph)((IContained)entry).GetContainingGraph());
+
+                    entryId = ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, IntegerAttributeType, owningElementId, owningElementIdColumnName, ContainerCommand.PutElement, entry, null);
+                }
+            }
+        }
+
+        private long ExecuteUpdatingInsert(SQLiteCommand updatingInsert, AttributeType valueAttributeType, long owningElementId, string owningElementIdColumnName, ContainerCommand command, object value)
         {
             updatingInsert.Parameters.Clear();
             updatingInsert.Parameters.AddWithValue("@" + owningElementIdColumnName, owningElementId);
             updatingInsert.Parameters.AddWithValue("@command", command);
-            object valueOrId = ValueOrIdOfReferencedElement(value, attributeType);
+            object valueOrId = ValueOrIdOfReferencedElement(value, valueAttributeType);
             updatingInsert.Parameters.AddWithValue("@value", value != null ? valueOrId : DBNull.Value);
+            int rowsAffected = updatingInsert.ExecuteNonQuery();
+            return connection.LastInsertRowId;
+        }
+
+        private long ExecuteUpdatingInsertNullValue(SQLiteCommand updatingInsert, long owningElementId, string owningElementIdColumnName, ContainerCommand command)
+        {
+            updatingInsert.Parameters.Clear();
+            updatingInsert.Parameters.AddWithValue("@" + owningElementIdColumnName, owningElementId);
+            updatingInsert.Parameters.AddWithValue("@command", command);
+            updatingInsert.Parameters.AddWithValue("@value", DBNull.Value);
+            int rowsAffected = updatingInsert.ExecuteNonQuery();
+            return connection.LastInsertRowId;
+        }
+
+        private long ExecuteUpdatingInsert(SQLiteCommand updatingInsert, AttributeType valueAttributeType, AttributeType keyAttributeType, long owningElementId, string owningElementIdColumnName, ContainerCommand command, object value, object key)
+        {
+            updatingInsert.Parameters.Clear();
+            updatingInsert.Parameters.AddWithValue("@" + owningElementIdColumnName, owningElementId);
+            updatingInsert.Parameters.AddWithValue("@command", command);
+            object valueValueOrId = ValueOrIdOfReferencedElement(value, valueAttributeType);
+            updatingInsert.Parameters.AddWithValue("@value", value != null ? valueValueOrId : DBNull.Value);
+            object keyValueOrId = ValueOrIdOfReferencedElement(key, IntegerAttributeType);
+            updatingInsert.Parameters.AddWithValue("@key", key != null ? keyValueOrId : DBNull.Value);
+            int rowsAffected = updatingInsert.ExecuteNonQuery();
+            return connection.LastInsertRowId;
+        }
+
+        private long ExecuteUpdatingInsertNullValueAndKey(SQLiteCommand updatingInsert, long owningElementId, string owningElementIdColumnName, ContainerCommand command)
+        {
+            updatingInsert.Parameters.Clear();
+            updatingInsert.Parameters.AddWithValue("@" + owningElementIdColumnName, owningElementId);
+            updatingInsert.Parameters.AddWithValue("@command", command);
+            updatingInsert.Parameters.AddWithValue("@value", DBNull.Value);
+            updatingInsert.Parameters.AddWithValue("@key", DBNull.Value);
             int rowsAffected = updatingInsert.ExecuteNonQuery();
             return connection.LastInsertRowId;
         }

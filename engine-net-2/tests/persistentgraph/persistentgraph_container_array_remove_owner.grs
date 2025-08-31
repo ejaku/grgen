@@ -1,0 +1,65 @@
+! rm testgraphfilename_container_array_remove_owner.db
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+new graph "persistentgraph/persistentgraph_container_array" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_array_remove_owner.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_array" "some non-persistent graph"
+
+show num nodes N
+show num edges E
+show num edges
+
+exec init ;> init
+exec deleteNodeAndIncidentEdges
+exec [find]
+exec deleteNodeAndIncidentEdges
+exec [find]
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_array" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_array_remove_owner.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+exec init ;> init
+exec deleteNodeAndIncidentEdges
+exec [find]
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_array" "some non-persistent graph"
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_array" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_array_remove_owner.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+exec [find]
+exec deleteNodeAndIncidentEdges
+exec [find]
+
+show num nodes N
+show num edges E
+show num edges
+
+clear graph
+
+show num nodes N
+show num edges E
+show num edges
+
+quit

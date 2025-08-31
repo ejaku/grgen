@@ -1,0 +1,142 @@
+! rm testgraphfilename_container_array_addrem.db
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+new graph "persistentgraph/persistentgraph_container_array" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_array_addrem.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_array" "some non-persistent graph"
+
+show num nodes N
+show num edges E
+show num edges
+
+exec init
+exec (::n,::e,::o,::o2,::e2,::e3)=findExtended
+exec { ::n.a_s = null;\
+::n.a_by.clear(); ::n.a_by.add(42y);\
+::n.a_i.add(1); ::n.a_i.add(2); ::n.a_i.add(3);\
+::n.a_l.rem(); ::n.a_l.add(50L);\
+::n.a_f.rem(0); ::n.a_f.rem(); ::n.a_f.add(0.0f); ::n.a_f.add(1.0f);\
+::n.a_d.rem(); ::n.a_d.add(1337.1337);\
+::n.a_b.rem();\
+::n.a_e.rem(1); ::n.a_e.rem(0); ::n.a_e.add(ENU::b);\
+::n.a_N.add(::n);\
+::n.a_Ed.add(::e); ::n.a_Ed.add(::e2); ::n.a_Ed.add(::e3);\
+::n.a_O.add(::e.o);\
+::e.a_s = null;\
+::e.a_by.add(42y);\
+::e.a_sh.clear();\
+::e.a_i.add(1); ::e.a_i.add(2); ::e.a_i.add(3); ::e.a_i.add(5); ::e.a_i.add(6); ::e.a_i.add(7); ::e.a_i.add(4, 3);\
+::e.a_l.rem(); ::e.a_l.rem(); ::e.a_l.add(50L);\
+::e.a_f.rem(0); ::e.a_f.rem(0); ::e.a_f.add(1.0f); ::e.a_f.add(0.0f);\
+::e.a_d.rem(); ::e.a_d.rem(); ::e.a_d.add(1337.1337);\
+::e.a_b.rem(); ::e.a_b.rem();\
+::e.a_e = ::e.a_e;\
+::e.a_N.add(::n);\
+::e.a_Ed.add(::e); ::e.a_Ed.add(::e2);\
+::e.a_O.add(::n.o);\
+::o.a_s = null;\
+::o.a_by.add(42y);\
+::o.a_sh = ::o.a_sh;\
+::o.a_i.rem(2); ::o.a_i.rem(1);\
+::o.a_l.rem(); ::o.a_l.add(50L);\
+::o.a_f.rem(); ::o.a_f.rem(); ::o.a_f.add(1.0f); ::o.a_f.add(0.5f); ::o.a_f.add(0.0f);\
+::o.a_d.rem(); ::o.a_d.add(1337.1337);\
+::o.a_b.rem();\
+::o.a_e.rem();\
+::o.a_N.add(::n);\
+::o.a_Ed.add(::e); ::o.a_Ed.add(::e2); ::o.a_Ed.add(::e3);\
+::o.a_O.add(::n.o); ::o.a_O.add(::e.o)\
+}
+
+show num nodes N
+show num edges E
+show num edges
+
+show node n
+show edge e
+show var o
+show var o2
+
+new graph "persistentgraph/persistentgraph_container_array" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_array_addrem.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+exec init
+exec (::n,::e,::o,::o2,::e2,::e3)=findExtended
+exec { ::n.a_s = null;\
+::n.a_by.clear(); ::n.a_by.add(42y);\
+::n.a_i.add(1); ::n.a_i.add(2); ::n.a_i.add(3);\
+::n.a_l.rem(); ::n.a_l.add(50L);\
+::n.a_f.rem(0); ::n.a_f.rem(); ::n.a_f.add(0.0f); ::n.a_f.add(1.0f);\
+::n.a_d.rem(); ::n.a_d.add(1337.1337);\
+::n.a_b.rem();\
+::n.a_e.rem(1); ::n.a_e.rem(0); ::n.a_e.add(ENU::b);\
+::n.a_N.add(::n);\
+::n.a_Ed.add(::e); ::n.a_Ed.add(::e2); ::n.a_Ed.add(::e3);\
+::n.a_O.add(::e.o);\
+::e.a_s = null;\
+::e.a_by.add(42y);\
+::e.a_sh.clear();\
+::e.a_i.add(1); ::e.a_i.add(2); ::e.a_i.add(3); ::e.a_i.add(5); ::e.a_i.add(6); ::e.a_i.add(7); ::e.a_i.add(4, 3);\
+::e.a_l.rem(); ::e.a_l.rem(); ::e.a_l.add(50L);\
+::e.a_f.rem(0); ::e.a_f.rem(0); ::e.a_f.add(1.0f); ::e.a_f.add(0.0f);\
+::e.a_d.rem(); ::e.a_d.rem(); ::e.a_d.add(1337.1337);\
+::e.a_b.rem(); ::e.a_b.rem();\
+::e.a_e = ::e.a_e;\
+::e.a_N.add(::n);\
+::e.a_Ed.add(::e); ::e.a_Ed.add(::e2);\
+::e.a_O.add(::n.o);\
+::o.a_s = null;\
+::o.a_by.add(42y);\
+::o.a_sh = ::o.a_sh;\
+::o.a_i.rem(2); ::o.a_i.rem(1);\
+::o.a_l.rem(); ::o.a_l.add(50L);\
+::o.a_f.rem(); ::o.a_f.rem(); ::o.a_f.add(1.0f); ::o.a_f.add(0.5f); ::o.a_f.add(0.0f);\
+::o.a_d.rem(); ::o.a_d.add(1337.1337);\
+::o.a_b.rem();\
+::o.a_e.rem();\
+::o.a_N.add(::n);\
+::o.a_Ed.add(::e); ::o.a_Ed.add(::e2); ::o.a_Ed.add(::e3);\
+::o.a_O.add(::n.o); ::o.a_O.add(::e.o)\
+}
+
+show num nodes N
+show num edges E
+show num edges
+
+show node n
+show edge e
+show var o
+show var o2
+
+new graph "persistentgraph/persistentgraph_container_array" "some non-persistent graph"
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_array" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_array_addrem.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+exec (::n,::e,::o,::o2)=find
+
+show node n
+show edge e
+show var o
+show var o2
+
+clear graph
+
+show num nodes N
+show num edges E
+show num edges
+
+quit

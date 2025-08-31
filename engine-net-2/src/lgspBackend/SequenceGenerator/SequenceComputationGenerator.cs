@@ -1188,7 +1188,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(seqClear.Attribute != null)
             {
                 String index = "i_" + seqClear.Id;
-                source.AppendFrontFormat("for(int {0} = {1}.Count; {0} >= 0; --{0})\n", index, array);
+                source.AppendFrontFormat("for(int {0} = {1}.Count - 1; {0} >= 0; --{0})\n", index, array);
                 source.Indent();
 
                 EmitAttributeChangingEvent(seqClear.Attribute, AttributeChangeType.RemoveElement, "null", index, source);
@@ -1209,7 +1209,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(seqClear.Attribute != null)
             {
                 String index = "i_" + seqClear.Id;
-                source.AppendFrontFormat("for(int {0} = {1}.Count; {0} >= 0; --{0})\n", index, deque);
+                source.AppendFrontFormat("for(int {0} = {1}.Count - 1; {0} >= 0; --{0})\n", index, deque);
                 source.Indent();
 
                 EmitAttributeChangingEvent(seqClear.Attribute, AttributeChangeType.RemoveElement, "null", index, source);
@@ -1272,7 +1272,7 @@ namespace de.unika.ipd.grGen.lgsp
                 EmitAttributeEventInitialization(seqClear.Attribute, source);
 
                 String index = "i_" + seqClear.Id;
-                source.AppendFrontFormat("for(int {0} = {1}.Count; {0} >= 0; --{0})\n", index, array);
+                source.AppendFrontFormat("for(int {0} = {1}.Count - 1; {0} >= 0; --{0})\n", index, array);
                 source.Indent();
 
                 EmitAttributeChangingEvent(seqClear.Attribute, AttributeChangeType.RemoveElement, "null", index, source);
@@ -1293,7 +1293,7 @@ namespace de.unika.ipd.grGen.lgsp
                 EmitAttributeEventInitialization(seqClear.Attribute, source);
 
                 String index = "i_" + seqClear.Id;
-                source.AppendFrontFormat("for(int {0} = {1}.Count; {0} >= 0; --{0})\n", index, deque);
+                source.AppendFrontFormat("for(int {0} = {1}.Count - 1; {0} >= 0; --{0})\n", index, deque);
                 source.Indent();
 
                 EmitAttributeChangingEvent(seqClear.Attribute, AttributeChangeType.RemoveElement, "null", index, source);
@@ -1672,7 +1672,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else
             {
-                if(TypesHelper.GetGraphElementType(tgtAttrIndexedVar.DestVar.Type, model) != null)
+                if(TypesHelper.GetGraphElementType(tgtAttrIndexedVar.DestVar.Type, model) != null || TypesHelper.GetObjectType(tgtAttrIndexedVar.DestVar.Type, model) != null)
                     EmitAttributeChangingEvent(tgtAttrIndexedVar.Id, AttributeChangeType.AssignElement, value, key, source);
 
                 InheritanceType inheritanceType = TypesHelper.GetInheritanceType(tgtAttrIndexedVar.DestVar.Type, env.Model);

@@ -3612,7 +3612,7 @@ public class ModifyEvalGen extends CSharpBase
 						"GRGEN_LIBGR.AttributeChangeType.RemoveElement, " +
 						"kvp.Key, null);\n");
 			} else if(attribute.getType() instanceof ArrayType) {
-				sb.appendFront("for(int i = " + targetStr + ".Count; i>=0; --i)\n");
+				sb.appendFront("for(int i = " + targetStr + ".Count - 1; i>=0; --i)\n");
 				sb.appendFrontIndented("graph.Changing" + kindStr + "Attribute(" +
 						formatEntity(element) + ", " +
 						formatTypeClassRef(elementType) + "." +
@@ -3620,7 +3620,7 @@ public class ModifyEvalGen extends CSharpBase
 						"GRGEN_LIBGR.AttributeChangeType.RemoveElement, " +
 						"null, i);\n");
 			} else if(attribute.getType() instanceof DequeType) {
-				sb.appendFront("for(int i = " + targetStr + ".Count; i>=0; --i)\n");
+				sb.appendFront("for(int i = " + targetStr + ".Count - 1; i>=0; --i)\n");
 				sb.appendFrontIndented("graph.Changing" + kindStr + "Attribute(" +
 						formatEntity(element) + ", " +
 						formatTypeClassRef(elementType) + "." +
