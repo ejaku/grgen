@@ -1,0 +1,11 @@
+using cast_model;
+
+rule r {
+	modify {
+	---
+		def ref unrelO:UnrelO;
+		exec ({
+			unrelO = (UnrelO)new O()
+		});
+	}
+}

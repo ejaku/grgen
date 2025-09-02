@@ -46,9 +46,24 @@ namespace de.unika.ipd.grGen.libGr
                     return "deque<" + DotNetTypeToXgrsType(valueType.Name, valueType.FullName) + ">";
                 }
             }
+
+            if(type.BaseType.Name == "LGSPNode" // todo: this is a dependency on (names from) the lgspBackend, better check for node/edge/object/transient object interface in the list of interfaces of the type
+                || type.BaseType.Name == "LGSPNodeWithUniqueId"
+                || type.BaseType.Name == "LGSPNodeWithReferenceToContainingGraph"
+                || type.BaseType.Name == "LGSPNodeWithUniqueIdWithReferenceToContainingGraph"
+                || type.BaseType.Name == "LGSPEdge"
+                || type.BaseType.Name == "LGSPEdgeWithUniqueId"
+                || type.BaseType.Name == "LGSPEdgeWithReferenceToContainingGraph"
+                || type.BaseType.Name == "LGSPEdgeWithUniqueIdWithReferenceToContainingGraph"
+                || type.BaseType.Name == "LGSPObject"
+                || type.BaseType.Name == "LGSPTransientObject")
+            {
+                return DotNetTypeToXgrsType("I" + type.Name, type.FullName); // interface type name expected by called function, build it if exact runtime type is given - todo: really fetch interface type thus also giving real full name
+            }
             return DotNetTypeToXgrsType(type.Name, type.FullName);
         }
 
+        // todo: questionable name...
         public static String DotNetTypeToXgrsType(GrGenType type)
         {
             if(type is VarType)
@@ -67,8 +82,9 @@ namespace de.unika.ipd.grGen.libGr
             return varType.Type.IsGenericType;
         }
 
-        // no support for container types, use function with same name but Type input
+        // no direct support for container types, use function with same name but Type input
         // no support for external types -- chops off first character from external type name
+        // expects an interface type as it is used in a container, should not be used with runtime implementation class values -- chops off first character from non-interface type name (use function with same name but Type input, which generated an interface type name)
         public static String DotNetTypeToXgrsType(String typeName, String fullTypeName)
         {
             switch(typeName)
@@ -81,13 +97,14 @@ namespace de.unika.ipd.grGen.libGr
             case "Single": return "float";
             case "Double": return "double";
             case "String": return "string";
-            case "Object": return "object";
-            case "de.unika.ipd.grGen.libGr.IGraph": return "graph";
+            case "Object": return "object"; // object has no values... internal class Object should not map to object... likely static type
+            case "de.unika.ipd.grGen.libGr.IGraph": return "graph"; // todo: clean, this should not be the normal type name, but the full name (maybe distinguish usage to get type from a runtime value and usage to get type at compile time)
             case "de.unika.ipd.grGen.libGr.INamedGraph": return "graph";
-            case "IGraph": return "graph";
-            case "INamedGraph": return "graph";
-            case "LGSPGraph": return "graph";
+            case "IGraph": if(fullTypeName == "de.unika.ipd.grGen.libGr.IGraph") return "graph"; break;
+            case "INamedGraph": if(fullTypeName == "de.unika.ipd.grGen.libGr.INamedGraph") return "graph"; break;
+            case "LGSPGraph": return "graph"; // todo: this is a dependency on (names from) the lgspBackend, better check for graph interfaces in the list of interfaces of the type, in the caller, handing in the interface type
             case "LGSPNamedGraph": return "graph";
+            case "LGSPPersistentNamedGraph": return "graph";
             }
 
             String package;
@@ -151,13 +168,17 @@ namespace de.unika.ipd.grGen.libGr
             if(typeName == "IMatch")
                 return "match<>";
 
-            typeName = typeName.Substring(1); // remove I from class name
-            if(typeName == "Edge")  // special handling for IEdge,IDEdge,IUEdge, they map to AEdge,Edge,UEdge resp.
-                typeName = "AEdge";
-            else if(typeName == "DEdge")
-                typeName = "Edge";
-            else if(typeName == "UEdge")
-                typeName = "UEdge";
+            if(typeName == "IEdge")  // special handling for IEdge,IDEdge,IUEdge, they map to AEdge,Edge,UEdge resp.
+                return "AEdge";
+            else if(typeName == "IDEdge")
+                return "Edge";
+            else if(typeName == "IUEdge")
+                return "UEdge";
+
+            if(typeName == "INode")
+                return "Node";
+
+            typeName = typeName.Substring(1); // remove I from class name - this assumes the interface type of the inheritance type is used, in contrast to the implementation type, which comes without I and whose name corresponds to the xgrs type name
 
             if(package == null)
                 return typeName;
@@ -476,15 +497,16 @@ namespace de.unika.ipd.grGen.libGr
             return false;
         }
 
-        public static bool IsExternalObjectTypeIncludingObjectType(string typename, IGraphModel model)
+        // including type object itself (to be distinguished from the internal object type root)
+        public static ExternalObjectType GetExternalObjectType(String typeName, IGraphModel model)
         {
-            for(int i = 0; i < model.ExternalObjectTypes.Length; ++i)
+            foreach(ExternalObjectType externalObjectType in model.ExternalObjectTypes)
             {
-                if(model.ExternalObjectTypes[i].Name == typename)
-                    return true;
+                if(externalObjectType.Name == typeName)
+                    return externalObjectType;
             }
 
-            return false;
+            return null;
         }
 
         public static string PackagePrefixedNameDoubleColon(String package, String name)

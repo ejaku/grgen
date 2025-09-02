@@ -1900,10 +1900,10 @@ SequenceExpression ExpressionMul():
 SequenceExpression ExpressionUnary():
 {
     SequenceExpression seq;
-    object type;
+    string type;
 }
 {
-    LOOKAHEAD("(" Constant() ")") "(" type=Constant() ")" seq=ExpressionBasic()
+    LOOKAHEAD("(" Type() ")") "(" type=Type() ")" seq=ExpressionUnary()
     {
         return new SequenceExpressionCast(seq, type);
     }

@@ -414,8 +414,11 @@ seqExprUnary [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
 		Token t = null;
 	}
 	: (LPAREN seqTypeIdentUse RPAREN) =>
-		p=LPAREN { xg.append("("); } id=seqTypeIdentUse {xg.append(id);} RPAREN { xg.append(")"); } op=seqExprBasic[xg]
+		p=LPAREN { xg.append("("); } id=seqTypeIdentUse {xg.append(id);} RPAREN { xg.append(")"); } op=seqExprUnary[xg]
 		{ res = new CastNode(getCoords(p), id, op); }
+	| (LPAREN genericTypeForCast[null] RPAREN) =>
+		p=LPAREN { xg.append("("); } type=genericTypeForCast[xg] RPAREN { xg.append(")"); } op=seqExprUnary[xg]
+		{ res = new CastNode(getCoords(p), type, op); }
 	| (n=NOT { t = n; xg.append("!"); })? exp=seqExprBasic[xg]
 		{
 			if(t != null)
@@ -437,6 +440,29 @@ seqExprUnary [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
 		{
 			res = exp;
 		}
+	;
+
+genericTypeForCast [ ExecNode xg ] returns [ BaseNode res = null ]
+	:
+		{ input.LT(1).getText().equals("map") }?
+		IDENT LT keyType=seqTypeIdentUse COMMA valType=seqTypeIdentUse GT
+		{ xg.append("map<" + keyType.toString() + "," + valType.toString() + ">"); }
+		{ res = new MapTypeNode(keyType, valType); }
+	|
+		{ input.LT(1).getText().equals("set") }?
+		IDENT LT valType=seqTypeIdentUse GT
+		{ xg.append("set<" + valType.toString() + ">"); }
+		{ res = new SetTypeNode(valType); }
+	|
+		{ input.LT(1).getText().equals("array") }?
+		IDENT LT valType=seqTypeIdentUse GT
+		{ xg.append("array<" + valType.toString() + ">"); }
+		{ res = new ArrayTypeNode(valType); }
+	|
+		{ input.LT(1).getText().equals("deque") }?
+		IDENT LT valType=seqTypeIdentUse GT
+		{ xg.append("deque<" + valType.toString() + ">"); }
+		{ res = new DequeTypeNode(valType); }
 	;
 
 // todo: the seqVarUse[xg] casted to IdenNodes might be not simple variable identifiers, but global variables with :: prefix,

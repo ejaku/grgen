@@ -1,0 +1,391 @@
+#using "castExprNonInheritanceType.gm"
+
+// TODO: match type / match class, external object types
+
+rule implicitOnesCarriedOutExplicitly(var e:ENU, var by:byte, var sh:short, var i:int, var l:long, var f:float, var d:double)
+{
+	if{ ((int)e) == 42; }
+	
+	if{ ((short)by) == 42y && ((int)by) == 42 && ((long)by) == 42L; }
+	if{ ((int)sh) == 42 && ((long)sh) == 42L; }
+	if{ ((long)i) == 42L; }
+	
+	if{ ((double)f) == 42.0; }
+
+	if{ ((float)by) == 42.0f && ((float)sh) == 42.0f && ((float)i) == 42.0f && ((float)l) == 42.0f; }
+	if{ ((double)by) == 42.0 && ((double)sh) == 42.0 && ((double)i) == 42.0 && ((double)l) == 42.0; }
+
+	if{ ((string)e) == "b" && ((string)by) == "42" && ((string)sh) == "42" && ((string)i) == "42" && ((string)l) == "42" && ((string)f) == "42f" && ((string)d) == "42"; } // bäääh
+	
+	modify {
+		eval {
+			def var e_i:int = (int)e;
+			
+			def var by_sh:short = (short)by;
+			def var by_i:int = (int)by;
+			def var by_l:long = (long)by;
+			
+			def var sh_i:int = (int)sh;
+			def var sh_l:long = (long)sh;
+			
+			def var i_l:long = (long)i;
+			
+			def var f_d:double = (double)f;
+			
+			def var by_f:float = (float)by;
+			def var sh_f:float = (float)sh;
+			def var i_f:float = (float)i;
+			def var l_f:float = (float)l;
+			
+			def var by_d:double = (double)by;
+			def var sh_d:double = (double)sh;
+			def var i_d:double = (double)i;
+			def var l_d:double = (double)l;
+			
+			def var e_s:string = (string)e;
+			def var by_s:string = (string)by;
+			def var sh_s:string = (string)sh;
+			def var i_s:string = (string)i;
+			def var l_s:string = (string)l;
+			def var f_s:string = (string)f;
+			def var d_s:string = (string)d;
+		}
+	}
+}
+
+rule implicitOnesCarriedOutExplicitlyExec(var e:ENU, var by:byte, var sh:short, var i:int, var l:long, var f:float, var d:double)
+{
+	modify {
+	---
+		def var e_i:int;
+		
+		def var by_sh:short;
+		def var by_i:int;
+		def var by_l:long;
+		
+		def var sh_i:int;
+		def var sh_l:long;
+		
+		def var i_l:long;
+
+		def var f_d:double;
+		
+		def var by_f:float;
+		def var sh_f:float;
+		def var i_f:float;
+		def var l_f:float;
+		
+		def var by_d:double;
+		def var sh_d:double;
+		def var i_d:double;
+		def var l_d:double;
+
+		def var e_s:string;
+		def var by_s:string;
+		def var sh_s:string;
+		def var i_s:string;
+		def var l_s:string;
+		def var f_s:string;
+		def var d_s:string;
+
+		exec( {
+			yield e_i = (int)e;
+
+			yield by_sh = (short)by;
+			yield by_i = (int)by;
+			yield by_l = (long)by;
+
+			yield sh_i = (int)sh;
+			yield sh_l = (long)sh;
+
+			yield i_l = (long)i;
+
+			yield f_d = (double)f;
+
+			yield by_f = (float)by;
+			yield sh_f = (float)sh;
+			yield i_f = (float)i;
+			yield l_f = (float)l;
+			
+			yield by_d = (double)by;
+			yield sh_d = (double)sh;
+			yield i_d = (double)i;
+			yield l_d = (double)l;
+			
+			yield e_s = (string)e;
+			yield by_s = (string)by;
+			yield sh_s = (string)sh;
+			yield i_s = (string)i;
+			yield l_s = (string)l;
+			yield f_s = (string)f;
+			yield d_s = (string)d;
+		} );
+	}
+}
+
+rule implicitOnesCarriedOutExplicitlyExecUntyped()
+{
+	modify {
+	---
+		def var e_i:int;
+		
+		def var by_sh:short;
+		def var by_i:int;
+		def var by_l:long;
+		
+		def var sh_i:int;
+		def var sh_l:long;
+		
+		def var i_l:long;
+		
+		def var f_d:double;
+		
+		def var by_f:float;
+		def var sh_f:float;
+		def var i_f:float;
+		def var l_f:float;
+		
+		def var by_d:double;
+		def var sh_d:double;
+		def var i_d:double;
+		def var l_d:double;
+
+		def var e_s:string;
+		def var by_s:string;
+		def var sh_s:string;
+		def var i_s:string;
+		def var l_s:string;
+		def var f_s:string;
+		def var d_s:string;
+
+		exec( {
+			yield e_i = (int)::e;
+			
+			yield by_sh = (short)::by;
+			yield by_i = (int)::by;
+			yield by_l = (long)::by;
+			
+			yield sh_i = (int)::sh;
+			yield sh_l = (long)::sh;
+			
+			yield i_l = (long)::i;
+			
+			yield f_d = (double)::f;
+			
+			yield by_f = (float)::by;
+			yield sh_f = (float)::sh;
+			yield i_f = (float)::i;
+			yield l_f = (float)::l;
+			
+			yield by_d = (double)::by;
+			yield sh_d = (double)::sh;
+			yield i_d = (double)::i;
+			yield l_d = (double)::l;
+			
+			yield e_s = (string)::e;
+			yield by_s = (string)::by;
+			yield sh_s = (string)::sh;
+			yield i_s = (string)::i;
+			yield l_s = (string)::l;
+			yield f_s = (string)::f;
+			yield d_s = (string)::d;
+		} );
+	}
+}
+
+rule explicitCasts(var e:ENU, var by:byte, var sh:short, var i:int, var l:long, var f:float, var d:double)
+{
+	if{ ((byte)l) == 42y && ((short)l) == 42s && ((int)l) == 42; }
+	if{ ((byte)i) == 42y && ((short)i) == 42s; }
+	if{ ((byte)sh) == 42y; }
+	
+	if{ ((float)d) == 42.0f; }
+
+	if{ ((long)f) == 42L && ((int)f) == 42 && ((short)f) == 42s && ((byte)f) == 42y; }
+	if{ ((long)d) == 42L && ((int)d) == 42 && ((short)d) == 42s && ((byte)d) == 42y; }
+
+	if{ ((object)e) != null && ((object)by) != null && ((object)sh) != null && ((object)i) != null && ((object)l) != null && ((object)f) != null && ((object)d) != null; }
+	
+	modify {
+		eval {
+			def var l_by:byte = (byte)l;
+			def var l_sh:short = (short)l;
+			def var l_i:int = (int)l;
+			
+			def var i_by:byte = (byte)i;
+			def var i_sh:short = (short)i;
+			
+			def var sh_by:byte = (byte)sh;
+			
+			def var d_f:float = (float)d;
+			
+			def var f_l:long = (long)f;
+			def var f_i:int = (int)f;
+			def var f_sh:short = (short)f;
+			def var f_by:byte = (byte)f;
+			
+			def var d_l:long = (long)d;
+			def var d_i:int = (int)d;
+			def var d_sh:short = (short)d;
+			def var d_by:byte = (byte)d;
+			
+			def var e_o:object = (object)e;
+			def var by_o:object = (object)by;
+			def var sh_o:object = (object)sh;
+			def var i_o:object = (object)i;
+			def var l_o:object = (object)l;
+			def var f_o:object = (object)f;
+			def var d_o:object = (object)d;
+		}
+	}
+}
+
+rule explicitCastsExec(var e:ENU, var by:byte, var sh:short, var i:int, var l:long, var f:float, var d:double)
+{
+	modify {
+	---
+		def var l_by:byte;
+		def var l_sh:short;
+		def var l_i:int;
+		
+		def var i_by:byte;
+		def var i_sh:short;
+		
+		def var sh_by:byte;
+		
+		def var d_f:float;
+		
+		def var f_l:long;
+		def var f_i:int;
+		def var f_sh:short;
+		def var f_by:byte;
+		
+		def var d_l:long;
+		def var d_i:int;
+		def var d_sh:short;
+		def var d_by:byte;
+		
+		def var e_o:object;
+		def var by_o:object;
+		def var sh_o:object;
+		def var i_o:object;
+		def var l_o:object;
+		def var f_o:object;
+		def var d_o:object;
+
+		exec( {
+			yield l_by = (byte)l;
+			yield l_sh = (short)l;
+			yield l_i = (int)l;
+			
+			yield i_by = (byte)i;
+			yield i_sh = (short)i;
+			
+			yield sh_by = (byte)sh;
+			
+			yield d_f = (float)d;
+			
+			yield f_l = (long)f;
+			yield f_i = (int)f;
+			yield f_sh = (short)f;
+			yield f_by = (byte)f;
+			
+			yield d_l = (long)d;
+			yield d_i = (int)d;
+			yield d_sh = (short)d;
+			yield d_by = (byte)d;
+			
+			yield e_o = (object)e;
+			yield by_o = (object)by;
+			yield sh_o = (object)sh;
+			yield i_o = (object)i;
+			yield l_o = (object)l;
+			yield f_o = (object)f;
+			yield d_o = (object)d;
+		} );
+	}
+}
+
+rule explicitCastsExecUntyped()
+{
+	modify {
+	---
+		def var l_by:byte;
+		def var l_sh:short;
+		def var l_i:int;
+		
+		def var i_by:byte;
+		def var i_sh:short;
+		
+		def var sh_by:byte;
+		
+		def var d_f:float;
+		
+		def var f_l:long;
+		def var f_i:int;
+		def var f_sh:short;
+		def var f_by:byte;
+		
+		def var d_l:long;
+		def var d_i:int;
+		def var d_sh:short;
+		def var d_by:byte;
+		
+		def var e_o:object;
+		def var by_o:object;
+		def var sh_o:object;
+		def var i_o:object;
+		def var l_o:object;
+		def var f_o:object;
+		def var d_o:object;
+
+		exec( {
+			yield l_by = (byte)::l;
+			yield l_sh = (short)::l;
+			yield l_i = (int)::l;
+			
+			yield i_by = (byte)::i;
+			yield i_sh = (short)::i;
+			
+			yield sh_by = (byte)::sh;
+			
+			yield d_f = (float)::d;
+			
+			yield f_l = (long)::f;
+			yield f_i = (int)::f;
+			yield f_sh = (short)::f;
+			yield f_by = (byte)::f;
+			
+			yield d_l = (long)::d;
+			yield d_i = (int)::d;
+			yield d_sh = (short)::d;
+			yield d_by = (byte)::d;
+			
+			yield e_o = (object)::e;
+			yield by_o = (object)::by;
+			yield sh_o = (object)::sh;
+			yield i_o = (object)::i;
+			yield l_o = (object)::l;
+			yield f_o = (object)::f;
+			yield d_o = (object)::d;
+		} );
+	}
+}
+
+rule unboxContainerExecUntyped()
+{
+	modify {
+	---	
+		def ref _se:set<string>;
+		def ref _ma:map<int,double>;
+		def ref _ar:array<ENU>;
+		def ref _de:deque<Node>;
+
+		exec( {
+			yield _se = (set<string>)::se;
+			yield _ma = (map<int,double>)::ma;
+			yield _ar = (array<ENU>)::ar;
+			yield _de = (deque<Node>)::de;
+		} );
+	}
+}

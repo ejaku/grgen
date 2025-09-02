@@ -10,6 +10,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -21,6 +22,250 @@ namespace de.unika.ipd.grGen.libGr
     {
         // the double casting in the following code is needed because a boxed value must be unboxed first
         // with the correct type before it can be casted to the real target type
+
+        public static object Cast(object sourceValue, string targetType, IGraph graph)
+        {
+            if(sourceValue == null)
+            {
+                // all casts to reference types are admissible, but no cast to a value type; TODO implement
+                return sourceValue;
+            }
+
+            string sourceType = TypesHelper.DotNetTypeToXgrsType(sourceValue.GetType());
+            switch(targetType)
+            {
+                case "byte":
+                    switch(sourceType)
+                    {
+                        case "byte":
+                            return (sbyte)sourceValue;
+                        case "short":
+                            return (sbyte)(short)sourceValue;
+                        case "int":
+                            return (sbyte)(int)sourceValue;
+                        case "long":
+                            return (sbyte)(long)sourceValue;
+                        case "float":
+                            return (sbyte)(float)sourceValue;
+                        case "double":
+                            return (sbyte)(double)sourceValue;
+                        default:
+                            if(TypesHelper.IsEnumType(sourceType, graph.Model))
+                                return (sbyte)Convert.ToInt32((Enum)sourceValue);
+                            break;
+                    }
+                    break;
+                case "short":
+                    switch(sourceType)
+                    {
+                        case "byte":
+                            return (short)(sbyte)sourceValue;
+                        case "short":
+                            return (short)sourceValue;
+                        case "int":
+                            return (short)(int)sourceValue;
+                        case "long":
+                            return (short)(long)sourceValue;
+                        case "float":
+                            return (short)(float)sourceValue;
+                        case "double":
+                            return (short)(double)sourceValue;
+                        default:
+                            if(TypesHelper.IsEnumType(sourceType, graph.Model))
+                                return (short)Convert.ToInt32((Enum)sourceValue);
+                            break;
+                    }
+                    break;
+                case "int":
+                    switch(sourceType)
+                    {
+                        case "byte":
+                            return (int)(sbyte)sourceValue;
+                        case "short":
+                            return (int)(short)sourceValue;
+                        case "int":
+                            return (int)sourceValue;
+                        case "long":
+                            return (int)(long)sourceValue;
+                        case "float":
+                            return (int)(float)sourceValue;
+                        case "double":
+                            return (int)(double)sourceValue;
+                        default:
+                            if(TypesHelper.IsEnumType(sourceType, graph.Model))
+                                return Convert.ToInt32((Enum)sourceValue);
+                            break;
+                    }
+                    break;
+                case "long":
+                    switch(sourceType)
+                    {
+                        case "byte":
+                            return (long)(sbyte)sourceValue;
+                        case "short":
+                            return (long)(short)sourceValue;
+                        case "int":
+                            return (long)(int)sourceValue;
+                        case "long":
+                            return (long)sourceValue;
+                        case "float":
+                            return (long)(float)sourceValue;
+                        case "double":
+                            return (long)(double)sourceValue;
+                        default:
+                            if(TypesHelper.IsEnumType(sourceType, graph.Model))
+                                return (long)Convert.ToInt32((Enum)sourceValue);
+                            break;
+                    }
+                    break;
+                case "float":
+                    switch(sourceType)
+                    {
+                        case "byte":
+                            return (float)(sbyte)sourceValue;
+                        case "short":
+                            return (float)(short)sourceValue;
+                        case "int":
+                            return (float)(int)sourceValue;
+                        case "long":
+                            return (float)(long)sourceValue;
+                        case "float":
+                            return (float)sourceValue;
+                        case "double":
+                            return (float)(double)sourceValue;
+                        default:
+                            if(TypesHelper.IsEnumType(sourceType, graph.Model))
+                                return (float)Convert.ToInt32((Enum)sourceValue);
+                            break;
+                    }
+                    break;
+                case "double":
+                    switch(sourceType)
+                    {
+                        case "byte":
+                            return (double)(sbyte)sourceValue;
+                        case "short":
+                            return (double)(short)sourceValue;
+                        case "int":
+                            return (double)(int)sourceValue;
+                        case "long":
+                            return (double)(long)sourceValue;
+                        case "float":
+                            return (double)(float)sourceValue;
+                        case "double":
+                            return (double)sourceValue;
+                        default:
+                            if(TypesHelper.IsEnumType(sourceType, graph.Model))
+                                return (double)Convert.ToInt32((Enum)sourceValue);
+                            break;
+                    }
+                    break;
+                case "boolean":
+                    if(sourceType == "boolean")
+                        return (bool)sourceValue;
+                    break;
+                case "string":
+                    if(sourceType == "string")
+                        return (string)sourceValue;
+                    else
+                    {
+                        if(TypesHelper.IsContainerType(sourceType))
+                            return EmitHelper.ToString(sourceValue, graph, false, null, null, null);
+                        else
+                            return EmitHelper.ToStringNonNull(sourceValue, graph, false, null, null, null);
+                    }
+                case "graph":
+                    if(sourceType == "graph")
+                        return (IGraph)sourceValue;
+                    break;
+            }
+
+            if(TypesHelper.IsEnumType(targetType, graph.Model))
+            {
+                if(targetType == sourceType)
+                    return (Enum)sourceValue;
+            }
+            else if(targetType.StartsWith("set<"))
+            {
+                if(targetType == sourceType)
+                    return sourceValue;
+            }
+            else if(targetType.StartsWith("map<"))
+            {
+                if(targetType == sourceType)
+                    return sourceValue;
+            }
+            else if(targetType.StartsWith("array<"))
+            {
+                if(targetType == sourceType)
+                    return sourceValue;
+            }
+            else if(targetType.StartsWith("deque<"))
+            {
+                if(targetType == sourceType)
+                    return sourceValue;
+            }
+            else if(TypesHelper.GetNodeType(targetType, graph.Model) != null)
+            {
+                NodeType targetNodeType = TypesHelper.GetNodeType(targetType, graph.Model);
+                NodeType sourceNodeType = TypesHelper.GetNodeType(sourceType, graph.Model);
+                if(sourceNodeType != null)
+                {
+                    if(targetNodeType.IsA(sourceNodeType) || sourceNodeType.IsA(targetNodeType))
+                        return sourceValue;
+                }
+            }
+            else if(TypesHelper.GetEdgeType(targetType, graph.Model) != null)
+            {
+                EdgeType targetEdgeType = TypesHelper.GetEdgeType(targetType, graph.Model);
+                EdgeType sourceEdgeType = TypesHelper.GetEdgeType(sourceType, graph.Model);
+                if(sourceEdgeType != null)
+                {
+                    if(targetEdgeType.IsA(sourceEdgeType) || sourceEdgeType.IsA(targetEdgeType))
+                        return sourceValue;
+                }
+            }
+            else if(TypesHelper.GetObjectType(targetType, graph.Model) != null)
+            {
+                ObjectType targetObjectType = TypesHelper.GetObjectType(targetType, graph.Model);
+                ObjectType sourceObjectType = TypesHelper.GetObjectType(sourceType, graph.Model);
+                if(sourceObjectType != null)
+                {
+                    if(targetObjectType.IsA(sourceObjectType) || sourceObjectType.IsA(targetObjectType))
+                        return sourceValue;
+                }
+            }
+            else if(TypesHelper.GetTransientObjectType(targetType, graph.Model) != null)
+            {
+                TransientObjectType targetTransientObjectType = TypesHelper.GetTransientObjectType(targetType, graph.Model);
+                TransientObjectType sourceTransientObjectType = TypesHelper.GetTransientObjectType(sourceType, graph.Model);
+                if(sourceTransientObjectType != null)
+                {
+                    if(targetTransientObjectType.IsA(sourceTransientObjectType) || sourceTransientObjectType.IsA(targetTransientObjectType))
+                        return sourceValue;
+                }
+            }
+            else if(TypesHelper.GetExternalObjectType(targetType, graph.Model) != null)
+            {
+                if(targetType == "object") // note that there is no source type object existing at runtime
+                    return sourceValue;
+
+                ExternalObjectType targetObjectType = TypesHelper.GetExternalObjectType(targetType, graph.Model);
+                ExternalObjectType sourceObjectType = TypesHelper.GetExternalObjectType(sourceType, graph.Model);
+                if(sourceObjectType != null)
+                {
+                    if(targetObjectType.IsA(sourceObjectType) || sourceObjectType.IsA(targetObjectType))
+                        return sourceValue;
+                }
+            }
+
+            // TODO: match class, match types of actions -- require access to actions...
+
+            if(sourceValue != null)
+                throw new InvalidCastException("Cannot cast " + sourceType + " to " + targetType);
+            else
+                throw new InvalidCastException("Cannot cast null to " + targetType);
+        }
 
         public static bool EqualObjects(object leftValue, object rightValue, 
             string balancedType, string leftType, string rightType, IGraph graph)
@@ -385,7 +630,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.EqualIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
-            else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, graph.Model))
+            else if(TypesHelper.GetExternalObjectType(balancedType, graph.Model) != null)
             {
                 return leftValue == rightValue;
             }
@@ -766,7 +1011,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.NotEqualIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
-            else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, graph.Model))
+            else if(TypesHelper.GetExternalObjectType(balancedType, graph.Model) != null)
             {
                 return leftValue != rightValue;
             }
@@ -1135,7 +1380,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.LessThanIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
-            else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, graph.Model))
+            else if(TypesHelper.GetExternalObjectType(balancedType, graph.Model) != null)
             {
                 return graph.Model.IsLower((object)leftValue, (object)rightValue, new Dictionary<object, object>());
             }
@@ -1494,7 +1739,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.GreaterThanIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
-            else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, graph.Model))
+            else if(TypesHelper.GetExternalObjectType(balancedType, graph.Model) != null)
             {
                 return !graph.Model.IsLower((object)leftValue, (object)rightValue, new Dictionary<object, object>())
                     && !graph.Model.IsEqual((object)leftValue, (object)rightValue, new Dictionary<object, object>());
@@ -1854,7 +2099,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.LessOrEqualIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
-            else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, graph.Model))
+            else if(TypesHelper.GetExternalObjectType(balancedType, graph.Model) != null)
             {
                 return graph.Model.IsLower((object)leftValue, (object)rightValue, new Dictionary<object, object>())
                     || graph.Model.IsEqual((object)leftValue, (object)rightValue, new Dictionary<object, object>());
@@ -2214,7 +2459,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.GreaterOrEqualIDeque((IDeque)leftValue, (IDeque)rightValue);
             }
-            else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, graph.Model))
+            else if(TypesHelper.GetExternalObjectType(balancedType, graph.Model) != null)
             {
                 return !graph.Model.IsLower((object)leftValue, (object)rightValue, new Dictionary<object, object>());
             }
@@ -2233,7 +2478,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ContainerHelper.StructurallyEqual(leftValue, rightValue, new Dictionary<object, object>());
             }
-            else if(TypesHelper.IsExternalObjectTypeIncludingObjectType(balancedType, graph.Model))
+            else if(TypesHelper.GetExternalObjectType(balancedType, graph.Model) != null)
             {
                 return graph.Model.IsEqual((object)leftValue, (object)rightValue, new Dictionary<object, object>());
             }

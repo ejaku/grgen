@@ -1,0 +1,137 @@
+new graph "castTypecheck/castExprNonInheritanceType"
+
+exec explicitCasts(ENU::b, 42y, 42s, 42, 42L, 42.0f, 42.0)
+
+exec explicitCastsExec(ENU::b, 42y, 42s, 42, 42L, 42.0f, 42.0)
+
+exec { ::e=ENU::b; ::by=42y; ::sh=42s; ::i=42; ::l=42L; ::f=42.0f; ::d=42.0 } ;> explicitCastsExecUntyped()
+
+exec {\
+::l_by=(byte)42L;\
+::l_sh=(short)42L;\
+::l_i=(int)42L;\
+::i_by=(byte)42;\
+::i_sh=(short)42;\
+::sh_by=(byte)42s;\
+::d_f=(float)42.0;\
+::f_l=(long)42.0f;\
+::f_i=(int)42.0f;\
+::f_sh=(short)42.0f;\
+::f_by=(byte)42.0f;\
+::d_l=(long)42.0;\
+::d_i=(int)42.0;\
+::d_sh=(short)42.0;\
+::d_by=(byte)42.0;\
+::e_o=(object)ENU::b;\
+::by_o=(object)42y;\
+::sh_o=(object)42s;\
+::i_o=(object)42;\
+::l_o=(object)42L;\
+::f_o=(object)42.0f;\
+::d_o=(object)42.0\
+}
+
+show var l_by
+show var l_sh
+show var l_i
+show var i_by
+show var i_sh
+show var sh_by
+show var d_f
+
+show var f_l
+show var f_i
+show var f_sh
+show var f_by
+show var d_l
+show var d_i
+show var d_sh
+show var d_by
+
+show var e_o
+show var by_o
+show var sh_o
+show var i_o
+show var l_o
+show var f_o
+show var d_o
+
+show var e
+show var 'by'
+show var sh
+show var i
+show var l
+show var f
+show var d
+
+exec {\
+::l_by=(byte)::l;\
+::l_sh=(short)::l;\
+::l_i=(int)::l;\
+::i_by=(byte)::i;\
+::i_sh=(short)::i;\
+::sh_by=(byte)::sh;\
+::d_f=(float)::d;\
+::f_l=(long)::f;\
+::f_i=(int)::f;\
+::f_sh=(short)::f;\
+::f_by=(byte)::f;\
+::d_l=(long)::d;\
+::d_i=(int)::d;\
+::d_sh=(short)::d;\
+::d_by=(byte)::d;\
+::e_o=(object)::e;\
+::by_o=(object)::by;\
+::sh_o=(object)::sh;\
+::i_o=(object)::i;\
+::l_o=(object)::l;\
+::f_o=(object)::f;\
+::d_o=(object)::d\
+}
+
+show var l_by
+show var l_sh
+show var l_i
+show var i_by
+show var i_sh
+show var sh_by
+show var d_f
+
+show var f_l
+show var f_i
+show var f_sh
+show var f_by
+show var d_l
+show var d_i
+show var d_sh
+show var d_by
+
+show var e_o
+show var by_o
+show var sh_o
+show var i_o
+show var l_o
+show var f_o
+show var d_o
+
+new n:Node
+exec { ::se=set<string>{"furchtbar"}; ::ma=map<int,double>{42->1337.1337}; ::ar=array<ENU>[ENU::b]; ::de=deque<Node>[::n] } ;> unboxContainerExecUntyped()
+
+exec {\
+::_se=(set<string>)::se;\
+::_ma=(map<int,double>)::ma;\
+::_ar=(array<ENU>)::ar;\
+::_de=(deque<Node>)::de\
+}
+
+show var se
+show var ma
+show var ar
+show var de
+
+show var _se
+show var _ma
+show var _ar
+show var _de
+
+quit

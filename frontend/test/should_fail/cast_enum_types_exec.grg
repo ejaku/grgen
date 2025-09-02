@@ -1,0 +1,11 @@
+using cast_model;
+
+rule r {
+	modify {
+	---
+		def var unrelENU:UnrelENU;
+		exec ({
+			unrelENU = (UnrelENU)ENU::c
+		});
+	}
+}

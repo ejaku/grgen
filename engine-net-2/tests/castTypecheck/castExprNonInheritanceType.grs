@@ -1,0 +1,121 @@
+new graph "castTypecheck/castExprNonInheritanceType"
+
+exec implicitOnesCarriedOutExplicitly(ENU::b, 42y, 42s, 42, 42L, 42.0f, 42.0)
+
+exec implicitOnesCarriedOutExplicitlyExec(ENU::b, 42y, 42s, 42, 42L, 42.0f, 42.0)
+
+exec { ::e=ENU::b; ::by=42y; ::sh=42s; ::i=42; ::l=42L; ::f=42.0f; ::d=42.0 } ;> implicitOnesCarriedOutExplicitlyExecUntyped()
+
+exec {\
+::e_i=(int)ENU::b;\
+::by_sh=(short)42y;\
+::by_i=(int)42y;\
+::by_l=(long)42y;\
+::sh_i=(int)42s;\
+::sh_l=(long)42s;\
+::i_l=(long)42;\
+::f_d=(double)42.0f;\
+::by_f=(float)42y;\
+::sh_f=(float)42s;\
+::i_f=(float)42;\
+::l_f=(float)42L;\
+::by_d=(double)42y;\
+::sh_d=(double)42s;\
+::i_d=(double)42;\
+::l_d=(double)42L;\
+::e_s=(string)ENU::b;\
+::by_s=(string)42y;\
+::sh_s=(string)42s;\
+::i_s=(string)42;\
+::l_s=(string)42L;\
+::f_s=(string)42.0f;\
+::d_s=(string)42.0\
+}
+
+show var e_i
+show var by_sh
+show var by_i
+show var by_l
+show var sh_i
+show var sh_l
+show var i_l
+show var f_d
+
+show var by_f
+show var sh_f
+show var i_f
+show var l_f
+show var by_d
+show var sh_d
+show var i_d
+show var l_d
+
+show var e_s
+show var by_s
+show var sh_s
+show var i_s
+show var l_s
+show var f_s
+show var d_s
+
+show var e
+show var 'by'
+show var sh
+show var i
+show var l
+show var f
+show var d
+
+exec {\
+::e_i=(int)::e;\
+::by_sh=(short)::by;\
+::by_i=(int)::by;\
+::by_l=(long)::by;\
+::sh_i=(int)::sh;\
+::sh_l=(long)::sh;\
+::i_l=(long)::i;\
+::f_d=(double)::f;\
+::by_f=(float)::by;\
+::sh_f=(float)::sh;\
+::i_f=(float)::i;\
+::l_f=(float)::l;\
+::by_d=(double)::by;\
+::sh_d=(double)::sh;\
+::i_d=(double)::i;\
+::l_d=(double)::l;\
+::e_s=(string)::e;\
+::by_s=(string)::by;\
+::sh_s=(string)::sh;\
+::i_s=(string)::i;\
+::l_s=(string)::l;\
+::f_s=(string)::f;\
+::d_s=(string)::d\
+}
+
+show var e_i
+show var by_sh
+show var by_i
+show var by_l
+show var sh_i
+show var sh_l
+show var i_l
+show var f_d
+
+show var by_f
+show var sh_f
+show var i_f
+show var l_f
+show var by_d
+show var sh_d
+show var i_d
+show var l_d
+
+show var e_s
+show var by_s
+show var sh_s
+show var i_s
+show var l_s
+show var f_s
+show var d_s
+
+quit

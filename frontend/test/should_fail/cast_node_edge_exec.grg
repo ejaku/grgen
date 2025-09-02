@@ -1,0 +1,13 @@
+using cast_model;
+
+rule r {
+	n:N;
+	
+	modify {
+	---
+		def -e:E->;
+		exec ({
+			e = (E)n
+		});
+	}
+}

@@ -1151,9 +1151,9 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceExpressionCast : SequenceExpression
     {
         public readonly SequenceExpression Operand;
-        public readonly object TargetType;
+        public readonly string TargetType;
 
-        public SequenceExpressionCast(SequenceExpression operand, object targetType)
+        public SequenceExpressionCast(SequenceExpression operand, string targetType)
             : base(SequenceExpressionType.Cast)
         {
             this.Operand = operand;
@@ -1172,22 +1172,24 @@ namespace de.unika.ipd.grGen.libGr
             return new SequenceExpressionCast(this, originalToCopy, procEnv);
         }
 
+        public override void Check(SequenceCheckingEnvironment env)
+        {
+            base.Check(env); // check children
+
+            string OperandTypeStatic = Operand.Type(env);
+            if(!SequenceExpressionTypeHelper.IsCastable(OperandTypeStatic, TargetType, env.Model))
+                throw new SequenceParserExceptionTypeMismatch(Symbol, "type castable to " + TargetType, OperandTypeStatic);
+        }
+
         public override String Type(SequenceCheckingEnvironment env)
         {
-            if(TargetType is NodeType)
-                return ((NodeType)TargetType).Name;
-            if(TargetType is EdgeType)
-                return ((EdgeType)TargetType).Name;
-            if(TargetType is ObjectType)
-                return ((ObjectType)TargetType).Name;
-            if(TargetType is TransientObjectType)
-                return ((TransientObjectType)TargetType).Name;
-            return null; // TODO: handle the non-node/edge/object/transient-object-types, too
+            return TargetType;
         }
 
         public override object ExecuteImpl(IGraphProcessingEnvironment procEnv)
         {
-            return Operand.Evaluate(procEnv);
+            object sourceValue = Operand.Evaluate(procEnv);
+            return SequenceExpressionExecutionHelper.Cast(sourceValue, TargetType, procEnv.Graph);
         }
 
         public override sealed void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables,
@@ -1208,7 +1210,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "(" + ((InheritanceType)TargetType).Name + ")" + Operand.Symbol; }
+            get { return "(" + TargetType + ")" + Operand.Symbol; }
         }
     }
 

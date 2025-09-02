@@ -1,0 +1,11 @@
+using cast_model;
+
+rule r {
+	modify {
+	---
+		eval {
+			def var ii:int = 42;
+			def var i:int = (int)(object)ii; // should pass test with nested cast
+		}
+	}
+}

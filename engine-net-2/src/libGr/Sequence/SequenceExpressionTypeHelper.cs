@@ -29,7 +29,86 @@ namespace de.unika.ipd.grGen.libGr
         // floating point number -> smaller floating point number
         // floating point number -> integer number
         // everything -> object
+        // object -> everything (at least in a true OO language this should work, in GrGen.NET the exact meaning of object is not fully defined yet (neither fully covered by tests) (with some influence from C++ not supporting boxing))
 
+        /// <summary>
+        /// Returns whether the source operand type can be casted to the specified target type (true if the type is unknown at compile time, in case of incompatible types the cast will then fail at runtime).
+        /// </summary>
+        public static bool IsCastable(string source, string target, IGraphModel model)
+        {
+            if(source == "")
+                return true;
+            if(source == "object") // "static" type resulting from cast to this type, no real value of this type existing at runtime
+                return true;
+            if(source == target)
+                return true;
+
+            if(TypesHelper.IsNumericType(source) && TypesHelper.IsNumericType(target))
+                return true;
+            if(TypesHelper.IsEnumType(source, model) && TypesHelper.IsNumericType(target))
+                return true;
+
+            if(target == "string")
+                return true;
+            if(target == "object")
+                return true;
+
+            if(TypesHelper.GetNodeType(target, model) != null)
+            {
+                NodeType targetNodeType = TypesHelper.GetNodeType(target, model);
+                NodeType sourceNodeType = TypesHelper.GetNodeType(source, model);
+                if(sourceNodeType != null)
+                {
+                    if(targetNodeType.IsA(sourceNodeType) || sourceNodeType.IsA(targetNodeType))
+                        return true;
+                }
+            }
+            else if(TypesHelper.GetEdgeType(target, model) != null)
+            {
+                EdgeType targetEdgeType = TypesHelper.GetEdgeType(target, model);
+                EdgeType sourceEdgeType = TypesHelper.GetEdgeType(source, model);
+                if(sourceEdgeType != null)
+                {
+                    if(targetEdgeType.IsA(sourceEdgeType) || sourceEdgeType.IsA(targetEdgeType))
+                        return true;
+                }
+            }
+            else if(TypesHelper.GetObjectType(target, model) != null)
+            {
+                ObjectType targetObjectType = TypesHelper.GetObjectType(target, model);
+                ObjectType sourceObjectType = TypesHelper.GetObjectType(source, model);
+                if(sourceObjectType != null)
+                {
+                    if(targetObjectType.IsA(sourceObjectType) || sourceObjectType.IsA(targetObjectType))
+                        return true;
+                }
+            }
+            else if(TypesHelper.GetTransientObjectType(target, model) != null)
+            {
+                TransientObjectType targetTransientObjectType = TypesHelper.GetTransientObjectType(target, model);
+                TransientObjectType sourceTransientObjectType = TypesHelper.GetTransientObjectType(source, model);
+                if(sourceTransientObjectType != null)
+                {
+                    if(targetTransientObjectType.IsA(sourceTransientObjectType) || sourceTransientObjectType.IsA(targetTransientObjectType))
+                        return true;
+                }
+            }
+            else if(TypesHelper.GetExternalObjectType(target, model) != null) // includes "object", but that one was already handled before
+            {
+                ExternalObjectType targetExternalObjectType = TypesHelper.GetExternalObjectType(target, model);
+                ExternalObjectType sourceExternalObjectType = TypesHelper.GetExternalObjectType(source, model);
+                if(sourceExternalObjectType != null)
+                {
+                    if(targetExternalObjectType.IsA(sourceExternalObjectType) || sourceExternalObjectType.IsA(targetExternalObjectType))
+                        return true;
+                }
+            }
+            // TODO: match class, match types of actions -- require access to actions...
+
+            // container handled by source == target, or source == "", i.e. only type equality/invariance or unboxing casts are supported
+
+            return false;
+        }
 
         /// <summary>
         /// Returns the types to which the operands must be casted to, 
@@ -455,10 +534,10 @@ namespace de.unika.ipd.grGen.libGr
             if(left == "" || right == "")
                 return "";
 
-            if(TypesHelper.IsSameOrSubtype(left, right, model) && !TypesHelper.IsExternalObjectTypeIncludingObjectType(right, model))
+            if(TypesHelper.IsSameOrSubtype(left, right, model) && TypesHelper.GetExternalObjectType(right, model) == null)
                 return right;
 
-            if(TypesHelper.IsSameOrSubtype(right, left, model) && !TypesHelper.IsExternalObjectTypeIncludingObjectType(left, model))
+            if(TypesHelper.IsSameOrSubtype(right, left, model) && TypesHelper.GetExternalObjectType(left, model) == null)
                 return left;
 
             return "-";
@@ -478,10 +557,10 @@ namespace de.unika.ipd.grGen.libGr
             if(left == "" || right == "")
                 return "";
 
-            if(TypesHelper.IsSameOrSubtype(left, right, model) && TypesHelper.IsExternalObjectTypeIncludingObjectType(right, model))
+            if(TypesHelper.IsSameOrSubtype(left, right, model) && TypesHelper.GetExternalObjectType(right, model) != null)
                 return right;
 
-            if(TypesHelper.IsSameOrSubtype(right, left, model) && TypesHelper.IsExternalObjectTypeIncludingObjectType(left, model))
+            if(TypesHelper.IsSameOrSubtype(right, left, model) && TypesHelper.GetExternalObjectType(left, model) != null)
                 return left;
 
             return "-";

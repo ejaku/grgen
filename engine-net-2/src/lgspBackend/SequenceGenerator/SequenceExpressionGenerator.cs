@@ -1001,17 +1001,19 @@ namespace de.unika.ipd.grGen.lgsp
 
         private string GetSequenceExpressionCast(SequenceExpressionCast seqCast, SourceBuilder source)
         {
-            string targetType = "UNSUPPORTED TYPE CAST";
-            if(seqCast.TargetType is NodeType)
-                targetType = ((NodeType)seqCast.TargetType).NodeInterfaceName;
-            if(seqCast.TargetType is EdgeType)
-                targetType = ((EdgeType)seqCast.TargetType).EdgeInterfaceName;
-            if(seqCast.TargetType is ObjectType)
-                targetType = ((ObjectType)seqCast.TargetType).ObjectInterfaceName;
-            if(seqCast.TargetType is TransientObjectType)
-                targetType = ((TransientObjectType)seqCast.TargetType).TransientObjectInterfaceName;
-            // TODO: handle the non-node/edge/object/transient-object-types, too
-            return "((" + targetType + ")" + GetSequenceExpression(seqCast.Operand, source) + ")";
+            string operandExpr = GetSequenceExpression(seqCast.Operand, source);
+            string targetType = TypesHelper.XgrsTypeToCSharpType(seqCast.TargetType, model);
+            if(seqCast.Operand.Type(env) == "")
+                return "((" + targetType + ")" + "GRGEN_LIBGR.SequenceExpressionExecutionHelper.Cast(" + operandExpr + ", \"" + seqCast.TargetType + "\", graph))";
+            else if(seqCast.TargetType == "string")
+            {
+                if(TypesHelper.IsContainerType(seqCast.Operand.Type(env)))
+                    return "GRGEN_LIBGR.EmitHelper.ToString(" + operandExpr + ", graph, false, null, null, null)";
+                else
+                    return "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + operandExpr + ", graph, false, null, null, null)";
+            }
+            else
+                return "((" + targetType + ")" + operandExpr + ")";
         }
 
         private string GetSequenceExpressionDef(SequenceExpressionDef seqDef, SourceBuilder source)

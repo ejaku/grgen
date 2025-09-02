@@ -138,10 +138,17 @@ public abstract class ConstNode extends OperatorNode
 	{
 		ConstNode res = getInvalid();
 
-		if(getType().isEqual(type)) {
-			res = this;
-		} else if(getType().isCastableTo(type)) {
-			res = doCastTo(type);
+		try
+		{
+			if(getType().isEqual(type)) {
+				res = this;
+			} else if(getType().isCastableTo(type)) {
+				res = doCastTo(type);
+			}
+		}
+		catch(UnsupportedOperationException ex)
+		{
+			reportError("The cast from " + toString() + " to type " + type.toStringWithDeclarationCoords() + " is failing.");
 		}
 
 		return res;

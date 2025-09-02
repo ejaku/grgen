@@ -20,4 +20,10 @@ exec rT(new TTT())
 
 exec rTexec(new TTT())
 
+exec { ::nn = (NN)::nnn; ::ee = (EE)::eee; ::oo = (OO)new OOO(); ::tt = (TT)new TTT() }
+exec { ::nOut = (N)::nn; ::nnnOut = (NNN)::nn }
+exec { ::eOut = (E)::ee; ::eeeOut = (EEE)::ee }
+exec { ::oOut = (O)::oo; ::oooOut = (OOO)::oo }
+exec { ::tOut = (T)::tt; ::tttOut = (TTT)::tt }
+
 quit

@@ -2324,7 +2324,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private void PrintSequenceExpressionCast(SequenceExpressionCast seqExprCast, SequenceBase parent, HighlightingMode highlightingMode)
         {
             env.PrintHighlighted("(", highlightingMode);
-            env.PrintHighlighted(((InheritanceType)seqExprCast.TargetType).Name, highlightingMode);
+            env.PrintHighlighted(seqExprCast.TargetType, highlightingMode);
             env.PrintHighlighted(")", highlightingMode);
             PrintSequenceExpression(seqExprCast.Operand, seqExprCast, highlightingMode);
         }

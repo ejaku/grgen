@@ -1,0 +1,11 @@
+using cast_model;
+
+rule r {
+	modify {
+	---
+		def var i:int;
+		exec ({
+			yield i = (int)(object)42 // should pass test with nested cast
+		});
+	}
+}

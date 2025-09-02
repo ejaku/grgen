@@ -1,0 +1,11 @@
+using cast_model;
+
+rule r {
+	modify {
+	---
+		def var i:int;
+		exec ({
+			i = (int)(object)null // beware of test result - the concrete cast of NULL to int at runtime should fail (or at compile time in case of constant folding), the abstract cast of object to int should work (when an integer object is given) - at least in a true OO language, in GrGen.NET the exact meaning of object is not fully defined yet (neither fully covered by tests) (with some influence from C++ not supporting boxing)
+		});
+	}
+}

@@ -1,0 +1,12 @@
+using cast_model;
+
+rule r {
+	n:N;
+	
+	modify {
+	---
+		eval {
+			def unrelN:UnrelN = (UnrelN)n;
+		}
+	}
+}

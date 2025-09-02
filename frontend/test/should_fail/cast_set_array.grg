@@ -1,0 +1,10 @@
+using cast_model;
+
+rule r {
+	modify {
+	---
+		eval {
+			def ref arr:array<string> = (array<string>)set<string>{"furchtbar"}; // cast not available syntactically -- only available in sequences for unboxing untyped variables -- maybe todo: make available
+		}
+	}
+}

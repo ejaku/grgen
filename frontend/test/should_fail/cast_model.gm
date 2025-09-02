@@ -1,0 +1,14 @@
+node class N;
+node class UnrelN;
+
+edge class E;
+edge class UnrelE;
+
+class O;
+class UnrelO;
+
+transient class TO;
+transient class UnrelTO;
+
+enum ENU { a, b, c}
+enum UnrelENU { x, y, z}

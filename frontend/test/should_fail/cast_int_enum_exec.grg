@@ -1,0 +1,11 @@
+using cast_model;
+
+rule r {
+	modify {
+	---
+		def var enu:ENU;
+		exec ({
+			enu = (ENU)0
+		});
+	}
+}

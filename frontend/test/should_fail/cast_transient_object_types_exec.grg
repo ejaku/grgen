@@ -1,0 +1,11 @@
+using cast_model;
+
+rule r {
+	modify {
+	---
+		def ref unrelTO:UnrelTO;
+		exec ({
+			unrelTO = (UnrelTO)new TO()
+		});
+	}
+}

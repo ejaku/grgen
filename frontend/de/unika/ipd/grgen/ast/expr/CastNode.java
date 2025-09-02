@@ -154,21 +154,26 @@ public class CastNode extends ExprNode
 			((InheritanceTypeNode)fromType).doGetCompatibleToTypes(supertypesOfFrom);
 			HashSet<TypeNode> supertypesOfTo = new HashSet<TypeNode>();
 			((InheritanceTypeNode)type).doGetCompatibleToTypes(supertypesOfTo);
-			return fromType.equals(type) || supertypesOfFrom.contains(type) || supertypesOfTo.contains(fromType);
+			boolean castable = fromType.equals(type) || supertypesOfFrom.contains(type) || supertypesOfTo.contains(fromType);
+			if(castable)
+				return true;
 		}
-		if(fromType instanceof ObjectTypeNode && !(type instanceof NodeTypeNode) && !(type instanceof EdgeTypeNode))
-			return true; // object is castable to anything besides nodes and edges
-		if(type instanceof ObjectTypeNode && !(fromType instanceof NodeTypeNode) && !(fromType instanceof EdgeTypeNode))
-			return true; // anything besides nodes and edges can be casted into an object
+		if(fromType instanceof ObjectTypeNode)
+			return true; // object is castable to anything (at least to external object types) -- in a real OO language, everything should be statically castable into an object and out of an object (but could of course fail at runtime) -- TODO: make sure this really holds everywhere, it may very well be this does not hold (or define the exact relationship)
+		if(type instanceof ObjectTypeNode)
+			return true; // anything can be casted into an object
 		if(fromType instanceof ExternalObjectTypeNode && type instanceof ExternalObjectTypeNode) {
 			// we support up- and down-casts, but no cross-casts of external object types
 			HashSet<TypeNode> supertypesOfFrom = new HashSet<TypeNode>();
 			((ExternalObjectTypeNode)fromType).doGetCompatibleToTypes(supertypesOfFrom);
 			HashSet<TypeNode> supertypesOfTo = new HashSet<TypeNode>();
 			((ExternalObjectTypeNode)type).doGetCompatibleToTypes(supertypesOfTo);
-			return fromType.equals(type) || supertypesOfFrom.contains(type) || supertypesOfTo.contains(fromType);
+			boolean castable = fromType.equals(type) || supertypesOfFrom.contains(type) || supertypesOfTo.contains(fromType);
+			if(castable)
+				return true;
 		}
 
+		// assumption: when the castable checks above are failing, they cause also the castable check here to fail / they only prevent a fail in this place when the cast should succeed
 		boolean result = fromType.isCastableTo(type);
 		if(!result) {
 			reportError("A cast from " + expr.getType().toStringWithDeclarationCoords() + " to " + type.toStringWithDeclarationCoords() + " is not supported.");
@@ -188,7 +193,16 @@ public class CastNode extends ExprNode
 		assert isResolved();
 
 		expr = expr.evaluate();
-		return expr instanceof ConstNode ? ((ConstNode)expr).castTo(type) : this;
+		if(expr instanceof ConstNode) {
+			ConstNode constExprEvaluated = ((ConstNode)expr).castTo(type);
+			if(constExprEvaluated instanceof InvalidConstNode) {
+				reportError("The cast from " + expr.toString() + " of type " + expr.getType().toStringWithDeclarationCoords() + " to type " + type.toStringWithDeclarationCoords() + " is failing.");
+				return this;
+			}
+			return constExprEvaluated;
+		}
+		else
+			return this;
 	}
 
 	/**

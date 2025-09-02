@@ -1,0 +1,11 @@
+using cast_model;
+
+rule r {
+	modify {
+	---
+		def ref arr:array<string>;
+		exec ({
+			arr = (array<string>)set<string>{"foobar"}
+		});
+	}
+}

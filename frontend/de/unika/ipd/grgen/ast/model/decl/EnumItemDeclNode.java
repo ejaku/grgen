@@ -20,6 +20,7 @@ import de.unika.ipd.grgen.ast.expr.ConstNode;
 import de.unika.ipd.grgen.ast.expr.EnumConstNode;
 import de.unika.ipd.grgen.ast.expr.EnumExprNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
+import de.unika.ipd.grgen.ast.expr.InvalidConstNode;
 import de.unika.ipd.grgen.ast.model.type.EnumTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
@@ -115,6 +116,10 @@ public class EnumItemDeclNode extends MemberDeclNode
 
 		newValue = ((ConstNode)newValue).castTo(BasicTypeNode.intType);
 		if(value != newValue) {
+			if(newValue instanceof InvalidConstNode) {
+				reportError("The enum item " + ident + " cannot be casted to int (INTERNAL FAILURE).");
+				return false;
+			}
 			switchParenthood(value, newValue);
 			value = newValue;
 		}

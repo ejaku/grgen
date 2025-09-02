@@ -1,0 +1,11 @@
+using cast_model;
+
+rule r {
+	modify {
+	---
+		eval {
+			def var i:int = 42;
+			def var o:object = (object)i; // only a few should-pass tests for casting exist as of now, most tests are semantic tests from engine-net-2
+		}
+	}
+}

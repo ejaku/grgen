@@ -1,0 +1,11 @@
+using cast_model;
+
+rule r {
+	modify {
+	---
+		def var o:object;
+		exec ({
+			yield o = (object)42 // only a few should-pass tests for casting exist as of now, most tests are semantic tests from engine-net-2
+		});
+	}
+}

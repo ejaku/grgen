@@ -1,0 +1,10 @@
+using cast_model;
+
+rule r {
+	modify {
+	---
+		eval {
+			def var i:int = (int)"foobar";
+		}
+	}
+}
