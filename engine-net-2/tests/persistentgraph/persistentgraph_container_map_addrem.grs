@@ -1,0 +1,138 @@
+! rm testgraphfilename_container_map_addrem.db
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+new graph "persistentgraph/persistentgraph_container_map" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_map_addrem.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_map" "some non-persistent graph"
+
+exec init
+exec (::n,::e,::o,::o2,::e2,::e3)=findExtended
+exec { ::n.m_s = null;\
+::n.m_by.clear(); ::n.m_by.add(42y,42y);\
+::n.m_i.add(28+0xDEAD,"D-EORC"); ::n.m_i.add(172+0xBEEF,"D-EAEX"); ::n.m_i.add(172,"D-ELPD");\
+::n.m_l.rem(42l); ::n.m_l.rem(42l); ::n.m_l.add(50L,50l); ::n.m_l.add(50L,50l);\
+::n.m_f.rem(3.141592654f); ::n.m_f.rem(2.718281828f); ::n.m_f.add(0.0f,0.0f); ::n.m_f.add(1.0f,1.0f);\
+::n.m_d.rem(44.0); ::n.m_d.add(1337.1337, 1337.7331);\
+::n.m_b.rem(true);\
+::n.m_e.rem(ENU::a); ::n.m_e.rem(ENU::c); ::n.m_e.add(ENU::b, ENU::c);\
+::n.m_N.add(::n,::n);\
+::n.m_Ed.add(::e,::e2); ::n.m_Ed.add(::e2,::e3); ::n.m_Ed.add(::e3,::e);\
+::n.m_O.add(::e.o,::e.o);\
+::e.m_s = null;\
+::e.m_by.add(42y,42y);\
+::e.m_sh.clear();\
+::e.m_i.add(1,"Zwischen Rhein und Schwarzwald"); ::e.m_i.add(2,"Stadtschloß querab"); ::e.m_i.add(3,"Fulda gap"); ::e.m_i.add(4,"Wartburg"); ::e.m_i.add(5,"Kyffhäuser links liegen gelassen auf'm Weg zum Bauhaus"); ::e.m_i.add(6,"Große Städte bauen länger."); ::e.m_i.add(7,"Nuthe-Nieplitz-Niederung");\
+::e.m_l.rem(42l); ::e.m_l.rem(43l); ::e.m_l.add(50L,50l);\
+::e.m_f.rem(3.141592654f); ::e.m_f.rem(2.718281828f); ::e.m_f.add(1.0f,0.0f); ::e.m_f.add(0.0f,1.0f);\
+::e.m_d.rem(43.0); ::e.m_d.rem(44.0000001); ::e.m_d.add(1337.1337, 1337.1337);\
+::e.m_b.rem(true); ::e.m_b.rem(false);\
+::e.m_e = ::e.m_e;\
+::e.m_N.add(::n,::n);\
+::e.m_Ed.add(::e,::e); ::e.m_Ed.add(::e2,::e2);\
+::e.m_O.add(::n.o,null);\
+::o.m_s = null;\
+::o.m_by.add(42y,42y);\
+::o.m_sh = ::o.m_sh;\
+::o.m_i.rem(2); ::o.m_i.rem(3); ::o.m_i.add(0xDEAD, "WUR");\
+::o.m_l.rem(44l); ::o.m_l.add(50L,50l);\
+::o.m_f.rem(3.141592654f); ::o.m_f.rem(2.718281828f); ::o.m_f.add(1.0f,0.0f); ::o.m_f.add(0.5f,0.5f); ::o.m_f.add(0.0f,1.0f);\
+::o.m_d.rem(42.0); ::o.m_d.add(1337.1337, 1337.1337);\
+::o.m_b.rem(false);\
+::o.m_e.rem(ENU::c);\
+::o.m_N.add(::n,::n);\
+::o.m_Ed.add(::e,::e); ::o.m_Ed.add(::e2,::e2); ::o.m_Ed.add(::e3,::e3);\
+::o.m_O.add(::n.o,::e.o); ::o.m_O.add(::e.o,::n.o)\
+}
+
+show node n
+show edge e
+show var o
+show var o2
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_map" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_map_addrem.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+exec init
+exec (::n,::e,::o,::o2,::e2,::e3)=findExtended
+exec { ::n.m_s = null;\
+::n.m_by.clear(); ::n.m_by.add(42y,42y);\
+::n.m_i.add(28+0xDEAD,"D-EORC"); ::n.m_i.add(172+0xBEEF,"D-EAEX"); ::n.m_i.add(172,"D-ELPD");\
+::n.m_l.rem(42l); ::n.m_l.rem(42l); ::n.m_l.add(50L,50l); ::n.m_l.add(50L,50l);\
+::n.m_f.rem(3.141592654f); ::n.m_f.rem(2.718281828f); ::n.m_f.add(0.0f,0.0f); ::n.m_f.add(1.0f,1.0f);\
+::n.m_d.rem(44.0); ::n.m_d.add(1337.1337, 1337.7331);\
+::n.m_b.rem(true);\
+::n.m_e.rem(ENU::a); ::n.m_e.rem(ENU::c); ::n.m_e.add(ENU::b, ENU::c);\
+::n.m_N.add(::n,::n);\
+::n.m_Ed.add(::e,::e2); ::n.m_Ed.add(::e2,::e3); ::n.m_Ed.add(::e3,::e);\
+::n.m_O.add(::e.o,::e.o);\
+::e.m_s = null;\
+::e.m_by.add(42y,42y);\
+::e.m_sh.clear();\
+::e.m_i.add(1,"Zwischen Rhein und Schwarzwald"); ::e.m_i.add(2,"Stadtschloß querab"); ::e.m_i.add(3,"Fulda gap"); ::e.m_i.add(4,"Wartburg"); ::e.m_i.add(5,"Kyffhäuser links liegen gelassen auf'm Weg zum Bauhaus"); ::e.m_i.add(6,"Große Städte bauen länger."); ::e.m_i.add(7,"Nuthe-Nieplitz-Niederung");\
+::e.m_l.rem(42l); ::e.m_l.rem(43l); ::e.m_l.add(50L,50l);\
+::e.m_f.rem(3.141592654f); ::e.m_f.rem(2.718281828f); ::e.m_f.add(1.0f,0.0f); ::e.m_f.add(0.0f,1.0f);\
+::e.m_d.rem(43.0); ::e.m_d.rem(44.0000001); ::e.m_d.add(1337.1337, 1337.1337);\
+::e.m_b.rem(true); ::e.m_b.rem(false);\
+::e.m_e = ::e.m_e;\
+::e.m_N.add(::n,::n);\
+::e.m_Ed.add(::e,::e); ::e.m_Ed.add(::e2,::e2);\
+::e.m_O.add(::n.o,null);\
+::o.m_s = null;\
+::o.m_by.add(42y,42y);\
+::o.m_sh = ::o.m_sh;\
+::o.m_i.rem(2); ::o.m_i.rem(3); ::o.m_i.add(0xDEAD, "WUR");\
+::o.m_l.rem(44l); ::o.m_l.add(50L,50l);\
+::o.m_f.rem(3.141592654f); ::o.m_f.rem(2.718281828f); ::o.m_f.add(1.0f,0.0f); ::o.m_f.add(0.5f,0.5f); ::o.m_f.add(0.0f,1.0f);\
+::o.m_d.rem(42.0); ::o.m_d.add(1337.1337, 1337.1337);\
+::o.m_b.rem(false);\
+::o.m_e.rem(ENU::c);\
+::o.m_N.add(::n,::n);\
+::o.m_Ed.add(::e,::e); ::o.m_Ed.add(::e2,::e2); ::o.m_Ed.add(::e3,::e3);\
+::o.m_O.add(::n.o,::e.o); ::o.m_O.add(::e.o,::n.o)\
+}
+
+show node n
+show edge e
+show var o
+show var o2
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_map" "some non-persistent graph"
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_map" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_map_addrem.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+exec (::n,::e,::o,::o2)=find
+
+show node n
+show edge e
+show var o
+show var o2
+
+clear graph
+
+show num nodes N
+show num edges E
+show num edges
+
+quit

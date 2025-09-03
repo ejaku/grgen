@@ -1,0 +1,57 @@
+#using "persistentgraph_container_map_element_references.gm"
+
+rule init
+{
+	modify {
+		n:N -e:E-> n;
+		eval {
+			def ref o:O = new O();
+			n.m_o = map<O,O>{ o->o }; e.m_o = map<O,O>{ o->o };
+			o.m_o = map<O,O>{ o->o }; o.m_n = map<N,N>{ n->n }; o.m_e = map<E,E>{ e->e };
+		}
+		eval { n.m_n = map<N,N>{ n->n }; n.m_e = map<E,E>{ e->e }; e.m_n = map<N,N>{ n->n }; e.m_e = map<E,E>{ e->e }; }
+	}
+}
+
+rule patchObject
+{
+	n:N -e:E-> n;
+		
+	modify {
+		eval {
+			// object sharing would cause either the find in the nested graph or the find in the host graph to fail (because of node/edge references in the object not referencing the nodes/edges of the current graph)
+			def ref o:O = new O();
+			n.m_o = map<O,O>{ o->o }; e.m_o = map<O,O>{ o->o };
+			o.m_o = map<O,O>{ o->o }; o.m_n = map<N,N>{ n->n }; o.m_e = map<E,E>{ e->e };
+			
+			// clones of graph elements as created e.g. by inducedSubgraph/definedSubgraph contain references to original graph elements/objects - patch them to reference local elements, so find works
+			n.m_n = map<N,N>{ n->n }; n.m_e = map<E,E>{ e->e };
+			e.m_n = map<N,N>{ n->n }; e.m_e = map<E,E>{ e->e };
+		}
+	}
+}
+
+rule initNested
+{
+	n:N -e:E-> n;
+	
+	modify {
+		---
+		exec( { n.m_g = map<graph,graph>{ inducedSubgraph(set<Node>{ })->null }; tmpg:graph = n.m_g.peek(0); n.m_g[tmpg] = tmpg } ;>  in n.m_g.peek(0) { init } );
+		exec( { e.m_g = map<graph,graph>{ definedSubgraph(set<Edge>{ e })->null } } ;>  in e.m_g.peek(0) { patchObject } );
+		exec( o:O ;> { o = n.m_o.peek(0); o.m_g = map<graph,graph>{ inducedSubgraph(set<Node>{ })->null } } ;>  in o.m_g.peek(0) { init } );
+		exec( g:graph ;> ln:N ;> le:E ;> lo:O ;> { g = inducedSubgraph(set<Node>{ }) } ;>  in g { init ;> (ln,le,lo)=find } ;> { n.m_nodeFromOtherwiseUnreachableGraph = map<N,E>{ ln->le } } );
+	}
+}
+
+test find : (N, E, O)
+{
+	n:N -e:E-> n;
+	if{ n.m_o != null; n.m_o == e.m_o; n.m_o == n.m_o.peek(0).m_o; }
+	
+	if{ n.m_n.peek(0) == n && n.m_e.peek(0) == e; }
+	if{ e.m_n.peek(0) == n && e.m_e.peek(0) == e; }
+	if{ n.m_o.peek(0).m_n.peek(0) == n && n.m_o.peek(0).m_e.peek(0) == e; }
+	
+	return(n,e,n.m_o.peek(0));
+}

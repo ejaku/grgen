@@ -1,0 +1,68 @@
+! rm testgraphfilename_container_map_assign.db
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+new graph "persistentgraph/persistentgraph_container_map" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_map_assign.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_map" "some non-persistent graph"
+
+exec init
+exec assignAttributes
+exec (::n,::e,::o,::o2)=find
+
+show node n
+show edge e
+show var o
+show var o2
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_map" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_map_assign.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+exec init
+exec assignAttributes
+exec (::n,::e,::o,::o2)=find
+
+show node n
+show edge e
+show var o
+show var o2
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_map" "some non-persistent graph"
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_map" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_map_assign.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+exec (::n,::e,::o,::o2)=find
+
+show node n
+show edge e
+show var o
+show var o2
+
+clear graph
+
+show num nodes N
+show num edges E
+show num edges
+
+quit

@@ -414,12 +414,24 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             columnNamesAndTypes.Add("INTEGER");
             columnNamesAndTypes.Add("command");
             columnNamesAndTypes.Add("INT"); // TINYINT doesn't work
-            columnNamesAndTypes.Add("value");
-            columnNamesAndTypes.Add(AttributeTypeToSQLiteType(attributeType.ValueType));
-            if(attributeType.Kind != AttributeKind.SetAttr)
+            if(attributeType.Kind == AttributeKind.SetAttr) // todo: own function with type switch?
+            {
+                columnNamesAndTypes.Add("value");
+                columnNamesAndTypes.Add(AttributeTypeToSQLiteType(attributeType.ValueType));
+            }
+            else if(attributeType.Kind == AttributeKind.MapAttr)
             {
                 columnNamesAndTypes.Add("key");
-                columnNamesAndTypes.Add(AttributeTypeToSQLiteType(IntegerAttributeType/*attributeType.KeyType*/));
+                columnNamesAndTypes.Add(AttributeTypeToSQLiteType(attributeType.KeyType));
+                columnNamesAndTypes.Add("value");
+                columnNamesAndTypes.Add(AttributeTypeToSQLiteType(attributeType.ValueType));
+            }
+            else
+            {
+                columnNamesAndTypes.Add("value");
+                columnNamesAndTypes.Add(AttributeTypeToSQLiteType(attributeType.ValueType));
+                columnNamesAndTypes.Add("key");
+                columnNamesAndTypes.Add(AttributeTypeToSQLiteType(IntegerAttributeType));
             }
 
             CreateTable(tableName, "entryId", columnNamesAndTypes.ToArray()); // the entryId denotes the row local to this table, the ownerIdColumnName is a local copy of the global id from the corresponding topology table
@@ -474,7 +486,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private bool IsSupportedContainerType(AttributeType attributeType)
         {
-            return attributeType.Kind == AttributeKind.SetAttr // container TODO: map, deque
+            return attributeType.Kind == AttributeKind.SetAttr // container TODO: deque
+                || attributeType.Kind == AttributeKind.MapAttr
                 || attributeType.Kind == AttributeKind.ArrayAttr;
         }
 
@@ -1139,11 +1152,11 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         value = GetContainerEntry(attributeType.ValueType, reader, attributeNameToColumnIndex, "value");
                         key = GetContainerEntry(IntegerAttributeType, reader, attributeNameToColumnIndex, "key");
                     }
-                    /*else if(attributeType.Kind == AttributeKind.MapAttr)
+                    else if(attributeType.Kind == AttributeKind.MapAttr)
                     {
                         key = GetContainerEntry(attributeType.KeyType, reader, attributeNameToColumnIndex, "key");
                         value = GetContainerEntry(attributeType.ValueType, reader, attributeNameToColumnIndex, "value");
-                    }*/
+                    }
 
                     IAttributeBearer element = GetElement(inheritanceType, ownerId);
                     ApplyContainerCommandToElement(element, attributeType, (ContainerCommand)command, value, key);
@@ -1204,14 +1217,25 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             switch(attributeType.Kind)
             {
                 case AttributeKind.SetAttr:
+                {
                     Type srcType = attributeType.ValueType.Type;
                     Type dstType = typeof(SetValueType);
                     IDictionary set = ContainerHelper.NewDictionary(srcType, dstType);
                     return set;
+                }
+                case AttributeKind.MapAttr:
+                {
+                    Type srcType = attributeType.KeyType.Type;
+                    Type dstType = attributeType.ValueType.Type; 
+                    IDictionary map = ContainerHelper.NewDictionary(srcType, dstType);
+                    return map;
+                }
                 case AttributeKind.ArrayAttr:
+                {
                     Type valueType = attributeType.ValueType.Type;
                     IList array = ContainerHelper.NewList(valueType);
                     return array;
+                }
                 default:
                     throw new Exception("Unsupported container type");
             }
@@ -1224,6 +1248,10 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 case AttributeKind.SetAttr:
                     IDictionary set = (IDictionary)container;
                     set[value] = null;
+                    break;
+                case AttributeKind.MapAttr:
+                    IDictionary map = (IDictionary)container;
+                    map[key] = value;
                     break;
                 case AttributeKind.ArrayAttr:
                     IList array = (IList)container;
@@ -1245,6 +1273,10 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     IDictionary set = (IDictionary)container;
                     set.Remove(value);
                     break;
+                case AttributeKind.MapAttr:
+                    IDictionary map = (IDictionary)container;
+                    map.Remove(key);
+                    break;
                 case AttributeKind.ArrayAttr:
                     IList array = (IList)container;
                     if(key == null)
@@ -1261,6 +1293,10 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
             switch(attributeType.Kind)
             {
+                case AttributeKind.MapAttr:
+                    IDictionary map = (IDictionary)container;
+                    map[key] = value;
+                    break;
                 case AttributeKind.ArrayAttr:
                     IList array = (IList)container;
                     array[(int)key] = value;
@@ -2415,6 +2451,19 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     }
                 }
             }
+            else if(attributeType.Kind == AttributeKind.MapAttr)
+            {
+                object val = current.GetAttribute(attributeType.Name);
+                IDictionary map = (IDictionary)val;
+                if(map != null)
+                {
+                    foreach(DictionaryEntry entry in map)
+                    {
+                        AddObjectsToTodosAndReferencesToDatabase(attributeType.KeyType, entry.Key, ref todos);
+                        AddObjectsToTodosAndReferencesToDatabase(attributeType.ValueType, entry.Value, ref todos);
+                    }
+                }
+            }
             else if(attributeType.Kind == AttributeKind.ArrayAttr)
             {
                 object val = current.GetAttribute(attributeType.Name);
@@ -2486,6 +2535,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         private void WriteContainerChange(IAttributeBearer owningElement, AttributeType attributeType,
                 AttributeChangeType changeType, object newValue, object keyValue)
         {
+            // todo: split by type into functions instead of using ? in order to split by type?
             switch(changeType)
             {
                 case AttributeChangeType.Assign:
@@ -2501,7 +2551,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         long owningElementId = GetDbIdAndColumnName(owningElement, out owningElementIdColumnName);
                         long entryId = attributeType.Kind==AttributeKind.SetAttr
                                 ? ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, owningElementId, owningElementIdColumnName, ContainerCommand.PutElement, newValue)
-                                : ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, IntegerAttributeType, owningElementId, owningElementIdColumnName, ContainerCommand.PutElement, newValue, keyValue);
+                                : ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, attributeType.Kind == AttributeKind.MapAttr ? attributeType.KeyType : IntegerAttributeType, owningElementId, owningElementIdColumnName, ContainerCommand.PutElement, newValue, keyValue);
                         break;
                     }
                 case AttributeChangeType.RemoveElement:
@@ -2511,7 +2561,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         long owningElementId = GetDbIdAndColumnName(owningElement, out owningElementIdColumnName);
                         long entryId = attributeType.Kind == AttributeKind.SetAttr
                                 ? ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, owningElementId, owningElementIdColumnName, ContainerCommand.RemoveElement, newValue)
-                                : ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, IntegerAttributeType, owningElementId, owningElementIdColumnName, ContainerCommand.RemoveElement, newValue, keyValue);
+                                : ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, attributeType.Kind == AttributeKind.MapAttr ? attributeType.KeyType : IntegerAttributeType, owningElementId, owningElementIdColumnName, ContainerCommand.RemoveElement, newValue, keyValue);
                             break;
                     }
                 case AttributeChangeType.AssignElement:
@@ -2519,7 +2569,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         SQLiteCommand updatingInsert = GetUpdateContainerCommand(owningElement, attributeType);
                         string owningElementIdColumnName;
                         long owningElementId = GetDbIdAndColumnName(owningElement, out owningElementIdColumnName);
-                        long entryId = ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, attributeType.KeyType, owningElementId, owningElementIdColumnName, ContainerCommand.AssignElement, newValue, keyValue);
+                        long entryId = ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, attributeType.Kind == AttributeKind.MapAttr ? attributeType.KeyType : IntegerAttributeType, owningElementId, owningElementIdColumnName, ContainerCommand.AssignElement, newValue, keyValue);
                         break;
                     }
             }
@@ -2551,6 +2601,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
             if(attributeType.Kind == AttributeKind.SetAttr)
                 WriteSetEntries((IDictionary)container, attributeType, owningElement);
+            else if(attributeType.Kind == AttributeKind.MapAttr)
+                WriteMapEntries((IDictionary)container, attributeType, owningElement);
             else if(attributeType.Kind == AttributeKind.ArrayAttr)
                 WriteArrayEntries((IList)container, attributeType, owningElement);
             // container TODO: other container types
@@ -2582,6 +2634,43 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         AddGraphAsNeeded((INamedGraph)((IContained)entry.Key).GetContainingGraph());
 
                     entryId = ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, owningElementId, owningElementIdColumnName, ContainerCommand.PutElement, entry.Key);
+                }
+            }
+        }
+
+        private void WriteMapEntries(IDictionary map, AttributeType attributeType, IAttributeBearer owningElement)
+        {
+            string owningElementIdColumnName;
+            long owningElementId = GetDbIdAndColumnName(owningElement, out owningElementIdColumnName);
+
+            // new entire container
+            SQLiteCommand updatingInsert = GetUpdateContainerCommand(owningElement, attributeType);
+            if(map == null)
+            {
+                long entryId = ExecuteUpdatingInsertNullValueAndKey(updatingInsert, owningElementId, owningElementIdColumnName, ContainerCommand.AssignNull);
+            }
+            else
+            {
+                long entryId = ExecuteUpdatingInsertNullValueAndKey(updatingInsert, owningElementId, owningElementIdColumnName, ContainerCommand.AssignEmptyContainer);
+
+                // add all container entries - explode complete container into series of adds, i.e. put-elements
+                foreach(DictionaryEntry entry in map)
+                {
+                    if(IsGraphType(attributeType.KeyType))
+                        AddGraphAsNeeded((INamedGraph)entry.Key);
+                    else if(IsObjectType(attributeType.KeyType))
+                        AddObjectAsNeeded((IObject)entry.Key);
+                    else if(IsGraphElementType(attributeType.KeyType))
+                        AddGraphAsNeeded((INamedGraph)((IContained)entry.Key).GetContainingGraph());
+
+                    if(IsGraphType(attributeType.ValueType))
+                        AddGraphAsNeeded((INamedGraph)entry.Value);
+                    else if(IsObjectType(attributeType.ValueType))
+                        AddObjectAsNeeded((IObject)entry.Value);
+                    else if(IsGraphElementType(attributeType.ValueType))
+                        AddGraphAsNeeded((INamedGraph)((IContained)entry.Value).GetContainingGraph());
+
+                    entryId = ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, attributeType.KeyType, owningElementId, owningElementIdColumnName, ContainerCommand.PutElement, entry.Value, entry.Key);
                 }
             }
         }
@@ -2644,7 +2733,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             updatingInsert.Parameters.AddWithValue("@command", command);
             object valueValueOrId = ValueOrIdOfReferencedElement(value, valueAttributeType);
             updatingInsert.Parameters.AddWithValue("@value", value != null ? valueValueOrId : DBNull.Value);
-            object keyValueOrId = ValueOrIdOfReferencedElement(key, IntegerAttributeType);
+            object keyValueOrId = ValueOrIdOfReferencedElement(key, keyAttributeType);
             updatingInsert.Parameters.AddWithValue("@key", key != null ? keyValueOrId : DBNull.Value);
             int rowsAffected = updatingInsert.ExecuteNonQuery();
             return connection.LastInsertRowId;

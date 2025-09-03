@@ -1,0 +1,104 @@
+! rm testgraphfilename_container_map_assign_element.db
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+new graph "persistentgraph/persistentgraph_container_map" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_map_assign_element.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_map" "some non-persistent graph"
+
+show num nodes N
+show num edges E
+show num edges
+
+exec init
+exec (::n,::e,::o,::o2,::e2,::e3)=findExtended
+exec { ::n.m_s["foo"] = 1;\
+::n.m_by[1y] = 3y; ::n.m_by[2y] = 2y; ::n.m_by[3y] = 1y; ::n.m_by[4y] = 0y;\
+::n.m_sh.add(0s, 0s); ::n.m_sh[0s] = 1S;\
+::n.m_f[3.141592654f] = 3.141592654f; ::n.m_f[2.718281828f] = 2.718281828f;\
+::n.m_b[true] = false;\
+::n.m_e[ENU::a] = ENU::c;\
+::n.m_N.add(::n, null); ::n.m_N[::n] = ::n;\
+::n.m_O.add(::e.o, ::e.o); ::n.m_O[::e.o] = null;\
+::e.m_s["bar"] = 2;\
+::e.m_l[42l] = 42l; ::e.m_l[43l] = 1337L;\
+::e.m_Ed.add(::e,::e); ::e.m_Ed[::e] = ::e2;\
+::o.m_s["baz"] = 3;\
+::o.m_i[1] = "Raben"; ::o.m_i[2] = "Tauben"; ::o.m_i[3] = "Greifen";\
+::o.m_d[42.0] = 1337.1337;\
+::o.m_b[false] = true;\
+::o.m_O.add(::n.o, ::n.o); ::o.m_O[::n.o] = ::e.o\
+}
+
+show num nodes N
+show num edges E
+show num edges
+
+show node n
+show edge e
+show var o
+show var o2
+
+new graph "persistentgraph/persistentgraph_container_map" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_map_assign_element.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+exec init
+exec (::n,::e,::o,::o2,::e2,::e3)=findExtended
+exec { ::n.m_s["foo"] = 1;\
+::n.m_by[1y] = 3y; ::n.m_by[2y] = 2y; ::n.m_by[3y] = 1y; ::n.m_by[4y] = 0y;\
+::n.m_sh.add(0s, 0s); ::n.m_sh[0s] = 1S;\
+::n.m_f[3.141592654f] = 3.141592654f; ::n.m_f[2.718281828f] = 2.718281828f;\
+::n.m_b[true] = false;\
+::n.m_e[ENU::a] = ENU::c;\
+::n.m_N.add(::n, null); ::n.m_N[::n] = ::n;\
+::n.m_O.add(::e.o, ::e.o); ::n.m_O[::e.o] = null;\
+::e.m_s["bar"] = 2;\
+::e.m_l[42l] = 42l; ::e.m_l[43l] = 1337L;\
+::e.m_Ed.add(::e,::e); ::e.m_Ed[::e] = ::e2;\
+::o.m_s["baz"] = 3;\
+::o.m_i[1] = "Raben"; ::o.m_i[2] = "Tauben"; ::o.m_i[3] = "Greifen";\
+::o.m_d[42.0] = 1337.1337;\
+::o.m_b[false] = true;\
+::o.m_O.add(::n.o, ::n.o); ::o.m_O[::n.o] = ::e.o\
+}
+
+show num nodes N
+show num edges E
+show num edges
+
+show node n
+show edge e
+show var o
+show var o2
+
+new graph "persistentgraph/persistentgraph_container_map" "some non-persistent graph"
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_map" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_map_assign_element.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+exec (::n,::e,::o,::o2)=find
+
+show node n
+show edge e
+show var o
+show var o2
+
+clear graph
+
+show num nodes N
+show num edges E
+show num edges
+
+quit

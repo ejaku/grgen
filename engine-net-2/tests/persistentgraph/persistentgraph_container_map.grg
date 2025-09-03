@@ -1,0 +1,89 @@
+#using "persistentgraph_container_map.gm"
+
+rule init
+{
+	modify {
+		n:N -e:E-> n;
+		n -e2:Edge-> n -e3:Edge-> n;
+		eval {
+			n.o = new O();
+			e.o = new O();
+		}
+	}
+}
+
+rule deleteNodeAndIncidentEdges
+{
+	n:N;
+	modify {
+		delete(n); // edges implicitly
+	}
+}
+
+test find : (N, E, O, O)
+{
+	n:N -e:E-> n;
+	if{ n.o != e.o; }
+	return(n,e,n.o,e.o);
+}
+
+test findExtended : (N, E, O, O, Edge, Edge)
+{
+	n:N -e:E-> n;
+	n -e2:Edge-> n -e3:Edge-> n;
+	if{ n.o != e.o; }
+	return(n,e,n.o,e.o,e2,e3);
+}
+
+rule assignAttributes
+{
+	n:N -e:E-> n;
+	n -e2:Edge-> n -e3:Edge-> n;
+	
+	modify {
+		eval {
+			n.m_s = null;
+			n.m_by = map<byte,byte>{ 42y->42y };
+			n.m_sh = map<short,short>{ };
+			n.m_i = map<int,string>{ 1->"foo", 2->"bar", 3->"baz" };
+			n.m_l = map<long,long>{ 50L->50L };
+			n.m_f = map<float,float>{ 1.0f->0.0f, 0.0f->1.0f };
+			n.m_d = map<double,double>{ 1337.1337->1337.7331 };
+			n.m_b = map<boolean,boolean>{ };
+			n.m_e = map<ENU,ENU>{ ENU::b->ENU::b };
+			
+			n.m_N = map<N,N>{ n->n };
+			n.m_Ed = map<Edge,Edge>{ e->e, e2->e2, e3->e3 };
+			n.m_O = map<O,O>{ e.o->e.o };
+			
+			e.m_s = null;
+			e.m_by = map<byte,byte>{ 42y->42y };
+			e.m_sh = map<short,short>{ };
+			e.m_i = map<int,string>{ 1->"EDSB", 2->"KRH", 3->"FUL", 4->"EDGE", 5->"EDAD", 6->"BBI", 7->"EDAZ" };
+			e.m_l = map<long,long>{ 50L->50L };
+			e.m_f = map<float,float>{ 1.0f->0.0f, 0.0f->1.0f };
+			e.m_d = map<double,double>{ 1337.1337->1337.7331 };
+			e.m_b = map<boolean,boolean>{ };
+			e.m_e = map<ENU,ENU>{ ENU::b->ENU::b };
+			
+			e.m_N = map<N,N>{ n->n };
+			e.m_Ed = map<Edge,Edge>{ e->e, e2->e2 };
+			e.m_O = map<O,O>{ n.o->n.o };
+
+			def ref o:O = n.o;
+			o.m_s = null;
+			o.m_by = map<byte,byte>{ 42y->42y };
+			o.m_sh = map<short,short>{ };
+			o.m_i = map<int,string>{ 1->1 }; // note the implicit cast to string, ain't it ugly? but hey, maximum model-to-text convenience
+			o.m_l = map<long,long>{ 50L->50L };
+			o.m_f = map<float,float>{ 1.0f->0.0f, 0.5f->0.5f, 0.0f->1.0f };
+			o.m_d = map<double,double>{ 1337.1337->1337.7331 };
+			o.m_b = map<boolean,boolean>{ };
+			o.m_e = map<ENU,ENU>{ ENU::b->ENU::b };
+			
+			o.m_N = map<N,N>{ n->n };
+			o.m_Ed = map<Edge,Edge>{ e->e, e2->e2, e3->e3 };
+			o.m_O = map<O,O>{ n.o->n.o, e.o->e.o };
+		}
+	}
+}
