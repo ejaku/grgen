@@ -1,0 +1,36 @@
+new graph xgrsAttributeAccessConstantAssignment/attributeElementAssignment
+
+exec (::tn,::te,::to,::tto)=init
+
+show node tn
+show edge te
+show var "to"
+show var "tto"
+
+exec testAttributeElementAssignment(::tn, ::te, ::to, ::tto)
+
+show node tn
+show edge te
+show var "to"
+show var "tto"
+
+exec {\
+::tn.m["bar"] = "QUX"; ::tn.a[1] = "QUX"; ::tn.d[1] = "QUX";\
+::te.m["bar"] = "QUX"; ::te.a[1] = "QUX"; ::te.d[1] = "QUX";\
+::to.m["bar"] = "QUX"; ::to.a[1] = "QUX"; ::to.d[1] = "QUX";\
+::tto.m["bar"] = "QUX"; ::tto.a[1] = "QUX"; ::tto.d[1] = "QUX";\
+{true}}
+
+show node tn
+show edge te
+show var "to"
+show var "tto"
+
+exec testAttributeElementAssignmentUntyped
+
+show node tn
+show edge te
+show var "to"
+show var "tto"
+
+exit

@@ -1,0 +1,31 @@
+#using "attributeElementAssignment.gm"
+
+rule init : (TestNode, TestEdge, TestObject, TestTransientObject)
+{
+	modify {
+		tn:TestNode -te:TestEdge-> tn;
+		return (tn, te, new TestObject(), new TestTransientObject());
+	}
+}
+
+rule testAttributeElementAssignment(tn:TestNode, -te:TestEdge->, ref to:TestObject, ref tto:TestTransientObject)
+{
+	modify {
+	---
+		exec( { tn.m["bar"] = "qux"; tn.a[1] = "qux"; tn.d[1] = "qux" } );
+		exec( { te.m["bar"] = "qux"; te.a[1] = "qux"; te.d[1] = "qux" } );
+		exec( { to.m["bar"] = "qux"; to.a[1] = "qux"; to.d[1] = "qux" } );
+		exec( { tto.m["bar"] = "qux"; tto.a[1] = "qux"; tto.d[1] = "qux" } );
+	}
+}
+
+rule testAttributeElementAssignmentUntyped()
+{
+	modify {
+	---
+		exec( { ::tn.m["bar"] = "FUX"; ::tn.a[1] = "FUX"; ::tn.d[1] = "FUX" } );
+		exec( { ::te.m["bar"] = "FUX"; ::te.a[1] = "FUX"; ::te.d[1] = "FUX" } );
+		exec( { ::to.m["bar"] = "FUX"; ::to.a[1] = "FUX"; ::to.d[1] = "FUX" } );
+		exec( { ::tto.m["bar"] = "FUX"; ::tto.a[1] = "FUX"; ::tto.d[1] = "FUX" } );
+	}
+}

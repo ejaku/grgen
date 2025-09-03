@@ -1,0 +1,27 @@
+node class TestNode
+{
+	m:map<string,string> = { "foo"->"FOO", "bar"->"BAR", "baz"->"BAZ" };
+	a:array<string> = [ "foo", "bar", "baz" ];
+	d:deque<string> = [ "foo", "bar", "baz" ];
+}
+
+edge class TestEdge
+{
+	m:map<string,string> = { "foo"->"FOO", "bar"->"BAR", "baz"->"BAZ" };
+	a:array<string> = [ "foo", "bar", "baz" ];
+	d:deque<string> = [ "foo", "bar", "baz" ];
+}
+
+class TestObject
+{
+	m:map<string,string> = { "foo"->"FOO", "bar"->"BAR", "baz"->"BAZ" };
+	a:array<string> = [ "foo", "bar", "baz" ];
+	d:deque<string> = [ "foo", "bar", "baz" ];
+}
+
+transient class TestTransientObject
+{
+	m:map<string,string> = { "foo"->"FOO", "bar"->"BAR", "baz"->"BAZ" };
+	a:array<string> = [ "foo", "bar", "baz" ];
+	d:deque<string> = [ "foo", "bar", "baz" ];
+}

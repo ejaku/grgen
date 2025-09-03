@@ -1651,10 +1651,14 @@ namespace de.unika.ipd.grGen.lgsp
             string attrType = "attrType_" + tgtAttrIndexedVar.Id;
             string value = "value_" + tgtAttrIndexedVar.Id;
 
-            if(TypesHelper.GetGraphElementType(tgtAttrIndexedVar.DestVar.Type, model) != null)
-                EmitAttributeAssignWithEventInitialization(tgtAttrIndexedVar, element, attrType, value, sourceValueComputation, source);
-            else // statically known object type or statically not known type
-                EmitAttributeAssignInitialization(tgtAttrIndexedVar, element, attrType, value, sourceValueComputation, source);
+            if(tgtAttrIndexedVar.DestVar.Type == "")
+                EmitAttributeAssignInitializationUnknownType(tgtAttrIndexedVar, element, attrType, value, sourceValueComputation, source);
+            else if(TypesHelper.GetGraphElementType(tgtAttrIndexedVar.DestVar.Type, model) != null)
+                EmitAttributeAssignWithEventInitializationGraphElement(tgtAttrIndexedVar, element, attrType, value, sourceValueComputation, source);
+            else if(TypesHelper.GetObjectType(tgtAttrIndexedVar.DestVar.Type, model) != null)
+                EmitAttributeAssignWithEventInitializationObject(tgtAttrIndexedVar, element, attrType, value, sourceValueComputation, source);
+            else // transient object type
+                EmitAttributeAssignInitializationTransientObject(tgtAttrIndexedVar, element, attrType, value, sourceValueComputation, source);
 
             string container = "container_" + tgtAttrIndexedVar.Id;
             source.AppendFrontFormat("object {0} = {1}.GetAttribute(\"{2}\");\n",
@@ -1662,8 +1666,6 @@ namespace de.unika.ipd.grGen.lgsp
             string key = "key_" + tgtAttrIndexedVar.Id;
             string keyExpr = exprGen.GetSequenceExpression(tgtAttrIndexedVar.KeyExpression, source);
             source.AppendFrontFormat("object {0} = {1};\n", key, keyExpr);
-
-            source.AppendFront(COMP_HELPER.SetResultVar(tgtAttrIndexedVar, value));
 
             if(tgtAttrIndexedVar.DestVar.Type == "")
             {
@@ -1681,7 +1683,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 if(ContainerType.StartsWith("array"))
                 {
-                    string array = seqHelper.GetVar(tgtAttrIndexedVar.DestVar);
+                    string array = "((System.Collections.IList)" + seqHelper.GetVar(tgtAttrIndexedVar.DestVar) + ".GetAttribute(\"" + tgtAttrIndexedVar.AttributeName + "\"))";
                     source.AppendFrontFormat("if({0}.Count > (int){1})\n", array, key);
                     source.AppendFront("{\n");
                     source.Indent();
@@ -1691,7 +1693,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else if(ContainerType.StartsWith("deque"))
                 {
-                    string deque = seqHelper.GetVar(tgtAttrIndexedVar.DestVar);
+                    string deque = "((GRGEN_LIBGR.IDeque)" + seqHelper.GetVar(tgtAttrIndexedVar.DestVar) + ".GetAttribute(\"" + tgtAttrIndexedVar.AttributeName + "\"))";
                     source.AppendFrontFormat("if({0}.Count > (int){1})\n", deque, key);
                     source.AppendFront("{\n");
                     source.Indent();
@@ -1701,9 +1703,9 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else
                 {
-                    string dictionary = seqHelper.GetVar(tgtAttrIndexedVar.DestVar);
-                    string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(tgtAttrIndexedVar.DestVar.Type), model);
-                    source.AppendFrontFormat("if({0}.ContainsKey(({1}){2}))\n", dictionary, dictSrcType, key);
+                    string dictionary = "((System.Collections.IDictionary)" + seqHelper.GetVar(tgtAttrIndexedVar.DestVar) + ".GetAttribute(\"" + tgtAttrIndexedVar.AttributeName + "\"))";
+                    string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(TypesHelper.AttributeTypeToXgrsType(attributeType)), model);
+                    source.AppendFrontFormat("if({0}.Contains(({1}){2}))\n", dictionary, dictSrcType, key);
                     source.AppendFront("{\n");
                     source.Indent();
                     source.AppendFrontFormat("{0}[({1}){2}] = {3};\n", dictionary, dictSrcType, key, value);
@@ -1714,9 +1716,11 @@ namespace de.unika.ipd.grGen.lgsp
                 if(TypesHelper.GetGraphElementType(tgtAttrIndexedVar.DestVar.Type, model) != null)
                     EmitAttributeChangedEvent(tgtAttrIndexedVar.Id, source);
             }
+
+            source.AppendFront(COMP_HELPER.SetResultVar(tgtAttrIndexedVar, value));
         }
 
-        private void EmitAttributeAssignWithEventInitialization(AssignmentTargetAttributeIndexed tgtAttrIndexedVar, String element, String attrType,
+        private void EmitAttributeAssignWithEventInitializationGraphElement(AssignmentTargetAttributeIndexed tgtAttrIndexedVar, String element, String attrType,
             String value, String sourceValueComputation, SourceBuilder source)
         {
             source.AppendFrontFormat("GRGEN_LIBGR.IGraphElement {0} = (GRGEN_LIBGR.IGraphElement){1};\n",
@@ -1726,10 +1730,28 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
         }
 
-        private void EmitAttributeAssignInitialization(AssignmentTargetAttributeIndexed tgtAttrIndexedVar, String element, String attrType,
+        private void EmitAttributeAssignWithEventInitializationObject(AssignmentTargetAttributeIndexed tgtAttrIndexedVar, String element, String attrType,
             String value, String sourceValueComputation, SourceBuilder source)
         {
-            source.AppendFrontFormat("GRGEN_LIBGR.IBaseObject {0} = (GRGEN_LIBGR.IBaseObject){1};\n",
+            source.AppendFrontFormat("GRGEN_LIBGR.IObject {0} = (GRGEN_LIBGR.IObject){1};\n",
+                element, seqHelper.GetVar(tgtAttrIndexedVar.DestVar));
+            source.AppendFrontFormat("GRGEN_LIBGR.AttributeType {0} = {1}.Type.GetAttributeType(\"{2}\");\n",
+                attrType, element, tgtAttrIndexedVar.AttributeName);
+            source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
+        }
+
+        private void EmitAttributeAssignInitializationTransientObject(AssignmentTargetAttributeIndexed tgtAttrIndexedVar, String element, String attrType,
+            String value, String sourceValueComputation, SourceBuilder source)
+        {
+            source.AppendFrontFormat("GRGEN_LIBGR.ITransientObject {0} = (GRGEN_LIBGR.ITransientObject){1};\n",
+                element, seqHelper.GetVar(tgtAttrIndexedVar.DestVar));
+            source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
+        }
+
+        private void EmitAttributeAssignInitializationUnknownType(AssignmentTargetAttributeIndexed tgtAttrIndexedVar, String element, String attrType,
+            String value, String sourceValueComputation, SourceBuilder source)
+        {
+            source.AppendFrontFormat("GRGEN_LIBGR.IAttributeBearer {0} = (GRGEN_LIBGR.IAttributeBearer){1};\n",
                 element, seqHelper.GetVar(tgtAttrIndexedVar.DestVar));
             source.AppendFrontFormat("object {0} = {1};\n", value, sourceValueComputation);
         }
