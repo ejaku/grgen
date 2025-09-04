@@ -484,11 +484,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             return attributeType.Kind == AttributeKind.NodeAttr || attributeType.Kind == AttributeKind.EdgeAttr;
         }
 
+        // todo: all containre types are supported by now, rename
         private bool IsSupportedContainerType(AttributeType attributeType)
         {
-            return attributeType.Kind == AttributeKind.SetAttr // container TODO: deque
+            return attributeType.Kind == AttributeKind.SetAttr
                 || attributeType.Kind == AttributeKind.MapAttr
-                || attributeType.Kind == AttributeKind.ArrayAttr;
+                || attributeType.Kind == AttributeKind.ArrayAttr
+                || attributeType.Kind == AttributeKind.DequeAttr;
         }
 
         // TODO: separate references from scalars (from containers)
@@ -1147,7 +1149,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     {
                         value = GetContainerEntry(attributeType.ValueType, reader, attributeNameToColumnIndex, "value");
                     }
-                    else if(attributeType.Kind == AttributeKind.ArrayAttr/* || attributeType.Kind == AttributeKind.DequeAttr*/)
+                    else if(attributeType.Kind == AttributeKind.ArrayAttr || attributeType.Kind == AttributeKind.DequeAttr)
                     {
                         value = GetContainerEntry(attributeType.ValueType, reader, attributeNameToColumnIndex, "value");
                         key = GetContainerEntry(IntegerAttributeType, reader, attributeNameToColumnIndex, "key");
@@ -1236,6 +1238,12 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     IList array = ContainerHelper.NewList(valueType);
                     return array;
                 }
+                case AttributeKind.DequeAttr:
+                {
+                    Type valueType = attributeType.ValueType.Type;
+                    IDeque deque = ContainerHelper.NewDeque(valueType);
+                    return deque;
+                }
                 default:
                     throw new Exception("Unsupported container type");
             }
@@ -1259,6 +1267,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         array.Add(value);
                     else
                         array.Insert((int)key, value);
+                    break;
+                case AttributeKind.DequeAttr:
+                    IDeque deque = (IDeque)container;
+                    if(key == null)
+                        deque.Add(value);
+                    else
+                        deque.EnqueueAt((int)key, value);
                     break;
                 default:
                     throw new Exception("Unsupported container type");
@@ -1284,6 +1299,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     else
                         array.RemoveAt((int)key);
                     break;
+                case AttributeKind.DequeAttr:
+                    IDeque deque = (IDeque)container;
+                    if(key == null)
+                        deque.Dequeue();
+                    else
+                        deque.DequeueAt((int)key);
+                    break;
                 default:
                     throw new Exception("Unsupported container type");
             }
@@ -1300,6 +1322,10 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 case AttributeKind.ArrayAttr:
                     IList array = (IList)container;
                     array[(int)key] = value;
+                    break;
+                case AttributeKind.DequeAttr:
+                    IDeque deque = (IDeque)container;
+                    deque[(int)key] = value;
                     break;
                 default:
                     throw new Exception("Unsupported container type");
@@ -2476,6 +2502,18 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     }
                 }
             }
+            else if(attributeType.Kind == AttributeKind.DequeAttr)
+            {
+                object val = current.GetAttribute(attributeType.Name);
+                IDeque deque = (IDeque)val;
+                if(deque != null)
+                {
+                    foreach(object entry in deque)
+                    {
+                        AddObjectsToTodosAndReferencesToDatabase(attributeType.ValueType, entry, ref todos);
+                    }
+                }
+            }
         }
 
         private void AddObjectsToTodosAndReferencesToDatabase(AttributeType attributeType, object val, ref Stack<IAttributeBearer> todos)
@@ -2605,7 +2643,10 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 WriteMapEntries((IDictionary)container, attributeType, owningElement);
             else if(attributeType.Kind == AttributeKind.ArrayAttr)
                 WriteArrayEntries((IList)container, attributeType, owningElement);
-            // container TODO: other container types
+            else if(attributeType.Kind == AttributeKind.DequeAttr)
+                WriteDequeEntries((IDeque)container, attributeType, owningElement);
+            else
+                throw new Exception("Unsupported container type");
         }
 
         private void WriteSetEntries(IDictionary set, AttributeType attributeType, IAttributeBearer owningElement)
@@ -2692,6 +2733,36 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
                 // add all container entries - explode complete container into series of adds, i.e. put-elements
                 foreach(object entry in array)
+                {
+                    if(IsGraphType(attributeType.ValueType))
+                        AddGraphAsNeeded((INamedGraph)entry);
+                    else if(IsObjectType(attributeType.ValueType))
+                        AddObjectAsNeeded((IObject)entry);
+                    else if(IsGraphElementType(attributeType.ValueType))
+                        AddGraphAsNeeded((INamedGraph)((IContained)entry).GetContainingGraph());
+
+                    entryId = ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, IntegerAttributeType, owningElementId, owningElementIdColumnName, ContainerCommand.PutElement, entry, null);
+                }
+            }
+        }
+
+        private void WriteDequeEntries(IDeque deque, AttributeType attributeType, IAttributeBearer owningElement)
+        {
+            string owningElementIdColumnName;
+            long owningElementId = GetDbIdAndColumnName(owningElement, out owningElementIdColumnName);
+
+            // new entire container
+            SQLiteCommand updatingInsert = GetUpdateContainerCommand(owningElement, attributeType);
+            if(deque == null)
+            {
+                long entryId = ExecuteUpdatingInsertNullValueAndKey(updatingInsert, owningElementId, owningElementIdColumnName, ContainerCommand.AssignNull); ;
+            }
+            else
+            {
+                long entryId = ExecuteUpdatingInsertNullValueAndKey(updatingInsert, owningElementId, owningElementIdColumnName, ContainerCommand.AssignEmptyContainer);
+
+                // add all container entries - explode complete container into series of adds, i.e. put-elements
+                foreach(object entry in deque)
                 {
                     if(IsGraphType(attributeType.ValueType))
                         AddGraphAsNeeded((INamedGraph)entry);

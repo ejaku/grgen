@@ -1,0 +1,104 @@
+! rm testgraphfilename_container_deque_assign_element.db
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+new graph "persistentgraph/persistentgraph_container_deque" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_deque_assign_element.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_deque" "some non-persistent graph"
+
+show num nodes N
+show num edges E
+show num edges
+
+exec init
+exec (::n,::e,::o,::o2,::e2,::e3)=findExtended
+exec { ::n.d_s[0] = "käseecke"; ::n.d_s.add(null); ::n.d_s[1]="geisterbahn";\
+::n.d_by[0] = 3y; ::n.d_by[1] = 2y; ::n.d_by[2] = 1y;\
+::n.d_sh.add(0s); ::n.d_sh[0] = 1S;\
+::n.d_f[1] = 3.141592654f; ::n.d_f[0] = 2.718281828f;\
+::n.d_b[0] = false;\
+::n.d_e[1] = ENU::a;\
+::n.d_N.add(null); ::n.d_N[0] = ::n;\
+::n.d_O.add(::e.o); ::n.d_O[0] = null;\
+::e.d_s[0] = "altarhöhle";\
+::e.d_l[0] = 42l; ::e.d_l[1] = 1337L;\
+::e.d_Ed.add(::e); ::e.d_Ed[0] = ::e2;\
+::o.d_s[0] = "schwefelwand";\
+::o.d_i[0] = 3; ::o.d_i[1] = 2; ::o.d_i[2] = 1;\
+::o.d_d[0] = 1337.1337;\
+::o.d_b[0] = true;\
+::o.d_O.add(::n.o); ::o.d_O.add(::n.o); ::o.d_O[1] = ::e.o\
+}
+
+show num nodes N
+show num edges E
+show num edges
+
+show node n
+show edge e
+show var o
+show var o2
+
+new graph "persistentgraph/persistentgraph_container_deque" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_deque_assign_element.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+exec init
+exec (::n,::e,::o,::o2,::e2,::e3)=findExtended
+exec { ::n.d_s[0] = "käseecke"; ::n.d_s.add(null); ::n.d_s[1]="geisterbahn";\
+::n.d_by[0] = 3y; ::n.d_by[1] = 2y; ::n.d_by[2] = 1y;\
+::n.d_sh.add(0s); ::n.d_sh[0] = 1S;\
+::n.d_f[1] = 3.141592654f; ::n.d_f[0] = 2.718281828f;\
+::n.d_b[0] = false;\
+::n.d_e[1] = ENU::a;\
+::n.d_N.add(null); ::n.d_N[0] = ::n;\
+::n.d_O.add(::e.o); ::n.d_O[0] = null;\
+::e.d_s[0] = "altarhöhle";\
+::e.d_l[0] = 42l; ::e.d_l[1] = 1337L;\
+::e.d_Ed.add(::e); ::e.d_Ed[0] = ::e2;\
+::o.d_s[0] = "schwefelwand";\
+::o.d_i[0] = 3; ::o.d_i[1] = 2; ::o.d_i[2] = 1;\
+::o.d_d[0] = 1337.1337;\
+::o.d_b[0] = true;\
+::o.d_O.add(::n.o); ::o.d_O.add(::n.o); ::o.d_O[1] = ::e.o\
+}
+
+show num nodes N
+show num edges E
+show num edges
+
+show node n
+show edge e
+show var o
+show var o2
+
+new graph "persistentgraph/persistentgraph_container_deque" "some non-persistent graph"
+
+show num nodes N
+show num edges E
+show num edges
+
+new graph "persistentgraph/persistentgraph_container_deque" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_deque_assign_element.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num edges
+
+exec (::n,::e,::o,::o2)=find
+
+show node n
+show edge e
+show var o
+show var o2
+
+clear graph
+
+show num nodes N
+show num edges E
+show num edges
+
+quit

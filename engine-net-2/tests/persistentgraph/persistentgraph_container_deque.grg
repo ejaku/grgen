@@ -1,0 +1,89 @@
+#using "persistentgraph_container_deque.gm"
+
+rule init
+{
+	modify {
+		n:N -e:E-> n;
+		n -e2:Edge-> n -e3:Edge-> n;
+		eval {
+			n.o = new O();
+			e.o = new O();
+		}
+	}
+}
+
+rule deleteNodeAndIncidentEdges
+{
+	n:N;
+	modify {
+		delete(n); // edges implicitly
+	}
+}
+
+test find : (N, E, O, O)
+{
+	n:N -e:E-> n;
+	if{ n.o != e.o; }
+	return(n,e,n.o,e.o);
+}
+
+test findExtended : (N, E, O, O, Edge, Edge)
+{
+	n:N -e:E-> n;
+	n -e2:Edge-> n -e3:Edge-> n;
+	if{ n.o != e.o; }
+	return(n,e,n.o,e.o,e2,e3);
+}
+
+rule assignAttributes
+{
+	n:N -e:E-> n;
+	n -e2:Edge-> n -e3:Edge-> n;
+	
+	modify {
+		eval {
+			n.d_s = null;
+			n.d_by = deque<byte>[ 42y ];
+			n.d_sh = deque<short>[ ];
+			n.d_i = deque<int>[ 1, 2, 3 ];
+			n.d_l = deque<long>[ 50L ];
+			n.d_f = deque<float>[ 1.0f, 0.0f ];
+			n.d_d = deque<double>[ 1337.1337 ];
+			n.d_b = deque<boolean>[ ];
+			n.d_e = deque<ENU>[ ENU::b ];
+			
+			n.d_N = deque<N>[ n ];
+			n.d_Ed = deque<Edge>[ e, e2, e3 ];
+			n.d_O = deque<O>[ e.o ];
+			
+			e.d_s = null;
+			e.d_by = deque<byte>[ 42y ];
+			e.d_sh = deque<short>[ ];
+			e.d_i = deque<int>[ 1, 2, 3, 4, 5, 6, 7 ];
+			e.d_l = deque<long>[ 50L ];
+			e.d_f = deque<float>[ 1.0f, 0.0f ];
+			e.d_d = deque<double>[ 1337.1337 ];
+			e.d_b = deque<boolean>[ ];
+			e.d_e = deque<ENU>[ ENU::b ];
+			
+			e.d_N = deque<N>[ n ];
+			e.d_Ed = deque<Edge>[ e, e2 ];
+			e.d_O = deque<O>[ n.o ];
+
+			def ref o:O = n.o;
+			o.d_s = null;
+			o.d_by = deque<byte>[ 42y ];
+			o.d_sh = deque<short>[ ];
+			o.d_i = deque<int>[ 1 ];
+			o.d_l = deque<long>[ 50L ];
+			o.d_f = deque<float>[ 1.0f, 0.5f, 0.0f ];
+			o.d_d = deque<double>[ 1337.1337 ];
+			o.d_b = deque<boolean>[ ];
+			o.d_e = deque<ENU>[ ENU::b ];
+			
+			o.d_N = deque<N>[ n ];
+			o.d_Ed = deque<Edge>[ e, e2, e3 ];
+			o.d_O = deque<O>[ n.o, e.o ];
+		}
+	}
+}
