@@ -1,0 +1,21 @@
+node edge graph; // required by persistent graph when node/edge references are employed
+
+node class N
+{
+	ma:map<N, E> = {};
+	nodeFromOtherwiseUnreachableGraph:N;
+
+	g:graph = null;
+
+	o:O = null;
+}
+
+edge class E
+{
+	se:set<graph> = {};
+}
+
+class O
+{
+	arr:array<O> = [];
+}

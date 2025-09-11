@@ -116,6 +116,31 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         enum ContainerCommand { AssignEmptyContainer = 0, PutElement = 1, RemoveElement = 2, AssignElement = 3, AssignNull = 4 } // based on the AttributeChangeType
 
+        // garbage collection depth first search state items appear on the depth first search stack that is used to mark the elements (marking phase of a mark and sweep like garbage collection algorithm)
+        abstract class GcDfsStateItem // potential todo: using a struct would avoid memory allocations and .NET garbage collection cycles (not sure whether it's worthwhile)
+        {
+        }
+
+        class GcDfsStateItemElement : GcDfsStateItem
+        {
+            internal GcDfsStateItemElement(IAttributeBearer element)
+            {
+                this.referencesContainedInAttributes = GetReferencesContainedInAttributes(element).GetEnumerator();
+            }
+
+            internal IEnumerator<object> referencesContainedInAttributes; // potential todo: not using an own enumerator with yield would avoid memory allocations and garbage collection cycles (not sure whether it's worthwhile, the code is simpler/cleaner this way)
+        }
+
+        class GcDfsStateItemGraph : GcDfsStateItem
+        {
+            internal GcDfsStateItemGraph(IGraph graph)
+            {
+                this.graphElements = GetGraphElements(graph).GetEnumerator();
+            }
+
+            internal IEnumerator<IGraphElement> graphElements; // potential todo: not using an own enumerator with yield would avoid memory allocations and garbage collection cycles (not sure whether it's worthwhile, the code is simpler/cleaner this way)
+        }
+
         SQLiteConnection connection;
 
         // prepared statements for handling nodes (assuming available node related tables)
@@ -148,6 +173,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         // prepared statements for handling graphs
         SQLiteCommand createGraphCommand;
         SQLiteCommand readGraphsCommand;
+        SQLiteCommand deleteGraphCommand; // topology
         long HOST_GRAPH_ID = 0;
 
         // prepared statements for handling objects (assuming available object related tables)
@@ -157,6 +183,12 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         Dictionary<String, SQLiteCommand>[] readObjectContainerCommands; // per-type, per-container-attribute
         Dictionary<String, SQLiteCommand>[] updateObjectCommands; // per-type, per-non-container-attribute
         Dictionary<String, SQLiteCommand>[] updateObjectContainerCommands; // per-type, per-container-attribute (inserting container updating commands)
+        SQLiteCommand deleteObjectCommand; // topology
+        SQLiteCommand[] deleteObjectCommands; // per-type
+        Dictionary<String, SQLiteCommand>[] deleteObjectContainerCommands; // per-type, per-container-attribute
+
+        Dictionary<object, SetValueType> visited = new Dictionary<object, SetValueType>(); // later todo: implement visited flags in all entities, use them instead of a visited dictionary
+        Stack<GcDfsStateItem> gcDfsStateItems = new Stack<GcDfsStateItem>(); // explicit stack to avoid a stack overrun from too many recursive calls during depth-first traversal
 
         Stack<INamedGraph> graphs; // the stack of graphs getting processed, the first entry being the host graph
         INamedGraph host; // I'd prefer to use a property accessing the stack, but this would require to create an array...
@@ -214,11 +246,12 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             graphs.Push(hostGraph);
             host = hostGraph;
 
+            // likely todo: split the code into multiple classes (split dedicated tasks like reading/cleaning/schema adaptation off into own classes)
             CreateSchemaIfNotExistsOrAdaptToCompatibleChanges();
-            // TODO: CleanUnusedSubgraphAndObjectReferencesAndCompactifyContainerChangeHistory(); also todo: vacuum the underlying database once in while, to be detected when exactly, maybe only on user request
             ReadCompleteGraph();
+            PrepareStatementsForGraphModifications(); // Cleanup may carry out graph modifications (even before we are notified about graph changes after registering the handlers)
+            Cleanup();
             RegisterPersistenceHandlers();
-            PrepareStatementsForGraphModifications();
         }
 
         private bool ModelContainsGraphElementReferences(IGraphModel model)
@@ -861,15 +894,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     ReadPatchContainerAttributesInElement(objectType, "objectId", attributeType, readObjectContainerCommand);
                 }
             }
-
-            ClearZombies(); // nodes/edges not existing anymore in the current state of the graph, that appeared during container history log replaying (inserted into and maybe deleted again from a container)
-
-            // references to nodes/edges from different graphs are not supported as of now in import/export, because persistent names only hold in the current graph, keep this in db persistence handling
-            // but the user could assign references to elements from another graph to an attribute, so todo: maybe relax that constraint, requiring a model supporting graphof, and a global post-patching step after everything was read locally, until a check that the user doesn't assign references to elements from another graph is implemented
-
-            // cleaning pass (TODO) -- the ones from database that are not reachable in-memory from the host graph on
-            PurgeUnreachableGraphs(); // after all references to the graphs are known, we can purge the ones not in use; node/edge references are not a prerequisite for this (it only must be ensured all of them were instantiated before), but containers which may also contain graph references
-            PurgeUnreachableObjects(); // after all references to the objects are known, we can purge the ones not in use (similar to a full garbage collection run in .NET)
         }
 
         private SQLiteCommand PrepareStatementForReadingGraphs()
@@ -1164,8 +1188,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     ApplyContainerCommandToElement(element, attributeType, (ContainerCommand)command, value, key);
                 }
             }
-
-            ReportZombies();
         }
 
         private IAttributeBearer GetElement(InheritanceType inheritanceType, long ownerId)
@@ -1332,29 +1354,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
         }
 
-        private void ReportZombies()
-        {
-            // container TODO - remember all owner.containers seen, after log replay completed, check for and report zombies
-        }
-
-        private void ClearZombies()
-        {
-            DbIdToZombieNode.Clear();
-            ZombieNodeToDbId.Clear();
-            DbIdToZombieEdge.Clear();
-            ZombieEdgeToDbId.Clear();
-        }
-
-        private void PurgeUnreachableGraphs()
-        {
-            // TODO: implement -- collect all graphs reachable from the host graph, purge the ones in the database that are not reachable
-        }
-
-        private void PurgeUnreachableObjects()
-        {
-            // TODO: implement -- collect all objects reachable from the host graph, purge the ones in the database that are not reachable
-        }
-
         private Dictionary<string, int> GetNameToColumnIndexMapping(SQLiteDataReader reader)
         {
             Dictionary<string, int> nameToColumnIndex = new Dictionary<string, int>();
@@ -1503,6 +1502,348 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         #endregion Initial graph reading
 
+        #region Host graph cleaning
+
+        private void Cleanup()
+        {
+            ReportZombies();
+            ClearZombies(); // nodes/edges not existing anymore in the current state of the graph, that appeared during container history log replaying (inserted into and maybe deleted again from a container)
+
+            // references to nodes/edges from different graphs are not supported as of now in import/export, because persistent names only hold in the current graph, keep this in db persistence handling
+            // but the user could assign references to elements from another graph to an attribute, so todo: maybe relax that constraint, requiring a model supporting graphof, and a global post-patching step after everything was read locally, until a check that the user doesn't assign references to elements from another graph is implemented
+            // another issue with multiple graphs: names may be assigned in a different graph than the original graph when a node/edge (reference) is getting emitted
+
+            // find all entities reachable from the host graph - corresponds to the mark phase of a garbage collector - later todo: use visited flags instead of visited maps
+            MarkReachableEntities();
+
+            // compactify before purging so that no graph/object zombie objects are needed at next run when non-existing graphs/objects that only exist in container change history are referenced
+            CompactifyContainerChangeHistory();
+
+            // cleaning pass - similar to the sweep phase of a garbage collector - remove the graphs/objects from the database that are not reachable in-memory (unused) from the host graph on
+            PurgeUnreachableGraphs(); // after all references to the graphs are known, we can purge the ones not in use; node/edge references are not a prerequisite for this (it only must be ensured all of them were instantiated before) (containers which may also contain graph references)
+            PurgeUnreachableObjects(); // after all references to the objects are known, we can purge the ones not in use
+
+            UnmarkReachableEntities();
+
+            //todo: vacuum the underlying database once in while, to be detected when exactly, maybe only on user request
+            //todo: print cleanup report
+        }
+
+        private void ReportZombies()
+        {
+            // container TODO - remember all owner.containers seen, after log replay completed, check for and report zombies
+        }
+
+        private void ClearZombies()
+        {
+            DbIdToZombieNode.Clear();
+            ZombieNodeToDbId.Clear();
+            DbIdToZombieEdge.Clear();
+            ZombieEdgeToDbId.Clear();
+        }
+
+        private void MarkReachableEntities()
+        {
+            gcDfsStateItems.Push(new GcDfsStateItemGraph(host));
+            visited.Add(host, null);
+
+        processTopOfStack:
+            while(gcDfsStateItems.Count > 0)
+            {
+                if(gcDfsStateItems.Peek() is GcDfsStateItemGraph)
+                {
+                    GcDfsStateItemGraph graphItem = (GcDfsStateItemGraph)gcDfsStateItems.Peek();
+                    while(graphItem.graphElements.MoveNext())
+                    {
+                        IGraphElement graphElement = graphItem.graphElements.Current;
+                        if(visited.ContainsKey(graphElement))
+                            continue;
+                        visited.Add(graphElement, null);
+                        if(!ContainsReferences(graphElement.Type))
+                            continue;
+                        gcDfsStateItems.Push(new GcDfsStateItemElement(graphElement));
+                        goto processTopOfStack;
+                    }
+                    gcDfsStateItems.Pop();
+                }
+                else
+                {
+                    GcDfsStateItemElement elementItem = (GcDfsStateItemElement)gcDfsStateItems.Peek();
+                    while(elementItem.referencesContainedInAttributes.MoveNext())
+                    {
+                        object referencedElementFromAttributeOfElement = elementItem.referencesContainedInAttributes.Current;
+                        if(visited.ContainsKey(referencedElementFromAttributeOfElement))
+                            continue;
+                        visited.Add(referencedElementFromAttributeOfElement, null);
+
+                        if(referencedElementFromAttributeOfElement is IGraph)
+                        {
+                            IGraph referencedGraph = (IGraph)referencedElementFromAttributeOfElement;
+
+                            gcDfsStateItems.Push(new GcDfsStateItemGraph(referencedGraph));
+                            goto processTopOfStack;
+                        }
+                        else
+                        {
+                            IAttributeBearer referencedElement = (IAttributeBearer)referencedElementFromAttributeOfElement; // node/edge/internal object
+
+                            // when references are contained in the attributes of the nestedElement, inspect the contained references (unlikely todo: dynamic check (i.e. reference not null)? - left to the handling of the element as such)
+                            if(!ContainsReferences(referencedElement.Type))
+                                continue;
+
+                            // todo: contained only required under certain circumstances, ensure they hold
+                            if(referencedElement.Type is GraphElementType && !visited.ContainsKey(GetContainingGraph((IGraphElement)referencedElement)))
+                            {
+                                IGraph containingGraph = GetContainingGraph((IGraphElement)referencedElement);
+                                visited.Add(containingGraph, null);
+                                gcDfsStateItems.Push(new GcDfsStateItemGraph(containingGraph)); // instead of the element from the containing graph, push the entire graph, should be ok because the element will be added by the containing graph...
+                                visited.Remove(referencedElement); // ...but this requires unmarking of the element, otherwise it would not be inspected when the containing graph is handled (but this would be required, because of the contained references, see check before)
+                                goto processTopOfStack; 
+                            }
+
+                            gcDfsStateItems.Push(new GcDfsStateItemElement(referencedElement));
+                            goto processTopOfStack;
+                        }
+                    }
+                    gcDfsStateItems.Pop();
+                }
+            }
+        }
+
+        // visits all attributes of the element, yield returns only the ones that really contain references -- but neither pays attention to the visited status of the reference from the attribute, nor sets it
+        internal static IEnumerable<object> GetReferencesContainedInAttributes(IAttributeBearer element)
+        {
+            foreach(AttributeType attributeType in element.Type.AttributeTypes)
+            {
+                if(!ContainsReferences(attributeType))
+                    continue;
+                if(IsSupportedContainerType(attributeType))
+                {
+                    if(attributeType.Kind == AttributeKind.SetAttr)
+                    {
+                        foreach(DictionaryEntry entry in (IDictionary)element.GetAttribute(attributeType.Name))
+                        {
+                            yield return entry.Key;
+                        }
+                    }
+                    else if(attributeType.Kind == AttributeKind.MapAttr)
+                    {
+                        foreach(DictionaryEntry entry in (IDictionary)element.GetAttribute(attributeType.Name))
+                        {
+                            if(IsReference(attributeType.KeyType))
+                                yield return entry.Key;
+                            if(IsReference(attributeType.ValueType) && entry.Value != null)
+                                yield return entry.Value;
+                        }
+                    }
+                    else if(attributeType.Kind == AttributeKind.ArrayAttr)
+                    {
+                        foreach(object containedElement in (IList)element.GetAttribute(attributeType.Name))
+                        {
+                            if(containedElement != null)
+                                yield return containedElement;
+                        }
+                    }
+                    else
+                    {
+                        foreach(object containedElement in (IDeque)element.GetAttribute(attributeType.Name))
+                        {
+                            if(containedElement != null)
+                                yield return containedElement;
+                        }
+                    }
+                }
+                else
+                {
+                    object containedElement = element.GetAttribute(attributeType.Name);
+                    if(containedElement != null)
+                        yield return containedElement;
+                }
+            }
+        }
+
+        // yield returns all graph elements of the graph
+        // does not take into account whether they may contain references because statically reference types are used for some attributes, or dynamically references are really contained in the attributes,
+        // neither pays attention to the visited status of the graph element from the graph, nor sets it
+        // alternative: PotentiallyContainingReferences - yield return only the ones that could contain references 
+        // alternative: pay attention here to the visited status, set it, and return only graph elements that potentially contain references
+        internal static IEnumerable<IGraphElement> GetGraphElements(IGraph graph)
+        {
+            // potential performance todo: first all elements without references, then all elements with references
+            foreach(NodeType nodeType in graph.Model.NodeModel.Types)
+            {
+                foreach(INode node in graph.GetExactNodes(nodeType))
+                {
+                    yield return node;
+                }
+            }
+            foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
+            {
+                foreach(IEdge edge in graph.GetExactEdges(edgeType))
+                {
+                    yield return edge;
+                }
+            }
+        }
+
+        private static bool ContainsReferences(InheritanceType inheritanceType)
+        {
+            foreach(AttributeType attributeType in inheritanceType.AttributeTypes)
+            {
+                if(ContainsReferences(attributeType))
+                    return true;
+            }
+            return false;
+        }
+
+        private static bool ContainsReferences(AttributeType attributeType)
+        {
+            if(IsReference(attributeType))
+                return true;
+            if(IsSupportedContainerType(attributeType))
+            {
+                if(attributeType.Kind == AttributeKind.MapAttr)
+                {
+                    if(IsReference(attributeType.KeyType))
+                        return true;
+                }
+                if(IsReference(attributeType.ValueType))
+                    return true;
+            }
+            return false;
+        }
+
+        private static bool IsReference(AttributeType attributeType)
+        {
+            if(IsGraphElementType(attributeType))
+                return true;
+            if(IsGraphType(attributeType))
+                return true;
+            if(IsObjectType(attributeType))
+                return true;
+            return false;
+        }
+
+        private void UnmarkReachableEntities()
+        {
+            visited.Clear();
+        }
+
+        private void PurgeUnreachableGraphs()
+        {
+            List<KeyValuePair<long, INamedGraph>> graphsToBeDeleted = new List<KeyValuePair<long, INamedGraph>>();
+            foreach(KeyValuePair<long, INamedGraph> dbIdToGraph in DbIdToGraph)
+            {
+                if(!visited.ContainsKey(dbIdToGraph.Value))
+                {
+                    graphsToBeDeleted.Add(dbIdToGraph);
+                }
+            }
+            foreach(KeyValuePair<long, INamedGraph> dbidToGraph in graphsToBeDeleted) // maybe batch delete needed performance wise, maybe recursive delete with complex SQL statemente needed performance wise - but multiple commands within a single transaction should be also fast, and are more modular
+            {
+                INamedGraph graph = dbidToGraph.Value;
+                long dbid = dbidToGraph.Key;
+
+                // the RemovingXXX methods remove the topology entry, the type entry with the non-container attributes, and the containers attribute stored in extra tables
+                // maybe todo: encapsulate in RemovingGraph
+                foreach(IEdge edge in graph.Edges)
+                {
+                    RemovingEdge(edge);
+                }
+                foreach(INode node in graph.Nodes)
+                {
+                    RemovingNode(node);
+                }
+
+                SQLiteCommand deleteGraphTopologyCommand = this.deleteGraphCommand;
+                deleteGraphTopologyCommand.Parameters.Clear();
+                deleteGraphTopologyCommand.Parameters.AddWithValue("@graphId", dbid);
+                int rowsAffected = deleteGraphTopologyCommand.ExecuteNonQuery();
+
+                RemoveGraphFromDbIdMapping(graph);
+            }
+        }
+
+        private void PurgeUnreachableObjects()
+        {
+            List<KeyValuePair<long, IObject>> objectsToBeDeleted = new List<KeyValuePair<long, IObject>>();
+            foreach(KeyValuePair<long, IObject> dbIdToObject in DbIdToObject)
+            {
+                if(!visited.ContainsKey(dbIdToObject.Value))
+                {
+                    objectsToBeDeleted.Add(dbIdToObject);
+                }
+            }
+            foreach(KeyValuePair<long, IObject> dbidToObject in objectsToBeDeleted) // maybe batch delete needed performance wise, maybe recursive delete with complex SQL statemente needed performance wise - but multiple commands within a single transaction should be also fast, and are more modular
+            {
+                IObject obj = dbidToObject.Value;
+                long dbid = dbidToObject.Key;
+
+                // the RemovingObject method removes the topology entry, the type entry with the non-container attributes, and the container attributes stored in extra tables
+                RemovingObject(obj);
+            }
+        }
+
+        private void CompactifyContainerChangeHistory()
+        {
+            // TODO: implement optimized version: only write containers with modifications (not to be purged), this requires a container-is-dirty map telling which containers to write
+            foreach(KeyValuePair<long, INode> dbidToNode in DbIdToNode)
+            {
+                long dbid = dbidToNode.Key;
+                INode node = dbidToNode.Value;
+                if(!visited.ContainsKey(node))
+                    continue; // purged altogether later on
+
+                foreach(AttributeType attributeType in node.Type.AttributeTypes)
+                {
+                    if(IsSupportedContainerType(attributeType))
+                    {
+                        object container = node.GetAttribute(attributeType.Name);
+                        PurgeContainerEntries(node, attributeType);
+                        WriteContainerEntries(container, attributeType, node);
+                    }
+                }
+            }
+
+            foreach(KeyValuePair<long, IEdge> dbidToEdge in DbIdToEdge)
+            {
+                long dbid = dbidToEdge.Key;
+                IEdge edge = dbidToEdge.Value;
+                if(!visited.ContainsKey(edge))
+                    continue; // purged altogether later on
+
+                foreach(AttributeType attributeType in edge.Type.AttributeTypes)
+                {
+                    if(IsSupportedContainerType(attributeType))
+                    {
+                        object container = edge.GetAttribute(attributeType.Name);
+                        PurgeContainerEntries(edge, attributeType);
+                        WriteContainerEntries(container, attributeType, edge);
+                    }
+                }
+            }
+
+            foreach(KeyValuePair<long, IObject> dbidToObject in DbIdToObject)
+            {
+                long dbid = dbidToObject.Key;
+                IObject @object = dbidToObject.Value;
+                if(!visited.ContainsKey(@object))
+                    continue; // purged altogether later on
+
+                foreach(AttributeType attributeType in @object.Type.AttributeTypes)
+                {
+                    if(IsSupportedContainerType(attributeType))
+                    {
+                        object container = @object.GetAttribute(attributeType.Name);
+                        PurgeContainerEntries(@object, attributeType);
+                        WriteContainerEntries(container, attributeType, @object);
+                    }
+                }
+            }
+        }
+
+        #endregion Host graph cleaning
+
         #region Graph modification handling preparations
 
         // TODO: maybe lazy initialization...
@@ -1602,6 +1943,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 }
             }
 
+            deleteGraphCommand = PrepareTopologyDelete("graphs", "graphId");
+
             deleteNodeCommand = PrepareTopologyDelete("nodes", "nodeId");
             deleteNodeCommands = new SQLiteCommand[graph.Model.NodeModel.Types.Length];
             foreach(NodeType nodeType in graph.Model.NodeModel.Types)
@@ -1619,6 +1962,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     deleteNodeContainerCommands[nodeType.TypeID][attributeType.Name] = PrepareContainerDelete(nodeType, "nodeId", attributeType);
                 }
             }
+
             deleteEdgeCommand = PrepareTopologyDelete("edges", "edgeId");
             deleteEdgeCommands = new SQLiteCommand[graph.Model.EdgeModel.Types.Length];
             foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
@@ -1634,6 +1978,24 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     if(!IsSupportedContainerType(attributeType))
                         continue;
                     deleteEdgeContainerCommands[edgeType.TypeID][attributeType.Name] = PrepareContainerDelete(edgeType, "edgeId", attributeType);
+                }
+            }
+
+            deleteObjectCommand = PrepareTopologyDelete("objects", "objectId");
+            deleteObjectCommands = new SQLiteCommand[graph.Model.ObjectModel.Types.Length];
+            foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
+            {
+                deleteObjectCommands[objectType.TypeID] = PrepareDelete(objectType, "objectId");
+            }
+            deleteObjectContainerCommands = new Dictionary<String, SQLiteCommand>[graph.Model.ObjectModel.Types.Length];
+            foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
+            {
+                deleteObjectContainerCommands[objectType.TypeID] = new Dictionary<string, SQLiteCommand>();
+                foreach(AttributeType attributeType in objectType.AttributeTypes)
+                {
+                    if(!IsSupportedContainerType(attributeType))
+                        continue;
+                    deleteObjectContainerCommands[objectType.TypeID][attributeType.Name] = PrepareContainerDelete(objectType, "objectId", attributeType);
                 }
             }
         }
@@ -2193,7 +2555,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         public void RemovingEdge(IEdge edge)
         {
-            if(edge == edgeGettingRedirected)
+            if(edge == edgeGettingRedirected) // todo: this method is also used internally, maybe it is better split into a version without this header because of this
                 return;
 
             SQLiteCommand deleteEdgeTopologyCommand = this.deleteEdgeCommand;
@@ -2217,6 +2579,32 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
 
             RemoveEdgeFromDbIdMapping(edge);
+        }
+
+        private void RemovingObject(IObject @object)
+        {
+            // maybe todo: introduce foreign key constraints to the database data model, with on delete cascade
+            SQLiteCommand deleteObjectTopologyCommand = this.deleteObjectCommand;
+            deleteObjectTopologyCommand.Parameters.Clear();
+            deleteObjectTopologyCommand.Parameters.AddWithValue("@objectId", ObjectToDbId[@object]);
+            int rowsAffected = deleteObjectTopologyCommand.ExecuteNonQuery();
+
+            SQLiteCommand deleteObjectCommand = deleteObjectCommands[@object.Type.TypeID];
+            deleteObjectCommand.Parameters.Clear();
+            deleteObjectCommand.Parameters.AddWithValue("@objectId", ObjectToDbId[@object]);
+            rowsAffected = deleteObjectCommand.ExecuteNonQuery();
+
+            foreach(AttributeType attributeType in @object.Type.AttributeTypes)
+            {
+                if(!IsSupportedContainerType(attributeType))
+                    continue;
+                SQLiteCommand deleteObjectContainerCommand = deleteObjectContainerCommands[@object.Type.TypeID][attributeType.Name];
+                deleteObjectContainerCommand.Parameters.Clear();
+                deleteObjectContainerCommand.Parameters.AddWithValue("@objectId", ObjectToDbId[@object]);
+                rowsAffected = deleteObjectContainerCommand.ExecuteNonQuery();
+            }
+
+            RemoveObjectFromDbIdMapping(@object);
         }
 
         public void ClearingGraph(IGraph graph)
@@ -2632,6 +3020,35 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             throw new Exception("Unsupported owning element type");
         }
 
+        private void PurgeContainerEntries(IAttributeBearer owningElement, AttributeType attributeType)
+        {
+            // maybe todo: code de-duplication by merging nodes/edges/objects handling even further, issue: type ids are only unique per type model (but first let's introduce graph types with attributes)
+            if(owningElement is INode)
+            {
+                INode node = (INode)owningElement;
+                SQLiteCommand deleteNodeContainerCommand = deleteNodeContainerCommands[node.Type.TypeID][attributeType.Name];
+                deleteNodeContainerCommand.Parameters.Clear();
+                deleteNodeContainerCommand.Parameters.AddWithValue("@nodeId", NodeToDbId[node]);
+                int rowsAffected = deleteNodeContainerCommand.ExecuteNonQuery();
+            }
+            else if(owningElement is IEdge)
+            {
+                IEdge edge = (IEdge)owningElement;
+                SQLiteCommand deleteEdgeContainerCommand = deleteEdgeContainerCommands[edge.Type.TypeID][attributeType.Name];
+                deleteEdgeContainerCommand.Parameters.Clear();
+                deleteEdgeContainerCommand.Parameters.AddWithValue("@edgeId", EdgeToDbId[edge]);
+                int rowsAffected = deleteEdgeContainerCommand.ExecuteNonQuery();
+            }
+            else
+            {
+                IObject @object = (IObject)owningElement;
+                SQLiteCommand deleteObjectContainerCommand = deleteObjectContainerCommands[@object.Type.TypeID][attributeType.Name];
+                deleteObjectContainerCommand.Parameters.Clear();
+                deleteObjectContainerCommand.Parameters.AddWithValue("@objectId", ObjectToDbId[@object]);
+                int rowsAffected = deleteObjectContainerCommand.ExecuteNonQuery();
+            }
+        }
+
         private void WriteContainerEntries(IAttributeBearer owningElement)
         {
             foreach(AttributeType attributeType in owningElement.Type.AttributeTypes)
@@ -2940,10 +3357,22 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             GraphToDbId.Add(graph, dbid);
         }
 
-        private void AddObjectWithDbIdToDbIdMapping(IObject obj, long dbid)
+        private void RemoveGraphFromDbIdMapping(INamedGraph graph)
         {
-            DbIdToObject.Add(dbid, obj);
-            ObjectToDbId.Add(obj, dbid);
+            DbIdToGraph.Remove(GraphToDbId[graph]);
+            GraphToDbId.Remove(graph);
+        }
+
+        private void AddObjectWithDbIdToDbIdMapping(IObject @object, long dbid)
+        {
+            DbIdToObject.Add(dbid, @object);
+            ObjectToDbId.Add(@object, dbid);
+        }
+
+        private void RemoveObjectFromDbIdMapping(IObject @object)
+        {
+            DbIdToObject.Remove(ObjectToDbId[@object]);
+            ObjectToDbId.Remove(@object);
         }
 
         private void AddTypeNameWithDbIdToDbIdMapping(String typeName, long dbid)

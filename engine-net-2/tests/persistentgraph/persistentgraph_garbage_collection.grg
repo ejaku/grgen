@@ -1,0 +1,145 @@
+#using "persistentgraph_garbage_collection.gm"
+
+rule init
+{
+	modify {
+		n:N -e:E-> n;
+		eval {
+			def ref o:O = new O();
+			n.o = o;
+		}
+		eval { n.ma = map<N,E>{ n->e }; }
+	}
+}
+
+rule initNested
+{
+	n:N -e:E-> n;
+	
+	modify {
+		---
+		exec( { n.g = inducedSubgraph(set<Node>{ }) } ;>  in n.g { init } );
+		exec( { e.se = set<graph>{ definedSubgraph(set<Edge>{ e }), definedSubgraph(set<Edge>{ e } ) } } ); // same o (and other members) due to the cloning of original graph, no init is carried out
+		exec( g:graph ;> ln:N ;> le:E ;> lo:O ;> { g = inducedSubgraph(set<Node>{ }) } ;>  in g { init ;> (ln,le,lo)=find } ;> { n.nodeFromOtherwiseUnreachableGraph = ln } );
+		
+		exec( o:O ;> o1:O ;> o2:O ;> { o = n.o; o.arr = array<O>[ new O(), new O() ]; o1 = o.arr[0]; o2 = o.arr[1]; o1.arr.add(new O()); o3:O = new O(); o2.arr.add(o3); o3.arr.add(o2) } );
+	}
+}
+
+test find : (N, E, O)
+{
+	n:N -e:E-> n;
+	if{ n.o != null; }
+	
+	return(n,e,n.o);
+}
+
+test findObject
+{
+	n:N -e:E-> n;
+	if{ n.o != null && n.o.arr.size() > 0 && n.o.arr[0] != null; }
+}
+
+rule deletePart_B
+{
+	n:N -e:E-> n;
+	
+	modify {
+		eval {
+			n.nodeFromOtherwiseUnreachableGraph = null;
+		}
+	}
+}
+
+rule deletePart_C
+{
+	n:N -e:E-> n;
+	
+	modify {
+		eval {
+			e.se.rem(e.se.peek(1));
+		}
+	}
+}
+
+rule deletePart_D
+{
+	n:N -e:E-> n;
+	
+	modify {
+		eval {
+			e.se.rem(e.se.peek(0));
+		}
+	}
+}
+
+rule deletePart_E
+{
+	n:N -e:E-> n;
+	
+	modify {
+		eval {
+			n.g = null;
+		}
+	}
+}
+
+rule deletePart_F
+{
+	n:N -e:E-> n;
+	
+	modify {
+		eval {
+			def ref o:O = n.o;
+			o.arr[1] = null;
+		}
+	}
+}
+
+rule deletePart_G
+{
+	n:N -e:E-> n;
+	
+	modify {
+		eval {
+			def ref o:O = n.o.arr[0];
+			o.arr[0] = null;
+		}
+	}
+}
+
+rule deletePart_H
+{
+	n:N -e:E-> n;
+	
+	modify {
+		eval {
+			def ref o:O = n.o;
+			o.arr.rem();
+			o.arr.rem();
+		}
+	}
+}
+
+rule deletePart_I
+{
+	n:N -e:E-> n;
+	
+	modify {
+		eval {
+			n.o = null;
+		}
+	}
+}
+
+rule deletePart_J
+{
+	n:N -e:E-> n;
+	
+	modify {
+		eval {
+			n.ma.clear();
+		}
+		delete(n);
+	}
+}
