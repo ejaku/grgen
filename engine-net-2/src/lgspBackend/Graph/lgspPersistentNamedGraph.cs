@@ -16,7 +16,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// An implementation of the INamedGraph interface extending the default implementation by persistence support.
     /// </summary>
-    public class LGSPPersistentNamedGraph : LGSPNamedGraph
+    public class LGSPPersistentNamedGraph : LGSPNamedGraph, IPersistentGraphStatistics
     {
         IPersistenceProvider persistenceProvider;
 
@@ -69,6 +69,26 @@ namespace de.unika.ipd.grGen.lgsp
         public override void RegisterProcessingEnvironment(IGraphProcessingEnvironment procEnv)
         {
             persistenceProvider.RegisterToListenToProcessingEnvironmentEvents(procEnv);
+        }
+
+        public int NumNodesInDatabase
+        {
+            get { return persistenceProvider.NumNodesInDatabase; }
+        }
+
+        public int NumEdgesInDatabase
+        {
+            get { return persistenceProvider.NumEdgesInDatabase; }
+        }
+
+        public int NumObjectsInDatabase
+        {
+            get { return persistenceProvider.NumObjectsInDatabase; }
+        }
+
+        public int NumGraphsInDatabase
+        {
+            get { return persistenceProvider.NumGraphsInDatabase; }
         }
 
         #region Copy Constructors

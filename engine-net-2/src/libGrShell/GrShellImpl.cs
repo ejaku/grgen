@@ -1166,8 +1166,15 @@ namespace de.unika.ipd.grGen.grShell
 
             ConsoleUI.outWriter.WriteLine("\nList of available commands for \"new\":\n"
                 + " - new [new] graph <filename> [<graphname>]\n"
-                + "   Creates a graph from the given .gm or .grg file and optionally\n"
-                + "   assigns it the given name.\n\n"
+                + "   Creates a graph from the given .gm or .grg file and optionally assigns\n"
+                + "   it the given name (the optional second new enforces a recompilation).\n"
+                + "   Example: new graph \"Mutex.grg\" \"SynchronizationTest\"\n\n"
+                + " - new graph <filename> persist with <provider> <parameters>\n"
+                + "   Creates or opens a graph with a scheme as described in the given .gm or .grg\n"
+                + "   file, persisting it with the specified persistence provider,\n"
+                + "   applying the specified connection parameters.\n"
+                + "   Example: new graph \"pg\" persist with \"libGrPersistenceProviderSQLite.dll\"\n"
+                + "            to \"Data Source=pg.db;Version=3;\"\n\n"
                 + " - new [<var>][:<type>['('[$=<name>,][<attributes>]')']]\n"
                 + "   Creates a node of the given type, name, and attributes and\n"
                 + "   assigns it to the given variable.\n"
@@ -1296,6 +1303,9 @@ namespace de.unika.ipd.grGen.grShell
                 + "   Lists the available actions associated with the current graph.\n\n"
                 + " - show profile [actionname]\n"
                 + "   Lists the profile collected for actionname, or all actions.\n\n"
+                + " - show num from database\n"
+                + "   Shows the number of nodes/edges/graphs/objects in the database.\n"
+                + "   This command is only supported for a persistent graph (see \"help new\").\n\n"
                 + " - show backend\n"
                 + "   Shows the name of the current backend and its parameters.\n");
         }
@@ -2989,6 +2999,23 @@ namespace de.unika.ipd.grGen.grShell
             ConsoleUI.outWriter.Write("The value of attribute \"" + attributeName + "\" is: \"");
             ConsoleUI.outWriter.Write(EmitHelper.ToStringAutomatic(owner.GetAttribute(attributeName), curShellProcEnv.ProcEnv.NamedGraph, false, curShellProcEnv.objectNamerAndIndexer, curShellProcEnv.transientObjectNamerAndIndexer, null));
             ConsoleUI.outWriter.WriteLine("\".");
+        }
+
+        public void ShowNumFromDatabase()
+        {
+            if(!GraphExists())
+                return;
+            IPersistentGraphStatistics persistentGraphStatistics = curShellProcEnv.ProcEnv.Graph as IPersistentGraphStatistics;
+            if(persistentGraphStatistics == null)
+            {
+                ConsoleUI.errorOutWriter.WriteLine("The current graph is not a persistent graph. Use the new graph command including the persist with option.");
+                return;
+            }
+
+            ConsoleUI.outWriter.WriteLine("Number of nodes found in the database: " + persistentGraphStatistics.NumNodesInDatabase);
+            ConsoleUI.outWriter.WriteLine("Number of edges found in the database: " + persistentGraphStatistics.NumEdgesInDatabase);
+            ConsoleUI.outWriter.WriteLine("Number of objects found in the database: " + persistentGraphStatistics.NumObjectsInDatabase);
+            ConsoleUI.outWriter.WriteLine("Number of graphs found in the database: " + persistentGraphStatistics.NumGraphsInDatabase);
         }
 
         #endregion "show" graph and graph element/class object related information commands

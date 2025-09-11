@@ -93,6 +93,7 @@ TOKEN: {
 |   < COLOR: "color" >
 |   < CONTINUE: "continue" >
 |   < CUSTOM: "custom" >
+|   < DATABASE: "database" >
 |   < DEBUG: "debug" >
 |   < DEF: "def" >
 |   < DELETE: "delete" >
@@ -1697,10 +1698,16 @@ void ShowCommand():
                 impl.ShowNumNodes(nodeType, only);
         }
     |
+        LOOKAHEAD(2)
         "num" "edges" (("only" { only=true; })? edgeType=EdgeType() { typeProvided=true; })? LineEnd()
         {
             if(!typeProvided || edgeType != null)
                 impl.ShowNumEdges(edgeType, only);
+        }
+    |
+        "num" "from" "database" LineEnd()
+        {
+            impl.ShowNumFromDatabase();
         }
     |
         "node" ShowNode()

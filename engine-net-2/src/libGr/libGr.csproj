@@ -93,6 +93,7 @@
     <Compile Include="Graph\INode.cs" />
     <Compile Include="Graph\IObject.cs" />
     <Compile Include="Graph\IDeepEqualityComparer.cs" />
+    <Compile Include="Graph\IPersistentGraphStatistics.cs" />
     <Compile Include="Graph\ITransientObject.cs" />
     <Compile Include="Graph\ITyped.cs" />
     <Compile Include="Graph\IIdentifiable.cs" />

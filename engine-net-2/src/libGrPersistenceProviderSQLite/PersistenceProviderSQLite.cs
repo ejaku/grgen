@@ -2894,6 +2894,26 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             connection.Close();
         }
 
+        public int NumNodesInDatabase
+        {
+            get { return DbIdToNode.Count; }
+        }
+
+        public int NumEdgesInDatabase
+        {
+            get { return DbIdToEdge.Count; }
+        }
+
+        public int NumObjectsInDatabase
+        {
+            get { return DbIdToObject.Count; }
+        }
+
+        public int NumGraphsInDatabase
+        {
+            get { return DbIdToGraph.Count; }
+        }
+
         #region Database id from/to concept mapping maintenance
 
         private void AddNodeWithDbIdToDbIdMapping(INode node, long dbid)
