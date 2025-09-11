@@ -439,7 +439,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             AddIndex(tableName, ownerIdColumnName); // in order to delete without a full table scan (I assume small changesets in between database openings and decided for a by-default pruning on open - an alternative would be a full table replacement once in a while (would be ok in case of big changesets, as they would occur when a pruning run only occurs on explicit request, but such ones could be forgotten/missed unknowingly too easily, leading to (unexpected) slowness))
         }
 
-        private bool IsScalarType(AttributeType attributeType)
+        private static bool IsScalarType(AttributeType attributeType)
         {
             switch(attributeType.Kind)
             {
@@ -458,34 +458,34 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
         }
 
-        private bool IsAttributeTypeMappedToDatabaseColumn(AttributeType attributeType)
+        private static bool IsAttributeTypeMappedToDatabaseColumn(AttributeType attributeType)
         {
             return IsScalarType(attributeType) || IsGraphType(attributeType) || IsObjectType(attributeType) || IsGraphElementType(attributeType); // containers are not referenced by an id in a database column, but are mapped entirely to own tables
         }
 
         // types appearing as attributes with a complete implementation for loading/storing them from/to the database
-        private bool IsSupportedAttributeType(AttributeType attributeType)
+        private static bool IsSupportedAttributeType(AttributeType attributeType)
         {
             return IsScalarType(attributeType) || IsGraphType(attributeType) || IsObjectType(attributeType) || IsGraphElementType(attributeType) || IsSupportedContainerType(attributeType); // TODO: external/object type - also handle these.
         }
 
-        private bool IsGraphType(AttributeType attributeType)
+        private static bool IsGraphType(AttributeType attributeType)
         {
             return attributeType.Kind == AttributeKind.GraphAttr;
         }
 
-        private bool IsObjectType(AttributeType attributeType)
+        private static bool IsObjectType(AttributeType attributeType)
         {
             return attributeType.Kind == AttributeKind.InternalClassObjectAttr;
         }
 
-        private bool IsGraphElementType(AttributeType attributeType)
+        private static bool IsGraphElementType(AttributeType attributeType)
         {
             return attributeType.Kind == AttributeKind.NodeAttr || attributeType.Kind == AttributeKind.EdgeAttr;
         }
 
         // todo: all containre types are supported by now, rename
-        private bool IsSupportedContainerType(AttributeType attributeType)
+        private static bool IsSupportedContainerType(AttributeType attributeType)
         {
             return attributeType.Kind == AttributeKind.SetAttr
                 || attributeType.Kind == AttributeKind.MapAttr
@@ -2243,7 +2243,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             else if(IsObjectType(attrType))
                 AddObjectAsNeeded((IObject)newValue);
             else if(IsGraphElementType(attrType))
-                AddGraphAsNeeded((INamedGraph)((IContained)newValue).GetContainingGraph());
+                AddGraphAsNeeded(GetContainingGraph((IGraphElement)newValue));
 
             if(IsSupportedContainerType(attrType))
                 WriteContainerChange(node, attrType, changeType, newValue, keyValue);
@@ -2269,7 +2269,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             else if(IsObjectType(attrType))
                 AddObjectAsNeeded((IObject)newValue);
             else if(IsGraphElementType(attrType))
-                AddGraphAsNeeded((INamedGraph)((IContained)newValue).GetContainingGraph());
+                AddGraphAsNeeded(GetContainingGraph((IGraphElement)newValue));
 
             if(IsSupportedContainerType(attrType))
                 WriteContainerChange(edge, attrType, changeType, newValue, keyValue);
@@ -2298,7 +2298,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             else if(IsObjectType(attrType))
                 AddObjectAsNeeded((IObject)newValue);
             else if(IsGraphElementType(attrType))
-                AddGraphAsNeeded((INamedGraph)((IContained)newValue).GetContainingGraph());
+                AddGraphAsNeeded(GetContainingGraph((IGraphElement)newValue));
 
             if(IsSupportedContainerType(attrType))
                 WriteContainerChange(obj, attrType, changeType, newValue, keyValue);
@@ -2359,6 +2359,14 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
             // edge is going to be removed and readded thereafter, in order to keep its database id, we just redirect it
             edgeGettingRedirected = edge;
+        }
+
+        private static INamedGraph GetContainingGraph(IGraphElement graphElement)
+        {
+            if(graphElement == null)
+                return null;
+            else
+                return (INamedGraph)((IContained)graphElement).GetContainingGraph();
         }
 
         private void AddGraphAsNeeded(INamedGraph graph)
@@ -2538,7 +2546,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             else if(IsGraphElementType(attributeType))
             {
                 if(val != null)
-                    AddGraphAsNeeded((INamedGraph)((IContained)val).GetContainingGraph());
+                    AddGraphAsNeeded(GetContainingGraph((IGraphElement)val));
             }
         }
 
@@ -2667,13 +2675,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 // add all container entries - explode complete container into series of adds, i.e. put-elements
                 foreach(DictionaryEntry entry in set)
                 {
-                    if(IsGraphType(attributeType.ValueType))
-                        AddGraphAsNeeded((INamedGraph)entry.Key);
-                    else if(IsObjectType(attributeType.ValueType))
-                        AddObjectAsNeeded((IObject)entry.Key);
-                    else if(IsGraphElementType(attributeType.ValueType))
-                        AddGraphAsNeeded((INamedGraph)((IContained)entry.Key).GetContainingGraph());
-
                     entryId = ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, owningElementId, owningElementIdColumnName, ContainerCommand.PutElement, entry.Key);
                 }
             }
@@ -2697,20 +2698,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 // add all container entries - explode complete container into series of adds, i.e. put-elements
                 foreach(DictionaryEntry entry in map)
                 {
-                    if(IsGraphType(attributeType.KeyType))
-                        AddGraphAsNeeded((INamedGraph)entry.Key);
-                    else if(IsObjectType(attributeType.KeyType))
-                        AddObjectAsNeeded((IObject)entry.Key);
-                    else if(IsGraphElementType(attributeType.KeyType))
-                        AddGraphAsNeeded((INamedGraph)((IContained)entry.Key).GetContainingGraph());
-
-                    if(IsGraphType(attributeType.ValueType))
-                        AddGraphAsNeeded((INamedGraph)entry.Value);
-                    else if(IsObjectType(attributeType.ValueType))
-                        AddObjectAsNeeded((IObject)entry.Value);
-                    else if(IsGraphElementType(attributeType.ValueType))
-                        AddGraphAsNeeded((INamedGraph)((IContained)entry.Value).GetContainingGraph());
-
                     entryId = ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, attributeType.KeyType, owningElementId, owningElementIdColumnName, ContainerCommand.PutElement, entry.Value, entry.Key);
                 }
             }
@@ -2734,13 +2721,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 // add all container entries - explode complete container into series of adds, i.e. put-elements
                 foreach(object entry in array)
                 {
-                    if(IsGraphType(attributeType.ValueType))
-                        AddGraphAsNeeded((INamedGraph)entry);
-                    else if(IsObjectType(attributeType.ValueType))
-                        AddObjectAsNeeded((IObject)entry);
-                    else if(IsGraphElementType(attributeType.ValueType))
-                        AddGraphAsNeeded((INamedGraph)((IContained)entry).GetContainingGraph());
-
                     entryId = ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, IntegerAttributeType, owningElementId, owningElementIdColumnName, ContainerCommand.PutElement, entry, null);
                 }
             }
@@ -2764,13 +2744,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 // add all container entries - explode complete container into series of adds, i.e. put-elements
                 foreach(object entry in deque)
                 {
-                    if(IsGraphType(attributeType.ValueType))
-                        AddGraphAsNeeded((INamedGraph)entry);
-                    else if(IsObjectType(attributeType.ValueType))
-                        AddObjectAsNeeded((IObject)entry);
-                    else if(IsGraphElementType(attributeType.ValueType))
-                        AddGraphAsNeeded((INamedGraph)((IContained)entry).GetContainingGraph());
-
                     entryId = ExecuteUpdatingInsert(updatingInsert, attributeType.ValueType, IntegerAttributeType, owningElementId, owningElementIdColumnName, ContainerCommand.PutElement, entry, null);
                 }
             }
@@ -2778,6 +2751,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private long ExecuteUpdatingInsert(SQLiteCommand updatingInsert, AttributeType valueAttributeType, long owningElementId, string owningElementIdColumnName, ContainerCommand command, object value)
         {
+            if(IsGraphType(valueAttributeType))
+                AddGraphAsNeeded((INamedGraph)value);
+            else if(IsObjectType(valueAttributeType))
+                AddObjectAsNeeded((IObject)value);
+            else if(IsGraphElementType(valueAttributeType))
+                AddGraphAsNeeded(GetContainingGraph((IGraphElement)value));
+
             updatingInsert.Parameters.Clear();
             updatingInsert.Parameters.AddWithValue("@" + owningElementIdColumnName, owningElementId);
             updatingInsert.Parameters.AddWithValue("@command", command);
@@ -2799,6 +2779,20 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private long ExecuteUpdatingInsert(SQLiteCommand updatingInsert, AttributeType valueAttributeType, AttributeType keyAttributeType, long owningElementId, string owningElementIdColumnName, ContainerCommand command, object value, object key)
         {
+            if(IsGraphType(keyAttributeType))
+                AddGraphAsNeeded((INamedGraph)key);
+            else if(IsObjectType(keyAttributeType))
+                AddObjectAsNeeded((IObject)key);
+            else if(IsGraphElementType(keyAttributeType))
+                AddGraphAsNeeded(GetContainingGraph((IGraphElement)key));
+
+            if(IsGraphType(valueAttributeType))
+                AddGraphAsNeeded((INamedGraph)value);
+            else if(IsObjectType(valueAttributeType))
+                AddObjectAsNeeded((IObject)value);
+            else if(IsGraphElementType(valueAttributeType))
+                AddGraphAsNeeded(GetContainingGraph((IGraphElement)value));
+
             updatingInsert.Parameters.Clear();
             updatingInsert.Parameters.AddWithValue("@" + owningElementIdColumnName, owningElementId);
             updatingInsert.Parameters.AddWithValue("@command", command);
