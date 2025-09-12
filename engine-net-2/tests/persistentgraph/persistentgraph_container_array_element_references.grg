@@ -1,0 +1,57 @@
+#using "persistentgraph_container_array_element_references.gm"
+
+rule init
+{
+	modify {
+		n:N -e:E-> n;
+		eval {
+			def ref o:O = new O();
+			n.a_o = array<O>[ o ]; e.a_o = array<O>[ o ];
+			o.a_o = array<O>[ o ]; o.a_n = array<N>[ n ]; o.a_e = array<E>[ e ];
+		}
+		eval { n.a_n = array<N>[ n ]; n.a_e = array<E>[ e ]; e.a_n = array<N>[ n ]; e.a_e = array<E>[ e ]; }
+	}
+}
+
+rule patchObject
+{
+	n:N -e:E-> n;
+		
+	modify {
+		eval {
+			// object sharing would cause either the find in the nested graph or the find in the host graph to fail (because of node/edge references in the object not referencing the nodes/edges of the current graph)
+			def ref o:O = new O();
+			n.a_o = array<O>[ o ]; e.a_o = array<O>[ o ];
+			o.a_o = array<O>[ o ]; o.a_n = array<N>[ n ]; o.a_e = array<E>[ e ];
+			
+			// clones of graph elements as created e.g. by inducedSubgraph/definedSubgraph contain references to original graph elements/objects - patch them to reference local elements, so find works
+			n.a_n = array<N>[ n ]; n.a_e = array<E>[ e ];
+			e.a_n = array<N>[ n ]; e.a_e = array<E>[ e ];
+		}
+	}
+}
+
+rule initNested
+{
+	n:N -e:E-> n;
+	
+	modify {
+		---
+		exec( { n.a_g = array<graph>[ inducedSubgraph(set<Node>{ }) ] } ;>  in n.a_g.peek(0) { init } );
+		exec( { e.a_g = array<graph>[ definedSubgraph(set<Edge>{ e }) ] } ;>  in e.a_g.peek(0) { patchObject } );
+		exec( o:O ;> { o = n.a_o.peek(0); o.a_g = array<graph>[ inducedSubgraph(set<Node>{ }) ] } ;>  in o.a_g.peek(0) { init } );
+		exec( g:graph ;> ln:N ;> le:E ;> lo:O ;> { g = inducedSubgraph(set<Node>{ }) } ;>  in g { init ;> (ln,le,lo)=find } ;> { n.a_nodeFromOtherwiseUnreachableGraph = array<N>[ ln ] } );
+	}
+}
+
+test find : (N, E, O)
+{
+	n:N -e:E-> n;
+	if{ n.a_o != null; n.a_o == e.a_o; n.a_o == n.a_o.peek(0).a_o; }
+	
+	if{ n.a_n.peek(0) == n && n.a_e.peek(0) == e; }
+	if{ e.a_n.peek(0) == n && e.a_e.peek(0) == e; }
+	if{ n.a_o.peek(0).a_n.peek(0) == n && n.a_o.peek(0).a_e.peek(0) == e; }
+	
+	return(n,e,n.a_o.peek(0));
+}

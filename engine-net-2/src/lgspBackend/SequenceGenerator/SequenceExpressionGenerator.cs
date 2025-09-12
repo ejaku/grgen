@@ -2741,7 +2741,7 @@ namespace de.unika.ipd.grGen.lgsp
                 else if(seqContainerPeek.ContainerType(env).StartsWith("deque"))
                 {
                     string dequeValueType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqContainerPeek.ContainerType(env)), model);
-                    return "GRGEN_LIBGR.ContainerHelper.Peek<" + dequeValueType + ">(" + ", (int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + container + ")";
+                    return "GRGEN_LIBGR.ContainerHelper.Peek<" + dequeValueType + ">(" + container + ", (int)" + GetSequenceExpression(seqContainerPeek.KeyExpr, source) + ")";
                 }
                 else
                 {

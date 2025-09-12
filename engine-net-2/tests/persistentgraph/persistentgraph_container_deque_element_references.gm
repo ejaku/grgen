@@ -1,0 +1,26 @@
+node edge graph; // required by persistent graph when node/edge references are employed
+
+node class N
+{
+	d_n:deque<N>;
+	d_e:deque<E>;
+	d_o:deque<O>;
+	d_g:deque<graph>;
+	d_nodeFromOtherwiseUnreachableGraph:deque<N>;
+}
+
+edge class E
+{
+	d_n:deque<N>;
+	d_e:deque<E>;
+	d_o:deque<O>;
+	d_g:deque<graph>;
+}
+
+class O
+{
+	d_n:deque<N>;
+	d_e:deque<E>;
+	d_o:deque<O>;
+	d_g:deque<graph>;
+}
