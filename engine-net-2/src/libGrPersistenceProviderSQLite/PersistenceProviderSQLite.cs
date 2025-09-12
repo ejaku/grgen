@@ -1653,12 +1653,29 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     }
                     else if(attributeType.Kind == AttributeKind.MapAttr)
                     {
-                        foreach(DictionaryEntry entry in (IDictionary)element.GetAttribute(attributeType.Name))
+                        if(IsReference(attributeType.KeyType) && IsReference(attributeType.ValueType))
                         {
-                            if(IsReference(attributeType.KeyType))
+                            foreach(DictionaryEntry entry in (IDictionary)element.GetAttribute(attributeType.Name))
+                            {
                                 yield return entry.Key;
-                            if(IsReference(attributeType.ValueType) && entry.Value != null)
-                                yield return entry.Value;
+                                if(entry.Value != null)
+                                    yield return entry.Value;
+                            }
+                        }
+                        else if(IsReference(attributeType.KeyType))
+                        {
+                            foreach(DictionaryEntry entry in (IDictionary)element.GetAttribute(attributeType.Name))
+                            {
+                                yield return entry.Key;
+                            }
+                        }
+                        else
+                        {
+                            foreach(DictionaryEntry entry in (IDictionary)element.GetAttribute(attributeType.Name))
+                            {
+                                if(entry.Value != null)
+                                    yield return entry.Value;
+                            }
                         }
                     }
                     else if(attributeType.Kind == AttributeKind.ArrayAttr)
