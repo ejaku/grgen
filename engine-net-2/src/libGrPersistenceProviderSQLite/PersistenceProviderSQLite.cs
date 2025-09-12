@@ -280,8 +280,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     return true;
                 if(IsContainerType(attributeType))
                 {
-                    if(IsGraphElementType(attributeType.ValueType)) // container todo: also KeyType in case of a map
+                    if(IsGraphElementType(attributeType.ValueType))
                         return true;
+                    if(attributeType.Kind == AttributeKind.MapAttr)
+                    {
+                        if(IsGraphElementType(attributeType.KeyType))
+                            return true;
+                    }
                 }
             }
             return false;
