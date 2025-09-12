@@ -2,25 +2,25 @@ node edge graph; // required by persistent graph when node/edge references are e
 
 node class N
 {
-	a_n:array<N>;
-	a_e:array<E>;
-	a_o:array<O>;
-	a_g:array<graph>;
-	a_nodeFromOtherwiseUnreachableGraph:array<N>;
+	c_n:array<N>;
+	c_e:array<E>;
+	c_o:array<O>;
+	c_g:array<graph>;
+	c_nodeFromOtherwiseUnreachableGraph:array<N>;
 }
 
 edge class E
 {
-	a_n:array<N>;
-	a_e:array<E>;
-	a_o:array<O>;
-	a_g:array<graph>;
+	c_n:array<N>;
+	c_e:array<E>;
+	c_o:array<O>;
+	c_g:array<graph>;
 }
 
 class O
 {
-	a_n:array<N>;
-	a_e:array<E>;
-	a_o:array<O>;
-	a_g:array<graph>;
+	c_n:array<N>;
+	c_e:array<E>;
+	c_o:array<O>;
+	c_g:array<graph>;
 }

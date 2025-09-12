@@ -13,9 +13,9 @@ show num edges E
 exec init
 exec initNested
 exec (::n,::e,::o)=find
-exec in ::n.m_g.peek(0) { find }
-exec in ::e.m_g.peek(0) { find }
-exec in ::o.m_g.peek(0) { find }
+exec in ::n.c_g.peek(0) { find }
+exec in ::e.c_g.peek(0) { find }
+exec in ::o.c_g.peek(0) { find }
 
 show node n
 show edge e
@@ -32,9 +32,9 @@ show num edges E
 exec init
 exec initNested
 exec (::n,::e,::o)=find
-exec in ::n.m_g.peek(0) { find }
-exec in ::e.m_g.peek(0) { find }
-exec in ::o.m_g.peek(0) { find }
+exec in ::n.c_g.peek(0) { find }
+exec in ::e.c_g.peek(0) { find }
+exec in ::o.c_g.peek(0) { find }
 
 show node n
 show edge e
@@ -54,9 +54,9 @@ show num nodes N
 show num edges E
 
 exec (::n,::e,::o)=find
-exec in ::n.m_g.peek(0) { find }
-exec in ::e.m_g.peek(0) { find }
-exec in ::o.m_g.peek(0) { find }
+exec in ::n.c_g.peek(0) { find }
+exec in ::e.c_g.peek(0) { find }
+exec in ::o.c_g.peek(0) { find }
 
 show node n
 show edge e

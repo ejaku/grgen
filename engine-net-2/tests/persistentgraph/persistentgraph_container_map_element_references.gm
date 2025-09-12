@@ -2,25 +2,25 @@ node edge graph; // required by persistent graph when node/edge references are e
 
 node class N
 {
-	m_n:map<N, N>;
-	m_e:map<E, E>;
-	m_o:map<O, O>;
-	m_g:map<graph, graph>;
-	m_nodeFromOtherwiseUnreachableGraph:map<N, E>;
+	c_n:map<N, N>;
+	c_e:map<E, E>;
+	c_o:map<O, O>;
+	c_g:map<graph, graph>;
+	c_nodeFromOtherwiseUnreachableGraph:map<N, E>;
 }
 
 edge class E
 {
-	m_n:map<N, N>;
-	m_e:map<E, E>;
-	m_o:map<O, O>;
-	m_g:map<graph, graph>;
+	c_n:map<N, N>;
+	c_e:map<E, E>;
+	c_o:map<O, O>;
+	c_g:map<graph, graph>;
 }
 
 class O
 {
-	m_n:map<N, N>;
-	m_e:map<E, E>;
-	m_o:map<O, O>;
-	m_g:map<graph, graph>;
+	c_n:map<N, N>;
+	c_e:map<E, E>;
+	c_o:map<O, O>;
+	c_g:map<graph, graph>;
 }

@@ -2,25 +2,25 @@ node edge graph; // required by persistent graph when node/edge references are e
 
 node class N
 {
-	s_n:set<N>;
-	s_e:set<E>;
-	s_o:set<O>;
-	s_g:set<graph>;
-	s_nodeFromOtherwiseUnreachableGraph:set<N>;
+	c_n:set<N>;
+	c_e:set<E>;
+	c_o:set<O>;
+	c_g:set<graph>;
+	c_nodeFromOtherwiseUnreachableGraph:set<N>;
 }
 
 edge class E
 {
-	s_n:set<N>;
-	s_e:set<E>;
-	s_o:set<O>;
-	s_g:set<graph>;
+	c_n:set<N>;
+	c_e:set<E>;
+	c_o:set<O>;
+	c_g:set<graph>;
 }
 
 class O
 {
-	s_n:set<N>;
-	s_e:set<E>;
-	s_o:set<O>;
-	s_g:set<graph>;
+	c_n:set<N>;
+	c_e:set<E>;
+	c_o:set<O>;
+	c_g:set<graph>;
 }

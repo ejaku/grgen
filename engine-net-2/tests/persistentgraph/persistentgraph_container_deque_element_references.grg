@@ -6,10 +6,10 @@ rule init
 		n:N -e:E-> n;
 		eval {
 			def ref o:O = new O();
-			n.d_o = deque<O>[ o ]; e.d_o = deque<O>[ o ];
-			o.d_o = deque<O>[ o ]; o.d_n = deque<N>[ n ]; o.d_e = deque<E>[ e ];
+			n.c_o = deque<O>[ o ]; e.c_o = deque<O>[ o ];
+			o.c_o = deque<O>[ o ]; o.c_n = deque<N>[ n ]; o.c_e = deque<E>[ e ];
 		}
-		eval { n.d_n = deque<N>[ n ]; n.d_e = deque<E>[ e ]; e.d_n = deque<N>[ n ]; e.d_e = deque<E>[ e ]; }
+		eval { n.c_n = deque<N>[ n ]; n.c_e = deque<E>[ e ]; e.c_n = deque<N>[ n ]; e.c_e = deque<E>[ e ]; }
 	}
 }
 
@@ -21,12 +21,12 @@ rule patchObject
 		eval {
 			// object sharing would cause either the find in the nested graph or the find in the host graph to fail (because of node/edge references in the object not referencing the nodes/edges of the current graph)
 			def ref o:O = new O();
-			n.d_o = deque<O>[ o ]; e.d_o = deque<O>[ o ];
-			o.d_o = deque<O>[ o ]; o.d_n = deque<N>[ n ]; o.d_e = deque<E>[ e ];
+			n.c_o = deque<O>[ o ]; e.c_o = deque<O>[ o ];
+			o.c_o = deque<O>[ o ]; o.c_n = deque<N>[ n ]; o.c_e = deque<E>[ e ];
 			
 			// clones of graph elements as created e.g. by inducedSubgraph/definedSubgraph contain references to original graph elements/objects - patch them to reference local elements, so find works
-			n.d_n = deque<N>[ n ]; n.d_e = deque<E>[ e ];
-			e.d_n = deque<N>[ n ]; e.d_e = deque<E>[ e ];
+			n.c_n = deque<N>[ n ]; n.c_e = deque<E>[ e ];
+			e.c_n = deque<N>[ n ]; e.c_e = deque<E>[ e ];
 		}
 	}
 }
@@ -37,21 +37,21 @@ rule initNested
 	
 	modify {
 		---
-		exec( { n.d_g = deque<graph>[ inducedSubgraph(set<Node>{ }) ] } ;>  in n.d_g.peek(0) { init } );
-		exec( { e.d_g = deque<graph>[ definedSubgraph(set<Edge>{ e }) ] } ;>  in e.d_g.peek(0) { patchObject } );
-		exec( o:O ;> { o = n.d_o.peek(0); o.d_g = deque<graph>[ inducedSubgraph(set<Node>{ }) ] } ;>  in o.d_g.peek(0) { init } );
-		exec( g:graph ;> ln:N ;> le:E ;> lo:O ;> { g = inducedSubgraph(set<Node>{ }) } ;>  in g { init ;> (ln,le,lo)=find } ;> { n.d_nodeFromOtherwiseUnreachableGraph = deque<N>[ ln ] } );
+		exec( { n.c_g = deque<graph>[ inducedSubgraph(set<Node>{ }) ] } ;>  in n.c_g.peek(0) { init } );
+		exec( { e.c_g = deque<graph>[ definedSubgraph(set<Edge>{ e }) ] } ;>  in e.c_g.peek(0) { patchObject } );
+		exec( o:O ;> { o = n.c_o.peek(0); o.c_g = deque<graph>[ inducedSubgraph(set<Node>{ }) ] } ;>  in o.c_g.peek(0) { init } );
+		exec( g:graph ;> ln:N ;> le:E ;> lo:O ;> { g = inducedSubgraph(set<Node>{ }) } ;>  in g { init ;> (ln,le,lo)=find } ;> { n.c_nodeFromOtherwiseUnreachableGraph = deque<N>[ ln ] } );
 	}
 }
 
 test find : (N, E, O)
 {
 	n:N -e:E-> n;
-	if{ n.d_o != null; n.d_o == e.d_o; n.d_o == n.d_o.peek(0).d_o; }
+	if{ n.c_o != null; n.c_o == e.c_o; n.c_o == n.c_o.peek(0).c_o; }
 	
-	if{ n.d_n.peek(0) == n && n.d_e.peek(0) == e; }
-	if{ e.d_n.peek(0) == n && e.d_e.peek(0) == e; }
-	if{ n.d_o.peek(0).d_n.peek(0) == n && n.d_o.peek(0).d_e.peek(0) == e; }
+	if{ n.c_n.peek(0) == n && n.c_e.peek(0) == e; }
+	if{ e.c_n.peek(0) == n && e.c_e.peek(0) == e; }
+	if{ n.c_o.peek(0).c_n.peek(0) == n && n.c_o.peek(0).c_e.peek(0) == e; }
 	
-	return(n,e,n.d_o.peek(0));
+	return(n,e,n.c_o.peek(0));
 }
