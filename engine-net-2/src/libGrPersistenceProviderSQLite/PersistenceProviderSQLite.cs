@@ -278,7 +278,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             {
                 if(IsGraphElementType(attributeType))
                     return true;
-                if(IsSupportedContainerType(attributeType))
+                if(IsContainerType(attributeType))
                 {
                     if(IsGraphElementType(attributeType.ValueType)) // container todo: also KeyType in case of a map
                         return true;
@@ -334,7 +334,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
                 foreach(AttributeType attributeType in nodeType.AttributeTypes)
                 {
-                    if(!IsSupportedContainerType(attributeType))
+                    if(!IsContainerType(attributeType))
                         continue;
                     CreateContainerTypeTable(nodeType, "nodeId", attributeType);
                 }
@@ -346,7 +346,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
                 foreach(AttributeType attributeType in edgeType.AttributeTypes)
                 {
-                    if(!IsSupportedContainerType(attributeType))
+                    if(!IsContainerType(attributeType))
                         continue;
                     CreateContainerTypeTable(edgeType, "edgeId", attributeType);
                 }
@@ -358,7 +358,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
                 foreach(AttributeType attributeType in objectType.AttributeTypes)
                 {
-                    if(!IsSupportedContainerType(attributeType))
+                    if(!IsContainerType(attributeType))
                         continue;
                     CreateContainerTypeTable(objectType, "objectId", attributeType);
                 }
@@ -432,7 +432,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     continue;
 
                 columnNamesAndTypes.Add(GetUniqueColumnName(attributeType.Name));
-                columnNamesAndTypes.Add(AttributeTypeToSQLiteType(attributeType));
+                columnNamesAndTypes.Add(ScalarAndReferenceTypeToSQLiteType(attributeType));
             }
 
             CreateTable(tableName, idColumnName, columnNamesAndTypes.ToArray()); // the id in the type table is a local copy of the global id from the corresponding topology table
@@ -450,21 +450,21 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             if(attributeType.Kind == AttributeKind.SetAttr) // todo: own function with type switch?
             {
                 columnNamesAndTypes.Add("value");
-                columnNamesAndTypes.Add(AttributeTypeToSQLiteType(attributeType.ValueType));
+                columnNamesAndTypes.Add(ScalarAndReferenceTypeToSQLiteType(attributeType.ValueType));
             }
             else if(attributeType.Kind == AttributeKind.MapAttr)
             {
                 columnNamesAndTypes.Add("key");
-                columnNamesAndTypes.Add(AttributeTypeToSQLiteType(attributeType.KeyType));
+                columnNamesAndTypes.Add(ScalarAndReferenceTypeToSQLiteType(attributeType.KeyType));
                 columnNamesAndTypes.Add("value");
-                columnNamesAndTypes.Add(AttributeTypeToSQLiteType(attributeType.ValueType));
+                columnNamesAndTypes.Add(ScalarAndReferenceTypeToSQLiteType(attributeType.ValueType));
             }
             else
             {
                 columnNamesAndTypes.Add("value");
-                columnNamesAndTypes.Add(AttributeTypeToSQLiteType(attributeType.ValueType));
+                columnNamesAndTypes.Add(ScalarAndReferenceTypeToSQLiteType(attributeType.ValueType));
                 columnNamesAndTypes.Add("key");
-                columnNamesAndTypes.Add(AttributeTypeToSQLiteType(IntegerAttributeType));
+                columnNamesAndTypes.Add(ScalarAndReferenceTypeToSQLiteType(IntegerAttributeType));
             }
 
             CreateTable(tableName, "entryId", columnNamesAndTypes.ToArray()); // the entryId denotes the row local to this table, the ownerIdColumnName is a local copy of the global id from the corresponding topology table
@@ -472,6 +472,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             AddIndex(tableName, ownerIdColumnName); // in order to delete without a full table scan (I assume small changesets in between database openings and decided for a by-default pruning on open - an alternative would be a full table replacement once in a while (would be ok in case of big changesets, as they would occur when a pruning run only occurs on explicit request, but such ones could be forgotten/missed unknowingly too easily, leading to (unexpected) slowness))
         }
 
+        // note that strings count as scalars
         private static bool IsScalarType(AttributeType attributeType)
         {
             switch(attributeType.Kind)
@@ -491,15 +492,43 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
         }
 
+        private static bool IsReferenceType(AttributeType attributeType)
+        {
+            switch(attributeType.Kind)
+            {
+                case AttributeKind.NodeAttr:
+                case AttributeKind.EdgeAttr:
+                case AttributeKind.GraphAttr:
+                case AttributeKind.InternalClassObjectAttr:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        private static bool IsContainerType(AttributeType attributeType)
+        {
+            switch(attributeType.Kind)
+            {
+                case AttributeKind.SetAttr:
+                case AttributeKind.MapAttr:
+                case AttributeKind.ArrayAttr:
+                case AttributeKind.DequeAttr:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         private static bool IsAttributeTypeMappedToDatabaseColumn(AttributeType attributeType)
         {
-            return IsScalarType(attributeType) || IsGraphType(attributeType) || IsObjectType(attributeType) || IsGraphElementType(attributeType); // containers are not referenced by an id in a database column, but are mapped entirely to own tables
+            return IsScalarType(attributeType) || IsReferenceType(attributeType); // containers are not referenced by an id in a database column, but are mapped entirely to own tables
         }
 
         // types appearing as attributes with a complete implementation for loading/storing them from/to the database
         private static bool IsSupportedAttributeType(AttributeType attributeType)
         {
-            return IsScalarType(attributeType) || IsGraphType(attributeType) || IsObjectType(attributeType) || IsGraphElementType(attributeType) || IsSupportedContainerType(attributeType); // TODO: external/object type - also handle these.
+            return IsScalarType(attributeType) || IsReferenceType(attributeType) || IsContainerType(attributeType); // TODO: external/object type - also handle these.
         }
 
         private static bool IsGraphType(AttributeType attributeType)
@@ -517,18 +546,9 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             return attributeType.Kind == AttributeKind.NodeAttr || attributeType.Kind == AttributeKind.EdgeAttr;
         }
 
-        // todo: all containre types are supported by now, rename
-        private static bool IsSupportedContainerType(AttributeType attributeType)
+        private string ScalarAndReferenceTypeToSQLiteType(AttributeType attributeType)
         {
-            return attributeType.Kind == AttributeKind.SetAttr
-                || attributeType.Kind == AttributeKind.MapAttr
-                || attributeType.Kind == AttributeKind.ArrayAttr
-                || attributeType.Kind == AttributeKind.DequeAttr;
-        }
-
-        // TODO: separate references from scalars (from containers)
-        private string AttributeTypeToSQLiteType(AttributeType attributeType) // TODO: Basic/ScalarSQLiteType()? separate by attribute type?
-        {
+            //Debug.Assert(IsAttributeTypeMappedToDatabaseColumn(attributeType)); // scalar and reference types are mapped to a database column, of the type specified here; container types have a complex mapping to own tables
             switch(attributeType.Kind)
             {
                 case AttributeKind.ByteAttr: return "INT";
@@ -540,11 +560,11 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 case AttributeKind.EnumAttr: return "TEXT";
                 case AttributeKind.FloatAttr: return "REAL";
                 case AttributeKind.DoubleAttr: return "REAL";
-                case AttributeKind.GraphAttr: return "INTEGER"; // non-scalar type, but reference type with simple mapping (container types have a complex mapping)
-                case AttributeKind.InternalClassObjectAttr: return "INTEGER"; // non-scalar type, but reference type with simple mapping (container types have a complex mapping)
-                case AttributeKind.NodeAttr: return "INTEGER"; // non-scalar type, but reference type with simple mapping (container types have a complex mapping)
-                case AttributeKind.EdgeAttr: return "INTEGER"; // non-scalar type, but reference type with simple mapping (container types have a complex mapping)
-                default: throw new Exception("Non-scalar attribute kind");
+                case AttributeKind.GraphAttr: return "INTEGER"; 
+                case AttributeKind.InternalClassObjectAttr: return "INTEGER";
+                case AttributeKind.NodeAttr: return "INTEGER";
+                case AttributeKind.EdgeAttr: return "INTEGER";
+                default: throw new Exception("Attribute type must be a scalar type or reference type");
             }
         }
 
@@ -803,7 +823,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 readNodeContainerCommands[nodeType.TypeID] = new Dictionary<string, SQLiteCommand>();
                 foreach(AttributeType attributeType in nodeType.AttributeTypes)
                 {
-                    if(!IsSupportedContainerType(attributeType))
+                    if(!IsContainerType(attributeType))
                         continue;
                     readNodeContainerCommands[nodeType.TypeID].Add(attributeType.Name, PrepareStatementsForReadingContainerAttributes(nodeType, "nodeId", attributeType));
                 }
@@ -815,7 +835,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 readEdgeContainerCommands[edgeType.TypeID] = new Dictionary<string, SQLiteCommand>();
                 foreach(AttributeType attributeType in edgeType.AttributeTypes)
                 {
-                    if(!IsSupportedContainerType(attributeType))
+                    if(!IsContainerType(attributeType))
                         continue;
                     readEdgeContainerCommands[edgeType.TypeID].Add(attributeType.Name, PrepareStatementsForReadingContainerAttributes(edgeType, "edgeId", attributeType));
                 }
@@ -831,7 +851,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 readObjectContainerCommands[objectType.TypeID] = new Dictionary<string, SQLiteCommand>();
                 foreach(AttributeType attributeType in objectType.AttributeTypes)
                 {
-                    if(!IsSupportedContainerType(attributeType))
+                    if(!IsContainerType(attributeType))
                         continue;
                     readObjectContainerCommands[objectType.TypeID].Add(attributeType.Name, PrepareStatementsForReadingContainerAttributes(objectType, "objectId", attributeType));
                 }
@@ -864,7 +884,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
                 foreach(AttributeType attributeType in nodeType.AttributeTypes)
                 {
-                    if(!IsSupportedContainerType(attributeType))
+                    if(!IsContainerType(attributeType))
                         continue;
                     SQLiteCommand readNodeContainerCommand = readNodeContainerCommands[nodeType.TypeID][attributeType.Name];
                     ReadPatchContainerAttributesInElement(nodeType, "nodeId", attributeType, readNodeContainerCommand);
@@ -876,7 +896,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
                 foreach(AttributeType attributeType in edgeType.AttributeTypes)
                 {
-                    if(!IsSupportedContainerType(attributeType))
+                    if(!IsContainerType(attributeType))
                         continue;
                     SQLiteCommand readEdgeContainerCommand = readEdgeContainerCommands[edgeType.TypeID][attributeType.Name];
                     ReadPatchContainerAttributesInElement(edgeType, "edgeId", attributeType, readEdgeContainerCommand);
@@ -888,7 +908,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
                 foreach(AttributeType attributeType in objectType.AttributeTypes)
                 {
-                    if(!IsSupportedContainerType(attributeType))
+                    if(!IsContainerType(attributeType))
                         continue;
                     SQLiteCommand readObjectContainerCommand = readObjectContainerCommands[objectType.TypeID][attributeType.Name];
                     ReadPatchContainerAttributesInElement(objectType, "objectId", attributeType, readObjectContainerCommand);
@@ -1617,7 +1637,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             {
                 if(!ContainsReferences(attributeType))
                     continue;
-                if(IsSupportedContainerType(attributeType))
+                if(IsContainerType(attributeType))
                 {
                     if(attributeType.Kind == AttributeKind.SetAttr)
                     {
@@ -1700,7 +1720,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
             if(IsReference(attributeType))
                 return true;
-            if(IsSupportedContainerType(attributeType))
+            if(IsContainerType(attributeType))
             {
                 if(attributeType.Kind == AttributeKind.MapAttr)
                 {
@@ -1796,7 +1816,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
                 foreach(AttributeType attributeType in node.Type.AttributeTypes)
                 {
-                    if(IsSupportedContainerType(attributeType))
+                    if(IsContainerType(attributeType))
                     {
                         object container = node.GetAttribute(attributeType.Name);
                         PurgeContainerEntries(node, attributeType);
@@ -1814,7 +1834,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
                 foreach(AttributeType attributeType in edge.Type.AttributeTypes)
                 {
-                    if(IsSupportedContainerType(attributeType))
+                    if(IsContainerType(attributeType))
                     {
                         object container = edge.GetAttribute(attributeType.Name);
                         PurgeContainerEntries(edge, attributeType);
@@ -1832,7 +1852,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
                 foreach(AttributeType attributeType in @object.Type.AttributeTypes)
                 {
-                    if(IsSupportedContainerType(attributeType))
+                    if(IsContainerType(attributeType))
                     {
                         object container = @object.GetAttribute(attributeType.Name);
                         PurgeContainerEntries(@object, attributeType);
@@ -1892,7 +1912,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 updateNodeContainerCommands[nodeType.TypeID] = new Dictionary<string, SQLiteCommand>();
                 foreach(AttributeType attributeType in nodeType.AttributeTypes)
                 {
-                    if(!IsSupportedContainerType(attributeType))
+                    if(!IsContainerType(attributeType))
                         continue;
                     updateNodeContainerCommands[nodeType.TypeID][attributeType.Name] = PrepareContainerUpdatingInsert(nodeType, "nodeId", attributeType);
                 }
@@ -1914,7 +1934,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 updateEdgeContainerCommands[edgeType.TypeID] = new Dictionary<string, SQLiteCommand>();
                 foreach(AttributeType attributeType in edgeType.AttributeTypes)
                 {
-                    if(!IsSupportedContainerType(attributeType))
+                    if(!IsContainerType(attributeType))
                         continue;
                     updateEdgeContainerCommands[edgeType.TypeID][attributeType.Name] = PrepareContainerUpdatingInsert(edgeType, "edgeId", attributeType);
                 }
@@ -1937,7 +1957,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 updateObjectContainerCommands[objectType.TypeID] = new Dictionary<string, SQLiteCommand>();
                 foreach(AttributeType attributeType in objectType.AttributeTypes)
                 {
-                    if(!IsSupportedContainerType(attributeType))
+                    if(!IsContainerType(attributeType))
                         continue;
                     updateObjectContainerCommands[objectType.TypeID][attributeType.Name] = PrepareContainerUpdatingInsert(objectType, "objectId", attributeType);
                 }
@@ -1957,7 +1977,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 deleteNodeContainerCommands[nodeType.TypeID] = new Dictionary<string, SQLiteCommand>();
                 foreach(AttributeType attributeType in nodeType.AttributeTypes)
                 {
-                    if(!IsSupportedContainerType(attributeType))
+                    if(!IsContainerType(attributeType))
                         continue;
                     deleteNodeContainerCommands[nodeType.TypeID][attributeType.Name] = PrepareContainerDelete(nodeType, "nodeId", attributeType);
                 }
@@ -1975,7 +1995,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 deleteEdgeContainerCommands[edgeType.TypeID] = new Dictionary<string, SQLiteCommand>();
                 foreach(AttributeType attributeType in edgeType.AttributeTypes)
                 {
-                    if(!IsSupportedContainerType(attributeType))
+                    if(!IsContainerType(attributeType))
                         continue;
                     deleteEdgeContainerCommands[edgeType.TypeID][attributeType.Name] = PrepareContainerDelete(edgeType, "edgeId", attributeType);
                 }
@@ -1993,7 +2013,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 deleteObjectContainerCommands[objectType.TypeID] = new Dictionary<string, SQLiteCommand>();
                 foreach(AttributeType attributeType in objectType.AttributeTypes)
                 {
-                    if(!IsSupportedContainerType(attributeType))
+                    if(!IsContainerType(attributeType))
                         continue;
                     deleteObjectContainerCommands[objectType.TypeID][attributeType.Name] = PrepareContainerDelete(objectType, "objectId", attributeType);
                 }
@@ -2542,7 +2562,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
             foreach(AttributeType attributeType in node.Type.AttributeTypes)
             {
-                if(!IsSupportedContainerType(attributeType))
+                if(!IsContainerType(attributeType))
                     continue;
                 SQLiteCommand deleteNodeContainerCommand = deleteNodeContainerCommands[node.Type.TypeID][attributeType.Name];
                 deleteNodeContainerCommand.Parameters.Clear();
@@ -2570,7 +2590,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
             foreach(AttributeType attributeType in edge.Type.AttributeTypes)
             {
-                if(!IsSupportedContainerType(attributeType))
+                if(!IsContainerType(attributeType))
                     continue;
                 SQLiteCommand deleteEdgeContainerCommand = deleteEdgeContainerCommands[edge.Type.TypeID][attributeType.Name];
                 deleteEdgeContainerCommand.Parameters.Clear();
@@ -2596,7 +2616,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
             foreach(AttributeType attributeType in @object.Type.AttributeTypes)
             {
-                if(!IsSupportedContainerType(attributeType))
+                if(!IsContainerType(attributeType))
                     continue;
                 SQLiteCommand deleteObjectContainerCommand = deleteObjectContainerCommands[@object.Type.TypeID][attributeType.Name];
                 deleteObjectContainerCommand.Parameters.Clear();
@@ -2633,7 +2653,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             else if(IsGraphElementType(attrType))
                 AddGraphAsNeeded(GetContainingGraph((IGraphElement)newValue));
 
-            if(IsSupportedContainerType(attrType))
+            if(IsContainerType(attrType))
                 WriteContainerChange(node, attrType, changeType, newValue, keyValue);
             else
             {
@@ -2659,7 +2679,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             else if(IsGraphElementType(attrType))
                 AddGraphAsNeeded(GetContainingGraph((IGraphElement)newValue));
 
-            if(IsSupportedContainerType(attrType))
+            if(IsContainerType(attrType))
                 WriteContainerChange(edge, attrType, changeType, newValue, keyValue);
             else
             {
@@ -2688,7 +2708,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             else if(IsGraphElementType(attrType))
                 AddGraphAsNeeded(GetContainingGraph((IGraphElement)newValue));
 
-            if(IsSupportedContainerType(attrType))
+            if(IsContainerType(attrType))
                 WriteContainerChange(obj, attrType, changeType, newValue, keyValue);
             else
             {
@@ -2849,7 +2869,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
             foreach(AttributeType attributeType in current.Type.AttributeTypes)
             {
-                if(IsSupportedContainerType(attributeType))
+                if(IsContainerType(attributeType))
                     AddObjectsToTodosAndReferencesToDatabaseFromContainer(current, attributeType, ref todos);
                 else
                 {
@@ -3053,7 +3073,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
             foreach(AttributeType attributeType in owningElement.Type.AttributeTypes)
             {
-                if(!IsSupportedContainerType(attributeType))
+                if(!IsContainerType(attributeType))
                     continue;
 
                 WriteContainerEntries(owningElement.GetAttribute(attributeType.Name), attributeType, owningElement);
