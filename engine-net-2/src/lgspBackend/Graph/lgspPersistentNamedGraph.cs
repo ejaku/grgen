@@ -35,6 +35,7 @@ namespace de.unika.ipd.grGen.lgsp
             persistenceProvider = GetPersistenceProvider(persistenceProviderDllName);
             persistenceProvider.Open(connectionParameters);
             persistenceProvider.ReadPersistentGraphAndRegisterToListenToGraphModifications(this);
+            reuseOptimization = false;
             // TODO: Close
         }
 
@@ -54,6 +55,7 @@ namespace de.unika.ipd.grGen.lgsp
             persistenceProvider = GetPersistenceProvider(persistenceProviderDllName);
             persistenceProvider.Open(connectionParameters);
             persistenceProvider.ReadPersistentGraphAndRegisterToListenToGraphModifications(this);
+            reuseOptimization = false;
         }
 
         /// <summary>
@@ -103,6 +105,7 @@ namespace de.unika.ipd.grGen.lgsp
             : base(dataSource, newName, out oldToNewMap)
         {
             // TODO new persistence provider, register to
+            reuseOptimization = false;
         }
 
         /// <summary>
@@ -114,6 +117,7 @@ namespace de.unika.ipd.grGen.lgsp
             : base(dataSource, newName)
         {
             // TODO new persistence provider, register to
+            reuseOptimization = false;
         }
 
         /// <summary>
@@ -126,6 +130,7 @@ namespace de.unika.ipd.grGen.lgsp
             : base(graph, out oldToNewMap)
         {
             // TODO new persistence provider, register to
+            reuseOptimization = false;
         }
 
         /// <summary>
@@ -137,6 +142,7 @@ namespace de.unika.ipd.grGen.lgsp
             : base(graph)
         {
             // TODO new persistence provider, register to
+            reuseOptimization = false;
         }
 
         /// <summary>
@@ -150,6 +156,7 @@ namespace de.unika.ipd.grGen.lgsp
             : base(graph, nameAttributeName, out oldToNewMap)
         {
             // TODO new persistence provider, register to
+            reuseOptimization = false;
         }
 
         /// <summary>
@@ -162,23 +169,56 @@ namespace de.unika.ipd.grGen.lgsp
             : base(graph, nameAttributeName)
         {
             // TODO new persistence provider, register to
+            reuseOptimization = false;
         }
 
         #endregion Copy Constructors
 
         public override IGraph Clone(String newName)
         {
-            return CloneNamed(newName); // TODO
+            INamedGraph result = CloneNamed(newName); // TODO
+            result.ReuseOptimization = false;
+            return result;
         }
 
         public override IGraph Clone(String newName, out IDictionary<IGraphElement, IGraphElement> oldToNewMap)
         {
-            return CloneNamed(newName, out oldToNewMap); // TODO
+            INamedGraph result = CloneNamed(newName, out oldToNewMap); // TODO
+            result.ReuseOptimization = false;
+            return result;
         }
 
         public override IGraph CreateEmptyEquivalent(String newName)
         {
-            return new LGSPNamedGraph(this.model, this.GlobalVariables, newName, 0); // TODO
+            INamedGraph result = new LGSPNamedGraph(this.model, this.GlobalVariables, newName, 0); // TODO
+            result.ReuseOptimization = false;
+            return result;
+        }
+
+        public override void Custom(params object[] args)
+        {
+            if(args.Length == 0)
+                throw new ArgumentException("No command given");
+
+            String command = (String)args[0];
+            switch(command)
+            {
+                case "optimizereuse":
+                    throw new ArgumentException("The persistent graph does not support the reuse optimization!");
+
+                case "optimizereuse_poolsize":
+                    throw new ArgumentException("The persistent graph does not support the reuse optimization!");
+
+                default:
+                    base.Custom(args);
+                    break;
+            }
+        }
+
+        public override bool ReuseOptimization // the reuse optimization is not supported
+        {
+            get { return false; }
+            set { reuseOptimization = false; }
         }
 
         public override string ToString()

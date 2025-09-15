@@ -1,0 +1,32 @@
+node edge graph; // required by persistent graph when node/edge references are employed
+object class unique;
+
+node class N
+{
+	o:O;
+
+	n:N;
+	e:E;
+	
+	m:map<int, N>;
+	s:set<E>;
+}
+
+edge class E
+{
+	n:N;
+	e:E;
+	nn:N;
+
+	m:map<N, int>;
+	a:array<N>;
+}
+
+class O
+{
+	n:N;
+	e:E;
+
+	m:map<N, E>;
+	d:deque<E>;
+}

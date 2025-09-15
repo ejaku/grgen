@@ -58,8 +58,8 @@ namespace de.unika.ipd.grGen.lgsp
         public readonly string[] nameOfSingleElementAdded = new string[1];
 
 
-        private static bool reuseOptimization = true;
-        public static int poolSize = 10; // intitialize with default pool size, can be changed but won't be applied after per-element-type pool creation
+        protected static bool reuseOptimization = true;
+        public static int poolSize = 10; // intitialize with default pool size, can be changed but won't be applied after per-element-type pool creation - todo: disable direct access
 
         /// <summary>
         /// If true (the default case), elements deleted during a rewrite

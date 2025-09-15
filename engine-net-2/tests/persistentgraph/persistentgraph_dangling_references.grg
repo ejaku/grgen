@@ -1,0 +1,57 @@
+#using "persistentgraph_dangling_references.gm"
+
+rule init
+{
+	modify {
+		n:N -e:E-> n;
+		eval {
+			n.o = new O();
+		}
+
+		n2:N -e2:E-> n2;
+
+		eval {
+			n.n = n2;
+			n.e = e2;
+
+			n.m.add(42, n2);
+			n.s.add(e2);
+			n.s.add(e);
+			
+			e.n = n2;
+			e.e = e2;
+			e.nn = n;
+
+			e.m.add(n2, 42);
+			e.a.add(n2);
+			e.a.add(n2);
+			e.a.add(n);
+
+			def ref o:O = n.o;
+			o.n = n2;
+			o.e = e2;
+
+			o.m.add(n2, e2);
+			o.d.add(e2);
+		}
+	}
+}
+
+rule deleteToCreateDanglingReferences
+{
+	n:N -e:E-> n;
+	if{ n.o != null; }
+	n2:N -e2:E-> n2;
+
+	modify {
+		delete(n2);
+	}
+}
+
+test find : (N, E, O)
+{
+	n:N -e:E-> n;
+	if{ n.o != null; }
+
+	return(n,e,n.o);
+}

@@ -210,7 +210,9 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         Dictionary<long, string> DbIdToTypeName;
         Dictionary<string, long> TypeNameToDbId;
 
-        // database id to zombie concept mappings, and vice versa - nodes/edges created for node/edge ids that don't exist anymore, they appear when a container history log is replayed for a storage
+        // database id to zombie concept mappings, and vice versa - nodes/edges created for node/edge ids that don't exist anymore, they come without entry in the topology table, but still have their entry in the types table
+        // they appear internally when a container history log is replayed for a storage, or externally when the programmer does't set references to null or doesn't remove them from containers upon deleting them == removing them from their graph
+        // TODO: hash set, dbid same as in regular hase map, only needed to tell them apart from non-zombies, 2ter aufräumschritt
         Dictionary<long, INode> DbIdToZombieNode;
         Dictionary<INode, long> ZombieNodeToDbId;
         Dictionary<long, IEdge> DbIdToZombieEdge;
@@ -241,6 +243,9 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             // here in the persistent graph we enfore the general handling (ironically, this is less needed here due to global node/edge ids in the database, but the entire runtime graph containing the node/edge may not be known, gets only known by the assignment of a graph element to a graph element attribute)
             if(ModelContainsGraphElementReferences(hostGraph.Model) && !hostGraph.Model.GraphElementsReferenceContainingGraph)
                 throw new Exception("When the nodes/edges/objects in the graph model contain node or edge references (i.e. node/edge typed attributes), the graph elements must reference the graph they are contained in (add a node edge graph; declaration to the model)!");
+
+            // the persistent graph depends on/requires memory safety (parially because it's not possible in another way (with node/edge references), partially because the implementation stays simpler (regarding container change history handling))
+            hostGraph.ReuseOptimization = false; // general TODO: potentially dangerous optimization, to be enabled explicitly by the user for performance-critical things, change default
 
             graphs = new Stack<INamedGraph>();
             graphs.Push(hostGraph);
@@ -823,7 +828,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
             foreach(NodeType nodeType in graph.Model.NodeModel.Types)
             {
-                readNodeCommands[nodeType.TypeID] = PrepareStatementsForReadingNodes(nodeType);
+                readNodeCommands[nodeType.TypeID] = PrepareStatementsForReadingNodesIncludingZombieNodes(nodeType);
 
                 readNodeContainerCommands[nodeType.TypeID] = new Dictionary<string, SQLiteCommand>();
                 foreach(AttributeType attributeType in nodeType.AttributeTypes)
@@ -835,7 +840,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
             foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
             {
-                readEdgeCommands[edgeType.TypeID] = PrepareStatementsForReadingEdges(edgeType);
+                readEdgeCommands[edgeType.TypeID] = PrepareStatementsForReadingEdgesIncludingZombieEdges(edgeType);
 
                 readEdgeContainerCommands[edgeType.TypeID] = new Dictionary<string, SQLiteCommand>();
                 foreach(AttributeType attributeType in edgeType.AttributeTypes)
@@ -865,14 +870,14 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             // pass 0 - load all graphs (without elements and without the host graph, which was already processed/inserted before) (an alternative would be to load only the host graph, and the others on-demand lazily, creating proxy objects for them - but this would be more coding effort, defy purging, and when carrying out eager loading, it's better not to load graph-by-graph but all at once; later todo when graph types are introduced: load by type)
             ReadGraphsWithoutHostGraph();
 
-            // pass 1 - load all elements (first nodes then edges, dispatching them to their containing graph)
+            // pass 1 - load all elements (first nodes then edges, dispatching them to their containing graph in case they are not zombie nodes/edges)
             foreach(NodeType nodeType in graph.Model.NodeModel.Types)
             {
-                ReadNodes(nodeType, readNodeCommands[nodeType.TypeID]);
+                ReadNodesIncludingZombieNodes(nodeType, readNodeCommands[nodeType.TypeID]);
             }
             foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
             {
-                ReadEdges(edgeType, readEdgeCommands[edgeType.TypeID]);
+                ReadEdgesIncludingZombieEdges(edgeType, readEdgeCommands[edgeType.TypeID]);
             }
 
             // pass 2 - load all objects
@@ -956,13 +961,12 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
         }
 
-        private SQLiteCommand PrepareStatementsForReadingNodes(NodeType nodeType)
+        private SQLiteCommand PrepareStatementsForReadingNodesIncludingZombieNodes(NodeType nodeType)
         {
-            // later TODO: handling of zombies in tables (out-of-graph nodes, depending on semantic model, in current semantic model not possible)
             String topologyTableName = "nodes";
             String tableName = GetUniqueTableName(nodeType.Package, nodeType.Name);
             StringBuilder columnNames = new StringBuilder();
-            AddQueryColumn(columnNames, "nodeId");
+            AddQueryColumn(columnNames, "perTypeTable.nodeId");
             AddQueryColumn(columnNames, "typeId");
             AddQueryColumn(columnNames, "graphId");
             AddQueryColumn(columnNames, "name");
@@ -976,19 +980,19 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             command.Append("SELECT ");
             command.Append(columnNames.ToString());
             command.Append(" FROM ");
-            command.Append(topologyTableName);
-            command.Append(" NATURAL JOIN "); // on nodeId
             command.Append(tableName);
+            command.Append(" as perTypeTable LEFT JOIN ");
+            command.Append(topologyTableName);
+            command.Append(" ON (perTypeTable.nodeId == " + topologyTableName + ".nodeId)");
             return new SQLiteCommand(command.ToString(), connection);
         }
 
-        private SQLiteCommand PrepareStatementsForReadingEdges(EdgeType edgeType)
+        private SQLiteCommand PrepareStatementsForReadingEdgesIncludingZombieEdges(EdgeType edgeType)
         {
-            // later TODO: handling of zombies in tables (out-of-graph edges, depending on semantic model, in current semantic model not possible)
             String topologyTableName = "edges";
             String tableName = GetUniqueTableName(edgeType.Package, edgeType.Name);
             StringBuilder columnNames = new StringBuilder();
-            AddQueryColumn(columnNames, "edgeId");
+            AddQueryColumn(columnNames, "perTypeTable.edgeId");
             AddQueryColumn(columnNames, "typeId");
             AddQueryColumn(columnNames, "sourceNodeId");
             AddQueryColumn(columnNames, "targetNodeId");
@@ -1004,9 +1008,10 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             command.Append("SELECT ");
             command.Append(columnNames.ToString());
             command.Append(" FROM ");
-            command.Append(topologyTableName);
-            command.Append(" NATURAL JOIN "); // on edgeId
             command.Append(tableName);
+            command.Append(" as perTypeTable LEFT JOIN ");
+            command.Append(topologyTableName);
+            command.Append(" ON (perTypeTable.edgeId == " + topologyTableName + ".edgeId)");
             return new SQLiteCommand(command.ToString(), connection);
         }
 
@@ -1053,7 +1058,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             return new SQLiteCommand(command.ToString(), connection);
         }
 
-        private void ReadNodes(NodeType nodeType, SQLiteCommand readNodeCommand)
+        private void ReadNodesIncludingZombieNodes(NodeType nodeType, SQLiteCommand readNodeCommand)
         {
             using(SQLiteDataReader reader = readNodeCommand.ExecuteReader())
             {
@@ -1075,17 +1080,25 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         node.SetAttribute(attributeType.Name, attributeValue);
                     }
 
-                    String name = reader.GetString(attributeNameToColumnIndex["name"]);
-                    long graphId = reader.GetInt64(attributeNameToColumnIndex["graphId"]);
-                    INamedGraph graph = DbIdToGraph[graphId];
-                    graph.AddNode(node, name);
                     long nodeId = reader.GetInt64(attributeNameToColumnIndex["nodeId"]);
-                    AddNodeWithDbIdToDbIdMapping(node, nodeId);
+                    if(reader.IsDBNull(attributeNameToColumnIndex["graphId"]))
+                    {
+                        AddNodeWithDbIdToDbIdMapping(node, nodeId);
+                        AddZombieNodeWithDbIdToDbIdMapping(node, nodeId);
+                    }
+                    else
+                    {
+                        String name = reader.GetString(attributeNameToColumnIndex["name"]);
+                        long graphId = reader.GetInt64(attributeNameToColumnIndex["graphId"]);
+                        INamedGraph graph = DbIdToGraph[graphId];
+                        graph.AddNode(node, name);
+                        AddNodeWithDbIdToDbIdMapping(node, nodeId);
+                    }
                 }
             }
         }
 
-        private void ReadEdges(EdgeType edgeType, SQLiteCommand readEdgeCommand)
+        private void ReadEdgesIncludingZombieEdges(EdgeType edgeType, SQLiteCommand readEdgeCommand)
         {
             using(SQLiteDataReader reader = readEdgeCommand.ExecuteReader())
             {
@@ -1107,17 +1120,25 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         edge.SetAttribute(attributeType.Name, attributeValue);
                     }
 
-                    long sourceNodeId = reader.GetInt64(attributeNameToColumnIndex["sourceNodeId"]);
-                    INode source = DbIdToNode[sourceNodeId];
-                    long targetNodeId = reader.GetInt64(attributeNameToColumnIndex["targetNodeId"]);
-                    INode target = DbIdToNode[targetNodeId];
-                    edgeType.SetSourceAndTarget(edge, source, target);
-                    String name = reader.GetString(attributeNameToColumnIndex["name"]);
-                    long graphId = reader.GetInt64(attributeNameToColumnIndex["graphId"]);
-                    INamedGraph graph = DbIdToGraph[graphId];
-                    graph.AddEdge(edge, name);
                     long edgeId = reader.GetInt64(attributeNameToColumnIndex["edgeId"]);
-                    AddEdgeWithDbIdToDbIdMapping(edge, edgeId);
+                    if(reader.IsDBNull(attributeNameToColumnIndex["graphId"]))
+                    {
+                        AddEdgeWithDbIdToDbIdMapping(edge, edgeId);
+                        AddZombieEdgeWithDbIdToDbIdMapping(edge, edgeId);
+                    }
+                    else
+                    {
+                        long sourceNodeId = reader.GetInt64(attributeNameToColumnIndex["sourceNodeId"]);
+                        INode source = DbIdToNode[sourceNodeId];
+                        long targetNodeId = reader.GetInt64(attributeNameToColumnIndex["targetNodeId"]);
+                        INode target = DbIdToNode[targetNodeId];
+                        edgeType.SetSourceAndTarget(edge, source, target);
+                        String name = reader.GetString(attributeNameToColumnIndex["name"]);
+                        long graphId = reader.GetInt64(attributeNameToColumnIndex["graphId"]);
+                        INamedGraph graph = DbIdToGraph[graphId];
+                        graph.AddEdge(edge, name);
+                        AddEdgeWithDbIdToDbIdMapping(edge, edgeId);
+                    }
                 }
             }
         }
@@ -1168,7 +1189,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         if(IsObjectType(attributeType))
                             attributeValue = GetObjectValue(attributeType, reader, attributeNameToColumnIndex);
                         else if(IsGraphElementType(attributeType))
-                            attributeValue = GetGraphElement(attributeType, reader, attributeNameToColumnIndex);
+                            attributeValue = GetGraphElement(element, attributeType, reader, attributeNameToColumnIndex);
                         else
                             continue;
                         element.SetAttribute(attributeType.Name, attributeValue);
@@ -1454,7 +1475,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             return DbIdToObject[dbid];
         }
 
-        private IGraphElement GetGraphElement(AttributeType attributeType, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
+        private IGraphElement GetGraphElement(IAttributeBearer owner, AttributeType attributeType, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
         {
             int index = attributeNameToColumnIndex[GetUniqueColumnName(attributeType.Name)];
             if(reader.IsDBNull(index))
@@ -1477,52 +1498,20 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             else if(IsObjectType(attributeType))
                 return GetObjectValueFromSpecifiedColumn(columnName, reader, attributeNameToColumnIndex);
             else if(IsGraphElementType(attributeType))
-                return GetGraphElementFromSpecifiedColumnOrZombieIfNotExisting(attributeType, columnName, reader, attributeNameToColumnIndex); // zombies can only appear for nodes and edges, graphs and objects are garbage collected (after the read process), so zombies can not appear (neither can they for value types)
+                return GetGraphElementFromSpecifiedColumn(attributeType, columnName, reader, attributeNameToColumnIndex);
             throw new Exception("Unsupported container type");
         }
 
-        private IGraphElement GetGraphElementFromSpecifiedColumnOrZombieIfNotExisting(AttributeType attributeType, String columnName, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
+        private IGraphElement GetGraphElementFromSpecifiedColumn(AttributeType attributeType, String columnName, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
         {
             int index = attributeNameToColumnIndex[columnName];
             if(reader.IsDBNull(index))
                 return null;
             long dbid = reader.GetInt64(index);
             if(attributeType.Kind == AttributeKind.NodeAttr)
-            {
-                INode node;
-                if(DbIdToNode.TryGetValue(dbid, out node))
-                    return node;
-                else
-                    return GetOrCreateZombieNode(dbid);
-            }
+                return DbIdToNode[dbid];
             else
-            {
-                IEdge edge;
-                if(DbIdToEdge.TryGetValue(dbid, out edge))
-                    return edge;
-                else
-                    return GetOrCreateZombieEdge(dbid);
-            }
-        }
-
-        private INode GetOrCreateZombieNode(long dbid)
-        {
-            INode node;
-            if(DbIdToZombieNode.TryGetValue(dbid, out node))
-                return node;
-            node = graph.Model.NodeModel.RootType.CreateNode();
-            AddZombieNodeWithDbIdToDbIdMapping(node, dbid);
-            return node;
-        }
-
-        private IEdge GetOrCreateZombieEdge(long dbid)
-        {
-            IEdge edge;
-            if(DbIdToZombieEdge.TryGetValue(dbid, out edge))
-                return edge;
-            edge = graph.Model.EdgeModel.RootType.CreateEdge();
-            AddZombieEdgeWithDbIdToDbIdMapping(edge, dbid);
-            return edge;
+                return DbIdToEdge[dbid];
         }
 
         #endregion Initial graph reading
@@ -1531,15 +1520,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private void Cleanup()
         {
-            ReportZombies();
-            ClearZombies(); // nodes/edges not existing anymore in the current state of the graph, that appeared during container history log replaying (inserted into and maybe deleted again from a container)
-
             // references to nodes/edges from different graphs are not supported as of now in import/export, because persistent names only hold in the current graph, keep this in db persistence handling
             // but the user could assign references to elements from another graph to an attribute, so todo: maybe relax that constraint, requiring a model supporting graphof, and a global post-patching step after everything was read locally, until a check that the user doesn't assign references to elements from another graph is implemented
             // another issue with multiple graphs: names may be assigned in a different graph than the original graph when a node/edge (reference) is getting emitted
+            // another issue with zombie elements: names may be assigned when a zombie node/edge (reference) is getting emitted
 
             // find all entities reachable from the host graph - corresponds to the mark phase of a garbage collector - later todo: use visited flags instead of visited maps
-            MarkReachableEntities();
+            MarkReachableEntities(); // on in-memory representation, so only most current container state is taken into account (as it should be) (thus zombie nodes/edges only being referenced in history but nowehere in current state are purged later on)
 
             // compactify before purging so that no graph/object zombie objects are needed at next run when non-existing graphs/objects that only exist in container change history are referenced
             CompactifyContainerChangeHistory();
@@ -1547,20 +1534,216 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             // cleaning pass - similar to the sweep phase of a garbage collector - remove the graphs/objects from the database that are not reachable in-memory (unused) from the host graph on
             PurgeUnreachableGraphs(); // after all references to the graphs are known, we can purge the ones not in use; node/edge references are not a prerequisite for this (it only must be ensured all of them were instantiated before) (containers which may also contain graph references)
             PurgeUnreachableObjects(); // after all references to the objects are known, we can purge the ones not in use
+            PurgeUnreachableZombieNodesAndZombieEdges();
 
             UnmarkReachableEntities();
 
-            //todo: vacuum the underlying database once in while, to be detected when exactly, maybe only on user request
+            // zombies can only appear for nodes and edges, graphs and objects are garbage collected (after the read process), so zombies can not appear (neither can they for value types)
+            ReportRemainingZombiesAsDanglingReferences(); // in an upcoming memory/semantic model they will be allowed, then nothing is reported/removed (they are not a programming error then but regular elements)
+            ClearZombies();
+
+            //todo: vacuum the underlying database once in while, to be detected when exactly, maybe only on user request; analyze might be also helpful
             //todo: print cleanup report
         }
 
-        private void ReportZombies()
+        private void ReportRemainingZombiesAsDanglingReferences()
         {
-            // container TODO - remember all owner.containers seen, after log replay completed, check for and report zombies
+            // zombies are graph elements that existed in the past in a graph but do not exist anymore in the graph in the current state, they are to be distinguished into:
+            // - container change history zombie existing internally for technical reasons without programmer intervention that should never be visible externally (neither internally after container change history replay, they must be supported temporarily during change history replay)
+            // - externally visible dangling-reference-zombies, when the semantic model forbids use after deletion from the graph (but the programmer does not set the references to null before deletion/removes them from containers), then they are dangling references to not existing graph elements (with undefined behaviour, to be reported as a zombie as a debugging/development aide, the program could also crash, or reuse them in another context) (deletion means deletion) (retyping removes the old referenced object and adds a new one, keeping graph context and shared attributes, name, unique identifier, but not object identity/reference (neither memory reference nor database identifier)),
+            // - out-of-graph-elements when it allows use after removal from the graph they are simply references to graph elements that are not contained in a graph anymore (but still allow access to their attributes) (that will be garbage collected when the last reference to them vanishes) (also externally visible) (deletion means removal) (upcoming additional semantic model of the in-memory graph, only supported internally by the persistent graph)
+
+            // after cleanup (purging and container compactification), walk entire heap (nodes,edges,objects(,graphs)) and report zombies, i.e. dangling references, found in the attributes of the entities
+            // potential performance todo: by type, then attribute type check is only needed by type instead of per instance
+            foreach(KeyValuePair<long, INode> dbidToNode in DbIdToNode)
+            {
+                long dbid = dbidToNode.Key;
+                INode node = dbidToNode.Value;
+
+                foreach(AttributeType attributeType in node.Type.AttributeTypes)
+                {
+                    if(ContainsGraphElementReferences(attributeType))
+                    {
+                        object attributeValue = node.GetAttribute(attributeType.Name);
+                        if(attributeValue == null)
+                            continue;
+
+                        if(IsContainerType(attributeType))
+                            ReportReferencesIfDangling(node, attributeType, attributeValue);
+                        else
+                            ReportReferenceIfDangling(node, attributeType, attributeValue);
+                    }
+                }
+            }
+
+            foreach(KeyValuePair<long, IEdge> dbidToEdge in DbIdToEdge)
+            {
+                long dbid = dbidToEdge.Key;
+                IEdge edge = dbidToEdge.Value;
+
+                foreach(AttributeType attributeType in edge.Type.AttributeTypes)
+                {
+                    if(ContainsGraphElementReferences(attributeType))
+                    {
+                        object attributeValue = edge.GetAttribute(attributeType.Name);
+                        if(attributeValue == null)
+                            continue;
+
+                        if(IsContainerType(attributeType))
+                            ReportReferencesIfDangling(edge, attributeType, attributeValue);
+                        else
+                            ReportReferenceIfDangling(edge, attributeType, attributeValue);
+                    }
+                }
+            }
+
+            foreach(KeyValuePair<long, IObject> dbidToObject in DbIdToObject)
+            {
+                long dbid = dbidToObject.Key;
+                IObject @object = dbidToObject.Value;
+
+                foreach(AttributeType attributeType in @object.Type.AttributeTypes)
+                {
+                    if(ContainsGraphElementReferences(attributeType))
+                    {
+                        object attributeValue = @object.GetAttribute(attributeType.Name);
+                        if(attributeValue == null)
+                            continue;
+
+                        if(IsContainerType(attributeType))
+                            ReportReferencesIfDangling(@object, attributeType, attributeValue);
+                        else
+                            ReportReferenceIfDangling(@object, attributeType, attributeValue);
+                    }
+                }
+            }
+        }
+
+        private void ReportReferenceIfDangling(IAttributeBearer owner, AttributeType attributeType, object value)
+        {
+            //Debug.Assert(ContainsGraphElementReferences(attributeType));
+            ReportReferenceIfDangling(owner, attributeType, (IGraphElement)value);
+        }
+
+        private void ReportReferencesIfDangling(IAttributeBearer owner, AttributeType attributeType, object container)
+        {
+            //Debug.Assert(ContainsGraphElementReferences(attributeType));
+            if(attributeType.Kind == AttributeKind.SetAttr)
+            {
+                IDictionary set = (IDictionary)container;
+                foreach(DictionaryEntry entry in set)
+                {
+                    IGraphElement graphElement = (IGraphElement)entry.Key;
+                    ReportReferenceIfDangling(owner, attributeType, graphElement);
+                }
+            }
+            else if(attributeType.Kind == AttributeKind.MapAttr)
+            {
+                IDictionary map = (IDictionary)container;
+                if(IsGraphElementType(attributeType.KeyType) && IsGraphElementType(attributeType.ValueType))
+                {
+                    foreach(DictionaryEntry entry in map)
+                    {
+                        IGraphElement graphElementKey = (IGraphElement)entry.Key;
+                        IGraphElement graphElementValue = (IGraphElement)entry.Value;
+                        ReportReferenceIfDangling(owner, attributeType, graphElementKey);
+                        ReportReferenceIfDangling(owner, attributeType, graphElementValue);
+                    }
+                }
+                else if(IsGraphElementType(attributeType.KeyType))
+                {
+                    foreach(DictionaryEntry entry in map)
+                    {
+                        IGraphElement graphElementKey = (IGraphElement)entry.Key;
+                        ReportReferenceIfDangling(owner, attributeType, graphElementKey);
+                    }
+                }
+                else
+                {
+                    foreach(DictionaryEntry entry in map)
+                    {
+                        object key = entry.Key;
+                        IGraphElement graphElementValue = (IGraphElement)entry.Value;
+                        ReportReferenceIfDangling(owner, attributeType, graphElementValue);
+                    }
+                }
+            }
+            else if(attributeType.Kind == AttributeKind.ArrayAttr)
+            {
+                IList array = (IList)container;
+                foreach(object entry in array)
+                {
+                    IGraphElement graphElement = (IGraphElement)entry;
+                    ReportReferenceIfDangling(owner, attributeType, graphElement);
+                }
+            }
+            else
+            {
+                IDeque deque = (IDeque)container;
+                foreach(object entry in deque)
+                {
+                    IGraphElement graphElement = (IGraphElement)entry;
+                    ReportReferenceIfDangling(owner, attributeType, graphElement);
+                }
+            }
+        }
+
+        private void ReportReferenceIfDangling(IAttributeBearer owner, AttributeType attributeType, IGraphElement graphElementReferenced) // potential future todo: enrich by information about the exact position (key/value/index) of the element in the container
+        {
+            INode node = graphElementReferenced as INode;
+            IEdge edge = graphElementReferenced as IEdge;
+            if(node != null && ZombieNodeToDbId.ContainsKey(node))
+            {
+                long dbid = ZombieNodeToDbId[node];
+                ReportDanglingReference(owner, attributeType, dbid, true);
+            }
+            else if(edge != null && ZombieEdgeToDbId.ContainsKey(edge))
+            {
+                long dbid = ZombieEdgeToDbId[edge];
+                ReportDanglingReference(owner, attributeType, dbid, false);
+            }
+        }
+
+        void ReportDanglingReference(IAttributeBearer owner, AttributeType attributeType, long dbid, bool isNode)
+        {
+            string graphElementReferencedKind = isNode ? "node" : "edge";
+            if(owner is IGraphElement)
+            {
+                string ownerKind = owner is INode ? "node" : "edge";
+                IGraphElement owningGraphElement = (IGraphElement)owner;
+                INamedGraph containingGraph = GetContainingGraph(owningGraphElement);
+                string ownerName = containingGraph != null ? containingGraph.GetElementName(owningGraphElement) : "zombie-" + ownerKind;
+                if(IsContainerType(attributeType))
+                {
+                    ConsoleUI.errorOutWriter.WriteLine("Warning: the container attribute " + attributeType.Name + " of the " + ownerKind + " " + ownerName + " of the graph " + containingGraph.Name
+                        + " contains a dangling reference to a(n) " + graphElementReferencedKind + " (" + graphElementReferencedKind + " dbid=" + dbid + ") - you deleted or retyped a(n) " + graphElementReferencedKind + " without removing the reference to it from the container (also beware of bogus names)!");
+                }
+                else
+                {
+                    ConsoleUI.errorOutWriter.WriteLine("Warning: the attribute " + attributeType.Name + " of the " + ownerKind + " " + ownerName + " of the graph " + containingGraph.Name
+                        + " contains a dangling reference to a(n) " + graphElementReferencedKind + " (" + graphElementReferencedKind + " dbid=" + dbid + ") - you deleted or retyped a(n) " + graphElementReferencedKind + " without setting the attribute to null (also beware of bogus names)!");
+                }
+            }
+            else
+            {
+                IObject owningObject = (IObject)owner;
+                string ownerName = owningObject.GetObjectName();
+                if(IsContainerType(attributeType))
+                {
+                    ConsoleUI.errorOutWriter.WriteLine("Warning: the container attribute " + attributeType.Name + " of the internal class object " + ownerName
+                        + " contains a dangling reference to a(n) " + graphElementReferencedKind + " (" + graphElementReferencedKind + " dbid=" + dbid + ") - you deleted or retyped a(n) " + graphElementReferencedKind + " without removing the reference to it from the container (also beware of bogus names)!");
+                }
+                else
+                {
+                    ConsoleUI.errorOutWriter.WriteLine("Warning: the attribute " + attributeType.Name + " of the internal class object " + ownerName
+                        + " contains a dangling reference to a(n) " + graphElementReferencedKind + " (" + graphElementReferencedKind + " dbid=" + dbid + ") - you deleted or retyped a(n) " + graphElementReferencedKind + " without setting the attribute to null (also beware of bogus names)!");
+                }
+            }
         }
 
         private void ClearZombies()
         {
+            // nodes/edges not existing anymore in the current state of the graph, that appeared during container history log replaying (inserted into and deleted again from a container, unless the programmer made a mistake not removing dangling references)
             DbIdToZombieNode.Clear();
             ZombieNodeToDbId.Clear();
             DbIdToZombieEdge.Clear();
@@ -1617,13 +1800,16 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                                 continue;
 
                             // todo: contained only required under certain circumstances, ensure they hold
-                            if(referencedElement.Type is GraphElementType && !visited.ContainsKey(GetContainingGraph((IGraphElement)referencedElement)))
+                            if(referencedElement.Type is GraphElementType)
                             {
                                 IGraph containingGraph = GetContainingGraph((IGraphElement)referencedElement);
-                                visited.Add(containingGraph, null);
-                                gcDfsStateItems.Push(new GcDfsStateItemGraph(containingGraph)); // instead of the element from the containing graph, push the entire graph, should be ok because the element will be added by the containing graph...
-                                visited.Remove(referencedElement); // ...but this requires unmarking of the element, otherwise it would not be inspected when the containing graph is handled (but this would be required, because of the contained references, see check before)
-                                goto processTopOfStack; 
+                                if(containingGraph != null && !visited.ContainsKey(containingGraph)) // zombie elements are existing out-of-graph, just references to graph elements
+                                {
+                                    visited.Add(containingGraph, null);
+                                    gcDfsStateItems.Push(new GcDfsStateItemGraph(containingGraph)); // instead of the element from the containing graph, push the entire graph, should be ok because the element will be added by the containing graph...
+                                    visited.Remove(referencedElement); // ...but this requires unmarking of the element, otherwise it would not be inspected when the containing graph is handled (but this would be required, because of the contained references, see check before)
+                                    goto processTopOfStack;
+                                }
                             }
 
                             gcDfsStateItems.Push(new GcDfsStateItemElement(referencedElement));
@@ -1766,6 +1952,23 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             return false;
         }
 
+        private static bool ContainsGraphElementReferences(AttributeType attributeType)
+        {
+            if(IsGraphElementType(attributeType))
+                return true;
+            if(IsContainerType(attributeType))
+            {
+                if(attributeType.Kind == AttributeKind.MapAttr)
+                {
+                    if(IsGraphElementType(attributeType.KeyType))
+                        return true;
+                }
+                if(IsGraphElementType(attributeType.ValueType))
+                    return true;
+            }
+            return false;
+        }
+
         private void UnmarkReachableEntities()
         {
             visited.Clear();
@@ -1791,10 +1994,12 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 foreach(IEdge edge in graph.Edges)
                 {
                     RemovingEdge(edge);
+                    RemoveEdge(edge);
                 }
                 foreach(INode node in graph.Nodes)
                 {
                     RemovingNode(node);
+                    RemoveNode(node);
                 }
 
                 SQLiteCommand deleteGraphTopologyCommand = this.deleteGraphCommand;
@@ -1823,6 +2028,43 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
                 // the RemovingObject method removes the topology entry, the type entry with the non-container attributes, and the container attributes stored in extra tables
                 RemovingObject(obj);
+            }
+        }
+
+        private void PurgeUnreachableZombieNodesAndZombieEdges()
+        {
+            List<KeyValuePair<long, INode>> nodesToBeDeleted = new List<KeyValuePair<long, INode>>();
+            foreach(KeyValuePair<long, INode> dbIdToNode in DbIdToNode)
+            {
+                if(!visited.ContainsKey(dbIdToNode.Value))
+                {
+                    nodesToBeDeleted.Add(dbIdToNode);
+                }
+            }
+            foreach(KeyValuePair<long, INode> dbidToNode in nodesToBeDeleted) // maybe batch delete needed performance wise, maybe recursive delete with complex SQL statemente needed performance wise - but multiple commands within a single transaction should be also fast, and are more modular
+            {
+                INode node = dbidToNode.Value;
+                long dbid = dbidToNode.Key;
+
+                // the RemoveNode method removes the type entry with the non-container attributes, and the container attributes stored in extra tables -- it does not remove the topology entry, it is assumed it does not exist anymore
+                RemoveNode(node);
+            }
+
+            List<KeyValuePair<long, IEdge>> edgesToBeDeleted = new List<KeyValuePair<long, IEdge>>();
+            foreach(KeyValuePair<long, IEdge> dbIdToEdge in DbIdToEdge)
+            {
+                if(!visited.ContainsKey(dbIdToEdge.Value))
+                {
+                    edgesToBeDeleted.Add(dbIdToEdge);
+                }
+            }
+            foreach(KeyValuePair<long, IEdge> dbidToEdge in edgesToBeDeleted) // maybe batch delete needed performance wise, maybe recursive delete with complex SQL statemente needed performance wise - but multiple commands within a single transaction should be also fast, and are more modular
+            {
+                IEdge edge = dbidToEdge.Value;
+                long dbid = dbidToEdge.Key;
+
+                // the RemoveEdge method removes the type entry with the non-container attributes, and the container attributes stored in extra tables -- it does not remove the topology entry, it is assumed it does not exist anymore
+                RemoveEdge(edge);
             }
         }
 
@@ -2572,15 +2814,19 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         public void RemovingNode(INode node)
         {
+            // remove the node from the topology table and thus the graph, but keep its per-type entry so its references stay intact, to be deleted during garbage collection when no references exist anymore
             SQLiteCommand deleteNodeTopologyCommand = this.deleteNodeCommand;
             deleteNodeTopologyCommand.Parameters.Clear();
             deleteNodeTopologyCommand.Parameters.AddWithValue("@nodeId", NodeToDbId[node]);
             int rowsAffected = deleteNodeTopologyCommand.ExecuteNonQuery();
+        }
 
+        public void RemoveNode(INode node)
+        {
             SQLiteCommand deleteNodeCommand = deleteNodeCommands[node.Type.TypeID];
             deleteNodeCommand.Parameters.Clear();
             deleteNodeCommand.Parameters.AddWithValue("@nodeId", NodeToDbId[node]);
-            rowsAffected = deleteNodeCommand.ExecuteNonQuery();
+            int rowsAffected = deleteNodeCommand.ExecuteNonQuery();
 
             foreach(AttributeType attributeType in node.Type.AttributeTypes)
             {
@@ -2600,15 +2846,19 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             if(edge == edgeGettingRedirected) // todo: this method is also used internally, maybe it is better split into a version without this header because of this
                 return;
 
+            // remove the edge from the topology table and thus the graph, but keep its per-type entry so its references stay intact, to be deleted during garbage collection when no references exist anymore
             SQLiteCommand deleteEdgeTopologyCommand = this.deleteEdgeCommand;
             deleteEdgeTopologyCommand.Parameters.Clear();
             deleteEdgeTopologyCommand.Parameters.AddWithValue("@edgeId", EdgeToDbId[edge]);
             int rowsAffected = deleteEdgeTopologyCommand.ExecuteNonQuery();
+        }
 
+        public void RemoveEdge(IEdge edge)
+        {
             SQLiteCommand deleteEdgeCommand = deleteEdgeCommands[edge.Type.TypeID];
             deleteEdgeCommand.Parameters.Clear();
             deleteEdgeCommand.Parameters.AddWithValue("@edgeId", EdgeToDbId[edge]);
-            rowsAffected = deleteEdgeCommand.ExecuteNonQuery();
+            int rowsAffected = deleteEdgeCommand.ExecuteNonQuery();
 
             foreach(AttributeType attributeType in edge.Type.AttributeTypes)
             {
@@ -3272,6 +3522,15 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             updatingInsert.Parameters.AddWithValue("@key", DBNull.Value);
             int rowsAffected = updatingInsert.ExecuteNonQuery();
             return connection.LastInsertRowId;
+        }
+
+        private long GetDbId(IAttributeBearer element)
+        {
+            string columnName;
+            if(element == null)
+                return -1;
+            else
+                return GetDbIdAndColumnName(element, out columnName);
         }
 
         private long GetDbIdAndColumnName(IAttributeBearer element, out string columnName)

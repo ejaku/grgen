@@ -1,0 +1,78 @@
+! rm testgraphfilename_dangling_references.db
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+#beware of bogus names assigned to zombie elements...
+new graph "persistentgraph/persistentgraph_dangling_references" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_dangling_references.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num from database
+
+new graph "persistentgraph/persistentgraph_dangling_references" "some non-persistent graph"
+
+show num nodes N
+show num edges E
+
+exec init
+exec (::n,::e,::o)=find
+
+show node n
+show edge e
+show var o #should be show object o
+
+show num nodes N
+show num edges E
+
+exec deleteToCreateDanglingReferences
+
+show node n
+show edge e
+show var o #should be show object o
+
+show num nodes N
+show num edges E
+
+new graph "persistentgraph/persistentgraph_dangling_references" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_dangling_references.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num from database
+
+exec init
+exec (::n,::e,::o)=find
+
+show node n
+show edge e
+show var o #should be show object o
+
+show num nodes N
+show num edges E
+show num from database
+
+exec deleteToCreateDanglingReferences
+
+show node n
+show edge e
+show var o #should be show object o
+
+show num nodes N
+show num edges E
+show num from database
+
+new graph "persistentgraph/persistentgraph_dangling_references" "some non-persistent graph"
+
+show num nodes N
+show num edges E
+
+new graph "persistentgraph/persistentgraph_dangling_references" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_dangling_references.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num from database
+
+exec (::n,::e,::o)=find
+
+show node n
+show edge e
+show var o #should be show object o
+
+quit
