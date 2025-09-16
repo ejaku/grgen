@@ -392,6 +392,21 @@ public class ModifyEvalGen extends CSharpBase
 		}
 	}
 
+	private String genTempVarFromExpression(SourceBuilder sb, ModifyGenerationStateConst state, /*Type type,*/ Expression expr, String varPrefix)
+	{
+		Type type = expr.getType();
+		String varName = (varPrefix != null ? varPrefix : "tempvar_") + tmpVarID++;
+		String varType = formatType(type);//getTypeNameForTempVarDecl(type); //TODO: formatType(type)?
+		sb.appendFront(varType + " " + varName + " = ");
+		/*if(type instanceof EnumType)
+			sb.append("(int) ");
+		else
+			*/sb.append("(" + varType + ")");
+		genExpression(sb, expr, state);
+		sb.append(";\n");
+		return varName;
+	}
+
 	private void genAssignment(SourceBuilder sb, ModifyGenerationStateConst state, Assignment ass)
 	{
 		Qualification target = ass.getTarget();
@@ -463,28 +478,28 @@ public class ModifyEvalGen extends CSharpBase
 			if(target.getType() instanceof ArrayType
 					|| target.getType() instanceof DequeType) {
 				String indexType = "int ";
-				String indexName = "tempvar_index" + tmpVarID++;
-				sb.appendFront(indexType + indexName + " = (int)");
+				String indexVarName = "tempvar_index" + tmpVarID++;
+				sb.appendFront(indexType + indexVarName + " = (int)");
 				genExpression(sb, assIdx.getIndex(), state);
 				sb.append(";\n");
 
-				sb.appendFront("if(" + indexName + " < ");
+				sb.appendFront("if(" + indexVarName + " < ");
 				genExpression(sb, target, state);
 				sb.append(".Count) {\n");
 				sb.indent();
 
 				sb.appendFront("");
-				genChangingAttribute(sb, state, target, "AssignElement", varName, indexName);
+				genChangingAttribute(sb, state, target, "AssignElement", varName, indexVarName);
 
 				sb.appendFront("");
 				genExpression(sb, target, state); // global var case handled by genQualAccess
 				sb.append("[");
-				sb.append(indexName);
+				sb.append(indexVarName);
 				sb.append("]");
 			} else { //if(target.getType() instanceof MapType)
 				String indexType = formatType(((MapType)target.getType()).getKeyType()) + " ";
-				String indexName = "tempvar_index_" + tmpVarID++;
-				sb.appendFront(indexType + indexName + " = ");
+				String indexVarName = "tempvar_index_" + tmpVarID++;
+				sb.appendFront(indexType + indexVarName + " = ");
 				if(targetType instanceof EnumType)
 					sb.append("(int) ");
 				else
@@ -495,17 +510,17 @@ public class ModifyEvalGen extends CSharpBase
 				sb.appendFront("if(");
 				genExpression(sb, target, state);
 				sb.append(".ContainsKey(");
-				sb.append(indexName);
+				sb.append(indexVarName);
 				sb.append(")) {\n");
 				sb.indent();
 
 				sb.appendFront("");
-				genChangingAttribute(sb, state, target, "AssignElement", varName, indexName);
+				genChangingAttribute(sb, state, target, "AssignElement", varName, indexVarName);
 
 				sb.appendFront("");
 				genExpression(sb, target, state); // global var case handled by genQualAccess
 				sb.append("[");
-				sb.append(indexName);
+				sb.append(indexVarName);
 				sb.append("]");
 			}
 
@@ -900,19 +915,17 @@ public class ModifyEvalGen extends CSharpBase
 	{
 		Qualification target = mri.getTarget();
 
-		SourceBuilder sbtmp = new SourceBuilder();
-		genExpression(sbtmp, mri.getKeyExpr(), state);
-		String keyExprStr = sbtmp.toString();
+		String varName = genTempVarFromExpression(sb, state, mri.getKeyExpr(), null);
 
-		genChangingAttribute(sb, state, target, "RemoveElement", "null", keyExprStr);
+		genChangingAttribute(sb, state, target, "RemoveElement", "null", varName);
 
 		sb.appendFront("");
 		genExpression(sb, target, state);
 		sb.append(".Remove(");
 		if(mri.getKeyExpr() instanceof GraphEntityExpression)
-			sb.append("(" + formatElementInterfaceRef(mri.getKeyExpr().getType()) + ")(" + keyExprStr + ")");
+			sb.append("(" + formatElementInterfaceRef(mri.getKeyExpr().getType()) + ")(" + varName + ")");
 		else
-			sb.append(keyExprStr);
+			sb.append(varName);
 		sb.append(");\n");
 
 		genChangedAttribute(sb, state, target);
@@ -943,27 +956,23 @@ public class ModifyEvalGen extends CSharpBase
 	{
 		Qualification target = mai.getTarget();
 
-		SourceBuilder sbtmp = new SourceBuilder();
-		genExpression(sbtmp, mai.getValueExpr(), state);
-		String valueExprStr = sbtmp.toString();
-		sbtmp.delete(0, sbtmp.length());
-		genExpression(sbtmp, mai.getKeyExpr(), state);
-		String keyExprStr = sbtmp.toString();
+		String keyVarName = genTempVarFromExpression(sb, state, mai.getKeyExpr(), null);
+		String valueVarName = genTempVarFromExpression(sb, state, mai.getValueExpr(), null);
 
-		genChangingAttribute(sb, state, target, "PutElement", valueExprStr, keyExprStr);
+		genChangingAttribute(sb, state, target, "PutElement", valueVarName, keyVarName);
 
 		sb.appendFront("");
 		genExpression(sb, target, state);
 		sb.append("[");
 		if(mai.getKeyExpr() instanceof GraphEntityExpression)
-			sb.append("(" + formatElementInterfaceRef(mai.getKeyExpr().getType()) + ")(" + keyExprStr + ")");
+			sb.append("(" + formatElementInterfaceRef(mai.getKeyExpr().getType()) + ")(" + keyVarName + ")");
 		else
-			sb.append(keyExprStr);
+			sb.append(keyVarName);
 		sb.append("] = ");
 		if(mai.getValueExpr() instanceof GraphEntityExpression)
-			sb.append("(" + formatElementInterfaceRef(mai.getValueExpr().getType()) + ")(" + valueExprStr + ")");
+			sb.append("(" + formatElementInterfaceRef(mai.getValueExpr().getType()) + ")(" + valueVarName + ")");
 		else
-			sb.append(valueExprStr);
+			sb.append(valueVarName);
 		sb.append(";\n");
 
 		genChangedAttribute(sb, state, target);
@@ -977,19 +986,17 @@ public class ModifyEvalGen extends CSharpBase
 	{
 		Qualification target = sri.getTarget();
 
-		SourceBuilder sbtmp = new SourceBuilder();
-		genExpression(sbtmp, sri.getValueExpr(), state);
-		String valueExprStr = sbtmp.toString();
+		String valueVarName = genTempVarFromExpression(sb, state, sri.getValueExpr(), null);
 
-		genChangingAttribute(sb, state, target, "RemoveElement", valueExprStr, "null");
+		genChangingAttribute(sb, state, target, "RemoveElement", valueVarName, "null");
 
 		sb.appendFront("");
 		genExpression(sb, target, state);
 		sb.append(".Remove(");
 		if(sri.getValueExpr() instanceof GraphEntityExpression)
-			sb.append("(" + formatElementInterfaceRef(sri.getValueExpr().getType()) + ")(" + valueExprStr + ")");
+			sb.append("(" + formatElementInterfaceRef(sri.getValueExpr().getType()) + ")(" + valueVarName + ")");
 		else
-			sb.append(valueExprStr);
+			sb.append(valueVarName);
 		sb.append(");\n");
 
 		genChangedAttribute(sb, state, target);
@@ -1020,19 +1027,17 @@ public class ModifyEvalGen extends CSharpBase
 	{
 		Qualification target = sai.getTarget();
 
-		SourceBuilder sbtmp = new SourceBuilder();
-		genExpression(sbtmp, sai.getValueExpr(), state);
-		String valueExprStr = sbtmp.toString();
+		String valueVarName = genTempVarFromExpression(sb, state, sai.getValueExpr(), null);
 
-		genChangingAttribute(sb, state, target, "PutElement", valueExprStr, "null");
+		genChangingAttribute(sb, state, target, "PutElement", valueVarName, "null");
 
 		sb.appendFront("");
 		genExpression(sb, target, state);
 		sb.append("[");
 		if(sai.getValueExpr() instanceof GraphEntityExpression)
-			sb.append("(" + formatElementInterfaceRef(sai.getValueExpr().getType()) + ")(" + valueExprStr + ")");
+			sb.append("(" + formatElementInterfaceRef(sai.getValueExpr().getType()) + ")(" + valueVarName + ")");
 		else
-			sb.append(valueExprStr);
+			sb.append(valueVarName);
 		sb.append("] = null;\n");
 
 		genChangedAttribute(sb, state, target);
@@ -1046,20 +1051,18 @@ public class ModifyEvalGen extends CSharpBase
 	{
 		Qualification target = ari.getTarget();
 
-		String indexStr = "null";
+		String indexVarName = null;
 		if(ari.getIndexExpr() != null) {
-			SourceBuilder sbtmp = new SourceBuilder();
-			genExpression(sbtmp, ari.getIndexExpr(), state);
-			indexStr = sbtmp.toString();
+			indexVarName = genTempVarFromExpression(sb, state, ari.getIndexExpr(), null);
 		}
 
-		genChangingAttribute(sb, state, target, "RemoveElement", "null", indexStr);
+		genChangingAttribute(sb, state, target, "RemoveElement", "null", ari.getIndexExpr() != null ? indexVarName : "null");
 
 		sb.appendFront("");
 		genExpression(sb, target, state);
 		sb.append(".RemoveAt(");
 		if(ari.getIndexExpr() != null) {
-			sb.append(indexStr);
+			sb.append(indexVarName);
 		} else {
 			sb.append("(");
 			genExpression(sb, target, state);
@@ -1095,18 +1098,14 @@ public class ModifyEvalGen extends CSharpBase
 	{
 		Qualification target = aai.getTarget();
 
-		SourceBuilder sbtmp = new SourceBuilder();
-		genExpression(sbtmp, aai.getValueExpr(), state);
-		String valueExprStr = sbtmp.toString();
-
-		sbtmp = new SourceBuilder();
-		String indexExprStr = "null";
+		String valueVarName = genTempVarFromExpression(sb, state, aai.getValueExpr(), null);
+		
+		String indexVarName = null;
 		if(aai.getIndexExpr() != null) {
-			genExpression(sbtmp, aai.getIndexExpr(), state);
-			indexExprStr = sbtmp.toString();
+			indexVarName = genTempVarFromExpression(sb, state, aai.getIndexExpr(), null);
 		}
 
-		genChangingAttribute(sb, state, target, "PutElement", valueExprStr, indexExprStr);
+		genChangingAttribute(sb, state, target, "PutElement", valueVarName, aai.getIndexExpr() != null ? indexVarName : "null");
 
 		sb.appendFront("");
 		genExpression(sb, target, state);
@@ -1114,13 +1113,13 @@ public class ModifyEvalGen extends CSharpBase
 			sb.append(".Add(");
 		} else {
 			sb.append(".Insert(");
-			sb.append(indexExprStr);
+			sb.append(indexVarName);
 			sb.append(", ");
 		}
 		if(aai.getValueExpr() instanceof GraphEntityExpression)
-			sb.append("(" + formatElementInterfaceRef(aai.getValueExpr().getType()) + ")(" + valueExprStr + ")");
+			sb.append("(" + formatElementInterfaceRef(aai.getValueExpr().getType()) + ")(" + valueVarName + ")");
 		else
-			sb.append(valueExprStr);
+			sb.append(valueVarName);
 		sb.append(");\n");
 
 		genChangedAttribute(sb, state, target);
@@ -1134,19 +1133,17 @@ public class ModifyEvalGen extends CSharpBase
 	{
 		Qualification target = dri.getTarget();
 
-		String indexStr = "null";
+		String indexVarName = null;
 		if(dri.getIndexExpr() != null) {
-			SourceBuilder sbtmp = new SourceBuilder();
-			genExpression(sbtmp, dri.getIndexExpr(), state);
-			indexStr = sbtmp.toString();
+			indexVarName = genTempVarFromExpression(sb, state, dri.getIndexExpr(), null);
 		}
 
-		genChangingAttribute(sb, state, target, "RemoveElement", "null", indexStr);
+		genChangingAttribute(sb, state, target, "RemoveElement", "null", dri.getIndexExpr() != null ? indexVarName : "null");
 
 		sb.appendFront("");
 		genExpression(sb, target, state);
 		if(dri.getIndexExpr() != null) {
-			sb.append(".DequeueAt(" + indexStr + ");\n");
+			sb.append(".DequeueAt(" + indexVarName + ");\n");
 		} else {
 			sb.append(".Dequeue();\n");
 		}
@@ -1179,18 +1176,14 @@ public class ModifyEvalGen extends CSharpBase
 	{
 		Qualification target = dai.getTarget();
 
-		SourceBuilder sbtmp = new SourceBuilder();
-		genExpression(sbtmp, dai.getValueExpr(), state);
-		String valueExprStr = sbtmp.toString();
+		String valueVarName = genTempVarFromExpression(sb, state, dai.getValueExpr(), null);
 
-		sbtmp = new SourceBuilder();
-		String indexExprStr = "null";
+		String indexVarName = null;
 		if(dai.getIndexExpr() != null) {
-			genExpression(sbtmp, dai.getIndexExpr(), state);
-			indexExprStr = sbtmp.toString();
+			indexVarName = genTempVarFromExpression(sb, state, dai.getIndexExpr(), null);
 		}
 
-		genChangingAttribute(sb, state, target, "PutElement", valueExprStr, indexExprStr);
+		genChangingAttribute(sb, state, target, "PutElement", valueVarName, dai.getIndexExpr() != null ? indexVarName : "null");
 
 		sb.appendFront("");
 		genExpression(sb, target, state);
@@ -1198,13 +1191,13 @@ public class ModifyEvalGen extends CSharpBase
 			sb.append(".Enqueue(");
 		} else {
 			sb.append(".EnqueueAt(");
-			sb.append(indexExprStr);
+			sb.append(indexVarName);
 			sb.append(", ");
 		}
 		if(dai.getValueExpr() instanceof GraphEntityExpression)
-			sb.append("(" + formatElementInterfaceRef(dai.getValueExpr().getType()) + ")(" + valueExprStr + ")");
+			sb.append("(" + formatElementInterfaceRef(dai.getValueExpr().getType()) + ")(" + valueVarName + ")");
 		else
-			sb.append(valueExprStr);
+			sb.append(valueVarName);
 		sb.append(");\n");
 
 		genChangedAttribute(sb, state, target);
