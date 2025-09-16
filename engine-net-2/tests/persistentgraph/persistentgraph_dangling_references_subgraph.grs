@@ -1,0 +1,93 @@
+! rm testgraphfilename_dangling_references_subgraph.db
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+#beware of bogus names assigned to zombie elements...
+new graph "persistentgraph/persistentgraph_dangling_references_subgraph" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_dangling_references_subgraph.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num nodes M
+show num edges D
+show num from database
+
+new graph "persistentgraph/persistentgraph_dangling_references_subgraph" "some non-persistent graph"
+
+show num nodes N
+show num edges E
+show num nodes M
+show num edges D
+
+exec init
+exec initNested
+exec (::n,::e)=find
+
+show node n
+show edge e
+
+show num nodes N
+show num edges E
+show num nodes M
+show num edges D
+
+exec createDanglingReferencesNested
+
+show node n
+show edge e
+
+show num nodes N
+show num edges E
+show num nodes M
+show num edges D
+
+new graph "persistentgraph/persistentgraph_dangling_references_subgraph" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_dangling_references_subgraph.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num nodes M
+show num edges D
+show num from database
+
+exec init
+exec initNested
+exec (::n,::e)=find
+
+show node n
+show edge e
+
+show num nodes N
+show num edges E
+show num nodes M
+show num edges D
+show num from database
+
+exec createDanglingReferencesNested
+
+show node n
+show edge e
+
+show num nodes N
+show num edges E
+show num nodes M
+show num edges D
+show num from database
+
+new graph "persistentgraph/persistentgraph_dangling_references_subgraph" "some non-persistent graph"
+
+show num nodes N
+show num edges E
+show num nodes M
+show num edges D
+
+new graph "persistentgraph/persistentgraph_dangling_references_subgraph" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_dangling_references_subgraph.db;Version=3;"
+
+show num nodes N
+show num edges E
+show num nodes M
+show num edges D
+show num from database
+
+exec (::n,::e)=find
+
+show node n
+show edge e
+
+quit

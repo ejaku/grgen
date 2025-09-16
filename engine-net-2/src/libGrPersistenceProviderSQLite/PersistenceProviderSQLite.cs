@@ -1707,36 +1707,40 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         void ReportDanglingReference(IAttributeBearer owner, AttributeType attributeType, long dbid, bool isNode)
         {
             string graphElementReferencedKind = isNode ? "node" : "edge";
+            string danglingReferencePart = " contains a dangling reference to a(n) " + graphElementReferencedKind + " (" + graphElementReferencedKind + " dbid=" + dbid + ")";
             if(owner is IGraphElement)
             {
                 string ownerKind = owner is INode ? "node" : "edge";
                 IGraphElement owningGraphElement = (IGraphElement)owner;
                 INamedGraph containingGraph = GetContainingGraph(owningGraphElement);
                 string ownerName = containingGraph != null ? containingGraph.GetElementName(owningGraphElement) : "zombie-" + ownerKind;
+                string graphNamePart = containingGraph != null ? " of the graph " + containingGraph.Name : " out of graph";
+                string pathPart = " of the " + ownerKind + " " + ownerName + graphNamePart;
                 if(IsContainerType(attributeType))
                 {
-                    ConsoleUI.errorOutWriter.WriteLine("Warning: the container attribute " + attributeType.Name + " of the " + ownerKind + " " + ownerName + " of the graph " + containingGraph.Name
-                        + " contains a dangling reference to a(n) " + graphElementReferencedKind + " (" + graphElementReferencedKind + " dbid=" + dbid + ") - you deleted or retyped a(n) " + graphElementReferencedKind + " without removing the reference to it from the container (also beware of bogus names)!");
+                    ConsoleUI.errorOutWriter.WriteLine("Warning: the container attribute " + attributeType.Name + pathPart
+                        + danglingReferencePart + " - you deleted or retyped a(n) " + graphElementReferencedKind + " without removing the reference to it from the container (also beware of bogus names)!");
                 }
                 else
                 {
-                    ConsoleUI.errorOutWriter.WriteLine("Warning: the attribute " + attributeType.Name + " of the " + ownerKind + " " + ownerName + " of the graph " + containingGraph.Name
-                        + " contains a dangling reference to a(n) " + graphElementReferencedKind + " (" + graphElementReferencedKind + " dbid=" + dbid + ") - you deleted or retyped a(n) " + graphElementReferencedKind + " without setting the attribute to null (also beware of bogus names)!");
+                    ConsoleUI.errorOutWriter.WriteLine("Warning: the attribute " + attributeType.Name + pathPart
+                        + danglingReferencePart + " - you deleted or retyped a(n) " + graphElementReferencedKind + " without setting the attribute to null (also beware of bogus names)!");
                 }
             }
             else
             {
                 IObject owningObject = (IObject)owner;
                 string ownerName = owningObject.GetObjectName();
+                string pathPart = " of the internal class object " + ownerName;
                 if(IsContainerType(attributeType))
                 {
-                    ConsoleUI.errorOutWriter.WriteLine("Warning: the container attribute " + attributeType.Name + " of the internal class object " + ownerName
-                        + " contains a dangling reference to a(n) " + graphElementReferencedKind + " (" + graphElementReferencedKind + " dbid=" + dbid + ") - you deleted or retyped a(n) " + graphElementReferencedKind + " without removing the reference to it from the container (also beware of bogus names)!");
+                    ConsoleUI.errorOutWriter.WriteLine("Warning: the container attribute " + attributeType.Name + pathPart
+                        + danglingReferencePart + " - you deleted or retyped a(n) " + graphElementReferencedKind + " without removing the reference to it from the container (also beware of bogus names)!");
                 }
                 else
                 {
-                    ConsoleUI.errorOutWriter.WriteLine("Warning: the attribute " + attributeType.Name + " of the internal class object " + ownerName
-                        + " contains a dangling reference to a(n) " + graphElementReferencedKind + " (" + graphElementReferencedKind + " dbid=" + dbid + ") - you deleted or retyped a(n) " + graphElementReferencedKind + " without setting the attribute to null (also beware of bogus names)!");
+                    ConsoleUI.errorOutWriter.WriteLine("Warning: the attribute " + attributeType.Name + pathPart
+                        + danglingReferencePart + " - you deleted or retyped a(n) " + graphElementReferencedKind + " without setting the attribute to null (also beware of bogus names)!");
                 }
             }
         }

@@ -48,10 +48,60 @@ rule deleteToCreateDanglingReferences
 	}
 }
 
+rule retypeToCreateDanglingReferences
+{
+	n:N -e:E-> n;
+	if{ n.o != null; }
+	n2:N -e2:E-> n2;
+
+	modify {
+		new_n2:M<n2> -new_e2:D<e2>-> new_n2;
+	}
+}
+
 test find : (N, E, O)
 {
 	n:N -e:E-> n;
 	if{ n.o != null; }
 
 	return(n,e,n.o);
+}
+
+rule initNested
+{
+	modify {
+		n:N -e:E-> n;
+		n2:N -e2:E-> n2;
+		n3:N -e3:E-> n3;
+		n --> n2 --> n3;
+
+		eval {
+			n.o = new O();
+			
+			n.n = n2;
+			n.s.add(e2);
+			
+			e.e = e2;
+			e.a.add(n2);
+			
+			n2.n = n3;
+			n2.s.add(e3);
+			
+			e2.e = e3;
+			e2.a.add(n3);
+		}
+	}
+}
+
+rule createDanglingReferencesNested
+{
+	n:N -e:E-> n;
+	n2:N -e2:E-> n2;
+	n3:N -e3:E-> n3;
+	n --> n2 --> n3;
+	
+	modify {
+		delete(n2);
+		new_n3:M<n3> -new_e3:D<e3>-> new_n3;
+	}
 }

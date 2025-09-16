@@ -1,15 +1,15 @@
 node edge graph; // required by persistent graph when node/edge references are employed
 object class unique;
 
+// test references to nodes/edges that are deleted/retyped in another graph than the host graph
+
 node class N
 {
-	o:O;
-
+	g:graph;
+	s:set<graph>;
+	
 	n:N;
 	e:E;
-	
-	m:map<int, N>;
-	s:set<E>;
 }
 
 node class M
@@ -18,23 +18,12 @@ node class M
 
 edge class E
 {
+	m:map<N,E>;
+
 	n:N;
 	e:E;
-	nn:N;
-
-	m:map<N, int>;
-	a:array<N>;
 }
 
 edge class D
 {
-}
-
-class O
-{
-	n:N;
-	e:E;
-
-	m:map<N, E>;
-	d:deque<E>;
 }
