@@ -838,6 +838,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private void ReadCompleteGraph()
         {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
             // prepare statements for initial graph fetching
             readGraphsCommand = PrepareStatementForReadingGraphs();
 
@@ -944,6 +946,9 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     ReadPatchContainerAttributesInElement(objectType, "objectId", attributeType, readObjectContainerCommand);
                 }
             }
+
+            stopwatch.Stop();
+            ConsoleUI.outWriter.WriteLine("Read {0} nodes, {1} edges, {2} graphs, {3} internal class objects in {4} ms.", NumNodesInDatabase, NumEdgesInDatabase, NumGraphsInDatabase, NumObjectsInDatabase, stopwatch.ElapsedMilliseconds);
         }
 
         private SQLiteCommand PrepareStatementForReadingGraphs()
@@ -1540,6 +1545,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private void Cleanup()
         {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
             // references to nodes/edges from different graphs are not supported as of now in import/export, because persistent names only hold in the current graph, keep this in db persistence handling
             // but the user could assign references to elements from another graph to an attribute, so todo: maybe relax that constraint, requiring a model supporting graphof, and a global post-patching step after everything was read locally, until a check that the user doesn't assign references to elements from another graph is implemented
             // another issue with multiple graphs: names may be assigned in a different graph than the original graph when a node/edge (reference) is getting emitted
@@ -1549,12 +1556,14 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             MarkReachableEntities(); // on in-memory representation, so only most current container state is taken into account (as it should be) (thus zombie nodes/edges only being referenced in history but nowehere in current state are purged later on)
 
             // compactify before purging so that no graph/object zombie objects are needed at next run when non-existing graphs/objects that only exist in container change history are referenced
-            CompactifyContainerChangeHistory();
+            int numContainersCompactified = CompactifyContainerChangeHistory();
 
             // cleaning pass - similar to the sweep phase of a garbage collector - remove the graphs/objects from the database that are not reachable in-memory (unused) from the host graph on
-            PurgeUnreachableGraphs(); // after all references to the graphs are known, we can purge the ones not in use; node/edge references are not a prerequisite for this (it only must be ensured all of them were instantiated before) (containers which may also contain graph references)
-            PurgeUnreachableObjects(); // after all references to the objects are known, we can purge the ones not in use
-            PurgeUnreachableZombieNodesAndZombieEdges();
+            int numNodesRemoved, numEdgesRemoved;
+            int numGraphsPurged = PurgeUnreachableGraphs(out numNodesRemoved, out numEdgesRemoved); // after all references to the graphs are known, we can purge the ones not in use; node/edge references are not a prerequisite for this (it only must be ensured all of them were instantiated before) (containers which may also contain graph references)
+            int numObjectsPurged = PurgeUnreachableObjects(); // after all references to the objects are known, we can purge the ones not in use
+            int numZombieNodesPurged = PurgeUnreachableZombieNodes();
+            int numZombieEdgesPurged = PurgeUnreachableZombieEdges();
 
             UnmarkReachableEntities();
 
@@ -1562,7 +1571,10 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             ReportRemainingZombiesAsDanglingReferences(); // in an upcoming memory/semantic model they will be allowed, then nothing is reported/removed (they are not a programming error then but regular elements)
 
             //todo: vacuum the underlying database once in while, to be detected when exactly, maybe only on user request; analyze might be also helpful
-            //todo: print cleanup report
+
+            stopwatch.Stop();
+            ConsoleUI.outWriter.WriteLine("Compactified {0} containers and purged unreachable entities in the form of {1} zombie nodes, {2} zombie edges, {3} internal class objects, {4} graphs with {5} nodes and {6} edges in {7} ms.", 
+                numContainersCompactified, numZombieNodesPurged, numZombieEdgesPurged, numObjectsPurged, numGraphsPurged, numNodesRemoved, numEdgesRemoved, stopwatch.ElapsedMilliseconds);
         }
 
         private void ReportRemainingZombiesAsDanglingReferences()
@@ -1988,8 +2000,11 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             visited.Clear();
         }
 
-        private void PurgeUnreachableGraphs()
+        private int PurgeUnreachableGraphs(out int nodesRemoved, out int edgesRemoved)
         {
+            nodesRemoved = 0;
+            edgesRemoved = 0;
+
             List<KeyValuePair<long, INamedGraph>> graphsToBeDeleted = new List<KeyValuePair<long, INamedGraph>>();
             foreach(KeyValuePair<long, INamedGraph> dbIdToGraph in DbIdToGraph)
             {
@@ -2009,11 +2024,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 {
                     RemovingEdge(edge);
                     RemoveEdge(edge);
+                    ++edgesRemoved;
                 }
                 foreach(INode node in graph.Nodes)
                 {
                     RemovingNode(node);
                     RemoveNode(node);
+                    ++nodesRemoved;
                 }
 
                 SQLiteCommand deleteGraphTopologyCommand = this.deleteGraphCommand;
@@ -2023,9 +2040,11 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
                 RemoveGraphFromDbIdMapping(graph);
             }
+
+            return graphsToBeDeleted.Count;
         }
 
-        private void PurgeUnreachableObjects()
+        private int PurgeUnreachableObjects()
         {
             List<KeyValuePair<long, IObject>> objectsToBeDeleted = new List<KeyValuePair<long, IObject>>();
             foreach(KeyValuePair<long, IObject> dbIdToObject in DbIdToObject)
@@ -2043,9 +2062,10 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 // the RemovingObject method removes the topology entry, the type entry with the non-container attributes, and the container attributes stored in extra tables
                 RemovingObject(obj);
             }
+            return objectsToBeDeleted.Count;
         }
 
-        private void PurgeUnreachableZombieNodesAndZombieEdges()
+        private int PurgeUnreachableZombieNodes()
         {
             List<KeyValuePair<long, INode>> nodesToBeDeleted = new List<KeyValuePair<long, INode>>();
             foreach(KeyValuePair<long, INode> dbIdToNode in DbIdToNode)
@@ -2063,7 +2083,11 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 // the RemoveNode method removes the type entry with the non-container attributes, and the container attributes stored in extra tables -- it does not remove the topology entry, it is assumed it does not exist anymore
                 RemoveNode(node);
             }
+            return nodesToBeDeleted.Count;
+        }
 
+        private int PurgeUnreachableZombieEdges()
+        {
             List<KeyValuePair<long, IEdge>> edgesToBeDeleted = new List<KeyValuePair<long, IEdge>>();
             foreach(KeyValuePair<long, IEdge> dbIdToEdge in DbIdToEdge)
             {
@@ -2080,10 +2104,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 // the RemoveEdge method removes the type entry with the non-container attributes, and the container attributes stored in extra tables -- it does not remove the topology entry, it is assumed it does not exist anymore
                 RemoveEdge(edge);
             }
+            return edgesToBeDeleted.Count;
         }
 
-        private void CompactifyContainerChangeHistory()
+        private int CompactifyContainerChangeHistory()
         {
+            int numContainersCompactified = 0;
+
             foreach(KeyValuePair<long, INode> dbidToNode in DbIdToNode)
             {
                 long dbid = dbidToNode.Key;
@@ -2101,6 +2128,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         object container = node.GetAttribute(attributeType.Name);
                         PurgeContainerEntries(node, attributeType);
                         WriteContainerEntries(container, attributeType, node);
+                        
+                        ++numContainersCompactified;
                     }
                 }
             }
@@ -2122,6 +2151,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         object container = edge.GetAttribute(attributeType.Name);
                         PurgeContainerEntries(edge, attributeType);
                         WriteContainerEntries(container, attributeType, edge);
+
+                        ++numContainersCompactified;
                     }
                 }
             }
@@ -2143,9 +2174,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         object container = @object.GetAttribute(attributeType.Name);
                         PurgeContainerEntries(@object, attributeType);
                         WriteContainerEntries(container, attributeType, @object);
+
+                        ++numContainersCompactified;
                     }
                 }
             }
+
+            return numContainersCompactified;
         }
 
         #endregion Host graph cleaning
