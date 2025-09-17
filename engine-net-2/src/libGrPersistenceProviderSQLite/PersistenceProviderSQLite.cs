@@ -210,14 +210,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         Dictionary<long, string> DbIdToTypeName;
         Dictionary<string, long> TypeNameToDbId;
 
-        // database id to zombie concept mappings, and vice versa - nodes/edges created for node/edge ids that don't exist anymore, they come without entry in the topology table, but still have their entry in the types table
-        // they appear internally when a container history log is replayed for a storage, or externally when the programmer does't set references to null or doesn't remove them from containers upon deleting them == removing them from their graph
-        // TODO: hash set, dbid same as in regular hase map, only needed to tell them apart from non-zombies, 2ter aufräumschritt
-        Dictionary<long, INode> DbIdToZombieNode;
-        Dictionary<INode, long> ZombieNodeToDbId;
-        Dictionary<long, IEdge> DbIdToZombieEdge;
-        Dictionary<IEdge, long> ZombieEdgeToDbId;
-
         readonly AttributeType IntegerAttributeType = new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 
 
@@ -309,11 +301,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             ObjectToDbId = new Dictionary<IObject, long>();
             DbIdToTypeName = new Dictionary<long, string>();
             TypeNameToDbId = new Dictionary<string, long>();
-
-            DbIdToZombieNode = new Dictionary<long, INode>();
-            ZombieNodeToDbId = new Dictionary<INode, long>();
-            DbIdToZombieEdge = new Dictionary<long, IEdge>();
-            ZombieEdgeToDbId = new Dictionary<IEdge, long>();
 
             CreateIdentityAndTopologyTables();
             CreateTypesWithAttributeTables();
@@ -1081,19 +1068,14 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     }
 
                     long nodeId = reader.GetInt64(attributeNameToColumnIndex["nodeId"]);
-                    if(reader.IsDBNull(attributeNameToColumnIndex["graphId"]))
-                    {
-                        AddNodeWithDbIdToDbIdMapping(node, nodeId);
-                        AddZombieNodeWithDbIdToDbIdMapping(node, nodeId);
-                    }
-                    else
+                    if(!reader.IsDBNull(attributeNameToColumnIndex["graphId"]))
                     {
                         String name = reader.GetString(attributeNameToColumnIndex["name"]);
                         long graphId = reader.GetInt64(attributeNameToColumnIndex["graphId"]);
                         INamedGraph graph = DbIdToGraph[graphId];
                         graph.AddNode(node, name);
-                        AddNodeWithDbIdToDbIdMapping(node, nodeId);
                     }
+                    AddNodeWithDbIdToDbIdMapping(node, nodeId);
                 }
             }
         }
@@ -1121,12 +1103,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     }
 
                     long edgeId = reader.GetInt64(attributeNameToColumnIndex["edgeId"]);
-                    if(reader.IsDBNull(attributeNameToColumnIndex["graphId"]))
-                    {
-                        AddEdgeWithDbIdToDbIdMapping(edge, edgeId);
-                        AddZombieEdgeWithDbIdToDbIdMapping(edge, edgeId);
-                    }
-                    else
+                    if(!reader.IsDBNull(attributeNameToColumnIndex["graphId"]))
                     {
                         long sourceNodeId = reader.GetInt64(attributeNameToColumnIndex["sourceNodeId"]);
                         INode source = DbIdToNode[sourceNodeId];
@@ -1137,8 +1114,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         long graphId = reader.GetInt64(attributeNameToColumnIndex["graphId"]);
                         INamedGraph graph = DbIdToGraph[graphId];
                         graph.AddEdge(edge, name);
-                        AddEdgeWithDbIdToDbIdMapping(edge, edgeId);
                     }
+                    AddEdgeWithDbIdToDbIdMapping(edge, edgeId);
                 }
             }
         }
@@ -1540,7 +1517,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
             // zombies can only appear for nodes and edges, graphs and objects are garbage collected (after the read process), so zombies can not appear (neither can they for value types)
             ReportRemainingZombiesAsDanglingReferences(); // in an upcoming memory/semantic model they will be allowed, then nothing is reported/removed (they are not a programming error then but regular elements)
-            ClearZombies();
 
             //todo: vacuum the underlying database once in while, to be detected when exactly, maybe only on user request; analyze might be also helpful
             //todo: print cleanup report
@@ -1692,14 +1668,14 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
             INode node = graphElementReferenced as INode;
             IEdge edge = graphElementReferenced as IEdge;
-            if(node != null && ZombieNodeToDbId.ContainsKey(node))
+            if(node != null && GetContainingGraph(node) == null) // GetContainingGraph(node) == null means zombie node, i.e. a reference to it is a dangling reference
             {
-                long dbid = ZombieNodeToDbId[node];
+                long dbid = NodeToDbId[node];
                 ReportDanglingReference(owner, attributeType, dbid, true);
             }
-            else if(edge != null && ZombieEdgeToDbId.ContainsKey(edge))
+            else if(edge != null && GetContainingGraph(edge) == null) // see comment above
             {
-                long dbid = ZombieEdgeToDbId[edge];
+                long dbid = EdgeToDbId[edge];
                 ReportDanglingReference(owner, attributeType, dbid, false);
             }
         }
@@ -1743,15 +1719,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         + danglingReferencePart + " - you deleted or retyped a(n) " + graphElementReferencedKind + " without setting the attribute to null (also beware of bogus names)!");
                 }
             }
-        }
-
-        private void ClearZombies()
-        {
-            // nodes/edges not existing anymore in the current state of the graph, that appeared during container history log replaying (inserted into and deleted again from a container, unless the programmer made a mistake not removing dangling references)
-            DbIdToZombieNode.Clear();
-            ZombieNodeToDbId.Clear();
-            DbIdToZombieEdge.Clear();
-            ZombieEdgeToDbId.Clear();
         }
 
         private void MarkReachableEntities()
@@ -3684,18 +3651,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
             DbIdToTypeName.Add(dbid, typeName);
             TypeNameToDbId.Add(typeName, dbid);
-        }
-
-        private void AddZombieNodeWithDbIdToDbIdMapping(INode node, long dbid)
-        {
-            DbIdToZombieNode.Add(dbid, node);
-            ZombieNodeToDbId.Add(node, dbid);
-        }
-
-        private void AddZombieEdgeWithDbIdToDbIdMapping(IEdge edge, long dbid)
-        {
-            DbIdToZombieEdge.Add(dbid, edge);
-            ZombieEdgeToDbId.Add(edge, dbid);
         }
 
         private object ValueOrIdOfReferencedElement(object newValue, AttributeType attrType)
