@@ -141,6 +141,30 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             internal IEnumerator<IGraphElement> graphElements; // potential todo: not using an own enumerator with yield would avoid memory allocations and garbage collection cycles (not sure whether it's worthwhile, the code is simpler/cleaner this way)
         }
 
+        class AttributesMarkingState
+        {
+            internal AttributesMarkingState()
+            {
+                markedAttributes = new Dictionary<IAttributeBearer, Dictionary<string, SetValueType>>();
+            }
+
+            internal bool IsMarked(IAttributeBearer owner, String attribute)
+            {
+                if(!markedAttributes.ContainsKey(owner))
+                    return false;
+                return markedAttributes[owner].ContainsKey(attribute);
+            }
+
+            internal void Mark(IAttributeBearer owner, String attribute)
+            {
+                if(!markedAttributes.ContainsKey(owner))
+                    markedAttributes.Add(owner, new Dictionary<string, SetValueType>());
+                markedAttributes[owner][attribute] = null;
+            }
+
+            private Dictionary<IAttributeBearer, Dictionary<String, SetValueType>> markedAttributes;
+        }
+
         SQLiteConnection connection;
 
         // prepared statements for handling nodes (assuming available node related tables)
@@ -212,6 +236,9 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         readonly AttributeType IntegerAttributeType = new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 
+        AttributesMarkingState initializedContainers;
+        AttributesMarkingState modifiedContainers;
+
 
         public PersistenceProviderSQLite()
         {
@@ -243,12 +270,29 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             graphs.Push(hostGraph);
             host = hostGraph;
 
+            DbIdToNode = new Dictionary<long, INode>();
+            NodeToDbId = new Dictionary<INode, long>();
+            DbIdToEdge = new Dictionary<long, IEdge>();
+            EdgeToDbId = new Dictionary<IEdge, long>();
+            DbIdToGraph = new Dictionary<long, INamedGraph>();
+            GraphToDbId = new Dictionary<INamedGraph, long>();
+            DbIdToObject = new Dictionary<long, IObject>();
+            ObjectToDbId = new Dictionary<IObject, long>();
+            DbIdToTypeName = new Dictionary<long, string>();
+            TypeNameToDbId = new Dictionary<string, long>();
+
+            initializedContainers = new AttributesMarkingState();
+            modifiedContainers = new AttributesMarkingState();
+
             // likely todo: split the code into multiple classes (split dedicated tasks like reading/cleaning/schema adaptation off into own classes)
             CreateSchemaIfNotExistsOrAdaptToCompatibleChanges();
             ReadCompleteGraph();
             PrepareStatementsForGraphModifications(); // Cleanup may carry out graph modifications (even before we are notified about graph changes after registering the handlers)
             Cleanup();
             RegisterPersistenceHandlers();
+
+            initializedContainers = null;
+            modifiedContainers = null;
         }
 
         private bool ModelContainsGraphElementReferences(IGraphModel model)
@@ -291,17 +335,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private void CreateSchemaIfNotExistsOrAdaptToCompatibleChanges()
         {
-            DbIdToNode = new Dictionary<long, INode>();
-            NodeToDbId = new Dictionary<INode, long>();
-            DbIdToEdge = new Dictionary<long, IEdge>();
-            EdgeToDbId = new Dictionary<IEdge, long>();
-            DbIdToGraph = new Dictionary<long, INamedGraph>();
-            GraphToDbId = new Dictionary<INamedGraph, long>();
-            DbIdToObject = new Dictionary<long, IObject>();
-            ObjectToDbId = new Dictionary<IObject, long>();
-            DbIdToTypeName = new Dictionary<long, string>();
-            TypeNameToDbId = new Dictionary<string, long>();
-
             CreateIdentityAndTopologyTables();
             CreateTypesWithAttributeTables();
 
@@ -1233,6 +1266,10 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     {
                         object container = GetEmptyContainer(attributeType);
                         element.SetAttribute(attributeType.Name, container);
+                        if(initializedContainers.IsMarked(element, attributeType.Name))
+                            modifiedContainers.Mark(element, attributeType.Name);
+                        else
+                            initializedContainers.Mark(element, attributeType.Name);
                         break;
                     }
                 case ContainerCommand.PutElement:
@@ -1245,16 +1282,22 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     {
                         object container = element.GetAttribute(attributeType.Name);
                         ApplyContainerRemoveElementCommand(container, attributeType, value, key);
+                        modifiedContainers.Mark(element, attributeType.Name);
                         break;
                     }
                 case ContainerCommand.AssignElement:
                     {
                         object container = element.GetAttribute(attributeType.Name);
                         ApplyContainerAssignElementCommand(container, attributeType, value, key);
+                        modifiedContainers.Mark(element, attributeType.Name);
                         break;
                     }
                 case ContainerCommand.AssignNull:
                     element.SetAttribute(attributeType.Name, null);
+                    if(initializedContainers.IsMarked(element, attributeType.Name))
+                        modifiedContainers.Mark(element, attributeType.Name);
+                    else
+                        initializedContainers.Mark(element, attributeType.Name);
                     break;
             }
         }
@@ -2041,7 +2084,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private void CompactifyContainerChangeHistory()
         {
-            // TODO: implement optimized version: only write containers with modifications (not to be purged), this requires a container-is-dirty map telling which containers to write
             foreach(KeyValuePair<long, INode> dbidToNode in DbIdToNode)
             {
                 long dbid = dbidToNode.Key;
@@ -2053,6 +2095,9 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 {
                     if(IsContainerType(attributeType))
                     {
+                        if(!modifiedContainers.IsMarked(node, attributeType.Name))
+                            continue; // container unchanged, i.e. only initialized and added to
+
                         object container = node.GetAttribute(attributeType.Name);
                         PurgeContainerEntries(node, attributeType);
                         WriteContainerEntries(container, attributeType, node);
@@ -2071,6 +2116,9 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 {
                     if(IsContainerType(attributeType))
                     {
+                        if(!modifiedContainers.IsMarked(edge, attributeType.Name))
+                            continue; // container unchanged, i.e. only initialized and added to
+
                         object container = edge.GetAttribute(attributeType.Name);
                         PurgeContainerEntries(edge, attributeType);
                         WriteContainerEntries(container, attributeType, edge);
@@ -2089,6 +2137,9 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 {
                     if(IsContainerType(attributeType))
                     {
+                        if(!modifiedContainers.IsMarked(@object, attributeType.Name))
+                            continue; // container unchanged, i.e. only initialized and added to
+
                         object container = @object.GetAttribute(attributeType.Name);
                         PurgeContainerEntries(@object, attributeType);
                         WriteContainerEntries(container, attributeType, @object);
