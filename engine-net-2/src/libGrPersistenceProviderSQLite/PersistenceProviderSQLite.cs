@@ -1856,6 +1856,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     continue;
                 if(IsContainerType(attributeType))
                 {
+                    if(element.GetAttribute(attributeType.Name) == null)
+                        yield break;
                     if(attributeType.Kind == AttributeKind.SetAttr)
                     {
                         foreach(DictionaryEntry entry in (IDictionary)element.GetAttribute(attributeType.Name))
