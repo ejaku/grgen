@@ -3641,6 +3641,11 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 RegisterPersistenceHandlers();
         }
 
+        public void SpawnSequencesHandler(SequenceParallel parallel, ParallelExecutionBegin[] parallelExecutionBegins)
+        {
+            throw new Exception("The persistent graph does not support parallel sequence execution!");
+        }
+
         public void BeginExecutionHandler(IPatternMatchingConstruct patternMatchingConstruct)
         {
         }
@@ -3658,6 +3663,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
             procEnv.OnSwitchingToSubgraph += SwitchToSubgraphHandler;
             procEnv.OnReturnedFromSubgraph += ReturnFromSubgraphHandler;
+            procEnv.OnSpawnSequences += SpawnSequencesHandler;
         }
 
         public void Close()
