@@ -23,7 +23,7 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// Specifies the actual subtype used for a Sequence.
     /// A new sequence type -> you must add the corresponding class down below,
-    /// and adapt the lgspSequenceGenerator and the Debugger.
+    /// and adapt the lgspSequenceGenerator and the Debugger, typically in the form of the SequencePrinter and the SequenceRenderer.
     /// </summary>
     public enum SequenceType
     {
@@ -42,6 +42,7 @@ namespace de.unika.ipd.grGen.libGr
         ForNodes, ForEdges,
         ForNodesFromIndexSame, ForEdgesFromIndexSame, ForNodesFromIndexFromTo, ForEdgesFromIndexFromTo, ForNodesFromMultipleIndexFromTo, ForEdgesFromMultipleIndexFromTo,
         Transaction, Backtrack, MultiBacktrack, MultiSequenceBacktrack, Pause,
+        PersistenceProviderTransaction, CommitAndRestartPersistenceProviderTransaction,
         IterationMin, IterationMinMax,
         RuleCall, RuleAllCall, RuleCountAllCall, RulePrefixedSequence,
         AssignSequenceResultToVar, OrAssignSequenceResultToVar, AndAssignSequenceResultToVar,
@@ -4497,6 +4498,96 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol
         {
             get { return "<" + Seq.Symbol + ">"; }
+        }
+    }
+
+    public class SequencePersistenceProviderTransaction : SequenceUnary
+    {
+        public SequencePersistenceProviderTransaction(Sequence seq) : base(SequenceType.PersistenceProviderTransaction, seq)
+        {
+        }
+
+        protected SequencePersistenceProviderTransaction(SequencePersistenceProviderTransaction that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that, originalToCopy, procEnv)
+        {
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequencePersistenceProviderTransaction(this, originalToCopy, procEnv);
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            if(procEnv.PersistenceProviderTransactionManager != null)
+                procEnv.PersistenceProviderTransactionManager.Start();
+
+            bool res;
+            try
+            {
+                res = Seq.Apply(procEnv);
+            }
+            catch
+            {
+                if(procEnv.PersistenceProviderTransactionManager != null)
+                    procEnv.PersistenceProviderTransactionManager.Rollback();
+                throw;
+            }
+
+            if(procEnv.PersistenceProviderTransactionManager != null)
+                procEnv.PersistenceProviderTransactionManager.Commit();
+
+            return res;
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return "<:" + Seq.Symbol + ":>"; }
+        }
+    }
+
+    public class SequenceCommitAndRestartPersistenceProviderTransaction : Sequence
+    {
+        public SequenceCommitAndRestartPersistenceProviderTransaction()
+            : base(SequenceType.CommitAndRestartPersistenceProviderTransaction)
+        {
+        }
+
+        protected SequenceCommitAndRestartPersistenceProviderTransaction(SequenceCommitAndRestartPersistenceProviderTransaction that, Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+            : base(that)
+        {
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy, IGraphProcessingEnvironment procEnv)
+        {
+            return new SequenceCommitAndRestartPersistenceProviderTransaction(this, originalToCopy, procEnv);
+        }
+
+        protected override bool ApplyImpl(IGraphProcessingEnvironment procEnv)
+        {
+            if(procEnv.PersistenceProviderTransactionManager != null)
+                procEnv.PersistenceProviderTransactionManager.CommitAndRestart();
+            return true;
+        }
+
+        public override IEnumerable<Sequence> Children
+        {
+            get { yield break; }
+        }
+
+        public override int Precedence
+        {
+            get { return 8; }
+        }
+
+        public override string Symbol
+        {
+            get { return ">:<"; }
         }
     }
 

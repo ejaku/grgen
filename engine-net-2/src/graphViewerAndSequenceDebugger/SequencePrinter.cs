@@ -120,6 +120,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             case SequenceType.Pause:
                 PrintSequencePause((SequencePause)seq, parent, highlightingMode);
                 break;
+            case SequenceType.PersistenceProviderTransaction:
+                PrintSequencePersistenceProviderTransaction((SequencePersistenceProviderTransaction)seq, parent, highlightingMode);
+                break;
+            case SequenceType.CommitAndRestartPersistenceProviderTransaction:
+                PrintSequenceCommitAndRestartPersistenceProviderTransaction((SequenceCommitAndRestartPersistenceProviderTransaction)seq, parent, highlightingMode);
+                break;
             case SequenceType.ForContainer:
                 PrintSequenceForContainer((SequenceForContainer)seq, parent, highlightingMode);
                 break;
@@ -367,6 +373,18 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             env.PrintHighlighted("/", highlightingMode);
             PrintSequence(seqPause.Seq, seqPause, highlightingMode);
             env.PrintHighlighted("/", highlightingMode);
+        }
+
+        private void PrintSequencePersistenceProviderTransaction(SequencePersistenceProviderTransaction seqPPTrans, SequenceBase parent, HighlightingMode highlightingMode)
+        {
+            env.PrintHighlighted("<:", highlightingMode);
+            PrintSequence(seqPPTrans.Seq, seqPPTrans, highlightingMode);
+            env.PrintHighlighted(":>", highlightingMode);
+        }
+
+        private void PrintSequenceCommitAndRestartPersistenceProviderTransaction(SequenceCommitAndRestartPersistenceProviderTransaction seqCommitAndRestartPPTrans, SequenceBase parent, HighlightingMode highlightingMode)
+        {
+            env.PrintHighlighted(">:<", highlightingMode);
         }
 
         private void PrintSequenceForContainer(SequenceForContainer seqFor, SequenceBase parent, HighlightingMode highlightingMode)

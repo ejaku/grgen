@@ -203,6 +203,8 @@ seqSimpleSequence [ ExecNode xg ]
 		sequence[xg] { env.popScope(); } SR { xg.append(" >> "); }
 	| SL { xg.append(" <<"); } seqMultiRulePrefixedSequence[xg, returns] SR { xg.append(" >> "); }
 	| DIV { xg.append(" /"); } sequence[xg] DIV { xg.append("/ "); }
+	| LTCOLON { xg.append(" <:"); } sequence[xg] GTCOLON { xg.append(":> "); }
+	| GTLTCOLON { xg.append(" >:< "); }
 	| IF l=LBRACE { env.pushScope("if/exec", getCoords(l)); } { xg.append("if{"); } sequence[xg] s=SEMI 
 		{ env.pushScope("if/then-part", getCoords(s)); } { xg.append("; "); }
 		sequence[xg] { env.popScope(); } (SEMI { xg.append("; "); } sequence[xg])? { env.popScope(); } RBRACE { xg.append("}"); }

@@ -272,6 +272,14 @@ namespace de.unika.ipd.grGen.lgsp
                 EmitSequencePause((SequencePause)seq, source);
                 break;
 
+            case SequenceType.PersistenceProviderTransaction:
+                EmitSequencePersistenceProviderTransaction((SequencePersistenceProviderTransaction)seq, source);
+                break;
+
+            case SequenceType.CommitAndRestartPersistenceProviderTransaction:
+                EmitSequenceCommitAndRestartPersistenceProviderTransaction((SequenceCommitAndRestartPersistenceProviderTransaction)seq, source);
+                break;
+
             case SequenceType.ExecuteInSubgraph:
                 EmitSequenceExecuteInSubgraph((SequenceExecuteInSubgraph)seq, source);
                 break;
@@ -1632,6 +1640,31 @@ namespace de.unika.ipd.grGen.lgsp
             EmitSequence(seqPause.Seq, source);
             source.AppendFront("procEnv.TransactionManager.Resume();\n");
             source.AppendFront(COMP_HELPER.SetResultVar(seqPause, COMP_HELPER.GetResultVar(seqPause.Seq)));
+        }
+
+        private void EmitSequencePersistenceProviderTransaction(SequencePersistenceProviderTransaction seqPPTrans, SourceBuilder source)
+        {
+            source.AppendFront("if(procEnv.PersistenceProviderTransactionManager != null)\n");
+            source.AppendFrontIndented("procEnv.PersistenceProviderTransactionManager.Start();\n");
+            source.AppendFront("try {\n");
+            EmitSequence(seqPPTrans.Seq, source);
+            source.AppendFront("} catch { \n");
+            source.Indent();
+            source.AppendFront("if(procEnv.PersistenceProviderTransactionManager != null)\n");
+            source.AppendFrontIndented("procEnv.PersistenceProviderTransactionManager.Rollback();\n");
+            source.AppendFront("throw;\n");
+            source.Unindent();
+            source.AppendFront("}\n");
+            source.AppendFront("if(procEnv.PersistenceProviderTransactionManager != null)\n");
+            source.AppendFrontIndented("procEnv.PersistenceProviderTransactionManager.Commit();\n");
+            source.AppendFront(COMP_HELPER.SetResultVar(seqPPTrans, COMP_HELPER.GetResultVar(seqPPTrans.Seq)));
+        }
+
+        private void EmitSequenceCommitAndRestartPersistenceProviderTransaction(SequenceCommitAndRestartPersistenceProviderTransaction seqCommitAndRestartPPTrans, SourceBuilder source)
+        {
+            source.AppendFront("if(procEnv.PersistenceProviderTransactionManager != null)\n");
+            source.AppendFrontIndented("procEnv.PersistenceProviderTransactionManager.CommitAndRestart();\n");
+            source.AppendFront(COMP_HELPER.SetResultVar(seqCommitAndRestartPPTrans, "true"));
         }
 
         private void EmitSequenceExecuteInSubgraph(SequenceExecuteInSubgraph seqExecInSub, SourceBuilder source)

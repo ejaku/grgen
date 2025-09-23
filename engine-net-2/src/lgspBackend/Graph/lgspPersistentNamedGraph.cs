@@ -15,8 +15,9 @@ namespace de.unika.ipd.grGen.lgsp
 {
     /// <summary>
     /// An implementation of the INamedGraph interface extending the default implementation by persistence support.
+    /// TODO: maybe this class should be part of libGr, a mere decorator adding persistence support, delegating calls to a wrapped non-persistent graph (interface), maybe maybe it would be possible to omit it altogether...
     /// </summary>
-    public class LGSPPersistentNamedGraph : LGSPNamedGraph, IPersistentGraphStatistics
+    public class LGSPPersistentNamedGraph : LGSPNamedGraph, IPersistenceInterfacesProvider
     {
         IPersistenceProvider persistenceProvider;
 
@@ -73,24 +74,16 @@ namespace de.unika.ipd.grGen.lgsp
             persistenceProvider.RegisterToListenToProcessingEnvironmentEvents(procEnv);
         }
 
-        public int NumNodesInDatabase
+        // --------------------------------------------------------------------------
+
+        public IPersistenceProviderStatistics PersistenceProviderStatistics
         {
-            get { return persistenceProvider.NumNodesInDatabase; }
+            get { return persistenceProvider; }
         }
 
-        public int NumEdgesInDatabase
+        public IPersistenceProviderTransactionManager PersistenceProviderTransactionManager
         {
-            get { return persistenceProvider.NumEdgesInDatabase; }
-        }
-
-        public int NumObjectsInDatabase
-        {
-            get { return persistenceProvider.NumObjectsInDatabase; }
-        }
-
-        public int NumGraphsInDatabase
-        {
-            get { return persistenceProvider.NumGraphsInDatabase; }
+            get { return persistenceProvider; }
         }
 
         #region Copy Constructors

@@ -1,0 +1,26 @@
+! rm testgraphfilename_transaction_performance.db
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+new graph "persistentgraph/persistentgraph_transaction_performance" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_transaction_performance.db;Version=3;"
+
+show num nodes
+show num edges
+show num from database
+
+#fast execution because all graph changes occur within a database transaction, but not as fast as when all changes occur within one, due to the transaction commit-and-restart at the end of the outer loop
+exec <: ( create[25] ;> ( assignAttributesOverwrite[10] ;> assignAttributesIncrement[15] ;> assignAttributesShuffle[5])[3] ;> retypeRedirect[7] ;> delBiggerPartAddSmallerPart[8] ;> >:<)[5] ;> [cleanReferencesToZombies] :>
+
+show num nodes N
+show num nodes M
+show num edges E
+show num from database
+
+new graph "persistentgraph/persistentgraph_transaction_performance" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_transaction_performance.db;Version=3;"
+
+show num nodes N
+show num nodes M
+show num edges E
+show num from database
+
+exec [find]
+
+quit

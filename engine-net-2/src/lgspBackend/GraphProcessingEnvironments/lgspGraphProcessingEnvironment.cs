@@ -22,6 +22,7 @@ namespace de.unika.ipd.grGen.lgsp
     public class LGSPGraphProcessingEnvironment : LGSPSubactionAndOutputAdditionEnvironment, IGraphProcessingEnvironment
     {
         private readonly LGSPTransactionManager transactionManager;
+        private IPersistenceProviderTransactionManager persistenceProviderTransactionManager = null;
         public readonly LGSPDeferredSequencesManager sequencesManager;
         
         private IUserProxyForSequenceExecution userProxy;
@@ -34,6 +35,9 @@ namespace de.unika.ipd.grGen.lgsp
             : base(graph, actions)
         {
             transactionManager = new LGSPTransactionManager(this);
+            LGSPPersistentNamedGraph persistentGraph = graph as LGSPPersistentNamedGraph;
+            if(persistentGraph != null)
+                persistenceProviderTransactionManager = persistentGraph.PersistenceProviderTransactionManager;
             sequencesManager = new LGSPDeferredSequencesManager();
             LGSPGlobalVariables globalVariables = (LGSPGlobalVariables)graph.GlobalVariables;
             globalVariables.SetClearVariables(true, graph);
@@ -46,6 +50,9 @@ namespace de.unika.ipd.grGen.lgsp
         {
             ((LGSPGlobalVariables)Graph.GlobalVariables).StopListening(Graph);
             base.Initialize(graph, actions);
+            LGSPPersistentNamedGraph persistentGraph = graph as LGSPPersistentNamedGraph;
+            if(persistentGraph != null)
+                persistenceProviderTransactionManager = persistentGraph.PersistenceProviderTransactionManager;
             ((LGSPGlobalVariables)graph.GlobalVariables).StartListening(graph);
         }
 
@@ -69,6 +76,11 @@ namespace de.unika.ipd.grGen.lgsp
         public ITransactionManager TransactionManager
         { 
             get { return transactionManager; }
+        }
+
+        public IPersistenceProviderTransactionManager PersistenceProviderTransactionManager
+        {
+            get { return persistenceProviderTransactionManager; }
         }
 
         public override void Custom(params object[] args)

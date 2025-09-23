@@ -10,12 +10,12 @@
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// Implemented by a persistent graph, returns some basic statistics from the persistent graph / the persistence provider.
+    /// Returns some basic statistics from the persistence provider (the persistent graph).
     /// Note that the number of entities stored in the database are returned, compared to the number of objects in the current host graph,
     /// and that the numbers may be different after (re-)opening (i.e. reading) from to the numbers current at the last time shortly before closing the database, caused by a garbage collection run.
     /// (There is no dedicated interface existing for a persistent graph (at least as of now).)
     /// </summary>
-    public interface IPersistentGraphStatistics
+    public interface IPersistenceProviderStatistics
     {
         /// <summary>
         /// Returns the number of nodes in all graphs known to the database.

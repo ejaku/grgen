@@ -93,7 +93,7 @@
     <Compile Include="Graph\INode.cs" />
     <Compile Include="Graph\IObject.cs" />
     <Compile Include="Graph\IDeepEqualityComparer.cs" />
-    <Compile Include="Graph\IPersistentGraphStatistics.cs" />
+    <Compile Include="Graph\IPersistenceInterfacesProvider.cs" />
     <Compile Include="Graph\ITransientObject.cs" />
     <Compile Include="Graph\ITyped.cs" />
     <Compile Include="Graph\IIdentifiable.cs" />
@@ -109,6 +109,8 @@
     <Compile Include="IndexHelper.cs" />
     <Compile Include="IndexHelperParallel.cs" />
     <Compile Include="IPersistenceProvider.cs" />
+    <Compile Include="IPersistenceProviderTransactionManager.cs" />
+    <Compile Include="IPersistenceProviderStatistics.cs" />
     <Compile Include="MapHelper.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="PatternsAndMatches\IAlternative.cs" />

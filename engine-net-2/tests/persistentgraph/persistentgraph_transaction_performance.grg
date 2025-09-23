@@ -1,0 +1,167 @@
+#using "persistentgraph_transaction_performance.gm"
+
+rule create
+{
+	modify {
+		n1:N -e12:E-> n2:N -e23:E-> n3:N -e31:E-> n1;
+		eval {
+			e12.o = new O();
+			e23.o = new O();
+			
+			n2.a.add(0y);
+			
+			n3.m = null;
+			n3.a = null;
+		}
+	}
+}
+
+test find
+{
+	n1:N -e12:E-> n2:N -e23:E-> n3:N -e31:E-> n1;
+	if{ e31.o == null; }
+}
+
+rule assignAttributesOverwrite
+{
+	n1:N -e12:E-> n2:N -e23:E-> n3:N -e31:E-> n1;
+	if{ e31.o == null; }
+	
+	modify {
+	---
+		eval {		
+			n1.s = "n1";
+			n1.i = 1;
+			n1.d = 0.0;
+			n1.m = map<N,E>{ n1 -> e12, n2 -> e23, n3 -> e31 };
+			n1.a = array<byte>[ 1Y, 2Y, 3Y, 4Y ];
+
+			e12.s = "e12";
+			e12.e = ENU::b;
+			e12.o = new O();
+		}
+	}
+}
+
+rule assignAttributesIncrement
+{
+	n1:N -e12:E-> n2:N -e23:E-> n3:N -e31:E-> n1;
+	if{ e31.o == null; }
+	
+	modify {
+	---
+		eval {
+			n2.s = n2.s + "_sfx";
+			n2.s = n2.s + 1;
+			n2.d = n2.d + 1.0;
+			n2.m.add(n1,e12);
+			n2.a.add((byte)(n2.a[n2.a.size() - 1] + 1));
+			
+			e23.s = e23.s + "_sfx";
+			e23.cycleE();
+			def ref o:O = e23.o;
+			appendAtListEnd(o, new ListElement()); // TODO - currently internal object class methods are not supported (in contrast to node and edge class methods) which is a major weakness
+			o.oa.add(new O());
+		}
+	}
+}
+
+rule assignAttributesShuffle
+{
+	n1:N -e12:E-> n2:N -e23:E-> n3:N -e31:E-> n1;
+	if{ e31.o == null; }
+	if{ e31.o == null && n1.a.size() >= 2; }
+	
+	modify {
+	---
+		eval {
+			n1.s = "s" + n1.s + "s";
+			n1.m[n1] = e23;
+			n1.m[n2] = e31;
+			n1.m[n3] = e12;
+			def var temp:byte = n1.a[0];
+			n1.a[0] = n1.a[1];
+			n1.a[1] = temp;
+			if(n1.a.size() >= 3) {
+				n1.a.rem();
+			}
+		}
+	}
+}
+
+rule retypeRedirect
+{
+	n1:N -e12:E-> n2:N -e23:E-> n3:N -e31:E-> n1;
+	if{ e31.o == null; }
+	
+	modify {
+		m:M<n3>;
+		eval{ m.se = n1.m.domain(); }
+		n2 !<-e23-! n3 !<-e31-! n1;
+	}
+}
+
+rule delBiggerPartAddSmallerPart
+{
+	n1:N -e12:E-> n2:N -e23:E-> n3:N -e31:E-> n1;
+	if{ e31.o == null; }
+	
+	modify {
+		delete(n3);
+		delete(e12);
+		n1 <-:E- n2;
+	}
+}
+
+rule cleanReferencesToZombies
+{
+	alternative
+	{
+		typeN {
+			n:N;
+			if{ n.m != null && n.m.size()>0; }
+			
+			modify {
+				eval {
+					n.m[n.m.peek(0)] = null; // just to have an additional element write
+					n.m.clear();
+				}
+			}
+		}
+		typeM {
+			m:M;
+			if{ m.se != null && m.se.size()>0; }
+			
+			modify {
+				eval {
+					m.se.clear();
+				}
+			}
+		}
+	}
+}
+
+procedure appendAtListEnd(ref o:O, ref element:ListElement) // O(n) so O(n**2) if used iteratively, but for rather small n it's acceptable
+{
+	if(o.listBegin == null) {
+		o.listBegin = element;
+	} else {
+		def ref currentListElement:ListElement = o.listBegin;
+		while(currentListElement.next != null)
+		{
+			currentListElement = currentListElement.next;
+		}
+		currentListElement.next = element; // set new list end
+	}
+	return;
+}
+
+sequence performanceTest
+{
+	<: 
+		( create[25] ;> ( assignAttributesOverwrite[10] ;> assignAttributesIncrement[15] ;> assignAttributesShuffle[5])[3] ;> retypeRedirect[7] ;> delBiggerPartAddSmallerPart[8] )[250] ;>
+	>:<
+		;> ( create[25] ;> ( assignAttributesOverwrite[10] ;> assignAttributesIncrement[15] ;> assignAttributesShuffle[5])[3] ;> retypeRedirect[7] ;> delBiggerPartAddSmallerPart[8] )[250] 
+		;> [cleanReferencesToZombies]
+	:>
+}

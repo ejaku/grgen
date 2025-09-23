@@ -166,6 +166,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         }
 
         SQLiteConnection connection;
+        SQLiteTransaction transaction;
 
         // prepared statements for handling nodes (assuming available node related tables)
         SQLiteCommand createNodeCommand; // topology
@@ -218,7 +219,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         INamedGraph host; // I'd prefer to use a property accessing the stack, but this would require to create an array...
         INamedGraph graph { get { return graphs.Peek(); } } // the current graph
 
-        IGraphProcessingEnvironment procEnv; // the graph processing environment to switch the current graph in case of to-subgraph switches (todo: and for db-transaction handling)
+        IGraphProcessingEnvironment procEnv; // the graph processing environment to switch the current graph in case of to-subgraph switches
 
         IEdge edgeGettingRedirected;
 
@@ -616,6 +617,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             command.Append("STRICT");
             SQLiteCommand createSchemaCommand = new SQLiteCommand(command.ToString(), connection);
 
+            createSchemaCommand.Transaction = transaction;
             int rowsAffected = createSchemaCommand.ExecuteNonQuery();
 
             createSchemaCommand.Dispose();
@@ -633,6 +635,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             command.Append(")");
             SQLiteCommand createIndexCommand = new SQLiteCommand(command.ToString(), connection);
 
+            createIndexCommand.Transaction = transaction;
             int rowsAffected = createIndexCommand.ExecuteNonQuery();
 
             createIndexCommand.Dispose();
@@ -685,6 +688,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             fillTypeCommand.Parameters.AddWithValue("@kind", (int)kind);
             fillTypeCommand.Parameters.AddWithValue("@name", type.PackagePrefixedName); // may include colons which are removed from the table name
 
+            fillTypeCommand.Transaction = transaction;
             int rowsAffected = fillTypeCommand.ExecuteNonQuery();
 
             long rowId = connection.LastInsertRowId;
@@ -734,6 +738,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             removeTypeFromAttributeTypesCommand.Parameters.Clear();
             removeTypeFromAttributeTypesCommand.Parameters.AddWithValue("@typeId", TypeNameToDbId[type.PackagePrefixedName]);
 
+            removeTypeFromAttributeTypesCommand.Transaction = transaction;
             int rowsAffected = removeTypeFromAttributeTypesCommand.ExecuteNonQuery();
         }
 
@@ -744,6 +749,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             fillAttributeTypeCommand.Parameters.AddWithValue("@attributeName", attributeType.Name);
             fillAttributeTypeCommand.Parameters.AddWithValue("@xgrsType", TypesHelper.AttributeTypeToXgrsType(attributeType));
 
+            fillAttributeTypeCommand.Transaction = transaction;
             int rowsAffected = fillAttributeTypeCommand.ExecuteNonQuery();
 
             long rowId = connection.LastInsertRowId; // attributeTypeId
@@ -779,6 +785,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
             using(SQLiteCommand command = PrepareStatementsForReadingKnownTypes())
             {
+                command.Transaction = transaction;
                 using(SQLiteDataReader reader = command.ExecuteReader())
                 {
                     Dictionary<string, int> nameToColumnIndex = GetNameToColumnIndexMapping(reader);
@@ -824,6 +831,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 replaceHostGraphCommand.Parameters.AddWithValue("@typeId", typeId);
                 replaceHostGraphCommand.Parameters.AddWithValue("@name", graph.Name);
 
+                replaceHostGraphCommand.Transaction = transaction;
                 int rowsAffected = replaceHostGraphCommand.ExecuteNonQuery();
 
                 long rowId = connection.LastInsertRowId;
@@ -889,61 +897,76 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 }
             }
 
-            // pass 0 - load all graphs (without elements and without the host graph, which was already processed/inserted before) (an alternative would be to load only the host graph, and the others on-demand lazily, creating proxy objects for them - but this would be more coding effort, defy purging, and when carrying out eager loading, it's better not to load graph-by-graph but all at once; later todo when graph types are introduced: load by type)
-            ReadGraphsWithoutHostGraph();
-
-            // pass 1 - load all elements (first nodes then edges, dispatching them to their containing graph in case they are not zombie nodes/edges)
-            foreach(NodeType nodeType in graph.Model.NodeModel.Types)
+            using(transaction = connection.BeginTransaction())
             {
-                ReadNodesIncludingZombieNodes(nodeType, readNodeCommands[nodeType.TypeID]);
-            }
-            foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
-            {
-                ReadEdgesIncludingZombieEdges(edgeType, readEdgeCommands[edgeType.TypeID]);
-            }
-
-            // pass 2 - load all objects
-            foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
-            {
-                ReadObjects(objectType, readObjectCommands[objectType.TypeID]);
-            }
-
-            // pass I - wire references/patch the references into the attributes (TODO - split this into helper methods like PatchReferencesFromDatabase)
-            // 2nd full table scan, type table by type table, patching node/edge/object references (graphs were handled before) in the nodes/edges/objects (in-memory), accessed by their database-id to type mapping
-            foreach(NodeType nodeType in graph.Model.NodeModel.Types)
-            {
-                PatchAttributesInElement(nodeType, "nodeId", readNodeCommands[nodeType.TypeID]);
-
-                foreach(AttributeType attributeType in nodeType.AttributeTypes)
+                try
                 {
-                    if(!IsContainerType(attributeType))
-                        continue;
-                    SQLiteCommand readNodeContainerCommand = readNodeContainerCommands[nodeType.TypeID][attributeType.Name];
-                    ReadPatchContainerAttributesInElement(nodeType, "nodeId", attributeType, readNodeContainerCommand);
+                    // pass 0 - load all graphs (without elements and without the host graph, which was already processed/inserted before) (an alternative would be to load only the host graph, and the others on-demand lazily, creating proxy objects for them - but this would be more coding effort, defy purging, and when carrying out eager loading, it's better not to load graph-by-graph but all at once; later todo when graph types are introduced: load by type)
+                    ReadGraphsWithoutHostGraph();
+
+                    // pass 1 - load all elements (first nodes then edges, dispatching them to their containing graph in case they are not zombie nodes/edges)
+                    foreach(NodeType nodeType in graph.Model.NodeModel.Types)
+                    {
+                        ReadNodesIncludingZombieNodes(nodeType, readNodeCommands[nodeType.TypeID]);
+                    }
+                    foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
+                    {
+                        ReadEdgesIncludingZombieEdges(edgeType, readEdgeCommands[edgeType.TypeID]);
+                    }
+
+                    // pass 2 - load all objects
+                    foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
+                    {
+                        ReadObjects(objectType, readObjectCommands[objectType.TypeID]);
+                    }
+
+                    // pass I - wire references/patch the references into the attributes (TODO - split this into helper methods like PatchReferencesFromDatabase)
+                    // 2nd full table scan, type table by type table, patching node/edge/object references (graphs were handled before) in the nodes/edges/objects (in-memory), accessed by their database-id to type mapping
+                    foreach(NodeType nodeType in graph.Model.NodeModel.Types)
+                    {
+                        PatchAttributesInElement(nodeType, "nodeId", readNodeCommands[nodeType.TypeID]);
+
+                        foreach(AttributeType attributeType in nodeType.AttributeTypes)
+                        {
+                            if(!IsContainerType(attributeType))
+                                continue;
+                            SQLiteCommand readNodeContainerCommand = readNodeContainerCommands[nodeType.TypeID][attributeType.Name];
+                            ReadPatchContainerAttributesInElement(nodeType, "nodeId", attributeType, readNodeContainerCommand);
+                        }
+                    }
+                    foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
+                    {
+                        PatchAttributesInElement(edgeType, "edgeId", readEdgeCommands[edgeType.TypeID]);
+
+                        foreach(AttributeType attributeType in edgeType.AttributeTypes)
+                        {
+                            if(!IsContainerType(attributeType))
+                                continue;
+                            SQLiteCommand readEdgeContainerCommand = readEdgeContainerCommands[edgeType.TypeID][attributeType.Name];
+                            ReadPatchContainerAttributesInElement(edgeType, "edgeId", attributeType, readEdgeContainerCommand);
+                        }
+                    }
+                    foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
+                    {
+                        PatchAttributesInElement(objectType, "objectId", readObjectCommands[objectType.TypeID]);
+
+                        foreach(AttributeType attributeType in objectType.AttributeTypes)
+                        {
+                            if(!IsContainerType(attributeType))
+                                continue;
+                            SQLiteCommand readObjectContainerCommand = readObjectContainerCommands[objectType.TypeID][attributeType.Name];
+                            ReadPatchContainerAttributesInElement(objectType, "objectId", attributeType, readObjectContainerCommand);
+                        }
+                    }
+
+                    transaction.Commit(); // no changes written inside transaction, but using one is recommended because of locking
+                    transaction = null;
                 }
-            }
-            foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
-            {
-                PatchAttributesInElement(edgeType, "edgeId", readEdgeCommands[edgeType.TypeID]);
-
-                foreach(AttributeType attributeType in edgeType.AttributeTypes)
+                catch
                 {
-                    if(!IsContainerType(attributeType))
-                        continue;
-                    SQLiteCommand readEdgeContainerCommand = readEdgeContainerCommands[edgeType.TypeID][attributeType.Name];
-                    ReadPatchContainerAttributesInElement(edgeType, "edgeId", attributeType, readEdgeContainerCommand);
-                }
-            }
-            foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
-            {
-                PatchAttributesInElement(objectType, "objectId", readObjectCommands[objectType.TypeID]);
-
-                foreach(AttributeType attributeType in objectType.AttributeTypes)
-                {
-                    if(!IsContainerType(attributeType))
-                        continue;
-                    SQLiteCommand readObjectContainerCommand = readObjectContainerCommands[objectType.TypeID][attributeType.Name];
-                    ReadPatchContainerAttributesInElement(objectType, "objectId", attributeType, readObjectContainerCommand);
+                    transaction.Rollback(); // no changes written inside transaction, but using one is recommended because of locking
+                    transaction = null;
+                    throw;
                 }
             }
 
@@ -969,6 +992,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private void ReadGraphsWithoutHostGraph()
         {
+            readGraphsCommand.Transaction = transaction;
             using(SQLiteDataReader reader = readGraphsCommand.ExecuteReader())
             {
                 Dictionary<string, int> attributeNameToColumnIndex = GetNameToColumnIndexMapping(reader);
@@ -1085,6 +1109,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private void ReadNodesIncludingZombieNodes(NodeType nodeType, SQLiteCommand readNodeCommand)
         {
+            readNodeCommand.Transaction = transaction;
             using(SQLiteDataReader reader = readNodeCommand.ExecuteReader())
             {
                 Dictionary<string, int> attributeNameToColumnIndex = GetNameToColumnIndexMapping(reader);
@@ -1120,6 +1145,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private void ReadEdgesIncludingZombieEdges(EdgeType edgeType, SQLiteCommand readEdgeCommand)
         {
+            readEdgeCommand.Transaction = transaction;
             using(SQLiteDataReader reader = readEdgeCommand.ExecuteReader())
             {
                 Dictionary<string, int> attributeNameToColumnIndex = GetNameToColumnIndexMapping(reader);
@@ -1160,6 +1186,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private void ReadObjects(ObjectType objectType, SQLiteCommand readObjectCommand)
         {
+            readObjectCommand.Transaction = transaction;
             using(SQLiteDataReader reader = readObjectCommand.ExecuteReader())
             {
                 Dictionary<string, int> attributeNameToColumnIndex = GetNameToColumnIndexMapping(reader);
@@ -1189,6 +1216,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private void PatchAttributesInElement(InheritanceType inheritanceType, String elementIdColumnName, SQLiteCommand readElementCommand)
         {
+            readElementCommand.Transaction = transaction;
             using(SQLiteDataReader reader = readElementCommand.ExecuteReader())
             {
                 Dictionary<string, int> attributeNameToColumnIndex = GetNameToColumnIndexMapping(reader);
@@ -1218,6 +1246,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             // all graphs/nodes/edges/objects must be available (but not their attributes), now in the patching pass, build the containers and fill them from the container tables
             // container TODO: write back to database a new sequence of adds (not needed when only adds, could be optimized away, extra map would be needed storing this information)
 
+            readElementContainerAttributeCommand.Transaction = transaction;
             using(SQLiteDataReader reader = readElementContainerAttributeCommand.ExecuteReader())
             {
                 Dictionary<string, int> attributeNameToColumnIndex = GetNameToColumnIndexMapping(reader);
@@ -1555,15 +1584,36 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             // find all entities reachable from the host graph - corresponds to the mark phase of a garbage collector - later todo: use visited flags instead of visited maps
             MarkReachableEntities(); // on in-memory representation, so only most current container state is taken into account (as it should be) (thus zombie nodes/edges only being referenced in history but nowehere in current state are purged later on)
 
-            // compactify before purging so that no graph/object zombie objects are needed at next run when non-existing graphs/objects that only exist in container change history are referenced
-            int numContainersCompactified = CompactifyContainerChangeHistory();
-
             // cleaning pass - similar to the sweep phase of a garbage collector - remove the graphs/objects from the database that are not reachable in-memory (unused) from the host graph on
-            int numNodesRemoved, numEdgesRemoved;
-            int numGraphsPurged = PurgeUnreachableGraphs(out numNodesRemoved, out numEdgesRemoved); // after all references to the graphs are known, we can purge the ones not in use; node/edge references are not a prerequisite for this (it only must be ensured all of them were instantiated before) (containers which may also contain graph references)
-            int numObjectsPurged = PurgeUnreachableObjects(); // after all references to the objects are known, we can purge the ones not in use
-            int numZombieNodesPurged = PurgeUnreachableZombieNodes();
-            int numZombieEdgesPurged = PurgeUnreachableZombieEdges();
+            int numContainersCompactified = 0;
+            int numNodesRemoved = 0, numEdgesRemoved = 0;
+            int numGraphsPurged = 0;
+            int numObjectsPurged = 0;
+            int numZombieNodesPurged = 0;
+            int numZombieEdgesPurged = 0;
+            using(transaction = connection.BeginTransaction())
+            {
+                try
+                {
+                    // compactify before purging so that no graph/object zombie objects are needed at next run when non-existing graphs/objects that only exist in container change history are referenced
+                    numContainersCompactified = CompactifyContainerChangeHistory();
+
+                    // cleaning pass - similar to the sweep phase of a garbage collector - remove the graphs/objects from the database that are not reachable in-memory (unused) from the host graph on
+                    numGraphsPurged = PurgeUnreachableGraphs(out numNodesRemoved, out numEdgesRemoved); // after all references to the graphs are known, we can purge the ones not in use; node/edge references are not a prerequisite for this (it only must be ensured all of them were instantiated before) (containers which may also contain graph references)
+                    numObjectsPurged = PurgeUnreachableObjects(); // after all references to the objects are known, we can purge the ones not in use
+                    numZombieNodesPurged = PurgeUnreachableZombieNodes();
+                    numZombieEdgesPurged = PurgeUnreachableZombieEdges();
+
+                    transaction.Commit();
+                    transaction = null;
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    transaction = null;
+                    throw;
+                }
+            }
 
             UnmarkReachableEntities();
 
@@ -2038,6 +2088,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 SQLiteCommand deleteGraphTopologyCommand = this.deleteGraphCommand;
                 deleteGraphTopologyCommand.Parameters.Clear();
                 deleteGraphTopologyCommand.Parameters.AddWithValue("@graphId", dbid);
+                deleteGraphTopologyCommand.Transaction = transaction;
                 int rowsAffected = deleteGraphTopologyCommand.ExecuteNonQuery();
 
                 RemoveGraphFromDbIdMapping(graph);
@@ -2799,6 +2850,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             addNodeTopologyCommand.Parameters.AddWithValue("@typeId", TypeNameToDbId[node.Type.PackagePrefixedName]);
             addNodeTopologyCommand.Parameters.AddWithValue("@graphId", GraphToDbId[graph]);
             addNodeTopologyCommand.Parameters.AddWithValue("@name", graph.GetElementName(node));
+            addNodeTopologyCommand.Transaction = transaction;
             int rowsAffected = addNodeTopologyCommand.ExecuteNonQuery();
             long rowId = connection.LastInsertRowId;
             AddNodeWithDbIdToDbIdMapping(node, rowId);
@@ -2816,6 +2868,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 object value = node.GetAttribute(attributeType.Name);
                 addNodeCommand.Parameters.AddWithValue("@" + GetUniqueColumnName(attributeType.Name), ValueOrIdOfReferencedElement(value, attributeType));
             }
+            addNodeCommand.Transaction = transaction;
             int rowsAffected = addNodeCommand.ExecuteNonQuery();
 
             WriteContainerEntries(node);
@@ -2829,6 +2882,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 redirectEdgeCommand.Parameters.AddWithValue("@edgeId", EdgeToDbId[edge]);
                 redirectEdgeCommand.Parameters.AddWithValue("@sourceNodeId", NodeToDbId[edge.Source]); // not yet, but somewhen nodes from another graph may be used, then it might be necessary to add their graph as needed
                 redirectEdgeCommand.Parameters.AddWithValue("@targetNodeId", NodeToDbId[edge.Target]);
+                redirectEdgeCommand.Transaction = transaction;
                 int rowsAffected = redirectEdgeCommand.ExecuteNonQuery();
 
                 edgeGettingRedirected = null;
@@ -2849,6 +2903,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             addEdgeTopologyCommand.Parameters.AddWithValue("@targetNodeId", NodeToDbId[edge.Target]);
             addEdgeTopologyCommand.Parameters.AddWithValue("@graphId", GraphToDbId[graph]);
             addEdgeTopologyCommand.Parameters.AddWithValue("@name", graph.GetElementName(edge));
+            addEdgeTopologyCommand.Transaction = transaction;
             int rowsAffected = addEdgeTopologyCommand.ExecuteNonQuery();
             long rowId = connection.LastInsertRowId;
             AddEdgeWithDbIdToDbIdMapping(edge, rowId);
@@ -2866,6 +2921,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 object value = edge.GetAttribute(attributeType.Name);
                 addEdgeCommand.Parameters.AddWithValue("@" + GetUniqueColumnName(attributeType.Name), ValueOrIdOfReferencedElement(value, attributeType));
             }
+            addEdgeCommand.Transaction = transaction;
             int rowsAffected = addEdgeCommand.ExecuteNonQuery();
 
             WriteContainerEntries(edge);
@@ -2877,6 +2933,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             SQLiteCommand deleteNodeTopologyCommand = this.deleteNodeCommand;
             deleteNodeTopologyCommand.Parameters.Clear();
             deleteNodeTopologyCommand.Parameters.AddWithValue("@nodeId", NodeToDbId[node]);
+            deleteNodeTopologyCommand.Transaction = transaction;
             int rowsAffected = deleteNodeTopologyCommand.ExecuteNonQuery();
         }
 
@@ -2885,6 +2942,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             SQLiteCommand deleteNodeCommand = deleteNodeCommands[node.Type.TypeID];
             deleteNodeCommand.Parameters.Clear();
             deleteNodeCommand.Parameters.AddWithValue("@nodeId", NodeToDbId[node]);
+            deleteNodeCommand.Transaction = transaction;
             int rowsAffected = deleteNodeCommand.ExecuteNonQuery();
 
             foreach(AttributeType attributeType in node.Type.AttributeTypes)
@@ -2894,6 +2952,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 SQLiteCommand deleteNodeContainerCommand = deleteNodeContainerCommands[node.Type.TypeID][attributeType.Name];
                 deleteNodeContainerCommand.Parameters.Clear();
                 deleteNodeContainerCommand.Parameters.AddWithValue("@nodeId", NodeToDbId[node]);
+                deleteNodeContainerCommand.Transaction = transaction;
                 rowsAffected = deleteNodeContainerCommand.ExecuteNonQuery();
             }
 
@@ -2909,6 +2968,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             SQLiteCommand deleteEdgeTopologyCommand = this.deleteEdgeCommand;
             deleteEdgeTopologyCommand.Parameters.Clear();
             deleteEdgeTopologyCommand.Parameters.AddWithValue("@edgeId", EdgeToDbId[edge]);
+            deleteEdgeTopologyCommand.Transaction = transaction;
             int rowsAffected = deleteEdgeTopologyCommand.ExecuteNonQuery();
         }
 
@@ -2917,6 +2977,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             SQLiteCommand deleteEdgeCommand = deleteEdgeCommands[edge.Type.TypeID];
             deleteEdgeCommand.Parameters.Clear();
             deleteEdgeCommand.Parameters.AddWithValue("@edgeId", EdgeToDbId[edge]);
+            deleteEdgeCommand.Transaction = transaction;
             int rowsAffected = deleteEdgeCommand.ExecuteNonQuery();
 
             foreach(AttributeType attributeType in edge.Type.AttributeTypes)
@@ -2926,6 +2987,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 SQLiteCommand deleteEdgeContainerCommand = deleteEdgeContainerCommands[edge.Type.TypeID][attributeType.Name];
                 deleteEdgeContainerCommand.Parameters.Clear();
                 deleteEdgeContainerCommand.Parameters.AddWithValue("@edgeId", EdgeToDbId[edge]);
+                deleteEdgeContainerCommand.Transaction = transaction;
                 rowsAffected = deleteEdgeContainerCommand.ExecuteNonQuery();
             }
 
@@ -2938,11 +3000,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             SQLiteCommand deleteObjectTopologyCommand = this.deleteObjectCommand;
             deleteObjectTopologyCommand.Parameters.Clear();
             deleteObjectTopologyCommand.Parameters.AddWithValue("@objectId", ObjectToDbId[@object]);
+            deleteObjectTopologyCommand.Transaction = transaction;
             int rowsAffected = deleteObjectTopologyCommand.ExecuteNonQuery();
 
             SQLiteCommand deleteObjectCommand = deleteObjectCommands[@object.Type.TypeID];
             deleteObjectCommand.Parameters.Clear();
             deleteObjectCommand.Parameters.AddWithValue("@objectId", ObjectToDbId[@object]);
+            deleteObjectCommand.Transaction = transaction;
             rowsAffected = deleteObjectCommand.ExecuteNonQuery();
 
             foreach(AttributeType attributeType in @object.Type.AttributeTypes)
@@ -2952,6 +3016,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 SQLiteCommand deleteObjectContainerCommand = deleteObjectContainerCommands[@object.Type.TypeID][attributeType.Name];
                 deleteObjectContainerCommand.Parameters.Clear();
                 deleteObjectContainerCommand.Parameters.AddWithValue("@objectId", ObjectToDbId[@object]);
+                deleteObjectContainerCommand.Transaction = transaction;
                 rowsAffected = deleteObjectContainerCommand.ExecuteNonQuery();
             }
 
@@ -2993,6 +3058,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 updateNodeCommand.Parameters.AddWithValue("@nodeId", NodeToDbId[node]);
                 updateNodeCommand.Parameters.AddWithValue("@" + GetUniqueColumnName(attrType.Name), ValueOrIdOfReferencedElement(newValue, attrType));
 
+                updateNodeCommand.Transaction = transaction;
                 int rowsAffected = updateNodeCommand.ExecuteNonQuery();
             }
         }
@@ -3019,6 +3085,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 updateEdgeCommand.Parameters.AddWithValue("@edgeId", EdgeToDbId[edge]);
                 updateEdgeCommand.Parameters.AddWithValue("@" + GetUniqueColumnName(attrType.Name), ValueOrIdOfReferencedElement(newValue, attrType));
 
+                updateEdgeCommand.Transaction = transaction;
                 int rowsAffected = updateEdgeCommand.ExecuteNonQuery();
             }
         }
@@ -3048,6 +3115,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 updateObjectCommand.Parameters.AddWithValue("@objectId", ObjectToDbId[obj]);
                 updateObjectCommand.Parameters.AddWithValue("@" + GetUniqueColumnName(attrType.Name), ValueOrIdOfReferencedElement(newValue, attrType));
 
+                updateObjectCommand.Transaction = transaction;
                 int rowsAffected = updateObjectCommand.ExecuteNonQuery();
             }
         }
@@ -3074,6 +3142,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 updateEdgeSourceCommand.Parameters.Clear();
                 updateEdgeSourceCommand.Parameters.AddWithValue("@edgeId", EdgeToDbId[outgoingEdge]);
                 updateEdgeSourceCommand.Parameters.AddWithValue("@sourceNodeId", NodeToDbId[newNode]);
+                updateEdgeSourceCommand.Transaction = transaction;
                 int rowsAffected = updateEdgeSourceCommand.ExecuteNonQuery();
             }
             foreach(IEdge incomingEdge in oldNode.Incoming)
@@ -3082,6 +3151,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 updateEdgeTargetCommand.Parameters.Clear();
                 updateEdgeTargetCommand.Parameters.AddWithValue("@edgeId", EdgeToDbId[incomingEdge]);
                 updateEdgeTargetCommand.Parameters.AddWithValue("@targetNodeId", NodeToDbId[newNode]);
+                updateEdgeTargetCommand.Transaction = transaction;
                 int rowsAffected = updateEdgeTargetCommand.ExecuteNonQuery();
             }
         }
@@ -3122,6 +3192,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             addGraphTopologyCommand.Parameters.Clear();
             addGraphTopologyCommand.Parameters.AddWithValue("@typeId", TypeNameToDbId["graph"]);
             addGraphTopologyCommand.Parameters.AddWithValue("@name", graph.Name);
+            addGraphTopologyCommand.Transaction = transaction;
             int rowsAffected = addGraphTopologyCommand.ExecuteNonQuery();
             long rowId = connection.LastInsertRowId;
             AddGraphWithDbIdToDbIdMapping(graph, rowId);
@@ -3295,6 +3366,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             addObjectTopologyCommand.Parameters.Clear();
             addObjectTopologyCommand.Parameters.AddWithValue("@typeId", TypeNameToDbId[obj.Type.PackagePrefixedName]);
             addObjectTopologyCommand.Parameters.AddWithValue("@name", obj.GetObjectName());
+            addObjectTopologyCommand.Transaction = transaction;
             int rowsAffected = addObjectTopologyCommand.ExecuteNonQuery();
             long rowId = connection.LastInsertRowId;
             AddObjectWithDbIdToDbIdMapping(obj, rowId);
@@ -3312,6 +3384,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 object val = obj.GetAttribute(attributeType.Name);
                 addObjectCommand.Parameters.AddWithValue("@" + GetUniqueColumnName(attributeType.Name), ValueOrIdOfReferencedElement(val, attributeType));
             }
+            addObjectCommand.Transaction = transaction;
             int rowsAffected = addObjectCommand.ExecuteNonQuery();
 
             WriteContainerEntries(obj);
@@ -3380,6 +3453,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 SQLiteCommand deleteNodeContainerCommand = deleteNodeContainerCommands[node.Type.TypeID][attributeType.Name];
                 deleteNodeContainerCommand.Parameters.Clear();
                 deleteNodeContainerCommand.Parameters.AddWithValue("@nodeId", NodeToDbId[node]);
+                deleteNodeContainerCommand.Transaction = transaction;
                 int rowsAffected = deleteNodeContainerCommand.ExecuteNonQuery();
             }
             else if(owningElement is IEdge)
@@ -3388,6 +3462,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 SQLiteCommand deleteEdgeContainerCommand = deleteEdgeContainerCommands[edge.Type.TypeID][attributeType.Name];
                 deleteEdgeContainerCommand.Parameters.Clear();
                 deleteEdgeContainerCommand.Parameters.AddWithValue("@edgeId", EdgeToDbId[edge]);
+                deleteEdgeContainerCommand.Transaction = transaction;
                 int rowsAffected = deleteEdgeContainerCommand.ExecuteNonQuery();
             }
             else
@@ -3396,6 +3471,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 SQLiteCommand deleteObjectContainerCommand = deleteObjectContainerCommands[@object.Type.TypeID][attributeType.Name];
                 deleteObjectContainerCommand.Parameters.Clear();
                 deleteObjectContainerCommand.Parameters.AddWithValue("@objectId", ObjectToDbId[@object]);
+                deleteObjectContainerCommand.Transaction = transaction;
                 int rowsAffected = deleteObjectContainerCommand.ExecuteNonQuery();
             }
         }
@@ -3531,6 +3607,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             updatingInsert.Parameters.AddWithValue("@command", command);
             object valueOrId = ValueOrIdOfReferencedElement(value, valueAttributeType);
             updatingInsert.Parameters.AddWithValue("@value", value != null ? valueOrId : DBNull.Value);
+            updatingInsert.Transaction = transaction;
             int rowsAffected = updatingInsert.ExecuteNonQuery();
             return connection.LastInsertRowId;
         }
@@ -3541,6 +3618,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             updatingInsert.Parameters.AddWithValue("@" + owningElementIdColumnName, owningElementId);
             updatingInsert.Parameters.AddWithValue("@command", command);
             updatingInsert.Parameters.AddWithValue("@value", DBNull.Value);
+            updatingInsert.Transaction = transaction;
             int rowsAffected = updatingInsert.ExecuteNonQuery();
             return connection.LastInsertRowId;
         }
@@ -3568,6 +3646,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             updatingInsert.Parameters.AddWithValue("@value", value != null ? valueValueOrId : DBNull.Value);
             object keyValueOrId = ValueOrIdOfReferencedElement(key, keyAttributeType);
             updatingInsert.Parameters.AddWithValue("@key", key != null ? keyValueOrId : DBNull.Value);
+            updatingInsert.Transaction = transaction;
             int rowsAffected = updatingInsert.ExecuteNonQuery();
             return connection.LastInsertRowId;
         }
@@ -3579,6 +3658,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             updatingInsert.Parameters.AddWithValue("@command", command);
             updatingInsert.Parameters.AddWithValue("@value", DBNull.Value);
             updatingInsert.Parameters.AddWithValue("@key", DBNull.Value);
+            updatingInsert.Transaction = transaction;
             int rowsAffected = updatingInsert.ExecuteNonQuery();
             return connection.LastInsertRowId;
         }
@@ -3659,7 +3739,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         // TODO: a deregister would make sense so event handlers can be removed when the action environment is changed (but in this case the persistent graph will be released, so no urgent action needed)
         public void RegisterToListenToProcessingEnvironmentEvents(IGraphProcessingEnvironment procEnv)
         {
-            this.procEnv = procEnv; // TODO: db transaction processing; not supported: parallel graph changes; not supported: changes to referenced graphs outside of event control; potentially possible but not wanted: listen to changes to all graphs
+            this.procEnv = procEnv; // not supported: changes to referenced graphs outside of event control; potentially possible but not wanted: listen to changes to all graphs
 
             procEnv.OnSwitchingToSubgraph += SwitchToSubgraphHandler;
             procEnv.OnReturnedFromSubgraph += ReturnFromSubgraphHandler;
@@ -3669,26 +3749,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         public void Close()
         {
             connection.Close();
-        }
-
-        public int NumNodesInDatabase
-        {
-            get { return DbIdToNode.Count; }
-        }
-
-        public int NumEdgesInDatabase
-        {
-            get { return DbIdToEdge.Count; }
-        }
-
-        public int NumObjectsInDatabase
-        {
-            get { return DbIdToObject.Count; }
-        }
-
-        public int NumGraphsInDatabase
-        {
-            get { return DbIdToGraph.Count; }
         }
 
         #region Database id from/to concept mapping maintenance
@@ -3773,5 +3833,69 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         }
 
         #endregion Database id from/to concept mapping maintenance
+
+        #region IPersistenceProviderTransactionManager
+
+        public void Start()
+        {
+            if(IsActive)
+                throw new Exception("Cannot start a database transaction when such one is already active");
+            transaction = connection.BeginTransaction();
+        }
+
+        public void CommitAndRestart()
+        {
+            if(!IsActive)
+                throw new Exception("Database transaction is not active");
+            transaction.Commit();
+            transaction = connection.BeginTransaction();
+        }
+
+        public void Commit()
+        {
+            if(!IsActive)
+                throw new Exception("Database transaction is not active");
+            transaction.Commit();
+            transaction = null;
+        }
+
+        public void Rollback()
+        {
+            if(!IsActive)
+                throw new Exception("Database transaction is not active");
+            transaction.Rollback();
+            transaction = null;
+        }
+
+        public bool IsActive
+        {
+            get { return transaction != null; }
+        }
+
+        #endregion IPersistenceProviderTransactionManager
+
+        #region IPersistenceProviderStatistics
+
+        public int NumNodesInDatabase
+        {
+            get { return DbIdToNode.Count; }
+        }
+
+        public int NumEdgesInDatabase
+        {
+            get { return DbIdToEdge.Count; }
+        }
+
+        public int NumObjectsInDatabase
+        {
+            get { return DbIdToObject.Count; }
+        }
+
+        public int NumGraphsInDatabase
+        {
+            get { return DbIdToGraph.Count; }
+        }
+
+        #endregion IPersistenceProviderStatistics
     }
 }

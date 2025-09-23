@@ -170,6 +170,9 @@ TOKEN: {
 |   < RANGLE: ">" >
 |   < LLANGLE: "<<" >
 |   < RRANGLE: ">>" >
+|   < LANGLECOLON: "<:" >
+|   < RANGLECOLON: ":>" >
+|   < RLANGLECOLON: ">:<" >
 |   < LBRACE: "{" >
 |   < RBRACE: "}" >
 |   < COLON: ":" >
@@ -1432,6 +1435,16 @@ Sequence SimpleSequence():
     "/" seq=RewriteSequence() "/"
     {
         return new SequencePause(seq);
+    }
+|
+    "<:" seq=RewriteSequence() ":>"
+    {
+        return new SequencePersistenceProviderTransaction(seq);
+    }
+|
+    ">:<"
+    {
+        return new SequenceCommitAndRestartPersistenceProviderTransaction();
     }
 |
     "if" "{" { varDecls.PushScope(ScopeType.If); } seq=RewriteSequence() ";"

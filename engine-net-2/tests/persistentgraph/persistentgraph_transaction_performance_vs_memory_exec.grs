@@ -1,0 +1,29 @@
+new graph "persistentgraph/persistentgraph_transaction_performance" "some non-persistent graph"
+
+show num nodes
+show num edges
+
+#very fast execution in-memory, compiled sequence
+exec performanceTest
+
+show num nodes N
+show num nodes M
+show num edges E
+
+! rm testgraphfilename_transaction_performance.db
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+new graph "persistentgraph/persistentgraph_transaction_performance" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_transaction_performance.db;Version=3;"
+
+show num nodes
+show num edges
+show num from database
+
+#considerably slower execution writing to a database (about factor 15), but halfway bearable because a transaction is used, compiled sequence
+exec performanceTest
+
+show num nodes N
+show num nodes M
+show num edges E
+show num from database
+
+quit

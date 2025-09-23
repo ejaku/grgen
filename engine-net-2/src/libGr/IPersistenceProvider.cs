@@ -12,7 +12,7 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// An interface to be implemented by classes that allow to persist changes to a named graph to some kind of repository.
     /// </summary>
-    public interface IPersistenceProvider : IPersistentGraphStatistics
+    public interface IPersistenceProvider : IPersistenceProviderStatistics, IPersistenceProviderTransactionManager
     {
         /// <summary>
         /// opens the repository / connects to the repository

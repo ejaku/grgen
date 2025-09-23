@@ -3005,13 +3005,13 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(!GraphExists())
                 return;
-            IPersistentGraphStatistics persistentGraphStatistics = curShellProcEnv.ProcEnv.Graph as IPersistentGraphStatistics;
-            if(persistentGraphStatistics == null)
+            IPersistenceInterfacesProvider persistenceInterfacesProvider = curShellProcEnv.ProcEnv.Graph as IPersistenceInterfacesProvider;
+            if(persistenceInterfacesProvider == null)
             {
                 ConsoleUI.errorOutWriter.WriteLine("The current graph is not a persistent graph. Use the new graph command including the persist with option.");
                 return;
             }
-
+            IPersistenceProviderStatistics persistentGraphStatistics = persistenceInterfacesProvider.PersistenceProviderStatistics;
             ConsoleUI.outWriter.WriteLine("Number of nodes found in the database: " + persistentGraphStatistics.NumNodesInDatabase);
             ConsoleUI.outWriter.WriteLine("Number of edges found in the database: " + persistentGraphStatistics.NumEdgesInDatabase);
             ConsoleUI.outWriter.WriteLine("Number of objects found in the database: " + persistentGraphStatistics.NumObjectsInDatabase);

@@ -77,6 +77,11 @@ namespace de.unika.ipd.grGen.libGr
         ITransactionManager TransactionManager { get; }
 
         /// <summary>
+        /// Returns the transaction manager of the underlying database if it exists, or null if no persistent graph is used (or the persistence provider of the persistent graph does not supply a persistence provider transaction manager).
+        /// </summary>
+        IPersistenceProviderTransactionManager PersistenceProviderTransactionManager { get; }
+
+        /// <summary>
         /// Apply a rewrite rule.
         /// </summary>
         /// <param name="action">The rule to invoke</param>

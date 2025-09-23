@@ -133,6 +133,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 return RenderSequenceMultiSequenceBacktrack((SequenceMultiSequenceBacktrack)seq, parent, highlightingMode);
             case SequenceType.Pause:
                 return RenderSequencePause((SequencePause)seq, parent, highlightingMode);
+            case SequenceType.PersistenceProviderTransaction:
+                return RenderSequencePersistenceProviderTransaction((SequencePersistenceProviderTransaction)seq, parent, highlightingMode);
+            case SequenceType.CommitAndRestartPersistenceProviderTransaction:
+                return RenderSequenceCommitAndRestartPersistenceProviderTransaction((SequenceCommitAndRestartPersistenceProviderTransaction)seq, parent, highlightingMode);
             case SequenceType.ForContainer:
                 return RenderSequenceForContainer((SequenceForContainer)seq, parent, highlightingMode);
             case SequenceType.ForIntegerRange:
@@ -371,6 +375,20 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             String operatorNodeName = AddNode(seqPause, highlightingMode, "/./");
             String subNodeName = RenderSequence(seqPause.Seq, seqPause, highlightingMode);
             env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, subNodeName), operatorNodeName, subNodeName, GetEdgeRealizer(highlightingMode), "sub");
+            return operatorNodeName;
+        }
+
+        private string RenderSequencePersistenceProviderTransaction(SequencePersistenceProviderTransaction seqPPTrans, SequenceBase parent, HighlightingMode highlightingMode)
+        {
+            String operatorNodeName = AddNode(seqPPTrans, highlightingMode, "<:.:>");
+            String subNodeName = RenderSequence(seqPPTrans.Seq, seqPPTrans, highlightingMode);
+            env.guiForDataRendering.graphViewer.AddEdge(GetUniqueEdgeName(operatorNodeName, subNodeName), operatorNodeName, subNodeName, GetEdgeRealizer(highlightingMode), "sub");
+            return operatorNodeName;
+        }
+
+        private string RenderSequenceCommitAndRestartPersistenceProviderTransaction(SequenceCommitAndRestartPersistenceProviderTransaction seqCommitAndRestartPPTrans, SequenceBase parent, HighlightingMode highlightingMode)
+        {
+            String operatorNodeName = AddNode(seqCommitAndRestartPPTrans, highlightingMode, ">:<");
             return operatorNodeName;
         }
 

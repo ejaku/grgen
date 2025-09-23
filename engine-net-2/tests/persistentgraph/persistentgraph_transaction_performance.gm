@@ -1,0 +1,63 @@
+node edge graph;
+object class unique;
+
+enum ENU { a, b, c }
+
+node class NBase
+{
+	s:string = "foo";
+	i:int = 42;
+}
+
+node class N extends NBase
+{
+	d:double = 42.0;
+	m:map<N,E> = {};
+	a:array<byte> = [];
+}
+
+node class M extends NBase
+{
+	se:set<N> = {};
+}
+
+edge class E
+{
+	s:string = "foo";
+	e:ENU = ENU::c;
+	o:O = null;
+	
+	procedure cycleE()
+	{
+		switch(e)
+		{
+			case ENU::a {
+				this.e = ENU::b;
+			}
+			case ENU::b {
+				this.e = ENU::c;
+			}
+			case ENU::c {
+				this.e = ENU::a;
+			}
+		}
+		return;
+	}
+}
+
+class O
+{
+	s:string = "foo";
+	i:int = 42;
+	oa:array<O> = [];
+	listBegin:ListElement;
+	//listEnd:ListElement; // for quick appending without iterating the list from begin
+	//procedure appendAtListEnd(ref element:ListElement); TODO - currently internal object class methods are not supported (in contrast to node and edge class methods) which is a major weakness
+
+}
+
+class ListElement
+{
+	next:ListElement;
+	//prev:ListElement; // for quick change operations if needed
+}
