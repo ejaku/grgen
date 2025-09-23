@@ -941,7 +941,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "[" + MinExpr.Symbol + ":*]"; }
+            get { return Seq.Symbol + "[" + MinExpr.Symbol + ":*]"; }
         }
     }
 
@@ -1008,7 +1008,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override string Symbol
         {
-            get { return "[" + MinExpr.Symbol + ":" + MaxExpr.Symbol + "]"; }
+            get { return Seq.Symbol + "[" + MinExpr.Symbol + ":" + MaxExpr.Symbol + "]"; }
         }
     }
 
