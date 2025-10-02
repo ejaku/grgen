@@ -228,6 +228,38 @@ An example implementation of such one can be found in the \texttt{tests/statespa
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Persistence Provider Transactions}\label{sec:pptransactions}
+
+Further rule application control is available in the form of \indexed{persistence provider transaction}s (aka \indexed{database transactions} of the persistent graph, see \ref{persistentgraphcreationcommands} for more on the persistent graph).
+
+\begin{rail}
+  ExtendedControl:
+    '<:' RewriteSequence ':>' | 
+    '>:<'
+    ;
+\end{rail}
+
+The sequence within the persistence provider transaction angles is executed within a database transaction.
+This defines the granularity (of the atomicity) of durability, which has major impact on performance.
+Without explicit database transaction angles, each and every single graph change will be processed within its own database transaction, giving a fine granularity of change persisting, ensuring even the slightest changes are durable after execution, at the price of wreaking havoc on performance.
+Note that rollback only occurs when the sequence crashes, otherwise at the closing angle, the database transaction will be commited.
+
+Also note that the persistence provider transactions aka database transactions are unrelated to the application logic layer transaction that are processed in-memory (an undo log is recorded, that is executed upon rollback).
+Nested transactions are \emph{not} supported.
+
+With the commit-and-restart command denoted by \texttt{>:<} you can commit the database transaction before the closing angle, a new one is started immediately thereafter - this way you can control the granularity of durability even in a nested construct.
+
+\begin{example}
+The examples \texttt{persistentgraph\_transaction\_performance.grs} and \texttt{persistentgraph\_performance.grs} that can be found in the \texttt{tests/persistentgraph} directory allow to compare the performance of using database transaction and working without them.
+
+The sequence
+\verb#<: ( create[25] ;> ( assignAttributesOverwrite[10] ;> ...)[3]#
+\verb# ;> ... ;> delBiggerPartAddSmallerPart[8] )[5] ;> [cleanReferencesToZombies] :>#
+is executed about 300 times faster than the same sequence without persistence provider transaction angles.
+\end{example}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Quick Reference Table}
 
 Table~\ref{seqtab} lists most of the operations of the advanced graph rewrite sequence constructs at a glance, followed by the language constructs supporting graph nesting.
@@ -251,6 +283,9 @@ Table~\ref{seqtab} lists most of the operations of the advanced graph rewrite se
 \texttt{for\{v:int in [l:u]; s\}} & Execute \texttt{s} for every \texttt{v} in the integer range starting at \texttt{l} and ending at \texttt{u}, upwards by one if \texttt{l<=r}, otherwise downwards by one. One \texttt{s} failing pins the execution result to failure.\\
 \texttt{for\{v in func(...); s\}} & Execute \texttt{s} for every node/edge in the graph query function \texttt{func}, which may be nodes/edges, or incident/adjacent, or reachable/boundedReachable. One \texttt{s} failing pins the execution result to failure.\\
 \texttt{for\{v:N in indexFunc(...); s\}} & Execute \texttt{s} for every \texttt{v} in the index query function \texttt{indexFunc}. One \texttt{s} failing pins the execution result to failure.\\
+\hline
+\texttt{<: s :>} & Execute \texttt{s} within a database transaction.\\
+\texttt{>:<} & Commit and restart the currently active database transaction.\\
 \hline
 \texttt{\{comp\}}	& An unspecified sequence computation (see table \ref{comptab}).\\
 \hline

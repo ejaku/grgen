@@ -9,6 +9,7 @@ We'll have a look at
 \item the interface of the graph processing environment (esp. for executing sequences)
 \item the porter module for importing and exporting of graphs and miscellaneous stuff
 \item the interface to the debugger and graph viewer (plus the shell)
+\item the interface to the persistent graph and the persistence provider
 \item implementing external class and function declarations
 \item implementing external match filter and external sequence declarations
 \item events fired when the graph is changed
@@ -235,6 +236,7 @@ To import a graph model and/or a graph instance, you can use \texttt{Porter.Impo
 The file format is determined by the file extensions.
 To export a graph instance you can use \texttt{Porter.Export()} from the libGr API (the GrShell command \texttt{export} is mapped to it).
 For an example of how to use the importer/exporter on API level see \texttt{examples-api/Java\-Program\-Graphs\-Example/Java\-Program\-Graphs\-Example.cs}
+For more on import/export and its potential limitations, have a look at the corresponding \GrShell\ Section~\ref{outputcmds}.
 
 The GRS(I) importer (the \texttt{.grsi} ending stands for graph rewrite script include) returns an \texttt{INamedGraph};
 if you don't need the persistent names, get rid of them by casting to the \texttt{LGSPNamedGraph} implementing the interface, (copy-)constructing a \texttt{LGSPGraph} from it, and removing any references to the named graph.
@@ -426,6 +428,17 @@ The \texttt{libGrShell} project allows you to include \GrShell{}-functionality (
 The \texttt{examples-api/ShellExample/ShellExample.cs} shows how to achieve this (utilizing parts of the \texttt{Mutex} example).
 
 The \texttt{examples-api/ApplicationExample/ApplicationExampleForm.cs} shows how to use the Debugger and the \GrShell{} from a GUI application (utilizing parts of the \texttt{Mutex} example).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Persistent Graph and Persistence Provider}
+In order to use a persistent graph, you have to create an \texttt{LGSPPersistentNamedGraph} with one of its constructors (or with one of the \texttt{CreateXXX} functions from the \texttt{IBackend}, when you want to work with the \texttt{libGr}-API only, without calling methods of the \texttt{lgspBackend} directly).
+You have to specify the \texttt{persistenceProviderDllName}, as of now only \texttt{libGr\-Persistence\-Provider\-SQLite.dll} is supported, and the connectionParameters, those are the same that you give with the \texttt{new graph persist with to} shell command (cf. \ref{persistentgraphcreationcommands} -- there, you also find some words on the design in a subsection).
+
+The persistent graph is a thin extension of an \texttt{LGSPNamedGraph}, the major part of the work is delegated to the persistence provider.
+You may implement a persistence provider on your own, it only has to be in an assembly and contain a class that implements the \texttt{IPersistenceProvider} interface.
+
+When using a persistent graph, you may be interested in the \texttt{Persistence\-Provider\-Transaction\-Manager} field of the \texttt{IGraph\-Processing\-Environment}, that allows to access an \texttt{IPersistence\-Provider\-Transaction\-Manager} object, which -- when available -- gives access to database transaction processing.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

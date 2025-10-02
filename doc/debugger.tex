@@ -655,3 +655,8 @@ The check may fail without uncovering a real issue, because the already deleted 
 Regarding the third case, note that an edge not contained in the graph anymore is not reported as invalid in case its source or target nodes are not contained in the graph anymore (this safes you from spurious error reports, at the price of potentially missing a situation where this is not anticipated).
 By annotating a node/edge with a \texttt{validityCheck=false}, cf. Section \ref{annotations}, you can disable the contained-in-graph check for that graph element.
 By using the same annotation on a rule (cf. Table \ref{tabannotations}), you can disable this validity check for all graph elements that were matched during the execution of the rule.
+
+In addition to the \texttt{-debug} flag, you could specify the \texttt{-keep} flag, then the generated source code is kept, which allows for easier bug hunting (we recommend you do so when you run into debugging issues).
+
+The persistent graph (cf. \ref{persistentgraphcreationcommands}) could also be used as a debugging aide.
+It allows to find dangling references to zombie nodes/edges, that are contained in attributes of graph element type, or attributes of a container type containing graph elements --- they are detected and reported when a persistent graph is loaded (i.e. deferred, not when a node/edge turns into a zombie, because it gets deleted/retyped).

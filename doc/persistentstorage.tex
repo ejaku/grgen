@@ -1,0 +1,247 @@
+\chapter{Persistent Storage}
+\label{cha:persistentstorage}
+
+The support for peristent storage can be distinguished into
+\begin{itemize}
+	\item the import/export functionality, that allows to serialize/deserialize a(n in-memory) graph at a dedicated point in time
+	\item the persistence graph, which is stored in a database (by a persistence provider), and has changes to the graph auto-persisted to the database
+	\item the record/replay functionality, that lies in between the two, starting with a full graph dump, then persisting ongoing changes to the \texttt{.grs} file.
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Persistent Graph Creation}
+\label{persistentgraphcreationcommands}
+
+The \texttt{new graph} command (cf. \ref{graphcreationcommands}) may be extended to create a \indexed{persistent graph}.
+
+\begin{rail}
+  PersistenceSuffix: 'persist' 'with' Text 'to' Text ;
+\end{rail}\ixnterm{PersistenceSuffix}\ixkeyw{persist}\ixkeyw{with}\ixkeyw{to}
+The first \emph{Text} specifies the persistence provider to use, which has to be given as a dll filename.
+With \texttt{libGrPersistenceProviderSQLite.dll}, the database (management system) SQLite is used; this dll is as of now the only offered persistence provider.
+The second \emph{Text} specifies the database connection string to use, which must specify the name of the database file to use, and should set the version.
+
+\begin{example}
+The command
+\begin{grshelllet}
+new graph "persistentgraph/persistentgraph_attributed"\
+persist with "libGrPersistenceProviderSQLite.dll"\
+to "Data Source=testgraphfilename_attributed.db;Version=3;"
+\end{grshelllet}
+creates a new graph from the model/actions specified by the \texttt{persistentgraph\_attributed.grg} file, persisting it with the persistence provider \texttt{libGrPersistenceProviderSQLite.dll} to the \texttt{testgraphfilename\_attributed.db} database file.
+The command is from the example \texttt{persistentgraph\_attributed.grs}, it can be found in the \texttt{tests/persistentgraph} directory.
+\end{example}
+
+\begin{warning}
+When using a persistent graph, you are strongly advised to employ persistence provider aka database transactions, at least when non-minor graph or attribute changes occur.
+Executing a write-heavy sequence without an enclosing database transaction which causes the implicit use of many small transactions is about 300 times slower than the use of an enclosing database transaction.
+See \ref{sec:pptransactions} for an explanation of the relevant constructs in the sequences language.
+\end{warning}
+
+\begin{note}
+The persistent graph also has its price: executing a write-heavy sequence with nearly no matching on a persistent graph with an enclosing database transaction is about 15 times slower than executing the sequence on an in-memory only graph.
+\end{note}
+
+\subsection*{Persistent Graph Design and Consequences}
+The persistent graph is implemented in large parts by a persistence provider, currently only the SQLite based \texttt{libGrPersistenceProviderSQLite.dll} is available (the \texttt{LGSP\-Persistent\-Named\-Graph} implementing the \texttt{INamedGraph} interface from \texttt{libGr} is only a very thin extension of the \texttt{LGSPNamedGraph}, the real work is delegated to its persistence provider). 
+
+The workflow is: at session begin, when the persistent graph is created, the database is read (or created if it does not exist yet), then ongoing changes to the graph are persisted to the database, until the session ends.
+At the begin of the next session, the state at the end of the previous session is still available.
+
+Matching/reading occurs entirely in-memory, the database is read only once, when the persistent graph is loaded.
+The writing of changes (to the graph structure as well as to the attributes of its entities) is realized by listening to the graph change events.
+This design allows for quick pattern matching and for quick writing, and comes at the price of slow loading.
+
+A mark and sweep like garbage collector is employed directly after the inital graph reading, it finds out which of the known objects and graphs are still reachable from the host graph on, and which of the zombie nodes/edges are still reachable from the host graph on.
+The ones that are not referenced anymore are deleted.
+Also container compactification occurs: container attributes are stored as a log of change commands (like add and rem), at initial loading, the changes are replayed, and the by-then reached most current state is written anew.
+
+Note that only the objects that are reachable from the host graph on are stored, in contrast to all the objects created, even if they are accessible from e.g. sequence variables.
+Nodes/edges that are deleted or retyped turn into zombies, references to them dangle afterwards.
+They may still be available in attributes of node/edge type or attributes of container of node/edge type (in nodes or edges or internal class objects).
+These still referenced zombies are reported as warnings at persistent graph loading.
+The attribute containing them should have been assigned null or they should have been removed from the container attribute containing them before the removal from the graph or the retype (a retype keeps the position, name, and unique id, but the retyped element has a different .NET object identity than the previous element).
+
+The persistent graph as it is implemented by the SQLite persistence provider is constrained in certain ways compared to the regular graph:
+\begin{itemize}
+	\item when attributes are used that contain nodes/edges (graph element references), the graph elements of the graph must reference the containing graph, i.e. \texttt{node edge graph;} must have been declared (cf. \ref{sec:graphnesting}) -- in exchange, the persistent graph is capable of coping with references to graph elements from other graphs than the one the reference is contained in -- this is \emph{not} supported by the GRS exporter/importer.
+	\item the persistent graph does not support the reuse optimization (cf. \ref{sec:graphcustomcommands}, \texttt{optimizereuse} that recycles deleted elements).
+	\item the persistent graph does not support parallel sequence execution (cf. \ref{sec:sequenceparallelization}).
+\end{itemize}
+
+The SQLite persistence provider uses the following table mapping: the graph structure is stored in topology tables (\texttt{nodes}, \texttt{edges}, \texttt{graphs}, \texttt{objects}) with one row per entity, the entities (nodes, edges, objects) are stored as rows in per-type table with the attributes as columns, besides container attributes, which have their are own tables (additionally, type information is stored in \texttt{types} and \texttt{attributeTypes} tables).
+A minimal amount of database indices is used (initial reading occurs by full table scans), as pattern matching is not carried out against the database -- the indices to achieve fast lookups and matching are all kept in-memory, the same runtime structures as used for a non-persistent graph are re-used.
+
+You could change the persistent graph offline by carrying out SQL commands, even though this is not recommended.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Graph Input and Output}
+\label{outputcmds}
+
+\begin{rail}
+  'save' 'graph' Filename
+\end{rail}\ixkeyw{save}\ixkeyw{graph}
+Dumps\indexmain{dumping graph} the current graph as \GrShell\ script\indexmain{graph rewrite script} into \emph{Filename}.
+The created script includes
+\begin{itemize}
+  \item selecting the backend
+  \item creating a new graph with all nodes and edges (including their persistent names)
+  \item restoring the (graph global) variables
+  \item restoring the visualisation styles
+\end{itemize}
+but not necessarily using the same commands you typed in during construction.
+Such a script can be loaded and executed by the \texttt{include} command (see Section~\ref{inclcondexeccommands}).
+
+\begin{rail}
+  'export' Filename ('.grs' | '.grsi') ('.gz')? \\ ( () | 'nonewgraph') (('skip/type.attr')*)
+\end{rail}\ixkeyw{export}\indexmain{export}
+Exports an instance graph in GRS (.grs/.grsi) format, which is a reduced \GrShell\ script
+(it can get imported and exported on API level without using the \GrShell, see Section \ref{sub:imexport}).
+This is the recommended standard format (it is lightweight, human-readable and editable, and supported by an optimized importer).
+The file contains a \texttt{new graph} command, followed by \texttt{new node} commands, followed by \texttt{new edge} commands.
+If the \texttt{.gz} suffix is given the graph is saved zipped.
+The export is only complete with the model of the graph given in the \texttt{.gm} file.
+Exporting fails if the graph model contains attributes of \texttt{object}-type; you may add support for storing them, too, see \ref{sub:extemitparse} for more on this.
+
+When the optional parameter \texttt{nonewgraph} is given, the initial \texttt{new graph} command at file begin is omitted.
+Such a file cannot be \texttt{import}ed, but only \texttt{include}d, as it is incomplete.
+You have to ensure an empty graph of correct model exists before you can include a file exported this way.
+
+The skip parameters allow to exclude attributes from the node/edge attribute initializer lists of the \texttt{new node} or \texttt{new edge} commands.
+The parameter \texttt{skip/type.attr} causes omission of attribute \texttt{attr} from graph element type \texttt{type} during graph serialization.
+This way you can export an again importable graph if you intend to remove some attributes -- otherwise import would fail due to an unknown attribute getting initialized (in the file exported adhering to the old graph model that is not existing in the new graph model).
+
+The native \texttt{.grs} format is the best support format, but still limited as of now regarding the full runtime object graph that can be stored in-memory, it does not support node/edge attributes in the nodes/edges of a graph that reference nodes/edges from another graph, or node/edge attributes in an internal class object that can be reached from different graphs (node/edge attributes are considered an ugly duckling). You must refrain from using them in this manner (at least as of now), which could happen quite easily when you store a subgraph created by \texttt{insertInduced}/\texttt{insertDefined} in the host graph, with node/edge attributed elements, because the elements are shallowly cloned, referencing the original elements -- it's your task to overwrite them with \texttt{null} or valid versions.
+
+The \texttt{save} command from above is for saving a \GrShell\ session including graph global variables and visualization commands,
+the goal of the \texttt{export} command is simply persistent storing of graphs;
+esp. for applications that use \GrG{ }to get an algorithmic core, but are not built on the \GrShell.
+
+\begin{rail}
+  'export' Filename '.gxl' ('.gz')?
+\end{rail}\ixkeyw{export}\indexmain{export}
+Exports an instance graph and a graph model in GXL format \cite{GXL,GXL2},
+which is somewhat of a standard format for graphs of graph rewrite systems,
+but suffers from the well-known XML problems -- it is barely human-readable and editable, and bloated.
+It is supported by \GrG{} as exchange format for inter-tool operability.
+Exporting fails if the graph model contains attributes of container or \texttt{object}-type.
+If the \texttt{.gz} suffix is given the graph is saved zipped.
+
+\begin{rail}
+  'export' Filename '.xmi' ('.gz')?
+\end{rail}\ixkeyw{export}\indexmain{export}
+Exports an instance graph in .XMI format.
+XMI files as written by the Eclipse Modeling Framework (EMF) are a standard format in the model transformation community (together with ecore files for the model).
+It suffers from the XML problems explained above, in addition it can be even characterized as overly complex and baroque, and it requires some metamodel mapping.
+It is supported by \GrG{} as exchange format for inter-tool operability.
+The metamodel is assumed to stem from a previous import of an ecore file, with its specific way of mapping \texttt{.ecore} to \texttt{.gm}, i.e. with an underscore prefix, a node type prefix for the edge types, and the \verb#[containment=true]# annotation at the edges that express containment, which is needed so that they are written with XML node containment.
+If the \texttt{.gz} suffix is given the graph is saved zipped.
+
+%\pagebreak %force better layout
+
+\begin{rail}
+  'export' Filename '.grg' ('.gz')?
+\end{rail}\ixkeyw{export}\indexmain{export}
+Exports an instance graph in GRG format, i.e. as one GrGen rule with an empty pattern and a large modify part.
+There is no importer existing, this format is not for normal use as storage format!
+If the \texttt{.gz} suffix is given the graph is saved zipped.
+
+\begin{rail}
+  'import' Filename ('.grs' | '.grsi' ) ('.gz')? (ModelOverride)?
+\end{rail}\ixkeyw{import}
+Imports the specified graph instance in GRS (.grs/.grsi) format (the \emph{reduced} \GrShell\ script,
+a \texttt{save}d graph can only be imported by \texttt{include} due to commands not supported by the importer (but an exported graph can be imported by \texttt{include}, too)).
+The graph model referenced in the .grs/.grsi must be available as \texttt{.gm}-file.
+If a model override of the form \texttt{Filename.gm} is specified, the given model will be used instead of the model referenced in the GRS file.
+If a model override of the form \texttt{Filename.grg} is specified, the model(s) of the given rule file will be used instead of the model in the GRS file.
+If the \texttt{.gz} suffix is given the graph is expected to be zipped.
+
+\begin{rail}
+  'import' Filename '.gxl' ('.gz')? (ModelOverride)?
+\end{rail}\ixkeyw{import}
+Imports the specified graph instance and model in GXL format.
+If a model override of the form \texttt{Filename.gm} is specified, the given model will be used instead of the model in the GXL file.
+If a model override of the form \texttt{Filename.grg} is specified(s), the model of the given rule file will be used instead of the model in the GXL file.
+The \texttt{.gxl}-graph must be compatible to the \texttt{.gm}-model/\texttt{.grg}-model.
+If the \texttt{.gz} suffix is given the graph is expected to be zipped.
+
+\begin{note}\label{shellgxlimport}
+Normally you are not only interested in importing a GXL graph (and viewing it), but you want to execute actions on it.
+The problem is that the actions are model dependent.
+So, in order to apply actions, you must use a model override, which works this way:
+\begin{enumerate}
+\item \texttt{new graph "YourName.grg"}\\
+This creates the model library lgsp-YourNameModel.dll
+and the actions library lgsp-YourNameActions.dll
+(which depends on the model library generated from the \texttt{"using YourName;"}).
+\item \texttt{import InstanceGraphOnly.gxl YourName.gm}\\
+This imports the instance graph from the .gxl but uses the model specified
+in YourName.gm (it must fit to the model in the .gxl in order to work).
+\item \texttt{select actions lgsp-YourNameActions.dll}\\
+This loads the actions from the actions library in addition to the already
+loaded model and instance graph (cf. \ref{grsthings}).
+\item Now you are ready to use the actions.
+\end{enumerate}
+As of version 3.0beta you can specify a \texttt{.grg} as model override;
+basically it does what the given enumeration does.
+\end{note}
+
+\begin{rail}
+  'import' ((Filename '.ecore')+( )) Filename '.xmi' (Filename '.grg')?
+\end{rail}\ixkeyw{import}\label{shellecoreexport}
+Imports the specified graph instance in XMI format and the models in ecore format.
+They can't be imported directly, as \GrG{ } is not built on EMF.
+Instead, during the import process an intermediate \texttt{.gm} is written which is equivalent to the \texttt{.ecore} given -- you may inspect it to see how the content gets mapped.
+(The importer maps packages to GrGen packages, classes to GrGen node classes, their attributes to corresponding GrGen attributes, and their references to GrGen edge classes.
+Inheritance is transferred one-to-one, and enumerations are mapped to GrGen enums.
+Edge type names are prefixed by the names of the node types they originate from to prevent name clashes for references of same name,
+and all types are prefixed by an underscore to prevent name clashes with keywords of the rule language.
+Edge type declarations are annotated with a \verb#[containment=true]# annotation if they originate from a containment reference.)
+After this metamodel transformation the instance graph XMI adhering to the Ecore model thus adhering to the just
+generated equivalent GrGen graph model gets imported.
+Furthermore, you can specify a \texttt{.grg} containing the rules to apply (including further rule and using further model files -- this way you can use additional custom graph models).
+Some examples stemming from old GraBaTs/TTC challenges export XMI with emit statements (e.g. the Program-Comprehension example in \texttt{examples/ProgramComprehension-GraBaTs09}), this is not needed anymore with the built-in XMI export.
+
+\begin{rail}
+  'import' 'add' FileSpec
+\end{rail}\ixkeyw{import}\ixkeyw{add}
+Imports the graph in the specified file and adds it to the current graph
+(instead of overwriting the old graph with the new graph).
+The \texttt{FileSpec} is of the same format as the file specification in the other import commands.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Graph Change Recording and Replaying}
+\label{recordnreplay}
+
+Graph change recording and replaying is available 
+\begin{itemize}
+	\item for one for post-problem debugging, you can execute your transformation, and after a problem occured inspect the changes that were leading to it
+	\item for the other for ensuring persistence of changes as they happen, in case you are using \GrG\ as an application-embedded in-memory graph-datebase
+\end{itemize}
+
+\begin{rail}
+  'record' Filename ('.gz')? ('start' | 'stop')?
+\end{rail}\ixkeyw{record}\ixkeyw{start}\ixkeyw{stop}\indexmain{record}
+The record command starts or stops recording of graph changes to the specified file. If neither start nor stop are given, recording to the specified file is toggled (i.e. started if no recording to the file is underway or stopped if the file is already recorded to).
+Recording starts with an export (cf. \ref{outputcmds}) of the instance graph in GRS (.grs/.grsi) format, afterwards the command returns but all changes to the instance graph are recorded to the file until the recording stop command is issued.
+Furthermore the values given in the \texttt{record} statements (cf. \ref{recstmt}) from the sequences are written to the recording (this allows you to mark states).
+If the \texttt{.gz} suffix is given the recording is saved zipped.
+You may start and stop recordings to different files at different times, every file receives the graph changes and records statements occurring during the time of the recording.
+Note: As a debugging help a recording does not only contain graph manipulation commands (cf. \ref{mani}) but also comments telling about the rewrites and transaction events which occurred (whose effects were recorded).
+
+\begin{rail}
+  'recordflush'
+\end{rail}\ixkeyw{recordflush}
+Flushes the buffers of the recordings to disk. 
+To be called to guarantee persistence if you use \GrG{} as a kind of online database, recording the graph changes while running to a redo log.
+
+\begin{rail}
+  'replay' Filename ('.gz')? ('from' Text)? ('to' Text)?
+\end{rail}\ixkeyw{replay}\ixkeyw{from}\ixkeyw{to}\indexmain{replay}
+The replay command plays a recording back: the graph at the time the recording was started is recreated, then the changes which occurred are carried out again, so you end up with the graph at the time the recording was stopped. Instead of replaying the entire GRS file you may restrict replaying to parts of the file by giving the line to start at and/or the line to stop at. Lines are specified by their textual content which is searched in the file.
+If a \emph{from} line is given, all lines from file begin on including this line are skipped, then replay starts. If a \emph{to} line is given, only the lines from the starting point on, until-excluding this one are executed (i.e. all lines from-including this one until file end are skipped).
+Normally you reference with \texttt{from} and \texttt{to} comment lines you write with the \texttt{record} statement (cf. \ref{recstmt}) in the sequences, marking relevant states during a transformation process.
+An example for record and replay is given in \texttt{tests/recordreplay}.

@@ -1,8 +1,8 @@
 \chapter{GrShell Language}\indexmain{GrShell}
 \label{chapgrshell}
 
-\GrShell\ is a \indexedsee{shell}{GrShell} application built on top of \LibGr\indexmain{libGr} that offers an execution environment for your generated graph transformations.
-It belongs to \GrG's standard equipment.
+The console application \GrShell\ and its WindowsForms counterpart, the \GGrShell, are \indexedsee{shell}{GrShell} applications built on top of \LibGr\indexmain{libGr} that offer an execution environment for your generated graph transformations.
+They belong to \GrG's standard equipment, and implement nearly everything in common, so we use in the following only the term \GrShell.
 \GrShell\ is capable of creating, manipulating, and dumping graphs as well as performing and esp. debugging graph rewriting.
 The \GrShell\ provides a line oriented scripting language.
 \GrShell\ scripts are structured by simple statements separated by line breaks.
@@ -38,6 +38,7 @@ graph elements will be \indexed{label}ed with their persistent names.
 Persistent names have to be unique for a graph (the graph they belong to).
 \end{note}
 
+Besides the commands defined in this chapter, you find \GrShell commands in the following chapters \ref{cha:persistentstorage} and \ref{chapdebugger}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Common Commands}
@@ -71,21 +72,24 @@ Prints \emph{Text} onto the \GrShell\ command prompt.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Graph Creation}
+\section{Graph and Graph Element Creation}
 \label{graphcreationcommands}
 
 The command most shell scripts start with is graph creation.
 
 \begin{rail}
-  'new' (() | 'new') 'graph' Filename Text
+  'new' (() | 'new') 'graph' Filename (() | Text) (() | PersistenceSuffix)
 \end{rail}\ixkeyw{new}\ixkeyw{graph}
 Creates a new graph with the model specified in \emph{Filename}\indexmain{graph model}.
-Its name is set to \emph{Text}.
+Its name is set to \emph{Text} (optional).
 The model file can be either source code (e.g.\ \texttt{turing\textunderscore machineModel.cs}) or a .NET assembly (e.g.\ \texttt{lgsp-turing\textunderscore machineModel.dll}).
 It's also possible to specify a rule set file as \emph{Filename} (this is the most common usage).
 In this case the necessary assemblies will be created on the fly (as needed).
+
 In case of a double \texttt{new}, the actions and model are created anew for sure, and not as needed according to the file change dates.
 Use this if you are working with one of the \texttt{new set} or \texttt{new add} commands from Section \ref{sec:compilerconfigshell}.
+
+When a \emph{PersistenceSuffix} is given, a new \indexed{persistent graph} is created, you find more on it in Section \ref{persistentgraphcreationcommands}.
 
 \begin{warning}
 You may run into unexpected results because some \texttt{new set} or \texttt{new add} options that you apply and see in the shell file are not the ones actually compiled into the generated code.
@@ -180,140 +184,6 @@ An \indexed{object constructor} is used to initialize a new internal class objec
 A comma separated list of \indexed{attribute} initializations is supplied to the constructor.
 The \texttt{\%} is a special attribute name: a unique identifier of the new object.
 This name can be specified by a constructor only (and is normally automatically assigned upon object construction -- this also occurs when it is left out here).
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Graph Input and Output}
-\label{outputcmds}
-
-\begin{rail}
-  'save' 'graph' Filename
-\end{rail}\ixkeyw{save}\ixkeyw{graph}
-Dumps\indexmain{dumping graph} the current graph as \GrShell\ script\indexmain{graph rewrite script} into \emph{Filename}.
-The created script includes
-\begin{itemize}
-  \item selecting the backend
-  \item creating a new graph with all nodes and edges (including their persistent names)
-  \item restoring the (graph global) variables
-  \item restoring the visualisation styles
-\end{itemize}
-but not necessarily using the same commands you typed in during construction.
-Such a script can be loaded and executed by the \texttt{include} command (see Section~\ref{inclcondexeccommands}).
-
-\begin{rail}
-  'export' Filename ('.grs' | '.grsi') ('.gz')? \\ ( () | 'nonewgraph') (('skip/type.attr')*)
-\end{rail}\ixkeyw{export}\indexmain{export}
-Exports an instance graph in GRS (.grs/.grsi) format, which is a reduced \GrShell\ script
-(it can get imported and exported on API level without using the \GrShell, see Section \ref{sub:imexport}).
-This is the recommended standard format (it is lightweight, human-readable and editable, and supported by an optimized importer).
-The file contains a \texttt{new graph} command, followed by \texttt{new node} commands, followed by \texttt{new edge} commands.
-If the \texttt{.gz} suffix is given the graph is saved zipped.
-The export is only complete with the model of the graph given in the \texttt{.gm} file.
-Exporting fails if the graph model contains attributes of \texttt{object}-type; you may add support for storing them, too, see \ref{sub:extemitparse} for more on this.
-
-When the optional parameter \texttt{nonewgraph} is given, the initial \texttt{new graph} command at file begin is omitted.
-Such a file cannot be \texttt{import}ed, but only \texttt{include}d, as it is incomplete.
-You have to ensure an empty graph of correct model exists before you can include a file exported this way.
-	
-The skip parameters allow to exclude attributes from the node/edge attribute initializer lists of the \texttt{new node} or \texttt{new edge} commands.
-The parameter \texttt{skip/type.attr} causes omission of attribute \texttt{attr} from graph element type \texttt{type} during graph serialization.
-This way you can export an again importable graph if you intend to remove some attributes -- otherwise import would fail due to an unknown attribute getting initialized (in the file exported adhering to the old graph model that is not existing in the new graph model).
-
-The \texttt{save} command from above is for saving a \GrShell\ session including graph global variables and visualization commands,
-the goal of the \texttt{export} command is simply persistent storing of graphs;
-esp. for applications that use \GrG{ }to get an algorithmic core, but are not built on the \GrShell.
-
-\begin{rail}
-  'export' Filename '.gxl' ('.gz')?
-\end{rail}\ixkeyw{export}\indexmain{export}
-Exports an instance graph and a graph model in GXL format \cite{GXL,GXL2},
-which is somewhat of a standard format for graphs of graph rewrite systems,
-but suffers from the well-known XML problems -- it is barely human-readable and editable, and bloated.
-It is supported by \GrG{} as exchange format for inter-tool operability.
-Exporting fails if the graph model contains attributes of container or \texttt{object}-type.
-If the \texttt{.gz} suffix is given the graph is saved zipped.
-
-\begin{rail}
-  'export' Filename '.xmi' ('.gz')?
-\end{rail}\ixkeyw{export}\indexmain{export}
-Exports an instance graph in .XMI format.
-XMI files as written by the Eclipse Modeling Framework (EMF) are a standard format in the model transformation community (together with ecore files for the model).
-It suffers from the XML problems explained above, in addition it can be even characterized as overly complex and baroque, and it requires some metamodel mapping.
-It is supported by \GrG{} as exchange format for inter-tool operability.
-The metamodel is assumed to stem from a previous import of an ecore file, with its specific way of mapping \texttt{.ecore} to \texttt{.gm}, i.e. with an underscore prefix, a node type prefix for the edge types, and the \verb#[containment=true]# annotation at the edges that express containment, which is needed so that they are written with XML node containment.
-If the \texttt{.gz} suffix is given the graph is saved zipped.
-
-%\pagebreak %force better layout
-
-\begin{rail}
-  'export' Filename '.grg' ('.gz')?
-\end{rail}\ixkeyw{export}\indexmain{export}
-Exports an instance graph in GRG format, i.e. as one GrGen rule with an empty pattern and a large modify part.
-There is no importer existing, this format is not for normal use as storage format!
-If the \texttt{.gz} suffix is given the graph is saved zipped.
-
-\begin{rail}
-  'import' Filename ('.grs' | '.grsi' ) ('.gz')? (ModelOverride)?
-\end{rail}\ixkeyw{import}
-Imports the specified graph instance in GRS (.grs/.grsi) format (the \emph{reduced} \GrShell\ script,
-a \texttt{save}d graph can only be imported by \texttt{include} due to commands not supported by the importer (but an exported graph can be imported by \texttt{include}, too)).
-The graph model referenced in the .grs/.grsi must be available as \texttt{.gm}-file.
-If a model override of the form \texttt{Filename.gm} is specified, the given model will be used instead of the model referenced in the GRS file.
-If a model override of the form \texttt{Filename.grg} is specified, the model(s) of the given rule file will be used instead of the model in the GRS file.
-If the \texttt{.gz} suffix is given the graph is expected to be zipped.
-
-\begin{rail}
-  'import' Filename '.gxl' ('.gz')? (ModelOverride)?
-\end{rail}\ixkeyw{import}
-Imports the specified graph instance and model in GXL format.
-If a model override of the form \texttt{Filename.gm} is specified, the given model will be used instead of the model in the GXL file.
-If a model override of the form \texttt{Filename.grg} is specified(s), the model of the given rule file will be used instead of the model in the GXL file.
-The \texttt{.gxl}-graph must be compatible to the \texttt{.gm}-model/\texttt{.grg}-model.
-If the \texttt{.gz} suffix is given the graph is expected to be zipped.
-
-\begin{note}\label{shellgxlimport}
-Normally you are not only interested in importing a GXL graph (and viewing it), but you want to execute actions on it.
-The problem is that the actions are model dependent.
-So, in order to apply actions, you must use a model override, which works this way:
-\begin{enumerate}
-\item \texttt{new graph "YourName.grg"}\\
-This creates the model library lgsp-YourNameModel.dll
-and the actions library lgsp-YourNameActions.dll
-(which depends on the model library generated from the \texttt{"using YourName;"}).
-\item \texttt{import InstanceGraphOnly.gxl YourName.gm}\\
-This imports the instance graph from the .gxl but uses the model specified
-in YourName.gm (it must fit to the model in the .gxl in order to work).
-\item \texttt{select actions lgsp-YourNameActions.dll}\\
-This loads the actions from the actions library in addition to the already
-loaded model and instance graph (cf. \ref{grsthings}).
-\item Now you are ready to use the actions.
-\end{enumerate}
-As of version 3.0beta you can specify a \texttt{.grg} as model override;
-basically it does what the given enumeration does.
-\end{note}
-
-\begin{rail}
-  'import' ((Filename '.ecore')+( )) Filename '.xmi' (Filename '.grg')?
-\end{rail}\ixkeyw{import}\label{shellecoreexport}
-Imports the specified graph instance in XMI format and the models in ecore format.
-They can't be imported directly, as \GrG{ } is not built on EMF.
-Instead, during the import process an intermediate \texttt{.gm} is written which is equivalent to the \texttt{.ecore} given -- you may inspect it to see how the content gets mapped.
-(The importer maps packages to GrGen packages, classes to GrGen node classes, their attributes to corresponding GrGen attributes, and their references to GrGen edge classes.
-Inheritance is transferred one-to-one, and enumerations are mapped to GrGen enums.
-Edge type names are prefixed by the names of the node types they originate from to prevent name clashes for references of same name,
-and all types are prefixed by an underscore to prevent name clashes with keywords of the rule language.
-Edge type declarations are annotated with a \verb#[containment=true]# annotation if they originate from a containment reference.)
-After this metamodel transformation the instance graph XMI adhering to the Ecore model thus adhering to the just
-generated equivalent GrGen graph model gets imported.
-Furthermore, you can specify a \texttt{.grg} containing the rules to apply (including further rule and using further model files -- this way you can use additional custom graph models).
-Some examples stemming from old GraBaTs/TTC challenges export XMI with emit statements (e.g. the Program-Comprehension example in \texttt{examples/ProgramComprehension-GraBaTs09}), this is not needed anymore with the built-in XMI export.
-
-\begin{rail}
-  'import' 'add' FileSpec
-\end{rail}\ixkeyw{import}\ixkeyw{add}
-Imports the graph in the specified file and adds it to the current graph
-(instead of overwriting the old graph with the new graph).
-The \texttt{FileSpec} is of the same format as the file specification in the other import commands.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -638,41 +508,6 @@ The graph is NOT valid:
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Graph Change Recording and Replaying}
-\label{recordnreplay}
-
-Graph change recording and replaying is available 
-\begin{itemize}
-	\item for one for post-problem debugging, you can execute your transformation, and after a problem occured inspect the changes that were leading to it
-	\item for the other for ensuring persistence of changes as they happen, in case you are using \GrG\ as an application-embedded in-memory graph-datebase
-\end{itemize}
-
-\begin{rail}
-  'record' Filename ('.gz')? ('start' | 'stop')?
-\end{rail}\ixkeyw{record}\ixkeyw{start}\ixkeyw{stop}\indexmain{record}
-The record command starts or stops recording of graph changes to the specified file. If neither start nor stop are given, recording to the specified file is toggled (i.e. started if no recording to the file is underway or stopped if the file is already recorded to).
-Recording starts with an export (cf. \ref{outputcmds}) of the instance graph in GRS (.grs/.grsi) format, afterwards the command returns but all changes to the instance graph are recorded to the file until the recording stop command is issued.
-Furthermore the values given in the \texttt{record} statements (cf. \ref{recstmt}) from the sequences are written to the recording (this allows you to mark states).
-If the \texttt{.gz} suffix is given the recording is saved zipped.
-You may start and stop recordings to different files at different times, every file receives the graph changes and records statements occurring during the time of the recording.
-Note: As a debugging help a recording does not only contain graph manipulation commands (cf. \ref{mani}) but also comments telling about the rewrites and transaction events which occurred (whose effects were recorded).
-
-\begin{rail}
-  'recordflush'
-\end{rail}\ixkeyw{recordflush}
-Flushes the buffers of the recordings to disk. 
-To be called to guarantee persistence if you use \GrG{} as a kind of online database, recording the graph changes while running to a redo log.
-
-\begin{rail}
-  'replay' Filename ('.gz')? ('from' Text)? ('to' Text)?
-\end{rail}\ixkeyw{replay}\ixkeyw{from}\ixkeyw{to}\indexmain{replay}
-The replay command plays a recording back: the graph at the time the recording was started is recreated, then the changes which occurred are carried out again, so you end up with the graph at the time the recording was stopped. Instead of replaying the entire GRS file you may restrict replaying to parts of the file by giving the line to start at and/or the line to stop at. Lines are specified by their textual content which is searched in the file.
-If a \emph{from} line is given, all lines from file begin on including this line are skipped, then replay starts. If a \emph{to} line is given, only the lines from the starting point on, until-excluding this one are executed (i.e. all lines from-including this one until file end are skipped).
-Normally you reference with \texttt{from} and \texttt{to} comment lines you write with the \texttt{record} statement (cf. \ref{recstmt}) in the sequences, marking relevant states during a transformation process.
-An example for record and replay is given in \texttt{tests/recordreplay}.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Inclusion and Conditional Execution}
 \label{inclcondexeccommands}
 
@@ -885,7 +720,7 @@ Or indirectly by explaining the chosen search plan so you can inspect it for the
 
 The \indexed{LGSPBackend} supports the following custom commands, separated into the realms of the graph and the actions.
 
-\subsubsection*{Graph related custom commands}
+\subsubsection*{Graph related custom commands}\label{sec:graphcustomcommands}
 
 \begin{rail}
   'custom' 'graph' 'analyze'

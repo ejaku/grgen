@@ -451,6 +451,8 @@ The functions from the built-in package \texttt{File} allow to import subgraphs 
 \item[\texttt{File::exists(.)}] returns whether the file given by its path exists.
 \end{description}
 
+The \texttt{import} function is similar to the \texttt{import} command from the GrShell, see Section~\ref{outputcmds}, applied to a \texttt{.grs}-file. It returns a graph object for further processing instead of replacing the host graph.
+
 The procedures from the built-in package \texttt{File} allow to export subgraphs and delete files.
 
 \begin{description}
@@ -459,7 +461,7 @@ The procedures from the built-in package \texttt{File} allow to export subgraphs
 \item[\texttt{File::delete(.)}] deletes the file with the given path.
 \end{description}
 
-The \texttt{export} procedure behaves like the \texttt{export} command from the GrShell, see \ref{outputcmds}. It allows for programmed exporting, and exporting of parts of the graph alongside subgraph containment.
+The \texttt{export} procedure behaves like the \texttt{export} command from the GrShell, see Section~\ref{outputcmds}, applied to a \texttt{.grs}-file. It allows for programmed exporting, and exporting of parts of the graph alongside subgraph containment.
 
 % todo: mehr beispiele
 
