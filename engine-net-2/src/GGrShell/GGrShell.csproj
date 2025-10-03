@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>ggrshell.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="graphViewerAndSequenceDebugger">
       <HintPath>..\..\bin\graphViewerAndSequenceDebugger.dll</HintPath>
@@ -107,6 +110,9 @@
     <PackageReference Include="System.Resources.Extensions">
       <Version>7.0.0</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ggrshell.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
