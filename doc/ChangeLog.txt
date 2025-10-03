@@ -1,4 +1,107 @@
-﻿v7.2.1 (2025-04-22)
+﻿v8.0beta (2025-10-03)
+ Introduced a persistent graph / implemented graph persistence, realized by an SQLite persistence provider:
+
+  In the (G)GrShell, graph persisting is requested with the syntax: 
+   persist with "persistenceProvider.dll" to "repository connection parameters",  appended at the new graph command, 
+   e.g. new graph "persistentgraph/persistentgraph" persist with "libGrPersistenceProviderSQLite.dll"
+     to "Data Source=testgraphfilename.db;Version=3;"
+  Introduced a "show num from database" shell command, printing the number of nodes/edges/graphs/objects in the database
+   it can only be applied on a persistent graph, and is to be used for/when testing/debugging
+
+  Extended the sequences language by persistence provider (/database) transaction angles <: seq :>
+   when a persistent graph is used, the database changes resulting from the graph changes caused by the execution of the sequence seq
+   are wrapped into a database transaction that is committed at the end (or rolled back in case of an exception leaving the construct)
+  Extended the sequences language also by a persistence provider (/database) commit-and-restart command >:<,
+   resulting in a commit before the closing :> of enclosing persistence provider transaction angles is reached,
+   and then a restart of the database transaction
+   (by these language constructs, the granularity of durability can be controlled, and weighted against performance)
+  Transactions encompassing multiple changes allow to achieve much better performance than
+   the default of wrapping the execution of each and every SQL statement into an own transaction
+   (each graph change causes at least one SQL statement to be executed)
+ 
+ Introduced a GGrShell WindowsForms shell application
+  it is based on the same core/code also used by the GrShell console application, i.e. the libGrShell to be more specific
+  the Graphical GrShell allows to use the GUI/MSAGL-based debugger without freezing
+  (this starting version is intentionally very simple, it can and is to be extended with GUI features)
+
+ Added a mode "redirected" to the debug set edge mode shell command,
+  e.g. "debug set edge mode redirected color purple" sets the color of redirected edges in the debugger to purple (default is pink)
+
+ Extended the show element.attribute command of the GrShell by support for object types (the element being of object type)
+
+ Extended the cast operator in the sequences to support a lot more types (only match types/match class types missing)
+  (additionally allowed more casts from and to object type in the compiler frontend)
+
+ Error reporting improvements:
+  - massively improved the execution error reporting by printing the source level constructs
+    (when executing interpreted sequences / an interpreted sequence fails with an exception)
+  - improved the error messages when a method call in the (interpreted) sequence expressions/computations fails
+  - implemented earlier error reporting by an exception getting fired when the subgraph to be switched to is null
+  - replaced implicit null pointer exception(s) by semantically richer explicit exception(s)
+  - improved error reporting in the compiler frontend when casts during constant folding are failing
+    or when the requested cast is not admissible
+    with dedicated messages to the user instead of arcane/opaque compiler-internal messages
+  - several smaller error reporting improvements
+  - the shell reports errors now to stderr instead of stdout
+
+ Project layout changes:
+  - introduced a libConsoleAndOS project/assembly:
+    containing the console (user) interface (and the implementation used by the non-GUI modules),
+    also the higher level twin console interfaces,
+    and the workaround manager for OS dependent code;
+    this is a new bottom level library (included even by the libGr)
+  - introduced a libConsoleAndOSWindowsForms project/assembly:
+    containing the GuiConsoleControl, and the control-to-text-reader/writer adapters,
+    allowing to implement the console (user) interface in a GUI application
+  - introduced a libGrPersistenceProviderSQLite project/assembly:
+    it is the first (and at least for now the only) implementation of a persistence provider,
+    employing an SQLite database via an ADO.NET driver
+    (it is utilizing SQLite by a package reference to the official ADO.NET package from SQLite)
+
+ API:
+  - a PersistenceProviderSQLite class is now available implementing the new IPersistenceProvider interface
+  - it allows to extend an arbitrary INamedGraph by persistent storage
+  - it is used in implementing an LGSPPersistentNamedGraph
+  - it maps the graph model to a relational database, initially filling the graph from the database,
+    but thereafter only writing modifications through to the database, by listening to the graph change events
+  - all querying and pattern matching after the initial read is carried out on the in-memory graph
+  - the new LGSPPersistentNamedGraph is a thin extension of an LGSPNamedGraph,
+    the real implementation is delegated to the persistence provider
+  - the graph processing environment now contains a PersistenceProviderTransactionManager property, 
+    of the new type IPersistenceProviderTransactionManager
+    (the sequences implement their persistence provider transactions utilizing it)
+  - some interface name improvements
+
+ Bugfixes:
+  - fixed the debugger display of the redirection of edges (depending on the graph viewer even a crash)
+  - fixed a crash when the GuiConsoleControl was written to from the background thread of the PrintStatistics timer
+  - the imported grs file is now closed directly after the import (so it is not locked anymore)
+  - the graph isomorphy(/structure) comparison operators in the rule language now also allow to check against null
+  - several fixes regarding the firing of change events (bugs uncovered by the persistent graph that depends on them):
+    - fixed the generation of container change events in the eval part of the rule language
+      the expressions yielding the container command arguments were evaluated and used twice (now only once)
+      which caused issues when e.g. a graph or object creation was involved
+    - added a missing firing of the ChangingAttributeAssignElement event
+      for indexed assignments to attributes of internal class objects
+    - also fixed an off-by-one error in the firing of ChangingAttributeRemoveElement events for arrays and deques upon clear
+    - added a missing ChangingObjectAttribute event upon assignment to an attribute of an object in the compiled sequences
+      when assigning to a statically typed variable containing an internal class object
+  - fixed the indexed assignment to an attribute of container type in the compiled sequence computations
+  - fixed a potential bug in the compiled sequence expressions if an attribute of statically known container type is accessed,
+    which showed when peek was applied on it
+  - added an error check preventing a misinterpretation when a container attribute is getting assigned an integer value
+    / a container is to be cloned, but a value not being of the same kind is given as input
+  - fixed a crash when a container typed attribute of the value null is getting accessed (under certain circumstances)
+  - bugfix in the unique id processing of objects: parse expecting hex format (with which the number was written before)
+  - carried out a missing adaptation to the introduction of the "object class unique;" model option
+  - fixed the text representation of the loops in the sequences (the Symbol used in the error messages)
+  - carried out fixes in types handling (in the backend)
+
+ Adapted the user manual to the changes in the meantime, esp. introduced new chapters, and carried out some minor improvements
+
+--------------------------------------------------------------------------------------------------------
+
+v7.2.1 (2025-04-22)
  Adapted Notepad++ syntax highlighting to the recent changes
 
 v7.2 (2025-04-19)

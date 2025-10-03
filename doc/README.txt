@@ -1,15 +1,15 @@
-GrGen.NET v7.2 (2025-04-19)
----------------------------
+GrGen.NET v8.0beta (2025-10-03)
+-------------------------------
 
 This is the GrGen.NET system for graph rewriting.
 It consists of two parts of components:
 - the Graph Rewrite Generator GrGen, which turns declarative rewrite rule
   specifications into efficient .NET assemblies performing the rewrites,
   which are supported by the runtime environment implemented by LibGr
-  and the lgspBackend.
-- the rapid prototyping environment offered by GrShell with the 
+  and the lgspBackend (plus helper dlls).
+- the rapid prototyping environment offered by (G)GrShell with the 
   console or the GUI debugger, and the yComp or MSAGL graph viewer
-  (MSAGL and the debugger can be also used from your own application)
+  (MSAGL and the debugger can be also used from your own .NET application)
 
 
 INSTALL
@@ -29,8 +29,8 @@ For Linux:
 
   - Add the <GrGenNETPath>/bin directory to your search path,
     otherwise you must specify it together with the executable when running mono
-	
-	( by adding in .profile or .bashrc: export PATH=<GrGenNETPath>/bin:$PATH )
+
+    ( by adding in .profile or .bashrc: export PATH=<GrGenNETPath>/bin:$PATH )
 
 For Windows:
   - Unpack GrGenNET.zip to a folder of your choice (referred to as
@@ -102,7 +102,7 @@ at http://www.grgen.de (or http://www.grgen.net).
 If you find any bugs or have a suggestion, please send an email to:
     grgen@grgen.de
 
-	
+
 MAIN AUTHORS FROM IPD
 ---------------------
 
@@ -174,7 +174,7 @@ COPYING
 
 Copyright (C) 2003-2025 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
 
-This file is part of GrGen, Version GrGen.NET 7.2
+This file is part of GrGen, Version GrGen.NET 8.0
 
 GrGen is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by

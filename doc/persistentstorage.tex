@@ -35,7 +35,7 @@ The command is from the example \texttt{persistentgraph\_attributed.grs}, it can
 
 \begin{warning}
 When using a persistent graph, you are strongly advised to employ persistence provider aka database transactions, at least when non-minor graph or attribute changes occur.
-Executing a write-heavy sequence without an enclosing database transaction which causes the implicit use of many small transactions is about 300 times slower than the use of an enclosing database transaction.
+Executing a write-heavy sequence without an enclosing database transaction which causes the implicit use of many small transactions is about 500 times slower than the use of an enclosing database transaction.
 See \ref{sec:pptransactions} for an explanation of the relevant constructs in the sequences language.
 \end{warning}
 

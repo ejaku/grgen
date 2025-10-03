@@ -186,7 +186,24 @@ The base library \texttt{libConsoleAndOS.dll} offers interfaces for text console
 
 %-----------------------------------------------------------------------------------------------
 \section{\texttt{libConsoleAndOSWindowsForms.dll}}
-The WindowsFroms extension of the \texttt{libConsoleAndOS.dll} contains a GUI console implementation for WindowsForms apps (that is used by the debugger from the \texttt{graphViewerAndSequenceDebuggerWindowsForms.dll} and the \GGrShell, you should include it in your own WindowsForms application if you want to use \GrG).
+The WindowsFroms extension of the \texttt{libConsole\-And\-OS.dll} contains a GUI console implementation for WindowsForms apps (that is used by the debugger from the \texttt{graph\-Viewer\-And\-Sequence\-Debugger\-Windows\-Forms.dll} and the \GGrShell, you should include it in your own WindowsForms application if you want to use \GrG).
+
+%-----------------------------------------------------------------------------------------------
+\section{MSAGL assemblies/libraries}
+In order to use the MSAGL graph viewer on API level, you have to ensure that the following libs are available in your search path (you find them in the \texttt{bin} directory):\\
+\texttt{Microsoft.Msagl.Drawing.dll},
+\texttt{Microsoft.Msagl.GraphViewerGdi.dll},
+\texttt{Microsoft.Msagl.dll},\\
+\texttt{System.Buffers.dll},
+\texttt{System.Memory.dll},
+\texttt{System.Numerics.Vectors.dll},\\
+\texttt{System.Resources.Extensions.dll},
+\texttt{System.Runtime.CompilerServices.Unsafe.dll}
+
+%-----------------------------------------------------------------------------------------------
+\section{SQLite assemblies/libraries}
+In order to use the persistent graph, or better the SQLite persistence provider on API level, you have to ensure that the \texttt{System.Data.SQLite.dll} is available in your search path (besides the \texttt{libGrPersistenceProviderSQLite.dll
+}; you find them in the \texttt{bin} directory).
 
 %-----------------------------------------------------------------------------------------------
 \section{\texttt{yComp.jar}}
@@ -208,7 +225,3 @@ It is well integrated and shipped with \GrG, but it's not a part of \GrG; it is 
   Use the rightmost blue play button to start the layout process. Depending on the graph size this may take a while.
   \item[Requires] Java Runtime Environment 1.5 (or above).
 \end{description}
-
-%-----------------------------------------------------------------------------------------------
-%TODO: \section{\texttt{MSAGL assemblies}}
-%TODO: \section{\texttt{SQLite assemblies/libraries}}
