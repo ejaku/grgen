@@ -2186,6 +2186,85 @@
             </summary>
             <returns>The name of the type of this class.</returns>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPPersistentNamedGraph">
+            <summary>
+            An implementation of the INamedGraph interface extending the default implementation by persistence support.
+            TODO: maybe this class should be part of libGr, a mere decorator adding persistence support, delegating calls to a wrapped non-persistent graph (interface), maybe maybe it would be possible to omit it altogether...
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPPersistentNamedGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.libGr.IGlobalVariables,System.Int32,System.String,System.String)">
+            <summary>
+            Constructs an LGSPPersistentNamedGraph object with the given model and capacity, and an automatically generated name.
+            </summary>
+            <param name="grmodel">The graph model.</param>
+            <param name="globalVars">The global variables.</param>
+            <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
+            <param name="persistenceProviderDllName">The name of the persistence provider dll.</param>
+            <param name="connectionParameters">The connection parameters to configure the persistence provider.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPPersistentNamedGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.libGr.IGlobalVariables,System.String,System.Int32,System.String,System.String)">
+            <summary>
+            Constructs an LGSPPersistentNamedGraph object with the given model, name, and capacity.
+            </summary>
+            <param name="grmodel">The graph model.</param>
+            <param name="globalVars">The global variables.</param>
+            <param name="grname">The name for the graph.</param>
+            <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
+            <param name="persistenceProviderDllName">The name of the persistence provider dll.</param>
+            <param name="connectionParameters">The connection parameters to configure the persistence provider.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPPersistentNamedGraph.GetPersistenceProvider(System.String)">
+            <summary>
+            returns a persistence provider from the given dll
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPPersistentNamedGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPPersistentNamedGraph,System.String,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.IGraphElement}@)">
+            <summary>
+            Copy constructor.
+            </summary>
+            <param name="dataSource">The LGSPPersistentNamedGraph object to get the data from</param>
+            <param name="newName">Name of the copied graph.</param>
+            <param name="oldToNewMap">A map of the old elements to the new elements after cloning.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPPersistentNamedGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPPersistentNamedGraph,System.String)">
+            <summary>
+            Copy constructor.
+            </summary>
+            <param name="dataSource">The LGSPPersistentNamedGraph object to get the data from</param>
+            <param name="newName">Name of the copied graph.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPPersistentNamedGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPGraph,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.IGraphElement}@)">
+            <summary>
+            Copy and extend constructor, creates a named graph from a normal graph.
+            Initializes the name maps with anonymous names in the form "$" + GetNextName()
+            </summary>
+            <param name="graph">The graph to be used named</param>
+            <param name="oldToNewMap">A map of the old elements to the new elements after cloning</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPPersistentNamedGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPGraph)">
+            <summary>
+            Copy and extend constructor, creates a named graph from a normal graph.
+            Initializes the name maps with anonymous names in the form "$" + GetNextName()
+            </summary>
+            <param name="graph">The graph to be used named</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPPersistentNamedGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPGraph,System.String,System.Collections.Generic.IDictionary{de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.IGraphElement}@)">
+            <summary>
+            Copy and extend constructor, creates a named graph from a normal graph.
+            Initializes the name maps with the names provided in a given attribute each graph element must have
+            </summary>
+            <param name="graph">The graph to be used named</param>
+            <param name="nameAttributeName">The name of the attribute to be used for naming</param>
+            <param name="oldToNewMap">A map of the old elements to the new elements after cloning</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPPersistentNamedGraph.#ctor(de.unika.ipd.grGen.lgsp.LGSPGraph,System.String)">
+            <summary>
+            Copy and extend constructor, creates a named graph from a normal graph.
+            Initializes the name maps with the names provided in a given attribute each graph element must have
+            </summary>
+            <param name="graph">The graph to be used named</param>
+            <param name="nameAttributeName">The name of the attribute to be used for naming</param>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPTransientObject">
             <summary>
             Class implementing transient objects in the libGr search plan backend (values of internal non-node/edge classes)
@@ -3275,14 +3354,16 @@
             A helper class for backend independent graph and rule handling.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateGraph(System.String,de.unika.ipd.grGen.libGr.IGlobalVariables,System.String,System.Boolean,System.String[])">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateGraph(System.String,de.unika.ipd.grGen.libGr.IGlobalVariables,System.String,System.Boolean,System.String,System.String,System.String[])">
             <summary>
-            Creates a new LGSPGraph or LGSPNamedGraph backend instance with the graph model provided by the graph model file and a name.
+            Creates a new LGSPGraph or LGSPNamedGraph or LGSPPersistentNamedGraph backend instance with the graph model provided by the graph model file and a name.
             </summary>
             <param name="modelFilename">Filename of a graph model file.</param>
             <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
             <param name="graphName">Name of the graph.</param>
             <param name="named">Returns a named graph if true otherwise a non-named graph. You must cast the LGSPGraph returned to the inherited LGSPNamedGraph if named=true.</param>
+            <param name="persistenceProvider">The name of the persistence provider (for the persistent named graph) - if not null, a persistent (named) graph is created.</param>
+            <param name="connectionParameters">The connection parameters to configure the persistence provider.</param>
             <param name="parameters">Backend specific parameters.</param>
             <returns>The new IGraph backend instance.</returns>
         </member>
@@ -3324,9 +3405,9 @@
             Returns the base name of a path name (i.e. no path and no extension).
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateFromSpec(System.String,de.unika.ipd.grGen.libGr.IGlobalVariables,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Boolean,System.Int32,de.unika.ipd.grGen.lgsp.LGSPGraph@,de.unika.ipd.grGen.lgsp.LGSPActions@)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateFromSpec(System.String,de.unika.ipd.grGen.libGr.IGlobalVariables,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Boolean,System.Int32,System.String,System.String,de.unika.ipd.grGen.lgsp.LGSPGraph@,de.unika.ipd.grGen.lgsp.LGSPActions@)">
             <summary>
-            Creates a new LGSPGraph or LGSPNamedGraph and LGSPActions instance from the specified specification file.
+            Creates a new LGSPGraph or LGSPNamedGraph or LGSPPersistentNamedGraph and LGSPActions instance from the specified specification file.
             If the according dlls do not exist or are out of date, the needed processing steps are performed automatically.
             </summary>
             <param name="grgFilename">Filename of the rule specification file (.grg).</param>
@@ -3337,6 +3418,8 @@
             <param name="externalAssemblies">List of external assemblies to reference.</param>
             <param name="named">Returns a named graph if true otherwise a non-named graph. You must cast the LGSPGraph returned to the inherited LGSPNamedGraph if named=true.</param>
             <param name="capacity">The initial capacity for the name maps, only used if named (performance optimization, use 0 if unsure).</param>
+            <param name="persistenceProvider">The name of the persistence provider (for the persistent named graph) - if not null, a persistent (named) graph is created.</param>
+            <param name="connectionParameters">The connection parameters to configure the persistence provider.</param>
             <param name="newGraph">Returns the new graph.</param>
             <param name="newActions">Returns the new BaseActions object.</param>
             <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
@@ -3371,9 +3454,26 @@
             <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateFromSpec(System.String,de.unika.ipd.grGen.libGr.IGlobalVariables,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Boolean,System.Int32)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreatePersistentNamedFromSpec(System.String,de.unika.ipd.grGen.libGr.IGlobalVariables,System.String,System.Int32,System.String,System.String,de.unika.ipd.grGen.lgsp.LGSPPersistentNamedGraph@,de.unika.ipd.grGen.lgsp.LGSPActions@)">
             <summary>
-            Creates a new LGSPGraph or LGSPNamedGraph instance from the specified specification file.
+            Creates a new LGSPPersistentNamedGraph and LGSPActions instance from the specified specification file.
+            If the according dlls do not exist or are out of date, the needed processing steps are performed automatically.
+            A name for the graph is automatically generated.
+            </summary>
+            <param name="grgFilename">Filename of the rule specification file (.grg).</param>
+            <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
+            <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
+            <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
+            <param name="persistenceProvider">The name of the persistence provider (for the persistent named graph).</param>
+            <param name="connectionParameters">The connection parameters to configure the persistence provider.</param>
+            <param name="newGraph">Returns the new persistent named graph.</param>
+            <param name="newActions">Returns the new BaseActions object.</param>
+            <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
+            <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateFromSpec(System.String,de.unika.ipd.grGen.libGr.IGlobalVariables,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Boolean,System.Int32,System.String,System.String)">
+            <summary>
+            Creates a new LGSPGraph or LGSPNamedGraph or LGSPPersistentNamedGraph instance from the specified specification file.
             If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
             </summary>
             <param name="gmFilename">Filename of the model specification file (.gm).</param>
@@ -3384,9 +3484,11 @@
             <param name="externalAssemblies">List of external assemblies to reference.</param>
             <param name="named">Returns a named graph if true otherwise a non-named graph. You must cast the LGSPGraph returned to the inherited LGSPNamedGraph if named=true.</param>
             <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
+            <param name="persistenceProvider">The name of the persistence provider (for the persistent named graph) - if not null, a persistent (named) graph is created.</param>
+            <param name="connectionParameters">The connection parameters to configure the persistence provider.</param>
             <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
-            <returns>The new LGSPGraph or LGSPNamedGraph instance.</returns>
+            <returns>The new LGSPGraph or LGSPNamedGraph or LGSPPersistentNamedGraph instance.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateFromSpec(System.String,de.unika.ipd.grGen.libGr.IGlobalVariables)">
             <summary>
@@ -3413,6 +3515,21 @@
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
             <returns>The new LGSPNamedGraph instance.</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreatePersistentNamedFromSpec(System.String,de.unika.ipd.grGen.libGr.IGlobalVariables,System.Int32,System.String,System.String)">
+            <summary>
+            Creates a new LGSPPersistentNamedGraph instance from the specified specification file.
+            If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
+            A name for the graph is automatically generated.
+            </summary>
+            <param name="gmFilename">Filename of the model specification file (.gm).</param>
+            <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
+            <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
+            <param name="persistenceProvider">The name of the persistence provider (for the persistent named graph).</param>
+            <param name="connectionParameters">The connection parameters to configure the persistence provider.</param>
+            <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
+            <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
+            <returns>The new LGSPPersistentNamedGraph instance.</returns>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.ProcessSpecification(System.String,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.String[])">
             <summary>
             Processes the given rule specification file and generates a model and actions library.
@@ -3434,7 +3551,7 @@
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPGraph">
             <summary>
-            An implementation of the IGraph interface.
+            The default implementation of the IGraph interface of the libGrSearchPlanBackend.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPGraph.ReuseOptimization">
@@ -5388,7 +5505,7 @@
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPNamedGraph">
             <summary>
-            An implementation of the INamedGraph interface.
+            The default implementation of the INamedGraph interface of the libGrSearchPlanBackend.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPNamedGraph.#ctor(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.libGr.IGlobalVariables,System.Int32)">

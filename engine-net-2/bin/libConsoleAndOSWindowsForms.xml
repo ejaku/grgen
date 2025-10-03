@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>libConsoleAndOSWindowsForms</name>
+    </assembly>
+    <members>
+        <member name="F:de.unika.ipd.grGen.libConsoleAndOS.GuiConsoleControl.components">
+            <summary> 
+            Erforderliche Designervariable.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libConsoleAndOS.GuiConsoleControl.Dispose(System.Boolean)">
+            <summary> 
+            Verwendete Ressourcen bereinigen.
+            </summary>
+            <param name="disposing">True, wenn verwaltete Ressourcen gelöscht werden sollen; andernfalls False.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libConsoleAndOS.GuiConsoleControl.InitializeComponent">
+            <summary> 
+            Erforderliche Methode für die Designerunterstützung. 
+            Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libConsoleAndOS.GuiConsoleControlAsTextWriter">
+            <summary>
+            A TextWriter implemented by a GuiConsoleControl / a GuiConsoleControl seen as a TextWriter, enriched by the IConsoleOutput interface.
+            Only a subset of the methods is implemented, for one the Write(char) method needed for a minimal implementation,
+            plus the methods directly supported by the wrapped GuiConsoleControl.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libConsoleAndOS.GuiConsoleControlAsTextReader">
+            <summary>
+            A TextReader implemented by a GuiConsoleControl / a GuiConsoleControl seen as a TextReader, enriched by the IConsoleInput interface.
+            Only a subset of the methods is implemented, for one the methods needed by the CSharpCC lexer,
+            plus the methods directly supported by the wrapped GuiConsoleControl.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -2018,70 +2018,6 @@
             <param name="procEnv">If not null, the processing environment is used for transient object unique id emitting and fetching</param>
             <returns>string representation of scalar value</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IConsoleOutput.PrintHighlighted(System.String,de.unika.ipd.grGen.libGr.HighlightingMode)">
-            <summary>
-            Prints the given text in a highlighted form.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IConsoleOutput.Clear">
-            <summary>
-            Clears console display.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IConsoleInput.ReadKey(System.Boolean)">
-            <summary>
-            Reads a key from stdin and optionally displays it in the console.
-            </summary>
-            <param name="intercept">If true, the key is NOT displayed in the console.</param>
-            <returns>A ConsoleKeyInfo object describing the pressed key.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IConsoleInput.ReadKey">
-            <summary>
-            Reads a key from stdin and displays it in the console.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IConsoleInput.ReadKeyWithControlCAsInput">
-            <summary>
-            Reads a key from stdin. Does not display it. Also allows Control-C as input.
-            </summary>
-            <returns>A ConsoleKeyInfo object describing the pressed key.</returns>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.IConsoleInput.KeyAvailable">
-            <summary>
-            Gets a value indicating whether a key press is available in the input stream.
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.libGr.ConsoleUI">
-            <summary>
-            Class that allows for console input/output, normally stdin, stdout, stderr, extended by dedicated stuff,
-            but also in a GUI environment offering mechanisms for console input/output.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.ConsoleUI.outWriter">
-            <summary>
-            The output writer normally mapping to stdout
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.ConsoleUI.errorOutWriter">
-            <summary>
-            The error output write normally mapping to stderr
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.ConsoleUI.consoleOut">
-            <summary>
-            An interface that allows for highlighted output, typically null unless a debugger session is started
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.ConsoleUI.inReader">
-            <summary>
-            The input reader normally mapping to stdin
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.ConsoleUI.consoleIn">
-            <summary>
-            An interface that allows to read keys from the console, typically null unless a debugger session is started
-            </summary>
-        </member>
         <member name="T:de.unika.ipd.grGen.libGr.TypesHelper">
             <summary>
             The TypesHelper in this file contains code that creates or handles .net / C# types, as name strings or Type objects
@@ -2598,6 +2534,21 @@
             (If types are unequal the result is false.)
             Visited objects are/have to be stored in the visited objects dictionary in order to detect shortcuts and cycles.
             TODO: extend to structures including shortcuts and cycles, but excluding aliasing, with a visited objects map instead of a set.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.IPersistenceInterfacesProvider">
+            <summary>
+            An interface that provides interfaces to access the persistence related functionality (of a persistent graph, including processing support, ulimately implemented by a persistence provider).
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPersistenceInterfacesProvider.PersistenceProviderStatistics">
+            <summary>
+            Returns an interface that allows to fetch some persistence provider statistics (related to the host persistent graph but also reachable entities).
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPersistenceInterfacesProvider.PersistenceProviderTransactionManager">
+            <summary>
+            Returns an interface that allows to control the transactions of the persistence provider, or null if the persistence provider does not support transactions.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.ITransientObject">
@@ -3576,6 +3527,100 @@
             Returns the top edge with highest indexed value from the index, or null
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.IPersistenceProvider">
+            <summary>
+            An interface to be implemented by classes that allow to persist changes to a named graph to some kind of repository.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IPersistenceProvider.Open(System.String)">
+            <summary>
+            opens the repository / connects to the repository
+            the persistence provider can receive parameters with the connectionParameters string
+            errors are reported by exception
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IPersistenceProvider.ReadPersistentGraphAndRegisterToListenToGraphModifications(de.unika.ipd.grGen.libGr.INamedGraph)">
+            <summary>
+            fills the given host graph from the content stored in the repository, or creates the repository if it does not exist yet
+            the named graph must be empty (but its model must be known) (the graph is going to be the host graph/top-level graph of a system of graphs referenced from it)
+            the persistence provider registers as listener at the graph (just filled by reading from the repository)
+            it listens to change events and persists the ongoing modification of the graph to the repository
+            errors are reported by exception
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IPersistenceProvider.RegisterToListenToProcessingEnvironmentEvents(de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
+            <summary>
+            registers as listener of switch to subgraph and return from subgraph events at the graph processing environment
+            needed when subgraphs are to be processed (todo: also a performance and durability enhancement due to persistence transaction handling)
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IPersistenceProvider.Close">
+            <summary>
+            closes the repository / disconnects from the respository
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.IPersistenceProviderTransactionManager">
+            <summary>
+            An interface for managing the transactions of the underlying database of a persistent graph.
+            Unrelated to the ITransactionManager, which is for application layer/algorithmical transactions/change rollback;
+            this one is more about performance due to batchwise processing defined by transaction borders, and it defines the granularity of durability.
+            When no transaction is used, i.e. started, each and every change to the persistent graph will be durable immediately after its corresponding change event returned (i.e. will be auto-wrapped in a mini-transaction -- this will cause very poor performance).
+            Nested transactions are not supported, in contrast to the application layer transaction manager.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IPersistenceProviderTransactionManager.Start">
+            <summary>
+            Starts a database layer transaction, not allowed when one is already active (potential future todo: mapping of nested transactions to a single one).
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IPersistenceProviderTransactionManager.CommitAndRestart">
+            <summary>
+            Intermediate commit, afterwards the changes up to that point are persistently stored for sure (all writes to the database up till that point are only temporary/pending), and a/the transaction is active.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IPersistenceProviderTransactionManager.Commit">
+            <summary>
+            Commits the transaction, afterwards the changes up to that point are persistently stored for sure (all writes to the database up till that point are only temporary/pending), and a/the transaction is not active anymore.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IPersistenceProviderTransactionManager.Rollback">
+            <summary>
+            Rolls back changes since that last CommitAndRestart() or the last Start() if no restart occurred, afterwards the transaction is not active anymore. This also happens with pending changes when no commit occurrs.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPersistenceProviderTransactionManager.IsActive">
+            <summary>
+            Tells whether a/the transaction is active.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.IPersistenceProviderStatistics">
+            <summary>
+            Returns some basic statistics from the persistence provider (the persistent graph).
+            Note that the number of entities stored in the database are returned, compared to the number of objects in the current host graph,
+            and that the numbers may be different after (re-)opening (i.e. reading) from to the numbers current at the last time shortly before closing the database, caused by a garbage collection run.
+            (There is no dedicated interface existing for a persistent graph (at least as of now).)
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPersistenceProviderStatistics.NumNodesInDatabase">
+            <summary>
+            Returns the number of nodes in all graphs known to the database.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPersistenceProviderStatistics.NumEdgesInDatabase">
+            <summary>
+            Returns the number of edges in all graphs known to the database.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPersistenceProviderStatistics.NumObjectsInDatabase">
+            <summary>
+            Returns the number of (internal class) objects known to the database.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPersistenceProviderStatistics.NumGraphsInDatabase">
+            <summary>
+            Returns the number of graphs known to the database.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.IAlternative">
             <summary>
             An alternative is a pattern graph element containing subpatterns
@@ -4536,6 +4581,18 @@
             <param name="parameters">Backend specific parameters.</param>
             <returns>The new INamedGraph backend instance.</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreatePersistentNamedGraph(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.libGr.IGlobalVariables,System.String,System.String,System.String,System.String[])">
+            <summary>
+            Creates a new INamedGraph backend instance with persistence with the given graph model and name.
+            </summary>
+            <param name="graphModel">An IGraphModel instance.</param>
+            <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
+            <param name="graphName">Name of the graph.</param>
+            <param name="persistenceProvider">The name of the persistence provider (for the persistent named graph).</param>
+            <param name="connectionParameters">The connection parameters to configure the persistence provider.</param>
+            <param name="parameters">Backend specific parameters.</param>
+            <returns>The new INamedGraph backend instance.</returns>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateGraph(System.String,de.unika.ipd.grGen.libGr.IGlobalVariables,System.String,System.String[])">
             <summary>
             Creates a new IGraph backend instance with the graph model provided by the graph model file and a name.
@@ -4553,6 +4610,18 @@
             <param name="modelFilename">Filename of a graph model file.</param>
             <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
             <param name="graphName">Name of the graph.</param>
+            <param name="parameters">Backend specific parameters.</param>
+            <returns>The new INamedGraph backend instance.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreatePersistentNamedGraph(System.String,de.unika.ipd.grGen.libGr.IGlobalVariables,System.String,System.String,System.String,System.String[])">
+            <summary>
+            Creates a new INamedGraph backend instance with persistence with the graph model provided by the graph model file and a name.
+            </summary>
+            <param name="modelFilename">Filename of a graph model file.</param>
+            <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
+            <param name="graphName">Name of the graph.</param>
+            <param name="persistenceProvider">The name of the persistence provider (for the persistent named graph).</param>
+            <param name="connectionParameters">The connection parameters to configure the persistence provider.</param>
             <param name="parameters">Backend specific parameters.</param>
             <returns>The new INamedGraph backend instance.</returns>
         </member>
@@ -4587,6 +4656,24 @@
             <param name="newActions">Returns the new IActions object.</param>
             <exception cref="T:System.Exception">Thrown when something goes wrong.</exception>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreatePersistentNamedFromSpec(System.String,de.unika.ipd.grGen.libGr.IGlobalVariables,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Int32,System.String,System.String,de.unika.ipd.grGen.libGr.INamedGraph@,de.unika.ipd.grGen.libGr.IActions@)">
+            <summary>
+            Creates a new INamedGraph with persistence and IActions backend instance from the specified specification file.
+            If neccessary, any processing steps are performed automatically.
+            </summary>
+            <param name="grgFilename">Filename of the rule specification file (.grg).</param>
+            <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
+            <param name="graphName">Name of the new graph.</param>
+            <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
+            <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
+            <param name="externalAssemblies">List of external assemblies to reference.</param>
+            <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
+            <param name="persistenceProvider">The name of the persistence provider (for the persistent named graph).</param>
+            <param name="connectionParameters">The connection parameters to configure the persistence provider.</param>
+            <param name="newGraph">Returns the new named graph.</param>
+            <param name="newActions">Returns the new IActions object.</param>
+            <exception cref="T:System.Exception">Thrown when something goes wrong.</exception>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreateFromSpec(System.String,de.unika.ipd.grGen.libGr.IGlobalVariables,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String})">
             <summary>
             Creates a new IGraph instance from the specified specification file.
@@ -4614,6 +4701,24 @@
             <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
             <param name="externalAssemblies">List of external assemblies to reference.</param>
             <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
+            <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
+            <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
+            <returns>The new INamedGraph backend instance.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IBackend.CreatePersistentNamedFromSpec(System.String,de.unika.ipd.grGen.libGr.IGlobalVariables,System.String,System.String,de.unika.ipd.grGen.libGr.ProcessSpecFlags,System.Collections.Generic.List{System.String},System.Int32,System.String,System.String)">
+            <summary>
+            Creates a new INamedGraph instance with persistence from the specified specification file.
+            If the according dll does not exist or is out of date, the needed processing steps are performed automatically.
+            </summary>
+            <param name="gmFilename">Filename of the model specification file (.gm).</param>
+            <param name="globalVariables">An object implementing the IGlobalVariables interface, serving as global variables.</param>
+            <param name="graphName">Name of the new graph.</param>
+            <param name="statisticsPath">Optional path to a file containing the graph statistics to be used for building the matchers.</param>
+            <param name="flags">Specifies how the specification is to be processed; only KeepGeneratedFiles and CompileWithDebug are taken care of!</param>
+            <param name="externalAssemblies">List of external assemblies to reference.</param>
+            <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
+            <param name="persistenceProvider">The name of the persistence provider (for the persistent named graph).</param>
+            <param name="connectionParameters">The connection parameters to configure the persistence provider.</param>
             <exception cref="T:System.IO.FileNotFoundException">Thrown, when a needed specification file does not exist.</exception>
             <exception cref="T:System.Exception">Thrown, when something goes wrong.</exception>
             <returns>The new INamedGraph backend instance.</returns>
@@ -8894,6 +8999,13 @@
             Only graph structure changes are counted, attribute changes are not included.
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IGraph.RegisterProcessingEnvironment(de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
+            <summary>
+            Allows a persistent graph to track changes to subgraphs (by following switch-to / return-from subgraph events)
+            Otherwise a NOP.
+            </summary>
+            <param name="procEnv">The graph processing environment used in processing the graph (this graph, in the form of the top-level host graph)</param>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IGraph.NumNodes">
             <summary>
             The total number of nodes in the graph.
@@ -9538,6 +9650,11 @@
             Returns the transaction manager of the processing environment.
             (Recording and undoing changes in the main graph and all processed subgraphs).
             Don't forget to call Commit after a transaction is finished!
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.PersistenceProviderTransactionManager">
+            <summary>
+            Returns the transaction manager of the underlying database if it exists, or null if no persistent graph is used (or the persistence provider of the persistent graph does not supply a persistence provider transaction manager).
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment.ApplyRewrite(de.unika.ipd.grGen.libGr.IAction,de.unika.ipd.grGen.libGr.IGraph,System.Object[],System.Int32,System.Int32,System.Boolean,System.Boolean,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.FilterCall},System.Boolean,System.Int32@)">
@@ -10549,7 +10666,7 @@
             </para>
             </remarks>
         </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.sequenceParser.ParseException.#ctor(de.unika.ipd.grGen.libGr.sequenceParser.Token,System.Int32[][],System.String[])" ignoriert -->
+        <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.libGr.sequenceParser.ParseException.#ctor(de.unika.ipd.grGen.libGr.sequenceParser.Token,System.Int32[][],System.String[])" -->
         <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.ParseException.#ctor">
             The following constructors are for use by you for whatever
             purpose you can think of.  Constructing the exception in this
@@ -11105,7 +11222,7 @@
             <summary>
             Specifies the actual subtype used for a Sequence.
             A new sequence type -> you must add the corresponding class down below,
-            and adapt the lgspSequenceGenerator and the Debugger.
+            and adapt the lgspSequenceGenerator and the Debugger, typically in the form of the SequencePrinter and the SequenceRenderer.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.Sequence">
@@ -11159,6 +11276,7 @@
         <member name="M:de.unika.ipd.grGen.libGr.Sequence.Apply(de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Applies this sequence.
+            Complete application including execution infrastructure, the specific functionality is implemented by calling ApplyImpl.
             </summary>
             <param name="procEnv">The graph processing environment on which this sequence is to be applied.
                 Contains especially the graph on which this sequence is to be applied.
@@ -11470,6 +11588,16 @@
         <member name="M:de.unika.ipd.grGen.libGr.AssignmentTarget.Assign(System.Object,de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Assigns a value to this assignment target.
+            Complete assignment including execution infrastructure, the specific functionality is implemented by calling AssignImpl.
+            </summary>
+            <param name="value">The value to assign.</param>
+            <param name="procEnv">The graph processing environment on which this assignment is to be executed.
+                Containing especially the graph on which this assignment is to be executed.
+                And the user proxy queried when choices are due.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.AssignmentTarget.AssignImpl(System.Object,de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
+            <summary>
+            Assigns a value to this assignment target. This function represents the actual implementation of the assignment.
             </summary>
             <param name="value">The value to assign.</param>
             <param name="procEnv">The graph processing environment on which this assignment is to be executed.
@@ -11843,6 +11971,7 @@
         <member name="M:de.unika.ipd.grGen.libGr.SequenceComputation.Execute(de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Executes this sequence computation.
+            Complete execution including execution infrastructure, the specific functionality is implemented by calling ExecuteImpl.
             </summary>
             <param name="procEnv">The graph processing environment on which this sequence computation is to be evaluated.
                 Contains especially the graph on which this sequence computation is to be evaluated.
@@ -11968,7 +12097,7 @@
         <member name="M:de.unika.ipd.grGen.libGr.SequenceExpression.Evaluate(de.unika.ipd.grGen.libGr.IGraphProcessingEnvironment)">
             <summary>
             Evaluates this sequence expression.
-            Implemented by calling execute, every expression is a computation.
+            Complete evaluation including execution infrastructure, the specific functionality is implemented by calling ExecuteImpl - every expression is a computation.
             </summary>
             <param name="procEnv">The graph processing environment on which this sequence expression is to be evaluated.
                 Contains especially the graph on which this sequence expression is to be evaluated.
@@ -12332,6 +12461,11 @@
             at runtime (SequenceExpressionExecutionHelper) as well as compile time (SequenceExpressionGeneratorHelper).
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceExpressionTypeHelper.IsCastable(System.String,System.String,de.unika.ipd.grGen.libGr.IGraphModel)">
+            <summary>
+            Returns whether the source operand type can be casted to the specified target type (true if the type is unknown at compile time, in case of incompatible types the cast will then fail at runtime).
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceExpressionTypeHelper.Balance(de.unika.ipd.grGen.libGr.SequenceExpressionType,System.String,System.String,de.unika.ipd.grGen.libGr.IGraphModel)">
             <summary>
             Returns the types to which the operands must be casted to, 
@@ -12688,88 +12822,6 @@
             present leaning with weights to get a preference for more current values, going into the direction of a sliding average, 
             truncated average to achieve resilience against outliers (compared to the average),
             and to not underestimate the volume (compared to the median in case about half of the values are small).
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.libGr.EXECUTION_STATE">
-            <summary>
-            Workaround fun due to the following bugs:
-             - http://bugzilla.ximian.com/show_bug.cgi?id=80176 : Console.In.Read doesn't allow line-oriented input
-             - http://bugzilla.ximian.com/show_bug.cgi?id=79711 : Console.ReadKey () appears to not clear key
-             - http://bugzilla.ximian.com/show_bug.cgi?id=80330 : Console.ForegroundColor initially does not reflect console color
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.IWorkaround.In">
-            <summary>
-            A TextReader for stdin.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IWorkaround.PreventComputerFromGoingIntoSleepMode(System.Boolean)">
-            <summary>
-            Prevents the computer from going into sleep mode or allows it again.
-            To be set when you start a long running computation without user interaction or network I/O,
-            to be reset afterwards (so the computer can fall asleep again in case there's nothing going on).
-            Not calling this function the computer would fall asleep after a while even at 100% CPU usage and disk usage,
-            as might happen if you are executing some graph rewrite sequences for an excessive simulation.
-            TODO: LINUX version. Currently Windows only. Silent nop.
-            </summary>
-            <param name="prevent">prevent if true, allow if false</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IWorkaround.AllocTheConsole">
-            <summary>
-            Allocates the console.
-            TODO: LINUX version. Currently Windows only. Silent nop.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IWorkaround.AttachTheConsole(System.Int32)">
-            <summary>
-            Attaches the console.
-            TODO: LINUX version. Currently Windows only. Silent nop.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IWorkaround.FreeTheConsole">
-            <summary>
-            Frees the console.
-            TODO: LINUX version. Currently Windows only. Silent nop.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IWorkaround.PreventRedraw(System.IntPtr)">
-            <summary>
-            Prevents redrawing of the given window.
-            TODO: LINUX version. Currently Windows only. Silent nop.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IWorkaround.AllowRedraw(System.IntPtr)">
-            <summary>
-            Allows redrawing of the given window.
-            TODO: LINUX version. Currently Windows only. Silent nop.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.MonoLinuxWorkaroundConsoleIO.PrintHighlighted(System.String,de.unika.ipd.grGen.libGr.HighlightingMode)">
-            <summary>
-            Prints the given text in the chosen highlighting mode on the console
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.MonoWindowsWorkaroundConsoleIO.PrintHighlighted(System.String,de.unika.ipd.grGen.libGr.HighlightingMode)">
-            <summary>
-            Prints the given text in the chosen highlighting mode on the console
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.MonoWindowsWorkaroundConsoleIO.ReadKey(System.Boolean)">
-            <summary>
-            Reads a key from stdin and optionally displays it in the console.
-            Additionally it ignores several incorrect keys returned by Mono on Windows.
-            </summary>
-            <param name="intercept">If true, the key is NOT displayed in the console.</param>
-            <returns>A ConsoleKeyInfo object describing the pressed key.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.NoWorkaroundConsoleIO.PrintHighlighted(System.String,de.unika.ipd.grGen.libGr.HighlightingMode)">
-            <summary>
-            Prints the given text in the chosen highlighting mode on the console
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.libGr.WorkaroundManager.Workaround">
-            <summary>
-            An appropriate IWorkaround instance for the used CLR and operating system.
             </summary>
         </member>
     </members>

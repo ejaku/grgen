@@ -420,11 +420,6 @@
             Semantically poor, but ok for the beginning/maybe later on special tasks, but should be replaced/implemented by semantically richer objects.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IDoEventsCaller">
-            <summary>
-            interface that allows to execute the WindowsForms message loop (Application.DoEvents).
-            </summary>
-        </member>
         <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.IGuiConsoleDebuggerHost">
             <summary>
             interface to the host object that contains the console(s) to be used by the gui console debugger
@@ -532,7 +527,7 @@
             </para>
             </remarks>
         </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ParseException.#ctor(de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Token,System.Int32[][],System.String[])" ignoriert -->
+        <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ParseException.#ctor(de.unika.ipd.grGen.graphViewerAndSequenceDebugger.Token,System.Int32[][],System.String[])" -->
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.ParseException.#ctor">
             The following constructors are for use by you for whatever
             purpose you can think of.  Constructing the exception in this
@@ -619,7 +614,7 @@
             Sits in between the debugger and the debugger environment.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.SequencePrinter.PrintSequence(de.unika.ipd.grGen.libGr.Sequence,de.unika.ipd.grGen.libGr.SequenceBase,de.unika.ipd.grGen.libGr.HighlightingMode)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.SequencePrinter.PrintSequence(de.unika.ipd.grGen.libGr.Sequence,de.unika.ipd.grGen.libGr.SequenceBase,de.unika.ipd.grGen.libConsoleAndOS.HighlightingMode)">
             <summary>
             Prints the given sequence (adding parentheses if needed) according to the display context.
             </summary>
@@ -632,7 +627,7 @@
             Called from shell after an debugging abort highlighting the lastly executed rule
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.SequenceRenderer.RenderSequence(de.unika.ipd.grGen.libGr.Sequence,de.unika.ipd.grGen.libGr.SequenceBase,de.unika.ipd.grGen.libGr.HighlightingMode)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.SequenceRenderer.RenderSequence(de.unika.ipd.grGen.libGr.Sequence,de.unika.ipd.grGen.libGr.SequenceBase,de.unika.ipd.grGen.libConsoleAndOS.HighlightingMode)">
             <summary>
             Renders the given sequence according to the display context into a graph.
             </summary>

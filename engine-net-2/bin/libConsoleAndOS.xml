@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>libConsoleAndOS</name>
+    </assembly>
+    <members>
+        <member name="M:de.unika.ipd.grGen.libConsoleAndOS.IConsoleOutput.PrintHighlighted(System.String,de.unika.ipd.grGen.libConsoleAndOS.HighlightingMode)">
+            <summary>
+            Prints the given text in a highlighted form.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libConsoleAndOS.IConsoleOutput.Clear">
+            <summary>
+            Clears console display.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libConsoleAndOS.IConsoleInput.ReadKey(System.Boolean)">
+            <summary>
+            Reads a key from stdin and optionally displays it in the console.
+            </summary>
+            <param name="intercept">If true, the key is NOT displayed in the console.</param>
+            <returns>A ConsoleKeyInfo object describing the pressed key.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libConsoleAndOS.IConsoleInput.ReadKey">
+            <summary>
+            Reads a key from stdin and displays it in the console.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libConsoleAndOS.IConsoleInput.ReadKeyWithControlCAsInput">
+            <summary>
+            Reads a key from stdin. Does not display it. Also allows Control-C as input.
+            </summary>
+            <returns>A ConsoleKeyInfo object describing the pressed key.</returns>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libConsoleAndOS.IConsoleInput.KeyAvailable">
+            <summary>
+            Gets a value indicating whether a key press is available in the input stream.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libConsoleAndOS.ConsoleUI">
+            <summary>
+            Class that allows for console input/output, normally stdin, stdout, stderr, extended by dedicated stuff,
+            but also in a GUI environment offering mechanisms for console input/output.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libConsoleAndOS.ConsoleUI.outWriter">
+            <summary>
+            The output writer normally mapping to stdout
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libConsoleAndOS.ConsoleUI.errorOutWriter">
+            <summary>
+            The error output write normally mapping to stderr
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libConsoleAndOS.ConsoleUI.consoleOut">
+            <summary>
+            An interface that allows for highlighted output, typically null unless a debugger session is started
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libConsoleAndOS.ConsoleUI.inReader">
+            <summary>
+            The input reader normally mapping to stdin
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libConsoleAndOS.ConsoleUI.consoleIn">
+            <summary>
+            An interface that allows to read keys from the console, typically null unless a debugger session is started
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libConsoleAndOS.IDoEventsCaller">
+            <summary>
+            interface that allows to execute the WindowsForms message loop (Application.DoEvents).
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libConsoleAndOS.EXECUTION_STATE">
+            <summary>
+            Workaround fun due to the following bugs:
+             - http://bugzilla.ximian.com/show_bug.cgi?id=80176 : Console.In.Read doesn't allow line-oriented input
+             - http://bugzilla.ximian.com/show_bug.cgi?id=79711 : Console.ReadKey () appears to not clear key
+             - http://bugzilla.ximian.com/show_bug.cgi?id=80330 : Console.ForegroundColor initially does not reflect console color
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libConsoleAndOS.IWorkaround.In">
+            <summary>
+            A TextReader for stdin.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libConsoleAndOS.IWorkaround.PreventComputerFromGoingIntoSleepMode(System.Boolean)">
+            <summary>
+            Prevents the computer from going into sleep mode or allows it again.
+            To be set when you start a long running computation without user interaction or network I/O,
+            to be reset afterwards (so the computer can fall asleep again in case there's nothing going on).
+            Not calling this function the computer would fall asleep after a while even at 100% CPU usage and disk usage,
+            as might happen if you are executing some graph rewrite sequences for an excessive simulation.
+            TODO: LINUX version. Currently Windows only. Silent nop.
+            </summary>
+            <param name="prevent">prevent if true, allow if false</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libConsoleAndOS.IWorkaround.AllocTheConsole">
+            <summary>
+            Allocates the console.
+            TODO: LINUX version. Currently Windows only. Silent nop.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libConsoleAndOS.IWorkaround.AttachTheConsole(System.Int32)">
+            <summary>
+            Attaches the console.
+            TODO: LINUX version. Currently Windows only. Silent nop.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libConsoleAndOS.IWorkaround.FreeTheConsole">
+            <summary>
+            Frees the console.
+            TODO: LINUX version. Currently Windows only. Silent nop.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libConsoleAndOS.IWorkaround.PreventRedraw(System.IntPtr)">
+            <summary>
+            Prevents redrawing of the given window.
+            TODO: LINUX version. Currently Windows only. Silent nop.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libConsoleAndOS.IWorkaround.AllowRedraw(System.IntPtr)">
+            <summary>
+            Allows redrawing of the given window.
+            TODO: LINUX version. Currently Windows only. Silent nop.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libConsoleAndOS.MonoLinuxWorkaroundConsoleIO.PrintHighlighted(System.String,de.unika.ipd.grGen.libConsoleAndOS.HighlightingMode)">
+            <summary>
+            Prints the given text in the chosen highlighting mode on the console
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libConsoleAndOS.MonoWindowsWorkaroundConsoleIO.PrintHighlighted(System.String,de.unika.ipd.grGen.libConsoleAndOS.HighlightingMode)">
+            <summary>
+            Prints the given text in the chosen highlighting mode on the console
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libConsoleAndOS.MonoWindowsWorkaroundConsoleIO.ReadKey(System.Boolean)">
+            <summary>
+            Reads a key from stdin and optionally displays it in the console.
+            Additionally it ignores several incorrect keys returned by Mono on Windows.
+            </summary>
+            <param name="intercept">If true, the key is NOT displayed in the console.</param>
+            <returns>A ConsoleKeyInfo object describing the pressed key.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libConsoleAndOS.NoWorkaroundConsoleIO.PrintHighlighted(System.String,de.unika.ipd.grGen.libConsoleAndOS.HighlightingMode)">
+            <summary>
+            Prints the given text in the chosen highlighting mode on the console
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libConsoleAndOS.WorkaroundManager.Workaround">
+            <summary>
+            An appropriate IWorkaround instance for the used CLR and operating system.
+            </summary>
+        </member>
+    </members>
+</doc>

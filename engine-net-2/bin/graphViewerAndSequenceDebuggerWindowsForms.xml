@@ -21,23 +21,6 @@
             the contents of this method with the code editor.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl.components">
-            <summary> 
-            Erforderliche Designervariable.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl.Dispose(System.Boolean)">
-            <summary> 
-            Verwendete Ressourcen bereinigen.
-            </summary>
-            <param name="disposing">True, wenn verwaltete Ressourcen gelöscht werden sollen; andernfalls False.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleControl.InitializeComponent">
-            <summary> 
-            Erforderliche Methode für die Designerunterstützung. 
-            Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
-            </summary>
-        </member>
         <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiConsoleDebuggerHost.components">
             <summary>
             Required designer variable.

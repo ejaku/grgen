@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>libGrPersistenceProviderSQLite</name>
+    </assembly>
+    <members>
+        <member name="T:de.unika.ipd.grGen.libGrPersistenceProviderSQLite.PersistenceProviderSQLite">
+            <summary>
+            An implementation of the IPersistenceProvider that allows to persist changes to a named graph to an SQLite database
+            (so a kind of named graph DAO; utilizing a package reference to the official SQLite ADO.NET driver).
+            (Design idea: everything reachable from the host graph is stored in the database, in contrast to all graphs/nodes/edges/objects created at runtime, with the elements visible due to graph processing events lying in between)
+            </summary>
+        </member>
+    </members>
+</doc>
