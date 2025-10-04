@@ -1,4 +1,9 @@
-﻿v8.0beta (2025-10-03)
+﻿v8.0beta.1 (2025-10-04)
+ Added missing SQLite.Interop.dll(s) (so that the persistent graph is working in a binary release at least under Windows)
+ Note that the persistent graph currently only works when the model stays unchanged.
+ So: LINUX support and model migration support are missing as of now.
+
+v8.0beta (2025-10-03)
  Introduced a persistent graph / implemented graph persistence, realized by an SQLite persistence provider:
 
   In the (G)GrShell, graph persisting is requested with the syntax: 
