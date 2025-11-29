@@ -1292,7 +1292,7 @@ void ShellCommand():
 void NewCommand():
 {
     String modelFilename, path, graphName = "DefaultGraph";
-    String persistenceProvider = null, connectionParameters = null;
+    String persistenceProvider = null, connectionParameters = null, persistentGraphParameters = null;
     INode srcNode, tgtNode;
     ElementDef elemDef;
     bool directed, on = false;
@@ -1300,9 +1300,9 @@ void NewCommand():
 {
     try
     {
-        ("new" { on = true; })? "graph" modelFilename=Filename() (graphName=WordOrText())? ("persist" "with" persistenceProvider=WordOrText() "to" connectionParameters=QuotedText())? LineEnd()
+        ("new" { on = true; })? "graph" modelFilename=Filename() (graphName=WordOrText())? ("persist" "with" persistenceProvider=WordOrText() "to" connectionParameters=QuotedText() (persistentGraphParameters=QuotedText())? )? LineEnd()
         {
-            noError = impl.NewGraph(modelFilename, graphName, on, persistenceProvider, connectionParameters);
+            noError = impl.NewGraph(modelFilename, graphName, on, persistenceProvider, connectionParameters, persistentGraphParameters);
         }
     |
         "add" "reference" path=Filename() LineEnd()

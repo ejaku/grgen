@@ -1,0 +1,29 @@
+enum ENU { a, b, c }
+
+node class oldN
+{
+	a:int;
+	r:oldN;
+	c:set<string>;
+	g:graph;
+}
+
+edge class oldE
+{
+	a:double;
+	r:oldO;
+	c:array<ENU>;
+}
+
+class oldO
+{
+	a:string;
+	r:oldE;
+	c:map<int, oldN>;
+}
+
+node class N;
+edge class E;
+class O;
+
+node edge graph;

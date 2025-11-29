@@ -29,12 +29,13 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
         /// <param name="persistenceProviderDllName">The name of the persistence provider dll.</param>
         /// <param name="connectionParameters">The connection parameters to configure the persistence provider.</param>
+        /// <param name="persistentGraphParameters">Additional optional parameters for the persistent graph.</param>
         public LGSPPersistentNamedGraph(IGraphModel grmodel, IGlobalVariables globalVars, int capacity,
-            String persistenceProviderDllName, String connectionParameters)
+            String persistenceProviderDllName, String connectionParameters, String persistentGraphParameters)
             : base(grmodel, globalVars, capacity)
         {
             persistenceProvider = GetPersistenceProvider(persistenceProviderDllName);
-            persistenceProvider.Open(connectionParameters);
+            persistenceProvider.Open(connectionParameters, persistentGraphParameters);
             persistenceProvider.ReadPersistentGraphAndRegisterToListenToGraphModifications(this);
             reuseOptimization = false;
             // TODO: Close
@@ -49,12 +50,13 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="capacity">The initial capacity for the name maps (performance optimization, use 0 if unsure).</param>
         /// <param name="persistenceProviderDllName">The name of the persistence provider dll.</param>
         /// <param name="connectionParameters">The connection parameters to configure the persistence provider.</param>
+        /// <param name="persistentGraphParameters">Additional optional parameters for the persistent graph.</param>
         public LGSPPersistentNamedGraph(IGraphModel grmodel, IGlobalVariables globalVars, String grname, int capacity,
-            String persistenceProviderDllName, String connectionParameters)
+            String persistenceProviderDllName, String connectionParameters,String persistentGraphParameters)
             : base(grmodel, globalVars, grname, capacity)
         {
             persistenceProvider = GetPersistenceProvider(persistenceProviderDllName);
-            persistenceProvider.Open(connectionParameters);
+            persistenceProvider.Open(connectionParameters, persistentGraphParameters);
             persistenceProvider.ReadPersistentGraphAndRegisterToListenToGraphModifications(this);
             reuseOptimization = false;
         }

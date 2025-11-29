@@ -1602,7 +1602,7 @@ namespace spBench
             try
             {
                 LGSPBackend.Instance.CreateFromSpec(grgFile, globalVars, "spBenchGraph", null,
-                    ProcessSpecFlags.UseNoExistingFiles, new List<String>(), false, 0, null, null,
+                    ProcessSpecFlags.UseNoExistingFiles, new List<String>(), false, 0, null, null, null,
                     out graph, out actions);
                 procEnv = new LGSPGraphProcessingEnvironment(graph, actions);
             }

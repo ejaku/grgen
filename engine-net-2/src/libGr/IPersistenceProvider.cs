@@ -16,10 +16,11 @@ namespace de.unika.ipd.grGen.libGr
     {
         /// <summary>
         /// opens the repository / connects to the repository
-        /// the persistence provider can receive parameters with the connectionParameters string
+        /// the persistence provider can receive parameters with the connectionParameters string (typically for the underlying database)
+        /// and optional additional parameters with the persistentGraphParameters string
         /// errors are reported by exception
         /// </summary>
-        void Open(string connectionParameters);
+        void Open(string connectionParameters, string persistentGraphParameters);
 
         /// <summary>
         /// fills the given host graph from the content stored in the repository, or creates the repository if it does not exist yet

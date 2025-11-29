@@ -1,0 +1,29 @@
+#using "persistentgraph_model_update.gm"
+
+rule init
+{
+	modify {
+		n:oldN -e:oldE-> n;
+		eval {
+			e.r = new oldO();
+		}
+	}
+}
+
+rule deleteOldN()
+{
+	n:oldN;
+	
+	modify {
+		delete(n);
+	}
+}
+
+rule deleteOldE()
+{
+	-e:oldE->;
+	
+	modify {
+		delete(e);
+	}
+}

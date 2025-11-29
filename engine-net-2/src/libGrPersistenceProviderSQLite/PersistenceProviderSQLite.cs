@@ -12,6 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Diagnostics;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using de.unika.ipd.grGen.libConsoleAndOS;
@@ -24,6 +25,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
     /// (so a kind of named graph DAO; utilizing a package reference to the official SQLite ADO.NET driver).
     /// (Design idea: everything reachable from the host graph is stored in the database, in contrast to all graphs/nodes/edges/objects created at runtime, with the elements visible due to graph processing events lying in between)
     /// </summary>
+    // todo: split some helper classes out of it (now that the full functionality is available)
     public class PersistenceProviderSQLite : IPersistenceProvider
     {
         private class GraphClassDummy : InheritanceType
@@ -113,6 +115,89 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         }
 
         enum TypeKind { NodeClass = 0, EdgeClass = 1, GraphClass = 2, ObjectClass = 3 };
+
+        class TypesFromDatabase
+        {
+            public readonly Dictionary<string, AttributeTypesFromDatabase> TypesToAttributesFromDatabase;
+
+            public TypesFromDatabase(Dictionary<string, AttributeTypesFromDatabase> typesToAttributesFromDatabase)
+            {
+                TypesToAttributesFromDatabase = typesToAttributesFromDatabase;
+            }
+
+            public AttributeTypesFromDatabase this[string typeName]
+            {
+                get { return TypesToAttributesFromDatabase[typeName]; }
+            }
+
+            public bool IsTypeKnown(InheritanceType type, TypeKind kind)
+            {
+                return TypesToAttributesFromDatabase.ContainsKey(type.PackagePrefixedName)
+                    && TypesToAttributesFromDatabase[type.PackagePrefixedName].KindOfOwner == kind;
+            }
+
+            public bool IsTypeKnown(InheritanceType type)
+            {
+                return TypesToAttributesFromDatabase.ContainsKey(type.PackagePrefixedName);
+            }
+
+            public void WriteDatabaseModelToFile(StreamWriter sw)
+            {
+                foreach(KeyValuePair<string, AttributeTypesFromDatabase> typeToAttributes in TypesToAttributesFromDatabase)
+                {
+                    if(typeToAttributes.Value.KindOfOwner == TypeKind.NodeClass)
+                        sw.Write("node class ");
+                    else if(typeToAttributes.Value.KindOfOwner == TypeKind.EdgeClass)
+                        sw.Write("edge class ");
+                    else
+                        sw.Write("class ");
+                    sw.WriteLine(typeToAttributes.Key);
+                    sw.WriteLine("{");
+                    foreach(AttributeTypeFromDatabase attribute in typeToAttributes.Value.AttributeNamesToAttributeTypes.Values)
+                    {
+                        sw.Write("\t");
+                        sw.Write(attribute.Name);
+                        sw.Write(" : ");
+                        sw.Write(attribute.XgrsType);
+                        sw.WriteLine(";");
+                    }
+                    sw.WriteLine("}");
+                }
+            }
+        }
+
+        class AttributeTypesFromDatabase
+        {
+            public readonly string Name; // of type
+            public readonly TypeKind KindOfOwner;
+            public readonly Dictionary<string, AttributeTypeFromDatabase> AttributeNamesToAttributeTypes;
+
+            public AttributeTypesFromDatabase(string name, TypeKind kindOfOwner)
+            {
+                Name = name;
+                KindOfOwner = kindOfOwner;
+                AttributeNamesToAttributeTypes = new Dictionary<string, AttributeTypeFromDatabase>();
+            }
+
+            public AttributeTypeFromDatabase this[string typeName]
+            {
+                get { return AttributeNamesToAttributeTypes[typeName]; }
+            }
+        }
+
+        class AttributeTypeFromDatabase
+        {
+            public readonly string Name; // of attribute
+            public readonly string XgrsType;
+            public readonly long DbId;
+
+            public AttributeTypeFromDatabase(string name, string xgrsType, long dbId)
+            {
+                Name = name;
+                XgrsType = xgrsType;
+                DbId = dbId;
+            }
+        }
 
         enum ContainerCommand { AssignEmptyContainer = 0, PutElement = 1, RemoveElement = 2, AssignElement = 3, AssignNull = 4 } // based on the AttributeChangeType
 
@@ -240,16 +325,22 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         AttributesMarkingState initializedContainers;
         AttributesMarkingState modifiedContainers;
 
+        String connectionParameters;
+        String persistentGraphParameters;
+
 
         public PersistenceProviderSQLite()
         {
         }
 
-        public void Open(string connectionParameters)
+        public void Open(string connectionParameters, string persistentGraphParameters)
         {
+            this.connectionParameters = connectionParameters;
+            this.persistentGraphParameters = persistentGraphParameters;
+
             connection = new SQLiteConnection(connectionParameters);
             connection.Open();
-            ConsoleUI.outWriter.WriteLine("persistence provider \"libGrPersistenceProviderSQLite.dll\" connected to database with \"{0}\".", connectionParameters);
+            ConsoleUI.outWriter.WriteLine("persistence provider \"libGrPersistenceProviderSQLite.dll\" connected to database with \"{0}\" (additional parameters: {1}).", connectionParameters, persistentGraphParameters ?? "");
         }
 
         public void ReadPersistentGraphAndRegisterToListenToGraphModifications(INamedGraph hostGraph)
@@ -339,8 +430,10 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             CreateIdentityAndTopologyTables();
             CreateTypesWithAttributeTables();
 
-            // TODO: adapt to compatible changes (i.e. to user changes of the model, these are reflected in the types/attributes, the basic schema will be pretty constant)
-            // to be supported: extension by attributes; in case of incompatible changes: report to the user that he has to carry out the adaptation on his own with SQL commands (also TODO: be as robust as possible when model flags change)
+            if(ReadKnownTypes().Count == 0) // causes initial fill of the type mapping as side effect if types are available (general architecture: full table scans building memory structure (host graph with references), which is then used - thereafter, only changes are written to the database -- the types table memory structure is obtained by ReadKnownTypesWithAttributes)
+                FillInitialTypes();
+            else
+                AdaptToTypeChanges(); // model update
         }
 
         private void CreateIdentityAndTopologyTables()
@@ -355,7 +448,12 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
             CreateTypesTable();
             CreateAttributeTypesTable();
-            AddUnknownModelTypesToTypesTable();
+        }
+
+        // fills types when model is empty, which only happens when database is freshly created (this also means the model mapping is empty)
+        private void FillInitialTypes()
+        {
+            AddModelTypesToTypesTable();
 
             // TODO: create configuration and status table, a key-value-store, esp. including version, plus later stuff?
 
@@ -503,6 +601,47 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             AddIndex(tableName, ownerIdColumnName); // in order to delete without a full table scan (I assume small changesets in between database openings and decided for a by-default pruning on open - an alternative would be a full table replacement once in a while (would be ok in case of big changesets, as they would occur when a pruning run only occurs on explicit request, but such ones could be forgotten/missed unknowingly too easily, leading to (unexpected) slowness))
         }
 
+        private void AddAttributeToInheritanceTypeTable(InheritanceType type, AttributeType attributeType)
+        {
+            String tableName = GetUniqueTableName(type.Package, type.Name);
+            Debug.Assert(IsAttributeTypeMappedToDatabaseColumn(attributeType));
+            String columnName = GetUniqueColumnName(attributeType.Name);
+            String columnType = ScalarAndReferenceTypeToSQLiteType(attributeType);
+
+            AddColumnToTable(tableName, columnName, columnType);
+        }
+
+        private void RemoveAttributeFromInheritanceTypeTable(string typeName, string attributeName)
+        {
+            String package;
+            String name;
+            UnpackPackagePrefixedName(typeName, out package, out name);
+            String tableName = GetUniqueTableName(package, name);
+            String columnName = GetUniqueColumnName(attributeName);
+
+            DropColumnFromTable(tableName, columnName);
+        }
+
+        private void DeleteInheritanceTypeTable(string typeName)
+        {
+            String package;
+            String name;
+            UnpackPackagePrefixedName(typeName, out package, out name);
+            String tableName = GetUniqueTableName(package, name);
+ 
+            DropTable(tableName);
+        }
+
+        private void DeleteContainerTypeTable(string typeName, string attributeName)
+        {
+            String package;
+            String name;
+            UnpackPackagePrefixedName(typeName, out package, out name);
+            String tableName = GetUniqueTableName(package, name, attributeName);
+
+            DropTable(tableName);
+        }
+
         // note that strings count as scalars
         private static bool IsScalarType(AttributeType attributeType)
         {
@@ -549,6 +688,11 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 default:
                     return false;
             }
+        }
+
+        private static bool IsContainerType(String attributeType)
+        {
+            return TypesHelper.IsContainerType(attributeType);
         }
 
         private static bool IsAttributeTypeMappedToDatabaseColumn(AttributeType attributeType)
@@ -599,6 +743,27 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
         }
 
+        private object DefaultValue(AttributeType attributeType)
+        {
+            switch(attributeType.Kind)
+            {
+                case AttributeKind.ByteAttr: return (SByte)0;
+                case AttributeKind.ShortAttr: return (short)0;
+                case AttributeKind.IntegerAttr: return 0;
+                case AttributeKind.LongAttr: return 0L;
+                case AttributeKind.BooleanAttr: return 0;
+                case AttributeKind.StringAttr: return "";
+                case AttributeKind.EnumAttr: IEnumerator<EnumMember> it = attributeType.EnumType.Members.GetEnumerator(); it.MoveNext(); return it.Current.Name;
+                case AttributeKind.FloatAttr: return 0.0f;
+                case AttributeKind.DoubleAttr: return 0.0;
+                case AttributeKind.GraphAttr: return (object)DBNull.Value;
+                case AttributeKind.InternalClassObjectAttr: return (object)DBNull.Value;
+                case AttributeKind.NodeAttr: return (object)DBNull.Value;
+                case AttributeKind.EdgeAttr: return (object)DBNull.Value;
+                default: throw new Exception("Attribute type must be a scalar type or reference type");
+            }
+        }
+
         private void CreateTable(String tableName, String idColumnName, params String[] columnNamesAndTypes)
         {
             StringBuilder columnNames = new StringBuilder();
@@ -641,45 +806,634 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             createIndexCommand.Dispose();
         }
 
-        #region Types table populating
-
-        private void AddUnknownModelTypesToTypesTable()
+        private void AddColumnToTable(String tableName, String columnName, String columnType)
         {
-            // the grgen type id from the model is only unique per kind, and not stable upon insert(/delete), so we have to match by name to map to the database type id
-            Dictionary<string, TypeKind> typeNameToKind = ReadKnownTypes();
+            StringBuilder command = new StringBuilder();
+            command.Append("ALTER TABLE ");
+            command.Append(tableName);
+            command.Append(" ADD COLUMN ");
+            command.Append(columnName);
+            command.Append(" ");
+            command.Append(columnType);
+            SQLiteCommand addColumnCommand = new SQLiteCommand(command.ToString(), connection);
 
+            addColumnCommand.Transaction = transaction;
+            int rowsAffected = addColumnCommand.ExecuteNonQuery();
+
+            addColumnCommand.Dispose();
+        }
+
+        private void DropColumnFromTable(String tableName, String columnName)
+        {
+            StringBuilder command = new StringBuilder();
+            command.Append("ALTER TABLE ");
+            command.Append(tableName);
+            command.Append(" DROP COLUMN ");
+            command.Append(columnName);
+            SQLiteCommand dropColumnCommand = new SQLiteCommand(command.ToString(), connection);
+
+            dropColumnCommand.Transaction = transaction;
+            int rowsAffected = dropColumnCommand.ExecuteNonQuery();
+
+            dropColumnCommand.Dispose();
+        }
+
+        private void DropTable(String tableName)
+        {
+            StringBuilder command = new StringBuilder();
+            command.Append("DROP TABLE ");
+            command.Append(tableName);
+            SQLiteCommand createSchemaCommand = new SQLiteCommand(command.ToString(), connection);
+
+            createSchemaCommand.Transaction = transaction;
+            int rowsAffected = createSchemaCommand.ExecuteNonQuery();
+
+            createSchemaCommand.Dispose();
+        }
+
+        #region Types table populating/handling
+
+        private void AdaptToTypeChanges()
+        {
+            // the types mapping was filled from the database before, it is used during the model update, it is updated stepwise with new model, and afterwards fits to the new model
+            // the types from the database are read once, used in the model update, and thrown away after the update (the old model from the database is the source, the target is the new model from the graph, defined by the model file/assembly)
+            TypesFromDatabase typesFromDatabase = new TypesFromDatabase(ReadKnownTypesWithAttributes());
+
+            Dictionary<InheritanceType, SetValueType> newModelTypes = GetNewModelTypes(typesFromDatabase);
+            Dictionary<String, TypeKind> deletedModelTypes = GetDeletedModelTypes(typesFromDatabase);
+            Dictionary<InheritanceType, TypeKind> typeChangedModelTypes = GetTypeChangedModelTypes(typesFromDatabase);
+            bool changeMessagePrinted = false;
+            DetermineAndReportChangesToUser(newModelTypes, deletedModelTypes, typeChangedModelTypes,
+                typesFromDatabase, ref changeMessagePrinted);
+
+            Dictionary<string, InheritanceType> keptModelTypes = GetKeptModelTypes(typesFromDatabase);
+            List<KeyValuePair<InheritanceType, AttributeType>> addedAttributes = new List<KeyValuePair<InheritanceType, AttributeType>>();
+            List<KeyValuePair<string, AttributeTypeFromDatabase>> removedAttributes = new List<KeyValuePair<string, AttributeTypeFromDatabase>>();
+            List<KeyValuePair<InheritanceType, KeyValuePair<AttributeType, AttributeTypeFromDatabase>>> typeChangedAttributes = new List<KeyValuePair<InheritanceType, KeyValuePair<AttributeType, AttributeTypeFromDatabase>>>();
+            foreach(KeyValuePair<string, InheritanceType> typeNameToType in keptModelTypes)
+            {
+                DetermineAndReportAttributeChangesToTheUser(typeNameToType.Value, typesFromDatabase[typeNameToType.Key],
+                    ref addedAttributes, ref removedAttributes, ref typeChangedAttributes, ref changeMessagePrinted);
+            }
+
+            // no model changes
+            if(!changeMessagePrinted)
+            {
+                InsertGraphIfMissing(HOST_GRAPH_ID, TypeNameToDbId["graph"]);
+                return;
+            }
+
+            bool adaptDatabaseModelToModel = QueryUserWhetherToAdaptDatabaseToModel(removedAttributes, typeChangedAttributes);
+            if(!adaptDatabaseModelToModel)
+            {
+                WriteDatabaseModelToFileAndReportToUser(typesFromDatabase);
+                ConsoleUI.outWriter.WriteLine("Aborting database model update as requested...");
+                throw new Exception("Abort database model update as requested.");
+            }
+
+            ConsoleUI.outWriter.WriteLine("Overall there are {0} new types, {1} deleted types, {2} types of a different kind, {3} added attributes, {4} removed attributes, {5} attributes of a different type in the model compared to the database.",
+                newModelTypes.Count, deletedModelTypes.Count, typeChangedModelTypes.Count, addedAttributes.Count, removedAttributes.Count, typeChangedAttributes.Count);
+            ConsoleUI.outWriter.WriteLine("The database is going to be updated: {0} types are going to be added, {1} types are going to be deleted, {2} attributes are going to be added, {3} attributes are going to be removed.",
+                newModelTypes.Count + typeChangedModelTypes.Count, deletedModelTypes.Count + typeChangedModelTypes.Count,
+                addedAttributes.Count + typeChangedAttributes.Count, removedAttributes.Count + typeChangedAttributes.Count);
+
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            ConsoleUI.outWriter.WriteLine("Updating the database model to the current model...");
+
+            // TODO: open transaction to carry out changes and commit at end when migration completed
+            // TODO: check that transaction is set in new database operations called from this method on; check that using is used as needed, or dispose called
+            RemoveDeletedModelTypes(deletedModelTypes, typesFromDatabase);
+            RemoveAndAddTypeChangedModelTypes(typeChangedModelTypes, typesFromDatabase);
+            AddNewModelTypes(newModelTypes);
+
+            foreach(KeyValuePair<string, AttributeTypeFromDatabase> removedAttribute in removedAttributes)
+            {
+                RemoveDeletedModelTypeAttribute(removedAttribute.Key, removedAttribute.Value);
+            }
+            foreach(KeyValuePair<InheritanceType, KeyValuePair<AttributeType, AttributeTypeFromDatabase>> typeChangedAttribute in typeChangedAttributes)
+            {
+                RemoveDeletedModelTypeAttribute(typeChangedAttribute.Key.PackagePrefixedName, typeChangedAttribute.Value.Value);
+                AddNewModelTypeAttribute(typeChangedAttribute.Key, typeChangedAttribute.Value.Key);
+            }
+            foreach(KeyValuePair<InheritanceType, AttributeType> addedAttribute in addedAttributes)
+            {
+                AddNewModelTypeAttribute(addedAttribute.Key, addedAttribute.Value);
+            }
+
+            stopwatch.Stop();
+            ConsoleUI.outWriter.WriteLine("...done (database model updated in {0} ms).", stopwatch.ElapsedMilliseconds);
+
+            InsertGraphIfMissing(HOST_GRAPH_ID, TypeNameToDbId["graph"]);
+        }
+
+        private Dictionary<InheritanceType, SetValueType> GetNewModelTypes(TypesFromDatabase typesFromDatabase)
+        {
+            Dictionary<InheritanceType, SetValueType> newModelTypes = new Dictionary<InheritanceType, SetValueType>();
+
+            foreach(NodeType nodeType in graph.Model.NodeModel.Types)
+            {
+                if(!typesFromDatabase.IsTypeKnown(nodeType))
+                    newModelTypes.Add(nodeType, null);
+            }
+
+            foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
+            {
+                if(!typesFromDatabase.IsTypeKnown(edgeType))
+                    newModelTypes.Add(edgeType, null);
+            }
+
+            foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
+            {
+                if(!typesFromDatabase.IsTypeKnown(objectType))
+                    newModelTypes.Add(objectType, null);
+            }
+
+            return newModelTypes;
+        }
+
+        private Dictionary<string, TypeKind> GetDeletedModelTypes(TypesFromDatabase typesFromDatabase)
+        {
+            Dictionary<string, TypeKind> deletedModelTypes = new Dictionary<string, TypeKind>();
+
+            Dictionary<string, InheritanceType> allModelTypes = GetAllModelTypes();
+            foreach(KeyValuePair<string, AttributeTypesFromDatabase> typeNameToKind in typesFromDatabase.TypesToAttributesFromDatabase)
+            {
+                if(!allModelTypes.ContainsKey(typeNameToKind.Key))
+                    deletedModelTypes.Add(typeNameToKind.Key, typeNameToKind.Value.KindOfOwner);
+            }
+
+            return deletedModelTypes;
+        }
+
+        private Dictionary<string, InheritanceType> GetAllModelTypes()
+        {
+            Dictionary<string, InheritanceType> allModelTypes = new Dictionary<string, InheritanceType>();
+
+            foreach(NodeType nodeType in graph.Model.NodeModel.Types)
+            {
+                allModelTypes.Add(nodeType.PackagePrefixedName, nodeType);
+            }
+
+            foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
+            {
+                allModelTypes.Add(edgeType.PackagePrefixedName, edgeType);
+            }
+
+            foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
+            {
+                allModelTypes.Add(objectType.PackagePrefixedName, objectType);
+            }
+
+            return allModelTypes;
+        }
+
+        Dictionary<InheritanceType, TypeKind> GetTypeChangedModelTypes(TypesFromDatabase typesFromDatabase)
+        {
+            Dictionary<InheritanceType, TypeKind> typeChangedModelTypes = new Dictionary<InheritanceType, TypeKind>();
+
+            Dictionary<string, InheritanceType> allModelTypes = GetAllModelTypes();
+            foreach(KeyValuePair<string, AttributeTypesFromDatabase> typeNameToKind in typesFromDatabase.TypesToAttributesFromDatabase)
+            {
+                if(allModelTypes.ContainsKey(typeNameToKind.Key))
+                {
+                    if(typeNameToKind.Value.KindOfOwner == TypeKind.NodeClass && !(allModelTypes[typeNameToKind.Key] is NodeType))
+                        typeChangedModelTypes.Add(allModelTypes[typeNameToKind.Key], typeNameToKind.Value.KindOfOwner);
+                    else if(typeNameToKind.Value.KindOfOwner == TypeKind.EdgeClass && !(allModelTypes[typeNameToKind.Key] is EdgeType))
+                        typeChangedModelTypes.Add(allModelTypes[typeNameToKind.Key], typeNameToKind.Value.KindOfOwner);
+                    else if(typeNameToKind.Value.KindOfOwner == TypeKind.ObjectClass && !(allModelTypes[typeNameToKind.Key] is ObjectType))
+                        typeChangedModelTypes.Add(allModelTypes[typeNameToKind.Key], typeNameToKind.Value.KindOfOwner);
+                }
+            }
+
+            return typeChangedModelTypes;
+        }
+
+        Dictionary<string, InheritanceType> GetKeptModelTypes(TypesFromDatabase typesFromDatabase)
+        {
+            Dictionary<string, InheritanceType> keptModelTypes = new Dictionary<string, InheritanceType>();
+
+            Dictionary<string, InheritanceType> allModelTypes = GetAllModelTypes();
+            foreach(KeyValuePair<string, AttributeTypesFromDatabase> typeNameToKind in typesFromDatabase.TypesToAttributesFromDatabase)
+            {
+                if(allModelTypes.ContainsKey(typeNameToKind.Key))
+                {
+                    if(typeNameToKind.Value.KindOfOwner == TypeKind.NodeClass && allModelTypes[typeNameToKind.Key] is NodeType)
+                        keptModelTypes.Add(typeNameToKind.Key, allModelTypes[typeNameToKind.Key]);
+                    else if(typeNameToKind.Value.KindOfOwner == TypeKind.EdgeClass && allModelTypes[typeNameToKind.Key] is EdgeType)
+                        keptModelTypes.Add(typeNameToKind.Key, allModelTypes[typeNameToKind.Key]);
+                    else if(typeNameToKind.Value.KindOfOwner == TypeKind.ObjectClass && allModelTypes[typeNameToKind.Key] is ObjectType)
+                        keptModelTypes.Add(typeNameToKind.Key, allModelTypes[typeNameToKind.Key]);
+                }
+            }
+
+            return keptModelTypes;
+        }
+
+        // todo: consistency -- most messages based on database first perspective (old state of model, current state of data), variable names based on model first perspective (current state of model, new state targeted for data)
+        private void DetermineAndReportChangesToUser(Dictionary<InheritanceType, SetValueType> newModelTypes,
+            Dictionary<String, TypeKind> deletedModelTypes, Dictionary<InheritanceType, TypeKind> typeChangedModelTypes,
+            TypesFromDatabase typesFromDatabase, ref bool changeMessagePrinted)
+        {
+            bool deletedTypeStillHasInstances = false;
+            foreach(KeyValuePair<String, TypeKind> typeNameToKind in deletedModelTypes)
+            {
+                string typeName = typeNameToKind.Key;
+                TypeKind typeKind = typeNameToKind.Value;
+                string kind = ToString(typeKind);
+                string idColumnName = ToIdColumnName(typeKind);
+
+                if(TypeHasInstances(typeName, idColumnName))
+                {
+                    PrintChangeMessageAsNeeded(ref changeMessagePrinted);
+                    ConsoleUI.outWriter.WriteLine("The {0} class type {1} from the database is not existing in the model.",
+                        kind, typeName);
+                    ConsoleUI.outWriter.WriteLine("- The {0} class type {1} has to be deleted from the database, but the database contains instances of it (aborting...).",
+                        kind, typeName);
+                    deletedTypeStillHasInstances = true;
+                }
+            }
+
+            foreach(KeyValuePair<InheritanceType, TypeKind> typeToKind in typeChangedModelTypes)
+            {
+                string typeName = typeToKind.Key.PackagePrefixedName;
+                TypeKind typeKind = typeToKind.Value;
+                string kind = ToString(typeKind);
+                string idColumnName = ToIdColumnName(typeKind);
+                string typeKindModel = ToKindString(typeToKind.Key);
+
+                if(TypeHasInstances(typeName, idColumnName))
+                {
+                    PrintChangeMessageAsNeeded(ref changeMessagePrinted);
+                    ConsoleUI.outWriter.WriteLine("The {0} class type {1} from the database is a {2} class type in the model.",
+                        kind, typeName, typeKindModel);
+                    ConsoleUI.outWriter.WriteLine("- The {0} class type {1} has to be deleted from the database, but the database contains instances of it (aborting...).",
+                        kind, typeName);
+                    deletedTypeStillHasInstances = true;
+                }
+            }
+
+            if(deletedTypeStillHasInstances)
+            {
+                ConsoleUI.outWriter.WriteLine("The model used by the database contains instances of types that don't exist anymore in the model file/the model assembly.");
+                ConsoleUI.outWriter.WriteLine("You must delete them first - to do so you must open the database with the old model (if you just deleted them and no dangling references exist, just opening the database with the old model may be sufficient, due to the garbage collection run in the begining).");
+                ConsoleUI.outWriter.WriteLine("The database cannot be opened with the current model.");
+                WriteDatabaseModelToFileAndReportToUser(typesFromDatabase);
+                ConsoleUI.outWriter.WriteLine("Aborting database model update due to an incompatible model...");
+                throw new Exception("Abort database model update due to an incompatible model.");
+            }
+
+            foreach(KeyValuePair<String, TypeKind> typeNameToKind in deletedModelTypes)
+            {
+                string typeName = typeNameToKind.Key;
+                TypeKind typeKind = typeNameToKind.Value;
+                string kind = ToString(typeKind);
+                string idColumnName = ToIdColumnName(typeKind);
+
+                PrintChangeMessageAsNeeded(ref changeMessagePrinted);
+                ConsoleUI.outWriter.WriteLine("The {0} class type {1} from the database is not existing in the model (anymore).",
+                    kind, typeName);
+                ConsoleUI.outWriter.WriteLine("- The {0} class type {1} is going to be deleted from the database, too.",
+                    kind, typeName);
+            }
+
+            foreach(KeyValuePair<InheritanceType, TypeKind> typeToKind in typeChangedModelTypes)
+            {
+                string typeName = typeToKind.Key.PackagePrefixedName;
+                TypeKind typeKind = typeToKind.Value;
+                string kind = ToString(typeKind);
+                string idColumnName = ToIdColumnName(typeKind);
+                string typeKindModel = ToKindString(typeToKind.Key);
+
+                PrintChangeMessageAsNeeded(ref changeMessagePrinted);
+                ConsoleUI.outWriter.WriteLine("The {0} class type {1} from the database is a {2} class type in the model.",
+                    kind, typeName, typeKindModel);
+                ConsoleUI.outWriter.WriteLine("- The {0} class type {1} is going to be deleted from the database.",
+                    kind, typeName);
+                ConsoleUI.outWriter.WriteLine("- The {0} class type {1} is going to be added to the database.",
+                    typeKindModel, typeName);
+            }
+
+            foreach(InheritanceType type in newModelTypes.Keys)
+            {
+                string typeName = type.PackagePrefixedName;
+                string typeKindModel = ToKindString(type);
+
+                PrintChangeMessageAsNeeded(ref changeMessagePrinted);
+                ConsoleUI.outWriter.WriteLine("The database does not contain the {0} class type {1} (that exists in the model).",
+                    typeKindModel, typeName);
+                ConsoleUI.outWriter.WriteLine("- The {0} class type {1} is going to be added to the database, too.",
+                    typeKindModel, typeName);
+            }
+        }
+
+        private void PrintChangeMessageAsNeeded(ref bool changeMessagePrinted)
+        {
+            if(!changeMessagePrinted)
+            {
+                changeMessagePrinted = true;
+                ConsoleUI.outWriter.WriteLine("The model used by the database differs from the model file/the model assembly.");
+            }
+        }
+
+        private void DetermineAndReportAttributeChangesToTheUser(InheritanceType type, AttributeTypesFromDatabase attributes,
+            ref List<KeyValuePair<InheritanceType, AttributeType>> addedAttributes,
+            ref List<KeyValuePair<string, AttributeTypeFromDatabase>> removedAttributes,
+            ref List<KeyValuePair<InheritanceType, KeyValuePair<AttributeType, AttributeTypeFromDatabase>>> typeChangedAttributes,
+            ref bool changeMessagePrinted)
+        {
+            foreach(KeyValuePair<string, AttributeTypeFromDatabase> attributeNameToType in attributes.AttributeNamesToAttributeTypes)
+            {
+                string attributeName = attributeNameToType.Key;
+                AttributeTypeFromDatabase attributeType = attributeNameToType.Value;
+
+                AttributeType attributeTypeFromModel = type.GetAttributeType(attributeNameToType.Key);
+                if(attributeTypeFromModel == null)
+                {
+                    PrintChangeMessageAsNeeded(ref changeMessagePrinted);
+                    ConsoleUI.outWriter.WriteLine("The attribute {1}.{0} from the database is not existing in the model (anymore).",
+                        attributeName, type.PackagePrefixedName);
+                    ConsoleUI.outWriter.WriteLine("- The attribute {1}.{0} is going to be removed from the database, too, and all its values are going to be purged (from the instances of the type), you will loose information!",
+                        attributeName, type.PackagePrefixedName);
+
+                    removedAttributes.Add(new KeyValuePair<string, AttributeTypeFromDatabase>(type.PackagePrefixedName, attributeType));
+                }
+                else if(attributeType.XgrsType != TypesHelper.AttributeTypeToXgrsType(attributeTypeFromModel))
+                {
+                    PrintChangeMessageAsNeeded(ref changeMessagePrinted);
+                    ConsoleUI.outWriter.WriteLine("The attribute {1}.{0} of type {2} from the database is of type {3} in the model!",
+                        attributeName, type.PackagePrefixedName, attributeType.XgrsType, TypesHelper.AttributeTypeToXgrsType(attributeTypeFromModel));
+                    ConsoleUI.outWriter.WriteLine("- The attribute {1}.{0} is going to be removed from the database, and all its values are going to be purged (from the instances of the type), you will loose information!",
+                        attributeName, type.PackagePrefixedName);
+                    ConsoleUI.outWriter.WriteLine("- The attribute {1}.{0} is going to be added in the database, it is going to be initialized to the default value of the attribute type (in the instances of the type - but not the default value specified in the class).",
+                        attributeTypeFromModel.Name, type.PackagePrefixedName);
+
+                    typeChangedAttributes.Add(new KeyValuePair<InheritanceType, KeyValuePair<AttributeType, AttributeTypeFromDatabase>>(type, new KeyValuePair<AttributeType, AttributeTypeFromDatabase>(attributeTypeFromModel, attributeType)));
+                }
+            }
+
+            foreach(AttributeType attributeTypeFromModel in type.AttributeTypes)
+            {
+                if(!attributes.AttributeNamesToAttributeTypes.ContainsKey(attributeTypeFromModel.Name))
+                {
+                    PrintChangeMessageAsNeeded(ref changeMessagePrinted);
+                    ConsoleUI.outWriter.WriteLine("The type {0} does not contain the attribute {1} in the database (that exists in the model).",
+                        type.PackagePrefixedName, attributeTypeFromModel.Name);
+                    ConsoleUI.outWriter.WriteLine("- The attribute {1}.{0} is going to be added in the database, too, it is going to be initialized to the default value of the attribute type (in the instances of the type - but not the default value specified in the class).",
+                        attributeTypeFromModel.Name, type.PackagePrefixedName);
+
+                    addedAttributes.Add(new KeyValuePair<InheritanceType, AttributeType>(type, attributeTypeFromModel));
+                }
+            }
+        }
+
+        private bool QueryUserWhetherToAdaptDatabaseToModel(List<KeyValuePair<string, AttributeTypeFromDatabase>> removedAttributes, List<KeyValuePair<InheritanceType, KeyValuePair<AttributeType, AttributeTypeFromDatabase>>> typeChangedAttributes)
+        {
+            List<KeyValuePair<string, AttributeTypeFromDatabase>> removedAttributesAfterFiltering = new List<KeyValuePair<string, AttributeTypeFromDatabase>>(removedAttributes);
+            List<KeyValuePair<InheritanceType, KeyValuePair<AttributeType, AttributeTypeFromDatabase>>> typeChangedAttributesAfterFiltering = new List<KeyValuePair<InheritanceType, KeyValuePair<AttributeType, AttributeTypeFromDatabase>>>(typeChangedAttributes);
+
+            if(persistentGraphParameters != null)
+            {
+                // intended general format for persistentGraphParameters: "command;command", command may be update, update/type.attr, or later key=val -- the update parameters allow for automatic migration with a script
+                string[] unpackedParameters = persistentGraphParameters.Split(';');
+                foreach(string parameter in unpackedParameters)
+                {
+                    if(parameter == "update")
+                    {
+                        removedAttributesAfterFiltering.Clear();
+                        typeChangedAttributesAfterFiltering.Clear();
+                        break;
+                    }
+                    else if(parameter.StartsWith("update/"))
+                    {
+                        String updateAttribute = parameter.Remove(0, "update/".Length);
+                        String[] typeAttribute = updateAttribute.Split('.');
+                        if(typeAttribute.Length != 2)
+                        {
+                            ConsoleUI.errorOutWriter.WriteLine("Ignoring malformed update command: " + parameter + " ('update/type.attr' expected)");
+                            continue;
+                        }
+                        string type = typeAttribute[0];
+                        string attribute = typeAttribute[1];
+                        RemoveAttribute(removedAttributesAfterFiltering, typeChangedAttributesAfterFiltering, type, attribute);
+                    }
+                }
+            }
+
+            if(removedAttributesAfterFiltering.Count + typeChangedAttributesAfterFiltering.Count > 0)
+            {
+                ConsoleUI.outWriter.WriteLine("Proceed only if you already carried out all migrations you wanted to, otherwise you would loose information (when removing attributes/purging their values) - not proceeding would allow you to revert the model and save the attribute values of worth from the database.");
+                ConsoleUI.outWriter.WriteLine("Do you want to proceed? (y[es]/n[o])");
+                ConsoleKeyInfo key = ConsoleUI.consoleIn.ReadKeyWithControlCAsInput();
+                if(key.KeyChar != 'y' && key.KeyChar != 'Y')
+                    return false;
+
+                ConsoleUI.outWriter.WriteLine("Are you sure? (y[es]/n[o])");
+                key = ConsoleUI.consoleIn.ReadKeyWithControlCAsInput();
+                if(key.KeyChar != 'y' && key.KeyChar != 'Y')
+                    return false;
+            }
+
+            return true;
+        }
+
+        private void RemoveAttribute(List<KeyValuePair<string, AttributeTypeFromDatabase>> removedAttributesAfterFiltering,
+            List<KeyValuePair<InheritanceType, KeyValuePair<AttributeType, AttributeTypeFromDatabase>>> typeChangedAttributesAfterFiltering,
+            string type, string attribute)
+        {
+            for(int i = 0; i < removedAttributesAfterFiltering.Count; ++i)
+            {
+                if(removedAttributesAfterFiltering[i].Key == type && removedAttributesAfterFiltering[i].Value.Name == attribute)
+                {
+                    removedAttributesAfterFiltering.RemoveAt(i);
+                    return;
+                }
+            }
+
+            for(int i = 0; i < typeChangedAttributesAfterFiltering.Count; ++i)
+            {
+                if(typeChangedAttributesAfterFiltering[i].Key.PackagePrefixedName == type && typeChangedAttributesAfterFiltering[i].Value.Key.Name == attribute)
+                {
+                    typeChangedAttributesAfterFiltering.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+
+        private void WriteDatabaseModelToFileAndReportToUser(TypesFromDatabase typesFromDatabase)
+        {
+            String filename = "partial_flattened_model_from_" + ExtractDataSourceName() + ".gm";
+            using(StreamWriter sw = new StreamWriter(filename, false, System.Text.Encoding.UTF8))
+            {
+                typesFromDatabase.WriteDatabaseModelToFile(sw);
+            }
+            ConsoleUI.outWriter.WriteLine("Written file " + filename + " showing the partial flattened model expected by the host graph in the database.");
+        }
+
+        private string ExtractDataSourceName()
+        {
+            string sourceName = "dummyfilename";
+
+            string[] parameters = connectionParameters.Split(';');
+            foreach(string parameter in parameters)
+            {
+                if(parameter.StartsWith("source", true, System.Globalization.CultureInfo.InvariantCulture)
+                    || parameter.StartsWith("datasource", true, System.Globalization.CultureInfo.InvariantCulture)
+                    || parameter.StartsWith("data source", true, System.Globalization.CultureInfo.InvariantCulture))
+                {
+                    string[] keywordAndValue = parameter.Split('=');
+                    if(keywordAndValue.Length == 2)
+                    {
+                        string path = keywordAndValue[1].Trim();
+                        return Path.GetFileName(path);
+                    }
+                }
+            }
+
+            return sourceName;
+        }
+
+        private void AddNewModelTypes(Dictionary<InheritanceType, SetValueType> newModelTypes)
+        {
+            foreach(InheritanceType entityType in newModelTypes.Keys)
+            {
+                using(SQLiteCommand fillTypeCommand = GetFillTypeCommand())
+                {
+                    FillTypeWithAttributes(fillTypeCommand, entityType, ToKind(entityType));
+                }
+
+                String idColumnName = ToIdColumnName(entityType);
+
+                CreateInheritanceTypeTable(entityType, idColumnName);
+
+                foreach(AttributeType attributeType in entityType.AttributeTypes)
+                {
+                    if(!IsContainerType(attributeType))
+                        continue;
+                    CreateContainerTypeTable(entityType, idColumnName, attributeType);
+                }
+            }
+        }
+
+        private void RemoveDeletedModelTypes(Dictionary<String, TypeKind> deletedModelTypes, TypesFromDatabase typesFromDatabase)
+        {
+            // delete nodes, no instances left because of previous check, nothing in topology tables, nothing in types tables, nothing in container tables(?)
+            foreach(KeyValuePair<String, TypeKind> typeNameToKind in deletedModelTypes)
+            {
+                using(SQLiteCommand removeTypeFromAttributeTypesCommand = PrepareTopologyDelete("attributeTypes", "typeId"))
+                {
+                    RemoveAttributeTypes(removeTypeFromAttributeTypesCommand, TypeNameToDbId[typeNameToKind.Key]);
+                }
+                using(SQLiteCommand removeTypeCommand = PrepareTopologyDelete("types", "typeId"))
+                {
+                    RemoveType(removeTypeCommand, TypeNameToDbId[typeNameToKind.Key]);
+                }
+                RemoveTypeNameFromDbIdMapping(typeNameToKind.Key);
+
+                foreach(KeyValuePair<string, AttributeTypeFromDatabase> attributeType in typesFromDatabase[typeNameToKind.Key].AttributeNamesToAttributeTypes)
+                {
+                    if(IsContainerType(attributeType.Value.XgrsType))
+                        DeleteContainerTypeTable(typeNameToKind.Key, attributeType.Key);
+                }
+                DeleteInheritanceTypeTable(typeNameToKind.Key);
+            }
+        }
+
+        private void RemoveAndAddTypeChangedModelTypes(Dictionary<InheritanceType, TypeKind> typeChangedModelTypes, TypesFromDatabase typesFromDatabase)
+        {
+            Dictionary<string, TypeKind> deletedModelTypes = new Dictionary<string, TypeKind>();
+            Dictionary<InheritanceType, SetValueType> newModelTypes = new Dictionary<InheritanceType, SetValueType>();
+            foreach(KeyValuePair<InheritanceType, TypeKind> typeChangedModelTypeWithKind in typeChangedModelTypes)
+            {
+                InheritanceType typeChangedModelType = typeChangedModelTypeWithKind.Key;
+                TypeKind kind = typeChangedModelTypeWithKind.Value;
+
+                deletedModelTypes.Add(typeChangedModelType.PackagePrefixedName, kind);
+                newModelTypes.Add(typeChangedModelType, null);
+            }
+
+            RemoveDeletedModelTypes(deletedModelTypes, typesFromDatabase);
+            AddNewModelTypes(newModelTypes);
+        }
+
+        private void AddNewModelTypeAttribute(InheritanceType type, AttributeType attributeType)
+        {
+            // add new attribute to the attributeTypes table (corresponding type)
+            using(SQLiteCommand fillAttributeTypeCommand = GetFillAttributeTypeCommand())
+            {
+                FillAttributeType(fillAttributeTypeCommand, attributeType, type);
+            }
+
+            // add the attribute column to the table of the according type or
+            // if the type of the attribute is a container type, add a container table for the attribute
+            // and write the default value of the type
+            if(IsContainerType(attributeType))
+            {
+                string ownerIdColumnName = ToIdColumnName(type);
+                CreateContainerTypeTable(type, ownerIdColumnName, attributeType);
+
+                using(SQLiteCommand initializingInsert = PrepareContainerInitializingInsert(type, ownerIdColumnName, attributeType))
+                {
+                    initializingInsert.Transaction = transaction;
+                    int rowsAffected = initializingInsert.ExecuteNonQuery();
+                }
+            }
+            else
+            {
+                AddAttributeToInheritanceTypeTable(type, attributeType);
+                using(SQLiteCommand updateCommand = PrepareUpdate(type, null, attributeType))
+                {
+                    updateCommand.Parameters.Clear();
+                    updateCommand.Parameters.AddWithValue("@" + GetUniqueColumnName(attributeType.Name), DefaultValue(attributeType));
+
+                    updateCommand.Transaction = transaction;
+                    int rowsAffected = updateCommand.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private void RemoveDeletedModelTypeAttribute(string typeName, AttributeTypeFromDatabase attributeType)
+        {
+            // remove from the attributeTypes table
+            using(SQLiteCommand removeTypeFromAttributeTypesCommand = PrepareTopologyDelete("attributeTypes", "attributeTypeId"))
+            {
+                RemoveAttributeType(removeTypeFromAttributeTypesCommand, attributeType.DbId);
+            }
+
+            // remove the attribute column from the table of the according type or
+            // if the type of the attribute is a container type, remove the container table for the attribute
+            if(IsContainerType(attributeType.XgrsType))
+                DeleteContainerTypeTable(typeName, attributeType.Name);
+            else
+                RemoveAttributeFromInheritanceTypeTable(typeName, attributeType.Name);
+        }
+
+        private void AddModelTypesToTypesTable()
+        {
             using(SQLiteCommand fillTypeCommand = GetFillTypeCommand())
             {
-                FillUnknownType(typeNameToKind, fillTypeCommand, new GraphClassDummy(), TypeKind.GraphClass);
+                FillTypeWithAttributes(fillTypeCommand, new GraphClassDummy(), TypeKind.GraphClass);
 
                 foreach(NodeType nodeType in graph.Model.NodeModel.Types)
                 {
-                    FillUnknownType(typeNameToKind, fillTypeCommand, nodeType, TypeKind.NodeClass);
+                    FillTypeWithAttributes(fillTypeCommand, nodeType, TypeKind.NodeClass);
                 }
                 foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
                 {
-                    FillUnknownType(typeNameToKind, fillTypeCommand, edgeType, TypeKind.EdgeClass);
+                    FillTypeWithAttributes(fillTypeCommand, edgeType, TypeKind.EdgeClass);
                 }
                 foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
                 {
-                    FillUnknownType(typeNameToKind, fillTypeCommand, objectType, TypeKind.ObjectClass);
+                    FillTypeWithAttributes(fillTypeCommand, objectType, TypeKind.ObjectClass);
                 }
             }
 
             InsertGraphIfMissing(HOST_GRAPH_ID, TypeNameToDbId["graph"]);
         }
 
-        private void FillUnknownType(Dictionary<string, TypeKind> typeNameToKind, SQLiteCommand fillTypeCommand, InheritanceType type, TypeKind kind)
+        private void FillTypeWithAttributes(SQLiteCommand fillTypeCommand, InheritanceType type, TypeKind kind)
         {
-            if(typeNameToKind.ContainsKey(type.PackagePrefixedName))
-            {
-                if(typeNameToKind[type.PackagePrefixedName] != kind)
-                    throw new Exception("The " + kind + " " + type.PackagePrefixedName + " is of a different kind in the database (" + typeNameToKind[type.PackagePrefixedName] + ")!");
-                FillUnknownAttributeTypes(type); // todo: adapt to changes, as of now the attribute types are only written to have a representation of the model of the persistently stored graph (for later use) (and cleared before re-insertion)
-                return;
-            }
             FillType(fillTypeCommand, type, kind);
-            FillUnknownAttributeTypes(type);
+            FillAttributeTypes(type);
         }
 
         private void FillType(SQLiteCommand fillTypeCommand, InheritanceType type, TypeKind kind)
@@ -717,13 +1471,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             return new SQLiteCommand(command.ToString(), connection);
         }
 
-        private void FillUnknownAttributeTypes(InheritanceType type)
+        private void FillAttributeTypes(InheritanceType type)
         {
-            using(SQLiteCommand removeTypeFromAttributeTypesCommand = PrepareTopologyDelete("attributeTypes", "typeId"))
-            {
-                RemoveAttributeTypes(removeTypeFromAttributeTypesCommand, type);
-            }
-
             using(SQLiteCommand fillAttributeTypeCommand = GetFillAttributeTypeCommand())
             {
                 foreach(AttributeType attributeType in type.AttributeTypes)
@@ -733,13 +1482,31 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
         }
 
-        private void RemoveAttributeTypes(SQLiteCommand removeTypeFromAttributeTypesCommand, InheritanceType type)
+        private void RemoveAttributeTypes(SQLiteCommand removeTypeFromAttributeTypesCommand, long dbid)
         {
             removeTypeFromAttributeTypesCommand.Parameters.Clear();
-            removeTypeFromAttributeTypesCommand.Parameters.AddWithValue("@typeId", TypeNameToDbId[type.PackagePrefixedName]);
+            removeTypeFromAttributeTypesCommand.Parameters.AddWithValue("@typeId", dbid);
 
             removeTypeFromAttributeTypesCommand.Transaction = transaction;
             int rowsAffected = removeTypeFromAttributeTypesCommand.ExecuteNonQuery();
+        }
+
+        private void RemoveAttributeType(SQLiteCommand removeAttributeTypeFromAttributeTypesCommand, long dbid)
+        {
+            removeAttributeTypeFromAttributeTypesCommand.Parameters.Clear();
+            removeAttributeTypeFromAttributeTypesCommand.Parameters.AddWithValue("@attributeTypeId", dbid);
+
+            removeAttributeTypeFromAttributeTypesCommand.Transaction = transaction;
+            int rowsAffected = removeAttributeTypeFromAttributeTypesCommand.ExecuteNonQuery();
+        }
+
+        private void RemoveType(SQLiteCommand removeTypeCommand, long dbid)
+        {
+            removeTypeCommand.Parameters.Clear();
+            removeTypeCommand.Parameters.AddWithValue("@typeId", dbid);
+
+            removeTypeCommand.Transaction = transaction;
+            int rowsAffected = removeTypeCommand.ExecuteNonQuery();
         }
 
         private long FillAttributeType(SQLiteCommand fillAttributeTypeCommand, AttributeType attributeType, InheritanceType type)
@@ -781,6 +1548,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private Dictionary<string, TypeKind> ReadKnownTypes()
         {
+            // the grgen type id from the model is only unique per kind, and not stable upon insert(/delete), so we have to match by name to map to the database type id
+
             Dictionary<string, TypeKind> typeNameToKind = new Dictionary<string, TypeKind>();
 
             using(SQLiteCommand command = PrepareStatementsForReadingKnownTypes())
@@ -795,7 +1564,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         int kind = reader.GetInt32(nameToColumnIndex["kind"]);
                         String name = reader.GetString(nameToColumnIndex["name"]);
 
-                        typeNameToKind.Add(name, (TypeKind)kind);
+                        typeNameToKind.Add(name, (TypeKind)kind); // note that the graph type is included here, in contrast to ReadKnownTypesWithAttributes
 
                         AddTypeNameWithDbIdToDbIdMapping(name, typeId);
                     }
@@ -822,6 +1591,74 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             return new SQLiteCommand(command.ToString(), connection);
         }
 
+        private Dictionary<string, AttributeTypesFromDatabase> ReadKnownTypesWithAttributes()
+        {
+            Dictionary<string, AttributeTypesFromDatabase> typeNameToAttributeTypes = new Dictionary<string, AttributeTypesFromDatabase>();
+
+            using(SQLiteCommand command = PrepareStatementsForReadingKnownTypesWithAttributes())
+            {
+                command.Transaction = transaction;
+                using(SQLiteDataReader reader = command.ExecuteReader())
+                {
+                    Dictionary<string, int> nameToColumnIndex = GetNameToColumnIndexMapping(reader);
+                    while(reader.Read())
+                    {
+                        long typeId = reader.GetInt64(nameToColumnIndex["typeId"]);
+                        int kind = reader.GetInt32(nameToColumnIndex["kind"]);
+                        string name = reader.GetString(nameToColumnIndex["name"]);
+
+                        AttributeTypeFromDatabase attributeTypeFromDatabase = null;
+                        string attributeName = null;
+                        if(!reader.IsDBNull(nameToColumnIndex["attributeName"]))
+                        {
+                            attributeName = reader.GetString(nameToColumnIndex["attributeName"]);
+                            string xgrsType = reader.GetString(nameToColumnIndex["xgrsType"]);
+                            long attributeTypeId = reader.GetInt64(nameToColumnIndex["attributeTypeId"]);
+                            attributeTypeFromDatabase = new AttributeTypeFromDatabase(attributeName, xgrsType, attributeTypeId);
+                        }
+
+                        if((TypeKind)kind == TypeKind.GraphClass) // filter graph type because we don't add it from the model...to be removed when real graph class support is added
+                            continue;
+
+                        AttributeTypesFromDatabase attributeTypes;
+                        if(!typeNameToAttributeTypes.TryGetValue(name, out attributeTypes))
+                        {
+                            attributeTypes = new AttributeTypesFromDatabase(name, (TypeKind)kind);
+                            typeNameToAttributeTypes.Add(name, attributeTypes);
+                        }
+
+                        if(attributeName != null)
+                            attributeTypes.AttributeNamesToAttributeTypes.Add(attributeName, attributeTypeFromDatabase);
+                    }
+                }
+            }
+
+            return typeNameToAttributeTypes;
+        }
+
+        private SQLiteCommand PrepareStatementsForReadingKnownTypesWithAttributes()
+        {
+            StringBuilder columnNames = new StringBuilder();
+            AddQueryColumn(columnNames, "types.typeId");
+            AddQueryColumn(columnNames, "kind");
+            AddQueryColumn(columnNames, "name");
+            AddQueryColumn(columnNames, "attributeTypeId");
+            AddQueryColumn(columnNames, "attributeName");
+            AddQueryColumn(columnNames, "xgrsType");
+
+            StringBuilder command = new StringBuilder();
+            command.Append("SELECT ");
+            command.Append(columnNames.ToString());
+            command.Append(" FROM ");
+            command.Append("types");
+            command.Append(" LEFT JOIN ");
+            command.Append("attributeTypes");
+            command.Append(" ON (types.typeId == attributeTypes.typeId)");
+
+            return new SQLiteCommand(command.ToString(), connection);
+        }
+
+        // todo: IfMissing is not needed anymore, just insert; often only db id mapping needed, but dbid should be queried...
         private void InsertGraphIfMissing(long graphId, long typeId)
         {
             using(SQLiteCommand replaceHostGraphCommand = PrepareHostGraphInsert())
@@ -840,7 +1677,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
         }
 
-        #endregion Types table populating
+        #endregion Types table populating/handling
 
         #region Initial graph reading
 
@@ -1566,6 +2403,41 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 return DbIdToNode[dbid];
             else
                 return DbIdToEdge[dbid];
+        }
+
+        private bool TypeHasInstances(String typeName, String idName)
+        {
+            using(SQLiteCommand command = GetTypeHasInstancesQuery(typeName, idName))
+            {
+                command.Transaction = transaction;
+                using(SQLiteDataReader reader = command.ExecuteReader())
+                {
+                    Dictionary<string, int> nameToColumnIndex = GetNameToColumnIndexMapping(reader);
+                    while(reader.Read())
+                    {
+                        long result = reader.GetInt64(0);
+                        return result != 0;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private SQLiteCommand GetTypeHasInstancesQuery(String typeName, String idName)
+        {
+            String package;
+            String name;
+            UnpackPackagePrefixedName(typeName, out package, out name);
+            String tableName = GetUniqueTableName(package, name);
+
+            StringBuilder command = new StringBuilder();
+            command.Append("SELECT EXISTS(");
+            command.Append("SELECT ");
+            command.Append(idName);
+            command.Append(" FROM ");
+            command.Append(tableName);
+            command.Append(")");
+            return new SQLiteCommand(command.ToString(), connection);
         }
 
         #endregion Initial graph reading
@@ -2560,6 +3432,33 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             return new SQLiteCommand(command.ToString(), connection);
         }
 
+        private SQLiteCommand PrepareContainerInitializingInsert(InheritanceType type, string ownerIdColumnName, AttributeType attributeType)
+        {
+            String tableName = GetUniqueTableName(type.Package, type.Name, attributeType.Name);
+            String ownerTypeTableName = GetUniqueTableName(type.Package, type.Name);
+            // the id of the container element (entryId) being the same as the primary key is defined by the dbms
+
+            StringBuilder command = new StringBuilder();
+            command.Append("INSERT INTO ");
+            command.Append(tableName);
+            command.Append("(");
+            command.Append(ownerIdColumnName);
+            command.Append(", command, value");
+            if(attributeType.Kind != AttributeKind.SetAttr)
+                command.Append(", key");
+            command.Append(")");
+            command.Append(" SELECT ");
+            command.Append(ownerIdColumnName);
+            command.Append(", 0, null");
+            if(attributeType.Kind != AttributeKind.SetAttr)
+                command.Append(", null");
+            command.Append(" FROM ");
+            command.Append(ownerTypeTableName);
+            command.Append(" WHERE true");
+
+            return new SQLiteCommand(command.ToString(), connection);
+        }
+
         private SQLiteCommand PrepareUpdateEdgeSource()
         {
             StringBuilder command = new StringBuilder();
@@ -2625,10 +3524,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             command.Append(GetUniqueColumnName(attributeType.Name));
             command.Append(" = ");
             command.Append("@" + GetUniqueColumnName(attributeType.Name));
-            command.Append(" WHERE ");
-            command.Append(idName);
-            command.Append(" == ");
-            command.Append("@" + idName);
+            if(idName != null)
+            {
+                command.Append(" WHERE ");
+                command.Append(idName);
+                command.Append(" == ");
+                command.Append("@" + idName);
+            }
 
             return new SQLiteCommand(command.ToString(), connection);
         }
@@ -3807,6 +4709,12 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             TypeNameToDbId.Add(typeName, dbid);
         }
 
+        private void RemoveTypeNameFromDbIdMapping(String typeName)
+        {
+            DbIdToTypeName.Remove(TypeNameToDbId[typeName]);
+            TypeNameToDbId.Remove(typeName);
+        }
+
         private object ValueOrIdOfReferencedElement(object newValue, AttributeType attrType)
         {
             if(IsGraphType(attrType))
@@ -3833,6 +4741,69 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         }
 
         #endregion Database id from/to concept mapping maintenance
+
+        #region Simple mapping code
+
+        string ToString(TypeKind kind)
+        {
+            switch(kind)
+            {
+                case TypeKind.NodeClass: return "node";
+                case TypeKind.EdgeClass: return "edge";
+                case TypeKind.ObjectClass: return "object";
+                case TypeKind.GraphClass: return "graph";
+                default: throw new Exception("INTERNAL ERROR");
+            }
+        }
+
+        string ToIdColumnName(TypeKind kind)
+        {
+            return ToString(kind) + "Id";
+        }
+
+        TypeKind ToKind(InheritanceType type)
+        {
+            if(type is NodeType)
+                return TypeKind.NodeClass;
+            else if(type is EdgeType)
+                return TypeKind.EdgeClass;
+            else if(type is ObjectType)
+                return TypeKind.ObjectClass;
+            throw new Exception("INTERNAL ERROR");
+        }
+
+        string ToKindString(InheritanceType type)
+        {
+            if(type is NodeType)
+                return "node";
+            else if(type is EdgeType)
+                return "edge";
+            else if(type is ObjectType)
+                return "object";
+            throw new Exception("INTERNAL ERROR");
+        }
+
+        string ToIdColumnName(InheritanceType type)
+        {
+            return ToKindString(type) + "Id";
+        }
+
+        private void UnpackPackagePrefixedName(string packagePrefixedName, out string package, out string name)
+        {
+            if(packagePrefixedName.Contains("::"))
+            {
+                package = packagePrefixedName.Substring(0, packagePrefixedName.IndexOf(":"));
+                name = packagePrefixedName.Substring(packagePrefixedName.LastIndexOf(":") + 1, packagePrefixedName.Length - (packagePrefixedName.LastIndexOf(":") + 1));
+                Debug.Assert(packagePrefixedName.IndexOf("::") == packagePrefixedName.LastIndexOf("::")); // ensure no enum types are used here
+            }
+            else
+            {
+                package = null;
+                name = packagePrefixedName;
+            }
+        }
+
+        #endregion Simple mapping code
 
         #region IPersistenceProviderTransactionManager
 

@@ -1,0 +1,29 @@
+enum ENU { a, b = 42, c }
+
+node class N
+{
+	a:int;
+	r:N;
+	c:set<string> = { "foo", "bar", "baz" };
+	g:graph;
+}
+
+edge class E
+{
+	a:double = 42.0;
+	r:O;
+	c:array<ENU>;
+	i:int = 0xAFFE;
+}
+
+class O
+{
+	a:string = "furchtbar";
+	r:E;
+	c:map<int, N>;
+	e:ENU = ENU::a;
+	e2:ENU = ENU::b;
+	e3:ENU = ENU::c;
+}
+
+node edge graph;

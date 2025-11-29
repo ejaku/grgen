@@ -1,0 +1,7 @@
+#using "persistentgraph_model_update_in_attributes_updated.gm"
+
+test find : (N,E,O)
+{
+	n:N -e:E-> n;
+	return(n,e,e.r);
+}

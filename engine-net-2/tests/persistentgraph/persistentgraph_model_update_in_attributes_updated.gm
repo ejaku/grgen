@@ -1,0 +1,32 @@
+enum ENU { x, y, z = 42 }
+
+node class N
+{
+	a:array<O>; //retyped a:int;
+	r:E; //retyped r:N;
+	//c:set<string>; deleted
+	g:graph;
+	newAttr:deque<int> = [ 1, 2, 3 ]; //new
+}
+
+edge class E
+{
+	//a:double; deleted
+	r:O;
+	c:double; //retyped c:array<ENU>;
+	i:int;
+	newAttr:O; //new
+}
+
+class O
+{
+	//a:string; deleted
+	r:E;
+	c:map<int, N>;
+	e:ENU; // a=0 -> x=0
+	e2:ENU; // b=42 -> z=42
+	e3:ENU; // c=43
+	newAttr:ENU = ENU::x; //new
+}
+
+node edge graph;

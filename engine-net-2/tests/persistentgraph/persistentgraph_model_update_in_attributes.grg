@@ -1,0 +1,12 @@
+#using "persistentgraph_model_update_in_attributes.gm"
+
+rule init : (N,E,O)
+{
+	modify {
+		n:N -e:E-> n;
+		eval {
+			e.r = new O();
+		}
+		return(n,e,e.r);
+	}
+}

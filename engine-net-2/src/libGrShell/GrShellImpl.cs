@@ -1607,7 +1607,7 @@ namespace de.unika.ipd.grGen.grShell
         #region "new graph" commands
 
         public bool NewGraph(String specFilename, String graphName, bool forceRebuild,
-            String persistenceProvider, String connectionParameters)
+            String persistenceProvider, String connectionParameters, String persistentGraphParameters)
         {
             if(!BackendExists())
                 return false;
@@ -1618,7 +1618,7 @@ namespace de.unika.ipd.grGen.grShell
 
             if(specFilename.EndsWith(".cs", StringComparison.OrdinalIgnoreCase) || specFilename.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
             {
-                bool success = NewGraphFromTargetFile(specFilename, graphName, persistenceProvider, connectionParameters);
+                bool success = NewGraphFromTargetFile(specFilename, graphName, persistenceProvider, connectionParameters, persistentGraphParameters);
                 if(!success)
                     return false;
             }
@@ -1631,13 +1631,13 @@ namespace de.unika.ipd.grGen.grShell
 
                 if(specFilename.EndsWith(".gm", StringComparison.OrdinalIgnoreCase))
                 {
-                    bool success = NewGraphFromModelFile(specFilename, graphName, forceRebuild, persistenceProvider, connectionParameters);
+                    bool success = NewGraphFromModelFile(specFilename, graphName, forceRebuild, persistenceProvider, connectionParameters, persistentGraphParameters);
                     if(!success)
                         return false;
                 }
                 else if(specFilename.EndsWith(".grg", StringComparison.OrdinalIgnoreCase))
                 {
-                    bool success = NewGraphFromActionsFile(specFilename, graphName, forceRebuild, persistenceProvider, connectionParameters);
+                    bool success = NewGraphFromActionsFile(specFilename, graphName, forceRebuild, persistenceProvider, connectionParameters, persistentGraphParameters);
                     if(!success)
                         return false;
                 }
@@ -1654,7 +1654,7 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
-        private bool NewGraphFromTargetFile(String specFilename, String graphName, String persistenceProvider, String connectionParameters)
+        private bool NewGraphFromTargetFile(String specFilename, String graphName, String persistenceProvider, String connectionParameters, String persistentGraphParameters)
         {
             IGlobalVariables globalVariables = new LGSPGlobalVariables();
             INamedGraph graph;
@@ -1663,7 +1663,7 @@ namespace de.unika.ipd.grGen.grShell
                 if(persistenceProvider != null)
                 {
                     graph = curGraphBackend.CreatePersistentNamedGraph(specFilename, globalVariables, graphName,
-                        persistenceProvider, connectionParameters, backendParameters);
+                        persistenceProvider, connectionParameters, persistentGraphParameters, backendParameters);
                 }
                 else
                     graph = curGraphBackend.CreateNamedGraph(specFilename, globalVariables, graphName, backendParameters);
@@ -1712,7 +1712,7 @@ namespace de.unika.ipd.grGen.grShell
             return specFilename;
         }
 
-        private bool NewGraphFromModelFile(String specFilename, String graphName, bool forceRebuild, String persistenceProvider, String connectionParameters)
+        private bool NewGraphFromModelFile(String specFilename, String graphName, bool forceRebuild, String persistenceProvider, String connectionParameters, String persistentGraphParameters)
         {
             IGlobalVariables globalVariables = new LGSPGlobalVariables();
             INamedGraph graph;
@@ -1723,7 +1723,7 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     graph = curGraphBackend.CreatePersistentNamedFromSpec(specFilename, globalVariables, graphName, null,
                         flags, newGraphOptions.ExternalAssembliesReferenced, 0,
-                        persistenceProvider, connectionParameters);
+                        persistenceProvider, connectionParameters, persistentGraphParameters);
                 }
                 else
                 {
@@ -1753,7 +1753,7 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
-        private bool NewGraphFromActionsFile(String specFilename, String graphName, bool forceRebuild, String persistenceProvider, String connectionParameters)
+        private bool NewGraphFromActionsFile(String specFilename, String graphName, bool forceRebuild, String persistenceProvider, String connectionParameters, String persistentGraphParameters)
         {
             IGlobalVariables globalVariables = new LGSPGlobalVariables();
             INamedGraph graph;
@@ -1766,7 +1766,7 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     curGraphBackend.CreatePersistentNamedFromSpec(specFilename, globalVariables, graphName, newGraphOptions.Statistics,
                         flags, newGraphOptions.ExternalAssembliesReferenced, 0,
-                        persistenceProvider, connectionParameters,
+                        persistenceProvider, connectionParameters, persistentGraphParameters,
                         out graph, out actions);
                 }
                 else

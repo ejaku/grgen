@@ -1,0 +1,62 @@
+! rm testgraphfilename_model_update_in_attributes_with_instances.db
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+new graph "persistentgraph/persistentgraph_model_update_in_attributes" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_model_update_in_attributes_with_instances.db;Version=3;"
+
+exec (::n,::e,::o)=init
+
+show num nodes N
+show num edges E
+
+n.a
+n.r
+n.c
+n.g
+n.newAttr
+
+e.a
+e.r
+e.c
+e.i
+e.newAttr
+
+o.a
+o.r
+o.c
+o.e
+o.e2
+o.e3
+o.newAttr
+
+new graph "persistentgraph/persistentgraph_model_update_in_attributes" "some non-persistent graph"
+
+show num nodes
+show num edges
+
+new graph "persistentgraph/persistentgraph_model_update_in_attributes_updated" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_model_update_in_attributes_with_instances.db;Version=3;" "update"
+
+exec (::n,::e,::o)=find
+
+show num nodes N
+show num edges E
+
+n.a
+n.r
+n.c #deleted
+n.g
+n.newAttr
+
+e.a #deleted
+e.r
+e.c
+e.i
+e.newAttr
+
+o.a #deleted
+o.r
+o.c
+o.e
+o.e2
+o.e3
+o.newAttr
+
+quit

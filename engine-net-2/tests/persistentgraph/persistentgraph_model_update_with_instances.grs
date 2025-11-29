@@ -1,0 +1,69 @@
+! rm testgraphfilename_model_update_with_instances.db
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+new graph "persistentgraph/persistentgraph_model_update" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_model_update_with_instances.db;Version=3;"
+
+exec init
+
+show num nodes oldN
+show num nodes newN
+
+show num edges oldE
+show num edges newE
+
+show num nodes N
+show num nodes E
+show num edges E
+show num edges O
+
+exec [deleteOldN] ;> [deleteOldE]
+
+show num nodes oldN
+show num nodes newN
+
+show num edges oldE
+show num edges newE
+
+show num nodes N
+show num nodes E
+show num edges E
+show num edges O
+
+new graph "persistentgraph/persistentgraph_model_update" "some non-persistent graph"
+
+show num nodes
+show num edges
+
+new graph "persistentgraph/persistentgraph_model_update" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_model_update_with_instances.db;Version=3;"
+
+#needed to allow garbage collection to remove the zombies that would otherwise block the update
+
+show num nodes oldN
+show num nodes newN
+
+show num edges oldE
+show num edges newE
+
+show num nodes N
+show num nodes E
+show num edges E
+show num edges O
+
+new graph "persistentgraph/persistentgraph_model_update" "some non-persistent graph"
+
+show num nodes
+show num edges
+
+new graph "persistentgraph/persistentgraph_model_update_updated" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_model_update_with_instances.db;Version=3;"
+
+show num nodes oldN
+show num nodes newN
+
+show num edges oldE
+show num edges newE
+
+show num nodes N
+show num nodes E
+show num edges E
+show num edges O
+
+quit
