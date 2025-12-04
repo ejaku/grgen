@@ -21,6 +21,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 {
     internal enum TypeKind { NodeClass = 0, EdgeClass = 1, GraphClass = 2, ObjectClass = 3 };
 
+    internal enum ContainerCommand { AssignEmptyContainer = 0, PutElement = 1, RemoveElement = 2, AssignElement = 3, AssignNull = 4 } // based on the AttributeChangeType
+
     /// <summary>
     /// An implementation of the IPersistenceProvider that allows to persist changes to a named graph to an SQLite database
     /// (so a kind of named graph DAO; utilizing a package reference to the official SQLite ADO.NET driver).
@@ -29,8 +31,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
     // todo: split the code into multiple classes (split dedicated tasks like reading/cleaning/schema adaptation off into own helper classes)
     public class PersistenceProviderSQLite : IPersistenceProvider
     {
-        enum ContainerCommand { AssignEmptyContainer = 0, PutElement = 1, RemoveElement = 2, AssignElement = 3, AssignNull = 4 } // based on the AttributeChangeType
-
         // garbage collection depth first search state items appear on the depth first search stack that is used to mark the elements (marking phase of a mark and sweep like garbage collection algorithm)
         abstract class GcDfsStateItem // potential todo: using a struct would avoid memory allocations and .NET garbage collection cycles (not sure whether it's worthwhile)
         {
@@ -56,7 +56,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             internal IEnumerator<IGraphElement> graphElements; // potential todo: not using an own enumerator with yield would avoid memory allocations and garbage collection cycles (not sure whether it's worthwhile, the code is simpler/cleaner this way)
         }
 
-        class AttributesMarkingState
+        internal class AttributesMarkingState
         {
             internal AttributesMarkingState()
             {
@@ -86,8 +86,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         // prepared statements for handling nodes (assuming available node related tables)
         SQLiteCommand createNodeCommand; // topology
         SQLiteCommand[] createNodeCommands; // per-type
-        SQLiteCommand[] readNodeCommands; // per-type joined with topology
-        Dictionary<String, SQLiteCommand>[] readNodeContainerCommands; // per-type, per-container-attribute
         Dictionary<String, SQLiteCommand>[] updateNodeCommands; // per-type, per-non-container-attribute
         Dictionary<String, SQLiteCommand>[] updateNodeContainerCommands; // per-type, per-container-attribute (inserting container updating commands)
         SQLiteCommand deleteNodeCommand; // topology
@@ -97,8 +95,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         // prepared statements for handling edges (assuming available edge related tables)
         SQLiteCommand createEdgeCommand; // topology
         SQLiteCommand[] createEdgeCommands; // per-type
-        SQLiteCommand[] readEdgeCommands; // per-type joined with topology
-        Dictionary<String, SQLiteCommand>[] readEdgeContainerCommands; // per-type, per-container-attribute
         Dictionary<String, SQLiteCommand>[] updateEdgeCommands; // per-type, per-non-container-attribute
         Dictionary<String, SQLiteCommand>[] updateEdgeContainerCommands; // per-type, per-container-attribute (inserting container updating commands)
         SQLiteCommand deleteEdgeCommand; // topology
@@ -112,15 +108,12 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         // prepared statements for handling graphs
         SQLiteCommand createGraphCommand;
-        SQLiteCommand readGraphsCommand;
         SQLiteCommand deleteGraphCommand; // topology
         internal static long HOST_GRAPH_ID = 0;
 
         // prepared statements for handling objects (assuming available object related tables)
         SQLiteCommand createObjectCommand; // topology
         SQLiteCommand[] createObjectCommands; // per-type
-        SQLiteCommand[] readObjectCommands; // per-type joined with topology
-        Dictionary<String, SQLiteCommand>[] readObjectContainerCommands; // per-type, per-container-attribute
         Dictionary<String, SQLiteCommand>[] updateObjectCommands; // per-type, per-non-container-attribute
         Dictionary<String, SQLiteCommand>[] updateObjectContainerCommands; // per-type, per-container-attribute (inserting container updating commands)
         SQLiteCommand deleteObjectCommand; // topology
@@ -131,7 +124,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         Stack<GcDfsStateItem> gcDfsStateItems = new Stack<GcDfsStateItem>(); // explicit stack to avoid a stack overrun from too many recursive calls during depth-first traversal
 
         Stack<INamedGraph> graphs; // the stack of graphs getting processed, the first entry being the host graph
-        INamedGraph host; // I'd prefer to use a property accessing the stack, but this would require to create an array...
+        internal INamedGraph host; // I'd prefer to use a property accessing the stack, but this would require to create an array...
         internal INamedGraph graph { get { return graphs.Peek(); } } // the current graph
 
         IGraphProcessingEnvironment procEnv; // the graph processing environment to switch the current graph in case of to-subgraph switches
@@ -139,21 +132,21 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         IEdge edgeGettingRedirected;
 
         // database id to concept mappings, and vice versa
-        Dictionary<long, INode> DbIdToNode; // the ids in node/edge mappings are globally unique due to the topology tables, the per-type tables only reference them
+        internal Dictionary<long, INode> DbIdToNode; // the ids in node/edge mappings are globally unique due to the topology tables, the per-type tables only reference them
         Dictionary<INode, long> NodeToDbId;
-        Dictionary<long, IEdge> DbIdToEdge;
+        internal Dictionary<long, IEdge> DbIdToEdge;
         Dictionary<IEdge, long> EdgeToDbId;
-        Dictionary<long, INamedGraph> DbIdToGraph;
+        internal Dictionary<long, INamedGraph> DbIdToGraph;
         Dictionary<INamedGraph, long> GraphToDbId;
-        Dictionary<long, IObject> DbIdToObject;
+        internal Dictionary<long, IObject> DbIdToObject;
         Dictionary<IObject, long> ObjectToDbId;
         internal Dictionary<long, string> DbIdToTypeName;
         internal Dictionary<string, long> TypeNameToDbId;
 
         internal readonly AttributeType IntegerAttributeType = new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null, null, null, typeof(int));
 
-        AttributesMarkingState initializedContainers;
-        AttributesMarkingState modifiedContainers;
+        internal AttributesMarkingState initializedContainers;
+        internal AttributesMarkingState modifiedContainers;
 
         internal String connectionParameters;
         internal String persistentGraphParameters;
@@ -207,7 +200,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             modifiedContainers = new AttributesMarkingState();
 
             new ModelUpdater(this).CreateSchemaIfNotExistsOrAdaptToCompatibleChanges();
-            ReadCompleteGraph();
+            new HostGraphReader(this).ReadCompleteGraph();
             PrepareStatementsForGraphModifications(); // Cleanup may carry out graph modifications (even before we are notified about graph changes after registering the handlers)
             Cleanup();
             RegisterPersistenceHandlers();
@@ -255,7 +248,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         }
 
         // note that strings count as scalars
-        private static bool IsScalarType(AttributeType attributeType)
+        internal static bool IsScalarType(AttributeType attributeType)
         {
             switch(attributeType.Kind)
             {
@@ -288,7 +281,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
         }
 
-        private static bool IsContainerType(AttributeType attributeType)
+        internal static bool IsContainerType(AttributeType attributeType)
         {
             switch(attributeType.Kind)
             {
@@ -307,7 +300,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             return TypesHelper.IsContainerType(attributeType);
         }
 
-        private static bool IsAttributeTypeMappedToDatabaseColumn(AttributeType attributeType)
+        internal static bool IsAttributeTypeMappedToDatabaseColumn(AttributeType attributeType)
         {
             return IsScalarType(attributeType) || IsReferenceType(attributeType); // containers are not referenced by an id in a database column, but are mapped entirely to own tables
         }
@@ -318,17 +311,17 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             return IsScalarType(attributeType) || IsReferenceType(attributeType) || IsContainerType(attributeType); // TODO: external/object type - also handle these.
         }
 
-        private static bool IsGraphType(AttributeType attributeType)
+        internal static bool IsGraphType(AttributeType attributeType)
         {
             return attributeType.Kind == AttributeKind.GraphAttr;
         }
 
-        private static bool IsObjectType(AttributeType attributeType)
+        internal static bool IsObjectType(AttributeType attributeType)
         {
             return attributeType.Kind == AttributeKind.InternalClassObjectAttr;
         }
 
-        private static bool IsGraphElementType(AttributeType attributeType)
+        internal static bool IsGraphElementType(AttributeType attributeType)
         {
             return attributeType.Kind == AttributeKind.NodeAttr || attributeType.Kind == AttributeKind.EdgeAttr;
         }
@@ -437,618 +430,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
         }
 
-        #region Initial graph reading
-
-        private void ReadCompleteGraph()
-        {
-            Stopwatch stopwatch = Stopwatch.StartNew();
-
-            // prepare statements for initial graph fetching
-            readGraphsCommand = PrepareStatementForReadingGraphs();
-
-            readNodeCommands = new SQLiteCommand[graph.Model.NodeModel.Types.Length];
-            readNodeContainerCommands = new Dictionary<String, SQLiteCommand>[graph.Model.NodeModel.Types.Length];
-            readEdgeCommands = new SQLiteCommand[graph.Model.EdgeModel.Types.Length];
-            readEdgeContainerCommands = new Dictionary<String, SQLiteCommand>[graph.Model.EdgeModel.Types.Length];
-
-            foreach(NodeType nodeType in graph.Model.NodeModel.Types)
-            {
-                readNodeCommands[nodeType.TypeID] = PrepareStatementsForReadingNodesIncludingZombieNodes(nodeType);
-
-                readNodeContainerCommands[nodeType.TypeID] = new Dictionary<string, SQLiteCommand>();
-                foreach(AttributeType attributeType in nodeType.AttributeTypes)
-                {
-                    if(!IsContainerType(attributeType))
-                        continue;
-                    readNodeContainerCommands[nodeType.TypeID].Add(attributeType.Name, PrepareStatementsForReadingContainerAttributes(nodeType, "nodeId", attributeType));
-                }
-            }
-            foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
-            {
-                readEdgeCommands[edgeType.TypeID] = PrepareStatementsForReadingEdgesIncludingZombieEdges(edgeType);
-
-                readEdgeContainerCommands[edgeType.TypeID] = new Dictionary<string, SQLiteCommand>();
-                foreach(AttributeType attributeType in edgeType.AttributeTypes)
-                {
-                    if(!IsContainerType(attributeType))
-                        continue;
-                    readEdgeContainerCommands[edgeType.TypeID].Add(attributeType.Name, PrepareStatementsForReadingContainerAttributes(edgeType, "edgeId", attributeType));
-                }
-            }
-
-            readObjectCommands = new SQLiteCommand[graph.Model.ObjectModel.Types.Length];
-            readObjectContainerCommands = new Dictionary<String, SQLiteCommand>[graph.Model.ObjectModel.Types.Length];
-
-            foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
-            {
-                readObjectCommands[objectType.TypeID] = PrepareStatementsForReadingObjects(objectType);
-
-                readObjectContainerCommands[objectType.TypeID] = new Dictionary<string, SQLiteCommand>();
-                foreach(AttributeType attributeType in objectType.AttributeTypes)
-                {
-                    if(!IsContainerType(attributeType))
-                        continue;
-                    readObjectContainerCommands[objectType.TypeID].Add(attributeType.Name, PrepareStatementsForReadingContainerAttributes(objectType, "objectId", attributeType));
-                }
-            }
-
-            using(transaction = connection.BeginTransaction())
-            {
-                try
-                {
-                    // pass 0 - load all graphs (without elements and without the host graph, which was already processed/inserted before) (an alternative would be to load only the host graph, and the others on-demand lazily, creating proxy objects for them - but this would be more coding effort, defy purging, and when carrying out eager loading, it's better not to load graph-by-graph but all at once; later todo when graph types are introduced: load by type)
-                    ReadGraphsWithoutHostGraph();
-
-                    // pass 1 - load all elements (first nodes then edges, dispatching them to their containing graph in case they are not zombie nodes/edges)
-                    foreach(NodeType nodeType in graph.Model.NodeModel.Types)
-                    {
-                        ReadNodesIncludingZombieNodes(nodeType, readNodeCommands[nodeType.TypeID]);
-                    }
-                    foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
-                    {
-                        ReadEdgesIncludingZombieEdges(edgeType, readEdgeCommands[edgeType.TypeID]);
-                    }
-
-                    // pass 2 - load all objects
-                    foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
-                    {
-                        ReadObjects(objectType, readObjectCommands[objectType.TypeID]);
-                    }
-
-                    // pass I - wire references/patch the references into the attributes (TODO - split this into helper methods like PatchReferencesFromDatabase)
-                    // 2nd full table scan, type table by type table, patching node/edge/object references (graphs were handled before) in the nodes/edges/objects (in-memory), accessed by their database-id to type mapping
-                    foreach(NodeType nodeType in graph.Model.NodeModel.Types)
-                    {
-                        PatchAttributesInElement(nodeType, "nodeId", readNodeCommands[nodeType.TypeID]);
-
-                        foreach(AttributeType attributeType in nodeType.AttributeTypes)
-                        {
-                            if(!IsContainerType(attributeType))
-                                continue;
-                            SQLiteCommand readNodeContainerCommand = readNodeContainerCommands[nodeType.TypeID][attributeType.Name];
-                            ReadPatchContainerAttributesInElement(nodeType, "nodeId", attributeType, readNodeContainerCommand);
-                        }
-                    }
-                    foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
-                    {
-                        PatchAttributesInElement(edgeType, "edgeId", readEdgeCommands[edgeType.TypeID]);
-
-                        foreach(AttributeType attributeType in edgeType.AttributeTypes)
-                        {
-                            if(!IsContainerType(attributeType))
-                                continue;
-                            SQLiteCommand readEdgeContainerCommand = readEdgeContainerCommands[edgeType.TypeID][attributeType.Name];
-                            ReadPatchContainerAttributesInElement(edgeType, "edgeId", attributeType, readEdgeContainerCommand);
-                        }
-                    }
-                    foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
-                    {
-                        PatchAttributesInElement(objectType, "objectId", readObjectCommands[objectType.TypeID]);
-
-                        foreach(AttributeType attributeType in objectType.AttributeTypes)
-                        {
-                            if(!IsContainerType(attributeType))
-                                continue;
-                            SQLiteCommand readObjectContainerCommand = readObjectContainerCommands[objectType.TypeID][attributeType.Name];
-                            ReadPatchContainerAttributesInElement(objectType, "objectId", attributeType, readObjectContainerCommand);
-                        }
-                    }
-
-                    transaction.Commit(); // no changes written inside transaction, but using one is recommended because of locking
-                    transaction = null;
-                }
-                catch
-                {
-                    transaction.Rollback(); // no changes written inside transaction, but using one is recommended because of locking
-                    transaction = null;
-                    throw;
-                }
-            }
-
-            stopwatch.Stop();
-            ConsoleUI.outWriter.WriteLine("Read {0} nodes, {1} edges, {2} graphs, {3} internal class objects in {4} ms.", NumNodesInDatabase, NumEdgesInDatabase, NumGraphsInDatabase, NumObjectsInDatabase, stopwatch.ElapsedMilliseconds);
-        }
-
-        private SQLiteCommand PrepareStatementForReadingGraphs()
-        {
-            String topologyTableName = "graphs";
-            StringBuilder columnNames = new StringBuilder();
-            AddQueryColumn(columnNames, "graphId");
-            AddQueryColumn(columnNames, "typeId");
-            AddQueryColumn(columnNames, "name");
-
-            StringBuilder command = new StringBuilder();
-            command.Append("SELECT ");
-            command.Append(columnNames.ToString());
-            command.Append(" FROM ");
-            command.Append(topologyTableName);
-            return new SQLiteCommand(command.ToString(), connection);
-        }
-
-        private void ReadGraphsWithoutHostGraph()
-        {
-            readGraphsCommand.Transaction = transaction;
-            using(SQLiteDataReader reader = readGraphsCommand.ExecuteReader())
-            {
-                Dictionary<string, int> attributeNameToColumnIndex = GetNameToColumnIndexMapping(reader);
-
-                while(reader.Read())
-                {
-                    long graphId = reader.GetInt64(attributeNameToColumnIndex["graphId"]);
-                    if(graphId == HOST_GRAPH_ID)
-                        continue; // skip host graph - the host graph is contained in the graphs table with id HOST_GRAPH_ID and corresponds to the bottom element of the graphs stack, which coincides with graph at this point, being the top element of the graphs stack 
-                    long typeId = reader.GetInt64(attributeNameToColumnIndex["typeId"]);
-                    String name = reader.GetString(attributeNameToColumnIndex["name"]);
-                    INamedGraph graph = (INamedGraph)this.graph.CreateEmptyEquivalent(name); // somewhen later: create based on typeId
-                    AddGraphWithDbIdToDbIdMapping(graph, graphId);
-                }
-            }
-        }
-
-        private SQLiteCommand PrepareStatementsForReadingNodesIncludingZombieNodes(NodeType nodeType)
-        {
-            String topologyTableName = "nodes";
-            String tableName = GetUniqueTableName(nodeType.Package, nodeType.Name);
-            StringBuilder columnNames = new StringBuilder();
-            AddQueryColumn(columnNames, "perTypeTable.nodeId");
-            AddQueryColumn(columnNames, "typeId");
-            AddQueryColumn(columnNames, "graphId");
-            AddQueryColumn(columnNames, "name");
-            foreach(AttributeType attributeType in nodeType.AttributeTypes)
-            {
-                if(!IsAttributeTypeMappedToDatabaseColumn(attributeType))
-                    continue;
-                AddQueryColumn(columnNames, GetUniqueColumnName(attributeType.Name));
-            }
-            StringBuilder command = new StringBuilder();
-            command.Append("SELECT ");
-            command.Append(columnNames.ToString());
-            command.Append(" FROM ");
-            command.Append(tableName);
-            command.Append(" as perTypeTable LEFT JOIN ");
-            command.Append(topologyTableName);
-            command.Append(" ON (perTypeTable.nodeId == " + topologyTableName + ".nodeId)");
-            return new SQLiteCommand(command.ToString(), connection);
-        }
-
-        private SQLiteCommand PrepareStatementsForReadingEdgesIncludingZombieEdges(EdgeType edgeType)
-        {
-            String topologyTableName = "edges";
-            String tableName = GetUniqueTableName(edgeType.Package, edgeType.Name);
-            StringBuilder columnNames = new StringBuilder();
-            AddQueryColumn(columnNames, "perTypeTable.edgeId");
-            AddQueryColumn(columnNames, "typeId");
-            AddQueryColumn(columnNames, "sourceNodeId");
-            AddQueryColumn(columnNames, "targetNodeId");
-            AddQueryColumn(columnNames, "graphId");
-            AddQueryColumn(columnNames, "name");
-            foreach(AttributeType attributeType in edgeType.AttributeTypes)
-            {
-                if(!IsAttributeTypeMappedToDatabaseColumn(attributeType))
-                    continue;
-                AddQueryColumn(columnNames, GetUniqueColumnName(attributeType.Name));
-            }
-            StringBuilder command = new StringBuilder();
-            command.Append("SELECT ");
-            command.Append(columnNames.ToString());
-            command.Append(" FROM ");
-            command.Append(tableName);
-            command.Append(" as perTypeTable LEFT JOIN ");
-            command.Append(topologyTableName);
-            command.Append(" ON (perTypeTable.edgeId == " + topologyTableName + ".edgeId)");
-            return new SQLiteCommand(command.ToString(), connection);
-        }
-
-        private SQLiteCommand PrepareStatementsForReadingObjects(ObjectType objectType)
-        {
-            String topologyTableName = "objects";
-            String tableName = GetUniqueTableName(objectType.Package, objectType.Name);
-            StringBuilder columnNames = new StringBuilder();
-            AddQueryColumn(columnNames, "objectId");
-            AddQueryColumn(columnNames, "typeId");
-            AddQueryColumn(columnNames, "name");
-            foreach(AttributeType attributeType in objectType.AttributeTypes)
-            {
-                if(!IsAttributeTypeMappedToDatabaseColumn(attributeType))
-                    continue;
-                AddQueryColumn(columnNames, GetUniqueColumnName(attributeType.Name));
-            }
-            StringBuilder command = new StringBuilder();
-            command.Append("SELECT ");
-            command.Append(columnNames.ToString());
-            command.Append(" FROM ");
-            command.Append(topologyTableName);
-            command.Append(" NATURAL JOIN "); // on objectId
-            command.Append(tableName);
-            return new SQLiteCommand(command.ToString(), connection);
-        }
-
-        // attributes of container type don't appear as a column in the type table of its owner type, they come with an entire table on their own (per container attribute of their owner type)
-        private SQLiteCommand PrepareStatementsForReadingContainerAttributes(InheritanceType inheritanceType, String ownerIdColumnName, AttributeType attributeType)
-        {
-            String tableName = GetUniqueTableName(inheritanceType.Package, inheritanceType.Name, attributeType.Name);
-            StringBuilder columnNames = new StringBuilder();
-            AddQueryColumn(columnNames, "entryId");
-            AddQueryColumn(columnNames, ownerIdColumnName);
-            AddQueryColumn(columnNames, "command");
-            AddQueryColumn(columnNames, "value");
-            if(attributeType.Kind != AttributeKind.SetAttr)
-                AddQueryColumn(columnNames, "key");
-            StringBuilder command = new StringBuilder();
-            command.Append("SELECT ");
-            command.Append(columnNames.ToString());
-            command.Append(" FROM ");
-            command.Append(tableName);
-            return new SQLiteCommand(command.ToString(), connection);
-        }
-
-        private void ReadNodesIncludingZombieNodes(NodeType nodeType, SQLiteCommand readNodeCommand)
-        {
-            readNodeCommand.Transaction = transaction;
-            using(SQLiteDataReader reader = readNodeCommand.ExecuteReader())
-            {
-                Dictionary<string, int> attributeNameToColumnIndex = GetNameToColumnIndexMapping(reader);
-
-                while(reader.Read())
-                {
-                    INode node = nodeType.CreateNode();
-
-                    foreach(AttributeType attributeType in nodeType.AttributeTypes)
-                    {
-                        object attributeValue;
-                        if(IsScalarType(attributeType))
-                            attributeValue = GetScalarValue(attributeType, reader, attributeNameToColumnIndex);
-                        else if(IsGraphType(attributeType))
-                            attributeValue = GetGraphValue(attributeType, reader, attributeNameToColumnIndex);
-                        else
-                            continue;
-                        node.SetAttribute(attributeType.Name, attributeValue);
-                    }
-
-                    long nodeId = reader.GetInt64(attributeNameToColumnIndex["nodeId"]);
-                    if(!reader.IsDBNull(attributeNameToColumnIndex["graphId"]))
-                    {
-                        String name = reader.GetString(attributeNameToColumnIndex["name"]);
-                        long graphId = reader.GetInt64(attributeNameToColumnIndex["graphId"]);
-                        INamedGraph graph = DbIdToGraph[graphId];
-                        graph.AddNode(node, name);
-                    }
-                    AddNodeWithDbIdToDbIdMapping(node, nodeId);
-                }
-            }
-        }
-
-        private void ReadEdgesIncludingZombieEdges(EdgeType edgeType, SQLiteCommand readEdgeCommand)
-        {
-            readEdgeCommand.Transaction = transaction;
-            using(SQLiteDataReader reader = readEdgeCommand.ExecuteReader())
-            {
-                Dictionary<string, int> attributeNameToColumnIndex = GetNameToColumnIndexMapping(reader);
-
-                while(reader.Read())
-                {
-                    IEdge edge = edgeType.CreateEdge();
-
-                    foreach(AttributeType attributeType in edgeType.AttributeTypes)
-                    {
-                        object attributeValue;
-                        if(IsScalarType(attributeType))
-                            attributeValue = GetScalarValue(attributeType, reader, attributeNameToColumnIndex);
-                        else if(IsGraphType(attributeType))
-                            attributeValue = GetGraphValue(attributeType, reader, attributeNameToColumnIndex);
-                        else
-                            continue;
-                        edge.SetAttribute(attributeType.Name, attributeValue);
-                    }
-
-                    long edgeId = reader.GetInt64(attributeNameToColumnIndex["edgeId"]);
-                    if(!reader.IsDBNull(attributeNameToColumnIndex["graphId"]))
-                    {
-                        long sourceNodeId = reader.GetInt64(attributeNameToColumnIndex["sourceNodeId"]);
-                        INode source = DbIdToNode[sourceNodeId];
-                        long targetNodeId = reader.GetInt64(attributeNameToColumnIndex["targetNodeId"]);
-                        INode target = DbIdToNode[targetNodeId];
-                        edgeType.SetSourceAndTarget(edge, source, target);
-                        String name = reader.GetString(attributeNameToColumnIndex["name"]);
-                        long graphId = reader.GetInt64(attributeNameToColumnIndex["graphId"]);
-                        INamedGraph graph = DbIdToGraph[graphId];
-                        graph.AddEdge(edge, name);
-                    }
-                    AddEdgeWithDbIdToDbIdMapping(edge, edgeId);
-                }
-            }
-        }
-
-        private void ReadObjects(ObjectType objectType, SQLiteCommand readObjectCommand)
-        {
-            readObjectCommand.Transaction = transaction;
-            using(SQLiteDataReader reader = readObjectCommand.ExecuteReader())
-            {
-                Dictionary<string, int> attributeNameToColumnIndex = GetNameToColumnIndexMapping(reader);
-
-                while(reader.Read())
-                {
-                    String name = reader.GetString(attributeNameToColumnIndex["name"]);
-                    IObject classObject = objectType.CreateObject(host, graph.Model.ObjectUniquenessIsEnsured ? name : null);
-
-                    foreach(AttributeType attributeType in objectType.AttributeTypes)
-                    {
-                        object attributeValue;
-                        if(IsScalarType(attributeType))
-                            attributeValue = GetScalarValue(attributeType, reader, attributeNameToColumnIndex);
-                        else if(IsGraphType(attributeType))
-                            attributeValue = GetGraphValue(attributeType, reader, attributeNameToColumnIndex);
-                        else
-                            continue;
-                        classObject.SetAttribute(attributeType.Name, attributeValue);
-                    }
-
-                    long objectId = reader.GetInt64(attributeNameToColumnIndex["objectId"]);
-                    AddObjectWithDbIdToDbIdMapping(classObject, objectId);
-                }
-            }
-        }
-
-        private void PatchAttributesInElement(InheritanceType inheritanceType, String elementIdColumnName, SQLiteCommand readElementCommand)
-        {
-            readElementCommand.Transaction = transaction;
-            using(SQLiteDataReader reader = readElementCommand.ExecuteReader())
-            {
-                Dictionary<string, int> attributeNameToColumnIndex = GetNameToColumnIndexMapping(reader);
-
-                while(reader.Read())
-                {
-                    long elementId = reader.GetInt64(attributeNameToColumnIndex[elementIdColumnName]);
-                    IAttributeBearer element = GetElement(inheritanceType, elementId);
-
-                    foreach(AttributeType attributeType in inheritanceType.AttributeTypes)
-                    {
-                        object attributeValue;
-                        if(IsObjectType(attributeType))
-                            attributeValue = GetObjectValue(attributeType, reader, attributeNameToColumnIndex);
-                        else if(IsGraphElementType(attributeType))
-                            attributeValue = GetGraphElement(element, attributeType, reader, attributeNameToColumnIndex);
-                        else
-                            continue;
-                        element.SetAttribute(attributeType.Name, attributeValue);
-                    }
-                }
-            }
-        }
-
-        private void ReadPatchContainerAttributesInElement(InheritanceType inheritanceType, String owningElementIdColumnName, AttributeType attributeType, SQLiteCommand readElementContainerAttributeCommand)
-        {
-            // all graphs/nodes/edges/objects must be available (but not their attributes), now in the patching pass, build the containers and fill them from the container tables
-            // container TODO: write back to database a new sequence of adds (not needed when only adds, could be optimized away, extra map would be needed storing this information)
-
-            readElementContainerAttributeCommand.Transaction = transaction;
-            using(SQLiteDataReader reader = readElementContainerAttributeCommand.ExecuteReader())
-            {
-                Dictionary<string, int> attributeNameToColumnIndex = GetNameToColumnIndexMapping(reader);
-
-                while(reader.Read())
-                {
-                    long entryId = reader.GetInt64(attributeNameToColumnIndex["entryId"]);
-                    long ownerId = reader.GetInt64(attributeNameToColumnIndex[owningElementIdColumnName]);
-                    byte command = reader.GetByte(attributeNameToColumnIndex["command"]);
-
-                    object value = null;
-                    object key = null;
-                    if(attributeType.Kind == AttributeKind.SetAttr)
-                    {
-                        value = GetContainerEntry(attributeType.ValueType, reader, attributeNameToColumnIndex, "value");
-                    }
-                    else if(attributeType.Kind == AttributeKind.ArrayAttr || attributeType.Kind == AttributeKind.DequeAttr)
-                    {
-                        value = GetContainerEntry(attributeType.ValueType, reader, attributeNameToColumnIndex, "value");
-                        key = GetContainerEntry(IntegerAttributeType, reader, attributeNameToColumnIndex, "key");
-                    }
-                    else if(attributeType.Kind == AttributeKind.MapAttr)
-                    {
-                        key = GetContainerEntry(attributeType.KeyType, reader, attributeNameToColumnIndex, "key");
-                        value = GetContainerEntry(attributeType.ValueType, reader, attributeNameToColumnIndex, "value");
-                    }
-
-                    IAttributeBearer element = GetElement(inheritanceType, ownerId);
-                    ApplyContainerCommandToElement(element, attributeType, (ContainerCommand)command, value, key);
-                }
-            }
-        }
-
-        private IAttributeBearer GetElement(InheritanceType inheritanceType, long ownerId)
-        {
-            if(inheritanceType is NodeType)
-                return DbIdToNode[ownerId];
-            else if(inheritanceType is EdgeType)
-                return DbIdToEdge[ownerId];
-            else if(inheritanceType is ObjectType)
-                return DbIdToObject[ownerId];
-            throw new Exception("Unsupported inheritance type");
-        }
-
-        private void ApplyContainerCommandToElement(IAttributeBearer element, AttributeType attributeType, ContainerCommand command, object value, object key)
-        {
-            // Es gibt immer ein Assign-empty oder -null pro owning Element id als ersten Eintrag in der Eintragsfolge, es kann mehrere geben, der letzte dieser Einträge in der Eintragsfolge ist der aktuelle Container (der Rest Geschichte)
-            switch(command)
-            {
-                case ContainerCommand.AssignEmptyContainer:
-                    {
-                        object container = GetEmptyContainer(attributeType);
-                        element.SetAttribute(attributeType.Name, container);
-                        if(initializedContainers.IsMarked(element, attributeType.Name))
-                            modifiedContainers.Mark(element, attributeType.Name);
-                        else
-                            initializedContainers.Mark(element, attributeType.Name);
-                        break;
-                    }
-                case ContainerCommand.PutElement:
-                    {
-                        object container = element.GetAttribute(attributeType.Name);
-                        ApplyContainerPutElementCommand(container, attributeType, value, key);
-                        break;
-                    }
-                case ContainerCommand.RemoveElement:
-                    {
-                        object container = element.GetAttribute(attributeType.Name);
-                        ApplyContainerRemoveElementCommand(container, attributeType, value, key);
-                        modifiedContainers.Mark(element, attributeType.Name);
-                        break;
-                    }
-                case ContainerCommand.AssignElement:
-                    {
-                        object container = element.GetAttribute(attributeType.Name);
-                        ApplyContainerAssignElementCommand(container, attributeType, value, key);
-                        modifiedContainers.Mark(element, attributeType.Name);
-                        break;
-                    }
-                case ContainerCommand.AssignNull:
-                    element.SetAttribute(attributeType.Name, null);
-                    if(initializedContainers.IsMarked(element, attributeType.Name))
-                        modifiedContainers.Mark(element, attributeType.Name);
-                    else
-                        initializedContainers.Mark(element, attributeType.Name);
-                    break;
-            }
-        }
-
-        private static object GetEmptyContainer(AttributeType attributeType)
-        {
-            switch(attributeType.Kind)
-            {
-                case AttributeKind.SetAttr:
-                {
-                    Type srcType = attributeType.ValueType.Type;
-                    Type dstType = typeof(SetValueType);
-                    IDictionary set = ContainerHelper.NewDictionary(srcType, dstType);
-                    return set;
-                }
-                case AttributeKind.MapAttr:
-                {
-                    Type srcType = attributeType.KeyType.Type;
-                    Type dstType = attributeType.ValueType.Type; 
-                    IDictionary map = ContainerHelper.NewDictionary(srcType, dstType);
-                    return map;
-                }
-                case AttributeKind.ArrayAttr:
-                {
-                    Type valueType = attributeType.ValueType.Type;
-                    IList array = ContainerHelper.NewList(valueType);
-                    return array;
-                }
-                case AttributeKind.DequeAttr:
-                {
-                    Type valueType = attributeType.ValueType.Type;
-                    IDeque deque = ContainerHelper.NewDeque(valueType);
-                    return deque;
-                }
-                default:
-                    throw new Exception("Unsupported container type");
-            }
-        }
-
-        private static void ApplyContainerPutElementCommand(object container, AttributeType attributeType, object value, object key)
-        {
-            switch(attributeType.Kind)
-            {
-                case AttributeKind.SetAttr:
-                    IDictionary set = (IDictionary)container;
-                    set[value] = null;
-                    break;
-                case AttributeKind.MapAttr:
-                    IDictionary map = (IDictionary)container;
-                    map[key] = value;
-                    break;
-                case AttributeKind.ArrayAttr:
-                    IList array = (IList)container;
-                    if(key == null)
-                        array.Add(value);
-                    else
-                        array.Insert((int)key, value);
-                    break;
-                case AttributeKind.DequeAttr:
-                    IDeque deque = (IDeque)container;
-                    if(key == null)
-                        deque.Add(value);
-                    else
-                        deque.EnqueueAt((int)key, value);
-                    break;
-                default:
-                    throw new Exception("Unsupported container type");
-            }
-        }
-
-        private static void ApplyContainerRemoveElementCommand(object container, AttributeType attributeType, object value, object key)
-        {
-            switch(attributeType.Kind)
-            {
-                case AttributeKind.SetAttr:
-                    IDictionary set = (IDictionary)container;
-                    set.Remove(value);
-                    break;
-                case AttributeKind.MapAttr:
-                    IDictionary map = (IDictionary)container;
-                    map.Remove(key);
-                    break;
-                case AttributeKind.ArrayAttr:
-                    IList array = (IList)container;
-                    if(key == null)
-                        array.RemoveAt(array.Count - 1);
-                    else
-                        array.RemoveAt((int)key);
-                    break;
-                case AttributeKind.DequeAttr:
-                    IDeque deque = (IDeque)container;
-                    if(key == null)
-                        deque.Dequeue();
-                    else
-                        deque.DequeueAt((int)key);
-                    break;
-                default:
-                    throw new Exception("Unsupported container type");
-            }
-        }
-
-        private static void ApplyContainerAssignElementCommand(object container, AttributeType attributeType, object value, object key)
-        {
-            switch(attributeType.Kind)
-            {
-                case AttributeKind.MapAttr:
-                    IDictionary map = (IDictionary)container;
-                    map[key] = value;
-                    break;
-                case AttributeKind.ArrayAttr:
-                    IList array = (IList)container;
-                    array[(int)key] = value;
-                    break;
-                case AttributeKind.DequeAttr:
-                    IDeque deque = (IDeque)container;
-                    deque[(int)key] = value;
-                    break;
-                default:
-                    throw new Exception("Unsupported container type");
-            }
-        }
-
         internal static Dictionary<string, int> GetNameToColumnIndexMapping(SQLiteDataReader reader)
         {
             Dictionary<string, int> nameToColumnIndex = new Dictionary<string, int>();
@@ -1059,111 +440,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
             return nameToColumnIndex;
         }
-
-        private static object GetScalarValue(AttributeType attributeType, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
-        {
-            return GetScalarValueFromSpecifiedColumn(attributeType, GetUniqueColumnName(attributeType.Name), reader, attributeNameToColumnIndex);
-        }
-
-        private static object GetScalarValueFromSpecifiedColumn(AttributeType attributeType, String columnName, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
-        {
-            int index = attributeNameToColumnIndex[columnName];
-            return GetScalarValueFromSpecifiedColumn(attributeType, reader, index);
-        }
-
-        private static object GetScalarValueOrNullFromSpecifiedColumn(AttributeType attributeType, String columnName, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
-        {
-            int index = attributeNameToColumnIndex[columnName];
-            if(reader.IsDBNull(index))
-                return null;
-            return GetScalarValueFromSpecifiedColumn(attributeType, reader, index);
-        }
-
-        private static object GetScalarValueFromSpecifiedColumn(AttributeType attributeType, SQLiteDataReader reader, int index)
-        {
-            switch(attributeType.Kind)
-            {
-                case AttributeKind.ByteAttr: return (SByte)reader.GetInt16(index);
-                case AttributeKind.ShortAttr: return reader.GetInt16(index);
-                case AttributeKind.IntegerAttr: return reader.GetInt32(index);
-                case AttributeKind.LongAttr: return reader.GetInt64(index);
-                case AttributeKind.BooleanAttr: return reader.GetBoolean(index);
-                case AttributeKind.StringAttr: return reader.IsDBNull(index) ? null : reader.GetString(index);
-                case AttributeKind.EnumAttr: return Enum.Parse(attributeType.EnumType.EnumType, reader.GetString(index));
-                case AttributeKind.FloatAttr: return reader.GetFloat(index);
-                case AttributeKind.DoubleAttr: return reader.GetDouble(index);
-                default: throw new Exception("Non-scalar attribute kind");
-            }
-        }
-
-        private IGraph GetGraphValue(AttributeType attributeType, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
-        {
-            return GetGraphValueFromSpecifiedColumn(GetUniqueColumnName(attributeType.Name), reader, attributeNameToColumnIndex);
-        }
-
-        private IGraph GetGraphValueFromSpecifiedColumn(String columnName, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
-        {
-            int index = attributeNameToColumnIndex[columnName];
-            if(reader.IsDBNull(index))
-                return null;
-            long dbid = reader.GetInt64(index);
-            return DbIdToGraph[dbid];
-        }
-
-        private IObject GetObjectValue(AttributeType attributeType, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
-        {
-            return GetObjectValueFromSpecifiedColumn(GetUniqueColumnName(attributeType.Name), reader, attributeNameToColumnIndex);
-        }
-
-        private IObject GetObjectValueFromSpecifiedColumn(String columnName, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
-        {
-            int index = attributeNameToColumnIndex[columnName];
-            if(reader.IsDBNull(index))
-                return null;
-            long dbid = reader.GetInt64(index);
-            return DbIdToObject[dbid];
-        }
-
-        private IGraphElement GetGraphElement(IAttributeBearer owner, AttributeType attributeType, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
-        {
-            int index = attributeNameToColumnIndex[GetUniqueColumnName(attributeType.Name)];
-            if(reader.IsDBNull(index))
-                return null;
-            long dbid = reader.GetInt64(index);
-            if(attributeType.Kind == AttributeKind.NodeAttr)
-                return DbIdToNode[dbid];
-            else
-                return DbIdToEdge[dbid];
-        }
-
-        // maybe TODO: ReadContainerEntryValue, also rename the other GetXXX to ReadXXX?
-        private object GetContainerEntry(AttributeType attributeType, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex, String columnName)
-        {
-            Debug.Assert(columnName == "value" || columnName == "key");
-            if(IsScalarType(attributeType))
-                return GetScalarValueOrNullFromSpecifiedColumn(attributeType, columnName, reader, attributeNameToColumnIndex);
-            else if(IsGraphType(attributeType))
-                return GetGraphValueFromSpecifiedColumn(columnName, reader, attributeNameToColumnIndex);
-            else if(IsObjectType(attributeType))
-                return GetObjectValueFromSpecifiedColumn(columnName, reader, attributeNameToColumnIndex);
-            else if(IsGraphElementType(attributeType))
-                return GetGraphElementFromSpecifiedColumn(attributeType, columnName, reader, attributeNameToColumnIndex);
-            throw new Exception("Unsupported container type");
-        }
-
-        private IGraphElement GetGraphElementFromSpecifiedColumn(AttributeType attributeType, String columnName, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
-        {
-            int index = attributeNameToColumnIndex[columnName];
-            if(reader.IsDBNull(index))
-                return null;
-            long dbid = reader.GetInt64(index);
-            if(attributeType.Kind == AttributeKind.NodeAttr)
-                return DbIdToNode[dbid];
-            else
-                return DbIdToEdge[dbid];
-        }
-
-        #endregion Initial graph reading
 
         #region Host graph cleaning
 
@@ -3328,7 +2604,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         #region Database id from/to concept mapping maintenance
 
-        private void AddNodeWithDbIdToDbIdMapping(INode node, long dbid)
+        internal void AddNodeWithDbIdToDbIdMapping(INode node, long dbid)
         {
             DbIdToNode.Add(dbid, node);
             NodeToDbId.Add(node, dbid);
@@ -3340,7 +2616,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             NodeToDbId.Remove(node);
         }
 
-        private void AddEdgeWithDbIdToDbIdMapping(IEdge edge, long dbid)
+        internal void AddEdgeWithDbIdToDbIdMapping(IEdge edge, long dbid)
         {
             DbIdToEdge.Add(dbid, edge);
             EdgeToDbId.Add(edge, dbid);
@@ -3364,7 +2640,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             GraphToDbId.Remove(graph);
         }
 
-        private void AddObjectWithDbIdToDbIdMapping(IObject @object, long dbid)
+        internal void AddObjectWithDbIdToDbIdMapping(IObject @object, long dbid)
         {
             DbIdToObject.Add(dbid, @object);
             ObjectToDbId.Add(@object, dbid);
