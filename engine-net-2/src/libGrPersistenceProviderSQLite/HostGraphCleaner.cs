@@ -21,7 +21,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
     /// <summary>
     /// A component that carries out a garbage collection of the host graph, finally removing unreachable deleted entities and compactifying containers (by overwriting event change histories by the current state).
     /// </summary>
-    public class HostGraphCleaner
+    internal class HostGraphCleaner
     {
         // garbage collection depth first search state items appear on the depth first search stack that is used to mark the elements (marking phase of a mark and sweep like garbage collection algorithm)
         abstract class GcDfsStateItem // potential todo: using a struct would avoid memory allocations and .NET garbage collection cycles (not sure whether it's worthwhile)
@@ -70,11 +70,11 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         PersistenceProviderSQLite persistenceProvider;
 
+
         internal HostGraphCleaner(PersistenceProviderSQLite persistenceProvider)
         {
             this.persistenceProvider = persistenceProvider;
         }
-
 
         // TODO: maybe lazy initialization...
         private void PrepareStatementsForGraphModifications()
@@ -133,7 +133,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 }
             }
         }
-
 
         internal void Cleanup()
         {

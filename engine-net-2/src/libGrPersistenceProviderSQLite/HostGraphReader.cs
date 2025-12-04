@@ -21,7 +21,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
     /// <summary>
     /// A component carrying out the initial reading-in of the complete host graph.
     /// </summary>
-    public class HostGraphReader
+    internal class HostGraphReader
     {
         // prepared statements for handling nodes (assuming available node related tables)
         SQLiteCommand[] readNodeCommands; // per-type joined with topology
@@ -38,14 +38,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         SQLiteCommand[] readObjectCommands; // per-type joined with topology
         Dictionary<String, SQLiteCommand>[] readObjectContainerCommands; // per-type, per-container-attribute
 
-
         PersistenceProviderSQLite persistenceProvider;
+
 
         internal HostGraphReader(PersistenceProviderSQLite persistenceProvider)
         {
             this.persistenceProvider = persistenceProvider;
         }
-
 
         internal void ReadCompleteGraph()
         {

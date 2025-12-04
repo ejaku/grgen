@@ -19,7 +19,7 @@ using de.unika.ipd.grGen.libGr;
 namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 {
     /// <summary>
-    /// A component used in adapting the stored database model to the model of the host graph.
+    /// A component used in adapting the stored database model to the model of the host graph, which includes initialization of an empty database model.
     /// </summary>
     internal class ModelUpdater
     {
@@ -195,7 +195,9 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
         }
 
+
         PersistenceProviderSQLite persistenceProvider;
+
 
         internal ModelUpdater(PersistenceProviderSQLite persistenceProvider)
         {
@@ -240,7 +242,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
                 foreach(AttributeType attributeType in nodeType.AttributeTypes)
                 {
-                    if(!IsContainerType(attributeType))
+                    if(!PersistenceProviderSQLite.IsContainerType(attributeType))
                         continue;
                     CreateContainerTypeTable(nodeType, "nodeId", attributeType);
                 }
@@ -252,7 +254,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
                 foreach(AttributeType attributeType in edgeType.AttributeTypes)
                 {
-                    if(!IsContainerType(attributeType))
+                    if(!PersistenceProviderSQLite.IsContainerType(attributeType))
                         continue;
                     CreateContainerTypeTable(edgeType, "edgeId", attributeType);
                 }
@@ -264,7 +266,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
                 foreach(AttributeType attributeType in objectType.AttributeTypes)
                 {
-                    if(!IsContainerType(attributeType))
+                    if(!PersistenceProviderSQLite.IsContainerType(attributeType))
                         continue;
                     CreateContainerTypeTable(objectType, "objectId", attributeType);
                 }
@@ -273,7 +275,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private void CreateNodesTable()
         {
-            CreateTable("nodes", "nodeId",
+            persistenceProvider.CreateTable("nodes", "nodeId",
                 "typeId", "INTEGER NOT NULL", // type defines table where attributes are stored
                 "graphId", "INTEGER NOT NULL",
                 "name", "TEXT NOT NULL" // maybe TODO: name in extra table - this is for a named graph, but should be also available for unnamed graphs in the end...
@@ -283,7 +285,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private void CreateEdgesTable()
         {
-            CreateTable("edges", "edgeId",
+            persistenceProvider.CreateTable("edges", "edgeId",
                 "typeId", "INTEGER NOT NULL", // type defines table where attributes are stored
                 "sourceNodeId", "INTEGER NOT NULL",
                 "targetNodeId", "INTEGER NOT NULL",
@@ -296,7 +298,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         private void CreateGraphsTable()
         {
             // only id and name for now, plus a by-now constant typeId, so a later extension by graph attributes and then by graph types is easy (multiple graph tables)
-            CreateTable("graphs", "graphId",
+            persistenceProvider.CreateTable("graphs", "graphId",
                 "typeId", "INTEGER NOT NULL",
                 "name", "TEXT NOT NULL"
                 );
@@ -304,7 +306,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private void CreateObjectsTable()
         {
-            CreateTable("objects", "objectId",
+            persistenceProvider.CreateTable("objects", "objectId",
                 "typeId", "INTEGER NOT NULL",
                 "name", "TEXT NOT NULL"
                 );
@@ -312,7 +314,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private void CreateTypesTable()
         {
-            CreateTable("types", "typeId",
+            persistenceProvider.CreateTable("types", "typeId",
                 "kind", "INT NOT NULL",
                 "name", "TEXT NOT NULL"
                 );
@@ -320,12 +322,12 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         private void CreateAttributeTypesTable()
         {
-            CreateTable("attributeTypes", "attributeTypeId",
+            persistenceProvider.CreateTable("attributeTypes", "attributeTypeId",
                 "typeId", "INTEGER NOT NULL",
                 "attributeName", "TEXT NOT NULL",
                 "xgrsType", "TEXT NOT NULL"
                 );
-            AddIndex("attributeTypes", "typeId");
+            persistenceProvider.AddIndex("attributeTypes", "typeId");
         }
 
         private void CreateInheritanceTypeTable(InheritanceType type, String idColumnName)
@@ -334,14 +336,14 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             List<String> columnNamesAndTypes = new List<String>(); // ArrayBuilder
             foreach(AttributeType attributeType in type.AttributeTypes)
             {
-                if(!IsAttributeTypeMappedToDatabaseColumn(attributeType))
+                if(!PersistenceProviderSQLite.IsAttributeTypeMappedToDatabaseColumn(attributeType))
                     continue;
 
                 columnNamesAndTypes.Add(PersistenceProviderSQLite.GetUniqueColumnName(attributeType.Name));
-                columnNamesAndTypes.Add(ScalarAndReferenceTypeToSQLiteType(attributeType));
+                columnNamesAndTypes.Add(PersistenceProviderSQLite.ScalarAndReferenceTypeToSQLiteType(attributeType));
             }
 
-            CreateTable(tableName, idColumnName, columnNamesAndTypes.ToArray()); // the id in the type table is a local copy of the global id from the corresponding topology table
+            persistenceProvider.CreateTable(tableName, idColumnName, columnNamesAndTypes.ToArray()); // the id in the type table is a local copy of the global id from the corresponding topology table
         }
 
         private void CreateContainerTypeTable(InheritanceType type, String ownerIdColumnName, AttributeType attributeType)
@@ -356,36 +358,36 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             if(attributeType.Kind == AttributeKind.SetAttr) // todo: own function with type switch?
             {
                 columnNamesAndTypes.Add("value");
-                columnNamesAndTypes.Add(ScalarAndReferenceTypeToSQLiteType(attributeType.ValueType));
+                columnNamesAndTypes.Add(PersistenceProviderSQLite.ScalarAndReferenceTypeToSQLiteType(attributeType.ValueType));
             }
             else if(attributeType.Kind == AttributeKind.MapAttr)
             {
                 columnNamesAndTypes.Add("key");
-                columnNamesAndTypes.Add(ScalarAndReferenceTypeToSQLiteType(attributeType.KeyType));
+                columnNamesAndTypes.Add(PersistenceProviderSQLite.ScalarAndReferenceTypeToSQLiteType(attributeType.KeyType));
                 columnNamesAndTypes.Add("value");
-                columnNamesAndTypes.Add(ScalarAndReferenceTypeToSQLiteType(attributeType.ValueType));
+                columnNamesAndTypes.Add(PersistenceProviderSQLite.ScalarAndReferenceTypeToSQLiteType(attributeType.ValueType));
             }
             else
             {
                 columnNamesAndTypes.Add("value");
-                columnNamesAndTypes.Add(ScalarAndReferenceTypeToSQLiteType(attributeType.ValueType));
+                columnNamesAndTypes.Add(PersistenceProviderSQLite.ScalarAndReferenceTypeToSQLiteType(attributeType.ValueType));
                 columnNamesAndTypes.Add("key");
-                columnNamesAndTypes.Add(ScalarAndReferenceTypeToSQLiteType(persistenceProvider.IntegerAttributeType));
+                columnNamesAndTypes.Add(PersistenceProviderSQLite.ScalarAndReferenceTypeToSQLiteType(persistenceProvider.IntegerAttributeType));
             }
 
-            CreateTable(tableName, "entryId", columnNamesAndTypes.ToArray()); // the entryId denotes the row local to this table, the ownerIdColumnName is a local copy of the global id from the corresponding topology table
+            persistenceProvider.CreateTable(tableName, "entryId", columnNamesAndTypes.ToArray()); // the entryId denotes the row local to this table, the ownerIdColumnName is a local copy of the global id from the corresponding topology table
 
-            AddIndex(tableName, ownerIdColumnName); // in order to delete without a full table scan (I assume small changesets in between database openings and decided for a by-default pruning on open - an alternative would be a full table replacement once in a while (would be ok in case of big changesets, as they would occur when a pruning run only occurs on explicit request, but such ones could be forgotten/missed unknowingly too easily, leading to (unexpected) slowness))
+            persistenceProvider.AddIndex(tableName, ownerIdColumnName); // in order to delete without a full table scan (I assume small changesets in between database openings and decided for a by-default pruning on open - an alternative would be a full table replacement once in a while (would be ok in case of big changesets, as they would occur when a pruning run only occurs on explicit request, but such ones could be forgotten/missed unknowingly too easily, leading to (unexpected) slowness))
         }
 
         private void AddAttributeToInheritanceTypeTable(InheritanceType type, AttributeType attributeType)
         {
             String tableName = PersistenceProviderSQLite.GetUniqueTableName(type.Package, type.Name);
-            Debug.Assert(IsAttributeTypeMappedToDatabaseColumn(attributeType));
+            Debug.Assert(PersistenceProviderSQLite.IsAttributeTypeMappedToDatabaseColumn(attributeType));
             String columnName = PersistenceProviderSQLite.GetUniqueColumnName(attributeType.Name);
-            String columnType = ScalarAndReferenceTypeToSQLiteType(attributeType);
+            String columnType = PersistenceProviderSQLite.ScalarAndReferenceTypeToSQLiteType(attributeType);
 
-            AddColumnToTable(tableName, columnName, columnType);
+            persistenceProvider.AddColumnToTable(tableName, columnName, columnType);
         }
 
         private void RemoveAttributeFromInheritanceTypeTable(string typeName, string attributeName)
@@ -396,7 +398,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             String tableName = PersistenceProviderSQLite.GetUniqueTableName(package, name);
             String columnName = PersistenceProviderSQLite.GetUniqueColumnName(attributeName);
 
-            DropColumnFromTable(tableName, columnName);
+            persistenceProvider.DropColumnFromTable(tableName, columnName);
         }
 
         private void DeleteInheritanceTypeTable(string typeName)
@@ -405,8 +407,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             String name;
             UnpackPackagePrefixedName(typeName, out package, out name);
             String tableName = PersistenceProviderSQLite.GetUniqueTableName(package, name);
- 
-            DropTable(tableName);
+
+            persistenceProvider.DropTable(tableName);
         }
 
         private void DeleteContainerTypeTable(string typeName, string attributeName)
@@ -416,108 +418,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             UnpackPackagePrefixedName(typeName, out package, out name);
             String tableName = PersistenceProviderSQLite.GetUniqueTableName(package, name, attributeName);
 
-            DropTable(tableName);
-        }
-
-        // note that strings count as scalars
-        private static bool IsScalarType(AttributeType attributeType)
-        {
-            switch(attributeType.Kind)
-            {
-                case AttributeKind.ByteAttr:
-                case AttributeKind.ShortAttr:
-                case AttributeKind.IntegerAttr:
-                case AttributeKind.LongAttr:
-                case AttributeKind.BooleanAttr:
-                case AttributeKind.StringAttr:
-                case AttributeKind.EnumAttr:
-                case AttributeKind.FloatAttr:
-                case AttributeKind.DoubleAttr:
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        private static bool IsReferenceType(AttributeType attributeType)
-        {
-            switch(attributeType.Kind)
-            {
-                case AttributeKind.NodeAttr:
-                case AttributeKind.EdgeAttr:
-                case AttributeKind.GraphAttr:
-                case AttributeKind.InternalClassObjectAttr:
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        private static bool IsContainerType(AttributeType attributeType)
-        {
-            switch(attributeType.Kind)
-            {
-                case AttributeKind.SetAttr:
-                case AttributeKind.MapAttr:
-                case AttributeKind.ArrayAttr:
-                case AttributeKind.DequeAttr:
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        private static bool IsContainerType(String attributeType)
-        {
-            return TypesHelper.IsContainerType(attributeType);
-        }
-
-        private static bool IsAttributeTypeMappedToDatabaseColumn(AttributeType attributeType)
-        {
-            return IsScalarType(attributeType) || IsReferenceType(attributeType); // containers are not referenced by an id in a database column, but are mapped entirely to own tables
-        }
-
-        // types appearing as attributes with a complete implementation for loading/storing them from/to the database
-        private static bool IsSupportedAttributeType(AttributeType attributeType)
-        {
-            return IsScalarType(attributeType) || IsReferenceType(attributeType) || IsContainerType(attributeType); // TODO: external/object type - also handle these.
-        }
-
-        private static bool IsGraphType(AttributeType attributeType)
-        {
-            return attributeType.Kind == AttributeKind.GraphAttr;
-        }
-
-        private static bool IsObjectType(AttributeType attributeType)
-        {
-            return attributeType.Kind == AttributeKind.InternalClassObjectAttr;
-        }
-
-        private static bool IsGraphElementType(AttributeType attributeType)
-        {
-            return attributeType.Kind == AttributeKind.NodeAttr || attributeType.Kind == AttributeKind.EdgeAttr;
-        }
-
-        private static string ScalarAndReferenceTypeToSQLiteType(AttributeType attributeType)
-        {
-            //Debug.Assert(IsAttributeTypeMappedToDatabaseColumn(attributeType)); // scalar and reference types are mapped to a database column, of the type specified here; container types have a complex mapping to own tables
-            switch(attributeType.Kind)
-            {
-                case AttributeKind.ByteAttr: return "INT";
-                case AttributeKind.ShortAttr: return "INT";
-                case AttributeKind.IntegerAttr: return "INT";
-                case AttributeKind.LongAttr: return "INT";
-                case AttributeKind.BooleanAttr: return "INT";
-                case AttributeKind.StringAttr: return "TEXT";
-                case AttributeKind.EnumAttr: return "TEXT";
-                case AttributeKind.FloatAttr: return "REAL";
-                case AttributeKind.DoubleAttr: return "REAL";
-                case AttributeKind.GraphAttr: return "INTEGER"; 
-                case AttributeKind.InternalClassObjectAttr: return "INTEGER";
-                case AttributeKind.NodeAttr: return "INTEGER";
-                case AttributeKind.EdgeAttr: return "INTEGER";
-                default: throw new Exception("Attribute type must be a scalar type or reference type");
-            }
+            persistenceProvider.DropTable(tableName);
         }
 
         private static object DefaultValue(AttributeType attributeType)
@@ -538,88 +439,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 case AttributeKind.NodeAttr: return (object)DBNull.Value;
                 case AttributeKind.EdgeAttr: return (object)DBNull.Value;
                 default: throw new Exception("Attribute type must be a scalar type or reference type");
-            }
-        }
-
-        private void CreateTable(String tableName, String idColumnName, params String[] columnNamesAndTypes)
-        {
-            StringBuilder columnNames = new StringBuilder();
-            PersistenceProviderSQLite.AddQueryColumn(columnNames, idColumnName + " INTEGER PRIMARY KEY AUTOINCREMENT"); // AUTOINCREMENT so ids cannot be reused (preventing wrong mappings after deletion)
-            for(int i = 0; i < columnNamesAndTypes.Length; i += 2)
-            {
-                PersistenceProviderSQLite.AddQueryColumn(columnNames, columnNamesAndTypes[i] + " " + columnNamesAndTypes[i + 1]);
-            }
-
-            StringBuilder command = new StringBuilder();
-            command.Append("CREATE TABLE IF NOT EXISTS ");
-            command.Append(tableName);
-            command.Append("(");
-            command.Append(columnNames.ToString());
-            command.Append(") ");
-            command.Append("STRICT");
-            using(SQLiteCommand createSchemaCommand = new SQLiteCommand(command.ToString(), persistenceProvider.connection))
-            {
-                createSchemaCommand.Transaction = persistenceProvider.transaction;
-                int rowsAffected = createSchemaCommand.ExecuteNonQuery();
-            }
-        }
-
-        private void AddIndex(String tableName, String indexColumnName)
-        {
-            StringBuilder command = new StringBuilder();
-            command.Append("CREATE INDEX IF NOT EXISTS ");
-            command.Append("idx_" + indexColumnName);
-            command.Append(" ON ");
-            command.Append(tableName);
-            command.Append("(");
-            command.Append(indexColumnName);
-            command.Append(")");
-            using(SQLiteCommand createIndexCommand = new SQLiteCommand(command.ToString(), persistenceProvider.connection))
-            {
-                createIndexCommand.Transaction = persistenceProvider.transaction;
-                int rowsAffected = createIndexCommand.ExecuteNonQuery();
-            }
-        }
-
-        private void AddColumnToTable(String tableName, String columnName, String columnType)
-        {
-            StringBuilder command = new StringBuilder();
-            command.Append("ALTER TABLE ");
-            command.Append(tableName);
-            command.Append(" ADD COLUMN ");
-            command.Append(columnName);
-            command.Append(" ");
-            command.Append(columnType);
-            using(SQLiteCommand addColumnCommand = new SQLiteCommand(command.ToString(), persistenceProvider.connection))
-            {
-                addColumnCommand.Transaction = persistenceProvider.transaction;
-                int rowsAffected = addColumnCommand.ExecuteNonQuery();
-            }
-        }
-
-        private void DropColumnFromTable(String tableName, String columnName)
-        {
-            StringBuilder command = new StringBuilder();
-            command.Append("ALTER TABLE ");
-            command.Append(tableName);
-            command.Append(" DROP COLUMN ");
-            command.Append(columnName);
-            using(SQLiteCommand dropColumnCommand = new SQLiteCommand(command.ToString(), persistenceProvider.connection))
-            {
-                dropColumnCommand.Transaction = persistenceProvider.transaction;
-                int rowsAffected = dropColumnCommand.ExecuteNonQuery();
-            }
-        }
-
-        private void DropTable(String tableName)
-        {
-            StringBuilder command = new StringBuilder();
-            command.Append("DROP TABLE ");
-            command.Append(tableName);
-            using(SQLiteCommand dropTableCommand = new SQLiteCommand(command.ToString(), persistenceProvider.connection))
-            {
-                dropTableCommand.Transaction = persistenceProvider.transaction;
-                int rowsAffected = dropTableCommand.ExecuteNonQuery();
             }
         }
 
@@ -1107,7 +926,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
                 foreach(AttributeType attributeType in entityType.AttributeTypes)
                 {
-                    if(!IsContainerType(attributeType))
+                    if(!PersistenceProviderSQLite.IsContainerType(attributeType))
                         continue;
                     CreateContainerTypeTable(entityType, idColumnName, attributeType);
                 }
@@ -1137,7 +956,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     string attributeName = attributeNameToAttributeType.Key;
                     AttributeTypeFromDatabase attributeTypeFromDatabase = attributeNameToAttributeType.Value;
 
-                    if(IsContainerType(attributeTypeFromDatabase.XgrsType))
+                    if(PersistenceProviderSQLite.IsContainerType(attributeTypeFromDatabase.XgrsType))
                         DeleteContainerTypeTable(typeName, attributeName);
                 }
                 DeleteInheritanceTypeTable(typeName);
@@ -1172,7 +991,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             // add the attribute column to the table of the according type or
             // if the type of the attribute is a container type, add a container table for the attribute
             // and write the default value of the type
-            if(IsContainerType(attributeType))
+            if(PersistenceProviderSQLite.IsContainerType(attributeType))
             {
                 string ownerIdColumnName = ToIdColumnName(type);
                 CreateContainerTypeTable(type, ownerIdColumnName, attributeType);
@@ -1207,7 +1026,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
             // remove the attribute column from the table of the according type or
             // if the type of the attribute is a container type, remove the container table for the attribute
-            if(IsContainerType(attributeType.XgrsType))
+            if(PersistenceProviderSQLite.IsContainerType(attributeType.XgrsType))
                 DeleteContainerTypeTable(typeName, attributeType.Name);
             else
                 RemoveAttributeFromInheritanceTypeTable(typeName, attributeType.Name);
