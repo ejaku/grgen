@@ -50,15 +50,19 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
 
+            INodeModel nodeModel = persistenceProvider.graph.Model.NodeModel;
+            IEdgeModel edgeModel = persistenceProvider.graph.Model.EdgeModel;
+            IObjectModel objectModel = persistenceProvider.graph.Model.ObjectModel;
+
             // prepare statements for initial graph fetching
             readGraphsCommand = PrepareStatementForReadingGraphs();
 
-            readNodeCommands = new SQLiteCommand[persistenceProvider.graph.Model.NodeModel.Types.Length];
-            readNodeContainerCommands = new Dictionary<String, SQLiteCommand>[persistenceProvider.graph.Model.NodeModel.Types.Length];
-            readEdgeCommands = new SQLiteCommand[persistenceProvider.graph.Model.EdgeModel.Types.Length];
-            readEdgeContainerCommands = new Dictionary<String, SQLiteCommand>[persistenceProvider.graph.Model.EdgeModel.Types.Length];
+            readNodeCommands = new SQLiteCommand[nodeModel.Types.Length];
+            readNodeContainerCommands = new Dictionary<String, SQLiteCommand>[nodeModel.Types.Length];
+            readEdgeCommands = new SQLiteCommand[edgeModel.Types.Length];
+            readEdgeContainerCommands = new Dictionary<String, SQLiteCommand>[edgeModel.Types.Length];
 
-            foreach(NodeType nodeType in persistenceProvider.graph.Model.NodeModel.Types)
+            foreach(NodeType nodeType in nodeModel.Types)
             {
                 readNodeCommands[nodeType.TypeID] = PrepareStatementsForReadingNodesIncludingZombieNodes(nodeType);
 
@@ -70,7 +74,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     readNodeContainerCommands[nodeType.TypeID].Add(attributeType.Name, PrepareStatementsForReadingContainerAttributes(nodeType, "nodeId", attributeType));
                 }
             }
-            foreach(EdgeType edgeType in persistenceProvider.graph.Model.EdgeModel.Types)
+            foreach(EdgeType edgeType in edgeModel.Types)
             {
                 readEdgeCommands[edgeType.TypeID] = PrepareStatementsForReadingEdgesIncludingZombieEdges(edgeType);
 
@@ -83,10 +87,10 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 }
             }
 
-            readObjectCommands = new SQLiteCommand[persistenceProvider.graph.Model.ObjectModel.Types.Length];
-            readObjectContainerCommands = new Dictionary<String, SQLiteCommand>[persistenceProvider.graph.Model.ObjectModel.Types.Length];
+            readObjectCommands = new SQLiteCommand[objectModel.Types.Length];
+            readObjectContainerCommands = new Dictionary<String, SQLiteCommand>[objectModel.Types.Length];
 
-            foreach(ObjectType objectType in persistenceProvider.graph.Model.ObjectModel.Types)
+            foreach(ObjectType objectType in objectModel.Types)
             {
                 readObjectCommands[objectType.TypeID] = PrepareStatementsForReadingObjects(objectType);
 
@@ -107,24 +111,24 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     ReadGraphsWithoutHostGraph();
 
                     // pass 1 - load all elements (first nodes then edges, dispatching them to their containing graph in case they are not zombie nodes/edges)
-                    foreach(NodeType nodeType in persistenceProvider.graph.Model.NodeModel.Types)
+                    foreach(NodeType nodeType in nodeModel.Types)
                     {
                         ReadNodesIncludingZombieNodes(nodeType, readNodeCommands[nodeType.TypeID]);
                     }
-                    foreach(EdgeType edgeType in persistenceProvider.graph.Model.EdgeModel.Types)
+                    foreach(EdgeType edgeType in edgeModel.Types)
                     {
                         ReadEdgesIncludingZombieEdges(edgeType, readEdgeCommands[edgeType.TypeID]);
                     }
 
                     // pass 2 - load all objects
-                    foreach(ObjectType objectType in persistenceProvider.graph.Model.ObjectModel.Types)
+                    foreach(ObjectType objectType in objectModel.Types)
                     {
                         ReadObjects(objectType, readObjectCommands[objectType.TypeID]);
                     }
 
                     // pass I - wire references/patch the references into the attributes (TODO - split this into helper methods like PatchReferencesFromDatabase)
                     // 2nd full table scan, type table by type table, patching node/edge/object references (graphs were handled before) in the nodes/edges/objects (in-memory), accessed by their database-id to type mapping
-                    foreach(NodeType nodeType in persistenceProvider.graph.Model.NodeModel.Types)
+                    foreach(NodeType nodeType in nodeModel.Types)
                     {
                         PatchAttributesInElement(nodeType, "nodeId", readNodeCommands[nodeType.TypeID]);
 
@@ -136,7 +140,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                             ReadPatchContainerAttributesInElement(nodeType, "nodeId", attributeType, readNodeContainerCommand);
                         }
                     }
-                    foreach(EdgeType edgeType in persistenceProvider.graph.Model.EdgeModel.Types)
+                    foreach(EdgeType edgeType in edgeModel.Types)
                     {
                         PatchAttributesInElement(edgeType, "edgeId", readEdgeCommands[edgeType.TypeID]);
 
@@ -148,7 +152,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                             ReadPatchContainerAttributesInElement(edgeType, "edgeId", attributeType, readEdgeContainerCommand);
                         }
                     }
-                    foreach(ObjectType objectType in persistenceProvider.graph.Model.ObjectModel.Types)
+                    foreach(ObjectType objectType in objectModel.Types)
                     {
                         PatchAttributesInElement(objectType, "objectId", readObjectCommands[objectType.TypeID]);
 

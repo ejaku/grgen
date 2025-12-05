@@ -236,7 +236,9 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
             // TODO: create configuration and status table, a key-value-store, esp. including version, plus later stuff?
 
-            foreach(NodeType nodeType in persistenceProvider.graph.Model.NodeModel.Types)
+            IGraphModel model = persistenceProvider.graph.Model;
+
+            foreach(NodeType nodeType in model.NodeModel.Types)
             {
                 CreateInheritanceTypeTable(nodeType, "nodeId");
 
@@ -248,7 +250,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 }
             }
 
-            foreach(EdgeType edgeType in persistenceProvider.graph.Model.EdgeModel.Types)
+            foreach(EdgeType edgeType in model.EdgeModel.Types)
             {
                 CreateInheritanceTypeTable(edgeType, "edgeId");
 
@@ -260,7 +262,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 }
             }
 
-            foreach(ObjectType objectType in persistenceProvider.graph.Model.ObjectModel.Types)
+            foreach(ObjectType objectType in model.ObjectModel.Types)
             {
                 CreateInheritanceTypeTable(objectType, "objectId");
 
@@ -551,19 +553,21 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
             Dictionary<InheritanceType, SetValueType> newModelTypes = new Dictionary<InheritanceType, SetValueType>();
 
-            foreach(NodeType nodeType in persistenceProvider.graph.Model.NodeModel.Types)
+            IGraphModel model = persistenceProvider.graph.Model;
+
+            foreach(NodeType nodeType in model.NodeModel.Types)
             {
                 if(!typesFromDatabase.IsTypeKnown(nodeType))
                     newModelTypes.Add(nodeType, null);
             }
 
-            foreach(EdgeType edgeType in persistenceProvider.graph.Model.EdgeModel.Types)
+            foreach(EdgeType edgeType in model.EdgeModel.Types)
             {
                 if(!typesFromDatabase.IsTypeKnown(edgeType))
                     newModelTypes.Add(edgeType, null);
             }
 
-            foreach(ObjectType objectType in persistenceProvider.graph.Model.ObjectModel.Types)
+            foreach(ObjectType objectType in model.ObjectModel.Types)
             {
                 if(!typesFromDatabase.IsTypeKnown(objectType))
                     newModelTypes.Add(objectType, null);
@@ -593,17 +597,19 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
             Dictionary<string, InheritanceType> allModelTypes = new Dictionary<string, InheritanceType>();
 
-            foreach(NodeType nodeType in persistenceProvider.graph.Model.NodeModel.Types)
+            IGraphModel model = persistenceProvider.graph.Model;
+
+            foreach(NodeType nodeType in model.NodeModel.Types)
             {
                 allModelTypes.Add(nodeType.PackagePrefixedName, nodeType);
             }
 
-            foreach(EdgeType edgeType in persistenceProvider.graph.Model.EdgeModel.Types)
+            foreach(EdgeType edgeType in model.EdgeModel.Types)
             {
                 allModelTypes.Add(edgeType.PackagePrefixedName, edgeType);
             }
 
-            foreach(ObjectType objectType in persistenceProvider.graph.Model.ObjectModel.Types)
+            foreach(ObjectType objectType in model.ObjectModel.Types)
             {
                 allModelTypes.Add(objectType.PackagePrefixedName, objectType);
             }
@@ -1038,15 +1044,17 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             {
                 FillTypeWithAttributes(fillTypeCommand, new GraphClassDummy(), TypeKind.GraphClass);
 
-                foreach(NodeType nodeType in persistenceProvider.graph.Model.NodeModel.Types)
+                IGraphModel model = persistenceProvider.graph.Model;
+
+                foreach(NodeType nodeType in model.NodeModel.Types)
                 {
                     FillTypeWithAttributes(fillTypeCommand, nodeType, TypeKind.NodeClass);
                 }
-                foreach(EdgeType edgeType in persistenceProvider.graph.Model.EdgeModel.Types)
+                foreach(EdgeType edgeType in model.EdgeModel.Types)
                 {
                     FillTypeWithAttributes(fillTypeCommand, edgeType, TypeKind.EdgeClass);
                 }
-                foreach(ObjectType objectType in persistenceProvider.graph.Model.ObjectModel.Types)
+                foreach(ObjectType objectType in model.ObjectModel.Types)
                 {
                     FillTypeWithAttributes(fillTypeCommand, objectType, TypeKind.ObjectClass);
                 }

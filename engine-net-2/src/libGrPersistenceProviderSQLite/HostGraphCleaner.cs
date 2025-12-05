@@ -79,15 +79,19 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         // TODO: maybe lazy initialization...
         private void PrepareStatementsForGraphModifications()
         {
+            INodeModel nodeModel = persistenceProvider.graph.Model.NodeModel;
+            IEdgeModel edgeModel = persistenceProvider.graph.Model.EdgeModel;
+            IObjectModel objectModel = persistenceProvider.graph.Model.ObjectModel;
+
             deleteGraphCommand = persistenceProvider.PrepareTopologyDelete("graphs", "graphId");
 
-            deleteNodeCommands = new SQLiteCommand[persistenceProvider.graph.Model.NodeModel.Types.Length];
-            foreach(NodeType nodeType in persistenceProvider.graph.Model.NodeModel.Types)
+            deleteNodeCommands = new SQLiteCommand[nodeModel.Types.Length];
+            foreach(NodeType nodeType in nodeModel.Types)
             {
                 deleteNodeCommands[nodeType.TypeID] = PrepareDelete(nodeType, "nodeId");
             }
-            deleteNodeContainerCommands = new Dictionary<String, SQLiteCommand>[persistenceProvider.graph.Model.NodeModel.Types.Length];
-            foreach(NodeType nodeType in persistenceProvider.graph.Model.NodeModel.Types)
+            deleteNodeContainerCommands = new Dictionary<String, SQLiteCommand>[nodeModel.Types.Length];
+            foreach(NodeType nodeType in nodeModel.Types)
             {
                 deleteNodeContainerCommands[nodeType.TypeID] = new Dictionary<string, SQLiteCommand>();
                 foreach(AttributeType attributeType in nodeType.AttributeTypes)
@@ -98,13 +102,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 }
             }
 
-            deleteEdgeCommands = new SQLiteCommand[persistenceProvider.graph.Model.EdgeModel.Types.Length];
-            foreach(EdgeType edgeType in persistenceProvider.graph.Model.EdgeModel.Types)
+            deleteEdgeCommands = new SQLiteCommand[edgeModel.Types.Length];
+            foreach(EdgeType edgeType in edgeModel.Types)
             {
                 deleteEdgeCommands[edgeType.TypeID] = PrepareDelete(edgeType, "edgeId");
             }
-            deleteEdgeContainerCommands = new Dictionary<String, SQLiteCommand>[persistenceProvider.graph.Model.EdgeModel.Types.Length];
-            foreach(EdgeType edgeType in persistenceProvider.graph.Model.EdgeModel.Types)
+            deleteEdgeContainerCommands = new Dictionary<String, SQLiteCommand>[edgeModel.Types.Length];
+            foreach(EdgeType edgeType in edgeModel.Types)
             {
                 deleteEdgeContainerCommands[edgeType.TypeID] = new Dictionary<string, SQLiteCommand>();
                 foreach(AttributeType attributeType in edgeType.AttributeTypes)
@@ -116,13 +120,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
 
             deleteObjectCommand = persistenceProvider.PrepareTopologyDelete("objects", "objectId");
-            deleteObjectCommands = new SQLiteCommand[persistenceProvider.graph.Model.ObjectModel.Types.Length];
-            foreach(ObjectType objectType in persistenceProvider.graph.Model.ObjectModel.Types)
+            deleteObjectCommands = new SQLiteCommand[objectModel.Types.Length];
+            foreach(ObjectType objectType in objectModel.Types)
             {
                 deleteObjectCommands[objectType.TypeID] = PrepareDelete(objectType, "objectId");
             }
-            deleteObjectContainerCommands = new Dictionary<String, SQLiteCommand>[persistenceProvider.graph.Model.ObjectModel.Types.Length];
-            foreach(ObjectType objectType in persistenceProvider.graph.Model.ObjectModel.Types)
+            deleteObjectContainerCommands = new Dictionary<String, SQLiteCommand>[objectModel.Types.Length];
+            foreach(ObjectType objectType in objectModel.Types)
             {
                 deleteObjectContainerCommands[objectType.TypeID] = new Dictionary<string, SQLiteCommand>();
                 foreach(AttributeType attributeType in objectType.AttributeTypes)

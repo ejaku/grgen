@@ -146,24 +146,28 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         // TODO: maybe lazy initialization...
         private void PrepareStatementsForGraphModifications()
         {
+            INodeModel nodeModel = graph.Model.NodeModel;
+            IEdgeModel edgeModel = graph.Model.EdgeModel;
+            IObjectModel objectModel = graph.Model.ObjectModel;
+
             createGraphCommand = PrepareGraphInsert();
 
             createNodeCommand = PrepareNodeInsert();
-            createNodeCommands = new SQLiteCommand[graph.Model.NodeModel.Types.Length];
-            foreach(NodeType nodeType in graph.Model.NodeModel.Types)
+            createNodeCommands = new SQLiteCommand[nodeModel.Types.Length];
+            foreach(NodeType nodeType in nodeModel.Types)
             {
                 createNodeCommands[nodeType.TypeID] = PrepareInsert(nodeType, "nodeId");
             }
             createEdgeCommand = PrepareEdgeInsert();
-            createEdgeCommands = new SQLiteCommand[graph.Model.EdgeModel.Types.Length];
-            foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
+            createEdgeCommands = new SQLiteCommand[edgeModel.Types.Length];
+            foreach(EdgeType edgeType in edgeModel.Types)
             {
                 createEdgeCommands[edgeType.TypeID] = PrepareInsert(edgeType, "edgeId");
             }
 
             createObjectCommand = PrepareObjectInsert();
-            createObjectCommands = new SQLiteCommand[graph.Model.ObjectModel.Types.Length];
-            foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
+            createObjectCommands = new SQLiteCommand[objectModel.Types.Length];
+            foreach(ObjectType objectType in objectModel.Types)
             {
                 createObjectCommands[objectType.TypeID] = PrepareInsert(objectType, "objectId");
             }
@@ -172,8 +176,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             updateEdgeTargetCommand = PrepareUpdateEdgeTarget();
             redirectEdgeCommand = PrepareRedirectEdge();
 
-            updateNodeCommands = new Dictionary<String, SQLiteCommand>[graph.Model.NodeModel.Types.Length];
-            foreach(NodeType nodeType in graph.Model.NodeModel.Types)
+            updateNodeCommands = new Dictionary<String, SQLiteCommand>[nodeModel.Types.Length];
+            foreach(NodeType nodeType in nodeModel.Types)
             {
                 updateNodeCommands[nodeType.TypeID] = new Dictionary<String, SQLiteCommand>(nodeType.NumAttributes);
                 foreach(AttributeType attributeType in nodeType.AttributeTypes)
@@ -183,8 +187,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     updateNodeCommands[nodeType.TypeID][attributeType.Name] = PrepareUpdate(nodeType, "nodeId", attributeType);
                 }
             }
-            updateNodeContainerCommands = new Dictionary<String, SQLiteCommand>[graph.Model.NodeModel.Types.Length];
-            foreach(NodeType nodeType in graph.Model.NodeModel.Types)
+            updateNodeContainerCommands = new Dictionary<String, SQLiteCommand>[nodeModel.Types.Length];
+            foreach(NodeType nodeType in nodeModel.Types)
             {
                 updateNodeContainerCommands[nodeType.TypeID] = new Dictionary<string, SQLiteCommand>();
                 foreach(AttributeType attributeType in nodeType.AttributeTypes)
@@ -194,8 +198,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     updateNodeContainerCommands[nodeType.TypeID][attributeType.Name] = PrepareContainerUpdatingInsert(nodeType, "nodeId", attributeType);
                 }
             }
-            updateEdgeCommands = new Dictionary<String, SQLiteCommand>[graph.Model.EdgeModel.Types.Length];
-            foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
+            updateEdgeCommands = new Dictionary<String, SQLiteCommand>[edgeModel.Types.Length];
+            foreach(EdgeType edgeType in edgeModel.Types)
             {
                 updateEdgeCommands[edgeType.TypeID] = new Dictionary<String, SQLiteCommand>(edgeType.NumAttributes);
                 foreach(AttributeType attributeType in edgeType.AttributeTypes)
@@ -205,8 +209,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     updateEdgeCommands[edgeType.TypeID][attributeType.Name] = PrepareUpdate(edgeType, "edgeId", attributeType);
                 }
             }
-            updateEdgeContainerCommands = new Dictionary<String, SQLiteCommand>[graph.Model.EdgeModel.Types.Length];
-            foreach(EdgeType edgeType in graph.Model.EdgeModel.Types)
+            updateEdgeContainerCommands = new Dictionary<String, SQLiteCommand>[edgeModel.Types.Length];
+            foreach(EdgeType edgeType in edgeModel.Types)
             {
                 updateEdgeContainerCommands[edgeType.TypeID] = new Dictionary<string, SQLiteCommand>();
                 foreach(AttributeType attributeType in edgeType.AttributeTypes)
@@ -217,8 +221,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 }
             }
 
-            updateObjectCommands = new Dictionary<String, SQLiteCommand>[graph.Model.ObjectModel.Types.Length];
-            foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
+            updateObjectCommands = new Dictionary<String, SQLiteCommand>[objectModel.Types.Length];
+            foreach(ObjectType objectType in objectModel.Types)
             {
                 updateObjectCommands[objectType.TypeID] = new Dictionary<String, SQLiteCommand>(objectType.NumAttributes);
                 foreach(AttributeType attributeType in objectType.AttributeTypes)
@@ -228,8 +232,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     updateObjectCommands[objectType.TypeID][attributeType.Name] = PrepareUpdate(objectType, "objectId", attributeType);
                 }
             }
-            updateObjectContainerCommands = new Dictionary<String, SQLiteCommand>[graph.Model.ObjectModel.Types.Length];
-            foreach(ObjectType objectType in graph.Model.ObjectModel.Types)
+            updateObjectContainerCommands = new Dictionary<String, SQLiteCommand>[objectModel.Types.Length];
+            foreach(ObjectType objectType in objectModel.Types)
             {
                 updateObjectContainerCommands[objectType.TypeID] = new Dictionary<string, SQLiteCommand>();
                 foreach(AttributeType attributeType in objectType.AttributeTypes)
