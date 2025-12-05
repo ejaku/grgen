@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="HostGraphCleaner.cs" />
     <Compile Include="HostGraphReader.cs" />
-    <Compile Include="ModelUpdater.cs" />
+    <Compile Include="ModelInitializerAndUpdater.cs" />
     <Compile Include="PersistenceProviderSQLite.cs" />
     <Compile Include="PersistenceProviderSQLiteBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -21,7 +21,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
     /// <summary>
     /// A component used in adapting the stored database model to the model of the host graph, which includes initialization of an empty database model.
     /// </summary>
-    internal class ModelUpdater
+    internal class ModelInitializerAndUpdater
     {
         private class GraphClassDummy : InheritanceType
         {
@@ -199,7 +199,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         PersistenceProviderSQLite persistenceProvider;
 
 
-        internal ModelUpdater(PersistenceProviderSQLite persistenceProvider)
+        internal ModelInitializerAndUpdater(PersistenceProviderSQLite persistenceProvider)
         {
             this.persistenceProvider = persistenceProvider;
         }

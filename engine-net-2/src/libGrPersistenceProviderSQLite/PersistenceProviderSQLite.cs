@@ -133,7 +133,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             initializedContainers = new AttributesMarkingState();
             modifiedContainers = new AttributesMarkingState();
 
-            new ModelUpdater(this).CreateSchemaIfNotExistsOrAdaptToCompatibleChanges();
+            new ModelInitializerAndUpdater(this).CreateSchemaIfNotExistsOrAdaptToCompatibleChanges();
             new HostGraphReader(this).ReadCompleteGraph();
             PrepareStatementsForGraphModifications(); // Cleanup may carry out graph modifications (even before we are notified about graph changes after registering the handlers)
             new HostGraphCleaner(this).Cleanup();
