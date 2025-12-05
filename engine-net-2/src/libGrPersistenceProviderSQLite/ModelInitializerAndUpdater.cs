@@ -486,7 +486,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             Dictionary<String, TypeKind> deletedModelTypes = GetDeletedModelTypes(typesFromDatabase); // types from the database not in the model
             Dictionary<InheritanceType, TypeKind> typeChangedModelTypes = GetTypeChangedModelTypes(typesFromDatabase); // same name but changed type kind
             bool changeMessagePrinted = false;
-            DetermineAndReportTypeChangesToTheUser(newModelTypes, deletedModelTypes, typeChangedModelTypes,
+            ReportTypeChangesToTheUserAbortingIfInstancesOfRemovedOrRetypedTypesExist(newModelTypes, deletedModelTypes, typeChangedModelTypes,
                 typesFromDatabase, ref changeMessagePrinted);
 
             Dictionary<string, InheritanceType> keptModelTypes = GetKeptModelTypes(typesFromDatabase); // attribute changes are only computed for types in the model _and_ in the database
@@ -688,7 +688,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         }
 
         // todo: consistency -- most messages based on database first perspective (old state of model, current state of data), variable names based on model first perspective (current state of model, new state targeted for data)
-        private void DetermineAndReportTypeChangesToTheUser(Dictionary<InheritanceType, SetValueType> newModelTypes,
+        private void ReportTypeChangesToTheUserAbortingIfInstancesOfRemovedOrRetypedTypesExist(Dictionary<InheritanceType, SetValueType> newModelTypes,
             Dictionary<String, TypeKind> deletedModelTypes, Dictionary<InheritanceType, TypeKind> typeChangedModelTypes,
             TypesFromDatabase typesFromDatabase, ref bool changeMessagePrinted)
         {
