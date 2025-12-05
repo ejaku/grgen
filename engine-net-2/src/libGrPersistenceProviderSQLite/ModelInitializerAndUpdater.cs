@@ -19,7 +19,7 @@ using de.unika.ipd.grGen.libGr;
 namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 {
     /// <summary>
-    /// A component used in adapting the stored database model to the model of the host graph, which includes initialization of an empty database model.
+    /// A class used in adapting the stored database model to the model of the host graph, which includes initialization of an empty database model.
     /// </summary>
     internal class ModelInitializerAndUpdater
     {

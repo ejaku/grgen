@@ -19,7 +19,7 @@ using de.unika.ipd.grGen.libGr;
 namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 {
     /// <summary>
-    /// A component carrying out the initial reading-in of the complete host graph.
+    /// A class carrying out the initial reading-in of the complete host graph.
     /// </summary>
     internal class HostGraphReader
     {

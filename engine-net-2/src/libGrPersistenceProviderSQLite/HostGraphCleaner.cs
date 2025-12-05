@@ -19,7 +19,7 @@ using de.unika.ipd.grGen.libGr;
 namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 {
     /// <summary>
-    /// A component that carries out a garbage collection of the host graph, finally removing unreachable deleted entities and compactifying containers (by overwriting event change histories by the current state).
+    /// A class that carries out a garbage collection of the host graph, finally removing unreachable deleted entities and compactifying containers (by overwriting event change histories by the current state).
     /// </summary>
     internal class HostGraphCleaner
     {
