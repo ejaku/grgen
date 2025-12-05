@@ -99,6 +99,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
         }
 
+        #region IPersistenceProvider
+
         public void Open(string connectionParameters, string persistentGraphParameters)
         {
             this.connectionParameters = connectionParameters;
@@ -140,6 +142,23 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             initializedContainers = null;
             modifiedContainers = null;
         }
+
+        // TODO: a deregister would make sense so event handlers can be removed when the action environment is changed (but in this case the persistent graph will be released, so no urgent action needed)
+        public void RegisterToListenToProcessingEnvironmentEvents(IGraphProcessingEnvironment procEnv)
+        {
+            this.procEnv = procEnv; // not supported: changes to referenced graphs outside of event control; potentially possible but not wanted: listen to changes to all graphs
+
+            procEnv.OnSwitchingToSubgraph += SwitchToSubgraphHandler;
+            procEnv.OnReturnedFromSubgraph += ReturnFromSubgraphHandler;
+            procEnv.OnSpawnSequences += SpawnSequencesHandler;
+        }
+
+        public void Close()
+        {
+            connection.Close();
+        }
+
+        #endregion IPersistenceProvider
 
         #region Graph modification handling preparations
 
@@ -483,6 +502,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         #endregion Graph modification handling preparations
 
+        #region Listen to graph changes in order to persist them and related code
+
         private void RegisterPersistenceHandlers()
         {
             graph.OnNodeAdded += NodeAdded;
@@ -532,8 +553,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         }
 
         // the following event handlers expect events for the graph returned by ReadPersistentGraphAndRegisterToListenToGraphModifications
-
-        #region Listen to graph changes in order to persist them
 
         public void NodeAdded(INode node)
         {
@@ -1293,7 +1312,32 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             return dbid;
         }
 
-        #endregion Listen to graph changes in order to persist them
+        private object ValueOrIdOfReferencedElement(object newValue, AttributeType attrType)
+        {
+            if(IsGraphType(attrType))
+            {
+                return newValue != null ? (object)GraphToDbId[(INamedGraph)newValue] : (object)DBNull.Value;
+            }
+
+            if(IsObjectType(attrType))
+            {
+                return newValue != null ? (object)ObjectToDbId[(IObject)newValue] : (object)DBNull.Value;
+            }
+
+            if(IsGraphElementType(attrType))
+            {
+                if(newValue == null)
+                    return (object)DBNull.Value;
+                else if(attrType.Kind == AttributeKind.NodeAttr)
+                    return (object)NodeToDbId[(INode)newValue];
+                else //if(attrType.Kind == AttributeKind.EdgeAttr)
+                    return (object)EdgeToDbId[(IEdge)newValue];
+            }
+
+            return newValue;
+        }
+
+        #endregion Listen to graph changes in order to persist them and related code
 
         #region Listen to graph processing changes with influence on persisting graph changes (from the graph processing environments)
 
@@ -1329,46 +1373,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         }
 
         #endregion Listen to graph processing changes with influence on persisting graph changes (from the graph processing environments)
-
-        // TODO: a deregister would make sense so event handlers can be removed when the action environment is changed (but in this case the persistent graph will be released, so no urgent action needed)
-        public void RegisterToListenToProcessingEnvironmentEvents(IGraphProcessingEnvironment procEnv)
-        {
-            this.procEnv = procEnv; // not supported: changes to referenced graphs outside of event control; potentially possible but not wanted: listen to changes to all graphs
-
-            procEnv.OnSwitchingToSubgraph += SwitchToSubgraphHandler;
-            procEnv.OnReturnedFromSubgraph += ReturnFromSubgraphHandler;
-            procEnv.OnSpawnSequences += SpawnSequencesHandler;
-        }
-
-        public void Close()
-        {
-            connection.Close();
-        }
-
-        private object ValueOrIdOfReferencedElement(object newValue, AttributeType attrType)
-        {
-            if(IsGraphType(attrType))
-            {
-                return newValue != null ? (object)GraphToDbId[(INamedGraph)newValue] : (object)DBNull.Value;
-            }
-
-            if(IsObjectType(attrType))
-            {
-                return newValue != null ? (object)ObjectToDbId[(IObject)newValue] : (object)DBNull.Value;
-            }
-
-            if(IsGraphElementType(attrType))
-            {
-                if(newValue == null)
-                    return (object)DBNull.Value;
-                else if(attrType.Kind == AttributeKind.NodeAttr)
-                    return (object)NodeToDbId[(INode)newValue];
-                else //if(attrType.Kind == AttributeKind.EdgeAttr)
-                    return (object)EdgeToDbId[(IEdge)newValue];
-            }
-
-            return newValue;
-        }
 
         #region IPersistenceProviderTransactionManager
 

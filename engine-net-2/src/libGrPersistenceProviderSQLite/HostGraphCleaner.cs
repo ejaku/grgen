@@ -76,8 +76,10 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             this.persistenceProvider = persistenceProvider;
         }
 
+        #region Host graph cleaning preparations
+
         // TODO: maybe lazy initialization...
-        private void PrepareStatementsForGraphModifications()
+        private void PrepareStatementsForGraphCleaning()
         {
             INodeModel nodeModel = persistenceProvider.graph.Model.NodeModel;
             IEdgeModel edgeModel = persistenceProvider.graph.Model.EdgeModel;
@@ -138,11 +140,42 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
         }
 
+        private SQLiteCommand PrepareDelete(InheritanceType type, String idName)
+        {
+            String tableName = PersistenceProviderSQLite.GetUniqueTableName(type.Package, type.Name);
+            StringBuilder command = new StringBuilder();
+            command.Append("DELETE FROM ");
+            command.Append(tableName);
+            command.Append(" WHERE ");
+            command.Append(idName);
+            command.Append("==");
+            command.Append("@" + idName);
+
+            return new SQLiteCommand(command.ToString(), persistenceProvider.connection);
+        }
+
+        private SQLiteCommand PrepareContainerDelete(InheritanceType type, string ownerIdColumnName, AttributeType attributeType)
+        {
+            String tableName = PersistenceProviderSQLite.GetUniqueTableName(type.Package, type.Name, attributeType.Name);
+
+            StringBuilder command = new StringBuilder();
+            command.Append("DELETE FROM ");
+            command.Append(tableName);
+            command.Append(" WHERE ");
+            command.Append(ownerIdColumnName);
+            command.Append("==");
+            command.Append("@" + ownerIdColumnName);
+
+            return new SQLiteCommand(command.ToString(), persistenceProvider.connection);
+        }
+
+        #endregion Host graph cleaning preparations
+
         internal void Cleanup()
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
 
-            PrepareStatementsForGraphModifications();
+            PrepareStatementsForGraphCleaning();
 
             // references to nodes/edges from different graphs are not supported as of now in import/export, because persistent names only hold in the current graph, keep this in db persistence handling
             // but the user could assign references to elements from another graph to an attribute, so todo: maybe relax that constraint, requiring a model supporting graphof, and a global post-patching step after everything was read locally, until a check that the user doesn't assign references to elements from another graph is implemented
@@ -906,35 +939,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 deleteObjectContainerCommand.Transaction = persistenceProvider.transaction;
                 int rowsAffected = deleteObjectContainerCommand.ExecuteNonQuery();
             }
-        }
-
-        private SQLiteCommand PrepareDelete(InheritanceType type, String idName)
-        {
-            String tableName = PersistenceProviderSQLite.GetUniqueTableName(type.Package, type.Name);
-            StringBuilder command = new StringBuilder();
-            command.Append("DELETE FROM ");
-            command.Append(tableName);
-            command.Append(" WHERE ");
-            command.Append(idName);
-            command.Append("==");
-            command.Append("@" + idName);
-
-            return new SQLiteCommand(command.ToString(), persistenceProvider.connection);
-        }
-
-        private SQLiteCommand PrepareContainerDelete(InheritanceType type, string ownerIdColumnName, AttributeType attributeType)
-        {
-            String tableName = PersistenceProviderSQLite.GetUniqueTableName(type.Package, type.Name, attributeType.Name);
-
-            StringBuilder command = new StringBuilder();
-            command.Append("DELETE FROM ");
-            command.Append(tableName);
-            command.Append(" WHERE ");
-            command.Append(ownerIdColumnName);
-            command.Append("==");
-            command.Append("@" + ownerIdColumnName);
-
-            return new SQLiteCommand(command.ToString(), persistenceProvider.connection);
         }
     }
 }

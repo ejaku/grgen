@@ -215,6 +215,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 AdaptDatabaseTypesToModelTypes(); // model update
         }
 
+        #region Database initialization (including types table)
+
         private void CreateIdentityAndTopologyTables()
         {
             CreateNodesTable();
@@ -223,16 +225,73 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             CreateObjectsTable();
         }
 
+        private void CreateNodesTable()
+        {
+            persistenceProvider.CreateTable("nodes", "nodeId",
+                "typeId", "INTEGER NOT NULL", // type defines table where attributes are stored
+                "graphId", "INTEGER NOT NULL",
+                "name", "TEXT NOT NULL" // maybe TODO: name in extra table - this is for a named graph, but should be also available for unnamed graphs in the end...
+                );
+            // AddIndex("nodes", "graphId"); maybe add later again for quick graph purging 
+        }
+
+        private void CreateEdgesTable()
+        {
+            persistenceProvider.CreateTable("edges", "edgeId",
+                "typeId", "INTEGER NOT NULL", // type defines table where attributes are stored
+                "sourceNodeId", "INTEGER NOT NULL",
+                "targetNodeId", "INTEGER NOT NULL",
+                "graphId", "INTEGER NOT NULL",
+                "name", "TEXT NOT NULL"
+                );
+            // AddIndex("edges", "graphId"); maybe add later again for quick graph purging 
+        }
+
+        private void CreateGraphsTable()
+        {
+            // only id and name for now, plus a by-now constant typeId, so a later extension by graph attributes and then by graph types is easy (multiple graph tables)
+            persistenceProvider.CreateTable("graphs", "graphId",
+                "typeId", "INTEGER NOT NULL",
+                "name", "TEXT NOT NULL"
+                );
+        }
+
+        private void CreateObjectsTable()
+        {
+            persistenceProvider.CreateTable("objects", "objectId",
+                "typeId", "INTEGER NOT NULL",
+                "name", "TEXT NOT NULL"
+                );
+        }
+
         private void CreateTypesWithAttributeTables()
         {
             CreateTypesTable();
             CreateAttributeTypesTable();
         }
 
+        private void CreateTypesTable()
+        {
+            persistenceProvider.CreateTable("types", "typeId",
+                "kind", "INT NOT NULL",
+                "name", "TEXT NOT NULL"
+                );
+        }
+
+        private void CreateAttributeTypesTable()
+        {
+            persistenceProvider.CreateTable("attributeTypes", "attributeTypeId",
+                "typeId", "INTEGER NOT NULL",
+                "attributeName", "TEXT NOT NULL",
+                "xgrsType", "TEXT NOT NULL"
+                );
+            persistenceProvider.AddIndex("attributeTypes", "typeId");
+        }
+
         // fills types when model is empty, which only happens when database is freshly created (this also means the model mapping is empty)
         private void FillInitialTypes()
         {
-            AddModelTypesToTypesTable();
+            FillModelTypesToTypesTable();
 
             // TODO: create configuration and status table, a key-value-store, esp. including version, plus later stuff?
 
@@ -275,61 +334,73 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
         }
 
-        private void CreateNodesTable()
+        private void FillModelTypesToTypesTable()
         {
-            persistenceProvider.CreateTable("nodes", "nodeId",
-                "typeId", "INTEGER NOT NULL", // type defines table where attributes are stored
-                "graphId", "INTEGER NOT NULL",
-                "name", "TEXT NOT NULL" // maybe TODO: name in extra table - this is for a named graph, but should be also available for unnamed graphs in the end...
-                );
-            // AddIndex("nodes", "graphId"); maybe add later again for quick graph purging 
+            using(SQLiteCommand fillTypeCommand = PrepareFillTypeCommand())
+            {
+                FillTypeWithAttributes(fillTypeCommand, new GraphClassDummy(), TypeKind.GraphClass);
+
+                IGraphModel model = persistenceProvider.graph.Model;
+
+                foreach(NodeType nodeType in model.NodeModel.Types)
+                {
+                    FillTypeWithAttributes(fillTypeCommand, nodeType, TypeKind.NodeClass);
+                }
+                foreach(EdgeType edgeType in model.EdgeModel.Types)
+                {
+                    FillTypeWithAttributes(fillTypeCommand, edgeType, TypeKind.EdgeClass);
+                }
+                foreach(ObjectType objectType in model.ObjectModel.Types)
+                {
+                    FillTypeWithAttributes(fillTypeCommand, objectType, TypeKind.ObjectClass);
+                }
+            }
+
+            InsertGraphIfMissing(PersistenceProviderSQLite.HOST_GRAPH_ID, persistenceProvider.TypeNameToDbId["graph"]);
         }
 
-        private void CreateEdgesTable()
+        private void FillTypeWithAttributes(SQLiteCommand fillTypeCommand, InheritanceType type, TypeKind kind)
         {
-            persistenceProvider.CreateTable("edges", "edgeId",
-                "typeId", "INTEGER NOT NULL", // type defines table where attributes are stored
-                "sourceNodeId", "INTEGER NOT NULL",
-                "targetNodeId", "INTEGER NOT NULL",
-                "graphId", "INTEGER NOT NULL",
-                "name", "TEXT NOT NULL"
-                );
-            // AddIndex("edges", "graphId"); maybe add later again for quick graph purging 
+            FillType(fillTypeCommand, type, kind);
+            FillAttributeTypes(type);
         }
 
-        private void CreateGraphsTable()
+        private void FillType(SQLiteCommand fillTypeCommand, InheritanceType type, TypeKind kind)
         {
-            // only id and name for now, plus a by-now constant typeId, so a later extension by graph attributes and then by graph types is easy (multiple graph tables)
-            persistenceProvider.CreateTable("graphs", "graphId",
-                "typeId", "INTEGER NOT NULL",
-                "name", "TEXT NOT NULL"
-                );
+            fillTypeCommand.Parameters.Clear();
+            fillTypeCommand.Parameters.AddWithValue("@kind", (int)kind);
+            fillTypeCommand.Parameters.AddWithValue("@name", type.PackagePrefixedName); // may include colons which are removed from the table name
+
+            fillTypeCommand.Transaction = persistenceProvider.transaction;
+            int rowsAffected = fillTypeCommand.ExecuteNonQuery();
+
+            long rowId = persistenceProvider.connection.LastInsertRowId;
+            AddTypeNameWithDbIdToDbIdMapping(type.PackagePrefixedName, rowId); // the grgen type id from the model is only unique per kind, and not stable upon insert(/delete), so we use the name
         }
 
-        private void CreateObjectsTable()
+        private void FillAttributeTypes(InheritanceType type)
         {
-            persistenceProvider.CreateTable("objects", "objectId",
-                "typeId", "INTEGER NOT NULL",
-                "name", "TEXT NOT NULL"
-                );
+            using(SQLiteCommand fillAttributeTypeCommand = PrepareFillAttributeTypeCommand())
+            {
+                foreach(AttributeType attributeType in type.AttributeTypes)
+                {
+                    FillAttributeType(fillAttributeTypeCommand, attributeType, type);
+                }
+            }
         }
 
-        private void CreateTypesTable()
+        private long FillAttributeType(SQLiteCommand fillAttributeTypeCommand, AttributeType attributeType, InheritanceType type)
         {
-            persistenceProvider.CreateTable("types", "typeId",
-                "kind", "INT NOT NULL",
-                "name", "TEXT NOT NULL"
-                );
-        }
+            fillAttributeTypeCommand.Parameters.Clear();
+            fillAttributeTypeCommand.Parameters.AddWithValue("@typeId", persistenceProvider.TypeNameToDbId[type.PackagePrefixedName]);
+            fillAttributeTypeCommand.Parameters.AddWithValue("@attributeName", attributeType.Name);
+            fillAttributeTypeCommand.Parameters.AddWithValue("@xgrsType", TypesHelper.AttributeTypeToXgrsType(attributeType));
 
-        private void CreateAttributeTypesTable()
-        {
-            persistenceProvider.CreateTable("attributeTypes", "attributeTypeId",
-                "typeId", "INTEGER NOT NULL",
-                "attributeName", "TEXT NOT NULL",
-                "xgrsType", "TEXT NOT NULL"
-                );
-            persistenceProvider.AddIndex("attributeTypes", "typeId");
+            fillAttributeTypeCommand.Transaction = persistenceProvider.transaction;
+            int rowsAffected = fillAttributeTypeCommand.ExecuteNonQuery();
+
+            long rowId = persistenceProvider.connection.LastInsertRowId; // attributeTypeId
+            return rowId;
         }
 
         private void CreateInheritanceTypeTable(InheritanceType type, String idColumnName)
@@ -382,69 +453,28 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             persistenceProvider.AddIndex(tableName, ownerIdColumnName); // in order to delete without a full table scan (I assume small changesets in between database openings and decided for a by-default pruning on open - an alternative would be a full table replacement once in a while (would be ok in case of big changesets, as they would occur when a pruning run only occurs on explicit request, but such ones could be forgotten/missed unknowingly too easily, leading to (unexpected) slowness))
         }
 
-        private void AddAttributeToInheritanceTypeTable(InheritanceType type, AttributeType attributeType)
+        // todo: IfMissing is not needed anymore, just insert; often only db id mapping needed, but dbid should be queried...
+        private void InsertGraphIfMissing(long graphId, long typeId)
         {
-            String tableName = PersistenceProviderSQLite.GetUniqueTableName(type.Package, type.Name);
-            Debug.Assert(PersistenceProviderSQLite.IsAttributeTypeMappedToDatabaseColumn(attributeType));
-            String columnName = PersistenceProviderSQLite.GetUniqueColumnName(attributeType.Name);
-            String columnType = PersistenceProviderSQLite.ScalarAndReferenceTypeToSQLiteType(attributeType);
-
-            persistenceProvider.AddColumnToTable(tableName, columnName, columnType);
-        }
-
-        private void RemoveAttributeFromInheritanceTypeTable(string typeName, string attributeName)
-        {
-            String package;
-            String name;
-            UnpackPackagePrefixedName(typeName, out package, out name);
-            String tableName = PersistenceProviderSQLite.GetUniqueTableName(package, name);
-            String columnName = PersistenceProviderSQLite.GetUniqueColumnName(attributeName);
-
-            persistenceProvider.DropColumnFromTable(tableName, columnName);
-        }
-
-        private void DeleteInheritanceTypeTable(string typeName)
-        {
-            String package;
-            String name;
-            UnpackPackagePrefixedName(typeName, out package, out name);
-            String tableName = PersistenceProviderSQLite.GetUniqueTableName(package, name);
-
-            persistenceProvider.DropTable(tableName);
-        }
-
-        private void DeleteContainerTypeTable(string typeName, string attributeName)
-        {
-            String package;
-            String name;
-            UnpackPackagePrefixedName(typeName, out package, out name);
-            String tableName = PersistenceProviderSQLite.GetUniqueTableName(package, name, attributeName);
-
-            persistenceProvider.DropTable(tableName);
-        }
-
-        private static object DefaultValue(AttributeType attributeType)
-        {
-            switch(attributeType.Kind)
+            using(SQLiteCommand replaceHostGraphCommand = PrepareHostGraphInsert())
             {
-                case AttributeKind.ByteAttr: return (SByte)0;
-                case AttributeKind.ShortAttr: return (short)0;
-                case AttributeKind.IntegerAttr: return 0;
-                case AttributeKind.LongAttr: return 0L;
-                case AttributeKind.BooleanAttr: return 0;
-                case AttributeKind.StringAttr: return "";
-                case AttributeKind.EnumAttr: IEnumerator<EnumMember> it = attributeType.EnumType.Members.GetEnumerator(); it.MoveNext(); return it.Current.Name;
-                case AttributeKind.FloatAttr: return 0.0f;
-                case AttributeKind.DoubleAttr: return 0.0;
-                case AttributeKind.GraphAttr: return (object)DBNull.Value;
-                case AttributeKind.InternalClassObjectAttr: return (object)DBNull.Value;
-                case AttributeKind.NodeAttr: return (object)DBNull.Value;
-                case AttributeKind.EdgeAttr: return (object)DBNull.Value;
-                default: throw new Exception("Attribute type must be a scalar type or reference type");
+                replaceHostGraphCommand.Parameters.Clear();
+                replaceHostGraphCommand.Parameters.AddWithValue("@graphId", graphId);
+                replaceHostGraphCommand.Parameters.AddWithValue("@typeId", typeId);
+                replaceHostGraphCommand.Parameters.AddWithValue("@name", persistenceProvider.graph.Name);
+
+                replaceHostGraphCommand.Transaction = persistenceProvider.transaction;
+                int rowsAffected = replaceHostGraphCommand.ExecuteNonQuery();
+
+                long rowId = persistenceProvider.connection.LastInsertRowId;
+                Debug.Assert(rowId == graphId);
+                persistenceProvider.AddGraphWithDbIdToDbIdMapping(persistenceProvider.graph, rowId);
             }
         }
 
-        #region Types table populating/handling
+        #endregion Database initialization (including types table)
+
+        #region Database adaptation to type/attribute changes from the model
 
         private void AdaptDatabaseTypesToModelTypes()
         {
@@ -839,7 +869,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         }
                         string type = typeAttribute[0];
                         string attribute = typeAttribute[1];
-                        RemoveAttribute(removedAttributesAfterFiltering, typeChangedAttributesAfterFiltering, type, attribute);
+                        RemoveAttributeFromUpdateListThatRequiresUserConfirmation(removedAttributesAfterFiltering, typeChangedAttributesAfterFiltering, type, attribute);
                     }
                 }
             }
@@ -861,7 +891,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             return true;
         }
 
-        private static void RemoveAttribute(List<KeyValuePair<string, AttributeTypeFromDatabase>> removedAttributesAfterFiltering,
+        private static void RemoveAttributeFromUpdateListThatRequiresUserConfirmation(List<KeyValuePair<string, AttributeTypeFromDatabase>> removedAttributesAfterFiltering,
             List<KeyValuePair<InheritanceType, KeyValuePair<AttributeType, AttributeTypeFromDatabase>>> typeChangedAttributesAfterFiltering,
             string type, string attribute)
         {
@@ -894,34 +924,11 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             ConsoleUI.outWriter.WriteLine("Written file " + filename + " showing the partial flattened model expected by the host graph in the database.");
         }
 
-        private static string ExtractDataSourceName(string connectionParameters)
-        {
-            string sourceName = "dummyfilename";
-
-            string[] parameters = connectionParameters.Split(';');
-            foreach(string parameter in parameters)
-            {
-                if(parameter.StartsWith("source", true, System.Globalization.CultureInfo.InvariantCulture)
-                    || parameter.StartsWith("datasource", true, System.Globalization.CultureInfo.InvariantCulture)
-                    || parameter.StartsWith("data source", true, System.Globalization.CultureInfo.InvariantCulture))
-                {
-                    string[] keywordAndValue = parameter.Split('=');
-                    if(keywordAndValue.Length == 2)
-                    {
-                        string path = keywordAndValue[1].Trim();
-                        return Path.GetFileName(path);
-                    }
-                }
-            }
-
-            return sourceName;
-        }
-
         private void AddNewModelTypes(Dictionary<InheritanceType, SetValueType> newModelTypes)
         {
             foreach(InheritanceType entityType in newModelTypes.Keys)
             {
-                using(SQLiteCommand fillTypeCommand = GetFillTypeCommand())
+                using(SQLiteCommand fillTypeCommand = PrepareFillTypeCommand())
                 {
                     FillTypeWithAttributes(fillTypeCommand, entityType, ToKind(entityType));
                 }
@@ -989,7 +996,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         private void AddNewModelTypeAttribute(InheritanceType type, AttributeType attributeType)
         {
             // add new attribute to the attributeTypes table (corresponding type)
-            using(SQLiteCommand fillAttributeTypeCommand = GetFillAttributeTypeCommand())
+            using(SQLiteCommand fillAttributeTypeCommand = PrepareFillAttributeTypeCommand())
             {
                 FillAttributeType(fillAttributeTypeCommand, attributeType, type);
             }
@@ -1038,83 +1045,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 RemoveAttributeFromInheritanceTypeTable(typeName, attributeType.Name);
         }
 
-        private void AddModelTypesToTypesTable()
-        {
-            using(SQLiteCommand fillTypeCommand = GetFillTypeCommand())
-            {
-                FillTypeWithAttributes(fillTypeCommand, new GraphClassDummy(), TypeKind.GraphClass);
-
-                IGraphModel model = persistenceProvider.graph.Model;
-
-                foreach(NodeType nodeType in model.NodeModel.Types)
-                {
-                    FillTypeWithAttributes(fillTypeCommand, nodeType, TypeKind.NodeClass);
-                }
-                foreach(EdgeType edgeType in model.EdgeModel.Types)
-                {
-                    FillTypeWithAttributes(fillTypeCommand, edgeType, TypeKind.EdgeClass);
-                }
-                foreach(ObjectType objectType in model.ObjectModel.Types)
-                {
-                    FillTypeWithAttributes(fillTypeCommand, objectType, TypeKind.ObjectClass);
-                }
-            }
-
-            InsertGraphIfMissing(PersistenceProviderSQLite.HOST_GRAPH_ID, persistenceProvider.TypeNameToDbId["graph"]);
-        }
-
-        private void FillTypeWithAttributes(SQLiteCommand fillTypeCommand, InheritanceType type, TypeKind kind)
-        {
-            FillType(fillTypeCommand, type, kind);
-            FillAttributeTypes(type);
-        }
-
-        private void FillType(SQLiteCommand fillTypeCommand, InheritanceType type, TypeKind kind)
-        {
-            fillTypeCommand.Parameters.Clear();
-            fillTypeCommand.Parameters.AddWithValue("@kind", (int)kind);
-            fillTypeCommand.Parameters.AddWithValue("@name", type.PackagePrefixedName); // may include colons which are removed from the table name
-
-            fillTypeCommand.Transaction = persistenceProvider.transaction;
-            int rowsAffected = fillTypeCommand.ExecuteNonQuery();
-
-            long rowId = persistenceProvider.connection.LastInsertRowId;
-            AddTypeNameWithDbIdToDbIdMapping(type.PackagePrefixedName, rowId); // the grgen type id from the model is only unique per kind, and not stable upon insert(/delete), so we use the name
-        }
-
-        private SQLiteCommand GetFillTypeCommand()
-        {
-            String tableName = "types";
-            StringBuilder columnNames = new StringBuilder();
-            StringBuilder parameterNames = new StringBuilder();
-            PersistenceProviderSQLite.AddInsertParameter(columnNames, parameterNames, "kind");
-            PersistenceProviderSQLite.AddInsertParameter(columnNames, parameterNames, "name");
-
-            StringBuilder command = new StringBuilder();
-            command.Append("INSERT INTO ");
-            command.Append(tableName);
-            command.Append("(");
-            command.Append(columnNames.ToString());
-            command.Append(")");
-            command.Append(" VALUES");
-            command.Append("(");
-            command.Append(parameterNames.ToString());
-            command.Append(")");
-
-            return new SQLiteCommand(command.ToString(), persistenceProvider.connection);
-        }
-
-        private void FillAttributeTypes(InheritanceType type)
-        {
-            using(SQLiteCommand fillAttributeTypeCommand = GetFillAttributeTypeCommand())
-            {
-                foreach(AttributeType attributeType in type.AttributeTypes)
-                {
-                    FillAttributeType(fillAttributeTypeCommand, attributeType, type);
-                }
-            }
-        }
-
         private void RemoveAttributeTypes(SQLiteCommand removeTypeFromAttributeTypesCommand, long dbid)
         {
             removeTypeFromAttributeTypesCommand.Parameters.Clear();
@@ -1142,41 +1072,64 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             int rowsAffected = removeTypeCommand.ExecuteNonQuery();
         }
 
-        private long FillAttributeType(SQLiteCommand fillAttributeTypeCommand, AttributeType attributeType, InheritanceType type)
+        private void AddAttributeToInheritanceTypeTable(InheritanceType type, AttributeType attributeType)
         {
-            fillAttributeTypeCommand.Parameters.Clear();
-            fillAttributeTypeCommand.Parameters.AddWithValue("@typeId", persistenceProvider.TypeNameToDbId[type.PackagePrefixedName]);
-            fillAttributeTypeCommand.Parameters.AddWithValue("@attributeName", attributeType.Name);
-            fillAttributeTypeCommand.Parameters.AddWithValue("@xgrsType", TypesHelper.AttributeTypeToXgrsType(attributeType));
+            String tableName = PersistenceProviderSQLite.GetUniqueTableName(type.Package, type.Name);
+            Debug.Assert(PersistenceProviderSQLite.IsAttributeTypeMappedToDatabaseColumn(attributeType));
+            String columnName = PersistenceProviderSQLite.GetUniqueColumnName(attributeType.Name);
+            String columnType = PersistenceProviderSQLite.ScalarAndReferenceTypeToSQLiteType(attributeType);
 
-            fillAttributeTypeCommand.Transaction = persistenceProvider.transaction;
-            int rowsAffected = fillAttributeTypeCommand.ExecuteNonQuery();
-
-            long rowId = persistenceProvider.connection.LastInsertRowId; // attributeTypeId
-            return rowId;
+            persistenceProvider.AddColumnToTable(tableName, columnName, columnType);
         }
 
-        private SQLiteCommand GetFillAttributeTypeCommand()
+        private void RemoveAttributeFromInheritanceTypeTable(string typeName, string attributeName)
         {
-            String tableName = "attributeTypes";
-            StringBuilder columnNames = new StringBuilder();
-            StringBuilder parameterNames = new StringBuilder();
-            PersistenceProviderSQLite.AddInsertParameter(columnNames, parameterNames, "typeId");
-            PersistenceProviderSQLite.AddInsertParameter(columnNames, parameterNames, "attributeName");
-            PersistenceProviderSQLite.AddInsertParameter(columnNames, parameterNames, "xgrsType");
+            String package;
+            String name;
+            UnpackPackagePrefixedName(typeName, out package, out name);
+            String tableName = PersistenceProviderSQLite.GetUniqueTableName(package, name);
+            String columnName = PersistenceProviderSQLite.GetUniqueColumnName(attributeName);
 
-            StringBuilder command = new StringBuilder();
-            command.Append("INSERT INTO ");
-            command.Append(tableName);
-            command.Append("(");
-            command.Append(columnNames.ToString());
-            command.Append(")");
-            command.Append(" VALUES");
-            command.Append("(");
-            command.Append(parameterNames.ToString());
-            command.Append(")");
+            persistenceProvider.DropColumnFromTable(tableName, columnName);
+        }
 
-            return new SQLiteCommand(command.ToString(), persistenceProvider.connection);
+        private void DeleteInheritanceTypeTable(string typeName)
+        {
+            String package;
+            String name;
+            UnpackPackagePrefixedName(typeName, out package, out name);
+            String tableName = PersistenceProviderSQLite.GetUniqueTableName(package, name);
+
+            persistenceProvider.DropTable(tableName);
+        }
+
+        private void DeleteContainerTypeTable(string typeName, string attributeName)
+        {
+            String package;
+            String name;
+            UnpackPackagePrefixedName(typeName, out package, out name);
+            String tableName = PersistenceProviderSQLite.GetUniqueTableName(package, name, attributeName);
+
+            persistenceProvider.DropTable(tableName);
+        }
+
+        private bool TypeHasInstances(String typeName, TypeKind typeKind)
+        {
+            string idColumnName = ToIdColumnName(typeKind);
+            using(SQLiteCommand command = PrepareTypeHasInstancesQuery(typeName, idColumnName))
+            {
+                command.Transaction = persistenceProvider.transaction;
+                using(SQLiteDataReader reader = command.ExecuteReader())
+                {
+                    Dictionary<string, int> nameToColumnIndex = PersistenceProviderSQLite.GetNameToColumnIndexMapping(reader);
+                    while(reader.Read())
+                    {
+                        long result = reader.GetInt64(0);
+                        return result != 0;
+                    }
+                }
+            }
+            return false;
         }
 
         private Dictionary<string, TypeKind> ReadKnownTypes()
@@ -1205,23 +1158,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
 
             return typeNameToKind;
-        }
-
-        private SQLiteCommand PrepareStatementsForReadingKnownTypes()
-        {
-            String tableName = "types";
-            StringBuilder columnNames = new StringBuilder();
-            PersistenceProviderSQLite.AddQueryColumn(columnNames, "typeId");
-            PersistenceProviderSQLite.AddQueryColumn(columnNames, "kind");
-            PersistenceProviderSQLite.AddQueryColumn(columnNames, "name");
-
-            StringBuilder command = new StringBuilder();
-            command.Append("SELECT ");
-            command.Append(columnNames.ToString());
-            command.Append(" FROM ");
-            command.Append(tableName);
-
-            return new SQLiteCommand(command.ToString(), persistenceProvider.connection);
         }
 
         private Dictionary<string, AttributeTypesFromDatabase> ReadKnownTypesWithAttributes()
@@ -1269,84 +1205,54 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             return typeNameToAttributeTypes;
         }
 
-        private SQLiteCommand PrepareStatementsForReadingKnownTypesWithAttributes()
+        #endregion Database adaptation to type/attribute changes from the model
+
+        #region Database-to-Model updating handling preparations / command/statement generation
+
+        private SQLiteCommand PrepareFillTypeCommand()
         {
+            String tableName = "types";
             StringBuilder columnNames = new StringBuilder();
-            PersistenceProviderSQLite.AddQueryColumn(columnNames, "types.typeId");
-            PersistenceProviderSQLite.AddQueryColumn(columnNames, "kind");
-            PersistenceProviderSQLite.AddQueryColumn(columnNames, "name");
-            PersistenceProviderSQLite.AddQueryColumn(columnNames, "attributeTypeId");
-            PersistenceProviderSQLite.AddQueryColumn(columnNames, "attributeName");
-            PersistenceProviderSQLite.AddQueryColumn(columnNames, "xgrsType");
+            StringBuilder parameterNames = new StringBuilder();
+            PersistenceProviderSQLite.AddInsertParameter(columnNames, parameterNames, "kind");
+            PersistenceProviderSQLite.AddInsertParameter(columnNames, parameterNames, "name");
 
             StringBuilder command = new StringBuilder();
-            command.Append("SELECT ");
-            command.Append(columnNames.ToString());
-            command.Append(" FROM ");
-            command.Append("types");
-            command.Append(" LEFT JOIN ");
-            command.Append("attributeTypes");
-            command.Append(" ON (types.typeId == attributeTypes.typeId)");
-
-            return new SQLiteCommand(command.ToString(), persistenceProvider.connection);
-        }
-
-        // todo: IfMissing is not needed anymore, just insert; often only db id mapping needed, but dbid should be queried...
-        private void InsertGraphIfMissing(long graphId, long typeId)
-        {
-            using(SQLiteCommand replaceHostGraphCommand = PrepareHostGraphInsert())
-            {
-                replaceHostGraphCommand.Parameters.Clear();
-                replaceHostGraphCommand.Parameters.AddWithValue("@graphId", graphId);
-                replaceHostGraphCommand.Parameters.AddWithValue("@typeId", typeId);
-                replaceHostGraphCommand.Parameters.AddWithValue("@name", persistenceProvider.graph.Name);
-
-                replaceHostGraphCommand.Transaction = persistenceProvider.transaction;
-                int rowsAffected = replaceHostGraphCommand.ExecuteNonQuery();
-
-                long rowId = persistenceProvider.connection.LastInsertRowId;
-                Debug.Assert(rowId == graphId);
-                persistenceProvider.AddGraphWithDbIdToDbIdMapping(persistenceProvider.graph, rowId);
-            }
-        }
-
-        private bool TypeHasInstances(String typeName, TypeKind typeKind)
-        {
-            string idColumnName = ToIdColumnName(typeKind);
-            using(SQLiteCommand command = GetTypeHasInstancesQuery(typeName, idColumnName))
-            {
-                command.Transaction = persistenceProvider.transaction;
-                using(SQLiteDataReader reader = command.ExecuteReader())
-                {
-                    Dictionary<string, int> nameToColumnIndex = PersistenceProviderSQLite.GetNameToColumnIndexMapping(reader);
-                    while(reader.Read())
-                    {
-                        long result = reader.GetInt64(0);
-                        return result != 0;
-                    }
-                }
-            }
-            return false;
-        }
-
-        private SQLiteCommand GetTypeHasInstancesQuery(String typeName, String idColumnName)
-        {
-            String package;
-            String name;
-            UnpackPackagePrefixedName(typeName, out package, out name);
-            String tableName = PersistenceProviderSQLite.GetUniqueTableName(package, name);
-
-            StringBuilder command = new StringBuilder();
-            command.Append("SELECT EXISTS(");
-            command.Append("SELECT ");
-            command.Append(idColumnName);
-            command.Append(" FROM ");
+            command.Append("INSERT INTO ");
             command.Append(tableName);
+            command.Append("(");
+            command.Append(columnNames.ToString());
             command.Append(")");
+            command.Append(" VALUES");
+            command.Append("(");
+            command.Append(parameterNames.ToString());
+            command.Append(")");
+
             return new SQLiteCommand(command.ToString(), persistenceProvider.connection);
         }
 
-        #endregion Types table populating/handling
+        private SQLiteCommand PrepareFillAttributeTypeCommand()
+        {
+            String tableName = "attributeTypes";
+            StringBuilder columnNames = new StringBuilder();
+            StringBuilder parameterNames = new StringBuilder();
+            PersistenceProviderSQLite.AddInsertParameter(columnNames, parameterNames, "typeId");
+            PersistenceProviderSQLite.AddInsertParameter(columnNames, parameterNames, "attributeName");
+            PersistenceProviderSQLite.AddInsertParameter(columnNames, parameterNames, "xgrsType");
+
+            StringBuilder command = new StringBuilder();
+            command.Append("INSERT INTO ");
+            command.Append(tableName);
+            command.Append("(");
+            command.Append(columnNames.ToString());
+            command.Append(")");
+            command.Append(" VALUES");
+            command.Append("(");
+            command.Append(parameterNames.ToString());
+            command.Append(")");
+
+            return new SQLiteCommand(command.ToString(), persistenceProvider.connection);
+        }
 
         private SQLiteCommand PrepareHostGraphInsert()
         {
@@ -1397,7 +1303,109 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             return new SQLiteCommand(command.ToString(), persistenceProvider.connection);
         }
 
-        #region Simple mapping code
+        private SQLiteCommand PrepareTypeHasInstancesQuery(String typeName, String idColumnName)
+        {
+            String package;
+            String name;
+            UnpackPackagePrefixedName(typeName, out package, out name);
+            String tableName = PersistenceProviderSQLite.GetUniqueTableName(package, name);
+
+            StringBuilder command = new StringBuilder();
+            command.Append("SELECT EXISTS(");
+            command.Append("SELECT ");
+            command.Append(idColumnName);
+            command.Append(" FROM ");
+            command.Append(tableName);
+            command.Append(")");
+            return new SQLiteCommand(command.ToString(), persistenceProvider.connection);
+        }
+
+        private SQLiteCommand PrepareStatementsForReadingKnownTypes()
+        {
+            String tableName = "types";
+            StringBuilder columnNames = new StringBuilder();
+            PersistenceProviderSQLite.AddQueryColumn(columnNames, "typeId");
+            PersistenceProviderSQLite.AddQueryColumn(columnNames, "kind");
+            PersistenceProviderSQLite.AddQueryColumn(columnNames, "name");
+
+            StringBuilder command = new StringBuilder();
+            command.Append("SELECT ");
+            command.Append(columnNames.ToString());
+            command.Append(" FROM ");
+            command.Append(tableName);
+
+            return new SQLiteCommand(command.ToString(), persistenceProvider.connection);
+        }
+
+        private SQLiteCommand PrepareStatementsForReadingKnownTypesWithAttributes()
+        {
+            StringBuilder columnNames = new StringBuilder();
+            PersistenceProviderSQLite.AddQueryColumn(columnNames, "types.typeId");
+            PersistenceProviderSQLite.AddQueryColumn(columnNames, "kind");
+            PersistenceProviderSQLite.AddQueryColumn(columnNames, "name");
+            PersistenceProviderSQLite.AddQueryColumn(columnNames, "attributeTypeId");
+            PersistenceProviderSQLite.AddQueryColumn(columnNames, "attributeName");
+            PersistenceProviderSQLite.AddQueryColumn(columnNames, "xgrsType");
+
+            StringBuilder command = new StringBuilder();
+            command.Append("SELECT ");
+            command.Append(columnNames.ToString());
+            command.Append(" FROM ");
+            command.Append("types");
+            command.Append(" LEFT JOIN ");
+            command.Append("attributeTypes");
+            command.Append(" ON (types.typeId == attributeTypes.typeId)");
+
+            return new SQLiteCommand(command.ToString(), persistenceProvider.connection);
+        }
+
+        #endregion Database-to-Model updating handling preparations / command/statement generation
+
+        #region Helper code, esp. simple mapping code
+
+        private static object DefaultValue(AttributeType attributeType)
+        {
+            switch(attributeType.Kind)
+            {
+                case AttributeKind.ByteAttr: return (SByte)0;
+                case AttributeKind.ShortAttr: return (short)0;
+                case AttributeKind.IntegerAttr: return 0;
+                case AttributeKind.LongAttr: return 0L;
+                case AttributeKind.BooleanAttr: return 0;
+                case AttributeKind.StringAttr: return "";
+                case AttributeKind.EnumAttr: IEnumerator<EnumMember> it = attributeType.EnumType.Members.GetEnumerator(); it.MoveNext(); return it.Current.Name;
+                case AttributeKind.FloatAttr: return 0.0f;
+                case AttributeKind.DoubleAttr: return 0.0;
+                case AttributeKind.GraphAttr: return (object)DBNull.Value;
+                case AttributeKind.InternalClassObjectAttr: return (object)DBNull.Value;
+                case AttributeKind.NodeAttr: return (object)DBNull.Value;
+                case AttributeKind.EdgeAttr: return (object)DBNull.Value;
+                default: throw new Exception("Attribute type must be a scalar type or reference type");
+            }
+        }
+
+        private static string ExtractDataSourceName(string connectionParameters)
+        {
+            string sourceName = "dummyfilename";
+
+            string[] parameters = connectionParameters.Split(';');
+            foreach(string parameter in parameters)
+            {
+                if(parameter.StartsWith("source", true, System.Globalization.CultureInfo.InvariantCulture)
+                    || parameter.StartsWith("datasource", true, System.Globalization.CultureInfo.InvariantCulture)
+                    || parameter.StartsWith("data source", true, System.Globalization.CultureInfo.InvariantCulture))
+                {
+                    string[] keywordAndValue = parameter.Split('=');
+                    if(keywordAndValue.Length == 2)
+                    {
+                        string path = keywordAndValue[1].Trim();
+                        return Path.GetFileName(path);
+                    }
+                }
+            }
+
+            return sourceName;
+        }
 
         private static string ToString(TypeKind kind)
         {
@@ -1471,7 +1479,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             return false;
         }
 
-        #endregion Simple mapping code
+        #endregion Helper code, esp. simple mapping code
 
         #region Database id from/to concept mapping maintenance
 

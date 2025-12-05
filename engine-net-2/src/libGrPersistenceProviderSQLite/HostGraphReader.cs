@@ -50,58 +50,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
 
-            INodeModel nodeModel = persistenceProvider.graph.Model.NodeModel;
-            IEdgeModel edgeModel = persistenceProvider.graph.Model.EdgeModel;
-            IObjectModel objectModel = persistenceProvider.graph.Model.ObjectModel;
-
             // prepare statements for initial graph fetching
-            readGraphsCommand = PrepareStatementForReadingGraphs();
-
-            readNodeCommands = new SQLiteCommand[nodeModel.Types.Length];
-            readNodeContainerCommands = new Dictionary<String, SQLiteCommand>[nodeModel.Types.Length];
-            readEdgeCommands = new SQLiteCommand[edgeModel.Types.Length];
-            readEdgeContainerCommands = new Dictionary<String, SQLiteCommand>[edgeModel.Types.Length];
-
-            foreach(NodeType nodeType in nodeModel.Types)
-            {
-                readNodeCommands[nodeType.TypeID] = PrepareStatementsForReadingNodesIncludingZombieNodes(nodeType);
-
-                readNodeContainerCommands[nodeType.TypeID] = new Dictionary<string, SQLiteCommand>();
-                foreach(AttributeType attributeType in nodeType.AttributeTypes)
-                {
-                    if(!PersistenceProviderSQLite.IsContainerType(attributeType))
-                        continue;
-                    readNodeContainerCommands[nodeType.TypeID].Add(attributeType.Name, PrepareStatementsForReadingContainerAttributes(nodeType, "nodeId", attributeType));
-                }
-            }
-            foreach(EdgeType edgeType in edgeModel.Types)
-            {
-                readEdgeCommands[edgeType.TypeID] = PrepareStatementsForReadingEdgesIncludingZombieEdges(edgeType);
-
-                readEdgeContainerCommands[edgeType.TypeID] = new Dictionary<string, SQLiteCommand>();
-                foreach(AttributeType attributeType in edgeType.AttributeTypes)
-                {
-                    if(!PersistenceProviderSQLite.IsContainerType(attributeType))
-                        continue;
-                    readEdgeContainerCommands[edgeType.TypeID].Add(attributeType.Name, PrepareStatementsForReadingContainerAttributes(edgeType, "edgeId", attributeType));
-                }
-            }
-
-            readObjectCommands = new SQLiteCommand[objectModel.Types.Length];
-            readObjectContainerCommands = new Dictionary<String, SQLiteCommand>[objectModel.Types.Length];
-
-            foreach(ObjectType objectType in objectModel.Types)
-            {
-                readObjectCommands[objectType.TypeID] = PrepareStatementsForReadingObjects(objectType);
-
-                readObjectContainerCommands[objectType.TypeID] = new Dictionary<string, SQLiteCommand>();
-                foreach(AttributeType attributeType in objectType.AttributeTypes)
-                {
-                    if(!PersistenceProviderSQLite.IsContainerType(attributeType))
-                        continue;
-                    readObjectContainerCommands[objectType.TypeID].Add(attributeType.Name, PrepareStatementsForReadingContainerAttributes(objectType, "objectId", attributeType));
-                }
-            }
+            PrepareStatementsForGraphReading();
 
             using(persistenceProvider.transaction = persistenceProvider.connection.BeginTransaction())
             {
@@ -109,6 +59,10 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 {
                     // pass 0 - load all graphs (without elements and without the host graph, which was already processed/inserted before) (an alternative would be to load only the host graph, and the others on-demand lazily, creating proxy objects for them - but this would be more coding effort, defy purging, and when carrying out eager loading, it's better not to load graph-by-graph but all at once; later todo when graph types are introduced: load by type)
                     ReadGraphsWithoutHostGraph();
+
+                    INodeModel nodeModel = persistenceProvider.graph.Model.NodeModel;
+                    IEdgeModel edgeModel = persistenceProvider.graph.Model.EdgeModel;
+                    IObjectModel objectModel = persistenceProvider.graph.Model.ObjectModel;
 
                     // pass 1 - load all elements (first nodes then edges, dispatching them to their containing graph in case they are not zombie nodes/edges)
                     foreach(NodeType nodeType in nodeModel.Types)
@@ -181,6 +135,64 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 persistenceProvider.NumNodesInDatabase, persistenceProvider.NumEdgesInDatabase, persistenceProvider.NumGraphsInDatabase, persistenceProvider.NumObjectsInDatabase, stopwatch.ElapsedMilliseconds);
         }
 
+        #region Graph reading handling preparations
+
+        private void PrepareStatementsForGraphReading()
+        {
+            INodeModel nodeModel = persistenceProvider.graph.Model.NodeModel;
+            IEdgeModel edgeModel = persistenceProvider.graph.Model.EdgeModel;
+            IObjectModel objectModel = persistenceProvider.graph.Model.ObjectModel;
+
+            // prepare statements for initial graph fetching
+            readGraphsCommand = PrepareStatementForReadingGraphs();
+
+            readNodeCommands = new SQLiteCommand[nodeModel.Types.Length];
+            readNodeContainerCommands = new Dictionary<String, SQLiteCommand>[nodeModel.Types.Length];
+            readEdgeCommands = new SQLiteCommand[edgeModel.Types.Length];
+            readEdgeContainerCommands = new Dictionary<String, SQLiteCommand>[edgeModel.Types.Length];
+
+            foreach(NodeType nodeType in nodeModel.Types)
+            {
+                readNodeCommands[nodeType.TypeID] = PrepareStatementsForReadingNodesIncludingZombieNodes(nodeType);
+
+                readNodeContainerCommands[nodeType.TypeID] = new Dictionary<string, SQLiteCommand>();
+                foreach(AttributeType attributeType in nodeType.AttributeTypes)
+                {
+                    if(!PersistenceProviderSQLite.IsContainerType(attributeType))
+                        continue;
+                    readNodeContainerCommands[nodeType.TypeID].Add(attributeType.Name, PrepareStatementsForReadingContainerAttributes(nodeType, "nodeId", attributeType));
+                }
+            }
+            foreach(EdgeType edgeType in edgeModel.Types)
+            {
+                readEdgeCommands[edgeType.TypeID] = PrepareStatementsForReadingEdgesIncludingZombieEdges(edgeType);
+
+                readEdgeContainerCommands[edgeType.TypeID] = new Dictionary<string, SQLiteCommand>();
+                foreach(AttributeType attributeType in edgeType.AttributeTypes)
+                {
+                    if(!PersistenceProviderSQLite.IsContainerType(attributeType))
+                        continue;
+                    readEdgeContainerCommands[edgeType.TypeID].Add(attributeType.Name, PrepareStatementsForReadingContainerAttributes(edgeType, "edgeId", attributeType));
+                }
+            }
+
+            readObjectCommands = new SQLiteCommand[objectModel.Types.Length];
+            readObjectContainerCommands = new Dictionary<String, SQLiteCommand>[objectModel.Types.Length];
+
+            foreach(ObjectType objectType in objectModel.Types)
+            {
+                readObjectCommands[objectType.TypeID] = PrepareStatementsForReadingObjects(objectType);
+
+                readObjectContainerCommands[objectType.TypeID] = new Dictionary<string, SQLiteCommand>();
+                foreach(AttributeType attributeType in objectType.AttributeTypes)
+                {
+                    if(!PersistenceProviderSQLite.IsContainerType(attributeType))
+                        continue;
+                    readObjectContainerCommands[objectType.TypeID].Add(attributeType.Name, PrepareStatementsForReadingContainerAttributes(objectType, "objectId", attributeType));
+                }
+            }
+        }
+
         private SQLiteCommand PrepareStatementForReadingGraphs()
         {
             String topologyTableName = "graphs";
@@ -195,26 +207,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             command.Append(" FROM ");
             command.Append(topologyTableName);
             return new SQLiteCommand(command.ToString(), persistenceProvider.connection);
-        }
-
-        private void ReadGraphsWithoutHostGraph()
-        {
-            readGraphsCommand.Transaction = persistenceProvider.transaction;
-            using(SQLiteDataReader reader = readGraphsCommand.ExecuteReader())
-            {
-                Dictionary<string, int> attributeNameToColumnIndex = PersistenceProviderSQLite.GetNameToColumnIndexMapping(reader);
-
-                while(reader.Read())
-                {
-                    long graphId = reader.GetInt64(attributeNameToColumnIndex["graphId"]);
-                    if(graphId == PersistenceProviderSQLite.HOST_GRAPH_ID)
-                        continue; // skip host graph - the host graph is contained in the graphs table with id HOST_GRAPH_ID and corresponds to the bottom element of the graphs stack, which coincides with graph at this point, being the top element of the graphs stack 
-                    long typeId = reader.GetInt64(attributeNameToColumnIndex["typeId"]);
-                    String name = reader.GetString(attributeNameToColumnIndex["name"]);
-                    INamedGraph graph = (INamedGraph)persistenceProvider.graph.CreateEmptyEquivalent(name); // somewhen later: create based on typeId
-                    persistenceProvider.AddGraphWithDbIdToDbIdMapping(graph, graphId);
-                }
-            }
         }
 
         private SQLiteCommand PrepareStatementsForReadingNodesIncludingZombieNodes(NodeType nodeType)
@@ -312,6 +304,28 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             command.Append(" FROM ");
             command.Append(tableName);
             return new SQLiteCommand(command.ToString(), persistenceProvider.connection);
+        }
+
+        #endregion Graph reading handling preparations
+
+        private void ReadGraphsWithoutHostGraph()
+        {
+            readGraphsCommand.Transaction = persistenceProvider.transaction;
+            using(SQLiteDataReader reader = readGraphsCommand.ExecuteReader())
+            {
+                Dictionary<string, int> attributeNameToColumnIndex = PersistenceProviderSQLite.GetNameToColumnIndexMapping(reader);
+
+                while(reader.Read())
+                {
+                    long graphId = reader.GetInt64(attributeNameToColumnIndex["graphId"]);
+                    if(graphId == PersistenceProviderSQLite.HOST_GRAPH_ID)
+                        continue; // skip host graph - the host graph is contained in the graphs table with id HOST_GRAPH_ID and corresponds to the bottom element of the graphs stack, which coincides with graph at this point, being the top element of the graphs stack 
+                    long typeId = reader.GetInt64(attributeNameToColumnIndex["typeId"]);
+                    String name = reader.GetString(attributeNameToColumnIndex["name"]);
+                    INamedGraph graph = (INamedGraph)persistenceProvider.graph.CreateEmptyEquivalent(name); // somewhen later: create based on typeId
+                    persistenceProvider.AddGraphWithDbIdToDbIdMapping(graph, graphId);
+                }
+            }
         }
 
         private void ReadNodesIncludingZombieNodes(NodeType nodeType, SQLiteCommand readNodeCommand)

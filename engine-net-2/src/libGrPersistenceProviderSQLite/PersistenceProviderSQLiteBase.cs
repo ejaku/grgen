@@ -28,6 +28,9 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         internal SQLiteConnection connection;
         internal SQLiteTransaction transaction;
 
+        internal String connectionParameters;
+        internal String persistentGraphParameters;
+
         // database id to concept mappings, and vice versa
         internal Dictionary<long, INode> DbIdToNode; // the ids in node/edge mappings are globally unique due to the topology tables, the per-type tables only reference them
         internal Dictionary<INode, long> NodeToDbId;
@@ -39,9 +42,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         internal Dictionary<IObject, long> ObjectToDbId;
         internal Dictionary<long, string> DbIdToTypeName;
         internal Dictionary<string, long> TypeNameToDbId;
-
-        internal String connectionParameters;
-        internal String persistentGraphParameters;
 
 
         protected PersistenceProviderSQLiteBase()
@@ -57,6 +57,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             DbIdToTypeName = new Dictionary<long, string>();
             TypeNameToDbId = new Dictionary<string, long>();
         }
+
+        #region Common code related to types / attribute types
 
         internal static bool ModelContainsGraphElementReferences(IGraphModel model)
         {
@@ -196,6 +198,10 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 default: throw new Exception("Attribute type must be a scalar type or reference type");
             }
         }
+
+        #endregion Common code related to types / attribute types
+
+        #region Database infrastructure code
 
         internal void CreateTable(String tableName, String idColumnName, params String[] columnNamesAndTypes)
         {
@@ -396,6 +402,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 columnNames.Append(", ");
             columnNames.Append(name);
         }
+
+        #endregion Database infrastructure code
 
         #region Database id from/to concept mapping maintenance
 
