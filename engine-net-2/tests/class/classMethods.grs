@@ -1,0 +1,25 @@
+new graph "class/classMethods.grg"
+
+exec dd:Diamond ;> { dd = new Diamond(); dd.i = 1 } ;> methodCallIf(dd)
+
+exec dd:Diamond ;> { dd = new Diamond(); dd.i = 1 } ;> (::res)=methodCallYield(dd)
+show var res
+
+exec dd:Diamond ;> { dd = new Diamond(); dd.i = 1 } ;> methodCallEval(dd) ;> { ::d = dd }
+show var d
+
+exec methodCallExecStaticType
+show var rres
+rres = 0
+
+exec methodCallExecDynamicType
+show var rres
+
+exec d:Diamond ;> { d = new Diamond(); d.set_i(21); ::rres = d.f(21) }
+show var rres
+rres = 0
+
+exec { ::d=new Diamond(); ::d.set_i(21); ::rres = ::d.f(21) }
+show var rres
+
+quit

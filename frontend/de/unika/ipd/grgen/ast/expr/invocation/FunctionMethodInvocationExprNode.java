@@ -19,6 +19,7 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
+import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
@@ -98,7 +99,7 @@ public class FunctionMethodInvocationExprNode extends FunctionInvocationBaseNode
 		}
 
 		if(ownerResolveResult && owner != null
-				&& (owner instanceof NodeDeclNode || owner instanceof EdgeDeclNode)) {
+				&& (owner instanceof NodeDeclNode || owner instanceof EdgeDeclNode || owner instanceof VarDeclNode)) {
 			TypeNode ownerType = owner.getDeclType();
 			if(ownerType instanceof ScopeOwner) {
 				ScopeOwner o = (ScopeOwner)ownerType;
@@ -117,7 +118,8 @@ public class FunctionMethodInvocationExprNode extends FunctionInvocationBaseNode
 				successfullyResolved = false;
 			}
 		} else {
-			reportError("Left hand side of '.' is neither a node nor an edge.");
+			reportError("Left hand side of '.' is neither a node nor an edge nor a variable"
+					+ (owner != null && owner.getDeclType() != null ? " (type " + owner.getDeclType().toStringWithDeclarationCoords() + ")." : ".") );
 			successfullyResolved = false;
 		}
 

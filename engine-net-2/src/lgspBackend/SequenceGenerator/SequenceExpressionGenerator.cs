@@ -1700,7 +1700,7 @@ namespace de.unika.ipd.grGen.lgsp
             StringBuilder sb = new StringBuilder();
             if(seqFuncCall.TargetExpr.Type(env) == "")
             {
-                sb.Append("((GRGEN_LIBGR.IGraphElement)");
+                sb.Append("((GRGEN_LIBGR.IAttributeBearer)");
                 sb.Append(GetSequenceExpression(seqFuncCall.TargetExpr, source));
                 sb.Append(").ApplyFunctionMethod(procEnv, graph, ");
                 sb.Append("\"" + seqFuncCall.Name + "\"");

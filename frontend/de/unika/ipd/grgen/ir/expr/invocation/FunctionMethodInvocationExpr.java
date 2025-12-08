@@ -15,6 +15,7 @@ import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.executable.Function;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.ir.type.Type;
 
 /**
@@ -50,8 +51,12 @@ public class FunctionMethodInvocationExpr extends FunctionInvocationBaseExpr
 	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		if(!isGlobalVariable(owner))
-			needs.add((GraphEntity)owner);
+		if(!isGlobalVariable(owner)) {
+			if(owner instanceof GraphEntity)
+				needs.add((GraphEntity)owner);
+			else
+				needs.add((Variable)owner);
+		}
 		for(Expression child : getWalkableChildren()) {
 			child.collectNeededEntities(needs);
 		}

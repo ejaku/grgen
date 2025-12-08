@@ -1,0 +1,39 @@
+#using "class.gm"
+
+test methodCallIf(ref d:Diamond)
+{
+	if { d.f(42) == 43; }
+}
+
+test methodCallYield(ref d:Diamond) : (int)
+{
+	---
+	def var res:int;
+	yield { yield res = d.f(42); }
+	return(res);
+}
+
+rule methodCallEval(ref d:Diamond)
+{
+	modify {
+		eval { d.set_i(d.f(1)); }
+	}
+}
+
+rule methodCallExecStaticType : (Diamond)
+{
+	modify {
+	---
+		def ref d:Diamond;
+		exec({ yield d=new Diamond(); d.set_i(21); ::rres = d.f(21) });
+		return(d); 
+	}
+}
+
+rule methodCallExecDynamicType
+{
+	modify {
+	---
+		exec({ ::d=new Diamond(); ::d.set_i(21); ::rres = ::d.f(21) });
+	}
+}

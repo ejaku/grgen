@@ -17,6 +17,7 @@ import de.unika.ipd.grgen.ir.executable.Procedure;
 import de.unika.ipd.grgen.ir.executable.ProcedureBase;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.pattern.GraphEntity;
+import de.unika.ipd.grgen.ir.pattern.Variable;
 
 /**
  * A procedure method invocation.
@@ -57,8 +58,12 @@ public class ProcedureMethodInvocation extends ProcedureInvocationBase
 	@Override
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		if(!isGlobalVariable(owner))
-			needs.add((GraphEntity)owner);
+		if(!isGlobalVariable(owner)) {
+			if(owner instanceof GraphEntity)
+				needs.add((GraphEntity)owner);
+			else
+				needs.add((Variable)owner);	
+		}
 		for(Expression child : getWalkableChildren()) {
 			child.collectNeededEntities(needs);
 		}

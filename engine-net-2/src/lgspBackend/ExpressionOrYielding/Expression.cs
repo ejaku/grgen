@@ -2389,10 +2389,11 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class FunctionMethodInvocation : FunctionInvocation
     {
-        public FunctionMethodInvocation(String ownerType, String owner, String functionName, Expression[] arguments, String[] argumentTypes)
+        public FunctionMethodInvocation(String ownerType, bool isGraphElementType, String owner, String functionName, Expression[] arguments, String[] argumentTypes)
             : base("", functionName, arguments, argumentTypes)
         {
             OwnerType = ownerType;
+            IsGraphElementType = isGraphElementType;
             Owner = owner; 
         }
 
@@ -2403,12 +2404,17 @@ namespace de.unika.ipd.grGen.expression
             {
                 newArguments[i] = (Expression)Arguments[i].Copy(renameSuffix);
             }
-            return new FunctionMethodInvocation(OwnerType, Owner + renameSuffix, FunctionName, newArguments, (String[])ArgumentTypes.Clone());
+            return new FunctionMethodInvocation(OwnerType, IsGraphElementType, Owner + renameSuffix, FunctionName, newArguments, (String[])ArgumentTypes.Clone());
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("((" + OwnerType + ")" + NamesOfEntities.CandidateVariable(Owner) + ").@");
+            string candidateVariable;
+            if(IsGraphElementType)
+                candidateVariable = NamesOfEntities.CandidateVariable(Owner);
+            else
+                candidateVariable = NamesOfEntities.Variable(Owner);
+            sourceCode.Append("((" + OwnerType + ")" + candidateVariable + ").@");
             sourceCode.Append(FunctionName + "(actionEnv, graph");
             for(int i = 0; i < Arguments.Length; ++i)
             {
@@ -2424,6 +2430,7 @@ namespace de.unika.ipd.grGen.expression
         }
 
         readonly String OwnerType;
+        readonly bool IsGraphElementType;
         readonly String Owner;
     }
 

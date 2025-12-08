@@ -708,7 +708,7 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                     target = seqHelper.GetVar(seqCall.TargetVar);
                 String arguments = seqHelper.BuildParametersInObject(seqCall, seqCall.ArgumentExpressions, source);
-                source.AppendFrontFormat("object[] {0} = ((GRGEN_LIBGR.IGraphElement){1}).ApplyProcedureMethod(procEnv, graph, \"{2}\"{3});\n",
+                source.AppendFrontFormat("object[] {0} = ((GRGEN_LIBGR.IAttributeBearer){1}).ApplyProcedureMethod(procEnv, graph, \"{2}\"{3});\n",
                     tmpVarName, target, seqCall.Name, arguments);
                 for(int i = 0; i < seqCall.ReturnVars.Length; ++i)
                 {

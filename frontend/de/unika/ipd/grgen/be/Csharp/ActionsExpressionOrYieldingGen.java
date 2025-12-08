@@ -1602,6 +1602,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 		} else if(expr instanceof FunctionMethodInvocationExpr) {
 			FunctionMethodInvocationExpr fmi = (FunctionMethodInvocationExpr)expr;
 			sb.append("new GRGEN_EXPR.FunctionMethodInvocation(\"" + formatElementInterfaceRef(fmi.getOwner().getType()) + "\","
+					+ ((fmi.getOwner().getType() instanceof NodeType || fmi.getOwner().getType() instanceof EdgeType) ? "true" : "false") + ","
 					+ " \"" + formatEntity(fmi.getOwner(), pathPrefix, alreadyDefinedEntityToName) + "\","
 					+ " \"" + fmi.getFunction().getIdent() + "\", new GRGEN_EXPR.Expression[] {");
 			for(int i = 0; i < fmi.arity(); ++i) {

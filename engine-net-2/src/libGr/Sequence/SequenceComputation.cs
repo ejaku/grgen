@@ -3618,9 +3618,9 @@ namespace de.unika.ipd.grGen.libGr
                 ownerCandidate = TargetVar.GetVariableValue(procEnv);
             if(ownerCandidate == null)
                 throw new Exception("Procedure method call " + Symbol + " on null!");
-            IGraphElement owner = ownerCandidate as IGraphElement;
+            IAttributeBearer owner = ownerCandidate as IAttributeBearer;
             if(owner == null)
-                throw new Exception("Procedure method call " + Symbol + " expects a node or edge as target (but is given " + ownerCandidate.GetType() + ")!");
+                throw new Exception("Procedure method call " + Symbol + " expects a node or edge or class object as target (but is given " + ownerCandidate.GetType() + ")!");
             FillArgumentsFromArgumentExpressions(ArgumentExpressions, Arguments, procEnv);
             object[] resultValues = owner.ApplyProcedureMethod(procEnv, procEnv.Graph, Name, Arguments);
             if(ReturnVars.Length > 0)
