@@ -1024,7 +1024,7 @@ namespace de.unika.ipd.grGen.grShell
             NodeType type1 = node1.Type;
             NodeType type2 = node2.Type;
 
-            ConsoleUI.outWriter.WriteLine("{0} type {1} is a node: {2}", type1.PackagePrefixedName, type2.PackagePrefixedName,
+            ConsoleUI.outWriter.WriteLine("node type {0} is a {1}: {2}", type1.PackagePrefixedName, type2.PackagePrefixedName,
                 type1.IsA(type2) ? "yes" : "no");
         }
 
@@ -1036,7 +1036,19 @@ namespace de.unika.ipd.grGen.grShell
             EdgeType type1 = edge1.Type;
             EdgeType type2 = edge2.Type;
 
-            ConsoleUI.outWriter.WriteLine("{0} type {1} is an edge: {2}", type1.PackagePrefixedName, type2.PackagePrefixedName,
+            ConsoleUI.outWriter.WriteLine("edge type {0} is a {1}: {2}", type1.PackagePrefixedName, type2.PackagePrefixedName,
+                type1.IsA(type2) ? "yes" : "no");
+        }
+
+        public void ObjectTypeIsA(IObject object1, IObject object2)
+        {
+            if(object1 == null || object2 == null)
+                return;
+
+            ObjectType type1 = object1.Type;
+            ObjectType type2 = object2.Type;
+
+            ConsoleUI.outWriter.WriteLine("object type {0} is a {1}: {2}", type1.PackagePrefixedName, type2.PackagePrefixedName,
                 type1.IsA(type2) ? "yes" : "no");
         }
 

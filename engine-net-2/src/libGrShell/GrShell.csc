@@ -1004,6 +1004,7 @@ void ShellCommand():
     object obj, obj2;
     INode node1, node2;
     IEdge edge1, edge2;
+    IObject object1, object2;
     ShellGraphProcessingEnvironment shellGraph = null;
     bool shellGraphSpecified = false, boolVal = false, boolVal2 = false;
     bool strict = false, exitOnFailure = false, validated = false, onlySpecified = false;
@@ -1099,6 +1100,11 @@ void ShellCommand():
     "node" "type" node1=Node() "is" node2=Node() LineEnd()
     {
         impl.NodeTypeIsA(node1, node2);
+    }
+|
+    "object" "type" object1=Object() "is" object2=Object() LineEnd()
+    {
+        impl.ObjectTypeIsA(object1, object2);
     }
 |
     ("quit" | "exit") LineEnd()
