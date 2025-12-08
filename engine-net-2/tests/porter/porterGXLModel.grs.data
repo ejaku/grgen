@@ -13,6 +13,11 @@
  - double                   N3::bla
  - boolean                  N4::huh
  - Bla                      N4::lal
+ - "N1"
+ - "N2a"
+ - "N2b"
+ - "N3"
+ - "N4"
  - No attribute types found.
  - "N2a"
  - "N2b"
@@ -93,6 +98,11 @@
  - double                   N3::bla
  - boolean                  N4::huh
  - Bla                      N4::lal
+ - "N1"
+ - "N2a"
+ - "N2b"
+ - "N3"
+ - "N4"
  - No attribute types found.
  - "N2a"
  - "N2b"

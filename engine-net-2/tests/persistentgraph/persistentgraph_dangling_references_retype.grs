@@ -21,7 +21,7 @@ exec (::n,::e,::o)=find
 
 show node n
 show edge e
-show var o #should be show object o
+show object o
 
 show num nodes N
 show num edges E
@@ -32,7 +32,7 @@ exec retypeToCreateDanglingReferences
 
 show node n
 show edge e
-show var o #should be show object o
+show object o
 
 show num nodes N
 show num edges E
@@ -52,7 +52,7 @@ exec (::n,::e,::o)=find
 
 show node n
 show edge e
-show var o #should be show object o
+show object o
 
 show num nodes N
 show num edges E
@@ -64,7 +64,7 @@ exec retypeToCreateDanglingReferences
 
 show node n
 show edge e
-show var o #should be show object o
+show object o
 
 show num nodes N
 show num edges E
@@ -91,6 +91,6 @@ exec (::n,::e,::o)=find
 
 show node n
 show edge e
-show var o #should be show object o
+show object o
 
 quit

@@ -104,6 +104,11 @@ namespace de.unika.ipd.grGen.grShell
         IObject GetClassObjectByName(String objName);
     }
 
+    public enum TypeKind
+    {
+        Node, Edge, Object
+    }
+
     /// <summary>
     /// Implementation class containing application logic for generated GrShell parser class.
     /// Public methods are called by the GrShell command line parser (which is called by the GrShellDriver),
@@ -979,6 +984,19 @@ namespace de.unika.ipd.grGen.grShell
             if(type == null)
             {
                 ConsoleUI.errorOutWriter.WriteLine("Unknown edge type: \"{0}\"", typeName);
+                return null;
+            }
+            return type;
+        }
+
+        public ObjectType GetObjectType(String typeName)
+        {
+            if(!GraphExists())
+                return null;
+            ObjectType type = curShellProcEnv.ProcEnv.NamedGraph.Model.ObjectModel.GetType(typeName);
+            if(type == null)
+            {
+                ConsoleUI.errorOutWriter.WriteLine("Unknown object type: \"{0}\"", typeName);
                 return null;
             }
             return type;
@@ -2688,7 +2706,7 @@ namespace de.unika.ipd.grGen.grShell
                 return;
 
             if(curShellProcEnv.ProcEnv.NamedGraph.Model.NodeModel.Types.Length == 0)
-                ConsoleUI.errorOutWriter.WriteLine("This model has no node types!");
+                ConsoleUI.errorOutWriter.WriteLine("This model has no node types!"); // normally never taken, because each model has a root type per kind
             else
             {
                 ConsoleUI.outWriter.WriteLine("Node types:");
@@ -2705,7 +2723,7 @@ namespace de.unika.ipd.grGen.grShell
                 return;
 
             if(curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.Types.Length == 0)
-                ConsoleUI.errorOutWriter.WriteLine("This model has no edge types!");
+                ConsoleUI.errorOutWriter.WriteLine("This model has no edge types!"); // normally never taken, because each model has a root type per kind
             else
             {
                 ConsoleUI.outWriter.WriteLine("Edge types:");
@@ -2716,16 +2734,33 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public void ShowSuperTypes(GraphElementType elemType, bool isNode)
+        public void ShowObjectTypes()
+        {
+            if(!GraphExists())
+                return;
+
+            if(curShellProcEnv.ProcEnv.NamedGraph.Model.ObjectModel.Types.Length == 0)
+                ConsoleUI.errorOutWriter.WriteLine("This model has no object types!"); // normally never taken, because each model has a root type per kind
+            else
+            {
+                ConsoleUI.outWriter.WriteLine("Object types:");
+                foreach(ObjectType type in curShellProcEnv.ProcEnv.NamedGraph.Model.ObjectModel.Types)
+                {
+                    ConsoleUI.outWriter.WriteLine(" - \"{0}\"", type.PackagePrefixedName);
+                }
+            }
+        }
+
+        public void ShowSuperTypes(InheritanceType elemType, TypeKind typeKind)
         {
             if(elemType == null)
                 return;
 
             if(!elemType.SuperTypes.GetEnumerator().MoveNext())
-                ConsoleUI.errorOutWriter.WriteLine((isNode ? "Node" : "Edge") + " type \"" + elemType.PackagePrefixedName + "\" has no super types!");
+                ConsoleUI.errorOutWriter.WriteLine(ToString(typeKind) + " type \"" + elemType.PackagePrefixedName + "\" has no super types!");
             else
             {
-                ConsoleUI.outWriter.WriteLine("Super types of " + (isNode ? "node" : "edge") + " type \"" + elemType.PackagePrefixedName + "\":");
+                ConsoleUI.outWriter.WriteLine("Super types of " + ToString(typeKind) + " type \"" + elemType.PackagePrefixedName + "\":");
                 foreach(GrGenType type in elemType.SuperTypes)
                 {
                     ConsoleUI.outWriter.WriteLine(" - \"" + type.PackagePrefixedName + "\"");
@@ -2733,20 +2768,31 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public void ShowSubTypes(GraphElementType elemType, bool isNode)
+        public void ShowSubTypes(InheritanceType elemType, TypeKind typeKind)
         {
             if(elemType == null)
                 return;
 
-            if(!elemType.SuperTypes.GetEnumerator().MoveNext())
-                ConsoleUI.errorOutWriter.WriteLine((isNode ? "Node" : "Edge") + " type \"" + elemType.PackagePrefixedName + "\" has no super types!");
+            if(!elemType.SubTypes.GetEnumerator().MoveNext())
+                ConsoleUI.errorOutWriter.WriteLine(ToString(typeKind) + " type \"" + elemType.PackagePrefixedName + "\" has no sub types!");
             else
             {
-                ConsoleUI.outWriter.WriteLine("Sub types of " + (isNode ? "node" : "edge") + " type \"{0}\":", elemType.PackagePrefixedName);
+                ConsoleUI.outWriter.WriteLine("Sub types of " + ToString(typeKind) + " type \"{0}\":", elemType.PackagePrefixedName);
                 foreach(GrGenType type in elemType.SubTypes)
                 {
                     ConsoleUI.outWriter.WriteLine(" - \"{0}\"", type.PackagePrefixedName);
                 }
+            }
+        }
+
+        string ToString(TypeKind typeKind)
+        {
+            switch(typeKind)
+            {
+                case TypeKind.Node: return "node";
+                case TypeKind.Edge: return "edge";
+                case TypeKind.Object: return "object";
+                default: return "INTERNAL FAILURE";
             }
         }
 
@@ -2768,22 +2814,7 @@ namespace de.unika.ipd.grGen.grShell
                     first = false;
                 }
 
-                String kind;
-                switch(attrType.Kind)
-                {
-                case AttributeKind.ByteAttr: kind = "byte"; break;
-                case AttributeKind.ShortAttr: kind = "short"; break;
-                case AttributeKind.IntegerAttr: kind = "int"; break;
-                case AttributeKind.LongAttr: kind = "long"; break;
-                case AttributeKind.BooleanAttr: kind = "boolean"; break;
-                case AttributeKind.StringAttr: kind = "string"; break;
-                case AttributeKind.EnumAttr: kind = attrType.EnumType.PackagePrefixedName; break;
-                case AttributeKind.FloatAttr: kind = "float"; break;
-                case AttributeKind.DoubleAttr: kind = "double"; break;
-                case AttributeKind.ObjectAttr: kind = "object"; break;
-                case AttributeKind.GraphAttr: kind = "graph"; break;
-                default: kind = "<INVALID>"; break;
-                }
+                String kind = TypesHelper.AttributeTypeToXgrsType(attrType);
                 ConsoleUI.outWriter.WriteLine(" - {0,-24} {1}::{2}", kind, attrType.OwnerType.PackagePrefixedName, attrType.Name);
             }
             if(first)
@@ -2825,6 +2856,25 @@ namespace de.unika.ipd.grGen.grShell
                 ConsoleUI.outWriter.WriteLine("The available attributes for {0} \"{1}\":",
                     (showOnly ? "edge type only" : "edge type"), edgeType.PackagePrefixedName);
                 ShowAvailableAttributes(edgeType.AttributeTypes, showOnly ? edgeType : null);
+            }
+        }
+
+        /// <summary>
+        /// Displays the attributes from the given type or all types, if typeName is null.
+        /// If showAll is false, inherited attributes are not shown (only applies to a given type)
+        /// </summary>
+        public void ShowAvailableObjectAttributes(bool showOnly, ObjectType objectType)
+        {
+            if(objectType == null)
+            {
+                ConsoleUI.outWriter.WriteLine("The available attributes for objects:");
+                ShowAvailableAttributes(curShellProcEnv.ProcEnv.NamedGraph.Model.ObjectModel.AttributeTypes, null);
+            }
+            else
+            {
+                ConsoleUI.outWriter.WriteLine("The available attributes for {0} \"{1}\":",
+                    (showOnly ? "object type only" : "object type"), objectType.PackagePrefixedName);
+                ShowAvailableAttributes(objectType.AttributeTypes, showOnly ? objectType : null);
             }
         }
 

@@ -1,0 +1,11 @@
+new graph "modelmetadata\model" "testing the show commands"
+
+new O2b@(%="%0", bar = "foo")
+new O2b@(%="%1", bar = "bar")
+new O2b@(%="%2", bar = "baz")
+new O2b@(%="%3", bar = "qux")
+
+show object @@("%0")
+show object @@("%2")
+
+quit

@@ -1,0 +1,16 @@
+new graph "modelmetadata\model" "testing the show commands"
+
+show node attributes
+show edge attributes
+show object attributes
+
+show node attributes N4
+show edge attributes E4
+show object attributes O4
+
+show node attributes only N4
+show edge attributes only E4
+show object attributes only O4
+
+quit
+

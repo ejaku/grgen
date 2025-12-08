@@ -150,6 +150,7 @@ TOKEN: {
 |   < NOINLINE: "noinline" >
 |   < NULL: "null" >
 |   < NUM: "num" >
+|   < OBJECT: "object" >
 |   < OFF: "off" >
 |   < ON: "on" >
 |   < ONLY: "only" >
@@ -767,6 +768,20 @@ IEdge Edge():
     { return edge; }
 }
 
+IObject Object():
+{
+    IObject obj;
+    String str;
+}
+{
+    (
+        "@@" "(" str=WordOrText() ")" { obj = impl.GetClassObjectByName(str); }
+    |
+        str=Variable() { obj = impl.GetClassObjectByVar(str); }
+    )
+    { return obj; }
+}
+
 NodeType NodeType():
 {
     String package=null, type;
@@ -781,6 +796,14 @@ EdgeType EdgeType():
 }
 {
     (LOOKAHEAD(2) package=WordOrText() "::")? type=WordOrText() { return impl.GetEdgeType(package!=null ? package+"::"+type : type); }
+}
+
+ObjectType ObjectType():
+{
+    String package=null, type;
+}
+{
+    (LOOKAHEAD(2) package=WordOrText() "::")? type=WordOrText() { return impl.GetObjectType(package!=null ? package+"::"+type : type); }
 }
 
 GrGenType GraphElementType():
@@ -1714,6 +1737,8 @@ void ShowCommand():
     |
         "edge" ShowEdge()
     |
+        "object" ShowObject()
+    |
         "var" ShowVar()
     |
         "graph" str=Filename() ("keep" { keep=true; })? (args=WordOrText())? LineEnd()
@@ -1770,12 +1795,12 @@ void ShowNode():
 |
     "super" "types" nodeType=NodeType() LineEnd()
     {
-        impl.ShowSuperTypes(nodeType, true);
+        impl.ShowSuperTypes(nodeType, TypeKind.Node);
     }
 |
     "sub" "types" nodeType=NodeType() LineEnd()
     {
-        impl.ShowSubTypes(nodeType, true);
+        impl.ShowSubTypes(nodeType, TypeKind.Node);
     }
 |
     "attributes" (("only" { only=true; })? nodeType=NodeType())? LineEnd()
@@ -1803,12 +1828,12 @@ void ShowEdge():
 |
     "super" "types" edgeType=EdgeType() LineEnd()
     {
-        impl.ShowSuperTypes(edgeType, false);
+        impl.ShowSuperTypes(edgeType, TypeKind.Edge);
     }
 |
     "sub" "types" edgeType=EdgeType() LineEnd()
     {
-        impl.ShowSubTypes(edgeType, false);
+        impl.ShowSubTypes(edgeType, TypeKind.Edge);
     }
 |
     "attributes" (("only" { only = true; })? edgeType=EdgeType())? LineEnd()
@@ -1819,6 +1844,39 @@ void ShowEdge():
     edge=Edge() LineEnd()
     {
         impl.ShowElementAttributes(edge);
+    }
+}
+
+void ShowObject():
+{
+    bool only = false;
+    IObject obj;
+    ObjectType objectType = null;
+}
+{
+    "types" LineEnd()
+    {
+        impl.ShowObjectTypes();
+    }
+|
+    "super" "types" objectType=ObjectType() LineEnd()
+    {
+        impl.ShowSuperTypes(objectType, TypeKind.Object);
+    }
+|
+    "sub" "types" objectType=ObjectType() LineEnd()
+    {
+        impl.ShowSubTypes(objectType, TypeKind.Object);
+    }
+|
+    "attributes" (("only" { only=true; })? objectType=ObjectType())? LineEnd()
+    {
+        impl.ShowAvailableObjectAttributes(only, objectType);
+    }
+|
+    obj=Object() LineEnd()
+    {
+        impl.ShowElementAttributes(obj);
     }
 }
 

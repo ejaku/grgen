@@ -1,0 +1,86 @@
+node class N1;
+
+node class N2a extends N1
+{
+	f : byte;
+	fo : short;
+	foo : int;
+	fooo : long;
+}
+
+node class N2b extends N1
+{
+	bar : string;
+}
+
+node class N3
+{
+	bla : double;
+}
+
+node class N4 extends N2a, N2b, N3
+{
+	huh : boolean;
+	lal : float;
+}
+
+///////////////////////////////////////////
+
+edge class E1;
+
+edge class E2a extends E1
+{
+	f : byte;
+	fo : short;
+	foo : int;
+	fooo : long;
+}
+
+edge class E2b extends E1
+{
+	bar : string;
+}
+
+edge class E3
+{
+	bla : float;
+}
+
+edge class E4 extends E2a, E2b, E3
+{
+	huh : boolean;
+	lal : double;
+}
+
+///////////////////////////////////////////
+
+class O1;
+
+class O2a extends O1
+{
+	f : byte;
+	fo : short;
+	foo : int;
+	fooo : long;
+}
+
+class O2b extends O1
+{
+	bar : string;
+}
+
+class O3
+{
+	bla : double;
+}
+
+class O4 extends O2a, O2b, O3
+{
+	huh : boolean;
+	lal : O1;
+	lol : set<int>;
+	lel : map<string, E4>;
+}
+
+object class unique;
+

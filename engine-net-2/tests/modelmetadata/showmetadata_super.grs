@@ -1,0 +1,17 @@
+new graph "modelmetadata\empty" "testing the show commands"
+
+show node super types Node
+show edge super types AEdge
+show object super types Object
+
+new graph "modelmetadata\model" "testing the show commands"
+
+show node super types Node
+show edge super types AEdge
+show object super types Object
+
+show node super types N4
+show edge super types E4
+show object super types O4
+
+quit

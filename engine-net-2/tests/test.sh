@@ -71,7 +71,7 @@ for filename in $targets; do
         }
         while(\$0 ~ /^All attributes/)
       }
-	  /(^The available attributes for)|(^(Node|Edge) types)|(^(Sub|Super) types of (node|edge) type)/ {
+	  /(^The available attributes for)|(^(Node|Edge|Object|node|edge|object) types)|(^(Sub|Super) types of (Node|Edge|Object|node|edge|object) type)/ {
         do {
           getline
           sub(\"\\r\$\", \"\")
@@ -86,7 +86,7 @@ for filename in $targets; do
             sub(\"\\r\$\", \"\")
           }
         }
-        while(\$0 ~ /(^The available attributes for)|(^(Node|Edge) types)|(^(Sub|Super) types of (node|edge) type)/)
+        while(\$0 ~ /(^The available attributes for)|(^(Node|Edge|Object|node|edge|object) types)|(^(Sub|Super) types of (Node|Edge|Object|node|edge|object) type)/)
       }
       /The graph is/ {
         testnum++

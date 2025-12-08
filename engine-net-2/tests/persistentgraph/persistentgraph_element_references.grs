@@ -19,7 +19,7 @@ exec in ::o.g { find }
 
 show node n
 show edge e
-show var o #should be show object o
+show object o
 
 show num nodes N
 show num edges E
@@ -38,7 +38,7 @@ exec in ::o.g { find }
 
 show node n
 show edge e
-show var o #should be show object o
+show object o
 
 show num nodes N
 show num edges E
@@ -60,7 +60,7 @@ exec in ::o.g { find }
 
 show node n
 show edge e
-show var o #should be show object o
+show object o
 
 clear graph
 

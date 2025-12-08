@@ -32,7 +32,7 @@ for scriptfile in $*; do
       }
       while(\$0 ~ /^All attributes/)
     }
-	/(^The available attributes for)|(^(Node|Edge) types)|(^(Sub|Super) types of (node|edge) type)/ {
+	/(^The available attributes for)|(^(Node|Edge|Object|node|edge|object) types)|(^(Sub|Super) types of (Node|Edge|Object|node|edge|object) type)/ {
       do {
         getline
         while(\$0 ~ /^ - /) {
@@ -40,7 +40,7 @@ for scriptfile in $*; do
           getline
         }
       }
-      while(\$0 ~ /(^The available attributes for)|(^(Node|Edge) types)|(^(Sub|Super) types of (node|edge) type)/)
+      while(\$0 ~ /(^The available attributes for)|(^(Node|Edge|Object|node|edge|object) types)|(^(Sub|Super) types of (Node|Edge|Object|node|edge|object) type)/)
     }
     /matches found/ { print \$2 }
     /rewrites performed/ { print \$2 }

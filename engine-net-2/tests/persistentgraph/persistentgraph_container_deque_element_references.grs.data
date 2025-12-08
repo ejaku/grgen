@@ -23,7 +23,10 @@
 ]$1[
 ]O{%:%0,c_n:]$0[,c_e:]$1[,c_o:]O{%:%0}[,c_g:]graph{name:induced_from_some non-persistent graph,id:4,changes:2}[}[
 ]graph{name:defined_from_some non-persistent graph,id:3,changes:2}[
-"O{%:%0,c_n:]$0[,c_e:]$1[,c_o:]O{%:%0}[,c_g:]graph{name:induced_from_some non-persistent graph,id:4,changes:2}[}"
+]$0[
+]$1[
+]O{%:%0,c_n:]$0[,c_e:]$1[,c_o:]O{%:%0}[,c_g:]graph{name:induced_from_some non-persistent graph,id:4,changes:2}[}[
+]graph{name:induced_from_some non-persistent graph,id:4,changes:2}[
 1
 1
 0
@@ -49,7 +52,10 @@
 ]$1[
 ]O{%:%0,c_n:]$0[,c_e:]$1[,c_o:]O{%:%0}[,c_g:]graph{name:induced_from_DefaultGraph,id:9,changes:2}[}[
 ]graph{name:defined_from_DefaultGraph,id:8,changes:2}[
-"O{%:%0,c_n:]$0[,c_e:]$1[,c_o:]O{%:%0}[,c_g:]graph{name:induced_from_DefaultGraph,id:9,changes:2}[}"
+]$0[
+]$1[
+]O{%:%0,c_n:]$0[,c_e:]$1[,c_o:]O{%:%0}[,c_g:]graph{name:induced_from_DefaultGraph,id:9,changes:2}[}[
+]graph{name:induced_from_DefaultGraph,id:9,changes:2}[
 1
 1
 0
@@ -73,6 +79,9 @@
 ]$1[
 ]O{%:%0,c_n:]$0[,c_e:]$1[,c_o:]O{%:%0}[,c_g:]graph{name:induced_from_DefaultGraph,id:15,changes:2}[}[
 ]graph{name:defined_from_DefaultGraph,id:14,changes:2}[
-"O{%:%0,c_n:]$0[,c_e:]$1[,c_o:]O{%:%0}[,c_g:]graph{name:induced_from_DefaultGraph,id:15,changes:2}[}"
+]$0[
+]$1[
+]O{%:%0,c_n:]$0[,c_e:]$1[,c_o:]O{%:%0}[,c_g:]graph{name:induced_from_DefaultGraph,id:15,changes:2}[}[
+]graph{name:induced_from_DefaultGraph,id:15,changes:2}[
 0
 0
