@@ -24,7 +24,7 @@ O{%:%1,m_s:{baz->2},m_by:{},m_sh:{},m_i:{1->foo,2->bar,3->baz},m_l:{44->44},m_f:
 
 {42->42}
 {}
-{1->Zwischen Rhein und Schwarzwald,2->Stadtschloß querab,3->Fulda gap,4->Wartburg,5->Kyffhäuser links liegen gelassen auf'm Weg zum Bauhaus,6->Große Städte bauen länger.,7->Nuthe-Nieplitz-Niederung}
+{1->Zwischen Rhein und Schwarzwald,2->Stadtschloss querab,3->Fulda gap,4->Wartburg,5->Kyffhaeuser links liegen gelassen auf'm Weg zum Bauhaus,6->Grosse Staedte bauen laenger.,7->Nuthe-Nieplitz-Niederung}
 {50->50}
 {0f->1f,1f->0f}
 {1337.1337->1337.1337,44->44}
@@ -64,7 +64,7 @@ O{%:%1,m_s:{baz->2},m_by:{},m_sh:{},m_i:{1->foo,2->bar,3->baz},m_l:{44->44},m_f:
 
 {42->42}
 {}
-{1->Zwischen Rhein und Schwarzwald,2->Stadtschloß querab,3->Fulda gap,4->Wartburg,5->Kyffhäuser links liegen gelassen auf'm Weg zum Bauhaus,6->Große Städte bauen länger.,7->Nuthe-Nieplitz-Niederung}
+{1->Zwischen Rhein und Schwarzwald,2->Stadtschloss querab,3->Fulda gap,4->Wartburg,5->Kyffhaeuser links liegen gelassen auf'm Weg zum Bauhaus,6->Grosse Staedte bauen laenger.,7->Nuthe-Nieplitz-Niederung}
 {50->50}
 {0f->1f,1f->0f}
 {1337.1337->1337.1337,44->44}
@@ -103,7 +103,7 @@ O{%:%1,m_s:{baz->2},m_by:{},m_sh:{},m_i:{1->foo,2->bar,3->baz},m_l:{44->44},m_f:
 
 {42->42}
 {}
-{1->Zwischen Rhein und Schwarzwald,2->Stadtschloß querab,3->Fulda gap,4->Wartburg,5->Kyffhäuser links liegen gelassen auf'm Weg zum Bauhaus,6->Große Städte bauen länger.,7->Nuthe-Nieplitz-Niederung}
+{1->Zwischen Rhein und Schwarzwald,2->Stadtschloss querab,3->Fulda gap,4->Wartburg,5->Kyffhaeuser links liegen gelassen auf'm Weg zum Bauhaus,6->Grosse Staedte bauen laenger.,7->Nuthe-Nieplitz-Niederung}
 {50->50}
 {0f->1f,1f->0f}
 {1337.1337->1337.1337,44->44}

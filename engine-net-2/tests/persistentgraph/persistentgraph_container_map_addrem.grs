@@ -24,7 +24,7 @@ exec { ::n.m_s = null;\
 ::e.m_s = null;\
 ::e.m_by.add(42y,42y);\
 ::e.m_sh.clear();\
-::e.m_i.add(1,"Zwischen Rhein und Schwarzwald"); ::e.m_i.add(2,"Stadtschloß querab"); ::e.m_i.add(3,"Fulda gap"); ::e.m_i.add(4,"Wartburg"); ::e.m_i.add(5,"Kyffhäuser links liegen gelassen auf'm Weg zum Bauhaus"); ::e.m_i.add(6,"Große Städte bauen länger."); ::e.m_i.add(7,"Nuthe-Nieplitz-Niederung");\
+::e.m_i.add(1,"Zwischen Rhein und Schwarzwald"); ::e.m_i.add(2,"Stadtschloss querab"); ::e.m_i.add(3,"Fulda gap"); ::e.m_i.add(4,"Wartburg"); ::e.m_i.add(5,"Kyffhaeuser links liegen gelassen auf'm Weg zum Bauhaus"); ::e.m_i.add(6,"Grosse Staedte bauen laenger."); ::e.m_i.add(7,"Nuthe-Nieplitz-Niederung");\
 ::e.m_l.rem(42l); ::e.m_l.rem(43l); ::e.m_l.add(50L,50l);\
 ::e.m_f.rem(3.141592654f); ::e.m_f.rem(2.718281828f); ::e.m_f.add(1.0f,0.0f); ::e.m_f.add(0.0f,1.0f);\
 ::e.m_d.rem(43.0); ::e.m_d.rem(44.0000001); ::e.m_d.add(1337.1337, 1337.1337);\
@@ -78,7 +78,7 @@ exec { ::n.m_s = null;\
 ::e.m_s = null;\
 ::e.m_by.add(42y,42y);\
 ::e.m_sh.clear();\
-::e.m_i.add(1,"Zwischen Rhein und Schwarzwald"); ::e.m_i.add(2,"Stadtschloß querab"); ::e.m_i.add(3,"Fulda gap"); ::e.m_i.add(4,"Wartburg"); ::e.m_i.add(5,"Kyffhäuser links liegen gelassen auf'm Weg zum Bauhaus"); ::e.m_i.add(6,"Große Städte bauen länger."); ::e.m_i.add(7,"Nuthe-Nieplitz-Niederung");\
+::e.m_i.add(1,"Zwischen Rhein und Schwarzwald"); ::e.m_i.add(2,"Stadtschloss querab"); ::e.m_i.add(3,"Fulda gap"); ::e.m_i.add(4,"Wartburg"); ::e.m_i.add(5,"Kyffhaeuser links liegen gelassen auf'm Weg zum Bauhaus"); ::e.m_i.add(6,"Grosse Staedte bauen laenger."); ::e.m_i.add(7,"Nuthe-Nieplitz-Niederung");\
 ::e.m_l.rem(42l); ::e.m_l.rem(43l); ::e.m_l.add(50L,50l);\
 ::e.m_f.rem(3.141592654f); ::e.m_f.rem(2.718281828f); ::e.m_f.add(1.0f,0.0f); ::e.m_f.add(0.0f,1.0f);\
 ::e.m_d.rem(43.0); ::e.m_d.rem(44.0000001); ::e.m_d.add(1337.1337, 1337.1337);\

@@ -14,7 +14,7 @@ show num edges
 
 exec init
 exec (::n,::e,::o,::o2,::e2,::e3)=findExtended
-exec { ::n.d_s[0] = "käseecke"; ::n.d_s.add(null); ::n.d_s[1]="geisterbahn";\
+exec { ::n.d_s[0] = "kaeseecke"; ::n.d_s.add(null); ::n.d_s[1]="geisterbahn";\
 ::n.d_by[0] = 3y; ::n.d_by[1] = 2y; ::n.d_by[2] = 1y;\
 ::n.d_sh.add(0s); ::n.d_sh[0] = 1S;\
 ::n.d_f[1] = 3.141592654f; ::n.d_f[0] = 2.718281828f;\
@@ -22,7 +22,7 @@ exec { ::n.d_s[0] = "käseecke"; ::n.d_s.add(null); ::n.d_s[1]="geisterbahn";\
 ::n.d_e[1] = ENU::a;\
 ::n.d_N.add(null); ::n.d_N[0] = ::n;\
 ::n.d_O.add(::e.o); ::n.d_O[0] = null;\
-::e.d_s[0] = "altarhöhle";\
+::e.d_s[0] = "altarhoehle";\
 ::e.d_l[0] = 42l; ::e.d_l[1] = 1337L;\
 ::e.d_Ed.add(::e); ::e.d_Ed[0] = ::e2;\
 ::o.d_s[0] = "schwefelwand";\
@@ -49,7 +49,7 @@ show num edges
 
 exec init
 exec (::n,::e,::o,::o2,::e2,::e3)=findExtended
-exec { ::n.d_s[0] = "käseecke"; ::n.d_s.add(null); ::n.d_s[1]="geisterbahn";\
+exec { ::n.d_s[0] = "kaeseecke"; ::n.d_s.add(null); ::n.d_s[1]="geisterbahn";\
 ::n.d_by[0] = 3y; ::n.d_by[1] = 2y; ::n.d_by[2] = 1y;\
 ::n.d_sh.add(0s); ::n.d_sh[0] = 1S;\
 ::n.d_f[1] = 3.141592654f; ::n.d_f[0] = 2.718281828f;\
@@ -57,7 +57,7 @@ exec { ::n.d_s[0] = "käseecke"; ::n.d_s.add(null); ::n.d_s[1]="geisterbahn";\
 ::n.d_e[1] = ENU::a;\
 ::n.d_N.add(null); ::n.d_N[0] = ::n;\
 ::n.d_O.add(::e.o); ::n.d_O[0] = null;\
-::e.d_s[0] = "altarhöhle";\
+::e.d_s[0] = "altarhoehle";\
 ::e.d_l[0] = 42l; ::e.d_l[1] = 1337L;\
 ::e.d_Ed.add(::e); ::e.d_Ed[0] = ::e2;\
 ::o.d_s[0] = "schwefelwand";\

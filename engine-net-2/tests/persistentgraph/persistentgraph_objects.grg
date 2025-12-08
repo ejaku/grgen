@@ -172,7 +172,7 @@ procedure getObjectStructure(ref o:O) : (boolean, O1, O2, O12, O)
 procedure assignAttributes(ref o:O, ref o1:O1, ref o2:O2, ref o12:O12)
 {
 	// small easter egg to celebrate commit nr 4711
-	o.s = "kölsch";
+	o.s = "koelsch";
 	
 	o1.s = "himmel";
 	o1.by = 11y;
@@ -184,7 +184,7 @@ procedure assignAttributes(ref o:O, ref o1:O1, ref o2:O2, ref o12:O12)
 	newO2.o2_o12 = o2.o2_o12;
 	o.o2 = newO2;
 	
-	newO2.s = "ääd";
+	newO2.s = "aeaed";
 	newO2.f = 11.11f;
 	newO2.d = 11.11;
 	
@@ -200,7 +200,7 @@ procedure assignAttributes(ref o:O, ref o1:O1, ref o2:O2, ref o12:O12)
 
 function isObjectStructureWellAttributedAfterAssignment(ref o:O, ref o1:O1, ref o2:O2, ref o12:O12) : boolean
 {
-	if(o.s != "kölsch") {
+	if(o.s != "koelsch") {
 		return(false);
 	}
 	
@@ -213,7 +213,7 @@ function isObjectStructureWellAttributedAfterAssignment(ref o:O, ref o1:O1, ref 
 		return(false);
 	}
 	
-	if(o2.s != "ääd"
+	if(o2.s != "aeaed"
 		|| o2.f != 11.11f
 		|| o2.d != 11.11)
 	{
