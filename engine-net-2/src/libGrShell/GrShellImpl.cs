@@ -1047,39 +1047,15 @@ namespace de.unika.ipd.grGen.grShell
             return null;
         }
 
-        public void NodeTypeIsA(INode node1, INode node2)
+        public void TypeIsA(IAttributeBearer entity1, IAttributeBearer entity2, TypeKind kind)
         {
-            if(node1 == null || node2 == null)
+            if(entity1 == null || entity2 == null)
                 return;
 
-            NodeType type1 = node1.Type;
-            NodeType type2 = node2.Type;
+            InheritanceType type1 = entity1.Type;
+            InheritanceType type2 = entity2.Type;
 
-            ConsoleUI.outWriter.WriteLine("node type {0} is a {1}: {2}", type1.PackagePrefixedName, type2.PackagePrefixedName,
-                type1.IsA(type2) ? "yes" : "no");
-        }
-
-        public void EdgeTypeIsA(IEdge edge1, IEdge edge2)
-        {
-            if(edge1 == null || edge2 == null)
-                return;
-
-            EdgeType type1 = edge1.Type;
-            EdgeType type2 = edge2.Type;
-
-            ConsoleUI.outWriter.WriteLine("edge type {0} is a {1}: {2}", type1.PackagePrefixedName, type2.PackagePrefixedName,
-                type1.IsA(type2) ? "yes" : "no");
-        }
-
-        public void ObjectTypeIsA(IObject object1, IObject object2)
-        {
-            if(object1 == null || object2 == null)
-                return;
-
-            ObjectType type1 = object1.Type;
-            ObjectType type2 = object2.Type;
-
-            ConsoleUI.outWriter.WriteLine("object type {0} is a {1}: {2}", type1.PackagePrefixedName, type2.PackagePrefixedName,
+            ConsoleUI.outWriter.WriteLine("{0} type {1} is a {2}: {3}", ToString(kind), type1.PackagePrefixedName, type2.PackagePrefixedName,
                 type1.IsA(type2) ? "yes" : "no");
         }
 

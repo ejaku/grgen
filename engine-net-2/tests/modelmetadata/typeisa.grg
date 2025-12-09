@@ -1,0 +1,3 @@
+#using "model.gm"
+
+// empty, just needed to have some actions in order to execute a sequence (a fetch type by persistent name is lacking for the transient objects)

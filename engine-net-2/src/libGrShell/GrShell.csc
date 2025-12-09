@@ -1021,9 +1021,7 @@ void ShellCommand():
     String str1, str2 = null, str3 = null, graphName = null;
     IAttributeBearer owner;
     object obj, obj2;
-    INode node1, node2;
-    IEdge edge1, edge2;
-    IObject object1, object2;
+    IAttributeBearer entity1, entity2;
     ShellGraphProcessingEnvironment shellGraph = null;
     bool shellGraphSpecified = false, boolVal = false, boolVal2 = false;
     bool strict = false, exitOnFailure = false, validated = false, onlySpecified = false;
@@ -1079,9 +1077,9 @@ void ShellCommand():
         ConsoleUI.outWriter.WriteLine(Regex.Unescape(str1));
     }
 |
-    "edge" "type" edge1=Edge() "is" edge2=Edge() LineEnd()
+    "edge" "type" entity1=Edge() "is" entity2=Edge() LineEnd()
     {
-        impl.EdgeTypeIsA(edge1, edge2);
+        impl.TypeIsA(entity1, entity2, TypeKind.Edge);
     }
 |
     "export" parameters=FilenameParameterList()
@@ -1116,14 +1114,14 @@ void ShellCommand():
         noError = impl.ChangeGraph(graphName);
     }
 |
-    "node" "type" node1=Node() "is" node2=Node() LineEnd()
+    "node" "type" entity1=Node() "is" entity2=Node() LineEnd()
     {
-        impl.NodeTypeIsA(node1, node2);
+        impl.TypeIsA(entity1, entity2, TypeKind.Node);
     }
 |
-    "object" "type" object1=Object() "is" object2=Object() LineEnd()
+    "object" "type" entity1=Object() "is" entity2=Object() LineEnd()
     {
-        impl.ObjectTypeIsA(object1, object2);
+        impl.TypeIsA(entity1, entity2, TypeKind.Object);
     }
 |
     ("quit" | "exit") LineEnd()
@@ -1183,6 +1181,11 @@ void ShellCommand():
     |
         "off" { if(boolVal) impl.SilenceExec = false; else impl.Silence = false;}
     )
+|
+    "transient" "object" "type" entity1=TransientObject() "is" entity2=TransientObject() LineEnd()
+    {
+        impl.TypeIsA(entity1, entity2, TypeKind.TransientObject);
+    }
 |
     tok="validate" ("exitonfailure" {exitOnFailure = true;})?
     (

@@ -1,19 +1,23 @@
-new graph "modelmetadata\model" "testing the type is commands"
+new graph "modelmetadata\typeisa" "testing the type is commands"
 
 new :N1($="$0")
 new @("$0") -:E1($="$1")-> @("$0")
 new O1@(%="%0")
+exec { ::t1 = new T1() }
 
 new :N4($="$2")
 new @("$2") -:E4($="$3")-> @("$2")
 new O4@(%="%1")
+exec { ::t4 = new T4() }
 
 node type @("$0") is @("$2")
 edge type @("$1") is @("$3")
 object type @@("%0") is @@("%1")
+transient object type t1 is t4
 
 node type @("$2") is @("$0")
 edge type @("$3") is @("$1")
 object type @@("%1") is @@("%0")
+transient object type t4 is t1
 
 quit
