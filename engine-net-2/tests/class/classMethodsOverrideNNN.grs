@@ -1,0 +1,8 @@
+new graph "class/classMethodsOverride.grg"
+
+exec { ::n = new NNN() }
+show object n
+
+include class/classMethodsOverrideBase.grsi
+
+quit

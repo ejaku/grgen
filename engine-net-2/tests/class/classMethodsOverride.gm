@@ -1,0 +1,63 @@
+object class unique;
+
+class N
+{
+	i:int = -1;
+
+	function f() : int
+	{
+		return(0);
+	}
+	
+	procedure s()
+	{
+		this.i = 42;
+		return;
+	}
+}
+
+class N1 extends N
+{
+	function f() : int
+	{
+		return(1);
+	}
+	
+	procedure s()
+	{
+		this.i = 43;
+		return;
+	}
+}
+
+class N2 extends N
+{
+	function f() : int
+	{
+		return(2);
+	}
+	
+	procedure s()
+	{
+		this.i = 44;
+		return;
+	}
+}
+
+class NN extends N1, N2
+{
+	function f() : int
+	{
+		return(3);
+	}
+	
+	procedure s()
+	{
+		this.i = 45;
+		return;
+	}
+}
+
+class NNN extends NN
+{
+}

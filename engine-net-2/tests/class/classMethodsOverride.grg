@@ -1,0 +1,40 @@
+#using "classMethodsOverride.gm"
+
+test methodCallIfYield(ref n:N) : (int)
+{
+	if { n.f() >= 0 && n.f() <= 3; }
+	---
+	def var res:int;
+	yield { yield res = n.f(); }
+	return(res);
+}
+
+rule methodCallEval(ref n:N) : (int)
+{
+	modify {
+	---
+		def var res:int;
+		eval { n.s(); yield res = n.f(); }
+		return(res);
+	}
+}
+
+rule methodCallExecStaticType(ref n:N) : (int)
+{
+	modify {
+	---
+		def var res:int;
+		exec({ n.s(); res = n.f() });
+		return(res); 
+	}
+}
+
+rule methodCallExecDynamicType : (int)
+{
+	modify {
+	---
+		def var res:int;
+		exec({ ::n.s(); res = ::n.f() });
+		return(res); 
+	}
+}

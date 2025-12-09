@@ -1,0 +1,32 @@
+exec (::res)=methodCallIfYield(::n)
+show var res
+
+exec (::res)=methodCallEval(::n)
+show transient object n
+show var res
+exec { ::n.i = -1 }
+show transient object n
+
+exec (::res)=methodCallExecStaticType(::n)
+show transient object n
+show var res
+exec { ::n.i = -1 }
+show transient object n
+
+exec (::res)=methodCallExecDynamicType
+show transient object n
+show var res
+exec { ::n.i = -1 }
+show transient object n
+
+exec nt:N ;> { nt = ::n; nt.s(); ::res = nt.f() }
+show transient object n
+show var res
+exec { ::n.i = -1 }
+show transient object n
+
+exec { ::n.s(); ::res = ::n.f() }
+show transient object n
+show var res
+exec { ::n.i = -1 }
+show transient object n

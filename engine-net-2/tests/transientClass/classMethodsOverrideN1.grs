@@ -1,0 +1,8 @@
+new graph "transientClass/classMethodsOverride.grg"
+
+exec { ::n = new N1() }
+show transient object n
+
+include transientClass/classMethodsOverrideBase.grsi
+
+quit
