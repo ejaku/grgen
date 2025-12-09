@@ -106,7 +106,7 @@ namespace de.unika.ipd.grGen.grShell
 
     public enum TypeKind
     {
-        Node, Edge, Object
+        Node, Edge, Object, TransientObject
     }
 
     /// <summary>
@@ -545,6 +545,24 @@ namespace de.unika.ipd.grGen.grShell
                 return null;
             }
             return obj;
+        }
+
+        public ITransientObject GetTransientClassObjectByVar(String varName)
+        {
+            if(!GraphExists())
+                return null;
+            object elem = curShellProcEnv.ProcEnv.GetVariableValue(varName);
+            if(elem == null)
+            {
+                ConsoleUI.errorOutWriter.WriteLine("Unknown variable: \"{0}\"", varName);
+                return null;
+            }
+            if(!(elem is ITransientObject))
+            {
+                ConsoleUI.errorOutWriter.WriteLine("\"{0}\" is not a transient class object!", varName);
+                return null;
+            }
+            return (ITransientObject)elem;
         }
 
         public IAttributeBearer GetGraphElementOrClassObjectByName(String elemOrObjName)
@@ -997,6 +1015,19 @@ namespace de.unika.ipd.grGen.grShell
             if(type == null)
             {
                 ConsoleUI.errorOutWriter.WriteLine("Unknown object type: \"{0}\"", typeName);
+                return null;
+            }
+            return type;
+        }
+
+        public TransientObjectType GetTransientObjectType(String typeName)
+        {
+            if(!GraphExists())
+                return null;
+            TransientObjectType type = curShellProcEnv.ProcEnv.NamedGraph.Model.TransientObjectModel.GetType(typeName);
+            if(type == null)
+            {
+                ConsoleUI.errorOutWriter.WriteLine("Unknown transient object type: \"{0}\"", typeName);
                 return null;
             }
             return type;
@@ -2712,51 +2743,17 @@ namespace de.unika.ipd.grGen.grShell
 
         #region "show" type related information commands
 
-        public void ShowNodeTypes()
+        public void ShowTypes(TypeKind kind)
         {
             if(!GraphExists())
                 return;
 
-            if(curShellProcEnv.ProcEnv.NamedGraph.Model.NodeModel.Types.Length == 0)
-                ConsoleUI.errorOutWriter.WriteLine("This model has no node types!"); // normally never taken, because each model has a root type per kind
+            if(GetTypeModel(kind).Types.Length == 0)
+                ConsoleUI.errorOutWriter.WriteLine("This model has no {0} types!", ToString(kind)); // normally never taken, because each model has a root type per kind
             else
             {
-                ConsoleUI.outWriter.WriteLine("Node types:");
-                foreach(NodeType type in curShellProcEnv.ProcEnv.NamedGraph.Model.NodeModel.Types)
-                {
-                    ConsoleUI.outWriter.WriteLine(" - \"{0}\"", type.PackagePrefixedName);
-                }
-            }
-        }
-
-        public void ShowEdgeTypes()
-        {
-            if(!GraphExists())
-                return;
-
-            if(curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.Types.Length == 0)
-                ConsoleUI.errorOutWriter.WriteLine("This model has no edge types!"); // normally never taken, because each model has a root type per kind
-            else
-            {
-                ConsoleUI.outWriter.WriteLine("Edge types:");
-                foreach(EdgeType type in curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.Types)
-                {
-                    ConsoleUI.outWriter.WriteLine(" - \"{0}\"", type.PackagePrefixedName);
-                }
-            }
-        }
-
-        public void ShowObjectTypes()
-        {
-            if(!GraphExists())
-                return;
-
-            if(curShellProcEnv.ProcEnv.NamedGraph.Model.ObjectModel.Types.Length == 0)
-                ConsoleUI.errorOutWriter.WriteLine("This model has no object types!"); // normally never taken, because each model has a root type per kind
-            else
-            {
-                ConsoleUI.outWriter.WriteLine("Object types:");
-                foreach(ObjectType type in curShellProcEnv.ProcEnv.NamedGraph.Model.ObjectModel.Types)
+                ConsoleUI.outWriter.WriteLine("{0} types:", ToString(kind));
+                foreach(InheritanceType type in GetTypeModel(kind).Types)
                 {
                     ConsoleUI.outWriter.WriteLine(" - \"{0}\"", type.PackagePrefixedName);
                 }
@@ -2804,6 +2801,7 @@ namespace de.unika.ipd.grGen.grShell
                 case TypeKind.Node: return "node";
                 case TypeKind.Edge: return "edge";
                 case TypeKind.Object: return "object";
+                case TypeKind.TransientObject: return "transient object";
                 default: return "INTERNAL FAILURE";
             }
         }
@@ -2837,59 +2835,32 @@ namespace de.unika.ipd.grGen.grShell
         /// Displays the attributes from the given type or all types, if typeName is null.
         /// If showAll is false, inherited attributes are not shown (only applies to a given type)
         /// </summary>
-        public void ShowAvailableNodeAttributes(bool showOnly, NodeType nodeType)
+        public void ShowAvailableAttributes(bool showOnly, InheritanceType type, TypeKind kind)
         {
-            if(nodeType == null)
+            if(type == null)
             {
-                ConsoleUI.outWriter.WriteLine("The available attributes for nodes:");
-                ShowAvailableAttributes(curShellProcEnv.ProcEnv.NamedGraph.Model.NodeModel.AttributeTypes, null);
+                ConsoleUI.outWriter.WriteLine("The available attributes for {0}s:", ToString(kind));
+                ShowAvailableAttributes(GetTypeModel(kind).AttributeTypes, null);
             }
             else
             {
                 ConsoleUI.outWriter.WriteLine("The available attributes for {0} \"{1}\":",
-                    (showOnly ? "node type only" : "node type"), nodeType.PackagePrefixedName);
-                ShowAvailableAttributes(nodeType.AttributeTypes, showOnly ? nodeType : null);
+                    (showOnly ? (ToString(kind) + " type only") : (ToString(kind) + " type")), type.PackagePrefixedName);
+                ShowAvailableAttributes(type.AttributeTypes, showOnly ? type : null);
             }
         }
 
-        /// <summary>
-        /// Displays the attributes from the given type or all types, if typeName is null.
-        /// If showAll is false, inherited attributes are not shown (only applies to a given type)
-        /// </summary>
-        public void ShowAvailableEdgeAttributes(bool showOnly, EdgeType edgeType)
+        private ITypeModel GetTypeModel(TypeKind kind)
         {
-            if(edgeType == null)
+            switch(kind)
             {
-                ConsoleUI.outWriter.WriteLine("The available attributes for edges:");
-                ShowAvailableAttributes(curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel.AttributeTypes, null);
-            }
-            else
-            {
-                ConsoleUI.outWriter.WriteLine("The available attributes for {0} \"{1}\":",
-                    (showOnly ? "edge type only" : "edge type"), edgeType.PackagePrefixedName);
-                ShowAvailableAttributes(edgeType.AttributeTypes, showOnly ? edgeType : null);
+                case TypeKind.Node: return curShellProcEnv.ProcEnv.NamedGraph.Model.NodeModel;
+                case TypeKind.Edge: return curShellProcEnv.ProcEnv.NamedGraph.Model.EdgeModel;
+                case TypeKind.Object: return curShellProcEnv.ProcEnv.NamedGraph.Model.ObjectModel;
+                case TypeKind.TransientObject: return curShellProcEnv.ProcEnv.NamedGraph.Model.TransientObjectModel;
+                default: throw new Exception("Internal error!");
             }
         }
-
-        /// <summary>
-        /// Displays the attributes from the given type or all types, if typeName is null.
-        /// If showAll is false, inherited attributes are not shown (only applies to a given type)
-        /// </summary>
-        public void ShowAvailableObjectAttributes(bool showOnly, ObjectType objectType)
-        {
-            if(objectType == null)
-            {
-                ConsoleUI.outWriter.WriteLine("The available attributes for objects:");
-                ShowAvailableAttributes(curShellProcEnv.ProcEnv.NamedGraph.Model.ObjectModel.AttributeTypes, null);
-            }
-            else
-            {
-                ConsoleUI.outWriter.WriteLine("The available attributes for {0} \"{1}\":",
-                    (showOnly ? "object type only" : "object type"), objectType.PackagePrefixedName);
-                ShowAvailableAttributes(objectType.AttributeTypes, showOnly ? objectType : null);
-            }
-        }
-
         #endregion "show" type related information commands
 
         #region "show" graph and graph element/class object related information commands
@@ -3025,7 +2996,9 @@ namespace de.unika.ipd.grGen.grShell
             if(owner is IGraphElement)
                 return curShellProcEnv.ProcEnv.NamedGraph.GetElementName((IGraphElement)owner);
             else if(owner is IObject)
-                return curShellProcEnv.objectNamerAndIndexer.GetName((IObject)owner); // TODO: maybe get from object, previously reverse search
+                return curShellProcEnv.objectNamerAndIndexer.GetName((IObject)owner);
+            else if(owner is ITransientObject)
+                return "&:" + curShellProcEnv.transientObjectNamerAndIndexer.GetUniqueId((ITransientObject)owner).ToString();
             else
                 return null;
         }

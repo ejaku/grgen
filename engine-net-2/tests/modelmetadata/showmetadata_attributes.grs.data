@@ -28,6 +28,17 @@
  - set<int>                 O4::lol
  - map<string,E4>           O4::lel
  - kind                     type::attribute
+ - byte                     T2a::f
+ - short                    T2a::fo
+ - int                      T2a::foo
+ - long                     T2a::fooo
+ - string                   T2b::bar
+ - double                   T3::bla
+ - boolean                  T4::huh
+ - O1                       T4::lal
+ - set<int>                 T4::lol
+ - map<string,E4>           T4::lel
+ - kind                     type::attribute
  - byte                     N2a::f
  - short                    N2a::fo
  - int                      N2a::foo
@@ -57,6 +68,17 @@
  - set<int>                 O4::lol
  - map<string,E4>           O4::lel
  - kind                     type::attribute
+ - byte                     T2a::f
+ - short                    T2a::fo
+ - int                      T2a::foo
+ - long                     T2a::fooo
+ - string                   T2b::bar
+ - double                   T3::bla
+ - boolean                  T4::huh
+ - O1                       T4::lal
+ - set<int>                 T4::lol
+ - map<string,E4>           T4::lel
+ - kind                     type::attribute
  - boolean                  N4::huh
  - float                    N4::lal
  - kind                     type::attribute
@@ -67,3 +89,8 @@
  - O1                       O4::lal
  - set<int>                 O4::lol
  - map<string,E4>           O4::lel
+ - kind                     type::attribute
+ - boolean                  T4::huh
+ - O1                       T4::lal
+ - set<int>                 T4::lol
+ - map<string,E4>           T4::lel

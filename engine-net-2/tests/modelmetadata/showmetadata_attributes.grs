@@ -3,14 +3,17 @@ new graph "modelmetadata\model" "testing the show commands"
 show node attributes
 show edge attributes
 show object attributes
+show transient object attributes
 
 show node attributes N4
 show edge attributes E4
 show object attributes O4
+show transient object attributes T4
 
 show node attributes only N4
 show edge attributes only E4
 show object attributes only O4
+show transient object attributes only T4
 
 quit
 

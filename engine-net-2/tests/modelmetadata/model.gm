@@ -84,3 +84,33 @@ class O4 extends O2a, O2b, O3
 
 object class unique;
 
+///////////////////////////////////////////
+
+transient class T1;
+
+transient class T2a extends T1
+{
+	f : byte;
+	fo : short;
+	foo : int;
+	fooo : long;
+}
+
+transient class T2b extends T1
+{
+	bar : string;
+}
+
+transient class T3
+{
+	bla : double;
+}
+
+transient class T4 extends T2a, T2b, T3
+{
+	huh : boolean;
+	lal : O1;
+	lol : set<int>;
+	lel : map<string, E4>;
+}
+

@@ -190,6 +190,7 @@ TOKEN: {
 |   < TEXTCOLOR: "textcolor" >
 |   < THICKNESS: "thickness" >
 |   < TO: "to" >
+|   < TRANSIENT: "transient" >
 |   < TRUE: "true" >
 |   < TYPE: "type" >
 |   < TYPES: "types" >
@@ -782,6 +783,16 @@ IObject Object():
     { return obj; }
 }
 
+ITransientObject TransientObject():
+{
+    ITransientObject obj;
+    String str;
+}
+{
+    str=Variable() { obj = impl.GetTransientClassObjectByVar(str); }
+    { return obj; }
+}
+
 NodeType NodeType():
 {
     String package=null, type;
@@ -804,6 +815,14 @@ ObjectType ObjectType():
 }
 {
     (LOOKAHEAD(2) package=WordOrText() "::")? type=WordOrText() { return impl.GetObjectType(package!=null ? package+"::"+type : type); }
+}
+
+TransientObjectType TransientObjectType():
+{
+    String package=null, type;
+}
+{
+    (LOOKAHEAD(2) package=WordOrText() "::")? type=WordOrText() { return impl.GetTransientObjectType(package!=null ? package+"::"+type : type); }
 }
 
 GrGenType GraphElementType():
@@ -1745,6 +1764,8 @@ void ShowCommand():
     |
         "object" ShowObject()
     |
+        "transient" "object" ShowTransientObject()
+    |
         "var" ShowVar()
     |
         "graph" str=Filename() ("keep" { keep=true; })? (args=WordOrText())? LineEnd()
@@ -1796,7 +1817,7 @@ void ShowNode():
 {
     "types" LineEnd()
     {
-        impl.ShowNodeTypes();
+        impl.ShowTypes(TypeKind.Node);
     }
 |
     "super" "types" nodeType=NodeType() LineEnd()
@@ -1811,7 +1832,7 @@ void ShowNode():
 |
     "attributes" (("only" { only=true; })? nodeType=NodeType())? LineEnd()
     {
-        impl.ShowAvailableNodeAttributes(only, nodeType);
+        impl.ShowAvailableAttributes(only, nodeType, TypeKind.Node);
     }
 |
     node=Node() LineEnd()
@@ -1829,7 +1850,7 @@ void ShowEdge():
 {
     "types" LineEnd()
     {
-        impl.ShowEdgeTypes();
+        impl.ShowTypes(TypeKind.Edge);
     }
 |
     "super" "types" edgeType=EdgeType() LineEnd()
@@ -1844,7 +1865,7 @@ void ShowEdge():
 |
     "attributes" (("only" { only = true; })? edgeType=EdgeType())? LineEnd()
     {
-        impl.ShowAvailableEdgeAttributes(only, edgeType);
+        impl.ShowAvailableAttributes(only, edgeType, TypeKind.Edge);
     }
 |
     edge=Edge() LineEnd()
@@ -1862,7 +1883,7 @@ void ShowObject():
 {
     "types" LineEnd()
     {
-        impl.ShowObjectTypes();
+        impl.ShowTypes(TypeKind.Object);
     }
 |
     "super" "types" objectType=ObjectType() LineEnd()
@@ -1877,10 +1898,43 @@ void ShowObject():
 |
     "attributes" (("only" { only=true; })? objectType=ObjectType())? LineEnd()
     {
-        impl.ShowAvailableObjectAttributes(only, objectType);
+        impl.ShowAvailableAttributes(only, objectType, TypeKind.Object);
     }
 |
     obj=Object() LineEnd()
+    {
+        impl.ShowElementAttributes(obj);
+    }
+}
+
+void ShowTransientObject():
+{
+    bool only = false;
+    ITransientObject obj;
+    TransientObjectType transientObjectType = null;
+}
+{
+    "types" LineEnd()
+    {
+        impl.ShowTypes(TypeKind.TransientObject);
+    }
+|
+    "super" "types" transientObjectType=TransientObjectType() LineEnd()
+    {
+        impl.ShowSuperTypes(transientObjectType, TypeKind.TransientObject);
+    }
+|
+    "sub" "types" transientObjectType=TransientObjectType() LineEnd()
+    {
+        impl.ShowSubTypes(transientObjectType, TypeKind.TransientObject);
+    }
+|
+    "attributes" (("only" { only=true; })? transientObjectType=TransientObjectType())? LineEnd()
+    {
+        impl.ShowAvailableAttributes(only, transientObjectType, TypeKind.TransientObject);
+    }
+|
+    obj=TransientObject() LineEnd()
     {
         impl.ShowElementAttributes(obj);
     }

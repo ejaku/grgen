@@ -3,15 +3,18 @@ new graph "modelmetadata\empty" "testing the show commands"
 show node sub types Node
 show edge sub types AEdge
 show object sub types Object
+show transient object sub types TransientObject
 
 new graph "modelmetadata\model" "testing the show commands"
 
 show node sub types Node
 show edge sub types AEdge
 show object sub types Object
+show transient object sub types TransientObject
 
 show node sub types N4
 show edge sub types E4
 show object sub types O4
+show transient object sub types T4
 
 quit
