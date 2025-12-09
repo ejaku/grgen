@@ -61,7 +61,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         // returns the name found in the objectToName-mapping
-        // in case the objectToName-mapping was not requested, but the nameToObject-mapping, and alsoSearchReverse is requested, this operation is O(n) instead of O(1)
+        // in case the objectToName-mapping was not allocated/requested, the name from the object is returned if available, or the name from the nameToObject-mapping, if available and alsoSearchReverse is requested, then this operation is O(n) instead of O(1)
         public string GetName(IObject obj, bool alsoSearchReverse)
         {
             if(objectToName != null)
@@ -71,6 +71,9 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
+                if(objectsContainName)
+                    return obj.GetObjectName();
+
                 if(nameToObject != null && alsoSearchReverse)
                 {
                     foreach(KeyValuePair<string, IObject> kvp in nameToObject)
