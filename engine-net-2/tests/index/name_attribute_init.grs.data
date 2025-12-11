@@ -2,6 +2,8 @@ foo
 bar
 1
 1
+"n2"
+"N":
 42
 foo
 42
@@ -14,6 +16,8 @@ foo
 fooe
 1
 1
+"foon2"
+"N":
 42
 foo
 42
@@ -26,8 +30,12 @@ foo
 fooe
 2
 2
+"$4"
+"N":
 0
 foo
+"foon2"
+"N":
 0
 foo
 0

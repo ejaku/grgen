@@ -55,6 +55,20 @@ for filename in $targets; do
     $exeprefix ../bin/GrShell.exe $grs < /dev/null 2>&1 | awk "BEGIN { testnum = 0 }
       {sub(\"\\r\$\", \"\")}
       /^All attributes/ {
+        testnum++
+        if ((getline identity < \"$grs.data\") <= 0)
+          fail(testnum, \"\n  No reference data for Test \" testnum \"!\")
+        sub(\"\\r\$\", \"\", identity)
+        if(\$5 != identity)
+          fail(testnum, \"\n  Test \" testnum \" FAILED! Expected identity = \" identity \", Found identity = \" \$5)
+
+        testnum++
+        if ((getline type < \"$grs.data\") <= 0)
+          fail(testnum, \"\n  No reference data for Test \" testnum \"!\")
+        sub(\"\\r\$\", \"\", type)
+        if(\$8 != type)
+          fail(testnum, \"\n  Test \" testnum \" FAILED! Expected type = \" type \", Found type = \" \$8)
+
         do {
           getline
           sub(\"\\r\$\", \"\")
@@ -71,7 +85,7 @@ for filename in $targets; do
         }
         while(\$0 ~ /^All attributes/)
       }
-	  /(^The available attributes for)|(^(Node|Edge|Object|Transient object|node|edge|object|transient object) types)|(^(Sub|Super) types of (Node|Edge|Object|Transient object|node|edge|object|transient object) type)/ {
+      /(^The available attributes for)|(^(Node|Edge|Object|Transient object|node|edge|object|transient object) types)|(^(Sub|Super) types of (Node|Edge|Object|Transient object|node|edge|object|transient object) type)/ {
         do {
           getline
           sub(\"\\r\$\", \"\")
@@ -95,13 +109,13 @@ for filename in $targets; do
         sub(\"\\r\$\", \"\", correctval)
         if(\$4 != correctval) {
           print \"\n    Wrong graph validation result at test \" testnum \", Expected = \" correctval \", Found = \" \$4 > \"/dev/stderr\"
-		  getline
+          getline
           while(\$1 == \"CAE:\") {
             print \"    \" \$0 > \"/dev/stderr\"
             getline
           }
           fail(testnum, 0)
-		}
+        }
       }
       /^> / {
         fail(testnum, \"\n  Test FAILED! It is waiting for user input!\")
@@ -142,7 +156,7 @@ for filename in $targets; do
         if(value != correctvalue)
           fail(testnum, \"\n  Test \" testnum \" FAILED! Expected value of attribute = \" correctvalue \", Found \" value)
       }
-	  /value of variable/ {
+      /value of variable/ {
         testnum++
         value = getAttribute(10)
         if ((getline correctvalue < \"$grs.data\") <= 0)
@@ -169,7 +183,7 @@ for filename in $targets; do
         if(value != correctvalue)
           fail(testnum, \"\n  Test \" testnum \" FAILED! Expected value of sequence expression evaluation = \" correctvalue \", Found \" value)
       }
-	  END {
+      END {
         if(failed) exit 1
 
         if((getline noline < \"$grs.data\") > 0)
@@ -198,7 +212,7 @@ for filename in $targets; do
         exit 1
       }"
 
-	if [ "$?" -ne 0 ]; then
+    if [ "$?" -ne 0 ]; then
       let failCount++
     fi
     let testCount++
@@ -206,8 +220,8 @@ for filename in $targets; do
 done
 
 if [ "$failCount" -gt 0 ]; then
-	echo "Overall result: $failCount of $testCount tests FAILED!"
+    echo "Overall result: $failCount of $testCount tests FAILED!"
 else
-	echo "Overall result: all($testCount) tests succeeded."
+    echo "Overall result: all($testCount) tests succeeded."
 fi
 ) 2>&1 | tee test-`date +%Y%m%d-%H%M%S`.log

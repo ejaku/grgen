@@ -1,5 +1,7 @@
 1
 1
+"$0"
+"TestNode":
 {foo->FOO,bar->BAR,baz->BAZ}
 [foo,bar,baz]
 ]foo,bar,baz[
@@ -14,6 +16,8 @@
 ]foo,bar,baz[
 1
 1
+"$0"
+"TestNode":
 {foo->FOO,bar->qux,baz->BAZ}
 [foo,qux,baz]
 ]foo,qux,baz[
@@ -28,6 +32,8 @@
 ]foo,qux,baz[
 0
 0
+"$0"
+"TestNode":
 {foo->FOO,bar->QUX,baz->BAZ}
 [foo,QUX,baz]
 ]foo,QUX,baz[
@@ -42,6 +48,8 @@
 ]foo,QUX,baz[
 1
 1
+"$0"
+"TestNode":
 {foo->FOO,bar->FUX,baz->BAZ}
 [foo,FUX,baz]
 ]foo,FUX,baz[

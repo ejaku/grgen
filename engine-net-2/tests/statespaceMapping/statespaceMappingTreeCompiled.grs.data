@@ -7,6 +7,8 @@
 "[graph{name:DefaultGraph,id:1,changes:10},graph{name:DefaultGraph,id:6,changes:10},graph{name:DefaultGraph,id:11,changes:10}]"
 "{graph{name:DefaultGraph,id:1,changes:10},graph{name:DefaultGraph,id:2,changes:12},graph{name:DefaultGraph,id:3,changes:12},graph{name:DefaultGraph,id:4,changes:12},graph{name:DefaultGraph,id:5,changes:12},graph{name:DefaultGraph,id:6,changes:10},graph{name:DefaultGraph,id:7,changes:12},graph{name:DefaultGraph,id:8,changes:12},graph{name:DefaultGraph,id:9,changes:12},graph{name:DefaultGraph,id:10,changes:12},graph{name:DefaultGraph,id:11,changes:10},graph{name:DefaultGraph,id:12,changes:12},graph{name:DefaultGraph,id:13,changes:12},graph{name:DefaultGraph,id:14,changes:12},graph{name:DefaultGraph,id:15,changes:12}}"
 "%0"
+"%0"
+"StatespaceObject":
 graph{name:DefaultGraph,id:0,changes:6}
 {%1,%6,%B}
 0
@@ -15,6 +17,8 @@ graph{name:DefaultGraph,id:0,changes:6}
 0
 0
 0
+"%1"
+"StatespaceObject":
 graph{name:DefaultGraph,id:1,changes:10}
 {%2,%3,%4,%5}
 graph{name:DefaultGraph,id:6,changes:10}
@@ -29,6 +33,8 @@ graph{name:DefaultGraph,id:11,changes:10}
 0
 0
 0
+"%2"
+"StatespaceObject":
 graph{name:DefaultGraph,id:2,changes:12}
 {}
 graph{name:DefaultGraph,id:3,changes:12}

@@ -14,6 +14,8 @@
 1
 1
 1
+"$0"
+"N":
 $0
 $1
 %0
@@ -43,6 +45,8 @@ graph{name:induced_from_some non-persistent graph,id:4,changes:2}
 1
 1
 1
+"$0"
+"N":
 $0
 $1
 %0
@@ -70,6 +74,8 @@ graph{name:induced_from_DefaultGraph,id:9,changes:2}
 1
 1
 1
+"$0"
+"N":
 $0
 $1
 %0

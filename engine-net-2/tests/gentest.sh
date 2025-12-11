@@ -23,6 +23,8 @@ for scriptfile in $*; do
 
   $exeprefix ../bin/GrShell.exe "$scriptfile" 2>&1 | awk "{sub(\"\\r\$\", \"\")}
     /^All attributes/ {
+      print \$5
+      print \$8
       do {
         getline
         while(\$0 ~ /^ - /) {
@@ -32,7 +34,7 @@ for scriptfile in $*; do
       }
       while(\$0 ~ /^All attributes/)
     }
-	/(^The available attributes for)|(^(Node|Edge|Object|Transient object|node|edge|object|transient object) types)|(^(Sub|Super) types of (Node|Edge|Object|Transient object|node|edge|object|transient object) type)/ {
+    /(^The available attributes for)|(^(Node|Edge|Object|Transient object|node|edge|object|transient object) types)|(^(Sub|Super) types of (Node|Edge|Object|Transient object|node|edge|object|transient object) type)/ {
       do {
         getline
         while(\$0 ~ /^ - /) {

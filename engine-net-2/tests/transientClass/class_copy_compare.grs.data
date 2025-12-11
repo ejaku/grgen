@@ -1,5 +1,7 @@
 0
 0
+"&0"
+"Diamond":
 42
 Baz
 
@@ -19,6 +21,8 @@ foo
 "False"
 0
 0
+"&1"
+"Diamond":
 43
 Baz
 

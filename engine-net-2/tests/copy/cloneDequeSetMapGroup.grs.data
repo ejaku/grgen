@@ -4,6 +4,8 @@
 1
 1
 1
+"$0"
+"NDequeSetMap":
 ]%0[
 {%1}
 {%2->%3}
@@ -16,6 +18,8 @@
 "{Group{a:3,b:3.141592654,c:Hallo Welt!}->Group{a:4,b:3.141592654,c:Hallo Welt!}}"
 0
 0
+"$1"
+"EDequeSetMap":
 ]%4[
 {%5}
 {%6->%7}
@@ -34,6 +38,8 @@
 2
 2
 2
+"$0"
+"NDequeSetMap":
 ]%0[
 {%1}
 {%2->%3}
@@ -46,6 +52,8 @@
 "{Group{a:3,b:3.141592654,c:Hallo Welt!}->Group{a:4,b:3.141592654,c:Hallo Welt!}}"
 0
 0
+"$1"
+"EDequeSetMap":
 ]%4[
 {%5}
 {%6->%7}
@@ -58,6 +66,8 @@
 "{Group{a:7,b:3.141592654,c:Hallo Krieg!}->Group{a:8,b:3.141592654,c:Hallo Krieg!}}"
 0
 0
+"$2"
+"NDequeSetMap":
 ]%0[
 {%1}
 {%2->%3}
@@ -70,6 +80,8 @@
 "{Group{a:3,b:3.141592654,c:Hallo Welt!}->Group{a:4,b:3.141592654,c:Hallo Welt!}}"
 0
 0
+"$3"
+"EDequeSetMap":
 ]%4[
 {%5}
 {%6->%7}
