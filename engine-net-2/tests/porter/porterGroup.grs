@@ -10,6 +10,8 @@ show num edges only E
 
 show node @("$0")
 show edge @("$1")
+show object @@("%0")
+show object @@("%1")
 
 exec [checkGroup]
 
@@ -27,6 +29,8 @@ select actions porter/lgsp-porterclassobjectActions.dll
 
 show node @("$0")
 show edge @("$1")
+show object @@("%0")
+show object @@("%1")
 
 exec [checkGroup]
 
@@ -44,6 +48,8 @@ show num edges only E
 
 show node @("$0")
 show edge @("$1")
+show object @@("%0")
+show object @@("%1")
 
 exec [checkGroup]
 

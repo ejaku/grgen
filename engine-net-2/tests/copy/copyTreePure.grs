@@ -9,32 +9,32 @@ exec {::bcopy=copyClassObjectStructureTree(::b)}
 exec {{checkTreePure(::bcopy)}}
 
 bt=b
-show var bt
+show object bt
 btl=bt.left
-show var btl
+show object btl
 btll=btl.left
-show var btll
+show object btll
 
 bt=b
-show var bt
+show object bt
 btr=bt.right
-show var btr
+show object btr
 btrr=btr.right
-show var btrr
+show object btrr
 
 bt=bcopy
-show var bt
+show object bt
 btl=bt.left
-show var btl
+show object btl
 btll=btl.left
-show var btll
+show object btll
 
 bt=bcopy
-show var bt
+show object bt
 btr=bt.right
-show var btr
+show object btr
 btrr=btr.right
-show var btrr
+show object btrr
 
 bt=b
 btl=bt.left
@@ -51,31 +51,31 @@ btr.value = 43
 btrr.value = 42
 
 bt=b
-show var bt
+show object bt
 btl=bt.left
-show var btl
+show object btl
 btll=btl.left
-show var btll
+show object btll
 
 bt=b
-show var bt
+show object bt
 btr=bt.right
-show var btr
+show object btr
 btrr=btr.right
-show var btrr
+show object btrr
 
 bt=bcopy
-show var bt
+show object bt
 btl=bt.left
-show var btl
+show object btl
 btll=btl.left
-show var btll
+show object btll
 
 bt=bcopy
-show var bt
+show object bt
 btr=bt.right
-show var btr
+show object btr
 btrr=btr.right
-show var btrr
+show object btrr
 
 quit

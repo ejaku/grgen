@@ -2,11 +2,13 @@ new graph "class/newAttributeInitializer.grg"
 
 exec { ::bf = new Barfuss@(i=42,s="Hallo Welt",d=3.141592654) }
 
-show var bf
+show object bf
 
 exec (::bf,::bf2) = r(::bf)
 
 show var bf
+show object bf
 show var bf2
+show object bf2
 
 quit

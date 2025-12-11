@@ -48,7 +48,7 @@ namespace de.unika.ipd.grGen.libGr
             {
                 originalToCopy.Add(this, new SequenceVariable(name, prefix, type));
 #if LOG_VARIABLE_OPERATIONS
-                procEnv.Recorder.Write(name + " = " + name + "; " + name + "==" + EmitHelper.ToStringAutomatic(value, procEnv.Graph, false) + "\n");
+                procEnv.Recorder.Write(name + " = " + name + "; " + name + "==" + EmitHelper.ToStringAutomatic(value, procEnv.Graph, null, null, null) + "\n");
 #endif
                 return originalToCopy[this];
             }
@@ -91,7 +91,7 @@ namespace de.unika.ipd.grGen.libGr
                 return procEnv.GetVariableValue(name);
             } else {
 #if LOG_VARIABLE_OPERATIONS
-                procEnv.Recorder.Write(name + "==" + EmitHelper.ToStringAutomatic(value, procEnv.Graph, false, null, mull, null) + "\n");
+                procEnv.Recorder.Write(name + "==" + EmitHelper.ToStringAutomatic(value, procEnv.Graph, null, mull, null) + "\n");
 #endif
                 return value;
             }
@@ -104,7 +104,7 @@ namespace de.unika.ipd.grGen.libGr
                 procEnv.SetVariableValue(name, value);
             } else {
 #if LOG_VARIABLE_OPERATIONS
-                procEnv.Recorder.Write(name + " = " + EmitHelper.ToStringAutomatic(value, procEnv.Graph, false, null, null, null) + "\n");
+                procEnv.Recorder.Write(name + " = " + EmitHelper.ToStringAutomatic(value, procEnv.Graph, null, null, null) + "\n");
 #endif
                 this.value = value;
             }

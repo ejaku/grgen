@@ -14,8 +14,8 @@ exec (::n,::e,::o,::o2)=find
 
 show node n
 show edge e
-show var o
-show var o2
+show object o
+show object o2
 
 show num nodes N
 show num edges E
@@ -33,8 +33,8 @@ exec (::n,::e,::o,::o2)=find
 
 show node n
 show edge e
-show var o
-show var o2
+show object o
+show object o2
 
 show num nodes N
 show num edges E
@@ -56,8 +56,8 @@ exec (::n,::e,::o,::o2)=find
 
 show node n
 show edge e
-show var o
-show var o2
+show object o
+show object o2
 
 clear graph
 

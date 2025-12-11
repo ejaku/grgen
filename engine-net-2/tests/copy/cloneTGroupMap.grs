@@ -5,11 +5,15 @@ exec  {(::m)=createTGroupMap()}
 exec {::mclone=cloneTGroupMap(::m)}
 
 show var m
+exec { emitMapTGroup(::m) }
 show var mclone
+exec { emitMapTGroup(::mclone) }
 
 exec {::item=::m.peek(0); ::item.a = 42; ::item=::m[::item]; ::item.a = 43}
 
 show var m
+exec { emitMapTGroup(::m) }
 show var mclone
+exec { emitMapTGroup(::mclone) }
 
 quit

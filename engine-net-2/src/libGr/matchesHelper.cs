@@ -208,7 +208,7 @@ namespace de.unika.ipd.grGen.libGr
             sb.Append(indent + "nodes: ");
             foreach(INode node in match.Nodes)
             {
-                sb.Append(EmitHelper.ToStringAutomatic(node, graph, false, null, null, null));
+                sb.Append(EmitHelper.ToStringAutomatic(node, graph, null, null, null));
                 sb.Append(" ");
             }
             sb.Append("\n");
@@ -216,7 +216,7 @@ namespace de.unika.ipd.grGen.libGr
             sb.Append(indent + "edges: ");
             foreach(IEdge edge in match.Edges)
             {
-                sb.Append(EmitHelper.ToStringAutomatic(edge, graph, false, null, null, null));
+                sb.Append(EmitHelper.ToStringAutomatic(edge, graph, null, null, null));
                 sb.Append(" ");
             }
             sb.Append("\n");

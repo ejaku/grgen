@@ -2976,7 +2976,7 @@ public class ModifyEvalGen extends CSharpBase
 			sb.append(";\n");
 			sb.appendFront("if(" + emitVar + " != null)\n");
 			sb.appendFrontIndented("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv)." + emitWriter + ".Write("
-					+ "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + emitVar + ", graph, false, null, null, null));\n");
+					+ "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + emitVar + ", graph, null, null, null));\n");
 		}
 	}
 
@@ -3102,7 +3102,7 @@ public class ModifyEvalGen extends CSharpBase
 		sb.append(";\n");
 		sb.appendFront("if(" + recordVar + " != null)\n");
 		sb.appendFrontIndented("((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv).Recorder.Write("
-				+ "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + recordVar + ", graph, false, null, null, null));\n");
+				+ "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + recordVar + ", graph, null, null, null));\n");
 	}
 
 	private void genExportProc(SourceBuilder sb, ModifyGenerationStateConst state, ExportProc ep)

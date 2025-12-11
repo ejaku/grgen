@@ -85,3 +85,21 @@ rule cgroupby(ref a:array<Simple>)
 	}
 }
 
+
+procedure emitSimpleArray(var name:string, ref a:array<Simple>)
+{
+	emit("The value of variable \"", name, "\" of type array<Simple> is: ");
+	emit("\"[");
+	def var first:boolean = true;
+	for(elem:Simple in a)
+	{
+		if(first) {
+			first = false;
+		} else {
+			emit(",");
+		}
+		emit("Simple{i:" + elem.i + ",j:" + elem.j + "}");
+	}
+	emit("]\"\n");
+	return;
+}

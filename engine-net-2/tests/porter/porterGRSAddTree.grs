@@ -10,6 +10,8 @@ show num edges only E
 
 show node @("$0")
 show edge @("$1")
+show object @@("%0")
+show object @@("%5")
 
 exec [checkTree]
 
@@ -29,6 +31,10 @@ show node @("$0")
 show edge @("$1")
 show node @("$01")
 show edge @("$11")
+show object @@("%0")
+show object @@("%5")
+show object @@("%A")
+show object @@("%F")
 
 exec [checkTree]
 

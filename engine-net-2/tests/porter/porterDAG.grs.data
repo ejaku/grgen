@@ -7,11 +7,15 @@
 
 
 
-Graph{%:%1,value:1,children:[Graph{%:%2},Graph{%:%3},Graph{%:%4}]}
+%1
 
 
 
-Graph{%:%5,value:1,children:[Graph{%:%6},Graph{%:%7},Graph{%:%8}]}
+%5
+1
+[%2,%3,%4]
+1
+[%6,%7,%8]
 1
 1
 1
@@ -23,11 +27,15 @@ Graph{%:%5,value:1,children:[Graph{%:%6},Graph{%:%7},Graph{%:%8}]}
 
 
 
-Graph{%:%1,value:1,children:[Graph{%:%2},Graph{%:%3},Graph{%:%4}]}
+%1
 
 
 
-Graph{%:%5,value:1,children:[Graph{%:%6},Graph{%:%7},Graph{%:%8}]}
+%5
+1
+[%2,%3,%4]
+1
+[%6,%7,%8]
 1
 1
 1
@@ -37,10 +45,14 @@ Graph{%:%5,value:1,children:[Graph{%:%6},Graph{%:%7},Graph{%:%8}]}
 
 
 
-Graph{%:%1,value:1,children:[Graph{%:%2},Graph{%:%3},Graph{%:%4}]}
+%1
 
 
 
-Graph{%:%5,value:1,children:[Graph{%:%6},Graph{%:%7},Graph{%:%8}]}
+%5
+1
+[%2,%3,%4]
+1
+[%6,%7,%8]
 1
 1

@@ -54,12 +54,12 @@ class Graph
 	children:array<Graph>;
 }
 
-class DequeSetMap
+/*class DequeSetMap
 {
 	d:deque<Group>;
 	s:set<Group>;
 	m:map<Group,Group>;
-}
+}*/
 
 node class NDequeSetMap
 {

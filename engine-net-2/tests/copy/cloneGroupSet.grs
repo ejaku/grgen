@@ -5,11 +5,15 @@ exec  {(::s)=createGroupSet()}
 exec {::sclone=cloneGroupSet(::s)}
 
 show var s
+exec { emitSetGroup(::s) }
 show var sclone
+exec { emitSetGroup(::sclone) }
 
 exec {::item=::s.peek(0); ::item.a = 42}
 
 show var s
+exec { emitSetGroup(::s) }
 show var sclone
+exec { emitSetGroup(::sclone) }
 
 quit

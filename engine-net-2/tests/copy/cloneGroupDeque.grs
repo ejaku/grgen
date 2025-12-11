@@ -5,11 +5,15 @@ exec  {(::d)=createGroupDeque()}
 exec {::dclone=cloneGroupDeque(::d)}
 
 show var d
+exec { emitDequeGroup(::d) }
 show var dclone
+exec { emitDequeGroup(::dclone) }
 
 exec {::item=::d[0]; ::item.a = 42}
 
 show var d
+exec { emitDequeGroup(::d) }
 show var dclone
+exec { emitDequeGroup(::dclone) }
 
 quit

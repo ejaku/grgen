@@ -12,22 +12,23 @@ show var statestep
 show var statespace
 
 show var statespaceRoot
+show object statespaceRoot
 
 exec { ::statespaceRootChild0 = ::statespaceRoot.successors.peek(0) }
 exec { ::statespaceRootChild1 = ::statespaceRoot.successors.peek(1) }
 exec { ::statespaceRootChild2 = ::statespaceRoot.successors.peek(2) }
-show var statespaceRootChild0
-show var statespaceRootChild1
-show var statespaceRootChild2
+show object statespaceRootChild0
+show object statespaceRootChild1
+show object statespaceRootChild2
 
 exec { ::statespaceRootChild00 = ::statespaceRootChild0.successors.peek(0) }
 exec { ::statespaceRootChild01 = ::statespaceRootChild0.successors.peek(1) }
 exec { ::statespaceRootChild02 = ::statespaceRootChild0.successors.peek(2) }
 exec { ::statespaceRootChild03 = ::statespaceRootChild0.successors.peek(3) }
-show var statespaceRootChild00
-show var statespaceRootChild01
-show var statespaceRootChild02
-show var statespaceRootChild03
+show object statespaceRootChild00
+show object statespaceRootChild01
+show object statespaceRootChild02
+show object statespaceRootChild03
 
 #note: the StatespaceObject are created in different graphs, have thus the same graph-based id
 #building a common data structure from them is illegal, correct behavior would be to create them all in the root graph 

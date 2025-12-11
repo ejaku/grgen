@@ -9,7 +9,13 @@ show num edges
 show num edges only EDequeSetMap
 
 show node @("$0")
+exec { n:NDequeSetMap=(NDequeSetMap)nodeByName("$0"); emitDequeGroup(n.d) }
+exec { n:NDequeSetMap=(NDequeSetMap)nodeByName("$0"); emitSetGroup(n.s) }
+exec { n:NDequeSetMap=(NDequeSetMap)nodeByName("$0"); emitMapGroup(n.m) }
 show edge @("$1")
+exec { e:EDequeSetMap=(EDequeSetMap)edgeByName("$1"); emitDequeGroup(e.d) }
+exec { e:EDequeSetMap=(EDequeSetMap)edgeByName("$1"); emitSetGroup(e.s) }
+exec { e:EDequeSetMap=(EDequeSetMap)edgeByName("$1"); emitMapGroup(e.m) }
 
 exec cloneDequeSetMapGroup
 
@@ -20,8 +26,20 @@ show num edges
 show num edges only EDequeSetMap
 
 show node @("$0")
+exec { n:NDequeSetMap=(NDequeSetMap)nodeByName("$0"); emitDequeGroup(n.d) }
+exec { n:NDequeSetMap=(NDequeSetMap)nodeByName("$0"); emitSetGroup(n.s) }
+exec { n:NDequeSetMap=(NDequeSetMap)nodeByName("$0"); emitMapGroup(n.m) }
 show edge @("$1")
+exec { e:EDequeSetMap=(EDequeSetMap)edgeByName("$1"); emitDequeGroup(e.d) }
+exec { e:EDequeSetMap=(EDequeSetMap)edgeByName("$1"); emitSetGroup(e.s) }
+exec { e:EDequeSetMap=(EDequeSetMap)edgeByName("$1"); emitMapGroup(e.m) }
 show node @("$2")
+exec { n:NDequeSetMap=(NDequeSetMap)nodeByName("$2"); emitDequeGroup(n.d) }
+exec { n:NDequeSetMap=(NDequeSetMap)nodeByName("$2"); emitSetGroup(n.s) }
+exec { n:NDequeSetMap=(NDequeSetMap)nodeByName("$2"); emitMapGroup(n.m) }
 show edge @("$3")
+exec { e:EDequeSetMap=(EDequeSetMap)edgeByName("$3"); emitDequeGroup(e.d) }
+exec { e:EDequeSetMap=(EDequeSetMap)edgeByName("$3"); emitSetGroup(e.s) }
+exec { e:EDequeSetMap=(EDequeSetMap)edgeByName("$3"); emitMapGroup(e.m) }
 
 quit

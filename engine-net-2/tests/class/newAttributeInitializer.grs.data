@@ -1,7 +1,15 @@
 0
 0
-"Barfuss{%:%0,i:42,s:Hallo Welt,d:3.141592654}"
+42
+Hallo Welt
+3.141592654
 1
 1
-"Barfuss{%:%2,i:42,s:Hallo Welt!,d:3.141592654}"
-"Barfuss{%:%3,i:42,s:Hallo Welt,d:3.141592654}"
+"%2"
+42
+Hallo Welt!
+3.141592654
+"%3"
+42
+Hallo Welt
+3.141592654

@@ -3,6 +3,7 @@ new graph "class/array_by_member.grg"
 exec { ::a = array<Simple>[]; ::v=new Simple(); ::v.i = 0; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = -1; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = 2; ::a.add(::v) }
 
 show var a
+exec { emitSimpleArray("a", ::a) }
 
 exec { ::o=::a.indexOfBy<i>(1) }
 
@@ -11,6 +12,7 @@ show var o
 exec { ::a = array<Simple>[]; ::v=new Simple(); ::v.i = 0; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = -1; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = 2; ::a.add(::v) }
 
 show var a
+exec { emitSimpleArray("a", ::a) }
 
 exec { ::o=::a.indexOfBy<i>(1,2) }
 
@@ -19,6 +21,7 @@ show var o
 exec { ::a = array<Simple>[]; ::v=new Simple(); ::v.i = 0; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = -1; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = 2; ::a.add(::v) }
 
 show var a
+exec { emitSimpleArray("a", ::a) }
 
 exec { ::o=::a.lastIndexOfBy<i>(1) }
 
@@ -27,6 +30,7 @@ show var o
 exec { ::a = array<Simple>[]; ::v=new Simple(); ::v.i = 0; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = -1; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = 2; ::a.add(::v) }
 
 show var a
+exec { emitSimpleArray("a", ::a) }
 
 exec { ::o=::a.lastIndexOfBy<i>(1,2) }
 
@@ -36,6 +40,7 @@ exec { ::a = array<Simple>[]; ::v=new Simple(); ::v.i = 0; ::a.add(::v); ::v=new
 exec { ::a = ::a.orderAscendingBy<i>() }
 
 show var a
+exec { emitSimpleArray("a", ::a) }
 
 exec { ::o=::a.indexOfOrderedBy<i>(1) }
 

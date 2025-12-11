@@ -2972,9 +2972,9 @@ namespace de.unika.ipd.grGen.grShell
             if(owner is IGraphElement)
                 return curShellProcEnv.ProcEnv.NamedGraph.GetElementName((IGraphElement)owner);
             else if(owner is IObject)
-                return curShellProcEnv.objectNamerAndIndexer.GetName((IObject)owner);
+                return curShellProcEnv.objectNamerAndIndexer.GetOrAssignName((IObject)owner);
             else if(owner is ITransientObject)
-                return "&:" + curShellProcEnv.transientObjectNamerAndIndexer.GetUniqueId((ITransientObject)owner).ToString();
+                return curShellProcEnv.transientObjectNamerAndIndexer.GetName((ITransientObject)owner);
             else
                 return null;
         }
@@ -2994,7 +2994,7 @@ namespace de.unika.ipd.grGen.grShell
             foreach(AttributeType attrType in owner.Type.AttributeTypes)
             {
                 ConsoleUI.outWriter.WriteLine(" - {0}::{1} = {2}", attrType.OwnerType.PackagePrefixedName,
-                    attrType.Name, EmitHelper.ToStringAutomatic(owner.GetAttribute(attrType.Name), curShellProcEnv.ProcEnv.NamedGraph, false, curShellProcEnv.objectNamerAndIndexer, curShellProcEnv.transientObjectNamerAndIndexer, null));
+                    attrType.Name, EmitHelper.ToStringAutomatic(owner.GetAttribute(attrType.Name), curShellProcEnv.ProcEnv.NamedGraph, curShellProcEnv.objectNamerAndIndexer, curShellProcEnv.transientObjectNamerAndIndexer, null));
             }
         }
 
@@ -3008,7 +3008,7 @@ namespace de.unika.ipd.grGen.grShell
                 return;
 
             ConsoleUI.outWriter.Write("The value of attribute \"" + attributeName + "\" is: \"");
-            ConsoleUI.outWriter.Write(EmitHelper.ToStringAutomatic(owner.GetAttribute(attributeName), curShellProcEnv.ProcEnv.NamedGraph, false, curShellProcEnv.objectNamerAndIndexer, curShellProcEnv.transientObjectNamerAndIndexer, null));
+            ConsoleUI.outWriter.Write(EmitHelper.ToStringAutomatic(owner.GetAttribute(attributeName), curShellProcEnv.ProcEnv.NamedGraph, curShellProcEnv.objectNamerAndIndexer, curShellProcEnv.transientObjectNamerAndIndexer, null));
             ConsoleUI.outWriter.WriteLine("\".");
         }
 
@@ -3194,7 +3194,6 @@ namespace de.unika.ipd.grGen.grShell
 
         public void ShowVar(String name)
         {
-            // TODO: comment in transientObjectNamerAndIndexer and regenerate test records
             object val = GetVarValue(name);
             if(val != null)
             {
@@ -3203,44 +3202,44 @@ namespace de.unika.ipd.grGen.grShell
                 if(val.GetType().Name=="Dictionary`2")
                 {
                     EmitHelper.ToString((IDictionary)val, out type, out content,
-                        null, curShellProcEnv!=null ? curShellProcEnv.ProcEnv.NamedGraph : null, false, 
-                        curShellProcEnv!=null ? curShellProcEnv.objectNamerAndIndexer : null, /*curShellProcEnv != null ? curShellProcEnv.transientObjectNamerAndIndexer : */null, null);
+                        null, curShellProcEnv!=null ? curShellProcEnv.ProcEnv.NamedGraph : null, 
+                        curShellProcEnv!=null ? curShellProcEnv.objectNamerAndIndexer : null, curShellProcEnv != null ? curShellProcEnv.transientObjectNamerAndIndexer : null, null);
                     ConsoleUI.outWriter.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
                 }
                 else if(val.GetType().Name == "List`1")
                 {
                     EmitHelper.ToString((IList)val, out type, out content,
-                        null, curShellProcEnv != null ? curShellProcEnv.ProcEnv.NamedGraph : null, false,
-                        curShellProcEnv != null ? curShellProcEnv.objectNamerAndIndexer : null, /*curShellProcEnv != null ? curShellProcEnv.transientObjectNamerAndIndexer : */null, null);
+                        null, curShellProcEnv != null ? curShellProcEnv.ProcEnv.NamedGraph : null,
+                        curShellProcEnv != null ? curShellProcEnv.objectNamerAndIndexer : null, curShellProcEnv != null ? curShellProcEnv.transientObjectNamerAndIndexer : null, null);
                     ConsoleUI.outWriter.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
                 }
                 else if(val.GetType().Name == "Deque`1")
                 {
                     EmitHelper.ToString((IDeque)val, out type, out content,
-                        null, curShellProcEnv != null ? curShellProcEnv.ProcEnv.NamedGraph : null, false, 
-                        curShellProcEnv != null ? curShellProcEnv.objectNamerAndIndexer : null, /*curShellProcEnv != null ? curShellProcEnv.transientObjectNamerAndIndexer : */null, null);
+                        null, curShellProcEnv != null ? curShellProcEnv.ProcEnv.NamedGraph : null, 
+                        curShellProcEnv != null ? curShellProcEnv.objectNamerAndIndexer : null, curShellProcEnv != null ? curShellProcEnv.transientObjectNamerAndIndexer : null, null);
                     ConsoleUI.outWriter.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
                 }
-                else if(val is LGSPNode && GraphExists())
+                else if(val is INode && GraphExists())
                 {
-                    LGSPNode node = (LGSPNode)val;
+                    INode node = (INode)val;
                     ConsoleUI.outWriter.WriteLine("The value of variable \"" + name + "\" of type " + node.Type.PackagePrefixedName + " is: \"" + curShellProcEnv.ProcEnv.NamedGraph.GetElementName((IGraphElement)val) + "\"");
-                    //ShowElementAttributes((IGraphElement)val);
+                    //ShowElementAttributes((IGraphElement)val); when nodes and/or edges are to be shown with variables, class objects and transient class objects are so, too, special purpose functions exist in the TypesHelper ... maybe a show full variable command
                     return;
                 }
-                else if(val is LGSPEdge && GraphExists())
+                else if(val is IEdge && GraphExists())
                 {
-                    LGSPEdge edge = (LGSPEdge)val;
+                    IEdge edge = (IEdge)val;
                     ConsoleUI.outWriter.WriteLine("The value of variable \"" + name + "\" of type " + edge.Type.PackagePrefixedName + " is: \"" + curShellProcEnv.ProcEnv.NamedGraph.GetElementName((IGraphElement)val) + "\"");
                     //ShowElementAttributes((IGraphElement)val);
                     return;
                 }
                 EmitHelper.ToString(val, out type, out content,
-                    null, curShellProcEnv!=null ? curShellProcEnv.ProcEnv.NamedGraph : null, false, 
-                    curShellProcEnv != null ? curShellProcEnv.objectNamerAndIndexer : null, /*curShellProcEnv != null ? curShellProcEnv.transientObjectNamerAndIndexer : */null, null);
+                    null, curShellProcEnv!=null ? curShellProcEnv.ProcEnv.NamedGraph : null, 
+                    curShellProcEnv != null ? curShellProcEnv.objectNamerAndIndexer : null, curShellProcEnv != null ? curShellProcEnv.transientObjectNamerAndIndexer : null, null);
                 ConsoleUI.outWriter.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                 return;
             }

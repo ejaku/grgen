@@ -401,3 +401,198 @@ function copyTGroupMap(ref m:map<TGroup, TGroup>) : map<TGroup, TGroup>
 	return(copy(m));
 }
 
+
+procedure emitDequeGroup(ref d:deque<Group>)
+{
+	emit("The value of variable \"d\" of type deque<Group> is: ");
+	emit("\"]");
+	def var first:boolean = true;
+	for(elem:Group in d)
+	{
+		if(first) {
+			first = false;
+		} else {
+			emit(",");
+		}
+		emit("Group{a:" + elem.a + ",b:" + elem.b + ",c:" + elem.c + "}");
+	}
+	emit("[\"\n");
+	return;
+}
+
+procedure emitSetGroup(ref s:set<Group>)
+{
+	emit("The value of variable \"s\" of type set<Group> is: ");
+	emit("\"{");
+	def var first:boolean = true;
+	for(elem:Group in s)
+	{
+		if(first) {
+			first = false;
+		} else {
+			emit(",");
+		}
+		emit("Group{a:" + elem.a + ",b:" + elem.b + ",c:" + elem.c + "}");
+	}
+	emit("}\"\n");
+	return;
+}
+
+procedure emitMapGroup(ref m:map<Group,Group>)
+{
+	emit("The value of variable \"m\" of type map<Group,Group> is: ");
+	emit("\"{");
+	def var first:boolean = true;
+	for(key:Group -> value:Group in m)
+	{
+		if(first) {
+			first = false;
+		} else {
+			emit(",");
+		}
+		emit("Group{a:" + key.a + ",b:" + key.b + ",c:" + key.c + "}");
+		emit("->");
+		emit("Group{a:" + value.a + ",b:" + value.b + ",c:" + value.c + "}");
+	}
+	emit("}\"\n");
+	return;
+}
+
+procedure emitDequeTGroup(ref d:deque<TGroup>)
+{
+	emit("The value of variable \"d\" of type deque<TGroup> is: ");
+	emit("\"]");
+	def var first:boolean = true;
+	for(elem:TGroup in d)
+	{
+		if(first) {
+			first = false;
+		} else {
+			emit(",");
+		}
+		emit("TGroup{a:" + elem.a + ",b:" + elem.b + ",c:" + elem.c + "}");
+	}
+	emit("[\"\n");
+	return;
+}
+
+procedure emitSetTGroup(ref s:set<TGroup>)
+{
+	emit("The value of variable \"s\" of type set<TGroup> is: ");
+	emit("\"{");
+	def var first:boolean = true;
+	for(elem:TGroup in s)
+	{
+		if(first) {
+			first = false;
+		} else {
+			emit(",");
+		}
+		emit("TGroup{a:" + elem.a + ",b:" + elem.b + ",c:" + elem.c + "}");
+	}
+	emit("}\"\n");
+	return;
+}
+
+procedure emitMapTGroup(ref m:map<TGroup,TGroup>)
+{
+	emit("The value of variable \"m\" of type map<TGroup,TGroup> is: ");
+	emit("\"{");
+	def var first:boolean = true;
+	for(key:TGroup -> value:TGroup in m)
+	{
+		if(first) {
+			first = false;
+		} else {
+			emit(",");
+		}
+		emit("TGroup{a:" + key.a + ",b:" + key.b + ",c:" + key.c + "}");
+		emit("->");
+		emit("TGroup{a:" + value.a + ",b:" + value.b + ",c:" + value.c + "}");
+	}
+	emit("}\"\n");
+	return;
+}
+
+procedure emitGroup(var name:string, ref g:Group)
+{
+	if(g == null) {
+		return;
+	}
+	
+	emit("The value of variable \"", name, "\" of type Group is: ");
+	emit("\"Group{" + toObjectId(g) + ",a:" + g.a + ",b:" + g.b + ",c:" + g.c + "}");
+	emit("\"\n");
+	return;
+}
+
+procedure emitList(var name:string, ref l:List)
+{
+	if(l == null) {
+		return;
+	}
+	
+	emit("The value of variable \"", name, "\" of type List is: ");
+	emit("\"List{" + toObjectId(l) + ",value:" + l.value + ",next:" + toObjectId(l.next) + "}");
+	emit("\"\n");
+	return;
+}
+
+procedure emitTree(var name:string, ref t:Tree)
+{
+	if(t == null) {
+		return;
+	}
+	
+	emit("The value of variable \"", name, "\" of type Tree is: ");
+	emit("\"Tree{" + toObjectId(t) + ",value:" + t.value + ",left:" + toObjectId(t.left) + ",right:" + toObjectId(t.right) + "}");
+	emit("\"\n");
+	return;
+}
+
+procedure emitGraph(var name:string, ref g:Graph)
+{
+	if(g == null) {
+		return;
+	}
+	
+	emit("The value of variable \"" + name + "\" of type Graph is: ");
+	emit("\"Graph{" + toObjectId(g) + ",value:" + g.value + ",children:[");
+	def var first:boolean = true;
+	def ref children:array<Graph> = g.children;
+	for(elem:Graph in children) // todo: allow expressions in for loops instead of only variables...
+	{
+		if(first) {
+			first = false;
+		} else {
+			emit(",");
+		}
+		emit("Graph{" + toObjectId(elem) + ",value:" + elem.value + "}");
+	}
+	emit("]}\"\n");
+	return;
+}
+
+function toObjectId(ref obj:Object) : string
+{
+	return("%" + toHex(uniqueof(obj)));
+}
+
+function toHex(var id:long) : string
+{
+	if(id < 0) {
+		return("-1");
+	}
+	
+	def ref hexDigits:array<string> = array<string>["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"];
+	def var result:string = "";
+	do
+	{
+		def var rest:long = id % 16;
+		result = hexDigits[(int)rest] + result;
+		id = id / 16;
+	}
+	while(id != 0)
+	
+	return(result);
+}

@@ -16,6 +16,7 @@ show var o
 exec { (::res, ::o1, ::o2, ::o12, ::oend) = getObjectStructure(::o) }
 show var res
 show var oend
+show object oend
 eval isObjectStructureWellAttributedAfterAssignment(::o, ::o1, ::o2, ::o12)
 
 show o.s
@@ -46,10 +47,12 @@ exec find
 exec (::n)=findSimple && { ::o = ::n.root }
 
 show var o
+show object o
 
 exec { (::res, ::o1, ::o2, ::o12, ::oend) = getObjectStructure(::o) }
 show var res
 show var oend
+show object oend
 eval isObjectStructureWellAttributedAfterAssignment(::o, ::o1, ::o2, ::o12)
 
 show o.s
@@ -86,10 +89,12 @@ exec find
 exec (::n)=findSimple && { ::o = ::n.root }
 
 show var o
+show object o
 
 exec { (::res, ::o1, ::o2, ::o12, ::oend) = getObjectStructure(::o) }
 show var res
 show var oend
+show object oend
 eval isObjectStructureWellAttributedAfterAssignment(::o, ::o1, ::o2, ::o12)
 
 show o.s

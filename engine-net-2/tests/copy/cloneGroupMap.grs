@@ -5,11 +5,15 @@ exec  {(::m)=createGroupMap()}
 exec {::mclone=cloneGroupMap(::m)}
 
 show var m
+exec { emitMapGroup(::m) }
 show var mclone
+exec { emitMapGroup(::mclone) }
 
 exec {::item=::m.peek(0); ::item.a = 42; ::item=::m[::item]; ::item.a = 43}
 
 show var m
+exec { emitMapGroup(::m) }
 show var mclone
+exec { emitMapGroup(::mclone) }
 
 quit

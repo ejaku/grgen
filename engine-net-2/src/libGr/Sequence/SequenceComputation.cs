@@ -1610,12 +1610,12 @@ namespace de.unika.ipd.grGen.libGr
                 if(IsDebug)
                 {
                     if(value != null)
-                        procEnv.EmitWriterDebug.Write(EmitHelper.ToStringNonNull(value, procEnv.Graph, false, null, null, null));
+                        procEnv.EmitWriterDebug.Write(EmitHelper.ToStringNonNull(value, procEnv.Graph, null, null, null));
                 }
                 else
                 {
                     if(value != null)
-                        procEnv.EmitWriter.Write(EmitHelper.ToStringNonNull(value, procEnv.Graph, false, null, null, null));
+                        procEnv.EmitWriter.Write(EmitHelper.ToStringNonNull(value, procEnv.Graph, null, null, null));
                 }
             }
             return value;
@@ -1701,7 +1701,7 @@ namespace de.unika.ipd.grGen.libGr
             if(value is string)
                 value = Unescape((string)value);
             if(value != null)
-                procEnv.Recorder.Write(EmitHelper.ToStringNonNull(value, procEnv.Graph, false, null, null, null));
+                procEnv.Recorder.Write(EmitHelper.ToStringNonNull(value, procEnv.Graph, null, null, null));
             return value;
         }
 

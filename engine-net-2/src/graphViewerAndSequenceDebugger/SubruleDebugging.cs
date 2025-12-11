@@ -33,7 +33,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.parameters = new List<string>();
             for(int i = 0; i < values.Length; ++i)
             {
-                parameters.Add(EmitHelper.ToStringAutomatic(values[i], graph, false, null, null, null));
+                parameters.Add(EmitHelper.ToStringAutomatic(values[i], graph, null, null, null));
             }
             this.fakeEntry = false;
         }
@@ -378,7 +378,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     for(int i = 0; i < additionalData.Length; ++i)
                     {
                         sb.Append(" ");
-                        sb.Append(EmitHelper.Clip(EmitHelper.ToStringAutomatic(additionalData[i], graph, false, null, null, null), 120));
+                        sb.Append(EmitHelper.Clip(EmitHelper.ToStringAutomatic(additionalData[i], graph, null, null, null), 120));
                     }
                     break;
                 }

@@ -10,6 +10,8 @@ show num edges only E
 
 show node @("$0")
 show edge @("$1")
+show object @@("%0")
+show object @@("%2")
 
 exec [checkGraph]
 
@@ -29,6 +31,10 @@ show node @("$0")
 show edge @("$1")
 show node @("$01")
 show edge @("$11")
+show object @@("%0")
+show object @@("%2")
+show object @@("%4")
+show object @@("%6")
 
 exec [checkGraph]
 

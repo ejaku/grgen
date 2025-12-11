@@ -2333,7 +2333,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             for(int i = 0; i < values.Length; ++i)
             {
                 env.Write(" ");
-                env.Write(EmitHelper.ToStringAutomatic(values[i], task.procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null));
+                env.Write(EmitHelper.ToStringAutomatic(values[i], task.procEnv.NamedGraph, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null));
             }
             env.WriteLine();
 

@@ -5,11 +5,15 @@ exec  {(::s)=createTGroupSet()}
 exec {::sclone=cloneTGroupSet(::s)}
 
 show var s
+exec { emitSetTGroup(::s) }
 show var sclone
+exec { emitSetTGroup(::sclone) }
 
 exec {::item=::s.peek(0); ::item.a = 42}
 
 show var s
+exec { emitSetTGroup(::s) }
 show var sclone
+exec { emitSetTGroup(::sclone) }
 
 quit

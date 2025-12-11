@@ -3,6 +3,7 @@ new graph "transientClass/array_by_member.grg"
 exec { ::a = array<Simple>[]; ::v=new Simple(); ::v.i = 0; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = -1; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = 2; ::a.add(::v) }
 
 show var a
+exec { emitSimpleArray("a", ::a) }
 
 exec (::o)=aindexofby(::a)
 
@@ -11,6 +12,7 @@ show var o
 exec { ::a = array<Simple>[]; ::v=new Simple(); ::v.i = 0; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = -1; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = 2; ::a.add(::v) }
 
 show var a
+exec { emitSimpleArray("a", ::a) }
 
 exec (::o)=aindexofbystart(::a)
 
@@ -19,6 +21,7 @@ show var o
 exec { ::a = array<Simple>[]; ::v=new Simple(); ::v.i = 0; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = -1; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = 2; ::a.add(::v) }
 
 show var a
+exec { emitSimpleArray("a", ::a) }
 
 exec (::o)=alastindexofby(::a)
 
@@ -27,15 +30,18 @@ show var o
 exec { ::a = array<Simple>[]; ::v=new Simple(); ::v.i = 0; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = -1; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = 2; ::a.add(::v) }
 
 show var a
+exec { emitSimpleArray("a", ::a) }
 
 exec (::o)=alastindexofbystart(::a)
 
 show var o
 
 exec { ::a = array<Simple>[]; ::v=new Simple(); ::v.i = 0; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = -1; ::a.add(::v); ::v=new Simple(); ::v.i = 1; ::a.add(::v); ::v=new Simple(); ::v.i = 2; ::a.add(::v) }
+show var a #ids are assigned when the shell sees the internal class objects (if object class unique; is not specified, for transient objects always), which is the case on show var for the rendered first level of container content (or the entity if the variable does not contain a container) (or for the entity and its attributes in case of a show node/edge/object/transient object shell command; or if the debugger renders them - but not the case when just an emit outside of the shell is carried out)
 exec { ::a = ::a.orderAscendingBy<i>() }
 
-show var a
+show var a #without the previous show var, ids would be assigned here and would be in order, so the re-ordering from the command above would not be visible
+exec { emitSimpleArray("a", ::a) }
 
 exec (::o)=aindexoforderedby(::a)
 

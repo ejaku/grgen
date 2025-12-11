@@ -1291,13 +1291,13 @@ namespace de.unika.ipd.grGen.expression
                 {
                     sourceCode.Append("GRGEN_LIBGR.EmitHelper.ToString(");
                     Nested.Emit(sourceCode);
-                    sourceCode.Append(", graph, false, null, null, null)");
+                    sourceCode.Append(", graph, null, null, null)");
                 }
                 else
                 {
                     sourceCode.Append("GRGEN_LIBGR.EmitHelper.ToStringNonNull(");
                     Nested.Emit(sourceCode);
-                    sourceCode.Append(", graph, false, null, null, null)");
+                    sourceCode.Append(", graph, null, null, null)");
                 }
             }
             else

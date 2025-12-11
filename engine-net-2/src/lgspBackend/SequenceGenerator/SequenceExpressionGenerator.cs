@@ -1008,9 +1008,9 @@ namespace de.unika.ipd.grGen.lgsp
             else if(seqCast.TargetType == "string")
             {
                 if(TypesHelper.IsContainerType(seqCast.Operand.Type(env)))
-                    return "GRGEN_LIBGR.EmitHelper.ToString(" + operandExpr + ", graph, false, null, null, null)";
+                    return "GRGEN_LIBGR.EmitHelper.ToString(" + operandExpr + ", graph, null, null, null)";
                 else
-                    return "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + operandExpr + ", graph, false, null, null, null)";
+                    return "GRGEN_LIBGR.EmitHelper.ToStringNonNull(" + operandExpr + ", graph, null, null, null)";
             }
             else
                 return "((" + targetType + ")" + operandExpr + ")";

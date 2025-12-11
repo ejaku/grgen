@@ -926,22 +926,22 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
             {
-                EmitHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
+                EmitHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
                 attrValueString = basicClient.Encode(attrValueString);
             }
             else if(attrType.Kind == AttributeKind.ArrayAttr)
             {
-                EmitHelper.ToString((IList)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
+                EmitHelper.ToString((IList)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
                 attrValueString = basicClient.Encode(attrValueString);
             }
             else if(attrType.Kind == AttributeKind.DequeAttr)
             {
-                EmitHelper.ToString((IDeque)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
+                EmitHelper.ToString((IDeque)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
                 attrValueString = basicClient.Encode(attrValueString);
             }
             else
             {
-                EmitHelper.ToString(elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
+                EmitHelper.ToString(elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
                 attrValueString = basicClient.Encode(attrValueString);
             }
         }

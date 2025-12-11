@@ -2,7 +2,7 @@ new graph "transientClass/class_copy_compare.grg"
 
 exec { ::d1=new Diamond(); ::d1.i = 42; ::d1.s = "foo"; ::d1.d = 3.141592654 } 
 
-show var d1
+show transient object d1
 
 exec (::equals, ::notequals)=r(::d1, ::d1)
 
@@ -21,7 +21,7 @@ show var notequals
 
 exec { ::d2=new Diamond(); ::d2.i = 43; ::d2.s = "bar"; ::d2.d = 3.141592654 } 
 
-show var d2
+show transient object d2
 
 exec (::equals, ::notequals)=r(::d1, ::d2)
 

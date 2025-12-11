@@ -12,15 +12,21 @@ gr=gra
 exec {::grc0=::gr.children[0]}
 exec {::grc1=::gr.children[1]}
 show var gr
+show object gr
 show var grc0
+show object grc0
 show var grc1
+show object grc1
 
 gr=graclone
 exec {::grc0=::gr.children[0]}
 exec {::grc1=::gr.children[1]}
 show var gr
+show object gr
 show var grc0
+show object grc0
 show var grc1
+show object grc1
 
 gr=gra
 exec {::grc0=::gr.children[0]}
@@ -33,14 +39,20 @@ gr=gra
 exec {::grc0=::gr.children[0]}
 exec {::grc1=::gr.children[1]}
 show var gr
+show object gr
 show var grc0
+show object grc0
 show var grc1
+show object grc1
 
 gr=graclone
 exec {::grc0=::gr.children[0]}
 exec {::grc1=::gr.children[1]}
 show var gr
+show object gr
 show var grc0
+show object grc0
 show var grc1
+show object grc1
 
 quit

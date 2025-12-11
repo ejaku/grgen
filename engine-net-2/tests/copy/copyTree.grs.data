@@ -6,12 +6,18 @@
 1
 
 
-Tree{%:%0,value:1,left:Tree{%:%1},right:Tree{%:%3}}
+%0
+
+"Tree{%0,value:1,left:%1,right:%3}"
+0
+0
 
 
+%5
 
-Tree{%:%5,value:1,left:Tree{%:%6},right:Tree{%:%8}}
-
+"Tree{%5,value:1,left:%6,right:%8}"
+0
+0
 1
 1
 1
@@ -22,43 +28,103 @@ Tree{%:%5,value:1,left:Tree{%:%6},right:Tree{%:%8}}
 2
 
 
-Tree{%:%0,value:1,left:Tree{%:%1},right:Tree{%:%3}}
+%0
+
+"Tree{%0,value:1,left:%1,right:%3}"
+0
+0
 
 
+%5
 
-Tree{%:%5,value:1,left:Tree{%:%6},right:Tree{%:%8}}
-
-
-
-Tree{%:%A,value:1,left:Tree{%:%B},right:Tree{%:%D}}
-
+"Tree{%5,value:1,left:%6,right:%8}"
+0
+0
 
 
-Tree{%:%F,value:1,left:Tree{%:%10},right:Tree{%:%12}}
+%A
 
+"Tree{%A,value:1,left:%B,right:%D}"
+0
+0
+
+
+%F
+
+"Tree{%F,value:1,left:%10,right:%12}"
+0
+0
 2
 2
-"Tree{%:%0,value:1,left:Tree{%:%1},right:Tree{%:%3}}"
-"Tree{%:%1,value:2,left:Tree{%:%2},right:}"
-"Tree{%:%2,value:3,left:,right:}"
-"Tree{%:%5,value:1,left:Tree{%:%6},right:Tree{%:%8}}"
-"Tree{%:%8,value:4,left:,right:Tree{%:%9}}"
-"Tree{%:%9,value:5,left:,right:}"
-"Tree{%:%A,value:1,left:Tree{%:%B},right:Tree{%:%D}}"
-"Tree{%:%B,value:2,left:Tree{%:%C},right:}"
-"Tree{%:%C,value:3,left:,right:}"
-"Tree{%:%F,value:1,left:Tree{%:%10},right:Tree{%:%12}}"
-"Tree{%:%12,value:4,left:,right:Tree{%:%13}}"
-"Tree{%:%13,value:5,left:,right:}"
-"Tree{%:%0,value:42,left:Tree{%:%1},right:Tree{%:%3}}"
-"Tree{%:%1,value:43,left:Tree{%:%2},right:}"
-"Tree{%:%2,value:44,left:,right:}"
-"Tree{%:%5,value:44,left:Tree{%:%6},right:Tree{%:%8}}"
-"Tree{%:%8,value:43,left:,right:Tree{%:%9}}"
-"Tree{%:%9,value:42,left:,right:}"
-"Tree{%:%A,value:1,left:Tree{%:%B},right:Tree{%:%D}}"
-"Tree{%:%B,value:2,left:Tree{%:%C},right:}"
-"Tree{%:%C,value:3,left:,right:}"
-"Tree{%:%F,value:1,left:Tree{%:%10},right:Tree{%:%12}}"
-"Tree{%:%12,value:4,left:,right:Tree{%:%13}}"
-"Tree{%:%13,value:5,left:,right:}"
+1
+%1
+%3
+2
+%2
+
+3
+
+
+1
+%6
+%8
+4
+
+%9
+5
+
+
+1
+%B
+%D
+2
+%C
+
+3
+
+
+1
+%10
+%12
+4
+
+%13
+5
+
+
+42
+%1
+%3
+43
+%2
+
+44
+
+
+44
+%6
+%8
+43
+
+%9
+42
+
+
+1
+%B
+%D
+2
+%C
+
+3
+
+
+1
+%10
+%12
+4
+
+%13
+5
+
+

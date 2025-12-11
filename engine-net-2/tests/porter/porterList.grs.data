@@ -5,13 +5,17 @@
 1
 1
 
-List{%:%0,value:1,next:List{%:%1}}
+%0
 
 
 
-List{%:%3,value:1,next:List{%:%4}}
+%3
 
 
+1
+%1
+1
+%4
 1
 1
 1
@@ -21,13 +25,17 @@ List{%:%3,value:1,next:List{%:%4}}
 1
 1
 
-List{%:%0,value:1,next:List{%:%1}}
+%0
 
 
 
-List{%:%3,value:1,next:List{%:%4}}
+%3
 
 
+1
+%1
+1
+%4
 1
 1
 1
@@ -35,12 +43,16 @@ List{%:%3,value:1,next:List{%:%4}}
 1
 1
 
-List{%:%0,value:1,next:List{%:%1}}
+%0
 
 
 
-List{%:%3,value:1,next:List{%:%4}}
+%3
 
 
+1
+%1
+1
+%4
 1
 1

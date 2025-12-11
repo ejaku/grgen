@@ -4,29 +4,30 @@ new n1:Node
 
 exec r1
 
-show var d
+show transient object d
 
 exec r2
 
-show var res
+show transient object res
 
 exec r3
 
-show var d
+show transient object d
 show var rres
 
 exec r4
 
-show var res
+show transient object res
 
 exec r5
 
-show var res
+show transient object res
 show var o
 
 exec r6
 
 show var c
+show transient object c
 show var oa
 show var o
 show var oo

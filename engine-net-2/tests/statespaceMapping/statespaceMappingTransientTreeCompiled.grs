@@ -12,22 +12,23 @@ show var statestep
 show var statespace
 
 show var statespaceRoot
+show transient object statespaceRoot
 
 exec { ::statespaceRootChild0 = ::statespaceRoot.successors.peek(0) }
 exec { ::statespaceRootChild1 = ::statespaceRoot.successors.peek(1) }
 exec { ::statespaceRootChild2 = ::statespaceRoot.successors.peek(2) }
-show var statespaceRootChild0
-show var statespaceRootChild1
-show var statespaceRootChild2
+show transient object statespaceRootChild0
+show transient object statespaceRootChild1
+show transient object statespaceRootChild2
 
 exec { ::statespaceRootChild00 = ::statespaceRootChild0.successors.peek(0) }
 exec { ::statespaceRootChild01 = ::statespaceRootChild0.successors.peek(1) }
 exec { ::statespaceRootChild02 = ::statespaceRootChild0.successors.peek(2) }
 exec { ::statespaceRootChild03 = ::statespaceRootChild0.successors.peek(3) }
-show var statespaceRootChild00
-show var statespaceRootChild01
-show var statespaceRootChild02
-show var statespaceRootChild03
+show transient object statespaceRootChild00
+show transient object statespaceRootChild01
+show transient object statespaceRootChild02
+show transient object statespaceRootChild03
 
 #note: the TransientStatespaceObject are created outside of the graphs (in contrast to the StatespaceObject of the non-transient tests)
 

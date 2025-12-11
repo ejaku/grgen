@@ -9,7 +9,9 @@ show num edges
 show num edges only E
 
 show node @("$0")
+exec { n:N=(N)nodeByName("$0"); emitGroup("n.g", n.g); emitList("n.l", n.l); emitTree("n.t", n.b); emitGraph("n.gra", n.gra) }
 show edge @("$1")
+exec { e:E=(E)edgeByName("$1"); emitGroup("e.g", e.g); emitList("e.l", e.l); emitTree("e.t", e.b); emitGraph("e.gra", e.gra) }
 
 exec [checkGraph]
 
@@ -22,39 +24,43 @@ show num edges
 show num edges only E
 
 show node @("$0")
+exec { n:N=(N)nodeByName("$0"); emitGroup("n.g", n.g); emitList("n.l", n.l); emitTree("n.t", n.b); emitGraph("n.gra", n.gra) }
 show edge @("$1")
+exec { e:E=(E)edgeByName("$1"); emitGroup("e.g", e.g); emitList("e.l", e.l); emitTree("e.t", e.b); emitGraph("e.gra", e.gra) }
 show node @("$2")
+exec { n:N=(N)nodeByName("$2"); emitGroup("n.g", n.g); emitList("n.l", n.l); emitTree("n.t", n.b); emitGraph("n.gra", n.gra) }
 show edge @("$3")
+exec { e:E=(E)edgeByName("$3"); emitGroup("e.g", e.g); emitList("e.l", e.l); emitTree("e.t", e.b); emitGraph("e.gra", e.gra) }
 
 exec [checkGraph]
 
 gr=@("$0").gra
 exec {::grc0=::gr.children[0]}
 exec {::grc1=::gr.children[1]}
-show var gr
-show var grc0
-show var grc1
+show object gr
+show object grc0
+show object grc1
 
 gr=@("$1").gra
 exec {::grc0=::gr.children[0]}
 exec {::grc1=::gr.children[1]}
-show var gr
-show var grc0
-show var grc1
+show object gr
+show object grc0
+show object grc1
 
 gr=@("$2").gra
 exec {::grc0=::gr.children[0]}
 exec {::grc1=::gr.children[1]}
-show var gr
-show var grc0
-show var grc1
+show object gr
+show object grc0
+show object grc1
 
 gr=@("$3").gra
 exec {::grc0=::gr.children[0]}
 exec {::grc1=::gr.children[1]}
-show var gr
-show var grc0
-show var grc1
+show object gr
+show object grc0
+show object grc1
 
 gr=@("$0").gra
 exec {::grc0=::gr.children[0]}
@@ -73,29 +79,29 @@ grc1.value = 44
 gr=@("$0").gra
 exec {::grc0=::gr.children[0]}
 exec {::grc1=::gr.children[1]}
-show var gr
-show var grc0
-show var grc1
+show object gr
+show object grc0
+show object grc1
 
 gr=@("$1").gra
 exec {::grc0=::gr.children[0]}
 exec {::grc1=::gr.children[1]}
-show var gr
-show var grc0
-show var grc1
+show object gr
+show object grc0
+show object grc1
 
 gr=@("$2").gra
 exec {::grc0=::gr.children[0]}
 exec {::grc1=::gr.children[1]}
-show var gr
-show var grc0
-show var grc1
+show object gr
+show object grc0
+show object grc1
 
 gr=@("$3").gra
 exec {::grc0=::gr.children[0]}
 exec {::grc1=::gr.children[1]}
-show var gr
-show var grc0
-show var grc1
+show object gr
+show object grc0
+show object grc1
 
 quit

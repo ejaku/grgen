@@ -6,7 +6,7 @@ exec dd:Diamond ;> { dd = new Diamond(); dd.i = 1 } ;> (::res)=methodCallYield(d
 show var res
 
 exec dd:Diamond ;> { dd = new Diamond(); dd.i = 1 } ;> methodCallEval(dd) ;> { ::d = dd }
-show var d
+show transient object d
 
 exec methodCallExecStaticType
 show var rres

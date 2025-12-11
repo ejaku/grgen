@@ -88,19 +88,25 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public override void DisplayObject(object obj, IGraphProcessingEnvironment procEnv, DebuggerGraphProcessingEnvironment debuggerProcEnv)
         {
-            string str = EmitHelper.ToStringAutomatic(obj, procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, procEnv);
+            string str;
+            if(obj is IObject)
+                str = EmitHelper.ToStringFirstLevelFullObject((IObject)obj, procEnv.NamedGraph, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, procEnv);
+            else if(obj is ITransientObject)
+                str = EmitHelper.ToStringFirstLevelFullObject((ITransientObject)obj, procEnv.NamedGraph, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, procEnv);
+            else
+                str = EmitHelper.ToStringAutomatic(obj, procEnv.NamedGraph, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, procEnv);
             env.guiForDataRendering.graphViewer.AddNode(FetchNodeName(), "nrStd", str);
             Show();
         }
 
         public override void DisplayClassObject(IObject obj, IGraphProcessingEnvironment procEnv, DebuggerGraphProcessingEnvironment debuggerProcEnv)
         {
-            DisplayBaseObject(obj, /*"%:" +*/debuggerProcEnv.objectNamerAndIndexer.GetOrAssignName(obj) + " : " + obj.Type.PackagePrefixedName, procEnv, debuggerProcEnv);
+            DisplayBaseObject(obj, debuggerProcEnv.objectNamerAndIndexer.GetOrAssignName(obj) + " : " + obj.Type.PackagePrefixedName, procEnv, debuggerProcEnv);
         }
 
         public override void DisplayTransientClassObject(ITransientObject obj, IGraphProcessingEnvironment procEnv, DebuggerGraphProcessingEnvironment debuggerProcEnv)
         {
-            DisplayBaseObject(obj, /*"&:" +*/"&" + debuggerProcEnv.transientObjectNamerAndIndexer.GetUniqueId(obj) + " : " + obj.Type.PackagePrefixedName, procEnv, debuggerProcEnv);
+            DisplayBaseObject(obj, debuggerProcEnv.transientObjectNamerAndIndexer.GetName(obj) + " : " + obj.Type.PackagePrefixedName, procEnv, debuggerProcEnv);
         }
 
         public override void DisplayLine(string lineToBeShown)
@@ -242,13 +248,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private void GetAttributeString(AttributeType attrType, IAttributeBearer obj, IGraph graph, ObjectNamerAndIndexer objectNamerAndIndexer, TransientObjectNamerAndIndexer transientObjectNamerAndIndexer, out string attrTypeString, out string attrValueString)
         {
             if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
-                EmitHelper.ToString((IDictionary)obj.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
+                EmitHelper.ToString((IDictionary)obj.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
             else if(attrType.Kind == AttributeKind.ArrayAttr)
-                EmitHelper.ToString((IList)obj.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
+                EmitHelper.ToString((IList)obj.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
             else if(attrType.Kind == AttributeKind.DequeAttr)
-                EmitHelper.ToString((IDeque)obj.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
+                EmitHelper.ToString((IDeque)obj.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
             else
-                EmitHelper.ToString(obj.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, false, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
+                EmitHelper.ToString(obj.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph, objectNamerAndIndexer, transientObjectNamerAndIndexer, null);
         }
     }
 }

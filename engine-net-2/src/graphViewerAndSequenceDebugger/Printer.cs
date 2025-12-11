@@ -71,17 +71,22 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public override void DisplayObject(object obj, IGraphProcessingEnvironment procEnv, DebuggerGraphProcessingEnvironment debuggerProcEnv)
         {
-            env.WriteLineDataRendering(EmitHelper.ToStringAutomatic(obj, procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, procEnv));
+            if(obj is IObject)
+                env.WriteLineDataRendering(EmitHelper.ToStringFirstLevelFullObject((IObject)obj, procEnv.NamedGraph, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, procEnv));
+            else if(obj is ITransientObject)
+                env.WriteLineDataRendering(EmitHelper.ToStringFirstLevelFullObject((ITransientObject)obj, procEnv.NamedGraph, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, procEnv));
+            else
+                env.WriteLineDataRendering(EmitHelper.ToStringAutomatic(obj, procEnv.NamedGraph, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, procEnv));
         }
 
         public override void DisplayClassObject(IObject obj, IGraphProcessingEnvironment procEnv, DebuggerGraphProcessingEnvironment debuggerProcEnv)
         {
-            env.WriteLineDataRendering(EmitHelper.ToStringAutomatic(obj, procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, procEnv));
+            env.WriteLineDataRendering(EmitHelper.ToStringFirstLevelFullObject((IObject)obj, procEnv.NamedGraph, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, procEnv));
         }
         
         public override void DisplayTransientClassObject(ITransientObject obj, IGraphProcessingEnvironment procEnv, DebuggerGraphProcessingEnvironment debuggerProcEnv)
         {
-            env.WriteLineDataRendering(EmitHelper.ToStringAutomatic(obj, procEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, procEnv));
+            env.WriteLineDataRendering(EmitHelper.ToStringFirstLevelFullObject((ITransientObject)obj, procEnv.NamedGraph, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, procEnv));
         }
 
         public override void DisplayLine(string lineToBeShown)

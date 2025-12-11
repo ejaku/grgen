@@ -7,11 +7,17 @@
 
 
 
-Graph{%:%0,value:1,children:[Graph{%:%0},Graph{%:%1}]}
+%0
+"Graph{%0,value:1,children:[Graph{%0,value:1},Graph{%1,value:2}]}"
+0
+0
 
 
 
-Graph{%:%2,value:1,children:[Graph{%:%2},Graph{%:%3}]}
+%2
+"Graph{%2,value:1,children:[Graph{%2,value:1},Graph{%3,value:2}]}"
+0
+0
 1
 1
 1
@@ -23,49 +29,73 @@ Graph{%:%2,value:1,children:[Graph{%:%2},Graph{%:%3}]}
 
 
 
-Graph{%:%0,value:1,children:[Graph{%:%0},Graph{%:%1}]}
+%0
+"Graph{%0,value:1,children:[Graph{%0,value:1},Graph{%1,value:2}]}"
+0
+0
 
 
 
-Graph{%:%2,value:1,children:[Graph{%:%2},Graph{%:%3}]}
+%2
+"Graph{%2,value:1,children:[Graph{%2,value:1},Graph{%3,value:2}]}"
+0
+0
 
 
 
-Graph{%:%4,value:1,children:[Graph{%:%4},Graph{%:%5}]}
+%4
+"Graph{%4,value:1,children:[Graph{%4,value:1},Graph{%5,value:2}]}"
+0
+0
 
 
 
-Graph{%:%6,value:1,children:[Graph{%:%6},Graph{%:%7}]}
+%6
+"Graph{%6,value:1,children:[Graph{%6,value:1},Graph{%7,value:2}]}"
+0
+0
 2
 2
 0
 0
 0
 0
-"Graph{%:%0,value:1,children:[Graph{%:%0},Graph{%:%1}]}"
-"Graph{%:%0,value:1,children:[Graph{%:%0},Graph{%:%1}]}"
-"Graph{%:%1,value:2,children:[Graph{%:%0}]}"
+1
+[%0,%1]
+1
+[%0,%1]
+2
+[%0]
 0
 0
 0
 0
-"Graph{%:%2,value:1,children:[Graph{%:%2},Graph{%:%3}]}"
-"Graph{%:%2,value:1,children:[Graph{%:%2},Graph{%:%3}]}"
-"Graph{%:%3,value:2,children:[Graph{%:%2}]}"
+1
+[%2,%3]
+1
+[%2,%3]
+2
+[%2]
 0
 0
 0
 0
-"Graph{%:%4,value:1,children:[Graph{%:%4},Graph{%:%5}]}"
-"Graph{%:%4,value:1,children:[Graph{%:%4},Graph{%:%5}]}"
-"Graph{%:%5,value:2,children:[Graph{%:%4}]}"
+1
+[%4,%5]
+1
+[%4,%5]
+2
+[%4]
 0
 0
 0
 0
-"Graph{%:%6,value:1,children:[Graph{%:%6},Graph{%:%7}]}"
-"Graph{%:%6,value:1,children:[Graph{%:%6},Graph{%:%7}]}"
-"Graph{%:%7,value:2,children:[Graph{%:%6}]}"
+1
+[%6,%7]
+1
+[%6,%7]
+2
+[%6]
 0
 0
 0
@@ -78,27 +108,39 @@ Graph{%:%6,value:1,children:[Graph{%:%6},Graph{%:%7}]}
 0
 0
 0
-"Graph{%:%0,value:43,children:[Graph{%:%0},Graph{%:%1}]}"
-"Graph{%:%0,value:43,children:[Graph{%:%0},Graph{%:%1}]}"
-"Graph{%:%1,value:44,children:[Graph{%:%0}]}"
+43
+[%0,%1]
+43
+[%0,%1]
+44
+[%0]
 0
 0
 0
 0
-"Graph{%:%2,value:43,children:[Graph{%:%2},Graph{%:%3}]}"
-"Graph{%:%2,value:43,children:[Graph{%:%2},Graph{%:%3}]}"
-"Graph{%:%3,value:44,children:[Graph{%:%2}]}"
+43
+[%2,%3]
+43
+[%2,%3]
+44
+[%2]
 0
 0
 0
 0
-"Graph{%:%4,value:1,children:[Graph{%:%4},Graph{%:%5}]}"
-"Graph{%:%4,value:1,children:[Graph{%:%4},Graph{%:%5}]}"
-"Graph{%:%5,value:2,children:[Graph{%:%4}]}"
+1
+[%4,%5]
+1
+[%4,%5]
+2
+[%4]
 0
 0
 0
 0
-"Graph{%:%6,value:1,children:[Graph{%:%6},Graph{%:%7}]}"
-"Graph{%:%6,value:1,children:[Graph{%:%6},Graph{%:%7}]}"
-"Graph{%:%7,value:2,children:[Graph{%:%6}]}"
+1
+[%6,%7]
+1
+[%6,%7]
+2
+[%6]

@@ -4,27 +4,81 @@
 1
 1
 1
-]Group{%:%0,a:1,b:3.141592654,c:Hallo Welt!}[
-{Group{%:%1,a:2,b:3.141592654,c:Hallo Welt!}}
-{Group{%:%2,a:3,b:3.141592654,c:Hallo Welt!}->Group{%:%3,a:4,b:3.141592654,c:Hallo Welt!}}
-]Group{%:%4,a:5,b:3.141592654,c:Hallo Krieg!}[
-{Group{%:%5,a:6,b:3.141592654,c:Hallo Krieg!}}
-{Group{%:%6,a:7,b:3.141592654,c:Hallo Krieg!}->Group{%:%7,a:8,b:3.141592654,c:Hallo Krieg!}}
+]%0[
+{%1}
+{%2->%3}
+"]Group{a:1,b:3.141592654,c:Hallo Welt!}["
+0
+0
+"{Group{a:2,b:3.141592654,c:Hallo Welt!}}"
+0
+0
+"{Group{a:3,b:3.141592654,c:Hallo Welt!}->Group{a:4,b:3.141592654,c:Hallo Welt!}}"
+0
+0
+]%4[
+{%5}
+{%6->%7}
+"]Group{a:5,b:3.141592654,c:Hallo Krieg!}["
+0
+0
+"{Group{a:6,b:3.141592654,c:Hallo Krieg!}}"
+0
+0
+"{Group{a:7,b:3.141592654,c:Hallo Krieg!}->Group{a:8,b:3.141592654,c:Hallo Krieg!}}"
+0
+0
 1
 1
 2
 2
 2
 2
-]Group{%:%0,a:1,b:3.141592654,c:Hallo Welt!}[
-{Group{%:%1,a:2,b:3.141592654,c:Hallo Welt!}}
-{Group{%:%2,a:3,b:3.141592654,c:Hallo Welt!}->Group{%:%3,a:4,b:3.141592654,c:Hallo Welt!}}
-]Group{%:%4,a:5,b:3.141592654,c:Hallo Krieg!}[
-{Group{%:%5,a:6,b:3.141592654,c:Hallo Krieg!}}
-{Group{%:%6,a:7,b:3.141592654,c:Hallo Krieg!}->Group{%:%7,a:8,b:3.141592654,c:Hallo Krieg!}}
-]Group{%:%8,a:1,b:3.141592654,c:Hallo Welt!}[
-{Group{%:%9,a:2,b:3.141592654,c:Hallo Welt!}}
-{Group{%:%A,a:3,b:3.141592654,c:Hallo Welt!}->Group{%:%B,a:4,b:3.141592654,c:Hallo Welt!}}
-]Group{%:%C,a:5,b:3.141592654,c:Hallo Krieg!}[
-{Group{%:%D,a:6,b:3.141592654,c:Hallo Krieg!}}
-{Group{%:%E,a:7,b:3.141592654,c:Hallo Krieg!}->Group{%:%F,a:8,b:3.141592654,c:Hallo Krieg!}}
+]%0[
+{%1}
+{%2->%3}
+"]Group{a:1,b:3.141592654,c:Hallo Welt!}["
+0
+0
+"{Group{a:2,b:3.141592654,c:Hallo Welt!}}"
+0
+0
+"{Group{a:3,b:3.141592654,c:Hallo Welt!}->Group{a:4,b:3.141592654,c:Hallo Welt!}}"
+0
+0
+]%4[
+{%5}
+{%6->%7}
+"]Group{a:5,b:3.141592654,c:Hallo Krieg!}["
+0
+0
+"{Group{a:6,b:3.141592654,c:Hallo Krieg!}}"
+0
+0
+"{Group{a:7,b:3.141592654,c:Hallo Krieg!}->Group{a:8,b:3.141592654,c:Hallo Krieg!}}"
+0
+0
+]%8[
+{%9}
+{%A->%B}
+"]Group{a:1,b:3.141592654,c:Hallo Welt!}["
+0
+0
+"{Group{a:2,b:3.141592654,c:Hallo Welt!}}"
+0
+0
+"{Group{a:3,b:3.141592654,c:Hallo Welt!}->Group{a:4,b:3.141592654,c:Hallo Welt!}}"
+0
+0
+]%C[
+{%D}
+{%E->%F}
+"]Group{a:5,b:3.141592654,c:Hallo Krieg!}["
+0
+0
+"{Group{a:6,b:3.141592654,c:Hallo Krieg!}}"
+0
+0
+"{Group{a:7,b:3.141592654,c:Hallo Krieg!}->Group{a:8,b:3.141592654,c:Hallo Krieg!}}"
+0
+0

@@ -4,15 +4,15 @@ exec (::tn,::te,::to,::tto)=init
 
 show node tn
 show edge te
-show var "to"
-show var "tto"
+show object "to" #to is a reserved word/keyword
+show transient object tto
 
 exec testAttributeElementAssignment(::tn, ::te, ::to, ::tto)
 
 show node tn
 show edge te
-show var "to"
-show var "tto"
+show object "to"
+show transient object tto
 
 exec {\
 ::tn.m["bar"] = "QUX"; ::tn.a[1] = "QUX"; ::tn.d[1] = "QUX";\
@@ -23,14 +23,14 @@ exec {\
 
 show node tn
 show edge te
-show var "to"
-show var "tto"
+show object "to"
+show transient object tto
 
 exec testAttributeElementAssignmentUntyped
 
 show node tn
 show edge te
-show var "to"
-show var "tto"
+show object "to"
+show transient object tto
 
 exit

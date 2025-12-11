@@ -11,32 +11,32 @@ exec {{checkTreePure(::arrclone[0])}}
 exec {{checkTreePure(::arrclone[1])}}
 
 exec {::bt=::arr[0]}
-show var bt
+show object bt
 btl=bt.left
-show var btl
+show object btl
 btll=btl.left
-show var btll
+show object btll
 
 exec {::bt=::arr[1]}
-show var bt
+show object bt
 btr=bt.right
-show var btr
+show object btr
 btrr=btr.right
-show var btrr
+show object btrr
 
 exec {::bt=::arrclone[0]}
-show var bt
+show object bt
 btl=bt.left
-show var btl
+show object btl
 btll=btl.left
-show var btll
+show object btll
 
 exec {::bt=::arrclone[1]}
-show var bt
+show object bt
 btr=bt.right
-show var btr
+show object btr
 btrr=btr.right
-show var btrr
+show object btrr
 
 exec {::bt=::arr[0]}
 btl=bt.left
@@ -53,31 +53,31 @@ btr.value = 43
 btrr.value = 42
 
 exec {::bt=::arr[0]}
-show var bt
+show object bt
 btl=bt.left
-show var btl
+show object btl
 btll=btl.left
-show var btll
+show object btll
 
 exec {::bt=::arr[1]}
-show var bt
+show object bt
 btr=bt.right
-show var btr
+show object btr
 btrr=btr.right
-show var btrr
+show object btrr
 
 exec {::bt=::arrclone[0]}
-show var bt
+show object bt
 btl=bt.left
-show var btl
+show object btl
 btll=btl.left
-show var btll
+show object btll
 
 exec {::bt=::arrclone[1]}
-show var bt
+show object bt
 btr=bt.right
-show var btr
+show object btr
 btrr=btr.right
-show var btrr
+show object btrr
 
 quit

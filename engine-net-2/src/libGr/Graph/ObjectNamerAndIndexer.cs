@@ -34,7 +34,10 @@ namespace de.unika.ipd.grGen.libGr
             if(objectToName != null)
             {
                 if(objectToName.ContainsKey(obj))
+                {
+                    Debug.Assert(objectsContainName ? objectToName[obj] == obj.GetObjectName() : true);
                     return objectToName[obj];
+                }
 
                 name = objectsContainName ? obj.GetObjectName() : String.Format("%{0,00000000:X}", idSource++);
                 objectToName.Add(obj, name);
@@ -67,7 +70,10 @@ namespace de.unika.ipd.grGen.libGr
             if(objectToName != null)
             {
                 if(objectToName.ContainsKey(obj))
+                {
+                    Debug.Assert(objectsContainName ? objectToName[obj] == obj.GetObjectName() : true);
                     return objectToName[obj];
+                }
             }
             else
             {
@@ -140,7 +146,10 @@ namespace de.unika.ipd.grGen.libGr
             if(nameToObject != null)
             {
                 if(nameToObject.ContainsKey(name))
+                {
+                    Debug.Assert(objectsContainName ? name == nameToObject[name].GetObjectName() : true);
                     return nameToObject[name];
+                }
             }
             else
             {
@@ -205,11 +214,41 @@ namespace de.unika.ipd.grGen.libGr
             return transientObjectToUniqueId[transientObject];
         }
 
+        public string GetName(ITransientObject transientObject)
+        {
+            return String.Format("&{0,00000000:X}", GetUniqueId(transientObject));
+        }
+
         public ITransientObject GetTransientObject(long uniqueId)
         {
             ITransientObject transientObject;
             uniqueIdToTransientObject.TryGetValue(uniqueId, out transientObject);
             return transientObject;
+        }
+
+        public ITransientObject GetTransientObject(string name)
+        {
+            if(name.StartsWith("&"))
+                return GetTransientObject(name.Substring(1, name.Length - 1));
+            long uniqueId;
+            if(HexToLong(name, out uniqueId))
+                return GetTransientObject(uniqueId);
+            else
+                return null;
+        }
+
+        private bool HexToLong(String argument, out long result)
+        {
+            try
+            {
+                result = Convert.ToInt64(argument, 16);
+                return true;
+            }
+            catch(Exception)
+            {
+                result = -1;
+                return false;
+            }
         }
     }
 }

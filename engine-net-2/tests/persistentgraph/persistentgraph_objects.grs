@@ -14,12 +14,15 @@ show num nodes
 
 exec (::n)=find
 show n.root
+show object @@("%0")
 exec showAvailabilityOfNestedGraphs
 exec in ::n.nested1 { find }
 exec in ::n.nested2 { (::n)=findSimple <; showAvailabilityOfNestedGraphs }
 show n.root
+show object @@("%3")
 exec in ::n.nested1 { (::n)=findSimple <; showAvailabilityOfNestedGraphs }
 show n.root
+show object @@("%4")
 
 new graph "persistentgraph/persistentgraph_objects" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_objects.db;Version=3;"
 
@@ -31,12 +34,15 @@ show num nodes
 
 exec (::n)=find
 show n.root
+show object @@("%0")
 exec showAvailabilityOfNestedGraphs
 exec in ::n.nested1 { find }
 exec in ::n.nested2 { (::n)=findSimple <; showAvailabilityOfNestedGraphs }
 show n.root
+show object @@("%3")
 exec in ::n.nested1 { (::n)=findSimple <; showAvailabilityOfNestedGraphs }
 show n.root
+show object @@("%4")
 
 new graph "persistentgraph/persistentgraph_objects" "some non-persistent graph"
 
@@ -48,12 +54,15 @@ show num nodes
 
 exec (::n)=find
 show n.root
+show object @@("%0")
 exec showAvailabilityOfNestedGraphs
 exec in ::n.nested1 { find }
 exec in ::n.nested2 { (::n)=findSimple <; showAvailabilityOfNestedGraphs }
 show n.root
+show object @@("%3")
 exec in ::n.nested1 { (::n)=findSimple <; showAvailabilityOfNestedGraphs }
 show n.root
+show object @@("%4")
 
 clear graph
 

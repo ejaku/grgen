@@ -5,11 +5,15 @@ exec  {(::d)=createTGroupDeque()}
 exec {::dclone=cloneTGroupDeque(::d)}
 
 show var d
+exec { emitDequeTGroup(::d) }
 show var dclone
+exec { emitDequeTGroup(::dclone) }
 
 exec {::item=::d[0]; ::item.a = 42}
 
 show var d
+exec { emitDequeTGroup(::d) }
 show var dclone
+exec { emitDequeTGroup(::dclone) }
 
 quit

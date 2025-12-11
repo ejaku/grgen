@@ -38,8 +38,8 @@ show num edges
 
 show node n
 show edge e
-show var o
-show var o2
+show object o
+show object o2
 
 new graph "persistentgraph/persistentgraph_container_map" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_container_map_assign_element.db;Version=3;"
 
@@ -73,8 +73,8 @@ show num edges
 
 show node n
 show edge e
-show var o
-show var o2
+show object o
+show object o2
 
 new graph "persistentgraph/persistentgraph_container_map" "some non-persistent graph"
 
@@ -92,8 +92,8 @@ exec (::n,::e,::o,::o2)=find
 
 show node n
 show edge e
-show var o
-show var o2
+show object o
+show object o2
 
 clear graph
 

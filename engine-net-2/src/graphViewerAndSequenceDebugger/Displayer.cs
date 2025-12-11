@@ -99,13 +99,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         protected void VariableToString(object value, out string type, out string content, DebuggerGraphProcessingEnvironment debuggerProcEnv)
         {
             if(value is IDictionary)
-                EmitHelper.ToString((IDictionary)value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
+                EmitHelper.ToString((IDictionary)value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
             else if(value is IList)
-                EmitHelper.ToString((IList)value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
+                EmitHelper.ToString((IList)value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
             else if(value is IDeque)
-                EmitHelper.ToString((IDeque)value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
+                EmitHelper.ToString((IDeque)value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
             else
-                EmitHelper.ToString(value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, false, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
+                EmitHelper.ToString(value, out type, out content, null, debuggerProcEnv.ProcEnv.NamedGraph, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, null);
         }
 
         protected enum GroupNodeTypes

@@ -2,9 +2,21 @@
 0
 0
 0
-"{TGroup{a:1,b:3.141592654,c:Hallo Welt!},TGroup{a:2,b:3.141592654,c:Hallo Krieg!}}"
+"{&0,&1}"
 "{TGroup{a:1,b:3.141592654,c:Hallo Welt!},TGroup{a:2,b:3.141592654,c:Hallo Krieg!}}"
 0
 0
+"{&0,&1}"
+"{TGroup{a:1,b:3.141592654,c:Hallo Welt!},TGroup{a:2,b:3.141592654,c:Hallo Krieg!}}"
+0
+0
+0
+0
+"{&0,&1}"
 "{TGroup{a:42,b:3.141592654,c:Hallo Welt!},TGroup{a:2,b:3.141592654,c:Hallo Krieg!}}"
+0
+0
+"{&0,&1}"
 "{TGroup{a:42,b:3.141592654,c:Hallo Welt!},TGroup{a:2,b:3.141592654,c:Hallo Krieg!}}"
+0
+0

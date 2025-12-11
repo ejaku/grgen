@@ -9,32 +9,32 @@ exec {::bcopy=copyClassObjectStructureTTree(::b)}
 exec {{checkTTreePure(::bcopy)}}
 
 bt=b
-show var bt
+show transient object bt
 btl=bt.left
-show var btl
+show transient object btl
 btll=btl.left
-show var btll
+show transient object btll
 
 bt=b
-show var bt
+show transient object bt
 btr=bt.right
-show var btr
+show transient object btr
 btrr=btr.right
-show var btrr
+show transient object btrr
 
 bt=bcopy
-show var bt
+show transient object bt
 btl=bt.left
-show var btl
+show transient object btl
 btll=btl.left
-show var btll
+show transient object btll
 
 bt=bcopy
-show var bt
+show transient object bt
 btr=bt.right
-show var btr
+show transient object btr
 btrr=btr.right
-show var btrr
+show transient object btrr
 
 bt=b
 btl=bt.left
@@ -51,31 +51,31 @@ btr.value = 43
 btrr.value = 42
 
 bt=b
-show var bt
+show transient object bt
 btl=bt.left
-show var btl
+show transient object btl
 btll=btl.left
-show var btll
+show transient object btll
 
 bt=b
-show var bt
+show transient object bt
 btr=bt.right
-show var btr
+show transient object btr
 btrr=btr.right
-show var btrr
+show transient object btrr
 
 bt=bcopy
-show var bt
+show transient object bt
 btl=bt.left
-show var btl
+show transient object btl
 btll=btl.left
-show var btll
+show transient object btll
 
 bt=bcopy
-show var bt
+show transient object bt
 btr=bt.right
-show var btr
+show transient object btr
 btrr=btr.right
-show var btrr
+show transient object btrr
 
 quit
