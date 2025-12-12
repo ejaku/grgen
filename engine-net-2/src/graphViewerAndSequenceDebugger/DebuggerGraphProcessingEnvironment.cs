@@ -32,37 +32,35 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public readonly ObjectNamerAndIndexer objectNamerAndIndexer; // maps name to class object and the other way round
         public readonly TransientObjectNamerAndIndexer transientObjectNamerAndIndexer; // maps name to transient class object and the other way round
 
-
-        // creates a temporary internal named graph required by the debugger
-        public DebuggerGraphProcessingEnvironment(IGraph graph)
+        // the graph handed in is only used as source to create a named graph from (which will be operated on thereafter)
+        // the debugger (/the shell) supports only named graphs
+        public DebuggerGraphProcessingEnvironment(IGraph unnamedGraph)
         {
-            LGSPNamedGraph Graph = new LGSPNamedGraph((LGSPGraph)graph);
-            DumpInfo = new DumpInfo(Graph.GetElementName);
+            INamedGraph graph = LGSPBackend.Instance.CreateNamedGraph(unnamedGraph);
+            DumpInfo = new DumpInfo(graph.GetElementName);
             SubruleDebugConfig = new SubruleDebuggingConfiguration();
-            ProcEnv = new LGSPGraphProcessingEnvironment(Graph, null);
-            NameToSubgraph.Add(Graph.Name, Graph);
+            ProcEnv = LGSPBackend.Instance.CreateGraphProcessingEnvironment(graph, null);
+            NameToSubgraph.Add(graph.Name, graph);
             objectNamerAndIndexer = new ObjectNamerAndIndexer(!graph.Model.ObjectUniquenessIsEnsured, true, graph.Model.ObjectUniquenessIsEnsured);
             transientObjectNamerAndIndexer = new TransientObjectNamerAndIndexer();
         }
 
         public DebuggerGraphProcessingEnvironment(INamedGraph graph)
         {
-            LGSPNamedGraph Graph = (LGSPNamedGraph)graph;
-            DumpInfo = new DumpInfo(Graph.GetElementName);
+            DumpInfo = new DumpInfo(graph.GetElementName);
             SubruleDebugConfig = new SubruleDebuggingConfiguration();
-            ProcEnv = new LGSPGraphProcessingEnvironment((LGSPNamedGraph)graph, null);
-            NameToSubgraph.Add(Graph.Name, Graph);
+            ProcEnv = LGSPBackend.Instance.CreateGraphProcessingEnvironment(graph, null);
+            NameToSubgraph.Add(graph.Name, graph);
             objectNamerAndIndexer = new ObjectNamerAndIndexer(!graph.Model.ObjectUniquenessIsEnsured, true, graph.Model.ObjectUniquenessIsEnsured);
             transientObjectNamerAndIndexer = new TransientObjectNamerAndIndexer();
         }
 
         public DebuggerGraphProcessingEnvironment(INamedGraph graph, IGraphProcessingEnvironment procEnv)
         {
-            LGSPNamedGraph Graph = (LGSPNamedGraph)graph;
-            DumpInfo = new DumpInfo(Graph.GetElementName);
+            DumpInfo = new DumpInfo(graph.GetElementName);
             SubruleDebugConfig = new SubruleDebuggingConfiguration();
             ProcEnv = procEnv;
-            NameToSubgraph.Add(Graph.Name, Graph);
+            NameToSubgraph.Add(graph.Name, graph);
             objectNamerAndIndexer = new ObjectNamerAndIndexer(!graph.Model.ObjectUniquenessIsEnsured, true, graph.Model.ObjectUniquenessIsEnsured);
             transientObjectNamerAndIndexer = new TransientObjectNamerAndIndexer();
         }

@@ -107,11 +107,6 @@ namespace de.unika.ipd.grGen.libGr
 
 
         /// <summary>
-        /// Returns a new instance of the global variables/state; normally, you want/need only one instance, to be fed to all graphs.
-        /// </summary>
-        IGlobalVariables CreateGlobalVariables();
-
-        /// <summary>
         /// Creates a new IGraph backend instance with the given graph model and name.
         /// </summary>
         /// <param name="graphModel">An IGraphModel instance.</param>
@@ -309,5 +304,31 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="specPath">The path to the rule specification file (.grg).</param>
         /// <exception cref="System.Exception">Thrown, when an error occurred.</exception>
         void ProcessSpecification(String specPath);
+
+        //////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Returns a new instance of the global variables/state; normally, you want/need only one instance, to be fed to all graphs.
+        /// </summary>
+        IGlobalVariables CreateGlobalVariables();
+
+        /// <summary>
+        /// Creates a new INamedGraph instance from the graph handed in.
+        /// </summary>
+        /// <param name="graph">The (unnamed) graph to create a named copy from.</param>
+        INamedGraph CreateNamedGraph(IGraph graph);
+
+        /// <summary>
+        /// Loads an actions instance from the given file.
+        /// If the file is a ".cs" file it will be compiled first.
+        /// </summary>
+        IActions LoadActions(String actionFilename, IGraph graph);
+
+        /// <summary>
+        /// Returns a new instance of the graph processing environment.
+        /// </summary>
+        /// <param name="graph">The host(/root) graph.</param>
+        /// <param name="actions">The actions to apply on the host graph (may be null requiring later initialization).</param>
+        IGraphProcessingEnvironment CreateGraphProcessingEnvironment(IGraph graph, IActions actions);
     }
 }

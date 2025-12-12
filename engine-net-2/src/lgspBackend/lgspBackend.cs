@@ -39,10 +39,6 @@ namespace de.unika.ipd.grGen.lgsp
 
         public IEnumerable<String> ArgumentNames { get { yield break; } }
 
-        public IGlobalVariables CreateGlobalVariables()
-        {
-            return new LGSPGlobalVariables();
-        }
 
         private String GetNextGraphName()
         {
@@ -1114,6 +1110,28 @@ namespace de.unika.ipd.grGen.lgsp
         public void ProcessSpecification(string specPath)
         {
             LGSPGrGen.ProcessSpecification(specPath, null, ProcessSpecFlags.UseNoExistingFiles, new String[0]);
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////
+
+        public IGlobalVariables CreateGlobalVariables()
+        {
+            return new LGSPGlobalVariables();
+        }
+
+        public INamedGraph CreateNamedGraph(IGraph graph)
+        {
+            return new LGSPNamedGraph((LGSPGraph)graph);
+        }
+
+        public IActions LoadActions(String actionFilename, IGraph graph)
+        {
+            return LGSPActions.LoadActions(actionFilename, (LGSPGraph)graph);
+        }
+
+        public IGraphProcessingEnvironment CreateGraphProcessingEnvironment(IGraph graph, IActions actions)
+        {
+            return new LGSPGraphProcessingEnvironment((LGSPGraph)graph, (LGSPActions)actions);
         }
     }
 }

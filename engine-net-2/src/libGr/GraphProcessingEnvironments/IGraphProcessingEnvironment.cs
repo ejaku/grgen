@@ -70,6 +70,13 @@ namespace de.unika.ipd.grGen.libGr
     public interface IGraphProcessingEnvironment : ISubactionAndOutputAdditionEnvironment
     {
         /// <summary>
+        /// Allows to (re-)initialize a graph processing environment (esp. called when actions are added, it is possible to create a graph processing environment only with a graph and null actions).
+        /// </summary>
+        /// <param name="graph">The host(/root) graph.</param>
+        /// <param name="actions">The actions to apply on the host graph.</param>
+        void Initialize(IGraph graph, IActions actions);
+
+        /// <summary>
         /// Returns the transaction manager of the processing environment.
         /// (Recording and undoing changes in the main graph and all processed subgraphs).
         /// Don't forget to call Commit after a transaction is finished!

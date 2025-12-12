@@ -46,7 +46,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         // esp. called when actions are added, it is possible to create a graph processing environment only with a graph and null actions (it is also possible to set the actions directly afterwards instead of calling Initialize)
-        public override void Initialize(LGSPGraph graph, LGSPActions actions)
+        public override void Initialize(IGraph graph, IActions actions)
         {
             ((LGSPGlobalVariables)Graph.GlobalVariables).StopListening(Graph);
             base.Initialize(graph, actions);

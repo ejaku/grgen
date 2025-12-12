@@ -30,7 +30,7 @@ namespace de.unika.ipd.grGen.lgsp
             recorder = new Recorder(graph as LGSPNamedGraph, this);
         }
 
-        public virtual void Initialize(LGSPGraph graph, LGSPActions actions)
+        public virtual void Initialize(IGraph graph, IActions actions)
         {
             this.Graph = graph;
             this.Actions = actions;

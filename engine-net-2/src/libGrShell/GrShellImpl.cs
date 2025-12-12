@@ -1693,7 +1693,7 @@ namespace de.unika.ipd.grGen.grShell
 
         private bool NewGraphFromTargetFile(String specFilename, String graphName, String persistenceProvider, String connectionParameters, String persistentGraphParameters)
         {
-            IGlobalVariables globalVariables = new LGSPGlobalVariables();
+            IGlobalVariables globalVariables = LGSPBackend.Instance.CreateGlobalVariables();
             INamedGraph graph;
             try
             {
@@ -1751,7 +1751,7 @@ namespace de.unika.ipd.grGen.grShell
 
         private bool NewGraphFromModelFile(String specFilename, String graphName, bool forceRebuild, String persistenceProvider, String connectionParameters, String persistentGraphParameters)
         {
-            IGlobalVariables globalVariables = new LGSPGlobalVariables();
+            IGlobalVariables globalVariables = LGSPBackend.Instance.CreateGlobalVariables();
             INamedGraph graph;
             try
             {
@@ -1792,7 +1792,7 @@ namespace de.unika.ipd.grGen.grShell
 
         private bool NewGraphFromActionsFile(String specFilename, String graphName, bool forceRebuild, String persistenceProvider, String connectionParameters, String persistentGraphParameters)
         {
-            IGlobalVariables globalVariables = new LGSPGlobalVariables();
+            IGlobalVariables globalVariables = LGSPBackend.Instance.CreateGlobalVariables();
             INamedGraph graph;
             IActions actions;
 
@@ -5215,9 +5215,9 @@ showavail:
 
             try
             {
-                curShellProcEnv.ProcEnv.Actions = LGSPActions.LoadActions(actionFilename, (LGSPGraph)curShellProcEnv.ProcEnv.NamedGraph);
+                curShellProcEnv.ProcEnv.Actions = LGSPBackend.Instance.LoadActions(actionFilename, curShellProcEnv.ProcEnv.NamedGraph);
                 curShellProcEnv.ActionsFilename = actionFilename;
-                ((LGSPGraphProcessingEnvironment)curShellProcEnv.ProcEnv).Initialize((LGSPGraph)curShellProcEnv.ProcEnv.NamedGraph, (LGSPActions)curShellProcEnv.ProcEnv.Actions);
+                curShellProcEnv.ProcEnv.Initialize(curShellProcEnv.ProcEnv.NamedGraph, curShellProcEnv.ProcEnv.Actions); // todo: is this really needed?
             }
             catch(Exception ex)
             {
