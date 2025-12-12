@@ -1,3 +1,4 @@
+True
 1
 1
 Bla::matchfilter
@@ -14,8 +15,10 @@ Bla::matchfilter
 2
 42
 2
+True
 3
 3
+True
 1
 1
 Bla::matchfilter
@@ -32,8 +35,10 @@ Bla::matchfilter
 2
 42
 1
+True
 3
 3
+True
 1
 1
 Bla::matchfilter
@@ -48,8 +53,10 @@ Bla::matchfilter
 2
 42
 2
+True
 3
 2
+True
 1
 1
 Bla::matchfilter
@@ -64,8 +71,10 @@ Bla::matchfilter
 2
 42
 2
+True
 3
 2
+True
 1
 1
 Bla::matchfilter
@@ -80,8 +89,10 @@ Bla::matchfilter
 2
 42
 1
+True
 3
 2
+True
 1
 1
 Bla::matchfilter
@@ -94,5 +105,6 @@ Bla::matchfilter
 Bla::matchfilter
 42
 2
+True
 3
 1

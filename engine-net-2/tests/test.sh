@@ -177,6 +177,15 @@ for filename in $targets; do
         if(value != correctvalue)
           fail(testnum, \"\n  Test \" testnum \" FAILED! Expected value of sequence expression evaluation = \" correctvalue \", Found \" value)
       }
+      /Executing Graph Rewrite Sequence done/ {
+        testnum++
+        value = getAttribute(11)
+        if ((getline correctvalue < \"$grs.data\") <= 0)
+          fail(testnum, \"\n  No reference data for Test \" testnum \"!\")
+        sub(\"\\r\$\", \"\", correctvalue)
+        if(value != correctvalue)
+          fail(testnum, \"\n  Test \" testnum \" FAILED! Expected value of rewrite sequence execution = \" correctvalue \", Found \" value)
+      }
       END {
         if(failed) exit 1
 

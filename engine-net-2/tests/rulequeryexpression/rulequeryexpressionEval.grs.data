@@ -1,3 +1,4 @@
+True
 1
 1
 True
@@ -6,6 +7,7 @@ True
 1
 [match<t>{n:$0,_node0:$1,_edge0:$2}]
 1
+True
 4
 4
 [match<t>{n:$C,_node0:$D,_edge0:$E},match<t>{n:$9,_node0:$A,_edge0:$B},match<t>{n:$6,_node0:$7,_edge0:$8},match<t>{n:$3,_node0:$4,_edge0:$5},match<t>{n:$0,_node0:$1,_edge0:$2}]
@@ -20,6 +22,7 @@ True
 0
 False
 0
+True
 0
 0
 42

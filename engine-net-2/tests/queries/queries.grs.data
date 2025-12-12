@@ -1,9 +1,12 @@
+True
 1
 1
 [match<sameCompanySharedInterest>{subject:$0,company:$1,person:$2,_edge0:$A,_edge1:$B,score:2,interests:[cycling,hiking]},match<sameCompanySharedInterest>{subject:$0,company:$1,person:$9,_edge0:$A,_edge1:$14,score:2,interests:[cycling,coding]}]
 3
+True
 1
 1
+True
 1
 1
 [match<sameCompanySharedInterest>{subject:$0,company:$1,person:$2,_edge0:$A,_edge1:$B,score:2,interests:[cycling,hiking]},match<sameCompanySharedInterest>{subject:$0,company:$1,person:$9,_edge0:$A,_edge1:$14,score:2,interests:[cycling,coding]}]

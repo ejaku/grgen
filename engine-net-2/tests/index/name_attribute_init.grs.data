@@ -1,5 +1,6 @@
 foo
 bar
+True
 1
 1
 "n2"
@@ -20,6 +21,7 @@ foo
 bar
 foo
 fooe
+True
 1
 1
 "foon2"
@@ -40,6 +42,7 @@ foo
 foo
 foo
 fooe
+True
 2
 2
 "$4"

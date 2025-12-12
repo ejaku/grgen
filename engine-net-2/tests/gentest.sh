@@ -46,6 +46,7 @@ for scriptfile in $*; do
     /The graph is/ { print \$4 }
     /reported back:/ { print \"warning reported back\" }
     /Evaluating Sequence Expression done/ { print getAttribute(10) }
+    /Executing Graph Rewrite Sequence done/ { print getAttribute(11) }
 
     function getAttribute(startindex)
     {

@@ -6,6 +6,7 @@
 "[foo]".
 "]foo[".
 "]foo[".
+False
 2
 0
 "{foo}".
@@ -24,6 +25,7 @@
 "[foo]".
 "]foo[".
 "]foo[".
+False
 2
 2
 "{bar}".
@@ -42,6 +44,7 @@
 "[foo]".
 "]foo[".
 "]foo[".
+False
 2
 0
 "{foo}".
@@ -60,6 +63,7 @@
 "[foo]".
 "]foo[".
 "]foo[".
+False
 2
 2
 "{haha,hoho,huhu}".
@@ -74,6 +78,7 @@
 "{hui->buh,buh->hui}".
 "[haha,hoho,huhu]".
 "]haha,hoho,huhu[".
+False
 1
 0
 "{foo}".
@@ -84,6 +89,7 @@
 "{hui->buh,buh->hui}".
 "[haha,hoho,huhu]".
 "]haha,hoho,huhu[".
+False
 1
 1
 "{}".

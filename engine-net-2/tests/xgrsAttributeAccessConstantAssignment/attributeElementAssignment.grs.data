@@ -1,3 +1,4 @@
+True
 1
 1
 "$0"
@@ -20,6 +21,7 @@
 {foo->FOO,bar->BAR,baz->BAZ}
 [foo,bar,baz]
 ]foo,bar,baz[
+True
 1
 1
 "$0"
@@ -42,6 +44,7 @@
 {foo->FOO,bar->qux,baz->BAZ}
 [foo,qux,baz]
 ]foo,qux,baz[
+True
 0
 0
 "$0"
@@ -64,6 +67,7 @@
 {foo->FOO,bar->QUX,baz->BAZ}
 [foo,QUX,baz]
 ]foo,QUX,baz[
+True
 1
 1
 "$0"

@@ -1,3 +1,4 @@
+True
 1
 1
 1
@@ -11,6 +12,7 @@
 %0
 
 "Tree{%0,value:1,left:%1,right:%3}"
+True
 0
 0
 "$1"
@@ -20,10 +22,13 @@
 %5
 
 "Tree{%5,value:1,left:%6,right:%8}"
+True
 0
 0
+True
 1
 1
+True
 1
 1
 2
@@ -37,6 +42,7 @@
 %0
 
 "Tree{%0,value:1,left:%1,right:%3}"
+True
 0
 0
 "$1"
@@ -46,6 +52,7 @@
 %5
 
 "Tree{%5,value:1,left:%6,right:%8}"
+True
 0
 0
 "$2"
@@ -55,6 +62,7 @@
 %A
 
 "Tree{%A,value:1,left:%B,right:%D}"
+True
 0
 0
 "$3"
@@ -64,8 +72,10 @@
 %F
 
 "Tree{%F,value:1,left:%10,right:%12}"
+True
 0
 0
+True
 2
 2
 "%0"

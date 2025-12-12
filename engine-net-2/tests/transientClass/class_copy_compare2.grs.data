@@ -1,3 +1,4 @@
+True
 0
 0
 "&0"
@@ -16,16 +17,20 @@ Baz
 
 foo
 3.141592654
+False
 0
 0
+True
 0
 0
 "True"
 "False"
+True
 1
 1
 "True"
 "False"
+True
 0
 0
 "&1"
@@ -35,14 +40,17 @@ Baz
 
 bar
 3.141592654
+False
 0
 0
 "True"
 "False"
+True
 0
 0
 "True"
 "False"
+True
 1
 1
 "False"

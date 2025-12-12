@@ -1,3 +1,4 @@
+True
 1
 1
 Bla::matchfilter
@@ -13,8 +14,10 @@ Bla::matchfilter
 42
 1
 Bla::seq
+True
 3
 2
+True
 1
 1
 Bla::matchfilter
@@ -30,8 +33,10 @@ Bla::matchfilter
 42
 2
 Bla::seq
+True
 3
 2
+True
 1
 1
 Bla::matchfilter
@@ -47,8 +52,10 @@ Bla::matchfilter
 42
 1
 Bla::seq
+True
 3
 2
+True
 1
 1
 Bla::matchfilter
@@ -64,8 +71,10 @@ Bla::matchfilter
 42
 2
 Bla::seq
+True
 3
 2
+True
 1
 1
 Bla::matchfilter
@@ -79,8 +88,10 @@ Bla::matchfilter
 42
 2
 Bla::seq
+True
 3
 1
+True
 1
 1
 Bla::matchfilter
@@ -94,8 +105,10 @@ Bla::matchfilter
 42
 2
 Bla::seq
+True
 3
 1
+True
 1
 1
 Bla::matchfilter
@@ -109,8 +122,10 @@ Bla::matchfilter
 42
 2
 Bla::seq
+True
 3
 1
+True
 1
 1
 Bla::matchfilter
@@ -124,5 +139,6 @@ Bla::matchfilter
 42
 2
 Bla::seq
+True
 3
 1

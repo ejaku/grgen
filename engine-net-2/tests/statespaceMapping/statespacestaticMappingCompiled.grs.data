@@ -1,7 +1,10 @@
+True
 1
 1
+True
 0
 0
+True
 3
 3
 "[graph{name:DefaultGraph,id:1,changes:10},graph{name:DefaultGraph,id:2,changes:10},graph{name:DefaultGraph,id:3,changes:10}]"
@@ -12,5 +15,6 @@
 211
 121
 112
+True
 0
 0

@@ -1,3 +1,4 @@
+True
 1
 1
 Bla::matchfilter
@@ -11,8 +12,10 @@ Bla::matchfilter
 9
 1
 0
+True
 3
 1
+True
 1
 1
 matchfilter
@@ -26,8 +29,10 @@ matchfilter
 9
 1
 1
+True
 3
 2
+True
 1
 1
 Bla::matchfilter
@@ -47,8 +52,10 @@ matchfilter
 9
 2
 1
+True
 3
 3
+True
 1
 1
 Bla::matchfilter
@@ -56,5 +63,6 @@ matchfilter
 9
 0
 0
+True
 3
 0

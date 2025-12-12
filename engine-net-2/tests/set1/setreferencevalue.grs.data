@@ -1,3 +1,4 @@
+True
 0
 0
 warning reported back
@@ -10,5 +11,6 @@ warning reported back
 {qux}
 {qux}
 {baz}
+True
 1
 1
