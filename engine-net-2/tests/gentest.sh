@@ -25,24 +25,18 @@ for scriptfile in $*; do
     /^All attributes/ {
       print \$5
       print \$8
-      do {
+      getline
+      while(\$0 ~ /^ - /) {
+        print getAttribute(4)
         getline
-        while(\$0 ~ /^ - /) {
-          print getAttribute(4)
-          getline
-        }
       }
-      while(\$0 ~ /^All attributes/)
     }
     /(^The available attributes for)|(^(Node|Edge|Object|Transient object|node|edge|object|transient object) types)|(^(Sub|Super) types of (Node|Edge|Object|Transient object|node|edge|object|transient object) type)/ {
-      do {
+      getline
+      while(\$0 ~ /^ - /) {
+        print \$0
         getline
-        while(\$0 ~ /^ - /) {
-          print \$0
-          getline
-        }
       }
-      while(\$0 ~ /(^The available attributes for)|(^(Node|Edge|Object|Transient object|node|edge|object|transient object) types)|(^(Sub|Super) types of (Node|Edge|Object|Transient object|node|edge|object|transient object) type)/)
     }
     /matches found/ { print \$2 }
     /rewrites performed/ { print \$2 }
@@ -62,6 +56,7 @@ for scriptfile in $*; do
       {
         value = value \" \" \$i
       }
+      sub(\"\\r\",\"\",value)
       return value
     }" > "$scriptfile".data && echo "Data file generated" || echo "Data file generation failed!"
 done

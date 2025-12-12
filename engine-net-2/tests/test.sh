@@ -69,38 +69,32 @@ for filename in $targets; do
         if(\$8 != type)
           fail(testnum, \"\n  Test \" testnum \" FAILED! Expected type = \" type \", Found type = \" \$8)
 
-        do {
+        getline
+        sub(\"\\r\$\", \"\")
+        while(\$0 ~ /^ - /) {
+          testnum++
+          value = getAttribute(4)
+          getline correctvalue < \"$grs.data\"
+          sub(\"\\r\$\", \"\", correctvalue)
+          if(value != correctvalue)
+            fail(testnum, \"\n  Test \" testnum \" FAILED! Expected value of attribute = \" correctvalue \", Found \" value)
           getline
           sub(\"\\r\$\", \"\")
-          while(\$0 ~ /^ - /) {
-            testnum++
-            value = getAttribute(4)
-            getline correctvalue < \"$grs.data\"
-            sub(\"\\r\$\", \"\", correctvalue)
-            if(value != correctvalue)
-              fail(testnum, \"\n  Test \" testnum \" FAILED! Expected value of attribute = \" correctvalue \", Found \" value)
-            getline
-            sub(\"\\r\$\", \"\")
-          }
         }
-        while(\$0 ~ /^All attributes/)
       }
       /(^The available attributes for)|(^(Node|Edge|Object|Transient object|node|edge|object|transient object) types)|(^(Sub|Super) types of (Node|Edge|Object|Transient object|node|edge|object|transient object) type)/ {
-        do {
+        getline
+        sub(\"\\r\$\", \"\")
+        while(\$0 ~ /^ - /) {
+          testnum++
+          value = \$0
+          getline correctvalue < \"$grs.data\"
+          sub(\"\\r\$\", \"\", correctvalue)
+          if(value != correctvalue)
+            fail(testnum, \"\n  Test \" testnum \" FAILED! Expected value of attribute = \" correctvalue \", Found \" value)
           getline
           sub(\"\\r\$\", \"\")
-          while(\$0 ~ /^ - /) {
-            testnum++
-            value = \$0
-            getline correctvalue < \"$grs.data\"
-            sub(\"\\r\$\", \"\", correctvalue)
-            if(value != correctvalue)
-              fail(testnum, \"\n  Test \" testnum \" FAILED! Expected value of attribute = \" correctvalue \", Found \" value)
-            getline
-            sub(\"\\r\$\", \"\")
-          }
         }
-        while(\$0 ~ /(^The available attributes for)|(^(Node|Edge|Object|Transient object|node|edge|object|transient object) types)|(^(Sub|Super) types of (Node|Edge|Object|Transient object|node|edge|object|transient object) type)/)
       }
       /The graph is/ {
         testnum++

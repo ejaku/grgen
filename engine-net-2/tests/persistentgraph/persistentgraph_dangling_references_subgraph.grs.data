@@ -22,6 +22,8 @@ graph{name:induced_from_some non-persistent graph,id:2,changes:8}
 {graph{name:induced_from_some non-persistent graph,id:3,changes:8},graph{name:induced_from_some non-persistent graph,id:4,changes:8}}
 $2
 $3
+"$1"
+"E":
 {}
 $4
 $5
@@ -37,6 +39,8 @@ graph{name:induced_from_some non-persistent graph,id:2,changes:15}
 {graph{name:induced_from_some non-persistent graph,id:3,changes:15}}
 $2
 $3
+"$1"
+"E":
 {}
 $4
 $5
@@ -64,6 +68,8 @@ graph{name:induced_from_DefaultGraph,id:7,changes:8}
 {graph{name:induced_from_DefaultGraph,id:8,changes:8},graph{name:induced_from_DefaultGraph,id:9,changes:8}}
 $2
 $3
+"$1"
+"E":
 {}
 $4
 $5
@@ -83,6 +89,8 @@ graph{name:induced_from_DefaultGraph,id:7,changes:15}
 {graph{name:induced_from_DefaultGraph,id:8,changes:15}}
 $2
 $3
+"$1"
+"E":
 {}
 $4
 $5
@@ -114,6 +122,8 @@ graph{name:induced_from_DefaultGraph,id:13,changes:4}
 {graph{name:induced_from_DefaultGraph,id:14,changes:4}}
 $2
 $3
+"$1"
+"E":
 {}
 $4
 $5

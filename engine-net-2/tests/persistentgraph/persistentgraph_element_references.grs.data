@@ -21,10 +21,14 @@ $1
 %0
 graph{name:induced_from_some non-persistent graph,id:2,changes:2}
 $2
+"$1"
+"E":
 $0
 $1
 %0
 graph{name:defined_from_some non-persistent graph,id:3,changes:2}
+"%0"
+"O":
 $0
 $1
 %0
@@ -52,10 +56,14 @@ $1
 %0
 graph{name:induced_from_DefaultGraph,id:7,changes:2}
 $2
+"$1"
+"E":
 $0
 $1
 %0
 graph{name:defined_from_DefaultGraph,id:8,changes:2}
+"%0"
+"O":
 $0
 $1
 %0
@@ -81,10 +89,14 @@ $1
 %0
 graph{name:induced_from_DefaultGraph,id:13,changes:2}
 $2
+"$1"
+"E":
 $0
 $1
 %0
 graph{name:defined_from_DefaultGraph,id:14,changes:2}
+"%0"
+"O":
 $0
 $1
 %0

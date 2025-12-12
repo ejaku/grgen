@@ -2733,6 +2733,7 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     ConsoleUI.outWriter.WriteLine(" - \"{0}\"", type.PackagePrefixedName);
                 }
+                ConsoleUI.outWriter.WriteLine();
             }
         }
 
@@ -2750,6 +2751,7 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     ConsoleUI.outWriter.WriteLine(" - \"" + type.PackagePrefixedName + "\"");
                 }
+                ConsoleUI.outWriter.WriteLine();
             }
         }
 
@@ -2767,6 +2769,7 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     ConsoleUI.outWriter.WriteLine(" - \"{0}\"", type.PackagePrefixedName);
                 }
+                ConsoleUI.outWriter.WriteLine();
             }
         }
 
@@ -2805,6 +2808,7 @@ namespace de.unika.ipd.grGen.grShell
             }
             if(first)
                 ConsoleUI.errorOutWriter.WriteLine(" - No attribute types found.");
+            ConsoleUI.outWriter.WriteLine();
         }
 
         /// <summary>
@@ -2851,6 +2855,7 @@ namespace de.unika.ipd.grGen.grShell
             {
                 ConsoleUI.outWriter.WriteLine("{0,-20} {1}", curShellProcEnv.ProcEnv.NamedGraph.GetElementName(elem), elem.Type.PackagePrefixedName);
             }
+            ConsoleUI.outWriter.WriteLine();
 
             return true;
         }
@@ -2996,6 +3001,7 @@ namespace de.unika.ipd.grGen.grShell
                 ConsoleUI.outWriter.WriteLine(" - {0}::{1} = {2}", attrType.OwnerType.PackagePrefixedName,
                     attrType.Name, EmitHelper.ToStringAutomatic(owner.GetAttribute(attrType.Name), curShellProcEnv.ProcEnv.NamedGraph, curShellProcEnv.objectNamerAndIndexer, curShellProcEnv.transientObjectNamerAndIndexer, null));
             }
+            ConsoleUI.outWriter.WriteLine();
         }
 
         public void ShowElementAttribute(IAttributeBearer owner, String attributeName)
