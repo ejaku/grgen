@@ -651,8 +651,8 @@ namespace de.unika.ipd.grGen.grShell
                 return;
             }
 
-            if(owner is IGraphElement)
-                BaseGraph.ChangingAttributeAssignElement(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, value, index);
+            if(owner is IGraphElement || owner is IObject)
+                BaseGraph.ChangingAttributeAssignElement(curShellProcEnv.ProcEnv.NamedGraph, owner, attrType, value, index);
 
             if(attr is IList)
             {
@@ -717,8 +717,8 @@ namespace de.unika.ipd.grGen.grShell
 
                 AttributeType attrType = owner.Type.GetAttributeType(attrName);
 
-                if(owner is IGraphElement)
-                    BaseGraph.ChangingSetAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, keyObj);
+                if(owner is IGraphElement || owner is IObject)
+                    BaseGraph.ChangingSetAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, owner, attrType, keyObj);
 
                 dict[keyObj] = null;
 
@@ -742,8 +742,8 @@ namespace de.unika.ipd.grGen.grShell
 
                 AttributeType attrType = owner.Type.GetAttributeType(attrName);
 
-                if(owner is IGraphElement)
-                    BaseGraph.ChangingAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, keyObj, null);
+                if(owner is IGraphElement || owner is IObject)
+                    BaseGraph.ChangingAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, owner, attrType, keyObj, null);
 
                 array.Add(keyObj);
 
@@ -767,8 +767,8 @@ namespace de.unika.ipd.grGen.grShell
 
                 AttributeType attrType = owner.Type.GetAttributeType(attrName);
 
-                if(owner is IGraphElement)
-                    BaseGraph.ChangingAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, keyObj, null);
+                if(owner is IGraphElement || owner is IObject)
+                    BaseGraph.ChangingAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, owner, attrType, keyObj, null);
 
                 deque.Enqueue(keyObj);
 
@@ -808,8 +808,8 @@ namespace de.unika.ipd.grGen.grShell
 
                 AttributeType attrType = owner.Type.GetAttributeType(attrName);
 
-                if(owner is IGraphElement)
-                    BaseGraph.ChangingMapAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, keyObj, valueObj);
+                if(owner is IGraphElement || owner is IObject)
+                    BaseGraph.ChangingMapAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, owner, attrType, keyObj, valueObj);
 
                 dict[keyObj] = valueObj;
 
@@ -838,8 +838,8 @@ namespace de.unika.ipd.grGen.grShell
 
                 AttributeType attrType = owner.Type.GetAttributeType(attrName);
 
-                if(owner is IGraphElement)
-                    BaseGraph.ChangingAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, keyObj, valueObj);
+                if(owner is IGraphElement || owner is IObject)
+                    BaseGraph.ChangingAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, owner, attrType, keyObj, valueObj);
 
                 array.Insert((int)valueObj, keyObj);
 
@@ -868,8 +868,8 @@ namespace de.unika.ipd.grGen.grShell
 
                 AttributeType attrType = owner.Type.GetAttributeType(attrName);
 
-                if(owner is IGraphElement)
-                    BaseGraph.ChangingAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, keyObj, valueObj);
+                if(owner is IGraphElement || owner is IObject)
+                    BaseGraph.ChangingAttributePutElement(curShellProcEnv.ProcEnv.NamedGraph, owner, attrType, keyObj, valueObj);
 
                 deque.EnqueueAt((int)valueObj, keyObj);
 
@@ -904,12 +904,12 @@ namespace de.unika.ipd.grGen.grShell
 
                 AttributeType attrType = owner.Type.GetAttributeType(attrName);
 
-                if(owner is IGraphElement)
+                if(owner is IGraphElement || owner is IObject)
                 {
                     if(attrType.Kind == AttributeKind.SetAttr)
-                        BaseGraph.ChangingSetAttributeRemoveElement(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, keyObj);
+                        BaseGraph.ChangingSetAttributeRemoveElement(curShellProcEnv.ProcEnv.NamedGraph, owner, attrType, keyObj);
                     else
-                        BaseGraph.ChangingMapAttributeRemoveElement(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, keyObj);
+                        BaseGraph.ChangingMapAttributeRemoveElement(curShellProcEnv.ProcEnv.NamedGraph, owner, attrType, keyObj);
                 }
 
                 dict.Remove(keyObj);
@@ -934,8 +934,8 @@ namespace de.unika.ipd.grGen.grShell
 
                 AttributeType attrType = owner.Type.GetAttributeType(attrName);
 
-                if(owner is IGraphElement)
-                    BaseGraph.ChangingAttributeRemoveElement(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, keyObj);
+                if(owner is IGraphElement || owner is IObject)
+                    BaseGraph.ChangingAttributeRemoveElement(curShellProcEnv.ProcEnv.NamedGraph, owner, attrType, keyObj);
 
                 if(keyObj != null)
                     array.RemoveAt((int)keyObj);
@@ -962,8 +962,8 @@ namespace de.unika.ipd.grGen.grShell
 
                 AttributeType attrType = owner.Type.GetAttributeType(attrName);
 
-                if(owner is IGraphElement)
-                    BaseGraph.ChangingAttributeRemoveElement(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, keyObj);
+                if(owner is IGraphElement || owner is IObject)
+                    BaseGraph.ChangingAttributeRemoveElement(curShellProcEnv.ProcEnv.NamedGraph, owner, attrType, keyObj);
 
                 if(keyObj != null)
                     deque.DequeueAt((int)keyObj);
@@ -2369,8 +2369,8 @@ namespace de.unika.ipd.grGen.grShell
                     return false;
                 }
 
-                if(owner is IGraphElement)
-                    BaseGraph.ChangingAttributeAssign(curShellProcEnv.ProcEnv.NamedGraph, (IGraphElement)owner, attrType, value);
+                if(owner is IGraphElement || owner is IObject)
+                    BaseGraph.ChangingAttributeAssign(curShellProcEnv.ProcEnv.NamedGraph, owner, attrType, value);
 
                 owner.SetAttribute(par.Key, value);
 
