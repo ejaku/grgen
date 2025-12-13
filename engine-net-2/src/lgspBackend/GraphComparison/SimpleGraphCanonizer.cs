@@ -109,7 +109,10 @@ namespace de.unika.ipd.grGen.lgsp
 				case AttributeKind.DoubleAttr:
 				case AttributeKind.FloatAttr:
 					valType = "double";
-                    valuestr = ((double)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                    if(value is float)
+                        valuestr = ((float)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                    else
+                        valuestr = ((double)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
                     break;
 					
 				case AttributeKind.ByteAttr:
