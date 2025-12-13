@@ -17,6 +17,7 @@ for filename in $targets; do
 
   for grs in "$filename"/*.grs; do
     if [ ! -f $grs.data ]; then
+#     echo "$grs is lacking a test data file!"
       continue
     fi
 
