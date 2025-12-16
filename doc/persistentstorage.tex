@@ -16,11 +16,12 @@ The support for peristent storage can be distinguished into
 The \texttt{new graph} command (cf. \ref{graphcreationcommands}) may be extended to create a \indexed{persistent graph}.
 
 \begin{rail}
-  PersistenceSuffix: 'persist' 'with' Text 'to' Text ;
+  PersistenceSuffix: 'persist' 'with' Text 'to' Text (Text?);
 \end{rail}\ixnterm{PersistenceSuffix}\ixkeyw{persist}\ixkeyw{with}\ixkeyw{to}
 The first \emph{Text} specifies the persistence provider to use, which has to be given as a dll filename.
 With \texttt{libGrPersistenceProviderSQLite.dll}, the database (management system) SQLite is used; this dll is as of now the only offered persistence provider.
 The second \emph{Text} specifies the database connection string to use, which must specify the name of the database file to use, and should set the version.
+The optional third \emph{Text} may specify additional persistent graph parameters.
 
 \begin{example}
 The command
@@ -51,7 +52,7 @@ At the begin of the next session, the state at the end of the previous session i
 
 Matching/reading occurs entirely in-memory, the database is read only once, when the persistent graph is loaded.
 The writing of changes (to the graph structure as well as to the attributes of its entities) is realized by listening to the graph change events.
-This design allows for quick pattern matching and for quick writing, and comes at the price of slow loading.
+This design allows for quick pattern matching and for quick update writing, but comes at the price of slow loading.
 
 A mark and sweep like garbage collector is employed directly after the inital graph reading, it finds out which of the known objects and graphs are still reachable from the host graph on, and which of the zombie nodes/edges are still reachable from the host graph on.
 The ones that are not referenced anymore are deleted.
@@ -65,15 +66,74 @@ The attribute containing them should have been assigned null or they should have
 
 The persistent graph as it is implemented by the SQLite persistence provider is constrained in certain ways compared to the regular graph:
 \begin{itemize}
-	\item when attributes are used that contain nodes/edges (graph element references), the graph elements of the graph must reference the containing graph, i.e. \texttt{node edge graph;} must have been declared (cf. \ref{sec:graphnesting}) -- in exchange, the persistent graph is capable of coping with references to graph elements from other graphs than the one the reference is contained in -- this is \emph{not} supported by the GRS exporter/importer.
-	\item the persistent graph does not support the reuse optimization (cf. \ref{sec:graphcustomcommands}, \texttt{optimizereuse} that recycles deleted elements).
-	\item the persistent graph does not support parallel sequence execution (cf. \ref{sec:sequenceparallelization}).
+	\item when attributes are used that contain nodes/edges (graph element references), the graph elements of the graph must reference the containing graph, i.e. \texttt{node edge graph;} must have been declared (cf. \ref{sec:graphnesting}) -- in exchange, the persistent graph is capable of coping with references to graph elements from other graphs than the one the reference is contained in -- this is \emph{not} supported by the GRS exporter/importer
+	\item the persistent graph does not support the reuse optimization (cf. \ref{sec:graphcustomcommands}, \texttt{optimizereuse} that recycles deleted elements)
+	\item the persistent graph does not support parallel sequence execution (cf. \ref{sec:sequenceparallelization})
+	\item external attribute types (cf. \ref{sub:extcls}) are not supported (the external emitting and parsing (cf. \ref{sub:extemitparse}) of the GRS import/export is not supported)
 \end{itemize}
 
 The SQLite persistence provider uses the following table mapping: the graph structure is stored in topology tables (\texttt{nodes}, \texttt{edges}, \texttt{graphs}, \texttt{objects}) with one row per entity, the entities (nodes, edges, objects) are stored as rows in per-type table with the attributes as columns, besides container attributes, which have their are own tables (additionally, type information is stored in \texttt{types} and \texttt{attributeTypes} tables).
-A minimal amount of database indices is used (initial reading occurs by full table scans), as pattern matching is not carried out against the database -- the indices to achieve fast lookups and matching are all kept in-memory, the same runtime structures as used for a non-persistent graph are re-used.
+A minimal amount of database indices is used (initial reading occurs by full table scans), as pattern matching is not carried out against the database -- the indices to achieve fast lookups and matching are all kept in-memory, the same runtime structures are (re-)used that are used for a non-persistent graph.
 
 You could change the persistent graph offline by carrying out SQL commands, even though this is not recommended.
+
+\subsection{Model Update}
+
+Before the graph is loaded from the database, it may be necessary to update the model stored in the database to the model used by the current host graph (the graph in the database adheres to the (meta) model from the database, not necessarily the current (meta) model from the model file/assembly; a loading is only possible in case of a compatible new model/compatible changes).
+
+The persistence provider checks for changes by comparing the models, and depending on them
+\begin{itemize}
+	\item aborts the update,
+	\item asks for user confirmation,
+	\item auto-updates (or initializes),
+	\item does nothing.
+\end{itemize}
+
+In case types were removed from the model that still have instances in the database, the update is aborted (and the database left unchanged) --- this prevents accidental data loss.
+This holds also for types that changed their kind, e.g. a \texttt{node class Foo} being switch to an \texttt{edge class Foo}, they are modeled as a type deletion in the first step, followed by a type introduction in the second step.
+You have to revert to an old model in order to delete them and/or migrate the data you don't want to loose, see \ref{modelmigration} for more on this topic.
+Removing types that don't have instances is considered safe and carried out automatically.
+
+As an aide for model migration (if you don't have access to the original model anymore), the model stored in the database is written to a model file in case of an abort -- but note, that this is \emph{not} the original model, for one is it only a partial model (lacking e.g. methods or indices), for the other is the inheritance hierarchy flattened, all classes contain all the attributes from their supertypes, lacking the extends specification.
+
+\begin{warning}
+An update may fail directly after you deleted all instances of relevant nodes/edges.
+You have to open the graph first and wait for completion of garbage collection, then you can delete the types.
+The next time you open the graph, the model will be updated (successfully).
+\end{warning}
+
+\begin{note}
+We speak of model updates, while in fact, you may also open a graph with a different model, by-accident or intentionally.
+Still, it is seen as if you modified the previous model to the current state, i.e. the difference from the database to the current models is computed and acted upon (in order to synchronize the database to the current model).
+\end{note}
+
+In case attributes were deleted, the user is asked to confirm the update, which would remove besides the attribute from the type also all the attribute values stored in the database (potentially causing data loss).
+This holds also for attributes that changed their type, e.g. an attribute \texttt{bar:int} being turned into an \texttt{bar:string}, in the same \texttt{class Foo}, they are modeled as an attribute removal in the first step, followed by an attribute introduction in the second step.
+When the user accepts the update, it is carried out and the attribute values are gone for good, when the user denies the update, it is aborted like in the case of deleted types with instances, and the graph is neither changed nor opened.
+The interactive querying of the user can be prevented by \emph{PersistentGraphParameters}, they will be introduced later in the section.
+
+In case of non-destructive changes, the update will be automatically carried out.
+This esp. holds when new model types were introduced, they will be added to the database, and when new attributes were introduced to types, they will be included in the database (and initialized to their \GrG{ } default values)
+This also holds for kind changed types and type changed attributes, in the second step.
+
+Upon first opening of a persistent graph, the database will be initialized to the model from the (current) graph.
+
+In case the model is unchanged compared to the last time the database was opened, or only parts without relevance to persistent storage (like indices, which are memory-only) changed, the graph is simply read in the following step (the same holds after the automatic changes and the confirmed changes were carried out).
+
+\subsubsection*{Persistent Graph Parameters}
+\label{persistentgraphparameters}
+
+\begin{rail}
+  PersistentGraphParameters: ('update/type.attr' | 'update')+(';');
+\end{rail}\ixnterm{PersistentGraphParameters}
+
+The persistent graph parameters currently supported allow to influence the model update.
+
+The update parameters allow to exclude attributes from the updates the user has to confirm.
+The parameter \texttt{update/type.attr} causes an auto-update of the attribute \texttt{attr} from graph element or class object type \texttt{type} during persistent graph opening.
+The parameter \texttt{update} causes an auto-update of all attributes (but is potentially dangerous and thus not recommended).
+
+These parameters allow to deploy a model migration script including a silent model update to a user machine (see \ref{modelmigration} for more on model migration).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -245,3 +305,35 @@ The replay command plays a recording back: the graph at the time the recording w
 If a \emph{from} line is given, all lines from file begin on including this line are skipped, then replay starts. If a \emph{to} line is given, only the lines from the starting point on, until-excluding this one are executed (i.e. all lines from-including this one until file end are skipped).
 Normally you reference with \texttt{from} and \texttt{to} comment lines you write with the \texttt{record} statement (cf. \ref{recstmt}) in the sequences, marking relevant states during a transformation process.
 An example for record and replay is given in \texttt{tests/recordreplay}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Model Migration}
+\label{modelmigration}
+
+During development, you typically change your (meta) models (by editing your model files), and want your existing graphs to work with the updated model
+(with the graphs being contained in an exported file or being stored persistently in a database).
+Partly this works out of the box, partly this requires dedicated migration code you have to supply.
+Also, you may want to carry out the updates on user machines your graph rewrite system is deployed to.
+We explain here how to handle this use case.
+Note that the model the stored graph adheres to is only implicitly available in case of a serialized \texttt{.grs} file (defined by the types and attributes referenced by the new graph element commands), and only partially available in case of a persistent graph in a SQLite database (explicitly -- albeit in reduced form -- in some dedicated types and attributes tables, and implicitly in the layout of the non-topology tables).
+
+Adding types (\texttt{node class}, \texttt{edge class}, \texttt{class}) to a model or new attributes to types within the model works out of the box, the old graph is imported/loaded without problems, the new types simply don't have any instances thereafter, the new attributes are simply initialized to their default values.
+Deletions of types and/or attributes do not work out of the box but require preparation, we specify how to handle them split by file export and database storage.
+
+When you want to delete types from the model, you have to first delete their instances from the graph (by graph rewrite rules or sequences or procedures).
+Then, in case of a serialization file, you have to export the graph, can then remove the types from the model, and import the graph without issues.
+In case of a  persistent graph in a database, the database has to be closed (the host graph switched to another one or the shell script exited), then re-opened, and closed again. 
+The intermediate re-opening is required so that the garbage collection can remove the deleted entities, which runs only at database opening but after model updating.
+Then, you can drop the type from the model, and open the persistent graph. 
+
+When you want to delete attributes from the model (i.e. remove them from their containing type), and work with serialization/deserialization, you have to export first with skip instructions, cf.\ref{outputcmds}, causing the attributes not to be serialized.
+Then you can drop them from the model file and import the serialized file without issues (otherwise, import will fail with an unknown attribute message).
+When you work with a persistent graph stored in a database, you have to close the database, then you can drop the attributes from the model file, and at the following database opening (persistent graph creation), the persistence provider will ask you for a confirmation that the attributes not available in the model anymore are to be deleted.
+When confirmed, the database is updated to a version with the attributes dropped, and the graph loaded without issues.
+You may supply skip-like update persistent graph parameters at database opening, cf.\ref{persistentgraphparameters}, which auto-confirm the changes, saving you from the necessity to confirm them.
+This is esp. helpful if you want to supply a migration to user machines.
+
+A kind change of a type or a type change of an attribute is handled as a deletion followed by an addition, so you have to take care of the deletion part.
+
+%TODO in code: enum removal? TODO: explanation enum value changes

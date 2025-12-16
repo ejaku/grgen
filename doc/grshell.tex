@@ -238,9 +238,9 @@ Shows the profile for the action specified by its name, or for all rules and tes
 \section{Variables}
 
 \begin{rail}
-  Variable '=' ( Variable | GraphElement | Object | Literal )
+  Variable '=' ( Variable | Entity | Literal )
 \end{rail}
-Assigns the variable or by persistent name \emph{GraphElement} or by unique-id based name \emph{Object} or literal to \emph{Variable}.
+Assigns to the target \emph{Variable} the source \emph{Variable}, or the \emph{Entity} denoted by its persistent name or unique id, or the \emph{Literal} (textual representation of a constant value).
 If \emph{Variable} has not been defined yet, it will be defined implicitly.
 As usual for scripting languages, variables have neither static types nor declarations.
 The variables known to \GrShell\ are the graph global variables (see Chapter \ref{cha:xgrs} for the distinction between graph global and sequence local variables).
@@ -248,7 +248,7 @@ The variables known to \GrShell\ are the graph global variables (see Chapter \re
 \begin{rail}
 'show' 'var' Variable
 \end{rail}\ixkeyw{show}\ixkeyw{var}
-Prints the content of the specified variable.
+Prints the content of the specified variable (for references only the identifier of the referenced entity).
 
 \begin{rail}
   'askfor';
@@ -307,7 +307,7 @@ In order to describe the commands more precisely, the following (semantic) speci
 \begin{description}
   \item[Filename]A fully qualified file name without spaces (e.g.\ \texttt{/Users/Bob/amazing\textunderscore file.txt}) or a single quoted or double quoted fully qualified file name that may contain spaces (\texttt{"/Users/Bob/amazing file.txt"}).
   \item[Variable] Identifier of a (graph global) variable that contains a graph element or a value. \indexmainsee{GrShell variable}{graph global variable} A double colon prefix as required in the sequences may be given, but as the shell only knows graph global variables, it is optional (in plain shell commands, not in sequences or sequence expressions appearing within shell commands).
-  \item[NodeType, EdgeType] Identifier of a node type resp.\ edge type defined in the model of the current graph.
+  \item[NodeType, EdgeType, ObjectType, TransientObjectType] Identifier of an entity type defined in the model of the current graph.
   \item[AttributeName] Identifier of an attribute.
   \item[Graph] Identifies a graph by its name.
   \item[Action] Identifies a rule by its name.
@@ -320,7 +320,7 @@ In order to describe the commands more precisely, the following (semantic) speci
 \makeatother
 
 \begin{description}
-  \item[Node, Edge] The specializations \emph{Node} and \emph{Edge} of \emph{GraphElement} require the corresponding graph element to be a node or an edge respectively.
+  \item[Node, Edge] The specializations \emph{Node} and \emph{Edge} of \emph{GraphElement} require the corresponding graph element to be a node or an edge respectively. The at-notation references by persistent name, otherwise a variable name is used.
 \end{description}
 
 \makeatletter
@@ -328,10 +328,34 @@ In order to describe the commands more precisely, the following (semantic) speci
   Object: Text | ('@@' '(' Text ')')
 \end{rail}\indexmain{\texttt{"@"@}}\ixnterm{Object}
 \makeatother
+The \emph{Object} requires the corresponding object to be an internal class object. The atat-notation references by unique id, otherwise a variable name is used.
 
-\begin{description}
-  \item[Object] The \emph{Object} requires the corresponding object to be an internal class object, which is referenced by its unique id.
-\end{description}
+\makeatletter
+\begin{rail}
+  TransientObject: Text
+\end{rail}\ixnterm{TransientObject}
+\makeatother
+The \emph{TransientObject} requires the corresponding object to be an internal transient class object, the \emph{Text} denotes a variable name. Note that transient object support is preliminary.
+
+\makeatletter
+\begin{rail}
+  Entity: Node | Edge | Object | TransientObject
+\end{rail}\ixnterm{Entity}
+\makeatother
+The \emph{Entity} encompasses \emph{Node}s, \emph{Edge}s, \emph{Object}s, and \emph{TransientObject}s.
+
+\begin{rail}
+  EntityKind: 'node' | 'edge' | 'object' | 'transient' 'object'
+\end{rail}\ixnterm{EntityKind}\ixkeyw{node}\ixkeyw{edge}\ixkeyw{object}\ixkeyw{transient}
+The \emph{EntityKind} \texttt{node} denotes node classes, \texttt{edge} denotes edge classes, \texttt{object} denotes internal class objects, and \texttt{transient object} denotes transient internal class objects -- it is used in conjunction with the respective types or elements.
+Please note that transient class support is preliminary.
+Also note that \texttt{object} is here used to denote internal class objects from the model with the base type \texttt{Object} (cf. \ref{fig:alltypes}), not general objects/external types.
+
+\begin{rail}
+  EntityType: NodeType | EdgeType | ObjectType | TransientObjectType
+\end{rail}\ixnterm{EntityType}
+The \emph{EntityType} encompasses \emph{NodeType}s, \emph{EdgeType}s, \emph{ObjectType}s, and \emph{TransientObjectType}s.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Attribute Assignment and Graph Manipulation}
@@ -343,26 +367,26 @@ These are tasks which are or at least should be carried out by the rules of the 
 On shell level they are available and mainly used as elementary instructions in creating an initial graph, in exporting and importing a graph, as well as in change recording and replaying.
 
 \begin{rail}
-  GraphElement '.' AttributeName '=' AttributeValue ;
+  Entity '.' AttributeName '=' AttributeValue ;
 \end{rail}
-Set the \indexed{attribute} \emph{AttributeName} of the graph element or internal class object \emph{GraphElement} to the value \emph{AttributeValue} (for the different possible attribute values see above).
+Set the \indexed{attribute} \emph{AttributeName} of the graph element or internal class object \emph{Entity} to the value \emph{AttributeValue} (for the different possible attribute values see above).
 
 \begin{rail}
-  GraphElement '.' AttributeName '[' Index ']' '=' AttributeValue ;
+  Entity '.' AttributeName '[' Index ']' '=' AttributeValue ;
 \end{rail}
-Overwrite the value in the array or deque or map \indexed{attribute} \emph{AttributeName} of the graph element or internal class object \emph{GraphElement} at the integer position or key value \emph{Index} with the value \emph{AttributeValue}.
+Overwrite the value in the array or deque or map \indexed{attribute} \emph{AttributeName} of the graph element or internal class object \emph{Entity} at the integer position or key value \emph{Index} with the value \emph{AttributeValue}.
 
 \begin{rail}
-  GraphElement '.' AttributeName '.' 'add' '(' \\
+  Entity '.' AttributeName '.' 'add' '(' \\
   	PrimitiveAttributeValue (',' PrimitiveAttributeValue)? ')' ;
 \end{rail}
-Add the value \emph{PrimitiveAttributeValue} (for the different possible primitive attribute values see above) to the set valued attribute \emph{AttributeName} of the graph element or internal class object \emph{GraphElement} or add the key-value pair consisting of the two \emph{PrimitiveAttributeValue}s to the map valued attribute \emph{AttributeName} of the graph element or internal class object \emph{GraphElement}.
-Or add the value \emph{PrimitiveAttributeValue} to the end of the array/deque valued attribute \emph{AttributeName} of the graph element or internal class object \emph{GraphElement} in the one parameter case or insert the \emph{PrimitiveAttributeValue} to the of the array/deque valued attribute \emph{AttributeName} of the graph element or internal class object \emph{GraphElement} at the index given by the second parameter in the two parameter case.
+Add the value \emph{PrimitiveAttributeValue} (for the different possible primitive attribute values see above) to the set valued attribute \emph{AttributeName} of the graph element or internal class object \emph{Entity} or add the key-value pair consisting of the two \emph{PrimitiveAttributeValue}s to the map valued attribute \emph{AttributeName} of the graph element or internal class object \emph{Entity}.
+Or add the value \emph{PrimitiveAttributeValue} to the end of the array/deque valued attribute \emph{AttributeName} of the graph element or internal class object \emph{Entity} in the one parameter case or insert the \emph{PrimitiveAttributeValue} to the of the array/deque valued attribute \emph{AttributeName} of the graph element or internal class object \emph{Entity} at the index given by the second parameter in the two parameter case.
 
 \begin{rail}
-  GraphElement '.' AttributeName '.' 'rem' '(' (PrimitiveAttributeValue)? ')' ;
+  Entity '.' AttributeName '.' 'rem' '(' (PrimitiveAttributeValue)? ')' ;
 \end{rail}
-Remove the value \emph{PrimitiveAttributeValue} from the set valued attribute \emph{AttributeName} of the graph element or internal class object \emph{GraphElement} or remove the key \emph{PrimitiveAttributeValue} from the map valued attribute \emph{AttributeName} of the graph element or internal class object \emph{GraphElement} or remove the index \emph{PrimitiveAttributeValue} from the array valued attribute \emph{AttributeName} of the graph element or internal class object \emph{GraphElement} or remove the index \emph{PrimitiveAttributeValue} from the deque valued attribute \emph{AttributeName} of the graph element or internal class object \emph{GraphElement} or remove the end element from the array valued attribute \emph{AttributeName} of the graph element or internal class object \emph{GraphElement} in the zero parameter case or remove the first element from the deque valued attribute \emph{AttributeName} of the graph element or internal class object\emph{GraphElement} in the zero parameter case.
+Remove the value \emph{PrimitiveAttributeValue} from the set valued attribute \emph{AttributeName} of the graph element or internal class object \emph{Entity} or remove the key \emph{PrimitiveAttributeValue} from the map valued attribute \emph{AttributeName} of the graph element or internal class object \emph{Entity} or remove the index \emph{PrimitiveAttributeValue} from the array valued attribute \emph{AttributeName} of the graph element or internal class object \emph{Entity} or remove the index \emph{PrimitiveAttributeValue} from the deque valued attribute \emph{AttributeName} of the graph element or internal class object \emph{Entity} or remove the end element from the array valued attribute \emph{AttributeName} of the graph element or internal class object \emph{Entity} in the zero parameter case or remove the first element from the deque valued attribute \emph{AttributeName} of the graph element or internal class object\emph{Entity} in the zero parameter case.
 
 
 \begin{rail}
@@ -409,40 +433,40 @@ The \texttt{only} keyword excludes subtypes. Nodes/edges without persistent name
 If the command is specified with \texttt{num}, only the number of nodes/edges will be displayed.
 
 \begin{rail}
-  'show' ('node' | 'edge') 'types'
-\end{rail}\ixkeyw{show}\ixkeyw{node}\ixkeyw{edge}\ixkeyw{types}
-Gets the node/edge types of the current graph model.
+  'show' EntityKind 'types'
+\end{rail}\ixkeyw{show}\ixkeyw{types}
+Gets the types of the respective entity kind (\texttt{node}/\texttt{edge}/internal class \texttt{object}/\texttt{transient} internal class \texttt{object}) from the current graph model.
 
 \begin{rail}
-'show' ('node' ('super' | 'sub') 'types' NodeType | 'edge' ('super' | 'sub') 'types' EdgeType)
-\end{rail}\ixkeyw{show}\ixkeyw{node}\ixkeyw{edge}\ixkeyw{super}\ixkeyw{sub}\ixkeyw{types}\indexmain{inheritance}
-Gets the inherited/descendant types of \emph{NodeType}/\emph{EdgeType}.
+'show' EntityKind ('super' | 'sub') 'types' EntityType
+\end{rail}\ixkeyw{show}\ixkeyw{super}\ixkeyw{sub}\ixkeyw{types}\indexmain{inheritance}
+Gets the inherited/descendant types of the given \emph{EntityType} (\emph{NodeType}/\emph{EdgeType}/\emph{ObjectType}/\emph{TransientObjectType}); the kind identifier must fit to the specified type.
 
 \begin{rail}
-  'show' ('node' 'attributes' (() | (() | 'only') NodeType) | 'edge' 'attributes' (() | (() | 'only') EdgeType))
-\end{rail}\ixkeyw{show}\ixkeyw{node}\ixkeyw{edge}\ixkeyw{only}\ixkeyw{attributes}
-Gets the available node/edge \indexed{attribute} types.
-If \emph{NodeType}/\emph{EdgeType} is supplied, only attributes defined in \emph{NodeType}/\emph{EdgeType} are diplayed.
+  'show' EntityKind 'attributes' (() | (() | 'only') EntityType)
+\end{rail}\ixkeyw{show}\ixkeyw{only}\ixkeyw{attributes}
+Gets the available \indexed{attribute} types.
+If an \emph{EntityType} is supplied, only attributes defined in the /\emph{EntityType} are diplayed (otherwise all attributes known to all all types of the specified \emph{EntityKind}).
 The \texttt{only} keyword excludes inherited attributes.\\
 \begin{warning}
-The \texttt{show nodes/edges attributes\dots} command covers types and \emph{inherited} types.
+The \texttt{show EntityKind attributes\dots} command covers types and \emph{inherited} types.
 This is in contrast to the other \texttt{show\dots} commands where types and \emph{sub}types are specified or the direction in the type hierarchy is specified explicitly, respectively.
 \end{warning}
 
 \begin{rail}
- 'show' ('node' Node | 'edge' Edge)
-\end{rail}\ixkeyw{show}\ixkeyw{node}\ixkeyw{edge}
-Gets the attribute types and values of a specific graph element.
+ 'show' EntityKind Entity
+\end{rail}\ixkeyw{show}
+Gets the attribute types and values of a specific entity (again, the \emph{EntityKind} must match the \emph{Entity}).
 
 \begin{rail}
-  'show' GraphElement '.' AttributeName
+  'show' Entity '.' AttributeName
 \end{rail}\ixkeyw{show}
 Displays the value of the specified attribute.
 
 \begin{rail}
-  'node' 'type' Node 'is' Node | 'edge' 'type' Edge 'is' Edge
-\end{rail}\ixkeyw{node}\ixkeyw{edge}\ixkeyw{type}\ixkeyw{is}
-Gets the information whether the first element is \indexed{type-compatible}\indexmainsee{compatible types}{type-compatible} to the second element.
+  EntityKind 'type' Entity 'is' Entity
+\end{rail}\ixkeyw{type}\ixkeyw{is}
+Gets the information whether the first entity is \indexed{type-compatible}\indexmainsee{compatible types}{type-compatible} to the second entity.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
