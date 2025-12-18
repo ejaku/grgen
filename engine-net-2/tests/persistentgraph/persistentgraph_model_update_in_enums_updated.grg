@@ -1,0 +1,7 @@
+#using "persistentgraph_model_update_in_enums_updated.gm"
+
+test find : (N)
+{
+	n:N;
+	return(n);
+}

@@ -1,0 +1,19 @@
+enum ENUCasesRemoved { remainingCase, x, y, z = 42 }
+enum ENU { a, b = 42, c, d } // extended and integer value changes, the former ok, the latter ignored by the database
+enum NewENU { a }
+
+enum Foo { bar }
+edge class Furchtbar
+{
+	schnitz:int;
+}
+
+node class N
+{
+	ecr:ENUCasesRemoved = ENUCasesRemoved::remainingCase;
+	e:ENU = ENU::a;
+	
+	ne:NewENU = NewENU::a;
+}
+
+node edge graph;

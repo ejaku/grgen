@@ -10,7 +10,7 @@ new graph "persistentgraph/persistentgraph_model_update_in_attributes" "some non
 show num nodes
 show num edges
 
-new graph "persistentgraph/persistentgraph_model_update_in_attributes_updated" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_model_update_in_attributes.db;Version=3;" "update/N.a;update/N.r;update/N.c;update/E.a;update/E.c;update/O.a"
+new graph "persistentgraph/persistentgraph_model_update_in_attributes_updated" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_model_update_in_attributes.db;Version=3;" "update/N.a;update/N.r;update/N.c;update/E.a;update/E.c;update/O.a;update/ENU"
 
 show num nodes N
 show num edges E

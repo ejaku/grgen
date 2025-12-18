@@ -16,7 +16,7 @@ using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 {
-    internal enum TypeKind { NodeClass = 0, EdgeClass = 1, GraphClass = 2, ObjectClass = 3 };
+    internal enum TypeKind { NodeClass = 0, EdgeClass = 1, GraphClass = 2, ObjectClass = 3, Enum = 4 };
 
     internal enum ContainerCommand { AssignEmptyContainer = 0, PutElement = 1, RemoveElement = 2, AssignElement = 3, AssignNull = 4 } // based on the AttributeChangeType
 

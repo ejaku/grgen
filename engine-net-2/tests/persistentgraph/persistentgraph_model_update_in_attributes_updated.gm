@@ -1,4 +1,4 @@
-enum ENU { x, y, z = 42 }
+enum ENU { x, y, z = 42, sameName }
 
 node class N
 {
@@ -23,9 +23,7 @@ class O
 	//a:string; deleted
 	r:E;
 	c:map<int, N>;
-	e:ENU; // a=0 -> x=0
-	e2:ENU; // b=42 -> z=42
-	e3:ENU; // c=43
+	e:ENU; // sameName can be loaded
 	newAttr:ENU = ENU::x; //new
 }
 

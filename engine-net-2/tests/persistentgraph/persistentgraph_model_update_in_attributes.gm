@@ -1,4 +1,4 @@
-enum ENU { a, b = 42, c }
+enum ENU { a, b = 42, c, sameName }
 
 node class N
 {
@@ -21,9 +21,7 @@ class O
 	a:string = "furchtbar";
 	r:E;
 	c:map<int, N>;
-	e:ENU = ENU::a;
-	e2:ENU = ENU::b;
-	e3:ENU = ENU::c;
+	e:ENU = ENU::sameName;
 }
 
 node edge graph;

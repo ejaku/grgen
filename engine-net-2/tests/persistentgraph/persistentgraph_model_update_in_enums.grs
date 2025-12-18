@@ -1,0 +1,18 @@
+! rm testgraphfilename_model_update_in_enums.db
+#the test is typically started from the tests folder (has to be started from there due to the local path), so you will find the testgraphfilename.db there
+new graph "persistentgraph/persistentgraph_model_update_in_enums" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_model_update_in_enums.db;Version=3;"
+
+exec (::n)=init
+show node n
+
+new graph "persistentgraph/persistentgraph_model_update_in_enums" "some non-persistent graph"
+
+new graph "persistentgraph/persistentgraph_model_update_in_enums_updated" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_model_update_in_enums.db;Version=3;" "update/ENUCasesRemoved"
+
+exec (::n)=find
+show node n
+
+n.e = ENU::d
+show node n
+
+quit

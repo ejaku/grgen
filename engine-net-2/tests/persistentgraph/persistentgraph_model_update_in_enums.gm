@@ -1,0 +1,21 @@
+enum ToBeDeletedENU { z }
+enum ENUCasesRemoved { a, b = 42, c, remainingCase }
+enum ENU { a, b = 42, c }
+//enum ECOLE { a = 0, b = 0 } storing b will return a
+
+node class Foo
+{
+	bar:string;
+}
+enum Furchtbar { schnitz }
+
+node class N
+{
+	//tbde:ToBeDeletedENU;
+	//f:Furchtbar;
+	
+	ecr:ENUCasesRemoved = ENUCasesRemoved::remainingCase;
+	e:ENU = ENU::a;
+}
+
+node edge graph;

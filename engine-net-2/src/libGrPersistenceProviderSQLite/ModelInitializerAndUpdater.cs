@@ -111,6 +111,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         class TypesFromDatabase
         {
+            // contains entity types and enum types
             public readonly Dictionary<string, AttributeTypesFromDatabase> TypesToAttributesFromDatabase;
 
             public TypesFromDatabase(Dictionary<string, AttributeTypesFromDatabase> typesToAttributesFromDatabase)
@@ -123,15 +124,44 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 get { return TypesToAttributesFromDatabase[typeName]; }
             }
 
-            public bool IsTypeKnown(InheritanceType type, TypeKind kind)
+            public bool IsTypeOfSameKindKnown(InheritanceType type, TypeKind kind)
             {
                 return TypesToAttributesFromDatabase.ContainsKey(type.PackagePrefixedName)
                     && TypesToAttributesFromDatabase[type.PackagePrefixedName].KindOfOwner == kind;
             }
 
+            public bool IsTypeOfSameKindKnown(EnumAttributeType type)
+            {
+                return TypesToAttributesFromDatabase.ContainsKey(type.PackagePrefixedName)
+                    && TypesToAttributesFromDatabase[type.PackagePrefixedName].KindOfOwner == TypeKind.Enum;
+            }
+
             public bool IsTypeKnown(InheritanceType type)
             {
                 return TypesToAttributesFromDatabase.ContainsKey(type.PackagePrefixedName);
+            }
+
+            public bool IsTypeKnown(EnumAttributeType type)
+            {
+                return TypesToAttributesFromDatabase.ContainsKey(type.PackagePrefixedName);
+            }
+
+            public bool SomeTypeHasAnAttributeOfType(String typeName)
+            {
+                foreach(KeyValuePair<string, AttributeTypesFromDatabase> typeToAttributeTypes in TypesToAttributesFromDatabase)
+                {
+                    AttributeTypesFromDatabase attributeTypes = typeToAttributeTypes.Value;
+
+                    foreach(KeyValuePair<string, AttributeTypeFromDatabase> attributeNameToAttributeType in attributeTypes.AttributeNamesToAttributeTypes)
+                    {
+                        AttributeTypeFromDatabase attributeType = attributeNameToAttributeType.Value;
+
+                        if(attributeType.XgrsType == typeName)
+                            return true;
+                    }
+                }
+
+                return false;
             }
 
             public void WriteDatabaseModelToFile(StreamWriter sw)
@@ -141,23 +171,50 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     string typeName = typeToAttributes.Key;
                     AttributeTypesFromDatabase attributeTypesFromDatabase = typeToAttributes.Value;
 
-                    if(attributeTypesFromDatabase.KindOfOwner == TypeKind.NodeClass)
-                        sw.Write("node class ");
-                    else if(attributeTypesFromDatabase.KindOfOwner == TypeKind.EdgeClass)
-                        sw.Write("edge class ");
-                    else
-                        sw.Write("class ");
-                    sw.WriteLine(typeName);
-                    sw.WriteLine("{");
-                    foreach(AttributeTypeFromDatabase attribute in attributeTypesFromDatabase.AttributeNamesToAttributeTypes.Values)
+                    if(attributeTypesFromDatabase.KindOfOwner == TypeKind.NodeClass
+                        || attributeTypesFromDatabase.KindOfOwner == TypeKind.EdgeClass
+                        || attributeTypesFromDatabase.KindOfOwner == TypeKind.ObjectClass)
                     {
-                        sw.Write("\t");
-                        sw.Write(attribute.Name);
-                        sw.Write(" : ");
-                        sw.Write(attribute.XgrsType);
-                        sw.WriteLine(";");
+                        sw.Write(ToClassPrefixString(attributeTypesFromDatabase.KindOfOwner) + "class ");
+                        sw.WriteLine(typeName);
+                        sw.WriteLine("{");
+                        foreach(AttributeTypeFromDatabase attribute in attributeTypesFromDatabase.AttributeNamesToAttributeTypes.Values)
+                        {
+                            sw.Write("\t");
+                            sw.Write(attribute.Name);
+                            sw.Write(" : ");
+                            sw.Write(attribute.XgrsType);
+                            sw.WriteLine(";");
+                        }
+                        sw.WriteLine("}");
                     }
-                    sw.WriteLine("}");
+                    else if(attributeTypesFromDatabase.KindOfOwner == TypeKind.Enum)
+                    {
+                        sw.Write("enum ");
+                        sw.Write(typeName);
+                        sw.Write(" { ");
+                        bool first = true;
+                        foreach(AttributeTypeFromDatabase enumCase in attributeTypesFromDatabase.AttributeNamesToAttributeTypes.Values)
+                        {
+                            if(first)
+                                first = false;
+                            else
+                                sw.Write(", ");
+                            sw.Write(enumCase.Name + " = " + enumCase.XgrsType);
+                        }
+                        sw.WriteLine(" } // cases are matched by name only when persisting");
+                    }
+                }
+            }
+
+            private static string ToClassPrefixString(TypeKind kind)
+            {
+                switch(kind)
+                {
+                    case TypeKind.NodeClass: return "node ";
+                    case TypeKind.EdgeClass: return "edge ";
+                    case TypeKind.ObjectClass: return "";
+                    default: throw new Exception("INTERNAL ERROR");
                 }
             }
         }
@@ -183,8 +240,8 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         class AttributeTypeFromDatabase
         {
-            public readonly string Name; // of attribute
-            public readonly string XgrsType;
+            public readonly string Name; // of attribute or enum case
+            public readonly string XgrsType; // type of attribute or value of enum case
             public readonly long DbId;
 
             public AttributeTypeFromDatabase(string name, string xgrsType, long dbId)
@@ -342,6 +399,11 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
                 IGraphModel model = persistenceProvider.graph.Model;
 
+                foreach(EnumAttributeType enumType in model.EnumAttributeTypes)
+                {
+                    FillEnumWithCases(fillTypeCommand, enumType);
+                }
+
                 foreach(NodeType nodeType in model.NodeModel.Types)
                 {
                     FillTypeWithAttributes(fillTypeCommand, nodeType, TypeKind.NodeClass);
@@ -395,6 +457,50 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             fillAttributeTypeCommand.Parameters.AddWithValue("@typeId", persistenceProvider.TypeNameToDbId[type.PackagePrefixedName]);
             fillAttributeTypeCommand.Parameters.AddWithValue("@attributeName", attributeType.Name);
             fillAttributeTypeCommand.Parameters.AddWithValue("@xgrsType", TypesHelper.AttributeTypeToXgrsType(attributeType));
+
+            fillAttributeTypeCommand.Transaction = persistenceProvider.transaction;
+            int rowsAffected = fillAttributeTypeCommand.ExecuteNonQuery();
+
+            long rowId = persistenceProvider.connection.LastInsertRowId; // attributeTypeId
+            return rowId;
+        }
+
+        private void FillEnumWithCases(SQLiteCommand fillEnumTypeCommand, EnumAttributeType type)
+        {
+            FillEnumType(fillEnumTypeCommand, type);
+            FillEnumCases(type);
+        }
+
+        private void FillEnumType(SQLiteCommand fillTypeCommand, EnumAttributeType type)
+        {
+            fillTypeCommand.Parameters.Clear();
+            fillTypeCommand.Parameters.AddWithValue("@kind", (int)TypeKind.Enum);
+            fillTypeCommand.Parameters.AddWithValue("@name", type.PackagePrefixedName); // may include colons which are removed from the table name
+
+            fillTypeCommand.Transaction = persistenceProvider.transaction;
+            int rowsAffected = fillTypeCommand.ExecuteNonQuery();
+
+            long rowId = persistenceProvider.connection.LastInsertRowId;
+            AddTypeNameWithDbIdToDbIdMapping(type.PackagePrefixedName, rowId); // won't appear in the normal tables, only used in the attributeTypes table
+        }
+
+        private void FillEnumCases(EnumAttributeType type)
+        {
+            using(SQLiteCommand fillEnumCasesCommand = PrepareFillAttributeTypeCommand())
+            {
+                foreach(EnumMember enumCase in type.Members)
+                {
+                    FillEnumCase(fillEnumCasesCommand, enumCase.Name, enumCase.Value.ToString(), type);
+                }
+            }
+        }
+
+        private long FillEnumCase(SQLiteCommand fillAttributeTypeCommand, String enumCase, String value, EnumAttributeType type)
+        {
+            fillAttributeTypeCommand.Parameters.Clear();
+            fillAttributeTypeCommand.Parameters.AddWithValue("@typeId", persistenceProvider.TypeNameToDbId[type.PackagePrefixedName]);
+            fillAttributeTypeCommand.Parameters.AddWithValue("@attributeName", enumCase);
+            fillAttributeTypeCommand.Parameters.AddWithValue("@xgrsType", value);
 
             fillAttributeTypeCommand.Transaction = persistenceProvider.transaction;
             int rowsAffected = fillAttributeTypeCommand.ExecuteNonQuery();
@@ -482,18 +588,40 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             // the types from the database are read once, used in the model update, and thrown away after the update (the old model from the database is the source, the target is the new model from the graph, defined by the model file/assembly)
             TypesFromDatabase typesFromDatabase = new TypesFromDatabase(ReadKnownTypesWithAttributes());
 
-            Dictionary<InheritanceType, SetValueType> newModelTypes = GetNewModelTypes(typesFromDatabase); // types from the model not in the database
-            Dictionary<String, TypeKind> deletedModelTypes = GetDeletedModelTypes(typesFromDatabase); // types from the database not in the model
-            Dictionary<InheritanceType, TypeKind> typeChangedModelTypes = GetTypeChangedModelTypes(typesFromDatabase); // same name but changed type kind
+            Dictionary<EnumAttributeType, SetValueType> newEnumTypes = GetNewEnumTypes(typesFromDatabase); // types from the model not in the database (maybe todo: adapt names to reflect this)
+            Dictionary<String, TypeKind> deletedEnumTypes = GetDeletedEnumTypes(typesFromDatabase); // types from the database not in the model (maybe todo: adapt names to reflect this)
+            Dictionary<InheritanceType, SetValueType> typeChangedEnumTypes = GetTypeChangedEnumTypes(typesFromDatabase); // enum in database, entity type in model
             bool changeMessagePrinted = false;
-            ReportTypeChangesToTheUserAbortingIfInstancesOfRemovedOrRetypedTypesExist(newModelTypes, deletedModelTypes, typeChangedModelTypes,
+            ReportEnumTypeChangesToTheUserAbortingIfAttributesOfRemovedOrRetypedEnumsExist(newEnumTypes, deletedEnumTypes, typeChangedEnumTypes,
                 typesFromDatabase, ref changeMessagePrinted);
 
-            Dictionary<string, InheritanceType> keptModelTypes = GetKeptModelTypes(typesFromDatabase); // attribute changes are only computed for types in the model _and_ in the database
+            Dictionary<string, EnumAttributeType> keptEnumTypes = GetKeptEnumTypes(typesFromDatabase); // enum case changes are only computed for types in the model _and_ in the database
+            List<KeyValuePair<EnumAttributeType, string>> addedEnumCases = new List<KeyValuePair<EnumAttributeType, string>>();
+            List<KeyValuePair<string, AttributeTypeFromDatabase>> removedEnumCases = new List<KeyValuePair<string, AttributeTypeFromDatabase>>();
+            foreach(KeyValuePair<string, EnumAttributeType> typeNameToType in keptEnumTypes)
+            {
+                string typeName = typeNameToType.Key;
+                EnumAttributeType type = typeNameToType.Value;
+
+                DetermineAndReportEnumCaseChangesToTheUser(type, typesFromDatabase[typeName],
+                    ref addedEnumCases, ref removedEnumCases, ref changeMessagePrinted);
+            }
+            foreach(EnumAttributeType keptEnumType in keptEnumTypes.Values)
+            {
+                UpdateEnumCaseValues(keptEnumType, typesFromDatabase); // for development/debugging by the user only, refresh the integer value/set it to the value from the model
+            }
+
+            Dictionary<InheritanceType, SetValueType> newEntityTypes = GetNewEntityTypes(typesFromDatabase); // types from the model not in the database (maybe todo: adapt names to reflect this)
+            Dictionary<String, TypeKind> deletedEntityTypes = GetDeletedEntityTypes(typesFromDatabase); // types from the database not in the model (maybe todo: adapt names to reflect this)
+            Dictionary<INamed, TypeKind> typeChangedEntityTypes = GetTypeChangedEntityTypes(typesFromDatabase); // same name but changed type kind (may be enum in model, cannot be enum in database)
+            ReportEntityTypeChangesToTheUserAbortingIfInstancesOfRemovedOrRetypedTypesExist(newEntityTypes, deletedEntityTypes, typeChangedEntityTypes,
+                typesFromDatabase, ref changeMessagePrinted);
+
+            Dictionary<string, InheritanceType> keptEntityTypes = GetKeptEntityTypes(typesFromDatabase); // attribute changes are only computed for types in the model _and_ in the database
             List<KeyValuePair<InheritanceType, AttributeType>> addedAttributes = new List<KeyValuePair<InheritanceType, AttributeType>>();
             List<KeyValuePair<string, AttributeTypeFromDatabase>> removedAttributes = new List<KeyValuePair<string, AttributeTypeFromDatabase>>();
             List<KeyValuePair<InheritanceType, KeyValuePair<AttributeType, AttributeTypeFromDatabase>>> typeChangedAttributes = new List<KeyValuePair<InheritanceType, KeyValuePair<AttributeType, AttributeTypeFromDatabase>>>(); // type differs in between model and database
-            foreach(KeyValuePair<string, InheritanceType> typeNameToType in keptModelTypes)
+            foreach(KeyValuePair<string, InheritanceType> typeNameToType in keptEntityTypes)
             {
                 string typeName = typeNameToType.Key;
                 InheritanceType type = typeNameToType.Value;
@@ -509,7 +637,9 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 return;
             }
 
-            bool adaptDatabaseModelToModel = QueryUserWhetherToAdaptDatabaseToModel(removedAttributes, typeChangedAttributes, persistenceProvider.persistentGraphParameters);
+            bool adaptDatabaseModelToModel = QueryUserWhetherToAdaptDatabaseToModel(
+                removedAttributes, typeChangedAttributes, removedEnumCases,
+                persistenceProvider.persistentGraphParameters);
             if(!adaptDatabaseModelToModel)
             {
                 WriteDatabaseModelToFileAndReportToUser(typesFromDatabase, persistenceProvider.connectionParameters);
@@ -517,11 +647,23 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 throw new Exception("Abort database model update as requested.");
             }
 
-            ConsoleUI.outWriter.WriteLine("Overall there are {0} new types, {1} deleted types, {2} types of a different kind, {3} added attributes, {4} removed attributes, {5} attributes of a different type in the model compared to the database.",
-                newModelTypes.Count, deletedModelTypes.Count, typeChangedModelTypes.Count, addedAttributes.Count, removedAttributes.Count, typeChangedAttributes.Count);
-            ConsoleUI.outWriter.WriteLine("The database is going to be updated: {0} types are going to be introduced, {1} types are going to be deleted, {2} attributes are going to be added, {3} attributes are going to be removed.",
-                newModelTypes.Count + typeChangedModelTypes.Count, deletedModelTypes.Count + typeChangedModelTypes.Count,
-                addedAttributes.Count + typeChangedAttributes.Count, removedAttributes.Count + typeChangedAttributes.Count);
+            ConsoleUI.outWriter.WriteLine("Overall there are "
+                + "{0} new enum types, {1} deleted enum types, {2} enum types kind changed to an entity type, "
+                + "{3} added enum cases, {4} removed enum cases, "
+                + "{5} new entity types, {6} deleted entity types, {7} entity types of a different kind (maybe even enum), "
+                + "{8} added attributes, {9} removed attributes, {10} attributes of a different type, when comparing the database to the model.",
+                newEnumTypes.Count, deletedEnumTypes.Count, typeChangedEnumTypes.Count,
+                addedEnumCases.Count, removedEnumCases.Count,
+                newEntityTypes.Count, deletedEntityTypes.Count, typeChangedEntityTypes.Count,
+                addedAttributes.Count, removedAttributes.Count, typeChangedAttributes.Count);
+            ConsoleUI.outWriter.WriteLine("The database is going to be updated: "
+                + "{0} types are going to be introduced, {1} types are going to be deleted, "
+                + "{2} attributes are going to be added, {3} attributes are going to be removed, "
+                + "{4} enum cases are going to be added, {5} enum cases are going to be removed.",
+                newEntityTypes.Count + newEnumTypes.Count + typeChangedEntityTypes.Count + typeChangedEnumTypes.Count,
+                deletedEntityTypes.Count + deletedEnumTypes.Count + typeChangedEntityTypes.Count + typeChangedEnumTypes.Count,
+                addedAttributes.Count + typeChangedAttributes.Count, removedAttributes.Count + typeChangedAttributes.Count,
+                addedEnumCases.Count, removedEnumCases.Count);
 
             Stopwatch stopwatch = Stopwatch.StartNew();
             ConsoleUI.outWriter.WriteLine("Updating the database model to the current model...");
@@ -530,9 +672,28 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             {
                 try
                 {
-                    RemoveDeletedModelTypes(deletedModelTypes, typesFromDatabase); // first remove than delete to prevent duplicate name collisions
-                    RemoveAndAddTypeChangedModelTypes(typeChangedModelTypes, typesFromDatabase);
-                    AddNewModelTypes(newModelTypes);
+                    RemoveDeletedEnums(deletedEnumTypes);
+                    RemoveTypeChangedEnumsAndAddEntityTypes(typeChangedEnumTypes);
+                    AddNewEnums(newEnumTypes);
+
+                    foreach(KeyValuePair<string, AttributeTypeFromDatabase> removedEnumCase in removedEnumCases)
+                    {
+                        AttributeTypeFromDatabase enumCaseAttributeType = removedEnumCase.Value;
+
+                        RemoveDeletedEnumCase(enumCaseAttributeType);
+                    }
+                    foreach(KeyValuePair<EnumAttributeType, string> addedEnumCase in addedEnumCases)
+                    {
+                        EnumAttributeType enumType = addedEnumCase.Key;
+                        string enumCaseName = addedEnumCase.Value;
+                        EnumMember member = GetEnumCase(enumType, enumCaseName);
+
+                        AddNewEnumCase(enumType, enumCaseName, member.Value.ToString());
+                    }
+
+                    RemoveDeletedEntityTypes(deletedEntityTypes, typesFromDatabase); // first remove than add to prevent duplicate name collisions
+                    RemoveAndAddTypeChangedEntityTypes(typeChangedEntityTypes, typesFromDatabase);
+                    AddNewEntityTypes(newEntityTypes);
 
                     ConsoleUI.outWriter.WriteLine("...done with the types, continuing with the attributes..."); // potential todo: more detailed progress, reporting statistics about database concepts
 
@@ -541,7 +702,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         string typeName = removedAttribute.Key;
                         AttributeTypeFromDatabase attributeTypeFromDatabase = removedAttribute.Value;
 
-                        RemoveDeletedModelTypeAttribute(typeName, attributeTypeFromDatabase);
+                        RemoveDeletedEntityTypeAttribute(typeName, attributeTypeFromDatabase);
                     }
                     foreach(KeyValuePair<InheritanceType, KeyValuePair<AttributeType, AttributeTypeFromDatabase>> typeChangedAttribute in typeChangedAttributes)
                     {
@@ -549,15 +710,15 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         AttributeType attributeType = typeChangedAttribute.Value.Key;
                         AttributeTypeFromDatabase attributeTypeFromDatabase = typeChangedAttribute.Value.Value;
 
-                        RemoveDeletedModelTypeAttribute(type.PackagePrefixedName, attributeTypeFromDatabase);
-                        AddNewModelTypeAttribute(type, attributeType);
+                        RemoveDeletedEntityTypeAttribute(type.PackagePrefixedName, attributeTypeFromDatabase);
+                        AddNewEntityTypeAttribute(type, attributeType);
                     }
                     foreach(KeyValuePair<InheritanceType, AttributeType> addedAttribute in addedAttributes)
                     {
                         InheritanceType type = addedAttribute.Key;
                         AttributeType attributeType = addedAttribute.Value;
 
-                        AddNewModelTypeAttribute(type, attributeType);
+                        AddNewEntityTypeAttribute(type, attributeType);
                     }
 
                     persistenceProvider.transaction.Commit();
@@ -579,121 +740,144 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             InsertGraphIfMissing(PersistenceProviderSQLite.HOST_GRAPH_ID, persistenceProvider.TypeNameToDbId["graph"]);
         }
 
-        private Dictionary<InheritanceType, SetValueType> GetNewModelTypes(TypesFromDatabase typesFromDatabase)
+        private Dictionary<InheritanceType, SetValueType> GetNewEntityTypes(TypesFromDatabase typesFromDatabase)
         {
-            Dictionary<InheritanceType, SetValueType> newModelTypes = new Dictionary<InheritanceType, SetValueType>();
+            Dictionary<InheritanceType, SetValueType> newEntityTypes = new Dictionary<InheritanceType, SetValueType>();
 
             IGraphModel model = persistenceProvider.graph.Model;
 
             foreach(NodeType nodeType in model.NodeModel.Types)
             {
                 if(!typesFromDatabase.IsTypeKnown(nodeType))
-                    newModelTypes.Add(nodeType, null);
+                    newEntityTypes.Add(nodeType, null);
             }
 
             foreach(EdgeType edgeType in model.EdgeModel.Types)
             {
                 if(!typesFromDatabase.IsTypeKnown(edgeType))
-                    newModelTypes.Add(edgeType, null);
+                    newEntityTypes.Add(edgeType, null);
             }
 
             foreach(ObjectType objectType in model.ObjectModel.Types)
             {
                 if(!typesFromDatabase.IsTypeKnown(objectType))
-                    newModelTypes.Add(objectType, null);
+                    newEntityTypes.Add(objectType, null);
             }
 
-            return newModelTypes;
+            return newEntityTypes;
         }
 
-        private Dictionary<string, TypeKind> GetDeletedModelTypes(TypesFromDatabase typesFromDatabase)
+        private Dictionary<string, TypeKind> GetDeletedEntityTypes(TypesFromDatabase typesFromDatabase)
         {
-            Dictionary<string, TypeKind> deletedModelTypes = new Dictionary<string, TypeKind>();
+            Dictionary<string, TypeKind> deletedEntityTypes = new Dictionary<string, TypeKind>();
 
-            Dictionary<string, InheritanceType> allModelTypes = GetAllModelTypes();
+            Dictionary<string, InheritanceType> entityModelTypes = GetEntityTypesFromModel();
+            Dictionary<string, EnumAttributeType> enumModelTypes = GetEnumTypesFromModel();
             foreach(KeyValuePair<string, AttributeTypesFromDatabase> typeNameToAttributeTypes in typesFromDatabase.TypesToAttributesFromDatabase)
             {
                 string typeName = typeNameToAttributeTypes.Key;
                 AttributeTypesFromDatabase attributeTypesFromDatabase = typeNameToAttributeTypes.Value;
 
-                if(!allModelTypes.ContainsKey(typeName))
-                    deletedModelTypes.Add(typeName, attributeTypesFromDatabase.KindOfOwner);
+                TypeKind typeKind = attributeTypesFromDatabase.KindOfOwner; // filter to only entity types
+                if(typeKind == TypeKind.GraphClass)
+                    continue;
+                if(typeKind == TypeKind.Enum)
+                    continue;
+
+                if(!entityModelTypes.ContainsKey(typeName) && !enumModelTypes.ContainsKey(typeName))
+                    deletedEntityTypes.Add(typeName, attributeTypesFromDatabase.KindOfOwner);
             }
 
-            return deletedModelTypes;
+            return deletedEntityTypes;
         }
 
-        private Dictionary<string, InheritanceType> GetAllModelTypes()
+        private Dictionary<INamed, TypeKind> GetTypeChangedEntityTypes(TypesFromDatabase typesFromDatabase)
         {
-            Dictionary<string, InheritanceType> allModelTypes = new Dictionary<string, InheritanceType>();
+            Dictionary<INamed, TypeKind> typeChangedEntityTypes = new Dictionary<INamed, TypeKind>();
+
+            Dictionary<string, InheritanceType> entityModelTypes = GetEntityTypesFromModel();
+            Dictionary<string, EnumAttributeType> enumModelTypes = GetEnumTypesFromModel();
+            foreach(KeyValuePair<string, AttributeTypesFromDatabase> typeNameToAttributeTypes in typesFromDatabase.TypesToAttributesFromDatabase)
+            {
+                String typeName = typeNameToAttributeTypes.Key;
+                AttributeTypesFromDatabase attributeTypesFromDatabase = typeNameToAttributeTypes.Value;
+
+                TypeKind typeKind = attributeTypesFromDatabase.KindOfOwner;
+                if(typeKind == TypeKind.GraphClass)
+                    continue;
+                if(typeKind == TypeKind.Enum)
+                    continue; // type kind changes from enum type to an entity type were already handled with enums
+
+                if(entityModelTypes.ContainsKey(typeName))
+                {
+                    if(!IsOfSameKind(typeKind, entityModelTypes[typeName]))
+                        typeChangedEntityTypes.Add(entityModelTypes[typeName], typeKind);
+                }
+                else if(enumModelTypes.ContainsKey(typeName))
+                {
+                    typeChangedEntityTypes.Add(enumModelTypes[typeName], typeKind);
+                }
+            }
+
+            return typeChangedEntityTypes;
+        }
+
+        private Dictionary<string, InheritanceType> GetKeptEntityTypes(TypesFromDatabase typesFromDatabase)
+        {
+            Dictionary<string, InheritanceType> keptEntityTypes = new Dictionary<string, InheritanceType>();
+
+            Dictionary<string, InheritanceType> entityModelTypes = GetEntityTypesFromModel();
+            foreach(KeyValuePair<string, AttributeTypesFromDatabase> typeNameToAttributeTypes in typesFromDatabase.TypesToAttributesFromDatabase)
+            {
+                String typeName = typeNameToAttributeTypes.Key;
+                AttributeTypesFromDatabase attributeTypesFromDatabase = typeNameToAttributeTypes.Value;
+
+                TypeKind typeKind = attributeTypesFromDatabase.KindOfOwner; // filter to only entity types
+                if(typeKind == TypeKind.GraphClass)
+                    continue;
+                if(typeKind == TypeKind.Enum)
+                    continue;
+
+                if(entityModelTypes.ContainsKey(typeName))
+                {
+                    if(IsOfSameKind(typeKind, entityModelTypes[typeName]))
+                        keptEntityTypes.Add(typeName, entityModelTypes[typeName]);
+                }
+            }
+
+            return keptEntityTypes;
+        }
+
+        private Dictionary<string, InheritanceType> GetEntityTypesFromModel()
+        {
+            Dictionary<string, InheritanceType> entityModelTypes = new Dictionary<string, InheritanceType>();
 
             IGraphModel model = persistenceProvider.graph.Model;
 
             foreach(NodeType nodeType in model.NodeModel.Types)
             {
-                allModelTypes.Add(nodeType.PackagePrefixedName, nodeType);
+                entityModelTypes.Add(nodeType.PackagePrefixedName, nodeType);
             }
 
             foreach(EdgeType edgeType in model.EdgeModel.Types)
             {
-                allModelTypes.Add(edgeType.PackagePrefixedName, edgeType);
+                entityModelTypes.Add(edgeType.PackagePrefixedName, edgeType);
             }
 
             foreach(ObjectType objectType in model.ObjectModel.Types)
             {
-                allModelTypes.Add(objectType.PackagePrefixedName, objectType);
+                entityModelTypes.Add(objectType.PackagePrefixedName, objectType);
             }
 
-            return allModelTypes;
+            return entityModelTypes;
         }
 
-        private Dictionary<InheritanceType, TypeKind> GetTypeChangedModelTypes(TypesFromDatabase typesFromDatabase)
-        {
-            Dictionary<InheritanceType, TypeKind> typeChangedModelTypes = new Dictionary<InheritanceType, TypeKind>();
-
-            Dictionary<string, InheritanceType> allModelTypes = GetAllModelTypes();
-            foreach(KeyValuePair<string, AttributeTypesFromDatabase> typeNameToAttributeTypes in typesFromDatabase.TypesToAttributesFromDatabase)
-            {
-                String typeName = typeNameToAttributeTypes.Key;
-                TypeKind typeKind = typeNameToAttributeTypes.Value.KindOfOwner;
-
-                if(allModelTypes.ContainsKey(typeName) && typeKind != TypeKind.GraphClass)
-                {
-                    if(!IsOfSameKind(typeKind, allModelTypes[typeName]))
-                        typeChangedModelTypes.Add(allModelTypes[typeName], typeKind);
-                }
-            }
-
-            return typeChangedModelTypes;
-        }
-
-        private Dictionary<string, InheritanceType> GetKeptModelTypes(TypesFromDatabase typesFromDatabase)
-        {
-            Dictionary<string, InheritanceType> keptModelTypes = new Dictionary<string, InheritanceType>();
-
-            Dictionary<string, InheritanceType> allModelTypes = GetAllModelTypes();
-            foreach(KeyValuePair<string, AttributeTypesFromDatabase> typeNameToAttributeTypes in typesFromDatabase.TypesToAttributesFromDatabase)
-            {
-                String typeName = typeNameToAttributeTypes.Key;
-                TypeKind typeKind = typeNameToAttributeTypes.Value.KindOfOwner;
-
-                if(allModelTypes.ContainsKey(typeName) && typeKind != TypeKind.GraphClass)
-                {
-                    if(IsOfSameKind(typeKind, allModelTypes[typeName]))
-                        keptModelTypes.Add(typeName, allModelTypes[typeName]);
-                }
-            }
-
-            return keptModelTypes;
-        }
-
-        // todo: consistency -- most messages based on database first perspective (old state of model, current state of data), variable names based on model first perspective (current state of model, new state targeted for data)
-        private void ReportTypeChangesToTheUserAbortingIfInstancesOfRemovedOrRetypedTypesExist(Dictionary<InheritanceType, SetValueType> newModelTypes,
-            Dictionary<String, TypeKind> deletedModelTypes, Dictionary<InheritanceType, TypeKind> typeChangedModelTypes,
+        private void ReportEntityTypeChangesToTheUserAbortingIfInstancesOfRemovedOrRetypedTypesExist(Dictionary<InheritanceType, SetValueType> newEntityTypes,
+            Dictionary<String, TypeKind> deletedEntityTypes, Dictionary<INamed, TypeKind> typeChangedEntityTypes,
             TypesFromDatabase typesFromDatabase, ref bool changeMessagePrinted)
         {
             bool deletedTypeStillHasInstances = false;
-            foreach(KeyValuePair<String, TypeKind> typeNameToKind in deletedModelTypes)
+            foreach(KeyValuePair<String, TypeKind> typeNameToKind in deletedEntityTypes)
             {
                 string typeName = typeNameToKind.Key;
                 TypeKind typeKind = typeNameToKind.Value;
@@ -704,26 +888,29 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     PrintChangeMessageAsNeeded(ref changeMessagePrinted);
                     ConsoleUI.outWriter.WriteLine("The {0} class type {1} from the database is not existing in the model.",
                         kindName, typeName);
-                    ConsoleUI.outWriter.WriteLine("- The {0} class type {1} has to be deleted from the database, but the database contains instances of it (aborting...).",
+                    ConsoleUI.outWriter.WriteLine("- The {0} class type {1} has to be deleted from the database, but the database contains instances of it (ABORTING...).",
                         kindName, typeName);
                     deletedTypeStillHasInstances = true;
                 }
             }
 
-            foreach(KeyValuePair<InheritanceType, TypeKind> typeToKind in typeChangedModelTypes)
+            foreach(KeyValuePair<INamed, TypeKind> typeToKind in typeChangedEntityTypes)
             {
-                string typeName = typeToKind.Key.PackagePrefixedName;
-                TypeKind typeKind = typeToKind.Value;
+                INamed type = typeToKind.Key;
+                TypeKind kindInDatabase = typeToKind.Value;
 
-                string kindName = ToString(typeKind);
-                string kindNameModel = ToKindString(typeToKind.Key);
-                if(TypeHasInstances(typeName, typeKind))
+                string typeName = type.PackagePrefixedName;
+                TypeKind kindInModel = ToKind(typeToKind.Key);
+                string kindInModelTypeString = ToTypeString(kindInModel);
+                string kindInDatabaseTypeString = ToTypeString(kindInDatabase);
+
+                if(TypeHasInstances(typeName, kindInDatabase))
                 {
                     PrintChangeMessageAsNeeded(ref changeMessagePrinted);
-                    ConsoleUI.outWriter.WriteLine("The {0} class type {1} from the database is a {2} class type in the model.",
-                        kindName, typeName, kindNameModel);
-                    ConsoleUI.outWriter.WriteLine("- The {0} class type {1} has to be deleted from the database, but the database contains instances of it (aborting...).",
-                        kindName, typeName);
+                    ConsoleUI.outWriter.WriteLine("The {0} type {1} from the database is a {2} type in the model.",
+                        kindInDatabaseTypeString, typeName, kindInModelTypeString);
+                    ConsoleUI.outWriter.WriteLine("- The {0} type {1} has to be deleted from the database, but the database contains instances of it (ABORTING...).",
+                        kindInDatabaseTypeString, typeName);
                     deletedTypeStillHasInstances = true;
                 }
             }
@@ -738,7 +925,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 throw new Exception("Abort database model update due to an incompatible model.");
             }
 
-            foreach(KeyValuePair<String, TypeKind> typeNameToKind in deletedModelTypes)
+            foreach(KeyValuePair<String, TypeKind> typeNameToKind in deletedEntityTypes)
             {
                 string typeName = typeNameToKind.Key;
                 TypeKind typeKind = typeNameToKind.Value;
@@ -751,31 +938,34 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     kindName, typeName);
             }
 
-            foreach(KeyValuePair<InheritanceType, TypeKind> typeToKind in typeChangedModelTypes)
+            foreach(KeyValuePair<INamed, TypeKind> typeToKind in typeChangedEntityTypes)
             {
-                string typeName = typeToKind.Key.PackagePrefixedName;
-                TypeKind typeKind = typeToKind.Value;
+                INamed type = typeToKind.Key;
+                TypeKind kindInDatabase = typeToKind.Value;
 
-                string kindName = ToString(typeKind);
-                string kindModel = ToKindString(typeToKind.Key);
+                string typeName = type.PackagePrefixedName;
+                TypeKind kindInModel = ToKind(type);
+                string kindInModelTypeString = ToTypeString(kindInModel);
+                string kindInDatabaseTypeString = ToTypeString(kindInDatabase);
+
                 PrintChangeMessageAsNeeded(ref changeMessagePrinted);
-                ConsoleUI.outWriter.WriteLine("The {0} class type {1} from the database is a {2} class type in the model.",
-                    kindName, typeName, kindModel);
-                ConsoleUI.outWriter.WriteLine("- The {0} class type {1} is going to be deleted from the database.",
-                    kindName, typeName);
-                ConsoleUI.outWriter.WriteLine("- The {0} class type {1} is going to be added to the database.",
-                    kindModel, typeName);
+                ConsoleUI.outWriter.WriteLine("The {0} type {1} from the database is a {2} type in the model.",
+                    kindInDatabaseTypeString, typeName, kindInModelTypeString);
+                ConsoleUI.outWriter.WriteLine("- The {0} type {1} is going to be deleted from the database.",
+                    kindInDatabaseTypeString, typeName);
+                ConsoleUI.outWriter.WriteLine("- The {0} type {1} is going to be added to the database.",
+                    kindInModelTypeString, typeName);
             }
 
-            foreach(InheritanceType type in newModelTypes.Keys)
+            foreach(InheritanceType type in newEntityTypes.Keys)
             {
                 string typeName = type.PackagePrefixedName;
-                string kindNameModel = ToKindString(type);
+                string kindName = ToKindString(type);
                 PrintChangeMessageAsNeeded(ref changeMessagePrinted);
                 ConsoleUI.outWriter.WriteLine("The database does not contain the {0} class type {1} (that exists in the model).",
-                    kindNameModel, typeName);
+                    kindName, typeName);
                 ConsoleUI.outWriter.WriteLine("- The {0} class type {1} is going to be added to the database, too.",
-                    kindNameModel, typeName);
+                    kindName, typeName);
             }
         }
 
@@ -805,7 +995,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     PrintChangeMessageAsNeeded(ref changeMessagePrinted);
                     ConsoleUI.outWriter.WriteLine("The attribute {0}.{1} from the database is not existing in the model (anymore).",
                         type.PackagePrefixedName, attributeNameFromDatabase);
-                    ConsoleUI.outWriter.WriteLine("- The attribute {0}.{1} is going to be removed from the database, too, and all its values are going to be purged (from the instances of the type), you will loose information!",
+                    ConsoleUI.outWriter.WriteLine("- The attribute {0}.{1} is going to be removed from the database, too, and all its values are going to be purged (from the instances of the type), YOU MAY LOOSE DATA!",
                         type.PackagePrefixedName, attributeNameFromDatabase);
 
                     removedAttributes.Add(new KeyValuePair<string, AttributeTypeFromDatabase>(type.PackagePrefixedName, attributeTypeFromDatabase));
@@ -815,7 +1005,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     PrintChangeMessageAsNeeded(ref changeMessagePrinted);
                     ConsoleUI.outWriter.WriteLine("The attribute {0}.{1} of type {2} from the database is of type {3} in the model!",
                         type.PackagePrefixedName, attributeNameFromDatabase, attributeTypeFromDatabase.XgrsType, TypesHelper.AttributeTypeToXgrsType(attributeTypeFromModel));
-                    ConsoleUI.outWriter.WriteLine("- The attribute {0}.{1} is going to be removed from the database, and all its values are going to be purged (from the instances of the type), you will loose information!",
+                    ConsoleUI.outWriter.WriteLine("- The attribute {0}.{1} is going to be removed from the database, and all its values are going to be purged (from the instances of the type), YOU MAY LOOSE DATA!",
                         type.PackagePrefixedName, attributeNameFromDatabase);
                     ConsoleUI.outWriter.WriteLine("- The attribute {0}.{1} is going to be added in the database, it is going to be initialized to the default value of the attribute type (in the instances of the type - but not the default value specified in the class).",
                         type.PackagePrefixedName, attributeTypeFromModel.Name);
@@ -839,12 +1029,15 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
         }
 
-        private static bool QueryUserWhetherToAdaptDatabaseToModel(List<KeyValuePair<string, AttributeTypeFromDatabase>> removedAttributes,
+        private static bool QueryUserWhetherToAdaptDatabaseToModel(
+            List<KeyValuePair<string, AttributeTypeFromDatabase>> removedAttributes,
             List<KeyValuePair<InheritanceType, KeyValuePair<AttributeType, AttributeTypeFromDatabase>>> typeChangedAttributes,
+            List<KeyValuePair<string, AttributeTypeFromDatabase>> removedEnumCases,
             string persistentGraphParameters)
         {
             List<KeyValuePair<string, AttributeTypeFromDatabase>> removedAttributesAfterFiltering = new List<KeyValuePair<string, AttributeTypeFromDatabase>>(removedAttributes);
             List<KeyValuePair<InheritanceType, KeyValuePair<AttributeType, AttributeTypeFromDatabase>>> typeChangedAttributesAfterFiltering = new List<KeyValuePair<InheritanceType, KeyValuePair<AttributeType, AttributeTypeFromDatabase>>>(typeChangedAttributes);
+            List<KeyValuePair<string, AttributeTypeFromDatabase>> removedEnumCasesAfterFiltering = new List<KeyValuePair<string, AttributeTypeFromDatabase>>(removedEnumCases);
 
             if(persistentGraphParameters != null)
             {
@@ -856,27 +1049,39 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     {
                         removedAttributesAfterFiltering.Clear();
                         typeChangedAttributesAfterFiltering.Clear();
+                        removedEnumCasesAfterFiltering.Clear();
                         break;
                     }
                     else if(parameter.StartsWith("update/"))
                     {
                         String updateAttribute = parameter.Remove(0, "update/".Length);
                         String[] typeAttribute = updateAttribute.Split('.');
-                        if(typeAttribute.Length != 2)
+                        if(typeAttribute.Length == 2)
                         {
-                            ConsoleUI.errorOutWriter.WriteLine("Ignoring malformed update command: " + parameter + " ('update/type.attr' expected)");
+                            string type = typeAttribute[0];
+                            string attribute = typeAttribute[1];
+                            FilterOutAttributeOrEnumCaseFromUpdateListThatRequiresUserConfirmation(removedAttributesAfterFiltering,
+                                typeChangedAttributesAfterFiltering, removedEnumCasesAfterFiltering, type, attribute);
+                        }
+                        else if(typeAttribute.Length == 1)
+                        {
+                            string type = typeAttribute[0];
+                            string attribute = null;
+                            FilterOutAttributeOrEnumCaseFromUpdateListThatRequiresUserConfirmation(removedAttributesAfterFiltering,
+                                typeChangedAttributesAfterFiltering, removedEnumCasesAfterFiltering, type, attribute);
+                        }
+                        else
+                        {
+                            ConsoleUI.errorOutWriter.WriteLine("Ignoring malformed update command: " + parameter + " ('update/type.attr' or 'update/enumtype' expected)");
                             continue;
                         }
-                        string type = typeAttribute[0];
-                        string attribute = typeAttribute[1];
-                        RemoveAttributeFromUpdateListThatRequiresUserConfirmation(removedAttributesAfterFiltering, typeChangedAttributesAfterFiltering, type, attribute);
                     }
                 }
             }
 
-            if(removedAttributesAfterFiltering.Count + typeChangedAttributesAfterFiltering.Count > 0)
+            if(removedAttributesAfterFiltering.Count + typeChangedAttributesAfterFiltering.Count + removedEnumCasesAfterFiltering.Count > 0)
             {
-                ConsoleUI.outWriter.WriteLine("Proceed only if you already carried out all migrations you wanted to, otherwise you would loose information (when removing attributes/purging their values) - not proceeding would allow you to revert the model and save the attribute values of worth from the database.");
+                ConsoleUI.outWriter.WriteLine("Proceed only if you already carried out all migrations you wanted to, otherwise you COULD LOOSE DATA (when the values of removed attributes are purged), or LOADING MAY FAIL thereafter (when removed enum cases are still in use) - not proceeding would allow you to revert the model and save the attribute values of worth from the database or filter out the removed enum cases from the attributes.");
                 ConsoleUI.outWriter.WriteLine("Do you want to proceed? (y[es]/n[o])");
                 ConsoleKeyInfo key = ConsoleUI.consoleIn.ReadKeyWithControlCAsInput();
                 if(key.KeyChar != 'y' && key.KeyChar != 'Y')
@@ -891,25 +1096,40 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             return true;
         }
 
-        private static void RemoveAttributeFromUpdateListThatRequiresUserConfirmation(List<KeyValuePair<string, AttributeTypeFromDatabase>> removedAttributesAfterFiltering,
-            List<KeyValuePair<InheritanceType, KeyValuePair<AttributeType, AttributeTypeFromDatabase>>> typeChangedAttributesAfterFiltering,
-            string type, string attribute)
+        private static void FilterOutAttributeOrEnumCaseFromUpdateListThatRequiresUserConfirmation(
+            List<KeyValuePair<string, AttributeTypeFromDatabase>> removedAttributes,
+            List<KeyValuePair<InheritanceType, KeyValuePair<AttributeType, AttributeTypeFromDatabase>>> typeChangedAttributes,
+            List<KeyValuePair<string, AttributeTypeFromDatabase>> removedEnumCases,
+            string typeToFilterOut, string attributeToFilterOut)
         {
-            for(int i = 0; i < removedAttributesAfterFiltering.Count; ++i)
+            if(attributeToFilterOut != null)
             {
-                if(removedAttributesAfterFiltering[i].Key == type && removedAttributesAfterFiltering[i].Value.Name == attribute)
+                for(int i = 0; i < removedAttributes.Count; ++i)
                 {
-                    removedAttributesAfterFiltering.RemoveAt(i);
-                    return;
+                    if(removedAttributes[i].Key == typeToFilterOut && removedAttributes[i].Value.Name == attributeToFilterOut)
+                    {
+                        removedAttributes.RemoveAt(i);
+                        return;
+                    }
+                }
+
+                for(int i = 0; i < typeChangedAttributes.Count; ++i)
+                {
+                    if(typeChangedAttributes[i].Key.PackagePrefixedName == typeToFilterOut && typeChangedAttributes[i].Value.Key.Name == attributeToFilterOut)
+                    {
+                        typeChangedAttributes.RemoveAt(i);
+                        return;
+                    }
                 }
             }
-
-            for(int i = 0; i < typeChangedAttributesAfterFiltering.Count; ++i)
+            else
             {
-                if(typeChangedAttributesAfterFiltering[i].Key.PackagePrefixedName == type && typeChangedAttributesAfterFiltering[i].Value.Key.Name == attribute)
+                for(int i = removedEnumCases.Count - 1; i >= 0 ; --i)
                 {
-                    typeChangedAttributesAfterFiltering.RemoveAt(i);
-                    break;
+                    if(removedEnumCases[i].Key == typeToFilterOut)
+                    {
+                        removedEnumCases.RemoveAt(i);
+                    }
                 }
             }
         }
@@ -924,9 +1144,9 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             ConsoleUI.outWriter.WriteLine("Written file " + filename + " showing the partial flattened model expected by the host graph in the database.");
         }
 
-        private void AddNewModelTypes(Dictionary<InheritanceType, SetValueType> newModelTypes)
+        private void AddNewEntityTypes(Dictionary<InheritanceType, SetValueType> newEntityTypes)
         {
-            foreach(InheritanceType entityType in newModelTypes.Keys)
+            foreach(InheritanceType entityType in newEntityTypes.Keys)
             {
                 using(SQLiteCommand fillTypeCommand = PrepareFillTypeCommand())
                 {
@@ -946,10 +1166,10 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
         }
 
-        private void RemoveDeletedModelTypes(Dictionary<String, TypeKind> deletedModelTypes, TypesFromDatabase typesFromDatabase)
+        private void RemoveDeletedEntityTypes(Dictionary<String, TypeKind> deletedEntityTypes, TypesFromDatabase typesFromDatabase)
         {
             // delete nodes, no instances left because of previous check, nothing in topology tables, nothing in types tables, nothing in container tables(?)
-            foreach(KeyValuePair<String, TypeKind> typeNameToKind in deletedModelTypes)
+            foreach(KeyValuePair<String, TypeKind> typeNameToKind in deletedEntityTypes)
             {
                 string typeName = typeNameToKind.Key;
                 TypeKind typeKind = typeNameToKind.Value;
@@ -976,24 +1196,29 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
         }
 
-        private void RemoveAndAddTypeChangedModelTypes(Dictionary<InheritanceType, TypeKind> typeChangedModelTypes, TypesFromDatabase typesFromDatabase)
+        private void RemoveAndAddTypeChangedEntityTypes(Dictionary<INamed, TypeKind> typeChangedEntityTypes, TypesFromDatabase typesFromDatabase)
         {
-            Dictionary<string, TypeKind> deletedModelTypes = new Dictionary<string, TypeKind>();
-            Dictionary<InheritanceType, SetValueType> newModelTypes = new Dictionary<InheritanceType, SetValueType>();
-            foreach(KeyValuePair<InheritanceType, TypeKind> typeChangedModelTypeToKind in typeChangedModelTypes)
+            Dictionary<string, TypeKind> deletedEntityTypes = new Dictionary<string, TypeKind>();
+            Dictionary<InheritanceType, SetValueType> newEntityTypes = new Dictionary<InheritanceType, SetValueType>();
+            Dictionary<EnumAttributeType, SetValueType> newEnumTypes = new Dictionary<EnumAttributeType, SetValueType>();
+            foreach(KeyValuePair<INamed, TypeKind> typeChangedEntityTypeToKind in typeChangedEntityTypes)
             {
-                InheritanceType typeChangedModelType = typeChangedModelTypeToKind.Key;
-                TypeKind typeKind = typeChangedModelTypeToKind.Value;
+                INamed typeChangedEntityType = typeChangedEntityTypeToKind.Key;
+                TypeKind typeKind = typeChangedEntityTypeToKind.Value;
 
-                deletedModelTypes.Add(typeChangedModelType.PackagePrefixedName, typeKind);
-                newModelTypes.Add(typeChangedModelType, null);
+                deletedEntityTypes.Add(typeChangedEntityType.PackagePrefixedName, typeKind);
+                if(typeChangedEntityType is InheritanceType)
+                    newEntityTypes.Add(typeChangedEntityType as InheritanceType, null);
+                else
+                    newEnumTypes.Add(typeChangedEntityType as EnumAttributeType, null);
             }
 
-            RemoveDeletedModelTypes(deletedModelTypes, typesFromDatabase);
-            AddNewModelTypes(newModelTypes);
+            RemoveDeletedEntityTypes(deletedEntityTypes, typesFromDatabase);
+            AddNewEntityTypes(newEntityTypes);
+            AddNewEnums(newEnumTypes);
         }
 
-        private void AddNewModelTypeAttribute(InheritanceType type, AttributeType attributeType)
+        private void AddNewEntityTypeAttribute(InheritanceType type, AttributeType attributeType)
         {
             // add new attribute to the attributeTypes table (corresponding type)
             using(SQLiteCommand fillAttributeTypeCommand = PrepareFillAttributeTypeCommand())
@@ -1029,7 +1254,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
         }
 
-        private void RemoveDeletedModelTypeAttribute(string typeName, AttributeTypeFromDatabase attributeType)
+        private void RemoveDeletedEntityTypeAttribute(string typeName, AttributeTypeFromDatabase attributeType)
         {
             // remove from the attributeTypes table
             using(SQLiteCommand removeTypeFromAttributeTypesCommand = persistenceProvider.PrepareTopologyDelete("attributeTypes", "attributeTypeId"))
@@ -1207,6 +1432,321 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         #endregion Database adaptation to type/attribute changes from the model
 
+        #region Database adaptation to enum type/case changes from the model
+
+        private Dictionary<EnumAttributeType, SetValueType> GetNewEnumTypes(TypesFromDatabase typesFromDatabase)
+        {
+            Dictionary<EnumAttributeType, SetValueType> newEnumTypes = new Dictionary<EnumAttributeType, SetValueType>();
+
+            IGraphModel model = persistenceProvider.graph.Model;
+
+            foreach(EnumAttributeType enumType in model.EnumAttributeTypes)
+            {
+                if(!typesFromDatabase.IsTypeKnown(enumType))
+                    newEnumTypes.Add(enumType, null);
+            }
+
+            return newEnumTypes;
+        }
+
+        private Dictionary<String, TypeKind> GetDeletedEnumTypes(TypesFromDatabase typesFromDatabase)
+        {
+            Dictionary<string, TypeKind> deletedEnumTypes = new Dictionary<string, TypeKind>();
+
+            Dictionary<string, EnumAttributeType> enumModelTypes = GetEnumTypesFromModel();
+            Dictionary<string, InheritanceType> entityModelTypes = GetEntityTypesFromModel();
+            foreach(KeyValuePair<string, AttributeTypesFromDatabase> typeNameToAttributeTypes in typesFromDatabase.TypesToAttributesFromDatabase)
+            {
+                string typeName = typeNameToAttributeTypes.Key;
+                AttributeTypesFromDatabase attributeTypesFromDatabase = typeNameToAttributeTypes.Value;
+
+                if(attributeTypesFromDatabase.KindOfOwner != TypeKind.Enum)
+                    continue;
+
+                if(!enumModelTypes.ContainsKey(typeName) && !entityModelTypes.ContainsKey(typeName))
+                    deletedEnumTypes.Add(typeName, attributeTypesFromDatabase.KindOfOwner);
+            }
+
+            return deletedEnumTypes;
+        }
+
+        private Dictionary<InheritanceType, SetValueType> GetTypeChangedEnumTypes(TypesFromDatabase typesFromDatabase)
+        {
+            Dictionary<InheritanceType, SetValueType> typeChangedEnumTypes = new Dictionary<InheritanceType, SetValueType>();
+
+            Dictionary<string, InheritanceType> entityModelTypes = GetEntityTypesFromModel();
+            foreach(KeyValuePair<string, AttributeTypesFromDatabase> typeNameToAttributeTypes in typesFromDatabase.TypesToAttributesFromDatabase)
+            {
+                string typeName = typeNameToAttributeTypes.Key;
+                AttributeTypesFromDatabase attributeTypesFromDatabase = typeNameToAttributeTypes.Value;
+
+                if(attributeTypesFromDatabase.KindOfOwner != TypeKind.Enum) // we only handle enum to entity here, entity to enum is handled by entities 
+                    continue;
+
+                if(entityModelTypes.ContainsKey(typeName))
+                    typeChangedEnumTypes.Add(entityModelTypes[typeName], null);
+            }
+
+            return typeChangedEnumTypes;
+        }
+
+        private Dictionary<string, EnumAttributeType> GetKeptEnumTypes(TypesFromDatabase typesFromDatabase)
+        {
+            Dictionary<string, EnumAttributeType> keptEnumTypes = new Dictionary<string, EnumAttributeType>();
+
+            Dictionary<string, EnumAttributeType> enumModelTypes = GetEnumTypesFromModel();
+            foreach(KeyValuePair<string, AttributeTypesFromDatabase> typeNameToAttributeTypes in typesFromDatabase.TypesToAttributesFromDatabase)
+            {
+                String typeName = typeNameToAttributeTypes.Key;
+                AttributeTypesFromDatabase attributeTypesFromDatabase = typeNameToAttributeTypes.Value;
+
+                if(attributeTypesFromDatabase.KindOfOwner != TypeKind.Enum)
+                    continue;
+
+                if(enumModelTypes.ContainsKey(typeName))
+                    keptEnumTypes.Add(typeName, enumModelTypes[typeName]);
+            }
+
+            return keptEnumTypes;
+        }
+
+        private void UpdateEnumCaseValues(EnumAttributeType type, TypesFromDatabase typesFromDatabase)
+        {
+            using(SQLiteCommand updateEnumCasesCommand = PrepareUpdateAttributeTypeXgrsTypeCommand())
+            {
+                foreach(EnumMember enumCase in type.Members)
+                {
+                    AttributeTypesFromDatabase attributeTypesFromDatabase = typesFromDatabase.TypesToAttributesFromDatabase[type.PackagePrefixedName];
+                    if(attributeTypesFromDatabase.AttributeNamesToAttributeTypes.ContainsKey(enumCase.Name))
+                    {
+                        AttributeTypeFromDatabase attributeTypeFromDatabase = attributeTypesFromDatabase.AttributeNamesToAttributeTypes[enumCase.Name];
+                        UpdateAttributeTypeXgrsType(updateEnumCasesCommand, attributeTypeFromDatabase.DbId, enumCase.Value.ToString());
+                    }
+                }
+            }
+        }
+
+        private void UpdateAttributeTypeXgrsType(SQLiteCommand updateAttributeTypeXgrsTypeCommand, long attributeTypeId, string xgrsType)
+        {
+            updateAttributeTypeXgrsTypeCommand.Parameters.Clear();
+            updateAttributeTypeXgrsTypeCommand.Parameters.AddWithValue("@attributeTypeId", attributeTypeId);
+            updateAttributeTypeXgrsTypeCommand.Parameters.AddWithValue("@xgrsType", xgrsType);
+            updateAttributeTypeXgrsTypeCommand.Transaction = persistenceProvider.transaction;
+            int rowsAffected = updateAttributeTypeXgrsTypeCommand.ExecuteNonQuery();
+        }
+
+        private Dictionary<string, EnumAttributeType> GetEnumTypesFromModel()
+        {
+            Dictionary<string, EnumAttributeType> enumModelTypes = new Dictionary<string, EnumAttributeType>();
+
+            IGraphModel model = persistenceProvider.graph.Model;
+            foreach(EnumAttributeType enumAttributeType in model.EnumAttributeTypes)
+            {
+                enumModelTypes.Add(enumAttributeType.PackagePrefixedName, enumAttributeType);
+            }
+
+            return enumModelTypes;
+        }
+
+        private void ReportEnumTypeChangesToTheUserAbortingIfAttributesOfRemovedOrRetypedEnumsExist(
+            Dictionary<EnumAttributeType, SetValueType> newEnumTypes, Dictionary<String, TypeKind> deletedEnumTypes,
+            Dictionary<InheritanceType, SetValueType> typeChangedEnumTypes,
+            TypesFromDatabase typesFromDatabase, ref bool changeMessagePrinted)
+        {
+            // maybe todo: some code unification of enum processing with entity type processing could be possible; this function could be maybe merged with ReportTypeChangesToTheUserAbortingIfInstancesOfRemovedOrRetypedTypesExist; maybe use GrGenType as base of EnumAttributeType
+            // maybe todo: names and types, database first perspective vs. model first perspective (of diff database to model (current model, old database)), model/database part, added has type from model, removed has type from database
+
+            bool deletedTypeStillHasAttributes = false;
+            foreach(KeyValuePair<String, TypeKind> typeNameToKind in deletedEnumTypes)
+            {
+                string typeName = typeNameToKind.Key;
+                TypeKind typeKind = typeNameToKind.Value;
+
+                string kindName = ToString(typeKind);
+                if(typesFromDatabase.SomeTypeHasAnAttributeOfType(typeName))
+                {
+                    PrintChangeMessageAsNeeded(ref changeMessagePrinted);
+                    ConsoleUI.outWriter.WriteLine("The enum type {0} from the database is not existing in the model.",
+                        typeName);
+                    ConsoleUI.outWriter.WriteLine("- The enum type {0} has to be deleted from the database, but the database contains a type that has an attributes of this type (ABORTING...).",
+                        typeName);
+                    deletedTypeStillHasAttributes = true;
+                }
+            }
+
+            foreach(InheritanceType type in typeChangedEnumTypes.Keys)
+            {
+                string typeName = type.PackagePrefixedName;
+                string kindName = ToKindString(type);
+                if(typesFromDatabase.SomeTypeHasAnAttributeOfType(typeName))
+                {
+                    PrintChangeMessageAsNeeded(ref changeMessagePrinted);
+                    ConsoleUI.outWriter.WriteLine("The enum type {0} from the database is a {1} type in the model.",
+                        typeName, kindName);
+                    ConsoleUI.outWriter.WriteLine("- The enum type {0} has to be deleted from the database, but the database contains instances of it (ABORTING...).",
+                        typeName);
+                    deletedTypeStillHasAttributes = true;
+                }
+            }
+
+            if(deletedTypeStillHasAttributes)
+            {
+                ConsoleUI.outWriter.WriteLine("The model used by the database contains attributes of enums that don't exist anymore in the model file/the model assembly.");
+                ConsoleUI.outWriter.WriteLine("You must delete them first - to do so you must open the database with the old model.");
+                ConsoleUI.outWriter.WriteLine("The database cannot be opened with the current model.");
+                WriteDatabaseModelToFileAndReportToUser(typesFromDatabase, persistenceProvider.connectionParameters);
+                ConsoleUI.outWriter.WriteLine("Aborting database model update due to an incompatible model...");
+                throw new Exception("Abort database model update due to an incompatible model.");
+            }
+
+            foreach(KeyValuePair<String, TypeKind> typeNameToKind in deletedEnumTypes)
+            {
+                string typeName = typeNameToKind.Key;
+
+                PrintChangeMessageAsNeeded(ref changeMessagePrinted);
+                ConsoleUI.outWriter.WriteLine("The enum type {0} from the database is not existing in the model (anymore).",
+                    typeName);
+                ConsoleUI.outWriter.WriteLine("- The enum type {0} is going to be deleted from the database, too.",
+                    typeName);
+            }
+
+            foreach(InheritanceType type in typeChangedEnumTypes.Keys)
+            {
+                string typeName = type.PackagePrefixedName;
+                string kindName = ToKindString(type);
+
+                PrintChangeMessageAsNeeded(ref changeMessagePrinted);
+                ConsoleUI.outWriter.WriteLine("The enum type {0} from the database is a {1} type in the model.",
+                    typeName, kindName);
+                ConsoleUI.outWriter.WriteLine("- The enum type {0} is going to be deleted from the database, too.",
+                    typeName);
+                ConsoleUI.outWriter.WriteLine("- The {0} type {1} is going to be added to the database, too.",
+                    kindName, typeName);
+            }
+
+            foreach(EnumAttributeType type in newEnumTypes.Keys)
+            {
+                string typeName = type.PackagePrefixedName;
+
+                PrintChangeMessageAsNeeded(ref changeMessagePrinted);
+                ConsoleUI.outWriter.WriteLine("The database does not contain the enum type {0} (that exists in the model).",
+                    typeName);
+                ConsoleUI.outWriter.WriteLine("- The enum type {0} is going to be added to the database, too.",
+                    typeName);
+            }
+        }
+
+        private static void DetermineAndReportEnumCaseChangesToTheUser(EnumAttributeType type, AttributeTypesFromDatabase attributeTypesFromDatabase,
+            ref List<KeyValuePair<EnumAttributeType, string>> addedEnumCases,
+            ref List<KeyValuePair<string, AttributeTypeFromDatabase>> removedEnumCases,
+            ref bool changeMessagePrinted)
+        {
+            foreach(KeyValuePair<string, AttributeTypeFromDatabase> attributeNameToAttributeTypeFromDatabase in attributeTypesFromDatabase.AttributeNamesToAttributeTypes)
+            {
+                string attributeNameFromDatabase = attributeNameToAttributeTypeFromDatabase.Key;
+                AttributeTypeFromDatabase attributeTypeFromDatabase = attributeNameToAttributeTypeFromDatabase.Value;
+
+                String enumCaseFromDatabase = attributeNameFromDatabase;
+                EnumMember enumCaseFromModel = GetEnumCase(type, enumCaseFromDatabase);
+                if(enumCaseFromModel == null)
+                {
+                    PrintChangeMessageAsNeeded(ref changeMessagePrinted);
+                    ConsoleUI.outWriter.WriteLine("The enum case {0}.{1} from the database is not existing in the model (anymore).",
+                        type.PackagePrefixedName, attributeNameFromDatabase);
+                    ConsoleUI.outWriter.WriteLine("- The enum case {0}.{1} is going to be removed from the database, too, CONTINUING MAY RESULT IN DATABASE LOADING ERROR (enum parse error) when the enum case is still used in the old data!",
+                        type.PackagePrefixedName, attributeNameFromDatabase);
+
+                    removedEnumCases.Add(new KeyValuePair<string, AttributeTypeFromDatabase>(type.PackagePrefixedName, attributeTypeFromDatabase));
+                }
+            }
+
+            foreach(EnumMember enumCaseFromModel in type.Members)
+            {
+                if(!attributeTypesFromDatabase.AttributeNamesToAttributeTypes.ContainsKey(enumCaseFromModel.Name))
+                {
+                    PrintChangeMessageAsNeeded(ref changeMessagePrinted);
+                    ConsoleUI.outWriter.WriteLine("The enum type {0} does not contain the case {1} in the database (that exists in the model).",
+                        type.PackagePrefixedName, enumCaseFromModel.Name);
+                    ConsoleUI.outWriter.WriteLine("- The enum case {0}.{1} is going to be added in the database, too.",
+                        type.PackagePrefixedName, enumCaseFromModel.Name);
+
+                    addedEnumCases.Add(new KeyValuePair<EnumAttributeType, string>(type, enumCaseFromModel.Name));
+                }
+            }
+        }
+
+        private static EnumMember GetEnumCase(EnumAttributeType type, string enumCaseFromDatabase)
+        {
+            foreach(EnumMember enumCase in type.Members)
+            {
+                if(enumCase.Name == enumCaseFromDatabase)
+                    return enumCase;
+            }
+            return null;
+        }
+
+        private void AddNewEnums(Dictionary<EnumAttributeType, SetValueType> newEnumTypes)
+        {
+            foreach(EnumAttributeType enumType in newEnumTypes.Keys)
+            {
+                using(SQLiteCommand fillTypeCommand = PrepareFillTypeCommand())
+                {
+                    FillEnumWithCases(fillTypeCommand, enumType);
+                }
+            }
+        }
+
+        private void RemoveDeletedEnums(Dictionary<String, TypeKind> deletedEnumTypes)
+        {
+            foreach(KeyValuePair<String, TypeKind> typeNameToKind in deletedEnumTypes)
+            {
+                string typeName = typeNameToKind.Key;
+
+                using(SQLiteCommand removeTypeFromAttributeTypesCommand = persistenceProvider.PrepareTopologyDelete("attributeTypes", "typeId"))
+                {
+                    RemoveAttributeTypes(removeTypeFromAttributeTypesCommand, persistenceProvider.TypeNameToDbId[typeName]);
+                }
+                using(SQLiteCommand removeTypeCommand = persistenceProvider.PrepareTopologyDelete("types", "typeId"))
+                {
+                    RemoveType(removeTypeCommand, persistenceProvider.TypeNameToDbId[typeName]);
+                }
+                RemoveTypeNameFromDbIdMapping(typeName);
+            }
+        }
+
+        private void RemoveTypeChangedEnumsAndAddEntityTypes(Dictionary<InheritanceType, SetValueType> typeChangedEnumTypes)
+        {
+            Dictionary<String, TypeKind> deletedEnumTypes = new Dictionary<String, TypeKind>();
+            Dictionary<InheritanceType, SetValueType> newEntityTypes = new Dictionary<InheritanceType, SetValueType>();
+            foreach(InheritanceType typeChangedEnumType in typeChangedEnumTypes.Keys)
+            {
+                deletedEnumTypes.Add(typeChangedEnumType.PackagePrefixedName, TypeKind.Enum);
+                newEntityTypes.Add(typeChangedEnumType, null);
+            }
+
+            RemoveDeletedEnums(deletedEnumTypes);
+            AddNewEntityTypes(newEntityTypes);
+        }
+
+        private void AddNewEnumCase(EnumAttributeType type, string enumCase, string value)
+        {
+            using(SQLiteCommand fillAttributeTypeCommand = PrepareFillAttributeTypeCommand())
+            {
+                FillEnumCase(fillAttributeTypeCommand, enumCase, value, type);
+            }
+        }
+
+        private void RemoveDeletedEnumCase(AttributeTypeFromDatabase enumCase)
+        {
+            using(SQLiteCommand removeTypeFromAttributeTypesCommand = persistenceProvider.PrepareTopologyDelete("attributeTypes", "attributeTypeId"))
+            {
+                RemoveAttributeType(removeTypeFromAttributeTypesCommand, enumCase.DbId);
+            }
+        }
+
+        #endregion Database adaptation to enum type/case changes from the model
+
+
         #region Database-to-Model updating handling preparations / command/statement generation
 
         private SQLiteCommand PrepareFillTypeCommand()
@@ -1250,6 +1790,23 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             command.Append("(");
             command.Append(parameterNames.ToString());
             command.Append(")");
+
+            return new SQLiteCommand(command.ToString(), persistenceProvider.connection);
+        }
+
+        private SQLiteCommand PrepareUpdateAttributeTypeXgrsTypeCommand()
+        {
+            StringBuilder command = new StringBuilder();
+            command.Append("UPDATE ");
+            command.Append("attributeTypes");
+            command.Append(" SET ");
+            command.Append("xgrsType");
+            command.Append(" = ");
+            command.Append("@xgrsType");
+            command.Append(" WHERE ");
+            command.Append("attributeTypeId");
+            command.Append(" == ");
+            command.Append("@attributeTypeId");
 
             return new SQLiteCommand(command.ToString(), persistenceProvider.connection);
         }
@@ -1415,6 +1972,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 case TypeKind.EdgeClass: return "edge";
                 case TypeKind.ObjectClass: return "object";
                 case TypeKind.GraphClass: return "graph";
+                case TypeKind.Enum: return "enum";
                 default: throw new Exception("INTERNAL ERROR");
             }
         }
@@ -1422,6 +1980,27 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         private static string ToIdColumnName(TypeKind kind)
         {
             return ToString(kind) + "Id";
+        }
+
+        private static string ToTypeString(TypeKind kind)
+        {
+            switch(kind)
+            {
+                case TypeKind.NodeClass: return "node class";
+                case TypeKind.EdgeClass: return "edge class";
+                case TypeKind.ObjectClass: return "object class";
+                case TypeKind.GraphClass: return "graph";
+                case TypeKind.Enum: return "enum";
+                default: throw new Exception("INTERNAL ERROR");
+            }
+        }
+
+        private static TypeKind ToKind(INamed type)
+        {
+            if(type is EnumAttributeType)
+                return TypeKind.Enum;
+            else
+                return ToKind((InheritanceType)type);
         }
 
         private static TypeKind ToKind(InheritanceType type)

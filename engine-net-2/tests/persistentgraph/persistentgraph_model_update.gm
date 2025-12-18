@@ -25,5 +25,6 @@ class oldO
 node class N;
 edge class E;
 class O;
+enum e { a }
 
 node edge graph;

@@ -1334,6 +1334,11 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     return (object)EdgeToDbId[(IEdge)newValue];
             }
 
+            if(newValue is Enum)
+            {
+                return newValue.ToString(); // write enum case string; potential storage space / i/o-performance improvement: enum type tables in database, usage of ids - the Enum integer causes issues because we want to map by name when loading/storing
+            }
+
             return newValue;
         }
 

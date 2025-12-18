@@ -14,9 +14,7 @@ True
 "furchtbar".
 "".
 "{}".
-"a".
-"b".
-"c".
+"sameName".
 0
 0
 True
@@ -34,7 +32,5 @@ True
 "".
 "".
 "{}".
-"x".
-"z".
-"43".
+"sameName".
 "x".

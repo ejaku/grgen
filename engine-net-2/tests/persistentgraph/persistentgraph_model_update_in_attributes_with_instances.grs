@@ -23,8 +23,6 @@ o.a
 o.r
 o.c
 o.e
-o.e2
-o.e3
 o.newAttr
 
 new graph "persistentgraph/persistentgraph_model_update_in_attributes" "some non-persistent graph"
@@ -55,8 +53,6 @@ o.a #deleted
 o.r
 o.c
 o.e
-o.e2
-o.e3
 o.newAttr
 
 quit

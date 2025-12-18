@@ -1,0 +1,9 @@
+#using "persistentgraph_model_update_in_enums.gm"
+
+rule init : (N)
+{
+	modify {
+		n:N;
+		return(n);
+	}
+}
