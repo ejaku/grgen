@@ -175,6 +175,13 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                         || attributeTypesFromDatabase.KindOfOwner == TypeKind.EdgeClass
                         || attributeTypesFromDatabase.KindOfOwner == TypeKind.ObjectClass)
                     {
+                        if(typeName == "Node" || typeName == "AEdge" || typeName == "Edge" || typeName == "UEdge" || typeName == "Object")
+                        {
+                            sw.Write("// " + ToClassPrefixString(attributeTypesFromDatabase.KindOfOwner) + "class ");
+                            sw.WriteLine(typeName + ";");
+                            continue;
+                        }
+
                         sw.Write(ToClassPrefixString(attributeTypesFromDatabase.KindOfOwner) + "class ");
                         sw.WriteLine(typeName);
                         sw.WriteLine("{");
@@ -1653,7 +1660,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     PrintChangeMessageAsNeeded(ref changeMessagePrinted);
                     ConsoleUI.outWriter.WriteLine("The enum case {0}.{1} from the database is not existing in the model (anymore).",
                         type.PackagePrefixedName, attributeNameFromDatabase);
-                    ConsoleUI.outWriter.WriteLine("- The enum case {0}.{1} is going to be removed from the database, too, CONTINUING MAY RESULT IN DATABASE LOADING ERROR (enum parse error) when the enum case is still used in the old data!",
+                    ConsoleUI.outWriter.WriteLine("- The enum case {0}.{1} is going to be removed from the database, too, CONTINUING MAY RESULT IN AN ENDURING DATABASE LOADING ERROR (enum parse error) when the enum case is still used in the old data!",
                         type.PackagePrefixedName, attributeNameFromDatabase);
 
                     removedEnumCases.Add(new KeyValuePair<string, AttributeTypeFromDatabase>(type.PackagePrefixedName, attributeTypeFromDatabase));

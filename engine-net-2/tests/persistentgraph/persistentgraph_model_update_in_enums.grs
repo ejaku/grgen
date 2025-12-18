@@ -7,7 +7,7 @@ show node n
 
 new graph "persistentgraph/persistentgraph_model_update_in_enums" "some non-persistent graph"
 
-new graph "persistentgraph/persistentgraph_model_update_in_enums_updated" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_model_update_in_enums.db;Version=3;" "update/ENUCasesRemoved"
+new graph "persistentgraph/persistentgraph_model_update_in_enums_updated" persist with "libGrPersistenceProviderSQLite.dll" to "Data Source=testgraphfilename_model_update_in_enums.db;Version=3;" "update/ENUCasesRemoved;initializeonfailure/ENUCasesRemoved"
 
 exec (::n)=find
 show node n

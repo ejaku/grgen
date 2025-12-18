@@ -343,7 +343,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     {
                         object attributeValue;
                         if(PersistenceProviderSQLite.IsScalarType(attributeType))
-                            attributeValue = GetScalarValue(attributeType, reader, attributeNameToColumnIndex);
+                            attributeValue = GetScalarValue(attributeType, reader, attributeNameToColumnIndex, persistenceProvider.persistentGraphParameters);
                         else if(PersistenceProviderSQLite.IsGraphType(attributeType))
                             attributeValue = GetGraphValue(attributeType, reader, attributeNameToColumnIndex);
                         else
@@ -379,7 +379,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     {
                         object attributeValue;
                         if(PersistenceProviderSQLite.IsScalarType(attributeType))
-                            attributeValue = GetScalarValue(attributeType, reader, attributeNameToColumnIndex);
+                            attributeValue = GetScalarValue(attributeType, reader, attributeNameToColumnIndex, persistenceProvider.persistentGraphParameters);
                         else if(PersistenceProviderSQLite.IsGraphType(attributeType))
                             attributeValue = GetGraphValue(attributeType, reader, attributeNameToColumnIndex);
                         else
@@ -421,7 +421,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                     {
                         object attributeValue;
                         if(PersistenceProviderSQLite.IsScalarType(attributeType))
-                            attributeValue = GetScalarValue(attributeType, reader, attributeNameToColumnIndex);
+                            attributeValue = GetScalarValue(attributeType, reader, attributeNameToColumnIndex, persistenceProvider.persistentGraphParameters);
                         else if(PersistenceProviderSQLite.IsGraphType(attributeType))
                             attributeValue = GetGraphValue(attributeType, reader, attributeNameToColumnIndex);
                         else
@@ -675,26 +675,26 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             }
         }
 
-        private static object GetScalarValue(AttributeType attributeType, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
+        private static object GetScalarValue(AttributeType attributeType, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex, String persistentGraphParameters)
         {
-            return GetScalarValueFromSpecifiedColumn(attributeType, PersistenceProviderSQLite.GetUniqueColumnName(attributeType.Name), reader, attributeNameToColumnIndex);
+            return GetScalarValueFromSpecifiedColumn(attributeType, PersistenceProviderSQLite.GetUniqueColumnName(attributeType.Name), reader, attributeNameToColumnIndex, persistentGraphParameters);
         }
 
-        private static object GetScalarValueFromSpecifiedColumn(AttributeType attributeType, String columnName, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
+        private static object GetScalarValueFromSpecifiedColumn(AttributeType attributeType, String columnName, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex, String persistentGraphParameters)
         {
             int index = attributeNameToColumnIndex[columnName];
-            return GetScalarValueFromSpecifiedColumn(attributeType, reader, index);
+            return GetScalarValueFromSpecifiedColumn(attributeType, reader, index, persistentGraphParameters);
         }
 
-        private static object GetScalarValueOrNullFromSpecifiedColumn(AttributeType attributeType, String columnName, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
+        private static object GetScalarValueOrNullFromSpecifiedColumn(AttributeType attributeType, String columnName, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex, String persistentGraphParameters)
         {
             int index = attributeNameToColumnIndex[columnName];
             if(reader.IsDBNull(index))
                 return null;
-            return GetScalarValueFromSpecifiedColumn(attributeType, reader, index);
+            return GetScalarValueFromSpecifiedColumn(attributeType, reader, index, persistentGraphParameters);
         }
 
-        private static object GetScalarValueFromSpecifiedColumn(AttributeType attributeType, SQLiteDataReader reader, int index)
+        private static object GetScalarValueFromSpecifiedColumn(AttributeType attributeType, SQLiteDataReader reader, int index, String persistentGraphParameters)
         {
             switch(attributeType.Kind)
             {
@@ -704,11 +704,51 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 case AttributeKind.LongAttr: return reader.GetInt64(index);
                 case AttributeKind.BooleanAttr: return reader.GetBoolean(index);
                 case AttributeKind.StringAttr: return reader.IsDBNull(index) ? null : reader.GetString(index);
-                case AttributeKind.EnumAttr: return Enum.Parse(attributeType.EnumType.EnumType, reader.GetString(index));
+                case AttributeKind.EnumAttr:
+                    try
+                    {
+                        return Enum.Parse(attributeType.EnumType.EnumType, reader.GetString(index));
+                    }
+                    catch(ArgumentException)
+                    {
+                        if(IsEnumToBeInitializedOnParsingErrors(attributeType.EnumType.PackagePrefixedName, persistentGraphParameters))
+                            return GetEnumDefaultValue(attributeType.EnumType);
+                        throw;
+                    }
                 case AttributeKind.FloatAttr: return reader.GetFloat(index);
                 case AttributeKind.DoubleAttr: return reader.GetDouble(index);
                 default: throw new Exception("Non-scalar attribute kind");
             }
+        }
+
+        private static bool IsEnumToBeInitializedOnParsingErrors(string enumType, string persistentGraphParameters)
+        {
+            if(persistentGraphParameters == null)
+                return false;
+
+            string[] unpackedParameters = persistentGraphParameters.Split(';');
+            foreach(string parameter in unpackedParameters)
+            {
+                if(parameter.StartsWith("initializeonfailure/"))
+                {
+                    String initializeEnum = parameter.Remove(0, "initializeonfailure/".Length);
+                    if(initializeEnum == enumType)
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static object GetEnumDefaultValue(EnumAttributeType enumAttributeType)
+        {
+            Array values = Enum.GetValues(enumAttributeType.EnumType);
+            foreach(object value in values)
+            {
+                if(Convert.ToInt64(value) == 0)
+                    return value; // default case of enum is the (first) one with value 0
+            }
+            return values.GetValue(0); // if no integer 0 exists, use the first enum case
         }
 
         private IGraph GetGraphValue(AttributeType attributeType, SQLiteDataReader reader, Dictionary<string, int> attributeNameToColumnIndex)
@@ -756,7 +796,7 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         {
             Debug.Assert(columnName == "value" || columnName == "key");
             if(PersistenceProviderSQLite.IsScalarType(attributeType))
-                return GetScalarValueOrNullFromSpecifiedColumn(attributeType, columnName, reader, attributeNameToColumnIndex);
+                return GetScalarValueOrNullFromSpecifiedColumn(attributeType, columnName, reader, attributeNameToColumnIndex, persistenceProvider.persistentGraphParameters);
             else if(PersistenceProviderSQLite.IsGraphType(attributeType))
                 return GetGraphValueFromSpecifiedColumn(columnName, reader, attributeNameToColumnIndex);
             else if(PersistenceProviderSQLite.IsObjectType(attributeType))

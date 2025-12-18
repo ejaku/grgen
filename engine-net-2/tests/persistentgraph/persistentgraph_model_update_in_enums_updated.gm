@@ -10,7 +10,7 @@ edge class Furchtbar
 
 node class N
 {
-	ecr:ENUCasesRemoved = ENUCasesRemoved::remainingCase;
+	ecr:ENUCasesRemoved;
 	e:ENU = ENU::a;
 	
 	ne:NewENU = NewENU::a;
