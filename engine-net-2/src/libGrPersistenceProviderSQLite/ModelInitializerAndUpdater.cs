@@ -270,6 +270,9 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         internal void CreateSchemaIfNotExistsOrAdaptToCompatibleChanges()
         {
+            CreateMetadataTable();
+            FailIfVersionIsHigherThanSupported(); // throws an exception in order to prevent data corruption
+
             CreateIdentityAndTopologyTables();
             CreateTypesWithAttributeTables();
 
@@ -280,6 +283,35 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
         }
 
         #region Database initialization (including types table)
+
+        private void CreateMetadataTable()
+        {
+            persistenceProvider.CreateTable("metadata", "metadataEntryId",
+                "key", "TEXT NOT NULL",
+                "value", "TEXT NOT NULL"
+                );
+        }
+
+        private void FailIfVersionIsHigherThanSupported()
+        {
+            using(SQLiteCommand readMetadataCommand = PrepareStatementForReadingMetadata())
+            {
+                Dictionary<String, String> metadata = ReadMetadata(readMetadataCommand);
+
+                if(metadata.ContainsKey("version"))
+                {
+                    if(int.Parse(metadata["version"]) > 1)
+                        throw new Exception("Unsupported database layout version: " + metadata["version"]);
+                }
+                else
+                {
+                    using(SQLiteCommand insertMetadataEntryCommand = PrepareStatementForWritingMetadataEntry())
+                    {
+                        WriteMetadataEntry(insertMetadataEntryCommand, "version", "1");
+                    }
+                }
+            }
+        }
 
         private void CreateIdentityAndTopologyTables()
         {
@@ -583,6 +615,39 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
                 Debug.Assert(rowId == graphId);
                 persistenceProvider.AddGraphWithDbIdToDbIdMapping(persistenceProvider.graph, rowId);
             }
+        }
+
+        private Dictionary<String, String> ReadMetadata(SQLiteCommand readMetadataCommand)
+        {
+            Dictionary<String, String> metadata = new Dictionary<String, String>();
+
+            readMetadataCommand.Transaction = persistenceProvider.transaction;
+            using(SQLiteDataReader reader = readMetadataCommand.ExecuteReader())
+            {
+                Dictionary<string, int> attributeNameToColumnIndex = PersistenceProviderSQLite.GetNameToColumnIndexMapping(reader);
+
+                while(reader.Read())
+                {
+                    long metadataEntryId = reader.GetInt64(attributeNameToColumnIndex["metadataEntryId"]);
+                    String key = reader.GetString(attributeNameToColumnIndex["key"]);
+                    String value = reader.GetString(attributeNameToColumnIndex["value"]);
+                    metadata.Add(key, value);
+                }
+            }
+
+            return metadata;
+        }
+
+        private void WriteMetadataEntry(SQLiteCommand insertMetadataEntryCommand, string key, string value)
+        {
+            insertMetadataEntryCommand.Parameters.Clear();
+            insertMetadataEntryCommand.Parameters.AddWithValue("@key", key);
+            insertMetadataEntryCommand.Parameters.AddWithValue("@value", value);
+
+            insertMetadataEntryCommand.Transaction = persistenceProvider.transaction;
+            int rowsAffected = insertMetadataEntryCommand.ExecuteNonQuery();
+
+            long rowId = persistenceProvider.connection.LastInsertRowId;
         }
 
         #endregion Database initialization (including types table)
@@ -1753,7 +1818,6 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
 
         #endregion Database adaptation to enum type/case changes from the model
 
-
         #region Database-to-Model updating handling preparations / command/statement generation
 
         private SQLiteCommand PrepareFillTypeCommand()
@@ -1919,6 +1983,37 @@ namespace de.unika.ipd.grGen.libGrPersistenceProviderSQLite
             command.Append(" LEFT JOIN ");
             command.Append("attributeTypes");
             command.Append(" ON (types.typeId == attributeTypes.typeId)");
+
+            return new SQLiteCommand(command.ToString(), persistenceProvider.connection);
+        }
+
+        private SQLiteCommand PrepareStatementForReadingMetadata()
+        {
+            StringBuilder columnNames = new StringBuilder();
+            PersistenceProviderSQLite.AddQueryColumn(columnNames, "metadataEntryId");
+            PersistenceProviderSQLite.AddQueryColumn(columnNames, "key");
+            PersistenceProviderSQLite.AddQueryColumn(columnNames, "value");
+            StringBuilder command = new StringBuilder();
+            command.Append("SELECT ");
+            command.Append(columnNames.ToString());
+            command.Append(" FROM ");
+            command.Append("metadata");
+
+            return new SQLiteCommand(command.ToString(), persistenceProvider.connection);
+        }
+
+        private SQLiteCommand PrepareStatementForWritingMetadataEntry()
+        {
+            StringBuilder command = new StringBuilder();
+            command.Append("INSERT INTO ");
+            command.Append("metadata");
+            command.Append("(");
+            command.Append("key, value");
+            command.Append(")");
+            command.Append(" VALUES");
+            command.Append("(");
+            command.Append("@key, @value");
+            command.Append(")");
 
             return new SQLiteCommand(command.ToString(), persistenceProvider.connection);
         }
