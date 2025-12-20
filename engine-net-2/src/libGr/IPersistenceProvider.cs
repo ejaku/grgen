@@ -27,7 +27,7 @@ namespace de.unika.ipd.grGen.libGr
         /// the named graph must be empty (but its model must be known) (the graph is going to be the host graph/top-level graph of a system of graphs referenced from it)
         /// the persistence provider registers as listener at the graph (just filled by reading from the repository)
         /// it listens to change events and persists the ongoing modification of the graph to the repository
-        /// errors are reported by exception
+        /// errors are reported by exception (todo: introduce dedicated exception classes)
         /// </summary>
         void ReadPersistentGraphAndRegisterToListenToGraphModifications(INamedGraph hostGraph);
 

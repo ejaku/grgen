@@ -648,7 +648,7 @@ namespace de.unika.ipd.grGen.libGr
             Match(TokenKind.LPARENTHESIS);
             string nodeName = ParseText();
             Match(TokenKind.RPARENTHESIS);
-            return GetNodeByName(nodeName);
+            return GetNodeByName(nodeName); // todo: error message on null instead of later null pointer exception; in the function returning the object (instead of at all the using places)
         }
 
         private IEdge ParseEdge()
@@ -658,7 +658,7 @@ namespace de.unika.ipd.grGen.libGr
             Match(TokenKind.LPARENTHESIS);
             string edgeName = ParseText();
             Match(TokenKind.RPARENTHESIS);
-            return GetEdgeByName(edgeName);
+            return GetEdgeByName(edgeName); // todo: error message on null instead of later null pointer exception; in the function returning the object (instead of at all the using places)
         }
 
         private IGraphElement ParseGraphElement()
@@ -668,7 +668,7 @@ namespace de.unika.ipd.grGen.libGr
             Match(TokenKind.LPARENTHESIS);
             string elemName = ParseText();
             Match(TokenKind.RPARENTHESIS);
-            return GetElemByName(elemName);
+            return GetElemByName(elemName); // todo: error message on null instead of later null pointer exception; in the function returning the object (instead of at all the using places)
         }
 
         private IObject ParseClassObjectElement()
@@ -678,7 +678,7 @@ namespace de.unika.ipd.grGen.libGr
             Match(TokenKind.LPARENTHESIS);
             string elemName = ParseText();
             Match(TokenKind.RPARENTHESIS);
-            return graphToObjectNamerAndIndexer[graph].GetObject(elemName);
+            return graphToObjectNamerAndIndexer[graph].GetObject(elemName); // todo: error message on null instead of later null pointer exception; in the function returning the object (instead of at all the using places)
         }
 
         private NodeType ParseNodeType()
@@ -1522,6 +1522,7 @@ namespace de.unika.ipd.grGen.libGr
             return new Exception(sb.ToString());
         }
 
+        // todo: replace throw new Exception by this method, so that the location of the error is reported to the user
         private Exception GetExceptionWithCoordinates(string what, Exception inner)
         {
             StringBuilder sb = new StringBuilder();
