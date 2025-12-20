@@ -419,7 +419,6 @@ namespace de.unika.ipd.grGen.libGr
         /// Creates an instance when input or output parameters do not match.
         /// </summary>
         /// <param name="invocation">The rule/sequence/procedure/function invocation.</param>
-        /// <param name="numGiven">The number of inputs or outputs given to the rule.</param>
         /// <param name="callIssue">The kind of call issue.</param>
         public SequenceParserExceptionCallIssue(Invocation invocation, CallIssueType callIssue)
             : this(invocation.Name, ClassifyDefinitionType(invocation), callIssue)

@@ -27,7 +27,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         // convenience function to dump a file in vcg format and show it with ycomp
         public static string DumpAndShowGraph(INamedGraph graph, String layout)
         {
-            bool keep = true;
             DebuggerGraphProcessingEnvironment debuggerProcEnv = new DebuggerGraphProcessingEnvironment(graph);
             return ShowVcgGraph(debuggerProcEnv, layout ?? "Orthogonal", "ycomp", "", true);
         }

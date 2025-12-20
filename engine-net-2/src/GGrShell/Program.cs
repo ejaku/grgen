@@ -32,7 +32,11 @@ namespace GGrShell
             ConsoleUI.consoleIn = inReader;
             ConsoleUI.consoleOut = outWriter;
 
-            int errorCode = GrShellMainHelper.ConstructShell(args, out shell.shellConfig, out shell.shellComponents);
+            GrShellConfigurationAndControlState shellConfig;
+            GrShellComponents shellComponents;
+            int errorCode = GrShellMainHelper.ConstructShell(args, out shellConfig, out shellComponents);
+            shell.shellConfig = shellConfig;
+            shell.shellComponents = shellComponents;
             if(errorCode != 0)
                 throw new Exception("Error during construction of shell"); // TODO: show error dialog?
 

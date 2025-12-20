@@ -75,7 +75,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         /// <param name="seq">The sequence to be printed</param>
         /// <param name="parent">The parent of the sequence or null if the sequence is a root</param>
-        /// <param name="context">The print context</param>
+        /// <param name="highlightingMode">The highlighting mode defining how the sequence is to be printed</param>
         private void PrintSequence(Sequence seq, SequenceBase parent, HighlightingMode highlightingMode)
         {
             // print parentheses, if neccessary
