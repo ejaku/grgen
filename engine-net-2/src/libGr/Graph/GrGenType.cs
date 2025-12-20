@@ -58,7 +58,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The name of the type.</returns>
         public override string ToString()
         {
-            return Name;
+            return PackagePrefixedName;
         }
     }
 }

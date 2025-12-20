@@ -425,6 +425,8 @@ namespace de.unika.ipd.grGen.libGr
             Match(TokenKind.DOT);
             string attrName = ParseText();
             AttributeType attrType = owner.Type.GetAttributeType(attrName);
+            if(attrType == null)
+                throw GetExceptionWithCoordinates("Unknown attribute " + attrName + " of " + owner.Type.ToString(), null);
 
             if(LookaheadToken()==TokenKind.EQUAL)
             {
@@ -740,7 +742,9 @@ namespace de.unika.ipd.grGen.libGr
                 Match(TokenKind.EQUAL);
                 
                 AttributeType attrType = node.Type.GetAttributeType(attribName);
-                
+                if(attrType == null)
+                    throw GetExceptionWithCoordinates("Unknown attribute " + attribName + " of " + nodeType.ToString(), null);
+
                 ParseAttributeValue(node, attrType);
             }
             Match(TokenKind.RPARENTHESIS);
@@ -774,7 +778,9 @@ namespace de.unika.ipd.grGen.libGr
                 Match(TokenKind.EQUAL);
                 
                 AttributeType attrType = edge.Type.GetAttributeType(attribName);
-                
+                if(attrType == null)
+                    throw GetExceptionWithCoordinates("Unknown attribute " + attribName + " of " + edgeType.ToString(), null);
+
                 ParseAttributeValue(edge, attrType);
             }
             Match(TokenKind.RPARENTHESIS);
@@ -961,6 +967,8 @@ namespace de.unika.ipd.grGen.libGr
                     Match(TokenKind.EQUAL);
                     string persistentName = ParseStringValue();
                     ObjectType classObjectType = graph.Model.ObjectModel.GetType(type);
+                    if(classObjectType == null)
+                        throw new Exception("Unknown class object type: \"" + type + "\"");
                     IObject classObject;
                     if(graph.Model.ObjectUniquenessIsEnsured)
                     {
@@ -975,6 +983,8 @@ namespace de.unika.ipd.grGen.libGr
                         Match(TokenKind.COMMA);
                         string attrName = ParseText();
                         AttributeType nestedAttrType = classObjectType.GetAttributeType(attrName);
+                        if(attrType == null)
+                            throw GetExceptionWithCoordinates("Unknown attribute " + attrName + " of " + classObjectType.ToString(), null);
                         Match(TokenKind.EQUAL);
                         object value = ParseAttributeSimpleValue(nestedAttrType);
                         classObject.SetAttribute(attrName, value);
@@ -1054,6 +1064,8 @@ namespace de.unika.ipd.grGen.libGr
                 Match(TokenKind.EQUAL);
                 string persistentName = ParseStringValue();
                 ObjectType classObjectType = graph.Model.ObjectModel.GetType(type);
+                if(classObjectType == null)
+                    throw new Exception("Unknown class object type: \"" + type + "\"");
                 IObject classObject;
                 if(graph.Model.ObjectUniquenessIsEnsured)
                 {
@@ -1068,6 +1080,8 @@ namespace de.unika.ipd.grGen.libGr
                     Match(TokenKind.COMMA);
                     string attrName = ParseText();
                     AttributeType nestedAttrType = classObjectType.GetAttributeType(attrName);
+                    if(nestedAttrType == null)
+                        throw GetExceptionWithCoordinates("Unknown attribute " + attrName + " of " + classObjectType.ToString(), null);
                     Match(TokenKind.EQUAL);
                     object value = ParseAttributeSimpleValue(nestedAttrType);
                     classObject.SetAttribute(attrName, value);
@@ -1186,13 +1200,20 @@ namespace de.unika.ipd.grGen.libGr
                 throw GetSyntaxException("", "enum type " + enumAttrType.PackagePrefixedName);
 
             object value;
-            int val;
-            if(Int32.TryParse(enumValue, out val))
-                value = Enum.ToObject(enumAttrType.EnumType, val);
-            else
-                value = Enum.Parse(enumAttrType.EnumType, enumValue);
+            try
+            {
+                int val;
+                if(Int32.TryParse(enumValue, out val))
+                    value = Enum.ToObject(enumAttrType.EnumType, val);
+                else
+                    value = Enum.Parse(enumAttrType.EnumType, enumValue);
+            }
+            catch(Exception ex)
+            {
+                throw GetExceptionWithCoordinates("Unknown enum member " + enumValue + ", expected member of " + enumAttrType.PackagePrefixedName, ex);
+            }
             if(value == null)
-                throw GetSyntaxException("Unknown enum member", "member of " + enumAttrType.PackagePrefixedName);
+                throw GetExceptionWithCoordinates("Unknown enum member " + enumValue + ", expected member of " + enumAttrType.PackagePrefixedName, null);
 
             return value;
         }
@@ -1499,6 +1520,21 @@ namespace de.unika.ipd.grGen.libGr
             sb.Append(" but found ");
             sb.Append(tokenContent.ToString());
             return new Exception(sb.ToString());
+        }
+
+        private Exception GetExceptionWithCoordinates(string what, Exception inner)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("at line ");
+            sb.Append(line);
+            sb.Append(", column ");
+            sb.Append(column);
+            sb.Append(": ");
+            sb.Append(what);
+            if(inner != null)
+                return new Exception(sb.ToString(), inner);
+            else
+                return new Exception(sb.ToString());
         }
 
         private void EatToken()
