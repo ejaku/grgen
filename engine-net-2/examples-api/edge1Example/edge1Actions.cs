@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\edge1\edge1.grg" on Sat Apr 19 15:09:25 CEST 2025
+// Generated from "..\..\tests\edge1\edge1.grg" on Sat Dec 20 20:56:08 CET 2025
 
 //#pragma warning disable CS0219, CS0162
 #pragma warning disable 219, 162
