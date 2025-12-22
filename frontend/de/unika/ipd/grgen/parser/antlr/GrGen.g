@@ -3434,6 +3434,7 @@ actionIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
 	: i=IDENT 
 		{ if(i != null) res = new IdentNode(env.define(ParserEnvironment.ACTIONS, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
+		//{ if (res.getAnnotations() instanceof EmptyAnnotations) { res.setAnnotations(new DefaultAnnotations()); } } // uncomment to parallelize everything as far as possible, for testing
 	;
 
 altIdentDecl returns [ IdentNode res = env.getDummyIdent() ]

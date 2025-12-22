@@ -44,7 +44,7 @@ public class EmptyAnnotations implements Annotations
 	@Override
 	public void put(String key, Object value)
 	{
-		// nothing to do
+		throw new RuntimeException("Not implemented! Would be silently swallowed, which would be typically a bug.");
 	}
 
 	/** @see de.unika.ipd.grgen.util.Annotations#isInteger(java.lang.String) */
