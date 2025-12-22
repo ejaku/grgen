@@ -2114,8 +2114,9 @@ namespace de.unika.ipd.grGen.lgsp
             LGSPAction[] newActions = new LGSPAction[actions.Length];
             for(int i = 0; i < actions.Length; i++)
             {
-                newActions[i] = (LGSPAction) compResults.CompiledAssembly.CreateInstance(
+                newActions[i] = (LGSPAction)compResults.CompiledAssembly.CreateInstance(
                     "de.unika.ipd.grGen.lgspActions.DynAction_" + actions[i].Name);
+                Debug.Assert(newActions[i].rulePattern == actions[i].rulePattern); // dyn actions must use same already analzyed pattern graph/rule pattern, instead of creating an instance of the rule pattern anew
                 if(newActions[i] == null)
                 {
                     throw new ArgumentException("Internal error: Generated assembly does not contain action '"
