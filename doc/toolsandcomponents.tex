@@ -9,15 +9,7 @@ The second consists of the interactive command line \texttt{(G)GrShell} and the 
 which offer a rapid prototyping environment supporting graphical and stepwise debugging of rules that are controlled by sequences.
 These functionalitie are also available on API level, you can add graph visualization, stepwise sequence/rule debugging, or even shell scripting to your end user app.
 
-Figure~\ref{figcomponentsapps} gives an overview of the \GrG\ system components and the applications.
 In the following, we are going to visit them component by component.
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\textwidth]{fig/ComponentsAndApps}
-  \caption{\GrG\ system components and applications (draft)}
-  \label{figcomponentsapps}
-\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -162,31 +154,32 @@ The MSAGL library can be used nearly freely due to its MIT license.
 
 %-----------------------------------------------------------------------------------------------
 \section{\texttt{lgspBackend.dll}}
-The \LGSPBackend\indexmain{lgspBackend} is a .NET assembly containing the libGr SearchPlan backend, the only backend supported by \GrG~as of now\footnote{the compiler frontend supports a non-.NET backend targeting the FIRM compiler, generating C code}, implementing together with the generated assemblies the API offered by \LibGr.
+The \LGSPBackend\indexmain{lgspBackend} is a .NET assembly containing the libGr SearchPlan backend, the only backend supported by \GrG~as of now\footnote{the compiler frontend supports a non-.NET backend targeting the FIRM compiler, generating C code}, implementing together with the generated assemblies the API offers by \LibGr.
 It allows to analyze the graph in order to create a new search plan and to regenerate the matcher programs at runtime, on user request, see \ref{custom}.
 For a more detailed introduction have a look at chapter \ref{cha:developing}.
 
 %-----------------------------------------------------------------------------------------------
 \section{\texttt{libGrPersistenceProviderSQLite.dll}}
-The \texttt{libGrPersistenceProviderSQLite.dll} contains code that allows for persistent storage of the host graph to an SQLite database file (including writing of ongoing changes, so they are available at next program start even in case of a crash).
+The \texttt{libGrPersistenceProviderSQLite.dll} contains code that allows for persistent storage of the host graph to an SQLite database file (including writing of ongoing changes, so they are available at the next program start even in case of a crash).
 The SQLite assemblies are included in a release of the \GrG-project as of now; they are in the public domain and thus may be used freely (the LINQ and EntityFramework libraries are covered by the Microsoft Public License, but these are not used by \GrG).
 The persistent named graph of the lgspBackend may be also implemented by different persistence providers, but the only persistence provider supported by \GrG~as of now is the SQLite based one.
 
 %-----------------------------------------------------------------------------------------------
 \section{\texttt{libGr.dll}}
 \label{sct:API}
-The \LibGr\indexmain{libGr} (graph rewrite library) is a .NET assembly implementing \GrG's \indexed{API}.
+The \LibGr\indexmain{libGr} (graph rewrite library) is a .NET assembly defining \GrG's \indexed{API}.
 See the extracted HTML documentation for interface descriptions at \url{http://www.grgen.de/doc/API/};
 a short introduction is given in chapter \ref{cha:api}.
+Besides, it implements some of the functionality (generically, independent of backends or the conrete models).
 You have to include it in your own applications to access the base functionality of \GrG\ (and the code generated from your model and actions specifications, in order to get a graph rewriting based algorithmic core -- if you also want graph display or even shell scripting, you have to include further assemblies).
 
 %-----------------------------------------------------------------------------------------------
 \section{\texttt{libConsoleAndOS.dll}}
-The base library \texttt{libConsoleAndOS.dll} offers interfaces for text consoles and a basic implementation, as well as some OS abstractions (you have to include it in your own application if you want to use \GrG).
+The base library \texttt{libConsoleAndOS.dll} offers interfaces for text consoles and a basic implementation, as well as some OS abstractions (you have to include it in your own application if you want to use \GrG, also the libGr requires it).
 
 %-----------------------------------------------------------------------------------------------
 \section{\texttt{libConsoleAndOSWindowsForms.dll}}
-The WindowsFroms extension of the \texttt{libConsole\-And\-OS.dll} contains a GUI console implementation for WindowsForms apps (that is used by the debugger from the \texttt{graph\-Viewer\-And\-Sequence\-Debugger\-Windows\-Forms.dll} and the \GGrShell, you should include it in your own WindowsForms application if you want to use \GrG).
+The WindowsFroms extension of the \texttt{libConsole\-And\-OS.dll} contains a GUI console implementation for WindowsForms apps (that is used by the debugger from the \texttt{graph\-Viewer\-And\-Sequence\-Debugger\-Windows\-Forms.dll} and the \GGrShell, you have to include it in your own WindowsForms application if you want to use \GrG).
 
 %-----------------------------------------------------------------------------------------------
 \section{MSAGL assemblies/libraries}
@@ -202,8 +195,8 @@ In order to use the MSAGL graph viewer on API level, you have to ensure that the
 
 %-----------------------------------------------------------------------------------------------
 \section{SQLite assemblies/libraries}
-In order to use the persistent graph, or better the SQLite persistence provider on API level, you have to ensure that the \texttt{System.Data.SQLite.dll} is available in your search path (besides the \texttt{libGrPersistenceProviderSQLite.dll
-}; you find them in the \texttt{bin} directory).
+In order to use the persistent graph, or better the SQLite persistence provider on API level, you have to ensure that the \texttt{System.Data.SQLite.dll} is available in your search path, besides the \texttt{libGrPersistenceProviderSQLite.dll}, and the \texttt{e\_sqlite3.dll} in case of Windows or the \texttt{libe\_sqlite3.so} in case of LINUX (note that the latter two libraries are native x64-builds of SQLite, and that the release of \GrG{} is a 64bit-only version by now, you may build the x86-version(s) on your own, see Section~\ref{sub:building}).
+You find them in the \texttt{bin} directory.
 
 %-----------------------------------------------------------------------------------------------
 \section{\texttt{yComp.jar}}
@@ -225,3 +218,26 @@ It is well integrated and shipped with \GrG, but it's not a part of \GrG; it is 
   Use the rightmost blue play button to start the layout process. Depending on the graph size this may take a while.
   \item[Requires] Java Runtime Environment 1.5 (or above).
 \end{description}
+
+
+%-----------------------------------------------------------------------------------------------
+\section{Birds eye view}\label{birdseyeview}
+
+Figure~\ref{figcomponentsapps} gives an overview of the \GrG\ system components and applications (with their dependencies).
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{fig/ComponentsAndApps}
+  \caption{\GrG\ system components and applications (draft)}
+  \label{figcomponentsapps}
+\end{figure}
+
+Figure~\ref{figtla} depicts how an application you build with \GrG\ (at API level) would look like 
+when fit into a traditional three layer architecture (TLA), composed of a presentation layer facing the user, the application logic layer (with the algorithmic core), and the persistence layer.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{fig/ThreeLayerArchitecture}
+  \caption{\GrG\ three layer architecture (draft)}
+  \label{figtla}
+\end{figure}

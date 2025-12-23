@@ -341,7 +341,7 @@ In order to handle this case the \texttt{independent} \emph{operator} (cf. \ref{
 --- when you declare the backlink target node \texttt{n} as \texttt{independent(n)} it can be matched once again.
 Thus it is possible to match e.g. a class attribute definition node which was already matched when collecting the attributes of the class again later on in a subpattern when matching an expression containing a usage of that attribute, allowing to e.g. add further edges to it.
 
-\subsubsection*{Patternpath Locking} 
+\subsubsection*{Patternpath Locking (preliminary)} 
 As stated in the sections on the negative and independent constructs (\ref{nac}, \ref{pac}), they get matched homomorphically to all already matched elements. By referencing an element from outside you can isomorphy lock that element to prevent it to get matched again.
 
 Maybe you want to lock all elements from the directly enclosing pattern, in this case you can just insert \texttt{pattern;} in the position of a graphlet into the NAC or PAC.

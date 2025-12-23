@@ -433,12 +433,17 @@ The \texttt{examples-api/ApplicationExample/ApplicationExampleForm.cs} shows how
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Persistent Graph and Persistence Provider}
 In order to use a persistent graph, you have to create an \texttt{LGSPPersistentNamedGraph} with one of its constructors (or with one of the \texttt{CreateXXX} functions from the \texttt{IBackend}, when you want to work with the \texttt{libGr}-API only, without calling methods of the \texttt{lgspBackend} directly).
-You have to specify the \texttt{persistenceProviderDllName}, as of now only \texttt{libGr\-Persistence\-Provider\-SQLite.dll} is supported, and the connectionParameters, those are the same that you give with the \texttt{new graph persist with to} shell command (cf. \ref{persistentgraphcreationcommands} -- there, you also find some words on the design in a subsection).
+You have to specify the \texttt{persistenceProviderDllName}, as of now only \texttt{libGr\-Persistence\-Provider\-SQLite.dll} is supported, and the connectionParameters, these are the same that you give with the \texttt{new graph persist with to} shell command (cf. \ref{persistentgraphcreationcommands} -- there, you also find some words on the design in a subsection).
+Also, persistent graph parameters may be given, see \ref{persistentgraphparameters} for more on them.
 
 The persistent graph is a thin extension of an \texttt{LGSPNamedGraph}, the major part of the work is delegated to the persistence provider.
 You may implement a persistence provider on your own, it only has to be in an assembly and contain a class that implements the \texttt{IPersistenceProvider} interface.
 
 When using a persistent graph, you may be interested in the \texttt{Persistence\-Provider\-Transaction\-Manager} field of the \texttt{IGraph\-Processing\-Environment}, that allows to access an \texttt{IPersistence\-Provider\-Transaction\-Manager} object, which -- when available -- gives access to database transaction processing.
+
+The persistence provider depends on an SQLite ADO.NET driver, which is included by a \texttt{System.Data.SQLite} package reference, and on the SQLite itself, a build of it is included by a \texttt{SourceGear.sqlite3} package reference.
+The release is a \texttt{x64} version only by now, which contains Windows and LINUX binaries of the native SQLite (\texttt{.dll} and \texttt{.so}).
+See \ref{sub:building} for more on this (e.g. if you want to build an \texttt{x86} version).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -537,7 +542,7 @@ An interesting filter can be even generated automatically for you, the \texttt{a
 \section{Graph Events}\label{sec:graphevent}
 
 Before or after the host graph is changed, events are fired, notifying listeners about the changes.
-The \GrShell-debugger, the transaction handler, and the graph change recorder implement their functionality by listening and reacting to these events.
+The debugger, the graph viewers, the transaction handler, the graph change recorder, and the persistent graph implement their functionality by listening and reacting to these events.
 You may add own event handlers to insert custom-made, event-based functionality;
 or may even implement an event-driven rule execution engine on top of it.
 
@@ -545,6 +550,8 @@ The events are fired automatically by the methods of the graph class on modifica
 and by the actions which get applied.
 If you operate with external code, it's your responsibility to fire the events for attribute changes before changing an attribute.
 Otherwise the changes won't be visible in the debugger, they won't be rolled back at the end of a transactions or during backtracking, and they won't be recorded in case of change recording.
+
+Quite a lot of a three layer architecture graph rewrite application is available out of the box due to the events, see also \ref{birdseyeview} (a user application you supply, working at API level, or the \GrShell{}/\GGrShell{} system applications).
 
 The events available that are fired automatically on graph changes (excluding attribute value changes) are:
 

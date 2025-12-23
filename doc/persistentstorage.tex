@@ -19,7 +19,7 @@ The \texttt{new graph} command (cf. \ref{graphcreationcommands}) may be extended
   PersistenceSuffix: 'persist' 'with' Text 'to' Text (Text?);
 \end{rail}\ixnterm{PersistenceSuffix}\ixkeyw{persist}\ixkeyw{with}\ixkeyw{to}
 The first \emph{Text} specifies the persistence provider to use, which has to be given as a dll filename.
-With \texttt{libGrPersistenceProviderSQLite.dll}, the database (management system) SQLite is used; this dll is as of now the only offered persistence provider.
+With \texttt{libGrPersistenceProviderSQLite.dll}, the database (management system) SQLite\cite{SQLite} is used; this dll is as of now the only offered persistence provider.
 The second \emph{Text} specifies the database connection string to use, which must specify the name of the database file to use, and should set the version.
 The optional third \emph{Text} may specify additional persistent graph parameters.
 

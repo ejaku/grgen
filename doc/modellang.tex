@@ -3,6 +3,7 @@
 The graph model language lays the foundation for \GrG.
 It allows to specify \emph{node} and \emph{edge classes} bearing typed \emph{attributes} that are used in building and wiring the graph. 
 Additionally, \emph{enumeration types} can be declared, to be used as \emph{attribute types} (the other available attribute types are built-in and don't need to be declared, they can be just used).
+A graph (instance) adheres to a graph (meta) model as defined in the following.
 
 \begin{figure}[htbp]
 \begin{example}\label{ex:model:map}
@@ -320,7 +321,7 @@ This is equivalent to virtual inheritance in C++ parlance.
   EnumDeclaration: 'enum' IdentDecl lbrace ((IdentDecl (() | '=' IntExpr)) + ',') rbrace ;
 \end{rail}\ixkeyw{enum}\ixnterm{EnumDeclaration}
 Defines an \indexed{enum type}.
-An \texttt{enum} type is a collection of so called \emph{\indexed{enum item}s}, which are used to define and name the values you want to distinguish (when using this type within your model). 
+An \texttt{enum} type is a collection of so called \emph{\indexed{enum item}s} (or members, or cases), which are used to define and name the values you want to distinguish (when using this type within your model). 
 Those are internally associated with integral numbers, which may be specified explicitly.
 Accordingly, a \GrG\ enum can be casted to an \texttt{int} (see Section~\ref{sec:builtintypes}).
 The following notes and examples highlight the relationship of \texttt{enum} items to \texttt{int}egers, but most often you are only interested in the main functionality: the \emph{case distinction} with names encoded in the enum (and are then free to ignore these finer points). 
@@ -348,9 +349,10 @@ Moreover, the semantics is as in C~\cite{Sch:1990:ANSIC}. So, the following hold
 \end{example}
 
 \begin{note}
-	The C-like semantics of enum item declarations implies that multiple items of one enum type can be associated with the same same {\tt int} value.
+	The C-like semantics of enum item declarations implies that multiple items of one enum type can be associated with the same {\tt int} value, and esp. implies that such items/cases can not be distinguished anymore in-memory after assignment to a variable.
 	Moreover, it implies, that an enum item must not be used \emph{before} its definition.
 	This also holds for items of other enum types, meaning that the items of another enum type can only be used in the definition of an enum item, when the other enum type is defined \emph{before} the enum type currently defined.
+	The \GrG{}-\texttt{enum} is directly mapped to a C\#-\texttt{enum}.
 \end{note}
 
 

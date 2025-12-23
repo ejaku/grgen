@@ -16,7 +16,7 @@ In case you want to build \GrG~on your own, you should recall the system layout 
 The graph rewrite generator consists of a frontend written in Java and a backend written in C\#.
 The frontend was extended and changed since its first version, but not replaced.
 In contrast to the backend, which has seen multiple engines and versions: a MySQL database based version, a PSQL database based version, 
-a C version executing a search plan with a virtual machine, a C\# engine executing code generated from a search plan and finally the current C\# engine version 2 featuring attributes stored in the graph elements instead of in an extra object, being capable of matching nested and subpatterns.
+a C version executing a search plan with a virtual machine, a C\# engine executing code generated from a search plan and finally the current C\# engine version 2 featuring attributes stored in the graph elements instead of in an extra object, and being capable of matching nested and subpatterns.
 
 The frontend is available in the \texttt{frontend} subdirectory of the public git repository at \texttt{https://github.com/ejaku/grgen}.
 It can be built with the included \texttt{Makefile} on Linux or the \texttt{Makefile\_Cygwin} on Windows with the cygwin environment, yielding a \texttt{grgen.jar}. 
@@ -29,6 +29,13 @@ Under LINUX you may use \texttt{make\_linux.sh} to get a complete build.
 To get the API examples generated you must execute \texttt{./genlibs.bat}.
 
 \pagebreak
+
+The VisualStudio solution contains build configurations for \texttt{x64}, \texttt{x86}, and \texttt{Any CPU}.
+The binary release contains the binaries from the \texttt{x64} build only.
+If you want to run \GrG\ in 32bit mode, or esp. want to include it in a native 32bit application, you have to build the assemblies on your own.
+Before version 8.0, the \texttt{Any CPU} build was released, this changed because of the introduction of the persistent graph.
+The SQLite used by the persistent graph cannot be built as \texttt{Any CPU}, most likely because the native binaries for the matching platform have to be fetched (the rest of the project can be built as \texttt{Any CPU}, you can still use it, only the persistent graph may be unavailable).
+The corresponding nuget-package contains builds for quite some platforms, so it should be not much of an issue to get e.g. an ARM-version of \GrGen\ running.
 
 The \texttt{doc} subdirectory contains the sources of the user manual, for building on Windows enter \texttt{./build\_cygwin.sh grgen} in \texttt{cygwin-bash} or on Linux \texttt{./build grgen} in \texttt{bash}.
 The \texttt{syntaxhighlighting} subdirectory contains syntax highlighting specifications for the \texttt{.gm},\texttt{.grg}, and \texttt{.grs}-files for \texttt{Notepad++}, \texttt{vim}, and \texttt{Emacs}.

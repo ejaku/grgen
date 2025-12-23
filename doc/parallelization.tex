@@ -66,7 +66,15 @@ A \verb#for equalsAny[parallelize=8];# requests 8 worker threads for checking wh
 Graph isomorphy checking is expensive, you may gain considerable speed-ups in state space enumeration (at the price of having to maintain a set of already known graphs).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Sequence parallelization}\label{sec:sequenceparallelization}
+\section{Sequence parallelization (preliminary)}\label{sec:sequenceparallelization}
+
+\begin{warning}
+The features from this section come without debugger support.
+They are available in the language proper and can be executed, but we recommend you only use them for experiments.
+They are also not supported by the persistent graph.
+Note that global variables access is not synchronized.
+(The feature in its current state should be considered experimental.)
+\end{warning}
 
 Sequence parallelization is only available in the interpreted sequences, not in the compiled sequences (because it must be executed at top-level, outside of a rule, so outside of an embedded exec).
 
@@ -121,7 +129,11 @@ A \verb#for sequence[parallelize=8];# requests 8 worker threads for parallel seq
 % Added debugger support with a choice of the sequence-to-be-debugged at construct execution begin
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Locking}\label{locking}
+\section{Locking (preliminary)}\label{locking}
+
+\begin{warning}
+The locking from this section makes only sense for the parallel sequence execution constructs from the previous section, which we recommend to use only for experiments.
+\end{warning}
 
 While you can execute in parallel on independent graphs/resources, you have to synchronize access to shared graphs/resources.
 Towards this purpose, some synchronization statements and methods are available in the sequences and rule language statements; they allow to implement critical sections.

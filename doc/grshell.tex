@@ -1,15 +1,14 @@
 \chapter{GrShell Language}\indexmain{GrShell}
 \label{chapgrshell}
 
-The console application \GrShell\ and its WindowsForms counterpart, the \GGrShell, are \indexedsee{shell}{GrShell} applications built on top of \LibGr\indexmain{libGr} that offer an execution environment for your generated graph transformations.
+The console application \GrShell\ and its WindowsForms counterpart, the \GGrShell, are \indexedsee{shell}{GrShell} applications built on top of \LibGr\indexmain{libGr} (for the backend-independent interface) and \emph{libGrShell} (containing most of the implementation) that offer an execution environment for your generated graph transformations.
 They belong to \GrG's standard equipment, and implement nearly everything in common, so we use in the following only the term \GrShell.
 \GrShell\ is capable of creating, manipulating, and dumping graphs as well as performing and esp. debugging graph rewriting.
 The \GrShell\ provides a line oriented scripting language.
 \GrShell\ scripts are structured by simple statements separated by line breaks.
+The \GrShell{} implements a command-line interpreter in the form of a read-eval-print loop, reading from the console or a file, evaluating (or better executing) the command, and printing the output (as applies), line by line (abstract semantics).
 
-%rewrite stuff to be command based instead of splitting commands over several sections?
-
-The elements of a graph (nodes and edges) can be accessed both by their (graph global) \indexed{variable}\indexmain{graph global variable} identifier and by their \newterm{persistent name} specified through a constructor (see Section~\ref{graphcreationcommands}).
+The elements of a graph (nodes and edges) can be accessed both by their (graph global) \indexed{variable}\indexmain{graph global variable} identifier and by their \newterm{persistent name} specified through a constructor (see Section~\ref{graphcreationcommands}) --- the \GrShell\ always uses named graphs, so a persistent name is always existing, if a name is not explicitly assigned, a pseudo-name will be automatically assigned.
 
 \begin{example}
 \label{persistentex}
@@ -39,6 +38,93 @@ Persistent names have to be unique for a graph (the graph they belong to).
 \end{note}
 
 Besides the commands defined in this chapter, you find \GrShell commands in the following chapters \ref{cha:persistentstorage} and \ref{chapdebugger}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Building Blocks}\label{shellbuildingblocks}
+
+Here we describe some common building blocks (alongside their syntax) of the commands introduced in the upcoming and the following sections.
+You may skip it and return to it when you are interested to learn more about the parts of the commands as you visit them.
+
+\GrShell\ is \indexed{case sensitive}.
+A line may be empty, may contain a shell command, or may contain a comment.
+A \indexed{comment} starts with a \indexed{\texttt{\#}} and is terminated by end-of-line
+ or end-of-file or \texttt{\S}.
+
+The following items are required for representing text, numbers, and rule parameters.\\
+\\
+\emph{Text}\\
+May be one of the following:
+\begin{itemize}
+  \item A non-empty character sequence consisting of letters, digits, and underscores. The first character must not be a digit.
+  \item Arbitrary text enclosed by double quotes (\texttt{""}).
+  \item Arbitrary text enclosed by single quotes (\texttt{''}).
+\end{itemize}
+Shell keywords are not allowed for type names, attribute values and other entities (even if they are legal in the rule language, this is a constraint of the chosen parser generator).
+If this hits you, you can enclose the identifier by single or double quotes, i.e. Text can be used everywhere an identifier is required.
+
+\mbox{ }\\
+\emph{Number}\\
+Is an \texttt{int} or \texttt{float} constant in decimal notation (see also Section~\ref{sec:builtintypes}).
+
+\begin{rail}
+ Parameters : Text + ',' ;
+ SpacedParameters: Text + ;
+\end{rail}\ixnterm{Parameters}\ixnterm{SpacedParameters}
+
+In order to describe the commands more precisely, the following (semantic) specializations of \emph{Text} are defined:
+\begin{description}
+  \item[Filename]A fully qualified file name without spaces (e.g.\ \texttt{/Users/Bob/amazing\textunderscore file.txt}) or a single quoted or double quoted fully qualified file name that may contain spaces (\texttt{"/Users/Bob/amazing file.txt"}).
+  \item[Variable] Identifier of a (graph global) variable that contains an entity or a value. \indexmainsee{GrShell variable}{graph global variable} A double colon prefix as required in the sequences may be given, but as the shell only knows graph global variables, it is optional (in plain shell commands, not in sequences or sequence expressions appearing within shell commands).
+  \item[NodeType, EdgeType, ObjectType, TransientObjectType] Identifier of an entity type defined in the model of the current graph.
+  \item[AttributeName] Identifier of an attribute.
+  \item[Graph] Identifies a graph by its name.
+  \item[Action] Identifies a rule by its name.
+\end{description}
+
+\makeatletter
+\begin{rail}
+  GraphElement: Text | ('@' '(' Text ')')
+\end{rail}\indexmain{\texttt{"@}}\ixnterm{GraphElement}
+\makeatother
+
+\begin{description}
+  \item[Node, Edge] The specializations \emph{Node} and \emph{Edge} of \emph{GraphElement} require the corresponding graph element to be a node or an edge respectively. The at-notation references by persistent name, otherwise a variable name is used.
+\end{description}
+
+\makeatletter
+\begin{rail}
+  Object: Text | ('@@' '(' Text ')')
+\end{rail}\indexmain{\texttt{"@"@}}\ixnterm{Object}
+\makeatother
+The \emph{Object} requires the corresponding object to be an internal class object. The atat-notation references by unique id, otherwise a variable name is used.
+
+\makeatletter
+\begin{rail}
+  TransientObject: Text
+\end{rail}\ixnterm{TransientObject}
+\makeatother
+The \emph{TransientObject} requires the corresponding object to be an internal transient class object, the \emph{Text} denotes a variable name. Note that transient object support is preliminary.
+
+\makeatletter
+\begin{rail}
+  Entity: Node | Edge | Object | TransientObject
+\end{rail}\ixnterm{Entity}
+\makeatother
+The \emph{Entity} encompasses \emph{Node}s, \emph{Edge}s, \emph{Object}s, and \emph{TransientObject}s.
+
+\begin{rail}
+  EntityKind: 'node' | 'edge' | 'object' | 'transient' 'object'
+\end{rail}\ixnterm{EntityKind}\ixkeyw{node}\ixkeyw{edge}\ixkeyw{object}\ixkeyw{transient}
+The \emph{EntityKind} \texttt{node} denotes node classes, \texttt{edge} denotes edge classes, \texttt{object} denotes internal class objects, and \texttt{transient object} denotes transient internal class objects -- it is used in conjunction with the respective types or elements.
+Please note that transient class support is preliminary.
+Also note that \texttt{object} is here used to denote internal class objects from the model with the base type \texttt{Object} (cf. \ref{fig:alltypes}), not general objects/external types.
+
+\begin{rail}
+  EntityType: NodeType | EdgeType | ObjectType | TransientObjectType
+\end{rail}\ixnterm{EntityType}
+The \emph{EntityType} encompasses \emph{NodeType}s, \emph{EdgeType}s, \emph{ObjectType}s, and \emph{TransientObjectType}s.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Common Commands}
@@ -237,13 +323,17 @@ Shows the profile for the action specified by its name, or for all rules and tes
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Variables}
 
+A variable is an identifier that can be bound to a value (scalars, but also containers and entities), which may be changed over time by assignments.
+A graph rewrite system offers graph global variables \indexmainsee{GrShell variable}{graph global variable}s in the form of a global flat mapping of names to values.
+These are identical with the \GrShell\ variables.
+They can be accessed in the \GrShell\ directly by their name, whereas in the sequences (or the rule language), a double colon prefix as required (using them outside of the shell is discouraged; see Chapter \ref{cha:xgrs} for the distinction between graph global aka shell and sequence local variables).
+
 \begin{rail}
   Variable '=' ( Variable | Entity | Literal )
 \end{rail}
-Assigns to the target \emph{Variable} the source \emph{Variable}, or the \emph{Entity} denoted by its persistent name or unique id, or the \emph{Literal} (textual representation of a constant value).
+Assigns to the target \emph{Variable} the source \emph{Variable} (i.e. its value), or the \emph{Entity} denoted by its persistent name or unique id, or the \emph{Literal} (textual representation of a constant value).
 If \emph{Variable} has not been defined yet, it will be defined implicitly.
-As usual for scripting languages, variables have neither static types nor declarations.
-The variables known to \GrShell\ are the graph global variables (see Chapter \ref{cha:xgrs} for the distinction between graph global and sequence local variables).
+As usual for scripting languages, variables have neither static types nor declarations (the values are typed, though, you run into an exception when you try to execute an operation on a mismatching object).
 
 \begin{rail}
 'show' 'var' Variable
@@ -272,89 +362,6 @@ x = askfor Node
 \end{grshelllet}
 asks the user to select a graph element in yComp; double clicking any node will do fine.
 \end{example}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Building Blocks}\label{shellbuildingblocks}
-
-\GrShell\ is \indexed{case sensitive}.
-A line may be empty, may contain a shell command, or may contain a comment.
-A \indexed{comment} starts with a \indexed{\texttt{\#}} and is terminated by end-of-line
- or end-of-file or \texttt{\S}.
-
-The following items are required for representing text, numbers, and rule parameters.\\
-\\
-\emph{Text}\\
-May be one of the following:
-\begin{itemize}
-  \item A non-empty character sequence consisting of letters, digits, and underscores. The first character must not be a digit.
-  \item Arbitrary text enclosed by double quotes (\texttt{""}).
-  \item Arbitrary text enclosed by single quotes (\texttt{''}).
-\end{itemize}
-Shell keywords are not allowed for type names, attribute values and other entities (even if they are legal in the rule language, this is a constraint of the chosen parser generator).
-If this hits you, you can enclose the identifier by single or double quotes, i.e. Text can be used everywhere an identifier is required.
-
-\mbox{ }\\
-\emph{Number}\\
-Is an \texttt{int} or \texttt{float} constant in decimal notation (see also Section~\ref{sec:builtintypes}).
-
-\begin{rail}
- Parameters : Text + ',' ;
- SpacedParameters: Text + ;
-\end{rail}\ixnterm{Parameters}\ixnterm{SpacedParameters}
-
-In order to describe the commands more precisely, the following (semantic) specializations of \emph{Text} are defined:
-\begin{description}
-  \item[Filename]A fully qualified file name without spaces (e.g.\ \texttt{/Users/Bob/amazing\textunderscore file.txt}) or a single quoted or double quoted fully qualified file name that may contain spaces (\texttt{"/Users/Bob/amazing file.txt"}).
-  \item[Variable] Identifier of a (graph global) variable that contains a graph element or a value. \indexmainsee{GrShell variable}{graph global variable} A double colon prefix as required in the sequences may be given, but as the shell only knows graph global variables, it is optional (in plain shell commands, not in sequences or sequence expressions appearing within shell commands).
-  \item[NodeType, EdgeType, ObjectType, TransientObjectType] Identifier of an entity type defined in the model of the current graph.
-  \item[AttributeName] Identifier of an attribute.
-  \item[Graph] Identifies a graph by its name.
-  \item[Action] Identifies a rule by its name.
-\end{description}
-
-\makeatletter
-\begin{rail}
-  GraphElement: Text | ('@' '(' Text ')')
-\end{rail}\indexmain{\texttt{"@}}\ixnterm{GraphElement}
-\makeatother
-
-\begin{description}
-  \item[Node, Edge] The specializations \emph{Node} and \emph{Edge} of \emph{GraphElement} require the corresponding graph element to be a node or an edge respectively. The at-notation references by persistent name, otherwise a variable name is used.
-\end{description}
-
-\makeatletter
-\begin{rail}
-  Object: Text | ('@@' '(' Text ')')
-\end{rail}\indexmain{\texttt{"@"@}}\ixnterm{Object}
-\makeatother
-The \emph{Object} requires the corresponding object to be an internal class object. The atat-notation references by unique id, otherwise a variable name is used.
-
-\makeatletter
-\begin{rail}
-  TransientObject: Text
-\end{rail}\ixnterm{TransientObject}
-\makeatother
-The \emph{TransientObject} requires the corresponding object to be an internal transient class object, the \emph{Text} denotes a variable name. Note that transient object support is preliminary.
-
-\makeatletter
-\begin{rail}
-  Entity: Node | Edge | Object | TransientObject
-\end{rail}\ixnterm{Entity}
-\makeatother
-The \emph{Entity} encompasses \emph{Node}s, \emph{Edge}s, \emph{Object}s, and \emph{TransientObject}s.
-
-\begin{rail}
-  EntityKind: 'node' | 'edge' | 'object' | 'transient' 'object'
-\end{rail}\ixnterm{EntityKind}\ixkeyw{node}\ixkeyw{edge}\ixkeyw{object}\ixkeyw{transient}
-The \emph{EntityKind} \texttt{node} denotes node classes, \texttt{edge} denotes edge classes, \texttt{object} denotes internal class objects, and \texttt{transient object} denotes transient internal class objects -- it is used in conjunction with the respective types or elements.
-Please note that transient class support is preliminary.
-Also note that \texttt{object} is here used to denote internal class objects from the model with the base type \texttt{Object} (cf. \ref{fig:alltypes}), not general objects/external types.
-
-\begin{rail}
-  EntityType: NodeType | EdgeType | ObjectType | TransientObjectType
-\end{rail}\ixnterm{EntityType}
-The \emph{EntityType} encompasses \emph{NodeType}s, \emph{EdgeType}s, \emph{ObjectType}s, and \emph{TransientObjectType}s.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -424,39 +431,42 @@ Deletes all graph elements of the current working graph resp.\ the graph \emph{G
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Model and Graph Queries}
 
-\begin{rail}
-  'show' (() | 'num') ('nodes' (() | (() | 'only') NodeType) | 'edges' (() | (() | 'only') EdgeType))
-\end{rail}\ixkeyw{show}\ixkeyw{num}\ixkeyw{nodes}\ixkeyw{edges}\ixkeyw{only}
-Gets the \indexed{persistent name}s and the types of all the nodes/edges of the current graph.
-If a node type or edge type is supplied, only elements compatible to this type are considered.
-The \texttt{only} keyword excludes subtypes. Nodes/edges without persistent names are shown with a pseudo-name.
-If the command is specified with \texttt{num}, only the number of nodes/edges will be displayed.
+We start with the queries returning information about the static types (from the (meta) model).
 
 \begin{rail}
   'show' EntityKind 'types'
 \end{rail}\ixkeyw{show}\ixkeyw{types}
-Gets the types of the respective entity kind (\texttt{node}/\texttt{edge}/internal class \texttt{object}/\texttt{transient} internal class \texttt{object}) from the current graph model.
+Prints the types of the respective entity kind (\texttt{node}/\texttt{edge}/internal class \texttt{object}/\texttt{transient} internal class \texttt{object}) from the current graph model.
 
 \begin{rail}
-'show' EntityKind ('super' | 'sub') 'types' EntityType
+  'show' EntityKind ('super' | 'sub') 'types' EntityType
 \end{rail}\ixkeyw{show}\ixkeyw{super}\ixkeyw{sub}\ixkeyw{types}\indexmain{inheritance}
-Gets the inherited/descendant types of the given \emph{EntityType} (\emph{NodeType}/\emph{EdgeType}/\emph{ObjectType}/\emph{TransientObjectType}); the kind identifier must fit to the specified type.
+Prints the inherited/descendant types of the given \emph{EntityType} (\emph{NodeType}/\emph{EdgeType}/\emph{ObjectType}/\emph{TransientObjectType}); the kind identifier must fit to the specified type.
 
 \begin{rail}
   'show' EntityKind 'attributes' (() | (() | 'only') EntityType)
 \end{rail}\ixkeyw{show}\ixkeyw{only}\ixkeyw{attributes}
-Gets the available \indexed{attribute} types.
+Prints the available \indexed{attribute} types.
 If an \emph{EntityType} is supplied, only attributes defined in the /\emph{EntityType} are diplayed (otherwise all attributes known to all all types of the specified \emph{EntityKind}).
-The \texttt{only} keyword excludes inherited attributes.\\
-\begin{warning}
-The \texttt{show EntityKind attributes\dots} command covers types and \emph{inherited} types.
-This is in contrast to the other \texttt{show\dots} commands where types and \emph{sub}types are specified or the direction in the type hierarchy is specified explicitly, respectively.
-\end{warning}
+The \texttt{only} keyword excludes inherited attributes.
+%\begin{warning}
+%The \texttt{show EntityKind attributes\dots} command covers types and \emph{inherited} types.
+%This is in contrast to the other \texttt{show\dots} commands where types and \emph{sub}types are specified or the direction in the type hierarchy is specified explicitly, respectively.
+%\end{warning}
+
+Now to the queries returning information about the dynamic values from the current graph.
+
+\begin{rail}
+  'show' (() | 'num') ('nodes' (() | (() | 'only') NodeType) | 'edges' (() | (() | 'only') EdgeType))
+\end{rail}\ixkeyw{show}\ixkeyw{num}\ixkeyw{nodes}\ixkeyw{edges}\ixkeyw{only}
+Prints the \texttt{num}ber of nodes/edges in the graph, or their actual instances in form of their \indexed{persistent name} together with their type.
+If a node type or edge type is supplied, only elements compatible to this type are shown/considered.
+The \texttt{only} keyword excludes subtypes.
 
 \begin{rail}
  'show' EntityKind Entity
 \end{rail}\ixkeyw{show}
-Gets the attribute types and values of a specific entity (again, the \emph{EntityKind} must match the \emph{Entity}).
+Prints the attribute types and values of a specific entity (again, the \emph{EntityKind} must match the \emph{Entity}).
 
 \begin{rail}
   'show' Entity '.' AttributeName
@@ -466,7 +476,7 @@ Displays the value of the specified attribute.
 \begin{rail}
   EntityKind 'type' Entity 'is' Entity
 \end{rail}\ixkeyw{type}\ixkeyw{is}
-Gets the information whether the first entity is \indexed{type-compatible}\indexmainsee{compatible types}{type-compatible} to the second entity.
+Prints the information whether the first entity is \indexed{type-compatible}\indexmainsee{compatible types}{type-compatible} to the second entity (the entities must be of the same kind as specified with the \emph{EntityKind}).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

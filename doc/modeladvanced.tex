@@ -87,7 +87,7 @@ node class N
 \end{example}
 
 
-\subsection{Transient Object Types}
+\subsection{Transient Object Types (preliminary)}
 
 \begin{rail}
   TransientObjectClass: 'transient' 'class' IdentDecl (() | 'extends' (TransientObjectType+',')) \\
@@ -103,6 +103,7 @@ In contrast to class objects, transient class objects cannot be stored in the gr
 They are meant for processing purpose only (their semantics are geared towards that use case).
 Neither are transient classes assigned a lasting unique id (ids are assigned on the fly in the debugger or the shell as needed in order to support debugging).
 Transient objects can reference non-transient objects, though.
+Note that transient classes are a preliminary concept that may change in the future.
 
 Objects and transient objects can be casted downwards and upwards in the type hierarchy (a cast to a more specific type only succeeds if the runtime type of the object is of that specific type or a subtype), the same holds for nodes and edges (this is not to be mistaken with the retype construct from Section \ref{sec:retype} that also supports cross-casts and is always succeeding (potentially yielding a target type having nothing in common with the source type besides the name/unique-id))).
 
@@ -505,6 +506,7 @@ so you are free to call other procedures -- but in contrast to global procedures
 A such defined procedure may then be called as a statement atom from anywhere in the rule language file where an attribute evaluation statement (/computation) is required; or even from the sequence computations (where a statement is required).
 In contrast to a regular procedure call (cf.~\ref{sub:proccall}) with a method target prefix added, separated by a dot (defining the \texttt{this} value; the call target prefix may be a variable or an attribute of an object/element).
 The built-in procedure methods listed in \ref{procmethstab} are called with the same syntax.
+%todo: explain reason why no full expression - graph changes are constrained but in return support fully automatic persistence, transactions, change recording; other constraints compared to well-known programming languages and their design decisions/choices
 
 Inside the procedure method, the special entity \texttt{this} is available.
 It allows to access the attributes and methods of the type the method is contained in.
