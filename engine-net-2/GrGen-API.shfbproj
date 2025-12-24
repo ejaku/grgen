@@ -30,27 +30,28 @@
     </WorkingPath>
     <HelpFileFormat>Website</HelpFileFormat>
     <FrameworkVersion>.NET Framework 4.7.2</FrameworkVersion>
-    <HelpTitle>GrGen.NET v8.0beta API: the libGr class library %28the type exact interface gets generated%29</HelpTitle>
+    <HelpTitle>GrGen.NET v8.0 API: the libGr class library %28the type exact interface gets generated%29</HelpTitle>
     <PresentationStyle>VS2013</PresentationStyle>
     <NamingMethod>MemberName</NamingMethod>
     <SyntaxFilters>C#</SyntaxFilters>
     <DocumentationSources>
       <DocumentationSource sourceFile="bin\lgspBackend.dll" />
-<DocumentationSource sourceFile="bin\lgspBackend.xml" />
-<DocumentationSource sourceFile="bin\libGr.dll" />
-<DocumentationSource sourceFile="bin\libGr.xml" />
-<DocumentationSource sourceFile="bin\graphViewerAndSequenceDebugger.dll" />
-<DocumentationSource sourceFile="bin\graphViewerAndSequenceDebugger.xml" />
-<DocumentationSource sourceFile="bin\graphViewerAndSequenceDebuggerWindowsForms.dll" />
-<DocumentationSource sourceFile="bin\graphViewerAndSequenceDebuggerWindowsForms.xml" />
-<DocumentationSource sourceFile="bin\libGrShell.dll" />
-<DocumentationSource sourceFile="bin\libGrShell.xml" />
-<DocumentationSource sourceFile="bin\libConsoleAndOS.dll" />
-<DocumentationSource sourceFile="bin\libConsoleAndOS.xml" />
-<DocumentationSource sourceFile="bin\libConsoleAndOSWindowsForms.dll" />
-<DocumentationSource sourceFile="bin\libConsoleAndOSWindowsForms.xml" />
-<DocumentationSource sourceFile="bin\libGrPersistenceProviderSQLite.dll" />
-<DocumentationSource sourceFile="bin\libGrPersistenceProviderSQLite.xml" /></DocumentationSources>
+      <DocumentationSource sourceFile="bin\lgspBackend.xml" />
+      <DocumentationSource sourceFile="bin\libGr.dll" />
+      <DocumentationSource sourceFile="bin\libGr.xml" />
+      <DocumentationSource sourceFile="bin\graphViewerAndSequenceDebugger.dll" />
+      <DocumentationSource sourceFile="bin\graphViewerAndSequenceDebugger.xml" />
+      <DocumentationSource sourceFile="bin\graphViewerAndSequenceDebuggerWindowsForms.dll" />
+      <DocumentationSource sourceFile="bin\graphViewerAndSequenceDebuggerWindowsForms.xml" />
+      <DocumentationSource sourceFile="bin\libGrShell.dll" />
+      <DocumentationSource sourceFile="bin\libGrShell.xml" />
+      <DocumentationSource sourceFile="bin\libConsoleAndOS.dll" />
+      <DocumentationSource sourceFile="bin\libConsoleAndOS.xml" />
+      <DocumentationSource sourceFile="bin\libConsoleAndOSWindowsForms.dll" />
+      <DocumentationSource sourceFile="bin\libConsoleAndOSWindowsForms.xml" />
+      <DocumentationSource sourceFile="bin\libGrPersistenceProviderSQLite.dll" />
+      <DocumentationSource sourceFile="bin\libGrPersistenceProviderSQLite.xml" />
+    </DocumentationSources>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="(global)" isDocumented="False" />
       <NamespaceSummaryItem name="de.unika.ipd.grGen.libGr" isDocumented="True" />
