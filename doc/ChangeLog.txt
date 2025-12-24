@@ -1,4 +1,74 @@
-﻿v8.0beta.1 (2025-10-04)
+﻿v8.0 (2025-12-24)
+ Implemented support for model updates in the SQLite persistence provider
+  the type and attribute changes from the database model to the model from the assembly/the model file
+  are first computed and reported before the adaptations of the database model are carried out
+  (entity type removals and type kind changes of types which still have instances are outright denied,
+   attribute removals and attribute type changes require confirmation,
+   entity type additions and attribute additions automatically pass
+   (so do type removals and type kind changes of types without instances);
+   enum removals and type kind changes of enums which still appear as attributes are outright denied,
+   enum case removals require confirmation (they would cause an enduring loading failure when the enum case is still in use),
+   enum type additions and enum case additions automatically pass
+   (the same holds for removals and type kind changes of enums that do not appear as the types of attributes))
+
+ Added optional persistent graph parameters
+  - to be given at the end of the new graph command as a semicolon separated text in quotes
+  - implemented support for several persistent graph parameters in the SQLite persistence provider:
+    - "update/entitytype.attr" is an auto-confirmation allowing a specific attribute removal/attribute type change 
+      of the specified containing entity type to pass without user confirmation,
+    - "update/enumtype" is an auto-confirmation allowing all enum case (i.e. enum item) removals of the specified enum type
+      to pass without user confirmation,
+    - "update" is a wildcard auto-confirmation allowing all attribute removals/attribute type changes/enum case removals
+      to pass without user confirmation,
+    - "initializeonfailure/enumtype" allows to load a graph from the database with a model that misses enum cases 
+      (of the specified enumtype) that are still contained in the graph
+      (such a graph causes loading failures with enum parse errors - it is reached after confirmation of the passing 
+      of an enum case removal from the model even though the enum case still appears in the graph)
+
+ Note: if you employed enums, serialize the persistent graphs from the beta version at first usage and de-serialize them into new ones,
+  the internal format changed (before carrying out model changes, otherwise you could get data corruption)
+
+ Implemented method calls (functions and procedures) on internal class objects (class and transient class) (omission fix), 
+  in the rule language as well as in the sequences (also on untyped variables containing internal class objects)
+
+ Implemented multiple new "show object" commands in the (G)GrShell (similar to the already existing "show node"/"show edge" commands):
+  - "show" "object" obj - shows the attribute values of the object obj
+    (with obj being specified by its variable name or an @@(obj-id))
+  - "show" "object" "types" - shows the object types from the model
+  - "show" "object" "super" "types" objtype - shows the super types of the object type objtype
+  - "show" "object" "sub" "types" objtype - shows the sub types of the object type objtype
+  - "show" "attributes" "only"? objtype? - shows the attributes of all object types, 
+     or of the object type objtype, including the attributes inherited from its supertypes,
+     or of only the object type objtype
+  - added an "object type <obj1> is <obj2>" type checking command 
+    (analogously to the already existing "node type is" and "edge type is" commands)
+ Implemented the same commands for transient objects with "show transient object" 
+  and "transient object type" prefixes -- note that the transient object versions are preliminary
+
+ The "show var" shell command prints for class objects/transient class objects only their identity as of now
+  in general: emitting/printing of entities stops at references now, only printing the identity of a referenced object
+
+ Release binary (and project layout) changes:
+  - The release is now an x64 build only! (instead of Any CPU -- you can build x86 on your own)
+    this is esp. of importance for the persistent graph which is implemented by a native SQLite
+    Added LINUX support for the persistent graph (utilizing SQLite by the .so instead of the .dll)
+  - Removed the binaries of the benchmarking tools from the global GrGen bin folder,
+    also the binaries of the ASTdapter and GrIO projects that have been gone for good already some years ago
+    Relocated the output of the tools builds (again) to their own bin folders instead of the global GrGen bin folder
+
+ Bugfixes:
+  - several ones in the show commands of the (G)GrShell (and the "type is" commands)
+    (also improved these commands regarding automatic testability)
+  - attribute changing events for internal class objects are now also in the (G)GrShell fired
+  - error message improvements in the grs importer (upon missing enum cases/attributes/class object types)
+
+ Adapted Notepad++ syntax highlighting to the changes in the meantime
+
+ User manual adaptations, improvements and corrections
+
+--------------------------------------------------------------------------------------------------------
+
+v8.0beta.1 (2025-10-04)
  Added missing SQLite.Interop.dll(s) (so that the persistent graph is working in a binary release at least under Windows)
  Note that the persistent graph currently only works when the model stays unchanged.
  So: LINUX support and model migration support are missing as of now.

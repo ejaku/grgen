@@ -1,5 +1,5 @@
-GrGen.NET v8.0beta (2025-10-03)
--------------------------------
+GrGen.NET v8.0 (2025-12-24)
+---------------------------
 
 This is the GrGen.NET system for graph rewriting.
 It consists of two parts of components:
@@ -191,12 +191,22 @@ along with GrGen.  If not, see <http://www.gnu.org/licenses/>.
 
 -------
 
+Remarks/Refinements:
+Free programmers: since about 2010 nearly all contributions are from programmers outside of the original university institute.
+
+Intended use: you can freely _use_ GrGen.NET without publishing your code
+- the generated code is yours, besides it you must only link against some DLLs, esp. libGr.dll and lgspBackend.dll at runtime,
+which is admissible under LGPL, but when you extend the supplied code you must share your changes.
+
+-------
+
 The graph viewer yComp, which is, for your convenience, part of the release is closed source and free for academic use only.
 You are esp. not allowed to ship it with a release of your own commercial software, in contrast to the GrGen libraries.
 
 To be more specific, see also https://pp.ipd.kit.edu/firm/yComp.html:
 This software is based on the yFiles library.
-yWorks GmbH granted an academic license for „yFiles“ to IPD Goos: An academic license restricts the use of the software (yComp) to non-commercial purposes (research, teaching, projects, courses and application development).
+yWorks GmbH granted an academic license for „yFiles“ to IPD Goos: An academic license restricts the use of the software (yComp)
+to non-commercial purposes (research, teaching, projects, courses and application development).
 
 -------
 
@@ -231,4 +241,5 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 Graph persistence is implemented using SQLite.
 The code and documentation in System.Data.SQLite as well as SQLite proper have been dedicated to the public domain.
-The System.Data.SQLite.Linq and System.Data.SQLite.EF6 assemblies are compiled from files covered by the Microsoft Public License (MS-PL) - but they are not used in implementing graph persistence.
+The System.Data.SQLite.Linq and System.Data.SQLite.EF6 assemblies are compiled from files covered by the Microsoft Public License (MS-PL)
+- but they are not used in implementing graph persistence.
