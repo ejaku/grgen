@@ -38,13 +38,7 @@
             If onlyType is not null, it shows only the attributes of exactly the type.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.grShell.GrShellImpl.ShowAvailableNodeAttributes(System.Boolean,de.unika.ipd.grGen.libGr.NodeType)">
-            <summary>
-            Displays the attributes from the given type or all types, if typeName is null.
-            If showAll is false, inherited attributes are not shown (only applies to a given type)
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.grShell.GrShellImpl.ShowAvailableEdgeAttributes(System.Boolean,de.unika.ipd.grGen.libGr.EdgeType)">
+        <member name="M:de.unika.ipd.grGen.grShell.GrShellImpl.ShowAvailableAttributes(System.Boolean,de.unika.ipd.grGen.libGr.InheritanceType,de.unika.ipd.grGen.grShell.TypeKind)">
             <summary>
             Displays the attributes from the given type or all types, if typeName is null.
             If showAll is false, inherited attributes are not shown (only applies to a given type)
@@ -85,7 +79,7 @@
             </para>
             </remarks>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.grShell.ParseException.#ctor(de.unika.ipd.grGen.grShell.Token,System.Int32[][],System.String[])" -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.grShell.ParseException.#ctor(de.unika.ipd.grGen.grShell.Token,System.Int32[][],System.String[])" ignoriert -->
         <member name="M:de.unika.ipd.grGen.grShell.ParseException.#ctor">
             The following constructors are for use by you for whatever
             purpose you can think of.  Constructing the exception in this

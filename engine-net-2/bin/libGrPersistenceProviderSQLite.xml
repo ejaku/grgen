@@ -4,11 +4,33 @@
         <name>libGrPersistenceProviderSQLite</name>
     </assembly>
     <members>
+        <member name="T:de.unika.ipd.grGen.libGrPersistenceProviderSQLite.HostGraphCleaner">
+            <summary>
+            A class that carries out a garbage collection of the host graph, finally removing unreachable deleted entities and compactifying containers (by overwriting event change histories by the current state).
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGrPersistenceProviderSQLite.HostGraphReader">
+            <summary>
+            A class carrying out the initial reading-in of the complete host graph.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGrPersistenceProviderSQLite.ModelInitializerAndUpdater">
+            <summary>
+            A class used in adapting the stored database model to the model of the host graph, which includes initialization of an empty database model.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGrPersistenceProviderSQLite.PersistenceProviderSQLite">
             <summary>
             An implementation of the IPersistenceProvider that allows to persist changes to a named graph to an SQLite database
             (so a kind of named graph DAO; utilizing a package reference to the official SQLite ADO.NET driver).
             (Design idea: everything reachable from the host graph is stored in the database, in contrast to all graphs/nodes/edges/objects created at runtime, with the elements visible due to graph processing events lying in between)
+            This class handles graph change events directly, storing modifications of the graph to the database, while delegating model initialization/updating, host graph reading, and host graph cleaning to appropriate task classes.
+            Some database infrastructure / persistence provider helper/shared code is available in the PersistenceProviderSQLiteBase this class inherits from.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGrPersistenceProviderSQLite.PersistenceProviderSQLiteBase">
+            <summary>
+            A base class for the PersistenceProviderSQLite that contains some infrastructure and shared code.
             </summary>
         </member>
     </members>
