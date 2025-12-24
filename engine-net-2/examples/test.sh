@@ -35,8 +35,8 @@ for dirname in $targets; do
 
   for grs in *.grs; do
     echo -n "- $grs:"
-    $exeprefix ../../bin/GrShell.exe -N $grs < /dev/null
-	echo "  $grs -> $?"  >> ../testlog.txt
+    $exeprefix ../../bin/GrShell.exe -N $grs < /dev/null #reading from /dev/null works with cygwin, but fails under LINUX bash, exit examples with quit or search for working solution
+    echo "  $grs -> $?"  >> ../testlog.txt
   done
   cd ..
 done
