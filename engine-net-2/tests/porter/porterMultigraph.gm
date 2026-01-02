@@ -1,0 +1,30 @@
+// test to check that node/edge references that point to nodes/edges from a different graph work (plus all entitie kinds appear)
+// not working as of now, this would be an extension/a fix compared to the current model that requires references to be from the same graph 
+
+node class N
+{
+	ival : int;
+	nRef : N;
+	eRef : E;
+	nRefContainer : array<N>;
+	grRef : graph;
+	oRef : O;
+}
+
+edge class E
+{
+	sval : string;
+	eRef : E;
+	nRef : N;
+	eRefContainer : array<E>;
+	grRef : graph;
+}
+
+class O
+{
+	ival : int;
+	oRef : O;
+	oRefContainer : set<O>;
+}
+
+node edge graph;

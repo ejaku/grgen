@@ -1,0 +1,44 @@
+new graph "porter/porterMultigraph"
+
+exec createTestGraph
+
+show num nodes Node
+show num nodes only N
+
+show num edges Edge
+show num edges only E
+
+exec [checkTestGraph]
+
+export porter/testgraph.grs
+
+import porter/testgraph.grs porter/porterMultigraph.gm
+
+show num nodes Node
+show num nodes only N
+
+show num edges Edge
+show num edges only E
+
+select actions porter/lgsp-porterMultigraphActions.dll
+
+exec [checkTestGraph]
+
+#export porter/testgraph.grs nonewgraph
+
+#clear graph
+
+#include porter/testgraph.grs -- not supported, neither is debugging nor emitting from code supported as of now -- until now, it's by design that references in a graph can only point to elements from the same graph, and get assigned corrupt names when a name is required if this does not hold
+
+#show num nodes Node
+#show num nodes only N
+
+#show num edges Edge
+#show num edges only E
+
+#exec [checkTestGraph]
+
+# the test script tries to test all available .grs; no sense in trying to test the exported graph
+!rm porter/testgraph.grs
+
+quit

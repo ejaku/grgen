@@ -1,0 +1,64 @@
+#using "porterMultigraph.gm"
+
+rule createTestGraph
+{
+	modify {
+		n1:N -e1:E-> n2:N;
+		eval {
+			n1.nRef = n1;
+			n1.eRef = e1;
+			e1.nRef = n2;
+			e1.eRef = e1;
+		}
+	---
+		exec( { ::g = inducedSubgraph(set<Node>{}) } ;> in ::g { createSubTestGraph(n1, e1) } // todo: function to create empty graph
+				;> { n1.grRef = ::g; n2.grRef = ::g; e1.grRef = ::g; } );
+	}
+}
+
+rule createSubTestGraph(n:N, -e:E->)
+{
+	modify {
+		n1:N -e1:E-> n1;
+		eval {
+			n1.nRef = n; // reference to node/edge from different graph, does not work as of now (todo - another todo: complete test)
+			n1.eRef = e;
+			e1.nRef = n1;
+			e1.eRef = e1;
+		}
+	}
+}
+
+test checkTestGraph
+{	
+	n1:N -e1:E-> n2:N;
+	if {
+		true;
+	}
+}
+
+test checkSubTestGraph
+{	
+	n1:N -e1:E-> n1;
+	if {
+		true;
+	}
+}
+
+rule printNames
+{
+	n1:N -e1:E->;
+	
+	if {
+		n1.nRef != null &&
+		n1.eRef != null &&
+		e1.nRef != null &&
+		e1.eRef != null;
+	}
+
+	modify {
+	---
+		emit("value of variable n1 which is a node rly ", nameof(n1), "\n"); // todo: nameof of element in subgraph from host graph -- would fetch incorrect name as of now
+		emit("value of variable e1 which is a edge rly ", nameof(e1), "\n");
+	}
+}
