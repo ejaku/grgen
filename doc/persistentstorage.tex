@@ -145,6 +145,11 @@ The parameter \texttt{initializeonfailure/enumtype} causes an initialization of 
 
 These parameters allow to deploy a model migration script including a silent model update to user machines (see \ref{modelmigration} for more on model migration).
 
+\begin{warning}
+The persistent graph supports references to nodes/edges that are not contained in the graph of the node/edge that stores them as attributes (so e.g. \texttt{graphof(n.a) != graphof(n)} is allowed for \texttt{n} and \texttt{n.a} being (references to) nodes).
+This holds neither for the import/export commands, nor for the debugger or the emitting functionality (as of now).
+\end{warning}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Graph Input and Output}

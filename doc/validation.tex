@@ -1,0 +1,142 @@
+\chapter{Validation and Inspection}\indexmain{GrShell}
+\label{chapvalidation}
+
+In order to validate, i.e. test your graph rewrite system, be it manually or automatically, you may employ the means described in this chapter (note that due to its well-founded semantics, even formal verification would be possible, cf. Chapter~\ref{chp:designgoals}).
+
+Available are model and graph queries, they allow you to fetch information of interest from the (meta) model and/or the host graph (instance), be it for validation or just for inspection.
+Also available are dedicated validation commands, they allow you to check the connection assertions of the model or that a condition expressed as a sequence holds (in contrast to a normal sequence execution that may be used for the same purpose, the sequence may carry out destructive changes, as it operates on a clone of the graph).
+
+When you use \GrG{} at API level, you are free to employ a .NET test framework of your choice.
+Alternatively, you may use the \GrShell{} for testing.
+We use the \GrShell{} together with bash shell scripts for automated testing of the integrity of \GrG{} itself.
+You may employ the same scripts for testing your project (if you use Windows, you need the cygwin environment).
+The testing workflow consists of the application of two scripts:
+\begin{itemize}
+	\item the bash shell script \texttt{gentest.sh} records the textual output of certain \GrShell{}-commands.
+	\item the bash shell script \texttt{test.sh} compares the recorded output with the current output of the \GrShell{} and reports differences as test failures.
+\end{itemize}
+You find them in the \texttt{tests} folder (of \texttt{engine-net-2} when you are working with the sources --- the \texttt{test} folder (from the \texttt{frontend} directory when you are working with the sources) contains further scripts for compilation-only tests --- both test suites are quite slow in execution, as they are not unit tests).
+
+Besides the \texttt{show} and \texttt{validate} commands defined in this chapter in the following sections, also the result of the \texttt{show var} command (cf. \ref{secshellvariables}) is recorded (and checked against).
+In addition, the results of sequence \texttt{exec}ution (a boolean value) and sequence expression \texttt{eval}uation (cf. \ref{grsthings}) are recorded (and checked against),
+the same holds for the number of \texttt{matches found} and \texttt{rewrites performed} during execution of a sequence (expression).
+(Even if this is a bit ugly: 
+\verb#emit("the value of variable \"x\" of type dontcare is: ", x, "\n")#
+--- by emitting from your rules or procedures to stdout in a way like the commands do, you could add values to check to a test, the statement just introduced would allow to check that the value of the variable \texttt{x} stays the same once the testdatafile was generated (an alternative would be to adapt the test scripts).)
+
+You may also use the return code of the \GrShell{} for testing when it is started with the \texttt{-N} parameter,
+in normal interactive mode it will abort script file execution when an error occurs so the user can continue at this point, in non-interactive mode asked for with the parameter, instead an error code is returned when an error occurs or a validation fails, see Chapter~\ref{cha:toolsandcomponents} for more on this.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Model and Graph Queries}
+
+We start with the queries returning information about the static types (from the (meta) model).
+
+\begin{rail}
+  'show' EntityKind 'types'
+\end{rail}\ixkeyw{show}\ixkeyw{types}
+Prints the types of the respective entity kind (\texttt{node}/\texttt{edge}/internal class \texttt{object}/\texttt{transient} internal class \texttt{object}) from the current graph model.
+
+\begin{rail}
+  'show' EntityKind ('super' | 'sub') 'types' EntityType
+\end{rail}\ixkeyw{show}\ixkeyw{super}\ixkeyw{sub}\ixkeyw{types}\indexmain{inheritance}
+Prints the inherited/descendant types of the given \emph{Entity\-Type} (\emph{Node\-Type}/\emph{Edge\-Type}/\emph{Object\-Type}/\emph{Transient\-Object\-Type}); the kind identifier must fit to the specified type.
+
+\begin{rail}
+  'show' EntityKind 'attributes' (() | (() | 'only') EntityType)
+\end{rail}\ixkeyw{show}\ixkeyw{only}\ixkeyw{attributes}
+Prints the available \indexed{attribute} types.
+If an \emph{EntityType} is supplied, only attributes defined in the /\emph{EntityType} are diplayed (otherwise all attributes known to all all types of the specified \emph{EntityKind}).
+The \texttt{only} keyword excludes inherited attributes.
+%\begin{warning}
+%The \texttt{show EntityKind attributes\dots} command covers types and \emph{inherited} types.
+%This is in contrast to the other \texttt{show\dots} commands where types and \emph{sub}types are specified or the direction in the type hierarchy is specified explicitly, respectively.
+%\end{warning}
+
+Now to the queries returning information about the dynamic values from the current graph.
+
+\begin{rail}
+  'show' (() | 'num') ('nodes' (() | (() | 'only') NodeType) | 'edges' (() | (() | 'only') EdgeType))
+\end{rail}\ixkeyw{show}\ixkeyw{num}\ixkeyw{nodes}\ixkeyw{edges}\ixkeyw{only}
+Prints the \texttt{num}ber of nodes/edges in the graph, or their actual instances in form of their \indexed{persistent name} together with their type.
+If a node type or edge type is supplied, only elements compatible to this type are shown/considered.
+The \texttt{only} keyword excludes subtypes.
+
+\begin{rail}
+ 'show' EntityKind Entity
+\end{rail}\ixkeyw{show}
+Prints the attribute types and values of a specific entity (again, the \emph{EntityKind} must match the \emph{Entity}).
+
+\begin{rail}
+  'show' Entity '.' AttributeName
+\end{rail}\ixkeyw{show}
+Displays the value of the specified attribute.
+
+\begin{rail}
+  EntityKind 'type' Entity 'is' Entity
+\end{rail}\ixkeyw{type}\ixkeyw{is}
+Prints the information whether the first entity is \indexed{type-compatible}\indexmainsee{compatible types}{type-compatible} to the second entity (the entities must be of the same kind as specified with the \emph{EntityKind}).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Validation Commands}\label{sec:validate}
+
+\GrG\ offers two different graph validation mechanisms,
+the first checks against the connection assertions specified in the model,
+the second checks against an arbitrary graph rewrite sequence containing arbitrary tests and rules.
+
+\begin{rail}
+  'validate' ('exitonfailure')? ('strict' ('only' 'specified')?)?
+\end{rail}\ixkeyw{validate}\ixkeyw{exitonfailure}\ixkeyw{strict}\ixkeyw{only}\ixkeyw{specified}
+Validates\indexmain{validate} if the current working graph fulfills the \indexed{connection assertion}s specified in the corresponding graph model (cf. ~\ref{sct:ConnectionAssertions}).
+Validate without the strict modifier checks the multiplicities of the connections it finds in the host graph,
+it ignores node-edge-node connections which are available in the host graph but have not been specified in the model.
+The \emph{strict} mode additionally requires that all the edges available in the host graph must have been specified in the model.
+This requirement is too harsh for models where only certain parts are considered critical enough to be checked
+or might be a too big step in tightening the level of structural checking in an already existing large model.
+So some form of selective strict checking is supported:
+The \emph{strict only specified} mode requires strict matching (i.e. that all edges are covered) only of the edges for which connection assertions have been specified in the model.
+
+\begin{rail}
+  'validate' ('exitonfailure')? ('exec'|'xgrs') GRS
+\end{rail}\ixkeyw{validate}\ixkeyw{exitonfailure}\ixkeyw{xgrs}\ixkeyw{exec}
+Validates\indexmain{validate} if the current working graph satisfies the \indexed{graph rewrite sequence} given.
+Before the graph rewrite sequence is executed, the instance graph gets cloned;
+the sequence operates on the clone, allowing you to change the graph as you want to, without influence on the host graph.
+Validation fails iff the sequence fails.
+This gives a rather costly but extremely flexible and powerful mechanism to specify graph constraints.
+The GrShell is exited with an error code if \texttt{exitonfailure} is specified and the validation fails.
+
+\begin{example}
+We reuse a simplified version of the road map model from Chapter~\ref{chapmodellang}:
+\begin{grgen}
+model Map;
+
+node class city;
+node class metropolis;
+
+edge class street;
+edge class highway
+      connect metropolis [+] --> metropolis [+];
+\end{grgen}
+The node constraint on \emph{highway} requires all the metropolises to be connected by highways. Now have a look at the following graph:
+\begin{center}
+  \fbox{\includegraphics[width=8.5cm]{fig/map}}
+\end{center}
+
+This graph is valid but not strict valid.
+\begin{grshell}
+> validate
+The graph is valid.
+> validate strict only specified
+The graph is NOT valid:
+  CAE: city "Eppstein" -- highway "A3" --> metropolis "Frankfurt" not specified
+> validate strict
+The graph is NOT valid:
+  CAE: city "Eppstein" -- highway "A3" --> metropolis "Frankfurt" not specified
+  CAE: metropolis "Karlsruhe" -- street "trail" --> metropolis "Frankfurt" not specified
+>
+\end{grshell}
+\end{example}
+

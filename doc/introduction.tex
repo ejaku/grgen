@@ -425,11 +425,13 @@ The \emph{general-purpose} system is highly extensible and customizable, you can
 
 \GrG\ offers the convenience of \emph{dedicated languages} with well-readable syntax and static type checking, instead of clunky internal DSLs, limited annotations, or annoying XML.
 Its languages are brought to life by an \emph{optimizing compiler} that prunes not needed generality and generates pattern matchers adapted to the characteristics of the host graph at hand.
-A runtime library is supplied that implements an easy-to-use API, and features built-in graph serialization and deserialization.
 
 The system ships with a readily available shell application for file mapping tasks, which especially offers step-wise and \emph{visual debugging}, saving you from chasing reference chains in the debugger of your programming language.
 Further mature development support is offered with search plan explanation and profiling instrumentation. 
 Moreover, \GrG\ is properly documented in an extensive \emph{user manual}.
+
+The underlying framework supports automatic persistence and automatic visualization of network-like data (based on event-sourcing - besides, also built-in serialization / deserialization is offered).
+A runtime library is supplied (in the form of several dlls) that implements an easy-to-use API to these features, allowing you to build your own .NET (or native) applications based on it.
 
 Traditional programming of graph representation processing is tedious, it requires careful orchestration of functionality attached to passes, maintenance of helper state, boilerplate code for patterns, and low-level pointer fiddling.
 You are more \emph{productive} with \GrG\ in one-shot-coding a solution, but esp. are you so for a continuous development process or when changes are needed afterwards, a \GrG-specification can be \emph{adapted} at a much higher pace.

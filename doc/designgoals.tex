@@ -185,6 +185,9 @@ They do so because the constructs make proving propositions about the code much 
 You see this struggle in the graph rewriting community in the preference of the \newterm{double-pushout} approach (DPO, for explanation see~\cite{dpoapproach}) by the theory people, although rules using them require convoluted coding for a simple node deletion.
 We optimized our languages for people that need to get real work done in them, not for people who want to prove that the program is up to a specification coded in predicate or some other kind of logic. 
 
+And another remark about design: errors should be caught early.
+\GrG{} supports you in this regard with its well-founded semantics (you could use for formal verification), its static type checking, and the means for validation/testing described in Chapter~\ref{chapvalidation}.
+
 \section{Platform Independence}
 is achieved by using languages compiled to byte code for virtual machines backed by large, standardized libraries, specifically: Java and C\#.
 This should prevent the fate of the grandfather of all graph rewrite systems, PROGRES\cite{schuerr99progres},
