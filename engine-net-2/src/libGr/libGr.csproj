@@ -1,251 +1,51 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{57A2E7A1-058E-4EBD-85E9-A65C3304FA49}</ProjectGuid>
+    <TargetFramework>net472</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>libGr</RootNamespace>
-    <AssemblyName>libGr</AssemblyName>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Platforms>x64;x86;AnyCPU</Platforms>
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
     <OutputPath>..\..\bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
     <OutputPath>..\..\bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRules>
-    </CodeAnalysisRules>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <CodeAnalysisRules></CodeAnalysisRules>
     <DocumentationFile>..\..\bin\libGr.XML</DocumentationFile>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
-    <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>..\..\bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
-    <ErrorReport>prompt</ErrorReport>
     <DocumentationFile>..\..\bin\libGr.xml</DocumentationFile>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>..\..\bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>..\..\bin\libGr.xml</DocumentationFile>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\libConsoleAndOS\libConsoleAndOS.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Actions\ActionCall.cs" />
-    <Compile Include="Actions\ActionNames.cs" />
-    <Compile Include="Actions\ActionsTypeInformation.cs" />
-    <Compile Include="Actions\FilterCallWithArguments.cs" />
-    <Compile Include="Actions\FilterCallWithLambdaExpression.cs" />
-    <Compile Include="Actions\IAction.cs" />
-    <Compile Include="Actions\IFilter.cs" />
-    <Compile Include="Actions\IFunctionDefinitionAndInfo.cs" />
-    <Compile Include="Actions\IMatchClass.cs" />
-    <Compile Include="Actions\IProcedureDefinitionAndInfo.cs" />
-    <Compile Include="Actions\ISequenceDefinitionAndInfo.cs" />
-    <Compile Include="ArrayAccumulationHelper.cs" />
-    <Compile Include="ArrayHelper.cs" />
-    <Compile Include="AttributeChangeTypeEmitHelper.cs" />
-    <Compile Include="AttributeTypeEmitHelper.cs" />
-    <Compile Include="DequeHelper.cs" />
-    <Compile Include="DotNetTypesHelper.cs" />
-    <Compile Include="GraphProcessingEnvironments\IGlobalVariables.cs" />
-    <Compile Include="Graph\BaseObjectType.cs" />
-    <Compile Include="Graph\IAttributeBearer.cs" />
-    <Compile Include="Graph\IBaseObject.cs" />
-    <Compile Include="Graph\ICallable.cs" />
-    <Compile Include="Graph\IContained.cs" />
-    <Compile Include="Graph\IEdge.cs" />
-    <Compile Include="Graph\INode.cs" />
-    <Compile Include="Graph\IObject.cs" />
-    <Compile Include="Graph\IDeepEqualityComparer.cs" />
-    <Compile Include="Graph\IPersistenceInterfacesProvider.cs" />
-    <Compile Include="Graph\ITransientObject.cs" />
-    <Compile Include="Graph\ITyped.cs" />
-    <Compile Include="Graph\IIdentifiable.cs" />
-    <Compile Include="Graph\ObjectNamerAndIndexer.cs" />
-    <Compile Include="Graph\ObjectType.cs" />
-    <Compile Include="Graph\InheritanceType.cs" />
-    <Compile Include="Graph\EdgeType.cs" />
-    <Compile Include="Graph\GraphElementType.cs" />
-    <Compile Include="Graph\NodeType.cs" />
-    <Compile Include="Graph\TransientObjectType.cs" />
-    <Compile Include="GrGenTypesHelper.cs" />
-    <Compile Include="INamed.cs" />
-    <Compile Include="IndexHelper.cs" />
-    <Compile Include="IndexHelperParallel.cs" />
-    <Compile Include="IPersistenceProvider.cs" />
-    <Compile Include="IPersistenceProviderTransactionManager.cs" />
-    <Compile Include="IPersistenceProviderStatistics.cs" />
-    <Compile Include="MapHelper.cs" />
-    <Compile Include="MathHelper.cs" />
-    <Compile Include="PatternsAndMatches\IAlternative.cs" />
-    <Compile Include="PatternsAndMatches\IIterated.cs" />
-    <Compile Include="PatternsAndMatches\IMatch.cs" />
-    <Compile Include="PatternsAndMatches\IMatches.cs" />
-    <Compile Include="PatternsAndMatches\IMatchingPattern.cs" />
-    <Compile Include="PatternsAndMatches\IPatternElement.cs" />
-    <Compile Include="PatternsAndMatches\IPatternGraph.cs" />
-    <Compile Include="PatternsAndMatches\IPatternGraphEmbedding.cs" />
-    <Compile Include="Actions\VarType.cs" />
-    <Compile Include="backendInterface.cs" />
-    <Compile Include="Actions\BaseActions.cs" />
-    <Compile Include="GraphProcessingEnvironments\GlobalVariable.cs" />
-    <Compile Include="GraphProcessingEnvironments\IRecorder.cs" />
-    <Compile Include="GraphProcessingEnvironments\ITransactionManager.cs" />
-    <Compile Include="GraphProcessingEnvironments\PerformanceInfo.cs" />
-    <Compile Include="Graph\Annotations.cs" />
-    <Compile Include="Graph\AttributeType.cs" />
-    <Compile Include="Graph\BaseGraph.cs" />
-    <Compile Include="ContainerHelper.cs" />
-    <Compile Include="Deque.cs" />
-    <Compile Include="EmitHelper.cs" />
-    <Compile Include="Actions\FilterCall.cs" />
-    <Compile Include="GraphHelper.cs" />
-    <Compile Include="GraphHelperParallel.cs" />
-    <Compile Include="Actions\IActions.cs" />
-    <Compile Include="Graph\ConnectionAssertionsAndFailures.cs" />
-    <Compile Include="Graph\EnumAttributeType.cs" />
-    <Compile Include="Graph\ExternalObjectType.cs" />
-    <Compile Include="Graph\TypeModel.cs" />
-    <Compile Include="Graph\GrGenType.cs" />
-    <Compile Include="Graph\IGraphElement.cs" />
-    <Compile Include="Graph\IGraphModel.cs" />
-    <Compile Include="Graph\IIndexSet.cs" />
-    <Compile Include="Sequence\InvocationRepresentations.cs" />
-    <Compile Include="Graph\IndexDescription.cs" />
-    <Compile Include="Graph\Range.cs" />
-    <Compile Include="IO\DOTDumper.cs" />
-    <Compile Include="IO\dumpInterface.cs" />
-    <Compile Include="IO\GraphDumper.cs" />
-    <Compile Include="Graph\GraphValidator.cs" />
-    <Compile Include="GraphProcessingEnvironments\IActionExecutionEnvironment.cs" />
-    <Compile Include="Graph\IGraph.cs" />
-    <Compile Include="GraphProcessingEnvironments\IGraphProcessingEnvironment.cs" />
-    <Compile Include="Graph\INamedGraph.cs" />
-    <Compile Include="IO\ECoreImport.cs" />
-    <Compile Include="IO\GrgExport.cs" />
-    <Compile Include="IO\GrsExport.cs" />
-    <Compile Include="IO\GrsImport.cs" />
-    <Compile Include="IO\GXLExport.cs" />
-    <Compile Include="IO\GXLImport.cs" />
-    <Compile Include="IO\XMIExport.cs" />
-    <Compile Include="GraphProcessingEnvironments\ISubactionAndOutputAdditionEnvironment.cs" />
-    <Compile Include="matchesHelper.cs" />
-    <Compile Include="SequenceParser\ParseException.cs" />
-    <Compile Include="IO\Porter.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="GraphProcessingEnvironments\Recorder.cs" />
-    <Compile Include="Sequence\IUserProxyForSequenceExecution.cs" />
-    <Compile Include="Sequence\Sequence.cs" />
-    <Compile Include="Sequence\SequenceAssignmentTarget.cs" />
-    <Compile Include="Sequence\SequenceBase.cs" />
-    <Compile Include="Sequence\SequenceCheckingEnvironment.cs" />
-    <Compile Include="Sequence\SequenceCheckingEnvironmentCompiled.cs" />
-    <Compile Include="Sequence\SequenceCheckingEnvironmentInterpreted.cs" />
-    <Compile Include="Sequence\SequenceComputation.cs" />
-    <Compile Include="Sequence\SequenceExpression.cs" />
-    <Compile Include="SequenceParser\SequenceParser.cs" />
-    <Compile Include="SequenceParser\SequenceParserConstants.cs" />
-    <Compile Include="SequenceParser\SequenceParserEnvironment.cs" />
-    <Compile Include="SequenceParser\SequenceParserEnvironmentCompiled.cs" />
-    <Compile Include="SequenceParser\SequenceParserEnvironmentInterpreted.cs" />
-    <Compile Include="SequenceParser\SequenceParserEnvironmentInterpretedDebugEventCondition.cs" />
-    <Compile Include="SequenceParser\SequenceParserExceptions.cs" />
-    <Compile Include="SequenceParser\SequenceParserTokenManager.cs" />
-    <Compile Include="Sequence\SequenceExpressionExecutionHelper.cs" />
-    <Compile Include="Sequence\SequenceExpressionTypeHelper.cs" />
-    <Compile Include="Sequence\SequenceVariable.cs" />
-    <Compile Include="IO\set.cs" />
-    <Compile Include="SequenceParser\SimpleCharStream.cs" />
-    <Compile Include="SequentialTypeHelper.cs" />
-    <Compile Include="SetHelper.cs" />
-    <Compile Include="DictionaryHelper.cs" />
-    <Compile Include="SetValueType.cs" />
-    <Compile Include="SingleLinkedList.cs" />
-    <Compile Include="SequenceParser\SymbolTable.cs" />
-    <Compile Include="SymmetryChecker.cs" />
-    <Compile Include="SequenceParser\Token.cs" />
-    <Compile Include="SequenceParser\TokenMgrError.cs" />
-    <Compile Include="TypesHelper.cs" />
-    <Compile Include="IO\VCGDumper.cs" />
-    <Compile Include="UberEstimator.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="SequenceParser\SequenceParser.csc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\libConsoleAndOS\libConsoleAndOS.csproj">
-      <Project>{f7a0a66b-136b-4e4c-83a6-5e0bdf92be6f}</Project>
-      <Name>libConsoleAndOS</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
+  <PropertyGroup />
 </Project>

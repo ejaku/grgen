@@ -1,233 +1,59 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{88133185-36B5-4134-9F5B-C6AC0AEF9BD6}</ProjectGuid>
+    <TargetFramework>net472</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>graphViewerAndSequenceDebuggerWindowsForms</RootNamespace>
-    <AssemblyName>graphViewerAndSequenceDebuggerWindowsForms</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Platforms>x64;x86;AnyCPU</Platforms>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
     <OutputPath>..\..\bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
     <OutputPath>..\..\bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <DocumentationFile>..\..\bin\graphViewerAndSequenceDebuggerWindowsForms.xml</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>..\..\bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <DocumentationFile>..\..\bin\graphViewerAndSequenceDebuggerWindowsForms.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>..\..\bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <DocumentationFile>..\..\bin\graphViewerAndSequenceDebuggerWindowsForms.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\graphViewerAndSequenceDebugger\graphViewerAndSequenceDebugger.csproj" />
+    <ProjectReference Include="..\lgspBackend\lgspBackend.csproj" />
+    <ProjectReference Include="..\libConsoleAndOSWindowsForms\libConsoleAndOSWindowsForms.csproj" />
+    <ProjectReference Include="..\libConsoleAndOS\libConsoleAndOS.csproj" />
+    <ProjectReference Include="..\libGr\libGr.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasicGraphViewerClientCreator.cs" />
-    <Compile Include="GuiDebuggerHost.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GuiDebuggerHost.Designer.cs">
-      <DependentUpon>GuiDebuggerHost.cs</DependentUpon>
-    </Compile>
-    <Compile Include="HostCreator.cs" />
-    <Compile Include="BasicGraphViewerClientHost.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GuiConsoleDebuggerHost.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GuiConsoleDebuggerHost.Designer.cs">
-      <DependentUpon>GuiConsoleDebuggerHost.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MSAGLClient.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\graphViewerAndSequenceDebugger\graphViewerAndSequenceDebugger.csproj">
-      <Project>{77133185-36B5-4134-9F5B-C6AC0AEF9BD5}</Project>
-      <Name>graphViewerAndSequenceDebugger</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\lgspBackend\lgspBackend.csproj">
-      <Project>{28747063-d1d2-4626-b1f1-84cc201b2063}</Project>
-      <Name>lgspBackend</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\libConsoleAndOSWindowsForms\libConsoleAndOSWindowsForms.csproj">
-      <Project>{120c45f5-2caf-46bb-9f64-838e9e557d61}</Project>
-      <Name>libConsoleAndOSWindowsForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\libConsoleAndOS\libConsoleAndOS.csproj">
-      <Project>{f7a0a66b-136b-4e4c-83a6-5e0bdf92be6f}</Project>
-      <Name>libConsoleAndOS</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\libGr\libGr.csproj">
-      <Project>{57a2e7a1-058e-4ebd-85e9-a65c3304fa49}</Project>
-      <Name>libGr</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Msagl.GraphViewerGDI">
       <Version>1.1.7</Version>
     </PackageReference>
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="GuiConsoleDebuggerHost.resx">
-      <DependentUpon>GuiConsoleDebuggerHost.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GuiDebuggerHost.resx">
-      <DependentUpon>GuiDebuggerHost.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\Abort.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\Breakpoints.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\Choicepoints.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\Continue.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\DetailedStep.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\FullState.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\Graph.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\Highlight.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\NextMatch.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\Objects.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\Run.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\SkipSingleMatches.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\Stacktrace.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\Step.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\StepOut.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\StepUp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\Variables.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\Watchpoints.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\BackAbort.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\ContinueDialog.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\AddWatchpoint.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\DeleteWatchpoint.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\EditWatchpoint.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\ToggleBreakpoint.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\ToggleChoicepoint.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconImages\ToggleWatchpoint.png" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

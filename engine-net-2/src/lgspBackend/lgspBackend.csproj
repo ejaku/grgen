@@ -1,209 +1,51 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{28747063-D1D2-4626-B1F1-84CC201B2063}</ProjectGuid>
+    <TargetFramework>net472</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>lgspBackend</RootNamespace>
-    <AssemblyName>lgspBackend</AssemblyName>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Platforms>x64;x86;AnyCPU</Platforms>
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>True</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
     <OutputPath>..\..\bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>True</Optimize>
     <OutputPath>..\..\bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <DocumentationFile>..\..\bin\lgspBackend.XML</DocumentationFile>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <DebugSymbols>True</DebugSymbols>
     <OutputPath>..\..\bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <Optimize>false</Optimize>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>..\..\bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>True</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\bin\lgspBackend.xml</DocumentationFile>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>..\..\bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <DocumentationFile>..\..\bin\lgspBackend.XML</DocumentationFile>
-    <Optimize>true</Optimize>
     <NoWarn>1591</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
+    <ProjectReference Include="..\libConsoleAndOS\libConsoleAndOS.csproj" />
+    <ProjectReference Include="..\libGr\libGr.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ExpressionOrYielding\ContainerExpression.cs" />
-    <Compile Include="ExpressionOrYielding\Expression.cs" />
-    <Compile Include="GraphProcessingEnvironments\lgspGlobalVariables.cs" />
-    <Compile Include="Graph\GraphStatisticsParserSerializer.cs" />
-    <Compile Include="Graph\lgspObject.cs" />
-    <Compile Include="Graph\lgspPersistentNamedGraph.cs" />
-    <Compile Include="Graph\lgspTransientObject.cs" />
-    <Compile Include="MatcherGenerator\FilterGenerator.cs" />
-    <Compile Include="GraphComparison\GraphComparisonMatcher.cs" />
-    <Compile Include="ExpressionOrYielding\GraphExpression.cs" />
-    <Compile Include="GraphComparison\GraphMatchingState.cs" />
-    <Compile Include="GraphComparison\InterpretationPlan.cs" />
-    <Compile Include="GraphComparison\InterpretationPlanBuilder.cs" />
-    <Compile Include="GraphProcessingEnvironments\lgspActionExecutionEnvironment.cs" />
-    <Compile Include="GraphProcessingEnvironments\lgspDeferredSequencesManager.cs" />
-    <Compile Include="Graph\lgspGraphElementFlags.cs" />
-    <Compile Include="Graph\lgspGraphModel.cs" />
-    <Compile Include="GraphProcessingEnvironments\lgspGraphProcessingEnvironment.cs" />
-    <Compile Include="Graph\lgspGraphStatistics.cs" />
-    <Compile Include="lgspGrGen.cs" />
-    <Compile Include="Actions\lgspActions.cs" />
-    <Compile Include="lgspBackend.cs" />
-    <Compile Include="Graph\lgspGraph.cs" />
-    <Compile Include="Graph\lgspGraphElements.cs" />
-    <Compile Include="MatcherGenerator\lgspMatcherGenerator.cs" />
-    <Compile Include="Actions\lgspMatches.cs" />
-    <Compile Include="Graph\lgspNamedGraph.cs" />
-    <Compile Include="Actions\lgspPattern.cs" />
-    <Compile Include="Actions\lgspPatternElements.cs" />
-    <Compile Include="MatcherGenerator\ScheduleDumper.cs" />
-    <Compile Include="MatcherGenerator\ScheduleExplainer.cs" />
-    <Compile Include="SearchProgramOperations\SearchProgramOperationMiscellaneous.cs" />
-    <Compile Include="SequenceGenerator\lgspSequenceGenerator.cs" />
-    <Compile Include="GraphProcessingEnvironments\lgspSubactionAndOutputAdditionEnvironment.cs" />
-    <Compile Include="GraphProcessingEnvironments\lgspTransactionManager.cs" />
-    <Compile Include="GraphProcessingEnvironments\lgspTransactionManagerUndoItems.cs" />
-    <Compile Include="Graph\lgspUniquenessEnsurer.cs" />
-    <Compile Include="NamesOfEntities.cs" />
-    <Compile Include="SequenceGenerator\NeededEntitiesEmitter.cs" />
-    <Compile Include="Pair.cs" />
-    <Compile Include="MatcherGenerator\PatternGraphAnalyzer.cs" />
-    <Compile Include="MatcherGenerator\PlanGraph.cs" />
-    <Compile Include="MatcherGenerator\PlanGraphGenerator.cs" />
-    <Compile Include="PriorityQueue.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MatcherGenerator\ScheduledSearchPlan.cs" />
-    <Compile Include="MatcherGenerator\ScheduleEnricher.cs" />
-    <Compile Include="MatcherGenerator\SearchOperationType.cs" />
-    <Compile Include="MatcherGenerator\SearchPlanGraph.cs" />
-    <Compile Include="MatcherGenerator\SearchPlanGraphGeneratorAndScheduler.cs" />
-    <Compile Include="SearchProgramOperations\SearchProgram.cs" />
-    <Compile Include="SearchProgramBuilder\SearchProgramBodyBuilder.cs" />
-    <Compile Include="SearchProgramBuilder\SearchProgramBodyBuilderHelper.cs" />
-    <Compile Include="SearchProgramBuilder\SearchProgramBodyBuilderHelperEnvironment.cs" />
-    <Compile Include="SearchProgramBuilder\SearchProgramBuilder.cs" />
-    <Compile Include="SearchProgramBuilder\SearchProgramCompleter.cs" />
-    <Compile Include="SearchProgramOperations\SearchProgramOperation.cs" />
-    <Compile Include="SearchProgramOperations\SearchProgramOperationAcceptAbandonCandidate.cs" />
-    <Compile Include="SearchProgramOperations\SearchProgramOperationCheck.cs" />
-    <Compile Include="SearchProgramOperations\SearchProgramOperationCheckCandidate.cs" />
-    <Compile Include="SearchProgramOperations\SearchProgramOperationCheckContinueMatching.cs" />
-    <Compile Include="SearchProgramOperations\SearchProgramOperationCheckPartialMatch.cs" />
-    <Compile Include="SearchProgramOperations\SearchProgramOperationGetCandidate.cs" />
-    <Compile Include="SearchProgramOperations\SearchProgramOperationGetType.cs" />
-    <Compile Include="SearchProgramOperations\SearchProgramOperationMatchBuildingAndYielding.cs" />
-    <Compile Include="SearchProgramOperations\SearchProgramOperationNestedPatternInitialization.cs" />
-    <Compile Include="SearchProgramOperations\SearchProgramOperationPatternMatched.cs" />
-    <Compile Include="SearchProgramOperations\SearchProgramOperationSubpatternTaskHandling.cs" />
-    <Compile Include="SequenceGenerator\SequenceBacktrackGenerator.cs" />
-    <Compile Include="SequenceGenerator\SequenceComputationGenerator.cs" />
-    <Compile Include="SequenceGenerator\SequenceComputationGeneratorHelper.cs" />
-    <Compile Include="SequenceGenerator\SequenceContainerConstructorEmitter.cs" />
-    <Compile Include="SequenceGenerator\SequenceExpressionGenerator.cs" />
-    <Compile Include="SequenceGenerator\SequenceExpressionGeneratorHelper.cs" />
-    <Compile Include="SequenceGenerator\SequenceForMatchGenerator.cs" />
-    <Compile Include="SequenceGenerator\SequenceGenerator.cs" />
-    <Compile Include="SequenceGenerator\SequenceGeneratorHelper.cs" />
-    <Compile Include="SequenceGenerator\SequenceMultiBacktrackGenerator.cs" />
-    <Compile Include="SequenceGenerator\SequenceMultiBacktrackRuleRewritingGenerator.cs" />
-    <Compile Include="SequenceGenerator\SequenceMultiRuleAllCallRewritingGenerator.cs" />
-    <Compile Include="SequenceGenerator\SequenceRuleCallMatcherGenerator.cs" />
-    <Compile Include="SequenceGenerator\SequenceMultiRulePrefixedSequenceRewritingGenerator.cs" />
-    <Compile Include="SequenceGenerator\SequenceMultiSequenceBacktrackGenerator.cs" />
-    <Compile Include="SequenceGenerator\SequenceMultiSequenceBacktrackRuleRewritingGenerator.cs" />
-    <Compile Include="SequenceGenerator\SequenceRuleOrRuleAllCallGenerator.cs" />
-    <Compile Include="SequenceGenerator\SequenceRuleOrRuleAllCallRewritingGenerator.cs" />
-    <Compile Include="SequenceGenerator\SequenceRulePrefixedSequenceGenerator.cs" />
-    <Compile Include="SequenceGenerator\SequenceSomeRuleCallRewritingGenerator.cs" />
-    <Compile Include="SequenceGenerator\SequenceSomeRuleCallRewritingGeneratorHelper.cs" />
-    <Compile Include="SourceBuilder.cs" />
-    <Compile Include="GraphComparison\GraphCanonizer.cs" />
-    <Compile Include="GraphComparison\SimpleGraphCanonizer.cs" />
-    <Compile Include="ThreadPool.cs" />
-    <Compile Include="WorkerPool.cs" />
-    <Compile Include="ExpressionOrYielding\Yielding.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\libConsoleAndOS\libConsoleAndOS.csproj">
-      <Project>{f7a0a66b-136b-4e4c-83a6-5e0bdf92be6f}</Project>
-      <Name>libConsoleAndOS</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\libGr\libGr.csproj">
-      <Project>{57A2E7A1-058E-4EBD-85E9-A65C3304FA49}</Project>
-      <Name>libGr</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
+  <PropertyGroup />
 </Project>
