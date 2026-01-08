@@ -7,6 +7,8 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>..\..\bin\</OutputPath>
@@ -55,5 +57,96 @@
       <Version>1.1.7</Version>
     </PackageReference>
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="System.Resources.Extensions" Version="7.0.0" />
+  </ItemGroup>
+    <ItemGroup>
+    <EmbeddedResource Include="GuiConsoleDebuggerHost.resx">
+      <DependentUpon>GuiConsoleDebuggerHost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GuiDebuggerHost.resx">
+      <DependentUpon>GuiDebuggerHost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\Abort.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\Breakpoints.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\Choicepoints.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\Continue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\DetailedStep.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\FullState.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\Graph.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\Highlight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\NextMatch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\Objects.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\Run.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\SkipSingleMatches.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\Stacktrace.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\Step.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\StepOut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\StepUp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\Variables.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\Watchpoints.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\BackAbort.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\ContinueDialog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\AddWatchpoint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\DeleteWatchpoint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\EditWatchpoint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\ToggleBreakpoint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\ToggleChoicepoint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconImages\ToggleWatchpoint.png" />
   </ItemGroup>
 </Project>
