@@ -8,6 +8,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Turing3Actions_intermediate.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="lgspBackend, Version=2.6.26740.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\lgspBackend.dll</HintPath>

@@ -14,6 +14,7 @@
   <ItemGroup>
     <Compile Remove="interfaceTest.cs" />
     <Compile Remove="testActionsManual.cs" />
+    <Compile Remove="testActions_intermediate.cs" />
     <Compile Remove="testModelManual.cs" />
     <Compile Remove="testModelManual2.cs" />
   </ItemGroup>
