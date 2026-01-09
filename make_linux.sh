@@ -11,5 +11,6 @@ function gen_csharpcc() {
 
 (cd "$projpath"/frontend && make) || exit 1
 (cd "$projpath"/engine-net-2/src/libGr/SequenceParser && gen_csharpcc SequenceParser.csc) || exit 1
-(cd "$projpath"/engine-net-2/src/GrShell && gen_csharpcc GrShell.csc) || exit 1
+(cd "$projpath"/engine-net-2/src/libGrShell && gen_csharpcc GrShell.csc) || exit 1
+(cd "$projpath"/engine-net-2/src/graphViewerAndSequenceDebugger && gen_csharpcc ConstantParser.csc) || exit 1
 (cd "$projpath"/engine-net-2 && mdtool build -f:GrGen.sln) || exit 1
