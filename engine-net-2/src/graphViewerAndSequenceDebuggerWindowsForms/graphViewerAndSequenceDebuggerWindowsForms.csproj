@@ -149,4 +149,7 @@
   <ItemGroup>
     <None Include="IconImages\ToggleWatchpoint.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
 </Project>

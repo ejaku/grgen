@@ -33,4 +33,7 @@
   <ItemGroup>
     <Content Include="ggrshell.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
 </Project>
