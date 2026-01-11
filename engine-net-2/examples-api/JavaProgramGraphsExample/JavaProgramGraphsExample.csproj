@@ -6,7 +6,6 @@
     <RootNamespace>ProgramGraphsExample</RootNamespace>
     <AssemblyName>ProgramGraphsExample</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="JavaProgramGraphsActions_intermediate.cs" />

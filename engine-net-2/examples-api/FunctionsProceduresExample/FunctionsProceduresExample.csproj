@@ -6,7 +6,6 @@
     <RootNamespace>ExternalAttributeEvaluationExample</RootNamespace>
     <AssemblyName>ExternalAttributeEvaluationExample</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="FunctionsProceduresExampleActions_intermediate.cs" />

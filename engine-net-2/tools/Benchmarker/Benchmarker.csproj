@@ -4,6 +4,5 @@
     <OutputType>Exe</OutputType>
     <Platforms>x64;x86;AnyCPU</Platforms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 </Project>
