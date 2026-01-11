@@ -4,7 +4,7 @@ This chapter describes the inner workings of \GrG~to allow you
 \begin{itemize}
 \item to understand how \GrG~works
 \item esp. in order to extend it with new features
-\footnote{which may be special extensions for a dedicated task, but also may be of general interest to other users}
+\footnote{which may be special extensions for a dedicated task, but also may be of general interest to other users; note that \GrG{} is licensed under LGPL}
 \end{itemize}
 It starts with a section that describes how to build \GrG, followed by an introduction into the generated code, then an introduction into the mechanism of search planning, and ends with a section giving some details of the structure of, and the data flow in the \GrG-code generator.
 Here we repeat some content from chapter \ref{cha:performance}, refining it with more details.
@@ -12,38 +12,44 @@ Here we repeat some content from chapter \ref{cha:performance}, refining it with
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{How to Build}\label{sub:building}\indexmain{building GrGen}
 
-In case you want to build \GrG~on your own, you should recall the system layout \ref{figsys}. 
+In case you want to build \GrG~on your own (which is available from the public git repository \texttt{https://github.com/ejaku/grgen}), you should recall the system layout \ref{figsys}. 
 The graph rewrite generator consists of a frontend written in Java and a backend written in C\#.
 The frontend was extended and changed since its first version, but not replaced.
 In contrast to the backend, which has seen multiple engines and versions: a MySQL database based version, a PSQL database based version, 
 a C version executing a search plan with a virtual machine, a C\# engine executing code generated from a search plan and finally the current C\# engine version 2 featuring attributes stored in the graph elements instead of in an extra object, and being capable of matching nested and subpatterns.
 
-The frontend is available in the \texttt{frontend} subdirectory of the public git repository at \texttt{https://github.com/ejaku/grgen}.
+The frontend is available in the \texttt{frontend} subdirectory.
 It can be built with the included \texttt{Makefile} on Linux or the \texttt{Makefile\_Cygwin} on Windows with the cygwin environment, yielding a \texttt{grgen.jar}. 
-Alternatively, you may add the \texttt{de} subfolder and the jars in the \texttt{jars} subfolder to your favourite IDE, but then you must take care of the ANTLR parser generation pre-build-step on your own. 
+Alternatively, you may add the \texttt{de} subfolder and the jars in the \texttt{jars} subfolder to your favourite IDE (e.g. Eclipse), but then you must take care of the ANTLR parser generation pre-build-step on your own. 
 
 The backend is available in the \texttt{engine-net-2} subdirectory. 
-It contains a VisualStudio 2017 solution file containing projects for the \texttt{libGr}, the \texttt{lgspBackend} (libGr-Search-Plan-Backend), the \texttt{graph\-Viewer\-And\-Sequence\-Debugger} and its extension by \MSAGL{} in \texttt{graph\-Viewer\-And\-Sequence\-Debugger\-Windows\-Forms}, the \texttt{lib\-Gr\-Shell}, and the \texttt{GrGen} compiler (backend) as well as the \texttt{GrShell}.
+It contains a VisualStudio 2022 solution file (if you want to use VisualStudio 2017, you have to remove the comments around the binding redirect of \texttt{System.Resources.Extensions} in the \texttt{app.config}s of the application projects), containing projects for the \texttt{lib\-Console\-And\-OS} environment abstraction library, the \texttt{libGr}, the \texttt{lgspBackend} (libGr-Search-Plan-Backend), the \texttt{graph\-Viewer\-And\-Sequence\-Debugger} library, the \texttt{lib\-Gr\-Shell}, the \texttt{GrGen} compiler (backend) as well as the \texttt{GrShell}.
+Plus the WindowsForms versions/extensions \texttt{lib\-Console\-And\-OS\-Windows\-Forms}, the \texttt{graph\-Viewer\-And\-Sequence\-Debugger\-Windows\-Forms} library employing \MSAGL{}, as well as the WindowsForms \texttt{GGrShell} application.
+Also available is a \texttt{lib\-Gr\-Persistence\-Provider\-SQLite} (implementing the persistent graph by mapping to an SQLite database --- in contrast to the previous database-based backends it is a strictly optional extension and only read once at session start, i.e. it is esp. not used for runtime pattern matching).
+
 Before you can build the solution, you have to execute \texttt{./src/lib\-Gr/gen\-parser.bat}, \texttt{./src/graph\-Viewer\-And\-Sequence\-Debugger/gen\-parser.bat}, \texttt{./src/lib\-Gr\-Shell/gen\-parser.bat} (or \texttt{./src/lib\-Gr/gen\-parser.sh}, \texttt{./src/graph\-Viewer\-And\-Sequence\-Debugger/gen\-parser.sh}, \texttt{./src/lib\-Gr\-Shell/gen\-parser.sh}) in order to get the CSharpCC parsers for the rewrite sequences, the constant literals, and the shell generated.
-Under LINUX you may use \texttt{make\_linux.sh} to get a complete build.
+Under LINUX you may use \texttt{make\_linux.sh} to get the parsers generated.
+It was able to carry out a complete build with \texttt{mdtool} from MonoDevelop (the old way), but this does not work anymore since the switch to SDK-style projects (after version 8.0 of \GrG{}).
+The new way is to employ VisualStudio Code with the Mono Debug extension; it uses \texttt{dotnet} for building ---you may also use \texttt{dotnet} directly from the command line for that purpose instead of from within VisualStudio Code/the C\#-extensions.
+But note that for running/debugging, you still have to use \texttt{mono} (\GrG{} still targets the .NET framework, largely because of the WindowsForms GUI (a few adaptations yet missing would be needed regarding the compilation of the generated code so that the system core could also work with .NET standard 2.0)).
 To get the API examples generated you must execute \texttt{./genlibs.bat}.
 
-\pagebreak
+%\pagebreak
 
 The VisualStudio solution contains build configurations for \texttt{x64}, \texttt{x86}, and \texttt{Any CPU}.
 The binary release contains the binaries from the \texttt{x64} build only.
 If you want to run \GrG\ in 32bit mode, or esp. want to include it in a native 32bit application, you have to build the assemblies on your own.
 Before version 8.0, the \texttt{Any CPU} build was released, this changed because of the introduction of the persistent graph.
 The SQLite used by the persistent graph cannot be built as \texttt{Any CPU}, most likely because the native binaries for the matching platform have to be fetched (the rest of the project can be built as \texttt{Any CPU}, you can still use it, only the persistent graph may be unavailable).
-The corresponding nuget-package contains builds for quite some platforms, so it should be not much of an issue to get e.g. an ARM-version of \GrGen\ running.
+The corresponding nuget-package contains builds for quite some platforms, so it should be not much of an issue to get e.g. an ARM-version of \GrGen\ including the persistent graph running.
 
 The \texttt{doc} subdirectory contains the sources of the user manual, for building on Windows enter \texttt{./build\_cygwin.sh grgen} in \texttt{cygwin-bash} or on Linux \texttt{./build grgen} in \texttt{bash}.
-The \texttt{syntaxhighlighting} subdirectory contains syntax highlighting specifications for the \texttt{.gm},\texttt{.grg}, and \texttt{.grs}-files for \texttt{Notepad++}, \texttt{vim}, and \texttt{Emacs}.
+The \texttt{syntaxhighlighting} subdirectory contains syntax highlighting specifications for the \texttt{.gm},\texttt{.grg}, and \texttt{.grs}-files for \texttt{Notepad++}, \texttt{vim}, and \texttt{Emacs} (the \texttt{N++} versions are typically more up-to-date/complete than the others).
 
 You can check the result of your build with the test suite we use to check against regressions.
 It is split into syntactic tests and semantic tests. 
 The syntactic tests reside in \texttt{frontend/test}, they are checking that example model and rule files can get compiled by \texttt{grgen} (or not compiled, or only compiled emitting warnings) and that the resulting code can get compiled by \texttt{csc}.
-The tests get executed by calling \texttt{./test.sh} or \texttt{./testpar.sh} from \texttt{bash} or \texttt{cygwin-bash} (\texttt{testpar.sh} executes them in parallel speeding up execution on multi core systems considerably, at the price of potential false positive reports); deviations from a gold standard are reported.
+The tests get executed by calling \texttt{./test.sh} or \texttt{./testpar.sh} from \texttt{bash} or \texttt{cygwin-bash} (\texttt{testpar.sh} executes them in parallel speeding up execution on multi core systems considerably, at the price of potential false positive reports); deviations from a gold standard are reported (at the time of writing, 3 mathematics tests are failing under mono/LINUX because of minor numeric differences).
 
 The semantic tests reside in \texttt{engine-net-2/tests}, they are checking that executing example shell scripts on example models and rules yields the expected results. 
 They get executed by calling \texttt{./test.sh}.
@@ -106,7 +112,7 @@ The tree is maintained by event handlers that listen to graph element creation a
 Naming is implemented by the \texttt{LGSPNamedGraph}, the uniqueness constraints/the index by the \texttt{LGSPUniquenessEnsurer}/\texttt{LGSPUniquenessIndex}.
 The \texttt{LGSPGraphStatistics} class stores the graph analyzation results (element count and vstruct statistics).
 
-\pagebreak
+%\pagebreak
 
 \subsection*{Pattern Matching and Search Programs}\indexmain{pattern matching implementation}\indexmain{search program}
 
