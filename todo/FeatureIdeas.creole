@@ -1,0 +1,242 @@
+== Planned upcoming features in GrGen (Roadmap) ==
+
+=== Improved GUI / debugger ===
+The new WindowsForms components could be extended by a lot of new features utilizing the newly added MSAGL graph visualization library, e.g. graphical model display in form of inheritance trees/graphs (based on the type information in the model assembly), rule pattern visualization (based on the pattern description from the rules assembly), sequence abstract syntax graphs showing variable reading/writing instead of only a syntax tree, support for sequence expressions and computations as tree/graph elements instead of only text components.
+Analogy: a graph database browser/workbench (an analogy working since the availability of the persistent graph).
+This/the GUI features could be implemented with agentic coding, accepting that these parts of the code may not be licenseable under LGPL (but may fall into the public domain) - the compiler and the runtime should be free of AI generated code.
+
+=== Improved GUI / debugger, ctd. ===
+Visualize the complete rule, i.e. in addition to the LHS also the RHS, would require an extension of the frontend to also emit the rewrite pattern.
+Visualize the match structure in form of a parse tree (GrGen.NET generates a top-down backtracking (context-free) star graph grammar parser/pair star graph grammar transducer out of the constructs from its nested patterns/subpatterns language acting as nonterminals, guided by the matched terminals i.e. graph elements, and the lookahead you specify with application conditions) - also: visualize the grammar structure of the generated parser / the nested patterns/subpatterns language.
+
+=== Improved GGrShell ===
+Implement the ability to debug graph rewrite scripts line-by-line.
+
+=== Model language extensions ===
+Improve subgraph support by allowing graph crossing edges, and by allowing to define a graph valued attribute as nested subgraph.
+Improve graph typing by introducing graph classes (with attributes; encapsulating data and actions; for improved data abstraction).
+Add support for ordered edges.
+
+=== Rule language completions/extensions ===
+Add a constructor (the semantics of C++ constructors when virtual inheritance is used could be applied).
+"Improve" the ugly duckling global variables (environment variables).
+Introduce pattern matching and rewriting support for nested graphs with containment-declarations (old handling with switch-to and return-from subgraph is conceptually simple but too limited for many use cases -- true multi-graph rewriting allows a lot more things).
+
+=== Sequence computations language completion ===
+The sequence computations language lacks control flow constructs.
+For effort reasons (also preventing "duplication"), these are only available in the sequences, requiring ugly syntax and a break to the sequences in order to get back to the sequence computations if a computation is to be controlled.
+(The constructs from the rule language with their distinction into expressions and statements are to be taken as examples/ideals, the constructs from the sequences proper with a boolean return plus side-effects are less well suited).
+
+=== Graph interface completions/extensions ===
+Supply incident edge functions that return an ordered array instead of an unordered set; to be used with ordered edges.
+
+== Feature ideas for GrGen (General TODOs) ==
+
+=== Improved graph visualization integration ===
+Adding of subgraphs into the graph on user request. 
+New visualization configuration/layout directives. Potentially dedicated languages/files.
+Further integration of the behavior with the visual rendering would be possible.
+
+=== Extended automated tests ===
+While the language features are quite well covered by compiler (frontend/smoke/error message) and shell-execution-effect (semantic/function/backend) tests, i.e. integration tests, their implementing modules are lacking unit tests (e.g. the scheduler would be an excellent target for unit tests).
+Furthermore, the debugger is completely lacking automated tests (unit/gui tests).
+The effects of optimizations are also not automatically detected/well covered.
+(For the frontend, JUnit would make sense, for the backend MSTest could be used, but for consistency reasons, NUnit would make more sense.)
+
+=== Testability improvements ===
+Some test devices in the rule/computations language (written through to its underlying framework, so they are usable by e.g. the execution host GrShell; so that the user (in contrast to the language implementation targeted by the previous paragraph) can test his/her specifications automatically for improved maintainability; even though scenario tests make more sense than unit tests TBD).
+
+=== Coding bot support ===
+Maybe some example base targeted at ingestion by machine learning (so AI/agentic coding becomes better at writing code in the GrGen languages).
+
+=== Basic standalone IDE ===
+Rendering the project layout based on the files and folders, supplying textual editors with language support. Maybe a language server could be used towards this purpose. And supporting project execution with the GGrShell.
+
+=== Language Server Support (Visual Studio Code) ===
+Write a syntax-highlighting and auto-completion plugin for GrGen (based on its grammar and scoping rules, for the the model language, the rules language, the sequences language, the shell language).
+Considerable effort, but a distinct component with few dependencies and a rather low amount of expected future changes.
+Maybe possible re-using the available grammars, building the language AST, which is then queried via the language server interface.
+Unclear what kind of support for incremental parsing is needed.
+https://microsoft.github.io/language-server-protocol/
+
+=== Visual Studio Integration ===
+Write a Visual Studio plugin with support for GrGen files in a C# project (maybe also a Visual Studio Code plugin).
+
+=== Compiler Integration ===
+C# language integration based on Roslyn - The .NET Compiler Platform.
+This allows for a much better integration than what is available on API level - the first goal to get right.
+A proof-of-concept precursor was available for the Mono Compiler with G# https://grgen.de/doc/da_kroll.pdf
+(Or maybe the other way round, embedding of C# in the domain-specific rule language of GrGen...)
+
+=== Sequences in transient classes (strategies with a state frame) ===
+Extend transient classes by the ability to contain callable sequences (in addition to functions and procedures).
+I.e. allow to encapsulate control programs with their corrsponding state into one unit, and support object-oriented programming with them (as of now, a sequence may receive a transient class object with a parameter for this purpose).
+Potential add-on in the interpreted sequences of the actions/the GrShell: extension sequences similar to extension methods, that would allow to also dynamically extend the statically known and compiled transient classes with sequences, object oriented programming with inheritance would not be possible this way, only "external" object-based programming.
+(Changes to the overloading of the symbol this would be needed...)
+
+=== Test sequences ===
+Carry through the command-query-separation (architecture with state-change events) that is ingrained in the languages with the separation into stateless/non-modifiying expressions and stateful/state-changing statements, abstracted into functions/procedures, or tests/rules (and pattern-matches/rewrites) through to the sequences by separating stateless sequences from the normal sequences (TODO: a named abstraction of the sequence expressions comprising pattern-matching based graph queries is maybe more worthwhile).
+
+=== Activity diagrams ===
+Add activity diagrams as another rule control language (maybe similar to FUJABA that offers executable activity diagrams).
+Benefit: conceptual integrity, all graph-based / visual (activity diagrams specified by textual ascii-art, similar to the patterns from the rule language, with automatic visualization).
+(Data in graph form, data processing rules in graph form, rule control in graph form (execution semantics attached to a graph instead of to an abstract syntax tree).)
+
+=== Interface/Implementation separation ===
+A graph rewrite application should be capable to work against libGr alone, not knowing of lgspBackend (so that it could work with another backend, too -- this is an architectural requirement).
+This largely holds, but not completely. Some extension of the backend interface would be needed (and some internal changes, in types handling there are checks against concrete type names from the lgspBackend).
+
+=== Improved debugging by interpretation ===
+Emit eval statement/expression representations and interpret these in the GrGen debugger, in addition to generating code directly out of them and executing that code.
+Esp. allow for compiled sequences debugging : emit a sequence tree also for the compiled sequences, and use that one in debugging by interpreting it (instead of the directly generated code, which is the better choice for execution outside of the GrGen debugger).
+Would offer a much better debugging experience than subrule debugging (the actions/sequences part of subrule debugging).
+
+=== Graphical rule editor ===
+A rule editor that allows to build rules graphically.
+Has to read the textual rule language as input, and write the textual rule language as output.
+To keep the manual layout, additional information has to be written (otherwise the automatic layout engine would decide about the "best" rendering).
+Huge effort, but a distinct component with few dependencies.
+(The GrGen-way/architecture is automatic layout, an analogy would be TeX (or webbrowser rendering) in contrast to a WYSIWYG editor. Graphs described textually, rendered visually.)
+(Also a graphical model editor or a graphical rule control language editor would make sense, but would be less benefitial.)
+
+=== Functional programming improvements ===
+To be defined what exactly makes sense, constructors, deconstructors, non-graph pattern matching (of class object networks/structures, can be seen as port graphs).
+
+=== Code De-Duplication ===
+Some code duplication could be removed. E.g. code handling nodes and edges strictly separately could be unified with a common base for graph element handling (leaving only the differences to specialized code). But: code readability has priority over avoiding any duplication.
+
+=== Type handling in backend refactoring ===
+The string-based type handling in the .NET backend code generator is scruffy. Some explicit type representation would be more adequate.
+Considerable effort.
+
+=== Package handling refactoring ===
+Packages were implemented late during development and in a way that gets the job done. Some more explicit representation in some parts instead of the strings would be more adequate.
+Considerable effort.
+
+=== Profiling information for graph comparison ===
+If the profile flag is set, generate graph isomorphy checking code counting up a search step variable.
+
+=== Automatic usage of attribute indices in pattern matching ===
+Extend the scheduler to use attribute indices when benefitial.
+E.g. when an if{n.a;} attribute condition is given and a is covered by an attibute index, carry out an attribute index lookup of n by a, instead of fetching n from a type lookup or a connectedness following operation.
+
+=== Views ===
+Database-like views could be a declarative replacement for some imperative storages (saving the user from the need to update manually) (in a pattern-based language this means pre-materialized matches) (some kind of index).
+
+=== Events (trigger procedures) ===
+Events like in C# for improved abstraction, i.e. a separation of event firing and consumption (in the technical space of databases this amounts to stored procedures that fire upon trigger events, and can be considered a mis-feature at that layer, it belongs to the application logic). 
+(Could support nested graphs/the interplay of subgraphs with the host graph (could be used to implement graph wiring via semi-automatic maintenance of references of/into/out of otherwise unconnected graphs, but this is somewhat of a questionable workaround, that is not of much relevance as soon as pattern matching support for nested graphs with graph crossing edges was added directly)).
+(GrGen.NET follows internally some event-driven design, and is esp. meant to implement domain-driven designs and data-driven architectures.)
+
+=== Improved durability support (redo log / binary format) ===
+Some API support for automatic replaying of recorded logs upon a crash. Should be a simple way to ensure durability (which makes sense as a local feature - even more so for a real database server, but such one would be beyond scope - GrGen can be seen as a local graph-based data-mining database, though. Questionable whether this is really needed since the availability of the persistent graph).
+Another potential extension: serialization from/to a binary format.
+
+=== Parallel grs import/export ===
+To speed up importing of large data sets; export a graph to multiple files containing parts, import them by several threads.
+(Via a master file containing includes of the parts.)
+
+=== Extended edge set returning functions (return type based on name) ===
+Introduce xxxDirected and xxxUndirected functions, that return a set<Edge> and set<UEdge> respectively, in addition to the unsuffixed functions, that return a set<AEdge> (remove the distinction based on the requested edge type, causing differently typed edge sets to be returned).
+
+=== Parser integration ===
+To be investigated if some stumbling stones exist that make it difficult to build a GrGen-model graph representation from a parser generated from a grammar of a textual language, that is then operated upon by GrGen rules.
+
+=== Creation pattern templates ===
+A (sub)pattern declared on the RHS of a modify block is instantiated into the graph. 
+This is limited to its direct content, disregarding nested and subpatterns.
+So only fixed shapes can be instantiated. 
+This could be extended/generalized with dynamic control, to some more general template patterns, that allow to build complex structures.
+Templates to use for creating (sub)graphs, recursively, dynamically controlled.
+Templates to use for creating graphs, with recursion controlled by some if-condition querying a runtime value.
+Considerable effort and design work.
+
+=== Syntactic sugar for iterated paths ===
+A new language construct x -:T+-> y that allows to match an iterated path concisely (maybe in an extended version that allows to specify a sequence of edge types (regular path expression)).
+Lowered in the compiler frontend to a supattern containing an edge in an optional part and the needed parameter passing, and a call of it.
+Should be only done when the optimization below saves us the cost of the open tasks pushdown.
+(Alternative: a different implementation of reachable that isomorphy-locks the path matched.)
+
+=== Optimized subpattern matching ===
+A static analysis to detect situations where the subpattern matching tasks stack is not needed cause it will contain always only one entry (matching a linear structure, e.g. an iterated path, without enclosing subpatterns).
+Use the results of the analysis to generate code using only the call stack.
+Requires considerable knowledge of the pushdown machine.
+
+=== Yield, extended version ===
+Yield to return values from subpatterns/alternatives and use them as input.
+Allow to use the yielded elements as input to subpatterns, implemented by linking the task objects.
+So a subpattern can return a found element and a further subpattern can start from there.
+Requires delicate changes at the core of the pattern matcher, medium effort but difficult to get right,
+requires very considerable knowledge of the pushdown machine (carrying out the graph parsing; it should be possible to increase the power in direction of the adaptive star grammars (an extension of the basic idea to use set/array of node parameters in subpatterns to capture the adaptive part instead of only a statically fixed number of node parameters capturing the star part)).
+
+=== Improved filter debugability ===
+Introduce OnFiltered event (separate OnMatched into pre-match and post-match/match lookahead and match events), so the effects of filters can be debugged, and extend the debugger in detailed mode so that the matched parts before and after filtering are displayed (2 step match display where needed). Maybe support debugging of queries used to compute arguments for rule applications. Maybe general improved subrule debuggability (so the effects of queries/array accumulation functions can be investigated).
+
+=== Match class/query support ===
+Maybe some additional graph querying capabilities, improved match class handling. Non-feature: dynamically computed types - all types used must be known beforehand (programming system with static typing and explicit/named types, matching based on statically known patterns, not on query expressions). Maybe some LINQ-integration is possible API-wise.
+
+=== Conditional compilation ===
+An "#if flag" construct for the rule language to decide which parts to compile, depending on defines given by command line parameters.
+
+=== Optimized graph implementation using strict connection assertions ===
+Introduce strict connection assertions which must always hold.
+Generate for these edges references in the nodes instead of wiring the elements in the ringlists commonly employed by GrGen.
+Some nodes/edges could be handled outside the ringlists, which would be considerably more memory efficient,
+and would allow for a handling of lists and trees in GrGen without a performance penality
+(GrGen is outstandingly efficient for attributed multi-graphs, but less so for less general models/parts).
+Huge effort, will render code considerably more complex (a lot more case distinctions will be needed),
+requires considerable knowledge of matcher generation - but this feature would remove the last minus regarding performance compared to traditional programming languages. 
+Added normal classes instead. I don't think this is a mere optimization, but a different way of programming and should be treated differently (an optimization implemented by a lowering step would be easier now, since object classes exist as targets). 
+
+=== Separate compilation ===
+Compile included/used files separately, only the ones that changed since the last run.
+(Worthwhile because compilation times for large projects are considerable.)
+Huge effort. Would require output modularization, and storing/reading some intermediate format with the information needed from the precompiled files. 
+(Additional difficulty: Some optimizations of the GrGen backend depend on whole-world knowledge.)
+
+=== Nested generic types ===
+Would allow for more general computations. Not to be supported in the graph/model. Questionable for a graph pattern matching based domain specific language. With object classes much less needed. (Die reine Lehre sagt natürlich: mit Graphen modellieren - allerdings ist die zu eingeschränkt...).
+
+=== Only meta-information generation in the Java frontend ===
+So that all C# code that is executed at the runtime of the graph rewrite system is generated in the backend (regarding the actions, benefits regarding model generation are way less obvious). 
+This means esp. to also emit the rewrite pattern (with the backend generating the graph rewriting code based on the difference in between the LHS pattern and the RHS pattern descriptions), but also the eval parts (as it already happens with the if and yield parts, causing quite some code duplication). Would be more regular, allow for better debugging or even interpretation at runtime, and remove code duplication (it should be carried out as an intermediate step before multiple backends are targeted).
+
+=== More user friendly generated code ===
+So that the generated code can be debugged easier - of course debugging at the level of the GrGen-languages and the visual host graph/rule application display would be preferable, but being able to e.g. quickly find the routine of interest in the generated C#-code to inspect its execution in the C# debugger when using GrGen.NET from API level is also of help.
+
+=== Replace Java frontend (compiler) by C# frontend ===
+It would make sense to rewrite the frontend to C# to have a GrGen.NET written entirely in C#, to get rid of the Java dependency (so it would only be needed in case a JAVA backend/runtime would be employed by the user).
+
+=== Eclipse Integration ===
+Write a syntax-highlighting and auto-complete plugin for GrGen. (Makes some sense with C# support in Eclipse, quite a lot when a JAVA backend is available.)
+
+=== JAVA backend ===
+Port the C# backend and the runtime to JAVA, offer it additionally to the .NET backend.
+This should be not very difficult because the languages are so similar and no advanced libraries are used,
+but it'll be a huge effort (several 10k lines of code).
+
+=== Support for different memory management models ===
+Supply two memory management models, a garbage collection and an explicit resource allocation/deallocation model (delete on objects needed for the latter, graph.add/rem are already available, a graph re-add could make sense in the former model), the former allows to run the latter highlighting programming errors, the latter can run in languages/environments without a garbage collector (and can offer further optimizations). (Also clarify the semantics/usage of esp. node/edge references, maybe adding debugging helpers.)
+
+=== C++ backend ===
+Port the C# backend and the runtime to C++, offer it additionally to the .NET backend.
+A huge effort, and difficult for the untyped graph global variables, because they are handled by typeof/reflection (for the normal class types, RTTI would do the job).
+So they are to be left out, or the GrGen C++ backend must implement type tags on its own for value types.
+Another issue: explicit resource allocation/deallocation model (or an own garbage collector).
+
+=== Native programming support ===
+To be investigated if some ugly things exist when managed GrGen.NET is employed from native programmes via .NET/native interop, whether some things are ugly in marshalling, when being used from C++/CLI.
+
+=== Potential code size reduction ===
+Switch the parser of the frontend to ANTLR4 (could make sense as a software upgrade irrespective of further changes/code size reductions) and use the auto-generated AST instead of the manually built AST. Switch the compiler frontend to Scala (Kotlin), these languages should allow for a more concise compiler.
+
+=== MAUI ===
+When LINUX is supported, it could make sense to add MAUI versions of the WindowsForms components.
+
+=== Actors ===
+To implement distributed communicating graphs.
+
+=== GrGen in GrGen ===
+Build a GrGen.NET graph in the ANTLR semantic actions and from then on use GrGen to compile GrGen rules into C# code. 
+Huge effort. Conceptually different, so bears some risk that certain things need to be done twice,
+cause an initial approach derived from the original code does not work well.
