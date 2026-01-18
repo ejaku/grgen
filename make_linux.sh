@@ -2,15 +2,11 @@
 
 modpath="$(dirname "$(readlink -f "$0")")"
 projpath="$modpath"
-csharpccjar="$projpath"/engine-net-2/csharpcc.jar
-
-function gen_csharpcc() {
-    [ -f "$csharpccjar" ] || { echo "no csharpcc jar at '$csharpccjar' found!"; exit 1; }
-    java -classpath $csharpccjar csharpcc "$@"
-}
+#csharpccjar="$projpath"/engine-net-2/csharpcc.jar
 
 (cd "$projpath"/frontend && make) || exit 1
-(cd "$projpath"/engine-net-2/src/libGr/SequenceParser && gen_csharpcc SequenceParser.csc) || exit 1
-(cd "$projpath"/engine-net-2/src/libGrShell && gen_csharpcc GrShell.csc) || exit 1
-(cd "$projpath"/engine-net-2/src/graphViewerAndSequenceDebugger && gen_csharpcc ConstantParser.csc) || exit 1
-(cd "$projpath"/engine-net-2 && mdtool build -f:GrGen.sln) || exit 1
+(cd "$projpath"/engine-net-2/src/libGr && bash ./genparser.sh) || exit 1
+(cd "$projpath"/engine-net-2/src/libGrShell && bash ./genparser.sh) || exit 1
+(cd "$projpath"/engine-net-2/src/graphViewerAndSequenceDebugger && bash ./genparser.sh) || exit 1
+(cd "$projpath"/engine-net-2 && dotnet build GrGen.sln) || exit 1
+#(cd "$projpath"/engine-net-2 && mdtool build -f:GrGen.sln) || exit 1 #outdated build tool from mono (develop), you may use this one instead of dotnet from the line above
