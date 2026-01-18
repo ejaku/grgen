@@ -27,12 +27,16 @@ It contains a VisualStudio 2022 solution file (if you want to use VisualStudio 2
 Plus the WindowsForms versions/extensions \texttt{lib\-Console\-And\-OS\-Windows\-Forms}, the \texttt{graph\-Viewer\-And\-Sequence\-Debugger\-Windows\-Forms} library employing \MSAGL{}, as well as the WindowsForms \texttt{GGrShell} application.
 Also available is a \texttt{lib\-Gr\-Persistence\-Provider\-SQLite} (implementing the persistent graph by mapping to an SQLite database --- in contrast to the previous database-based backends it is a strictly optional extension and only read once at session start, i.e. it is esp. not used for runtime pattern matching).
 
-Before you can build the solution, you have to execute \texttt{./src/lib\-Gr/gen\-parser.bat}, \texttt{./src/graph\-Viewer\-And\-Sequence\-Debugger/gen\-parser.bat}, \texttt{./src/lib\-Gr\-Shell/gen\-parser.bat} (or \texttt{./src/lib\-Gr/gen\-parser.sh}, \texttt{./src/graph\-Viewer\-And\-Sequence\-Debugger/gen\-parser.sh}, \texttt{./src/lib\-Gr\-Shell/gen\-parser.sh}) in order to get the CSharpCC parsers for the rewrite sequences, the constant literals, and the shell generated.
-Under LINUX you may use \texttt{make\_linux.sh} to get the parsers generated.
-It was able to carry out a complete build with \texttt{mdtool} from MonoDevelop (the old way), but this does not work anymore since the switch to SDK-style projects (after version 8.0 of \GrG{}).
-The new way is to employ VisualStudio Code with the Mono Debug extension; it uses \texttt{dotnet} for building ---you may also use \texttt{dotnet} directly from the command line for that purpose instead of from within VisualStudio Code/the C\#-extensions.
-But note that for running/debugging, you still have to use \texttt{mono} (\GrG{} still targets the .NET framework, largely because of the WindowsForms GUI (a few adaptations yet missing would be needed regarding the compilation of the generated code so that the system core could also work with .NET standard 2.0)).
+Before you can build the solution, you have to execute \texttt{./gen\-parsers.bat} under Windows (which will call \texttt{./src/lib\-Gr/gen\-parser.bat}, \texttt{./src/graph\-Viewer\-And\-Sequence\-Debugger/gen\-parser.bat}, \texttt{./src/lib\-Gr\-Shell/gen\-parser.bat}), or you have to execute \texttt{./gen\-parsers.sh} under Linux (which will call \texttt{./src/lib\-Gr/gen\-parser.sh}, \texttt{./src/graph\-Viewer\-And\-Sequence\-Debugger/gen\-parser.sh}, \texttt{./src/lib\-Gr\-Shell/gen\-parser.sh}) in order to get the CSharpCC parsers for the rewrite sequences, the constant literals, and the shell generated.
+
+Under Windows you may use \texttt{make\_cygwin\_windows.sh}} to get a complete build (re-generating the parsers each time, which takes long for the sequences parser).
+But note that it employs \texttt{dotnet} for building, while regular releases are built manually with VisualStudio, i.e. \texttt{msbuild}.
 To get the API examples generated you must execute \texttt{./genlibs.bat}.
+
+Under LINUX you may use \texttt{make\_linux.sh} to get a complete build.
+It was able to carry out a complete build with \texttt{mdtool} from MonoDevelop (the old way), but this does not work anymore since the switch to SDK-style projects (after version 8.0 of \GrG{}) --- now \texttt{dotnet build} is used.
+The new way of development under LINUX is to employ VisualStudio Code with the C\#-extensions and the Mono Debug extension; the \texttt{dotnet} tool is used then also.
+Note that for running/debugging, you still have to use \texttt{mono} (\GrG{} still targets the .NET framework, largely because of the WindowsForms GUI (a few adaptations yet missing would be needed regarding the compilation of the generated code so that the system core could also work with .NET standard 2.0)).
 
 %\pagebreak
 
@@ -47,12 +51,15 @@ The \texttt{doc} subdirectory contains the sources of the user manual, for build
 The \texttt{syntaxhighlighting} subdirectory contains syntax highlighting specifications for the \texttt{.gm},\texttt{.grg}, and \texttt{.grs}-files for \texttt{Notepad++}, \texttt{vim}, and \texttt{Emacs} (the \texttt{N++} versions are typically more up-to-date/complete than the others).
 
 You can check the result of your build with the test suite we use to check against regressions.
-It is split into syntactic tests and semantic tests. 
-The syntactic tests reside in \texttt{frontend/test}, they are checking that example model and rule files can get compiled by \texttt{grgen} (or not compiled, or only compiled emitting warnings) and that the resulting code can get compiled by \texttt{csc}.
+It is split into syntactic (/frontend) tests checking language acceptance by the compiler
+and semantic (/backend) tests checking the execution semantics of the languages.
+
+The syntactic tests reside in \texttt{frontend/test} (the \texttt{test} folder in the binary release), they are checking that example model and rule files can get compiled by \texttt{grgen} (or not compiled, or only compiled emitting warnings) and that the resulting code can get compiled by \texttt{csc}.
 The tests get executed by calling \texttt{./test.sh} or \texttt{./testpar.sh} from \texttt{bash} or \texttt{cygwin-bash} (\texttt{testpar.sh} executes them in parallel speeding up execution on multi core systems considerably, at the price of potential false positive reports); deviations from a gold standard are reported (at the time of writing, 3 mathematics tests are failing under mono/LINUX because of minor numeric differences).
 
-The semantic tests reside in \texttt{engine-net-2/tests}, they are checking that executing example shell scripts on example models and rules yields the expected results. 
+The semantic tests reside in \texttt{engine-net-2/tests} (the \texttt{tests} folder in the binary release), they are checking that executing example shell scripts on example models and rules yields the expected results (utilizing the outputs of the commands described in Chapter~\ref{chapvalidation}).
 They get executed by calling \texttt{./test.sh}.
+(The examples from \texttt{engine-net-2/examples} can be used as smoke tests by the contained \texttt{./test.sh}.)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
