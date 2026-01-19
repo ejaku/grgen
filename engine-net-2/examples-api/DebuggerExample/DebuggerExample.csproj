@@ -36,7 +36,7 @@
     <Exec Condition=" '$(OS)' == 'Windows_NT' "
         Command="copy &quot;$(MSBuildProjectDirectory)\..\..\bin\ycomp.bat&quot; &quot;$(MSBuildProjectDirectory)\$(OutputPath)&quot;" />
     <Exec Condition=" '$(OS)' != 'Windows_NT' "
-        Command="cp &quot;$(MSBuildProjectDirectory)/../../bin/*.jar&quot; &quot;$(MSBuildProjectDirectory)/$(OutputPath)&quot;" />
+        Command="cp &quot;$(MSBuildProjectDirectory)/../../bin/&quot;*.jar &quot;$(MSBuildProjectDirectory)/$(OutputPath)&quot;" />
     <Exec Condition=" '$(OS)' != 'Windows_NT' "
         Command="cp &quot;$(MSBuildProjectDirectory)/../../bin/ycomp&quot; &quot;$(MSBuildProjectDirectory)/$(OutputPath)&quot;" />
   </Target>
