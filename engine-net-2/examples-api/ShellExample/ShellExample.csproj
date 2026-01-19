@@ -46,8 +46,14 @@
       <Version>7.0.0</Version>
     </PackageReference>
   </ItemGroup>
-  <PropertyGroup>
-    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\..\..\bin\*.jar" "$(MSBuildProjectDirectory)\$(OutputPath)"
-copy "$(MSBuildProjectDirectory)\..\..\bin\ycomp.bat" "$(MSBuildProjectDirectory)\$(OutputPath)"</PostBuildEvent>
-  </PropertyGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Condition=" '$(OS)' == 'Windows_NT' "
+        Command="copy &quot;$(MSBuildProjectDirectory)\..\..\bin\*.jar&quot; &quot;$(MSBuildProjectDirectory)\$(OutputPath)&quot;" />
+    <Exec Condition=" '$(OS)' == 'Windows_NT' "
+        Command="copy &quot;$(MSBuildProjectDirectory)\..\..\bin\ycomp.bat&quot; &quot;$(MSBuildProjectDirectory)\$(OutputPath)&quot;" />
+    <Exec Condition=" '$(OS)' != 'Windows_NT' "
+        Command="cp &quot;$(MSBuildProjectDirectory)/../../bin/*.jar&quot; &quot;$(MSBuildProjectDirectory)/$(OutputPath)&quot;" />
+    <Exec Condition=" '$(OS)' != 'Windows_NT' "
+        Command="cp &quot;$(MSBuildProjectDirectory)/../../bin/ycomp&quot; &quot;$(MSBuildProjectDirectory)/$(OutputPath)&quot;" />
+  </Target>
 </Project>

@@ -26,7 +26,10 @@
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
-  <PropertyGroup>
-    <PostBuildEvent>copy "$(SolutionDir)\examples\JavaProgramGraphs-GraBaTs08\InstanceGraph.grsi" "$(TargetDir)InstanceGraph.grsi"</PostBuildEvent>
-  </PropertyGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Condition=" '$(OS)' == 'Windows_NT' "
+        Command="copy &quot;$(MSBuildProjectDirectory)\..\..\examples\JavaProgramGraphs-GraBaTs08\InstanceGraph.grsi&quot; &quot;$(MSBuildProjectDirectory)\$(OutputPath)\InstanceGraph.grsi&quot;" />
+    <Exec Condition=" '$(OS)' != 'Windows_NT' "
+        Command="cp &quot;$(MSBuildProjectDirectory)/../../examples/JavaProgramGraphs-GraBaTs08/InstanceGraph.grsi&quot; &quot;$(MSBuildProjectDirectory)/$(OutputPath)/InstanceGraph.grsi&quot;" />
+  </Target>
 </Project>

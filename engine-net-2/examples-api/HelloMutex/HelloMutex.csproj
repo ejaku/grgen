@@ -26,9 +26,18 @@
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
-  <PropertyGroup>
-    <PostBuildEvent>copy "$(MSBuildProjectDirectory)\..\..\bin\grgen.jar" "$(MSBuildProjectDirectory)\$(OutputPath)"
-copy "$(MSBuildProjectDirectory)\..\..\bin\antlr-runtime-3.2.jar" "$(MSBuildProjectDirectory)\$(OutputPath)"
-copy "$(MSBuildProjectDirectory)\..\..\bin\jargs.jar" "$(MSBuildProjectDirectory)\$(OutputPath)"</PostBuildEvent>
-  </PropertyGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Condition=" '$(OS)' == 'Windows_NT' "
+        Command="copy &quot;$(MSBuildProjectDirectory)\..\..\bin\grgen.jar&quot; &quot;$(MSBuildProjectDirectory)\$(OutputPath)&quot;" />
+    <Exec Condition=" '$(OS)' == 'Windows_NT' "
+        Command="copy &quot;$(MSBuildProjectDirectory)\..\..\bin\antlr-runtime-3.4.jar&quot; &quot;$(MSBuildProjectDirectory)\$(OutputPath)&quot;" />
+    <Exec Condition=" '$(OS)' == 'Windows_NT' "
+        Command="copy &quot;$(MSBuildProjectDirectory)\..\..\bin\jargs.jar&quot; &quot;$(MSBuildProjectDirectory)\$(OutputPath)&quot;" />
+    <Exec Condition=" '$(OS)' != 'Windows_NT' "
+        Command="cp &quot;$(MSBuildProjectDirectory)/../../bin/grgen.jar&quot; &quot;$(MSBuildProjectDirectory)/$(OutputPath)&quot;" />
+    <Exec Condition=" '$(OS)' != 'Windows_NT' "
+        Command="cp &quot;$(MSBuildProjectDirectory)/../../bin/antlr-runtime-3.4.jar&quot; &quot;$(MSBuildProjectDirectory)/$(OutputPath)&quot;" />
+    <Exec Condition=" '$(OS)' != 'Windows_NT' " 
+        Command="cp &quot;$(MSBuildProjectDirectory)/../../bin/jargs.jar&quot; &quot;$(MSBuildProjectDirectory)/$(OutputPath)&quot;" />
+  </Target>
 </Project>
