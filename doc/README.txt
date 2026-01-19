@@ -7,9 +7,10 @@ It consists of two parts of components:
   specifications into efficient .NET assemblies performing the rewrites,
   which are supported by the runtime environment implemented by LibGr
   and the lgspBackend (plus helper dlls).
-- the rapid prototyping environment offered by (G)GrShell with the 
+- the rapid prototyping environment offered by the (G)GrShell with the 
   console or the GUI debugger, and the yComp or MSAGL graph viewer
-  (MSAGL and the debugger can be also used from your own .NET application)
+  (MSAGL and the debugger can be also used from your own .NET application;
+  note that graphs may also be auto-persisted to a database or exported to/imported from files)
 
 
 INSTALL
@@ -55,7 +56,6 @@ For Windows:
     Or you may need to remove a wrong java folder from the system path.
 
 
-
 RUN
 ---
 
@@ -88,9 +88,12 @@ Example:
 TESTS
 -----
 
-The test and tests subdirectories contain an automated testbench used to check the
-consistency of our GrGen.NET releases. You can run the testbench by executing
-the "test.sh" shell script (for Windows you must use Cygwin).
+The consistency of GrGen.NET releases is checked with an automated testbench.
+In the tests directory do you find the semantic/execution tests,
+in the test directory do you find the syntax/compiler tests,
+and in the examples directory do you find the examples that are also used as additional smoke tests.
+You can run the testbench by executing the "test.sh" shell scripts (for Windows you must use Cygwin).
+(These folders are contained in frontend and engine-net-2 folders in the source code available from https://github.com/ejaku/grgen.)
 
 
 HELP
