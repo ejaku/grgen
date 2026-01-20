@@ -11,10 +11,8 @@ git pull
 git archive master | tar -x --one-top-level=$GRGENDIRSRC
 
 mkdir $GRGENDIR
-mkdir $GRGENDIR/doc
-cp $GRGENDIRSRC/doc/grgen.pdf $GRGENDIR/doc/GrGenNET-Manual.pdf
-cp $GRGENDIRSRC/doc/ChangeLog.txt $GRGENDIR/doc
-cp $GRGENDIRSRC/doc/README.txt $GRGENDIR/doc
+
+cp $GRGENDIRSRC/doc/grgen.pdf $GRGENDIR/GrGenNET-Manual.pdf
 
 rm $GRGENDIRSRC/engine-net-2/*
 rm -rf $GRGENDIRSRC/engine-net-2/src
@@ -27,7 +25,10 @@ cp -rf $GRGENDIRSRC/frontend/test $GRGENDIR
 
 cp -rf $GRGENDIRSRC/syntaxhighlighting $GRGENDIR
 
+cp -rf $GRGENDIRSRC/licenses $GRGENDIR
 cp $GRGENDIRSRC/LICENSE.txt $GRGENDIR
+cp $GRGENDIRSRC/README.txt $GRGENDIR
+cp $GRGENDIRSRC/ChangeLog.txt $GRGENDIR
 
 tar cjf $GRGENDIR.tar.bz2 $GRGENDIR
 zip -r $GRGENDIR.zip $GRGENDIR
