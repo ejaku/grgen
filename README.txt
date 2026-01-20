@@ -177,72 +177,8 @@ COPYING
 
 Copyright (C) 2003-2025 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
 
-This file is part of GrGen, Version GrGen.NET 8.0
-
-GrGen is free software: you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-GrGen is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License
-along with GrGen.  If not, see <http://www.gnu.org/licenses/>.
-
--------
-
-Remarks/Refinements:
-Free programmers: since about 2010 nearly all contributions are from programmers outside of the original university institute.
-
-Intended use: you can freely _use_ GrGen.NET without publishing your code
-- the generated code is yours, besides it you must only link against some DLLs, esp. libGr.dll and lgspBackend.dll at runtime,
-which is admissible under LGPL, but when you extend the supplied code you must share your changes.
-
--------
-
-The graph viewer yComp, which is, for your convenience, part of the release is closed source and free for academic use only.
-You are esp. not allowed to ship it with a release of your own commercial software, in contrast to the GrGen libraries.
-
-To be more specific, see also https://pp.ipd.kit.edu/firm/yComp.html:
-This software is based on the yFiles library.
-yWorks GmbH granted an academic license for „yFiles“ to IPD Goos: An academic license restricts the use of the software (yComp)
-to non-commercial purposes (research, teaching, projects, courses and application development).
-
--------
-
-Regarding MSAGL, the Microsoft Automatic Graph Layout library, the following holds:
-
-Copyright (c) Microsoft Corporation
-
-All rights reserved. 
-
-MIT License 
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-""Software""), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
--------
-
-Graph persistence is implemented using SQLite.
-The code and documentation in System.Data.SQLite as well as SQLite proper have been dedicated to the public domain.
-The System.Data.SQLite.Linq and System.Data.SQLite.EF6 assemblies are compiled from files covered by the Microsoft Public License (MS-PL)
-- but they are not used in implementing graph persistence.
+For most of GrGen.NET, the LGPL holds, 
+for yComp, an academic license granted by yWorks holds,
+for the MSAGL component, the MIT license holds,
+the SQLite used by the persistent graph is in the public domain;
+you find more on this topic in the LICENSE.txt and the licenses folder.
