@@ -3,7 +3,10 @@
 === Improved GUI / debugger ===
 The new WindowsForms components could be extended by a lot of new features utilizing the newly added MSAGL graph visualization library, e.g. graphical model display in form of inheritance trees/graphs (based on the type information in the model assembly), rule pattern visualization (based on the pattern description from the rules assembly), sequence abstract syntax graphs showing variable reading/writing instead of only a syntax tree, support for sequence expressions and computations as tree/graph elements instead of only text components.
 Analogy: a graph database browser/workbench (an analogy working since the availability of the persistent graph).
-This/the GUI features could be implemented with agentic coding, accepting that these parts of the code may not be licenseable under LGPL (but may fall into the public domain) - the compiler and the runtime should be free of AI generated code.
+
+=== Improved Graph Visualizer ===
+Add a yComp-like MSAGL-based graph visualizing form offering features like search and views, supplementing the rudimentary MSAGL-based graph viewer host (which should stay as basic version).
+(Maybe also add an external graph viewer app.)
 
 === Improved GUI / debugger, ctd. ===
 Visualize the complete rule, i.e. in addition to the LHS also the RHS, would require an extension of the frontend to also emit the rewrite pattern.
