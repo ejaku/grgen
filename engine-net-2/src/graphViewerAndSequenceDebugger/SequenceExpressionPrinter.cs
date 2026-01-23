@@ -24,6 +24,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public SequenceExpressionPrinter(IDebuggerEnvironment env, SequencePrinter seqPrinter)
         {
             this.env = env;
+            this.seqPrinter = seqPrinter;
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
