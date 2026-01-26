@@ -16,23 +16,12 @@ using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
-    // potentially available graph viewer client types (debugger types)
-    public enum GraphViewerTypes
-    {
-        YComp, MSAGL
-    }
-
-    public delegate void ConnectionLostHandler();
-
     /// <summary>
     /// Class communicating with yComp or MSAGL, over a simple live graph viewer protocol,
     /// some higher-level shared functionality regarding graph presentation state handling is implemented here.
     /// </summary>
-    public class GraphViewerClient
+    public class GraphViewerClient : GraphViewerBaseClient
     {
-        YCompServerProxy yCompServerProxy; // not null in case the basicClient is a YCompClient
-        internal IBasicGraphViewerClient basicClient; // either the traditional YCompClient or a MSAGLClient
-
         INamedGraph graph;
 
         public DumpInfo dumpInfo;
@@ -48,130 +37,42 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         String nodeRealizerOverride = null;
         String edgeRealizerOverride = null;
 
-        ElementRealizers realizers;
-
         ObjectNamerAndIndexer objectNamerAndIndexer;
         TransientObjectNamerAndIndexer transientObjectNamerAndIndexer;
 
-        static Dictionary<String, bool> availableMSAGLLayouts;
-
-
-        static GraphViewerClient()
-        {
-            availableMSAGLLayouts = new Dictionary<string, bool>();
-            availableMSAGLLayouts.Add("SugiyamaScheme", true);
-            availableMSAGLLayouts.Add("MDS", true);
-            availableMSAGLLayouts.Add("Ranking", true);
-            availableMSAGLLayouts.Add("IcrementalLayout", true);
-        }
 
         /// <summary>
         /// Creates a new GraphViewerClient instance.
-        /// internally, it creates a YCompClient and connects to the local YComp server,
-        /// or creates a MSAGLClient, inside the basicGraphViewerClientHost (which may be a GuiConsoleDebuggerHost) in case one is supplied,
-        /// depending on the graph viewer type that is requested (the layout is expected to be one of the valid layouts of the corresponding graph viewer client).
+        /// Internally, it creates a YCompClient or a MSAGLClient, depending on the graph viewer type that is requested, see the base constructor for more on this.
         /// </summary>
         public GraphViewerClient(INamedGraph graph, GraphViewerTypes graphViewerType, String layoutModule,
             DumpInfo dumpInfo, ElementRealizers realizers,
             ObjectNamerAndIndexer objectNamerAndIndexer, TransientObjectNamerAndIndexer transientObjectNamerAndIndexer,
             IBasicGraphViewerClientHost basicGraphViewerClientHost)
+            : base(graphViewerType, layoutModule, realizers, basicGraphViewerClientHost)
         {
             this.graph = graph;
             this.dumpInfo = dumpInfo;
 
-            if(graphViewerType == GraphViewerTypes.MSAGL)
-            {
-                IHostCreator guiConsoleDebuggerHostCreator = GetGuiConsoleDebuggerHostCreator();
-                IBasicGraphViewerClientCreator basicGraphViewerClientCreator = GetBasicGraphViewerClientCreator();
-                IBasicGraphViewerClientHost host = basicGraphViewerClientHost;
-                if(host == null)
-                    host = guiConsoleDebuggerHostCreator.CreateBasicGraphViewerClientHost();
-                basicClient = basicGraphViewerClientCreator.Create(graphViewerType, host);
-                host.BasicGraphViewerClient = basicClient;
-            }
-            else // default is yCompClient
-            {
-                yCompServerProxy = new YCompServerProxy(YCompServerProxy.GetFreeTCPPort());
-                int connectionTimeout = 20000;
-                int port = yCompServerProxy.port;
-                basicClient = new YCompClient(connectionTimeout, port);
-            }
-
-            SetLayout(layoutModule);
+            isDirty = true;
+            isLayoutDirty = true;
 
             dumpInfo.OnNodeTypeAppearanceChanged += new NodeTypeAppearanceChangedHandler(OnNodeTypeAppearanceChanged);
             dumpInfo.OnEdgeTypeAppearanceChanged += new EdgeTypeAppearanceChangedHandler(OnEdgeTypeAppearanceChanged);
             dumpInfo.OnTypeInfotagsChanged += new TypeInfotagsChangedHandler(OnTypeInfotagsChanged);
-
-            this.realizers = realizers;
-            realizers.RegisterGraphViewerClient(this);
 
             this.objectNamerAndIndexer = objectNamerAndIndexer;
             this.transientObjectNamerAndIndexer = transientObjectNamerAndIndexer;
             // TODO: Add group related events
         }
 
-        /// <summary>
-        /// returns a host creator from graphViewerAndSequenceDebuggerWindowsForms.dll
-        /// </summary>
-        public static IHostCreator GetGuiConsoleDebuggerHostCreator()
+        public override void Close()
         {
-            Type guiConsoleDebuggerHostCreatorType = de.unika.ipd.grGen.libConsoleAndOS.TypeCreator.GetSingleImplementationOfInterfaceFromAssembly("graphViewerAndSequenceDebuggerWindowsForms.dll", "IHostCreator");
-            IHostCreator guiConsoleDebuggerHostCreator = (IHostCreator)Activator.CreateInstance(guiConsoleDebuggerHostCreatorType);
-            return guiConsoleDebuggerHostCreator;
-        }
-
-        private static IBasicGraphViewerClientCreator GetBasicGraphViewerClientCreator()
-        {
-            Type basicGraphViewerClientCreatorType = de.unika.ipd.grGen.libConsoleAndOS.TypeCreator.GetSingleImplementationOfInterfaceFromAssembly("graphViewerAndSequenceDebuggerWindowsForms.dll", "IBasicGraphViewerClientCreator");
-            IBasicGraphViewerClientCreator basicGraphViewerClientCreator = (IBasicGraphViewerClientCreator)Activator.CreateInstance(basicGraphViewerClientCreatorType);
-            return basicGraphViewerClientCreator;
-        }
-
-        public void Close()
-        {
-            realizers.UnregisterGraphViewerClient();
-
-            basicClient.Close();
-            basicClient = null;
-
-            if(yCompServerProxy != null)
-                yCompServerProxy.Close();
-            yCompServerProxy = null;
+            base.Close();
 
             dumpInfo.OnNodeTypeAppearanceChanged -= new NodeTypeAppearanceChangedHandler(OnNodeTypeAppearanceChanged);
             dumpInfo.OnEdgeTypeAppearanceChanged -= new EdgeTypeAppearanceChangedHandler(OnEdgeTypeAppearanceChanged);
             dumpInfo.OnTypeInfotagsChanged -= new TypeInfotagsChangedHandler(OnTypeInfotagsChanged);
-        }
-
-        public static IEnumerable<String> AvailableLayouts(GraphViewerTypes type)
-        {
-            if(type == GraphViewerTypes.YComp)
-                return YCompClient.AvailableLayouts;
-            else if(type == GraphViewerTypes.MSAGL)
-            {
-                // better to be handled by the corresponding graph viewer client that has that knowledge,
-                // but this would require to create an instance of a dll we don't want to instantiate for technology reasons unless really requested
-                // this function is also used for general error checking/printing without prior request, though
-                return availableMSAGLLayouts.Keys;
-            }
-            else
-                return null;
-        }
-
-        public static bool IsValidLayout(GraphViewerTypes type, String layoutName)     // TODO: allow case insensitive layout name
-        {
-            if(type == GraphViewerTypes.YComp)
-                return YCompClient.IsValidLayout(layoutName);
-            else if(type == GraphViewerTypes.MSAGL)
-            {
-                // better to be handled by the corresponding graph viewer client that has that knowledge,
-                // but this would require to create an instance of a dll we don't want to instantiate for technology reasons unless really requested
-                // this function is also used for general error checking/printing without prior request, though
-                return availableMSAGLLayouts.ContainsKey(layoutName);
-            }
-            else
-                return false;
         }
 
         /// <summary>
@@ -226,10 +127,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// Sets the current layouter of yComp
+        /// Sets the current layouter of the graph viewer.
         /// </summary>
         /// <param name="moduleName">The name of the layouter.
-        ///     Can be one of:
+        ///     In case of yComp, it can be one of:
         ///     - Random
         ///     - Hierarchic
         ///     - Organic
@@ -239,6 +140,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         ///     - Diagonal
         ///     - Incremental Hierarchic
         ///     - Compilergraph
+        ///     In case of MSAGL, it can be one of:
+        ///     - SugiyamaScheme
+        ///     - MDS
+        ///     - Ranking
+        ///     - IcrementalLayout
         /// </param>
         public void SetLayout(String moduleName)
         {
@@ -248,9 +154,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// Retrieves the available options of the current layouter of yComp and the current values.
+        /// Retrieves the available options of the current layouter and the current values.
         /// </summary>
-        /// <returns>A description of the available options of the current layouter of yComp
+        /// <returns>A description of the available options of the current layouter of yComp or MSAGL
         /// and the current values.</returns>
         public String GetLayoutOptions()
         {
@@ -258,7 +164,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// Sets a layout option of the current layouter of yComp.
+        /// Sets a layout option of the current layouter of yComp or MSAGL.
         /// </summary>
         /// <param name="optionName">The name of the option.</param>
         /// <param name="optionValue">The new value.</param>
@@ -276,7 +182,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// Forces yComp to relayout the graph.
+        /// Forces yComp/MSAGL to relayout the graph.
         /// </summary>
         public void ForceLayout()
         {
@@ -738,7 +644,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         //}
 
         /// <summary>
-        /// Uploads the graph to YComp, updates the display and makes a synchronisation.
+        /// Uploads the graph to YComp/MSAGL, updates the display and makes a synchronisation.
         /// Does not change the stored graph, even though this is required for naming.
         /// </summary>
         public void UploadGraph()

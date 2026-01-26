@@ -172,12 +172,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             edgeRealizers[(int)ElementMode.Redirected] = GetEdgeRealizer(GrColor.Pink, GrColor.Black, 3, GrLineStyle.Continuous);
         }
 
-        public void RegisterGraphViewerClient(GraphViewerClient graphViewerClient)
+        public void RegisterGraphViewerClient(IBasicGraphViewerClient basicClient)
         {
             if(this.basicClient != null)
                 throw new Exception("there is already a basic graph viewer client (yComp) registered");
 
-            this.basicClient = graphViewerClient.basicClient;
+            this.basicClient = basicClient;
 
             foreach(NodeRealizer nr in registeredNodeRealizers.Keys)
             {
