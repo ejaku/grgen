@@ -121,6 +121,7 @@ TOKEN: {
 |   < GRAPH: "graph" >
 |   < GRAPHS: "graphs" >
 |   < GROUP: "group" >
+|   < GSHOW: "gshow" >
 |   < HALT: "halt" >
 |   < HELP: "help" >
 |   < HIDDEN: "hidden" >
@@ -142,6 +143,7 @@ TOKEN: {
 |   < MAP: "map" >
 |   < MATCH: "match" >
 |   < MODE: "mode" >
+|   < MODEL: "model" >
 |   < NEW: "new" >
 |   < NODE: "node" >
 |   < NODES: "nodes" >
@@ -1175,6 +1177,8 @@ void ShellCommand():
 |
     "show" ShowCommand()
 |
+    "gshow" GShowCommand()
+|
     "silence" ("exec" { boolVal = true; } )?
     (
         "on" { if(boolVal) impl.SilenceExec = true; else impl.Silence = true; }
@@ -1951,6 +1955,31 @@ void ShowVar():
     str=Variable() LineEnd()
     {
         impl.ShowVar(str);
+    }
+}
+
+/////////////////////
+// "gshow" command //
+/////////////////////
+
+void GShowCommand():
+{
+}
+{
+    try
+    {
+        "model" LineEnd()
+        {
+            impl.GShowModel();
+        }
+    }
+    catch(ParseException ex)
+    {
+        ConsoleUI.errorOutWriter.WriteLine(ex.Message);
+        ConsoleUI.errorOutWriter.WriteLine("Invalid command!");
+        impl.HelpGShow(new List<String>());
+        errorSkipSilent();
+        noError = false;
     }
 }
 

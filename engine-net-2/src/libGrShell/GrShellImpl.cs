@@ -1093,6 +1093,10 @@ namespace de.unika.ipd.grGen.grShell
                     HelpShow(commands);
                     return;
 
+                case "gshow":
+                    HelpGShow(commands);
+                    return;
+
                 case "debug":
                     HelpDebug(commands);
                     return;
@@ -1164,6 +1168,7 @@ namespace de.unika.ipd.grGen.grShell
                 + " - save graph <filename>     Saves the current graph as a GrShell script\n"
                 + " - select ...                Selection commands\n"
                 + " - show ...                  Shows something\n"
+                + " - gshow ...                 Graphically shows something\n"
                 + " - validate ...              Validate related commands\n"
                 + " - ! <command>               Executes the given system command\n");
             ConsoleUI.outWriter.Write("Type \"help <command>\" to get extended help on <command> (in case of ...)\n");
@@ -1352,6 +1357,17 @@ namespace de.unika.ipd.grGen.grShell
                 + "   This command is only supported for a persistent graph (see \"help new\").\n\n"
                 + " - show backend\n"
                 + "   Shows the name of the current backend and its parameters.\n");
+        }
+
+        public void HelpGShow(List<String> commands)
+        {
+            if (commands.Count > 1)
+                ConsoleUI.outWriter.WriteLine("\nNo further help available.");
+
+            ConsoleUI.outWriter.WriteLine("\nList of available commands for \"gshow\":\n"
+                + " - gshow model\n"
+                + "   Graphically shows the model of the current graph\n"
+                + "   with the configured graph viewer (yComp or MSAGL).\n\n");
         }
 
         public void HelpDebug(List<String> commands)
@@ -2848,6 +2864,47 @@ namespace de.unika.ipd.grGen.grShell
                 default: throw new Exception("Internal error!");
             }
         }
+
+        public void GShowModel()
+        {
+            if (!GraphExists())
+                return;
+            if (nonDebugNonGuiExitOnError)
+                return;
+
+            ConsoleUI.outWriter.WriteLine("Showing model of graph graphically...");
+
+            IGraphModel model = curShellProcEnv.ProcEnv.NamedGraph.Model;
+
+            GraphViewerBaseClient graphViewer = GetGraphDisplayer(seqApplierAndDebugger.GraphViewerType);
+            IBasicGraphViewerClient basicGraphViewer = graphViewer.GetBasicClient();
+
+            new GrShellAiFeatures().RenderModelAsGraph(model, basicGraphViewer); // todo: static functions could be sufficient...
+
+            basicGraphViewer.ForceLayout();
+            basicGraphViewer.Sync();
+
+            ConsoleUI.outWriter.WriteLine("Press any key to continue...");
+            ConsoleUI.consoleIn.ReadKey(true);
+
+            graphViewer.Close();
+        }
+
+        // returns a graph displayer for the gshow commands rendering technical graphs of the user specifications formulated in the GrGen programming language constructs
+        // todo: graph viewer vs graph displayer, user is viewing graph
+        private GraphViewerBaseClient GetGraphDisplayer(GraphViewerTypes graphViewerType)
+        {
+            IBasicGraphViewerClientHost basicGraphViewerClientHost = null;
+            if (graphViewerType == GraphViewerTypes.MSAGL)
+            {
+                IHostCreator hostCreator = GraphViewerBaseClient.GetGuiConsoleDebuggerHostCreator();
+                basicGraphViewerClientHost = hostCreator.CreateBasicGraphViewerClientHost();
+            }
+            ElementRealizers elementRealizers = new ElementRealizers();
+            String layout = graphViewerType == GraphViewerTypes.YComp ? "Hierarchic" : "SugiyamaScheme";
+            return new GraphViewerBaseClient(graphViewerType, layout, elementRealizers, basicGraphViewerClientHost);
+        }
+
         #endregion "show" type related information commands
 
         #region "show" graph and graph element/class object related information commands
