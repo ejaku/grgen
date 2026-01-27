@@ -18,6 +18,7 @@ using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.libGr.sequenceParser;
 using de.unika.ipd.grGen.lgsp;
 using de.unika.ipd.grGen.graphViewerAndSequenceDebugger;
+using System.Threading;
 
 namespace de.unika.ipd.grGen.grShell
 {
@@ -2885,9 +2886,11 @@ namespace de.unika.ipd.grGen.grShell
             basicGraphViewer.Sync();
 
             ConsoleUI.outWriter.WriteLine("Press any key to continue...");
+            ProcessEventsUntilKeyPressedAsNeeded();
             ConsoleUI.consoleIn.ReadKey(true);
 
             graphViewer.Close();
+            ProcessEventsAsNeeded();
         }
 
         // returns a graph displayer for the gshow commands rendering technical graphs of the user specifications formulated in the GrGen programming language constructs
@@ -2903,6 +2906,28 @@ namespace de.unika.ipd.grGen.grShell
             ElementRealizers elementRealizers = new ElementRealizers();
             String layout = graphViewerType == GraphViewerTypes.YComp ? "Hierarchic" : "SugiyamaScheme";
             return new GraphViewerBaseClient(graphViewerType, layout, elementRealizers, basicGraphViewerClientHost);
+        }
+
+        private void ProcessEventsUntilKeyPressedAsNeeded()
+        {
+            if(seqApplierAndDebugger.GraphViewerType == GraphViewerTypes.MSAGL)
+            {
+                IDoEventsCaller doEventsCaller = TypeCreator.GetDoEventsCaller();
+                while (!ConsoleUI.consoleIn.KeyAvailable)
+                {
+                    doEventsCaller.DoEvents(); // keep GUI responsive
+                    Thread.Sleep(100);
+                }
+            }
+        }
+
+        private void ProcessEventsAsNeeded()
+        {
+            if(seqApplierAndDebugger.GraphViewerType == GraphViewerTypes.MSAGL)
+            {
+                IDoEventsCaller doEventsCaller = TypeCreator.GetDoEventsCaller();
+                doEventsCaller.DoEvents();
+            }
         }
 
         #endregion "show" type related information commands
