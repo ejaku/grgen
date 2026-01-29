@@ -49,7 +49,7 @@ The effects of optimizations are also not automatically detected/well covered.
 === Testability improvements ===
 Some test devices in the rule/computations language (written through to its underlying framework, so they are usable by e.g. the execution host GrShell; so that the user (in contrast to the language implementation targeted by the previous paragraph) can test his/her specifications automatically for improved maintainability; even though scenario tests make more sense than unit tests TBD).
 
-=== Coding bot support ===
+=== Coding agent/bot support ===
 Maybe some example base targeted at ingestion by machine learning (so AI/agentic coding becomes better at writing code in the GrGen languages).
 
 === Basic standalone IDE ===
@@ -189,16 +189,18 @@ and would allow for a handling of lists and trees in GrGen without a performance
 (GrGen is outstandingly efficient for attributed multi-graphs, but less so for less general models/parts).
 Huge effort, will render code considerably more complex (a lot more case distinctions will be needed),
 requires considerable knowledge of matcher generation - but this feature would remove the last minus regarding performance compared to traditional programming languages. 
-Added normal classes instead. I don't think this is a mere optimization, but a different way of programming and should be treated differently (an optimization implemented by a lowering step would be easier now, since object classes exist as targets). 
+Questionable. I added normal object classes instead. I don't think this is a mere optimization, but a different way of programming and should be treated differently (an optimization implemented by a lowering step would be easier now, since object classes exist as targets). 
 
 === Separate compilation ===
 Compile included/used files separately, only the ones that changed since the last run.
 (Worthwhile because compilation times for large projects are considerable.)
 Huge effort. Would require output modularization, and storing/reading some intermediate format with the information needed from the precompiled files. 
-(Additional difficulty: Some optimizations of the GrGen backend depend on whole-world knowledge.)
+Questionable. (Esp. because of the additional difficulty: Some optimizations of the GrGen backend depend on whole-world knowledge.)
 
 === Nested generic types ===
-Would allow for more general computations. Not to be supported in the graph/model. Questionable for a graph pattern matching based domain specific language. With object classes much less needed. (Die reine Lehre sagt natürlich: mit Graphen modellieren - allerdings ist die zu eingeschränkt...).
+Would allow for more general computations. Not to be supported in the graph/model.
+Questionable for a graph pattern matching based domain specific language.
+And with object classes it is also much less needed (use a class object containing the nested types in the container). (Die reine Lehre sagt natürlich: mit Graphen modellieren - allerdings ist die zu eingeschränkt...).
 
 === Only meta-information generation in the Java frontend ===
 So that all C# code that is executed at the runtime of the graph rewrite system is generated in the backend (regarding the actions, benefits regarding model generation are way less obvious). 
@@ -206,6 +208,9 @@ This means esp. to also emit the rewrite pattern (with the backend generating th
 
 === More user friendly generated code ===
 So that the generated code can be debugged easier - of course debugging at the level of the GrGen-languages and the visual host graph/rule application display would be preferable, but being able to e.g. quickly find the routine of interest in the generated C#-code to inspect its execution in the C# debugger when using GrGen.NET from API level is also of help.
+
+=== Less generated code ===
+Maybe some code generation could be replaced by using library functions.
 
 === Replace Java frontend (compiler) by C# frontend ===
 It would make sense to rewrite the frontend to C# to have a GrGen.NET written entirely in C#, to get rid of the Java dependency (so it would only be needed in case a JAVA backend/runtime would be employed by the user).
@@ -217,6 +222,12 @@ Write a syntax-highlighting and auto-complete plugin for GrGen. (Makes some sens
 Port the C# backend and the runtime to JAVA, offer it additionally to the .NET backend.
 This should be not very difficult because the languages are so similar and no advanced libraries are used,
 but it'll be a huge effort (several 10k lines of code).
+
+=== Improved model/rules orthogonality ===
+The design could be clearer split into a libG and libGr, i.e. graph library and graph rewriting library.
+With the ability to use the same graph rewrite engine on multiple graph models or multiple graph rewrite engines on the same model - the improved orthogonality/modularity of the design would come at the price of even more dlls.
+But the more short-term goal is to add higher configurability of the model with further data definition language/graph model language constructs.
+Besides, some extra thoughts are needed because of the envisaged graph classes.
 
 === Support for different memory management models ===
 Supply two memory management models, a garbage collection and an explicit resource allocation/deallocation model (delete on objects needed for the latter, graph.add/rem are already available, a graph re-add could make sense in the former model), the former allows to run the latter highlighting programming errors, the latter can run in languages/environments without a garbage collector (and can offer further optimizations). (Also clarify the semantics/usage of esp. node/edge references, maybe adding debugging helpers.)
@@ -238,6 +249,29 @@ When LINUX is supported, it could make sense to add MAUI versions of the Windows
 
 === Actors ===
 To implement distributed communicating graphs.
+
+=== GrShell Server ===
+A GrShell command that opens a port (tcp-text-protocol?/REST-Web-API?) to listen to requests from using clients that send sequences/sequence expressions to execute, responds with the sequence execution result.
+Sequential execution only blocking other users. No transactions (/no state) between single sequence executions. (Queue of requests handled first-in first-out, maybe with max size, maybe with timeouts inside transactions.)
+No user/rights management. Only a primitive access token list for a minimum of security (with token transfer at session start over a secure connection).
+Graph model and actions entirely server-defined, clients are not allowed to change it.
+A GrShell command to connect to such a server that allows to send sequence requests, based on an API that can be also employed in user applications.
+
+=== Install shell scripts ===
+Windows PowerShell and LINUX bash scripts that download and install the software (but not an installer exe).
+
+=== Support more graph dump (and export) formats ===
+Write a graph dump format supported by MSAGL, render it with an app based on it (static graph rendering -/- dynamic graph rendering by the debugger).
+Search for the most command graph dump and export formats and write them (read them) for improved interoperability.
+Clean and generalize the graph visualization code.
+
+=== Explicit graph representation ===
+Models, actions, sequences are dedicated data structures and (to be) visualized as graphs.
+Improvements over the simple and closest approach of directly building a display graph out of them:
+- build an LGSPGraph (implementing IGraph) out of them (additional benefit of the intermediate data structure: graph rewriting (so changes) would be possible on them)
+- implement adaptors that offer an IGraph interface on them (additional benefit of the interface: visualization specifications could be applied)
+- directly offer their information through an IGraph interface (instead of the old dedicated task-specific one; as their information is constant, without the ability to modify them)
+So we get compilation results available as graphs amenable to graph rewriting (besides improved conceptual integrity) (text-to-graph transformer, meta-modelling, graph-based compiler backend/execution/api-level).
 
 === GrGen in GrGen ===
 Build a GrGen.NET graph in the ANTLR semantic actions and from then on use GrGen to compile GrGen rules into C# code. 
