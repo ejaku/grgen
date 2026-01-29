@@ -1368,7 +1368,10 @@ namespace de.unika.ipd.grGen.grShell
             ConsoleUI.outWriter.WriteLine("\nList of available commands for \"gshow\":\n"
                 + " - gshow model\n"
                 + "   Graphically shows the model of the current graph\n"
-                + "   with the configured graph viewer (yComp or MSAGL).\n\n");
+                + "   with the configured graph viewer (yComp or MSAGL).\n\n"
+                + " - gshow patterns\n"
+                + "   Graphically shows the patterns of the current actions\n"
+                + "   with the configured graph viewer (yComp or MSAGL).\n");
         }
 
         public void HelpDebug(List<String> commands)
@@ -1402,7 +1405,7 @@ namespace de.unika.ipd.grGen.grShell
                 + " - debug get options\n"
                 + "   Lists all available debugging options.\n\n"
                 + " - debug set option <name> <value>\n"
-                + "   Sets the value of the given debugging option.\n\n");
+                + "   Sets the value of the given debugging option.\n");
         }
 
         public void HelpDump(List<String> commands)
@@ -2881,6 +2884,33 @@ namespace de.unika.ipd.grGen.grShell
             IBasicGraphViewerClient basicGraphViewer = graphViewer.GetBasicClient();
 
             new ModelRenderer().RenderModelAsGraph(model, basicGraphViewer);
+
+            basicGraphViewer.ForceLayout();
+            basicGraphViewer.Sync();
+
+            ConsoleUI.outWriter.WriteLine("Press any key to continue...");
+            ProcessEventsUntilKeyPressedAsNeeded();
+            ConsoleUI.consoleIn.ReadKey(true);
+
+            graphViewer.Close();
+            ProcessEventsAsNeeded();
+        }
+
+        public void GShowPatterns()
+        {
+            if (!ActionsExists())
+                return;
+            if (nonDebugNonGuiExitOnError)
+                return;
+
+            ConsoleUI.outWriter.WriteLine("Showing the patterns of the actions graphically...");
+
+            IActions actions = curShellProcEnv.ProcEnv.Actions;
+
+            GraphViewerBaseClient graphViewer = GetGraphDisplayer(seqApplierAndDebugger.GraphViewerType);
+            IBasicGraphViewerClient basicGraphViewer = graphViewer.GetBasicClient();
+
+            new PatternsRenderer().RenderPatternsAsGraph(actions, basicGraphViewer);
 
             basicGraphViewer.ForceLayout();
             basicGraphViewer.Sync();

@@ -161,6 +161,7 @@ TOKEN: {
 |   < OPTIONS: "options" >
 |   < PARSE: "parse" >
 |   < PARSER: "parser" >
+|   < PATTERNS: "patterns" >
 |   < PERSIST: "persist" >
 |   < PROFILE: "profile" >
 |   < PWD: "pwd" >
@@ -1971,6 +1972,11 @@ void GShowCommand():
         "model" LineEnd()
         {
             impl.GShowModel();
+        }
+    |
+        "patterns" LineEnd()
+        {
+            impl.GShowPatterns();
         }
     }
     catch(ParseException ex)
