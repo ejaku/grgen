@@ -13,7 +13,7 @@ Here we repeat some content from chapter \ref{cha:performance}, refining it with
 \section{How to Build}\label{sub:building}\indexmain{building GrGen}
 
 In case you want to build \GrG~on your own (which is available from the public git repository \texttt{https://github.com/ejaku/grgen}), you should recall the system layout \ref{figsys}. 
-The graph rewrite generator consists of a frontend written in Java and a backend written in C\#.
+The graph rewrite generator consists of a frontend written in Java \cite{Java} and a backend written in C\# \cite{csharp}.
 The frontend was extended and changed since its first version, but not replaced.
 In contrast to the backend, which has seen multiple engines and versions: a MySQL database based version, a PSQL database based version, 
 a C version executing a search plan with a virtual machine, a C\# engine executing code generated from a search plan and finally the current C\# engine version 2 featuring attributes stored in the graph elements instead of in an extra object, and being capable of matching nested and subpatterns.

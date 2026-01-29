@@ -388,6 +388,12 @@ The operator \texttt{x in a} denotes array value membership, returning whether t
 It is a O(n) operation for arrays.
 The operator \texttt{a[x]} denotes array lookup, i.e. it returns the value \texttt{y} which is stored in the array \texttt{a} at the index \texttt{x}.
 The index \texttt{x} \emph{must} be a valid array index.
+
+\begin{note}
+\GrG{} does not support multi-dimensional arrays, but note that you can easily emulate them, e.g. a two-dimensional array \texttt{a} with dimensions \texttt{n} and \texttt{m} by initializing it to \texttt{n*m} elements and accessing it by \texttt{a[i*n + j]} instead of \texttt{a[i,j]}.
+Jagged arrays require intermediate helper objects storing the nested array, i.e. \texttt{a:array<NestedArray>} with \texttt{class NestedArray \{ nestedArray : array<TargetType>; \}}.
+\end{note}
+
 Furthermore, the container may be iterated over with a \texttt{for} loop, as introduced in  \ref{sub:controlflow}.
 The array allows for non-indexed as well as indexed iteration; if non-indexed iteration is used the array values are iterated over, if indexed iteration is used the index is assigned to the index variable and the corrsponding value is assigned to the value variable. 
 
