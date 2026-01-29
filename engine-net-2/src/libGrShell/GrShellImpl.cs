@@ -2880,7 +2880,7 @@ namespace de.unika.ipd.grGen.grShell
             GraphViewerBaseClient graphViewer = GetGraphDisplayer(seqApplierAndDebugger.GraphViewerType);
             IBasicGraphViewerClient basicGraphViewer = graphViewer.GetBasicClient();
 
-            new GrShellAiFeatures().RenderModelAsGraph(model, basicGraphViewer); // todo: static functions could be sufficient...
+            new ModelRenderer().RenderModelAsGraph(model, basicGraphViewer);
 
             basicGraphViewer.ForceLayout();
             basicGraphViewer.Sync();

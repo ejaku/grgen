@@ -1,4 +1,3 @@
-// cradle file for features to be implemented by AI code generators
 // by Claude Code with Edgar Jakumeit
 
 using de.unika.ipd.grGen.graphViewerAndSequenceDebugger;
@@ -10,7 +9,7 @@ using System.Text;
 
 namespace de.unika.ipd.grGen.grShell
 {
-    public class GrShellAiFeatures
+    public class ModelRenderer
     {
         // Realizer names for different type categories
         private const string NodeTypeRealizer = "uml_node_type";
