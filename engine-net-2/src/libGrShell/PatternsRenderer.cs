@@ -1,5 +1,9 @@
 // by Claude Code with Edgar Jakumeit
 
+// todo: IsRefType should be rather named IsContainerType and a real IsRefType should be added and used here
+// todo: more information in the interfaces is needed (IActions, IRulePattern, IPatternGraph) to display everything of importance, e.g. subpattern parameters and conditions, or a rule/test distinction, or all subpatterns even if not used
+// todo: GetUniqueNodeName could be maybe replaced by the existing prefixed names from the patterns
+
 using de.unika.ipd.grGen.graphViewerAndSequenceDebugger;
 using de.unika.ipd.grGen.libGr;
 using System;
