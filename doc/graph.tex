@@ -205,7 +205,7 @@ procedure example
 	def var leave:boolean = false;
 	for(x:N in nodes(N)) // lookup n of type N in the graph
 	{
-		x.visited = true; // (see 14.5 Visited Flags below)
+		x.visited = true; // see the section on Visited Flags
 		for(e:E in outgoing(x, E)) // from x on find outgoing edge e of type E
 		{
 			if(!(e.a == 42)) { // with e.a == 42
@@ -464,6 +464,7 @@ The procedures from the built-in package \texttt{File} allow to export subgraphs
 The \texttt{export} procedure behaves like the \texttt{export} command from the GrShell, see Section~\ref{outputcmds}, applied to a \texttt{.grs}-file. It allows for programmed exporting, and exporting of parts of the graph alongside subgraph containment.
 
 % todo: mehr beispiele
+% todo: connected components aufwändig programmiert berechnen statt einfach mit reachable (und strongly connected components von weak components unterscheiden, evt. examples/WeakComponents von Interesse)
 
 \begin{example}
 An example showing how to save a graph exploded into its connected components, and how to load it again from them.

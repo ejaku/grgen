@@ -140,3 +140,20 @@ The graph is NOT valid:
 \end{grshell}
 \end{example}
 
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Queries with Graphical Output}
+
+The following queries show information graphically (and thus are not amenable to test automatization, or at least less well suited), with the currently configured graph viewer/debugger.
+
+\begin{rail}
+  'gshow' 'model'
+\end{rail}\ixkeyw{gshow}\ixkeyw{model}
+Shows the graph model as a graph similar to an UML inheritance diagram.
+
+\begin{rail}
+  'gshow' 'patterns'
+\end{rail}\ixkeyw{gshow}\ixkeyw{patterns}
+Shows the patterns of the actions as a graph (note that edges are rendered as nodes, so that pattern nesting can be rendered correctly).
+
