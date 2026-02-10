@@ -21,6 +21,7 @@ Implement a shell history function.
 Improve subgraph support by allowing graph crossing edges, and by allowing to define a graph valued attribute as nested subgraph.
 Improve graph typing by introducing graph classes (with attributes; encapsulating data and actions; for improved data abstraction, even if full data abstraction is against the very idea of graph pattern matching).
 Add support for ordered edges.
+Use object class as base for node, edge, graph class (with shared flags bitvector)?
 
 === Rule language completions/extensions ===
 Add a constructor (the semantics of C++ constructors when virtual inheritance is used could be applied).
@@ -92,7 +93,7 @@ Carry through the command-query-separation (architecture with state-change event
 Add direct support (syntactic sugar) for omnigraphs with a lowering pass into the normal graphs.
 
 === Activity/story diagrams ===
-Add activity diagrams as another rule control language (maybe similar to FUJABA that offers executable story diagrams).
+Add activity diagrams as another rule control language (maybe similar to FUJABA that offers executable story diagrams, extended by storages) (GUI by AI, but text as base format needed, maybe built from graphlet-like patterns, just with predefined types).
 Benefit: conceptual integrity, all graph-based / visual (activity diagrams specified by textual ascii-art, similar to the patterns from the rule language, with automatic visualization).
 (Data in graph form, data processing rules in graph form, rule control in graph form, visualizable (execution semantics attached to a graph instead of to an abstract syntax tree).)
 
@@ -146,7 +147,7 @@ Events like in C# for improved abstraction, i.e. a separation of event firing an
 Vector similarity (for ml-ai uses): maybe some extension beyond the already existing bounding-box multi-index queries (followed by a filtering to the nearest ones) makes sense (maybe pgvector could offer inspiration).
 Maybe some support for hashing (esp. of graphs like in GROOVE, a limited kind of vector representation is already available with graph comparison by vstructs).
 (Also some structural comparison (/copying/searching) framework could make sense (pre-defined configurable ready-to-be-used on top of the programmable base layer).)
-(Also fuzzy pattern matching or graph coverage could be thought of...)
+(Also fuzzy pattern matching or graph coverage could be thought of...as well as bottom-up adaptive star parsing in contrast to only top-down star parsing.)
 (Attribute index also on object classes (very high level language with database-like features and event sourcing)).
 
 === Improved durability support (redo log / binary format) ===
@@ -229,6 +230,9 @@ So that the generated code can be debugged easier - of course debugging at the l
 
 === Less generated code ===
 Maybe some code generation could be replaced by (generic) library functions.
+
+=== Replace CSharpCC ===
+Replace the aged CSharpCC/MinosseCC parser generator by JavaCC with the C# backend (or even by ANTLR with the C# backend).
 
 === Replace Java frontend (compiler) by C# frontend ===
 It would make sense to rewrite the frontend to C# to have a GrGen.NET written entirely in C#, to get rid of the Java dependency (so it would only be needed in case a JAVA backend/runtime would be employed by the user).
