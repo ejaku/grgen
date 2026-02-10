@@ -26,13 +26,18 @@ which is admissible under LGPL, but when you extend the supplied code you must s
 
 --------
 
-The graph viewer yComp, which is, for your convenience, part of the release is closed source and free for academic use only.
+The graph viewer yComp (yComp.jar, which is, for your convenience, part of the release is closed source and free for academic use only.
 You are esp. not allowed to ship it with a release of your own commercial software, in contrast to the GrGen libraries.
 
 To be more specific, see also https://pp.ipd.kit.edu/firm/yComp.html:
 This software is based on the yFiles library.
 yWorks GmbH granted an academic license for „yFiles“ to IPD Goos: An academic license restricts the use of the software (yComp)
 to non-commercial purposes (research, teaching, projects, courses and application development).
+
+(This includes yObf.jar, graphmlObf.jar, ysvgObf.jar; the yFiles version according to the about dialog is 2.6.0.1)
+
+Regarding batik.jar likely from the apache xmlgraphics batik project used in yComp for svg functionality:
+the Apache License Version 2.0 holds, see batik.txt.
 
 --------
 
@@ -46,3 +51,23 @@ Graph persistence is implemented using SQLite.
 The code and documentation in System.Data.SQLite as well as SQLite proper have been dedicated to the public domain.
 The System.Data.SQLite.Linq and System.Data.SQLite.EF6 assemblies are compiled from files covered by the Microsoft Public License (MS-PL)
 - but they are not used in implementing graph persistence.
+
+--------
+
+Regarding the ANTLR binaries a BSD-like license holds, see ANTLR3.txt.
+(ANTLR 3.4 is needed when developing GrGen itself, but the runtimes are also needed when using GrGen.NET.)
+
+--------
+
+Regarding the CSharpCC binary (likely a home-brew version of MinosseCC described at https://www.codeproject.com/articles/MinosseCC-a-lexer-parser-generator-for-C-#comments-section)
+most likely a BSD-like license holds, see CSharpCC.txt and JavaCC.txt.
+(Build from 2008-03-10. Only needed for developing GrGen.NET itself.)
+
+--------
+
+Regarding jargs.jar used in grgen.jar for parsing the command line arguments a BSD-like license holds,
+see jargs.txt (likely a bit too current, the build is from 2003-03-11).
+
+--------
+
+rail(.exe) used in building the railroad diagram used in the manual comes without license information, for copyrights take a look at rail.sty
