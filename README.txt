@@ -3,14 +3,16 @@ GrGen.NET v8.0 (2025-12-24)
 
 This is the GrGen.NET system for graph rewriting.
 It consists of two parts of components:
-- the Graph Rewrite Generator GrGen, which turns declarative rewrite rule
-  specifications into efficient .NET assemblies performing the rewrites,
-  which are supported by the runtime environment implemented by LibGr
-  and the lgspBackend (plus helper dlls).
+- the Graph Rewrite Generator GrGen, which turns 
+  declarative rewrite rule specifications into efficient .NET assemblies
+  carrying out the pattern matching and performing the rewrites;
+  they are supported by the runtime environment implemented by the
+  libGr and the lgspBackend dlls (plus some helper dlls).
 - the rapid prototyping environment offered by the (G)GrShell with the 
-  console or the GUI debugger, and the yComp or MSAGL graph viewer
+  console or the GUI debugger, and the yComp or MSAGL graph viewers
   (MSAGL and the debugger can be also used from your own .NET application;
-  note that graphs may also be auto-persisted to a database or exported to/imported from files)
+  note that graphs may also be auto-persisted to a database
+  or exported to/imported from line-based text files)
 
 
 INSTALL
@@ -19,7 +21,7 @@ INSTALL
 You need the following system setup for GrGen.NET:
   - Microsoft .NET Framework 4.7.2 or above
     OR Mono 5.10.0 or above
-  - Java 1.8 or above (during development)
+  - Java 1.8 (RE) or above (during development of your graph rewrite system)
 
 For Linux:
   - Unpack GrGenNET.tar.bz2 to a folder of your choice (referred to
@@ -93,7 +95,8 @@ In the tests directory do you find the semantic/execution tests,
 in the test directory do you find the syntax/compiler tests,
 and in the examples directory do you find the examples that are also used as additional smoke tests.
 You can run the testbench by executing the "test.sh" shell scripts (for Windows you must use Cygwin).
-(These folders are contained in frontend and engine-net-2 folders in the source code available from https://github.com/ejaku/grgen.)
+(These folders are contained in frontend and engine-net-2 folders in the source code,
+ which can be obtained from https://github.com/ejaku/grgen.)
 
 
 HELP
@@ -182,3 +185,30 @@ for yComp, an academic license granted by yWorks holds,
 for the MSAGL component, the MIT license holds,
 the SQLite used by the persistent graph is in the public domain;
 you find more on this topic in the LICENSE.txt and the licenses folder.
+
+
+COMPONENTS (SBOM) AND LANGUAGES
+-------------------------------
+
+GrGen.exe: C#/.NET compiler application
+- uses grgen.jar
+- pattern matcher and sequence code generation, utilizing a few of the components mentioned directly below (esp. sequence parsing)
+
+(G)GrShell: C#/.NET shell application
+command line interpreter, utilizes via several internal libraries (containing e.g. the runtime environment
+ including pattern matcher re-generation, the sequences interpreter, and the debugger) the following external libraries/programs:
+- the MSAGL library for graph drawing, or yComp
+- the SQLite database for persistent storage of the graph
+- CSharpCC 3.2 generated parsers for the shell language, the sequence language, and constant literals
+(some are only loaded on-demand/as-needed)
+
+grgen.jar: JAVA compiler frontend
+- model code, pattern specification and rewrite code generation, sequences checking
+- ANTLR 3.4 generated parsers for the model and the actions language, as well as the sequence language (compiled embedded sequences)
+
+yComp.jar: JAVA graph visualization application
+- based on yFiles for graph drawing
+- utilizing ANTLR 3.1
+
+In order to build GrGen / take part in developing it, you need further components, please take a look at the user manual.
+The required parser generator jars are contained for your convenience (as well as the rails diagram building binary).
