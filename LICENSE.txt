@@ -55,19 +55,22 @@ The System.Data.SQLite.Linq and System.Data.SQLite.EF6 assemblies are compiled f
 --------
 
 Regarding the ANTLR binaries a BSD-like license holds, see ANTLR3.txt.
-(ANTLR 3.4 is needed when developing GrGen itself, but the runtimes are also needed when using GrGen.NET.)
-
---------
-
-Regarding the CSharpCC binary (likely a home-brew version of MinosseCC described at https://www.codeproject.com/articles/MinosseCC-a-lexer-parser-generator-for-C-#comments-section)
-most likely a BSD-like license holds, see CSharpCC.txt and JavaCC.txt.
-(Build from 2008-03-10. Only needed for developing GrGen.NET itself.)
-
---------
+ (The ANTLR 3.4 runtimes are needed when using grgen.jar, i.e. the GrGen compiler frontend,
+  ANTLR 3.4 complete is needed when building grgen.jar,
+  ANTLR 3.1.1 is needed by yComp.)
 
 Regarding jargs.jar used in grgen.jar for parsing the command line arguments a BSD-like license holds,
 see jargs.txt (likely a bit too current, the build is from 2003-03-11).
 
 --------
+
+Regarding the CSharpCC binary (likely a home-brew version of MinosseCC described at https://www.codeproject.com/articles/MinosseCC-a-lexer-parser-generator-for-C-#comments-section)
+most likely a BSD-like license holds, see CSharpCC.txt and JavaCC.txt (the build is from 2008-03-10).
+ (CSharpCC is only needed when building GrGen.NET itself (for the shell parser, the sequences parser, a constant literals parser).)
+
+--------
+
+The User Manual is licensed under the terms of the Creative Commons Attribution-Share Alike 3.0 Germany license.
+The license is available at http://creativecommons.org/licenses/by-sa/3.0/de/
 
 rail(.exe) used in building the railroad diagram used in the manual comes without license information, for copyrights take a look at rail.sty
