@@ -1,0 +1,98 @@
+COMPONENTS (SBOM) AND LANGUAGES
+-------------------------------
+
+GrGen.exe: C#/.NET compiler application
+- uses grgen.jar
+- pattern matcher and sequence code generation, utilizing a few of the components mentioned directly below (esp. sequence parsing)
+
+(G)GrShell: C#/.NET shell application
+command line interpreter, utilizes via several internal libraries (containing e.g. the runtime environment
+ including pattern matcher re-generation, the sequences interpreter, and the debugger) the following external libraries/programs:
+- the MSAGL library for graph drawing, or yComp
+- the SQLite database for persistent storage of the graph
+- CSharpCC 3.2 generated parsers for the shell language, the sequence language, and constant literals
+(some are only loaded on-demand/as-needed)
+
+grgen.jar: JAVA compiler frontend
+- model code, pattern specification and rewrite code generation, sequences checking
+- ANTLR 3.4 generated parsers for the model and the actions language, as well as the sequence language (compiled embedded sequences)
+
+yComp.jar: JAVA graph visualization application
+- based on yFiles for graph drawing
+- utilizing ANTLR 3.1
+
+In order to build GrGen / take part in developing it, you need further components, see below and/or take a look at the user manual.
+The required parser generator jars are contained for your convenience (as well as the rails diagram building binary).
+
+
+USAGE SCENARIOS AND DEPENDENCIES PLUS BUILDING
+----------------------------------------------
+
+1. Running a generated graph rewrite system from an own application deployed to some user machine
+ employing compiled model and actions dlls from API level, sequences execution from API,
+needs libConsoleAndOS.dll, libGr.dll, lgspBackend.dll (dlls from LGPL licensed code)
+Prerequisite: .NET Framework or mono
+
+Additional visualization by MSAGL or sequence debugging needs graphViewerAndSequencesDebugger.dll, graphViewerAndSequencesDebuggerWindowsForms.dll, libConsoleAndOSWindowsForms.dll
+ requiring Microsoft.Msagl.dll, Microsoft.Msagl.Drawing.dll, Microsoft.Msagl.GraphViewerGdi.dll, plus the System.***.dlls you find in the bin folder (with exception of the SQLite one)
+Additional database persistence by SQLite needs libGrPersistenceProviderSQLite.dll
+ requiring System.Data.SQLite.dll, and e_sqlite3.dll for Windows (x64) or libe_sqlite3.so for Linux (x64)
+Additional shell script execution/shell functionality needs libGrShell.dll
+
+2. Developing a graph rewrite system with GrGen.exe
+ model and actions specification files are compiled with GrGen to model and actions dlls
+Needs the same as 1. without additions, additionally the GrGen compiler frontend grgen.jar is required,
+it needs antlr-runtime-3.4.jar and jargs.jar
+Prerequisite: JAVA (RE)
+
+3a. Running a generated graph rewrite system from the execution host GrShell.exe
+ as an interactive workbench application or a script execution host
+Needs the same as 1. without additions, GGrShell.exe requires libConsoleAndOSWindowsForms.dll in addition
+In academia allowed: additional visualization by yComp, needs graphViewerAndSequencesDebugger.dll utilizing yComp.jar,
+ which requires yObf.jar, graphmlObf.jar, ysvgObf.jar, batik.jar, antlr-3.1.1.jar (graphViewerAndSequencesDebuggerWindowsForms.dll is not needed then)
+Prerequisite: JAVA (RE)
+
+3b. Developing a graph rewrite system with (G)GrShell
+ automatically employs the GrGen compiler as needed (requires the dependencies of 2.)
+
+4. Developing GrGen itself
+The source code can be obtained from the public git repository at https://github.com/ejaku/grgen.
+
+Building the compiler frontend:
+antlr-3.4-complete.jar needed (included) for generating the model, rules/computations and embedded sequences languages parsers
+(also antlr-runtime-3.4.jar and jargs.jar)
+Prerequisite: JAVA SDK, make to use the available makefiles in order to build the JAVA frontend, e.g. Eclipse could be used instead
+
+Building engine-net-2 containing the GrGen.exe compiler (backend) and the (G)GrShell as well as the internal dlls:
+csharpcc.jar needed (included) for generating the sequences, shell, and constant parsers (they require no runtime)
+Prerequisite Windows: VisualStudio msbuild, when using the cygwin build script also cygwin bash
+Prerequisite Linux: dotnet (mono for development is outdated but required for execution), bash
+(msbuild or dotnet build will download the required nuget packages of MSALG and SQLite)
+
+User manual building: build_cygwin.sh for Windows with cygwin bash (and sed), build for Linux, employs rail for railroad diagram building (included)
+Prerequisite: LaTeX distribution
+
+For building the API documentation, you need the Sandcastle Help File Builder.
+
+
+TESTING
+-------
+
+Here we assume the folder structure of the source code with dedicated frontend and enginge-net-2 folders,
+the folder structure of the binary release (referenced in the TESTS section of the README.txt) is reduced in comparison.
+
+For the test suites we use in testing the integrity of the releases or for tests during development, you need bash/cygwin bash (and awk).
+
+The compiler/syntax/frontend tests can be found in frontend/test.
+Run test.sh to execute them, it compiles the *.grg files in should_pass, should_warn, should_fail, noting whether the compiler succeeded, emitted warnings, or failed with errors, and reports the differences to summary_gold.log.
+Adding a test amounts to dropping it to the right folder and replacing the summary_gold.log with the summary.log written by the test run.
+
+The shell/semantic/execution tests can be found in engine-net-2/tests.
+Run test.sh to execute them, it executes in each subfolder the available .grs files, reporting the differences to the test data stored in the .grs.data file.
+Run gentest.sh to add a test, i.e. generate the test data file.
+
+The engine-net-2/examples folder contains examples that can be used as smoke tests.
+Run test.sh to execute them, it writes a testlog.sh with the results (compare to the version from the scm).
+
+TODO: maybe better separate by intended contents: Software Bill of Materials, Building, Testing, API-usage. Proofread.
+(Such an advanced-topics-readme is not only helpful for a human programmer but also for ML-AI-agent onboarding. Acceptable even if the content is a duplicate/extract of some user manual chapters/sections (the user manual should be the definitive and complete reference).)

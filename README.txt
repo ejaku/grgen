@@ -95,15 +95,13 @@ In the tests directory do you find the semantic/execution tests,
 in the test directory do you find the syntax/compiler tests,
 and in the examples directory do you find the examples that are also used as additional smoke tests.
 You can run the testbench by executing the "test.sh" shell scripts (for Windows you must use Cygwin).
-(These folders are contained in frontend and engine-net-2 folders in the source code,
- which can be obtained from https://github.com/ejaku/grgen.)
 
 
 HELP
 ----
 
-For further information refer to the "GrGen.NET User Manual" available
-at http://www.grgen.de (or http://www.grgen.net).
+For further information refer to the "GrGen.NET User Manual" contained in this package,
+and also available from https://www.grgen.de (or http://www.grgen.net).
 
 If you find any bugs or have a suggestion, please send an email to:
     grgen@grgen.de
@@ -185,30 +183,3 @@ for yComp, an academic license granted by yWorks holds,
 for the MSAGL component, the MIT license holds,
 the SQLite used by the persistent graph is in the public domain;
 you find more on this topic in the LICENSE.txt and the licenses folder.
-
-
-COMPONENTS (SBOM) AND LANGUAGES
--------------------------------
-
-GrGen.exe: C#/.NET compiler application
-- uses grgen.jar
-- pattern matcher and sequence code generation, utilizing a few of the components mentioned directly below (esp. sequence parsing)
-
-(G)GrShell: C#/.NET shell application
-command line interpreter, utilizes via several internal libraries (containing e.g. the runtime environment
- including pattern matcher re-generation, the sequences interpreter, and the debugger) the following external libraries/programs:
-- the MSAGL library for graph drawing, or yComp
-- the SQLite database for persistent storage of the graph
-- CSharpCC 3.2 generated parsers for the shell language, the sequence language, and constant literals
-(some are only loaded on-demand/as-needed)
-
-grgen.jar: JAVA compiler frontend
-- model code, pattern specification and rewrite code generation, sequences checking
-- ANTLR 3.4 generated parsers for the model and the actions language, as well as the sequence language (compiled embedded sequences)
-
-yComp.jar: JAVA graph visualization application
-- based on yFiles for graph drawing
-- utilizing ANTLR 3.1
-
-In order to build GrGen / take part in developing it, you need further components, please take a look at the user manual.
-The required parser generator jars are contained for your convenience (as well as the rails diagram building binary).
