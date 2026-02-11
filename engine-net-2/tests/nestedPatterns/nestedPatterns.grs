@@ -1,0 +1,21 @@
+new graph "nestedPatterns\nestedPatterns"
+
+show num nodes
+show num edges
+
+exec createGraph
+
+show num nodes
+show num edges
+
+exec [?negInMultiple]
+
+exec [?altInIterated]
+
+exec [?indepInAlt]
+
+exec [?subpatternNested]
+
+exec [?altNegDeep]
+
+quit

@@ -1,0 +1,3 @@
+node class N;
+node class A extends N;
+node class B extends N;

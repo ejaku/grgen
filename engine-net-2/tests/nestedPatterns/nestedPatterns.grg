@@ -1,0 +1,107 @@
+using nestedPatterns;
+
+rule createGraph
+{
+	modify {
+		a1:A --> a2:A;
+		a1 --> b1:B;
+		a2 --> b2:B;
+		// -- equivalent graphlet: b1:B <-- a1:A --> a2:A --> b2:B
+	}
+}
+
+// Test 1: negative inside multiple
+// Matches nodes that have at least one leaf (no outgoing) successor
+// -- this holds for n=a1 and n=a2, matching occurs top-down to the nested patterns (an iterated pattern is matched as often as available, but here in both cases only one successor exists)
+test negInMultiple
+{
+	n:N;
+	multiple {
+		n --> succ:N;
+		negative {
+			succ --> :N;
+		}
+	}
+}
+
+// Test 2: alternative inside iterated
+// Matches all nodes, classifying each successor as A or B
+// -- b1, b2 are matched as n with empty iterated, a1 is matched twice as n, it has two valid targets, and a2 once as n
+test altInIterated
+{
+	n:N;
+	iterated {
+		alternative {
+			isA {
+				n --> :A;
+			}
+			isB {
+				n --> :B;
+			}
+		}
+	}
+}
+
+// Test 3: independent and negative inside alternative
+// Classifies each node by structural role: inner, source, or leaf
+// -- a1 is matched twice as n with alternative case source, a2 is matched as n with alternative case inner, b1 and b2 are matched with alternative case leaf
+test indepInAlt
+{
+	n:N;
+	alternative {
+		inner {
+			n --> :N;
+			independent {
+				:N --> n;
+			}
+		}
+		source {
+			n --> :N;
+			negative {
+				:N --> n;
+			}
+		}
+		leaf {
+			negative {
+				n --> :N;
+			}
+		}
+	}
+}
+
+// Test 4: subpattern wrapping multiple with negative
+// Same as negInMultiple but via subpattern call
+pattern leafSuccs(anchor:Node)
+{
+	multiple {
+		anchor --> succ:N;
+		negative {
+			succ --> :N;
+		}
+	}
+}
+
+test subpatternNested
+{
+	n:N;
+	:leafSuccs(n);
+}
+
+// Test 5: negative controlling alternative case selection
+// Nodes with successors: classified as having deep (2-hop) paths or not
+// -- a1 is matched as n, b1 as the anonymous node from the pattern, and then hasDeep; a2 is matched as n, b2 as the anonymous node from the pattern, and then allLeaves
+test altNegDeep
+{
+	n:N;
+	n --> :N;
+	alternative {
+		allLeaves {
+			negative {
+				n --> :N --> :N;
+			}
+		}
+		hasDeep {
+			n --> :N --> :N;
+		}
+	}
+}
