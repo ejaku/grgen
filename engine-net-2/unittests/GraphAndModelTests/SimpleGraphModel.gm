@@ -1,0 +1,8 @@
+node class SomeNodeType;
+node class AnotherNodeType;
+
+edge class someEdgeType
+	connect SomeNodeType [0:1] --> SomeNodeType [0:1];
+
+edge class anotherEdgeType
+	connect SomeNodeType [*] --> AnotherNodeType [*];

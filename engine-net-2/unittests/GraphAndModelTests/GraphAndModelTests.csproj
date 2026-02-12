@@ -12,4 +12,37 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0"/>
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="lgspBackend">
+      <HintPath>..\..\bin\lgspBackend.dll</HintPath>
+    </Reference>
+    <Reference Include="libGr">
+      <HintPath>..\..\bin\libGr.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="DefaultGraphModel.gm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SimpleGraphModel.gm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="CopyGrGenJars" AfterTargets="PostBuildEvent">
+    <Exec Condition=" '$(OS)' == 'Windows_NT' "
+        Command="copy &quot;$(MSBuildProjectDirectory)\..\..\bin\grgen.jar&quot; &quot;$(MSBuildProjectDirectory)\$(OutputPath)&quot;" />
+    <Exec Condition=" '$(OS)' == 'Windows_NT' "
+        Command="copy &quot;$(MSBuildProjectDirectory)\..\..\bin\antlr-runtime-3.4.jar&quot; &quot;$(MSBuildProjectDirectory)\$(OutputPath)&quot;" />
+    <Exec Condition=" '$(OS)' == 'Windows_NT' "
+        Command="copy &quot;$(MSBuildProjectDirectory)\..\..\bin\jargs.jar&quot; &quot;$(MSBuildProjectDirectory)\$(OutputPath)&quot;" />
+    <Exec Condition=" '$(OS)' != 'Windows_NT' "
+        Command="cp &quot;$(MSBuildProjectDirectory)/../../bin/grgen.jar&quot; &quot;$(MSBuildProjectDirectory)/$(OutputPath)&quot;" />
+    <Exec Condition=" '$(OS)' != 'Windows_NT' "
+        Command="cp &quot;$(MSBuildProjectDirectory)/../../bin/antlr-runtime-3.4.jar&quot; &quot;$(MSBuildProjectDirectory)/$(OutputPath)&quot;" />
+    <Exec Condition=" '$(OS)' != 'Windows_NT' "
+        Command="cp &quot;$(MSBuildProjectDirectory)/../../bin/jargs.jar&quot; &quot;$(MSBuildProjectDirectory)/$(OutputPath)&quot;" />
+  </Target>
+
 </Project>
