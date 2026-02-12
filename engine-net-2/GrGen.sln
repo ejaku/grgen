@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.34829.251
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36811.4 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples-api", "examples-api", "{79EDF59C-7019-4B42-AC6C-9BDA8ADCB9D5}"
 	ProjectSection(SolutionItems) = preProject
@@ -150,6 +150,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libConsoleAndOSWindowsForms", "src\libConsoleAndOSWindowsForms\libConsoleAndOSWindowsForms.csproj", "{120C45F5-2CAF-46BB-9F64-838E9E557D61}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libGrPersistenceProviderSQLite", "src\libGrPersistenceProviderSQLite\libGrPersistenceProviderSQLite.csproj", "{5240A51B-3425-4A3A-A9BB-22FDA8147A7D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unittests", "unittests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphAndModelTests", "unittests\GraphAndModelTests\GraphAndModelTests.csproj", "{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -639,6 +643,18 @@ Global
 		{5240A51B-3425-4A3A-A9BB-22FDA8147A7D}.Release|x64.Build.0 = Release|x64
 		{5240A51B-3425-4A3A-A9BB-22FDA8147A7D}.Release|x86.ActiveCfg = Release|x86
 		{5240A51B-3425-4A3A-A9BB-22FDA8147A7D}.Release|x86.Build.0 = Release|x86
+		{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}.Debug|x64.Build.0 = Debug|Any CPU
+		{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}.Debug|x86.Build.0 = Debug|Any CPU
+		{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}.Release|x64.ActiveCfg = Release|Any CPU
+		{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}.Release|x64.Build.0 = Release|Any CPU
+		{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}.Release|x86.ActiveCfg = Release|Any CPU
+		{7DD2BA5F-1E78-46FB-824E-C70A07EA7003}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -673,6 +689,7 @@ Global
 		{A3424189-B2A7-455B-A7A5-BFCA20DA53F7} = {79EDF59C-7019-4B42-AC6C-9BDA8ADCB9D5}
 		{173422DE-FAB3-4473-9702-A4FBA866E5C9} = {2D0AFB3F-4243-4CE2-9A96-2B02425EAFF5}
 		{17B63989-2CFA-4255-9419-6292B36890AF} = {79EDF59C-7019-4B42-AC6C-9BDA8ADCB9D5}
+		{7DD2BA5F-1E78-46FB-824E-C70A07EA7003} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9F35A053-34A6-44FB-8EC8-32E93CA1C106}
