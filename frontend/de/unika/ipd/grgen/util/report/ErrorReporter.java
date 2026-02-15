@@ -115,4 +115,10 @@ public class ErrorReporter extends Reporter
 	{
 		return warnCount;
 	}
+
+	public static void resetCounters()
+	{
+		errCount = 0;
+		warnCount = 0;
+	}
 }

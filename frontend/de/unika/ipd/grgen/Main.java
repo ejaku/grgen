@@ -238,7 +238,7 @@ public class Main extends Base implements Sys
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				System.exit(0);
+				systemExit(0);
 			}
 		});
 
@@ -254,7 +254,7 @@ public class Main extends Base implements Sys
 			@Override
 			public void windowClosing(WindowEvent e)
 			{
-				System.exit(0);
+				systemExit(0);
 			}
 		});
 
@@ -267,6 +267,11 @@ public class Main extends Base implements Sys
 		frame.setVisible(true);
 
 		return frame;
+	}
+
+	protected void systemExit(int status)
+	{
+		System.exit(status);
 	}
 
 	private void init()
@@ -363,12 +368,12 @@ public class Main extends Base implements Sys
 			inputFileNames = parser.getRemainingArgs();
 			if(inputFileNames.length == 0) {
 				printUsage();
-				System.exit(2);
+				systemExit(2);
 			}
 		} catch(CmdLineParser.OptionException e) {
 			System.err.println(e.getMessage());
 			printUsage();
-			System.exit(2);
+			systemExit(2);
 		}
 	}
 
@@ -417,7 +422,7 @@ public class Main extends Base implements Sys
 			if(ext.equals("grg")) {
 				if(root != null) {
 					error.error("Only one .grg file may be specified.");
-					System.exit(-1);
+					systemExit(-1);
 				}
 				initPaths(inputFileName, inputFile, setDebugPath);
 				setDebugPath = false;
@@ -425,7 +430,7 @@ public class Main extends Base implements Sys
 				root = env.parseActions(inputFile);
 			} else if(!ext.equals("gm")) {
 				error.error("Input file with unknown extension: \"" + ext + "\".");
-				System.exit(-1);
+				systemExit(-1);
 			}
 		}
 
@@ -461,13 +466,13 @@ public class Main extends Base implements Sys
 		return res;
 	}
 
-	private static String getFileExt(String filename)
+	private String getFileExt(String filename)
 	{
 		int lastDot = filename.lastIndexOf('.');
 		int lastDirSep = filename.lastIndexOf(File.separatorChar);
 		if(lastDot == -1 || lastDirSep != -1 && lastDot < lastDirSep) {
 			error.error("The input file \"" + filename + "\" is lacking the name extension.");
-			System.exit(-1);
+			systemExit(-1);
 		}
 		return filename.substring(lastDot + 1).toLowerCase();
 	}
@@ -520,17 +525,17 @@ public class Main extends Base implements Sys
 			be.done();
 		} catch(ClassNotFoundException e) {
 			System.err.println("cannot locate backend class: " + backend);
-			System.exit(-1);
+			systemExit(-1);
 		} catch(IllegalAccessException e) {
 			System.err.println("no rights to create backend class: " + backend);
-			System.exit(-1);
+			systemExit(-1);
 		} catch(InstantiationException e) {
 			System.err.println("cannot create backend class: " + backend);
-			System.exit(-1);
+			systemExit(-1);
 		} catch(Throwable e) {
 			System.err.println("unexpected exception occurred:");
 			e.printStackTrace();
-			System.exit(-1);
+			systemExit(-1);
 		}
 
 		if(ErrorReporter.getErrorCount() > 0) {
@@ -539,7 +544,7 @@ public class Main extends Base implements Sys
 			else
 				System.err.println("There were " + ErrorReporter.getErrorCount() + " errors");
 
-			System.exit(-1);
+			systemExit(-1);
 		} else if(ErrorReporter.getWarnCount() > 0) {
 			if(ErrorReporter.getWarnCount() == 1)
 				System.err.println("There was " + ErrorReporter.getWarnCount() + " warning");
@@ -554,7 +559,7 @@ public class Main extends Base implements Sys
 	 * checks it, constructs the immediate representation and
 	 * emits the code.
 	 */
-	private void run()
+	protected void run()
 	{
 		long startUp, parse, manifest, buildIR, codeGen;
 
@@ -578,7 +583,7 @@ public class Main extends Base implements Sys
 		// parse the input file and exit, if there were errors
 		if(!parseInput()) {
 			debug.report(NOTE, "### ERROR in Parse Input. Exiting! ###");
-			System.exit(1);
+			systemExit(1);
 		}
 
 		parse += System.currentTimeMillis();
@@ -591,7 +596,7 @@ public class Main extends Base implements Sys
 			debug.report(NOTE, "### ERROR in Manifest AST. Exiting! ###");
 			if(ErrorReporter.getErrorCount() == 0)
 				error.error("An unknown error occurred in \"Manifest AST\".");
-			System.exit(1);
+			systemExit(1);
 		}
 
 		manifest += System.currentTimeMillis();
@@ -603,7 +608,7 @@ public class Main extends Base implements Sys
 		/*
 		 // Do identifier resolution (Rewrites the AST)
 		 if(!BaseNode.resolveAST(root))
-		 System.exit(2);
+		 systemExit(2);
 		
 		 // Dump the rewritten AST.
 		 if(dumpAST)
@@ -611,7 +616,7 @@ public class Main extends Base implements Sys
 		
 		 // Check the AST for consistency.
 		 if(!BaseNode.checkAST(root))
-		 System.exit(1);
+		 systemExit(1);
 		 */
 
 		debug.report(NOTE, "### Build IR ###");
@@ -660,7 +665,7 @@ public class Main extends Base implements Sys
 
 		if(ErrorReporter.getErrorCount() > 0) {
 			debug.report(NOTE, "### ERROR during IR build. Exiting! ###");
-			System.exit(1);
+			systemExit(1);
 		}
 
 		debug.report(NOTE, "### Generate Code ###");
@@ -711,12 +716,12 @@ public class Main extends Base implements Sys
 		}
 	}
 
-	private Main(String[] args)
+	protected Main(String[] args)
 	{
 		this.args = args;
 	}
 
-	private static void staticInit()
+	protected static void staticInit()
 	{
 		String packageName = Main.class.getPackage().getName();
 
