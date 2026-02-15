@@ -62,11 +62,19 @@ Regarding the ANTLR binaries a BSD-like license holds, see ANTLR3.txt.
 Regarding jargs.jar used in grgen.jar for parsing the command line arguments a BSD-like license holds,
 see jargs.txt (likely a bit too current, the build is from 2003-03-11).
 
+Regarding junit-4.13.2.jar used for testing the frontend java classes the Eclipse Public License holds, see junit.txt contained in the jar itself.
+Regarding hamcrest-core-1.3.jar used for testing the frontend java classes the BSD License holds, see LICENSE.txt contained in the jar itself.
+ (They are only needed when unit-testing GrGen itself.)
+
 --------
 
 Regarding the CSharpCC binary (likely a home-brew version of MinosseCC described at https://www.codeproject.com/articles/MinosseCC-a-lexer-parser-generator-for-C-#comments-section)
 most likely a BSD-like license holds, see CSharpCC.txt and JavaCC.txt (the build is from 2008-03-10).
  (CSharpCC is only needed when building GrGen.NET itself (for the shell parser, the sequences parser, a constant literals parser).)
+
+Regarding NUnit (3.12.0) used for testing the engine-net-2 C# classes the license NUnit.txt holds.
+Regarding the NUnit3TestAdapter used for testing the engine-net-2 C# classes the MIT license holds, see MIT_of_NUnit3TestAdapter.txt.
+ (They are only needed when unit-testing GrGen.NET itself.)
 
 --------
 
