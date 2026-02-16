@@ -459,4 +459,9 @@ public class UnitNode extends BaseNode
 			throw new RuntimeException("Internal error, change of root node");
 		UnitNode.root = root;
 	}
+
+	public static void clearRoot()
+	{
+		UnitNode.root = null;
+	}
 }
