@@ -1,0 +1,236 @@
+#using "nested_and_subpatterns_model.gm"
+
+// --- subpattern definitions ---
+
+pattern TwoChainPieces(anchor:N) {
+	anchor -:E-> mid:N -:E-> tail:N;
+}
+
+pattern ChainPieceWithParam(anchor:N, var minVal:int) {
+	anchor -:E-> next:N;
+	if { next.val >= minVal; }
+}
+
+pattern RecursiveList(head:N) {
+	optional {
+		head -:E-> next:N;
+		:RecursiveList(next);
+	}
+}
+
+pattern TreeNode(root:N) {
+	iterated {
+		root -:E-> child:N;
+		:TreeNode(child);
+	}
+}
+
+// --- negative ---
+
+test noSelfLoop {
+	n:N;
+	negative {
+		n -:E-> n;
+	}
+}
+
+test noOutgoing {
+	n:N;
+	negative {
+		n -:E-> .;
+	}
+}
+
+// nested negative
+test noTwoChainPiecesWithoutCycle {
+	a:N -:E-> b:N -:E-> c:N;
+	negative {
+		negative {
+			c -:E-> a;
+		}
+	}
+}
+
+// --- independent ---
+
+test hasExtraNode {
+	n:N;
+	independent {
+		m:N;
+	}
+}
+
+// nested independent
+test hasPairAndExtraEdge {
+	a:N -:E-> b:N;
+	independent {
+		independent {
+			x:N -:E-> y:N;
+		}
+	}
+}
+
+// --- alternative ---
+
+rule classifyNode {
+	n:N;
+	alternative {
+		HasSelfLoop {
+			n -:E-> n;
+			modify { }
+		}
+		HasOutgoing {
+			n -:E-> _:N;
+			modify { }
+		}
+		Isolated {
+			negative {
+				n -:E-> .;
+			}
+			negative {
+				. -:E-> n;
+			}
+			modify { }
+		}
+	}
+	modify { }
+}
+
+// --- iterated ---
+
+rule tagAllNeighbors {
+	center:N;
+	iterated {
+		center -:E-> neighbor:N;
+		modify {
+			eval { neighbor.val = center.val; }
+		}
+	}
+	modify { }
+}
+
+// --- optional ---
+
+test nodeWithOptionalEdge {
+	n:N;
+	optional {
+		n -:E-> m:N;
+	}
+}
+
+// --- multiple ---
+
+test nodeWithAtLeastOneEdge {
+	n:N;
+	multiple {
+		n -:E-> .;
+	}
+}
+
+// --- subpattern usage ---
+
+test useTwoChainPieces {
+	start:N;
+	c:TwoChainPieces(start);
+}
+
+test useChainPieceWithParam {
+	start:N;
+	c:ChainPieceWithParam(start, 42);
+}
+
+test useRecursiveList {
+	head:N;
+	:RecursiveList(head);
+}
+
+test useTree {
+	root:N;
+	:TreeNode(root);
+}
+
+// --- subpatterns with modify ---
+
+pattern Leaf(parent:N) modify() {
+	parent -:E-> leaf:N;
+	negative {
+		leaf -:E-> .;
+	}
+	modify {
+		eval { leaf.val = 0; }
+	}
+}
+
+rule markLeaves {
+	root:N;
+	iterated {
+		l:Leaf(root);
+		modify {
+			l();
+		}
+	}
+	modify { }
+}
+
+// --- nesting: alternative inside iterated ---
+
+rule processNeighbors {
+	center:N;
+	iterated {
+		center -:E-> neighbor:N;
+		alternative {
+			High {
+				if { neighbor.val > 100; }
+				modify {
+					eval { neighbor.val = 100; }
+				}
+			}
+			Low {
+				if { neighbor.val < 0; }
+				modify {
+					eval { neighbor.val = 0; }
+				}
+			}
+			Normal {
+				modify { }
+			}
+		}
+		modify { }
+	}
+	modify { }
+}
+
+// --- nesting: negative inside alternative ---
+
+rule handleEdges {
+	n:N;
+	alternative {
+		NoReverse {
+			n -e:E-> m:N;
+			negative {
+				m -:E-> n;
+			}
+			modify {
+				m -:E-> n;
+			}
+		}
+		HasReverse {
+			n -e:E-> m:N;
+			m -:E-> n;
+			modify { }
+		}
+	}
+	modify { }
+}
+
+// --- nesting: iterated inside optional ---
+
+test optionalFanout {
+	n:N;
+	optional {
+		n -:E-> hub:N;
+		iterated {
+			hub -:E-> _:N;
+		}
+	}
+}

@@ -1,0 +1,7 @@
+node class N {
+	val : int;
+}
+
+edge class E {
+	weight : int;
+}

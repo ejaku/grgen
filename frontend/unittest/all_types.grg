@@ -1,0 +1,17 @@
+#using "all_types_model.gm"
+
+test t
+{
+	n:Node -e:Edge-> n;
+	nbyte:NBYTE -ebyte:EBYTE-> nbyte;
+	nshort:NSHORT -eshort:ESHORT-> nshort;
+	nint:NINT -eint:EINT-> nint;
+	nlong:NLONG -elong:ELONG-> nlong;
+	nbool:NBOOL -ebool:EBOOL-> nbool;
+	nfloat:NFLOAT -efloat:EFLOAT-> nfloat;
+	ndouble:NDOUBLE -edouble:EDOUBLE-> ndouble;
+	nobject:NOBJECT -eobject:EOBJECT-> nobject;
+	nstring:NSTRING -estring:ESTRING-> nstring;
+	nnode:NNODE -eedge:EEDGE-> nnode;
+	noint:NOINT -eoint:EOINT-> noint;
+}

@@ -1,0 +1,95 @@
+node class NBYTE {
+	a : byte;
+}
+
+node class NSHORT {
+	a : short;
+}
+
+node class NINT {
+	a : int;
+}
+
+node class NLONG {
+	a : long;
+}
+
+node class NBOOL {
+	a : boolean;
+}
+
+node class NFLOAT {
+	a : float;
+}
+
+node class NDOUBLE {
+	a : double;
+}
+
+node class NOBJECT {
+	a: object;
+}
+
+node class NSTRING {
+	a : string;
+}
+
+node class NNODE {
+	a : NNODE;
+}
+
+node class NOINT {
+	a : OINT;
+}
+
+edge class EBYTE {
+	a : byte;
+}
+
+edge class ESHORT {
+	a : short;
+}
+
+edge class EINT {
+	a : int;
+}
+
+edge class ELONG {
+	a : long;
+}
+
+edge class EBOOL {
+	a : boolean;
+}
+
+edge class EFLOAT {
+	a : float;
+}
+
+edge class EDOUBLE {
+	a : double;
+}
+
+edge class EOBJECT {
+	a: object;
+}
+
+edge class ESTRING {
+	a : string;
+}
+
+edge class EEDGE {
+	a : EEDGE;
+}
+
+edge class EOINT {
+	a : OINT;
+}
+
+class OINT {
+	a : int;
+}
+
+transient class TOINT {
+	a : int;
+}

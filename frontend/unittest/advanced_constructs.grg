@@ -1,0 +1,260 @@
+#using "advanced_constructs_model.gm"
+
+// --- typeof ---
+
+rule createSameType {
+	n:A;
+	modify {
+		m:typeof(n);
+	}
+}
+
+rule retargetSameEdgeType {
+	a:A -e:R-> b:A;
+	c:A;
+	replace {
+		a; b; c;
+		a -:typeof(e)-> c;
+	}
+}
+
+// --- retyping ---
+
+rule retypeAtoB {
+	n:A;
+	modify {
+		:B<n>;
+	}
+}
+
+rule retypeEdge {
+	a:A -e:R-> b:A;
+	modify {
+		-:S<e>->;
+	}
+}
+
+rule retypeByCondition {
+	n:A;
+	alternative {
+		ToB {
+			if { n.x > 0; }
+			modify {
+				:B<n>;
+			}
+		}
+		ToC {
+			if { n.x <= 0; }
+			modify {
+				:C<n>;
+			}
+		}
+	}
+	modify { }
+}
+
+rule retypeToTypeOf {
+	src:A;
+	tgt:A;
+	modify {
+		:typeof(src)<tgt>;
+	}
+}
+
+// --- exact ---
+
+exact test exactMatch {
+	a:A -:R-> b:A;
+}
+
+test exactPerElement {
+	a:A;
+	b:A;
+	a -:R-> b;
+	exact(a);
+}
+
+// --- copy and clone ---
+
+rule copyNode {
+	n:A;
+	modify {
+		m:copy<n>;
+	}
+}
+
+rule cloneNode {
+	n:A;
+	modify {
+		m:clone<n>;
+	}
+}
+
+rule copyCloneEdge {
+	a:A -e:R-> b:A;
+	c:A;
+	modify {
+		c -f:copy<e>-> a;
+		a -g:clone<e>-> c;
+	}
+}
+
+// --- eval blocks ---
+
+rule computeAttributes {
+	n:A -e:R-> m:A;
+	modify {
+		eval {
+			n.x = n.x + m.x;
+			m.x = 0;
+			e.w = n.x * 2;
+		}
+	}
+}
+
+rule initNewNode {
+	modify {
+		n:B;
+		eval {
+			n.x = 42;
+			n.y = "hello";
+		}
+	}
+}
+
+// --- emit ---
+
+rule emitValues {
+	n:A -e:R-> m:A;
+	modify {
+	---
+		emit("edge weight: ", e.w, "\n");
+	}
+}
+
+// --- def variables ---
+
+rule withDefVar {
+	n:A -e:R-> m:A;
+	modify {
+	---
+		def var total:int;
+		eval { yield total = n.x + m.x; }
+		emit("total = ", total, "\n");
+	}
+}
+
+// --- hom (homomorphic matching) ---
+
+test homomorphicNodes {
+	a:A -:R-> b:A;
+	hom(a, b);
+}
+
+test homomorphicEdges {
+	a:A -e:R-> b:A;
+	a -f:R-> b;
+	hom(e, f);
+}
+
+test tripleHom {
+	a:A;
+	b:A;
+	c:A;
+	hom(a, b, c);
+}
+
+// --- induced ---
+
+induced test inducedSubgraph {
+	a:A -:R-> b:A;
+}
+
+induced rule inducedRewrite {
+	a:A -e:R-> b:A;
+	modify {
+		b -:R-> a;
+	}
+}
+
+// --- if conditions (attribute constraints) ---
+
+test conditionOnNode {
+	n:A;
+	if { n.x > 10; }
+}
+
+test conditionOnEdge {
+	a:A -e:R-> b:A;
+	if { e.w > 0; }
+	if { a.x != b.x; }
+}
+
+rule conditionalRewrite {
+	n:A -e:R-> m:A;
+	if { n.x > m.x; }
+	modify {
+		eval {
+			n.x = n.x - 1;
+			m.x = m.x + 1;
+		}
+	}
+}
+
+// --- combined: typeof + if + eval ---
+
+rule duplicateIfHigh {
+	n:A;
+	if { n.x > 100; }
+	modify {
+		m:typeof(n);
+		eval { m.x = n.x; }
+	}
+}
+
+// --- combined: alternative + retyping + eval ---
+
+rule classifyAndRetype {
+	n:A;
+	alternative {
+		Positive {
+			if { n.x > 0; }
+			modify {
+				b:B<n>;
+				eval { b.y = "positive"; }
+			}
+		}
+		NonPositive {
+			if { n.x <= 0; }
+			modify {
+				c:C<n>;
+				eval { c.z = 0.0; }
+			}
+		}
+	}
+	modify { }
+}
+
+// --- combined: hom + exact + if ---
+
+test homExactCondition {
+	a:A -e:R-> b:A;
+	hom(a, b);
+	exact(a);
+	if { e.w >= 0; }
+}
+
+// --- combined: copy + eval + emit ---
+
+rule duplicateAndTag {
+	n:B;
+	modify {
+		m:copy<n>;
+		eval {
+			m.y = n.y + "_copy";
+			m.x = n.x + 1;
+		}
+	---
+		emit("copied node with x=", n.x, "\n");
+	}
+}

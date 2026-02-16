@@ -1,0 +1,22 @@
+node class A {
+	x : int;
+}
+
+node class B extends A {
+	y : string;
+}
+
+node class C extends A {
+	z : double;
+}
+
+edge class R {
+	w : int;
+}
+
+edge class S extends R {
+}
+
+edge class T extends R {
+	label : string;
+}
