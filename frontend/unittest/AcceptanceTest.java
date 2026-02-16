@@ -1,5 +1,7 @@
 // by Claude Code with Edgar Jakumeit
 
+package unittest;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
