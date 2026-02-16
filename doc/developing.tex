@@ -72,10 +72,14 @@ The examples from \texttt{engine-net-2/examples} can be used as smoke tests by t
 
 For a very thorough test coverage, you could manually force parallelization of all pattern matchers in the frontend code (search for \texttt{uncomment} in \texttt{Unit.java}, or you could manually force profiling instrumentation of all pattern matchers (search for \texttt{uncomment} in \texttt{GrGen.cs}).
 
-A unit test suite was recently added to the solution file, you may run it directly in VisualStudio 2022 or use \texttt{dotnet test}.
+A unit test suite was recently added to the \texttt{engine-net-2} folder (in the \texttt{unittests} subfolder) and to the solution file, you may run it directly in VisualStudio 2022 or use \texttt{dotnet test}.
 It is based on NUnit3 
 \footnote{you may need NUnit2 when you want to execute your own tests from a native application like AutoCAD hosting your graph rewrite system --- but beware of outdated knowledge}
 and very limited in what it covers as of now.
+
+A unit test suite was also recently added to the \texttt{frontend} folder (in the \texttt{unittest} subfolder), you may run it directly in Eclipse or use \texttt{unittest/make\_unittest.sh} under Linux (the bash script also calls make on the frontend and builds the unit-tests).
+It is based on JUnit 4 and comprises a small set of quick-check acceptance tests as of now.
+
 The application tests checking that the languages work as expected (on the outside) had priority over checking internal components --- but the unit tests are to be extended, as they allow to find errors much earlier than the syntax/semantics test suites that take a long time to execute.
 
 
