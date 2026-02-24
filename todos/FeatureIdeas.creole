@@ -18,7 +18,8 @@ Implement the ability to debug graph rewrite scripts line-by-line.
 Implement a shell history function.
 
 === Model language extensions ===
-Improve subgraph support by allowing graph crossing edges, and by allowing to define a graph valued attribute as nested subgraph.
+Improve subgraph support by allowing graph crossing edges (and by allowing to define a graph valued attribute to be the one nested subgraph).
+(Parallel sequence execution on graphs is then very similar to graph partitioning.)
 Improve graph typing by introducing graph classes (with attributes; encapsulating data and actions; for improved data abstraction, even if full data abstraction is against the very idea of graph pattern matching).
 Add support for ordered edges.
 Use object class as base for node, edge, graph class (with shared flags bitvector)?
@@ -52,15 +53,18 @@ While the language features are quite well covered by compiler (frontend/smoke/e
 Furthermore, the debugger is completely lacking automated tests (unit/gui tests).
 The effects of optimizations are also not automatically detected/well covered.
 (For the frontend, JUnit would make sense, for the backend MSTest could be used, but for consistency reasons, NUnit would make more sense.)
+(Some fuzzing tools could make sense to see how the language processing reacts to invalid language inputs.)
 
 === Testability improvements ===
 Some test devices in the rule/computations language (written through to its underlying framework, so they are usable by e.g. the execution host GrShell; so that the user (in contrast to the language implementation targeted by the previous paragraph) can test his/her specifications automatically for improved maintainability; even though scenario tests make more sense than unit tests TBD).
 
 === Coding agent/bot support ===
 Maybe some example base targeted at ingestion by machine learning (so AI/agentic coding becomes better at writing code in the GrGen languages).
+Improve CLAUDE.md surveys/summaries with more implicit design knowledge/applied-and-to-be-applied patterns (but todo: relationship to developing section in user manual?).
 
 === Basic standalone IDE ===
-Rendering the project layout based on the files and folders, supplying textual editors with language support. Maybe a language server could be used towards this purpose. And supporting project execution with the GGrShell.
+Rendering the project layout based on the files and folders, supplying textual editors with language support.
+Maybe a language server could be used towards this purpose. And supporting project execution with the GGrShell. (Including a terminal window that could be used for agentic code generation / as a flexible project wizard.)
 
 === Language Server Support (Visual Studio Code) ===
 Write a syntax-highlighting and auto-completion plugin for GrGen (based on its grammar and scoping rules, for the the model language, the rules language, the sequences language, the shell language).
@@ -230,6 +234,10 @@ So that the generated code can be debugged easier - of course debugging at the l
 
 === Less generated code ===
 Maybe some code generation could be replaced by (generic) library functions.
+
+=== Updated implementation ===
+Use newer framework/language features, e.g. switch from a Dictionary with SetValueType to a HashSet for implementing sets.
+Most parts are still compatible with .NET framework 2.0, it would make sense to upgrade to .NET standard 2.0.
 
 === Replace CSharpCC ===
 Replace the aged CSharpCC/MinosseCC parser generator by JavaCC with the C# backend (or even by ANTLR with the C# backend).

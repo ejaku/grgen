@@ -7,9 +7,10 @@ In case of AI coding take care of the content of AICodingPolicy.txt (the restric
 
 ## Project Overview
 
-GrGen.NET (graph rewrite generator) is a system software for graph rewriting comprising a compiler at its core, an interactive and scriptable shell interpreter, a debugger offering visual-graphical and step-wise debugging, and database-like graph persistence (as well as modelling and query-result-processing).
-It is a tool for transforming graph-structured data using declarative pattern matching and rewriting rules (enriched by imperative and object-oriented programming language constructs; its features can also by used via an API in end-user .NET-applications).
-Its main uses are in compiler construction, model transformation, computer linguistics/knowledge representation, and engineering domains (in which graph representations of data are natural/intuitive).
+GrGen.NET (graph rewrite generator) is a system software for graph rewriting comprising a compiler at its core, an interactive and scriptable shell interpreter, a debugger offering visual-graphical and step-wise debugging, and an embedded database/ORM-mapper.
+It is a tool for transforming graph-structured data using declarative pattern matching and rewrite rules, enriched by advanced data modelling, query-result processing, and imperative and object-oriented programming language constructs.
+Its features can also by used via an API in end-user .NET-applications.
+Typical uses are in compiler construction, model transformation, computer linguistics/knowledge representation, and engineering domains (in which graph representations of data are natural/intuitive).
 
 **Two main components:**
 - **Frontend** (`frontend/`): Java compiler using ANTLR 3.4 that parses `.grg` (rules) and `.gm` (model) files, generates C# code

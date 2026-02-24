@@ -249,6 +249,8 @@ Nested transactions are \emph{not} supported.
 
 With the commit-and-restart command denoted by \texttt{>:<} you can commit the database transaction before the closing angle, a new one is started immediately thereafter - this way you can control the granularity of durability even in a nested construct.
 
+Of course it makes sense to couple the persistence provider transactions / commit-and-restart command with the application logic transactions introduced above at commit/rollback (or backtracking of the backtracking double angles) -- you have to do so explicitly. Transactional behavior and change rollback in \GrG{} is an application layer construct, with persistence provider transactions you only define the granularity of durability/performance of the changes from the layer above.
+
 \begin{example}
 The examples \texttt{persistentgraph\_transaction\_performance.grs} and \texttt{persistentgraph\_performance.grs} that can be found in the \texttt{tests/persistentgraph} directory allow to compare the performance of using database transaction and working without them.
 
