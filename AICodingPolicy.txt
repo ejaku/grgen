@@ -25,6 +25,7 @@ AI generated code is allowed for:
   esp. GUI-debugging-features visualizing the model, rules, and sequences (and similar debugging visualizations/development support)
 - new shell features (that are not strictly required to use the core or extensions of the other GrGen languages)
   (new persistence providers or backends, i.e. new dlls only linking against the LGPL core)
+- new import/export filters
 - test code, esp. unit tests (/internal implementation tests), but also non-cornerstone compiler(/syntax) tests, and non-cornerstone execution(/semantic) tests
   (to achieve a high test coverage protecting from regressions)
 
