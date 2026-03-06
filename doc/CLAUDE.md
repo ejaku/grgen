@@ -45,7 +45,7 @@ Main file: `grgen.tex`
 - `sequencecomputation.tex` - Computations in sequences: variables, expressions, assignments
 - `sequencegraphquerymanipulation.tex` - Graph queries and manipulation in sequences
 - `sequencesmultirulecalls.tex` - Multi-rule calls and backtracking
-- `sequencesadvanced.tex` - Advanced sequences: transactions, parallelism, pause/resume
+- `sequencesadvanced.tex` - Advanced sequences: sequence definitions, transactions, backtracking, multi-rule backtracking, for loops, mapping clause, persistence provider transactions
 
 ### Imperative Features
 - `imperative.tex` - Imperative statements in rules: eval blocks, exec statements

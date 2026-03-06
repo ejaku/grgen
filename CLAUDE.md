@@ -84,7 +84,7 @@ For more see the CLAUDE.md in frontend.
 - **graphViewerAndSequenceDebugger**: sequence execution debugger (text-console) with graph visualization functionality
 - **graphViewerAndSequenceDebuggerWindowsForms**: GUI/visual debugger and MSAGL-graph-viewer
 
-Further projects contain cross-platform consoles, and the SQLite-based persistent graph storage.
+Further projects contain cross-platform consoles, a library with the GrShell main functionality, and the SQLite-based persistent graph storage.
 These libraries may be all included in end-user applications (used on API level).
 For more see the CLAUDE.md in engine-net-2.
 

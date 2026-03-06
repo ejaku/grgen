@@ -6,19 +6,19 @@
 
 ```bash
 # All tests
-./test/test.sh
+cd test && ./test.sh
 
 # Frontend only (skip C# compilation, faster)
-./test/test.sh -f
+cd test && ./test.sh -f
 
 # Specific test file
-./test/test.sh should_pass/mytest.grg
+cd test && ./test.sh should_pass/mytest.grg
 
 # Verbose output
-./test/test.sh -v
+cd test && ./test.sh -v
 
 # Clean test outputs
-./test/test.sh -c
+cd test && ./test.sh -c
 ```
 
 Test categories:

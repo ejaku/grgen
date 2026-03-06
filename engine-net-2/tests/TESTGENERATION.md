@@ -48,10 +48,10 @@ Per-chapter summaries of the GrGen.NET user manual are in `doc/summaries/`. The 
 
 ### Sequences
 - `sequences.md` — Rule application, connectives, loops, result assignment
-- `sequencesadvanced.md` — Sequence definitions, transactions, backtracking, for loops
-- `sequencesmultirulecalls.md` — Multi-rule calls, match classes, indeterministic choice
 - `sequencecomputation.md` — Computation blocks, assignments, built-in functions/procedures
 - `sequencegraphquerymanipulation.md` — Array accumulation methods, rule queries
+- `sequencesmultirulecalls.md` — Multi-rule calls, match classes, indeterministic choice
+- `sequencesadvanced.md` — Sequence definitions, transactions, backtracking, multi-rule backtracking, for loops, mapping clause, persistence provider transactions
 
 ### Data Structures and Features
 - `container.md` — set, map, array, deque with methods and operators

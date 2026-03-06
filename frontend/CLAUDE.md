@@ -77,7 +77,7 @@ de.unika.ipd.grgen/
 ## Grammar Files
 
 - `parser/antlr/GrGen.g` - Main grammar for rules and models
-- `parser/antlr/EmbeddedExec.g` - Expression/statement syntax
+- `parser/antlr/EmbeddedExec.g` - Embedded sequences grammar (sequences, computations, expressions)
 
 After editing grammars, run `make .grammar` to regenerate parser classes.
 
