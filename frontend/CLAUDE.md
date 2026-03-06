@@ -4,60 +4,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-This is the Java frontend compiler for GrGen.NET. It parses `.grg` (rules) and `.gm` (model) files and generates C# code for the backend.
+This is the Java frontend compiler for GrGen.NET.
+It parses `.grg` (rules) and `.gm` (model) files and generates C# code for the backend.
 
 ## Build Commands
 
-```bash
-# Build compiler (produces grgen.jar)
-make
-
-# Fast incremental build
-make fast
-
-# Regenerate ANTLR parser (after grammar changes)
-make .grammar
-
-# Clean build artifacts
-make clean
-```
-
-Output JAR: `../engine-net-2/bin/grgen.jar`
+See BUILDING.md
 
 ## Running Tests
 
-### Compiler Tests (`test/`)
-
-```bash
-# All tests
-./test/test.sh
-
-# Frontend only (skip C# compilation, faster)
-./test/test.sh -f
-
-# Specific test file
-./test/test.sh should_pass/mytest.grg
-
-# Verbose output
-./test/test.sh -v
-
-# Clean test outputs
-./test/test.sh -c
-```
-
-Test categories:
-- `test/should_pass/` - Must compile successfully (721 files)
-- `test/should_fail/` - Must fail with errors (1185 files)
-- `test/should_warn/` - Must compile with warnings (52 files)
-
-### JUnit Acceptance Tests (`unittest/`)
-
-```bash
-# Build frontend and run acceptance tests
-./unittest/make_unittest.sh
-```
-
-Quick-running JUnit 4 tests that exercise the full compiler pipeline (parse, AST, IR, code generation) on small `.grg`/`.gm` input files. The test files live in `unittest/` alongside `AcceptanceTest.java`.
+See TESTING.md
+Note that the compiler tests typically also include the backend part of the compiler.
 
 ## Compiler Usage
 
@@ -111,10 +68,10 @@ de.unika.ipd.grgen/
 ## Compiler Pipeline
 
 ```
-1. parseInput()     → Parse .grg/.gm files → AST (UnitNode)
-2. manifestAST()    → Resolve references, validate
+1. parseInput()     → Parse .grg/.gm files → AST (UnitNode) utilizing ANTLR generated parser
+2. manifestAST()    → Resolve references, check types, check semantic constraints
 3. buildIR()        → Convert AST → IR (Unit)
-4. generateCode()   → Backend generates C# code
+4. generateCode()   → Backend (BE) generates C# code
 ```
 
 ## Grammar Files
@@ -128,7 +85,7 @@ After editing grammars, run `make .grammar` to regenerate parser classes.
 
 - Java 1.8+
 - ANTLR 3.4 (`jars/antlr-3.4-complete.jar` for build, `antlr-runtime-3.4.jar` for runtime)
-- jargs (`jars/jargs.jar` for command-line parsing)
+- jargs (`jars/jargs.jar` for command-line arguments parsing)
 
 ## Further Reading
 

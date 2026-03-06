@@ -14,18 +14,7 @@ Typical uses are in compiler construction, model transformation, computer lingui
 
 **Two main components:**
 - **Frontend** (`frontend/`): Java compiler using ANTLR 3.4 that parses `.grg` (rules) and `.gm` (model) files, generates C# code
-- **Backend** (`engine-net-2/`): C# engine that compiles the generated code into assemblies and executes graph rewriting operations with the GrShell application
-
-## Technologies
-
-- **C#** (.NET Framework 4.7.2) - Backend engine, shell, debugger
-- **Java** (1.8+) - Frontend compiler
-- **CSharpCC** - Parser generator for C# (sequence/shell/constant parsers)
-- **ANTLR 3.4** - Parser generator for Java frontend
-- **SQLite** - Persistent graph storage (`libGrPersistenceProviderSQLite`)
-- **MSAGL** - Graph visualization in debugger (.NET)
-- **yComp** - External JAVA graph viewer application
-- **Mono** - Cross-platform runtime (Linux)
+- **Backend** (`engine-net-2/`): C# engine that compiles the generated code into assemblies and executes graph rewriting operations with the GrShell application (that interprets `.grs` graph rewrite script files)
 
 ## Build Commands
 
@@ -39,57 +28,26 @@ Typical uses are in compiler construction, model transformation, computer lingui
 ./make_cygwin_windows.sh
 ```
 
-### Build Components Separately
-
-**Frontend only** (produces `grgen.jar`):
-```bash
-cd frontend && make
-```
-
-**Backend only** (after frontend is built):
-```bash
-cd engine-net-2 && dotnet build GrGen.sln
-```
-
-**Generate parsers only** (CSharpCC-based, required before backend build if parser grammars changed):
-```bash
-cd engine-net-2 && ./genparsers.sh
-```
+For more, see frontend/BUILDING.md and engine-net-2/BUILDING.md
 
 ## Running Tests
 
-### Backend Semantic Tests
+### Full Semantic Tests (in engine-net-2 directory)
 ```bash
 cd engine-net-2/tests && ./test.sh
 ```
-Run specific test directory:
-```bash
-cd engine-net-2/tests && ./test.sh dirname
-```
 
-### Frontend Compiler Tests
+### Full Compiler Tests (in frontend directory)
 ```bash
 cd frontend/test && ./test.sh
-```
-Run specific test file:
-```bash
-cd frontend/test && ./test.sh should_pass/mytest.grg
-```
-
-### Frontend Acceptance Tests (JUnit)
-```bash
-cd frontend && ./unittest/make_unittest.sh
-```
-
-### Backend Unit Tests (NUnit)
-```bash
-cd engine-net-2/unittests/GraphAndModelTests && dotnet test
 ```
 
 ### Examples (smoke tests)
 ```bash
 cd engine-net-2/examples && ./test.sh
 ```
+
+For further test instructions, see frontend/TESTING.md and engine-net-2/TESTING.md
 
 ## Architecture
 
@@ -110,39 +68,35 @@ grgen/
 
 ### Frontend Compiler Pipeline
 
-```
-1. parseInput()     → Parse .grg/.gm files via ANTLR → AST (UnitNode)
-2. manifestAST()    → Resolve references, check types, validate semantics
-3. buildIR()        → Convert AST → IR (Unit)
-4. generateCode()   → Backend generates C# source code
-```
+Classical compiler pipeline with a parser creating an abstract syntax tree, reference resolving and type checking on the syntax tree, that is then lowered to an intermediate representation, and a code generator (producing C#).
+For more see the CLAUDE.md in frontend.
 
-### C# Projects (engine-net-2/src/)
+### C# Application Projects
 
-- **libConsoleAndOS**: Foundation library - cross-platform console I/O abstraction; no dependencies
-- **libConsoleAndOSWindowsForms**: Windows Forms GUI console controls implementing libConsoleAndOS interfaces
-- **libGr**: Core graph library - graph and pattern matching interfaces, sequence parsing
-- **lgspBackend**: Search plan backend - generates and executes search programs for pattern matching (also graph implementation)
-- **libGrShell**: Shell scripting library - parses and executes `.grs` shell scripts
-- **libGrPersistenceProviderSQLite**: SQLite-based persistent graph storage
-- **GrGen**: Compiler driver - invokes Java frontend, compiles generated C# code (main implementation in lgspBackend)
-- **GrShell**: Command-line shell for interactive graph manipulation
+- **GrGen**: Compiler driver - invokes Java frontend, extends and compiles generated C# code (main implementation in lgspBackend)
+- **GrShell**: Command-line shell for interactive graph manipulation and scripting (real implementation in libGrShell)
 - **GGrShell**: GUI shell/workbench with Windows Forms
+
+### C# Library Projects
+
+- **libGr**: Core graph library - graph interfaces, pattern matching interfaces, sequence parsing and interpretation
+- **lgspBackend**: Search plan backend - generates search programs for pattern matching, also graph implementation and sequence code generation
 - **graphViewerAndSequenceDebugger**: sequence execution debugger (text-console) with graph visualization functionality
 - **graphViewerAndSequenceDebuggerWindowsForms**: GUI/visual debugger and MSAGL-graph-viewer
 
-### Key Design Patterns
+Further projects contain cross-platform consoles, and the SQLite-based persistent graph storage.
+These libraries may be all included in end-user applications (used on API level).
+For more see the CLAUDE.md in engine-net-2.
 
-- **Scheduled search programs**: Generated nested loops created by scheduling for efficient pattern matching
-- **Scalable data structures**: Type and incidence ringlists for fast graph element lookup, traversal, and structure changes; AA-trees for attribute indices
-- **Graph change events**: Event driven design/event sourcing: change events from application logic used for persistence and visualization
-- **Formal language processing**: Recursive descent parsing, nested symbol tables, partly syntax directed interpretation/translation
+### Key Design Pattern in Frontend and Backend
 
-### File Types
+- **Formal language processing**: Generated recursive-descent (potentially backtracking) parsers, nested symbol tables and type checking, syntax directed interpretation/translation
+
+## File Types
 
 - `.gm` - Graph model files (node/edge type definitions)
 - `.grg` - Graph rewrite rules (patterns and transformations)
-- `.grs` - GrShell scripts (test/execution scripts)
+- `.grs` - GrShell scripts with sequence interpretation (also used as test scripts) (a reduced version is also used as graph import/export format)
 - `.grs.data` - Expected output for test scripts
 
 ## Runtime Requirements
@@ -150,8 +104,7 @@ grgen/
 - .NET Framework 4.7.2+ or Mono
 - On Linux, executables run via `mono`: `mono bin/GrShell.exe script.grs`
 
-## Language and Tool Reference
+## Documentation (esp. Language and Tool Reference)
 
-`doc/summaries/` contains per-chapter `.md` summaries of the user manual — concise reference cards for the GrGen languages (model, rules, sequences, computations), tools (shell, debugger, API), and techniques. See `doc/summaries/CLAUDE.md` for a categorized index. See `doc/CLAUDE.md` for the manual's document structure, and `CLAUDE-AUX.md` for an overview of other project documentation files.
-
-For details on creating tests, see the CLAUDE.md files in `engine-net-2/tests/` (backend semantic tests) and `frontend/test/` (frontend compiler tests).
+See `CLAUDE-AUX.md` for an overview of the project documentation files (and used technologies).
+This includes an index of the CLAUDE.md files contained in the folder structure of the project, covering the user manual, the frontend pipeline steps, and the engine-net-2 projects (normally to be included bottom-up as needed).

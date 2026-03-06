@@ -10,7 +10,7 @@ grgen/
 ├── specifications/     # Feature and architecture specifications
 ├── todos/              # Feature ideas and TODOs
 ├── licenses/           # License texts for all components (LGPL, MIT, BSD, etc.)
-└── ...                 # See CLAUDE.md for further code directories
+└── ...                 # See CLAUDE.md for the code directories
 ```
 
 ## Documentation Files
@@ -24,27 +24,25 @@ grgen/
 
 ## CLAUDE.md Files
 
-- `CLAUDE.md` - Project overview, build commands, architecture, key design patterns
-- `CLAUDE-AUX.md` - This file: auxiliary directories, documentation files, CLAUDE.md index
+The project contains multiple CLAUDE.md files in subfolders summarizing the content of the respective folders, to be used as references when working with code from that folders (together with the CLAUDE.md files from the parent folders).
+Also further BUILDING.md files with building instructions and TESTING.md files with testing instructions, as well as TESTGENERATION.md files with instructions on generating tests, the latter reference the markdown files summarizing the contents of user manual chapters of relevance for generating tests in the GrGen-languages.
+
+- `CLAUDE.md` - Project overview, build and test commands, architecture
+- `CLAUDE-AUX.md` - This file: auxiliary directories and documentation files overview, plus a CLAUDE.md index and a technologies listing
 - `doc/CLAUDE.md` - User manual structure, build commands, LaTeX environment
 - `doc/summaries/CLAUDE.md` - Categorized index of per-chapter summary files
-- `frontend/CLAUDE.md` - Frontend compiler: architecture, packages, build, tests
-- `frontend/test/CLAUDE.md` - Frontend compiler test creation guide
-- `frontend/de/unika/ipd/grgen/ast/CLAUDE.md` - Abstract syntax tree classes and structure
-- `frontend/de/unika/ipd/grgen/ir/CLAUDE.md` - Intermediate representation classes
-- `frontend/de/unika/ipd/grgen/parser/CLAUDE.md` - ANTLR parser/lexer
-- `frontend/de/unika/ipd/grgen/be/CLAUDE.md` - Backend code generation
-- `frontend/de/unika/ipd/grgen/util/CLAUDE.md` - Utility classes
-- `engine-net-2/CLAUDE.md` - Backend engine: solution structure, build, tests
-- `engine-net-2/tests/CLAUDE.md` - Backend semantic test creation guide
-- `engine-net-2/src/libGr/CLAUDE.md` - Core graph library
-- `engine-net-2/src/lgspBackend/CLAUDE.md` - Search plan backend
-- `engine-net-2/src/libGrShell/CLAUDE.md` - Shell scripting library
-- `engine-net-2/src/GrGen/CLAUDE.md` - Compiler driver
-- `engine-net-2/src/GrShell/CLAUDE.md` - Command-line shell
-- `engine-net-2/src/GGrShell/CLAUDE.md` - GUI shell/workbench
-- `engine-net-2/src/graphViewerAndSequenceDebugger/CLAUDE.md` - (Sequence) debugger and graph visualization
-- `engine-net-2/src/graphViewerAndSequenceDebuggerWindowsForms/CLAUDE.md` - Windows Forms debugger GUI and MSAGL graph viewer
-- `engine-net-2/src/libConsoleAndOS/CLAUDE.md` - Console/OS abstraction
-- `engine-net-2/src/libConsoleAndOSWindowsForms/CLAUDE.md` - Windows Forms console
-- `engine-net-2/src/libGrPersistenceProviderSQLite/CLAUDE.md` - SQLite persistence
+- `frontend/CLAUDE.md` - Frontend compiler: architecture, packages
+- `frontend/de/unika/ipd/grgen/*/CLAUDE.md` - instructive/overview files per compiler pipeline step
+- `engine-net-2/CLAUDE.md` - Backend engine: solution structure, key design patterns
+- `engine-net-2/src/*/CLAUDE.md` - instructive/overview files per C# project
+
+## Technologies
+
+- **C#** (.NET Framework 4.7.2) - Backend engine, shell, debugger
+- **Java** (1.8+) - Frontend compiler
+- **CSharpCC** - Parser generator for C# (sequence/shell/constant parsers)
+- **ANTLR** - Parser generator for Java frontend (version 3.4)
+- **SQLite** - Persistent graph storage (used by `libGrPersistenceProviderSQLite`)
+- **MSAGL** - Graph visualization in debugger (.NET)
+- **yComp** - External JAVA graph viewer application
+- **Mono** - Cross-platform runtime (Linux)
