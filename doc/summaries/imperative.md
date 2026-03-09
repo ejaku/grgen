@@ -8,12 +8,12 @@
 ### emit in Rules
 - `emit(stringExpr, ...);` -- print to output stream
 - `emitdebug(...)` -- always to console
-- `emithere(...)` / `emitheredebug(...)` -- ordered output (interleaved with subpattern rewrites)
-- Execution order: emithere first (in syntactic order), then emit, then exec
 
-### Deferred exec
-- `exec` in nested/subpattern rewrites: deferred until top-level rule finishes
-- Cannot use `yield` (containing rule already done)
+### Exec and Emit in Nested/Subpatterns
+- `emit`/`emitdebug` available as in rules
+- `emithere(...)` / `emitheredebug(...)` -- only in nested/subpatterns; ordered output interleaved with subpattern rewrites
+- Execution order: emithere first (syntactic order), then emit, then exec
+- `exec` is deferred: runs after top-level rule finishes; cannot use `yield`
 
 ### scan/tryscan
 - `scan<Type>(string)` -- parse string to type (crashes on failure)

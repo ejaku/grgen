@@ -1,12 +1,13 @@
 # Validation and Inspection
 
 ### Show Commands
-- `show node|edge types` -- list types
-- `show node|edge super|sub types T` -- inheritance hierarchy
-- `show node|edge attributes [only] [Type]` -- attribute types
-- `show [num] nodes [only NodeType]` / `show [num] edges [only EdgeType]` -- instances or count
-- `show node|edge Entity` -- attribute values
-- `show Entity.AttributeName` -- specific attribute
+- `show node|edge|object|transient object types` -- list types of the given kind
+- `show node|edge|object|transient object super|sub types T` -- inheritance hierarchy for a type
+- `show node|edge|object|transient object attributes [[only] Type]` -- attribute types (all, or for given type; `only` excludes inherited)
+- `show [num] nodes [[only] NodeType]` / `show [num] edges [[only] EdgeType]` -- instances or count (nodes/edges only)
+- `show node|edge|object|transient object Entity` -- attribute types and values of a specific entity
+- `show Entity.AttributeName` -- value of a specific attribute
+- `node|edge|object|transient object type T1 is T2` -- check whether T1 is type-compatible with T2
 - `show var Variable` -- variable content (recorded by test framework)
 
 ### Graphical Show Commands

@@ -7,7 +7,7 @@
 - Better: runtime statistics via `custom graph analyze` + `custom actions gen_searchplans Rule`
 - Or supply a statistics file at compile time: `GrGen.exe -statistics file.txt spec.grg`
 - Display current search plan: `custom actions explain Rule`
-- Export statistics: `custom graph export_statistics file.txt`; load in shell: `new set statistics file.txt`
+- Export statistics: `custom graph statistics save file.txt`; load in shell: `new set statistics file.txt`
 
 ### Find, Don't Search (Rule Design Tips)
 - Use specific types (not generic `Node`/`Edge`) to narrow candidate sets for lookups
