@@ -230,13 +230,13 @@ Otherwise the edge will be of the base edge class type \texttt{Edge} for \texttt
   SetConstr: 'set' '<' Type '>' lbrace ( Expression*',' ) rbrace ;
   MapConstr: 'map' '<' Type ',' Type '>' \\ lbrace ( (Expression '->' Expression)*',' ) rbrace ;
   ArrayConstr: 'array' '<' Type '>' '[' ( Expression*',' ) ']' ;
-  DequeConstr: 'deque' '<' Type '>' ']' ( Expression*',' ) '[' ;
+  DequeConstr: 'deque' '<' Type '>' '[' ( Expression*',' ) ']' ;
 \end{rail}\indexmain{\texttt{\$}}\ixnterm{Constructor}\ixnterm{Attributes}\ixnterm{AttributeValue}\ixnterm{PrimitiveAttributeValue}\ixnterm{SetConstr}\ixnterm{MapConstr}\ixnterm{ArrayConstr}\ixnterm{DequeConstr}
 A \indexed{constructor} is used to initialize a new graph element (see \texttt{new \dots} below).
 A comma separated list of \indexed{attribute} initializations is supplied to the constructor.
 Available attribute names are specified by the graph model of the current working graph.
 All the undeclared attributes will be initialized with \indexed{default value}s, depending on their type
-(\texttt{int} $\leftarrow$ \texttt{0}; \texttt{long} $\leftarrow$ \texttt{0L}; \texttt{byte} $\leftarrow$ \texttt{0Y}; \texttt{short} $\leftarrow$ \texttt{0S}; \texttt{boolean} $\leftarrow$ \texttt{false}; \texttt{float} $\leftarrow$ \texttt{0.0f}; \texttt{double} $\leftarrow$ \texttt{0.0}; \texttt{string} $\leftarrow$ \texttt{""}; \texttt{set<T>} $\leftarrow$ \texttt{set<T>\{\}}; \texttt{map<S,T>} $\leftarrow$ \texttt{map<S,T>\{\}}; \texttt{array<T>} $\leftarrow$ \texttt{array<T>[]}; \texttt{deque<T>} $\leftarrow$ \texttt{deque<T>][}; \texttt{enum} $\leftarrow$ unspecified;).\\
+(\texttt{int} $\leftarrow$ \texttt{0}; \texttt{long} $\leftarrow$ \texttt{0L}; \texttt{byte} $\leftarrow$ \texttt{0Y}; \texttt{short} $\leftarrow$ \texttt{0S}; \texttt{boolean} $\leftarrow$ \texttt{false}; \texttt{float} $\leftarrow$ \texttt{0.0f}; \texttt{double} $\leftarrow$ \texttt{0.0}; \texttt{string} $\leftarrow$ \texttt{""}; \texttt{set<T>} $\leftarrow$ \texttt{set<T>\{\}}; \texttt{map<S,T>} $\leftarrow$ \texttt{map<S,T>\{\}}; \texttt{array<T>} $\leftarrow$ \texttt{array<T>[]}; \texttt{deque<T>} $\leftarrow$ \texttt{deque<T>[]}; \texttt{enum} $\leftarrow$ unspecified;).\\
 The \texttt{\$} is a special attribute name: a unique identifier of the new graph element.
 This identifier is also called \newterm{persistent name} (see Example~\ref{persistentex}).
 This name can be specified by a constructor only.
