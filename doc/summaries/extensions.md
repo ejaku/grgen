@@ -1,31 +1,31 @@
 # External Extensions
 
 ### External Attribute Types
-- Declare in `.gm`: `external class MyType;` (optionally `extends BaseType`)
-- May declare external function/procedure methods
-- Implement in C#: class implementing `IExternalObject`
-- Must provide: `Copy()`, equality, ordering (if needed)
+- Declare in `.gm`: `external class MyType;` or `external class MyType extends BaseType { ExternalFunctionDecl... ExternalProcedureDecl... }`
+- May declare an inheritance hierarchy and external function/procedure methods; attributes cannot be specified
+- Implement in C# the partial class MyType (the generated part declares the inheritance relationship as specified); see `api.md` External Extensions section for the generated and expected file structure
+- Types are opaque to GrGen (only function/procedure methods operate on them); explicit cast to `object` required (no implicit cast)
+- Methods may register own undo items with the transaction manager to realize rollback for external attributes
 
 ### External Functions
-- Declare in `.grg`: `external function myFunc(param:Type) : RetType;`
-- Implement in `*ActionsExternalFunctions.cs` partial class
+- Declare in `.gm`: `external function myFunc(param:Type) : RetType;`
 - Callable from rules, computations, and sequences
+- See `api.md` for what is generated and what has to be implemented - the same holds for the other constructs specified here
 
 ### External Procedures
-- Declare in `.grg`: `external procedure myProc(param:Type) : (RetType);`
-- Implement in `*ActionsExternalFunctions.cs` partial class
+- Declare in `.gm`: `external procedure myProc(param:Type) : (RetType);`
 - Can modify graph (add/delete nodes/edges, set attributes)
 - Callable from rules, computations, and sequences
 
 ### External Filter Functions
 - Declare in `.grg`: `external filter myFilter<rule>(var v:Type);`
-- Implement in C#: receives `IList<IMatch>`, can reorder/remove matches
+- Filter name must be globally unique (unlike predefined auto-generated filters)
+- Implement in C#: receives IMatchesExact, with typed match interface `IMatch_r` (generated per rule); match object has typed members for each node/edge/variable; iterateds yield `IMatchesExact<IMatch_r_iterName>`; alternatives have per-case match interfaces; subpattern usages typed with subpattern match interface
 - Applied with `rule\myFilter` syntax
 
 ### External Sequences
 - Declare in `.grg`: `external sequence mySeq(param:Type) : (RetType);`
-- Implement in C#: method in `*ActionsExternalFunctions.cs`
-- Callable from sequences like built-in defined sequences
+- Callable from sequences
 
 ### External Emit and Parse
 - Declare in `.gm`: `external emit class;` (or `external emit graph class;`)
@@ -50,8 +50,10 @@
 - `new set keepdebug on|off` — GrShell equivalent of `-keep` and `-debug`
 
 ### Annotations
-- `[prio:N]` — matching priority for pattern elements (default 1000, higher = earlier in search plan)
-- `[maybeDeleted]` — suppress error when element may be homomorphically matched with a deleted element
-- `[containment]` — mark edge type as containment (used for XMI export)
-- `[parallelize:N]` — parallelize pattern matcher with N threads
-- `[validityCheck:false]` — disable contained-in-graph checks for a node/edge or all elements of a rule
+- Annotations: `IdentDecl[ident=constant, ...]`; keys must be identifiers, values must be constants; any combination allowed; custom annotations queryable at API level
+- Only the following keys have a built-in effect:
+- `[prio=N]` on node/edge — matching priority (default 1000, higher = earlier in search plan)
+- `[maybeDeleted=true]` on node/edge — suppress error when element may be homomorphically matched with a deleted element
+- `[containment=true]` on edge type — mark as containment relation (used for XMI export; default false)
+- `[parallelize=N]` on rule/test — parallelize the pattern matcher with N threads
+- `[validityCheck=false]` on node/edge — skip contained-in-graph checks (active when `-debug` compiler flag or shell option is set) for that element; on rule — skip checks for all nodes/edges in the rule's patterns
