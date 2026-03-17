@@ -26,6 +26,15 @@ Test categories:
 - `test/should_fail/` - Must fail with errors (more than 1000 files)
 - `test/should_warn/` - Must compile with warnings (more than 50 files)
 
+Test outcomes:
+- **OK**: Frontend compiles successfully, no warnings (and C# backend compiles if not `-f` mode)
+- **WARNED**: Frontend compiles successfully but produces WARNING output
+- **ERROR**: Frontend exits non-zero and produces ERROR output
+- **ABEND**: Frontend exits non-zero without ERROR/WARNING (unexpected crash)
+- **FAILED(C#)**: Frontend OK but C# backend compilation fails
+
+Results are written to `test/summary.log` (or `test/summary_fe.log` with `-f`) and compared against `test/summary_gold.log`.
+
 ### JUnit Unit/Acceptance Tests (`unittest/`)
 
 ```bash
@@ -38,4 +47,4 @@ The test files live in `unittest/` alongside `AcceptanceTest.java`.
 
 ## Generating Test
 
-For generating tests see test/TESTGENERATION.md
+For generating tests see TESTGENERATION.md

@@ -20,14 +20,14 @@ Tests compare GrShell output against `.grs.data` reference files. Each `exec` co
 
 Use `gentest.sh` to generate `.grs.data` files automatically instead of hand-calculating expected values:
 ```bash
-./gentest.sh subdir/script.grs
+cd tests && ./gentest.sh subdir/script.grs
 ```
 
-Test directories can contain **multiple `.grs` files** sharing the same `.gm`/`.grg` definitions (e.g., `alternatives/` has `Alternatives.grs`, `AlternativesRewrite.grs`, `AlternativeInIterated.grs`, etc.). Prefer adding a new `.grs` script to an existing directory when the model/rules already cover the needed types.
+Test directories can contain **multiple `.grs` files** sharing the same `.gm`/`.grg` definitions (e.g., `tests/alternatives/` has `Alternatives.grs`, `AlternativesRewrite.grs`, `AlternativeInIterated.grs`, etc.). Prefer adding a new `.grs` script to an existing directory when the model/rules already cover the needed types/functionality.
 
 ## GrGen Language Reference
 
-Per-chapter summaries of the GrGen.NET user manual are in `doc/summaries/`. The chapters relevant for writing backend semantic tests are listed below.
+Per-chapter summaries of the GrGen.NET user manual are in `../doc/summaries/`. The chapters relevant for writing backend semantic tests are listed below.
 
 ### Model Language
 - `modellang.md` — Node/edge types, attributes, enums, connection assertions, inheritance

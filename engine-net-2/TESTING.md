@@ -37,5 +37,5 @@ Each test directory contains:
 
 ## Generating Tests
 
-For generating tests see tests/TESTGENERATION.md
+For generating tests see TESTGENERATION.md
 It contains details on test creation and points to a GrGen language reference.

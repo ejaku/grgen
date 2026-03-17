@@ -30,7 +30,7 @@ Also further BUILDING.md files with building instructions and TESTING.md files w
 - `CLAUDE.md` - Project overview, build and test commands, architecture
 - `CLAUDE-AUX.md` - This file: auxiliary directories and documentation files overview, plus a CLAUDE.md index and a technologies listing
 - `doc/CLAUDE.md` - User manual structure, build commands, LaTeX environment
-- `doc/summaries/CLAUDE.md` - Categorized index of per-chapter summary files
+- `doc/summaries/CLAUDE.md` - Index of per-chapter summary files
 - `frontend/CLAUDE.md` - Frontend compiler: architecture, packages
 - `frontend/de/unika/ipd/grgen/*/CLAUDE.md` - instructive/overview files per compiler pipeline step
 - `engine-net-2/CLAUDE.md` - Backend engine: solution structure, key design patterns

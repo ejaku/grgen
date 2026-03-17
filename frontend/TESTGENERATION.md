@@ -1,18 +1,18 @@
 # Frontend Compiler Test Creation Guide
 
-This directory contains tests for the GrGen.NET Java frontend compiler. Each test is a `.grg` file (optionally with a companion `.gm` model file) that is compiled by the frontend. Tests are organized by expected compiler outcome.
+The `test/` directory contains tests for the GrGen.NET Java frontend compiler. Each test is a `.grg` file (optionally with a companion `.gm` model file) that is compiled by the frontend. Tests are organized by expected compiler outcome.
 
 ## Test Categories
 
-- `should_pass/` — Valid GrGen code that must compile without errors or warnings
-- `should_fail/` — Invalid code that must produce a compiler ERROR (and exit non-zero)
-- `should_warn/` — Valid code that must produce a compiler WARNING (but still compile successfully)
+- `test/should_pass/` — Valid GrGen code that must compile without errors or warnings
+- `test/should_fail/` — Invalid code that must produce a compiler ERROR (and exit non-zero)
+- `test/should_warn/` — Valid code that must produce a compiler WARNING (but still compile successfully)
 
 ## Test Structure
 
 A test is a single `.grg` file. If it needs custom types, provide a `.gm` model file with the same base name in the same directory and reference it with `#using`. Tests that only use built-in types (`Node`, `Edge`, `UEdge`, `AEdge`) need no `.gm` file.
 
-Example `should_pass/` test with model:
+Example `test/should_pass/` test with model:
 ```
 # mytest.gm
 node class A { x : int; }
@@ -29,7 +29,7 @@ rule r {
 }
 ```
 
-Example `should_fail/` test (no model needed):
+Example `test/should_fail/` test (no model needed):
 ```
 # annot_001.grg
 rule r {
@@ -38,7 +38,7 @@ rule r {
 }
 ```
 
-Example `should_warn/` test:
+Example `test/should_warn/` test:
 ```
 # basic_003.grg
 rule r {
@@ -47,42 +47,15 @@ rule r {
 }
 ```
 
-## Running Tests
+## Adding a New Test
 
-```bash
-# Run all tests
-./test.sh
-
-# Run a specific test
-./test.sh should_pass/mytest.grg
-
-# Frontend-only mode (skip C# backend compilation)
-./test.sh -f
-
-# Verbose output (show compiler log)
-./test.sh -v
-```
-
-### Test Outcome Determination
-
-The test script determines outcomes as follows:
-- **OK**: Frontend compiles successfully, no warnings (and C# backend compiles if not `-f` mode)
-- **WARNED**: Frontend compiles successfully but produces WARNING output
-- **ERROR**: Frontend exits non-zero and produces ERROR output
-- **ABEND**: Frontend exits non-zero without ERROR/WARNING (unexpected crash)
-- **FAILED(C#)**: Frontend OK but C# backend compilation fails
-
-Results are written to `summary.log` (or `summary_fe.log` with `-f`) and compared against `summary_gold.log`.
-
-### Adding a New Test
-
-1. Create the `.grg` file (and `.gm` if needed) in the appropriate `should_*/` directory
-2. Run the test to verify the expected outcome: `./test.sh should_pass/mytest.grg`
-3. Add the expected result line to `summary_gold.log` in alphabetical order within its section (OK/ERROR/WARNED)
+1. Create the `.grg` file (and `.gm` if needed) in the appropriate `test/should_*/` directory
+2. Run the test to verify the expected outcome: `cd test && ./test.sh should_pass/mytest.grg`
+3. Add the expected result line to `test/summary_gold.log` in alphabetical order within its section (OK/ERROR/WARNED)
 
 ## Language Reference for Writing Tests
 
-The model language (`.gm`), rule/computation language (`.grg`), and sequence language are all relevant for frontend tests since the frontend parses and type-checks all of them. Per-chapter summaries of the user manual are in `doc/summaries/`. The relevant chapters are:
+The model language (`.gm`), rule/computation language (`.grg`), and sequence language are all relevant for frontend tests since the frontend parses and type-checks all of them. Per-chapter summaries of the user manual are in `../doc/summaries/`. The relevant chapters are:
 
 ### Model Language
 - `modellang.md` — Node/edge types, attributes, enums, connection assertions, inheritance
@@ -115,7 +88,7 @@ The model language (`.gm`), rule/computation language (`.grg`), and sequence lan
 - `indices.md` — Attribute, incidence count, name, uniqueness indices
 - `parallelization.md` — Action and sequence parallelization
 
-The shell language (`grshell.md`, `validation.md`) is *not* relevant for frontend tests — GrShell is parsed by a separate CSharpCC-based parser in the C# backend.
+The shell language (`grshell.md`, `validation.md`) is *not* relevant for frontend tests — it is only for backend/semantic tests from engine-net-2.
 
 ## What to Test
 
@@ -126,7 +99,7 @@ Frontend tests exercise the compiler's ability to:
 
 ### Tips for should_fail Tests
 
-Target a single specific error per test file. The test name should hint at what is being tested (e.g., `alternative_003.grg` for the third alternative-related error case). Common error categories:
+Target a single specific error per test file. The test name should hint at what is being tested (e.g., `alternative_003.grg` for the third alternative-related error case, even though speaking names should be preferred). Common error categories:
 - Type mismatches (assigning incompatible types)
 - Scope violations (using undeclared elements, redeclaring in nested scope)
 - Invalid modifier combinations (e.g., `exact` on wrong construct)
@@ -135,8 +108,8 @@ Target a single specific error per test file. The test name should hint at what 
 
 ### Tips for should_pass Tests
 
-Cover feature combinations, not just isolated features. The existing tests use a numeric suffix convention for variants of the same feature (e.g., `array_001.grg` through `array_006.grg`). When a test needs a custom model, create a `.gm` file with the same base name or a descriptive `_model` suffix name.
+Cover feature combinations, not just isolated features (but don't go to extremes, separation of concern is still preferred). The existing tests use a numeric suffix convention for variants of the same feature (e.g., `array_001.grg` through `array_006.grg`). When a test needs a custom model, create a `.gm` file with the same base name or a descriptive `_model` suffix name.
 
 ### Naming Convention
 
-Tests typically follow the pattern `feature_NNN.grg` where `NNN` is a zero-padded sequence number. Descriptive names (e.g., `abstract_element_reference_in_nested_pattern.grg`) are also used for more specific scenarios.
+Tests typically follow the pattern `feature_NNN.grg` where `NNN` is a zero-padded sequence number. Descriptive names (e.g., `abstract_element_reference_in_nested_pattern.grg`) are also used for more specific scenarios and should be preferred.
