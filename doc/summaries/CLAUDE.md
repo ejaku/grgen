@@ -1,53 +1,41 @@
 # Chapter Summaries
 
-Per-chapter `.md` summaries of the user manual, one file per `.tex` chapter. These are concise reference cards with key syntax, commands, and concepts. Referenced by test CLAUDE.md files for language guidance.
+Per-chapter `.md` summaries of the user manual, one file per `.tex` chapter. The summaries list the syntax, commands, and key concepts (the ones not related to the languages and the API or implementation are very brief). Referenced by test CLAUDE.md files for language guidance.
 
-## Introductory
-- `foreword.md`, `introduction.md`, `overview.md`, `quick.md`
-
-## Model Language
-- `modellang.md` — Node/edge types, attributes, enums, connection assertions, inheritance
-- `modeladvanced.md` — Object/transient types, methods, packages, graph nesting
-
-## Rules and Computations
-- `typexpr.md` — Primitive types, operators, expressions, string methods
-- `rulelang.md` — Rules, tests, graphlet syntax, matching semantics, rewrite parts
-- `rulelangadvanced.md` — Type constraints, typeof, retyping, copy/clone, merging, redirection
-- `computations.md` — Control flow, functions/procedures, local variables, assertions
-- `imperative.md` — Embedded exec/emit in rules, deferred exec, scan/tryscan
-
-## Nested Patterns and Subpatterns
-- `nested.md` — Negatives, independents, alternatives, iterateds, optionals
-- `subpatterns.md` — Declaration, usage, recursive patterns, pattern element locking
-- `nestedandsubpatternrewriting.md` — Nested/subpattern rewrite rules and restrictions
-- `nestedandsubpatternyielding.md` — def variables, yield, ordered evaluation
-
-## Sequences
-- `sequences.md` — Rule application, connectives, loops, result assignment
-- `sequencecomputation.md` — Computation blocks, assignments, built-in functions/procedures
-- `sequencegraphquerymanipulation.md` — Array accumulation methods, rule queries
-- `sequencesmultirulecalls.md` — Multi-rule calls, match classes, indeterministic choice
-- `sequencesadvanced.md` — Sequence definitions, transactions, backtracking, multi-rule backtracking, for loops, mapping clause, persistence provider transactions
-
-## Data Structures and Features
-- `container.md` — set, map, array, deque with methods and operators
-- `graph.md` — Graph manipulation, neighbourhood functions, subgraphs, visited flags
-- `filters.md` — User-defined, auto-generated, auto-supplied, lambda expression filters
-- `indices.md` — Attribute, incidence count, name, uniqueness indices
-- `parallelization.md` — Action and sequence parallelization
-
-## Shell and Runtime
-- `grshell.md` — GrShell commands: graph creation, sequence execution, configuration
-- `validation.md` — Show commands, graph validation
-- `debugger.md` — Visual debugger: graph visualization, stepping, breakpoints, watchpoints
-- `persistentstorage.md` — SQLite-backed persistent graphs, import/export, record/replay
-- `toolsandcomponents.md` — GrGen.exe, GrShell, GGrShell, graph viewers, core libraries
-
-## Reference and Advanced
-- `api.md` — C# API: graph/action interfaces, processing environment, events, extensions
-- `extensions.md` — External types, functions, procedures, filters, sequences, annotations
-- `performance.md` — Search plans, rule design tips, profiling, indices, parallelization
-- `techniques.md` — Common patterns: merge/split, traceability, data flow, state space
-- `examples.md` — Fractal generation, Busy Beaver Turing machine
-- `developing.md` — Build internals, generated code structure, search planning algorithm
-- `designgoals.md` — Design philosophy: expressiveness, performance, understandability
+- `foreword.md` — Foreword (unnumbered)
+- Ch. 1 `introduction.md` — Introduction to graph rewriting concepts and theory
+- Ch. 2 `overview.md` — System architecture, components, and workflow overview
+- Ch. 3 `quick.md` — Quick start tutorial with a complete example
+- Ch. 4 `modellang.md` — Node/edge types, attributes, enums, connection assertions, inheritance
+- Ch. 5 `rulelang.md` — Rules, tests, graphlet syntax, matching semantics, rewrite parts
+- Ch. 6 `typexpr.md` — Primitive types, operators, expressions, string methods
+- Ch. 7 `nested.md` — Negatives, independents, alternatives, iterateds, optionals
+- Ch. 8 `subpatterns.md` — Declaration, usage, recursive patterns, pattern element locking
+- Ch. 9 `nestedandsubpatternrewriting.md` — Nested/subpattern rewrite rules and restrictions
+- Ch. 10 `nestedandsubpatternyielding.md` — def variables, yield, ordered evaluation
+- Ch. 11 `sequences.md` — Rule application, connectives, loops, result assignment
+- Ch. 12 `rulelangadvanced.md` — Type constraints, typeof, retyping, copy/clone, merging, redirection
+- Ch. 13 `imperative.md` — Embedded exec/emit in rules, deferred exec, scan/tryscan
+- Ch. 14 `computations.md` — Control flow, functions/procedures, local variables, assertions
+- Ch. 15 `container.md` — set, map, array, deque with methods and operators
+- Ch. 16 `graph.md` — Graph manipulation, neighbourhood functions, subgraphs, visited flags
+- Ch. 17 `filters.md` — User-defined, auto-generated, auto-supplied, lambda expression filters
+- Ch. 18 `modeladvanced.md` — Object/transient types, methods, packages, graph nesting
+- Ch. 19 `sequencecomputation.md` — Computation blocks, assignments, built-in functions/procedures
+- Ch. 20 `sequencegraphquerymanipulation.md` — Array accumulation methods, rule queries
+- Ch. 21 `sequencesmultirulecalls.md` — Multi-rule calls, match classes, indeterministic choice
+- Ch. 22 `sequencesadvanced.md` — Sequence definitions, transactions, backtracking, multi-rule backtracking, for loops, mapping clause, persistence provider transactions
+- Ch. 23 `parallelization.md` — Action and sequence parallelization
+- Ch. 24 `techniques.md` — Common patterns: merge/split, traceability, data flow, state space
+- Ch. 25 `grshell.md` — GrShell commands: graph creation, sequence execution, configuration
+- Ch. 26 `persistentstorage.md` — SQLite-backed persistent graphs, import/export, record/replay
+- Ch. 27 `debugger.md` — Visual debugger: graph visualization, stepping, breakpoints, watchpoints
+- Ch. 28 `validation.md` — Show commands, graph validation
+- Ch. 29 `toolsandcomponents.md` — GrGen.exe, GrShell, GGrShell, graph viewers, core libraries
+- Ch. 30 `indices.md` — Attribute, incidence count, name, uniqueness indices
+- Ch. 31 `performance.md` — Search plans, rule design tips, profiling, indices, parallelization
+- Ch. 32 `examples.md` — Fractal generation, Busy Beaver Turing machine
+- Ch. 33 `api.md` — C# API: graph/action interfaces, processing environment, events, extensions
+- Ch. 34 `extensions.md` — External types, functions, procedures, filters, sequences, annotations
+- Ch. 35 `developing.md` — Build internals, generated code structure, search planning algorithm
+- Ch. 36 `designgoals.md` — Design philosophy: expressiveness, performance, understandability
