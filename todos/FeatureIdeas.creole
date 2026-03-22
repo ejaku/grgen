@@ -21,7 +21,9 @@ Implement a shell history function.
 Improve subgraph support by allowing graph crossing edges (and by allowing to define a graph valued attribute to be the one nested subgraph).
 (Parallel sequence execution on graphs is then very similar to graph partitioning.)
 Improve graph typing by introducing graph classes (with attributes; encapsulating data and actions; for improved data abstraction, even if full data abstraction is against the very idea of graph pattern matching).
-Add support for ordered edges.
+Extend model by ref containers. (With reference semantics instead of value semantics of embedded containers. Nearer to C#/Java, more intuitive to programmers from that languages, allows for direct aliasing.)
+(Vice versa maybe even internal class object embeddings by var prefix/object composition instead of aggregation (but no value class types).)
+Add support for ordered edges (benefitial side-effect: less expensive graph comparison).
 Use object class as base for node, edge, graph class (with shared flags bitvector)?
 
 === Rule language completions/extensions ===
@@ -150,7 +152,7 @@ Events like in C# for improved abstraction, i.e. a separation of event firing an
 === Improved query support ===
 Vector similarity (for ml-ai uses): maybe some extension beyond the already existing bounding-box multi-index queries (followed by a filtering to the nearest ones) makes sense (maybe pgvector could offer inspiration).
 Maybe some support for hashing (esp. of graphs like in GROOVE, a limited kind of vector representation is already available with graph comparison by vstructs).
-(Also some structural comparison (/copying/searching) framework could make sense (pre-defined configurable ready-to-be-used on top of the programmable base layer).)
+Structural comparison extended to cyclical structures (removing the current constraint to non-cyclic structures; on steroids: some framework capturing structural comparison/copying/searching could make sense (pre-defined configurable ready-to-be-used on top of the programmable base layer).)
 (Also fuzzy pattern matching or graph coverage could be thought of...as well as bottom-up adaptive star parsing in contrast to only top-down star parsing.)
 (Attribute index also on object classes (very high level language with database-like features and event sourcing)).
 
@@ -187,6 +189,8 @@ Should be only done when the optimization below saves us the cost of the open ta
 A static analysis to detect situations where the subpattern matching tasks stack is not needed cause it will contain always only one entry (matching a linear structure, e.g. an iterated path, without enclosing subpatterns).
 Use the results of the analysis to generate code using only the call stack.
 Requires considerable knowledge of the pushdown machine.
+Another potential optimization: use an explicit stack for subpattern/nested pattern matching instead of utilizing the call stack.
+Saves one from stack overflow issues when matching deeply nested structures (and the editbin causing certain memory waste when working with many threads) at the prices of a explicit stack management (on the heap).
 
 === Yield, extended version ===
 Yield to return values from subpatterns/alternatives and use them as input.
