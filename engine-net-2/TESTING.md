@@ -16,7 +16,7 @@ cd tests && ./test.sh --mono
 ```
 
 Tests compare GrShell output against `.grs.data` reference files.
-(More than 100 test directories containing more than 1000 `.grs` test scripts.)
+High coverage but slow execution.
 
 ### NUnit Tests (`unittests/`)
 
@@ -26,6 +26,7 @@ cd unittests/GraphAndModelTests && dotnet test
 
 NUnit 3 tests that exercise the C# backend API directly (graph creation, node/edge manipulation, model loading at the time of writing).
 The project references `libGr` and `lgspBackend` from `bin/`.
+Very limited coverage but fast execution.
 
 ### Test Structure
 

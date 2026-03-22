@@ -22,9 +22,9 @@ cd test && ./test.sh -c
 ```
 
 Test categories:
-- `test/should_pass/` - Must compile successfully (500-1000 files)
-- `test/should_fail/` - Must fail with errors (more than 1000 files)
-- `test/should_warn/` - Must compile with warnings (more than 50 files)
+- `test/should_pass/` - Must compile successfully
+- `test/should_fail/` - Must fail with errors
+- `test/should_warn/` - Must compile with warnings
 
 Test outcomes:
 - **OK**: Frontend compiles successfully, no warnings (and C# backend compiles if not `-f` mode)
@@ -34,6 +34,7 @@ Test outcomes:
 - **FAILED(C#)**: Frontend OK but C# backend compilation fails
 
 Results are written to `test/summary.log` (or `test/summary_fe.log` with `-f`) and compared against `test/summary_gold.log`.
+High coverage but slow execution.
 
 ### JUnit Unit/Acceptance Tests (`unittest/`)
 
@@ -44,7 +45,9 @@ Results are written to `test/summary.log` (or `test/summary_fe.log` with `-f`) a
 
 Quick-running JUnit 4 tests that exercise the full compiler pipeline (parse, AST, IR, code generation) on small `.grg`/`.gm` input files.
 The test files live in `unittest/` alongside `AcceptanceTest.java`.
+Limited coverage but fast execution.
 
 ## Generating Test
 
 For generating tests see TESTGENERATION.md
+It contains details on test creation and points to a GrGen language reference.

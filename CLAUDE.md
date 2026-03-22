@@ -12,6 +12,10 @@ It is a tool for transforming graph-structured data using declarative pattern ma
 Its features can also by used via an API in end-user .NET-applications.
 Typical uses are in compiler construction, model transformation, computer linguistics/knowledge representation, and engineering domains (in which graph representations of data are natural/intuitive).
 
+Key concepts:
+Query Command separation in the GrGen rule/computation language (carried through to the implementation/runtime) - pattern matching/functions are side-effect free, only rewrites/procedures modify the host graph (firing events; the sequences rule application control language only partially follows CQS).
+Rule language semantics: graph morphism(s) to describe matching, SPO graph rewriting, pair star graph grammars.
+
 **Two main components:**
 - **Frontend** (`frontend/`): Java compiler using ANTLR 3.4 that parses `.grg` (rules) and `.gm` (model) files, generates C# code
 - **Backend** (`engine-net-2/`): C# engine that compiles the generated code into assemblies and executes graph rewriting operations with the GrShell application (that interprets `.grs` graph rewrite script files)
