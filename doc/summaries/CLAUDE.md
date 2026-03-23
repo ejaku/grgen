@@ -10,7 +10,7 @@ Per-chapter `.md` summaries of the user manual, one file per `.tex` chapter. The
 - Ch. 5 `rulelang.md` — Rules, tests, graphlet syntax, matching semantics, rewrite parts
 - Ch. 6 `typexpr.md` — Primitive types, operators, expressions, string methods
 - Ch. 7 `nested.md` — Negatives, independents, alternatives, iterateds, optionals
-- Ch. 8 `subpatterns.md` — Declaration, usage, recursive patterns, pattern element locking
+- Ch. 8 `subpatterns.md` — Subpattern declaration and usage, recursive patterns, pattern element locking
 - Ch. 9 `nestedandsubpatternrewriting.md` — Nested/subpattern rewrite rules and restrictions
 - Ch. 10 `nestedandsubpatternyielding.md` — def variables, yield, ordered evaluation
 - Ch. 11 `sequences.md` — Rule application, connectives, loops, result assignment
@@ -38,4 +38,4 @@ Per-chapter `.md` summaries of the user manual, one file per `.tex` chapter. The
 - Ch. 33 `api.md` — C# API: graph/action interfaces, processing environment, events, extensions
 - Ch. 34 `extensions.md` — External types, functions, procedures, filters, sequences, annotations
 - Ch. 35 `developing.md` — Build internals, generated code structure, search planning algorithm
-- Ch. 36 `designgoals.md` — Design philosophy: expressiveness, performance, understandability
+- Ch. 36 `designgoals.md` — Design philosophy: expressiveness, programmability, performance, understandability

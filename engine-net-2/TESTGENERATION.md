@@ -2,14 +2,11 @@
 
 A semantic test typically consists of: a `.gm` model file, a `.grg` rules/actions file, one or more `.grs` shell scripts, and `.grs.data` expected output files (generated via `gentest.sh`).
 
-## Semantic Gotchas (from experience)
-
-- **Top-down matching**: Nested and subpatterns are matched top-down -- the enclosing pattern elements are bound first, then nested patterns (negative, independent, iterated, multiple, optional, alternative) and subpatterns are matched within that context. The overall matches resemble a cartesian product of outer and inner matches (yielding occurrs then bottom-up after a complete match was found).
-- Variables declared in an enclosing pattern cannot be re-declared in a nested pattern (with the same or a different type). To refine a type in an alternative case, use the special retyping/cast syntax declaring a new element (e.g., `v:Variable<f>` to cast `f` to `Variable`).
-
 ## Test Data Format
 
-Tests compare GrShell output against `.grs.data` reference files. Each `exec` command produces 3 data lines: done result (True/False), matches found, rewrites performed. Other commands:
+Tests compare GrShell output against `.grs.data` reference files.
+Each `exec` command produces 3 data lines: done result (True/False), matches found, rewrites performed.
+Other commands:
 - `eval` produces 1 data line: the expression result
 - `show num nodes/edges` produces 1 data line (count)
 - `show var` produces 1 data line (variable content)
@@ -23,11 +20,18 @@ Use `gentest.sh` to generate `.grs.data` files automatically instead of hand-cal
 cd tests && ./gentest.sh subdir/script.grs
 ```
 
-Test directories can contain **multiple `.grs` files** sharing the same `.gm`/`.grg` definitions (e.g., `tests/alternatives/` has `Alternatives.grs`, `AlternativesRewrite.grs`, `AlternativeInIterated.grs`, etc.). Prefer adding a new `.grs` script to an existing directory when the model/rules already cover the needed types/functionality.
+Test directories can contain **multiple `.grs` files** sharing the same `.gm`/`.grg` definitions (e.g., `tests/alternatives/` has `Alternatives.grs`, `AlternativesRewrite.grs`, `AlternativeInIterated.grs`, etc.).
+Prefer adding a new `.grs` script to an existing directory when the model/rules already cover the needed types/functionality.
+
+## Semantic Gotchas (from experience)
+
+- Top-down matching: Nested and subpatterns are matched top-down -- the enclosing pattern elements are bound first, then nested patterns (negative, independent, iterated, multiple, optional, alternative) and subpatterns are matched within that context. The overall matches resemble a cartesian product of outer and inner matches (yielding occurrs then bottom-up after a complete match was found).
+- Block-nesting: Variables declared in an enclosing pattern cannot be re-declared in a nested pattern (with the same or a different type). To refine a type in an alternative case, use the special retyping/cast syntax declaring a new element (e.g., `v:Variable<f>` to cast `f` to `Variable`).
 
 ## GrGen Language Reference
 
-Per-chapter summaries of the GrGen.NET user manual are in `../doc/summaries/`. The chapters relevant for writing backend semantic tests are listed below.
+Per-chapter summaries of the GrGen.NET user manual are in `../doc/summaries/`.
+The chapters relevant for writing backend semantic tests are listed below.
 
 ### Model Language
 - `modellang.md` — Node/edge types, attributes, enums, connection assertions, inheritance

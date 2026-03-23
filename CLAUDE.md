@@ -12,10 +12,6 @@ It is a tool for transforming graph-structured data using declarative pattern ma
 Its features can also by used via an API in end-user .NET-applications.
 Typical uses are in compiler construction, model transformation, computer linguistics/knowledge representation, and engineering domains (in which graph representations of data are natural/intuitive).
 
-Key concepts:
-Query Command separation in the GrGen rule/computation language (carried through to the implementation/runtime) - pattern matching/functions are side-effect free, only rewrites/procedures modify the host graph (firing events; the sequences rule application control language only partially follows CQS).
-Rule language semantics: graph morphism(s) to describe matching, SPO graph rewriting, pair star graph grammars.
-
 **Two main components:**
 - **Frontend** (`frontend/`): Java compiler using ANTLR 3.4 that parses `.grg` (rules) and `.gm` (model) files, generates C# code
 - **Backend** (`engine-net-2/`): C# engine that compiles the generated code into assemblies and executes graph rewriting operations with the GrShell application (that interprets `.grs` graph rewrite script files)
@@ -99,7 +95,7 @@ For more see the CLAUDE.md in engine-net-2.
 ## File Types
 
 - `.gm` - Graph model files (node/edge type definitions)
-- `.grg` - Graph rewrite rules (patterns and transformations)
+- `.grg` - Graph rewrite rules (built from patterns, also computations, overall transformations are defined)
 - `.grs` - GrShell scripts with sequence interpretation (also used as test scripts) (a reduced version is also used as graph import/export format)
 - `.grs.data` - Expected output for test scripts
 
@@ -107,8 +103,33 @@ For more see the CLAUDE.md in engine-net-2.
 
 - .NET Framework 4.7.2+ or Mono
 - On Linux, executables run via `mono`: `mono bin/GrShell.exe script.grs`
+- Java to compile a specification or for yComp graph visualization
 
-## Documentation (esp. Language and Tool Reference)
+## Key language concepts
+
+Textual syntax also for graph patterns (example graphlet: `n:Node --> n;`).
+C-like syntax for computations (expressions/statements) but Pascal/UML-style declarations `name:type`; curly-braces block nesting.
+Rule language semantics: graphs, graph morphism(s) to describe matching, SPO-based graph rewriting, pair star graph grammars.
+Top-down pattern matching (binding of pattern elements to graph elements, parameter passing), bottom-up yielding (assigning to def-variables), then rewrite followed by embedded sequences execution.
+Query Command separation in the GrGen rule/computation language (carried through to the implementation/runtime) - pattern matching/functions are side-effect free, only rewrites/procedures modify the host graph (firing **events**; the sequences rule application control language only partially follows CQS).
+
+### Brief languages summary/language features overview
+
+Graph model built of class declarations (node/edge/object, with multiple inheritance) containing attribute and method declarations, and optional attribute indices.
+Graphlet syntax on left hand side and right hand side of rules with entity declarations that are referenced/used by name.
+Nested patterns (e.g. alternative, iterated, negative), and subpattern declarations and uses.
+Besides default isomorphic can homomorphic matching be requested, plus other advanced matching options.
+Rewrite modes/blocks modify and replace: replace adds elements newly declared on RHS, removes unreferenced LHS elements, keeps referenced elements; modify requires explicit delete.
+Plus advanced rewrite operations like retyping or edge redirection.
+Attribute conditions on LHS, re-evaluation on RHS.
+Built-in set/map/array/deque containers, many built-in functions (esp. neighbourhood and index queries) and procedures, some in packages.
+Matches filtering including sorting, lambda expressions, and array accumulation methods.
+Rule usage from sequences which are similar to boolean expressions, with Kleene-star iteration, all-bracketing, plus multiple advanced constructs.
+Sublanguages are sequence computations and sequence expressions, the latter including pattern-based queries (esp. with LHS-pattern-only tests).
+Shell language with many commands, e.g. new for graph and graph element creation, exec for sequence execution and eval for sequence expression evaluation, import/export of graphs, show for inspection and automated testing.
+See `doc/summaries/CLAUDE.md` for more on the languages (index of summaries of user manual chapters).
+
+## Documentation
 
 See `CLAUDE-AUX.md` for an overview of the project documentation files (and used technologies).
-This includes an index of the CLAUDE.md files contained in the folder structure of the project, covering the user manual, the frontend pipeline steps, and the engine-net-2 projects (normally to be included bottom-up as needed).
+This includes an index of the CLAUDE.md files contained in the folder structure of the project, covering the user manual, the frontend pipeline steps, and the engine-net-2 projects (normally to be included in-place as needed).
