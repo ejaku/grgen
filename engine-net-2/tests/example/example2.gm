@@ -1,0 +1,4 @@
+node class N { a:int; as:string; function f(var i:int) : int { return(this.a + i); } }
+
+node class Root;
+node class M { a:double; }

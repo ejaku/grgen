@@ -1,0 +1,56 @@
+#using "example2.gm"
+
+pattern SpanningTree(root:Node) { iterated { root --> child:Node; st:SpanningTree(child); } }
+
+rule r(m:M) { n:N --> n; modify { delete(n); nnew:N <-- m; } }
+
+rule init : (Node)
+{
+	modify {
+		root:Root --> m:M --> n:N; n --> n;
+		eval { n.a = 42; }
+		return(root);
+	}
+}
+
+rule s(n:Node) : (Node)
+{
+	n --> next:Node;
+	modify {
+		return(next);
+	}
+}
+
+rule rr
+{
+	n:N; m:M;
+	if{ n.a >= 42 - n.f(0); }
+	
+	replace {
+		n; m;
+		eval { n.a = 42; }
+		---
+		eval { n.a = 42; (m.a) = pp(); }
+		eval { p(n, set<string>{"la","le","lu"}); }
+	}
+}
+
+procedure p(n:N, ref s:set<string>) { for(el:string in s) { n.as = n.as + el; } return; }
+test t { root:Root; n:N; if { isReachable(n, root); } --- def var numinc:int = countIncident(n); } \ orderAscendingBy<numinc>
+
+procedure pp() : (double)
+{
+	return(44);
+}
+
+test TestSpanningTree
+{
+	root:Root;
+	:SpanningTree(root);
+}
+
+test matchNM : (N,M)
+{
+	n:N; m:M;
+	return(n,m);
+}

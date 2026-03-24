@@ -116,17 +116,24 @@ Query Command separation in the GrGen rule/computation language (carried through
 ### Brief languages summary/language features overview
 
 Graph model built of class declarations (node/edge/object, with multiple inheritance) containing attribute and method declarations, and optional attribute indices.
+Example: `node class N { a:int; as:string; function f(var i:int) : int { return(this.a + i); } }`
 Graphlet syntax on left hand side and right hand side of rules with entity declarations that are referenced/used by name.
 Nested patterns (e.g. alternative, iterated, negative), and subpattern declarations and uses.
+Example: `pattern SpanningTree(root:Node) { iterated { root --> child:Node; st:SpanningTree(child); } }`
 Besides default isomorphic can homomorphic matching be requested, plus other advanced matching options.
 Rewrite modes/blocks modify and replace: replace adds elements newly declared on RHS, removes unreferenced LHS elements, keeps referenced elements; modify requires explicit delete.
+Example: `rule r(m:M) { n:N --> n; modify { delete(n); nnew:N <-- m; } }`
 Plus advanced rewrite operations like retyping or edge redirection.
-Attribute conditions on LHS, re-evaluation on RHS.
-Built-in set/map/array/deque containers, many built-in functions (esp. neighbourhood and index queries) and procedures, some in packages.
-Matches filtering including sorting, lambda expressions, and array accumulation methods.
+Attribute conditions on LHS `if{ n.a >= 42 - n.f(0); }`, re-evaluation on RHS `eval { n.a = 42; (m.a) = pp(); }`.
+Built-in set/map/array/deque containers, user-defined functions and procedures, many built-in functions (esp. neighbourhood and index queries) and procedures, some in packages.
+Example: `procedure p(n:N, ref s:set<string>) { for(el:string in s) { n.as = n.as + el; } return; }`
+Example: `test t { root:Root; n:N; if { isReachable(n, root); } --- def var numinc:int = countIncident(n); } \ orderAscendingBy<numinc>`
+Matches filtering including sorting, lambda expressions, and result array accumulation methods.
 Rule usage from sequences which are similar to boolean expressions, with Kleene-star iteration, all-bracketing, plus multiple advanced constructs.
 Sublanguages are sequence computations and sequence expressions, the latter including pattern-based queries (esp. with LHS-pattern-only tests).
 Shell language with many commands, e.g. new for graph and graph element creation, exec for sequence execution and eval for sequence expression evaluation, import/export of graphs, show for inspection and automated testing.
+Example: `exec (::n)=init ;> (::n)=s(::n)* && rr`
+Example: `eval [?t\orderAscendingBy<numinc>\keepFirst(3)].map<int>{el:match<t> -> el.n.a}.sum()`
 See `doc/summaries/CLAUDE.md` for more on the languages (index of summaries of user manual chapters).
 
 ## Documentation

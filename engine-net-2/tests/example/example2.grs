@@ -1,0 +1,26 @@
+new graph "example/example2"
+
+exec (::n)=init ;> (::n)=s(::n)* && rr
+
+show node n
+
+eval [?t\orderAscendingBy<numinc>\keepFirst(3)].map<int>{el:match<t> -> el.n.a}.sum()
+
+show num nodes
+show num nodes N
+show num nodes M
+show num nodes Root
+
+exec TestSpanningTree ;> r((M)nodes(M).peek(0))
+
+show num nodes
+show num nodes N
+show num nodes M
+show num nodes Root
+
+exec (::n,::m)=matchNM
+
+show node n
+show node m
+
+quit
