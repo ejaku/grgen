@@ -5,6 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 The CLAUDE.md summaries/instructions for onboarding AI agents/coding bots should be also useful summaries/overviews for human developers.
 In case of AI coding take care of the content of AICodingPolicy.txt (the restriction to limited parts of the project and the mandatory human review).
 
+Key pattern of this/these files: progressive disclosure of more in-depth knowledge with hierarchically organized files only to be read as needed.
+
 ## Project Overview
 
 GrGen.NET (graph rewrite generator) is a system software for graph rewriting comprising a compiler at its core, an interactive and scriptable shell interpreter, a debugger offering visual-graphical and step-wise debugging, and an embedded database/ORM-mapper.
@@ -68,7 +70,7 @@ grgen/
 
 ### Frontend Compiler Pipeline
 
-Classical compiler pipeline with a parser creating an abstract syntax tree, reference resolving and type checking on the syntax tree, that is then lowered to an intermediate representation, and a code generator (producing C#).
+Pretty classical compiler pipeline with a parser creating an abstract syntax tree, reference resolving and type checking on the syntax tree, that is then lowered to an intermediate representation, and a code generator (producing C#).
 For more see the CLAUDE.md in frontend.
 
 ### C# Application Projects
@@ -88,9 +90,10 @@ Further projects contain cross-platform consoles, a library with the GrShell mai
 These libraries may be all included in end-user applications (used on API level).
 For more see the CLAUDE.md in engine-net-2.
 
-### Key Design Pattern in Frontend and Backend
+### Key Design Pattern
 
 - **Formal language processing**: Generated recursive-descent (potentially backtracking) parsers, nested symbol tables and type checking, syntax directed interpretation/translation
+- Backend/Runtime implementation with high-performance graph pattern matching by **scheduled search programs** on specifically tailored **O(1) data structures**; modifications cause change **events**, quite some functionality offered on top of them.
 
 ## File Types
 
@@ -111,7 +114,7 @@ Textual syntax also for graph patterns (example graphlet: `n:Node --> n;`).
 C-like syntax for computations (expressions/statements) but Pascal/UML-style declarations `name:type`; curly-braces block nesting.
 Rule language semantics: graphs, graph morphism(s) to describe matching, SPO-based graph rewriting, pair star graph grammars.
 Top-down pattern matching (binding of pattern elements to graph elements, parameter passing), bottom-up yielding (assigning to def-variables), then rewrite followed by embedded sequences execution.
-Query Command separation in the GrGen rule/computation language (carried through to the implementation/runtime) - pattern matching/functions are side-effect free, only rewrites/procedures modify the host graph (firing **events**; the sequences rule application control language only partially follows CQS).
+Query Command separation in the GrGen rule/computation language (carried through to the implementation/runtime) - pattern matching/functions are side-effect free, only rewrites/procedures modify the host graph (the sequences rule application control language only partially follows CQS).
 
 ### Brief languages summary/language features overview
 

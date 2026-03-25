@@ -61,8 +61,8 @@ The examples-api directory contains API usage examples, the tools directory spec
 
 - **Scheduled search programs**: Generated nested loops created by scheduling for efficient pattern matching
 - **Scalable data structures**: Type and incidence ringlists for fast graph element lookup, traversal, and structure changes; AA-trees for attribute indices
-- **Graph change events**: Event driven design: change events from application logic used for persistence, visualization, and changelog processing
-- **Changelog recording and replaying**: Event sourcing: change events writing/recording, used for undo/redo (change execution or reversal, transactions) - both in-memory as well as in/for persistent storage
+- **Graph change events**: events from the application logic reporting about ongoing changes, used for persistence, visualization, and changelog processing (event driven design)
+- **Changelog recording and replaying**: change event writing/recording, used for undo/redo (change execution or reversal, transactions) - both in-memory as well as in/for persistent storage (event sourcing)
 
 ## Further Reading
 
