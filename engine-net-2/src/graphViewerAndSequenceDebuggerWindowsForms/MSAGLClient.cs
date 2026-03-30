@@ -1,4 +1,4 @@
-/*
+﻿/*
  * GrGen: graph rewrite generator tool -- release GrGen.NET 8.0
  * Copyright (C) 2003-2025 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
  * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
@@ -17,27 +17,11 @@ using System.Windows.Forms;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
-    class MSAGLNodeRealizer
-    {
-        public Color borderColor;
-        public Color color;
-        public Color textColor;
-        public Shape nodeShape;
-    }
-
-    class MSAGLEdgeRealizer
-    {
-        public Color color;
-        public Color textColor;
-        public int lineWidth;
-        public Style lineStyle;
-    }
-
     /// <summary>
-    /// Class communicating with the MSAGL library
+    /// Control/Class communicating with the MSAGL library
     /// TODO: still some issues, esp. with node nesting
     /// </summary>
-    public class MSAGLClient : IBasicGraphViewerClient
+    public partial class MSAGLClient : UserControl, IBasicGraphViewerClient
     {
         public GViewer gViewer;
         Form formHost;
@@ -45,7 +29,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         SplitterPanel splitterPanelHost;
 
         private static Dictionary<String, bool> availableLayouts;
-
 
         static MSAGLClient()
         {
@@ -56,19 +39,31 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             availableLayouts.Add("IcrementalLayout", true);
         }
 
-        /// <summary>
-        /// Creates a new MSAGLClient instance, adding its GViewer control to the hosting form (at position 0).
-        /// </summary>
-        public MSAGLClient(Form host)
+        public MSAGLClient()
         {
+            InitializeComponent();
+
             gViewer = new GViewer(); // if your application doesn't start from this line complaining about System.Resources.Extensions, you have to add a PackageReference to the project file of your app, plus a bindingRedirect to the app.config of your app, see the GrShell project for an example
             Graph graph = new Graph("graph");
             gViewer.Graph = graph;
-            host.SuspendLayout();
+
             gViewer.Dock = DockStyle.Fill;
             gViewer.MinimumSize = new System.Drawing.Size(50, 50);
-            host.Controls.Add(gViewer);
-            host.Controls.SetChildIndex(gViewer, 0);
+
+            Dock = DockStyle.Fill;
+            MinimumSize = new System.Drawing.Size(50, 50);
+
+            Controls.Add(gViewer);
+        }
+
+        /// <summary>
+        /// Creates a new MSAGLClient instance, adding its GViewer control to the hosting form (at position 0).
+        /// </summary>
+        public MSAGLClient(Form host) : this()
+        {
+            host.SuspendLayout();
+            host.Controls.Add(this);
+            host.Controls.SetChildIndex(this, 0);
             formHost = host;
             host.ResumeLayout();
             host.Show();
@@ -79,16 +74,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// <summary>
         /// Creates a new MSAGLClient instance, adding its GViewer control to the hosting splitter panel (at position 0) (not for main graph rendering).
         /// </summary>
-        public MSAGLClient(SplitterPanel host)
+        public MSAGLClient(SplitterPanel host) : this()
         {
-            gViewer = new GViewer(); // if your application doesn't start from this line complaining about System.Resources.Extensions, you have to add a PackageReference to the project file of your app, plus a bindingRedirect to the app.config of your app, see the GrShell project for an example
-            Graph graph = new Graph("graph");
-            gViewer.Graph = graph;
             host.SuspendLayout();
-            gViewer.Dock = System.Windows.Forms.DockStyle.Fill;
-            gViewer.MinimumSize = new System.Drawing.Size(50, 50);
-            host.Controls.Add(gViewer);
-            host.Controls.SetChildIndex(gViewer, 0);
+            host.Controls.Add(this);
+            host.Controls.SetChildIndex(this, 0);
             splitterPanelHost = host;
             host.ResumeLayout();
             host.Show();
@@ -593,5 +583,21 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             gViewer.Show();
         }
+    }
+
+    class MSAGLNodeRealizer
+    {
+        public Color borderColor;
+        public Color color;
+        public Color textColor;
+        public Shape nodeShape;
+    }
+
+    class MSAGLEdgeRealizer
+    {
+        public Color color;
+        public Color textColor;
+        public int lineWidth;
+        public Style lineStyle;
     }
 }

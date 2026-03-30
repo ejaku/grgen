@@ -61,6 +61,7 @@
     <EmbeddedResource Include="GuiDebuggerHost.resx">
       <DependentUpon>GuiDebuggerHost.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MSAGLClient.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
