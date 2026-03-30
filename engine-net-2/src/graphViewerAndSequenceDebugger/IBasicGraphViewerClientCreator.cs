@@ -15,7 +15,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     public interface IBasicGraphViewerClientCreator
     {
         // the host must be an object from the IHostCreator (this ensures it is a Form object from WindowsForms, while the static interface stays free of WindowsForms, saving us from this dependency -- you could use your own WindowsForms object implementing IBasicGraphViewerClientHost if you don't care about this dependency)
-        // currently, only MSAGL is supported as graphViewerType
+        // currently, only MSAGL and MSAGLExt are supported as graphViewerType
         IBasicGraphViewerClient Create(GraphViewerTypes graphViewerType, IBasicGraphViewerClientHost host);
     }
 }

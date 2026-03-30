@@ -19,7 +19,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     // potentially available graph viewer client types (debugger types)
     public enum GraphViewerTypes
     {
-        YComp, MSAGL
+        YComp, MSAGL, MSAGLExt
     }
 
     public delegate void ConnectionLostHandler();
@@ -56,7 +56,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public GraphViewerBaseClient(GraphViewerTypes graphViewerType, String layoutModule,
             ElementRealizers realizers, IBasicGraphViewerClientHost basicGraphViewerClientHost)
         {
-            if (graphViewerType == GraphViewerTypes.MSAGL)
+            if (graphViewerType == GraphViewerTypes.MSAGL || graphViewerType == GraphViewerTypes.MSAGLExt)
             {
                 IHostCreator guiConsoleDebuggerHostCreator = GetGuiConsoleDebuggerHostCreator();
                 IBasicGraphViewerClientCreator basicGraphViewerClientCreator = GetBasicGraphViewerClientCreator();

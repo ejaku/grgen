@@ -4261,6 +4261,12 @@ showavail:
                 if(success) // error message printed by seqApplierAndDebugger in case of failure
                     ConsoleUI.outWriter.WriteLine("Changed debugger/graph viewer to MSAGL.");
             }
+            else if (debuggerName.Equals("msaglext", StringComparison.InvariantCultureIgnoreCase))
+            {
+                bool success = seqApplierAndDebugger.DebugWith(GraphViewerTypes.MSAGLExt);
+                if (success) // error message printed by seqApplierAndDebugger in case of failure
+                    ConsoleUI.outWriter.WriteLine("Changed debugger/graph viewer to MSAGLExt.");
+            }
             else if(debuggerName.Equals("ycomp", StringComparison.InvariantCultureIgnoreCase))
             {
                 bool success = seqApplierAndDebugger.DebugWith(GraphViewerTypes.YComp);
@@ -4270,7 +4276,7 @@ showavail:
             else
             {
                 ConsoleUI.errorOutWriter.WriteLine("\"" + debuggerName + "\" is not a valid debugger/graph viewer name!");
-                ConsoleUI.outWriter.WriteLine("Available debuggers/graph viewers are yComp and MSAGL.");
+                ConsoleUI.outWriter.WriteLine("Available debuggers/graph viewers are yComp, MSAGL, and MSAGLExt.");
             }
         }
 

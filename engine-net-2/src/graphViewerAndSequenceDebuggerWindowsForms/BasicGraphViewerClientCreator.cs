@@ -15,6 +15,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             if(graphViewerType == GraphViewerTypes.MSAGL)
                 return new MSAGLClient((System.Windows.Forms.Form)host);
+            else if (graphViewerType == GraphViewerTypes.MSAGLExt)
+                return new MSAGLClient((System.Windows.Forms.Form)host); // AI TODO: replace by MSAGLClientExt
             else
                 return null;
         }
