@@ -16,7 +16,7 @@ Typical uses are in compiler construction, model transformation, computer lingui
 
 **Two main components:**
 - **Frontend** (`frontend/`): Java compiler using ANTLR 3.4 that parses `.grg` (rules) and `.gm` (model) files, generates C# code
-- **Backend** (`engine-net-2/`): C# engine that compiles the generated code into assemblies and executes graph rewriting operations with the GrShell application (that interprets `.grs` graph rewrite script files)
+- **Backend** (`engine-net-2/`): C# engine that compiles the generated code into assemblies and executes graph rewriting operations with the GrShell application (CSharpCC-based, it interprets `.grs` graph rewrite script files)
 
 ## Build Commands
 
@@ -106,7 +106,7 @@ For more see the CLAUDE.md in engine-net-2.
 
 - .NET Framework 4.7.2+ or Mono
 - On Linux, executables run via `mono`: `mono bin/GrShell.exe script.grs`
-- Java to compile a specification or for yComp graph visualization
+- Java (1.8+) to compile a specification or for graph visualization with the yComp app
 
 ## Key language concepts
 
@@ -135,11 +135,12 @@ Matches filtering including sorting, lambda expressions, and result array accumu
 Rule usage from sequences which are similar to boolean expressions, with Kleene-star iteration, all-bracketing, plus multiple advanced constructs.
 Sublanguages are sequence computations and sequence expressions, the latter including pattern-based queries (esp. with LHS-pattern-only tests).
 Shell language with many commands, e.g. new for graph and graph element creation, exec for sequence execution and eval for sequence expression evaluation, import/export of graphs, show for inspection and automated testing.
+Example: `new graph "rules.grg"`
 Example: `exec (::n)=init ;> (::n)=s(::n)* && rr`
 Example: `eval [?t\orderAscendingBy<numinc>\keepFirst(3)].map<int>{el:match<t> -> el.n.a}.sum()`
 See `doc/summaries/CLAUDE.md` for more on the languages (index of summaries of user manual chapters).
 
 ## Documentation
 
-See `CLAUDE-AUX.md` for an overview of the project documentation files (and used technologies).
+See `CLAUDE-AUX.md` for an overview of the project documentation and non-code files.
 This includes an index of the CLAUDE.md files contained in the folder structure of the project, covering the user manual, the frontend pipeline steps, and the engine-net-2 projects (normally to be included in-place as needed).

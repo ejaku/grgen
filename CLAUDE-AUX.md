@@ -1,11 +1,13 @@
 # Project Auxiliary Information
 
+This is an overview of the documentation and non-code files of the GrGen.NET project.
+
 ## Directory Structure
 
 ```
 grgen/
 ├── doc/                # User manual (LaTeX), see doc/CLAUDE.md
-│   └── summaries/      # Per-chapter .md reference cards, see summaries/CLAUDE.md
+│   └── summaries/      # Per-chapter .md conflations, see summaries/CLAUDE.md
 ├── syntaxhighlighting/ # Editor support (vim, Emacs, Notepad++)
 ├── specifications/     # Feature and architecture specifications
 ├── todos/              # Feature ideas and TODOs
@@ -19,7 +21,7 @@ grgen/
 - `README.txt` - Installation and usage instructions, brief version notes
 - `ChangeLog.txt` - Detailed version history with per-release feature/fix descriptions
 - `LICENSE.txt` - Licensing overview: GrGen itself is LGPL v3 (generated code is yours, extensions must be shared), but components have different licenses (yComp: academic use only; MSAGL: MIT; SQLite: public domain; ANTLR: BSD; user manual: CC BY-SA 3.0)
-- `COMPONENTS.txt` - Software bill of materials: components, languages, dependencies, build/usage scenarios
+- `COMPONENTS.txt` - Software bill of materials: components, dependencies, build/usage scenarios
 - `AICodingPolicy.txt` - AI coding policy: AI-generated code forbidden in project core (compiler, interpreter, core tests), allowed in periphery (GUI, new shell features, unit tests)
 
 ## CLAUDE.md Files
@@ -35,14 +37,3 @@ Also further BUILDING.md files with building instructions and TESTING.md files w
 - `frontend/de/unika/ipd/grgen/*/CLAUDE.md` - instructive/overview files per compiler pipeline step
 - `engine-net-2/CLAUDE.md` - Backend engine: solution structure, key design patterns
 - `engine-net-2/src/*/CLAUDE.md` - instructive/overview files per C# project
-
-## Technologies
-
-- **C#** (.NET Framework 4.7.2) - Backend engine, shell, debugger
-- **Java** (1.8+) - Frontend compiler
-- **CSharpCC** - Parser generator for C# (sequence/shell/constant parsers)
-- **ANTLR** - Parser generator for Java frontend (version 3.4)
-- **SQLite** - Persistent graph storage (used by `libGrPersistenceProviderSQLite`)
-- **MSAGL** - Graph visualization in debugger (.NET)
-- **yComp** - External JAVA graph viewer application
-- **Mono** - Cross-platform runtime (Linux)

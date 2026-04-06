@@ -1,5 +1,5 @@
-COMPONENTS (SBOM) AND LANGUAGES
--------------------------------
+COMPONENTS (SBOM)
+-----------------
 
 GrGen.exe: C#/.NET compiler application
 - uses grgen.jar
@@ -23,6 +23,8 @@ yComp.jar: JAVA graph visualization application
 
 In order to build GrGen / take part in developing it, you need further components, see below and/or take a look at the user manual.
 The required parser generator jars are contained for your convenience (as well as the rails diagram building binary).
+
+TODO: reference LICENSES.txt; mention nuget packages as sources, by name, exact version in Visual Studio project configuration files.
 
 
 USAGE SCENARIOS AND DEPENDENCIES PLUS BUILDING
@@ -94,5 +96,6 @@ Run gentest.sh to add a test, i.e. generate the test data file.
 The engine-net-2/examples folder contains examples that can be used as smoke tests.
 Run test.sh to execute them, it writes a testlog.sh with the results (compare to the version from the scm).
 
+TODO: unit tests -- but maybe better only reference testing texts added in the meantime, with them available this is mere duplication
 TODO: maybe better separate by intended contents: Software Bill of Materials, Building, Testing, API-usage. Proofread.
 (Such an advanced-topics-readme is not only helpful for a human programmer but also for ML-AI-agent onboarding. Acceptable even if the content is a duplicate/extract of some user manual chapters/sections (the user manual should be the definitive and complete reference).)
