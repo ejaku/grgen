@@ -217,7 +217,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// <summary>
         /// Shows the graph (without relayout).
         /// </summary>
-        public void Show()
+        void IBasicGraphViewerClient.Show()
         {
             // TODO: implement as intended without relayout
             ForceLayout();
@@ -503,6 +503,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return edgeRealizer;
         }
 
+        // TODO: all member variables should be in one place
+
         Dictionary<String, MSAGLNodeRealizer> nodeRealizers = new Dictionary<string, MSAGLNodeRealizer>();
         Dictionary<String, MSAGLEdgeRealizer> edgeRealizers = new Dictionary<string, MSAGLEdgeRealizer>();
 
@@ -570,6 +572,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             edge.Attr.ClearStyles();
             edge.Attr.AddStyle(edgeRealizers[edgeRealizerName].lineStyle);
             edge.Label.FontColor = edgeRealizers[edgeRealizerName].textColor;
+        }
+
+        public string GetEdgeName(Edge edge)
+        {
+            String name;
+            if(edgeToName.TryGetValue(edge, out name))
+                return name;
+            else
+                return null;
         }
 
         //--------------------------------------
