@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-
+    <Platforms>x64;x86;AnyCPU</Platforms>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -13,12 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="lgspBackend">
-      <HintPath>..\..\bin\lgspBackend.dll</HintPath>
-    </Reference>
-    <Reference Include="libGr">
-      <HintPath>..\..\bin\libGr.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\src\libConsoleAndOS\libConsoleAndOS.csproj" />
+    <ProjectReference Include="..\..\src\libGr\libGr.csproj" />
+    <ProjectReference Include="..\..\src\lgspBackend\lgspBackend.csproj" />
   </ItemGroup>
 
   <ItemGroup>
