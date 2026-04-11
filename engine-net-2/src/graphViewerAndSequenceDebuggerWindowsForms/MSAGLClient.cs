@@ -9,11 +9,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Text;
+using System.Windows.Forms;
 using Microsoft.Msagl.GraphViewerGdi;
 using Microsoft.Msagl.Drawing;
 using de.unika.ipd.grGen.libGr;
-using System.Text;
-using System.Windows.Forms;
+using de.unika.ipd.grGen.lgsp;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
@@ -255,6 +257,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void SetNodeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString, String attrValueString)
         {
             // TODO - for node name show tooltip like N::a:T = v when hovered by the user
+            if (!graphElementToAttributes.ContainsKey(name))
+                graphElementToAttributes.Add(name, new Attributes(name, null)); // TODO: node type, also change on retype
+            graphElementToAttributes[name][ownerTypeName + "::" + attrTypeName] = new Pair<String, String>(attrTypeString, attrValueString);
+            // TODO: not added when no attributes, but should show name
         }
 
         public void AddEdge(String edgeName, String srcName, String tgtName, String edgeRealizerName, String edgeLabel)
@@ -269,6 +275,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void SetEdgeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString, String attrValueString)
         {
             // TODO - for edge name show tooltip like E::a:T = v when hovered by the user
+            if(!graphElementToAttributes.ContainsKey(name))
+                graphElementToAttributes.Add(name, new Attributes(name, null)); // TODO: edge type, also change on retype
+            graphElementToAttributes[name][ownerTypeName + "::" + attrTypeName] = new Pair<String, String>(attrTypeString, attrValueString);
+            // TODO: not added when no attributes, but should show name
         }
 
         /// <summary>
@@ -308,11 +318,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void ClearNodeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString)
         {
             // TODO - for node name remove tooltip of kind E::a:T, used during retyping
+            graphElementToAttributes[name].Remove(ownerTypeName + "::" + attrTypeName);
         }
 
         public void ClearEdgeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString)
         {
             // TODO - for edge name remove tooltip of kind E::a:T, used during retyping
+            graphElementToAttributes[name].Remove(ownerTypeName + "::" + attrTypeName);
         }
 
         public void DeleteNode(String nodeName)
@@ -348,6 +360,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     Console.Error.WriteLine("Warning: DeleteNode: Unknown node: " + nodeName);
                 }
             }
+
+            graphElementToAttributes.Remove(nodeName);
         }
 
         private void MoveChildrenToParent(Subgraph subgraph)
@@ -373,6 +387,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 String edgeName = edgeToName[edge];
                 nameToEdge.Remove(edgeName);
+                graphElementToAttributes.Remove(edgeName);
                 edgeToName.Remove(edge);
                 gViewer.Graph.RemoveEdge(edge);
             }
@@ -385,6 +400,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 String edgeName = edgeToName[edge];
                 nameToEdge.Remove(edgeName);
+                graphElementToAttributes.Remove(edgeName);
                 edgeToName.Remove(edge);
                 gViewer.Graph.RemoveEdge(edge);
             }
@@ -403,6 +419,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 Edge edge = nameToEdge[edgeName];
                 gViewer.Graph.RemoveEdge(edge);
                 nameToEdge.Remove(edgeName);
+                graphElementToAttributes.Remove(edgeName);
                 edgeToName.Remove(edge);
             }
             else
@@ -438,6 +455,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             nameToEdge.Clear();
             edgeToName.Clear();
+            graphElementToAttributes.Clear();
         }
 
         public void WaitForElement(bool val)
@@ -511,6 +529,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         Dictionary<String, Edge> nameToEdge = new Dictionary<string, Edge>();
         Dictionary<Edge, String> edgeToName = new Dictionary<Edge, string>();
 
+        Dictionary<String, Attributes> graphElementToAttributes = new Dictionary<string, Attributes>();
+
         //maps by index to GrColor defined in dumpInterface.cs:
         //Black, Blue, Green, Cyan, Red, Purple, Brown, Grey,
         //LightGrey, LightBlue, LightGreen, LightCyan, LightRed, LightPurple, Yellow, White,
@@ -583,6 +603,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 return null;
         }
 
+        public string GetGraphElementAttributes(String graphElementName)
+        {
+            Attributes attributes;
+            if(graphElementToAttributes.TryGetValue(graphElementName, out attributes))
+                return attributes.ToString();
+            else
+                return null;
+        }
+
         //--------------------------------------
 
         public void HideViewer()
@@ -610,5 +639,63 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public Color textColor;
         public int lineWidth;
         public Style lineStyle;
+    }
+
+    class Attributes // note that the attribute name is owner type prefixed
+    {
+        public Attributes(String graphElementName, String graphElementTypeName)
+        {
+            this.graphElementName = graphElementName;
+            this.graphElementTypeName = graphElementTypeName;
+            attributeNameToTypeAndValue = new OrderedDictionary();
+        }
+
+        public Pair<String, String> this[String attributeName]
+        {
+            set
+            {
+                if(attributeNameToTypeAndValue.Contains(attributeName))
+                    attributeNameToTypeAndValue[attributeName] = value;
+                else
+                    attributeNameToTypeAndValue.Add(attributeName, value);
+            }
+        }
+
+        public void Remove(String attributeName)
+        {
+            attributeNameToTypeAndValue.Remove(attributeName);
+        }
+
+        public String GraphElementTypeName
+        {
+            set { graphElementTypeName = value; }
+        }
+
+        public override String ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(graphElementName);
+            if(graphElementTypeName != null) // TODO: remove
+            {
+                sb.Append(":");
+                sb.Append(graphElementTypeName);
+            }
+            foreach(System.Collections.DictionaryEntry entry in attributeNameToTypeAndValue)
+            {
+                sb.AppendLine();
+                sb.Append(entry.Key);
+                sb.Append(" : ");
+                Pair<String, String> pair = (Pair<String, String>)entry.Value;
+                sb.Append(pair.fst);
+                sb.Append(" = ");
+                sb.Append(pair.snd);
+            }
+            return sb.ToString();
+        }
+
+        readonly String graphElementName;
+        String graphElementTypeName;
+
+        OrderedDictionary attributeNameToTypeAndValue;
     }
 }

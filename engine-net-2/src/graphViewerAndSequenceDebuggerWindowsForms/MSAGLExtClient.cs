@@ -190,6 +190,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void SetNodeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString, String attrValueString)
         {
             mainClient.SetNodeAttribute(name, ownerTypeName, attrTypeName, attrTypeString, attrValueString);
+            if(name == selectedEntityName)
+                textBoxAttributes.Text = mainClient.GetGraphElementAttributes(selectedEntityName) ?? "";
         }
 
         public void AddEdge(String edgeName, String srcName, String tgtName, String edgeRealizerName, String edgeLabel)
@@ -200,6 +202,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void SetEdgeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString, String attrValueString)
         {
             mainClient.SetEdgeAttribute(name, ownerTypeName, attrTypeName, attrTypeString, attrValueString);
+            if(name == selectedEntityName)
+                textBoxAttributes.Text = mainClient.GetGraphElementAttributes(selectedEntityName) ?? "";
         }
 
         public void ChangeNode(String nodeName, String realizer)
@@ -215,27 +219,27 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void SetNodeLabel(String name, String label)
         {
             mainClient.SetNodeLabel(name, label);
-            if(selectedEntityName == name && !selectedIsEdge)
-                textBoxAttributes.Text = label;
             InvalidateSearch();
         }
 
         public void SetEdgeLabel(String name, String label)
         {
             mainClient.SetEdgeLabel(name, label);
-            if(selectedEntityName == name && selectedIsEdge)
-                textBoxAttributes.Text = label;
             InvalidateSearch();
         }
 
         public void ClearNodeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString)
         {
             mainClient.ClearNodeAttribute(name, ownerTypeName, attrTypeName, attrTypeString);
+            if(name == selectedEntityName)
+                textBoxAttributes.Text = mainClient.GetGraphElementAttributes(selectedEntityName) ?? "";
         }
 
         public void ClearEdgeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString)
         {
             mainClient.ClearEdgeAttribute(name, ownerTypeName, attrTypeName, attrTypeString);
+            if(name == selectedEntityName)
+                textBoxAttributes.Text = mainClient.GetGraphElementAttributes(selectedEntityName) ?? "";
         }
 
         public void DeleteNode(String nodeName)
@@ -333,14 +337,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 selectedEntityName = viewerNode.Node.Id;
                 selectedIsEdge = false;
-                textBoxAttributes.Text = viewerNode.Node.LabelText ?? "";
+                textBoxAttributes.Text = mainClient.GetGraphElementAttributes(selectedEntityName) ?? "";
                 SyncTreeToSelection(viewerNode.Node.Id);
             }
             else if(viewerEdge != null)
             {
                 selectedEntityName = mainClient.GetEdgeName(viewerEdge.Edge);
                 selectedIsEdge = true;
-                textBoxAttributes.Text = viewerEdge.Edge.LabelText ?? "";
+                textBoxAttributes.Text = mainClient.GetGraphElementAttributes(selectedEntityName) ?? "";
             }
         }
 
@@ -383,7 +387,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             SimulateClickOnDrawingPanelCenter();
             selectedEntityName = nodeId;
             selectedIsEdge = false;
-            textBoxAttributes.Text = drawingNode.LabelText ?? "";
+            textBoxAttributes.Text = mainClient.GetGraphElementAttributes(selectedEntityName) ?? "";
         }
 
         void SimulateClickOnDrawingPanelCenter()
