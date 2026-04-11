@@ -380,26 +380,31 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             // Center the node first so the Transform is updated before we compute screen coords
             mainClient.gViewer.CenterToPoint(drawingNode.GeometryNode.Center);
             // Simulate a left click at the node center to trigger MSAGL's own selection logic
-            SimulateClickOnDrawingPanel(drawingNode.GeometryNode.Center);
+            SimulateClickOnDrawingPanelCenter();
             selectedEntityName = nodeId;
             selectedIsEdge = false;
             textBoxAttributes.Text = drawingNode.LabelText ?? "";
         }
 
-        void SimulateClickOnDrawingPanel(Microsoft.Msagl.Core.Geometry.Point graphPt)
+        void SimulateClickOnDrawingPanelCenter()
         {
-            // Transform maps graph coordinates to DrawingPanel client coordinates
-            Microsoft.Msagl.Core.Geometry.Point screenPt = mainClient.gViewer.Transform * graphPt;
-            int sx = (int)Math.Round(screenPt.X);
-            int sy = (int)Math.Round(screenPt.Y);
+            // CenterToPoint places the node at the panel center; use that as click target
+            // so we don't depend on Transform being synchronously updated.
             Control dp = mainClient.gViewer.DrawingPanel;
-            MouseEventArgs args = new MouseEventArgs(System.Windows.Forms.MouseButtons.Left, 1, sx, sy, 0);
-            System.Reflection.MethodInfo onDown = typeof(Control).GetMethod("OnMouseDown",
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            System.Reflection.MethodInfo onUp = typeof(Control).GetMethod("OnMouseUp",
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            if(onDown != null) onDown.Invoke(dp, new object[] { args });
-            if(onUp != null) onUp.Invoke(dp, new object[] { args });
+            int sx = dp.Width / 2;
+            int sy = dp.Height / 2;
+            System.Reflection.BindingFlags flags =
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
+            System.Reflection.MethodInfo onMove = typeof(Control).GetMethod("OnMouseMove", flags);
+            System.Reflection.MethodInfo onDown = typeof(Control).GetMethod("OnMouseDown", flags);
+            System.Reflection.MethodInfo onUp = typeof(Control).GetMethod("OnMouseUp", flags);
+            // MouseMove first so MSAGL sets ObjectUnderMouseCursor before the click
+            if(onMove != null) onMove.Invoke(dp, new object[] {
+                new MouseEventArgs(System.Windows.Forms.MouseButtons.None, 0, sx, sy, 0) });
+            MouseEventArgs clickArgs = new MouseEventArgs(
+                System.Windows.Forms.MouseButtons.Left, 1, sx, sy, 0);
+            if(onDown != null) onDown.Invoke(dp, new object[] { clickArgs });
+            if(onUp != null) onUp.Invoke(dp, new object[] { clickArgs });
         }
 
         //----------------------------------------------------------------------
