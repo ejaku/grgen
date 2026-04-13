@@ -15,10 +15,14 @@ The left-side pane contains:
 The views are to be synchronized, so that the same state of the graph is rendered.
 The selection state is to be synchronized as far as possible.
 
-Selection behavior: single nodes or edges can be selected in the main graph display, then the attributes of the selected entity are shown in the properties pane (they are contained in the label of the entity - in this specification we mean by the term label the string delivered by the API, not the GUI label).
+Selection behavior: single nodes or edges can be selected in the main graph display, then the attributes of the selected entity are shown in the properties pane.
+To be more specific: it shows the name and type of the entity, followed by the attributes, one attribute per line, consisting of the (owner) type the attribute is defined in (first), the attribute-name, the attribute-type, and the attribute-value.
 Upon de-selecting, the properties pane becomes empty again (initial state), which amounts to a display of the string "Select an entity to display its attributes".
 
+On hovering a graph element in the main graph view, a tooltip should be shown with the attributes (with the same content that would be shown in the properties view in case the entity would be selected by the user).
+
 Synchronization of the map-like view: when the scrolled area from the main graph display is changed, the rectangle visualizing it in the map-like view is adapted (by zooming it gets smaller, by unzooming larger, by scrolling/paning it is moved).
+It should be possible to move the view rectangle in the mini map with the mouse after a double click (coordinate translation alongside mouse offset); by a single click, the center of the area should be repositionable.
 The map-like and the main graph view should render/use the very same graph.
 
 Synchronization of the tree view: the selected node in the graph is also to be selected in the tree view.
@@ -28,7 +32,7 @@ The tree nodes in the tree node start collapsed (only the root node "this:graph"
 
 Search behavior:
 Pressing / or Ctrl-F sets the input focus on the search text box (and auto-selects a contained search text). The user may then enter the (new) search string.
-When ENTER is pressed while the focus is on the search text box, or the Next button is pressed, a (substring containment) search is started for the entered text in all the labels of all the graph entities.
+When ENTER is pressed while the focus is on the search text box, or the Next button is pressed, a (substring containment) search is started for the entered text in all the attributes (including entity name and type) of all the graph entities.
 When the search completed, a list of search results is available internally. 
 The number of results is then shown in the search result text box, in the form of a "No search results available" output in case not a single match was found, or in the form of a "Showing search result x of y" in case at least one match was found, with x=1, and y being the total number of matches found.
 The first match is selected and focused as needed.
@@ -43,14 +47,14 @@ But the current graph may change during a debugging session, the changes are rep
 Behavior upon changes:
 - Invalidate the search results, i.e. clear them. Reset the search status text box to its initial empty state.
 - Keep the selection unless the selected entity was deleted (then the attributes view must be cleared).
-- Update the attributes view when the label (of the selected entity) changes.
+- Update the attributes view when at least one of the attributes (of the selected entity) changes (or the type of the entity changes).
 
-Entry points/code mapping:
-Create a MSAGLExtClient UserControl in graphViewerAndSequenceDebuggerWindowsForms.
-Implement the IBasicGraphViewerClient interface that is used to deliver the graph/the changes to the graph from API level.
+Code mapping hints/decisions/entry points:
+The result should be an MSAGLExtClient UserControl in graphViewerAndSequenceDebuggerWindowsForms, implementing the IBasicGraphViewerClient interface that is used to deliver the graph/the changes to the graph from API level.
 An instance of the control is to be created when the GraphViewerType MSAGLExt is requested.
-Reuse the MSAGLClient UserControl for the main/current graph display and the map-like view (forward the IBasicGraphViewerClient calls/events).
-It may be necessary to configure the GView inside the MSAGLClient (e.g. to achieve the desired scrolling behavior).
-The selection state is stored in the LayoutEditor of the main GView control, in the dragGroup/SelectedEdge members, likely it has to be accessed.
+Reuse the MSAGLClient UserControl for the main/current graph display (forward the IBasicGraphViewerClient calls/events) (refrain from using the same MSAGL graph object for the map view due to shared state concerns, draw it manually instead).
+It may be necessary to configure the GViewer inside the MSAGLClient (e.g. to achieve the desired scrolling behavior).
+The DrawingPanel of the GViewer has its own coordinates, likely coordinate transformations are needed.
+The selection state is stored in the LayoutEditor of the main GView control, in the dragGroup/SelectedEdge members, while the former is not being visible directly it could be accessed by DraggedGeomObjects, but maybe the lastly selected entity has to be tracked by own code.
 Multi-selection is not supported/not to be supported by the MSAGLExtClient control, but supported for nodes by the GViewer with the dragGroup - use only one node from it, preferably the lastly selected node in case the user carries out a multi-selection in the GViewer/LayoutEditor code.
-The attributes view shows the entity label delivered by the API (calls of the IBasicGraphViewerClient), containing the name, and on the following lines the attributes, with the attribute-name, the attribute-type, and the attribute-value.
+The content for the attributes view can be obtained from the GetGraphElementAttributes method of the main graph client, which is fed by calls of the IBasicGraphViewerClient API (of the main graph client).
