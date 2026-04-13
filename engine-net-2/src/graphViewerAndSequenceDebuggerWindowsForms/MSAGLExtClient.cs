@@ -44,6 +44,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         int searchResultIndex = -1;
         String lastSearchTerm = null;
 
+        // Hover tooltip tracking (entity name under cursor, tracked to avoid redundant ToolTip.Show calls)
+        String lastHoveredEntityName = null;
+        bool suppressTooltipHandler = false;
+
         // Tree sync guard
         bool suppressTreeSelectionHandler = false;
         Dictionary<String, TreeNode> nodeNameToTreeNode = new Dictionary<String, TreeNode>();
@@ -67,6 +71,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             outerSplitContainer.Panel2.Controls.Add(mainClient);
 
             mainClient.gViewer.DrawingPanel.MouseClick += OnMainGViewerMouseClick;
+            mainClient.gViewer.MouseMove += OnMainGViewerMouseMoveForToolTip;
             mainClient.gViewer.DrawingPanel.Paint += OnMainGViewerPaintForMapRefresh;
             mapPanel.Paint += OnMapPanelPaint;
             mapPanel.MouseDown += OnMapPanelMouseDown;
@@ -348,6 +353,58 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
         }
 
+        void OnMainGViewerMouseMoveForToolTip(object sender, MouseEventArgs e)
+        {
+            if(suppressTooltipHandler)
+                return;
+
+            Graph graph = mainClient.gViewer.Graph;
+            if(graph == null || graph.GeometryGraph == null)
+                return;
+
+            // e is in gViewer coordinates; translate to DrawingPanel coordinates for ScreenToSource
+            System.Drawing.Point dpPt = mainClient.gViewer.PointToClient(
+                mainClient.PointToScreen(e.Location));
+            Microsoft.Msagl.Core.Geometry.Point graphPt =
+                mainClient.gViewer.ScreenToSource(dpPt);
+
+            String hoveredName = null;
+            String tipText = null;
+
+            foreach(Node node in graph.Nodes)
+            {
+                if(node.GeometryNode != null && node.GeometryNode.BoundingBox.Contains(graphPt))
+                {
+                    hoveredName = node.Id;
+                    tipText = mainClient.GetGraphElementAttributes(hoveredName);
+                    break;
+                }
+            }
+
+            if(hoveredName == null)
+            {
+                foreach(Edge edge in graph.Edges)
+                {
+                    if(edge.GeometryEdge != null && edge.GeometryEdge.Curve != null
+                        && edge.GeometryEdge.Curve.BoundingBox.Contains(graphPt))
+                    {
+                        hoveredName = mainClient.GetEdgeName(edge);
+                        tipText = mainClient.GetGraphElementAttributes(hoveredName);
+                        break;
+                    }
+                }
+            }
+
+            if(hoveredName != lastHoveredEntityName)
+            {
+                lastHoveredEntityName = hoveredName;
+                if(!string.IsNullOrEmpty(tipText))
+                    drawingPanelToolTip.Show(tipText, mainClient.gViewer, e.X + 16, e.Y, 8000);
+                else
+                    drawingPanelToolTip.Hide(mainClient.gViewer);
+            }
+        }
+
         void SyncTreeToSelection(String nodeId)
         {
             TreeNode treeNode;
@@ -384,7 +441,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             // Center the node first so the Transform is updated before we compute screen coords
             mainClient.gViewer.CenterToPoint(drawingNode.GeometryNode.Center);
             // Simulate a left click at the node center to trigger MSAGL's own selection logic
+            suppressTooltipHandler = true;
             SimulateClickOnDrawingPanelCenter();
+            suppressTooltipHandler = false;
             selectedEntityName = nodeId;
             selectedIsEdge = false;
             textBoxAttributes.Text = mainClient.GetGraphElementAttributes(selectedEntityName) ?? "";

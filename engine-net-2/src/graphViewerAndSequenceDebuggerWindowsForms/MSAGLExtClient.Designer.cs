@@ -4,8 +4,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     partial class MSAGLExtClient
     {
-        private System.ComponentModel.IContainer components = null;
-
         protected override void Dispose(bool disposing)
         {
             if(disposing && (components != null))
@@ -17,6 +15,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.drawingPanelToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.outerSplitContainer = new System.Windows.Forms.SplitContainer();
             this.mapPanel = new System.Windows.Forms.Panel();
             this.searchPanel = new System.Windows.Forms.Panel();
@@ -251,6 +251,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         #endregion
 
+        private System.ComponentModel.IContainer components;
         private System.Windows.Forms.SplitContainer outerSplitContainer;
         private System.Windows.Forms.Panel mapPanel;
         private System.Windows.Forms.Panel searchPanel;
@@ -265,5 +266,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private System.Windows.Forms.TreeView treeViewNodeNesting;
         private System.Windows.Forms.Label labelAttributes;
         private System.Windows.Forms.TextBox textBoxAttributes;
+        private System.Windows.Forms.ToolTip drawingPanelToolTip;
     }
 }
