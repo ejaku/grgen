@@ -814,7 +814,9 @@ namespace de.unika.ipd.grGen.grShell
             if(GraphViewer.IsDotExecutable(programName))
                 return GraphViewer.ShowGraphWithDot(impl.curShellProcEnv, programName, arguments, keep);
             else if(programName.Equals("MSAGL", StringComparison.InvariantCultureIgnoreCase))
-                return GraphViewer.ShowGraphWithMSAGL(impl.curShellProcEnv, impl.debugLayout, programName, arguments, keep);
+                return GraphViewer.ShowGraphWithMSAGL(impl.curShellProcEnv, false, impl.debugLayout, programName, arguments, keep);
+            else if(programName.Equals("MSAGLExt", StringComparison.InvariantCultureIgnoreCase))
+                return GraphViewer.ShowGraphWithMSAGL(impl.curShellProcEnv, true, impl.debugLayout, programName, arguments, keep);
             else
                 return GraphViewer.ShowVcgGraph(impl.curShellProcEnv, impl.debugLayout, programName, arguments, keep);
         }

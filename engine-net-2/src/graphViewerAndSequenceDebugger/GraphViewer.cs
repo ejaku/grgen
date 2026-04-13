@@ -237,12 +237,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// Shows the graph with MSAGL (without dumping - but like the other static ShowGraph functions without registering to the graph update events, i.e. without live graph updating on changes).
         /// TODO: dump into a format supported by MSAGL and call an external MSAGL viewer app (supply one if none exists yet).
         /// </summary>
-        public static string ShowGraphWithMSAGL(DebuggerGraphProcessingEnvironment debuggerProcEnv, String debugLayout, String programName, String arguments, bool keep)
+        public static string ShowGraphWithMSAGL(DebuggerGraphProcessingEnvironment debuggerProcEnv, bool extended, String debugLayout, String programName, String arguments, bool keep)
         {
             IHostCreator guiConsoleDebuggerHostCreator = GraphViewerClient.GetGuiConsoleDebuggerHostCreator();
             IBasicGraphViewerClientHost host = guiConsoleDebuggerHostCreator.CreateBasicGraphViewerClientHost();
             ElementRealizers realizers = new ElementRealizers();
-            GraphViewerClient graphViewerClient = new GraphViewerClient(debuggerProcEnv.ProcEnv.NamedGraph, GraphViewerTypes.MSAGL, debugLayout ?? "SugiyamaScheme",
+            GraphViewerClient graphViewerClient = new GraphViewerClient(debuggerProcEnv.ProcEnv.NamedGraph,
+                extended ? GraphViewerTypes.MSAGLExt : GraphViewerTypes.MSAGL, debugLayout ?? "SugiyamaScheme",
                 debuggerProcEnv.DumpInfo, realizers, debuggerProcEnv.objectNamerAndIndexer, debuggerProcEnv.transientObjectNamerAndIndexer, host);
             graphViewerClient.UploadGraph();
             IBasicGraphViewerClient basicClient = graphViewerClient.basicClient;
