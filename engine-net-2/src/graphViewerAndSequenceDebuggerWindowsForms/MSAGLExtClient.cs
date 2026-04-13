@@ -436,7 +436,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(nodeId == null)
                 return;
             Node drawingNode = mainClient.gViewer.Graph.FindNode(nodeId);
-            if(drawingNode == null || drawingNode.GeometryNode == null)
+            if(drawingNode == null)
+            {
+                // Try as a subgraph (subgraphs are not in graph.Nodes / FindNode)
+                Subgraph sub = FindSubgraphById(mainClient.gViewer.Graph.RootSubgraph, nodeId);
+                if(sub == null || sub.GeometryNode == null)
+                    return;
+                drawingNode = sub;
+            }
+            if(drawingNode.GeometryNode == null)
                 return;
             // Center the node first so the Transform is updated before we compute screen coords
             mainClient.gViewer.CenterToPoint(drawingNode.GeometryNode.Center);
@@ -447,6 +455,19 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             selectedEntityName = nodeId;
             selectedIsEdge = false;
             textBoxAttributes.Text = mainClient.GetGraphElementAttributes(selectedEntityName) ?? "";
+        }
+
+        static Subgraph FindSubgraphById(Subgraph parent, String id)
+        {
+            foreach(Subgraph child in parent.Subgraphs)
+            {
+                if(child.Id == id)
+                    return child;
+                Subgraph found = FindSubgraphById(child, id);
+                if(found != null)
+                    return found;
+            }
+            return null;
         }
 
         void SimulateClickOnDrawingPanelCenter()
@@ -566,6 +587,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             mapOffsetX = margin + (mapWidth - graphBBox.Width * mapScale) / 2.0;
             mapOffsetY = margin + (mapHeight - graphBBox.Height * mapScale) / 2.0;
 
+            // Draw subgraphs (cluster rectangles) behind regular nodes
+            DrawSubgraphsOnMap(e.Graphics, graph.RootSubgraph, graphBBox);
+
             // Draw nodes with their actual fill color, border color, and shape
             foreach(Node node in graph.Nodes)
             {
@@ -619,6 +643,31 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 }
             }
 
+        }
+
+        void DrawSubgraphsOnMap(Graphics g, Subgraph parent,
+            Microsoft.Msagl.Core.Geometry.Rectangle graphBBox)
+        {
+            foreach(Subgraph sub in parent.Subgraphs)
+            {
+                if(sub.GeometryNode != null)
+                {
+                    Microsoft.Msagl.Core.Geometry.Rectangle nb = sub.GeometryNode.BoundingBox;
+                    float nx = (float)(mapOffsetX + (nb.Left - graphBBox.Left) * mapScale);
+                    float ny = (float)(mapOffsetY + (graphBBox.Top - nb.Top) * mapScale);
+                    float nw = Math.Max(1f, (float)(nb.Width * mapScale));
+                    float nh = Math.Max(1f, (float)(nb.Height * mapScale));
+                    System.Drawing.Color fillColor = MsaglColorToDrawingColor(sub.Attr.FillColor);
+                    System.Drawing.Color borderColor = MsaglColorToDrawingColor(sub.Attr.Color);
+                    using(SolidBrush subBrush = new SolidBrush(fillColor))
+                    using(Pen subPen = new Pen(borderColor, 1))
+                    {
+                        g.FillRectangle(subBrush, nx, ny, nw, nh);
+                        g.DrawRectangle(subPen, nx, ny, nw, nh);
+                    }
+                }
+                DrawSubgraphsOnMap(g, sub, graphBBox);
+            }
         }
 
         // Converts a map-panel pixel position to a graph-space point
