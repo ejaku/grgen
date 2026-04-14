@@ -11,12 +11,13 @@ using System.Windows.Forms;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
-    public class BasicGraphViewerClientHost : Form, IBasicGraphViewerClientHost
+    public partial class BasicGraphViewerClientHost : Form, IBasicGraphViewerClientHost
     {
         IBasicGraphViewerClient basicGraphViewerClient;
 
         public BasicGraphViewerClientHost()
         {
+            InitializeComponent();
             Size = new System.Drawing.Size((int)(Screen.PrimaryScreen.Bounds.Width * 0.55), (int)(Screen.PrimaryScreen.Bounds.Height * 0.65));
             StartPosition = FormStartPosition.Manual;
             Location = new System.Drawing.Point(0, 0);

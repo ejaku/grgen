@@ -55,6 +55,9 @@
     <PackageReference Include="System.Resources.Extensions" Version="7.0.0" />
   </ItemGroup>
     <ItemGroup>
+    <EmbeddedResource Include="BasicGraphViewerClientHost.resx">
+      <DependentUpon>BasicGraphViewerClientHost.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GuiConsoleDebuggerHost.resx">
       <DependentUpon>GuiConsoleDebuggerHost.cs</DependentUpon>
     </EmbeddedResource>
@@ -62,6 +65,7 @@
       <DependentUpon>GuiDebuggerHost.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MSAGLClient.resx" />
+    <EmbeddedResource Include="MSAGLExtClient.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

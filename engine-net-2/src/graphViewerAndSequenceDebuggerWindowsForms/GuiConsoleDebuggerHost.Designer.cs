@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GuiConsoleDebuggerHost));
             this.theOptionalGuiConsoleControl = new de.unika.ipd.grGen.libConsoleAndOS.GuiConsoleControl();
             this.theOptionalSplitter = new System.Windows.Forms.Splitter();
             this.theGuiConsoleControl = new de.unika.ipd.grGen.libConsoleAndOS.GuiConsoleControl();
@@ -71,6 +72,7 @@
             this.Controls.Add(this.theOptionalSplitter);
             this.Controls.Add(this.theOptionalGuiConsoleControl);
             this.Margin = new System.Windows.Forms.Padding(2);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(168, 123);
             this.Name = "GuiConsoleDebuggerHost";
             this.Text = "GuiConsoleDebuggerHost";
