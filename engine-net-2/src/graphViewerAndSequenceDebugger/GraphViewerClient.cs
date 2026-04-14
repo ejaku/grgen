@@ -220,9 +220,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             String name = graph.GetElementName(node);
             if(dumpInfo.GetGroupNodeType(node.Type) != null)
-                basicClient.AddSubgraphNode(name, nrName, GetElemLabel(node));
+                basicClient.AddSubgraphNode(name, nrName, GetElemLabel(node), node.Type.PackagePrefixedName);
             else
-                basicClient.AddNode(name, nrName, GetElemLabel(node));
+                basicClient.AddNode(name, nrName, GetElemLabel(node), node.Type.PackagePrefixedName);
             foreach(AttributeType attrType in node.Type.AttributeTypes)
             {
                 string attrTypeString;
@@ -293,7 +293,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 }
             }
 
-            basicClient.AddEdge(edgeName, srcName, tgtName, edgeRealizerName, GetElemLabel(edge));
+            basicClient.AddEdge(edgeName, srcName, tgtName, edgeRealizerName, GetElemLabel(edge), edge.Type.PackagePrefixedName);
             foreach(AttributeType attrType in edge.Type.AttributeTypes)
             {
                 string attrTypeString;
@@ -545,9 +545,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             String oldName = graph.GetElementName(oldElem);
 
             if(isNode)
-                basicClient.SetNodeLabel(oldName, GetElemLabel(newElem));
+                basicClient.SetNodeLabel(oldName, GetElemLabel(newElem), newElem.Type.PackagePrefixedName);
             else
-                basicClient.SetEdgeLabel(oldName, GetElemLabel(newElem));
+                basicClient.SetEdgeLabel(oldName, GetElemLabel(newElem), newElem.Type.PackagePrefixedName);
 
             // remove the old attributes
             foreach(AttributeType attrType in oldType.AttributeTypes)

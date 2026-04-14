@@ -406,10 +406,18 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             ycompStream.Write("addSubgraphNode \"-1\" \"n" + name + "\" \"" + nrName + "\" \"" + nodeLabel + "\"\n"); // -1 is for subgraph parent, could be added directly instead of a later MoveNode
         }
+        public void AddSubgraphNode(String name, String nrName, String nodeLabel, String type)
+        {
+            AddSubgraphNode(name, nrName, nodeLabel); // fixed protocol, type typically contained in label, label replicating some attributes
+        }
 
         public void AddNode(String name, String nrName, String nodeLabel)
         {
             ycompStream.Write("addNode \"-1\" \"n" + name + "\" \"" + nrName + "\" \"" + nodeLabel + "\"\n"); // -1 is for subgraph parent, could be added directly instead of a later MoveNode
+        }
+        public void AddNode(String name, String nrName, String nodeLabel, String type)
+        {
+            AddNode(name, nrName, nodeLabel);
         }
 
         public void SetNodeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString, String attrValueString)
@@ -422,6 +430,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             ycompStream.Write("addEdge \"e" + edgeName + "\" \"n" + srcName + "\" \"n" + tgtName
                 + "\" \"" + edgeRealizerName + "\" \"" + edgeLabel + "\"\n");
+        }
+        public void AddEdge(String edgeName, String srcName, String tgtName, String edgeRealizerName, String edgeLabel, String type)
+        {
+            AddEdge(edgeName, srcName, tgtName, edgeRealizerName, edgeLabel);
         }
 
         public void SetEdgeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString, String attrValueString)
@@ -452,10 +464,18 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             ycompStream.Write("setNodeLabel \"n" + name + "\" \"" + label + "\"\n");
         }
+        public void SetNodeLabel(String name, String label, String type)
+        {
+            SetNodeLabel(name, label);
+        }
 
         public void SetEdgeLabel(String name, String label)
         {
             ycompStream.Write("setEdgeLabel \"e" + name + "\" \"" + label + "\"\n");
+        }
+        public void SetEdgeLabel(String name, String label, String type)
+        {
+            SetEdgeLabel(name, label);
         }
 
         public void ClearNodeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString)

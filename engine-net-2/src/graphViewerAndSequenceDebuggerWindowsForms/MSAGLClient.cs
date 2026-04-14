@@ -240,45 +240,52 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void AddSubgraphNode(String name, String nrName, String nodeLabel)
         {
+            AddSubgraphNode(name, nrName, nodeLabel, null);
+        }
+        public void AddSubgraphNode(String name, String nrName, String nodeLabel, String type)
+        {
             Subgraph subgraph = new Subgraph(name);
             gViewer.Graph.RootSubgraph.AddSubgraph(subgraph);
             ApplyRealizer(subgraph, nrName);
             subgraph.LabelText = nodeLabel;
+            graphElementToAttributes.Add(name, new Attributes(name, type));
         }
 
         public void AddNode(String name, String nrName, String nodeLabel)
+        {
+            AddNode(name, nrName, nodeLabel, null);
+        }
+        public void AddNode(String name, String nrName, String nodeLabel, String type)
         {
             Node node = new Node(name);
             gViewer.Graph.AddNode(node);
             ApplyRealizer(node, nrName);
             node.LabelText = nodeLabel;
+            graphElementToAttributes.Add(name, new Attributes(name, type));
         }
 
         public void SetNodeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString, String attrValueString)
         {
-            // TODO - for node name show tooltip like N::a:T = v when hovered by the user
-            if (!graphElementToAttributes.ContainsKey(name))
-                graphElementToAttributes.Add(name, new Attributes(name, null)); // TODO: node type, also change on retype
             graphElementToAttributes[name][ownerTypeName + "::" + attrTypeName] = new Pair<String, String>(attrTypeString, attrValueString);
-            // TODO: not added when no attributes, but should show name
         }
 
         public void AddEdge(String edgeName, String srcName, String tgtName, String edgeRealizerName, String edgeLabel)
+        {
+            AddEdge(edgeName, srcName, tgtName, edgeRealizerName, edgeLabel, null);
+        }
+        public void AddEdge(String edgeName, String srcName, String tgtName, String edgeRealizerName, String edgeLabel, String type)
         {
             Edge edge = gViewer.Graph.AddEdge(srcName, edgeName, tgtName);
             nameToEdge.Add(edgeName, edge);
             edgeToName.Add(edge, edgeName);
             ApplyRealizer(edge, edgeRealizerName);
             edge.LabelText = edgeLabel;
+            graphElementToAttributes.Add(edgeName, new Attributes(edgeName, type));
         }
 
         public void SetEdgeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString, String attrValueString)
         {
-            // TODO - for edge name show tooltip like E::a:T = v when hovered by the user
-            if(!graphElementToAttributes.ContainsKey(name))
-                graphElementToAttributes.Add(name, new Attributes(name, null)); // TODO: edge type, also change on retype
             graphElementToAttributes[name][ownerTypeName + "::" + attrTypeName] = new Pair<String, String>(attrTypeString, attrValueString);
-            // TODO: not added when no attributes, but should show name
         }
 
         /// <summary>
@@ -304,26 +311,36 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void SetNodeLabel(String name, String label)
         {
+            SetNodeLabel(name, label, null);
+        }
+        public void SetNodeLabel(String name, String label, String type)
+        {
             Node node = gViewer.Graph.AddNode(name);
             node.LabelText = label;
+            if(type != null)
+                graphElementToAttributes[name].GraphElementTypeName = type;
         }
 
         public void SetEdgeLabel(String name, String label)
         {
+            SetEdgeLabel(name, label, null);
+        }
+        public void SetEdgeLabel(String name, String label, String type)
+        {
             Edge edge;
             if(nameToEdge.TryGetValue(name, out edge))
                 edge.LabelText = label;
+            if(type != null)
+                graphElementToAttributes[name].GraphElementTypeName = type;
         }
 
         public void ClearNodeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString)
         {
-            // TODO - for node name remove tooltip of kind E::a:T, used during retyping
             graphElementToAttributes[name].Remove(ownerTypeName + "::" + attrTypeName);
         }
 
         public void ClearEdgeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString)
         {
-            // TODO - for edge name remove tooltip of kind E::a:T, used during retyping
             graphElementToAttributes[name].Remove(ownerTypeName + "::" + attrTypeName);
         }
 
@@ -675,9 +692,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(graphElementName);
-            if(graphElementTypeName != null) // TODO: remove
+            if(graphElementTypeName != null)
             {
-                sb.Append(":");
+                sb.Append(" : ");
                 sb.Append(graphElementTypeName);
             }
             foreach(System.Collections.DictionaryEntry entry in attributeNameToTypeAndValue)

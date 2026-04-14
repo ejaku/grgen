@@ -186,10 +186,18 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             mainClient.AddSubgraphNode(name, nrName, nodeLabel);
         }
+        public void AddSubgraphNode(String name, String nrName, String nodeLabel, String type)
+        {
+            mainClient.AddSubgraphNode(name, nrName, nodeLabel, type);
+        }
 
         public void AddNode(String name, String nrName, String nodeLabel)
         {
             mainClient.AddNode(name, nrName, nodeLabel);
+        }
+        public void AddNode(String name, String nrName, String nodeLabel, String type)
+        {
+            mainClient.AddNode(name, nrName, nodeLabel, type);
         }
 
         public void SetNodeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString, String attrValueString)
@@ -202,6 +210,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void AddEdge(String edgeName, String srcName, String tgtName, String edgeRealizerName, String edgeLabel)
         {
             mainClient.AddEdge(edgeName, srcName, tgtName, edgeRealizerName, edgeLabel);
+        }
+        public void AddEdge(String edgeName, String srcName, String tgtName, String edgeRealizerName, String edgeLabel, String type)
+        {
+            mainClient.AddEdge(edgeName, srcName, tgtName, edgeRealizerName, edgeLabel, type);
         }
 
         public void SetEdgeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString, String attrValueString)
@@ -226,10 +238,20 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             mainClient.SetNodeLabel(name, label);
             InvalidateSearch();
         }
+        public void SetNodeLabel(String name, String label, String type)
+        {
+            mainClient.SetNodeLabel(name, label, type);
+            InvalidateSearch();
+        }
 
         public void SetEdgeLabel(String name, String label)
         {
             mainClient.SetEdgeLabel(name, label);
+            InvalidateSearch();
+        }
+        public void SetEdgeLabel(String name, String label, String type)
+        {
+            mainClient.SetEdgeLabel(name, label, type);
             InvalidateSearch();
         }
 

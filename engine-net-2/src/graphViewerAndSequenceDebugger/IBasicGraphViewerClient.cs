@@ -62,12 +62,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         bool Sync();
 
         void AddSubgraphNode(String name, String nrName, String nodeLabel);
+        void AddSubgraphNode(String name, String nrName, String nodeLabel, String type); // when type is available, it should be given (to get a better attribute pane rendering in MSAGL)
 
         void AddNode(String name, String nrName, String nodeLabel);
+        void AddNode(String name, String nrName, String nodeLabel, String type);
 
         void SetNodeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString, String attrValueString);
 
         void AddEdge(String edgeName, String srcName, String tgtName, String edgeRealizerName, String edgeLabel);
+        void AddEdge(String edgeName, String srcName, String tgtName, String edgeRealizerName, String edgeLabel, String type);
 
         void SetEdgeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString, String attrValueString);
 
@@ -84,8 +87,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         void ChangeEdge(String edgeName, String realizer);
 
         void SetNodeLabel(String name, String label);
+        void SetNodeLabel(String name, String label, String type);
 
         void SetEdgeLabel(String name, String label);
+        void SetEdgeLabel(String name, String label, String type);
 
         void ClearNodeAttribute(String name, String ownerTypeName, String attrTypeName, String attrTypeString);
 
