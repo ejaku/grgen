@@ -468,12 +468,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             if(drawingNode.GeometryNode == null)
                 return;
-            // Center the node first so the Transform is updated before we compute screen coords
-            mainClient.gViewer.CenterToPoint(drawingNode.GeometryNode.Center);
+
             // Simulate a left click at the node center to trigger MSAGL's own selection logic
-            suppressTooltipHandler = true;
-            SimulateClickOnDrawingPanelCenter();
-            suppressTooltipHandler = false;
+            SimulateSelectAtPoint(drawingNode.GeometryNode.Center);
             selectedEntityName = nodeId;
             selectedIsEdge = false;
             textBoxAttributes.Text = mainClient.GetGraphElementAttributes(selectedEntityName) ?? "";
@@ -490,6 +487,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     return found;
             }
             return null;
+        }
+
+        void SimulateSelectAtPoint(Microsoft.Msagl.Core.Geometry.Point center)
+        {
+            // Center the node first so the Transform is updated before we compute screen coords
+            mainClient.gViewer.CenterToPoint(center);
+
+            suppressTooltipHandler = true;
+            SimulateClickOnDrawingPanelCenter();
+            suppressTooltipHandler = false;
         }
 
         void SimulateClickOnDrawingPanelCenter()
@@ -877,7 +884,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 return;
             textBoxSearchStatus.Text = "Showing search result " + (searchResultIndex + 1)
                 + " of " + searchResults.Count;
-            mainClient.gViewer.CenterToPoint(searchResults[searchResultIndex].Center);
+            SimulateSelectAtPoint(searchResults[searchResultIndex].Center);
+            selectedEntityName = searchResults[searchResultIndex].Name;
+            selectedIsEdge = searchResults[searchResultIndex].IsEdge;
+            textBoxAttributes.Text = mainClient.GetGraphElementAttributes(selectedEntityName) ?? "";
             if(!searchResults[searchResultIndex].IsEdge)
                 SyncTreeToSelection(searchResults[searchResultIndex].Name);
         }
