@@ -274,8 +274,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             mainClient.DeleteNode(nodeName);
             if(selectedEntityName == nodeName && !selectedIsEdge)
             {
-                selectedEntityName = null;
-                textBoxAttributes.Text = "Select an entity to display its attributes";
+                Unselect();
             }
             RebuildTree();
             InvalidateSearch();
@@ -286,9 +285,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             mainClient.DeleteEdge(edgeName);
             if(selectedEntityName == edgeName && selectedIsEdge)
             {
-                selectedEntityName = null;
-                selectedIsEdge = false;
-                textBoxAttributes.Text = "Select an entity to display its attributes";
+                Unselect();
             }
             InvalidateSearch();
         }
@@ -306,9 +303,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void ClearGraph()
         {
             mainClient.ClearGraph();
-            selectedEntityName = null;
-            selectedIsEdge = false;
-            textBoxAttributes.Text = "Select an entity to display its attributes";
+            Unselect();
             treeViewNodeNesting.Nodes.Clear();
             nodeNameToTreeNode.Clear();
             InvalidateSearch();
@@ -348,9 +343,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             IViewerObject obj = mainClient.gViewer.ObjectUnderMouseCursor;
             if(obj == null)
             {
-                selectedEntityName = null;
-                selectedIsEdge = false;
-                textBoxAttributes.Text = "Select an entity to display its attributes";
+                Unselect();
                 suppressTreeSelectionHandler = true;
                 treeViewNodeNesting.SelectedNode = null;
                 suppressTreeSelectionHandler = false;
@@ -362,16 +355,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             if(viewerNode != null)
             {
-                selectedEntityName = viewerNode.Node.Id;
-                selectedIsEdge = false;
-                textBoxAttributes.Text = mainClient.GetGraphElementAttributes(selectedEntityName) ?? "";
+                Select(viewerNode.Node.Id, false);
                 SyncTreeToSelection(viewerNode.Node.Id);
             }
             else if(viewerEdge != null)
             {
-                selectedEntityName = mainClient.GetEdgeName(viewerEdge.Edge);
-                selectedIsEdge = true;
-                textBoxAttributes.Text = mainClient.GetGraphElementAttributes(selectedEntityName) ?? "";
+                Select(mainClient.GetEdgeName(viewerEdge.Edge), true);
             }
         }
 
@@ -471,9 +460,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             // Simulate a left click at the node center to trigger MSAGL's own selection logic
             SimulateSelectAtPoint(drawingNode.GeometryNode.Center);
-            selectedEntityName = nodeId;
-            selectedIsEdge = false;
-            textBoxAttributes.Text = mainClient.GetGraphElementAttributes(selectedEntityName) ?? "";
+            Select(nodeId, false);
         }
 
         static Subgraph FindSubgraphById(Subgraph parent, String id)
@@ -518,6 +505,20 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 System.Windows.Forms.MouseButtons.Left, 1, sx, sy, 0);
             if(onDown != null) onDown.Invoke(dp, new object[] { clickArgs });
             if(onUp != null) onUp.Invoke(dp, new object[] { clickArgs });
+        }
+
+        void Select(String entityName, bool entityIsEdge)
+        {
+            selectedEntityName = entityName;
+            selectedIsEdge = entityIsEdge;
+            textBoxAttributes.Text = mainClient.GetGraphElementAttributes(selectedEntityName);
+        }
+
+        void Unselect()
+        {
+            selectedEntityName = null;
+            selectedIsEdge = false;
+            textBoxAttributes.Text = "Select an entity to display its attributes";
         }
 
         //----------------------------------------------------------------------
@@ -620,10 +621,46 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             DrawSubgraphsOnMap(e.Graphics, graph.RootSubgraph, graphBBox);
 
             // Draw nodes with their actual fill color, border color, and shape
+            DrawNodesOnMap(e.Graphics, graph, graphBBox);
+
+            // Draw viewport rectangle showing the currently visible area of the main graph view
+            Control drawingPanel = mainClient.gViewer.DrawingPanel;
+            if(drawingPanel == null || drawingPanel.Width <= 0 || drawingPanel.Height <= 0)
+                return;
+            DrawViewportRectangle(e.Graphics, graphBBox, drawingPanel);
+        }
+
+        void DrawSubgraphsOnMap(Graphics g, Subgraph parent, Microsoft.Msagl.Core.Geometry.Rectangle graphBBox)
+        {
+            foreach(Subgraph sub in parent.Subgraphs)
+            {
+                if(sub.GeometryNode != null)
+                {
+                    Microsoft.Msagl.Core.Geometry.Rectangle nb = sub.GeometryNode.BoundingBox;
+                    float nx = (float)(mapOffsetX + (nb.Left - graphBBox.Left) * mapScale);
+                    float ny = (float)(mapOffsetY + (graphBBox.Top - nb.Top) * mapScale);
+                    float nw = Math.Max(1f, (float)(nb.Width * mapScale));
+                    float nh = Math.Max(1f, (float)(nb.Height * mapScale));
+                    System.Drawing.Color fillColor = MsaglColorToDrawingColor(sub.Attr.FillColor);
+                    System.Drawing.Color borderColor = MsaglColorToDrawingColor(sub.Attr.Color);
+                    using(SolidBrush subBrush = new SolidBrush(fillColor))
+                    using(Pen subPen = new Pen(borderColor, 1))
+                    {
+                        g.FillRectangle(subBrush, nx, ny, nw, nh);
+                        g.DrawRectangle(subPen, nx, ny, nw, nh);
+                    }
+                }
+                DrawSubgraphsOnMap(g, sub, graphBBox);
+            }
+        }
+
+        private void DrawNodesOnMap(Graphics graphics, Graph graph, Microsoft.Msagl.Core.Geometry.Rectangle graphBBox)
+        {
             foreach(Node node in graph.Nodes)
             {
                 if(node.GeometryNode == null)
                     continue;
+
                 Microsoft.Msagl.Core.Geometry.Rectangle nb = node.GeometryNode.BoundingBox;
                 float nx = (float)(mapOffsetX + (nb.Left - graphBBox.Left) * mapScale);
                 float ny = (float)(mapOffsetY + (graphBBox.Top - nb.Top) * mapScale);
@@ -634,16 +671,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 using(SolidBrush nodeBrush = new SolidBrush(fillColor))
                 using(Pen nodePen = new Pen(borderColor, 1))
                 {
-                    DrawNodeShape(e.Graphics, nodeBrush, nodePen, node.Attr.Shape, nx, ny, nw, nh);
+                    DrawNodeShape(graphics, nodeBrush, nodePen, node.Attr.Shape, nx, ny, nw, nh);
                 }
             }
+        }
 
-            // Draw viewport rectangle showing the currently visible area of the main graph view
-
-            Control drawingPanel = mainClient.gViewer.DrawingPanel;
-            if(drawingPanel == null || drawingPanel.Width <= 0 || drawingPanel.Height <= 0)
-                return;
-
+        private void DrawViewportRectangle(Graphics graphics, Microsoft.Msagl.Core.Geometry.Rectangle graphBBox, Control drawingPanel)
+        {
             Microsoft.Msagl.Core.Geometry.Point graphTL =
                 mainClient.gViewer.ScreenToSource(new System.Drawing.Point(0, 0));
             Microsoft.Msagl.Core.Geometry.Point graphBR =
@@ -668,34 +702,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 using(Pen viewportPen = new Pen(System.Drawing.Color.Blue, 2))
                 {
-                    e.Graphics.DrawRectangle(viewportPen, vx1, vy1, vx2 - vx1, vy2 - vy1);
+                    graphics.DrawRectangle(viewportPen, vx1, vy1, vx2 - vx1, vy2 - vy1);
                 }
-            }
-
-        }
-
-        void DrawSubgraphsOnMap(Graphics g, Subgraph parent,
-            Microsoft.Msagl.Core.Geometry.Rectangle graphBBox)
-        {
-            foreach(Subgraph sub in parent.Subgraphs)
-            {
-                if(sub.GeometryNode != null)
-                {
-                    Microsoft.Msagl.Core.Geometry.Rectangle nb = sub.GeometryNode.BoundingBox;
-                    float nx = (float)(mapOffsetX + (nb.Left - graphBBox.Left) * mapScale);
-                    float ny = (float)(mapOffsetY + (graphBBox.Top - nb.Top) * mapScale);
-                    float nw = Math.Max(1f, (float)(nb.Width * mapScale));
-                    float nh = Math.Max(1f, (float)(nb.Height * mapScale));
-                    System.Drawing.Color fillColor = MsaglColorToDrawingColor(sub.Attr.FillColor);
-                    System.Drawing.Color borderColor = MsaglColorToDrawingColor(sub.Attr.Color);
-                    using(SolidBrush subBrush = new SolidBrush(fillColor))
-                    using(Pen subPen = new Pen(borderColor, 1))
-                    {
-                        g.FillRectangle(subBrush, nx, ny, nw, nh);
-                        g.DrawRectangle(subPen, nx, ny, nw, nh);
-                    }
-                }
-                DrawSubgraphsOnMap(g, sub, graphBBox);
             }
         }
 
@@ -885,9 +893,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             textBoxSearchStatus.Text = "Showing search result " + (searchResultIndex + 1)
                 + " of " + searchResults.Count;
             SimulateSelectAtPoint(searchResults[searchResultIndex].Center);
-            selectedEntityName = searchResults[searchResultIndex].Name;
-            selectedIsEdge = searchResults[searchResultIndex].IsEdge;
-            textBoxAttributes.Text = mainClient.GetGraphElementAttributes(selectedEntityName) ?? "";
+            Select(searchResults[searchResultIndex].Name, searchResults[searchResultIndex].IsEdge);
             if(!searchResults[searchResultIndex].IsEdge)
                 SyncTreeToSelection(searchResults[searchResultIndex].Name);
         }
