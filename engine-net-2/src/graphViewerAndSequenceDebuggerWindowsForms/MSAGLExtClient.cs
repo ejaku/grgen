@@ -481,6 +481,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         void SimulateSelectAtPoint(Microsoft.Msagl.Core.Geometry.Point center)
         {
+            // Deselect all selected entities, this is ok as we are only interested in single-selection at the moment,
+            // and it saves us from issues when the SHIFT-key is pressed, e.g. when handling SHIFT-F3, which would cause an addition of the entity to be selected to the multi-selection in the GViewer.LayoutEditor
+            mainClient.gViewer.LayoutEditor.Clear();
+
             // Center the node first so the Transform is updated before we compute screen coords
             mainClient.gViewer.CenterToPoint(center);
 
@@ -996,9 +1000,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
         }
 
+        // this function smells of i18n issues, it works on windows, but could explain linux/mono troubles, potential(AI) TODO: replace by regular key event on control listening
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if(keyData == Keys.OemQuestion || keyData == (Keys.Control | Keys.F))
+            if(keyData == Keys.OemQuestion || keyData == (Keys.Shift | Keys.D7) // scruffily matches the char "/" on US and DE keyboards, also catching "#" and "&" the other way round
+                || keyData == (Keys.Control | Keys.F))
             {
                 textBoxSearch.Focus();
                 textBoxSearch.SelectAll();
@@ -1009,7 +1015,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 SearchNext();
                 return true;
             }
-            if(keyData == (Keys.F3 | Keys.Shift) || keyData == (Keys.Shift | Keys.N))
+            if(keyData == (Keys.Shift | Keys.F3) || keyData == (Keys.Shift | Keys.N))
             {
                 SearchPrev();
                 return true;
