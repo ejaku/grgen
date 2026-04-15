@@ -74,6 +74,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             mainClient.gViewer.DrawingPanel.MouseClick += OnMainGViewerMouseClick;
             mainClient.gViewer.MouseMove += OnMainGViewerMouseMoveForToolTip;
             mainClient.gViewer.DrawingPanel.Paint += OnMainGViewerPaintForMapRefresh;
+            mainClient.gViewer.KeyDown += OnMainGViewerKeyDown;
+            mainClient.gViewer.DrawingPanel.KeyDown += OnMainGViewerKeyDown;
+            textBoxAttributes.KeyDown += OnMainGViewerKeyDown;
+            mainClient.gViewer.KeyPress += OnMainGViewerKeyPress;
+            mainClient.gViewer.DrawingPanel.KeyPress += OnMainGViewerKeyPress;
+            textBoxAttributes.KeyPress += OnMainGViewerKeyPress;
             mapPanel.Paint += OnMapPanelPaint;
             mapPanel.MouseDown += OnMapPanelMouseDown;
             mapPanel.MouseMove += OnMapPanelMouseMove;
@@ -416,6 +422,59 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                     drawingPanelToolTip.Show(tipText, mainClient.gViewer, e.X + 16, e.Y, 8000);
                 else
                     drawingPanelToolTip.Hide(mainClient.gViewer);
+            }
+        }
+
+        void OnMainGViewerKeyDown(object sender, KeyEventArgs e)
+        {
+            // When DrawingPanel has focus, both DrawingPanel.KeyDown and gViewer.KeyDown fire
+            // (MSAGL re-raises the event on the parent). Skip the gViewer firing to avoid double-handling.
+            if(ReferenceEquals(sender, mainClient.gViewer) && mainClient.gViewer.DrawingPanel.Focused)
+                return;
+
+            if(e.Control && e.KeyCode == Keys.F)
+            {
+                textBoxSearch.Focus();
+                textBoxSearch.SelectAll();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+            else if(e.KeyCode == Keys.F3 && !e.Shift)
+            {
+                SearchNext();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+            else if(e.KeyCode == Keys.F3 && e.Shift)
+            {
+                SearchPrev();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+            else if(e.KeyCode == Keys.N && !e.Shift && !e.Control && !e.Alt)
+            {
+                SearchNext();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+            else if(e.KeyCode == Keys.N && e.Shift && !e.Control && !e.Alt)
+            {
+                SearchPrev();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        void OnMainGViewerKeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Same double-fire guard as OnMainGViewerKeyDown
+            if(ReferenceEquals(sender, mainClient.gViewer) && mainClient.gViewer.DrawingPanel.Focused)
+                return;
+            if(e.KeyChar == '/')
+            {
+                textBoxSearch.Focus();
+                textBoxSearch.SelectAll();
+                e.Handled = true;
             }
         }
 
