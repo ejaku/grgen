@@ -23,9 +23,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.labelSearch = new System.Windows.Forms.Label();
             this.textBoxSearch = new System.Windows.Forms.TextBox();
             this.buttonClearSearch = new System.Windows.Forms.Button();
-            this.buttonSearchNext = new System.Windows.Forms.Button();
+            this.buttonMatchCase = new System.Windows.Forms.CheckBox();
+            this.buttonSearch = new System.Windows.Forms.Button();
             this.buttonSearchPrev = new System.Windows.Forms.Button();
             this.textBoxSearchStatus = new System.Windows.Forms.TextBox();
+            this.buttonSearchNext = new System.Windows.Forms.Button();
             this.leftInnerSplitContainer = new System.Windows.Forms.SplitContainer();
             this.labelNesting = new System.Windows.Forms.Label();
             this.treeViewNodeNesting = new System.Windows.Forms.TreeView();
@@ -74,21 +76,25 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             //
             // searchPanel
+            // Row 1 (y=3): "Search:" label | search text box | "x" clear | "aA" match-case | "Search" button
+            // Row 2 (y=29): "<-" prev | status text box | "->" next
             //
+            this.searchPanel.Controls.Add(this.buttonSearchNext);
             this.searchPanel.Controls.Add(this.textBoxSearchStatus);
             this.searchPanel.Controls.Add(this.buttonSearchPrev);
-            this.searchPanel.Controls.Add(this.buttonSearchNext);
+            this.searchPanel.Controls.Add(this.buttonSearch);
+            this.searchPanel.Controls.Add(this.buttonMatchCase);
             this.searchPanel.Controls.Add(this.buttonClearSearch);
             this.searchPanel.Controls.Add(this.textBoxSearch);
             this.searchPanel.Controls.Add(this.labelSearch);
             this.searchPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.searchPanel.Location = new System.Drawing.Point(0, 180);
             this.searchPanel.Name = "searchPanel";
-            this.searchPanel.Size = new System.Drawing.Size(260, 52);
+            this.searchPanel.Size = new System.Drawing.Size(260, 54);
             this.searchPanel.TabIndex = 1;
 
             //
-            // labelSearch
+            // labelSearch  (row 1, left)
             //
             this.labelSearch.AutoSize = true;
             this.labelSearch.Location = new System.Drawing.Point(3, 7);
@@ -97,22 +103,22 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.labelSearch.Text = "Search:";
 
             //
-            // textBoxSearch
+            // textBoxSearch  (row 1, stretches between label and right buttons)
             //
             this.textBoxSearch.Anchor = System.Windows.Forms.AnchorStyles.Top
                 | System.Windows.Forms.AnchorStyles.Left
                 | System.Windows.Forms.AnchorStyles.Right;
             this.textBoxSearch.Location = new System.Drawing.Point(55, 4);
             this.textBoxSearch.Name = "textBoxSearch";
-            this.textBoxSearch.Size = new System.Drawing.Size(84, 22);
+            this.textBoxSearch.Size = new System.Drawing.Size(100, 22);
             this.textBoxSearch.TabIndex = 1;
 
             //
-            // buttonClearSearch
+            // buttonClearSearch  (row 1, right-anchored: "x")
             //
             this.buttonClearSearch.Anchor = System.Windows.Forms.AnchorStyles.Top
                 | System.Windows.Forms.AnchorStyles.Right;
-            this.buttonClearSearch.Location = new System.Drawing.Point(143, 3);
+            this.buttonClearSearch.Location = new System.Drawing.Point(159, 3);
             this.buttonClearSearch.Name = "buttonClearSearch";
             this.buttonClearSearch.Size = new System.Drawing.Size(22, 22);
             this.buttonClearSearch.TabIndex = 2;
@@ -120,41 +126,67 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.buttonClearSearch.UseVisualStyleBackColor = true;
 
             //
-            // buttonSearchNext
+            // buttonMatchCase  (row 1, right-anchored: "aA" toggle)
             //
-            this.buttonSearchNext.Anchor = System.Windows.Forms.AnchorStyles.Top
+            this.buttonMatchCase.Anchor = System.Windows.Forms.AnchorStyles.Top
                 | System.Windows.Forms.AnchorStyles.Right;
-            this.buttonSearchNext.Location = new System.Drawing.Point(167, 3);
-            this.buttonSearchNext.Name = "buttonSearchNext";
-            this.buttonSearchNext.Size = new System.Drawing.Size(40, 22);
-            this.buttonSearchNext.TabIndex = 3;
-            this.buttonSearchNext.Text = "Next";
-            this.buttonSearchNext.UseVisualStyleBackColor = true;
+            this.buttonMatchCase.Appearance = System.Windows.Forms.Appearance.Button;
+            this.buttonMatchCase.Location = new System.Drawing.Point(183, 3);
+            this.buttonMatchCase.Name = "buttonMatchCase";
+            this.buttonMatchCase.Size = new System.Drawing.Size(28, 22);
+            this.buttonMatchCase.TabIndex = 3;
+            this.buttonMatchCase.Text = "aA";
+            this.buttonMatchCase.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.buttonMatchCase.UseVisualStyleBackColor = true;
 
             //
-            // buttonSearchPrev
+            // buttonSearch  (row 1, right-anchored: "Search")
             //
-            this.buttonSearchPrev.Anchor = System.Windows.Forms.AnchorStyles.Top
+            this.buttonSearch.Anchor = System.Windows.Forms.AnchorStyles.Top
                 | System.Windows.Forms.AnchorStyles.Right;
-            this.buttonSearchPrev.Location = new System.Drawing.Point(209, 3);
+            this.buttonSearch.Location = new System.Drawing.Point(213, 3);
+            this.buttonSearch.Name = "buttonSearch";
+            this.buttonSearch.Size = new System.Drawing.Size(44, 22);
+            this.buttonSearch.TabIndex = 4;
+            this.buttonSearch.Text = "Search";
+            this.buttonSearch.UseVisualStyleBackColor = true;
+
+            //
+            // buttonSearchPrev  (row 2, left: "<-")
+            //
+            this.buttonSearchPrev.Anchor = System.Windows.Forms.AnchorStyles.Bottom
+                | System.Windows.Forms.AnchorStyles.Left;
+            this.buttonSearchPrev.Location = new System.Drawing.Point(3, 29);
             this.buttonSearchPrev.Name = "buttonSearchPrev";
-            this.buttonSearchPrev.Size = new System.Drawing.Size(40, 22);
-            this.buttonSearchPrev.TabIndex = 4;
-            this.buttonSearchPrev.Text = "Prev";
+            this.buttonSearchPrev.Size = new System.Drawing.Size(30, 22);
+            this.buttonSearchPrev.TabIndex = 5;
+            this.buttonSearchPrev.Text = "<-";
             this.buttonSearchPrev.UseVisualStyleBackColor = true;
 
             //
-            // textBoxSearchStatus
+            // textBoxSearchStatus  (row 2, stretches between nav buttons)
             //
             this.textBoxSearchStatus.Anchor = System.Windows.Forms.AnchorStyles.Bottom
                 | System.Windows.Forms.AnchorStyles.Left
                 | System.Windows.Forms.AnchorStyles.Right;
-            this.textBoxSearchStatus.Location = new System.Drawing.Point(3, 29);
+            this.textBoxSearchStatus.Location = new System.Drawing.Point(36, 30);
             this.textBoxSearchStatus.Name = "textBoxSearchStatus";
             this.textBoxSearchStatus.ReadOnly = true;
-            this.textBoxSearchStatus.Size = new System.Drawing.Size(254, 20);
-            this.textBoxSearchStatus.TabIndex = 5;
+            this.textBoxSearchStatus.Size = new System.Drawing.Size(185, 20);
+            this.textBoxSearchStatus.TabIndex = 6;
             this.textBoxSearchStatus.TabStop = false;
+
+            //
+            // buttonSearchNext  (row 2, right: "->")
+            //
+            this.buttonSearchNext.Anchor = System.Windows.Forms.AnchorStyles.Bottom
+                | System.Windows.Forms.AnchorStyles.Right;
+            this.buttonSearchNext.Location = new System.Drawing.Point(224, 29);
+            this.buttonSearchNext.Name = "buttonSearchNext";
+            this.buttonSearchNext.Size = new System.Drawing.Size(30, 22);
+            this.buttonSearchNext.TabIndex = 7;
+            this.buttonSearchNext.Text = "->";
+            this.buttonSearchNext.UseVisualStyleBackColor = true;
 
             //
             // leftInnerSplitContainer
@@ -215,6 +247,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             // textBoxAttributes
             //
             this.textBoxAttributes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxAttributes.HideSelection = false;
             this.textBoxAttributes.Location = new System.Drawing.Point(0, 18);
             this.textBoxAttributes.Multiline = true;
             this.textBoxAttributes.Name = "textBoxAttributes";
@@ -258,9 +291,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         private System.Windows.Forms.Label labelSearch;
         private System.Windows.Forms.TextBox textBoxSearch;
         private System.Windows.Forms.Button buttonClearSearch;
-        private System.Windows.Forms.Button buttonSearchNext;
+        private System.Windows.Forms.CheckBox buttonMatchCase;
+        private System.Windows.Forms.Button buttonSearch;
         private System.Windows.Forms.Button buttonSearchPrev;
         private System.Windows.Forms.TextBox textBoxSearchStatus;
+        private System.Windows.Forms.Button buttonSearchNext;
         private System.Windows.Forms.SplitContainer leftInnerSplitContainer;
         private System.Windows.Forms.Label labelNesting;
         private System.Windows.Forms.TreeView treeViewNodeNesting;

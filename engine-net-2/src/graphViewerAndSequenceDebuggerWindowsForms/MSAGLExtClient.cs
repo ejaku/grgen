@@ -43,6 +43,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         List<SearchResult> searchResults = new List<SearchResult>();
         int searchResultIndex = -1;
         String lastSearchTerm = null;
+        bool matchCase = false;
 
         // Hover tooltip tracking (entity name under cursor, tracked to avoid redundant ToolTip.Show calls)
         String lastHoveredEntityName = null;
@@ -81,6 +82,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             treeViewNodeNesting.AfterSelect += OnTreeViewAfterSelect;
 
             buttonClearSearch.Click += OnButtonClearSearchClick;
+            buttonMatchCase.CheckedChanged += OnButtonMatchCaseChanged;
+            buttonSearch.Click += OnButtonSearchClick;
             buttonSearchNext.Click += OnButtonSearchNextClick;
             buttonSearchPrev.Click += OnButtonSearchPrevClick;
             textBoxSearch.KeyDown += OnTextBoxSearchKeyDown;
@@ -854,36 +857,46 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             if(graph == null)
             {
                 textBoxSearchStatus.Text = "No search results available";
+                System.Media.SystemSounds.Beep.Play();
+                mainClient.gViewer.Focus();
                 return;
             }
 
+            StringComparison comparison = matchCase ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
+
             foreach(Node node in graph.Nodes)
             {
-                if((node.LabelText ?? "").Contains(term) && node.GeometryNode != null)
+                String attrs = mainClient.GetGraphElementAttributes(node.Id);
+                if(attrs != null && attrs.IndexOf(term, comparison) >= 0 && node.GeometryNode != null)
                     searchResults.Add(new SearchResult(node.GeometryNode.Center, node.Id, false));
             }
             foreach(Edge edge in graph.Edges)
             {
-                if((edge.LabelText ?? "").Contains(term)
-                    && edge.GeometryEdge != null
-                    && edge.GeometryEdge.Curve != null)
+                if(edge.GeometryEdge == null || edge.GeometryEdge.Curve == null)
+                    continue;
+                String edgeName = mainClient.GetEdgeName(edge);
+                String attrs = mainClient.GetGraphElementAttributes(edgeName);
+                if(attrs != null && attrs.IndexOf(term, comparison) >= 0)
                 {
                     Microsoft.Msagl.Core.Geometry.Rectangle bb = edge.GeometryEdge.Curve.BoundingBox;
                     Microsoft.Msagl.Core.Geometry.Point center = new Microsoft.Msagl.Core.Geometry.Point(
                         (bb.Left + bb.Right) / 2.0,
                         (bb.Bottom + bb.Top) / 2.0);
-                    searchResults.Add(new SearchResult(center, mainClient.GetEdgeName(edge) ?? "", true));
+                    searchResults.Add(new SearchResult(center, edgeName ?? "", true));
                 }
             }
 
             if(searchResults.Count == 0)
             {
                 textBoxSearchStatus.Text = "No search results available";
+                System.Media.SystemSounds.Beep.Play();
+                mainClient.gViewer.Focus();
                 return;
             }
 
             searchResultIndex = 0;
             ShowCurrentSearchResult();
+            mainClient.gViewer.Focus();
         }
 
         void ShowCurrentSearchResult()
@@ -896,6 +909,21 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             Select(searchResults[searchResultIndex].Name, searchResults[searchResultIndex].IsEdge);
             if(!searchResults[searchResultIndex].IsEdge)
                 SyncTreeToSelection(searchResults[searchResultIndex].Name);
+            SelectSearchTermInAttributesView();
+        }
+
+        void SelectSearchTermInAttributesView()
+        {
+            if(string.IsNullOrEmpty(lastSearchTerm) || textBoxAttributes.Text == null)
+                return;
+            StringComparison comparison = matchCase ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
+            int idx = textBoxAttributes.Text.IndexOf(lastSearchTerm, comparison);
+            if(idx >= 0)
+            {
+                textBoxAttributes.SelectionStart = idx;
+                textBoxAttributes.SelectionLength = lastSearchTerm.Length;
+                textBoxAttributes.ScrollToCaret();
+            }
         }
 
         void SearchNext()
@@ -926,12 +954,21 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             InvalidateSearch();
         }
 
+        void OnButtonMatchCaseChanged(object sender, EventArgs e)
+        {
+            matchCase = buttonMatchCase.Checked;
+            if(lastSearchTerm != null)
+                ExecuteSearch();
+        }
+
+        void OnButtonSearchClick(object sender, EventArgs e)
+        {
+            ExecuteSearch();
+        }
+
         void OnButtonSearchNextClick(object sender, EventArgs e)
         {
-            if(textBoxSearch.Text != lastSearchTerm)
-                ExecuteSearch();
-            else
-                SearchNext();
+            SearchNext();
         }
 
         void OnButtonSearchPrevClick(object sender, EventArgs e)
@@ -943,19 +980,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             if(e.KeyCode == Keys.Enter)
             {
-                if(textBoxSearch.Text != lastSearchTerm)
-                    ExecuteSearch();
-                else
-                    SearchNext();
+                ExecuteSearch();
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
             else if(e.KeyCode == Keys.F3 && !e.Shift)
             {
-                if(textBoxSearch.Text != lastSearchTerm)
-                    ExecuteSearch();
-                else
-                    SearchNext();
+                SearchNext();
                 e.Handled = true;
             }
             else if(e.KeyCode == Keys.F3 && e.Shift)
@@ -973,15 +1004,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 textBoxSearch.SelectAll();
                 return true;
             }
-            if(keyData == Keys.F3)
+            if(keyData == Keys.F3 || keyData == Keys.N)
             {
-                if(textBoxSearch.Text != lastSearchTerm)
-                    ExecuteSearch();
-                else
-                    SearchNext();
+                SearchNext();
                 return true;
             }
-            if(keyData == (Keys.F3 | Keys.Shift))
+            if(keyData == (Keys.F3 | Keys.Shift) || keyData == (Keys.Shift | Keys.N))
             {
                 SearchPrev();
                 return true;
