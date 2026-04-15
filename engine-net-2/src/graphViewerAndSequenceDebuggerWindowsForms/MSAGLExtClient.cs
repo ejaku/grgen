@@ -77,9 +77,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             mainClient.gViewer.KeyDown += OnMainGViewerKeyDown;
             mainClient.gViewer.DrawingPanel.KeyDown += OnMainGViewerKeyDown;
             textBoxAttributes.KeyDown += OnMainGViewerKeyDown;
+            mapPanel.KeyDown += OnMainGViewerKeyDown;
+            treeViewNodeNesting.KeyDown += OnMainGViewerKeyDown;
             mainClient.gViewer.KeyPress += OnMainGViewerKeyPress;
             mainClient.gViewer.DrawingPanel.KeyPress += OnMainGViewerKeyPress;
             textBoxAttributes.KeyPress += OnMainGViewerKeyPress;
+            mapPanel.KeyPress += OnMainGViewerKeyPress;
+            treeViewNodeNesting.KeyPress += OnMainGViewerKeyPress;
             mapPanel.Paint += OnMapPanelPaint;
             mapPanel.MouseDown += OnMapPanelMouseDown;
             mapPanel.MouseMove += OnMapPanelMouseMove;

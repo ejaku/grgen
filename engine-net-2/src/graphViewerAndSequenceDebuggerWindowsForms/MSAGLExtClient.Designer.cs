@@ -108,7 +108,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.textBoxSearch.Anchor = System.Windows.Forms.AnchorStyles.Top
                 | System.Windows.Forms.AnchorStyles.Left
                 | System.Windows.Forms.AnchorStyles.Right;
-            this.textBoxSearch.Location = new System.Drawing.Point(55, 4);
+            this.textBoxSearch.Location = new System.Drawing.Point(48, 4);
             this.textBoxSearch.Name = "textBoxSearch";
             this.textBoxSearch.Size = new System.Drawing.Size(100, 22);
             this.textBoxSearch.TabIndex = 1;
@@ -118,11 +118,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             //
             this.buttonClearSearch.Anchor = System.Windows.Forms.AnchorStyles.Top
                 | System.Windows.Forms.AnchorStyles.Right;
-            this.buttonClearSearch.Location = new System.Drawing.Point(159, 3);
+            this.buttonClearSearch.Location = new System.Drawing.Point(151, 3);
             this.buttonClearSearch.Name = "buttonClearSearch";
             this.buttonClearSearch.Size = new System.Drawing.Size(22, 22);
             this.buttonClearSearch.TabIndex = 2;
-            this.buttonClearSearch.Text = "x";
+            this.buttonClearSearch.Text = "X";
             this.buttonClearSearch.UseVisualStyleBackColor = true;
 
             //
@@ -131,7 +131,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.buttonMatchCase.Anchor = System.Windows.Forms.AnchorStyles.Top
                 | System.Windows.Forms.AnchorStyles.Right;
             this.buttonMatchCase.Appearance = System.Windows.Forms.Appearance.Button;
-            this.buttonMatchCase.Location = new System.Drawing.Point(183, 3);
+            this.buttonMatchCase.Location = new System.Drawing.Point(175, 3);
             this.buttonMatchCase.Name = "buttonMatchCase";
             this.buttonMatchCase.Size = new System.Drawing.Size(28, 22);
             this.buttonMatchCase.TabIndex = 3;
@@ -144,9 +144,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             //
             this.buttonSearch.Anchor = System.Windows.Forms.AnchorStyles.Top
                 | System.Windows.Forms.AnchorStyles.Right;
-            this.buttonSearch.Location = new System.Drawing.Point(213, 3);
+            this.buttonSearch.Location = new System.Drawing.Point(205, 3);
             this.buttonSearch.Name = "buttonSearch";
-            this.buttonSearch.Size = new System.Drawing.Size(44, 22);
+            this.buttonSearch.Size = new System.Drawing.Size(52, 22);
             this.buttonSearch.TabIndex = 4;
             this.buttonSearch.Text = "Search";
             this.buttonSearch.UseVisualStyleBackColor = true;
