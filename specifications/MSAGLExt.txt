@@ -8,7 +8,7 @@ The extended MSAGLClient is a graph viewer control with additional functionality
 The extended MSAGLClient shows to the left a pane as specified below, separated by a vertical splitter, and to the right the main/current graph display.
 The left-side pane contains:
 1. a map-like view of the graph showing the entire graph, highlighting the zoomed region rendered in the main graph view by a rectangle of corresponding size
-2. below separated by a horizontal splitter a search pane (of small fixed height) with a "Search:" header, consisting of a text box and an "x"-button, plus a next and prev button, plus a status text box
+2. below separated by a horizontal splitter a search pane (of small fixed height) with a "Search:" header, an upper search configuration line, and a lower search status line
 3. below the search pane a nodes pane with a "Node nesting:" header, consisting of a tree view showing the nodes (by name colon type entries) and their (subgraph) nesting (the edges are not to be shown in this view)
 4. below separated by a horizontal splitter an attributes/properties view with a header "Attributes:", consisting of a multi-line TextBox showing the attributes of the selected object
 
@@ -23,22 +23,28 @@ On hovering a graph element in the main graph view, a tooltip should be shown wi
 
 Synchronization of the map-like view: when the scrolled area from the main graph display is changed, the rectangle visualizing it in the map-like view is adapted (by zooming it gets smaller, by unzooming larger, by scrolling/paning it is moved).
 It should be possible to move the view rectangle in the mini map with the mouse after a double click (coordinate translation alongside mouse offset); by a single click, the center of the area should be repositionable.
-The map-like and the main graph view should render/use the very same graph.
+The map-like view should render a fast low-fidelity sketch of the graph consisting of all the nodes with the same visual styles.
 
 Synchronization of the tree view: the selected node in the graph is also to be selected in the tree view.
 The node may be contained in a collapsed tree node, the path to it is opened then.
 The selected node in the tree view is also to be selected in the graph, and focused as needed.
 The tree nodes in the tree node start collapsed (only the root node "this:graph" starts opened).
 
+Search pane:
+The upper line consists of a text box, an "x"-button to clear to text box, an "aA" match-case toggle-button, and a "Search"-button
+The lower line consists of a status text box, to its left a "<-" previous search result button and to its right a "->" next search result button
+
 Search behavior:
-Pressing / or Ctrl-F sets the input focus on the search text box (and auto-selects a contained search text). The user may then enter the (new) search string.
-When ENTER is pressed while the focus is on the search text box, or the Next button is pressed, a (substring containment) search is started for the entered text in all the attributes (including entity name and type) of all the graph entities.
-When the search completed, a list of search results is available internally. 
+Pressing Ctrl-F or / sets the input focus on the search text box (and auto-selects a contained search text) (the user may also set the input focus with the mouse).
+The user may then enter the (new) search string.
+When ENTER is pressed while the input focus is on the search text box, or the Search button is pressed, a (substring containment) search is started for the entered text in all the attributes (including entity name and type) of all the graph entities (and the input focus is lost).
+When the match-case toggle button is off (default), the text is searched case-insensitively, when the match-case toggle button is on/pressed, the text is searched case-sensitively.
+When the search completed, a list of search results is available internally.
 The number of results is then shown in the search result text box, in the form of a "No search results available" output in case not a single match was found, or in the form of a "Showing search result x of y" in case at least one match was found, with x=1, and y being the total number of matches found.
-The first match is selected and focused as needed.
-Upon pressing the Next button or pressing the F3 key, the next search result from the search result list is selected and focused. When the end of the search result list is reached, a system beep is emitted.
-When the Prev button is pressed or the SHIFT + F3 keys, the previous search result from the search result list is selected and focused. When the begin of the search result list is reached, a system beep is emitted.
-Focused as needed means: when the selected graph element is not visible in the main graph area, the main graph area is scrolled so that the entity is in the center of the area.
+The first match is selected and focused as needed in the main graph view, and the (first) matching substring selected in the attributes view. When no match is available, a system beep is emitted instead.
+Upon pressing the Next button or pressing the F3 key or the n key, the next search result from the search result list is selected and focused as needed. When the end of the search result list is reached, a system beep is emitted.
+When the Prev button is pressed or the SHIFT + F3 keys or the SHIFT + n keys, the previous search result from the search result list is selected and focused as needed. When the begin of the search result list is reached, a system beep is emitted.
+Focused as needed means: when the selected graph element is not visible in the main graph area, the main graph area is scrolled so that the entity is in the center of the area (brought into the viewable area). (The matching substring is also to be selected in the attributes view in case of next/prev.)
 When the "x" button is pressed, the search text is cleared, the same holds for the search result list, and the search status.
 
 Viewer-only with changes from API level:
@@ -55,6 +61,7 @@ An instance of the control is to be created when the GraphViewerType MSAGLExt is
 Reuse the MSAGLClient UserControl for the main/current graph display (forward the IBasicGraphViewerClient calls/events) (refrain from using the same MSAGL graph object for the map view due to shared state concerns, draw it manually instead).
 It may be necessary to configure the GViewer inside the MSAGLClient (e.g. to achieve the desired scrolling behavior).
 The DrawingPanel of the GViewer has its own coordinates, likely coordinate transformations are needed.
-The selection state is stored in the LayoutEditor of the main GView control, in the dragGroup/SelectedEdge members, while the former is not being visible directly it could be accessed by DraggedGeomObjects, but maybe the lastly selected entity has to be tracked by own code.
+The selection state is stored in the LayoutEditor of the main GViewer control, in the dragGroup/SelectedEdge members, while the former is not being visible directly it could be accessed by DraggedGeomObjects, but maybe the lastly selected entity has to be tracked by own code.
 Multi-selection is not supported/not to be supported by the MSAGLExtClient control, but supported for nodes by the GViewer with the dragGroup - use only one node from it, preferably the lastly selected node in case the user carries out a multi-selection in the GViewer/LayoutEditor code.
-The content for the attributes view can be obtained from the GetGraphElementAttributes method of the main graph client, which is fed by calls of the IBasicGraphViewerClient API (of the main graph client).
+The content for the attributes view can be obtained from the GetGraphElementAttributes method of the main graph client, which is fed by calls of the IBasicGraphViewerClient API (of the main graph client) and delivers the current properties.
+Subgraph nodes may require extra code to behave like nodes.
