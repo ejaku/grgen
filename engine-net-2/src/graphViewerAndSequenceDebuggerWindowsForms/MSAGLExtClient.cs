@@ -9,6 +9,11 @@ using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
+    class DoubleBufferedPanel : Panel
+    {
+        public DoubleBufferedPanel() { DoubleBuffered = true; }
+    }
+
     struct SearchResult
     {
         public Microsoft.Msagl.Core.Geometry.Point Center;
@@ -58,6 +63,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         Dictionary<String, TreeNode> nodeNameToTreeNode = new Dictionary<String, TreeNode>();
 
         // Map state (updated each paint; used for coordinate conversion)
+        Timer mapRefreshTimer;
         double mapScale = 1.0;
         double mapOffsetX = 0.0;
         double mapOffsetY = 0.0;
@@ -102,6 +108,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             buttonSearchNext.Click += OnButtonSearchNextClick;
             buttonSearchPrev.Click += OnButtonSearchPrevClick;
             textBoxSearch.KeyDown += OnTextBoxSearchKeyDown;
+
+            mapRefreshTimer = new Timer();
+            mapRefreshTimer.Interval = 30;
+            mapRefreshTimer.Tick += (s, e) => { mapRefreshTimer.Stop(); mapPanel.Invalidate(); };
         }
 
         /// <summary>
@@ -691,7 +701,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         void OnMainGViewerPaintForMapRefresh(object sender, PaintEventArgs e)
         {
-            mapPanel.Invalidate();
+            // Debounce: restart the timer so rapid-fire paint events collapse into one map refresh.
+            mapRefreshTimer.Stop();
+            mapRefreshTimer.Start();
         }
 
         void OnMapPanelPaint(object sender, PaintEventArgs e)

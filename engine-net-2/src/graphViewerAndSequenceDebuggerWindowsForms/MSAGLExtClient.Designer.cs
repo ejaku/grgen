@@ -18,7 +18,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             this.components = new System.ComponentModel.Container();
             this.drawingPanelToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.outerSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.mapPanel = new System.Windows.Forms.Panel();
+            this.mapPanel = new DoubleBufferedPanel();
             this.searchPanel = new System.Windows.Forms.Panel();
             this.labelSearch = new System.Windows.Forms.Label();
             this.textBoxSearch = new System.Windows.Forms.TextBox();
@@ -286,7 +286,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         private System.ComponentModel.IContainer components;
         private System.Windows.Forms.SplitContainer outerSplitContainer;
-        private System.Windows.Forms.Panel mapPanel;
+        private DoubleBufferedPanel mapPanel;
         private System.Windows.Forms.Panel searchPanel;
         private System.Windows.Forms.Label labelSearch;
         private System.Windows.Forms.TextBox textBoxSearch;
