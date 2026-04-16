@@ -39,6 +39,10 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         String selectedEntityName = null;
         bool selectedIsEdge = false;
 
+        // Double click handling
+        bool waitForElementRequested = false;
+        String doubleClickedEntityName = null;
+
         // Search state
         List<SearchResult> searchResults = new List<SearchResult>();
         int searchResultIndex = -1;
@@ -72,6 +76,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             outerSplitContainer.Panel2.Controls.Add(mainClient);
 
             mainClient.gViewer.DrawingPanel.MouseClick += OnMainGViewerMouseClick;
+            mainClient.gViewer.DrawingPanel.MouseDoubleClick += OnMainGViewerMouseDoubleClick;
             mainClient.gViewer.MouseMove += OnMainGViewerMouseMoveForToolTip;
             mainClient.gViewer.DrawingPanel.Paint += OnMainGViewerPaintForMapRefresh;
             mainClient.gViewer.KeyDown += OnMainGViewerKeyDown;
@@ -124,13 +129,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public event ConnectionLostHandler OnConnectionLost;
 
-        public bool CommandAvailable { get { return false; } }
+        public bool CommandAvailable { get { return doubleClickedEntityName != null; } }
 
         public bool ConnectionLost { get { return hostClosed; } }
 
         public String ReadCommand()
         {
-            throw new NotImplementedException();
+            string doubleClickedEntityName = this.doubleClickedEntityName;
+            this.doubleClickedEntityName = null;
+            waitForElementRequested = false;
+            return "send x" + doubleClickedEntityName;
         }
 
         public void Close()
@@ -325,7 +333,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void WaitForElement(bool val)
         {
-            mainClient.WaitForElement(val);
+            waitForElementRequested = val;
         }
 
         public void MoveNode(String srcName, String tgtName)
@@ -353,6 +361,18 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         void OnMainGViewerMouseClick(object sender, MouseEventArgs e)
         {
+            HandleOnMainGViewerMouseClickOrDoubleClick(sender, e);
+        }
+
+        void OnMainGViewerMouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            string elementName = HandleOnMainGViewerMouseClickOrDoubleClick(sender, e);
+            if(waitForElementRequested)
+                doubleClickedEntityName = elementName;
+        }
+
+        String HandleOnMainGViewerMouseClickOrDoubleClick(object sender, MouseEventArgs e)
+        {
             IViewerObject obj = mainClient.gViewer.ObjectUnderMouseCursor;
             if(obj == null)
             {
@@ -360,7 +380,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 suppressTreeSelectionHandler = true;
                 treeViewNodeNesting.SelectedNode = null;
                 suppressTreeSelectionHandler = false;
-                return;
+                return null;
             }
 
             IViewerNode viewerNode = obj as IViewerNode;
@@ -368,13 +388,19 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             if(viewerNode != null)
             {
-                Select(viewerNode.Node.Id, false);
-                SyncTreeToSelection(viewerNode.Node.Id);
+                String nodeName = viewerNode.Node.Id;
+                Select(nodeName, false);
+                SyncTreeToSelection(nodeName);
+                return nodeName;
             }
             else if(viewerEdge != null)
             {
-                Select(mainClient.GetEdgeName(viewerEdge.Edge), true);
+                String edgeName = mainClient.GetEdgeName(viewerEdge.Edge);
+                Select(edgeName, true);
+                return edgeName;
             }
+
+            return null;
         }
 
         void OnMainGViewerMouseMoveForToolTip(object sender, MouseEventArgs e)

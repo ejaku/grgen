@@ -718,6 +718,17 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
+        public override object Askfor(String typeName, INamedGraph graph)
+        {
+            object result = base.Askfor(typeName, graph);
+            if(result == null)
+            {
+                if(guiConsoleDebuggerHost != null)
+                    TypeCreator.GetDoEventsCaller().DoEvents(); // required so that the error message printed is really displayed if used from the non-GUI GrShell
+            }
+            return result;
+        }
+
         protected override bool CheckDebuggerAlive()
         {
             if(!InDebugMode)

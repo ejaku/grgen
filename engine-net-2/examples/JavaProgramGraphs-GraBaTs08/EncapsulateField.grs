@@ -14,8 +14,8 @@ debug enable
 # option: replace getters/setters in class itself - yes/no
 
 # ask for class and variable to refactor
-# debug ::cl=$%(Class)
-# debug ::va=$%(Variable)
+#debug exec ::c=$%(Class)
+#debug exec ::v=$%(Variable)
 # or use this one / set them in shell
 c = I176 # class Node
 v = I350 # variable _name

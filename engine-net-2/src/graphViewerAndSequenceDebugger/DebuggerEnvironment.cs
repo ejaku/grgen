@@ -285,7 +285,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return key;
         }
 
-        public object Askfor(String typeName, INamedGraph graph)
+        public virtual object Askfor(String typeName, INamedGraph graph)
         {
             if(TypesHelper.GetGraphElementType(typeName, graph.Model) != null) // if type is node/edge type let the user select the element in yComp
             {
