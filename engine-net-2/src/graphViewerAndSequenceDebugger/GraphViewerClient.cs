@@ -26,8 +26,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public DumpInfo dumpInfo;
 
-        bool isDirty = false;
-        bool isLayoutDirty = false;
+        bool isDirty = false; // element appearance changes and element additions/removals
+        bool isLayoutDirty = false; // element additions/removals
 
         Dictionary<IEdge, bool> hiddenEdges = new Dictionary<IEdge, bool>();
 
@@ -187,6 +187,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void ForceLayout()
         {
             basicClient.ForceLayout();
+            isDirty = false;
+            isLayoutDirty = false;
         }
 
         /// <summary>
