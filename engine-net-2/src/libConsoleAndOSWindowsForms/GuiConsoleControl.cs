@@ -73,7 +73,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
             theRichTextBox.PreviewKeyDown += GuiConsoleRichTextBox_PreviewKeyDown;
             theRichTextBox.KeyPress += GuiConsoleRichTextBox_KeyPress;
 
-            theRichTextBox.ReadOnly = true;
+            theRichTextBox.ReadOnly = true; // without, mono/LINUX showed issues IIRC, but as only the last line should be amenable to editing anyway, manually implemented editing is needed anyhow
             theRichTextBox.HideSelection = false;
 
             // we prefer Courier New, but if this one is not available, the system's generic monospace default font
@@ -104,6 +104,18 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
         private void GuiConsoleRichTextBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             escapePressed = e.KeyData == Keys.Escape;
+            enteredKey = KeyToConsoleKey(e.KeyData);
+        }
+
+        private ConsoleKey KeyToConsoleKey(Keys key)
+        {
+            switch(key)
+            {
+                // the curser keys and alike are handled by the rich text box, so no own processing is needed, we only allow deletion besides key-press-insertion in the last line (that are forbidden in a read only textbox)
+                case Keys.Back: return ConsoleKey.Backspace;
+                case Keys.Delete: return ConsoleKey.Delete;
+                default: return ConsoleKey.NoName;
+            }
         }
 
         private void GuiConsoleRichTextBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -154,19 +166,62 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
             PrintHighlighted(text, mode);
         }
 
+        // read line by tracking edits past the start position (after the prompt)
         public string ReadLine()
         {
+            String startTextBuffer = theRichTextBox.Text;
             string lineRead = "";
+
+            int caretStartIndex = theRichTextBox.SelectionStart; // only editing past that position possible (same line, to the right of the column)
+            int startColumn = GetColumn(caretStartIndex);
+
             while(true)
             {
+                int caretIndex = theRichTextBox.SelectionStart;
+                int column = GetColumn(caretIndex);
+
+                // ignore edits before the start position (user may change caret to such a position; but no further/improved handling needed as uncommon, also no processing of a user selection)
+                if(caretIndex < caretStartIndex)
+                {
+                    ClearEnteredKey();
+                    System.Threading.Thread.Sleep(1);
+                    Application.DoEvents();
+                    continue;
+                }
+
+                int columnInLineRead = column - startColumn;
+                String left = lineRead.Substring(0, columnInLineRead);
+                String right = lineRead.Substring(columnInLineRead, lineRead.Length - columnInLineRead);
+
                 if(cancel)
                     throw new OperationCanceledException();
-                if(enteredCharacter != '\0')
+
+                if(enteredKey == ConsoleKey.Backspace || enteredKey == ConsoleKey.Delete)
                 {
-                    Write(new string(enteredCharacter, 1));
+                    if(enteredKey == ConsoleKey.Backspace)
+                    {
+                        if(left.Length > 0)
+                        {
+                            lineRead = left.Substring(0, left.Length - 1) + right;
+                            SetText(startTextBuffer + lineRead, caretIndex - 1);
+                        }
+                    }
+                    else if(enteredKey == ConsoleKey.Delete)
+                    {
+                        if(right.Length > 0)
+                        {
+                            lineRead = left + right.Substring(1);
+                            SetText(startTextBuffer + lineRead, caretIndex);
+                        }
+                    }
+                    ClearEnteredKey();
+                }
+                else if(enteredCharacter != '\0')
+                {
                     if(enteredCharacter == '\n' || enteredCharacter == '\r')
                     {
                         ClearEnteredKey();
+                        Write("\r\n");
                         return lineRead;
                     }
                     else if(enteredCharacter == '\u001B')
@@ -175,12 +230,42 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
                         WriteLine(); // to be revisited when a real ESC key press is supported as a means of canceling input (also on the real text console), as of now only entering an empty line is interpreted as a means of canceling input, and realized by the GUI by sending fake ESC key presses
                         return "";
                     }
-                    lineRead += enteredCharacter;
-                    ClearEnteredKey();
+                    else
+                    {
+                        if(right.Length > 0)
+                        {
+                            lineRead = left + enteredCharacter + right;
+                            SetText(startTextBuffer + lineRead, caretIndex + 1);
+                        }
+                        else
+                        {
+                            Write(new string(enteredCharacter, 1));
+                            lineRead += enteredCharacter;
+                        }
+                        ClearEnteredKey();
+                    }
                 }
+
                 System.Threading.Thread.Sleep(1);
                 Application.DoEvents();
             }
+        }
+
+        private int GetColumn(int caretIndex)
+        {
+            int line = theRichTextBox.GetLineFromCharIndex(caretIndex);
+            int lineIndex = theRichTextBox.GetFirstCharIndexFromLine(line);
+            int column = caretIndex - lineIndex;
+            return column;
+        }
+
+        private void SetText(string text, int caretIndex)
+        {
+            SuspendImmediateExecution();
+            theRichTextBox.Text = text;
+            theRichTextBox.SelectionStart = caretIndex;
+            theRichTextBox.SelectionLength = 0;
+            RestartImmediateExecution();
         }
 
         public ConsoleKeyInfo ReadKey(bool intercept)
