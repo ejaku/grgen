@@ -197,9 +197,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             SyncAfterLayout();
         }
 
-        public new void Show()
+        void IBasicGraphViewerClient.Show()
         {
-            mainClient.Show();
+            ((IBasicGraphViewerClient)mainClient).Show();
             SyncAfterLayout();
         }
 
