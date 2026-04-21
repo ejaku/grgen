@@ -59,7 +59,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// Creates a new MSAGLClient instance, adding its GViewer control to the hosting form (at position 0).
+        /// Creates a new MSAGLClient instance, adding itself to the hosting form (at position 0).
         /// </summary>
         public MSAGLClient(Form host) : this()
         {
@@ -74,7 +74,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// Creates a new MSAGLClient instance, adding its GViewer control to the hosting splitter panel (at position 0) (not for main graph rendering).
+        /// Creates a new MSAGLClient instance, adding itself to the hosting splitter panel (at position 0) (not for main graph rendering).
         /// </summary>
         public MSAGLClient(SplitterPanel host) : this()
         {
@@ -96,11 +96,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             if(formHost != null)
             {
-                formHost.Controls.Remove(gViewer);
+                formHost.Controls.Remove(this);
                 formHost.Close();
             }
             if(splitterPanelHost != null)
-                splitterPanelHost.Controls.Remove(gViewer);
+                splitterPanelHost.Controls.Remove(this);
             gViewer.Dispose();
             gViewer = null;
         }
