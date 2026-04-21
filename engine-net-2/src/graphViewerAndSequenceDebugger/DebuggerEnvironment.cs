@@ -287,15 +287,15 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public virtual object Askfor(String typeName, INamedGraph graph)
         {
-            if(TypesHelper.GetGraphElementType(typeName, graph.Model) != null) // if type is node/edge type let the user select the element in yComp
+            if(TypesHelper.GetGraphElementType(typeName, graph.Model) != null) // if type is node/edge type let the user select the element in yComp/MSAGL
             {
                 if(!CheckDebuggerAlive())
                 {
-                    ErrorWriteLine("debug mode must be enabled (yComp available) for asking for a node/edge type");
+                    ErrorWriteLine("debug mode must be enabled (yComp/MSAGL available) for asking for a node/edge type");
                     return null;
                 }
 
-                WriteLine("Select an element of type " + typeName + " by double clicking in yComp (ESC for abort)...");
+                WriteLine("Select an element of type " + typeName + " by double clicking in yComp/MSAGL (ESC for abort)...");
 
                 String id = debugger.ChooseGraphElement();
                 if(id == null)

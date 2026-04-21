@@ -188,7 +188,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             catch(OperationCanceledException)
             {
-                throw new Exception("Connection to yComp lost");
+                throw new Exception("Connection to yComp/MSAGL lost");
             }
 
             NotifyOnConnectionLost = false;
@@ -317,11 +317,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// Sets a layout option for the current layout in yComp.
+        /// Sets a layout option for the current layout in yComp/MSAGL.
         /// </summary>
         /// <param name="optionName">The name of the option.</param>
         /// <param name="optionValue">The new value for the option.</param>
-        /// <returns>True, iff yComp did not report an error.</returns>
+        /// <returns>True, iff yComp/MSAGL did not report an error.</returns>
         public bool SetLayoutOption(String optionName, String optionValue)
         {
             String errorMessage = graphViewerClient.SetLayoutOption(optionName, optionValue);
@@ -993,7 +993,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// returns the id/persistent name of a node/edge chosen by the user in yComp
+        /// returns the id/persistent name of a node/edge chosen by the user in yComp/MSAGL
         /// </summary>
         public string ChooseGraphElement()
         {
@@ -1019,7 +1019,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             String cmd = graphViewerClient.ReadCommand();
             if(cmd.Length < 7 || !cmd.StartsWith("send "))
             {
-                env.WriteLine("Unexpected yComp command: \"" + cmd + "\"!");
+                env.WriteLine("Unexpected yComp/MSAGL command: \"" + cmd + "\"!");
                 return null;
             }
 
@@ -2209,7 +2209,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// informs debugger about the change of the graph, so it can switch yComp display to the new one
+        /// informs debugger about the change of the graph, so it can switch yComp/MSAGL display to the new one
         /// called just before switch with the new one, the old one is the current graph
         /// </summary>
         public void DebugSwitchToGraph(IGraph newGraph)
@@ -2226,7 +2226,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         }
 
         /// <summary>
-        /// informs debugger about the change of the graph, so it can switch yComp display to the new one
+        /// informs debugger about the change of the graph, so it can switch yComp/MSAGL display to the new one
         /// called just after the switch with the old one, the new one is the current graph
         /// </summary>
         public void DebugReturnedFromGraph(IGraph oldGraph)

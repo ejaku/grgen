@@ -32,14 +32,14 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         void SetLayout(String moduleName);
 
         /// <summary>
-        /// Retrieves the available options of the current layouter of yComp and the current values.
+        /// Retrieves the available options of the current layouter of yComp/MSAGL and the current values.
         /// </summary>
-        /// <returns>A description of the available options of the current layouter of yComp
+        /// <returns>A description of the available options of the current layouter of yComp/MSAGL
         /// and the current values.</returns>
         String GetLayoutOptions();
 
         /// <summary>
-        /// Sets a layout option of the current layouter of yComp.
+        /// Sets a layout option of the current layouter of yComp/MSAGL.
         /// </summary>
         /// <param name="optionName">The name of the option.</param>
         /// <param name="optionValue">The new value.</param>
@@ -47,7 +47,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         String SetLayoutOption(String optionName, String optionValue);
 
         /// <summary>
-        /// Forces yComp to relayout the graph.
+        /// Forces yComp/MSAGL to relayout the graph.
         /// </summary>
         void ForceLayout();
 

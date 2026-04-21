@@ -233,7 +233,7 @@ namespace de.unika.ipd.grGen.grShell
         /// <summary>
         /// Maps layouts to layout option names to their values.
         /// This only reflects the settings made by the user and may even contain illegal entries,
-        /// if the options were set before yComp was attached.
+        /// if the options were set before yComp/MSAGL was attached.
         /// </summary>
         private readonly Dictionary<String, Dictionary<String, String>> debugLayoutOptions = new Dictionary<String, Dictionary<String, String>>();
 
@@ -1200,9 +1200,9 @@ namespace de.unika.ipd.grGen.grShell
                 + "                               - <elem>.<member>\n"
                 + "                               - <val>, a value literal (see user manual)\n"
                 + " - <var> = askfor <type>     Asks the user to input a value of given type\n"
-                + "                             a node/edge is to be entered in yComp (debug\n"
-                + "                             mode must be enabled); other values are to be\n"
-                + "                             entered on the keyboard (format as in <expr>\n"
+                + "                             a node/edge is to be entered in yComp or MSAGL\n"
+                + "                             (debug mode must be enabled); other values are\n"
+                + "                             to be entered on the keyboard (format as in <expr>\n"
                 + "                             but constant only)\n");
             ConsoleUI.outWriter.Write("Also see \"help new\" for compiler options\n\n");
         }
@@ -1389,7 +1389,7 @@ namespace de.unika.ipd.grGen.grShell
                 + " - debug (enable | disable)\n"
                 + "   Enables/disables debug mode.\n\n"
                 + " - debug layout\n"
-                + "   Forces yComp to relayout the graph.\n\n"
+                + "   Forces yComp or MSAGL to relayout the graph.\n\n"
                 + " - debug set layout [<algo>]\n"
                 + "   Selects the layout algorithm. If algorithm is not given,\n"
                 + "   all available layout algorithms are listed.\n\n"

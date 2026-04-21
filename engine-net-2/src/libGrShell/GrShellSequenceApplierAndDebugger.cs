@@ -680,7 +680,7 @@ namespace de.unika.ipd.grGen.grShell
                 }
                 catch(Exception ex)
                 {
-                    if(ex.Message != "Connection to yComp lost")
+                    if(ex.Message != "Connection to yComp/MSAGL lost")
                         ConsoleUI.errorOutWriter.WriteLine(ex.Message);
                     return false;
                 }

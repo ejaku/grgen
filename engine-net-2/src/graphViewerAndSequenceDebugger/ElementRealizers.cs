@@ -87,7 +87,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
     /// </summary>
     public class ElementRealizers
     {
-        // the ids of the realizers registered to yComp for display during debugging
+        // the ids of the realizers registered to yComp/MSAGL for display during debugging
         public String NormalNodeRealizer
         {
             get { return nodeRealizers[(int)ElementMode.Normal].Name; }
@@ -134,19 +134,19 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             get { return edgeRealizers[(int)ElementMode.Redirected].Name; }
         }
 
-        // the realizers registered to yComp for display during debugging
+        // the realizers registered to yComp/MSAGL for display during debugging
         readonly NodeRealizer[] nodeRealizers = new NodeRealizer[5];
         readonly EdgeRealizer[] edgeRealizers = new EdgeRealizer[6];
 
-        // set with all the realizers registered to yComp
+        // set with all the realizers registered to yComp/MSAGL
         readonly Dictionary<NodeRealizer, NodeRealizer> registeredNodeRealizers = new Dictionary<NodeRealizer, NodeRealizer>();
         readonly Dictionary<EdgeRealizer, EdgeRealizer> registeredEdgeRealizers = new Dictionary<EdgeRealizer, EdgeRealizer>();
 
-        // next id to use when registering an unknown realizer to yComp
+        // next id to use when registering an unknown realizer to yComp/MSAGL
         int nextNodeRealizerID = 0;
         int nextEdgeRealizerID = 0;
 
-        // the client to communicate with the basic graph viewer (typically yComp), null while no debug underway 
+        // the client to communicate with the basic graph viewer (typically yComp/MSAGL), null while no debug underway 
         // (but we exist to remember debug node/edge mode command)
         IBasicGraphViewerClient basicClient = null;
 
@@ -175,7 +175,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public void RegisterGraphViewerClient(IBasicGraphViewerClient basicClient)
         {
             if(this.basicClient != null)
-                throw new Exception("there is already a basic graph viewer client (yComp) registered");
+                throw new Exception("there is already a basic graph viewer client (yComp/MSAGL) registered");
 
             this.basicClient = basicClient;
 
