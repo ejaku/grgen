@@ -165,7 +165,7 @@ FooActions actions = new FooActions(graph);
 Bar b = Bar.CreateNode(graph);
 IAction_bar bar = Action_bar.Instance;
 IMatchesExact<Rule_bar.IMatch_bar> matches = bar.Match(graph, 0, b);
-bar.Modify(graph, matches.First);
+bar.Modify(graph, matches.First, out b);
 \end{verbatim}
 
 We could create a named graph instead offering persistent names for its graph elements:
@@ -173,6 +173,21 @@ We could create a named graph instead offering persistent names for its graph el
 LGSPGraph graph = new LGSPNamedGraph(model);
 \end{verbatim}
 \end{example}
+
+If you want to work with the generic (object and string based) interface not knowing the exact generated types, your entry point is the \texttt{LGSPBackend} instance implementing the \texttt{IBackend} interface.
+\begin{example}
+\begin{verbatim}
+IBackend backend = LGSPBackend.Instance;
+IGlobalVariables globalVariables = LGSPBackend.Instance.CreateGlobalVariables();
+INamedGraph graph;
+IActions actions;
+ProcessSpecFlags flags = ProcessSpecFlags.UseNoExistingFiles;
+backend.CreateNamedFromSpec("Foo.grg", globalVariables, "graph-name", null,
+                    flags, new List<String>(), 0,
+                    out graph, out actions);
+\end{verbatim}
+\end{example}
+%todo: explain generic interface with (more) examples
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Interface of the Graph Processing Environment}\label{sec:procenv}
@@ -216,6 +231,8 @@ Changes to the graph are recorded thereafter into an undo log, unless a \texttt{
 When the changes of interest were carried out, the transaction identified by its id is either \texttt{Commit}ed, which causes the changes recorded since the corresponding \texttt{Start} to stay in the graph, or rolled back by calling \texttt{Rollback}, in that case all the changes recorded since the corresponding \texttt{Start} are undone.
 The \texttt{ExternalTypeChanged} allows you to include external attribute types in transaction handling, you must supply an undo item capable of rolling back the changes to the transaction manager, for each type a change is to be carried out.
 
+\pagebreak
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Import/Export and Miscellaneous Stuff}\label{sub:imexport}\indexmain{import}\indexmain{export}
 
@@ -242,6 +259,8 @@ The GRS(I) importer (the \texttt{.grsi} ending stands for graph rewrite script i
 if you don't need the persistent names, get rid of them by casting to the \texttt{LGSPNamedGraph} implementing the interface, (copy-)constructing a \texttt{LGSPGraph} from it, and removing any references to the named graph.
 You may do so because naming is rather expensive (even though worthwhile in the general case):
 a \texttt{LGSPNamedGraph} supplying the name to element and element to name mappings normally uses up about twice the amount of memory of the \texttt{LGSPGraph} defining the graph alone.
+
+\pagebreak
 
 \subsection*{External Emitting and Parsing}\label{sub:apiextemitparse}
 If \texttt{external emit class;} or \texttt{external emit graph class;} (see \ref{sub:extemitparse}) are specified in the model file \texttt{Foo}, \GrG~generates a file \texttt{FooModelExternalFunctions.cs} located beside the model and rule files,
@@ -274,7 +293,7 @@ string Serialize(object attribute, AttributeType attrType, IGraph graph);
 string Emit(object attribute, AttributeType attrType, IGraph graph);
 \end{csharplet}
 
-\pagebreak
+%\pagebreak
 
 The \texttt{Parse} function is called when an attribute of an external or object type is to be imported from a grs file.
 
@@ -417,7 +436,8 @@ The \texttt{GraphViewer} class esp. offers methods to
 
 The \texttt{examples-api/YCompExample/YCompExample.cs} shows how to use the \texttt{GraphViewer} class with \yComp{} (or alternatively MSAGL) in order to display a graph (and changes to it), as well as to dump a graph as a \texttt{.vcg} file and render it (utilizing parts of the \texttt{Mutex} example).
 
-The \texttt{ConsoleDebugger} class allows you to execute a graph rewrite sequence under debugger control (\texttt{Apply\-Graph\-Rewrite\-Sequence}) from your own application, once it is configured properly esp. with the required environments (\texttt{Debugger\-Environment} and \texttt{Debugger\-Graph\-Processing\-Environment}).
+The \texttt{Debugger} class allows you to execute a graph rewrite sequence under debugger control (\texttt{Apply\-Graph\-Rewrite\-Sequence}) from your own application, once it is configured properly esp. with the required environments (\texttt{Debugger\-Environment} and \texttt{Debugger\-Graph\-Processing\-Environment}) with 
+\texttt{debugger.Init\-New\-Rewrite\-Sequence(sequence, true);} and \texttt{procEnv.Apply\-Graph\-Rewrite\-Sequence(sequence);}.
 
 The \texttt{examples-api/DebuggerExample/DebuggerExample.cs} shows how to execute a sequence in the debugger (in a stdout command line window in case of \texttt{GraphViewerTypes.YComp}, or in a WindowsForms command line window emulation in case of \texttt{GraphViewerTypes.MSAGL}) (utilizing parts of the \texttt{Mutex} example; and a \texttt{Gui\-Console\-Control}, hosted in a \texttt{Gui\-Console\-Debugger\-Host} in case of the WindowsForms example).
 
@@ -458,12 +478,12 @@ For a model file \texttt{Foo} that contains
 \GrG~generates a file \texttt{FooModelExternalFunctions.cs} located beside the model and rule files, which contains
 \begin{itemize}
 	\item within the model namespace public partial classes named as given in the external class declaration,
-inheriting from each other as stated in the external class declarations.
+inheriting from each other as stated in the external class declarations, containing a body of comments giving the expected function and procedure method prototypes.
 	\item within the \texttt{de.unika.ipd.grGen.expression} namespace a public partial class named \texttt{ExternalFunctions} with a body of comments giving the expected function prototypes.
 	\item within the \texttt{de.unika.ipd.grGen.expression} namespace a public partial class named \texttt{ExternalProcedures} with a body of comments giving the expected procedure prototypes.
 \end{itemize}
 
-\pagebreak
+%\pagebreak
 
 \noindent The generated partial classes come without implementation, you must implement them in a file named \texttt{Foo\-Model\-External\-Functions\-Impl.cs}, located in the folder of the \texttt{Foo\-Model\-External\-Functions.cs} file, by replicating them, and fleshing them out:
 \begin{itemize}
@@ -480,7 +500,7 @@ You find a fabricated example showing how to use the external classes and functi
 When you use third-party assemblies in your source code, you must inform GrGen.NET about them, so references to them are included into the assembly generated; this can be done with the \texttt{-r} parameter when calling \texttt{grgen.exe} directly (cf. \ref{grgenoptions}) or with the \texttt{new add reference} command of \GrShell\~(cf. \ref{sec:compilerconfigshell}). 
 Using the \texttt{keepdebug} configuration option of the \texttt{new} command is recommended as it allows for easier debugging.
 
-\pagebreak
+%\pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{External Filter and Sequence Implementation}\label{sub:extfltseqimpl}\indexmain{external match filter implementation}\indexmain{external sequence implementation}

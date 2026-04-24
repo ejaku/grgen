@@ -43,7 +43,7 @@ Dumps the current graph in \indexed{VCG} format into the file \emph{Filename}.\\
 
 \pagebreak
 
-The following commands control the style of the VCG output.
+The following commands control the style of the VCG output and the online graph display.
 This affects \texttt{dump graph}, \texttt{show graph}, and \texttt{enable debug}.
 \begin{rail}
   'dump' 'set' 'node' (() | 'only') NodeType DumpNodeContinuation;
@@ -237,10 +237,12 @@ The available layouts of \MSAGL{} are: \texttt{SugiyamaScheme}, \texttt{MDS}, \t
 
 In order to use it from \GrShell{}, you have to employ the \texttt{debug with} command.
 \begin{rail}
-  'debug' 'with' ( 'yComp' | 'MSAGL' )
+  'debug' 'with' ( 'yComp' | 'MSAGL' | 'MSAGLExt' )
 \end{rail}\ixkeyw{debug}\ixkeyw{with}
-Switches the graphical part of the debugger (the graph viewer) in between \yComp{} and \MSAGL{} (with \yComp{} being the default).
-If \MSAGL{} is used, the debugger is displayed in a WindowsForms\cite{WinForms} console like control (potentially supported by a real GUI) instead of on a stdout console.
+Switches the graphical part of the debugger (the graph viewer) in between \yComp{} (default) and \MSAGL{} or extended \MSAGL{}.
+Extended MSAGL supplies an additional left pane similar to \yComp{}, with a map-like view, a search pane, a node subgraph nesting tree, and an attributes/properties view.
+
+If \MSAGL{} or its extended version is used, the debugger is displayed with a Windows Forms\cite{WinForms} GUI, potentially consisting only of a console like control -- similar to the stdout console of the \GrShell{} used to display the debugger in case of \yComp{}.
 
 The program graph from \texttt{examples/JavaProgramGraphs-GraBaTs08} looks like depicted in Figures~\ref{figprogramgraph3} and \ref{figprogramgraph4} (compared to the \yComp{}-rendering in Figures~\ref{figprogramgraph1} and \ref{figprogramgraph2}).
 
@@ -258,7 +260,7 @@ The program graph from \texttt{examples/JavaProgramGraphs-GraBaTs08} looks like 
   \label{figprogramgraph4}
 \end{figure}
 
-The WindowsForms based debugger that uses \MSAGL{} as graph viewer supplies a two pane mode, it is enabled by default when gui mode is not enabled (when \yComp{} is used, only the single \GrShell{}-console is employed, irrespective of this setting or the gui mode setting), you may disable it (or enable it again) with the configuration option:
+The WinForms based debugger that uses \MSAGL{} as graph viewer supplies a two pane mode, it is enabled by default when gui mode is not enabled (when \yComp{} is used, only the single \GrShell{}-console is employed, irrespective of this setting or the gui mode setting), you may disable it (or enable it again) with the configuration option:
 \begin{rail}
   'debug' 'set' 'option' 'twopane' ( 'true' | 'false' )
 \end{rail}\ixkeyw{debug}\ixkeyw{set}\ixkeyw{option}\ixkeyw{twopane}

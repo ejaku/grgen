@@ -328,7 +328,7 @@ copy(list) // == copyList(list);
 
 \subsubsection{Equality comparison}\label{subsec:objectequality}
 
-Objects and transient objects can be compared by the \texttt{==} and \texttt{!=} operators, as well as by the \texttt{\textasciitilde\textasciitilde} operator.
+Objects and transient objects can be compared by the \texttt{==} and \texttt{!=} operators, as well as by the \texttt{\textasciitilde\textasciitilde} operator (preliminary).
 The \texttt{==} and \texttt{!=} operators check for reference identity.
 
 The \texttt{\textasciitilde\textasciitilde} operator in contrast compares for attribute equality (ignoring identity), deeply along the nesting structure (attributes of scalar type are equal if their values are equal).
@@ -342,7 +342,7 @@ It also supports containers, it checks for an array or deque whether the objects
     \hline
     \texttt{A == B} & True, iff $A$ and $B$ are the same object. \\
     \texttt{A != B} & True, iff $A$ is a different object than $B$. \\
-    \texttt{A \textasciitilde\textasciitilde\ B} & True, iff $A$ is deeply equal (by-value) to $B$. \\
+    \texttt{A \textasciitilde\textasciitilde\ B} & True, iff $A$ is deeply equal (by-value) to $B$ (preliminary). \\
     \hline
   \end{tabularx}
   \caption{Compare operators on objects and transient objects}

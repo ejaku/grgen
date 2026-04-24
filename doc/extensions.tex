@@ -24,9 +24,11 @@ Attributes cannot be specified.
 The attribute type (and the declared methods) must be implemented externally, see \ref{sub:extclsfctimpl}.
 For \GrG~the type is opaque, only the function/procedure methods or external functions/procedures can carry out computations on it. 
 
-You may extend \GrG~with external attribute types if the built-in attribute types (cf. \ref{sec:builtintypes}) are insufficient for your needs (because you need functionality not related to graph-rewriting, or because you want to implement lists or trees more efficiently than with the implementation of the node and edge types built for general-purpose graph rewriting).
+You may extend \GrG~with external attribute types if the built-in attribute types (cf. \ref{sec:builtintypes}) are insufficient for your needs because you need functionality not related to graph-rewriting (in order to just implement lists or trees more efficiently than with the node and edge types you may use the internal (object) class type instead).
 The external types can be explicitly casted to \texttt{object} but are not implicitly casted.
 (The methods may register own undo items with the transaction manager to realize rollback behaviour for external attributes (cf. \ref{ex:transman})).
+
+The external functions and procedures declared within the body of the external class are \emph{methods}, in contrast to the external functions and procedures from the global namespace that use the same declaration syntax that are introduced in the following sections.
 
 %-----------------------------------------------------------------------------------------------
 \section{External Function Types}\label{sub:extfct}
