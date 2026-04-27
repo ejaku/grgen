@@ -108,7 +108,7 @@ while not growing memory needs out of proportion -- as it happens for incrementa
 The nodes and edges are organized in a system of ringlists, giving immediate access to the elements of a type, and to the incident elements of an element.
 When needed, attribute indices or incidence count indices can be applied, giving fast access to graph elements based on attribute values, or incidence counts.
 
-The generative approach and its \emph{compilation} of the rules into executable code is helping tremendously regarding performance, employing nested loops for matching the pattern elements (and a recursive descent based pushdown machine for combining the patterns).
+The generative approach and its \emph{compilation} of the rules into executable code is helping tremendously regarding performance, employing nested loops for matching the pattern elements (and a recursive descent based pushdown machine for combining the patterns, which gets optimized by one of the whole-program i.e. whole-rule-set optimizations with subpattern inlining; whole-world knowledge is brought into play also regarding other compiler functionalities).
 But it comes at a cost: the test-debug-cycle is slowed down compared to an interpreter, and you are less flexible regarding runtime changes.
 
 A further help regarding performance are the \emph{types}, which are speeding up the pattern matcher

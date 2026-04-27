@@ -1,19 +1,24 @@
 \chapter{Application Programming Interface}\indexmainsee{application programming interface}{API} \indexmain{API}
 \label{cha:api}
 
-This chapter describes the Application Programming Interface of \GrG, i.e. of the system runtime - the LibGr - and of the assemblies generated from the model and rule specification files.
+%todo: see whether further extensions/updates/corrections are needed, should be up-to-date similar to developing, let's see how to handle shared content in between the two chapters, compare them against each other; at least pointers
+
+This chapter describes the Application Programming Interface of \GrG, i.e. of the system runtime, explaining how to use the supplied or generated code from your own applications -- the user interface of the compiler and shell applications with the command line arguments, the languages, and the GUI parts was already introduced in the previous chapters.
+The main part of the interface is defined by the \LibGr{}, which is implemented by the \LGSPBackend{} that also defines parts of the interface, as well as the assemblies generated from the model and rule specification files -- but also other components come into play like e.g. the \GraphViewerAndSequenceDebugger{} assembly.
+
 We'll have a look at
 \begin{itemize}
-\item the interface to the graph and model
-\item the interface to the rules and matches
+\item the interface to the graph and the model
+\item the interface to the rules and the matches
 \item the interface of the graph processing environment (esp. for executing sequences)
-\item the porter module for importing and exporting of graphs and miscellaneous stuff
-\item the interface to the debugger and graph viewer (plus the shell)
+\item the porter module for importing and exporting of graphs, and miscellaneous stuff
+\item the interface to the debugger and the graph viewer
+\item the interface to the shell functionality
 \item the interface to the persistent graph and the persistence provider
-\item implementing external class and function declarations
-\item implementing external match filter and external sequence declarations
-\item events fired when the graph is changed
-\item events fired during action execution
+\item how to implement external class and function declarations
+\item how to implement external match filter and external sequence declarations
+\item the events fired when the graph is changed
+\item the events fired during action execution
 \end{itemize}
 
 \noindent The compiler \texttt{grgen.exe} generates from the input file \texttt{Foo.grg} the output files \texttt{FooModel.cs} for the model and \texttt{FooActions.cs} for the actions,
@@ -23,18 +28,19 @@ We'll have a look at
 \item and implementing the generic interface from \texttt{de.unika.ipd.grGen.libGr} using the entities mentioned in both points above.
 \end{itemize}
 
-\noindent This generative approach bears a great deal of the responsibility for the high execution speed of GrGen.NET, but it comes at the price of flexibility: you can't extend the existing rule set at runtime with new rules.
-What you can do at runtime on the other hand is to generate a new rule set file, apply the compiler, and dynamically link the resulting assemblies/dlls.
+\noindent Normally you want to use the type-safe interface of the generated code as it is much more convenient.
+Only if your application has to get along with models and actions that are unknown before it is compiled, do you have to fall back to the generic interface.
+An extensive example showing how to cope with the latter is shipped with \GrG\ in form of the GrShell.
+
+At runtime, you could generate a new rule set file, apply the compiler, and dynamically link the resulting assemblies/dlls (similar to what \GrShell{} does), or re-generate the pattern matchers of some of the existing rules, dynamically compile them, and replace the old pattern matchers.
+But you cannot extend an existing rule set at runtime with new rules.
 
 When working with the API, you could reference the generated binary dlls in your project, in the same way as you have to reference the \texttt{libGr.dll} and \texttt{lgspBackend.dll}.
-For easier debugging though, especially when you are integrating the generated code with own extensions (as described in chapter \ref{chapextensions}), it is recommended to directly include the source code generated (which is thrown away normally after it was compiled into the assemblies lgsp-FooModel.dll and lgsp-FooActions.dll).
-For this, use the \texttt{-keep} option when you call \texttt{grgen.exe}, and include the model and the actions file (excluding the intermediate actions file) directly as C\# source code files.
+For easier debugging though, especially when you are integrating the generated code with own extensions (as described in chapter \ref{chapextensions}), it is recommended to directly include the source code generated (which is thrown away normally after it was compiled into the assemblies \texttt{lgsp-FooModel.dll} and \texttt{lgsp-FooActions.dll}).
+For this, use the \texttt{-keep} option when you call \texttt{grgen.exe}, and include the model and the actions file (excluding the intermediate actions file) directly as C\# source code files (preferably, you also specify the \texttt{-debug} option then).
 
-The matcher code generated contains the initial, static search plans.
-When you analyze the graph at runtime and generate new matchers, see section \ref{custom} for more on this, you can request the dumping of the source code of the improved matchers.
-The custom commands are available at API level via the \texttt{Custom} operation of the \texttt{IGraph} interface for the graph commands and via the \texttt{Custom} operation of the \texttt{BaseActions} class for the actions commands, just handing in the same parameters as otherwise specified on the command line.
-If the intended workflow of ``i) loading a typical graph or doing a warm-up run creating a typical graph, ii) analyzing that graph, iii) compiling new matchers that are better suited to the graph'' is not easily achievable, or you want to start with the optimized matchers straight from the beginning, you may copy and paste the dumped dynamic matchers of an example run to the existing static code. 
-But this is only a last resort, as the price is that your manual editing is overwritten again with the static search plans at the next time you call \texttt{grgen}.
+We recommend that you read this chapter together with one or several examples from the \texttt{examples-api} folder, and access to the API documentation at \url{https://grgen.de/doc/API/index.html} (including comments in addition to the raw type specifications) or even better the source code from \url{https://github.com/ejaku/grgen}, as we only replicate small parts of the classes and interfaces written about -- the contained examples should be sufficient to give a first impression, though.
+%maybe TODO: replicate/duplicate at least some of the contents spoken about, showing them or at least key parts, e.g. the IAction interface, the PatternGraph interface, the IGraph interface, etc, so things are self-contained; chapter specifies relationship to concepts from code specified in GrGen-languages
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -42,36 +48,101 @@ But this is only a last resort, as the price is that your manual editing is over
 
 The generated file \texttt{FooModel.cs} opens the namespace \texttt{de.unika.ipd.grGen.Model\_Foo} containing all the generated entities.
 It contains for every node or edge class \texttt{Bar} an interface \texttt{IBar}, which offers C\# properties giving access to the attributes, and is inheriting in the same way as specified in the model file.
-This builds the exact interface of the model, it is implemented by a sealed class \texttt{Bar} with generated code and with code from the lgsp backend.
+This builds the exact interface of the model (with sharp types), it is implemented by a sealed class \texttt{Bar} with generated code and with code from the lgsp backend.
 Furthermore, the namespace contains a model class \texttt{FooGraphModel} implementing the interface \texttt{de.unika.ipd.grGen.libGr.IGraphModel},
-which supports iteration over the entities defined in the model, using further generic(i.e. inexact) interfaces from libGr (plus gives access to some model properties).
+which supports iteration over the entities defined in the model, using further generic/inexact (we use generic in a wide sense here, not in the narrow sense meaning template methods or generic collections) interfaces from \LibGr{} (plus gives access to some model properties).
 Finally, the namespace contains a class \texttt{FooGraph} defining an \texttt{LGSPGraph} of a model equivalent to \texttt{FooGraphModel}; 
 it contains convenience functions to easily create nodes and edges of exact type in the graph.
+Some examples with code will be given in the following section.
 
 In addition, a class \texttt{FooNamedGraph} is available, which defines an \texttt{LGSPNamedGraph} of a model equivalent to \texttt{FooGraphModel}.
-The named graph offers persistent names \ref{persistentex} for all of its graph elements, but besides that, it is identical to an \texttt{LGSPGraph}.
+The named graph offers persistent names (cf. \ref{persistentex}) for all of its graph elements, but besides that, it is identical to an \texttt{LGSPGraph}. %todo: own section for persistent names pointing to instances/occurrenes of this concept? also: unique names, persistence is only a feature that requires unique names, so somewhat misnamed
 The named graph is the one utilized by \GrShell, and the one recommended to be used for its ability to uniquely denote graph elements,
-but be aware that the storage of the names requires about the same amount of memory as an unnamed graph as such.
+but be aware that the storage of the names requires about the same amount of memory as an unnamed graph (without attributes) as such.
 
 \begin{note}
 If you want to use the type-safe interface, your entry points are the \texttt{CreateNodeBar}-methods of the graph class \texttt{FooGraph} or the \texttt{CreateNode}-method of node class \texttt{Bar}, returning a node of the type \texttt{IBar}.
 If you want to use the generic interface, your entry point is the \texttt{IGraphModel}, with a call \texttt{INodeModel.GetType("Bar")} returning a \texttt{NodeType}, which is then used in a call \texttt{IGraph.AddNode(NodeType)}, returning a node of the type \texttt{INode}.
 \end{note}
 
-The interface types for the node and edge root types are supplied already in libGr and are thus common to all graph rewrite systems (this allows for the generic handling); 
+The interface types for the node and edge root types are already supplied in \LibGr{} and are thus common to all graph rewrite systems (this allows for the "generic" handling); 
 they are available as the \texttt{INode} interface for the \texttt{Node} root node type, 
 as the \texttt{IEdge} interface for the \texttt{AEdge} root edge type, 
 as well as the \texttt{IDEdge} interface for the directed \texttt{Edge} root edge type and the \texttt{IUEdge} interface for the undirected \texttt{UEdge} root edge type 
 (in signatures where \texttt{IEdge} is used, the more concrete interface types allow to obtain directedness information directly from the .NET type).
 
-The interfaces of the types you specified in the model are generated, as well as the backing implementation types of all those interface types.
+The interfaces of the types you specified in the model are generated, as well as the backing implementation types of all these interface types.
 
-\pagebreak
+\begin{example}\label{ex:api2:modelonly}
+We start by including the namespaces of the libGr and the lgsp backend shipped with \GrG\,
+plus the namespaces of our model, generated from \texttt{Foo.grg}.
+\begin{verbatim}
+using de.unika.ipd.grGen.libGr;
+using de.unika.ipd.grGen.lgsp;
+using de.unika.ipd.grGen.Model_Foo;
+\end{verbatim}
+
+Then we create the model, followed by the graph, as an instance of the generic \texttt{LGSPGraph}, plus the global variables.
+We create a single node of type \texttt{Bar} in the graph, which we assign to a variable \texttt{b}.
+Afterwards, we read and write its attribute \texttt{value}.
+\begin{verbatim}
+IGraphModel model = new FooGraphModel();
+IGraph graph = new LGSPGraph(model, new LGSPGlobalVariables());
+Bar b = Bar.CreateNode(graph);
+b.value = b.value + 1;
+\end{verbatim}
+
+We could have created a named graph instead, that is also allowing to access graph elements by their persistent names:
+\begin{verbatim}
+INamedGraph graph = new LGSPNamedGraph(model, new LGSPGlobalVariables(), 0);
+INode node = graph.GetNode("\$1");
+\end{verbatim}
+\end{example}
+
+\begin{example}\label{ex:api1:modelonly}
+\GrG{} also generates a specific graph class with the model bound to it at generation time, offering convenience functions based on the model.
+This is an example showing how \ref{ex:api2:modelonly} is realized with that graph version.
+
+\begin{verbatim}
+FooGraph graph = new FooGraph(new LGSPGlobalVariables());
+Bar b = graph.CreateNodeBar();
+\end{verbatim}
+
+Also a dedicated named graph class is available.
+\begin{verbatim}
+FooNamedGraph graph = new FooNamedGraph(new LGSPGlobalVariables());
+\end{verbatim}
+\end{example}
+
+\begin{example}
+This is an example showing how to use the \texttt{IGraph} interface.
+\begin{verbatim}
+// query the IGraph graph, its model and the INode n
+foreach(INode node in graph.Nodes) doSomething(node);
+NodeType nt = graph.Model.NodeModel.GetType("Bar");
+    //nt = de.unika.ipd.grGen.Model_Foo.NodeType_Bar.typeVar;
+foreach(INode node in graph.GetCompatibleNodes(nt)) doSomething(node);
+foreach(INode node in graph.GetExactNodes(nt)) doSomething(node);
+foreach(IEdge edge in n.Outgoing)
+{
+    if(edge.Source == edge.Target) doSomething(edge.Source);
+}
+
+// update the graph by commands
+INode n = graph.AddNode(nt);
+IEdge e = graph.AddEdge(graph.Model.EdgeModel.GetType("Baz"), n, n);
+n = Retype(n, graph.Model.NodeModel.GetType("Qux"));
+graph.Remove(n);
+\end{verbatim}
+\end{example}
+
+%\pagebreak
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Interface to the Rules}
 
-The generated file \texttt{FooActions.cs} opens the \texttt{namespace de.unika.ipd.grGen.Action\_Foo} containing all the generated entities.
+The generated file \texttt{FooActions.cs} opens the namespace \texttt{de.unika.ipd.grGen.Action\_Foo} containing all the generated entities.
 It contains for every rule or test \texttt{bar}
 \begin{itemize}
 \item a class \texttt{Rule\_bar} inheriting from \texttt{de.unika.ipd.grGen.lgsp.LGSPRulePattern}, which contains
@@ -79,7 +150,7 @@ the exact match interface \texttt{IMatch\_bar}, which in turn defines how a matc
 extending the generic rule-unspecific \texttt{IMatch} interface.
 Have a look at section \ref{sub:extflt} for an extended introduction to the matches interfaces. 
 Furtheron available are (but meant only for internal use): a match class \texttt{Match\_bar} implementing the exact and inexact interface,
-a description of the pattern to match, and the modify methods doing the rewriting.
+a description of the pattern to match (the rule representation generated by the compiler frontend), and the modify methods for carrying out the rewriting.
 
 \item an exact action interface \texttt{IAction\_bar}, which contains the methods:
   \begin{itemize}
@@ -92,13 +163,13 @@ a description of the pattern to match, and the modify methods doing the rewritin
      with in-parameters corresponding to the in-parameters of the rule,
      and with ref-parameters corresponding to the out-parameters of the rule.
   \end{itemize}
-  Furtheron available is (but meant only for internal use) the class \texttt{Action\_bar}, implementing the exact action interface as well as the generic \texttt{IAction} interface from libGr;
+  Furtheron available is (but meant only for internal use) the class \texttt{Action\_bar}, implementing the exact action interface as well as the generic \texttt{IAction} interface from \LibGr;
   it contains the generated matcher code searching for the patterns.
 \end{itemize}
 
 Moreover, the namespace contains an action class \texttt{FooActions}
-implementing the abstract class \texttt{BaseActions} from texttt{de.unika.ipd.grGen.libGr} (in fact \texttt{LGSPActions} from \texttt{de.unika.ipd.grGen.lgsp}),
-which supports iteration over the entities defined in the actions using further, generic(i.e. inexact) interfaces from libGr.
+implementing the abstract class \texttt{BaseActions} from \texttt{de.unika.ipd.grGen.libGr} (in fact \texttt{LGSPActions} from the namespace \texttt{de.unika.ipd.grGen.lgsp}),
+which supports iteration over the entities defined in the actions using further, generic(i.e. inexact) interfaces from \LibGr.
 Additionally, it contains the instances of the actions singletons,
 as member \texttt{bar} of the exact type \texttt{IAction\_bar}.
 
@@ -118,64 +189,45 @@ then the rule parameter in the exact interface will be of type \texttt{InexactTy
 \end{note}
 
 \begin{example}\label{ex:api1}
-Normally you want to use the type-safe interface of the generated code as it is much more convenient.
-Only if your application has to get along with models and actions that are unknown before it is compiled, do you have to fall back to the generic interface.
-An extensive example showing how to cope with the latter is shipped with \GrG\ in form of the GrShell.
-Here we'll show a short example on how to use \GrG\ with the type-safe API.
-Further examples are given in the examples-api folder of the \GrG-distribution.
+Here we'll show a short example of how to use \GrG\ with the type-safe API, an extended version of the model-only \ref{ex:api1:modelonly}.
 
-We start by including the namespaces of the libGr and the lgsp backend shipped with \GrG\,
-plus the namespaces of our actions and models, generated from \texttt{Foo.grg}.
+We start by including the namespace of our actions, generated from \texttt{Foo.grg}, assuming the namespaces of the libGr, the lgspBackend, and the model were already included like in Example \ref{ex:api2:modelonly}.
 \begin{verbatim}
-using de.unika.ipd.grGen.libGr;
-using de.unika.ipd.grGen.lgsp;
 using de.unika.ipd.grGen.Action_Foo;
-using de.unika.ipd.grGen.Model_Foo;
 \end{verbatim}
 
 Then we create a graph with a model bound at generation time, followed by the actions to operate on this graph (the graph has to be initialized with the global variables).
-Afterwards, we create a single node of type \texttt{Bar} in the graph and save it to the variable \texttt{b}.
-Finally, we apply the action \texttt{bar(Bar x) : (Bar)} on the graph, with \texttt{b} as input, also receiving the output.
+Finally, we apply the action \texttt{bar(Bar x) : (Bar)} on the graph via the graph processing environment \texttt{procEnv} (introduced in the following section), with \texttt{b} as input, also receiving the output.
 The rule is taken from the actions via the member named as the action.
 \begin{verbatim}
 FooGraph graph = new FooGraph(new LGSPGlobalVariables());
 FooActions actions = new FooActions(graph);
 Bar b = graph.CreateNodeBar();
-actions.bar.Apply(graph, b, ref b); // input of type Bar, output of type Bar
-\end{verbatim}
-
-We could create a named graph instead, offering to access graph elements by persistent names:
-\begin{verbatim}
-FooNamedGraph graph = new FooNamedGraph();
+actions.bar.Apply(procEnv, b, ref b); // input of type Bar, output of type Bar
 \end{verbatim}
 \end{example}
 
 \begin{example}
-This is an example showing how to do mostly the same what was done in the previous example \ref{ex:api1}, in a slightly more complicated way, but allowing for more control.
-Here, we create the model separately from the graph, then the graph as instance of the generic \texttt{LGSPGraph}, which has the model not bound at generation time, but gets it handed in (plus the global variables).
-We create the actions to apply on the graph, and a single node of type \texttt{Bar} in the graph, which we assign again to a variable \texttt{b}.
+This is an extended version of the previous example \ref{ex:api1}, based on \ref{ex:api2:modelonly}.
+Again, we create the actions to apply on the graph (here with a graph not bound to a model).
 Then we get the action from the actions and save it to an action variable \texttt{bar}.
 Afterwards, we use the action for finding all available matches of \texttt{bar} with input \texttt{b}, and remember the found matches in the exactly typed \texttt{matches} variable.
 Finally, we take the first match from the matches and execute the rewrite on it.
-We could have inspected the nodes and edges of the match or their attributes before (using element names prefixed with \texttt{node\_/edge\_} or attribute names to get exactly typed entities). 
+We could have inspected the nodes and edges of the match or their attributes before (using element names prefixed with \texttt{node\_/edge\_} or attribute names to get exactly typed entities).
 \begin{verbatim}
-IGraphModel model = new FooGraphModel();
 LGSPGraph graph = new LGSPGraph(model, new LGSPGlobalVariables());
 FooActions actions = new FooActions(graph);
 Bar b = Bar.CreateNode(graph);
 IAction_bar bar = Action_bar.Instance;
-IMatchesExact<Rule_bar.IMatch_bar> matches = bar.Match(graph, 0, b);
-bar.Modify(graph, matches.First, out b);
-\end{verbatim}
-
-We could create a named graph instead offering persistent names for its graph elements:
-\begin{verbatim}
-LGSPGraph graph = new LGSPNamedGraph(model);
+IMatchesExact<Rule_bar.IMatch_bar> matches = bar.Match(procEnv, 0, b);
+if(!someCheck(matches.FirstExact.node_someNodeFromRuleBar.GetAttribute("a")))
+    return;
+bar.Modify(procEnv, matches.First, out b);
 \end{verbatim}
 \end{example}
 
-If you want to work with the generic (object and string based) interface not knowing the exact generated types, your entry point is the \texttt{LGSPBackend} instance implementing the \texttt{IBackend} interface.
 \begin{example}
+If you want to work with the generic (object and string based) interface not knowing the exact generated types, your entry point is the \texttt{LGSPBackend} instance implementing the \texttt{IBackend} interface.
 \begin{verbatim}
 IBackend backend = LGSPBackend.Instance;
 IGlobalVariables globalVariables = LGSPBackend.Instance.CreateGlobalVariables();
@@ -189,15 +241,24 @@ backend.CreateNamedFromSpec("Foo.grg", globalVariables, "graph-name", null,
 \end{example}
 %todo: explain generic interface with (more) examples
 
+Regarding actions generation:
+The matcher code generated contains the initial, static search plans.
+When you analyze the graph at runtime and generate new matchers, see section \ref{custom} for more on this, you can request the dumping of the source code of the improved matchers.
+The custom commands are available at API level via the \texttt{Custom} operation of the \texttt{IGraph} interface for the graph commands and via the \texttt{Custom} operation of the \texttt{BaseActions} class for the actions commands, just handing in the same parameters as otherwise specified on the command line.
+If the intended workflow of ``i) loading a typical graph or doing a warm-up run creating a typical graph, ii) analyzing that graph, iii) compiling new matchers that are better suited to the graph'' is not easily achievable, or you want to start with the optimized matchers straight from the beginning, you may copy and paste the dumped dynamic matchers of an example run to the existing static code. 
+But this is only a last resort, as the price is that your manual editing is overwritten again with the static search plans at the next time you call \texttt{grgen}.
+Besides, by now you could also request to generate initial matchers based on a statistics file with the compiler parameter \texttt{-statistics} and graph analyzation data saved in a previous session with the \texttt{custom graph statistics save} shell command.
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Interface of the Graph Processing Environment}\label{sec:procenv}
 
-The graph processing environment -- which is used for all but the simplest transformations -- offers all the additional functionality of \GrG~exceeding what is offered by the graph and the actions.
-It is made available by the interface \texttt{IGraphProcessingEnvironment}, which is implemented in the \texttt{LGSPGraphProcessing\-Environment} class.
+The graph processing environment -- which is by now needed for all transformations -- offers most of the additional processing-related functionality of \GrG~exceeding what is offered by the graph and the actions.
+It is made available by the interface \texttt{IGraph\-Processing\-Environment}, which is implemented in the \texttt{LGSPGraph\-Processing\-Environment} class.
 
 \begin{example}\label{ex:procenv}
 The graph processing environment \texttt{procEnv} is constructed on top of the the graph and the actions, both of which are handed in.
-It allows to carry out transformations by executing sequences, combining actions with operators (for control-flow) and variables (for data-flow).
+It esp. allows to carry out transformations by executing sequences, combining actions with operators (for control-flow) and variables (for data-flow).
 
 \begin{verbatim}
 IGraphProcessingEnvironment procEnv = 
@@ -206,8 +267,13 @@ procEnv.ApplyGraphRewriteSequence("<(::x)=foo && (::y)=bar(::x) | bla(::y)>");
 \end{verbatim}
 \end{example}
 
-In addition to sequence execution and variable handling, the graph processing environment offers driver or helper objects for transaction management, deferred sequence execution, graph change recording, and output emitting.
-The most important of these is the transaction manager which is utilized when \GrG~ is used for crawling through a search space or for enumerating a state space, see section \ref{sec:extctrl}.
+The \texttt{IGraph\-Processing\-Environment} inherits from the \texttt{ISubaction\-And\-Output\-Addition\-Environment} which in turn inherits from the \texttt{IAction\-Execution\-Environment}.
+The \texttt{IAction\-Execution\-Environment} contains certain configuration options, multiple helpers for action execution which are used by the sequences and could/should be preferred to using the actions directly if tight integration with the framework is targeted, and gives access to the most important parts of a graph rewrite system or transformation.
+The \texttt{ISubaction\-And\-Output\-Addition\-Environment} enriches it by subgraph handling and output emitting plus graph change recording. 
+The \texttt{IGraph\-Processing\-Environment} contains the application logic \texttt{Transaction\-Manager} and gives access to the \texttt{Persistence\-Provider\-Transaction\-Manager} iff one is available because a persistent graph is used, it contains helper code to interact with the graph global variables and allows to parse and apply sequences.
+All environments offer events, you find more on them in Section \ref{sec:actionevent} following below.
+
+The most important of the helper classes is the transaction manager which is utilized when \GrG~ is used for crawling through a search space or for enumerating a state space, see section \ref{sec:extctrl}.
 The operations mentioned there are implemented by calling the functions given in example \ref{ex:transman}.
 
 \begin{example}\label{ex:transman}
@@ -221,6 +287,7 @@ public interface ITransactionManager
     void Resume();
     void Commit(int transactionID);
     void Rollback(int transactionID);
+    bool IsActive { get; }
     void ExternalTypeChanged(IUndoItem item);
 }
 \end{verbatim}
@@ -231,7 +298,8 @@ Changes to the graph are recorded thereafter into an undo log, unless a \texttt{
 When the changes of interest were carried out, the transaction identified by its id is either \texttt{Commit}ed, which causes the changes recorded since the corresponding \texttt{Start} to stay in the graph, or rolled back by calling \texttt{Rollback}, in that case all the changes recorded since the corresponding \texttt{Start} are undone.
 The \texttt{ExternalTypeChanged} allows you to include external attribute types in transaction handling, you must supply an undo item capable of rolling back the changes to the transaction manager, for each type a change is to be carried out.
 
-\pagebreak
+%\pagebreak
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Import/Export and Miscellaneous Stuff}\label{sub:imexport}\indexmain{import}\indexmain{export}
@@ -260,7 +328,7 @@ if you don't need the persistent names, get rid of them by casting to the \textt
 You may do so because naming is rather expensive (even though worthwhile in the general case):
 a \texttt{LGSPNamedGraph} supplying the name to element and element to name mappings normally uses up about twice the amount of memory of the \texttt{LGSPGraph} defining the graph alone.
 
-\pagebreak
+%\pagebreak
 
 \subsection*{External Emitting and Parsing}\label{sub:apiextemitparse}
 If \texttt{external emit class;} or \texttt{external emit graph class;} (see \ref{sub:extemitparse}) are specified in the model file \texttt{Foo}, \GrG~generates a file \texttt{FooModelExternalFunctions.cs} located beside the model and rule files,
@@ -426,7 +494,7 @@ b = bla;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Graph Viewer and Debugger}
-The \texttt{graph\-Viewer\-And\-Sequence\-Debugger} project contains convenience interfaces that allow you to access the graph viewer and the sequence debugger easily from API level (you have to include the \texttt{graph\-Viewer\-And\-Sequence\-Debugger.dll} in order to do so, and in case you want to use be MSAGL based debugger, you have to make the \texttt{graph\-Viewer\-And\-Sequence\-Debugger\-Windows\-Forms.dll} available laying besides the aforementioned dynamic link library, note its package reference to the NuGet package \texttt{Microsoft.Msagl.Graph\-Viewer\-GDI} requiring the inclusion of \texttt{System.Resources.Extensions} with a \texttt{binding\-Redirect} in the \texttt{app.config} of your application (the \texttt{GrShell.csproj} from the sources may serve as an example)).
+The \texttt{graph\-Viewer\-And\-Sequence\-Debugger} project contains convenience interfaces that allow you to access the graph viewer and the sequence debugger easily from API level (you have to include the \texttt{graph\-Viewer\-And\-Sequence\-Debugger.dll} in order to do so, and in case you want to use be MSAGL based debugger, you have to make the \texttt{graph\-Viewer\-And\-Sequence\-Debugger\-Windows\-Forms.dll} available beside the aforementioned dynamic link library, note its package reference to the NuGet package \texttt{Microsoft.Msagl.Graph\-Viewer\-GDI} requiring the inclusion of \texttt{System.Resources.Extensions} with a \texttt{binding\-Redirect} in the \texttt{app.config} of your application (the \texttt{GrShell.csproj} from the sources may serve as an example)).
 
 The \texttt{GraphViewer} class esp. offers methods to
 \begin{itemize}
@@ -436,30 +504,54 @@ The \texttt{GraphViewer} class esp. offers methods to
 
 The \texttt{examples-api/YCompExample/YCompExample.cs} shows how to use the \texttt{GraphViewer} class with \yComp{} (or alternatively MSAGL) in order to display a graph (and changes to it), as well as to dump a graph as a \texttt{.vcg} file and render it (utilizing parts of the \texttt{Mutex} example).
 
-The \texttt{Debugger} class allows you to execute a graph rewrite sequence under debugger control (\texttt{Apply\-Graph\-Rewrite\-Sequence}) from your own application, once it is configured properly esp. with the required environments (\texttt{Debugger\-Environment} and \texttt{Debugger\-Graph\-Processing\-Environment}) with 
-\texttt{debugger.Init\-New\-Rewrite\-Sequence(sequence, true);} and \texttt{procEnv.Apply\-Graph\-Rewrite\-Sequence(sequence);}.
+The \texttt{Debugger} class allows you to execute a graph rewrite sequence under debugger control (\texttt{Apply\-Graph\-Rewrite\-Sequence}) from your own application, once it is configured properly esp. with the required environments (\texttt{Debugger\-Environment} and \texttt{Debugger\-Graph\-Processing\-Environment}) by utilizing 
+\texttt{debugger.Init\-New\-Rewrite\-Sequence(sequence, true);} and the \texttt{procEnv.Apply\-Graph\-Rewrite\-Sequence(sequence);}.
 
-The \texttt{examples-api/DebuggerExample/DebuggerExample.cs} shows how to execute a sequence in the debugger (in a stdout command line window in case of \texttt{GraphViewerTypes.YComp}, or in a WindowsForms command line window emulation in case of \texttt{GraphViewerTypes.MSAGL}) (utilizing parts of the \texttt{Mutex} example; and a \texttt{Gui\-Console\-Control}, hosted in a \texttt{Gui\-Console\-Debugger\-Host} in case of the WindowsForms example).
+The \texttt{examples-api/DebuggerExample/DebuggerExample.cs} shows how to execute a sequence in the debugger (in a stdout command line window in case of \texttt{GraphViewerTypes.YComp}, or in a WindowsForms command line window emulation in case of \texttt{GraphViewerTypes.MSAGL}, or \texttt{GraphViewerTypes.MSAGLExt} if you specify it) (utilizing parts of the \texttt{Mutex} example; and a \texttt{Gui\-Console\-Control}, hosted in a \texttt{Gui\-Console\-Debugger\-Host} in case of the WindowsForms example).
 
 
-\subsubsection*{libGrShell}
-The \texttt{libGrShell} project allows you to include \GrShell{}-functionality (this means esp. executing a \texttt{.grs} script file) into your own application (you have to reference the \texttt{libGrShell.dll} and the \texttt{graphViewerAndSequenceDebugger.dll} in order to do so).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Shell functionality}
+
+The \texttt{libGrShell} project allows you to include \GrShell{}-functionality (this means esp. executing a \texttt{.grs} script file, but you could also use it as an in-place interactive command line) into your own application (you have to reference the \texttt{lib\-Gr\-Shell.dll} (and the \texttt{graph\-Viewer\-And\-Sequence\-Debugger.dll} in order to do so)).
 
 The \texttt{examples-api/ShellExample/ShellExample.cs} shows how to achieve this (utilizing parts of the \texttt{Mutex} example).
 
+The \texttt{examples-api/Shell\-Example\-Windows\-Forms/Program.cs} and \texttt{examples-api/Shell\-Example\-Windows\-Forms/ShellForm.cs} show how to utilize the \LibGrShell{} from a Windows Forms application (note that it requires the \texttt{lib\-Console\-And\-OS\-Windows\-Forms.dll}).
+
 The \texttt{examples-api/ApplicationExample/ApplicationExampleForm.cs} shows how to use the Debugger and the \GrShell{} from a GUI application (utilizing parts of the \texttt{Mutex} example).
+
+The console application \GrShell{} and the Windows Forms application \GGrShell{} could also serve as examples, but then you'd need the source code of \GrG.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Persistent Graph and Persistence Provider}
 In order to use a persistent graph, you have to create an \texttt{LGSPPersistentNamedGraph} with one of its constructors (or with one of the \texttt{CreateXXX} functions from the \texttt{IBackend}, when you want to work with the \texttt{libGr}-API only, without calling methods of the \texttt{lgspBackend} directly).
-You have to specify the \texttt{persistenceProviderDllName}, as of now only \texttt{libGr\-Persistence\-Provider\-SQLite.dll} is supported, and the connectionParameters, these are the same that you give with the \texttt{new graph persist with to} shell command (cf. \ref{persistentgraphcreationcommands} -- there, you also find some words on the design in a subsection).
-Also, persistent graph parameters may be given, see \ref{persistentgraphparameters} for more on them.
+You have to specify the \texttt{persistenceProviderDllName}, as of now only \texttt{libGr\-Persistence\-Provider\-SQLite.dll} is supported, and the \texttt{connection\-Parameters}, these are the same that you give with the \texttt{new graph persist with to} shell command (cf. \ref{persistentgraphcreationcommands} -- there, you also find some words on the design in a subsection).
+Also, \texttt{persistent\-Graph\-Parameters} may be given, see \ref{persistentgraphparameters} for more on them.
 
 The persistent graph is a thin extension of an \texttt{LGSPNamedGraph}, the major part of the work is delegated to the persistence provider.
 You may implement a persistence provider on your own, it only has to be in an assembly and contain a class that implements the \texttt{IPersistenceProvider} interface.
 
 When using a persistent graph, you may be interested in the \texttt{Persistence\-Provider\-Transaction\-Manager} field of the \texttt{IGraph\-Processing\-Environment}, that allows to access an \texttt{IPersistence\-Provider\-Transaction\-Manager} object, which -- when available -- gives access to database transaction processing.
+
+\begin{example}\label{ex:pptransman}
+\begin{verbatim}
+public interface IPersistenceProviderTransactionManager
+{
+    void Start();
+    void CommitAndRestart();
+    void Commit();
+    void Rollback();
+    bool IsActive { get; }
+}
+\end{verbatim}
+\end{example}
+
+The \texttt{Start} starts a transaction if none exists yet (nested transactions are \emph{not} supported).
+The \texttt{CommitAndRestart} carries out an intermediate commit, afterwards the changes up to that point are persistently stored (for sure), and a transaction is active; this is what is typically used to balance performance against the granularity of persistence -- for real transactions, use the application layer transaction manager.
+The \texttt{Commits} commits the transaction, afterwards the changes up to that point are persistently stored (for sure), and a transaction is not active anymore.
+The \texttt{Rollback} rolls the changes since that last CommitAndRestart() or the last Start() if no restart occurred back, afterwards the transaction is not active anymore. Pending changes are forgotten when no commit occurrs.
 
 The persistence provider depends on an SQLite ADO.NET driver, which is included by a \texttt{System.Data.SQLite} package reference, and on the SQLite itself, a build of it is included by a \texttt{SourceGear.sqlite3} package reference.
 The release is a \texttt{x64} version only by now, which contains Windows and LINUX binaries of the native SQLite (\texttt{.dll} and \texttt{.so}).
@@ -502,6 +594,7 @@ Using the \texttt{keepdebug} configuration option of the \texttt{new} command is
 
 %\pagebreak
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{External Filter and Sequence Implementation}\label{sub:extfltseqimpl}\indexmain{external match filter implementation}\indexmain{external sequence implementation}
 
@@ -533,20 +626,20 @@ Using the \texttt{keepdebug} configuration option of the \texttt{new} command is
 \LibGr\ allows to split a rule application into two steps:
 Firstly, searching for the subgraphs of the host graph that match the pattern, and secondly rewriting of some of these matches. 
 
-This occurs by employing the following methods of the \texttt{IAction} interface:
+This occurs by employing the following methods of the \texttt{IAction} (or better \texttt{IActionCore}) interface:
 \begin{csharplet}
-IMatches Match(IGraph graph, int maxMatches, object[] parameters);
-object[] Modify(IGraph graph, IMatch match);
+IMatches Match(IActionExecutionEnvironment actionEnv, int maxMatches, object[] parameters);
+object[] Modify(IActionExecutionEnvironment actionEnv, IMatch match);
 \end{csharplet}
 
 In C\#, this might look like:
 \begin{csharplet}
-IMatches myMatches = myAction.Match(myGraph, -1, null); /* -1: get all the matches */
+IMatches myMatches = myAction.Match(myProcEnv, -1, null); // -1: get all the matches
 for(int i=0; i<myMatches.NumMatches; ++i)
 {
 	if(inspectCarefully(myMatches.GetMatch(i))
 	{
-		myAction.Modify(myGraph, myMatches.GetMatch(i));
+		myAction.Modify(myProcEnv, myMatches.GetMatch(i));
 		break;
 	}
 }
@@ -554,7 +647,13 @@ for(int i=0; i<myMatches.NumMatches; ++i)
 
 The external match filters are executed in place of the \texttt{inspectCarefully}, in between the calls to the \texttt{Match} and the \texttt{Modify} functions.
 They allow you to write a complex inspection routine in a .NET language, that can then still be used from \GrG\~ internal sequences.
-An interesting filter can be even generated automatically for you, the \texttt{auto} filter for filtering symmetric matches of automorphic patterns, see \ref{sub:extflt} and \ref{sub:filters} for more on this.
+
+Many interesting filters can be even generated automatically for you, e.g. the \texttt{auto} filter for filtering symmetric matches of automorphic patterns, see \ref{sub:extflt} and \ref{sub:filters} for more on this.
+You can call the (internal) filters by employing the following method of the \texttt{IAction} interface:
+\begin{csharplet}
+void Filter(IActionExecutionEnvironment actionEnv, IMatches matches, FilterCallWithArguments filter);
+\end{csharplet}
+
 \end{note}
 
 
@@ -659,6 +758,7 @@ event VisitedFreeHandler OnVisitedFree;
 /// Fired before a visited flag is set.
 event SettingVisitedHandler OnSettingVisited;
 \end{csharplet}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Action Events}\label{sec:actionevent}

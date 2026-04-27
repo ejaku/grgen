@@ -34,7 +34,8 @@ The executables must be available in the search path of the system (so you have 
 The temporary file(s) will be deleted when the application \emph{Filename} is terminated, in case \GrShell\ is still running at this time.
 If the \texttt{keep} parameter was specified, the file(s) will be kept instead.
 
-You may also specify \texttt{MSAGL} (see \ref{sec:MSAGL} for more on MSAGL). Note that no file will be dumped in this case, and that the shell will be frozen until you close the graph viewer window (furthermore, parameters will be ignored). 
+You may also specify \texttt{MSAGL} or \texttt{MSAGLExt} (see \ref{sec:MSAGL} for more on MSAGL).
+Note that no file will be dumped in this case, and that the shell will be frozen until you close the graph viewer window (furthermore, parameters will be ignored). 
 
 \begin{rail}
   'dump' 'graph' Filename
