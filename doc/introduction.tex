@@ -6,7 +6,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{What Is \GrG?}
 
-{\scshape GrGen} (\textsc{G}raph \textsc{R}ewrite \textsc{Gen}erator) is a software \emph{development tool} that offers \emph{programming languages} optimized for graph structured data, with declarative \emph{pattern matching} and \emph{rewriting} at their core, with support for imperative and object-oriented programming, and database-like query-result processing.
+{\scshape GrGen} (\textsc{G}raph \textsc{R}ewrite \textsc{Gen}erator) is a software \emph{development tool} that offers \emph{programming languages} optimized for graph-structured data, with declarative \emph{pattern matching} and \emph{rewriting} at their core, with support for imperative and object-oriented programming, and database-like query-result processing.
 The generative programming system featuring a \emph{graphical debugger} eases the \emph{transformation} of \emph{graph-based representations}, as they are needed in e.g. engineering, model transformation, computer linguistics, or compiler construction.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -26,7 +26,7 @@ or to grammar rules implemented by parser generators.
 Development is supported by \emph{visual debugging}, you work on a visualization of your network and the rule applications inside it.
 The debugger and the pattern based languages boost your \emph{productivity} for graph-representation-based tasks way beyond traditional programming.
 Due to all the optimizations implemented in the pattern matching engine you still gain \emph{high-performance} solutions.
-Altogether, \GrG\ offers the highest combined speed of development and execution you can find for those kind of tasks.
+Altogether, \GrG\ offers the highest combined speed of development and execution you can find for those kinds of tasks.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{An Example Graph-Based Representation}\label{sub:examplegraphrep}
@@ -79,13 +79,12 @@ The key points here are that
 \end{enumerate}
 
 You find such representations in other domains than \emph{programming languages} and \emph{compilers}, too.
-The \emph{knowledge} of an agent about the exterior world can be \emph{represented} intuitively like this with \emph{semantic nets}, you could use \GrG\ for reasoning over them.
+The \emph{knowledge} of an agent about the external world can be \emph{represented} intuitively like this with \emph{semantic nets}, you could use \GrG\ for reasoning over them.
 \emph{Models} as understood by \emph{model driven engineering} are typically graphs, with \GrG\ you can implement a model transformation between models, or into a lower-level program representation.
 When working in \emph{computational linguistics} you may be interested in modeling an \emph{abstract syntax graph} in \GrG;
 the recursive and iterated patterns that allow to process tree-like data structures declaratively render \GrG\ an excellent match for such tasks.
 But also in \emph{engineering} or \emph{architecture} where you need to describe the buildup of the modeled system from components, here you can derive context-sensitively system \emph{blueprints} or simulate their behaviour.
-You find help not only in modelling them, but also in deriving all interesting configurations or simulating all interesting execution traces. 
-In form of the built-in support for a backtracking search through a search space or even the enumeration of a state space with isomorphic state pruning, guided by match ordering and filtering.
+You find help not only in modelling them, but also in deriving all interesting configurations or simulating all interesting execution traces, in the form of built-in support for a backtracking search through a search space or even the enumeration of a state space with isomorphic state pruning, guided by match ordering and filtering.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -101,10 +100,10 @@ the library can be learned quicker and the algorithms can be reused directly.
 
 The graph rewrite generator is not the right tool for you if you're searching for a visual environment to teach children programming -- it's a powerful tool for (software) engineers.
 Simpler and less powerful languages like story diagrams\cite{storydiagrams} that can be learned quicker and understood more intuitively may be a better match here.
-Neither is it what you need if your graph structured data is to be interactively edited by an end user instead of being automatically transformed by rules, patterns, and algorithms (the editor generator DiaGen\cite{diagen} may be of interest in the former case).
+Neither is it what you need if your graph-structured data is to be interactively edited by an end user instead of being automatically transformed by rules, patterns, and algorithms (the editor generator DiaGen\cite{diagen} may be of interest in the former case).
 
-Each object-oriented program contains a heap of objects pointing to each other that can be understood as a graph like representation, with objects being the nodes and the references being the (fixed) edges.
-In contrast to object-oriented programming is the topology in graph-oriented programming as offered by \GrG\ not hidden and encapsulated in the objects, but globally open for inspection and modification;
+Each object-oriented program contains a heap of objects pointing to each other that can be understood as a graph-like representation, with objects being the nodes and the references being the (fixed) edges.
+In contrast to object-oriented programming, the topology in graph-oriented programming as offered by \GrG\ is not hidden and encapsulated in the objects, but globally open for inspection and modification;
 open and readily accessible for pattern matching and rewriting.
 Prefer the closed heaps if you don't need a global view on the data, they are cheaper and the information hiding cuts dependencies.
 
@@ -124,7 +123,7 @@ The notion of graph rewriting as understood by \GrG\ is a method for declarative
 This is comparable to term rewriting (and thus partly to functional programming).
 Normally you use one or more \newterm{graph rewrite rules} to accomplish a certain task.
 \GrG\ implements an SPO-based approach (as default).
-In the simplest case such a graph rewrite rule consists of a tuple $L \rightarrow R$, whereas $L$---the \newterm{left hand side}\indexmainsee{LHS}{left hand side} of the rule---is called \newterm{pattern graph} and $R$---the \newterm{right hand side}\indexmainsee{RHS}{right hand side} of the rule---is the \newterm{rewrite graph}.
+In the simplest case such a graph rewrite rule consists of a tuple $L \rightarrow R$, where $L$---the \newterm{left-hand side}\indexmainsee{LHS}{left-hand side} of the rule---is called \newterm{pattern graph} and $R$---the \newterm{right-hand side}\indexmainsee{RHS}{right-hand side} of the rule---is the \newterm{rewrite graph}.
 
 \begin{figure}[htbp]
 	\centering
@@ -345,7 +344,7 @@ If we apply $p_2$ to the modified $H_1$ this leads to
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{An Example Rule Application on the Representation}
 
-An interesting transformation that can be applied on the compiler intermediate representation introduced in section \ref{sub:examplegraphrep} is constant folding.
+An interesting transformation that can be applied to the compiler intermediate representation introduced in section \ref{sub:examplegraphrep} is constant folding.
 \autoref{fig:cmpcondfold} highlights the effect of applying the following example rule by showing the situation before it is applied and afterwards:
 
 \begin{grgen}
@@ -390,7 +389,7 @@ The elements from the graph that were bound to the pattern elements are highligh
 Blocks that become unreachable (without control flow predecessors) are assumed to get deleted in a later step of the transformation,
 as are duplicate constants.
 The benefits of using \GrG{ }can be already felt from this example, they increase at an accelerating speed as the patterns (and rewrites) grow in size and complexity.
-Note that the rule is \emph{modular}, i.e. independent from other functionality --- traditionally, functionality is smeared over multiple graph representation traversal passes, and multiple steps of a pass.
+Note that the rule is \emph{modular}, i.e. independent of other functionality --- traditionally, functionality is smeared over multiple graph representation traversal passes, and multiple steps of a pass.
 
 \begin{figure}[htbp]
 	\centering
@@ -418,20 +417,20 @@ The nodes and edges are wired in \emph{scalable} ringlists, which give access to
 
 \GrG\ features \emph{modular rules} that don't smear functionality into traversal code as is the case in traditional pointer structure passes.
 It offers declarative \emph{graph patterns} of high expressiveness, saving you a lot of boilerplate code that would be needed for coding them manually.
-And it implements efficient graph change rollback, thus allowing you to easily crawl search spaces without own bookkeeping (for undoing the changes).
+And it implements efficient graph change rollback, thus allowing you to easily crawl search spaces without your own bookkeeping (for undoing the changes).
 
 \GrG\ contains a C\#-like programming language, so you don't run against walls in case of subtasks where the rules and patterns don't work well.
 The \emph{general-purpose} system is highly extensible and customizable, you can express solutions fitting well to your task at hand.
 
 \GrG\ offers the convenience of \emph{dedicated languages} with well-readable syntax and static type checking, instead of clunky internal DSLs, limited annotations, or annoying XML.
-Its languages are brought to life by an \emph{optimizing compiler} that prunes not needed generality and generates pattern matchers adapted to the characteristics of the host graph at hand.
+Its languages are brought to life by an \emph{optimizing compiler} that prunes unneeded generality and generates pattern matchers adapted to the characteristics of the host graph at hand.
 
 The system ships with a readily available shell application for file mapping tasks, which especially offers step-wise and \emph{visual debugging}, saving you from chasing reference chains in the debugger of your programming language.
 Further mature development support is offered with search plan explanation and profiling instrumentation. 
 Moreover, \GrG\ is properly documented in an extensive \emph{user manual}.
 
 The underlying framework supports automatic persistence and automatic visualization of network-like data (based on event-sourcing - besides, also built-in serialization / deserialization is offered).
-A runtime library is supplied (in the form of several dlls) that implements an easy-to-use API to these features, allowing you to build your own .NET (or native) applications based on it.
+A runtime library is supplied (in the form of several DLLs) that implements an easy-to-use API to these features, allowing you to build your own .NET (or native) applications based on it.
 
 Traditional programming of graph representation processing is tedious, it requires careful orchestration of functionality attached to passes, maintenance of helper state, boilerplate code for patterns, and low-level pointer fiddling.
 You are more \emph{productive} with \GrG\ in one-shot-coding a solution, but esp. are you so for a continuous development process or when changes are needed afterwards, a \GrG-specification can be \emph{adapted} at a much higher pace.

@@ -74,7 +74,7 @@ What have we done?
 We specified two base types, \texttt{State} for state nodes and \texttt{Transition} for transition edges that will connect the state nodes.
 \texttt{State} has an integer attribute \texttt{id}, and \texttt{Transition} has a string attribute \texttt{Trigger} which indicates the character sequence for switching from the source state node to the destination state node.
 The other types inherit from those base types (keyword \texttt{extends}). 
-Inheritance works basically like inheritance in object oriented languages,
+Inheritance works basically like inheritance in object-oriented languages,
 as does the \texttt{abstract} modifier for \texttt{SpecialState}, meaning that you cannot create a node of that precise type (only nodes of non-abstract subtypes).
 With \texttt{StartFinalState} we have constructed a ``diamond'' type hierarchy,
 highlighting the support for multiple inheritance.
@@ -92,7 +92,7 @@ For the moment we just create an almost empty file \texttt{removeEpsilons.grg} i
 #using "StateMachine.gm"
 \end{grgen}
 Now, we could start by launching the \GrShell\ and by typing the commands interactively.
-However, in most of the cases this is not the preferred way, as we want to execute the same steps multiple times.
+However, in most cases this is not the preferred way, as we want to execute the same steps multiple times.
 So instead, we create a \GrShell\ script \texttt{removeEpsilons.grs}, in the \texttt{/home/grgen} directory.
 Figure \ref{fig:quick:shell} shows this script.
 Run the script by executing \texttt{grshell removeEpsilons.grs}.
@@ -132,7 +132,7 @@ Quit \yComp\ and exit the \GrShell\ by typing \texttt{exit}.
 
 Our script first creates an empty graph of the meta model \texttt{StateMachine} (which is referenced by the rule set \texttt{removeEpsilons.grg}) with the name \texttt{StateMachineGraph}.
 Thereafter, it creates the nodes and edges, with a \texttt{name:type} colon notation -- the names are optional and missing here.
-Note the inplace-arrow notation for edges (\texttt{-Edge->} resp.\ \texttt{-:EdgeType->}).
+Note the in-place arrow notation for edges (\texttt{-Edge->} resp.\ \texttt{-:EdgeType->}).
 As you can see, attributes of graph elements can be set during creation with a call-like syntax.
 The \texttt{\$} and \texttt{@} notation is due to the usage of \emph{persistent names}. 
 Persistent names are set on creation by \texttt{\$=Identifier} and used later on by \texttt{@(Identifier)} to retrieve the graph element bound to them.
@@ -143,8 +143,8 @@ Persistent names must be identifier strings and not numbers, that's why we have 
 \section{The Rewrite Rules}
 
 We will now add the real rewrite rules to the rule set file \texttt{removeEpsilons.grg}.
-The idea is to ``forward'' normal transitions over $\varepsilon$-transitions one after another, i.e.\ if we have a pattern like \texttt{a:State -:EpsilonTransition-> b:State -ne:Transition-> c:State} do we add another \texttt{a -ne-> c}.
-After all transitions have been forwarded we can remove the $\varepsilon$-transitions alltogether.
+The idea is to ``forward'' normal transitions over $\varepsilon$-transitions one after another, i.e.\ if we have a pattern like \texttt{a:State -:EpsilonTransition-> b:State -ne:Transition-> c:State} we add another \texttt{a -ne-> c}.
+After all transitions have been forwarded we can remove the $\varepsilon$-transitions altogether.
 The complete rule set is shown in figure \ref{fig:quick:ruleset}.
 See Chapter~\ref{chaprulelang} for the rule set language reference.
 
@@ -217,11 +217,11 @@ Tests contain only a pattern; they are used to check for a certain pattern witho
 If a rule is applied, \GrG\ tries to find the pattern within the host graph, for instance within the graph we created in Section~\ref{sct:quick:create}.
 Of course there could be several matches for a pattern---\GrG\ will choose one of them arbitrarily (technically the first match in an implementation defined order).
 
-Figure \ref{fig:quick:ruleset} also displays the syntax \texttt{name:NodeType} for nodes and \texttt{-name:EdgeType->} for Edges, which we have already seen in Section~\ref{sct:quick:create}, again with an optional name.
+Figure \ref{fig:quick:ruleset} also displays the syntax \texttt{name:NodeType} for nodes and \texttt{-name:EdgeType->} for edges, which we have already seen in Section~\ref{sct:quick:create}, again with an optional name.
 But here the meaning of a \emph{declaration} \texttt{name:Type} depends on whether it appears in the pattern or the rewrite part.
 A declaration in the pattern defines a pattern element that is to be bound by searching, resp. matching in the host graph, whereas a declaration in the rewrite part defines an element that is to be created (so only the latter does the same as its counterpart from the shell script).
 An element with a name assigned to can be \emph{referenced} from another graphlet, or from the rewrite block, by noting down simply the name for a node, or using the syntax \texttt{-name->} for an edge (a name can be referenced in the same or nested blocks).
-If you want to ``do something'' with your specified graph element ``in another location'' (which may mean simply linking a node to another edge), define a name; otherwise an anonymous graph element will work fine (like the \texttt{:FinalState} or \texttt{-:EpsilonTransistion->} declarations that will be bound to a node of type \texttt{FinalState} resp.\ an edge of type \texttt{EpsilonTransition}, but are inaccessible for other operations) .
+If you want to ``do something'' with your specified graph element ``in another location'' (which may mean simply linking a node to another edge), define a name; otherwise an anonymous graph element will work fine (like the \texttt{:FinalState} or \texttt{-:EpsilonTransition->} declarations that will be bound to a node of type \texttt{FinalState} resp.\ an edge of type \texttt{EpsilonTransition}, but are inaccessible for other operations).
 Also have a look at example \ref{ex:somegraphlets} on page \pageref{ex:somegraphlets} for additional pattern specifications.
 
 The rewrite part can be given in one of two modes, \texttt{modify} mode or \texttt{replace} mode.
@@ -238,7 +238,7 @@ The \texttt{hom(x,y)} and \texttt{hom(x,y,z)} statements mean ``match the embrac
 The \texttt{eval \{\dots\}} statement in the rewrite part is used to evaluate or recalculate attributes of graph elements.
 The \texttt{emit} statement prints a string to \texttt{stdout}.
 Have a look at the statement \texttt{y:StartFinalState<x>} in \texttt{addStartFinalState}: we \emph{retype} the node \texttt{x}.
-That means that the newly created node \texttt{y} can be found at the position of \texttt{x} in the graph, that it bears its persistent name, and that the attributes common to the new and the previous type keep their old values -- only the node type is  changed or casted to \texttt{StartFinalState}.
+That means that the newly created node \texttt{y} can be found at the position of \texttt{x} in the graph, that it bears its persistent name, and that the attributes common to the new and the previous type keep their old values -- only the node type is changed or cast to \texttt{StartFinalState}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -289,7 +289,7 @@ which is then writing \texttt{mygraph.vcg} into the current directory in the VCG
 Or you want to save the resulting graph as such, to continue processing later on.
 Say \texttt{export mygraph.grs} in \GrShell\ then, it will write a file composed of \texttt{new} commands as is our input file from Figure \ref{fig:quick:shell}, but containing the $\varepsilon$-free graph.
 
-Feel free to browse the \texttt{examples} folder shiped with \GrG;
+Feel free to browse the \texttt{examples} folder shipped with \GrG;
 have a look at the succession of examples in the \texttt{FiniteStateMachine} and \texttt{ProgramGraphs} subfolders,
 they give an overview over most of the capabilities of the software.
 
