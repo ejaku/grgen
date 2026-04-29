@@ -18,8 +18,8 @@ A rule or test annotated with \texttt{[parallelize=k]} will be matched with \tex
 More exactly: at most \texttt{k} worker threads, the number is clipped by the number of really available processors, on a single core the normal sequential matcher will be used.
 (The current implementation defined maximum is 64.)
 
-Parallelization distributes work alongside the first loop that is binding a pattern element to candidate graph elements.
-If that loops only once nothing is gained.
+Parallelization distributes work along the first loop that is binding a pattern element to candidate graph elements.
+If that loop only iterates once nothing is gained.
 If each loop iteration only executes very few search work following candidate assignment,
 things become \emph{slower} because of threading and locking overhead.
 Don't just append the parallelize annotation to each and every rule in the hope things will become faster!
@@ -62,7 +62,7 @@ test testPar[parallelize=16]
 
 There's a second part that can be parallelized, the \texttt{equalsAny} and the \texttt{getEquivalent} functions checking for graph isomorphy of a new candidate graph against a set of known graphs.
 The \emph{EqualsAnyParallelization} clause in the model must specify the number of worker threads used in parallel.
-A \verb#for equalsAny[parallelize=8];# requests 8 worker threads for checking whether there's already a graph existing that is isomorphic to the candidate.
+A \verb#for equalsAny[parallelize=8];# requests 8 worker threads for checking whether a graph already exists that is isomorphic to the candidate.
 Graph isomorphy checking is expensive, you may gain considerable speed-ups in state space enumeration (at the price of having to maintain a set of already known graphs).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -123,7 +123,7 @@ the single tasks in the parallel execution construct are executed in sequence
   SequenceParallelization: 'for' 'sequence' '[' 'parallelize' '=' Number ']';
 \end{rail}\ixnterm{SequenceParallelization}
 
-The \emph{SequenceParallelization} clause in the model allows to specify the number of worker threads in the sequences thread pool.
+The \emph{SequenceParallelization} clause in the model allows you to specify the number of worker threads in the sequences thread pool.
 A \verb#for sequence[parallelize=8];# requests 8 worker threads for parallel sequence execution.
 
 % Added debugger support with a choice of the sequence-to-be-debugged at construct execution begin
@@ -142,7 +142,7 @@ Towards this purpose, some synchronization statements and methods are available 
   ExtendedControl: 'lock' '(' SequenceExpression ')' lbrace Sequence rbrace;
 \end{rail}
 
-With the sequence lock, the specified synchronization object is entered/aquired when the sequence is entered and exited/released when the sequence is left (yielding the result of the contained sequences).
+With the sequence lock, the specified synchronization object is entered/acquired when the sequence is entered and exited/released when the sequence is left (yielding the result of the contained sequences).
 
 \begin{rail}
   LockStatement: 'lock' '(' Expression ')' lbrace Statements rbrace;
@@ -154,7 +154,7 @@ The procedures from the built-in package \texttt{Synchronization} allow to enter
 
 \begin{description}
 \item[\texttt{Synchronization::enter(.)}] enters the specified synchronization object (waiting for entry if it is already occupied by another thread (re-entering it in case it was already entered by the same thread)).
-\item[\texttt{Synchronization::tryenter(.) : (boolean)}] trys to enter the specified synchronization object, returning false if it was already occupied, or enters it, returning true.
+\item[\texttt{Synchronization::tryenter(.) : (boolean)}] tries to enter the specified synchronization object, returning false if it was already occupied, or enters it, returning true.
 \item[\texttt{Synchronization::exit(.)}] exits the specified synchronization object (crashing if it was not already taken by the same thread, otherwise decreasing the entry counter, releasing other threads if the counter reaches 0).
 \end{description}
    
@@ -171,7 +171,7 @@ The following two procedures can be employed in graph isomorphy comparison from 
   or null if no isomorphic graph exists (even when neglecting attributes), in that case the graph is added to the array of graphs.
 \end{description}
  
-Both procedure(s) can be used concurrently from sequences executed in parallel,
+Both procedures can be used concurrently from sequences executed in parallel,
 the array is processed atomically and consistently, i.e. only one thread will add a graph
 that is (not isomorphic to the existing ones yet) isomorphic to another graph concurrently processed by another thread (the other thread will then return this one);
 it is (/they are) implemented in a way so that the majority of graph comparison work (and array reading) can occur in parallel, outside of array locking.
@@ -222,7 +222,7 @@ Table~\ref{seqparalleltab} lists the parallelization related operations of the a
 \end{tabularx}
 \end{minipage}\\
 \\ 
-{\small Let \texttt{s}, \texttt{t} be sequences, \texttt{g1}, \texttt{g2} be variables of graph type, \texttt{v1}, \texttt{v2} be variables, \texttt{ga} be an array of graphs variable, \texttt{va} be an array variable, and \texttt{e} be a sequence expressions}
+{\small Let \texttt{s}, \texttt{t} be sequences, \texttt{g1}, \texttt{g2} be variables of graph type, \texttt{v1}, \texttt{v2} be variables, \texttt{ga} be an array of graphs variable, \texttt{va} be an array variable, and \texttt{e} be a sequence expression}
 \caption{Parallelization support of the advanced sequences at a glance}
 \label{seqparalleltab}
 \end{table}
