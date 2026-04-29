@@ -2,7 +2,7 @@
 \label{cha:nested}
 
 The extension of the rule set language described in chapter \ref{chaprulelang} by nested patterns described in this chapter \ref{cha:nested} and the following chapter \ref{cha:sub} greatly enhances the flexibility and expressiveness of pattern matching and rewriting.
-The following patterns that allow to match a simplified abstract syntax tree give a rough picture of the language of nested and subpatterns:
+The following patterns that allow you to match a simplified abstract syntax tree give a rough picture of the language of nested and subpatterns:
   \begin{example} \label{ex:proggraph}
     \begin{grgen}
 test method
@@ -45,8 +45,8 @@ pattern Expression(root:Expr)
 
 
 Until now we have seen rules and tests with one left hand side static pattern specification in a direct 1:1 correspondence with its dynamic match in the host graph on a successful application.
-From now on we will increase the expressiveness of the pattern language, and dependent on it the rewrite language, to describe much finer and more flexible what patterns to accept.
-This will be done by pattern specifications built up from multiple static pattern piece specifications, where the pieces may be matched dynamically zero, one, or multiple times, or are forbidden to exists for the entire pattern to be matched.
+From now on we will increase the expressiveness of the pattern language, and dependent on it the rewrite language, to describe much more finely and flexibly what patterns to accept.
+This will be done by pattern specifications built up from multiple static pattern piece specifications, where the pieces may be matched dynamically zero, one, or multiple times, or are forbidden to exist for the entire pattern to be matched.
 These rule set language constructs can be split into nested patterns (negative application condition, positive application condition, nested pattern with cardinality, alternative patterns) and subpatterns (subpattern declaration and subpattern entity declaration, subrule declaration and usage), in this chapter we will focus on the nested patterns:
 
 \begin{rail}  
@@ -77,7 +77,7 @@ This is a bit unintuitive if you think of extending the pattern by negative elem
 just think of NACs to simply specify a pattern which should not be in the graph, with the possibility of forcing elements to be the same as in the enclosing pattern by name equality.
 
   \begin{example}
-    We specify a variable which is not badly typed, i.e. a node \texttt{x} of type \texttt{Variable} which must not be target of an edge of type \text{type} with a source node of type \texttt{BadType}:
+    We specify a variable which is not badly typed, i.e. a node \texttt{x} of type \texttt{Variable} which must not be the target of an edge of type \texttt{type} with a source node of type \texttt{BadType}:
     \begin{grgen}
   x:Variable;
   negative {
@@ -205,7 +205,7 @@ rule moveMethod
   NestedBody: (PatternStatement+) NestedRewriting?;
 \end{rail}\ixkeyw{iterated}\ixkeyw{multiple}\ixkeyw{optional}\ixnterm{NestedPatternWithCardinality}
 
-The \indexmain{pattern cardinality} blocks allow to specify how often the nested pattern -- opening a scope -- is to be matched.
+The \indexmain{pattern cardinality} blocks allow you to specify how often the nested pattern -- opening a scope -- is to be matched.
 Matching will be carried out eagerly, i.e. if the construct is not limiting the number of matches and a further match is possible it will be done.
 The \emph{NestedRewriting} will be explained in Section~\ref{sec:nestedrewrite}.
 You find more on the \emph{FiltersDecl} in Chapter~\ref{sub:filters}, usage of the filters is explained in \ref{sub:iteratedfilter}.
@@ -354,7 +354,7 @@ test variableMaybeInitialized
 When working with the subtyping hierarchy one may be interested in matching in a first step an abstract base class,
 specifying the rewriting behaviour for this base class once,
 and in a refinement step in an alternative the different possible subtypes, 
-then being able to access their specific attributes and being able of giving different additional rewrite parts.
+then being able to access their specific attributes and being able to give different additional rewrite parts.
 	\begin{grgen}
 test refineFeature
 {
@@ -383,7 +383,7 @@ test refineFeature
   \parbox{0.99\linewidth}{\includegraphics[width=\linewidth]{fig/exnested}}
 \end{center}
 
-The image from above shows an example how a structure is matched by several pieces.
+The image from above shows an example of how a structure is matched by several pieces.
 At the left, the plain host graph, at the right with the match of \texttt{classWithStuff} inscribed.
 
 \begin{grgen}
@@ -434,7 +434,7 @@ Nested patterns can be given names, this is done with the following syntax:
     'alternative' IdentDecl lbrace etc rbrace;
 \end{rail}
 
-As the already introduced syntax remains valid, on aggregate we extend the nested patterns with optional names to form \indexed{named nested pattern}.
+As the already introduced syntax remains valid, in aggregate we extend the nested patterns with optional names to form \indexed{named nested pattern}.
 
 Iterateds named this way can then be referenced in the result accumulation part with an iterated filtering specification.
 Alternatives and iterateds named this way can then be referenced in the rewrite part with an alternative rewrite order specification or an iterated rewrite order specification.

@@ -1,7 +1,7 @@
 \chapter{Subpatterns}\indexmain{subpatterns}
 \label{cha:sub}
 
-After the introduction of the nested patterns in chapter \ref{cha:nested} we will now have a look at the subpatterns, the other means to greatly enhances the flexibility and expressiveness of pattern matching and rewriting.
+After the introduction of the nested patterns in chapter \ref{cha:nested} we will now have a look at the subpatterns, the other means to greatly enhance the flexibility and expressiveness of pattern matching and rewriting.
 Subpattern employment is split into subpattern declaration plus subpattern entity declaration, and subrule declaration plus usage, the latter is described in the following chapter.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -41,7 +41,7 @@ If you prefer an operational point of view, you may see the subpattern entity as
 
 %TODO:remove
 %Termersetzung mit Termen die Graphen beschreiben.
-%Mehrelementige Graphsprachen als Zwischenschritt zu den rekursiven bereits mit alternative... eingeführt -- dort auch so erklärt, wirklich eingeführt? vor rekursiv trotzdem noch ein  Zwischenschritt: pattern mit alternative, statt action mit alternative
+%Mehrelementige Graphsprachen als Zwischenschritt zu den rekursiven bereits mit alternative... eingefï¿½hrt -- dort auch so erklï¿½rt, wirklich eingefï¿½hrt? vor rekursiv trotzdem noch ein  Zwischenschritt: pattern mit alternative, statt action mit alternative
 
 \begin{example}
   \begin{grgen}
@@ -334,7 +334,7 @@ pattern Expression(root:Expr)
 When matching a program graph as in the introductory example \ref{ex:proggraph} one might be satisfied with matching a tree structure.
 But on other occasions one wants to match \emph{backlinks} and especially the targets of the backlinks, too, 
 from \emph{uses} nested somewhere in the syntax graph to \emph{definitions} whose nodes were already matched earlier in the subpattern derivation (subpatterns can be seen as an equivalent of grammar rules known from parser generators).
-Unfortunately these elements are already matched and thus isormorphy locked following the default semantics of isomorphic matching.
+Unfortunately these elements are already matched and thus isomorphy locked following the default semantics of isomorphic matching.
 And unfortunately these elements can't be declared \texttt{hom}omorphic as they are unknown in the nested subpattern.
 Handing them in as parameters and then declaring them \texttt{hom}omorphic is only possible if they are of a statically fixed number (as the number of parameters is fixed at compile time), which is normally not the case for e.g. the attributes of a class in a syntax graph.
 In order to handle this case the \texttt{independent} \emph{operator} (cf. \ref{rule:homspec}) was added to the rule language
@@ -342,7 +342,7 @@ In order to handle this case the \texttt{independent} \emph{operator} (cf. \ref{
 Thus it is possible to match e.g. a class attribute definition node which was already matched when collecting the attributes of the class again later on in a subpattern when matching an expression containing a usage of that attribute, allowing to e.g. add further edges to it.
 
 \subsubsection*{Patternpath Locking (preliminary)} 
-As stated in the sections on the negative and independent constructs (\ref{nac}, \ref{pac}), they get matched homomorphically to all already matched elements. By referencing an element from outside you can isomorphy lock that element to prevent it to get matched again.
+As stated in the sections on the negative and independent constructs (\ref{nac}, \ref{pac}), they get matched homomorphically to all already matched elements. By referencing an element from outside you can isomorphy lock that element to prevent it from getting matched again.
 
 Maybe you want to lock all elements from the directly enclosing pattern, in this case you can just insert \texttt{pattern;} in the position of a graphlet into the NAC or PAC.
 

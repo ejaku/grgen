@@ -25,9 +25,9 @@ Note that \texttt{return} statements are not available as in the top level rewri
 For a static pattern specification like the iterated block yielding dynamically a combined match of zero to many pattern matches, every submatch is rewritten, according to the rewrite specification applied to the host graph elements of the match bound to the pattern elements
 (if the pattern was matched zero times, no dependent rewrite will be triggered - but note that zero matches still means success for an iterated, so the dependent rewrite piece of the enclosing pattern will be applied).
 This allows e.g. for reversing all edges in the iterated-example (denoting containment in the class), as it is shown in the first of the following two examples.
-For the alternative construct the rewrite is specified directly at every nested pattern, i.e. alternative case as shown in the second of the following two examples); the rewrite of the matched case will be applied.
+For the alternative construct the rewrite is specified directly at every nested pattern, i.e. alternative case (as shown in the second of the following two examples); the rewrite of the matched case will be applied.
 
-Nodes and edges from the pattern containing the nested pattern containing the nested rewrite are only available for deletion or retyping inside the nested rewrite if it can be statically determined this is unambiguous, i.e. only happening once.
+Nodes and edges from the pattern containing the nested pattern containing the nested rewrite are only available for deletion or retyping inside the nested rewrite if it can be statically determined that this is unambiguous, i.e. only happening once.
 So only the rewrites of alternative cases, optional patterns or subpatterns may contain deletions or retypings of elements not declared in their pattern (in contrast to iterated and multiple pattern rewrites).
 
 \begin{example}
@@ -140,14 +140,14 @@ and a subpattern rewrite application given within the rewrite part of the patter
   SubpatternRewriting: ('replace' | 'modify') lbrace (()+RewriteStatement) rbrace;
 \end{rail}\ixnterm{SubpatternRewriting}\ixkeyw{replace}\ixkeyw{modify}
 
-The subpattern rewriting specifications within the subpattern declaration looks like a nested rewriting specification,
+The subpattern rewriting specifications within the subpattern declaration look like a nested rewriting specification,
 but additionally there may be rewrite parameters given in the subpattern header (cf. \ref{subpatterndecl}) which can be referenced in the rewrite body.
 (Most elements can be handed in with normal parameters, but elements created in the rewrite part of the user of the subpattern can only be handed in at rewrite time.) 
 
 \begin{rail}  
   SubpatternRewriteApplication: 
     Ident '(' (Ident * ',') ')' ';' |
-    SubpatternOccurence |
+    SubpatternOccurrence |
     SubpatternExecEmit
 	;
 \end{rail}\ixnterm{SubpatternRewriteApplication}
@@ -156,7 +156,7 @@ but additionally there may be rewrite parameters given in the subpattern header 
 The subpattern rewrite application is given within the rewrite part of the pattern containing the subpattern entity declaration,
 in call notation on the declared subpattern identifier.
 It causes the rewrite part of the subpattern to get used; if you leave it out, the subpattern is simply kept untouched.
-The \emph{SubpatternOccurence} is explained in the next subsection \ref{sub:delpressub}.
+The \emph{SubpatternOccurrence} is explained in the next subsection \ref{sub:delpressub}.
 The \emph{SubpatternExecEmit} is explained in chapter \ref{cha:imperativeandstate}.
 
 \pagebreak
@@ -263,13 +263,13 @@ rule chainFromToReverseToCommon()
 %-----------------------------------------------------------------------------------------------
 \subsection{Deletion and Preservation of Subpatterns}\label{sub:delpressub}
 
-In addition to the fine-grain dependent rewrite, subpatterns may get deleted or kept as a whole.
+In addition to the fine-grained dependent rewrite, subpatterns may get deleted or kept as a whole.
 
 \begin{rail}  
-  SubpatternOccurence: 
+  SubpatternOccurrence: 
     Ident ';' |
     'delete' '(' (Ident + ',') ')' ';';
-\end{rail}\ixkeyw{SubpatternOccurence}\ixkeyw{delete}
+\end{rail}\ixkeyw{SubpatternOccurrence}\ixkeyw{delete}
 
 In modify mode, they are kept by default, but deleted if the name of the declared subpattern entity is mentioned within a delete statement.
 In replace mode, they are deleted by default, but kept if the name of the declared subpattern entity is mentioned (using occurrence, same as with nodes or edges).
