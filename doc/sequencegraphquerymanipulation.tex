@@ -6,7 +6,7 @@ In this chapter we take a look at pattern queries -- the most powerful and flexi
 They are more powerful than the simple global functions returning elementary data (described in Section~\ref{sec:queryupdate}),
 and more flexible than the returning of pre-selected values from rules or tests (described in Chapter~\ref{chaprulelang}).
 
-Pattern queries employing tests or rules as tests in order to obtain some result value define the second way of pattern usage beside the already known one employing rules to carry out host graph state changes.
+Pattern queries employing tests or rules as tests in order to obtain some result value define the second way of pattern usage besides the already known one employing rules to carry out host graph state changes.
 %Here we take a look at the secondary usage of patterns besides the already known transformation workflow where they are employed with rules to carry out host graph state changes.
 %for the the query workflow, the directly following array accumulation methods are of importance. 
 
@@ -74,7 +74,7 @@ Some accumulation method calls are available on arrays of esp. numbers:
 \item[\texttt{.medUnordered()}] returns the median of the elements in the array, as \texttt{double}
 \item[\texttt{.var()}] returns the variance of the elements in the array, as \texttt{double}
 \item[\texttt{.dev()}] returns the deviation of the elements in the array, as \texttt{double}
-\item[\texttt{.and()}] returns the conjuntion of the elements in the array (of \texttt{boolean} values), as \texttt{boolean}, \texttt{true} in case of an empty array
+\item[\texttt{.and()}] returns the conjunction of the elements in the array (of \texttt{boolean} values), as \texttt{boolean}, \texttt{true} in case of an empty array
 \item[\texttt{.or()}] returns the disjunction of the elements in the array (of \texttt{boolean} values), as \texttt{boolean}, \texttt{false} in case of an empty array
 \end{description}\label{arrayaccumulationmethod}
 
@@ -101,7 +101,7 @@ They inspect the value of the attribute \texttt{attr} or member of the graph ele
 \item[\texttt{.indexOfBy<attr>(valueToSearchFor, startIndex)}] returns the first position \texttt{valueToSearchFor:T} appears at (moving to the end), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found.
 \item[\texttt{.lastIndexOfBy<attr>(valueToSearchFor)}] returns the last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found.
 \item[\texttt{.lastIndexOfBy<attr>(valueToSearchFor, startIndex)}] returns the last position \texttt{valueToSearchFor:T} appears at (moving to the begin), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found.
-\item[\texttt{.indexOfOrderedBy<attr>(valueToSearchFor)}] returns a position where \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found. The array must be ordered, otherwise the results returned by the binary search employed will be wrong; in case of multiple occurences, an arbitrary one is returned.
+\item[\texttt{.indexOfOrderedBy<attr>(valueToSearchFor)}] returns a position where \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found. The array must be ordered, otherwise the results returned by the binary search employed will be wrong; in case of multiple occurrences, an arbitrary one is returned.
 \end{description}
 
 \noindent The search methods just introduced return the index of a found element, the following ordering or grouping methods return an array.
@@ -115,7 +115,7 @@ They inspect the value of the attribute \texttt{attr} or member of the graph ele
 \end{description}\label{arraybymemberaccessmethod}
 %And again: the \verb#X_by<attr>#-versions inspect the value of the attribute of the graph element stored in the array.
 
-The ordering or access-alongside-order methods utilize the ordering relation, so they support only members or attributes of numeric type (\texttt{byte}, \texttt{short}, \texttt{int}, \texttt{long}, \texttt{float}, \texttt{double},) or \texttt{string} or \texttt{enum} type -- also \texttt{boolean} is supported, even if not of much use).
+The ordering or access-alongside-order methods utilize the ordering relation, so they support only members or attributes of numeric type (\texttt{byte}, \texttt{short}, \texttt{int}, \texttt{long}, \texttt{float}, \texttt{double},) or \texttt{string} or \texttt{enum} type -- also \texttt{boolean} is supported, even if not of much use.
 The other query methods utilize equality comparisons, so they support additionally members or attributes of node or edge type.
 
 \subsection{Array Per-Element Methods with Lambda Expressions} 
@@ -170,7 +170,7 @@ The square braces (\texttt{[]}) and the \texttt{?} are part of the syntax, but a
 
 The execution semantics is: all matches of the rule pattern in the host graph are searched for, and returned as an \texttt{array} of \texttt{match<r>}.
 For query purpose, a \texttt{test} is to be preferred over a \texttt{rule}, as the rewrite part won't be applied anyway. 
-No values are returned in either case, and no return assignments specified.
+No values are returned in either case, and no return assignments are specified.
 The data of interest is to be extracted from the array of matches, or the match (type) respectively.
 Towards this goal, the filters are to be applied, cf. Chapter~\ref{sub:filters}, but esp. the array accumulation and query methods introduced earlier in this chapter, as well as in Section~\ref{sec:arrayexpr}, notably the \texttt{extract} method.
 No debugging modifier \texttt{\%} may be applied, rule queries are evaluated silently.
@@ -274,7 +274,7 @@ In order to obtain the overall intensity of interests of a single person, we use
 eval [?weightedInterests(::subject)].extract<weight>().sum()
   \end{grshell}
 
-From the array of matches is an array of the match members \texttt{weight} of type \texttt{array<double>} extracted (resulting from the equivalently named pattern element), and then reduced to a single scalar value with the array accumulation method \texttt{sum}.
+From the array of matches, an array of the match members \texttt{weight} of type \texttt{array<double>} is extracted (resulting from the equivalently named pattern element), and then reduced to a single scalar value with the array accumulation method \texttt{sum}.
 
 In order to obtain the interests of two persons, we use the following query in \GrShell:
 
@@ -296,7 +296,7 @@ eval [?sameCompanySharedInterest(::subject)\orderDescendingBy<score>\keepFirst(3
 
 It searches for all matches of pattern \texttt{sameCompanySharedInterest} for the given subject, in the form of \texttt{array<match<sameCompanySharedInterest>>}.
 The array is then ordered descendingly alongside \texttt{score} (which just gives the amount of shared interests), and clipped to the first 3 matches, thus persons.
-Besides the order-by that shows up directly in the query expression, is a kind of group-by employed in the used test, with a common pattern giving the shared part, and the differences being encapsulated in the iterated (we don't obtain a cartesian product of all matches and then group afterwards to factor out common parts, but match common parts and extend them by the differences to give the complete match).
+Besides the order-by that shows up directly in the query expression, a kind of group-by is employed in the used test, with a common pattern giving the shared part, and the differences being encapsulated in the iterated (we don't obtain a cartesian product of all matches and then group afterwards to factor out common parts, but match common parts and extend them by the differences to give the complete match).
 The interesting information from the iterated is extracted and accumulated with an iterated query (cf. \ref{sec:primexpr}), which returns an array of matches of the iterated pattern (\texttt{array<match<sameCompanySharedInterest.it>>}).
 (The iterated query can be seen as a get-all-matches rule query inside a rule, and the iterated as a nested all-bracketed rule).
 
@@ -317,7 +317,7 @@ Furthermore, it computes the shared interest in an object as the smaller of the 
   MatchClassSpec: backslash '<' 'class' MatchClassIdent '>' ;
 \end{rail}\ixnterm{MultiRuleQuery}\ixnterm{MatchClassSpec}
 
-The \emph{MultiRuleQuery} clause applies multiple (distinct) rules or tests, that all implement the same match class, cf. Section~\ref{sec:matchclass}).
+The \emph{MultiRuleQuery} clause applies multiple (distinct) rules or tests, that all implement the same match class, cf. Section~\ref{sec:matchclass}.
 It defines a query version of the \emph{MultiRuleExecution}, cf. Section~\ref{sec:multiruleapplication}.
 It does not allow return assignments in contrast to the latter one, as no output values are available; only the pattern elements -- but all of them -- are accessible (this holds for all pattern-based query constructs).
 In contrast to the \emph{MultiRuleExecution}, a \emph{MatchClassSpec} is required.
@@ -394,12 +394,12 @@ function naturalJoin(ref matchesSameCompany:array<match<sameCompany>>, ref match
 \end{example}
 
 The match of the pattern of the test \texttt{sameCompany} contains the named members \texttt{subject}, \texttt{person}, and \texttt{company}, while the match of the pattern of the test \texttt{sharedInterest} contains the named members \texttt{subject}, \texttt{person}, and \texttt{interest}.
-They are combined into a \texttt{SameCompanySharedInterest} class, with single \texttt{subject} and \texttt{person} entries (a name can only appear once, you'd have to add a disambiguating prefix in order to keep two entries stemming from fields with same name, but as they'd contain the same entries due to the join anyway, we can just use a single unprefixed entry without loosing information), and \texttt{company} as well as \texttt{interest} members.
+They are combined into a \texttt{SameCompanySharedInterest} class, with single \texttt{subject} and \texttt{person} entries (a name can only appear once, you'd have to add a disambiguating prefix in order to keep two entries stemming from fields with same name, but as they'd contain the same entries due to the join anyway, we can just use a single unprefixed entry without losing information), and \texttt{company} as well as \texttt{interest} members.
 The combination is computed from the matches that agree in their \texttt{subject} and \texttt{person} fields (i.e. have equal values), so you get an array of matches of the common companies and shared interests of two persons -- i.e. the persons that work in the same (have one common) company and have a shared (the same) interest, with subject being fixed this amounts to his/her colleagues with shared interests.
 
 The upper part gives a manually implemented version, the lower part shows how to compute the natural join with an auto-generated function body -- with the resulting code being the same as in the manually implemented version.
 It also shows how to compute the match class with an auto-generated match class body, combining the specified match types under name merging -- the resulting code is also the same as in the manually implemented version.
-The auto-generated match class body is to be used with care, it is more concise and writing it is more convenient than listing the members explicitly, but readability is severly hampered, you have to mentally compute the cross product modulo name merging.
+The auto-generated match class body is to be used with care, it is more concise and writing it is more convenient than listing the members explicitly, but readability is severely hampered, you have to mentally compute the cross product modulo name merging.
 Note that only named pattern entities are contained in the result; the join also ignores (projects away) unnamed entities.
 
 \begin{rail}
@@ -409,7 +409,7 @@ Note that only named pattern entities are contained in the result; the join also
 \end{rail}\ixnterm{AutoFunctionBody}\ixnterm{AutoMatchClassBody}\ixkeyw{auto}
 
 Another auto-generated function body is available for the cartesian product, noted down with \texttt{auto(join<cartesian>(leftArray, rightArray))}.
-The implementation is the same like the one for the natural join, with exception of the missing \texttt{if} condition (so no real cartesian join is available in case of common names thus shared fields, you have to prepend/append name suffixes to obtain a result containing the values from both inputs).
+The implementation is the same as the one for the natural join, with the exception of the missing \texttt{if} condition (so no real cartesian join is available in case of common names thus shared fields, you have to prepend/append name suffixes to obtain a result containing the values from both inputs).
 The auto generated functions also support arrays of match classes as input.
 
 \subsubsection*{Auto-generated array method}

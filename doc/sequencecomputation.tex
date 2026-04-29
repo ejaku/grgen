@@ -11,14 +11,14 @@ Sequence computations are typically employed when storages have to be maintained
 \verb#next=tmp; {!now.empty()} } )*#
 --- that example sequence is used to implement a wavefront as rule control strategy.
 
-A set \texttt{now} of current nodes is processed, filling a set of output nodes to be processed \texttt{next}, which are then used in the following iteration step as input nodes, until all of parts of the graph reachable from the initial nodes have been passed, yielding an empty set.
+A set \texttt{now} of current nodes is processed, filling a set of output nodes to be processed \texttt{next}, which are then used in the following iteration step as input nodes, until all parts of the graph reachable from the initial nodes have been passed, yielding an empty set.
 The sequence computation for switching in between the sets is given enclosed in braces in the sequence, 
 the sequence expression to determine whether the wavefront came to a halt is given at the end of the computation,
 enclosed a level deeper in braces.
 As long as the set is still filled, the final expression, thus the computation, returns \texttt{true}, continuing with the loop -- when it gets empty, the expression yields \texttt{false}, henceforth terminating the loop and the wavefront algorithm.
 \end{example}
 
-Sequences are existing to control rules and not to carry out the bulk of the computational work (in spite of that, nearly all rule computations are available in the sequence computations).
+Sequences exist to control rules and not to carry out the bulk of the computational work (in spite of that, nearly all rule computations are available in the sequence computations).
 But the sequence computations are embedded directly in the controlling sequence, in contrast to the computations from the rule language that can only be used by calling their named abstractions.
 %In particular, the subset that is needed in order to draw decisions (esp. comparison operators) and to assign variables (so for sequence variable initialization you need to employ a sequence computation) is available.
 
@@ -31,7 +31,7 @@ But the sequence computations are embedded directly in the controlling sequence,
 
 The non-computational sequence constructs introduced before in \ref{cha:xgrs} are used for executing rules, to determine which rule to execute next depending on success and failure of the previous rule applications, and where to apply it next by transmitting atomic variables of node or edge type in between the rules.
 Sequence computations in contrast are used for manipulating container variables, evaluating computational expressions, or for causing side effects like output or element markings.
-A computation returns always true, with exception of an expression used as a computation (explained below).
+A computation always returns true, with exception of an expression used as a computation (explained below).
 A prepended \texttt{\%} attaches a \indexed{break point} to the computation.
 
 \begin{rail} 
@@ -59,7 +59,7 @@ whereas it is pointless to specify an expression before.
 A variable declaration declares a local variable in the same way as in the sequences.
 An assignment assigns the value of a sequence expression to an assignment target.
 It may be chained; such an assignment chain is executed from right to left, assigning the rightmost value to all the assignment targets given.
-The expression used as computation -- denoted by and enclosed in braces -- will return a boolean value by comparing the return value of the expression to the default value of the corresponding type (e.g. 0 for an integer), returning false if equal, or true if not equal.
+The expression used as computation -- enclosed in braces -- will return a boolean value by comparing the return value of the expression to the default value of the corresponding type (e.g. 0 for an integer), returning false if equal, or true if not equal.
 So just using a boolean variable as expression returns the value of the variable.
 The form of expressions and assignment targets will be specified below.
 
@@ -83,7 +83,7 @@ increments the graph global variable \texttt{i} until it becomes greater than \t
 	MethodTarget: Variable | GraphElement '.' Attribute;
 	ProcedureCall: ('(' Variables ')' '=')? ProcedureIdent '(' Arguments ')';
 	Arguments: (SequenceExpression * ',');
-	Varibales: (Variable + ',');
+	Variables: (Variable + ',');
 \end{rail}
 
 A method call executes a method on a variable, passing further arguments.
@@ -91,14 +91,14 @@ The method may be one of the predefined container methods, or a user-defined met
 
 A procedure call executes a user defined procedure from the rules file, cf. \ref{sub:compdef},
 or a built-in procedure, passing further arguments.
-The builtin procedures you may call here are e.g. \texttt{emit}, \texttt{emitdebug}, \texttt{record}, or \texttt{canonize(g:graph):string}, you find more on them in Chapter~\ref{cha:graph}.
+The built-in procedures you may call here are e.g. \texttt{emit}, \texttt{emitdebug}, \texttt{record}, or \texttt{canonize(g:graph):string}, you find more on them in Chapter~\ref{cha:graph}.
 
 Also procedures from packages may be called, the name \emph{ProcedureIdent} is then prefixed by the \emph{Ident} of the package, separated by a double colon \texttt{::}.
 A user-defined procedure from a user-defined package may be called, or one of the built-in procedures contained in the built-in package \texttt{File}, e.g. \texttt{export}, or in the  built-in package \texttt{Transaction}, cf. Chapter~\ref{cha:graph}, or in the built-in package \texttt{Debug} (for more on packages see \ref{sub:packageaction}).
 
 The \texttt{Debug} package procedures, as explained in detail in \ref{secdebuggersubrule}, are of interest in case sequences contained in rule execs are used, these are not directly visible to the debugger.
 You call then \texttt{Debug::add} when entering and \texttt{Debug::rem} when leaving a subrule computation of interest (always pairwise!),
-\texttt{Debug::emit} to recored some subrule computation milestones, \texttt{Debug::halt} to halt the debugger, and \texttt{Debug::highlight} to highlight some graph elements in the debugger (halting it).
+\texttt{Debug::emit} to record some subrule computation milestones, \texttt{Debug::halt} to halt the debugger, and \texttt{Debug::highlight} to highlight some graph elements in the debugger (halting it).
 
 Finally, an expression (without side effects) can be evaluated, this allows to return a (boolean) value from a computation.
 
@@ -116,7 +116,7 @@ Finally, an expression (without side effects) can be evaluated, this allows to r
 Possible targets of assignments are the variables and def-variables to be yielded to, as in the simple assignments of the sequences. 
 A \texttt{yield} assignment writes the rhs variable value to the lhs variable which must be declared as a  def-to-be-yielded-to variable (\texttt{def}-prefix) in the pattern containing the \texttt{exec} statement.
 Yielding is only possible from compiled sequences, it always succeeds.
-Further on, the attributes of graph elements or internal class objects or internal transient class objects may be written to, the values at given positions of array or deque or map variables may be written to, and the visited status of graph elements may be changed.
+Furthermore, the attributes of graph elements or internal class objects or internal transient class objects may be written to, the values at given positions of array or deque or map variables may be written to, and the visited status of graph elements may be changed.
 
 \begin{example}
 The sequence computation \verb#{ x:int=42; y:N; (y)=proc(x); y.meth(x); y.a=x }# shows a variable declaration including an initialization (which falls out of scope at the closing brace), a variable declaration of node type without initialization, a call of a procedure with one input argument, assigning an output value, a call of a method of the node type, and the assignment of a graph element attribute.
@@ -139,7 +139,7 @@ The example \verb#{ x:array<int>=array<int>[]; x.add(42); x[0]=1; {x.size()>0} }
     PrimarySequenceExpression;
 \end{rail}\ixnterm{SequenceExpression}
 
-The sequence expressions support the same functionality like the expressions introduced in \ref{sub:expr}, containing 
+The sequence expressions support the same functionality as the expressions introduced in \ref{sub:expr}, containing 
 the boolean expressions,
 the relational (comparison) expressions,
 the arithmetic expressions,
@@ -183,7 +183,7 @@ the arithmetic operator minus is used to denote subtraction of numerical values.
 Furthermore, you can multiply and divide numbers, or compute the remainder of a division.
 Also, the arithmetic functions of package \texttt{Math} are available.
 
-Even though everything is available in the sequence computations for carrying out computations, do we recommend to use the rule language for real computational work, you can employ the entities from the rule language easily, just call the functions from the sequence expressions, the procedures from the sequence statements, and the rules/tests from the sequences.
+Even though everything is available in the sequence computations for carrying out computations, we recommend using the rule language for real computational work, you can employ the entities from the rule language easily, just call the functions from the sequence expressions, the procedures from the sequence statements, and the rules/tests from the sequences.
 
 \begin{rail}
   BitwiseSequenceExpression: 
@@ -267,8 +267,8 @@ The function \texttt{nodeByName} allows to retrieve a node by its name, \texttt{
 The function \texttt{nodeByUnique} allows to retrieve a node by its unique id, \texttt{edgeByUnique} does the same for an edge.
 You find more on them in Chapter~\ref{cha:performance}.
 
-The \texttt{typeof} function returns the type \emph{as string}, for an arbitrary \GrG-object fed as input.
-There is no type type existing supporting type comparisons as in the rule language, you are limited to string comparisons.
+The \texttt{typeof} function returns the type \emph{as a string}, for an arbitrary \GrG-object fed as input.
+There is no type type supporting type comparisons as in the rule language, you are limited to string comparisons.
 
 Also functions from packages may be called, the name \emph{FunctionIdent} is then prefixed by the \emph{Ident} of the package, separated by a double colon \texttt{::}.
 A user-defined function from a user-defined package may be called, or one of the built-in functions contained in the built-in package \texttt{File}, e.g. \texttt{import}, or \texttt{now} from the built-in package \texttt{Time}, cf. Chapter~\ref{cha:graph} (or one of the functions from package \texttt{Math} --- for more on packages see \ref{sub:packageaction}).
@@ -408,11 +408,11 @@ Furthermore, you may query for adjacent nodes and incident edges,
 maybe even transitively for the reachability.
 Furthermore you may ask with a predicate whether nodes or edges are adjacent or incident to other nodes or edges, maybe even transitively for reachability.
 
-These global functions returning elementary data define the simple way of graph querying -- the more powerful way is defined by pattern based queries (employing rules/tests) -- they return an array of pattern matches, see Chapter~\ref{cha:graphquery}.
+These global functions returning elementary data define the simple way of graph querying -- the more powerful way is defined by pattern-based queries (employing rules/tests) -- they return an array of pattern matches, see Chapter~\ref{cha:graphquery}.
 
 \begin{example}
 \verb#for{x:N in nodes(N); for{::y in outgoing(x); { ::z=target(::y); ::z.a = 42 } } }# 
-is a sequences that sets the attribute \texttt{a} to 42 for all nodes that are adjacent as targets to a source node \texttt{x} of type \texttt{N}.
+is a sequence that sets the attribute \texttt{a} to 42 for all nodes that are adjacent as targets to a source node \texttt{x} of type \texttt{N}.
 You will receive a runtime exception if the type of \verb#::z# does not possess an attribute \texttt{a}.
 
 A more realistic example is to check whether two nodes returned by some rule applications are reachable from each other, carrying out a change only in this case:\\
