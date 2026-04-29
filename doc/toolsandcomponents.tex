@@ -7,7 +7,7 @@ the compiler transforms specifications of declarative graph rewrite rules into h
 With one of these libraries, you can optionally enable automatic graph persistence.
 The second consists of the interactive command line \texttt{(G)GrShell} and the graph viewers \texttt{yComp} and MSAGL with some further runtime libraries,
 which offer a rapid prototyping environment supporting graphical and stepwise debugging of rules that are controlled by sequences.
-These functionalitie are also available on API level, you can add graph visualization, stepwise sequence/rule debugging, or even shell scripting to your end user app.
+These functionalities are also available on API level, you can add graph visualization, stepwise sequence/rule debugging, or even shell scripting to your end user app.
 
 In the following, we are going to visit them component by component.
 
@@ -149,13 +149,13 @@ You may use it in your own applications (build a .NET application on top of it, 
 
 %-----------------------------------------------------------------------------------------------
 \section{\texttt{graphViewerAndSequenceDebuggerWindowsForms.dll}}
-The WindowsFroms extension of the \texttt{graphViewerAndSequenceDebugger.dll} contains code that allows to use the MSAGL graph viewer, and debug sequences with a graphical debugger.
+The WindowsForms extension of the \texttt{graphViewerAndSequenceDebugger.dll} contains code that allows to use the MSAGL graph viewer, and debug sequences with a graphical debugger.
 You may use it in your own applications (build a .NET application on top of it, or even a native one based on .NET-interop) to include in-app graph display (based on the .NET library MSAGL) and graphical sequence debugging.
 The MSAGL library can be used nearly freely due to its MIT license.
 
 %-----------------------------------------------------------------------------------------------
 \section{\texttt{lgspBackend.dll}}
-The \LGSPBackend\indexmain{lgspBackend} is a .NET assembly containing the libGr SearchPlan backend, the only backend supported by \GrG~as of now\footnote{the compiler frontend supports a non-.NET backend targeting the FIRM compiler, generating C code}, implementing together with the generated assemblies the API offers by \LibGr.
+The \LGSPBackend\indexmain{lgspBackend} is a .NET assembly containing the libGr SearchPlan backend, the only backend supported by \GrG~as of now\footnote{the compiler frontend supports a non-.NET backend targeting the FIRM compiler, generating C code}, implementing together with the generated assemblies the API offered by \LibGr.
 It allows to analyze the graph in order to create a new search plan and to regenerate the matcher programs at runtime, on user request, see \ref{custom}.
 For a more detailed introduction have a look at chapter \ref{cha:developing}.
 
@@ -171,7 +171,7 @@ The persistent named graph of the lgspBackend may be also implemented by differe
 The \LibGr\indexmain{libGr} (graph rewrite library) is a .NET assembly defining \GrG's \indexed{API}.
 See the extracted HTML documentation for interface descriptions at \url{http://www.grgen.de/doc/API/};
 a short introduction is given in chapter \ref{cha:api}.
-Besides, it implements some of the functionality (generically, independent of backends or the conrete models).
+Besides, it implements some of the functionality (generically, independent of backends or the concrete models).
 You have to include it in your own applications to access the base functionality of \GrG\ (and the code generated from your model and actions specifications, in order to get a graph rewriting based algorithmic core -- if you also want graph display or even shell scripting, you have to include further assemblies).
 
 %-----------------------------------------------------------------------------------------------
@@ -180,7 +180,7 @@ The base library \texttt{libConsoleAndOS.dll} offers interfaces for text console
 
 %-----------------------------------------------------------------------------------------------
 \section{\texttt{libConsoleAndOSWindowsForms.dll}}
-The WindowsFroms extension of the \texttt{libConsole\-And\-OS.dll} contains a GUI console implementation for WindowsForms apps (that is used by the debugger from the \texttt{graph\-Viewer\-And\-Sequence\-Debugger\-Windows\-Forms.dll} and the \GGrShell, you have to include it in your own WindowsForms application if you want to use \GrG).
+The WindowsForms extension of the \texttt{libConsole\-And\-OS.dll} contains a GUI console implementation for WindowsForms apps (that is used by the debugger from the \texttt{graph\-Viewer\-And\-Sequence\-Debugger\-Windows\-Forms.dll} and the \GGrShell, you have to include it in your own WindowsForms application if you want to use \GrG).
 
 %-----------------------------------------------------------------------------------------------
 \section{MSAGL assemblies/libraries}

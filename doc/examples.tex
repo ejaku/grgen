@@ -88,7 +88,7 @@ edge class empty extends value;
 \end{grgen}
 
 Furthermore, we need states and transitions.
-The machine's current configuration is modeled with a \texttt{RWHead} edge pointing to a \texttt{TapePosition} node.
+The machine's current configuration is modeled with an \texttt{RWHead} edge pointing to a \texttt{TapePosition} node.
 \texttt{State} nodes are connected with \texttt{WriteValue} nodes via \texttt{value} edges, a \texttt{moveLeft}/\texttt{moveRight}/\texttt{dontMove} edge leads from a \texttt{WriteValue} node to the next state (cf.~the picture on page \pageref{fig:bbstart}).
 
 \begin{grgen}[firstnumber=last]
@@ -341,7 +341,7 @@ Let the beaver run:
   exec ((readOneRule | readEmptyRule) & (writeOneRule | writeEmptyRule) & (ensureMoveLeftValidRule | ensureMoveRightValidRule) & (moveLeftRule | moveRightRule))*
 \end{grshell}
 
-You can see the difference in between the search plans causing that improvement in execution time by utilizing the \texttt{explain} command.
+You can see the difference between the search plans causing that improvement in execution time by utilizing the \texttt{explain} command.
 
 \begin{grshell}
 custom actions explain moveRightRule
@@ -374,4 +374,4 @@ moveRightRule:
     from -r-> get target rtp:TapePosition
 \end{verbatim}
 
-The crucial difference is the changed lookup, the rule begins matching at the single \texttt{rmHead} edge instead of one of the many \texttt{right} edges on the tape.
+The crucial difference is the changed lookup, the rule begins matching at the single \texttt{rwHead} edge instead of one of the many \texttt{right} edges on the tape.

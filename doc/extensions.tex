@@ -1,11 +1,11 @@
 \chapter{Extensions}\indexmain{extensions}\label{chapextensions}
 
 This chapter explains how to customize \GrG\ with external code, or how to tightly integrate \GrG\ with external code.
-It lists the ways how you can interact with the external world outside of \GrG.
+It lists the ways you can interact with the external world outside of \GrG.
 The primary means available are: external attribute types and their methods, external functions and procedures, external match filters, and external sequences; the secondary helpers available are annotations, command line parameters, and external shell commands.
 
 You typically want to use them for integrating functionality outside of graph representation processing, i.e. subtasks \GrG\ was \emph{not} built for.
-You maybe want to use them for performance reasons, to implement linked lists or trees more efficiently than with the nodes and edges supplied by \GrG.
+You may want to use them for performance reasons, to implement linked lists or trees more efficiently than with the nodes and edges supplied by \GrG.
 
 The languages of \GrG\ shield you from the details of the runtime and the framework below it; you can combine their constructs freely.
 But when you plug into the existing framework with your code, you must obey the expectations of that framework.
@@ -25,7 +25,7 @@ The attribute type (and the declared methods) must be implemented externally, se
 For \GrG~the type is opaque, only the function/procedure methods or external functions/procedures can carry out computations on it. 
 
 You may extend \GrG~with external attribute types if the built-in attribute types (cf. \ref{sec:builtintypes}) are insufficient for your needs because you need functionality not related to graph-rewriting (in order to just implement lists or trees more efficiently than with the node and edge types you may use the internal (object) class type instead).
-The external types can be explicitly casted to \texttt{object} but are not implicitly casted.
+The external types can be explicitly cast to \texttt{object} but are not implicitly cast.
 (The methods may register own undo items with the transaction manager to realize rollback behaviour for external attributes (cf. \ref{ex:transman})).
 
 The external functions and procedures declared within the body of the external class are \emph{methods}, in contrast to the external functions and procedures from the global namespace that use the same declaration syntax that are introduced in the following sections.
@@ -105,8 +105,8 @@ or if the \GrG-languages are not well suited for parts of the task at hand.
 \end{rail}\ixnterm{EmitParseDeclaration}\ixkeyw{external}\ixkeyw{emit}\ixkeyw{class}
 Tells \GrG~that GRS importing and exporting is to be extended, as well as emitting and debugger display, so that these can handle external types, or the type \texttt{object}.
 This allows for a tight integration of external types with the built-in functionality.
-It allows to inspect types not defined in \GrG~in the debugger (incl. yComp),
-and it allows to serialize/deserialize graphs with types not defined in \GrG.
+It allows you to inspect types not defined in \GrG~in the debugger (incl. yComp),
+and it allows you to serialize/deserialize graphs with types not defined in \GrG.
 See \ref{sub:apiextemitparse} for an explanation on what needs to be implemented in this case.
 
 %-----------------------------------------------------------------------------------------------
@@ -116,7 +116,7 @@ See \ref{sub:apiextemitparse} for an explanation on what needs to be implemented
 \end{rail}\ixnterm{CopyCompareDeclaration}\ixkeyw{external}\ixkeyw{copy}\ixkeyw{class}
 Tells \GrG~that graph element copying or attribute type comparisons are to be extended, so that they can handle external types, or the type \texttt{object}.
 This allows for a tight integration of external types with the built-in functionality, 
-and esp. allows to implement value semantics (objects are normally compared by checking reference identity and cloned by copying the reference).
+and esp. allows you to implement value semantics (objects are normally compared by checking reference identity and cloned by copying the reference).
 See \ref{sub:apiextcopycompare} for an explanation on what needs to be implemented in this case.
 
 %-----------------------------------------------------------------------------------------------

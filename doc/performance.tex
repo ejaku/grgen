@@ -6,7 +6,7 @@ Searching is carried out with a backtracking algorithm following a search plan i
 binding one pattern element after another to a graph element, checking if it fits to the already bound parts.
 If it does fit search continues trying to bind the next pattern element (or succeeds building the match object from all the elements bound if the last check succeeds), if it does not fit search continues with the next graph element; if all graph element candidates for the currently focused pattern element are exhausted, search backtracks to the previous decision point and continues there with the next element.
 
-Typically, first a graph element is determined with a lookup operation reaching into the graph, binding the element to a graph element of the required type (the less elements of that type exists, the better) -- then neighbouring elements are traversed following the graph structure (the less neighbouring elements exists, the better), until a match of the entire pattern is found.
+Typically, first a graph element is determined with a lookup operation reaching into the graph, binding the element to a graph element of the required type (the fewer elements of that type exist, the better) -- then neighbouring elements are traversed following the graph structure (the fewer neighbouring elements exist, the better), until a match of the entire pattern is found.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -20,7 +20,7 @@ For some graphs the search plan might work well, but for the graph given in figu
 Why so can be seen in the search order sketched in figure \ref{perf:figbadsearch}.
 Due to the multiple outgoing edges of \texttt{v1} of which only one leads to a match it has to backtrack several times.
 
-This schedule in contrast is a a good one:\\
+This schedule in contrast is a good one:\\
 \texttt{lkp(v3:C); out(v3,e2:a); tgt(e2,v2:B); out(v2,e3:b); in(v2,e1:a); src(e1,v1:A)}\\
 corresponding to the search order depicted in figure \ref{perf:figgoodsearch}.
 
@@ -85,7 +85,7 @@ This holds as long as the checks are cheap, if they are expensive you could do t
 
 \subsubsection*{Prefer directed edges}
 Non-directed edges in the pattern are searched in both directions, considerably increasing the search space.
-Use non-directed edges only if they you really needed them.
+Use non-directed edges only if you really need them.
 For some problems this is the case, you then simply have to pay the price of the increased effort for the symmetry.
 But some problems where undirected edges are more natural can be easily encoded with directed ones -- in case of performance problems, refactor and optimize them to employ only directed edges, imposing an arbitrary but deterministic direction on the edges.
 Besides, the vstructure statistics are more discriminating in case of directed edges, leading to better search planning results; in case of undirected ones the information from both directions is coalesced.
@@ -205,7 +205,7 @@ Don't use it freely.
 It is costly because it has to visit all the nodes and edges in the graph,
 in order to gather statistical data about the amount of breadth-splitting per node and edge-types. 
 For each $(NodeType, EdgeType, NodeType\ast)$-triple (for all node and edge types), it counts for each start node of $NodeType$ the number of edges of $EdgeType$, which are leading to an end node of $NodeType\ast$.
-Given that information, search planning is able compute a search plan that avoids to follow structures splitting into breadth (V-structures) that occur often in the host graph.
+Given that information, search planning is able to compute a search plan that avoids to follow structures splitting into breadth (V-structures) that occur often in the host graph.
 Given the information about the element counts per type (which is directly available from the host graph), 
 search planning is able to compute a search plan that avoids lookups on populated types.
 
@@ -229,7 +229,7 @@ The implementations for unique ids and names (discussed later) could be used to 
 
 If you need to find nodes by the count of incident edges, which is typically used with algorithms that repeatedly process the nodes with the highest amount of connections or the nodes with the lowest amount of connections, an incidence count indices~\ref{sec:incidencecountindices} will be your friend.
 It could be also helpful with densely connected graphs when counts are needed (counting incident edges is faster for sparsely connected graphs).
-But this index also needs to maintained at the price of an $O(log(n))$ operation per element addition to or removal from the graph.
+But this index also needs to be maintained at the price of an $O(log(n))$ operation per element addition to or removal from the graph.
 
 If you need a unique id similarly to a database key, the uniqueness index~\ref{sec:uniqueness} may be of interest.
 It is more efficient than an attribute index on a corresponding integer attribute ($O(1)$), but does not allow for range queries (it can be seen as a key-value store). The uniqueness constraint already ensures you get graph elements with a unique id, but does not allow to fetch the elements quickly based on the id. You may also need to employ an attribute index when you have to ensure that a once assigned id is never re-assigned -- the unique ids from the unique index are reused by new graph elements when their original graph elements are removed from the graph.
@@ -280,7 +280,7 @@ Index structures or state in helper variables may be used to get quicker to the 
 
 In graph rewriting with local rules, index structures are a must, otherwise each rule application would amount to a traversal pass (an extreme waste of performance).
 In pure graph rewriting, they would be queried with every rule application.
-In a performance optimized -- and ofter easier to specify version -- parameters are used instead to process a certain spot in the graph.
+In a performance optimized -- and often easier to specify version -- parameters are used instead to process a certain spot in the graph.
 The price for these benefits is the need to synchronize the processing state with the graph state (to prevent stale elements after graph changes), or the computations with the processing state (all using rules have to be adapted when the processing state is changed).
 
 \begin{note}
@@ -380,14 +380,14 @@ This holds for normal matchers, but even more so for parallelized matchers.
 For a normal rule call, typically a part of the concurrent search effort is wasted because some workers already passed the point where the match was found; 
 when all matches are sought, no effort is wasted -- and typically the entire search takes longer in that case, which lowers the break-even point regarding the overhead incurred by the parallel matcher.
 
-Loops are not much slower due to the search state space stepping, continuing where the last iteration left of.
+Loops are not much slower due to the search state space stepping, continuing where the last iteration left off.
 But they are semantically considerably different: each step of the loop operates on the then-changed graph, in contrast to applying a rule on all matches available at a certain point in time.
 If you have to explore new match possibilities created by applying the rule you need a loop, but even then you'll likely benefit from applying an all-bracketed rule in the loop.
 On the other hand you have to use a loop in case the parts of the matches which are to be modified, e.g. retyped, are not disjoint (an element can only be changed once).
 
 Iterated patterns are similar to all-bracketed rules insofar that they match all spots in the graph existing at a certain point in time.
 They can be embedded directly in a rule (this is considerably less heavyweight than declaring a rule and passing the attachment points as parameters), and they allow for easy yielding of elements to the pattern (typically with an accumulating yield; this is also less heavyweight than returning elements back to a calling rule).
-But the overhead of the three pushdown machine must be payed for them, and they can't be matched in parallel.
+But the overhead of the three pushdown machine must be paid for them, and they can't be matched in parallel.
 Using an iterated as the outermost block of a rule is wasteful, all-bracketing is to be preferred in this case.
 But don't replace iterateds unless really needed, they are simply much more convenient.
 
@@ -421,7 +421,7 @@ But for graphs with massively linked parts that need to be reached on different 
 The comparison code as such is a simple object identity comparison, so it is very cheap, 
 but what weights in here are the cycles needed to iterate through the many different edge candidates until one is found that indeed is incident to the current node candidate.
 Hashset based connectedness checks are a good deal more expensive than iteration and reference comparison (esp. due to hashset building and filling), but they can be done in $O(1)$ in contrast.
-For a handful of elements, they straight loose against the default code emitted by \GrG, but when we speak of hundreds or thousands of elements, they win.
+For a handful of elements, they straight out lose against the default code emitted by \GrG, but when we speak of hundreds or thousands of elements, they win.
 
 So when you have to find all nodes that are adjacent to two different nodes at the same time, 
 and both of those have a considerable amount of adjacent nodes in addition,

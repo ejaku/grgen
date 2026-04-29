@@ -2,7 +2,7 @@
 
 Matching patterns in a graph is based on searching for the elements of interest.
 It is better to find elements with certain characteristics straight ahead without search,
-utilizing a data structure that allows to tell the elements that follow the characteristic apart from the ones that do not,
+utilizing a data structure that allows you to tell the elements that follow the characteristic apart from the ones that do not,
 than to search for them, traversing each and every node or edge in the graph, subjecting it to a test for the characteristic.
 
 Welcome to indices as known from database parlance.
@@ -49,7 +49,7 @@ The memory consumption of a \GrG{} edge without attributes is 48 bytes using a 3
 Attributes are cheap, they only increase this by the .NET-memory-footprint of their underlying objects.
 
 The runtime price of maintaining those indices during graph manipulation is low, adding a graph element is done in $O(1)$, removing a graph element is done in $O(1)$, too. 
-Furthermore, those indices allow to optimize loops by letting the pattern matching of the next iteration start where the previous iteration left of (search state space stepping -- a further built-in contribution to the motto "Find, Don't Search")).
+Furthermore, those indices allow you to optimize loops by letting the pattern matching of the next iteration start where the previous iteration left off (search state space stepping -- a further built-in contribution to the motto "Find, Don't Search")).
 
 We consider this the best you can get for the task of efficient pattern matching and rewriting on typed, attributed multigraphs, with multiple inheritance and attributes on nodes as well as edge types -- those indices are simply worth their price in the general case.
 You can only improve on this by exploiting the specifics of a less general graph model, a less general processing strategy supporting less change operations optimally out-of-the box, or by restricting yourself to less general and non-automatic pattern matching.
@@ -128,17 +128,17 @@ There are multiple ones available, the index query functions returning a set of 
 \item[\texttt{nodesFromIndexFromExclusiveToExclusive(.,.,.)}] returns all nodes from the given index that are greater than the second argument and lower than the third argument, as set.
 \end{description}
 
-The very same ones exists also for edges (their name starts then with \texttt{edgesFromIndex} instead of \texttt{nodesFromIndex}, and they return a \texttt{set<AEdge>} instead of a \texttt{set<Node>}).
+The very same ones exist also for edges (their name starts then with \texttt{edgesFromIndex} instead of \texttt{nodesFromIndex}, and they return a \texttt{set<AEdge>} instead of a \texttt{set<Node>}).
 
 The index query functions can be used in five possible ways (all functions support/require all the arguments listed above, in the following description we only give the index for brevity): 
 \begin{description}
-	\item[Set functions:] The index query function returns a set of contained entities. It builds an unordered set that is likely thrown away thereafter, so esp. for large sets this functions as such is less efficient than the other versions that inspect the index directly without building an intermediate data structure.
+	\item[Set functions:] The index query function returns a set of contained entities. It builds an unordered set that is likely thrown away thereafter, so esp. for large sets this function as such is less efficient than the other versions that inspect the index directly without building an intermediate data structure.
 \begin{rail}
 Expression:
   IndexFunctionName '(' IndexName ')' ;
 \end{rail}
 
-	\item[Array functions:] The index query function returns an array of contained entities. It builds an ordered array that is likely thrown away thereafter, so esp. for large arrays this functions as such is less efficient than the other versions (with exception of the set version, as set building is more expensive than array building). It allows to specify whether the entities are to be ordered ascendingly alongside the indexed attribute or descendingly.
+	\item[Array functions:] The index query function returns an array of contained entities. It builds an ordered array that is likely thrown away thereafter, so esp. for large arrays this function as such is less efficient than the other versions (with exception of the set version, as set building is more expensive than array building). It allows to specify whether the entities are to be ordered ascendingly alongside the indexed attribute or descendingly.
 Please note that the descending version requires the upper bound as first post-index argument and the lower bound as second post-index argument, whereas the ascending version like the unordered versions expects the lower bound as first post-index argument and the upper bound as second post-index argument.
 \begin{rail}
 Expression:
@@ -263,10 +263,10 @@ An index may also be queried directly for the entities with the lowest or the hi
 with the following index query functions which are available in the expressions of the rule language, as well as in the expressions of the sequence computations.
 
 \begin{description}
-\item[\texttt{minNodeFromIndex(.)}] returns the node from the given index with the lowest attribute value (the starting node, which is one of the nodes with the lowest attribute value in case several ones exists), or null if the index is empty.
-\item[\texttt{maxNodeFromIndex(.)}] returns the node from the given index with the highest attribute value (the ending node, which is one of the nodes with the highest attribute value in case several ones exists), or null if the index is empty.
-\item[\texttt{minEdgeFromIndex(.)}] returns the edge from the given index with the lowest attribute value (the starting edge, which is one of the edges with the lowest attribute value in case several ones exists), or null if the index is empty.
-\item[\texttt{maxEdgeFromIndex(.)}] returns the edge from the given index with the highest attribute value (the ending edge, which is one of the edges with the lowest attribute value in case several ones exists), or null if the index is empty.
+\item[\texttt{minNodeFromIndex(.)}] returns the node from the given index with the lowest attribute value (the starting node, which is one of the nodes with the lowest attribute value in case several ones exist), or null if the index is empty.
+\item[\texttt{maxNodeFromIndex(.)}] returns the node from the given index with the highest attribute value (the ending node, which is one of the nodes with the highest attribute value in case several ones exist), or null if the index is empty.
+\item[\texttt{minEdgeFromIndex(.)}] returns the edge from the given index with the lowest attribute value (the starting edge, which is one of the edges with the lowest attribute value in case several ones exist), or null if the index is empty.
+\item[\texttt{maxEdgeFromIndex(.)}] returns the edge from the given index with the highest attribute value (the ending edge, which is one of the edges with the highest attribute value in case several ones exist), or null if the index is empty.
 \item[\texttt{indexSize(.)}] returns the size of the given index, as \texttt{int}.
 \end{description}
 
@@ -403,7 +403,7 @@ class Point3d {
 }
 \end{grgen}
 
-You may use them in rules to match pattern elements that are unconnected by nearness in space (fetching all nodes that are within a bounding box around the node of interest; note that the nodes are not matched ordered by distance, you have to apply a post-matches filter in order achieve this goal).
+You may use them in rules to match pattern elements that are unconnected by nearness in space (fetching all nodes that are within a bounding box around the node of interest; note that the nodes are not matched ordered by distance, you have to apply a post-matches filter in order to achieve this goal).
 
 The rule \texttt{matchNeighboring} applied with all-bracketing matches all nodes \texttt{neighbor} that are within
 \texttt{delta}-difference to all the coordinates of the node \texttt{n} in $3$-dimensional space.
@@ -628,7 +628,7 @@ They allow you to quickly look up nodes based on their number of incident edges.
 This is especially beneficial for algorithms that work best when they traverse the nodes from the ones with the highest number of incident edges to the ones with the lowest number of incident edges (or the other way round).
 
 The index furtheron allows to fetch the incidence count for a node quickly with just an index lookup, 
-but typically no gain can be made from this, as counting the incident edges of a node is commonly cheap (an $O(log(n)$ index lookup versus an $O(k)$ counting enumeration, with $k$ being the number of edges incident to the focused node).
+but typically no gain can be made from this, as counting the incident edges of a node is commonly cheap (an $O(log(n))$ index lookup versus an $O(k)$ counting enumeration, with $k$ being the number of edges incident to the focused node).
 
 \subsection*{Declaration in the model}
 
@@ -746,7 +746,7 @@ When you do so, it is your responsibility to ensure that the name does not alrea
 The same syntax may be used to assign the name of a (sub)graph, a missing element amounts to the host graph.
 
 \begin{example}
-The test \texttt{t} succeeds if there is a node of name "foo" existing in the graph, with a reflexive edge of the name defined by input parameter \texttt{s}, and there is a further node of name "bar" existing the graph.
+The test \texttt{t} succeeds if there is a node of name "foo" existing in the graph, with a reflexive edge of the name defined by input parameter \texttt{s}, and there is a further node of name "bar" existing in the graph.
 
 \begin{grgen}
 test t(var s:string) {
@@ -822,7 +822,7 @@ the unique index with the \texttt{\indexed{nodeByUnique}} and \texttt{\indexed{e
 \begin{description}
 \item[\texttt{uniqueof(.)}] returns the unique id (type int) of the given node or edge (or (sub)graph, a missing argument amounts to the host graph).
 \item[\texttt{nodeByUnique(.)}] returns the node of the given unique id, or null if no node of that unique id exists. Optionally, a target node type may be given as second argument, then you receive a node of that type as result, or null if no node of that unique id \emph{and type} exists.
-\item[\texttt{edgeByUnique(.)}] returns the edge of the given unique id, or null if no edge of that unique id exists. Optionally, a target edge type may be given as second argument, then you receive a edge of that type as result, or null if no edge of that name \emph{and type} exists.
+\item[\texttt{edgeByUnique(.)}] returns the edge of the given unique id, or null if no edge of that unique id exists. Optionally, a target edge type may be given as second argument, then you receive an edge of that type as result, or null if no edge of that name \emph{and type} exists.
 \end{description}
 
 The unique ids are automatically assigned (utilizing an id pool that is enlarged with newly allocated ids when an element is added to the graph but the pool is empty, or reusing an already existing id; when an element is removed from the graph, its id returns to the id pool).
@@ -838,7 +838,7 @@ node edge unique;
 index unique;
 \end{grgen}
 
-The test \texttt{t} succeeds if there is a node of unique id $0$ existing in the graph, with a reflexive edge of the unique id defined by input parameter \texttt{i}, and there is a further node of unique id $42$ existing the graph. It is unlikely you will really use code like that as you cannot assign a unique id.
+The test \texttt{t} succeeds if there is a node of unique id $0$ existing in the graph, with a reflexive edge of the unique id defined by input parameter \texttt{i}, and there is a further node of unique id $42$ existing in the graph. It is unlikely you will really use code like that as you cannot assign a unique id.
 
 \begin{grgen}
 test t(var i:int) {

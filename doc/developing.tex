@@ -31,7 +31,7 @@ Also available is a \texttt{lib\-Gr\-Persistence\-Provider\-SQLite} (implementin
 
 Before you can build the solution, you have to execute \texttt{./gen\-parsers.bat} under Windows (which will call \texttt{./src/lib\-Gr/gen\-parser.bat}, \texttt{./src/graph\-Viewer\-And\-Sequence\-Debugger/gen\-parser.bat}, \texttt{./src/lib\-Gr\-Shell/gen\-parser.bat}), or you have to execute \texttt{./gen\-parsers.sh} under Linux (which will call \texttt{./src/lib\-Gr/gen\-parser.sh}, \texttt{./src/graph\-Viewer\-And\-Sequence\-Debugger/gen\-parser.sh}, \texttt{./src/lib\-Gr\-Shell/gen\-parser.sh}) in order to get the CSharpCC parsers for the rewrite sequences, the constant literals, and the shell generated.
 
-Under Windows you may use \texttt{make\_cygwin\_windows.sh}} to get a complete build (re-generating the parsers each time, which takes long for the sequences parser).
+Under Windows you may use \texttt{make\_cygwin\_windows.sh} to get a complete build (re-generating the parsers each time, which takes long for the sequences parser).
 But note that it employs \texttt{dotnet} for building, while regular releases are built manually with VisualStudio, i.e. \texttt{msbuild}.
 To get the API examples generated you must execute \texttt{./genlibs.bat}.
 
@@ -81,7 +81,7 @@ and very limited in what it covers as of now.
 A unit test suite was also recently added to the \texttt{frontend} folder (in the \texttt{unittest} subfolder), you may run it directly in Eclipse or use \texttt{unittest/make\_unittest.sh} under Linux (the bash script also calls make on the frontend and builds the unit-tests).
 It is based on JUnit 4 and comprises a small set of quick-check acceptance tests as of now (so also limited coverage).
 
-The application tests checking that the languages work as expected (on the outside) had priority over checking internal components --- but the unit tests are to be extended, as they allow to find errors much earlier than the syntax/semantics test suites that take a long time to execute.
+The application tests checking that the languages work as expected (on the outside) had priority over checking internal components --- but the unit tests are to be extended, as they allow you to find errors much earlier than the syntax/semantics test suites that take a long time to execute.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -94,7 +94,7 @@ The types defined in the model are realized by generated node and edge interface
 The interfaces define the user visible types and attributes, the classes inherit from and work like \texttt{LGSPNode}s and \texttt{LGSPEdge}s in the graph, additionally they implement the type and attribute bearing interfaces.
 The nodes and edges are contained in a system of ringlists.
 
-Top level do you find type ringlists, every node or edge is contained in a linked list of its specific type.
+At the top level you find type ringlists, every node or edge is contained in a linked list of its specific type.
 Each list contains a dummy head node or head edge that serves as entry point, 
 these are accessible from an array in the graph, storing as many heads as there are types.
 Every node or edge contains a field \texttt{typeNext} giving the next element of the type.
@@ -110,7 +110,7 @@ Figure \ref{figtyperinglists} gives an example for a graph with 3 node types, on
 
 The connectedness information is also stored in ringlists, two ringlists per node object,
 one containing the incoming edges and one containing the outgoing edges.
-The node object contains a field \texttt{inHead} referencing an arbitrary edge object of the incoming edges (or \texttt{null} of there is none) and a field \texttt{outHead} referencing an arbitrary edge object of the outgoing edges (or \texttt{null} if there is none).
+The node object contains a field \texttt{inHead} referencing an arbitrary edge object of the incoming edges (or \texttt{null} if there is none) and a field \texttt{outHead} referencing an arbitrary edge object of the outgoing edges (or \texttt{null} if there is none).
 These lists allow to quickly retrieve all incoming or all outgoing edges of a node.
 
 The edge objects contain fields \texttt{source} and \texttt{target} referencing the source and the target node.
@@ -461,7 +461,7 @@ Structurally, it is a tree resembling the syntax tree of the code to generate, a
   \label{figsearchprogram}
 \end{figure}
 
-It contains explicit instructions for isomorphy checking and connectedness checking (whose are depending on the exact schedule).
+It contains explicit instructions for isomorphy checking and connectedness checking (which depend on the exact schedule).
 Furthermore, it contains exact locations where to continue at; these target search operations may be different from the directly preceding search operation (because that one does not define a choice point of influence).
 
 Connectedness checking can be seen in the search program of the good example in the check that the target of \texttt{e3} is indeed \texttt{v3};
@@ -507,7 +507,7 @@ Each pattern receives the set of already known elements as parameter.
 Before descending, the elements available in the current pattern are added to the set of already known elements,
 then recursive descent into the directly nested patterns follows, handing down the already known elements.
 On ascending, elements are added to the current pattern if they are contained in a directly nested pattern, but not in the current pattern, although they are known in the current pattern.
-This function allows keep the backends simple.
+This function allows keeping the backends simple.
 
 The IR classes are the input to the two backends of the JAVA frontend.
 They can be found in the folders \texttt{be/C} and \texttt{be/Csharp}.
@@ -652,7 +652,7 @@ The base data structure is the \texttt{PatternGraph}, resp. the nesting of the \
 \end{figure}
 
 First, the subpattern usages are inlined when \indexed{inlining} is assumed to be beneficial.
-(This allows the user to extract common patterns into subpatterns increasing readability and modularity without loosing performance (but as of now only one level of inlining is supported, so excessive subpattern extraction has to be avoided, especially if the containing pattern would become disconnected by this)). 
+(This allows the user to extract common patterns into subpatterns increasing readability and modularity without losing performance (but as of now only one level of inlining is supported, so excessive subpattern extraction has to be avoided, especially if the containing pattern would become disconnected by this)). 
 Before and after this kind of pattern rewriting, the patterns and their relations are analyzed by the \texttt{Pattern\-Graph\-Analyzer} -- the analyzation results are used for emitting better code later on (choosing more efficient but more limited implementations of language features, which are not sufficient in the general case but are so for the specification at hand).
 The \texttt{Pattern\-Graph\-Analyzer} that also contains the inlining functionality
 is called from \texttt{Analyze\-And\-Inline\-Matching\-Patterns} in \texttt{lgspGrGen.cs} in case of static compilation based on the results emitted by the frontend,
@@ -788,7 +788,7 @@ The auto-supplied filters are available pre-implemented in the \texttt{libGr/mat
 
 The \texttt{src/GrShell} subdirectory contains the \GrShell{} application.
 The bulk of the implementation is contained in the \LibGrShell{} in \texttt{src/libGrShell}, though.
-Its command line parser is generated by CSharpCC out of the \texttt{GrShell.csc} grammar file, the shell implementation/functionality is given in \texttt{GrShell\-Impl.cs}, execution starts in the \texttt{Main} method in \texttt{GrShell\-Main.cs}, 
+Its command line parser is generated by CSharpCC out of the \texttt{GrShell.csc} grammar file, the shell implementation/functionality is given in \texttt{GrShell\-Impl.cs}, execution starts in the \texttt{Main} method in \texttt{GrShell\-Main.cs}.
 The library and accordingly the shell builds upon the sequence interpretation facilities offered by the \LibGr{} and by the \texttt{GrShell\-Sequence\-Applier\-And\-Debugger.cs}, and the "generic" interface of the \LibGr{}, because it has to be capable of coping with arbitrary user defined models and actions at runtime.
 Another shell application on top of the \LibGrShell{} is the \GGrShell{}, the graphical \GrShell{}, which is a Windows Forms application based on a \texttt{Gui\-Console\-Control} (controlled by a GUI message loop).
 
@@ -798,7 +798,7 @@ One of the usable basic clients implementing \texttt{IBasic\-Graph\-Viewer\-Clie
 They are contained in the \GraphViewerAndSequenceDebugger{} library.
 
 Another graph viewer is offered by the \texttt{MSAGL\-Client.cs} and its extended version, the \texttt{MSAGL\-Ext\-Client.cs}, they also implement the \texttt{IBasic\-Graph\-Viewer\-Client} interface.
-They are contained in the \GraphViewerAndSequenceDebuggerWindowsForms{} library, together with the \texttt{Gui\-Debugger\-Host.cs}, which offers a GUI debugger (based on the same debugger application logic used by the console debugger, just embedded into a different hosting environment.
+They are contained in the \GraphViewerAndSequenceDebuggerWindowsForms{} library, together with the \texttt{Gui\-Debugger\-Host.cs}, which offers a GUI debugger (based on the same debugger application logic used by the console debugger, just embedded into a different hosting environment).
 
 The dlls are loaded on demand, and can be used from API level; you could implement a debugger for another GUI framework and OS with the same mechanisms.
 %maybe TODO: explain some parts in more detail
