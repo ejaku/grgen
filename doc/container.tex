@@ -33,7 +33,7 @@ Furthermore, they support multiple methods to query them:
 and \texttt{peek} to return an element from the container.
 
 In addition to those common methods there is special syntax support available.
-Left associative binary expressions allow to compute a new container from two input containers, or to compare two containers.
+Left associative binary expressions allow you to compute a new container from two input containers, or to compare two containers.
 The \texttt{in} operator allows to query for containment.
 Indexed access returns an element at an index position, and indexed assignment overwrites an element at a specified position with another one.
 Container typed variables as such may be assigned a container (with value semantics if the target is a graph element attribute, in all other cases with reference semantics).
@@ -105,7 +105,7 @@ Set expressions consist of the known mathematical set operations, plus some oper
 
 The binary set operators require the left and right operands to be of identical type \verb#set<T>#.
 The operator \texttt{x in s} denotes set membership $x \in s$, returning whether the set contains the given element, as \texttt{boolean}.
-It is a O(1) operation for sets.
+It is an O(1) operation for sets.
 Furthermore, the container may be iterated over with a \texttt{for} loop, as introduced in \ref{sub:controlflow}.
 The set only allows for non-indexed iteration.
 
@@ -148,7 +148,7 @@ This addition allows for efficient data flow computations not needing to check f
 The \emph{SetConstructor} extends the \emph{Literal} from \ref{literaldef} (as a refinement of the \emph{ContainerConstructor} there).
 It is constant if only primitive type literals, enum literals, or constant expressions are used; this is required for container initializations in the model.
 It is non-constant if it contains nodes/edges/or member accesses, which may be the case if used in the rules.
-The elements given in the type constructor are casted to the specified member type if needed and possible.
+The elements given in the type constructor are cast to the specified member type if needed and possible.
 The \emph{SetCopyConstructor} creates a new set of the specified type, filling it with the elements from the old set. 
 In case of a node or edge type, the types of the original and the constructed set are allowed to differ, 
 only the elements from the old set that match the type of the new set are taken over then (this is a remedy for set value type invariance).
@@ -238,7 +238,7 @@ Map expressions consist of the known mathematical set operations extended to map
 The binary map operators require the left and right operands to be of identical type \verb#map<S,T>#,
 with one exception for map difference, this operator accepts for a left operand of type \verb#map<S,T># a right operand of type \verb#set<S>#, too.
 The operator \texttt{x in m} denotes map domain membership $x \in dom(m)$, returning whether the domain of the map contains the given element, as \texttt{boolean}.
-It is a O(1) operation for maps.
+It is an O(1) operation for maps.
 The operator \texttt{m[x]} denotes map lookup, i.e. it returns the value \texttt{y} which is stored in the map \texttt{m} for the value \texttt{x} (domain value \texttt{x} is mapped by the mapping \texttt{m} to range value \texttt{y}). The value \texttt{x} \emph{must} be in the map, i.e. \texttt{x in m} must hold.
 Furthermore, the container may be iterated over with a \texttt{for} loop, as introduced in  \ref{sub:controlflow}.
 The map only allows for indexed iteration, with the key getting assigned to the index variable and the corresponding value getting assigned to the value variable.
@@ -274,7 +274,7 @@ The compound assignment statements on maps are a map union \verb#|=#, intersecti
 The \emph{MapConstructor} extends the \emph{Literal} from \ref{literaldef} (as a refinement of the \emph{ContainerConstructor} there).
 It is constant if only primitive type literals, enum literals, or constant expressions are used; this is required for container initializations in the model.
 It is non-constant if it contains nodes/edges/or member accesses, which may be the case if used in the rules.
-The elements given in the type constructor are casted to the specified member types if needed and possible.
+The elements given in the type constructor are cast to the specified member types if needed and possible.
 The \emph{MapCopyConstructor} creates a new map of the specified types, filling it with the elements from the old map. 
 In case of a node or edge type, the types of the original and the constructed map are allowed to differ, 
 only the elements from the old map that match the type of the new map are taken over then (this is a remedy for map key/value type invariance).
@@ -341,7 +341,7 @@ Array expressions consist of array membership checking, array value lookup, and 
 \item[\texttt{.indexOf(valueToSearchFor, startIndex)}] returns the first position \texttt{valueToSearchFor:T} appears at (moving to the end), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
 \item[\texttt{.lastIndexOf(valueToSearchFor)}] returns the last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
 \item[\texttt{.lastIndexOf(valueToSearchFor, startIndex)}] returns the last position \texttt{valueToSearchFor:T} appears at (moving to the begin), when we start the search for it at array position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
-\item[\texttt{.indexOfOrdered(valueToSearchFor)}] returns a position where \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found. The array must be ordered, otherwise the results returned by the binary search employed will be wrong; in case of multiple occurences, an arbitray one is returned
+\item[\texttt{.indexOfOrdered(valueToSearchFor)}] returns a position where \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found. The array must be ordered, otherwise the results returned by the binary search employed will be wrong; in case of multiple occurrences, an arbitrary one is returned
 \item[\texttt{.orderAscending()}] returns an array with the content of the input array ordered ascendingly, only available for basic types that are orderable
 \item[\texttt{.orderDescending()}] returns an array with the content of the input array ordered descendingly, only available for basic types that are orderable
 \item[\texttt{.group()}] returns an array with the content of the input array grouped, i.e. equal values being neighbours, only available for basic types or node and edge types
@@ -365,7 +365,7 @@ Furthermore, some array accumulation, by-member-or-attribute, and per-element me
 \begin{description}
 \item[Array addition:] \texttt{a.add(v)} adds the value \texttt{v} to the end of array \texttt{a}.
 \item[Array addition:] \texttt{a.add(v,i)} inserts the value \texttt{v} at index \texttt{i} to array \texttt{a}.
-\item[Array removal:] \texttt{a.rem()} removes the value at then end of the array \texttt{a}.
+\item[Array removal:] \texttt{a.rem()} removes the value at the end of the array \texttt{a}.
 \item[Array removal:] \texttt{a.rem(i)} removes the value at index \texttt{i} from the array \texttt{a}.
 \item[Array clearing:] \texttt{a.clear()} removes all values from the array \texttt{a}.
 \item[Array concatenation:] \texttt{a.addAll(oa)} adds all elements in array \texttt{oa} to the array \texttt{a}. (Only available on targets that are array variables, not on attributes.)
@@ -385,7 +385,7 @@ Furthermore, some array accumulation, by-member-or-attribute, and per-element me
 \end{table}
 
 The operator \texttt{x in a} denotes array value membership, returning whether the array contains the given element, as \texttt{boolean}.
-It is a O(n) operation for arrays.
+It is an O(n) operation for arrays.
 The operator \texttt{a[x]} denotes array lookup, i.e. it returns the value \texttt{y} which is stored in the array \texttt{a} at the index \texttt{x}.
 The index \texttt{x} \emph{must} be a valid array index.
 
@@ -395,7 +395,7 @@ Jagged arrays require intermediate helper objects storing the nested array, i.e.
 \end{note}
 
 Furthermore, the container may be iterated over with a \texttt{for} loop, as introduced in  \ref{sub:controlflow}.
-The array allows for non-indexed as well as indexed iteration; if non-indexed iteration is used the array values are iterated over, if indexed iteration is used the index is assigned to the index variable and the corrsponding value is assigned to the value variable. 
+The array allows for non-indexed as well as indexed iteration; if non-indexed iteration is used the array values are iterated over, if indexed iteration is used the index is assigned to the index variable and the corresponding value is assigned to the value variable. 
 
 The relational expressions (already introduced in \ref{sec:relational}) used to compare entities of different kinds, mapping them to the type boolean, are extended to sets according to table~\ref{comparray}:
 An array \texttt{A} is a subarray of \texttt{B} iff it is smaller or equal in size and the values at each common index are identical (lexicographic order as for strings).
@@ -428,7 +428,7 @@ The compound assignment statement on arrays is the concatenation assignment \ver
 The \emph{ArrayConstructor} extends the \emph{Literal} from \ref{literaldef} (as a refinement of the \emph{ContainerConstructor} there).
 It is constant if only primitive type literals, enum literals, or constant expressions are used; this is required for container initializations in the model.
 It is non-constant if it contains nodes/edges/or member accesses, which may be the case if used in the rules.
-The elements given in the type constructor are casted to the specified member types if needed and possible.
+The elements given in the type constructor are cast to the specified member types if needed and possible.
 The \emph{ArrayCopyConstructor} creates a new array of the specified type, filling it with the elements from the old array. 
 In case of a node or edge type, the types of the original and the constructed array are allowed to differ, 
 only the elements from the old array that match the type of the new array are taken over then (this is a remedy for array value type invariance).
@@ -480,9 +480,9 @@ Deque expressions consist of deque membership checking, deque value lookup, and 
 \item[\texttt{.empty()}] returns whether the deque is empty, as \texttt{boolean}
 \item[\texttt{.peek(num)}] returns the value stored in the deque at position \texttt{num:int} in the sequence of enumeration, is equivalent to (and implemented by) \texttt{a[num])}; retrieval occurs in constant time.
 \item[\texttt{.peek()}] returns the first value stored in the deque; retrieval occurs in constant time.
-\item[\texttt{.indexOf(valueToSearchFor)}] returns first position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
+\item[\texttt{.indexOf(valueToSearchFor)}] returns the first position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
 \item[\texttt{.indexOf(valueToSearchFor, startIndex)}] returns the first position \texttt{valueToSearchFor:T} appears at, when we start the search for it at deque position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
-\item[\texttt{.lastIndexOf(valueToSearchFor)}] returns last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
+\item[\texttt{.lastIndexOf(valueToSearchFor)}] returns the last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
 \item[\texttt{.lastIndexOf(valueToSearchFor, startIndex)}] returns the last position \texttt{valueToSearchFor:T} appears at (moving to the begin), when we start the search for it at deque position \texttt{startIndex:int}, as \texttt{int}, or -1 if not found
 \item[\texttt{.subdeque(startIndex, length)}] returns subdeque of given \texttt{length:int} from \texttt{startIndex:int} on
 \item[\texttt{.asArray()}] returns an array of the deque content, as \verb#array<T># for \verb#deque<T>#, in same order
@@ -494,7 +494,7 @@ Deque expressions consist of deque membership checking, deque value lookup, and 
 \begin{description}
 \item[Deque addition:] \texttt{d.add(v)} adds the value \texttt{v} to the end of deque \texttt{d}.
 \item[Deque addition:] \texttt{d.add(v,i)} inserts the value \texttt{v} at index \texttt{i} to deque \texttt{d}.
-\item[Deque removal:] \texttt{d.rem()} removes the value at then begin of the deque \texttt{d}.
+\item[Deque removal:] \texttt{d.rem()} removes the value at the begin of the deque \texttt{d}.
 \item[Deque removal:] \texttt{d.rem(i)} removes the value at index \texttt{i} from the deque \texttt{d}.
 \item[Deque clearing:] \texttt{d.clear()} removes all values from the deque \texttt{d}.
 \end{description}
@@ -513,13 +513,13 @@ Deque expressions consist of deque membership checking, deque value lookup, and 
 \end{table}
 
 The operator \texttt{x in d} denotes deque value membership, returning whether the deque contains the given element, as \texttt{boolean}.
-It is a O(n) operation for deques.
+It is an O(n) operation for deques.
 The operator \texttt{d[x]} denotes deque lookup, i.e. it returns the value \texttt{y} which is stored in the deque \texttt{d} at the index \texttt{x}.
 The index \texttt{x} \emph{must} be a valid deque index.
 Furthermore, the container may be iterated over with a \texttt{for} loop, as introduced in  \ref{sub:controlflow}.
 The deque allows for non-indexed as well as indexed iteration; if non-indexed iteration is used the deque values are iterated over, if indexed iteration is used the index is assigned to the index variable and the corresponding value is assigned to the value variable. 
 
-The relational expressions (already introduced in \ref{sec:relational}) used to compare enitites of different kinds, mapping them to the type boolean, are extended to sets according to table~\ref{compdeque}:
+The relational expressions (already introduced in \ref{sec:relational}) used to compare entities of different kinds, mapping them to the type boolean, are extended to sets according to table~\ref{compdeque}:
 A deque \texttt{A} is a subdeque of \texttt{B} iff it is smaller or equal in size and the values at each common index are identical (lexicographic order as for strings).
 
 \begin{table}[htbp]
@@ -550,16 +550,16 @@ The compound assignment statement on deques is the concatenation assignment \ver
 The \emph{DequeConstructor} extends the \emph{Literal} from \ref{literaldef} (as a refinement of the \emph{ContainerConstructor} there).
 It is constant if only primitive type literals, enum literals, or constant expressions are used; this is required for container initializations in the model.
 It is non-constant if it contains nodes/edges/or member accesses, which may be the case if used in the rules.
-The elements given in the type constructor are casted to the specified member types if needed and possible.
+The elements given in the type constructor are cast to the specified member types if needed and possible.
 The \emph{DequeCopyConstructor} creates a new deque of the specified type, filling it with the elements from the old deque. 
 In case of a node or edge type, the types of the original and the constructed deque are allowed to differ, 
 only the elements from the old deque that match the type of the new deque are taken over then (this is a remedy for deque value type invariance).
 
 \begin{note}
-The double ended queue allows for fast addition and removal both at the frond and at the back, in contrast to arrays that only support this at the end.
+The double ended queue allows for fast addition and removal both at the front and at the back, in contrast to arrays that only support this at the end.
 It is implemented by a ringbuffer that is grown as needed, a lookup is slightly more expensive than an array lookup.
-The primary usage of the deque is as a queue, as needed for breadth first search, accessed FIFO (first-in first-out).
-This is in contrast to the array that is suited to be employed as a stack, e.g. in a depth first search (unless that is programmed using the call stack), accessed LIFO (last-in first-out).
+The primary usage of the deque is as a queue, as needed for breadth-first search, accessed FIFO (first-in first-out).
+This is in contrast to the array that is suited to be employed as a stack, e.g. in a depth-first search (unless that is programmed using the call stack), accessed LIFO (last-in first-out).
 \end{note}
 
 \begin{example}
@@ -601,7 +601,7 @@ or if the storage is empty, or if the key element is not contained in the storag
 
 The advantage of this storage querying inside the rule over handing in a value from a for loop iterating the storage values outside the rule are: i) a more concise syntax, ii) the ability to access a storage attribute of an element just matched or to access a storage map with an element just matched in the same rule, which would require to break up the rule in two rules in the other case, and iii), a restriction of the iteration to the matching phase, so that at rewriting one can happily manipulate the storage without destroying the iterator/enumerator used in the loop which would be the case when using an outside loop.
 
-The following syntax diagram gives an extensions to the syntax diagrams of the Rule Set Language chapter \ref{chaprulelang}, pattern part:
+The following syntax diagram gives an extension to the syntax diagrams of the Rule Set Language chapter \ref{chaprulelang}, pattern part:
 \begin{rail}
   StorageAccess:
     lbrace StorageVariable rbrace |
@@ -640,10 +640,10 @@ test neighbourneighbour(ref neighbours:map<City, City>) : City
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Hints on container usage}
 
-%das noch als container hints hintendran, erklären wofür gut/wofür nicht
+%das noch als container hints hintendran, erklï¿½ren wofï¿½r gut/wofï¿½r nicht
 %deklarative vs imperative nutzung.
-%also storages nutzung, data flow nutzung, constructoren für vergleiche gegen viele werte, wenn constant dann ist das effizient (todo: stimmt für regeln, aber auch für computations?)
-%das zusammenspiel byref/byvalue bei aufrufen, innerhalb der regeln/computations erklären, copy weil graph container changes fürchterliche nebenwirking wären. hinweis: neben addbefüllen gibt es deklarative konstruktoren verfügbar.
+%also storages nutzung, data flow nutzung, constructoren fï¿½r vergleiche gegen viele werte, wenn constant dann ist das effizient (todo: stimmt fï¿½r regeln, aber auch fï¿½r computations?)
+%das zusammenspiel byref/byvalue bei aufrufen, innerhalb der regeln/computations erklï¿½ren, copy weil graph container changes fï¿½rchterliche nebenwirking wï¿½ren. hinweis: neben addbefï¿½llen gibt es deklarative konstruktoren verfï¿½gbar.
 
 %The by-ref container parameters or container attributes can be operated upon by the container state change methods,
 %which allow to only partially change the container by adding or removing or overwriting elements resp. pairs of elements (in contrast to normal assignments which replace overwrite the target variable entirely);

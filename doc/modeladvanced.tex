@@ -7,7 +7,7 @@
 
 In addition to the node and edge classes (the key features of the \emph{graph models}\indexmain{graph model} of \GrG\ as already introduced in Chapter~\ref{chapmodellang}),
 you can define \emph{object classes} and \emph{transient object classes}.
-They allow to group attributes that are commonly used together into an own entity.
+They allow you to group attributes that are commonly used together into an own entity.
 By means of them, list and tree-like (sub-)data structures can be used within a graph (in a storage efficient way, without the built-in graph indices of the nodes/edges, cf. \ref{sec:performancememory}).
 
 The exact data layout can be even abstracted from with \emph{methods} (i.e. you access by method instead of the attribute directly); or, in general, arbitrary object-specific behavior can be implemented by them.
@@ -68,7 +68,7 @@ The keywords \texttt{abstract} and \texttt{const} have the same meaning as for n
 
 You may request the assignment of a unique id upon creation for an object of an object class with a declaration in the model (of type \texttt{long}).
 In case it is available, it is used in serialization and parsing of values of object types, it is displayed in the debugger, and it can be queried with the \texttt{uniqueof} function (which has the signature \texttt{uniqueof(.:ObjectType):long}, note the \texttt{long} compared to the \texttt{int} when applied to nodes, edges, and (sub)graphs).
-In case it is not available, is an id assigned on the fly as needed -- but not stored, so another id may be assigned later on.
+In case it is not available, an id is assigned on the fly as needed -- but not stored, so another id may be assigned later on.
 
 \begin{example}
 \begin{grgen}
@@ -93,7 +93,7 @@ node class N
   TransientObjectClass: 'transient' 'class' IdentDecl (() | 'extends' (TransientObjectType+',')) \\
     (';' | lbrace AttributeDeclarations rbrace);
 \end{rail}\ixkeyw{class}\ixkeyw{extends}\ixnterm{TransientObjectClass}
-An \emph{TransientObjectClass} definition defines a new \indexed{transient object type}.
+A \emph{TransientObjectClass} definition defines a new \indexed{transient object type}.
 Transient object types can inherit\indexmain{inheritance} from other transient object types (defined within the same file).
 If the \texttt{extends} clause is omitted, \emph{TransientObjectType} will inherit from the built-in type \texttt{\indexed{TransientObject}}, the root type of all internal transient class objects.
 Optionally transient objects can possess attributes.
@@ -318,7 +318,7 @@ procedure copyList(ref list:List) : (List)
   return(listCopy);
 }
 \end{grgen}
-Instead of implementing these procedures manually, you can simple write (and use in function context)
+Instead of implementing these procedures manually, you can simply write (and use in function context)
 \begin{grgen}
 clone(list) // == cloneList(list);
 copy(list) // == copyList(list);
@@ -382,7 +382,7 @@ and they must be side-effect free, which especially means that they are not allo
   FunctionMethodCall: MethodTarget '.' FunctionIdent '(' (Expression * ',') ')' ;
 \end{rail}\ixnterm{FunctionMethodCall}
 
-A such defined function method may then be called as an expression atom from anywhere in the rule language file where an expression is required; or even from the sequence computations (where an expression is required).
+Such a function method may then be called as an expression atom from anywhere in the rule language file where an expression is required; or even from the sequence computations (where an expression is required).
 In contrast to a regular function call (cf.~\ref{sub:funccall}) with a method call target prefix added, separated by a dot (defining the value of the \texttt{this} reference; the call target prefix may be a variable or an attribute of an object/element, or a full expression).
 The built-in function methods listed in \ref{funcmethstab} are called with the same syntax.
 The syntax of function method calls was already previewed in \ref{sec:stringexprs}, including the ability to chain function method calls.
@@ -503,7 +503,7 @@ so you are free to call other procedures -- but in contrast to global procedures
   MethodTarget: (Variable | Variable '.' Attribute) ;
 \end{rail}\ixnterm{ProcedureMethodCall}\ixnterm{MethodTarget}
 
-A such defined procedure may then be called as a statement atom from anywhere in the rule language file where an attribute evaluation statement (/computation) is required; or even from the sequence computations (where a statement is required).
+Such a procedure may then be called as a statement atom from anywhere in the rule language file where an attribute evaluation statement (/computation) is required; or even from the sequence computations (where a statement is required).
 In contrast to a regular procedure call (cf.~\ref{sub:proccall}) with a method target prefix added, separated by a dot (defining the \texttt{this} value; the call target prefix may be a variable or an attribute of an object/element).
 The built-in procedure methods listed in \ref{procmethstab} are called with the same syntax.
 %todo: explain reason why no full expression - graph changes are constrained but in return support fully automatic persistence, transactions, change recording; other constraints compared to well-known programming languages and their design decisions/choices
@@ -544,7 +544,7 @@ the usage of \texttt{this} is mandatory in \GrG~in order to access the attribute
 
 
 \begin{example}
-In the following listing, we declare function and a procedure methods inside a node class, and use them from a rule.
+In the following listing, we declare function and procedure methods inside a node class, and use them from a rule.
 Please note the mandatory \texttt{this} in the methods to denote members and call other methods.
 	\begin{grgen}
 node class N
@@ -578,7 +578,7 @@ rule foo : (int)
 			n.inc_i(1);
 			yield i = n.get_i();
 		}
-		return(i); // exeuting foo will return 42
+		return(i); // executing foo will return 42
 	}
 }
 	\end{grgen}
@@ -616,7 +616,7 @@ rule foo : (int)
 		eval {
 			yield i = n.get();
 		}
-		return(i); // exeuting foo will return 0 iff n was bound to node of type N, but 1 iff n was bound to node of type NN
+		return(i); // executing foo will return 0 iff n was bound to node of type N, but 1 iff n was bound to node of type NN
 	}
 }
 	\end{grgen}
@@ -726,7 +726,7 @@ And as a refinement regarding point 2: there is no package context available for
 
 The packages in the actions are declared with the same syntax as the packages in the model, but are otherwise separate. 
 You cannot extend a model package with an actions package, or vice versa.
-A package with a given name can only be tied once, either in the model or the actions.
+A package with a given name can only be defined once, either in the model or the actions.
 
 \begin{example}
 The example highlights how action packages can be used.
@@ -815,7 +815,7 @@ Switching the location of processing is a feature only available in the sequence
 
 A simplified and more lightweight version of the full switch just introduced is available for single rule calls with syntax \verb#g.r#; so a method call in the plain sequences (above the sequence computations) denotes in fact a temporary subgraph switch.
 This is syntactic sugar for the dedicated switch containing only a single rule application as sequence.
-The syntax of rule application is extended by the grammar rule above to allow for this is.
+The syntax of rule application is extended by the grammar rule above to allow for this.
 
 \begin{rail}
   ReferenceToContainingGraphDecl: 'node' 'edge' 'graph' ';';
@@ -831,7 +831,7 @@ The reference to the containing graph may be queried from the rule language expr
 \end{description}
 
 The \emph{information hiding} shown by the graph attributes is comparable to the information hiding shown by the objects in \emph{object-oriented programming}, there the attributes but especially the neighbouring elements are only known to the containing object and accessible to the methods of the object.
-In \emph{graph-oriented programming} are the attributes but especially the neighboring elements known to the containing graph, the connecting topology is open for \emph{pattern matching}.
+In \emph{graph-oriented programming} the attributes but especially the neighboring elements are known to the containing graph, the connecting topology is open for \emph{pattern matching}.
 This crucial difference also defines the main benefit compared to OO, removing it would mean to revert back to OO.
 But this openness might not be needed always for all parts.
 When building a \emph{large system}, you typically only need a certain \emph{layer} to be accessible at a time.

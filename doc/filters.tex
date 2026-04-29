@@ -75,7 +75,7 @@ filter ff<foo>
 \end{example}
 
 \begin{example}
-The following rule \texttt{incidency} yields for each node \texttt{n} matched the number of incident edges to a def variable \texttt{i} and assigns it in the eval on to an attribute \texttt{j}.
+The following rule \texttt{incidency} yields for each node \texttt{n} matched the number of incident edges to a def variable \texttt{i} and assigns it in the eval to an attribute \texttt{j}.
 The filter \texttt{filterMultiply} modifies the def variable \texttt{i} in the matches with the factor \texttt{f} handed in as filter parameter.
 \begin{grgen}
 rule incidency
@@ -143,13 +143,13 @@ Besides those variable-based filters you may use the automorphic matches filter 
 In order to do so, specify the special filter named \texttt{auto} at the rule declaration, and use it with the same name at an application of that action (with the known backslash syntax).
 The filter is removing matches due to an \indexed{automorphic} pattern, matches which are covering the same spot in the host graph with a permutation of the nodes, the edges, or subpatterns of the same type at the same level.
 Other nested pattern constructs which are structurally identical are not recognized to be identical when they appear as commuted subparts; but they are so when they are factored into a subpattern which is instantiated multiple times.
-It is highly recommended to use this \indexed{symmetry reduction} technique when building state spaces including isomorphic state collapsing, as puring the matches which lead to isomorphic states early saves expensive graph comparisons -- and often it gives the semantics you are interested in anyway.
+It is highly recommended to use this \indexed{symmetry reduction} technique when building state spaces including isomorphic state collapsing, as purging the matches which lead to isomorphic states early saves expensive graph comparisons -- and often it gives the semantics you are interested in anyway.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Auto-Supplied Filters}\label{filter:auto-supplied}
 
-A few filters (that do not need information from a specific match) are auto-supplied, they can be used without implementation and even without declaration. They allow to keep or remove a certain number of matches from the beginning or the end of the matches list.
+A few filters (that do not need information from a specific match) are auto-supplied, they can be used without implementation and even without declaration. They allow you to keep or remove a certain number of matches from the beginning or the end of the matches list.
 
 The following auto-supplied filters may be used directly:
 \begin{description}
@@ -302,7 +302,7 @@ This allows to e.g. decide based on a comparison against the average of an attri
 \hline
 \end{tabular}
 \\
-{\small Let \texttt{var} be a (def-)variable of a type $\in \{\texttt{byte}, \texttt{short}, \texttt{int}, \texttt{long}, \texttt{float}, \texttt{double}, \texttt{boolean}, \texttt{string}, \texttt{enum}\}$. Let \texttt{entity} be a (def-)variable of one of the types admissible for \texttt{var} or \texttt{Node} or \texttt{Edge} type or a (def-)node or a (def-)edge. Let \texttt{accvar} be a def-variable of a numeric type, the exactly required type depends on the result type of \texttt{method} }}
+{\small Let \texttt{var} be a (def-)variable of a type $\in \{\texttt{byte}, \texttt{short}, \texttt{int}, \texttt{long}, \texttt{float}, \texttt{double}, \texttt{boolean}, \texttt{string}, \texttt{enum}\}$. Let \texttt{entity} be a (def-)variable of one of the types admissible for \texttt{var} or \texttt{Node} or \texttt{Edge} type or a (def-)node or a (def-)edge. Let \texttt{accvar} be a def-variable of a numeric type, the exact type required depends on the result type of \texttt{method} }}
 \caption{Auto-generated and then auto-supplied filters at a glance}
 \label{filterstab}
 \end{table}

@@ -103,7 +103,7 @@ rule example
 \section{Control flow} \label{sub:controlflow}\indexmain{controlflow}
 
 Based on the value of a boolean expression different computations can be executed conditionally with the \texttt{if} and \texttt{else} statements. 
-Please not that the braces are mandatory.
+Please note that the braces are mandatory.
 With the \texttt{switch} and \texttt{case} statements, you can match constants against the value of an expression computed once.
 Every case-branch is enclosed in an block, at block end also the execution of the block ends,
 there is no implicit fall-through carried out, a fall-through is not even available.
@@ -185,8 +185,8 @@ rule example
 
 As in the rules (cf. chapter \ref{cha:imperativeandstate}), \texttt{exec} statements may be embedded.
 They are executing the graph rewrite sequence (see chapter \ref{cha:xgrs}) contained, with access to the variables defined outside.
-This means for one reading this variables, but for the other assigning to that variables with \texttt{yield}.
-The embedded \texttt{exec}s allow to apply rules from the computations, more exactly: from the procedures (embedded execs are not available in functions), while the sequence computations (cf. \ref{sec:seqcomp}) may call defined computations (functions in expression context, and procedures in statement context), mixing and merging declarative rule-based graph rewriting (pattern matching and dependent modifications) with traditional graph programming.
+This means for one reading these variables, but for the other assigning to those variables with \texttt{yield}.
+The embedded \texttt{exec}s allow you to apply rules from the computations, more exactly: from the procedures (embedded execs are not available in functions), while the sequence computations (cf. \ref{sec:seqcomp}) may call defined computations (functions in expression context, and procedures in statement context), mixing and merging declarative rule-based graph rewriting (pattern matching and dependent modifications) with traditional graph programming.
 This construct achieves a further step in the direction of blending rule-based with traditional programming; the main step is the extension of the attribute assignments, the only statement available in the original {\scshape GrGen}, into the full-fledged computations pictured in this and the following chapters.
 
 \begin{description}
@@ -260,7 +260,7 @@ test example : (int)
   \end{grgen}
 \end{example}
 
-A such defined function may then be called as an expression atom from anywhere in the rule language file where an expression is required; or even from the sequence computations where an expression is required.
+Such a function may then be called as an expression atom from anywhere in the rule language file where an expression is required; or even from the sequence computations where an expression is required.
 In case you are missing them: these are functions from outside a class, you find more on function methods and their calls in Section~\ref{sub:funcmethcall}.
 The built-in functions are called with the same syntax;
 table~\ref{funcstab} and table~\ref{funcstab2} list the global built-in functions of the rule language at a glance,
@@ -466,7 +466,7 @@ so in a procedure definition you are free to call other procedures (self-defined
   ReturnTypes: (':' '(' (ReturnType + ',') ')' )?;
 \end{rail}\ixnterm{ProcedureDefinition}\ixnterm{Parameter}\ixkeyw{procedure}\ixkeyw{var}\ixkeyw{ref}
 
-Please note the syntactic difference distinguishing the procedures from the functions (besides the different keyword): the return types are enclosed in parenthesis (or omitted altogether).
+Please note the syntactic difference distinguishing the procedures from the functions (besides the different keyword): the return types are enclosed in parentheses (or omitted altogether).
 The computation definition may return between zero and $k$ values.
 It must be always ended with a return statement; the type of the return values must be compatible to the return types specified in the computation definition.
 (A return statement must not occur outside of a computation definition.)
@@ -517,7 +517,7 @@ rule example : (int,int)
   \end{grgen}
 \end{example}
 
-A such defined procedure may then be called as a statement atom from anywhere in the rule language file where an attribute evaluation (/computation) is required; or even from the sequence computations where a statement is required.
+Such a procedure may then be called as a statement atom from anywhere in the rule language file where an attribute evaluation (/computation) is required; or even from the sequence computations where a statement is required.
 In case you are missing them: these are procedures from outside a class, you find more on procedure methods and their calls in Section~\ref{sub:procmethcall}.
 The built-in procedures are called with the same syntax;
 table~\ref{procstab} lists the global built-in procedures of the rule language at a glance,
@@ -605,7 +605,7 @@ The \emph{AssignmentTarget} may be any of the LHS expressions supported by the d
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Big Picture}
-Figure \ref{figcomptypescallsuses} displays the different computation types of \GrG, and how they may use and call each other. On top the strategy language for rule control, to the left the declarative rules and subpatterns, and to the right the imperative parts for attribute computations or traditional graph programming. The statements include the expressions and non-graph changing statements.
+Figure \ref{figcomptypescallsuses} displays the different computation types of \GrG, and how they may use and call each other. On top is the strategy language for rule control, to the left the declarative rules and subpatterns, and to the right the imperative parts for attribute computations or traditional graph programming. The statements include the expressions and non-graph changing statements.
 
 \begin{figure}[hptb]
   \centering
@@ -754,7 +754,7 @@ separated into pattern and rewrite part, and into expressions and statements.
 \texttt{if(cond) \{S1\} else \{S2\}} & Executes \texttt{S1} iff \texttt{cond} evaluates to \texttt{true}, or \texttt{S2} otherwise.\\
 \texttt{switch(exp) \{ cases \}} & Evaluates \texttt{exp}, then dispatches to one of the cases, see below.\\
 \texttt{case c-exp \{S1\} else \{S2\}} & If the \texttt{c}onstant \texttt{exp} matches the value switched upon, \texttt{S1} is executed, if none of the cases matches, \texttt{else} is executed (if given).\\
-\texttt{while(cond) \{S1\} } & Executes \texttt{S1} as long as \texttt{cond} evaluates to s\texttt{true}.\\
+\texttt{while(cond) \{S1\} } & Executes \texttt{S1} as long as \texttt{cond} evaluates to \texttt{true}.\\
 \texttt{do \{S1\} while(cond) } & Executes \texttt{S1} until \texttt{cond} evaluates to \texttt{false}.\\
 \texttt{for(v:T in c) \{S1\} } & Executes \texttt{S1} for each value \texttt{v} contained in container \texttt{c}.\\
 \texttt{for(i:T->v:S in c) \{S1\} } & Executes \texttt{S1} for each key/position to value pair \texttt{(i,v)} contained in container \texttt{c}.\\
@@ -778,7 +778,7 @@ separated into pattern and rewrite part, and into expressions and statements.
 \end{tabularx}
 \end{minipage}\\
 \\ 
-{\small Let \texttt{exp} and \texttt{cond} be expressions, and \texttt{S1} and \texttt{S2} be statements}
+{\small Let \texttt{exp} and \texttt{cond} be expressions, and \texttt{S1} and \texttt{S2} be statements.}
 \caption{Statements at a glance}
 \label{statementstab}
 \end{table}

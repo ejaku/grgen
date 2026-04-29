@@ -30,7 +30,7 @@ The graph manipulation procedures, the transaction handling procedures, and the 
 %-----------------------------------------------------------------------------------------------
 \subsection{Graph Updates / Basic Graph Manipulation}
 
-There are procedures to update the graph by adding or removing or retyping available, on nodes and edges: 
+There are procedures available to update the graph by adding or removing or retyping, on nodes and edges:
 
 \begin{description}
 \item[\texttt{add(.)}] adds a new node of the given node type to the host graph, returns the added node.
@@ -44,7 +44,7 @@ There are procedures to update the graph by adding or removing or retyping avail
 \item[\texttt{clear()}] clears the host graph.
 \end{description}
 
-\noindent Besidse those basic graph manipulation functions, some advanced rewriting operations are available as procedures, too:
+\noindent Besides those basic graph manipulation functions, some advanced rewriting operations are available as procedures, too:
 
 \begin{description}
 \item[\texttt{merge(.,.)}] merges the source node given as second argument into the target node given as first argument.
@@ -69,7 +69,7 @@ There are functions to ask for all nodes or edges of a type available:
 
 The same functions can be used from for loops to iterate over the entities, omitting the filling of a set: 
 \begin{description}
-\item[\texttt{for(n:NodyType in nodes(NodeType)) \{Statements\}} ] iterates over all nodes in the graph compatible to the given node type.
+\item[\texttt{for(n:NodeType in nodes(NodeType)) \{Statements\}} ] iterates over all nodes in the graph compatible to the given node type.
 \item[\texttt{for(n:Node in nodes()) \{Statements\}} ] iterates over all nodes in the graph.
 \item[\texttt{for(e:EdgeType in edges(EdgeType)) \{Statements\}} ] iterates over all edges in the graph compatible to the given edge type.
 \item[\texttt{for(e:Edge in edges()) \{Statements\}} ] iterates over all edges in the graph.
@@ -108,7 +108,7 @@ NeighbourhoodFunctionCall:
 
 The neighbourhood query function can be used in four possible ways: 
 \begin{description}
-	\item[Set functions:] The neighbourhood function returns a set of neighbouring entities of the start node. It builds a set that is likely thrown away thereafter, so esp. for large sets this functions is less efficient than the other versions.
+	\item[Set functions:] The neighbourhood function returns a set of neighbouring entities of the start node. It builds a set that is likely thrown away thereafter, so esp. for large sets this function is less efficient than the other versions.
 \begin{rail}
 Expression:
   FunctionName '(' StartNodeExpr ')' ;
@@ -291,7 +291,7 @@ Some fabricated example showing how to use the \texttt{isReachableOutgoing} func
 
 The isReachable functions give the most efficient and most convenient way to check for an iterated path in GrGen, if you need more elaborate checking than constraining the edge type to one type and the target node type to one type you need to program the iterated path with subpattern recursion.
 
-The reachable iteration is the most concise way to note down a depth first walk over a graph, visiting all elements reachable from a source node on.
+The reachable iteration is the most concise way to note down a depth-first walk over a graph, visiting all elements reachable from a source node on.
 \end{example}
 
 \subsubsection*{Bounded Transitive Node Neighbourhood}\label{transitiveneighbourbounded}
@@ -558,7 +558,7 @@ This will save you from the cost of repeated search planning; in addition, often
 
 \pagebreak % to improve layout later on
 
-You may furtheron check for (sub)graph equality against a set of (sub)graphs at once:
+You may furthermore check for (sub)graph equality against a set of (sub)graphs at once:
 
 \begin{description}
 \item[\texttt{equalsAny(.,.)}] returns whether the (sub)graph given as first argument (type: \texttt{graph}) equals any of the (sub)graphs available in the set of subgraphs given with the second argument (type: \texttt{set<graph>}).
@@ -640,7 +640,7 @@ They can be queried with a function of the expressions, can be set with an assig
 The visited flags are stored in some excess bits of the graph elements, if this pool is exceeded they are stored in additional dictionaries, one per visited flag requested.
 This is why the flags must get allocated/deallocated, and all flag related operations require an integer number -- the flag id -- specifying the flag to operate on (with exception of the allocation operation returning this flag id).
 If you try to access a not previously allocated visited flag, an exception is thrown.
-The following syntax diagram gives an extensions to the \emph{Expression} clause of chapter \ref{cha:typeexpr} and an extension to the computation \emph{Statements} of chapter \ref{cha:computations}:
+The following syntax diagram gives an extension to the \emph{Expression} clause of chapter \ref{cha:typeexpr} and an extension to the computation \emph{Statements} of chapter \ref{cha:computations}:
 
 \begin{rail}
 	Expression: VisitedFlag ;
@@ -754,7 +754,7 @@ Besides there are procedures to emit text or record graph changes available:
 \end{rail}\label{recstmt}\indexmain{record}\indexmain{emit}\indexmain{emitdebug}
 
 \begin{description}
-\item[\texttt{emit(.[,.]*)}] writes the argument value, or the comma separated list of argument values, to stdout, or to a file if output was redirected (with the shell command \texttt{redirect emit}). The argument(s) must be of string type, but any type is automatically casted into its string representation as needed. Prefer comma separated arguments over string concatenation, they are are more efficient as no intermediate strings need to be computed, just to be garbage collected thereafter.
+\item[\texttt{emit(.[,.]*)}] writes the argument value, or the comma separated list of argument values, to stdout, or to a file if output was redirected (with the shell command \texttt{redirect emit}). The argument(s) must be of string type, but any type is automatically cast into its string representation as needed. Prefer comma separated arguments over string concatenation, they are more efficient as no intermediate strings need to be computed, just to be garbage collected thereafter.
 \item[\texttt{emitdebug(.[,.]*)}] writes the argument value, or the comma separated list of argument values, always to stdout, even if file output was redirected. Besides that, the other explanations for \texttt{emit} apply.
 \item[\texttt{record(.)}] writes the argument value, typically a text string, to the currently ongoing graph change recordings (see \ref{recordnreplay}).
 This feature allows to mark states reached during the transformation process in order to replay only interesting parts of a recording.
