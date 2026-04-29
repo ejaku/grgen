@@ -2,7 +2,7 @@
 \label{chapgrshell}
 
 The console application \GrShell\ and its WindowsForms counterpart, the \GGrShell, are \indexedsee{shell}{GrShell} applications built on top of \LibGr\indexmain{libGr} (for the backend-independent interface) and \emph{libGrShell} (containing most of the implementation) that offer an execution environment for your generated graph transformations.
-They belong to \GrG's standard equipment, and implement nearly everything in common, so we use in the following only the term \GrShell.
+They belong to \GrG's standard equipment, and implement nearly everything in common, so in the following we use only the term \GrShell.
 \GrShell\ is capable of creating, manipulating, and dumping graphs as well as performing and esp. debugging graph rewriting.
 The \GrShell\ provides a line oriented scripting language.
 \GrShell\ scripts are structured by simple statements separated by line breaks.
@@ -44,7 +44,7 @@ Besides the \GrShell{}-commands defined in this chapter, you find in the followi
 \section{Building Blocks}\label{shellbuildingblocks}
 
 Here we describe some common building blocks (alongside their syntax) of the commands introduced in the upcoming and the following sections.
-You may skip it and return to it when you are interested to learn more about the parts of the commands as you visit them.
+You may skip it and return to it when you are interested in learning more about the parts of the commands as you visit them.
 
 \GrShell\ is \indexed{case sensitive}.
 A line may be empty, may contain a shell command, or may contain a comment.
@@ -245,7 +245,7 @@ This name can be specified by a constructor only.
   'add' 'new' 'graph' Text
 \end{rail}\ixkeyw{add}\ixkeyw{new}\ixkeyw{graph}
 Creates a new subgraph of the same model as the current graph.
-Its name is set to \emph{Text}; its unique name as used in exporting or recording may be a variant of this name in case another subgraph of the same name alreay exists.
+Its name is set to \emph{Text}; its unique name as used in exporting or recording may be a variant of this name in case another subgraph of the same name already exists.
 After execution this graph is the current subgraph.
 
 \begin{rail}
@@ -289,7 +289,7 @@ For \indexed{undefined variables} see Section~\ref{ruledecls}, \emph{Parameters}
 
 \begin{rail}
   GraphRewriteSequenceExpression: 'eval' SequenceExpression ;
-\end{rail}\ixkeyw{eval}\indexmain{graph rewrite sequence expressione}\ixnterm{GraphRewriteSequenceExpression}
+\end{rail}\ixkeyw{eval}\indexmain{graph rewrite sequence expression}\ixnterm{GraphRewriteSequenceExpression}
 This evaluates the graph rewrite sequence expression \emph{SequenceExpression}.
 See Chapter~\ref{seqcomp} for graph rewrite sequences expressions (this command is esp. of interest for rule queries, cf. Chapter~\ref{cha:graphquery}).
 
@@ -326,7 +326,7 @@ Shows the profile for the action specified by its name, or for all rules and tes
 A variable is an identifier that can be bound to a value (scalars, but also containers and entities), which may be changed over time by assignments.
 A graph rewrite system offers graph global variables \indexmainsee{GrShell variable}{graph global variable}s in the form of a global flat mapping of names to values.
 These are identical with the \GrShell\ variables.
-They can be accessed in the \GrShell\ directly by their name, whereas in the sequences (or the rule language), a double colon prefix as required (using them outside of the shell is discouraged; see Chapter \ref{cha:xgrs} for the distinction between graph global aka shell and sequence local variables).
+They can be accessed in the \GrShell\ directly by their name, whereas in the sequences (or the rule language), a double colon prefix is required (using them outside of the shell is discouraged; see Chapter \ref{cha:xgrs} for the distinction between graph global aka shell and sequence local variables).
 
 \begin{rail}
   Variable '=' ( Variable | Entity | Literal )
@@ -388,7 +388,7 @@ Overwrite the value in the array or deque or map \indexed{attribute} \emph{Attri
   	PrimitiveAttributeValue (',' PrimitiveAttributeValue)? ')' ;
 \end{rail}
 Add the value \emph{PrimitiveAttributeValue} (for the different possible primitive attribute values see above) to the set valued attribute \emph{AttributeName} of the graph element or internal class object \emph{Entity} or add the key-value pair consisting of the two \emph{PrimitiveAttributeValue}s to the map valued attribute \emph{AttributeName} of the graph element or internal class object \emph{Entity}.
-Or add the value \emph{PrimitiveAttributeValue} to the end of the array/deque valued attribute \emph{AttributeName} of the graph element or internal class object \emph{Entity} in the one parameter case or insert the \emph{PrimitiveAttributeValue} to the of the array/deque valued attribute \emph{AttributeName} of the graph element or internal class object \emph{Entity} at the index given by the second parameter in the two parameter case.
+Or add the value \emph{PrimitiveAttributeValue} to the end of the array/deque valued attribute \emph{AttributeName} of the graph element or internal class object \emph{Entity} in the one parameter case or insert the \emph{PrimitiveAttributeValue} into the array/deque valued attribute \emph{AttributeName} of the graph element or internal class object \emph{Entity} at the index given by the second parameter in the two parameter case.
 
 \begin{rail}
   Entity '.' AttributeName '.' 'rem' '(' (PrimitiveAttributeValue)? ')' ;
@@ -449,7 +449,7 @@ If the sequence expression evaluates to true, the following command lines are ex
 If the sequence expression evaluates to false, the following command lines are skipped, until the corresponding \texttt{else} or \texttt{endif} is reached. 
 In case an \texttt{else} is given, the command lines following the else until the endif are executed in the first case, or skipped in the second case.
 The nature of shell execution is command-line based, without syntactic nesting.
-The \texttt{if} command is an exception, a corresponding amount of \texttt{endif} commands is required, and applies to its syntactically preceeding if command, as does the \texttt{else} command. 
+The \texttt{if} command is an exception, a corresponding amount of \texttt{endif} commands is required, and applies to its syntactically preceding if command, as does the \texttt{else} command. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -497,10 +497,10 @@ Switching them off allows for much faster execution of scripts containing a lot 
 \begin{rail}
 'silence' 'exec' ('on'|'off')
 \end{rail}\ixkeyw{silence}\ixkeyw{exec}\ixkeyw{on}\ixkeyw{off}
-During non-debug sequence execution every second match statistics are printed to the console;
-they allow to assess the progress of long-running transformations.
+During non-debug sequence execution every second, match statistics are printed to the console;
+they allow you to assess the progress of long-running transformations.
 With this command they can be disabled (or enabled again).
-Switching them off may be of interest if own debug messages printed via emit from the sequences (or rules) should not be disturbed.
+Switching them off may be of interest if your own debug messages printed via emit from the sequences (or rules) should not be disturbed.
 
 \begin{rail}
 'randomseed' (Number | 'time')
@@ -654,7 +654,7 @@ Analysis data is available as long as \GrShell\ is running, i.e.\ when the host 
   'custom' 'graph' 'statistics' 'save' Filename
 \end{rail}\ixkeyw{custom}\ixkeyw{graph}\ixkeyw{statistics}\ixkeyw{save}
 Write the statistics of the last analyze to the specified statistics file (the graph must have been analyzed before this command is called).
-This way you can save the statistics of a characteristic graph of your domain and compile pattern matchers well adapted to those class of graphs straight from the beginning, saving you the costs of online analysis and matcher compilation.
+This way you can save the statistics of a characteristic graph of your domain and compile pattern matchers well adapted to that class of graphs straight from the beginning, saving you the costs of online analysis and matcher compilation.
 See \ref{grgenoptions} or \ref{sec:compilerconfigshell} for explanations on how to do this.
 
 \begin{rail}
@@ -666,7 +666,7 @@ If set to true (default), new elements may not be discriminable anymore from alr
 \begin{rail}
   'custom' 'graph' optimizereusepoolsize Number
 \end{rail}\ixkeyw{custom}\ixkeyw{graph}\ixkeyw{optimizereusepoolsize}
-Sets the the size of the pool storing deleted elements for reuse to \emph{Number} (default: \texttt{10}).
+Sets the size of the pool storing deleted elements for reuse to \emph{Number} (default: \texttt{10}).
 
 \subsubsection*{Action related custom commands}
 
@@ -689,7 +689,7 @@ Specify multiple rewrite rules with one command instead of using multiple comman
 Shows the search plan currently in use for the \emph{Action}, plus the subpatterns called by it.
 The search plan highlights \emph{how} the pattern gets matched, and thus allows to understand the performance characteristics of executing the action.
 It is a list of search commands (with commands not doing real matching work shown in parenthesis), which is executed from top to bottom; for more on the search commands have a look at section \ref{searchplanning}.
-The search plan helps in optimizing for performance, as it shows the effects of pattern changes, e.g. the introduction of parameters, or the annotation of pattern elements with priorities (cf. \ref{annotations})), and of changes of the statistical data (stemming from a re-analyzation of a modified graph, or loading of analysis data).
+The search plan helps in optimizing for performance, as it shows the effects of pattern changes, e.g. the introduction of parameters, or the annotation of pattern elements with priorities (cf. \ref{annotations}), and of changes of the statistical data (stemming from a re-analyzation of a modified graph, or loading of analysis data).
 This is an inspection tool comparable to the \texttt{explain} command offered by SQL-databases, which shows the search plan for a query.
 
 \begin{rail}

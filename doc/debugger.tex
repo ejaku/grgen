@@ -1,7 +1,7 @@
 \chapter{Visualization and Debugging}\indexmain{Debugger}
 \label{chapdebugger}
 
-This chapter gives an introduction into the visualization and debugging capabilities of \GrG.
+This chapter gives an introduction to the visualization and debugging capabilities of \GrG.
 They are offered by a console debugger (either rendered on a stdout-console or a WindowsForms console like display) or a GUI debugger containing an input/output console,
 in combination with the graph viewer application \yComp{} or a builtin graph viewer based on the MSAGL library, that can also be used in your own application via an API, and the configuration commands offered by \GrShell\ (which is the traditional execution host of the console debugger).
 
@@ -76,7 +76,7 @@ The following thicknesses are supported: \texttt{1} (default), \texttt{2}, \text
   'dump' 'add' (('node' ('only')? NodeType)|('edge' ('only')? EdgeType)) 'exclude' ;
 \end{rail}\ixkeyw{dump}\ixkeyw{add}\ixkeyw{node}\ixkeyw{edge}\ixkeyw{only}\ixkeyw{exclude}
 Excludes nodes/edges of type \emph{NodeType}/\emph{EdgeType} and all of its subtypes from output, for a node it also excludes its incident edges.
-The keyword \texttt{only} excludes the subtypes from exlusion, i.e.\ subtypes of \emph{NodeType}/\emph{EdgeType} are dumped.
+The keyword \texttt{only} excludes the subtypes from exclusion, i.e.\ subtypes of \emph{NodeType}/\emph{EdgeType} are dumped.
 
 \begin{rail}
   'dump' 'add' 'node' ('only')? NodeType 'group' (GroupConstraints)? ;
@@ -128,7 +128,7 @@ In the following example \emph{river} and \emph{jam} are info tags:
 The dump graph exclude commands allow to suppress the display of the graph during debugging.
 Instead, only the match of the current rule is shown, plus some context up to a certain depth, plus the parent nodes according to the nesting commands.
 The default depth is 1, i.e. the match plus its direct neighbours are displayed (plus the nesting nodes); you may set it to 0 or a higher value.
-These commands allow you to still use the debugger if the graph as such is too large to be layed out (or laying it out takes too long to be convenient).
+These commands allow you to still use the debugger if the graph as such is too large to be laid out (or laying it out takes too long to be convenient).
 
 \begin{rail}
   'dump' 'reset'
@@ -137,7 +137,7 @@ Resets all style options (\texttt{dump set}\dots) and (\texttt{dump add}\dots) t
 
 
 \begin{note}\label{note:visual}
-Small graphs allow for fast visual understanding, but with an increasing number of nodes and edges they quickly loose this property.
+Small graphs allow for fast visual understanding, but with an increasing number of nodes and edges they quickly lose this property.
 The group commands are of outstanding importance to maintain readability with increasing graph sizes
 (e.g. for program graphs it allows to lump together expressions of a method inside the method node and attributes of a class inside the class node).
 Additional helpers in keeping the graph readable are:
@@ -343,9 +343,9 @@ Change this if you e.g. want the matched elements to be marked more visibly, or 
   'debug' 'set' 'match' 'mode' ('pre' | 'post') ('enable' | 'disable');
 \end{rail}\ixkeyw{debug}\ixkeyw{set}\ixkeyw{mode}
 Configures the behavior of the debugger regarding the display of found matches.
-When pre-match debugging is enabled, the matches of a (multi) rule execution before filtering/selection are displayed in detail steps, the default is disable. 
+When pre-match debugging is enabled, the matches of a (multi) rule execution before filtering/selection are displayed in detail steps, the default is disabled.
 When post-match debugging is enabled, the matches of rules in embedded execs are displayed in detail steps
-(with post-match disabled, only the match(es) of the very rule followed by the rewrite of the rule), the default is enable.
+(with post-match disabled, only the match(es) of the very rule followed by the rewrite of the rule), the default is enabled.
 
 \begin{rail}
   GraphRewriteSequence: 'debug' ('exec'|'xgrs') SimpleRewriteSequence ;
@@ -368,7 +368,7 @@ Put abstractly, a graph rewrite sequence is executed step-by-step, one rule appl
 Each step has a current point of execution in the sequence, referencing the rule that is to be or gets applied.
 The debugging process can be described as a reduced view on such a series of execution states,
 consisting of a series of debugging situations, which are a subset of your choice of the execution states reached in time.
-In each debugging situation or step, the execution state or a a subset of it is rendered.
+In each debugging situation or step, the execution state or a subset of it is rendered.
 
 This means concretely, that the debugger\indexmain{debugger} -- which is a part of the \GrShell~--
 prints the debugged sequence with the currently focused/active rule highlighted yellow.
@@ -377,7 +377,7 @@ and on the fact whether the focused rule matches or not.
 An active rule which is already known to match is highlighted green.
 The rules that matched the last time during sequence execution are shown on dark green background,
 the rules that failed the last time during sequence execution are shown on dark red background;
-at the begin of a new loop iteration the highlighting state of the rules contained in the loop is reset.
+at the beginning of a new loop iteration the highlighting state of the rules contained in the loop is reset.
 
 During execution, \yComp\footnote{Make sure, that the path to your \texttt{\indexed{yComp.jar}} package is set correctly in the \texttt{ycomp} shell script within \GrG's \texttt{/bin} directory.}\indexmain{yComp}/MSAGL
 displays the current graph at each single step, and on request highlights a rule application, marking the matches in the graph, and showing the changes to the graph stemming from that rule application.
@@ -495,7 +495,7 @@ We type \texttt{d}(etailed step) to apply \texttt{makeFlake1} in detail mode wit
 \begin{center}
   \parbox{0.2\linewidth}{\includegraphics[width=\linewidth]{fig/debug1tra}}\parbox{0.375\linewidth}{\includegraphics[width=\linewidth]{fig/debug2tra}}\parbox{0.375\linewidth}{\includegraphics[width=\linewidth]{fig/debug3tra}}
 \end{center}
-The following table shows the active rule reached after having entered the preceeding debug command, for a series of debug commands:
+The following table shows the active rule reached after having entered the preceding debug command, for a series of debug commands:
 \begin{center}
   \begin{tabular}{|l|l|} \hline
     \textbf{Command} & \textbf{Active rule} \\ \hline
@@ -513,7 +513,7 @@ The following table shows the active rule reached after having entered the prece
 
 %\subsection{yComp}
 %url; yFiles; java app, socket communication with shell debugger
-%Find; goto node/edge; böbbels;
+%Find; goto node/edge; bï¿½bbels;
 %relayout; zoom: mousewheel; pane by holding middle mouse
 %supported formats; vcg format
 %ref to visualization commands, again: hierarchy
@@ -526,7 +526,7 @@ The following table shows the active rule reached after having entered the prece
 
 The basic granularity of debugging in \GrG{} is the single rule (with its pattern matched and its rewrite carried out) executed from an interpreted sequence.
 But with embedded execs there are further sequences and actions available outside direct control of and visibility in the debugger.
-At least some debugging aide is available for them, at least the actions called from the embedded sequences are shown in the debugger -- in case detailed mode is used.
+At least some debugging aid is available for them, at least the actions called from the embedded sequences are shown in the debugger -- in case detailed mode is used.
 But the local execution state of imperative code which may be used for tasks where pattern matching is not beneficial is completely invisible to the debugger.
 Only the effects on the graph become visible.
 
@@ -639,7 +639,7 @@ But pressing the \texttt{v} key in the shell debugger is more convenient in the 
 
 The commands \verb#record# and \verb#replay# are of interest when you want to follow different paths during a transformation, they allow you to save the graph states before choosing in between the different paths, and to restore them later on (and to inspect the sequence of changes leading to a graph state).
 
-Another development aide comes in the form of validity checking code that gets emitted when the \texttt{-debug} option is supplied to \texttt{grgen.exe} (cf. \ref{grgenoptions}), the usage of that option can be also configured in the shell (cf. \ref{sec:compilerconfigshell}).
+Another development aid comes in the form of validity checking code that gets emitted when the \texttt{-debug} option is supplied to \texttt{grgen.exe} (cf. \ref{grgenoptions}), the usage of that option can be also configured in the shell (cf. \ref{sec:compilerconfigshell}).
 The validity checking code detects with runtime checks situations in which: 
 \begin{enumerate}
 	\item a rule is called with a null argument (unless it was specified that null parameters are allowed, in that case the missing element is searched for in the graph)
@@ -655,7 +655,7 @@ The third case typically happens during an all-bracketed rule application that m
 The situation may be rather obvious, when the graph element was bound to the same pattern element in different matches, it may be also quite difficult to grasp, because the graph element was bound to different pattern elements in different matches.
 The check may fail without uncovering a real issue, because the already deleted element is not to be modified with the rewrite of the current match (or only to be deleted again, deletion after deletion is not causing a crash).
 
-Regarding the third case, note that an edge not contained in the graph anymore is not reported as invalid in case its source or target nodes are not contained in the graph anymore (this safes you from spurious error reports, at the price of potentially missing a situation where this is not anticipated).
+Regarding the third case, note that an edge not contained in the graph anymore is not reported as invalid in case its source or target nodes are not contained in the graph anymore (this saves you from spurious error reports, at the price of potentially missing a situation where this is not anticipated).
 By annotating a node/edge with a \texttt{validityCheck=false}, cf. Section \ref{annotations}, you can disable the contained-in-graph check for that graph element.
 By using the same annotation on a rule (cf. Table \ref{tabannotations}), you can disable this validity check for all graph elements that were matched during the execution of the rule.
 

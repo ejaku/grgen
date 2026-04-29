@@ -47,7 +47,7 @@ Prints the inherited/descendant types of the given \emph{Entity\-Type} (\emph{No
   'show' EntityKind 'attributes' (() | (() | 'only') EntityType)
 \end{rail}\ixkeyw{show}\ixkeyw{only}\ixkeyw{attributes}
 Prints the available \indexed{attribute} types.
-If an \emph{EntityType} is supplied, only attributes defined in the /\emph{EntityType} are diplayed (otherwise all attributes known to all all types of the specified \emph{EntityKind}).
+If an \emph{EntityType} is supplied, only attributes defined in the \emph{EntityType} are displayed (otherwise all attributes known to all types of the specified \emph{EntityKind}).
 The \texttt{only} keyword excludes inherited attributes.
 %\begin{warning}
 %The \texttt{show EntityKind attributes\dots} command covers types and \emph{inherited} types.
@@ -94,7 +94,7 @@ Validate without the strict modifier checks the multiplicities of the connection
 it ignores node-edge-node connections which are available in the host graph but have not been specified in the model.
 The \emph{strict} mode additionally requires that all the edges available in the host graph must have been specified in the model.
 This requirement is too harsh for models where only certain parts are considered critical enough to be checked
-or might be a too big step in tightening the level of structural checking in an already existing large model.
+or might be too big a step in tightening the level of structural checking in an already existing large model.
 So some form of selective strict checking is supported:
 The \emph{strict only specified} mode requires strict matching (i.e. that all edges are covered) only of the edges for which connection assertions have been specified in the model.
 
@@ -150,7 +150,7 @@ The following queries show information graphically (and thus are not amenable to
 \begin{rail}
   'gshow' 'model'
 \end{rail}\ixkeyw{gshow}\ixkeyw{model}
-Shows the graph model as a graph similar to an UML inheritance diagram.
+Shows the graph model as a graph similar to a UML inheritance diagram.
 
 \begin{rail}
   'gshow' 'patterns'
