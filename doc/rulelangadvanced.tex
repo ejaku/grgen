@@ -35,9 +35,9 @@ rule SomeRule {
 \end{example}
 %\end{figure}
 
-The advanced \emph{modifiers} introduced in the following section allow to annotate patterns or actions with keywords which restrict what graph patterns are accepted as matches (some of them independent of the rewrite part, some of them depending on the rewrite specification).
+The advanced \emph{modifiers} introduced in the following section allow you to annotate patterns or actions with keywords which restrict what graph patterns are accepted as matches (some of them independent of the rewrite part, some of them depending on the rewrite specification).
 But first the advanced \emph{matching} constructs are introduced in this section, before they are elaborated on in a later section:
-they allow to request more fine grain or more dynamically what types to match, as well as allowing to specify a match from a storage.
+they allow you to request more fine-grained or more dynamically what types to match, as well as allowing you to specify a match from a storage.
 Followed by the advanced \emph{rewrite} constructs which are handled in the same way (introduction here, then elaboration in a later section);
 they enable the specification of retyping (relabeling) and copying, as well as node merging and edge redirection.
 
@@ -48,7 +48,7 @@ AdvancedNodeTypeConstructs : ( NodeType (TypeConstraint | StorageAccess | Retypi
 Specifies a node of type \emph{NodeType},
 constrained in type with a \emph{TypeConstraint}\indexmain{type constraint} (see Section~\ref{sec:typeconstr}, \emph{TypeConstraint}),
 or bound by a storage access (see \ref{sub:storageaccess}, \emph{StorageAccess}),
-or retyped with a \emph{Reytping}\indexmain{retype} (see Section~\ref{sec:retype}, \emph{Retyping}),
+or retyped with a \emph{Retyping}\indexmain{retype} (see Section~\ref{sec:retype}, \emph{Retyping}),
 or merged with a \emph{Merging}\indexmain{merge} (see Section~\ref{sec:merge}, \emph{Merging}).
 Alternatively it may define a node having the same type and bearing the same attributes as another matched node (see Section~\ref{sec:copy}, \emph{CopyOperator} and \emph{CloneOperator}).
 Type constraints are allowed in the pattern part only.
@@ -98,7 +98,7 @@ Example \ref{ex:rules:modifiers} explains the modifiers by small toy-graphs.
 \begin{table}[htbp]
     \begin{tabularx}{\linewidth}{l|X}
         \bf Modifier & \bf Meaning \\\hline
-        \texttt{dpo} & Switches to DPO semantics \indexmainsee{DPO}{double-pushout approach}. This modifier affects only nodes that are to be deleted during the rewrite. DPO says---roughly spoken---that implicit deletions must not occur by all means. To ensure this the dangling condition (see \texttt{dangling} below) and the identification condition (see \texttt{identification} below) get enforced (i.e. \texttt{dpo = dangling + identification}). In contrast to \texttt{exact} and \texttt{induced} this modifier applies neither to a pattern as such (can't be used with a \texttt{test}) nor to a single statement but only to an entire rule. See Corradini et al.\cite{dpoapproach} for a DPO reference.\\
+        \texttt{dpo} & Switches to DPO semantics \indexmainsee{DPO}{double-pushout approach}. This modifier affects only nodes that are to be deleted during the rewrite. DPO says---roughly spoken---that implicit deletions must not occur under any circumstances. To ensure this the dangling condition (see \texttt{dangling} below) and the identification condition (see \texttt{identification} below) get enforced (i.e. \texttt{dpo = dangling + identification}). In contrast to \texttt{exact} and \texttt{induced} this modifier applies neither to a pattern as such (can't be used with a \texttt{test}) nor to a single statement but only to an entire rule. See Corradini et al.\cite{dpoapproach} for a DPO reference.\\
 		\texttt{dangling} & Ensures the dangling condition \indexmain{dangling condition}. This modifier affects only nodes that are to be deleted during the rewrite. Nodes going to be deleted due to the rewrite part have to be specified exactly (with all their incident edges, \texttt{exact} semantics) in order to be matched. As with \texttt{dpo}, this modifier applies only to rules.\\
 		\texttt{identification} & Ensures the identification condition \indexmain{identification condition}. This modifier affects only nodes that are to be deleted during the rewrite. If you specify two pattern graph elements to be homomorphically matched but only one of them is subject to deletion during rewrite, those pattern graph elements will never actually be matched to the same host graph element. As with \texttt{dpo}, this modifier applies only to rules.\\
     \end{tabularx}
@@ -275,7 +275,7 @@ eval {
 }
   \end{grgenlet}
 Furthermore the source and destination types need \emph{not} to be on a path in the directed \indexed{type hierarchy} graph, rather their relation can be arbitrary.
-However, if source and destination type have one ore more common super types, then the respective attribute values are adopted by the retyped version of the respective node (or edge).
+However, if source and destination type have one or more common super types, then the respective attribute values are adopted by the retyped version of the respective node (or edge).
 The edge specification as well as \emph{ReplaceNode} supports retyping.
 In Example~\ref{ex:rule:SomeRule} node \texttt{n5} is a retyped node stemming from node \texttt{n1}.
 Note, that---conceptually---the retyping is performed \emph{after} the SPO conforming rewrite.
@@ -288,12 +288,12 @@ rule oneway {
   x:City -y:Street->;
 
   replace {
-    x_rt:Metropolies<x> -y_rt:Highway<y>->;
+    x_rt:Metropolis<x> -y_rt:Highway<y>->;
   }
 }
 \end{grgen}
 
-The following rule will retype the matched city \texttt{x} to the exacty dynamic type of \texttt{z} (which might be e.g. \texttt{Metropolis}).
+The following rule will retype the matched city \texttt{x} to the exact dynamic type of \texttt{z} (which might be e.g. \texttt{Metropolis}).
 \begin{grgen}
 rule retypeToTypeof {
   x:City; z:City;
@@ -319,7 +319,7 @@ Please have a look at example \ref{ex:retypelhs} for more on this.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Copy and Clone} \label{sec:copy}
 
-\indexmain{copy}\indexmain{clone}The copy and clone operators allows to create a node or edge of the type of another node/edge, bearing the same attributes like that other node/edge.
+\indexmain{copy}\indexmain{clone}The copy and clone operators allow you to create a node or edge of the type of another node/edge, bearing the same attributes like that other node/edge.
 They can be seen as an extended version of the \texttt{typeof} construct not only copying the exact dynamic type but also the attributes of the matched graph element.
 Together with the \texttt{iterated} construct they allow to simulate node replacement grammars or to copy entire structures, see \ref{sub:mergesplit} and \ref{subsub:copystructure}.
 The difference in between the two operators lies in the handling of attributes of object class type, the copy operator copies them deeply (/transitively), including all objects referenced, the clone operator just assigns the attribute to the same reference; for more on them cf. \ref{subsec:copynclonefunctions}. 
@@ -392,7 +392,7 @@ Redirect : ('!')? '-' EdgeRefinement '->' ('!')? | ('!')? '<-' EdgeRefinement '-
 \end{rail}\ixnterm{Redirect}
 
 Redirection is specified with an exclamation mark at the end to be redirected as seen from the edge center;
-the exclamation mark enforces the redirection which would normally be rejected by the compiler "This is different from what was matched, but that's intentionally, make it happen!"
+the exclamation mark enforces the redirection which would normally be rejected by the compiler "This is different from what was matched, but that's intentional, make it happen!"
 
 \begin{example}
 The following rule will reverse the one-way street in between \texttt{a} and \texttt{y} by rewriting the old source to the new target and the old target to the new source.

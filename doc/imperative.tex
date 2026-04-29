@@ -31,7 +31,7 @@ rule AddRedundancy
 %-----------------------------------------------------------------------------------------------
 \section{Exec and Emit in Rules}\label{sct:execemitrules}
 
-The following syntax diagram gives an extensions to the syntax diagrams of the Rule Set Language chapter \ref{chaprulelang}:
+The following syntax diagram gives an extension to the syntax diagrams of the Rule Set Language chapter \ref{chaprulelang}:
 \begin{rail}
   ExecStatement: ('emit' | 'emitdebug') '(' (StringExpr + ',') ')' ';' | 'exec' '(' RewriteSequence ')' ';'
 	;
@@ -76,7 +76,7 @@ rule foo : (A,B)
 \subsection*{Text output}
 The \texttt{emit} and the \texttt{emitdebug} statement prints a string or a comma-separated sequence of strings to the currently associated output stream or always the console. See Chapter~\ref{cha:typeexpr} for a description of string expressions.
 
-The argument(s) must be of string type, but any type is automatically casted into its string representation as needed. Prefer comma separated arguments over string concatenation, they are more efficient as no intermediate strings need to be computed, just to be garbage collected thereafter.
+The argument(s) must be of string type, but any type is automatically cast into its string representation as needed. Prefer comma separated arguments over string concatenation, they are more efficient as no intermediate strings need to be computed, just to be garbage collected thereafter.
 
 The currently associated output stream is by default \texttt{stdout}, you use the emit then typically to print debug or execution state information to the console.
 It may be a text file (the one output was redirected to, see the \texttt{redirect emit} command in Chapter~\ref{chapgrshell}), you use the emit then commonly to write a file format of your choice (maybe a simple extract, maybe a full-blown graph export), building a model-to-text transformation.
@@ -85,7 +85,7 @@ The \texttt{emithere} statement always prints out to the console, even if output
 %-----------------------------------------------------------------------------------------------
 \section{Deferred Exec and Emithere in Nested and Subpatterns}\label{sec:deferredexecemithere}
 
-The following syntax diagram gives an extensions to the syntax diagrams of the Subpatterns chapter \ref{cha:sub}:
+The following syntax diagram gives an extension to the syntax diagrams of the Subpatterns chapter \ref{cha:sub}:
 \begin{rail}
   SubpatternExecEmit:
 		('emithere' | 'emitheredebug') '(' (StringExpr + ',') ')' ';' |
@@ -168,7 +168,7 @@ After this declarative step, containing only the changes of the rule and its nes
 the deferred execs which were spawned during the main rewriting are executed in a second, imperative step;
 during this, a rule called from the sequence to execute may do other nifty things,
 using further own sequences, even calling itself recursively with them.
-First all sequences from a called rule are executed, before the current sequences is continued or other sequences of its parent rule get executed (depth first).
+First all sequences from a called rule are executed, before the current sequence is continued or other sequences of its parent rule get executed (depth first).
 
 Note: all changes from such dynamically nested sequences are rolled back if a transaction/a backtrack enclosing a parent rule is to be rolled back (but no pending sequences of a parent of this parent).
 \end{warning}
@@ -187,7 +187,7 @@ They are a kind of inverse of emit (which is also available as a procedure, see 
 
 The \texttt{scan} function expects a target type that specifies the type of the object to be computed from the string, and an expression specifying the string that is to be transformed.
 It returns the obtained object (scalar values and containers are created, graph elements specified by their persistent name in contrast are fetched from the graph, object classes and match types are not supported), or diverges (i.e. crashes).
-The \texttt{tryscan} functions expects the same parameters, but it returns whether the given string can be transformed into an object of the requested type.
+The \texttt{tryscan} function expects the same parameters, but it returns whether the given string can be transformed into an object of the requested type.
 
 \begin{example}
 	This is an example showing how tryscan and scan are used.

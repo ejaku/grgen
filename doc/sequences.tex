@@ -1,7 +1,7 @@
 \chapter{Rule Application Control Language (Sequences)}\indexmain{rule application language}
 \label{cha:xgrs}
 
-Graph rewrite sequences (GRS)\indexmain{graph rewrite sequence}, better extended graph rewrite sequences XGRS, to distinguish them from the older graph rewrite sequences, are a domain specific \GrG~language used for controlling the application of graph rewrite rules. 
+Graph rewrite sequences (GRS)\indexmain{graph rewrite sequence}, better extended graph rewrite sequences XGRS, to distinguish them from the older graph rewrite sequences, are a domain-specific \GrG~language used for controlling the application of graph rewrite rules. 
 They are available
 \begin{itemize}
 \item for controlled rule application within the \GrShell.
@@ -56,7 +56,7 @@ The graph rewrite sequences
 (b,c)=R(x,y,z)=>a
 a = ((b,c)=R(x,y,z))
 	\end{grgen}
-assign the two returned graph elements from rule \texttt{R} to variables \texttt{b} and \texttt{c} and the information whether \texttt{R} mached or not to variable \texttt{a}. The first version is recommended.
+assign the two returned graph elements from rule \texttt{R} to variables \texttt{b} and \texttt{c} and the information whether \texttt{R} matched or not to variable \texttt{a}. The first version is recommended.
 \end{example}
 \end{figure}
 
@@ -74,7 +74,7 @@ assign the two returned graph elements from rule \texttt{R} to variables \texttt
 
 Rewrite factors are the building blocks of graph rewrite sequences.
 They are split into four major areas: rule (and sequence) application, simple variable handling, extended control, and sequence computation usages.
-Here we start with the most import one, applying rules.
+Here we start with the most important one, applying rules.
 In section \ref{sec:simplevarhandling} we visit simple variable handling.
 In section \ref{sec:extctrl} we have a look at advanced control, and in section \ref{sec:seqcomp} at the sequence computations.
 
@@ -189,8 +189,8 @@ The assign-to operator \texttt{=>} optionally available at the end of the $Rewri
 
 The simple variable handling in the sequences allows to assign a variable or a constant to a variable, to interactively query for an element of a given type or a number and assign it to a variable, or to declare a local variable; these constructs always result in true/success.
 In addition, a boolean variable may be used as a predicate; using such a variable predicate together with the sequence result assignment allows to directly transmit execution results from one part of the sequence to another one.
-Furtheron, a boolean constant may be used as a predicate. 
-These \indexed{sequence constant}s being one of the boolean literals \texttt{true} or \texttt{false} come in handy if a sequence is to be evaluated but its result must be a predefined value; furtheron a \indexed{break point} may be attached to them.
+Furthermore, a boolean constant may be used as a predicate. 
+These \indexed{sequence constant}s being one of the boolean literals \texttt{true} or \texttt{false} come in handy if a sequence is to be evaluated but its result must be a predefined value; furthermore a \indexed{break point} may be attached to them.
 
 Variables can hold graph elements, or values of value/attribute types, including booleans.
 The typed explicit declaration (which may be given at an assignment, rendering that assignment into an initialization) introduces a sequence local variable, the name alone references a sequence local variable.
