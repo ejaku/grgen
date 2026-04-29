@@ -124,7 +124,7 @@ The \texttt{.}\ is an anonymous node of the base type \texttt{Node}; remember th
     \texttt{x:NodeType;} & The name \texttt{x} is bound to a node of type \texttt{NodeType} or one of its subtypes. \\
     \texttt{ :NodeType;} & \texttt{\$1:NodeType} \\
     \texttt{.;} & \texttt{\$1:Node} \\
-    \texttt{x;} & The node to which \texttt{x} is bound to.
+    \texttt{x;} & The node to which \texttt{x} is bound.
   \end{tabularx}
 \end{center}
 
@@ -153,7 +153,7 @@ If an edge type is specified (through the \emph{EdgeRefinement} clause), this ty
 		\texttt{ <--> ;} & \texttt{-\$1:Edge-> ;} or  \texttt{<-\$1:Edge- ;}\\
 		\texttt{ -- ;} & \texttt{-\$1:UEdge-> ;} \\
 		\texttt{ ?--?\ ;} & \texttt{-\$1:AEdge-> ;} \\
-		\texttt{ -e-> ;} & The edge, \texttt{e} is bound to.
+		\texttt{ -e-> ;} & The edge \texttt{e} is bound to.
 	\end{tabularx}
 \end{center}
 As the above table shows, edges can be defined and used separately, i.e.\ without their incident nodes.
@@ -279,8 +279,8 @@ And some illegal graphlets:\\
 \end{figure}
 
 \begin{warning}
-	Although both, the pattern part and the rewrite part use graphlets, there are subtle differences between them.
-	Most of the differences can be seen in chapter \ref{chapadvanced} where the advanced constructs are explained .
+	Although both the pattern part and the rewrite part use graphlets, there are subtle differences between them.
+	Most of the differences can be seen in chapter \ref{chapadvanced} where the advanced constructs are explained.
 \end{warning}
 
 
@@ -307,7 +307,7 @@ plus further constructs that will be introduced in later chapters.
 Additionally you may \texttt{include} further rule language files.
 (As a hint regarding the syntax diagrams: please note that the bottom rail in the \emph{RuleSet} diagram departs before the end and joins in after the \emph{FileHeader}, i.e. it denotes a looping back edge (a fast forward edge would have split and join points at the same positions but of the opposite direction)).
 
-Furthermore, you may declare \indexed{graph global variable}s; this is a pure declaration that they will exist with the given type during execution. It renders them accessible in the rules (esp. the attribute condition and attribute evaluation), but you must define and assign them  before rule execution outside of the rules. They are made available to allow for an easy parameterization of entire transformations, defining the environment; other uses are discouraged. See Chapter \ref{cha:xgrs} for more on this.
+Furthermore, you may declare \indexed{graph global variable}s; this is a pure declaration that they will exist with the given type during execution. It renders them accessible in the rules (esp. the attribute condition and attribute evaluation), but you must define and assign them before rule execution outside of the rules. They are made available to allow for an easy parameterization of entire transformations, defining the environment; other uses are discouraged. See Chapter \ref{cha:xgrs} for more on this.
 (Use \texttt{ref} for container types and \texttt{var} for the other (non-node or edge) types.)
 
 In case of multiple graph models, \GrG\ uses the union of these models. 
@@ -354,7 +354,7 @@ This way it is possible to specify \emph{where} a rule should be applied.
 \begin{rail}
   Implements: 'implements' (MatchClassIdent + ',');
 \end{rail}\ixnterm{Implements}\ixkeyw{implements}
-The implements clause allows to specify match classes that must be implemented by the rules, see \ref{sec:matchclass} for more on this.
+The implements clause allows you to specify match classes that must be implemented by the rules, see \ref{sec:matchclass} for more on this.
 
 \begin{rail}
   Parameters: '(' (Parameter * ',') ')' ;
@@ -407,7 +407,7 @@ So if both parameters are not defined, \texttt{t4} is chosen, which succeeds as 
 \end{rail}\ixnterm{ReturnTypes}
 The return types specify edge and node types of graph elements that are returned by the replace/modify part.
 If return types are specified, the \texttt{return} statement is mandatory.
-Otherwise no \texttt{return} statement must occur. See also Section~\ref{sec:replacemodify}, \texttt{return}.
+Otherwise no \texttt{return} statement may occur. See also Section~\ref{sec:replacemodify}, \texttt{return}.
 
 \begin{figure}[htbp]
 \begin{example}\label{ex:rule:someruleext}
@@ -455,7 +455,7 @@ The \indexed{application} of a rule is not deterministic\indexmain{non-determini
 In this case the location which is rewritten is chosen arbitrarily (in fact matching is just stopped after the first match following an implementation-defined order is found).
 But when you compute all matches, you can select deterministically one of them with a post-matches filter, cf. chapter \ref{sub:filters}, or you can do so on API level, see chapter \ref{cha:api}.
 
-The rule from the rule set to apply in contrast is chosen deterministically by default by the graph rewrite \emph{sequence}\indexmain{graph rewrite sequence}  (\GrG\ follows the programmed in contrast to the graph grammar approach),
+The rule from the rule set to apply, in contrast, is chosen deterministically by default by the graph rewrite \emph{sequence}\indexmain{graph rewrite sequence}  (\GrG\ follows the programmed in contrast to the graph grammar approach),
 but you can introduce non-determinism there with the \texttt{\$} flag prepended to a sequence operator, cf. \ref{sec:ruleapplication}, or the dedicated indeterministic choices specified in section \ref{sec:indetchoice}.
 \end{warning}
 \end{figure}
@@ -490,7 +490,7 @@ Keep in mind that using type constraints or the \texttt{typeof} operator might b
 Their types must be compatible to the return types specified.
 
 \begin{note}
-If you are using a graph at the API level without shell-provided names accessible by the \texttt{nameof}-operator, you may want to number the graph elements for dumping like this (alternatively you may use the unique index, cf. \ref{sec:uniqueness}; it does not allow you manual handling, but it also altogether spares you from manual handling):
+If you are using a graph at the API level without shell-provided names accessible by the \texttt{nameof}-operator, you may want to number the graph elements for dumping like this (alternatively you may use the unique index, cf. \ref{sec:uniqueness}; it does not allow manual handling, but it also altogether spares you from manual handling):
 \begin{grgen}
 rule numberNode(var id:int) : (int)
 {
@@ -525,7 +525,7 @@ Several homomorphically matched graph elements will be mapped to a graph element
 In Example~\ref{ex:rule:SomeRule} nodes \texttt{n1} and \texttt{n2} may be the same node. This is possible because they are of the same type (\texttt{NodeTypeA}).
 Inside a NAC/PAC the \texttt{hom} operator may only operate on graph elements that are either defined or used in the NAC/PAC (cf. \ref{nac}/\ref{pac}).
 Nested \texttt{negative}/\texttt{independent} blocks inherit the \texttt{hom} declarations of their nesting pattern.
-In contrast to previous versions of GrGen \texttt{hom} delarations are non-transitive, i.e \texttt{hom(a,b)} and \texttt{hom(b,c)} don't cause \texttt{hom(a,c)} unless specified.
+In contrast to previous versions of GrGen \texttt{hom} declarations are non-transitive, i.e \texttt{hom(a,b)} and \texttt{hom(b,c)} don't cause \texttt{hom(a,c)} unless specified.
 
 \begin{rail}
   IsoConstraint: backslash ( '(' (Ident + '+')  ')' | Ident );
@@ -533,9 +533,9 @@ In contrast to previous versions of GrGen \texttt{hom} delarations are non-trans
 
 The \texttt{independent} operator specifies the node or edge given within the parentheses to be homomorphic to all the other pattern elements.
 With the \indexed{iso constraint} following, exceptions can be given defining the pattern elements it must be distinct to.
-Thus we got a specification mode requesting homomorphic matching with additional isomorphy exceptions in contrast to the default mode,
+Thus we have a specification mode requesting homomorphic matching with additional isomorphy exceptions in contrast to the default mode,
 requesting isomorphic matching with additional homomorphy exception.
-It is recommended to \emph{not} use the \texttt{independent} operator, it it potentially dangerous allowing to carry out conflicting rewrites, with an element \texttt{a} to be deleted, element \texttt{b} to be kept, and element \texttt{c} to be retyped, all mapping to the same graph element (you will experience funny effects and/or crashes in this case; the \texttt{hom} operator offers some static checks against this).
+It is recommended to \emph{not} use the \texttt{independent} operator, it is potentially dangerous allowing to carry out conflicting rewrites, with an element \texttt{a} to be deleted, element \texttt{b} to be kept, and element \texttt{c} to be retyped, all mapping to the same graph element (you will experience funny effects and/or crashes in this case; the \texttt{hom} operator offers some static checks against this).
 The operator is available as a last resort for some situations in matching complex structures with iterated and subpatterns, 
 in which it is unfeasible or not possible to explicitly give elements the pattern element may be homomorphic to,
 because they were matched in a pattern at an arbitrary distance in the derivation path which only dynamically called the pattern of interest,
@@ -545,8 +545,8 @@ i.e. they can't be referenced by name, cf. \ref{patternelementlocking}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Rewrite Part with Replace and Modify Modes}\indexmain{rewrite}\indexmain{rewrite graph}\indexmain{rewrite part}
 \label{sec:replacemodify}
-A rule not only specifies a pattern to be matched, but a transformation from the pattern aka \indexed{left hand side} (LHS) graph to the \indexed{right hand side} (RHS) graph (i.e. a dependent replacement, dependent insofar that the rewrite is specified based on the pattern).
-On applying the rule, an instance of the pattern is searched for in the \indexed{host graph} (yielding a matched subgraph), and alongside the \indexed{transformation specification} are graph elements of the match kept, graph elements of the match deleted, and graph elements newly created.
+A rule not only specifies a pattern to be matched, but a transformation from the pattern aka \indexed{left-hand side} (LHS) graph to the \indexed{right-hand side} (RHS) graph (i.e. a dependent replacement, dependent insofar that the rewrite is specified based on the pattern).
+On applying the rule, an instance of the pattern is searched for in the \indexed{host graph} (yielding a matched subgraph), and alongside the \indexed{transformation specification}, graph elements of the match are kept, graph elements of the match are deleted, and graph elements are newly created.
 
 %-----------------------------------------------------------------------------------------------
 \subsection{Implicit Definition of the Preservation Morphism\indexmain{preservation morphism} $r$}
@@ -605,7 +605,7 @@ If an incident node of an edge gets deleted, the edge will be deleted as well (i
 \subsection{Specification Modes for Graph Transformation}
 For the task of rewriting, \GrG\ provides two different modes: A \emph{replace mode} and a \emph{modify mode}.
 \begin{description}
-  \item[Replace mode] \indexmain{replace mode} The semantics of this mode is to delete every graph element of the pattern that is not used (referenced) in the rewrite part, keep every graph element that is used, and create every additionally defined graph element. ``Using'' means that the name of a graph element occurs in a rewrite graphlet. Attribute calculations are no using occurrences.\\
+  \item[Replace mode] \indexmain{replace mode} The semantics of this mode is to delete every graph element of the pattern that is not used (referenced) in the rewrite part, keep every graph element that is used, and create every additionally defined graph element. ``Using'' means that the name of a graph element occurs in a rewrite graphlet. Attribute calculations are not using occurrences.\\
   In Example~\ref{ex:rule:someruleext} the nodes \texttt{varnode} and \texttt{n3} will be kept. The node \texttt{n1} is replaced by the node \texttt{n5} preserving \texttt{n1}'s edges. The anonymous edge instance between \texttt{n1} and \texttt{n2} only occurs in the pattern and therefore gets deleted.\\
 See Section~\ref{rule:morphismr} for a detailed explanation of the transformation semantics.
   \item[Modify mode] \indexmain{modify mode} In modify mode, all elements are kept, unless it is explicitly specified that they are to be deleted. The \indexed{modify mode} can be regarded as a rewrite part in replace mode, where every pattern graph element is added (occurs) before the first rewrite statement.

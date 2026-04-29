@@ -43,18 +43,18 @@ The \indexed{LGSPBackend} maps the \GrG\ primitive types to the corresponding C\
 Table~\ref{tabcasts} lists \GrG's implicit \indexed{type cast}s and the allowed explicit type casts.
 Of course you are free to express an implicit type cast by an explicit type cast as well as ``cast'' a type to itself.
 The \texttt{int} is the default integer type, in the table it stands for all the integer types.
-The \texttt{double} is the default floating point type, in the table it stands for all the floating points types.
-The integer types are implicitly casted upwards from smaller to larger types (\texttt{byte < short < int < long}), whereas a downcast requires an explicit cast.
-The \texttt{byte} and \texttt{short} types are not used in computations, they are casted up to \texttt{int} (or \texttt{long} if required by the context.)
-The floating point types are implicitly casted upwards (\texttt{float < double}), and require an explicit cast downwards, too.
-As specified by the table, integer numbers are automatically casted to floating point numbers, and castable with an explicit cast vice versa.
+The \texttt{double} is the default floating point type, in the table it stands for all the floating-point types.
+The integer types are implicitly cast upwards from smaller to larger types (\texttt{byte < short < int < long}), whereas a downcast requires an explicit cast.
+The \texttt{byte} and \texttt{short} types are not used in computations, they are cast up to \texttt{int} (or \texttt{long} if required by the context.)
+The floating point types are implicitly cast upwards (\texttt{float < double}), and require an explicit cast downwards, too.
+As specified by the table, integer numbers are automatically cast to floating point numbers, and castable with an explicit cast vice versa.
 According to the table neither implicit nor explicit casts from {\tt int} to any \indexed{enum type} are allowed.
 This is because the range of an enum type is very sparse in general.
 For the same reason implicit and explicit casts between enum types are also forbidden.
 Thus, enum values can only be assigned to attributes having the same enum type.
 A cast of an enum value to a string value will return the declared name of the enum value.
 A cast of an object value to a string value will return ``null'' or it will call the \texttt{toString()} method of the .NET object.
-Everything is implicitly casted to \texttt{string} to enable concise text output without the need for boilerplate casting.
+Everything is implicitly cast to \texttt{string} to enable concise text output without the need for boilerplate casting.
 Be careful with assignments of objects: \GrG\ does not know your .NET type hierarchy and therefore it cannot check two objects for type compatibility.
 Objects of type object are not very useful for \GrG\ processing and the im/exporters can't handle them,
 but they can be used on the API level.
@@ -73,7 +73,7 @@ but they can be used on the API level.
 
 \begin{note}
 	Unlike an {\tt eval} part (which must not contain assignments to node or edge attributes) the declaration of an enum type can contain assignments of {\tt int} values to \indexed{enum item}s (see Section~\ref{typedecl}).
-	The reason is, that the range of an enum type is just defined in that context.
+	The reason is that the range of an enum type is just defined in that context.
 \end{note}
 
 
@@ -92,7 +92,7 @@ In the following they will be explained with their semantics and relative priori
 \section{Boolean Expressions}
 
 The boolean expressions combine boolean values with logical operations.
-They bind weaker than the relational expressions which bind weaker than the other expressions.
+They bind more weakly than the relational expressions which bind more weakly than the other expressions.
 
 \begin{rail}
   BoolExpr: ((() | '!') PrimaryExpr) | (BoolExpr '?' BoolExpr ':' BoolExpr) | (BoolExpr BinBoolOperator BoolExpr) | RelationalExpr;
@@ -117,7 +117,7 @@ The ternary \texttt{?}\ operator is a simple if-then-else: If the first \emph{Bo
 \section{Relational Expressions}\label{sec:relational}
 
 The relational expressions compare entities of different kinds, mapping them to the type boolean.
-They are an intermediary that allows to obtain the boolean type required by the decisions from the other types.
+They are an intermediary that allows you to obtain the boolean type required by the decisions from the other types.
 They bind stronger than the boolean expressions but weaker than all the other non-boolean expressions.
 
 \begin{rail}
@@ -129,7 +129,7 @@ The \emph{CompareOperator} is one of the following operators:
 Their semantics are type dependent.
 
 For arithmetic expressions on \texttt{int} and \texttt{float} or \texttt{double} types
-the semantics is given by Table~\ref{compandarithmetic} (by implicit casting they can also by used with all enum types).
+the semantics is given by Table~\ref{compandarithmetic} (by implicit casting they can also be used with all enum types).
 
 \begin{table}[htbp]
   \centering
@@ -278,7 +278,7 @@ The available string methods are:
 \item[\texttt{.replace(startIndex, length, replaceStr)}] returns string with substring from \texttt{startIndex:int} on of given \texttt{length:int} replaced by \texttt{replaceStr:int}
 \item[\texttt{.toLower()}] returns a lowercase version of the string
 \item[\texttt{.toUpper()}] returns an uppercase version of the string
-\item[\texttt{.asArray(separator)}] returns the original string exploded to an array of substrings (\texttt{array<string>}), at each occurence of the \texttt{separator:string}; the separators are not included in the array. If separator is empty, you get the original string exploded to an array of single-character strings (an \texttt{array<string>} contains an \texttt{asString} method for reversal). 
+\item[\texttt{.asArray(separator)}] returns the original string exploded to an array of substrings (\texttt{array<string>}), at each occurrence of the \texttt{separator:string}; the separators are not included in the array. If separator is empty, you get the original string exploded to an array of single-character strings (an \texttt{array<string>} contains an \texttt{asString} method for reversal). 
 \end{description}
 
 \begin{example}
@@ -360,7 +360,7 @@ The Constants are:
   \item[EnumLit] Is the value of an enum type, given in notation \texttt{EnumType '::' EnumValue}.
   \item[Number] Is a \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} number in decimal notation without decimal point, postfixed by \texttt{y} or \texttt{Y} for \texttt{byte}, postfixed by \texttt{s} or \texttt{S} for \texttt{short}, postfixed by \texttt{l} or \texttt{L} for \texttt{long}, or of \texttt{int} type if not postfixed.
   \item[HexNumber] Is a \texttt{byte} or \texttt{short} or \texttt{int} or \texttt{long} number in hexadecimal notation starting with \texttt{0x}, the different types are distinguished by the suffix as for a decimal notation number.
-  \item[FloatingNumber] Is a \texttt{float} or \texttt{double} number in decimal notation with decimal point, postfixed by \texttt{f} or \texttt{F} for \texttt{float}, maybe postfixed by \texttt{d} or \texttt{D} for \texttt{double} .
+  \item[FloatingNumber] Is a \texttt{float} or \texttt{double} number in decimal notation with decimal point, postfixed by \texttt{f} or \texttt{F} for \texttt{float}, maybe postfixed by \texttt{d} or \texttt{D} for \texttt{double}.
   \item[QuotedText] Is a string constant. It consists of a sequence of characters, enclosed by double quotes.
   \item[BoolLit] Is a constant of boolean type, i.e. one of the literals \texttt{true} or \texttt{false}.
   \item[NullLit] Is the one constant of object type, the literal \texttt{null}.
@@ -393,7 +393,7 @@ A \emph{VarIdent} returns the value of the denoted variable, a \emph{GlobalVarId
 \begin{rail}
   FunctionCall: FunctionIdent '(' (() | Expression + ',') ')';
 \end{rail}
-A function call employs an external (attribute evaluation) function (cf. \ref{sub:extfct}), or a (internal) user-defined function (see \ref{sub:functions}, there you find the syntax definition we replicate here as a preview), or a built-in function (you find more on the \emph{IndexFunctionCall} in \ref{sec:attributeindices} and on the \emph{ScanTryscanCall} in \ref{sec:scantryscan}).
+A function call employs an external (attribute evaluation) function (cf. \ref{sub:extfct}), or an (internal) user-defined function (see \ref{sub:functions}, there you find the syntax definition we replicate here as a preview), or a built-in function (you find more on the \emph{IndexFunctionCall} in \ref{sec:attributeindices} and on the \emph{ScanTryscanCall} in \ref{sec:scantryscan}).
 Available built-in functions are e.g. \texttt{nameof}, \texttt{uniqueof}, and \texttt{random}.
 
 The \texttt{nameof} function returns the name of the given graph element as \texttt{string}
@@ -474,8 +474,8 @@ Alternatively, you may directly obtain the \texttt{count} of iterated matches.
   CastExpr: '(' PrimitiveType ')' PrimaryExpr;
 \end{rail}\ixnterm{CastExpr}
 
-The cast expression returns a value casted to a new type, it is specified by a type in parenthesis before the expression computing the original value.
-Another primary expression is an arbitrary expression enclosed in parenthesis.
+The cast expression returns a value cast to a new type, it is specified by a type in parentheses before the expression computing the original value.
+Another primary expression is an arbitrary expression enclosed in parentheses.
 
 %\pagebreak
 
