@@ -637,7 +637,7 @@ In C\#, this might look like:
 IMatches myMatches = myAction.Match(myProcEnv, -1, null); // -1: get all the matches
 for(int i=0; i<myMatches.NumMatches; ++i)
 {
-	if(inspectCarefully(myMatches.GetMatch(i))
+	if(inspectCarefully(myMatches.GetMatch(i)))
 	{
 		myAction.Modify(myProcEnv, myMatches.GetMatch(i));
 		break;

@@ -162,8 +162,11 @@ test onlyOneChildOrAllChildrenHaveExactlyOneCommonChild
 With positive application conditions (keyword \texttt{independent}) we can specify graph patterns which, in contrast to negative application conditions, must be present in the host graph to cause the matching of the enclosing pattern to succeed.
 Together with NACs they share the property of opening a \indexed{scope}, with elements being independent from the surrounding scope (i.e. a host graph element can easily get matched to a pattern element and a PAC element with a different name, unless the pattern element is referenced in the PAC). 
 They are used to improve the logical structure of rules by separating a pure condition from the main pattern of the rule amenable to rewriting.
-They are used when all matches of a pattern are wanted, and a part of that pattern is available in the graph multiple times, but should not cause combinatorially additional matches; then the \texttt{independent} can be used to check only for the existence of that part, limiting the all-matching to the core pattern.
-They are really needed if subpatterns want to match elements which were already matched during the subpattern derivation.
+
+They are used when all matches of a pattern are wanted, and a part of that pattern is available in the graph multiple times, but should not cause combinatorially additional matches; then the \texttt{independent} can be used to check only for the existence of that part, limiting the all-matching to the core pattern (when only one match of a pattern is wanted, with a part being available multiple times in the graph, its not of importance which of the parts being available multiple times gets matched).
+They are needed if subpatterns want to match elements which were already matched during the subpattern derivation (and are thus isomorphy-constraint-locked, which would prevent them from getting matched another time -- a situation which could easily occur because the full pattern is not statically visible).
+
+An independent can be seen as a conjunction with an existence-quantified pattern, a negative as a conjunction with the negation of an existence-quantified pattern (a main pattern can be used as an existence-quantified or all-quantified pattern, which is decided by sequence all-bracketing, and it rewrites the matched spots, in contrast to the application condition patterns); the multiple/iterated patterns introduced below are also a kind of all-bracketing, but with isomorphy-constraint locking in between the matches.
 
 \begin{example}
   A further fabricated example rather giving the intention using \texttt{independent} patterns to check some conditions with only the main pattern available to rewriting:
