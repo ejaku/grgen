@@ -2,7 +2,7 @@
 \label{cha:nested}
 
 The extension of the rule set language described in chapter \ref{chaprulelang} by nested patterns described in this chapter \ref{cha:nested} and the following chapter \ref{cha:sub} greatly enhances the flexibility and expressiveness of pattern matching and rewriting.
-The following patterns that allow you to match a simplified abstract syntax tree give a rough picture of the language of nested and subpatterns:
+The following patterns that allow matching a simplified abstract syntax tree give a rough picture of the language of nested and subpatterns:
   \begin{example} \label{ex:proggraph}
     \begin{grgen}
 test method
@@ -205,7 +205,7 @@ rule moveMethod
   NestedBody: (PatternStatement+) NestedRewriting?;
 \end{rail}\ixkeyw{iterated}\ixkeyw{multiple}\ixkeyw{optional}\ixnterm{NestedPatternWithCardinality}
 
-The \indexmain{pattern cardinality} blocks allow you to specify how often the nested pattern -- opening a scope -- is to be matched.
+The \indexmain{pattern cardinality} blocks allow specifying how often the nested pattern -- opening a scope -- is to be matched.
 Matching will be carried out eagerly, i.e. if the construct is not limiting the number of matches and a further match is possible it will be done.
 The \emph{NestedRewriting} will be explained in Section~\ref{sec:nestedrewrite}.
 You find more on the \emph{FiltersDecl} in Chapter~\ref{sub:filters}, usage of the filters is explained in \ref{sub:iteratedfilter}.

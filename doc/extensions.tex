@@ -105,8 +105,8 @@ or if the \GrG-languages are not well suited for parts of the task at hand.
 \end{rail}\ixnterm{EmitParseDeclaration}\ixkeyw{external}\ixkeyw{emit}\ixkeyw{class}
 Tells \GrG~that GRS importing and exporting is to be extended, as well as emitting and debugger display, so that these can handle external types, or the type \texttt{object}.
 This allows for a tight integration of external types with the built-in functionality.
-It allows you to inspect types not defined in \GrG~in the debugger (incl. yComp),
-and it allows you to serialize/deserialize graphs with types not defined in \GrG.
+It allows inspecting types not defined in \GrG~in the debugger (incl. yComp),
+and it allows serializing/deserializing graphs with types not defined in \GrG.
 See \ref{sub:apiextemitparse} for an explanation on what needs to be implemented in this case.
 
 %-----------------------------------------------------------------------------------------------
@@ -116,7 +116,7 @@ See \ref{sub:apiextemitparse} for an explanation on what needs to be implemented
 \end{rail}\ixnterm{CopyCompareDeclaration}\ixkeyw{external}\ixkeyw{copy}\ixkeyw{class}
 Tells \GrG~that graph element copying or attribute type comparisons are to be extended, so that they can handle external types, or the type \texttt{object}.
 This allows for a tight integration of external types with the built-in functionality, 
-and esp. allows you to implement value semantics (objects are normally compared by checking reference identity and cloned by copying the reference).
+and esp. allows implementing value semantics (objects are normally compared by checking reference identity and cloned by copying the reference).
 See \ref{sub:apiextcopycompare} for an explanation on what needs to be implemented in this case.
 
 %-----------------------------------------------------------------------------------------------

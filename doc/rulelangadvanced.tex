@@ -35,9 +35,9 @@ rule SomeRule {
 \end{example}
 %\end{figure}
 
-The advanced \emph{modifiers} introduced in the following section allow you to annotate patterns or actions with keywords which restrict what graph patterns are accepted as matches (some of them independent of the rewrite part, some of them depending on the rewrite specification).
+The advanced \emph{modifiers} introduced in the following section allow annotating patterns or actions with keywords which restrict what graph patterns are accepted as matches (some of them independent of the rewrite part, some of them depending on the rewrite specification).
 But first the advanced \emph{matching} constructs are introduced in this section, before they are elaborated on in a later section:
-they allow you to request more fine-grained or more dynamically what types to match, as well as allowing you to specify a match from a storage.
+they allow requesting more fine-grained or more dynamically what types to match, as well as specifying a match from a storage.
 Followed by the advanced \emph{rewrite} constructs which are handled in the same way (introduction here, then elaboration in a later section);
 they enable the specification of retyping (relabeling) and copying, as well as node merging and edge redirection.
 
@@ -319,7 +319,7 @@ Please have a look at example \ref{ex:retypelhs} for more on this.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Copy and Clone} \label{sec:copy}
 
-\indexmain{copy}\indexmain{clone}The copy and clone operators allow you to create a node or edge of the type of another node/edge, bearing the same attributes like that other node/edge.
+\indexmain{copy}\indexmain{clone}The copy and clone operators allow creating a node or edge of the type of another node/edge, bearing the same attributes like that other node/edge.
 They can be seen as an extended version of the \texttt{typeof} construct not only copying the exact dynamic type but also the attributes of the matched graph element.
 Together with the \texttt{iterated} construct they allow to simulate node replacement grammars or to copy entire structures, see \ref{sub:mergesplit} and \ref{subsub:copystructure}.
 The difference in between the two operators lies in the handling of attributes of object class type, the copy operator copies them deeply (/transitively), including all objects referenced, the clone operator just assigns the attribute to the same reference; for more on them cf. \ref{subsec:copynclonefunctions}. 

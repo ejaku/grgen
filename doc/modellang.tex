@@ -1,7 +1,7 @@
 \chapter{Graph Model Language}\indexmain{graph model language}
 \label{chapmodellang}
 The graph model language lays the foundation for \GrG.
-It allows you to specify \emph{node} and \emph{edge classes} bearing typed \emph{attributes} that are used in building and wiring the graph. 
+It allows specifying \emph{node} and \emph{edge classes} bearing typed \emph{attributes} that are used in building and wiring the graph. 
 Additionally, \emph{enumeration types} can be declared, to be used as \emph{attribute types} (the other available attribute types are built-in and don't need to be declared, they can just be used).
 A graph (instance) adheres to a graph (meta) model as defined in the following.
 
@@ -53,7 +53,7 @@ Furthermore, node and edge types may be extended with \emph{methods} in addition
 They may get bundled into \emph{packages}, preventing name collisions.
 And they support the concept of \emph{graph nesting} with attributes of type \texttt{graph}.
 You find more regarding this in Chapter~\ref{cha:modeladvanced}.
-In Chapter~\ref{cha:performance}, you find more on \emph{indices}, which allow you to quickly access the elements of the graph that are of interest to you.
+In Chapter~\ref{cha:performance}, you find more on \emph{indices}, which allow quickly accessing the elements of the graph that are of interest to you.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Building Blocks}
@@ -202,8 +202,8 @@ Then just do the same, edges are first class citizens.
 \pagebreak
 
 \subsection*{Connection Assertions}
-A \emph{\indexed{connection assertion}} allows you to specify a \emph{constraint} on the topology.
-It allows you to specify the node types an edge may connect to, and the multiplicities with which such edges appear on the nodes.
+A \emph{\indexed{connection assertion}} allows specifying a \emph{constraint} on the topology.
+It allows specifying the node types an edge may connect to, and the multiplicities with which such edges appear on the nodes.
 It is denoted as a pair of node types, optionally with their multiplicities\indexmainsee{multiplicity}{connection assertion}.
 
 \begin{warning}

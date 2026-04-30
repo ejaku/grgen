@@ -3,7 +3,7 @@
 
 The support for persistent storage can be distinguished into
 \begin{itemize}
-	\item the import/export functionality, that allows you to serialize/deserialize an in-memory graph at a dedicated point in time
+	\item the import/export functionality, that allows serializing/deserializing an in-memory graph at a dedicated point in time
 	\item the persistent graph, which is an in-memory graph mirrored to a database (and mirrored back at opening, by a persistence provider), changes to it are written through to the database
 	\item the record/replay functionality, that lies in between the two, starting with a full graph dump to a \texttt{.grs} file, then persisting ongoing changes to the \texttt{.grs} file.
 \end{itemize}

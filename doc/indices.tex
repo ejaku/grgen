@@ -2,7 +2,7 @@
 
 Matching patterns in a graph is based on searching for the elements of interest.
 It is better to find elements with certain characteristics straight ahead without search,
-utilizing a data structure that allows you to tell the elements that follow the characteristic apart from the ones that do not,
+utilizing a data structure that allows telling the elements that follow the characteristic apart from the ones that do not,
 than to search for them, traversing each and every node or edge in the graph, subjecting it to a test for the characteristic.
 
 Welcome to indices as known from database parlance.
@@ -49,7 +49,7 @@ The memory consumption of a \GrG{} edge without attributes is 48 bytes using a 3
 Attributes are cheap, they only increase this by the .NET-memory-footprint of their underlying objects.
 
 The runtime price of maintaining those indices during graph manipulation is low, adding a graph element is done in $O(1)$, removing a graph element is done in $O(1)$, too. 
-Furthermore, those indices allow you to optimize loops by letting the pattern matching of the next iteration start where the previous iteration left off (search state space stepping -- a further built-in contribution to the motto "Find, Don't Search")).
+Furthermore, those indices allow optimizing loops by letting the pattern matching of the next iteration start where the previous iteration left off (search state space stepping -- a further built-in contribution to the motto "Find, Don't Search")).
 
 We consider this the best you can get for the task of efficient pattern matching and rewriting on typed, attributed multigraphs, with multiple inheritance and attributes on nodes as well as edge types -- those indices are simply worth their price in the general case.
 You can only improve on this by exploiting the specifics of a less general graph model, a less general processing strategy supporting less change operations optimally out-of-the box, or by restricting yourself to less general and non-automatic pattern matching.
