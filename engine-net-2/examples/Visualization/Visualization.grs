@@ -1,5 +1,21 @@
 new graph Visualization
 
+#debug set layout Random
+#debug set layout Hierarchic
+#debug set layout Organic
+#debug set layout Orthogonal
+#debug set layout Circular
+#debug set layout Tree
+#debug set layout Diagonal
+#debug set layout "Incremental Hierarchic"
+#debug set layout Compilergraph
+
+#debug with MSAGLExt
+#debug set layout SugiyamaScheme
+#debug set layout MDS
+#debug set layout Ranking
+#debug set layout IcrementalLayout
+
 dump set node NBlack color black
 dump set node NGrey color  grey
 dump set node NLightGrey color lightgrey
