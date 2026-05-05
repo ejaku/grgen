@@ -154,7 +154,25 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             LayoutMethod layoutMethod;
             if(Enum.TryParse<LayoutMethod>(moduleName, out layoutMethod))
             {
-                gViewer.CurrentLayoutMethod = (LayoutMethod)Enum.Parse(typeof(LayoutMethod), moduleName);
+                gViewer.Graph.LayoutAlgorithmSettings = GetLayoutAlgorithmSettings(layoutMethod);
+                // note: we stick to the default LayoutMethod.UseSettingsOfTheGraph of the gViewer.CurrentLayoutMethod by now, cause the dedicated settings couldn't be set otherwise outside of the GUI, only the settings from the graph can be changed
+            }
+        }
+
+        private Microsoft.Msagl.Core.Layout.LayoutAlgorithmSettings GetLayoutAlgorithmSettings(LayoutMethod layoutMethod)
+        {
+            switch(layoutMethod)
+            {
+                case LayoutMethod.SugiyamaScheme:
+                    return new Microsoft.Msagl.Layout.Layered.SugiyamaLayoutSettings();
+                case LayoutMethod.MDS:
+                    return new Microsoft.Msagl.Layout.MDS.MdsLayoutSettings();
+                case LayoutMethod.IcrementalLayout:
+                    return new Microsoft.Msagl.Layout.Incremental.FastIncrementalLayoutSettings();
+                case LayoutMethod.Ranking:
+                    return new Microsoft.Msagl.Prototype.Ranking.RankingLayoutSettings();
+                default:
+                    return null;
             }
         }
 
@@ -171,7 +189,20 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             StringBuilder options = new StringBuilder();
             foreach(System.ComponentModel.PropertyDescriptor property in properties)
             {
-                options.AppendLine(property.Name + " = " + property.GetValue(gViewer.Graph.LayoutAlgorithmSettings));
+                object propertyValue = property.GetValue(gViewer.Graph.LayoutAlgorithmSettings);
+                Microsoft.Msagl.Core.Routing.EdgeRoutingSettings edgeRoutingSettings = propertyValue as Microsoft.Msagl.Core.Routing.EdgeRoutingSettings;
+                if(edgeRoutingSettings != null)
+                {
+                    // potential todo: general recursion instead of singly-nested specific handling of edge routing settings
+                    System.ComponentModel.ExpandableObjectConverter edgeRoutingSettingsConverter = new System.ComponentModel.ExpandableObjectConverter();
+                    System.ComponentModel.PropertyDescriptorCollection edgeRoutingSettingsProperties = edgeRoutingSettingsConverter.GetProperties(edgeRoutingSettings);
+                    foreach(System.ComponentModel.PropertyDescriptor edgeRoutingSettingsProperty in edgeRoutingSettingsProperties)
+                    {
+                        options.AppendLine(property.Name + "_" + edgeRoutingSettingsProperty.Name + " = " + edgeRoutingSettingsProperty.GetValue(edgeRoutingSettings));
+                    }
+                }
+                else
+                    options.AppendLine(property.Name + " = " + propertyValue);
             }
             return options.ToString();
         }
@@ -190,9 +221,24 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 foreach(System.ComponentModel.PropertyDescriptor property in properties) // TODO: find better way than iterating all properties
                 {
-                    if(property.Name == optionName)
+                    object propertyValue = property.GetValue(gViewer.Graph.LayoutAlgorithmSettings);
+                    Microsoft.Msagl.Core.Routing.EdgeRoutingSettings edgeRoutingSettings = propertyValue as Microsoft.Msagl.Core.Routing.EdgeRoutingSettings;
+                    if(edgeRoutingSettings != null && optionName.StartsWith("EdgeRoutingSettings_"))
                     {
-                        property.SetValue(gViewer.Graph.LayoutAlgorithmSettings, Convert.ChangeType(optionValue, property.PropertyType));
+                        System.ComponentModel.ExpandableObjectConverter edgeRoutingSettingsConverter = new System.ComponentModel.ExpandableObjectConverter();
+                        System.ComponentModel.PropertyDescriptorCollection edgeRoutingSettingsProperties = edgeRoutingSettingsConverter.GetProperties(propertyValue);
+                        foreach(System.ComponentModel.PropertyDescriptor edgeRoutingSettingsProperty in edgeRoutingSettingsProperties)
+                        {
+                            if("EdgeRoutingSettings_" + edgeRoutingSettingsProperty.Name == optionName)
+                            {
+                                edgeRoutingSettingsProperty.SetValue(edgeRoutingSettings, ConvertChangeTypeWithEnum(optionValue, edgeRoutingSettingsProperty.PropertyType));
+                                return "optionset\n";
+                            }
+                        }
+                    }
+                    else if(property.Name == optionName)
+                    {
+                        property.SetValue(gViewer.Graph.LayoutAlgorithmSettings, ConvertChangeTypeWithEnum(optionValue, property.PropertyType));
                         return "optionset\n";
                     }
                 }
@@ -204,15 +250,35 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             return "Unknown property";
         }
 
+        private object ConvertChangeTypeWithEnum(String value, Type targetType)
+        {
+            if(targetType.IsEnum)
+                return Enum.Parse(targetType, value);
+            else
+                return Convert.ChangeType(value, targetType);
+        }
+
         /// <summary>
         /// Forces MSAGL to relayout the graph.
         /// </summary>
         public void ForceLayout()
         {
-            //gViewer.NeedToCalculateLayout = true;
-            gViewer.Graph = gViewer.Graph;
-            //gViewer.NeedToCalculateLayout = false;
-            //gViewer.Graph = gViewer.Graph;
+            // potential TODO: the graph rendering after a sequence of edge additions (after a debug enable) shows a drastically different picture than a direct rendering of the resulting graph - strange, I thought this carries out a complete relayout - I guess some state has to be cleared to achieve the same result but I don't know which one...
+            try
+            {
+                gViewer.Graph = gViewer.Graph;
+            }
+            catch(InvalidOperationException ex)
+            {
+                Console.Error.WriteLine("The MSAGL graph viewer crashed with an InvalidOperationException - this may be caused by spline edge routing, you could try a different edge routing, e.g. StraightLine, or in case of incremental layout, it may be caused by an empty graph.");
+                throw ex;
+            }
+            catch(Exception ex)
+            {
+                // potential TODO: write to ConsoleUI (also at other code locations)... advantage of this is that it is visible even if GGrShell was closed, if GGrShell was started from a console....
+                Console.Error.WriteLine("The MSAGL graph viewer crashed.");
+                throw ex;
+            }
             System.Windows.Forms.Application.DoEvents();
         }
 
@@ -221,7 +287,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// </summary>
         void IBasicGraphViewerClient.Show()
         {
-            // TODO: implement as intended without relayout
+            // TODO: implement as intended without relayout (so things are more performant, a relayout should be safe but costly - well, it could be cause massive visual changes due to randomness)
             ForceLayout();
         }
 

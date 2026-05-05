@@ -29,6 +29,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         String ReadCommand();
 
+        // TODO: improve error handling, with error returns or exceptions, currently e.g. SetLayout silently swallows errors (worked around by a pre-check in the shell)
         void SetLayout(String moduleName);
 
         /// <summary>

@@ -326,7 +326,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             String errorMessage = graphViewerClient.SetLayoutOption(optionName, optionValue);
             if(errorMessage != null)
-                env.WriteLine(errorMessage);
+                env.WriteLine("Trying to set " + optionName + " to " + optionValue + " returned the error: " + errorMessage);
             return errorMessage == null;
         }
 

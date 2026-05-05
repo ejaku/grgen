@@ -15,6 +15,7 @@ new graph Visualization
 #debug set layout MDS
 #debug set layout Ranking
 #debug set layout IcrementalLayout
+#debug set layout option EdgeRoutingSettings_EdgeRoutingMode StraightLine #comment-in in case of spline routing crashes, which may happen e.g. with MDS layout
 
 dump set node NBlack color black
 dump set node NGrey color  grey
@@ -104,8 +105,10 @@ dump set edge EOrange linestyle dotted
 dump set edge EGold linestyle dashed
 
 debug enable
+#debug get layout options #only possible after the graph viewer was created
 
 new n0:NBlack
+#debug enable #comment-out the earlier debug enable in case of MSAGL(Ext) and IncrementalLayout, it crashes when the graph is empty
 new n1:NGrey
 new n2:NLightGrey
 new n3:NWhite
@@ -170,5 +173,7 @@ new n1c -:EPink-> n1c
 new n1d -:EOrange-> n1d
 new n1e -:EOrchid-> n1e
 new n1f -:EYellowGreen-> n1f
+
+#debug enable #comment-out the earlier debug enable and comment-in this one, to get a late graph display in order to prevent a layout explosion as it happens with the MDS layout of MSAGL(Ext)
 
 quit

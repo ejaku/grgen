@@ -56,7 +56,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         public GraphViewerBaseClient(GraphViewerTypes graphViewerType, String layoutModule,
             ElementRealizers realizers, IBasicGraphViewerClientHost basicGraphViewerClientHost)
         {
-            if (graphViewerType == GraphViewerTypes.MSAGL || graphViewerType == GraphViewerTypes.MSAGLExt)
+            if (IsMSAGLLike(graphViewerType))
             {
                 IHostCreator guiConsoleDebuggerHostCreator = GetGuiConsoleDebuggerHostCreator();
                 IBasicGraphViewerClientCreator basicGraphViewerClientCreator = GetBasicGraphViewerClientCreator();
@@ -119,7 +119,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             if (type == GraphViewerTypes.YComp)
                 return YCompClient.AvailableLayouts;
-            else if (type == GraphViewerTypes.MSAGL)
+            else if (IsMSAGLLike(type))
             {
                 // better to be handled by the corresponding graph viewer client that has that knowledge,
                 // but this would require to create an instance of a dll we don't want to instantiate for technology reasons unless really requested
@@ -134,7 +134,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             if (type == GraphViewerTypes.YComp)
                 return YCompClient.IsValidLayout(layoutName);
-            else if (type == GraphViewerTypes.MSAGL)
+            else if (IsMSAGLLike(type))
             {
                 // better to be handled by the corresponding graph viewer client that has that knowledge,
                 // but this would require to create an instance of a dll we don't want to instantiate for technology reasons unless really requested
@@ -143,6 +143,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             else
                 return false;
+        }
+
+        public static bool IsMSAGLLike(GraphViewerTypes graphViewerType)
+        {
+            return graphViewerType == GraphViewerTypes.MSAGL
+                || graphViewerType == GraphViewerTypes.MSAGLExt;
         }
     }
 }

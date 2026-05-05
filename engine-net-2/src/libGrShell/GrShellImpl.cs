@@ -2940,7 +2940,7 @@ namespace de.unika.ipd.grGen.grShell
 
         private void ProcessEventsUntilKeyPressedAsNeeded()
         {
-            if(seqApplierAndDebugger.GraphViewerType == GraphViewerTypes.MSAGL)
+            if(GraphViewerBaseClient.IsMSAGLLike(seqApplierAndDebugger.GraphViewerType))
             {
                 IDoEventsCaller doEventsCaller = TypeCreator.GetDoEventsCaller();
                 while (!ConsoleUI.consoleIn.KeyAvailable)
@@ -2953,7 +2953,7 @@ namespace de.unika.ipd.grGen.grShell
 
         private void ProcessEventsAsNeeded()
         {
-            if(seqApplierAndDebugger.GraphViewerType == GraphViewerTypes.MSAGL)
+            if(GraphViewerBaseClient.IsMSAGLLike(seqApplierAndDebugger.GraphViewerType))
             {
                 IDoEventsCaller doEventsCaller = TypeCreator.GetDoEventsCaller();
                 doEventsCaller.DoEvents();
@@ -3611,7 +3611,7 @@ namespace de.unika.ipd.grGen.grShell
 
         public bool SetDebugMode(bool enable)
         {
-            if(enable && seqApplierAndDebugger.GraphViewerType == GraphViewerTypes.MSAGL)
+            if(enable && GraphViewerBaseClient.IsMSAGLLike(seqApplierAndDebugger.GraphViewerType))
                 ConsoleUI.outWriter.WriteLine("Note that the MSAGL-based debugger GUI will be frozen unless you debug a sequence (/graph changes occur).");
             return seqApplierAndDebugger.SetDebugMode(enable);
         }
