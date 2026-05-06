@@ -1,0 +1,8 @@
+#! /bin/sh
+GGRSHELL=`readlink -f "$0"`
+GGRSHELL_HOME=`dirname "$GGRSHELL"`
+if which mono &> /dev/null; then
+	mono "$GGRSHELL_HOME/GGrShell.exe" ${1+"$@"}
+else
+	"$GGRSHELL_HOME/GGrShell.exe" ${1+"$@"}
+fi
