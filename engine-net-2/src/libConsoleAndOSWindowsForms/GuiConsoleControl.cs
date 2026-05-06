@@ -71,6 +71,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
             InitializeComponent();
 
             theRichTextBox.PreviewKeyDown += GuiConsoleRichTextBox_PreviewKeyDown;
+            theRichTextBox.KeyDown += GuiConsoleRichTextBox_KeyDown;
             theRichTextBox.KeyPress += GuiConsoleRichTextBox_KeyPress;
 
             theRichTextBox.ReadOnly = true; // without, mono/LINUX showed issues IIRC, but as only the last line should be amenable to editing anyway, manually implemented editing is needed anyhow
@@ -107,11 +108,19 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
             enteredKey = KeyToConsoleKey(e.KeyData);
         }
 
+        private void GuiConsoleRichTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // fallback for Mono/Linux, it seems the PreviewKeyDown event is not fired for Backspace/Delete
+            ConsoleKey key = KeyToConsoleKey(e.KeyData);
+            if(key != ConsoleKey.NoName)
+                enteredKey = key;
+        }
+
         private ConsoleKey KeyToConsoleKey(Keys key)
         {
             switch(key)
             {
-                // the curser keys and alike are handled by the rich text box, so no own processing is needed, we only allow deletion besides key-press-insertion in the last line (that are forbidden in a read only textbox)
+                // the cursor keys and alike are handled by the rich text box, so no own processing is needed, we only allow deletion besides key-press-insertion in the last line (that are forbidden in a read only textbox)
                 case Keys.Back: return ConsoleKey.Backspace;
                 case Keys.Delete: return ConsoleKey.Delete;
                 default: return ConsoleKey.NoName;
