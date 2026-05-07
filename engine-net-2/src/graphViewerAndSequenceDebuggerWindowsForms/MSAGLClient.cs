@@ -167,7 +167,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public String ReadCommand()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(); // implemented in MSAGLExtClient, potential todo: re-implement here, too
         }
 
         /// <summary>
@@ -530,7 +530,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void DeleteEdge(String edgeName)
         {
-            // TODO: Update group relation // GUI TODO: it seems EdgeById does not work at all
+            // unlikely TODO: Update group relation - should be handled by the GraphViewerClient // GUI TODO: it seems EdgeById does not work at all
             /*Edge edge = gViewer.Graph.EdgeById(edgeName);
             if(edge == null && oldEdgeName != null)
                 edge = gViewer.Graph.EdgeById(oldEdgeName);
@@ -582,7 +582,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
         public void WaitForElement(bool val)
         {
-            // TODO val==true: ask user to select node or edge in the graph, val==false: stop asking. The name of the element is to be returned with ReadCommand, in case of CommandAvailable.
+            throw new NotImplementedException(); // implemented in MSAGLExtClient, potential todo: re-implement here, too
         }
 
         public void MoveNode(String srcName, String tgtName)
