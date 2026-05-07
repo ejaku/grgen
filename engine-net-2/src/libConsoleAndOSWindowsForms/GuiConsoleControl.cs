@@ -48,6 +48,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
         char enteredCharacter = '\0';
         ConsoleKey enteredKey = ConsoleKey.NoName;
         bool escapePressed = false;
+        bool pasteRequested = false;
         char enteredNextCharacter = '\0'; // mini queue of 2 entries (potential TODO: introduce real queue)
         ConsoleKey enteredNextKey = ConsoleKey.NoName;
         bool cancel = false;
@@ -76,6 +77,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
 
             theRichTextBox.ReadOnly = true; // without, mono/LINUX showed issues IIRC, but as only the last line should be amenable to editing anyway, manually implemented editing is needed anyhow
             theRichTextBox.HideSelection = false;
+            theRichTextBox.ShortcutsEnabled = true; // Ctrl-C
 
             // we prefer Courier New, but if this one is not available, the system's generic monospace default font
             theRichTextBox.Font = new Font("Courier New", 11);
@@ -105,6 +107,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
         private void GuiConsoleRichTextBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             escapePressed = e.KeyData == Keys.Escape;
+            pasteRequested = e.KeyCode == Keys.V && e.Control;
             enteredKey = KeyToConsoleKey(e.KeyData);
         }
 
@@ -181,6 +184,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
             String startTextBuffer = theRichTextBox.Text;
             string lineRead = "";
 
+            // TODO: real/full selection handling
             int caretStartIndex = theRichTextBox.SelectionStart; // only editing past that position possible (same line, to the right of the column)
             int startColumn = GetColumn(caretStartIndex);
 
@@ -223,6 +227,17 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
                             SetText(startTextBuffer + lineRead, caretIndex);
                         }
                     }
+                    ClearEnteredKey();
+                }
+                else if(pasteRequested) // Paste in read-only rich text box emulated, Cut not supported, Copy supported by the text box itself
+                {
+                    String clipboardContent = Clipboard.GetText();
+                    int lengthOfFirstLineFromClipboard = clipboardContent.IndexOfAny(new char[] { '\r', '\n' });
+                    if(lengthOfFirstLineFromClipboard < 0)
+                        lengthOfFirstLineFromClipboard = clipboardContent.Length;
+                    clipboardContent = clipboardContent.Substring(0, lengthOfFirstLineFromClipboard); // multi-line-paste is not supported by the ReadLine method (/this control)
+                    lineRead = left + clipboardContent + right;
+                    SetText(startTextBuffer + lineRead, caretIndex + lengthOfFirstLineFromClipboard);
                     ClearEnteredKey();
                 }
                 else if(enteredCharacter != '\0')
@@ -326,6 +341,8 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
         {
             enteredCharacter = '\0';
             enteredKey = ConsoleKey.NoName;
+            escapePressed = false;
+            pasteRequested = false;
             if(enteredNextCharacter != '\0')
             {
                 enteredCharacter = enteredNextCharacter;
