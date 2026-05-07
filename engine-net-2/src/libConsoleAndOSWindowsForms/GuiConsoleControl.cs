@@ -47,6 +47,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
 
         char enteredCharacter = '\0';
         ConsoleKey enteredKey = ConsoleKey.NoName;
+        string enteredLine = null;
         bool escapePressed = false;
         bool pasteRequested = false;
         char enteredNextCharacter = '\0'; // mini queue of 2 entries (potential TODO: introduce real queue)
@@ -93,6 +94,12 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
         {
             enteredCharacter = character;
             enteredKey = key;
+        }
+
+        // simulates user input of an entire line
+        public void EnterLine(string line)
+        {
+            enteredLine = line;
         }
 
         // simulates user input and following user input
@@ -209,7 +216,15 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
                 if(cancel)
                     throw new OperationCanceledException();
 
-                if(enteredKey == ConsoleKey.Backspace || enteredKey == ConsoleKey.Delete)
+                if(enteredLine != null)
+                {
+                    lineRead = left + enteredLine + right;
+                    SetText(startTextBuffer + lineRead, caretIndex + enteredLine.Length);
+                    Write("\r\n");
+                    ClearEnteredKey();
+                    return lineRead;
+                }
+                else if(enteredKey == ConsoleKey.Backspace || enteredKey == ConsoleKey.Delete)
                 {
                     if(enteredKey == ConsoleKey.Backspace)
                     {
@@ -339,6 +354,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
 
         private void ClearEnteredKey()
         {
+            enteredLine = null;
             enteredCharacter = '\0';
             enteredKey = ConsoleKey.NoName;
             escapePressed = false;

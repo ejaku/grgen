@@ -7,6 +7,7 @@
 
 using System;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 using de.unika.ipd.grGen.libConsoleAndOS;
 using de.unika.ipd.grGen.grShell;
@@ -19,6 +20,7 @@ namespace GGrShell
         public GrShellComponents shellComponents;
         public GuiConsoleControlAsTextReader reader;
         public GuiConsoleControlAsTextWriter writer;
+        private readonly List<String> clipboardContentToBePasted = new List<String>();
 
         public GGrShellForm()
         {
@@ -52,8 +54,16 @@ namespace GGrShell
                 {
                     GrShellMainHelper.ShowPromptAsNeeded(shellConfig.showPrompt);
 
+                    // simulates a line-by-line entering from the clipboard
+                    if(clipboardContentToBePasted.Count > 0)
+                        PasteLineFromClipboard();
+
                     bool success = shellComponents.shell.ParseShellCommand(); // contains an Application.DoEvents(), causing this "main loop" to still support a reactive GUI
                                                                               // caveat: the internal loop on an include/replay comes without a DoEvents, but a dedicated DoEvents here wouldn't help - TODO
+
+                    // stop line-by-line entering from the clipboard upon an execution error
+                    if(!success)
+                        clipboardContentToBePasted.Clear();
 
                     int errorCode = GrShellMainHelper.HandleEofOrErrorIfNonConsoleShell(success, shellConfig, shellComponents);
                     if(errorCode != 0)
@@ -83,6 +93,30 @@ namespace GGrShell
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            clipboardContentToBePasted.AddRange(Clipboard.GetText().Split('\n'));
+            clipboardContentToBePasted.Reverse();
+
+            PasteLineFromClipboard();
+
+            /* treat clipboard content like a file, issue: not printed, only execution results shown
+            TextReader newReader = new StringReader(Clipboard.GetText());
+            shellComponents.shell.ReInit(newReader);
+            shellComponents.driver.tokenSources.Pop();
+            shellComponents.driver.tokenSources.Push(shellComponents.shell.token_source);
+            shellConfig.showPrompt = false;
+            shellConfig.readFromConsole = false;
+            shellComponents.reader.Close();
+            shellComponents.reader = newReader; */
+        }
+
+        private void PasteLineFromClipboard()
+        {
+            console.EnterLine(clipboardContentToBePasted[clipboardContentToBePasted.Count - 1].Trim('\r'));
+            clipboardContentToBePasted.RemoveAt(clipboardContentToBePasted.Count - 1);
         }
     }
 }

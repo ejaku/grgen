@@ -33,6 +33,8 @@
             this.theMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.theMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -40,19 +42,21 @@
             // 
             this.console.Dock = System.Windows.Forms.DockStyle.Fill;
             this.console.EnableClear = false;
-            this.console.Location = new System.Drawing.Point(0, 42);
+            this.console.Location = new System.Drawing.Point(0, 40);
             this.console.Name = "console";
-            this.console.Size = new System.Drawing.Size(1186, 454);
+            this.console.Size = new System.Drawing.Size(1186, 456);
             this.console.TabIndex = 0;
             // 
             // theMenuStrip
             // 
+            this.theMenuStrip.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.theMenuStrip.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.theMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.editToolStripMenuItem});
             this.theMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.theMenuStrip.Name = "theMenuStrip";
-            this.theMenuStrip.Size = new System.Drawing.Size(1186, 42);
+            this.theMenuStrip.Size = new System.Drawing.Size(1186, 40);
             this.theMenuStrip.TabIndex = 1;
             this.theMenuStrip.Text = "theMenuStrip";
             // 
@@ -61,15 +65,30 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.closeToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(64, 38);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(71, 36);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(324, 38);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(205, 44);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pasteToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(74, 36);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // pasteToolStripMenuItem
+            // 
+            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.pasteToolStripMenuItem.Text = "Paste line(s)";
+            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
             // GGrShellForm
             // 
@@ -82,12 +101,13 @@
             this.MainMenuStrip = this.theMenuStrip;
             this.Name = "GGrShellForm";
             this.Text = "GGrShell";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.GGrShellForm_FormClosed);
+            this.Shown += new System.EventHandler(this.GGrShellForm_Shown);
             this.theMenuStrip.ResumeLayout(false);
             this.theMenuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.GGrShellForm_FormClosed);
-            this.Shown += new System.EventHandler(this.GGrShellForm_Shown);
+
         }
 
         #endregion
@@ -96,6 +116,8 @@
         private System.Windows.Forms.MenuStrip theMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
     }
 }
 
