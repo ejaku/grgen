@@ -30,7 +30,38 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         bool hostClosed = false;
         SplitterPanel splitterPanelHost;
 
+        Dictionary<String, Edge> nameToEdge = new Dictionary<string, Edge>();
+        Dictionary<Edge, String> edgeToName = new Dictionary<Edge, string>();
+
+        Dictionary<String, Attributes> graphElementToAttributes = new Dictionary<string, Attributes>();
+
         private static Dictionary<String, bool> availableLayouts;
+
+        Dictionary<String, MSAGLNodeRealizer> nodeRealizers = new Dictionary<string, MSAGLNodeRealizer>();
+        Dictionary<String, MSAGLEdgeRealizer> edgeRealizers = new Dictionary<string, MSAGLEdgeRealizer>();
+
+        //maps by index to GrColor defined in dumpInterface.cs:
+        //Black, Blue, Green, Cyan, Red, Purple, Brown, Grey,
+        //LightGrey, LightBlue, LightGreen, LightCyan, LightRed, LightPurple, Yellow, White,
+        //DarkBlue, DarkRed, DarkGreen, DarkYellow, DarkMagenta, DarkCyan, Gold, Lilac,
+        //Turquoise, Aquamarine, Khaki, Pink, Orange, Orchid, LightYellow, YellowGreen
+        private static readonly Color[] colors = {
+            Color.Black, Color.Blue, Color.Green, Color.Cyan, Color.Red, Color.Purple, Color.Brown, Color.Gray,
+            Color.LightGray, Color.LightBlue, Color.LightGreen, Color.LightCyan, Color.PaleVioletRed, Color.Magenta, Color.Yellow, Color.White,
+            Color.DarkBlue, Color.DarkRed, Color.DarkGreen, Color.DarkKhaki, Color.DarkMagenta, Color.DarkCyan, Color.Gold, Color.Violet,
+            Color.Turquoise, Color.Aquamarine, Color.Khaki, Color.Pink, Color.Orange, Color.Orchid, Color.LightYellow, Color.YellowGreen
+        };
+
+        // maps by index to GrLineStyle defined in dumpInterface.cs:
+        // Continuous, Dotted, Dashed, Invisible
+        private static readonly Style[] lineStyles = { Style.Solid, Style.Dotted, Style.Dashed, Style.Invis };
+
+        // maps by index to GrNodeShape defined in dumpInterface.cs:
+        // Box, Triangle, Circle, Ellipse, Rhomb, Hexagon,
+        // Trapeze, UpTrapeze, LParallelogram, RParallelogram
+        private static readonly Shape[] nodeShapes = { Shape.Box, Shape.Triangle, Shape.Circle, Shape.Ellipse, Shape.Diamond, Shape.Hexagon,
+            Shape.Trapezium, Shape.Trapezium, Shape.Parallelogram, Shape.Parallelogram }; // todo: some shapes are not supported, change them to supported but not fitting ones?
+
 
         static MSAGLClient()
         {
@@ -183,28 +214,35 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         /// and the current values.</returns>
         public String GetLayoutOptions()
         {
-            //gViewer.Graph.LayoutAlgorithmSettings is Microsoft.Msagl.Layout.Layered.SugiyamaLayoutSettings or Microsoft.Msagl.Layout.MDS.MdsLayoutSettings or Microsoft.Msagl.Prototype.Ranking.RankingLayoutSettings or Microsoft.Msagl.Layout.Incremental.FastIncrementalLayoutSettings
-            System.ComponentModel.ExpandableObjectConverter converter = new System.ComponentModel.ExpandableObjectConverter();
-            System.ComponentModel.PropertyDescriptorCollection properties = converter.GetProperties(gViewer.Graph.LayoutAlgorithmSettings);
             StringBuilder options = new StringBuilder();
+            //gViewer.Graph.LayoutAlgorithmSettings is Microsoft.Msagl.Layout.Layered.SugiyamaLayoutSettings or Microsoft.Msagl.Layout.MDS.MdsLayoutSettings or Microsoft.Msagl.Prototype.Ranking.RankingLayoutSettings or Microsoft.Msagl.Layout.Incremental.FastIncrementalLayoutSettings
+            GetLayoutOptions(options, null, gViewer.Graph.LayoutAlgorithmSettings);
+            return options.ToString();
+        }
+
+        private void GetLayoutOptions(StringBuilder options, String path, object valueToGetPropertiesFrom)
+        {
+            System.ComponentModel.ExpandableObjectConverter converter = new System.ComponentModel.ExpandableObjectConverter();
+            System.ComponentModel.PropertyDescriptorCollection properties = converter.GetProperties(valueToGetPropertiesFrom);
             foreach(System.ComponentModel.PropertyDescriptor property in properties)
             {
-                object propertyValue = property.GetValue(gViewer.Graph.LayoutAlgorithmSettings);
+                object propertyValue = property.GetValue(valueToGetPropertiesFrom);
+                // (context-free local) switch based on type alternatively name, fails if same name/type should be handled differently depending on position in nesting path of properties tree
+                // TODO: handling of other recursive values, the ones that exist are not handled in the MSAGL-gViewer-Properties-Viewer-GUI either
                 Microsoft.Msagl.Core.Routing.EdgeRoutingSettings edgeRoutingSettings = propertyValue as Microsoft.Msagl.Core.Routing.EdgeRoutingSettings;
                 if(edgeRoutingSettings != null)
-                {
-                    // potential todo: general recursion instead of singly-nested specific handling of edge routing settings
-                    System.ComponentModel.ExpandableObjectConverter edgeRoutingSettingsConverter = new System.ComponentModel.ExpandableObjectConverter();
-                    System.ComponentModel.PropertyDescriptorCollection edgeRoutingSettingsProperties = edgeRoutingSettingsConverter.GetProperties(edgeRoutingSettings);
-                    foreach(System.ComponentModel.PropertyDescriptor edgeRoutingSettingsProperty in edgeRoutingSettingsProperties)
-                    {
-                        options.AppendLine(property.Name + "_" + edgeRoutingSettingsProperty.Name + " = " + edgeRoutingSettingsProperty.GetValue(edgeRoutingSettings));
-                    }
-                }
+                    GetLayoutOptions(options, PathPrefix(path, property.Name + "_"), edgeRoutingSettings);
                 else
-                    options.AppendLine(property.Name + " = " + propertyValue);
+                    options.AppendLine(PathPrefix(path, property.Name) + " = " + propertyValue);
             }
-            return options.ToString();
+        }
+
+        private String PathPrefix(String path, String name)
+        {
+            if(path != null)
+                return path + name;
+            else
+                return name;
         }
 
         /// <summary>
@@ -219,7 +257,8 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             System.ComponentModel.PropertyDescriptorCollection properties = converter.GetProperties(gViewer.Graph.LayoutAlgorithmSettings);
             try
             {
-                foreach(System.ComponentModel.PropertyDescriptor property in properties) // TODO: find better way than iterating all properties
+                // TODO: find better way than iterating all properties; if none exists: TODO: use same recursive scheme like in GetLayoutOptions
+                foreach(System.ComponentModel.PropertyDescriptor property in properties)
                 {
                     object propertyValue = property.GetValue(gViewer.Graph.LayoutAlgorithmSettings);
                     Microsoft.Msagl.Core.Routing.EdgeRoutingSettings edgeRoutingSettings = propertyValue as Microsoft.Msagl.Core.Routing.EdgeRoutingSettings;
@@ -603,38 +642,6 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             edgeRealizer.lineStyle = GetLineStyle(lineStyle);
             return edgeRealizer;
         }
-
-        // TODO: all member variables should be in one place
-
-        Dictionary<String, MSAGLNodeRealizer> nodeRealizers = new Dictionary<string, MSAGLNodeRealizer>();
-        Dictionary<String, MSAGLEdgeRealizer> edgeRealizers = new Dictionary<string, MSAGLEdgeRealizer>();
-
-        Dictionary<String, Edge> nameToEdge = new Dictionary<string, Edge>();
-        Dictionary<Edge, String> edgeToName = new Dictionary<Edge, string>();
-
-        Dictionary<String, Attributes> graphElementToAttributes = new Dictionary<string, Attributes>();
-
-        //maps by index to GrColor defined in dumpInterface.cs:
-        //Black, Blue, Green, Cyan, Red, Purple, Brown, Grey,
-        //LightGrey, LightBlue, LightGreen, LightCyan, LightRed, LightPurple, Yellow, White,
-        //DarkBlue, DarkRed, DarkGreen, DarkYellow, DarkMagenta, DarkCyan, Gold, Lilac,
-        //Turquoise, Aquamarine, Khaki, Pink, Orange, Orchid, LightYellow, YellowGreen
-        private static readonly Color[] colors = {
-            Color.Black, Color.Blue, Color.Green, Color.Cyan, Color.Red, Color.Purple, Color.Brown, Color.Gray,
-            Color.LightGray, Color.LightBlue, Color.LightGreen, Color.LightCyan, Color.PaleVioletRed, Color.Magenta, Color.Yellow, Color.White,
-            Color.DarkBlue, Color.DarkRed, Color.DarkGreen, Color.DarkKhaki, Color.DarkMagenta, Color.DarkCyan, Color.Gold, Color.Violet,
-            Color.Turquoise, Color.Aquamarine, Color.Khaki, Color.Pink, Color.Orange, Color.Orchid, Color.LightYellow, Color.YellowGreen
-        };
-
-        // maps by index to GrLineStyle defined in dumpInterface.cs:
-        // Continuous, Dotted, Dashed, Invisible
-        private static readonly Style[] lineStyles = { Style.Solid, Style.Dotted, Style.Dashed, Style.Invis };
-
-        // maps by index to GrNodeShape defined in dumpInterface.cs:
-        // Box, Triangle, Circle, Ellipse, Rhomb, Hexagon,
-        // Trapeze, UpTrapeze, LParallelogram, RParallelogram
-        private static readonly Shape[] nodeShapes = { Shape.Box, Shape.Triangle, Shape.Circle, Shape.Ellipse, Shape.Diamond, Shape.Hexagon,
-            Shape.Trapezium, Shape.Trapezium, Shape.Parallelogram, Shape.Parallelogram }; // todo: some shapes are not supported, change them to supported but not fitting ones?
 
         public static Color GetColor(GrColor color)
         {
