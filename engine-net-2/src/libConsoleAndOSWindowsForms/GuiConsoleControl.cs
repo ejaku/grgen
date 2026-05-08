@@ -225,6 +225,8 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
                     SetText(startTextBuffer + lineRead, caretIndex + enteredLine.Length);
                     Write("\r\n");
                     ClearEnteredKey();
+                    System.Threading.Thread.Sleep(1);
+                    Application.DoEvents();
                     return lineRead;
                 }
                 else if(enteredKey == ConsoleKey.Backspace || enteredKey == ConsoleKey.Delete)
