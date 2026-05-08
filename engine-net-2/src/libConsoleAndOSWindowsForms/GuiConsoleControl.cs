@@ -139,7 +139,10 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
 
         private void GuiConsoleRichTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            enteredCharacter = e.KeyChar;
+            if(e.KeyChar == '\u0016') // fallback for Mono/Linux, it seems the PreviewKeyDown event is not fired for Ctrl-V
+                pasteRequested = true;
+            else
+                enteredCharacter = e.KeyChar;
             e.Handled = true;
         }
 
@@ -268,6 +271,10 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
                         ClearEnteredKey();
                         WriteLine(); // to be revisited when a real ESC key press is supported as a means of canceling input (also on the real text console), as of now only entering an empty line is interpreted as a means of canceling input, and realized by the GUI by sending fake ESC key presses
                         return "";
+                    }
+                    else if(enteredCharacter == '\u0003') // workaround for Mono/Linux, ignore/don't print Ctrl-C
+                    {
+                        ClearEnteredKey();
                     }
                     else
                     {
