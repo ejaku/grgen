@@ -123,5 +123,13 @@ namespace GGrShell
             if(clipboardLineSource.IsEmpty)
                 clipboardLineSource = null;
         }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("This is the GGrShell application from the GrGen.NET graph rewrite system.\n"
+                + "Call it (from the command line) with the .grs file that you want to execute as argument.\n"
+                + "Regarding licenses, see LICENSE.txt included in the packaging of this application.\n"
+                + "Also see http://www.grgen.de", "About GGrShell", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }

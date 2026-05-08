@@ -16,7 +16,7 @@ namespace de.unika.ipd.grGen.grShell
     {
         static int Main(string[] args)
         {
-            PrintVersion();
+            GrShellMainHelper.PrintVersion();
 
             GrShellConfigurationAndControlState config;
             GrShellComponents components;
@@ -25,11 +25,6 @@ namespace de.unika.ipd.grGen.grShell
                 return errorCode;
 
             return GrShellMainHelper.ExecuteShell(config, components);
-        }
-
-        private static void PrintVersion()
-        {
-            ConsoleUI.outWriter.WriteLine(GrShellDriver.VersionString + " (enter \"help\" for a list of commands)");
         }
     }
 }

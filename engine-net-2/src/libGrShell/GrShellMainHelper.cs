@@ -294,5 +294,10 @@ namespace de.unika.ipd.grGen.grShell
 
             return 0;
         }
+
+        public static void PrintVersion()
+        {
+            ConsoleUI.outWriter.WriteLine(GrShellDriver.VersionString + " (enter \"help\" for a list of commands)");
+        }
     }
 }
