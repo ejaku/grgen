@@ -359,6 +359,11 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
             }
         }
 
+        public bool LineEntered
+        {
+            get { return enteredLine != null; }
+        }
+
         private void ClearEnteredKey()
         {
             enteredLine = null;

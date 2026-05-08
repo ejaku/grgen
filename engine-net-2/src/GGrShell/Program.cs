@@ -5,6 +5,8 @@
  * www.grgen.de / www.grgen.net
  */
 
+// by Edgar Jakumeit
+
 using System;
 using System.Windows.Forms;
 using de.unika.ipd.grGen.libConsoleAndOS;

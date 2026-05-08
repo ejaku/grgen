@@ -1056,7 +1056,7 @@ void ShellCommand():
         noError = impl.PrintWorkingDirectory();
     }
 |
-    "askfor"
+    "askfor" LineEnd()
     {
         impl.Askfor(null);
     }
@@ -1134,12 +1134,12 @@ void ShellCommand():
 |
     "randomseed"
     (
-        num=Number()
+        num=Number() LineEnd()
         {
             impl.SetRandomSeed(num);
         }
     |
-        str1=WordOrText()
+        str1=WordOrText() LineEnd()
         {
             if(str1 != "time")
             {
@@ -1182,9 +1182,9 @@ void ShellCommand():
 |
     "silence" ("exec" { boolVal = true; } )?
     (
-        "on" { if(boolVal) impl.SilenceExec = true; else impl.Silence = true; }
+        "on" LineEnd() { if(boolVal) impl.SilenceExec = true; else impl.Silence = true; }
     |
-        "off" { if(boolVal) impl.SilenceExec = false; else impl.Silence = false;}
+        "off" LineEnd() { if(boolVal) impl.SilenceExec = false; else impl.Silence = false;}
     )
 |
     "transient" "object" "type" entity1=TransientObject() "is" entity2=TransientObject() LineEnd()
@@ -2078,45 +2078,45 @@ void DebugCommand():
         "set" "match" DebugSetMatch()
     |
         LOOKAHEAD(2)
-        "on" "add" str=WordOrText() "(" str2=WordOrText() ")" break_=Break()
+        "on" "add" str=WordOrText() "(" str2=WordOrText() ")" break_=Break() LineEnd()
         { impl.DebugOnAdd(str, str2, break_); }
     |
         LOOKAHEAD(2)
-        "on" "rem" str=WordOrText() "(" str2=WordOrText() ")" break_=Break()
+        "on" "rem" str=WordOrText() "(" str2=WordOrText() ")" break_=Break() LineEnd()
         { impl.DebugOnRem(str, str2, break_); }
     |
         LOOKAHEAD(2)
-        "on" "emit" str=WordOrText() "(" str2=WordOrText() ")" break_=Break()
+        "on" "emit" str=WordOrText() "(" str2=WordOrText() ")" break_=Break() LineEnd()
         { impl.DebugOnEmit(str, str2, break_); }
     |
         LOOKAHEAD(2)
-        "on" "halt" str=WordOrText() "(" str2=WordOrText() ")" break_=Break()
+        "on" "halt" str=WordOrText() "(" str2=WordOrText() ")" break_=Break() LineEnd()
         { impl.DebugOnHalt(str, str2, break_); }
     |
         LOOKAHEAD(2)
-        "on" "highlight" str=WordOrText() "(" str2=WordOrText() ")" break_=Break()
+        "on" "highlight" str=WordOrText() "(" str2=WordOrText() ")" break_=Break() LineEnd()
         { impl.DebugOnHighlight(str, str2, break_); }
     |
         LOOKAHEAD(2)
-        "on" "match" str=WordOrText() break_=Break() (seqExpr=If(str, null))?
+        "on" "match" str=WordOrText() break_=Break() (seqExpr=If(str, null))? LineEnd()
         { impl.DebugOnMatch(str, break_, seqExpr); }
     |
         LOOKAHEAD(2)
-        "on" "new" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))?
+        "on" "new" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))? LineEnd()
         { impl.DebugOnNew(graphElemType, only, elemName, break_, seqExpr); }
     |
         LOOKAHEAD(2)
-        "on" "delete" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))?
+        "on" "delete" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))? LineEnd()
         { impl.DebugOnDelete(graphElemType, only, elemName, break_, seqExpr); }
     |
         LOOKAHEAD(2)
-        "on" "retype" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))?
+        "on" "retype" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))? LineEnd()
         { impl.DebugOnRetype(graphElemType, only, elemName, break_, seqExpr); }
     |
-        "on" "set" "attributes" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))?
+        "on" "set" "attributes" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))? LineEnd()
         { impl.DebugOnSetAttributes(graphElemType, only, elemName, break_, seqExpr); }
     |
-        "with" debuggerName=WordOrText()
+        "with" debuggerName=WordOrText() LineEnd()
         { impl.DebugWith(debuggerName); }
     }
     catch(ParseException ex)
