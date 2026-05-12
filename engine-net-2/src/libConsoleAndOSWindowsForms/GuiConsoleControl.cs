@@ -274,7 +274,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
                         WriteLine(); // to be revisited when a real ESC key press is supported as a means of canceling input (also on the real text console), as of now only entering an empty line is interpreted as a means of canceling input, and realized by the GUI by sending fake ESC key presses
                         return "";
                     }
-                    else if(enteredCharacter == '\u0003') // workaround for Mono/Linux, ignore/don't print Ctrl-C
+                    else if(enteredCharacter == '\u0003' || enteredCharacter == '\u0018') // workaround for Mono/Linux, ignore/don't print Ctrl-C / Ctrl-X
                     {
                         ClearEnteredKey();
                     }
