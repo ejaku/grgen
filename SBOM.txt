@@ -6,7 +6,7 @@ GrGen.exe: C#/.NET compiler application
 - pattern matcher and sequence code generation, utilizing a few of the components mentioned below (esp. sequence parsing)
 
 (G)GrShell: C#/.NET shell application
-- command line interpreter, based on a CSharpCC generated parser for the shell language
+- command line interpreter, based on a CSharpCC-generated parser for the shell language
 - with graph rendering, sequence execution and debugging functionality supplied by several internal libraries and external libraries/programs,
   some are only loaded on-demand/as-needed
 - two versions: console application GrShell, Windows Forms GUI console application GGrShell, based on a common C# shell library
@@ -16,7 +16,7 @@ Several internal C#/.NET libraries:
 - the graph viewer and the sequence debugger library and its Windows Forms extension
 - a console and OS abstraction library and its Windows Forms extension
 - a persistence provider library implementing the persistent graph
-- they employ CSharpCC generated parsers for the sequence language, and constant literals
+- they employ CSharpCC-generated parsers for the sequence language, and constant literals
 
 External libraries/programs:
 - the MSAGL library for graph drawing, in its Windows Forms version
@@ -24,7 +24,7 @@ External libraries/programs:
 
 grgen.jar: JAVA compiler frontend
 - model code, pattern specification and rewrite code generation, plus sequences checking
-- ANTLR generated parsers for the model and the actions language, as well as the sequence language (compiled embedded sequences)
+- ANTLR-generated parsers for the model and the actions language, as well as the sequence language (compiled embedded sequences)
 
 yComp.jar: JAVA graph visualization application
 - based on yFiles for graph drawing
@@ -61,7 +61,7 @@ Running a generated graph rewrite system from the execution host GrShell.exe
  as an interactive workbench application or a script execution host
 needs the same as 1. without additions, when optional functionality is needed, the according additions are required,
  GGrShell.exe requires libConsoleAndOSWindowsForms.dll in addition
-In academia allowed: additional graph visualization by yComp, needs graphViewerAndSequencesDebugger.dll utilizing yComp.jar,
+Allowed In academia: additional graph visualization by yComp, needs graphViewerAndSequencesDebugger.dll utilizing yComp.jar,
  which requires yObf.jar, graphmlObf.jar, ysvgObf.jar, batik.jar, antlr-3.1.1.jar (graphViewerAndSequencesDebuggerWindowsForms.dll is not needed then)
 Prerequisite: JAVA (RE)
 
@@ -71,5 +71,5 @@ Developing a graph rewrite system with GrShell or GGrShell
  (for debugging, the according graph visualization/sequence debugger additions are employed)
 
 In order to build GrGen / take part in developing it, you need further components, as explained in BUILDING_AND_TESTING.txt,
-esp. the parser generators, they are contained for your convenience (as well as the rails diagram building binary).
+esp. the parser generators, they are contained for your convenience (as well as the rails railroad diagram building binary).
 You may also take a look at the user manual.
