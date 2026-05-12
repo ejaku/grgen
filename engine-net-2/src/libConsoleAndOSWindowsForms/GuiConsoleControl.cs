@@ -191,17 +191,13 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
         // read line by tracking edits past the start position (after the prompt)
         public string ReadLine()
         {
-            String startTextBuffer = theRichTextBox.Text;
             string lineRead = "";
-
             // TODO: real/full selection handling
-            int caretStartIndex = theRichTextBox.SelectionStart; // only editing past that position possible (same line, to the right of the column)
-            int startColumn = GetColumn(caretStartIndex);
+            int caretStartIndex = theRichTextBox.SelectionStart; // only editing past that position possible
 
             while(true)
             {
                 int caretIndex = theRichTextBox.SelectionStart;
-                int column = GetColumn(caretIndex);
 
                 // ignore edits before the start position (user may change caret to such a position; but no further/improved handling needed as uncommon, also no processing of a user selection)
                 if(caretIndex < caretStartIndex)
@@ -212,7 +208,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
                     continue;
                 }
 
-                int columnInLineRead = column - startColumn;
+                int columnInLineRead = caretIndex - caretStartIndex; // the logical line currently edited may span multiple physical lines of the control (the physical lines are not only delimited by line breaks, but also by the control width, due to line wrapping), so we better refrain from using line/column information
                 String left = lineRead.Substring(0, columnInLineRead);
                 String right = lineRead.Substring(columnInLineRead, lineRead.Length - columnInLineRead);
 
@@ -222,7 +218,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
                 if(enteredLine != null)
                 {
                     lineRead = left + enteredLine + right;
-                    SetText(startTextBuffer + lineRead, caretIndex + enteredLine.Length);
+                    ReplaceLineInTextBoxAndSetCaret(caretStartIndex, lineRead, caretIndex + enteredLine.Length);
                     Write("\r\n");
                     ClearEnteredKey();
                     System.Threading.Thread.Sleep(1);
@@ -236,7 +232,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
                         if(left.Length > 0)
                         {
                             lineRead = left.Substring(0, left.Length - 1) + right;
-                            SetText(startTextBuffer + lineRead, caretIndex - 1);
+                            ReplaceLineInTextBoxAndSetCaret(caretStartIndex, lineRead, caretIndex - 1);
                         }
                     }
                     else if(enteredKey == ConsoleKey.Delete)
@@ -244,7 +240,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
                         if(right.Length > 0)
                         {
                             lineRead = left + right.Substring(1);
-                            SetText(startTextBuffer + lineRead, caretIndex);
+                            ReplaceLineInTextBoxAndSetCaret(caretStartIndex, lineRead, caretIndex);
                         }
                     }
                     ClearEnteredKey();
@@ -257,7 +253,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
                         lengthOfFirstLineFromClipboard = clipboardContent.Length;
                     clipboardContent = clipboardContent.Substring(0, lengthOfFirstLineFromClipboard); // multi-line-paste is not supported by the ReadLine method (/this control)
                     lineRead = left + clipboardContent + right;
-                    SetText(startTextBuffer + lineRead, caretIndex + lengthOfFirstLineFromClipboard);
+                    ReplaceLineInTextBoxAndSetCaret(caretStartIndex, lineRead, caretIndex + lengthOfFirstLineFromClipboard);
                     ClearEnteredKey();
                 }
                 else if(enteredCharacter != '\0')
@@ -283,7 +279,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
                         if(right.Length > 0)
                         {
                             lineRead = left + enteredCharacter + right;
-                            SetText(startTextBuffer + lineRead, caretIndex + 1);
+                            ReplaceLineInTextBoxAndSetCaret(caretStartIndex, lineRead, caretIndex + 1);
                         }
                         else
                         {
@@ -299,21 +295,22 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
             }
         }
 
-        private int GetColumn(int caretIndex)
-        {
-            int line = theRichTextBox.GetLineFromCharIndex(caretIndex);
-            int lineIndex = theRichTextBox.GetFirstCharIndexFromLine(line);
-            int column = caretIndex - lineIndex;
-            return column;
-        }
-
-        private void SetText(string text, int caretIndex)
+        private void ReplaceLineInTextBoxAndSetCaret(int lineBeginIndex, string lineRead, int caretIndex)
         {
             SuspendImmediateExecution();
-            theRichTextBox.Text = text;
+            ReplaceLineInTextBox(lineBeginIndex, lineRead);
             theRichTextBox.SelectionStart = caretIndex;
             theRichTextBox.SelectionLength = 0;
             RestartImmediateExecution();
+        }
+
+        private void ReplaceLineInTextBox(int lineBeginIndex, string lineRead)
+        {
+            theRichTextBox.ReadOnly = false;
+            theRichTextBox.SelectionStart = lineBeginIndex;
+            theRichTextBox.SelectionLength = theRichTextBox.TextLength - lineBeginIndex;
+            theRichTextBox.SelectedText = lineRead;
+            theRichTextBox.ReadOnly = true;
         }
 
         public ConsoleKeyInfo ReadKey(bool intercept)
