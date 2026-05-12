@@ -1,0 +1,59 @@
+BUILDING
+--------
+
+Developing GrGen itself (requires sources)
+The source code can be obtained from the public git repository at https://github.com/ejaku/grgen.
+The AI onboarding CLAUDE.md should be also helpful for a human developer.
+
+Building the compiler frontend:
+antlr-3.4-complete.jar needed (included) for generating the model, rules/computations and embedded sequences languages parsers
+(also antlr-runtime-3.4.jar and jargs.jar)
+Generate the ANTLR-parsers and build the frontend/de folder. See also frontend/BUILDING.md (sources only).
+Prerequisite: JAVA SDK (with javac), make to use the available makefiles in order to build the JAVA frontend, but e.g. Eclipse could be used instead
+
+Building engine-net-2 containing the GrGen.exe compiler (backend) and the (G)GrShell as well as the internal dlls:
+csharpcc.jar needed (included) for generating the sequences, shell, and constant parsers (they require no runtime libraries)
+Generate the CSharpCC-parsers and build the GrGen.sln. See also engine-net-2/BUILDING.md (sources only).
+Prerequisite Windows: VisualStudio with msbuild, for manually building the GrGen.sln
+ when using the cygwin build script you also need cygwin bash, then dotnet is used (per default)
+Prerequisite Linux: dotnet, bash (you may use VisualStudio Code as IDE then)
+ mono(/MonoDevelop) is outdated for development, the mdtool cannot be used for compiling anymore, but it is still required for execution
+The required external nuget packages of MSALG and SQLite are going to be downloaded by msbuild or dotnet build.
+
+User manual building: build_cygwin.sh for Windows with cygwin bash (and sed), build for Linux, 
+ employing rail.exe/rail accordingly for railroad diagram building (included)
+Prerequisite: LaTeX distribution (MiKTeX recommended)
+
+For building the API documentation, you need the Sandcastle Help File Builder.
+
+
+TESTING
+-------
+
+Here we assume the folder structure of the source code with dedicated frontend and enginge-net-2 folders,
+the folder structure of the binary release (referenced in the TESTS section of the README.txt) is reduced in comparison.
+
+For the test suites we use or you may use in order to test the integrity of the releases, or for testing during development, you need bash/cygwin bash (and awk).
+
+The compiler/syntax/frontend tests can be found in frontend/test.
+Run test.sh to execute them, it compiles the *.grg files in the should_pass, should_warn, should_fail folders,
+noting whether the compiler succeeded, emitted warnings, or failed with errors, and reports the differences to a summary_gold.log file.
+Adding a test amounts to dropping it to the right folder and replacing the summary_gold.log with the summary.log written by the following test run.
+See also frontend/TESTING.md and frontend/TESTGENERATION.md (sources only).
+
+The shell/semantic/execution tests can be found in engine-net-2/tests.
+Run test.sh to execute them, it executes in each subfolder the available .grs files (with the GrShell),
+reporting the differences to the test data stored in the corresponding .grs.data file.
+Run gentest.sh to add a test, i.e. generate the test data file (it contains selected console outputs of the execution of the .grs script by the GrShell).
+See also engine-net-2/TESTING.md and engine-net-2/TESTGENERATION.md (sources only).
+
+The engine-net-2/examples folder contains examples that can be used as smoke tests.
+Run test.sh to execute them, it writes a testlog.sh with the results (compare to the version from the scm).
+
+Additionally, rudimentary unit/acceptance tests are available during development. 
+
+The frontend unittests employing JUnit 4 can be found in frontend/unittest.
+You may use ./unittest/make_unittest.sh in order to build the frontend and run the unit/acceptance-tests (or your favorite IDE).
+
+The engine-net-2 unittests employing NUnit 3 can be found in engine-net-2/unittests.
+You may use cd unittests/GraphAndModelTests && dotnet test in order to build and run the graph and model unit tests (or your favorite IDE).
