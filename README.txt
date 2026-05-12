@@ -1,4 +1,4 @@
-GrGen.NET v8.0 (2025-12-24)
+GrGen.NET v8.1 (2026-05-??)
 ---------------------------
 
 This is the GrGen.NET system for graph rewriting.
@@ -13,6 +13,7 @@ It consists of two parts of components:
   (MSAGL and the debugger can be also used from your own .NET application;
   note that graphs may also be auto-persisted to a database
   or exported to/imported from line-based text files)
+See SBOM.txt for more on the components and applications.
 
 
 INSTALL
@@ -96,11 +97,14 @@ in the test directory do you find the syntax/compiler tests,
 and in the examples directory do you find the examples that are also used as additional smoke tests.
 You can run the testbench by executing the "test.sh" shell scripts (for Windows you must use Cygwin).
 
+The SBOM.txt contains also more on building and testing.
+
 
 HELP
 ----
 
-For further information refer to the "GrGen.NET User Manual" contained in this package,
+For further information - esp. an introduction to the languages of GrGen - 
+refer to the "GrGen.NET User Manual" that is contained in this package,
 and also available from https://www.grgen.de (or http://www.grgen.net).
 
 If you find any bugs or have a suggestion, please send an email to:
@@ -176,10 +180,10 @@ Caroline von Totth
 COPYING
 -------
 
-Copyright (C) 2003-2025 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
+Copyright (C) 2003-2026 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
 
 For most of GrGen.NET, the LGPL holds, 
 for yComp, an academic license granted by yWorks holds,
 for the MSAGL component, the MIT license holds,
 the SQLite used by the persistent graph is in the public domain;
-you find more on this topic in the LICENSE.txt and the licenses folder.
+you find more on this topic in LICENSE.txt and in the licenses folder.

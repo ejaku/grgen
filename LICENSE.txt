@@ -1,6 +1,6 @@
-Copyright (C) 2003-2025 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
+Copyright (C) 2003-2026 Universität Karlsruhe, Institut für Programmstrukturen und Datenorganisation (IPD), LS Goos; and free programmers
 
-This file is part of GrGen, Version GrGen.NET 8.0
+This file is part of GrGen, Version GrGen.NET 8.1
 
 GrGen is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
@@ -37,13 +37,14 @@ to non-commercial purposes (research, teaching, projects, courses and applicatio
 (This includes yObf.jar, graphmlObf.jar, ysvgObf.jar; the yFiles version according to the about dialog is 2.6.0.1)
 
 Regarding batik.jar likely from the apache xmlgraphics batik project used in yComp for svg functionality:
-the Apache License Version 2.0 holds, see batik.txt.
+the Apache License Version 2.0 holds, see batik.txt in the licenses folder.
 
 --------
 
 Regarding the MSAGL (Microsoft Automatic Graph Layout library) the following holds:
 Copyright (c) Microsoft Corporation. 
 It is available under an MIT License, see the MIT_of_MSAGL.txt in the licenses folder.
+Imported via nuget package Microsoft.Msagl.GraphViewerGDI 1.1.7
 
 --------
 
@@ -51,6 +52,7 @@ Graph persistence is implemented using SQLite.
 The code and documentation in System.Data.SQLite as well as SQLite proper have been dedicated to the public domain.
 The System.Data.SQLite.Linq and System.Data.SQLite.EF6 assemblies are compiled from files covered by the Microsoft Public License (MS-PL)
 - but they are not used in implementing graph persistence.
+Imported via nuget package System.Data.SQLite 2.0.2 and SourceGear.sqlite3 3.50.4.5
 
 --------
 
@@ -64,21 +66,25 @@ see jargs.txt (likely a bit too current, the build is from 2003-03-11).
 
 Regarding junit-4.13.2.jar used for testing the frontend java classes the Eclipse Public License holds, see junit.txt contained in the jar itself.
 Regarding hamcrest-core-1.3.jar used for testing the frontend java classes the BSD License holds, see LICENSE.txt contained in the jar itself.
- (They are only needed when unit-testing GrGen itself.)
+ (They are only needed when unit-testing GrGen itself (and excluded from the binary release).)
 
 --------
 
-Regarding the CSharpCC binary (likely a home-brew version of MinosseCC described at https://www.codeproject.com/articles/MinosseCC-a-lexer-parser-generator-for-C-#comments-section)
+Regarding the CSharpCC 3.2 binary (likely a home-brew version of MinosseCC described at https://www.codeproject.com/articles/MinosseCC-a-lexer-parser-generator-for-C-#comments-section)
 most likely a BSD-like license holds, see CSharpCC.txt and JavaCC.txt (the build is from 2008-03-10).
- (CSharpCC is only needed when building GrGen.NET itself (for the shell parser, the sequences parser, a constant literals parser).)
+ (CSharpCC is only needed when building GrGen.NET itself, only generated code is used at runtime
+  (for the shell parser, the sequences parser, a constant literals parser)
+  So the exact license text is only available in the source code repository.)
 
 Regarding NUnit (3.12.0) used for testing the engine-net-2 C# classes the license NUnit.txt holds.
 Regarding the NUnit3TestAdapter used for testing the engine-net-2 C# classes the MIT license holds, see MIT_of_NUnit3TestAdapter.txt.
- (They are only needed when unit-testing GrGen.NET itself.)
+ (They are only needed when unit-testing GrGen.NET itself, when developing it.
+ So the exact license text is only available in the source code repository.)
 
 --------
 
 The User Manual is licensed under the terms of the Creative Commons Attribution-Share Alike 3.0 Germany license.
 The license is available at http://creativecommons.org/licenses/by-sa/3.0/de/
 
-rail(.exe) used in building the railroad diagram used in the manual comes without license information, for copyrights take a look at rail.sty
+rail(.exe) used in building the railroad diagram used in the manual comes without license information, 
+ for copyrights take a look at rail.sty (and at https://github.com/Holzhaus/latex-rail)

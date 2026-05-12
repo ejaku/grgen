@@ -243,7 +243,7 @@ In order to use it from \GrShell{}, you have to employ the \texttt{debug with} c
 Switches the graphical part of the debugger (the graph viewer) in between \yComp{} (default) and \MSAGL{} or extended \MSAGL{}.
 Extended MSAGL supplies an additional left pane similar to \yComp{}, with a map-like view, a search pane, a node subgraph nesting tree, and an attributes/properties view.
 
-If \MSAGL{} or its extended version is used, the debugger is displayed with a Windows Forms\cite{WinForms} GUI, potentially consisting only of a console like control -- similar to the stdout console of the \GrShell{} used to display the debugger in case of \yComp{}.
+If \MSAGL{} (or its extended version) is used, the debugger is displayed with a Windows Forms\cite{WinForms} GUI, potentially consisting only of a console like control -- similar to the stdout console of the \GrShell{} used to display the debugger in case of \yComp{}.
 
 The program graph from \texttt{examples/JavaProgramGraphs-GraBaTs08} looks like depicted in Figures~\ref{figprogramgraph3} and \ref{figprogramgraph4} (compared to the \yComp{}-rendering in Figures~\ref{figprogramgraph1} and \ref{figprogramgraph2}).
 
@@ -309,7 +309,7 @@ The following layout algorithms are supported by \yComp{}: \texttt{Random}, \tex
 For technical graphs \texttt{Hierarchic} works normally best; \texttt{Compilergraph} is a version of \texttt{Hierarchic} cutting some edges, it may be of interest if \texttt{Hierarchic} contains too many crossing edges.
 \texttt{Organic} is the other general purpose layout algorithm available to be tried out early; the other layout algorithms are rather special, but this should not deter you from using them if they fit to your task ;).
 
-The following layout algorithms are supported by \MSAGL{}: \texttt{SugiyamaScheme}, \texttt{MDS}, \texttt{Ranking}, \texttt{IcrementalLayout}.
+The following layout algorithms are supported by \MSAGL{} or \MSAGLExt{}: \texttt{SugiyamaScheme}, \texttt{MDS}, \texttt{Ranking}, \texttt{IcrementalLayout}.
 We recommend to use \texttt{SugiyamaScheme} in place of \texttt{Hierarchic}, and \texttt{MDS} in place of \texttt{Organic}.
 
 \begin{rail}
@@ -635,7 +635,7 @@ So here we find support for conditional data breakpoints.
 Other commands that are of use for debugging were already introduced in the shell chapter:\\
 \verb#show var <Variable># to print the content of a variable and \\
 \verb#show <GraphElement>.<AttributeName># to print the content of an attribute.\\
-But pressing the \texttt{v} key in the shell debugger is more convenient in the former case, as is searching with \texttt{Ctrl-f} or \texttt{/} in yComp for the persistent name or an attribute value, hovering over the then highlighted graph element, in the latter case.
+But pressing the \texttt{v} key in the shell debugger is more convenient in the former case, as is searching with \texttt{Ctrl-f} or \texttt{/} in \yComp{} or \MSAGLExt{} for the persistent name or an attribute value, hovering over the then highlighted graph element, in the latter case.
 
 The commands \verb#record# and \verb#replay# are of interest when you want to follow different paths during a transformation, they allow you to save the graph states before choosing in between the different paths, and to restore them later on (and to inspect the sequence of changes leading to a graph state).
 
