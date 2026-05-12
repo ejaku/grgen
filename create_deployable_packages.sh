@@ -3,7 +3,7 @@
 GRGENDIR=GrGenNET-V$1-`date +"%F"`
 GRGENDIRSRC=$GRGENDIR-src
 
-#make release distribution
+#make release distribution / create deployable packages
 #contains binaries, examples, documentation
 #excluded internal stuff, source code
 
@@ -19,6 +19,12 @@ rm -rf $GRGENDIRSRC/engine-net-2/src
 rm -rf $GRGENDIRSRC/engine-net-2/tools
 rm -rf $GRGENDIRSRC/engine-net-2/examples/UML
 rm -rf $GRGENDIRSRC/engine-net-2/examples/Firm-IFConv
+rm -rf $GRGENDIRSRC/engine-net-2/icons
+rm -rf $GRGENDIRSRC/engine-net-2/unittests
+rm $GRGENDIRSRC/engine-net-2/licenses/NUnit.txt
+rm $GRGENDIRSRC/engine-net-2/licenses/MIT_of_NUnit3TestAdapter.txt
+rm $GRGENDIRSRC/engine-net-2/licenses/CSharpCC.txt
+rm $GRGENDIRSRC/engine-net-2/licenses/JavaCC.txt
 cp -rf $GRGENDIRSRC/engine-net-2/* $GRGENDIR
 
 cp -rf $GRGENDIRSRC/frontend/test $GRGENDIR
@@ -28,6 +34,7 @@ cp -rf $GRGENDIRSRC/syntaxhighlighting $GRGENDIR
 cp -rf $GRGENDIRSRC/licenses $GRGENDIR
 cp $GRGENDIRSRC/LICENSE.txt $GRGENDIR
 cp $GRGENDIRSRC/README.txt $GRGENDIR
+cp $GRGENDIRSRC/SBOM.txt $GRGENDIR
 cp $GRGENDIRSRC/ChangeLog.txt $GRGENDIR
 
 tar cjf $GRGENDIR.tar.bz2 $GRGENDIR
