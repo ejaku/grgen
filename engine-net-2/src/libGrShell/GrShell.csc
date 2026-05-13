@@ -2098,22 +2098,22 @@ void DebugCommand():
         { impl.DebugOnHighlight(str, str2, break_); }
     |
         LOOKAHEAD(2)
-        "on" "match" str=WordOrText() break_=Break() (seqExpr=If(str, null))? LineEnd()
+        "on" "match" str=WordOrText() break_=Break() (LineEnd() | seqExpr=If(str, null))
         { impl.DebugOnMatch(str, break_, seqExpr); }
     |
         LOOKAHEAD(2)
-        "on" "new" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))? LineEnd()
+        "on" "new" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (LineEnd() | seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))
         { impl.DebugOnNew(graphElemType, only, elemName, break_, seqExpr); }
     |
         LOOKAHEAD(2)
-        "on" "delete" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))? LineEnd()
+        "on" "delete" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (LineEnd() | seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))
         { impl.DebugOnDelete(graphElemType, only, elemName, break_, seqExpr); }
     |
         LOOKAHEAD(2)
-        "on" "retype" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))? LineEnd()
+        "on" "retype" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (LineEnd() | seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))
         { impl.DebugOnRetype(graphElemType, only, elemName, break_, seqExpr); }
     |
-        "on" "set" "attributes" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))? LineEnd()
+        "on" "set" "attributes" ( ("only" { only=true; })? graphElemType=GraphElementType() | "@" "(" elemName=WordOrText() ")" ) break_=Break() (LineEnd() | seqExpr=If(null, graphElemType != null ? graphElemType.PackagePrefixedName : ""))
         { impl.DebugOnSetAttributes(graphElemType, only, elemName, break_, seqExpr); }
     |
         "with" debuggerName=WordOrText() LineEnd()
