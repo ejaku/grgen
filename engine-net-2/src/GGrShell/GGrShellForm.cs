@@ -38,6 +38,8 @@ namespace GGrShell
         // maybe TODO: libGGrShell with common code that is then used in the ShellExampleWindowsForms (but a minimal console window only example could be helpful, while this app is to be extended with GUI gizmos)
         private void ExecuteShell()
         {
+            bool exceptionCaught = false;
+
             try
             {
                 shellComponents.driver.conditionalEvaluationResults.Push(true);
@@ -80,11 +82,13 @@ namespace GGrShell
                 writer.WriteLine("exit due to " + ex.Message);
                 writer.WriteLine(ex.StackTrace);
                 writer.WriteLine(ex.Source);
+                exceptionCaught = true;
             }
             finally
             {
                 shellComponents.impl.Cleanup();
-                Close();
+                if(!exceptionCaught) // keep GGrShell open in case of a crash
+                    Close();
             }
         }
 
