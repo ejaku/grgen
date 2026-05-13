@@ -58,6 +58,7 @@ namespace de.unika.ipd.grGen.grShell
     public class GrShellSequenceApplierAndDebugger : DebuggerEnvironment
     {
         private bool silenceExec = false; // print match statistics during sequence execution on timer
+        private bool isGuiShell = false; // true in case of GGrShell, has a similar effect to silenceExec, it disables the statistics timer because of the inability of the control to concurrently handle writes while reading/processing data, but other adaptations may be configured by it
         private bool cancelSequence = false;
 
         private IGuiConsoleDebuggerHost guiConsoleDebuggerHost;
@@ -276,6 +277,12 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
+        public bool IsGuiShell
+        {
+            get { return isGuiShell; }
+            set { isGuiShell = value; }
+        }
+
         private bool ContainsSpecial(Sequence seq)
         {
             if((seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall || seq.SequenceType == SequenceType.RuleCountAllCall)
@@ -317,7 +324,7 @@ namespace de.unika.ipd.grGen.grShell
             impl.curShellProcEnv.ProcEnv.PerformanceInfo.Reset();
             StatisticsSource statisticsSource = new StatisticsSource(impl.curShellProcEnv.ProcEnv.NamedGraph, impl.curShellProcEnv.ProcEnv);
             Timer timer = null;
-            if(!debug && !CheckDebuggerAlive() && !silenceExec)
+            if(!debug && !CheckDebuggerAlive() && !silenceExec && !isGuiShell)
                 timer = new Timer(new TimerCallback(PrintStatistics), statisticsSource, 1000, 1000);
 
             try
@@ -402,7 +409,7 @@ namespace de.unika.ipd.grGen.grShell
             impl.curShellProcEnv.ProcEnv.PerformanceInfo.Reset();
             StatisticsSource statisticsSource = new StatisticsSource(impl.curShellProcEnv.ProcEnv.NamedGraph, impl.curShellProcEnv.ProcEnv);
             Timer timer = null;
-            if(!debug && !CheckDebuggerAlive() && !silenceExec)
+            if(!debug && !CheckDebuggerAlive() && !silenceExec && !isGuiShell)
                 timer = new Timer(new TimerCallback(PrintStatistics), statisticsSource, 1000, 1000);
 
             try

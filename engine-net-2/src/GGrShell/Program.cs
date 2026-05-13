@@ -41,6 +41,7 @@ namespace GGrShell
             int errorCode = GrShellMainHelper.ConstructShell(args, out shellConfig, out shellComponents);
             shell.shellConfig = shellConfig;
             shell.shellComponents = shellComponents;
+            shell.shellComponents.shellImpl.IsGuiShell = true;
             if(errorCode != 0)
                 throw new Exception("Error during construction of shell"); // TODO: show error dialog?
 

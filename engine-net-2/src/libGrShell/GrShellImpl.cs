@@ -5458,6 +5458,11 @@ showavail:
             set { seqApplierAndDebugger.SilenceExec = value; }
         }
 
+        public bool IsGuiShell
+        {
+            set { seqApplierAndDebugger.IsGuiShell = value; }
+        }
+
         public void SetRandomSeed(int seed)
         {
             Sequence.randomGenerator = new Random(seed);
