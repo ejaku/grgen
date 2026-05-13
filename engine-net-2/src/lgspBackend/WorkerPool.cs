@@ -122,7 +122,15 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public static void WaitForWorkDone()
         {
-            ManualResetEvent.WaitAll(parallelTaskExecuted);
+            if(Thread.CurrentThread.GetApartmentState() == ApartmentState.MTA)
+                ManualResetEvent.WaitAll(parallelTaskExecuted);
+            else // alternative when used from GUI STA thread which holds for GGrShell or maybe a user app
+            {
+                for(int i = 0; i < workerThreads.Length; ++i)
+                {
+                    parallelTaskExecuted[i].WaitOne();
+                }
+            }
             for(int i = 0; i < workerThreads.Length; ++i)
             {
                 parallelTaskExecuted[i].Reset();
