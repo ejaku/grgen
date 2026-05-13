@@ -153,6 +153,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
             if(cancel)
                 return;
             theRichTextBox.AppendText(value);
+            Application.DoEvents();
         }
 
         public void Write(string format, params object[] arg)
@@ -160,6 +161,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
             if(cancel)
                 return;
             theRichTextBox.AppendText(String.Format(format, arg));
+            Application.DoEvents();
         }
 
         public void WriteLine(string value)
@@ -167,6 +169,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
             if(cancel)
                 return;
             theRichTextBox.AppendText(value + Environment.NewLine);
+            Application.DoEvents();
         }
 
         public void WriteLine(string format, params object[] arg)
@@ -174,6 +177,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
             if(cancel)
                 return;
             theRichTextBox.AppendText(String.Format(format, arg) + Environment.NewLine);
+            Application.DoEvents();
         }
 
         public void WriteLine()
@@ -181,6 +185,7 @@ namespace de.unika.ipd.grGen.libConsoleAndOS
             if(cancel)
                 return;
             theRichTextBox.AppendText(Environment.NewLine);
+            Application.DoEvents();
         }
 
         public void PrintHighlightedUserDialog(String text, HighlightingMode mode)
