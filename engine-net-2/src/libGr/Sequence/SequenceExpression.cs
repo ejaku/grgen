@@ -209,10 +209,10 @@ namespace de.unika.ipd.grGen.libGr
             {
                 return ExecuteImpl(procEnv);
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 ConsoleUI.errorOutWriter.WriteLine("Exception during execution of sequence expression " + Symbol);
-                throw ex;
+                throw;
             }
         }
 

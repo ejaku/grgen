@@ -157,10 +157,10 @@ namespace de.unika.ipd.grGen.libGr
             {
                 res = ApplyImpl(procEnv);
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 ConsoleUI.errorOutWriter.WriteLine("Exception while applying sequence " + Symbol);
-                throw ex;
+                throw;
             }
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("After executing sequence " + Id + ": " + Symbol + " result " + res);

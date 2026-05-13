@@ -98,10 +98,10 @@ namespace de.unika.ipd.grGen.libGr
             {
                 AssignImpl(value, procEnv);
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 ConsoleUI.errorOutWriter.WriteLine("Exception during assignment to target " + Symbol);
-                throw ex;
+                throw;
             }
         }
 

@@ -1795,7 +1795,7 @@ namespace de.unika.ipd.grGen.lgsp
             catch(Exception ex)
             {
                 ConsoleUI.outWriter.WriteLine(ex);
-                throw ex;
+                throw;
             }
 
             if(ret != ErrorType.NoError)

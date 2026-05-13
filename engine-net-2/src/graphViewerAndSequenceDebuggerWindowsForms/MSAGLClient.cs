@@ -307,16 +307,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             {
                 gViewer.Graph = gViewer.Graph;
             }
-            catch(InvalidOperationException ex)
+            catch(InvalidOperationException)
             {
                 Console.Error.WriteLine("The MSAGL graph viewer crashed with an InvalidOperationException - this may be caused by spline edge routing, you could try a different edge routing, e.g. StraightLine, or in case of incremental layout, it may be caused by an empty graph.");
-                throw ex;
+                throw;
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 // potential TODO: write to ConsoleUI (also at other code locations)... advantage of this is that it is visible even if GGrShell was closed, if GGrShell was started from a console....
                 Console.Error.WriteLine("The MSAGL graph viewer crashed.");
-                throw ex;
+                throw;
             }
             System.Windows.Forms.Application.DoEvents();
         }

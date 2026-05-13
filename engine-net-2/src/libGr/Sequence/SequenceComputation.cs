@@ -136,10 +136,10 @@ namespace de.unika.ipd.grGen.libGr
             {
                 res = ExecuteImpl(procEnv);
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 ConsoleUI.errorOutWriter.WriteLine("Exception during execution of sequence computation " + Symbol);
-                throw ex;
+                throw;
             }
 #if LOG_SEQUENCE_EXECUTION
             procEnv.Recorder.WriteLine("After executing sequence " + Id + ": " + Symbol + " result " + res);
