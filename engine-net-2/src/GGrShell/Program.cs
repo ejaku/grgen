@@ -34,7 +34,7 @@ namespace GGrShell
             ConsoleUI.consoleIn = inReader;
             ConsoleUI.consoleOut = outWriter;
 
-            GrShellMainHelper.PrintVersion();
+            GrShellMainHelper.PrintVersion("GGrShell");
 
             GrShellConfigurationAndControlState shellConfig;
             GrShellComponents shellComponents;
