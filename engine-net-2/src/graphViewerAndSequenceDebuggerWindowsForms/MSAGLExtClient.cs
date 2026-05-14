@@ -491,13 +491,13 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
-            else if(e.KeyCode == Keys.N && !e.Shift && !e.Control && !e.Alt)
+            else if(e.KeyCode == Keys.N && !e.Shift)
             {
                 SearchNext();
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
-            else if(e.KeyCode == Keys.N && e.Shift && !e.Control && !e.Alt)
+            else if(e.KeyCode == Keys.N && e.Shift)
             {
                 SearchPrev();
                 e.Handled = true;
@@ -1081,6 +1081,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             SearchPrev();
         }
 
+        // intended behavior: in text box, N-key just enters N, ctrl-N switches to next search result, outside the N-key switches to next search result (as does Ctrl-N)
         void OnTextBoxSearchKeyDown(object sender, KeyEventArgs e)
         {
             if(e.KeyCode == Keys.Enter)
@@ -1099,6 +1100,16 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 SearchPrev();
                 e.Handled = true;
             }
+            else if(e.KeyCode == Keys.N && !e.Shift && e.Control)
+            {
+                SearchNext();
+                e.Handled = true;
+            }
+            else if(e.KeyCode == Keys.N && e.Shift && e.Control)
+            {
+                SearchPrev();
+                e.Handled = true;
+            }
         }
 
         // this function smells of i18n issues, it works on windows, but could explain linux/mono troubles, potential(AI) TODO: replace by regular key event on control listening
@@ -1111,12 +1122,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 textBoxSearch.SelectAll();
                 return true;
             }
-            if(keyData == Keys.F3 || keyData == Keys.N)
+            if(keyData == Keys.F3 || keyData == (Keys.Control | Keys.N))
             {
                 SearchNext();
                 return true;
             }
-            if(keyData == (Keys.Shift | Keys.F3) || keyData == (Keys.Shift | Keys.N))
+            if(keyData == (Keys.Shift | Keys.F3) || keyData == (Keys.Control | Keys.Shift | Keys.N))
             {
                 SearchPrev();
                 return true;
