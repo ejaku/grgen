@@ -22,7 +22,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 {
     /// <summary>
     /// Control/Class communicating with the MSAGL library
-    /// TODO: still some issues, esp. with node nesting
+    /// TODO: still some issues, while node nesting looked ok during recent tests, sometimes the text labels disappear - but only under Mono/Linux - and with pan they appear again
     /// </summary>
     public partial class MSAGLClient : UserControl, IBasicGraphViewerClient
     {
