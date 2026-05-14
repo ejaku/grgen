@@ -70,6 +70,8 @@ Developing a graph rewrite system with GrShell or GGrShell
  (it works like a mini-make, following the includes and checking the file dates)
  (for debugging, the according graph visualization/sequence debugger additions are employed)
 
-In order to build GrGen / take part in developing it, you need further components, as explained in BUILDING_AND_TESTING.txt,
-esp. the parser generators, they are contained for your convenience (as well as the rails railroad diagram building binary).
+
+Developing GrGen itself requires the source code from the public git repository at https://github.com/ejaku/grgen
+You may also build it locally to gain access to the debug symbols and source level diagnostics in case of crashes.
+Then you need further components, as explained in BUILDING_AND_TESTING.txt (sources only).
 You may also take a look at the user manual.

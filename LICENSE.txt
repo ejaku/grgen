@@ -80,6 +80,7 @@ Regarding NUnit (3.12.0) used for testing the engine-net-2 C# classes the licens
 Regarding the NUnit3TestAdapter used for testing the engine-net-2 C# classes the MIT license holds, see MIT_of_NUnit3TestAdapter.txt.
  (They are only needed when unit-testing GrGen.NET itself, when developing it.
  So the exact license text is only available in the source code repository.)
+Imported via nuget package NUnit 3.12.0 and NUnit3TestAdapter 6.1.0 (plus Microsoft.NET.Test.Sdk 16.5.0 which comes with a MIT license)
 
 --------
 
