@@ -4,18 +4,18 @@
         <name>graphViewerAndSequenceDebuggerWindowsForms</name>
     </assembly>
     <members>
-        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiDebuggerHost.components">
+        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.BasicGraphViewerClientHost.components">
             <summary>
             Required designer variable.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiDebuggerHost.Dispose(System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.BasicGraphViewerClientHost.Dispose(System.Boolean)">
             <summary>
             Clean up any resources being used.
             </summary>
             <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiDebuggerHost.InitializeComponent">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.BasicGraphViewerClientHost.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
@@ -38,20 +38,37 @@
             the contents of this method with the code editor.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiDebuggerHost.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiDebuggerHost.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.GuiDebuggerHost.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient">
             <summary>
-            Class communicating with the MSAGL library
-            TODO: still some issues, esp. with node nesting
+            Control/Class communicating with the MSAGL library
+            TODO: still some issues, while node nesting looked ok during recent tests, sometimes the text labels disappear - but only under Mono/Linux - and with pan they appear again
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.#ctor(System.Windows.Forms.Form)">
             <summary>
-            Creates a new MSAGLClient instance, adding its GViewer control to the hosting form (at position 0).
+            Creates a new MSAGLClient instance, adding itself to the hosting form (at position 0).
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.#ctor(System.Windows.Forms.SplitterPanel)">
             <summary>
-            Creates a new MSAGLClient instance, adding its GViewer control to the hosting splitter panel (at position 0) (not for main graph rendering).
+            Creates a new MSAGLClient instance, adding itself to the hosting splitter panel (at position 0) (not for main graph rendering).
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.SetLayout(System.String)">
@@ -86,7 +103,7 @@
             Forces MSAGL to relayout the graph.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.Show">
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.de#unika#ipd#grGen#graphViewerAndSequenceDebugger#IBasicGraphViewerClient#Show">
             <summary>
             Shows the graph (without relayout).
             </summary>
@@ -106,6 +123,36 @@
             <summary>
             Sets the edge realizer of the given edge.
             If realizer is null, the realizer for the type of the edge is used.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.components">
+            <summary> 
+            Erforderliche Designervariable.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.Dispose(System.Boolean)">
+            <summary> 
+            Verwendete Ressourcen bereinigen.
+            </summary>
+            <param name="disposing">True, wenn verwaltete Ressourcen gelöscht werden sollen; andernfalls False.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLClient.InitializeComponent">
+            <summary> 
+            Erforderliche Methode für die Designerunterstützung. 
+            Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLExtClient">
+            <summary>
+            Extended MSAGL graph viewer UserControl.
+            Left pane: map-like overview, search pane, node-nesting tree, attributes pane.
+            Right pane: main interactive graph display (MSAGLClient).
+            Implements IBasicGraphViewerClient by delegating all graph mutations to the inner MSAGLClient.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.graphViewerAndSequenceDebugger.MSAGLExtClient.#ctor(System.Windows.Forms.Form)">
+            <summary>
+            Creates a new MSAGLExtClient instance, adding itself to the hosting form.
             </summary>
         </member>
         <member name="T:graphViewerAndSequenceDebuggerWindowsForms.Properties.Resources">
