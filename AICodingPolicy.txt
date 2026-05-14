@@ -23,6 +23,7 @@ AI generated code is forbidden in:
 AI generated code is allowed for:
 - all GUI features on top of the basic graph visualization,
   esp. GUI-debugging-features visualizing the model, rules, and sequences (and similar debugging visualizations/development support)
+  (but also extended/advanced graph visualization features)
 - new shell features (that are not strictly required to use the core or extensions of the other GrGen languages)
   (new persistence providers or backends, i.e. new dlls only linking against the LGPL core)
 - new import/export filters
@@ -40,7 +41,7 @@ Consequences / specific rules:
 
 Regarding the user manual:
 - AI generated content is forbidden
-- AI corrections are allowed
+- AI corrections are allowed (this means esp. spelling and grammar)
 
 --------------------------------
 

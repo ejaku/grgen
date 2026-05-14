@@ -95,6 +95,11 @@ For more see the CLAUDE.md in engine-net-2.
 - **Formal language processing**: Generated recursive-descent (potentially backtracking) parsers, nested symbol tables and type checking, syntax directed interpretation/translation
 - Backend/Runtime implementation with high-performance graph pattern matching by **scheduled search programs** on specifically tailored **O(1) data structures**; modifications cause change **events**, quite some functionality offered on top of them.
 
+### Code Style (/Architecture)
+
+Emphasize readability/understandability (use well-chosen/speaking names, don't go over the top while trying to avoid code duplication or decoupling things (don't over-engineer, but neither under-engineer); use explicit and precise static types, avoid var and object).
+(Automatic) Portability (of infrastructure software): keep it simple, keep dependencies low, don't use advanced framework/language features (e.g. LINQ) or single-platform frameworks (e.g. WPF).
+
 ## File Types
 
 - `.gm` - Graph model files (node/edge type definitions)
