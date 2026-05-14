@@ -15,6 +15,7 @@ using System.Windows.Forms;
 using Microsoft.Msagl.GraphViewerGdi;
 using Microsoft.Msagl.Drawing;
 using de.unika.ipd.grGen.libGr;
+using de.unika.ipd.grGen.libConsoleAndOS;
 using de.unika.ipd.grGen.lgsp;
 
 namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
@@ -309,13 +310,12 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             catch(InvalidOperationException)
             {
-                Console.Error.WriteLine("The MSAGL graph viewer crashed with an InvalidOperationException - this may be caused by spline edge routing, you could try a different edge routing, e.g. StraightLine, or in case of incremental layout, it may be caused by an empty graph.");
+                ConsoleUI.errorOutWriter.WriteLine("The MSAGL graph viewer crashed with an InvalidOperationException - this may be caused by spline edge routing, you could try a different edge routing, e.g. StraightLine, or in case of incremental layout, it may be caused by an empty graph.");
                 throw;
             }
             catch(Exception)
             {
-                // potential TODO: write to ConsoleUI (also at other code locations)... advantage of this is that it is visible even if GGrShell was closed, if GGrShell was started from a console....
-                Console.Error.WriteLine("The MSAGL graph viewer crashed.");
+                ConsoleUI.errorOutWriter.WriteLine("The MSAGL graph viewer crashed.");
                 throw;
             }
             System.Windows.Forms.Application.DoEvents();
@@ -479,7 +479,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
                 }
                 else
                 {
-                    Console.Error.WriteLine("Warning: DeleteNode: Unknown node: " + nodeName);
+                    ConsoleUI.errorOutWriter.WriteLine("Warning: DeleteNode: Unknown node: " + nodeName);
                 }
             }
 
@@ -546,7 +546,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             else
             {
-                Console.Error.WriteLine("Warning: DeleteEdge: Unknown edge: " + edgeName);
+                ConsoleUI.errorOutWriter.WriteLine("Warning: DeleteEdge: Unknown edge: " + edgeName);
             }
         }
 
@@ -589,7 +589,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         {
             if(srcName == tgtName)
             {
-                Console.Error.WriteLine("Warning: MoveNode to self: Cannot move source: " + srcName + " to target: " + tgtName);
+                ConsoleUI.errorOutWriter.WriteLine("Warning: MoveNode to self: Cannot move source: " + srcName + " to target: " + tgtName);
                 return;
             }
 
@@ -604,7 +604,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             }
             else
             {
-                Console.Error.WriteLine("Warning: MoveNode: Unknown target subgraph: " + tgtName);
+                ConsoleUI.errorOutWriter.WriteLine("Warning: MoveNode: Unknown target subgraph: " + tgtName);
             }
         }
 
