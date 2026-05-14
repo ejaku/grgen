@@ -49,6 +49,8 @@ namespace GGrShell
                 {
                     bool success = shellComponents.shell.ParseShellCommand();
 
+                    Application.DoEvents();
+
                     int errorCode = GrShellMainHelper.HandleEofOrErrorIfNonConsoleShell(success, shellConfig, shellComponents);
                     if(errorCode != 0)
                         return;
