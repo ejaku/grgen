@@ -1115,7 +1115,7 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         // this function smells of i18n issues, it works on windows, but could explain linux/mono troubles, potential(AI) TODO: replace by regular key event on control listening
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if(keyData == Keys.OemQuestion || keyData == (Keys.Shift | Keys.D7) // scruffily matches the char "/" on US and DE keyboards, also catching "#" and "&" the other way round
+            if(keyData == Keys.OemQuestion || keyData == (Keys.Shift | Keys.D7) // scruffily matches the char "/" on US and DE keyboards, also catching "#" and "&" the other way round - note that this prevents the corresponding characters from being inserted in the search text box (TODO)
                 || keyData == (Keys.Control | Keys.F))
             {
                 textBoxSearch.Focus();
