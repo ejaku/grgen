@@ -1,4 +1,4 @@
-GrGen.NET v8.1 (2026-05-??)
+GrGen.NET v8.1 (2026-05-14)
 ---------------------------
 
 This is the GrGen.NET system for graph rewriting.
@@ -96,8 +96,6 @@ In the tests directory do you find the semantic/execution tests,
 in the test directory do you find the syntax/compiler tests,
 and in the examples directory do you find the examples that are also used as additional smoke tests.
 You can run the testbench by executing the "test.sh" shell scripts (for Windows you must use Cygwin).
-
-The SBOM.txt contains also more on building and testing.
 
 
 HELP

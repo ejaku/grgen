@@ -1,4 +1,49 @@
-﻿v8.0 (2025-12-24)
+﻿v8.1 (2026-05-14)
+ Implemented an extended MSAGL graph viewer
+  compared to MSAGL, it offers an additional left pane similar to yComp,
+  with a map-like view, a search pane, a node subgraph nesting tree, and an attributes/properties view
+  it also implements the functionality for the askfor command/user input sequence $%(Type) (that is missing from the plain MSAGL viewer)
+  - added debug with MSAGLExt as a configuration option (for the graph viewer/debugger in the shell)
+  - added a show graph MSAGLExt shell command
+
+ Added a gshow command to the shell for graphically showing things (in the configured graph viewer/debugger)
+  - gshow model renders the model in a similar way to an UML class diagram 
+  - gshow patterns renders the rule patterns graphically
+
+ Allowed editing (in excess of simple typing) of user input on the GUI console (but only on the last line)
+  (the GUI console is used by the Windows Forms debugger, but esp. by the GGrShell, rendering the latter a lot more usable)
+  also added support for copy and (single-line-only) paste by keyboard shortcuts
+
+ GGrShell changes:
+  - added a menu entry to paste multiple lines from the clipboard (simulated by entering them line-by-line)
+    and a Help menu with an About Box, plus: the GGrShell now also prints the version number and the help hint at the start
+  - the application is not closed anymore in case of an exception (so that the error message/the stack trace remains visible)
+  - the console is now updated after each command when executing a script file
+  - removed the statistics printing during non-debug sequence executions (it is not working as intended)
+  - added a helper script to launch the GGrShell under Linux without the mono prefix
+
+ Build change: switched Visual Studio projects to SDK style
+
+ Bugfixes:
+  - fixed a crash when parallelized pattern matching was used from the GGrShell
+  - fixed a performance bug in the graph viewers which caused a re-layout more often than needed
+  - fixed several MSAGL layout/layout-option bugs/omissions:
+    - setting the layout was flawed and causing the setting of layout options to be ignored
+    - enabled setting (and getting) of the EdgeRoutingSettings and of enum values
+    - hint messages for the user are now printed to the console when computing the graph layout crashes
+  - fixed spurious line breaks in the (G)GrShell (stemming from a missing NewLine termination of commands in the GrShell-grammar)
+  - the original stack trace of an exception is now kept in some error reports
+  - missing adaptation of the help output of the compiler to the introduction of the profile option (replacing noperfinfo)
+
+ Deleted unused/outdated binary files from the bin directory
+
+ Extended/improved the license information and added an SBOM.txt file (containing somewhat of a Software Bill of Materials)
+
+ User manual corrections, adaptations, and improvements
+
+--------------------------------------------------------------------------------------------------------
+
+v8.0 (2025-12-24)
  Implemented support for model updates in the SQLite persistence provider
   the type and attribute changes from the database model to the model from the assembly/the model file
   are first computed and reported before the adaptations of the database model are carried out
