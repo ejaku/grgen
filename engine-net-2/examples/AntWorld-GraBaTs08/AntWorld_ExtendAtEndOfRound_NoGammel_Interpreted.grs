@@ -1,9 +1,13 @@
 new graph AntWorld_ExtendAtEndOfRound_NoGammel
 
-debug with MSAGL
+debug with MSAGLExt
 debug set layout MDS
+#debug set option gui false
 #debug set option twopane false
+
+#debug with yComp
 #debug set layout Organic
+
 dump set node Ant color red
 dump add node Ant infotag hasFood
 dump add edge NextAnt exclude

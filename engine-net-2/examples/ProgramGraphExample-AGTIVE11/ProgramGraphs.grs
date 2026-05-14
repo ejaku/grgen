@@ -1,6 +1,12 @@
 new graph ProgramGraphs
 
-debug set layout Hierarchic
+debug with MSAGLExt
+debug set layout SugiyamaScheme
+#debug set option gui false
+
+#debug with yComp
+#debug set layout Hierarchic
+
 dump add node ProgramS group by hidden outgoing containsS
 dump add node ClassS group by hidden outgoing containsS
 dump add node MethodS group by hidden outgoing containsS

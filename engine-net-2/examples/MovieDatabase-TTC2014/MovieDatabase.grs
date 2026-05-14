@@ -31,6 +31,7 @@ include MovieDatabaseLayout.grs
 #you must comment the first line in MovieDatabaseLayout.grs out, otherwise the graph is hidden 
 #don't forget to press the play button to start layout
 #show graph ycomp 
+#show graph msaglext
 
 show num nodes
 show num edges
@@ -83,6 +84,9 @@ exec [computeAverageRankingCliques]
 #exec [cliques5WithRating\orderDescendingBy<numMovies>\keepFirst(15)]
 
 # for visually inspecting the matches
+
+#debug with MSAGLExt #alternative graph viewer and a fitting layout
+#debug set layout MDS
 
 #debug exec $%[couplesWithRating\orderDescendingBy<avgRating>\removeFirst(0)\keepFirst(1)]
 #debug exec $%[couplesWithRating\orderDescendingBy<numMovies>\removeFirst(0)\keepFirst(1)]
