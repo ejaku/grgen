@@ -21,16 +21,17 @@ rm -rf $GRGENDIRSRC/engine-net-2/examples/UML
 rm -rf $GRGENDIRSRC/engine-net-2/examples/Firm-IFConv
 rm -rf $GRGENDIRSRC/engine-net-2/icons
 rm -rf $GRGENDIRSRC/engine-net-2/unittests
-rm $GRGENDIRSRC/engine-net-2/licenses/NUnit.txt
-rm $GRGENDIRSRC/engine-net-2/licenses/MIT_of_NUnit3TestAdapter.txt
-rm $GRGENDIRSRC/engine-net-2/licenses/CSharpCC.txt
-rm $GRGENDIRSRC/engine-net-2/licenses/JavaCC.txt
+rm $GRGENDIRSRC/engine-net-2/bin/WarningDisabler.exe
 cp -rf $GRGENDIRSRC/engine-net-2/* $GRGENDIR
 
 cp -rf $GRGENDIRSRC/frontend/test $GRGENDIR
 
 cp -rf $GRGENDIRSRC/syntaxhighlighting $GRGENDIR
 
+rm $GRGENDIRSRC/licenses/NUnit.txt
+rm $GRGENDIRSRC/licenses/MIT_of_NUnit3TestAdapter.txt
+rm $GRGENDIRSRC/licenses/CSharpCC.txt
+rm $GRGENDIRSRC/licenses/JavaCC.txt
 cp -rf $GRGENDIRSRC/licenses $GRGENDIR
 cp $GRGENDIRSRC/LICENSE.txt $GRGENDIR
 cp $GRGENDIRSRC/README.txt $GRGENDIR
