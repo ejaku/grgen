@@ -5,7 +5,7 @@ Core (sequence) debugger engine and graph visualization interface/abstraction/he
 ## Purpose
 
 Implements debugger functionality independent of any UI framework, plus the text-only interface with the Printers. Provides step-by-step execution, breakpoints, watchpoints, and variable inspection (based on graph change and action/pattern matched events).
-Graph visualization uses one of two viewers: yComp, an external application communicated with directly from this library, or MSAGL, a .NET library that requires loading `graphViewerAndSequenceDebuggerWindowsForms.dll`.
+Graph visualization uses one of three viewers: yComp, an external application communicated with directly from this library; MSAGL, a .NET library that requires loading `graphViewerAndSequenceDebuggerWindowsForms.dll`; or MSAGLExt, the extended MSAGL viewer (same DLL) that adds a left pane with map overview, search, node nesting tree, and attributes pane. The three options are represented by the `GraphViewerTypes` enum (`YComp`, `MSAGL`, `MSAGLExt`) defined in `GraphViewerBaseClient.cs`.
 This library also contains code to render sequences as graphs, against the base graph visualization interface, but this is only used with the MSAGL graph viewer (rendered to the main work object view of the GuiDebuggerHost from `graphViewerAndSequenceDebuggerWindowsForms.dll`).
 When yComp is used, sequence output is printed to the main console of the shell (the regular console in GrShell, the GUI console in GGrShell).
 The graph visualization and the debugger can be used also from API level (without libGrShell or derived applications; the same holds for the WindowsForms extension).

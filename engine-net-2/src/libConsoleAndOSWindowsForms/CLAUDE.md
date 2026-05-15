@@ -29,9 +29,12 @@ Bridges Windows Forms GUI with the console abstraction layer, allowing the shell
 ### GuiConsoleControl
 
 A Windows Forms UserControl (built around a `RichTextBox`) that provides a console-like text interface:
-- Accepts text input like a terminal
-- Displays output with optional highlighting
+- Accepts text input like a terminal; only the last (current input) line is editable — all prior output is read-only; the logical input line may span multiple physical lines due to word-wrap, so editing uses `ReplaceLineInTextBoxAndSetCaret` rather than rewriting the whole control (performance/flicker)
+- Displays output with optional highlighting; Mono/Linux workaround: background highlight color not supported, uses foreground color instead
 - Supports key interception for debugger commands
+- **Single-line clipboard paste** via Ctrl+V (first line only; multi-line paste is handled at GGrShell level via `ClipboardLineSource`); Ctrl+V also detected via `''` char as fallback for Mono/Linux
+- Ctrl+X suppressed on Mono/Linux (would print an unwanted character)
+- `Application.DoEvents()` called at key points during blocking `ReadLine` to keep the GUI responsive
 
 ### GuiConsoleControlAsTextReader
 

@@ -4,7 +4,7 @@ Windows Forms UI layer for the GrGen.NET debugger using MSAGL graph visualizatio
 
 ## Purpose
 
-Provides the Windows Forms-based GUI for MSAGL-based interactive debugging. This DLL is loaded dynamically by the (G)GrShell when debug with MSAGL is configured and the debugger is opened (the default is debug with yComp, which requires only `graphViewerAndSequenceDebugger.dll`). Two different debugger windows (host forms) are offered, the used one depends on the configuration; plus an extra graph viewer window (host form) for the (host) graph.
+Provides the Windows Forms-based GUI for MSAGL-based interactive debugging. This DLL is loaded dynamically by the (G)GrShell when `debug with MSAGL` or `debug with MSAGLExt` is configured and the debugger is opened (the default is `debug with yComp`, which requires only `graphViewerAndSequenceDebugger.dll`). Two different debugger windows (host forms) are offered, the used one depends on the configuration; plus an extra graph viewer window (host form) for the (host) graph.
 (Integrates/synchronizes the user queries (and action/pattern matched events the debugger is based on) with the GUI message loop.)
 
 ## Output
@@ -36,11 +36,14 @@ Provides the Windows Forms-based GUI for MSAGL-based interactive debugging. This
 
 ### Graph Visualization
 
-| File | Purpose |
-|------|---------|
-| `MSAGLClient.cs` (24KB) | MSAGL graph rendering client |
-| `BasicGraphViewerClientHost.cs` | Graph viewer panel host |
-| `BasicGraphViewerClientCreator.cs` | Factory for creating graph viewers |
+| File | Size | Purpose |
+|------|------|---------|
+| `MSAGLExtClient.cs` | 45KB | Extended MSAGL graph viewer UserControl (see below) |
+| `MSAGLExtClient.Designer.cs` | 15KB | Designer generated code for MSAGLExtClient |
+| `MSAGLClient.cs` | 24KB | Basic MSAGL graph rendering client |
+| `MSAGLClient.Designer.cs` | 2KB | Designer generated code for MSAGLClient |
+| `BasicGraphViewerClientHost.cs` | | Graph viewer panel host |
+| `BasicGraphViewerClientCreator.cs` | | Factory for creating graph viewers (MSAGL or MSAGLExt) |
 
 ### Factory
 
@@ -76,9 +79,17 @@ Console-based debugger host (implements `IGuiConsoleDebuggerHost`), used when de
 - **Two-pane mode** (default, `debug set option twopane true`): two GUI consoles — one optional console for the main work object, one regular console for I/O and log printing
 - **Single-pane mode** (`debug set option twopane false`): single GUI console for all output, similar to yComp mode but in a separate window rather than reusing the shell's own console
 
+### MSAGLExtClient
+
+Extended MSAGL graph viewer UserControl (implements `IBasicGraphViewerClient`):
+- **Left pane**: map-like overview (double-click to drag viewport), search pane (Ctrl+F or `/`; Ctrl+N or N for next result), node nesting tree (synchronized with graph selection), attributes/properties view
+- **Right pane**: main interactive graph display — wraps an inner `MSAGLClient`; all `IBasicGraphViewerClient` graph mutations delegate to it
+- Also supports middle-mouse-button panning on the main view (activates MSAGL's internal pan mode via `gViewer.PanButtonPressed`)
+- `SearchResult` struct and `DoubleBufferedPanel` helper defined at file top
+
 ### MSAGLClient
 
-MSAGL graph rendering client:
+Basic MSAGL graph rendering client:
 - Implements `IBasicGraphViewerClient`
 - Maps GrGen graph elements to MSAGL graph objects for rendering
 - Handles node/edge styling and layout
@@ -91,8 +102,7 @@ Implements `IBasicGraphViewerClientHost`: the extra window in which the graph is
 ### BasicGraphViewerClientCreator
 
 Factory implementing `IBasicGraphViewerClientCreator`:
-- Creates MSAGLClient instances
-- Configures MSAGL graph viewer control
+- Creates `MSAGLClient` (for `GraphViewerTypes.MSAGL`) or `MSAGLExtClient` (for `GraphViewerTypes.MSAGLExt`) instances
 
 ### HostCreator
 

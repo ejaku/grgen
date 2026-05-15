@@ -42,7 +42,7 @@ src/
 │   └── SequenceGenerator/               # Compiled sequence execution code generation
 ├── libGrShell/                           # GrShell scripting language: CSharpCC-generated parser (GrShell.csc) and interpreter (GrShellImpl) for .grs scripts
 ├── graphViewerAndSequenceDebugger/       # Debugger engine (Debugger, DebuggerEnvironment) plus textual debugging and graph rendering interface and functionality (graph viewer yComp directly, or MSAGL via dynamically loaded Windows Forms DLL)
-├── graphViewerAndSequenceDebuggerWindowsForms/  # Windows Forms/MSAGL debugger GUI (GuiDebuggerHost, GuiConsoleDebuggerHost, MSAGLClient); loaded dynamically when debug with MSAGL is active
+├── graphViewerAndSequenceDebuggerWindowsForms/  # Windows Forms/MSAGL debugger GUI (GuiDebuggerHost, GuiConsoleDebuggerHost, MSAGLClient, MSAGLExtClient); loaded dynamically when debug with MSAGL or MSAGLExt is active
 ├── GrGen/                                # Compiler driver: invokes Java frontend on .grg files, then LGSP backend to generate optimized action assemblies
 ├── GrShell/                              # interactive or scriptable command-line shell executable: thin wrapper around libGrShell; can be used in bash scripts for testing
 ├── GGrShell/                             # GUI shell/workbench executable (Windows Forms): same as GrShell but with GUI console (no UI freeze when MSAGL debugger is used)

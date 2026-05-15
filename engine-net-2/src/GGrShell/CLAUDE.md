@@ -24,8 +24,9 @@ Windows Forms version of GrShell. Offers the same graph manipulation and rule/se
 | File | Size | Purpose |
 |------|------|---------|
 | `Program.cs` | 2KB | WinForms entry point |
-| `GGrShellForm.cs` | 3.5KB | Main window form |
-| `GGrShellForm.Designer.cs` | 5KB | Form designer generated code |
+| `GGrShellForm.cs` | 6KB | Main window form |
+| `GGrShellForm.Designer.cs` | 7KB | Form designer generated code |
+| `ClipboardLineSource.cs` | 2KB | Helper for multi-line clipboard paste (handles backslash line continuation) |
 | `GGrShellForm.resx` | 103KB | Form resources |
 | `ggrshell.ico` | 64KB | Application icon |
 | `App.config` | 1KB | Application configuration |
@@ -51,21 +52,25 @@ The entry point (`Program.cs`) bridges the GUI with the libGrShell:
 
 Main window containing:
 - Console control for text input/output
-- Menu bar (currently only offers Close; intended to be extended with shell commands)
+- Menu bar: **File** (Close), **Edit** (Paste — multi-line clipboard paste), **Help** (About — shows version/license info box)
 - Integration points for debugger windows
 
 The form stores references to:
 - `shellConfig` - Shell configuration state
 - `shellComponents` - Shell runtime components
 - `reader` / `writer` - GUI console adapters
+- `clipboardLineSource` - Active `ClipboardLineSource` when a multi-line paste is in progress (null otherwise)
+
+Multi-line clipboard paste: the Paste menu item creates a `ClipboardLineSource` from the clipboard text, which is then drained line-by-line in the main execution loop (`PasteNextLineFromClipboard`). `ClipboardLineSource.GetNextLine()` concatenates backslash-continued lines before returning them. On execution error the paste is aborted.
 
 ## Features
 
 Offers the same features the GrShell offers, presented in a Windows Forms GUI, thus lacking the testability with the bash scripts, a few noteworthy points are:
 - **Integrated console** - GUI-based console I/O (replaces terminal)
-- **Graph viewers** - Both yComp and MSAGL; MSAGL preferable here (no GUI freeze)
-- **Sequence debugger** - With MSAGL: dedicated Windows Forms/MSAGL debugger window; with yComp: console-based (as in GrShell)
-- **Menu** - Currently only Close; to be extended
+- **Graph viewers** - yComp, MSAGL, and MSAGLExt; MSAGL/MSAGLExt preferable here (no GUI freeze)
+- **Sequence debugger** - With MSAGL/MSAGLExt: dedicated Windows Forms debugger window; with yComp: console-based (as in GrShell)
+- **Multi-line clipboard paste** - File > Paste drains clipboard line-by-line via `ClipboardLineSource`; handles backslash continuation
+- **Menu** - File (Close), Edit (Paste), Help (About)
 
 ## Platform Support
 
