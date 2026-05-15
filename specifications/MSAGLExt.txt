@@ -47,6 +47,8 @@ When the Prev button is pressed or the SHIFT + F3 keys or the SHIFT + n keys, th
 Focused as needed means: when the selected graph element is not visible in the main graph area, the main graph area is scrolled so that the entity is in the center of the area (brought into the viewable area). (The matching substring is also to be selected in the attributes view in case of next/prev.)
 When the "x" button is pressed, the search text is cleared, the same holds for the search result list, and the search status.
 
+The user should be able to pan with the middle mouse button.
+
 Viewer-only with changes from API level:
 The GUI is for displaying the current graph, not for (interactive) user editing (user editing is disallowed as it would lead to a diverging graph state, as no bi-directional graph synchronization is supported).
 But the current graph may change during a debugging session, the changes are reported to it from API level.
