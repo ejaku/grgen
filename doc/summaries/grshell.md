@@ -60,7 +60,7 @@
 
 ### Shell and Environment Configuration
 - `silence on|off` — toggle node/edge created/deleted messages (off = faster bulk creation)
-- `silence exec on|off` — toggle match statistics printed during sequence execution (off avoids interference with emit output)
+- `silence exec on|off` — toggle match statistics printed during sequence execution (off avoids interference with emit output); not available in GGrShell
 - `randomseed N|time` — set random seed for reproducible results (`$`-operator, random match selector)
 - `redirect emit Filename` — redirect emit output to file
 - `redirect emit -` — redirect emit output back to stdout

@@ -10,7 +10,7 @@
 - Full build Windows: `./make_cygwin_windows.sh` (uses `dotnet`; the official releases are built with VisualStudio/`msbuild`)
   - API examples: run `./genlibs.bat`
 - Build configs: `x64`, `x86`, `Any CPU`; release ships x64 only (changed at v8.0 due to SQLite native binaries requirement)
-- Documentation: `doc/build grgen` (Linux) or `doc/build_cygwin.sh grgen`
+- Documentation: `doc/build grgen` (Linux) or `doc/build_cygwin.sh grgen`; API docs: `engine-net-2/GrGen-API.shfbproj` via Sandcastle Help File Builder
 - Syntax highlighting: `syntaxhighlighting/` — Notepad++, vim, Emacs specs for `.gm`/`.grg`/`.grs` files
 
 ### Testing

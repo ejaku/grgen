@@ -5,7 +5,7 @@
 - `show graph msagl` — show graph in built-in MSAGL viewer (MIT license, embeddable in own .NET app)
 - `show graph dot|neato|...` — dump to dot file, render with graphviz, open as PNG
 - `dump graph Filename` — dump current graph to VCG file
-- `debug with yComp|MSAGL` — switch active graph viewer
+- `debug with yComp|MSAGL|MSAGLExt` — switch active graph viewer; MSAGLExt is the extended MSAGL with an additional left pane (map-like view, search pane, node subgraph nesting tree, attributes/properties view); search with `Ctrl-f` or `/`
 
 ### Display Configuration (dump commands)
 - `dump set node/edge Type color Color` — set element colors

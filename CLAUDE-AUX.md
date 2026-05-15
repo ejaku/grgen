@@ -21,7 +21,8 @@ grgen/
 - `README.txt` - Installation and usage instructions, brief version notes
 - `ChangeLog.txt` - Detailed version history with per-release feature/fix descriptions
 - `LICENSE.txt` - Licensing overview: GrGen itself is LGPL v3 (generated code is yours, extensions must be shared), but components have different licenses (yComp: academic use only; MSAGL: MIT; SQLite: public domain; ANTLR: BSD; user manual: CC BY-SA 3.0)
-- `COMPONENTS.txt` - Software bill of materials: components, dependencies, build/usage scenarios
+- `SBOM.txt` - Software bill of materials: components, dependencies, usage scenarios
+- `BUILDING_AND_TESTING.txt` - Building and developing GrGen itself: prerequisites, build steps for frontend and backend, brief testing overview; human-readable companion to the CLAUDE.md onboarding docs
 - `AICodingPolicy.txt` - AI coding policy: AI-generated code forbidden in project core (compiler, interpreter, core tests), allowed in periphery (GUI, new shell features, unit tests)
 
 ## CLAUDE.md Files
@@ -30,7 +31,7 @@ The project contains multiple CLAUDE.md files in subfolders summarizing the cont
 Also further BUILDING.md files with building instructions and TESTING.md files with testing instructions, as well as TESTGENERATION.md files with instructions on generating tests, the latter reference the markdown files summarizing the contents of user manual chapters of relevance for generating tests in the GrGen-languages.
 
 - `CLAUDE.md` - Project overview, build and test commands, architecture
-- `CLAUDE-AUX.md` - This file: auxiliary directories and documentation files overview, plus a CLAUDE.md index and a technologies listing
+- `CLAUDE-AUX.md` - This file: auxiliary directories and documentation files overview, plus a CLAUDE.md index
 - `doc/CLAUDE.md` - User manual structure, build commands, LaTeX environment
 - `doc/summaries/CLAUDE.md` - Index of per-chapter summary files
 - `frontend/CLAUDE.md` - Frontend compiler: architecture, packages
