@@ -3,11 +3,9 @@
 === Improved GUI / debugger ===
 The new WindowsForms components could be extended by features utilizing the newly added MSAGL graph visualization library, e.g. sequence abstract syntax graphs showing variable reading/writing instead of only a syntax tree, and/or support for sequence expressions and computations as tree/graph elements instead of only text components.
 The new graphical model display and rule pattern visualization could be improved (gshow extension).
-Analogy: a graph database browser/workbench (an analogy working since the availability of the persistent graph).
-
-=== Improved GUI / debugger, ctd. ===
 Visualize the complete rule, i.e. in addition to the LHS also the RHS, would require an extension of the frontend to also emit the rewrite pattern.
 Visualize the match structure in form of a parse tree (GrGen.NET generates a top-down backtracking (context-free) star graph grammar parser/pair star graph grammar transducer out of the constructs from its nested patterns/subpatterns language acting as nonterminals, guided by the matched terminals i.e. graph elements, and the lookahead you specify with application conditions) - also: visualize the grammar structure of the generated parser / the nested patterns/subpatterns language.
+Analogy: a graph database browser/workbench (an analogy working since the availability of the persistent graph).
 
 === Improved GGrShell/GrShell ===
 Implement the ability to debug graph rewrite scripts line-by-line.
@@ -36,16 +34,22 @@ For effort reasons (also preventing "duplication"), these are only available in 
 === Graph interface completions/extensions ===
 Supply incident edge functions that return an ordered array instead of an unordered set; to be used with ordered edges.
 
+=== Replace Java frontend (compiler) by C# frontend ===
+It would make sense to rewrite the frontend to C# to have a GrGen.NET written entirely in C#, to get rid of the Java dependency (so it would only be needed in case a JAVA backend/runtime would be employed by the user).
+Seems to be the best choice: https://www.tangiblesoftwaresolutions.com/product-details/java-to-csharp-converter.html
+Before: remove debugging GUI code, replace streams usage; C backend does not need to be ported.
+ 
 === Core parts also available in a .NET standard configuration ===
 Requires some CodeDom/assembly referencing changes in the compiler.
 
-== Feature ideas for GrGen (General TODOs) ==
-
 === Improved Graph Visualizer ===
-Extend the MSAGLExt graph visualizer with folding/unfolding of nested nodes in the main graph display.
-Add a layout option similar to Compilergraph (removing some edges that are only shown when hovered).
-Add a vcg import.
-(Maybe also add an external graph viewer app.)
+Bugfix MSAGL: sometimes text labels are not displayed anymore, find out when/why, maybe a workaround is possible.
+Extend the MSAGLExt graph viewer with folding/unfolding of nested nodes in the main graph display.
+On-demand edges: Remove edges from static layout, adding/showing them only when certain nodes are hovered (similar to the Compilergraph layout in yComp).
+Add a vcg import (potentially as yComp transplant, and maybe other import/export visualization formats).
+extMSAGLExt: MSAGLExt in form of an external app, remote controllable via the yComp protocol (with a decoupled GUI message loop).
+
+== Feature ideas for GrGen (General TODOs) ==
 
 === Improved graph visualization integration ===
 Adding of subgraphs into the graph on user request. 
@@ -268,16 +272,12 @@ So that the generated code can be debugged easier - of course debugging at the l
 === Less generated code ===
 Maybe some code generation could be replaced by (generic) library functions.
 
-=== Updated implementation ===
+=== Updated implementation/Modernization ===
 Use newer framework/language features, e.g. switch from a Dictionary with SetValueType to a HashSet for implementing sets.
 Most parts are still compatible with .NET framework 2.0, it would make sense to upgrade to .NET standard 2.0.
 
 === Replace CSharpCC ===
 Replace the aged CSharpCC/MinosseCC parser generator by JavaCC with the C# backend (or even by ANTLR with the C# backend).
-
-=== Replace Java frontend (compiler) by C# frontend ===
-It would make sense to rewrite the frontend to C# to have a GrGen.NET written entirely in C#, to get rid of the Java dependency (so it would only be needed in case a JAVA backend/runtime would be employed by the user).
-Seems to be the best choice: https://www.tangiblesoftwaresolutions.com/product-details/java-to-csharp-converter.html
 
 === Eclipse Integration ===
 Write a syntax-highlighting and auto-complete plugin for GrGen. (Makes some sense with C# support in Eclipse, quite a lot when a JAVA backend is available.)
