@@ -73,6 +73,11 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
         System.Drawing.Point mapDragLastPoint;
         System.Drawing.Point mapDragStartPoint;
 
+        // Middle-mouse pan state on main graph view
+        bool mainPanning = false;
+        System.Drawing.Point mainPanLastPoint;
+        bool panButtonPressedBeforePan = false;
+
         public MSAGLExtClient()
         {
             InitializeComponent();
@@ -83,6 +88,9 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
 
             mainClient.gViewer.DrawingPanel.MouseClick += OnMainGViewerMouseClick;
             mainClient.gViewer.DrawingPanel.MouseDoubleClick += OnMainGViewerMouseDoubleClick;
+            mainClient.gViewer.DrawingPanel.MouseDown += OnMainGViewerMouseDownForPan;
+            mainClient.gViewer.MouseMove += OnMainGViewerMouseMoveForPan;
+            mainClient.gViewer.DrawingPanel.MouseUp += OnMainGViewerMouseUpForPan;
             mainClient.gViewer.MouseMove += OnMainGViewerMouseMoveForToolTip;
             mainClient.gViewer.DrawingPanel.Paint += OnMainGViewerPaintForMapRefresh;
             mainClient.gViewer.KeyDown += OnMainGViewerKeyDown;
@@ -625,6 +633,44 @@ namespace de.unika.ipd.grGen.graphViewerAndSequenceDebugger
             selectedEntityName = null;
             selectedIsEdge = false;
             textBoxAttributes.Text = "Select an entity to display its attributes";
+        }
+
+        //----------------------------------------------------------------------
+        // Middle mouse pan on main graph view
+
+        void OnMainGViewerMouseDownForPan(object sender, MouseEventArgs e)
+        {
+            if(e.Button != System.Windows.Forms.MouseButtons.Middle)
+                return;
+            mainPanning = true;
+            mainPanLastPoint = e.Location;
+            mainClient.gViewer.DrawingPanel.Capture = true;
+            panButtonPressedBeforePan = mainClient.gViewer.PanButtonPressed;
+            mainClient.gViewer.PanButtonPressed = true;
+        }
+
+        void OnMainGViewerMouseMoveForPan(object sender, MouseEventArgs e)
+        {
+            if(!mainPanning)
+                return;
+            Control dp = mainClient.gViewer.DrawingPanel;
+            Point dpCurrent = dp.PointToClient(Cursor.Position);
+            Microsoft.Msagl.Core.Geometry.Point p1 = mainClient.gViewer.ScreenToSource(mainPanLastPoint);
+            Microsoft.Msagl.Core.Geometry.Point p2 = mainClient.gViewer.ScreenToSource(dpCurrent);
+            mainPanLastPoint = dpCurrent;
+            Microsoft.Msagl.Core.Geometry.Point viewCenter =
+                mainClient.gViewer.ScreenToSource(new System.Drawing.Point(dp.Width / 2, dp.Height / 2));
+            mainClient.gViewer.CenterToPoint(
+                new Microsoft.Msagl.Core.Geometry.Point(viewCenter.X + p1.X - p2.X, viewCenter.Y + p1.Y - p2.Y));
+        }
+
+        void OnMainGViewerMouseUpForPan(object sender, MouseEventArgs e)
+        {
+            if(e.Button != System.Windows.Forms.MouseButtons.Middle || !mainPanning)
+                return;
+            mainPanning = false;
+            mainClient.gViewer.DrawingPanel.Capture = false;
+            mainClient.gViewer.PanButtonPressed = panButtonPressedBeforePan;
         }
 
         //----------------------------------------------------------------------
