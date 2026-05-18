@@ -72,6 +72,7 @@ Developing a graph rewrite system with GrShell or GGrShell
 
 
 Developing GrGen itself requires the source code from the public git repository at https://github.com/ejaku/grgen
-You may also build it locally to gain access to the debug symbols and source level diagnostics in case of crashes.
+You may also build it locally to gain access to the debug symbols and source level diagnostics in case of crashes,
+or in order to be able to use the newest features before an official release.
 Then you need further components, as explained in BUILDING_AND_TESTING.txt (sources only).
-You may also take a look at the user manual.
+The most complete source of documentation, the user manual, also contains a chapter on "Understanding and Extending GrGen.NET".

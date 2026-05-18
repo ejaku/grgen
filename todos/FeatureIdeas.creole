@@ -43,11 +43,18 @@ Before: remove debugging GUI code, replace streams usage; C backend does not nee
 Requires some CodeDom/assembly referencing changes in the compiler.
 
 === Improved Graph Visualizer ===
-Bugfix MSAGL: sometimes text labels are not displayed anymore, find out when/why, maybe a workaround is possible.
 Extend the MSAGLExt graph viewer with folding/unfolding of nested nodes in the main graph display.
 On-demand edges: Remove edges from static layout, adding/showing them only when certain nodes are hovered (similar to the Compilergraph layout in yComp).
 Add a vcg import (potentially as yComp transplant, and maybe other import/export visualization formats).
 extMSAGLExt: MSAGLExt in form of an external app, remote controllable via the yComp protocol (with a decoupled GUI message loop).
+
+=== Known bugs / Issues due to change in the environment / Missing orthogonality of features ===
+- yComp is closed source (because of the usage of yFiles), unmaintained, and does not run with modern versions of OpenJDK.
+Create an open-source .NET replacement and give a clear hint to the user that he needs an old Java or a Java implementation that puts an emphasize on compatibility.
+- Import/Export (.grs) does not support references to nodes/edges outside of the current graph, i.e. references to nodes/edges from different graphs than the graph of the graph element it is contained in an attribute (workaround: use the persistent graph for import/export).
+- The MSAGL component has some bugs (e.g. incremental layout requiers a non-empty graph), see what workarounds are possible in GrGen.
+Also: sometimes text labels are not displayed anymore, find out when/why, maybe a workaround is possible.
+- Investigate the "Unknown edge" messages that appear under certain circumstances in case of nested graphs.
 
 == Feature ideas for GrGen (General TODOs) ==
 
