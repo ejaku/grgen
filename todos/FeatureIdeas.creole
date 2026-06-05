@@ -1,33 +1,35 @@
 == Planned upcoming features in GrGen (Roadmap) ==
 
 === Improved GUI / debugger ===
-The new WindowsForms components could be extended by features utilizing the newly added MSAGL graph visualization library, e.g. sequence abstract syntax graphs showing variable reading/writing instead of only a syntax tree, and/or support for sequence expressions and computations as tree/graph elements instead of only text components.
-The new graphical model display and rule pattern visualization could be improved (gshow extension).
+The WindowsForms components could be extended by features utilizing the MSAGL graph visualization library, e.g. sequence abstract syntax graphs showing variable reading/writing instead of only a syntax tree, and/or support for sequence expressions and computations as tree/graph elements instead of only text components.
+The graphical model display and rule pattern visualization could be improved (gshow extension).
 Visualize the complete rule, i.e. in addition to the LHS also the RHS, would require an extension of the frontend to also emit the rewrite pattern.
 Visualize the match structure in form of a parse tree (GrGen.NET generates a top-down backtracking (context-free) star graph grammar parser/pair star graph grammar transducer out of the constructs from its nested patterns/subpatterns language acting as nonterminals, guided by the matched terminals i.e. graph elements, and the lookahead you specify with application conditions) - also: visualize the grammar structure of the generated parser / the nested patterns/subpatterns language.
-Analogy: a graph database browser/workbench (an analogy working since the availability of the persistent graph).
+Analogy: a graph database browser/workbench (an analogy working well since the availability of the persistent graph).
+Plus: improved AsGraph-support for the visualization of non-graph object structures.
 
 === Improved GGrShell/GrShell ===
 Implement the ability to debug graph rewrite scripts line-by-line.
 Implement a shell history function.
 
 === Model language extensions ===
-Improve subgraph support by allowing graph crossing edges (and by allowing to define a graph valued attribute to be the one nested subgraph).
+Improve subgraph support by allowing graph crossing edges (and maybe by allowing to define a graph valued attribute to be the one nested subgraph).
 (Parallel sequence execution on graphs is then very similar to graph partitioning.)
 Improve graph typing by introducing graph classes (with attributes; encapsulating data and actions; for improved data abstraction, even if full data abstraction is against the very idea of graph pattern matching).
 Extend model by ref containers. (With reference semantics instead of value semantics of embedded containers.
-Nearer to C#/Java, more intuitive to programmers from that languages, allows for direct aliasing.)
+This would be nearer to C#/Java, more intuitive to programmers from that languages, and would allow for direct aliasing.)
 (Vice versa maybe even internal class object embeddings by var prefix/object composition instead of aggregation (but no value class types).)
 Add support for ordered edges (benefitial side-effect: less expensive graph comparison).
-Use object class as base for node, edge, graph class (with shared flags bitvector)?
+Maybe: use object class as base for node, edge, graph class (with shared flags bitvector)?
 
 === Rule language completions/extensions ===
 Add a constructor (the semantics of C++ constructors when virtual inheritance is used could be applied).
-"Improve" the ugly duckling global variables (environment variables).
+"Improve" the ugly duckling global variables (environment variables, to be distinguished from graph attributes).
 Introduce pattern matching and rewriting support for nested graphs with containment-declarations (old handling with switch-to and return-from subgraph is conceptually simple but too limited for many use cases -- true multi-graph rewriting allows a lot more things).
+Support multi-graph rewriting also with multiple models/instances or better multiple graph rewrite systems (system classes).
 
 === Sequence computations language completion ===
-The sequence computations language lacks control flow constructs.
+The sequence computations language lacks control flow constructs (several loops).
 For effort reasons (also preventing "duplication"), these are only available in the sequences, requiring ugly syntax and a break to the sequences in order to get back to the sequence computations if a computation is to be controlled.
 (The constructs from the rule language with their distinction into expressions and statements are to be taken as examples/ideals, the constructs from the sequences proper with a boolean return plus side-effects are less well suited).
 
@@ -37,22 +39,22 @@ Supply incident edge functions that return an ordered array instead of an unorde
 === Replace Java frontend (compiler) by C# frontend ===
 It would make sense to rewrite the frontend to C# to have a GrGen.NET written entirely in C#, to get rid of the Java dependency (so it would only be needed in case a JAVA backend/runtime would be employed by the user).
 Seems to be the best choice: https://www.tangiblesoftwaresolutions.com/product-details/java-to-csharp-converter.html
-Before: remove debugging GUI code, replace streams usage; C backend does not need to be ported.
+Before: remove debugging GUI code, replace streams usage, maybe also remove jargs and the C backend. Requires a switch to the C# backend of ANTLR.
  
-=== Core parts also available in a .NET standard configuration ===
+=== Core parts also available in a .NET standard configuration (instead of .NET Framework) ===
 Requires some CodeDom/assembly referencing changes in the compiler.
 
 === Improved Graph Visualizer ===
 Extend the MSAGLExt graph viewer with folding/unfolding of nested nodes in the main graph display.
-On-demand edges: Remove edges from static layout, adding/showing them only when certain nodes are hovered (similar to the Compilergraph layout in yComp).
+Also by on-demand edges: Remove edges from static layout, adding/showing them only when certain nodes are hovered (similar to the Compilergraph layout in yComp).
 Add a vcg import (potentially as yComp transplant, and maybe other import/export visualization formats).
 extMSAGLExt: MSAGLExt in form of an external app, remote controllable via the yComp protocol (with a decoupled GUI message loop).
 
 === Known bugs / Issues due to change in the environment / Missing orthogonality of features ===
-- yComp is closed source (because of the usage of yFiles), unmaintained, and does not run with modern versions of OpenJDK.
-Create an open-source .NET replacement and give a clear hint to the user that he needs an old Java or a Java implementation that puts an emphasize on compatibility.
+- yComp is closed source (because of the usage of yFiles), unmaintained, and does not run with modern versions of OpenJDK/requires specific configurations (see https://github.com/bigraph-toolkit-suite/bigraphs.grgen-bigraphs#Troubleshooting).
+Create an open-source .NET replacement (and give a clear hint to the user that he needs an old Java or a Java implementation that puts an emphasize on compatibility).
 - Import/Export (.grs) does not support references to nodes/edges outside of the current graph, i.e. references to nodes/edges from different graphs than the graph of the graph element it is contained in an attribute (workaround: use the persistent graph for import/export).
-- The MSAGL component has some bugs (e.g. incremental layout requiers a non-empty graph), see what workarounds are possible in GrGen.
+- The MSAGL component has some bugs (e.g. incremental layout requiers a non-empty graph), see which workarounds are possible in GrGen.
 Also: sometimes text labels are not displayed anymore, find out when/why, maybe a workaround is possible.
 - Investigate the "Unknown edge" messages that appear under certain circumstances in case of nested graphs.
 
@@ -127,7 +129,7 @@ Add direct support (syntactic sugar) for omnigraphs with a lowering pass into th
 
 === 3D-Modelling ===
 A graph can easily model e.g. a substation, with nodes being current or volatage transformers, and edges wiring them, all equipped with 3D-coordinates, queryable by graph connectedness and by space proximity.
-Already available, but a graph is quite well suited to model objects in space as an extension, improve support for working in this domain.
+Already available (since spatial/multi-index queries), but a graph is quite well suited to model objects in space as an extension, improve support for working in this domain.
 
 === Activity/story diagrams ===
 Add activity diagrams as another rule control language (maybe similar to FUJABA that offers executable story diagrams, extended by storages) (GUI by AI, but text as base format needed, maybe built from graphlet-like patterns, just with predefined types).
@@ -195,6 +197,8 @@ Some API support for automatic replaying of recorded logs upon a crash.
 Should be a simple way to ensure durability (which makes sense as a local feature - even more so for a real database server, but such one would be beyond scope - GrGen can be seen as a local graph-based data-mining database, though.
 Questionable whether this is really needed since the availability of the persistent graph).
 Another potential extension: serialization from/to a binary format.
+A libGrPersistenceProviderOnDemandLoading.dll that allows to handle graphs that are too large to fit into main memory, at the price of reduced performance when it comes to pattern matching.
+The repository abstraction of GrGen.NET is the IGraph, implement other data sources/persistence providers mapping to that interface.
 
 === Parallel grs import/export ===
 To speed up importing of large data sets; export a graph to multiple files containing parts, import them by several threads.

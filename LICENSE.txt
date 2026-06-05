@@ -70,7 +70,9 @@ Regarding hamcrest-core-1.3.jar used for testing the frontend java classes the B
 
 --------
 
-Regarding the CSharpCC 3.2 binary (likely a home-brew version of MinosseCC described at https://www.codeproject.com/articles/MinosseCC-a-lexer-parser-generator-for-C-#comments-section)
+Regarding the CSharpCC 3.2 binary (likely a home-brew version by Moritz Kroll of MinosseCC,
+ described at https://www.codeproject.com/articles/MinosseCC-a-lexer-parser-generator-for-C-#comments-section by Antonello Provenzano,
+ you may find it in the internet archive when searching for http://www.codeproject.com/Articles/11632/MinosseCC-a-lexer-parser-generator-for-C)
 most likely a BSD-like license holds, see CSharpCC.txt and JavaCC.txt (the build is from 2008-03-10).
  (CSharpCC is only needed when building GrGen.NET itself, only generated code is used at runtime
   (for the shell parser, the sequences parser, a constant literals parser)
