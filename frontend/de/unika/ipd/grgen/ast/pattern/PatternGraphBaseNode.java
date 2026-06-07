@@ -36,7 +36,6 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
-import java.util.stream.Collectors;
 
 /**
  * AST node that represents a base graph pattern with nodes, edges, variables, subpattern usages, and further things
@@ -407,9 +406,13 @@ public abstract class PatternGraphBaseNode extends BaseNode
 	
 	public Set<String> getNamesOfEntities()
 	{
-		return getEntities().stream()
-				.map((DeclNode entity) -> entity.ident.toString())
-				.filter((String name) -> !name.startsWith("$"))
-				.collect(Collectors.toSet());
+		Set<String> set = new HashSet<String>();
+		for(DeclNode entity : getEntities())
+		{
+			String name = entity.ident.toString();
+			if(!name.startsWith("$"))
+				set.add(name);
+		}
+		return set;
 	}
 }
