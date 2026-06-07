@@ -10,14 +10,6 @@
  */
 package de.unika.ipd.grgen;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,16 +19,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.prefs.Preferences;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTree;
 
 import jargs.gnu.CmdLineParser;
 
@@ -66,7 +48,6 @@ import de.unika.ipd.grgen.util.report.Handler;
 import de.unika.ipd.grgen.util.report.NullReporter;
 import de.unika.ipd.grgen.util.report.Reporter;
 import de.unika.ipd.grgen.util.report.StreamHandler;
-import de.unika.ipd.grgen.util.report.TableHandler;
 
 /**
  * Main.java
@@ -113,15 +94,6 @@ public class Main extends Base implements Sys
 	/** Backend to use. */
 	private String backend;
 
-	/** support graphic output (meaning a 2d UI) */
-	private boolean graphic;
-
-	/** Debug tree view for graphic output */
-	private JPanel debugPanel;
-
-	/** Debug JTree for graphic output */
-	private JTree debugTree;
-
 	/** The preferences for the grgen program */
 	private Preferences prefs;
 
@@ -166,7 +138,6 @@ public class Main extends Base implements Sys
 		System.out.println("  -a, --dump-ast                    dump the AST");
 		System.out.println("  -i, --dump-ir                     dump the intermidiate representation");
 		System.out.println("  -j, --dump-ir-rules               dump each ir rule in a seperate file");
-		System.out.println("  -g, --graphic                     opens a graphical debug window");
 		System.out.println("  -b, --backend=BE                  select backend BE");
 		System.out.println("  -f, --debug-filter=REGEX          only debug messages matching this filter will be displayd");
 		System.out.println("  -F, --inverse-debug-filter=REGEX  only debug messages not matching this filter will be displayd");
@@ -175,98 +146,6 @@ public class Main extends Base implements Sys
 		System.out.println("  -o, --output=DIRECTORY            write generated files to DIRECTORY");
 		System.out.println("  -v, --noactionevents              the generated code may not fire action events");
 		System.out.println("  -e, --noattributeevents           the generated code may not fire attribute change events");
-	}
-
-	// TODO use or remove it
-	/*private JPanel getTreePanel(TreeHandler treeHandler) {
-	 debugTree = new JTree(treeHandler);
-	 debugTree.setEditable(false);
-	
-	 JPanel panel = new JPanel();
-	
-	 JScrollPane scrollPane = new JScrollPane(debugTree);
-	 panel.setLayout(new BorderLayout());
-	 panel.setPreferredSize(new Dimension(800, 600));
-	 panel.add(scrollPane, BorderLayout.CENTER);
-	
-	 return panel;
-	 }*/
-
-	private static JPanel getTablePanel(TableHandler tableHandler)
-	{
-		JComponent table = new JTable(tableHandler);
-		JPanel panel = new JPanel();
-
-		JScrollPane scrollPane = new JScrollPane(table);
-		panel.setLayout(new BorderLayout());
-		panel.setPreferredSize(new Dimension(800, 600));
-		panel.add(scrollPane, BorderLayout.CENTER);
-
-		return panel;
-	}
-
-	// TODO use or remove it
-	/*private void editPreferences() {
-	
-	 }*/
-
-	private JFrame makeMainFrame()
-	{
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		if(debugPanel != null)
-			panel.add(debugPanel);
-		//panel.add(Box.createRigidArea(new Dimension(0, 20)));
-
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-		buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-
-		JButton expandButton = new JButton("Expand All");
-		expandButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				for(int i = 0; i < debugTree.getRowCount(); i++) {
-					debugTree.expandRow(i);
-				}
-			}
-		});
-
-		JButton exitButton = new JButton("Exit");
-		exitButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				systemExit(0);
-			}
-		});
-
-		buttonPanel.add(expandButton);
-		buttonPanel.add(exitButton);
-
-		panel.add(buttonPanel);
-
-		JFrame frame = new JFrame("GrGen");
-		frame.setContentPane(panel);
-
-		frame.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e)
-			{
-				systemExit(0);
-			}
-		});
-
-		frame.pack();
-
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		Rectangle bounds = frame.getBounds();
-		frame.setLocation((dim.width - bounds.width) / 2, (dim.height - bounds.height) / 2);
-
-		frame.setVisible(true);
-
-		return frame;
 	}
 
 	protected void systemExit(int status)
@@ -280,12 +159,7 @@ public class Main extends Base implements Sys
 
 		// Debugging has an empty reporter if the flag is not set
 		if(enableDebug) {
-			if(graphic) {
-				debugHandler = new TableHandler();
-				debugPanel = getTablePanel((TableHandler)debugHandler);
-			} else {
-				debugHandler = new StreamHandler(System.out);
-			}
+			debugHandler = new StreamHandler(System.out);
 
 			DebugReporter dr = new DebugReporter(15);
 			dr.addHandler(debugHandler);
@@ -316,7 +190,6 @@ public class Main extends Base implements Sys
 			CmdLineParser.Option astDumpOpt = parser.addBooleanOption('a', "dump-ast");
 			CmdLineParser.Option irDumpOpt = parser.addBooleanOption('i', "dump-ir");
 			CmdLineParser.Option ruleDumpOpt = parser.addBooleanOption('j', "dump-ir-rules");
-			CmdLineParser.Option graphicOpt = parser.addBooleanOption('g', "graphic");
 			CmdLineParser.Option timeOpt = parser.addBooleanOption('t', "timing");
 			CmdLineParser.Option noEventsOpt = parser.addBooleanOption('e', "noevents");
 			CmdLineParser.Option noDebugEventsOpt = parser.addBooleanOption('v', "nodebugevents");
@@ -347,14 +220,9 @@ public class Main extends Base implements Sys
 			dumpRules = parser.getOptionValue(ruleDumpOpt) != null;
 			enableDebug = parser.getOptionValue(debugOpt) != null;
 			emitProfiling = parser.getOptionValue(profOpt) != null;
-			graphic = parser.getOptionValue(graphicOpt) != null;
 			printTiming = parser.getOptionValue(timeOpt) != null;
 			noEvents = parser.getOptionValue(noEventsOpt) != null;
 			noDebugEvents = parser.getOptionValue(noDebugEventsOpt) != null;
-
-			/* deactivate graphic if no debug output */
-			if(!enableDebug)
-				graphic = false;
 
 			debugFilter = (String)parser.getOptionValue(debugFilterOpt);
 			invDebugFilter = (String)parser.getOptionValue(invDebugFilterOpt);
@@ -570,10 +438,6 @@ public class Main extends Base implements Sys
 
 		importPrefs();
 
-		// Open graphic debug window if desired.
-		if(graphic)
-			makeMainFrame();
-
 		debug.report(NOTE, "working directory: " + System.getProperty("user.dir"));
 
 		startUp += System.currentTimeMillis();
@@ -656,11 +520,6 @@ public class Main extends Base implements Sys
 			} catch(IOException e) {
 				e.printStackTrace();
 			}
-		}
-
-		if(graphic && debugTree != null) {
-			debugTree.expandRow(0);
-			debugTree.expandRow(1);
 		}
 
 		if(ErrorReporter.getErrorCount() > 0) {
