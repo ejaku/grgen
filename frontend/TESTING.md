@@ -47,6 +47,11 @@ Quick-running JUnit 4 tests that exercise the full compiler pipeline (parse, AST
 The test files live in `unittest/` alongside `AcceptanceTest.java`.
 Limited coverage but fast execution.
 
+Under Windows you have to use cygwin:
+```bash
+./unittest/make_unittest_cygwin.sh
+```
+
 ## Generating Test
 
 For generating tests see TESTGENERATION.md

@@ -55,6 +55,7 @@ Additionally, rudimentary unit/acceptance tests can be used during development.
 
 The frontend unittests employing JUnit 4 can be found in frontend/unittest.
 You may use ./unittest/make_unittest.sh in order to build the frontend and run the unit/acceptance-tests (or your favorite IDE).
+Under Windows you have to use cygwin and the make_unittest_cygwin.sh script file.
 
 The engine-net-2 unittests employing NUnit 3 can be found in engine-net-2/unittests.
 You may use cd unittests/GraphAndModelTests && dotnet test in order to build and run the graph and model unit tests (or your favorite IDE).
