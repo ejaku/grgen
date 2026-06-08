@@ -12,10 +12,10 @@ make
 # Compile acceptance tests
 mkdir -p unittest/build
 javac -encoding ISO8859_1 \
-    -cp jars/antlr-runtime-3.4.jar:jars/jargs.jar:jars/junit-4.13.2.jar:jars/hamcrest-core-1.3.jar:build \
+    -cp jars/antlr-runtime-3.4.jar:jars/junit-4.13.2.jar:jars/hamcrest-core-1.3.jar:build \
     -d unittest/build \
     unittest/AcceptanceTest.java
 
 # Run acceptance tests
-java -cp jars/antlr-runtime-3.4.jar:jars/jargs.jar:jars/junit-4.13.2.jar:jars/hamcrest-core-1.3.jar:build:unittest/build \
+java -cp jars/antlr-runtime-3.4.jar:jars/junit-4.13.2.jar:jars/hamcrest-core-1.3.jar:build:unittest/build \
     org.junit.runner.JUnitCore AcceptanceTest

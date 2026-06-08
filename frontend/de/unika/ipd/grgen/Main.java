@@ -20,7 +20,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.prefs.Preferences;
 
-import jargs.gnu.CmdLineParser;
+import com.sanityinc.jargs.CmdLineParser;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
@@ -185,22 +185,22 @@ public class Main extends Base implements Sys
 	{
 		try {
 			CmdLineParser parser = new CmdLineParser();
-			CmdLineParser.Option debugOpt = parser.addBooleanOption('d', "debug");
-			CmdLineParser.Option profOpt = parser.addBooleanOption('r', "profile");
-			CmdLineParser.Option astDumpOpt = parser.addBooleanOption('a', "dump-ast");
-			CmdLineParser.Option irDumpOpt = parser.addBooleanOption('i', "dump-ir");
-			CmdLineParser.Option ruleDumpOpt = parser.addBooleanOption('j', "dump-ir-rules");
-			CmdLineParser.Option timeOpt = parser.addBooleanOption('t', "timing");
-			CmdLineParser.Option noEventsOpt = parser.addBooleanOption('e', "noevents");
-			CmdLineParser.Option noDebugEventsOpt = parser.addBooleanOption('v', "nodebugevents");
+			CmdLineParser.Option<Boolean> debugOpt = parser.addBooleanOption('d', "debug");
+			CmdLineParser.Option<Boolean> profOpt = parser.addBooleanOption('r', "profile");
+			CmdLineParser.Option<Boolean> astDumpOpt = parser.addBooleanOption('a', "dump-ast");
+			CmdLineParser.Option<Boolean> irDumpOpt = parser.addBooleanOption('i', "dump-ir");
+			CmdLineParser.Option<Boolean> ruleDumpOpt = parser.addBooleanOption('j', "dump-ir-rules");
+			CmdLineParser.Option<Boolean> timeOpt = parser.addBooleanOption('t', "timing");
+			CmdLineParser.Option<Boolean> noEventsOpt = parser.addBooleanOption('e', "noevents");
+			CmdLineParser.Option<Boolean> noDebugEventsOpt = parser.addBooleanOption('v', "nodebugevents");
 
-			CmdLineParser.Option dumpOutputToFileOpt = parser.addStringOption('c', "dump-output-to-file");
-			CmdLineParser.Option beOpt = parser.addStringOption('b', "backend");
-			CmdLineParser.Option debugFilterOpt = parser.addStringOption('f', "debug-filter");
-			CmdLineParser.Option invDebugFilterOpt = parser.addStringOption('F', "inverse-debug-filter");
-			CmdLineParser.Option prefsImportOpt = parser.addStringOption('p', "prefs");
-			CmdLineParser.Option prefsExportOpt = parser.addStringOption('x', "prefs-export");
-			CmdLineParser.Option optOutputPath = parser.addStringOption('o', "output");
+			CmdLineParser.Option<String> dumpOutputToFileOpt = parser.addStringOption('c', "dump-output-to-file");
+			CmdLineParser.Option<String> beOpt = parser.addStringOption('b', "backend");
+			CmdLineParser.Option<String> debugFilterOpt = parser.addStringOption('f', "debug-filter");
+			CmdLineParser.Option<String> invDebugFilterOpt = parser.addStringOption('F', "inverse-debug-filter");
+			CmdLineParser.Option<String> prefsImportOpt = parser.addStringOption('p', "prefs");
+			CmdLineParser.Option<String> prefsExportOpt = parser.addStringOption('x', "prefs-export");
+			CmdLineParser.Option<String> optOutputPath = parser.addStringOption('o', "output");
 
 			parser.parse(args);
 

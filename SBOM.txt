@@ -54,7 +54,7 @@ In order to visualize graphs with graphviz, you have to install the correspondin
 Developing a graph rewrite system with GrGen.exe (compilation without debugging)
  model and actions specification files are compiled with GrGen to model and actions dlls
 This needs the same as 1. without additions, additionally the GrGen compiler frontend grgen.jar is required,
-it needs antlr-runtime-3.4.jar and jargs.jar
+it needs antlr-runtime-3.4.jar (and utilizes the jargs library)
 Prerequisite: JAVA (RE)
 
 Running a generated graph rewrite system from the execution host GrShell.exe

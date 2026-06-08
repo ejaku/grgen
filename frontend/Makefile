@@ -4,7 +4,6 @@
 PARSER_DIR = de/unika/ipd/grgen/parser/antlr
 ANTLR_JAR  = $(PWD)/jars/antlr-3.4-complete.jar
 ANTLR_RUNTIME_JAR = $(PWD)/jars/antlr-runtime-3.4.jar
-JARGS_JAR  = $(PWD)/jars/jargs.jar
 
 ANTLR = java -cp $(ANTLR_JAR) org.antlr.Tool
 
@@ -31,14 +30,14 @@ fast: .grammar
 	  fi; \
 	fi
 
-.generator_build: dir .grammar $(ANTLR_JAR) $(JARGS_JAR)
-	find de -type f -name "*.java" > toCompile
-	javac -encoding ISO8859_1 -d build -classpath $(ANTLR_RUNTIME_JAR):$(JARGS_JAR) -source 1.8 -target 1.8 @toCompile
+.generator_build: dir .grammar $(ANTLR_JAR)
+	find de com -type f -name "*.java" > toCompile
+	javac -encoding ISO8859_1 -d build -classpath $(ANTLR_RUNTIME_JAR) -source 1.8 -target 1.8 @toCompile
 	jar -cmf GrGenManifest.mf $(GRGEN_JAR) -C build/ .
 	@touch .generator_build
 
-.generator_build_fast: dir .grammar $(ANTLR_JAR) $(JARGS_JAR)
-	find de -type f -name "*.java" -cnewer .generator_build | xargs javac -encoding ISO8859_1 -d build -classpath $(ANTLR_RUNTIME_JAR):$(JARGS_JAR):build -source 1.8 -target 1.8
+.generator_build_fast: dir .grammar $(ANTLR_JAR)
+	find de com -type f -name "*.java" -cnewer .generator_build | xargs javac -encoding ISO8859_1 -d build -classpath $(ANTLR_RUNTIME_JAR):build -source 1.8 -target 1.8
 	jar -cmf GrGenManifest.mf $(GRGEN_JAR) -C build/ .
 	@touch .generator_build
 

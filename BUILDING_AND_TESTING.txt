@@ -4,9 +4,9 @@ BUILDING / DEVELOPING GRGEN ITSELF
 The AI onboarding CLAUDE.md should be also helpful for a human developer.
 
 Building the compiler frontend:
-Generate the ANTLR-parsers and build the frontend/de folder.
+Generate the ANTLR-parsers and build the frontend/de and frontend/com folders (the latter contains the jargs library).
 antlr-3.4-complete.jar needed (included) for generating the model, rules/computations and embedded sequences languages parsers
- (also antlr-runtime-3.4.jar and jargs.jar)
+ (plus antlr-runtime-3.4.jar, which is also needed at runtime, for running the generated parsers)
 Prerequisite: JAVA SDK (with javac), make to use the available makefiles in order to build the JAVA frontend, but e.g. Eclipse could be used instead
 See also frontend/BUILDING.md.
 
