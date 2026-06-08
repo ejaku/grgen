@@ -3,7 +3,6 @@
 trap "echo; exit 1" INT QUIT HUP TERM
 
 GRGENDIR=".."
-JARGS="$GRGENDIR/jars/jargs.jar"
 ANTLR="$GRGENDIR/jars/antlr.jar"
 [ "$GRGENNET" ] || GRGENNET="$GRGENDIR/../engine-net-2/bin/"
 BE_CSC=de.unika.ipd.grgen.be.Csharp.SearchPlanBackend2
@@ -51,7 +50,7 @@ else
 	SEP=":"
 	MONO="mono"
 fi
-CLASSPATH=$JARGS$SEP$ANTLR$SEP$GRGENNET/grgen.jar
+CLASSPATH=$ANTLR$SEP$GRGENNET/grgen.jar
 
 JAVA_ARGS="-Xss1M -Xms256M -Xmx1024M -cp $CLASSPATH -ea de.unika.ipd.grgen.Main -b $BE_CSC -t$WITHDEBUG"
 

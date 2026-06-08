@@ -8,7 +8,7 @@ HelloMutex:
  creating a ring of two nodes, executing a graph rewrite sequence of the
  Mutex-Benchmark, and dumping the resulting graph into a VCG file.
  
- Needed files: libGr.dll, lgspBackend.dll, grgen.jar, jargs.jar, antlr.jar
+ Needed files: libGr.dll, lgspBackend.dll, grgen.jar, antlr.jar
 
 
 BusyBeaverExample:
@@ -33,7 +33,7 @@ YCompExample:
  It starts a yComp instance and connects to it via a TCP port to keep
  the graph in yComp up to date.
  
- Needed files: libGr.dll, lgspBackend.dll, grgen.jar, jargs.jar, antlr.jar,
+ Needed files: libGr.dll, lgspBackend.dll, grgen.jar, antlr.jar,
     and ycomp.bat or ycomp.
 
 

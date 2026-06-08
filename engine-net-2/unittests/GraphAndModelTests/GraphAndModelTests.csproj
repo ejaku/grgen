@@ -32,14 +32,10 @@
         Command="copy &quot;$(MSBuildProjectDirectory)\..\..\bin\grgen.jar&quot; &quot;$(MSBuildProjectDirectory)\$(OutputPath)&quot;" />
     <Exec Condition=" '$(OS)' == 'Windows_NT' "
         Command="copy &quot;$(MSBuildProjectDirectory)\..\..\bin\antlr-runtime-3.4.jar&quot; &quot;$(MSBuildProjectDirectory)\$(OutputPath)&quot;" />
-    <Exec Condition=" '$(OS)' == 'Windows_NT' "
-        Command="copy &quot;$(MSBuildProjectDirectory)\..\..\bin\jargs.jar&quot; &quot;$(MSBuildProjectDirectory)\$(OutputPath)&quot;" />
     <Exec Condition=" '$(OS)' != 'Windows_NT' "
         Command="cp &quot;$(MSBuildProjectDirectory)/../../bin/grgen.jar&quot; &quot;$(MSBuildProjectDirectory)/$(OutputPath)&quot;" />
     <Exec Condition=" '$(OS)' != 'Windows_NT' "
         Command="cp &quot;$(MSBuildProjectDirectory)/../../bin/antlr-runtime-3.4.jar&quot; &quot;$(MSBuildProjectDirectory)/$(OutputPath)&quot;" />
-    <Exec Condition=" '$(OS)' != 'Windows_NT' "
-        Command="cp &quot;$(MSBuildProjectDirectory)/../../bin/jargs.jar&quot; &quot;$(MSBuildProjectDirectory)/$(OutputPath)&quot;" />
   </Target>
 
 </Project>
