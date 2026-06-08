@@ -19,7 +19,7 @@ Note that the compiler tests typically also include the backend part of the comp
 ## Compiler Usage
 
 ```bash
-java -cp jars/jargs.jar:jars/antlr-runtime-3.4.jar:../engine-net-2/bin/grgen.jar \
+java -cp jars/antlr-runtime-3.4.jar:../engine-net-2/bin/grgen.jar \
     de.unika.ipd.grgen.Main [options] files
 
 # Key options:
@@ -85,7 +85,7 @@ After editing grammars, run `make .grammar` to regenerate parser classes.
 
 - Java 1.8+
 - ANTLR 3.4 (`jars/antlr-3.4-complete.jar` for build, `antlr-runtime-3.4.jar` for runtime)
-- jargs (`jars/jargs.jar` for command-line arguments parsing)
+- jargs (source code at `com/sanityinc/jargs/`, compiled into `grgen.jar`; command-line argument parsing)
 
 ## Further Reading
 

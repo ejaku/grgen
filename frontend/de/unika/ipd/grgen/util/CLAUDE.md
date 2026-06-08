@@ -24,7 +24,7 @@ The `util/` package contains 48 Java files providing foundational infrastructure
 - **`Location`** - Interface for source file locations.
 - **`ErrorReporter`** - Channels: ERROR, WARNING, NOTE. Static counters: `getErrorCount()`, `getWarnCount()`. Helpers: `error()`, `warning()`, `note()`.
 - **`Reporter`** - Base reporting class with channel-based masking and handler registry.
-- **Handlers**: `StreamHandler` (to PrintStream), `TableHandler` (table format), `TreeHandler` (tree format), `NullReporter` (silent).
+- **Handlers**: `StreamHandler` (to PrintStream), `NullReporter` (silent).
 - **`DebugReporter`** - Specialized for debug output.
 
 ## Graph Visualization
