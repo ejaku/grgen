@@ -53,20 +53,22 @@ In order to visualize graphs with graphviz, you have to install the correspondin
 
 Developing a graph rewrite system with GrGen.exe (compilation without debugging)
  model and actions specification files are compiled with GrGen to model and actions dlls
-This needs the same as 1. without additions, additionally the GrGen compiler frontend grgen.jar is required,
+This needs the same as "Running a generated graph rewrite system" without additions,
+additionally the GrGen compiler frontend grgen.jar is required,
 it needs antlr-runtime-3.4.jar (and utilizes the jargs library)
 Prerequisite: JAVA (RE)
 
 Running a generated graph rewrite system from the execution host GrShell.exe
  as an interactive workbench application or a script execution host
-needs the same as 1. without additions, when optional functionality is needed, the according additions are required,
+needs the same as "Running a generated graph rewrite system" without additions, 
+when optional functionality is needed, the according additions are required,
  GGrShell.exe requires libConsoleAndOSWindowsForms.dll in addition
 Allowed In academia: additional graph visualization by yComp, needs graphViewerAndSequencesDebugger.dll utilizing yComp.jar,
  which requires yObf.jar, graphmlObf.jar, ysvgObf.jar, batik.jar, antlr-3.1.1.jar (graphViewerAndSequencesDebuggerWindowsForms.dll is not needed then)
 Prerequisite: JAVA (RE)
 
 Developing a graph rewrite system with GrShell or GGrShell
- they automatically employ the GrGen compiler as needed (requires the dependencies of 2.)
+ they automatically employ the GrGen compiler as needed (requires the dependencies of "Developing a graph rewrite system with GrGen.exe")
  (it works like a mini-make, following the includes and checking the file dates)
  (for debugging, the according graph visualization/sequence debugger additions are employed)
 
