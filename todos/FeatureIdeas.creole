@@ -77,7 +77,7 @@ The effects of optimizations are also not automatically detected/well covered.
 Some test devices in the rule/computations language (written through to its underlying framework, so they are usable by e.g. the execution host GrShell; so that the user (in contrast to the language implementation targeted by the previous paragraph) can test his/her specifications automatically for improved maintainability; even though scenario tests make more sense than unit tests TBD).
 
 === Coding agent/bot support ===
-Maybe some example base targeted at ingestion by machine learning (so AI/agentic coding becomes better at writing code in the GrGen languages).
+Maybe some example base targeted at ingestion by machine learning (so AI/agentic coding becomes better at writing code in the GrGen languages -- spec driven development with natural language specifications being transformed to GrGen-specifications/code).
 Improve CLAUDE.md surveys/summaries with more implicit design knowledge/applied-and-to-be-applied patterns (but todo: relationship to developing section in user manual?).
 
 === Basic standalone IDE ===
@@ -172,6 +172,12 @@ Considerable effort.
 
 === Profiling information for graph comparison ===
 If the profile flag is set, generate graph isomorphy checking code counting up a search step variable.
+
+=== Improved state space enumeration ===
+The rollback with pauses approach is overly complicated, the single graph approach is overly simple.
+See what can be done to support state space enumeration directly with multi-graph rewriting (instead of convoluted control; i.e. see whether the mapping clause needs improvements).
+Potential improvement but likely costly/out-of-scope: differential graph storage.
+Potential improvement but unclear whether worthwhile: graph hashes.
 
 === Automatic usage of attribute indices in pattern matching ===
 Extend the scheduler to use attribute indices when benefitial.
@@ -355,6 +361,13 @@ So we get compilation results available as graphs amenable to graph rewriting (b
 Build a GrGen.NET graph in the ANTLR semantic actions and from then on use GrGen to compile GrGen rules into C# code. 
 Huge effort. Conceptually different, so bears some risk that certain things need to be done twice,
 cause an initial approach derived from the original code does not work well.
+
+=== Exception handling extension ===
+Not as important in a domain specific language intended for implementing algorithmic kernels, more important in applications that have to cope with resource handling.
+But feels like an important omission that has to be supplied so it is a full programming language (and that the semantics are complete regarding the diverging behaviour upon programming errors)...
+
+=== Formal Semantics ===
+Extend the formal (execution) semantics (graph morphims, category theory, pair star graph grammars, denotational semantics) by a type system (specification of the static semantics).
 
 === User manual style ===
 TBD and consistently applied. Clearly separate syntax/semantic specifications from hints to the user and tutorials about pragmatically using stuff (both parts needed).

@@ -55,7 +55,7 @@ Developing a graph rewrite system with GrGen.exe (compilation without debugging)
  model and actions specification files are compiled with GrGen to model and actions dlls
 This needs the same as "Running a generated graph rewrite system" without additions,
 additionally the GrGen compiler frontend grgen.jar is required,
-it needs antlr-runtime-3.4.jar (and utilizes the jargs library)
+it needs antlr-runtime-3.4.jar (and utilizes the jargs library from https://github.com/purcell/jargs)
 Prerequisite: JAVA (RE)
 
 Running a generated graph rewrite system from the execution host GrShell.exe
