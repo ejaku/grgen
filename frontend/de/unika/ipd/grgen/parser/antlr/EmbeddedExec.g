@@ -1,10 +1,10 @@
 /*
- * GrGen: graph rewrite generator tool -- release GrGen.NET 5.0
- * Copyright (C) 2003-2020 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
- * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
- * www.grgen.net
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
+ * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
+ * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
+ * www.grgen.de / www.grgen.net
  */
- 
+
 /*
  * GrGen sequence in rule specification language grammar for ANTLR 3
  * @author Sebastian Hack, Daniel Grund, Rubino Geiss, Adam Szalkowski, Veit Batz, Edgar Jakumeit, Sebastian Buchwald, Moritz Kroll
@@ -79,9 +79,9 @@ sequenceOutParameters [ ExecNode xg ] returns [ CollectNode<ExecVarDeclNode> res
 	|
 	;
 
-sequenceParamList [ CollectNode<ExecVarDeclNode> params, ExecNode xg ]
-	: { xg.disableXgrsStringBuilding(); } p=seqEntityDecl[xg] { params.addChild(p); xg.enableXgrsStringBuilding(); }
-		( { xg.disableXgrsStringBuilding(); } COMMA p=seqEntityDecl[xg] { params.addChild(p); xg.enableXgrsStringBuilding(); } )*
+sequenceParamList [ CollectNode<ExecVarDeclNode> paramz, ExecNode xg ]
+	: { xg.disableXgrsStringBuilding(); } p=seqEntityDecl[xg] { paramz.addChild(p); xg.enableXgrsStringBuilding(); }
+		( { xg.disableXgrsStringBuilding(); } COMMA p=seqEntityDecl[xg] { paramz.addChild(p); xg.enableXgrsStringBuilding(); } )*
 	;
 
 sequence [ ExecNode xg ]
@@ -598,42 +598,42 @@ seqFunctionCall [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
 	// built-in function or user defined function, backend has to decide whether the call is valid
 	: ( p=IDENT DOUBLECOLON { xg.append(p.getText()); xg.append("::"); packPrefix=true; } )?
 	  ( i=IDENT | i=COPY | i=CLONE | i=NAMEOF | i=TYPEOF ) LPAREN { xg.append(i.getText()); xg.append("("); }
-			params=seqFunctionCallParameters[xg] RPAREN { xg.append(")"); }
+			paramz=seqFunctionCallParameters[xg] RPAREN { xg.append(")"); }
 		{
-			if(i.getText().equals("now") && params.getChildren().size() == 0 || env.isGlobalFunction(null, i, params)) {
+			if(i.getText().equals("now") && paramz.getChildren().size() == 0 || env.isGlobalFunction(null, i, paramz)) {
 				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
 				if(packPrefix) {
-					res = new PackageFunctionInvocationDecisionNode(p.getText(), funcIdent, params, env);
+					res = new PackageFunctionInvocationDecisionNode(p.getText(), funcIdent, paramz, env);
 				} else {
-					res = new FunctionInvocationDecisionNode(funcIdent, params, env);
+					res = new FunctionInvocationDecisionNode(funcIdent, paramz, env);
 				}
 			} else {
 				IdentNode funcIdent = inPackage ? 
 					new PackageIdentNode(env.occurs(ParserEnvironment.PACKAGES, p.getText(), getCoords(p)), 
 						env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)))
 					: new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
-				res = new FunctionOrExternalFunctionInvocationExprNode(funcIdent, params);
+				res = new FunctionOrExternalFunctionInvocationExprNode(funcIdent, paramz);
 			}
 		}
 	;
 
-seqFunctionCallParameters [ ExecNode xg ] returns [ CollectNode<ExprNode> params = new CollectNode<ExprNode>(); ]
-	: (fromExpr=seqExpression[xg] { params.addChild(fromExpr); }
-		( COMMA { xg.append(","); } fromExpr2=seqExpression[xg] { params.addChild(fromExpr2); } )* )?
+seqFunctionCallParameters [ ExecNode xg ] returns [ CollectNode<ExprNode> paramz = new CollectNode<ExprNode>(); ]
+	: (fromExpr=seqExpression[xg] { paramz.addChild(fromExpr); }
+		( COMMA { xg.append(","); } fromExpr2=seqExpression[xg] { paramz.addChild(fromExpr2); } )* )?
 	;
 
 seqScanFunctionCall [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
 	: ( s=SCAN { xg.append(s.getText()); } | s=TRYSCAN { xg.append(s.getText()); } ) (LT { xg.append("<"); } type=seqTypeOrContainerTypeContinuation[xg])? LPAREN { xg.append("("); }
-			params=seqFunctionCallParameters[xg] RPAREN { xg.append(")"); }
+			paramz=seqFunctionCallParameters[xg] RPAREN { xg.append(")"); }
 		{
-			if(params.getChildren().size() == 1) {
+			if(paramz.getChildren().size() == 1) {
 				if(s.getText().equals("scan")) {
-					res = new ScanExprNode(getCoords(s), type, params.get(0));
+					res = new ScanExprNode(getCoords(s), type, paramz.get(0));
 				} else {
-					res = new TryScanExprNode(getCoords(s), type, params.get(0));
+					res = new TryScanExprNode(getCoords(s), type, paramz.get(0));
 				}
 			} else {
-				reportError(getCoords(s), "The function " + s.getText() + " expects 1 parameter (and a type parameter) (given are " + params.getChildren().size() + ").");
+				reportError(getCoords(s), "The function " + s.getText() + " expects 1 parameter (and a type parameter) (given are " + paramz.getChildren().size() + ").");
 			}
 		}
 	;
@@ -923,15 +923,15 @@ seqMappingClause [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
 
 seqCallRuleExpressionForMulti [ ExecNode xg, CollectNode<CallActionNode> ruleCalls ] returns [ ExprNode res = env.initExprNode() ]
 	@init {
-		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
+		CollectNode<BaseNode> paramz = new CollectNode<BaseNode>();
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
 		CollectNode<BaseNode> filters = new CollectNode<BaseNode>();
 	}
 	: id=seqActionOrEntIdentUse { xg.append(id); }
-		(LPAREN { xg.append("("); } ( seqRuleParams[xg, params] )? RPAREN { xg.append(")");})?
+		(LPAREN { xg.append("("); } ( seqRuleParams[xg, paramz] )? RPAREN { xg.append(")");})?
 		( seqCallRuleOrMatchClassFilter[xg, filters, false] )*
 		{
-			CallActionNode ruleCall = new CallActionNode(id.getCoords(), id, params, returns, filters, false);
+			CallActionNode ruleCall = new CallActionNode(id.getCoords(), id, paramz, returns, filters, false);
 			xg.addCallAction(ruleCall);
 			if(ruleCalls != null) { // must be added to MultiCallActionNode if used from multi rule all call or multi backtrack construct
 				ruleCalls.addChild(ruleCall);
@@ -947,16 +947,16 @@ seqCallRuleWithOptionalReturns [ ExecNode xg, CollectNode<CallActionNode> ruleCa
 
 seqCallRule [ ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<BaseNode> returns, boolean isAllBracketed ]
 	@init {
-		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
+		CollectNode<BaseNode> paramz = new CollectNode<BaseNode>();
 		CollectNode<BaseNode> filters = new CollectNode<BaseNode>();
 	}
 	: ( | MOD { xg.append("\%"); } | MOD QUESTION { xg.append("\%?"); } | QUESTION { xg.append("?"); } | QUESTION MOD { xg.append("?\%"); } )
 		(seqVarUse[xg] DOT { xg.append("."); })?
 		id=seqActionOrEntIdentUse { xg.append(id); }
-		(LPAREN {xg.append("(");} (seqRuleParams[xg, params])? RPAREN { xg.append(")"); })?
+		(LPAREN {xg.append("(");} (seqRuleParams[xg, paramz])? RPAREN { xg.append(")"); })?
 		( seqCallRuleOrMatchClassFilter[xg, filters, false] )*
 		{
-			CallActionNode ruleCall = new CallActionNode(id.getCoords(), id, params, returns, filters, isAllBracketed);
+			CallActionNode ruleCall = new CallActionNode(id.getCoords(), id, paramz, returns, filters, isAllBracketed);
 			xg.addCallAction(ruleCall);
 			if(ruleCalls != null) { // must be added to MultiCallActionNode if used from multi rule all call or multi backtrack construct
 				ruleCalls.addChild(ruleCall);
@@ -966,17 +966,17 @@ seqCallRule [ ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<Ba
 
 seqCallRuleExpression [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
 	@init {
-		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
+		CollectNode<BaseNode> paramz = new CollectNode<BaseNode>();
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
 		CollectNode<BaseNode> filters = new CollectNode<BaseNode>();
 	}
 	: ( QUESTION MOD { xg.append("?\%"); } | MOD QUESTION { xg.append("\%?"); } | QUESTION { xg.append("?"); } )
 		(seqVarUse[xg] DOT { xg.append("."); })?
 		id=seqActionOrEntIdentUse { xg.append(id); }
-		(LPAREN {xg.append("(");} (seqRuleParams[xg, params])? RPAREN { xg.append(")"); })?
+		(LPAREN {xg.append("(");} (seqRuleParams[xg, paramz])? RPAREN { xg.append(")"); })?
 		( seqCallRuleOrMatchClassFilter[xg, filters, false] )*
 		{
-			CallActionNode ruleCall = new CallActionNode(id.getCoords(), id, params, returns, filters, true);
+			CallActionNode ruleCall = new CallActionNode(id.getCoords(), id, paramz, returns, filters, true);
 			xg.addCallAction(ruleCall);
 			res = new RuleQueryExprNode(id.getCoords(), ruleCall, new ArrayTypeNode(MatchTypeActionNode.getMatchTypeIdentNode(env, id)));
 		}
@@ -1042,9 +1042,9 @@ seqCallRuleFilterContinuationMember [ ExecNode xg, CollectNode<BaseNode> filters
 
 seqCallRuleFilterContinuationNonMember [ ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter, Token pin, Token idin ]
 	@init {
-		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
+		CollectNode<BaseNode> paramz = new CollectNode<BaseNode>();
 	}
-	: (LPAREN { xg.append("("); } (seqRuleParams[xg, params])? RPAREN { xg.append(")"); })?
+	: (LPAREN { xg.append("("); } (seqRuleParams[xg, paramz])? RPAREN { xg.append(")"); })?
 		{
 			Token p = pin;
 			Token filterId = idin;
@@ -1054,15 +1054,15 @@ seqCallRuleFilterContinuationNonMember [ ExecNode xg, CollectNode<BaseNode> filt
 
 			if(env.isAutoSuppliedFilterName(filterId.getText()))
 			{
-				if(params.size() != 1)
-					reportError(getCoords(filterId), "The filter " + filterId.getText() + " expects 1 argument (given are " + params.size() + " arguments).");
+				if(paramz.size() != 1)
+					reportError(getCoords(filterId), "The filter " + filterId.getText() + " expects 1 argument (given are " + paramz.size() + " arguments).");
 			}
 			else if(filterId.getText().equals("auto"))
 			{
 				if(isMatchClassFilter)
 					reportError(getCoords(filterId), "The auto filter is not available for multi rule call or multi rule backtracking constructs.");
-				if(params.size() != 0)
-					reportError(getCoords(filterId), "The filter " + filterId.getText() + " expects 0 arguments (given are " + params.size() + " arguments).");
+				if(paramz.size() != 0)
+					reportError(getCoords(filterId), "The filter " + filterId.getText() + " expects 0 arguments (given are " + paramz.size() + " arguments).");
 			}
 			else
 			{
@@ -1133,17 +1133,17 @@ seqCallMatchClassFilterContinuationMember [ ExecNode xg, CollectNode<BaseNode> f
 
 seqCallMatchClassFilterContinuationNonMember [ ExecNode xg, CollectNode<BaseNode> filters, boolean isMatchClassFilter, Token pmc, Token mc, Token p, Token filterId ]
 	@init {
-		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
+		CollectNode<BaseNode> paramz = new CollectNode<BaseNode>();
 	}
-	: (LPAREN { xg.append("("); } (seqRuleParams[xg, params])? RPAREN { xg.append(")"); })?
+	: (LPAREN { xg.append("("); } (seqRuleParams[xg, paramz])? RPAREN { xg.append(")"); })?
 		{
 			if(!isMatchClassFilter)
 				reportError(getCoords(mc), "A match class specifier is only admissible for filters of multi rule call or multi rule backtracking constructs.");
 
 			if(env.isAutoSuppliedFilterName(filterId.getText()))
 			{
-				if(params.size() != 1)
-					reportError(getCoords(filterId), "The filter " + filterId.getText() + " expects 1 argument (given are " + params.size() + " arguments).");
+				if(paramz.size() != 1)
+					reportError(getCoords(filterId), "The filter " + filterId.getText() + " expects 1 argument (given are " + paramz.size() + " arguments).");
 			}
 			else
 			{

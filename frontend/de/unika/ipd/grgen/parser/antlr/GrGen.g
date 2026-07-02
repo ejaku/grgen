@@ -1,10 +1,10 @@
 /*
- * GrGen: graph rewrite generator tool -- release GrGen.NET 5.0
- * Copyright (C) 2003-2020 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
- * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
- * www.grgen.net
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
+ * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
+ * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
+ * www.grgen.de / www.grgen.net
  */
- 
+
 /*
  * GrGen model and rule specification language grammar for ANTLR 3
  * @author Sebastian Hack, Daniel Grund, Rubino Geiss, Adam Szalkowski, Veit Batz, Edgar Jakumeit, Sebastian Buchwald, Moritz Kroll, Peter Grüner
@@ -522,9 +522,9 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		FunctionAutoNode functionAutoImplementation = null;
 	}
 	: t=TEST id=actionIdentDecl { matchTypeChilds.addChild(MatchTypeActionNode.defineMatchType(env, id)); env.setCurrentActionOrSubpattern(id); env.pushScope(id); }
-		params=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null]
+		paramz=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null]
 		ret=returnTypes (IMPLEMENTS matchClasses[implementedMatchTypes])? LBRACE
-		left=patternBody[getCoords(t), params, conn, returnz, namer, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
+		left=patternBody[getCoords(t), paramz, conn, returnz, namer, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
 			{
 				actionDecl = new TestDeclNode(id, left, implementedMatchTypes, ret);
 				id.setDecl(actionDecl);
@@ -541,9 +541,9 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		{ env.popScope(); }
 		{ env.setCurrentActionOrSubpattern(null); }
 	| r=RULE id=actionIdentDecl { matchTypeChilds.addChild(MatchTypeActionNode.defineMatchType(env, id)); env.setCurrentActionOrSubpattern(id); env.pushScope(id); }
-		params=parameters[BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null]
+		paramz=parameters[BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null]
 		ret=returnTypes (IMPLEMENTS matchClasses[implementedMatchTypes])? LBRACE
-		left=patternBody[getCoords(r), params, conn, new CollectNode<ExprNode>(), namer, mod, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
+		left=patternBody[getCoords(r), paramz, conn, new CollectNode<ExprNode>(), namer, mod, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
 		defEntitiesOrYieldings[conn, defVariablesToBeYieldedTo, evalss, new CollectNode<ExprNode>(), namer, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, left]
 		( rightReplace=replacePart[new CollectNode<BaseNode>(), namer, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id, left]
 			{
@@ -569,10 +569,10 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 		{ env.popScope(); }
 		{ env.setCurrentActionOrSubpattern(null); }
 	| p=PATTERN id=patIdentDecl { env.setCurrentActionOrSubpattern(id); env.pushScope(id); }
-		params=patternParameters[namer, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] 
+		paramz=patternParameters[namer, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] 
 		((MODIFY|REPLACE) mp=patternParameters[namer, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS|BaseNode.CONTEXT_PARAMETER, null] { modifyParams = mp; })?
 		LBRACE
-		left=patternBody[getCoords(p), params, conn, new CollectNode<ExprNode>(), namer, mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, id.toString()]
+		left=patternBody[getCoords(p), paramz, conn, new CollectNode<ExprNode>(), namer, mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, id.toString()]
 		defEntitiesOrYieldings[conn, defVariablesToBeYieldedTo, evalss, new CollectNode<ExprNode>(), namer, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, left]
 		( rightReplace=replacePart[modifyParams, namer, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id, left]
 			{ rightHandSide = rightReplace; }
@@ -601,10 +601,10 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 			id.setDecl(new SequenceDeclNode(id, exec, inParams, outParams));
 			sequenceChilds.addChild(id);
 		}
-	| f=FUNCTION id=funcOrExtFuncIdentDecl { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.getInvalid()]
+	| f=FUNCTION id=funcOrExtFuncIdentDecl { env.pushScope(id); } paramz=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.getInvalid()]
 		COLON retType=returnType
 		{
-			if(env.isGlobalFunction(id.toString(), params.getChildren().size()))
+			if(env.isGlobalFunction(id.toString(), paramz.getChildren().size()))
 				reportError(id.getCoords(), "The function " + id.toString() + " cannot be defined - a builtin function of the same name and with the same number of parameters already exists.");
 		}
 		LBRACE
@@ -617,13 +617,13 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 			)
 		RBRACE { env.popScope(); }
 		{
-			id.setDecl(new FunctionDeclNode(id, evals, functionAutoImplementation, params, retType, false));
+			id.setDecl(new FunctionDeclNode(id, evals, functionAutoImplementation, paramz, retType, false));
 			functionChilds.addChild(id);
 		}
-	| pr=PROCEDURE id=funcOrExtFuncIdentDecl { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, PatternGraphLhsNode.getInvalid()]
+	| pr=PROCEDURE id=funcOrExtFuncIdentDecl { env.pushScope(id); } paramz=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, PatternGraphLhsNode.getInvalid()]
 		(COLON LPAREN (returnTypeList[retTypes])? RPAREN)?
 		{
-			if(env.isGlobalProcedure(id.toString(), params.getChildren().size()))
+			if(env.isGlobalProcedure(id.toString(), paramz.getChildren().size()))
 				reportError(id.getCoords(), "The procedure " + id.toString() + " cannot be defined - a builtin procedure of the same name and with the same number of parameters already exists.");
 		}
 		LBRACE
@@ -632,7 +632,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 			)*
 		RBRACE { env.popScope(); }
 		{
-			id.setDecl(new ProcedureDeclNode(id, evals, params, retTypes, false));
+			id.setDecl(new ProcedureDeclNode(id, evals, paramz, retTypes, false));
 			procedureChilds.addChild(id);
 		}
 	| f=FILTER id=actionIdentDecl filterFunctionDecl[f, id, filterChilds, matchClassFilterChilds]
@@ -686,7 +686,7 @@ filterFunctionDecl [ Token f, IdentNode id, CollectNode<IdentNode> filterChilds,
 		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
 		AnonymousScopeNamer namer = new AnonymousScopeNamer(env);
 	}
-	: LT actionId=actionIdentUse GT { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.getInvalid()]
+	: LT actionId=actionIdentUse GT { env.pushScope(id); } paramz=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.getInvalid()]
 		LBRACE
 			{
 				evals.addChild(new DefDeclStatementNode(getCoords(f), new VarDeclNode(
@@ -700,11 +700,11 @@ filterFunctionDecl [ Token f, IdentNode id, CollectNode<IdentNode> filterChilds,
 			)*
 		RBRACE { env.popScope(); }
 		{
-			FilterFunctionDeclNode ff = new FilterFunctionDeclNode(id, evals, params, actionId);
+			FilterFunctionDeclNode ff = new FilterFunctionDeclNode(id, evals, paramz, actionId);
 			id.setDecl(ff);
 			filterChilds.addChild(id);
 		}
-	| LT CLASS typeId=typeIdentUse GT { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.getInvalid()]
+	| LT CLASS typeId=typeIdentUse GT { env.pushScope(id); } paramz=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.getInvalid()]
 		LBRACE
 			{
 				evals.addChild(new DefDeclStatementNode(getCoords(f), new VarDeclNode(
@@ -718,24 +718,24 @@ filterFunctionDecl [ Token f, IdentNode id, CollectNode<IdentNode> filterChilds,
 			)*
 		RBRACE { env.popScope(); }
 		{
-			MatchClassFilterFunctionDeclNode mff = new MatchClassFilterFunctionDeclNode(id, evals, params, typeId);
+			MatchClassFilterFunctionDeclNode mff = new MatchClassFilterFunctionDeclNode(id, evals, paramz, typeId);
 			id.setDecl(mff);
 			matchClassFilterChilds.addChild(id);
 		}
 	;
 
 externalFilterFunctionDecl [ Token f, IdentNode id, CollectNode<IdentNode> filterChilds, CollectNode<IdentNode> matchClassFilterChilds ]
-	: LT actionId=actionIdentUse GT { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.getInvalid()]
+	: LT actionId=actionIdentUse GT { env.pushScope(id); } paramz=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.getInvalid()]
 		SEMI { env.popScope(); }
 		{
-			FilterFunctionDeclNode ff = new FilterFunctionDeclNode(id, null, params, actionId);
+			FilterFunctionDeclNode ff = new FilterFunctionDeclNode(id, null, paramz, actionId);
 			id.setDecl(ff);
 			filterChilds.addChild(id);
 		} 
-	| LT CLASS typeId=typeIdentUse GT { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.getInvalid()]
+	| LT CLASS typeId=typeIdentUse GT { env.pushScope(id); } paramz=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.getInvalid()]
 		SEMI { env.popScope(); }
 		{
-			MatchClassFilterFunctionDeclNode mff = new MatchClassFilterFunctionDeclNode(id, null, params, typeId);
+			MatchClassFilterFunctionDeclNode mff = new MatchClassFilterFunctionDeclNode(id, null, paramz, typeId);
 			id.setDecl(mff);
 			matchClassFilterChilds.addChild(id);
 		} 
@@ -757,19 +757,19 @@ patternParameters [ AnonymousScopeNamer namer, int context, PatternGraphLhsNode 
 	|
 	;
 
-paramList [ CollectNode<BaseNode> params, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
-	: p=param[context, directlyNestingLHSGraph] { params.addChild(p); }
-		( COMMA p=param[context, directlyNestingLHSGraph] { params.addChild(p); } )*
+paramList [ CollectNode<BaseNode> paramz, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+	: p=param[context, directlyNestingLHSGraph] { paramz.addChild(p); }
+		( COMMA p=param[context, directlyNestingLHSGraph] { paramz.addChild(p); } )*
 	;
 
-patternParamList [ CollectNode<BaseNode> params, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
-	: p=param[context, directlyNestingLHSGraph] { params.addChild(p); }
-		( COMMA p=param[context, directlyNestingLHSGraph] { params.addChild(p); } )*
+patternParamList [ CollectNode<BaseNode> paramz, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+	: p=param[context, directlyNestingLHSGraph] { paramz.addChild(p); }
+		( COMMA p=param[context, directlyNestingLHSGraph] { paramz.addChild(p); } )*
 	;
 
-patternDefParamList [ CollectNode<BaseNode> params, AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
-	: dp=defEntityToBeYieldedTo[null, null, null, namer, context, directlyNestingLHSGraph] { params.addChild(dp); }
-		( COMMA dp=defEntityToBeYieldedTo[null, null, null, namer, context, directlyNestingLHSGraph] { params.addChild(dp); } )*
+patternDefParamList [ CollectNode<BaseNode> paramz, AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
+	: dp=defEntityToBeYieldedTo[null, null, null, namer, context, directlyNestingLHSGraph] { paramz.addChild(dp); }
+		( COMMA dp=defEntityToBeYieldedTo[null, null, null, namer, context, directlyNestingLHSGraph] { paramz.addChild(dp); } )*
 	;
 
 param [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
@@ -933,8 +933,8 @@ matchClassFilterDeclListContinuation [ IdentNode matchClassIdent, ArrayList<Matc
 			matchClassFilters.add(filterAutoGenerated);
 		}
 	;
-	
-replacePart [ CollectNode<BaseNode> params, AnonymousScopeNamer namer,
+
+replacePart [ CollectNode<BaseNode> paramz, AnonymousScopeNamer namer,
 		int context, IdentNode nameOfRHS, PatternGraphLhsNode directlyNestingLHSGraph ]
 		returns [ ReplaceDeclNode res = null ]
 	@init {
@@ -947,7 +947,7 @@ replacePart [ CollectNode<BaseNode> params, AnonymousScopeNamer namer,
 	}
 	: r=REPLACE ( id=rhsIdentDecl { nameOfRHS = id; } )?
 		LBRACE
-		b=replaceBody[getCoords(r), params, connections, defVariablesToBeYieldedTo,
+		b=replaceBody[getCoords(r), paramz, connections, defVariablesToBeYieldedTo,
 				evals, orderedReplacements, imperativeStmts, returnz,
 				namer, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 		defEntitiesOrEvals[connections, defVariablesToBeYieldedTo,
@@ -955,8 +955,8 @@ replacePart [ CollectNode<BaseNode> params, AnonymousScopeNamer namer,
 				namer, context, b.getRhsGraph(), directlyNestingLHSGraph]
 		RBRACE
 	| LBRACEMINUS 
-		{ params = new CollectNode<BaseNode>(); }
-		b=replaceBody[getCoords(r), params, connections, defVariablesToBeYieldedTo,
+		{ paramz = new CollectNode<BaseNode>(); }
+		b=replaceBody[getCoords(r), paramz, connections, defVariablesToBeYieldedTo,
 				evals, orderedReplacements, imperativeStmts, returnz,
 				namer, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 		defEntitiesOrEvals[connections, defVariablesToBeYieldedTo, evals,
@@ -965,7 +965,7 @@ replacePart [ CollectNode<BaseNode> params, AnonymousScopeNamer namer,
 		RBRACE
 	;
 
-modifyPart [ CollectNode<IdentNode> dels, CollectNode<BaseNode> params, AnonymousScopeNamer namer,
+modifyPart [ CollectNode<IdentNode> dels, CollectNode<BaseNode> paramz, AnonymousScopeNamer namer,
 		int context, IdentNode nameOfRHS, PatternGraphLhsNode directlyNestingLHSGraph ]
 		returns [ ModifyDeclNode res = null ]
 	@init {
@@ -978,7 +978,7 @@ modifyPart [ CollectNode<IdentNode> dels, CollectNode<BaseNode> params, Anonymou
 	}
 	: m=MODIFY ( id=rhsIdentDecl { nameOfRHS = id; } )?
 		LBRACE
-		b=modifyBody[getCoords(m), dels, params, connections, defVariablesToBeYieldedTo,
+		b=modifyBody[getCoords(m), dels, paramz, connections, defVariablesToBeYieldedTo,
 				evals, orderedReplacements, imperativeStmts, returnz, 
 				namer, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 		defEntitiesOrEvals[connections, defVariablesToBeYieldedTo,
@@ -986,8 +986,8 @@ modifyPart [ CollectNode<IdentNode> dels, CollectNode<BaseNode> params, Anonymou
 				namer, context, b.getRhsGraph(), directlyNestingLHSGraph]
 		RBRACE
 	| LBRACEPLUS 
-		{ params = new CollectNode<BaseNode>(); }
-		b=modifyBody[getCoords(m), dels, params, connections, defVariablesToBeYieldedTo,
+		{ paramz = new CollectNode<BaseNode>(); }
+		b=modifyBody[getCoords(m), dels, paramz, connections, defVariablesToBeYieldedTo,
 				evals, orderedReplacements, imperativeStmts, returnz,
 				namer, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 		defEntitiesOrEvals[connections, defVariablesToBeYieldedTo, evals,
@@ -996,7 +996,7 @@ modifyPart [ CollectNode<IdentNode> dels, CollectNode<BaseNode> params, Anonymou
 	  RBRACE
 	;
 
-emptyModifyPart [ Coords coords, CollectNode<IdentNode> dels, CollectNode<BaseNode> params,
+emptyModifyPart [ Coords coords, CollectNode<IdentNode> dels, CollectNode<BaseNode> paramz,
 		int context, IdentNode nameOfRHS, PatternGraphLhsNode directlyNestingLHSGraph ]
 		returns [ ModifyDeclNode res = null ]
 	@init {
@@ -1009,7 +1009,7 @@ emptyModifyPart [ Coords coords, CollectNode<IdentNode> dels, CollectNode<BaseNo
 		CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
 		PatternGraphRhsNode patternGraph = new PatternGraphRhsNode(nameOfRHS.toString(), coords, 
-			connections, params, subpatterns, subpatternRepls,
+			connections, paramz, subpatterns, subpatternRepls,
 			orderedReplacements, returnz, imperativeStmts,
 			context, directlyNestingLHSGraph);
 		patternGraph.addDefVariablesToBeYieldedTo(defVariablesToBeYieldedTo);
@@ -1019,7 +1019,7 @@ emptyModifyPart [ Coords coords, CollectNode<IdentNode> dels, CollectNode<BaseNo
 	: 
 	;
 
-patternBody [ Coords coords, CollectNode<BaseNode> params, CollectNode<BaseNode> connections,
+patternBody [ Coords coords, CollectNode<BaseNode> paramz, CollectNode<BaseNode> connections,
 		CollectNode<ExprNode> returnz, AnonymousScopeNamer namer, int mod, int context, String nameOfGraph ]
 		returns [ PatternGraphLhsNode res = null ]
 	@init {
@@ -1035,7 +1035,7 @@ patternBody [ Coords coords, CollectNode<BaseNode> params, CollectNode<BaseNode>
 		CollectNode<ExactNode> exact = new CollectNode<ExactNode>();
 		CollectNode<InducedNode> induced = new CollectNode<InducedNode>();
 		res = new PatternGraphLhsNode(nameOfGraph, coords, 
-				connections, params, subpatterns, subpatternRepls,
+				connections, paramz, subpatterns, subpatternRepls,
 				alts, iters, negs, idpts, conds,
 				returnz, homs, totallyhoms, exact, induced, mod, context);
 	}
@@ -1989,7 +1989,7 @@ inducedStatement returns [ InducedNode res = null ]
 		RPAREN
 	;
 
-replaceBody [ Coords coords, CollectNode<BaseNode> params, 
+replaceBody [ Coords coords, CollectNode<BaseNode> paramz, 
 		CollectNode<BaseNode> connections, CollectNode<VarDeclNode> defVariablesToBeYieldedTo,
 		CollectNode<EvalStatementsNode> evals, CollectNode<OrderedReplacementsNode> orderedReplacements, 
 		CollectNode<BaseNode> imperativeStmts, CollectNode<ExprNode> returnz,
@@ -1999,7 +1999,7 @@ replaceBody [ Coords coords, CollectNode<BaseNode> params,
 		CollectNode<SubpatternUsageDeclNode> subpatterns = new CollectNode<SubpatternUsageDeclNode>();
 		CollectNode<SubpatternReplNode> subpatternRepls = new CollectNode<SubpatternReplNode>();
 		PatternGraphRhsNode patternGraph = new PatternGraphRhsNode(nameOfRHS.toString(), coords, 
-			connections, params, subpatterns, subpatternRepls,
+			connections, paramz, subpatterns, subpatternRepls,
 			orderedReplacements, returnz, imperativeStmts,
 			context, directlyNestingLHSGraph);
 		patternGraph.addDefVariablesToBeYieldedTo(defVariablesToBeYieldedTo);
@@ -2020,7 +2020,7 @@ replaceStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<VarD
 	| simpleEvaluation[evals, namer, context, directlyNestingLHSGraph]
 	;
 
-modifyBody [ Coords coords, CollectNode<IdentNode> dels, CollectNode<BaseNode> params, 
+modifyBody [ Coords coords, CollectNode<IdentNode> dels, CollectNode<BaseNode> paramz, 
 		CollectNode<BaseNode> connections, CollectNode<VarDeclNode> defVariablesToBeYieldedTo,
 		CollectNode<EvalStatementsNode> evals, CollectNode<OrderedReplacementsNode> orderedReplacements,
 		CollectNode<BaseNode> imperativeStmts, CollectNode<ExprNode> returnz,
@@ -2030,7 +2030,7 @@ modifyBody [ Coords coords, CollectNode<IdentNode> dels, CollectNode<BaseNode> p
 		CollectNode<SubpatternUsageDeclNode> subpatterns = new CollectNode<SubpatternUsageDeclNode>();
 		CollectNode<SubpatternReplNode> subpatternRepls = new CollectNode<SubpatternReplNode>();
 		PatternGraphRhsNode patternGraph = new PatternGraphRhsNode(nameOfRHS.toString(), coords, 
-			connections, params, subpatterns, subpatternRepls,
+			connections, paramz, subpatterns, subpatternRepls,
 			orderedReplacements, returnz, imperativeStmts,
 			context, directlyNestingLHSGraph);
 		patternGraph.addDefVariablesToBeYieldedTo(defVariablesToBeYieldedTo);
@@ -2635,14 +2635,14 @@ externalFunctionOrProcedureDecl [ CollectNode<IdentNode> externalFuncs, CollectN
 	@init {
 		CollectNode<BaseNode> returnTypes = new CollectNode<BaseNode>();
 	}
-	: EXTERNAL f=FUNCTION id=funcOrExtFuncIdentDecl params=paramTypes COLON ret=returnType SEMI
+	: EXTERNAL f=FUNCTION id=funcOrExtFuncIdentDecl paramz=paramTypes COLON ret=returnType SEMI
 		{
-			id.setDecl(new ExternalFunctionDeclNode(id, params, ret, false));
+			id.setDecl(new ExternalFunctionDeclNode(id, paramz, ret, false));
 			externalFuncs.addChild(id);
 		}
-	| EXTERNAL p=PROCEDURE id=funcOrExtFuncIdentDecl params=paramTypes (COLON LPAREN (returnTypeList[returnTypes])? RPAREN)? SEMI
+	| EXTERNAL p=PROCEDURE id=funcOrExtFuncIdentDecl paramz=paramTypes (COLON LPAREN (returnTypeList[returnTypes])? RPAREN)? SEMI
 		{
-			id.setDecl(new ExternalProcedureDeclNode(id, params, returnTypes, false));
+			id.setDecl(new ExternalProcedureDeclNode(id, paramz, returnTypes, false));
 			externalProcs.addChild(id);
 		}
 	;
@@ -3052,9 +3052,9 @@ extClassBody [ IdentNode clsId ] returns [ CollectNode<BaseNode> c = new Collect
 
 inClassExtFunctionDecl [ IdentNode clsId ] returns [ ExternalFunctionDeclNode res = null ]
 	: EXTERNAL f=FUNCTION id=methodOrExtMethodIdentDecl { env.pushScope(id); } 
-			params=paramTypes COLON retType=returnType SEMI { env.popScope(); }
+			paramz=paramTypes COLON retType=returnType SEMI { env.popScope(); }
 		{
-			res = new ExternalFunctionDeclNode(id, params, retType, true);
+			res = new ExternalFunctionDeclNode(id, paramz, retType, true);
 			id.setDecl(res);
 		}
 	;
@@ -3064,9 +3064,9 @@ inClassExtProcedureDecl [ IdentNode clsId ] returns [ ExternalProcedureDeclNode 
 		CollectNode<BaseNode> retTypes = new CollectNode<BaseNode>();
 	}
 	: EXTERNAL pr=PROCEDURE id=methodOrExtMethodIdentDecl { env.pushScope(id); }
-		params=paramTypes (COLON LPAREN (returnTypeList[retTypes])? RPAREN)? SEMI { env.popScope(); }
+		paramz=paramTypes (COLON LPAREN (returnTypeList[retTypes])? RPAREN)? SEMI { env.popScope(); }
 		{
-			res = new ExternalProcedureDeclNode(id, params, retTypes, true);
+			res = new ExternalProcedureDeclNode(id, paramz, retTypes, true);
 			id.setDecl(res);
 		}
 	;
@@ -3212,7 +3212,7 @@ inClassFunctionDecl [ IdentNode clsId, InheritanceTypeKind kind ] returns [ Func
 		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
 		AnonymousScopeNamer namer = new AnonymousScopeNamer(env);
 	}
-	: f=FUNCTION id=methodOrExtMethodIdentDecl { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()]
+	: f=FUNCTION id=methodOrExtMethodIdentDecl { env.pushScope(id); } paramz=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()]
 		COLON retType=returnType
 		LBRACE
 			{
@@ -3249,7 +3249,7 @@ inClassFunctionDecl [ IdentNode clsId, InheritanceTypeKind kind ] returns [ Func
 			)*
 		RBRACE { env.popScope(); }
 		{
-			res = new FunctionDeclNode(id, evals, null, params, retType, true);
+			res = new FunctionDeclNode(id, evals, null, paramz, retType, true);
 			id.setDecl(res);
 		}
 	;
@@ -3260,7 +3260,7 @@ inClassProcedureDecl [ IdentNode clsId, InheritanceTypeKind kind ] returns [ Pro
 		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
 		AnonymousScopeNamer namer = new AnonymousScopeNamer(env);
 	}
-	: pr=PROCEDURE id=methodOrExtMethodIdentDecl { env.pushScope(id); } params=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()]
+	: pr=PROCEDURE id=methodOrExtMethodIdentDecl { env.pushScope(id); } paramz=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()]
 		(COLON LPAREN (returnTypeList[retTypes])? RPAREN)?
 		LBRACE
 			{
@@ -3297,7 +3297,7 @@ inClassProcedureDecl [ IdentNode clsId, InheritanceTypeKind kind ] returns [ Pro
 			)*
 		RBRACE { env.popScope(); }
 		{
-			res = new ProcedureDeclNode(id, evals, params, retTypes, true);
+			res = new ProcedureDeclNode(id, evals, paramz, retTypes, true);
 			id.setDecl(res);
 		}
 	;
@@ -3375,19 +3375,19 @@ keyToValue [ AnonymousScopeNamer namer, int context ] returns [ ExprPairNode res
 
 constrDecl [ AnonymousScopeNamer namer, IdentNode clsId ] returns [ ConstructorDeclNode res = null ]
 	@init {
-		CollectNode<ConstructorParamNode> params = new CollectNode<ConstructorParamNode>();
+		CollectNode<ConstructorParamNode> paramz = new CollectNode<ConstructorParamNode>();
 	}
-	: id=typeIdentUse LPAREN constrParamList[namer, params] RPAREN
+	: id=typeIdentUse LPAREN constrParamList[namer, paramz] RPAREN
 		{
-			res = new ConstructorDeclNode(id, params);
+			res = new ConstructorDeclNode(id, paramz);
 			
 			if(!id.toString().equals(clsId.toString()))
 				reportError(id.getCoords(), "A constructor must come with the name of the containing class (but " + id.toString() + " is different from " + clsId.toString() + ").");
 		}
 	;
 
-constrParamList [ AnonymousScopeNamer namer, CollectNode<ConstructorParamNode> params ]
-	: p=constrParam[namer] { params.addChild(p); } ( COMMA p=constrParam[namer] { params.addChild(p); } )*
+constrParamList [ AnonymousScopeNamer namer, CollectNode<ConstructorParamNode> paramz ]
+	: p=constrParam[namer] { paramz.addChild(p); } ( COMMA p=constrParam[namer] { paramz.addChild(p); } )*
 	;
 
 constrParam [ AnonymousScopeNamer namer ] returns [ ConstructorParamNode res = null ]
@@ -3594,11 +3594,11 @@ memberIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 
 autoFunctionBody returns [ FunctionAutoNode res = null ]
 	@init {
-		CollectNode<IdentNode> params = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> paramz = new CollectNode<IdentNode>();
 	}
-	: join=IDENT LT joinFunction=IDENT GT LPAREN id=entIdentUse { params.addChild(id); }
-		( COMMA id=entIdentUse { params.addChild(id); } )+ RPAREN
-		{ res = new FunctionAutoJoinNode(getCoords(join), join.getText(), joinFunction.getText(), params); }
+	: join=IDENT LT joinFunction=IDENT GT LPAREN id=entIdentUse { paramz.addChild(id); }
+		( COMMA id=entIdentUse { paramz.addChild(id); } )+ RPAREN
+		{ res = new FunctionAutoJoinNode(getCoords(join), join.getText(), joinFunction.getText(), paramz); }
 	| target=entIdentUse DOT keepOne=IDENT LT id=entIdentUse GT accumulate=IDENT LT accuId=entIdentUse GT by=IDENT LT accuFunction=IDENT GT 
 		{ res = new FunctionAutoKeepOneForEachAccumulateByNode(getCoords(join), keepOne.getText() + accumulate.getText() + by.getText(),
 			id, accuId, accuFunction.getText(), target); }
@@ -3787,21 +3787,21 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 	|
 	  (l=LPAREN tgts=targets[onLHS, getCoords(l), ms, namer, context, directlyNestingLHSGraph] RPAREN a=ASSIGN { targetProjs = $tgts.tgtProjs; targets = $tgts.tgts; } )? 
 		( (y=YIELD { yielded = true; })? (dc=DOUBLECOLON)? variable=entIdentUse d=DOT { methodCall = true; } (member=entIdentUse DOT { attributeMethodCall = true; })? )?
-		(pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=EMIT | i=EMITDEBUG | i=DELETE) params=paramExprs[namer, context, false] SEMI
+		(pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=EMIT | i=EMITDEBUG | i=DELETE) paramz=paramExprs[namer, context, false] SEMI
 			{ 
 				if(!methodCall)
 				{
 					if(isSimple) {
 						reportError(getCoords(i), "A procedure call is forbidden in a simple eval, move it to a full eval after the --- separator.");
 					}
-					if(env.isKnownProcedure(pack, i, params))
+					if(env.isKnownProcedure(pack, i, paramz))
 					{
 						IdentNode procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
 						ProcedureInvocationDecisionNode proc;
 						if(packPrefix) {
-							proc = new PackageProcedureInvocationDecisionNode(pack.getText(), procIdent, params, context, env);
+							proc = new PackageProcedureInvocationDecisionNode(pack.getText(), procIdent, paramz, context, env);
 						} else {
-							proc = new ProcedureInvocationDecisionNode(procIdent, params, context, env);
+							proc = new ProcedureInvocationDecisionNode(procIdent, paramz, context, env);
 						}
 						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
 						for(ProjectionExprNode proj : targetProjs.getChildren()) {
@@ -3822,7 +3822,7 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 						} else {
 							procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
 						}
-						ProcedureOrExternalProcedureInvocationNode proc = new ProcedureOrExternalProcedureInvocationNode(procIdent, params, context);
+						ProcedureOrExternalProcedureInvocationNode proc = new ProcedureOrExternalProcedureInvocationNode(procIdent, paramz, context);
 						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
 						for(ProjectionExprNode proj : targetProjs.getChildren()) {
 							proj.setProcedure(proc);
@@ -3845,7 +3845,7 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 						if(isSimple && yielded) {
 							reportError(getCoords(y), "A yield method call on a def entity is forbidden in a simple eval, move it to a full eval after the --- separator.");
 						}
-						ProcedureMethodInvocationDecisionNode pmi = new ProcedureMethodInvocationDecisionNode(new IdentExprNode(variable, yielded), method_, params, context);
+						ProcedureMethodInvocationDecisionNode pmi = new ProcedureMethodInvocationDecisionNode(new IdentExprNode(variable, yielded), method_, paramz, context);
 						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), pmi, targets, context);
 						for(ProjectionExprNode proj : targetProjs.getChildren()) {
 							proj.setProcedure(pmi);
@@ -3864,7 +3864,7 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 						if(isSimple && yielded) {
 							reportError(getCoords(y), "A yield method call on an attribute of a def entity is forbidden in a simple eval, move it to a full eval after the --- separator.");
 						}
-						ProcedureMethodInvocationDecisionNode pmi = new ProcedureMethodInvocationDecisionNode(new QualIdentNode(getCoords(d), variable, member), method_, params, context);
+						ProcedureMethodInvocationDecisionNode pmi = new ProcedureMethodInvocationDecisionNode(new QualIdentNode(getCoords(d), variable, member), method_, paramz, context);
 						if(onLHS) {
 							reportError(getCoords(d), "A method call on an attribute is forbidden in a yield, only a yield method call to a def variable is allowed.");
 						}
@@ -4490,38 +4490,38 @@ globalsAccessExpr returns [ ExprNode res = env.initExprNode() ]
 
 indexFunctionInvocationExprContinuation [ IdentNode funcIdent, ExprNode cand, IdentNode idx, AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	@init {
-		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
+		CollectNode<BaseNode> paramz = new CollectNode<BaseNode>();
 		if(cand != null)
-			params.addChild(cand);
-		params.addChild(idx);
+			paramz.addChild(cand);
+		paramz.addChild(idx);
 	}
 	: RPAREN
-		{ res = new IndexFunctionInvocationDecisionNode(funcIdent, params, env); }
-	| COMMA e=expr[namer, context, inEnumInit] { params.addChild(e); }
+		{ res = new IndexFunctionInvocationDecisionNode(funcIdent, paramz, env); }
+	| COMMA e=expr[namer, context, inEnumInit] { paramz.addChild(e); }
 		(
-			RPAREN { res = new IndexFunctionInvocationDecisionNode(funcIdent, params, env); } 
+			RPAREN { res = new IndexFunctionInvocationDecisionNode(funcIdent, paramz, env); } 
 		|
-			COMMA e=expr[namer, context, inEnumInit] { params.addChild(e); } multipleIndexFunctionInvocationExprContinuation[funcIdent, params, namer, context, inEnumInit]
-				RPAREN { res = new IndexFunctionInvocationDecisionNode(funcIdent, params, env); }
+			COMMA e=expr[namer, context, inEnumInit] { paramz.addChild(e); } multipleIndexFunctionInvocationExprContinuation[funcIdent, paramz, namer, context, inEnumInit]
+				RPAREN { res = new IndexFunctionInvocationDecisionNode(funcIdent, paramz, env); }
 		)
 	;
 
-multipleIndexFunctionInvocationExprContinuation [ IdentNode funcIdent, CollectNode<BaseNode> params, AnonymousScopeNamer namer, int context, boolean inEnumInit ]
-	: ( COMMA idx=indexIdentUse { params.addChild(idx); } ( COMMA e=expr[namer, context, inEnumInit] { params.addChild(e); } ( COMMA e=expr[namer, context, inEnumInit] { params.addChild(e); } multipleIndexFunctionInvocationExprContinuation[funcIdent, params, namer, context, inEnumInit] )? )? )?
+multipleIndexFunctionInvocationExprContinuation [ IdentNode funcIdent, CollectNode<BaseNode> paramz, AnonymousScopeNamer namer, int context, boolean inEnumInit ]
+	: ( COMMA idx=indexIdentUse { paramz.addChild(idx); } ( COMMA e=expr[namer, context, inEnumInit] { paramz.addChild(e); } ( COMMA e=expr[namer, context, inEnumInit] { paramz.addChild(e); } multipleIndexFunctionInvocationExprContinuation[funcIdent, paramz, namer, context, inEnumInit] )? )? )?
 	;
 
 externalFunctionInvocationExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	@init {
 		boolean packPrefix = false;
 	}
-	: (pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=COPY | i=CLONE) params=paramExprs[namer, context, inEnumInit]
+	: (pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=COPY | i=CLONE) paramz=paramExprs[namer, context, inEnumInit]
 		{
-			if(env.isKnownFunction(pack, i, params)) {
+			if(env.isKnownFunction(pack, i, paramz)) {
 				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
 				if(packPrefix) {
-					res = new PackageFunctionInvocationDecisionNode(pack.getText(), funcIdent, params, env);
+					res = new PackageFunctionInvocationDecisionNode(pack.getText(), funcIdent, paramz, env);
 				} else {
-					res = new FunctionInvocationDecisionNode(funcIdent, params, env);
+					res = new FunctionInvocationDecisionNode(funcIdent, paramz, env);
 				}
 			} else {
 				IdentNode funcIdent;
@@ -4531,7 +4531,7 @@ externalFunctionInvocationExpr [ AnonymousScopeNamer namer, int context, boolean
 				} else {
 					funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
 				}
-				res = new FunctionOrExternalFunctionInvocationExprNode(funcIdent, params);
+				res = new FunctionOrExternalFunctionInvocationExprNode(funcIdent, paramz);
 			}
 		}
 	;
@@ -4571,8 +4571,8 @@ selectorExpr [ AnonymousScopeNamer namer, int context, ExprNode target, boolean 
 		(
 			{ env.isArrayAttributeAccessMethodName(input.get(input.LT(1).getTokenIndex()-1).getText()) }?
 			LT mi=memberIdentUse GT
-			params=paramExprs[namer, context, inEnumInit]
-			{ res = new FunctionMethodInvocationDecisionNode(target, id, params, mi); }
+			paramz=paramExprs[namer, context, inEnumInit]
+			{ res = new FunctionMethodInvocationDecisionNode(target, id, paramz, mi); }
 		|
 			{ input.get(input.LT(1).getTokenIndex()-1).getText().equals("map") }?
 			LT ti=typeIdentUse GT
@@ -4598,8 +4598,8 @@ selectorExpr [ AnonymousScopeNamer namer, int context, ExprNode target, boolean 
 			{ res = new ArrayRemoveIfNode(getCoords(d), target, $lambdaExprVar.va, $lambdaExprVar.vi, $lambdaExprVar.vd, e); }
 			{ env.popScope(); } { namer.undefExprBlock(); } RBRACE
 		|
-			params=paramExprs[namer, context, inEnumInit]
-			{ res = new FunctionMethodInvocationDecisionNode(target, id, params, mi); }
+			paramz=paramExprs[namer, context, inEnumInit]
+			{ res = new FunctionMethodInvocationDecisionNode(target, id, paramz, mi); }
 		| 
 			{ res = new MemberAccessExprNode(getCoords(d), target, id); }
 		)
@@ -4669,11 +4669,11 @@ lambdaExprVarDeclToBeYieldedTo [ AnonymousScopeNamer namer, int context, Pattern
 	;
 
 paramExprs [ AnonymousScopeNamer namer, int context, boolean inEnumInit ]
-		returns [ CollectNode<ExprNode> params = new CollectNode<ExprNode>(); ]
+		returns [ CollectNode<ExprNode> paramz = new CollectNode<ExprNode>(); ]
 	:	LPAREN
 		(
-			e=expr[namer, context, inEnumInit] { params.addChild(e); }
-			( COMMA e=expr[namer, context, inEnumInit] { params.addChild(e); } )*
+			e=expr[namer, context, inEnumInit] { paramz.addChild(e); }
+			( COMMA e=expr[namer, context, inEnumInit] { paramz.addChild(e); } )*
 		)?
 		RPAREN
 	;
