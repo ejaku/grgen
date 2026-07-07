@@ -176,7 +176,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 	{
 		// return connection assertions to copy to prevent iterator from becoming stale, copied after iteration 
 		Vector<ConnAssertNode> connAssertsToCopy = new Vector<ConnAssertNode>();
-
+		Vector<ConnAssertNode> connAssertsToDelete = new Vector<ConnAssertNode>();
 		boolean alreadyCopiedExtends = false;
 		Iterator<ConnAssertNode> it = cas.getChildren().iterator();
 		while(it.hasNext()) {
@@ -196,10 +196,12 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 					}
 				}
 
-				it.remove();
+				connAssertsToDelete.add(ca);
 				alreadyCopiedExtends = true;
 			}
 		}
+
+		cas.getChildren().removeAll(connAssertsToDelete);
 		
 		return connAssertsToCopy;
 	}

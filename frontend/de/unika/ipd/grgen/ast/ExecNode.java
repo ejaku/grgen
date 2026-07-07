@@ -71,7 +71,7 @@ public class ExecNode extends BaseNode
 	private CollectNode<DeclNode> usage = new CollectNode<DeclNode>();
 	private CollectNode<DeclNode> writeUsage = new CollectNode<DeclNode>();
 
-	private boolean disableXgrsStringBuilding = false;
+	private boolean xgrsStringBuildingDisabled = false;
 
 	public ExecNode(Coords coords)
 	{
@@ -84,7 +84,7 @@ public class ExecNode extends BaseNode
 	{
 		assert !isResolved();
 		
-		if(disableXgrsStringBuilding)
+		if(xgrsStringBuildingDisabled)
 			return;
 		
 		if(n instanceof ConstNode) {
@@ -127,12 +127,12 @@ public class ExecNode extends BaseNode
 
 	public void enableXgrsStringBuilding()
 	{
-		disableXgrsStringBuilding = false;
+		xgrsStringBuildingDisabled = false;
 	}
 	
 	public void disableXgrsStringBuilding()
 	{
-		disableXgrsStringBuilding = true;
+		xgrsStringBuildingDisabled = true;
 	}
 	
 	public void addMultiCallAction(MultiCallActionNode m)

@@ -133,11 +133,13 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 	// move missing replacement nodes to the begin of the ordered list, it is the base list for further processing
 	private void replaceSubpatternReplacementsIntoOrderedReplacements()
 	{
+		Vector<SubpatternReplNode> subpatternReplsToDelete = new Vector<SubpatternReplNode>();
 		Iterator<SubpatternReplNode> it = subpatternRepls.getChildren().iterator();
 		while(it.hasNext()) {
 			SubpatternReplNode subpatternRepl = it.next();
 			for(OrderedReplacementsNode orderedRepls : orderedReplacements.getChildren()) {
 				if(!orderedRepls.getChildren().isEmpty()) {
+					Vector<OrderedReplacementNode> orderedReplsToDelete = new Vector<OrderedReplacementNode>();
 					Iterator<OrderedReplacementNode> subCand = orderedRepls.getChildren().iterator();
 					OrderedReplacementNode orderedRepl = subCand.next();
 					if(orderedRepl instanceof SubpatternReplNode) {
@@ -145,14 +147,16 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 						String orderedSubpatternReplName = orderedSubpatternRepl.getSubpatternIdent().toString();
 						String subpatternReplName = subpatternRepl.getSubpatternIdent().toString();
 						if(orderedSubpatternReplName.equals(subpatternReplName)) {
-							subCand.remove();
+							orderedReplsToDelete.add(orderedRepl);
 							orderedRepls.addChild(subpatternRepl);
-							it.remove();
+							subpatternReplsToDelete.add(subpatternRepl);
 						}
 					}
+					orderedRepls.getChildren().removeAll(orderedReplsToDelete);
 				}
 			}
 		}
+		subpatternRepls.getChildren().removeAll(subpatternReplsToDelete);
 		for(int i = subpatternRepls.getChildren().size() - 1; i >= 0; --i) {
 			SubpatternReplNode subpatternRepl = subpatternRepls.get(i);
 			OrderedReplacementsNode orderedRepls = new OrderedReplacementsNode(subpatternRepl.getCoords(),

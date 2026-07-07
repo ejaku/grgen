@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Vector;
 
 public class XMLDumper
 {
@@ -61,8 +62,10 @@ public class XMLDumper
 		ps.print(dumpable.getXMLId());
 		ps.print('\"');
 
+		Vector<String> keysToRemove = new Vector<String>();
+
 		for(Iterator<String> it = fields.keySet().iterator(); it.hasNext();) {
-			Object obj = it.next();
+			String obj = it.next();
 			Object val = fields.get(obj);
 			if(!(val instanceof Iterator<?>)) {
 				ps.print(' ');
@@ -70,8 +73,12 @@ public class XMLDumper
 				ps.print("=\"");
 				ps.print(val);
 				ps.print('\"');
-				it.remove();
+				keysToRemove.add(obj);
 			}
+		}
+
+		for(String keyToRemove : keysToRemove) {
+			fields.remove(keyToRemove);
 		}
 
 		if(!fields.isEmpty()) {
