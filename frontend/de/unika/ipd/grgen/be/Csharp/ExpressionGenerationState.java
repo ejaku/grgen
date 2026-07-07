@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.util.SourceBuilder;
 
 public interface ExpressionGenerationState
 {
-	Map<Expression, String> mapExprToTempVar();
+	Map<Expression, String> getMapExprToTempVar();
 
 	boolean useVarForResult();
 
@@ -28,11 +28,11 @@ public interface ExpressionGenerationState
 
 	void switchToVarForResult();
 
-	Model model();
+	Model getModel();
 
 	boolean isToBeParallelizedActionExisting();
 
 	boolean emitProfilingInstrumentation();
 
-	SourceBuilder perElementMethodSourceBuilder();
+	SourceBuilder getPerElementMethodSourceBuilder();
 }

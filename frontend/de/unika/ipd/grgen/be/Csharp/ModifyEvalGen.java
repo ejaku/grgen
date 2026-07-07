@@ -209,7 +209,7 @@ public class ModifyEvalGen extends CSharpBase
 	public void genAllEvals(SourceBuilder sb, ModifyGenerationStateConst state,
 			Collection<EvalStatements> evalStatements)
 	{
-		for(Node node : state.newNodes()) {
+		for(Node node : state.getNewNodes()) {
 			if(node.hasAttributeInitialization()) {
 				for(NameOrAttributeInitialization nai : node.nameOrAttributeInitialization) {
 					if(nai.attribute == null) // skip name initialization
@@ -218,7 +218,7 @@ public class ModifyEvalGen extends CSharpBase
 				}
 			}
 		}
-		for(Edge edge : state.newEdges()) {
+		for(Edge edge : state.getNewEdges()) {
 			if(edge.hasAttributeInitialization()) {
 				for(NameOrAttributeInitialization nai : edge.nameOrAttributeInitialization) {
 					if(nai.attribute == null) // skip name initialization
@@ -706,11 +706,11 @@ public class ModifyEvalGen extends CSharpBase
 
 		Entity owner = cass.getTarget().getOwner();
 		boolean isDeletedElem = owner instanceof Node
-				? state.delNodes().contains(owner)
-				: state.delEdges().contains(owner);
+				? state.getDelNodes().contains(owner)
+				: state.getDelEdges().contains(owner);
 		if(!isDeletedElem && be.system.mayFireEvents()) {
 			owner = changedTarget.getOwner();
-			isDeletedElem = owner instanceof Node ? state.delNodes().contains(owner) : state.delEdges().contains(owner);
+			isDeletedElem = owner instanceof Node ? state.getDelNodes().contains(owner) : state.getDelEdges().contains(owner);
 			if(!isDeletedElem && be.system.mayFireEvents()) {
 				String varName = "tempvar_" + tmpVarID++;
 				String varType = "bool ";
@@ -786,8 +786,8 @@ public class ModifyEvalGen extends CSharpBase
 		Type elementType = attribute.getOwner();
 
 		boolean isDeletedElem = element instanceof Node
-				? state.delNodes().contains(element)
-				: state.delEdges().contains(element);
+				? state.getDelNodes().contains(element)
+				: state.getDelEdges().contains(element);
 		if(!isDeletedElem && be.system.mayFireEvents()) {
 			sb.append(prefix);
 			if(cass.getOperation() == CompoundAssignment.CompoundAssignmentType.UNION)
@@ -824,8 +824,8 @@ public class ModifyEvalGen extends CSharpBase
 
 		Entity owner = changedTarget.getOwner();
 		boolean isDeletedElem = owner instanceof Node
-				? state.delNodes().contains(owner)
-				: state.delEdges().contains(owner);
+				? state.getDelNodes().contains(owner)
+				: state.getDelEdges().contains(owner);
 		if(!isDeletedElem && be.system.mayFireEvents()) {
 			String varName = "tempvar_" + tmpVarID++;
 			String varType = "bool ";
@@ -1490,7 +1490,7 @@ public class ModifyEvalGen extends CSharpBase
 
 	private static void genReturnStatementFilter(SourceBuilder sb, ModifyGenerationStateConst state, ReturnStatementFilter rsf)
 	{
-		if(state.matchClassName() != null)
+		if(state.getMatchClassName() != null)
 			sb.appendFront("GRGEN_LIBGR.MatchListHelper.FromList(matches, this_matches);\n");
 		else
 			sb.appendFront("matches.FromListExact();\n");
@@ -1516,7 +1516,7 @@ public class ModifyEvalGen extends CSharpBase
 		}
 		if(be.system.mayFireDebugEvents()) {
 			sb.appendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugExiting(");
-			sb.append("\"" + state.name() + "\"");
+			sb.append("\"" + state.getName() + "\"");
 			for(int j = 0; j < i; ++j) {
 				sb.append(", _out_param_" + j);
 			}
@@ -1602,9 +1602,9 @@ public class ModifyEvalGen extends CSharpBase
 		Variable var = ddvs.getTarget();
 		if(var.getIdent().toString().equals("this")) {
 			if(var.getType() instanceof ArrayType) {
-				if(state.matchClassName() != null) {
+				if(state.getMatchClassName() != null) {
 					sb.appendFront(formatType(var.getType()) + " this_matches = GRGEN_LIBGR.MatchListHelper.ToList<"
-							+ state.packagePrefix() + "IMatch_" + state.matchClassName() + ">(matches);\n");
+							+ state.getPackagePrefix() + "IMatch_" + state.getMatchClassName() + ">(matches);\n");
 				} else
 					sb.appendFront(formatType(var.getType()) + " this_matches = matches.ToListExact();\n");
 			}
@@ -3459,10 +3459,10 @@ public class ModifyEvalGen extends CSharpBase
 		boolean isDeletedElem = false;
 		if(element instanceof Node) {
 			kindStr = "Node";
-			isDeletedElem = state.delNodes().contains(element);
+			isDeletedElem = state.getDelNodes().contains(element);
 		} else if(element instanceof Edge) {
 			kindStr = "Edge";
-			isDeletedElem = state.delEdges().contains(element);
+			isDeletedElem = state.getDelEdges().contains(element);
 		} else if(element instanceof Variable) {
 			Variable var = (Variable)element;
 			if(var.getType() instanceof NodeType)
@@ -3510,10 +3510,10 @@ public class ModifyEvalGen extends CSharpBase
 		boolean isDeletedElem = false;
 		if(element instanceof Node) {
 			kindStr = "Node";
-			isDeletedElem = state.delNodes().contains(element);
+			isDeletedElem = state.getDelNodes().contains(element);
 		} else if(element instanceof Edge) {
 			kindStr = "Edge";
-			isDeletedElem = state.delEdges().contains(element);
+			isDeletedElem = state.getDelEdges().contains(element);
 		} else if(element instanceof Variable) {
 			Variable var = (Variable)element;
 			if(var.getType() instanceof NodeType)
@@ -3560,10 +3560,10 @@ public class ModifyEvalGen extends CSharpBase
 		boolean isDeletedElem = false;
 		if(element instanceof Node) {
 			kindStr = "Node";
-			isDeletedElem = state.delNodes().contains(element);
+			isDeletedElem = state.getDelNodes().contains(element);
 		} else if(element instanceof Edge) {
 			kindStr = "Edge";
-			isDeletedElem = state.delEdges().contains(element);
+			isDeletedElem = state.getDelEdges().contains(element);
 		} else if(element instanceof Variable) {
 			Variable var = (Variable)element;
 			if(var.getType() instanceof NodeType)
@@ -3636,10 +3636,10 @@ public class ModifyEvalGen extends CSharpBase
 		boolean isDeletedElem = false;
 		if(element instanceof Node) {
 			kindStr = "Node";
-			isDeletedElem = state.delNodes().contains(element);
+			isDeletedElem = state.getDelNodes().contains(element);
 		} else if(element instanceof Edge) {
 			kindStr = "Edge";
-			isDeletedElem = state.delEdges().contains(element);
+			isDeletedElem = state.getDelEdges().contains(element);
 		} else if(element instanceof Variable) {
 			Variable var = (Variable)element;
 			if(var.getType() instanceof NodeType)
@@ -3696,7 +3696,7 @@ public class ModifyEvalGen extends CSharpBase
 			if(accessViaVariable(state, /*(GraphEntity)*/owner, member)) {
 				sb.append("tempvar_" + formatEntity(owner) + "_" + formatIdentifiable(member));
 			} else {
-				if(state.accessViaInterface().contains(owner))
+				if(state.getAccessViaInterface().contains(owner))
 					sb.append("i");
 
 				sb.append(formatEntity(owner) + ".@" + formatIdentifiable(member));
@@ -3716,7 +3716,7 @@ public class ModifyEvalGen extends CSharpBase
 
 	private static boolean accessViaVariable(ModifyGenerationStateConst state, Entity elem, Entity attr)
 	{
-		HashSet<Entity> forcedAttrs = state.forceAttributeToVar().get(elem);
+		HashSet<Entity> forcedAttrs = state.getForceAttributeToVar().get(elem);
 		return forcedAttrs != null && forcedAttrs.contains(attr);
 	}
 }

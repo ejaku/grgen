@@ -37,175 +37,175 @@ import de.unika.ipd.grgen.util.SourceBuilder;
 class ModifyGenerationState implements ModifyGenerationStateConst
 {
 	@Override
-	public String name()
+	public String getName()
 	{
 		return functionOrProcedureName != null ? functionOrProcedureName : actionName;
 	}
 
 	@Override
-	public Collection<Node> commonNodes()
+	public Collection<Node> getCommonNodes()
 	{
 		return Collections.unmodifiableCollection(commonNodes);
 	}
 
 	@Override
-	public Collection<Edge> commonEdges()
+	public Collection<Edge> getCommonEdges()
 	{
 		return Collections.unmodifiableCollection(commonEdges);
 	}
 
 	@Override
-	public Collection<SubpatternUsage> commonSubpatternUsages()
+	public Collection<SubpatternUsage> getCommonSubpatternUsages()
 	{
 		return Collections.unmodifiableCollection(commonSubpatternUsages);
 	}
 
 	@Override
-	public Collection<Node> newNodes()
+	public Collection<Node> getNewNodes()
 	{
 		return Collections.unmodifiableCollection(newNodes);
 	}
 
 	@Override
-	public Collection<Edge> newEdges()
+	public Collection<Edge> getNewEdges()
 	{
 		return Collections.unmodifiableCollection(newEdges);
 	}
 
 	@Override
-	public Collection<SubpatternUsage> newSubpatternUsages()
+	public Collection<SubpatternUsage> getNewSubpatternUsages()
 	{
 		return Collections.unmodifiableCollection(newSubpatternUsages);
 	}
 
 	@Override
-	public Collection<Node> delNodes()
+	public Collection<Node> getDelNodes()
 	{
 		return Collections.unmodifiableCollection(delNodes);
 	}
 
 	@Override
-	public Collection<Edge> delEdges()
+	public Collection<Edge> getDelEdges()
 	{
 		return Collections.unmodifiableCollection(delEdges);
 	}
 
 	@Override
-	public Collection<SubpatternUsage> delSubpatternUsages()
+	public Collection<SubpatternUsage> getDelSubpatternUsages()
 	{
 		return Collections.unmodifiableCollection(delSubpatternUsages);
 	}
 
 	@Override
-	public Collection<Node> yieldedNodes()
+	public Collection<Node> getYieldedNodes()
 	{
 		return Collections.unmodifiableCollection(yieldedNodes);
 	}
 
 	@Override
-	public Collection<Edge> yieldedEdges()
+	public Collection<Edge> getYieldedEdges()
 	{
 		return Collections.unmodifiableCollection(yieldedEdges);
 	}
 
 	@Override
-	public Collection<Variable> yieldedVariables()
+	public Collection<Variable> getYieldedVariables()
 	{
 		return Collections.unmodifiableCollection(yieldedVariables);
 	}
 
 	@Override
-	public Collection<Node> newOrRetypedNodes()
+	public Collection<Node> getNewOrRetypedNodes()
 	{
 		return Collections.unmodifiableCollection(newOrRetypedNodes);
 	}
 
 	@Override
-	public Collection<Edge> newOrRetypedEdges()
+	public Collection<Edge> getNewOrRetypedEdges()
 	{
 		return Collections.unmodifiableCollection(newOrRetypedEdges);
 	}
 
 	@Override
-	public Collection<GraphEntity> accessViaInterface()
+	public Collection<GraphEntity> getAccessViaInterface()
 	{
 		return Collections.unmodifiableCollection(accessViaInterface);
 	}
 
 	@Override
-	public Map<GraphEntity, HashSet<Entity>> neededAttributes()
+	public Map<GraphEntity, HashSet<Entity>> getNeededAttributes()
 	{
 		return Collections.unmodifiableMap(neededAttributes);
 	}
 
 	@Override
-	public Map<GraphEntity, HashSet<Entity>> attributesStoredBeforeDelete()
+	public Map<GraphEntity, HashSet<Entity>> getAttributesStoredBeforeDelete()
 	{
 		return Collections.unmodifiableMap(attributesStoredBeforeDelete);
 	}
 
 	@Override
-	public Collection<Variable> neededVariables()
+	public Collection<Variable> getNeededVariables()
 	{
 		return Collections.unmodifiableCollection(neededVariables);
 	}
 
 	@Override
-	public Collection<Node> nodesNeededAsElements()
+	public Collection<Node> getNodesNeededAsElements()
 	{
 		return Collections.unmodifiableCollection(nodesNeededAsElements);
 	}
 
 	@Override
-	public Collection<Edge> edgesNeededAsElements()
+	public Collection<Edge> getEdgesNeededAsElements()
 	{
 		return Collections.unmodifiableCollection(edgesNeededAsElements);
 	}
 
 	@Override
-	public Collection<Node> nodesNeededAsAttributes()
+	public Collection<Node> getNodesNeededAsAttributes()
 	{
 		return Collections.unmodifiableCollection(nodesNeededAsAttributes);
 	}
 
 	@Override
-	public Collection<Edge> edgesNeededAsAttributes()
+	public Collection<Edge> getEdgesNeededAsAttributes()
 	{
 		return Collections.unmodifiableCollection(edgesNeededAsAttributes);
 	}
 
 	@Override
-	public Collection<Node> nodesNeededAsTypes()
+	public Collection<Node> getNodesNeededAsTypes()
 	{
 		return Collections.unmodifiableCollection(nodesNeededAsTypes);
 	}
 
 	@Override
-	public Collection<Edge> edgesNeededAsTypes()
+	public Collection<Edge> getEdgesNeededAsTypes()
 	{
 		return Collections.unmodifiableCollection(edgesNeededAsTypes);
 	}
 
 	@Override
-	public Map<GraphEntity, HashSet<Entity>> forceAttributeToVar()
+	public Map<GraphEntity, HashSet<Entity>> getForceAttributeToVar()
 	{
 		return Collections.unmodifiableMap(forceAttributeToVar);
 	}
 
 	@Override
-	public String matchClassName()
+	public String getMatchClassName()
 	{
 		return matchClassName;
 	}
 
 	@Override
-	public String packagePrefix()
+	public String getPackagePrefix()
 	{
 		return packagePrefix;
 	}
 
 	@Override
-	public Map<Expression, String> mapExprToTempVar()
+	public Map<Expression, String> getMapExprToTempVar()
 	{
 		return Collections.unmodifiableMap(mapExprToTempVar);
 	}
@@ -213,23 +213,23 @@ class ModifyGenerationState implements ModifyGenerationStateConst
 	@Override
 	public boolean useVarForResult()
 	{
-		return useVarForResult;
+		return useVarForResult_;
 	}
 
 	@Override
 	public boolean switchToVarForResultAfterFirstVarUsage()
 	{
-		return switchToVarForResultAfterFirstVarUsage;
+		return switchToVarForResultAfterFirstVarUsage_;
 	}
 
 	@Override
 	public void switchToVarForResult()
 	{
-		useVarForResult = true;
+		useVarForResult_ = true;
 	}
 
 	@Override
-	public Model model()
+	public Model getModel()
 	{
 		return model;
 	}
@@ -237,17 +237,17 @@ class ModifyGenerationState implements ModifyGenerationStateConst
 	@Override
 	public boolean isToBeParallelizedActionExisting()
 	{
-		return isToBeParallelizedActionExisting;
+		return isToBeParallelizedActionExisting_;
 	}
 
 	@Override
 	public boolean emitProfilingInstrumentation()
 	{
-		return emitProfiling;
+		return emitProfiling_;
 	}
 	
 	@Override
-	public SourceBuilder perElementMethodSourceBuilder()
+	public SourceBuilder getPerElementMethodSourceBuilder()
 	{
 		return perElementMethodSourceBuilder;
 	}
@@ -295,14 +295,14 @@ class ModifyGenerationState implements ModifyGenerationStateConst
 	public HashMap<GraphEntity, HashSet<Entity>> forceAttributeToVar = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
 
 	public HashMap<Expression, String> mapExprToTempVar = new LinkedHashMap<Expression, String>();
-	public boolean useVarForResult;
-	public boolean switchToVarForResultAfterFirstVarUsage;
+	public boolean useVarForResult_;
+	public boolean switchToVarForResultAfterFirstVarUsage_;
 
 	private Model model;
 	private String matchClassName;
 	private String packagePrefix;
-	private boolean isToBeParallelizedActionExisting;
-	private boolean emitProfiling;
+	private boolean isToBeParallelizedActionExisting_;
+	private boolean emitProfiling_;
 
 	private SourceBuilder perElementMethodSourceBuilder;
 
@@ -351,8 +351,8 @@ class ModifyGenerationState implements ModifyGenerationStateConst
 		this.model = model;
 		this.matchClassName = matchClassName;
 		this.packagePrefix = packagePrefix;
-		this.isToBeParallelizedActionExisting = isToBeParallelizedActionExisting;
-		this.emitProfiling = emitProfiling;
+		this.isToBeParallelizedActionExisting_ = isToBeParallelizedActionExisting;
+		this.emitProfiling_ = emitProfiling;
 		this.perElementMethodSourceBuilder = new SourceBuilder();
 	}
 }

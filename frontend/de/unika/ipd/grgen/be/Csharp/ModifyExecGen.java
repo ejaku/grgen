@@ -69,7 +69,7 @@ public class ModifyExecGen extends CSharpBase
 				}
 			}
 		}
-		sb.appendFront("ApplyXGRS_" + state.name() + "_" + xgrsID
+		sb.appendFront("ApplyXGRS_" + state.getName() + "_" + xgrsID
 				+ "((GRGEN_LGSP.LGSPGraphProcessingEnvironment)actionEnv");
 		for(Entity neededEntity : exec.getNeededEntities(true)) {
 			if(!neededEntity.isDefToBeYieldedTo()) {
@@ -135,9 +135,9 @@ public class ModifyExecGen extends CSharpBase
 			sb.indent();
 			genContainerVariablesBeforeImperativeStatement(sb, state);
 
-			state.useVarForResult = true;
+			state.useVarForResult_ = true;
 			genImperativeStatement(sb, stateConst, task, istmt, pathPrefix);
-			state.useVarForResult = false;
+			state.useVarForResult_ = false;
 
 			sb.unindent();
 			sb.appendFront("}\n");
@@ -170,7 +170,7 @@ public class ModifyExecGen extends CSharpBase
 	{
 		// the container expressions are visited and inserted into the LinkedHashSet from the needs in preorder, and transferred to a LinkedHashMap in iteration order
 		ArrayList<Pair<Expression, String>> array = new ArrayList<Pair<Expression, String>>();
-		for(Map.Entry<Expression, String> entry : state.mapExprToTempVar().entrySet()) {
+		for(Map.Entry<Expression, String> entry : state.getMapExprToTempVar().entrySet()) {
 			array.add(new Pair<Expression, String>(entry.getKey(), entry.getValue()));
 		}
 
@@ -180,10 +180,10 @@ public class ModifyExecGen extends CSharpBase
 			String varName = array.get(i).second;
 			sb.appendFront(formatAttributeType(expr.getType()) + " " + varName + " = ");
 
-			state.switchToVarForResultAfterFirstVarUsage = true;
+			state.switchToVarForResultAfterFirstVarUsage_ = true;
 			genExpression(sb, expr, state);
-			state.switchToVarForResultAfterFirstVarUsage = false;
-			state.useVarForResult = false;
+			state.switchToVarForResultAfterFirstVarUsage_ = false;
+			state.useVarForResult_ = false;
 
 			sb.append(";\n");
 		}
@@ -330,7 +330,7 @@ public class ModifyExecGen extends CSharpBase
 			if(accessViaVariable(state, /*(GraphEntity)*/owner, member)) {
 				sb.append("tempvar_" + formatEntity(owner) + "_" + formatIdentifiable(member));
 			} else {
-				if(state.accessViaInterface().contains(owner))
+				if(state.getAccessViaInterface().contains(owner))
 					sb.append("i");
 
 				sb.append(formatEntity(owner) + ".@" + formatIdentifiable(member));
@@ -350,7 +350,7 @@ public class ModifyExecGen extends CSharpBase
 
 	private static boolean accessViaVariable(ModifyGenerationStateConst state, Entity elem, Entity attr)
 	{
-		HashSet<Entity> forcedAttrs = state.forceAttributeToVar().get(elem);
+		HashSet<Entity> forcedAttrs = state.getForceAttributeToVar().get(elem);
 		return forcedAttrs != null && forcedAttrs.contains(attr);
 	}
 }

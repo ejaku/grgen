@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.parser.ParserEnvironment;
  */
 public class GRParserEnvironment extends ParserEnvironment
 {
-	private boolean hadError = false;
+	private boolean hadError_ = false;
 	private Stack<SubunitInclude> includes = new Stack<SubunitInclude>();
 	private HashSet<String> filesOnStack = new HashSet<String>();
 	private HashSet<String> modelsOnStack = new HashSet<String>();
@@ -121,7 +121,7 @@ public class GRParserEnvironment extends ParserEnvironment
 			try {
 				parser.setEnv(this);
 				root = parser.textActions();
-				hadError = hadError || parser.hadError();
+				hadError_ = hadError_ || parser.hadError();
 			} catch(RecognitionException e) {
 				e.printStackTrace(System.err);
 				System.err.println("parser exception: " + e.getMessage());
@@ -169,7 +169,7 @@ public class GRParserEnvironment extends ParserEnvironment
 			try {
 				parser.setEnv(this);
 				root = parser.textTypes();
-				hadError = hadError || parser.hadError();
+				hadError_ = hadError_ || parser.hadError();
 			} catch(RecognitionException e) {
 				e.printStackTrace(System.err);
 				System.err.println("parser exception: " + e.getMessage());
@@ -194,6 +194,6 @@ public class GRParserEnvironment extends ParserEnvironment
 	@Override
 	public boolean hadError()
 	{
-		return hadError;
+		return hadError_;
 	}
 }

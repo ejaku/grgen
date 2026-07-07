@@ -718,7 +718,7 @@ public class ActionsGen extends CSharpBase
 		sb.unindent();
 		sb.appendFront("}\n");
 
-		sb.append(modifyGenState.perElementMethodSourceBuilder().toString());
+		sb.append(modifyGenState.getPerElementMethodSourceBuilder().toString());
 	}
 
 	/**
@@ -897,7 +897,7 @@ public class ActionsGen extends CSharpBase
 		sb.unindent();
 		sb.appendFront("}\n");
 
-		sb.append(modifyGenState.perElementMethodSourceBuilder().toString());
+		sb.append(modifyGenState.getPerElementMethodSourceBuilder().toString());
 	}
 
 	/**
@@ -1070,7 +1070,7 @@ public class ActionsGen extends CSharpBase
 		sb.unindent();
 		sb.appendFront("}\n");
 
-		sb.append(modifyGenState.perElementMethodSourceBuilder().toString());
+		sb.append(modifyGenState.getPerElementMethodSourceBuilder().toString());
 	}
 
 	/**
@@ -1144,7 +1144,7 @@ public class ActionsGen extends CSharpBase
 		sb.unindent();
 		sb.appendFront("}\n");
 
-		sb.append(modifyGenState.perElementMethodSourceBuilder().toString());
+		sb.append(modifyGenState.getPerElementMethodSourceBuilder().toString());
 	}
 
 	/**

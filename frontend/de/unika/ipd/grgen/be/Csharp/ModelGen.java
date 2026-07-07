@@ -3695,9 +3695,9 @@ commonLoop:
 		sb.appendFront("public override bool AreFunctionsParallelized { get { return "
 				+ model.areFunctionsParallel() + "; } }\n");
 		sb.appendFront("public override int BranchingFactorForEqualsAny { get { return "
-				+ model.isoParallel() + "; } }\n");
+				+ model.getIsoParallel() + "; } }\n");
 		sb.appendFront("public override int ThreadPoolSizeForSequencesParallelExecution { get { return "
-				+ model.sequencesParallel() + "; } }\n");
+				+ model.getSequencesParallel() + "; } }\n");
 
 		genGraphModelBodyAccessToExternalParts();
 

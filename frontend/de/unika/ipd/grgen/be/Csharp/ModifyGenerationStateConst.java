@@ -25,59 +25,59 @@ import de.unika.ipd.grgen.ir.pattern.Variable;
 
 interface ModifyGenerationStateConst extends ExpressionGenerationState
 {
-	String name();
+	String getName();
 
-	Collection<Node> commonNodes();
+	Collection<Node> getCommonNodes();
 
-	Collection<Edge> commonEdges();
+	Collection<Edge> getCommonEdges();
 
-	Collection<SubpatternUsage> commonSubpatternUsages();
+	Collection<SubpatternUsage> getCommonSubpatternUsages();
 
-	Collection<Node> newNodes();
+	Collection<Node> getNewNodes();
 
-	Collection<Edge> newEdges();
+	Collection<Edge> getNewEdges();
 
-	Collection<SubpatternUsage> newSubpatternUsages();
+	Collection<SubpatternUsage> getNewSubpatternUsages();
 
-	Collection<Node> delNodes();
+	Collection<Node> getDelNodes();
 
-	Collection<Edge> delEdges();
+	Collection<Edge> getDelEdges();
 
-	Collection<SubpatternUsage> delSubpatternUsages();
+	Collection<SubpatternUsage> getDelSubpatternUsages();
 
-	Collection<Node> yieldedNodes();
+	Collection<Node> getYieldedNodes();
 
-	Collection<Edge> yieldedEdges();
+	Collection<Edge> getYieldedEdges();
 
-	Collection<Variable> yieldedVariables();
+	Collection<Variable> getYieldedVariables();
 
-	Collection<Node> newOrRetypedNodes();
+	Collection<Node> getNewOrRetypedNodes();
 
-	Collection<Edge> newOrRetypedEdges();
+	Collection<Edge> getNewOrRetypedEdges();
 
-	Collection<GraphEntity> accessViaInterface();
+	Collection<GraphEntity> getAccessViaInterface();
 
-	Map<GraphEntity, HashSet<Entity>> neededAttributes();
+	Map<GraphEntity, HashSet<Entity>> getNeededAttributes();
 
-	Map<GraphEntity, HashSet<Entity>> attributesStoredBeforeDelete();
+	Map<GraphEntity, HashSet<Entity>> getAttributesStoredBeforeDelete();
 
-	Collection<Variable> neededVariables();
+	Collection<Variable> getNeededVariables();
 
-	Collection<Node> nodesNeededAsElements();
+	Collection<Node> getNodesNeededAsElements();
 
-	Collection<Edge> edgesNeededAsElements();
+	Collection<Edge> getEdgesNeededAsElements();
 
-	Collection<Node> nodesNeededAsAttributes();
+	Collection<Node> getNodesNeededAsAttributes();
 
-	Collection<Edge> edgesNeededAsAttributes();
+	Collection<Edge> getEdgesNeededAsAttributes();
 
-	Collection<Node> nodesNeededAsTypes();
+	Collection<Node> getNodesNeededAsTypes();
 
-	Collection<Edge> edgesNeededAsTypes();
+	Collection<Edge> getEdgesNeededAsTypes();
 
-	Map<GraphEntity, HashSet<Entity>> forceAttributeToVar();
+	Map<GraphEntity, HashSet<Entity>> getForceAttributeToVar();
 
-	String matchClassName();
+	String getMatchClassName();
 
-	String packagePrefix();
+	String getPackagePrefix();
 }

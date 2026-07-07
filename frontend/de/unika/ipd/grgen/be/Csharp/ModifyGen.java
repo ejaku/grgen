@@ -629,7 +629,7 @@ public class ModifyGen extends CSharpBase
 
 		// ----------
 
-		sb.append(state.perElementMethodSourceBuilder().toString());
+		sb.append(state.getPerElementMethodSourceBuilder().toString());
 
 		if(createAddedElementNames) {
 			genAddedGraphElementsArray(sb, stateConst, prefix, task.typeOfTask);
@@ -755,20 +755,20 @@ public class ModifyGen extends CSharpBase
 	private static void collectNewOrRetypedElements(ModifyGenerationTask task, ModifyGenerationStateConst stateConst,
 			HashSet<Node> newOrRetypedNodes, HashSet<Edge> newOrRetypedEdges)
 	{
-		newOrRetypedNodes.addAll(stateConst.newNodes());
+		newOrRetypedNodes.addAll(stateConst.getNewNodes());
 		for(Node node : task.right.getNodes()) {
 			if(node.changesType(task.right))
 				newOrRetypedNodes.add(node.getRetypedNode(task.right));
 		}
-		newOrRetypedEdges.addAll(stateConst.newEdges());
+		newOrRetypedEdges.addAll(stateConst.getNewEdges());
 		for(Edge edge : task.right.getEdges()) {
 			if(edge.changesType(task.right))
 				newOrRetypedEdges.add(edge.getRetypedEdge(task.right));
 		}
 
 		// yielded elements are not to be created/retyped
-		newOrRetypedNodes.removeAll(stateConst.yieldedNodes());
-		newOrRetypedEdges.removeAll(stateConst.yieldedEdges());
+		newOrRetypedNodes.removeAll(stateConst.getYieldedNodes());
+		newOrRetypedEdges.removeAll(stateConst.getYieldedEdges());
 	}
 
 	private static void removeAgainFromNeededWhatIsNotReallyNeeded(
@@ -778,14 +778,14 @@ public class ModifyGen extends CSharpBase
 			HashSet<Variable> neededVariables)
 	{
 		// nodes/edges needed from match, but not the new nodes
-		nodesNeededAsElements.removeAll(state.newNodes());
-		nodesNeededAsAttributes.removeAll(state.newNodes());
-		edgesNeededAsElements.removeAll(state.newEdges());
-		edgesNeededAsAttributes.removeAll(state.newEdges());
+		nodesNeededAsElements.removeAll(state.getNewNodes());
+		nodesNeededAsAttributes.removeAll(state.getNewNodes());
+		edgesNeededAsElements.removeAll(state.getNewEdges());
+		edgesNeededAsAttributes.removeAll(state.getNewEdges());
 
 		// yielded nodes/edges are handled separately
-		nodesNeededAsElements.removeAll(state.yieldedNodes());
-		edgesNeededAsElements.removeAll(state.yieldedEdges());
+		nodesNeededAsElements.removeAll(state.getYieldedNodes());
+		edgesNeededAsElements.removeAll(state.getYieldedEdges());
 
 		// nodes/edges/vars handed in as subpattern connections to create are already available as method parameters
 		if(task.typeOfTask == ModifyGenerationTask.TYPE_OF_TASK_CREATION) {
@@ -835,11 +835,11 @@ public class ModifyGen extends CSharpBase
 	{
 		// Deleted elements are elements from the LHS which are not common
 		delNodes.addAll(task.left.getNodes());
-		delNodes.removeAll(stateConst.commonNodes());
+		delNodes.removeAll(stateConst.getCommonNodes());
 		delEdges.addAll(task.left.getEdges());
-		delEdges.removeAll(stateConst.commonEdges());
+		delEdges.removeAll(stateConst.getCommonEdges());
 		delSubpatternUsages.addAll(task.left.getSubpatternUsages());
-		delSubpatternUsages.removeAll(stateConst.commonSubpatternUsages());
+		delSubpatternUsages.removeAll(stateConst.getCommonSubpatternUsages());
 
 		// subpatterns not appearing on the right side as subpattern usages but as dependent replacements are to be modified by their special method
 		for(OrderedReplacements orderedRepls : task.right.getOrderedReplacements()) {
@@ -858,11 +858,11 @@ public class ModifyGen extends CSharpBase
 	{
 		// New elements are elements from the RHS which are not common
 		newNodes.addAll(task.right.getNodes());
-		newNodes.removeAll(stateConst.commonNodes());
+		newNodes.removeAll(stateConst.getCommonNodes());
 		newEdges.addAll(task.right.getEdges());
-		newEdges.removeAll(stateConst.commonEdges());
+		newEdges.removeAll(stateConst.getCommonEdges());
 		newSubpatternUsages.addAll(task.right.getSubpatternUsages());
-		newSubpatternUsages.removeAll(stateConst.commonSubpatternUsages());
+		newSubpatternUsages.removeAll(stateConst.getCommonSubpatternUsages());
 
 		// and which are not in the replacement parameters
 		for(Entity entity : task.replParameters) {
@@ -873,8 +873,8 @@ public class ModifyGen extends CSharpBase
 		}
 
 		// yielded elements are not to be created
-		newNodes.removeAll(stateConst.yieldedNodes());
-		newEdges.removeAll(stateConst.yieldedEdges());
+		newNodes.removeAll(stateConst.getYieldedNodes());
+		newEdges.removeAll(stateConst.getYieldedEdges());
 	}
 
 	private static void collectCommonElements(ModifyGenerationTask task,
@@ -967,7 +967,7 @@ public class ModifyGen extends CSharpBase
 	private static void collectElementsAndAttributesNeededByDefVarToBeYieldedToInitialization(ModifyGenerationStateConst state,
 			NeededEntities needs)
 	{
-		for(Variable var : state.yieldedVariables()) {
+		for(Variable var : state.getYieldedVariables()) {
 			if(var.initialization != null)
 				var.initialization.collectNeededEntities(needs);
 		}
@@ -994,12 +994,12 @@ public class ModifyGen extends CSharpBase
 	private static void collectElementsNeededByNameOrAttributeInitialization(ModifyGenerationState state,
 			NeededEntities needs)
 	{
-		for(Node node : state.newNodes()) {
+		for(Node node : state.getNewNodes()) {
 			for(NameOrAttributeInitialization nai : node.nameOrAttributeInitialization) {
 				nai.expr.collectNeededEntities(needs);
 			}
 		}
-		for(Edge edge : state.newEdges()) {
+		for(Edge edge : state.getNewEdges()) {
 			for(NameOrAttributeInitialization nai : edge.nameOrAttributeInitialization) {
 				nai.expr.collectNeededEntities(needs);
 			}
@@ -1008,11 +1008,11 @@ public class ModifyGen extends CSharpBase
 
 	private static void genNeededTypes(SourceBuilder sb, ModifyGenerationStateConst state)
 	{
-		for(Node node : state.nodesNeededAsTypes()) {
+		for(Node node : state.getNodesNeededAsTypes()) {
 			String name = formatEntity(node);
 			sb.appendFront("GRGEN_LIBGR.NodeType " + name + "_type = " + name + ".lgspType;\n");
 		}
-		for(Edge edge : state.edgesNeededAsTypes()) {
+		for(Edge edge : state.getEdgesNeededAsTypes()) {
 			String name = formatEntity(edge);
 			sb.appendFront("GRGEN_LIBGR.EdgeType " + name + "_type = " + name + ".lgspType;\n");
 		}
@@ -1020,17 +1020,17 @@ public class ModifyGen extends CSharpBase
 
 	private void genYieldedElements(SourceBuilder sb, ModifyGenerationStateConst state, PatternGraphRhs right)
 	{
-		for(Node node : state.yieldedNodes()) {
+		for(Node node : state.getYieldedNodes()) {
 			if(right.getReplParameters().contains(node))
 				continue;
 			sb.appendFront("GRGEN_LGSP.LGSPNode " + formatEntity(node) + " = null;\n");
 		}
-		for(Edge edge : state.yieldedEdges()) {
+		for(Edge edge : state.getYieldedEdges()) {
 			if(right.getReplParameters().contains(edge))
 				continue;
 			sb.appendFront("GRGEN_LGSP.LGSPEdge " + formatEntity(edge) + " = null;\n");
 		}
-		for(Variable var : state.yieldedVariables()) {
+		for(Variable var : state.getYieldedVariables()) {
 			if(right.getReplParameters().contains(var))
 				continue;
 			sb.appendFront(formatAttributeType(var.getType()) + " " + formatEntity(var) + " = ");
@@ -1068,7 +1068,7 @@ public class ModifyGen extends CSharpBase
 	private void genVariablesForUsedAttributesBeforeDelete(SourceBuilder sb,
 			ModifyGenerationStateConst state, HashMap<GraphEntity, HashSet<Entity>> forceAttributeToVar)
 	{
-		for(Map.Entry<GraphEntity, HashSet<Entity>> entry : state.attributesStoredBeforeDelete().entrySet()) {
+		for(Map.Entry<GraphEntity, HashSet<Entity>> entry : state.getAttributesStoredBeforeDelete().entrySet()) {
 			GraphEntity owner = entry.getKey();
 
 			String grEntName = formatEntity(owner);
@@ -1092,7 +1092,7 @@ public class ModifyGen extends CSharpBase
 
 	private static void genCheckDeletedElementsForRetypingThroughHomomorphy(SourceBuilder sb, ModifyGenerationStateConst state)
 	{
-		for(Edge edge : state.delEdges()) {
+		for(Edge edge : state.getDelEdges()) {
 			if(!edge.isMaybeRetyped())
 				continue;
 
@@ -1100,7 +1100,7 @@ public class ModifyGen extends CSharpBase
 			sb.appendFront("if(" + edgeName + ".ReplacedByEdge != null) "
 					+ edgeName + " = " + edgeName + ".ReplacedByEdge;\n");
 		}
-		for(Node node : state.delNodes()) {
+		for(Node node : state.getDelNodes()) {
 			if(!node.isMaybeRetyped())
 				continue;
 
@@ -1113,13 +1113,13 @@ public class ModifyGen extends CSharpBase
 	private static void genDelNodes(SourceBuilder sb, ModifyGenerationStateConst state,
 			HashSet<Node> nodesNeededAsElements, PatternGraphBase right)
 	{
-		for(Node node : state.delNodes()) {
+		for(Node node : state.getDelNodes()) {
 			nodesNeededAsElements.add(node);
 			sb.appendFront("graph.RemoveEdges(" + formatEntity(node) + ");\n");
 			sb.appendFront("graph.Remove(" + formatEntity(node) + ");\n");
 		}
-		for(Node node : state.yieldedNodes()) {
-			if(node.patternGraphDefYieldedIsToBeDeleted() == right) {
+		for(Node node : state.getYieldedNodes()) {
+			if(node.getPatternGraphDefYieldedIsToBeDeleted() == right) {
 				nodesNeededAsElements.add(node);
 				sb.appendFront("graph.RemoveEdges(" + formatEntity(node) + ");\n");
 				sb.appendFront("graph.Remove(" + formatEntity(node) + ");\n");
@@ -1130,12 +1130,12 @@ public class ModifyGen extends CSharpBase
 	private static void genDelEdges(SourceBuilder sb, ModifyGenerationStateConst state,
 			HashSet<Edge> edgesNeededAsElements, PatternGraphBase right)
 	{
-		for(Edge edge : state.delEdges()) {
+		for(Edge edge : state.getDelEdges()) {
 			edgesNeededAsElements.add(edge);
 			sb.appendFront("graph.Remove(" + formatEntity(edge) + ");\n");
 		}
-		for(Edge edge : state.yieldedEdges()) {
-			if(edge.patternGraphDefYieldedIsToBeDeleted() == right) {
+		for(Edge edge : state.getYieldedEdges()) {
+			if(edge.getPatternGraphDefYieldedIsToBeDeleted() == right) {
 				edgesNeededAsElements.add(edge);
 				sb.appendFront("graph.Remove(" + formatEntity(edge) + ");\n");
 			}
@@ -1171,9 +1171,9 @@ public class ModifyGen extends CSharpBase
 				+ "\"" + (oldSource != null ? formatIdentifiable(oldSource) : "<unknown>") + "\", "
 				+ "\"" + (oldTarget != null ? formatIdentifiable(oldTarget) : "<unknown>") + "\");\n");
 		edgesNeededAsElements.add(edge);
-		if(!state.newNodes().contains(redirectedSource))
+		if(!state.getNewNodes().contains(redirectedSource))
 			nodesNeededAsElements.add(redirectedSource);
-		if(!state.newNodes().contains(redirectedTarget))
+		if(!state.getNewNodes().contains(redirectedTarget))
 			nodesNeededAsElements.add(redirectedTarget);
 	}
 
@@ -1187,7 +1187,7 @@ public class ModifyGen extends CSharpBase
 				+ formatEntity(redirectedSource) + ", "
 				+ "\"" + (oldSource != null ? formatIdentifiable(oldSource) : "<unknown>") + "\");\n");
 		edgesNeededAsElements.add(edge);
-		if(!state.newNodes().contains(redirectedSource))
+		if(!state.getNewNodes().contains(redirectedSource))
 			nodesNeededAsElements.add(redirectedSource);
 	}
 
@@ -1201,7 +1201,7 @@ public class ModifyGen extends CSharpBase
 				+ formatEntity(edge.getRedirectedTarget(task.right)) + ", "
 				+ "\"" + (oldTarget != null ? formatIdentifiable(oldTarget) : "<unknown>") + "\");\n");
 		edgesNeededAsElements.add(edge);
-		if(!state.newNodes().contains(redirectedTarget))
+		if(!state.getNewNodes().contains(redirectedTarget))
 			nodesNeededAsElements.add(redirectedTarget);
 	}
 
@@ -1237,7 +1237,7 @@ public class ModifyGen extends CSharpBase
 
 		sb.appendFront("GRGEN_LGSP.LGSPEdge " + formatEntity(redge) + " = graph.Retype("
 				+ formatEntity(edge) + ", " + new_type + ");\n");
-		if(state.edgesNeededAsAttributes().contains(redge) && state.accessViaInterface().contains(redge)) {
+		if(state.getEdgesNeededAsAttributes().contains(redge) && state.getAccessViaInterface().contains(redge)) {
 			sb.appendFront(formatVarDeclWithCast(formatElementInterfaceRef(redge.getType()), "i" + formatEntity(redge))
 					+ formatEntity(redge) + ";\n");
 		}
@@ -1280,7 +1280,7 @@ public class ModifyGen extends CSharpBase
 			sb.appendFront("graph.Merge(" + formatEntity(rnode) + ", " + formatEntity(mergee)
 					+ ", \"" + formatIdentifiable(mergee) + "\");\n");
 		}
-		if(state.nodesNeededAsAttributes().contains(rnode) && state.accessViaInterface().contains(rnode)) {
+		if(state.getNodesNeededAsAttributes().contains(rnode) && state.getAccessViaInterface().contains(rnode)) {
 			sb.appendFront(formatVarDeclWithCast(formatElementInterfaceRef(rnode.getType()), "i" + formatEntity(rnode))
 					+ formatEntity(rnode) + ";\n");
 		}
@@ -1291,8 +1291,8 @@ public class ModifyGen extends CSharpBase
 	{
 		if(typeOfTask == ModifyGenerationTask.TYPE_OF_TASK_MODIFY
 				|| typeOfTask == ModifyGenerationTask.TYPE_OF_TASK_CREATION) {
-			genAddedGraphElementsArray(sb, pathPrefix, true, state.newNodes());
-			genAddedGraphElementsArray(sb, pathPrefix, false, state.newEdges());
+			genAddedGraphElementsArray(sb, pathPrefix, true, state.getNewNodes());
+			genAddedGraphElementsArray(sb, pathPrefix, false, state.getNewEdges());
 		}
 	}
 
@@ -1476,11 +1476,11 @@ public class ModifyGen extends CSharpBase
 	private void genYieldedElementsInterfaceAccess(SourceBuilder sb, ModifyGenerationStateConst state,
 			String pathPrefix)
 	{
-		for(Node node : state.yieldedNodes()) {
+		for(Node node : state.getYieldedNodes()) {
 			sb.appendFront(formatVarDeclWithCast(formatElementInterfaceRef(node.getType()), "i" + formatEntity(node))
 					+ formatEntity(node) + ";\n");
 		}
-		for(Edge edge : state.yieldedEdges()) {
+		for(Edge edge : state.getYieldedEdges()) {
 			sb.appendFront(formatVarDeclWithCast(formatElementInterfaceRef(edge.getType()), "i" + formatEntity(edge))
 					+ formatEntity(edge) + ";\n");
 		}
@@ -1518,18 +1518,18 @@ public class ModifyGen extends CSharpBase
 	private void genExtractElementsFromMatch(SourceBuilder sb, ModifyGenerationTask task,
 			ModifyGenerationStateConst state, String pathPrefix, String patternName)
 	{
-		for(Node node : state.nodesNeededAsElements()) {
+		for(Node node : state.getNodesNeededAsElements()) {
 			if(node.isRetyped() && node.isRHSEntity())
 				continue;
-			if(state.yieldedNodes().contains(node))
+			if(state.getYieldedNodes().contains(node))
 				continue;
 			sb.appendFront("GRGEN_LGSP.LGSPNode " + formatEntity(node)
 					+ " = curMatch." + formatEntity(node, "_") + ";\n");
 		}
-		for(Node node : state.nodesNeededAsAttributes()) {
+		for(Node node : state.getNodesNeededAsAttributes()) {
 			if(node.isRetyped() && node.isRHSEntity())
 				continue;
-			if(state.yieldedNodes().contains(node))
+			if(state.getYieldedNodes().contains(node))
 				continue;
 			if(task.replParameters.contains(node)) {
 				sb.appendFront(formatElementInterfaceRef(node.getType()) + " i" + formatEntity(node)
@@ -1539,18 +1539,18 @@ public class ModifyGen extends CSharpBase
 			sb.appendFront(formatElementInterfaceRef(node.getType()) + " i" + formatEntity(node)
 					+ " = curMatch." + formatEntity(node) + ";\n");
 		}
-		for(Edge edge : state.edgesNeededAsElements()) {
+		for(Edge edge : state.getEdgesNeededAsElements()) {
 			if(edge.isRetyped() && edge.isRHSEntity())
 				continue;
-			if(state.yieldedEdges().contains(edge))
+			if(state.getYieldedEdges().contains(edge))
 				continue;
 			sb.appendFront("GRGEN_LGSP.LGSPEdge " + formatEntity(edge)
 					+ " = curMatch." + formatEntity(edge, "_") + ";\n");
 		}
-		for(Edge edge : state.edgesNeededAsAttributes()) {
+		for(Edge edge : state.getEdgesNeededAsAttributes()) {
 			if(edge.isRetyped() && edge.isRHSEntity())
 				continue;
-			if(state.yieldedEdges().contains(edge))
+			if(state.getYieldedEdges().contains(edge))
 				continue;
 			if(task.replParameters.contains(edge)) {
 				sb.appendFront(formatElementInterfaceRef(edge.getType()) + " i" + formatEntity(edge)
@@ -1565,10 +1565,10 @@ public class ModifyGen extends CSharpBase
 	private void genExtractVariablesFromMatch(SourceBuilder sb, ModifyGenerationTask task,
 			ModifyGenerationStateConst state, String pathPrefix, String patternName)
 	{
-		for(Variable var : state.neededVariables()) {
+		for(Variable var : state.getNeededVariables()) {
 			if(task.replParameters.contains(var))
 				continue; // skip replacement parameters, they are handed in as parameters
-			if(state.yieldedVariables().contains(var))
+			if(state.getYieldedVariables().contains(var))
 				continue;
 			String type = formatAttributeType(var);
 			sb.appendFront(type + " " + formatEntity(var)
@@ -1611,7 +1611,7 @@ public class ModifyGen extends CSharpBase
 		if(useAddedElementNames)
 			sb2.appendFront("graph.SettingAddedNodeNames( " + pathPrefix + "addedNodeNames );\n");
 
-		LinkedList<Node> tmpNewNodes = new LinkedList<Node>(state.newNodes());
+		LinkedList<Node> tmpNewNodes = new LinkedList<Node>(state.getNewNodes());
 
 		for(Node node : tmpNewNodes) {
 			genNewNode(sb2, state, pathPrefix, nodesNeededAsElements, nodesNeededAsTypes,
@@ -1648,7 +1648,7 @@ public class ModifyGen extends CSharpBase
 			} else
 				sb2.appendFront("graph.AddNode(" + formatEntity(node) + ");\n");
 
-			if(state.nodesNeededAsAttributes().contains(node) && state.accessViaInterface().contains(node)) {
+			if(state.getNodesNeededAsAttributes().contains(node) && state.getAccessViaInterface().contains(node)) {
 				sb2.appendFront(formatVarDeclWithCast(formatElementInterfaceRef(node.getType()), "i" + formatEntity(node))
 						+ formatEntity(node) + ";\n");
 			}
@@ -1686,7 +1686,7 @@ public class ModifyGen extends CSharpBase
 		if(useAddedElementNames)
 			sb2.appendFront("graph.SettingAddedEdgeNames( " + pathPrefix + "addedEdgeNames );\n");
 
-		for(Edge edge : state.newEdges()) {
+		for(Edge edge : state.getNewEdges()) {
 			Node src_node = task.right.getSource(edge);
 			Node tgt_node = task.right.getTarget(edge);
 			if(src_node == null || tgt_node == null) {
@@ -1698,10 +1698,10 @@ public class ModifyGen extends CSharpBase
 			if(tgt_node.changesType(task.right))
 				tgt_node = tgt_node.getRetypedNode(task.right);
 
-			if(state.commonNodes().contains(src_node))
+			if(state.getCommonNodes().contains(src_node))
 				nodesNeededAsElements.add(src_node);
 
-			if(state.commonNodes().contains(tgt_node))
+			if(state.getCommonNodes().contains(tgt_node))
 				nodesNeededAsElements.add(tgt_node);
 
 			genNewEdge(sb2, state, pathPrefix, edgesNeededAsElements, edgesNeededAsTypes,
@@ -1740,7 +1740,7 @@ public class ModifyGen extends CSharpBase
 			} else
 				sb2.appendFront("graph.AddEdge(" + formatEntity(edge) + ");\n");
 
-			if(state.edgesNeededAsAttributes().contains(edge) && state.accessViaInterface().contains(edge)) {
+			if(state.getEdgesNeededAsAttributes().contains(edge) && state.getAccessViaInterface().contains(edge)) {
 				sb2.appendFront(formatVarDeclWithCast(formatElementInterfaceRef(edge.getType()), "i" + formatEntity(edge))
 						+ formatEntity(edge) + ";\n");
 			}
@@ -1761,7 +1761,7 @@ public class ModifyGen extends CSharpBase
 
 	private void genNewSubpatternCalls(SourceBuilder sb, ModifyGenerationStateConst state)
 	{
-		for(SubpatternUsage subUsage : state.newSubpatternUsages()) {
+		for(SubpatternUsage subUsage : state.getNewSubpatternUsages()) {
 			if(hasAbstractElements(subUsage.getSubpatternAction().getPattern())
 					|| hasDanglingEdges(subUsage.getSubpatternAction().getPattern()))
 				continue; // pattern creation code was not generated, can't call it
@@ -1785,7 +1785,7 @@ public class ModifyGen extends CSharpBase
 
 	private static void genDelSubpatternCalls(SourceBuilder sb, ModifyGenerationStateConst state)
 	{
-		for(SubpatternUsage subUsage : state.delSubpatternUsages()) {
+		for(SubpatternUsage subUsage : state.getDelSubpatternUsages()) {
 			String subName = formatIdentifiable(subUsage);
 			sb.appendFront("GRGEN_ACTIONS." + getPackagePrefixDot(subUsage.getSubpatternAction())
 					+ "Pattern_" + formatIdentifiable(subUsage.getSubpatternAction())
@@ -1827,7 +1827,7 @@ public class ModifyGen extends CSharpBase
 			if(accessViaVariable(state, /*(GraphEntity)*/owner, member)) {
 				sb.append("tempvar_" + formatEntity(owner) + "_" + formatIdentifiable(member));
 			} else {
-				if(state.accessViaInterface().contains(owner))
+				if(state.getAccessViaInterface().contains(owner))
 					sb.append("i");
 
 				sb.append(formatEntity(owner) + ".@" + formatIdentifiable(member));
@@ -1847,7 +1847,7 @@ public class ModifyGen extends CSharpBase
 
 	private static boolean accessViaVariable(ModifyGenerationStateConst state, Entity elem, Entity attr)
 	{
-		HashSet<Entity> forcedAttrs = state.forceAttributeToVar().get(elem);
+		HashSet<Entity> forcedAttrs = state.getForceAttributeToVar().get(elem);
 		return forcedAttrs != null && forcedAttrs.contains(attr);
 	}
 

@@ -19,12 +19,12 @@ import java.util.prefs.PreferencesFactory;
  */
 public class MyPreferencesFactory implements PreferencesFactory
 {
-	private MyPreferences systemRoot, userRoot;
+	private MyPreferences mySystemRoot, myUserRoot;
 
 	public MyPreferencesFactory()
 	{
-		systemRoot = new MyPreferences(null, "");
-		userRoot = new MyPreferences(null, "");
+		mySystemRoot = new MyPreferences(null, "");
+		myUserRoot = new MyPreferences(null, "");
 	}
 
 	/**
@@ -33,7 +33,7 @@ public class MyPreferencesFactory implements PreferencesFactory
 	@Override
 	public Preferences systemRoot()
 	{
-		return systemRoot;
+		return mySystemRoot;
 	}
 
 	/**
@@ -42,6 +42,6 @@ public class MyPreferencesFactory implements PreferencesFactory
 	@Override
 	public Preferences userRoot()
 	{
-		return userRoot;
+		return myUserRoot;
 	}
 }

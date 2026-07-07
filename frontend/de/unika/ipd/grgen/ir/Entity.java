@@ -135,7 +135,7 @@ public class Entity extends Identifiable
 	}
 
 	/** @return the pattern graph this defined entity to be yielded to is to be deleted, else null; null if not isDefToBeYieldedTo*/
-	public PatternGraphBase patternGraphDefYieldedIsToBeDeleted()
+	public PatternGraphBase getPatternGraphDefYieldedIsToBeDeleted()
 	{
 		return patternGraphDefYieldedIsToBeDeleted;
 	}

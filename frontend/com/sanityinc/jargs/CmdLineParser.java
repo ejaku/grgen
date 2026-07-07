@@ -145,8 +145,8 @@ public class CmdLineParser {
     public static class IllegalOptionValueException extends OptionException {
         public <T> IllegalOptionValueException( Option<T> opt, String value ) {
             super("Illegal value '" + value + "' for option " +
-                  (opt.shortForm() != null ? "-" + opt.shortForm() + "/" : "") +
-                  "--" + opt.longForm());
+                  (opt.getShortForm() != null ? "-" + opt.getShortForm() + "/" : "") +
+                  "--" + opt.getLongForm());
             this.option = opt;
             this.value = value;
         }
@@ -190,14 +190,14 @@ public class CmdLineParser {
             }
             this.shortForm = shortForm;
             this.longForm = longForm;
-            this.wantsValue = wantsValue;
+            this.wantsValue_ = wantsValue;
         }
 
-        public String shortForm() {
+        public String getShortForm() {
             return this.shortForm;
         }
 
-        public String longForm() {
+        public String getLongForm() {
             return this.longForm;
         }
 
@@ -205,12 +205,12 @@ public class CmdLineParser {
          * Tells whether or not this option wants a value
          */
         public boolean wantsValue() {
-            return this.wantsValue;
+            return this.wantsValue_;
         }
 
         public final T getValue( String arg, Locale locale )
             throws IllegalOptionValueException {
-            if ( this.wantsValue ) {
+            if ( this.wantsValue_ ) {
                 if ( arg == null ) {
                     throw new IllegalOptionValueException(this, "");
                 }
@@ -240,7 +240,7 @@ public class CmdLineParser {
 
         private final String shortForm;
         private final String longForm;
-        private final boolean wantsValue;
+        private final boolean wantsValue_;
 
 
 
@@ -356,10 +356,10 @@ public class CmdLineParser {
      * Add the specified Option to the list of accepted options
      */
     public final <T> Option<T> addOption( Option<T> opt ) {
-        if ( opt.shortForm() != null ) {
-            this.options.put("-" + opt.shortForm(), opt);
+        if ( opt.getShortForm() != null ) {
+            this.options.put("-" + opt.getShortForm(), opt);
         }
-        this.options.put("--" + opt.longForm(), opt);
+        this.options.put("--" + opt.getLongForm(), opt);
         return opt;
     }
 
@@ -457,7 +457,7 @@ public class CmdLineParser {
      * if the option was not set
      */
     public final <T> T getOptionValue( Option<T> o, T def ) {
-         List<?> v = values.get(o.longForm());
+         List<?> v = values.get(o.getLongForm());
 
         if (v == null) {
             return def;
@@ -588,7 +588,7 @@ public class CmdLineParser {
             throws IllegalOptionValueException {
 
         T value = opt.getValue(valueArg, locale);
-        String lf = opt.longForm();
+        String lf = opt.getLongForm();
 
         /* Cast is typesafe because the only location we add elements to the
          * values map is in this method.

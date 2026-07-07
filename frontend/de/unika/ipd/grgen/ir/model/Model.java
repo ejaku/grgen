@@ -52,17 +52,17 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	private Set<ExternalObjectType> externalObjectTypes = new LinkedHashSet<ExternalObjectType>();
 	private Set<ExternalFunction> externalFuncs = new LinkedHashSet<ExternalFunction>();
 	private Set<ExternalProcedure> externalProcs = new LinkedHashSet<ExternalProcedure>();
-	private boolean isEmitClassDefined;
-	private boolean isEmitGraphClassDefined;
-	private boolean isCopyClassDefined;
-	private boolean isEqualClassDefined;
-	private boolean isLowerClassDefined;
-	private boolean isGraphofDefined;
-	private boolean isUniqueDefined;
-	private boolean isUniqueResulting;
-	private boolean isUniqueClassDefined;
-	private boolean isUniqueIndexDefined;
-	private boolean areFunctionsParallel;
+	private boolean isEmitClassDefined_;
+	private boolean isEmitGraphClassDefined_;
+	private boolean isCopyClassDefined_;
+	private boolean isEqualClassDefined_;
+	private boolean isLowerClassDefined_;
+	private boolean isGraphofDefined_;
+	private boolean isUniqueDefined_;
+	private boolean isUniqueResulting_;
+	private boolean isUniqueClassDefined_;
+	private boolean isUniqueIndexDefined_;
+	private boolean areFunctionsParallel_;
 	private int isoParallel;
 	private int sequencesParallel;
 	private Collection<NodeType> allNodeTypes;
@@ -79,17 +79,17 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	{
 		super("model", ident);
 
-		this.isEmitClassDefined = isEmitClassDefined;
-		this.isEmitGraphClassDefined = isEmitGraphClassDefined;
-		this.isCopyClassDefined = isCopyClassDefined;
-		this.isEqualClassDefined = isEqualClassDefined;
-		this.isLowerClassDefined = isLowerClassDefined;
-		this.isGraphofDefined = isGraphofDefined;
-		this.isUniqueDefined = isUniqueDefined;
-		this.isUniqueResulting = isUniqueDefined;
-		this.isUniqueClassDefined = isUniqueClassDefined;
-		this.isUniqueIndexDefined = isUniqueIndexDefined;
-		this.areFunctionsParallel = areFunctionsParallel;
+		this.isEmitClassDefined_ = isEmitClassDefined;
+		this.isEmitGraphClassDefined_ = isEmitGraphClassDefined;
+		this.isCopyClassDefined_ = isCopyClassDefined;
+		this.isEqualClassDefined_ = isEqualClassDefined;
+		this.isLowerClassDefined_ = isLowerClassDefined;
+		this.isGraphofDefined_ = isGraphofDefined;
+		this.isUniqueDefined_ = isUniqueDefined;
+		this.isUniqueResulting_ = isUniqueDefined;
+		this.isUniqueClassDefined_ = isUniqueClassDefined;
+		this.isUniqueIndexDefined_ = isUniqueIndexDefined;
+		this.areFunctionsParallel_ = areFunctionsParallel;
 		this.isoParallel = isoParallel;
 		this.sequencesParallel = sequencesParallel;
 	}
@@ -309,80 +309,80 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 
 	public boolean isEmitClassDefined()
 	{
-		return isEmitClassDefined;
+		return isEmitClassDefined_;
 	}
 
 	public boolean isEmitGraphClassDefined()
 	{
-		return isEmitGraphClassDefined;
+		return isEmitGraphClassDefined_;
 	}
 
 	public boolean isCopyClassDefined()
 	{
-		return isCopyClassDefined;
+		return isCopyClassDefined_;
 	}
 
 	public boolean isEqualClassDefined()
 	{
-		return isEqualClassDefined;
+		return isEqualClassDefined_;
 	}
 
 	public boolean isLowerClassDefined()
 	{
-		return isLowerClassDefined;
+		return isLowerClassDefined_;
 	}
 
 	public boolean isGraphofDefined()
 	{
-		return isGraphofDefined;
+		return isGraphofDefined_;
 	}
 
 	public boolean isUniqueDefined()
 	{
-		return isUniqueDefined;
+		return isUniqueDefined_;
 	}
 
 	public void forceUniqueDefined()
 	{
-		isUniqueDefined = true;
+		isUniqueDefined_ = true;
 	}
 
 	public boolean isUniqueResulting()
 	{
-		return isUniqueResulting;
+		return isUniqueResulting_;
 	}
 
 	public void forceUniqueResulting()
 	{
-		isUniqueResulting = true;
+		isUniqueResulting_ = true;
 	}
 
 	public boolean isUniqueClassDefined()
 	{
-		return isUniqueClassDefined;
+		return isUniqueClassDefined_;
 	}
 
 	public boolean isUniqueIndexDefined()
 	{
-		return isUniqueIndexDefined;
+		return isUniqueIndexDefined_;
 	}
 
 	public void forceFunctionsParallel()
 	{
-		areFunctionsParallel = true;
+		areFunctionsParallel_ = true;
 	}
 
 	public boolean areFunctionsParallel()
 	{
-		return areFunctionsParallel;
+		return areFunctionsParallel_;
 	}
 
-	public int isoParallel()
+	public int getIsoParallel()
 	{
 		return isoParallel;
 	}
 
-	public int sequencesParallel()
+	public int getSequencesParallel()
 	{
 		return sequencesParallel;
 	}

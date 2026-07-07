@@ -24,7 +24,7 @@ public class XMLDumper
 {
 	private final PrintStream ps;
 
-	private int indent = 0;
+	private int indentationLevel = 0;
 
 	private final String indentString;
 
@@ -76,7 +76,7 @@ public class XMLDumper
 
 		if(!fields.isEmpty()) {
 			ps.println('>');
-			indent++;
+			indentationLevel++;
 			for(Iterator<String> it = fields.keySet().iterator(); it.hasNext();) {
 				Object obj = it.next();
 
@@ -89,7 +89,7 @@ public class XMLDumper
 					ps.print('<');
 					ps.print(tag);
 					ps.println('>');
-					indent++;
+					indentationLevel++;
 
 					while(childs.hasNext()) {
 						Object d = childs.next();
@@ -98,14 +98,14 @@ public class XMLDumper
 						dump((XMLDumpable)d);
 					}
 
-					indent--;
+					indentationLevel--;
 					indent();
 					ps.print("</");
 					ps.print(tag);
 					ps.println('>');
 				}
 			}
-			indent--;
+			indentationLevel--;
 			indent();
 			ps.print("</");
 			ps.print(tagName);
@@ -126,7 +126,7 @@ public class XMLDumper
 
 	private void indent()
 	{
-		for(int i = 0; i < indent; i++) {
+		for(int i = 0; i < indentationLevel; i++) {
 			ps.print(indentString);
 		}
 	}

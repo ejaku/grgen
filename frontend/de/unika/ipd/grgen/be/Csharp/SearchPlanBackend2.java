@@ -119,7 +119,7 @@ modloop:
 		for(Model model : unit.getModels()) {
 			if(model.areFunctionsParallel())
 				forceUniqueResulting = true;
-			if(model.isoParallel() > 0)
+			if(model.getIsoParallel() > 0)
 				forceUniqueResulting = true;
 			for(@SuppressWarnings("unused") Index index : model.getIndices()) {
 				forceUniqueResulting = true;
