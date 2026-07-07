@@ -14,7 +14,6 @@ package de.unika.ipd.grgen.ir.pattern;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -297,8 +296,7 @@ public abstract class PatternGraphBase extends IR
 	public Collection<Edge> getIncoming(Node node, Collection<Edge> collection)
 	{
 		GraphNode graphNode = checkNode(node);
-		for(Iterator<PatternGraphBase.GraphEdge> it = graphNode.incoming.iterator(); it.hasNext();) {
-			GraphEdge graphEdge = it.next();
+		for(GraphEdge graphEdge : graphNode.incoming) {
 			collection.add(graphEdge.edge);
 		}
 		return collection;

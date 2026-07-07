@@ -13,7 +13,6 @@ package de.unika.ipd.grgen.ast.decl.executable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Vector;
@@ -448,10 +447,7 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 		if(operatorCandidates == null)
 			return INVALID;
 
-		Iterator<OperatorDeclNode> it = operatorCandidates.iterator();
-		while(it.hasNext()) {
-			OperatorDeclNode operatorCandidate = it.next();
-			
+		for(OperatorDeclNode operatorCandidate : operatorCandidates) {
 			operatorCandidate.resolve();
 			
 			int distance = operatorCandidate.getDistance(operandTypes);

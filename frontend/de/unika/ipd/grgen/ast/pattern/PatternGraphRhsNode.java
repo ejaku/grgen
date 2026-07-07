@@ -134,9 +134,7 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 	private void replaceSubpatternReplacementsIntoOrderedReplacements()
 	{
 		Vector<SubpatternReplNode> subpatternReplsToDelete = new Vector<SubpatternReplNode>();
-		Iterator<SubpatternReplNode> it = subpatternRepls.getChildren().iterator();
-		while(it.hasNext()) {
-			SubpatternReplNode subpatternRepl = it.next();
+		for(SubpatternReplNode subpatternRepl : subpatternRepls.getChildren()) {
 			for(OrderedReplacementsNode orderedRepls : orderedReplacements.getChildren()) {
 				if(!orderedRepls.getChildren().isEmpty()) {
 					Vector<OrderedReplacementNode> orderedReplsToDelete = new Vector<OrderedReplacementNode>();

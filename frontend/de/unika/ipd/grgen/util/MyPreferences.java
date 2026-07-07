@@ -12,7 +12,6 @@
 package de.unika.ipd.grgen.util;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.prefs.AbstractPreferences;
 import java.util.prefs.BackingStoreException;
@@ -76,9 +75,11 @@ public class MyPreferences extends AbstractPreferences
 	protected String[] keysSpi() throws BackingStoreException
 	{
 		String[] res = new String[prefs.size()];
+
 		int i = 0;
-		for(Iterator<String> it = prefs.keySet().iterator(); it.hasNext(); i++) {
-			res[i] = it.next();
+		for(String key : prefs.keySet()) {
+			res[i] = key;
+			++i;
 		}
 
 		return res;
@@ -91,10 +92,11 @@ public class MyPreferences extends AbstractPreferences
 	protected String[] childrenNamesSpi() throws BackingStoreException
 	{
 		String[] res = new String[children.size()];
-		int i = 0;
 
-		for(Iterator<String> it = children.keySet().iterator(); it.hasNext(); i++) {
-			res[i] = it.next();
+		int i = 0;
+		for(String key : children.keySet()) {
+			res[i] = key;
+			++i;
 		}
 
 		return res;

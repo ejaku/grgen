@@ -64,8 +64,7 @@ public class XMLDumper
 
 		Vector<String> keysToRemove = new Vector<String>();
 
-		for(Iterator<String> it = fields.keySet().iterator(); it.hasNext();) {
-			String obj = it.next();
+		for(String obj : fields.keySet()) {
 			Object val = fields.get(obj);
 			if(!(val instanceof Iterator<?>)) {
 				ps.print(' ');
@@ -84,9 +83,7 @@ public class XMLDumper
 		if(!fields.isEmpty()) {
 			ps.println('>');
 			indentationLevel++;
-			for(Iterator<String> it = fields.keySet().iterator(); it.hasNext();) {
-				Object obj = it.next();
-
+			for(Object obj : fields.keySet()) {
 				// the cast was checked some lines above
 				Iterator<?> childs = (Iterator<?>)fields.get(obj);
 				String tag = obj.toString();

@@ -11,7 +11,6 @@
 
 package de.unika.ipd.grgen.be;
 
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -112,9 +111,8 @@ public abstract class IDBase extends Base implements IDTypeModel
 	{
 		int maxId = 0;
 
-		for(Iterator<Integer> it = typeMap.values().iterator(); it.hasNext();) {
-			int id = it.next().intValue();
-			maxId = id > maxId ? id : maxId;
+		for(Integer id : typeMap.values()) {
+			maxId = id.intValue() > maxId ? id.intValue() : maxId;
 		}
 
 		short[][] res = new short[maxId + 1][maxId + 1];
@@ -130,8 +128,9 @@ public abstract class IDBase extends Base implements IDTypeModel
 		}
 
 		res = floydWarshall(res);
-		for(int i = 0; i < res.length; i++)
+		for(int i = 0; i < res.length; i++) {
 			res[i][i] = 0;
+		}
 
 		return res;
 	}
@@ -145,7 +144,7 @@ public abstract class IDBase extends Base implements IDTypeModel
 		for(int k = 0; k < n; k++) {
 			short[][] tmp;
 
-			for(int i = 0; i < n; i++)
+			for(int i = 0; i < n; i++) {
 				for(int j = 0; j < n; j++) {
 					int v1 = curr[i][k];
 					int v2 = curr[k][j];
@@ -157,6 +156,7 @@ public abstract class IDBase extends Base implements IDTypeModel
 
 					next[i][j] = (short)(v == Short.MAX_VALUE ? 0 : v);
 				}
+			}
 
 			tmp = curr;
 			curr = next;
@@ -175,13 +175,16 @@ public abstract class IDBase extends Base implements IDTypeModel
 			aux.clear();
 			int id = typeMap.get(ty).intValue();
 
-			for(InheritanceType t : ty.getDirectSuperTypes())
+			for(InheritanceType t : ty.getDirectSuperTypes()) {
 				aux.add(typeMap.get(t));
+			}
 
 			res[id] = new int[aux.size()];
 			int i = 0;
-			for(Iterator<Integer> jt = aux.iterator(); jt.hasNext(); i++)
-				res[id][i] = jt.next().intValue();
+			for(Integer j : aux) {
+				res[id][i] = j.intValue();
+				++i;
+			}
 		}
 
 		return res;
@@ -196,13 +199,17 @@ public abstract class IDBase extends Base implements IDTypeModel
 			aux.clear();
 			int id = typeMap.get(ty).intValue();
 
-			for(InheritanceType t : ty.getDirectSubTypes())
+			for(InheritanceType t : ty.getDirectSubTypes()) {
 				aux.add(typeMap.get(t));
+			}
 
 			res[id] = new int[aux.size()];
 			int i = 0;
-			for(Iterator<Integer> jt = aux.iterator(); jt.hasNext(); i++)
-				res[id][i] = jt.next().intValue();
+			for(Integer j : aux)
+			{
+				res[id][i] = j.intValue();
+				++i;
+			}
 		}
 
 		return res;
@@ -226,8 +233,7 @@ public abstract class IDBase extends Base implements IDTypeModel
 	private void makeSubpatternIds(Unit unit)
 	{
 		int id = 0;
-		for(Iterator<Rule> it = unit.getSubpatternRules().iterator(); it.hasNext();) {
-			Rule rule = it.next();
+		for(Rule rule : unit.getSubpatternRules()) {
 			subpatternRuleMap.put(rule, new Integer(id));
 			++id;
 		}
@@ -240,8 +246,7 @@ public abstract class IDBase extends Base implements IDTypeModel
 	private void makeActionIds(Unit unit)
 	{
 		int id = 0;
-		for(Iterator<Rule> it = unit.getActionRules().iterator(); it.hasNext();) {
-			Rule rule = it.next();
+		for(Rule rule : unit.getActionRules()) {
 			actionRuleMap.put(rule, new Integer(id));
 			++id;
 		}
@@ -316,8 +321,9 @@ public abstract class IDBase extends Base implements IDTypeModel
 		int[] res = new int[map.size()];
 
 		int i = 0;
-		for(Iterator<Integer> it = map.values().iterator(); it.hasNext();)
-			res[i++] = it.next().intValue();
+		for(Integer typeId : map.values()) {
+			res[i++] = typeId.intValue();
+		}
 
 		return res;
 	}

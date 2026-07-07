@@ -17,7 +17,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -238,16 +237,14 @@ public class Unit extends IR implements ActionsBearer
 		//Collections.sort(actions, Identifiable.COMPARATOR);
 		//Collections.sort(subpatterns, Identifiable.COMPARATOR);
 
-		for(Iterator<Model> it = models.iterator(); it.hasNext();) {
-			Model model = it.next();
+		for(Model model : models) {
 			model.canonicalize();
 		}
 	}
 
 	public void addToDigest(StringBuffer sb)
 	{
-		for(Iterator<Model> it = models.iterator(); it.hasNext();) {
-			Model model = it.next();
+		for(Model model : models) {
 			model.addToDigest(sb);
 		}
 	}

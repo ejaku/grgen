@@ -14,7 +14,6 @@ package de.unika.ipd.grgen.ir.model.type;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -105,11 +104,11 @@ public class EdgeType extends InheritanceType implements ContainedInPackage
 
 		sb.append('[');
 		int i = 0;
-		for(Iterator<ConnAssert> it = connectionAsserts.iterator(); it.hasNext(); i++) {
-			ConnAssert ca = it.next();
+		for(ConnAssert ca : connectionAsserts) {
 			if(i > 0)
 				sb.append(',');
 			sb.append(ca.toString());
+			++i;
 		}
 		sb.append(']');
 	}

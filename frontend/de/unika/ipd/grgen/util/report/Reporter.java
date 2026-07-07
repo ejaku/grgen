@@ -12,7 +12,6 @@
 package de.unika.ipd.grgen.util.report;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -94,9 +93,7 @@ public abstract class Reporter
 	public void report(int level, Location loc, String msg)
 	{
 		if(willReport(level)) {
-			Iterator<Handler> it = handlers.iterator();
-			while(it.hasNext()) {
-				Handler h = it.next();
+			for(Handler h : handlers) {
 				h.report(level, loc, msg);
 			}
 		}

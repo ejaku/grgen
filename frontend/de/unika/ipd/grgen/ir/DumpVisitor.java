@@ -13,7 +13,6 @@ package de.unika.ipd.grgen.ir;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import de.unika.ipd.grgen.ir.executable.Rule;
@@ -66,8 +65,7 @@ public class DumpVisitor extends GraphDumpVisitor
 
 		dumper.beginSubgraph(patternGraph);
 
-		for(Iterator<Node> it = nodes.iterator(); it.hasNext();) {
-			Node node = it.next();
+		for(Node node : nodes) {
 			debug.report(NOTE, "node: " + node);
 			PrefixNode prefixNode = new PrefixNode(node, prefix);
 			prefixMap.put(node, prefixNode);
@@ -76,8 +74,7 @@ public class DumpVisitor extends GraphDumpVisitor
 
 		Collection<Edge> edges = patternGraph.getEdges();
 
-		for(Iterator<Edge> it = edges.iterator(); it.hasNext();) {
-			Edge edge = it.next();
+		for(Edge edge : edges) {
 			PrefixNode prefixFrom, prefixTo, prefixEdge;
 
 			prefixEdge = new PrefixNode(edge, prefix);
@@ -101,10 +98,8 @@ public class DumpVisitor extends GraphDumpVisitor
 
 			for(Collection<? extends GraphEntity> homSet : patternGraphLhs.getHomomorphic()) {
 				if(!homSet.isEmpty()) {
-					for(Iterator<? extends GraphEntity> homIt1 = homSet.iterator(); homIt1.hasNext();) {
-						Entity hom1 = homIt1.next();
-						for(Iterator<? extends GraphEntity> homIt2 = homSet.iterator(); homIt2.hasNext();) {
-							Entity hom2 = homIt2.next();
+					for(Entity hom1 : homSet) {
+						for(Entity hom2 : homSet) {
 							PrefixNode prefixFrom = prefixMap.get(hom1);
 							PrefixNode prefixTo = prefixMap.get(hom2);
 							dumper.edge(prefixFrom, prefixTo, "hom", GraphDumper.DASHED);
@@ -140,18 +135,14 @@ public class DumpVisitor extends GraphDumpVisitor
 			dumpGraph(rule.getRight(), "r");
 
 			// Draw edges from left nodes that occur also on the right side.
-			Iterator<Node> commonNodes = rule.getCommonNodes().iterator();
-			while(commonNodes.hasNext()) {
-				Node node = commonNodes.next();
+			for(Node node : rule.getCommonNodes()) {
 				PrefixNode prefixLeft = new PrefixNode(node, "l");
 				PrefixNode prefixRight = new PrefixNode(node, "r");
 
 				dumper.edge(prefixLeft, prefixRight, null, GraphDumper.DOTTED);
 			}
 
-			Iterator<Edge> commonEdges = rule.getCommonEdges().iterator();
-			while(commonEdges.hasNext()) {
-				Edge edge = commonEdges.next();
+			for(Edge edge : rule.getCommonEdges()) {
 				PrefixNode prefixLeft = new PrefixNode(edge, "l");
 				PrefixNode prefixRight = new PrefixNode(edge, "r");
 

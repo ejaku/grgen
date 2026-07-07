@@ -12,7 +12,6 @@
 package de.unika.ipd.grgen.ir.model.type;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -79,11 +78,11 @@ public class EnumType extends PrimitiveType implements ContainedInPackage
 		sb.append('[');
 
 		int i = 0;
-		for(Iterator<EnumItem> it = items.iterator(); it.hasNext(); i++) {
-			EnumItem ent = it.next();
+		for(EnumItem ent : items) {
 			if(i > 0)
 				sb.append(',');
 			sb.append(ent);
+			++i;
 		}
 
 		sb.append(']');

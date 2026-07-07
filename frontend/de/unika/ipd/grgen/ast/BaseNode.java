@@ -15,7 +15,6 @@ import java.awt.Color;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -981,9 +980,8 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 		Collection<String> childrenNames = getChildrenNames();
 		// iterate to corresponding children name
 		int currentEdge = -1;
-		for(Iterator<String> it = childrenNames.iterator(); it.hasNext();) {
+		for(String name : childrenNames) {
 			++currentEdge;
-			String name = it.next();
 			if(currentEdge == edge) {
 				return name;
 			}
@@ -1005,8 +1003,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 		assert model.isResolved();
 		Collection<TypeDeclNode> types = model.decls.getChildren();
 
-		for(Iterator<TypeDeclNode> it = types.iterator(); it.hasNext();) {
-			TypeDeclNode candidate = it.next();
+		for(TypeDeclNode candidate : types) {
 			String name = candidate.ident.getSymbol().getText();
 			if(name.equals(rootName)) {
 				rootType = candidate;

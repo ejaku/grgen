@@ -12,7 +12,6 @@ package de.unika.ipd.grgen.ast.model.type;
 
 import java.util.Collection;
 import java.util.Vector;
-import java.util.Iterator;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
@@ -178,9 +177,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 		Vector<ConnAssertNode> connAssertsToCopy = new Vector<ConnAssertNode>();
 		Vector<ConnAssertNode> connAssertsToDelete = new Vector<ConnAssertNode>();
 		boolean alreadyCopiedExtends = false;
-		Iterator<ConnAssertNode> it = cas.getChildren().iterator();
-		while(it.hasNext()) {
-			ConnAssertNode ca = it.next();
+		for(ConnAssertNode ca : cas.getChildren()) {
 			if(ca.copyExtends) {
 				if(alreadyCopiedExtends) {
 					reportWarning("more than one copy extends only causes double work without benefit");

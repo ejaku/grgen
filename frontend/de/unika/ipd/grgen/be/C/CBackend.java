@@ -15,7 +15,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
 
@@ -491,27 +490,21 @@ public abstract class CBackend extends IDBase implements Backend
 			for(InheritanceType type : map.keySet()) {
 				dumpXMLTag(1, ps, ">\n", type);
 
-				Iterator<InheritanceType> inhIt = type.getDirectSuperTypes().iterator();
-
-				if(inhIt.hasNext()) {
+				if(!type.getDirectSuperTypes().isEmpty())
 					ps.print("    <inherits>\n");
-					for(; inhIt.hasNext();) {
-						InheritanceType inh = inhIt.next();
-						dumpXMLTag(3, ps, "/>\n", inh);
-					}
+				for(InheritanceType inh : type.getDirectSuperTypes()) {
+					dumpXMLTag(3, ps, "/>\n", inh);
+				}
+				if(!type.getDirectSuperTypes().isEmpty())
 					ps.print("    </inherits>\n");
-				}
 
-				Iterator<Entity> attrIt = type.getMembers().iterator();
-				if(attrIt.hasNext()) {
+				if(!type.getMembers().isEmpty())
 					ps.print("    <attributes>\n");
-					for(; attrIt.hasNext();) {
-						Entity ent = attrIt.next();
-
-						dumpXMLTag(3, ps, "/>\n", ent);
-					}
-					ps.print("    </attributes>\n");
+				for(Entity ent : type.getMembers()) {
+					dumpXMLTag(3, ps, "/>\n", ent);
 				}
+				if(!type.getMembers().isEmpty())
+					ps.print("    </attributes>\n");
 
 				dumpXMLEndTag(1, ps, type);
 			}
@@ -519,16 +512,15 @@ public abstract class CBackend extends IDBase implements Backend
 
 		for(EnumType type : enumMap.keySet()) {
 			dumpXMLTag(1, ps, ">\n", type);
-			Iterator<EnumItem> itemIt = type.getItems().iterator();
-			if(itemIt.hasNext()) {
-				ps.print("    <items>\n");
-				for(; itemIt.hasNext();) {
-					EnumItem ev = itemIt.next();
 
-					dumpXMLTag(3, ps, "/>\n", ev);
-				}
-				ps.print("    </items>\n");
+			if(!type.getItems().isEmpty())
+				ps.print("    <attributes>\n");
+			ps.print("    <items>\n");
+			for(EnumItem ev : type.getItems()) {
+				dumpXMLTag(3, ps, "/>\n", ev);
 			}
+			if(!type.getItems().isEmpty())
+				ps.print("    </items>\n");
 
 			dumpXMLEndTag(1, ps, type);
 		}

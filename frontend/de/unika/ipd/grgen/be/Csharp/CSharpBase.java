@@ -18,7 +18,6 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.*;
@@ -288,11 +287,13 @@ public abstract class CSharpBase
 	{
 		if(brackets)
 			sb.append("{ ");
-		for(Iterator<? extends Identifiable> iter = set.iterator(); iter.hasNext();) {
-			Identifiable id = iter.next();
-			sb.append(pre + formatIdentifiable(id) + post);
-			if(iter.hasNext())
+		boolean first = true;
+		for(Identifiable id : set) {
+			if(first)
+				first = false;
+			else
 				sb.append(", ");
+			sb.append(pre + formatIdentifiable(id) + post);
 		}
 		if(brackets)
 			sb.append(" }");
@@ -303,11 +304,13 @@ public abstract class CSharpBase
 	{
 		if(brackets)
 			sb.append("{ ");
-		for(Iterator<? extends Entity> iter = set.iterator(); iter.hasNext();) {
-			Entity id = iter.next();
-			sb.append(pre + formatEntity(id, pathPrefix, alreadyDefinedEntityToName) + post);
-			if(iter.hasNext())
+		boolean first = true;
+		for(Entity id : set) {
+			if(first)
+				first = false;
+			else
 				sb.append(", ");
+			sb.append(pre + formatEntity(id, pathPrefix, alreadyDefinedEntityToName) + post);
 		}
 		if(brackets)
 			sb.append(" }");
@@ -317,11 +320,13 @@ public abstract class CSharpBase
 	{
 		if(brackets)
 			sb.append("{ ");
-		for(Iterator<? extends Entity> iter = set.iterator(); iter.hasNext();) {
-			Entity id = iter.next();
-			sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(id) + "))");
-			if(iter.hasNext())
+		boolean first = true;
+		for(Entity id : set) {
+			if(first)
+				first = false;
+			else
 				sb.append(", ");
+			sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(id) + "))");
 		}
 		if(brackets)
 			sb.append(" }");
@@ -334,11 +339,13 @@ public abstract class CSharpBase
 	{
 		if(brackets)
 			sb.append("{ ");
-		for(Iterator<? extends SubpatternUsage> iter = set.iterator(); iter.hasNext();) {
-			SubpatternUsage spu = iter.next();
-			sb.append(pre + formatIdentifiable(spu, pathPrefix, alreadyDefinedIdentifiableToName) + post);
-			if(iter.hasNext())
+		boolean first = true;
+		for(SubpatternUsage spu : set) {
+			if(first)
+				first = false;
+			else
 				sb.append(", ");
+			sb.append(pre + formatIdentifiable(spu, pathPrefix, alreadyDefinedIdentifiableToName) + post);
 		}
 		if(brackets)
 			sb.append(" }");
@@ -349,12 +356,14 @@ public abstract class CSharpBase
 	{
 		if(brackets)
 			sb.append("{ ");
-		for(Iterator<? extends Rule> iter = set.iterator(); iter.hasNext();) {
-			Rule altCase = iter.next();
+		boolean first = true;
+		for(Rule altCase : set) {
+			if(first)
+				first = false;
+			else
+				sb.append(", ");
 			PatternGraphLhs altCasePattern = altCase.getLeft();
 			sb.append(pre + altCasePattern.getNameOfGraph() + post);
-			if(iter.hasNext())
-				sb.append(", ");
 		}
 		if(brackets)
 			sb.append(" }");

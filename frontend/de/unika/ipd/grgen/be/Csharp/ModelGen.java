@@ -20,7 +20,6 @@ import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -379,11 +378,13 @@ public class ModelGen extends CSharpBase
 		}
 
 		sb.append("{ ");
-		for(Iterator<? extends InheritanceType> iter = curTypes.iterator(); iter.hasNext();) {
-			InheritanceType id = iter.next();
-			sb.append("@" + formatIdentifiable(id) + "=" + id.getInheritanceTypeID());
-			if(iter.hasNext())
+		boolean first = true;
+		for(InheritanceType id : curTypes) {
+			if(first)
+				first = false;
+			else
 				sb.append(", ");
+			sb.append("@" + formatIdentifiable(id) + "=" + id.getInheritanceTypeID());
 		}
 		sb.append(" }");
 
@@ -445,24 +446,17 @@ public class ModelGen extends CSharpBase
 	private void genDirectSuperTypeList(InheritanceType type)
 	{
 		String iprefix = "I" + getInheritanceTypePrefix(type);
-		Collection<InheritanceType> directSuperTypes = type.getDirectSuperTypes();
 
 		boolean first = true;
-		for(Iterator<InheritanceType> i = directSuperTypes.iterator(); i.hasNext();) {
-			InheritanceType superType = i.next();
-			if(rootTypes.contains(superType.getIdent().toString())) {
-				if(first)
-					first = false;
-				else
-					sb.append(", ");
+		for(InheritanceType superType : type.getDirectSuperTypes()) {
+			if(first)
+				first = false;
+			else
+				sb.append(", ");
+			if(rootTypes.contains(superType.getIdent().toString()))
 				sb.append(getRootElementInterfaceRef(superType));
-			} else {
-				if(first)
-					first = false;
-				else
-					sb.append(", ");
+			else
 				sb.append(getPackagePrefixDot(superType) + iprefix + formatIdentifiable(superType));
-			}
 		}
 	}
 
@@ -2801,9 +2795,7 @@ deque_init_loop:
 					});
 
 			sortedCommonTypes.addAll(firstCommonAncestors);
-			Iterator<InheritanceType> iter = sortedCommonTypes.iterator();
-			while(iter.hasNext()) {
-				InheritanceType commonType = iter.next();
+			for(InheritanceType commonType : sortedCommonTypes) {
 				if(!firstCommonAncestors.contains(commonType))
 					continue;
 				for(InheritanceType superType : commonType.getAllSuperTypes()) {

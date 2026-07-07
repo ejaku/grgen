@@ -13,7 +13,6 @@ package de.unika.ipd.grgen.ir.type;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -100,11 +99,11 @@ public abstract class CompoundType extends Type
 		sb.append('[');
 
 		int i = 0;
-		for(Iterator<Entity> it = members.iterator(); it.hasNext(); i++) {
-			Entity ent = it.next();
+		for(Entity ent :  members) {
 			if(i > 0)
 				sb.append(',');
 			sb.append(ent);
+			++i;
 		}
 
 		sb.append(']');

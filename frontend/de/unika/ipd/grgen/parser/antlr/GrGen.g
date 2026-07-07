@@ -72,7 +72,6 @@ tokens {
 @header {
 	package de.unika.ipd.grgen.parser.antlr;
 	
-	import java.util.Iterator;
 	import java.util.LinkedList;
 	import java.util.Collection;
 	
@@ -348,9 +347,8 @@ usingDecl [ CollectNode<ModelNode> modelChilds ]
 	: u=USING identList[modelNames]
 		{
 			modelChilds.setCoords(getCoords(u));
-			for(Iterator<String> it = modelNames.iterator(); it.hasNext();)
+			for(String modelName : modelNames)
 			{
-				String modelName = it.next();
 				File modelFile = env.findModel(modelName);
 				if(modelFile == null) {
 					reportError(getCoords(u), "The model " + modelName + " could not be found.");

@@ -12,7 +12,6 @@
 package de.unika.ipd.grgen.parser;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -271,8 +270,7 @@ public class Scope
 	public Scope leaveScope()
 	{
 		// fixup all occurrences by entering the correct definition.
-		for(Iterator<Symbol.Occurrence> it = occFixup.iterator(); it.hasNext();) {
-			Symbol.Occurrence occ = it.next();
+		for(Symbol.Occurrence occ : occFixup) {
 			occ.def = getCurrDef(occ.symbol);
 		}
 
