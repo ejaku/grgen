@@ -377,7 +377,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	public abstract Collection<BaseNode> getChildren();
 
 	/** returns names of the children, same order as in getChildren */
-	protected abstract Collection<String> getChildrenNames();
+	public abstract Collection<String> getChildrenNames();
 
 	/** implementation of Walkable by getChildren
 	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */

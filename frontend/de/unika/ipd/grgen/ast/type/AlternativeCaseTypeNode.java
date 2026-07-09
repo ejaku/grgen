@@ -32,7 +32,7 @@ public class AlternativeCaseTypeNode extends TypeNode
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
-	protected Collection<String> getChildrenNames()
+	public Collection<String> getChildrenNames()
 	{
 		Vector<String> childrenNames = new Vector<String>();
 		// no children

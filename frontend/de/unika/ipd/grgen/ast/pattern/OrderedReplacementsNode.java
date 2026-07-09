@@ -46,7 +46,7 @@ public class OrderedReplacementsNode extends BaseNode
 	}
 
 	@Override
-	protected Collection<String> getChildrenNames()
+	public Collection<String> getChildrenNames()
 	{
 		LinkedList<String> res = new LinkedList<String>();
 		for(int i = 0; i < getChildren().size(); ++i) {

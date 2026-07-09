@@ -57,7 +57,7 @@ public class AttributeInitializationNode extends BaseNode
 	}
 
 	@Override
-	protected Collection<String> getChildrenNames()
+	public Collection<String> getChildrenNames()
 	{
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("attribute");
