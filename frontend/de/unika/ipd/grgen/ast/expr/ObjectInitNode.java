@@ -100,7 +100,7 @@ public class ObjectInitNode extends ExprNode
 		
 		InternalObjectInit init = new InternalObjectInit(type);
 		
-		for(AttributeInitializationNode ain : attributeInits.getChildren()) {
+		for(AttributeInitializationNode ain : attributeInits.getChildrenExact()) {
 			ain.objectInitIR = init;
 			init.addAttributeInitialization(ain.checkIR(AttributeInitialization.class));
 		}

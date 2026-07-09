@@ -102,7 +102,7 @@ public class ExternalObjectTypeNode extends InheritanceTypeNode
 
 		// Initialize direct sub types
 		if(extend != null) {
-			for(InheritanceTypeNode type : extend.getChildren()) {
+			for(InheritanceTypeNode type : extend.getChildrenExact()) {
 				type.addDirectSubType(this);
 			}
 		}
@@ -141,14 +141,14 @@ public class ExternalObjectTypeNode extends InheritanceTypeNode
 
 	protected void constructIR(ExternalObjectType extType)
 	{
-		for(BaseNode child : body.getChildren()) {
+		for(BaseNode child : body.getChildrenExact()) {
 			if(child instanceof ExternalFunctionDeclNode) {
 				extType.addExternalFunctionMethod(child.checkIR(ExternalFunctionMethod.class));
 			} else {
 				extType.addExternalProcedureMethod(child.checkIR(ExternalProcedureMethod.class));
 			}
 		}
-		for(InheritanceTypeNode inh : getExtends().getChildren()) {
+		for(InheritanceTypeNode inh : getExtends().getChildrenExact()) {
 			extType.addDirectSuperType(inh.getType());
 		}
 	}
@@ -164,7 +164,7 @@ public class ExternalObjectTypeNode extends InheritanceTypeNode
 	{
 		assert isResolved();
 
-		for(ExternalObjectTypeNode inh : extend.getChildren()) {
+		for(ExternalObjectTypeNode inh : extend.getChildrenExact()) {
 			coll.add(inh);
 			coll.addAll(inh.getCompatibleToTypes());
 		}
@@ -180,13 +180,13 @@ public class ExternalObjectTypeNode extends InheritanceTypeNode
 	{
 		assert isResolved();
 
-		return extend.getChildren();
+		return extend.getChildrenExact();
 	}
 
 	@Override
 	protected void getMembers(Map<String, DeclNode> members)
 	{
-		for(BaseNode child : body.getChildren()) {
+		for(BaseNode child : body.getChildrenExact()) {
 			if(child instanceof ExternalFunctionDeclNode) {
 				ExternalFunctionDeclNode function = (ExternalFunctionDeclNode)child;
 				checkExternalFunctionOverride(function);
@@ -200,7 +200,7 @@ public class ExternalObjectTypeNode extends InheritanceTypeNode
 	private void checkExternalFunctionOverride(ExternalFunctionDeclNode function)
 	{
 		for(InheritanceTypeNode base : getAllSuperTypes()) {
-			for(BaseNode baseChild : base.getBody().getChildren()) {
+			for(BaseNode baseChild : base.getBody().getChildrenExact()) {
 				if(baseChild instanceof ExternalFunctionDeclNode) {
 					ExternalFunctionDeclNode functionBase = (ExternalFunctionDeclNode)baseChild;
 					if(function.ident.toString().equals(functionBase.ident.toString()))
@@ -213,7 +213,7 @@ public class ExternalObjectTypeNode extends InheritanceTypeNode
 	private void checkExternalProcedureOverride(ExternalProcedureDeclNode procedure)
 	{
 		for(InheritanceTypeNode base : getAllSuperTypes()) {
-			for(BaseNode baseChild : base.getBody().getChildren()) {
+			for(BaseNode baseChild : base.getBody().getChildrenExact()) {
 				if(baseChild instanceof ExternalProcedureDeclNode) {
 					ExternalProcedureDeclNode procedureBase = (ExternalProcedureDeclNode)baseChild;
 					if(procedure.ident.toString().equals(procedureBase.ident.toString()))

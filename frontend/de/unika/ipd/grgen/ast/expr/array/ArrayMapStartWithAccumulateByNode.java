@@ -72,7 +72,7 @@ public class ArrayMapStartWithAccumulateByNode extends ArrayFunctionMethodInvoca
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren()
+	public Collection<BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetExpr);

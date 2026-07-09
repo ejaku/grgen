@@ -84,7 +84,7 @@ public class PackageProcedureInvocationDecisionNode extends ProcedureInvocationD
 		case "Debug::add":
 			if(arguments.size() >= 1) {
 				DebugAddProcNode add = new DebugAddProcNode(env.getCoords());
-				for(ExprNode param : arguments.getChildren()) {
+				for(ExprNode param : arguments.getChildrenExact()) {
 					add.addExpression(param);
 				}
 				return add;
@@ -95,7 +95,7 @@ public class PackageProcedureInvocationDecisionNode extends ProcedureInvocationD
 		case "Debug::rem":
 			if(arguments.size() >= 1) {
 				DebugRemProcNode rem = new DebugRemProcNode(env.getCoords());
-				for(ExprNode param : arguments.getChildren()) {
+				for(ExprNode param : arguments.getChildrenExact()) {
 					rem.addExpression(param);
 				}
 				return rem;
@@ -106,7 +106,7 @@ public class PackageProcedureInvocationDecisionNode extends ProcedureInvocationD
 		case "Debug::emit":
 			if(arguments.size() >= 1) {
 				DebugEmitProcNode emit = new DebugEmitProcNode(env.getCoords());
-				for(ExprNode param : arguments.getChildren()) {
+				for(ExprNode param : arguments.getChildrenExact()) {
 					emit.addExpression(param);
 				}
 				return emit;
@@ -117,7 +117,7 @@ public class PackageProcedureInvocationDecisionNode extends ProcedureInvocationD
 		case "Debug::halt":
 			if(arguments.size() >= 1) {
 				DebugHaltProcNode halt = new DebugHaltProcNode(env.getCoords());
-				for(ExprNode param : arguments.getChildren()) {
+				for(ExprNode param : arguments.getChildrenExact()) {
 					halt.addExpression(param);
 				}
 				return halt;
@@ -128,7 +128,7 @@ public class PackageProcedureInvocationDecisionNode extends ProcedureInvocationD
 		case "Debug::highlight":
 			if(arguments.size() % 2 == 1) {
 				DebugHighlightProcNode highlight = new DebugHighlightProcNode(env.getCoords());
-				for(ExprNode param : arguments.getChildren()) {
+				for(ExprNode param : arguments.getChildrenExact()) {
 					highlight.addExpression(param);
 				}
 				return highlight;

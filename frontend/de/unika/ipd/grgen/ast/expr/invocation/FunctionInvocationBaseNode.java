@@ -37,7 +37,7 @@ public abstract class FunctionInvocationBaseNode extends FunctionOrBuiltinFuncti
 	{
 		// check if the number of parameters are correct
 		int expected = fb.getParameterTypes().size();
-		int actual = arguments.getChildren().size();
+		int actual = arguments.getChildrenExact().size();
 		if(expected != actual) {
 			unresolved.reportError("The function " + (isMethod ? "method " : "") + fb.toStringWithDeclarationCoords()
 					+ " expects " + expected + " arguments (given are " + actual + " arguments).");

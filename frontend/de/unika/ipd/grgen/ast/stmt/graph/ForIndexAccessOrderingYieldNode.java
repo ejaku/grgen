@@ -185,7 +185,7 @@ public class ForIndexAccessOrderingYieldNode extends ForIndexAccessNode
 				new IndexAccessOrdering(index.checkIR(Index.class), ascending,
 						comp, expr != null ? expr.checkIR(Expression.class) : null,
 						comp2, expr2 != null ? expr2.checkIR(Expression.class) : null));
-		for(EvalStatementNode accumulationStatement : statements.getChildren()) {
+		for(EvalStatementNode accumulationStatement : statements.getChildrenExact()) {
 			fiao.addLoopedStatement(accumulationStatement.checkIR(EvalStatement.class));
 		}
 		return fiao;

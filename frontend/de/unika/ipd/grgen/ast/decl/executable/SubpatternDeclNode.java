@@ -126,15 +126,15 @@ public class SubpatternDeclNode extends TopLevelMatcherDeclNode
 
 	private boolean rewritePartRequired()
 	{
-		for(AlternativeDeclNode alt : pattern.alts.getChildren()) {
-			for(AlternativeCaseDeclNode altCase : alt.getChildren()) {
+		for(AlternativeDeclNode alt : pattern.alts.getChildrenExact()) {
+			for(AlternativeCaseDeclNode altCase : alt.getChildrenExact()) {
 				if(altCase.right != null) {
 					return true;
 				}
 			}
 		}
 
-		for(IteratedDeclNode iter : pattern.iters.getChildren()) {
+		for(IteratedDeclNode iter : pattern.iters.getChildrenExact()) {
 			if(iter.right != null) {
 				return true;
 			}

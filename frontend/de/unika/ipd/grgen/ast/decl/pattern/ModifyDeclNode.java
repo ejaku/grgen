@@ -103,19 +103,19 @@ public class ModifyDeclNode extends RhsDeclNode
 
 		if(resolve != null) {
 			if(resolve.first != null) {
-				for(NodeDeclNode node : resolve.first.getChildren()) {
+				for(NodeDeclNode node : resolve.first.getChildrenExact()) {
 					deletes.addChild(node);
 				}
 			}
 
 			if(resolve.second != null) {
-				for(EdgeDeclNode edge : resolve.second.getChildren()) {
+				for(EdgeDeclNode edge : resolve.second.getChildrenExact()) {
 					deletes.addChild(edge);
 				}
 			}
 
 			if(resolve.third != null) {
-				for(SubpatternUsageDeclNode sub : resolve.third.getChildren()) {
+				for(SubpatternUsageDeclNode sub : resolve.third.getChildrenExact()) {
 					deletes.addChild(sub);
 				}
 			}
@@ -160,7 +160,7 @@ public class ModifyDeclNode extends RhsDeclNode
 	{
 		HashSet<Entity> elementsToDelete = new HashSet<Entity>();
 		
-		for(DeclNode delete : deletes.getChildren()) {
+		for(DeclNode delete : deletes.getChildrenExact()) {
 			if(delete instanceof SubpatternUsageDeclNode)
 				continue;
 
@@ -248,7 +248,7 @@ public class ModifyDeclNode extends RhsDeclNode
 
 	private boolean isSubpatternUsageToBeDeleted(SubpatternUsage subpatternUsage)
 	{
-		for(DeclNode delete : deletes.getChildren()) {
+		for(DeclNode delete : deletes.getChildrenExact()) {
 			if(!(delete instanceof SubpatternUsageDeclNode))
 				continue;
 
@@ -266,7 +266,7 @@ public class ModifyDeclNode extends RhsDeclNode
 
 		LinkedHashSet<ConstraintDeclNode> elementsToDelete = new LinkedHashSet<ConstraintDeclNode>();
 
-		for(DeclNode delete : deletes.getChildren()) {
+		for(DeclNode delete : deletes.getChildrenExact()) {
 			if(!(delete instanceof SubpatternUsageDeclNode))
 				elementsToDelete.add((ConstraintDeclNode)delete);
 		}
@@ -309,7 +309,7 @@ public class ModifyDeclNode extends RhsDeclNode
 			}
 
 			// add connection only if source and target are reused
-			if(lhsEdges.contains(rhsEdge) && !sourceOrTargetNodeIncluded(rhsEdge, pattern, deletes.getChildren())) {
+			if(lhsEdges.contains(rhsEdge) && !sourceOrTargetNodeIncluded(rhsEdge, pattern, deletes.getChildrenExact())) {
 				connectionsToReuse.add(connection);
 			}
 		}
@@ -325,8 +325,8 @@ public class ModifyDeclNode extends RhsDeclNode
 			}
 
 			// add connection only if source and target are reused
-			if(!deletes.getChildren().contains(lhsEdge)
-					&& !sourceOrTargetNodeIncluded(lhsEdge, pattern, deletes.getChildren())) {
+			if(!deletes.getChildrenExact().contains(lhsEdge)
+					&& !sourceOrTargetNodeIncluded(lhsEdge, pattern, deletes.getChildrenExact())) {
 				connectionsToReuse.add(connection);
 			}
 		}
@@ -342,7 +342,7 @@ public class ModifyDeclNode extends RhsDeclNode
 		Set<NodeDeclNode> lhsNodes = pattern.getNodes();
 		Set<NodeDeclNode> rhsNodes = patternGraph.getNodes();
 		for(NodeDeclNode lhsNode : lhsNodes) {
-			if(rhsNodes.contains(lhsNode) || !deletes.getChildren().contains(lhsNode))
+			if(rhsNodes.contains(lhsNode) || !deletes.getChildrenExact().contains(lhsNode))
 				nodesToReuse.add(lhsNode);
 		}
 		

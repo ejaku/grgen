@@ -108,7 +108,7 @@ public class ExternalFunctionDeclNode extends FunctionDeclBaseNode
 		ExternalFunction externalFunc = isMethod
 				? new ExternalFunctionMethod(getIdentNode().toString(), getIdentNode().getIdent(), resultType.checkIR(Type.class))
 				: new ExternalFunction(getIdentNode().toString(), getIdentNode().getIdent(), resultType.checkIR(Type.class));
-		for(TypeNode param : parameterTypesCollectNode.getChildren()) {
+		for(TypeNode param : parameterTypesCollectNode.getChildrenExact()) {
 			externalFunc.addParameterType(param.checkIR(Type.class));
 		}
 		return externalFunc;

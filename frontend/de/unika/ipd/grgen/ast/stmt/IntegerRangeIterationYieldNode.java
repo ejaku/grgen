@@ -134,7 +134,7 @@ public class IntegerRangeIterationYieldNode extends NestingStatementNode
 		rightExpr = rightExpr.evaluate();
 		IntegerRangeIterationYield cay = new IntegerRangeIterationYield(iterationVariable.checkIR(Variable.class),
 				leftExpr.checkIR(Expression.class), rightExpr.checkIR(Expression.class));
-		for(EvalStatementNode accumulationStatement : statements.getChildren()) {
+		for(EvalStatementNode accumulationStatement : statements.getChildrenExact()) {
 			cay.addStatement(accumulationStatement.checkIR(EvalStatement.class));
 		}
 		return cay;

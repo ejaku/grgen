@@ -55,14 +55,14 @@ public class HomStorage
 			// Split one hom statement into two parts, so deleted and reuse nodes/edges can't be matched homomorphically.
 			// This behavior is required for DPO-semantic / more exactly the identification condition.
 			Set<ConstraintDeclNode> deletedEntities = patternGraph.getRule().getDeletedElements();
-			for(HomNode homNode : patternGraph.homs.getChildren()) {
+			for(HomNode homNode : patternGraph.homs.getChildrenExact()) {
 				Set<ConstraintDeclNode> deleteHomSet = getDeleteHomSet(homNode.getChildren(), deletedEntities);
 				addIfNonTrivialHomSet(homSets, deleteHomSet);
 				Set<ConstraintDeclNode> reuseHomSet = getReuseHomSet(homNode.getChildren(), deletedEntities);
 				addIfNonTrivialHomSet(homSets, reuseHomSet);
 			}
 		} else {
-			for(HomNode homNode : patternGraph.homs.getChildren()) {
+			for(HomNode homNode : patternGraph.homs.getChildrenExact()) {
 				Set<ConstraintDeclNode> homSet = getHomSet(homNode.getChildren());
 				addIfNonTrivialHomSet(homSets, homSet);
 			}

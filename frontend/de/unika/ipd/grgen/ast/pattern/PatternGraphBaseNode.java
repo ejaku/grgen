@@ -135,7 +135,7 @@ public abstract class PatternGraphBaseNode extends BaseNode
 
 		if(resolve != null) {
 			if(resolve.first != null) {
-				for(ConnectionNode conn : resolve.first.getChildren()) {
+				for(ConnectionNode conn : resolve.first.getChildrenExact()) {
 					if(!conn.resolve())
 						return false;
 					connections.addChild(conn);
@@ -143,7 +143,7 @@ public abstract class PatternGraphBaseNode extends BaseNode
 			}
 
 			if(resolve.second != null) {
-				for(SingleNodeConnNode conn : resolve.second.getChildren()) {
+				for(SingleNodeConnNode conn : resolve.second.getChildrenExact()) {
 					if(!conn.resolve())
 						return false;
 					connections.addChild(conn);
@@ -151,7 +151,7 @@ public abstract class PatternGraphBaseNode extends BaseNode
 			}
 
 			if(resolve.third != null) {
-				for(SingleGraphEntityNode ent : resolve.third.getChildren()) {
+				for(SingleGraphEntityNode ent : resolve.third.getChildrenExact()) {
 					// resolve the entity
 					if(!ent.resolve()) {
 						return false;
@@ -187,7 +187,7 @@ public abstract class PatternGraphBaseNode extends BaseNode
 	{
 		boolean paramsOK = true;
 
-		for(BaseNode param : params.getChildren()) {
+		for(BaseNode param : params.getChildrenExact()) {
 			if(!(param instanceof VarDeclNode))
 				continue;
 
@@ -216,7 +216,7 @@ public abstract class PatternGraphBaseNode extends BaseNode
 		boolean subUsagesOK = true;
 		
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-			for(SubpatternUsageDeclNode subUsage : subpatterns.getChildren()) {
+			for(SubpatternUsageDeclNode subUsage : subpatterns.getChildrenExact()) {
 				if(subUsage.resolve()) {
 					PatternGraphLhsNode pattern = subUsage.getSubpatternDeclNode().getPattern();
 					if(pattern.hasAbstractElements) {
@@ -237,7 +237,7 @@ public abstract class PatternGraphBaseNode extends BaseNode
 	{
 		boolean edgeUsage = true;
 		HashSet<EdgeDeclNode> edges = new HashSet<EdgeDeclNode>();
-		for(ConnectionCharacter connection : connections.getChildren()) {
+		for(ConnectionCharacter connection : connections.getChildrenExact()) {
 			EdgeDeclNode edge = connection.getEdge();
 
 			// add() returns false iff edges already contains ec
@@ -263,7 +263,7 @@ public abstract class PatternGraphBaseNode extends BaseNode
 	{
 		assert isResolved();
 
-		return connections.getChildren();
+		return connections.getChildrenExact();
 	}
 
 	/**
@@ -287,7 +287,7 @@ public abstract class PatternGraphBaseNode extends BaseNode
 
 		LinkedHashSet<NodeDeclNode> tempNodes = new LinkedHashSet<NodeDeclNode>();
 
-		for(ConnectionCharacter connection : connections.getChildren()) {
+		for(ConnectionCharacter connection : connections.getChildrenExact()) {
 			connection.addNodes(tempNodes);
 		}
 
@@ -309,7 +309,7 @@ public abstract class PatternGraphBaseNode extends BaseNode
 
 		LinkedHashSet<EdgeDeclNode> tempEdges = new LinkedHashSet<EdgeDeclNode>();
 
-		for(ConnectionCharacter connection : connections.getChildren()) {
+		for(ConnectionCharacter connection : connections.getChildrenExact()) {
 			connection.addEdge(tempEdges);
 		}
 
@@ -336,13 +336,13 @@ public abstract class PatternGraphBaseNode extends BaseNode
 
 		LinkedHashSet<VarDeclNode> tempVariables = new LinkedHashSet<VarDeclNode>();
 
-		for(BaseNode param : params.getChildren()) {
+		for(BaseNode param : params.getChildrenExact()) {
 			if(param instanceof VarDeclNode) {
 				tempVariables.add((VarDeclNode)param);
 			}
 		}
 		
-		for(VarDeclNode defVar : defVariablesToBeYieldedTo.getChildren()) {
+		for(VarDeclNode defVar : defVariablesToBeYieldedTo.getChildrenExact()) {
 			tempVariables.add(defVar);
 		}
 
@@ -363,7 +363,7 @@ public abstract class PatternGraphBaseNode extends BaseNode
 
 	protected void addParamsToConnections(CollectNode<BaseNode> params)
 	{
-		for(BaseNode param : params.getChildren()) {
+		for(BaseNode param : params.getChildrenExact()) {
 			// directly nesting lhs pattern is null for parameters of lhs/rhs pattern
 			// because it doesn't exist at the time the parameters are parsed -> patch it in here
 			if(param instanceof VarDeclNode) {
@@ -388,7 +388,7 @@ public abstract class PatternGraphBaseNode extends BaseNode
 	{
 		Vector<DeclNode> res = new Vector<DeclNode>();
 
-		for(BaseNode param : params.getChildren()) {
+		for(BaseNode param : params.getChildrenExact()) {
 			if(param instanceof ConnectionNode) {
 				ConnectionNode conn = (ConnectionNode)param;
 				res.add(conn.getEdge().getDecl());

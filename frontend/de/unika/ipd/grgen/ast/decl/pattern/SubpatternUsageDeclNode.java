@@ -116,7 +116,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 	{
 		// check if the number of parameters are correct
 		int expected = type.pattern.getParamDecls().size();
-		int actual = connections.getChildren().size();
+		int actual = connections.getChildrenExact().size();
 		if(expected != actual) {
 			String patternName = type.ident.toString();
 			ident.reportError("The (sub)pattern " + patternName + type.getDeclarationCoords() + " expects " + expected
@@ -291,7 +291,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 	{
 		List<Expression> subpatternConnections = new LinkedList<Expression>();
 		List<Expression> subpatternYields = new LinkedList<Expression>();
-		for(ExprNode e : connections.getChildren()) {
+		for(ExprNode e : connections.getChildrenExact()) {
 			e = e.evaluate();
 			if(e instanceof IdentExprNode && ((IdentExprNode)e).yieldedTo)
 				subpatternYields.add(e.checkIR(Expression.class));

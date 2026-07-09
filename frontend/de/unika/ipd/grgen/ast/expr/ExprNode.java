@@ -257,7 +257,7 @@ public abstract class ExprNode extends BaseNode
 				((ExprNode)child).collectElements(elements);
 			} else if(child instanceof CollectNode<?>) {
 				CollectNode<? extends BaseNode> collectNode = (CollectNode<?>)child;
-				for(BaseNode grandchild : collectNode.getChildren()) {
+				for(BaseNode grandchild : collectNode.getChildrenExact()) {
 					if(grandchild instanceof ExprNode)
 						((ExprNode)grandchild).collectElements(elements);
 				}
@@ -279,8 +279,8 @@ public abstract class ExprNode extends BaseNode
 		if(this instanceof ArithmeticOperatorNode) {
 			ArithmeticOperatorNode operator = (ArithmeticOperatorNode)this;
 			if(operator.getOperator() == OperatorDeclNode.Operator.COND) {
-				operator.getChildren().get(1).getPotentiallyResultingElements(elements);
-				operator.getChildren().get(2).getPotentiallyResultingElements(elements);
+				operator.getChildrenAsVector().get(1).getPotentiallyResultingElements(elements);
+				operator.getChildrenAsVector().get(2).getPotentiallyResultingElements(elements);
 			}
 		}
 	}

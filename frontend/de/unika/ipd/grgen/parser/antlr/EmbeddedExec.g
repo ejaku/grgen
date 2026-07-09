@@ -600,7 +600,7 @@ seqFunctionCall [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
 	  ( i=IDENT | i=COPY | i=CLONE | i=NAMEOF | i=TYPEOF ) LPAREN { xg.append(i.getText()); xg.append("("); }
 			paramz=seqFunctionCallParameters[xg] RPAREN { xg.append(")"); }
 		{
-			if(i.getText().equals("now") && paramz.getChildren().size() == 0 || env.isGlobalFunction(null, i, paramz)) {
+			if(i.getText().equals("now") && paramz.getChildrenExact().size() == 0 || env.isGlobalFunction(null, i, paramz)) {
 				IdentNode funcIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
 				if(packPrefix) {
 					res = new PackageFunctionInvocationDecisionNode(p.getText(), funcIdent, paramz, env);
@@ -626,14 +626,14 @@ seqScanFunctionCall [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() 
 	: ( s=SCAN { xg.append(s.getText()); } | s=TRYSCAN { xg.append(s.getText()); } ) (LT { xg.append("<"); } type=seqTypeOrContainerTypeContinuation[xg])? LPAREN { xg.append("("); }
 			paramz=seqFunctionCallParameters[xg] RPAREN { xg.append(")"); }
 		{
-			if(paramz.getChildren().size() == 1) {
+			if(paramz.getChildrenExact().size() == 1) {
 				if(s.getText().equals("scan")) {
 					res = new ScanExprNode(getCoords(s), type, paramz.get(0));
 				} else {
 					res = new TryScanExprNode(getCoords(s), type, paramz.get(0));
 				}
 			} else {
-				reportError(getCoords(s), "The function " + s.getText() + " expects 1 parameter (and a type parameter) (given are " + paramz.getChildren().size() + ").");
+				reportError(getCoords(s), "The function " + s.getText() + " expects 1 parameter (and a type parameter) (given are " + paramz.getChildrenExact().size() + ").");
 			}
 		}
 	;

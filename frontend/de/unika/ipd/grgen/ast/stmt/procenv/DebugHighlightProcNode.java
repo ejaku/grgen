@@ -36,7 +36,7 @@ public class DebugHighlightProcNode extends DebugProcNode
 	protected boolean checkLocal()
 	{
 		int paramNum = 0;
-		for(ExprNode expr : exprs.getChildren()) {
+		for(ExprNode expr : exprs.getChildrenExact()) {
 			TypeNode exprType = expr.getType();
 			if(paramNum % 2 == 0 && !(exprType.equals(BasicTypeNode.stringType))) {
 				reportError("The " + shortSignature() + " procedure expects as " + paramNum + ". argument"
@@ -59,7 +59,7 @@ public class DebugHighlightProcNode extends DebugProcNode
 	protected IR constructIR()
 	{
 		Vector<Expression> expressions = new Vector<Expression>();
-		for(ExprNode expr : exprs.getChildren()) {
+		for(ExprNode expr : exprs.getChildrenExact()) {
 			expr = expr.evaluate();
 			expressions.add(expr.checkIR(Expression.class));
 		}

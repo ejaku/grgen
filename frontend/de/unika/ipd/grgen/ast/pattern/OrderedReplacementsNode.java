@@ -35,9 +35,14 @@ public class OrderedReplacementsNode extends BaseNode
 	}
 
 	@Override
-	public Collection<OrderedReplacementNode> getChildren()
+	public Collection<BaseNode> getChildren()
 	{
 		return orderedReplacements.getChildren();
+	}
+
+	public Collection<OrderedReplacementNode> getChildrenExact()
+	{
+		return orderedReplacements.getChildrenExact();
 	}
 
 	@Override
@@ -65,7 +70,7 @@ public class OrderedReplacementsNode extends BaseNode
 	public boolean noExecStatement()
 	{
 		boolean res = true;
-		for(OrderedReplacementNode orderedReplacement : orderedReplacements.getChildren()) {
+		for(OrderedReplacementNode orderedReplacement : orderedReplacements.getChildrenExact()) {
 			res &= orderedReplacement.noExecStatement(true);
 		}
 		return res;
@@ -76,7 +81,7 @@ public class OrderedReplacementsNode extends BaseNode
 	{
 		OrderedReplacements ors = new OrderedReplacements(name);
 
-		for(OrderedReplacementNode orderedReplacement : orderedReplacements.getChildren()) {
+		for(OrderedReplacementNode orderedReplacement : orderedReplacements.getChildrenExact()) {
 			ors.orderedReplacements.add((OrderedReplacement)orderedReplacement.getIR());
 		}
 

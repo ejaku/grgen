@@ -94,7 +94,7 @@ public class TypeConstraintNode extends TypeExprNode
 	{
 		TypeExprConst cnst = new TypeExprConst();
 
-		for(InheritanceTypeNode n : operands.getChildren()) {
+		for(InheritanceTypeNode n : operands.getChildrenExact()) {
 			InheritanceType inh = n.checkIR(InheritanceType.class);
 			cnst.addOperand(inh);
 		}

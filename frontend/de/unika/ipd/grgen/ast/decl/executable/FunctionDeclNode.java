@@ -105,7 +105,7 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 	protected boolean checkLocal()
 	{
 		parameters = new CollectNode<DeclNode>();
-		for(BaseNode param : parametersUnresolved.getChildren()) {
+		for(BaseNode param : parametersUnresolved.getChildrenExact()) {
 			if(param instanceof ConnectionNode) {
 				ConnectionNode conn = (ConnectionNode)param;
 				parameters.addChild(conn.getEdge().getDecl());
@@ -119,7 +119,7 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 		}
 
 		parameterTypes = new Vector<TypeNode>();
-		for(DeclNode decl : parameters.getChildren()) {
+		for(DeclNode decl : parameters.getChildrenExact()) {
 			parameterTypes.add(decl.getDeclType());
 		}
 		boolean res = true;
@@ -167,7 +167,7 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 		setIR(function);
 
 		// add Params to the IR
-		for(DeclNode decl : parameters.getChildren()) {
+		for(DeclNode decl : parameters.getChildrenExact()) {
 			function.addParameter(decl.checkIR(Entity.class));
 		}
 
@@ -175,7 +175,7 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 		if(functionAuto != null) {
 			functionAuto.getStatements(this, function);
 		} else {
-			for(EvalStatementNode eval : evalStatements.getChildren()) {
+			for(EvalStatementNode eval : evalStatements.getChildrenExact()) {
 				function.addStatement(eval.checkIR(EvalStatement.class));
 			}
 		}

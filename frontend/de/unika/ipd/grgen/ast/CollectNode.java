@@ -49,7 +49,12 @@ public class CollectNode<T extends BaseNode> extends BaseNode
 
 	/** returns children of this node */
 	@Override
-	public Collection<T> getChildren()
+	public Collection<BaseNode> getChildren()
+	{
+		return new Vector<BaseNode>(children);
+	}
+
+	public Collection<T> getChildrenExact()
 	{
 		return children;
 	}

@@ -35,9 +35,14 @@ public class EvalStatementsNode extends BaseNode
 	}
 
 	@Override
-	public Collection<EvalStatementNode> getChildren()
+	public Collection<BaseNode> getChildren()
 	{
 		return evalStatements.getChildren();
+	}
+
+	public Collection<EvalStatementNode> getChildrenExact()
+	{
+		return evalStatements.getChildrenExact();
 	}
 
 	@Override
@@ -65,7 +70,7 @@ public class EvalStatementsNode extends BaseNode
 	public boolean noExecStatement()
 	{
 		boolean res = true;
-		for(EvalStatementNode evalStatement : evalStatements.getChildren()) {
+		for(EvalStatementNode evalStatement : evalStatements.getChildrenExact()) {
 			res &= evalStatement.noExecStatement(false);
 		}
 		return res;
@@ -82,7 +87,7 @@ public class EvalStatementsNode extends BaseNode
 
 		setIR(es);
 
-		for(EvalStatementNode evalStatement : evalStatements.getChildren()) {
+		for(EvalStatementNode evalStatement : evalStatements.getChildrenExact()) {
 			es.evalStatements.add(evalStatement.checkIR(EvalStatement.class));
 		}
 

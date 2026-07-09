@@ -51,7 +51,7 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 
 		EvalStatementNode last = null;
 		boolean returnPassed = false;
-		for(EvalStatementNode eval : evals.getChildren()) {
+		for(EvalStatementNode eval : evals.getChildrenExact()) {
 			if(returnPassed) {
 				eval.reportError("No statements allowed after a return statement (at the same nesting level; these statements would not be executed).");
 				res = false;
@@ -138,7 +138,7 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 		boolean allEndWithReturn = true;
 
 		EvalStatementNode last = null;
-		for(EvalStatementNode eval : condition.statements.getChildren()) {
+		for(EvalStatementNode eval : condition.statements.getChildrenExact()) {
 			last = eval;
 		}
 		if(!(last instanceof ReturnStatementNode)) {
@@ -150,7 +150,7 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 		}
 
 		last = null;
-		for(EvalStatementNode eval : condition.falseCaseStatements.getChildren()) {
+		for(EvalStatementNode eval : condition.falseCaseStatements.getChildrenExact()) {
 			last = eval;
 		}
 		if(!(last instanceof ReturnStatementNode)) {

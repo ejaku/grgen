@@ -134,11 +134,11 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 	private void replaceSubpatternReplacementsIntoOrderedReplacements()
 	{
 		Vector<SubpatternReplNode> subpatternReplsToDelete = new Vector<SubpatternReplNode>();
-		for(SubpatternReplNode subpatternRepl : subpatternRepls.getChildren()) {
-			for(OrderedReplacementsNode orderedRepls : orderedReplacements.getChildren()) {
-				if(!orderedRepls.getChildren().isEmpty()) {
+		for(SubpatternReplNode subpatternRepl : subpatternRepls.getChildrenExact()) {
+			for(OrderedReplacementsNode orderedRepls : orderedReplacements.getChildrenExact()) {
+				if(!orderedRepls.getChildrenExact().isEmpty()) {
 					Vector<OrderedReplacementNode> orderedReplsToDelete = new Vector<OrderedReplacementNode>();
-					Iterator<OrderedReplacementNode> subCand = orderedRepls.getChildren().iterator();
+					Iterator<OrderedReplacementNode> subCand = orderedRepls.getChildrenExact().iterator();
 					OrderedReplacementNode orderedRepl = subCand.next();
 					if(orderedRepl instanceof SubpatternReplNode) {
 						SubpatternReplNode orderedSubpatternRepl = (SubpatternReplNode)orderedRepl;
@@ -150,19 +150,19 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 							subpatternReplsToDelete.add(subpatternRepl);
 						}
 					}
-					orderedRepls.getChildren().removeAll(orderedReplsToDelete);
+					orderedRepls.getChildrenExact().removeAll(orderedReplsToDelete);
 				}
 			}
 		}
-		subpatternRepls.getChildren().removeAll(subpatternReplsToDelete);
-		for(int i = subpatternRepls.getChildren().size() - 1; i >= 0; --i) {
+		subpatternRepls.getChildrenExact().removeAll(subpatternReplsToDelete);
+		for(int i = subpatternRepls.getChildrenExact().size() - 1; i >= 0; --i) {
 			SubpatternReplNode subpatternRepl = subpatternRepls.get(i);
 			OrderedReplacementsNode orderedRepls = new OrderedReplacementsNode(subpatternRepl.getCoords(),
 					subpatternRepl.getSubpatternIdent().getIdent().toString());
 			orderedRepls.addChild(subpatternRepl);
 			orderedReplacements.addChildAtFront(orderedRepls);
 		}
-		subpatternRepls.getChildren().clear();
+		subpatternRepls.getChildrenExact().clear();
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 	boolean noExecStatementInEvalHere()
 	{
 		boolean result = true;
-		for(OrderedReplacementsNode orderedRepls : orderedReplacements.getChildren()) {
+		for(OrderedReplacementsNode orderedRepls : orderedReplacements.getChildrenExact()) {
 			result &= orderedRepls.noExecStatement();
 		}
 		return result;
@@ -232,8 +232,8 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 	protected boolean iteratedNotReferenced(String iterName)
 	{
 		boolean res = true;
-		for(EvalStatementsNode evalStatements : evals.getChildren()) {
-			for(EvalStatementNode evalStatement : evalStatements.getChildren()) {
+		for(EvalStatementsNode evalStatements : evals.getChildrenExact()) {
+			for(EvalStatementNode evalStatement : evalStatements.getChildrenExact()) {
 				res &= evalStatement.iteratedNotReferenced(iterName);
 			}
 		}
@@ -243,7 +243,7 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 	protected boolean iteratedNotReferencedInDefElementInitialization(String iterName)
 	{
 		boolean res = true;
-		for(VarDeclNode var : defVariablesToBeYieldedTo.getChildren()) {
+		for(VarDeclNode var : defVariablesToBeYieldedTo.getChildrenExact()) {
 			if(var.initialization != null)
 				res &= var.initialization.iteratedNotReferenced(iterName);
 		}
@@ -270,25 +270,25 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 		PatternGraphRhs patternGraph = new PatternGraphRhs(nameOfGraph);
 		patternGraph.setDirectlyNestingLHSGraph(directlyNestingLHSGraph.getPatternGraph());
 
-		for(ConnectionCharacter connection : connections.getChildren()) {
+		for(ConnectionCharacter connection : connections.getChildrenExact()) {
 			connection.addToGraph(patternGraph);
 		}
 
-		for(VarDeclNode var : defVariablesToBeYieldedTo.getChildren()) {
+		for(VarDeclNode var : defVariablesToBeYieldedTo.getChildrenExact()) {
 			patternGraph.addVariable(var.checkIR(Variable.class));
 		}
 
-		for(SubpatternUsageDeclNode subUsage : subpatterns.getChildren()) {
+		for(SubpatternUsageDeclNode subUsage : subpatterns.getChildrenExact()) {
 			patternGraph.addSubpatternUsage(subUsage.checkIR(SubpatternUsage.class));
 		}
 
-		for(OrderedReplacementsNode orderedRepls : orderedReplacements.getChildren()) {
+		for(OrderedReplacementsNode orderedRepls : orderedReplacements.getChildrenExact()) {
 			patternGraph.addOrderedReplacement((OrderedReplacements)orderedRepls.getIR());
 		}
 
 		// add subpattern usage connection elements only mentioned there to the IR
 		// (they're declared in an enclosing pattern graph and locally only show up in the subpattern usage connection)
-		for(OrderedReplacementsNode orderedRepls : orderedReplacements.getChildren()) {
+		for(OrderedReplacementsNode orderedRepls : orderedReplacements.getChildrenExact()) {
 			PatternGraphBuilder.addSubpatternReplacementUsageArguments(patternGraph, orderedRepls);
 		}
 
@@ -309,7 +309,7 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 			patternGraph.addEdgeIfNotYetContained(edge);
 		}
 
-		for(BaseNode imperativeStmt : imperativeStmts.getChildren()) {
+		for(BaseNode imperativeStmt : imperativeStmts.getChildrenExact()) {
 			patternGraph.addImperativeStmt((ImperativeStmt)imperativeStmt.getIR());
 		}
 
@@ -337,7 +337,7 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 	{
 		Collection<OrderedReplacements> ret = new LinkedList<OrderedReplacements>();
 
-		for(OrderedReplacementsNode orderedRepls : orderedReplacements.getChildren()) {
+		for(OrderedReplacementsNode orderedRepls : orderedReplacements.getChildrenExact()) {
 			ret.add(orderedRepls.checkIR(OrderedReplacements.class));
 		}
 
@@ -348,7 +348,7 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 	{
 		Collection<EvalStatements> ret = new LinkedList<EvalStatements>();
 
-		for(EvalStatementsNode evalStatements : evals.getChildren()) {
+		for(EvalStatementsNode evalStatements : evals.getChildrenExact()) {
 			ret.add(evalStatements.checkIR(EvalStatements.class));
 		}
 

@@ -67,7 +67,7 @@ public class MultiCallActionNode extends BaseNode
 	protected boolean resolveLocal()
 	{
 		matchClassFilterFunctions = new CollectNode<MatchTypeQualIdentNode>();
-		for(BaseNode matchClassFilterFunctionUnresolved : matchClassFilterFunctionsUnresolved.getChildren()) {
+		for(BaseNode matchClassFilterFunctionUnresolved : matchClassFilterFunctionsUnresolved.getChildrenExact()) {
 			matchClassFilterFunctions.addChild((MatchTypeQualIdentNode)matchClassFilterFunctionUnresolved);
 		}
 
@@ -87,12 +87,12 @@ public class MultiCallActionNode extends BaseNode
 		boolean res = true;
 
 		// all actions must implement the match classes of the employed filters
-		for(MatchTypeQualIdentNode matchClassFilterReference : matchClassFilterFunctions.getChildren()) {
+		for(MatchTypeQualIdentNode matchClassFilterReference : matchClassFilterFunctions.getChildrenExact()) {
 			MatchClassFilterFunctionDeclNode matchClassFilter =
 					(MatchClassFilterFunctionDeclNode)matchClassFilterReference.getMember();
 			String matchClassReferencedByFilterFunction = matchClassFilter.matchType.getIdentNode().toString();
 
-			for(CallActionNode actionCall : actionCalls.getChildren()) {
+			for(CallActionNode actionCall : actionCalls.getChildrenExact()) {
 				checkWhetherCalledActionImplementsMatchClass(matchClassReferencedByFilterFunction, matchClassFilter,
 						actionCall);
 			}

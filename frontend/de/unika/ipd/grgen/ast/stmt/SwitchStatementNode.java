@@ -90,7 +90,7 @@ public class SwitchStatementNode extends EvalStatementNode
 			return false;
 		}
 		boolean defaultVisited = false;
-		for(CaseStatementNode caseStmt : cases.getChildren()) {
+		for(CaseStatementNode caseStmt : cases.getChildrenExact()) {
 			ExprNode caseConstantExpr = caseStmt.caseConstantExpr;
 			if(caseConstantExpr != null) {
 				// just to be sure, the syntax as-such is not allowing non-constants 
@@ -126,7 +126,7 @@ public class SwitchStatementNode extends EvalStatementNode
 	{
 		switchExpr = switchExpr.evaluate();
 		SwitchStatement switchStmt = new SwitchStatement(switchExpr.checkIR(Expression.class));
-		for(EvalStatementNode statement : cases.getChildren()) {
+		for(EvalStatementNode statement : cases.getChildrenExact()) {
 			switchStmt.addStatement(statement.checkIR(CaseStatement.class));
 		}
 		return switchStmt;

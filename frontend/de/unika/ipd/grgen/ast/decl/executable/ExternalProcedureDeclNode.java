@@ -109,10 +109,10 @@ public class ExternalProcedureDeclNode extends ProcedureDeclBaseNode
 		ExternalProcedure externalProc = isMethod
 				? new ExternalProcedureMethod(getIdentNode().toString(), getIdentNode().getIdent())
 				: new ExternalProcedure(getIdentNode().toString(), getIdentNode().getIdent());
-		for(TypeNode retType : resultTypesCollectNode.getChildren()) {
+		for(TypeNode retType : resultTypesCollectNode.getChildrenExact()) {
 			externalProc.addReturnType(retType.checkIR(Type.class));
 		}
-		for(TypeNode param : parameterTypesCollectNode.getChildren()) {
+		for(TypeNode param : parameterTypesCollectNode.getChildrenExact()) {
 			externalProc.addParameterType(param.checkIR(Type.class));
 		}
 		return externalProc;

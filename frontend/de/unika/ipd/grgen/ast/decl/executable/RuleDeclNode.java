@@ -146,7 +146,7 @@ public class RuleDeclNode extends ActionDeclNode
 		Set<ConstraintDeclNode> deletedElements = right.getElementsToDelete(pattern);
 		Set<ConstraintDeclNode> maybeDeletedElements = right.getMaybeDeletedElements(pattern);
 
-		for(ExprNode expr : right.patternGraph.returns.getChildren()) {
+		for(ExprNode expr : right.patternGraph.returns.getChildrenExact()) {
 			HashSet<ConstraintDeclNode> potentiallyResultingElements = new HashSet<ConstraintDeclNode>();
 			expr.getPotentiallyResultingElements(potentiallyResultingElements);
 			for(ConstraintDeclNode potentiallyResultingElement : potentiallyResultingElements) {
@@ -196,7 +196,7 @@ public class RuleDeclNode extends ActionDeclNode
 
 		boolean valid = true;
 
-		for(ExprNode expr : right.patternGraph.returns.getChildren()) {
+		for(ExprNode expr : right.patternGraph.returns.getChildrenExact()) {
 			if(!(expr instanceof DeclExprNode))
 				continue;
 
@@ -324,7 +324,7 @@ public class RuleDeclNode extends ActionDeclNode
 		Set<ConstraintDeclNode> delete = right.getElementsToDelete(pattern);
 		Set<ConstraintDeclNode> maybeDeleted = right.getMaybeDeletedElements(pattern);
 
-		for(BaseNode imperativeStmt : right.patternGraph.imperativeStmts.getChildren()) {
+		for(BaseNode imperativeStmt : right.patternGraph.imperativeStmts.getChildrenExact()) {
 			if(!(imperativeStmt instanceof EmitNode))
 				continue;
 
@@ -420,7 +420,7 @@ public class RuleDeclNode extends ActionDeclNode
 			this.right.reportError("Named rewrite parts are not allowed in rules (only in (sub)patterns).");
 
 		// check if parameters only exists for subpatterns
-		if(right.params.getChildren().size() > 0)
+		if(right.params.getChildrenExact().size() > 0)
 			this.right.reportError("Parameters for the rewrite part are not allowed in rules (only in (sub)patterns).");
 
 		boolean noReturnInPatternOk = true;
@@ -475,7 +475,7 @@ public class RuleDeclNode extends ActionDeclNode
 
 	public VarDeclNode tryGetVar(IdentNode ident)
 	{
-		for(VarDeclNode var : pattern.defVariablesToBeYieldedTo.getChildren()) {
+		for(VarDeclNode var : pattern.defVariablesToBeYieldedTo.getChildrenExact()) {
 			if(var.ident.toString().equals(ident.toString()))
 				return var;
 		}
@@ -486,7 +486,7 @@ public class RuleDeclNode extends ActionDeclNode
 			if(var.ident.toString().equals(ident.toString()))
 				return var;
 		}
-		for(VarDeclNode var : right.patternGraph.defVariablesToBeYieldedTo.getChildren()) {
+		for(VarDeclNode var : right.patternGraph.defVariablesToBeYieldedTo.getChildrenExact()) {
 			if(var.ident.toString().equals(ident.toString()))
 				return var;
 		}
@@ -534,7 +534,7 @@ public class RuleDeclNode extends ActionDeclNode
 
 		rule.initialize(left, right);
 
-		for(DefinedMatchTypeNode implementedMatchClassNode : implementedMatchTypes.getChildren()) {
+		for(DefinedMatchTypeNode implementedMatchClassNode : implementedMatchTypes.getChildrenExact()) {
 			DefinedMatchType implementedMatchClass = implementedMatchClassNode.checkIR(DefinedMatchType.class);
 			rule.addImplementedMatchClass(implementedMatchClass);
 		}

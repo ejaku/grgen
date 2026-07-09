@@ -139,7 +139,7 @@ public class ContainerAccumulationYieldNode extends NestingStatementNode
 		ContainerAccumulationYield cay = new ContainerAccumulationYield(iterationVariable.checkIR(Variable.class),
 				iterationIndex != null ? iterationIndex.checkIR(Variable.class) : null,
 				container.checkIR(Variable.class));
-		for(EvalStatementNode accumulationStatement : statements.getChildren()) {
+		for(EvalStatementNode accumulationStatement : statements.getChildrenExact()) {
 			cay.addStatement(accumulationStatement.checkIR(EvalStatement.class));
 		}
 		return cay;

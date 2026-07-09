@@ -116,13 +116,13 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 	
 		boolean result = true;
 
-		if(arguments.getChildren().size() != 2) {
+		if(arguments.getChildrenExact().size() != 2) {
 			reportError(functionName() + " must have 2 arguments.");
 			result = false;
 		}
 
 		int i = 1;
-		for(VarDeclNode argument : arguments.getChildren()) {
+		for(VarDeclNode argument : arguments.getChildrenExact()) {
 			if(!(argument.getDeclType() instanceof ArrayTypeNode)) {
 				reportError("The " + i + ". argument to " + functionName() + "() must be an array.");
 				result = false;
@@ -192,7 +192,7 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 		for(DeclNode resultMember : resultMatchType.getEntities()) {
 			String resultMemberName = resultMember.getIdentNode().toString();
 			TypeNode resultMemberType = resultMember.getDeclType();
-			for(VarDeclNode argument : arguments.getChildren()) {
+			for(VarDeclNode argument : arguments.getChildrenExact()) {
 				ArrayTypeNode argumentType = (ArrayTypeNode)argument.getDeclType();
 				MatchTypeNode argumentMatchType = (MatchTypeNode)argumentType.getElementType();
 				DeclNode argumentMember = argumentMatchType.tryGetMember(resultMemberName);

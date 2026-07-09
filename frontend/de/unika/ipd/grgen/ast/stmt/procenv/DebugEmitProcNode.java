@@ -40,7 +40,7 @@ public class DebugEmitProcNode extends DebugProcNode
 	protected IR constructIR()
 	{
 		Vector<Expression> expressions = new Vector<Expression>();
-		for(ExprNode expr : exprs.getChildren()) {
+		for(ExprNode expr : exprs.getChildrenExact()) {
 			expr = expr.evaluate();
 			expressions.add(expr.checkIR(Expression.class));
 		}

@@ -52,7 +52,7 @@ public class FunctionOrExternalFunctionInvocationExprNode extends FunctionInvoca
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren()
+	public Collection<BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(functionOrExternalFunctionUnresolved, functionDecl, externalFunctionDecl));
@@ -112,7 +112,7 @@ public class FunctionOrExternalFunctionInvocationExprNode extends FunctionInvoca
 			FunctionInvocationExpr fi = new FunctionInvocationExpr(
 					functionDecl.resultType.checkIR(Type.class),
 					functionDecl.checkIR(Function.class));
-			for(ExprNode expr : arguments.getChildren()) {
+			for(ExprNode expr : arguments.getChildrenExact()) {
 				expr = expr.evaluate();
 				fi.addArgument(expr.checkIR(Expression.class));
 			}
@@ -121,7 +121,7 @@ public class FunctionOrExternalFunctionInvocationExprNode extends FunctionInvoca
 			ExternalFunctionInvocationExpr efi = new ExternalFunctionInvocationExpr(
 					externalFunctionDecl.resultType.checkIR(Type.class),
 					externalFunctionDecl.checkIR(ExternalFunction.class));
-			for(ExprNode expr : arguments.getChildren()) {
+			for(ExprNode expr : arguments.getChildrenExact()) {
 				expr = expr.evaluate();
 				efi.addArgument(expr.checkIR(Expression.class));
 			}

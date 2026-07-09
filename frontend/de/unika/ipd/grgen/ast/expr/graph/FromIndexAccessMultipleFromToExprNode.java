@@ -78,7 +78,7 @@ public abstract class FromIndexAccessMultipleFromToExprNode extends BuiltinFunct
 		boolean successfullyChecked = true;
 		
 		TypeNode expectedEntityType = getRoot().getDecl().getDeclType();
-		for(FromIndexAccessFromToPartExprNode indexAccessExpr : indexAccessExprs.getChildren()) {
+		for(FromIndexAccessFromToPartExprNode indexAccessExpr : indexAccessExprs.getChildrenExact()) {
 			TypeNode entityType = indexAccessExpr.index.getType();
 			if(!entityType.isCompatibleTo(expectedEntityType)) {
 				successfullyChecked = false; // the index type is checked with the parts, and an error is emitted there - we just skip the warning messages here in case of an index type mismatch
@@ -88,11 +88,11 @@ public abstract class FromIndexAccessMultipleFromToExprNode extends BuiltinFunct
 		if(!successfullyChecked)
 			return false;
 		
-		for(int i = 0; i < indexAccessExprs.getChildren().size(); ++i) {
+		for(int i = 0; i < indexAccessExprs.getChildrenExact().size(); ++i) {
 			FromIndexAccessFromToPartExprNode indexAccessExpr = indexAccessExprs.get(i);
 			InheritanceTypeNode entityType = indexAccessExpr.index.getType();
 
-			for(int j = i + 1; j < indexAccessExprs.getChildren().size(); ++j) {
+			for(int j = i + 1; j < indexAccessExprs.getChildrenExact().size(); ++j) {
 				FromIndexAccessFromToPartExprNode indexAccessExpr2 = indexAccessExprs.get(j);
 				InheritanceTypeNode entityType2 = indexAccessExpr2.index.getType();
 				
@@ -106,7 +106,7 @@ public abstract class FromIndexAccessMultipleFromToExprNode extends BuiltinFunct
 		
 		int indexShift = 0;
 		HashSet<IndexDeclNode> indicesUsed = new HashSet<IndexDeclNode>();
-		for(FromIndexAccessFromToPartExprNode indexAccessExpr : indexAccessExprs.getChildren()) {
+		for(FromIndexAccessFromToPartExprNode indexAccessExpr : indexAccessExprs.getChildrenExact()) {
 			int indexArgumentNumber = 1 + indexShift;
 			if(indicesUsed.contains(indexAccessExpr.index)) {
 				reportWarning("The function " + shortSignature() + " uses as " + indexArgumentNumber + ". argument (index) the index " + indexAccessExpr.index.toStringWithDeclarationCoords()
@@ -128,7 +128,7 @@ public abstract class FromIndexAccessMultipleFromToExprNode extends BuiltinFunct
 	{
 		StringBuilder sb = new StringBuilder();
 		boolean first = true;
-		for(@SuppressWarnings("unused") FromIndexAccessFromToExprNode indexAccessExpr : indexAccessExprs.getChildren())
+		for(@SuppressWarnings("unused") FromIndexAccessFromToExprNode indexAccessExpr : indexAccessExprs.getChildrenExact())
 		{
 			if(first) {
 				first = false;

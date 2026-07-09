@@ -373,8 +373,8 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	// Children, Parents, AST structure handling
 	//////////////////////////////////////////////////////////////////////////////////////////
 
-	/** returns children of this node */
-	public abstract Collection<? extends BaseNode> getChildren();
+	/** returns children of this node (only for reading) */
+	public abstract Collection<BaseNode> getChildren();
 
 	/** returns names of the children, same order as in getChildren */
 	protected abstract Collection<String> getChildrenNames();
@@ -1001,7 +1001,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 		TypeDeclNode rootType = null;
 		ModelNode model = ((UnitNode)root).getStdModel();
 		assert model.isResolved();
-		Collection<TypeDeclNode> types = model.decls.getChildren();
+		Collection<TypeDeclNode> types = model.decls.getChildrenExact();
 
 		for(TypeDeclNode candidate : types) {
 			String name = candidate.ident.getSymbol().getText();

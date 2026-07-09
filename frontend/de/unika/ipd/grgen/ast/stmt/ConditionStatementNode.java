@@ -102,11 +102,11 @@ public class ConditionStatementNode extends NestingStatementNode
 	{
 		conditionExpr = conditionExpr.evaluate();
 		ConditionStatement cond = new ConditionStatement(conditionExpr.checkIR(Expression.class));
-		for(EvalStatementNode trueCaseStatement : statements.getChildren()) {
+		for(EvalStatementNode trueCaseStatement : statements.getChildrenExact()) {
 			cond.addStatement(trueCaseStatement.checkIR(EvalStatement.class));
 		}
 		if(falseCaseStatements != null) {
-			for(EvalStatementNode falseCaseStatement : falseCaseStatements.getChildren()) {
+			for(EvalStatementNode falseCaseStatement : falseCaseStatements.getChildrenExact()) {
 				cond.addFalseCaseStatement(falseCaseStatement.checkIR(EvalStatement.class));
 			}
 		}

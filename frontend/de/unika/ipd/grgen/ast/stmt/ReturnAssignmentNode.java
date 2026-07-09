@@ -154,7 +154,7 @@ public class ReturnAssignmentNode extends EvalStatementNode
 		} else {
 			retAssign = new ReturnAssignment(procedureMethod.checkIR(ProcedureOrBuiltinProcedureInvocationBase.class));
 		}
-		for(EvalStatementNode target : targets.getChildren()) {
+		for(EvalStatementNode target : targets.getChildrenExact()) {
 			retAssign.addAssignment(target.checkIR(AssignmentBase.class));
 		}
 		return retAssign;

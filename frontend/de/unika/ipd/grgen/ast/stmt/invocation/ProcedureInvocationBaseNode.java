@@ -41,7 +41,7 @@ public abstract class ProcedureInvocationBaseNode extends ProcedureOrBuiltinProc
 
 		// check if the number of parameters are correct
 		int expected = pb.getParameterTypes().size();
-		int actual = arguments.getChildren().size();
+		int actual = arguments.getChildrenExact().size();
 		if(expected != actual) {
 			unresolved.reportError("The procedure " + (isMethod ? "method " : "") + procedureName
 					+ " expects " + expected + " arguments (given are " + actual + " arguments).");

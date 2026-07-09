@@ -115,7 +115,7 @@ public class IteratedFilteringNode extends EvalStatementNode
 		IteratedFiltering iteratedFiltering = new IteratedFiltering("iterated filtering",
 				action != null ? action.checkIR(Rule.class) : subpattern.checkIR(Rule.class),
 				iterated.checkIR(Rule.class));
-		for(FilterInvocationBaseNode filter : filters.getChildren()) {
+		for(FilterInvocationBaseNode filter : filters.getChildrenExact()) {
 			iteratedFiltering.addFilterInvocation(filter.checkIR(FilterInvocationBase.class));
 		}
 		return iteratedFiltering;

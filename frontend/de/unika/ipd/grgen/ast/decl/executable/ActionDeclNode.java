@@ -105,7 +105,7 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 	@Override
 	protected boolean resolveLocal()
 	{
-		for(IdentNode mtid : implementedMatchTypesUnresolved.getChildren()) {
+		for(IdentNode mtid : implementedMatchTypesUnresolved.getChildrenExact()) {
 			if(!(mtid instanceof PackageIdentNode)) {
 				fixupDefinition(mtid, mtid.getScope());
 			}
@@ -220,7 +220,7 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 	{
 		boolean isOk = true;
 
-		for(DefinedMatchTypeNode matchType : implementedMatchTypes.getChildren()) {
+		for(DefinedMatchTypeNode matchType : implementedMatchTypes.getChildrenExact()) {
 			isOk &= checkMatchTypeImplemented(matchType);
 		}
 
@@ -248,7 +248,7 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 		}
 
 		HashMap<String, VarDeclNode> knownVariables = new HashMap<String, VarDeclNode>();
-		for(VarDeclNode var : pattern.getDefVariablesToBeYieldedTo().getChildren()) {
+		for(VarDeclNode var : pattern.getDefVariablesToBeYieldedTo().getChildrenExact()) {
 			knownVariables.put(var.getIdentNode().toString(), var);
 		}
 		for(DeclNode varCand : pattern.getParamDecls()) {
@@ -386,7 +386,7 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 
 	public Collection<DefinedMatchTypeNode> getImplementedMatchClasses()
 	{
-		return implementedMatchTypes.getChildren();
+		return implementedMatchTypes.getChildrenExact();
 	}
 
 	protected void constructIRaux(MatchingAction constructedMatchingAction, CollectNode<ExprNode> aReturns)
@@ -395,7 +395,7 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 		addParams(constructedMatchingAction);
 
 		// add Return-Params to the IR
-		for(ExprNode aReturnAST : aReturns.getChildren()) {
+		for(ExprNode aReturnAST : aReturns.getChildrenExact()) {
 			ExprNode evaluatedReturn = aReturnAST.evaluate();
 			Expression aReturn = evaluatedReturn.checkIR(Expression.class);
 			// actual return-parameter

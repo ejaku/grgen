@@ -55,7 +55,7 @@ public class ProcedureMethodInvocationNode extends ProcedureInvocationBaseNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren()
+	public Collection<BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(ownerUnresolved, owner));
@@ -163,11 +163,11 @@ public class ProcedureMethodInvocationNode extends ProcedureInvocationBaseNode
 	{
 		ProcedureMethodInvocation pmi = new ProcedureMethodInvocation(owner.checkIR(Entity.class),
 				procedureDecl.checkIR(Procedure.class));
-		for(ExprNode expr : arguments.getChildren()) {
+		for(ExprNode expr : arguments.getChildrenExact()) {
 			expr = expr.evaluate();
 			pmi.addArgument(expr.checkIR(Expression.class));
 		}
-		for(TypeNode type : procedureDecl.resultTypesCollectNode.getChildren()) {
+		for(TypeNode type : procedureDecl.resultTypesCollectNode.getChildrenExact()) {
 			pmi.addReturnType(type.checkIR(Type.class));
 		}
 		return pmi;

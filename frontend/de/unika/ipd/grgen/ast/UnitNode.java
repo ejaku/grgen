@@ -278,45 +278,45 @@ public class UnitNode extends BaseNode
 	{
 		Checker modelChecker = new CollectChecker(new SimpleChecker(ModelNode.class));
 		boolean res = modelChecker.check(models, error);
-		for(ModelNode model : models.getChildren()) {
+		for(ModelNode model : models.getChildrenExact()) {
 			res = checkModelTypes(res, model.getTypeDecls());
-			for(ModelNode usedModel : model.getUsedModels().getChildren()) {
+			for(ModelNode usedModel : model.getUsedModels().getChildrenExact()) {
 				res = checkModelTypes(res, usedModel.getTypeDecls());
-				for(TypeDeclNode package_ : usedModel.getPackages().getChildren()) {
+				for(TypeDeclNode package_ : usedModel.getPackages().getChildrenExact()) {
 					PackageTypeNode packageType = (PackageTypeNode)package_.getDeclType();
 					res = checkModelTypes(res, packageType.getTypeDecls());
 				}
 			}
-			for(TypeDeclNode package_ : model.getPackages().getChildren()) {
+			for(TypeDeclNode package_ : model.getPackages().getChildrenExact()) {
 				PackageTypeNode packageType = (PackageTypeNode)package_.getDeclType();
 				res = checkModelTypes(res, packageType.getTypeDecls());
 			}
 		}
-		for(SubpatternDeclNode subpattern : subpatterns.getChildren()) {
+		for(SubpatternDeclNode subpattern : subpatterns.getChildrenExact()) {
 			res &= checkStatementsLHS(subpattern, subpattern.pattern);
 			if(subpattern.right != null)
 				res &= checkStatementsRHS(subpattern, subpattern.right.patternGraph);
 		}
-		for(ActionDeclNode action : actions.getChildren()) {
+		for(ActionDeclNode action : actions.getChildrenExact()) {
 			res &= checkStatementsLHS(action, action.pattern);
 			if(action instanceof RuleDeclNode) {
 				RuleDeclNode rule = (RuleDeclNode)action;
 				res &= checkStatementsRHS(action, rule.right.patternGraph);
 			}
 		}
-		for(FilterFunctionDeclNode filterFunction : filterFunctions.getChildren()) {
+		for(FilterFunctionDeclNode filterFunction : filterFunctions.getChildrenExact()) {
 			if(filterFunction.evalStatements != null) // otherwise external filter function without statements
 				res &= EvalStatementNode.checkStatements(true, filterFunction, null, filterFunction.evalStatements, true);
 		}
-		for(MatchClassFilterFunctionDeclNode matchClassFilterFunction : matchClassFilterFunctions.getChildren()) {
+		for(MatchClassFilterFunctionDeclNode matchClassFilterFunction : matchClassFilterFunctions.getChildrenExact()) {
 			if(matchClassFilterFunction.evalStatements != null) // otherwise external filter function without statements
 				res &= EvalStatementNode.checkStatements(true, matchClassFilterFunction, null,
 						matchClassFilterFunction.evalStatements, true);
 		}
-		for(FunctionDeclNode function : functions.getChildren()) {
+		for(FunctionDeclNode function : functions.getChildrenExact()) {
 			res &= EvalStatementNode.checkStatements(true, function, null, function.evalStatements, true);
 		}
-		for(ProcedureDeclNode procedure : procedures.getChildren()) {
+		for(ProcedureDeclNode procedure : procedures.getChildrenExact()) {
 			res &= EvalStatementNode.checkStatements(false, procedure, null, procedure.evalStatements, true);
 		}
 		return res;
@@ -324,7 +324,7 @@ public class UnitNode extends BaseNode
 
 	private static boolean checkModelTypes(boolean res, CollectNode<TypeDeclNode> typeDecls)
 	{
-		for(TypeDeclNode typeDecl : typeDecls.getChildren()) {
+		for(TypeDeclNode typeDecl : typeDecls.getChildrenExact()) {
 			DeclaredTypeNode declType = typeDecl.getDeclType();
 			if(declType instanceof InheritanceTypeNode) {
 				InheritanceTypeNode inhType = (InheritanceTypeNode)declType;
@@ -339,24 +339,24 @@ public class UnitNode extends BaseNode
 		boolean res = true;
 
 		// traverse graph structure
-		for(AlternativeDeclNode alt : curPattern.alts.getChildren()) {
-			for(AlternativeCaseDeclNode altCase : alt.getChildren()) {
+		for(AlternativeDeclNode alt : curPattern.alts.getChildrenExact()) {
+			for(AlternativeCaseDeclNode altCase : alt.getChildrenExact()) {
 				res &= checkStatementsLHS(root, altCase.pattern);
 				if(altCase.right != null)
 					res &= checkStatementsRHS(root, altCase.right.patternGraph);
 			}
 		}
-		for(IteratedDeclNode iter : curPattern.iters.getChildren()) {
+		for(IteratedDeclNode iter : curPattern.iters.getChildrenExact()) {
 			res &= checkStatementsLHS(root, iter.pattern);
 			if(iter.right != null)
 				res &= checkStatementsRHS(root, iter.right.patternGraph);
 		}
-		for(PatternGraphLhsNode idpt : curPattern.idpts.getChildren()) {
+		for(PatternGraphLhsNode idpt : curPattern.idpts.getChildrenExact()) {
 			res &= checkStatementsLHS(root, idpt);
 		}
 
 		// spawn checking computation statement structure
-		for(EvalStatementsNode yields : curPattern.yields.getChildren()) {
+		for(EvalStatementsNode yields : curPattern.yields.getChildrenExact()) {
 			res &= EvalStatementNode.checkStatements(true, root, null, yields.evalStatements, true);
 		}
 
@@ -368,7 +368,7 @@ public class UnitNode extends BaseNode
 		boolean res = true;
 
 		// spawn checking computation statement structure
-		for(EvalStatementsNode evals : curGraph.evals.getChildren()) {
+		for(EvalStatementsNode evals : curGraph.evals.getChildrenExact()) {
 			res &= EvalStatementNode.checkStatements(false, root, null, evals.evalStatements, true);
 		}
 
@@ -394,53 +394,53 @@ public class UnitNode extends BaseNode
 	{
 		Unit res = new Unit(unitname, filename);
 
-		for(ModelNode model : models.getChildren()) {
+		for(ModelNode model : models.getChildrenExact()) {
 			Model modelIR = model.getModel();
 			res.addModel(modelIR);
 		}
 
-		for(SubpatternDeclNode subpattern : subpatterns.getChildren()) {
+		for(SubpatternDeclNode subpattern : subpatterns.getChildrenExact()) {
 			Rule rule = subpattern.getMatcher();
 			res.addSubpatternRule(rule);
 		}
 
-		for(ActionDeclNode action : actions.getChildren()) {
+		for(ActionDeclNode action : actions.getChildrenExact()) {
 			Rule rule = action.getMatcher();
 			res.addActionRule(rule);
 		}
 
-		for(FilterFunctionDeclNode filter : filterFunctions.getChildren()) {
+		for(FilterFunctionDeclNode filter : filterFunctions.getChildrenExact()) {
 			FilterFunction filterIR = filter.getFilterFunction();
 			res.addFilterFunction(filterIR);
 		}
 
-		for(TypeDeclNode matchClass : matchClassDecls.getChildren()) {
+		for(TypeDeclNode matchClass : matchClassDecls.getChildrenExact()) {
 			DefinedMatchTypeNode matchClassDecl = (DefinedMatchTypeNode)matchClass.getDeclType();
 			DefinedMatchType matchClassIR = matchClassDecl.getDefinedMatchType();
 			res.addMatchClass(matchClassIR);
 		}
 
-		for(MatchClassFilterFunctionDeclNode matchClassFilter : matchClassFilterFunctions.getChildren()) {
+		for(MatchClassFilterFunctionDeclNode matchClassFilter : matchClassFilterFunctions.getChildrenExact()) {
 			MatchClassFilterFunction matchClassFilterIR = matchClassFilter.getMatchClassFilterFunction();
 			res.addMatchClassFilterFunction(matchClassFilterIR);
 		}
 
-		for(FunctionDeclNode function : functions.getChildren()) {
+		for(FunctionDeclNode function : functions.getChildrenExact()) {
 			Function functionIR = function.getFunction();
 			res.addFunction(functionIR);
 		}
 
-		for(ProcedureDeclNode procedure : procedures.getChildren()) {
+		for(ProcedureDeclNode procedure : procedures.getChildrenExact()) {
 			Procedure procedureIR = procedure.getProcedure();
 			res.addProcedure(procedureIR);
 		}
 
-		for(SequenceDeclNode sequence : sequences.getChildren()) {
+		for(SequenceDeclNode sequence : sequences.getChildrenExact()) {
 			Sequence sequenceIR = sequence.getSequence();
 			res.addSequence(sequenceIR);
 		}
 
-		for(TypeDeclNode packageType : packages.getChildren()) {
+		for(TypeDeclNode packageType : packages.getChildrenExact()) {
 			PackageActionType packageActionType = (PackageActionType)packageType.getDeclType().getType();
 			res.addPackage(packageActionType);
 		}

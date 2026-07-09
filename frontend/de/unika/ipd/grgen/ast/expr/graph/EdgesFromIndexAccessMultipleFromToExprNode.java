@@ -43,7 +43,7 @@ public class EdgesFromIndexAccessMultipleFromToExprNode extends FromIndexAccessM
 	protected IR constructIR()
 	{
 		Vector<IndexAccessOrdering> indexAccesses = new Vector<IndexAccessOrdering>();
-		for(FromIndexAccessFromToPartExprNode indexAccessExpr : indexAccessExprs.getChildren())
+		for(FromIndexAccessFromToPartExprNode indexAccessExpr : indexAccessExprs.getChildrenExact())
 		{
 			indexAccesses.add(indexAccessExpr.constructIRPart());
 		}

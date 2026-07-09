@@ -86,7 +86,7 @@ public class ArrayInitNode extends ContainerSingleElementInitNode
 
 	protected ArrayTypeNode createArrayType()
 	{
-		TypeNode itemTypeNode = containerItems.getChildren().iterator().next().getType();
+		TypeNode itemTypeNode = containerItems.getChildrenExact().iterator().next().getType();
 		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdentNode();
 		return new ArrayTypeNode(itemTypeIdent);
 	}

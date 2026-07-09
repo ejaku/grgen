@@ -62,7 +62,7 @@ public class ImplicitNegComputer
 				patternGraph.reportWarning("The keyword \"dangling\" is redundant for exact patterns");
 			}
 
-			for(ExactNode exact : patternGraph.exacts.getChildren()) {
+			for(ExactNode exact : patternGraph.exacts.getChildrenExact()) {
 				exact.reportWarning("Exact statement occurs in exact pattern");
 			}
 
@@ -73,7 +73,7 @@ public class ImplicitNegComputer
 			Set<ConstraintDeclNode> deletedNodes = patternGraph.getRule().getDeletedElements();
 			nodesRequireNeg(getDpoPatternNodes(deletedNodes));
 
-			for(ExactNode exact : patternGraph.exacts.getChildren()) {
+			for(ExactNode exact : patternGraph.exacts.getChildrenExact()) {
 				for(NodeDeclNode exactNode : exact.getExactNodes()) {
 					if(deletedNodes.contains(exactNode)) {
 						exact.reportWarning("Exact statement for " + exactNode.getKind() + " "
@@ -84,8 +84,8 @@ public class ImplicitNegComputer
 			}
 		}
 
-		Map<NodeDeclNode, Integer> generatedExactNodes = new LinkedHashMap<NodeDeclNode, Integer>();		
-		for(int i = 0; i < patternGraph.exacts.getChildren().size(); i++) { // exact Statements
+		Map<NodeDeclNode, Integer> generatedExactNodes = new LinkedHashMap<NodeDeclNode, Integer>();
+		for(int i = 0; i < patternGraph.exacts.getChildrenExact().size(); i++) { // exact Statements
 			ExactNode exact = patternGraph.exacts.get(i);
 			for(NodeDeclNode exactNode : exact.getExactNodes()) {
 				// coords of occurrence are not available
@@ -148,7 +148,7 @@ public class ImplicitNegComputer
 		LinkedList<PatternGraphLhs> implicitNegGraphs = new LinkedList<PatternGraphLhs>();
 
 		// add existing edges to the corresponding sets
-		for(ConnectionCharacter connection : patternGraph.connections.getChildren()) {
+		for(ConnectionCharacter connection : patternGraph.connections.getChildrenExact()) {
 			if(!(connection instanceof ConnectionNode))
 				continue;
 			

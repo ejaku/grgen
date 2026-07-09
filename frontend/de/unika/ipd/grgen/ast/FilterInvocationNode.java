@@ -46,7 +46,7 @@ public class FilterInvocationNode extends FilterInvocationBaseNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren()
+	public Collection<BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(iteratedUnresolved, iterated));
@@ -108,7 +108,7 @@ public class FilterInvocationNode extends FilterInvocationBaseNode
 			filterInvocation = new FilterInvocation(filterUnresolved.getIdent().toString(), filterUnresolved.getIdent(),
 					filterAutoSupplied.checkIR(FilterAutoSupplied.class), iterated.checkIR(Rule.class));
 		}
-		for(ExprNode expr : arguments.getChildren()) {
+		for(ExprNode expr : arguments.getChildrenExact()) {
 			expr = expr.evaluate();
 			filterInvocation.addArgument(expr.checkIR(Expression.class));
 		}

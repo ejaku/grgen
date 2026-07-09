@@ -328,7 +328,7 @@ public abstract class ParserEnvironment extends Base
 
 	public IdentNode getMatchTypeChild(IdentNode actionOrSubpattern, IdentNode iterated)
 	{
-		for(IdentNode matchTypeChild : matchTypeChilds.getChildren())
+		for(IdentNode matchTypeChild : matchTypeChilds.getChildrenExact())
 		{
 			String iteratedMatchType = "match<" + actionOrSubpattern.getSymbol().getText() + "." + iterated.getSymbol().getText() + ">";
 			if(matchTypeChild.getSymbol().getText().equals(iteratedMatchType))
@@ -631,7 +631,7 @@ public abstract class ParserEnvironment extends Base
 
 	public static boolean isGlobalFunction(Token pack, Token i, CollectNode<ExprNode> params)
 	{
-		return isGlobalFunction(i.getText(), params.getChildren().size());
+		return isGlobalFunction(i.getText(), params.getChildrenExact().size());
 	}
 
 	public static boolean isGlobalFunction(String functionName, int numParams)
@@ -1069,7 +1069,7 @@ public abstract class ParserEnvironment extends Base
 
 	public static boolean isGlobalProcedure(Token pack, Token i, CollectNode<ExprNode> params)
 	{
-		return isGlobalProcedure(i.getText(), params.getChildren().size());
+		return isGlobalProcedure(i.getText(), params.getChildrenExact().size());
 	}
 
 	public static boolean isGlobalProcedure(String procedureName, int numParams)

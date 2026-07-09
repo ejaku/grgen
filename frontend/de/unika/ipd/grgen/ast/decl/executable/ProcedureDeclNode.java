@@ -92,7 +92,7 @@ public class ProcedureDeclNode extends ProcedureDeclBaseNode
 	protected boolean checkLocal()
 	{
 		parameters = new CollectNode<DeclNode>();
-		for(BaseNode param : parametersUnresolved.getChildren()) {
+		for(BaseNode param : parametersUnresolved.getChildrenExact()) {
 			if(param instanceof ConnectionNode) {
 				ConnectionNode conn = (ConnectionNode)param;
 				parameters.addChild(conn.getEdge().getDecl());
@@ -106,7 +106,7 @@ public class ProcedureDeclNode extends ProcedureDeclBaseNode
 		}
 
 		parameterTypes = new Vector<TypeNode>();
-		for(DeclNode decl : parameters.getChildren()) {
+		for(DeclNode decl : parameters.getChildrenExact()) {
 			parameterTypes.add(decl.getDeclType());
 		}
 		boolean res = true;
@@ -149,17 +149,17 @@ public class ProcedureDeclNode extends ProcedureDeclBaseNode
 		setIR(procedure);
 
 		// add return types to the IR
-		for(TypeNode retType : resultTypesCollectNode.getChildren()) {
+		for(TypeNode retType : resultTypesCollectNode.getChildrenExact()) {
 			procedure.addReturnType(retType.checkIR(Type.class));
 		}
 
 		// add Params to the IR
-		for(DeclNode decl : parameters.getChildren()) {
+		for(DeclNode decl : parameters.getChildrenExact()) {
 			procedure.addParameter(decl.checkIR(Entity.class));
 		}
 
 		// add Computation Statements to the IR
-		for(EvalStatementNode eval : evalStatements.getChildren()) {
+		for(EvalStatementNode eval : evalStatements.getChildrenExact()) {
 			procedure.addStatement(eval.checkIR(EvalStatement.class));
 		}
 

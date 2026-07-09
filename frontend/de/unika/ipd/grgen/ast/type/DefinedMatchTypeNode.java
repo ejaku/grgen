@@ -301,7 +301,7 @@ public class DefinedMatchTypeNode extends MatchTypeNode
 
 	public Set<VarDeclNode> getVariables()
 	{
-		Set<VarDeclNode> vars = new HashSet<VarDeclNode>(pattern.getDefVariablesToBeYieldedTo().getChildren());
+		Set<VarDeclNode> vars = new HashSet<VarDeclNode>(pattern.getDefVariablesToBeYieldedTo().getChildrenExact());
 		for(DeclNode varCand : pattern.getParamDecls()) {
 			if(!(varCand instanceof VarDeclNode))
 				continue;

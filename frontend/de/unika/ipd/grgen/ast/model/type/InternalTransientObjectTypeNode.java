@@ -88,7 +88,7 @@ public class InternalTransientObjectTypeNode extends BaseInternalObjectTypeNode
 
 		// Initialize direct sub types
 		if(extend != null) {
-			for(InheritanceTypeNode type : extend.getChildren()) {
+			for(InheritanceTypeNode type : extend.getChildrenExact()) {
 				type.addDirectSubType(this);
 			}
 		}
@@ -136,7 +136,7 @@ public class InternalTransientObjectTypeNode extends BaseInternalObjectTypeNode
 	{
 		assert isResolved();
 
-		for(InternalTransientObjectTypeNode inh : extend.getChildren()) {
+		for(InternalTransientObjectTypeNode inh : extend.getChildrenExact()) {
 			coll.add(inh);
 			coll.addAll(inh.getCompatibleToTypes());
 		}
@@ -154,6 +154,6 @@ public class InternalTransientObjectTypeNode extends BaseInternalObjectTypeNode
 	{
 		assert isResolved();
 
-		return extend.getChildren();
+		return extend.getChildrenExact();
 	}
 }

@@ -98,7 +98,7 @@ public class ConstructorDeclNode extends DeclNode
 	protected IR constructIR()
 	{
 		LinkedHashSet<ConstructorParam> params = new LinkedHashSet<ConstructorParam>();
-		for(ConstructorParamNode param : parameters.getChildren()) {
+		for(ConstructorParamNode param : parameters.getChildrenExact()) {
 			params.add(param.checkIR(ConstructorParam.class));
 		}
 

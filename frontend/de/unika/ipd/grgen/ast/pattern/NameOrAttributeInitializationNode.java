@@ -51,7 +51,7 @@ public class NameOrAttributeInitializationNode extends BaseNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren()
+	public Collection<BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		if(attributeUnresolved != null)

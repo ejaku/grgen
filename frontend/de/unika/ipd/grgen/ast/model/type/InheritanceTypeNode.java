@@ -164,7 +164,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 			}
 		}
 
-		for(BaseNode child : body.getChildren()) {
+		for(BaseNode child : body.getChildrenExact()) {
 			if(child instanceof DeclNode && !(child instanceof ConstructorDeclNode)) {
 				DeclNode directMember = (DeclNode)child;
 				if(directMember.getIdentNode().toString().equals(getIdentNode().toString())) {
@@ -177,7 +177,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 
 		// Check constructors for ambiguity
 		Vector<ConstructorDeclNode> constrs = new Vector<ConstructorDeclNode>();
-		for(BaseNode child : body.getChildren()) {
+		for(BaseNode child : body.getChildrenExact()) {
 			if(child instanceof ConstructorDeclNode)
 				constrs.add((ConstructorDeclNode)child);
 		}
@@ -243,7 +243,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 			return true;
 
 		Symbol.Definition def = null;
-		for(InheritanceTypeNode inh : getExtends().getChildren()) {
+		for(InheritanceTypeNode inh : getExtends().getChildrenExact()) {
 			if(inh.fixupDefinition(id)) {
 				Symbol.Definition newDef = id.getSymDef();
 				if(def == null)
@@ -302,7 +302,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 	protected void getMembers(Map<String, DeclNode> members)
 	{
 		assert isResolved();
-		for(BaseNode child : body.getChildren()) {
+		for(BaseNode child : body.getChildrenExact()) {
 			if(child instanceof DeclNode) {
 				DeclNode decl = (DeclNode)child;
 				members.put(decl.getIdentNode().toString(), decl);
@@ -323,7 +323,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 			allInheritedMembers.putAll(superType.getAllMembers());
 		}
 
-		for(BaseNode child : body.getChildren()) {
+		for(BaseNode child : body.getChildrenExact()) {
 			if(child instanceof ConstructorDeclNode)
 				continue;
 
@@ -363,7 +363,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		if(!function.isChecked())
 			return res;
 		for(InheritanceTypeNode base : getAllSuperTypes()) {
-			for(BaseNode baseChild : base.getBody().getChildren()) {
+			for(BaseNode baseChild : base.getBody().getChildrenExact()) {
 				if(baseChild instanceof FunctionDeclNode) {
 					FunctionDeclNode functionBase = (FunctionDeclNode)baseChild;
 					if(!functionBase.isChecked())
@@ -384,7 +384,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		if(!procedure.isChecked())
 			return res;
 		for(InheritanceTypeNode base : getAllSuperTypes()) {
-			for(BaseNode baseChild : base.getBody().getChildren()) {
+			for(BaseNode baseChild : base.getBody().getChildrenExact()) {
 				if(baseChild instanceof ProcedureDeclNode) {
 					ProcedureDeclNode procedureBase = (ProcedureDeclNode)baseChild;
 					if(!procedureBase.isChecked())
@@ -417,7 +417,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 	public boolean checkStatementsInMethods()
 	{
 		boolean res = true;
-		for(BaseNode child : body.getChildren()) {
+		for(BaseNode child : body.getChildrenExact()) {
 			if(child instanceof FunctionDeclNode) {
 				FunctionDeclNode function = (FunctionDeclNode)child;
 				res &= EvalStatementNode.checkStatements(true, function, null, function.evalStatements, true);
@@ -527,10 +527,10 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 
 	protected void constructIR(InheritanceType inhType)
 	{
-		for(BaseNode child : body.getChildren()) {
+		for(BaseNode child : body.getChildrenExact()) {
 			constructAndAddIRChild(inhType, child);
 		}
-		for(InheritanceTypeNode inh : getExtends().getChildren()) {
+		for(InheritanceTypeNode inh : getExtends().getChildrenExact()) {
 			inhType.addDirectSuperType(inh.getType());
 		}
 	}

@@ -52,13 +52,13 @@ public class PatternGraphBuilder
 	{
 		// add subpattern usage connection elements only mentioned there to the IR
 		// (they're declared in an enclosing pattern graph and locally only show up in the subpattern usage connection)
-		for(SubpatternUsageDeclNode subpatternUsageNode : patternGraphNode.subpatterns.getChildren()) {
+		for(SubpatternUsageDeclNode subpatternUsageNode : patternGraphNode.subpatterns.getChildrenExact()) {
 			addSubpatternUsageArgument(patternGraph, subpatternUsageNode);
 		}
 
 		// add subpattern usage yield elements only mentioned there to the IR
 		// (they're declared in an enclosing pattern graph and locally only show up in the subpattern usage yield)
-		for(SubpatternUsageDeclNode subpatternUsageNode : patternGraphNode.subpatterns.getChildren()) {
+		for(SubpatternUsageDeclNode subpatternUsageNode : patternGraphNode.subpatterns.getChildrenExact()) {
 			addSubpatternUsageYieldArgument(patternGraph, subpatternUsageNode);
 		}
 
@@ -379,7 +379,7 @@ public class PatternGraphBuilder
 	
 	public static void addSubpatternReplacementUsageArguments(PatternGraphRhs patternGraph, OrderedReplacementsNode ors)
 	{
-		for(OrderedReplacementNode orderedReplNode : ors.getChildren()) {
+		for(OrderedReplacementNode orderedReplNode : ors.getChildrenExact()) {
 			if(!(orderedReplNode instanceof SubpatternReplNode)) // only arguments of subpattern repl node (appearing before ---) are inserted to RHS pattern
 				continue;
 			SubpatternReplNode subpatternReplNode = (SubpatternReplNode)orderedReplNode;

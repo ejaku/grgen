@@ -169,7 +169,7 @@ public abstract class ConstraintDeclNode extends DeclNode
 		boolean atMostOneNameInit = true;
 
 		boolean nameInitFound = false;
-		for(NameOrAttributeInitializationNode nain : nameOrAttributeInits.getChildren()) {
+		for(NameOrAttributeInitializationNode nain : nameOrAttributeInits.getChildrenExact()) {
 			if(nain.attributeUnresolved == null) {
 				if(!nameInitFound)
 					nameInitFound = true;

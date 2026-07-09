@@ -182,7 +182,7 @@ public class ExecNode extends BaseNode
 
 	/** returns children of this node */
 	@Override
-	public Collection<? extends BaseNode> getChildren()
+	public Collection<BaseNode> getChildren()
 	{
 		Vector<BaseNode> res = new Vector<BaseNode>();
 		res.add(multiCallActions);
@@ -216,7 +216,7 @@ public class ExecNode extends BaseNode
 	 */
 	public void addImplicitDefinitions()
 	{
-		for(IdentNode id : usageUnresolved.getChildren()) {
+		for(IdentNode id : usageUnresolved.getChildrenExact()) {
 			debug.report(NOTE, "Implicit definition for " + id + " in scope " + getScope());
 
 			// Get the definition of the ident's symbol local to the owned scope.
@@ -238,7 +238,7 @@ public class ExecNode extends BaseNode
 			}
 		}
 
-		for(IdentNode id : writeUsageUnresolved.getChildren()) {
+		for(IdentNode id : writeUsageUnresolved.getChildrenExact()) {
 			debug.report(NOTE, "Implicit definition for " + id + " in scope " + getScope());
 
 			// Get the definition of the ident's symbol local to the owned scope.
@@ -271,25 +271,25 @@ public class ExecNode extends BaseNode
 
 		if(resolve != null) {
 			if(resolve.first != null) {
-				for(ExecVarDeclNode execVar : resolve.first.getChildren()) {
+				for(ExecVarDeclNode execVar : resolve.first.getChildrenExact()) {
 					usage.addChild(execVar);
 				}
 			}
 
 			if(resolve.second != null) {
-				for(NodeDeclNode node : resolve.second.getChildren()) {
+				for(NodeDeclNode node : resolve.second.getChildrenExact()) {
 					usage.addChild(node);
 				}
 			}
 
 			if(resolve.third != null) {
-				for(EdgeDeclNode edge : resolve.third.getChildren()) {
+				for(EdgeDeclNode edge : resolve.third.getChildrenExact()) {
 					usage.addChild(edge);
 				}
 			}
 
 			if(resolve.fourth != null) {
-				for(VarDeclNode var : resolve.fourth.getChildren()) {
+				for(VarDeclNode var : resolve.fourth.getChildrenExact()) {
 					usage.addChild(var);
 				}
 			}
@@ -302,13 +302,13 @@ public class ExecNode extends BaseNode
 
 		if(writeResolve != null) {
 			if(writeResolve.first != null) {
-				for(ExecVarDeclNode execVar : writeResolve.first.getChildren()) {
+				for(ExecVarDeclNode execVar : writeResolve.first.getChildrenExact()) {
 					writeUsage.addChild(execVar);
 				}
 			}
 
 			if(writeResolve.second != null) {
-				for(NodeDeclNode node : writeResolve.second.getChildren()) {
+				for(NodeDeclNode node : writeResolve.second.getChildrenExact()) {
 					if(!node.defEntityToBeYieldedTo) {
 						reportError("Only a def (to be yielded to) node is allowed to be written from an exec statement"
 								+ " (this does not hold for " + node.getIdentNode() + ").");
@@ -318,7 +318,7 @@ public class ExecNode extends BaseNode
 			}
 
 			if(writeResolve.third != null) {
-				for(EdgeDeclNode edge : writeResolve.third.getChildren()) {
+				for(EdgeDeclNode edge : writeResolve.third.getChildrenExact()) {
 					if(!edge.defEntityToBeYieldedTo) {
 						reportError("Only a def (to be yielded to) edge is allowed to be written from an exec statement"
 								+ " (this does not hold for " + edge.getIdentNode() + ").");
@@ -328,7 +328,7 @@ public class ExecNode extends BaseNode
 			}
 
 			if(writeResolve.fourth != null) {
-				for(VarDeclNode var : writeResolve.fourth.getChildren()) {
+				for(VarDeclNode var : writeResolve.fourth.getChildrenExact()) {
 					if(!var.defEntityToBeYieldedTo) {
 						reportError("Only a def (to be yielded to) variable is allowed to be written from an exec statement"
 								+ " (this does not hold for " + var.getIdentNode() + ").");
@@ -359,26 +359,26 @@ public class ExecNode extends BaseNode
 	protected IR constructIR()
 	{
 		Set<Expression> parameters = new LinkedHashSet<Expression>();
-		for(DeclNode dn : usage.getChildren()) {
+		for(DeclNode dn : usage.getChildrenExact()) {
 			if(dn instanceof ConstraintDeclNode)
 				parameters.add(new GraphEntityExpression(dn.checkIR(GraphEntity.class)));
 			else if(dn instanceof VarDeclNode)
 				parameters.add(new VariableExpression(dn.checkIR(Variable.class)));
 		}
-		for(DeclNode dn : writeUsage.getChildren()) {
+		for(DeclNode dn : writeUsage.getChildrenExact()) {
 			if(dn instanceof ConstraintDeclNode)
 				parameters.add(new GraphEntityExpression(dn.checkIR(GraphEntity.class)));
 			else if(dn instanceof VarDeclNode)
 				parameters.add(new VariableExpression(dn.checkIR(Variable.class)));
 		}
-		for(CallActionNode callActionNode : callActions.getChildren()) {
+		for(CallActionNode callActionNode : callActions.getChildrenExact()) {
 			callActionNode.checkPost();
-			for(ExprNode param : callActionNode.getParams().getChildren()) {
+			for(ExprNode param : callActionNode.getParams().getChildrenExact()) {
 				param = param.evaluate();
 				parameters.add(param.checkIR(Expression.class));
 			}
 		}
-		for(MultiCallActionNode multiCallActionNode : multiCallActions.getChildren()) {
+		for(MultiCallActionNode multiCallActionNode : multiCallActions.getChildrenExact()) {
 			multiCallActionNode.checkPost();
 		}
 		Exec res = new Exec(getXGRSString(), parameters, getCoords().getLine());

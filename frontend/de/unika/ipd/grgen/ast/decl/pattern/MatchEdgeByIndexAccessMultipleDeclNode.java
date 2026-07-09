@@ -89,7 +89,7 @@ public class MatchEdgeByIndexAccessMultipleDeclNode extends EdgeDeclNode
 		}
 		
 		TypeNode expectedEntityType = getDeclType();
-		for(MatchByIndexAccessOrderingPartNode indexAccessPart : indexAccessParts.getChildren()) {
+		for(MatchByIndexAccessOrderingPartNode indexAccessPart : indexAccessParts.getChildrenExact()) {
 			InheritanceTypeNode entityType = indexAccessPart.index.getType();
 			if(!entityType.isCompatibleTo(expectedEntityType) && !expectedEntityType.isCompatibleTo(entityType)) {
 				res = false; // the index type is checked with the parts, and an error is emitted there - we just skip the warning messages here in case of an index type mismatch
@@ -99,11 +99,11 @@ public class MatchEdgeByIndexAccessMultipleDeclNode extends EdgeDeclNode
 		if(!res)
 			return false;
 		
-		for(int i = 0; i < indexAccessParts.getChildren().size(); ++i) {
+		for(int i = 0; i < indexAccessParts.getChildrenExact().size(); ++i) {
 			MatchByIndexAccessOrderingPartNode indexAccessPart = indexAccessParts.get(i);
 			InheritanceTypeNode entityType = indexAccessPart.index.getType();
 
-			for(int j = i + 1; j < indexAccessParts.getChildren().size(); ++j) {
+			for(int j = i + 1; j < indexAccessParts.getChildrenExact().size(); ++j) {
 				MatchByIndexAccessOrderingPartNode indexAccessPart2 = indexAccessParts.get(j);
 				InheritanceTypeNode entityType2 = indexAccessPart2.index.getType();
 				
@@ -116,7 +116,7 @@ public class MatchEdgeByIndexAccessMultipleDeclNode extends EdgeDeclNode
 		}
 		
 		HashSet<IndexDeclNode> indicesUsed = new HashSet<IndexDeclNode>();
-		for(MatchByIndexAccessOrderingPartNode indexAccessPart : indexAccessParts.getChildren()) {
+		for(MatchByIndexAccessOrderingPartNode indexAccessPart : indexAccessParts.getChildrenExact()) {
 			if(indicesUsed.contains(indexAccessPart.index)) {
 				reportWarning("The match edge by index multiple uses the index " + indexAccessPart.index.toStringWithDeclarationCoords()
 						+ " for another time (combine the queried ranges into one).");
@@ -140,7 +140,7 @@ public class MatchEdgeByIndexAccessMultipleDeclNode extends EdgeDeclNode
 
 		setIR(edge);
 
-		for(MatchByIndexAccessOrderingPartNode partNode : indexAccessParts.getChildren()) {
+		for(MatchByIndexAccessOrderingPartNode partNode : indexAccessParts.getChildrenExact()) {
 			edge.addIndex(partNode.constructIRPart());
 		}
 		return edge;

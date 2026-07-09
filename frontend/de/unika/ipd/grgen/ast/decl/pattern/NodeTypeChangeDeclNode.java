@@ -116,7 +116,7 @@ public class NodeTypeChangeDeclNode extends NodeDeclNode
 	{
 		assert isResolved();
 
-		return mergees.getChildren();
+		return mergees.getChildrenExact();
 	}
 
 	/**
@@ -149,7 +149,7 @@ public class NodeTypeChangeDeclNode extends NodeDeclNode
 			res = false;
 		}
 
-		for(NodeDeclNode mergee : mergees.getChildren()) {
+		for(NodeDeclNode mergee : mergees.getChildrenExact()) {
 			if((mergee.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS
 				&& !mergee.defEntityToBeYieldedTo) {
 				reportError("An original node of a (retyping) merge may not be declared in the rewrite part"
@@ -188,7 +188,7 @@ public class NodeTypeChangeDeclNode extends NodeDeclNode
 			res.setTypeofCopy(typeNodeDecl.checkIR(Node.class), copyKind);
 		}
 
-		for(NodeDeclNode mergee : mergees.getChildren()) {
+		for(NodeDeclNode mergee : mergees.getChildrenExact()) {
 			res.addMergee(mergee.checkIR(Node.class));
 		}
 

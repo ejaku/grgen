@@ -111,7 +111,7 @@ public class NodeTypeNode extends InheritanceTypeNode
 
 		// Initialize direct sub types
 		if(extend != null) {
-			for(InheritanceTypeNode type : extend.getChildren()) {
+			for(InheritanceTypeNode type : extend.getChildrenExact()) {
 				type.addDirectSubType(this);
 			}
 		}
@@ -124,7 +124,7 @@ public class NodeTypeNode extends InheritanceTypeNode
 	{
 		boolean res = super.checkLocal();
 
-		for(BaseNode child : body.getChildren()) {
+		for(BaseNode child : body.getChildrenExact()) {
 			if(child instanceof ConstructorDeclNode
 					|| child instanceof MemberInitNode
 					|| child instanceof ContainerInitNode
@@ -185,7 +185,7 @@ public class NodeTypeNode extends InheritanceTypeNode
 	{
 		assert isResolved();
 
-		for(NodeTypeNode inh : extend.getChildren()) {
+		for(NodeTypeNode inh : extend.getChildrenExact()) {
 			coll.add(inh);
 			coll.addAll(inh.getCompatibleToTypes());
 		}
@@ -203,6 +203,6 @@ public class NodeTypeNode extends InheritanceTypeNode
 	{
 		assert isResolved();
 
-		return extend.getChildren();
+		return extend.getChildrenExact();
 	}
 }

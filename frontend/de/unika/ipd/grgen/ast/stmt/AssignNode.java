@@ -460,7 +460,7 @@ public class AssignNode extends EvalStatementNode
 						&& !(operator.getOperatorDecl().getOperator() == OperatorDeclNode.Operator.EXCEPT)) {
 					return false;
 				}
-				Collection<ExprNode> children = operator.getChildren();
+				Collection<ExprNode> children = operator.getChildrenExact();
 				Iterator<ExprNode> it = children.iterator();
 				ExprNode left = it.next();
 				ExprNode right = it.next();
@@ -506,7 +506,7 @@ public class AssignNode extends EvalStatementNode
 			if(curLoc instanceof ArithmeticOperatorNode) {
 				ArithmeticOperatorNode operator = (ArithmeticOperatorNode)curLoc;
 				operator.markToBreakUpIntoStateChangingOperations(lhsQual);
-				ExprNode left = operator.getChildren().iterator().next();
+				ExprNode left = operator.getChildrenExact().iterator().next();
 				curLoc = left;
 			} else {
 				curLoc = null;

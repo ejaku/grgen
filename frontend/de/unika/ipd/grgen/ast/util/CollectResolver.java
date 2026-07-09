@@ -30,7 +30,7 @@ public class CollectResolver<T extends BaseNode>
 		CollectNode<T> res = new CollectNode<T>();
 		res.setCoords(collect.getCoords());
 
-		for(BaseNode child : collect.getChildren()) {
+		for(BaseNode child : collect.getChildrenExact()) {
 			T resolved = resolver.resolve(child, collect);
 			if(resolved == null) {
 				return null;

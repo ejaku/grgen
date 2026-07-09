@@ -89,7 +89,7 @@ public class CaseStatementNode extends NestingStatementNode
 			caseConstantExpr = caseConstantExpr.evaluate();
 		CaseStatement caseStmt = new CaseStatement(
 				caseConstantExpr != null ? caseConstantExpr.checkIR(Expression.class) : null);
-		for(EvalStatementNode statement : statements.getChildren()) {
+		for(EvalStatementNode statement : statements.getChildrenExact()) {
 			caseStmt.addStatement(statement.checkIR(EvalStatement.class));
 		}
 		return caseStmt;

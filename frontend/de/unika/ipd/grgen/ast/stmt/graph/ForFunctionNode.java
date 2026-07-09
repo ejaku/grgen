@@ -174,7 +174,7 @@ public class ForFunctionNode extends ForGraphQueryNode
 	protected IR constructIR()
 	{
 		ForFunction ff = new ForFunction(iterationVariable.checkIR(Variable.class), function != null ? function.checkIR(Expression.class) : indexFunction.checkIR(Expression.class));
-		for(EvalStatementNode accumulationStatement : statements.getChildren()) {
+		for(EvalStatementNode accumulationStatement : statements.getChildrenExact()) {
 			ff.addLoopedStatement(accumulationStatement.checkIR(EvalStatement.class));
 		}
 		return ff;

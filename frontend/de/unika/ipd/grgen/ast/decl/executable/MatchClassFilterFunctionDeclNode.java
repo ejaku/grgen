@@ -111,7 +111,7 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 	protected boolean checkLocal()
 	{
 		params = new CollectNode<DeclNode>();
-		for(BaseNode param : paramsUnresolved.getChildren()) {
+		for(BaseNode param : paramsUnresolved.getChildrenExact()) {
 			if(param instanceof ConnectionNode) {
 				ConnectionNode conn = (ConnectionNode)param;
 				params.addChild(conn.getEdge().getDecl());
@@ -158,7 +158,7 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 		assert isChecked();
 
 		Vector<TypeNode> types = new Vector<TypeNode>();
-		for(DeclNode decl : params.getChildren()) {
+		for(DeclNode decl : params.getChildrenExact()) {
 			types.add(decl.getDeclType());
 		}
 
@@ -188,13 +188,13 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 		definedMatchType.addMatchClassFilter(filterFunction);
 
 		// add Params to the IR
-		for(DeclNode decl : params.getChildren()) {
+		for(DeclNode decl : params.getChildrenExact()) {
 			filterFunction.addParameter(decl.checkIR(Entity.class));
 		}
 
 		if(evalStatements != null) {
 			// add Computation Statements to the IR
-			for(EvalStatementNode eval : evalStatements.getChildren()) {
+			for(EvalStatementNode eval : evalStatements.getChildrenExact()) {
 				((MatchClassFilterFunctionInternal)filterFunction).addStatement(eval.checkIR(EvalStatement.class));
 			}
 		}

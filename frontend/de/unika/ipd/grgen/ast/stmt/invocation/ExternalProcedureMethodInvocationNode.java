@@ -64,7 +64,7 @@ public class ExternalProcedureMethodInvocationNode extends ProcedureInvocationBa
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren()
+	public Collection<BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(targetQual != null ? targetQual : targetVar);
@@ -159,11 +159,11 @@ public class ExternalProcedureMethodInvocationNode extends ProcedureInvocationBa
 			epi = new ExternalProcedureMethodInvocation(targetVar.checkIR(Variable.class),
 					externalProcedureDecl.checkIR(ExternalProcedure.class));
 		}
-		for(ExprNode expr : arguments.getChildren()) {
+		for(ExprNode expr : arguments.getChildrenExact()) {
 			expr = expr.evaluate();
 			epi.addArgument(expr.checkIR(Expression.class));
 		}
-		for(TypeNode type : externalProcedureDecl.resultTypesCollectNode.getChildren()) {
+		for(TypeNode type : externalProcedureDecl.resultTypesCollectNode.getChildrenExact()) {
 			epi.addReturnType(type.checkIR(Type.class));
 		}
 		return epi;

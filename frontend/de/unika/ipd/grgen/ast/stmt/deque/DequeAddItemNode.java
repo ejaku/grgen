@@ -56,7 +56,7 @@ public class DequeAddItemNode extends DequeProcedureMethodInvocationBaseNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren()
+	public Collection<BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(target != null ? target : targetVar);

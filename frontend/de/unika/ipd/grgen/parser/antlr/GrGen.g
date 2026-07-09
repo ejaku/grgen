@@ -265,9 +265,9 @@ textActions returns [ UnitNode main = null ]
 		)*
 		EOF
 		{
-			if(modelChilds.getChildren().size() == 0)
+			if(modelChilds.getChildrenExact().size() == 0)
 				modelChilds.addChild(env.getStdModel());
-			else if(modelChilds.getChildren().size() > 1) {
+			else if(modelChilds.getChildrenExact().size() > 1) {
 				//
 				// If more than one model is specified, generate a new graph model
 				// using the name of the grg-file containing all given models.
@@ -275,51 +275,51 @@ textActions returns [ UnitNode main = null ]
 				IdentNode id = new IdentNode(env.define(ParserEnvironment.ENTITIES, actionsName,
 					modelChilds.getCoords()));
 				boolean isEmitClassDefined = false;
-				for(ModelNode modelChild : modelChilds.getChildren()) {
+				for(ModelNode modelChild : modelChilds.getChildrenExact()) {
 					isEmitClassDefined |= modelChild.IsEmitClassDefined();
 				}
 				boolean isEmitGraphClassDefined = false;
-				for(ModelNode modelChild : modelChilds.getChildren()) {
+				for(ModelNode modelChild : modelChilds.getChildrenExact()) {
 					isEmitGraphClassDefined |= modelChild.IsEmitGraphClassDefined();
 				}
 				boolean isCopyClassDefined = false;
-				for(ModelNode modelChild : modelChilds.getChildren()) {
+				for(ModelNode modelChild : modelChilds.getChildrenExact()) {
 					isCopyClassDefined |= modelChild.IsCopyClassDefined();
 				}
 				boolean isEqualClassDefined = false;
-				for(ModelNode modelChild : modelChilds.getChildren()) {
+				for(ModelNode modelChild : modelChilds.getChildrenExact()) {
 					isEqualClassDefined |= modelChild.IsEqualClassDefined();
 				}
 				boolean isLowerClassDefined = false;
-				for(ModelNode modelChild : modelChilds.getChildren()) {
+				for(ModelNode modelChild : modelChilds.getChildrenExact()) {
 					isLowerClassDefined |= modelChild.IsLowerClassDefined();
 				}
 				boolean isGraphofDefined = false;
-				for(ModelNode modelChild : modelChilds.getChildren()) {
+				for(ModelNode modelChild : modelChilds.getChildrenExact()) {
 					isGraphofDefined |= modelChild.IsGraphofDefined();
 				}
 				boolean isUniqueDefined = false;
-				for(ModelNode modelChild : modelChilds.getChildren()) {
+				for(ModelNode modelChild : modelChilds.getChildrenExact()) {
 					isUniqueDefined |= modelChild.IsUniqueDefined();
 				}
 				boolean isUniqueClassDefined = false;
-				for(ModelNode modelChild : modelChilds.getChildren()) {
+				for(ModelNode modelChild : modelChilds.getChildrenExact()) {
 					isUniqueClassDefined |= modelChild.IsUniqueClassDefined();
 				}
 				boolean isUniqueIndexDefined = false;
-				for(ModelNode modelChild : modelChilds.getChildren()) {
+				for(ModelNode modelChild : modelChilds.getChildrenExact()) {
 					isUniqueIndexDefined |= modelChild.IsUniqueIndexDefined();
 				}
 				boolean areFunctionsParallel = false;
-				for(ModelNode modelChild : modelChilds.getChildren()) {
+				for(ModelNode modelChild : modelChilds.getChildrenExact()) {
 					areFunctionsParallel |= modelChild.AreFunctionsParallel();
 				}
 				int isoParallel = 0;
-				for(ModelNode modelChild : modelChilds.getChildren()) {
+				for(ModelNode modelChild : modelChilds.getChildrenExact()) {
 					isoParallel = Math.max(isoParallel, modelChild.IsoParallel());
 				}
 				int sequencesParallel = 0;
-				for(ModelNode modelChild : modelChilds.getChildren()) {
+				for(ModelNode modelChild : modelChilds.getChildrenExact()) {
 					sequencesParallel = Math.max(sequencesParallel, modelChild.SequencesParallel());
 				}
 				ModelNode model = new ModelNode(id, new CollectNode<IdentNode>(),
@@ -602,7 +602,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 	| f=FUNCTION id=funcOrExtFuncIdentDecl { env.pushScope(id); } paramz=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION, PatternGraphLhsNode.getInvalid()]
 		COLON retType=returnType
 		{
-			if(env.isGlobalFunction(id.toString(), paramz.getChildren().size()))
+			if(env.isGlobalFunction(id.toString(), paramz.getChildrenExact().size()))
 				reportError(id.getCoords(), "The function " + id.toString() + " cannot be defined - a builtin function of the same name and with the same number of parameters already exists.");
 		}
 		LBRACE
@@ -621,7 +621,7 @@ declPatternMatchingOrAttributeEvaluationUnit [ CollectNode<IdentNode> patternChi
 	| pr=PROCEDURE id=funcOrExtFuncIdentDecl { env.pushScope(id); } paramz=parameters[BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE, PatternGraphLhsNode.getInvalid()]
 		(COLON LPAREN (returnTypeList[retTypes])? RPAREN)?
 		{
-			if(env.isGlobalProcedure(id.toString(), paramz.getChildren().size()))
+			if(env.isGlobalProcedure(id.toString(), paramz.getChildrenExact().size()))
 				reportError(id.getCoords(), "The procedure " + id.toString() + " cannot be defined - a builtin procedure of the same name and with the same number of parameters already exists.");
 		}
 		LBRACE
@@ -2361,7 +2361,7 @@ yielding [ CollectNode<EvalStatementsNode> evals, AnonymousScopeNamer namer, int
 	
 rets [ CollectNode<ExprNode> res, AnonymousScopeNamer namer, int context ]
 	@init {
-		boolean multipleReturns = !res.getChildren().isEmpty();
+		boolean multipleReturns = !res.getChildrenExact().isEmpty();
 	}
 	: r=RETURN
 		{
@@ -2493,7 +2493,7 @@ textTypes returns [ ModelNode model = null ]
 	: ( usingDecl[modelChilds] )*
 		specialClasses = typeDecls[namer, types, packages, externalFuncs, externalProcs, indices] EOF
 		{
-			if(modelChilds.getChildren().size() == 0)
+			if(modelChilds.getChildrenExact().size() == 0)
 				modelChilds.addChild(env.getStdModel());
 			model = new ModelNode(id, packages, types, externalFuncs, externalProcs, indices, modelChilds,
 				$specialClasses.isEmitClassDefined, $specialClasses.isEmitGraphClassDefined, $specialClasses.isCopyClassDefined, 
@@ -2849,7 +2849,7 @@ edgeExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c, boolean undirected 
 		}
 	)*
 		{
-			if(c.getChildren().size() == 0) {
+			if(c.getChildrenExact().size() == 0) {
 				if(undirected) {
 					c.addChild(env.getUndirectedEdgeRoot());
 				} else {
@@ -2881,7 +2881,7 @@ nodeExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c ]
 		}
 	)*
 		{
-			if(c.getChildren().size() == 0)
+			if(c.getChildrenExact().size() == 0)
 				c.addChild(env.getNodeRoot());
 		}
 	;
@@ -2908,7 +2908,7 @@ objectExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c ]
 		}
 	)*
 		{
-			if(c.getChildren().size() == 0)
+			if(c.getChildrenExact().size() == 0)
 				c.addChild(env.getInternalObjectRoot());
 		}
 	;
@@ -2935,7 +2935,7 @@ transientObjectExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c ]
 		}
 	)*
 		{
-			if(c.getChildren().size() == 0)
+			if(c.getChildrenExact().size() == 0)
 				c.addChild(env.getInternalTransientObjectRoot());
 		}
 	;
@@ -3802,10 +3802,10 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 							proc = new ProcedureInvocationDecisionNode(procIdent, paramz, context, env);
 						}
 						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
-						for(ProjectionExprNode proj : targetProjs.getChildren()) {
+						for(ProjectionExprNode proj : targetProjs.getChildrenExact()) {
 							proj.setProcedure(proc);
 						}
-						for(EvalStatementNode eval : targets.getChildren()) {
+						for(EvalStatementNode eval : targets.getChildrenExact()) {
 							eval.setCoords(getCoords(a));
 						}
 						ms.addStatement(ra);
@@ -3822,10 +3822,10 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 						}
 						ProcedureOrExternalProcedureInvocationNode proc = new ProcedureOrExternalProcedureInvocationNode(procIdent, paramz, context);
 						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
-						for(ProjectionExprNode proj : targetProjs.getChildren()) {
+						for(ProjectionExprNode proj : targetProjs.getChildrenExact()) {
 							proj.setProcedure(proc);
 						}
-						for(EvalStatementNode eval : targets.getChildren()) {
+						for(EvalStatementNode eval : targets.getChildrenExact()) {
 							eval.setCoords(getCoords(a));
 						}
 						ms.addStatement(ra);
@@ -3845,10 +3845,10 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 						}
 						ProcedureMethodInvocationDecisionNode pmi = new ProcedureMethodInvocationDecisionNode(new IdentExprNode(variable, yielded), method_, paramz, context);
 						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), pmi, targets, context);
-						for(ProjectionExprNode proj : targetProjs.getChildren()) {
+						for(ProjectionExprNode proj : targetProjs.getChildrenExact()) {
 							proj.setProcedure(pmi);
 						}
-						for(EvalStatementNode eval : targets.getChildren()) {
+						for(EvalStatementNode eval : targets.getChildrenExact()) {
 							eval.setCoords(getCoords(a));
 						}
 						ms.addStatement(ra);
@@ -3867,10 +3867,10 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 							reportError(getCoords(d), "A method call on an attribute is forbidden in a yield, only a yield method call to a def variable is allowed.");
 						}
 						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), pmi, targets, context);
-						for(ProjectionExprNode proj : targetProjs.getChildren()) {
+						for(ProjectionExprNode proj : targetProjs.getChildrenExact()) {
 							proj.setProcedure(pmi);
 						}
-						for(EvalStatementNode eval : targets.getChildren()) {
+						for(EvalStatementNode eval : targets.getChildrenExact()) {
 							eval.setCoords(getCoords(a));
 						}
 						ms.addStatement(ra);

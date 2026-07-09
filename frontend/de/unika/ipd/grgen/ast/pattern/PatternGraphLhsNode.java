@@ -214,7 +214,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 
 	void determineExistenceOfAbstractElements()
 	{
-		for(ConnectionCharacter cc : connections.getChildren()) {
+		for(ConnectionCharacter cc : connections.getChildrenExact()) {
 			if(cc instanceof ConnectionNode) {
 				ConnectionNode conn = (ConnectionNode)cc;
 				if(conn.getEdge().getDeclType().isAbstract()
@@ -237,11 +237,11 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 
 		LinkedHashSet<NodeDeclNode> tempNodes = new LinkedHashSet<NodeDeclNode>();
 
-		for(ConnectionCharacter connection : connections.getChildren()) {
+		for(ConnectionCharacter connection : connections.getChildrenExact()) {
 			connection.addNodes(tempNodes);
 		}
 
-		for(HomNode hom : homs.getChildren()) {
+		for(HomNode hom : homs.getChildrenExact()) {
 			for(NodeDeclNode homNode : hom.getHomNodes()) {
 				tempNodes.add(homNode);
 			}
@@ -257,11 +257,11 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 
 		LinkedHashSet<EdgeDeclNode> tempEdges = new LinkedHashSet<EdgeDeclNode>();
 
-		for(ConnectionCharacter connection : connections.getChildren()) {
+		for(ConnectionCharacter connection : connections.getChildrenExact()) {
 			connection.addEdge(tempEdges);
 		}
 
-		for(HomNode hom : homs.getChildren()) {
+		for(HomNode hom : homs.getChildrenExact()) {
 			for(EdgeDeclNode homEdge : hom.getHomEdges()) {
 				tempEdges.add(homEdge);
 			}
@@ -290,7 +290,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 
 	public VarDeclNode tryGetVar(String name)
 	{
-		for(VarDeclNode var : defVariablesToBeYieldedTo.getChildren()) {
+		for(VarDeclNode var : defVariablesToBeYieldedTo.getChildrenExact()) {
 			if(var.ident.toString().equals(name))
 				return var;
 		}
@@ -419,7 +419,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 
 				// search hom statement
 				HomNode hom = null;
-				for(HomNode homNode : homs.getChildren()) {
+				for(HomNode homNode : homs.getChildrenExact()) {
 					Collection<BaseNode> homChildren = homNode.getChildren();
 					if(homChildren.contains(elem1) && homChildren.contains(elem2)) {
 						hom = homNode;
@@ -440,16 +440,16 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 	boolean noRewriteInIteratedOrAlternativeNestedInNegativeOrIndependent()
 	{
 		boolean result = true;
-		for(PatternGraphLhsNode pattern : negs.getChildren()) {
-			for(IteratedDeclNode iter : pattern.iters.getChildren()) {
+		for(PatternGraphLhsNode pattern : negs.getChildrenExact()) {
+			for(IteratedDeclNode iter : pattern.iters.getChildrenExact()) {
 				if(iter.right != null) {
 					iter.right.reportError("An iterated contained within a negative cannot possess a rewrite part"
 							+ " (the negative is a pure (negative) application condition).");
 					result = false;
 				}
 			}
-			for(AlternativeDeclNode alt : pattern.alts.getChildren()) {
-				for(AlternativeCaseDeclNode altCase : alt.getChildren()) {
+			for(AlternativeDeclNode alt : pattern.alts.getChildrenExact()) {
+				for(AlternativeCaseDeclNode altCase : alt.getChildrenExact()) {
 					if(altCase.right != null) {
 						altCase.right.reportError("An alternative case contained within a negative cannot possess a rewrite part"
 								+ " (the negative is a pure (negative) application condition).");
@@ -458,16 +458,16 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 				}
 			}
 		}
-		for(PatternGraphLhsNode pattern : idpts.getChildren()) {
-			for(IteratedDeclNode iter : pattern.iters.getChildren()) {
+		for(PatternGraphLhsNode pattern : idpts.getChildrenExact()) {
+			for(IteratedDeclNode iter : pattern.iters.getChildrenExact()) {
 				if(iter.right != null) {
 					iter.right.reportError("An iterated contained within an independent cannot possess a rewrite part"
 								+ " (the independent is a pure (positive) application condition).");
 					result = false;
 				}
 			}
-			for(AlternativeDeclNode alt : pattern.alts.getChildren()) {
-				for(AlternativeCaseDeclNode altCase : alt.getChildren()) {
+			for(AlternativeDeclNode alt : pattern.alts.getChildrenExact()) {
+				for(AlternativeCaseDeclNode altCase : alt.getChildrenExact()) {
 					if(altCase.right != null) {
 						altCase.right.reportError("An alternative case contained within an independent cannot possess a rewrite part"
 								+ " (the independent is a pure (positive) application condition).");
@@ -482,17 +482,17 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 	boolean noExecStatementInEvalsOfIteratedOrAlternative()
 	{
 		boolean result = true;
-		for(IteratedDeclNode iter : iters.getChildren()) {
+		for(IteratedDeclNode iter : iters.getChildrenExact()) {
 			if(iter.right != null) {
-				for(EvalStatementsNode evalStmts : iter.right.getRhsGraph().evals.getChildren()) {
+				for(EvalStatementsNode evalStmts : iter.right.getRhsGraph().evals.getChildrenExact()) {
 					evalStmts.noExecStatement();
 				}
 			}
 		}
-		for(AlternativeDeclNode alt : alts.getChildren()) {
-			for(AlternativeCaseDeclNode altCase : alt.getChildren()) {
+		for(AlternativeDeclNode alt : alts.getChildrenExact()) {
+			for(AlternativeCaseDeclNode altCase : alt.getChildrenExact()) {
 				if(altCase.right != null) {
-					for(EvalStatementsNode evalStmts : altCase.right.getRhsGraph().evals.getChildren()) {
+					for(EvalStatementsNode evalStmts : altCase.right.getRhsGraph().evals.getChildrenExact()) {
 						evalStmts.noExecStatement();
 					}
 				}
@@ -506,7 +506,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 	{
 		boolean expr = true;
 		
-		for(ExprNode exp : conditions.getChildren()) {
+		for(ExprNode exp : conditions.getChildrenExact()) {
 			if(!exp.getType().isEqual(BasicTypeNode.booleanType)) {
 				exp.reportError("An expression in an if condition must be of type boolean (but is of type " + exp.getType().getTypeName() + ").");
 				expr = false;
@@ -540,7 +540,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 	private boolean noDefElementOrIteratedReferenceInCondition()
 	{
 		boolean res = true;
-		for(ExprNode cond : conditions.getChildren()) {
+		for(ExprNode cond : conditions.getChildrenExact()) {
 			res &= cond.noDefElement("if condition");
 			res &= cond.noIteratedReference("if condition");
 		}
@@ -550,7 +550,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 	private boolean noIteratedReferenceInDefElementInitialization()
 	{
 		boolean res = true;
-		for(VarDeclNode var : defVariablesToBeYieldedTo.getChildren()) {
+		for(VarDeclNode var : defVariablesToBeYieldedTo.getChildrenExact()) {
 			if(var.initialization != null)
 				res &= var.initialization.noIteratedReference("def variable initialization");
 		}
@@ -560,17 +560,17 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 	private boolean iteratedNameIsNotAccessedInNestedPattern()
 	{
 		boolean res = true;
-		for(IteratedDeclNode iterForNameToCheck : iters.getChildren()) {
+		for(IteratedDeclNode iterForNameToCheck : iters.getChildrenExact()) {
 			String iterName = iterForNameToCheck.getIdentNode().toString();
-			for(IteratedDeclNode iter : iters.getChildren()) {
+			for(IteratedDeclNode iter : iters.getChildrenExact()) {
 				res &= iter.pattern.iteratedNotReferenced(iterName);
 				if(iter.right != null) {
 					res &= iter.right.patternGraph.iteratedNotReferenced(iterName);
 					res &= iter.right.patternGraph.iteratedNotReferencedInDefElementInitialization(iterName);
 				}
 			}
-			for(AlternativeDeclNode alt : alts.getChildren()) {
-				for(AlternativeCaseDeclNode altCase : alt.getChildren()) {
+			for(AlternativeDeclNode alt : alts.getChildrenExact()) {
+				for(AlternativeCaseDeclNode altCase : alt.getChildrenExact()) {
 					res &= altCase.pattern.iteratedNotReferenced(iterName);
 					if(altCase.right != null) {
 						res &= altCase.right.patternGraph.iteratedNotReferenced(iterName);
@@ -578,7 +578,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 					}
 				}
 			}
-			for(PatternGraphLhsNode idpt : idpts.getChildren()) {
+			for(PatternGraphLhsNode idpt : idpts.getChildrenExact()) {
 				res &= idpt.iteratedNotReferenced(iterName);
 			}
 		}
@@ -588,8 +588,8 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 	protected boolean iteratedNotReferenced(String iterName)
 	{
 		boolean res = true;
-		for(EvalStatementsNode yieldStatements : yields.getChildren()) {
-			for(EvalStatementNode yieldStatement : yieldStatements.getChildren()) {
+		for(EvalStatementsNode yieldStatements : yields.getChildrenExact()) {
+			for(EvalStatementNode yieldStatement : yieldStatements.getChildrenExact()) {
 				res &= yieldStatement.iteratedNotReferenced(iterName);
 			}
 		}
@@ -681,27 +681,27 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 
 		patternGraph.setIterationBreaking(iterationBreaking);
 
-		for(ConnectionCharacter connection : connections.getChildren()) {
+		for(ConnectionCharacter connection : connections.getChildrenExact()) {
 			connection.addToGraph(patternGraph);
 		}
 
-		for(VarDeclNode varNode : defVariablesToBeYieldedTo.getChildren()) {
+		for(VarDeclNode varNode : defVariablesToBeYieldedTo.getChildrenExact()) {
 			patternGraph.addVariable(varNode.checkIR(Variable.class));
 		}
 
-		for(BaseNode subpatternUsage : subpatterns.getChildren()) {
+		for(BaseNode subpatternUsage : subpatterns.getChildrenExact()) {
 			patternGraph.addSubpatternUsage(subpatternUsage.checkIR(SubpatternUsage.class));
 		}
 
-		for(AlternativeDeclNode alternativeNode : alts.getChildren()) {
+		for(AlternativeDeclNode alternativeNode : alts.getChildrenExact()) {
 			patternGraph.addAlternative(alternativeNode.checkIR(Alternative.class));
 		}
 
-		for(IteratedDeclNode iteratedNode : iters.getChildren()) {
+		for(IteratedDeclNode iteratedNode : iters.getChildrenExact()) {
 			patternGraph.addIterated(iteratedNode.checkIR(Rule.class));
 		}
 
-		for(PatternGraphLhsNode negativeNode : negs.getChildren()) {
+		for(PatternGraphLhsNode negativeNode : negs.getChildrenExact()) {
 			PatternGraphLhs negative = negativeNode.getPatternGraph();
 			patternGraph.addNegGraph(negative);
 			if(negative.isIterationBreaking()) {
@@ -709,7 +709,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 			}
 		}
 
-		for(PatternGraphLhsNode independentNode : idpts.getChildren()) {
+		for(PatternGraphLhsNode independentNode : idpts.getChildrenExact()) {
 			PatternGraphLhs independent = independentNode.getPatternGraph();
 			patternGraph.addIdptGraph(independent);
 			if(independent.isIterationBreaking()) {
@@ -717,7 +717,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 			}
 		}
 
-		for(ExprNode condition : conditions.getChildren()) {
+		for(ExprNode condition : conditions.getChildrenExact()) {
 			ExprNode conditionEvaluated = condition.evaluate(); // compile time evaluation (constant folding)
 			warnIfConditionIsConstant(conditionEvaluated);
 			patternGraph.addCondition(conditionEvaluated.checkIR(Expression.class));
@@ -738,7 +738,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 			PatternGraphBuilder.addHoms(patternGraph, homEntityNodes);
 		}
 
-		for(TotallyHomNode totallyHomNode : totallyHoms.getChildren()) {
+		for(TotallyHomNode totallyHomNode : totallyHoms.getChildrenExact()) {
 			PatternGraphBuilder.addTotallyHom(patternGraph, totallyHomNode);
 		}
 
@@ -776,7 +776,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 	{
 		Collection<EvalStatements> ret = new LinkedList<EvalStatements>();
 
-		for(EvalStatementsNode evalStatements : yields.getChildren()) {
+		for(EvalStatementsNode evalStatements : yields.getChildrenExact()) {
 			ret.add(evalStatements.checkIR(EvalStatements.class));
 		}
 

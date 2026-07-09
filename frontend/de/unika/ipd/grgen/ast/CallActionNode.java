@@ -199,7 +199,7 @@ public class CallActionNode extends BaseNode
 		successfullyResolved &= resolved != null && (action != null || sequence != null || boolVar != null);
 
 		if(action != null) {
-			for(BaseNode filterFunctionUnresolved : filterFunctionsUnresolved.getChildren()) {
+			for(BaseNode filterFunctionUnresolved : filterFunctionsUnresolved.getChildrenExact()) {
 				if(!(filterFunctionUnresolved instanceof PackageIdentNode)) {
 					if(!tryFixupDefinition(filterFunctionUnresolved, action.getScope().getParent())) {
 						fixupDefinition(filterFunctionUnresolved, filterFunctionUnresolved.getScope());
@@ -227,7 +227,7 @@ public class CallActionNode extends BaseNode
 		boolean res = true;
 
 		/* cannot be checked here, because type info is not yet computed
-		 res &= checkParams(action.getParamDecls(), params.getChildren());
+		 res &= checkParams(action.getParamDecls(), params.getChildrenExact());
 		 res &= checkReturns(action.returnFormalParameters, returns);
 		 */
 
@@ -240,18 +240,18 @@ public class CallActionNode extends BaseNode
 		boolean res = true;
 
 		if(action != null) {
-			res &= checkParams(action.pattern.getParamDecls(), params.getChildren());
-			res &= checkReturns(action.returnFormalParameters.getChildren(), returns);
+			res &= checkParams(action.pattern.getParamDecls(), params.getChildrenExact());
+			res &= checkReturns(action.returnFormalParameters.getChildrenExact(), returns);
 		} else if(sequence != null) {
 			Vector<TypeNode> outTypes = new Vector<TypeNode>();
-			for(ExecVarDeclNode varDecl : sequence.outParams.getChildren())
+			for(ExecVarDeclNode varDecl : sequence.outParams.getChildrenExact())
 				outTypes.add(varDecl.getDeclType());
-			res &= checkParams(sequence.inParams.getChildren(), params.getChildren());
+			res &= checkParams(sequence.inParams.getChildrenExact(), params.getChildrenExact());
 			res &= checkReturns(outTypes, returns);
 		}
 
 		if(action != null) {
-			for(FilterFunctionDeclNode filter : filterFunctions.getChildren()) {
+			for(FilterFunctionDeclNode filter : filterFunctions.getChildrenExact()) {
 				if(filter.action != action) {
 					reportError("The filter " + filter.toStringWithDeclarationCoords()
 							+ " is defined for the action " + filter.action.toStringWithDeclarationCoords() + "."
@@ -357,7 +357,7 @@ public class CallActionNode extends BaseNode
 		
 		boolean res = true;
 		if(actualReturns.size() > 0) {
-			Iterator<ExecVarDeclNode> iterAR = actualReturns.getChildren().iterator();
+			Iterator<ExecVarDeclNode> iterAR = actualReturns.getChildrenExact().iterator();
 			int returnPos = 0;
 			for(TypeNode formalReturn : formalReturns) {
 				ExecVarDeclNode actualReturn = iterAR.next();

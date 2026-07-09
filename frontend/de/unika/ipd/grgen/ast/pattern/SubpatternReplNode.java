@@ -242,7 +242,7 @@ public class SubpatternReplNode extends OrderedReplacementNode
 	protected IR constructIR()
 	{
 		List<Expression> replConnections = new LinkedList<Expression>();
-		for(ExprNode e : this.replConnections.getChildren()) {
+		for(ExprNode e : this.replConnections.getChildrenExact()) {
 			e = e.evaluate();
 			replConnections.add(e.checkIR(Expression.class));
 		}

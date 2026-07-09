@@ -304,22 +304,22 @@ public class ModelNode extends DeclNode
 				isEqualClassDefined, isLowerClassDefined, isGraphofDefined,
 				isUniqueDefined, isUniqueClassDefined, isUniqueIndexDefined,
 				areFunctionsParallel, isoParallel, sequencesParallel);
-		for(ModelNode model : usedModels.getChildren()) {
+		for(ModelNode model : usedModels.getChildrenExact()) {
 			res.addUsedModel(model.getModel());
 		}
-		for(TypeDeclNode typeDecl : packages.getChildren()) {
+		for(TypeDeclNode typeDecl : packages.getChildrenExact()) {
 			res.addPackage((PackageType)typeDecl.getDeclType().getType());
 		}
-		for(TypeDeclNode typeDecl : decls.getChildren()) {
+		for(TypeDeclNode typeDecl : decls.getChildrenExact()) {
 			res.addType(typeDecl.getDeclType().getType());
 		}
-		for(IndexDeclNode indexDecl : indices.getChildren()) {
+		for(IndexDeclNode indexDecl : indices.getChildrenExact()) {
 			res.addIndex(indexDecl.checkIR(Index.class));
 		}
-		for(ExternalFunctionDeclNode externalFunctionDecl : externalFuncDecls.getChildren()) {
+		for(ExternalFunctionDeclNode externalFunctionDecl : externalFuncDecls.getChildrenExact()) {
 			res.addExternalFunction(externalFunctionDecl.checkIR(ExternalFunction.class));
 		}
-		for(ExternalProcedureDeclNode externalProcedureDecl : externalProcDecls.getChildren()) {
+		for(ExternalProcedureDeclNode externalProcedureDecl : externalProcDecls.getChildrenExact()) {
 			res.addExternalProcedure(externalProcedureDecl.checkIR(ExternalProcedure.class));
 		}
 		return res;
@@ -368,7 +368,7 @@ public class ModelNode extends DeclNode
 	 */
 	private boolean checkInhCycleFree()
 	{
-		Collection<TypeDeclNode> coll = decls.getChildren();
+		Collection<TypeDeclNode> coll = decls.getChildrenExact();
 		for(TypeDeclNode t : coll) {
 			TypeNode type = t.getDeclType();
 

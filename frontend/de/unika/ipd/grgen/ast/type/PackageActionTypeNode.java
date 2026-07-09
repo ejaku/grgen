@@ -206,31 +206,31 @@ public class PackageActionTypeNode extends CompoundTypeNode
 	protected boolean checkLocal()
 	{
 		boolean res = true;
-		for(SubpatternDeclNode subpattern : subpatterns.getChildren()) {
+		for(SubpatternDeclNode subpattern : subpatterns.getChildrenExact()) {
 			res &= UnitNode.checkStatementsLHS(subpattern, subpattern.pattern);
 			if(subpattern.right != null)
 				res &= UnitNode.checkStatementsRHS(subpattern, subpattern.right.patternGraph);
 		}
-		for(ActionDeclNode action : actions.getChildren()) {
+		for(ActionDeclNode action : actions.getChildrenExact()) {
 			res &= UnitNode.checkStatementsLHS(action, action.pattern);
 			if(action instanceof RuleDeclNode) {
 				RuleDeclNode rule = (RuleDeclNode)action;
 				res &= UnitNode.checkStatementsRHS(action, rule.right.patternGraph);
 			}
 		}
-		for(FilterFunctionDeclNode filterFunction : filterFunctions.getChildren()) {
+		for(FilterFunctionDeclNode filterFunction : filterFunctions.getChildrenExact()) {
 			if(filterFunction.evalStatements != null) // otherwise external filter function without statements
 				res &= EvalStatementNode.checkStatements(true, filterFunction, null, filterFunction.evalStatements, true);
 		}
-		for(MatchClassFilterFunctionDeclNode matchClassFilterFunction : matchClassFilterFunctions.getChildren()) {
+		for(MatchClassFilterFunctionDeclNode matchClassFilterFunction : matchClassFilterFunctions.getChildrenExact()) {
 			if(matchClassFilterFunction.evalStatements != null) // otherwise external filter function without statements
 				res &= EvalStatementNode.checkStatements(true, matchClassFilterFunction, null,
 						matchClassFilterFunction.evalStatements, true);
 		}
-		for(FunctionDeclNode function : functions.getChildren()) {
+		for(FunctionDeclNode function : functions.getChildrenExact()) {
 			res &= EvalStatementNode.checkStatements(true, function, null, function.evalStatements, true);
 		}
-		for(ProcedureDeclNode procedure : procedures.getChildren()) {
+		for(ProcedureDeclNode procedure : procedures.getChildrenExact()) {
 			res &= EvalStatementNode.checkStatements(false, procedure, null, procedure.evalStatements, true);
 		}
 		return res;
@@ -249,62 +249,62 @@ public class PackageActionTypeNode extends CompoundTypeNode
 		Ident id = getIdentNode().checkIR(Ident.class);
 		PackageActionType res = new PackageActionType(id);
 
-		for(SubpatternDeclNode subpattern : subpatterns.getChildren()) {
+		for(SubpatternDeclNode subpattern : subpatterns.getChildrenExact()) {
 			Rule subRule = subpattern.getMatcher();
 			subRule.setPackageContainedIn(id.toString());
 			res.addSubpatternRule(subRule);
 		}
 
-		for(ActionDeclNode action : actions.getChildren()) {
+		for(ActionDeclNode action : actions.getChildrenExact()) {
 			Rule rule = action.getMatcher();
 			rule.setPackageContainedIn(id.toString());
 			res.addActionRule(rule);
 		}
 
-		for(MatchTypeActionNode matchType : matchTypes.getChildren()) {
+		for(MatchTypeActionNode matchType : matchTypes.getChildrenExact()) {
 			MatchType matchTypeIR = matchType.getMatchType();
 			matchTypeIR.setPackageContainedIn(id.toString());
 			//no adding to package as nothing needs to be generated from this type / already happens with action
 		}
 
-		for(FilterFunctionDeclNode filter : filterFunctions.getChildren()) {
+		for(FilterFunctionDeclNode filter : filterFunctions.getChildrenExact()) {
 			FilterFunction filterIR = filter.getFilterFunction();
 			filterIR.setPackageContainedIn(id.toString());
 			res.addFilterFunction(filterIR);
 		}
 
-		for(TypeDeclNode matchClass : matchClassDecls.getChildren()) {
+		for(TypeDeclNode matchClass : matchClassDecls.getChildrenExact()) {
 			DefinedMatchTypeNode matchClassDecl = (DefinedMatchTypeNode)matchClass.getDeclType();
 			DefinedMatchType matchClassIR = matchClassDecl.getDefinedMatchType();
 			matchClassIR.setPackageContainedIn(id.toString());
 			res.addMatchClass(matchClassIR);
 		}
 
-		for(MatchClassFilterFunctionDeclNode matchClassFilter : matchClassFilterFunctions.getChildren()) {
+		for(MatchClassFilterFunctionDeclNode matchClassFilter : matchClassFilterFunctions.getChildrenExact()) {
 			MatchClassFilterFunction matchClassFilterIR = matchClassFilter.getMatchClassFilterFunction();
 			matchClassFilterIR.setPackageContainedIn(id.toString());
 			res.addMatchClassFilterFunction(matchClassFilterIR);
 		}
 
-		for(MatchTypeIteratedNode matchTypeIterated : matchTypesIterated.getChildren()) {
+		for(MatchTypeIteratedNode matchTypeIterated : matchTypesIterated.getChildrenExact()) {
 			MatchTypeIterated matchTypeIteratedIR = matchTypeIterated.getMatchTypeIterated();
 			matchTypeIteratedIR.setPackageContainedIn(id.toString());
 			//no adding to package as nothing needs to be generated from this type / already happens with action
 		}
 
-		for(FunctionDeclNode function : functions.getChildren()) {
+		for(FunctionDeclNode function : functions.getChildrenExact()) {
 			Function functionIR = function.getFunction();
 			functionIR.setPackageContainedIn(id.toString());
 			res.addFunction(functionIR);
 		}
 
-		for(ProcedureDeclNode procedure : procedures.getChildren()) {
+		for(ProcedureDeclNode procedure : procedures.getChildrenExact()) {
 			Procedure procedureIR = procedure.getProcedure();
 			procedureIR.setPackageContainedIn(id.toString());
 			res.addProcedure(procedureIR);
 		}
 
-		for(SequenceDeclNode sequence : sequences.getChildren()) {
+		for(SequenceDeclNode sequence : sequences.getChildrenExact()) {
 			Sequence sequenceIR = sequence.getSequence();
 			sequenceIR.setPackageContainedIn(id.toString());
 			res.addSequence(sequenceIR);

@@ -85,7 +85,7 @@ public class MultiStatementNode extends EvalStatementNode
 	protected IR constructIR()
 	{
 		MultiStatement ms = new MultiStatement();
-		for(EvalStatementNode statement : statements.getChildren()) {
+		for(EvalStatementNode statement : statements.getChildrenExact()) {
 			ms.addStatement(statement.checkIR(EvalStatement.class));
 		}
 		return ms;

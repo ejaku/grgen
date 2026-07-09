@@ -100,7 +100,7 @@ public class MatchClassAutoNode extends BaseNode
 	@Override
 	protected boolean resolveLocal()
 	{
-		for(IdentNode mtid : matchTypesUnresolved.getChildren()) {
+		for(IdentNode mtid : matchTypesUnresolved.getChildrenExact()) {
 			if(!(mtid instanceof PackageIdentNode)) {
 				fixupDefinition(mtid, mtid.getScope());
 			}
@@ -114,8 +114,8 @@ public class MatchClassAutoNode extends BaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		if(matchTypes.getChildren().size() != 2) {
-			reportError("The auto(match<T> | match<S>) construct is only supported on two types (given are " + matchTypes.getChildren().size() + ").");
+		if(matchTypes.getChildrenExact().size() != 2) {
+			reportError("The auto(match<T> | match<S>) construct is only supported on two types (given are " + matchTypes.getChildrenExact().size() + ").");
 			return false;
 		}
 		
@@ -156,7 +156,7 @@ public class MatchClassAutoNode extends BaseNode
 
 		Map<String, TypeNode> entitiesToTypes = new HashMap<String, TypeNode>();
 		
-		for(MatchTypeActionNode matchType : matchTypes.getChildren()) {
+		for(MatchTypeActionNode matchType : matchTypes.getChildrenExact()) {
 			PatternGraphLhsNode lhsPattern = matchType.getAction().pattern;
 			for(ConnectionCharacter cc : lhsPattern.getConnections()) {
 				if(cc instanceof ConnectionNode) {
@@ -187,12 +187,12 @@ public class MatchClassAutoNode extends BaseNode
 				}
 			}
 			
-			for(VarDeclNode defVar : lhsPattern.getDefVariablesToBeYieldedTo().getChildren()) {
+			for(VarDeclNode defVar : lhsPattern.getDefVariablesToBeYieldedTo().getChildrenExact()) {
 				result &= addIfNotYetAddedOrTypeCheckIfDuplicate(defVar, entitiesToTypes,
 						params, () -> defVar.cloneForAuto(patternGraph));
 			}
 			
-			for(BaseNode param : lhsPattern.params.getChildren()) {
+			for(BaseNode param : lhsPattern.params.getChildrenExact()) {
 				if(param instanceof VarDeclNode) {
 					VarDeclNode var = (VarDeclNode)param;
 					result &= addIfNotYetAddedOrTypeCheckIfDuplicate(var, entitiesToTypes,

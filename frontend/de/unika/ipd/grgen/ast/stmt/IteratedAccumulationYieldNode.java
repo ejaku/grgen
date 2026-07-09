@@ -103,7 +103,7 @@ public class IteratedAccumulationYieldNode extends NestingStatementNode
 		}
 
 		boolean iterationVariableFound = false;
-		for(VarDeclNode var : iterated.pattern.getDefVariablesToBeYieldedTo().getChildren()) {
+		for(VarDeclNode var : iterated.pattern.getDefVariablesToBeYieldedTo().getChildrenExact()) {
 			if(iterationVariable.toString().equals(var.toString())) {
 				iterationVariable.typeUnresolved = var.typeUnresolved;
 				iterationVariableFound = true;
@@ -150,7 +150,7 @@ public class IteratedAccumulationYieldNode extends NestingStatementNode
 	{
 		IteratedAccumulationYield iay = new IteratedAccumulationYield(iterationVariable.checkIR(Variable.class),
 				iterated.checkIR(Rule.class));
-		for(EvalStatementNode accumulationStatement : statements.getChildren()) {
+		for(EvalStatementNode accumulationStatement : statements.getChildrenExact()) {
 			iay.addStatement(accumulationStatement.checkIR(EvalStatement.class));
 		}
 		return iay;

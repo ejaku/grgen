@@ -267,7 +267,7 @@ public class EdgeDeclNode extends ConstraintDeclNode
 			edge.setInitialization(initialization.checkIR(Expression.class));
 		}
 
-		for(NameOrAttributeInitializationNode nain : nameOrAttributeInits.getChildren()) {
+		for(NameOrAttributeInitializationNode nain : nameOrAttributeInits.getChildrenExact()) {
 			nain.ownerIR = edge;
 			edge.addNameOrAttributeInitialization(nain.checkIR(NameOrAttributeInitialization.class));
 		}

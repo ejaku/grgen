@@ -120,7 +120,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 
 		// Initialize direct sub types
 		if(extend != null) {
-			for(InheritanceTypeNode type : extend.getChildren()) {
+			for(InheritanceTypeNode type : extend.getChildrenExact()) {
 				type.addDirectSubType(this);
 			}
 		}
@@ -135,7 +135,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 		boolean res = super.checkLocal();
 
 		// check all super types to ensure their copy extends are resolved
-		for(EdgeTypeNode parent : extend.getChildren()) {
+		for(EdgeTypeNode parent : extend.getChildrenExact()) {
 			if(!parent.visitedDuringCheck()) { // only if not already visited
 				parent.check();
 			}
@@ -148,7 +148,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 			cas.addChild(caToCopy);
 		}
 
-		for(BaseNode child : body.getChildren()) {
+		for(BaseNode child : body.getChildrenExact()) {
 			if(child instanceof ConstructorDeclNode
 					|| child instanceof MemberInitNode
 					|| child instanceof ContainerInitNode
@@ -177,14 +177,14 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 		Vector<ConnAssertNode> connAssertsToCopy = new Vector<ConnAssertNode>();
 		Vector<ConnAssertNode> connAssertsToDelete = new Vector<ConnAssertNode>();
 		boolean alreadyCopiedExtends = false;
-		for(ConnAssertNode ca : cas.getChildren()) {
+		for(ConnAssertNode ca : cas.getChildrenExact()) {
 			if(ca.copyExtends) {
 				if(alreadyCopiedExtends) {
 					reportWarning("more than one copy extends only causes double work without benefit");
 				}
 
-				for(EdgeTypeNode parent : extend.getChildren()) {
-					for(ConnAssertNode caToCopy : parent.cas.getChildren()) {
+				for(EdgeTypeNode parent : extend.getChildrenExact()) {
+					for(ConnAssertNode caToCopy : parent.cas.getChildrenExact()) {
 						if(caToCopy.copyExtends) {
 							reportError("Internal error: copy extends in parent while copying connection assertions from parent.");
 							assert false;
@@ -198,7 +198,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 			}
 		}
 
-		cas.getChildren().removeAll(connAssertsToDelete);
+		cas.getChildrenExact().removeAll(connAssertsToDelete);
 		
 		return connAssertsToCopy;
 	}
@@ -228,7 +228,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 	{
 		assert isResolved();
 
-		for(EdgeTypeNode inh : extend.getChildren()) {
+		for(EdgeTypeNode inh : extend.getChildrenExact()) {
 			coll.add(inh);
 			coll.addAll(inh.getCompatibleToTypes());
 		}
@@ -241,7 +241,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 	{
 		assert isResolved();
 
-		return extend.getChildren();
+		return extend.getChildrenExact();
 	}
 
 	protected abstract void setDirectednessIR(EdgeType inhType);
@@ -264,7 +264,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 
 		setDirectednessIR(et); // from Undirected/Arbitrary/Directed-EdgeTypeNode
 
-		for(ConnAssertNode can : cas.getChildren()) {
+		for(ConnAssertNode can : cas.getChildrenExact()) {
 			et.addConnAssert(can.checkIR(ConnAssert.class));
 		}
 

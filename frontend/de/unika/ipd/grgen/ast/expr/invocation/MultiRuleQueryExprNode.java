@@ -44,7 +44,7 @@ public class MultiRuleQueryExprNode extends ExprNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren()
+	public Collection<BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ruleQueries);
@@ -76,7 +76,7 @@ public class MultiRuleQueryExprNode extends ExprNode
 	protected boolean checkLocal()
 	{
 		// all actions must implement the match classes of the employed filters
-		for(ExprNode ruleQuery : ruleQueries.getChildren()) {
+		for(ExprNode ruleQuery : ruleQueries.getChildrenExact()) {
 			CallActionNode actionCall = ((RuleQueryExprNode)ruleQuery).getCallAction();
 			MultiCallActionNode.checkWhetherCalledActionImplementsMatchClass(matchClass.getIdent().toString(), null,
 					actionCall);

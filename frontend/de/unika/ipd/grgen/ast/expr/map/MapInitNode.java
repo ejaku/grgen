@@ -59,7 +59,7 @@ public class MapInitNode extends ContainerInitNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren()
+	public Collection<BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(mapItems);
@@ -102,7 +102,7 @@ public class MapInitNode extends ContainerInitNode
 		boolean success = true;
 
 		MapTypeNode mapType = getContainerType();
-		for(ExprPairNode item : mapItems.getChildren()) {
+		for(ExprPairNode item : mapItems.getChildrenExact()) {
 			if(item.keyExpr.getType() != mapType.keyType) {
 				if(!isInitInModel()) {
 					ExprNode oldKeyExpr = item.keyExpr;
@@ -153,8 +153,8 @@ public class MapInitNode extends ContainerInitNode
 
 	private MapTypeNode createMapType()
 	{
-		TypeNode keyTypeNode = mapItems.getChildren().iterator().next().keyExpr.getType();
-		TypeNode valueTypeNode = mapItems.getChildren().iterator().next().valueExpr.getType();
+		TypeNode keyTypeNode = mapItems.getChildrenExact().iterator().next().keyExpr.getType();
+		TypeNode valueTypeNode = mapItems.getChildrenExact().iterator().next().valueExpr.getType();
 		IdentNode keyTypeIdent = ((DeclaredTypeNode)keyTypeNode).getIdentNode();
 		IdentNode valueTypeIdent = ((DeclaredTypeNode)valueTypeNode).getIdentNode();
 		return new MapTypeNode(keyTypeIdent, valueTypeIdent);
@@ -166,7 +166,7 @@ public class MapInitNode extends ContainerInitNode
 	 */
 	public final boolean isConstant()
 	{
-		for(ExprPairNode item : mapItems.getChildren()) {
+		for(ExprPairNode item : mapItems.getChildrenExact()) {
 			if(!(item.keyExpr instanceof ConstNode || isEnumValue(item.keyExpr)))
 				return false;
 			if(!(item.valueExpr instanceof ConstNode || isEnumValue(item.valueExpr)))
@@ -177,7 +177,7 @@ public class MapInitNode extends ContainerInitNode
 
 	public final boolean areKeysConstant()
 	{
-		for(ExprPairNode item : mapItems.getChildren()) {
+		for(ExprPairNode item : mapItems.getChildrenExact()) {
 			if(!(item.keyExpr instanceof ConstNode || isEnumValue(item.keyExpr)))
 				return false;
 		}
@@ -186,7 +186,7 @@ public class MapInitNode extends ContainerInitNode
 
 	public boolean contains(ConstNode node)
 	{
-		for(ExprPairNode item : mapItems.getChildren()) {
+		for(ExprPairNode item : mapItems.getChildrenExact()) {
 			if(item.keyExpr instanceof ConstNode) {
 				ConstNode itemConst = (ConstNode)item.keyExpr;
 				if(node.getValue().equals(itemConst.getValue()))
@@ -198,7 +198,7 @@ public class MapInitNode extends ContainerInitNode
 
 	public ExprNode getAtIndex(ConstNode node)
 	{
-		for(ExprPairNode item : mapItems.getChildren()) {
+		for(ExprPairNode item : mapItems.getChildrenExact()) {
 			if(item.keyExpr instanceof ConstNode) {
 				ConstNode itemConst = (ConstNode)item.keyExpr;
 				if(node.getValue().equals(itemConst.getValue()))
@@ -235,7 +235,7 @@ public class MapInitNode extends ContainerInitNode
 	protected IR constructIR()
 	{
 		Vector<ExpressionPair> items = new Vector<ExpressionPair>();
-		for(ExprPairNode item : mapItems.getChildren()) {
+		for(ExprPairNode item : mapItems.getChildrenExact()) {
 			items.add(item.getExpressionPair());
 		}
 		Entity member = lhs != null ? lhs.getEntity() : null;

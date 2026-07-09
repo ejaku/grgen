@@ -94,7 +94,7 @@ public class InternalObjectTypeNode extends BaseInternalObjectTypeNode
 
 		// Initialize direct sub types
 		if(extend != null) {
-			for(InheritanceTypeNode type : extend.getChildren()) {
+			for(InheritanceTypeNode type : extend.getChildrenExact()) {
 				type.addDirectSubType(this);
 			}
 		}
@@ -107,7 +107,7 @@ public class InternalObjectTypeNode extends BaseInternalObjectTypeNode
 	{
 		boolean res = super.checkLocal();
 
-		for(BaseNode child : body.getChildren()) {
+		for(BaseNode child : body.getChildrenExact()) {
 			if(child instanceof ConstructorDeclNode
 					|| child instanceof MemberInitNode
 					|| child instanceof ContainerInitNode
@@ -167,7 +167,7 @@ public class InternalObjectTypeNode extends BaseInternalObjectTypeNode
 	{
 		assert isResolved();
 
-		for(InternalObjectTypeNode inh : extend.getChildren()) {
+		for(InternalObjectTypeNode inh : extend.getChildrenExact()) {
 			coll.add(inh);
 			coll.addAll(inh.getCompatibleToTypes());
 		}
@@ -185,6 +185,6 @@ public class InternalObjectTypeNode extends BaseInternalObjectTypeNode
 	{
 		assert isResolved();
 
-		return extend.getChildren();
+		return extend.getChildrenExact();
 	}
 }

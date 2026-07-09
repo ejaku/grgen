@@ -48,9 +48,9 @@ public class EmitNode extends OrderedReplacementNode
 
 	/** returns children of this node */
 	@Override
-	public Collection<? extends BaseNode> getChildren()
+	public Collection<BaseNode> getChildren()
 	{
-		return childrenUnresolved;
+		return new Vector<BaseNode>(childrenUnresolved);
 	}
 
 	/** returns names of the children, same order as in getChildren */

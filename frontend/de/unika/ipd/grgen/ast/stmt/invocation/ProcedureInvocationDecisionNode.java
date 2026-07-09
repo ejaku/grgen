@@ -70,7 +70,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren()
+	public Collection<BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		//children.add(methodIdent);	// HACK: We don't have a declaration, so avoid failure during check phase
@@ -194,7 +194,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 		case "emit":
 			if(arguments.size() >= 1) {
 				EmitProcNode emit = new EmitProcNode(env.getCoords(), false);
-				for(ExprNode param : arguments.getChildren()) {
+				for(ExprNode param : arguments.getChildrenExact()) {
 					emit.addExpression(param);
 				}
 				return emit;
@@ -205,7 +205,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 		case "emitdebug":
 			if(arguments.size() >= 1) {
 				EmitProcNode emit = new EmitProcNode(env.getCoords(), true);
-				for(ExprNode param : arguments.getChildren()) {
+				for(ExprNode param : arguments.getChildrenExact()) {
 					emit.addExpression(param);
 				}
 				return emit;
@@ -290,7 +290,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 		case "assert":
 			if(arguments.size() >= 1) {
 				AssertProcNode assert_ = new AssertProcNode(env.getCoords(), false);
-				for(ExprNode param : arguments.getChildren()) {
+				for(ExprNode param : arguments.getChildrenExact()) {
 					assert_.addExpression(param);
 				}
 				return assert_;
@@ -301,7 +301,7 @@ public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 		case "assertAlways":
 			if(arguments.size() >= 1) {
 				AssertProcNode assert_ = new AssertProcNode(env.getCoords(), true);
-				for(ExprNode param : arguments.getChildren()) {
+				for(ExprNode param : arguments.getChildrenExact()) {
 					assert_.addExpression(param);
 				}
 				return assert_;

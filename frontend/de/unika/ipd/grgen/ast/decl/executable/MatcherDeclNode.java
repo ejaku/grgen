@@ -260,10 +260,10 @@ public abstract class MatcherDeclNode extends DeclNode
 		// NOTE: the order affect the error coords
 		Collection<PatternGraphLhsNode> leftHandGraphs = new LinkedList<PatternGraphLhsNode>();
 		leftHandGraphs.add(pattern);
-		for(PatternGraphLhsNode negative : pattern.negs.getChildren()) {
+		for(PatternGraphLhsNode negative : pattern.negs.getChildrenExact()) {
 			leftHandGraphs.add(negative);
 		}
-		for(PatternGraphLhsNode independent : pattern.idpts.getChildren()) {
+		for(PatternGraphLhsNode independent : pattern.idpts.getChildrenExact()) {
 			leftHandGraphs.add(independent);
 		}
 
@@ -576,13 +576,13 @@ public abstract class MatcherDeclNode extends DeclNode
 		Set<ConstraintDeclNode> deletedElements = right.getElementsToDelete(pattern);
 		Set<ConstraintDeclNode> maybeDeletedElements = right.getMaybeDeletedElements(pattern);
 
-		for(BaseNode imperativeStatement : right.patternGraph.imperativeStmts.getChildren()) {
+		for(BaseNode imperativeStatement : right.patternGraph.imperativeStmts.getChildrenExact()) {
 			if(!(imperativeStatement instanceof ExecNode))
 				continue;
 
 			ExecNode exec = (ExecNode)imperativeStatement;
-			for(CallActionNode callAction : exec.callActions.getChildren()) {
-				for(ExprNode arg : callAction.params.getChildren()) {
+			for(CallActionNode callAction : exec.callActions.getChildrenExact()) {
+				for(ExprNode arg : callAction.params.getChildrenExact()) {
 					HashSet<ConstraintDeclNode> potentiallyResultingElements = new HashSet<ConstraintDeclNode>();
 					arg.getPotentiallyResultingElements(potentiallyResultingElements);
 					for(ConstraintDeclNode potentiallyResultingElement : potentiallyResultingElements) {
@@ -628,8 +628,8 @@ public abstract class MatcherDeclNode extends DeclNode
 	{
 		boolean res = true;
 
-		for(AlternativeDeclNode alternative : pattern.alts.getChildren()) {
-			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildren()) {
+		for(AlternativeDeclNode alternative : pattern.alts.getChildrenExact()) {
+			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildrenExact()) {
 				if(right == null && alternativeCase.right != null) {
 					alternativeCase.reportError("No rewrite part is specified in the " + actionKind + (ident.getCurrOcc().isAnonymous() ? "" : " " + ident)
 							+ ", but one is given in the nested " + alternativeCase.getKind() + " " + alternativeCase.ident + ".");
@@ -643,7 +643,7 @@ public abstract class MatcherDeclNode extends DeclNode
 			}
 		}
 
-		for(IteratedDeclNode iterated : pattern.iters.getChildren()) {
+		for(IteratedDeclNode iterated : pattern.iters.getChildrenExact()) {
 			if(right == null && iterated.right != null) {
 				iterated.reportError("No rewrite part is specified in the " + actionKind + (ident.getCurrOcc().isAnonymous() ? "" : " " + ident)
 						+ ", but one is given in the nested " + iterated.getKind() + iterated.emptyWhenAnonymousPostfix(" ") + ".");
@@ -663,8 +663,8 @@ public abstract class MatcherDeclNode extends DeclNode
 	{
 		boolean res = true;
 
-		for(AlternativeDeclNode alternative : pattern.alts.getChildren()) {
-			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildren()) {
+		for(AlternativeDeclNode alternative : pattern.alts.getChildrenExact()) {
+			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildrenExact()) {
 				if(alternativeCase.right == null)
 					continue;
 
@@ -679,7 +679,7 @@ public abstract class MatcherDeclNode extends DeclNode
 			}
 		}
 
-		for(IteratedDeclNode iterated : pattern.iters.getChildren()) {
+		for(IteratedDeclNode iterated : pattern.iters.getChildrenExact()) {
 			if(iterated.right == null)
 				continue;
 
@@ -709,12 +709,12 @@ public abstract class MatcherDeclNode extends DeclNode
 			if(edge.directlyNestingLHSGraph == pattern)
 				result &= noAmbiguousRetypes(right, edge);
 		}
-		for(AlternativeDeclNode alternative : pattern.alts.getChildren()) {
-			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildren()) {
+		for(AlternativeDeclNode alternative : pattern.alts.getChildrenExact()) {
+			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildrenExact()) {
 				result &= alternativeCase.noAmbiguousRetypes(alternativeCase.right);
 			}
 		}
-		for(IteratedDeclNode iterated : pattern.iters.getChildren()) {
+		for(IteratedDeclNode iterated : pattern.iters.getChildrenExact()) {
 			result &= iterated.noAmbiguousRetypes(iterated.right);
 		}
 		return result;
@@ -727,9 +727,9 @@ public abstract class MatcherDeclNode extends DeclNode
 		Pair<Boolean, NodeTypeChangeDeclNode> result = right.getRhsGraph().noAmbiguousRetypes(node, retypeOfNode);
 		noAmbiguousRetypes &= result.first.booleanValue();
 		retypeOfNode = result.second;
-		for(AlternativeDeclNode alternative : pattern.alts.getChildren()) {
+		for(AlternativeDeclNode alternative : pattern.alts.getChildrenExact()) {
 			NodeTypeChangeDeclNode tempRetype = null;
-			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildren()) {
+			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildrenExact()) {
 				result = alternativeCase.noAmbiguousRetypes(alternativeCase.right, node, retypeOfNode);
 				noAmbiguousRetypes &= result.first.booleanValue();
 				if(tempRetype == null)
@@ -738,7 +738,7 @@ public abstract class MatcherDeclNode extends DeclNode
 			if(retypeOfNode == null)
 				retypeOfNode = tempRetype;
 		}
-		for(IteratedDeclNode iterated : pattern.iters.getChildren()) {
+		for(IteratedDeclNode iterated : pattern.iters.getChildrenExact()) {
 			result = iterated.noAmbiguousRetypes(iterated.right, node, retypeOfNode);
 			noAmbiguousRetypes &= result.first.booleanValue();
 			if(retypeOfNode == null)
@@ -754,9 +754,9 @@ public abstract class MatcherDeclNode extends DeclNode
 		Pair<Boolean, EdgeTypeChangeDeclNode> result = right.getRhsGraph().noAmbiguousRetypes(edge, retypeOfEdge);
 		noAmbiguousRetypes &= result.first.booleanValue();
 		retypeOfEdge = result.second;
-		for(AlternativeDeclNode alternative : pattern.alts.getChildren()) {
+		for(AlternativeDeclNode alternative : pattern.alts.getChildrenExact()) {
 			EdgeTypeChangeDeclNode tempRetype = null;
-			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildren()) {
+			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildrenExact()) {
 				result = alternativeCase.noAmbiguousRetypes(alternativeCase.right, edge, retypeOfEdge);
 				noAmbiguousRetypes &= result.first.booleanValue();
 				if(tempRetype == null)
@@ -765,7 +765,7 @@ public abstract class MatcherDeclNode extends DeclNode
 			if(retypeOfEdge == null)
 				retypeOfEdge = tempRetype;
 		}
-		for(IteratedDeclNode iterated : pattern.iters.getChildren()) {
+		for(IteratedDeclNode iterated : pattern.iters.getChildrenExact()) {
 			result = iterated.noAmbiguousRetypes(iterated.right, edge, retypeOfEdge);
 			noAmbiguousRetypes &= result.first.booleanValue();
 			if(retypeOfEdge == null)
@@ -782,9 +782,9 @@ public abstract class MatcherDeclNode extends DeclNode
 		Pair<Boolean, NodeTypeChangeDeclNode> result = right.getRhsGraph().noAmbiguousRetypes(node, retypeOfNode);
 		noAmbiguousRetypes &= result.first.booleanValue();
 		retypeOfNode = result.second;
-		for(AlternativeDeclNode alternative : pattern.alts.getChildren()) {
+		for(AlternativeDeclNode alternative : pattern.alts.getChildrenExact()) {
 			NodeTypeChangeDeclNode tempRetype = null;
-			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildren()) {
+			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildrenExact()) {
 				result = alternativeCase.noAmbiguousRetypes(alternativeCase.right, node, retypeOfNode);
 				noAmbiguousRetypes &= result.first.booleanValue();
 				if(tempRetype == null)
@@ -793,7 +793,7 @@ public abstract class MatcherDeclNode extends DeclNode
 			if(retypeOfNode == null)
 				retypeOfNode = tempRetype;
 		}
-		for(IteratedDeclNode iterated : pattern.iters.getChildren()) {
+		for(IteratedDeclNode iterated : pattern.iters.getChildrenExact()) {
 			result = iterated.noAmbiguousRetypes(iterated.right, node, retypeOfNode);
 			noAmbiguousRetypes &= result.first.booleanValue();
 			if(retypeOfNode == null)
@@ -810,9 +810,9 @@ public abstract class MatcherDeclNode extends DeclNode
 		Pair<Boolean, EdgeTypeChangeDeclNode> result = right.getRhsGraph().noAmbiguousRetypes(edge, retypeOfEdge);
 		noAmbiguousRetypes &= result.first.booleanValue();
 		retypeOfEdge = result.second;
-		for(AlternativeDeclNode alternative : pattern.alts.getChildren()) {
+		for(AlternativeDeclNode alternative : pattern.alts.getChildrenExact()) {
 			EdgeTypeChangeDeclNode tempRetype = null;
-			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildren()) {
+			for(AlternativeCaseDeclNode alternativeCase : alternative.getChildrenExact()) {
 				result = alternativeCase.noAmbiguousRetypes(alternativeCase.right, edge, retypeOfEdge);
 				noAmbiguousRetypes &= result.first.booleanValue();
 				if(tempRetype == null)
@@ -821,7 +821,7 @@ public abstract class MatcherDeclNode extends DeclNode
 			if(retypeOfEdge == null)
 				retypeOfEdge = tempRetype;
 		}
-		for(IteratedDeclNode iterated : pattern.iters.getChildren()) {
+		for(IteratedDeclNode iterated : pattern.iters.getChildrenExact()) {
 			result = iterated.noAmbiguousRetypes(iterated.right, edge, retypeOfEdge);
 			noAmbiguousRetypes &= result.first.booleanValue();
 			if(retypeOfEdge == null)

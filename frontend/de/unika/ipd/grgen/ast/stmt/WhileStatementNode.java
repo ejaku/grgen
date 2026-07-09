@@ -94,7 +94,7 @@ public class WhileStatementNode extends NestingStatementNode
 	{
 		conditionExpr = conditionExpr.evaluate();
 		WhileStatement ws = new WhileStatement(conditionExpr.checkIR(Expression.class));
-		for(EvalStatementNode loopedStatement : statements.getChildren()) {
+		for(EvalStatementNode loopedStatement : statements.getChildrenExact()) {
 			ws.addStatement(loopedStatement.checkIR(EvalStatement.class));
 		}
 		return ws;

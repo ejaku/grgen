@@ -58,14 +58,14 @@ public class ImplicitNegComputerInduced
 		if(patternGraph.isInduced()) {
 			nodesRequiringPairNeg(patternGraph.getNodes());
 
-			for(InducedNode induced : patternGraph.induceds.getChildren()) {
+			for(InducedNode induced : patternGraph.induceds.getChildrenExact()) {
 				induced.reportWarning("Induced statement occurs in induced pattern");
 			}
 			return;
 		}
 
 		Map<Set<NodeDeclNode>, Integer> generatedInducedSets = new LinkedHashMap<Set<NodeDeclNode>, Integer>();
-		for(int i = 0; i < patternGraph.induceds.getChildren().size(); i++) {
+		for(int i = 0; i < patternGraph.induceds.getChildrenExact().size(); i++) {
 			InducedNode induced = patternGraph.induceds.get(i);
 			Set<NodeDeclNode> inducedNodes = induced.getInducedNodesSet();
 			if(generatedInducedSets.containsKey(inducedNodes)) {
@@ -114,7 +114,7 @@ public class ImplicitNegComputerInduced
 		LinkedList<PatternGraphLhs> implicitNegGraphs = new LinkedList<PatternGraphLhs>();
 
 		// add existing edges to the corresponding pattern graph
-		for(ConnectionCharacter connection : patternGraph.connections.getChildren()) {
+		for(ConnectionCharacter connection : patternGraph.connections.getChildrenExact()) {
 			if(!(connection instanceof ConnectionNode))
 				continue;
 			

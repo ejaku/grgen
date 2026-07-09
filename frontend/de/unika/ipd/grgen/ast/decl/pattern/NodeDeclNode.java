@@ -265,7 +265,7 @@ public class NodeDeclNode extends ConstraintDeclNode
 			node.setInitialization(initialization.checkIR(Expression.class));
 		}
 
-		for(NameOrAttributeInitializationNode nain : nameOrAttributeInits.getChildren()) {
+		for(NameOrAttributeInitializationNode nain : nameOrAttributeInits.getChildrenExact()) {
 			nain.ownerIR = node;
 			node.addNameOrAttributeInitialization(nain.checkIR(NameOrAttributeInitialization.class));
 		}

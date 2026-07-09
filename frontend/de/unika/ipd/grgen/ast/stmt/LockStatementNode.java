@@ -93,7 +93,7 @@ public class LockStatementNode extends NestingStatementNode
 	{
 		lockObjectExpr = lockObjectExpr.evaluate();
 		LockStatement ls = new LockStatement(lockObjectExpr.checkIR(Expression.class));
-		for(EvalStatementNode lockedStatement : statements.getChildren()) {
+		for(EvalStatementNode lockedStatement : statements.getChildrenExact()) {
 			ls.addStatement(lockedStatement.checkIR(EvalStatement.class));
 		}
 		return ls;

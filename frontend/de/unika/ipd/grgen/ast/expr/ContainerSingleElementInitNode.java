@@ -39,7 +39,7 @@ public abstract class ContainerSingleElementInitNode extends ContainerInitNode
 	}
 
 	@Override
-	public Collection<? extends BaseNode> getChildren()
+	public Collection<BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(containerItems);
@@ -59,7 +59,7 @@ public abstract class ContainerSingleElementInitNode extends ContainerInitNode
 		boolean success = true;
 
 		TypeNode containerElementType = getContainerType().getElementType();
-		for(ExprNode item : containerItems.getChildren()) {
+		for(ExprNode item : containerItems.getChildrenExact()) {
 			if(item.getType() != containerElementType) {
 				if(!isInitInModel()) {
 					ExprNode oldValueExpr = item;
@@ -90,7 +90,7 @@ public abstract class ContainerSingleElementInitNode extends ContainerInitNode
 	 */
 	public boolean isConstant()
 	{
-		for(ExprNode item : containerItems.getChildren()) {
+		for(ExprNode item : containerItems.getChildrenExact()) {
 			if(!(item instanceof ConstNode || isEnumValue(item)))
 				return false;
 		}
@@ -99,7 +99,7 @@ public abstract class ContainerSingleElementInitNode extends ContainerInitNode
 
 	public boolean contains(ConstNode node)
 	{
-		for(ExprNode item : containerItems.getChildren()) {
+		for(ExprNode item : containerItems.getChildrenExact()) {
 			if(item instanceof ConstNode) {
 				ConstNode itemConst = (ConstNode)item;
 				if(node.getValue().equals(itemConst.getValue()))
@@ -117,7 +117,7 @@ public abstract class ContainerSingleElementInitNode extends ContainerInitNode
 	protected Vector<Expression> constructItems()
 	{
 		Vector<Expression> items = new Vector<Expression>();
-		for(ExprNode item : containerItems.getChildren()) {
+		for(ExprNode item : containerItems.getChildrenExact()) {
 			item = item.evaluate();
 			items.add(item.checkIR(Expression.class));
 		}

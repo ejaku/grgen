@@ -146,7 +146,7 @@ public class TestDeclNode extends ActionDeclNode
 
 		testRule.initialize(left, null);
 
-		for(DefinedMatchTypeNode implementedMatchClassNode : implementedMatchTypes.getChildren()) {
+		for(DefinedMatchTypeNode implementedMatchClassNode : implementedMatchTypes.getChildrenExact()) {
 			DefinedMatchType implementedMatchClass = implementedMatchClassNode.checkIR(DefinedMatchType.class);
 			testRule.addImplementedMatchClass(implementedMatchClass);
 		}
