@@ -170,7 +170,7 @@ public class ImplicitNegComputerInduced
 			EdgeDeclNode edge = patternGraph.getAnonymousEdgeDecl(edgeRoot, patternGraph.context);
 
 			ConnectionCharacter conn = new ConnectionNode(src, edge, tgt,
-					ConnectionNode.ConnectionKind.ARBITRARY, patternGraph);
+					ConnectionKind.ARBITRARY, patternGraph);
 
 			conn.addToGraph(neg);
 

@@ -40,15 +40,6 @@ public class ConnectionNode extends ConnectionCharacter
 		setName(ConnectionNode.class, "connection");
 	}
 
-	/** possible connection kinds */
-	public enum ConnectionKind
-	{
-		ARBITRARY,
-		ARBITRARY_DIRECTED,
-		DIRECTED,
-		UNDIRECTED
-	}
-
 	private ConnectionKind connectionKind;
 
 	/** possible redirection kinds */

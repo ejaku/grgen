@@ -780,13 +780,13 @@ param [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ Bas
 		{
 			BaseNode dummy = env.getDummyNodeDecl(context, directlyNestingLHSGraph);
 			res = new ConnectionNode(dummy, edge, dummy, 
-					ConnectionNode.ConnectionKind.ARBITRARY_DIRECTED, ConnectionNode.NO_REDIRECTION);
+					ConnectionKind.ARBITRARY_DIRECTED, ConnectionNode.NO_REDIRECTION);
 		}
 	| QUESTIONMINUS edge=edgeDeclParam[context, directlyNestingLHSGraph] MINUSQUESTION
 		{
 			BaseNode dummy = env.getDummyNodeDecl(context, directlyNestingLHSGraph);
 			res = new ConnectionNode(dummy, edge, dummy,
-					ConnectionNode.ConnectionKind.ARBITRARY, ConnectionNode.NO_REDIRECTION);
+					ConnectionKind.ARBITRARY, ConnectionNode.NO_REDIRECTION);
 		}
 	| v=varDecl[context, directlyNestingLHSGraph] 
 		{ res = v; }
@@ -794,9 +794,9 @@ param [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ Bas
 		{ res = new SingleNodeConnNode(node); }
 	;
 
-forwardOrUndirectedEdgeParam returns [ ConnectionNode.ConnectionKind res = ConnectionNode.ConnectionKind.ARBITRARY ]
-	: RARROW { res = ConnectionNode.ConnectionKind.DIRECTED; }
-	| MINUS  { res = ConnectionNode.ConnectionKind.UNDIRECTED; }
+forwardOrUndirectedEdgeParam returns [ ConnectionKind res = ConnectionKind.ARBITRARY ]
+	: RARROW { res = ConnectionKind.DIRECTED; }
+	| MINUS  { res = ConnectionKind.UNDIRECTED; }
 	;
 
 returnTypes returns [ CollectNode<BaseNode> res = new CollectNode<BaseNode>() ]
@@ -1121,13 +1121,13 @@ connectionsOrSubpattern [ CollectNode<BaseNode> conn,
 firstEdge [ CollectNode<BaseNode> conn, AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
 	@init {
 		boolean forward = true;
-		Mutable<ConnectionNode.ConnectionKind> direction =
-				new Mutable<ConnectionNode.ConnectionKind>(ConnectionNode.ConnectionKind.ARBITRARY);
+		Mutable<ConnectionKind> direction =
+				new Mutable<ConnectionKind>(ConnectionKind.ARBITRARY);
 		Mutable<Integer> redirection = new Mutable<Integer>(ConnectionNode.NO_REDIRECTION);
 	}
 	:   ( e=forwardOrUndirectedEdgeOcc[namer, context, direction, redirection, directlyNestingLHSGraph] { forward=true; } // get first edge
 		| e=backwardOrArbitraryDirectedEdgeOcc[namer, context, direction, redirection, directlyNestingLHSGraph] { forward=false; }
-		| e=arbitraryEdgeOcc[namer, context, directlyNestingLHSGraph] { forward=false; direction.setValue(ConnectionNode.ConnectionKind.ARBITRARY); }
+		| e=arbitraryEdgeOcc[namer, context, directlyNestingLHSGraph] { forward=false; direction.setValue(ConnectionKind.ARBITRARY); }
 		)
 		nodeContinuation[e, env.getDummyNodeDecl(context, directlyNestingLHSGraph), forward, direction, redirection, conn,
 				namer, context, directlyNestingLHSGraph] // and continue looking for node
@@ -1343,7 +1343,7 @@ defEntityToBeYieldedTo [ CollectNode<BaseNode> connections, CollectNode<VarDeclN
 			{
 				BaseNode dummy = env.getDummyNodeDecl(context, directlyNestingLHSGraph);
 				res = new ConnectionNode(dummy, edge, dummy,
-						ConnectionNode.ConnectionKind.ARBITRARY_DIRECTED, ConnectionNode.NO_REDIRECTION);
+						ConnectionKind.ARBITRARY_DIRECTED, ConnectionNode.NO_REDIRECTION);
 				if(connections != null)
 					connections.addChild(res);
 			}
@@ -1352,7 +1352,7 @@ defEntityToBeYieldedTo [ CollectNode<BaseNode> connections, CollectNode<VarDeclN
 			{
 				BaseNode dummy = env.getDummyNodeDecl(context, directlyNestingLHSGraph);
 				res = new ConnectionNode(dummy, edge, dummy,
-						ConnectionNode.ConnectionKind.ARBITRARY, ConnectionNode.NO_REDIRECTION);
+						ConnectionKind.ARBITRARY, ConnectionNode.NO_REDIRECTION);
 				if(connections != null)
 					connections.addChild(res);
 			}
@@ -1598,7 +1598,7 @@ matchTypeIdentUseInContainerType returns [ IdentNode res = null ]
 		{ res = matchClassIdent; }
 	;
 
-nodeContinuation [ BaseNode edge, BaseNode node1, boolean forward, Mutable<ConnectionNode.ConnectionKind> direction,
+nodeContinuation [ BaseNode edge, BaseNode node1, boolean forward, Mutable<ConnectionKind> direction,
 					Mutable<Integer> redirection, CollectNode<BaseNode> conn, 
 					AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
 	@init {
@@ -1606,7 +1606,7 @@ nodeContinuation [ BaseNode edge, BaseNode node1, boolean forward, Mutable<Conne
 	}
 	: node2=nodeOcc[namer, context, directlyNestingLHSGraph] // node following - get it and build connection with it, then continue with looking for follwing edge
 		{
-			if(direction.getValue() == ConnectionNode.ConnectionKind.DIRECTED && !forward) {
+			if(direction.getValue() == ConnectionKind.DIRECTED && !forward) {
 				conn.addChild(new ConnectionNode(node2, edge, node1, direction.getValue(), redirection.getValue()));
 			} else {
 				conn.addChild(new ConnectionNode(node1, edge, node2, direction.getValue(), redirection.getValue()));
@@ -1615,7 +1615,7 @@ nodeContinuation [ BaseNode edge, BaseNode node1, boolean forward, Mutable<Conne
 		edgeContinuation[node2, conn, namer, context, directlyNestingLHSGraph]
 	|   // nothing following - build connection with edge dangeling on the right (see node2 initialization)
 		{
-			if(direction.getValue() == ConnectionNode.ConnectionKind.DIRECTED && !forward) {
+			if(direction.getValue() == ConnectionKind.DIRECTED && !forward) {
 				conn.addChild(new ConnectionNode(node2, edge, node1, direction.getValue(), redirection.getValue()));
 			} else {
 				conn.addChild(new ConnectionNode(node1, edge, node2, direction.getValue(), redirection.getValue()));
@@ -1626,8 +1626,8 @@ nodeContinuation [ BaseNode edge, BaseNode node1, boolean forward, Mutable<Conne
 firstEdgeContinuation [ BaseNode node, CollectNode<BaseNode> conn, AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
 	@init {
 		boolean forward = true;
-		Mutable<ConnectionNode.ConnectionKind> direction =
-				new Mutable<ConnectionNode.ConnectionKind>(ConnectionNode.ConnectionKind.ARBITRARY);
+		Mutable<ConnectionKind> direction =
+				new Mutable<ConnectionKind>(ConnectionKind.ARBITRARY);
 		Mutable<Integer> redirection = new Mutable<Integer>(ConnectionNode.NO_REDIRECTION);
 	}
 	: // nothing following? -> one single node
@@ -1640,7 +1640,7 @@ firstEdgeContinuation [ BaseNode node, CollectNode<BaseNode> conn, AnonymousScop
 		}
 	|   ( edge=forwardOrUndirectedEdgeOcc[namer, context, direction, redirection, directlyNestingLHSGraph] { forward=true; }
 		| edge=backwardOrArbitraryDirectedEdgeOcc[namer, context, direction, redirection, directlyNestingLHSGraph] { forward=false; }
-		| edge=arbitraryEdgeOcc[namer, context, directlyNestingLHSGraph] { forward=false; direction.setValue(ConnectionNode.ConnectionKind.ARBITRARY);}
+		| edge=arbitraryEdgeOcc[namer, context, directlyNestingLHSGraph] { forward=false; direction.setValue(ConnectionKind.ARBITRARY);}
 		)
 			nodeContinuation[edge, node, forward, direction, redirection, conn, namer, context, directlyNestingLHSGraph] // continue looking for node
 	;
@@ -1648,14 +1648,14 @@ firstEdgeContinuation [ BaseNode node, CollectNode<BaseNode> conn, AnonymousScop
 edgeContinuation [ BaseNode node, CollectNode<BaseNode> conn, AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
 	@init {
 		boolean forward = true;
-		Mutable<ConnectionNode.ConnectionKind> direction =
-				new Mutable<ConnectionNode.ConnectionKind>(ConnectionNode.ConnectionKind.ARBITRARY);
+		Mutable<ConnectionKind> direction =
+				new Mutable<ConnectionKind>(ConnectionKind.ARBITRARY);
 		Mutable<Integer> redirection = new Mutable<Integer>(ConnectionNode.NO_REDIRECTION);
 	}
 	:   // nothing following? -> connection end reached
 	|   ( edge=forwardOrUndirectedEdgeOcc[namer, context, direction, redirection, directlyNestingLHSGraph] { forward=true; }
 		| edge=backwardOrArbitraryDirectedEdgeOcc[namer, context, direction, redirection, directlyNestingLHSGraph] { forward=false; }
-		| edge=arbitraryEdgeOcc[namer, context, directlyNestingLHSGraph] { forward=false; direction.setValue(ConnectionNode.ConnectionKind.ARBITRARY);}
+		| edge=arbitraryEdgeOcc[namer, context, directlyNestingLHSGraph] { forward=false; direction.setValue(ConnectionKind.ARBITRARY);}
 		)
 			nodeContinuation[edge, node, forward, direction, redirection, conn, namer, context, directlyNestingLHSGraph] // continue looking for node
 	;
@@ -1731,7 +1731,7 @@ varDecl [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ B
 		)
 	;
 
-forwardOrUndirectedEdgeOcc [ AnonymousScopeNamer namer, int context, Mutable<ConnectionNode.ConnectionKind> direction,
+forwardOrUndirectedEdgeOcc [ AnonymousScopeNamer namer, int context, Mutable<ConnectionKind> direction,
 		Mutable<Integer> redirection, PatternGraphLhsNode directlyNestingLHSGraph ]
 		returns [ BaseNode res = ParserEnvironment.initNode() ]
 	: (NOT { redirection.setValue(ConnectionNode.REDIRECT_SOURCE); })? MINUS 
@@ -1742,26 +1742,26 @@ forwardOrUndirectedEdgeOcc [ AnonymousScopeNamer namer, int context, Mutable<Con
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(da));
 			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
-			direction.setValue(ConnectionNode.ConnectionKind.DIRECTED);
+			direction.setValue(ConnectionKind.DIRECTED);
 		}
 		//( AT LPAREN nameAndAttributesInitializationList[res, namer, context] RPAREN )?
 	| mm=MINUSMINUS
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
 			res = new EdgeDeclNode(id, env.getUndirectedEdgeRoot(), CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
-			direction.setValue(ConnectionNode.ConnectionKind.UNDIRECTED);
+			direction.setValue(ConnectionKind.UNDIRECTED);
 		}
 		//( AT LPAREN nameAndAttributesInitializationList[res, namer, context] RPAREN )?
 	;
 
-forwardOrUndirectedEdgeOccContinuation [ Mutable<ConnectionNode.ConnectionKind> direction, Mutable<Integer> redirection ]
-	: MINUS { direction.setValue(ConnectionNode.ConnectionKind.UNDIRECTED); }
+forwardOrUndirectedEdgeOccContinuation [ Mutable<ConnectionKind> direction, Mutable<Integer> redirection ]
+	: MINUS { direction.setValue(ConnectionKind.UNDIRECTED); }
 			(NOT { redirection.setValue(ConnectionNode.REDIRECT_TARGET | redirection.getValue()); })? // redirection not allowd but semantic error is better
-	| RARROW { direction.setValue(ConnectionNode.ConnectionKind.DIRECTED); }
+	| RARROW { direction.setValue(ConnectionKind.DIRECTED); }
 			(NOT { redirection.setValue(ConnectionNode.REDIRECT_TARGET | redirection.getValue()); })?
 	;
 
-backwardOrArbitraryDirectedEdgeOcc [ AnonymousScopeNamer namer, int context, Mutable<ConnectionNode.ConnectionKind> direction,
+backwardOrArbitraryDirectedEdgeOcc [ AnonymousScopeNamer namer, int context, Mutable<ConnectionKind> direction,
 		Mutable<Integer> redirection, PatternGraphLhsNode directlyNestingLHSGraph ]
 		returns [ BaseNode res = ParserEnvironment.initNode() ]
 	: (NOT { redirection.setValue(ConnectionNode.REDIRECT_TARGET); })? LARROW 
@@ -1772,22 +1772,22 @@ backwardOrArbitraryDirectedEdgeOcc [ AnonymousScopeNamer namer, int context, Mut
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(da));
 			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
-			direction.setValue(ConnectionNode.ConnectionKind.DIRECTED);
+			direction.setValue(ConnectionKind.DIRECTED);
 		}
 		//( AT LPAREN nameAndAttributesInitializationList[res, namer, context] RPAREN )?
 	| lr=LRARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(lr));
 			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), CopyKind.None, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
-			direction.setValue(ConnectionNode.ConnectionKind.ARBITRARY_DIRECTED);
+			direction.setValue(ConnectionKind.ARBITRARY_DIRECTED);
 		}
 		//( AT LPAREN nameAndAttributesInitializationList[res, namer, context] RPAREN )?
 	;
 
-backwardOrArbitraryDirectedEdgeOccContinuation [ Mutable<ConnectionNode.ConnectionKind> direction, Mutable<Integer> redirection ]
-	: MINUS { direction.setValue(ConnectionNode.ConnectionKind.DIRECTED); }
+backwardOrArbitraryDirectedEdgeOccContinuation [ Mutable<ConnectionKind> direction, Mutable<Integer> redirection ]
+	: MINUS { direction.setValue(ConnectionKind.DIRECTED); }
 			(NOT { redirection.setValue(ConnectionNode.REDIRECT_SOURCE | redirection.getValue()); })?
-	| RARROW { direction.setValue(ConnectionNode.ConnectionKind.ARBITRARY_DIRECTED); }
+	| RARROW { direction.setValue(ConnectionKind.ARBITRARY_DIRECTED); }
 			(NOT { redirection.setValue(ConnectionNode.REDIRECT_SOURCE | redirection.getValue()); })? // redirection not allowd but semantic error is better
 	;
 
@@ -3238,7 +3238,7 @@ inClassFunctionDecl [ IdentNode clsId, InheritanceTypeKind kind ] returns [ Func
 							new EdgeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(f))),
 									new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())),
 									CopyKind.None, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, TypeExprNode.getEmpty(), PatternGraphLhsNode.getInvalid(), false, true),
-							env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()), ConnectionNode.ConnectionKind.DIRECTED, ConnectionNode.NO_REDIRECTION),
+							env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()), ConnectionKind.DIRECTED, ConnectionNode.NO_REDIRECTION),
 							BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_FUNCTION|BaseNode.CONTEXT_METHOD));
 				}
 			}
@@ -3286,7 +3286,7 @@ inClassProcedureDecl [ IdentNode clsId, InheritanceTypeKind kind ] returns [ Pro
 							new EdgeDeclNode(new IdentNode(env.define(ParserEnvironment.ENTITIES, "this", getCoords(pr))),
 									new IdentNode(env.occurs(ParserEnvironment.TYPES, clsId.toString(), clsId.getCoords())),
 									CopyKind.None, BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, TypeExprNode.getEmpty(), PatternGraphLhsNode.getInvalid(), false, true),
-							env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()), ConnectionNode.ConnectionKind.DIRECTED, ConnectionNode.NO_REDIRECTION),
+							env.getDummyNodeDecl(BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD, PatternGraphLhsNode.getInvalid()), ConnectionKind.DIRECTED, ConnectionNode.NO_REDIRECTION),
 							BaseNode.CONTEXT_COMPUTATION|BaseNode.CONTEXT_PROCEDURE|BaseNode.CONTEXT_METHOD));
 				}
 			}

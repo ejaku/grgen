@@ -199,7 +199,7 @@ public class ImplicitNegComputer
 			NodeDeclNode dummyNode = patternGraph.getAnonymousDummyNode(nodeRoot, patternGraph.context);
 
 			ConnectionNode conn = new ConnectionNode(nodeRequiringNeg, edge, dummyNode,
-					ConnectionNode.ConnectionKind.ARBITRARY, patternGraph);
+					ConnectionKind.ARBITRARY, patternGraph);
 			conn.addToGraph(neg);
 
 			implicitNegGraphs.add(neg);
