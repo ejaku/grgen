@@ -405,7 +405,7 @@ globalVarDecl
 		SEMI
 	;
 
-packageActionDecl returns [ IdentNode res = env.getDummyIdent() ]
+packageActionDecl returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	@init {
 		CollectNode<IdentNode> patternChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> actionChilds = new CollectNode<IdentNode>();
@@ -770,7 +770,7 @@ patternDefParamList [ CollectNode<BaseNode> paramz, AnonymousScopeNamer namer, i
 		( COMMA dp=defEntityToBeYieldedTo[null, null, null, namer, context, directlyNestingLHSGraph] { paramz.addChild(dp); } )*
 	;
 
-param [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
+param [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ BaseNode res = ParserEnvironment.initNode() ]
 	: MINUS edge=edgeDeclParam[context, directlyNestingLHSGraph] direction = forwardOrUndirectedEdgeParam
 		{
 			BaseNode dummy = env.getDummyNodeDecl(context, directlyNestingLHSGraph);
@@ -808,7 +808,7 @@ returnTypeList [ CollectNode<BaseNode> returnTypes ]
 	: t=returnType { returnTypes.addChild(t); } ( COMMA t=returnType { returnTypes.addChild(t); } )*
 	;
 
-returnType returns [ BaseNode res = env.initNode() ]
+returnType returns [ BaseNode res = ParserEnvironment.initNode() ]
 	: type=typeIdentUse { res = type; }
 	| containerType=containerTypeUse { res = containerType; }
 	;
@@ -1137,11 +1137,11 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn,
 		CollectNode<SubpatternUsageDeclNode> subpatterns, CollectNode<SubpatternReplNode> subpatternRepls,
 		AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
 	@init {
-		id = env.getDummyIdent();
+		id = ParserEnvironment.getDummyIdent();
 		IdentNode type = env.getNodeRoot();
 		TypeExprNode constr = TypeExprNode.getEmpty();
 		CollectNode<ExprNode> subpatternReplConn = new CollectNode<ExprNode>();
-		IdentNode curId = env.getDummyIdent();
+		IdentNode curId = ParserEnvironment.getDummyIdent();
 		NodeDeclNode nodeDecl = null;
 	}
 	: id=entIdentUse firstEdgeContinuation[id, conn, namer, context, directlyNestingLHSGraph] // use of already declared node, continue looking for first edge
@@ -1164,7 +1164,7 @@ firstNodeOrSubpatternDeclaration [ IdentNode id, CollectNode<BaseNode> conn, Col
 		type = env.getNodeRoot();
 		constr = TypeExprNode.getEmpty();
 		CollectNode<ExprNode> subpatternConn = new CollectNode<ExprNode>();
-		curId = env.getDummyIdent();
+		curId = ParserEnvironment.getDummyIdent();
 		CollectNode<IdentNode> mergees = new CollectNode<IdentNode>();
 		NodeDeclNode nodeDecl = null;
 		CopyKind copyKind = CopyKind.None;
@@ -1277,13 +1277,13 @@ relOS returns [ OperatorDeclNode.Operator os = OperatorDeclNode.Operator.ERROR ]
 	;
 
 anonymousFirstNodeOrSubpatternDeclaration [ Token c, CollectNode<BaseNode> conn, CollectNode<SubpatternUsageDeclNode> subpatterns, 
-		AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ IdentNode id = env.getDummyIdent() ]
+		AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ IdentNode id = ParserEnvironment.getDummyIdent() ]
 	options { k = 4; }
 	@init {
 		type = env.getNodeRoot();
 		constr = TypeExprNode.getEmpty();
 		CollectNode<ExprNode> subpatternConn = new CollectNode<ExprNode>();
-		curId = env.getDummyIdent();
+		curId = ParserEnvironment.getDummyIdent();
 		CollectNode<IdentNode> mergees = new CollectNode<IdentNode>();
 		NodeDeclNode nodeDecl = null;
 		CopyKind copyKind = CopyKind.None;
@@ -1329,7 +1329,7 @@ anonymousFirstNodeOrSubpatternDeclaration [ Token c, CollectNode<BaseNode> conn,
 
 defEntityToBeYieldedTo [ CollectNode<BaseNode> connections, CollectNode<VarDeclNode> defVariablesToBeYieldedTo,
 		CollectNode<EvalStatementsNode> evals, AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
-		returns [ BaseNode res = env.initNode() ]
+		returns [ BaseNode res = ParserEnvironment.initNode() ]
 	: DEF (
 		MINUS edge=defEdgeToBeYieldedTo[context, directlyNestingLHSGraph] direction=forwardOrUndirectedEdgeParam
 			{
@@ -1397,7 +1397,7 @@ defGraphElementInitialization [ AnonymousScopeNamer namer, int context, Constrai
 
 defVarDeclToBeYieldedTo [ CollectNode<EvalStatementsNode> evals,
 		AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
-		returns [ VarDeclNode res = env.initVarNode(directlyNestingLHSGraph, context) ]
+		returns [ VarDeclNode res = ParserEnvironment.initVarNode(directlyNestingLHSGraph, context) ]
 	@init {
 		EvalStatementsNode curEval = null;
 		VarDeclNode var = null;
@@ -1660,9 +1660,9 @@ edgeContinuation [ BaseNode node, CollectNode<BaseNode> conn, AnonymousScopeName
 			nodeContinuation[edge, node, forward, direction, redirection, conn, namer, context, directlyNestingLHSGraph] // continue looking for node
 	;
 
-nodeOcc [ AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
+nodeOcc [ AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ BaseNode res = ParserEnvironment.initNode() ]
 	@init {
-		id = env.getDummyIdent();
+		id = ParserEnvironment.getDummyIdent();
 	}
 	: e=entIdentUse { res = e; } // use of already declared node
 	| id=entIdentDecl COLON co=nodeTypeContinuation[id, namer, context, directlyNestingLHSGraph] { res = co; } // node declaration
@@ -1677,7 +1677,7 @@ nodeTypeContinuation [ IdentNode id, AnonymousScopeNamer namer, int context, Pat
 	@init {
 		type = env.getNodeRoot();
 		constr = TypeExprNode.getEmpty();
-		curId = env.getDummyIdent();
+		curId = ParserEnvironment.getDummyIdent();
 		CollectNode<IdentNode> mergees = new CollectNode<IdentNode>();
 		CopyKind copyKind = CopyKind.None;
 	}
@@ -1698,7 +1698,7 @@ nodeTypeContinuation [ IdentNode id, AnonymousScopeNamer namer, int context, Pat
 		( AT LPAREN nameAndAttributesInitializationList[res, namer, context] RPAREN )?
 	;
 
-nodeDeclParam [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
+nodeDeclParam [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ BaseNode res = ParserEnvironment.initNode() ]
 	@init {
 		constr = TypeExprNode.getEmpty();
 	}
@@ -1716,7 +1716,7 @@ nodeDeclParam [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] retur
 			}
 	;
 
-varDecl [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
+varDecl [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ BaseNode res = ParserEnvironment.initNode() ]
 	: paramModifier=IDENT id=entIdentDecl COLON
 		(
 			type=typeIdentUse
@@ -1733,7 +1733,7 @@ varDecl [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ B
 
 forwardOrUndirectedEdgeOcc [ AnonymousScopeNamer namer, int context, Mutable<ConnectionNode.ConnectionKind> direction,
 		Mutable<Integer> redirection, PatternGraphLhsNode directlyNestingLHSGraph ]
-		returns [ BaseNode res = env.initNode() ]
+		returns [ BaseNode res = ParserEnvironment.initNode() ]
 	: (NOT { redirection.setValue(ConnectionNode.REDIRECT_SOURCE); })? MINUS 
 		( e1=edgeDecl[namer, context, directlyNestingLHSGraph] { res = e1; } 
 		| e2=entIdentUse { res = e2; } ) 
@@ -1763,7 +1763,7 @@ forwardOrUndirectedEdgeOccContinuation [ Mutable<ConnectionNode.ConnectionKind> 
 
 backwardOrArbitraryDirectedEdgeOcc [ AnonymousScopeNamer namer, int context, Mutable<ConnectionNode.ConnectionKind> direction,
 		Mutable<Integer> redirection, PatternGraphLhsNode directlyNestingLHSGraph ]
-		returns [ BaseNode res = env.initNode() ]
+		returns [ BaseNode res = ParserEnvironment.initNode() ]
 	: (NOT { redirection.setValue(ConnectionNode.REDIRECT_TARGET); })? LARROW 
 		( e1=edgeDecl[namer, context, directlyNestingLHSGraph] { res = e1; }
 		| e2=entIdentUse { res = e2; } )
@@ -1791,7 +1791,7 @@ backwardOrArbitraryDirectedEdgeOccContinuation [ Mutable<ConnectionNode.Connecti
 			(NOT { redirection.setValue(ConnectionNode.REDIRECT_SOURCE | redirection.getValue()); })? // redirection not allowd but semantic error is better
 	;
 
-arbitraryEdgeOcc [ AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
+arbitraryEdgeOcc [ AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ BaseNode res = ParserEnvironment.initNode() ]
 	: QUESTIONMINUS
 		( e1=edgeDecl[namer, context, directlyNestingLHSGraph] { res = e1; }
 		| e2=entIdentUse { res = e2; } )
@@ -1806,7 +1806,7 @@ arbitraryEdgeOcc [ AnonymousScopeNamer namer, int context, PatternGraphLhsNode d
 
 edgeDecl [ AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ EdgeDeclNode res = null ]
 	@init {
-		id = env.getDummyIdent();
+		id = ParserEnvironment.getDummyIdent();
 	}
 	:   ( id=entIdentDecl COLON
 			co=edgeTypeContinuation[id, namer, context, directlyNestingLHSGraph] { res = co; } 
@@ -1818,7 +1818,7 @@ edgeDecl [ AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyN
 
 edgeDeclParam [ int context, PatternGraphLhsNode directlyNestingLHSGraph ] returns [ EdgeDeclNode res = null ]
 	@init {
-		id = env.getDummyIdent();
+		id = ParserEnvironment.getDummyIdent();
 		type = env.getNodeRoot();
 		constr = TypeExprNode.getEmpty();
 	}
@@ -2483,7 +2483,7 @@ textTypes returns [ ModelNode model = null ]
 		CollectNode<IdentNode> externalProcs = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> indices = new CollectNode<IdentNode>();
 		AnonymousScopeNamer namer = new AnonymousScopeNamer(env);
-		IdentNode id = env.getDummyIdent();
+		IdentNode id = ParserEnvironment.getDummyIdent();
 
 		String modelName = Util.removeFileSuffix(Util.removePathPrefix(getFilename()), "gm");
 
@@ -2649,13 +2649,13 @@ paramTypes returns [ CollectNode<BaseNode> res = new CollectNode<BaseNode>() ]
 	: LPAREN (returnTypeList[res])? RPAREN // we reuse the return type list cause it's of format we need
 	;
 
-typeDecl [ AnonymousScopeNamer namer ] returns [ IdentNode res = env.getDummyIdent() ]
+typeDecl [ AnonymousScopeNamer namer ] returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: d=classDecl[namer] { res = d; } 
 	| d=enumDecl { res = d; } 
 	| d=extClassDecl { res = d; }
 	;
 
-packageDecl [ AnonymousScopeNamer namer ] returns [ IdentNode res = env.getDummyIdent() ]
+packageDecl [ AnonymousScopeNamer namer ] returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	@init {
 		CollectNode<IdentNode> types = new CollectNode<IdentNode>(); 
 	}
@@ -2671,7 +2671,7 @@ packageDecl [ AnonymousScopeNamer namer ] returns [ IdentNode res = env.getDummy
 		{ env.popScope(); }
 	;
 	
-classDecl [ AnonymousScopeNamer namer ] returns [ IdentNode res = env.getDummyIdent() ]
+classDecl [ AnonymousScopeNamer namer ] returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	@init {
 		mods = 0;
 	}
@@ -2698,7 +2698,7 @@ typeModifier returns [ int res = 0; ]
  * An edge class decl makes a new type decl node with the declaring id and
  * a new edge type node as children
  */
-edgeClassDecl [ AnonymousScopeNamer namer, int modifiers ] returns [ IdentNode res = env.getDummyIdent() ]
+edgeClassDecl [ AnonymousScopeNamer namer, int modifiers ] returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	@init {
 		boolean arbitrary = false;
 		boolean undirected = false;
@@ -2736,7 +2736,7 @@ edgeClassDecl [ AnonymousScopeNamer namer, int modifiers ] returns [ IdentNode r
 		{ env.popScope(); }
   ;
 
-nodeClassDecl [ AnonymousScopeNamer namer, int modifiers ] returns [ IdentNode res = env.getDummyIdent() ]
+nodeClassDecl [ AnonymousScopeNamer namer, int modifiers ] returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: NODE CLASS id=typeIdentDecl (LT externalName=fullQualIdent GT)?
 		ext=nodeExtends[id] { env.pushScope(id); }
 		(
@@ -2752,7 +2752,7 @@ nodeClassDecl [ AnonymousScopeNamer namer, int modifiers ] returns [ IdentNode r
 		{ env.popScope(); }
 	;
 
-objectClassDecl [ AnonymousScopeNamer namer, int modifiers ] returns [ IdentNode res = env.getDummyIdent() ]
+objectClassDecl [ AnonymousScopeNamer namer, int modifiers ] returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: CLASS id=typeIdentDecl ext=objectExtends[id] { env.pushScope(id); }
 		(
 			LBRACE body=classBody[namer, id, InheritanceTypeKind.CLASS] RBRACE
@@ -2767,7 +2767,7 @@ objectClassDecl [ AnonymousScopeNamer namer, int modifiers ] returns [ IdentNode
 		{ env.popScope(); }
 	;
 
-transientObjectClassDecl [ AnonymousScopeNamer namer, int modifiers ] returns [ IdentNode res = env.getDummyIdent() ]
+transientObjectClassDecl [ AnonymousScopeNamer namer, int modifiers ] returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: TRANSIENT CLASS id=typeIdentDecl ext=transientObjectExtends[id] { env.pushScope(id); }
 		(
 			LBRACE body=classBody[namer, id, InheritanceTypeKind.TRANSIENT_CLASS] RBRACE
@@ -2956,7 +2956,7 @@ classBody [ AnonymousScopeNamer namer, IdentNode clsId, InheritanceTypeKind kind
 		)*
 	;
 
-enumDecl returns [ IdentNode res = env.getDummyIdent() ]
+enumDecl returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	@init {
 		CollectNode<EnumItemDeclNode> c = new CollectNode<EnumItemDeclNode>();
 	}
@@ -2979,7 +2979,7 @@ enumList [ IdentNode enumType, CollectNode<EnumItemDeclNode> collect ]
 	;
 
 enumItemDecl [ IdentNode type, CollectNode<EnumItemDeclNode> coll, ExprNode defInit, int pos ]
-		returns [ ExprNode res = env.initExprNode() ]
+		returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	@init {
 		ExprNode value;
 	}
@@ -3000,7 +3000,7 @@ enumItemDecl [ IdentNode type, CollectNode<EnumItemDeclNode> coll, ExprNode defI
 		}
 	;
 
-extClassDecl returns [ IdentNode res = env.getDummyIdent() ]
+extClassDecl returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: EXTERNAL c=CLASS id=typeIdentDecl 
 	  ext=extExtends[id] { env.pushScope(id); }
 		(
@@ -3071,7 +3071,7 @@ inClassExtProcedureDecl [ IdentNode clsId ] returns [ ExternalProcedureDeclNode 
 	
 basicAndContainerDecl [ AnonymousScopeNamer namer, CollectNode<BaseNode> c ]
 	@init {
-		id = env.getDummyIdent();
+		id = ParserEnvironment.getDummyIdent();
 		boolean isConst = false;
 	}
 	: ABSTRACT ( CONST { isConst = true; } )? id=entIdentDecl
@@ -3404,80 +3404,80 @@ memberIdent returns [ Token t = null ]
 	| r=REPLACE { r.setType(IDENT); t = r; }             // HACK: For string replace function... better choose another name?
 	; 
 
-packageIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+packageIdentDecl returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT 
 		{ if(i != null) res = new IdentNode(env.define(ParserEnvironment.PACKAGES, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
-typeIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+typeIdentDecl returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT 
 		{ if(i != null) res = new IdentNode(env.define(ParserEnvironment.TYPES, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
-rhsIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+rhsIdentDecl returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT 
 		{ if(i != null) res = new IdentNode(env.define(ParserEnvironment.REPLACES, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
-entIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+entIdentDecl returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT 
 		{ if(i != null) res = new IdentNode(env.define(ParserEnvironment.ENTITIES, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
-actionIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+actionIdentDecl returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT 
 		{ if(i != null) res = new IdentNode(env.define(ParserEnvironment.ACTIONS, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 		//{ if (res.getAnnotations() instanceof EmptyAnnotations) { res.setAnnotations(new DefaultAnnotations()); } } // uncomment to parallelize everything as far as possible, for testing
 	;
 
-altIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+altIdentDecl returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT 
 		{ if(i != null) res = new IdentNode(env.define(ParserEnvironment.ALTERNATIVES, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
-iterIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+iterIdentDecl returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT 
 		{ if(i != null) res = new IdentNode(env.define(ParserEnvironment.ITERATEDS, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 	
-negIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+negIdentDecl returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT 
 		{ if(i != null) res = new IdentNode(env.define(ParserEnvironment.ITERATEDS, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
-idptIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+idptIdentDecl returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT 
 		{ if(i != null) res = new IdentNode(env.define(ParserEnvironment.INDEPENDENTS, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
-patIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+patIdentDecl returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT 
 		{ if(i != null) res = new IdentNode(env.define(ParserEnvironment.PATTERNS, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
-funcOrExtFuncIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+funcOrExtFuncIdentDecl returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT 
 		{ if(i != null) res = new IdentNode(env.define(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
-methodOrExtMethodIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+methodOrExtMethodIdentDecl returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT 
 		{ if(i != null) res = new IdentNode(env.define(ParserEnvironment.ENTITIES, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 	
-indexIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+indexIdentDecl returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT 
 		{ if(i != null) res = new IdentNode(env.define(ParserEnvironment.INDICES, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
@@ -3488,7 +3488,7 @@ indexIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
 // The IdentNode created by the definition is returned.
 // Don't factor the common stuff into "identUse", that pollutes the follow sets
 
-typeIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+typeIdentUse returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	options { k = 3; }
 	: i=IDENT 
 		{ if(i != null) res = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i))); }
@@ -3497,17 +3497,17 @@ typeIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 				env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i))); }
 	;
 
-rhsIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+rhsIdentUse returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT 
 	{ if(i != null) res = new IdentNode(env.occurs(ParserEnvironment.REPLACES, i.getText(), getCoords(i))); }
 	;
 
-entIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+entIdentUse returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT
 	{ if(i != null) res = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i))); }
 	;
 
-actionIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+actionIdentUse returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	options { k = 3; }
 	: i=IDENT
 		{ if(i != null) res = new IdentNode(env.occurs(ParserEnvironment.ACTIONS, i.getText(), getCoords(i))); }
@@ -3516,27 +3516,27 @@ actionIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 				env.occurs(ParserEnvironment.ACTIONS, i.getText(), getCoords(i))); }
 	;
 
-altIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+altIdentUse returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT 
 	{ if(i != null) res = new IdentNode(env.occurs(ParserEnvironment.ALTERNATIVES, i.getText(), getCoords(i))); }
 	;
 
-iterIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+iterIdentUse returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT 
 	{ if(i != null) res = new IdentNode(env.occurs(ParserEnvironment.ITERATEDS, i.getText(), getCoords(i))); }
 	;
 
-negIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+negIdentUse returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT 
 	{ if(i != null) res = new IdentNode(env.occurs(ParserEnvironment.NEGATIVES, i.getText(), getCoords(i))); }
 	;
 
-idptIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+idptIdentUse returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT 
 	{ if(i != null) res = new IdentNode(env.occurs(ParserEnvironment.INDEPENDENTS, i.getText(), getCoords(i))); }
 	;
 
-patIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+patIdentUse returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	options { k = 3; }
 	: i=IDENT 
 		{ if(i != null) res = new IdentNode(env.occurs(ParserEnvironment.PATTERNS, i.getText(), getCoords(i))); }
@@ -3545,12 +3545,12 @@ patIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 				env.occurs(ParserEnvironment.PATTERNS, i.getText(), getCoords(i))); }
 	;
 
-funcOrExtFuncIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+funcOrExtFuncIdentUse returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT 
 	{ if(i != null) res = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i))); }
 	;
 
-indexIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+indexIdentUse returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT 
 	{ if(i != null) res = new IdentNode(env.occurs(ParserEnvironment.INDICES, i.getText(), getCoords(i))); }
 	;
@@ -3579,7 +3579,7 @@ identList [ Collection<String> strings ]
 		( COMMA sid=IDENT { strings.add(sid.getText()); } )*
 	;
 
-memberIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+memberIdentUse returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=memberIdent
 		{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i))); }
 	;
@@ -4139,53 +4139,53 @@ assignToTgt [ AnonymousScopeNamer namer, int context ] returns [ BaseNode tgtCha
 		| vis=visited[namer, context] { tgtChanged = vis; }
 	;
 
-expr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+expr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: e=condExpr[namer, context, inEnumInit] { res = e; }
 	;
 
-condExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+condExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: exprOrCond=logOrExpr[namer, context, inEnumInit] { res = exprOrCond; }
 		( op=QUESTION trueCase=expr[namer, context, inEnumInit] COLON falseCase=condExpr[namer, context, inEnumInit]
 			{ res = makeTernOp(op, exprOrCond, trueCase, falseCase); }
 		)?
 	;
 
-logOrExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+logOrExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: exprOrLeft=logAndExpr[namer, context, inEnumInit] { res = exprOrLeft; }
 		( op=LOR right=logAndExpr[namer, context, inEnumInit]
 			{ res = makeBinOp(op, res, right); }
 		)*
 	;
 
-logAndExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+logAndExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: exprOrLeft=bitOrExpr[namer, context, inEnumInit] { res = exprOrLeft; }
 		( op=LAND right=bitOrExpr[namer, context, inEnumInit]
 			{ res = makeBinOp(op, res, right); }
 		)*
 	;
 
-bitOrExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+bitOrExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: exprOrLeft=bitXOrExpr[namer, context, inEnumInit] { res = exprOrLeft; }
 		( op=BOR right=bitXOrExpr[namer, context, inEnumInit]
 			{ res = makeBinOp(op, res, right); }
 		)*
 	;
 
-bitXOrExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+bitXOrExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: exprOrLeft=bitAndExpr[namer, context, inEnumInit] { res = exprOrLeft; }
 		( op=BXOR right=bitAndExpr[namer, context, inEnumInit]
 			{ res = makeBinOp(op, res, right); }
 		)*
 	;
 
-bitAndExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+bitAndExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: exprOrLeft=exceptExpr[namer, context, inEnumInit] { res = exprOrLeft; }
 		( op=BAND right=exceptExpr[namer, context, inEnumInit]
 			{ res = makeBinOp(op, res, right); }
 		)*
 	;
 
-exceptExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+exceptExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: exprOrLeft=eqExpr[namer, context, inEnumInit] { res = exprOrLeft; }
 		( op=BACKSLASH right=eqExpr[namer, context, inEnumInit]
 			{ res = makeBinOp(op, res, right); }
@@ -4198,7 +4198,7 @@ eqOp returns [ Token t = null ]
 	| se=STRUCTURAL_EQUAL { t = se; }
 	;
 
-eqExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+eqExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: exprOrLeft=relExpr[namer, context, inEnumInit] { res = exprOrLeft; }
 		( op=eqOp right=relExpr[namer, context, inEnumInit]
 			{ res = makeBinOp(op, res, right); }
@@ -4213,7 +4213,7 @@ relOp returns [ Token t = null ]
 	| in=IN { t = in; }
 	;
 
-relExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+relExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: exprOrLeft=shiftExpr[namer, context, inEnumInit] { res = exprOrLeft; }
 		( op=relOp right=shiftExpr[namer, context, inEnumInit]
 			{ res = makeBinOp(op, res, right); }
@@ -4226,7 +4226,7 @@ shiftOp returns [ Token t = null ]
 	| bsr=BSR { t = bsr; }
 	;
 
-shiftExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+shiftExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: exprOrLeft=addExpr[namer, context, inEnumInit] { res = exprOrLeft; }
 		( op=shiftOp right=addExpr[namer, context, inEnumInit]
 			{ res = makeBinOp(op, res, right); }
@@ -4238,7 +4238,7 @@ addOp returns [ Token t = null ]
 	| m=MINUS { t = m; }
 	;
 
-addExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+addExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: exprOrLeft=mulExpr[namer, context, inEnumInit] { res = exprOrLeft; }
 		( op=addOp right=mulExpr[namer, context, inEnumInit]
 			{ res = makeBinOp(op, res, right); }
@@ -4251,14 +4251,14 @@ mulOp returns [ Token t = null ]
 	| d=DIV { t = d; }
 	;
 
-mulExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+mulExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: exprOrLeft=unaryExpr[namer, context, inEnumInit] { res = exprOrLeft; }
 		( op=mulOp right=unaryExpr[namer, context, inEnumInit]
 			{ res = makeBinOp(op, res, right); }
 		)*
 	;
 
-unaryExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+unaryExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: t=TILDE e=unaryExpr[namer, context, inEnumInit]
 		{ res = makeUnOp(t, e); }
 	| n=NOT e=unaryExpr[namer, context, inEnumInit]
@@ -4276,7 +4276,7 @@ unaryExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns
 	| e=primaryExpr[namer, context, inEnumInit] ( (LBRACK ~PLUS | DOT) => e=selectorExpr[namer, context, e, inEnumInit] )* { res = e; }
 	; 
 
-primaryExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+primaryExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	options { k = 4; }
 	@init {
 		IdentNode id;
@@ -4350,27 +4350,27 @@ visited [ AnonymousScopeNamer namer, int context ] returns [ VisitedNode res ]
 		)
 	;
 
-nameOf [ AnonymousScopeNamer namer, int context ] returns [ ExprNode res = env.initExprNode() ]
+nameOf [ AnonymousScopeNamer namer, int context ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: n=NAMEOF LPAREN (id=expr[namer, context, false])? RPAREN { res = new NameofNode(getCoords(n), id); }
 	;
 
-count returns [ ExprNode res = env.initExprNode() ]
+count returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: c=COUNT LPAREN i=IDENT RPAREN	{ res = new CountNode(getCoords(c),
 			new IdentNode(env.occurs(ParserEnvironment.ITERATEDS, i.getText(), getCoords(i)))); }
 	;
 
-typeOf returns [ ExprNode res = env.initExprNode() ]
+typeOf returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: t=TYPEOF LPAREN id=entIdentUse RPAREN { res = new TypeofNode(getCoords(t), id); }
 	;
 
-newInitExpr [ AnonymousScopeNamer namer, int context ] returns [ ExprNode res = env.initExprNode() ]
+newInitExpr [ AnonymousScopeNamer namer, int context ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	options { k = 3; }
 	: (NEW)? e=initContainerExpr[namer, context] { res = e; }
 	| (NEW)? e=initMatchExpr[context] { res = e; }
 	| e=initObjectExpr[namer, context] { res = e; }
 	;
 
-initContainerExpr [ AnonymousScopeNamer namer, int context ] returns [ ExprNode res = env.initExprNode() ]
+initContainerExpr [ AnonymousScopeNamer namer, int context ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: { input.LT(1).getText().equals("map") }?
 		i=IDENT LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
 		e1=initMapExpr[namer, context, null, new MapTypeNode(keyType, valueType)] { res = e1; }
@@ -4385,12 +4385,12 @@ initContainerExpr [ AnonymousScopeNamer namer, int context ] returns [ ExprNode 
 		e4=initDequeExpr[namer, context, null, new DequeTypeNode(valueType)] { res = e4; }
 	;
 
-initMatchExpr [ int context ] returns [ ExprNode res = env.initExprNode() ]
+initMatchExpr [ int context ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: MATCH LT CLASS matchClassIdent=typeIdentUse GT l=LPAREN RPAREN
 		{ res = new MatchInitNode(getCoords(l), matchClassIdent); }
 	;
 
-initObjectExpr [ AnonymousScopeNamer namer, int context ] returns [ ExprNode res = env.initExprNode() ]
+initObjectExpr [ AnonymousScopeNamer namer, int context ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	options { k = 5; }
 	@init {
 		ObjectInitNode oin = null;
@@ -4412,7 +4412,7 @@ attributeInitialization [ ObjectInitNode oi, IdentNode classIdent, AnonymousScop
 		{ oi.addAttributeInitialization(new AttributeInitializationNode(oi, classIdent, attr, arg)); }
 	;
 
-constant returns [ ExprNode res = env.initExprNode() ]
+constant returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: b=NUM_BYTE
 		{ res = new ByteConstNode(getCoords(b), Byte.parseByte(ByteConstNode.removeSuffix(b.getText()), 10)); }
 	| sh=NUM_SHORT
@@ -4448,7 +4448,7 @@ constant returns [ ExprNode res = env.initExprNode() ]
 		{ res = new NullConstNode(getCoords(n)); }
 	;
 
-enumConstant returns [ ExprNode res = env.initExprNode() ]
+enumConstant returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	options { k = 4; }
 	: pen=IDENT d=DOUBLECOLON i=IDENT 
 		{
@@ -4465,7 +4465,7 @@ enumConstant returns [ ExprNode res = env.initExprNode() ]
 		}
 	;
 
-entIdentExpr returns [ ExprNode res = env.initExprNode() ]
+entIdentExpr returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: i=IDENT
 		{
 			if(i.getText().equals("this") && !env.test(ParserEnvironment.ENTITIES, "this"))
@@ -4475,7 +4475,7 @@ entIdentExpr returns [ ExprNode res = env.initExprNode() ]
 		}
 	;
 
-globalsAccessExpr returns [ ExprNode res = env.initExprNode() ]
+globalsAccessExpr returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	@init {
 		IdentNode id;
 	}
@@ -4486,7 +4486,7 @@ globalsAccessExpr returns [ ExprNode res = env.initExprNode() ]
 		}
 	;
 
-indexFunctionInvocationExprContinuation [ IdentNode funcIdent, ExprNode cand, IdentNode idx, AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+indexFunctionInvocationExprContinuation [ IdentNode funcIdent, ExprNode cand, IdentNode idx, AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	@init {
 		CollectNode<BaseNode> paramz = new CollectNode<BaseNode>();
 		if(cand != null)
@@ -4508,7 +4508,7 @@ multipleIndexFunctionInvocationExprContinuation [ IdentNode funcIdent, CollectNo
 	: ( COMMA idx=indexIdentUse { paramz.addChild(idx); } ( COMMA e=expr[namer, context, inEnumInit] { paramz.addChild(e); } ( COMMA e=expr[namer, context, inEnumInit] { paramz.addChild(e); } multipleIndexFunctionInvocationExprContinuation[funcIdent, paramz, namer, context, inEnumInit] )? )? )?
 	;
 
-externalFunctionInvocationExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+externalFunctionInvocationExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	@init {
 		boolean packPrefix = false;
 	}
@@ -4534,7 +4534,7 @@ externalFunctionInvocationExpr [ AnonymousScopeNamer namer, int context, boolean
 		}
 	;
 
-scanFunctionInvocationExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+scanFunctionInvocationExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: (i=SCAN | i=TRYSCAN) (LT type=typeOrContainerTypeContinuation[namer, context])? LPAREN e=expr[namer, context, inEnumInit] RPAREN
 		{
 			if(i.getText().equals("scan")) {
@@ -4563,7 +4563,7 @@ typeOrContainerTypeContinuation [ AnonymousScopeNamer namer, int context ] retur
 	;
 
 selectorExpr [ AnonymousScopeNamer namer, int context, ExprNode target, boolean inEnumInit ]
-		returns [ ExprNode res = env.initExprNode() ]
+		returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: l=LBRACK key=expr[namer, context, inEnumInit] RBRACK { res = makeBinOp(l, target, key); }
 	| d=DOT id=memberIdentUse
 		(
@@ -4645,7 +4645,7 @@ maybeIndexedLambdaExprVarDecl [ AnonymousScopeNamer namer, int context ]
 	;
 
 lambdaExprVarDeclToBeYieldedTo [ AnonymousScopeNamer namer, int context, PatternGraphLhsNode directlyNestingLHSGraph ]
-		returns [ VarDeclNode res = env.initVarNode(directlyNestingLHSGraph, context) ]
+		returns [ VarDeclNode res = ParserEnvironment.initVarNode(directlyNestingLHSGraph, context) ]
 	@init {
 		VarDeclNode var = null;
 	}

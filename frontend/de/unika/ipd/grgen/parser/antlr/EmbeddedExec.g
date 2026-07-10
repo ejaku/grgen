@@ -289,49 +289,49 @@ seqAssignTargetSelector [ ExecNode xg ]
 // as of now only some sequence expressions return an expression
 // the expressions are needed for the argument expressions of rule/sequence calls,
 // in all other places of the sequences we only need a textual emit of the constructs just parsed
-seqExpression [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqExpression [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: expOrCond=seqExprLazyOr[xg] { res = expOrCond; }
 		( q=QUESTION { xg.append("?"); } trueCase=seqExpression[xg] COLON { xg.append(" : "); } falseCase=seqExpression[xg]
 			{ res = makeTernOp(q, expOrCond, trueCase, falseCase); }
 		)?
 	;
 
-seqExprLazyOr [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqExprLazyOr [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: expOrLeft=seqExprLazyAnd[xg] { res = expOrLeft; } 
 		( op=LOR { xg.append(" || "); } right=seqExprLazyOr[xg]
 			{ res = makeBinOp(op, res, right); }
 		)?
 	;
 
-seqExprLazyAnd [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqExprLazyAnd [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: expOrLeft=seqExprStrictOr[xg] { res = expOrLeft; }
 		( op=LAND { xg.append(" && "); } right=seqExprLazyAnd[xg]
 			{ res = makeBinOp(op, res, right); }
 		)?
 	;
 
-seqExprStrictOr [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqExprStrictOr [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: expOrLeft=seqExprStrictXor[xg] { res = expOrLeft; }
 		( op=BOR { xg.append(" | "); } right=seqExprStrictOr[xg]
 			{ res = makeBinOp(op, res, right); }
 		)?
 	;
 
-seqExprStrictXor [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqExprStrictXor [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: expOrLeft=seqExprStrictAnd[xg] { res = expOrLeft; }
 		( op=BXOR { xg.append(" ^ "); } right=seqExprStrictXor[xg]
 			{ res = makeBinOp(op, res, right); }
 		)?
 	;
 
-seqExprStrictAnd [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqExprStrictAnd [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: expOrLeft=seqExprExcept[xg] { res = expOrLeft; }
 		( op=BAND { xg.append(" & "); } right=seqExprStrictAnd[xg]
 			{ res = makeBinOp(op, res, right); }
 		)?
 	;
 
-seqExprExcept [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqExprExcept [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: expOrLeft=seqExprEquality[xg] { res = expOrLeft; }
 		( op=BACKSLASH { xg.append(" \\ "); } right=seqExprExcept[xg]
 			{ res = makeBinOp(op, res, right); }
@@ -344,7 +344,7 @@ seqEqOp [ ExecNode xg ] returns [ Token t = null ]
 	| s=STRUCTURAL_EQUAL { xg.append(" ~~ "); t = s; }
 	;
 
-seqExprEquality [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqExprEquality [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: expOrLeft=seqExprRelation[xg] { res = expOrLeft; }
 		( op=seqEqOp[xg] right=seqExprEquality[xg]
 			{ res = makeBinOp(op, res, right); }
@@ -366,7 +366,7 @@ seqRelOs [ ExecNode xg ] returns [ Token t = null ]
 	| ge=GE { xg.append(" >= "); t = ge; }
 	;
 
-seqExprRelation [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqExprRelation [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: expOrLeft=seqExprShift[xg] { res = expOrLeft; } 
 		( op=seqRelOp[xg] right=seqExprRelation[xg]
 			{ res = makeBinOp(op, res, right); }
@@ -379,7 +379,7 @@ seqShiftOp [ ExecNode xg ] returns [ Token t = null ]
 	| bsr=BSR { xg.append(" >>> "); t = bsr; }
 	;
 
-seqExprShift [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqExprShift [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: expOrLeft=seqExprAdd[xg] { res = expOrLeft; } 
 		( op=seqShiftOp[xg] right=seqExprShift[xg]
 			{ res = makeBinOp(op, res, right); }
@@ -391,7 +391,7 @@ seqAddOp [ ExecNode xg ] returns [ Token t = null ]
 	| m=MINUS { xg.append(" - "); t = m; }
 	;
 
-seqExprAdd [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqExprAdd [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: expOrLeft=seqExprMul[xg] { res = expOrLeft; } 
 		( op=seqAddOp[xg] right=seqExprAdd[xg]
 			{ res = makeBinOp(op, res, right); }
@@ -404,14 +404,14 @@ seqMulOp [ ExecNode xg ] returns [ Token t = null ]
 	| d=DIV { xg.append(" / "); t = d; }
 	;
 
-seqExprMul [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqExprMul [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: expOrLeft=seqExprUnary[xg] { res = expOrLeft; } 
 		( op=seqMulOp[xg] right=seqExprMul[xg]
 			{ res = makeBinOp(op, res, right); }
 		)?
 	;
 
-seqExprUnary [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqExprUnary [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	@init {
 		Token t = null;
 	}
@@ -469,7 +469,7 @@ genericTypeForCast [ ExecNode xg ] returns [ BaseNode res = null ]
 
 // todo: the seqVarUse[xg] casted to IdenNodes might be not simple variable identifiers, but global variables with :: prefix,
 //  probably a distinction is needed
-seqExprBasic [ExecNode xg] returns [ ExprNode res = env.initExprNode() ]
+seqExprBasic [ExecNode xg] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	options { k = 4; }
 	@init {
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
@@ -590,7 +590,7 @@ seqProcedureOrMethodCall [ ExecNode xg ]
 			seqFunctionCallParameters[xg] RPAREN { xg.append(")"); }
 	;
 
-seqFunctionCall [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqFunctionCall [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	@init{
 		boolean inPackage = false;
 		boolean packPrefix = false;
@@ -622,7 +622,7 @@ seqFunctionCallParameters [ ExecNode xg ] returns [ CollectNode<ExprNode> paramz
 		( COMMA { xg.append(","); } fromExpr2=seqExpression[xg] { paramz.addChild(fromExpr2); } )* )?
 	;
 
-seqScanFunctionCall [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqScanFunctionCall [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: ( s=SCAN { xg.append(s.getText()); } | s=TRYSCAN { xg.append(s.getText()); } ) (LT { xg.append("<"); } type=seqTypeOrContainerTypeContinuation[xg])? LPAREN { xg.append("("); }
 			paramz=seqFunctionCallParameters[xg] RPAREN { xg.append(")"); }
 		{
@@ -655,7 +655,7 @@ seqTypeOrContainerTypeContinuation [ ExecNode xg ] returns [ BaseNode res = null
 		{ res = typeIdent; } { xg.append(typeIdent); } { xg.append(">"); }
 	;
 
-seqConstant [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqConstant [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	@init {
 		IdentNode id;
 	}
@@ -669,7 +669,7 @@ seqConstant [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
 		}
 	;
 	
-seqConstantOfBasicOrEnumType [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqConstantOfBasicOrEnumType [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	@init {
 		IdentNode id;
 	}
@@ -689,15 +689,15 @@ seqConstantOfBasicOrEnumType [ ExecNode xg ] returns [ ExprNode res = env.initEx
 	| i1=IDENT d=DOUBLECOLON i2=IDENT e=seqConstantOfBasicOrEnumTypeCont[xg, i1, d, i2] { res = e; }
 	;
 
-seqConstantOfMatchClassType [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqConstantOfMatchClassType [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: (NEW { xg.append("new "); })? MATCH LT CLASS { xg.append("match<class "); } type=seqTypeIdentUse GT LPAREN RPAREN { xg.append(type + ">()"); }
 	;
 	
-seqConstantOfContainerType [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqConstantOfContainerType [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: (NEW { xg.append("new "); })? init=seqConstantOfContainerTypeCont[xg] { res = init; }
 	;
 
-seqConstantOfContainerTypeCont [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqConstantOfContainerTypeCont [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	@init {
 		IdentNode id;
 	}
@@ -714,7 +714,7 @@ seqConstantOfContainerTypeCont [ ExecNode xg ] returns [ ExprNode res = env.init
 		e4=seqInitDequeExpr[xg, new DequeTypeNode(typeName)] { res = e4; }
 	;
 
-seqConstantOfBasicOrEnumTypeCont [ ExecNode xg, Token i1, Token d1, Token i2 ] returns [ ExprNode res = env.initExprNode() ]
+seqConstantOfBasicOrEnumTypeCont [ ExecNode xg, Token i1, Token d1, Token i2 ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	@init {
 		IdentNode id;
 	}
@@ -745,7 +745,7 @@ seqConstantOfBasicOrEnumTypeCont [ ExecNode xg, Token i1, Token d1, Token i2 ] r
 		}
 	;
 
-seqConstantOfContainerTypeArrayCont [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqConstantOfContainerTypeArrayCont [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: typeName=seqTypeIdentUse GT { xg.append(typeName + ">"); } 
 		e=seqInitArrayExpr[xg, new ArrayTypeNode(typeName)] { res = e; }
 	| typeName=seqMatchTypeIdentUseInContainerType[xg] (GT GT { xg.append("> >"); } | SR { xg.append(">>"); })
@@ -814,7 +814,7 @@ seqKeyToValue [ ExecNode xg ] returns [ ExprPairNode res = null ]
 		}
 	;
 
-seqInitObjectExpr [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqInitObjectExpr [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	options { k = 5; }
 	: NEW { xg.append("new "); } type=seqTypeIdentUse LPAREN RPAREN { xg.append(type); xg.append("()"); }
 	| NEW { xg.append("new "); } type=seqTypeIdentUse { xg.append(type); }
@@ -881,13 +881,13 @@ seqParallelCallRule [ ExecNode xg, CollectNode<BaseNode> returns ]
 		)
 	;
 
-seqRuleQuery [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqRuleQuery [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	: LBRACK { xg.append("["); }
 		cre=seqCallRuleExpression[xg] { res = cre; }
 		RBRACK { xg.append("]"); }
 	;
 
-seqMultiRuleQuery [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqMultiRuleQuery [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	@init {
 		CollectNode<CallActionNode> ruleCalls = new CollectNode<CallActionNode>();
 		CollectNode<BaseNode> filters = new CollectNode<BaseNode>();
@@ -908,7 +908,7 @@ seqMultiRuleQuery [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
 		}
 	;
 
-seqMappingClause [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqMappingClause [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	@init {
 		CollectNode<CallActionNode> ruleCalls = new CollectNode<CallActionNode>();
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
@@ -921,7 +921,7 @@ seqMappingClause [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
 		{ xg.addMultiCallAction(new MultiCallActionNode(getCoords(l), ruleCalls, filters)); }
 	;
 
-seqCallRuleExpressionForMulti [ ExecNode xg, CollectNode<CallActionNode> ruleCalls ] returns [ ExprNode res = env.initExprNode() ]
+seqCallRuleExpressionForMulti [ ExecNode xg, CollectNode<CallActionNode> ruleCalls ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	@init {
 		CollectNode<BaseNode> paramz = new CollectNode<BaseNode>();
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
@@ -964,7 +964,7 @@ seqCallRule [ ExecNode xg, CollectNode<CallActionNode> ruleCalls, CollectNode<Ba
 		}
 	;
 
-seqCallRuleExpression [ ExecNode xg ] returns [ ExprNode res = env.initExprNode() ]
+seqCallRuleExpression [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExprNode() ]
 	@init {
 		CollectNode<BaseNode> paramz = new CollectNode<BaseNode>();
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
@@ -1413,12 +1413,12 @@ seqIndex [ ExecNode xg ]
 	: id=seqIndexIdentUse { xg.append(id.toString()); }
 	;
 
-seqEntIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+seqEntIdentDecl returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT 
 		{ if(i != null) res = new IdentNode(env.define(ParserEnvironment.ENTITIES, i.getText(), getCoords(i))); }
 	;
 
-seqTypeIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+seqTypeIdentUse returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	options { k = 3; }
 	: i=IDENT 
 		{ if(i != null) res = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i))); }
@@ -1427,12 +1427,12 @@ seqTypeIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 				env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i))); }
 	;
 
-seqEntIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+seqEntIdentUse returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT
 		{ if(i != null) res = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i))); }
 	;
 
-seqActionIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+seqActionIdentUse returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	options { k = 3; }
 	: i=IDENT
 		{ if(i != null) res = new IdentNode(env.occurs(ParserEnvironment.ACTIONS, i.getText(), getCoords(i))); }
@@ -1441,7 +1441,7 @@ seqActionIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 				env.occurs(ParserEnvironment.ACTIONS, i.getText(), getCoords(i))); }
 	;
 
-seqActionOrEntIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+seqActionOrEntIdentUse returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	options { k = 3; }
 	: i=IDENT
 		{ if(i != null) res = new AmbiguousIdentNode(env.occurs(ParserEnvironment.ACTIONS,
@@ -1451,12 +1451,12 @@ seqActionOrEntIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 				env.occurs(ParserEnvironment.ACTIONS, i.getText(), getCoords(i))); }
 	;
 
-seqIndexIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+seqIndexIdentUse returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT
 		{ if(i != null) res = new IdentNode(env.occurs(ParserEnvironment.INDICES, i.getText(), getCoords(i))); }
 	;
 
-seqMemberIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+seqMemberIdentUse returns [ IdentNode res = ParserEnvironment.getDummyIdent() ]
 	: i=IDENT
 		{ if(i != null) res = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i))); }
 	| r=REPLACE // HACK: For string replace function... better choose another name?
