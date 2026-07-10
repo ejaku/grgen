@@ -1210,10 +1210,10 @@ nodeStorageIndexContinuation [ IdentNode id, IdentNode type, AnonymousScopeNamer
 		{
 			if(mapAccess == null) {
 				nodeDecl = new MatchNodeFromStorageDeclNode(id, type, context, 
-					attr == null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
+					attr == null ? (BaseNode)new IdentExprNode(oldid) : (BaseNode)new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
 			} else {
 				nodeDecl = new MatchNodeByStorageAccessDeclNode(id, type, context, 
-					attr == null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
+					attr == null ? (BaseNode)new IdentExprNode(oldid) : (BaseNode)new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
 			}
 		}
 	| idx=indexIdentUse EQUAL e=expr[namer, context, false]
@@ -1865,10 +1865,10 @@ edgeStorageIndexContinuation [ IdentNode id, IdentNode type, AnonymousScopeNamer
 		{
 			if(mapAccess == null) {
 				edgeDecl = new MatchEdgeFromStorageDeclNode(id, type, context, 
-					attr == null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
+					attr == null ? (BaseNode)new IdentExprNode(oldid) : (BaseNode)new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
 			} else {
 				edgeDecl = new MatchEdgeByStorageAccessDeclNode(id, type, context, 
-					attr == null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
+					attr == null ? (BaseNode)new IdentExprNode(oldid) : (BaseNode)new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
 			}
 		}
 	| idx=indexIdentUse EQUAL e=expr[namer, context, false]
