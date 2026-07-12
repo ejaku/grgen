@@ -671,7 +671,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 			return false;
 		}
 		if(isChecked()) {
-			return getChecked();
+			return getCheckResult();
 		}
 
 		boolean successfullyChecked = true;
@@ -720,7 +720,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	}
 
 	/** Yields result of checking this AST node */
-	protected final boolean getChecked()
+	protected final boolean getCheckResult()
 	{
 		assert isChecked() : this.toString();
 		return checkResult;
