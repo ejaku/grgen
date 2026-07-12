@@ -17,9 +17,17 @@ package de.unika.ipd.grgen.ir;
  */
 public class Bad extends IR
 {
-	public Bad()
+	private static final IR bad = new Bad();
+
+	private Bad()
 	{
 		super("bad");
+	}
+
+	/** @return A bad ir object. */
+	public static IR getBadObject()
+	{
+		return bad;
 	}
 
 	@Override

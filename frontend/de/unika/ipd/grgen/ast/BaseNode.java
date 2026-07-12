@@ -28,6 +28,7 @@ import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
 import de.unika.ipd.grgen.ast.type.MatchTypeActionNode;
 import de.unika.ipd.grgen.ast.type.MatchTypeIteratedNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
+import de.unika.ipd.grgen.ir.Bad;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;
@@ -918,7 +919,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	 */
 	protected IR constructIR()
 	{
-		return IR.getBad();
+		return Bad.getBadObject();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////

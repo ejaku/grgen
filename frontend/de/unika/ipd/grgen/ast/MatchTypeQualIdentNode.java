@@ -139,7 +139,7 @@ public class MatchTypeQualIdentNode extends BaseNode /*implements DeclaredCharac
 	protected IR constructIR()
 	{
 		assert false;
-		return Bad.getBad();
+		return Bad.getBadObject();
 	}
 
 	public static String getKindStr()

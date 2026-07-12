@@ -24,8 +24,6 @@ import de.unika.ipd.grgen.util.XMLDumpable;
  */
 public abstract class IR extends Base implements GraphDumpable, XMLDumpable
 {
-	private static final IR bad = new Bad();
-
 	/** The name of this IR object */
 	private String name;
 
@@ -48,12 +46,6 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable
 	public boolean isBad()
 	{
 		return false;
-	}
-
-	/** @return A bad ir object. */
-	public static IR getBad()
-	{
-		return bad;
 	}
 
 	/** @return The name of this IR object (that is group, node, edge, test, ...). */

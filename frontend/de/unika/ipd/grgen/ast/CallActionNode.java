@@ -414,6 +414,6 @@ public class CallActionNode extends BaseNode
 	protected IR constructIR()
 	{
 		assert false;
-		return Bad.getBad(); // TODO fix this
+		return Bad.getBadObject(); // TODO fix this
 	}
 }
