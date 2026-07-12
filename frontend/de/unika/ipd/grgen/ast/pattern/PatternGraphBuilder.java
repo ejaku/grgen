@@ -28,6 +28,7 @@ import de.unika.ipd.grgen.ir.NeededEntities.Needs;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.expr.Operator;
+import de.unika.ipd.grgen.ir.expr.OperatorCode;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.expr.Typeof;
 import de.unika.ipd.grgen.ir.pattern.Edge;
@@ -145,7 +146,7 @@ public class PatternGraphBuilder
 			Expression e1 = new Typeof(elem);
 			Expression e2 = new Typeof(elem.getTypeof());
 
-			Operator op = new Operator(BasicTypeNode.booleanType.getPrimitiveType(), Operator.OperatorCode.GE);
+			Operator op = new Operator(BasicTypeNode.booleanType.getPrimitiveType(), OperatorCode.GE);
 			op.addOperand(e1);
 			op.addOperand(e2);
 

@@ -15,7 +15,7 @@ import java.awt.Color;
 import java.util.Set;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.Operator;
 import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
@@ -278,7 +278,7 @@ public abstract class ExprNode extends BaseNode
 		}
 		if(this instanceof ArithmeticOperatorNode) {
 			ArithmeticOperatorNode operator = (ArithmeticOperatorNode)this;
-			if(operator.getOperator() == OperatorDeclNode.Operator.COND) {
+			if(operator.getOperator() == Operator.COND) {
 				operator.getChildrenAsVector().get(1).getPotentiallyResultingElements(elements);
 				operator.getChildrenAsVector().get(2).getPotentiallyResultingElements(elements);
 			}

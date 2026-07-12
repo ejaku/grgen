@@ -15,7 +15,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.Operator;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.decl.IndexDeclNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
@@ -34,16 +34,16 @@ public class MatchByIndexAccessOrderingPartNode extends BaseNode
 	private IdentNode indexUnresolved;
 	public IndexDeclNode index;
 
-	private OperatorDeclNode.Operator comp;
+	private Operator comp;
 	private ExprNode expr;
-	private OperatorDeclNode.Operator comp2;
+	private Operator comp2;
 	private ExprNode expr2;
 
 	ConstraintDeclNode wholeNodeDecl;
 
 	public MatchByIndexAccessOrderingPartNode(IdentNode index,
-			OperatorDeclNode.Operator comp, ExprNode expr,
-			OperatorDeclNode.Operator comp2, ExprNode expr2,
+			Operator comp, ExprNode expr,
+			Operator comp2, ExprNode expr2,
 			ConstraintDeclNode wholeNodeDecl)
 	{
 		super(index.getCoords());
@@ -140,15 +140,15 @@ public class MatchByIndexAccessOrderingPartNode extends BaseNode
 					+ " (in match " + kindStr + wholeNodeDecl.emptyWhenAnonymousPostfix(" ") + " by index access of " + index.toStringWithDeclarationCoords() + ").");
 			res = false;
 		}
-		if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE) {
-			if(expr2 != null && (comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)) {
+		if(comp == Operator.LT || comp == Operator.LE) {
+			if(expr2 != null && (comp2 == Operator.LT || comp2 == Operator.LE)) {
 				reportError("Two upper bounds are not supported"
 						+ " (in match " + kindStr + wholeNodeDecl.emptyWhenAnonymousPostfix(" ") + " by index access of " + index.getIdentNode() + ").");
 				res = false;
 			}
 		}
-		if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE) {
-			if(expr2 != null && (comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)) {
+		if(comp == Operator.GT || comp == Operator.GE) {
+			if(expr2 != null && (comp2 == Operator.GT || comp2 == Operator.GE)) {
 				reportError("Two lower bounds are not supported"
 						+ " (in match " + kindStr + wholeNodeDecl.emptyWhenAnonymousPostfix(" ") + " by index access of " + index.getIdentNode() + ").");
 				res = false;

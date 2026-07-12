@@ -28,6 +28,7 @@ import de.unika.ipd.grgen.ir.executable.MatchingAction;
 import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.Operator;
+import de.unika.ipd.grgen.ir.expr.OperatorCode;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.model.EnumItem;
 import de.unika.ipd.grgen.ir.model.type.EdgeType;
@@ -656,7 +657,7 @@ public class InformationCollector extends CBackend
 			Collection<Expression> col, Expression expr)
 	{
 		if(expr instanceof Operator &&
-				((Operator)expr).getOpCode() == Operator.OperatorCode.LOG_AND) {
+				((Operator)expr).getOpCode() == OperatorCode.LOG_AND) {
 			//step into subexpressions
 			Operator andOp = (Operator)expr;
 			for(int i = 0; i < andOp.arity(); i++) {

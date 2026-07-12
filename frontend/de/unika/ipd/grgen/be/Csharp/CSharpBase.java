@@ -862,7 +862,7 @@ public abstract class CSharpBase
 
 	public void genBinOpDefault(SourceBuilder sb, Operator op, ExpressionGenerationState modifyGenerationState)
 	{
-		if(op.getOpCode() == Operator.OperatorCode.BIT_SHR) {
+		if(op.getOpCode() == OperatorCode.BIT_SHR) {
 			sb.append("((int)(((uint)");
 			genExpression(sb, op.getOperand(0), modifyGenerationState);
 			sb.append(") " + getOperatorSymbol(op.getOpCode()) + " ");
@@ -3503,7 +3503,7 @@ public abstract class CSharpBase
 			genBinaryOperator(sb, op, modifyGenerationState);
 			break;
 		case 3:
-			if(op.getOpCode() == Operator.OperatorCode.COND) {
+			if(op.getOpCode() == OperatorCode.COND) {
 				sb.append("((");
 				genExpression(sb, op.getOperand(0), modifyGenerationState);
 				sb.append(") ? (");
@@ -4800,7 +4800,7 @@ public abstract class CSharpBase
 
 	/* (unary and binary) operator symbols (of the C-language) */
 	// The first two shift operations are signed shifts, the second right shift is unsigned.
-	private static String getOperatorSymbol(Operator.OperatorCode opCode)
+	private static String getOperatorSymbol(OperatorCode opCode)
 	{
 		switch(opCode)
 		{

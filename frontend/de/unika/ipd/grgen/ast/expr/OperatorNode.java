@@ -13,6 +13,7 @@ package de.unika.ipd.grgen.ast.expr;
 
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.decl.executable.Operator;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
@@ -26,7 +27,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class OperatorNode extends ExprNode
 {
 	/** The operator. */
-	private OperatorDeclNode.Operator operator;
+	private Operator operator;
 
 	/** The corresponding operator declaration. */
 	private OperatorDeclNode operatorDecl;
@@ -38,7 +39,7 @@ public abstract class OperatorNode extends ExprNode
 	 * @param coords The source coordinates of that node.
 	 * @param opId The operator ID.
 	 */
-	public OperatorNode(Coords coords, OperatorDeclNode.Operator operator)
+	public OperatorNode(Coords coords, Operator operator)
 	{
 		super(coords);
 		this.operator = operator;
@@ -137,7 +138,7 @@ public abstract class OperatorNode extends ExprNode
 		return operatorDecl;
 	}
 
-	public final OperatorDeclNode.Operator getOperator()
+	public final Operator getOperator()
 	{
 		return operator;
 	}

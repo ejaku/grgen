@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.Operator;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.parser.Coords;
@@ -135,13 +135,13 @@ public abstract class FromIndexAccessFromToExprNode extends FromIndexAccessExprN
 		return sb.toString();
 	}
 
-	protected OperatorDeclNode.Operator fromOperator()
+	protected Operator fromOperator()
 	{
-		return fromExclusive ? OperatorDeclNode.Operator.GT : OperatorDeclNode.Operator.GE;
+		return fromExclusive ? Operator.GT : Operator.GE;
 	}
 
-	protected OperatorDeclNode.Operator toOperator()
+	protected Operator toOperator()
 	{
-		return toExclusive ? OperatorDeclNode.Operator.LT : OperatorDeclNode.Operator.LE;
+		return toExclusive ? Operator.LT : Operator.LE;
 	}
 }

@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ast.decl.executable.Operator;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.expr.map.MapInitNode;
 import de.unika.ipd.grgen.ast.expr.set.SetInitNode;
@@ -35,7 +36,7 @@ import de.unika.ipd.grgen.ir.type.container.DequeType;
 import de.unika.ipd.grgen.ir.type.container.MapType;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.IndexedAccessExpr;
-import de.unika.ipd.grgen.ir.expr.Operator;
+import de.unika.ipd.grgen.ir.expr.OperatorCode;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.parser.Coords;
 
@@ -49,36 +50,36 @@ public class ArithmeticOperatorNode extends OperatorNode
 	}
 
 	/** maps an operator to an IR opcode, filled with code beyond */
-	private static Map<OperatorDeclNode.Operator, Operator.OperatorCode> irOpCodeMap =
-			new HashMap<OperatorDeclNode.Operator, Operator.OperatorCode>();
+	private static Map<Operator, OperatorCode> irOpCodeMap =
+			new HashMap<Operator, OperatorCode>();
 
 	static {
-		assocOpCode(OperatorDeclNode.Operator.COND, Operator.OperatorCode.COND);
-		assocOpCode(OperatorDeclNode.Operator.LOG_OR, Operator.OperatorCode.LOG_OR);
-		assocOpCode(OperatorDeclNode.Operator.LOG_AND, Operator.OperatorCode.LOG_AND);
-		assocOpCode(OperatorDeclNode.Operator.BIT_OR, Operator.OperatorCode.BIT_OR);
-		assocOpCode(OperatorDeclNode.Operator.BIT_XOR, Operator.OperatorCode.BIT_XOR);
-		assocOpCode(OperatorDeclNode.Operator.BIT_AND, Operator.OperatorCode.BIT_AND);
-		assocOpCode(OperatorDeclNode.Operator.EQ, Operator.OperatorCode.EQ);
-		assocOpCode(OperatorDeclNode.Operator.NE, Operator.OperatorCode.NE);
-		assocOpCode(OperatorDeclNode.Operator.SE, Operator.OperatorCode.SE);
-		assocOpCode(OperatorDeclNode.Operator.LT, Operator.OperatorCode.LT);
-		assocOpCode(OperatorDeclNode.Operator.LE, Operator.OperatorCode.LE);
-		assocOpCode(OperatorDeclNode.Operator.GT, Operator.OperatorCode.GT);
-		assocOpCode(OperatorDeclNode.Operator.GE, Operator.OperatorCode.GE);
-		assocOpCode(OperatorDeclNode.Operator.SHL, Operator.OperatorCode.SHL);
-		assocOpCode(OperatorDeclNode.Operator.SHR, Operator.OperatorCode.SHR);
-		assocOpCode(OperatorDeclNode.Operator.BIT_SHR, Operator.OperatorCode.BIT_SHR);
-		assocOpCode(OperatorDeclNode.Operator.ADD, Operator.OperatorCode.ADD);
-		assocOpCode(OperatorDeclNode.Operator.SUB, Operator.OperatorCode.SUB);
-		assocOpCode(OperatorDeclNode.Operator.MUL, Operator.OperatorCode.MUL);
-		assocOpCode(OperatorDeclNode.Operator.DIV, Operator.OperatorCode.DIV);
-		assocOpCode(OperatorDeclNode.Operator.MOD, Operator.OperatorCode.MOD);
-		assocOpCode(OperatorDeclNode.Operator.LOG_NOT, Operator.OperatorCode.LOG_NOT);
-		assocOpCode(OperatorDeclNode.Operator.BIT_NOT, Operator.OperatorCode.BIT_NOT);
-		assocOpCode(OperatorDeclNode.Operator.NEG, Operator.OperatorCode.NEG);
-		assocOpCode(OperatorDeclNode.Operator.IN, Operator.OperatorCode.IN);
-		assocOpCode(OperatorDeclNode.Operator.EXCEPT, Operator.OperatorCode.EXCEPT);
+		assocOpCode(Operator.COND, OperatorCode.COND);
+		assocOpCode(Operator.LOG_OR, OperatorCode.LOG_OR);
+		assocOpCode(Operator.LOG_AND, OperatorCode.LOG_AND);
+		assocOpCode(Operator.BIT_OR, OperatorCode.BIT_OR);
+		assocOpCode(Operator.BIT_XOR, OperatorCode.BIT_XOR);
+		assocOpCode(Operator.BIT_AND, OperatorCode.BIT_AND);
+		assocOpCode(Operator.EQ, OperatorCode.EQ);
+		assocOpCode(Operator.NE, OperatorCode.NE);
+		assocOpCode(Operator.SE, OperatorCode.SE);
+		assocOpCode(Operator.LT, OperatorCode.LT);
+		assocOpCode(Operator.LE, OperatorCode.LE);
+		assocOpCode(Operator.GT, OperatorCode.GT);
+		assocOpCode(Operator.GE, OperatorCode.GE);
+		assocOpCode(Operator.SHL, OperatorCode.SHL);
+		assocOpCode(Operator.SHR, OperatorCode.SHR);
+		assocOpCode(Operator.BIT_SHR, OperatorCode.BIT_SHR);
+		assocOpCode(Operator.ADD, OperatorCode.ADD);
+		assocOpCode(Operator.SUB, OperatorCode.SUB);
+		assocOpCode(Operator.MUL, OperatorCode.MUL);
+		assocOpCode(Operator.DIV, OperatorCode.DIV);
+		assocOpCode(Operator.MOD, OperatorCode.MOD);
+		assocOpCode(Operator.LOG_NOT, OperatorCode.LOG_NOT);
+		assocOpCode(Operator.BIT_NOT, OperatorCode.BIT_NOT);
+		assocOpCode(Operator.NEG, OperatorCode.NEG);
+		assocOpCode(Operator.IN, OperatorCode.IN);
+		assocOpCode(Operator.EXCEPT, OperatorCode.EXCEPT);
 	}
 
 	private QualIdentNode target = null; // if !null it's a set/map union/except which is to be broken up
@@ -87,12 +88,12 @@ public class ArithmeticOperatorNode extends OperatorNode
 	 * @param coords Source code coordinates.
 	 * @param opId ID of the operator.
 	 */
-	public ArithmeticOperatorNode(Coords coords, OperatorDeclNode.Operator operator)
+	public ArithmeticOperatorNode(Coords coords, Operator operator)
 	{
 		super(coords, operator);
 	}
 
-	public ArithmeticOperatorNode(Coords coords, OperatorDeclNode.Operator operator, ExprNode op1, ExprNode op2)
+	public ArithmeticOperatorNode(Coords coords, Operator operator, ExprNode op1, ExprNode op2)
 	{
 		super(coords, operator);
 		children.add(op1);
@@ -175,7 +176,7 @@ public class ArithmeticOperatorNode extends OperatorNode
 			return first;
 		}
 
-		if(getOperatorDecl().getOperator() == OperatorDeclNode.Operator.INDEX) {
+		if(getOperatorDecl().getOperator() == Operator.INDEX) {
 			Expression texp = children.get(0).checkIR(Expression.class);
 			Type type = texp.getType();
 			Type accessedType;
@@ -192,7 +193,7 @@ public class ArithmeticOperatorNode extends OperatorNode
 		}
 
 		DeclaredTypeNode type = (DeclaredTypeNode)getType();
-		Operator op = new Operator(type.getType(), getIROpCode(getOperator()));
+		de.unika.ipd.grgen.ir.expr.Operator op = new de.unika.ipd.grgen.ir.expr.Operator(type.getType(), getIROpCode(getOperator()));
 
 		for(ExprNode child : children) {
 			Expression ir = child.checkIR(Expression.class);
@@ -205,7 +206,7 @@ public class ArithmeticOperatorNode extends OperatorNode
 	private EvalStatement replaceSetMapOrExceptByAddRemove(Qualification qual,
 			EvalStatement previous, EvalStatement first)
 	{
-		if(getOperatorDecl().getOperator() == OperatorDeclNode.Operator.BIT_OR) {
+		if(getOperatorDecl().getOperator() == Operator.BIT_OR) {
 			if(children.get(1).getType() instanceof SetTypeNode) {
 				SetInitNode initNode = (SetInitNode)children.get(1);
 				for(ExprNode item : initNode.getItems().getChildrenExact()) {
@@ -270,13 +271,13 @@ public class ArithmeticOperatorNode extends OperatorNode
 		return first;
 	}
 
-	private static void assocOpCode(OperatorDeclNode.Operator operator, Operator.OperatorCode opcode)
+	private static void assocOpCode(Operator operator, OperatorCode opcode)
 	{
 		irOpCodeMap.put(operator, opcode);
 	}
 
 	/** Maps an operator ID to an IR opcode. */
-	private static Operator.OperatorCode getIROpCode(OperatorDeclNode.Operator operator)
+	private static OperatorCode getIROpCode(Operator operator)
 	{
 		return irOpCodeMap.get(operator);
 	}

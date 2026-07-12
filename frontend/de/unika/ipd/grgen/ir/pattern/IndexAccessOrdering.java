@@ -7,7 +7,7 @@
 
 package de.unika.ipd.grgen.ir.pattern;
 
-import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.Operator;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.model.Index;
@@ -20,13 +20,13 @@ import de.unika.ipd.grgen.ir.model.Index;
 public class IndexAccessOrdering extends IndexAccess
 {
 	public boolean ascending;
-	OperatorDeclNode.Operator comp;
+	Operator comp;
 	Expression expr;
-	OperatorDeclNode.Operator comp2;
+	Operator comp2;
 	Expression expr2;
 
 	public IndexAccessOrdering(Index index, boolean ascending,
-			OperatorDeclNode.Operator comp, Expression expr, OperatorDeclNode.Operator comp2, Expression expr2)
+			Operator comp, Expression expr, Operator comp2, Expression expr2)
 	{
 		super(index);
 		this.ascending = ascending;
@@ -40,21 +40,21 @@ public class IndexAccessOrdering extends IndexAccess
 	{
 		if(ascending) {
 			if(expr != null) { // return lower bound from expr or expr2
-				if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE)
+				if(comp == Operator.GT || comp == Operator.GE)
 					return expr;
 			}
 			if(expr2 != null) {
-				if(comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)
+				if(comp2 == Operator.GT || comp2 == Operator.GE)
 					return expr2;
 			}
 			return null;
 		} else {
 			if(expr != null) { // return upper bound from expr or expr2
-				if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE)
+				if(comp == Operator.LT || comp == Operator.LE)
 					return expr;
 			}
 			if(expr2 != null) {
-				if(comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)
+				if(comp2 == Operator.LT || comp2 == Operator.LE)
 					return expr2;
 			}
 			return null;
@@ -65,21 +65,21 @@ public class IndexAccessOrdering extends IndexAccess
 	{
 		if(ascending) {
 			if(expr != null) { // return upper bound from expr or expr2
-				if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE)
+				if(comp == Operator.LT || comp == Operator.LE)
 					return expr;
 			}
 			if(expr2 != null) {
-				if(comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)
+				if(comp2 == Operator.LT || comp2 == Operator.LE)
 					return expr2;
 			}
 			return null;
 		} else {
 			if(expr != null) { // return lower bound from expr or expr2
-				if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE)
+				if(comp == Operator.GT || comp == Operator.GE)
 					return expr;
 			}
 			if(expr2 != null) {
-				if(comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)
+				if(comp2 == Operator.GT || comp2 == Operator.GE)
 					return expr2;
 			}
 			return null;
@@ -90,22 +90,22 @@ public class IndexAccessOrdering extends IndexAccess
 	{
 		if(ascending) {
 			if(expr != null) {
-				if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE)
-					return comp == OperatorDeclNode.Operator.GE;
+				if(comp == Operator.GT || comp == Operator.GE)
+					return comp == Operator.GE;
 			}
 			if(expr2 != null) {
-				if(comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)
-					return comp2 == OperatorDeclNode.Operator.GE;
+				if(comp2 == Operator.GT || comp2 == Operator.GE)
+					return comp2 == Operator.GE;
 			}
 			return false; // dummy/don't care
 		} else {
 			if(expr != null) {
-				if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE)
-					return comp == OperatorDeclNode.Operator.LE;
+				if(comp == Operator.LT || comp == Operator.LE)
+					return comp == Operator.LE;
 			}
 			if(expr2 != null) {
-				if(comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)
-					return comp2 == OperatorDeclNode.Operator.LE;
+				if(comp2 == Operator.LT || comp2 == Operator.LE)
+					return comp2 == Operator.LE;
 			}
 			return false; // dummy/don't care
 		}
@@ -115,22 +115,22 @@ public class IndexAccessOrdering extends IndexAccess
 	{
 		if(ascending) {
 			if(expr != null) {
-				if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE)
-					return comp == OperatorDeclNode.Operator.LE;
+				if(comp == Operator.LT || comp == Operator.LE)
+					return comp == Operator.LE;
 			}
 			if(expr2 != null) {
-				if(comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)
-					return comp2 == OperatorDeclNode.Operator.LE;
+				if(comp2 == Operator.LT || comp2 == Operator.LE)
+					return comp2 == Operator.LE;
 			}
 			return false; // dummy/don't care
 		} else {
 			if(expr != null) {
-				if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE)
-					return comp == OperatorDeclNode.Operator.GE;
+				if(comp == Operator.GT || comp == Operator.GE)
+					return comp == Operator.GE;
 			}
 			if(expr2 != null) {
-				if(comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)
-					return comp2 == OperatorDeclNode.Operator.GE;
+				if(comp2 == Operator.GT || comp2 == Operator.GE)
+					return comp2 == Operator.GE;
 			}
 			return false; // dummy/don't care
 		}

@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.decl.executable.Operator;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
@@ -47,7 +48,7 @@ public abstract class ConstNode extends OperatorNode
 	 */
 	public ConstNode(Coords coords, String name, Object value)
 	{
-		super(coords, OperatorDeclNode.Operator.CONST);
+		super(coords, Operator.CONST);
 		this.value = value;
 		this.name = name;
 	}

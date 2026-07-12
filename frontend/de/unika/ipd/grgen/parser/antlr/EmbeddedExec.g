@@ -430,7 +430,7 @@ seqExprUnary [ ExecNode xg ] returns [ ExprNode res = ParserEnvironment.initExpr
 		}
 	| m=MINUS { xg.append("-"); } exp=seqExprBasic[xg]
 		{
-			OperatorNode neg = new ArithmeticOperatorNode(getCoords(m), OperatorDeclNode.Operator.NEG);
+			OperatorNode neg = new ArithmeticOperatorNode(getCoords(m), Operator.NEG);
 			neg.addChild(exp);
 			res = neg;
 		}

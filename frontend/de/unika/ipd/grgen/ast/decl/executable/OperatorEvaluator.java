@@ -221,7 +221,7 @@ public class OperatorEvaluator
 				throw new NotEvaluatableException(coords);
 			}
 
-			if(op.getOperator() == OperatorDeclNode.Operator.ADD)
+			if(op.getOperator() == Operator.ADD)
 				return new StringConstNode(coords, a0 + aobj1);
 
 			String a1 = (String)aobj1;
@@ -563,18 +563,18 @@ public class OperatorEvaluator
 			{
 				if(e[1] instanceof ArithmeticOperatorNode) {
 					ArithmeticOperatorNode opNode = (ArithmeticOperatorNode)e[1];
-					if(opNode.getOperator() == OperatorDeclNode.Operator.BIT_AND) {
+					if(opNode.getOperator() == Operator.BIT_AND) {
 						ExprNode set1 = opNode.children.get(0);
 						ExprNode set2 = opNode.children.get(1);
-						ExprNode in1 = new ArithmeticOperatorNode(set1.getCoords(), OperatorDeclNode.Operator.IN, e[0], set1).evaluate();
-						ExprNode in2 = new ArithmeticOperatorNode(set2.getCoords(), OperatorDeclNode.Operator.IN, e[0], set2).evaluate();
-						return new ArithmeticOperatorNode(opNode.getCoords(), OperatorDeclNode.Operator.LOG_AND, in1, in2).evaluate();
-					} else if(opNode.getOperator() == OperatorDeclNode.Operator.BIT_OR) {
+						ExprNode in1 = new ArithmeticOperatorNode(set1.getCoords(), Operator.IN, e[0], set1).evaluate();
+						ExprNode in2 = new ArithmeticOperatorNode(set2.getCoords(), Operator.IN, e[0], set2).evaluate();
+						return new ArithmeticOperatorNode(opNode.getCoords(), Operator.LOG_AND, in1, in2).evaluate();
+					} else if(opNode.getOperator() == Operator.BIT_OR) {
 						ExprNode set1 = opNode.children.get(0);
 						ExprNode set2 = opNode.children.get(1);
-						ExprNode in1 = new ArithmeticOperatorNode(set1.getCoords(), OperatorDeclNode.Operator.IN, e[0], set1).evaluate();
-						ExprNode in2 = new ArithmeticOperatorNode(set2.getCoords(), OperatorDeclNode.Operator.IN, e[0], set2).evaluate();
-						return new ArithmeticOperatorNode(opNode.getCoords(), OperatorDeclNode.Operator.LOG_OR, in1, in2).evaluate();
+						ExprNode in1 = new ArithmeticOperatorNode(set1.getCoords(), Operator.IN, e[0], set1).evaluate();
+						ExprNode in2 = new ArithmeticOperatorNode(set2.getCoords(), Operator.IN, e[0], set2).evaluate();
+						return new ArithmeticOperatorNode(opNode.getCoords(), Operator.LOG_OR, in1, in2).evaluate();
 					}
 				} else if(e[0] instanceof ConstNode) {
 					ConstNode val = (ConstNode)e[0];
@@ -634,18 +634,18 @@ public class OperatorEvaluator
 			{
 				if(e[1] instanceof ArithmeticOperatorNode) {
 					ArithmeticOperatorNode opNode = (ArithmeticOperatorNode)e[1];
-					if(opNode.getOperator() == OperatorDeclNode.Operator.BIT_AND) {
+					if(opNode.getOperator() == Operator.BIT_AND) {
 						ExprNode set1 = opNode.children.get(0);
 						ExprNode set2 = opNode.children.get(1);
-						ExprNode in1 = new ArithmeticOperatorNode(set1.getCoords(), OperatorDeclNode.Operator.IN, e[0], set1).evaluate();
-						ExprNode in2 = new ArithmeticOperatorNode(set2.getCoords(), OperatorDeclNode.Operator.IN, e[0], set2).evaluate();
-						return new ArithmeticOperatorNode(opNode.getCoords(), OperatorDeclNode.Operator.LOG_AND, in1, in2).evaluate();
-					} else if(opNode.getOperator() == OperatorDeclNode.Operator.BIT_OR) {
+						ExprNode in1 = new ArithmeticOperatorNode(set1.getCoords(), Operator.IN, e[0], set1).evaluate();
+						ExprNode in2 = new ArithmeticOperatorNode(set2.getCoords(), Operator.IN, e[0], set2).evaluate();
+						return new ArithmeticOperatorNode(opNode.getCoords(), Operator.LOG_AND, in1, in2).evaluate();
+					} else if(opNode.getOperator() == Operator.BIT_OR) {
 						ExprNode set1 = opNode.children.get(0);
 						ExprNode set2 = opNode.children.get(1);
-						ExprNode in1 = new ArithmeticOperatorNode(set1.getCoords(), OperatorDeclNode.Operator.IN, e[0], set1).evaluate();
-						ExprNode in2 = new ArithmeticOperatorNode(set2.getCoords(), OperatorDeclNode.Operator.IN, e[0], set2).evaluate();
-						return new ArithmeticOperatorNode(opNode.getCoords(), OperatorDeclNode.Operator.LOG_OR, in1, in2).evaluate();
+						ExprNode in1 = new ArithmeticOperatorNode(set1.getCoords(), Operator.IN, e[0], set1).evaluate();
+						ExprNode in2 = new ArithmeticOperatorNode(set2.getCoords(), Operator.IN, e[0], set2).evaluate();
+						return new ArithmeticOperatorNode(opNode.getCoords(), Operator.LOG_OR, in1, in2).evaluate();
 					}
 				} else if(e[0] instanceof ConstNode) {
 					ConstNode val = (ConstNode)e[0];

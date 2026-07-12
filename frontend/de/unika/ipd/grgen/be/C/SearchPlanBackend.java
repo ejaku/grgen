@@ -33,6 +33,7 @@ import de.unika.ipd.grgen.ir.expr.Cast;
 import de.unika.ipd.grgen.ir.expr.Constant;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.Operator;
+import de.unika.ipd.grgen.ir.expr.OperatorCode;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
@@ -73,7 +74,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	// ATTENTION: the first two shift operations are signed shifts
 	// 		the second right shift is signed. This backend simply gens
 	//		C-bitwise-shift-operations on signed integers, for simplicity ;-)
-	private static String getOperatorSymbol(Operator.OperatorCode opCode)
+	private static String getOperatorSymbol(OperatorCode opCode)
 	{
 		switch(opCode)
 		{
@@ -413,7 +414,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				return getUnusedEvalParams(op.getOperand(0))
 						| getUnusedEvalParams(op.getOperand(1));
 			case 3:
-				if(op.getOpCode() == Operator.OperatorCode.COND) {
+				if(op.getOpCode() == OperatorCode.COND) {
 					return getUnusedEvalParams(op.getOperand(0))
 							| getUnusedEvalParams(op.getOperand(1))
 							| getUnusedEvalParams(op.getOperand(2));
@@ -1015,7 +1016,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				genConditionEval(sb, op.getOperand(1), nodeIds, edgeIds);
 				break;
 			case 3:
-				if(op.getOpCode() == Operator.OperatorCode.COND) {
+				if(op.getOpCode() == OperatorCode.COND) {
 					sb.append("(");
 					genConditionEval(sb, op.getOperand(0), nodeIds, edgeIds);
 					sb.append(") ? (");

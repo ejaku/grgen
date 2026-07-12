@@ -115,44 +115,44 @@ tokens {
 	
 	boolean hadError = false;
 
-	private static Map<Integer, OperatorDeclNode.Operator> opIds = new HashMap<Integer, OperatorDeclNode.Operator>();
+	private static Map<Integer, Operator> opIds = new HashMap<Integer, Operator>();
 
-	private static void putOpId(int tokenId, OperatorDeclNode.Operator opId) {
+	private static void putOpId(int tokenId, Operator opId) {
 		opIds.put(new Integer(tokenId), opId);
 	}
 
 	static {
-		putOpId(QUESTION, OperatorDeclNode.Operator.COND);
-		putOpId(EQUAL, OperatorDeclNode.Operator.EQ);
-		putOpId(NOT_EQUAL, OperatorDeclNode.Operator.NE);
-		putOpId(STRUCTURAL_EQUAL, OperatorDeclNode.Operator.SE);
-		putOpId(NOT, OperatorDeclNode.Operator.LOG_NOT);
-		putOpId(TILDE, OperatorDeclNode.Operator.BIT_NOT);
-		putOpId(SL, OperatorDeclNode.Operator.SHL);
-		putOpId(SR, OperatorDeclNode.Operator.SHR);
-		putOpId(BSR, OperatorDeclNode.Operator.BIT_SHR);
-		putOpId(DIV, OperatorDeclNode.Operator.DIV);
-		putOpId(STAR, OperatorDeclNode.Operator.MUL);
-		putOpId(MOD, OperatorDeclNode.Operator.MOD);
-		putOpId(PLUS, OperatorDeclNode.Operator.ADD);
-		putOpId(MINUS, OperatorDeclNode.Operator.SUB);
-		putOpId(GE, OperatorDeclNode.Operator.GE);
-		putOpId(GT, OperatorDeclNode.Operator.GT);
-		putOpId(LE, OperatorDeclNode.Operator.LE);
-		putOpId(LT, OperatorDeclNode.Operator.LT);
-		putOpId(BAND, OperatorDeclNode.Operator.BIT_AND);
-		putOpId(BOR, OperatorDeclNode.Operator.BIT_OR);
-		putOpId(BXOR, OperatorDeclNode.Operator.BIT_XOR);
-		putOpId(BXOR, OperatorDeclNode.Operator.BIT_XOR);
-		putOpId(LAND, OperatorDeclNode.Operator.LOG_AND);
-		putOpId(LOR, OperatorDeclNode.Operator.LOG_OR);
-		putOpId(IN, OperatorDeclNode.Operator.IN);
-		putOpId(LBRACK, OperatorDeclNode.Operator.INDEX);
-		putOpId(BACKSLASH, OperatorDeclNode.Operator.EXCEPT);
+		putOpId(QUESTION, Operator.COND);
+		putOpId(EQUAL, Operator.EQ);
+		putOpId(NOT_EQUAL, Operator.NE);
+		putOpId(STRUCTURAL_EQUAL, Operator.SE);
+		putOpId(NOT, Operator.LOG_NOT);
+		putOpId(TILDE, Operator.BIT_NOT);
+		putOpId(SL, Operator.SHL);
+		putOpId(SR, Operator.SHR);
+		putOpId(BSR, Operator.BIT_SHR);
+		putOpId(DIV, Operator.DIV);
+		putOpId(STAR, Operator.MUL);
+		putOpId(MOD, Operator.MOD);
+		putOpId(PLUS, Operator.ADD);
+		putOpId(MINUS, Operator.SUB);
+		putOpId(GE, Operator.GE);
+		putOpId(GT, Operator.GT);
+		putOpId(LE, Operator.LE);
+		putOpId(LT, Operator.LT);
+		putOpId(BAND, Operator.BIT_AND);
+		putOpId(BOR, Operator.BIT_OR);
+		putOpId(BXOR, Operator.BIT_XOR);
+		putOpId(BXOR, Operator.BIT_XOR);
+		putOpId(LAND, Operator.LOG_AND);
+		putOpId(LOR, Operator.LOG_OR);
+		putOpId(IN, Operator.IN);
+		putOpId(LBRACK, Operator.INDEX);
+		putOpId(BACKSLASH, Operator.EXCEPT);
 	};
 
 	public OperatorNode makeOp(org.antlr.runtime.Token t) {
-		OperatorDeclNode.Operator opId = opIds.get(new Integer(t.getType()));
+		Operator opId = opIds.get(new Integer(t.getType()));
 		assert opId != null : "Invalid operator ID";
 		return new ArithmeticOperatorNode(getCoords(t), opId);
 	}
@@ -1269,11 +1269,11 @@ nodeMultipleIndexContinuation [ MatchNodeByIndexAccessMultipleDeclNode nodeDecl,
 	|
 	;
 
-relOS returns [ OperatorDeclNode.Operator os = OperatorDeclNode.Operator.ERROR ]
-	: lt=LT { os = OperatorDeclNode.Operator.LT; }
-	| le=LE { os = OperatorDeclNode.Operator.LE; }
-	| gt=GT { os = OperatorDeclNode.Operator.GT; }
-	| ge=GE { os = OperatorDeclNode.Operator.GE; }
+relOS returns [ Operator os = Operator.ERROR ]
+	: lt=LT { os = Operator.LT; }
+	| le=LE { os = Operator.LE; }
+	| gt=GT { os = Operator.GT; }
+	| ge=GE { os = Operator.GE; }
 	;
 
 anonymousFirstNodeOrSubpatternDeclaration [ Token c, CollectNode<BaseNode> conn, CollectNode<SubpatternUsageDeclNode> subpatterns, 
@@ -2993,7 +2993,7 @@ enumItemDecl [ IdentNode type, CollectNode<EnumItemDeclNode> coll, ExprNode defI
 			EnumItemDeclNode memberDecl = new EnumItemDeclNode(id, type, value, pos);
 			id.setDecl(memberDecl);
 			coll.addChild(memberDecl);
-			OperatorNode add = new ArithmeticOperatorNode(id.getCoords(), OperatorDeclNode.Operator.ADD);
+			OperatorNode add = new ArithmeticOperatorNode(id.getCoords(), Operator.ADD);
 			add.addChild(value);
 			add.addChild(env.getOne());
 			res = add;
@@ -4265,7 +4265,7 @@ unaryExpr [ AnonymousScopeNamer namer, int context, boolean inEnumInit ] returns
 		{ res = makeUnOp(n, e); }
 	| m=MINUS e=unaryExpr[namer, context, inEnumInit]
 		{
-			OperatorNode neg = new ArithmeticOperatorNode(getCoords(m), OperatorDeclNode.Operator.NEG);
+			OperatorNode neg = new ArithmeticOperatorNode(getCoords(m), Operator.NEG);
 			neg.addChild(e);
 			res = neg;
 		}

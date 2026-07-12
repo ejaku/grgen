@@ -27,6 +27,7 @@ import de.unika.ipd.grgen.ir.executable.MatchingAction;
 import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.Operator;
+import de.unika.ipd.grgen.ir.expr.OperatorCode;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.pattern.Edge;
@@ -105,7 +106,7 @@ public class MoreInformationCollector extends InformationCollector
 					Expression expr = eval.getExpression();
 
 					/* generate an expression that consists of both parts of the Assignment to use the already implemented methods for gathering InvolvedNodes/Edges etc. */
-					Operator op = new Operator((PrimitiveType)target.getType(), Operator.OperatorCode.EQ);
+					Operator op = new Operator((PrimitiveType)target.getType(), OperatorCode.EQ);
 					op.addOperand(target);
 					op.addOperand(expr);
 

@@ -32,6 +32,7 @@ import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.MatchAccess;
 import de.unika.ipd.grgen.ir.expr.MatchInit;
 import de.unika.ipd.grgen.ir.expr.Operator;
+import de.unika.ipd.grgen.ir.expr.OperatorCode;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.expr.VariableExpression;
 import de.unika.ipd.grgen.ir.expr.array.ArrayInit;
@@ -291,11 +292,11 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 				DeclNode rightMemberDecl = rightMatchType.tryGetMember(sharedName);
 				Entity rightMember = rightMemberDecl.checkIR(Entity.class);
 				
-				Operator opEqual = new Operator(BasicTypeNode.booleanType.getType(), Operator.OperatorCode.EQ);
+				Operator opEqual = new Operator(BasicTypeNode.booleanType.getType(), OperatorCode.EQ);
 				opEqual.addOperand(new MatchAccess(new VariableExpression(leftIterationVar), leftMember));
 				opEqual.addOperand(new MatchAccess(new VariableExpression(rightIterationVar), rightMember));
 				
-				Operator opAnd = new Operator(BasicTypeNode.booleanType.getType(), Operator.OperatorCode.LOG_AND);
+				Operator opAnd = new Operator(BasicTypeNode.booleanType.getType(), OperatorCode.LOG_AND);
 				opAnd.addOperand(condition);
 				opAnd.addOperand(opEqual);
 				

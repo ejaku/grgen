@@ -20,6 +20,7 @@ import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.PackageIdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.Operator;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
 import de.unika.ipd.grgen.ast.decl.executable.TopLevelMatcherDeclNode;
@@ -122,9 +123,9 @@ public class MatchTypeIteratedNode extends MatchTypeNode
 			fixupDefinition(topLevelMatcherUnresolved, topLevelMatcherUnresolved.getScope());
 		}
 
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.EQ, BasicTypeNode.booleanType,
+		OperatorDeclNode.makeBinOp(Operator.EQ, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.nullEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.NE, BasicTypeNode.booleanType,
+		OperatorDeclNode.makeBinOp(Operator.NE, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.nullEvaluator);
 
 		topLevelMatcher = topLevelMatcherResolver.resolve(topLevelMatcherUnresolved, this);

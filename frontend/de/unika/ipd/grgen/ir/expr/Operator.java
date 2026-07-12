@@ -23,36 +23,6 @@ import de.unika.ipd.grgen.ir.type.Type;
  */
 public class Operator extends Expression
 {
-	public enum OperatorCode
-	{
-		COND,
-		LOG_OR,
-		LOG_AND,
-		BIT_OR,
-		BIT_XOR,
-		BIT_AND,
-		EQ,
-		NE,
-		LT,
-		LE,
-		GT,
-		GE,
-		SHL,
-		SHR,
-		BIT_SHR,
-		ADD,
-		SUB,
-		MUL,
-		DIV,
-		MOD,
-		LOG_NOT,
-		BIT_NOT,
-		NEG,
-		IN,
-		EXCEPT,
-		SE
-	}
-	
 	/** The operands of the expression. */
 	protected List<Expression> operands = new ArrayList<Expression>();
 

@@ -19,6 +19,7 @@ import de.unika.ipd.grgen.ir.expr.Constant;
 import de.unika.ipd.grgen.ir.expr.EnumExpression;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.Operator;
+import de.unika.ipd.grgen.ir.expr.OperatorCode;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.expr.Typeof;
 import de.unika.ipd.grgen.ir.expr.VariableExpression;
@@ -35,7 +36,7 @@ public class Formatter
 	// ATTENTION: the first two shift operations are signed shifts
 	// 		the second right shift is signed. This Backend simply gens
 	//		C-bitwise-shift-operations on signed integers, for simplicity ;-)
-	private static String getOperatorSymbol(Operator.OperatorCode opCode)
+	private static String getOperatorSymbol(OperatorCode opCode)
 	{
 		switch(opCode)
 		{
@@ -91,7 +92,7 @@ public class Formatter
 				formatConditionEvalAux(sb, op.getOperand(1));
 				break;
 			case 3:
-				if(op.getOpCode() == Operator.OperatorCode.COND) {
+				if(op.getOpCode() == OperatorCode.COND) {
 					sb.append("(");
 					formatConditionEvalAux(sb, op.getOperand(0));
 					sb.append(") ? (");

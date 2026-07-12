@@ -292,10 +292,10 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 				opNamePrefix = "LIST_";
 			if(op.getType() instanceof DequeType)
 				opNamePrefix = "DEQUE_";
-			if(op.getOpCode() == Operator.OperatorCode.EQ || op.getOpCode() == Operator.OperatorCode.NE
-					|| op.getOpCode() == Operator.OperatorCode.SE
-					|| op.getOpCode() == Operator.OperatorCode.GT || op.getOpCode() == Operator.OperatorCode.GE
-					|| op.getOpCode() == Operator.OperatorCode.LT || op.getOpCode() == Operator.OperatorCode.LE) {
+			if(op.getOpCode() == OperatorCode.EQ || op.getOpCode() == OperatorCode.NE
+					|| op.getOpCode() == OperatorCode.SE
+					|| op.getOpCode() == OperatorCode.GT || op.getOpCode() == OperatorCode.GE
+					|| op.getOpCode() == OperatorCode.LT || op.getOpCode() == OperatorCode.LE) {
 				Expression opnd = op.getOperand(0); // or .getOperand(1), irrelevant
 				if(opnd.getType() instanceof SetType || opnd.getType() instanceof MapType) {
 					opNamePrefix = "DICT_";
@@ -316,23 +316,23 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 					opNamePrefix = "TRANSIENT_OBJECT_CLASS_";
 				}
 			}
-			if(op.getOpCode() == Operator.OperatorCode.GT || op.getOpCode() == Operator.OperatorCode.GE
-					|| op.getOpCode() == Operator.OperatorCode.LT || op.getOpCode() == Operator.OperatorCode.LE) {
+			if(op.getOpCode() == OperatorCode.GT || op.getOpCode() == OperatorCode.GE
+					|| op.getOpCode() == OperatorCode.LT || op.getOpCode() == OperatorCode.LE) {
 				Expression opnd = op.getOperand(0); // or .getOperand(1), irrelevant
 				if(opnd.getType() instanceof StringType) {
 					opNamePrefix = "STRING_";
 				}
 			}
 			if(model.isEqualClassDefined()
-					&& (op.getOpCode() == Operator.OperatorCode.EQ || op.getOpCode() == Operator.OperatorCode.NE)) {
+					&& (op.getOpCode() == OperatorCode.EQ || op.getOpCode() == OperatorCode.NE)) {
 				Expression opnd = op.getOperand(0); // or .getOperand(1), irrelevant
 				if(opnd.getType() instanceof ObjectType || opnd.getType() instanceof ExternalObjectType) {
 					opNamePrefix = "EXTERNAL_";
 				}
 			}
 			if(model.isLowerClassDefined()
-					&& (op.getOpCode() == Operator.OperatorCode.GT || op.getOpCode() == Operator.OperatorCode.GE
-						|| op.getOpCode() == Operator.OperatorCode.LT || op.getOpCode() == Operator.OperatorCode.LE)) {
+					&& (op.getOpCode() == OperatorCode.GT || op.getOpCode() == OperatorCode.GE
+						|| op.getOpCode() == OperatorCode.LT || op.getOpCode() == OperatorCode.LE)) {
 				Expression opnd = op.getOperand(0); // or .getOperand(1), irrelevant
 				if(opnd.getType() instanceof ObjectType || opnd.getType() instanceof ExternalObjectType) {
 					opNamePrefix = "EXTERNAL_";
@@ -348,13 +348,13 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 				genExpressionTree(sb, op.getOperand(0), className, pathPrefix, alreadyDefinedEntityToName);
 				sb.append(", ");
 				genExpressionTree(sb, op.getOperand(1), className, pathPrefix, alreadyDefinedEntityToName);
-				if(op.getOpCode() == Operator.OperatorCode.IN) {
+				if(op.getOpCode() == OperatorCode.IN) {
 					if(op.getOperand(0) instanceof GraphEntityExpression)
 						sb.append(", \"" + formatElementInterfaceRef(op.getOperand(0).getType()) + "\"");
 					boolean isDictionary = op.getOperand(1).getType() instanceof SetType
 							|| op.getOperand(1).getType() instanceof MapType;
 					sb.append(isDictionary ? ", true" : ", false");
-				} else if(op.getOpCode() == Operator.OperatorCode.SE) {
+				} else if(op.getOpCode() == OperatorCode.SE) {
 					if(op.getOperand(0).getType() instanceof ContainerType) {
 						if(op.getOperand(0).getType() instanceof SetType
 								|| op.getOperand(0).getType() instanceof MapType) {
@@ -368,7 +368,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 				}
 				break;
 			case 3:
-				if(op.getOpCode() == Operator.OperatorCode.COND) {
+				if(op.getOpCode() == OperatorCode.COND) {
 					genExpressionTree(sb, op.getOperand(0), className, pathPrefix, alreadyDefinedEntityToName);
 					sb.append(", ");
 					genExpressionTree(sb, op.getOperand(1), className, pathPrefix, alreadyDefinedEntityToName);

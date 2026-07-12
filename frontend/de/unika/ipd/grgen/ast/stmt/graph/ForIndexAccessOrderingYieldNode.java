@@ -15,7 +15,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.Operator;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.model.decl.IndexDeclNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
@@ -39,15 +39,15 @@ public class ForIndexAccessOrderingYieldNode extends ForIndexAccessNode
 	}
 
 	private boolean ascending;
-	private OperatorDeclNode.Operator comp;
+	private Operator comp;
 	private ExprNode expr;
-	private OperatorDeclNode.Operator comp2;
+	private Operator comp2;
 	private ExprNode expr2;
 
 	public ForIndexAccessOrderingYieldNode(Coords coords, BaseNode iterationVariable, int context,
 			boolean ascending, IdentNode index, 
-			OperatorDeclNode.Operator comp, ExprNode expr, 
-			OperatorDeclNode.Operator comp2, ExprNode expr2, 
+			Operator comp, ExprNode expr, 
+			Operator comp2, ExprNode expr2, 
 			PatternGraphLhsNode directlyNestingLHSGraph,
 			CollectNode<EvalStatementNode> loopedStatements)
 	{
@@ -150,15 +150,15 @@ public class ForIndexAccessOrderingYieldNode extends ForIndexAccessNode
 					+ " in index access loop (on " + indexUnresolved + ").");
 			return false;
 		}
-		if(comp == OperatorDeclNode.Operator.LT || comp == OperatorDeclNode.Operator.LE) {
-			if(expr2 != null && (comp2 == OperatorDeclNode.Operator.LT || comp2 == OperatorDeclNode.Operator.LE)) {
+		if(comp == Operator.LT || comp == Operator.LE) {
+			if(expr2 != null && (comp2 == Operator.LT || comp2 == Operator.LE)) {
 				reportError("The index access loop does not support two upper bounds"
 						+ " (given when accessing " + indexUnresolved + ").");
 				return false;
 			}
 		}
-		if(comp == OperatorDeclNode.Operator.GT || comp == OperatorDeclNode.Operator.GE) {
-			if(expr2 != null && (comp2 == OperatorDeclNode.Operator.GT || comp2 == OperatorDeclNode.Operator.GE)) {
+		if(comp == Operator.GT || comp == Operator.GE) {
+			if(expr2 != null && (comp2 == Operator.GT || comp2 == Operator.GE)) {
 				reportError("The index access loop does not support two lower bounds"
 						+ " (given when accessing " + indexUnresolved + ").");
 				return false;

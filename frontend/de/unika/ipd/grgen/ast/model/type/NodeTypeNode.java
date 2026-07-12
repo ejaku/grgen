@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
 import de.unika.ipd.grgen.ast.decl.executable.ProcedureDeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode.Operator;
+import de.unika.ipd.grgen.ast.decl.executable.Operator;
 import de.unika.ipd.grgen.ast.expr.ContainerInitNode;
 import de.unika.ipd.grgen.ast.expr.array.ArrayInitNode;
 import de.unika.ipd.grgen.ast.expr.deque.DequeInitNode;

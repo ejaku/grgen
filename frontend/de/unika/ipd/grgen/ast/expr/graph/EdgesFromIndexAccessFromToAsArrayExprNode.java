@@ -8,7 +8,7 @@
 package de.unika.ipd.grgen.ast.expr.graph;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.Operator;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
@@ -66,21 +66,21 @@ public class EdgesFromIndexAccessFromToAsArrayExprNode extends FromIndexAccessFr
 	}
 
 	@Override
-	protected OperatorDeclNode.Operator fromOperator()
+	protected Operator fromOperator()
 	{
 		if(ascending)
-			return fromExclusive ? OperatorDeclNode.Operator.GT : OperatorDeclNode.Operator.GE;
+			return fromExclusive ? Operator.GT : Operator.GE;
 		else
-			return fromExclusive ? OperatorDeclNode.Operator.LT : OperatorDeclNode.Operator.LE;
+			return fromExclusive ? Operator.LT : Operator.LE;
 	}
 
 	@Override
-	protected OperatorDeclNode.Operator toOperator()
+	protected Operator toOperator()
 	{
 		if(ascending)
-			return toExclusive ? OperatorDeclNode.Operator.LT : OperatorDeclNode.Operator.LE;
+			return toExclusive ? Operator.LT : Operator.LE;
 		else
-			return toExclusive ? OperatorDeclNode.Operator.GT : OperatorDeclNode.Operator.GE;
+			return toExclusive ? Operator.GT : Operator.GE;
 	}
 
 	@Override

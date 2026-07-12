@@ -32,39 +32,6 @@ import de.unika.ipd.grgen.parser.Symbol;
  */
 public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 {
-	public enum Operator
-	{
-		ERROR,
-		LOG_OR,
-		LOG_AND,
-		BIT_OR,
-		BIT_XOR,
-		BIT_AND,
-		EQ,
-		NE,
-		LT,
-		LE,
-		GT,
-		GE,
-		SHL,
-		SHR,
-		BIT_SHR,
-		ADD,
-		SUB,
-		MUL,
-		DIV,
-		MOD,
-		LOG_NOT,
-		BIT_NOT,
-		NEG,
-		CONST,
-		COND,
-		IN,
-		INDEX,
-		EXCEPT,
-		SE
-	}
-
 	private static final OperatorTypeNode operatorType = new OperatorTypeNode();
 
 	/** Arity map of the operators. */

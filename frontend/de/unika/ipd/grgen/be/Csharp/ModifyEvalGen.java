@@ -149,6 +149,7 @@ import de.unika.ipd.grgen.ir.expr.Constant;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.expr.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.expr.Operator;
+import de.unika.ipd.grgen.ir.expr.OperatorCode;
 import de.unika.ipd.grgen.ir.expr.ProjectionExpr;
 import de.unika.ipd.grgen.ir.expr.Qualification;
 import de.unika.ipd.grgen.ir.expr.graph.AdjacentNodeExpr;
@@ -425,7 +426,7 @@ public class ModifyEvalGen extends CSharpBase
 
 				// For unions and intersections new maps/sets are already created,
 				// so we don't have to copy them again
-				if(op.getOpCode() == Operator.OperatorCode.BIT_OR || op.getOpCode() == Operator.OperatorCode.BIT_AND)
+				if(op.getOpCode() == OperatorCode.BIT_OR || op.getOpCode() == OperatorCode.BIT_AND)
 					mustCopy = false;
 			}
 

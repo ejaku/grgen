@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.decl.executable.Operator;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorEvaluator;
 import de.unika.ipd.grgen.ast.type.TypeNode;
@@ -77,30 +78,30 @@ public class SetTypeNode extends ContainerTypeNode
 		if(valueType == null)
 			return false;
 
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.IN, BasicTypeNode.booleanType,
+		OperatorDeclNode.makeBinOp(Operator.IN, BasicTypeNode.booleanType,
 				valueType, this, OperatorEvaluator.setEvaluator);
 
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.EQ, BasicTypeNode.booleanType,
+		OperatorDeclNode.makeBinOp(Operator.EQ, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.setEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.NE, BasicTypeNode.booleanType,
+		OperatorDeclNode.makeBinOp(Operator.NE, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.setEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.SE, BasicTypeNode.booleanType,
-				this, this, OperatorEvaluator.setEvaluator);
-
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.GT, BasicTypeNode.booleanType,
-				this, this, OperatorEvaluator.setEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.GE, BasicTypeNode.booleanType,
-				this, this, OperatorEvaluator.setEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.LT, BasicTypeNode.booleanType,
-				this, this, OperatorEvaluator.setEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.LE, BasicTypeNode.booleanType,
+		OperatorDeclNode.makeBinOp(Operator.SE, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.setEvaluator);
 
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.BIT_OR, this,
+		OperatorDeclNode.makeBinOp(Operator.GT, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.setEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.BIT_AND, this,
+		OperatorDeclNode.makeBinOp(Operator.GE, BasicTypeNode.booleanType,
 				this, this, OperatorEvaluator.setEvaluator);
-		OperatorDeclNode.makeBinOp(OperatorDeclNode.Operator.EXCEPT, this,
+		OperatorDeclNode.makeBinOp(Operator.LT, BasicTypeNode.booleanType,
+				this, this, OperatorEvaluator.setEvaluator);
+		OperatorDeclNode.makeBinOp(Operator.LE, BasicTypeNode.booleanType,
+				this, this, OperatorEvaluator.setEvaluator);
+
+		OperatorDeclNode.makeBinOp(Operator.BIT_OR, this,
+				this, this, OperatorEvaluator.setEvaluator);
+		OperatorDeclNode.makeBinOp(Operator.BIT_AND, this,
+				this, this, OperatorEvaluator.setEvaluator);
+		OperatorDeclNode.makeBinOp(Operator.EXCEPT, this,
 				this, this, OperatorEvaluator.setEvaluator);
 
 		TypeNode.addCompatibility(this, BasicTypeNode.stringType);

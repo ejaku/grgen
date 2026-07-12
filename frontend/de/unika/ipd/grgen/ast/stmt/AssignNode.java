@@ -17,7 +17,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
-import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
+import de.unika.ipd.grgen.ast.decl.executable.Operator;
 import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
 import de.unika.ipd.grgen.ast.expr.ArithmeticOperatorNode;
@@ -456,8 +456,8 @@ public class AssignNode extends EvalStatementNode
 		while(curLoc != null) {
 			if(curLoc instanceof ArithmeticOperatorNode) {
 				ArithmeticOperatorNode operator = (ArithmeticOperatorNode)curLoc;
-				if(!(operator.getOperatorDecl().getOperator() == OperatorDeclNode.Operator.BIT_OR)
-						&& !(operator.getOperatorDecl().getOperator() == OperatorDeclNode.Operator.EXCEPT)) {
+				if(!(operator.getOperatorDecl().getOperator() == Operator.BIT_OR)
+						&& !(operator.getOperatorDecl().getOperator() == Operator.EXCEPT)) {
 					return false;
 				}
 				Collection<ExprNode> children = operator.getChildrenExact();
