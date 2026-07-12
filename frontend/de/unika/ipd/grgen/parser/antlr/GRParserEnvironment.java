@@ -53,10 +53,10 @@ public class GRParserEnvironment extends ParserEnvironment
 
 		String filePath = file.getPath();
 		if(filesOnStack.contains(filePath)) {
-			System.err.println("GrGen: [ERROR at " + getFilename() + ":" + lexer.getLine()
+			java.lang.System.err.println("GrGen: [ERROR at " + getFilename() + ":" + lexer.getLine()
 					+ "," + lexer.getCharPositionInLine() + "] found circular include with file \""
 					+ filePath + "\"");
-			System.exit(1);
+			java.lang.System.exit(1);
 		}
 		filesOnStack.add(filePath);
 
@@ -72,10 +72,10 @@ public class GRParserEnvironment extends ParserEnvironment
 			lexer.reset();
 			filename = file.getPath();
 		} catch(IOException e) {
-			System.err.println("GrGen: [ERROR at " + getFilename() + ":" + lexer.getLine()
+			java.lang.System.err.println("GrGen: [ERROR at " + getFilename() + ":" + lexer.getLine()
 					+ "," + lexer.getCharPositionInLine() + "] included file could not be found: \""
 					+ filePath + "\"");
-			System.exit(1);
+			java.lang.System.exit(1);
 		}
 	}
 
@@ -123,15 +123,15 @@ public class GRParserEnvironment extends ParserEnvironment
 				root = parser.textActions();
 				hadError_ = hadError_ || parser.hadError();
 			} catch(RecognitionException e) {
-				e.printStackTrace(System.err);
-				System.err.println("parser exception: " + e.getMessage());
-				System.exit(1);
+				e.printStackTrace(java.lang.System.err);
+				java.lang.System.err.println("parser exception: " + e.getMessage());
+				java.lang.System.exit(1);
 			}
 
 			includes.pop();
 		} catch(IOException e) {
-			System.err.println("input file not found: " + e.getMessage());
-			System.exit(1);
+			java.lang.System.err.println("input file not found: " + e.getMessage());
+			java.lang.System.exit(1);
 		}
 
 		return root;
@@ -144,10 +144,10 @@ public class GRParserEnvironment extends ParserEnvironment
 
 		String filePath = inputFile.getAbsolutePath();
 		if(modelsOnStack.contains(filePath)) {
-			System.err.println("GrGen: [ERROR at " + getFilename() + /*":" + curlexer.getLine()
+			java.lang.System.err.println("GrGen: [ERROR at " + getFilename() + /*":" + curlexer.getLine()
 					+ "," + curlexer.getCharPositionInLine() +*/ "] found circular model usage with file \""
 					+ filePath + "\"");
-			System.exit(1);
+			java.lang.System.exit(1);
 		}
 
 		root = models.get(filePath);
@@ -171,17 +171,17 @@ public class GRParserEnvironment extends ParserEnvironment
 				root = parser.textTypes();
 				hadError_ = hadError_ || parser.hadError();
 			} catch(RecognitionException e) {
-				e.printStackTrace(System.err);
-				System.err.println("parser exception: " + e.getMessage());
-				System.exit(1);
+				e.printStackTrace(java.lang.System.err);
+				java.lang.System.err.println("parser exception: " + e.getMessage());
+				java.lang.System.exit(1);
 			}
 
 			filename = oldFilename;
 
 			includes.pop();
 		} catch(IOException e) {
-			System.err.println("cannot load graph model: " + e.getMessage());
-			System.exit(1);
+			java.lang.System.err.println("cannot load graph model: " + e.getMessage());
+			java.lang.System.exit(1);
 		}
 
 		modelsOnStack.remove(filePath);
