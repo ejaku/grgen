@@ -420,21 +420,21 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	/** Return the currently valid member. Currently valid depends on variable was already resolved and resolution result. */
 	protected final <T extends BaseNode> T getValidResolvedVersion(T firstResolved, T secondResolved)
 	{
-		assert isResolved() : this;
+		assert isResolved() : this.toString();
 		if(firstResolved != null) {
 			return firstResolved;
 		}
 		if(secondResolved != null) {
 			return secondResolved;
 		}
-		assert false : this;
+		assert false : this.toString();
 		return null;
 	}
 
 	/** Return the currently valid member. Currently valid depends on variable was already resolved and resolution result. */
 	protected final <T extends BaseNode> T getValidResolvedVersion(T firstResolved, T secondResolved, T thirdResolved)
 	{
-		assert isResolved() : this;
+		assert isResolved() : this.toString();
 		if(firstResolved != null) {
 			return firstResolved;
 		}
@@ -444,7 +444,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 		if(thirdResolved != null) {
 			return thirdResolved;
 		}
-		assert false : this;
+		assert false : this.toString();
 		return null;
 	}
 
@@ -650,7 +650,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	/** Returns the result of the resolution (as set by nodeResolvedSetResult earlier on). */
 	public final boolean resolutionResult()
 	{
-		assert isResolved() : this;
+		assert isResolved() : this.toString();
 		return resolveResult;
 	}
 
@@ -722,7 +722,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	/** Yields result of checking this AST node */
 	protected final boolean getChecked()
 	{
-		assert isChecked() : this;
+		assert isChecked() : this.toString();
 		return checkResult;
 	}
 
