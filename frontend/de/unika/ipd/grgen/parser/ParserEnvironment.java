@@ -42,9 +42,7 @@ import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.Sys;
-import de.unika.ipd.grgen.util.Annotations;
 import de.unika.ipd.grgen.util.Base;
-import de.unika.ipd.grgen.util.EmptyAnnotations;
 
 public abstract class ParserEnvironment extends Base
 {
@@ -435,11 +433,6 @@ public abstract class ParserEnvironment extends Base
 	public static IdentNode getDummyIdent()
 	{
 		return IdentNode.getInvalid();
-	}
-
-	public static Annotations getEmptyAnnotations()
-	{
-		return EmptyAnnotations.get();
 	}
 
 	public static Coords getInvalidCoords()
