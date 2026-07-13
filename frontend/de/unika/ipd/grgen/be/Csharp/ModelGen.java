@@ -13,6 +13,7 @@
 package de.unika.ipd.grgen.be.Csharp;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collection;
 import java.util.Comparator;
@@ -338,9 +339,9 @@ public class ModelGen extends CSharpBase
 	private void genInheritanceTypes(Collection<? extends InheritanceType> allTypes,
 			NodeEdgeEnumBearer bearer, String packageName, InheritanceTypeType inhType)
 	{
-		Collection<? extends InheritanceType> curTypes;
+		Collection<InheritanceType> curTypes;
 		if(inhType == InheritanceTypeType.Node) {
-			curTypes = bearer.getNodeTypes();
+			curTypes = getInheritanceTypes(bearer.getNodeTypes());
 			
 			sb.appendFront("//\n");
 			sb.appendFront("// Node types\n");
@@ -349,7 +350,7 @@ public class ModelGen extends CSharpBase
 			
 			sb.appendFront("public enum NodeTypes ");
 		} else if(inhType == InheritanceTypeType.Edge) {
-			curTypes = bearer.getEdgeTypes();
+			curTypes = getInheritanceTypes(bearer.getEdgeTypes());
 			
 			sb.appendFront("//\n");
 			sb.appendFront("// Edge types\n");
@@ -358,7 +359,7 @@ public class ModelGen extends CSharpBase
 			
 			sb.appendFront("public enum EdgeTypes ");
 		} else if(inhType == InheritanceTypeType.Object) {
-			curTypes = bearer.getObjectTypes();
+			curTypes = getInheritanceTypes(bearer.getObjectTypes());
 			
 			sb.appendFront("//\n");
 			sb.appendFront("// Object types\n");
@@ -367,7 +368,7 @@ public class ModelGen extends CSharpBase
 			
 			sb.appendFront("public enum ObjectTypes ");
 		} else {
-			curTypes = bearer.getTransientObjectTypes();
+			curTypes = getInheritanceTypes(bearer.getTransientObjectTypes());
 			
 			sb.appendFront("//\n");
 			sb.appendFront("// Transient object types\n");
@@ -2775,10 +2776,10 @@ deque_init_loop:
 
 		Map<BitSet, LinkedList<InheritanceType>> commonGroups = new LinkedHashMap<BitSet, LinkedList<InheritanceType>>();
 
-		Collection<? extends InheritanceType> typeSet = isNode
-				? (Collection<? extends InheritanceType>)model.getAllNodeTypes()
-				: (Collection<? extends InheritanceType>)model.getAllEdgeTypes();
-		for(InheritanceType itype : typeSet) {
+		Collection<InheritanceType> types = isNode
+				? getInheritanceTypes(model.getAllNodeTypes())
+				: getInheritanceTypes(model.getAllEdgeTypes());
+		for(InheritanceType itype : types) {
 			if(itype.isAbstract())
 				continue;
 
@@ -4091,6 +4092,11 @@ commonLoop:
 		} else {
 			return "Object";
 		}
+	}
+
+	private static Collection<InheritanceType> getInheritanceTypes(Collection<? extends InheritanceType> inheritanceTypes)
+	{
+		return new ArrayList<InheritanceType>(inheritanceTypes); // TODO: performance optimization caching (and maybe another collection type fits better)
 	}
 
 	///////////////////////

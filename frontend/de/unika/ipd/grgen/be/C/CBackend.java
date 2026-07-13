@@ -174,7 +174,7 @@ public abstract class CBackend extends IDBase implements Backend
 	 * @param map The type map which contains the types.
 	 * @param add A string which shall prepend the name of the array.
 	 */
-	protected static void makeTypeMap(PrintStream ps, Map<? extends InheritanceType, Integer> map, String add)
+	protected static void makeTypeMap(PrintStream ps, Map<InheritanceType, Integer> map, String add)
 	{
 		String[] names = new String[map.size()];
 
@@ -690,8 +690,8 @@ public abstract class CBackend extends IDBase implements Backend
 
 		// Make arrays with names of the types.
 		ps = openFile("names" + incExtension);
-		makeTypeMap(ps, nodeTypeMap, "node");
-		makeTypeMap(ps, edgeTypeMap, "edge");
+		makeTypeMap(ps, getTypeMap(nodeTypeMap), "node");
+		makeTypeMap(ps, getTypeMap(edgeTypeMap), "edge");
 		makeAttrMap(ps, nodeAttrMap, nodeTypeMap, enumMap, "node");
 		makeAttrMap(ps, edgeAttrMap, edgeTypeMap, enumMap, "edge");
 		closeFile(ps);

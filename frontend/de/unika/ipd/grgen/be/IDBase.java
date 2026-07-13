@@ -107,7 +107,7 @@ public abstract class IDBase extends Base implements IDTypeModel
 		}
 	}
 
-	public static final short[][] computeIsA(Map<? extends InheritanceType, Integer> typeMap)
+	public static final short[][] computeIsA(Map<InheritanceType, Integer> typeMap)
 	{
 		int maxId = 0;
 
@@ -166,7 +166,7 @@ public abstract class IDBase extends Base implements IDTypeModel
 		return next;
 	}
 
-	private static int[][] computeSuperTypes(Map<? extends InheritanceType, Integer> typeMap)
+	private static int[][] computeSuperTypes(Map<InheritanceType, Integer> typeMap)
 	{
 		int[][] res = new int[typeMap.size()][];
 		List<Integer> aux = new LinkedList<Integer>();
@@ -190,7 +190,7 @@ public abstract class IDBase extends Base implements IDTypeModel
 		return res;
 	}
 
-	private static int[][] computeSubTypes(Map<? extends InheritanceType, Integer> typeMap)
+	private static int[][] computeSubTypes(Map<InheritanceType, Integer> typeMap)
 	{
 		int[][] res = new int[typeMap.size()][];
 		List<Integer> aux = new LinkedList<Integer>();
@@ -215,7 +215,7 @@ public abstract class IDBase extends Base implements IDTypeModel
 		return res;
 	}
 
-	private static String[] makeNames(Map<? extends InheritanceType, Integer> typeMap)
+	private static String[] makeNames(Map<InheritanceType, Integer> typeMap)
 	{
 		String[] res = new String[typeMap.size()];
 		for(InheritanceType ty : typeMap.keySet()) {
@@ -328,6 +328,11 @@ public abstract class IDBase extends Base implements IDTypeModel
 		return res;
 	}
 
+	public static Map<InheritanceType, Integer> getTypeMap(Map<? extends InheritanceType, Integer> typeMap)
+	{
+		return new LinkedHashMap<InheritanceType, Integer>(typeMap); // TODO: performance optimization caching (and maybe another collection type fits better)
+	}
+
 	/**
 	 * Compute all IDs.
 	 * @param unit The IR unit for ID computation.
@@ -338,13 +343,13 @@ public abstract class IDBase extends Base implements IDTypeModel
 		makeSubpatternIds(unit);
 		makeActionIds(unit);
 
-		nodeTypeIsAMatrix = computeIsA(nodeTypeMap);
-		edgeTypeIsAMatrix = computeIsA(edgeTypeMap);
-		nodeTypeSuperTypes = computeSuperTypes(nodeTypeMap);
-		edgeTypeSuperTypes = computeSuperTypes(edgeTypeMap);
-		nodeTypeSubTypes = computeSubTypes(nodeTypeMap);
-		edgeTypeSubTypes = computeSubTypes(edgeTypeMap);
-		nodeTypeNames = makeNames(nodeTypeMap);
-		edgeTypeNames = makeNames(edgeTypeMap);
+		nodeTypeIsAMatrix = computeIsA(getTypeMap(nodeTypeMap));
+		edgeTypeIsAMatrix = computeIsA(getTypeMap(edgeTypeMap));
+		nodeTypeSuperTypes = computeSuperTypes(getTypeMap(nodeTypeMap));
+		edgeTypeSuperTypes = computeSuperTypes(getTypeMap(edgeTypeMap));
+		nodeTypeSubTypes = computeSubTypes(getTypeMap(nodeTypeMap));
+		edgeTypeSubTypes = computeSubTypes(getTypeMap(edgeTypeMap));
+		nodeTypeNames = makeNames(getTypeMap(nodeTypeMap));
+		edgeTypeNames = makeNames(getTypeMap(edgeTypeMap));
 	}
 }
