@@ -89,7 +89,7 @@ public class PatternGraphBuilder
 
 		// add elements only mentioned in hom-declaration to the IR
 		// (they're declared in an enclosing pattern graph and locally only show up in the hom-declaration)
-		for(Collection<? extends GraphEntity> homEntities : patternGraph.getHomomorphic()) {
+		for(Collection<GraphEntity> homEntities : patternGraph.getHomomorphic()) {
 			addHomElements(patternGraph, homEntities);
 		}
 

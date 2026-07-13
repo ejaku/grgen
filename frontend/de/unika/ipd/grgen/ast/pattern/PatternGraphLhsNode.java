@@ -20,6 +20,7 @@ import java.util.Set;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ast.CollectBaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
@@ -318,7 +319,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 	public PatternGraphLhsNode getParentPatternGraph()
 	{
 		for(BaseNode parent : getParents()) {
-			if(!(parent instanceof CollectNode<?>))
+			if(!(parent instanceof CollectBaseNode))
 				continue;
 
 			for(BaseNode grandParent : parent.getParents()) {

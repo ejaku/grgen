@@ -12,6 +12,7 @@
 package de.unika.ipd.grgen.ast.util;
 
 import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ast.CollectBaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 
@@ -35,7 +36,7 @@ public class CollectChecker implements Checker
 	@Override
 	public boolean check(BaseNode bn, ErrorReporter reporter)
 	{
-		if(bn instanceof CollectNode<?>) {
+		if(bn instanceof CollectBaseNode) {
 			boolean result = true;
 			for(BaseNode child : bn.getChildren()) {
 				result = childChecker.check(child, reporter) && result;

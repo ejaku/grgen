@@ -96,7 +96,7 @@ public class DumpVisitor extends GraphDumpVisitor
 		if(patternGraph instanceof PatternGraphLhs) {
 			PatternGraphLhs patternGraphLhs = (PatternGraphLhs)patternGraph;
 
-			for(Collection<? extends GraphEntity> homSet : patternGraphLhs.getHomomorphic()) {
+			for(Collection<GraphEntity> homSet : patternGraphLhs.getHomomorphic()) {
 				if(!homSet.isEmpty()) {
 					for(Entity hom1 : homSet) {
 						for(Entity hom2 : homSet) {

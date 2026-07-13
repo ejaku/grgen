@@ -255,9 +255,9 @@ public abstract class ExprNode extends BaseNode
 		for(BaseNode child : getChildren()) {
 			if(child instanceof ExprNode) {
 				((ExprNode)child).collectElements(elements);
-			} else if(child instanceof CollectNode<?>) {
-				CollectNode<? extends BaseNode> collectNode = (CollectNode<?>)child;
-				for(BaseNode grandchild : collectNode.getChildrenExact()) {
+			} else if(child instanceof CollectBaseNode) {
+				CollectBaseNode collectNode = (CollectBaseNode)child;
+				for(BaseNode grandchild : collectNode.getChildren()) {
 					if(grandchild instanceof ExprNode)
 						((ExprNode)grandchild).collectElements(elements);
 				}

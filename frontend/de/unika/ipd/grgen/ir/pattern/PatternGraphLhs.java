@@ -196,13 +196,23 @@ public class PatternGraphLhs extends PatternGraphBase
 	}
 
 	/** Get all potentially homomorphic sets in this graph. */
-	public Collection<Collection<? extends GraphEntity>> getHomomorphic()
+	public Collection<Collection<GraphEntity>> getHomomorphic()
 	{
-		Collection<Collection<? extends GraphEntity>> ret = new LinkedHashSet<Collection<? extends GraphEntity>>();
-		ret.addAll(homEdgesLists);
-		ret.addAll(homNodesLists);
-
+		Collection<Collection<GraphEntity>> ret = new LinkedHashSet<Collection<GraphEntity>>();
+		for(Collection<Edge> edges : homEdgesLists)
+		{
+			ret.add(getGraphEntities(edges));
+		}
+		for(Collection<Node> nodes : homNodesLists)
+		{
+			ret.add(getGraphEntities(nodes));
+		}
 		return Collections.unmodifiableCollection(ret);
+	}
+
+	private static Collection<GraphEntity> getGraphEntities(Collection<? extends GraphEntity> graphEntities)
+	{
+		return new HashSet<GraphEntity>(graphEntities);
 	}
 
 	public Collection<Node> getHomomorphic(Node node)
