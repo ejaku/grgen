@@ -108,6 +108,11 @@ public class SequenceDeclNode extends DeclNode
 		return checkIR(Sequence.class);
 	}
 
+	public Vector<DeclNode> getParamDecls()
+	{
+		return new Vector<DeclNode>(inParams.getChildrenExact());
+	}
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	@Override
 	protected IR constructIR()

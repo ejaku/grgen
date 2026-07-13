@@ -246,7 +246,7 @@ public class CallActionNode extends BaseNode
 			Vector<TypeNode> outTypes = new Vector<TypeNode>();
 			for(ExecVarDeclNode varDecl : sequence.outParams.getChildrenExact())
 				outTypes.add(varDecl.getDeclType());
-			res &= checkParams(sequence.inParams.getChildrenExact(), params.getChildrenExact());
+			res &= checkParams(sequence.getParamDecls(), params.getChildrenExact());
 			res &= checkReturns(outTypes, returns);
 		}
 
@@ -272,8 +272,8 @@ public class CallActionNode extends BaseNode
 	 * @param    actualParams        a  Collection<? extends DeclNode>
 	 * @return   a  boolean
 	 */
-	private boolean checkParams(Collection<? extends DeclNode> formalParams,
-			Collection<? extends ExprNode> actualParams)
+	private boolean checkParams(Collection<DeclNode> formalParams,
+			Collection<ExprNode> actualParams)
 	{
 		if(formalParams.size() != actualParams.size()) {
 			reportError("The " + (action != null ? action.getKind() + " " + action.toStringWithDeclarationCoords() : sequence.getKind() + " " + sequence.toStringWithDeclarationCoords())
@@ -284,7 +284,7 @@ public class CallActionNode extends BaseNode
 		
 		boolean res = true;
 		if(actualParams.size() > 0) {
-			Iterator<? extends ExprNode> iterAP = actualParams.iterator();
+			Iterator<ExprNode> iterAP = actualParams.iterator();
 			int paramCounter = 1;
 			for(DeclNode formalParam : formalParams) {
 				ExprNode actualParam = iterAP.next();

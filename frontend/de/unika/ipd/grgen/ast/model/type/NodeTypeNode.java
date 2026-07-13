@@ -175,9 +175,9 @@ public class NodeTypeNode extends InheritanceTypeNode
 	}
 
 	@Override
-	protected CollectNode<? extends InheritanceTypeNode> getExtends()
+	protected Collection<InheritanceTypeNode> getExtends()
 	{
-		return extend;
+		return new Vector<InheritanceTypeNode>(extend.getChildrenExact());
 	}
 
 	@Override

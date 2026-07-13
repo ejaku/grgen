@@ -14,6 +14,7 @@ package de.unika.ipd.grgen.ast.decl.executable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
 
@@ -180,11 +181,11 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 
 		InheritanceTypeNode declaredRetType = retElem.getDeclType();
 
-		Set<? extends ConstraintDeclNode> homSet;
+		Set<ConstraintDeclNode> homSet;
 		if(retElem instanceof NodeDeclNode)
-			homSet = pattern.getHomomorphic((NodeDeclNode)retElem);
+			homSet = new LinkedHashSet<ConstraintDeclNode>(pattern.getHomomorphic((NodeDeclNode)retElem));
 		else
-			homSet = pattern.getHomomorphic((EdgeDeclNode)retElem);
+			homSet = new LinkedHashSet<ConstraintDeclNode>(pattern.getHomomorphic((EdgeDeclNode)retElem));
 
 		for(ConstraintDeclNode homElem : homSet) {
 			if(homElem == retElem)

@@ -232,7 +232,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		return checkIR(InheritanceType.class);
 	}
 
-	protected abstract CollectNode<? extends InheritanceTypeNode> getExtends();
+	protected abstract Collection<InheritanceTypeNode> getExtends();
 
 	@Override
 	public boolean fixupDefinition(IdentNode id)
@@ -243,7 +243,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 			return true;
 
 		Symbol.Definition def = null;
-		for(InheritanceTypeNode inh : getExtends().getChildrenExact()) {
+		for(InheritanceTypeNode inh : getExtends()) {
 			if(inh.fixupDefinition(id)) {
 				Symbol.Definition newDef = id.getSymDef();
 				if(def == null)
@@ -530,7 +530,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		for(BaseNode child : body.getChildrenExact()) {
 			constructAndAddIRChild(inhType, child);
 		}
-		for(InheritanceTypeNode inh : getExtends().getChildrenExact()) {
+		for(InheritanceTypeNode inh : getExtends()) {
 			inhType.addDirectSuperType(inh.getType());
 		}
 	}
