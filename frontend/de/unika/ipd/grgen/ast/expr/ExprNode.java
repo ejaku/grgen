@@ -156,8 +156,8 @@ public abstract class ExprNode extends BaseNode
 		for(BaseNode child : getChildren()) {
 			if(child instanceof ExprNode)
 				res &= ((ExprNode)child).noDefElement(containingConstruct);
-			else if(child instanceof CollectNode<?>)
-				res &= ((CollectNode<?>)child).noDefElement(containingConstruct);
+			else if(child instanceof CollectBaseNode)
+				res &= ((CollectBaseNode)child).noDefElement(containingConstruct);
 		}
 		return res;
 	}
@@ -168,8 +168,8 @@ public abstract class ExprNode extends BaseNode
 		for(BaseNode child : getChildren()) {
 			if(child instanceof ExprNode)
 				res &= ((ExprNode)child).noIteratedReference(containingConstruct);
-			else if(child instanceof CollectNode<?>)
-				res &= ((CollectNode<?>)child).noIteratedReference(containingConstruct);
+			else if(child instanceof CollectBaseNode)
+				res &= ((CollectBaseNode)child).noIteratedReference(containingConstruct);
 		}
 		return res;
 	}
@@ -180,8 +180,8 @@ public abstract class ExprNode extends BaseNode
 		for(BaseNode child : getChildren()) {
 			if(child instanceof ExprNode)
 				res &= ((ExprNode)child).iteratedNotReferenced(iterName);
-			else if(child instanceof CollectNode<?>)
-				res &= ((CollectNode<?>)child).iteratedNotReferenced(iterName);
+			else if(child instanceof CollectBaseNode)
+				res &= ((CollectBaseNode)child).iteratedNotReferenced(iterName);
 		}
 		return res;
 	}

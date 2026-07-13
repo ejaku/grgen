@@ -11,12 +11,8 @@
 
 package de.unika.ipd.grgen.ast;
 
-import java.awt.Color;
 import java.util.Collection;
 import java.util.Vector;
-
-import de.unika.ipd.grgen.ast.expr.ExprNode;
-import de.unika.ipd.grgen.ast.expr.ExprPairNode;
 
 /**
  * An AST node that represents a collection of other nodes.
@@ -27,7 +23,7 @@ import de.unika.ipd.grgen.ast.expr.ExprPairNode;
  * This node collects a statically unknown number of children AST nodes,
  * originating in unbounded list constructs in the parsing syntax.
  */
-public class CollectNode<T extends BaseNode> extends BaseNode
+public class CollectNode<T extends BaseNode> extends CollectBaseNode
 {
 	static {
 		setName(CollectNode.class, "collect");
@@ -110,50 +106,8 @@ public class CollectNode<T extends BaseNode> extends BaseNode
 	}
 
 	@Override
-	public Color getNodeColor()
-	{
-		return Color.GRAY;
-	}
-
-	@Override
 	public String toString()
 	{
 		return children.toString();
-	}
-
-	public boolean noDefElement(String containingConstruct)
-	{
-		boolean res = true;
-		for(BaseNode child : getChildren()) {
-			if(child instanceof ExprNode)
-				res &= ((ExprNode)child).noDefElement(containingConstruct);
-			else if(child instanceof ExprPairNode)
-				res &= ((ExprPairNode)child).noDefElement(containingConstruct);
-		}
-		return res;
-	}
-
-	public boolean noIteratedReference(String containingConstruct)
-	{
-		boolean res = true;
-		for(BaseNode child : getChildren()) {
-			if(child instanceof ExprNode)
-				res &= ((ExprNode)child).noIteratedReference(containingConstruct);
-			else if(child instanceof ExprPairNode)
-				res &= ((ExprPairNode)child).noIteratedReference(containingConstruct);
-		}
-		return res;
-	}
-
-	public boolean iteratedNotReferenced(String iterName)
-	{
-		boolean res = true;
-		for(BaseNode child : getChildren()) {
-			if(child instanceof ExprNode)
-				res &= ((ExprNode)child).iteratedNotReferenced(iterName);
-			else if(child instanceof ExprPairNode)
-				res &= ((ExprPairNode)child).iteratedNotReferenced(iterName);
-		}
-		return res;
 	}
 }
