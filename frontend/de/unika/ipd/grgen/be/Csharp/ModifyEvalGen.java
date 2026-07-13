@@ -709,10 +709,10 @@ public class ModifyEvalGen extends CSharpBase
 		boolean isDeletedElem = owner instanceof Node
 				? state.getDelNodes().contains(owner)
 				: state.getDelEdges().contains(owner);
-		if(!isDeletedElem && be.system.mayFireEvents()) {
+		if(!isDeletedElem && be.sys.mayFireEvents()) {
 			owner = changedTarget.getOwner();
 			isDeletedElem = owner instanceof Node ? state.getDelNodes().contains(owner) : state.getDelEdges().contains(owner);
-			if(!isDeletedElem && be.system.mayFireEvents()) {
+			if(!isDeletedElem && be.sys.mayFireEvents()) {
 				String varName = "tempvar_" + tmpVarID++;
 				String varType = "bool ";
 
@@ -789,7 +789,7 @@ public class ModifyEvalGen extends CSharpBase
 		boolean isDeletedElem = element instanceof Node
 				? state.getDelNodes().contains(element)
 				: state.getDelEdges().contains(element);
-		if(!isDeletedElem && be.system.mayFireEvents()) {
+		if(!isDeletedElem && be.sys.mayFireEvents()) {
 			sb.append(prefix);
 			if(cass.getOperation() == CompoundAssignment.CompoundAssignmentType.UNION)
 				sb.append("GRGEN_LIBGR.ContainerHelper.UnionChanged(");
@@ -827,7 +827,7 @@ public class ModifyEvalGen extends CSharpBase
 		boolean isDeletedElem = owner instanceof Node
 				? state.getDelNodes().contains(owner)
 				: state.getDelEdges().contains(owner);
-		if(!isDeletedElem && be.system.mayFireEvents()) {
+		if(!isDeletedElem && be.sys.mayFireEvents()) {
 			String varName = "tempvar_" + tmpVarID++;
 			String varType = "bool ";
 
@@ -1515,7 +1515,7 @@ public class ModifyEvalGen extends CSharpBase
 			sb.append(";\n");
 			++i;
 		}
-		if(be.system.mayFireDebugEvents()) {
+		if(be.sys.mayFireDebugEvents()) {
 			sb.appendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugExiting(");
 			sb.append("\"" + state.getName() + "\"");
 			for(int j = 0; j < i; ++j) {
@@ -2983,7 +2983,7 @@ public class ModifyEvalGen extends CSharpBase
 
 	private void genDebugAddProc(SourceBuilder sb, ModifyGenerationStateConst state, DebugAddProc dap)
 	{
-		if(!be.system.mayFireDebugEvents())
+		if(!be.sys.mayFireDebugEvents())
 			return;
 
 		sb.appendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEntering((string)");
@@ -3001,7 +3001,7 @@ public class ModifyEvalGen extends CSharpBase
 
 	private void genDebugRemProc(SourceBuilder sb, ModifyGenerationStateConst state, DebugRemProc drp)
 	{
-		if(!be.system.mayFireDebugEvents())
+		if(!be.sys.mayFireDebugEvents())
 			return;
 
 		sb.appendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugExiting((string)");
@@ -3019,7 +3019,7 @@ public class ModifyEvalGen extends CSharpBase
 
 	private void genDebugEmitProc(SourceBuilder sb, ModifyGenerationStateConst state, DebugEmitProc dep)
 	{
-		if(!be.system.mayFireDebugEvents())
+		if(!be.sys.mayFireDebugEvents())
 			return;
 
 		sb.appendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEmitting((string)");
@@ -3037,7 +3037,7 @@ public class ModifyEvalGen extends CSharpBase
 
 	private void genDebugHaltProc(SourceBuilder sb, ModifyGenerationStateConst state, DebugHaltProc dhp)
 	{
-		if(!be.system.mayFireDebugEvents())
+		if(!be.sys.mayFireDebugEvents())
 			return;
 
 		sb.appendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugHalting((string)");
@@ -3055,7 +3055,7 @@ public class ModifyEvalGen extends CSharpBase
 
 	private void genDebugHighlightProc(SourceBuilder sb, ModifyGenerationStateConst state, DebugHighlightProc dhp)
 	{
-		if(!be.system.mayFireDebugEvents())
+		if(!be.sys.mayFireDebugEvents())
 			return;
 
 		String highlightValuesArray = "highlight_values_" + tmpVarID++;
@@ -3481,7 +3481,7 @@ public class ModifyEvalGen extends CSharpBase
 			return;
 		}
 
-		if(!isDeletedElem && be.system.mayFireEvents()) {
+		if(!isDeletedElem && be.sys.mayFireEvents()) {
 			if(!Expression.isGlobalVariable(element)) {
 				sb.appendFront("graph.Changing" + kindStr + "Attribute(" +
 						formatEntity(element) + ", " +
@@ -3532,7 +3532,7 @@ public class ModifyEvalGen extends CSharpBase
 			return;
 		}
 
-		if(!isDeletedElem && be.system.mayFireDebugEvents()) {
+		if(!isDeletedElem && be.sys.mayFireDebugEvents()) {
 			if(!Expression.isGlobalVariable(element)) {
 				sb.appendFront("graph.Changed" + kindStr + "Attribute(" +
 						formatEntity(element) + ", " +
@@ -3582,7 +3582,7 @@ public class ModifyEvalGen extends CSharpBase
 			return;
 		}
 
-		if(!isDeletedElem && be.system.mayFireEvents()) {
+		if(!isDeletedElem && be.sys.mayFireEvents()) {
 			if(attribute.getType() instanceof MapType) {
 				MapType attributeType = (MapType)attribute.getType();
 				sb.appendFront("foreach(KeyValuePair<" + formatType(attributeType.getKeyType()) + ","
@@ -3656,7 +3656,7 @@ public class ModifyEvalGen extends CSharpBase
 			return;
 		}
 
-		if(!isDeletedElem && be.system.mayFireDebugEvents()) {
+		if(!isDeletedElem && be.sys.mayFireDebugEvents()) {
 			sb.appendFront("graph.Changed" + kindStr + "Attribute(" +
 					formatEntity(element) + ", " +
 					formatTypeClassRef(elementType) + "." +

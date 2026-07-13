@@ -629,10 +629,10 @@ public abstract class CBackend extends IDBase implements Backend
 	 * @see de.unika.ipd.grgen.be.Backend#init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.util.report.ErrorReporter)
 	 */
 	@Override
-	public void init(Unit unit, Sys system, File outputPath)
+	public void init(Unit unit, Sys sys, File outputPath)
 	{
 		this.unit = unit;
-		this.error = system.getErrorReporter();
+		this.error = sys.getErrorReporter();
 		this.path = outputPath;
 		path.mkdirs();
 

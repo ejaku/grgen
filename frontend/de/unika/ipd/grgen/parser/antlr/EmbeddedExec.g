@@ -41,7 +41,7 @@ parser grammar EmbeddedExec;
 
 	protected final void reportError(de.unika.ipd.grgen.parser.Coords c, String s) {
 		gParent.hadError = true;
-		env.getSystem().getErrorReporter().error(c, s);
+		env.getSys().getErrorReporter().error(c, s);
 	}
 
 	public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
@@ -51,7 +51,7 @@ parser grammar EmbeddedExec;
 	}
 
 	public void reportWarning(de.unika.ipd.grgen.parser.Coords c, String s) {
-		env.getSystem().getErrorReporter().warning(c, s);
+		env.getSys().getErrorReporter().warning(c, s);
 	}
 
 	public String getFilename() {

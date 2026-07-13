@@ -660,11 +660,11 @@ public class ActionsGen extends CSharpBase
 
 		for(Function function : bearer.getFunctions()) {
 			forceNotConstant(function.getStatements());
-			genFunction(sb, function, false, be.system.emitProfilingInstrumentation());
+			genFunction(sb, function, false, be.sys.emitProfilingInstrumentation());
 		}
 		if(model.areFunctionsParallel()) {
 			for(Function function : bearer.getFunctions()) {
-				genFunction(sb, function, true, be.system.emitProfilingInstrumentation());
+				genFunction(sb, function, true, be.sys.emitProfilingInstrumentation());
 			}
 		}
 
@@ -822,7 +822,7 @@ public class ActionsGen extends CSharpBase
 
 		for(Procedure procedure : bearer.getProcedures()) {
 			forceNotConstant(procedure.getStatements());
-			genProcedure(sb, procedure, be.system.emitProfilingInstrumentation());
+			genProcedure(sb, procedure, be.sys.emitProfilingInstrumentation());
 		}
 
 		List<String> staticInitializers = new LinkedList<String>();
@@ -880,7 +880,7 @@ public class ActionsGen extends CSharpBase
 		ModifyExecGen execGen = new ModifyExecGen(be, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 		ModifyEvalGen evalGen = new ModifyEvalGen(be, execGen, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 
-		if(be.system.mayFireDebugEvents()) {
+		if(be.sys.mayFireDebugEvents()) {
 			sb.appendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEntering(");
 			sb.append("\"" + procedure.getIdent().toString() + "\"");
 			for(Entity inParam : procedure.getParameters()) {
@@ -1009,7 +1009,7 @@ public class ActionsGen extends CSharpBase
 			if(filter instanceof FilterFunctionInternal) {
 				FilterFunctionInternal filterFunction = (FilterFunctionInternal)filter;
 				forceNotConstant(filterFunction.getStatements());
-				genFilterFunction(sb, filterFunction, packageName, be.system.emitProfilingInstrumentation());
+				genFilterFunction(sb, filterFunction, packageName, be.sys.emitProfilingInstrumentation());
 			}
 		}
 
@@ -1086,7 +1086,7 @@ public class ActionsGen extends CSharpBase
 			if(matchClassFilter instanceof MatchClassFilterFunctionInternal) {
 				MatchClassFilterFunctionInternal matchClassFilterFunction = (MatchClassFilterFunctionInternal)matchClassFilter;
 				forceNotConstant(matchClassFilterFunction.getStatements());
-				genMatchClassFilterFunction(sb, matchClassFilterFunction, be.system.emitProfilingInstrumentation());
+				genMatchClassFilterFunction(sb, matchClassFilterFunction, be.sys.emitProfilingInstrumentation());
 			}
 		}
 

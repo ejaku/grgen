@@ -94,7 +94,7 @@ public abstract class ParserEnvironment extends Base
 	private final IdentNode internalObjectRoot;
 	private final IdentNode internalTransientObjectRoot;
 	
-	private final Sys system;
+	private final Sys sys;
 
 	private final ModelNode stdModel;
 
@@ -114,12 +114,12 @@ public abstract class ParserEnvironment extends Base
 	/**
 	 * Make a new parser environment.
 	 */
-	public ParserEnvironment(Sys system)
+	public ParserEnvironment(Sys sys)
 	{
-		this.system = system;
+		this.sys = sys;
 
 		// Make the root scope
-		currScope = new Scope(system.getErrorReporter());
+		currScope = new Scope(sys.getErrorReporter());
 		BaseNode.setCurrScope(currScope);
 
 		// Add some keywords to the symbol table
@@ -203,7 +203,7 @@ public abstract class ParserEnvironment extends Base
 
 	public File findModel(String modelName)
 	{
-		File modelPath = system.getModelPath();
+		File modelPath = sys.getModelPath();
 		String modelFile = modelName.endsWith(MODEL_SUFFIX) ? modelName : modelName + MODEL_SUFFIX;
 
 		File curr;
@@ -394,9 +394,9 @@ public abstract class ParserEnvironment extends Base
 		return zero;
 	}
 
-	public Sys getSystem()
+	public Sys getSys()
 	{
-		return system;
+		return sys;
 	}
 
 	/**

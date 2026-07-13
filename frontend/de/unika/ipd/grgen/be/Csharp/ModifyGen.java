@@ -437,7 +437,7 @@ public class ModifyGen extends CSharpBase
 		SourceBuilder sb3 = new SourceBuilder();
 		sb3.setIndentationLevel(sb.getIndentationLevel() + 1);
 
-		boolean useAddedElementNames = be.system.mayFireDebugEvents()
+		boolean useAddedElementNames = be.sys.mayFireDebugEvents()
 				&& (task.typeOfTask == ModifyGenerationTask.TYPE_OF_TASK_CREATION
 						|| (task.typeOfTask == ModifyGenerationTask.TYPE_OF_TASK_MODIFY && !(task.right instanceof PatternGraphRhsFromLhs)));
 		boolean createAddedElementNames = task.typeOfTask == ModifyGenerationTask.TYPE_OF_TASK_CREATION ||
@@ -482,7 +482,7 @@ public class ModifyGen extends CSharpBase
 		//  - Return
 
 		ModifyGenerationState state = new ModifyGenerationState(model, null, "", false,
-				be.system.emitProfilingInstrumentation());
+				be.sys.emitProfilingInstrumentation());
 		state.actionName = task.left.getNameOfGraph();
 		String packagePrefixedActionName = packageName == null
 				? task.left.getNameOfGraph()
@@ -581,7 +581,7 @@ public class ModifyGen extends CSharpBase
 
 		// Emit selected match rewritten event firing (only if top-level rule)
 		if(pathPrefix.equals("") && !task.isSubpattern) {
-			if(be.system.mayFireDebugEvents()) {
+			if(be.sys.mayFireDebugEvents()) {
 				sb3.appendFront("actionEnv.SelectedMatchRewritten();\n");
 			}
 		}

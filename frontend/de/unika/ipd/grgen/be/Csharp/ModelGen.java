@@ -2004,7 +2004,7 @@ deque_init_loop:
 		sb.appendFront("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;\n");
 		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
 		ModifyGenerationState modifyGenState = new ModifyGenerationState(model, null, "", false,
-				be.system.emitProfilingInstrumentation());
+				be.sys.emitProfilingInstrumentation());
 		ModifyEvalGen evalGen = new ModifyEvalGen(be, null, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 		for(EvalStatement evalStmt : fm.getStatements()) {
 			modifyGenState.functionOrProcedureName = fm.getIdent().toString();
@@ -2029,7 +2029,7 @@ deque_init_loop:
 			sb.indent();
 			sb.appendFront("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;\n");
 			sb.appendFront("GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
-			modifyGenState = new ModifyGenerationState(model, null, "", true, be.system.emitProfilingInstrumentation());
+			modifyGenState = new ModifyGenerationState(model, null, "", true, be.sys.emitProfilingInstrumentation());
 			for(EvalStatement evalStmt : fm.getStatements()) {
 				modifyGenState.functionOrProcedureName = fm.getIdent().toString();
 				evalGen.genEvalStmt(sb, modifyGenState, evalStmt);
@@ -2090,11 +2090,11 @@ deque_init_loop:
 		sb.appendFront("GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv = (GRGEN_LGSP.LGSPActionExecutionEnvironment)actionEnv_;\n");
 		sb.appendFront("GRGEN_LGSP.LGSPGraph graph = (GRGEN_LGSP.LGSPGraph)graph_;\n");
 		ModifyGenerationState modifyGenState = new ModifyGenerationState(model, null, "", false,
-				be.system.emitProfilingInstrumentation());
+				be.sys.emitProfilingInstrumentation());
 		ModifyExecGen execGen = new ModifyExecGen(be, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 		ModifyEvalGen evalGen = new ModifyEvalGen(be, execGen, nodeTypePrefix, edgeTypePrefix, objectTypePrefix, transientObjectTypePrefix);
 
-		if(be.system.mayFireDebugEvents()) {
+		if(be.sys.mayFireDebugEvents()) {
 			sb.appendFront("((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEntering(");
 			sb.append("\"" + pm.getIdent().toString() + "\"");
 			for(Entity inParam : pm.getParameters()) {

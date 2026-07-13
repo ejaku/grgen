@@ -25,11 +25,11 @@ public interface Backend
 	 * Initialize the backend with the intermediate representation.
 	 * @param unit The intermediate representation unit to
 	 * generate code for.
-	 * @param sys The system.
+	 * @param sys The sys(tem).
 	 * @param outputPath The output path, where
 	 * all generated files should go.
 	 */
-	void init(Unit unit, Sys system, File outputPath);
+	void init(Unit unit, Sys sys, File outputPath);
 
 	/**
 	 * Initiates the generation of code.

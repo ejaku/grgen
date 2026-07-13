@@ -21,18 +21,18 @@ import de.unika.ipd.grgen.Sys;
 
 public class VCGDumperFactory implements GraphDumperFactory
 {
-	private Sys system;
+	private Sys sys;
 
-	public VCGDumperFactory(Sys system)
+	public VCGDumperFactory(Sys sys)
 	{
-		this.system = system;
+		this.sys = sys;
 	}
 
 	@Override
 	public GraphDumper get(String fileNamePart)
 	{
 		String fileName = fileNamePart + ".vcg";
-		OutputStream os = system.createDebugFile(new File(fileName));
+		OutputStream os = sys.createDebugFile(new File(fileName));
 		PrintStream ps = new PrintStream(os);
 		return new VCGDumper(ps);
 	}

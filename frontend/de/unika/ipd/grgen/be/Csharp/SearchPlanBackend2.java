@@ -30,7 +30,7 @@ public class SearchPlanBackend2 implements Backend, BackendFactory
 	/** The unit to generate code for. */
 	protected Unit unit;
 
-	protected Sys system;
+	protected Sys sys;
 
 	/** The output path as handed over by the frontend. */
 	public File path;
@@ -52,10 +52,10 @@ public class SearchPlanBackend2 implements Backend, BackendFactory
 	 * @see de.unika.ipd.grgen.be.Backend#init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.util.report.ErrorReporter)
 	 */
 	@Override
-	public void init(Unit unit, Sys system, File outputPath)
+	public void init(Unit unit, Sys sys, File outputPath)
 	{
 		this.unit = unit;
-		this.system = system;
+		this.sys = sys;
 		this.path = outputPath;
 		path.mkdirs();
 
