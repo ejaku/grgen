@@ -23,9 +23,7 @@ import java.util.Set;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.util.GraphDumpable;
-import de.unika.ipd.grgen.util.GraphDumpableProxy;
 import de.unika.ipd.grgen.util.GraphDumper;
-import de.unika.ipd.grgen.util.Walkable;
 
 /**
  * This is a base class for the pattern graph containing the nodes/edges, and analogously variables and subpatterns.
@@ -38,14 +36,6 @@ import de.unika.ipd.grgen.util.Walkable;
  */
 public abstract class PatternGraphBase extends IR
 {
-	protected abstract class GraphObject extends GraphDumpableProxy implements Walkable
-	{
-		public GraphObject(GraphDumpable graphDumpable)
-		{
-			super(graphDumpable);
-		}
-	}
-
 	protected class GraphNode extends Node
 	{
 		private final Set<PatternGraphBase.GraphEdge> outgoing;

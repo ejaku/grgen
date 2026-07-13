@@ -13,7 +13,6 @@ package de.unika.ipd.grgen.ir;
 
 import java.util.Collections;
 import java.util.Map;
-import java.util.Set;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
@@ -138,13 +137,6 @@ public class Entity extends Identifiable
 	public PatternGraphBase getPatternGraphDefYieldedIsToBeDeleted()
 	{
 		return patternGraphDefYieldedIsToBeDeleted;
-	}
-
-	/** The only walkable child here is the type
-	 *  @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
-	public Set<? extends IR> getWalkableChildren()
-	{
-		return Collections.singleton(type);
 	}
 	
 	public String getKind()

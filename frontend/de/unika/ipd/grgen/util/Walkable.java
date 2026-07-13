@@ -25,5 +25,5 @@ public interface Walkable
 	 * Note: BaseNode implements Walkable
 	 * @return The children
 	 */
-	Collection<BaseNode> getWalkableChildren();
+	Collection<BaseNode> getWalkableChildren(); // it would make more sense to return a Base instead of a BaseNode...
 }

@@ -60,7 +60,7 @@ public abstract class GraphEntity extends Entity
 	/** The unique index access used to get the node or edge, if any (i.e. not null)*/
 	public UniqueLookup uniqueIndexAccess = null;
 
-	protected Collection<? extends InheritanceType> constraints = Collections.emptySet();
+	protected Collection<InheritanceType> constraints = Collections.emptySet();
 
 	private boolean maybeDeleted;
 	private boolean maybeRetyped;

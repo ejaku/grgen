@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.util.GraphDumpVisitor;
 import de.unika.ipd.grgen.util.GraphDumpable;
 import de.unika.ipd.grgen.util.GraphDumpableProxy;
 import de.unika.ipd.grgen.util.GraphDumper;
-import de.unika.ipd.grgen.util.Walkable;
+import de.unika.ipd.grgen.util.Walkable; // does not make sense, Walkable references AST-children, unusable in IR
 
 /**
  * A IR pretty graph dumper.
