@@ -478,9 +478,9 @@ public abstract class CBackend extends IDBase implements Backend
 	 */
 	protected void writeOverview(PrintStream ps)
 	{
-		Collection<Map<? extends InheritanceType, Integer>> maps = new LinkedHashSet<Map<? extends InheritanceType, Integer>>();
-		maps.add(nodeTypeMap);
-		maps.add(edgeTypeMap);
+		Collection<Map<InheritanceType, Integer>> maps = new LinkedHashSet<Map<InheritanceType, Integer>>();
+		maps.add(getTypeMap(nodeTypeMap));
+		maps.add(getTypeMap(edgeTypeMap));
 
 		ps.print("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 

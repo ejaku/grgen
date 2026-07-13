@@ -315,9 +315,9 @@ public abstract class IDBase extends Base implements IDTypeModel
 	@Override
 	public final int[] getIDs(boolean forNode)
 	{
-		Map<? extends Identifiable, Integer> map = forNode
-				? (Map<? extends Identifiable, Integer>)nodeTypeMap
-				: (Map<? extends Identifiable, Integer>)edgeTypeMap;
+		Map<Identifiable, Integer> map = forNode
+				? getIdentifiableMap(nodeTypeMap)
+				: getIdentifiableMap(edgeTypeMap);
 		int[] res = new int[map.size()];
 
 		int i = 0;
@@ -331,6 +331,11 @@ public abstract class IDBase extends Base implements IDTypeModel
 	public static Map<InheritanceType, Integer> getTypeMap(Map<? extends InheritanceType, Integer> typeMap)
 	{
 		return new LinkedHashMap<InheritanceType, Integer>(typeMap); // TODO: performance optimization caching (and maybe another collection type fits better)
+	}
+
+	public static Map<Identifiable, Integer> getIdentifiableMap(Map<? extends Identifiable, Integer> identifiableMap)
+	{
+		return new LinkedHashMap<Identifiable, Integer>(identifiableMap); // TODO: performance optimization caching (and maybe another collection type fits better)
 	}
 
 	/**
