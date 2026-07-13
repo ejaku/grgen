@@ -8,6 +8,7 @@
 package de.unika.ipd.grgen.ast.util;
 
 import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ast.CollectBaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
 
 /**
@@ -16,9 +17,9 @@ import de.unika.ipd.grgen.ast.CollectNode;
  */
 public class CollectTripleResolver<R extends BaseNode, S extends BaseNode, T extends BaseNode>
 {
-	private Resolver<? extends Triple<R, S, T>> resolver;
+	private Resolver<Triple<R, S, T>> resolver;
 
-	public CollectTripleResolver(Resolver<? extends Triple<R, S, T>> resolver)
+	public CollectTripleResolver(Resolver<Triple<R, S, T>> resolver)
 	{
 		this.resolver = resolver;
 	}
@@ -27,13 +28,13 @@ public class CollectTripleResolver<R extends BaseNode, S extends BaseNode, T ext
 	 * resolves the collect node to collect nodes of type R, S and T via
 	 * the given resolver
 	 */
-	public Triple<CollectNode<R>, CollectNode<S>, CollectNode<T>> resolve(CollectNode<?> collect)
+	public Triple<CollectNode<R>, CollectNode<S>, CollectNode<T>> resolve(CollectBaseNode collect)
 	{
 		CollectNode<R> first = null;
 		CollectNode<S> second = null;
 		CollectNode<T> third = null;
 
-		for(BaseNode child : collect.getChildrenExact()) {
+		for(BaseNode child : collect.getChildren()) {
 			Triple<R, S, T> triple = resolver.resolve(child, collect);
 			if(triple == null) {
 				return null;

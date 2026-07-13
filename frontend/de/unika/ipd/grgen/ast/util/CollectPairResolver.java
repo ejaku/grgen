@@ -8,41 +8,55 @@
 package de.unika.ipd.grgen.ast.util;
 
 import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ast.CollectBaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
 
 /**
- * A resolver, that resolves a source AST CollectNode into a target AST CollectNode of type T,
+ * A resolver, that resolves a source AST CollectNode into (one of) two target AST CollectNode of types S and T,
  * by using a given resolver.
  */
-public class CollectPairResolver<T extends BaseNode>
+public class CollectPairResolver<S extends BaseNode, T extends BaseNode>
 {
-	private Resolver<? extends Pair<? extends T, ? extends T>> resolver;
+	private Resolver<Pair<S, T>> resolver;
 
-	public CollectPairResolver(Resolver<? extends Pair<? extends T, ? extends T>> resolver)
+	public CollectPairResolver(Resolver<Pair<S, T>> resolver)
 	{
 		this.resolver = resolver;
 	}
 
-	/** resolves n to node of type R, via declaration if n is an identifier, via simple cast otherwise
-	 *  returns null if n's declaration or n can't be cast to R */
-	public CollectNode<T> resolve(CollectNode<?> collect, BaseNode parent)
+	/**
+	 * resolves the collect node to collect nodes of type S, T via the given resolver
+	 */
+	public Pair<CollectNode<S>, CollectNode<T>> resolve(CollectBaseNode collect)
 	{
-		CollectNode<T> res = new CollectNode<T>();
-		res.setCoords(collect.getCoords());
+		CollectNode<S> first = null;
+		CollectNode<T> second = null;
 
-		for(BaseNode child : collect.getChildrenExact()) {
-			Pair<? extends T, ? extends T> pair = resolver.resolve(child, collect);
+		for(BaseNode child : collect.getChildren()) {
+			Pair<S, T> pair = resolver.resolve(child, collect);
 			if(pair == null) {
 				return null;
 			}
 			if(pair.fst != null) {
-				res.addChild(pair.fst);
+				if(first == null) {
+					first = new CollectNode<S>();
+					first.setCoords(collect.getCoords());
+				}
+				first.addChild(pair.fst);
 			}
 			if(pair.snd != null) {
-				res.addChild(pair.snd);
+				if(second == null) {
+					second = new CollectNode<T>();
+					second.setCoords(collect.getCoords());
+				}
+				second.addChild(pair.snd);
 			}
 		}
-		parent.becomeParent(res);
+
+		Pair<CollectNode<S>, CollectNode<T>> res = new Pair<CollectNode<S>, CollectNode<T>>();
+		res.fst = first;
+		res.snd = second;
+
 		return res;
 	}
 }

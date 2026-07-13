@@ -29,7 +29,13 @@ public class Pair<R extends BaseNode, S extends BaseNode>
 			return true;
 		if(!(that instanceof Pair<?,?>))
 			return false;
-		Pair<?,?> that_ = (Pair<?,?>)that;
-		return fst.equals(that_.fst) && snd.equals(that_.snd);
+		try {
+			@SuppressWarnings("unchecked")
+			Pair<R,S> that_ = (Pair<R,S>)that;
+			return fst.equals(that_.fst) && snd.equals(that_.snd);
+		}
+		catch (ClassCastException e) {
+			return false;
+		}
 	}
 }

@@ -8,6 +8,7 @@
 package de.unika.ipd.grgen.ast.util;
 
 import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ast.CollectBaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
 
 /**
@@ -16,9 +17,9 @@ import de.unika.ipd.grgen.ast.CollectNode;
  */
 public class CollectQuadrupleResolver<R extends BaseNode, S extends BaseNode, T extends BaseNode, U extends BaseNode>
 {
-	private Resolver<? extends Quadruple<R, S, T, U>> resolver;
+	private Resolver<Quadruple<R, S, T, U>> resolver;
 
-	public CollectQuadrupleResolver(Resolver<? extends Quadruple<R, S, T, U>> resolver)
+	public CollectQuadrupleResolver(Resolver<Quadruple<R, S, T, U>> resolver)
 	{
 		this.resolver = resolver;
 	}
@@ -27,14 +28,14 @@ public class CollectQuadrupleResolver<R extends BaseNode, S extends BaseNode, T 
 	 * resolves the collect node to collect nodes of type R, S, T and U via
 	 * the given resolver
 	 */
-	public Quadruple<CollectNode<R>, CollectNode<S>, CollectNode<T>, CollectNode<U>> resolve(CollectNode<?> collect)
+	public Quadruple<CollectNode<R>, CollectNode<S>, CollectNode<T>, CollectNode<U>> resolve(CollectBaseNode collect)
 	{
 		CollectNode<R> first = null;
 		CollectNode<S> second = null;
 		CollectNode<T> third = null;
 		CollectNode<U> fourth = null;
 
-		for(BaseNode child : collect.getChildrenExact()) {
+		for(BaseNode child : collect.getChildren()) {
 			Quadruple<R, S, T, U> quadruple = resolver.resolve(child, collect);
 			if(quadruple == null) {
 				return null;

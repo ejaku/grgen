@@ -45,7 +45,13 @@ public class Pair<T, S>
 			return true;
 		if(!(that instanceof Pair<?,?>))
 			return false;
-		Pair<?,?> that_ = (Pair<?,?>)that;
-		return first.equals(that_.first) && second.equals(that_.second);
+		try {
+			@SuppressWarnings("unchecked")
+			Pair<T,S> that_ = (Pair<T,S>)that;
+			return first.equals(that_.first) && second.equals(that_.second);
+		}
+		catch (ClassCastException e) {
+			return false;
+		}
 	}
 }
