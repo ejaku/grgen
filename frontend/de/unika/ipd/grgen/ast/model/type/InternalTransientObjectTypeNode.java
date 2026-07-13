@@ -126,12 +126,6 @@ public class InternalTransientObjectTypeNode extends BaseInternalObjectTypeNode
 	}
 
 	@Override
-	protected Collection<InheritanceTypeNode> getExtends()
-	{
-		return new Vector<InheritanceTypeNode>(extend.getChildrenExact());
-	}
-
-	@Override
 	public void doGetCompatibleToTypes(Collection<TypeNode> coll)
 	{
 		assert isResolved();
@@ -150,10 +144,10 @@ public class InternalTransientObjectTypeNode extends BaseInternalObjectTypeNode
 	}
 
 	@Override
-	public Collection<InternalTransientObjectTypeNode> getDirectSuperTypes()
+	public Collection<InheritanceTypeNode> getDirectSuperTypes()
 	{
 		assert isResolved();
 
-		return extend.getChildrenExact();
+		return new Vector<InheritanceTypeNode>(extend.getChildrenExact());
 	}
 }

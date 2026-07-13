@@ -218,12 +218,6 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 	}
 	
 	@Override
-	protected Collection<InheritanceTypeNode> getExtends()
-	{
-		return new Vector<InheritanceTypeNode>(extend.getChildrenExact());
-	}
-
-	@Override
 	public void doGetCompatibleToTypes(Collection<TypeNode> coll)
 	{
 		assert isResolved();
@@ -237,11 +231,11 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 	}
 
 	@Override
-	public Collection<EdgeTypeNode> getDirectSuperTypes()
+	public Collection<InheritanceTypeNode> getDirectSuperTypes()
 	{
 		assert isResolved();
 
-		return extend.getChildrenExact();
+		return new Vector<InheritanceTypeNode>(extend.getChildrenExact());
 	}
 
 	protected abstract void setDirectednessIR(EdgeType inhType);

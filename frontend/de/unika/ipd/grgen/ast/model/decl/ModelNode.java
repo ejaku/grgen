@@ -330,20 +330,14 @@ public class ModelNode extends DeclNode
 			Collection<BaseNode> inProgress, Collection<BaseNode> done)
 	{
 		inProgress.add(inhType);
-		for(BaseNode st : inhType.getDirectSuperTypes()) {
-			if(!(st instanceof InheritanceTypeNode)) {
-				continue;
-			}
-
+		for(InheritanceTypeNode superType : inhType.getDirectSuperTypes()) {
 			assert(
-				((inhType instanceof NodeTypeNode) && (st instanceof NodeTypeNode)) ||
-				((inhType instanceof EdgeTypeNode) && (st instanceof EdgeTypeNode)) ||
-				((inhType instanceof InternalObjectTypeNode) && (st instanceof InternalObjectTypeNode)) ||
-				((inhType instanceof InternalTransientObjectTypeNode) && (st instanceof InternalTransientObjectTypeNode)) ||
-				((inhType instanceof ExternalObjectTypeNode) && (st instanceof ExternalObjectTypeNode))
+				((inhType instanceof NodeTypeNode) && (superType instanceof NodeTypeNode)) ||
+				((inhType instanceof EdgeTypeNode) && (superType instanceof EdgeTypeNode)) ||
+				((inhType instanceof InternalObjectTypeNode) && (superType instanceof InternalObjectTypeNode)) ||
+				((inhType instanceof InternalTransientObjectTypeNode) && (superType instanceof InternalTransientObjectTypeNode)) ||
+				((inhType instanceof ExternalObjectTypeNode) && (superType instanceof ExternalObjectTypeNode))
 			) : "nodes should extend nodes and edges should extend edges";
-
-			InheritanceTypeNode superType = (InheritanceTypeNode)st;
 
 			if(inProgress.contains(superType)) {
 				inhType.getIdentNode().reportError("The class " + inhType.getTypeName()

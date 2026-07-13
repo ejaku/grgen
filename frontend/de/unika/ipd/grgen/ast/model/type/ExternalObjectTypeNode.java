@@ -148,15 +148,9 @@ public class ExternalObjectTypeNode extends InheritanceTypeNode
 				extType.addExternalProcedureMethod(child.checkIR(ExternalProcedureMethod.class));
 			}
 		}
-		for(InheritanceTypeNode inh : getExtends()) {
+		for(InheritanceTypeNode inh : getDirectSuperTypes()) {
 			extType.addDirectSuperType(inh.getType());
 		}
-	}
-
-	@Override
-	protected Collection<InheritanceTypeNode> getExtends()
-	{
-		return new Vector<InheritanceTypeNode>(extend.getChildrenExact());
 	}
 
 	@Override
@@ -176,11 +170,11 @@ public class ExternalObjectTypeNode extends InheritanceTypeNode
 	}
 
 	@Override
-	public Collection<ExternalObjectTypeNode> getDirectSuperTypes()
+	public Collection<InheritanceTypeNode> getDirectSuperTypes()
 	{
 		assert isResolved();
 
-		return extend.getChildrenExact();
+		return new Vector<InheritanceTypeNode>(extend.getChildrenExact());
 	}
 
 	@Override
