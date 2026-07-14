@@ -53,12 +53,13 @@ import java.util.Map;
  * @version 2.0
  * @see com.sanityinc.jargs.examples.OptionTest
  */
-public class CmdLineParser {
-
+public class CmdLineParser
+{
     /**
      * Base class for exceptions that may be thrown when options are parsed
      */
-    public static abstract class OptionException extends Exception {
+    public static abstract class OptionException extends Exception
+    {
         OptionException(String msg) { super(msg); }
     }
 
@@ -68,7 +69,8 @@ public class CmdLineParser {
      * an error string suitable for reporting the error to the user (in
      * English).
      */
-    public static class UnknownOptionException extends OptionException {
+    public static class UnknownOptionException extends OptionException
+    {
         UnknownOptionException( String optionName ) {
             this(optionName, "Unknown option '" + optionName + "'");
         }
@@ -95,8 +97,8 @@ public class CmdLineParser {
      * string.
      * @author Vidar Holen
      */
-    public static class UnknownSuboptionException
-        extends UnknownOptionException {
+    public static class UnknownSuboptionException extends UnknownOptionException
+    {
         private char suboption;
 
         UnknownSuboptionException( String option, char suboption ) {
@@ -115,7 +117,8 @@ public class CmdLineParser {
      * string.
      * @author Vidar Holen
      */
-    public static class NotFlagException extends UnknownOptionException {
+    public static class NotFlagException extends UnknownOptionException
+    {
         private char notflag;
 
         NotFlagException( String option, char unflaggish ) {
@@ -142,19 +145,24 @@ public class CmdLineParser {
      * have to return <code>Option&lt;?&gt;</code> instead of
      * <code>Option&lt;T&gt;</code>.
      */
-    public static class IllegalOptionValueException extends OptionException {
-        public <T> IllegalOptionValueException( Option<T> opt, String value ) {
-            super("Illegal value '" + value + "' for option " +
-                  (opt.getShortForm() != null ? "-" + opt.getShortForm() + "/" : "") +
-                  "--" + opt.getLongForm());
+    public static class IllegalOptionValueException extends OptionException
+    {
+        private IllegalOptionValueException( String msg, OptionBase opt, String value ) {
+            super(msg);
             this.option = opt;
             this.value = value;
+        }
+
+        public static <T> IllegalOptionValueException CreateIllegalOptionValueException( Option<T> opt, String value ) {
+            return new IllegalOptionValueException("Illegal value '" + value + "' for option " +
+                    (opt.getShortForm() != null ? "-" + opt.getShortForm() + "/" : "") +
+                    "--" + opt.getLongForm(), opt, value);
         }
 
         /**
          * @return the name of the option whose value was illegal (e.g. "-u")
          */
-        public Option<?> getOption() {
+        public OptionBase getOption() {
             return this.option;
         }
 
@@ -164,8 +172,12 @@ public class CmdLineParser {
         public String getValue() {
             return this.value;
         }
-        private final Option<?> option;
+        private final OptionBase option;
         private final String value;
+    }
+
+    public static abstract class OptionBase
+    {
     }
 
     /**
@@ -173,8 +185,8 @@ public class CmdLineParser {
      *
      * @param T Type of data configured by this option
      */
-    public static abstract class Option<T> {
-
+    public static abstract class Option<T> extends OptionBase
+    {
         protected Option( String longForm, boolean wantsValue ) {
             this(null, longForm, wantsValue);
         }
@@ -212,7 +224,7 @@ public class CmdLineParser {
             throws IllegalOptionValueException {
             if ( this.wantsValue_ ) {
                 if ( arg == null ) {
-                    throw new IllegalOptionValueException(this, "");
+                    throw IllegalOptionValueException.CreateIllegalOptionValueException(this, "");
                 }
                 return this.parseValue(arg, locale);
             } else {
@@ -241,121 +253,125 @@ public class CmdLineParser {
         private final String shortForm;
         private final String longForm;
         private final boolean wantsValue_;
+    }
 
-
-
-        /**
-         * An option that expects a boolean value
-         */
-        public static class BooleanOption extends Option<Boolean> {
-            public BooleanOption( char shortForm, String longForm ) {
-                super(shortForm, longForm, false);
-            }
-            public BooleanOption( String longForm ) {
-                super(longForm, false);
-            }
-
-            @Override
-            public Boolean parseValue(String arg, Locale lcoale) {
-                return Boolean.TRUE;
-            }
-
-            @Override
-            public Boolean getDefaultValue() {
-                return Boolean.TRUE;
-            }
+    /**
+     * An option that expects a boolean value
+     */
+    public static class BooleanOption extends Option<Boolean>
+    {
+        public BooleanOption( char shortForm, String longForm ) {
+            super(shortForm, longForm, false);
+        }
+        public BooleanOption( String longForm ) {
+            super(longForm, false);
         }
 
-        /**
-         * An option that expects an integer value
-         */
-        public static class IntegerOption extends Option<Integer> {
-            public IntegerOption( char shortForm, String longForm ) {
-                super(shortForm, longForm, true);
-            }
-            public IntegerOption( String longForm ) {
-                super(longForm, true);
-            }
-
-            @Override
-            protected Integer parseValue( String arg, Locale locale )
-                throws IllegalOptionValueException {
-                try {
-                    return new Integer(arg);
-                } catch (NumberFormatException e) {
-                    throw new IllegalOptionValueException(this, arg);
-                }
-            }
+        @Override
+        public Boolean parseValue(String arg, Locale lcoale) {
+            return Boolean.TRUE;
         }
 
-        /**
-         * An option that expects a long integer value
-         */
-        public static class LongOption extends Option<Long> {
-            public LongOption( char shortForm, String longForm ) {
-                super(shortForm, longForm, true);
-            }
-            public LongOption( String longForm ) {
-                super(longForm, true);
-            }
+        @Override
+        public Boolean getDefaultValue() {
+            return Boolean.TRUE;
+        }
+    }
 
-            @Override
-            protected Long parseValue( String arg, Locale locale )
-                throws IllegalOptionValueException {
-                try {
-                    return new Long(arg);
-                } catch (NumberFormatException e) {
-                    throw new IllegalOptionValueException(this, arg);
-                }
-            }
+    /**
+     * An option that expects an integer value
+     */
+    public static class IntegerOption extends Option<Integer>
+    {
+        public IntegerOption( char shortForm, String longForm ) {
+            super(shortForm, longForm, true);
+        }
+        public IntegerOption( String longForm ) {
+            super(longForm, true);
         }
 
-        /**
-         * An option that expects a floating-point value
-         */
-        public static class DoubleOption extends Option<Double> {
-            public DoubleOption( char shortForm, String longForm ) {
-                super(shortForm, longForm, true);
-            }
-            public DoubleOption( String longForm ) {
-                super(longForm, true);
-            }
-
-            @Override
-            protected Double parseValue( String arg, Locale locale )
-                throws IllegalOptionValueException {
-                try {
-                    NumberFormat format = NumberFormat.getNumberInstance(locale);
-                    Number num = (Number)format.parse(arg);
-                    return new Double(num.doubleValue());
-                } catch (ParseException e) {
-                    throw new IllegalOptionValueException(this, arg);
-                }
+        @Override
+        protected Integer parseValue( String arg, Locale locale )
+            throws IllegalOptionValueException {
+            try {
+                return new Integer(arg);
+            } catch (NumberFormatException e) {
+                throw IllegalOptionValueException.CreateIllegalOptionValueException(this, arg);
             }
         }
+    }
 
-        /**
-         * An option that expects a string value
-         */
-        public static class StringOption extends Option<String> {
-            public StringOption( char shortForm, String longForm ) {
-                super(shortForm, longForm, true);
-            }
-            public StringOption( String longForm ) {
-                super(longForm, true);
-            }
+    /**
+     * An option that expects a long integer value
+     */
+    public static class LongOption extends Option<Long>
+    {
+        public LongOption( char shortForm, String longForm ) {
+            super(shortForm, longForm, true);
+        }
+        public LongOption( String longForm ) {
+            super(longForm, true);
+        }
 
-            @Override
-            protected String parseValue( String arg, Locale locale ) {
-                return arg;
+        @Override
+        protected Long parseValue( String arg, Locale locale )
+            throws IllegalOptionValueException {
+            try {
+                return new Long(arg);
+            } catch (NumberFormatException e) {
+                throw IllegalOptionValueException.CreateIllegalOptionValueException(this, arg);
             }
+        }
+    }
+
+    /**
+     * An option that expects a floating-point value
+     */
+    public static class DoubleOption extends Option<Double>
+    {
+        public DoubleOption( char shortForm, String longForm ) {
+            super(shortForm, longForm, true);
+        }
+        public DoubleOption( String longForm ) {
+            super(longForm, true);
+        }
+
+        @Override
+        protected Double parseValue( String arg, Locale locale )
+            throws IllegalOptionValueException {
+            try {
+                NumberFormat format = NumberFormat.getNumberInstance(locale);
+                Number num = (Number)format.parse(arg);
+                return new Double(num.doubleValue());
+            } catch (ParseException e) {
+                throw IllegalOptionValueException.CreateIllegalOptionValueException(this, arg);
+            }
+        }
+    }
+
+    /**
+     * An option that expects a string value
+     */
+    public static class StringOption extends Option<String>
+    {
+        public StringOption( char shortForm, String longForm ) {
+            super(shortForm, longForm, true);
+        }
+        public StringOption( String longForm ) {
+            super(longForm, true);
+        }
+
+        @Override
+        protected String parseValue( String arg, Locale locale ) {
+            return arg;
         }
     }
 
     /**
      * Add the specified Option to the list of accepted options
      */
-    public final <T> Option<T> addOption( Option<T> opt ) {
+    public final <T> Option<T> addOption( Option<T> opt )
+    {
         if ( opt.getShortForm() != null ) {
             this.options.put("-" + opt.getShortForm(), opt);
         }
@@ -368,7 +384,7 @@ public class CmdLineParser {
      * @return the new Option
      */
     public final Option<String> addStringOption( char shortForm, String longForm ) {
-        return addOption(new Option.StringOption(shortForm, longForm));
+        return addOption(new StringOption(shortForm, longForm));
     }
 
     /**
@@ -376,7 +392,7 @@ public class CmdLineParser {
      * @return the new Option
      */
     public final Option<String> addStringOption( String longForm ) {
-        return addOption(new Option.StringOption(longForm));
+        return addOption(new StringOption(longForm));
     }
 
     /**
@@ -384,7 +400,7 @@ public class CmdLineParser {
      * @return the new Option
      */
     public final Option<Integer> addIntegerOption( char shortForm, String longForm ) {
-        return addOption(new Option.IntegerOption(shortForm, longForm));
+        return addOption(new IntegerOption(shortForm, longForm));
     }
 
     /**
@@ -392,7 +408,7 @@ public class CmdLineParser {
      * @return the new Option
      */
     public final Option<Integer> addIntegerOption( String longForm ) {
-        return addOption(new Option.IntegerOption(longForm));
+        return addOption(new IntegerOption(longForm));
     }
 
     /**
@@ -400,7 +416,7 @@ public class CmdLineParser {
      * @return the new Option
      */
     public final Option<Long> addLongOption( char shortForm, String longForm ) {
-        return addOption(new Option.LongOption(shortForm, longForm));
+        return addOption(new LongOption(shortForm, longForm));
     }
 
     /**
@@ -408,7 +424,7 @@ public class CmdLineParser {
      * @return the new Option
      */
     public final Option<Long> addLongOption( String longForm ) {
-        return addOption(new Option.LongOption(longForm));
+        return addOption(new LongOption(longForm));
     }
 
     /**
@@ -416,7 +432,7 @@ public class CmdLineParser {
      * @return the new Option
      */
     public final Option<Double> addDoubleOption( char shortForm, String longForm ) {
-        return addOption(new Option.DoubleOption(shortForm, longForm));
+        return addOption(new DoubleOption(shortForm, longForm));
     }
 
     /**
@@ -424,7 +440,7 @@ public class CmdLineParser {
      * @return the new Option
      */
     public final Option<Double> addDoubleOption( String longForm ) {
-        return addOption(new Option.DoubleOption(longForm));
+        return addOption(new DoubleOption(longForm));
     }
 
     /**
@@ -432,7 +448,7 @@ public class CmdLineParser {
      * @return the new Option
      */
     public final Option<Boolean> addBooleanOption( char shortForm, String longForm ) {
-        return addOption(new Option.BooleanOption(shortForm, longForm));
+        return addOption(new BooleanOption(shortForm, longForm));
     }
 
     /**
@@ -440,7 +456,7 @@ public class CmdLineParser {
      * @return the new Option
      */
     public final Option<Boolean> addBooleanOption( String longForm ) {
-        return addOption(new Option.BooleanOption(longForm));
+        return addOption(new BooleanOption(longForm));
     }
 
     /**
