@@ -136,9 +136,10 @@ public class Util
 	 */
 	public static void writeFile(File file, CharSequence cs, ErrorReporter reporter)
 	{
-		try(BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-				PrintStream ps = new PrintStream(bos)) {
-			ps.print(cs);
+		try(BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file))) {
+			try(PrintStream ps = new PrintStream(bos)) {
+				ps.print(cs);
+			}
 		} catch(IOException e) {
 			reporter.error(e.toString());
 		}
@@ -277,12 +278,12 @@ public class Util
 
 	public static String toString(StreamDumpable dumpable)
 	{
-		try(ByteArrayOutputStream bos = new ByteArrayOutputStream();
-				PrintStream ps = new PrintStream(bos))
-		{
-			dumpable.dump(ps);
-			ps.flush();
-			return bos.toString();
+		try(ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+			try(PrintStream ps = new PrintStream(bos)) {
+				dumpable.dump(ps);
+				ps.flush();
+				return bos.toString();
+			}
 		} catch(IOException e) {
 			e.printStackTrace();
 			return "";
@@ -295,14 +296,17 @@ public class Util
 			targetFile.createNewFile();
 		}
 
-		try(FileInputStream sourceStream = new FileInputStream(sourceFile);
-				FileChannel sourceChannel = sourceStream.getChannel();
-				FileOutputStream targetStream = new FileOutputStream(targetFile);
-				FileChannel targetChannel = targetStream.getChannel()) {
-			long count = 0;
-			long size = sourceChannel.size();
-			while((count += targetChannel.transferFrom(sourceChannel, count, size - count)) < size) {
-				// empty
+		try(FileInputStream sourceStream = new FileInputStream(sourceFile)) {
+			try(FileChannel sourceChannel = sourceStream.getChannel()) {
+				try(FileOutputStream targetStream = new FileOutputStream(targetFile)) {
+					try(FileChannel targetChannel = targetStream.getChannel()) {
+						long count = 0;
+						long size = sourceChannel.size();
+						while((count += targetChannel.transferFrom(sourceChannel, count, size - count)) < size) {
+							// empty
+						}
+					}
+				}
 			}
 		}
 	}

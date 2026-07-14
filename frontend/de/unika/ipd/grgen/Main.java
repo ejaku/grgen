@@ -360,16 +360,16 @@ public class Main extends Base implements Sys
 	{
 
 		File file = new File(suffix + ".vcg");
-		try(OutputStream os = createDebugFile(file);
-				PrintStream ps = new PrintStream(os))
-		{
-			VCGDumper vcg = new VCGDumper(ps);
-			visitor.setDumper(vcg);
-			PrePostWalker walker = new PostWalker(visitor);
-			vcg.begin();
-			walker.reset();
-			walker.walk(node);
-			vcg.finish();
+		try(OutputStream os = createDebugFile(file)) {
+			try(PrintStream ps = new PrintStream(os)) {
+				VCGDumper vcg = new VCGDumper(ps);
+				visitor.setDumper(vcg);
+				PrePostWalker walker = new PostWalker(visitor);
+				vcg.begin();
+				walker.reset();
+				walker.walk(node);
+				vcg.finish();
+			}
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -512,11 +512,12 @@ public class Main extends Base implements Sys
 			if(dumpRules)
 				dumper.dump(irUnit);
 
-			try(OutputStream os = createDebugFile(new File("ir.xml"));
-					PrintStream ps = new PrintStream(os)) {
-				XMLDumper xmlDumper = new XMLDumper(ps);
-				xmlDumper.dump(irUnit);
-				ps.flush();
+			try(OutputStream os = createDebugFile(new File("ir.xml"))) {
+				try(PrintStream ps = new PrintStream(os)) {
+					XMLDumper xmlDumper = new XMLDumper(ps);
+					xmlDumper.dump(irUnit);
+					ps.flush();
+				}
 			} catch(IOException e) {
 				e.printStackTrace();
 			}
