@@ -233,7 +233,7 @@ public class ModifyEvalGen extends CSharpBase
 			sb.appendFront("{ // " + evalStmts.getName() + "\n");
 			sb.indent();
 
-			//if(be.system.mayFireDebugEvents()) {
+			//if(be.sys.mayFireDebugEvents()) {
 			//	sb.append("\t\t\t((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugEntering(");
 			//	sb.append("\"" + state.name() + "." + evalStmts.getName() + "\"");
 			//	sb.append(");\n");
@@ -241,7 +241,7 @@ public class ModifyEvalGen extends CSharpBase
 
 			genEvals(sb, state, evalStmts.evalStatements);
 
-			//if(be.system.mayFireDebugEvents()) {
+			//if(be.sys.mayFireDebugEvents()) {
 			//	sb.append("\t\t\t((GRGEN_LGSP.LGSPSubactionAndOutputAdditionEnvironment)actionEnv).DebugExiting(");
 			//	sb.append("\"" + state.name() + "." + evalStmts.getName() + "\"");
 			//	sb.append(");\n");

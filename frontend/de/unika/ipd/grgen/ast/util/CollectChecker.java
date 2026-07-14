@@ -13,7 +13,6 @@ package de.unika.ipd.grgen.ast.util;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectBaseNode;
-import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 /**

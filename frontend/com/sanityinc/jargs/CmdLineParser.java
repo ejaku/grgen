@@ -535,7 +535,7 @@ public class CmdLineParser
      */
     public final <T> T getOptionValue( Option<T> o, T def )
     {
-        List<?> v = values.get(o.getLongForm());
+        List<Object> v = values.get(o.getLongForm());
 
         if (v == null) {
             return def;
@@ -668,11 +668,7 @@ public class CmdLineParser
         Object value = opt.getValue(valueArg, locale);
         String lf = opt.getLongForm();
 
-        /* Cast is typesafe because the only location we add elements to the
-         * values map is in this method.
-         */
-        @SuppressWarnings("unchecked")
-        List<Object> v = (List<Object>) values.get(lf);
+        List<Object> v = values.get(lf);
 
         if (v == null) {
             v = new ArrayList<Object>();
