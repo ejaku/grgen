@@ -3624,7 +3624,7 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 		boolean yielded = false, methodCall = false, attributeMethodCall = false, packPrefix = false;
 		CollectNode<ExprNode> returnValues = new CollectNode<ExprNode>();
 		CollectNode<ProjectionExprNode> targetProjs = new CollectNode<ProjectionExprNode>();
-		CollectNode<EvalStatementNode> targets = new CollectNode<EvalStatementNode>();
+		CollectNode<EvalStatementNode> targetEvals = new CollectNode<EvalStatementNode>();
 		MultiStatementNode ms = new MultiStatementNode();
 	}
 	: (dc=DOUBLECOLON)? owner=entIdentUse d=DOT member=entIdentUse a=ASSIGN e=expr[namer, context, false] SEMI//'false' because this rule is not used for the assignments in enum item decls
@@ -3783,7 +3783,7 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 				reportError(getCoords(d), "A do while statement is forbidden in a simple eval, move it to a full eval after the --- separator.");
 		}
 	|
-	  (l=LPAREN tgts=targets[onLHS, getCoords(l), ms, namer, context, directlyNestingLHSGraph] RPAREN a=ASSIGN { targetProjs = $tgts.tgtProjs; targets = $tgts.tgts; } )? 
+	  (l=LPAREN tgts=targets[onLHS, getCoords(l), ms, namer, context, directlyNestingLHSGraph] RPAREN a=ASSIGN { targetProjs = $tgts.tgtProjs; targetEvals = $tgts.tgts; } )? 
 		( (y=YIELD { yielded = true; })? (dc=DOUBLECOLON)? variable=entIdentUse d=DOT { methodCall = true; } (member=entIdentUse DOT { attributeMethodCall = true; })? )?
 		(pack=IDENT DOUBLECOLON {packPrefix=true;})? (i=IDENT | i=EMIT | i=EMITDEBUG | i=DELETE) paramz=paramExprs[namer, context, false] SEMI
 			{ 
@@ -3801,11 +3801,11 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 						} else {
 							proc = new ProcedureInvocationDecisionNode(procIdent, paramz, context, env);
 						}
-						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
+						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), proc, targetEvals, context);
 						for(ProjectionExprNode proj : targetProjs.getChildrenExact()) {
 							proj.setProcedure(proc);
 						}
-						for(EvalStatementNode eval : targets.getChildrenExact()) {
+						for(EvalStatementNode eval : targetEvals.getChildrenExact()) {
 							eval.setCoords(getCoords(a));
 						}
 						ms.addStatement(ra);
@@ -3821,11 +3821,11 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 							procIdent = new IdentNode(env.occurs(ParserEnvironment.FUNCTIONS_AND_EXTERNAL_FUNCTIONS, i.getText(), getCoords(i)));
 						}
 						ProcedureOrExternalProcedureInvocationNode proc = new ProcedureOrExternalProcedureInvocationNode(procIdent, paramz, context);
-						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), proc, targets, context);
+						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), proc, targetEvals, context);
 						for(ProjectionExprNode proj : targetProjs.getChildrenExact()) {
 							proj.setProcedure(proc);
 						}
-						for(EvalStatementNode eval : targets.getChildrenExact()) {
+						for(EvalStatementNode eval : targetEvals.getChildrenExact()) {
 							eval.setCoords(getCoords(a));
 						}
 						ms.addStatement(ra);
@@ -3844,11 +3844,11 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 							reportError(getCoords(y), "A yield method call on a def entity is forbidden in a simple eval, move it to a full eval after the --- separator.");
 						}
 						ProcedureMethodInvocationDecisionNode pmi = new ProcedureMethodInvocationDecisionNode(new IdentExprNode(variable, yielded), method_, paramz, context);
-						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), pmi, targets, context);
+						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), pmi, targetEvals, context);
 						for(ProjectionExprNode proj : targetProjs.getChildrenExact()) {
 							proj.setProcedure(pmi);
 						}
-						for(EvalStatementNode eval : targets.getChildrenExact()) {
+						for(EvalStatementNode eval : targetEvals.getChildrenExact()) {
 							eval.setCoords(getCoords(a));
 						}
 						ms.addStatement(ra);
@@ -3866,11 +3866,11 @@ computation [ boolean onLHS, boolean isSimple, AnonymousScopeNamer namer, int co
 						if(onLHS) {
 							reportError(getCoords(d), "A method call on an attribute is forbidden in a yield, only a yield method call to a def variable is allowed.");
 						}
-						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), pmi, targets, context);
+						ReturnAssignmentNode ra = new ReturnAssignmentNode(getCoords(i), pmi, targetEvals, context);
 						for(ProjectionExprNode proj : targetProjs.getChildrenExact()) {
 							proj.setProcedure(pmi);
 						}
-						for(EvalStatementNode eval : targets.getChildrenExact()) {
+						for(EvalStatementNode eval : targetEvals.getChildrenExact()) {
 							eval.setCoords(getCoords(a));
 						}
 						ms.addStatement(ra);
