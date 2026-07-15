@@ -419,34 +419,8 @@ public class ModifyEvalGen extends CSharpBase
 				|| targetType instanceof ArrayType
 				|| targetType instanceof DequeType)
 				&& !(ass instanceof AssignmentIndexed)) {
-			// Check whether we have to make a copy of the right hand side of the assignment
-			boolean mustCopy = true;
-			if(expr instanceof Operator) {
-				Operator op = (Operator)expr;
 
-				// For unions and intersections new maps/sets are already created,
-				// so we don't have to copy them again
-				if(op.getOpCode() == OperatorCode.BIT_OR || op.getOpCode() == OperatorCode.BIT_AND)
-					mustCopy = false;
-			}
-
-			String typeName = formatAttributeType(targetType);
-			String varName = "tempvar_" + tmpVarID++;
-			sb.appendFront(typeName + " " + varName + " = ");
-			if(mustCopy && !(expr instanceof Constant)) // only null supported as constant
-				sb.append("new " + typeName + "(");
-			genExpression(sb, expr, state);
-			if(mustCopy && !(expr instanceof Constant))
-				sb.append(")");
-			sb.append(";\n");
-
-			genChangingAttribute(sb, state, target, "Assign", varName, "null");
-
-			sb.appendFront("");
-			genExpression(sb, target, state); // global var case handled by genQualAccess
-			sb.append(" = " + varName + ";\n");
-
-			genChangedAttribute(sb, state, target);
+			genAssignmentContainer(sb, state, target, expr, targetType);
 
 			return;
 		}
@@ -554,6 +528,39 @@ public class ModifyEvalGen extends CSharpBase
 					|| target.getOwner().getType() instanceof InternalTransientObjectType))
 				genChangedAttribute(sb, state, target);
 		}
+	}
+
+	private void genAssignmentContainer(SourceBuilder sb, ModifyGenerationStateConst state,
+			Qualification target, Expression expr, Type targetType)
+	{
+		// Check whether we have to make a copy of the right hand side of the assignment
+		boolean mustCopy = true;
+		if(expr instanceof Operator) {
+			Operator op = (Operator)expr;
+
+			// For unions and intersections new maps/sets are already created,
+			// so we don't have to copy them again
+			if(op.getOpCode() == OperatorCode.BIT_OR || op.getOpCode() == OperatorCode.BIT_AND)
+				mustCopy = false;
+		}
+
+		String typeName = formatAttributeType(targetType);
+		String varName = "tempvar_" + tmpVarID++;
+		sb.appendFront(typeName + " " + varName + " = ");
+		if(mustCopy && !(expr instanceof Constant)) // only null supported as constant
+			sb.append("new " + typeName + "(");
+		genExpression(sb, expr, state);
+		if(mustCopy && !(expr instanceof Constant))
+			sb.append(")");
+		sb.append(";\n");
+
+		genChangingAttribute(sb, state, target, "Assign", varName, "null");
+
+		sb.appendFront("");
+		genExpression(sb, target, state); // global var case handled by genQualAccess
+		sb.append(" = " + varName + ";\n");
+
+		genChangedAttribute(sb, state, target);
 	}
 
 	private void genAssignmentVar(SourceBuilder sb, ModifyGenerationStateConst state, AssignmentVar ass)

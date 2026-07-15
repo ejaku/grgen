@@ -121,51 +121,51 @@ public class ModifyGen extends CSharpBase
 					&& !hasAbstractElements(rule.getLeft())
 					&& !hasDanglingEdges(rule.getLeft())) {
 				// create subpattern into pattern
-				ModifyGenerationTask task = new ModifyGenerationTask();
-				task.typeOfTask = ModifyGenerationTask.TYPE_OF_TASK_CREATION;
-				task.left = new PatternGraphLhs(rule.getLeft().getNameOfGraph(), 0); // empty graph
-				task.left.setDirectlyNestingLHSGraph(task.left);
-				task.right = new PatternGraphRhsFromLhs(rule.getLeft());
-				task.parameters = rule.getParameters();
-				task.evals = emptyEvals;
-				task.replParameters = emptyParameters;
-				task.returns = emptyReturns;
-				task.isSubpattern = true;
-				task.mightThereBeDeferredExecs = rule.mightThereBeDeferredExecs;
-				for(Entity entity : task.parameters) { // add connections to empty graph so that they stay unchanged
+				ModifyGenerationTask creationTask = new ModifyGenerationTask();
+				creationTask.typeOfTask = ModifyGenerationTask.TYPE_OF_TASK_CREATION;
+				creationTask.left = new PatternGraphLhs(rule.getLeft().getNameOfGraph(), 0); // empty graph
+				creationTask.left.setDirectlyNestingLHSGraph(creationTask.left);
+				creationTask.right = new PatternGraphRhsFromLhs(rule.getLeft());
+				creationTask.parameters = rule.getParameters();
+				creationTask.evals = emptyEvals;
+				creationTask.replParameters = emptyParameters;
+				creationTask.returns = emptyReturns;
+				creationTask.isSubpattern = true;
+				creationTask.mightThereBeDeferredExecs = rule.mightThereBeDeferredExecs;
+				for(Entity entity : creationTask.parameters) { // add connections to empty graph so that they stay unchanged
 					if(entity instanceof Node) {
 						Node node = (Node)entity;
-						task.left.addSingleNode(node);
+						creationTask.left.addSingleNode(node);
 					} else if(entity instanceof Edge) {
 						Edge edge = (Edge)entity;
-						task.left.addSingleEdge(edge);
+						creationTask.left.addSingleEdge(edge);
 					}
 				}
-				genModifyRuleOrSubrule(sb, task, packageName, pathPrefix);
+				genModifyRuleOrSubrule(sb, creationTask, packageName, pathPrefix);
 			}
 
 			// delete subpattern from pattern
-			ModifyGenerationTask task = new ModifyGenerationTask();
-			task.typeOfTask = ModifyGenerationTask.TYPE_OF_TASK_DELETION;
-			task.left = rule.getLeft();
-			task.right = new PatternGraphRhsFromLhs(new PatternGraphLhs(rule.getLeft().getNameOfGraph(), 0)); // empty graph
-			task.right.setDirectlyNestingLHSGraph(task.left);
-			task.parameters = rule.getParameters();
-			task.evals = emptyEvals;
-			task.replParameters = emptyParameters;
-			task.returns = emptyReturns;
-			task.isSubpattern = true;
-			task.mightThereBeDeferredExecs = rule.mightThereBeDeferredExecs;
-			for(Entity entity : task.parameters) { // add connections to empty graph so that they stay unchanged
+			ModifyGenerationTask deletionTask = new ModifyGenerationTask();
+			deletionTask.typeOfTask = ModifyGenerationTask.TYPE_OF_TASK_DELETION;
+			deletionTask.left = rule.getLeft();
+			deletionTask.right = new PatternGraphRhsFromLhs(new PatternGraphLhs(rule.getLeft().getNameOfGraph(), 0)); // empty graph
+			deletionTask.right.setDirectlyNestingLHSGraph(deletionTask.left);
+			deletionTask.parameters = rule.getParameters();
+			deletionTask.evals = emptyEvals;
+			deletionTask.replParameters = emptyParameters;
+			deletionTask.returns = emptyReturns;
+			deletionTask.isSubpattern = true;
+			deletionTask.mightThereBeDeferredExecs = rule.mightThereBeDeferredExecs;
+			for(Entity entity : deletionTask.parameters) { // add connections to empty graph so that they stay unchanged
 				if(entity instanceof Node) {
 					Node node = (Node)entity;
-					task.right.addSingleNode(node);
+					deletionTask.right.addSingleNode(node);
 				} else if(entity instanceof Edge) {
 					Edge edge = (Edge)entity;
-					task.right.addSingleEdge(edge);
+					deletionTask.right.addSingleEdge(edge);
 				}
 			}
-			genModifyRuleOrSubrule(sb, task, packageName, pathPrefix);
+			genModifyRuleOrSubrule(sb, deletionTask, packageName, pathPrefix);
 		}
 
 		for(Alternative alt : rule.getLeft().getAlts()) {
