@@ -22,5 +22,5 @@ public interface MatchClassFilterCharacter
 	String getFilterName();
 
 	// returns the match class the filter applies to
-	DefinedMatchTypeNode getMatchTypeNode();
+	DefinedMatchTypeNode getMatchType();
 }

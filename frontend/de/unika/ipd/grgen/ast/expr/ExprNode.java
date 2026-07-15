@@ -248,7 +248,7 @@ public abstract class ExprNode extends BaseNode
 	{
 		assert isResolved();
 		if(this instanceof DeclExprNode) {
-			ConstraintDeclNode decl = ((DeclExprNode)this).getConstraintDeclNode();
+			ConstraintDeclNode decl = ((DeclExprNode)this).getConstraintDecl();
 			if(decl != null)
 				elements.add(decl);
 		}
@@ -272,7 +272,7 @@ public abstract class ExprNode extends BaseNode
 	{
 		assert isResolved();
 		if(this instanceof DeclExprNode) {
-			ConstraintDeclNode decl = ((DeclExprNode)this).getConstraintDeclNode();
+			ConstraintDeclNode decl = ((DeclExprNode)this).getConstraintDecl();
 			if(decl != null)
 				elements.add(decl);
 		}

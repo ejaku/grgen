@@ -218,7 +218,7 @@ public abstract class PatternGraphBaseNode extends BaseNode
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			for(SubpatternUsageDeclNode subUsage : subpatterns.getChildrenExact()) {
 				if(subUsage.resolve()) {
-					PatternGraphLhsNode pattern = subUsage.getSubpatternDeclNode().getPattern();
+					PatternGraphLhsNode pattern = subUsage.getSubpatternDecl().getPattern();
 					if(pattern.hasAbstractElements) {
 						subUsage.reportError("Cannot instantiate a pattern with abstract elements"
 								+ " (attempted with " + subUsage.emptyWhenAnonymous(subUsage.getIdent() + " of (sub)pattern type ") + pattern.toStringWithDeclarationCoords() + ").");

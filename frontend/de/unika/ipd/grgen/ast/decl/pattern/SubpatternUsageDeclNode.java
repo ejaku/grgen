@@ -59,7 +59,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 		return type.getDeclType();
 	}
 
-	public SubpatternDeclNode getSubpatternDeclNode()
+	public SubpatternDeclNode getSubpatternDecl()
 	{
 		assert isResolved();
 

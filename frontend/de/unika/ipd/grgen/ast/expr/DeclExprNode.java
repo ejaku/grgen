@@ -124,7 +124,7 @@ public class DeclExprNode extends ExprNode
 	/**
 	 * Gets the ConstraintDeclNode this DeclExprNode resolved to, or null if it is something else.
 	 */
-	public ConstraintDeclNode getConstraintDeclNode()
+	public ConstraintDeclNode getConstraintDecl()
 	{
 		assert isResolved();
 		if(decl instanceof ConstraintDeclNode)

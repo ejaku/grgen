@@ -175,7 +175,7 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 
 		if(!(retExpr instanceof DeclExprNode))
 			return res;
-		ConstraintDeclNode retElem = ((DeclExprNode)retExpr).getConstraintDeclNode();
+		ConstraintDeclNode retElem = ((DeclExprNode)retExpr).getConstraintDecl();
 		if(retElem == null)
 			return res;
 

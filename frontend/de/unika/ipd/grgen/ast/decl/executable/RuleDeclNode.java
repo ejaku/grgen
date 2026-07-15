@@ -200,7 +200,7 @@ public class RuleDeclNode extends ActionDeclNode
 			if(!(expr instanceof DeclExprNode))
 				continue;
 
-			ConstraintDeclNode retElem = ((DeclExprNode)expr).getConstraintDeclNode();
+			ConstraintDeclNode retElem = ((DeclExprNode)expr).getConstraintDecl();
 			if(retElem == null)
 				continue;
 
@@ -304,7 +304,7 @@ public class RuleDeclNode extends ActionDeclNode
 				neededElements.addAll(collectNeededElements((ExprNode)child));
 
 			if(child instanceof DeclExprNode)
-				neededElements.add(((DeclExprNode)child).getConstraintDeclNode());
+				neededElements.add(((DeclExprNode)child).getConstraintDecl());
 			else if(child instanceof ConstraintDeclNode)
 				neededElements.add((ConstraintDeclNode)child);
 		}

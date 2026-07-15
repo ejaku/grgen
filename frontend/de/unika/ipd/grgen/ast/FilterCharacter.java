@@ -22,5 +22,5 @@ public interface FilterCharacter
 	String getFilterName();
 
 	// returns the action the filter applies to
-	ActionDeclNode getActionNode();
+	ActionDeclNode getAction();
 }

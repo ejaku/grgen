@@ -134,7 +134,7 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 	}
 
 	@Override
-	public DefinedMatchTypeNode getMatchTypeNode()
+	public DefinedMatchTypeNode getMatchType()
 	{
 		return matchType;
 	}

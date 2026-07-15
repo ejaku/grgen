@@ -132,7 +132,7 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
 	}
 
 	@Override
-	public ActionDeclNode getActionNode()
+	public ActionDeclNode getAction()
 	{
 		return action;
 	}
