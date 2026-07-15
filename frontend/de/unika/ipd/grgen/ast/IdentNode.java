@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.decl.DeclNode;
+import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.parser.Symbol;
 import de.unika.ipd.grgen.util.Annotated;
@@ -239,7 +240,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	@Override
-	protected Ident constructIR()
+	protected IR constructIR()
 	{
 		Symbol.Definition def = getSymDef();
 		return Ident.get(toString(), def, getAnnotations());

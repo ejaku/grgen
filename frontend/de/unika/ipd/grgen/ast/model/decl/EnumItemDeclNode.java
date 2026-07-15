@@ -204,7 +204,7 @@ public class EnumItemDeclNode extends MemberDeclNode
 	{
 		EnumConstNode c = (EnumConstNode)getValue();
 
-		return new EnumItem(ident.getIRIdent(), c.getIRConstant());
+		return new EnumItem(ident.getIRIdent(), c.getIREnumExpression());
 	}
 
 	public static String getKindStr()

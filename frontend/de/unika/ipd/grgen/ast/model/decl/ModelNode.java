@@ -39,6 +39,7 @@ import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
+import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.executable.ExternalFunction;
 import de.unika.ipd.grgen.ir.executable.ExternalProcedure;
@@ -298,7 +299,7 @@ public class ModelNode extends DeclNode
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	@Override
-	protected Model constructIR()
+	protected IR constructIR()
 	{
 		Ident id = ident.checkIR(Ident.class);
 		Model res = new Model(id, isEmitClassDefined, isEmitGraphClassDefined, isCopyClassDefined,

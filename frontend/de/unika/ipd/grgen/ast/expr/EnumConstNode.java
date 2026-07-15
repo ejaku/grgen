@@ -76,8 +76,7 @@ public class EnumConstNode extends ConstNode
 		return BasicTypeNode.enumItemType;
 	}
 
-	@Override
-	public EnumExpression getIRConstant()
+	public EnumExpression getIREnumExpression()
 	{
 		return checkIR(EnumExpression.class);
 	}

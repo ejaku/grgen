@@ -15,7 +15,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ir.Ident;
+import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Symbol;
 
 /**
@@ -141,7 +141,7 @@ public class PackageIdentNode extends IdentNode
 	 * Package ident nodes are resolved to their targeted concept, the owning package is ignored thereafter.
 	 */
 	@Override
-	protected Ident constructIR()
+	protected IR constructIR()
 	{
 		throw new RuntimeException("internal compiler error");
 	}

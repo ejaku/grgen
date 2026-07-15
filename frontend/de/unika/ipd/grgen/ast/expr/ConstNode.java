@@ -107,7 +107,7 @@ public abstract class ConstNode extends OperatorNode
 	 * Just a convenience function.
 	 * @return The IR object.
 	 */
-	protected Constant getIRConstant()
+	public Constant getIRConstant()
 	{
 		return checkIR(Constant.class);
 	}

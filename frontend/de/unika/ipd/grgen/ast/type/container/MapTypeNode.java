@@ -22,6 +22,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.ir.type.container.MapType;
 
@@ -133,7 +134,7 @@ public class MapTypeNode extends ContainerTypeNode
 	}
 
 	@Override
-	protected MapType constructIR()
+	protected IR constructIR()
 	{
 		Type kt = keyType.getIRType();
 		Type vt = valueType.getIRType();

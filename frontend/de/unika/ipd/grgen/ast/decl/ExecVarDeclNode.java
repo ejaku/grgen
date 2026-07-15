@@ -19,6 +19,7 @@ import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.ExecVariable;
+import de.unika.ipd.grgen.ir.IR;
 
 /**
  * Declaration of a variable in an exec, explicit sequence local or implicit graph global.
@@ -107,7 +108,7 @@ public class ExecVarDeclNode extends DeclNode
 	}
 
 	@Override
-	protected ExecVariable constructIR()
+	protected IR constructIR()
 	{
 		return new ExecVariable("ExecVar", getIdentNode().getIRIdent(), type.getIRType(), 0);
 	}
