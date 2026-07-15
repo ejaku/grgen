@@ -139,14 +139,14 @@ public class MatchNodeByIndexAccessOrderingDeclNode extends MatchNodeByIndexDecl
 		if(comp == Operator.LT || comp == Operator.LE) {
 			if(expr2 != null && (comp2 == Operator.LT || comp2 == Operator.LE)) {
 				reportError("Two upper bounds are not supported"
-						+ " (in match node" + emptyWhenAnonymousPostfix(" ") + " by index access of " + index.getIdentNode() + ").");
+						+ " (in match node" + emptyWhenAnonymousPostfix(" ") + " by index access of " + index.getIdent() + ").");
 				return false;
 			}
 		}
 		if(comp == Operator.GT || comp == Operator.GE) {
 			if(expr2 != null && (comp2 == Operator.GT || comp2 == Operator.GE)) {
 				reportError("Two lower bounds are not supported"
-						+ " (in match node" + emptyWhenAnonymousPostfix(" ") + " by index access of " + index.getIdentNode() + ").");
+						+ " (in match node" + emptyWhenAnonymousPostfix(" ") + " by index access of " + index.getIdent() + ").");
 				return false;
 			}
 		}

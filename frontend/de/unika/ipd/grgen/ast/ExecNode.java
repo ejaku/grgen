@@ -311,7 +311,7 @@ public class ExecNode extends BaseNode
 				for(NodeDeclNode node : writeResolve.second.getChildrenExact()) {
 					if(!node.defEntityToBeYieldedTo) {
 						reportError("Only a def (to be yielded to) node is allowed to be written from an exec statement"
-								+ " (this does not hold for " + node.getIdentNode() + ").");
+								+ " (this does not hold for " + node.getIdent() + ").");
 					}
 					writeUsage.addChild(node);
 				}
@@ -321,7 +321,7 @@ public class ExecNode extends BaseNode
 				for(EdgeDeclNode edge : writeResolve.third.getChildrenExact()) {
 					if(!edge.defEntityToBeYieldedTo) {
 						reportError("Only a def (to be yielded to) edge is allowed to be written from an exec statement"
-								+ " (this does not hold for " + edge.getIdentNode() + ").");
+								+ " (this does not hold for " + edge.getIdent() + ").");
 					}
 					writeUsage.addChild(edge);
 				}
@@ -331,7 +331,7 @@ public class ExecNode extends BaseNode
 				for(VarDeclNode var : writeResolve.fourth.getChildrenExact()) {
 					if(!var.defEntityToBeYieldedTo) {
 						reportError("Only a def (to be yielded to) variable is allowed to be written from an exec statement"
-								+ " (this does not hold for " + var.getIdentNode() + ").");
+								+ " (this does not hold for " + var.getIdent() + ").");
 					}
 					writeUsage.addChild(var);
 				}

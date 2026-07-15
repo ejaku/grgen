@@ -111,14 +111,14 @@ public class SubpatternDeclNode extends TopLevelMatcherDeclNode
 			CollectNode<EvalStatementsNode> evalStatments = new CollectNode<EvalStatementsNode>();
 			CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
 			CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
-			PatternGraphRhsNode patternGraph = new PatternGraphRhsNode(getIdentNode().toString(), getIdentNode().getCoords(),
+			PatternGraphRhsNode patternGraph = new PatternGraphRhsNode(getIdent().toString(), getIdent().getCoords(),
 					connections, new CollectNode<BaseNode>(), subpatterns, new CollectNode<SubpatternReplNode>(),
 					orderedReplacements, returnz, imperativeStmts,
 					BaseNode.CONTEXT_PATTERN | BaseNode.CONTEXT_RHS, pattern);
 			patternGraph.addDefVariablesToBeYieldedTo(defVariablesToBeYieldedTo);
 			patternGraph.addEvals(evalStatments);
-			right = new ModifyDeclNode(getIdentNode(), patternGraph, new CollectNode<IdentNode>());
-			getIdentNode().setDecl(this);
+			right = new ModifyDeclNode(getIdent(), patternGraph, new CollectNode<IdentNode>());
+			getIdent().setDecl(this);
 		}
 
 		return type != null;
@@ -174,7 +174,7 @@ public class SubpatternDeclNode extends TopLevelMatcherDeclNode
 			return getIR();
 		}
 
-		Rule rule = new Rule(getIdentNode().getIRIdent(), RuleKind.Subpattern);
+		Rule rule = new Rule(getIdent().getIRIdent(), RuleKind.Subpattern);
 
 		// mark this node as already visited
 		setIR(rule);

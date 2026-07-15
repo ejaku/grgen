@@ -70,7 +70,7 @@ public class NodeDeclNode extends ConstraintDeclNode
 		clone.resolve();
 		if(typeNodeDecl != null) {
 			reportError("A typeof node cannot be used in an auto statement"
-					+ " (as is the case for " + getIdentNode() + ").");
+					+ " (as is the case for " + getIdent() + ").");
 		}
 		return clone;
 	}
@@ -136,7 +136,7 @@ public class NodeDeclNode extends ConstraintDeclNode
 			while(cur != null) {
 				if(visited.contains(cur)) {
 					reportError("Circular typeof/copy not allowed"
-							+ " (as is the case for " + getKind() + " " + getIdentNode() + ").");
+							+ " (as is the case for " + getKind() + " " + getIdent() + ").");
 					return false;
 				}
 				visited.add(cur);
@@ -242,7 +242,7 @@ public class NodeDeclNode extends ConstraintDeclNode
 	{
 		NodeTypeNode tn = getDeclType();
 		NodeType nt = tn.getIRNodeType();
-		IdentNode ident = getIdentNode();
+		IdentNode ident = getIdent();
 
 		Node node = new Node(ident.getIRIdent(), nt, ident.getAnnotations(),
 				directlyNestingLHSGraph != null ? directlyNestingLHSGraph.getIRPatternGraphLhs() : null,
@@ -251,7 +251,7 @@ public class NodeDeclNode extends ConstraintDeclNode
 
 		if(node.getConstraints().contains(node.getType())) { // TODO: supertype? only subtypes allowed
 			reportError("The own node type may not be contained in the type constraint list"
-					+ " (but " + node.getType() + " is contained for " + getIdentNode() + ").");
+					+ " (but " + node.getType() + " is contained for " + getIdent() + ").");
 		}
 
 		if(inheritsType()) {

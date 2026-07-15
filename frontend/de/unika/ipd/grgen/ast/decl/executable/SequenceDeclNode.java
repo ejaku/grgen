@@ -117,7 +117,7 @@ public class SequenceDeclNode extends DeclNode
 	@Override
 	protected IR constructIR()
 	{
-		Sequence sequence = new Sequence(getIdentNode().getIRIdent(), exec.checkIR(Exec.class));
+		Sequence sequence = new Sequence(getIdent().getIRIdent(), exec.checkIR(Exec.class));
 		for(ExecVarDeclNode inParam : inParams.getChildrenExact()) {
 			sequence.addInParam(inParam.checkIR(ExecVariable.class));
 		}

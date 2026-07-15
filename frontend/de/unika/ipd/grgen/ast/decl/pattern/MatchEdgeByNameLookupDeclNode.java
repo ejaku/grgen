@@ -81,7 +81,7 @@ public class MatchEdgeByNameLookupDeclNode extends EdgeDeclNode
 		boolean res = super.checkLocal();
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			reportError("Cannot employ match edge by name index lookup in the rewrite part"
-					+ emptyWhenAnonymous(" (as it occurs in match edge " + getIdentNode() + ")") + ".");
+					+ emptyWhenAnonymous(" (as it occurs in match edge " + getIdent() + ")") + ".");
 			return false;
 		}
 		TypeNode expectedLookupType = StringTypeNode.stringType;

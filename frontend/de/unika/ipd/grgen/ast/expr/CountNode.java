@@ -103,7 +103,7 @@ public class CountNode extends ExprNode
 	@Override
 	public boolean iteratedNotReferenced(String iterName)
 	{
-		if(iterated.getIdentNode().toString().equals(iterName)) {
+		if(iterated.getIdent().toString().equals(iterName)) {
 			reportError("A count of iterated matches cannot access an iterated it is contained in, as it occurs with count(" + iteratedUnresolved + ").");
 			return false;
 		}

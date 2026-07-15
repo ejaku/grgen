@@ -142,8 +142,8 @@ public class ProcedureDeclNode extends ProcedureDeclBaseNode
 			return getIR();
 		}
 
-		Procedure procedure = isMethod ? new ProcedureMethod(getIdentNode().toString(), getIdentNode().getIRIdent())
-				: new Procedure(getIdentNode().toString(), getIdentNode().getIRIdent());
+		Procedure procedure = isMethod ? new ProcedureMethod(getIdent().toString(), getIdent().getIRIdent())
+				: new Procedure(getIdent().toString(), getIdent().getIRIdent());
 
 		// mark this node as already visited
 		setIR(procedure);

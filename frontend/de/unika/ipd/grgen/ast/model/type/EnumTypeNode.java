@@ -103,7 +103,7 @@ public class EnumTypeNode extends CompoundTypeNode
 	@Override
 	protected IR constructIR()
 	{
-		Ident name = getIdentNode().checkIR(Ident.class);
+		Ident name = getIdent().checkIR(Ident.class);
 		EnumType ty = new EnumType(name);
 
 		for(EnumItemDeclNode item : elements.getChildrenExact()) {
@@ -118,7 +118,7 @@ public class EnumTypeNode extends CompoundTypeNode
 	@Override
 	public String toString()
 	{
-		return "enum " + getIdentNode().toString();
+		return "enum " + getIdent().toString();
 	}
 
 	public static String getKindStr()

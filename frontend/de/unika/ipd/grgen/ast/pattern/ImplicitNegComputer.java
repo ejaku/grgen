@@ -77,7 +77,7 @@ public class ImplicitNegComputer
 				for(NodeDeclNode exactNode : exact.getExactNodes()) {
 					if(deletedNodes.contains(exactNode)) {
 						exact.reportWarning("Exact statement for " + exactNode.getKind() + " "
-								+ exactNode.getIdentNode().getSymbol().getText()
+								+ exactNode.getIdent().getSymbol().getText()
 								+ " is redundant, since the pattern is declared \"dangling\" or \"dpo\"");
 					}
 				}
@@ -91,7 +91,7 @@ public class ImplicitNegComputer
 				// coords of occurrence are not available
 				if(generatedExactNodes.containsKey(exactNode)) {
 					exact.reportWarning(exactNode.getKind() + " "
-							+ exactNode.getIdentNode().getSymbol().getText()
+							+ exactNode.getIdent().getSymbol().getText()
 							+ " already occurs in exact statement at "
 							+ patternGraph.exacts.get(generatedExactNodes.get(exactNode).intValue()).getCoords());
 				} else {

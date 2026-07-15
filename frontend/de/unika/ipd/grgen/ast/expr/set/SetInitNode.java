@@ -85,7 +85,7 @@ public class SetInitNode extends ContainerSingleElementInitNode
 	protected SetTypeNode createSetType()
 	{
 		TypeNode itemTypeNode = containerItems.getChildrenExact().iterator().next().getType();
-		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdentNode();
+		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdent();
 		return new SetTypeNode(itemTypeIdent);
 	}
 

@@ -158,7 +158,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 
 		for(DeclNode member : getAllMembers().values()) {
 			if(member instanceof AbstractMemberDeclNode && !isAbstract()) {
-				getIdentNode().reportError("The " + getKind() + " " + getTypeName()
+				getIdent().reportError("The " + getKind() + " " + getTypeName()
 						+ " must be declared abstract, because member " + member + " is abstract.");
 				res = false;
 			}
@@ -167,8 +167,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		for(BaseNode child : body.getChildrenExact()) {
 			if(child instanceof DeclNode && !(child instanceof ConstructorDeclNode)) {
 				DeclNode directMember = (DeclNode)child;
-				if(directMember.getIdentNode().toString().equals(getIdentNode().toString())) {
-					getIdentNode().reportError("The member " + directMember.getIdentNode()
+				if(directMember.getIdent().toString().equals(getIdent().toString())) {
+					getIdent().reportError("The member " + directMember.getIdent()
 									+ " must be named differently than its containing " + getKind() + " "
 									+ getTypeName() + ".");
 				}
@@ -247,7 +247,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 				if(def == null)
 					def = newDef;
 				else if(def != newDef) {
-					getIdentNode().reportError("Identifier " + id + " is ambiguous"
+					getIdent().reportError("Identifier " + id + " is ambiguous"
 							+ " [one declaration at " + newDef.getCoords() + ", another declaration at " + def.getCoords() + "]."
 							+ " There must be one unique declaration of a member, in a common parent; or different names must be used for different members."
 							+ " A method that comes in from more than one parent must be implemented locally, overriding the parental versions.");
@@ -303,7 +303,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		for(BaseNode child : body.getChildrenExact()) {
 			if(child instanceof DeclNode) {
 				DeclNode decl = (DeclNode)child;
-				members.put(decl.getIdentNode().toString(), decl);
+				members.put(decl.getIdent().toString(), decl);
 			}
 		}
 	}
@@ -333,10 +333,10 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 				res &= checkProcedureOverride(procedure);
 			} else if(child instanceof DeclNode) {
 				DeclNode decl = (DeclNode)child;
-				DeclNode old = allInheritedMembers.get(decl.getIdentNode().toString());
+				DeclNode old = allInheritedMembers.get(decl.getIdent().toString());
 				if(old != null && !(old instanceof AbstractMemberDeclNode)) {
-					decl.reportError("The member " + decl.getIdentNode()
-							+ " of " + getKind() + " " + getIdentNode()
+					decl.reportError("The member " + decl.getIdent()
+							+ " of " + getKind() + " " + getIdent()
 							+ " is already declared at " +  getContainingType(old).toStringWithDeclarationCoords() + ".");
 					res = false;
 				}
@@ -579,6 +579,6 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 	@Override
 	public String toString()
 	{
-		return getIdentNode().toString() + " (" + super.toString() + ")";
+		return getIdent().toString() + " (" + super.toString() + ")";
 	}
 }

@@ -81,7 +81,7 @@ public class NodeInterfaceTypeChangeDeclNode extends NodeDeclNode
 		if(!interfaceType.resolve())
 			return false;
 		if(!(interfaceType.getDeclType() instanceof NodeTypeNode)) {
-			interfaceTypeUnresolved.reportError("The interface type of node parameter " + getIdentNode() + " must be a node type"
+			interfaceTypeUnresolved.reportError("The interface type of node parameter " + getIdent() + " must be a node type"
 					+ " (given is " + interfaceType.getDeclType().getKind() + " " + interfaceType.getDeclType().getTypeName()
 					+ " - use -edge-> syntax for edges, var for variables, ref for containers).");
 			return false;
@@ -119,7 +119,7 @@ public class NodeInterfaceTypeChangeDeclNode extends NodeDeclNode
 			return true;
 
 		reportError("Rewrite part node parameters cannot change the interface type, only pattern nodes can"
-				+ " (this is violated by " + getIdentNode() + ").");
+				+ " (this is violated by " + getIdent() + ").");
 		return false;
 	}
 	

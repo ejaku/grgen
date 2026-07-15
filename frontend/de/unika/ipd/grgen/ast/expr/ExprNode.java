@@ -191,25 +191,25 @@ public abstract class ExprNode extends BaseNode
 		IdentExprNode ident = (IdentExprNode)edgeTypeExpr;
 		TypeNode type = ident.getType();
 		if(type.isCompatibleTo(EdgeTypeNode.directedEdgeType))
-			return EdgeTypeNode.directedEdgeType.getIdentNode();
+			return EdgeTypeNode.directedEdgeType.getIdent();
 		if(type.isCompatibleTo(EdgeTypeNode.undirectedEdgeType))
-			return EdgeTypeNode.undirectedEdgeType.getIdentNode();
-		return EdgeTypeNode.arbitraryEdgeType.getIdentNode();
+			return EdgeTypeNode.undirectedEdgeType.getIdent();
+		return EdgeTypeNode.arbitraryEdgeType.getIdent();
 	}
 
 	public static IdentNode getEdgeRoot()
 	{
-		return EdgeTypeNode.arbitraryEdgeType.getIdentNode();
+		return EdgeTypeNode.arbitraryEdgeType.getIdent();
 	}
 
 	public static IdentNode getNodeRoot(ExprNode nodeTypeExpr)
 	{
-		return NodeTypeNode.nodeType.getIdentNode();
+		return NodeTypeNode.nodeType.getIdent();
 	}
 
 	public static IdentNode getNodeRoot() 
 	{
-		return NodeTypeNode.nodeType.getIdentNode();
+		return NodeTypeNode.nodeType.getIdent();
 	}
 
 	protected boolean checkCopyConstructorTypes(TypeNode declaredType, TypeNode givenType,

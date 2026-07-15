@@ -155,8 +155,8 @@ public class MapInitNode extends ContainerInitNode
 	{
 		TypeNode keyTypeNode = mapItems.getChildrenExact().iterator().next().keyExpr.getType();
 		TypeNode valueTypeNode = mapItems.getChildrenExact().iterator().next().valueExpr.getType();
-		IdentNode keyTypeIdent = ((DeclaredTypeNode)keyTypeNode).getIdentNode();
-		IdentNode valueTypeIdent = ((DeclaredTypeNode)valueTypeNode).getIdentNode();
+		IdentNode keyTypeIdent = ((DeclaredTypeNode)keyTypeNode).getIdent();
+		IdentNode valueTypeIdent = ((DeclaredTypeNode)valueTypeNode).getIdent();
 		return new MapTypeNode(keyTypeIdent, valueTypeIdent);
 	}
 

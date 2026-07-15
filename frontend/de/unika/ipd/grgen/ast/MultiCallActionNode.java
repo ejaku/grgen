@@ -90,7 +90,7 @@ public class MultiCallActionNode extends BaseNode
 		for(MatchTypeQualIdentNode matchClassFilterReference : matchClassFilterFunctions.getChildrenExact()) {
 			MatchClassFilterFunctionDeclNode matchClassFilter =
 					(MatchClassFilterFunctionDeclNode)matchClassFilterReference.getMember();
-			String matchClassReferencedByFilterFunction = matchClassFilter.matchType.getIdentNode().toString();
+			String matchClassReferencedByFilterFunction = matchClassFilter.matchType.getIdent().toString();
 
 			for(CallActionNode actionCall : actionCalls.getChildrenExact()) {
 				checkWhetherCalledActionImplementsMatchClass(matchClassReferencedByFilterFunction, matchClassFilter,
@@ -106,7 +106,7 @@ public class MultiCallActionNode extends BaseNode
 	{
 		boolean isMatchClassOfFilterImplementedByAction = false;
 		for(DefinedMatchTypeNode matchType : actionCall.getAction().getImplementedMatchClasses()) {
-			String matchClassImplementedByAction = matchType.getIdentNode().toString();
+			String matchClassImplementedByAction = matchType.getIdent().toString();
 			if(matchClassReferencedByFilterFunction.equals(matchClassImplementedByAction)) {
 				isMatchClassOfFilterImplementedByAction = true;
 			}

@@ -174,14 +174,14 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 	public boolean checkLocal(FunctionDeclNode functionDecl)
 	{
 		if(!(functionDecl.getResultType() instanceof ArrayTypeNode)) {
-			reportError("The result type of the function " + functionDecl.getIdentNode()
+			reportError("The result type of the function " + functionDecl.getIdent()
 					+ " employing the auto-generated function " + functionName()
 					+ " must be an array (but is of type " + functionDecl.getResultType().getTypeName() + ").");
 			return false;
 		}
 		ArrayTypeNode resultType = (ArrayTypeNode)functionDecl.getResultType();
 		if(!(resultType.getElementType() instanceof DefinedMatchTypeNode)) {
-			reportError("The result type of the function " + functionDecl.getIdentNode()
+			reportError("The result type of the function " + functionDecl.getIdent()
 					+ " employing the auto-generated function " + functionName()
 					+ " must be an array<match<class T>> (but is of type " + functionDecl.getResultType().getTypeName() + ").");
 			return false;
@@ -191,7 +191,7 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 		
 		DefinedMatchTypeNode resultMatchType = (DefinedMatchTypeNode)resultType.getElementType();
 		for(DeclNode resultMember : resultMatchType.getEntities()) {
-			String resultMemberName = resultMember.getIdentNode().toString();
+			String resultMemberName = resultMember.getIdent().toString();
 			TypeNode resultMemberType = resultMember.getDeclType();
 			for(VarDeclNode argument : arguments.getChildrenExact()) {
 				ArrayTypeNode argumentType = (ArrayTypeNode)argument.getDeclType();
@@ -257,7 +257,7 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 		insertionPoint.addStatement(resultVarDecl);
 		
 		VarDeclNode leftArgument = arguments.getChildrenAsVector().get(0);
-		String leftIterationVarName = "$match_" + leftArgument.getIdentNode().toString();
+		String leftIterationVarName = "$match_" + leftArgument.getIdent().toString();
 		Ident leftIterationVarIdent = new Ident(leftIterationVarName, getCoords());
 		ArrayTypeNode leftArrayType = (ArrayTypeNode)leftArgument.getDeclType();
 		MatchTypeNode leftMatchType = (MatchTypeNode)leftArrayType.valueType;
@@ -270,7 +270,7 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 		insertionPoint = leftMatchesIteration;
 
 		VarDeclNode rightArgument = arguments.getChildrenAsVector().get(1);
-		String rightIterationVarName = "$match_" + rightArgument.getIdentNode().toString();
+		String rightIterationVarName = "$match_" + rightArgument.getIdent().toString();
 		Ident rightIterationVarIdent = new Ident(rightIterationVarName, getCoords());
 		ArrayTypeNode rightArrayType = (ArrayTypeNode)rightArgument.getDeclType();
 		MatchTypeNode rightMatchType = (MatchTypeNode)rightArrayType.valueType;
@@ -319,7 +319,7 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 	
 		for(DeclNode leftMember : leftMatchType.getEntities())
 		{
-			String memberName = leftMember.getIdentNode().toString();
+			String memberName = leftMember.getIdent().toString();
 			if(memberName.startsWith("$"))
 				continue;
 			if(resultMatchType.tryGetMember(memberName) == null)
@@ -334,7 +334,7 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 		
 		for(DeclNode rightMember : rightMatchType.getEntities())
 		{
-			String memberName = rightMember.getIdentNode().toString();
+			String memberName = rightMember.getIdent().toString();
 			if(memberName.startsWith("$"))
 				continue;
 			if(resultMatchType.tryGetMember(memberName) == null)

@@ -87,7 +87,7 @@ public class DequeInitNode extends ContainerSingleElementInitNode
 	protected DequeTypeNode createDequeType()
 	{
 		TypeNode itemTypeNode = containerItems.getChildrenExact().iterator().next().getType();
-		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdentNode();
+		IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).getIdent();
 		return new DequeTypeNode(itemTypeIdent);
 	}
 

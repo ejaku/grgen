@@ -130,7 +130,7 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 			return externalProcedureDecl.resultTypesCollectNode.size();
 	}
 
-	public IdentNode getIdentNode()
+	public IdentNode getIdent()
 	{
 		return procedureOrExternalProcedureUnresolved;
 	}

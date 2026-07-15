@@ -106,7 +106,7 @@ public class NameOrAttributeInitializationNode extends BaseNode
 
 		if(attribute.isConst()) {
 			owner.reportError("An assignment to a const member is not allowed"
-					+ " (but " + attribute.getIdentNode() + " is const).");
+					+ " (but " + attribute.getIdent() + " is const).");
 			return false;
 		}
 

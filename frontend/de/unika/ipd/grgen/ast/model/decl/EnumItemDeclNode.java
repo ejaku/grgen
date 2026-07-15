@@ -144,7 +144,7 @@ public class EnumItemDeclNode extends MemberDeclNode
 				reportError("The enum item " + ident + " is not allowed to depend on a following one.");
 				return false;
 			} else if(visitedEnumItems.contains(enumItem)) {
-				reportError("Circular dependency found on value of enum item " + enumItem.getIdentNode() + ".");
+				reportError("Circular dependency found on value of enum item " + enumItem.getIdent() + ".");
 				return false;
 			}
 			visitedEnumItems.add(enumItem);
@@ -187,7 +187,7 @@ public class EnumItemDeclNode extends MemberDeclNode
 		int v = ((Integer)obj).intValue();
 		debug.report(NOTE, "result: " + value);
 
-		constValue = new EnumConstNode(getCoords(), getIdentNode(), v);
+		constValue = new EnumConstNode(getCoords(), getIdent(), v);
 		return constValue;
 	}
 

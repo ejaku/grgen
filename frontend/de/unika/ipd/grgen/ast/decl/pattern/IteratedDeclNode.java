@@ -124,7 +124,7 @@ public abstract class IteratedDeclNode extends NestedMatcherDeclNode
 			return getIR();
 		}
 
-		Rule iteratedRule = new Rule(getIdentNode().getIRIdent(), getMinMatches(), getMaxMatches());
+		Rule iteratedRule = new Rule(getIdent().getIRIdent(), getMinMatches(), getMaxMatches());
 
 		// mark this node as already visited
 		setIR(iteratedRule);

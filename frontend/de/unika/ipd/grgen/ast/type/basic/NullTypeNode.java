@@ -41,7 +41,7 @@ public class NullTypeNode extends BasicTypeNode
 	@Override
 	protected IR constructIR()
 	{
-		return new ObjectType(getIdentNode().getIRIdent());
+		return new ObjectType(getIdent().getIRIdent());
 	}
 
 	@Override

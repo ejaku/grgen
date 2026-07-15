@@ -81,7 +81,7 @@ public class EdgeInterfaceTypeChangeDeclNode extends EdgeDeclNode
 		if(!interfaceType.resolve())
 			return false;
 		if(!(interfaceType.getDeclType() instanceof EdgeTypeNode)) {
-			interfaceTypeUnresolved.reportError("The interface type of edge parameter " + getIdentNode() + " must be an edge type"
+			interfaceTypeUnresolved.reportError("The interface type of edge parameter " + getIdent() + " must be an edge type"
 					+ " (given is " + interfaceType.getDeclType().getKind() + " " + interfaceType.getDeclType().getTypeName() + ").");
 			return false;
 		}
@@ -116,7 +116,7 @@ public class EdgeInterfaceTypeChangeDeclNode extends EdgeDeclNode
 			return true;
 
 		reportError("Rewrite part edge parameters cannot change the interface type, only pattern edges can"
-				+ " (this is violated by " + getIdentNode() + ").");
+				+ " (this is violated by " + getIdent() + ").");
 		return false;
 	}
 

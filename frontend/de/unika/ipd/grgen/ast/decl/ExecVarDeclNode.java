@@ -76,7 +76,7 @@ public class ExecVarDeclNode extends DeclNode
 
 		DeclNode typeDecl = declOfTypeResolver.resolve(typeUnresolved, this);
 		if(typeDecl instanceof InvalidDeclNode) {
-			typeUnresolved.reportError("The exec variable " + getIdentNode() + " has an unknown type " + typeUnresolved + ".");
+			typeUnresolved.reportError("The exec variable " + getIdent() + " has an unknown type " + typeUnresolved + ".");
 			return false;
 		}
 		type = typeDecl.getDeclType();
@@ -110,6 +110,6 @@ public class ExecVarDeclNode extends DeclNode
 	@Override
 	protected IR constructIR()
 	{
-		return new ExecVariable("ExecVar", getIdentNode().getIRIdent(), type.getIRType(), 0);
+		return new ExecVariable("ExecVar", getIdent().getIRIdent(), type.getIRType(), 0);
 	}
 }

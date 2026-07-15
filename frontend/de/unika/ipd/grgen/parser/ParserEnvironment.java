@@ -1189,7 +1189,7 @@ public abstract class ParserEnvironment extends Base
 	public FilterAutoDeclNode getFilterAutoSupplied(String ident, IteratedDeclNode iterated)
 	{
 		IdentNode filterIdent = new IdentNode(define(ParserEnvironment.ACTIONS, ident, iterated.getCoords()));
-		return new FilterAutoSuppliedDeclNode(filterIdent, iterated.getIdentNode());
+		return new FilterAutoSuppliedDeclNode(filterIdent, iterated.getIdent());
 	}
 
 	public abstract UnitNode parseActions(File inputFile);

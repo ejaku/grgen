@@ -106,7 +106,7 @@ public class MatchEdgeByStorageAccessDeclNode extends MatchEdgeFromByStorageDecl
 			}
 		} else {
 			reportError("Internal error - invalid match edge by storage attribute"
-					+ " (for " + getIdentNode() + ").");
+					+ " (for " + getIdent() + ").");
 			successfullyResolved = false;
 		}
 
@@ -143,7 +143,7 @@ public class MatchEdgeByStorageAccessDeclNode extends MatchEdgeFromByStorageDecl
 			String typeName = storageKeyType.toStringWithDeclarationCoords();
 			ident.reportError("Cannot convert " + typeName
 					+ " to the expected map key type " + expTypeName + " in match edge by storage access"
-					+ " (" + emptyWhenAnonymous("of " + getIdentNode() + " ") + "accessing " + getStorageName() + ").");
+					+ " (" + emptyWhenAnonymous("of " + getIdent() + " ") + "accessing " + getStorageName() + ").");
 			return false;
 		}
 		TypeNode storageElementType = ((MapTypeNode)storageType).valueType;
@@ -160,7 +160,7 @@ public class MatchEdgeByStorageAccessDeclNode extends MatchEdgeFromByStorageDecl
 			String typeName = storageElemType.toStringWithDeclarationCoords();
 			ident.reportError("Cannot convert map value type " + typeName
 					+ " to the expected pattern element type " + expTypeName + " in match edge by storage access"
-					+ " (" + emptyWhenAnonymous("of " + getIdentNode() + " ") + "accessing " + getStorageName() + ").");
+					+ " (" + emptyWhenAnonymous("of " + getIdent() + " ") + "accessing " + getStorageName() + ").");
 			return false;
 		}
 		return res;

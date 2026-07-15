@@ -117,9 +117,9 @@ public class InternalObjectTypeNode extends BaseInternalObjectTypeNode
 			DeclNode decl = (DeclNode)child;
 			if(decl.getDeclType() instanceof InternalTransientObjectTypeNode) {
 				decl.reportError("Only transient object classes may contain attributes of transient object class types"
-						+ " (but the attribute " + decl.getIdentNode()
+						+ " (but the attribute " + decl.getIdent()
 						+ " is of transient object class type " + decl.getDeclType().toStringWithDeclarationCoords()
-						+ " in object class " + getIdentNode() + ").");
+						+ " in object class " + getIdent() + ").");
 				res &= false;
 			}
 		}
@@ -147,7 +147,7 @@ public class InternalObjectTypeNode extends BaseInternalObjectTypeNode
 			return getIR();
 		}
 
-		InternalObjectType ot = new InternalObjectType(getDecl().getIdentNode().getIRIdent(), getIRModifiers());
+		InternalObjectType ot = new InternalObjectType(getDecl().getIdent().getIRIdent(), getIRModifiers());
 
 		setIR(ot);
 

@@ -123,7 +123,7 @@ public class ArrayMapNode extends ArrayFunctionMethodInvocationBaseExprNode
 
 		DeclaredTypeNode declResultValueType = (DeclaredTypeNode)resultValueType;
 
-		resultArrayType = new ArrayTypeNode(declResultValueType.getIdentNode());
+		resultArrayType = new ArrayTypeNode(declResultValueType.getIdent());
 		if(!resultArrayType.resolve())
 			return false;
 

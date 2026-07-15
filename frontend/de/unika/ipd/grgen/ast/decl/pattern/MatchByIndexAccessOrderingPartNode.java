@@ -143,14 +143,14 @@ public class MatchByIndexAccessOrderingPartNode extends BaseNode
 		if(comp == Operator.LT || comp == Operator.LE) {
 			if(expr2 != null && (comp2 == Operator.LT || comp2 == Operator.LE)) {
 				reportError("Two upper bounds are not supported"
-						+ " (in match " + kindStr + wholeNodeDecl.emptyWhenAnonymousPostfix(" ") + " by index access of " + index.getIdentNode() + ").");
+						+ " (in match " + kindStr + wholeNodeDecl.emptyWhenAnonymousPostfix(" ") + " by index access of " + index.getIdent() + ").");
 				res = false;
 			}
 		}
 		if(comp == Operator.GT || comp == Operator.GE) {
 			if(expr2 != null && (comp2 == Operator.GT || comp2 == Operator.GE)) {
 				reportError("Two lower bounds are not supported"
-						+ " (in match " + kindStr + wholeNodeDecl.emptyWhenAnonymousPostfix(" ") + " by index access of " + index.getIdentNode() + ").");
+						+ " (in match " + kindStr + wholeNodeDecl.emptyWhenAnonymousPostfix(" ") + " by index access of " + index.getIdent() + ").");
 				res = false;
 			}
 		}

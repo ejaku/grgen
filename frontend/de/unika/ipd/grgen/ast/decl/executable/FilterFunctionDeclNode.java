@@ -128,7 +128,7 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
 	@Override
 	public String getFilterName()
 	{
-		return getIdentNode().toString();
+		return getIdent().toString();
 	}
 
 	@Override
@@ -174,9 +174,9 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
 
 		FilterFunction filterFunction;
 		if(evalStatements != null)
-			filterFunction = new FilterFunctionInternal(getIdentNode().toString(), getIdentNode().getIRIdent());
+			filterFunction = new FilterFunctionInternal(getIdent().toString(), getIdent().getIRIdent());
 		else
-			filterFunction = new FilterFunctionExternal(getIdentNode().toString(), getIdentNode().getIRIdent());
+			filterFunction = new FilterFunctionExternal(getIdent().toString(), getIdent().getIRIdent());
 
 		// mark this node as already visited
 		setIR(filterFunction);

@@ -130,7 +130,7 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 	@Override
 	public String getFilterName()
 	{
-		return getIdentNode().toString();
+		return getIdent().toString();
 	}
 
 	@Override
@@ -176,9 +176,9 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 
 		MatchClassFilterFunction filterFunction;
 		if(evalStatements != null)
-			filterFunction = new MatchClassFilterFunctionInternal(getIdentNode().toString(), getIdentNode().getIRIdent());
+			filterFunction = new MatchClassFilterFunctionInternal(getIdent().toString(), getIdent().getIRIdent());
 		else
-			filterFunction = new MatchClassFilterFunctionExternal(getIdentNode().toString(), getIdentNode().getIRIdent());
+			filterFunction = new MatchClassFilterFunctionExternal(getIdent().toString(), getIdent().getIRIdent());
 
 		// mark this node as already visited
 		setIR(filterFunction);

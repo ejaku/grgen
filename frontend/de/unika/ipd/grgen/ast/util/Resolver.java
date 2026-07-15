@@ -94,8 +94,8 @@ public abstract class Resolver<T> extends Base
 			IteratedDeclNode iterated = matchTypeIterated.getIterated();
 			result = matchTypeIterated.tryGetMember(member.toString());
 			if(result == null) {
-				String actionName = topLevelMatcher.getIdentNode().toString();
-				String iteratedName = iterated.getIdentNode().toString();
+				String actionName = topLevelMatcher.getIdent().toString();
+				String iteratedName = iterated.getIdent().toString();
 				member.reportError("Unknown member " + memberName
 						+ " in match<" + actionName + "." + iteratedName + ">.");
 			}
@@ -107,7 +107,7 @@ public abstract class Resolver<T> extends Base
 			ActionDeclNode action = matchType.getAction();
 			result = matchType.tryGetMember(member.toString());
 			if(result == null) {
-				String actionName = action.getIdentNode().toString();
+				String actionName = action.getIdent().toString();
 				member.reportError("Unknown member " + memberName
 						+ " in match< " + actionName + ">.");
 			}

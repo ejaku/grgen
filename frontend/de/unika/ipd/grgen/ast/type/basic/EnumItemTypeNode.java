@@ -22,6 +22,6 @@ public class EnumItemTypeNode extends BasicTypeNode
 	@Override
 	protected IR constructIR()
 	{
-		return new IntType(getIdentNode().getIRIdent());
+		return new IntType(getIdent().getIRIdent());
 	}
 }

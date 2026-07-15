@@ -109,7 +109,7 @@ public class ReturnAssignmentNode extends EvalStatementNode
 		// and finally a projection expr node as source -- maybe with a cast prefix after type adjust
 		if(procedure != null) {
 			if(targets.size() != procedure.getNumReturnTypes() && targets.size() != 0) {
-				procedure.reportError("The call of procedure " + procedure.getIdentNode()
+				procedure.reportError("The call of procedure " + procedure.getIdent()
 						+ " expects " + procedure.getNumReturnTypes()
 						+ " procedure return variables, but given are " + targets.size() + " return variables.");
 				return false;
@@ -123,7 +123,7 @@ public class ReturnAssignmentNode extends EvalStatementNode
 			}
 		} else { //procedureMethod!=null
 			if(targets.size() != procedureMethod.getNumReturnTypes() && targets.size() != 0) {
-				procedureMethod.reportError("The call of procedure method " + procedureMethod.getIdentNode()
+				procedureMethod.reportError("The call of procedure method " + procedureMethod.getIdent()
 						+ " expects " + procedureMethod.getNumReturnTypes()
 						+ " procedure return variables, but given are " + targets.size() + " return variables.");
 				return false;

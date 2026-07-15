@@ -113,7 +113,7 @@ public abstract class ConstraintDeclNode extends DeclNode
 			}
 		}
 
-		reportError("Cannot initialize " + getKind() + " " + getIdentNode() + " of type " + targetType.toStringWithDeclarationCoords()
+		reportError("Cannot initialize " + getKind() + " " + getIdent() + " of type " + targetType.toStringWithDeclarationCoords()
 				+ " with a value of type " + exprType.toStringWithDeclarationCoords() + ".");
 		return false;
 	}
@@ -125,7 +125,7 @@ public abstract class ConstraintDeclNode extends DeclNode
 
 		if(constraints != TypeExprNode.getEmpty()) {
 			constraints.reportError("A rewrite part element is not allowed to be type constrained (only pattern elements are)"
-					+ " (but the rewrite part " + getKind() + " " + getIdentNode() + " is endowed with a type constraint).");
+					+ " (but the rewrite part " + getKind() + " " + getIdent() + " is endowed with a type constraint).");
 			return false;
 		}
 		
@@ -139,7 +139,7 @@ public abstract class ConstraintDeclNode extends DeclNode
 		
 		if(copyKind != CopyKind.None) {
 			reportError("A copy<> construct is not allowed in the pattern part"
-					+ emptyWhenAnonymous(" (but comes with the declaration of " + getKind() + " " + getIdentNode() + ")") + ".");
+					+ emptyWhenAnonymous(" (but comes with the declaration of " + getKind() + " " + getIdent() + ")") + ".");
 			return false;
 		}
 		
@@ -155,9 +155,9 @@ public abstract class ConstraintDeclNode extends DeclNode
 			NameOrAttributeInitializationNode nameOrAttributeInit = nameOrAttributeInits.get(0);
 			if(nameOrAttributeInit.attributeUnresolved != null) {
 				reportError("An attribute initialization is not allowed in the pattern part (but occurs for " + nameOrAttributeInit.attributeUnresolved
-						+ " of " + getKind() + " " + getIdentNode() + ").");
+						+ " of " + getKind() + " " + getIdent() + ").");
 			} else
-				reportError("A name initialization ($=) is not allowed in the pattern part (but occurs for " + getKind() + " " + getIdentNode() + ").");
+				reportError("A name initialization ($=) is not allowed in the pattern part (but occurs for " + getKind() + " " + getIdent() + ").");
 			return false;
 		}
 		
@@ -174,7 +174,7 @@ public abstract class ConstraintDeclNode extends DeclNode
 				if(!nameInitFound)
 					nameInitFound = true;
 				else {
-					reportError("Only one name initialization ($=) is allowed (but multiple ones are given for " + getKind() + " " + getIdentNode() + ").");
+					reportError("Only one name initialization ($=) is allowed (but multiple ones are given for " + getKind() + " " + getIdent() + ").");
 					atMostOneNameInit = false;
 				}
 			}

@@ -196,7 +196,7 @@ public class AssignNode extends EvalStatementNode
 
 		MemberDeclNode member = lhsQual.getDecl(); // null for match type
 		if(member != null && member.isConst()) {
-			reportError("An assignment to a const member is not allowed (" + lhsQual.getDecl().getIdentNode() + lhsQual.getDecl().getDeclarationCoords() + " is constant).");
+			reportError("An assignment to a const member is not allowed (" + lhsQual.getDecl().getIdent() + lhsQual.getDecl().getDeclarationCoords() + " is constant).");
 			return false;
 		}
 
@@ -214,7 +214,7 @@ public class AssignNode extends EvalStatementNode
 			if((entity.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION) {
 				if(getCoords().comesBefore(entity.getCoords())) {
 					reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned to"
-							+ " (" + entity.getIdentNode() + " was not yet declared).");
+							+ " (" + entity.getIdent() + " was not yet declared).");
 					return false;
 				}
 			}
@@ -230,14 +230,14 @@ public class AssignNode extends EvalStatementNode
 			if((lhsGraphElement.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION) {
 				if(!identExpr.yieldedTo) {
 					reportError("Only a yield assignment is allowed to a def pattern graph element"
-							+ " (" + lhsGraphElement.getIdentNode() + " was declared with def)"
+							+ " (" + lhsGraphElement.getIdent() + " was declared with def)"
 							+ " (the typical solution is to prepend a yield to the assignment).");
 					return false;
 				}
 			} else {
 				if(identExpr.yieldedTo) {
 					reportError("Only a non-yield assignment is allowed to a computation local def pattern graph element"
-							+ " (" + lhsGraphElement.getIdentNode() + " was declared with def in computation context)"
+							+ " (" + lhsGraphElement.getIdent() + " was declared with def in computation context)"
 							+ " (the typical solution is to remove the yield from the assignment).");
 					return false;
 				}
@@ -247,7 +247,7 @@ public class AssignNode extends EvalStatementNode
 				if((lhsGraphElement.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
 						&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 					reportError("Cannot yield from the right hand side to a left hand side def pattern graph element"
-							+ " (" + lhsGraphElement.getIdentNode() + " was declared in the pattern part).");
+							+ " (" + lhsGraphElement.getIdent() + " was declared in the pattern part).");
 					return false;
 				}
 			}
@@ -256,12 +256,12 @@ public class AssignNode extends EvalStatementNode
 				IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
 				if(identExpr.yieldedTo) {
 					reportError("A yield assignment is only allowed to a def pattern graph element"
-							+ " (" + lhsGraphElement.getIdentNode() + " was declared without def).");
+							+ " (" + lhsGraphElement.getIdent() + " was declared without def).");
 					return false;
 				}
 
 				reportError("Only a def pattern graph element can be assigned to"
-						+ " (" + lhsGraphElement.getIdentNode() + " was declared without def).");
+						+ " (" + lhsGraphElement.getIdent() + " was declared without def).");
 				return false;
 			}
 
@@ -274,7 +274,7 @@ public class AssignNode extends EvalStatementNode
 		if((lhsGraphElement.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION) {
 			if(getCoords().comesBefore(lhsGraphElement.getCoords())) {
 				reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned to"
-						+ " (" + lhsGraphElement.getIdentNode() + " was not yet declared).");
+						+ " (" + lhsGraphElement.getIdent() + " was not yet declared).");
 				return false;
 			}
 		}
@@ -289,14 +289,14 @@ public class AssignNode extends EvalStatementNode
 			if((lhsVar.context & CONTEXT_COMPUTATION) != CONTEXT_COMPUTATION) {
 				if(!identExpr.yieldedTo) {
 					reportError("Only a yield assignment is allowed to a def variable"
-							+ " (" + lhsVar.getIdentNode() + " was declared with def)"
+							+ " (" + lhsVar.getIdent() + " was declared with def)"
 							+ " (the typical solution is to prepend a yield to the assignment).");
 					return false;
 				}
 			} else {
 				if(identExpr.yieldedTo) {
 					reportError("Only a non-yield assignment is allowed to a computation local def variable"
-							+ " (" + lhsVar.getIdentNode() + " was declared with def in computation context)"
+							+ " (" + lhsVar.getIdent() + " was declared with def in computation context)"
 							+ " (the typical solution is to remove the yield from the assignment).");
 					return false;
 				}
@@ -306,7 +306,7 @@ public class AssignNode extends EvalStatementNode
 				if((lhsVar.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
 						&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 					reportError("Cannot yield from the right hand side to a left hand side def variable"
-							+ " (" + lhsVar.getIdentNode() + " was declared in the pattern part).");
+							+ " (" + lhsVar.getIdent() + " was declared in the pattern part).");
 					return false;
 				}
 			}
@@ -314,7 +314,7 @@ public class AssignNode extends EvalStatementNode
 			IdentExprNode identExpr = (IdentExprNode)lhsUnresolved;
 			if(identExpr.yieldedTo) {
 				reportError("A yield assignment is only allowed to a def variable"
-						+ " (" + lhsVar.getIdentNode() + " was declared without def).");
+						+ " (" + lhsVar.getIdent() + " was declared without def).");
 				return false;
 			}
 
@@ -327,7 +327,7 @@ public class AssignNode extends EvalStatementNode
 		if((lhsVar.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION) {
 			if(getCoords().comesBefore(lhsVar.getCoords())) {
 				reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned to"
-						+ " (" + lhsVar.getIdentNode() + " was not yet declared).");
+						+ " (" + lhsVar.getIdent() + " was not yet declared).");
 				return false;
 			}
 		}

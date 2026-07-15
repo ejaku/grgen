@@ -136,7 +136,7 @@ public class NodeTypeChangeDeclNode extends NodeDeclNode
 				reportError("An attribute initialization is not allowed for a retyped node"
 						+ " (but occurs for " + nameOrAttributeInit.attributeUnresolved + emptyWhenAnonymousPostfix(" of ") + ").");
 			} else {
-				reportError("A name initialization ($=) is not allowed for a retyped node" + emptyWhenAnonymous(" (but occurs for " + getIdentNode() + ")."));
+				reportError("A name initialization ($=) is not allowed for a retyped node" + emptyWhenAnonymous(" (but occurs for " + getIdent() + ")."));
 			}
 			return false;
 		}
@@ -145,7 +145,7 @@ public class NodeTypeChangeDeclNode extends NodeDeclNode
 		if((old.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS
 			&& !old.defEntityToBeYieldedTo) {
 			reportError("The original node of the retyping may not be declared in the rewrite part"
-					+ " (this is violated by the original node " + old.getIdentNode() + emptyWhenAnonymousPostfix(" of ") + ").");
+					+ " (this is violated by the original node " + old.getIdent() + emptyWhenAnonymousPostfix(" of ") + ").");
 			res = false;
 		}
 
@@ -153,7 +153,7 @@ public class NodeTypeChangeDeclNode extends NodeDeclNode
 			if((mergee.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS
 				&& !mergee.defEntityToBeYieldedTo) {
 				reportError("An original node of a (retyping) merge may not be declared in the rewrite part"
-						+ " (this is violated by the original node " + mergee.getIdentNode() + emptyWhenAnonymousPostfix(" of ") + ").");
+						+ " (this is violated by the original node " + mergee.getIdent() + emptyWhenAnonymousPostfix(" of ") + ").");
 				res = false;
 			}
 		}
@@ -169,7 +169,7 @@ public class NodeTypeChangeDeclNode extends NodeDeclNode
 	{
 		NodeTypeNode tn = getDeclType();
 		NodeType nt = tn.getIRNodeType();
-		IdentNode ident = getIdentNode();
+		IdentNode ident = getIdent();
 
 		RetypedNode res = new RetypedNode(ident.getIRIdent(), nt, ident.getAnnotations(),
 				isMaybeDeleted(), isMaybeRetyped(), false, context);

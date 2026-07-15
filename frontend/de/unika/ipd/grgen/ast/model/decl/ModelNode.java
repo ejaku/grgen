@@ -341,7 +341,7 @@ public class ModelNode extends DeclNode
 			) : "nodes should extend nodes and edges should extend edges";
 
 			if(inProgress.contains(superType)) {
-				inhType.getIdentNode().reportError("The class " + inhType.getTypeName()
+				inhType.getIdent().reportError("The class " + inhType.getTypeName()
 					+ " extends " + superType.toStringWithDeclarationCoords()
 					+ " - this introduces a cycle into the type hierarchy.");
 				return false;

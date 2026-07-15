@@ -105,7 +105,7 @@ public class MemberDeclNode extends DeclNode
 		if(typeUnresolved instanceof PackageIdentNode)
 			Resolver.resolveOwner((PackageIdentNode)typeUnresolved);
 		else if(typeUnresolved instanceof IdentNode) {
-			fixupDefinition((IdentNode)typeUnresolved, ((IdentNode)typeUnresolved).getScope().getIdentNode().getScope());
+			fixupDefinition((IdentNode)typeUnresolved, ((IdentNode)typeUnresolved).getScope().getIdent().getScope());
 		}
 		type = typeResolver.resolve(typeUnresolved, this);
 		return type != null;
@@ -137,7 +137,7 @@ public class MemberDeclNode extends DeclNode
 	protected IR constructIR()
 	{
 		Type type = getDeclType().checkIR(Type.class);
-		return new Entity("entity", getIdentNode().getIRIdent(), type, isConst, false, 0);
+		return new Entity("entity", getIdent().getIRIdent(), type, isConst, false, 0);
 	}
 
 	public static String getKindStr()

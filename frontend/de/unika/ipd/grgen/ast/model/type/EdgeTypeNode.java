@@ -159,9 +159,9 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 			DeclNode decl = (DeclNode)child;
 			if(decl.getDeclType() instanceof InternalTransientObjectTypeNode) {
 				decl.reportError("Only transient object classes may contain attributes of transient object class types"
-						+ " (but the attribute " + decl.getIdentNode()
+						+ " (but the attribute " + decl.getIdent()
 						+ " is of transient object class type " + decl.getDeclType().toStringWithDeclarationCoords()
-						+ " in edge class " + getIdentNode() + ").");
+						+ " in edge class " + getIdent() + ").");
 				res &= false; 
 			}
 		}
@@ -250,7 +250,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 			return getIR();
 		}
 
-		EdgeType et = new EdgeType(getDecl().getIdentNode().getIRIdent(), getIRModifiers(), getExternalName());
+		EdgeType et = new EdgeType(getDecl().getIdent().getIRIdent(), getIRModifiers(), getExternalName());
 
 		setIR(et);
 

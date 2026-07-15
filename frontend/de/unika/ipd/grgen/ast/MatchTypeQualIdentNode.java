@@ -68,7 +68,7 @@ public class MatchTypeQualIdentNode extends BaseNode /*implements DeclaredCharac
 	@Override
 	public String toString()
 	{
-		return owner.getIdentNode().toString() + "." + member.getFilterName();
+		return owner.getIdent().toString() + "." + member.getFilterName();
 	}
 
 	private static final DeclarationTypeResolver<DefinedMatchTypeNode> ownerResolver =

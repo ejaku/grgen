@@ -165,7 +165,7 @@ public class AssignIndexedNode extends EvalStatementNode
 			TypeNode ty = owner.getDeclType();
 
 			if(lhsQual.getDecl().isConst()) {
-				reportError("An indexed assignment to a const member is not allowed (" + lhsQual.getDecl().getIdentNode() + lhsQual.getDecl().getDeclarationCoords() + " is constant).");
+				reportError("An indexed assignment to a const member is not allowed (" + lhsQual.getDecl().getIdent() + lhsQual.getDecl().getDeclarationCoords() + " is constant).");
 				return false;
 			}
 
@@ -183,7 +183,7 @@ public class AssignIndexedNode extends EvalStatementNode
 				if((entity.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION) {
 					if(getCoords().comesBefore(entity.getCoords())) {
 						reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned to (with index)"
-								+ " (" + entity.getIdentNode() + " was not yet declared).");
+								+ " (" + entity.getIdent() + " was not yet declared).");
 						return false;
 					}
 				}
@@ -192,13 +192,13 @@ public class AssignIndexedNode extends EvalStatementNode
 			if((lhsVar.context & BaseNode.CONTEXT_COMPUTATION) == BaseNode.CONTEXT_COMPUTATION) {
 				if(getCoords().comesBefore(lhsVar.getCoords())) {
 					reportError("Variables (node,edge,var,ref) of computations must be declared before they can be assigned to (with index)"
-							+ " (" + lhsVar.getIdentNode() + " was not yet declared).");
+							+ " (" + lhsVar.getIdent() + " was not yet declared).");
 					return false;
 				}
 			}
 
 			if(lhsVar.directlyNestingLHSGraph == null && onLHS) {
-				reportError("An indexed assignment to a global variable (" + lhsVar.getIdentNode() + ") is not allowed from a yield block.");
+				reportError("An indexed assignment to a global variable (" + lhsVar.getIdent() + ") is not allowed from a yield block.");
 				return false;
 			}
 		}

@@ -150,7 +150,7 @@ public class SubpatternReplNode extends OrderedReplacementNode
 				res = false;
 				subpatternUnresolved.reportError("The " + (i + 1) + ". argument to the subpattern rewrite application " + subpatternUnresolved + " is yielded to,"
 						+ " but the rewrite parameter at this position is not declared as def "
-						+ "(" + parameterElement.getIdentNode() + " in " + pattern.toStringWithDeclarationCoords() + ")" + ".");
+						+ "(" + parameterElement.getIdent() + " in " + pattern.toStringWithDeclarationCoords() + ")" + ".");
 			}
 		} else { //if(formalParameter instanceof VarDeclNode)
 			VarDeclNode parameterVar = (VarDeclNode)formalParameter;
@@ -158,7 +158,7 @@ public class SubpatternReplNode extends OrderedReplacementNode
 				res = false;
 				subpatternUnresolved.reportError("The " + (i + 1) + ". argument to the subpattern rewrite application " + subpatternUnresolved + " is yielded to,"
 						+ " but the rewrite parameter at this position is not declared as def " 
-						+ "(" + parameterVar.getIdentNode() + " in " + pattern.toStringWithDeclarationCoords() + ")" + ".");
+						+ "(" + parameterVar.getIdent() + " in " + pattern.toStringWithDeclarationCoords() + ")" + ".");
 			}
 		}
 		
@@ -169,7 +169,7 @@ public class SubpatternReplNode extends OrderedReplacementNode
 				res = false;
 				subpatternUnresolved.reportError("Cannot yield from a subpattern rewrite application (" + (i + 1) + " argument of " + subpatternUnresolved + ") in the rewrite part"
 						+ " to a def variable in the pattern part"
-						+ " (" + argumentVar.getIdentNode() + " was declared in the pattern part).");
+						+ " (" + argumentVar.getIdent() + " was declared in the pattern part).");
 			}
 		} else { //if(argument instanceof ConstraintDeclNode)
 			ConstraintDeclNode argumentElement = (ConstraintDeclNode)argument;
@@ -177,7 +177,7 @@ public class SubpatternReplNode extends OrderedReplacementNode
 				res = false;
 				subpatternUnresolved.reportError("Cannot yield from a subpattern rewrite application (" + (i + 1) + " argument of " + subpatternUnresolved + ") in the rewrite part"
 						+ " to a def graph element in the pattern part"
-						+ " (" + argumentElement.getIdentNode() + " was declared in the pattern part).");
+						+ " (" + argumentElement.getIdent() + " was declared in the pattern part).");
 			}
 		}
 		
@@ -186,7 +186,7 @@ public class SubpatternReplNode extends OrderedReplacementNode
 			subpatternUnresolved.reportError("The " + (i + 1) + ". argument of type " + actualParameterType.getTypeName()
 					+ " of the subpattern rewrite application " + subpatternUnresolved
 					+ " cannot be yielded to from the rewrite def parameter of incompatible type " + formalParameterType.getTypeName()
-					+ " (" + formalParameter.getIdentNode() + " of subpattern " + pattern.toStringWithDeclarationCoords() + ")"
+					+ " (" + formalParameter.getIdent() + " of subpattern " + pattern.toStringWithDeclarationCoords() + ")"
 					+ actualParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
 					+ formalParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
 					+ ".");
@@ -209,14 +209,14 @@ public class SubpatternReplNode extends OrderedReplacementNode
 			if(parameterElement.defEntityToBeYieldedTo) {
 				res = false;
 				subpatternUnresolved.reportError("The " + (i + 1) + ". argument of the subpattern rewrite application " + subpatternUnresolved + " is not yielded to,"
-						+ " but the rewrite parameter at this position is declared as def (" + parameterElement.getIdentNode() + " in " + pattern.toStringWithDeclarationCoords() + ")" + ".");
+						+ " but the rewrite parameter at this position is declared as def (" + parameterElement.getIdent() + " in " + pattern.toStringWithDeclarationCoords() + ")" + ".");
 			}
 		} else { //if(formalParameter instanceof VarDeclNode)
 			VarDeclNode parameterVar = (VarDeclNode)formalParameter;
 			if(parameterVar.defEntityToBeYieldedTo) {
 				res = false;
 				subpatternUnresolved.reportError("The " + (i + 1) + ". argument of the subpattern rewrite application " + subpatternUnresolved + " is not yielded to,"
-						+ " but the rewrite parameter at this position is declared as def (" + parameterVar.getIdentNode() + " in " + pattern.toStringWithDeclarationCoords() + ")" + ".");
+						+ " but the rewrite parameter at this position is declared as def (" + parameterVar.getIdent() + " in " + pattern.toStringWithDeclarationCoords() + ")" + ".");
 			}
 		}
 		
@@ -224,7 +224,7 @@ public class SubpatternReplNode extends OrderedReplacementNode
 			res = false;
 			subpatternUnresolved.reportError("Cannot convert " + (i + 1) + ". argument of the subpattern rewrite application " + subpatternUnresolved + " from "
 					+ actualParameterType.getTypeName() + " to " + formalParameterType.getTypeName()
-					+ " (expected by the rewrite parameter " + formalParameter.getIdentNode() + " of subpattern " + pattern.toStringWithDeclarationCoords() + ")"
+					+ " (expected by the rewrite parameter " + formalParameter.getIdent() + " of subpattern " + pattern.toStringWithDeclarationCoords() + ")"
 					+ actualParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
 					+ formalParameterType.toStringWithDeclarationCoordsIfCoordsAreOfInterest()
 					+ ".");

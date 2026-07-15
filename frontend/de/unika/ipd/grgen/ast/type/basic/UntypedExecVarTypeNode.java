@@ -79,7 +79,7 @@ public class UntypedExecVarTypeNode extends BasicTypeNode
 	@Override
 	protected IR constructIR()
 	{
-		return new UntypedExecVarType(getIdentNode().getIRIdent());
+		return new UntypedExecVarType(getIdent().getIRIdent());
 	}
 
 	@Override

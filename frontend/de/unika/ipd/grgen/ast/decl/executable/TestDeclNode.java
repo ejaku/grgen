@@ -131,7 +131,7 @@ public class TestDeclNode extends ActionDeclNode
 			return getIR();
 		}
 
-		Rule testRule = new Rule(getIdentNode().getIRIdent(), RuleKind.Test);
+		Rule testRule = new Rule(getIdent().getIRIdent(), RuleKind.Test);
 
 		// mark this node as already visited
 		setIR(testRule);

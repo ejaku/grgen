@@ -160,8 +160,8 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 		}
 
 		Function function = isMethod
-				? new FunctionMethod(getIdentNode().toString(), getIdentNode().getIRIdent(), resultType.checkIR(Type.class))
-				: new Function(getIdentNode().toString(), getIdentNode().getIRIdent(), resultType.checkIR(Type.class));
+				? new FunctionMethod(getIdent().toString(), getIdent().getIRIdent(), resultType.checkIR(Type.class))
+				: new Function(getIdent().toString(), getIdent().getIRIdent(), resultType.checkIR(Type.class));
 
 		// mark this node as already visited
 		setIR(function);

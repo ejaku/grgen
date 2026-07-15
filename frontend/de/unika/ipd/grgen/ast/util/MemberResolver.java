@@ -60,7 +60,7 @@ public class MemberResolver<T> extends Base
 		unresolvedNode = identNode.getDecl();
 
 		if(unresolvedNode instanceof InvalidDeclNode) {
-			DeclNode scopeDecl = identNode.getScope().getIdentNode().getDecl();
+			DeclNode scopeDecl = identNode.getScope().getIdent().getDecl();
 			if(scopeDecl instanceof MatcherDeclNode || scopeDecl instanceof SequenceDeclNode
 					|| scopeDecl instanceof ProcedureDeclNode || scopeDecl instanceof FunctionDeclNode
 					|| scopeDecl instanceof FilterFunctionDeclNode || scopeDecl instanceof InvalidDeclNode) {

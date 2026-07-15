@@ -128,14 +128,14 @@ public class TotallyHomNode extends BaseNode
 		if(node != null) {
 			if(!childrenEdge.isEmpty()) {
 				this.reportError("The independent statement may only contain nodes or edges at a time"
-						+ " (it specifies the node " + node.getIdentNode() + " to be totally homomorphic, but the edge " + childrenEdge.get(0) + " as exception to be isomorphic).");
+						+ " (it specifies the node " + node.getIdent() + " to be totally homomorphic, but the edge " + childrenEdge.get(0) + " as exception to be isomorphic).");
 				return false;
 			}
 		}
 		if(edge != null) {
 			if(!childrenNode.isEmpty()) {
 				this.reportError("The independent statement may only contain nodes or edges at a time"
-						+ " (it specifies the edge " + edge.getIdentNode() + " to be totally homomorphic, but the node " + childrenNode.get(0) + " as exception to be isomorphic).");
+						+ " (it specifies the edge " + edge.getIdent() + " to be totally homomorphic, but the node " + childrenNode.get(0) + " as exception to be isomorphic).");
 				return false;
 			}
 		}

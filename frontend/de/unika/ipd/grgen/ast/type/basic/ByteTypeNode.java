@@ -22,7 +22,7 @@ public class ByteTypeNode extends BasicTypeNode
 	@Override
 	protected IR constructIR()
 	{
-		return new ByteType(getIdentNode().getIRIdent());
+		return new ByteType(getIdent().getIRIdent());
 	}
 
 	@Override

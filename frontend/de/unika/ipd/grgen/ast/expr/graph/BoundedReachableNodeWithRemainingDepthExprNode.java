@@ -42,7 +42,7 @@ public class BoundedReachableNodeWithRemainingDepthExprNode extends BoundedNeigh
 	@Override
 	protected boolean resolveLocal()
 	{
-		mapTypeNode = new MapTypeNode(getNodeRoot(adjacentTypeExpr), BasicTypeNode.intType.getIdentNode());
+		mapTypeNode = new MapTypeNode(getNodeRoot(adjacentTypeExpr), BasicTypeNode.intType.getIdent());
 		return mapTypeNode.resolve();
 	}
 

@@ -94,7 +94,7 @@ public class AttributeInitializationNode extends BaseNode
 		
 		if(owner.isConst()) {
 			objectInit.reportError("An assignment to an object of const type is not allowed"
-					+ " (but occurs for " + attribute + " of " + owner.getIdentNode() + ").");
+					+ " (but occurs for " + attribute + " of " + owner.getIdent() + ").");
 			return false;
 		}
 

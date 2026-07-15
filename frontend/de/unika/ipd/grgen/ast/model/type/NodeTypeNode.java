@@ -135,9 +135,9 @@ public class NodeTypeNode extends InheritanceTypeNode
 			DeclNode decl = (DeclNode)child;
 			if(decl.getDeclType() instanceof InternalTransientObjectTypeNode) {
 				decl.reportError("Only transient object classes may contain attributes of transient object class types"
-						+ " (but the attribute " + decl.getIdentNode()
+						+ " (but the attribute " + decl.getIdent()
 						+ " is of transient object class type " + decl.getDeclType().toStringWithDeclarationCoords()
-						+ " in node class " + getIdentNode() + ").");
+						+ " in node class " + getIdent() + ").");
 				res &= false;
 			}
 		}
@@ -165,7 +165,7 @@ public class NodeTypeNode extends InheritanceTypeNode
 			return getIR();
 		}
 
-		NodeType nt = new NodeType(getDecl().getIdentNode().getIRIdent(), getIRModifiers(), getExternalName());
+		NodeType nt = new NodeType(getDecl().getIdent().getIRIdent(), getIRModifiers(), getExternalName());
 
 		setIR(nt);
 

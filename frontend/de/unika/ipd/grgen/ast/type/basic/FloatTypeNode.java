@@ -22,7 +22,7 @@ public class FloatTypeNode extends BasicTypeNode
 	@Override
 	protected IR constructIR()
 	{
-		return new FloatType(getIdentNode().getIRIdent());
+		return new FloatType(getIdent().getIRIdent());
 	}
 
 	@Override

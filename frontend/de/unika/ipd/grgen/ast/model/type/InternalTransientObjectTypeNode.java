@@ -116,7 +116,7 @@ public class InternalTransientObjectTypeNode extends BaseInternalObjectTypeNode
 			return getIR();
 		}
 
-		InternalTransientObjectType tot = new InternalTransientObjectType(getDecl().getIdentNode().getIRIdent(), getIRModifiers());
+		InternalTransientObjectType tot = new InternalTransientObjectType(getDecl().getIdent().getIRIdent(), getIRModifiers());
 
 		setIR(tot);
 

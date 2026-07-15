@@ -22,6 +22,6 @@ public class TypeTypeNode extends BasicTypeNode
 	@Override
 	protected IR constructIR()
 	{
-		return new TypeType(getIdentNode().getIRIdent());
+		return new TypeType(getIdent().getIRIdent());
 	}
 }

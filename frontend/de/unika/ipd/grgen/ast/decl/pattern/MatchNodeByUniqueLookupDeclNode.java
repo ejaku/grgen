@@ -82,7 +82,7 @@ public class MatchNodeByUniqueLookupDeclNode extends NodeDeclNode
 		boolean res = super.checkLocal();
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			reportError("Cannot employ match node by unique index lookup in the rewrite part"
-					+ emptyWhenAnonymous(" (as it occurs in match node " + getIdentNode() + ")") + ".");
+					+ emptyWhenAnonymous(" (as it occurs in match node " + getIdent() + ")") + ".");
 			return false;
 		}
 		TypeNode expectedLookupType = IntTypeNode.intType;

@@ -67,7 +67,7 @@ public class EdgeDeclNode extends ConstraintDeclNode
 		clone.resolve();
 		if(typeEdgeDecl != null)
 			reportError("A typeof edge cannot be used in an auto statement"
-					+ " (as is the case for " + getIdentNode() + ").");
+					+ " (as is the case for " + getIdent() + ").");
 		return clone;
 	}
 
@@ -146,7 +146,7 @@ public class EdgeDeclNode extends ConstraintDeclNode
 			while(cur != null) {
 				if(visited.contains(cur)) {
 					reportError("Circular typeof/copy not allowed"
-							+ " (as is the case for " + getKind() + " " + getIdentNode() + ").");
+							+ " (as is the case for " + getKind() + " " + getIdent() + ").");
 					return false;
 				}
 				visited.add(cur);
@@ -244,7 +244,7 @@ public class EdgeDeclNode extends ConstraintDeclNode
 	{
 		TypeNode tn = getDeclType();
 		EdgeType et = tn.checkIR(EdgeType.class);
-		IdentNode ident = getIdentNode();
+		IdentNode ident = getIdent();
 
 		Edge edge = new Edge(ident.getIRIdent(), et, ident.getAnnotations(),
 				directlyNestingLHSGraph!=null ? directlyNestingLHSGraph.getIRPatternGraphLhs() : null,
@@ -253,7 +253,7 @@ public class EdgeDeclNode extends ConstraintDeclNode
 
 		if(edge.getConstraints().contains(edge.getType())) { // TODO: supertype? only subtypes allowed
 			reportError("The own edge type may not be contained in the type constraint list"
-					+ " (but " + edge.getType() + " is contained for " + getIdentNode() + ").");
+					+ " (but " + edge.getType() + " is contained for " + getIdent() + ").");
 		}
 
 		if(inheritsType()) {

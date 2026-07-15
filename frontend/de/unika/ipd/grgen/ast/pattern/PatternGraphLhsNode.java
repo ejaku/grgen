@@ -562,7 +562,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 	{
 		boolean res = true;
 		for(IteratedDeclNode iterForNameToCheck : iters.getChildrenExact()) {
-			String iterName = iterForNameToCheck.getIdentNode().toString();
+			String iterName = iterForNameToCheck.getIdent().toString();
 			for(IteratedDeclNode iter : iters.getChildrenExact()) {
 				res &= iter.pattern.iteratedNotReferenced(iterName);
 				if(iter.right != null) {

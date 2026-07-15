@@ -345,7 +345,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 		else if(this instanceof TypeNode) // maybe getDecl()
 			return ((TypeNode)this).getTypeName();
 		else if(this instanceof DeclNode)
-			return ((DeclNode)this).dotOrArrowWhenAnonymous();//.getIdentNode().toString();
+			return ((DeclNode)this).dotOrArrowWhenAnonymous();//.getIdent().toString();
 		else
 			return toString();
 	}

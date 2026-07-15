@@ -128,7 +128,7 @@ public abstract class MatcherDeclNode extends DeclNode
 		{
 			boolean allFilterEntitiesExistAndAreOfAdmissibleType = true;
 			for(String filterEntity : filter.entities) {
-				allFilterEntitiesExistAndAreOfAdmissibleType &= pattern.checkFilterVariable(getIdentNode(),
+				allFilterEntitiesExistAndAreOfAdmissibleType &= pattern.checkFilterVariable(getIdent(),
 						filterNameWithEntitySuffix, filterEntity);
 			}
 			return allFilterEntitiesExistAndAreOfAdmissibleType;
@@ -140,7 +140,7 @@ public abstract class MatcherDeclNode extends DeclNode
 		{
 			boolean allFilterEntitiesExistAndAreOfAdmissibleType = true;
 			for(String filterEntity : filter.entities) {
-				allFilterEntitiesExistAndAreOfAdmissibleType &= pattern.checkFilterEntity(getIdentNode(),
+				allFilterEntitiesExistAndAreOfAdmissibleType &= pattern.checkFilterEntity(getIdent(),
 						filterNameWithEntitySuffix, filterEntity);
 			}
 			if(filter.entities.size() != 1) {
@@ -154,39 +154,39 @@ public abstract class MatcherDeclNode extends DeclNode
 		}
 		case "keepOneForEachAccumulateBy":
 			if(filter.entities.size() != 3) {
-				getIdentNode().reportError("The filter " + filter.getFilterName()
+				getIdent().reportError("The filter " + filter.getFilterName()
 						+ " must be declared with exactly one variable, one accumulation variable,"
 						+ " and one accumulation method, but is declared with " + filter.entities.size() + " entities"
 						+ filterSpecification(filterNameWithEntitySuffix) + ".");
 				return false;
 			} else {
 				if(filter.entities.get(0).equals(filter.entities.get(1))) {
-					getIdentNode().reportError("The accumulation variable"
+					getIdent().reportError("The accumulation variable"
 							+ " must be different from the variable " + filter.entities.get(0)
 							+ filterSpecification(filterNameWithEntitySuffix) + ".");
 					return false;
 				}
-				boolean filterEntityExistsAndIsOfAdmissibleType = pattern.checkFilterEntity(getIdentNode(),
+				boolean filterEntityExistsAndIsOfAdmissibleType = pattern.checkFilterEntity(getIdent(),
 						filterNameWithEntitySuffix, filter.entities.get(0));
 				if(!filterEntityExistsAndIsOfAdmissibleType)
 					return false;
 				ArrayAccumulationMethodNode accumulationMethod = 
 						ArrayAccumulationMethodNode.getArrayMethodNode(filter.entities.get(2));
 				if(accumulationMethod == null) {
-					getIdentNode().reportError("The array accumulation method "
+					getIdent().reportError("The array accumulation method "
 							+ filter.entities.get(2) + " is not known"
 							+ filterSpecification(filterNameWithEntitySuffix) + ".");
 					return false;
 				}
 				VarDeclNode filterAccumulationVariable = pattern.tryGetVar(filter.entities.get(1));
 				if(filterAccumulationVariable == null) {
-					getIdentNode().reportError("Unknown accumulation variable " + filter.entities.get(1)
+					getIdent().reportError("Unknown accumulation variable " + filter.entities.get(1)
 							+ filterSpecification(filterNameWithEntitySuffix) + ".");
 					return false;
 				}
 				TypeNode filterAccumulationVariableType = filterAccumulationVariable.getDeclType();
 				if(!accumulationMethod.isValidTargetTypeOfAccumulation(filterAccumulationVariableType)) {
-					getIdentNode().reportError("The array accumulation method " + filter.entities.get(2)
+					getIdent().reportError("The array accumulation method " + filter.entities.get(2)
 							+ " is not applicable to the type " + filterAccumulationVariableType.getTypeName()
 							+ " of the accumulation variable " + filter.entities.get(1)
 							+ " / its result cannot be assigned to the accumulation variable."
@@ -605,7 +605,7 @@ public abstract class MatcherDeclNode extends DeclNode
 		} else if(maybeDeletedElements.contains(declNode)) {
 			declNode.maybeDeleted = true;
 
-			if(!declNode.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
+			if(!declNode.getIdent().getAnnotations().isFlagSet("maybeDeleted")) {
 				String errorMessage = "The parameter " + declNode + " of the exec statement may be deleted.";
 				errorMessage += " Possibly it is homomorphic with a deleted " + declNode.getKind();
 				errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";

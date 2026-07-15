@@ -96,7 +96,7 @@ public class MatchNodeFromStorageDeclNode extends MatchNodeFromByStorageDeclNode
 			}
 		} else {
 			reportError("Internal error - invalid match node from storage attribute"
-					+ " (for " + getIdentNode() + ").");
+					+ " (for " + getIdent() + ").");
 			successfullyResolved = false;
 		}
 		return successfullyResolved;
@@ -146,7 +146,7 @@ public class MatchNodeFromStorageDeclNode extends MatchNodeFromByStorageDeclNode
 			String typeName = storageElemType.toStringWithDeclarationCoords();
 			ident.reportError("Cannot convert storage element type from " + typeName
 					+ " to the expected " + expTypeName + " in match node from storage"
-					+ " (" + emptyWhenAnonymous("of " + getIdentNode() + " ") + "accessing " + getStorageName() + ").");
+					+ " (" + emptyWhenAnonymous("of " + getIdent() + " ") + "accessing " + getStorageName() + ").");
 			return false;
 		}
 		return res;

@@ -196,7 +196,7 @@ public class Scope
 			def = Symbol.Definition.getInvalid(); // do not redefine a symbol
 		} else if(defined(sym)
 				&& sym.getSymbolTable().getSymbolTableId() != ParserEnvironment.ITERATEDS
-				&& this.getIdentNode().getSymbol().getSymbolTable().getSymbolTableId() != ParserEnvironment.PACKAGES) {
+				&& this.getIdent().getSymbol().getSymbolTable().getSymbolTableId() != ParserEnvironment.PACKAGES) {
 			def = getCurrDef(sym); // the previous definition
 			reporter.error(coords, "Symbol " + sym + " has already been defined in some parent scope"
 						+ " [at: " + def.coords + "].");
@@ -255,7 +255,7 @@ public class Scope
 	public Scope newOrReuseScope(IdentNode name)
 	{
 		for(Scope child : childs) {
-			if(child.getIdentNode().toString().equals(name.toString()))
+			if(child.getIdent().toString().equals(name.toString()))
 				return child;
 		}
 		Scope s = new Scope(this, name);
@@ -314,7 +314,7 @@ public class Scope
 	/**
 	 * Returns the defining ident.
 	 */
-	public IdentNode getIdentNode()
+	public IdentNode getIdent()
 	{
 		return ident;
 	}

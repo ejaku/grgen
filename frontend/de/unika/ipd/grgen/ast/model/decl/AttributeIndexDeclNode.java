@@ -91,7 +91,7 @@ public class AttributeIndexDeclNode extends IndexDeclNode
 		TypeNode type = resolved.getDeclType();
 
 		if(!(type instanceof InheritanceTypeNode)) {
-			typeUnresolved.reportError("The attribute index " + getIdentNode() + " expects a node or edge type" 
+			typeUnresolved.reportError("The attribute index " + getIdent() + " expects a node or edge type" 
 					+ " (but is given type " + type.getTypeName() + " as owner of attribute " + memberUnresolved + ").");
 			return false;
 		}
@@ -139,7 +139,7 @@ public class AttributeIndexDeclNode extends IndexDeclNode
 	@Override
 	protected IR constructIR()
 	{
-		AttributeIndex attributeIndex = new AttributeIndex(getIdentNode().toString(), getIdentNode().getIRIdent(),
+		AttributeIndex attributeIndex = new AttributeIndex(getIdent().toString(), getIdent().getIRIdent(),
 				type.checkIR(InheritanceType.class), member.checkIR(Entity.class));
 		return attributeIndex;
 	}

@@ -138,7 +138,7 @@ public class ArrayMapStartWithAccumulateByNode extends ArrayFunctionMethodInvoca
 
 		DeclaredTypeNode declResultValueType = (DeclaredTypeNode)resultValueType;
 
-		resultArrayType = new ArrayTypeNode(declResultValueType.getIdentNode());
+		resultArrayType = new ArrayTypeNode(declResultValueType.getIdent());
 		if(!resultArrayType.resolve())
 			return false;
 

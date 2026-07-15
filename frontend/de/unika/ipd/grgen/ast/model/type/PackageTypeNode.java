@@ -81,7 +81,7 @@ public class PackageTypeNode extends CompoundTypeNode
 	@Override
 	protected IR constructIR()
 	{
-		Ident id = getIdentNode().checkIR(Ident.class);
+		Ident id = getIdent().checkIR(Ident.class);
 		PackageType pt = new PackageType(id);
 		for(TypeDeclNode typeDecl : decls.getChildrenExact()) {
 			pt.addType(typeDecl.getDeclType().getIRType());
@@ -92,7 +92,7 @@ public class PackageTypeNode extends CompoundTypeNode
 	@Override
 	public String toString()
 	{
-		return "package " + getIdentNode();
+		return "package " + getIdent();
 	}
 
 	public static String getKindStr()

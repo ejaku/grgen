@@ -246,7 +246,7 @@ public class PackageActionTypeNode extends CompoundTypeNode
 	@Override
 	protected IR constructIR()
 	{
-		Ident id = getIdentNode().checkIR(Ident.class);
+		Ident id = getIdent().checkIR(Ident.class);
 		PackageActionType res = new PackageActionType(id);
 
 		for(SubpatternDeclNode subpattern : subpatterns.getChildrenExact()) {
@@ -316,7 +316,7 @@ public class PackageActionTypeNode extends CompoundTypeNode
 	@Override
 	public String toString()
 	{
-		return "package " + getIdentNode();
+		return "package " + getIdent();
 	}
 
 	public static String getKindStr()

@@ -37,7 +37,7 @@ public class ArrayAsMapNode extends ArrayFunctionMethodInvocationBaseExprNode
 	protected boolean resolveLocal()
 	{
 		// target type already checked during resolving into this node
-		mapTypeNode = new MapTypeNode(BasicTypeNode.intType.getIdentNode(),
+		mapTypeNode = new MapTypeNode(BasicTypeNode.intType.getIdent(),
 				getTargetType().valueTypeUnresolved);
 		return mapTypeNode.resolve();
 	}

@@ -281,7 +281,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 
 	private String whenUsingSpecification(DeclNode focusedElement)
 	{
-		return " (" + (focusedElement != null ? focusedElement.getIdentNode() + " " : "")
+		return " (" + (focusedElement != null ? focusedElement.getIdent() + " " : "")
 				+ "when using " + type.toStringWithDeclarationCoords() + emptyWhenAnonymous(" by " + ident)
 				+ ")";
 	}
@@ -298,7 +298,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 			else
 				subpatternConnections.add(e.checkIR(Expression.class));
 		}
-		return new SubpatternUsage("subpattern", getIdentNode().getIRIdent(), type.checkIR(Rule.class),
+		return new SubpatternUsage("subpattern", getIdent().getIRIdent(), type.checkIR(Rule.class),
 				subpatternConnections, subpatternYields);
 	}
 }

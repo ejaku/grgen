@@ -60,7 +60,7 @@ public class TypeChecker implements Checker
 			}
 
 			if(!res)
-				((DeclNode)bn).getIdentNode().reportError(getErrorMsg(validTypes, bn));
+				((DeclNode)bn).getIdent().reportError(getErrorMsg(validTypes, bn));
 
 		}
 		

@@ -167,7 +167,7 @@ public class RuleDeclNode extends ActionDeclNode
 		} else if(maybeDeletedElements.contains(retElem)) {
 			retElem.maybeDeleted = true;
 
-			if(!retElem.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
+			if(!retElem.getIdent().getAnnotations().isFlagSet("maybeDeleted")) {
 				String errorMessage = "Returning " + retElem.getKind() + " " + retElem + " that may be deleted.";
 				errorMessage += " Possibly it is homomorphic with a deleted " + retElem.getKind();
 				errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
@@ -354,7 +354,7 @@ public class RuleDeclNode extends ActionDeclNode
 		if(maybeDeleted.contains(declNode)) {
 			declNode.maybeDeleted = true;
 
-			if(!declNode.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
+			if(!declNode.getIdent().getAnnotations().isFlagSet("maybeDeleted")) {
 				String errorMessage = "The " + declNode.getKind() + " " + declNode + " used in an " + emitVersion + " statement may be deleted.";
 				errorMessage += " Possibly it is homomorphic with a deleted " + declNode.getKind();
 				errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
@@ -517,7 +517,7 @@ public class RuleDeclNode extends ActionDeclNode
 			return getIR();
 		}
 
-		Rule rule = new Rule(getIdentNode().getIRIdent(), RuleKind.Rule);
+		Rule rule = new Rule(getIdent().getIRIdent(), RuleKind.Rule);
 
 		// mark this node as already visited
 		setIR(rule);

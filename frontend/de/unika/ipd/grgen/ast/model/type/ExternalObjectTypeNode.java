@@ -130,7 +130,7 @@ public class ExternalObjectTypeNode extends InheritanceTypeNode
 			return getIR();
 		}
 
-		ExternalObjectType et = new ExternalObjectType(getDecl().getIdentNode().getIRIdent());
+		ExternalObjectType et = new ExternalObjectType(getDecl().getIdent().getIRIdent());
 
 		setIR(et);
 

@@ -79,7 +79,7 @@ public class ArrayExtractNode extends ArrayFunctionMethodInvocationBaseExprNode
 		}
 
 		DeclaredTypeNode declType = (DeclaredTypeNode)type;
-		extractedArrayType = new ArrayTypeNode(declType.getIdentNode());
+		extractedArrayType = new ArrayTypeNode(declType.getIdent());
 
 		return extractedArrayType.resolve();
 	}

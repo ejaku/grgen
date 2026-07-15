@@ -106,8 +106,8 @@ public class ExternalFunctionDeclNode extends FunctionDeclBaseNode
 	protected IR constructIR()
 	{
 		ExternalFunction externalFunc = isMethod
-				? new ExternalFunctionMethod(getIdentNode().toString(), getIdentNode().getIRIdent(), resultType.checkIR(Type.class))
-				: new ExternalFunction(getIdentNode().toString(), getIdentNode().getIRIdent(), resultType.checkIR(Type.class));
+				? new ExternalFunctionMethod(getIdent().toString(), getIdent().getIRIdent(), resultType.checkIR(Type.class))
+				: new ExternalFunction(getIdent().toString(), getIdent().getIRIdent(), resultType.checkIR(Type.class));
 		for(TypeNode param : parameterTypesCollectNode.getChildrenExact()) {
 			externalFunc.addParameterType(param.checkIR(Type.class));
 		}

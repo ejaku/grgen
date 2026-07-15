@@ -162,7 +162,7 @@ public class MatchClassAutoNode extends BaseNode
 				if(cc instanceof ConnectionNode) {
 					ConnectionNode connection = (ConnectionNode)cc;
 					EdgeDeclNode edge = connection.getEdge();
-					String edgeName = edge.getIdentNode().getSymbol().getText();
+					String edgeName = edge.getIdent().getSymbol().getText();
 					if(edgeName.startsWith("$")) {
 						result &= addSourceAndTargetIfNotYetAddedOrTypeCheckIfDuplicate(connection,
 								entitiesToTypes, connections, patternGraph);
@@ -230,16 +230,16 @@ public class MatchClassAutoNode extends BaseNode
 			PatternGraphLhsNode patternGraph)
 	{
 		NodeDeclNode source = connection.getSrc();
-		String sourceName = source.getIdentNode().getSymbol().getText();
+		String sourceName = source.getIdent().getSymbol().getText();
 		if(entitiesToTypes.containsKey(sourceName)) {
-			NodeDeclNode newSource = new DummyNodeDeclNode(source.getIdentNode(),
+			NodeDeclNode newSource = new DummyNodeDeclNode(source.getIdent(),
 					source.getDeclType(), source.context, patternGraph);
 			connectionClone.setSrc(newSource);
 		}
 		NodeDeclNode target = connection.getTgt();
-		String targetName = target.getIdentNode().getSymbol().getText();
+		String targetName = target.getIdent().getSymbol().getText();
 		if(entitiesToTypes.containsKey(targetName)) {
-			NodeDeclNode newTarget = new DummyNodeDeclNode(target.getIdentNode(),
+			NodeDeclNode newTarget = new DummyNodeDeclNode(target.getIdent(),
 					target.getDeclType(), target.context, patternGraph);
 			connectionClone.setTgt(newTarget);
 		}
@@ -249,7 +249,7 @@ public class MatchClassAutoNode extends BaseNode
 	private boolean addIfNotYetAddedOrTypeCheckIfDuplicate(DeclNode entity, Map<String, TypeNode> entitiesToTypes,
 			CollectNode<BaseNode> connections, Supplier<BaseNode> entityForAuto)
 	{
-		String nodeName = entity.getIdentNode().getSymbol().getText();
+		String nodeName = entity.getIdent().getSymbol().getText();
 		if(nodeName.startsWith("$"))
 			return true;
 		if(!entitiesToTypes.containsKey(nodeName)) {
@@ -262,7 +262,7 @@ public class MatchClassAutoNode extends BaseNode
 	
 	private boolean isTypeMatching(DeclNode decl, Map<String, TypeNode> entitiesToTypes)
 	{
-		String entity = decl.getIdentNode().getSymbol().getText();
+		String entity = decl.getIdent().getSymbol().getText();
 		TypeNode type = entitiesToTypes.get(entity);
 		if(!decl.getDeclType().isEqual(type)) {
 			reportError("Ambiguous resulting type: the entity " + entity

@@ -22,7 +22,7 @@ public class LongTypeNode extends BasicTypeNode
 	@Override
 	protected IR constructIR()
 	{
-		return new LongType(getIdentNode().getIRIdent());
+		return new LongType(getIdent().getIRIdent());
 	}
 
 	@Override

@@ -111,7 +111,7 @@ public class EdgeTypeChangeDeclNode extends EdgeDeclNode
 				reportError("An attribute initialization is not allowed for a retyped edge"
 						+ " (but occurs for " + nameOrAttributeInit.attributeUnresolved + emptyWhenAnonymousPostfix(" of ") + ").");
 			} else {
-				reportError("A name initialization ($=) is not allowed for a retyped edge" + emptyWhenAnonymous(" (but occurs for " + getIdentNode() + ")."));
+				reportError("A name initialization ($=) is not allowed for a retyped edge" + emptyWhenAnonymous(" (but occurs for " + getIdent() + ")."));
 			}
 			return false;
 		}
@@ -120,7 +120,7 @@ public class EdgeTypeChangeDeclNode extends EdgeDeclNode
 		if((old.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS
 			&& !old.defEntityToBeYieldedTo) {
 			reportError("The original edge of the retyping may not be declared in the rewrite part"
-					+ " (this is violated by the original edge " + old.getIdentNode() + emptyWhenAnonymousPostfix(" of ") + ").");
+					+ " (this is violated by the original edge " + old.getIdent() + emptyWhenAnonymousPostfix(" of ") + ").");
 			res = false;
 		}
 
@@ -135,7 +135,7 @@ public class EdgeTypeChangeDeclNode extends EdgeDeclNode
 	{
 		EdgeTypeNode etn = getDeclType();
 		EdgeType et = etn.getIREdgeType();
-		IdentNode ident = getIdentNode();
+		IdentNode ident = getIdent();
 
 		RetypedEdge res = new RetypedEdge(ident.getIRIdent(), et, ident.getAnnotations(),
 				isMaybeDeleted(), isMaybeRetyped(), false, context);

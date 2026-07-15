@@ -1387,7 +1387,7 @@ defGraphElementInitialization [ AnonymousScopeNamer namer, int context, Constrai
 	: a=ASSIGN e=expr[namer, context, false]
 		{
 			if((context & BaseNode.CONTEXT_COMPUTATION) != BaseNode.CONTEXT_COMPUTATION) {
-				reportError(getCoords(a), "A def node/edge can only be initialized in a function (attempted on " + graphElement.getIdentNode() + ").");
+				reportError(getCoords(a), "A def node/edge can only be initialized in a function (attempted on " + graphElement.getIdent() + ").");
 			} else {
 				if(graphElement != null)
 					graphElement.setInitialization(e);
@@ -3104,7 +3104,7 @@ basicDecl [ AnonymousScopeNamer namer, IdentNode id, boolean isConst, CollectNod
 			c.addChild(decl);
 		}
 		(
-			init=initExprDecl[namer, decl.getIdentNode()]
+			init=initExprDecl[namer, decl.getIdent()]
 				{
 					c.addChild(init);
 					if(isConst)
@@ -3127,7 +3127,7 @@ mapDecl [ AnonymousScopeNamer namer, IdentNode id, boolean isConst, CollectNode<
 		(
 			GT
 		|
-			(GT ASSIGN | GE) init=initMapExpr[namer, 0, decl.getIdentNode(), null]
+			(GT ASSIGN | GE) init=initMapExpr[namer, 0, decl.getIdent(), null]
 				{
 					c.addChild(init);
 					if(isConst)
@@ -3150,7 +3150,7 @@ setDecl [ AnonymousScopeNamer namer, IdentNode id, boolean isConst, CollectNode<
 		(
 			GT
 		|
-			(GT ASSIGN | GE) init=initSetExpr[namer, 0, decl.getIdentNode(), null]
+			(GT ASSIGN | GE) init=initSetExpr[namer, 0, decl.getIdent(), null]
 				{
 					c.addChild(init);
 					if(isConst)
@@ -3173,7 +3173,7 @@ arrayDecl [ AnonymousScopeNamer namer, IdentNode id, boolean isConst, CollectNod
 		(
 			GT
 		|
-			(GT ASSIGN | GE) init=initArrayExpr[namer, 0, decl.getIdentNode(), null]
+			(GT ASSIGN | GE) init=initArrayExpr[namer, 0, decl.getIdent(), null]
 				{
 					c.addChild(init);
 					if(isConst)
@@ -3196,7 +3196,7 @@ dequeDecl [ AnonymousScopeNamer namer, IdentNode id, boolean isConst, CollectNod
 		(
 			GT
 		|
-			(GT ASSIGN | GE) init=initDequeExpr[namer, 0, decl.getIdentNode(), null]
+			(GT ASSIGN | GE) init=initDequeExpr[namer, 0, decl.getIdent(), null]
 				{
 					c.addChild(init);
 					if(isConst)
@@ -3931,7 +3931,7 @@ assignmentTarget [ boolean onLHS, Coords coords, ProjectionExprNode e, MultiStat
 		{
 			DefDeclStatementNode tgt = new DefDeclStatementNode(coords, de, context);
 			ms.addStatement(tgt);
-			res = new AssignNode(coords, new IdentExprNode(tgt.getDecl().getIdentNode()), e, context, onLHS);
+			res = new AssignNode(coords, new IdentExprNode(tgt.getDecl().getIdent()), e, context, onLHS);
 		}
 	;
 

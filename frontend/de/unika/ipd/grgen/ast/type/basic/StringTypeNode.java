@@ -22,7 +22,7 @@ public class StringTypeNode extends BasicTypeNode
 	@Override
 	protected IR constructIR()
 	{
-		return new StringType(getIdentNode().getIRIdent());
+		return new StringType(getIdent().getIRIdent());
 	}
 
 	@Override

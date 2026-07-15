@@ -366,7 +366,7 @@ public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBa
 		return result.getType().size();
 	}
 	
-	public IdentNode getIdentNode()
+	public IdentNode getIdent()
 	{
 		return methodIdent;
 	}

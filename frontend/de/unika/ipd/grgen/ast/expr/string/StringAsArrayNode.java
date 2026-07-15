@@ -65,7 +65,7 @@ public class StringAsArrayNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	protected boolean resolveLocal()
 	{
-		arrayTypeNode = new ArrayTypeNode(((StringTypeNode)stringExpr.getType()).getIdentNode());
+		arrayTypeNode = new ArrayTypeNode(((StringTypeNode)stringExpr.getType()).getIdent());
 		return arrayTypeNode.resolve();
 	}
 

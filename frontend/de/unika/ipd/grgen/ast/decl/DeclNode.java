@@ -68,7 +68,7 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 	}
 
 	/** @return The ident node of the declaration */
-	public IdentNode getIdentNode()
+	public IdentNode getIdent()
 	{
 		return ident;
 	}
@@ -92,22 +92,22 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 
 	public final String emptyWhenAnonymous(String str)
 	{
-		return getIdentNode().getCurrOcc().isAnonymous() ? "" : str;
+		return getIdent().getCurrOcc().isAnonymous() ? "" : str;
 	}
 
 	public final String emptyWhenAnonymousPostfix(String prefix)
 	{
-		return getIdentNode().getCurrOcc().isAnonymous() ? "" : prefix + getIdentNode();
+		return getIdent().getCurrOcc().isAnonymous() ? "" : prefix + getIdent();
 	}
 
 	public final String emptyWhenAnonymousInParenthesis(String prefix)
 	{
-		return getIdentNode().getCurrOcc().isAnonymous() ? "" : prefix + "(" + getIdentNode() + ")";
+		return getIdent().getCurrOcc().isAnonymous() ? "" : prefix + "(" + getIdent() + ")";
 	}
 
 	public final String dotOrArrowWhenAnonymous()
 	{
-		if(getIdentNode().getCurrOcc().isAnonymous() && this instanceof EdgeDeclNode)
+		if(getIdent().getCurrOcc().isAnonymous() && this instanceof EdgeDeclNode)
 		{
 			EdgeDeclNode edge = (EdgeDeclNode)this;
 			if(edge.getDeclType() instanceof ArbitraryEdgeTypeNode)
@@ -117,19 +117,13 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 			else if(edge.getDeclType() instanceof UndirectedEdgeTypeNode)
 				return "--";
 		}
-		return getIdentNode().getCurrOcc().isAnonymous() ? "." : getIdentNode().toString();
+		return getIdent().getCurrOcc().isAnonymous() ? "." : getIdent().toString();
 	}
 
 	public Entity getIREntity()
 	{
 		return checkIR(Entity.class);
 	}
-
-	//@Override
-	//protected IR constructIR() {
-	//	Type type = getDeclType().checkIR(Type.class);
-	//	return new Entity("entity", getIdentNode().getIdent(), type, false);
-	//}
 
 	public static String getKindStr()
 	{

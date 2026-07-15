@@ -94,14 +94,14 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 				if(!(last instanceof ReturnStatementNode) && ((FunctionDeclNode)root).functionAuto == null) {
 					if(last instanceof ConditionStatementNode) {
 						if(!allCasesEndWithReturn((ConditionStatementNode)last)) {
-							last.reportError("All cases of a terminating if in a function must end with a return statement (missing in " + root.getKind() + " " + root.getIdentNode() + ").");
+							last.reportError("All cases of a terminating if in a function must end with a return statement (missing in " + root.getKind() + " " + root.getIdent() + ").");
 							res = false;
 						}
 					} else {
 						if(last != null && last.getCoords().hasLocation())
-							last.reportError("A function must end with a return statement (missing in " + root.getKind() + " " + root.getIdentNode() + ").");
+							last.reportError("A function must end with a return statement (missing in " + root.getKind() + " " + root.getIdent() + ").");
 						else
-							root.reportError("A function must end with a return statement (missing in " + root.getKind() + " " + root.getIdentNode() + ").");
+							root.reportError("A function must end with a return statement (missing in " + root.getKind() + " " + root.getIdent() + ").");
 						res = false;
 					}
 				}
@@ -110,14 +110,14 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 				if(!(last instanceof ReturnStatementNode)) {
 					if(last instanceof ConditionStatementNode) {
 						if(!allCasesEndWithReturn((ConditionStatementNode)last)) {
-							last.reportError("All cases of a terminating if in a procedure must end with a return statement (missing in " + root.getKind() + " " + root.getIdentNode() + ").");
+							last.reportError("All cases of a terminating if in a procedure must end with a return statement (missing in " + root.getKind() + " " + root.getIdent() + ").");
 							res = false;
 						}
 					} else {
 						if(last != null && last.getCoords().hasLocation())
-							last.reportError("A procedure must end with a return statement (missing in " + root.getKind() + " " + root.getIdentNode() + ").");
+							last.reportError("A procedure must end with a return statement (missing in " + root.getKind() + " " + root.getIdent() + ").");
 						else
-							root.reportError("A procedure must end with a return statement (missing in " + root.getKind() + " " + root.getIdentNode() + ").");
+							root.reportError("A procedure must end with a return statement (missing in " + root.getKind() + " " + root.getIdent() + ").");
 						res = false;
 					}
 				}
