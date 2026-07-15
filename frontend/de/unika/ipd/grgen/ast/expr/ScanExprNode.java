@@ -140,7 +140,7 @@ public class ScanExprNode extends BuiltinFunctionInvocationBaseNode
 	protected IR constructIR()
 	{
 		stringExpr = stringExpr.evaluate();
-		return new ScanExpr(stringExpr.checkIR(Expression.class), getType().getType());
+		return new ScanExpr(stringExpr.checkIR(Expression.class), getType().getIRType());
 	}
 
 	@Override

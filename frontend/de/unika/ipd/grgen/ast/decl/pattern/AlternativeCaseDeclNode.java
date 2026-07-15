@@ -103,16 +103,16 @@ public class AlternativeCaseDeclNode extends NestedMatcherDeclNode
 			return getIR();
 		}
 
-		Rule altCaseRule = new Rule(getIdentNode().getIdent(), RuleKind.AlternativeCase);
+		Rule altCaseRule = new Rule(getIdentNode().getIRIdent(), RuleKind.AlternativeCase);
 
 		// mark this node as already visited
 		setIR(altCaseRule);
 
-		PatternGraphLhs left = pattern.getPatternGraph();
+		PatternGraphLhs left = pattern.getIRPatternGraphLhs();
 
 		PatternGraphRhs rightPattern = null;
 		if(right != null) {
-			rightPattern = right.getPatternGraph(left);
+			rightPattern = right.getIRPatternGraph(left);
 		}
 
 		altCaseRule.initialize(left, rightPattern);

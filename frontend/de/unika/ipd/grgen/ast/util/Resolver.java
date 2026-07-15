@@ -127,7 +127,7 @@ public abstract class Resolver<T> extends Base
 			o.fixupDefinition(member);
 
 			InheritanceTypeNode inheritanceType = (InheritanceTypeNode)type;
-			result = (MemberDeclNode)inheritanceType.tryGetMember(member.getIdent().toString());
+			result = (MemberDeclNode)inheritanceType.tryGetMember(member.getIRIdent().toString());
 			if(result == null) {
 				String kind = inheritanceType.getKind();
 				String className = inheritanceType.getTypeName();

@@ -120,7 +120,7 @@ public class ProcedureDeclNode extends ProcedureDeclBaseNode
 	}
 
 	/** Returns the IR object for this procedure node. */
-	public Procedure getProcedure()
+	public Procedure getIRProcedure()
 	{
 		return checkIR(Procedure.class);
 	}
@@ -142,8 +142,8 @@ public class ProcedureDeclNode extends ProcedureDeclBaseNode
 			return getIR();
 		}
 
-		Procedure procedure = isMethod ? new ProcedureMethod(getIdentNode().toString(), getIdentNode().getIdent())
-				: new Procedure(getIdentNode().toString(), getIdentNode().getIdent());
+		Procedure procedure = isMethod ? new ProcedureMethod(getIdentNode().toString(), getIdentNode().getIRIdent())
+				: new Procedure(getIdentNode().toString(), getIdentNode().getIRIdent());
 
 		// mark this node as already visited
 		setIR(procedure);

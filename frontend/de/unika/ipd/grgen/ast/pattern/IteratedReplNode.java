@@ -73,7 +73,7 @@ public class IteratedReplNode extends OrderedReplacementNode
 	@Override
 	protected IR constructIR()
 	{
-		return new IteratedReplacement("iterated replacement", iteratedUnresolved.getIdent(),
+		return new IteratedReplacement("iterated replacement", iteratedUnresolved.getIRIdent(),
 				iterated.checkIR(Rule.class));
 	}
 }

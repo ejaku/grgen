@@ -128,6 +128,6 @@ public class IsInNodesFromIndexAccessFromToExprNode extends FromIndexAccessFromT
 				new IndexAccessOrdering(index.checkIR(Index.class), true,
 						fromOperator(), fromExpr != null ? fromExpr.checkIR(Expression.class) : null, 
 						toOperator(), toExpr != null ? toExpr.checkIR(Expression.class) : null),
-				getType().getType());
+				getType().getIRType());
 	}
 }

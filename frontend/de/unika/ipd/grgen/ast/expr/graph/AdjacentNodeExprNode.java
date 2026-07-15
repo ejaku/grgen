@@ -60,7 +60,7 @@ public class AdjacentNodeExprNode extends NeighborhoodQueryExprNode
 		return new AdjacentNodeExpr(startNodeExpr.checkIR(Expression.class),
 				incidentTypeExpr.checkIR(Expression.class), direction,
 				adjacentTypeExpr.checkIR(Expression.class),
-				getType().getType());
+				getType().getIRType());
 	}
 
 	@Override

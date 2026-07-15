@@ -95,7 +95,7 @@ public class DefinedSubgraphExprNode extends BuiltinFunctionInvocationBaseNode
 	protected IR constructIR()
 	{
 		edgeSetExpr = edgeSetExpr.evaluate();
-		return new DefinedSubgraphExpr(edgeSetExpr.checkIR(Expression.class), getType().getType());
+		return new DefinedSubgraphExpr(edgeSetExpr.checkIR(Expression.class), getType().getIRType());
 	}
 
 	@Override

@@ -77,7 +77,7 @@ public class EnumConstNode extends ConstNode
 	}
 
 	@Override
-	public EnumExpression getConstant()
+	public EnumExpression getIRConstant()
 	{
 		return checkIR(EnumExpression.class);
 	}

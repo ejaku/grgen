@@ -58,7 +58,7 @@ public class IsIncidentEdgeExprNode extends IsInEdgeNeighborhoodQueryExprNode
 				endEdgeExpr.checkIR(Expression.class),
 				incidentTypeExpr.checkIR(Expression.class), direction,
 				adjacentTypeExpr.checkIR(Expression.class),
-				getType().getType());
+				getType().getIRType());
 	}
 
 	@Override

@@ -319,7 +319,7 @@ public class DefinedMatchTypeNode extends MatchTypeNode
 	}
 
 	/** Returns the IR object for this defined match type node. */
-	public DefinedMatchType getDefinedMatchType()
+	public DefinedMatchType getIRDefinedMatchType()
 	{
 		return checkIR(DefinedMatchType.class);
 	}
@@ -331,7 +331,7 @@ public class DefinedMatchTypeNode extends MatchTypeNode
 			return (DefinedMatchType)getIR();
 		}
 
-		PatternGraphLhs patternGraph = pattern.getPatternGraph();
+		PatternGraphLhs patternGraph = pattern.getIRPatternGraphLhs();
 		for(DeclNode varCand : pattern.getParamDecls()) {
 			if(!(varCand instanceof VarDeclNode))
 				continue;
@@ -339,7 +339,7 @@ public class DefinedMatchTypeNode extends MatchTypeNode
 			patternGraph.addVariable(var.checkIR(Variable.class));
 		}
 
-		DefinedMatchType definedMatchType = new DefinedMatchType(getIdentNode().toString(), getIdentNode().getIdent(),
+		DefinedMatchType definedMatchType = new DefinedMatchType(getIdentNode().toString(), getIdentNode().getIRIdent(),
 				patternGraph);
 
 		// mark this node as already visited

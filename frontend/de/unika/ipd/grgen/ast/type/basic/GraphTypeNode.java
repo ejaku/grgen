@@ -22,7 +22,7 @@ public class GraphTypeNode extends BasicTypeNode
 	@Override
 	protected IR constructIR()
 	{
-		return new GraphType(getIdentNode().getIdent());
+		return new GraphType(getIdentNode().getIRIdent());
 	}
 
 	@Override

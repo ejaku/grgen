@@ -331,7 +331,7 @@ public class ConnectionNode extends ConnectionCharacter
 	@Override
 	public void addToGraph(PatternGraphBase patternGraph)
 	{
-		patternGraph.addConnection(left.getNode(), edge.getEdge(), right.getNode(), connectionKind == ConnectionKind.DIRECTED,
+		patternGraph.addConnection(left.getIRNode(), edge.getIREdge(), right.getIRNode(), connectionKind == ConnectionKind.DIRECTED,
 				(redirectionKind & REDIRECT_SOURCE) == REDIRECT_SOURCE,
 				(redirectionKind & REDIRECT_TARGET) == REDIRECT_TARGET);
 	}

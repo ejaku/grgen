@@ -68,7 +68,7 @@ public class ProjectionExprNode extends ExprNode
 		return new ProjectionExpr(index,
 				procedure instanceof ProcedureInvocationDecisionNode ? null
 						: procedure.checkIR(ProcedureInvocationBase.class).getProcedureBase(),
-				procedure.getType().get(index).getType());
+				procedure.getType().get(index).getIRType());
 	}
 
 	@Override

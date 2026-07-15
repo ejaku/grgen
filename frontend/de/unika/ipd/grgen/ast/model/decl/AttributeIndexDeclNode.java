@@ -139,7 +139,7 @@ public class AttributeIndexDeclNode extends IndexDeclNode
 	@Override
 	protected IR constructIR()
 	{
-		AttributeIndex attributeIndex = new AttributeIndex(getIdentNode().toString(), getIdentNode().getIdent(),
+		AttributeIndex attributeIndex = new AttributeIndex(getIdentNode().toString(), getIdentNode().getIRIdent(),
 				type.checkIR(InheritanceType.class), member.checkIR(Entity.class));
 		return attributeIndex;
 	}

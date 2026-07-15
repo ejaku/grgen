@@ -50,6 +50,6 @@ public class MapDomainNode extends MapFunctionMethodInvocationBaseExprNode
 	protected IR constructIR()
 	{
 		targetExpr = targetExpr.evaluate();
-		return new MapDomainExpr(targetExpr.checkIR(Expression.class), getType().getType());
+		return new MapDomainExpr(targetExpr.checkIR(Expression.class), getType().getIRType());
 	}
 }

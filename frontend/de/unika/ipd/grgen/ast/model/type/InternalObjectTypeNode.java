@@ -131,7 +131,7 @@ public class InternalObjectTypeNode extends BaseInternalObjectTypeNode
 	 * Get the IR internal type for this AST node.
 	 * @return The correctly casted IR internal type.
 	 */
-	public InternalObjectType getInternalObjectType()
+	public InternalObjectType getIRInternalObjectType()
 	{
 		return checkIR(InternalObjectType.class);
 	}
@@ -147,7 +147,7 @@ public class InternalObjectTypeNode extends BaseInternalObjectTypeNode
 			return getIR();
 		}
 
-		InternalObjectType ot = new InternalObjectType(getDecl().getIdentNode().getIdent(), getIRModifiers());
+		InternalObjectType ot = new InternalObjectType(getDecl().getIdentNode().getIRIdent(), getIRModifiers());
 
 		setIR(ot);
 

@@ -287,7 +287,7 @@ public class ModelNode extends DeclNode
 	 * Get the IR model node for this AST node.
 	 * @return The model for this AST node.
 	 */
-	public Model getModel()
+	public Model getIRModel()
 	{
 		return checkIR(Model.class);
 	}
@@ -306,13 +306,13 @@ public class ModelNode extends DeclNode
 				isUniqueDefined, isUniqueClassDefined, isUniqueIndexDefined,
 				areFunctionsParallel, isoParallel, sequencesParallel);
 		for(ModelNode model : usedModels.getChildrenExact()) {
-			res.addUsedModel(model.getModel());
+			res.addUsedModel(model.getIRModel());
 		}
 		for(TypeDeclNode typeDecl : packages.getChildrenExact()) {
-			res.addPackage((PackageType)typeDecl.getDeclType().getType());
+			res.addPackage((PackageType)typeDecl.getDeclType().getIRType());
 		}
 		for(TypeDeclNode typeDecl : decls.getChildrenExact()) {
-			res.addType(typeDecl.getDeclType().getType());
+			res.addType(typeDecl.getDeclType().getIRType());
 		}
 		for(IndexDeclNode indexDecl : indices.getChildrenExact()) {
 			res.addIndex(indexDecl.checkIR(Index.class));

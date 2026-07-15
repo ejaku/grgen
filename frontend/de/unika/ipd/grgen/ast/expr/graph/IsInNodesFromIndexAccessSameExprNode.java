@@ -117,6 +117,6 @@ public class IsInNodesFromIndexAccessSameExprNode extends FromIndexAccessSameExp
 		expr = expr.evaluate();
 		return new IsInNodesFromIndexAccessSameExpr(candidateExpr.checkIR(Expression.class),
 				new IndexAccessEquality(index.checkIR(Index.class), expr.checkIR(Expression.class)),
-				getType().getType());
+				getType().getIRType());
 	}
 }

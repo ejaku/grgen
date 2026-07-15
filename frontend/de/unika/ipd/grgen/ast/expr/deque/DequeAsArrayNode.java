@@ -50,6 +50,6 @@ public class DequeAsArrayNode extends DequeFunctionMethodInvocationBaseExprNode
 	protected IR constructIR()
 	{
 		targetExpr = targetExpr.evaluate();
-		return new DequeAsArrayExpr(targetExpr.checkIR(Expression.class), getType().getType());
+		return new DequeAsArrayExpr(targetExpr.checkIR(Expression.class), getType().getIRType());
 	}
 }

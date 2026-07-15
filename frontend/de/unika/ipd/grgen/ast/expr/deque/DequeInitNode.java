@@ -123,12 +123,12 @@ public class DequeInitNode extends ContainerSingleElementInitNode
 	protected IR constructIR()
 	{
 		Vector<Expression> items = constructItems();
-		Entity member = lhs != null ? lhs.getEntity() : null;
+		Entity member = lhs != null ? lhs.getIREntity() : null;
 		DequeType type = dequeType != null ? dequeType.checkIR(DequeType.class) : null;
 		return new DequeInit(items, member, type, isConstant());
 	}
 
-	public DequeInit getDequeInit()
+	public DequeInit getIRDequeInit()
 	{
 		return checkIR(DequeInit.class);
 	}

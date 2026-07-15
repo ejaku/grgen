@@ -246,7 +246,7 @@ public class SubpatternReplNode extends OrderedReplacementNode
 			e = e.evaluate();
 			replConnections.add(e.checkIR(Expression.class));
 		}
-		return new SubpatternDependentReplacement("dependent replacement", subpatternUnresolved.getIdent(),
+		return new SubpatternDependentReplacement("dependent replacement", subpatternUnresolved.getIRIdent(),
 				subpattern.checkIR(SubpatternUsage.class), replConnections);
 	}
 }

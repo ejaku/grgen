@@ -284,7 +284,7 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 
 		Set<String> sharedNames = getNamesOfCommonEntities(leftMatchType, rightMatchType);
 		if(joinFunction.equals("natural")) {
-			Expression condition = new Constant(BasicTypeNode.booleanType.getType(), Boolean.TRUE);
+			Expression condition = new Constant(BasicTypeNode.booleanType.getIRType(), Boolean.TRUE);
 			for(String sharedName : sharedNames) {
 				DeclNode leftMemberDecl = leftMatchType.tryGetMember(sharedName);
 				Entity leftMember = leftMemberDecl.checkIR(Entity.class);
@@ -292,11 +292,11 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 				DeclNode rightMemberDecl = rightMatchType.tryGetMember(sharedName);
 				Entity rightMember = rightMemberDecl.checkIR(Entity.class);
 				
-				Operator opEqual = new Operator(BasicTypeNode.booleanType.getType(), OperatorCode.EQ);
+				Operator opEqual = new Operator(BasicTypeNode.booleanType.getIRType(), OperatorCode.EQ);
 				opEqual.addOperand(new MatchAccess(new VariableExpression(leftIterationVar), leftMember));
 				opEqual.addOperand(new MatchAccess(new VariableExpression(rightIterationVar), rightMember));
 				
-				Operator opAnd = new Operator(BasicTypeNode.booleanType.getType(), OperatorCode.LOG_AND);
+				Operator opAnd = new Operator(BasicTypeNode.booleanType.getIRType(), OperatorCode.LOG_AND);
 				opAnd.addOperand(condition);
 				opAnd.addOperand(opEqual);
 				

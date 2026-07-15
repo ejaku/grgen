@@ -86,7 +86,7 @@ public class IteratedQueryExprNode extends ExprNode
 	@Override
 	protected IR constructIR()
 	{
-		return new IteratedQueryExpr(iteratedUnresolved.getIdent(), iterated.checkIR(Rule.class), getType().getType());
+		return new IteratedQueryExpr(iteratedUnresolved.getIRIdent(), iterated.checkIR(Rule.class), getType().getIRType());
 	}
 
 	@Override

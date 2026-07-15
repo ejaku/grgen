@@ -377,7 +377,7 @@ public class Main extends Base implements Sys
 
 	private void buildIR()
 	{
-		irUnit = root.getUnit();
+		irUnit = root.getIRUnit();
 	}
 
 	private void generateCode()

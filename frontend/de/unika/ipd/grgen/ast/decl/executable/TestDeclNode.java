@@ -131,12 +131,12 @@ public class TestDeclNode extends ActionDeclNode
 			return getIR();
 		}
 
-		Rule testRule = new Rule(getIdentNode().getIdent(), RuleKind.Test);
+		Rule testRule = new Rule(getIdentNode().getIRIdent(), RuleKind.Test);
 
 		// mark this node as already visited
 		setIR(testRule);
 
-		PatternGraphLhs left = pattern.getPatternGraph();
+		PatternGraphLhs left = pattern.getIRPatternGraphLhs();
 		for(DeclNode varCand : pattern.getParamDecls()) {
 			if(!(varCand instanceof VarDeclNode))
 				continue;

@@ -104,10 +104,10 @@ public class UniqueofExprNode extends BuiltinFunctionInvocationBaseNode
 	protected IR constructIR()
 	{
 		if(entity == null) {
-			return new Uniqueof(null, getType().getType());
+			return new Uniqueof(null, getType().getIRType());
 		}
 		entity = entity.evaluate();
-		return new Uniqueof(entity.checkIR(Expression.class), getType().getType());
+		return new Uniqueof(entity.checkIR(Expression.class), getType().getIRType());
 	}
 
 	@Override

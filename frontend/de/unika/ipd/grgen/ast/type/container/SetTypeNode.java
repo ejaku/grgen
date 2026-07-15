@@ -118,7 +118,7 @@ public class SetTypeNode extends ContainerTypeNode
 	@Override
 	protected IR constructIR()
 	{
-		Type vt = valueType.getType();
+		Type vt = valueType.getIRType();
 		return new SetType(vt);
 	}
 }

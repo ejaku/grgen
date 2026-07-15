@@ -134,9 +134,9 @@ public class ModifyDeclNode extends RhsDeclNode
 	}
 
 	@Override
-	public PatternGraphRhs getPatternGraph(PatternGraphLhs left)
+	public PatternGraphRhs getIRPatternGraph(PatternGraphLhs left)
 	{
-		PatternGraphRhs right = patternGraph.getGraph();
+		PatternGraphRhs right = patternGraph.getIRPatternGraphRhs();
 
 		Set<Entity> elementsToDelete = insertElementsToDeleteToLhsIfNotFromLhs(left, right);
 

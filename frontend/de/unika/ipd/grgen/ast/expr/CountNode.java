@@ -83,7 +83,7 @@ public class CountNode extends ExprNode
 	@Override
 	protected IR constructIR()
 	{
-		return new Count(iterated.checkIR(Rule.class), getType().getType());
+		return new Count(iterated.checkIR(Rule.class), getType().getIRType());
 	}
 
 	@Override

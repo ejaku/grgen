@@ -147,7 +147,7 @@ public class MatchTypeActionNode extends MatchTypeNode
 	}
 
 	/** Returns the IR object for this match type node. */
-	public MatchType getMatchType()
+	public MatchType getIRMatchType()
 	{
 		return checkIR(MatchType.class);
 	}
@@ -159,11 +159,11 @@ public class MatchTypeActionNode extends MatchTypeNode
 			return (MatchType)getIR();
 		}
 
-		MatchType matchType = new MatchType(action.ident.getIdent());
+		MatchType matchType = new MatchType(action.ident.getIRIdent());
 
 		setIR(matchType);
 
-		Rule matchAction = action.getMatcher();
+		Rule matchAction = action.getIRMatcher();
 		matchType.setAction(matchAction);
 
 		return matchType;

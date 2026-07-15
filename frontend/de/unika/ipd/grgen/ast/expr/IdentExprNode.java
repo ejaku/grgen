@@ -75,7 +75,7 @@ public class IdentExprNode extends DeclExprNode
 	{
 		BaseNode declNode = (BaseNode)decl;
 		if(declNode instanceof TypeDeclNode)
-			return new Constant(BasicTypeNode.typeType.getType(), ((TypeDeclNode)decl).getDeclType().getIR());
+			return new Constant(BasicTypeNode.typeType.getIRType(), ((TypeDeclNode)decl).getDeclType().getIR());
 		else
 			return super.constructIR();
 	}

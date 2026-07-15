@@ -135,8 +135,8 @@ public class MapTypeNode extends ContainerTypeNode
 	@Override
 	protected MapType constructIR()
 	{
-		Type kt = keyType.getType();
-		Type vt = valueType.getType();
+		Type kt = keyType.getIRType();
+		Type vt = valueType.getIRType();
 		return new MapType(kt, vt);
 	}
 }

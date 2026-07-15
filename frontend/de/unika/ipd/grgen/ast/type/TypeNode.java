@@ -132,7 +132,7 @@ public abstract class TypeNode extends BaseNode
 	 * The cast must always succeed.
 	 * @return The IR object as type.
 	 */
-	public Type getType()
+	public Type getIRType()
 	{
 		return checkIR(Type.class);
 	}

@@ -100,7 +100,7 @@ public class InternalTransientObjectTypeNode extends BaseInternalObjectTypeNode
 	 * Get the IR internal type for this AST node.
 	 * @return The correctly casted IR internal type.
 	 */
-	public InternalTransientObjectType getInternalTransientObjectType()
+	public InternalTransientObjectType getIRInternalTransientObjectType()
 	{
 		return checkIR(InternalTransientObjectType.class);
 	}
@@ -116,7 +116,7 @@ public class InternalTransientObjectTypeNode extends BaseInternalObjectTypeNode
 			return getIR();
 		}
 
-		InternalTransientObjectType tot = new InternalTransientObjectType(getDecl().getIdentNode().getIdent(), getIRModifiers());
+		InternalTransientObjectType tot = new InternalTransientObjectType(getDecl().getIdentNode().getIRIdent(), getIRModifiers());
 
 		setIR(tot);
 

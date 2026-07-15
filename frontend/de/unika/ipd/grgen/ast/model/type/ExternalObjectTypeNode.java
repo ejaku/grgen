@@ -114,7 +114,7 @@ public class ExternalObjectTypeNode extends InheritanceTypeNode
 	 * Get the IR external object type for this AST node.
 	 * @return The correctly casted IR external object type.
 	 */
-	protected ExternalObjectType getExternalObjectType()
+	protected ExternalObjectType getIRExternalObjectType()
 	{
 		return checkIR(ExternalObjectType.class);
 	}
@@ -130,7 +130,7 @@ public class ExternalObjectTypeNode extends InheritanceTypeNode
 			return getIR();
 		}
 
-		ExternalObjectType et = new ExternalObjectType(getDecl().getIdentNode().getIdent());
+		ExternalObjectType et = new ExternalObjectType(getDecl().getIdentNode().getIRIdent());
 
 		setIR(et);
 
@@ -149,7 +149,7 @@ public class ExternalObjectTypeNode extends InheritanceTypeNode
 			}
 		}
 		for(InheritanceTypeNode inh : getDirectSuperTypes()) {
-			extType.addDirectSuperType(inh.getType());
+			extType.addDirectSuperType(inh.getIRType());
 		}
 	}
 

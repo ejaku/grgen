@@ -113,7 +113,7 @@ public class GraphAddEdgeProcNode extends BuiltinProcedureInvocationBaseNode
 		targetNode = targetNode.evaluate();
 		GraphAddEdgeProc addEdge = new GraphAddEdgeProc(edgeType.checkIR(Expression.class),
 				sourceNode.checkIR(Expression.class), targetNode.checkIR(Expression.class),
-				edgeType.getType().getType());
+				edgeType.getType().getIRType());
 		return addEdge;
 	}
 

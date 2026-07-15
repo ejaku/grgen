@@ -103,7 +103,7 @@ public class SequenceDeclNode extends DeclNode
 	}
 
 	/** Returns the IR object for this sequence node. */
-	public Sequence getSequence()
+	public Sequence getIRSequence()
 	{
 		return checkIR(Sequence.class);
 	}
@@ -117,7 +117,7 @@ public class SequenceDeclNode extends DeclNode
 	@Override
 	protected IR constructIR()
 	{
-		Sequence sequence = new Sequence(getIdentNode().getIdent(), exec.checkIR(Exec.class));
+		Sequence sequence = new Sequence(getIdentNode().getIRIdent(), exec.checkIR(Exec.class));
 		for(ExecVarDeclNode inParam : inParams.getChildrenExact()) {
 			sequence.addInParam(inParam.checkIR(ExecVariable.class));
 		}

@@ -82,7 +82,7 @@ public class SynchronizationTryEnterProcNode extends BuiltinProcedureInvocationB
 	protected IR constructIR()
 	{
 		criticalSectionObjectExpr = criticalSectionObjectExpr.evaluate();
-		SynchronizationTryEnterProc tryEnter = new SynchronizationTryEnterProc(BasicTypeNode.booleanType.getType(), criticalSectionObjectExpr.checkIR(Expression.class));
+		SynchronizationTryEnterProc tryEnter = new SynchronizationTryEnterProc(BasicTypeNode.booleanType.getIRType(), criticalSectionObjectExpr.checkIR(Expression.class));
 		return tryEnter;
 	}
 

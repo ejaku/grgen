@@ -131,7 +131,7 @@ public class NodeInterfaceTypeChangeDeclNode extends NodeDeclNode
 	{
 		Node node = (Node)super.constructIR();
 		NodeTypeNode ntn = (NodeTypeNode)interfaceType.getDeclType();
-		NodeType nt = ntn.getNodeType();
+		NodeType nt = ntn.getIRNodeType();
 		node.setParameterInterfaceType(nt);
 		return node;
 	}

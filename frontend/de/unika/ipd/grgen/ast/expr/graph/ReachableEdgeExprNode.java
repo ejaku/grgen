@@ -60,7 +60,7 @@ public class ReachableEdgeExprNode extends NeighborhoodQueryExprNode
 		return new ReachableEdgeExpr(startNodeExpr.checkIR(Expression.class),
 				incidentTypeExpr.checkIR(Expression.class), direction,
 				adjacentTypeExpr.checkIR(Expression.class),
-				getType().getType());
+				getType().getIRType());
 	}
 
 	@Override

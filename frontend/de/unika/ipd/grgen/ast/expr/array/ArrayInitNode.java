@@ -123,12 +123,12 @@ public class ArrayInitNode extends ContainerSingleElementInitNode
 	protected IR constructIR()
 	{
 		Vector<Expression> items = constructItems();
-		Entity member = lhs != null ? lhs.getEntity() : null;
+		Entity member = lhs != null ? lhs.getIREntity() : null;
 		ArrayType type = arrayType != null ? arrayType.checkIR(ArrayType.class) : null;
 		return new ArrayInit(items, member, type, isConstant());
 	}
 
-	public ArrayInit getArrayInit()
+	public ArrayInit getIRArrayInit()
 	{
 		return checkIR(ArrayInit.class);
 	}

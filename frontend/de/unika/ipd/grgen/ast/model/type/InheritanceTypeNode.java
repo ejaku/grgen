@@ -227,7 +227,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 	 * @return The IR object as type.
 	 */
 	@Override
-	public InheritanceType getType()
+	public InheritanceType getIRType()
 	{
 		return checkIR(InheritanceType.class);
 	}
@@ -529,7 +529,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 			constructAndAddIRChild(inhType, child);
 		}
 		for(InheritanceTypeNode inh : getDirectSuperTypes()) {
-			inhType.addDirectSuperType(inh.getType());
+			inhType.addDirectSuperType(inh.getIRType());
 		}
 	}
 
@@ -537,7 +537,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 	{
 		if(child instanceof ConstructorDeclNode) {
 			ConstructorDeclNode cd = (ConstructorDeclNode)child;
-			inhType.addConstructor(cd.getConstructor());
+			inhType.addConstructor(cd.getIRConstructor());
 		} else if(child instanceof DeclNode) {
 			DeclNode decl = (DeclNode)child;
 			if(child instanceof FunctionDeclNode) {
@@ -545,7 +545,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 			} else if(child instanceof ProcedureDeclNode) {
 				inhType.addProcedureMethod(child.checkIR(ProcedureMethod.class));
 			} else {
-				inhType.addMember(decl.getEntity());
+				inhType.addMember(decl.getIREntity());
 			}
 		} else if(child instanceof MemberInitNode) {
 			MemberInitNode mi = (MemberInitNode)child;
@@ -563,16 +563,16 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 			}
 		} else if(child instanceof MapInitNode) {
 			MapInitNode mi = (MapInitNode)child;
-			inhType.addMapInit(mi.getMapInit());
+			inhType.addMapInit(mi.getIRMapInit());
 		} else if(child instanceof SetInitNode) {
 			SetInitNode si = (SetInitNode)child;
-			inhType.addSetInit(si.getSetInit());
+			inhType.addSetInit(si.getIRSetInit());
 		} else if(child instanceof ArrayInitNode) {
 			ArrayInitNode ai = (ArrayInitNode)child;
-			inhType.addArrayInit(ai.getArrayInit());
+			inhType.addArrayInit(ai.getIRArrayInit());
 		} else if(child instanceof DequeInitNode) {
 			DequeInitNode di = (DequeInitNode)child;
-			inhType.addDequeInit(di.getDequeInit());
+			inhType.addDequeInit(di.getIRDequeInit());
 		}
 	}
 

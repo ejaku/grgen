@@ -28,7 +28,7 @@ public class DummyNodeDeclNode extends NodeDeclNode
 	}
 
 	@Override
-	public Node getNode()
+	public Node getIRNode()
 	{
 		return null;
 	}

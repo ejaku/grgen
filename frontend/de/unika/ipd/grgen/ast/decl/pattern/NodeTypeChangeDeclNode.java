@@ -161,12 +161,6 @@ public class NodeTypeChangeDeclNode extends NodeDeclNode
 		return res;
 	}
 
-	@Override
-	public Node getNode()
-	{
-		return checkIR(Node.class);
-	}
-
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
@@ -174,13 +168,13 @@ public class NodeTypeChangeDeclNode extends NodeDeclNode
 	protected IR constructIR()
 	{
 		NodeTypeNode tn = getDeclType();
-		NodeType nt = tn.getNodeType();
+		NodeType nt = tn.getIRNodeType();
 		IdentNode ident = getIdentNode();
 
-		RetypedNode res = new RetypedNode(ident.getIdent(), nt, ident.getAnnotations(),
+		RetypedNode res = new RetypedNode(ident.getIRIdent(), nt, ident.getAnnotations(),
 				isMaybeDeleted(), isMaybeRetyped(), false, context);
 
-		Node oldNode = old.getNode();
+		Node oldNode = old.getIRNode();
 		res.setOldNode(oldNode);
 
 		if(inheritsType()) {

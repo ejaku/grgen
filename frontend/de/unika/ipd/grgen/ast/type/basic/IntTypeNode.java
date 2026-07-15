@@ -22,7 +22,7 @@ public class IntTypeNode extends BasicTypeNode
 	@Override
 	protected IR constructIR()
 	{
-		return new IntType(getIdentNode().getIdent());
+		return new IntType(getIdentNode().getIRIdent());
 	}
 
 	@Override

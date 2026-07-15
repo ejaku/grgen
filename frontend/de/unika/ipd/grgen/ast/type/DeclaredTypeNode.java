@@ -51,7 +51,7 @@ public abstract class DeclaredTypeNode extends TypeNode
 		return decl;
 	}
 
-	public PrimitiveType getPrimitiveType()
+	public PrimitiveType getIRPrimitiveType()
 	{
 		return checkIR(PrimitiveType.class);
 	}

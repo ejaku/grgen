@@ -60,7 +60,7 @@ public class IncidentEdgeExprNode extends NeighborhoodQueryExprNode
 		return new IncidentEdgeExpr(startNodeExpr.checkIR(Expression.class),
 				incidentTypeExpr.checkIR(Expression.class), direction,
 				adjacentTypeExpr.checkIR(Expression.class),
-				getType().getType());
+				getType().getIRType());
 	}
 
 	@Override

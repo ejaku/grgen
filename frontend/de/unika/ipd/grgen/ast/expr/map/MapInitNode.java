@@ -236,14 +236,14 @@ public class MapInitNode extends ContainerInitNode
 	{
 		Vector<ExpressionPair> items = new Vector<ExpressionPair>();
 		for(ExprPairNode item : mapItems.getChildrenExact()) {
-			items.add(item.getExpressionPair());
+			items.add(item.getIRExpressionPair());
 		}
-		Entity member = lhs != null ? lhs.getEntity() : null;
+		Entity member = lhs != null ? lhs.getIREntity() : null;
 		MapType type = mapType != null ? mapType.checkIR(MapType.class) : null;
 		return new MapInit(items, member, type, isConstant());
 	}
 
-	public MapInit getMapInit()
+	public MapInit getIRMapInit()
 	{
 		return checkIR(MapInit.class);
 	}

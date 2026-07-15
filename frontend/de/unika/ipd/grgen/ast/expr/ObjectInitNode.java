@@ -108,7 +108,7 @@ public class ObjectInitNode extends ExprNode
 		return init;
 	}
 
-	public InternalObjectInit getObjectInit()
+	public InternalObjectInit getIRObjectInit()
 	{
 		return checkIR(InternalObjectInit.class);
 	}

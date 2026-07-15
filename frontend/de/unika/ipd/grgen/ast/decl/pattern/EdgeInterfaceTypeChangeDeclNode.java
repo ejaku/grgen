@@ -128,7 +128,7 @@ public class EdgeInterfaceTypeChangeDeclNode extends EdgeDeclNode
 	{
 		Edge edge = (Edge)super.constructIR();
 		EdgeTypeNode etn = (EdgeTypeNode)interfaceType.getDeclType();
-		EdgeType et = etn.getEdgeType();
+		EdgeType et = etn.getIREdgeType();
 		edge.setParameterInterfaceType(et);
 		return edge;
 	}

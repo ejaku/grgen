@@ -138,7 +138,7 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
 	}
 
 	/** Returns the IR object for this function filter node. */
-	public FilterFunction getFilterFunction()
+	public FilterFunction getIRFilterFunction()
 	{
 		return checkIR(FilterFunction.class);
 	}
@@ -174,15 +174,15 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
 
 		FilterFunction filterFunction;
 		if(evalStatements != null)
-			filterFunction = new FilterFunctionInternal(getIdentNode().toString(), getIdentNode().getIdent());
+			filterFunction = new FilterFunctionInternal(getIdentNode().toString(), getIdentNode().getIRIdent());
 		else
-			filterFunction = new FilterFunctionExternal(getIdentNode().toString(), getIdentNode().getIdent());
+			filterFunction = new FilterFunctionExternal(getIdentNode().toString(), getIdentNode().getIRIdent());
 
 		// mark this node as already visited
 		setIR(filterFunction);
 
-		filterFunction.setAction(action.getMatcher());
-		action.getMatcher().addFilter(filterFunction);
+		filterFunction.setAction(action.getIRMatcher());
+		action.getIRMatcher().addFilter(filterFunction);
 
 		// add Params to the IR
 		for(DeclNode decl : params.getChildrenExact()) {

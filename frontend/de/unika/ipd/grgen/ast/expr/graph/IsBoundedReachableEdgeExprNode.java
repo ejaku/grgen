@@ -133,7 +133,7 @@ public class IsBoundedReachableEdgeExprNode extends NeighborhoodQueryExprNode
 				endEdgeExpr.checkIR(Expression.class), depthExpr.checkIR(Expression.class),
 				incidentTypeExpr.checkIR(Expression.class), direction,
 				adjacentTypeExpr.checkIR(Expression.class),
-				getType().getType());
+				getType().getIRType());
 	}
 
 	@Override

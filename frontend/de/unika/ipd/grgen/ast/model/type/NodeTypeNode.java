@@ -149,7 +149,7 @@ public class NodeTypeNode extends InheritanceTypeNode
 	 * Get the IR node type for this AST node.
 	 * @return The correctly casted IR node type.
 	 */
-	public NodeType getNodeType()
+	public NodeType getIRNodeType()
 	{
 		return checkIR(NodeType.class);
 	}
@@ -165,7 +165,7 @@ public class NodeTypeNode extends InheritanceTypeNode
 			return getIR();
 		}
 
-		NodeType nt = new NodeType(getDecl().getIdentNode().getIdent(), getIRModifiers(), getExternalName());
+		NodeType nt = new NodeType(getDecl().getIdentNode().getIRIdent(), getIRModifiers(), getExternalName());
 
 		setIR(nt);
 

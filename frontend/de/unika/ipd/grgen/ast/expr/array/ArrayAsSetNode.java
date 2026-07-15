@@ -50,6 +50,6 @@ public class ArrayAsSetNode extends ArrayFunctionMethodInvocationBaseExprNode
 	protected IR constructIR()
 	{
 		targetExpr = targetExpr.evaluate();
-		return new ArrayAsSetExpr(targetExpr.checkIR(Expression.class), getType().getType());
+		return new ArrayAsSetExpr(targetExpr.checkIR(Expression.class), getType().getIRType());
 	}
 }

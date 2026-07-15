@@ -88,7 +88,7 @@ public class GraphAddCopyNodeProcNode extends BuiltinProcedureInvocationBaseNode
 	{
 		oldNode = oldNode.evaluate();
 		GraphAddCopyNodeProc addCopyNode = new GraphAddCopyNodeProc(oldNode.checkIR(Expression.class),
-				oldNode.getType().getType(), deep);
+				oldNode.getType().getIRType(), deep);
 		return addCopyNode;
 	}
 

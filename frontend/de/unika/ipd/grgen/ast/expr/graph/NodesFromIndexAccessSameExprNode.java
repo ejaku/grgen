@@ -68,6 +68,6 @@ public class NodesFromIndexAccessSameExprNode extends FromIndexAccessSameExprNod
 		expr = expr.evaluate();
 		return new NodesFromIndexAccessSameExpr(
 				new IndexAccessEquality(index.checkIR(Index.class), expr.checkIR(Expression.class)),
-				getType().getType());
+				getType().getIRType());
 	}
 }

@@ -94,6 +94,6 @@ public class NodesFromIndexAccessFromToAsArrayExprNode extends FromIndexAccessFr
 				new IndexAccessOrdering(index.checkIR(Index.class), ascending,
 						fromOperator(), fromExpr != null ? fromExpr.checkIR(Expression.class) : null, 
 						toOperator(), toExpr != null ? toExpr.checkIR(Expression.class) : null),
-				getType().getType());
+				getType().getIRType());
 	}
 }

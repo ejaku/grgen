@@ -99,7 +99,7 @@ public class InsertCopyProcNode extends BuiltinProcedureInvocationBaseNode
 		graphExpr = graphExpr.evaluate();
 		nodeExpr = nodeExpr.evaluate();
 		InsertCopyProc insertCopy = new InsertCopyProc(graphExpr.checkIR(Expression.class),
-				nodeExpr.checkIR(Expression.class), nodeExpr.getType().getType());
+				nodeExpr.checkIR(Expression.class), nodeExpr.getType().getIRType());
 		return insertCopy;
 	}
 

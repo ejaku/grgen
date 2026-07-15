@@ -109,6 +109,6 @@ public class ExecVarDeclNode extends DeclNode
 	@Override
 	protected ExecVariable constructIR()
 	{
-		return new ExecVariable("ExecVar", getIdentNode().getIdent(), type.getType(), 0);
+		return new ExecVariable("ExecVar", getIdentNode().getIRIdent(), type.getIRType(), 0);
 	}
 }

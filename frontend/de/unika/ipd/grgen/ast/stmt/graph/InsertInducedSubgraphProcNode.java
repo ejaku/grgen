@@ -107,7 +107,7 @@ public class InsertInducedSubgraphProcNode extends BuiltinProcedureInvocationBas
 		nodeExpr = nodeExpr.evaluate();
 		InsertInducedSubgraphProc insertInduced = new InsertInducedSubgraphProc(
 				nodeSetExpr.checkIR(Expression.class), nodeExpr.checkIR(Expression.class),
-				nodeExpr.getType().getType());
+				nodeExpr.getType().getIRType());
 		return insertInduced;
 	}
 

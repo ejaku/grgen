@@ -517,12 +517,12 @@ public class RuleDeclNode extends ActionDeclNode
 			return getIR();
 		}
 
-		Rule rule = new Rule(getIdentNode().getIdent(), RuleKind.Rule);
+		Rule rule = new Rule(getIdentNode().getIRIdent(), RuleKind.Rule);
 
 		// mark this node as already visited
 		setIR(rule);
 
-		PatternGraphLhs left = pattern.getPatternGraph();
+		PatternGraphLhs left = pattern.getIRPatternGraphLhs();
 		for(DeclNode varCand : pattern.getParamDecls()) {
 			if(!(varCand instanceof VarDeclNode))
 				continue;
@@ -530,7 +530,7 @@ public class RuleDeclNode extends ActionDeclNode
 			left.addVariable(var.checkIR(Variable.class));
 		}
 
-		PatternGraphRhs right = this.right.getPatternGraph(left);
+		PatternGraphRhs right = this.right.getIRPatternGraph(left);
 
 		rule.initialize(left, right);
 

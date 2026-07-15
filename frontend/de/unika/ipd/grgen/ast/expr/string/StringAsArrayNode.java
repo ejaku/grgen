@@ -92,7 +92,7 @@ public class StringAsArrayNode extends BuiltinFunctionInvocationBaseNode
 		stringToSplitAtExpr = stringToSplitAtExpr.evaluate();
 		return new StringAsArray(stringExpr.checkIR(Expression.class),
 				stringToSplitAtExpr.checkIR(Expression.class),
-				getType().getType());
+				getType().getIRType());
 	}
 
 	@Override

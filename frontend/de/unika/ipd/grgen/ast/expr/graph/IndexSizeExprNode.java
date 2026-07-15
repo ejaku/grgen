@@ -86,6 +86,6 @@ public class IndexSizeExprNode extends FromIndexAccessExprNode
 	protected IR constructIR()
 	{
 		return new IndexSizeExpr(index.checkIR(Index.class),
-				getType().getType());
+				getType().getIRType());
 	}
 }

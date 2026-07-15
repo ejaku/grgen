@@ -158,7 +158,7 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 		for(int i = subpatternRepls.getChildrenExact().size() - 1; i >= 0; --i) {
 			SubpatternReplNode subpatternRepl = subpatternRepls.get(i);
 			OrderedReplacementsNode orderedRepls = new OrderedReplacementsNode(subpatternRepl.getCoords(),
-					subpatternRepl.getSubpatternIdent().getIdent().toString());
+					subpatternRepl.getSubpatternIdent().getIRIdent().toString());
 			orderedRepls.addChild(subpatternRepl);
 			orderedReplacements.addChildAtFront(orderedRepls);
 		}
@@ -254,7 +254,7 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 	 * Get the correctly casted IR object.
 	 * @return The IR object.
 	 */
-	public PatternGraphRhs getGraph()
+	public PatternGraphRhs getIRPatternGraphRhs()
 	{
 		return checkIR(PatternGraphRhs.class);
 	}
@@ -268,7 +268,7 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 	protected IR constructIR()
 	{
 		PatternGraphRhs patternGraph = new PatternGraphRhs(nameOfGraph);
-		patternGraph.setDirectlyNestingLHSGraph(directlyNestingLHSGraph.getPatternGraph());
+		patternGraph.setDirectlyNestingLHSGraph(directlyNestingLHSGraph.getIRPatternGraphLhs());
 
 		for(ConnectionCharacter connection : connections.getChildrenExact()) {
 			connection.addToGraph(patternGraph);

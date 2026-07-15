@@ -64,7 +64,7 @@ public class NullConstNode extends ConstNode
 	@Override
 	protected IR constructIR()
 	{
-		return new Constant(getType().getType(), null);
+		return new Constant(getType().getIRType(), null);
 	}
 
 	/** @see de.unika.ipd.grgen.ast.expr.ConstNode#doCastTo(de.unika.ipd.grgen.ast.type.TypeNode) */

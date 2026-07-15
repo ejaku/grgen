@@ -66,7 +66,7 @@ public class VAllocProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
-		VAllocProc vAlloc = new VAllocProc(BasicTypeNode.intType.getType());
+		VAllocProc vAlloc = new VAllocProc(BasicTypeNode.intType.getIRType());
 		return vAlloc;
 	}
 

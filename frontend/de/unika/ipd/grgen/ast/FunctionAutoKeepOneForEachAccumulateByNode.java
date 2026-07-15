@@ -188,8 +188,8 @@ public class FunctionAutoKeepOneForEachAccumulateByNode extends FunctionAutoNode
 	
 	private String functionName()
 	{
-		return "keepOneForEach<" + attribute.getIdent() 
-				+ ">Accumulate<" + accumulationAttribute.getIdent()
+		return "keepOneForEach<" + attribute.getIRIdent() 
+				+ ">Accumulate<" + accumulationAttribute.getIRIdent()
 				+ ">By<"+ accumulationMethod + ">";
 	}
 }

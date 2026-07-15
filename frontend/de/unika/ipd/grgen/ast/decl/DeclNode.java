@@ -120,7 +120,7 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 		return getIdentNode().getCurrOcc().isAnonymous() ? "." : getIdentNode().toString();
 	}
 
-	public Entity getEntity()
+	public Entity getIREntity()
 	{
 		return checkIR(Entity.class);
 	}

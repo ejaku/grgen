@@ -107,7 +107,7 @@ public class SingleNodeConnNode extends ConnectionCharacter
 	{
 		assert isResolved();
 
-		patternGraph.addSingleNode(node.getNode());
+		patternGraph.addSingleNode(node.getIRNode());
 	}
 
 	private static Checker nodeChecker = new TypeChecker(NodeTypeNode.class);

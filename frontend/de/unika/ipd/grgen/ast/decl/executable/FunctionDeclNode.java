@@ -138,7 +138,7 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 	}
 
 	/** Returns the IR object for this function node. */
-	public Function getFunction()
+	public Function getIRFunction()
 	{
 		return checkIR(Function.class);
 	}
@@ -160,8 +160,8 @@ public class FunctionDeclNode extends FunctionDeclBaseNode
 		}
 
 		Function function = isMethod
-				? new FunctionMethod(getIdentNode().toString(), getIdentNode().getIdent(), resultType.checkIR(Type.class))
-				: new Function(getIdentNode().toString(), getIdentNode().getIdent(), resultType.checkIR(Type.class));
+				? new FunctionMethod(getIdentNode().toString(), getIdentNode().getIRIdent(), resultType.checkIR(Type.class))
+				: new Function(getIdentNode().toString(), getIdentNode().getIRIdent(), resultType.checkIR(Type.class));
 
 		// mark this node as already visited
 		setIR(function);

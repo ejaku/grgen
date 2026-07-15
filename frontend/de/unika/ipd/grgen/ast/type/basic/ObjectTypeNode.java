@@ -49,7 +49,7 @@ public class ObjectTypeNode extends BasicTypeNode
 	@Override
 	protected IR constructIR()
 	{
-		return new ObjectType(getIdentNode().getIdent());
+		return new ObjectType(getIdentNode().getIRIdent());
 	}
 
 	@Override

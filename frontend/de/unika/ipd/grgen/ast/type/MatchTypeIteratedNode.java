@@ -166,7 +166,7 @@ public class MatchTypeIteratedNode extends MatchTypeNode
 	}
 	
 	/** Returns the IR object for this match type node. */
-	public MatchTypeIterated getMatchTypeIterated()
+	public MatchTypeIterated getIRMatchTypeIterated()
 	{
 		return checkIR(MatchTypeIterated.class);
 	}
@@ -178,11 +178,11 @@ public class MatchTypeIteratedNode extends MatchTypeNode
 			return (MatchTypeIterated)getIR();
 		}
 
-		MatchTypeIterated matchTypeIterated = new MatchTypeIterated(iterated.ident.getIdent());
+		MatchTypeIterated matchTypeIterated = new MatchTypeIterated(iterated.ident.getIRIdent());
 
 		setIR(matchTypeIterated);
 
-		Rule matchAction = topLevelMatcher.getMatcher();
+		Rule matchAction = topLevelMatcher.getIRMatcher();
 		Rule iter = (Rule)iterated.getIR();
 
 		matchTypeIterated.setAction(matchAction);

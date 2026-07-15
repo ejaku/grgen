@@ -222,7 +222,7 @@ public class NodeDeclNode extends ConstraintDeclNode
 	 * Get the IR object correctly casted.
 	 * @return The node IR object.
 	 */
-	public Node getNode()
+	public Node getIRNode()
 	{
 		return checkIR(Node.class);
 	}
@@ -241,13 +241,13 @@ public class NodeDeclNode extends ConstraintDeclNode
 	protected IR constructIR()
 	{
 		NodeTypeNode tn = getDeclType();
-		NodeType nt = tn.getNodeType();
+		NodeType nt = tn.getIRNodeType();
 		IdentNode ident = getIdentNode();
 
-		Node node = new Node(ident.getIdent(), nt, ident.getAnnotations(),
-				directlyNestingLHSGraph != null ? directlyNestingLHSGraph.getPatternGraph() : null,
+		Node node = new Node(ident.getIRIdent(), nt, ident.getAnnotations(),
+				directlyNestingLHSGraph != null ? directlyNestingLHSGraph.getIRPatternGraphLhs() : null,
 				isMaybeDeleted(), isMaybeRetyped(), defEntityToBeYieldedTo, context);
-		node.setConstraints(getConstraints());
+		node.setConstraints(getIRConstraints());
 
 		if(node.getConstraints().contains(node.getType())) { // TODO: supertype? only subtypes allowed
 			reportError("The own node type may not be contained in the type constraint list"

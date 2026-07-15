@@ -84,7 +84,7 @@ public class PackageTypeNode extends CompoundTypeNode
 		Ident id = getIdentNode().checkIR(Ident.class);
 		PackageType pt = new PackageType(id);
 		for(TypeDeclNode typeDecl : decls.getChildrenExact()) {
-			pt.addType(typeDecl.getDeclType().getType());
+			pt.addType(typeDecl.getDeclType().getIRType());
 		}
 		return pt;
 	}

@@ -207,7 +207,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 	 * Get the edge type IR object.
 	 * @return The edge type IR object for this AST node.
 	 */
-	public final EdgeType getEdgeType()
+	public final EdgeType getIREdgeType()
 	{
 		return checkIR(EdgeType.class);
 	}
@@ -250,7 +250,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 			return getIR();
 		}
 
-		EdgeType et = new EdgeType(getDecl().getIdentNode().getIdent(), getIRModifiers(), getExternalName());
+		EdgeType et = new EdgeType(getDecl().getIdentNode().getIRIdent(), getIRModifiers(), getExternalName());
 
 		setIR(et);
 

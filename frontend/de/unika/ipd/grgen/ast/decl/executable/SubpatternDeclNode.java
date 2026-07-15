@@ -174,16 +174,16 @@ public class SubpatternDeclNode extends TopLevelMatcherDeclNode
 			return getIR();
 		}
 
-		Rule rule = new Rule(getIdentNode().getIdent(), RuleKind.Subpattern);
+		Rule rule = new Rule(getIdentNode().getIRIdent(), RuleKind.Subpattern);
 
 		// mark this node as already visited
 		setIR(rule);
 
-		PatternGraphLhs left = pattern.getPatternGraph();
+		PatternGraphLhs left = pattern.getIRPatternGraphLhs();
 
 		PatternGraphRhs rightPattern = null;
 		if(this.right != null) {
-			rightPattern = this.right.getPatternGraph(left);
+			rightPattern = this.right.getIRPatternGraph(left);
 		}
 
 		rule.initialize(left, rightPattern);

@@ -203,7 +203,7 @@ public class VarDeclNode extends DeclNode
 	 * Get the IR object correctly casted.
 	 * @return The Variable IR object.
 	 */
-	public Variable getVariable()
+	public Variable getIRVariable()
 	{
 		return checkIR(Variable.class);
 	}
@@ -215,8 +215,8 @@ public class VarDeclNode extends DeclNode
 			return (Variable)getIR();
 		}
 
-		Variable var = new Variable("Var", getIdentNode().getIdent(), type.getType(), defEntityToBeYieldedTo,
-				directlyNestingLHSGraph != null ? directlyNestingLHSGraph.getPatternGraph() : null,
+		Variable var = new Variable("Var", getIdentNode().getIRIdent(), type.getIRType(), defEntityToBeYieldedTo,
+				directlyNestingLHSGraph != null ? directlyNestingLHSGraph.getIRPatternGraphLhs() : null,
 				context, lambdaExpressionVariable);
 
 		setIR(var);

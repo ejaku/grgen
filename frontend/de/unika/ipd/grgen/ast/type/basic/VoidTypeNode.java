@@ -22,7 +22,7 @@ public class VoidTypeNode extends BasicTypeNode
 	@Override
 	protected IR constructIR()
 	{
-		return new VoidType(getIdentNode().getIdent());
+		return new VoidType(getIdentNode().getIRIdent());
 	}
 
 	@Override

@@ -47,6 +47,6 @@ public class EdgesFromIndexAccessMultipleFromToExprNode extends FromIndexAccessM
 		{
 			indexAccesses.add(indexAccessExpr.constructIRPart());
 		}
-		return new EdgesFromIndexAccessMultipleFromToExpr(indexAccesses, getType().getType());
+		return new EdgesFromIndexAccessMultipleFromToExpr(indexAccesses, getType().getIRType());
 	}
 }

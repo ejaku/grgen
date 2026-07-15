@@ -85,7 +85,7 @@ public class GraphAddNodeProcNode extends BuiltinProcedureInvocationBaseNode
 	{
 		nodeType = nodeType.evaluate();
 		GraphAddNodeProc addNode = new GraphAddNodeProc(nodeType.checkIR(Expression.class),
-				nodeType.getType().getType());
+				nodeType.getType().getIRType());
 		return addNode;
 	}
 

@@ -146,7 +146,7 @@ public class PatternGraphBuilder
 			Expression e1 = new Typeof(elem);
 			Expression e2 = new Typeof(elem.getTypeof());
 
-			Operator op = new Operator(BasicTypeNode.booleanType.getPrimitiveType(), OperatorCode.GE);
+			Operator op = new Operator(BasicTypeNode.booleanType.getIRPrimitiveType(), OperatorCode.GE);
 			op.addOperand(e1);
 			op.addOperand(e2);
 

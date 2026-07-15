@@ -140,7 +140,7 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 	}
 
 	/** Returns the IR object for this match class function filter node. */
-	public MatchClassFilterFunction getMatchClassFilterFunction()
+	public MatchClassFilterFunction getIRMatchClassFilterFunction()
 	{
 		return checkIR(MatchClassFilterFunction.class);
 	}
@@ -176,9 +176,9 @@ public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchC
 
 		MatchClassFilterFunction filterFunction;
 		if(evalStatements != null)
-			filterFunction = new MatchClassFilterFunctionInternal(getIdentNode().toString(), getIdentNode().getIdent());
+			filterFunction = new MatchClassFilterFunctionInternal(getIdentNode().toString(), getIdentNode().getIRIdent());
 		else
-			filterFunction = new MatchClassFilterFunctionExternal(getIdentNode().toString(), getIdentNode().getIdent());
+			filterFunction = new MatchClassFilterFunctionExternal(getIdentNode().toString(), getIdentNode().getIRIdent());
 
 		// mark this node as already visited
 		setIR(filterFunction);

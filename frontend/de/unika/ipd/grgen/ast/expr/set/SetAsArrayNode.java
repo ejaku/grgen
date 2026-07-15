@@ -50,6 +50,6 @@ public class SetAsArrayNode extends SetFunctionMethodInvocationBaseExprNode
 	protected IR constructIR()
 	{
 		targetExpr = targetExpr.evaluate();
-		return new SetAsArrayExpr(targetExpr.checkIR(Expression.class), getType().getType());
+		return new SetAsArrayExpr(targetExpr.checkIR(Expression.class), getType().getIRType());
 	}
 }

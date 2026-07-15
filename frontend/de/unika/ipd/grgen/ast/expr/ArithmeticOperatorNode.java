@@ -171,7 +171,7 @@ public class ArithmeticOperatorNode extends OperatorNode
 				}
 			}
 			
-			first = replaceSetMapOrExceptByAddRemove(qual, previous, first);
+			first = replaceIRSetMapOrExceptByIRAddRemove(qual, previous, first);
 
 			return first;
 		}
@@ -193,7 +193,7 @@ public class ArithmeticOperatorNode extends OperatorNode
 		}
 
 		DeclaredTypeNode type = (DeclaredTypeNode)getType();
-		de.unika.ipd.grgen.ir.expr.Operator op = new de.unika.ipd.grgen.ir.expr.Operator(type.getType(), getIROpCode(getOperator()));
+		de.unika.ipd.grgen.ir.expr.Operator op = new de.unika.ipd.grgen.ir.expr.Operator(type.getIRType(), getIROpCode(getOperator()));
 
 		for(ExprNode child : children) {
 			Expression ir = child.checkIR(Expression.class);
@@ -203,7 +203,7 @@ public class ArithmeticOperatorNode extends OperatorNode
 		return op;
 	}
 
-	private EvalStatement replaceSetMapOrExceptByAddRemove(Qualification qual,
+	private EvalStatement replaceIRSetMapOrExceptByIRAddRemove(Qualification qual,
 			EvalStatement previous, EvalStatement first)
 	{
 		if(getOperatorDecl().getOperator() == Operator.BIT_OR) {

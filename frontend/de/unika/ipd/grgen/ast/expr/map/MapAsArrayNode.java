@@ -64,6 +64,6 @@ public class MapAsArrayNode extends MapFunctionMethodInvocationBaseExprNode
 	protected IR constructIR()
 	{
 		targetExpr = targetExpr.evaluate();
-		return new MapAsArrayExpr(targetExpr.checkIR(Expression.class), getType().getType());
+		return new MapAsArrayExpr(targetExpr.checkIR(Expression.class), getType().getIRType());
 	}
 }

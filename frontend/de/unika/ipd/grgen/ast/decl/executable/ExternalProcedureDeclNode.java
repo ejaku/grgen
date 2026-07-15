@@ -107,8 +107,8 @@ public class ExternalProcedureDeclNode extends ProcedureDeclBaseNode
 	protected IR constructIR()
 	{
 		ExternalProcedure externalProc = isMethod
-				? new ExternalProcedureMethod(getIdentNode().toString(), getIdentNode().getIdent())
-				: new ExternalProcedure(getIdentNode().toString(), getIdentNode().getIdent());
+				? new ExternalProcedureMethod(getIdentNode().toString(), getIdentNode().getIRIdent())
+				: new ExternalProcedure(getIdentNode().toString(), getIdentNode().getIRIdent());
 		for(TypeNode retType : resultTypesCollectNode.getChildrenExact()) {
 			externalProc.addReturnType(retType.checkIR(Type.class));
 		}

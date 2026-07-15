@@ -92,7 +92,7 @@ public class EdgeByNameExprNode extends BuiltinFunctionInvocationBaseNode
 		name = name.evaluate();
 		edgeType = edgeType.evaluate();
 		return new EdgeByNameExpr(name.checkIR(Expression.class),
-				edgeType.checkIR(Expression.class), getType().getType());
+				edgeType.checkIR(Expression.class), getType().getIRType());
 	}
 
 	@Override

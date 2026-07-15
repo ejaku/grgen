@@ -183,7 +183,7 @@ public abstract class ConstraintDeclNode extends DeclNode
 		return atMostOneNameInit;
 	}
 
-	protected final TypeExpr getConstraints()
+	protected final TypeExpr getIRConstraints()
 	{
 		return constraints.checkIR(TypeExpr.class);
 	}

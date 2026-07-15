@@ -78,7 +78,7 @@ public class MultiRuleQueryExprNode extends ExprNode
 		// all actions must implement the match classes of the employed filters
 		for(ExprNode ruleQuery : ruleQueries.getChildrenExact()) {
 			CallActionNode actionCall = ((RuleQueryExprNode)ruleQuery).getCallAction();
-			MultiCallActionNode.checkWhetherCalledActionImplementsMatchClass(matchClass.getIdent().toString(), null,
+			MultiCallActionNode.checkWhetherCalledActionImplementsMatchClass(matchClass.getIRIdent().toString(), null,
 					actionCall);
 		}
 
@@ -88,7 +88,7 @@ public class MultiRuleQueryExprNode extends ExprNode
 	@Override
 	protected IR constructIR()
 	{
-		return new MultiRuleQueryExpr(getType().getType());
+		return new MultiRuleQueryExpr(getType().getIRType());
 	}
 
 	@Override

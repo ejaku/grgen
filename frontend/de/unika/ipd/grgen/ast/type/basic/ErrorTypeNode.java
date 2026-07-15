@@ -56,7 +56,7 @@ public class ErrorTypeNode extends TypeNode
 	@Override
 	protected IR constructIR()
 	{
-		return new VoidType(id.getIdent());
+		return new VoidType(id.getIRIdent());
 	}
 
 	public static String getKindStr()

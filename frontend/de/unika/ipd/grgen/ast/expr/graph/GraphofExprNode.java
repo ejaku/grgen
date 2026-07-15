@@ -82,7 +82,7 @@ public class GraphofExprNode extends BuiltinFunctionInvocationBaseNode
 	protected IR constructIR()
 	{
 		entity = entity.evaluate();
-		return new Graphof(entity.checkIR(Expression.class), getType().getType());
+		return new Graphof(entity.checkIR(Expression.class), getType().getIRType());
 	}
 
 	@Override

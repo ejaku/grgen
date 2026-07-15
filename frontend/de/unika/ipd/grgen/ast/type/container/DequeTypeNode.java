@@ -116,7 +116,7 @@ public class DequeTypeNode extends ContainerTypeNode
 	@Override
 	protected IR constructIR()
 	{
-		Type vt = valueType.getType();
+		Type vt = valueType.getIRType();
 		return new DequeType(vt);
 	}
 }

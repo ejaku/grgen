@@ -72,7 +72,7 @@ public abstract class MatcherDeclNode extends DeclNode
 	 * The IR object is instance of Rule.
 	 * @return The IR object.
 	 */
-	public Rule getMatcher()
+	public Rule getIRMatcher()
 	{
 		return checkIR(Rule.class);
 	}
@@ -838,7 +838,7 @@ public abstract class MatcherDeclNode extends DeclNode
 		// add replacement parameters to the IR
 		PatternGraphRhs rightPattern = null;
 		if(right != null) {
-			rightPattern = right.getPatternGraph(pattern.getPatternGraph());
+			rightPattern = right.getIRPatternGraph(pattern.getIRPatternGraphLhs());
 		} else {
 			return;
 		}
@@ -847,10 +847,10 @@ public abstract class MatcherDeclNode extends DeclNode
 		for(DeclNode decl : right.patternGraph.getParamDecls()) {
 			if(decl instanceof NodeDeclNode) {
 				rightPattern.addReplParameter(decl.checkIR(Node.class));
-				rightPattern.addSingleNode(((NodeDeclNode)decl).getNode());
+				rightPattern.addSingleNode(((NodeDeclNode)decl).getIRNode());
 			} else if(decl instanceof VarDeclNode) {
 				rightPattern.addReplParameter(decl.checkIR(Variable.class));
-				rightPattern.addVariable(((VarDeclNode)decl).getVariable());
+				rightPattern.addVariable(((VarDeclNode)decl).getIRVariable());
 			} else {
 				throw new IllegalArgumentException("unknown Class: " + decl);
 			}
@@ -872,7 +872,7 @@ public abstract class MatcherDeclNode extends DeclNode
 				constructedMatchingAction.addParameter(entity);
 			
 			if(decl instanceof VarDeclNode) { // nodes/edges already have been added
-				patternGraph.addVariable(((VarDeclNode)decl).getVariable());
+				patternGraph.addVariable(((VarDeclNode)decl).getIRVariable());
 			}
 		}
 	}
@@ -897,12 +897,12 @@ public abstract class MatcherDeclNode extends DeclNode
 		for(Alternative alternative : patternGraph.getAlts()) {
 			for(Rule alternativeCase : alternative.getAlternativeCases()) {
 				alternativeCase.getRight().addReplParameter(decl.checkIR(Node.class));
-				alternativeCase.getRight().addSingleNode(decl.getNode());
+				alternativeCase.getRight().addSingleNode(decl.getIRNode());
 			}
 		}
 		for(Rule iterated : patternGraph.getIters()) {
 			iterated.getRight().addReplParameter(decl.checkIR(Node.class));
-			iterated.getRight().addSingleNode(decl.getNode());
+			iterated.getRight().addSingleNode(decl.getIRNode());
 		}
 	}
 
@@ -911,12 +911,12 @@ public abstract class MatcherDeclNode extends DeclNode
 		for(Alternative alternative : patternGraph.getAlts()) {
 			for(Rule alternativeCase : alternative.getAlternativeCases()) {
 				alternativeCase.getRight().addReplParameter(decl.checkIR(Variable.class));
-				alternativeCase.getRight().addVariable(decl.getVariable());
+				alternativeCase.getRight().addVariable(decl.getIRVariable());
 			}
 		}
 		for(Rule iterated : patternGraph.getIters()) {
 			iterated.getRight().addReplParameter(decl.checkIR(Variable.class));
-			iterated.getRight().addVariable(decl.getVariable());
+			iterated.getRight().addVariable(decl.getIRVariable());
 		}
 	}
 

@@ -189,7 +189,7 @@ public class IncidenceCountIndexDeclNode extends IndexDeclNode
 	protected IR constructIR()
 	{
 		IncidenceCountIndex incidenceCountIndex = new IncidenceCountIndex(getIdentNode().toString(),
-				getIdentNode().getIdent(), startNodeType.checkIR(NodeType.class),
+				getIdentNode().getIRIdent(), startNodeType.checkIR(NodeType.class),
 				incidentEdgeType.checkIR(EdgeType.class), direction,
 				adjacentNodeType.checkIR(NodeType.class));
 		return incidenceCountIndex;

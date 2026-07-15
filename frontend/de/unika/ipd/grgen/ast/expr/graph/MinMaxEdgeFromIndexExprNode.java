@@ -88,6 +88,6 @@ public class MinMaxEdgeFromIndexExprNode extends FromIndexAccessExprNode
 	protected IR constructIR()
 	{
 		return new MinMaxFromIndexExpr(index.checkIR(Index.class), isMin,
-				getType().getType());
+				getType().getIRType());
 	}
 }

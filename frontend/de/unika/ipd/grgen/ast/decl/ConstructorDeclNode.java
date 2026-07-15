@@ -89,7 +89,7 @@ public class ConstructorDeclNode extends DeclNode
 		return "constructor";
 	}
 
-	public Constructor getConstructor()
+	public Constructor getIRConstructor()
 	{
 		return checkIR(Constructor.class);
 	}

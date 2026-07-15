@@ -65,6 +65,6 @@ public class CountEdgesFromIndexAccessSameExprNode extends FromIndexAccessSameEx
 		expr = expr.evaluate();
 		return new CountEdgesFromIndexAccessSameExpr(
 				new IndexAccessEquality(index.checkIR(Index.class), expr.checkIR(Expression.class)),
-				getType().getType());
+				getType().getIRType());
 	}
 }

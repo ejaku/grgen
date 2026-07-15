@@ -22,7 +22,7 @@ public class ShortTypeNode extends BasicTypeNode
 	@Override
 	protected IR constructIR()
 	{
-		return new ShortType(getIdentNode().getIdent());
+		return new ShortType(getIdentNode().getIRIdent());
 	}
 
 	@Override

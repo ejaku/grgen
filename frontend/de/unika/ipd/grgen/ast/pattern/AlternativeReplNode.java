@@ -73,7 +73,7 @@ public class AlternativeReplNode extends OrderedReplacementNode
 	@Override
 	protected IR constructIR()
 	{
-		return new AlternativeReplacement("alternative replacement", alternativeUnresolved.getIdent(),
+		return new AlternativeReplacement("alternative replacement", alternativeUnresolved.getIRIdent(),
 				alternative.checkIR(Alternative.class));
 	}
 }

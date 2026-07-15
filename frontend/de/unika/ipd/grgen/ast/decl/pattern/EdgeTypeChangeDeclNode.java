@@ -134,13 +134,13 @@ public class EdgeTypeChangeDeclNode extends EdgeDeclNode
 	protected IR constructIR()
 	{
 		EdgeTypeNode etn = getDeclType();
-		EdgeType et = etn.getEdgeType();
+		EdgeType et = etn.getIREdgeType();
 		IdentNode ident = getIdentNode();
 
-		RetypedEdge res = new RetypedEdge(ident.getIdent(), et, ident.getAnnotations(),
+		RetypedEdge res = new RetypedEdge(ident.getIRIdent(), et, ident.getAnnotations(),
 				isMaybeDeleted(), isMaybeRetyped(), false, context);
 
-		Edge oldEdge = old.getEdge();
+		Edge oldEdge = old.getIREdge();
 		res.setOldEdge(oldEdge);
 
 		if(inheritsType()) {

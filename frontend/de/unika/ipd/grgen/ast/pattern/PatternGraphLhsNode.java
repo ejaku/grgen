@@ -647,7 +647,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 	 *
 	 * @return The IR object.
 	 */
-	public PatternGraphLhs getPatternGraph()
+	public PatternGraphLhs getIRPatternGraphLhs()
 	{
 		return checkIR(PatternGraphLhs.class);
 	}
@@ -703,7 +703,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 		}
 
 		for(PatternGraphLhsNode negativeNode : negs.getChildrenExact()) {
-			PatternGraphLhs negative = negativeNode.getPatternGraph();
+			PatternGraphLhs negative = negativeNode.getIRPatternGraphLhs();
 			patternGraph.addNegGraph(negative);
 			if(negative.isIterationBreaking()) {
 				patternGraph.setIterationBreaking(true);
@@ -711,7 +711,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 		}
 
 		for(PatternGraphLhsNode independentNode : idpts.getChildrenExact()) {
-			PatternGraphLhs independent = independentNode.getPatternGraph();
+			PatternGraphLhs independent = independentNode.getIRPatternGraphLhs();
 			patternGraph.addIdptGraph(independent);
 			if(independent.isIterationBreaking()) {
 				patternGraph.setIterationBreaking(true);

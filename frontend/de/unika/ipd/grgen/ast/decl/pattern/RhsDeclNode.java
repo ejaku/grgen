@@ -319,7 +319,7 @@ public abstract class RhsDeclNode extends DeclNode
 		}
 	}
 
-	public abstract PatternGraphRhs getPatternGraph(PatternGraphLhs left);
+	public abstract PatternGraphRhs getIRPatternGraph(PatternGraphLhs left);
 
 	@Override
 	public RhsTypeNode getDeclType()

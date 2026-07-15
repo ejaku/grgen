@@ -87,10 +87,10 @@ public class NameofNode extends ExprNode
 	protected IR constructIR()
 	{
 		if(namedEntity == null) {
-			return new Nameof(null, getType().getType());
+			return new Nameof(null, getType().getIRType());
 		}
 		namedEntity = namedEntity.evaluate();
-		return new Nameof(namedEntity.checkIR(Expression.class), getType().getType());
+		return new Nameof(namedEntity.checkIR(Expression.class), getType().getIRType());
 	}
 
 	@Override

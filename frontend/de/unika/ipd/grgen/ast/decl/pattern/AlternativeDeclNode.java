@@ -92,7 +92,7 @@ public class AlternativeDeclNode extends DeclNode
 	@Override
 	protected IR constructIR()
 	{
-		Alternative alternative = new Alternative(ident.getIdent());
+		Alternative alternative = new Alternative(ident.getIRIdent());
 		for(AlternativeCaseDeclNode alternativeCaseNode : children) {
 			Rule alternativeCaseRule = alternativeCaseNode.checkIR(Rule.class);
 			alternative.addAlternativeCase(alternativeCaseRule);

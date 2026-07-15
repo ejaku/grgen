@@ -70,9 +70,9 @@ public class ReplaceDeclNode extends RhsDeclNode
 	}
 
 	@Override
-	public PatternGraphRhs getPatternGraph(PatternGraphLhs left)
+	public PatternGraphRhs getIRPatternGraph(PatternGraphLhs left)
 	{
-		PatternGraphRhs right = patternGraph.getGraph();
+		PatternGraphRhs right = patternGraph.getIRPatternGraphRhs();
 		insertElementsFromEvalsIntoRhs(left, right);
 		insertElementsFromOrderedReplacementsIntoRhs(left, right);
 		insertElementsFromLeftToRightIfTheyAreFromNestingPattern(left, right);

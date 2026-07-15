@@ -112,7 +112,7 @@ public class GetEquivalentOrAddProcNode extends BuiltinProcedureInvocationBaseNo
 	{
 		subgraphExpr = subgraphExpr.evaluate();
 		subgraphArrayExpr = subgraphArrayExpr.evaluate();
-		GetEquivalentOrAddProc getEquivalentOrAdd = new GetEquivalentOrAddProc(BasicTypeNode.graphType.getType(), 
+		GetEquivalentOrAddProc getEquivalentOrAdd = new GetEquivalentOrAddProc(BasicTypeNode.graphType.getIRType(), 
 				subgraphExpr.checkIR(Expression.class),
 				subgraphArrayExpr.checkIR(Expression.class),
 				includingAttributes);

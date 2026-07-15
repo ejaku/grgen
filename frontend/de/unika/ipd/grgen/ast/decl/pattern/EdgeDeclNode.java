@@ -226,7 +226,7 @@ public class EdgeDeclNode extends ConstraintDeclNode
 	 * Get the IR object correctly casted.
 	 * @return The edge IR object.
 	 */
-	public Edge getEdge()
+	public Edge getIREdge()
 	{
 		return checkIR(Edge.class);
 	}
@@ -246,10 +246,10 @@ public class EdgeDeclNode extends ConstraintDeclNode
 		EdgeType et = tn.checkIR(EdgeType.class);
 		IdentNode ident = getIdentNode();
 
-		Edge edge = new Edge(ident.getIdent(), et, ident.getAnnotations(),
-				directlyNestingLHSGraph!=null ? directlyNestingLHSGraph.getPatternGraph() : null,
+		Edge edge = new Edge(ident.getIRIdent(), et, ident.getAnnotations(),
+				directlyNestingLHSGraph!=null ? directlyNestingLHSGraph.getIRPatternGraphLhs() : null,
 				isMaybeDeleted(), isMaybeRetyped(), defEntityToBeYieldedTo, context);
-		edge.setConstraints(getConstraints());
+		edge.setConstraints(getIRConstraints());
 
 		if(edge.getConstraints().contains(edge.getType())) { // TODO: supertype? only subtypes allowed
 			reportError("The own edge type may not be contained in the type constraint list"

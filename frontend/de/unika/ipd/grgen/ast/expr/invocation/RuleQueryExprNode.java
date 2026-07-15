@@ -81,7 +81,7 @@ public class RuleQueryExprNode extends ExprNode
 	@Override
 	protected IR constructIR()
 	{
-		return new RuleQueryExpr(getType().getType());
+		return new RuleQueryExpr(getType().getIRType());
 	}
 
 	@Override

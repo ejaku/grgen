@@ -50,6 +50,6 @@ public class MapRangeNode extends MapFunctionMethodInvocationBaseExprNode
 	protected IR constructIR()
 	{
 		targetExpr = targetExpr.evaluate();
-		return new MapRangeExpr(targetExpr.checkIR(Expression.class), getType().getType());
+		return new MapRangeExpr(targetExpr.checkIR(Expression.class), getType().getIRType());
 	}
 }

@@ -124,16 +124,16 @@ public abstract class IteratedDeclNode extends NestedMatcherDeclNode
 			return getIR();
 		}
 
-		Rule iteratedRule = new Rule(getIdentNode().getIdent(), getMinMatches(), getMaxMatches());
+		Rule iteratedRule = new Rule(getIdentNode().getIRIdent(), getMinMatches(), getMaxMatches());
 
 		// mark this node as already visited
 		setIR(iteratedRule);
 
-		PatternGraphLhs left = pattern.getPatternGraph();
+		PatternGraphLhs left = pattern.getIRPatternGraphLhs();
 
 		PatternGraphRhs rightPattern = null;
 		if(this.right != null) {
-			rightPattern = this.right.getPatternGraph(left);
+			rightPattern = this.right.getIRPatternGraph(left);
 		}
 
 		iteratedRule.initialize(left, rightPattern);

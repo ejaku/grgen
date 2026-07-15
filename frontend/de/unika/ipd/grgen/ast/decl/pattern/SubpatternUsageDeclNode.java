@@ -298,7 +298,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 			else
 				subpatternConnections.add(e.checkIR(Expression.class));
 		}
-		return new SubpatternUsage("subpattern", getIdentNode().getIdent(), type.checkIR(Rule.class),
+		return new SubpatternUsage("subpattern", getIdentNode().getIRIdent(), type.checkIR(Rule.class),
 				subpatternConnections, subpatternYields);
 	}
 }

@@ -103,7 +103,7 @@ public class GetEquivalentExprNode extends BuiltinFunctionInvocationBaseNode
 		subgraphSetExpr = subgraphSetExpr.evaluate();
 		return new GetEquivalentExpr(subgraphExpr.checkIR(Expression.class),
 				subgraphSetExpr.checkIR(Expression.class),
-				includingAttributes, getType().getType());
+				includingAttributes, getType().getIRType());
 	}
 
 	@Override

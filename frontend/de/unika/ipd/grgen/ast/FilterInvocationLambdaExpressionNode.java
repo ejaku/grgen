@@ -153,7 +153,7 @@ public class FilterInvocationLambdaExpressionNode extends FilterInvocationBaseNo
 		lambdaExpr = lambdaExpr.evaluate();
 		String fullFilterName = filterName + "<" + assignEntity + ">";
 		filterInvocation = new FilterInvocationLambdaExpression(fullFilterName, new Ident(fullFilterName, getCoords()),
-				filterName, assignEntity, entityType != null ? entityType.getType() : null, iterated.checkIR(Rule.class),
+				filterName, assignEntity, entityType != null ? entityType.getIRType() : null, iterated.checkIR(Rule.class),
 				initArrayAccessVar != null ? initArrayAccessVar.checkIR(Variable.class) : null,
 				initExpr != null ? initExpr.checkIR(Expression.class) : null,
 				arrayAccessVar != null ? arrayAccessVar.checkIR(Variable.class) : null,

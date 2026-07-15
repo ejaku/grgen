@@ -379,7 +379,7 @@ public class UnitNode extends BaseNode
 	 * Get the IR unit node for this AST node.
 	 * @return The Unit for this AST node.
 	 */
-	public Unit getUnit()
+	public Unit getIRUnit()
 	{
 		return checkIR(Unit.class);
 	}
@@ -395,53 +395,53 @@ public class UnitNode extends BaseNode
 		Unit res = new Unit(unitname, filename);
 
 		for(ModelNode model : models.getChildrenExact()) {
-			Model modelIR = model.getModel();
+			Model modelIR = model.getIRModel();
 			res.addModel(modelIR);
 		}
 
 		for(SubpatternDeclNode subpattern : subpatterns.getChildrenExact()) {
-			Rule rule = subpattern.getMatcher();
+			Rule rule = subpattern.getIRMatcher();
 			res.addSubpatternRule(rule);
 		}
 
 		for(ActionDeclNode action : actions.getChildrenExact()) {
-			Rule rule = action.getMatcher();
+			Rule rule = action.getIRMatcher();
 			res.addActionRule(rule);
 		}
 
 		for(FilterFunctionDeclNode filter : filterFunctions.getChildrenExact()) {
-			FilterFunction filterIR = filter.getFilterFunction();
+			FilterFunction filterIR = filter.getIRFilterFunction();
 			res.addFilterFunction(filterIR);
 		}
 
 		for(TypeDeclNode matchClass : matchClassDecls.getChildrenExact()) {
 			DefinedMatchTypeNode matchClassDecl = (DefinedMatchTypeNode)matchClass.getDeclType();
-			DefinedMatchType matchClassIR = matchClassDecl.getDefinedMatchType();
+			DefinedMatchType matchClassIR = matchClassDecl.getIRDefinedMatchType();
 			res.addMatchClass(matchClassIR);
 		}
 
 		for(MatchClassFilterFunctionDeclNode matchClassFilter : matchClassFilterFunctions.getChildrenExact()) {
-			MatchClassFilterFunction matchClassFilterIR = matchClassFilter.getMatchClassFilterFunction();
+			MatchClassFilterFunction matchClassFilterIR = matchClassFilter.getIRMatchClassFilterFunction();
 			res.addMatchClassFilterFunction(matchClassFilterIR);
 		}
 
 		for(FunctionDeclNode function : functions.getChildrenExact()) {
-			Function functionIR = function.getFunction();
+			Function functionIR = function.getIRFunction();
 			res.addFunction(functionIR);
 		}
 
 		for(ProcedureDeclNode procedure : procedures.getChildrenExact()) {
-			Procedure procedureIR = procedure.getProcedure();
+			Procedure procedureIR = procedure.getIRProcedure();
 			res.addProcedure(procedureIR);
 		}
 
 		for(SequenceDeclNode sequence : sequences.getChildrenExact()) {
-			Sequence sequenceIR = sequence.getSequence();
+			Sequence sequenceIR = sequence.getIRSequence();
 			res.addSequence(sequenceIR);
 		}
 
 		for(TypeDeclNode packageType : packages.getChildrenExact()) {
-			PackageActionType packageActionType = (PackageActionType)packageType.getDeclType().getType();
+			PackageActionType packageActionType = (PackageActionType)packageType.getDeclType().getIRType();
 			res.addPackage(packageActionType);
 		}
 

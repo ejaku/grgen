@@ -89,7 +89,7 @@ public class MatchInitNode extends ExprNode
 		return new MatchInit(type);
 	}
 
-	public MatchInit getMatchInit()
+	public MatchInit getIRMatchInit()
 	{
 		return checkIR(MatchInit.class);
 	}

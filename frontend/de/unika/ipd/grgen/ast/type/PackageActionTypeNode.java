@@ -237,7 +237,7 @@ public class PackageActionTypeNode extends CompoundTypeNode
 	}
 
 	/** Returns the IR object for this package action type node. */
-	public PackageActionType getPackage()
+	public PackageActionType getIRPackage()
 	{
 		return checkIR(PackageActionType.class);
 	}
@@ -250,62 +250,62 @@ public class PackageActionTypeNode extends CompoundTypeNode
 		PackageActionType res = new PackageActionType(id);
 
 		for(SubpatternDeclNode subpattern : subpatterns.getChildrenExact()) {
-			Rule subRule = subpattern.getMatcher();
+			Rule subRule = subpattern.getIRMatcher();
 			subRule.setPackageContainedIn(id.toString());
 			res.addSubpatternRule(subRule);
 		}
 
 		for(ActionDeclNode action : actions.getChildrenExact()) {
-			Rule rule = action.getMatcher();
+			Rule rule = action.getIRMatcher();
 			rule.setPackageContainedIn(id.toString());
 			res.addActionRule(rule);
 		}
 
 		for(MatchTypeActionNode matchType : matchTypes.getChildrenExact()) {
-			MatchType matchTypeIR = matchType.getMatchType();
+			MatchType matchTypeIR = matchType.getIRMatchType();
 			matchTypeIR.setPackageContainedIn(id.toString());
 			//no adding to package as nothing needs to be generated from this type / already happens with action
 		}
 
 		for(FilterFunctionDeclNode filter : filterFunctions.getChildrenExact()) {
-			FilterFunction filterIR = filter.getFilterFunction();
+			FilterFunction filterIR = filter.getIRFilterFunction();
 			filterIR.setPackageContainedIn(id.toString());
 			res.addFilterFunction(filterIR);
 		}
 
 		for(TypeDeclNode matchClass : matchClassDecls.getChildrenExact()) {
 			DefinedMatchTypeNode matchClassDecl = (DefinedMatchTypeNode)matchClass.getDeclType();
-			DefinedMatchType matchClassIR = matchClassDecl.getDefinedMatchType();
+			DefinedMatchType matchClassIR = matchClassDecl.getIRDefinedMatchType();
 			matchClassIR.setPackageContainedIn(id.toString());
 			res.addMatchClass(matchClassIR);
 		}
 
 		for(MatchClassFilterFunctionDeclNode matchClassFilter : matchClassFilterFunctions.getChildrenExact()) {
-			MatchClassFilterFunction matchClassFilterIR = matchClassFilter.getMatchClassFilterFunction();
+			MatchClassFilterFunction matchClassFilterIR = matchClassFilter.getIRMatchClassFilterFunction();
 			matchClassFilterIR.setPackageContainedIn(id.toString());
 			res.addMatchClassFilterFunction(matchClassFilterIR);
 		}
 
 		for(MatchTypeIteratedNode matchTypeIterated : matchTypesIterated.getChildrenExact()) {
-			MatchTypeIterated matchTypeIteratedIR = matchTypeIterated.getMatchTypeIterated();
+			MatchTypeIterated matchTypeIteratedIR = matchTypeIterated.getIRMatchTypeIterated();
 			matchTypeIteratedIR.setPackageContainedIn(id.toString());
 			//no adding to package as nothing needs to be generated from this type / already happens with action
 		}
 
 		for(FunctionDeclNode function : functions.getChildrenExact()) {
-			Function functionIR = function.getFunction();
+			Function functionIR = function.getIRFunction();
 			functionIR.setPackageContainedIn(id.toString());
 			res.addFunction(functionIR);
 		}
 
 		for(ProcedureDeclNode procedure : procedures.getChildrenExact()) {
-			Procedure procedureIR = procedure.getProcedure();
+			Procedure procedureIR = procedure.getIRProcedure();
 			procedureIR.setPackageContainedIn(id.toString());
 			res.addProcedure(procedureIR);
 		}
 
 		for(SequenceDeclNode sequence : sequences.getChildrenExact()) {
-			Sequence sequenceIR = sequence.getSequence();
+			Sequence sequenceIR = sequence.getIRSequence();
 			sequenceIR.setPackageContainedIn(id.toString());
 			res.addSequence(sequenceIR);
 		}

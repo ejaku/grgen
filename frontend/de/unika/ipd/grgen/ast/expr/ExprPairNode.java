@@ -75,7 +75,7 @@ public class ExprPairNode extends BaseNode
 		return new ExpressionPair(keyExpr.checkIR(Expression.class), valueExpr.checkIR(Expression.class));
 	}
 
-	public ExpressionPair getExpressionPair()
+	public ExpressionPair getIRExpressionPair()
 	{
 		return checkIR(ExpressionPair.class);
 	}

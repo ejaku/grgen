@@ -51,7 +51,7 @@ public class TypeConstNode extends ConstNode
 	@Override
 	protected IR constructIR()
 	{
-		return new Constant(getType().getType(), id.getDecl().getDeclType().getIR());
+		return new Constant(getType().getIRType(), id.getDecl().getDeclType().getIR());
 	}
 
 	/** @see de.unika.ipd.grgen.ast.expr.ExprNode#getType() */

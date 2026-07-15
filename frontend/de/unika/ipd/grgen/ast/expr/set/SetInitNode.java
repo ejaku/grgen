@@ -111,12 +111,12 @@ public class SetInitNode extends ContainerSingleElementInitNode
 	protected IR constructIR()
 	{
 		Vector<Expression> items = constructItems();
-		Entity member = lhs != null ? lhs.getEntity() : null;
+		Entity member = lhs != null ? lhs.getIREntity() : null;
 		SetType type = setType != null ? setType.checkIR(SetType.class) : null;
 		return new SetInit(items, member, type, isConstant());
 	}
 
-	public SetInit getSetInit()
+	public SetInit getIRSetInit()
 	{
 		return checkIR(SetInit.class);
 	}

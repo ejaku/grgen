@@ -1241,7 +1241,7 @@ seqEntityDecl [ ExecNode xg ] returns [ ExecVarDeclNode res = null ]
 		MINUS id=seqEntIdentDecl COLON type=seqTypeIdentUse RARROW // edge decl, interpreted grs don't use -:-> form
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, type);
-			xg.append(decl.getIdentNode().getIdent() + ":" + decl.typeUnresolved);
+			xg.append(decl.getIdentNode() + ":" + decl.typeUnresolved);
 			xg.addVarDecl(decl);
 			res = decl;
 		}
