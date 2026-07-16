@@ -12,7 +12,8 @@
 package de.unika.ipd.grgen.ast.stmt.procenv;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
@@ -53,7 +54,7 @@ public class AssertProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(exprs);
 		return children;
 	}
@@ -61,7 +62,7 @@ public class AssertProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("exprs");
 		return childrenNames;
 	}
@@ -113,7 +114,7 @@ public class AssertProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	protected IR constructIR()
 	{
-		Vector<Expression> expressions = new Vector<Expression>();
+		List<Expression> expressions = new ArrayList<Expression>();
 		for(ExprNode expr : exprs.getChildrenExact()) {
 			expr = expr.evaluate();
 			expressions.add(expr.checkIR(Expression.class));

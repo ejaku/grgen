@@ -12,7 +12,8 @@
 package de.unika.ipd.grgen.ast.decl.executable;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
@@ -68,7 +69,7 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(ident);
 		if(evalStatements != null)
 			children.add(evalStatements);
@@ -81,7 +82,7 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("ident");
 		if(evalStatements != null)
 			childrenNames.add("evals");
@@ -151,11 +152,11 @@ public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
 		return filterFunctionType;
 	}
 
-	public Vector<TypeNode> getParameterTypes()
+	public List<TypeNode> getParameterTypes()
 	{
 		assert isChecked();
 
-		Vector<TypeNode> types = new Vector<TypeNode>();
+		List<TypeNode> types = new ArrayList<TypeNode>();
 		for(DeclNode decl : params.getChildrenExact()) {
 			types.add(decl.getDeclType());
 		}

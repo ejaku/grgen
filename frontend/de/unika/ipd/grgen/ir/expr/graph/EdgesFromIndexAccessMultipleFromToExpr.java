@@ -7,7 +7,7 @@
 
 package de.unika.ipd.grgen.ir.expr.graph;
 
-import java.util.Vector;
+import java.util.List;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.expr.invocation.BuiltinFunctionInvocationExpr;
@@ -16,15 +16,15 @@ import de.unika.ipd.grgen.ir.type.Type;
 
 public class EdgesFromIndexAccessMultipleFromToExpr extends BuiltinFunctionInvocationExpr
 {
-	private final Vector<IndexAccessOrdering> indexAccesses;
+	private final List<IndexAccessOrdering> indexAccesses;
 
-	public EdgesFromIndexAccessMultipleFromToExpr(Vector<IndexAccessOrdering> indexAccesses, Type type)
+	public EdgesFromIndexAccessMultipleFromToExpr(List<IndexAccessOrdering> indexAccesses, Type type)
 	{
 		super("edges from index access multiple expression", type);
 		this.indexAccesses = indexAccesses;
 	}
 
-	public Vector<IndexAccessOrdering> getIndexAccesses()
+	public List<IndexAccessOrdering> getIndexAccesses()
 	{
 		return indexAccesses;
 	}

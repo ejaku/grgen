@@ -12,7 +12,8 @@
 package de.unika.ipd.grgen.ast.type;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 
@@ -21,8 +22,8 @@ import de.unika.ipd.grgen.ast.BaseNode;
  */
 public class ConstructorTypeNode extends TypeNode
 {
-	static Vector<BaseNode> emptyChildren = new Vector<BaseNode>();
-	static Vector<String> emptyChildrenNames = new Vector<String>();
+	static List<BaseNode> emptyChildren = new ArrayList<BaseNode>();
+	static List<String> emptyChildrenNames = new ArrayList<String>();
 	static {
 		setName(ConstructorTypeNode.class, "constructor type");
 	}

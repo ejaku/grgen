@@ -12,7 +12,8 @@
 package de.unika.ipd.grgen.ast.expr.map;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
@@ -61,7 +62,7 @@ public class MapInitNode extends ContainerInitNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(mapItems);
 		return children;
 	}
@@ -69,7 +70,7 @@ public class MapInitNode extends ContainerInitNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("mapItems");
 		return childrenNames;
 	}
@@ -234,7 +235,7 @@ public class MapInitNode extends ContainerInitNode
 	@Override
 	protected IR constructIR()
 	{
-		Vector<ExpressionPair> items = new Vector<ExpressionPair>();
+		List<ExpressionPair> items = new ArrayList<ExpressionPair>();
 		for(ExprPairNode item : mapItems.getChildrenExact()) {
 			items.add(item.getIRExpressionPair());
 		}

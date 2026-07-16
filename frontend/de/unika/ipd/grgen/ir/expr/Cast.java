@@ -12,7 +12,8 @@
 package de.unika.ipd.grgen.ir.expr;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.type.Type;
@@ -40,7 +41,7 @@ public class Cast extends Expression
 
 	public Collection<Expression> getWalkableChildren()
 	{
-		Vector<Expression> vec = new Vector<Expression>();
+		List<Expression> vec = new ArrayList<Expression>();
 		vec.add(expr);
 		return vec;
 	}

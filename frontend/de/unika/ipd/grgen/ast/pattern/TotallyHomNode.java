@@ -9,7 +9,8 @@ package de.unika.ipd.grgen.ast.pattern;
 
 import java.awt.Color;
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
@@ -35,11 +36,11 @@ public class TotallyHomNode extends BaseNode
 
 	NodeDeclNode node;
 	EdgeDeclNode edge;
-	Vector<NodeDeclNode> childrenNode = new Vector<NodeDeclNode>();
-	Vector<EdgeDeclNode> childrenEdge = new Vector<EdgeDeclNode>();
+	List<NodeDeclNode> childrenNode = new ArrayList<NodeDeclNode>();
+	List<EdgeDeclNode> childrenEdge = new ArrayList<EdgeDeclNode>();
 
 	private BaseNode entityUnresolved;
-	private Vector<BaseNode> childrenUnresolved = new Vector<BaseNode>();
+	private List<BaseNode> childrenUnresolved = new ArrayList<BaseNode>();
 
 	public TotallyHomNode(Coords coords)
 	{
@@ -65,9 +66,9 @@ public class TotallyHomNode extends BaseNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(getValidVersion(entityUnresolved, node, edge));
-		children.addAll(getValidVersionVector(childrenUnresolved, childrenNode, childrenEdge));
+		children.addAll(getValidVersionList(childrenUnresolved, childrenNode, childrenEdge));
 		return children;
 	}
 
@@ -75,7 +76,7 @@ public class TotallyHomNode extends BaseNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("totally homomorph entity");
 		// nameless isomorph children
 		return childrenNames;

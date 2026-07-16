@@ -13,7 +13,8 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.ExecVarDeclNode;
@@ -87,7 +88,7 @@ public class CallActionNode extends BaseNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(getValidVersion(actionUnresolved, action, sequence, boolVar));
 		children.add(getValidVersionCollectNode(paramsUnresolved, params));
 		children.add(getValidVersionCollectNode(returnsUnresolved, returns));
@@ -99,7 +100,7 @@ public class CallActionNode extends BaseNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("action");
 		childrenNames.add("params");
 		childrenNames.add("returns");
@@ -243,7 +244,7 @@ public class CallActionNode extends BaseNode
 			res &= checkParams(action.pattern.getParamDecls(), params.getChildrenExact());
 			res &= checkReturns(action.returnFormalParameters.getChildrenExact(), returns);
 		} else if(sequence != null) {
-			Vector<TypeNode> outTypes = new Vector<TypeNode>();
+			List<TypeNode> outTypes = new ArrayList<TypeNode>();
 			for(ExecVarDeclNode varDecl : sequence.outParams.getChildrenExact())
 				outTypes.add(varDecl.getDeclType());
 			res &= checkParams(sequence.getParamDecls(), params.getChildrenExact());

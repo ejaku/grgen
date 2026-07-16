@@ -12,7 +12,8 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.decl.executable.MatchClassFilterFunctionDeclNode;
 import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
@@ -46,7 +47,7 @@ public class MultiCallActionNode extends BaseNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(actionCalls);
 		children.add(getValidVersionCollectNode(matchClassFilterFunctionsUnresolved, matchClassFilterFunctions));
 		return children;
@@ -56,7 +57,7 @@ public class MultiCallActionNode extends BaseNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("actionCalls");
 		childrenNames.add("matchClassFilter");
 		return childrenNames;

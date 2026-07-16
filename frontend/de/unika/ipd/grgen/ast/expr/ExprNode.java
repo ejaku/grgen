@@ -279,8 +279,8 @@ public abstract class ExprNode extends BaseNode
 		if(this instanceof ArithmeticOperatorNode) {
 			ArithmeticOperatorNode operator = (ArithmeticOperatorNode)this;
 			if(operator.getOperator() == Operator.COND) {
-				operator.getChildrenAsVector().get(1).getPotentiallyResultingElements(elements);
-				operator.getChildrenAsVector().get(2).getPotentiallyResultingElements(elements);
+				operator.getChildrenAsList().get(1).getPotentiallyResultingElements(elements);
+				operator.getChildrenAsList().get(2).getPotentiallyResultingElements(elements);
 			}
 		}
 	}

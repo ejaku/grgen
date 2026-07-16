@@ -12,7 +12,8 @@
 package de.unika.ipd.grgen.ast.expr;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
@@ -52,7 +53,7 @@ public class MemberAccessExprNode extends ExprNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		if(isResolved() && resolutionResult()) {
 			if(targetExpr.getType() instanceof MatchTypeNode) {
 				return children; // behave like a nop in case we're a match access
@@ -66,7 +67,7 @@ public class MemberAccessExprNode extends ExprNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("targetExpr");
 		childrenNames.add("memberIdent");
 		return childrenNames;

@@ -13,7 +13,8 @@ package de.unika.ipd.grgen.ast.stmt;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
@@ -106,7 +107,7 @@ public class AssignNode extends EvalStatementNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(getValidVersion(lhsUnresolved, lhsQual, lhsVar, lhsGraphElement));
 		children.add(rhs);
 		return children;
@@ -116,7 +117,7 @@ public class AssignNode extends EvalStatementNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("lhs");
 		childrenNames.add("rhs");
 		return childrenNames;

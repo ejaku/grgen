@@ -13,7 +13,7 @@ package de.unika.ipd.grgen.ir.executable;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ir.ContainedInPackage;
 import de.unika.ipd.grgen.ir.Exec;
@@ -30,8 +30,8 @@ public class Sequence extends Identifiable implements ContainedInPackage
 
 	private Exec exec;
 
-	private List<ExecVariable> inParams = new Vector<ExecVariable>();
-	private List<ExecVariable> outParams = new Vector<ExecVariable>();
+	private List<ExecVariable> inParams = new ArrayList<ExecVariable>();
+	private List<ExecVariable> outParams = new ArrayList<ExecVariable>();
 
 	public Sequence(Ident ident, Exec exec)
 	{

@@ -8,7 +8,8 @@
 package de.unika.ipd.grgen.ast.model;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
@@ -77,7 +78,7 @@ public class ConnAssertNode extends BaseNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		if(!copyExtends) {
 			children.add(getValidVersion(srcUnresolved, src));
 			children.add(srcRange);
@@ -91,7 +92,7 @@ public class ConnAssertNode extends BaseNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		if(!copyExtends) {
 			childrenNames.add("src");
 			childrenNames.add("src range");

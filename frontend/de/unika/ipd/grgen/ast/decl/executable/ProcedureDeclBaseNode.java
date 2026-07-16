@@ -1,6 +1,6 @@
 package de.unika.ipd.grgen.ast.decl.executable;
 
-import java.util.Vector;
+import java.util.List;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
@@ -15,10 +15,10 @@ public abstract class ProcedureDeclBaseNode extends DeclNode implements Procedur
 	public CollectNode<TypeNode> resultTypesCollectNode;
 
 	/** Result types. */
-	public Vector<TypeNode> resultTypes;
+	public List<TypeNode> resultTypes;
 
 	/** Parameter types. */
-	protected Vector<TypeNode> parameterTypes;
+	protected List<TypeNode> parameterTypes;
 
 	
 	public ProcedureDeclBaseNode(IdentNode ident, BaseNode type)
@@ -36,27 +36,27 @@ public abstract class ProcedureDeclBaseNode extends DeclNode implements Procedur
 		resultTypesCollectNode = resultTypeResolver.resolve(resultsUnresolved, this);
 
 		if(resultTypesCollectNode != null)
-			resultTypes = resultTypesCollectNode.getChildrenAsVector();
+			resultTypes = resultTypesCollectNode.getChildrenAsList();
 		
 		return resultTypes != null;
 	}
 
 	@Override
-	public Vector<TypeNode> getParameterTypes()
+	public List<TypeNode> getParameterTypes()
 	{
 		assert isResolved();
 		return parameterTypes;
 	}
 
 	@Override
-	public Vector<TypeNode> getResultTypes()
+	public List<TypeNode> getResultTypes()
 	{
 		assert isResolved();
 		return resultTypes;
 	}
 	
 	@Override
-	public int getDistance(Vector<TypeNode> argumentTypes)
+	public int getDistance(List<TypeNode> argumentTypes)
 	{
 		if(argumentTypes.size() == parameterTypes.size())
 			return Integer.MAX_VALUE;

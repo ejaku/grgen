@@ -12,7 +12,7 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode;
@@ -359,7 +359,7 @@ public class PatternGraphBuilder
 	public static void ensureRetypedNodeHomToOldNode(PatternGraphLhs patternGraph, Node node)
 	{
 		if(node instanceof RetypedNode && !node.isRHSEntity()) {
-			Vector<Node> homNodes = new Vector<Node>();
+			List<Node> homNodes = new ArrayList<Node>();
 			homNodes.add(node);
 			homNodes.add(((RetypedNode)node).getOldNode());
 			patternGraph.addHomomorphicNodes(homNodes);
@@ -369,7 +369,7 @@ public class PatternGraphBuilder
 	public static void ensureRetypedEdgeHomToOldEdge(PatternGraphLhs patternGraph, Edge edge)
 	{
 		if(edge instanceof RetypedEdge && !edge.isRHSEntity()) {
-			Vector<Edge> homEdges = new Vector<Edge>();
+			List<Edge> homEdges = new ArrayList<Edge>();
 			homEdges.add(edge);
 			homEdges.add(((RetypedEdge)edge).getOldEdge());
 			patternGraph.addHomomorphicEdges(homEdges);

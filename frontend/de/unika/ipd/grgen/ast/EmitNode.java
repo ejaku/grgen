@@ -15,7 +15,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.pattern.OrderedReplacementNode;
@@ -30,7 +29,7 @@ public class EmitNode extends OrderedReplacementNode
 		setName(EmitNode.class, "emit");
 	}
 
-	private Vector<ExprNode> childrenUnresolved = new Vector<ExprNode>();
+	private List<ExprNode> childrenUnresolved = new ArrayList<ExprNode>();
 	public boolean isDebug;
 
 	public EmitNode(Coords coords, boolean isDebug)
@@ -50,14 +49,14 @@ public class EmitNode extends OrderedReplacementNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		return new Vector<BaseNode>(childrenUnresolved);
+		return new ArrayList<BaseNode>(childrenUnresolved);
 	}
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		// nameless children
 		return childrenNames;
 	}

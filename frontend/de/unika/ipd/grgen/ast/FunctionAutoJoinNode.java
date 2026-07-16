@@ -8,8 +8,9 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.executable.FunctionDeclNode;
@@ -74,7 +75,7 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(getValidVersionCollectNode(argumentsUnresolved, arguments));
 		return children;
 	}
@@ -83,7 +84,7 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("arguments");
 		return childrenNames;
 	}
@@ -139,11 +140,11 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 			++i;
 		}
 		
-		VarDeclNode leftArgument = arguments.getChildrenAsVector().get(0);
+		VarDeclNode leftArgument = arguments.getChildrenAsList().get(0);
 		ArrayTypeNode leftArrayType = (ArrayTypeNode)leftArgument.getDeclType();
 		MatchTypeNode leftMatchType = (MatchTypeNode)leftArrayType.valueType;
 
-		VarDeclNode rightArgument = arguments.getChildrenAsVector().get(1);
+		VarDeclNode rightArgument = arguments.getChildrenAsList().get(1);
 		ArrayTypeNode rightArrayType = (ArrayTypeNode)rightArgument.getDeclType();
 		MatchTypeNode rightMatchType = (MatchTypeNode)rightArrayType.valueType;
 		
@@ -251,12 +252,12 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 		PatternGraphLhs fakePatternGraph = PatternGraphLhsNode.getInvalid().checkIR(PatternGraphLhs.class);
 		Variable resultVar = new Variable("res", resultVarIdent, resultVarType,
 				true, fakePatternGraph, BaseNode.CONTEXT_FUNCTION, false);
-		Expression emptyArray = new ArrayInit(new Vector<Expression>(), null, resultVarType, true);
+		Expression emptyArray = new ArrayInit(new ArrayList<Expression>(), null, resultVarType, true);
 		resultVar.setInitialization(emptyArray);
 		DefDeclVarStatement resultVarDecl = new DefDeclVarStatement(resultVar);
 		insertionPoint.addStatement(resultVarDecl);
 		
-		VarDeclNode leftArgument = arguments.getChildrenAsVector().get(0);
+		VarDeclNode leftArgument = arguments.getChildrenAsList().get(0);
 		String leftIterationVarName = "$match_" + leftArgument.getIdent().toString();
 		Ident leftIterationVarIdent = new Ident(leftIterationVarName, getCoords());
 		ArrayTypeNode leftArrayType = (ArrayTypeNode)leftArgument.getDeclType();
@@ -269,7 +270,7 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 		insertionPoint.addStatement(leftMatchesIteration);
 		insertionPoint = leftMatchesIteration;
 
-		VarDeclNode rightArgument = arguments.getChildrenAsVector().get(1);
+		VarDeclNode rightArgument = arguments.getChildrenAsList().get(1);
 		String rightIterationVarName = "$match_" + rightArgument.getIdent().toString();
 		Ident rightIterationVarIdent = new Ident(rightIterationVarName, getCoords());
 		ArrayTypeNode rightArrayType = (ArrayTypeNode)rightArgument.getDeclType();

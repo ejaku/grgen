@@ -14,8 +14,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
@@ -389,7 +390,7 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 	 * @param operandTypes The operands.
 	 * @return The declaration of the "nearest" operator.
 	 */
-	public static OperatorDeclNode getNearestOperator(Operator operator, Vector<TypeNode> operandTypes)
+	public static OperatorDeclNode getNearestOperator(Operator operator, List<TypeNode> operandTypes)
 	{
 		OperatorDeclNode resultingOperator = INVALID;
 		int nearestDistance = Integer.MAX_VALUE;
@@ -506,7 +507,7 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 		super(new IdentNode(Symbol.Definition.getInvalid()), operatorType);
 
 		this.resultType = resultType;
-		this.parameterTypes = new Vector<TypeNode>();
+		this.parameterTypes = new ArrayList<TypeNode>();
 		for(TypeNode operandType : operandTypes) {
 			this.parameterTypes.add(operandType);
 		}
@@ -519,7 +520,7 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		return children;
 	}
 
@@ -527,7 +528,7 @@ public class OperatorDeclNode extends FunctionOrOperatorDeclBaseNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		return childrenNames;
 	}
 

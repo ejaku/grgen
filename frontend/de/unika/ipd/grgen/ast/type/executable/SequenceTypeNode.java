@@ -8,7 +8,8 @@
 package de.unika.ipd.grgen.ast.type.executable;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
@@ -26,7 +27,7 @@ public class SequenceTypeNode extends TypeNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		// no children
 		return children;
 	}
@@ -35,7 +36,7 @@ public class SequenceTypeNode extends TypeNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		// no children
 		return childrenNames;
 	}

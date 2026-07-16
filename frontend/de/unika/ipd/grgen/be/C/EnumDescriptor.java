@@ -11,7 +11,8 @@
 
 package de.unika.ipd.grgen.be.C;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.unika.ipd.grgen.ir.model.EnumItem;
 
@@ -20,5 +21,5 @@ public class EnumDescriptor
 	public int type_id;
 	public String name;
 	public int n_items;
-	public Vector<EnumItem> items = new Vector<EnumItem>();
+	public List<EnumItem> items = new ArrayList<EnumItem>();
 }

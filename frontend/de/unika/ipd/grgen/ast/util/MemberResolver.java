@@ -25,7 +25,8 @@ import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.Util;
 import java.util.Map;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A resolver, that resolves a declaration node from an identifier.
@@ -37,7 +38,7 @@ public class MemberResolver<T> extends Base
 
 	private BaseNode unresolvedNode;
 	private T resolvedNode;
-	private Vector<Class<? extends T>> triedClasses = new Vector<Class<? extends T>>();
+	private List<Class<? extends T>> triedClasses = new ArrayList<Class<? extends T>>();
 	private int validClasses;
 
 	/**

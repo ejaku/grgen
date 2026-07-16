@@ -14,7 +14,8 @@ package de.unika.ipd.grgen.be.Csharp;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ir.*;
@@ -2488,7 +2489,7 @@ public class ModifyEvalGen extends CSharpBase
 			sb.appendFront("foreach( " + formatElementInterfaceRef(ff.getIterationVar().getType()) +
 					" " + formatEntity(ff.getIterationVar()) + " in ");
 
-			Vector<IndexAccessOrdering> iaos;
+			List<IndexAccessOrdering> iaos;
 			if(ff.getFunction() instanceof NodesFromIndexAccessMultipleFromToExpr) {
 				NodesFromIndexAccessMultipleFromToExpr nfiamft = (NodesFromIndexAccessMultipleFromToExpr)ff.getFunction();
 				sb.append("GRGEN_LIBGR.IndexHelper.NodesFromIndexMultipleFromTo(");
@@ -2630,7 +2631,7 @@ public class ModifyEvalGen extends CSharpBase
 		// declare temporary out variables
 		ProcedureOrBuiltinProcedureInvocationBase procedure = ra.getProcedureInvocation();
 		Collection<AssignmentBase> targets = ra.getTargets();
-		Vector<String> outParams = new Vector<String>();
+		List<String> outParams = new ArrayList<String>();
 		for(int i = 0; i < procedure.returnArity(); ++i) {
 			String outParam = "outvar_" + tmpVarID;
 			outParams.add(outParam);
@@ -2671,7 +2672,7 @@ public class ModifyEvalGen extends CSharpBase
 	}
 
 	private void genReturnAssignmentProcedureOrExternalProcedureInvocation(SourceBuilder sb,
-			ModifyGenerationStateConst state, ProcedureInvocationBase procedure, Vector<String> outParams)
+			ModifyGenerationStateConst state, ProcedureInvocationBase procedure, List<String> outParams)
 	{
 		// call the procedure with out variables  
 		if(procedure instanceof ProcedureInvocation) {
@@ -2698,7 +2699,7 @@ public class ModifyEvalGen extends CSharpBase
 	}
 
 	private void genReturnAssignmentProcedureMethodOrExternalProcedureMethodInvocation(SourceBuilder sb,
-			ModifyGenerationStateConst state, ProcedureInvocationBase procedure, Vector<String> outParams)
+			ModifyGenerationStateConst state, ProcedureInvocationBase procedure, List<String> outParams)
 	{
 		// call the procedure method with out variables  
 		if(procedure instanceof ProcedureMethodInvocation) {
@@ -2738,7 +2739,7 @@ public class ModifyEvalGen extends CSharpBase
 	}
 
 	private void genReturnAssignmentBuiltinProcedureOrMethodInvocation(SourceBuilder sb,
-			ModifyGenerationStateConst state, BuiltinProcedureInvocationBase procedure, Vector<String> outParams)
+			ModifyGenerationStateConst state, BuiltinProcedureInvocationBase procedure, List<String> outParams)
 	{
 		// call the procedure or procedure method, either without return value, or with one return value, more not supported as of now
 		if(outParams.size() == 0) {

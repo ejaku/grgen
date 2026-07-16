@@ -10,7 +10,8 @@
  */
 package de.unika.ipd.grgen.ir.stmt;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBase;
@@ -21,7 +22,7 @@ import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureOrBuiltinProcedureInvocati
 public class ReturnAssignment extends EvalStatement
 {
 	ProcedureOrBuiltinProcedureInvocationBase procedureInvocation;
-	Vector<AssignmentBase> targets = new Vector<AssignmentBase>();
+	List<AssignmentBase> targets = new ArrayList<AssignmentBase>();
 
 	public ReturnAssignment(ProcedureOrBuiltinProcedureInvocationBase procedureInvocation)
 	{
@@ -40,7 +41,7 @@ public class ReturnAssignment extends EvalStatement
 		return procedureInvocation;
 	}
 
-	public Vector<AssignmentBase> getTargets()
+	public List<AssignmentBase> getTargets()
 	{
 		return targets;
 	}

@@ -12,7 +12,8 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
@@ -178,7 +179,7 @@ public class UnitNode extends BaseNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(models);
 		children.add(getValidVersionCollectNode(subpatternsUnresolved, subpatterns));
 		children.add(getValidVersionCollectNode(actionsUnresolved, actions));
@@ -198,7 +199,7 @@ public class UnitNode extends BaseNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("models");
 		childrenNames.add("subpatterns");
 		childrenNames.add("actions");

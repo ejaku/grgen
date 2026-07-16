@@ -12,7 +12,8 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ConstNode;
@@ -48,7 +49,7 @@ public class ConstructorParamNode extends BaseNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(getValidVersion(lhsUnresolved, lhs));
 		if(rhs != null)
 			children.add(rhs);
@@ -58,7 +59,7 @@ public class ConstructorParamNode extends BaseNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("lhs");
 		if(rhs != null)
 			childrenNames.add("rhs");

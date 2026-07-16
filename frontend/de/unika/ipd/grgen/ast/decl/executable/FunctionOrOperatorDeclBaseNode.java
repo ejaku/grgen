@@ -1,6 +1,6 @@
 package de.unika.ipd.grgen.ast.decl.executable;
 
-import java.util.Vector;
+import java.util.List;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
@@ -13,7 +13,7 @@ public abstract class FunctionOrOperatorDeclBaseNode extends DeclNode implements
 	public TypeNode resultType;
 
 	/** Parameter types. */
-	protected Vector<TypeNode> parameterTypes;
+	protected List<TypeNode> parameterTypes;
 
 	
 	public FunctionOrOperatorDeclBaseNode(IdentNode ident, BaseNode type)
@@ -29,14 +29,14 @@ public abstract class FunctionOrOperatorDeclBaseNode extends DeclNode implements
 	}
 
 	@Override
-	public Vector<TypeNode> getParameterTypes()
+	public List<TypeNode> getParameterTypes()
 	{
 		assert isResolved();
 		return parameterTypes;
 	}
 	
 	@Override
-	public int getDistance(Vector<TypeNode> argumentTypes)
+	public int getDistance(List<TypeNode> argumentTypes)
 	{
 		if(argumentTypes.size() != parameterTypes.size())
 			return Integer.MAX_VALUE;

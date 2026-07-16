@@ -12,7 +12,8 @@
 package de.unika.ipd.grgen.ast.stmt;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
@@ -53,7 +54,7 @@ public class ReturnStatementNode extends EvalStatementNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(returnValueExprs);
 		return children;
 	}
@@ -62,7 +63,7 @@ public class ReturnStatementNode extends EvalStatementNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("return value expressions");
 		return childrenNames;
 	}
@@ -88,14 +89,14 @@ public class ReturnStatementNode extends EvalStatementNode
 			reportError("A return statement must be nested inside a function or procedure or filter (or where do you want to return from otherwise?).");
 			return false;
 		}
-		Vector<TypeNode> retTypes;
+		List<TypeNode> retTypes;
 		if(root instanceof FilterFunctionDeclNode) {
 			isFilterReturn = true;
-			retTypes = new Vector<TypeNode>();
+			retTypes = new ArrayList<TypeNode>();
 		} else if(root instanceof FunctionDeclNode) {
 			isFunctionReturn = true;
 			FunctionDeclNode function = (FunctionDeclNode)root;
-			retTypes = new Vector<TypeNode>();
+			retTypes = new ArrayList<TypeNode>();
 			retTypes.add(function.getResultType());
 		} else {
 			ProcedureDeclNode procedure = (ProcedureDeclNode)root;
@@ -107,7 +108,7 @@ public class ReturnStatementNode extends EvalStatementNode
 	/**
 	 * Check if actual return arguments are conforming to the formal return parameters.
 	 */
-	protected boolean checkReturns(Vector<TypeNode> returnFormalParameters, DeclNode ident)
+	protected boolean checkReturns(List<TypeNode> returnFormalParameters, DeclNode ident)
 	{
 		boolean res = true;
 

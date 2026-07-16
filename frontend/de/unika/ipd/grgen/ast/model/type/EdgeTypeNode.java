@@ -11,7 +11,8 @@
 package de.unika.ipd.grgen.ast.model.type;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
@@ -87,7 +88,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(getValidVersionCollectNode(extendUnresolved, extend));
 		children.add(getValidVersionCollectNode(bodyUnresolved, body));
 		children.add(cas);
@@ -98,7 +99,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("extends");
 		childrenNames.add("body");
 		childrenNames.add("cas");
@@ -143,7 +144,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 
 		// "resolve" connection assertion inheritance,
 		// after resolve to ensure everything is available, before IR building
-		Vector<ConnAssertNode> connAssertsToCopy = getConnectionAssertionsToCopy();
+		List<ConnAssertNode> connAssertsToCopy = getConnectionAssertionsToCopy();
 		for(ConnAssertNode caToCopy : connAssertsToCopy) {
 			cas.addChild(caToCopy);
 		}
@@ -171,11 +172,11 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 		return res;
 	}
 
-	private Vector<ConnAssertNode> getConnectionAssertionsToCopy()
+	private List<ConnAssertNode> getConnectionAssertionsToCopy()
 	{
 		// return connection assertions to copy to prevent iterator from becoming stale, copied after iteration 
-		Vector<ConnAssertNode> connAssertsToCopy = new Vector<ConnAssertNode>();
-		Vector<ConnAssertNode> connAssertsToDelete = new Vector<ConnAssertNode>();
+		List<ConnAssertNode> connAssertsToCopy = new ArrayList<ConnAssertNode>();
+		List<ConnAssertNode> connAssertsToDelete = new ArrayList<ConnAssertNode>();
 		boolean alreadyCopiedExtends = false;
 		for(ConnAssertNode ca : cas.getChildrenExact()) {
 			if(ca.copyExtends) {
@@ -235,7 +236,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode
 	{
 		assert isResolved();
 
-		return new Vector<InheritanceTypeNode>(extend.getChildrenExact());
+		return new ArrayList<InheritanceTypeNode>(extend.getChildrenExact());
 	}
 
 	protected abstract void setDirectednessIR(EdgeType inhType);

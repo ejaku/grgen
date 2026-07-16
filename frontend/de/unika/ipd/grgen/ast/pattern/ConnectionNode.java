@@ -12,8 +12,9 @@
 package de.unika.ipd.grgen.ast.pattern;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
@@ -107,7 +108,7 @@ public class ConnectionNode extends ConnectionCharacter
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(getValidVersion(leftUnresolved, left));
 		children.add(getValidVersion(edgeUnresolved, edge));
 		children.add(getValidVersion(rightUnresolved, right));
@@ -118,7 +119,7 @@ public class ConnectionNode extends ConnectionCharacter
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("src");
 		childrenNames.add("edge");
 		childrenNames.add("tgt");

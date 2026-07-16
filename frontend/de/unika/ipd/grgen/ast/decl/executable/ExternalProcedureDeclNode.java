@@ -22,7 +22,8 @@ import de.unika.ipd.grgen.ir.executable.ExternalProcedureMethod;
 import de.unika.ipd.grgen.ir.type.Type;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * AST node class representing external procedure declarations
@@ -56,7 +57,7 @@ public class ExternalProcedureDeclNode extends ProcedureDeclBaseNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersionCollectNode(parameterTypesUnresolved, parameterTypesCollectNode));
 		children.add(getValidVersionCollectNode(resultsUnresolved, resultTypesCollectNode));
@@ -67,7 +68,7 @@ public class ExternalProcedureDeclNode extends ProcedureDeclBaseNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("ident");
 		childrenNames.add("paramTypes");
 		childrenNames.add("ret");
@@ -83,7 +84,7 @@ public class ExternalProcedureDeclNode extends ProcedureDeclBaseNode
 	{
 		parameterTypesCollectNode = parametersTypeResolver.resolve(parameterTypesUnresolved, this);
 		
-		parameterTypes = parameterTypesCollectNode.getChildrenAsVector();
+		parameterTypes = parameterTypesCollectNode.getChildrenAsList();
 		
 		return parameterTypesCollectNode != null & super.resolveLocal();
 	}

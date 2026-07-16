@@ -16,9 +16,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
@@ -520,11 +521,11 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 		return unresolved;
 	}
 
-	/** Return new vector containing elements of the currently valid member vector. Currently valid depends on vector was already resolved. */
-	protected final <T extends BaseNode> Vector<T> getValidVersionVector(Vector<? extends T> unresolved,
-			Vector<? extends T> resolved)
+	/** Return new list containing elements of the currently valid member list. Currently valid depends on list was already resolved. */
+	protected final <T extends BaseNode> List<T> getValidVersionList(List<? extends T> unresolved,
+			List<? extends T> resolved)
 	{
-		Vector<T> result = new Vector<T>();
+		List<T> result = new ArrayList<T>();
 		if(isResolved()) {
 			for(int i = 0; i < resolved.size(); ++i) {
 				result.add(resolved.get(i));
@@ -537,12 +538,12 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 		return result;
 	}
 
-	/** Return new vector containing elements of the currently valid member vector.
-	 *  Currently valid depends on vector was already resolved and resolution result. */
-	protected final <T extends BaseNode> Vector<T> getValidVersionVector(Vector<? extends T> unresolved,
-			Vector<? extends T> firstResolved, Vector<? extends T> secondResolved)
+	/** Return new list containing elements of the currently valid member list.
+	 *  Currently valid depends on list was already resolved and resolution result. */
+	protected final <T extends BaseNode> List<T> getValidVersionList(List<? extends T> unresolved,
+			List<? extends T> firstResolved, List<? extends T> secondResolved)
 	{
-		Vector<T> result = new Vector<T>();
+		List<T> result = new ArrayList<T>();
 		if(isResolved()) {
 			if(!firstResolved.isEmpty()) {
 				for(int i = 0; i < firstResolved.size(); ++i) {

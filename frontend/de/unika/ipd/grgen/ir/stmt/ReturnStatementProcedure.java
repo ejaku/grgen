@@ -11,7 +11,8 @@
 
 package de.unika.ipd.grgen.ir.stmt;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
@@ -21,7 +22,7 @@ import de.unika.ipd.grgen.ir.expr.Expression;
  */
 public class ReturnStatementProcedure extends EvalStatement
 {
-	private Vector<Expression> returnValuesExprs = new Vector<Expression>();
+	private List<Expression> returnValuesExprs = new ArrayList<Expression>();
 
 	public ReturnStatementProcedure()
 	{
@@ -33,7 +34,7 @@ public class ReturnStatementProcedure extends EvalStatement
 		returnValuesExprs.add(returnValueExpr);
 	}
 
-	public Vector<Expression> getReturnValueExpr()
+	public List<Expression> getReturnValueExpr()
 	{
 		return returnValuesExprs;
 	}

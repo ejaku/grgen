@@ -49,8 +49,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 /**
  * Base class for pattern matching related ast nodes
@@ -668,7 +668,7 @@ public abstract class MatcherDeclNode extends DeclNode
 				if(alternativeCase.right == null)
 					continue;
 
-				Vector<DeclNode> parametersInNestedAlternativeCase = alternativeCase.right.patternGraph.getParamDecls();
+				List<DeclNode> parametersInNestedAlternativeCase = alternativeCase.right.patternGraph.getParamDecls();
 
 				if(parametersInNestedAlternativeCase.size() != 0) {
 					alternativeCase.reportError("No rewrite parameters are allowed in nested alternative cases,"
@@ -683,7 +683,7 @@ public abstract class MatcherDeclNode extends DeclNode
 			if(iterated.right == null)
 				continue;
 
-			Vector<DeclNode> parametersInNestedIterated = iterated.right.patternGraph.getParamDecls();
+			List<DeclNode> parametersInNestedIterated = iterated.right.patternGraph.getParamDecls();
 
 			if(parametersInNestedIterated.size() != 0) {
 				iterated.reportError("No rewrite parameters are allowed in nested " + iterated.getKind() + " parts,"
@@ -948,7 +948,7 @@ public abstract class MatcherDeclNode extends DeclNode
 			return getIR();
 		}
 	
-		Vector<PatternGraph> right = new Vector<PatternGraph>();
+		List<PatternGraph> right = new ArrayList<PatternGraph>();
 		for (int i = 0; i < this.right.children.size(); i++) {
 			right.add(this.right.children.get(i).getPatternGraph(left));
 		}

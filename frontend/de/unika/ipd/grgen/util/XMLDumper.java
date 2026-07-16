@@ -18,8 +18,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class XMLDumper
 {
@@ -62,7 +63,7 @@ public class XMLDumper
 		ps.print(dumpable.getXMLId());
 		ps.print('\"');
 
-		Vector<String> keysToRemove = new Vector<String>();
+		List<String> keysToRemove = new ArrayList<String>();
 
 		for(String obj : fields.keySet()) {
 			Object val = fields.get(obj);

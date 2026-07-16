@@ -11,7 +11,7 @@
 
 package de.unika.ipd.grgen.ast.type.executable;
 
-import java.util.Vector;
+import java.util.List;
 
 import de.unika.ipd.grgen.ast.type.TypeNode;
 
@@ -24,13 +24,13 @@ public interface ProcedureSignature
 	 * Get the result(/return) types of this procedure signature.
 	 * @return The result(/return) type.
 	 */
-	Vector<TypeNode> getResultTypes();
+	List<TypeNode> getResultTypes();
 
 	/**
 	 * Get the parameter(/operand) types of this procedure signature.
 	 * @return The parameter(/operand) types.
 	 */
-	Vector<TypeNode> getParameterTypes();
+	List<TypeNode> getParameterTypes();
 
 	/**
 	 * Get the number of implicit type casts needed for calling this
@@ -40,5 +40,5 @@ public interface ProcedureSignature
 	 * to this procedure signature. <code>Integer.MAX_VALUE</code> is returned,
 	 * if the arguments(/operands) cannot be applied to this procedure signature.
 	 */
-	int getDistance(Vector<TypeNode> argumentTypes);
+	int getDistance(List<TypeNode> argumentTypes);
 }

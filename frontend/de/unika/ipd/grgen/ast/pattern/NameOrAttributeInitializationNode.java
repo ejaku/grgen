@@ -9,7 +9,8 @@ package de.unika.ipd.grgen.ast.pattern;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
@@ -53,7 +54,7 @@ public class NameOrAttributeInitializationNode extends BaseNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		if(attributeUnresolved != null)
 			children.add(getValidVersion(attributeUnresolved, attribute));
 		children.add(initialization);
@@ -63,7 +64,7 @@ public class NameOrAttributeInitializationNode extends BaseNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		if(attributeUnresolved != null)
 			childrenNames.add("attribute");
 		childrenNames.add("initialization");

@@ -8,7 +8,8 @@
 package de.unika.ipd.grgen.ast.expr;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.model.type.ExternalObjectTypeNode;
@@ -49,7 +50,7 @@ public class CopyExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(sourceExpr);
 		return children;
 	}
@@ -58,7 +59,7 @@ public class CopyExprNode extends BuiltinFunctionInvocationBaseNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("source expression");
 		return childrenNames;
 	}

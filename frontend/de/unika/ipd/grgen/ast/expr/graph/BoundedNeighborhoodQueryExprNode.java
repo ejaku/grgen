@@ -8,7 +8,8 @@
 package de.unika.ipd.grgen.ast.expr.graph;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
@@ -44,7 +45,7 @@ public abstract class BoundedNeighborhoodQueryExprNode extends NeighborhoodQuery
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(startNodeExpr);
 		children.add(depthExpr);
 		children.add(incidentTypeExpr);
@@ -56,7 +57,7 @@ public abstract class BoundedNeighborhoodQueryExprNode extends NeighborhoodQuery
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("start node expr");
 		childrenNames.add("depth expr");
 		childrenNames.add("incident type expr");

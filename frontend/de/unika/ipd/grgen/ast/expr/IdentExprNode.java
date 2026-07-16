@@ -12,7 +12,8 @@
 package de.unika.ipd.grgen.ast.expr;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
@@ -65,7 +66,7 @@ public class IdentExprNode extends DeclExprNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("ident");
 		return childrenNames;
 	}

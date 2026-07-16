@@ -12,7 +12,8 @@
 package de.unika.ipd.grgen.ast.decl.pattern;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
@@ -35,7 +36,7 @@ public class AlternativeDeclNode extends DeclNode
 	/** Type for this declaration. */
 	private static AlternativeTypeNode alternativeType = new AlternativeTypeNode();
 
-	private Vector<AlternativeCaseDeclNode> children = new Vector<AlternativeCaseDeclNode>();
+	private List<AlternativeCaseDeclNode> children = new ArrayList<AlternativeCaseDeclNode>();
 
 	public AlternativeDeclNode(IdentNode id)
 	{
@@ -53,7 +54,7 @@ public class AlternativeDeclNode extends DeclNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		return new Vector<BaseNode>(children);
+		return new ArrayList<BaseNode>(children);
 	}
 
 	public Collection<AlternativeCaseDeclNode> getChildrenExact()
@@ -65,7 +66,7 @@ public class AlternativeDeclNode extends DeclNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		// nameless children
 		return childrenNames;
 	}

@@ -36,8 +36,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * AST node that represents a graph pattern as it appears within the rewrite part of some rule
@@ -89,7 +90,7 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(getValidVersionCollectNode(connectionsUnresolved, connections));
 		children.add(params);
 		children.add(defVariablesToBeYieldedTo);
@@ -106,7 +107,7 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("connections");
 		childrenNames.add("params");
 		childrenNames.add("defVariablesToBeYieldedTo");
@@ -133,11 +134,11 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 	// move missing replacement nodes to the begin of the ordered list, it is the base list for further processing
 	private void replaceSubpatternReplacementsIntoOrderedReplacements()
 	{
-		Vector<SubpatternReplNode> subpatternReplsToDelete = new Vector<SubpatternReplNode>();
+		List<SubpatternReplNode> subpatternReplsToDelete = new ArrayList<SubpatternReplNode>();
 		for(SubpatternReplNode subpatternRepl : subpatternRepls.getChildrenExact()) {
 			for(OrderedReplacementsNode orderedRepls : orderedReplacements.getChildrenExact()) {
 				if(!orderedRepls.getChildrenExact().isEmpty()) {
-					Vector<OrderedReplacementNode> orderedReplsToDelete = new Vector<OrderedReplacementNode>();
+					List<OrderedReplacementNode> orderedReplsToDelete = new ArrayList<OrderedReplacementNode>();
 					Iterator<OrderedReplacementNode> subCand = orderedRepls.getChildrenExact().iterator();
 					OrderedReplacementNode orderedRepl = subCand.next();
 					if(orderedRepl instanceof SubpatternReplNode) {

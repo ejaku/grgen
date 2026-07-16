@@ -14,7 +14,7 @@ package de.unika.ipd.grgen.ast.decl.pattern;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
@@ -74,7 +74,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
 		children.add(connections);
@@ -84,7 +84,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
 		childrenNames.add("connections");
@@ -126,7 +126,7 @@ public class SubpatternUsageDeclNode extends DeclNode
 
 		// check if the types of the parameters are correct
 		boolean res = true;
-		Vector<DeclNode> formalParameters = type.pattern.getParamDecls();
+		List<DeclNode> formalParameters = type.pattern.getParamDecls();
 		for(int i = 0; i < connections.size(); ++i) {
 			ExprNode actualParameter = connections.get(i);
 			DeclNode formalParameter = formalParameters.get(i);

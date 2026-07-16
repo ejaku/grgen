@@ -7,7 +7,8 @@
 
 package de.unika.ipd.grgen.ast.expr.graph;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ir.IR;
@@ -42,7 +43,7 @@ public class NodesFromIndexAccessMultipleFromToExprNode extends FromIndexAccessM
 	@Override
 	protected IR constructIR()
 	{
-		Vector<IndexAccessOrdering> indexAccesses = new Vector<IndexAccessOrdering>();
+		List<IndexAccessOrdering> indexAccesses = new ArrayList<IndexAccessOrdering>();
 		for(FromIndexAccessFromToPartExprNode indexAccessExpr : indexAccessExprs.getChildrenExact())
 		{
 			indexAccesses.add(indexAccessExpr.constructIRPart());

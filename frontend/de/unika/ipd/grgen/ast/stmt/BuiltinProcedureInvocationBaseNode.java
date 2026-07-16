@@ -11,7 +11,8 @@
 
 package de.unika.ipd.grgen.ast.stmt;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.unika.ipd.grgen.ast.stmt.invocation.ProcedureOrBuiltinProcedureInvocationBaseNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
@@ -24,7 +25,7 @@ public abstract class BuiltinProcedureInvocationBaseNode extends ProcedureOrBuil
 		setName(BuiltinProcedureInvocationBaseNode.class, "builtin procedure invocation base");
 	}
 
-	private static final Vector<TypeNode> emptyReturn = new Vector<TypeNode>();
+	private static final List<TypeNode> emptyReturn = new ArrayList<TypeNode>();
 
 	public BuiltinProcedureInvocationBaseNode(Coords coords)
 	{
@@ -44,7 +45,7 @@ public abstract class BuiltinProcedureInvocationBaseNode extends ProcedureOrBuil
 
 	// default is a procedure without returns, overwrite if return is not empty
 	@Override
-	public Vector<TypeNode> getType()
+	public List<TypeNode> getType()
 	{
 		return emptyReturn;
 	}

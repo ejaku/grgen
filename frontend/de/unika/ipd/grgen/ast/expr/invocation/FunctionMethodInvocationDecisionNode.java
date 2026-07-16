@@ -12,7 +12,8 @@
 package de.unika.ipd.grgen.ast.expr.invocation;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
@@ -106,7 +107,7 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 		@Override
 		public Collection<BaseNode> getChildren()
 		{
-			Vector<BaseNode> children = new Vector<BaseNode>();
+			List<BaseNode> children = new ArrayList<BaseNode>();
 			// no children
 			return children;
 		}
@@ -114,7 +115,7 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 		@Override
 		public Collection<String> getChildrenNames()
 		{
-			Vector<String> childrenNames = new Vector<String>();
+			List<String> childrenNames = new ArrayList<String>();
 			// no children
 			return childrenNames;
 		}
@@ -137,7 +138,7 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(targetExpr);
 		//children.add(methodIdent);	// HACK: We don't have a declaration, so avoid failure during check phase
 		children.add(arguments);
@@ -149,7 +150,7 @@ public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBase
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("targetExpr");
 		//childrenNames.add("methodIdent");
 		childrenNames.add("params");

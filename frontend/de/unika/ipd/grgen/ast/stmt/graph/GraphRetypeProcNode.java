@@ -8,7 +8,8 @@
 package de.unika.ipd.grgen.ast.stmt.graph;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
@@ -36,7 +37,7 @@ public class GraphRetypeProcNode extends BuiltinProcedureInvocationBaseNode
 	private ExprNode entityExpr;
 	private ExprNode entityTypeExpr;
 
-	Vector<TypeNode> returnTypes;
+	List<TypeNode> returnTypes;
 
 	public GraphRetypeProcNode(Coords coords, ExprNode entity, ExprNode entityType)
 	{
@@ -51,7 +52,7 @@ public class GraphRetypeProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(entityExpr);
 		children.add(entityTypeExpr);
 		return children;
@@ -61,7 +62,7 @@ public class GraphRetypeProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("entity");
 		childrenNames.add("new type");
 		return childrenNames;
@@ -109,10 +110,10 @@ public class GraphRetypeProcNode extends BuiltinProcedureInvocationBaseNode
 	}
 
 	@Override
-	public Vector<TypeNode> getType()
+	public List<TypeNode> getType()
 	{
 		if(returnTypes == null) {
-			returnTypes = new Vector<TypeNode>();
+			returnTypes = new ArrayList<TypeNode>();
 			returnTypes.add(entityTypeExpr.getType());
 		}
 		return returnTypes;

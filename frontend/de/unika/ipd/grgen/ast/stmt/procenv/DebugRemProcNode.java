@@ -11,7 +11,8 @@
 
 package de.unika.ipd.grgen.ast.stmt.procenv;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ir.IR;
@@ -39,7 +40,7 @@ public class DebugRemProcNode extends DebugProcNode
 	@Override
 	protected IR constructIR()
 	{
-		Vector<Expression> expressions = new Vector<Expression>();
+		List<Expression> expressions = new ArrayList<Expression>();
 		for(ExprNode expr : exprs.getChildrenExact()) {
 			expr = expr.evaluate();
 			expressions.add(expr.checkIR(Expression.class));

@@ -12,7 +12,8 @@
 package de.unika.ipd.grgen.ir.pattern;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Identifiable;
@@ -28,7 +29,7 @@ public class Alternative extends Identifiable
 		super("alternative", ident);
 	}
 
-	Vector<Rule> alternativeCases = new Vector<Rule>();
+	List<Rule> alternativeCases = new ArrayList<Rule>();
 
 	/** Was the replacement code already called by means of an alternative replacement declaration? */
 	public boolean wasReplacementAlreadyCalled;

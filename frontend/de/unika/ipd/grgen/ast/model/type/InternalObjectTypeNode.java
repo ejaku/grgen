@@ -11,7 +11,8 @@
 package de.unika.ipd.grgen.ast.model.type;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
@@ -60,7 +61,7 @@ public class InternalObjectTypeNode extends BaseInternalObjectTypeNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(getValidVersionCollectNode(extendUnresolved, extend));
 		children.add(getValidVersionCollectNode(bodyUnresolved, body));
 		return children;
@@ -70,7 +71,7 @@ public class InternalObjectTypeNode extends BaseInternalObjectTypeNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("extends");
 		childrenNames.add("body");
 		return childrenNames;
@@ -179,6 +180,6 @@ public class InternalObjectTypeNode extends BaseInternalObjectTypeNode
 	{
 		assert isResolved();
 
-		return new Vector<InheritanceTypeNode>(extend.getChildrenExact());
+		return new ArrayList<InheritanceTypeNode>(extend.getChildrenExact());
 	}
 }

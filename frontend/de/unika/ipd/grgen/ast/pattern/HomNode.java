@@ -9,7 +9,8 @@ package de.unika.ipd.grgen.ast.pattern;
 
 import java.awt.Color;
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.decl.pattern.EdgeDeclNode;
@@ -34,10 +35,10 @@ public class HomNode extends BaseNode
 		setName(HomNode.class, "homomorph");
 	}
 
-	private Vector<NodeDeclNode> childrenNode = new Vector<NodeDeclNode>();
-	private Vector<EdgeDeclNode> childrenEdge = new Vector<EdgeDeclNode>();
+	private List<NodeDeclNode> childrenNode = new ArrayList<NodeDeclNode>();
+	private List<EdgeDeclNode> childrenEdge = new ArrayList<EdgeDeclNode>();
 
-	private Vector<BaseNode> childrenUnresolved = new Vector<BaseNode>();
+	private List<BaseNode> childrenUnresolved = new ArrayList<BaseNode>();
 
 	public HomNode(Coords coords)
 	{
@@ -55,24 +56,24 @@ public class HomNode extends BaseNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		return getValidVersionVector(childrenUnresolved, childrenNode, childrenEdge);
+		return getValidVersionList(childrenUnresolved, childrenNode, childrenEdge);
 	}
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		// nameless children
 		return childrenNames;
 	}
 
-	public Vector<NodeDeclNode> getHomNodes()
+	public List<NodeDeclNode> getHomNodes()
 	{
 		return childrenNode;
 	}
 
-	public Vector<EdgeDeclNode> getHomEdges()
+	public List<EdgeDeclNode> getHomEdges()
 	{
 		return childrenEdge;
 	}

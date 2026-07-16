@@ -12,14 +12,15 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * An AST node that represents a collection of other nodes.
  * children: *:BaseNode
  *
  * Normally AST nodes contain a fixed number of children,
- * which are accessed by their fixed index within the children vector.
+ * which are accessed by their fixed index within the children list.
  * This node collects a statically unknown number of children AST nodes,
  * originating in unbounded list constructs in the parsing syntax.
  */
@@ -29,7 +30,7 @@ public class CollectNode<T extends BaseNode> extends CollectBaseNode
 		setName(CollectNode.class, "collect");
 	}
 
-	private Vector<T> children = new Vector<T>();
+	private List<T> children = new ArrayList<T>();
 
 	public void addChild(T n)
 	{
@@ -47,7 +48,7 @@ public class CollectNode<T extends BaseNode> extends CollectBaseNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		return new Vector<BaseNode>(children);
+		return new ArrayList<BaseNode>(children);
 	}
 
 	public Collection<T> getChildrenExact()
@@ -55,7 +56,7 @@ public class CollectNode<T extends BaseNode> extends CollectBaseNode
 		return children;
 	}
 
-	public Vector<T> getChildrenAsVector()
+	public List<T> getChildrenAsList()
 	{
 		return children;
 	}
@@ -86,7 +87,7 @@ public class CollectNode<T extends BaseNode> extends CollectBaseNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		// nameless children
 		return childrenNames;
 	}

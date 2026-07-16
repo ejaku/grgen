@@ -13,7 +13,8 @@ package de.unika.ipd.grgen.ast.decl;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
@@ -60,7 +61,7 @@ public class ConstructorDeclNode extends DeclNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(parameters);
 		return children;
 	}
@@ -68,7 +69,7 @@ public class ConstructorDeclNode extends DeclNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("parameters");
 		return childrenNames;
 	}

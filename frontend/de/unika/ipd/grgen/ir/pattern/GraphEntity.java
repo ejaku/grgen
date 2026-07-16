@@ -11,7 +11,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.decl.pattern.ConstraintDeclNode.CopyKind;
 import de.unika.ipd.grgen.ir.Entity;
@@ -52,7 +53,7 @@ public abstract class GraphEntity extends Entity
 	public IndexAccess indexAccess = null;
 
 	/** The indices from which to get the node or edge when using a multiple index query, if any (i.e. not empty)*/
-	public Vector<IndexAccessOrdering> multipleIndexAccesses = new Vector<IndexAccessOrdering>();
+	public List<IndexAccessOrdering> multipleIndexAccesses = new ArrayList<IndexAccessOrdering>();
 
 	/** The name map access used to get the node or edge, if any (i.e. not null)*/
 	public NameLookup nameMapAccess = null;
@@ -68,7 +69,7 @@ public abstract class GraphEntity extends Entity
 	// null or an expression used to initialize the node
 	public Expression initialization;
 
-	public Vector<NameOrAttributeInitialization> nameOrAttributeInitialization = new Vector<NameOrAttributeInitialization>();
+	public List<NameOrAttributeInitialization> nameOrAttributeInitialization = new ArrayList<NameOrAttributeInitialization>();
 
 	/** Dependencies because of match by storage access (element must be matched before storage map access with it)*/
 	protected int dependencyLevel = 0;

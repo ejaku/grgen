@@ -12,7 +12,8 @@ package de.unika.ipd.grgen.ast.decl.pattern;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
@@ -48,7 +49,7 @@ public class MatchNodeByIndexAccessMultipleDeclNode extends NodeDeclNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
 		children.add(constraints);
@@ -60,7 +61,7 @@ public class MatchNodeByIndexAccessMultipleDeclNode extends NodeDeclNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
 		childrenNames.add("constraints");

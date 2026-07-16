@@ -12,7 +12,8 @@
 package de.unika.ipd.grgen.ir.expr;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.model.type.BaseInternalObjectType;
@@ -22,7 +23,7 @@ public class InternalObjectInit extends Expression
 {
 	private BaseInternalObjectType objectType;
 
-	public Vector<AttributeInitialization> attributeInitializations = new Vector<AttributeInitialization>();
+	public List<AttributeInitialization> attributeInitializations = new ArrayList<AttributeInitialization>();
 
 	public InternalObjectInit(BaseInternalObjectType objectType)
 	{
@@ -49,7 +50,7 @@ public class InternalObjectInit extends Expression
 
 	public Collection<Expression> getAttributeInitializationExpressions()
 	{
-		Vector<Expression> expressions = new Vector<Expression>();
+		List<Expression> expressions = new ArrayList<Expression>();
 		for(AttributeInitialization attributeInitialization : attributeInitializations) {
 			expressions.add(attributeInitialization.expr);
 		}

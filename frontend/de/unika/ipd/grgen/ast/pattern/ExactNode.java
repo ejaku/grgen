@@ -13,7 +13,8 @@ package de.unika.ipd.grgen.ast.pattern;
 
 import java.awt.Color;
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
@@ -26,9 +27,9 @@ public class ExactNode extends BaseNode
 		setName(ExactNode.class, "exact");
 	}
 
-	private Vector<NodeDeclNode> children = new Vector<NodeDeclNode>();
+	private List<NodeDeclNode> children = new ArrayList<NodeDeclNode>();
 
-	private Vector<BaseNode> childrenUnresolved = new Vector<BaseNode>();
+	private List<BaseNode> childrenUnresolved = new ArrayList<BaseNode>();
 
 	public ExactNode(Coords coords)
 	{
@@ -46,14 +47,14 @@ public class ExactNode extends BaseNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		return getValidVersionVector(childrenUnresolved, children);
+		return getValidVersionList(childrenUnresolved, children);
 	}
 
 	/** returns names of the children, same order as in getChildren */
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		// nameless children
 		return childrenNames;
 	}

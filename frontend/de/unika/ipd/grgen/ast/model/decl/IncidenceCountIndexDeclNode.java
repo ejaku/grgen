@@ -31,7 +31,8 @@ import de.unika.ipd.grgen.parser.ParserEnvironment;
 import de.unika.ipd.grgen.util.Direction;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * AST node class representing incidence count index declarations
@@ -73,7 +74,7 @@ public class IncidenceCountIndexDeclNode extends IndexDeclNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(startNodeTypeUnresolved, startNodeType));
 		children.add(getValidVersion(incidentEdgeTypeUnresolved, incidentEdgeType));
@@ -85,7 +86,7 @@ public class IncidenceCountIndexDeclNode extends IndexDeclNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("ident");
 		childrenNames.add("startNodeType");
 		childrenNames.add("incidentEdgeType");

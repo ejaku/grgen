@@ -12,7 +12,8 @@
 package de.unika.ipd.grgen.ast.decl.executable;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
@@ -67,7 +68,7 @@ public class ProcedureDeclNode extends ProcedureDeclBaseNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(ident);
 		children.add(evalStatements);
 		children.add(parametersUnresolved);
@@ -79,7 +80,7 @@ public class ProcedureDeclNode extends ProcedureDeclBaseNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("ident");
 		childrenNames.add("evals");
 		childrenNames.add("params");
@@ -105,7 +106,7 @@ public class ProcedureDeclNode extends ProcedureDeclBaseNode
 				throw new UnsupportedOperationException("Unsupported parameter (" + param + ")");
 		}
 
-		parameterTypes = new Vector<TypeNode>();
+		parameterTypes = new ArrayList<TypeNode>();
 		for(DeclNode decl : parameters.getChildrenExact()) {
 			parameterTypes.add(decl.getDeclType());
 		}

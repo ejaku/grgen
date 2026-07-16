@@ -12,7 +12,8 @@
 package de.unika.ipd.grgen.ast.stmt;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
@@ -57,7 +58,7 @@ public abstract class ContainerProcedureMethodInvocationBaseNode extends Builtin
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(target != null ? target : targetVar);
 		return children;
 	}
@@ -65,7 +66,7 @@ public abstract class ContainerProcedureMethodInvocationBaseNode extends Builtin
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("target");
 		return childrenNames;
 	}

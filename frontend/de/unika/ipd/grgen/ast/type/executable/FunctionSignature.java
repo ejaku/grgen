@@ -11,7 +11,7 @@
 
 package de.unika.ipd.grgen.ast.type.executable;
 
-import java.util.Vector;
+import java.util.List;
 
 import de.unika.ipd.grgen.ast.type.TypeNode;
 
@@ -30,7 +30,7 @@ public interface FunctionSignature
 	 * Get the parameter(/operand) types of this function signature.
 	 * @return The parameter(/operand) types.
 	 */
-	public Vector<TypeNode> getParameterTypes();
+	public List<TypeNode> getParameterTypes();
 
 	/**
 	 * Get the number of implicit type casts needed for calling this
@@ -40,5 +40,5 @@ public interface FunctionSignature
 	 * to this function signature. <code>Integer.MAX_VALUE</code> is returned,
 	 * if the arguments(/operands) cannot be applied to this functions signature.
 	 */
-	int getDistance(Vector<TypeNode> argumentTypes);
+	int getDistance(List<TypeNode> argumentTypes);
 }

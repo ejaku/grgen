@@ -25,7 +25,8 @@ import de.unika.ipd.grgen.ir.model.AttributeIndex;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * AST node class representing attribute index declarations
@@ -56,7 +57,7 @@ public class AttributeIndexDeclNode extends IndexDeclNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
 		children.add(getValidVersion(memberUnresolved, member));
@@ -67,7 +68,7 @@ public class AttributeIndexDeclNode extends IndexDeclNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
 		childrenNames.add("member");

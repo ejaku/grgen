@@ -12,7 +12,8 @@
 package de.unika.ipd.grgen.ast.stmt.invocation;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
@@ -55,7 +56,7 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(getValidVersion(procedureOrExternalProcedureUnresolved, procedureDecl, externalProcedureDecl));
 		children.add(arguments);
 		return children;
@@ -64,7 +65,7 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("procedure or external procedure");
 		childrenNames.add("arguments");
 		return childrenNames;
@@ -116,7 +117,7 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 	}
 
 	@Override
-	public Vector<TypeNode> getType()
+	public List<TypeNode> getType()
 	{
 		assert isResolved();
 		return procedureDecl != null ? procedureDecl.getResultTypes() : externalProcedureDecl.getResultTypes();

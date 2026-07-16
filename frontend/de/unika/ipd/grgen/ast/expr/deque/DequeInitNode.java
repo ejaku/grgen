@@ -11,7 +11,7 @@
 
 package de.unika.ipd.grgen.ast.expr.deque;
 
-import java.util.Vector;
+import java.util.List;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
@@ -116,13 +116,13 @@ public class DequeInitNode extends ContainerSingleElementInitNode
 			return null;
 		if(index.intValue() >= containerItems.size())
 			return null;
-		return containerItems.getChildrenAsVector().get(index.intValue());
+		return containerItems.getChildrenAsList().get(index.intValue());
 	}
 
 	@Override
 	protected IR constructIR()
 	{
-		Vector<Expression> items = constructItems();
+		List<Expression> items = constructItems();
 		Entity member = lhs != null ? lhs.getIREntity() : null;
 		DequeType type = dequeType != null ? dequeType.checkIR(DequeType.class) : null;
 		return new DequeInit(items, member, type, isConstant());

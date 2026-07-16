@@ -12,7 +12,8 @@
 package de.unika.ipd.grgen.ast.decl.pattern;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
@@ -112,7 +113,7 @@ public class VarDeclNode extends DeclNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
 		if(initialization != null)
@@ -124,7 +125,7 @@ public class VarDeclNode extends DeclNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
 		if(initialization != null)

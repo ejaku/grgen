@@ -13,8 +13,9 @@ package de.unika.ipd.grgen.ast.expr;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.decl.executable.Operator;
@@ -104,7 +105,7 @@ public class ArithmeticOperatorNode extends OperatorNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		return new Vector<BaseNode>(children);
+		return new ArrayList<BaseNode>(children);
 	}
 
 	public Collection<ExprNode> getChildrenExact()
@@ -112,7 +113,7 @@ public class ArithmeticOperatorNode extends OperatorNode
 		return children;
 	}
 
-	public Vector<ExprNode> getChildrenAsVector()
+	public List<ExprNode> getChildrenAsList()
 	{
 		return children;
 	}
@@ -121,7 +122,7 @@ public class ArithmeticOperatorNode extends OperatorNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		// nameless children
 		return childrenNames;
 	}

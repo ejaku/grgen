@@ -19,9 +19,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.executable.MatchingAction;
@@ -93,13 +94,13 @@ public class InformationCollector extends CBackend
 	/* a map  action_id --> node --> pattern_node_num, e.g
 	 pattern_node_num[act_id].get(someNode)
 	 yields an Integer object wrapping node number for an fb_acts_graph_t */
-	protected Vector<Map<Node, Integer>> pattern_node_num;
+	protected List<Map<Node, Integer>> pattern_node_num;
 	/* the same, but edges */
-	protected Vector<Map<Edge, Integer>> pattern_edge_num;
+	protected List<Map<Edge, Integer>> pattern_edge_num;
 	/* just like above, but for the replacement graph if the given action has one
 	 otherwise the array yields a null pointer instead of a map */
-	protected Vector<Map<Node, Integer>> replacement_node_num;
-	protected Vector<Map<Edge, Integer>> replacement_edge_num;
+	protected List<Map<Node, Integer>> replacement_node_num;
+	protected List<Map<Edge, Integer>> replacement_edge_num;
 
 	/* realizes a map
 	 cond_num -> pattern_node_num -> Collection_of_attr_ids,
@@ -125,7 +126,7 @@ public class InformationCollector extends CBackend
 	/* maps asubconditoin to a Collection of edges involved in */
 	protected Map<Expression, Collection<Edge>> conditionsInvolvedEdges = new HashMap<Expression, Collection<Edge>>();
 
-	protected Vector<Collection<Collection<InheritanceType>>> typeConditions;
+	protected List<Collection<Collection<InheritanceType>>> typeConditions;
 	/* maps a subcondition to the condition number created for it */
 	protected Map<Collection<InheritanceType>, Integer> typeConditionNumbers = new HashMap<Collection<InheritanceType>, Integer>();
 	/* maps a subcondition to a Collection of nodes involved in */
@@ -162,7 +163,7 @@ public class InformationCollector extends CBackend
 
 	//yields the replacement edge numbers to be newly inserted by
 	//the replacement step according to the given action
-	protected Vector<Collection<Edge>> newEdgesOfAction;
+	protected List<Collection<Edge>> newEdgesOfAction;
 
 	/* compares conditions by their condition numbers */
 	protected Comparator<Expression> conditionsComparator = new Comparator<Expression>() {
@@ -274,10 +275,10 @@ public class InformationCollector extends CBackend
 		}
 
 		/* compute the numbers of nodes/edges of all pattern/replacement-graphs */
-		pattern_node_num = new Vector<Map<Node, Integer>>(n_graph_actions);
-		pattern_edge_num = new Vector<Map<Edge, Integer>>(n_graph_actions);
-		replacement_node_num = new Vector<Map<Node, Integer>>(n_graph_actions);
-		replacement_edge_num = new Vector<Map<Edge, Integer>>(n_graph_actions);
+		pattern_node_num = new ArrayList<Map<Node, Integer>>(n_graph_actions);
+		pattern_edge_num = new ArrayList<Map<Edge, Integer>>(n_graph_actions);
+		replacement_node_num = new ArrayList<Map<Node, Integer>>(n_graph_actions);
+		replacement_edge_num = new ArrayList<Map<Edge, Integer>>(n_graph_actions);
 		for(Rule act : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(act).intValue();
 			assert act_id < n_graph_actions : "action id found which was greater than the number of graph actions";
@@ -371,7 +372,7 @@ public class InformationCollector extends CBackend
 
 		/* collect the type constraints of the node of all actions pattern graphs */
 		int typeConditionCounter = n_conditions;
-		typeConditions = new Vector<Collection<Collection<InheritanceType>>>(n_graph_actions);
+		typeConditions = new ArrayList<Collection<Collection<InheritanceType>>>(n_graph_actions);
 
 		for(Rule act : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(act).intValue();
@@ -507,7 +508,7 @@ public class InformationCollector extends CBackend
 	private void collectNewInsertEdgesInfo()
 	{
 		//Collection[] new_edges_of_action;
-		newEdgesOfAction = new Vector<Collection<Edge>>(n_graph_actions);
+		newEdgesOfAction = new ArrayList<Collection<Edge>>(n_graph_actions);
 
 		//init the array with empty HashSets
 		for(int i = 0; i < n_graph_actions; i++) {

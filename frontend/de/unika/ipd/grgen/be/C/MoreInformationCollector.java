@@ -18,8 +18,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.executable.Action;
@@ -53,8 +54,8 @@ public class MoreInformationCollector extends InformationCollector
 	protected Map<Collection<Assignment>, Action> evalActions = new HashMap<Collection<Assignment>, Action>();
 
 	/* edge and node attributes involved in that eval */
-	protected Vector<Map<Node, Collection<Integer>>> involvedEvalNodeAttrIds;
-	protected Vector<Map<Edge, Collection<Integer>>> involvedEvalEdgeAttrIds;
+	protected List<Map<Node, Collection<Integer>>> involvedEvalNodeAttrIds;
+	protected List<Map<Edge, Collection<Integer>>> involvedEvalEdgeAttrIds;
 
 	//returns id of corresponding pattern edge id if edge is kept
 	//else -1 if edge is new one
@@ -73,8 +74,8 @@ public class MoreInformationCollector extends InformationCollector
 	 */
 	protected void collectEvalInfo()
 	{
-		involvedEvalNodeAttrIds = new Vector<Map<Node, Collection<Integer>>>(actionRuleMap.size());
-		involvedEvalEdgeAttrIds = new Vector<Map<Edge, Collection<Integer>>>(actionRuleMap.size());
+		involvedEvalNodeAttrIds = new ArrayList<Map<Node, Collection<Integer>>>(actionRuleMap.size());
+		involvedEvalEdgeAttrIds = new ArrayList<Map<Edge, Collection<Integer>>>(actionRuleMap.size());
 
 		for(Rule act : actionRuleMap.keySet()) {
 			if(act.getRight() != null) {
@@ -214,10 +215,10 @@ public class MoreInformationCollector extends InformationCollector
 	protected int max_n_negative_patterns = 0;
 	protected int[] n_negative_patterns;
 	//	action_id --> neg_id --> pattern_node_num
-	protected Vector<Vector<Map<Node, Integer>>> negative_node_num;
+	protected List<List<Map<Node, Integer>>> negative_node_num;
 	//	action_id --> neg_id --> pattern_edge_num
-	protected Vector<Vector<Map<Edge, Integer>>> negative_edge_num;
-	protected Vector<Map<PatternGraphLhs, Integer>> negMap;
+	protected List<List<Map<Edge, Integer>>> negative_edge_num;
+	protected List<Map<PatternGraphLhs, Integer>> negMap;
 
 	protected int[][][] patternNodeIsNegativeNode;
 	protected int[][][] patternEdgeIsNegativeEdge;
@@ -231,7 +232,7 @@ public class MoreInformationCollector extends InformationCollector
 		max_n_negative_patterns = 0;
 
 		n_negative_patterns = new int[n_graph_actions];
-		negMap = new Vector<Map<PatternGraphLhs, Integer>>(n_graph_actions);
+		negMap = new ArrayList<Map<PatternGraphLhs, Integer>>(n_graph_actions);
 
 		for(Rule act : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(act).intValue();
@@ -259,13 +260,13 @@ public class MoreInformationCollector extends InformationCollector
 		}
 
 		/* compute the numbers of nodes/edges of all negative-pattern-graphs */
-		negative_node_num = new Vector<Vector<Map<Node, Integer>>>(n_graph_actions);
-		negative_edge_num = new Vector<Vector<Map<Edge, Integer>>>(n_graph_actions);
+		negative_node_num = new ArrayList<List<Map<Node, Integer>>>(n_graph_actions);
+		negative_edge_num = new ArrayList<List<Map<Edge, Integer>>>(n_graph_actions);
 
 		for(Rule act : actionRuleMap.keySet()) {
 			int act_id = actionRuleMap.get(act).intValue();
 
-			negative_node_num.set(act_id, new Vector<Map<Node, Integer>>(max_n_negative_patterns));
+			negative_node_num.set(act_id, new ArrayList<Map<Node, Integer>>(max_n_negative_patterns));
 
 			/* if action has negative pattern graphs, compute node/edge numbers */
 			for(PatternGraphLhs neg_pattern : negMap.get(act_id).keySet()) {
@@ -516,8 +517,8 @@ public class MoreInformationCollector extends InformationCollector
 	protected int[] first_subgraph;
 	protected int max_n_subgraphs;
 	//protected Map[] subGraphMap;
-	protected Vector<LinkedList<Collection<Node>>> nodesOfSubgraph;
-	protected Vector<LinkedList<Collection<Edge>>> edgesOfSubgraph;
+	protected List<LinkedList<Collection<Node>>> nodesOfSubgraph;
+	protected List<LinkedList<Collection<Edge>>> edgesOfSubgraph;
 	protected Map<Node, Integer> subgraphOfNode;
 	protected Map<Edge, Integer> subgraphOfEdge;
 
@@ -526,8 +527,8 @@ public class MoreInformationCollector extends InformationCollector
 		n_subgraphs = new int[actionRuleMap.size()];
 		first_subgraph = new int[actionRuleMap.size()];
 		//subGraphMap = new HashMap[actionMap.size()];
-		nodesOfSubgraph = new Vector<LinkedList<Collection<Node>>>(actionRuleMap.size());
-		edgesOfSubgraph = new Vector<LinkedList<Collection<Edge>>>(actionRuleMap.size());
+		nodesOfSubgraph = new ArrayList<LinkedList<Collection<Node>>>(actionRuleMap.size());
+		edgesOfSubgraph = new ArrayList<LinkedList<Collection<Edge>>>(actionRuleMap.size());
 		subgraphOfNode = new HashMap<Node, Integer>();
 		subgraphOfEdge = new HashMap<Edge, Integer>();
 

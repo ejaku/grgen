@@ -12,7 +12,8 @@
 package de.unika.ipd.grgen.ast.expr.array;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
@@ -54,7 +55,7 @@ public class ArrayRemoveIfNode extends ArrayFunctionMethodInvocationBaseExprNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(targetExpr);
 		if(arrayAccessVar != null)
 			children.add(arrayAccessVar);
@@ -68,7 +69,7 @@ public class ArrayRemoveIfNode extends ArrayFunctionMethodInvocationBaseExprNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("targetExpr");
 		if(arrayAccessVar != null)
 			childrenNames.add("arrayAccessVar");

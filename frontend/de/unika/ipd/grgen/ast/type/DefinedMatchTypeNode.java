@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.MatchClassAutoNode;
@@ -79,7 +79,7 @@ public class DefinedMatchTypeNode extends MatchTypeNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		if(pattern != null)
 			children.add(pattern);
 		if(auto != null)
@@ -90,7 +90,7 @@ public class DefinedMatchTypeNode extends MatchTypeNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		if(pattern != null)
 			childrenNames.add("pattern");
 		if(auto != null)

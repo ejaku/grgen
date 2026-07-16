@@ -14,8 +14,9 @@ package de.unika.ipd.grgen.ast;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.ExecVarDeclNode;
@@ -184,7 +185,7 @@ public class ExecNode extends BaseNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> res = new Vector<BaseNode>();
+		List<BaseNode> res = new ArrayList<BaseNode>();
 		res.add(multiCallActions);
 		res.add(callActions);
 		res.add(varDecls);
@@ -197,7 +198,7 @@ public class ExecNode extends BaseNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("multi call actions");
 		childrenNames.add("call actions");
 		childrenNames.add("var decls");

@@ -14,8 +14,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
@@ -176,7 +177,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 		}
 
 		// Check constructors for ambiguity
-		Vector<ConstructorDeclNode> constrs = new Vector<ConstructorDeclNode>();
+		List<ConstructorDeclNode> constrs = new ArrayList<ConstructorDeclNode>();
 		for(BaseNode child : body.getChildrenExact()) {
 			if(child instanceof ConstructorDeclNode)
 				constrs.add((ConstructorDeclNode)child);
@@ -184,11 +185,11 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 
 		for(int i = 0; i < constrs.size(); i++) {
 			ConstructorDeclNode c1 = constrs.get(i);
-			Vector<ConstructorParamNode> params1 = c1.getParameters().getChildrenAsVector();
+			List<ConstructorParamNode> params1 = c1.getParameters().getChildrenAsList();
 			int numParams1 = params1.size();
 			for(int j = i + 1; j < constrs.size(); j++) {
 				ConstructorDeclNode c2 = constrs.get(j);
-				Vector<ConstructorParamNode> params2 = c2.getParameters().getChildrenAsVector();
+				List<ConstructorParamNode> params2 = c2.getParameters().getChildrenAsList();
 				int numParams2 = params2.size();
 				int p = 0;
 				boolean ambiguous = false;
@@ -432,8 +433,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 	{
 		String functionName = base.ident.toString();
 
-		Vector<TypeNode> baseParamTypes = base.getParameterTypes();
-		Vector<TypeNode> overrideParamTypes = override.getParameterTypes();
+		List<TypeNode> baseParamTypes = base.getParameterTypes();
+		List<TypeNode> overrideParamTypes = override.getParameterTypes();
 
 		// check if the number of parameters is correct
 		int numBaseParams = baseParamTypes.size();
@@ -471,8 +472,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 	{
 		String procedureName = base.ident.toString();
 
-		Vector<TypeNode> baseParamTypes = base.getParameterTypes();
-		Vector<TypeNode> overrideParamTypes = override.getParameterTypes();
+		List<TypeNode> baseParamTypes = base.getParameterTypes();
+		List<TypeNode> overrideParamTypes = override.getParameterTypes();
 
 		// check if the number of parameters is correct
 		int numBaseParams = baseParamTypes.size();
@@ -496,8 +497,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 			}
 		}
 
-		Vector<TypeNode> baseReturnParams = base.getResultTypes();
-		Vector<TypeNode> overrideReturnParams = override.getResultTypes();
+		List<TypeNode> baseReturnParams = base.getResultTypes();
+		List<TypeNode> overrideReturnParams = override.getResultTypes();
 
 		// check if the number of parameters is correct
 		int numBaseReturnParams = baseReturnParams.size();

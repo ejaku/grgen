@@ -12,8 +12,9 @@
 package de.unika.ipd.grgen.ast.type;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
@@ -96,7 +97,7 @@ public class MatchTypeIteratedNode extends MatchTypeNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		//children.add(getValidVersion(topLevelMatcherUnresolved, topLevelMatcher));
 		//children.add(getValidVersion(iteratedUnresolved, iterated));
 		return children;
@@ -105,7 +106,7 @@ public class MatchTypeIteratedNode extends MatchTypeNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		//childrenNames.add("topLevelMatcher");
 		//childrenNames.add("iterated");
 		return childrenNames;

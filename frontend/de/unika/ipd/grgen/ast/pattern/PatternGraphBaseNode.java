@@ -34,8 +34,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * AST node that represents a base graph pattern with nodes, edges, variables, subpattern usages, and further things
@@ -98,7 +99,7 @@ public abstract class PatternGraphBaseNode extends BaseNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(getValidVersionCollectNode(connectionsUnresolved, connections));
 		children.add(params);
 		children.add(defVariablesToBeYieldedTo);
@@ -111,7 +112,7 @@ public abstract class PatternGraphBaseNode extends BaseNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("connections");
 		childrenNames.add("params");
 		childrenNames.add("defVariablesToBeYieldedTo");
@@ -384,9 +385,9 @@ public abstract class PatternGraphBaseNode extends BaseNode
 		}
 	}
 
-	public Vector<DeclNode> getParamDecls()
+	public List<DeclNode> getParamDecls()
 	{
-		Vector<DeclNode> res = new Vector<DeclNode>();
+		List<DeclNode> res = new ArrayList<DeclNode>();
 
 		for(BaseNode param : params.getChildrenExact()) {
 			if(param instanceof ConnectionNode) {

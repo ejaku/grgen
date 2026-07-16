@@ -14,7 +14,6 @@ package de.unika.ipd.grgen.ir.stmt.invocation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.executable.ProcedureBase;
@@ -30,7 +29,7 @@ public abstract class ProcedureInvocationBase extends ProcedureOrBuiltinProcedur
 	protected List<Expression> arguments = new ArrayList<Expression>();
 
 	/** The return types of the procedure invocation. */
-	protected Vector<Type> returnTypes = new Vector<Type>();
+	protected List<Type> returnTypes = new ArrayList<Type>();
 
 	protected ProcedureInvocationBase(String name)
 	{

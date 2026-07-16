@@ -24,7 +24,8 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
 import java.nio.channels.FileChannel;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 
@@ -183,7 +184,7 @@ public class Util
 	 */
 	public static boolean containsMethod(Class<?> c, String m)
 	{
-		Vector<Method> allMethods = new Vector<Method>();
+		List<Method> allMethods = new ArrayList<Method>();
 		for(Method mm : c.getMethods()) {
 			allMethods.add(mm);
 		}

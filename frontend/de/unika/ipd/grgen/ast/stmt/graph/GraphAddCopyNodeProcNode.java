@@ -8,7 +8,8 @@
 package de.unika.ipd.grgen.ast.stmt.graph;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
@@ -33,7 +34,7 @@ public class GraphAddCopyNodeProcNode extends BuiltinProcedureInvocationBaseNode
 
 	private ExprNode oldNode;
 
-	Vector<TypeNode> returnTypes;
+	List<TypeNode> returnTypes;
 
 	private boolean deep;
 
@@ -49,7 +50,7 @@ public class GraphAddCopyNodeProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(oldNode);
 		return children;
 	}
@@ -58,7 +59,7 @@ public class GraphAddCopyNodeProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("old node");
 		return childrenNames;
 	}
@@ -93,10 +94,10 @@ public class GraphAddCopyNodeProcNode extends BuiltinProcedureInvocationBaseNode
 	}
 
 	@Override
-	public Vector<TypeNode> getType()
+	public List<TypeNode> getType()
 	{
 		if(returnTypes == null) {
-			returnTypes = new Vector<TypeNode>();
+			returnTypes = new ArrayList<TypeNode>();
 			returnTypes.add(oldNode.getType());
 		}
 		return returnTypes;

@@ -12,7 +12,8 @@
 package de.unika.ipd.grgen.ast.expr;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.type.TypeNode;
@@ -41,7 +42,7 @@ public abstract class ContainerSingleElementInitNode extends ContainerInitNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(containerItems);
 		return children;
 	}
@@ -49,7 +50,7 @@ public abstract class ContainerSingleElementInitNode extends ContainerInitNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("containerItems");
 		return childrenNames;
 	}
@@ -114,9 +115,9 @@ public abstract class ContainerSingleElementInitNode extends ContainerInitNode
 		return containerItems;
 	}
 
-	protected Vector<Expression> constructItems()
+	protected List<Expression> constructItems()
 	{
-		Vector<Expression> items = new Vector<Expression>();
+		List<Expression> items = new ArrayList<Expression>();
 		for(ExprNode item : containerItems.getChildrenExact()) {
 			item = item.evaluate();
 			items.add(item.checkIR(Expression.class));

@@ -8,7 +8,8 @@
 package de.unika.ipd.grgen.ast.stmt.graph;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
@@ -35,7 +36,7 @@ public class InsertCopyProcNode extends BuiltinProcedureInvocationBaseNode
 	private ExprNode graphExpr;
 	private ExprNode nodeExpr;
 
-	Vector<TypeNode> returnTypes;
+	List<TypeNode> returnTypes;
 
 	public InsertCopyProcNode(Coords coords, ExprNode nodeSetExpr, ExprNode nodeExpr)
 	{
@@ -50,7 +51,7 @@ public class InsertCopyProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(graphExpr);
 		children.add(nodeExpr);
 		return children;
@@ -60,7 +61,7 @@ public class InsertCopyProcNode extends BuiltinProcedureInvocationBaseNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("nodeSetExpr");
 		childrenNames.add("nodeExpr");
 		return childrenNames;
@@ -104,10 +105,10 @@ public class InsertCopyProcNode extends BuiltinProcedureInvocationBaseNode
 	}
 
 	@Override
-	public Vector<TypeNode> getType()
+	public List<TypeNode> getType()
 	{
 		if(returnTypes == null) {
-			returnTypes = new Vector<TypeNode>();
+			returnTypes = new ArrayList<TypeNode>();
 			returnTypes.add(nodeExpr.getType());
 		}
 		return returnTypes;

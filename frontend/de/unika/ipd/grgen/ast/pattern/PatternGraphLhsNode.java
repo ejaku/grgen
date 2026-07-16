@@ -16,8 +16,9 @@ package de.unika.ipd.grgen.ast.pattern;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectBaseNode;
@@ -160,7 +161,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(getValidVersionCollectNode(connectionsUnresolved, connections));
 		children.add(params);
 		children.add(defVariablesToBeYieldedTo);
@@ -183,7 +184,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("connections");
 		childrenNames.add("params");
 		childrenNames.add("defVariablesToBeYieldedTo");

@@ -8,7 +8,8 @@
 package de.unika.ipd.grgen.ast.expr;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.pattern.IteratedDeclNode;
@@ -43,7 +44,7 @@ public class CountNode extends ExprNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(getValidVersion(iteratedUnresolved, iterated));
 		return children;
 	}
@@ -52,7 +53,7 @@ public class CountNode extends ExprNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("iterated");
 		return childrenNames;
 	}

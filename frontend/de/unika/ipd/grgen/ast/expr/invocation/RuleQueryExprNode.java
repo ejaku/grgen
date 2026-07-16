@@ -12,7 +12,8 @@
 package de.unika.ipd.grgen.ast.expr.invocation;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.ExprNode;
@@ -43,7 +44,7 @@ public class RuleQueryExprNode extends ExprNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(callAction);
 		children.add(getValidVersion(arrayOfMatchTypeUnresolved, arrayOfMatchType));
 		return children;
@@ -52,7 +53,7 @@ public class RuleQueryExprNode extends ExprNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("callAction");
 		childrenNames.add("arrayOfMatchType");
 		return childrenNames;

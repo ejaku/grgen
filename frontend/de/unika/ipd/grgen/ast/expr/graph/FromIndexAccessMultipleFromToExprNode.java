@@ -9,7 +9,8 @@ package de.unika.ipd.grgen.ast.expr.graph;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.expr.BuiltinFunctionInvocationBaseNode;
@@ -47,7 +48,7 @@ public abstract class FromIndexAccessMultipleFromToExprNode extends BuiltinFunct
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(indexAccessExprs);
 		return children;
 	}
@@ -56,7 +57,7 @@ public abstract class FromIndexAccessMultipleFromToExprNode extends BuiltinFunct
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		childrenNames.add("indexAccessExprs");
 		return childrenNames;
 	}

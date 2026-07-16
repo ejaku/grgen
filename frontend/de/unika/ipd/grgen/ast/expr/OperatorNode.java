@@ -11,7 +11,8 @@
 
 package de.unika.ipd.grgen.ast.expr;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.unika.ipd.grgen.ast.decl.executable.Operator;
 import de.unika.ipd.grgen.ast.decl.executable.OperatorDeclNode;
@@ -32,7 +33,7 @@ public abstract class OperatorNode extends ExprNode
 	/** The corresponding operator declaration. */
 	private OperatorDeclNode operatorDecl;
 
-	public Vector<ExprNode> children = new Vector<ExprNode>();
+	public List<ExprNode> children = new ArrayList<ExprNode>();
 
 	/**
 	 * Make a new operator node.
@@ -83,7 +84,7 @@ public abstract class OperatorNode extends ExprNode
 	private OperatorDeclNode computeOperator()
 	{
 		OperatorDeclNode operatorDecl = null;
-		Vector<TypeNode> argTypes = new Vector<TypeNode>();
+		List<TypeNode> argTypes = new ArrayList<TypeNode>();
 
 		for(int i = 0; i < children.size(); i++) {
 			ExprNode op = children.get(i);

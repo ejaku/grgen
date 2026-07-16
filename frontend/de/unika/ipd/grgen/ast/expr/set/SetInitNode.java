@@ -11,7 +11,7 @@
 
 package de.unika.ipd.grgen.ast.expr.set;
 
-import java.util.Vector;
+import java.util.List;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
@@ -110,7 +110,7 @@ public class SetInitNode extends ContainerSingleElementInitNode
 	@Override
 	protected IR constructIR()
 	{
-		Vector<Expression> items = constructItems();
+		List<Expression> items = constructItems();
 		Entity member = lhs != null ? lhs.getIREntity() : null;
 		SetType type = setType != null ? setType.checkIR(SetType.class) : null;
 		return new SetInit(items, member, type, isConstant());

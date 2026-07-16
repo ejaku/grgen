@@ -12,8 +12,9 @@ package de.unika.ipd.grgen.ast.type.basic;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
@@ -176,7 +177,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
-		Vector<BaseNode> children = new Vector<BaseNode>();
+		List<BaseNode> children = new ArrayList<BaseNode>();
 		// no children
 		return children;
 	}
@@ -185,7 +186,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		Vector<String> childrenNames = new Vector<String>();
+		List<String> childrenNames = new ArrayList<String>();
 		// no children
 		return childrenNames;
 	}
