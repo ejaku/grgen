@@ -42,7 +42,7 @@ public class OperatorEvaluator
 	/**
 	 * NOTE: recalculate the serialVersionUID if you change the class.
 	 */
-	class NotEvaluatableException extends Exception
+	static class NotEvaluatableException extends Exception
 	{
 		private static final long serialVersionUID = -4866769730405704919L;
 
@@ -64,7 +64,7 @@ public class OperatorEvaluator
 	/**
 	 * NOTE: recalculate the serialVersionUID if you change the class.
 	 */
-	class ValueException extends Exception
+	static class ValueException extends Exception
 	{
 		private static final long serialVersionUID = 991159946682342406L;
 
@@ -121,7 +121,7 @@ public class OperatorEvaluator
 		return null;
 	}
 
-	private Object checkValue(ExprNode e, Class<?> type) throws ValueException
+	private static Object checkValue(ExprNode e, Class<?> type) throws ValueException
 	{
 		if(!(e instanceof ConstNode))
 			throw new ValueException(e.getCoords());
@@ -133,7 +133,7 @@ public class OperatorEvaluator
 		return v;
 	}
 
-	protected Object getArgValue(ExprNode[] args, OperatorDeclNode op, int pos) throws ValueException
+	protected static Object getArgValue(ExprNode[] args, OperatorDeclNode op, int pos) throws ValueException
 	{
 		TypeNode[] paramTypes = op.getOperandTypes();
 
