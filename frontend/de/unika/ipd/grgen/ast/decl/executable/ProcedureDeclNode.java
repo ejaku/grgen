@@ -71,7 +71,7 @@ public class ProcedureDeclNode extends ProcedureDeclBaseNode
 		children.add(ident);
 		children.add(evalStatements);
 		children.add(parametersUnresolved);
-		children.add(getValidVersion(resultsUnresolved, resultTypesCollectNode));
+		children.add(getValidVersionCollectNode(resultsUnresolved, resultTypesCollectNode));
 		return children;
 	}
 

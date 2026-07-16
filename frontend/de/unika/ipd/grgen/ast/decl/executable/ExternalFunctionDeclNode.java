@@ -58,7 +58,7 @@ public class ExternalFunctionDeclNode extends FunctionDeclBaseNode
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(getValidVersion(parameterTypesUnresolved, parameterTypesCollectNode));
+		children.add(getValidVersionCollectNode(parameterTypesUnresolved, parameterTypesCollectNode));
 		children.add(getValidVersion(resultUnresolved, resultType));
 		return children;
 	}

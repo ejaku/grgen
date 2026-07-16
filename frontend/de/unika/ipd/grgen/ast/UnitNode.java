@@ -180,17 +180,17 @@ public class UnitNode extends BaseNode
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(models);
-		children.add(getValidVersion(subpatternsUnresolved, subpatterns));
-		children.add(getValidVersion(actionsUnresolved, actions));
-		children.add(getValidVersion(matchTypesUnresolved, matchTypes));
-		children.add(getValidVersion(filterFunctionsUnresolved, filterFunctions));
-		children.add(getValidVersion(matchClassesUnresolved, matchClassDecls));
-		children.add(getValidVersion(matchClassFilterFunctionsUnresolved, matchClassFilterFunctions));
-		children.add(getValidVersion(matchTypesIteratedUnresolved, matchTypesIterated));
-		children.add(getValidVersion(functionsUnresolved, functions));
-		children.add(getValidVersion(proceduresUnresolved, procedures));
-		children.add(getValidVersion(sequencesUnresolved, sequences));
-		children.add(getValidVersion(packagesUnresolved, packages));
+		children.add(getValidVersionCollectNode(subpatternsUnresolved, subpatterns));
+		children.add(getValidVersionCollectNode(actionsUnresolved, actions));
+		children.add(getValidVersionCollectNode(matchTypesUnresolved, matchTypes));
+		children.add(getValidVersionCollectNode(filterFunctionsUnresolved, filterFunctions));
+		children.add(getValidVersionCollectNode(matchClassesUnresolved, matchClassDecls));
+		children.add(getValidVersionCollectNode(matchClassFilterFunctionsUnresolved, matchClassFilterFunctions));
+		children.add(getValidVersionCollectNode(matchTypesIteratedUnresolved, matchTypesIterated));
+		children.add(getValidVersionCollectNode(functionsUnresolved, functions));
+		children.add(getValidVersionCollectNode(proceduresUnresolved, procedures));
+		children.add(getValidVersionCollectNode(sequencesUnresolved, sequences));
+		children.add(getValidVersionCollectNode(packagesUnresolved, packages));
 		return children;
 	}
 

@@ -124,11 +124,11 @@ public class ModelNode extends DeclNode
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
-		children.add(getValidVersion(packagesUnresolved, packages));
-		children.add(getValidVersion(declsUnresolved, decls));
-		children.add(getValidVersion(externalFuncDeclsUnresolved, externalFuncDecls));
-		children.add(getValidVersion(externalProcDeclsUnresolved, externalProcDecls));
-		children.add(getValidVersion(indicesUnresolved, indices));
+		children.add(getValidVersionCollectNode(packagesUnresolved, packages));
+		children.add(getValidVersionCollectNode(declsUnresolved, decls));
+		children.add(getValidVersionCollectNode(externalFuncDeclsUnresolved, externalFuncDecls));
+		children.add(getValidVersionCollectNode(externalProcDeclsUnresolved, externalProcDecls));
+		children.add(getValidVersionCollectNode(indicesUnresolved, indices));
 		children.add(usedModels);
 		return children;
 	}

@@ -458,6 +458,15 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 		return unresolved;
 	}
 
+	/** Return the currently valid member of the CollectNode. Currently valid depends on variable was already resolved. */
+	protected final CollectBaseNode getValidVersionCollectNode(CollectNode<? extends BaseNode> unresolved, CollectNode<? extends BaseNode> resolved)
+	{
+		if(isResolved()) {
+			return resolved;
+		}
+		return unresolved;
+	}
+
 	/** Return the currently valid member. Currently valid depends on variable was already resolved and resolution result. */
 	protected final <T extends BaseNode> T getValidVersion(T unresolved, T firstResolved, T secondResolved)
 	{

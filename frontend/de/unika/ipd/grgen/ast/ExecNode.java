@@ -188,8 +188,8 @@ public class ExecNode extends BaseNode
 		res.add(multiCallActions);
 		res.add(callActions);
 		res.add(varDecls);
-		res.add(getValidVersion(usageUnresolved, usage));
-		res.add(getValidVersion(writeUsageUnresolved, writeUsage));
+		res.add(getValidVersionCollectNode(usageUnresolved, usage));
+		res.add(getValidVersionCollectNode(writeUsageUnresolved, writeUsage));
 		return res;
 	}
 

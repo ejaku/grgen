@@ -58,8 +58,8 @@ public class ExternalProcedureDeclNode extends ProcedureDeclBaseNode
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(getValidVersion(parameterTypesUnresolved, parameterTypesCollectNode));
-		children.add(getValidVersion(resultsUnresolved, resultTypesCollectNode));
+		children.add(getValidVersionCollectNode(parameterTypesUnresolved, parameterTypesCollectNode));
+		children.add(getValidVersionCollectNode(resultsUnresolved, resultTypesCollectNode));
 		return children;
 	}
 

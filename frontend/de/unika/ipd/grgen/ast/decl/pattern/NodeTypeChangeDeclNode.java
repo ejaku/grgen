@@ -63,7 +63,7 @@ public class NodeTypeChangeDeclNode extends NodeDeclNode
 		children.add(getValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
 		children.add(constraints);
 		children.add(getValidVersion(oldUnresolved, old));
-		children.add(getValidVersion(mergeesUnresolved, mergees));
+		children.add(getValidVersionCollectNode(mergeesUnresolved, mergees));
 		return children;
 	}
 

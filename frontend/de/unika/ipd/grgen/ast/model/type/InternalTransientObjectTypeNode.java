@@ -55,8 +55,8 @@ public class InternalTransientObjectTypeNode extends BaseInternalObjectTypeNode
 	public Collection<BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(extendUnresolved, extend));
-		children.add(getValidVersion(bodyUnresolved, body));
+		children.add(getValidVersionCollectNode(extendUnresolved, extend));
+		children.add(getValidVersionCollectNode(bodyUnresolved, body));
 		return children;
 	}
 

@@ -48,7 +48,7 @@ public class MultiCallActionNode extends BaseNode
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(actionCalls);
-		children.add(getValidVersion(matchClassFilterFunctionsUnresolved, matchClassFilterFunctions));
+		children.add(getValidVersionCollectNode(matchClassFilterFunctionsUnresolved, matchClassFilterFunctions));
 		return children;
 	}
 

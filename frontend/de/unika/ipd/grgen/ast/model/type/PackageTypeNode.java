@@ -48,7 +48,7 @@ public class PackageTypeNode extends CompoundTypeNode
 	public Collection<BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(declsUnresolved, decls));
+		children.add(getValidVersionCollectNode(declsUnresolved, decls));
 		return children;
 	}
 

@@ -99,7 +99,7 @@ public abstract class PatternGraphBaseNode extends BaseNode
 	public Collection<BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(connectionsUnresolved, connections));
+		children.add(getValidVersionCollectNode(connectionsUnresolved, connections));
 		children.add(params);
 		children.add(defVariablesToBeYieldedTo);
 		children.add(subpatterns);

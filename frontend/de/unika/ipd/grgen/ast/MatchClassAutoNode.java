@@ -80,7 +80,7 @@ public class MatchClassAutoNode extends BaseNode
 	public Collection<BaseNode> getChildren()
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(matchTypesUnresolved, matchTypes));
+		children.add(getValidVersionCollectNode(matchTypesUnresolved, matchTypes));
 		return children;
 	}
 

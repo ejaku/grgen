@@ -73,7 +73,7 @@ public class ModifyDeclNode extends RhsDeclNode
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
 		children.add(patternGraph);
-		children.add(getValidVersion(deletesUnresolved, deletes));
+		children.add(getValidVersionCollectNode(deletesUnresolved, deletes));
 		return children;
 	}
 

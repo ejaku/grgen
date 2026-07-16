@@ -79,9 +79,9 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(getValidVersion(returnFormalParametersUnresolved, returnFormalParameters));
+		children.add(getValidVersionCollectNode(returnFormalParametersUnresolved, returnFormalParameters));
 		children.add(pattern);
-		children.add(getValidVersion(implementedMatchTypesUnresolved, implementedMatchTypes));
+		children.add(getValidVersionCollectNode(implementedMatchTypesUnresolved, implementedMatchTypes));
 		return children;
 	}
 

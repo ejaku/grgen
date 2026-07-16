@@ -89,9 +89,9 @@ public class CallActionNode extends BaseNode
 	{
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(actionUnresolved, action, sequence, boolVar));
-		children.add(getValidVersion(paramsUnresolved, params));
-		children.add(getValidVersion(returnsUnresolved, returns));
-		children.add(getValidVersion(filterFunctionsUnresolved, filterFunctions));
+		children.add(getValidVersionCollectNode(paramsUnresolved, params));
+		children.add(getValidVersionCollectNode(returnsUnresolved, returns));
+		children.add(getValidVersionCollectNode(filterFunctionsUnresolved, filterFunctions));
 		return children;
 	}
 
