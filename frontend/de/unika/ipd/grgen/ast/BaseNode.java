@@ -450,7 +450,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	}
 
 	/** Return the currently valid member. Currently valid depends on variable was already resolved. */
-	protected final <T extends BaseNode> T getValidVersion(T unresolved, T resolved)
+	protected final BaseNode getValidVersion(BaseNode unresolved, BaseNode resolved)
 	{
 		if(isResolved()) {
 			return resolved;
@@ -468,7 +468,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	}
 
 	/** Return the currently valid member. Currently valid depends on variable was already resolved and resolution result. */
-	protected final <T extends BaseNode> T getValidVersion(T unresolved, T firstResolved, T secondResolved)
+	protected final BaseNode getValidVersion(BaseNode unresolved, BaseNode firstResolved, BaseNode secondResolved)
 	{
 		if(isResolved()) {
 			if(firstResolved != null) {
@@ -482,8 +482,8 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	}
 
 	/** Return the currently valid member. Currently valid depends on variable was already resolved and resolution result. */
-	protected final <T extends BaseNode> T getValidVersion(T unresolved,
-			T firstResolved, T secondResolved, T thirdResolved)
+	protected final BaseNode getValidVersion(BaseNode unresolved,
+			BaseNode firstResolved, BaseNode secondResolved, BaseNode thirdResolved)
 	{
 		if(isResolved()) {
 			if(firstResolved != null) {
@@ -500,8 +500,8 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	}
 
 	/** Return the currently valid member. Currently valid depends on variable was already resolved and resolution result. */
-	protected final <T extends BaseNode> T getValidVersion(T unresolved,
-			T firstResolved, T secondResolved, T thirdResolved, T fourthResolved)
+	protected final BaseNode getValidVersion(BaseNode unresolved,
+			BaseNode firstResolved, BaseNode secondResolved, BaseNode thirdResolved, BaseNode fourthResolved)
 	{
 		if(isResolved()) {
 			if(firstResolved != null) {
