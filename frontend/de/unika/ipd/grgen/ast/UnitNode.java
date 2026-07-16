@@ -34,9 +34,9 @@ import de.unika.ipd.grgen.ast.pattern.PatternGraphRhsNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementNode;
 import de.unika.ipd.grgen.ast.stmt.EvalStatementsNode;
-import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
 import de.unika.ipd.grgen.ast.type.DefinedMatchTypeNode;
 import de.unika.ipd.grgen.ast.type.MatchTypeIteratedNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.MatchTypeActionNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
@@ -325,7 +325,7 @@ public class UnitNode extends BaseNode
 	private static boolean checkModelTypes(boolean res, CollectNode<TypeDeclNode> typeDecls)
 	{
 		for(TypeDeclNode typeDecl : typeDecls.getChildrenExact()) {
-			DeclaredTypeNode declType = typeDecl.getDeclType();
+			TypeNode declType = typeDecl.getDeclType();
 			if(declType instanceof InheritanceTypeNode) {
 				InheritanceTypeNode inhType = (InheritanceTypeNode)declType;
 				res &= inhType.checkStatementsInMethods();

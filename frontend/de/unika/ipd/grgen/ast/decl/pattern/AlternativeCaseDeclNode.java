@@ -131,7 +131,7 @@ public class AlternativeCaseDeclNode extends NestedMatcherDeclNode
 	}
 
 	@Override
-	public AlternativeCaseTypeNode getDeclType()
+	public TypeNode getDeclType()
 	{
 		assert isResolved();
 

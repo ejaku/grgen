@@ -242,7 +242,7 @@ public class RuleDeclNode extends ActionDeclNode
 			ConstraintDeclNode currentRetypedElement = currentElement.getRetypedElement();
 
 			if(currentRetypedElement != null) {
-				InheritanceTypeNode currentType = currentRetypedElement.getDeclType();
+				InheritanceTypeNode currentType = currentRetypedElement.getDeclInhType();
 
 				if(retypedElement == null) {
 					element = currentElement;
@@ -551,7 +551,7 @@ public class RuleDeclNode extends ActionDeclNode
 	}
 
 	@Override
-	public RuleTypeNode getDeclType()
+	public TypeNode getDeclType()
 	{
 		assert isResolved();
 

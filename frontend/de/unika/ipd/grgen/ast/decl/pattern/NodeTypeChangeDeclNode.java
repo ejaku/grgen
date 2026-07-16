@@ -167,7 +167,7 @@ public class NodeTypeChangeDeclNode extends NodeDeclNode
 	@Override
 	protected IR constructIR()
 	{
-		NodeTypeNode tn = getDeclType();
+		NodeTypeNode tn = getDeclNodeType();
 		NodeType nt = tn.getIRNodeType();
 		IdentNode ident = getIdent();
 

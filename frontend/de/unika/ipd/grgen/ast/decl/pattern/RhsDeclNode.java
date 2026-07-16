@@ -322,7 +322,7 @@ public abstract class RhsDeclNode extends DeclNode
 	public abstract PatternGraphRhs getIRPatternGraph(PatternGraphLhs left);
 
 	@Override
-	public RhsTypeNode getDeclType()
+	public TypeNode getDeclType()
 	{
 		assert isResolved();
 

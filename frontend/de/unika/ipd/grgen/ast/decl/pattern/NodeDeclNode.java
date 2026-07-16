@@ -20,6 +20,7 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
+import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
 import de.unika.ipd.grgen.ast.pattern.NameOrAttributeInitializationNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
@@ -75,10 +76,21 @@ public class NodeDeclNode extends ConstraintDeclNode
 		return clone;
 	}
 
+	@Override
+	public TypeNode getDeclType()
+	{
+		return getDeclInhType();
+	}
+
+	@Override
+	public InheritanceTypeNode getDeclInhType()
+	{
+		return getDeclNodeType();
+	}
+
 	/** The TYPE child could be a node in case the type is
 	 *  inherited dynamically via the typeof/copy operator */
-	@Override
-	public NodeTypeNode getDeclType()
+	public NodeTypeNode getDeclNodeType()
 	{
 		assert isResolved();
 		DeclNode curr = getValidResolvedVersion(typeNodeDecl, typeTypeDecl);
@@ -240,7 +252,7 @@ public class NodeDeclNode extends ConstraintDeclNode
 	@Override
 	protected IR constructIR()
 	{
-		NodeTypeNode tn = getDeclType();
+		NodeTypeNode tn = getDeclNodeType();
 		NodeType nt = tn.getIRNodeType();
 		IdentNode ident = getIdent();
 

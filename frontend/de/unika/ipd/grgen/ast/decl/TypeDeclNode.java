@@ -22,6 +22,7 @@ import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.model.type.UndirectedEdgeTypeNode;
 import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
 
@@ -175,7 +176,7 @@ public class TypeDeclNode extends DeclNode
 	}
 
 	@Override
-	public DeclaredTypeNode getDeclType()
+	public TypeNode getDeclType()
 	{
 		assert isResolved();
 

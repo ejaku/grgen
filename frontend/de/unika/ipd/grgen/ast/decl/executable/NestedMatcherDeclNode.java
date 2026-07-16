@@ -50,7 +50,7 @@ public abstract class NestedMatcherDeclNode extends MatcherDeclNode
 
 nodeAbstrLoop:
 		for(NodeDeclNode node : right.patternGraph.getNodes()) {
-			if(!node.inheritsType() && node.getDeclType().isAbstract()) {
+			if(!node.inheritsType() && node.getDeclInhType().isAbstract()) {
 				if((node.context & CONTEXT_PARAMETER) == CONTEXT_PARAMETER) {
 					continue;
 				}
@@ -67,7 +67,7 @@ nodeAbstrLoop:
 
 edgeAbstrLoop:
 		for(EdgeDeclNode edge : right.patternGraph.getEdges()) {
-			if(!edge.inheritsType() && edge.getDeclType().isAbstract()) {
+			if(!edge.inheritsType() && edge.getDeclInhType().isAbstract()) {
 				if((edge.context & CONTEXT_PARAMETER) == CONTEXT_PARAMETER) {
 					continue;
 				}

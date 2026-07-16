@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
 import de.unika.ipd.grgen.ast.model.type.ArbitraryEdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.model.type.NodeTypeNode;
-import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
+import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
@@ -213,7 +213,7 @@ public class ConnectionNode extends ConnectionCharacter
 			break;
 		}
 
-		DeclaredTypeNode rootType = rootDecl != null ? rootDecl.getDeclType() : null;
+		TypeNode rootType = rootDecl != null ? rootDecl.getDeclType() : null;
 
 		if(!edge.getDeclType().isCompatibleTo(rootType)) {
 			reportError("The connection kind of the edge" + edge.emptyWhenAnonymousPostfix(" ") + " is incompatible with the type of the edge"

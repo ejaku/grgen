@@ -133,7 +133,7 @@ public class EdgeTypeChangeDeclNode extends EdgeDeclNode
 	@Override
 	protected IR constructIR()
 	{
-		EdgeTypeNode etn = getDeclType();
+		EdgeTypeNode etn = getDeclEdgeType();
 		EdgeType et = etn.getIREdgeType();
 		IdentNode ident = getIdent();
 

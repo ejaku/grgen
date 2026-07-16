@@ -179,7 +179,7 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 		if(retElem == null)
 			return res;
 
-		InheritanceTypeNode declaredRetType = retElem.getDeclType();
+		InheritanceTypeNode declaredRetType = retElem.getDeclInhType();
 
 		Set<ConstraintDeclNode> homSet;
 		if(retElem instanceof NodeDeclNode)
@@ -195,7 +195,7 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 			if(retypedElem == null)
 				continue;
 
-			InheritanceTypeNode retypedElemType = retypedElem.getDeclType();
+			InheritanceTypeNode retypedElemType = retypedElem.getDeclInhType();
 			if(retypedElemType.isA(declaredRetType))
 				continue;
 
@@ -279,8 +279,8 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 			isOk = false;
 		} else {
 			NodeDeclNode nodeFromPattern = knownNodes.get(nodeName);
-			NodeTypeNode type = node.getDeclType();
-			NodeTypeNode typeOfNodeFromPattern = nodeFromPattern.getDeclType();
+			NodeTypeNode type = node.getDeclNodeType();
+			NodeTypeNode typeOfNodeFromPattern = nodeFromPattern.getDeclNodeType();
 			if(!type.isEqual(typeOfNodeFromPattern)) {
 				getIdent().reportError("The type of the node " + nodeName + " from the " + actionName
 						+ " does not equal the type of the node from the match class " + matchTypeName + "."
@@ -319,8 +319,8 @@ public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 			isOk = false;
 		} else {
 			EdgeDeclNode edgeFromPattern = knownEdges.get(edgeName);
-			EdgeTypeNode type = edge.getDeclType();
-			EdgeTypeNode typeOfEdgeFromPattern = edgeFromPattern.getDeclType();
+			EdgeTypeNode type = edge.getDeclEdgeType();
+			EdgeTypeNode typeOfEdgeFromPattern = edgeFromPattern.getDeclEdgeType();
 			if(!type.isEqual(typeOfEdgeFromPattern)) {
 				getIdent().reportError("The type of the edge " + edgeName + " from the " + actionName
 						+ " does not equal the type of the edge from the match class " + matchTypeName + "."

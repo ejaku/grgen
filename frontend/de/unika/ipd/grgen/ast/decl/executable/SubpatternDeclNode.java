@@ -202,7 +202,7 @@ public class SubpatternDeclNode extends TopLevelMatcherDeclNode
 	}
 
 	@Override
-	public SubpatternTypeNode getDeclType()
+	public TypeNode getDeclType()
 	{
 		assert isResolved();
 

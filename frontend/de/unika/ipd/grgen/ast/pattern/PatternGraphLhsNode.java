@@ -218,14 +218,14 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 		for(ConnectionCharacter cc : connections.getChildrenExact()) {
 			if(cc instanceof ConnectionNode) {
 				ConnectionNode conn = (ConnectionNode)cc;
-				if(conn.getEdge().getDeclType().isAbstract()
-						|| conn.getSrc().getDeclType().isAbstract()
-						|| conn.getTgt().getDeclType().isAbstract())
+				if(conn.getEdge().getDeclInhType().isAbstract()
+						|| conn.getSrc().getDeclInhType().isAbstract()
+						|| conn.getTgt().getDeclInhType().isAbstract())
 					hasAbstractElements = true;
 			}
 			else if(cc instanceof SingleNodeConnNode) {
 				SingleNodeConnNode conn = (SingleNodeConnNode)cc;
-				if(conn.getNode().getDeclType().isAbstract())
+				if(conn.getNode().getDeclInhType().isAbstract())
 					hasAbstractElements = true;
 			}
 		}
@@ -408,12 +408,12 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 		Set<ConstraintDeclNode> alreadyProcessed = new LinkedHashSet<ConstraintDeclNode>();
 
 		for(ConstraintDeclNode elem1 : homSet) {
-			InheritanceTypeNode type1 = elem1.getDeclType();
+			InheritanceTypeNode type1 = elem1.getDeclInhType();
 			for(ConstraintDeclNode elem2 : homSet) {
 				if(elem1 == elem2 || alreadyProcessed.contains(elem2))
 					continue;
 
-				InheritanceTypeNode type2 = elem2.getDeclType();
+				InheritanceTypeNode type2 = elem2.getDeclInhType();
 
 				if(InheritanceTypeNode.hasCommonSubtype(type1, type2))
 					continue;

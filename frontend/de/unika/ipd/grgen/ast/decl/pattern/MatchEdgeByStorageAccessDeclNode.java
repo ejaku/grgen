@@ -154,7 +154,7 @@ public class MatchEdgeByStorageAccessDeclNode extends MatchEdgeFromByStorageDecl
 			return false;
 		}
 		EdgeTypeNode storageElemType = (EdgeTypeNode)storageElementType;
-		EdgeTypeNode expectedStorageElemType = getDeclType();
+		EdgeTypeNode expectedStorageElemType = getDeclEdgeType();
 		if(!expectedStorageElemType.isCompatibleTo(storageElemType)) {
 			String expTypeName = expectedStorageElemType.toStringWithDeclarationCoords();
 			String typeName = storageElemType.toStringWithDeclarationCoords();

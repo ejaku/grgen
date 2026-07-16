@@ -21,6 +21,7 @@ import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.decl.TypeDeclNode;
 import de.unika.ipd.grgen.ast.model.type.EdgeTypeNode;
+import de.unika.ipd.grgen.ast.model.type.InheritanceTypeNode;
 import de.unika.ipd.grgen.ast.pattern.NameOrAttributeInitializationNode;
 import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 import de.unika.ipd.grgen.ast.type.TypeExprNode;
@@ -86,10 +87,21 @@ public class EdgeDeclNode extends ConstraintDeclNode
 		check();
 	}
 
+	@Override
+	public TypeNode getDeclType()
+	{
+		return getDeclInhType();
+	}
+
+	@Override
+	public InheritanceTypeNode getDeclInhType()
+	{
+		return getDeclEdgeType();
+	}
+
 	/** The TYPE child could be an edge in case the type is
 	 *  inherited dynamically via the typeof/copy operator */
-	@Override
-	public EdgeTypeNode getDeclType()
+	public EdgeTypeNode getDeclEdgeType()
 	{
 		assert isResolved();
 		DeclNode curr = getValidResolvedVersion(typeEdgeDecl, typeTypeDecl);

@@ -77,7 +77,7 @@ public class NameOrAttributeInitializationNode extends BaseNode
 	protected boolean resolveLocal()
 	{
 		if(attributeUnresolved != null) {
-			owner.getDeclType().fixupDefinition(attributeUnresolved);
+			owner.getDeclInhType().fixupDefinition(attributeUnresolved);
 			attribute = memberResolver.resolve(attributeUnresolved, this);
 			return attribute != null;
 		}
@@ -110,7 +110,7 @@ public class NameOrAttributeInitializationNode extends BaseNode
 			return false;
 		}
 
-		if(owner.getDeclType().isConst()) {
+		if(owner.getDeclInhType().isConst()) {
 			owner.reportError("An assignment to a const type object is not allowed"
 					+ " (but " + owner.getDeclType().getTypeName() + " is const).");
 			return false;

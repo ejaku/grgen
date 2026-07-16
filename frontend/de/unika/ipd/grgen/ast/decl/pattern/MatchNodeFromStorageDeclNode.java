@@ -140,7 +140,7 @@ public class MatchNodeFromStorageDeclNode extends MatchNodeFromByStorageDeclNode
 			}
 		}
 		NodeTypeNode storageElemType = (NodeTypeNode)storageElementType;
-		NodeTypeNode expectedStorageElemType = getDeclType();
+		NodeTypeNode expectedStorageElemType = getDeclNodeType();
 		if(!expectedStorageElemType.isCompatibleTo(storageElemType)) {
 			String expTypeName = expectedStorageElemType.toStringWithDeclarationCoords();
 			String typeName = storageElemType.toStringWithDeclarationCoords();

@@ -128,7 +128,7 @@ public class SequenceDeclNode extends DeclNode
 	}
 
 	@Override
-	public SequenceTypeNode getDeclType()
+	public TypeNode getDeclType()
 	{
 		assert isResolved();
 

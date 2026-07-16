@@ -396,7 +396,7 @@ public class ModelNode extends DeclNode
 	}
 
 	@Override
-	public ModelTypeNode getDeclType()
+	public TypeNode getDeclType()
 	{
 		assert isResolved();
 
