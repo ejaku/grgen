@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -53,15 +52,15 @@ public abstract class InheritanceType extends CompoundType
 	private Set<InheritanceType> allSuperTypes = null;
 	private Set<InheritanceType> allSubTypes = null;
 
-	private List<Constructor> constructors = new LinkedList<Constructor>();
+	private List<Constructor> constructors = new ArrayList<Constructor>();
 
 	/** The list of member initializers */
-	private List<MemberInit> memberInitializers = new LinkedList<MemberInit>();
+	private List<MemberInit> memberInitializers = new ArrayList<MemberInit>();
 
-	private List<MapInit> mapInitializers = new LinkedList<MapInit>();
-	private List<SetInit> setInitializers = new LinkedList<SetInit>();
-	private List<ArrayInit> arrayInitializers = new LinkedList<ArrayInit>();
-	private List<DequeInit> dequeInitializers = new LinkedList<DequeInit>();
+	private List<MapInit> mapInitializers = new ArrayList<MapInit>();
+	private List<SetInit> setInitializers = new ArrayList<SetInit>();
+	private List<ArrayInit> arrayInitializers = new ArrayList<ArrayInit>();
+	private List<DequeInit> dequeInitializers = new ArrayList<DequeInit>();
 
 	/** Collection containing all members defined in that type and in its supertype.
 	 *  This field is used for caching. */
@@ -327,7 +326,7 @@ public abstract class InheritanceType extends CompoundType
 
 	public Collection<Constructor> getConstructor()
 	{
-		return constructors;
+		return Collections.unmodifiableCollection(constructors);
 	}
 
 	/** Adds the given member initializer to this type. */
@@ -339,7 +338,7 @@ public abstract class InheritanceType extends CompoundType
 	/** @return A collection containing all member initializers of this type. */
 	public Collection<MemberInit> getMemberInits()
 	{
-		return memberInitializers;
+		return Collections.unmodifiableCollection(memberInitializers);
 	}
 
 	public void addMapInit(MapInit init)
@@ -349,7 +348,7 @@ public abstract class InheritanceType extends CompoundType
 
 	public Collection<MapInit> getMapInits()
 	{
-		return mapInitializers;
+		return Collections.unmodifiableCollection(mapInitializers);
 	}
 
 	public void addSetInit(SetInit init)
@@ -359,7 +358,7 @@ public abstract class InheritanceType extends CompoundType
 
 	public Collection<SetInit> getSetInits()
 	{
-		return setInitializers;
+		return Collections.unmodifiableCollection(setInitializers);
 	}
 
 	public void addArrayInit(ArrayInit init)
@@ -369,7 +368,7 @@ public abstract class InheritanceType extends CompoundType
 
 	public Collection<ArrayInit> getArrayInits()
 	{
-		return arrayInitializers;
+		return Collections.unmodifiableCollection(arrayInitializers);
 	}
 
 	public void addDequeInit(DequeInit init)
@@ -379,7 +378,7 @@ public abstract class InheritanceType extends CompoundType
 
 	public Collection<DequeInit> getDequeInits()
 	{
-		return dequeInitializers;
+		return Collections.unmodifiableCollection(dequeInitializers);
 	}
 
 	/**

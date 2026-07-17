@@ -13,13 +13,13 @@
 
 package de.unika.ipd.grgen.ir.pattern;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.Entity;
@@ -42,28 +42,28 @@ import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 public class PatternGraphLhs extends PatternGraphBase
 {
 	/** The alternative statements of the pattern graph */
-	private final Collection<Alternative> alts = new LinkedList<Alternative>();
+	private final Collection<Alternative> alts = new ArrayList<Alternative>();
 
 	/** The iterated statements of the pattern graph */
-	private final Collection<Rule> iters = new LinkedList<Rule>();
+	private final Collection<Rule> iters = new ArrayList<Rule>();
 
 	/** The negative patterns(NAC) of the rule. */
-	private final Collection<PatternGraphLhs> negs = new LinkedList<PatternGraphLhs>();
+	private final Collection<PatternGraphLhs> negs = new ArrayList<PatternGraphLhs>();
 
 	/** The independent patterns(PAC) of the rule. */
-	private final Collection<PatternGraphLhs> idpts = new LinkedList<PatternGraphLhs>();
+	private final Collection<PatternGraphLhs> idpts = new ArrayList<PatternGraphLhs>();
 
 	/** A list of all condition expressions. */
-	private final List<Expression> conds = new LinkedList<Expression>();
+	private final List<Expression> conds = new ArrayList<Expression>();
 
 	/** A list of all yield assignments. */
-	private final List<EvalStatements> yields = new LinkedList<EvalStatements>();
+	private final List<EvalStatements> yields = new ArrayList<EvalStatements>();
 
 	/** A list of all potentially homomorphic node sets. */
-	private final List<Collection<Node>> homNodesLists = new LinkedList<Collection<Node>>();
+	private final List<Collection<Node>> homNodesLists = new ArrayList<Collection<Node>>();
 
 	/** A list of all potentially homomorphic edge sets. */
-	private final List<Collection<Edge>> homEdgesLists = new LinkedList<Collection<Edge>>();
+	private final List<Collection<Edge>> homEdgesLists = new ArrayList<Collection<Edge>>();
 
 	/** A map of nodes which will be matched homomorphically to any other node
 	 *  to the isomorphy exceptions, requested by independent(node); */
@@ -217,7 +217,7 @@ public class PatternGraphLhs extends PatternGraphBase
 
 	public Collection<Node> getHomomorphic(Node node)
 	{
-		Collection<Node> homNodesOfNode = new LinkedList<Node>();
+		Collection<Node> homNodesOfNode = new ArrayList<Node>();
 
 		for(Collection<Node> homNodes : homNodesLists) {
 			if(homNodes.contains(node)) {
@@ -226,12 +226,12 @@ public class PatternGraphLhs extends PatternGraphBase
 		}
 		homNodesOfNode.add(node);
 		
-		return homNodesOfNode;
+		return Collections.unmodifiableCollection(homNodesOfNode);
 	}
 
 	public Collection<Edge> getHomomorphic(Edge edge)
 	{
-		Collection<Edge> homEdgesOfEdge = new LinkedList<Edge>();
+		Collection<Edge> homEdgesOfEdge = new ArrayList<Edge>();
 
 		for(Collection<Edge> homEdges : homEdgesLists) {
 			if(homEdges.contains(edge)) {
@@ -240,7 +240,7 @@ public class PatternGraphLhs extends PatternGraphBase
 		}
 		homEdgesOfEdge.add(edge);
 		
-		return homEdgesOfEdge;
+		return Collections.unmodifiableCollection(homEdgesOfEdge);
 	}
 
 	public boolean isHomomorphic(Node node1, Node node2)

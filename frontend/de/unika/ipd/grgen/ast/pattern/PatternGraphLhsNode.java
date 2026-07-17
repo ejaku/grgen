@@ -15,7 +15,6 @@ package de.unika.ipd.grgen.ast.pattern;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;
@@ -776,7 +775,7 @@ public class PatternGraphLhsNode extends PatternGraphBaseNode
 	
 	public Collection<EvalStatements> getYieldStatements()
 	{
-		Collection<EvalStatements> ret = new LinkedList<EvalStatements>();
+		Collection<EvalStatements> ret = new ArrayList<EvalStatements>();
 
 		for(EvalStatementsNode evalStatements : yields.getChildrenExact()) {
 			ret.add(evalStatements.checkIR(EvalStatements.class));

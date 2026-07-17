@@ -11,8 +11,8 @@
 
 package de.unika.ipd.grgen.ir.executable;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.ContainedInPackage;
@@ -29,7 +29,7 @@ public abstract class FilterFunction extends Identifiable implements Filter, Con
 	private String packageContainedIn;
 
 	/** A list of the parameters */
-	protected List<Entity> params = new LinkedList<Entity>();
+	protected List<Entity> params = new ArrayList<Entity>();
 
 	/** A list of the parameter types, computed from the parameters */
 	protected List<Type> parameterTypes = null;
@@ -85,7 +85,7 @@ public abstract class FilterFunction extends Identifiable implements Filter, Con
 	public List<Type> getParameterTypes()
 	{
 		if(parameterTypes == null) {
-			parameterTypes = new LinkedList<Type>();
+			parameterTypes = new ArrayList<Type>();
 			for(Entity entity : getParameters()) {
 				parameterTypes.add(entity.getType());
 			}

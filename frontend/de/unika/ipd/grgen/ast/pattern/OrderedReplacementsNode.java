@@ -7,8 +7,9 @@
 
 package de.unika.ipd.grgen.ast.pattern;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.List;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
@@ -48,7 +49,7 @@ public class OrderedReplacementsNode extends BaseNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		LinkedList<String> res = new LinkedList<String>();
+		List<String> res = new ArrayList<String>();
 		for(int i = 0; i < getChildren().size(); ++i) {
 			res.add("eval" + i);
 		}

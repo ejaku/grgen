@@ -11,8 +11,9 @@
 
 package de.unika.ipd.grgen.ir.stmt;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.Collections;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
@@ -34,7 +35,7 @@ public class ConditionStatement extends BlockNestingStatement
 	public void addFalseCaseStatement(EvalStatement falseCaseStatement)
 	{
 		if(falseCaseStatements == null)
-			falseCaseStatements = new LinkedList<EvalStatement>();
+			falseCaseStatements = new ArrayList<EvalStatement>();
 		falseCaseStatements.add(falseCaseStatement);
 	}
 
@@ -45,7 +46,7 @@ public class ConditionStatement extends BlockNestingStatement
 
 	public Collection<EvalStatement> getFalseCaseStatements()
 	{
-		return falseCaseStatements;
+		return falseCaseStatements != null ? Collections.unmodifiableCollection(falseCaseStatements) : null;
 	}
 
 	@Override

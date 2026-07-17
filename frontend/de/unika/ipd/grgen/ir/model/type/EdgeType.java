@@ -11,10 +11,10 @@
 
 package de.unika.ipd.grgen.ir.model.type;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +30,7 @@ public class EdgeType extends InheritanceType implements ContainedInPackage
 	private String packageContainedIn;
 
 	/** The connection assertions. */
-	private final List<ConnAssert> connectionAsserts = new LinkedList<ConnAssert>();
+	private final List<ConnAssert> connectionAsserts = new ArrayList<ConnAssert>();
 
 	public enum Directedness
 	{

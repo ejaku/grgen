@@ -11,8 +11,9 @@
 
 package de.unika.ipd.grgen.ir.stmt;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.Collections;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
@@ -23,7 +24,7 @@ import de.unika.ipd.grgen.ir.expr.Expression;
 public class SwitchStatement extends EvalStatement
 {
 	private Expression switchExpr;
-	private Collection<CaseStatement> statements = new LinkedList<CaseStatement>();
+	private Collection<CaseStatement> statements = new ArrayList<CaseStatement>();
 
 	public SwitchStatement(Expression switchExpr)
 	{
@@ -43,7 +44,7 @@ public class SwitchStatement extends EvalStatement
 
 	public Collection<CaseStatement> getStatements()
 	{
-		return statements;
+		return Collections.unmodifiableCollection(statements);
 	}
 
 	@Override

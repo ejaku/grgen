@@ -12,7 +12,6 @@
 package de.unika.ipd.grgen.ast.decl.pattern;
 
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -289,8 +288,8 @@ public class SubpatternUsageDeclNode extends DeclNode
 	@Override
 	protected IR constructIR()
 	{
-		List<Expression> subpatternConnections = new LinkedList<Expression>();
-		List<Expression> subpatternYields = new LinkedList<Expression>();
+		List<Expression> subpatternConnections = new ArrayList<Expression>();
+		List<Expression> subpatternYields = new ArrayList<Expression>();
 		for(ExprNode e : connections.getChildrenExact()) {
 			e = e.evaluate();
 			if(e instanceof IdentExprNode && ((IdentExprNode)e).yieldedTo)

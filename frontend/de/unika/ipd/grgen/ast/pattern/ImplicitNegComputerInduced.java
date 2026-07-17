@@ -13,9 +13,9 @@
 
 package de.unika.ipd.grgen.ast.pattern;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -107,11 +107,11 @@ public class ImplicitNegComputerInduced
 	 * Get all implicit NACs.
 	 * @return The Collection for the NACs.
 	 */
-	public LinkedList<PatternGraphLhs> getImplicitNegGraphs()
+	public List<PatternGraphLhs> getImplicitNegGraphs()
 	{
 		assert patternGraph.isResolved();
 		
-		LinkedList<PatternGraphLhs> implicitNegGraphs = new LinkedList<PatternGraphLhs>();
+		List<PatternGraphLhs> implicitNegGraphs = new ArrayList<PatternGraphLhs>();
 
 		// add existing edges to the corresponding pattern graph
 		for(ConnectionCharacter connection : patternGraph.connections.getChildrenExact()) {
@@ -269,7 +269,7 @@ public class ImplicitNegComputerInduced
 
 		for(NodeDeclNode src : nodeMapEntry.getKey()) {
 			for(NodeDeclNode tgt : nodeMapEntry.getKey()) {
-				List<NodeDeclNode> edge = new LinkedList<NodeDeclNode>();
+				List<NodeDeclNode> edge = new ArrayList<NodeDeclNode>();
 				edge.add(src);
 				edge.add(tgt);
 

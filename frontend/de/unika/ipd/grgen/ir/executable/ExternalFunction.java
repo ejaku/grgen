@@ -11,8 +11,8 @@
 
 package de.unika.ipd.grgen.ir.executable;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.Ident;
@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.ir.type.Type;
 public class ExternalFunction extends FunctionBase
 {
 	/** A list of the pattern parameters */
-	private final List<Type> paramTypes = new LinkedList<Type>();
+	private final List<Type> paramTypes = new ArrayList<Type>();
 
 	/**
 	 * @param name The name of the external function.

@@ -11,9 +11,9 @@
 
 package de.unika.ipd.grgen.ir.type;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.ActionsBearer;
@@ -31,21 +31,21 @@ import de.unika.ipd.grgen.ir.type.basic.PrimitiveType;
  */
 public class PackageActionType extends PrimitiveType implements ActionsBearer
 {
-	private final List<Rule> subpatternRules = new LinkedList<Rule>();
+	private final List<Rule> subpatternRules = new ArrayList<Rule>();
 
-	private final List<Rule> actionRules = new LinkedList<Rule>();
+	private final List<Rule> actionRules = new ArrayList<Rule>();
 
-	private final List<FilterFunction> filterFunctions = new LinkedList<FilterFunction>();
+	private final List<FilterFunction> filterFunctions = new ArrayList<FilterFunction>();
 
-	private final List<DefinedMatchType> matchClasses = new LinkedList<DefinedMatchType>();
+	private final List<DefinedMatchType> matchClasses = new ArrayList<DefinedMatchType>();
 
-	private final List<MatchClassFilterFunction> matchClassFilterFunctions = new LinkedList<MatchClassFilterFunction>();
+	private final List<MatchClassFilterFunction> matchClassFilterFunctions = new ArrayList<MatchClassFilterFunction>();
 
-	private final List<Function> functions = new LinkedList<Function>();
+	private final List<Function> functions = new ArrayList<Function>();
 
-	private final List<Procedure> procedures = new LinkedList<Procedure>();
+	private final List<Procedure> procedures = new ArrayList<Procedure>();
 
-	private final List<Sequence> sequences = new LinkedList<Sequence>();
+	private final List<Sequence> sequences = new ArrayList<Sequence>();
 
 	/** Make a new package action type.
 	 *  @param ident The identifier of this package. */

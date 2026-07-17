@@ -12,13 +12,13 @@
 
 package de.unika.ipd.grgen.be.Csharp;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.LinkedList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ir.*;
@@ -467,7 +467,7 @@ public class ActionsGen extends CSharpBase
 	{
 		String actionName = formatIdentifiable(subpatternRule);
 		String className = "Pattern_" + actionName;
-		List<String> staticInitializers = new LinkedList<String>();
+		List<String> staticInitializers = new ArrayList<String>();
 
 		sb.appendFront("public class " + className + " : GRGEN_LGSP.LGSPMatchingPattern\n");
 		sb.appendFront("{\n");
@@ -512,7 +512,7 @@ public class ActionsGen extends CSharpBase
 	{
 		String actionName = formatIdentifiable(actionRule);
 		String className = "Rule_" + actionName;
-		List<String> staticInitializers = new LinkedList<String>();
+		List<String> staticInitializers = new ArrayList<String>();
 
 		sb.appendFront("public class " + className + " : GRGEN_LGSP.LGSPRulePattern\n");
 		sb.appendFront("{\n");
@@ -668,7 +668,7 @@ public class ActionsGen extends CSharpBase
 			}
 		}
 
-		List<String> staticInitializers = new LinkedList<String>();
+		List<String> staticInitializers = new ArrayList<String>();
 		String pathPrefixForElements = "";
 		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
 
@@ -825,7 +825,7 @@ public class ActionsGen extends CSharpBase
 			genProcedure(sb, procedure, be.sys.emitProfilingInstrumentation());
 		}
 
-		List<String> staticInitializers = new LinkedList<String>();
+		List<String> staticInitializers = new ArrayList<String>();
 		String pathPrefixForElements = "";
 		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
 
@@ -1013,7 +1013,7 @@ public class ActionsGen extends CSharpBase
 			}
 		}
 
-		List<String> staticInitializers = new LinkedList<String>();
+		List<String> staticInitializers = new ArrayList<String>();
 		String pathPrefixForElements = "";
 		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
 
@@ -1090,7 +1090,7 @@ public class ActionsGen extends CSharpBase
 			}
 		}
 
-		List<String> staticInitializers = new LinkedList<String>();
+		List<String> staticInitializers = new ArrayList<String>();
 		String pathPrefixForElements = "";
 		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
 
@@ -1206,7 +1206,7 @@ public class ActionsGen extends CSharpBase
 		HashMap<Identifiable, String> alreadyDefinedIdentifiableToName = new HashMap<Identifiable, String>();
 		double max = computePriosMax(-1, matchClass.getPatternGraph());
 		String patGraphVarName = "pat_" + matchClass.getPatternGraph().getNameOfGraph();
-		List<Entity> parameters = new LinkedList<Entity>();
+		List<Entity> parameters = new ArrayList<Entity>(); // TODO: where is this filled?
 		genElementsRequiredByPatternGraph(sbElements, aux, matchClass.getPatternGraph(), pathPrefix, matchClassName,
 				packageName, patGraphVarName, className,
 				alreadyDefinedEntityToName, alreadyDefinedIdentifiableToName, parameters, max, true);
@@ -2169,7 +2169,7 @@ public class ActionsGen extends CSharpBase
 		genLocalContainers(sb, needs, staticInitializers, true);
 	}
 
-	private void genLocalContainersImperativeStatements(SourceBuilder sb, List<ImperativeStmt> istmts,
+	private void genLocalContainersImperativeStatements(SourceBuilder sb, Collection<ImperativeStmt> istmts,
 			List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
@@ -2979,7 +2979,7 @@ public class ActionsGen extends CSharpBase
 	{
 		SourceBuilder aux = new SourceBuilder();
 		String patGraphVarName = "";
-		List<Entity> parameters = new LinkedList<Entity>();
+		List<Entity> parameters = new ArrayList<Entity>(); // TODO: where is this filled?
 		String varName = formatEntity(var, pathPrefixForElements);
 		genPatternVariable(sb, aux, patGraphVarName,
 				className, alreadyDefinedEntityToName,

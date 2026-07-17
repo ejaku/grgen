@@ -12,7 +12,6 @@
 package de.unika.ipd.grgen.ast.pattern;
 
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -241,7 +240,7 @@ public class SubpatternReplNode extends OrderedReplacementNode
 	@Override
 	protected IR constructIR()
 	{
-		List<Expression> replConnections = new LinkedList<Expression>();
+		List<Expression> replConnections = new ArrayList<Expression>();
 		for(ExprNode e : this.replConnections.getChildrenExact()) {
 			e = e.evaluate();
 			replConnections.add(e.checkIR(Expression.class));

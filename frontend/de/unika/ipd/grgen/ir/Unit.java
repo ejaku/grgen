@@ -13,11 +13,11 @@ package de.unika.ipd.grgen.ir;
 
 import java.security.MessageDigest;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -44,25 +44,25 @@ import de.unika.ipd.grgen.util.Util;
  */
 public class Unit extends IR implements ActionsBearer
 {
-	private final List<Model> models = new LinkedList<Model>();
+	private final List<Model> models = new ArrayList<Model>();
 
-	private final List<Rule> subpatternRules = new LinkedList<Rule>();
+	private final List<Rule> subpatternRules = new ArrayList<Rule>();
 
-	private final List<Rule> actionRules = new LinkedList<Rule>();
+	private final List<Rule> actionRules = new ArrayList<Rule>();
 
-	private final List<FilterFunction> filterFunctions = new LinkedList<FilterFunction>();
+	private final List<FilterFunction> filterFunctions = new ArrayList<FilterFunction>();
 
-	private final List<DefinedMatchType> matchClasses = new LinkedList<DefinedMatchType>();
+	private final List<DefinedMatchType> matchClasses = new ArrayList<DefinedMatchType>();
 
-	private final List<MatchClassFilterFunction> matchClassFilterFunctions = new LinkedList<MatchClassFilterFunction>();
+	private final List<MatchClassFilterFunction> matchClassFilterFunctions = new ArrayList<MatchClassFilterFunction>();
 
-	private final List<Function> functions = new LinkedList<Function>();
+	private final List<Function> functions = new ArrayList<Function>();
 
-	private final List<Procedure> procedures = new LinkedList<Procedure>();
+	private final List<Procedure> procedures = new ArrayList<Procedure>();
 
-	private final List<Sequence> sequences = new LinkedList<Sequence>();
+	private final List<Sequence> sequences = new ArrayList<Sequence>();
 
-	private final List<PackageActionType> packages = new LinkedList<PackageActionType>();
+	private final List<PackageActionType> packages = new ArrayList<PackageActionType>();
 
 	private String digest = "";
 

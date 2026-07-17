@@ -11,8 +11,8 @@
 
 package de.unika.ipd.grgen.ir.executable;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.Ident;
@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.ir.type.Type;
 public abstract class ProcedureBase extends Identifiable
 {
 	/** A list of the return types */
-	protected List<Type> returnTypes = new LinkedList<Type>();
+	protected List<Type> returnTypes = new ArrayList<Type>();
 
 	/**
 	 * @param name The name of the procedure.

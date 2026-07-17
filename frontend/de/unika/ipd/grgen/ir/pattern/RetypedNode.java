@@ -7,8 +7,8 @@
 
 package de.unika.ipd.grgen.ir.pattern;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.Entity;
@@ -23,7 +23,7 @@ public class RetypedNode extends Node implements Retyped
 	protected Node oldNode = null;
 
 	/** A list of nodes to be additionally merged into the retyped node  */
-	private final List<Node> mergees = new LinkedList<Node>();
+	private final List<Node> mergees = new ArrayList<Node>();
 
 	public RetypedNode(Ident ident, NodeType type, Annotations annots,
 			boolean maybeDeleted, boolean maybeRetyped, boolean isDefToBeYieldedTo, int context)

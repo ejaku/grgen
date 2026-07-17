@@ -12,12 +12,12 @@
 
 package de.unika.ipd.grgen.be.Csharp;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -62,9 +62,9 @@ import de.unika.ipd.grgen.ir.pattern.Variable;
 
 public class ModifyGen extends CSharpBase
 {
-	final List<Entity> emptyParameters = new LinkedList<Entity>();
-	final List<Expression> emptyReturns = new LinkedList<Expression>();
-	final Collection<EvalStatements> emptyEvals = new LinkedList<EvalStatements>();
+	final List<Entity> emptyParameters = new ArrayList<Entity>();
+	final List<Expression> emptyReturns = new ArrayList<Expression>();
+	final Collection<EvalStatements> emptyEvals = new ArrayList<EvalStatements>();
 
 	Model model;
 	SearchPlanBackend2 be;
@@ -240,7 +240,7 @@ public class ModifyGen extends CSharpBase
 		sb.appendFront("public void "
 				+ pathPrefix + altName + "_Modify"
 				+ "(GRGEN_LGSP.LGSPActionExecutionEnvironment actionEnv, IMatch_" + pathPrefix + altName + " curMatch");
-		List<Entity> replParameters = new LinkedList<Entity>();
+		List<Entity> replParameters = new ArrayList<Entity>();
 		getUnionOfReplaceParametersOfAlternativeCases(alt, replParameters);
 		for(Entity entity : replParameters) {
 			if(entity instanceof Node) {
@@ -1327,7 +1327,7 @@ public class ModifyGen extends CSharpBase
 		String altName = alt.getNameOfGraph();
 		sb.appendFront(pathPrefix + task.left.getNameOfGraph() + "_" + altName + "_" +
 				"Modify(actionEnv, alternative_" + altName);
-		List<Entity> replParameters = new LinkedList<Entity>();
+		List<Entity> replParameters = new ArrayList<Entity>();
 		getUnionOfReplaceParametersOfAlternativeCases(alt, replParameters);
 		for(Entity entity : replParameters) {
 			sb.append(", ");
@@ -1611,7 +1611,7 @@ public class ModifyGen extends CSharpBase
 		if(useAddedElementNames)
 			sb2.appendFront("graph.SettingAddedNodeNames( " + pathPrefix + "addedNodeNames );\n");
 
-		LinkedList<Node> tmpNewNodes = new LinkedList<Node>(state.getNewNodes());
+		List<Node> tmpNewNodes = new ArrayList<Node>(state.getNewNodes());
 
 		for(Node node : tmpNewNodes) {
 			genNewNode(sb2, state, pathPrefix, nodesNeededAsElements, nodesNeededAsTypes,

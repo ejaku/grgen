@@ -11,8 +11,9 @@
 
 package de.unika.ipd.grgen.ir.stmt;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.Collections;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 
@@ -21,7 +22,7 @@ import de.unika.ipd.grgen.ir.NeededEntities;
  */
 public class MultiStatement extends EvalStatement
 {
-	private Collection<EvalStatement> statements = new LinkedList<EvalStatement>();
+	private Collection<EvalStatement> statements = new ArrayList<EvalStatement>();
 
 	public MultiStatement()
 	{
@@ -35,7 +36,7 @@ public class MultiStatement extends EvalStatement
 
 	public Collection<EvalStatement> getStatements()
 	{
-		return statements;
+		return Collections.unmodifiableCollection(statements);
 	}
 
 	@Override

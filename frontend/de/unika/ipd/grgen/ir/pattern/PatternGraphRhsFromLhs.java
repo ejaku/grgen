@@ -8,8 +8,8 @@
 package de.unika.ipd.grgen.ir.pattern;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.Entity;
@@ -53,7 +53,7 @@ public class PatternGraphRhsFromLhs extends PatternGraphRhs
 	@Override
 	public List<Entity> getReplParameters()
 	{
-		return new LinkedList<Entity>();
+		return Collections.unmodifiableList(new ArrayList<Entity>());
 	}
 
 	@Override
@@ -71,6 +71,6 @@ public class PatternGraphRhsFromLhs extends PatternGraphRhs
 	@Override
 	public List<ImperativeStmt> getImperativeStmts()
 	{
-		return new ArrayList<ImperativeStmt>();
+		return Collections.unmodifiableList(new ArrayList<ImperativeStmt>());
 	}
 }

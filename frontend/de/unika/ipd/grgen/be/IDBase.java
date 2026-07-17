@@ -11,8 +11,8 @@
 
 package de.unika.ipd.grgen.be;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -169,7 +169,7 @@ public abstract class IDBase extends Base implements IDTypeModel
 	private static int[][] computeSuperTypes(Map<InheritanceType, Integer> typeMap)
 	{
 		int[][] res = new int[typeMap.size()][];
-		List<Integer> aux = new LinkedList<Integer>();
+		List<Integer> aux = new ArrayList<Integer>();
 
 		for(InheritanceType ty : typeMap.keySet()) {
 			aux.clear();
@@ -193,7 +193,7 @@ public abstract class IDBase extends Base implements IDTypeModel
 	private static int[][] computeSubTypes(Map<InheritanceType, Integer> typeMap)
 	{
 		int[][] res = new int[typeMap.size()][];
-		List<Integer> aux = new LinkedList<Integer>();
+		List<Integer> aux = new ArrayList<Integer>();
 
 		for(InheritanceType ty : typeMap.keySet()) {
 			aux.clear();

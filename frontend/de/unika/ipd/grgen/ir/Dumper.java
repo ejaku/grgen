@@ -14,8 +14,8 @@
 package de.unika.ipd.grgen.ir;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 
 import de.unika.ipd.grgen.ir.executable.Action;
 import de.unika.ipd.grgen.ir.executable.MatchingAction;
@@ -93,7 +93,7 @@ public class Dumper
 	public final void dump(MatchingAction matchingAction, GraphDumper dumper)
 	{
 		PatternGraphLhs pattern = matchingAction.getPattern();
-		Collection<PatternGraphBase> patternGraphs = new LinkedList<PatternGraphBase>();
+		Collection<PatternGraphBase> patternGraphs = new ArrayList<PatternGraphBase>();
 		PatternGraphBase right = null;
 
 		if(matchingAction instanceof Rule && ((Rule)matchingAction).getRight() != null) {
@@ -131,7 +131,7 @@ public class Dumper
 		if(matchingAction instanceof Rule && ((Rule)matchingAction).getRight() != null) {
 			Rule rule = (Rule)matchingAction;
 			patternGraphs.add(rule.getRight());
-			Collection<EvalStatement> evals = new LinkedList<EvalStatement>();
+			Collection<EvalStatement> evals = new ArrayList<EvalStatement>();
 			for(EvalStatements evalStatements : rule.getEvals()) {
 				for(EvalStatement evalStatement : evalStatements.evalStatements) {
 					evals.add(evalStatement);

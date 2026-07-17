@@ -11,8 +11,8 @@
 
 package de.unika.ipd.grgen.ir.executable;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.Entity;
@@ -34,16 +34,16 @@ public abstract class MatchingAction extends Action
 	public PatternGraphLhs pattern;
 
 	/** A list of the pattern parameters */
-	private final List<Entity> params = new LinkedList<Entity>();
+	private final List<Entity> params = new ArrayList<Entity>();
 
 	/** A list of the pattern def parameters which get yielded */
-	private final List<Entity> defParams = new LinkedList<Entity>();
+	private final List<Entity> defParams = new ArrayList<Entity>();
 
 	/** A list of the return-parameters */
-	private final List<Expression> returns = new LinkedList<Expression>();
+	private final List<Expression> returns = new ArrayList<Expression>();
 
 	/** A list of the filters */
-	private final List<Filter> filters = new LinkedList<Filter>();
+	private final List<Filter> filters = new ArrayList<Filter>();
 
 	/**
 	 * @param name The name of this action.

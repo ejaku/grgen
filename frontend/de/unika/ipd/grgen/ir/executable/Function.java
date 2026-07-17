@@ -11,8 +11,8 @@
 
 package de.unika.ipd.grgen.ir.executable;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.ContainedInPackage;
@@ -31,13 +31,13 @@ public class Function extends FunctionBase implements ContainedInPackage, Nestin
 	private String packageContainedIn;
 
 	/** A list of the parameters */
-	private List<Entity> params = new LinkedList<Entity>();
+	private List<Entity> params = new ArrayList<Entity>();
 
 	/** A list of the parameter types, computed from the parameters */
 	private List<Type> parameterTypes = null;
 
 	/** The computation statements */
-	private List<EvalStatement> computationStatements = new LinkedList<EvalStatement>();
+	private List<EvalStatement> computationStatements = new ArrayList<EvalStatement>();
 
 	public Function(String name, Ident ident, Type retType)
 	{
@@ -86,7 +86,7 @@ public class Function extends FunctionBase implements ContainedInPackage, Nestin
 	public List<Type> getParameterTypes()
 	{
 		if(parameterTypes == null) {
-			parameterTypes = new LinkedList<Type>();
+			parameterTypes = new ArrayList<Type>();
 			for(Entity entity : getParameters()) {
 				parameterTypes.add(entity.getType());
 			}

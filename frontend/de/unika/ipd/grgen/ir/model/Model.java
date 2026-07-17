@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -39,9 +38,9 @@ import de.unika.ipd.grgen.ir.type.basic.PrimitiveType;
 
 public class Model extends Identifiable implements NodeEdgeEnumBearer
 {
-	private List<Model> usedModels = new LinkedList<Model>();
-	private List<PackageType> packages = new LinkedList<PackageType>();
-	private List<Type> types = new LinkedList<Type>();
+	private List<Model> usedModels = new ArrayList<Model>();
+	private List<PackageType> packages = new ArrayList<PackageType>();
+	private List<Type> types = new ArrayList<Type>();
 
 	private Set<NodeType> nodeTypes = new LinkedHashSet<NodeType>();
 	private Set<EdgeType> edgeTypes = new LinkedHashSet<EdgeType>();

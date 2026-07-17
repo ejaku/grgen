@@ -35,7 +35,6 @@ import de.unika.ipd.grgen.parser.Coords;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;
@@ -336,7 +335,7 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 
 	public Collection<OrderedReplacements> getOrderedReplacements()
 	{
-		Collection<OrderedReplacements> ret = new LinkedList<OrderedReplacements>();
+		Collection<OrderedReplacements> ret = new ArrayList<OrderedReplacements>();
 
 		for(OrderedReplacementsNode orderedRepls : orderedReplacements.getChildrenExact()) {
 			ret.add(orderedRepls.checkIR(OrderedReplacements.class));
@@ -347,7 +346,7 @@ public class PatternGraphRhsNode extends PatternGraphBaseNode
 
 	public Collection<EvalStatements> getEvalStatements()
 	{
-		Collection<EvalStatements> ret = new LinkedList<EvalStatements>();
+		Collection<EvalStatements> ret = new ArrayList<EvalStatements>();
 
 		for(EvalStatementsNode evalStatements : evals.getChildrenExact()) {
 			ret.add(evalStatements.checkIR(EvalStatements.class));

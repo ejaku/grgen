@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,9 +30,9 @@ public class PatternGraphRhs extends PatternGraphBase
 	private final HashSet<GraphEntity> deletedElements = new HashSet<GraphEntity>();
 
 	/** A list of the replacement parameters */
-	private final List<Entity> replParams = new LinkedList<Entity>();
+	private final List<Entity> replParams = new ArrayList<Entity>();
 
-	private List<OrderedReplacements> orderedReplacements = new LinkedList<OrderedReplacements>();
+	private List<OrderedReplacements> orderedReplacements = new ArrayList<OrderedReplacements>();
 
 	private List<ImperativeStmt> imperativeStmts = new ArrayList<ImperativeStmt>();
 
@@ -101,8 +100,8 @@ public class PatternGraphRhs extends PatternGraphBase
 		imperativeStmts.add(emit);
 	}
 
-	public List<ImperativeStmt> getImperativeStmts()
+	public Collection<ImperativeStmt> getImperativeStmts()
 	{
-		return imperativeStmts;
+		return Collections.unmodifiableCollection(imperativeStmts);
 	}
 }

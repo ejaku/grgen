@@ -72,7 +72,6 @@ tokens {
 @header {
 	package de.unika.ipd.grgen.parser.antlr;
 	
-	import java.util.LinkedList;
 	import java.util.Collection;
 	
 	import java.io.File;
@@ -342,7 +341,7 @@ textActions returns [ UnitNode main = null ]
 usingDecl [ CollectNode<ModelNode> modelChilds ]
 	options { k = 1; }
 	@init {
-		Collection<String> modelNames = new LinkedList<String>();
+		Collection<String> modelNames = new ArrayList<String>();
 	}
 	: u=USING identList[modelNames]
 		{

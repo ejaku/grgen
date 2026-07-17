@@ -11,12 +11,12 @@
 
 package de.unika.ipd.grgen.ir.pattern;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
@@ -295,7 +295,7 @@ public abstract class PatternGraphBase extends IR
 	/** Get the set of all incoming edges for a given node */
 	public Collection<? extends Edge> getIncoming(Node node)
 	{
-		return Collections.unmodifiableCollection(getIncoming(node, new LinkedList<Edge>()));
+		return Collections.unmodifiableCollection(getIncoming(node, new ArrayList<Edge>()));
 	}
 
 	/** Get the set of all outgoing edges for a given node, they are put into the given collection (which gets returned)*/
@@ -311,7 +311,7 @@ public abstract class PatternGraphBase extends IR
 	/** Get the set of all outgoing edges for a given node */
 	public Collection<Edge> getOutgoing(Node node)
 	{
-		return Collections.unmodifiableCollection(getOutgoing(node, new LinkedList<Edge>()));
+		return Collections.unmodifiableCollection(getOutgoing(node, new ArrayList<Edge>()));
 	}
 
 	/**

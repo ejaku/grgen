@@ -81,7 +81,7 @@ public class MoreInformationCollector extends InformationCollector
 			if(act.getRight() != null) {
 				Integer act_id = actionRuleMap.get(act);
 
-				Collection<Assignment> rule_evals = new LinkedList<Assignment>();
+				Collection<Assignment> rule_evals = new ArrayList<Assignment>();
 				for(EvalStatements evalStmts : act.getEvals()) {
 					for(EvalStatement evalStmt : evalStmts.evalStatements) {
 						if(evalStmt instanceof Assignment)

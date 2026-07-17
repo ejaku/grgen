@@ -11,8 +11,8 @@
 
 package de.unika.ipd.grgen.ir.executable;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.ContainedInPackage;
@@ -31,13 +31,13 @@ public class Procedure extends ProcedureBase implements ContainedInPackage, Nest
 	private String packageContainedIn;
 
 	/** A list of the parameters */
-	private List<Entity> params = new LinkedList<Entity>();
+	private List<Entity> params = new ArrayList<Entity>();
 
 	/** A list of the parameter types, computed from the parameters */
 	private List<Type> parameterTypes = null;
 
 	/** The computation statements */
-	private List<EvalStatement> procedureStatements = new LinkedList<EvalStatement>();
+	private List<EvalStatement> procedureStatements = new ArrayList<EvalStatement>();
 
 	public Procedure(String name, Ident ident)
 	{
@@ -86,7 +86,7 @@ public class Procedure extends ProcedureBase implements ContainedInPackage, Nest
 	public List<Type> getParameterTypes()
 	{
 		if(parameterTypes == null) {
-			parameterTypes = new LinkedList<Type>();
+			parameterTypes = new ArrayList<Type>();
 			for(Entity entity : getParameters()) {
 				parameterTypes.add(entity.getType());
 			}

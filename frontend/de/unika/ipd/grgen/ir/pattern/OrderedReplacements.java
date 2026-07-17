@@ -7,14 +7,14 @@
 
 package de.unika.ipd.grgen.ir.pattern;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.IR;
 
 public class OrderedReplacements extends IR
 {
-	public List<OrderedReplacement> orderedReplacements = new LinkedList<OrderedReplacement>();
+	public List<OrderedReplacement> orderedReplacements = new ArrayList<OrderedReplacement>();
 
 	public OrderedReplacements(String name)
 	{

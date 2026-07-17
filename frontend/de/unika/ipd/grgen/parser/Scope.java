@@ -11,8 +11,8 @@
 
 package de.unika.ipd.grgen.parser;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -41,13 +41,13 @@ public class Scope
 	private final Map<String, Integer> anonIds = new HashMap<String, Integer>();
 
 	/** The children scopes. */
-	private final List<Scope> childs = new LinkedList<Scope>();
+	private final List<Scope> childs = new ArrayList<Scope>();
 
 	/**
 	 * A list of all occurrences without a definition in this scope.
 	 * Will be used to enter the proper definition in {@link #leaveScope()}
 	 */
-	private final List<Symbol.Occurrence> occFixup = new LinkedList<Symbol.Occurrence>();
+	private final List<Symbol.Occurrence> occFixup = new ArrayList<Symbol.Occurrence>();
 
 	/** An invalid scope. */
 	private static final Scope INVALID = null;//new Scope(null, -1, new IdentNode(new Definition(null, Coords.getBuiltin(), new Symbol("<invalid>", SymbolTable.getInvalid()))));

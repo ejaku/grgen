@@ -13,10 +13,11 @@
 
 package de.unika.ipd.grgen.ast.pattern;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -141,11 +142,11 @@ public class ImplicitNegComputer
 	 * Get all implicit NACs.
 	 * @return The Collection for the NACs.
 	 */
-	public LinkedList<PatternGraphLhs> getImplicitNegGraphs()
+	public List<PatternGraphLhs> getImplicitNegGraphs()
 	{
 		assert patternGraph.isResolved();
 
-		LinkedList<PatternGraphLhs> implicitNegGraphs = new LinkedList<PatternGraphLhs>();
+		List<PatternGraphLhs> implicitNegGraphs = new ArrayList<PatternGraphLhs>();
 
 		// add existing edges to the corresponding sets
 		for(ConnectionCharacter connection : patternGraph.connections.getChildrenExact()) {

@@ -18,7 +18,6 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.ContainedInPackage;
@@ -64,10 +63,10 @@ public class Rule extends MatchingAction implements ContainedInPackage
 	private PatternGraphRhs right;
 
 	/** The match classes that get implemented */
-	private final List<DefinedMatchType> implementedMatchClasses = new LinkedList<DefinedMatchType>();
+	private final List<DefinedMatchType> implementedMatchClasses = new ArrayList<DefinedMatchType>();
 
 	/** The evaluation assignments of this rule (RHS). */
-	private final Collection<EvalStatements> evalStatements = new LinkedList<EvalStatements>();
+	private final Collection<EvalStatements> evalStatements = new ArrayList<EvalStatements>();
 
 	/** How often the pattern is to be matched in case this is an iterated. */
 	private int minMatches;
@@ -210,7 +209,7 @@ public class Rule extends MatchingAction implements ContainedInPackage
 
 	public Collection<DefinedMatchType> getImplementedMatchClasses()
 	{
-		return implementedMatchClasses;
+		return Collections.unmodifiableCollection(implementedMatchClasses);
 	}
 
 	public void addImplementedMatchClass(DefinedMatchType implementedMatchClass)

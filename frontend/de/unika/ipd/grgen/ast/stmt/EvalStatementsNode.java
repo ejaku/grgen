@@ -7,8 +7,9 @@
 
 package de.unika.ipd.grgen.ast.stmt;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.List;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ir.IR;
@@ -48,7 +49,7 @@ public class EvalStatementsNode extends BaseNode
 	@Override
 	public Collection<String> getChildrenNames()
 	{
-		LinkedList<String> res = new LinkedList<String>();
+		List<String> res = new ArrayList<String>();
 		for(int i = 0; i < getChildren().size(); ++i) {
 			res.add("eval" + i);
 		}

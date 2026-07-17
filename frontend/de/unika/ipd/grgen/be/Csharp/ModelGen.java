@@ -24,7 +24,6 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -1330,7 +1329,7 @@ deque_init_loop:
 	{
 		curMemberOwner = varName;
 
-		List<String> staticInitializers = new LinkedList<String>();
+		List<String> staticInitializers = new ArrayList<String>();
 
 		sb.append("\n");
 
@@ -1984,7 +1983,7 @@ deque_init_loop:
 
 	private void genFunctionMethod(FunctionMethod fm)
 	{
-		List<String> staticInitializers = new LinkedList<String>();
+		List<String> staticInitializers = new ArrayList<String>();
 		String pathPrefixForElements = "";
 		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
 		genLocalContainersEvals(sb, fm.getStatements(), staticInitializers,
@@ -2062,7 +2061,7 @@ deque_init_loop:
 
 	private void genProcedureMethod(ProcedureMethod pm)
 	{
-		List<String> staticInitializers = new LinkedList<String>();
+		List<String> staticInitializers = new ArrayList<String>();
 		String pathPrefixForElements = "";
 		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
 		genLocalContainersEvals(sb, pm.getStatements(), staticInitializers,
@@ -2734,7 +2733,7 @@ deque_init_loop:
 			return;
 		}
 
-		Map<BitSet, LinkedList<InheritanceType>> commonGroups = getCommonGroups(type);
+		Map<BitSet, List<InheritanceType>> commonGroups = getCommonGroups(type);
 
 		if(commonGroups.size() != 0) {
 			if(type instanceof NodeType) {
@@ -2748,7 +2747,7 @@ deque_init_loop:
 			sb.appendFront("switch(old" + kindName + ".Type.TypeID)\n");
 			sb.appendFront("{\n");
 			sb.indent();
-			for(Map.Entry<BitSet, LinkedList<InheritanceType>> entry : commonGroups.entrySet()) {
+			for(Map.Entry<BitSet, List<InheritanceType>> entry : commonGroups.entrySet()) {
 				emitCommonGroup(type, kindName, entry);
 			}
 			sb.unindent();
@@ -2770,11 +2769,11 @@ deque_init_loop:
 		}
 	}
 
-	private Map<BitSet, LinkedList<InheritanceType>> getCommonGroups(InheritanceType type)
+	private Map<BitSet, List<InheritanceType>> getCommonGroups(InheritanceType type)
 	{
 		boolean isNode = type instanceof NodeType;
 
-		Map<BitSet, LinkedList<InheritanceType>> commonGroups = new LinkedHashMap<BitSet, LinkedList<InheritanceType>>();
+		Map<BitSet, List<InheritanceType>> commonGroups = new LinkedHashMap<BitSet, List<InheritanceType>>();
 
 		Collection<InheritanceType> types = isNode
 				? getInheritanceTypes(model.getAllNodeTypes())
@@ -2822,9 +2821,9 @@ commonLoop:
 			for(InheritanceType commonType : firstCommonAncestors) {
 				commonTypesBitset.set(commonType.getTypeID());
 			}
-			LinkedList<InheritanceType> commonList = commonGroups.get(commonTypesBitset);
+			List<InheritanceType> commonList = commonGroups.get(commonTypesBitset);
 			if(commonList == null) {
-				commonList = new LinkedList<InheritanceType>();
+				commonList = new ArrayList<InheritanceType>();
 				commonGroups.put(commonTypesBitset, commonList);
 			}
 			commonList.add(itype);
@@ -2833,7 +2832,7 @@ commonLoop:
 	}
 
 	private void emitCommonGroup(InheritanceType type, String kindName,
-			Map.Entry<BitSet, LinkedList<InheritanceType>> entry)
+			Map.Entry<BitSet, List<InheritanceType>> entry)
 	{
 		for(InheritanceType itype : entry.getValue()) {
 			sb.appendFront("case (int) GRGEN_MODEL." + getPackagePrefixDot(itype) + kindName + "Types.@"

@@ -7,14 +7,14 @@
 
 package de.unika.ipd.grgen.ir.stmt;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.*;
 
 public class EvalStatements extends IR
 {
-	public List<EvalStatement> evalStatements = new LinkedList<EvalStatement>();
+	public List<EvalStatement> evalStatements = new ArrayList<EvalStatement>();
 
 	public EvalStatements(String name)
 	{

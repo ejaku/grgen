@@ -48,7 +48,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -258,7 +257,7 @@ public abstract class MatcherDeclNode extends DeclNode
 
 		// get the negative and independent graphs and the pattern of this ActionDeclNode
 		// NOTE: the order affect the error coords
-		Collection<PatternGraphLhsNode> leftHandGraphs = new LinkedList<PatternGraphLhsNode>();
+		Collection<PatternGraphLhsNode> leftHandGraphs = new ArrayList<PatternGraphLhsNode>();
 		leftHandGraphs.add(pattern);
 		for(PatternGraphLhsNode negative : pattern.negs.getChildrenExact()) {
 			leftHandGraphs.add(negative);

@@ -11,8 +11,8 @@
 
 package de.unika.ipd.grgen.ir.model.type;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import de.unika.ipd.grgen.ir.*;
@@ -26,7 +26,7 @@ public class EnumType extends PrimitiveType implements ContainedInPackage
 {
 	private String packageContainedIn;
 
-	private final List<EnumItem> items = new LinkedList<EnumItem>();
+	private final List<EnumItem> items = new ArrayList<EnumItem>();
 
 	/** Make a new enum type.
 	 *  @param ident The identifier of this enumeration. */
