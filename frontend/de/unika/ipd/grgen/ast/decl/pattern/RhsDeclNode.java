@@ -371,8 +371,8 @@ public abstract class RhsDeclNode extends DeclNode
 	protected abstract Set<NodeDeclNode> getNodesToReuseImpl(PatternGraphLhsNode pattern);
 
 
-	protected static boolean sourceOrTargetNodeIncluded(EdgeDeclNode edge, PatternGraphLhsNode pattern, 
-			Collection<? extends BaseNode> collection)
+	private static boolean sourceOrTargetNodeIncluded(EdgeDeclNode edge, PatternGraphLhsNode pattern,
+			Collection<ConstraintDeclNode> collection)
 	{
 		for(ConnectionCharacter connectionCharacter : pattern.getConnections()) {
 			if(connectionCharacter instanceof ConnectionNode) {
