@@ -123,7 +123,7 @@ public class ReplaceDeclNode extends RhsDeclNode
 	}
 
 	@Override
-	public Set<ConnectionNode> getConnectionsToReuseImpl(PatternGraphLhsNode pattern)
+	protected Set<ConnectionNode> getConnectionsToReuseImpl(PatternGraphLhsNode pattern)
 	{
 		Set<ConnectionNode> connectionsToReuse = new LinkedHashSet<ConnectionNode>();
 
@@ -145,7 +145,7 @@ public class ReplaceDeclNode extends RhsDeclNode
 	}
 
 	@Override
-	public Set<NodeDeclNode> getNodesToReuseImpl(PatternGraphLhsNode pattern)
+	protected Set<NodeDeclNode> getNodesToReuseImpl(PatternGraphLhsNode pattern)
 	{
 		LinkedHashSet<NodeDeclNode> nodesToReuse = new LinkedHashSet<NodeDeclNode>();
 		
