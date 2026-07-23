@@ -87,7 +87,7 @@ public class ReplaceDeclNode extends RhsDeclNode
 	}
 
 	@Override
-	public Set<ConstraintDeclNode> getElementsToDeleteImpl(PatternGraphLhsNode pattern)
+	protected Set<ConstraintDeclNode> getElementsToDeleteImpl(PatternGraphLhsNode pattern)
 	{
 		LinkedHashSet<ConstraintDeclNode> elementsToDelete = new LinkedHashSet<ConstraintDeclNode>();
 

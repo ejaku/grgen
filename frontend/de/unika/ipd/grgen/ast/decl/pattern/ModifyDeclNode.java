@@ -261,7 +261,7 @@ public class ModifyDeclNode extends RhsDeclNode
 	}
 
 	@Override
-	public Set<ConstraintDeclNode> getElementsToDeleteImpl(PatternGraphLhsNode pattern)
+	protected Set<ConstraintDeclNode> getElementsToDeleteImpl(PatternGraphLhsNode pattern)
 	{
 		assert isResolved();
 
