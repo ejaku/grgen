@@ -95,10 +95,11 @@ public class ReplaceDeclNode extends RhsDeclNode
 		Set<NodeDeclNode> rhsNodes = new LinkedHashSet<NodeDeclNode>();
 
 		for(EdgeDeclNode rhsEdge : patternGraph.getEdges()) {
-			while(rhsEdge instanceof EdgeTypeChangeDeclNode) {
-				rhsEdge = ((EdgeTypeChangeDeclNode)rhsEdge).getOldEdge();
+			EdgeDeclNode originalRhsEdge = rhsEdge;
+			while(originalRhsEdge instanceof EdgeTypeChangeDeclNode) {
+				originalRhsEdge = ((EdgeTypeChangeDeclNode)originalRhsEdge).getOldEdge();
 			}
-			rhsEdges.add(rhsEdge);
+			rhsEdges.add(originalRhsEdge);
 		}
 		for(EdgeDeclNode lhsEdge : pattern.getEdges()) {
 			if(!rhsEdges.contains(lhsEdge)) {
@@ -107,17 +108,18 @@ public class ReplaceDeclNode extends RhsDeclNode
 		}
 
 		for(NodeDeclNode rhsNode : patternGraph.getNodes()) {
-			while(rhsNode instanceof NodeTypeChangeDeclNode) {
-				rhsNode = ((NodeTypeChangeDeclNode)rhsNode).getOldNode();
+			NodeDeclNode originalRhsNode = rhsNode;
+			while(originalRhsNode instanceof NodeTypeChangeDeclNode) {
+				originalRhsNode = ((NodeTypeChangeDeclNode)originalRhsNode).getOldNode();
 			}
-			rhsNodes.add(rhsNode);
+			rhsNodes.add(originalRhsNode);
 		}
 		for(NodeDeclNode lhsNode : pattern.getNodes()) {
 			if(!rhsNodes.contains(lhsNode) && !lhsNode.isDummy()) {
 				elementsToDelete.add(lhsNode);
 			}
 		}
-		
+
 		// parameters are no special case, since they are treated like normal graph elements
 		return elementsToDelete;
 	}
@@ -147,7 +149,7 @@ public class ReplaceDeclNode extends RhsDeclNode
 	@Override
 	protected Set<NodeDeclNode> getNodesToReuseImpl(PatternGraphLhsNode pattern)
 	{
-		LinkedHashSet<NodeDeclNode> nodesToReuse = new LinkedHashSet<NodeDeclNode>();
+		Set<NodeDeclNode> nodesToReuse = new LinkedHashSet<NodeDeclNode>();
 		
 		Set<NodeDeclNode> lhsNodes = pattern.getNodes();
 		Set<NodeDeclNode> rhsNodes = patternGraph.getNodes();
