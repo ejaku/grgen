@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.type.basic.ShortType;
 public class ShortTypeNode extends BasicTypeNode
 {
 	static {
-		setName(ShortTypeNode.class, "short type");
+		setClassName(ShortTypeNode.class, "short type");
 	}
 
 	@Override

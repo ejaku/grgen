@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class DequeEmptyNode extends DequeFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(DequeEmptyNode.class, "deque empty expression");
+		setClassName(DequeEmptyNode.class, "deque empty expression");
 	}
 
 	public DequeEmptyNode(Coords coords, ExprNode targetExpr)

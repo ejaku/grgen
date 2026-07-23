@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 public class OptionalDeclNode extends IteratedDeclNode
 {
 	static {
-		setName(OptionalDeclNode.class, "optional");
+		setClassName(OptionalDeclNode.class, "optional");
 	}
 
 	public OptionalDeclNode(IdentNode id, PatternGraphLhsNode left, RhsDeclNode right)

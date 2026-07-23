@@ -32,7 +32,7 @@ import de.unika.ipd.grgen.ir.model.type.PackageType;
 public class PackageTypeNode extends CompoundTypeNode
 {
 	static {
-		setName(PackageTypeNode.class, "package type");
+		setClassName(PackageTypeNode.class, "package type");
 	}
 
 	private CollectNode<IdentNode> declsUnresolved;

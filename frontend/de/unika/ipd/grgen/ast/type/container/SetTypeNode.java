@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.ir.type.container.SetType;
 public class SetTypeNode extends ContainerTypeNode
 {
 	static {
-		setName(SetTypeNode.class, "set type");
+		setClassName(SetTypeNode.class, "set type");
 	}
 
 	@Override

@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class MinExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(MinExprNode.class, "min expr");
+		setClassName(MinExprNode.class, "min expr");
 	}
 
 	private ExprNode leftExpr;

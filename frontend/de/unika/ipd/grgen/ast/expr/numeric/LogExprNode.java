@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class LogExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(LogExprNode.class, "log expr");
+		setClassName(LogExprNode.class, "log expr");
 	}
 
 	private ExprNode leftExpr;

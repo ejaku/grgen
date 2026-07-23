@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.model.type.EdgeType;
 public class ArbitraryEdgeTypeNode extends EdgeTypeNode
 {
 	static {
-		setName(ArbitraryEdgeTypeNode.class, "arbitrary edge type");
+		setClassName(ArbitraryEdgeTypeNode.class, "arbitrary edge type");
 	}
 
 	/**

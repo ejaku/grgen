@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.type.basic.FloatType;
 public class FloatTypeNode extends BasicTypeNode
 {
 	static {
-		setName(FloatTypeNode.class, "float type");
+		setClassName(FloatTypeNode.class, "float type");
 	}
 
 	@Override

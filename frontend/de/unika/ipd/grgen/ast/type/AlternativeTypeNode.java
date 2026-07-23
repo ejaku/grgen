@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ast.BaseNode;
 public class AlternativeTypeNode extends TypeNode
 {
 	static {
-		setName(AlternativeTypeNode.class, "alternative type");
+		setClassName(AlternativeTypeNode.class, "alternative type");
 	}
 
 	/** returns children of this node */

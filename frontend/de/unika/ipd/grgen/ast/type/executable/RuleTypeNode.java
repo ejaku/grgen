@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 public class RuleTypeNode extends TypeNode
 {
 	static {
-		setName(RuleTypeNode.class, "rule type");
+		setClassName(RuleTypeNode.class, "rule type");
 	}
 
 	/** returns children of this node */

@@ -32,7 +32,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class HomNode extends BaseNode
 {
 	static {
-		setName(HomNode.class, "homomorph");
+		setClassName(HomNode.class, "homomorph");
 	}
 
 	private List<NodeDeclNode> childrenNode = new ArrayList<NodeDeclNode>();

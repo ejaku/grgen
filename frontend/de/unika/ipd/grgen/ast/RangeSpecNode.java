@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class RangeSpecNode extends BaseNode
 {
 	static {
-		setName(RangeSpecNode.class, "range spec");
+		setClassName(RangeSpecNode.class, "range spec");
 	}
 
 	/** Constant, signaling if upper bound is bounded. */

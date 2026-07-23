@@ -39,7 +39,7 @@ import de.unika.ipd.grgen.ir.model.type.ExternalObjectType;
 public class ExternalObjectTypeNode extends InheritanceTypeNode
 {
 	static {
-		setName(ExternalObjectTypeNode.class, "external object type");
+		setClassName(ExternalObjectTypeNode.class, "external object type");
 	}
 
 	private CollectNode<ExternalObjectTypeNode> extend;

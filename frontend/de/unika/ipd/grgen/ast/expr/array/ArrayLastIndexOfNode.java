@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayLastIndexOfNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(ArrayLastIndexOfNode.class, "array last index of");
+		setClassName(ArrayLastIndexOfNode.class, "array last index of");
 	}
 
 	private ExprNode valueExpr;

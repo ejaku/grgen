@@ -31,7 +31,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class LockStatementNode extends NestingStatementNode
 {
 	static {
-		setName(LockStatementNode.class, "LockStatement");
+		setClassName(LockStatementNode.class, "LockStatement");
 	}
 
 	private ExprNode lockObjectExpr;

@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class UntypedExecVarTypeNode extends BasicTypeNode
 {
 	static {
-		setName(UntypedExecVarTypeNode.class, "untyped exec variable type");
+		setClassName(UntypedExecVarTypeNode.class, "untyped exec variable type");
 	}
 
 	// TODO: No instance is ever used! Probably useless...

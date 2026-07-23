@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 public abstract class IndexDeclNode extends DeclNode
 {
 	static {
-		setName(IndexDeclNode.class, "index declaration");
+		setClassName(IndexDeclNode.class, "index declaration");
 	}
 
 	public IndexDeclNode(IdentNode id, TypeNode indexType)

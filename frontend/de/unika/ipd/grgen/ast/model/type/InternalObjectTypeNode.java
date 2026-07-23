@@ -39,7 +39,7 @@ import de.unika.ipd.grgen.ir.model.type.InternalObjectType;
 public class InternalObjectTypeNode extends BaseInternalObjectTypeNode
 {
 	static {
-		setName(InternalObjectTypeNode.class, "internal object type");
+		setClassName(InternalObjectTypeNode.class, "internal object type");
 	}
 
 	public static InternalObjectTypeNode internalObjectType;

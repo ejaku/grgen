@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayCopyConstructorNode extends ExprNode
 {
 	static {
-		setName(ArrayCopyConstructorNode.class, "array copy constructor");
+		setClassName(ArrayCopyConstructorNode.class, "array copy constructor");
 	}
 
 	private ArrayTypeNode arrayType;

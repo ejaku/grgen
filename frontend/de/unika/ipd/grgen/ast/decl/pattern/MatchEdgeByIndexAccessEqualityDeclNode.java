@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.ir.pattern.IndexAccessEquality;
 public class MatchEdgeByIndexAccessEqualityDeclNode extends MatchEdgeByIndexDeclNode
 {
 	static {
-		setName(MatchEdgeByIndexAccessEqualityDeclNode.class, "match edge by index access equality decl");
+		setClassName(MatchEdgeByIndexAccessEqualityDeclNode.class, "match edge by index access equality decl");
 	}
 
 	private ExprNode expr;

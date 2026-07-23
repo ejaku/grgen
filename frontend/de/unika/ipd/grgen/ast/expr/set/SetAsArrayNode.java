@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class SetAsArrayNode extends SetFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(SetAsArrayNode.class, "set as array expression");
+		setClassName(SetAsArrayNode.class, "set as array expression");
 	}
 
 	private ArrayTypeNode arrayTypeNode;

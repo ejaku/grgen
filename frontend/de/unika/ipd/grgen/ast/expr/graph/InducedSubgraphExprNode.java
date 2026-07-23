@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class InducedSubgraphExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(InducedSubgraphExprNode.class, "induced subgraph expr");
+		setClassName(InducedSubgraphExprNode.class, "induced subgraph expr");
 	}
 
 	private ExprNode nodeSetExpr;

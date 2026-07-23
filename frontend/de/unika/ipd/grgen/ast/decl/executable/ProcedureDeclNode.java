@@ -38,7 +38,7 @@ import de.unika.ipd.grgen.ir.executable.ProcedureMethod;
 public class ProcedureDeclNode extends ProcedureDeclBaseNode
 {
 	static {
-		setName(ProcedureDeclNode.class, "procedure declaration");
+		setClassName(ProcedureDeclNode.class, "procedure declaration");
 	}
 
 	protected CollectNode<BaseNode> parametersUnresolved;

@@ -33,7 +33,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class MapRemoveItemNode extends MapProcedureMethodInvocationBaseNode
 {
 	static {
-		setName(MapRemoveItemNode.class, "map remove item statement");
+		setClassName(MapRemoveItemNode.class, "map remove item statement");
 	}
 
 	private ExprNode keyExpr;

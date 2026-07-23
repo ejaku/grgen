@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class RollbackTransactionProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(RollbackTransactionProcNode.class, "rollback transaction procedure");
+		setClassName(RollbackTransactionProcNode.class, "rollback transaction procedure");
 	}
 
 	private ExprNode transactionIdExpr;

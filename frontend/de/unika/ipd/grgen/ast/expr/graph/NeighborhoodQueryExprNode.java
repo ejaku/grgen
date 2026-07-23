@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.util.Direction;
 public abstract class NeighborhoodQueryExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(NeighborhoodQueryExprNode.class, "neighborhood query expr");
+		setClassName(NeighborhoodQueryExprNode.class, "neighborhood query expr");
 	}
 
 	protected ExprNode startNodeExpr;

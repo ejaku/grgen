@@ -34,7 +34,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class AssignNameofNode extends EvalStatementNode
 {
 	static {
-		setName(AssignNameofNode.class, "Assign name");
+		setClassName(AssignNameofNode.class, "Assign name");
 	}
 
 	ExprNode lhs;

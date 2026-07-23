@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class DequeCopyConstructorNode extends ExprNode
 {
 	static {
-		setName(DequeInitNode.class, "deque copy constructor");
+		setClassName(DequeInitNode.class, "deque copy constructor");
 	}
 
 	private DequeTypeNode dequeType;

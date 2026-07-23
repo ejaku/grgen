@@ -34,7 +34,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class DequeAddItemNode extends DequeProcedureMethodInvocationBaseNode
 {
 	static {
-		setName(DequeAddItemNode.class, "Deque add item statement");
+		setClassName(DequeAddItemNode.class, "Deque add item statement");
 	}
 
 	private ExprNode valueExpr;

@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class DequeSubdequeNode extends DequeFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(DequeSubdequeNode.class, "deque subdeque");
+		setClassName(DequeSubdequeNode.class, "deque subdeque");
 	}
 
 	private ExprNode startExpr;

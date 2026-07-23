@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class StringSubstringNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(StringSubstringNode.class, "string substring");
+		setClassName(StringSubstringNode.class, "string substring");
 	}
 
 	private ExprNode stringExpr;

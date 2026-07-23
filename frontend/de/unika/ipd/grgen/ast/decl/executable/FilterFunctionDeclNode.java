@@ -42,7 +42,7 @@ import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 public class FilterFunctionDeclNode extends DeclNode implements FilterCharacter
 {
 	static {
-		setName(FilterFunctionDeclNode.class, "filter function declaration");
+		setClassName(FilterFunctionDeclNode.class, "filter function declaration");
 	}
 
 	protected CollectNode<BaseNode> paramsUnresolved;

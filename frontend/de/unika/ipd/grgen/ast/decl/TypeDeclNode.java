@@ -33,7 +33,7 @@ import de.unika.ipd.grgen.ir.IR;
 public class TypeDeclNode extends DeclNode
 {
 	static {
-		setName(TypeDeclNode.class, "type declaration");
+		setClassName(TypeDeclNode.class, "type declaration");
 	}
 
 	private DeclaredTypeNode type;

@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class StringStartsWithNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(StringStartsWithNode.class, "string startsWith");
+		setClassName(StringStartsWithNode.class, "string startsWith");
 	}
 
 	private ExprNode stringExpr;

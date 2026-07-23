@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class SqrtExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(SqrtExprNode.class, "sqrt expr");
+		setClassName(SqrtExprNode.class, "sqrt expr");
 	}
 
 	private ExprNode expr;

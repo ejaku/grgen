@@ -32,7 +32,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class AssertProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(AssertProcNode.class, "assert procedure");
+		setClassName(AssertProcNode.class, "assert procedure");
 	}
 
 	private CollectNode<ExprNode> exprs = new CollectNode<ExprNode>();

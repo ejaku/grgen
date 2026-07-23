@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class UniqueofExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(UniqueofExprNode.class, "uniqueof");
+		setClassName(UniqueofExprNode.class, "uniqueof");
 	}
 
 	private ExprNode entity;

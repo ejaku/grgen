@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ast.BaseNode;
 public class RhsTypeNode extends TypeNode
 {
 	static {
-		setName(RhsTypeNode.class, "right-hand side type");
+		setClassName(RhsTypeNode.class, "right-hand side type");
 	}
 
 	/** returns children of this node */

@@ -14,7 +14,7 @@ import de.unika.ipd.grgen.ir.type.basic.DoubleType;
 public class DoubleTypeNode extends BasicTypeNode
 {
 	static {
-		setName(DoubleTypeNode.class, "double type");
+		setClassName(DoubleTypeNode.class, "double type");
 	}
 
 	@Override

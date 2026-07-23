@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ast.BaseNode;
 public class AlternativeCaseTypeNode extends TypeNode
 {
 	static {
-		setName(AlternativeCaseTypeNode.class, "alternative case type");
+		setClassName(AlternativeCaseTypeNode.class, "alternative case type");
 	}
 
 	/** returns children of this node */

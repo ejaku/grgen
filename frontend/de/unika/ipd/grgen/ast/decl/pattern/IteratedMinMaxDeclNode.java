@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 public class IteratedMinMaxDeclNode extends IteratedDeclNode
 {
 	static {
-		setName(IteratedMinMaxDeclNode.class, "iterated minmax");
+		setClassName(IteratedMinMaxDeclNode.class, "iterated minmax");
 	}
 
 	private int minMatches;

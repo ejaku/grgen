@@ -18,7 +18,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class ContainerInitNode extends ExprNode
 {
 	static {
-		setName(ContainerInitNode.class, "container init");
+		setClassName(ContainerInitNode.class, "container init");
 	}
 
 	public ContainerInitNode(Coords coords)

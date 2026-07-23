@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class NodesFromIndexAccessSameAsArrayExprNode extends FromIndexAccessSameExprNode
 {
 	static {
-		setName(NodesFromIndexAccessSameAsArrayExprNode.class, "nodes from index access same as array expr");
+		setClassName(NodesFromIndexAccessSameAsArrayExprNode.class, "nodes from index access same as array expr");
 	}
 
 	private ArrayTypeNode arrayTypeNode;

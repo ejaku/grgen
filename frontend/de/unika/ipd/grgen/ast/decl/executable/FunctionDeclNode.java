@@ -38,7 +38,7 @@ import de.unika.ipd.grgen.ir.executable.FunctionMethod;
 public class FunctionDeclNode extends FunctionDeclBaseNode
 {
 	static {
-		setName(FunctionDeclNode.class, "function declaration");
+		setClassName(FunctionDeclNode.class, "function declaration");
 	}
 
 	protected CollectNode<BaseNode> parametersUnresolved;

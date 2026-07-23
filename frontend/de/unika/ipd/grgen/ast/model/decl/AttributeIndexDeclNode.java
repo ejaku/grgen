@@ -34,7 +34,7 @@ import java.util.ArrayList;
 public class AttributeIndexDeclNode extends IndexDeclNode
 {
 	static {
-		setName(AttributeIndexDeclNode.class, "attribute index declaration");
+		setClassName(AttributeIndexDeclNode.class, "attribute index declaration");
 	}
 
 	public InheritanceTypeNode type;

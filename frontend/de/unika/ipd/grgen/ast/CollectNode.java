@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class CollectNode<T extends BaseNode> extends CollectBaseNode
 {
 	static {
-		setName(CollectNode.class, "collect");
+		setClassName(CollectNode.class, "collect");
 	}
 
 	private List<T> children = new ArrayList<T>();

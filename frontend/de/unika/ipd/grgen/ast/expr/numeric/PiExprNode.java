@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class PiExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(PiExprNode.class, "pi expr");
+		setClassName(PiExprNode.class, "pi expr");
 	}
 
 	public PiExprNode(Coords coords)

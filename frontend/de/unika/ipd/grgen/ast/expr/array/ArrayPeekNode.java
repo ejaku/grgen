@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayPeekNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(ArrayPeekNode.class, "array peek");
+		setClassName(ArrayPeekNode.class, "array peek");
 	}
 
 	private ExprNode numberExpr;

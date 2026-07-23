@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class MultiCallActionNode extends BaseNode
 {
 	static {
-		setName(MultiCallActionNode.class, "multiple call action");
+		setClassName(MultiCallActionNode.class, "multiple call action");
 	}
 
 	private CollectNode<CallActionNode> actionCalls;

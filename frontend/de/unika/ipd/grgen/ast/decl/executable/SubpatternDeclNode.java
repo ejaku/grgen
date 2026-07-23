@@ -47,7 +47,7 @@ import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 public class SubpatternDeclNode extends TopLevelMatcherDeclNode
 {
 	static {
-		setName(SubpatternDeclNode.class, "subpattern declaration");
+		setClassName(SubpatternDeclNode.class, "subpattern declaration");
 	}
 
 	public RhsDeclNode right;

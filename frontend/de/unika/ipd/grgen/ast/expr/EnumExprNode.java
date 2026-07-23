@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class EnumExprNode extends QualIdentNode
 {
 	static {
-		setName(EnumExprNode.class, "enum access expression");
+		setClassName(EnumExprNode.class, "enum access expression");
 	}
 
 	public EnumExprNode(Coords coords, IdentNode owner, IdentNode member)

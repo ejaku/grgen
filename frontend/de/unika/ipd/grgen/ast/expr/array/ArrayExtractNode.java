@@ -31,7 +31,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayExtractNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(ArrayExtractNode.class, "array extract");
+		setClassName(ArrayExtractNode.class, "array extract");
 	}
 
 	private IdentNode attribute;

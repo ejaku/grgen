@@ -58,7 +58,7 @@ import de.unika.ipd.grgen.parser.ParserEnvironment;
 public class PackageFunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 {
 	static {
-		setName(FunctionInvocationDecisionNode.class, "package function invocation decision expression");
+		setClassName(FunctionInvocationDecisionNode.class, "package function invocation decision expression");
 	}
 
 	static TypeNode functionTypeNode = new FunctionTypeNode();

@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 public class IncidenceCountIndexTypeNode extends TypeNode
 {
 	static {
-		setName(IncidenceCountIndexTypeNode.class, "incidence count index type");
+		setClassName(IncidenceCountIndexTypeNode.class, "incidence count index type");
 	}
 
 	/** returns children of this node */

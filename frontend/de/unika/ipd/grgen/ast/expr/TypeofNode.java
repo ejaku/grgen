@@ -34,7 +34,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class TypeofNode extends ExprNode
 {
 	static {
-		setName(TypeofNode.class, "typeof");
+		setClassName(TypeofNode.class, "typeof");
 	}
 
 	private IdentNode entityUnresolved;

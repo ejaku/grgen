@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class SetInitNode extends ContainerSingleElementInitNode
 {
 	static {
-		setName(SetInitNode.class, "set init");
+		setClassName(SetInitNode.class, "set init");
 	}
 
 	// if set init node is used in model, for member init

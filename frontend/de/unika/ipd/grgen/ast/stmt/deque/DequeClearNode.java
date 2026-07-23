@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class DequeClearNode extends DequeProcedureMethodInvocationBaseNode
 {
 	static {
-		setName(DequeClearNode.class, "deque clear statement");
+		setClassName(DequeClearNode.class, "deque clear statement");
 	}
 
 	public DequeClearNode(Coords coords, QualIdentNode target)

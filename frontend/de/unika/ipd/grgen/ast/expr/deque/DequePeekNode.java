@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class DequePeekNode extends DequeFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(DequePeekNode.class, "deque peek");
+		setClassName(DequePeekNode.class, "deque peek");
 	}
 
 	private ExprNode numberExpr;

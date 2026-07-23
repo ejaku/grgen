@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.ast.type.executable.FilterFunctionTypeNode;
 public abstract class FilterAutoDeclNode extends DeclNode
 {
 	static {
-		setName(FilterAutoDeclNode.class, "auto filter");
+		setClassName(FilterAutoDeclNode.class, "auto filter");
 	}
 
 	static final FilterFunctionTypeNode filterFunctionType = new FilterFunctionTypeNode(); // dummy type

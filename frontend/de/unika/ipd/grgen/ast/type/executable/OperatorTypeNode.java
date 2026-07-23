@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 public class OperatorTypeNode extends TypeNode
 {
 	static {
-		setName(OperatorTypeNode.class, "operator type");
+		setClassName(OperatorTypeNode.class, "operator type");
 	}
 
 	/** returns children of this node */

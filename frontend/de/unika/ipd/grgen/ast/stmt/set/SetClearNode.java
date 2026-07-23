@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class SetClearNode extends SetProcedureMethodInvocationBaseNode
 {
 	static {
-		setName(SetClearNode.class, "set clear statement");
+		setClassName(SetClearNode.class, "set clear statement");
 	}
 
 	public SetClearNode(Coords coords, QualIdentNode target)

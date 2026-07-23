@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 public abstract class MatchEdgeByIndexDeclNode extends EdgeDeclNode
 {
 	static {
-		setName(MatchEdgeByIndexAccessEqualityDeclNode.class, "match edge by index");
+		setClassName(MatchEdgeByIndexAccessEqualityDeclNode.class, "match edge by index");
 	}
 
 	protected IdentNode indexUnresolved;

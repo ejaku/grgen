@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class NodeByUniqueExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(NodeByUniqueExprNode.class, "node by unique expr");
+		setClassName(NodeByUniqueExprNode.class, "node by unique expr");
 	}
 
 	private ExprNode unique;

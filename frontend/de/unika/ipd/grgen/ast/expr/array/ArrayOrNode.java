@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayOrNode extends ArrayAccumulationMethodNode
 {
 	static {
-		setName(ArrayOrNode.class, "array or");
+		setClassName(ArrayOrNode.class, "array or");
 	}
 
 	public ArrayOrNode(Coords coords, ExprNode targetExpr)

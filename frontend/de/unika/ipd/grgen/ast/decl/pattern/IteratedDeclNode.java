@@ -39,7 +39,7 @@ import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 public abstract class IteratedDeclNode extends NestedMatcherDeclNode
 {
 	static {
-		setName(IteratedDeclNode.class, "iterated-cardinality");
+		setClassName(IteratedDeclNode.class, "iterated-cardinality");
 	}
 
 	protected IteratedTypeNode type;

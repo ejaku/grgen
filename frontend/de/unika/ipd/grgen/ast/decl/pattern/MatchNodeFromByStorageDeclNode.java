@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 public abstract class MatchNodeFromByStorageDeclNode extends NodeDeclNode
 {
 	static {
-		setName(MatchNodeFromByStorageDeclNode.class, "match node from by storage decl");
+		setClassName(MatchNodeFromByStorageDeclNode.class, "match node from by storage decl");
 	}
 
 	protected BaseNode storageUnresolved;

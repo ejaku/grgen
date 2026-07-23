@@ -31,7 +31,7 @@ import de.unika.ipd.grgen.ir.type.Type;
 public class UntypedFunctionMethodInvocationExprNode extends FunctionInvocationBaseNode
 {
 	static {
-		setName(UntypedFunctionMethodInvocationExprNode.class, "untyped function method invocation expression");
+		setClassName(UntypedFunctionMethodInvocationExprNode.class, "untyped function method invocation expression");
 	}
 
 	public UntypedFunctionMethodInvocationExprNode(Coords coords, CollectNode<ExprNode> arguments)

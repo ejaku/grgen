@@ -44,7 +44,7 @@ import de.unika.ipd.grgen.ir.type.Type;
 public class MemberDeclNode extends DeclNode
 {
 	static {
-		setName(MemberDeclNode.class, "member declaration");
+		setClassName(MemberDeclNode.class, "member declaration");
 	}
 
 	public TypeNode type;

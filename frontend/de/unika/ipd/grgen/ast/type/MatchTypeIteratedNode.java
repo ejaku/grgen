@@ -40,7 +40,7 @@ import de.unika.ipd.grgen.parser.Symbol.Occurrence;
 public class MatchTypeIteratedNode extends MatchTypeNode
 {
 	static {
-		setName(MatchTypeIteratedNode.class, "match type iterated");
+		setClassName(MatchTypeIteratedNode.class, "match type iterated");
 	}
 
 	private IdentNode topLevelMatcherUnresolved;

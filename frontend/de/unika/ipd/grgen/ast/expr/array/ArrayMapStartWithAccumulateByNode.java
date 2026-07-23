@@ -40,7 +40,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayMapStartWithAccumulateByNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(ArrayMapStartWithAccumulateByNode.class, "array map start with accumulate by");
+		setClassName(ArrayMapStartWithAccumulateByNode.class, "array map start with accumulate by");
 	}
 
 	private IdentNode resultValueTypeUnresolved;

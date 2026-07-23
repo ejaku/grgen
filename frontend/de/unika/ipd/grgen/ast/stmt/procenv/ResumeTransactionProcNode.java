@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ResumeTransactionProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(ResumeTransactionProcNode.class, "resume transaction procedure");
+		setClassName(ResumeTransactionProcNode.class, "resume transaction procedure");
 	}
 
 	public ResumeTransactionProcNode(Coords coords)

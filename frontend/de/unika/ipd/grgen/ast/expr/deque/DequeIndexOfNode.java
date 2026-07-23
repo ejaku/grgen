@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class DequeIndexOfNode extends DequeFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(DequeIndexOfNode.class, "deque index of");
+		setClassName(DequeIndexOfNode.class, "deque index of");
 	}
 
 	private ExprNode valueExpr;

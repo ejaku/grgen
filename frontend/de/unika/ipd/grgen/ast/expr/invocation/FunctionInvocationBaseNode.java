@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class FunctionInvocationBaseNode extends FunctionOrBuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(FunctionInvocationBaseNode.class, "function invocation base");
+		setClassName(FunctionInvocationBaseNode.class, "function invocation base");
 	}
 
 	protected CollectNode<ExprNode> arguments;

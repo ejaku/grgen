@@ -46,7 +46,7 @@ import de.unika.ipd.grgen.ir.type.DefinedMatchType;
 public class DefinedMatchTypeNode extends MatchTypeNode
 {
 	static {
-		setName(DefinedMatchTypeNode.class, "defined match type");
+		setClassName(DefinedMatchTypeNode.class, "defined match type");
 	}
 
 	protected ArrayList<MatchClassFilterCharacter> filters;

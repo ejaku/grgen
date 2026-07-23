@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class FloorExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(FloorExprNode.class, "floor expr");
+		setClassName(FloorExprNode.class, "floor expr");
 	}
 
 	private ExprNode argumentExpr;

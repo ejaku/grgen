@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class MultiStatementNode extends EvalStatementNode
 {
 	static {
-		setName(MultiStatementNode.class, "MultiStatement");
+		setClassName(MultiStatementNode.class, "MultiStatement");
 	}
 
 	CollectNode<EvalStatementNode> statements = new CollectNode<EvalStatementNode>();

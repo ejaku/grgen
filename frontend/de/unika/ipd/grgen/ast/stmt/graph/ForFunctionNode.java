@@ -48,7 +48,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ForFunctionNode extends ForGraphQueryNode
 {
 	static {
-		setName(ForFunctionNode.class, "ForFunction");
+		setClassName(ForFunctionNode.class, "ForFunction");
 	}
 
 	FunctionInvocationDecisionNode function;

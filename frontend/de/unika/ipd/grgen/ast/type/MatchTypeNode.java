@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 public abstract class MatchTypeNode extends DeclaredTypeNode implements MemberAccessor
 {
 	static {
-		setName(MatchTypeNode.class, "match type");
+		setClassName(MatchTypeNode.class, "match type");
 	}
 
 	@Override

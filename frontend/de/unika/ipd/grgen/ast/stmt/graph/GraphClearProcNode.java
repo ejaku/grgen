@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class GraphClearProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(GraphClearProcNode.class, "graph clear procedure");
+		setClassName(GraphClearProcNode.class, "graph clear procedure");
 	}
 
 	public GraphClearProcNode(Coords coords)

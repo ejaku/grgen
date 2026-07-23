@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.util.Direction;
 public class CountBoundedReachableNodeExprNode extends BoundedNeighborhoodQueryExprNode
 {
 	static {
-		setName(CountBoundedReachableNodeExprNode.class, "count bounded reachable node expr");
+		setClassName(CountBoundedReachableNodeExprNode.class, "count bounded reachable node expr");
 	}
 
 	public CountBoundedReachableNodeExprNode(Coords coords,

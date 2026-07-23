@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class TypeBinaryExprNode extends TypeExprNode
 {
 	static {
-		setName(TypeBinaryExprNode.class, "type binary expr");
+		setClassName(TypeBinaryExprNode.class, "type binary expr");
 	}
 
 	private TypeExprNode lhs;

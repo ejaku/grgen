@@ -48,7 +48,7 @@ import de.unika.ipd.grgen.parser.Symbol;
 public class CallActionNode extends BaseNode
 {
 	static {
-		setName(CallActionNode.class, "call action");
+		setClassName(CallActionNode.class, "call action");
 	}
 
 	private IdentNode actionUnresolved;

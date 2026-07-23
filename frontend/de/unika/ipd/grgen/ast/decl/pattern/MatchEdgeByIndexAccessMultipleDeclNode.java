@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.ir.pattern.Edge;
 public class MatchEdgeByIndexAccessMultipleDeclNode extends EdgeDeclNode
 {
 	static {
-		setName(MatchEdgeByIndexAccessMultipleDeclNode.class, "match edge by index access multiple decl");
+		setClassName(MatchEdgeByIndexAccessMultipleDeclNode.class, "match edge by index access multiple decl");
 	}
 
 	protected CollectNode<MatchByIndexAccessOrderingPartNode> indexAccessParts = new CollectNode<MatchByIndexAccessOrderingPartNode>();

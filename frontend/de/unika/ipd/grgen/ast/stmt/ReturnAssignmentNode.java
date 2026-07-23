@@ -31,7 +31,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ReturnAssignmentNode extends EvalStatementNode
 {
 	static {
-		setName(ReturnAssignmentNode.class, "Return Assign");
+		setClassName(ReturnAssignmentNode.class, "Return Assign");
 	}
 
 	ProcedureOrExternalProcedureInvocationNode procedure;

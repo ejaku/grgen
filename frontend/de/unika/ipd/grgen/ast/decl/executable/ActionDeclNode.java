@@ -48,7 +48,7 @@ import de.unika.ipd.grgen.ir.expr.Expression;
 public abstract class ActionDeclNode extends TopLevelMatcherDeclNode
 {
 	static {
-		setName(ActionDeclNode.class, "action declaration");
+		setClassName(ActionDeclNode.class, "action declaration");
 	}
 
 	protected CollectNode<BaseNode> returnFormalParametersUnresolved;

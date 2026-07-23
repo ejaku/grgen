@@ -36,7 +36,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class MemberAccessExprNode extends ExprNode
 {
 	static {
-		setName(MemberAccessExprNode.class, "member access expression");
+		setClassName(MemberAccessExprNode.class, "member access expression");
 	}
 
 	private ExprNode targetExpr; // resulting from primary expression, most often an IdentExprNode

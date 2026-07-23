@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class BuiltinProcedureInvocationBaseNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(BuiltinProcedureInvocationBaseNode.class, "builtin procedure invocation base");
+		setClassName(BuiltinProcedureInvocationBaseNode.class, "builtin procedure invocation base");
 	}
 
 	private static final List<TypeNode> emptyReturn = new ArrayList<TypeNode>();

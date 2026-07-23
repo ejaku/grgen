@@ -52,7 +52,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class MatchClassAutoNode extends BaseNode
 {
 	static {
-		setName(MatchClassAutoNode.class, "match class auto");
+		setClassName(MatchClassAutoNode.class, "match class auto");
 	}
 
 	protected String nameOfGraph;

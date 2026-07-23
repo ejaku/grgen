@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.ir.type.basic.VoidType;
 public class ErrorTypeNode extends TypeNode
 {
 	static {
-		setName(ErrorTypeNode.class, "error type");
+		setClassName(ErrorTypeNode.class, "error type");
 	}
 
 	private IdentNode id;

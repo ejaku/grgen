@@ -36,7 +36,7 @@ import de.unika.ipd.grgen.ir.pattern.IteratedFiltering;
 public class IteratedFilteringNode extends EvalStatementNode
 {
 	static {
-		setName(IteratedFilteringNode.class, "iterated filtering node");
+		setClassName(IteratedFilteringNode.class, "iterated filtering node");
 	}
 
 	private IdentNode actionUnresolved;

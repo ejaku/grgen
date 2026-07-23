@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
 public class MatchByIndexAccessOrderingPartNode extends BaseNode
 {
 	static {
-		setName(MatchByIndexAccessOrderingPartNode.class, "match by index access ordering part");
+		setClassName(MatchByIndexAccessOrderingPartNode.class, "match by index access ordering part");
 	}
 
 	private IdentNode indexUnresolved;

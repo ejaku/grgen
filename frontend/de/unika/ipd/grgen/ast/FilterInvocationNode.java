@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.ir.expr.Expression;
 public class FilterInvocationNode extends FilterInvocationBaseNode
 {
 	static {
-		setName(FilterInvocationNode.class, "filter invocation");
+		setClassName(FilterInvocationNode.class, "filter invocation");
 	}
 
 	public IdentNode filterUnresolved;

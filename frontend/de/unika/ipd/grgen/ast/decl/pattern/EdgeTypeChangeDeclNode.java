@@ -35,7 +35,7 @@ import de.unika.ipd.grgen.ir.pattern.RetypedEdge;
 public class EdgeTypeChangeDeclNode extends EdgeDeclNode
 {
 	static {
-		setName(EdgeTypeChangeDeclNode.class, "edge type change decl");
+		setClassName(EdgeTypeChangeDeclNode.class, "edge type change decl");
 	}
 
 	private BaseNode oldUnresolved;

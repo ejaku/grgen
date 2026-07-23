@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 public class FilterFunctionTypeNode extends TypeNode
 {
 	static {
-		setName(FilterFunctionTypeNode.class, "filter function type");
+		setClassName(FilterFunctionTypeNode.class, "filter function type");
 	}
 
 	/** returns children of this node */

@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ExactNode extends BaseNode
 {
 	static {
-		setName(ExactNode.class, "exact");
+		setClassName(ExactNode.class, "exact");
 	}
 
 	private List<NodeDeclNode> children = new ArrayList<NodeDeclNode>();

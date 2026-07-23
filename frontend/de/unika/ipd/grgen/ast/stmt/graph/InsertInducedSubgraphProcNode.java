@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class InsertInducedSubgraphProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(InsertInducedSubgraphProcNode.class, "insert induced subgraph procedure");
+		setClassName(InsertInducedSubgraphProcNode.class, "insert induced subgraph procedure");
 	}
 
 	private ExprNode nodeSetExpr;

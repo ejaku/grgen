@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class CommitTransactionProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(CommitTransactionProcNode.class, "commit transaction procedure");
+		setClassName(CommitTransactionProcNode.class, "commit transaction procedure");
 	}
 
 	private ExprNode transactionIdExpr;

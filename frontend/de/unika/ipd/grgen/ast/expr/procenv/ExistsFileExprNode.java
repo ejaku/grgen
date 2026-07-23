@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ExistsFileExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(ExistsFileExprNode.class, "exists file expr");
+		setClassName(ExistsFileExprNode.class, "exists file expr");
 	}
 
 	private ExprNode pathExpr;

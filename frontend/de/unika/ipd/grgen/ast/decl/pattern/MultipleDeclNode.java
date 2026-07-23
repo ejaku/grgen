@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 public class MultipleDeclNode extends IteratedDeclNode
 {
 	static {
-		setName(MultipleDeclNode.class, "multiple");
+		setClassName(MultipleDeclNode.class, "multiple");
 	}
 
 	public MultipleDeclNode(IdentNode id, PatternGraphLhsNode left, RhsDeclNode right)

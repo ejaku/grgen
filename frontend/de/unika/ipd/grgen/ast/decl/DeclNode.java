@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.ir.Entity;
 public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 {
 	static {
-		setName(DeclNode.class, "declaration");
+		setClassName(DeclNode.class, "declaration");
 	}
 
 	public IdentNode ident;

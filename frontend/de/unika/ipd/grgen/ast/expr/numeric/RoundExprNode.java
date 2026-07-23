@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class RoundExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(RoundExprNode.class, "round expr");
+		setClassName(RoundExprNode.class, "round expr");
 	}
 
 	private ExprNode argumentExpr;

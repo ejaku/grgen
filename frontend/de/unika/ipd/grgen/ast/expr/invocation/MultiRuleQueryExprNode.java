@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class MultiRuleQueryExprNode extends ExprNode
 {
 	static {
-		setName(MultiRuleQueryExprNode.class, "multi rule query");
+		setClassName(MultiRuleQueryExprNode.class, "multi rule query");
 	}
 
 	private CollectNode<ExprNode> ruleQueries;

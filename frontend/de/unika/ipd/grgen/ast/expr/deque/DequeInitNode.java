@@ -32,7 +32,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class DequeInitNode extends ContainerSingleElementInitNode
 {
 	static {
-		setName(DequeInitNode.class, "deque init");
+		setClassName(DequeInitNode.class, "deque init");
 	}
 
 	// if deque init node is used in model, for member init

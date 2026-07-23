@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class VResetProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(VResetProcNode.class, "vreset procedure");
+		setClassName(VResetProcNode.class, "vreset procedure");
 	}
 
 	private ExprNode visFlagExpr;

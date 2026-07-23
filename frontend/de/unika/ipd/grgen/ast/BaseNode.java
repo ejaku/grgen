@@ -147,31 +147,31 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	 * @param cls The class.
 	 * @return stripped class name.
 	 */
-	protected static String shortClassName(Class<?> cls)
+	protected static String stripPackageFromClasssName(Class<?> cls)
 	{
 		String s = cls.getName();
 		return s.substring(s.lastIndexOf('.') + 1);
 	}
 
 	/**
-	 * Get the name of a class.
+	 * Get the name of an AST node class.
 	 * <code>cls</code> should be the Class object of a subclass of
 	 * <code>BaseNode</code>. If this class is registered in the {@link #names}
 	 * map, the name is returned, otherwise the name of the class.
 	 * @param cls A class to get its name.
 	 * @return The registered name of the class or the class name.
 	 */
-	public static String getName(Class<? extends BaseNode> cls)
+	public static String getClassName(Class<? extends BaseNode> cls)
 	{
-		return names.containsKey(cls) ? names.get(cls) : "<" + shortClassName(cls) + ">";
+		return names.containsKey(cls) ? names.get(cls) : "<" + stripPackageFromClasssName(cls) + ">";
 	}
 
 	/**
-	 * Set the name of a AST node class.
+	 * Set the name of an AST node class.
 	 * @param cls The AST node class.
 	 * @param name A human readable name for that class.
 	 */
-	protected static void setName(Class<? extends BaseNode> cls, String name)
+	protected static void setClassName(Class<? extends BaseNode> cls, String name)
 	{
 		names.put(cls, name);
 	}
@@ -183,21 +183,12 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	public String getName()
 	{
 		Class<? extends BaseNode> cls = getClass();
-		String name = getName(cls);
+		String name = getClassName(cls);
 
 		if(verboseErrorMsg)
-			name += " <" + getId() + "," + shortClassName(cls) + ">";
+			name += " <" + getId() + "," + stripPackageFromClasssName(cls) + ">";
 
 		return name;
-	}
-
-	/**
-	 * Set the name of the node.
-	 * @param name The new name.
-	 */
-	protected final void setName(String name)
-	{
-		names.put(getClass(), name);
 	}
 
 	// Employs reflection while a simple virtual method overriden in the subclasses would be more appropriate,

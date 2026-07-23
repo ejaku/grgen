@@ -36,7 +36,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class DefDeclStatementNode extends EvalStatementNode
 {
 	static {
-		setName(DefDeclStatementNode.class, "def decl statement");
+		setClassName(DefDeclStatementNode.class, "def decl statement");
 	}
 
 	BaseNode defDeclUnresolved;

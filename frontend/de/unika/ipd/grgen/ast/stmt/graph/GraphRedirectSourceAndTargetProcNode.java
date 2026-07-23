@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class GraphRedirectSourceAndTargetProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(GraphRedirectSourceAndTargetProcNode.class, "graph redirect source and target procedure");
+		setClassName(GraphRedirectSourceAndTargetProcNode.class, "graph redirect source and target procedure");
 	}
 
 	private ExprNode edgeExpr;

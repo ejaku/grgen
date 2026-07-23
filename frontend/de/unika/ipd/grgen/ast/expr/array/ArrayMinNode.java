@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayMinNode extends ArrayAccumulationMethodNode
 {
 	static {
-		setName(ArrayMinNode.class, "array min");
+		setClassName(ArrayMinNode.class, "array min");
 	}
 
 	public ArrayMinNode(Coords coords, ExprNode targetExpr)

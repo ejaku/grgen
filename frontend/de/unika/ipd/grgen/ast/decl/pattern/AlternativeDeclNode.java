@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.ir.pattern.Alternative;
 public class AlternativeDeclNode extends DeclNode
 {
 	static {
-		setName(AlternativeDeclNode.class, "alternative");
+		setClassName(AlternativeDeclNode.class, "alternative");
 	}
 
 	/** Type for this declaration. */

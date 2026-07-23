@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class MaxExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(MaxExprNode.class, "max expr");
+		setClassName(MaxExprNode.class, "max expr");
 	}
 
 	private ExprNode leftExpr;

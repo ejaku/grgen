@@ -36,7 +36,7 @@ import de.unika.ipd.grgen.util.Walkable;
 public class EnumItemDeclNode extends MemberDeclNode
 {
 	static {
-		setName(EnumItemDeclNode.class, "enum item decl");
+		setClassName(EnumItemDeclNode.class, "enum item decl");
 	}
 
 	private ExprNode value;

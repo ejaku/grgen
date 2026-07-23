@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayOrderAscendingNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(ArrayOrderAscendingNode.class, "array order ascending");
+		setClassName(ArrayOrderAscendingNode.class, "array order ascending");
 	}
 
 	public ArrayOrderAscendingNode(Coords coords, ExprNode targetExpr)

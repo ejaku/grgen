@@ -44,7 +44,7 @@ import de.unika.ipd.grgen.ir.model.type.EdgeType;
 public abstract class EdgeTypeNode extends InheritanceTypeNode
 {
 	static {
-		setName(EdgeTypeNode.class, "edge type");
+		setClassName(EdgeTypeNode.class, "edge type");
 	}
 
 	public static ArbitraryEdgeTypeNode arbitraryEdgeType;

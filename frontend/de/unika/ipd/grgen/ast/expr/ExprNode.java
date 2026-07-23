@@ -34,7 +34,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class ExprNode extends BaseNode
 {
 	static {
-		setName(ExprNode.class, "expression");
+		setClassName(ExprNode.class, "expression");
 	}
 
 	private static final ExprNode INVALID = new InvalidExprNode();

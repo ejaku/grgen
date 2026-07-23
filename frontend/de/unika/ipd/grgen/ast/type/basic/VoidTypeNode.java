@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.type.basic.VoidType;
 public class VoidTypeNode extends BasicTypeNode
 {
 	static {
-		setName(VoidTypeNode.class, "void type");
+		setClassName(VoidTypeNode.class, "void type");
 	}
 
 	@Override

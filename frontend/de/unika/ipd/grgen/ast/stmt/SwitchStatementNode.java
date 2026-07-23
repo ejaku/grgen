@@ -34,7 +34,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class SwitchStatementNode extends EvalStatementNode
 {
 	static {
-		setName(SwitchStatementNode.class, "SwitchStatement");
+		setClassName(SwitchStatementNode.class, "SwitchStatement");
 	}
 
 	private ExprNode switchExpr;

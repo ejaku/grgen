@@ -35,7 +35,7 @@ import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 public class AlternativeCaseDeclNode extends NestedMatcherDeclNode
 {
 	static {
-		setName(AlternativeCaseDeclNode.class, "alternative case");
+		setClassName(AlternativeCaseDeclNode.class, "alternative case");
 	}
 
 	private AlternativeCaseTypeNode type;

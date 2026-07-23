@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class PauseTransactionProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(PauseTransactionProcNode.class, "pause transaction procedure");
+		setClassName(PauseTransactionProcNode.class, "pause transaction procedure");
 	}
 
 	public PauseTransactionProcNode(Coords coords)

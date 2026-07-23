@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class EdgesFromIndexAccessMultipleFromToExprNode extends FromIndexAccessMultipleFromToExprNode
 {
 	static {
-		setName(EdgesFromIndexAccessMultipleFromToExprNode.class, "edges from index access multiple from to expr");
+		setClassName(EdgesFromIndexAccessMultipleFromToExprNode.class, "edges from index access multiple from to expr");
 	}
 
 	public EdgesFromIndexAccessMultipleFromToExprNode(Coords coords)

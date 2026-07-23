@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.util.Direction;
 public abstract class IsInEdgeNeighborhoodQueryExprNode extends NeighborhoodQueryExprNode
 {
 	static {
-		setName(IsInEdgeNeighborhoodQueryExprNode.class, "is in edge neighborhood query expr");
+		setClassName(IsInEdgeNeighborhoodQueryExprNode.class, "is in edge neighborhood query expr");
 	}
 
 	protected ExprNode endEdgeExpr;

@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class VFreeNonResetProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(VFreeNonResetProcNode.class, "vfreenonreset procedure");
+		setClassName(VFreeNonResetProcNode.class, "vfreenonreset procedure");
 	}
 
 	private ExprNode visFlagExpr;

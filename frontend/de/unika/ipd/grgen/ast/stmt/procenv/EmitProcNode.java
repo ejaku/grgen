@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class EmitProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(EmitProcNode.class, "emit procedure");
+		setClassName(EmitProcNode.class, "emit procedure");
 	}
 
 	private CollectNode<ExprNode> exprs = new CollectNode<ExprNode>();

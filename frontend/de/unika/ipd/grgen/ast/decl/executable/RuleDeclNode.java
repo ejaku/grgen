@@ -52,7 +52,7 @@ import de.unika.ipd.grgen.ir.type.DefinedMatchType;
 public class RuleDeclNode extends ActionDeclNode
 {
 	static {
-		setName(RuleDeclNode.class, "rule declaration");
+		setClassName(RuleDeclNode.class, "rule declaration");
 	}
 
 	public RhsDeclNode right;

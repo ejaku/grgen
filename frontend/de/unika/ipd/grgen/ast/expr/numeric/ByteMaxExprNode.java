@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ByteMaxExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(ByteMaxExprNode.class, "bytemax expr");
+		setClassName(ByteMaxExprNode.class, "bytemax expr");
 	}
 
 	public ByteMaxExprNode(Coords coords)

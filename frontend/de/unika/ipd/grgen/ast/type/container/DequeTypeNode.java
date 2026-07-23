@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.ir.type.container.DequeType;
 public class DequeTypeNode extends ContainerTypeNode
 {
 	static {
-		setName(DequeTypeNode.class, "deque type");
+		setClassName(DequeTypeNode.class, "deque type");
 	}
 
 	@Override

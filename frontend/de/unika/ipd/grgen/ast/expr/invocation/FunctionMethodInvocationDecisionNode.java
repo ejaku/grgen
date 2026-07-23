@@ -100,7 +100,7 @@ import de.unika.ipd.grgen.ir.IR;
 public class FunctionMethodInvocationDecisionNode extends FunctionInvocationBaseNode
 {
 	static {
-		setName(FunctionMethodInvocationDecisionNode.class, "function method invocation decision expression");
+		setClassName(FunctionMethodInvocationDecisionNode.class, "function method invocation decision expression");
 	}
 
 	static TypeNode methodTypeNode = new TypeNode() {

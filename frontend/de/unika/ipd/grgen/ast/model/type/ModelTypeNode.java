@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 public class ModelTypeNode extends TypeNode
 {
 	static {
-		setName(ModelTypeNode.class, "model type");
+		setClassName(ModelTypeNode.class, "model type");
 	}
 
 	/** returns children of this node */

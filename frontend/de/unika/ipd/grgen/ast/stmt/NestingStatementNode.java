@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class NestingStatementNode extends EvalStatementNode
 {
 	static {
-		setName(NestingStatementNode.class, "NestingStatement");
+		setClassName(NestingStatementNode.class, "NestingStatement");
 	}
 
 	protected CollectNode<EvalStatementNode> statements;

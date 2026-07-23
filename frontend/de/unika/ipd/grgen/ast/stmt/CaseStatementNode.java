@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class CaseStatementNode extends NestingStatementNode
 {
 	static {
-		setName(CaseStatementNode.class, "CaseStatement");
+		setClassName(CaseStatementNode.class, "CaseStatement");
 	}
 
 	ExprNode caseConstantExpr; // null for the "else" (aka default) case

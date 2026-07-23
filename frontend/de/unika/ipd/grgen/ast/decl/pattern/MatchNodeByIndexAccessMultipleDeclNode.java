@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.ir.pattern.Node;
 public class MatchNodeByIndexAccessMultipleDeclNode extends NodeDeclNode
 {
 	static {
-		setName(MatchNodeByIndexAccessMultipleDeclNode.class, "match node by index access multiple decl");
+		setClassName(MatchNodeByIndexAccessMultipleDeclNode.class, "match node by index access multiple decl");
 	}
 
 	protected CollectNode<MatchByIndexAccessOrderingPartNode> indexAccessParts = new CollectNode<MatchByIndexAccessOrderingPartNode>();

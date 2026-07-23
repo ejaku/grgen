@@ -44,7 +44,7 @@ import de.unika.ipd.grgen.ir.type.DefinedMatchType;
 public class MatchClassFilterFunctionDeclNode extends DeclNode implements MatchClassFilterCharacter
 {
 	static {
-		setName(MatchClassFilterFunctionDeclNode.class, "match class filter function declaration");
+		setClassName(MatchClassFilterFunctionDeclNode.class, "match class filter function declaration");
 	}
 
 	protected CollectNode<BaseNode> paramsUnresolved;

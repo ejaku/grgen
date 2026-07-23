@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class IteratedQueryExprNode extends ExprNode
 {
 	static {
-		setName(IteratedQueryExprNode.class, "iterated query");
+		setClassName(IteratedQueryExprNode.class, "iterated query");
 	}
 
 	private IdentNode iteratedUnresolved;

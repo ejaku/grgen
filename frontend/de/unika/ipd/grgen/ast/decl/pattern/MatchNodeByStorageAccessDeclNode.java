@@ -33,7 +33,7 @@ import de.unika.ipd.grgen.ir.pattern.Variable;
 public class MatchNodeByStorageAccessDeclNode extends MatchNodeFromByStorageDeclNode
 {
 	static {
-		setName(MatchNodeByStorageAccessDeclNode.class, "match node by storage access decl");
+		setClassName(MatchNodeByStorageAccessDeclNode.class, "match node by storage access decl");
 	}
 
 	private IdentExprNode accessorUnresolved;

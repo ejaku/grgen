@@ -31,7 +31,7 @@ import java.util.ArrayList;
 public class ExternalProcedureDeclNode extends ProcedureDeclBaseNode
 {
 	static {
-		setName(ExternalProcedureDeclNode.class, "external procedure declaration");
+		setClassName(ExternalProcedureDeclNode.class, "external procedure declaration");
 	}
 
 	protected CollectNode<BaseNode> parameterTypesUnresolved;

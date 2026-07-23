@@ -32,7 +32,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class DoWhileStatementNode extends NestingStatementNode
 {
 	static {
-		setName(DoWhileStatementNode.class, "DoWhileStatement");
+		setClassName(DoWhileStatementNode.class, "DoWhileStatement");
 	}
 
 	private ExprNode conditionExpr;

@@ -36,7 +36,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ForIndexAccessOrderingYieldNode extends ForIndexAccessNode
 {
 	static {
-		setName(ForIndexAccessOrderingYieldNode.class, "for index access ordering yield loop");
+		setClassName(ForIndexAccessOrderingYieldNode.class, "for index access ordering yield loop");
 	}
 
 	private boolean ascending;

@@ -34,7 +34,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class IntegerRangeIterationYieldNode extends NestingStatementNode
 {
 	static {
-		setName(IntegerRangeIterationYieldNode.class, "IntegerRangeIterationYield");
+		setClassName(IntegerRangeIterationYieldNode.class, "IntegerRangeIterationYield");
 	}
 
 	BaseNode iterationVariableUnresolved;

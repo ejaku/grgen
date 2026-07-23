@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ast.BaseNode;
 public class IteratedTypeNode extends TypeNode
 {
 	static {
-		setName(IteratedTypeNode.class, "iterated type");
+		setClassName(IteratedTypeNode.class, "iterated type");
 	}
 
 	/** returns children of this node */

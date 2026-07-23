@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class EmptyExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(EmptyExprNode.class, "empty expr");
+		setClassName(EmptyExprNode.class, "empty expr");
 	}
 
 	public EmptyExprNode(Coords coords)

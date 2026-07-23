@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.util.Direction;
 public class BoundedReachableNodeWithRemainingDepthExprNode extends BoundedNeighborhoodQueryExprNode
 {
 	static {
-		setName(BoundedReachableNodeWithRemainingDepthExprNode.class,
+		setClassName(BoundedReachableNodeWithRemainingDepthExprNode.class,
 				"bounded reachable node with remaining depth expr");
 	}
 

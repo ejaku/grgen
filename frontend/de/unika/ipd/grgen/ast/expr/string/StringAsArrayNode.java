@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class StringAsArrayNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(StringAsArrayNode.class, "string asArray");
+		setClassName(StringAsArrayNode.class, "string asArray");
 	}
 
 	private ExprNode stringExpr;

@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArraySizeNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(ArraySizeNode.class, "array size expression");
+		setClassName(ArraySizeNode.class, "array size expression");
 	}
 
 	public ArraySizeNode(Coords coords, ExprNode targetExpr)

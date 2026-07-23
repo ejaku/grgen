@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.ir.pattern.Node;
 public class MatchNodeByNameLookupDeclNode extends NodeDeclNode
 {
 	static {
-		setName(MatchNodeByNameLookupDeclNode.class, "match node by name lookup decl");
+		setClassName(MatchNodeByNameLookupDeclNode.class, "match node by name lookup decl");
 	}
 
 	private ExprNode expr;

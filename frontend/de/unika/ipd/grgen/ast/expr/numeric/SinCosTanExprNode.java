@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class SinCosTanExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(SinCosTanExprNode.class, "sincostan expr");
+		setClassName(SinCosTanExprNode.class, "sincostan expr");
 	}
 
 	public enum TrigonometryFunctionType

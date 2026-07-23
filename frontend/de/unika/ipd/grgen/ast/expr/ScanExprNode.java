@@ -31,7 +31,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ScanExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(ScanExprNode.class, "scan expr");
+		setClassName(ScanExprNode.class, "scan expr");
 	}
 
 	private BaseNode typeUnresolved;

@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.ir.type.container.ArrayType;
 public class ArrayTypeNode extends ContainerTypeNode
 {
 	static {
-		setName(ArrayTypeNode.class, "array type");
+		setClassName(ArrayTypeNode.class, "array type");
 	}
 
 	@Override

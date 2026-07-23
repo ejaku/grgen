@@ -31,7 +31,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ContainerAccumulationYieldNode extends NestingStatementNode
 {
 	static {
-		setName(ContainerAccumulationYieldNode.class, "ContainerAccumulationYield");
+		setClassName(ContainerAccumulationYieldNode.class, "ContainerAccumulationYield");
 	}
 
 	VarDeclNode iterationVariableUnresolved;

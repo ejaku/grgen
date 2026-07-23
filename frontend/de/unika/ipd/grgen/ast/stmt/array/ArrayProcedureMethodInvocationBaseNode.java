@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class ArrayProcedureMethodInvocationBaseNode extends ContainerProcedureMethodInvocationBaseNode
 {
 	static {
-		setName(ArrayProcedureMethodInvocationBaseNode.class, "array procedure method invocation base");
+		setClassName(ArrayProcedureMethodInvocationBaseNode.class, "array procedure method invocation base");
 	}
 
 	protected ArrayProcedureMethodInvocationBaseNode(Coords coords, QualIdentNode target)

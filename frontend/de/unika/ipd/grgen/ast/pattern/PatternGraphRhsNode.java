@@ -45,7 +45,7 @@ import java.util.ArrayList;
 public class PatternGraphRhsNode extends PatternGraphBaseNode
 {
 	static {
-		setName(PatternGraphRhsNode.class, "pattern graph rhs");
+		setClassName(PatternGraphRhsNode.class, "pattern graph rhs");
 	}
 
 	protected CollectNode<SubpatternReplNode> subpatternRepls;

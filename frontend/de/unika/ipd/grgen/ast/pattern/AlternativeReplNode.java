@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.ir.pattern.AlternativeReplacement;
 public class AlternativeReplNode extends OrderedReplacementNode
 {
 	static {
-		setName(AlternativeReplNode.class, "alternative repl node");
+		setClassName(AlternativeReplNode.class, "alternative repl node");
 	}
 
 	private IdentNode alternativeUnresolved;

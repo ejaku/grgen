@@ -63,7 +63,7 @@ import de.unika.ipd.grgen.ir.type.PackageActionType;
 public class UnitNode extends BaseNode
 {
 	static {
-		setName(UnitNode.class, "unit declaration");
+		setClassName(UnitNode.class, "unit declaration");
 	}
 
 	private static UnitNode root; // added this for quick access to some model flags, could be considered a bit smelly regarding architecture, but having no access to the root could be considered strange

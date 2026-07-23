@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class FromIndexAccessFromToExprNode extends FromIndexAccessExprNode
 {
 	static {
-		setName(FromIndexAccessFromToExprNode.class, "from index access from to expr");
+		setClassName(FromIndexAccessFromToExprNode.class, "from index access from to expr");
 	}
 
 	protected ExprNode fromExpr;

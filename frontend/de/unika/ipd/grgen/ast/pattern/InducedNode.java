@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class InducedNode extends BaseNode
 {
 	static {
-		setName(InducedNode.class, "induced");
+		setClassName(InducedNode.class, "induced");
 	}
 
 	private List<NodeDeclNode> children = new ArrayList<NodeDeclNode>();

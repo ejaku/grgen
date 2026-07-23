@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class MapAsArrayNode extends MapFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(MapAsArrayNode.class, "map as array expression");
+		setClassName(MapAsArrayNode.class, "map as array expression");
 	}
 
 	private ArrayTypeNode arrayTypeNode;

@@ -32,7 +32,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ConditionStatementNode extends NestingStatementNode
 {
 	static {
-		setName(ConditionStatementNode.class, "ConditionStatement");
+		setClassName(ConditionStatementNode.class, "ConditionStatement");
 	}
 
 	private ExprNode conditionExpr;

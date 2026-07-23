@@ -32,7 +32,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class CopyExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(CopyExprNode.class, "copy expr");
+		setClassName(CopyExprNode.class, "copy expr");
 	}
 
 	private ExprNode sourceExpr;

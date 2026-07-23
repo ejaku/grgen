@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class InvalidExprNode extends ExprNode
 {
 	static {
-		setName(InvalidExprNode.class, "invalid expression");
+		setClassName(InvalidExprNode.class, "invalid expression");
 	}
 
 	public InvalidExprNode()

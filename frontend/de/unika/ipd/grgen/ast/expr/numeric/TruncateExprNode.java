@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class TruncateExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(TruncateExprNode.class, "truncate expr");
+		setClassName(TruncateExprNode.class, "truncate expr");
 	}
 
 	private ExprNode argumentExpr;

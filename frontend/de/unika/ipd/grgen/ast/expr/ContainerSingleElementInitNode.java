@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class ContainerSingleElementInitNode extends ContainerInitNode
 {
 	static {
-		setName(ContainerSingleElementInitNode.class, "container single element init");
+		setClassName(ContainerSingleElementInitNode.class, "container single element init");
 	}
 
 	protected CollectNode<ExprNode> containerItems = new CollectNode<ExprNode>();

@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class VisitedNode extends ExprNode
 {
 	static {
-		setName(VisitedNode.class, "visited");
+		setClassName(VisitedNode.class, "visited");
 	}
 
 	private ExprNode visitorIDExpr;

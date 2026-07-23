@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 public class FunctionTypeNode extends TypeNode
 {
 	static {
-		setName(FunctionTypeNode.class, "function type");
+		setClassName(FunctionTypeNode.class, "function type");
 	}
 
 	/** returns children of this node */

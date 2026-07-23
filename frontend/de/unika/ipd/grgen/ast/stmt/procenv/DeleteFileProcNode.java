@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class DeleteFileProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(DeleteFileProcNode.class, "deleteFile procedure");
+		setClassName(DeleteFileProcNode.class, "deleteFile procedure");
 	}
 
 	private ExprNode pathExpr;

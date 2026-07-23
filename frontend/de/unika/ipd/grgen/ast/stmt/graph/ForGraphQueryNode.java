@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class ForGraphQueryNode extends NestingStatementNode
 {
 	static {
-		setName(ForGraphQueryNode.class, "ForGraphQuery");
+		setClassName(ForGraphQueryNode.class, "ForGraphQuery");
 	}
 
 	BaseNode iterationVariableUnresolved;

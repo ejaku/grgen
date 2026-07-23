@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ObjectInitNode extends ExprNode
 {
 	static {
-		setName(ObjectInitNode.class, "internal (transient) object init");
+		setClassName(ObjectInitNode.class, "internal (transient) object init");
 	}
 
 	private IdentNode objectTypeUnresolved;

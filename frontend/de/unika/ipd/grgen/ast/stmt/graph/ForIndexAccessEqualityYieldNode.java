@@ -35,7 +35,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ForIndexAccessEqualityYieldNode extends ForIndexAccessNode
 {
 	static {
-		setName(ForIndexAccessEqualityYieldNode.class, "for index access equality yield loop");
+		setClassName(ForIndexAccessEqualityYieldNode.class, "for index access equality yield loop");
 	}
 
 	private ExprNode expr;

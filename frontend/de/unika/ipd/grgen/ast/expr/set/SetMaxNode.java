@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class SetMaxNode extends SetFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(SetMaxNode.class, "set max");
+		setClassName(SetMaxNode.class, "set max");
 	}
 
 	public SetMaxNode(Coords coords, ExprNode targetExpr)

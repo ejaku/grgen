@@ -37,7 +37,7 @@ import de.unika.ipd.grgen.ir.type.Type;
 public class FunctionMethodInvocationExprNode extends FunctionInvocationBaseNode
 {
 	static {
-		setName(FunctionMethodInvocationExprNode.class, "function method invocation expression");
+		setClassName(FunctionMethodInvocationExprNode.class, "function method invocation expression");
 	}
 
 	private IdentNode ownerUnresolved;

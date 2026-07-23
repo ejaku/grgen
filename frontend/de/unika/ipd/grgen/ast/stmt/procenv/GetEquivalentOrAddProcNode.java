@@ -32,7 +32,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class GetEquivalentOrAddProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(GetEquivalentOrAddProcNode.class, "get equivalent or add procedure");
+		setClassName(GetEquivalentOrAddProcNode.class, "get equivalent or add procedure");
 	}
 
 	private ExprNode subgraphExpr;

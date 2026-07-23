@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class ContainerProcedureMethodInvocationBaseNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(ContainerProcedureMethodInvocationBaseNode.class, "container procedure method invocation base");
+		setClassName(ContainerProcedureMethodInvocationBaseNode.class, "container procedure method invocation base");
 	}
 
 	protected QualIdentNode target;

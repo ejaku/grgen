@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ExprPairNode extends BaseNode
 {
 	static {
-		setName(ExprPairNode.class, "expr pair");
+		setClassName(ExprPairNode.class, "expr pair");
 	}
 
 	public ExprNode keyExpr; // first

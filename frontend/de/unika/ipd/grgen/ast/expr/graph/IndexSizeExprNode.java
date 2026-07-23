@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class IndexSizeExprNode extends FromIndexAccessExprNode
 {
 	static {
-		setName(IndexSizeExprNode.class, "index size expr");
+		setClassName(IndexSizeExprNode.class, "index size expr");
 	}
 
 	public IndexSizeExprNode(Coords coords, BaseNode index)

@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class StringToUpperNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(StringToUpperNode.class, "string toUpper");
+		setClassName(StringToUpperNode.class, "string toUpper");
 	}
 
 	private ExprNode stringExpr;

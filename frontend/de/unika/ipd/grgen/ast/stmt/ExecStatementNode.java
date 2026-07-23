@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.ir.stmt.ExecStatement;
 public class ExecStatementNode extends EvalStatementNode
 {
 	static {
-		setName(ExecStatementNode.class, "ExecStatement");
+		setClassName(ExecStatementNode.class, "ExecStatement");
 	}
 
 	ExecNode exec;

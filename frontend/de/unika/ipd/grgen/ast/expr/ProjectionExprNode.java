@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ProjectionExprNode extends ExprNode
 {
 	static {
-		setName(ProjectionExprNode.class, "projection expr");
+		setClassName(ProjectionExprNode.class, "projection expr");
 	}
 
 	private int index;

@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayOrderDescendingByNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(ArrayOrderDescendingByNode.class, "array order descending by");
+		setClassName(ArrayOrderDescendingByNode.class, "array order descending by");
 	}
 
 	private IdentNode attribute;

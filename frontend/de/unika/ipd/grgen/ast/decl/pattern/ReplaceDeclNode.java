@@ -35,7 +35,7 @@ import java.util.ArrayList;
 public class ReplaceDeclNode extends RhsDeclNode
 {
 	static {
-		setName(ReplaceDeclNode.class, "replace declaration");
+		setClassName(ReplaceDeclNode.class, "replace declaration");
 	}
 
 	/**

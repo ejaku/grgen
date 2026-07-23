@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class SetSizeNode extends SetFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(SetSizeNode.class, "set size expression");
+		setClassName(SetSizeNode.class, "set size expression");
 	}
 
 	public SetSizeNode(Coords coords, ExprNode targetExpr)

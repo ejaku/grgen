@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.type.basic.TypeType;
 public class TypeTypeNode extends BasicTypeNode
 {
 	static {
-		setName(TypeTypeNode.class, "type type");
+		setClassName(TypeTypeNode.class, "type type");
 	}
 
 	@Override

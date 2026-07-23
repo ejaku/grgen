@@ -35,7 +35,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ReturnStatementNode extends EvalStatementNode
 {
 	static {
-		setName(ReturnStatementNode.class, "ReturnStatement");
+		setClassName(ReturnStatementNode.class, "ReturnStatement");
 	}
 
 	CollectNode<ExprNode> returnValueExprs;

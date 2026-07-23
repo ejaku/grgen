@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class DebugHaltProcNode extends DebugProcNode
 {
 	static {
-		setName(DebugHaltProcNode.class, "debug halt procedure");
+		setClassName(DebugHaltProcNode.class, "debug halt procedure");
 	}
 
 	public DebugHaltProcNode(Coords coords)

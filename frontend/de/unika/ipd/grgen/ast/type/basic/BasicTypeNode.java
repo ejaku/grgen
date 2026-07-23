@@ -63,7 +63,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 	protected static Map<BasicTypeNode, Class<?>> valueMap = new HashMap<BasicTypeNode, Class<?>>();
 
 	static {
-		setName(BasicTypeNode.class, "basic type");
+		setClassName(BasicTypeNode.class, "basic type");
 
 		valueMap.put(byteType, Byte.class);
 		valueMap.put(shortType, Short.class);

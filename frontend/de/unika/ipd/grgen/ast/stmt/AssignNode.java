@@ -58,7 +58,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class AssignNode extends EvalStatementNode
 {
 	static {
-		setName(AssignNode.class, "Assign");
+		setClassName(AssignNode.class, "Assign");
 	}
 
 	BaseNode lhsUnresolved;

@@ -45,7 +45,7 @@ import java.util.ArrayList;
 public abstract class PatternGraphBaseNode extends BaseNode
 {
 	static {
-		setName(PatternGraphBaseNode.class, "pattern graph base");
+		setClassName(PatternGraphBaseNode.class, "pattern graph base");
 	}
 
 	protected CollectNode<BaseNode> connectionsUnresolved;

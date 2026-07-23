@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayIndexOfOrderedNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(ArrayIndexOfOrderedNode.class, "array index of ordered");
+		setClassName(ArrayIndexOfOrderedNode.class, "array index of ordered");
 	}
 
 	private ExprNode valueExpr;

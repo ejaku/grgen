@@ -32,7 +32,7 @@ import de.unika.ipd.grgen.util.Direction;
 public class IsBoundedReachableNodeExprNode extends NeighborhoodQueryExprNode
 {
 	static {
-		setName(IsBoundedReachableNodeExprNode.class, "is bounded reachable node expr");
+		setClassName(IsBoundedReachableNodeExprNode.class, "is bounded reachable node expr");
 	}
 
 	private ExprNode endNodeExpr;

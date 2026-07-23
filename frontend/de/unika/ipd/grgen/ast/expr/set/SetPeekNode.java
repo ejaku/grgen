@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class SetPeekNode extends SetFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(SetPeekNode.class, "set peek");
+		setClassName(SetPeekNode.class, "set peek");
 	}
 
 	private ExprNode numberExpr;

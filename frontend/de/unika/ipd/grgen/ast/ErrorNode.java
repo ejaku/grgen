@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class ErrorNode extends BaseNode
 {
 	static {
-		setName(ErrorNode.class, "error node");
+		setClassName(ErrorNode.class, "error node");
 	}
 
 	protected ErrorNode()

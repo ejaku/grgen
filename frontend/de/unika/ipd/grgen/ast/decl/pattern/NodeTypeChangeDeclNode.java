@@ -37,7 +37,7 @@ import de.unika.ipd.grgen.ir.pattern.RetypedNode;
 public class NodeTypeChangeDeclNode extends NodeDeclNode
 {
 	static {
-		setName(NodeTypeChangeDeclNode.class, "node type change decl");
+		setClassName(NodeTypeChangeDeclNode.class, "node type change decl");
 	}
 
 	private BaseNode oldUnresolved;

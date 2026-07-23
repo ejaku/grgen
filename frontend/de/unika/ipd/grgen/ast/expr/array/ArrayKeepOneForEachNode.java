@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayKeepOneForEachNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(ArrayKeepOneForEachNode.class, "array keep one for each");
+		setClassName(ArrayKeepOneForEachNode.class, "array keep one for each");
 	}
 
 	public ArrayKeepOneForEachNode(Coords coords, ExprNode targetExpr)

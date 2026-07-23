@@ -70,7 +70,7 @@ import de.unika.ipd.grgen.util.Direction;
 public class FunctionInvocationDecisionNode extends FunctionInvocationBaseNode
 {
 	static {
-		setName(FunctionInvocationDecisionNode.class, "function invocation decision expression");
+		setClassName(FunctionInvocationDecisionNode.class, "function invocation decision expression");
 	}
 
 	static TypeNode functionTypeNode = new FunctionTypeNode();

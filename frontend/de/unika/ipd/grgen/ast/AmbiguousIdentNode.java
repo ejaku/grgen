@@ -18,7 +18,7 @@ import de.unika.ipd.grgen.parser.Symbol;
 public class AmbiguousIdentNode extends IdentNode
 {
 	static {
-		setName(AmbiguousIdentNode.class, "ambig identifier");
+		setClassName(AmbiguousIdentNode.class, "ambig identifier");
 	}
 
 	/** Occurrence of the identifier. */

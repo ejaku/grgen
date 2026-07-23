@@ -35,7 +35,7 @@ import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
 public class SubpatternReplNode extends OrderedReplacementNode
 {
 	static {
-		setName(SubpatternReplNode.class, "subpattern repl node");
+		setClassName(SubpatternReplNode.class, "subpattern repl node");
 	}
 
 	private IdentNode subpatternUnresolved;

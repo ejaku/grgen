@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.util.Direction;
 public class AdjacentNodeExprNode extends NeighborhoodQueryExprNode
 {
 	static {
-		setName(AdjacentNodeExprNode.class, "adjacent node expr");
+		setClassName(AdjacentNodeExprNode.class, "adjacent node expr");
 	}
 
 	private SetTypeNode setTypeNode;

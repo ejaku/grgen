@@ -50,7 +50,7 @@ import de.unika.ipd.grgen.ir.IR;
 public class ProcedureMethodInvocationDecisionNode extends ProcedureInvocationBaseNode
 {
 	static {
-		setName(ProcedureMethodInvocationDecisionNode.class, "procedure method invocation decision statement");
+		setClassName(ProcedureMethodInvocationDecisionNode.class, "procedure method invocation decision statement");
 	}
 
 	private BaseNode target;

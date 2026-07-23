@@ -40,7 +40,7 @@ import java.util.ArrayList;
 public class IncidenceCountIndexDeclNode extends IndexDeclNode
 {
 	static {
-		setName(IncidenceCountIndexDeclNode.class, "incidence count index declaration");
+		setClassName(IncidenceCountIndexDeclNode.class, "incidence count index declaration");
 	}
 
 	private String functionName; // input string, "resolved" to direction

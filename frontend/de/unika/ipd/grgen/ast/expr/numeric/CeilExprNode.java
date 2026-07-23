@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class CeilExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(CeilExprNode.class, "ceil expr");
+		setClassName(CeilExprNode.class, "ceil expr");
 	}
 
 	private ExprNode argumentExpr;

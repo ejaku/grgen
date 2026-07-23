@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.ir.executable.Rule;
 public class FilterAutoSuppliedDeclNode extends FilterAutoDeclNode
 {
 	static {
-		setName(FilterAutoSuppliedDeclNode.class, "auto supplied filter");
+		setClassName(FilterAutoSuppliedDeclNode.class, "auto supplied filter");
 	}
 
 	protected IdentNode actionUnresolved;

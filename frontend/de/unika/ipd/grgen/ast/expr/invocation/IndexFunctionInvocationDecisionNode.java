@@ -51,7 +51,7 @@ import de.unika.ipd.grgen.parser.ParserEnvironment;
 public class IndexFunctionInvocationDecisionNode extends FunctionOrBuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(IndexFunctionInvocationDecisionNode.class, "index function invocation decision expression");
+		setClassName(IndexFunctionInvocationDecisionNode.class, "index function invocation decision expression");
 	}
 
 	static TypeNode functionTypeNode = new FunctionTypeNode();

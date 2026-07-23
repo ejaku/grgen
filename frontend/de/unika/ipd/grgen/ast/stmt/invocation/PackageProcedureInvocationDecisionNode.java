@@ -35,7 +35,7 @@ import de.unika.ipd.grgen.parser.ParserEnvironment;
 public class PackageProcedureInvocationDecisionNode extends ProcedureInvocationDecisionNode
 {
 	static {
-		setName(PackageProcedureInvocationDecisionNode.class, "package procedure invocation decision");
+		setClassName(PackageProcedureInvocationDecisionNode.class, "package procedure invocation decision");
 	}
 
 	private String package_;

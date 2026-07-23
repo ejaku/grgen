@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.type.basic.LongType;
 public class LongTypeNode extends BasicTypeNode
 {
 	static {
-		setName(LongTypeNode.class, "long type");
+		setClassName(LongTypeNode.class, "long type");
 	}
 
 	@Override

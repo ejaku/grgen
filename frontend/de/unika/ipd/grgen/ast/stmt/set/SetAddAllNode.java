@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class SetAddAllNode extends SetProcedureMethodInvocationBaseNode
 {
 	static {
-		setName(SetAddAllNode.class, "set add all statement");
+		setClassName(SetAddAllNode.class, "set add all statement");
 	}
 
 	private ExprNode valueExpr;

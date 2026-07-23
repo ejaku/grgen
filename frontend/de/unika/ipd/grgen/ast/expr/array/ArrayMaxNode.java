@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayMaxNode extends ArrayAccumulationMethodNode
 {
 	static {
-		setName(ArrayMaxNode.class, "array max");
+		setClassName(ArrayMaxNode.class, "array max");
 	}
 
 	public ArrayMaxNode(Coords coords, ExprNode targetExpr)

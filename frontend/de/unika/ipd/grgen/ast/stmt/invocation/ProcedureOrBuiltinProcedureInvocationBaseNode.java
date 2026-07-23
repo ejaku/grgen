@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class ProcedureOrBuiltinProcedureInvocationBaseNode extends EvalStatementNode
 {
 	static {
-		setName(ProcedureOrBuiltinProcedureInvocationBaseNode.class, "procedure or builtin procedure invocation base");
+		setClassName(ProcedureOrBuiltinProcedureInvocationBaseNode.class, "procedure or builtin procedure invocation base");
 	}
 
 	private static final List<TypeNode> emptyReturn = new ArrayList<TypeNode>();

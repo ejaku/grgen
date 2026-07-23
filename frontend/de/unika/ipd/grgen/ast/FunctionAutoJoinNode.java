@@ -56,7 +56,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class FunctionAutoJoinNode extends FunctionAutoNode
 {
 	static {
-		setName(FunctionAutoJoinNode.class, "function auto");
+		setClassName(FunctionAutoJoinNode.class, "function auto");
 	}
 
 	private String joinFunction;

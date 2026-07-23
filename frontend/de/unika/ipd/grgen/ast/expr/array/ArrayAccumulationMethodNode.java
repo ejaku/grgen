@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class ArrayAccumulationMethodNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(ArrayAccumulationMethodNode.class, "array accumulation method");
+		setClassName(ArrayAccumulationMethodNode.class, "array accumulation method");
 	}
 
 	protected ArrayAccumulationMethodNode(Coords coords, ExprNode targetExpr)

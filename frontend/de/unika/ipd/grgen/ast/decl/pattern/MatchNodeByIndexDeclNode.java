@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 public abstract class MatchNodeByIndexDeclNode extends NodeDeclNode
 {
 	static {
-		setName(MatchNodeByIndexDeclNode.class, "match node by index");
+		setClassName(MatchNodeByIndexDeclNode.class, "match node by index");
 	}
 
 	protected IdentNode indexUnresolved;

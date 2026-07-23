@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class DebugHighlightProcNode extends DebugProcNode
 {
 	static {
-		setName(DebugHighlightProcNode.class, "debug highlight procedure");
+		setClassName(DebugHighlightProcNode.class, "debug highlight procedure");
 	}
 
 	public DebugHighlightProcNode(Coords coords)

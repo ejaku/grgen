@@ -39,7 +39,7 @@ import de.unika.ipd.grgen.ir.type.Type;
 public class ExternalProcedureMethodInvocationNode extends ProcedureInvocationBaseNode
 {
 	static {
-		setName(ExternalProcedureMethodInvocationNode.class, "external procedure method invocation");
+		setClassName(ExternalProcedureMethodInvocationNode.class, "external procedure method invocation");
 	}
 
 	VarDeclNode targetVar = null;

@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class GraphMergeProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(GraphMergeProcNode.class, "graph merge procedure");
+		setClassName(GraphMergeProcNode.class, "graph merge procedure");
 	}
 
 	private ExprNode targetExpr;

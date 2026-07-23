@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class CountNode extends ExprNode
 {
 	static {
-		setName(CountNode.class, "count");
+		setClassName(CountNode.class, "count");
 	}
 
 	private IdentNode iteratedUnresolved;

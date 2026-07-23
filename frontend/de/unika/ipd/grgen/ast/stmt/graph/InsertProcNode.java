@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class InsertProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(InsertProcNode.class, "insert procedure");
+		setClassName(InsertProcNode.class, "insert procedure");
 	}
 
 	private ExprNode graphExpr;

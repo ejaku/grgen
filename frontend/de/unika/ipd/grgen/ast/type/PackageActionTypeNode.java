@@ -51,7 +51,7 @@ import de.unika.ipd.grgen.ir.type.PackageActionType;
 public class PackageActionTypeNode extends CompoundTypeNode
 {
 	static {
-		setName(PackageActionTypeNode.class, "package in actions type");
+		setClassName(PackageActionTypeNode.class, "package in actions type");
 	}
 
 	private CollectNode<SubpatternDeclNode> subpatterns;

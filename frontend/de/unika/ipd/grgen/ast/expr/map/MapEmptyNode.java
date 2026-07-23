@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class MapEmptyNode extends MapFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(MapEmptyNode.class, "map empty expression");
+		setClassName(MapEmptyNode.class, "map empty expression");
 	}
 
 	public MapEmptyNode(Coords coords, ExprNode targetExpr)

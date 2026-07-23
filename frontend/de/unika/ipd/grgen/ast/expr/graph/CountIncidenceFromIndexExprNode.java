@@ -33,7 +33,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class CountIncidenceFromIndexExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(CountIncidenceFromIndexExprNode.class, "count incidence from index access expression");
+		setClassName(CountIncidenceFromIndexExprNode.class, "count incidence from index access expression");
 	}
 
 	private BaseNode indexUnresolved;

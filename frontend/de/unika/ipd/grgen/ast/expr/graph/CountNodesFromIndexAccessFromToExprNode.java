@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class CountNodesFromIndexAccessFromToExprNode extends FromIndexAccessFromToExprNode
 {
 	static {
-		setName(CountNodesFromIndexAccessFromToExprNode.class, "count nodes from index access from to expr");
+		setClassName(CountNodesFromIndexAccessFromToExprNode.class, "count nodes from index access from to expr");
 	}
 
 	public CountNodesFromIndexAccessFromToExprNode(Coords coords, BaseNode index, ExprNode fromExpr, boolean fromExclusive, ExprNode toExpr, boolean toExclusive)

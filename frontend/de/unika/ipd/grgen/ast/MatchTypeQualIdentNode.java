@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class MatchTypeQualIdentNode extends BaseNode /*implements DeclaredCharacter*/
 {
 	static {
-		setName(MatchTypeQualIdentNode.class, "match type qualified identifier");
+		setClassName(MatchTypeQualIdentNode.class, "match type qualified identifier");
 	}
 
 	protected IdentNode ownerUnresolved;

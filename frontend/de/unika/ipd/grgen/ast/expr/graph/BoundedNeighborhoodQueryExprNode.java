@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.util.Direction;
 public abstract class BoundedNeighborhoodQueryExprNode extends NeighborhoodQueryExprNode
 {
 	static {
-		setName(BoundedNeighborhoodQueryExprNode.class, "bounded neighborhood query node expr");
+		setClassName(BoundedNeighborhoodQueryExprNode.class, "bounded neighborhood query node expr");
 	}
 
 	protected ExprNode depthExpr;

@@ -39,7 +39,7 @@ import de.unika.ipd.grgen.ir.stmt.invocation.ProcedureInvocation;
 public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocationBaseNode
 {
 	static {
-		setName(ProcedureOrExternalProcedureInvocationNode.class, "procedure or external procedure invocation");
+		setClassName(ProcedureOrExternalProcedureInvocationNode.class, "procedure or external procedure invocation");
 	}
 
 	private IdentNode procedureOrExternalProcedureUnresolved;

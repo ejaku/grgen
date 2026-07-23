@@ -33,7 +33,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class TypeConstraintNode extends TypeExprNode
 {
 	static {
-		setName(TypeConstraintNode.class, "type expr constraint");
+		setClassName(TypeConstraintNode.class, "type expr constraint");
 	}
 
 	private CollectNode<InheritanceTypeNode> operands;

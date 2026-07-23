@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class DequeAsSetNode extends DequeFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(DequeAsSetNode.class, "deque as set expression");
+		setClassName(DequeAsSetNode.class, "deque as set expression");
 	}
 
 	private SetTypeNode setTypeNode;

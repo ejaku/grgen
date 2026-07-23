@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArcSinCosTanExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(ArcSinCosTanExprNode.class, "arcsincostan expr");
+		setClassName(ArcSinCosTanExprNode.class, "arcsincostan expr");
 	}
 
 	public enum ArcusTrigonometryFunctionType

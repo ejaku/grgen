@@ -47,7 +47,7 @@ import java.util.ArrayList;
 public class ModifyDeclNode extends RhsDeclNode
 {
 	static {
-		setName(ModifyDeclNode.class, "modify declaration");
+		setClassName(ModifyDeclNode.class, "modify declaration");
 	}
 
 	private CollectNode<IdentNode> deletesUnresolved;

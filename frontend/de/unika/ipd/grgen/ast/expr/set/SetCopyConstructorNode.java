@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class SetCopyConstructorNode extends ExprNode
 {
 	static {
-		setName(SetCopyConstructorNode.class, "set copy constructor");
+		setClassName(SetCopyConstructorNode.class, "set copy constructor");
 	}
 
 	private SetTypeNode setType;

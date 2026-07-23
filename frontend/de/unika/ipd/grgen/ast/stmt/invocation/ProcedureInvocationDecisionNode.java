@@ -52,7 +52,7 @@ import de.unika.ipd.grgen.parser.ParserEnvironment;
 public class ProcedureInvocationDecisionNode extends ProcedureInvocationBaseNode
 {
 	static {
-		setName(ProcedureInvocationDecisionNode.class, "procedure invocation decision");
+		setClassName(ProcedureInvocationDecisionNode.class, "procedure invocation decision");
 	}
 
 	static TypeNode procedureTypeNode = new ProcedureTypeNode();

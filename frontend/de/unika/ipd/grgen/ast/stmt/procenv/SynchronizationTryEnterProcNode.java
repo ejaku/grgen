@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class SynchronizationTryEnterProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(SynchronizationTryEnterProcNode.class, "synchronization try enter procedure");
+		setClassName(SynchronizationTryEnterProcNode.class, "synchronization try enter procedure");
 	}
 
 	private ExprNode criticalSectionObjectExpr;

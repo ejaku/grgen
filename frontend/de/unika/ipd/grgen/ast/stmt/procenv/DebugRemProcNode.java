@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class DebugRemProcNode extends DebugProcNode
 {
 	static {
-		setName(DebugRemProcNode.class, "debug rem procedure");
+		setClassName(DebugRemProcNode.class, "debug rem procedure");
 	}
 
 	public DebugRemProcNode(Coords coords)

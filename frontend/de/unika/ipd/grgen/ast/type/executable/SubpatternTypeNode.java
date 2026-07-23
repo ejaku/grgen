@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 public class SubpatternTypeNode extends TypeNode
 {
 	static {
-		setName(SubpatternTypeNode.class, "subpattern type");
+		setClassName(SubpatternTypeNode.class, "subpattern type");
 	}
 
 	/** returns children of this node */

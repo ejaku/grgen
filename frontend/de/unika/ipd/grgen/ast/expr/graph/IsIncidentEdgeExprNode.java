@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.util.Direction;
 public class IsIncidentEdgeExprNode extends IsInEdgeNeighborhoodQueryExprNode
 {
 	static {
-		setName(IsIncidentEdgeExprNode.class, "is incident edge expr");
+		setClassName(IsIncidentEdgeExprNode.class, "is incident edge expr");
 	}
 
 	public IsIncidentEdgeExprNode(Coords coords, 

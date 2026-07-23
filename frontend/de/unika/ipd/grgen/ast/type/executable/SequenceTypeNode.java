@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 public class SequenceTypeNode extends TypeNode
 {
 	static {
-		setName(SequenceTypeNode.class, "sequence type");
+		setClassName(SequenceTypeNode.class, "sequence type");
 	}
 
 	/** returns children of this node */

@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.util.EmptyAnnotations;
 public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated
 {
 	static {
-		setName(IdentNode.class, "identifier");
+		setClassName(IdentNode.class, "identifier");
 	}
 
 	/** The annotations. */

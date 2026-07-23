@@ -18,7 +18,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class BuiltinFunctionInvocationBaseNode extends FunctionOrBuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(BuiltinFunctionInvocationBaseNode.class, "builtin function invocation base");
+		setClassName(BuiltinFunctionInvocationBaseNode.class, "builtin function invocation base");
 	}
 
 	public BuiltinFunctionInvocationBaseNode(Coords coords)

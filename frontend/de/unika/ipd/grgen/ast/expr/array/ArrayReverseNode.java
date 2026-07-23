@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayReverseNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(ArrayReverseNode.class, "array reverse");
+		setClassName(ArrayReverseNode.class, "array reverse");
 	}
 
 	public ArrayReverseNode(Coords coords, ExprNode targetExpr)

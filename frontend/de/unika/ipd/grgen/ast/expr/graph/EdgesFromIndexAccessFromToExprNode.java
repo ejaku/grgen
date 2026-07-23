@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class EdgesFromIndexAccessFromToExprNode extends FromIndexAccessFromToExprNode
 {
 	static {
-		setName(EdgesFromIndexAccessFromToExprNode.class, "edges from index access from to expr");
+		setClassName(EdgesFromIndexAccessFromToExprNode.class, "edges from index access from to expr");
 	}
 
 	private SetTypeNode setTypeNode;

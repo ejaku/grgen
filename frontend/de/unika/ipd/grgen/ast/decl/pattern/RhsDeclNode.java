@@ -50,7 +50,7 @@ import de.unika.ipd.grgen.ir.pattern.Variable;
 public abstract class RhsDeclNode extends DeclNode
 {
 	static {
-		setName(RhsDeclNode.class, "right-hand side declaration");
+		setClassName(RhsDeclNode.class, "right-hand side declaration");
 	}
 
 	public PatternGraphRhsNode patternGraph;

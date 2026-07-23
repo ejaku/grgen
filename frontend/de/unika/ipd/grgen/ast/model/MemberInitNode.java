@@ -42,7 +42,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class MemberInitNode extends BaseNode
 {
 	static {
-		setName(MemberInitNode.class, "member init");
+		setClassName(MemberInitNode.class, "member init");
 	}
 
 	private BaseNode lhsUnresolved;

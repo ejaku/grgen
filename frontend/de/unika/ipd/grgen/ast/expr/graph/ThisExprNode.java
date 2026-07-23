@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ThisExprNode extends ExprNode
 {
 	static {
-		setName(ThisExprNode.class, "this");
+		setClassName(ThisExprNode.class, "this");
 	}
 
 	public ThisExprNode(Coords coords)

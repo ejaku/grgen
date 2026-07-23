@@ -31,7 +31,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class TotallyHomNode extends BaseNode
 {
 	static {
-		setName(TotallyHomNode.class, "totally homomorph");
+		setClassName(TotallyHomNode.class, "totally homomorph");
 	}
 
 	NodeDeclNode node;

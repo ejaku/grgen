@@ -40,7 +40,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayMapNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(ArrayMapNode.class, "array map");
+		setClassName(ArrayMapNode.class, "array map");
 	}
 
 	private IdentNode resultValueTypeUnresolved;

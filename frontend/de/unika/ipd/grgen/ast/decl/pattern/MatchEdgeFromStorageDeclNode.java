@@ -31,7 +31,7 @@ import de.unika.ipd.grgen.ir.pattern.Variable;
 public class MatchEdgeFromStorageDeclNode extends MatchEdgeFromByStorageDeclNode
 {
 	static {
-		setName(MatchEdgeFromStorageDeclNode.class, "match edge from storage decl");
+		setClassName(MatchEdgeFromStorageDeclNode.class, "match edge from storage decl");
 	}
 
 	public MatchEdgeFromStorageDeclNode(IdentNode id, BaseNode type, int context, BaseNode storage,

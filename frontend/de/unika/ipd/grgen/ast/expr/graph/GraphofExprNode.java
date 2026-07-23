@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class GraphofExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(GraphofExprNode.class, "graphof");
+		setClassName(GraphofExprNode.class, "graphof");
 	}
 
 	private ExprNode entity;

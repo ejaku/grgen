@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class DebugProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(DebugProcNode.class, "debug procedure");
+		setClassName(DebugProcNode.class, "debug procedure");
 	}
 
 	protected CollectNode<ExprNode> exprs = new CollectNode<ExprNode>();

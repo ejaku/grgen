@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class NameofNode extends ExprNode
 {
 	static {
-		setName(NameofNode.class, "nameof");
+		setClassName(NameofNode.class, "nameof");
 	}
 
 	private ExprNode namedEntity; // null if name of main graph is requested

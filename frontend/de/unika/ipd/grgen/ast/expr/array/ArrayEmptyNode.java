@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayEmptyNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(ArrayEmptyNode.class, "array empty expression");
+		setClassName(ArrayEmptyNode.class, "array empty expression");
 	}
 
 	public ArrayEmptyNode(Coords coords, ExprNode targetExpr)

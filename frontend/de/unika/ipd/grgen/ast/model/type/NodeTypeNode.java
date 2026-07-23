@@ -45,7 +45,7 @@ import de.unika.ipd.grgen.ir.model.type.NodeType;
 public class NodeTypeNode extends InheritanceTypeNode
 {
 	static {
-		setName(NodeTypeNode.class, "node type");
+		setClassName(NodeTypeNode.class, "node type");
 	}
 
 	public static NodeTypeNode nodeType;

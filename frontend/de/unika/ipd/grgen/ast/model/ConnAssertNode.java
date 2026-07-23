@@ -32,7 +32,7 @@ import de.unika.ipd.grgen.ir.model.type.NodeType;
 public class ConnAssertNode extends BaseNode
 {
 	static {
-		setName(ConnAssertNode.class, "conn assert");
+		setClassName(ConnAssertNode.class, "conn assert");
 	}
 
 	private NodeTypeNode src;

@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class RecordProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(RecordProcNode.class, "record procedure");
+		setClassName(RecordProcNode.class, "record procedure");
 	}
 
 	private ExprNode exprToRecord;

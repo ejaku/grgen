@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class SizeExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(SizeExprNode.class, "size expr");
+		setClassName(SizeExprNode.class, "size expr");
 	}
 
 	public SizeExprNode(Coords coords)

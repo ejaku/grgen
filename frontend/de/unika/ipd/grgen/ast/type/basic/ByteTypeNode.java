@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.type.basic.ByteType;
 public class ByteTypeNode extends BasicTypeNode
 {
 	static {
-		setName(ByteTypeNode.class, "byte type");
+		setClassName(ByteTypeNode.class, "byte type");
 	}
 
 	@Override

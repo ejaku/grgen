@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ir.pattern.Node;
 public class DummyNodeDeclNode extends NodeDeclNode
 {
 	static {
-		setName(DummyNodeDeclNode.class, "dummy node");
+		setClassName(DummyNodeDeclNode.class, "dummy node");
 	}
 
 	public DummyNodeDeclNode(IdentNode id, BaseNode type, int context, PatternGraphLhsNode directlyNestingLHSGraph)

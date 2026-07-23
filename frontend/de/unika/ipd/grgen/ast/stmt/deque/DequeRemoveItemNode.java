@@ -33,7 +33,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class DequeRemoveItemNode extends DequeProcedureMethodInvocationBaseNode
 {
 	static {
-		setName(DequeRemoveItemNode.class, "deque remove item statement");
+		setClassName(DequeRemoveItemNode.class, "deque remove item statement");
 	}
 
 	private ExprNode valueExpr;

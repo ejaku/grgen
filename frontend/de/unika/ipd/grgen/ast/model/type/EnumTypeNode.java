@@ -34,7 +34,7 @@ import de.unika.ipd.grgen.ir.model.type.EnumType;
 public class EnumTypeNode extends CompoundTypeNode
 {
 	static {
-		setName(EnumTypeNode.class, "enum type");
+		setClassName(EnumTypeNode.class, "enum type");
 	}
 
 	private CollectNode<EnumItemDeclNode> elements;

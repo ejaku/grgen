@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class GraphRemoveProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(GraphRemoveProcNode.class, "graph remove procedure");
+		setClassName(GraphRemoveProcNode.class, "graph remove procedure");
 	}
 
 	private ExprNode entityExpr;

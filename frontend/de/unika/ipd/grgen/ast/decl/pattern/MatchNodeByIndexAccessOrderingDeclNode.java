@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.ir.pattern.Node;
 public class MatchNodeByIndexAccessOrderingDeclNode extends MatchNodeByIndexDeclNode
 {
 	static {
-		setName(MatchNodeByIndexAccessOrderingDeclNode.class, "match node by index access ordering decl");
+		setClassName(MatchNodeByIndexAccessOrderingDeclNode.class, "match node by index access ordering decl");
 	}
 
 	private boolean ascending;

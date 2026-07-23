@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayAddAllNode extends ArrayProcedureMethodInvocationBaseNode
 {
 	static {
-		setName(ArrayAddAllNode.class, "array add all statement");
+		setClassName(ArrayAddAllNode.class, "array add all statement");
 	}
 
 	private ExprNode valueExpr;

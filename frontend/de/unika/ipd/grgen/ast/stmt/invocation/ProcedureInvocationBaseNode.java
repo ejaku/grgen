@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class ProcedureInvocationBaseNode extends ProcedureOrBuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(ProcedureInvocationBaseNode.class, "procedure invocation base");
+		setClassName(ProcedureInvocationBaseNode.class, "procedure invocation base");
 	}
 
 	protected CollectNode<ExprNode> arguments;

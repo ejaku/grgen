@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayClearNode extends ArrayProcedureMethodInvocationBaseNode
 {
 	static {
-		setName(ArrayClearNode.class, "array clear statement");
+		setClassName(ArrayClearNode.class, "array clear statement");
 	}
 
 	public ArrayClearNode(Coords coords, QualIdentNode target)

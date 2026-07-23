@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class EmitNode extends OrderedReplacementNode
 {
 	static {
-		setName(EmitNode.class, "emit");
+		setClassName(EmitNode.class, "emit");
 	}
 
 	private List<ExprNode> childrenUnresolved = new ArrayList<ExprNode>();

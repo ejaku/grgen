@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.type.basic.IntType;
 public class EnumItemTypeNode extends BasicTypeNode
 {
 	static {
-		setName(EnumItemTypeNode.class, "enum item type");
+		setClassName(EnumItemTypeNode.class, "enum item type");
 	}
 
 	@Override

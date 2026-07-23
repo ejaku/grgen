@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.type.basic.GraphType;
 public class GraphTypeNode extends BasicTypeNode
 {
 	static {
-		setName(GraphTypeNode.class, "graph type");
+		setClassName(GraphTypeNode.class, "graph type");
 	}
 
 	@Override

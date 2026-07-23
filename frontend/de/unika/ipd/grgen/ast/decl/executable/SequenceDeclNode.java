@@ -35,7 +35,7 @@ import java.util.ArrayList;
 public class SequenceDeclNode extends DeclNode
 {
 	static {
-		setName(SequenceDeclNode.class, "sequence declaration");
+		setClassName(SequenceDeclNode.class, "sequence declaration");
 	}
 
 	protected SequenceTypeNode type;

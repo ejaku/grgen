@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class MatchInitNode extends ExprNode
 {
 	static {
-		setName(MatchInitNode.class, "match init");
+		setClassName(MatchInitNode.class, "match init");
 	}
 
 	private IdentNode matchTypeUnresolved;

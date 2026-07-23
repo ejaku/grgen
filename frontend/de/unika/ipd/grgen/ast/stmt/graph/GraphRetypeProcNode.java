@@ -31,7 +31,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class GraphRetypeProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(GraphRetypeProcNode.class, "retype procedure");
+		setClassName(GraphRetypeProcNode.class, "retype procedure");
 	}
 
 	private ExprNode entityExpr;

@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayKeepOneForEachByNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(ArrayKeepOneForEachByNode.class, "array keep one for each by");
+		setClassName(ArrayKeepOneForEachByNode.class, "array keep one for each by");
 	}
 
 	private IdentNode attribute;

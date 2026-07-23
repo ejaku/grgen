@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class VAllocProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(VAllocProcNode.class, "valloc procedure");
+		setClassName(VAllocProcNode.class, "valloc procedure");
 	}
 
 	List<TypeNode> returnTypes;

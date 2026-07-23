@@ -38,7 +38,7 @@ import de.unika.ipd.grgen.ir.type.DefinedMatchType;
 public class TestDeclNode extends ActionDeclNode
 {
 	static {
-		setName(TestDeclNode.class, "test declaration");
+		setClassName(TestDeclNode.class, "test declaration");
 	}
 
 	/** Type for this declaration. */

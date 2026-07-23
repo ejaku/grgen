@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class RuleQueryExprNode extends ExprNode
 {
 	static {
-		setName(RuleQueryExprNode.class, "rule query");
+		setClassName(RuleQueryExprNode.class, "rule query");
 	}
 
 	private CallActionNode callAction;

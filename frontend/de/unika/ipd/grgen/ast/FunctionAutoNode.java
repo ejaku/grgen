@@ -17,7 +17,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class FunctionAutoNode extends BaseNode
 {
 	static {
-		setName(FunctionAutoNode.class, "function auto");
+		setClassName(FunctionAutoNode.class, "function auto");
 	}
 
 	protected String function;

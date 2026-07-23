@@ -33,7 +33,7 @@ import de.unika.ipd.grgen.ir.model.type.InternalTransientObjectType;
 public class InternalTransientObjectTypeNode extends BaseInternalObjectTypeNode
 {
 	static {
-		setName(InternalTransientObjectTypeNode.class, "internal transient object type");
+		setClassName(InternalTransientObjectTypeNode.class, "internal transient object type");
 	}
 
 	public static InternalTransientObjectTypeNode internalTransientObjectType;

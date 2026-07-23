@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class FromIndexAccessFromToPartExprNode extends FromIndexAccessFromToExprNode
 {
 	static {
-		setName(FromIndexAccessFromToPartExprNode.class, "from index access from to part expr");
+		setClassName(FromIndexAccessFromToPartExprNode.class, "from index access from to part expr");
 	}
 
 	int indexShiftCausedByPartNumber;

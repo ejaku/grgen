@@ -18,7 +18,7 @@ import de.unika.ipd.grgen.ir.type.basic.ObjectType;
 public class NullTypeNode extends BasicTypeNode
 {
 	static {
-		setName(NullTypeNode.class, "null type");
+		setClassName(NullTypeNode.class, "null type");
 	}
 
 	@Override

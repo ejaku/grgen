@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 public abstract class MatchEdgeFromByStorageDeclNode extends EdgeDeclNode
 {
 	static {
-		setName(MatchEdgeFromByStorageDeclNode.class, "match edge from by storage decl");
+		setClassName(MatchEdgeFromByStorageDeclNode.class, "match edge from by storage decl");
 	}
 
 	protected BaseNode storageUnresolved;

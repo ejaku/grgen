@@ -33,7 +33,7 @@ import de.unika.ipd.grgen.ir.pattern.Variable;
 public class MatchEdgeByStorageAccessDeclNode extends MatchEdgeFromByStorageDeclNode
 {
 	static {
-		setName(MatchEdgeByStorageAccessDeclNode.class, "match edge by storage access decl");
+		setClassName(MatchEdgeByStorageAccessDeclNode.class, "match edge by storage access decl");
 	}
 
 	private IdentExprNode accessorUnresolved;

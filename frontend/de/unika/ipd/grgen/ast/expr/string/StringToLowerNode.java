@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class StringToLowerNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(StringToLowerNode.class, "string toLower");
+		setClassName(StringToLowerNode.class, "string toLower");
 	}
 
 	private ExprNode stringExpr;

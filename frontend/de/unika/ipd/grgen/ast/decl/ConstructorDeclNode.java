@@ -32,7 +32,7 @@ import de.unika.ipd.grgen.ir.IR;
 public class ConstructorDeclNode extends DeclNode
 {
 	static {
-		setName(ConstructorDeclNode.class, "constructor declaration");
+		setClassName(ConstructorDeclNode.class, "constructor declaration");
 	}
 
 	private static final TypeNode constructorType = new ConstructorTypeNode();

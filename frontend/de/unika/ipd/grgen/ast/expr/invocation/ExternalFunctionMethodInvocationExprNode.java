@@ -33,7 +33,7 @@ import de.unika.ipd.grgen.ir.type.Type;
 public class ExternalFunctionMethodInvocationExprNode extends FunctionInvocationBaseNode
 {
 	static {
-		setName(ExternalFunctionMethodInvocationExprNode.class, "external function method invocation expression");
+		setClassName(ExternalFunctionMethodInvocationExprNode.class, "external function method invocation expression");
 	}
 
 	private ExprNode owner;

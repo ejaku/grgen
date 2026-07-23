@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArraySubarrayNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(ArraySubarrayNode.class, "array subarray");
+		setClassName(ArraySubarrayNode.class, "array subarray");
 	}
 
 	private ExprNode startExpr;

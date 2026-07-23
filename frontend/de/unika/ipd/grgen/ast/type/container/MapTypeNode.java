@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.ir.type.container.MapType;
 public class MapTypeNode extends ContainerTypeNode
 {
 	static {
-		setName(MapTypeNode.class, "map type");
+		setClassName(MapTypeNode.class, "map type");
 	}
 
 	@Override

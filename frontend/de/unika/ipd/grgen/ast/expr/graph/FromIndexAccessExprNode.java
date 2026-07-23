@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class FromIndexAccessExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(FromIndexAccessExprNode.class, "from index access expr");
+		setClassName(FromIndexAccessExprNode.class, "from index access expr");
 	}
 
 	protected BaseNode indexUnresolved;

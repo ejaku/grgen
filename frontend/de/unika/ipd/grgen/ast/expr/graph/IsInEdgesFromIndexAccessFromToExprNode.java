@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class IsInEdgesFromIndexAccessFromToExprNode extends FromIndexAccessFromToExprNode
 {
 	static {
-		setName(IsInEdgesFromIndexAccessFromToExprNode.class, "is in edges from index access from to expr");
+		setClassName(IsInEdgesFromIndexAccessFromToExprNode.class, "is in edges from index access from to expr");
 	}
 
 	private ExprNode candidateExpr;

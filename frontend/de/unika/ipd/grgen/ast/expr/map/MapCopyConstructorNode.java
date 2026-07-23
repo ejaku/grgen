@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class MapCopyConstructorNode extends ExprNode
 {
 	static {
-		setName(MapCopyConstructorNode.class, "map copy constructor");
+		setClassName(MapCopyConstructorNode.class, "map copy constructor");
 	}
 
 	private MapTypeNode mapType;

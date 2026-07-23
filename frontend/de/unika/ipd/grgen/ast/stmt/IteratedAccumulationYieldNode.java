@@ -35,7 +35,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class IteratedAccumulationYieldNode extends NestingStatementNode
 {
 	static {
-		setName(IteratedAccumulationYieldNode.class, "IteratedAccumulationYield");
+		setClassName(IteratedAccumulationYieldNode.class, "IteratedAccumulationYield");
 	}
 
 	VarDeclNode iterationVariableUnresolved;

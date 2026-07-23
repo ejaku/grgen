@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class MinMaxNodeFromIndexExprNode extends FromIndexAccessExprNode
 {
 	static {
-		setName(MinMaxNodeFromIndexExprNode.class, "min/max node from index expr");
+		setClassName(MinMaxNodeFromIndexExprNode.class, "min/max node from index expr");
 	}
 
 	boolean isMin;

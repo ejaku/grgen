@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class SourceExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(SourceExprNode.class, "source expr");
+		setClassName(SourceExprNode.class, "source expr");
 	}
 
 	private ExprNode edge;

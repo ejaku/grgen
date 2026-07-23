@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ast.type.basic.BasicTypeNode;
 public class AbstractMemberDeclNode extends MemberDeclNode
 {
 	static {
-		setName(AbstractMemberDeclNode.class, "abstract member declaration");
+		setClassName(AbstractMemberDeclNode.class, "abstract member declaration");
 	}
 
 	/**

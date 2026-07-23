@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class DequeProcedureMethodInvocationBaseNode extends ContainerProcedureMethodInvocationBaseNode
 {
 	static {
-		setName(DequeProcedureMethodInvocationBaseNode.class, "deque procedure method invocation base");
+		setClassName(DequeProcedureMethodInvocationBaseNode.class, "deque procedure method invocation base");
 	}
 
 	protected DequeProcedureMethodInvocationBaseNode(Coords coords, QualIdentNode target)

@@ -46,7 +46,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class CompoundAssignNode extends EvalStatementNode
 {
 	static {
-		setName(CompoundAssignNode.class, "compound assign statement");
+		setClassName(CompoundAssignNode.class, "compound assign statement");
 	}
 
 	public enum CompoundAssignmentType

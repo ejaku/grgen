@@ -40,7 +40,7 @@ import de.unika.ipd.grgen.ir.IR;
 public class EdgeDeclNode extends ConstraintDeclNode
 {
 	static {
-		setName(EdgeDeclNode.class, "edge declaration");
+		setClassName(EdgeDeclNode.class, "edge");
 	}
 
 	protected EdgeDeclNode typeEdgeDecl = null;
@@ -53,7 +53,6 @@ public class EdgeDeclNode extends ConstraintDeclNode
 			PatternGraphLhsNode directlyNestingLHSGraph, boolean maybeNull, boolean defEntityToBeYieldedTo)
 	{
 		super(id, type, copyKind, context, constraints, directlyNestingLHSGraph, maybeNull, defEntityToBeYieldedTo);
-		setName("edge");
 	}
 
 	public EdgeDeclNode(IdentNode id, BaseNode type, CopyKind copyKind, int context, TypeExprNode constraints,

@@ -25,7 +25,7 @@ public class ConstructorTypeNode extends TypeNode
 	static List<BaseNode> emptyChildren = new ArrayList<BaseNode>();
 	static List<String> emptyChildrenNames = new ArrayList<String>();
 	static {
-		setName(ConstructorTypeNode.class, "constructor type");
+		setClassName(ConstructorTypeNode.class, "constructor type");
 	}
 
 	/** returns children of this node */

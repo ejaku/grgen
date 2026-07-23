@@ -31,7 +31,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 public abstract class BaseInternalObjectTypeNode extends InheritanceTypeNode
 {
 	static {
-		setName(BaseInternalObjectTypeNode.class, "base internal object type");
+		setClassName(BaseInternalObjectTypeNode.class, "base internal object type");
 	}
 
 	/**

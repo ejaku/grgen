@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class FilterInvocationLambdaExpressionNode extends FilterInvocationBaseNode
 {
 	static {
-		setName(FilterInvocationLambdaExpressionNode.class, "filter invocation lambda expression");
+		setClassName(FilterInvocationLambdaExpressionNode.class, "filter invocation lambda expression");
 	}
 
 	String filterName;

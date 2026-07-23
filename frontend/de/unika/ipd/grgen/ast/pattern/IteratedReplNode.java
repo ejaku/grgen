@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.ir.pattern.IteratedReplacement;
 public class IteratedReplNode extends OrderedReplacementNode
 {
 	static {
-		setName(IteratedReplNode.class, "iterated repl node");
+		setClassName(IteratedReplNode.class, "iterated repl node");
 	}
 
 	private IdentNode iteratedUnresolved;

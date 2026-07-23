@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ExportProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(ExportProcNode.class, "export procedure");
+		setClassName(ExportProcNode.class, "export procedure");
 	}
 
 	private ExprNode pathExpr;

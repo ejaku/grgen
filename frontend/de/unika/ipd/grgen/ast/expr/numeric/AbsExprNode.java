@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class AbsExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(AbsExprNode.class, "abs expr");
+		setClassName(AbsExprNode.class, "abs expr");
 	}
 
 	private ExprNode argumentExpr;

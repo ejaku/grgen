@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class StartTransactionProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(StartTransactionProcNode.class, "start transaction procedure");
+		setClassName(StartTransactionProcNode.class, "start transaction procedure");
 	}
 
 	List<TypeNode> returnTypes;

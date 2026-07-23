@@ -32,7 +32,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayInitNode extends ContainerSingleElementInitNode
 {
 	static {
-		setName(ArrayInitNode.class, "array init");
+		setClassName(ArrayInitNode.class, "array init");
 	}
 
 	// if array init node is used in model, for member init

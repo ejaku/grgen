@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ir.type.basic.ObjectType;
 public class ObjectTypeNode extends BasicTypeNode
 {
 	static {
-		setName(ObjectTypeNode.class, "object type");
+		setClassName(ObjectTypeNode.class, "object type");
 	}
 
 	/**

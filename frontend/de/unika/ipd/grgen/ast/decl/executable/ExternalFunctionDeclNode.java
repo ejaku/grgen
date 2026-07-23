@@ -31,7 +31,7 @@ import java.util.ArrayList;
 public class ExternalFunctionDeclNode extends FunctionDeclBaseNode
 {
 	static {
-		setName(ExternalFunctionDeclNode.class, "external function declaration");
+		setClassName(ExternalFunctionDeclNode.class, "external function declaration");
 	}
 
 	protected CollectNode<BaseNode> parameterTypesUnresolved;

@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.ir.pattern.Node;
 public class NodeInterfaceTypeChangeDeclNode extends NodeDeclNode
 {
 	static {
-		setName(NodeInterfaceTypeChangeDeclNode.class, "node interface type change decl");
+		setClassName(NodeInterfaceTypeChangeDeclNode.class, "node interface type change decl");
 	}
 
 	private IdentNode interfaceTypeUnresolved;

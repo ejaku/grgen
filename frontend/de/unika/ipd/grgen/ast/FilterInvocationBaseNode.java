@@ -18,7 +18,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class FilterInvocationBaseNode extends BaseNode
 {
 	static {
-		setName(FilterInvocationBaseNode.class, "filter invocation base");
+		setClassName(FilterInvocationBaseNode.class, "filter invocation base");
 	}
 
 	protected IdentNode iteratedUnresolved;

@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.parser.Symbol;
 public class PackageIdentNode extends IdentNode
 {
 	static {
-		setName(PackageIdentNode.class, "package identifier");
+		setClassName(PackageIdentNode.class, "package identifier");
 	}
 
 	/** Occurrence of the package identifier owning the base identifier. */

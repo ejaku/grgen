@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.ir.pattern.Edge;
 public class EdgeInterfaceTypeChangeDeclNode extends EdgeDeclNode
 {
 	static {
-		setName(EdgeInterfaceTypeChangeDeclNode.class, "edge interface type change decl");
+		setClassName(EdgeInterfaceTypeChangeDeclNode.class, "edge interface type change decl");
 	}
 
 	private IdentNode interfaceTypeUnresolved;

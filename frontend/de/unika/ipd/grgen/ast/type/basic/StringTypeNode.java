@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.type.basic.StringType;
 public class StringTypeNode extends BasicTypeNode
 {
 	static {
-		setName(StringTypeNode.class, "string type");
+		setClassName(StringTypeNode.class, "string type");
 	}
 
 	@Override

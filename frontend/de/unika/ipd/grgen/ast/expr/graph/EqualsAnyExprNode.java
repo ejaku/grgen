@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class EqualsAnyExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(EqualsAnyExprNode.class, "equals any expr");
+		setClassName(EqualsAnyExprNode.class, "equals any expr");
 	}
 
 	private ExprNode subgraphExpr;

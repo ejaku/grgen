@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class GraphAddCopyNodeProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(GraphAddCopyNodeProcNode.class, "graph add copy node procedure");
+		setClassName(GraphAddCopyNodeProcNode.class, "graph add copy node procedure");
 	}
 
 	private ExprNode oldNode;

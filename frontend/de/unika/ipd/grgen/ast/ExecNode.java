@@ -55,7 +55,7 @@ import de.unika.ipd.grgen.parser.Symbol;
 public class ExecNode extends BaseNode
 {
 	static {
-		setName(ExecNode.class, "exec");
+		setClassName(ExecNode.class, "exec");
 	}
 
 	private static final CollectQuadrupleResolver<ExecVarDeclNode, NodeDeclNode, EdgeDeclNode, VarDeclNode> graphElementUsageOutsideOfCallResolver =

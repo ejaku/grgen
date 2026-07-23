@@ -43,7 +43,7 @@ import de.unika.ipd.grgen.ir.pattern.Node;
 public class NodeDeclNode extends ConstraintDeclNode
 {
 	static {
-		setName(NodeDeclNode.class, "node");
+		setClassName(NodeDeclNode.class, "node");
 	}
 
 	protected NodeDeclNode typeNodeDecl = null;

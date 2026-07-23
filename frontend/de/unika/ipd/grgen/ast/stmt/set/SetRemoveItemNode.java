@@ -33,7 +33,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class SetRemoveItemNode extends SetProcedureMethodInvocationBaseNode
 {
 	static {
-		setName(SetRemoveItemNode.class, "set remove item statement");
+		setClassName(SetRemoveItemNode.class, "set remove item statement");
 	}
 
 	private ExprNode valueExpr;

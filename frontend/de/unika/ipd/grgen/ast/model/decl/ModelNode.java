@@ -51,7 +51,7 @@ import de.unika.ipd.grgen.ir.model.type.PackageType;
 public class ModelNode extends DeclNode
 {
 	static {
-		setName(ModelNode.class, "model declaration");
+		setClassName(ModelNode.class, "model declaration");
 	}
 
 	private static final TypeNode modelType = new ModelTypeNode();

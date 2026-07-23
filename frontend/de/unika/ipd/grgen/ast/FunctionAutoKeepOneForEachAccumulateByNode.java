@@ -33,7 +33,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class FunctionAutoKeepOneForEachAccumulateByNode extends FunctionAutoNode
 {
 	static {
-		setName(FunctionAutoKeepOneForEachAccumulateByNode.class, "auto keep one for each accumulate by");
+		setClassName(FunctionAutoKeepOneForEachAccumulateByNode.class, "auto keep one for each accumulate by");
 	}
 
 	private IdentNode target;

@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 public class ProcedureTypeNode extends TypeNode
 {
 	static {
-		setName(ProcedureTypeNode.class, "procedure type");
+		setClassName(ProcedureTypeNode.class, "procedure type");
 	}
 
 	/** returns children of this node */

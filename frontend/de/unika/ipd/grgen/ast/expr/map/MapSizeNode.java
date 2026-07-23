@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class MapSizeNode extends MapFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(MapSizeNode.class, "map size expression");
+		setClassName(MapSizeNode.class, "map size expression");
 	}
 
 	public MapSizeNode(Coords coords, ExprNode targetExpr)

@@ -34,7 +34,7 @@ import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
 public class SubpatternUsageDeclNode extends DeclNode
 {
 	static {
-		setName(SubpatternUsageDeclNode.class, "subpattern node");
+		setClassName(SubpatternUsageDeclNode.class, "subpattern node");
 	}
 
 	private CollectNode<ExprNode> connections;

@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class MapDomainNode extends MapFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(MapSizeNode.class, "map domain expression");
+		setClassName(MapSizeNode.class, "map domain expression");
 	}
 
 	private SetTypeNode setTypeNode;

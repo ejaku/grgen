@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class SetProcedureMethodInvocationBaseNode extends ContainerProcedureMethodInvocationBaseNode
 {
 	static {
-		setName(SetProcedureMethodInvocationBaseNode.class, "set procedure method invocation base");
+		setClassName(SetProcedureMethodInvocationBaseNode.class, "set procedure method invocation base");
 	}
 
 	protected SetProcedureMethodInvocationBaseNode(Coords coords, QualIdentNode target)

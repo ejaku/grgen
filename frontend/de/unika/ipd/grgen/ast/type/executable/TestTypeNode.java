@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 public class TestTypeNode extends TypeNode
 {
 	static {
-		setName(TestTypeNode.class, "test type");
+		setClassName(TestTypeNode.class, "test type");
 	}
 
 	/** returns children of this node */

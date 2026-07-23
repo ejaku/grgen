@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class FloatMinExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(FloatMinExprNode.class, "floatmin expr");
+		setClassName(FloatMinExprNode.class, "floatmin expr");
 	}
 
 	public FloatMinExprNode(Coords coords)

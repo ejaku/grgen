@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class SynchronizationExitProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(SynchronizationExitProcNode.class, "synchronization exit procedure");
+		setClassName(SynchronizationExitProcNode.class, "synchronization exit procedure");
 	}
 
 	private ExprNode criticalSectionObjectExpr;

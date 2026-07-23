@@ -47,7 +47,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArithmeticOperatorNode extends OperatorNode
 {
 	static {
-		setName(ArithmeticOperatorNode.class, "arithmetic operator");
+		setClassName(ArithmeticOperatorNode.class, "arithmetic operator");
 	}
 
 	/** maps an operator to an IR opcode, filled with code beyond */

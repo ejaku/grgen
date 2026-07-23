@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 public class InvalidDeclNode extends DeclNode
 {
 	static {
-		setName(InvalidDeclNode.class, "invalid declaration");
+		setClassName(InvalidDeclNode.class, "invalid declaration");
 	}
 
 	private ErrorTypeNode type;

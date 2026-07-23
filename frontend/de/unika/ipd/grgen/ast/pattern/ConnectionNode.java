@@ -38,7 +38,7 @@ import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
 public class ConnectionNode extends ConnectionCharacter
 {
 	static {
-		setName(ConnectionNode.class, "connection");
+		setClassName(ConnectionNode.class, "connection");
 	}
 
 	private ConnectionKind connectionKind;

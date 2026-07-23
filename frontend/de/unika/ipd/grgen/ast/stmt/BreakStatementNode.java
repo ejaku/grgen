@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class BreakStatementNode extends EvalStatementNode
 {
 	static {
-		setName(BreakStatementNode.class, "BreakStatement");
+		setClassName(BreakStatementNode.class, "BreakStatement");
 	}
 
 	public BreakStatementNode(Coords coords)

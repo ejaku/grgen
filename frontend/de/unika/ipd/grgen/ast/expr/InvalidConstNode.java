@@ -13,7 +13,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class InvalidConstNode extends ConstNode
 {
 	static {
-		setName(InvalidConstNode.class, "invalid const");
+		setClassName(InvalidConstNode.class, "invalid const");
 	}
 
 	public InvalidConstNode(Coords coords, String name, Object value)

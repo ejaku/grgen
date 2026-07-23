@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArraySumNode extends ArrayAccumulationMethodNode
 {
 	static {
-		setName(ArraySumNode.class, "array sum");
+		setClassName(ArraySumNode.class, "array sum");
 	}
 
 	public ArraySumNode(Coords coords, ExprNode targetExpr)

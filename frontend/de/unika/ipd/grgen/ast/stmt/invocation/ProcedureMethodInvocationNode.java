@@ -38,7 +38,7 @@ import de.unika.ipd.grgen.ir.type.Type;
 public class ProcedureMethodInvocationNode extends ProcedureInvocationBaseNode
 {
 	static {
-		setName(ProcedureMethodInvocationNode.class, "procedure method invocation");
+		setClassName(ProcedureMethodInvocationNode.class, "procedure method invocation");
 	}
 
 	private IdentNode ownerUnresolved;

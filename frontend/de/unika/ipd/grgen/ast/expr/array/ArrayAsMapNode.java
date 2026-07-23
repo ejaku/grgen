@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayAsMapNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(ArrayAsMapNode.class, "array as map expression");
+		setClassName(ArrayAsMapNode.class, "array as map expression");
 	}
 
 	private MapTypeNode mapTypeNode;

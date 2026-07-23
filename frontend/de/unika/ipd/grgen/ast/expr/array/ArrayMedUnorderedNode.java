@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayMedUnorderedNode extends ArrayAccumulationMethodNode
 {
 	static {
-		setName(ArrayMedUnorderedNode.class, "array med unordered");
+		setClassName(ArrayMedUnorderedNode.class, "array med unordered");
 	}
 
 	public ArrayMedUnorderedNode(Coords coords, ExprNode targetExpr)

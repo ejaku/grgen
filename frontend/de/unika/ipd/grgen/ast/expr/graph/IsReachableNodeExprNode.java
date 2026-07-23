@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.util.Direction;
 public class IsReachableNodeExprNode extends IsInNodeNeighborhoodQueryExprNode
 {
 	static {
-		setName(IsReachableNodeExprNode.class, "is reachable node expr");
+		setClassName(IsReachableNodeExprNode.class, "is reachable node expr");
 	}
 
 	public IsReachableNodeExprNode(Coords coords,

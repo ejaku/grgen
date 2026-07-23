@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayShuffleNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(ArrayShuffleNode.class, "array shuffle");
+		setClassName(ArrayShuffleNode.class, "array shuffle");
 	}
 
 	public ArrayShuffleNode(Coords coords, ExprNode targetExpr)

@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class CanonizeExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(CanonizeExprNode.class, "canonize expr");
+		setClassName(CanonizeExprNode.class, "canonize expr");
 	}
 
 	private ExprNode graphExpr;

@@ -22,7 +22,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class EExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(EExprNode.class, "e expr");
+		setClassName(EExprNode.class, "e expr");
 	}
 
 	public EExprNode(Coords coords)

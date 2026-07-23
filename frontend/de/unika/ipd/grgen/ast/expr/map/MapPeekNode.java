@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class MapPeekNode extends MapFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(MapPeekNode.class, "map peek");
+		setClassName(MapPeekNode.class, "map peek");
 	}
 
 	private ExprNode numberExpr;

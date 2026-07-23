@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class FromIndexAccessMultipleFromToExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(FromIndexAccessMultipleFromToExprNode.class, "from index access multiple from to expr");
+		setClassName(FromIndexAccessMultipleFromToExprNode.class, "from index access multiple from to expr");
 	}
 
 	protected CollectNode<FromIndexAccessFromToPartExprNode> indexAccessExprs = new CollectNode<FromIndexAccessFromToPartExprNode>();

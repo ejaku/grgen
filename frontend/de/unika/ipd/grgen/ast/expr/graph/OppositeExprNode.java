@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class OppositeExprNode extends BuiltinFunctionInvocationBaseNode
 {
 	static {
-		setName(OppositeExprNode.class, "opposite expr");
+		setClassName(OppositeExprNode.class, "opposite expr");
 	}
 
 	private ExprNode edge;

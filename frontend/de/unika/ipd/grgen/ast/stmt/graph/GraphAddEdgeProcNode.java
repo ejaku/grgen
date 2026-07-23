@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class GraphAddEdgeProcNode extends BuiltinProcedureInvocationBaseNode
 {
 	static {
-		setName(GraphAddEdgeProcNode.class, "graph add edge procedure");
+		setClassName(GraphAddEdgeProcNode.class, "graph add edge procedure");
 	}
 
 	private ExprNode edgeType;

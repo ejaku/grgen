@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class NodesFromIndexAccessFromToAsArrayExprNode extends FromIndexAccessFromToExprNode
 {
 	static {
-		setName(NodesFromIndexAccessFromToAsArrayExprNode.class, "nodes from index access from to as array expr");
+		setClassName(NodesFromIndexAccessFromToAsArrayExprNode.class, "nodes from index access from to as array expr");
 	}
 
 	private ArrayTypeNode arrayTypeNode;

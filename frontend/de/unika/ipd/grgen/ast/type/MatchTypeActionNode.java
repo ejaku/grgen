@@ -39,7 +39,7 @@ import de.unika.ipd.grgen.parser.Symbol.Occurrence;
 public class MatchTypeActionNode extends MatchTypeNode
 {
 	static {
-		setName(MatchTypeActionNode.class, "match type action");
+		setClassName(MatchTypeActionNode.class, "match type action");
 	}
 
 	private IdentNode actionUnresolved;

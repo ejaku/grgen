@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ir.model.type.EdgeType;
 public class DirectedEdgeTypeNode extends EdgeTypeNode
 {
 	static {
-		setName(DirectedEdgeTypeNode.class, "directed edge type");
+		setClassName(DirectedEdgeTypeNode.class, "directed edge type");
 	}
 
 	/**

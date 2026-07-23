@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class SetMinNode extends SetFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(SetMinNode.class, "set min");
+		setClassName(SetMinNode.class, "set min");
 	}
 
 	public SetMinNode(Coords coords, ExprNode targetExpr)

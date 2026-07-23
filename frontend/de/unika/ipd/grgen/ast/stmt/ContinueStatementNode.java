@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ContinueStatementNode extends EvalStatementNode
 {
 	static {
-		setName(ContinueStatementNode.class, "ContinueStatement");
+		setClassName(ContinueStatementNode.class, "ContinueStatement");
 	}
 
 	public ContinueStatementNode(Coords coords)

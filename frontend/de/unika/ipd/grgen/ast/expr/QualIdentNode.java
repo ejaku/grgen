@@ -37,7 +37,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class QualIdentNode extends BaseNode implements DeclaredCharacter
 {
 	static {
-		setName(QualIdentNode.class, "Qualification");
+		setClassName(QualIdentNode.class, "Qualification");
 	}
 
 	protected IdentNode ownerUnresolved;

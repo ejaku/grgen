@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 public class AttributeIndexTypeNode extends TypeNode
 {
 	static {
-		setName(AttributeIndexTypeNode.class, "attribute index type");
+		setClassName(AttributeIndexTypeNode.class, "attribute index type");
 	}
 
 	/** returns children of this node */

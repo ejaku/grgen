@@ -60,7 +60,7 @@ import de.unika.ipd.grgen.parser.SymbolTable;
 public class PatternGraphLhsNode extends PatternGraphBaseNode
 {
 	static {
-		setName(PatternGraphLhsNode.class, "pattern graph lhs");
+		setClassName(PatternGraphLhsNode.class, "pattern graph lhs");
 	}
 
 	public static final int MOD_DANGLING = 1; // dangling+identification=dpo

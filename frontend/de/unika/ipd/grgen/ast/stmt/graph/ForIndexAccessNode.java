@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class ForIndexAccessNode extends ForGraphQueryNode
 {
 	static {
-		setName(ForIndexAccessNode.class, "for index access loop");
+		setClassName(ForIndexAccessNode.class, "for index access loop");
 	}
 
 	protected IdentNode indexUnresolved;

@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.ir.pattern.UniqueLookup;
 public class MatchEdgeByUniqueLookupDeclNode extends EdgeDeclNode
 {
 	static {
-		setName(MatchEdgeByUniqueLookupDeclNode.class, "match edge by unique lookup decl");
+		setClassName(MatchEdgeByUniqueLookupDeclNode.class, "match edge by unique lookup decl");
 	}
 
 	private ExprNode expr;

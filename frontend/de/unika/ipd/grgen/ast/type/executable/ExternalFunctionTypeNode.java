@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 public class ExternalFunctionTypeNode extends TypeNode
 {
 	static {
-		setName(ExternalFunctionTypeNode.class, "external function type");
+		setClassName(ExternalFunctionTypeNode.class, "external function type");
 	}
 
 	/** returns children of this node */

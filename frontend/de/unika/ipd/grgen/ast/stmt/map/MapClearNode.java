@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class MapClearNode extends MapProcedureMethodInvocationBaseNode
 {
 	static {
-		setName(MapClearNode.class, "map clear statement");
+		setClassName(MapClearNode.class, "map clear statement");
 	}
 
 	public MapClearNode(Coords coords, QualIdentNode target)

@@ -17,7 +17,7 @@ import de.unika.ipd.grgen.ast.type.TypeNode;
 public abstract class ContainerTypeNode extends DeclaredTypeNode
 {
 	static {
-		setName(ContainerTypeNode.class, "container type");
+		setClassName(ContainerTypeNode.class, "container type");
 	}
 	
 	@Override

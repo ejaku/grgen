@@ -34,7 +34,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayIndexOfByNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(ArrayIndexOfByNode.class, "array index of by");
+		setClassName(ArrayIndexOfByNode.class, "array index of by");
 	}
 
 	private IdentNode attribute;

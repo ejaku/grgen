@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class ArrayGroupByNode extends ArrayFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(ArrayGroupByNode.class, "array group by");
+		setClassName(ArrayGroupByNode.class, "array group by");
 	}
 
 	private IdentNode attribute;

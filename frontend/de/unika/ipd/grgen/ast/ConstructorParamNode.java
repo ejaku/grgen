@@ -32,7 +32,7 @@ import de.unika.ipd.grgen.ir.expr.Expression;
 public class ConstructorParamNode extends BaseNode
 {
 	static {
-		setName(ConstructorParamNode.class, "constructor parameter declaration");
+		setClassName(ConstructorParamNode.class, "constructor parameter declaration");
 	}
 
 	private IdentNode lhsUnresolved;

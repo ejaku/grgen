@@ -35,7 +35,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public class MapInitNode extends ContainerInitNode
 {
 	static {
-		setName(MapInitNode.class, "map init");
+		setClassName(MapInitNode.class, "map init");
 	}
 
 	private CollectNode<ExprPairNode> mapItems = new CollectNode<ExprPairNode>();

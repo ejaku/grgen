@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class DequeFunctionMethodInvocationBaseExprNode extends ContainerFunctionMethodInvocationBaseExprNode
 {
 	static {
-		setName(DequeFunctionMethodInvocationBaseExprNode.class,
+		setClassName(DequeFunctionMethodInvocationBaseExprNode.class,
 				"deque function method invocation base expression");
 	}
 

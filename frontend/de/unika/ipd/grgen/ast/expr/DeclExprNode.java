@@ -42,7 +42,7 @@ import de.unika.ipd.grgen.ir.pattern.Variable;
 public class DeclExprNode extends ExprNode
 {
 	static {
-		setName(DeclExprNode.class, "decl expression");
+		setClassName(DeclExprNode.class, "decl expression");
 	}
 
 	public BaseNode declUnresolved; // either EnumExprNode if constructed locally, or IdentNode if constructed from IdentExprNode

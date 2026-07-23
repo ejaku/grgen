@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.ir.expr.Constant;
 public class IdentExprNode extends DeclExprNode
 {
 	static {
-		setName(IdentExprNode.class, "ident expression");
+		setClassName(IdentExprNode.class, "ident expression");
 	}
 
 	public boolean yieldedTo = false;

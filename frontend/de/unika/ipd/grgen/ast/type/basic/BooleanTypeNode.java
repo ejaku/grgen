@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.type.basic.BooleanType;
 public class BooleanTypeNode extends BasicTypeNode
 {
 	static {
-		setName(BooleanTypeNode.class, "boolean type");
+		setClassName(BooleanTypeNode.class, "boolean type");
 	}
 
 	@Override
