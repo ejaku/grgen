@@ -261,7 +261,7 @@ public class EdgeDeclNode extends ConstraintDeclNode
 		Edge edge = new Edge(ident.getIRIdent(), et, ident.getAnnotations(),
 				directlyNestingLHSGraph!=null ? directlyNestingLHSGraph.getIRPatternGraphLhs() : null,
 				isMaybeDeleted(), isMaybeRetyped(), defEntityToBeYieldedTo, context);
-		edge.setConstraints(getIRConstraints());
+		edge.setConstraints(getIRConstraints().evaluate());
 
 		if(edge.getConstraints().contains(edge.getType())) { // TODO: supertype? only subtypes allowed
 			reportError("The own edge type may not be contained in the type constraint list"

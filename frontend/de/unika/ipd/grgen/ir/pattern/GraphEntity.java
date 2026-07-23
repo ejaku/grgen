@@ -19,7 +19,6 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.expr.Expression;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
-import de.unika.ipd.grgen.ir.type.TypeExpr;
 import de.unika.ipd.grgen.util.Annotations;
 
 /**
@@ -109,9 +108,14 @@ public abstract class GraphEntity extends Entity
 	}
 
 	/** Sets the type constraints for this entity */
-	public void setConstraints(TypeExpr expr)
+	public void setConstraints(Collection<InheritanceType> constraints)
 	{
-		this.constraints = expr.evaluate();
+		this.constraints = constraints;
+	}
+
+	public final Collection<InheritanceType> getConstraints()
+	{
+		return Collections.unmodifiableCollection(constraints);
 	}
 
 	/** @return The annotations. */
@@ -289,11 +293,6 @@ public abstract class GraphEntity extends Entity
 	public int getDependencyLevel()
 	{
 		return dependencyLevel;
-	}
-
-	public final Collection<InheritanceType> getConstraints()
-	{
-		return Collections.unmodifiableCollection(constraints);
 	}
 
 	@Override

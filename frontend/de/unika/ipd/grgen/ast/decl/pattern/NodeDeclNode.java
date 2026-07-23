@@ -260,7 +260,7 @@ public class NodeDeclNode extends ConstraintDeclNode
 		Node node = new Node(ident.getIRIdent(), nt, ident.getAnnotations(),
 				directlyNestingLHSGraph != null ? directlyNestingLHSGraph.getIRPatternGraphLhs() : null,
 				isMaybeDeleted(), isMaybeRetyped(), defEntityToBeYieldedTo, context);
-		node.setConstraints(getIRConstraints());
+		node.setConstraints(getIRConstraints().evaluate());
 
 		if(node.getConstraints().contains(node.getType())) { // TODO: supertype? only subtypes allowed
 			reportError("The own node type may not be contained in the type constraint list"
