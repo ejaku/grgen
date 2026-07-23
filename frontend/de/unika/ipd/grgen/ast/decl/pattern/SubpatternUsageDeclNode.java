@@ -290,12 +290,12 @@ public class SubpatternUsageDeclNode extends DeclNode
 	{
 		List<Expression> subpatternConnections = new ArrayList<Expression>();
 		List<Expression> subpatternYields = new ArrayList<Expression>();
-		for(ExprNode e : connections.getChildrenExact()) {
-			e = e.evaluate();
-			if(e instanceof IdentExprNode && ((IdentExprNode)e).yieldedTo)
-				subpatternYields.add(e.checkIR(Expression.class));
+		for(ExprNode connection : connections.getChildrenExact()) {
+			ExprNode connectionEvaluated = connection.evaluate();
+			if(connectionEvaluated instanceof IdentExprNode && ((IdentExprNode)connectionEvaluated).yieldedTo)
+				subpatternYields.add(connectionEvaluated.checkIR(Expression.class));
 			else
-				subpatternConnections.add(e.checkIR(Expression.class));
+				subpatternConnections.add(connectionEvaluated.checkIR(Expression.class));
 		}
 		return new SubpatternUsage("subpattern", getIdent().getIRIdent(), type.checkIR(Rule.class),
 				subpatternConnections, subpatternYields);
