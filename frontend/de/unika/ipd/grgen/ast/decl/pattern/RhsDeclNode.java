@@ -147,7 +147,7 @@ public abstract class RhsDeclNode extends DeclNode
 		// edges of deleted nodes are deleted, too --> add them
 		Set<ConnectionNode> connections = getConnectionsNotDeleted(pattern);
 		for(ConnectionNode connection : connections) {
-			if(sourceOrTargetNodeIncluded(connection.getEdge(), pattern, maybeDeletedNodes)) {
+			if(sourceOrTargetNodeIncluded(connection.getEdge(), pattern, new HashSet<DeclNode>(maybeDeletedNodes))) {
 				edgesResultingFromMaybeDeletedNodes.add(connection.getEdge());
 			}
 		}
@@ -371,8 +371,8 @@ public abstract class RhsDeclNode extends DeclNode
 	protected abstract Set<NodeDeclNode> getNodesToReuseImpl(PatternGraphLhsNode pattern);
 
 
-	private static boolean sourceOrTargetNodeIncluded(EdgeDeclNode edge, PatternGraphLhsNode pattern,
-			Collection<ConstraintDeclNode> collection)
+	protected static boolean sourceOrTargetNodeIncluded(EdgeDeclNode edge, PatternGraphLhsNode pattern,
+			Collection<DeclNode> collection)
 	{
 		for(ConnectionCharacter connectionCharacter : pattern.getConnections()) {
 			if(connectionCharacter instanceof ConnectionNode) {
