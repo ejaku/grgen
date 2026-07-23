@@ -75,7 +75,7 @@ public class ArrayLastIndexOfNode extends ArrayFunctionMethodInvocationBaseExprN
 	{
 		// target type already checked during resolving into this node
 		TypeNode valueType = valueExpr.getType();
-		ArrayTypeNode arrayType = getTargetType();
+		ArrayTypeNode arrayType = getTargetTypeExact();
 		if(!valueType.isEqual(arrayType.valueType)) {
 			ExprNode valueExprOld = valueExpr;
 			valueExpr = becomeParent(valueExpr.adjustType(arrayType.valueType, getCoords()));

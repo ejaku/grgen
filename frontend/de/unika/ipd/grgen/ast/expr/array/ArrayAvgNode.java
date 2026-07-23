@@ -35,7 +35,7 @@ public class ArrayAvgNode extends ArrayAccumulationMethodNode
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = getTargetType();
+		ArrayTypeNode arrayType = getTargetTypeExact();
 		if(!arrayType.valueType.isAccumulatableType()) {
 			targetExpr.reportError("The array function method avg can only be employed on an object of type array<" + TypeNode.getAccumulatableTypesAsString() +">"
 					+ " (but is employed on an object of type " + arrayType.getTypeName() + ").");

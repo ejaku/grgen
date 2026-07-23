@@ -75,7 +75,7 @@ public class DequeLastIndexOfNode extends DequeFunctionMethodInvocationBaseExprN
 	{
 		// target type already checked during resolving into this node
 		TypeNode valueType = valueExpr.getType();
-		DequeTypeNode dequeType = getTargetType();
+		DequeTypeNode dequeType = getTargetTypeExact();
 		if(!valueType.isEqual(dequeType.valueType)) {
 			ExprNode valueExprOld = valueExpr;
 			valueExpr = becomeParent(valueExpr.adjustType(dequeType.valueType, getCoords()));

@@ -36,7 +36,7 @@ public class MapDomainNode extends MapFunctionMethodInvocationBaseExprNode
 	protected boolean resolveLocal()
 	{
 		// target type already checked during resolving into this node
-		setTypeNode = new SetTypeNode(getTargetType().keyTypeUnresolved);
+		setTypeNode = new SetTypeNode(getTargetTypeExact().keyTypeUnresolved);
 		return setTypeNode.resolve();
 	}
 

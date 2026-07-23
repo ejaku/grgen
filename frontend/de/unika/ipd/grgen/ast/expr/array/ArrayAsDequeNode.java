@@ -36,7 +36,7 @@ public class ArrayAsDequeNode extends ArrayFunctionMethodInvocationBaseExprNode
 	protected boolean resolveLocal()
 	{
 		// target type already checked during resolving into this node
-		dequeTypeNode = new DequeTypeNode(getTargetType().valueTypeUnresolved);
+		dequeTypeNode = new DequeTypeNode(getTargetTypeExact().valueTypeUnresolved);
 		return dequeTypeNode.resolve();
 	}
 

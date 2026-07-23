@@ -32,13 +32,12 @@ public abstract class MapFunctionMethodInvocationBaseExprNode extends ContainerF
 	{
 		super(coords, targetExpr);
 	}
-	
-	@Override
-	protected MapTypeNode getTargetType()
+
+	protected MapTypeNode getTargetTypeExact()
 	{
-		return (MapTypeNode)super.getTargetType();
+		return (MapTypeNode)getTargetType();
 	}
-	
+
 	@Override
 	public Collection<BaseNode> getChildren()
 	{

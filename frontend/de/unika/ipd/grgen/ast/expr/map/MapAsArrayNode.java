@@ -38,14 +38,14 @@ public class MapAsArrayNode extends MapFunctionMethodInvocationBaseExprNode
 	protected boolean resolveLocal()
 	{
 		// target type already checked during resolving into this node
-		arrayTypeNode = new ArrayTypeNode(getTargetType().valueTypeUnresolved);
+		arrayTypeNode = new ArrayTypeNode(getTargetTypeExact().valueTypeUnresolved);
 		return arrayTypeNode.resolve();
 	}
 
 	@Override
 	protected boolean checkLocal()
 	{
-		MapTypeNode targetMapType = getTargetType();
+		MapTypeNode targetMapType = getTargetTypeExact();
 		if(!(targetMapType.keyType instanceof IntTypeNode)) {
 			targetExpr.reportError("The map function method asArray can only be employed on an object of type map<int,T>"
 					+ " (but is employed on an object of type " + targetMapType.getTypeName() + ").");

@@ -44,7 +44,7 @@ public class ArrayKeepOneForEachByNode extends ArrayFunctionMethodInvocationBase
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = getTargetType();
+		ArrayTypeNode arrayType = getTargetTypeExact();
 		if(!(arrayType.valueType instanceof InheritanceTypeNode)
 				&& !(arrayType.valueType instanceof MatchTypeNode)) {
 			targetExpr.reportError("The array function method keepOneForEachBy can only be employed on an object of type array<nodes, edges, class objects, transient class objects, match types, match class types>"

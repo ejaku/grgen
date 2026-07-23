@@ -78,7 +78,7 @@ public class ArrayPeekNode extends ArrayFunctionMethodInvocationBaseExprNode
 	@Override
 	public TypeNode getType()
 	{
-		return getTargetType().valueType;
+		return getTargetTypeExact().valueType;
 	}
 
 	@Override

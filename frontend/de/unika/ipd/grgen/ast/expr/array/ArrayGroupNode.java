@@ -34,7 +34,7 @@ public class ArrayGroupNode extends ArrayFunctionMethodInvocationBaseExprNode
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = getTargetType();
+		ArrayTypeNode arrayType = getTargetTypeExact();
 		if(!(arrayType.valueType.isFilterableType())) {
 			targetExpr.reportError("The array function method group can only be employed on an object of type array<" + TypeNode.getFilterableTypesAsString() + ">"
 					+ " (but is employed on an object of type " + arrayType.getTypeName() + ").");

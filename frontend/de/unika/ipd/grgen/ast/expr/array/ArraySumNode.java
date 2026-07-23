@@ -35,7 +35,7 @@ public class ArraySumNode extends ArrayAccumulationMethodNode
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = getTargetType();
+		ArrayTypeNode arrayType = getTargetTypeExact();
 		if(!arrayType.valueType.isAccumulatableType()) {
 			targetExpr.reportError("The array function method sum can only be employed on an object of type array<" + TypeNode.getAccumulatableTypesAsString() + ">"
 					+ " (but is employed on an object of type " + arrayType.getTypeName() + ").");
@@ -47,7 +47,7 @@ public class ArraySumNode extends ArrayAccumulationMethodNode
 	@Override
 	public TypeNode getType()
 	{
-		ArrayTypeNode arrayType = getTargetType();
+		ArrayTypeNode arrayType = getTargetTypeExact();
 		return BasicTypeNode.getArrayAccumulationResultType(arrayType.valueType);
 	}
 

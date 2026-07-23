@@ -34,7 +34,7 @@ public class ArrayOrderAscendingNode extends ArrayFunctionMethodInvocationBaseEx
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = getTargetType();
+		ArrayTypeNode arrayType = getTargetTypeExact();
 		if(!(arrayType.valueType.isOrderableType())) {
 			targetExpr.reportError("The array function method orderAscending can only be employed on an object of type array<" + TypeNode.getOrderableTypesAsString() + ">"
 					+ " (but is employed on an object of type " + arrayType.getTypeName() + ").");

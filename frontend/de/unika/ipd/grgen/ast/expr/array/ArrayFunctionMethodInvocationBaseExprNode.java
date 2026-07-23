@@ -32,13 +32,12 @@ public abstract class ArrayFunctionMethodInvocationBaseExprNode extends Containe
 	{
 		super(coords, targetExpr);
 	}
-	
-	@Override
-	protected ArrayTypeNode getTargetType()
+
+	protected ArrayTypeNode getTargetTypeExact()
 	{
-		return (ArrayTypeNode)super.getTargetType();
+		return (ArrayTypeNode)getTargetType();
 	}
-	
+
 	@Override
 	public Collection<BaseNode> getChildren()
 	{

@@ -71,7 +71,7 @@ public class MapPeekNode extends MapFunctionMethodInvocationBaseExprNode
 	@Override
 	public TypeNode getType()
 	{
-		return getTargetType().keyType;
+		return getTargetTypeExact().keyType;
 	}
 
 	@Override

@@ -78,7 +78,7 @@ public class DequePeekNode extends DequeFunctionMethodInvocationBaseExprNode
 	@Override
 	public TypeNode getType()
 	{
-		return getTargetType().valueType;
+		return getTargetTypeExact().valueType;
 	}
 
 	@Override

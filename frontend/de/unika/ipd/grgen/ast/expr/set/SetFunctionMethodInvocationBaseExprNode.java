@@ -33,12 +33,11 @@ public abstract class SetFunctionMethodInvocationBaseExprNode extends ContainerF
 		super(coords, targetExpr);
 	}
 
-	@Override
-	protected SetTypeNode getTargetType()
+	protected SetTypeNode getTargetTypeExact()
 	{
-		return (SetTypeNode)super.getTargetType();
+		return (SetTypeNode)getTargetType();
 	}
-	
+
 	@Override
 	public Collection<BaseNode> getChildren()
 	{

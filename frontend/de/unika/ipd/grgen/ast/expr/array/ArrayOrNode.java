@@ -35,7 +35,7 @@ public class ArrayOrNode extends ArrayAccumulationMethodNode
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		ArrayTypeNode arrayType = getTargetType();
+		ArrayTypeNode arrayType = getTargetTypeExact();
 		if(!arrayType.valueType.isEqual(BasicTypeNode.booleanType)) {
 			targetExpr.reportError("The array function method or can only be employed on an object of type array<boolean>"
 					+ " (but is employed on an object of type " + arrayType.getTypeName() + ").");

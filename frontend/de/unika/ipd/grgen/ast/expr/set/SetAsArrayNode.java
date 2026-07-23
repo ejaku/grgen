@@ -36,7 +36,7 @@ public class SetAsArrayNode extends SetFunctionMethodInvocationBaseExprNode
 	protected boolean resolveLocal()
 	{
 		// target type already checked during resolving into this node
-		arrayTypeNode = new ArrayTypeNode(getTargetType().valueTypeUnresolved);
+		arrayTypeNode = new ArrayTypeNode(getTargetTypeExact().valueTypeUnresolved);
 		return arrayTypeNode.resolve();
 	}
 

@@ -32,13 +32,12 @@ public abstract class DequeFunctionMethodInvocationBaseExprNode extends Containe
 	{
 		super(coords, targetExpr);
 	}
-	
-	@Override
-	protected DequeTypeNode getTargetType()
+
+	protected DequeTypeNode getTargetTypeExact()
 	{
-		return (DequeTypeNode)super.getTargetType();
+		return (DequeTypeNode)getTargetType();
 	}
-	
+
 	@Override
 	public Collection<BaseNode> getChildren()
 	{

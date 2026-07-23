@@ -35,7 +35,7 @@ public class SetMaxNode extends SetFunctionMethodInvocationBaseExprNode
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		SetTypeNode setType = getTargetType();
+		SetTypeNode setType = getTargetTypeExact();
 		if(!setType.valueType.isAccumulatableType()) {
 			targetExpr.reportError("The set function method max can only be employed on an object of type set<" + TypeNode.getAccumulatableTypesAsString() + ">"
 					+ " (but is employed on an object of type " + setType.getTypeName() + ").");
@@ -47,7 +47,7 @@ public class SetMaxNode extends SetFunctionMethodInvocationBaseExprNode
 	@Override
 	public TypeNode getType()
 	{
-		SetTypeNode setType = getTargetType();
+		SetTypeNode setType = getTargetTypeExact();
 		return BasicTypeNode.getArrayAccumulationResultType(setType.valueType);
 	}
 

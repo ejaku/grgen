@@ -69,7 +69,7 @@ public class ArrayAsStringNode extends ArrayFunctionMethodInvocationBaseExprNode
 	@Override
 	protected boolean checkLocal()
 	{
-		ArrayTypeNode arrayMemberType = getTargetType();
+		ArrayTypeNode arrayMemberType = getTargetTypeExact();
 		if(!(arrayMemberType.valueType instanceof StringTypeNode)) {
 			targetExpr.reportError("The array function method asString can only be employed on an object of type array<string>"
 					+ " (but is employed on an object of type " + arrayMemberType.getTypeName() + ").");

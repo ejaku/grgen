@@ -38,7 +38,7 @@ public class ArrayAsMapNode extends ArrayFunctionMethodInvocationBaseExprNode
 	{
 		// target type already checked during resolving into this node
 		mapTypeNode = new MapTypeNode(BasicTypeNode.intType.getIdent(),
-				getTargetType().valueTypeUnresolved);
+				getTargetTypeExact().valueTypeUnresolved);
 		return mapTypeNode.resolve();
 	}
 

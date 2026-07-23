@@ -71,7 +71,7 @@ public class SetPeekNode extends SetFunctionMethodInvocationBaseExprNode
 	@Override
 	public TypeNode getType()
 	{
-		return getTargetType().valueType;
+		return getTargetTypeExact().valueType;
 	}
 
 	@Override
