@@ -263,7 +263,7 @@ public class EdgeDeclNode extends ConstraintDeclNode
 				isMaybeDeleted(), isMaybeRetyped(), defEntityToBeYieldedTo, context);
 		edge.setConstraints(getIRConstraints().evaluate());
 
-		if(edge.getConstraints().contains(edge.getType())) { // TODO: supertype? only subtypes allowed
+		if(edge.getConstraints().contains(edge.getInheritanceType())) { // TODO: supertype? only subtypes allowed
 			reportError("The own edge type may not be contained in the type constraint list"
 					+ " (but " + edge.getType() + " is contained for " + getIdent() + ").");
 		}

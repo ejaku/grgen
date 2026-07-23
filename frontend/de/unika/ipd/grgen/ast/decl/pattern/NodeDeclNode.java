@@ -262,7 +262,7 @@ public class NodeDeclNode extends ConstraintDeclNode
 				isMaybeDeleted(), isMaybeRetyped(), defEntityToBeYieldedTo, context);
 		node.setConstraints(getIRConstraints().evaluate());
 
-		if(node.getConstraints().contains(node.getType())) { // TODO: supertype? only subtypes allowed
+		if(node.getConstraints().contains(node.getInheritanceType())) { // TODO: supertype? only subtypes allowed
 			reportError("The own node type may not be contained in the type constraint list"
 					+ " (but " + node.getType() + " is contained for " + getIdent() + ").");
 		}
