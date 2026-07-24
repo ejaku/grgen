@@ -80,10 +80,10 @@ public class ArcSinCosTanExprNode extends BuiltinFunctionInvocationBaseNode
 	protected IR constructIR()
 	{
 		argumentExpr = argumentExpr.evaluate();
-		return new ArcSinCosTanExpr(getArcusTrigonometryFunctionType(), argumentExpr.checkIR(Expression.class));
+		return new ArcSinCosTanExpr(getFunctionType(), argumentExpr.checkIR(Expression.class));
 	}
 	
-	private ArcSinCosTanExpr.ArcusTrigonometryFunctionType getArcusTrigonometryFunctionType()
+	private ArcSinCosTanExpr.ArcusTrigonometryFunctionType getFunctionType()
 	{
 		switch(which) {
 		case arcsin: return ArcSinCosTanExpr.ArcusTrigonometryFunctionType.arcsin;

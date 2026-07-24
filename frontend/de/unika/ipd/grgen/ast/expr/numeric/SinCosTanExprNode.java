@@ -80,10 +80,10 @@ public class SinCosTanExprNode extends BuiltinFunctionInvocationBaseNode
 	protected IR constructIR()
 	{
 		argumentExpr = argumentExpr.evaluate();
-		return new SinCosTanExpr(getTrigonometryFunctionType(), argumentExpr.checkIR(Expression.class));
+		return new SinCosTanExpr(getFunctionType(), argumentExpr.checkIR(Expression.class));
 	}
 
-	private SinCosTanExpr.TrigonometryFunctionType getTrigonometryFunctionType()
+	private SinCosTanExpr.TrigonometryFunctionType getFunctionType()
 	{
 		switch(which) {
 		case sin: return SinCosTanExpr.TrigonometryFunctionType.sin;
