@@ -14,6 +14,7 @@
 package de.unika.ipd.grgen.ast.pattern;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -104,7 +105,7 @@ public class ImplicitNegComputer
 		nodesRequireNeg(generatedExactNodes.keySet());
 	}
 
-	private void nodesRequireNeg(Set<NodeDeclNode> nodes)
+	private void nodesRequireNeg(Collection<NodeDeclNode> nodes)
 	{
 		for(NodeDeclNode node : nodes) {
 			if(node.isDummy())
@@ -185,12 +186,12 @@ public class ImplicitNegComputer
 			// add edges to NAC
 			Set<EdgeDeclNode> allNegEdges = new LinkedHashSet<EdgeDeclNode>();
 			Set<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
-			for(ConnectionNode conn : edgeSet) {
-				conn.addToGraph(neg);
+			for(ConnectionNode connEdge : edgeSet) {
+				connEdge.addToGraph(neg);
 
-				allNegEdges.add(conn.getEdge());
-				allNegNodes.add(conn.getSrc());
-				allNegNodes.add(conn.getTgt());
+				allNegEdges.add(connEdge.getEdge());
+				allNegNodes.add(connEdge.getSrc());
+				allNegNodes.add(connEdge.getTgt());
 			}
 
 			addInheritedHomSet(neg, allNegEdges, allNegNodes);
