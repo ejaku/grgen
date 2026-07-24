@@ -211,7 +211,8 @@ public class PackageProcedureInvocationDecisionNode extends ProcedureInvocationD
 		return isEmitProcedure() || isDebugProcedure();
 	}
 
-	public boolean isDebugProcedure()
+	@Override
+	protected boolean isDebugProcedure()
 	{
 		switch(package_ + "::" + procedureIdent.toString()) {
 		case "Debug::add":
