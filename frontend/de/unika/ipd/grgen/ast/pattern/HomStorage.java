@@ -130,21 +130,24 @@ public class HomStorage
 			Set<NodeDeclNode> nodes, Set<EdgeDeclNode> edges)
 	{
 		Set<ConstraintDeclNode> inheritedHomSet = new LinkedHashSet<ConstraintDeclNode>();
-		
-		if(parentHomSet.iterator().next() instanceof NodeDeclNode) {
-			for(ConstraintDeclNode homNode : parentHomSet) {
+
+		for(ConstraintDeclNode homParent : parentHomSet) {
+			if(homParent instanceof NodeDeclNode) // note that either all elements in the homSet are nodes or all elements in the homSet are edges
+			{
+				NodeDeclNode homNode = (NodeDeclNode)homParent;
 				if(nodes.contains(homNode)) {
 					inheritedHomSet.add(homNode);
 				}
 			}
-		} else {
-			for(ConstraintDeclNode homEdge : parentHomSet) {
+			else
+			{
+				EdgeDeclNode homEdge = (EdgeDeclNode)homParent;
 				if(edges.contains(homEdge)) {
 					inheritedHomSet.add(homEdge);
 				}
 			}
 		}
-		
+
 		return inheritedHomSet;
 	}
 
