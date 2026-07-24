@@ -72,7 +72,7 @@ public class ForFunctionNode extends ForGraphQueryNode
 	{
 		List<BaseNode> children = new ArrayList<BaseNode>();
 		children.add(getValidVersion(iterationVariableUnresolved, iterationVariable));
-		children.add(function != null ? function : indexFunction);
+		children.add(getValidFunction());
 		children.add(statements);
 		return children;
 	}
@@ -171,10 +171,15 @@ public class ForFunctionNode extends ForGraphQueryNode
 		return true;
 	}
 
+	protected FunctionOrBuiltinFunctionInvocationBaseNode getValidFunction()
+	{
+		return function != null ? (FunctionOrBuiltinFunctionInvocationBaseNode)function : (FunctionOrBuiltinFunctionInvocationBaseNode)indexFunction;
+	}
+
 	@Override
 	protected IR constructIR()
 	{
-		ForFunction ff = new ForFunction(iterationVariable.checkIR(Variable.class), function != null ? function.checkIR(Expression.class) : indexFunction.checkIR(Expression.class));
+		ForFunction ff = new ForFunction(iterationVariable.checkIR(Variable.class), getValidFunction().checkIR(Expression.class));
 		for(EvalStatementNode accumulationStatement : statements.getChildrenExact()) {
 			ff.addLoopedStatement(accumulationStatement.checkIR(EvalStatement.class));
 		}
