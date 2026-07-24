@@ -43,7 +43,7 @@ public class SetAddAllNode extends SetProcedureMethodInvocationBaseNode
 	public Collection<BaseNode> getChildren()
 	{
 		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(target != null ? target : targetVar);
+		children.add(getValidTarget());
 		children.add(valueExpr);
 		return children;
 	}

@@ -56,7 +56,7 @@ public class ArrayRemoveItemNode extends ArrayProcedureMethodInvocationBaseNode
 	public Collection<BaseNode> getChildren()
 	{
 		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(target != null ? target : targetVar);
+		children.add(getValidTarget());
 		if(valueExpr != null)
 			children.add(valueExpr);
 		return children;

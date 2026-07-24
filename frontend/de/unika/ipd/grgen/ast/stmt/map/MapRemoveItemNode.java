@@ -54,7 +54,7 @@ public class MapRemoveItemNode extends MapProcedureMethodInvocationBaseNode
 	public Collection<BaseNode> getChildren()
 	{
 		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(target != null ? target : targetVar);
+		children.add(getValidTarget());
 		children.add(keyExpr);
 		return children;
 	}

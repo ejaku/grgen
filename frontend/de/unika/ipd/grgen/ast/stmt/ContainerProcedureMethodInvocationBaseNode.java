@@ -55,11 +55,16 @@ public abstract class ContainerProcedureMethodInvocationBaseNode extends Builtin
 		}
 	}
 
+	protected BaseNode getValidTarget()
+	{
+		return target != null ? (BaseNode)target : (BaseNode)targetVar;
+	}
+
 	@Override
 	public Collection<BaseNode> getChildren()
 	{
 		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(target != null ? target : targetVar);
+		children.add(getValidTarget());
 		return children;
 	}
 
