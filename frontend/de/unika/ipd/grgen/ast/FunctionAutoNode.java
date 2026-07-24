@@ -28,11 +28,9 @@ public abstract class FunctionAutoNode extends BaseNode
 		this.function = function;
 	}
 	
-	@Override
-	public abstract boolean resolveLocal();
+	public abstract boolean resolveLocalBypass();
 	
-	@Override
-	public abstract boolean checkLocal();
+	public abstract boolean checkLocalBypass();
 
 	public abstract boolean checkLocal(FunctionDeclNode functionDecl);
 

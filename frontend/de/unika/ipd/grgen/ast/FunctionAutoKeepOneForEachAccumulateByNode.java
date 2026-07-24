@@ -79,14 +79,20 @@ public class FunctionAutoKeepOneForEachAccumulateByNode extends FunctionAutoNode
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	public boolean resolveLocal()
+	protected boolean resolveLocal()
 	{
 		targetVar = targetResolver.resolve(target, this);
 		return targetVar != null;
 	}
-	
+
 	@Override
-	public boolean checkLocal()
+	public boolean resolveLocalBypass()
+	{
+		return resolveLocal();
+	}
+
+	@Override
+	protected boolean checkLocal()
 	{
 		if(!function.equals("keepOneForEachAccumulateBy")) {
 			reportError("Unknown function in auto(), expected keepOneForEachAccumulateBy (e.g. keepOneForEach<foo>Accumulate<bar>By<sum>).");
@@ -125,6 +131,12 @@ public class FunctionAutoKeepOneForEachAccumulateByNode extends FunctionAutoNode
 		}
 
 		return true;
+	}
+
+	@Override
+	public boolean checkLocalBypass()
+	{
+		return checkLocal();
 	}
 
 	@Override

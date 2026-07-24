@@ -94,7 +94,7 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
-	public boolean resolveLocal()
+	protected boolean resolveLocal()
 	{
 		boolean successfullyResolved = true;
 
@@ -102,9 +102,15 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 
 		return successfullyResolved;
 	}
-	
+
 	@Override
-	public boolean checkLocal()
+	public boolean resolveLocalBypass()
+	{
+		return resolveLocal();
+	}
+
+	@Override
+	protected boolean checkLocal()
 	{
 		if(!function.equals("join")) {
 			reportError("Unknown function in auto(), expected join (e.g. join<natural>).");
@@ -162,7 +168,13 @@ public class FunctionAutoJoinNode extends FunctionAutoNode
 
 		return result;
 	}
-	
+
+	@Override
+	public boolean checkLocalBypass()
+	{
+		return checkLocal();
+	}
+
 	public Set<String> getNamesOfCommonEntities(MatchTypeNode this_, MatchTypeNode that)
 	{
 		Set<String> namesFromThis = this_.getNamesOfEntities();
