@@ -32,14 +32,14 @@ public class EdgeType extends InheritanceType implements ContainedInPackage
 	/** The connection assertions. */
 	private final List<ConnAssert> connectionAsserts = new ArrayList<ConnAssert>();
 
-	public enum Directedness
+	public enum DirectednessKind
 	{
 		Arbitrary,
 		Directed,
 		Undirected
 	}
 
-	protected Directedness directedness;
+	protected DirectednessKind directedness;
 
 	/**
 	 * Make a new edge type.
@@ -52,12 +52,12 @@ public class EdgeType extends InheritanceType implements ContainedInPackage
 		super("edge type", ident, modifiers, externalName);
 	}
 
-	public Directedness getDirectedness()
+	public DirectednessKind getDirectedness()
 	{
 		return directedness;
 	}
 
-	public void setDirectedness(Directedness dir)
+	public void setDirectedness(DirectednessKind dir)
 	{
 		directedness = dir;
 	}

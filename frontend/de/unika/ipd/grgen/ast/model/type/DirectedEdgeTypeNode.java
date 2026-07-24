@@ -41,7 +41,7 @@ public class DirectedEdgeTypeNode extends EdgeTypeNode
 	@Override
 	protected void setDirectednessIR(EdgeType edgeType)
 	{
-		edgeType.setDirectedness(EdgeType.Directedness.Directed);
+		edgeType.setDirectedness(EdgeType.DirectednessKind.Directed);
 	}
 
 	public static String getKindStr()

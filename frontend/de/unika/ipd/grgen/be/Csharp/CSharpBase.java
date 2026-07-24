@@ -554,9 +554,9 @@ public abstract class CSharpBase
 			return "GRGEN_LIBGR.INode";
 		} else { // instanceof EdgeType
 			EdgeType edgeType = (EdgeType)inheritanceType;
-			if(edgeType.getDirectedness() == EdgeType.Directedness.Directed)
+			if(edgeType.getDirectedness() == EdgeType.DirectednessKind.Directed)
 				return "GRGEN_LIBGR.IDEdge";
-			else if(edgeType.getDirectedness() == EdgeType.Directedness.Undirected)
+			else if(edgeType.getDirectedness() == EdgeType.DirectednessKind.Undirected)
 				return "GRGEN_LIBGR.IUEdge";
 			else
 				return "GRGEN_LIBGR.IEdge";
@@ -567,9 +567,9 @@ public abstract class CSharpBase
 	{
 		SetType setType = (SetType)type;
 		EdgeType edgeType = (EdgeType)setType.getValueType();
-		if(edgeType.getDirectedness() == EdgeType.Directedness.Directed)
+		if(edgeType.getDirectedness() == EdgeType.DirectednessKind.Directed)
 			return "GRGEN_LIBGR.Directedness.Directed";
-		else if(edgeType.getDirectedness() == EdgeType.Directedness.Undirected)
+		else if(edgeType.getDirectedness() == EdgeType.DirectednessKind.Undirected)
 			return "GRGEN_LIBGR.Directedness.Undirected";
 		else
 			return "GRGEN_LIBGR.Directedness.Arbitrary";
@@ -579,9 +579,9 @@ public abstract class CSharpBase
 	{
 		SetType setType = (SetType)type;
 		EdgeType edgeType = (EdgeType)setType.getValueType();
-		if(edgeType.getDirectedness() == EdgeType.Directedness.Directed)
+		if(edgeType.getDirectedness() == EdgeType.DirectednessKind.Directed)
 			return "Directed";
-		else if(edgeType.getDirectedness() == EdgeType.Directedness.Undirected)
+		else if(edgeType.getDirectedness() == EdgeType.DirectednessKind.Undirected)
 			return "Undirected";
 		else
 			return "";

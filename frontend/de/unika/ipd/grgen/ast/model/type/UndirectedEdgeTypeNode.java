@@ -41,7 +41,7 @@ public class UndirectedEdgeTypeNode extends EdgeTypeNode
 	@Override
 	protected void setDirectednessIR(EdgeType edgeType)
 	{
-		edgeType.setDirectedness(EdgeType.Directedness.Undirected);
+		edgeType.setDirectedness(EdgeType.DirectednessKind.Undirected);
 	}
 
 	public static String getKindStr()
