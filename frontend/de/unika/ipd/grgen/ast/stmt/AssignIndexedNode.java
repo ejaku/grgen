@@ -165,7 +165,7 @@ public class AssignIndexedNode extends EvalStatementNode
 			DeclNode owner = lhsQual.getOwner();
 			TypeNode ty = owner.getDeclType();
 
-			if(lhsQual.getDecl().isConst()) {
+			if(lhsQual.getMemberDecl().isConst()) {
 				reportError("An indexed assignment to a const member is not allowed (" + lhsQual.getDecl().getIdent() + lhsQual.getDecl().getDeclarationCoords() + " is constant).");
 				return false;
 			}

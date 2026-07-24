@@ -195,7 +195,7 @@ public class AssignNode extends EvalStatementNode
 		DeclNode owner = lhsQual.getOwner();
 		TypeNode ty = owner.getDeclType();
 
-		MemberDeclNode member = lhsQual.getDecl(); // null for match type
+		MemberDeclNode member = lhsQual.getMemberDecl(); // null for match type
 		if(member != null && member.isConst()) {
 			reportError("An assignment to a const member is not allowed (" + lhsQual.getDecl().getIdent() + lhsQual.getDecl().getDeclarationCoords() + " is constant).");
 			return false;
@@ -448,7 +448,7 @@ public class AssignNode extends EvalStatementNode
 			return false; // TODO: extend optimization to assignments to variables
 		}
 		QualIdentNode qual = lhsQual;
-		if(!(qual.getDecl().type instanceof SetTypeNode) && !(qual.getDecl().type instanceof MapTypeNode)) {
+		if(!(qual.getMemberDecl().type instanceof SetTypeNode) && !(qual.getMemberDecl().type instanceof MapTypeNode)) {
 			return false;
 		}
 
@@ -481,7 +481,7 @@ public class AssignNode extends EvalStatementNode
 				ConstraintDeclNode rightOwner = (ConstraintDeclNode)target.getResolvedNode();
 				MemberDeclNode rightMember = access.getDecl();
 				// determine left owner and member, filter for needed types
-				MemberDeclNode leftMember = qual.getDecl();
+				MemberDeclNode leftMember = qual.getMemberDecl();
 				if(!(qual.getOwner() instanceof ConstraintDeclNode))
 					return false;
 				ConstraintDeclNode leftOwner = (ConstraintDeclNode)qual.getOwner();
