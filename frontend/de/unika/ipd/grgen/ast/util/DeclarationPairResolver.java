@@ -45,23 +45,23 @@ public class DeclarationPairResolver<R extends BaseNode, S extends BaseNode> ext
 				parent.becomeParent(pair.snd);
 			}
 			return pair;
-		}
+		} else {
+			Pair<R, S> pair = new Pair<R, S>();
+			if(clsR.isInstance(bn)) {
+				pair.fst = clsR.cast(bn);
+			}
+			if(clsS.isInstance(bn)) {
+				pair.snd = clsS.cast(bn);
+			}
+			if(pair.fst != null || pair.snd != null) {
+				assert pair.fst == null || pair.snd == null;
+				return pair;
+			}
 
-		Pair<R, S> pair = new Pair<R, S>();
-		if(clsR.isInstance(bn)) {
-			pair.fst = clsR.cast(bn);
+			bn.reportError(bn + " is a " + bn.getKind() +
+					" but a " + Util.getStrListWithOr(classes, BaseNode.class, "getKindStr") + " is expected.");
+			return null;
 		}
-		if(clsS.isInstance(bn)) {
-			pair.snd = clsS.cast(bn);
-		}
-		if(pair.fst != null || pair.snd != null) {
-			assert pair.fst == null || pair.snd == null;
-			return pair;
-		}
-
-		bn.reportError(bn + " is a " + bn.getKind() +
-				" but a " + Util.getStrListWithOr(classes, BaseNode.class, "getKindStr") + " is expected.");
-		return null;
 	}
 
 	/** resolves n to node of type R or S, via declaration
