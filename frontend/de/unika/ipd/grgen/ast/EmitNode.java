@@ -89,8 +89,8 @@ public class EmitNode extends OrderedReplacementNode
 	{
 		List<Expression> arguments = new ArrayList<Expression>();
 		for(ExprNode child : childrenUnresolved) {
-			child = child.evaluate();
-			arguments.add(child.checkIR(Expression.class));
+			ExprNode childEvaluated = child.evaluate();
+			arguments.add(childEvaluated.checkIR(Expression.class));
 		}
 		Emit res = new Emit(arguments, isDebug);
 		return res;
