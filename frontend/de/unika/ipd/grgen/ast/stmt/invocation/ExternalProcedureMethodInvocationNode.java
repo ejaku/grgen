@@ -68,7 +68,7 @@ public class ExternalProcedureMethodInvocationNode extends ProcedureInvocationBa
 	public Collection<BaseNode> getChildren()
 	{
 		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(targetQual != null ? targetQual : targetVar);
+		children.add(getValidTarget());
 		children.add(getValidVersion(externalProcedureUnresolved, externalProcedureDecl));
 		children.add(arguments);
 		return children;
@@ -82,6 +82,11 @@ public class ExternalProcedureMethodInvocationNode extends ProcedureInvocationBa
 		childrenNames.add("external procedure");
 		childrenNames.add("arguments");
 		return childrenNames;
+	}
+
+	protected BaseNode getValidTarget()
+	{
+		return targetQual != null ? (BaseNode)targetQual : (BaseNode)targetVar;
 	}
 
 	private static final DeclarationResolver<ExternalProcedureDeclNode> resolver =
@@ -102,7 +107,7 @@ public class ExternalProcedureMethodInvocationNode extends ProcedureInvocationBa
 					externalProcedureUnresolved.reportError("Unknown external procedure method called."
 							+ " (Maybe a misspelled procedure name? Or is a function call intended?"
 							+ " An assignment target within parenthesis denotes a procedure call, as in "
-							+ "(var) = " + (targetVar != null ? targetVar : targetQual) + "." + externalProcedureUnresolved + "(...)).");
+							+ "(var) = " + getValidTarget() + "." + externalProcedureUnresolved + "(...)).");
 					return false;
 				}
 
@@ -160,9 +165,9 @@ public class ExternalProcedureMethodInvocationNode extends ProcedureInvocationBa
 			epi = new ExternalProcedureMethodInvocation(targetVar.checkIR(Variable.class),
 					externalProcedureDecl.checkIR(ExternalProcedure.class));
 		}
-		for(ExprNode expr : arguments.getChildrenExact()) {
-			expr = expr.evaluate();
-			epi.addArgument(expr.checkIR(Expression.class));
+		for(ExprNode argument : arguments.getChildrenExact()) {
+			ExprNode argumentEvaluated = argument.evaluate();
+			epi.addArgument(argumentEvaluated.checkIR(Expression.class));
 		}
 		for(TypeNode type : externalProcedureDecl.resultTypesCollectNode.getChildrenExact()) {
 			epi.addReturnType(type.checkIR(Type.class));
