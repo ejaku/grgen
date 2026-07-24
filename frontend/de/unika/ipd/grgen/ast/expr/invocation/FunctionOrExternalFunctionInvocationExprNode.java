@@ -113,18 +113,18 @@ public class FunctionOrExternalFunctionInvocationExprNode extends FunctionInvoca
 			FunctionInvocationExpr fi = new FunctionInvocationExpr(
 					functionDecl.resultType.checkIR(Type.class),
 					functionDecl.checkIR(Function.class));
-			for(ExprNode expr : arguments.getChildrenExact()) {
-				expr = expr.evaluate();
-				fi.addArgument(expr.checkIR(Expression.class));
+			for(ExprNode argument : arguments.getChildrenExact()) {
+				ExprNode argumentEvaluated = argument.evaluate();
+				fi.addArgument(argumentEvaluated.checkIR(Expression.class));
 			}
 			return fi;
 		} else {
 			ExternalFunctionInvocationExpr efi = new ExternalFunctionInvocationExpr(
 					externalFunctionDecl.resultType.checkIR(Type.class),
 					externalFunctionDecl.checkIR(ExternalFunction.class));
-			for(ExprNode expr : arguments.getChildrenExact()) {
-				expr = expr.evaluate();
-				efi.addArgument(expr.checkIR(Expression.class));
+			for(ExprNode argument : arguments.getChildrenExact()) {
+				ExprNode argumentEvaluated = argument.evaluate();
+				efi.addArgument(argumentEvaluated.checkIR(Expression.class));
 			}
 			return efi;
 		}

@@ -146,9 +146,9 @@ public class FunctionMethodInvocationExprNode extends FunctionInvocationBaseNode
 		FunctionMethodInvocationExpr ci = new FunctionMethodInvocationExpr(owner.checkIR(Entity.class),
 				functionDecl.resultType.checkIR(Type.class),
 				functionDecl.checkIR(Function.class));
-		for(ExprNode expr : arguments.getChildrenExact()) {
-			expr = expr.evaluate();
-			ci.addArgument(expr.checkIR(Expression.class));
+		for(ExprNode argument : arguments.getChildrenExact()) {
+			ExprNode argumentEvaluated = argument.evaluate();
+			ci.addArgument(argumentEvaluated.checkIR(Expression.class));
 		}
 		return ci;
 	}

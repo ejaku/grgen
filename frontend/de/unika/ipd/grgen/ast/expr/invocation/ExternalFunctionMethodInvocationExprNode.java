@@ -123,9 +123,9 @@ public class ExternalFunctionMethodInvocationExprNode extends FunctionInvocation
 				owner.checkIR(Expression.class),
 				externalFunctionDecl.resultType.checkIR(Type.class),
 				externalFunctionDecl.checkIR(ExternalFunction.class));
-		for(ExprNode expr : arguments.getChildrenExact()) {
-			expr = expr.evaluate();
-			efi.addArgument(expr.checkIR(Expression.class));
+		for(ExprNode argument : arguments.getChildrenExact()) {
+			ExprNode argumentEvaluated = argument.evaluate();
+			efi.addArgument(argumentEvaluated.checkIR(Expression.class));
 		}
 		return efi;
 	}
