@@ -89,16 +89,16 @@ public class NameOrAttributeInitializationNode extends BaseNode
 	protected boolean checkLocal()
 	{
 		if(attributeUnresolved == null) {
-			TypeNode targetType = StringTypeNode.stringType;
-			TypeNode exprType = initialization.getType();
+			TypeNode targetTypeNameInit = StringTypeNode.stringType;
+			TypeNode exprTypeNameInit = initialization.getType();
 
-			if(exprType.isEqual(targetType))
+			if(exprTypeNameInit.isEqual(targetTypeNameInit))
 				return true;
 
-			initialization = becomeParent(initialization.adjustType(targetType, owner.getCoords()));
+			initialization = becomeParent(initialization.adjustType(targetTypeNameInit, owner.getCoords()));
 			if(initialization == ConstNode.getInvalid()) {
 				owner.reportError("The name of an element must be initialized with a value of type string"
-						+ " (but it is initialized with a value of type " + exprType.getTypeName() + ").");
+						+ " (but it is initialized with a value of type " + exprTypeNameInit.getTypeName() + ").");
 				return false;
 			}
 
