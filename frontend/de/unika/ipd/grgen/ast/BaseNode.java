@@ -513,10 +513,10 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	}
 
 	/** Return new list containing elements of the currently valid member list. Currently valid depends on list was already resolved. */
-	protected final <T extends BaseNode> List<T> getValidVersionList(List<? extends T> unresolved,
-			List<? extends T> resolved)
+	protected final List<BaseNode> getValidVersionList(List<BaseNode> unresolved,
+			List<? extends BaseNode> resolved)
 	{
-		List<T> result = new ArrayList<T>();
+		List<BaseNode> result = new ArrayList<BaseNode>();
 		if(isResolved()) {
 			for(int i = 0; i < resolved.size(); ++i) {
 				result.add(resolved.get(i));
@@ -531,10 +531,10 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 
 	/** Return new list containing elements of the currently valid member list.
 	 *  Currently valid depends on list was already resolved and resolution result. */
-	protected final <T extends BaseNode> List<T> getValidVersionList(List<? extends T> unresolved,
-			List<? extends T> firstResolved, List<? extends T> secondResolved)
+	protected final List<BaseNode> getValidVersionList(List<BaseNode> unresolved,
+			List<? extends BaseNode> firstResolved, List<? extends BaseNode> secondResolved)
 	{
-		List<T> result = new ArrayList<T>();
+		List<BaseNode> result = new ArrayList<BaseNode>();
 		if(isResolved()) {
 			if(!firstResolved.isEmpty()) {
 				for(int i = 0; i < firstResolved.size(); ++i) {
