@@ -141,9 +141,9 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 	{
 		if(procedureDecl != null) {
 			ProcedureInvocation pi = new ProcedureInvocation(procedureDecl.checkIR(Procedure.class));
-			for(ExprNode expr : arguments.getChildrenExact()) {
-				expr = expr.evaluate();
-				pi.addArgument(expr.checkIR(Expression.class));
+			for(ExprNode argument : arguments.getChildrenExact()) {
+				ExprNode argumentEvaluated = argument.evaluate();
+				pi.addArgument(argumentEvaluated.checkIR(Expression.class));
 			}
 			for(TypeNode type : procedureDecl.resultTypesCollectNode.getChildrenExact()) {
 				pi.addReturnType(type.checkIR(Type.class));
@@ -152,9 +152,9 @@ public class ProcedureOrExternalProcedureInvocationNode extends ProcedureInvocat
 		} else {
 			ExternalProcedureInvocation epi = new ExternalProcedureInvocation(
 					externalProcedureDecl.checkIR(ExternalProcedure.class));
-			for(ExprNode expr : arguments.getChildrenExact()) {
-				expr = expr.evaluate();
-				epi.addArgument(expr.checkIR(Expression.class));
+			for(ExprNode argument : arguments.getChildrenExact()) {
+				ExprNode argumentEvaluated = argument.evaluate();
+				epi.addArgument(argumentEvaluated.checkIR(Expression.class));
 			}
 			for(TypeNode type : externalProcedureDecl.resultTypesCollectNode.getChildrenExact()) {
 				epi.addReturnType(type.checkIR(Type.class));
