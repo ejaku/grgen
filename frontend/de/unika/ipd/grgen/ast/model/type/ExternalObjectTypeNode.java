@@ -150,7 +150,7 @@ public class ExternalObjectTypeNode extends InheritanceTypeNode
 			}
 		}
 		for(InheritanceTypeNode inh : getDirectSuperTypes()) {
-			extType.addDirectSuperType(inh.getIRType());
+			extType.addDirectSuperType(inh.getInheritanceIRType());
 		}
 	}
 

@@ -47,6 +47,7 @@ import de.unika.ipd.grgen.ir.expr.map.MapInit;
 import de.unika.ipd.grgen.ir.expr.set.SetInit;
 import de.unika.ipd.grgen.ir.model.MemberInit;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
+import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.parser.Symbol;
 
 /**
@@ -136,7 +137,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 
 		Collection<InheritanceTypeNode> subTypes1 = type1.getAllSubTypes();
 		Collection<InheritanceTypeNode> subTypes2 = type2.getAllSubTypes();
-		for(TypeNode typeNode2 : subTypes2) {
+		for(InheritanceTypeNode typeNode2 : subTypes2) {
 			if(subTypes1.contains(typeNode2)) {
 				return true;
 			}
@@ -228,7 +229,12 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 	 * @return The IR object as type.
 	 */
 	@Override
-	public InheritanceType getIRType()
+	public Type getIRType()
+	{
+		return getInheritanceIRType();
+	}
+
+	public InheritanceType getInheritanceIRType()
 	{
 		return checkIR(InheritanceType.class);
 	}
@@ -530,7 +536,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 			constructAndAddIRChild(inhType, child);
 		}
 		for(InheritanceTypeNode inh : getDirectSuperTypes()) {
-			inhType.addDirectSuperType(inh.getIRType());
+			inhType.addDirectSuperType(inh.getInheritanceIRType());
 		}
 	}
 
