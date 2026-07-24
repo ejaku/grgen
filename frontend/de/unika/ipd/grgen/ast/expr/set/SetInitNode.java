@@ -18,6 +18,7 @@ import de.unika.ipd.grgen.ast.decl.DeclNode;
 import de.unika.ipd.grgen.ast.expr.ContainerSingleElementInitNode;
 import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
+import de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
 import de.unika.ipd.grgen.ast.type.container.SetTypeNode;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.Entity;
@@ -90,7 +91,7 @@ public class SetInitNode extends ContainerSingleElementInitNode
 	}
 
 	@Override
-	public SetTypeNode getContainerType()
+	public ContainerTypeNode getContainerType()
 	{
 		assert(isResolved());
 		if(lhs != null) {

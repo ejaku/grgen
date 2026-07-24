@@ -23,6 +23,7 @@ import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.expr.ExprPairNode;
 import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
+import de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
 import de.unika.ipd.grgen.ast.type.container.MapTypeNode;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.Entity;
@@ -102,7 +103,7 @@ public class MapInitNode extends ContainerInitNode
 	{
 		boolean success = true;
 
-		MapTypeNode mapType = getContainerType();
+		MapTypeNode mapType = (MapTypeNode)getContainerType();
 		for(ExprPairNode item : mapItems.getChildrenExact()) {
 			if(item.keyExpr.getType() != mapType.keyType) {
 				if(!isInitInModel()) {
@@ -210,7 +211,7 @@ public class MapInitNode extends ContainerInitNode
 	}
 
 	@Override
-	public MapTypeNode getContainerType()
+	public ContainerTypeNode getContainerType()
 	{
 		assert(isResolved());
 		if(lhs != null) {

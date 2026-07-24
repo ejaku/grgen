@@ -21,6 +21,7 @@ import de.unika.ipd.grgen.ast.expr.ExprNode;
 import de.unika.ipd.grgen.ast.type.DeclaredTypeNode;
 import de.unika.ipd.grgen.ast.type.TypeNode;
 import de.unika.ipd.grgen.ast.type.container.ArrayTypeNode;
+import de.unika.ipd.grgen.ast.type.container.ContainerTypeNode;
 import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
@@ -92,7 +93,7 @@ public class ArrayInitNode extends ContainerSingleElementInitNode
 	}
 
 	@Override
-	public ArrayTypeNode getContainerType()
+	public ContainerTypeNode getContainerType()
 	{
 		assert(isResolved());
 		if(lhs != null) {
