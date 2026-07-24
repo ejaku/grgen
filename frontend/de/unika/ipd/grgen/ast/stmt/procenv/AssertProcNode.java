@@ -116,8 +116,8 @@ public class AssertProcNode extends BuiltinProcedureInvocationBaseNode
 	{
 		List<Expression> expressions = new ArrayList<Expression>();
 		for(ExprNode expr : exprs.getChildrenExact()) {
-			expr = expr.evaluate();
-			expressions.add(expr.checkIR(Expression.class));
+			ExprNode exprEvaluated = expr.evaluate();
+			expressions.add(exprEvaluated.checkIR(Expression.class));
 		}
 		if(exprs.size() == 1) {
 			expressions.add(new Constant(BasicTypeNode.stringType.checkIR(Type.class), escapeBackslashAndDoubleQuotes(getCoords().toString())));

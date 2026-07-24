@@ -87,8 +87,8 @@ public class EmitProcNode extends BuiltinProcedureInvocationBaseNode
 	{
 		List<Expression> expressions = new ArrayList<Expression>();
 		for(ExprNode expr : exprs.getChildrenExact()) {
-			expr = expr.evaluate();
-			expressions.add(expr.checkIR(Expression.class));
+			ExprNode exprEvaluated = expr.evaluate();
+			expressions.add(exprEvaluated.checkIR(Expression.class));
 		}
 		return new EmitProc(expressions, isDebug);
 	}
