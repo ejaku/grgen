@@ -156,12 +156,12 @@ public class ImplicitNegComputerInduced
 			// add edges to the NAC
 			Set<EdgeDeclNode> allNegEdges = new LinkedHashSet<EdgeDeclNode>();
 			Set<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
-			for(ConnectionNode conn : edgeSet) {
-				conn.addToGraph(neg);
+			for(ConnectionNode connEdge : edgeSet) {
+				connEdge.addToGraph(neg);
 
-				allNegEdges.add(conn.getEdge());
-				allNegNodes.add(conn.getSrc());
-				allNegNodes.add(conn.getTgt());
+				allNegEdges.add(connEdge.getEdge());
+				allNegNodes.add(connEdge.getSrc());
+				allNegNodes.add(connEdge.getTgt());
 			}
 
 			addInheritedHomSet(neg, allNegEdges, allNegNodes);
@@ -285,15 +285,17 @@ public class ImplicitNegComputerInduced
 	{
 		Set<Integer> witnesses = new LinkedHashSet<Integer>();
 
-		for(Map.Entry<List<NodeDeclNode>, Boolean> candidateMarkedMap : candidate.getKey().entrySet()) {
+		List<List<NodeDeclNode>> toBeMarkedKeys = new ArrayList<List<NodeDeclNode>>();
+
+		for(Map.Entry<List<NodeDeclNode>, Boolean> candidateMarkedMapEntry : candidate.getKey().entrySet()) {
 			// TODO also mark witness edge (and candidate as witness)
-			if(!candidateMarkedMap.getValue().booleanValue()) {
+			if(!candidateMarkedMapEntry.getValue().booleanValue()) {
 				for(Map.Entry<Map<List<NodeDeclNode>, Boolean>, Integer> witness : inducedEdgeMap.entrySet()) {
-					if(candidate != witness) {
+					if(candidate.getKey() != witness.getKey() && candidate.getValue() != witness.getValue()) {
 						// if witness contains edge
-						if(witness.getKey().containsKey(candidateMarkedMap.getKey())) {
-							// mark Edge
-							candidateMarkedMap.setValue(Boolean.valueOf(true));
+						if(witness.getKey().containsKey(candidateMarkedMapEntry.getKey())) {
+							// remember to mark Edge
+							toBeMarkedKeys.add(candidateMarkedMapEntry.getKey());
 							// add witness
 							witnesses.add(witness.getValue());
 						}
@@ -301,7 +303,12 @@ public class ImplicitNegComputerInduced
 				}
 			}
 		}
-		
+
+		for(List<NodeDeclNode> toBeMarkedKey : toBeMarkedKeys) {
+			assert(candidate.getKey().containsKey(toBeMarkedKey));
+			candidate.getKey().put(toBeMarkedKey, true);
+		}
+
 		return witnesses;
 	}
 
