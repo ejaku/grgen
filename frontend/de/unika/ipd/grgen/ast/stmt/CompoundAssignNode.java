@@ -105,6 +105,11 @@ public class CompoundAssignNode extends EvalStatementNode
 		return childrenNames;
 	}
 
+	public BaseNode getValidTarget()
+	{
+		return targetQual != null ? (BaseNode)targetQual : (BaseNode)targetVar;
+	}
+
 	@Override
 	protected boolean resolveLocal()
 	{
@@ -171,13 +176,13 @@ public class CompoundAssignNode extends EvalStatementNode
 		TypeNode targetType = targetQual != null ? targetQual.getDecl().getDeclType() : targetVar.getDeclType();
 		if(compoundAssignmentType == CompoundAssignmentType.CONCATENATE
 				&& !(targetType instanceof ArrayTypeNode || targetType instanceof DequeTypeNode)) {
-			(targetQual != null ? targetQual : targetVar).reportError("Compound assignment expects a left hand side of array or deque type"
+			getValidTarget().reportError("Compound assignment expects a left hand side of array or deque type"
 					+ " (given is type " + targetType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}
 		if(compoundAssignmentType != CompoundAssignmentType.CONCATENATE
 				&& !(targetType instanceof SetTypeNode || targetType instanceof MapTypeNode)) {
-			(targetQual != null ? targetQual : targetVar).reportError("Compound assignment expects a left hand side of set or map type"
+			getValidTarget().reportError("Compound assignment expects a left hand side of set or map type"
 					+ " (given is type " + targetType.toStringWithDeclarationCoords() + ").");
 			return false;
 		}

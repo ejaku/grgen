@@ -149,8 +149,8 @@ public class ReturnStatementNode extends EvalStatementNode
 		} else {
 			ReturnStatementProcedure rsp = new ReturnStatementProcedure();
 			for(ExprNode returnValueExpr : returnValueExprs.getChildrenExact()) {
-				returnValueExpr = returnValueExpr.evaluate();
-				rsp.addReturnValueExpr(returnValueExpr.checkIR(Expression.class));
+				ExprNode returnValueExprEvaluated = returnValueExpr.evaluate();
+				rsp.addReturnValueExpr(returnValueExprEvaluated.checkIR(Expression.class));
 			}
 			return rsp;
 		}

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.ast.decl.DeclNode;
+import de.unika.ipd.grgen.ast.stmt.invocation.ProcedureInvocationBaseNode;
 import de.unika.ipd.grgen.ast.stmt.invocation.ProcedureInvocationDecisionNode;
 import de.unika.ipd.grgen.ast.stmt.invocation.ProcedureMethodInvocationDecisionNode;
 import de.unika.ipd.grgen.ast.stmt.invocation.ProcedureOrExternalProcedureInvocationNode;
@@ -78,7 +79,7 @@ public class ReturnAssignmentNode extends EvalStatementNode
 	public Collection<BaseNode> getChildren()
 	{
 		List<BaseNode> children = new ArrayList<BaseNode>();
-		children.add(procedure != null ? procedure : builtinProcedure != null ? builtinProcedure : procedureMethod);
+		children.add(getValidProcedure());
 		children.add(targets);
 		return children;
 	}
@@ -91,6 +92,13 @@ public class ReturnAssignmentNode extends EvalStatementNode
 		childrenNames.add("lhs");
 		childrenNames.add("rhs");
 		return childrenNames;
+	}
+
+	public ProcedureInvocationBaseNode getValidProcedure()
+	{
+		return procedure != null ? 
+				(ProcedureInvocationBaseNode)procedure :
+				builtinProcedure != null ? (ProcedureInvocationBaseNode)builtinProcedure : (ProcedureInvocationBaseNode)procedureMethod;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
@@ -148,13 +156,7 @@ public class ReturnAssignmentNode extends EvalStatementNode
 	protected IR constructIR()
 	{
 		ReturnAssignment retAssign;
-		if(procedure != null) {
-			retAssign = new ReturnAssignment(procedure.checkIR(ProcedureOrBuiltinProcedureInvocationBase.class));
-		} else if(builtinProcedure != null) {
-			retAssign = new ReturnAssignment(builtinProcedure.checkIR(ProcedureOrBuiltinProcedureInvocationBase.class));
-		} else {
-			retAssign = new ReturnAssignment(procedureMethod.checkIR(ProcedureOrBuiltinProcedureInvocationBase.class));
-		}
+		retAssign = new ReturnAssignment(getValidProcedure().checkIR(ProcedureOrBuiltinProcedureInvocationBase.class));
 		for(EvalStatementNode target : targets.getChildrenExact()) {
 			retAssign.addAssignment(target.checkIR(AssignmentBase.class));
 		}
