@@ -33,9 +33,8 @@ public abstract class ArrayProcedureMethodInvocationBaseNode extends ContainerPr
 		super(coords, targetVar);
 	}
 
-	@Override
-	protected ArrayTypeNode getTargetType()
+	protected ArrayTypeNode getTargetTypeExact()
 	{
-		return (ArrayTypeNode)super.getTargetType();
+		return (ArrayTypeNode)getTargetType();
 	}
 }

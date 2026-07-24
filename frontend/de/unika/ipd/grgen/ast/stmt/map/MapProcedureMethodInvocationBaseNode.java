@@ -33,9 +33,8 @@ public abstract class MapProcedureMethodInvocationBaseNode extends ContainerProc
 		super(coords, targetVar);
 	}
 
-	@Override
-	protected MapTypeNode getTargetType()
+	protected MapTypeNode getTargetTypeExact()
 	{
-		return (MapTypeNode)super.getTargetType();
+		return (MapTypeNode)getTargetType();
 	}
 }

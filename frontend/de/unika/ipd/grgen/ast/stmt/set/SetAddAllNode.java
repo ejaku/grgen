@@ -61,7 +61,7 @@ public class SetAddAllNode extends SetProcedureMethodInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		SetTypeNode targetType = getTargetType();
+		SetTypeNode targetType = getTargetTypeExact();
 		boolean success = true;
 		success &= checkType(valueExpr, targetType, "set add all statement", "value");
 		return success;

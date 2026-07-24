@@ -61,7 +61,7 @@ public class ArrayAddAllNode extends ArrayProcedureMethodInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		ArrayTypeNode targetType = getTargetType();
+		ArrayTypeNode targetType = getTargetTypeExact();
 		boolean success = true;
 		success &= checkType(valueExpr, targetType, "array add all statement", "value");
 		return success;

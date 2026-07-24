@@ -33,9 +33,8 @@ public abstract class SetProcedureMethodInvocationBaseNode extends ContainerProc
 		super(coords, targetVar);
 	}
 
-	@Override
-	protected SetTypeNode getTargetType()
+	protected SetTypeNode getTargetTypeExact()
 	{
-		return (SetTypeNode)super.getTargetType();
+		return (SetTypeNode)getTargetType();
 	}
 }

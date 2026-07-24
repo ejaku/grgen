@@ -78,7 +78,7 @@ public class MapRemoveItemNode extends MapProcedureMethodInvocationBaseNode
 	@Override
 	protected boolean checkLocal()
 	{
-		MapTypeNode targetType = getTargetType();
+		MapTypeNode targetType = getTargetTypeExact();
 		if(target != null) {
 			TypeNode targetKeyType = targetType.keyType;
 			TypeNode keyType = keyExpr.getType();

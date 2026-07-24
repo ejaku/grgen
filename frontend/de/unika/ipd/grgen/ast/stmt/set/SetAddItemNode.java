@@ -72,7 +72,7 @@ public class SetAddItemNode extends SetProcedureMethodInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		SetTypeNode targetType = getTargetType();
+		SetTypeNode targetType = getTargetTypeExact();
 		if(target != null) {
 			TypeNode targetValueType = targetType.valueType;
 			TypeNode valueType = valueExpr.getType();

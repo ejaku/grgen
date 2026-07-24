@@ -33,9 +33,8 @@ public abstract class DequeProcedureMethodInvocationBaseNode extends ContainerPr
 		super(coords, targetVar);
 	}
 
-	@Override
-	protected DequeTypeNode getTargetType()
+	protected DequeTypeNode getTargetTypeExact()
 	{
-		return (DequeTypeNode)super.getTargetType();
+		return (DequeTypeNode)getTargetType();
 	}
 }

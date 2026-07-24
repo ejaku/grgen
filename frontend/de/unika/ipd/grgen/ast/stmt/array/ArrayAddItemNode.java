@@ -82,7 +82,7 @@ public class ArrayAddItemNode extends ArrayProcedureMethodInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		ArrayTypeNode targetType = getTargetType();
+		ArrayTypeNode targetType = getTargetTypeExact();
 		if(target != null) {
 			TypeNode targetValueType = targetType.valueType;
 			TypeNode valueType = valueExpr.getType();

@@ -82,7 +82,7 @@ public class DequeAddItemNode extends DequeProcedureMethodInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		DequeTypeNode targetType = getTargetType();
+		DequeTypeNode targetType = getTargetTypeExact();
 		if(target != null) {
 			TypeNode targetValueType = targetType.valueType;
 			TypeNode valueType = valueExpr.getType();

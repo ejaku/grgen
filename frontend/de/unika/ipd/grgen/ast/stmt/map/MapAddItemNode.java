@@ -77,7 +77,7 @@ public class MapAddItemNode extends MapProcedureMethodInvocationBaseNode
 	protected boolean checkLocal()
 	{
 		// target type already checked during resolving into this node
-		MapTypeNode targetType = getTargetType();
+		MapTypeNode targetType = getTargetTypeExact();
 		if(target != null) {
 			TypeNode targetKeyType = targetType.keyType;
 			TypeNode keyType = keyExpr.getType();
