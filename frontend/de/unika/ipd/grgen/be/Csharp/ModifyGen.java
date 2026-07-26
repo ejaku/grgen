@@ -264,17 +264,18 @@ public class ModifyGen extends CSharpBase
 		// Emit dispatcher calling the modify-method of the alternative case which was matched
 		boolean firstCase = true;
 		for(Rule altCase : alt.getAlternativeCases()) {
+			PatternGraphLhs pattern = altCase.getPattern();
 			if(firstCase) {
 				sb.appendFront("if(curMatch.Pattern == "
-						+ pathPrefix + altName + "_" + altCase.getPattern().getNameOfGraph() + ") {\n");
+						+ pathPrefix + altName + "_" + pattern.getNameOfGraph() + ") {\n");
 				firstCase = false;
 			} else {
 				sb.appendFront("else if(curMatch.Pattern == "
-						+ pathPrefix + altName + "_" + altCase.getPattern().getNameOfGraph() + ") {\n");
+						+ pathPrefix + altName + "_" + pattern.getNameOfGraph() + ") {\n");
 			}
 			sb.indent();
-			sb.appendFront(pathPrefix + altName + "_" + altCase.getPattern().getNameOfGraph() + "_Modify"
-					+ "(actionEnv, (Match_" + pathPrefix + altName + "_" + altCase.getPattern().getNameOfGraph()
+			sb.appendFront(pathPrefix + altName + "_" + pattern.getNameOfGraph() + "_Modify"
+					+ "(actionEnv, (Match_" + pathPrefix + altName + "_" + pattern.getNameOfGraph()
 					+ ")curMatch");
 			replParameters = altCase.getRight().getReplParameters();
 			for(Entity entity : replParameters) {
@@ -320,17 +321,18 @@ public class ModifyGen extends CSharpBase
 		// Emit dispatcher calling the delete-method of the alternative case which was matched
 		boolean firstCase = true;
 		for(Rule altCase : alt.getAlternativeCases()) {
+			PatternGraphLhs pattern = altCase.getPattern();
 			if(firstCase) {
 				sb.appendFront("if(curMatch.Pattern == "
-						+ pathPrefix + altName + "_" + altCase.getPattern().getNameOfGraph() + ") {\n");
+						+ pathPrefix + altName + "_" + pattern.getNameOfGraph() + ") {\n");
 				firstCase = false;
 			} else {
 				sb.appendFront("else if(curMatch.Pattern == "
-						+ pathPrefix + altName + "_" + altCase.getPattern().getNameOfGraph() + ") {\n");
+						+ pathPrefix + altName + "_" + pattern.getNameOfGraph() + ") {\n");
 			}
 			sb.indent();
-			sb.appendFront(pathPrefix + altName + "_" + altCase.getPattern().getNameOfGraph() + "_"
-					+ "Delete(actionEnv, (Match_" + pathPrefix + altName + "_" + altCase.getPattern().getNameOfGraph()
+			sb.appendFront(pathPrefix + altName + "_" + pattern.getNameOfGraph() + "_"
+					+ "Delete(actionEnv, (Match_" + pathPrefix + altName + "_" + pattern.getNameOfGraph()
 					+ ")curMatch);\n");
 			sb.appendFront("return;\n");
 			sb.unindent();
