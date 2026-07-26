@@ -1376,14 +1376,14 @@ public abstract class CSharpBase
 			}
 		} else if(expr instanceof ArrayIndexOfByExpr) {
 			ArrayIndexOfByExpr aib = (ArrayIndexOfByExpr)expr;
-			Type arrayValueType = aib.getTargetType().getValueType();
+			Type arrayValueType = aib.getTargetTypeExact().getValueType();
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.getMapExprToTempVar().get(aib));
 			} else {
 				switchToVarForResultAsNeeded(modifyGenerationState);
 				if(arrayValueType instanceof InheritanceType) {
 					sb.append("GRGEN_MODEL.ArrayHelper_"
-							+ aib.getTargetType().getValueType().getIdent().toString() + "_"
+							+ aib.getTargetTypeExact().getValueType().getIdent().toString() + "_"
 							+ formatIdentifiable(aib.getMember()) + ".ArrayIndexOfBy(");
 					genExpression(sb, aib.getTargetExpr(), modifyGenerationState);
 					sb.append(", ");
@@ -1455,14 +1455,14 @@ public abstract class CSharpBase
 			}
 		} else if(expr instanceof ArrayIndexOfOrderedByExpr) {
 			ArrayIndexOfOrderedByExpr aiob = (ArrayIndexOfOrderedByExpr)expr;
-			Type arrayValueType = aiob.getTargetType().getValueType();
+			Type arrayValueType = aiob.getTargetTypeExact().getValueType();
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.getMapExprToTempVar().get(aiob));
 			} else {
 				switchToVarForResultAsNeeded(modifyGenerationState);
 				if(arrayValueType instanceof InheritanceType) {
 					sb.append("GRGEN_MODEL.ArrayHelper_"
-							+ aiob.getTargetType().getValueType().getIdent().toString() + "_"
+							+ aiob.getTargetTypeExact().getValueType().getIdent().toString() + "_"
 							+ formatIdentifiable(aiob.getMember()) + ".ArrayIndexOfOrderedBy(");
 					genExpression(sb, aiob.getTargetExpr(), modifyGenerationState);
 					sb.append(", ");
@@ -1522,14 +1522,14 @@ public abstract class CSharpBase
 			}
 		} else if(expr instanceof ArrayLastIndexOfByExpr) {
 			ArrayLastIndexOfByExpr alib = (ArrayLastIndexOfByExpr)expr;
-			Type arrayValueType = alib.getTargetType().getValueType();
+			Type arrayValueType = alib.getTargetTypeExact().getValueType();
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.getMapExprToTempVar().get(alib));
 			} else {
 				switchToVarForResultAsNeeded(modifyGenerationState);
 				if(arrayValueType instanceof InheritanceType) {
 					sb.append("GRGEN_MODEL.ArrayHelper_"
-							+ alib.getTargetType().getValueType().getIdent().toString() + "_"
+							+ alib.getTargetTypeExact().getValueType().getIdent().toString() + "_"
 							+ formatIdentifiable(alib.getMember()) + ".ArrayLastIndexOfBy(");
 					genExpression(sb, alib.getTargetExpr(), modifyGenerationState);
 					sb.append(", ");
@@ -1643,7 +1643,7 @@ public abstract class CSharpBase
 			}
 		} else if(expr instanceof ArrayOrderAscendingBy) {
 			ArrayOrderAscendingBy aoab = (ArrayOrderAscendingBy)expr;
-			Type arrayValueType = aoab.getTargetType().getValueType();
+			Type arrayValueType = aoab.getTargetTypeExact().getValueType();
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.getMapExprToTempVar().get(aoab));
 			} else {
@@ -1687,7 +1687,7 @@ public abstract class CSharpBase
 			}
 		} else if(expr instanceof ArrayOrderDescendingBy) {
 			ArrayOrderDescendingBy aodb = (ArrayOrderDescendingBy)expr;
-			Type arrayValueType = aodb.getTargetType().getValueType();
+			Type arrayValueType = aodb.getTargetTypeExact().getValueType();
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.getMapExprToTempVar().get(aodb));
 			} else {
@@ -1731,7 +1731,7 @@ public abstract class CSharpBase
 			}
 		} else if(expr instanceof ArrayGroupBy) {
 			ArrayGroupBy agb = (ArrayGroupBy)expr;
-			Type arrayValueType = agb.getTargetType().getValueType();
+			Type arrayValueType = agb.getTargetTypeExact().getValueType();
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.getMapExprToTempVar().get(agb));
 			} else {
@@ -1775,7 +1775,7 @@ public abstract class CSharpBase
 			}
 		} else if(expr instanceof ArrayKeepOneForEachBy) {
 			ArrayKeepOneForEachBy akob = (ArrayKeepOneForEachBy)expr;
-			Type arrayValueType = akob.getTargetType().getValueType();
+			Type arrayValueType = akob.getTargetTypeExact().getValueType();
 			if(modifyGenerationState != null && modifyGenerationState.useVarForResult()) {
 				sb.append(modifyGenerationState.getMapExprToTempVar().get(akob));
 			} else {
@@ -1843,7 +1843,7 @@ public abstract class CSharpBase
 				sb.append(modifyGenerationState.getMapExprToTempVar().get(ae));
 			} else {
 				switchToVarForResultAsNeeded(modifyGenerationState);
-				Type arrayValueType = ae.getTargetType().getValueType();
+				Type arrayValueType = ae.getTargetTypeExact().getValueType();
 				if(arrayValueType instanceof InheritanceType) {
 					InheritanceType graphElementType = (InheritanceType)arrayValueType;
 					String arrayHelperClassName = getPackagePrefixDot(graphElementType) + "ArrayHelper_"
@@ -4541,7 +4541,7 @@ public abstract class CSharpBase
 
 		String arrayMapName = "ArrayMap_" + arrayMap.getId();
 
-		ArrayType arrayInputTypeType = arrayMap.getTargetType();
+		ArrayType arrayInputTypeType = arrayMap.getTargetTypeExact();
 		String arrayInputType = formatType(arrayInputTypeType);
 		String elementInputType = formatType(arrayInputTypeType.valueType);
 		ArrayType arrayOutputTypeType = (ArrayType)arrayMap.getType();
@@ -4625,7 +4625,7 @@ public abstract class CSharpBase
 
 		String arrayRemoveIfName = "ArrayRemoveIf_" + arrayRemoveIf.getId();
 
-		ArrayType arrayTypeType = arrayRemoveIf.getTargetType();
+		ArrayType arrayTypeType = arrayRemoveIf.getTargetTypeExact();
 		String arrayType = formatType(arrayTypeType);
 		String elementType = formatType(arrayTypeType.valueType);
 
@@ -4705,7 +4705,7 @@ public abstract class CSharpBase
 
 		String arrayMapName = "ArrayMapStartWithAccumulateBy_" + arrayMap.getId();
 
-		ArrayType arrayInputTypeType = arrayMap.getTargetType();
+		ArrayType arrayInputTypeType = arrayMap.getTargetTypeExact();
 		String arrayInputType = formatType(arrayInputTypeType);
 		String elementInputType = formatType(arrayInputTypeType.valueType);
 		ArrayType arrayOutputTypeType = (ArrayType)arrayMap.getType();

@@ -22,10 +22,9 @@ public abstract class DequeFunctionMethodInvocationBaseExpr extends ContainerFun
 	{
 		super(name, type, targetExpr);
 	}
-	
-	@Override
-	public DequeType getTargetType()
+
+	public DequeType getTargetTypeExact()
 	{
-		return (DequeType)super.getTargetType();
+		return (DequeType)getTargetType();
 	}
 }

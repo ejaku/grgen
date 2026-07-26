@@ -22,10 +22,9 @@ public abstract class MapFunctionMethodInvocationBaseExpr extends ContainerFunct
 	{
 		super(name, type, targetExpr);
 	}
-	
-	@Override
-	public MapType getTargetType()
+
+	public MapType getTargetTypeExact()
 	{
-		return (MapType)super.getTargetType();
+		return (MapType)getTargetType();
 	}
 }

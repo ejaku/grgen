@@ -734,7 +734,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			sb.append(")");
 		} else if(expr instanceof ArrayIndexOfByExpr) {
 			ArrayIndexOfByExpr aib = (ArrayIndexOfByExpr)expr;
-			Type arrayValueType = aib.getTargetType().getValueType();
+			Type arrayValueType = aib.getTargetTypeExact().getValueType();
 			if(arrayValueType instanceof InheritanceType) {
 				sb.append("new GRGEN_EXPR.ArrayIndexOfBy(");
 				genExpressionTree(sb, aib.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
@@ -802,11 +802,11 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			sb.append(")");
 		} else if(expr instanceof ArrayIndexOfOrderedByExpr) {
 			ArrayIndexOfOrderedByExpr aiob = (ArrayIndexOfOrderedByExpr)expr;
-			Type arrayValueType = aiob.getTargetType().getValueType();
+			Type arrayValueType = aiob.getTargetTypeExact().getValueType();
 			if(arrayValueType instanceof InheritanceType) {
 				sb.append("new GRGEN_EXPR.ArrayIndexOfOrderedBy(");
 				genExpressionTree(sb, aiob.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
-				sb.append(", \"" + aiob.getTargetType().getValueType().getIdent().toString() + "\"");
+				sb.append(", \"" + aiob.getTargetTypeExact().getValueType().getIdent().toString() + "\"");
 				sb.append(", \"" + formatIdentifiable(aiob.getMember()) + "\", ");
 				genExpressionTree(sb, aiob.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 				sb.append(")");
@@ -858,11 +858,11 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			sb.append(")");
 		} else if(expr instanceof ArrayLastIndexOfByExpr) {
 			ArrayLastIndexOfByExpr alib = (ArrayLastIndexOfByExpr)expr;
-			Type arrayValueType = alib.getTargetType().getValueType();
+			Type arrayValueType = alib.getTargetTypeExact().getValueType();
 			if(arrayValueType instanceof InheritanceType) {
 				sb.append("new GRGEN_EXPR.ArrayLastIndexOfBy(");
 				genExpressionTree(sb, alib.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
-				sb.append(", \"" + alib.getTargetType().getValueType().getIdent().toString() + "\"");
+				sb.append(", \"" + alib.getTargetTypeExact().getValueType().getIdent().toString() + "\"");
 				sb.append(", \"" + formatIdentifiable(alib.getMember()) + "\", ");
 				genExpressionTree(sb, alib.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 				if(alib.getStartIndexExpr() != null) {
@@ -950,7 +950,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			sb.append(")");
 		} else if(expr instanceof ArrayOrderAscendingBy) {
 			ArrayOrderAscendingBy aoab = (ArrayOrderAscendingBy)expr;
-			Type arrayValueType = aoab.getTargetType().getValueType();
+			Type arrayValueType = aoab.getTargetTypeExact().getValueType();
 			if(arrayValueType instanceof InheritanceType) {
 				InheritanceType graphElementType = (InheritanceType)arrayValueType;
 				ContainedInPackage cip = (ContainedInPackage)arrayValueType;
@@ -995,7 +995,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			}
 		} else if(expr instanceof ArrayOrderDescendingBy) {
 			ArrayOrderDescendingBy aodb = (ArrayOrderDescendingBy)expr;
-			Type arrayValueType = aodb.getTargetType().getValueType();
+			Type arrayValueType = aodb.getTargetTypeExact().getValueType();
 			if(arrayValueType instanceof InheritanceType) {
 				InheritanceType graphElementType = (InheritanceType)arrayValueType;
 				ContainedInPackage cip = (ContainedInPackage)arrayValueType;
@@ -1040,7 +1040,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			}
 		} else if(expr instanceof ArrayGroupBy) {
 			ArrayGroupBy agb = (ArrayGroupBy)expr;
-			Type arrayValueType = agb.getTargetType().getValueType();
+			Type arrayValueType = agb.getTargetTypeExact().getValueType();
 			if(arrayValueType instanceof InheritanceType) {
 				InheritanceType graphElementType = (InheritanceType)arrayValueType;
 				ContainedInPackage cip = (ContainedInPackage)arrayValueType;
@@ -1085,7 +1085,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			}
 		} else if(expr instanceof ArrayKeepOneForEachBy) {
 			ArrayKeepOneForEachBy akob = (ArrayKeepOneForEachBy)expr;
-			Type arrayValueType = akob.getTargetType().getValueType();
+			Type arrayValueType = akob.getTargetTypeExact().getValueType();
 			if(arrayValueType instanceof InheritanceType) {
 				InheritanceType graphElementType = (InheritanceType)arrayValueType;
 				ContainedInPackage cip = (ContainedInPackage)arrayValueType;
@@ -1140,7 +1140,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			sb.append(")");
 		} else if(expr instanceof ArrayExtract) {
 			ArrayExtract ae = (ArrayExtract)expr;
-			Type arrayValueType = ae.getTargetType().getValueType();
+			Type arrayValueType = ae.getTargetTypeExact().getValueType();
 			if(arrayValueType instanceof InheritanceType) {
 				InheritanceType graphElementType = (InheritanceType)arrayValueType;
 				ContainedInPackage cip = (ContainedInPackage)graphElementType;
@@ -1186,7 +1186,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			sb.append("new GRGEN_EXPR.ArrayMap(");
 			genExpressionTree(sb, am.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
-			ArrayType targetArrayType = am.getTargetType();
+			ArrayType targetArrayType = am.getTargetTypeExact();
 			Type targetType = targetArrayType.valueType;
 			sb.append("\"" + formatType(targetType) + "\"");
 			sb.append(", ");
@@ -1215,7 +1215,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			sb.append("new GRGEN_EXPR.ArrayRemoveIf(");
 			genExpressionTree(sb, ari.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
-			ArrayType targetArrayType = ari.getTargetType();
+			ArrayType targetArrayType = ari.getTargetTypeExact();
 			Type targetType = targetArrayType.valueType;
 			sb.append("\"" + formatType(targetType) + "\"");
 			sb.append(", ");
@@ -1244,7 +1244,7 @@ public class ActionsExpressionOrYieldingGen extends CSharpBase
 			sb.append("new GRGEN_EXPR.ArrayMapStartWithAccumulateBy(");
 			genExpressionTree(sb, am.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
-			ArrayType targetArrayType = am.getTargetType();
+			ArrayType targetArrayType = am.getTargetTypeExact();
 			Type targetType = targetArrayType.valueType;
 			sb.append("\"" + formatType(targetType) + "\"");
 			sb.append(", ");

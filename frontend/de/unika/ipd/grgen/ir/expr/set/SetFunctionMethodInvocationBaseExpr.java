@@ -23,9 +23,8 @@ public abstract class SetFunctionMethodInvocationBaseExpr extends ContainerFunct
 		super(name, type, targetExpr);
 	}
 
-	@Override
-	public SetType getTargetType()
+	public SetType getTargetTypeExact()
 	{
-		return (SetType)super.getTargetType();
+		return (SetType)getTargetType();
 	}
 }

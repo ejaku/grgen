@@ -22,10 +22,9 @@ public abstract class ArrayFunctionMethodInvocationBaseExpr extends ContainerFun
 	{
 		super(name, type, targetExpr);
 	}
-	
-	@Override
-	public ArrayType getTargetType()
+
+	public ArrayType getTargetTypeExact()
 	{
-		return (ArrayType)super.getTargetType();
+		return (ArrayType)getTargetType();
 	}
 }
