@@ -62,7 +62,7 @@ public class SourceBuilder
 		return this;
 	}
 
-	public String getIndent()
+	public String getIndentation()
 	{
 		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < indentationLevel; ++i) {

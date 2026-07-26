@@ -728,7 +728,7 @@ public class ModifyEvalGen extends CSharpBase
 				genExpression(sb, changedTarget, state);
 				sb.append(";\n");
 
-				String prefix = sb.getIndent() + varName + changedOperation;
+				String prefix = sb.getIndentation() + varName + changedOperation;
 
 				genCompoundAssignment(sb, state, cass, prefix, ";\n");
 
@@ -740,7 +740,7 @@ public class ModifyEvalGen extends CSharpBase
 
 				genChangedAttribute(sb, state, changedTarget);
 			} else {
-				genCompoundAssignment(sb, state, cass, sb.getIndent(), ";\n");
+				genCompoundAssignment(sb, state, cass, sb.getIndentation(), ";\n");
 			}
 		}
 	}
@@ -757,7 +757,7 @@ public class ModifyEvalGen extends CSharpBase
 		else //if(cass.getChangedOperation()==CompoundAssignment.CompoundAssignmentType.ASSIGN)
 			changedOperation = " = ";
 
-		String prefix = sb.getIndent() + formatEntity(changedTarget) + changedOperation;
+		String prefix = sb.getIndentation() + formatEntity(changedTarget) + changedOperation;
 
 		genCompoundAssignment(sb, state, cass, prefix, ";\n");
 	}
@@ -772,7 +772,7 @@ public class ModifyEvalGen extends CSharpBase
 		changedTargetBuffer.append(", ");
 		genExpression(changedTargetBuffer, changedTarget.getVisitorID(), state);
 
-		String prefix = sb.getIndent() + "graph.SetVisited("
+		String prefix = sb.getIndentation() + "graph.SetVisited("
 				+ changedTargetBuffer.toString() + ", ";
 		if(cass.getChangedOperation() != CompoundAssignment.CompoundAssignmentType.ASSIGN) {
 			prefix += "graph.IsVisited(" + changedTargetBuffer.toString() + ")"
@@ -843,7 +843,7 @@ public class ModifyEvalGen extends CSharpBase
 			genExpression(sb, changedTarget, state);
 			sb.append(";\n");
 
-			String prefix = sb.getIndent() + varName + changedOperation;
+			String prefix = sb.getIndentation() + varName + changedOperation;
 
 			genCompoundAssignmentVar(sb, state, cass, prefix, ";\n");
 
@@ -855,7 +855,7 @@ public class ModifyEvalGen extends CSharpBase
 
 			genChangedAttribute(sb, state, changedTarget);
 		} else {
-			genCompoundAssignmentVar(sb, state, cass, sb.getIndent(), ";\n");
+			genCompoundAssignmentVar(sb, state, cass, sb.getIndentation(), ";\n");
 		}
 	}
 
@@ -871,7 +871,7 @@ public class ModifyEvalGen extends CSharpBase
 		else //if(cass.getChangedOperation()==CompoundAssignmentVar.CompoundAssignmentType.ASSIGN)
 			changedOperation = " = ";
 
-		String prefix = sb.getIndent() + formatEntity(changedTarget) + changedOperation;
+		String prefix = sb.getIndentation() + formatEntity(changedTarget) + changedOperation;
 
 		genCompoundAssignmentVar(sb, state, cass, prefix, ";\n");
 	}
@@ -886,7 +886,7 @@ public class ModifyEvalGen extends CSharpBase
 		changedTargetBuffer.append(", ");
 		genExpression(changedTargetBuffer, changedTarget.getVisitorID(), state);
 
-		String prefix = sb.getIndent() + "graph.SetVisited("
+		String prefix = sb.getIndentation() + "graph.SetVisited("
 				+ changedTargetBuffer.toString() + ", ";
 		if(cass.getChangedOperation() != CompoundAssignmentVar.CompoundAssignmentType.ASSIGN) {
 			prefix += "graph.IsVisited(" + changedTargetBuffer.toString() + ")"
