@@ -12,6 +12,7 @@
 package de.unika.ipd.grgen.ir.executable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class MatchClassFilterFunctionInternal extends MatchClassFilterFunction i
 
 	/** Get all computation statements of this match class filter function. */
 	@Override
-	public List<EvalStatement> getStatements()
+	public Collection<EvalStatement> getStatements()
 	{
 		return Collections.unmodifiableList(computationStatements);
 	}

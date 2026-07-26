@@ -4129,7 +4129,7 @@ public abstract class CSharpBase
 		}
 	}
 
-	protected static void forceNotConstant(List<EvalStatement> statements)
+	protected static void forceNotConstant(Collection<EvalStatement> statements)
 	{
 		NeededEntities needs = new NeededEntities(EnumSet.of(Needs.CONTAINER_EXPRS));
 		for(EvalStatement eval : statements) {
