@@ -116,7 +116,7 @@ public class DebugReporter extends Reporter
 	public void report(int channel, String msg)
 	{
 		makePrefix();
-		super.report(channel, EmptyLocation.getEmptyLocation(),
+		super.report(channel, EmptyLocation.getEmptyLoc(),
 				prefix + ": " + msg);
 	}
 }

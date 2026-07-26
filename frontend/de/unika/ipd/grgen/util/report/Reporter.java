@@ -101,6 +101,6 @@ public abstract class Reporter
 
 	public void report(int channel, String msg)
 	{
-		report(channel, EmptyLocation.getEmptyLocation(), msg);
+		report(channel, EmptyLocation.getEmptyLoc(), msg);
 	}
 }

@@ -46,7 +46,7 @@ public class EmptyLocation implements Location
 	 * Get a new empty location
 	 * @return an empty location
 	 */
-	public static EmptyLocation getEmptyLocation()
+	public static EmptyLocation getEmptyLoc()
 	{
 		return EMPTY;
 	}
