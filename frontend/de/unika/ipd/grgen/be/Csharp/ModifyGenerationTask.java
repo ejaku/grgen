@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphRhs;
 import de.unika.ipd.grgen.ir.stmt.EvalStatements;
 
-class ModifyGenerationTask
+public class ModifyGenerationTask
 {
 	public static final int TYPE_OF_TASK_NONE = 0;
 	public static final int TYPE_OF_TASK_MODIFY = 1;

@@ -23,7 +23,7 @@ import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 
-interface ModifyGenerationStateConst extends ExpressionGenerationState
+public interface ModifyGenerationStateConst extends ExpressionGenerationState
 {
 	String getName();
 

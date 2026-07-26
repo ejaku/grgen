@@ -332,7 +332,7 @@ public abstract class CSharpBase
 			sb.append(" }");
 	}
 
-	public static void genSubpatternUsageSet(SourceBuilder sb, Collection<? extends SubpatternUsage> set, String pre,
+	public static void genSubpatternUsageSet(SourceBuilder sb, Collection<SubpatternUsage> set, String pre,
 			String post,
 			boolean brackets, String pathPrefix,
 			HashMap<? extends Identifiable, String> alreadyDefinedIdentifiableToName)

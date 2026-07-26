@@ -34,7 +34,7 @@ import de.unika.ipd.grgen.ir.pattern.SubpatternUsage;
 import de.unika.ipd.grgen.ir.pattern.Variable;
 import de.unika.ipd.grgen.util.SourceBuilder;
 
-class ModifyGenerationState implements ModifyGenerationStateConst
+public class ModifyGenerationState implements ModifyGenerationStateConst
 {
 	@Override
 	public String getName()
