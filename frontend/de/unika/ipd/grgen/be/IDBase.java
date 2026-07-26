@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 
 import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.Unit;
 import de.unika.ipd.grgen.ir.executable.Rule;
@@ -25,8 +24,6 @@ import de.unika.ipd.grgen.ir.model.type.EdgeType;
 import de.unika.ipd.grgen.ir.model.type.EnumType;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 import de.unika.ipd.grgen.ir.model.type.NodeType;
-import de.unika.ipd.grgen.ir.pattern.Edge;
-import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.type.CompoundType;
 import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.util.Base;
@@ -39,14 +36,14 @@ public abstract class IDBase extends Base implements IDTypeModel
 	/** node type to type id map. (Type -> Integer) */
 	public final Map<NodeType, Integer> nodeTypeMap = new LinkedHashMap<NodeType, Integer>();
 
-	/** node type to type id map. (Type -> Integer) */
+	/** edge type to type id map. (Type -> Integer) */
 	public final Map<EdgeType, Integer> edgeTypeMap = new LinkedHashMap<EdgeType, Integer>();
 
 	/** node attribute map. (Entity -> Integer) */
-	public final Map<Node, Integer> nodeAttrMap = new LinkedHashMap<Node, Integer>();
+	public final Map<Entity, Integer> nodeAttrMap = new LinkedHashMap<Entity, Integer>();
 
-	/** node attribute map. (Entity -> Integer) */
-	public final Map<Edge, Integer> edgeAttrMap = new LinkedHashMap<Edge, Integer>();
+	/** edge attribute map. (Entity -> Integer) */
+	public final Map<Entity, Integer> edgeAttrMap = new LinkedHashMap<Entity, Integer>();
 
 	/** enum value map. (Enum -> Integer) */
 	public final Map<EnumType, Integer> enumMap = new LinkedHashMap<EnumType, Integer>();
@@ -81,9 +78,9 @@ public abstract class IDBase extends Base implements IDTypeModel
 	{
 		for(Entity ent : ct.getMembers()) {
 			if(ct instanceof NodeType)
-				nodeAttrMap.put((Node)ent, new Integer(nodeAttrMap.size()));
+				nodeAttrMap.put(ent, new Integer(nodeAttrMap.size()));
 			else if(ct instanceof EdgeType)
-				edgeAttrMap.put((Edge)ent, new Integer(edgeAttrMap.size()));
+				edgeAttrMap.put(ent, new Integer(edgeAttrMap.size()));
 			else
 				assert false : "Wrong type";
 		}
@@ -260,9 +257,9 @@ public abstract class IDBase extends Base implements IDTypeModel
 	 * @param ty The inheritance type to get the id for.
 	 * @return The type id for this type.
 	 */
-	protected static final int getTypeId(Map<? extends Identifiable, Integer> map, IR obj)
+	protected static final int getTypeId(Map<? extends Type, Integer> map, Type t)
 	{
-		Integer res = map.get((Identifiable)obj);
+		Integer res = map.get(t);
 		return res.intValue();
 	}
 

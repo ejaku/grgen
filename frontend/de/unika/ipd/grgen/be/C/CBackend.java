@@ -130,7 +130,7 @@ public abstract class CBackend extends IDBase implements Backend
 	 * @param attrMap The attribute map to use.
 	 * @param labelAdd The string to add to the define's name.
 	 */
-	protected static void makeAttrDefines(PrintStream ps, Map<? extends Entity, Integer> attrMap,
+	protected static void makeAttrDefines(PrintStream ps, Map<Entity, Integer> attrMap,
 			String labelAdd)
 	{
 		ps.print("/** Number of attributes macro for " + labelAdd + " */\n");
@@ -178,7 +178,7 @@ public abstract class CBackend extends IDBase implements Backend
 	{
 		String[] names = new String[map.size()];
 
-		for(Identifiable ty : map.keySet()) {
+		for(InheritanceType ty : map.keySet()) {
 			int index = getTypeId(map, ty);
 			names[index] = ty.getIdent().toString();
 		}
@@ -200,7 +200,7 @@ public abstract class CBackend extends IDBase implements Backend
 	 * @param enumMap The enum type map.
 	 * @param add A string to add to the identifier of the map.
 	 */
-	protected static void makeAttrMap(PrintStream ps, Map<? extends Entity, Integer> attrMap,
+	protected static void makeAttrMap(PrintStream ps, Map<Entity, Integer> attrMap,
 			Map<? extends InheritanceType, Integer> typeMap,
 			Map<EnumType, Integer> enumMap, String add)
 	{
@@ -326,7 +326,7 @@ public abstract class CBackend extends IDBase implements Backend
 	 * @param typeMap The type map to use.
 	 */
 	protected static void makeAttrMatrix(PrintStream ps, String add,
-			Map<? extends Entity, Integer> attrMap, Map<? extends InheritanceType, Integer> typeMap)
+			Map<Entity, Integer> attrMap, Map<? extends InheritanceType, Integer> typeMap)
 	{
 
 		int maxTypeId = typeMap.size();
