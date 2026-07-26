@@ -468,6 +468,7 @@ public class ActionsGen extends CSharpBase
 		String actionName = formatIdentifiable(subpatternRule);
 		String className = "Pattern_" + actionName;
 		List<String> staticInitializers = new ArrayList<String>();
+		PatternGraphLhs pattern = subpatternRule.getPattern();
 
 		sb.appendFront("public class " + className + " : GRGEN_LGSP.LGSPMatchingPattern\n");
 		sb.appendFront("{\n");
@@ -477,9 +478,9 @@ public class ActionsGen extends CSharpBase
 				+ "instance = new " + className + "(); instance.initialize(); } return instance; } }\n");
 		sb.append("\n");
 
-		String patGraphVarName = "pat_" + subpatternRule.getPattern().getNameOfGraph();
+		String patGraphVarName = "pat_" + pattern.getNameOfGraph();
 		genRuleOrSubpatternClassEntities(sb, subpatternRule, patGraphVarName, staticInitializers,
-				subpatternRule.getPattern().getNameOfGraph() + "_", new HashMap<Entity, String>());
+				pattern.getNameOfGraph() + "_", new HashMap<Entity, String>());
 		sb.append("\n");
 		genRuleOrSubpatternInit(sb, subpatternRule, className, packageName, true);
 		sb.append("\n");
@@ -493,7 +494,7 @@ public class ActionsGen extends CSharpBase
 
 		genStaticConstructor(sb, className, staticInitializers);
 
-		genMatch(sb, subpatternRule.getPattern(), null, className, false);
+		genMatch(sb, pattern, null, className, false);
 
 		sb.unindent();
 		sb.appendFront("}\n");
@@ -513,6 +514,7 @@ public class ActionsGen extends CSharpBase
 		String actionName = formatIdentifiable(actionRule);
 		String className = "Rule_" + actionName;
 		List<String> staticInitializers = new ArrayList<String>();
+		PatternGraphLhs pattern = actionRule.getPattern();
 
 		sb.appendFront("public class " + className + " : GRGEN_LGSP.LGSPRulePattern\n");
 		sb.appendFront("{\n");
@@ -522,9 +524,9 @@ public class ActionsGen extends CSharpBase
 				+ "instance = new " + className + "(); instance.initialize(); } return instance; } }\n");
 		sb.append("\n");
 
-		String patGraphVarName = "pat_" + actionRule.getPattern().getNameOfGraph();
+		String patGraphVarName = "pat_" + pattern.getNameOfGraph();
 		genRuleOrSubpatternClassEntities(sb, actionRule, patGraphVarName, staticInitializers,
-				actionRule.getPattern().getNameOfGraph() + "_", new HashMap<Entity, String>());
+				pattern.getNameOfGraph() + "_", new HashMap<Entity, String>());
 		sb.append("\n");
 		genRuleOrSubpatternInit(sb, actionRule, className, packageName, false);
 		sb.append("\n");
@@ -538,7 +540,7 @@ public class ActionsGen extends CSharpBase
 
 		genStaticConstructor(sb, className, staticInitializers);
 
-		genMatch(sb, actionRule.getPattern(), actionRule.getImplementedMatchClasses(), className,
+		genMatch(sb, pattern, actionRule.getImplementedMatchClasses(), className,
 				actionRule.getAnnotations().containsKey("parallelize"));
 
 		sb.append("\n");
@@ -550,8 +552,8 @@ public class ActionsGen extends CSharpBase
 		sb.append("\n");
 
 		String typeName = "GRGEN_ACTIONS." + getPackagePrefixDot(actionRule)
-				+ "Rule_" + actionRule.getPattern().getNameOfGraph()
-				+ ".IMatch_" + actionRule.getPattern().getNameOfGraph();
+				+ "Rule_" + pattern.getNameOfGraph()
+				+ ".IMatch_" + pattern.getNameOfGraph();
 		String listTypeName = "List<" + typeName + ">";
 		emitConvertAsNeededHelper(sb, typeName, listTypeName);
 
@@ -796,13 +798,15 @@ public class ActionsGen extends CSharpBase
 	private void genArgumentCasting(SourceBuilder sb, Entity inParam, int argumentNumber)
 	{
 		if(inParam.getType().isArrayOfMatchType()) {
-			MatchType matchType = (MatchType)((ArrayType)inParam.getType()).getValueType();
+			ArrayType arrayType = (ArrayType)inParam.getType();
+			MatchType matchType = (MatchType)arrayType.getValueType();
 			String packagePrefixOfAction = "GRGEN_ACTIONS." + getPackagePrefixDot(matchType.getAction());
 			String actionName = matchType.getAction().getIdent().toString();
 			String ruleClass = packagePrefixOfAction + "Rule_" + actionName;
 			sb.append(", " + ruleClass + ".ConvertAsNeeded(arguments[" + argumentNumber + "])");
 		} else if(inParam.getType().isArrayOfMatchClassType()) {
-			DefinedMatchType matchType = (DefinedMatchType)((ArrayType)inParam.getType()).getValueType();
+			ArrayType arrayType = (ArrayType)inParam.getType();
+			DefinedMatchType matchType = (DefinedMatchType)arrayType.getValueType();
 			String packagePrefixOfMatchClass = "GRGEN_ACTIONS." + getPackagePrefixDot(matchType);
 			String matchClassName = matchType.getIdent().toString();
 			String matchClass = packagePrefixOfMatchClass + "MatchClassInfo_" + matchClassName;
@@ -1403,8 +1407,9 @@ public class ActionsGen extends CSharpBase
 	void genArraySortBy(SourceBuilder sb, Rule actionRule, MemberBearerType memberBearerType, Rule iteratedRule)
 	{
 		Rule rule = iteratedRule != null ? iteratedRule : actionRule;
+		PatternGraphLhs pattern = rule.getPattern();
 
-		for(Variable var : rule.getPattern().getVars()) {
+		for(Variable var : pattern.getVars()) {
 			if(var.getType().isOrderableType()) {
 				generateComparer(sb, actionRule, memberBearerType, iteratedRule, var, true);
 				generateComparer(sb, actionRule, memberBearerType, iteratedRule, var, false);
@@ -1418,7 +1423,7 @@ public class ActionsGen extends CSharpBase
 
 		genInstanceBearingAttributeForSearch(sb, actionRule, memberBearerType, iteratedRule);
 
-		for(Variable var : rule.getPattern().getVars()) {
+		for(Variable var : pattern.getVars()) {
 			if(var.getType().isOrderableType()) {
 				generateArrayOrderBy(sb, actionRule, memberBearerType, iteratedRule, var, true);
 				generateArrayOrderBy(sb, actionRule, memberBearerType, iteratedRule, var, false);
@@ -1433,7 +1438,7 @@ public class ActionsGen extends CSharpBase
 			}
 		}
 
-		for(Variable var : rule.getPattern().getVars()) {
+		for(Variable var : pattern.getVars()) {
 			if(var.getType().isFilterableType() && !var.getType().isOrderableType()) {
 				generateArrayGroupByKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, var, true);
 				generateArrayGroupByKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, var, false);
@@ -1445,7 +1450,7 @@ public class ActionsGen extends CSharpBase
 			}
 		}
 
-		for(Node node : rule.getPattern().getNodes()) {
+		for(Node node : pattern.getNodes()) {
 			generateArrayGroupByKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, node, true);
 			generateArrayGroupByKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, node, false);
 			
@@ -1455,7 +1460,7 @@ public class ActionsGen extends CSharpBase
 			genIndexOfAndLastIndexOfByMethod(sb, actionRule, memberBearerType, iteratedRule, node, false, true);
 		}
 
-		for(Edge edge : rule.getPattern().getEdges()) {
+		for(Edge edge : pattern.getEdges()) {
 			generateArrayGroupByKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, edge, true);
 			generateArrayGroupByKeepOneForEach(sb, actionRule, memberBearerType, iteratedRule, edge, false);
 			
