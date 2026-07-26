@@ -14,7 +14,6 @@ package de.unika.ipd.grgen.be.Csharp;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Map;
 
 import de.unika.ipd.grgen.ast.BaseNode;
@@ -327,10 +326,10 @@ public class ModifyExecGen extends CSharpBase
 				return;
 			}
 
-			if(accessViaVariable(state, /*(GraphEntity)*/owner, member)) {
+			if(accessViaVariable(state, owner, member)) {
 				sb.append("tempvar_" + formatEntity(owner) + "_" + formatIdentifiable(member));
 			} else {
-				if(state.getAccessViaInterface().contains(owner))
+				if(accessViaInterface(state, owner))
 					sb.append("i");
 
 				sb.append(formatEntity(owner) + ".@" + formatIdentifiable(member));
@@ -346,11 +345,5 @@ public class ModifyExecGen extends CSharpBase
 	{
 		// needed in implementing methods
 		sb.append("@" + formatIdentifiable(member));
-	}
-
-	private static boolean accessViaVariable(ModifyGenerationStateConst state, Entity elem, Entity attr)
-	{
-		HashSet<Entity> forcedAttrs = state.getForceAttributeToVar().get(elem);
-		return forcedAttrs != null && forcedAttrs.contains(attr);
 	}
 }

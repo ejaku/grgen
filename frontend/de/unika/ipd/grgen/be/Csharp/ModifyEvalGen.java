@@ -13,7 +13,6 @@
 package de.unika.ipd.grgen.be.Csharp;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -3686,10 +3685,10 @@ public class ModifyEvalGen extends CSharpBase
 				return;
 			}
 
-			if(accessViaVariable(state, /*(GraphEntity)*/owner, member)) {
+			if(accessViaVariable(state, owner, member)) {
 				sb.append("tempvar_" + formatEntity(owner) + "_" + formatIdentifiable(member));
 			} else {
-				if(state.getAccessViaInterface().contains(owner))
+				if(accessViaInterface(state, owner))
 					sb.append("i");
 
 				sb.append(formatEntity(owner) + ".@" + formatIdentifiable(member));
@@ -3705,11 +3704,5 @@ public class ModifyEvalGen extends CSharpBase
 	{
 		// needed in implementing methods
 		sb.append("@" + formatIdentifiable(member));
-	}
-
-	private static boolean accessViaVariable(ModifyGenerationStateConst state, Entity elem, Entity attr)
-	{
-		HashSet<Entity> forcedAttrs = state.getForceAttributeToVar().get(elem);
-		return forcedAttrs != null && forcedAttrs.contains(attr);
 	}
 }

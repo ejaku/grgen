@@ -4794,10 +4794,6 @@ public abstract class CSharpBase
 		modifyGenerationState.getPerElementMethodSourceBuilder().append(sb.toString());
 	}
 
-	///////////////////////
-	// Private variables //
-	///////////////////////
-
 	/* (unary and binary) operator symbols (of the C-language) */
 	// The first two shift operations are signed shifts, the second right shift is unsigned.
 	private static String getOperatorSymbol(OperatorCode opCode)
@@ -4828,6 +4824,23 @@ public abstract class CSharpBase
 		case NEG: return "-";
 		default: throw new RuntimeException("internal failure");
 		}
+	}
+
+	protected static boolean accessViaVariable(ModifyGenerationStateConst state, Entity elem, Entity attr)
+	{
+		if(elem instanceof GraphEntity) {
+			HashSet<Entity> forcedAttrs = state.getForceAttributeToVar().get((GraphEntity)elem);
+			return forcedAttrs != null && forcedAttrs.contains(attr);
+		} else
+			return false;
+	}
+
+	protected static boolean accessViaInterface(ModifyGenerationStateConst state, Entity elem)
+	{
+		if(elem instanceof GraphEntity)
+			return state.getAccessViaInterface().contains((GraphEntity)elem);
+		else
+			return false;
 	}
 
 	protected String nodeTypePrefix;
