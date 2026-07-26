@@ -43,6 +43,8 @@ public interface ModifyGenerationStateConst extends ExpressionGenerationState
 
 	Collection<Edge> getDelEdges();
 
+	boolean isDeleted(Entity entity);
+
 	Collection<SubpatternUsage> getDelSubpatternUsages();
 
 	Collection<Node> getYieldedNodes();

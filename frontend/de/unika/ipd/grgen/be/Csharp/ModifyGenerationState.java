@@ -91,6 +91,17 @@ public class ModifyGenerationState implements ModifyGenerationStateConst
 	}
 
 	@Override
+	public boolean isDeleted(Entity entity)
+	{
+		if(entity instanceof Node)
+			return delNodes.contains((Node)entity);
+		else if(entity instanceof Edge)
+			return delEdges.contains((Edge)entity);
+		else
+			return false;
+	}
+
+	@Override
 	public Collection<SubpatternUsage> getDelSubpatternUsages()
 	{
 		return Collections.unmodifiableCollection(delSubpatternUsages);

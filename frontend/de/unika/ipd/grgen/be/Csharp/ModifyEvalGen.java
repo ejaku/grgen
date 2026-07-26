@@ -714,12 +714,10 @@ public class ModifyEvalGen extends CSharpBase
 			changedOperation = " = ";
 
 		Entity owner = cass.getTarget().getOwner();
-		boolean isDeletedElem = owner instanceof Node
-				? state.getDelNodes().contains(owner)
-				: state.getDelEdges().contains(owner);
+		boolean isDeletedElem = state.isDeleted(owner);
 		if(!isDeletedElem && be.sys.mayFireEvents()) {
 			owner = changedTarget.getOwner();
-			isDeletedElem = owner instanceof Node ? state.getDelNodes().contains(owner) : state.getDelEdges().contains(owner);
+			isDeletedElem = state.isDeleted(owner);
 			if(!isDeletedElem && be.sys.mayFireEvents()) {
 				String varName = "tempvar_" + tmpVarID++;
 				String varType = "bool ";
@@ -794,10 +792,7 @@ public class ModifyEvalGen extends CSharpBase
 		Entity attribute = target.getMember();
 		Type elementType = attribute.getOwner();
 
-		boolean isDeletedElem = element instanceof Node
-				? state.getDelNodes().contains(element)
-				: state.getDelEdges().contains(element);
-		if(!isDeletedElem && be.sys.mayFireEvents()) {
+		if(!state.isDeleted(element) && be.sys.mayFireEvents()) {
 			sb.append(prefix);
 			if(cass.getOperation() == CompoundAssignment.CompoundAssignmentType.UNION)
 				sb.append("GRGEN_LIBGR.ContainerHelper.UnionChanged(");
@@ -832,10 +827,7 @@ public class ModifyEvalGen extends CSharpBase
 			changedOperation = " = ";
 
 		Entity owner = changedTarget.getOwner();
-		boolean isDeletedElem = owner instanceof Node
-				? state.getDelNodes().contains(owner)
-				: state.getDelEdges().contains(owner);
-		if(!isDeletedElem && be.sys.mayFireEvents()) {
+		if(!state.isDeleted(owner) && be.sys.mayFireEvents()) {
 			String varName = "tempvar_" + tmpVarID++;
 			String varType = "bool ";
 
@@ -3465,13 +3457,11 @@ public class ModifyEvalGen extends CSharpBase
 		Type elementType = attribute.getOwner();
 
 		String kindStr = null;
-		boolean isDeletedElem = false;
+		boolean isDeletedElem = state.isDeleted(element);
 		if(element instanceof Node) {
 			kindStr = "Node";
-			isDeletedElem = state.getDelNodes().contains(element);
 		} else if(element instanceof Edge) {
 			kindStr = "Edge";
-			isDeletedElem = state.getDelEdges().contains(element);
 		} else if(element instanceof Variable) {
 			Variable var = (Variable)element;
 			if(var.getType() instanceof NodeType)
@@ -3516,13 +3506,11 @@ public class ModifyEvalGen extends CSharpBase
 		Type elementType = attribute.getOwner();
 
 		String kindStr = null;
-		boolean isDeletedElem = false;
+		boolean isDeletedElem = state.isDeleted(element);
 		if(element instanceof Node) {
 			kindStr = "Node";
-			isDeletedElem = state.getDelNodes().contains(element);
 		} else if(element instanceof Edge) {
 			kindStr = "Edge";
-			isDeletedElem = state.getDelEdges().contains(element);
 		} else if(element instanceof Variable) {
 			Variable var = (Variable)element;
 			if(var.getType() instanceof NodeType)
@@ -3566,13 +3554,11 @@ public class ModifyEvalGen extends CSharpBase
 		Type elementType = attribute.getOwner();
 
 		String kindStr = null;
-		boolean isDeletedElem = false;
+		boolean isDeletedElem = state.isDeleted(element);
 		if(element instanceof Node) {
 			kindStr = "Node";
-			isDeletedElem = state.getDelNodes().contains(element);
 		} else if(element instanceof Edge) {
 			kindStr = "Edge";
-			isDeletedElem = state.getDelEdges().contains(element);
 		} else if(element instanceof Variable) {
 			Variable var = (Variable)element;
 			if(var.getType() instanceof NodeType)
@@ -3642,13 +3628,11 @@ public class ModifyEvalGen extends CSharpBase
 		Type elementType = attribute.getOwner();
 
 		String kindStr = null;
-		boolean isDeletedElem = false;
+		boolean isDeletedElem = state.isDeleted(element);
 		if(element instanceof Node) {
 			kindStr = "Node";
-			isDeletedElem = state.getDelNodes().contains(element);
 		} else if(element instanceof Edge) {
 			kindStr = "Edge";
-			isDeletedElem = state.getDelEdges().contains(element);
 		} else if(element instanceof Variable) {
 			Variable var = (Variable)element;
 			if(var.getType() instanceof NodeType)
