@@ -36,7 +36,7 @@ import de.unika.ipd.grgen.util.GraphDumper;
  */
 public abstract class PatternGraphBase extends IR
 {
-	protected class GraphNode extends Node
+	public class GraphNode extends Node
 	{
 		private final Set<PatternGraphBase.GraphEdge> outgoing;
 		private final Set<PatternGraphBase.GraphEdge> incoming;
@@ -68,7 +68,7 @@ public abstract class PatternGraphBase extends IR
 
 	}
 
-	protected class GraphEdge extends Edge
+	public class GraphEdge extends Edge
 	{
 		private GraphNode source;
 		private GraphNode target;
