@@ -335,7 +335,7 @@ public abstract class CSharpBase
 	public static void genSubpatternUsageSet(SourceBuilder sb, Collection<SubpatternUsage> set, String pre,
 			String post,
 			boolean brackets, String pathPrefix,
-			HashMap<? extends Identifiable, String> alreadyDefinedIdentifiableToName)
+			HashMap<Identifiable, String> alreadyDefinedIdentifiableToName)
 	{
 		if(brackets)
 			sb.append("{ ");

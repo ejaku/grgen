@@ -2629,7 +2629,7 @@ public class ModifyEvalGen extends CSharpBase
 			++tmpVarID;
 			sb.appendFront(formatType(procedure.getReturnType(i)) + " " + outParam + ";\n");
 		}
-		int i = 0;
+		int outParamNumber = 0;
 		for(AssignmentBase assignment : targets) {
 			ProjectionExpr proj;
 			if(assignment.getExpression() instanceof ProjectionExpr) {
@@ -2638,8 +2638,8 @@ public class ModifyEvalGen extends CSharpBase
 				Cast cast = (Cast)assignment.getExpression();
 				proj = (ProjectionExpr)cast.getExpression();
 			}
-			proj.setProjectedValueVarName(outParams.get(i));
-			++i;
+			proj.setProjectedValueVarName(outParams.get(outParamNumber));
+			++outParamNumber;
 		}
 
 		// do the call, with out variables, depending on the type of procedure
