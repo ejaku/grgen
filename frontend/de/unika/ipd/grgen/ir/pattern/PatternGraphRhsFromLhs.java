@@ -8,6 +8,7 @@
 package de.unika.ipd.grgen.ir.pattern;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -69,7 +70,7 @@ public class PatternGraphRhsFromLhs extends PatternGraphRhs
 	}
 
 	@Override
-	public List<ImperativeStmt> getImperativeStmts()
+	public Collection<ImperativeStmt> getImperativeStmts()
 	{
 		return Collections.unmodifiableList(new ArrayList<ImperativeStmt>());
 	}
