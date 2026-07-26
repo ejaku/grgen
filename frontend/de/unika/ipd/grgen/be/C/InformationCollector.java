@@ -40,7 +40,6 @@ import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphBase;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
-import de.unika.ipd.grgen.ir.type.Type;
 import de.unika.ipd.grgen.ir.type.basic.BooleanType;
 import de.unika.ipd.grgen.ir.type.basic.IntType;
 import de.unika.ipd.grgen.ir.type.basic.StringType;
@@ -832,7 +831,7 @@ public class InformationCollector extends CBackend
 		for(Entity attr : nodeAttrMap.keySet()) {
 			assert attr.hasOwner() : "Thought, that the Entity represented a node class attr and that\n" +
 					"thus there had to be a type that owned the entity, but there was non.";
-			Type node_type = attr.getOwner();
+			NodeType node_type = (NodeType)attr.getOwner();
 			//get the id of the node type, where the attr is declared in
 			int node_type_id = nodeTypeMap.get(node_type).intValue();
 			assert node_type_id < n_node_types : "Tried to use a node-type-id as array index, " +
@@ -857,7 +856,7 @@ public class InformationCollector extends CBackend
 		for(Entity attr : edgeAttrMap.keySet()) {
 			assert attr.hasOwner() : "Thought, that the Entity represented an edge class attr and that\n" +
 					"thus there had to be a type that owned the entity, but there was non.";
-			Type edge_type = attr.getOwner();
+			EdgeType edge_type = (EdgeType)attr.getOwner();
 			//get the id of the edge type, where the attr is declared in
 			int edge_type_id = edgeTypeMap.get(edge_type).intValue();
 			assert edge_type_id < n_edge_types : "Tried to use an edge-type-id as array index," +
@@ -896,7 +895,7 @@ public class InformationCollector extends CBackend
 				node_attr_info[attr_id].kind = AttrTypeDescriptor.STRING;
 			else if(attr.getType() instanceof EnumType) {
 				node_attr_info[attr_id].kind = AttrTypeDescriptor.ENUM;
-				node_attr_info[attr_id].enum_id = enumMap.get(attr.getType()).intValue();
+				node_attr_info[attr_id].enum_id = enumMap.get((EnumType)attr.getType()).intValue();
 			} else {
 				System.err.println("Key element of AttrNodeMap has a type, which is " +
 						"neither one of 'int', 'boolean', 'string' nor an enumeration type.");
@@ -929,7 +928,7 @@ public class InformationCollector extends CBackend
 				edge_attr_info[attr_id].kind = AttrTypeDescriptor.STRING;
 			else if(attr.getType() instanceof EnumType) {
 				edge_attr_info[attr_id].kind = AttrTypeDescriptor.ENUM;
-				edge_attr_info[attr_id].enum_id = enumMap.get(attr.getType()).intValue();
+				edge_attr_info[attr_id].enum_id = enumMap.get((EnumType)attr.getType()).intValue();
 			} else {
 				System.err.println("Key element of AttrEdgeMap has a type, which is " +
 						"neither one of 'int', 'boolean', 'string' nor an enumeration type.");
