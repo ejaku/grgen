@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 
 import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.Unit;
 import de.unika.ipd.grgen.ir.executable.Rule;
 import de.unika.ipd.grgen.ir.model.type.EdgeType;
@@ -314,9 +313,9 @@ public abstract class IDBase extends Base implements IDTypeModel
 	@Override
 	public final int[] getIDs(boolean forNode)
 	{
-		Map<Identifiable, Integer> map = forNode
-				? getIdentifiableMap(nodeTypeMap)
-				: getIdentifiableMap(edgeTypeMap);
+		Map<InheritanceType, Integer> map = forNode
+				? getTypeMap(nodeTypeMap)
+				: getTypeMap(edgeTypeMap);
 		int[] res = new int[map.size()];
 
 		int i = 0;
@@ -330,11 +329,6 @@ public abstract class IDBase extends Base implements IDTypeModel
 	public static Map<InheritanceType, Integer> getTypeMap(Map<? extends InheritanceType, Integer> typeMap)
 	{
 		return new LinkedHashMap<InheritanceType, Integer>(typeMap); // TODO: performance optimization caching (and maybe another collection type fits better)
-	}
-
-	public static Map<Identifiable, Integer> getIdentifiableMap(Map<? extends Identifiable, Integer> identifiableMap)
-	{
-		return new LinkedHashMap<Identifiable, Integer>(identifiableMap); // TODO: performance optimization caching (and maybe another collection type fits better)
 	}
 
 	/**
