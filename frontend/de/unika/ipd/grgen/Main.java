@@ -12,13 +12,11 @@ package de.unika.ipd.grgen;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.util.prefs.Preferences;
 
 import com.sanityinc.jargs.CmdLineParser;
 
@@ -94,15 +92,6 @@ public class Main extends Base implements Sys
 	/** Backend to use. */
 	private String backend;
 
-	/** The preferences for the grgen program */
-	private Preferences prefs;
-
-	/** Export filename for preferences (null, if export is not wanted). */
-	private String prefsExport;
-
-	/** Import filename for preferences (null, if import is not wanted). */
-	private String prefsImport;
-
 	/** Output path. */
 	private File outputPath = new File(".");
 
@@ -141,8 +130,6 @@ public class Main extends Base implements Sys
 		System.out.println("  -b, --backend=BE                  select backend BE");
 		System.out.println("  -f, --debug-filter=REGEX          only debug messages matching this filter will be displayd");
 		System.out.println("  -F, --inverse-debug-filter=REGEX  only debug messages not matching this filter will be displayd");
-		System.out.println("  -p, --prefs=FILE                  import preferences from FILE");
-		System.out.println("  -x, --prefs-export=FILE           export preferences to FILE");
 		System.out.println("  -o, --output=DIRECTORY            write generated files to DIRECTORY");
 		System.out.println("  -v, --noactionevents              the generated code may not fire action events");
 		System.out.println("  -e, --noattributeevents           the generated code may not fire attribute change events");
@@ -155,8 +142,6 @@ public class Main extends Base implements Sys
 
 	private void init()
 	{
-		prefs = Preferences.userNodeForPackage(getClass());
-
 		// Debugging has an empty reporter if the flag is not set
 		if(enableDebug) {
 			debugHandler = new StreamHandler(System.out);
@@ -198,8 +183,6 @@ public class Main extends Base implements Sys
 			CmdLineParser.Option<String> beOpt = parser.addStringOption('b', "backend");
 			CmdLineParser.Option<String> debugFilterOpt = parser.addStringOption('f', "debug-filter");
 			CmdLineParser.Option<String> invDebugFilterOpt = parser.addStringOption('F', "inverse-debug-filter");
-			CmdLineParser.Option<String> prefsImportOpt = parser.addStringOption('p', "prefs");
-			CmdLineParser.Option<String> prefsExportOpt = parser.addStringOption('x', "prefs-export");
 			CmdLineParser.Option<String> optOutputPath = parser.addStringOption('o', "output");
 
 			parser.parse(args);
@@ -229,9 +212,6 @@ public class Main extends Base implements Sys
 			backend = (String)parser.getOptionValue(beOpt);
 			String s = (String)parser.getOptionValue(optOutputPath);
 			outputPath = new File(s != null ? s : System.getProperty("user.dir"));
-
-			prefsImport = (String)parser.getOptionValue(prefsImportOpt);
-			prefsExport = (String)parser.getOptionValue(prefsExportOpt);
 
 			inputFileNames = parser.getRemainingArgs();
 			if(inputFileNames.length == 0) {
@@ -436,8 +416,6 @@ public class Main extends Base implements Sys
 		parseOptions();
 		init();
 
-		importPrefs();
-
 		debug.report(NOTE, "working directory: " + System.getProperty("user.dir"));
 
 		startUp += System.currentTimeMillis();
@@ -544,36 +522,6 @@ public class Main extends Base implements Sys
 			System.out.println("build IR: " + buildIR);
 			System.out.println("code gen: " + codeGen);
 		}
-
-		exportPrefs();
-	}
-
-	/**
-	 * Export the preferences.
-	 */
-	private void exportPrefs()
-	{
-		if(prefsExport != null) {
-			try(FileOutputStream fos = new FileOutputStream(prefsExport)) {
-				prefs.exportSubtree(fos);
-			} catch(Exception e) {
-				System.err.println(e.getMessage());
-			}
-		}
-	}
-
-	/**
-	 * Import the preferences.
-	 */
-	private void importPrefs()
-	{
-		if(prefsImport != null) {
-			try(FileInputStream fis = new FileInputStream(prefsImport)) {
-				Preferences.importPreferences(fis);
-			} catch(Exception e) {
-				System.err.println(e.getMessage());
-			}
-		}
 	}
 
 	protected Main(String[] args)
@@ -584,9 +532,7 @@ public class Main extends Base implements Sys
 	protected static void staticInit()
 	{
 		String packageName = Main.class.getPackage().getName();
-
-		// Please use my preferences implementation.
-		System.setProperty("java.util.prefs.PreferencesFactory", packageName + ".util.MyPreferencesFactory");
+		// used to initialize prefs/preferences, kept as a hook for now, TODO: remove
 	}
 
 	public static void main(String[] args)
