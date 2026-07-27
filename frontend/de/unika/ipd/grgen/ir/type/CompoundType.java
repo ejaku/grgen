@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.ir.executable.ProcedureMethod;
 public abstract class CompoundType extends Type
 {
 	/** Collection containing all members defined in that type. */
-	private List<Entity> members = new ArrayList<Entity>();
+	private ArrayList<Entity> members = new ArrayList<Entity>();
 
 	private List<FunctionMethod> functionMethods = new ArrayList<FunctionMethod>();
 	private List<ProcedureMethod> procedureMethods = new ArrayList<ProcedureMethod>();

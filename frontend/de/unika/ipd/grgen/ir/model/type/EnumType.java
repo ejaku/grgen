@@ -26,7 +26,7 @@ public class EnumType extends PrimitiveType implements ContainedInPackage
 {
 	private String packageContainedIn;
 
-	private final List<EnumItem> items = new ArrayList<EnumItem>();
+	private final ArrayList<EnumItem> items = new ArrayList<EnumItem>();
 
 	/** Make a new enum type.
 	 *  @param ident The identifier of this enumeration. */

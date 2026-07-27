@@ -30,7 +30,7 @@ public class EdgeType extends InheritanceType implements ContainedInPackage
 	private String packageContainedIn;
 
 	/** The connection assertions. */
-	private final List<ConnAssert> connectionAsserts = new ArrayList<ConnAssert>();
+	private final ArrayList<ConnAssert> connectionAsserts = new ArrayList<ConnAssert>();
 
 	public enum DirectednessKind
 	{
