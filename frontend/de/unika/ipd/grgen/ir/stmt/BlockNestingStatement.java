@@ -14,7 +14,6 @@ package de.unika.ipd.grgen.ir.stmt;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import de.unika.ipd.grgen.ir.NestingStatement;
 
@@ -23,7 +22,7 @@ import de.unika.ipd.grgen.ir.NestingStatement;
  */
 public abstract class BlockNestingStatement extends EvalStatement implements NestingStatement
 {
-	protected List<EvalStatement> statements = new ArrayList<EvalStatement>();
+	protected ArrayList<EvalStatement> statements = new ArrayList<EvalStatement>();
 
 	protected BlockNestingStatement(String name)
 	{

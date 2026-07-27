@@ -32,13 +32,13 @@ public class Procedure extends ProcedureBase implements ContainedInPackage, Nest
 	private String packageContainedIn;
 
 	/** A list of the parameters */
-	private List<Entity> params = new ArrayList<Entity>();
+	private ArrayList<Entity> params = new ArrayList<Entity>();
 
 	/** A list of the parameter types, computed from the parameters */
-	private List<Type> parameterTypes = null;
+	private ArrayList<Type> parameterTypes = null;
 
 	/** The computation statements */
-	private List<EvalStatement> procedureStatements = new ArrayList<EvalStatement>();
+	private ArrayList<EvalStatement> procedureStatements = new ArrayList<EvalStatement>();
 
 	public Procedure(String name, Ident ident)
 	{

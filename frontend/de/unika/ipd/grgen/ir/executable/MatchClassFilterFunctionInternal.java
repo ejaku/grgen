@@ -14,7 +14,6 @@ package de.unika.ipd.grgen.ir.executable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.NestingStatement;
@@ -27,7 +26,7 @@ import de.unika.ipd.grgen.ir.stmt.EvalStatement;
 public class MatchClassFilterFunctionInternal extends MatchClassFilterFunction implements NestingStatement
 {
 	/** The computation statements */
-	private List<EvalStatement> computationStatements = new ArrayList<EvalStatement>();
+	private ArrayList<EvalStatement> computationStatements = new ArrayList<EvalStatement>();
 
 	public MatchClassFilterFunctionInternal(String name, Ident ident)
 	{

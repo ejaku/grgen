@@ -14,7 +14,6 @@ package de.unika.ipd.grgen.ir.stmt;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.expr.Expression;
@@ -25,7 +24,7 @@ import de.unika.ipd.grgen.ir.expr.Expression;
 public class ConditionStatement extends BlockNestingStatement
 {
 	private Expression conditionExpr;
-	private List<EvalStatement> falseCaseStatements = null;
+	private ArrayList<EvalStatement> falseCaseStatements = null;
 
 	public ConditionStatement(Expression conditionExpr)
 	{

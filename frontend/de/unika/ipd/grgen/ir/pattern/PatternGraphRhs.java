@@ -30,11 +30,11 @@ public class PatternGraphRhs extends PatternGraphBase
 	private final HashSet<GraphEntity> deletedElements = new HashSet<GraphEntity>();
 
 	/** A list of the replacement parameters */
-	private final List<Entity> replParams = new ArrayList<Entity>();
+	private final ArrayList<Entity> replParams = new ArrayList<Entity>();
 
-	private List<OrderedReplacements> orderedReplacements = new ArrayList<OrderedReplacements>();
+	private ArrayList<OrderedReplacements> orderedReplacements = new ArrayList<OrderedReplacements>();
 
-	private List<ImperativeStmt> imperativeStmts = new ArrayList<ImperativeStmt>();
+	private ArrayList<ImperativeStmt> imperativeStmts = new ArrayList<ImperativeStmt>();
 
 	/** Make a new pattern graph. */
 	public PatternGraphRhs(String nameOfGraph)

@@ -14,7 +14,6 @@ package de.unika.ipd.grgen.ir.stmt.graph;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ir.pattern.IndexAccessOrdering;
@@ -29,7 +28,7 @@ public class ForIndexAccessOrdering extends EvalStatement
 {
 	private Variable iterationVar;
 	private IndexAccessOrdering iao;
-	private List<EvalStatement> statements = new ArrayList<EvalStatement>();
+	private ArrayList<EvalStatement> statements = new ArrayList<EvalStatement>();
 
 	public ForIndexAccessOrdering(Variable iterationVar, IndexAccessOrdering iao)
 	{

@@ -24,7 +24,7 @@ import de.unika.ipd.grgen.ir.type.Type;
 public class ExternalProcedure extends ProcedureBase
 {
 	/** A list of the pattern parameters */
-	private final List<Type> paramTypes = new ArrayList<Type>();
+	private final ArrayList<Type> paramTypes = new ArrayList<Type>();
 
 	/**
 	 * @param name The name of the external procedure.

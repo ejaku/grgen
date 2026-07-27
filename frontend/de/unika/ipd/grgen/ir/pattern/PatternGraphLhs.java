@@ -43,22 +43,22 @@ import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 public class PatternGraphLhs extends PatternGraphBase
 {
 	/** The alternative statements of the pattern graph */
-	private final List<Alternative> alts = new ArrayList<Alternative>();
+	private final ArrayList<Alternative> alts = new ArrayList<Alternative>();
 
 	/** The iterated statements of the pattern graph */
-	private final List<Rule> iters = new ArrayList<Rule>();
+	private final ArrayList<Rule> iters = new ArrayList<Rule>();
 
 	/** The negative patterns(NAC) of the rule. */
-	private final List<PatternGraphLhs> negs = new ArrayList<PatternGraphLhs>();
+	private final ArrayList<PatternGraphLhs> negs = new ArrayList<PatternGraphLhs>();
 
 	/** The independent patterns(PAC) of the rule. */
-	private final List<PatternGraphLhs> idpts = new ArrayList<PatternGraphLhs>();
+	private final ArrayList<PatternGraphLhs> idpts = new ArrayList<PatternGraphLhs>();
 
 	/** A list of all condition expressions. */
-	private final List<Expression> conds = new ArrayList<Expression>();
+	private final ArrayList<Expression> conds = new ArrayList<Expression>();
 
 	/** A list of all yield assignments. */
-	private final List<EvalStatements> yields = new ArrayList<EvalStatements>();
+	private final ArrayList<EvalStatements> yields = new ArrayList<EvalStatements>();
 
 	/** A list of all potentially homomorphic node sets. */
 	private final List<Collection<Node>> homNodesLists = new ArrayList<Collection<Node>>();
@@ -218,7 +218,7 @@ public class PatternGraphLhs extends PatternGraphBase
 
 	public Collection<Node> getHomomorphic(Node node)
 	{
-		List<Node> homNodesOfNode = new ArrayList<Node>();
+		ArrayList<Node> homNodesOfNode = new ArrayList<Node>();
 
 		for(Collection<Node> homNodes : homNodesLists) {
 			if(homNodes.contains(node)) {
@@ -232,7 +232,7 @@ public class PatternGraphLhs extends PatternGraphBase
 
 	public Collection<Edge> getHomomorphic(Edge edge)
 	{
-		List<Edge> homEdgesOfEdge = new ArrayList<Edge>();
+		ArrayList<Edge> homEdgesOfEdge = new ArrayList<Edge>();
 
 		for(Collection<Edge> homEdges : homEdgesLists) {
 			if(homEdges.contains(edge)) {

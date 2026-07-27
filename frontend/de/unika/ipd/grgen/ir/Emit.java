@@ -11,6 +11,7 @@
 
 package de.unika.ipd.grgen.ir;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,10 +24,10 @@ import de.unika.ipd.grgen.ir.stmt.ImperativeStmt;
  */
 public class Emit extends IR implements ImperativeStmt, OrderedReplacement
 {
-	private List<Expression> arguments;
+	private ArrayList<Expression> arguments;
 	private boolean isDebug;
 
-	public Emit(List<Expression> arguments, boolean isDebug)
+	public Emit(ArrayList<Expression> arguments, boolean isDebug)
 	{
 		super("emit");
 		this.arguments = arguments;

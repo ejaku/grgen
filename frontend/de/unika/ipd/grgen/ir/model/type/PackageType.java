@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 import de.unika.ipd.grgen.ir.Ident;
@@ -28,7 +27,7 @@ import de.unika.ipd.grgen.ir.type.basic.PrimitiveType;
  */
 public class PackageType extends PrimitiveType implements NodeEdgeEnumBearer
 {
-	private List<Type> types = new ArrayList<Type>();
+	private ArrayList<Type> types = new ArrayList<Type>();
 	private Set<NodeType> nodeTypes = new LinkedHashSet<NodeType>();
 	private Set<EdgeType> edgeTypes = new LinkedHashSet<EdgeType>();
 	private Set<InternalObjectType> objectTypes = new LinkedHashSet<InternalObjectType>();

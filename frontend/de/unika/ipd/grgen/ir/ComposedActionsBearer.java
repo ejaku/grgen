@@ -14,7 +14,6 @@ package de.unika.ipd.grgen.ir;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import de.unika.ipd.grgen.ir.executable.FilterFunction;
 import de.unika.ipd.grgen.ir.executable.Function;
@@ -32,14 +31,14 @@ public class ComposedActionsBearer implements ActionsBearer
 {
 	Unit unit;
 
-	List<Rule> subpatRules;
-	List<Rule> rules;
-	List<FilterFunction> filterFunctions;
-	List<DefinedMatchType> matchClasses;
-	List<MatchClassFilterFunction> matchClassFilterFunctions;
-	List<Function> functions;
-	List<Procedure> procedures;
-	List<Sequence> sequences;
+	ArrayList<Rule> subpatRules;
+	ArrayList<Rule> rules;
+	ArrayList<FilterFunction> filterFunctions;
+	ArrayList<DefinedMatchType> matchClasses;
+	ArrayList<MatchClassFilterFunction> matchClassFilterFunctions;
+	ArrayList<Function> functions;
+	ArrayList<Procedure> procedures;
+	ArrayList<Sequence> sequences;
 
 	public ComposedActionsBearer(Unit unit)
 	{
@@ -54,9 +53,9 @@ public class ComposedActionsBearer implements ActionsBearer
 			for(ActionsBearer p : unit.getPackages()) {
 				subpatRules.addAll(p.getSubpatternRules());
 			}
-			this.subpatRules = Collections.unmodifiableList(subpatRules);
+			this.subpatRules = subpatRules;
 		}
-		return subpatRules;
+		return Collections.unmodifiableList(subpatRules);
 	}
 
 	@Override
@@ -67,9 +66,9 @@ public class ComposedActionsBearer implements ActionsBearer
 			for(ActionsBearer p : unit.getPackages()) {
 				rules.addAll(p.getActionRules());
 			}
-			this.rules = Collections.unmodifiableList(rules);
+			this.rules = rules;
 		}
-		return rules;
+		return Collections.unmodifiableList(rules);
 	}
 
 	@Override
@@ -80,9 +79,9 @@ public class ComposedActionsBearer implements ActionsBearer
 			for(ActionsBearer p : unit.getPackages()) {
 				filterFunctions.addAll(p.getFilterFunctions());
 			}
-			this.filterFunctions = Collections.unmodifiableList(filterFunctions);
+			this.filterFunctions = filterFunctions;
 		}
-		return filterFunctions;
+		return Collections.unmodifiableList(filterFunctions);
 	}
 
 	@Override
@@ -93,9 +92,9 @@ public class ComposedActionsBearer implements ActionsBearer
 			for(ActionsBearer p : unit.getPackages()) {
 				matchClasses.addAll(p.getMatchClasses());
 			}
-			this.matchClasses = Collections.unmodifiableList(matchClasses);
+			this.matchClasses = matchClasses;
 		}
-		return matchClasses;
+		return Collections.unmodifiableList(matchClasses);
 	}
 
 	@Override
@@ -107,9 +106,9 @@ public class ComposedActionsBearer implements ActionsBearer
 			for(ActionsBearer p : unit.getPackages()) {
 				matchClassFilterFunctions.addAll(p.getMatchClassFilterFunctions());
 			}
-			this.matchClassFilterFunctions = Collections.unmodifiableList(matchClassFilterFunctions);
+			this.matchClassFilterFunctions = matchClassFilterFunctions;
 		}
-		return matchClassFilterFunctions;
+		return Collections.unmodifiableList(matchClassFilterFunctions);
 	}
 
 	@Override
@@ -120,9 +119,9 @@ public class ComposedActionsBearer implements ActionsBearer
 			for(ActionsBearer p : unit.getPackages()) {
 				functions.addAll(p.getFunctions());
 			}
-			this.functions = Collections.unmodifiableList(functions);
+			this.functions = functions;
 		}
-		return functions;
+		return Collections.unmodifiableList(functions);
 	}
 
 	@Override
@@ -133,9 +132,9 @@ public class ComposedActionsBearer implements ActionsBearer
 			for(ActionsBearer p : unit.getPackages()) {
 				procedures.addAll(p.getProcedures());
 			}
-			this.procedures = Collections.unmodifiableList(procedures);
+			this.procedures = procedures;
 		}
-		return procedures;
+		return Collections.unmodifiableList(procedures);
 	}
 
 	@Override
@@ -146,8 +145,8 @@ public class ComposedActionsBearer implements ActionsBearer
 			for(ActionsBearer p : unit.getPackages()) {
 				sequences.addAll(p.getSequences());
 			}
-			this.sequences = Collections.unmodifiableList(sequences);
+			this.sequences = sequences;
 		}
-		return sequences;
+		return Collections.unmodifiableList(sequences);
 	}
 }

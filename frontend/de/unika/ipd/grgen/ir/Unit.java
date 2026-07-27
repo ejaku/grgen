@@ -18,7 +18,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 
 import de.unika.ipd.grgen.ir.executable.FilterFunction;
@@ -44,25 +43,25 @@ import de.unika.ipd.grgen.util.Util;
  */
 public class Unit extends IR implements ActionsBearer
 {
-	private final List<Model> models = new ArrayList<Model>();
+	private final ArrayList<Model> models = new ArrayList<Model>();
 
-	private final List<Rule> subpatternRules = new ArrayList<Rule>();
+	private final ArrayList<Rule> subpatternRules = new ArrayList<Rule>();
 
-	private final List<Rule> actionRules = new ArrayList<Rule>();
+	private final ArrayList<Rule> actionRules = new ArrayList<Rule>();
 
-	private final List<FilterFunction> filterFunctions = new ArrayList<FilterFunction>();
+	private final ArrayList<FilterFunction> filterFunctions = new ArrayList<FilterFunction>();
 
-	private final List<DefinedMatchType> matchClasses = new ArrayList<DefinedMatchType>();
+	private final ArrayList<DefinedMatchType> matchClasses = new ArrayList<DefinedMatchType>();
 
-	private final List<MatchClassFilterFunction> matchClassFilterFunctions = new ArrayList<MatchClassFilterFunction>();
+	private final ArrayList<MatchClassFilterFunction> matchClassFilterFunctions = new ArrayList<MatchClassFilterFunction>();
 
-	private final List<Function> functions = new ArrayList<Function>();
+	private final ArrayList<Function> functions = new ArrayList<Function>();
 
-	private final List<Procedure> procedures = new ArrayList<Procedure>();
+	private final ArrayList<Procedure> procedures = new ArrayList<Procedure>();
 
-	private final List<Sequence> sequences = new ArrayList<Sequence>();
+	private final ArrayList<Sequence> sequences = new ArrayList<Sequence>();
 
-	private final List<PackageActionType> packages = new ArrayList<PackageActionType>();
+	private final ArrayList<PackageActionType> packages = new ArrayList<PackageActionType>();
 
 	private String digest = "";
 

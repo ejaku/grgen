@@ -63,10 +63,10 @@ public class Rule extends MatchingAction implements ContainedInPackage
 	private PatternGraphRhs right;
 
 	/** The match classes that get implemented */
-	private final List<DefinedMatchType> implementedMatchClasses = new ArrayList<DefinedMatchType>();
+	private final ArrayList<DefinedMatchType> implementedMatchClasses = new ArrayList<DefinedMatchType>();
 
 	/** The evaluation assignments of this rule (RHS). */
-	private final List<EvalStatements> evalStatements = new ArrayList<EvalStatements>();
+	private final ArrayList<EvalStatements> evalStatements = new ArrayList<EvalStatements>();
 
 	/** How often the pattern is to be matched in case this is an iterated. */
 	private int minMatches;

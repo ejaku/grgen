@@ -29,10 +29,10 @@ public abstract class FilterFunction extends Identifiable implements Filter, Con
 	private String packageContainedIn;
 
 	/** A list of the parameters */
-	protected List<Entity> params = new ArrayList<Entity>();
+	protected ArrayList<Entity> params = new ArrayList<Entity>();
 
 	/** A list of the parameter types, computed from the parameters */
-	protected List<Type> parameterTypes = null;
+	protected ArrayList<Type> parameterTypes = null;
 
 	/** The action we're a filter for */
 	protected Rule action;

@@ -14,7 +14,6 @@ package de.unika.ipd.grgen.ir.type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import de.unika.ipd.grgen.ir.Entity;
@@ -31,8 +30,8 @@ public abstract class CompoundType extends Type
 	/** Collection containing all members defined in that type. */
 	private ArrayList<Entity> members = new ArrayList<Entity>();
 
-	private List<FunctionMethod> functionMethods = new ArrayList<FunctionMethod>();
-	private List<ProcedureMethod> procedureMethods = new ArrayList<ProcedureMethod>();
+	private ArrayList<FunctionMethod> functionMethods = new ArrayList<FunctionMethod>();
+	private ArrayList<ProcedureMethod> procedureMethods = new ArrayList<ProcedureMethod>();
 
 	/**
 	 * Make a new compound type.

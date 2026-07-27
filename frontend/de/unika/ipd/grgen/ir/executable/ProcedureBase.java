@@ -25,7 +25,7 @@ import de.unika.ipd.grgen.ir.type.Type;
 public abstract class ProcedureBase extends Identifiable
 {
 	/** A list of the return types */
-	protected List<Type> returnTypes = new ArrayList<Type>();
+	protected ArrayList<Type> returnTypes = new ArrayList<Type>();
 
 	/**
 	 * @param name The name of the procedure.

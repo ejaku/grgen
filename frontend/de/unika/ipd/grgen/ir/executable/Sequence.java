@@ -30,8 +30,8 @@ public class Sequence extends Identifiable implements ContainedInPackage
 
 	private Exec exec;
 
-	private List<ExecVariable> inParams = new ArrayList<ExecVariable>();
-	private List<ExecVariable> outParams = new ArrayList<ExecVariable>();
+	private ArrayList<ExecVariable> inParams = new ArrayList<ExecVariable>();
+	private ArrayList<ExecVariable> outParams = new ArrayList<ExecVariable>();
 
 	public Sequence(Ident ident, Exec exec)
 	{

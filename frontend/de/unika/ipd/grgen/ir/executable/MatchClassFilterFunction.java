@@ -30,10 +30,10 @@ public abstract class MatchClassFilterFunction extends Identifiable implements M
 	private String packageContainedIn;
 
 	/** A list of the parameters */
-	protected List<Entity> params = new ArrayList<Entity>();
+	protected ArrayList<Entity> params = new ArrayList<Entity>();
 
 	/** A list of the parameter types, computed from the parameters */
-	protected List<Type> parameterTypes = null;
+	protected ArrayList<Type> parameterTypes = null;
 
 	/** The match class we're a filter for */
 	protected DefinedMatchType matchClass;

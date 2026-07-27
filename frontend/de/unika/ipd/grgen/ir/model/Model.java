@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -38,9 +37,9 @@ import de.unika.ipd.grgen.ir.type.basic.PrimitiveType;
 
 public class Model extends Identifiable implements NodeEdgeEnumBearer
 {
-	private List<Model> usedModels = new ArrayList<Model>();
-	private List<PackageType> packages = new ArrayList<PackageType>();
-	private List<Type> types = new ArrayList<Type>();
+	private ArrayList<Model> usedModels = new ArrayList<Model>();
+	private ArrayList<PackageType> packages = new ArrayList<PackageType>();
+	private ArrayList<Type> types = new ArrayList<Type>();
 
 	private Set<NodeType> nodeTypes = new LinkedHashSet<NodeType>();
 	private Set<EdgeType> edgeTypes = new LinkedHashSet<EdgeType>();
@@ -64,12 +63,12 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	private boolean areFunctionsParallel_;
 	private int isoParallel;
 	private int sequencesParallel;
-	private List<NodeType> allNodeTypes;
-	private List<EdgeType> allEdgeTypes;
-	private List<InternalObjectType> allObjectTypes;
-	private List<InternalTransientObjectType> allTransientObjectTypes;
-	private List<InheritanceType> allGraphElementTypes;
-	private List<InheritanceType> allInheritanceTypes;
+	private ArrayList<NodeType> allNodeTypes;
+	private ArrayList<EdgeType> allEdgeTypes;
+	private ArrayList<InternalObjectType> allObjectTypes;
+	private ArrayList<InternalTransientObjectType> allTransientObjectTypes;
+	private ArrayList<InheritanceType> allGraphElementTypes;
+	private ArrayList<InheritanceType> allInheritanceTypes;
 
 	public Model(Ident ident, boolean isEmitClassDefined, boolean isEmitGraphClassDefined, boolean isCopyClassDefined,
 			boolean isEqualClassDefined, boolean isLowerClassDefined, boolean isGraphofDefined,
@@ -179,7 +178,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	public Collection<NodeType> getAllNodeTypes()
 	{
 		if(allNodeTypes == null) {
-			List<NodeType> allNodeTypes = new ArrayList<NodeType>();
+			ArrayList<NodeType> allNodeTypes = new ArrayList<NodeType>();
 			allNodeTypes.addAll(getNodeTypes());
 			for(PackageType pt : getPackages()) {
 				allNodeTypes.addAll(pt.getNodeTypes());
@@ -189,9 +188,9 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 				nt.setInheritanceTypeID(typeID);
 				++typeID;
 			}
-			this.allNodeTypes = Collections.unmodifiableList(allNodeTypes);
+			this.allNodeTypes = allNodeTypes;
 		}
-		return allNodeTypes;
+		return Collections.unmodifiableList(allNodeTypes);
 	}
 
 	@Override
@@ -203,7 +202,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	public Collection<EdgeType> getAllEdgeTypes()
 	{
 		if(allEdgeTypes == null) {
-			List<EdgeType> allEdgeTypes = new ArrayList<EdgeType>();
+			ArrayList<EdgeType> allEdgeTypes = new ArrayList<EdgeType>();
 			allEdgeTypes.addAll(getEdgeTypes());
 			for(PackageType pt : getPackages()) {
 				allEdgeTypes.addAll(pt.getEdgeTypes());
@@ -213,20 +212,20 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 				et.setInheritanceTypeID(typeID);
 				++typeID;
 			}
-			this.allEdgeTypes = Collections.unmodifiableList(allEdgeTypes);
+			this.allEdgeTypes = allEdgeTypes;
 		}
-		return allEdgeTypes;
+		return Collections.unmodifiableList(allEdgeTypes);
 	}
 	
 	public Collection<InheritanceType> getAllGraphElementTypes()
 	{
 		if(allGraphElementTypes == null) {
-			List<InheritanceType> allNodeAndEdgeTypes = new ArrayList<InheritanceType>();
+			ArrayList<InheritanceType> allNodeAndEdgeTypes = new ArrayList<InheritanceType>();
 			allNodeAndEdgeTypes.addAll(getAllNodeTypes());
 			allNodeAndEdgeTypes.addAll(getAllEdgeTypes());
-			this.allGraphElementTypes = Collections.unmodifiableList(allNodeAndEdgeTypes);
+			this.allGraphElementTypes = allNodeAndEdgeTypes;
 		}
-		return allGraphElementTypes;
+		return Collections.unmodifiableList(allGraphElementTypes);
 	}
 
 	@Override
@@ -238,7 +237,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	public Collection<InternalObjectType> getAllObjectTypes()
 	{
 		if(allObjectTypes == null) {
-			List<InternalObjectType> allObjectTypes = new ArrayList<InternalObjectType>();
+			ArrayList<InternalObjectType> allObjectTypes = new ArrayList<InternalObjectType>();
 			allObjectTypes.addAll(getObjectTypes());
 			for(PackageType pt : getPackages()) {
 				allObjectTypes.addAll(pt.getObjectTypes());
@@ -248,9 +247,9 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 				ot.setInheritanceTypeID(typeID);
 				++typeID;
 			}
-			this.allObjectTypes = Collections.unmodifiableList(allObjectTypes);
+			this.allObjectTypes = allObjectTypes;
 		}
-		return allObjectTypes;
+		return Collections.unmodifiableList(allObjectTypes);
 	}
 
 	@Override
@@ -262,7 +261,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	public Collection<InternalTransientObjectType> getAllTransientObjectTypes()
 	{
 		if(allTransientObjectTypes == null) {
-			List<InternalTransientObjectType> allTransientObjectTypes = new ArrayList<InternalTransientObjectType>();
+			ArrayList<InternalTransientObjectType> allTransientObjectTypes = new ArrayList<InternalTransientObjectType>();
 			allTransientObjectTypes.addAll(getTransientObjectTypes());
 			for(PackageType pt : getPackages()) {
 				allTransientObjectTypes.addAll(pt.getTransientObjectTypes());
@@ -272,22 +271,22 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 				ot.setInheritanceTypeID(typeID);
 				++typeID;
 			}
-			this.allTransientObjectTypes = Collections.unmodifiableList(allTransientObjectTypes);
+			this.allTransientObjectTypes = allTransientObjectTypes;
 		}
-		return allTransientObjectTypes;
+		return Collections.unmodifiableList(allTransientObjectTypes);
 	}
 
 	public Collection<InheritanceType> getAllInheritanceTypes()
 	{
 		if(allInheritanceTypes == null) {
-			List<InheritanceType> allInheritanceTypes = new ArrayList<InheritanceType>();
+			ArrayList<InheritanceType> allInheritanceTypes = new ArrayList<InheritanceType>();
 			allInheritanceTypes.addAll(getAllNodeTypes());
 			allInheritanceTypes.addAll(getAllEdgeTypes());
 			allInheritanceTypes.addAll(getAllObjectTypes());
 			allInheritanceTypes.addAll(getAllTransientObjectTypes());
-			this.allInheritanceTypes = Collections.unmodifiableList(allInheritanceTypes);
+			this.allInheritanceTypes = allInheritanceTypes;
 		}
-		return allInheritanceTypes;
+		return Collections.unmodifiableList(allInheritanceTypes);
 	}
 
 	@Override

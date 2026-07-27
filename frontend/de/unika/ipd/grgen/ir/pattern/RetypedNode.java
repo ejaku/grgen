@@ -23,7 +23,7 @@ public class RetypedNode extends Node implements Retyped
 	protected Node oldNode = null;
 
 	/** A list of nodes to be additionally merged into the retyped node  */
-	private final List<Node> mergees = new ArrayList<Node>();
+	private final ArrayList<Node> mergees = new ArrayList<Node>();
 
 	public RetypedNode(Ident ident, NodeType type, Annotations annots,
 			boolean maybeDeleted, boolean maybeRetyped, boolean isDefToBeYieldedTo, int context)

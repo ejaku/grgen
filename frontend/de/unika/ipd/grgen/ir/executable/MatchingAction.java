@@ -34,16 +34,16 @@ public abstract class MatchingAction extends Action
 	public PatternGraphLhs pattern;
 
 	/** A list of the pattern parameters */
-	private final List<Entity> params = new ArrayList<Entity>();
+	private final ArrayList<Entity> params = new ArrayList<Entity>();
 
 	/** A list of the pattern def parameters which get yielded */
-	private final List<Entity> defParams = new ArrayList<Entity>();
+	private final ArrayList<Entity> defParams = new ArrayList<Entity>();
 
 	/** A list of the return-parameters */
-	private final List<Expression> returns = new ArrayList<Expression>();
+	private final ArrayList<Expression> returns = new ArrayList<Expression>();
 
 	/** A list of the filters */
-	private final List<Filter> filters = new ArrayList<Filter>();
+	private final ArrayList<Filter> filters = new ArrayList<Filter>();
 
 	/**
 	 * @param name The name of this action.

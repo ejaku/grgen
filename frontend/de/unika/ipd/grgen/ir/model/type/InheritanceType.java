@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -52,15 +51,15 @@ public abstract class InheritanceType extends CompoundType
 	private Set<InheritanceType> allSuperTypes = null;
 	private Set<InheritanceType> allSubTypes = null;
 
-	private List<Constructor> constructors = new ArrayList<Constructor>();
+	private ArrayList<Constructor> constructors = new ArrayList<Constructor>();
 
 	/** The list of member initializers */
-	private List<MemberInit> memberInitializers = new ArrayList<MemberInit>();
+	private ArrayList<MemberInit> memberInitializers = new ArrayList<MemberInit>();
 
-	private List<MapInit> mapInitializers = new ArrayList<MapInit>();
-	private List<SetInit> setInitializers = new ArrayList<SetInit>();
-	private List<ArrayInit> arrayInitializers = new ArrayList<ArrayInit>();
-	private List<DequeInit> dequeInitializers = new ArrayList<DequeInit>();
+	private ArrayList<MapInit> mapInitializers = new ArrayList<MapInit>();
+	private ArrayList<SetInit> setInitializers = new ArrayList<SetInit>();
+	private ArrayList<ArrayInit> arrayInitializers = new ArrayList<ArrayInit>();
+	private ArrayList<DequeInit> dequeInitializers = new ArrayList<DequeInit>();
 
 	/** Collection containing all members defined in that type and in its supertype.
 	 *  This field is used for caching. */
