@@ -11,7 +11,6 @@
 
 package de.unika.ipd.grgen.ir.pattern;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -282,8 +281,8 @@ public abstract class PatternGraphBase extends IR
 		return graphNode.outgoing.size();
 	}
 
-	/** Get the set of all incoming edges for a given node, they are put into the given collection (which gets returned)*/
-	public Collection<Edge> getIncoming(Node node, Collection<Edge> collection)
+	/** Get the set of all incoming edges for a given node, they are put into the given set (which gets returned)*/
+	public Set<Edge> getIncoming(Node node, Set<Edge> collection)
 	{
 		GraphNode graphNode = checkNode(node);
 		for(GraphEdge graphEdge : graphNode.incoming) {
@@ -293,13 +292,13 @@ public abstract class PatternGraphBase extends IR
 	}
 
 	/** Get the set of all incoming edges for a given node */
-	public Collection<? extends Edge> getIncoming(Node node)
+	public Set<Edge> getIncoming(Node node)
 	{
-		return Collections.unmodifiableCollection(getIncoming(node, new ArrayList<Edge>()));
+		return Collections.unmodifiableSet(getIncoming(node, new HashSet<Edge>()));
 	}
 
-	/** Get the set of all outgoing edges for a given node, they are put into the given collection (which gets returned)*/
-	public Collection<Edge> getOutgoing(Node node, Collection<Edge> collection)
+	/** Get the set of all outgoing edges for a given node, they are put into the given set (which gets returned)*/
+	public Set<Edge> getOutgoing(Node node, Set<Edge> collection)
 	{
 		GraphNode graphNode = checkNode(node);
 		for(GraphEdge graphEdge : graphNode.outgoing) {
@@ -309,9 +308,9 @@ public abstract class PatternGraphBase extends IR
 	}
 
 	/** Get the set of all outgoing edges for a given node */
-	public Collection<Edge> getOutgoing(Node node)
+	public Set<Edge> getOutgoing(Node node)
 	{
-		return Collections.unmodifiableCollection(getOutgoing(node, new ArrayList<Edge>()));
+		return Collections.unmodifiableSet(getOutgoing(node, new HashSet<Edge>()));
 	}
 
 	/**

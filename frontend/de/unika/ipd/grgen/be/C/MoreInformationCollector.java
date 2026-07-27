@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ir.*;
@@ -682,9 +683,9 @@ public class MoreInformationCollector extends InformationCollector
 		//a collection of all edges incident to the current node. The collection
 		//is ordered by the priority of the nodes at the far end of each edge.
 		//nodes without priority get the priority 0.
-		Collection<Edge> incidentEdges = new HashSet<Edge>();
+		Set<Edge> incidentEdges = new HashSet<Edge>();
 
-		//put all edges incident to the current node in that collection
+		//put all edges incident to the current node in that collection (edges that are incoming and outgoing occur only once)
 		pattern.getOutgoing(node, incidentEdges);
 		pattern.getIncoming(node, incidentEdges);
 
