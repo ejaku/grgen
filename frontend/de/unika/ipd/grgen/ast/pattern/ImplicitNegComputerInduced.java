@@ -27,7 +27,7 @@ import de.unika.ipd.grgen.ast.decl.pattern.NodeDeclNode;
 import de.unika.ipd.grgen.ir.pattern.Edge;
 import de.unika.ipd.grgen.ir.pattern.Node;
 import de.unika.ipd.grgen.ir.pattern.PatternGraphLhs;
-import de.unika.ipd.grgen.util.Pair;
+import de.unika.ipd.grgen.util.collection.Pair;
 
 /**
  * Class computing the implicit negative application conditions

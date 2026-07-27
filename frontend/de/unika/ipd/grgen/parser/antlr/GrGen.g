@@ -102,6 +102,7 @@ tokens {
 	import de.unika.ipd.grgen.ast.type.basic.*;
 	import de.unika.ipd.grgen.ast.type.container.*;
 	import de.unika.ipd.grgen.util.*;
+	import de.unika.ipd.grgen.util.collection.*;
 }
 
 @members {

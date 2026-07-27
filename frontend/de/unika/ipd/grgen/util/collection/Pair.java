@@ -11,7 +11,7 @@
  * @author Created by Omnicore CodeGuide
  */
 
-package de.unika.ipd.grgen.util;
+package de.unika.ipd.grgen.util.collection;
 
 public class Pair<T, S>
 {

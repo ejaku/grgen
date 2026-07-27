@@ -5,7 +5,7 @@
  * www.grgen.de / www.grgen.net
  */
 
-package de.unika.ipd.grgen.util;
+package de.unika.ipd.grgen.util.collection;
 
 public class Mutable<T>
 {
