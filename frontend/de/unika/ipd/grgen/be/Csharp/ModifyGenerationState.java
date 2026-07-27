@@ -45,49 +45,49 @@ public class ModifyGenerationState implements ModifyGenerationStateConst
 	@Override
 	public Collection<Node> getCommonNodes()
 	{
-		return Collections.unmodifiableCollection(commonNodes);
+		return Collections.unmodifiableSet(commonNodes);
 	}
 
 	@Override
 	public Collection<Edge> getCommonEdges()
 	{
-		return Collections.unmodifiableCollection(commonEdges);
+		return Collections.unmodifiableSet(commonEdges);
 	}
 
 	@Override
 	public Collection<SubpatternUsage> getCommonSubpatternUsages()
 	{
-		return Collections.unmodifiableCollection(commonSubpatternUsages);
+		return Collections.unmodifiableSet(commonSubpatternUsages);
 	}
 
 	@Override
 	public Collection<Node> getNewNodes()
 	{
-		return Collections.unmodifiableCollection(newNodes);
+		return Collections.unmodifiableSet(newNodes);
 	}
 
 	@Override
 	public Collection<Edge> getNewEdges()
 	{
-		return Collections.unmodifiableCollection(newEdges);
+		return Collections.unmodifiableSet(newEdges);
 	}
 
 	@Override
 	public Collection<SubpatternUsage> getNewSubpatternUsages()
 	{
-		return Collections.unmodifiableCollection(newSubpatternUsages);
+		return Collections.unmodifiableSet(newSubpatternUsages);
 	}
 
 	@Override
 	public Collection<Node> getDelNodes()
 	{
-		return Collections.unmodifiableCollection(delNodes);
+		return Collections.unmodifiableSet(delNodes);
 	}
 
 	@Override
 	public Collection<Edge> getDelEdges()
 	{
-		return Collections.unmodifiableCollection(delEdges);
+		return Collections.unmodifiableSet(delEdges);
 	}
 
 	@Override
@@ -104,43 +104,43 @@ public class ModifyGenerationState implements ModifyGenerationStateConst
 	@Override
 	public Collection<SubpatternUsage> getDelSubpatternUsages()
 	{
-		return Collections.unmodifiableCollection(delSubpatternUsages);
+		return Collections.unmodifiableSet(delSubpatternUsages);
 	}
 
 	@Override
 	public Collection<Node> getYieldedNodes()
 	{
-		return Collections.unmodifiableCollection(yieldedNodes);
+		return Collections.unmodifiableSet(yieldedNodes);
 	}
 
 	@Override
 	public Collection<Edge> getYieldedEdges()
 	{
-		return Collections.unmodifiableCollection(yieldedEdges);
+		return Collections.unmodifiableSet(yieldedEdges);
 	}
 
 	@Override
 	public Collection<Variable> getYieldedVariables()
 	{
-		return Collections.unmodifiableCollection(yieldedVariables);
+		return Collections.unmodifiableSet(yieldedVariables);
 	}
 
 	@Override
 	public Collection<Node> getNewOrRetypedNodes()
 	{
-		return Collections.unmodifiableCollection(newOrRetypedNodes);
+		return Collections.unmodifiableSet(newOrRetypedNodes);
 	}
 
 	@Override
 	public Collection<Edge> getNewOrRetypedEdges()
 	{
-		return Collections.unmodifiableCollection(newOrRetypedEdges);
+		return Collections.unmodifiableSet(newOrRetypedEdges);
 	}
 
 	@Override
 	public Collection<GraphEntity> getAccessViaInterface()
 	{
-		return Collections.unmodifiableCollection(accessViaInterface);
+		return Collections.unmodifiableSet(accessViaInterface);
 	}
 
 	@Override
@@ -158,43 +158,43 @@ public class ModifyGenerationState implements ModifyGenerationStateConst
 	@Override
 	public Collection<Variable> getNeededVariables()
 	{
-		return Collections.unmodifiableCollection(neededVariables);
+		return Collections.unmodifiableSet(neededVariables);
 	}
 
 	@Override
 	public Collection<Node> getNodesNeededAsElements()
 	{
-		return Collections.unmodifiableCollection(nodesNeededAsElements);
+		return Collections.unmodifiableSet(nodesNeededAsElements);
 	}
 
 	@Override
 	public Collection<Edge> getEdgesNeededAsElements()
 	{
-		return Collections.unmodifiableCollection(edgesNeededAsElements);
+		return Collections.unmodifiableSet(edgesNeededAsElements);
 	}
 
 	@Override
 	public Collection<Node> getNodesNeededAsAttributes()
 	{
-		return Collections.unmodifiableCollection(nodesNeededAsAttributes);
+		return Collections.unmodifiableSet(nodesNeededAsAttributes);
 	}
 
 	@Override
 	public Collection<Edge> getEdgesNeededAsAttributes()
 	{
-		return Collections.unmodifiableCollection(edgesNeededAsAttributes);
+		return Collections.unmodifiableSet(edgesNeededAsAttributes);
 	}
 
 	@Override
 	public Collection<Node> getNodesNeededAsTypes()
 	{
-		return Collections.unmodifiableCollection(nodesNeededAsTypes);
+		return Collections.unmodifiableSet(nodesNeededAsTypes);
 	}
 
 	@Override
 	public Collection<Edge> getEdgesNeededAsTypes()
 	{
-		return Collections.unmodifiableCollection(edgesNeededAsTypes);
+		return Collections.unmodifiableSet(edgesNeededAsTypes);
 	}
 
 	@Override

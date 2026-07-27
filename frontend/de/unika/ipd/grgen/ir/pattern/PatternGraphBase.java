@@ -216,7 +216,7 @@ public abstract class PatternGraphBase extends IR
 	 */
 	public Collection<Node> getNodes()
 	{
-		return Collections.unmodifiableCollection(nodes.keySet());
+		return Collections.unmodifiableSet(nodes.keySet());
 	}
 
 	/**
@@ -395,7 +395,7 @@ public abstract class PatternGraphBase extends IR
 	 */
 	public Collection<Edge> getEdges()
 	{
-		return Collections.unmodifiableCollection(edges.keySet());
+		return Collections.unmodifiableSet(edges.keySet());
 	}
 
 	/**
@@ -460,7 +460,7 @@ public abstract class PatternGraphBase extends IR
 
 	public Collection<Variable> getVars()
 	{
-		return Collections.unmodifiableCollection(vars);
+		return Collections.unmodifiableSet(vars);
 	}
 
 	public boolean hasVar(Variable var)
@@ -483,7 +483,7 @@ public abstract class PatternGraphBase extends IR
 	 */
 	public Collection<SubpatternUsage> getSubpatternUsages()
 	{
-		return Collections.unmodifiableCollection(subpatternUsages);
+		return Collections.unmodifiableSet(subpatternUsages);
 	}
 
 	/** Add a subpattern usage to the graph. */

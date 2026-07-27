@@ -564,7 +564,7 @@ public abstract class BaseNode extends Base implements GraphDumpable, Walkable
 	 * Mostly only one parent (syntax tree), few nodes with multiple parents (syntax DAG), root node without parents.*/
 	public final Collection<BaseNode> getParents()
 	{
-		return Collections.unmodifiableCollection(parents);
+		return Collections.unmodifiableSet(parents);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////

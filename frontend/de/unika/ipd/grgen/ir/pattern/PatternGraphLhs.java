@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.NeededEntities;
@@ -198,7 +199,7 @@ public class PatternGraphLhs extends PatternGraphBase
 	/** Get all potentially homomorphic sets in this graph. */
 	public Collection<Collection<GraphEntity>> getHomomorphic()
 	{
-		Collection<Collection<GraphEntity>> homs = new LinkedHashSet<Collection<GraphEntity>>();
+		Set<Collection<GraphEntity>> homs = new LinkedHashSet<Collection<GraphEntity>>();
 		for(Collection<Edge> edges : homEdgesLists)
 		{
 			homs.add(getGraphEntities(edges));
@@ -207,7 +208,7 @@ public class PatternGraphLhs extends PatternGraphBase
 		{
 			homs.add(getGraphEntities(nodes));
 		}
-		return Collections.unmodifiableCollection(homs);
+		return Collections.unmodifiableSet(homs);
 	}
 
 	private static Collection<GraphEntity> getGraphEntities(Collection<? extends GraphEntity> graphEntities)

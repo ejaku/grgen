@@ -78,31 +78,31 @@ public class PackageType extends PrimitiveType implements NodeEdgeEnumBearer
 	@Override
 	public Collection<NodeType> getNodeTypes()
 	{
-		return Collections.unmodifiableCollection(nodeTypes);
+		return Collections.unmodifiableSet(nodeTypes);
 	}
 
 	@Override
 	public Collection<EdgeType> getEdgeTypes()
 	{
-		return Collections.unmodifiableCollection(edgeTypes);
+		return Collections.unmodifiableSet(edgeTypes);
 	}
 
 	@Override
 	public Collection<InternalObjectType> getObjectTypes()
 	{
-		return Collections.unmodifiableCollection(objectTypes);
+		return Collections.unmodifiableSet(objectTypes);
 	}
 
 	@Override
 	public Collection<InternalTransientObjectType> getTransientObjectTypes()
 	{
-		return Collections.unmodifiableCollection(transientObjectTypes);
+		return Collections.unmodifiableSet(transientObjectTypes);
 	}
 
 	@Override
 	public Collection<EnumType> getEnumTypes()
 	{
-		return Collections.unmodifiableCollection(enumTypes);
+		return Collections.unmodifiableSet(enumTypes);
 	}
 
 	/** Canonicalize the type model. */

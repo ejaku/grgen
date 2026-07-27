@@ -141,7 +141,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 
 	public Collection<Index> getIndices()
 	{
-		return Collections.unmodifiableCollection(indices);
+		return Collections.unmodifiableSet(indices);
 	}
 
 	public void addExternalFunction(ExternalFunction externalFunc)
@@ -151,7 +151,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 
 	public Collection<ExternalFunction> getExternalFunctions()
 	{
-		return Collections.unmodifiableCollection(externalFuncs);
+		return Collections.unmodifiableSet(externalFuncs);
 	}
 
 	public void addExternalProcedure(ExternalProcedure externalProc)
@@ -161,7 +161,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 
 	public Collection<ExternalProcedure> getExternalProcedures()
 	{
-		return Collections.unmodifiableCollection(externalProcs);
+		return Collections.unmodifiableSet(externalProcs);
 	}
 
 	/** @return The types in the type model. */
@@ -173,7 +173,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	@Override
 	public Collection<NodeType> getNodeTypes()
 	{
-		return Collections.unmodifiableCollection(nodeTypes);
+		return Collections.unmodifiableSet(nodeTypes);
 	}
 
 	public Collection<NodeType> getAllNodeTypes()
@@ -197,7 +197,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	@Override
 	public Collection<EdgeType> getEdgeTypes()
 	{
-		return Collections.unmodifiableCollection(edgeTypes);
+		return Collections.unmodifiableSet(edgeTypes);
 	}
 
 	public Collection<EdgeType> getAllEdgeTypes()
@@ -232,7 +232,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	@Override
 	public Collection<InternalObjectType> getObjectTypes()
 	{
-		return Collections.unmodifiableCollection(objectTypes);
+		return Collections.unmodifiableSet(objectTypes);
 	}
 
 	public Collection<InternalObjectType> getAllObjectTypes()
@@ -256,7 +256,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	@Override
 	public Collection<InternalTransientObjectType> getTransientObjectTypes()
 	{
-		return Collections.unmodifiableCollection(transientObjectTypes);
+		return Collections.unmodifiableSet(transientObjectTypes);
 	}
 
 	public Collection<InternalTransientObjectType> getAllTransientObjectTypes()
@@ -293,12 +293,12 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 	@Override
 	public Collection<EnumType> getEnumTypes()
 	{
-		return Collections.unmodifiableCollection(enumTypes);
+		return Collections.unmodifiableSet(enumTypes);
 	}
 
 	public Collection<ExternalObjectType> getExternalObjectTypes()
 	{
-		return Collections.unmodifiableCollection(externalObjectTypes);
+		return Collections.unmodifiableSet(externalObjectTypes);
 	}
 
 	public Collection<Model> getUsedModels()
