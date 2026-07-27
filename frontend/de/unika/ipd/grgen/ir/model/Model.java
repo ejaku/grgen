@@ -303,7 +303,7 @@ public class Model extends Identifiable implements NodeEdgeEnumBearer
 
 	public Collection<Model> getUsedModels()
 	{
-		return Collections.unmodifiableCollection(usedModels);
+		return Collections.unmodifiableList(usedModels);
 	}
 
 	public boolean isEmitClassDefined()
