@@ -326,7 +326,7 @@ public abstract class InheritanceType extends CompoundType
 
 	public Collection<Constructor> getConstructor()
 	{
-		return Collections.unmodifiableCollection(constructors);
+		return Collections.unmodifiableList(constructors);
 	}
 
 	/** Adds the given member initializer to this type. */
@@ -338,7 +338,7 @@ public abstract class InheritanceType extends CompoundType
 	/** @return A collection containing all member initializers of this type. */
 	public Collection<MemberInit> getMemberInits()
 	{
-		return Collections.unmodifiableCollection(memberInitializers);
+		return Collections.unmodifiableList(memberInitializers);
 	}
 
 	public void addMapInit(MapInit init)
@@ -348,7 +348,7 @@ public abstract class InheritanceType extends CompoundType
 
 	public Collection<MapInit> getMapInits()
 	{
-		return Collections.unmodifiableCollection(mapInitializers);
+		return Collections.unmodifiableList(mapInitializers);
 	}
 
 	public void addSetInit(SetInit init)
@@ -358,7 +358,7 @@ public abstract class InheritanceType extends CompoundType
 
 	public Collection<SetInit> getSetInits()
 	{
-		return Collections.unmodifiableCollection(setInitializers);
+		return Collections.unmodifiableList(setInitializers);
 	}
 
 	public void addArrayInit(ArrayInit init)
@@ -368,7 +368,7 @@ public abstract class InheritanceType extends CompoundType
 
 	public Collection<ArrayInit> getArrayInits()
 	{
-		return Collections.unmodifiableCollection(arrayInitializers);
+		return Collections.unmodifiableList(arrayInitializers);
 	}
 
 	public void addDequeInit(DequeInit init)
@@ -378,7 +378,7 @@ public abstract class InheritanceType extends CompoundType
 
 	public Collection<DequeInit> getDequeInits()
 	{
-		return Collections.unmodifiableCollection(dequeInitializers);
+		return Collections.unmodifiableList(dequeInitializers);
 	}
 
 	/**

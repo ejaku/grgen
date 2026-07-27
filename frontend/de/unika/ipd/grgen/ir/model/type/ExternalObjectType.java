@@ -44,7 +44,7 @@ public class ExternalObjectType extends InheritanceType
 
 	public Collection<ExternalFunctionMethod> getExternalFunctionMethods()
 	{
-		return Collections.unmodifiableCollection(externalFunctionMethods);
+		return Collections.unmodifiableList(externalFunctionMethods);
 	}
 
 	public void addExternalFunctionMethod(ExternalFunctionMethod method)
@@ -61,7 +61,7 @@ public class ExternalObjectType extends InheritanceType
 
 	public Collection<ExternalProcedureMethod> getExternalProcedureMethods()
 	{
-		return Collections.unmodifiableCollection(externalProcedureMethods);
+		return Collections.unmodifiableList(externalProcedureMethods);
 	}
 
 	private void addExternalFunctionMethods(ExternalObjectType type)

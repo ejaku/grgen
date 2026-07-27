@@ -47,7 +47,7 @@ public abstract class CompoundType extends Type
 	/** Get all members of this compound type. */
 	public Collection<Entity> getMembers()
 	{
-		return Collections.unmodifiableCollection(members);
+		return Collections.unmodifiableList(members);
 	}
 
 	/** Add a member entity to the compound type. */
@@ -59,7 +59,7 @@ public abstract class CompoundType extends Type
 
 	public Collection<FunctionMethod> getFunctionMethods()
 	{
-		return Collections.unmodifiableCollection(functionMethods);
+		return Collections.unmodifiableList(functionMethods);
 	}
 
 	public void addFunctionMethod(FunctionMethod method)
@@ -76,7 +76,7 @@ public abstract class CompoundType extends Type
 
 	public Collection<ProcedureMethod> getProcedureMethods()
 	{
-		return Collections.unmodifiableCollection(procedureMethods);
+		return Collections.unmodifiableList(procedureMethods);
 	}
 
 	@Override

@@ -42,16 +42,16 @@ import de.unika.ipd.grgen.ast.pattern.PatternGraphLhsNode;
 public class PatternGraphLhs extends PatternGraphBase
 {
 	/** The alternative statements of the pattern graph */
-	private final Collection<Alternative> alts = new ArrayList<Alternative>();
+	private final List<Alternative> alts = new ArrayList<Alternative>();
 
 	/** The iterated statements of the pattern graph */
-	private final Collection<Rule> iters = new ArrayList<Rule>();
+	private final List<Rule> iters = new ArrayList<Rule>();
 
 	/** The negative patterns(NAC) of the rule. */
-	private final Collection<PatternGraphLhs> negs = new ArrayList<PatternGraphLhs>();
+	private final List<PatternGraphLhs> negs = new ArrayList<PatternGraphLhs>();
 
 	/** The independent patterns(PAC) of the rule. */
-	private final Collection<PatternGraphLhs> idpts = new ArrayList<PatternGraphLhs>();
+	private final List<PatternGraphLhs> idpts = new ArrayList<PatternGraphLhs>();
 
 	/** A list of all condition expressions. */
 	private final List<Expression> conds = new ArrayList<Expression>();
@@ -100,7 +100,7 @@ public class PatternGraphLhs extends PatternGraphBase
 
 	public Collection<Alternative> getAlts()
 	{
-		return Collections.unmodifiableCollection(alts);
+		return Collections.unmodifiableList(alts);
 	}
 
 	public void addIterated(Rule iter)
@@ -110,7 +110,7 @@ public class PatternGraphLhs extends PatternGraphBase
 
 	public Collection<Rule> getIters()
 	{
-		return Collections.unmodifiableCollection(iters);
+		return Collections.unmodifiableList(iters);
 	}
 
 	public void addNegGraph(PatternGraphLhs neg)
@@ -123,7 +123,7 @@ public class PatternGraphLhs extends PatternGraphBase
 	/** @return The negative graphs of the rule. */
 	public Collection<PatternGraphLhs> getNegs()
 	{
-		return Collections.unmodifiableCollection(negs);
+		return Collections.unmodifiableList(negs);
 	}
 
 	public void addIdptGraph(PatternGraphLhs idpt)
@@ -136,7 +136,7 @@ public class PatternGraphLhs extends PatternGraphBase
 	/** @return The independent graphs of the rule. */
 	public Collection<PatternGraphLhs> getIdpts()
 	{
-		return Collections.unmodifiableCollection(idpts);
+		return Collections.unmodifiableList(idpts);
 	}
 
 	/** Add a condition given by it's expression expr to the graph. */
@@ -186,28 +186,28 @@ public class PatternGraphLhs extends PatternGraphBase
 	/** Get a collection with all conditions in this graph. */
 	public Collection<Expression> getConditions()
 	{
-		return Collections.unmodifiableCollection(conds);
+		return Collections.unmodifiableList(conds);
 	}
 
 	/** @return A collection containing all yield assignments of this graph. */
 	public Collection<EvalStatements> getYields()
 	{
-		return Collections.unmodifiableCollection(yields);
+		return Collections.unmodifiableList(yields);
 	}
 
 	/** Get all potentially homomorphic sets in this graph. */
 	public Collection<Collection<GraphEntity>> getHomomorphic()
 	{
-		Collection<Collection<GraphEntity>> ret = new LinkedHashSet<Collection<GraphEntity>>();
+		Collection<Collection<GraphEntity>> homs = new LinkedHashSet<Collection<GraphEntity>>();
 		for(Collection<Edge> edges : homEdgesLists)
 		{
-			ret.add(getGraphEntities(edges));
+			homs.add(getGraphEntities(edges));
 		}
 		for(Collection<Node> nodes : homNodesLists)
 		{
-			ret.add(getGraphEntities(nodes));
+			homs.add(getGraphEntities(nodes));
 		}
-		return Collections.unmodifiableCollection(ret);
+		return Collections.unmodifiableCollection(homs);
 	}
 
 	private static Collection<GraphEntity> getGraphEntities(Collection<? extends GraphEntity> graphEntities)
@@ -217,7 +217,7 @@ public class PatternGraphLhs extends PatternGraphBase
 
 	public Collection<Node> getHomomorphic(Node node)
 	{
-		Collection<Node> homNodesOfNode = new ArrayList<Node>();
+		List<Node> homNodesOfNode = new ArrayList<Node>();
 
 		for(Collection<Node> homNodes : homNodesLists) {
 			if(homNodes.contains(node)) {
@@ -226,12 +226,12 @@ public class PatternGraphLhs extends PatternGraphBase
 		}
 		homNodesOfNode.add(node);
 		
-		return Collections.unmodifiableCollection(homNodesOfNode);
+		return Collections.unmodifiableList(homNodesOfNode);
 	}
 
 	public Collection<Edge> getHomomorphic(Edge edge)
 	{
-		Collection<Edge> homEdgesOfEdge = new ArrayList<Edge>();
+		List<Edge> homEdgesOfEdge = new ArrayList<Edge>();
 
 		for(Collection<Edge> homEdges : homEdgesLists) {
 			if(homEdges.contains(edge)) {
@@ -240,7 +240,7 @@ public class PatternGraphLhs extends PatternGraphBase
 		}
 		homEdgesOfEdge.add(edge);
 		
-		return Collections.unmodifiableCollection(homEdgesOfEdge);
+		return Collections.unmodifiableList(homEdgesOfEdge);
 	}
 
 	public boolean isHomomorphic(Node node1, Node node2)

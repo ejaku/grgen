@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 
 import de.unika.ipd.grgen.ir.ContainedInPackage;
@@ -87,7 +86,7 @@ public class EdgeType extends InheritanceType implements ContainedInPackage
 	/** Get all connection assertions. */
 	public Collection<ConnAssert> getConnAsserts()
 	{
-		return Collections.unmodifiableCollection(connectionAsserts);
+		return Collections.unmodifiableList(connectionAsserts);
 	}
 
 	@Override

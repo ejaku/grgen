@@ -86,7 +86,7 @@ public class PatternGraphRhs extends PatternGraphBase
 	 */
 	public Collection<OrderedReplacements> getOrderedReplacements()
 	{
-		return Collections.unmodifiableCollection(orderedReplacements);
+		return Collections.unmodifiableList(orderedReplacements);
 	}
 
 	/** Add a ordered replacement (subpattern dependent replacement, emit here) to the pattern graph */
@@ -102,6 +102,6 @@ public class PatternGraphRhs extends PatternGraphBase
 
 	public Collection<ImperativeStmt> getImperativeStmts()
 	{
-		return Collections.unmodifiableCollection(imperativeStmts);
+		return Collections.unmodifiableList(imperativeStmts);
 	}
 }

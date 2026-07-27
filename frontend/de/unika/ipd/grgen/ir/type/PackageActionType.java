@@ -63,7 +63,7 @@ public class PackageActionType extends PrimitiveType implements ActionsBearer
 	@Override
 	public Collection<Rule> getSubpatternRules()
 	{
-		return Collections.unmodifiableCollection(subpatternRules);
+		return Collections.unmodifiableList(subpatternRules);
 	}
 
 	/** Add an action-rule to the unit. */
@@ -75,7 +75,7 @@ public class PackageActionType extends PrimitiveType implements ActionsBearer
 	@Override
 	public Collection<Rule> getActionRules()
 	{
-		return Collections.unmodifiableCollection(actionRules);
+		return Collections.unmodifiableList(actionRules);
 	}
 
 	/** Add a filter function to the unit. */
@@ -87,7 +87,7 @@ public class PackageActionType extends PrimitiveType implements ActionsBearer
 	@Override
 	public Collection<FilterFunction> getFilterFunctions()
 	{
-		return Collections.unmodifiableCollection(filterFunctions);
+		return Collections.unmodifiableList(filterFunctions);
 	}
 
 	/** Add a match class to the unit. */
@@ -99,7 +99,7 @@ public class PackageActionType extends PrimitiveType implements ActionsBearer
 	@Override
 	public Collection<DefinedMatchType> getMatchClasses()
 	{
-		return Collections.unmodifiableCollection(matchClasses);
+		return Collections.unmodifiableList(matchClasses);
 	}
 
 	/** Add a match filter function to the unit. */
@@ -111,7 +111,7 @@ public class PackageActionType extends PrimitiveType implements ActionsBearer
 	@Override
 	public Collection<MatchClassFilterFunction> getMatchClassFilterFunctions()
 	{
-		return Collections.unmodifiableCollection(matchClassFilterFunctions);
+		return Collections.unmodifiableList(matchClassFilterFunctions);
 	}
 
 	/** Add a function to the unit. */
@@ -123,7 +123,7 @@ public class PackageActionType extends PrimitiveType implements ActionsBearer
 	@Override
 	public Collection<Function> getFunctions()
 	{
-		return Collections.unmodifiableCollection(functions);
+		return Collections.unmodifiableList(functions);
 	}
 
 	/** Add a procedure to the unit. */
@@ -135,7 +135,7 @@ public class PackageActionType extends PrimitiveType implements ActionsBearer
 	@Override
 	public Collection<Procedure> getProcedures()
 	{
-		return Collections.unmodifiableCollection(procedures);
+		return Collections.unmodifiableList(procedures);
 	}
 
 	/** Add a sequence to the unit. */
@@ -147,6 +147,6 @@ public class PackageActionType extends PrimitiveType implements ActionsBearer
 	@Override
 	public Collection<Sequence> getSequences()
 	{
-		return Collections.unmodifiableCollection(sequences);
+		return Collections.unmodifiableList(sequences);
 	}
 }

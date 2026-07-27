@@ -72,7 +72,7 @@ public class PackageType extends PrimitiveType implements NodeEdgeEnumBearer
 
 	public Collection<Type> getTypes()
 	{
-		return Collections.unmodifiableCollection(types);
+		return Collections.unmodifiableList(types);
 	}
 
 	@Override
