@@ -93,7 +93,7 @@ public class Dumper
 	public final void dump(MatchingAction matchingAction, GraphDumper dumper)
 	{
 		PatternGraphLhs pattern = matchingAction.getPattern();
-		Collection<PatternGraphBase> patternGraphs = new ArrayList<PatternGraphBase>();
+		ArrayList<PatternGraphBase> patternGraphs = new ArrayList<PatternGraphBase>();
 		PatternGraphBase right = null;
 
 		if(matchingAction instanceof Rule && ((Rule)matchingAction).getRight() != null) {

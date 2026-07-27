@@ -162,7 +162,7 @@ public class InformationCollector extends CBackend
 
 	//yields the replacement edge numbers to be newly inserted by
 	//the replacement step according to the given action
-	protected List<Collection<Edge>> newEdgesOfAction;
+	protected ArrayList<Collection<Edge>> newEdgesOfAction;
 
 	/* compares conditions by their condition numbers */
 	protected Comparator<Expression> conditionsComparator = new Comparator<Expression>() {
