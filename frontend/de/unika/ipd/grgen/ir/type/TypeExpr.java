@@ -13,8 +13,8 @@
 
 package de.unika.ipd.grgen.ir.type;
 
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
@@ -31,11 +31,11 @@ public abstract class TypeExpr extends IR
 	 * of all types that are represented by the expression.
 	 * @return A collection of types that correspond to the expression.
 	 */
-	public abstract Collection<InheritanceType> evaluate();
+	public abstract Set<InheritanceType> evaluate();
 
 	public static final TypeExpr EMPTY = new TypeExpr() {
 		@Override
-		public Collection<InheritanceType> evaluate()
+		public Set<InheritanceType> evaluate()
 		{
 			return Collections.emptySet();
 		}

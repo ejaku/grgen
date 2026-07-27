@@ -44,6 +44,7 @@ public class TypeConstraintNode extends TypeExprNode
 		super(coords, TypeExprNode.TypeOperator.SET);
 		this.operandsUnresolved = collect;
 		becomeParent(this.operandsUnresolved);
+		assert(collect.size() == 0); // as of now only used for empty constraints, the other constructor is for the one constraint case, the other cases are modeled by the TypeBinaryExprNode (union: T1+T2)
 	}
 
 	public TypeConstraintNode(IdentNode typeIdentUse)

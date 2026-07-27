@@ -13,15 +13,15 @@
 
 package de.unika.ipd.grgen.ir.type;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 
 public class TypeExprConst extends TypeExpr
 {
-	private final Collection<InheritanceType> types = new HashSet<InheritanceType>();
+	private final Set<InheritanceType> types = new HashSet<InheritanceType>();
 
 	public void addOperand(InheritanceType t)
 	{
@@ -29,8 +29,8 @@ public class TypeExprConst extends TypeExpr
 	}
 
 	@Override
-	public Collection<InheritanceType> evaluate()
+	public Set<InheritanceType> evaluate()
 	{
-		return Collections.unmodifiableCollection(types);
+		return Collections.unmodifiableSet(types);
 	}
 }

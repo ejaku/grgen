@@ -22,6 +22,7 @@ import de.unika.ipd.grgen.parser.Coords;
 
 /**
  * AST node representing type expressions.
+ * A lot more general than what is really used as of now (a non-empty constraint defines a set difference which is not modeled explicitly, and contains one or a union of types).
  */
 public abstract class TypeExprNode extends BaseNode
 {

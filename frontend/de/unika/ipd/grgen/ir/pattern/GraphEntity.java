@@ -10,6 +10,7 @@ package de.unika.ipd.grgen.ir.pattern;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public abstract class GraphEntity extends Entity
 	/** The unique index access used to get the node or edge, if any (i.e. not null)*/
 	public UniqueLookup uniqueIndexAccess = null;
 
-	protected Collection<InheritanceType> constraints = Collections.emptySet();
+	protected Set<InheritanceType> constraints = Collections.emptySet();
 
 	private boolean maybeDeleted;
 	private boolean maybeRetyped;
@@ -108,14 +109,14 @@ public abstract class GraphEntity extends Entity
 	}
 
 	/** Sets the type constraints for this entity */
-	public void setConstraints(Collection<InheritanceType> constraints)
+	public void setConstraints(Set<InheritanceType> constraints)
 	{
 		this.constraints = constraints;
 	}
 
 	public final Collection<InheritanceType> getConstraints()
 	{
-		return Collections.unmodifiableCollection(constraints);
+		return Collections.unmodifiableSet(constraints);
 	}
 
 	/** @return The annotations. */

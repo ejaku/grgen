@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import de.unika.ipd.grgen.ir.model.type.InheritanceType;
 
@@ -44,24 +45,26 @@ public class TypeExprSetOperator extends TypeExpr
 	}
 
 	@Override
-	public Collection<InheritanceType> evaluate()
+	public Set<InheritanceType> evaluate()
 	{
-		Collection<InheritanceType> res = new HashSet<InheritanceType>();
-		assert children.size() == 2 : "Arity 2 required";
+		Set<InheritanceType> res = new HashSet<InheritanceType>();
+		assert children.size() == 2 : "Arity 2 required"; // it could make sense to model this explicitly as a binary tree
 
 		Collection<InheritanceType> lhs = children.get(0).evaluate();
 		Collection<InheritanceType> rhs = children.get(1).evaluate();
 
 		res.addAll(lhs);
 
-		switch(op) {
+		switch(op) { // note that types are taken literally and are not resolved to the union of their subtypes
 		case UNION:
-			res.addAll(rhs);
+			res.addAll(rhs); // entity:T1\(T2+T2+T3) is evaluated/optimized to entity:T1\(T2+T3)
 			break;
 		case DIFFERENCE:
+			assert(false); // not used yet, entity:T1\T2 is mapped to entity:T1 and a type constraint T2, entity:T1\(T2+T3) is mapped to entity:T1 and a type constraint T2+T3 (union) (note that it is checked that T is not contained in the constraints if entity:T) 
 			res.removeAll(rhs);
 			break;
 		case INTERSECT:
+			assert(false); // not used yet
 			res.retainAll(rhs);
 			break;
 		}
