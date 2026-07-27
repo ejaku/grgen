@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 import java.util.ArrayList;
 
@@ -162,7 +163,7 @@ public class InformationCollector extends CBackend
 
 	//yields the replacement edge numbers to be newly inserted by
 	//the replacement step according to the given action
-	protected ArrayList<Collection<Edge>> newEdgesOfAction;
+	protected ArrayList<Set<Edge>> newEdgesOfAction;
 
 	/* compares conditions by their condition numbers */
 	protected Comparator<Expression> conditionsComparator = new Comparator<Expression>() {
@@ -507,7 +508,7 @@ public class InformationCollector extends CBackend
 	private void collectNewInsertEdgesInfo()
 	{
 		//Collection[] new_edges_of_action;
-		newEdgesOfAction = new ArrayList<Collection<Edge>>(n_graph_actions);
+		newEdgesOfAction = new ArrayList<Set<Edge>>(n_graph_actions);
 
 		//init the array with empty HashSets
 		for(int i = 0; i < n_graph_actions; i++) {
@@ -584,7 +585,7 @@ public class InformationCollector extends CBackend
 
 			if(action.getRight() != null) {
 				//compute the set of replacement nodes preserved by this action
-				Collection<Node> replacement_nodes_preserved = new HashSet<Node>();
+				Set<Node> replacement_nodes_preserved = new HashSet<Node>();
 				replacement_nodes_preserved.addAll(action.getRight().getNodes());
 				replacement_nodes_preserved.retainAll(action.getPattern().getNodes());
 
@@ -620,7 +621,7 @@ public class InformationCollector extends CBackend
 			int act_id = actionRuleMap.get(action).intValue();
 
 			//compute the set of pattern nodes to be kept for this action
-			Collection<Node> pattern_nodes_to_keep = new HashSet<Node>();
+			Set<Node> pattern_nodes_to_keep = new HashSet<Node>();
 			pattern_nodes_to_keep.addAll(action.getPattern().getNodes());
 			if(action.getRight() != null) {
 				PatternGraphBase replacement = action.getRight();

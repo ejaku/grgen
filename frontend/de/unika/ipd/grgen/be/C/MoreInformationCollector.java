@@ -93,8 +93,8 @@ public class MoreInformationCollector extends InformationCollector
 				evalListMap.put(rule_evals, act_id);
 				evalActions.put(rule_evals, act);
 
-				Collection<Node> involvedNodes = new HashSet<Node>();
-				Collection<Edge> involvedEdges = new HashSet<Edge>();
+				Set<Node> involvedNodes = new HashSet<Node>();
+				Set<Edge> involvedEdges = new HashSet<Edge>();
 				involvedEvalNodeAttrIds.set(act_id.intValue(), new HashMap<Node, Collection<Integer>>());
 				involvedEvalEdgeAttrIds.set(act_id.intValue(), new HashMap<Edge, Collection<Integer>>());
 
@@ -162,7 +162,7 @@ public class MoreInformationCollector extends InformationCollector
 
 			if(action.getRight() != null) {
 				//compute the set of replacement edges preserved by this action
-				Collection<Edge> replacement_edges_preserved = new HashSet<Edge>();
+				Set<Edge> replacement_edges_preserved = new HashSet<Edge>();
 				replacement_edges_preserved.addAll(action.getRight().getEdges());
 				replacement_edges_preserved.retainAll(action.getPattern().getEdges());
 				//for all those preserved replacement edges store the
@@ -196,7 +196,7 @@ public class MoreInformationCollector extends InformationCollector
 			int act_id = actionRuleMap.get(action).intValue();
 
 			//compute the set of pattern edges to be kept for this action
-			Collection<Edge> pattern_edges_to_keep = new HashSet<Edge>();
+			Set<Edge> pattern_edges_to_keep = new HashSet<Edge>();
 			pattern_edges_to_keep.addAll(action.getPattern().getEdges());
 			if(action.getRight() != null) {
 				PatternGraphBase replacement = action.getRight();
@@ -313,7 +313,7 @@ public class MoreInformationCollector extends InformationCollector
 			for(PatternGraphLhs neg_pattern : negMap.get(act_id).keySet()) {
 				int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
 
-				Collection<Node> negatives_also_in_pattern = new HashSet<Node>();
+				Set<Node> negatives_also_in_pattern = new HashSet<Node>();
 				negatives_also_in_pattern.addAll(neg_pattern.getNodes());
 				negatives_also_in_pattern.retainAll(action.getPattern().getNodes());
 
@@ -348,7 +348,7 @@ public class MoreInformationCollector extends InformationCollector
 			for(PatternGraphLhs neg_pattern : negMap.get(act_id).keySet()) {
 				int neg_num = negMap.get(act_id).get(neg_pattern).intValue();
 
-				Collection<Edge> negatives_also_in_pattern = new HashSet<Edge>();
+				Set<Edge> negatives_also_in_pattern = new HashSet<Edge>();
 				negatives_also_in_pattern.addAll(neg_pattern.getEdges());
 				negatives_also_in_pattern.retainAll(action.getPattern().getEdges());
 
@@ -518,8 +518,8 @@ public class MoreInformationCollector extends InformationCollector
 	protected int[] first_subgraph;
 	protected int max_n_subgraphs;
 	//protected Map[] subGraphMap;
-	protected List<LinkedList<Collection<Node>>> nodesOfSubgraph;
-	protected List<LinkedList<Collection<Edge>>> edgesOfSubgraph;
+	protected List<LinkedList<Set<Node>>> nodesOfSubgraph;
+	protected List<LinkedList<Set<Edge>>> edgesOfSubgraph;
 	protected Map<Node, Integer> subgraphOfNode;
 	protected Map<Edge, Integer> subgraphOfEdge;
 
@@ -528,8 +528,8 @@ public class MoreInformationCollector extends InformationCollector
 		n_subgraphs = new int[actionRuleMap.size()];
 		first_subgraph = new int[actionRuleMap.size()];
 		//subGraphMap = new HashMap[actionMap.size()];
-		nodesOfSubgraph = new ArrayList<LinkedList<Collection<Node>>>(actionRuleMap.size());
-		edgesOfSubgraph = new ArrayList<LinkedList<Collection<Edge>>>(actionRuleMap.size());
+		nodesOfSubgraph = new ArrayList<LinkedList<Set<Node>>>(actionRuleMap.size());
+		edgesOfSubgraph = new ArrayList<LinkedList<Set<Edge>>>(actionRuleMap.size());
 		subgraphOfNode = new HashMap<Node, Integer>();
 		subgraphOfEdge = new HashMap<Edge, Integer>();
 
@@ -541,22 +541,22 @@ public class MoreInformationCollector extends InformationCollector
 
 			int subgraph = 0;
 
-			Collection<IR> remainingNodes = new HashSet<IR>();
-			Collection<IR> remainingEdges = new HashSet<IR>();
+			Set<IR> remainingNodes = new HashSet<IR>();
+			Set<IR> remainingEdges = new HashSet<IR>();
 
 			remainingNodes.addAll(pattern.getNodes());
 			remainingEdges.addAll(pattern.getEdges());
 
-			nodesOfSubgraph.set(act_id, new LinkedList<Collection<Node>>());
-			edgesOfSubgraph.set(act_id, new LinkedList<Collection<Edge>>());
+			nodesOfSubgraph.set(act_id, new LinkedList<Set<Node>>());
+			edgesOfSubgraph.set(act_id, new LinkedList<Set<Edge>>());
 
 			n_subgraphs[act_id] = 0;
 			//subGraphMap[act_id] = new HashMap();
 
 			while(!remainingNodes.isEmpty()) {
 				Node node;
-				Collection<Node> currentSubgraphNodes = new HashSet<Node>();
-				Collection<Edge> currentSubgraphEdges = new HashSet<Edge>();
+				Set<Node> currentSubgraphNodes = new HashSet<Node>();
+				Set<Edge> currentSubgraphEdges = new HashSet<Edge>();
 
 				nodesOfSubgraph.get(act_id).addLast(currentSubgraphNodes);
 				edgesOfSubgraph.get(act_id).addLast(currentSubgraphEdges);
@@ -575,8 +575,8 @@ public class MoreInformationCollector extends InformationCollector
 
 			if(nodesOfSubgraph.get(act_id).size() > 1) {
 				//if a subgraph is smaller than 5 then merge it with the next smallest one
-				Collection<Node> smallest_subgraph;
-				Collection<Edge> smallest_subgraph_edges;
+				Set<Node> smallest_subgraph;
+				Set<Edge> smallest_subgraph_edges;
 				do {
 					smallest_subgraph = nodesOfSubgraph.get(act_id).getFirst();
 					smallest_subgraph_edges = edgesOfSubgraph.get(act_id).getFirst();

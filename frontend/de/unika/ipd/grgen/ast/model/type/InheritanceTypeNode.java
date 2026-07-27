@@ -16,6 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.ArrayList;
 
 import de.unika.ipd.grgen.ast.BaseNode;
@@ -79,13 +80,13 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode implements Me
 	private Map<String, DeclNode> allMembers = null;
 
 	/** Contains all super types of this type (not including this itself) */
-	private Collection<InheritanceTypeNode> allSuperTypes = null;
+	private Set<InheritanceTypeNode> allSuperTypes = null;
 
 	/** Contains all direct sub types of this type */
-	private Collection<InheritanceTypeNode> directSubTypes = new LinkedHashSet<InheritanceTypeNode>();
+	private Set<InheritanceTypeNode> directSubTypes = new LinkedHashSet<InheritanceTypeNode>();
 
 	/** Contains all sub types of this type (not including this itself) */
-	private Collection<InheritanceTypeNode> allSubTypes = null;
+	private Set<InheritanceTypeNode> allSubTypes = null;
 
 	public void addDirectSubType(InheritanceTypeNode type)
 	{
