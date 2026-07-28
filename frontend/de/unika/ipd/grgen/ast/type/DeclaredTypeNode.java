@@ -27,16 +27,6 @@ public abstract class DeclaredTypeNode extends TypeNode
 {
 	private DeclNode decl = null;
 
-	/**
-	 * Get the identifier of the type declaration.
-	 * @return The identifier of the type declaration or an invalid
-	 * identifier, if the type declaration was not set.
-	 */
-	public IdentNode getIdent()
-	{
-		return decl != null ? decl.getIdent() : IdentNode.getInvalid();
-	}
-
 	/** Set the declaration of this type.
 	 *  @param decl The declaration of this type. */
 	public void setDecl(DeclNode decl)
@@ -51,11 +41,21 @@ public abstract class DeclaredTypeNode extends TypeNode
 		return decl;
 	}
 
+	/**
+	 * Get the identifier of the type declaration.
+	 * @return The identifier of the type declaration or an invalid
+	 * identifier, if the type declaration was not set.
+	 */
+	public IdentNode getIdent()
+	{
+		return decl != null ? decl.getIdent() : IdentNode.getInvalid();
+	}
+
 	public PrimitiveType getIRPrimitiveType()
 	{
 		return checkIR(PrimitiveType.class);
 	}
-	
+
 	@Override
 	public String getTypeName() {
 		return getIdent().toString();
