@@ -1,0 +1,80 @@
+﻿/*
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
+ * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
+ * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
+ * www.grgen.de / www.grgen.net
+ */
+
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
+
+namespace de.unika.ipd.grgen.ast.stmt.set
+{
+
+using System.Collections.Generic;
+
+using de.unika.ipd.grgen.ast;
+using VarDeclNode = de.unika.ipd.grgen.ast.decl.pattern.VarDeclNode;
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using SetTypeNode = de.unika.ipd.grgen.ast.type.container.SetTypeNode;
+using IR = de.unika.ipd.grgen.ir.IR;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Variable = de.unika.ipd.grgen.ir.pattern.Variable;
+using SetVarAddAll = de.unika.ipd.grgen.ir.stmt.set.SetVarAddAll;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+public class SetAddAllNode : SetProcedureMethodInvocationBaseNode
+{
+	static SetAddAllNode()
+	{
+		SetClassName(typeof(SetAddAllNode), "set add all statement");
+	}
+
+	private ExprNode valueExpr;
+
+	public SetAddAllNode(Coords coords, VarDeclNode targetVar, ExprNode valueExpr)
+		: base(coords, targetVar)
+	{
+		this.valueExpr = BecomeParent(valueExpr);
+	}
+
+	public override ICollection<BaseNode> Children
+	{
+		get
+		{
+		IList<BaseNode> children = new List<BaseNode>();
+		children.Add(ValidTarget);
+		children.Add(valueExpr);
+		return children;
+		}
+	}
+
+	public override ICollection<string> ChildrenNames
+	{
+		get
+		{
+		IList<string> childrenNames = new List<string>();
+		childrenNames.Add("target");
+		childrenNames.Add("valueExpr");
+		return childrenNames;
+		}
+	}
+
+	protected internal override bool CheckLocal()
+	{
+		// target type already checked during resolving into this node
+		SetTypeNode targetType = TargetTypeExact;
+		bool success = true;
+		success &= CheckType(valueExpr, targetType, "set add all statement", "value");
+		return success;
+	}
+
+	protected internal override IR ConstructIR()
+	{
+		valueExpr = valueExpr.Evaluate();
+		return new SetVarAddAll(targetVar.CheckIR(typeof(Variable)), valueExpr.CheckIR(typeof(Expression)));
+	}
+}
+
+}

@@ -1,0 +1,55 @@
+﻿/*
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
+ * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
+ * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
+ * www.grgen.de / www.grgen.net
+ */
+
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
+
+namespace de.unika.ipd.grgen.ir.executable
+{
+
+using System.Collections.Generic;
+
+using Ident = de.unika.ipd.grgen.ir.Ident;
+using Identifiable = de.unika.ipd.grgen.ir.Identifiable;
+using Type = de.unika.ipd.grgen.ir.type.Type;
+
+/// <summary>
+/// A function base.
+/// </summary>
+public abstract class FunctionBase : Identifiable
+{
+	/// <summary>
+	/// The return-parameter type </summary>
+	protected internal Type retType = null;
+
+	/// <param name="name"> The name of the function. </param>
+	/// <param name="ident"> The identifier that identifies this object. </param>
+	/// <param name="retType"> The return type of this function. </param>
+	public FunctionBase(string name, Ident ident, Type retType)
+		: base(name, ident)
+	{
+
+		this.retType = retType;
+	}
+
+	/// <summary>
+	/// Get the return type of this external function. </summary>
+	public virtual Type ReturnType
+	{
+		get
+		{
+		return retType;
+		}
+	}
+
+	/// <summary>
+	/// Get all parameter types of this function. </summary>
+	public abstract IList<Type> ParameterTypes {get;}
+}
+
+}

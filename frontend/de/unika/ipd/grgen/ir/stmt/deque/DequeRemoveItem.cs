@@ -1,0 +1,46 @@
+﻿/*
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
+ * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
+ * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
+ * www.grgen.de / www.grgen.net
+ */
+
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
+
+namespace de.unika.ipd.grgen.ir.stmt.deque
+{
+using de.unika.ipd.grgen.ir;
+using Expression = de.unika.ipd.grgen.ir.expr.Expression;
+using Qualification = de.unika.ipd.grgen.ir.expr.Qualification;
+using ContainerQualProcedureMethodInvocationBase = de.unika.ipd.grgen.ir.stmt.ContainerQualProcedureMethodInvocationBase;
+
+public class DequeRemoveItem : ContainerQualProcedureMethodInvocationBase
+{
+	internal Expression indexExpr;
+
+	public DequeRemoveItem(Qualification target, Expression indexExpr)
+		: base("deque remove item", target)
+	{
+		this.indexExpr = indexExpr;
+	}
+
+	public virtual Expression IndexExpr
+	{
+		get
+		{
+		return indexExpr;
+		}
+	}
+
+	public override void CollectNeededEntities(NeededEntities needs)
+	{
+		base.CollectNeededEntities(needs);
+
+		if(indexExpr != null)
+			indexExpr.CollectNeededEntities(needs);
+	}
+}
+
+}

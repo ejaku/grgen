@@ -1,0 +1,44 @@
+﻿/*
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
+ * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
+ * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
+ * www.grgen.de / www.grgen.net
+ */
+
+namespace de.unika.ipd.grgen.ir.pattern
+{
+/// <summary>
+/// Class for the different kinds of indexes available for accessing a storage for binding a pattern element
+/// </summary>
+public class StorageAccessIndex
+{
+	//public Variable indexVariable = null;
+	//public Qualification indexAttribute = null;
+	public GraphEntity indexGraphEntity = null;
+	//public GraphEntity indexGlobalVariable = null;
+
+	//public StorageAccessIndex(Variable indexVariable) {
+	//	this.indexVariable = indexVariable;
+	//}
+
+	//public StorageAccessIndex(Qualification indexAttribute) {
+	//	this.indexAttribute = indexAttribute;
+	//}
+
+	public StorageAccessIndex(GraphEntity indexGraphEntityOrGlobalVariable)
+	{
+		PatternGraphLhs directlyNestingLHSGraph;
+		if(indexGraphEntityOrGlobalVariable is Node)
+			directlyNestingLHSGraph = ((Node)indexGraphEntityOrGlobalVariable).directlyNestingLHSGraph;
+		else
+			directlyNestingLHSGraph = ((Edge)indexGraphEntityOrGlobalVariable).directlyNestingLHSGraph;
+		if(directlyNestingLHSGraph != null)
+			this.indexGraphEntity = indexGraphEntityOrGlobalVariable;
+		else
+		{
+			//this.indexGlobalVariable = indexGraphEntityOrGlobalVariable;
+		}
+	}
+}
+
+}

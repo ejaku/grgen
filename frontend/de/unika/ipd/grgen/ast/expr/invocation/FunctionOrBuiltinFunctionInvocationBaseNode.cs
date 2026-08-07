@@ -1,0 +1,32 @@
+﻿/*
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 8.1
+ * Copyright (C) 2003-2026 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos; and free programmers
+ * licensed under LGPL v3, some components/parts use different licenses (see LICENSE.txt included in the packaging of this file)
+ * www.grgen.de / www.grgen.net
+ */
+
+/// <summary>
+/// @author Edgar Jakumeit
+/// </summary>
+
+namespace de.unika.ipd.grgen.ast.expr.invocation
+{
+using ExprNode = de.unika.ipd.grgen.ast.expr.ExprNode;
+using Coords = de.unika.ipd.grgen.parser.Coords;
+
+/// <summary>
+/// base class for builtin and real function calls </summary>
+public abstract class FunctionOrBuiltinFunctionInvocationBaseNode : ExprNode
+{
+	static FunctionOrBuiltinFunctionInvocationBaseNode()
+	{
+		SetClassName(typeof(FunctionOrBuiltinFunctionInvocationBaseNode), "function or builtin function invocation base");
+	}
+
+	public FunctionOrBuiltinFunctionInvocationBaseNode(Coords coords)
+		: base(coords)
+	{
+	}
+}
+
+}
