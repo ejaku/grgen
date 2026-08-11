@@ -128,7 +128,7 @@ namespace de.unika.ipd.grgen.ast
 		{
 			get
 			{
-				Resolver.ResolveOwner(this);
+				Resolver<BaseNode>.ResolveOwner(this);
 				if(OwnerSymbol.ToString().Equals("global"))
 					FixupDefinition(this, Scope.Root, true);
 				return base.Decl;

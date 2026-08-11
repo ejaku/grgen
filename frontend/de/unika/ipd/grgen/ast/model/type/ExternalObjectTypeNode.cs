@@ -212,7 +212,7 @@ namespace de.unika.ipd.grgen.ast.model.type
 					{
 						ExternalFunctionDeclNode functionBase = (ExternalFunctionDeclNode)baseChild;
 						if(function.ident.ToString().Equals(functionBase.ident.ToString()))
-							checkSignatureAdhered(functionBase, function);
+							CheckSignatureAdhered(functionBase, function);
 					}
 				}
 			}

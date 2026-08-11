@@ -135,8 +135,8 @@ namespace de.unika.ipd.grgen.ast.expr
 			IList<Expression> items = new List<Expression>();
 			foreach(ExprNode item in containerItems.ChildrenExact)
 			{
-				item = item.Evaluate();
-				items.Add(item.CheckIR<Expression>(typeof(Expression)));
+				ExprNode itemEvaluated = item.Evaluate();
+				items.Add(itemEvaluated.CheckIR<Expression>(typeof(Expression)));
 			}
 			return items;
 		}

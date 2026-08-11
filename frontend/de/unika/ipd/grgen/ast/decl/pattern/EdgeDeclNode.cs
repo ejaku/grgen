@@ -281,9 +281,9 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 			Edge edge = new Edge(ident.IRIdent, et, ident.Annotations,
 					directlyNestingLHSGraph != null ? directlyNestingLHSGraph.IRPatternGraphLhs : null,
 					IsMaybeDeleted(), IsMaybeRetyped(), defEntityToBeYieldedTo, context);
-			edge.SetConstraints(IRConstraints.Evaluate());
+			edge.Constraints = IRConstraints.Evaluate();
 
-			if(edge.GetConstraints().Contains(edge.InheritanceType)) // TODO: supertype? only subtypes allowed
+			if(edge.Constraints.Contains(edge.InheritanceType)) // TODO: supertype? only subtypes allowed
 			{
 				ReportError("The own edge type may not be contained in the type constraint list"
 						+ " (but " + edge.Type + " is contained for " + Ident + ").");

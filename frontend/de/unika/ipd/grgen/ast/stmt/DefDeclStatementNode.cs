@@ -90,7 +90,7 @@ namespace de.unika.ipd.grgen.ast.stmt
 			bool successfullyResolved = true;
 			DeclNode decl = Decl;
 			if(decl.typeUnresolved is PackageIdentNode)
-				Resolver.ResolveOwner((PackageIdentNode)decl.typeUnresolved);
+				Resolver<BaseNode>.ResolveOwner((PackageIdentNode)decl.typeUnresolved);
 			else
 				FixupDefinition(decl.typeUnresolved, decl.typeUnresolved.Scope);
 			successfullyResolved = decl.Resolve();

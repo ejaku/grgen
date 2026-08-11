@@ -625,12 +625,12 @@ namespace com.sanityinc.jargs
 					{ // handle -abcd
 						for(int i = 1; i < curArg.Length; i++)
 						{
-							OptionBase opt = this.options["-" + curArg[i]];
-							if(opt == null)
+							OptionBase shortOpt = this.options["-" + curArg[i]];
+							if(shortOpt == null)
 								throw new UnknownSuboptionException(curArg,curArg[i]);
-							if(opt.WantsValue())
+							if(shortOpt.WantsValue())
 								throw new NotFlagException(curArg,curArg[i]);
-							AddValue(opt, null, locale);
+							AddValue(shortOpt, null, locale);
 
 						}
 						position++;

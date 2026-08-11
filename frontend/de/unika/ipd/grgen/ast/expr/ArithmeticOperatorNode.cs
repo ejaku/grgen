@@ -186,16 +186,16 @@ namespace de.unika.ipd.grgen.ast.expr
 			if(OperatorDecl.Operator == Operator.INDEX)
 			{
 				Expression texp = children[0].CheckIR<Expression>(typeof(Expression));
-				Type type = texp.Type;
+				Type containerType = texp.Type;
 				Type accessedType;
-				if(type is MapType)
-					accessedType = ((MapType)type).ValueType;
-				else if(type is DequeType)
-					accessedType = ((DequeType)type).ValueType;
-				else if(type is ArrayType)
-					accessedType = ((ArrayType)type).ValueType;
+				if(containerType is MapType)
+					accessedType = ((MapType)containerType).ValueType;
+				else if(containerType is DequeType)
+					accessedType = ((DequeType)containerType).ValueType;
+				else if(containerType is ArrayType)
+					accessedType = ((ArrayType)containerType).ValueType;
 				else
-					accessedType = type; // assuming untypedType
+					accessedType = containerType; // assuming untypedType
 				return new IndexedAccessExpr(texp,
 						children[1].CheckIR<Expression>(typeof(Expression)), accessedType);
 			}

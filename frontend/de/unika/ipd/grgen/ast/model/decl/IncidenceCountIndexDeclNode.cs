@@ -110,7 +110,7 @@ namespace de.unika.ipd.grgen.ast.model.decl
 			}
 
 			if(startNodeTypeUnresolved is PackageIdentNode)
-				Resolver.ResolveOwner((PackageIdentNode)startNodeTypeUnresolved);
+				Resolver<BaseNode>.ResolveOwner((PackageIdentNode)startNodeTypeUnresolved);
 			else
 				FixupDefinition(startNodeTypeUnresolved, startNodeTypeUnresolved.Scope);
 			startNodeType = typeResolver.Resolve(startNodeTypeUnresolved, this);
@@ -118,7 +118,7 @@ namespace de.unika.ipd.grgen.ast.model.decl
 				return false;
 
 			if(incidentEdgeTypeUnresolved is PackageIdentNode)
-				Resolver.ResolveOwner((PackageIdentNode)incidentEdgeTypeUnresolved);
+				Resolver<BaseNode>.ResolveOwner((PackageIdentNode)incidentEdgeTypeUnresolved);
 			else
 				FixupDefinition(incidentEdgeTypeUnresolved, incidentEdgeTypeUnresolved.Scope);
 			incidentEdgeType = typeResolver.Resolve(incidentEdgeTypeUnresolved, this);
@@ -126,7 +126,7 @@ namespace de.unika.ipd.grgen.ast.model.decl
 				return false;
 
 			if(adjacentNodeTypeUnresolved is PackageIdentNode)
-				Resolver.ResolveOwner((PackageIdentNode)adjacentNodeTypeUnresolved);
+				Resolver<BaseNode>.ResolveOwner((PackageIdentNode)adjacentNodeTypeUnresolved);
 			else
 				FixupDefinition(adjacentNodeTypeUnresolved, adjacentNodeTypeUnresolved.Scope);
 			adjacentNodeType = typeResolver.Resolve(adjacentNodeTypeUnresolved, this);

@@ -281,9 +281,9 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 			Node node = new Node(ident.IRIdent, nt, ident.Annotations,
 					directlyNestingLHSGraph != null ? directlyNestingLHSGraph.IRPatternGraphLhs : null,
 					IsMaybeDeleted(), IsMaybeRetyped(), defEntityToBeYieldedTo, context);
-			node.SetConstraints(IRConstraints.Evaluate());
+			node.Constraints = IRConstraints.Evaluate();
 
-			if(node.GetConstraints().Contains(node.InheritanceType)) // TODO: supertype? only subtypes allowed
+			if(node.Constraints.Contains(node.InheritanceType)) // TODO: supertype? only subtypes allowed
 			{
 				ReportError("The own node type may not be contained in the type constraint list"
 						+ " (but " + node.Type + " is contained for " + Ident + ").");

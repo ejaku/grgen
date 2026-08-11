@@ -121,7 +121,7 @@ namespace de.unika.ipd.grgen.ast.expr
 		{
 			bool successfullyResolved = true;
 			if(typeUnresolved is PackageIdentNode)
-				Resolver.ResolveOwner((PackageIdentNode)typeUnresolved);
+				Resolver<BaseNode>.ResolveOwner((PackageIdentNode)typeUnresolved);
 			else
 				FixupDefinition(typeUnresolved, typeUnresolved.Scope);
 			type = typeResolver.Resolve(typeUnresolved, this);

@@ -425,7 +425,7 @@ namespace de.unika.ipd.grgen.ast.model.type
 						if(!functionBase.IsChecked())
 							continue;
 						if(function.ident.ToString().Equals(functionBase.ident.ToString()))
-							res &= checkSignatureAdhered(functionBase, function);
+							res &= CheckSignatureAdhered(functionBase, function);
 					}
 				}
 			}

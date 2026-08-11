@@ -82,11 +82,11 @@ namespace de.unika.ipd.grgen.ast.type.container
 		protected internal override bool ResolveLocal()
 		{
 			if(keyTypeUnresolved is PackageIdentNode)
-				Resolver.ResolveOwner((PackageIdentNode)keyTypeUnresolved);
+				Resolver<BaseNode>.ResolveOwner((PackageIdentNode)keyTypeUnresolved);
 			else
 				FixupDefinition(keyTypeUnresolved, keyTypeUnresolved.Scope);
 			if(valueTypeUnresolved is PackageIdentNode)
-				Resolver.ResolveOwner((PackageIdentNode)valueTypeUnresolved);
+				Resolver<BaseNode>.ResolveOwner((PackageIdentNode)valueTypeUnresolved);
 			else
 				FixupDefinition(valueTypeUnresolved, valueTypeUnresolved.Scope);
 

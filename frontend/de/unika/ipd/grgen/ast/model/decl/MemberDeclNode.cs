@@ -112,7 +112,7 @@ namespace de.unika.ipd.grgen.ast.model.decl
 		protected internal override bool ResolveLocal()
 		{
 			if(typeUnresolved is PackageIdentNode)
-				Resolver.ResolveOwner((PackageIdentNode)typeUnresolved);
+				Resolver<BaseNode>.ResolveOwner((PackageIdentNode)typeUnresolved);
 			else if(typeUnresolved is IdentNode)
 				FixupDefinition((IdentNode)typeUnresolved, ((IdentNode)typeUnresolved).Scope.Ident.Scope);
 			type = typeResolver.Resolve(typeUnresolved, this);

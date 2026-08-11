@@ -334,7 +334,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 		{
 			bool allMarked = true;
 
-			foreach(bool edgeMarked in candidate.Key.Values())
+			foreach(bool edgeMarked in candidate.Key.Values)
 				allMarked &= edgeMarked;
 
 			return allMarked;
