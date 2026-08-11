@@ -121,8 +121,8 @@ namespace de.unika.ipd.grgen.ast.stmt.graph
 			sourceExpr = sourceExpr.Evaluate();
 			if(sourceNameExpr != null)
 				sourceNameExpr = sourceNameExpr.Evaluate();
-			return new GraphMergeProc(targetExpr.CheckIR(typeof(Expression)), sourceExpr.CheckIR(typeof(Expression)),
-					sourceNameExpr != null ? sourceNameExpr.CheckIR(typeof(Expression)) : null);
+			return new GraphMergeProc(targetExpr.CheckIR<Expression>(typeof(Expression)), sourceExpr.CheckIR<Expression>(typeof(Expression)),
+					sourceNameExpr != null ? sourceNameExpr.CheckIR<Expression>(typeof(Expression)) : null);
 		}
 	}
 

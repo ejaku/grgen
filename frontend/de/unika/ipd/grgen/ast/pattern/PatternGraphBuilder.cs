@@ -145,7 +145,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 
 		private static void AddSubpatternUsageArgument(PatternGraphLhs patternGraph, SubpatternUsageDeclNode subpatternUsageNode)
 		{
-			IList<Expression> subpatternConnections = subpatternUsageNode.CheckIR(typeof(SubpatternUsage)).GetSubpatternConnections();
+			IList<Expression> subpatternConnections = subpatternUsageNode.CheckIR<SubpatternUsage>(typeof(SubpatternUsage)).GetSubpatternConnections();
 			foreach(Expression expr in subpatternConnections)
 			{
 				if(expr is GraphEntityExpression)
@@ -173,7 +173,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 
 		private static void AddSubpatternUsageYieldArgument(PatternGraphLhs patternGraph, SubpatternUsageDeclNode subpatternUsageNode)
 		{
-			IList<Expression> subpatternYields = subpatternUsageNode.CheckIR(typeof(SubpatternUsage)).GetSubpatternYields();
+			IList<Expression> subpatternYields = subpatternUsageNode.CheckIR<SubpatternUsage>(typeof(SubpatternUsage)).GetSubpatternYields();
 			foreach(Expression expr in subpatternYields)
 			{
 				if(expr is GraphEntityExpression)
@@ -308,14 +308,14 @@ namespace de.unika.ipd.grgen.ast.pattern
 			{
 				HashSet<Node> homNodes = new HashSet<Node>();
 				foreach(DeclNode node in homEntityNodes)
-					homNodes.Add(node.CheckIR(typeof(Node)));
+					homNodes.Add(node.CheckIR<Node>(typeof(Node)));
 				patternGraph.AddHomomorphicNodes(homNodes);
 			}
 			else
 			{
 				HashSet<Edge> homEdges = new HashSet<Edge>();
 				foreach(DeclNode edge in homEntityNodes)
-					homEdges.Add(edge.CheckIR(typeof(Edge)));
+					homEdges.Add(edge.CheckIR<Edge>(typeof(Edge)));
 				patternGraph.AddHomomorphicEdges(homEdges);
 			}
 		}
@@ -326,15 +326,15 @@ namespace de.unika.ipd.grgen.ast.pattern
 			{
 				HashSet<Node> totallyHomNodes = new HashSet<Node>();
 				foreach(NodeDeclNode node in totallyHomNode.childrenNode)
-					totallyHomNodes.Add(node.CheckIR(typeof(Node)));
-				patternGraph.AddTotallyHomomorphic(totallyHomNode.node.CheckIR(typeof(Node)), totallyHomNodes);
+					totallyHomNodes.Add(node.CheckIR<Node>(typeof(Node)));
+				patternGraph.AddTotallyHomomorphic(totallyHomNode.node.CheckIR<Node>(typeof(Node)), totallyHomNodes);
 			}
 			else
 			{
 				HashSet<Edge> totallyHomEdges = new HashSet<Edge>();
 				foreach(EdgeDeclNode edge in totallyHomNode.childrenEdge)
-					totallyHomEdges.Add(edge.CheckIR(typeof(Edge)));
-				patternGraph.AddTotallyHomomorphic(totallyHomNode.edge.CheckIR(typeof(Edge)), totallyHomEdges);
+					totallyHomEdges.Add(edge.CheckIR<Edge>(typeof(Edge)));
+				patternGraph.AddTotallyHomomorphic(totallyHomNode.edge.CheckIR<Edge>(typeof(Edge)), totallyHomEdges);
 			}
 		}
 
@@ -384,7 +384,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 				if(!(orderedReplNode is SubpatternReplNode)) // only arguments of subpattern repl node (appearing before ---) are inserted to RHS pattern
 					continue;
 				SubpatternReplNode subpatternReplNode = (SubpatternReplNode)orderedReplNode;
-				SubpatternDependentReplacement subpatternDepRepl = subpatternReplNode.CheckIR(typeof(SubpatternDependentReplacement));
+				SubpatternDependentReplacement subpatternDepRepl = subpatternReplNode.CheckIR<SubpatternDependentReplacement>(typeof(SubpatternDependentReplacement));
 				IList<Expression> connections = subpatternDepRepl.ReplConnections;
 				foreach(Expression expr in connections)
 					AddSubpatternReplacementUsageArgument(patternGraph, expr);

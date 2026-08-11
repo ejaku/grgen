@@ -90,7 +90,7 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 			if(namedEntity == null)
 				return new Nameof(null, Type.IRType);
 			namedEntity = namedEntity.Evaluate();
-			return new Nameof(namedEntity.CheckIR(typeof(Expression)), Type.IRType);
+			return new Nameof(namedEntity.CheckIR<Expression>(typeof(Expression)), Type.IRType);
 		}
 
 		public override TypeNode Type

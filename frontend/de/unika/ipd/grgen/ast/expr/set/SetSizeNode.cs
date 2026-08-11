@@ -42,7 +42,7 @@ namespace de.unika.ipd.grgen.ast.expr.set
 		protected internal override IR ConstructIR()
 		{
 			targetExpr = targetExpr.Evaluate();
-			return new SetSizeExpr(targetExpr.CheckIR(typeof(Expression)));
+			return new SetSizeExpr(targetExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 	}
 

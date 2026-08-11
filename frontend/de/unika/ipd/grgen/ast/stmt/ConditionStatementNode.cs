@@ -105,13 +105,13 @@ namespace de.unika.ipd.grgen.ast.stmt
 		protected internal override IR ConstructIR()
 		{
 			conditionExpr = conditionExpr.Evaluate();
-			ConditionStatement cond = new ConditionStatement(conditionExpr.CheckIR(typeof(Expression)));
+			ConditionStatement cond = new ConditionStatement(conditionExpr.CheckIR<Expression>(typeof(Expression)));
 			foreach(EvalStatementNode trueCaseStatement in statements.ChildrenExact)
-				cond.AddStatement(trueCaseStatement.CheckIR(typeof(EvalStatement)));
+				cond.AddStatement(trueCaseStatement.CheckIR<EvalStatement>(typeof(EvalStatement)));
 			if(falseCaseStatements != null)
 			{
 				foreach(EvalStatementNode falseCaseStatement in falseCaseStatements.ChildrenExact)
-					cond.AddFalseCaseStatement(falseCaseStatement.CheckIR(typeof(EvalStatement)));
+					cond.AddFalseCaseStatement(falseCaseStatement.CheckIR<EvalStatement>(typeof(EvalStatement)));
 			}
 			return cond;
 		}

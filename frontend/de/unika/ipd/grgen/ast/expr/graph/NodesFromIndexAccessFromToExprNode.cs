@@ -72,9 +72,9 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 			if(toExpr != null)
 				toExpr = toExpr.Evaluate();
 			return new NodesFromIndexAccessFromToExpr(
-					new IndexAccessOrdering(index.CheckIR(typeof(Index)), true,
-							FromOperator(), fromExpr != null ? fromExpr.CheckIR(typeof(Expression)) : null,
-							ToOperator(), toExpr != null ? toExpr.CheckIR(typeof(Expression)) : null),
+					new IndexAccessOrdering(index.CheckIR<Index>(typeof(Index)), true,
+							FromOperator(), fromExpr != null ? fromExpr.CheckIR<Expression>(typeof(Expression)) : null,
+							ToOperator(), toExpr != null ? toExpr.CheckIR<Expression>(typeof(Expression)) : null),
 					Type.IRType);
 		}
 	}

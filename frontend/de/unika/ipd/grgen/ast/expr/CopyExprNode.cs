@@ -114,7 +114,7 @@ namespace de.unika.ipd.grgen.ast.expr
 		protected internal override IR ConstructIR()
 		{
 			sourceExpr = sourceExpr.Evaluate();
-			return new CopyExpr(sourceExpr.CheckIR(typeof(Expression)), Type.IRType, deep);
+			return new CopyExpr(sourceExpr.CheckIR<Expression>(typeof(Expression)), Type.IRType, deep);
 		}
 
 		public override TypeNode Type

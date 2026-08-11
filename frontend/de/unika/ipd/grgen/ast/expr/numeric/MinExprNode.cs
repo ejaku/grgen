@@ -90,7 +90,7 @@ namespace de.unika.ipd.grgen.ast.expr.numeric
 		{
 			leftExpr = leftExpr.Evaluate();
 			rightExpr = rightExpr.Evaluate();
-			return new MinExpr(leftExpr.CheckIR(typeof(Expression)), rightExpr.CheckIR(typeof(Expression)));
+			return new MinExpr(leftExpr.CheckIR<Expression>(typeof(Expression)), rightExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 
 		public override TypeNode Type

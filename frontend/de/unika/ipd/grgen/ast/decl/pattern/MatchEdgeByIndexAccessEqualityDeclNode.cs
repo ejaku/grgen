@@ -122,7 +122,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 			IR = edge;
 
 			expr = expr.Evaluate();
-			edge.Index = new IndexAccessEquality(index.CheckIR(typeof(Index)), expr.CheckIR(typeof(Expression)));
+			edge.Index = new IndexAccessEquality(index.CheckIR<Index>(typeof(Index)), expr.CheckIR<Expression>(typeof(Expression)));
 			return edge;
 		}
 	}

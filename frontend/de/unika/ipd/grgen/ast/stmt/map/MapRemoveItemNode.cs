@@ -111,13 +111,13 @@ namespace de.unika.ipd.grgen.ast.stmt.map
 			keyExpr = keyExpr.Evaluate();
 			if(target != null)
 			{
-				return new MapRemoveItem(target.CheckIR(typeof(Qualification)),
-						keyExpr.CheckIR(typeof(Expression)));
+				return new MapRemoveItem(target.CheckIR<Qualification>(typeof(Qualification)),
+						keyExpr.CheckIR<Expression>(typeof(Expression)));
 			}
 			else
 			{
-				return new MapVarRemoveItem(targetVar.CheckIR(typeof(Variable)),
-						keyExpr.CheckIR(typeof(Expression)));
+				return new MapVarRemoveItem(targetVar.CheckIR<Variable>(typeof(Variable)),
+						keyExpr.CheckIR<Expression>(typeof(Expression)));
 			}
 		}
 	}

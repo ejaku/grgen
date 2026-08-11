@@ -114,7 +114,7 @@ namespace de.unika.ipd.grgen.ast.expr.array
 		protected internal override IR ConstructIR()
 		{
 			arrayToCopy = arrayToCopy.Evaluate();
-			return new ArrayCopyConstructor(arrayToCopy.CheckIR(typeof(Expression)), arrayType.CheckIR(typeof(ArrayType)));
+			return new ArrayCopyConstructor(arrayToCopy.CheckIR<Expression>(typeof(Expression)), arrayType.CheckIR<ArrayType>(typeof(ArrayType)));
 		}
 
 		public static string KindStr

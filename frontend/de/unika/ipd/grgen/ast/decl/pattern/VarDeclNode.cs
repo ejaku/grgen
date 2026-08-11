@@ -222,7 +222,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 		{
 			get
 			{
-				return CheckIR(typeof(Variable));
+				return CheckIR<Variable>(typeof(Variable));
 			}
 		}
 
@@ -240,7 +240,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 			if(initialization != null)
 			{
 				initialization = initialization.Evaluate();
-				var.Initialization = initialization.CheckIR(typeof(Expression));
+				var.Initialization = initialization.CheckIR<Expression>(typeof(Expression));
 			}
 
 			return var;

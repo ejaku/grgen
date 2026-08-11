@@ -97,8 +97,8 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 		{
 			name = name.Evaluate();
 			edgeType = edgeType.Evaluate();
-			return new EdgeByNameExpr(name.CheckIR(typeof(Expression)),
-					edgeType.CheckIR(typeof(Expression)), Type.IRType);
+			return new EdgeByNameExpr(name.CheckIR<Expression>(typeof(Expression)),
+					edgeType.CheckIR<Expression>(typeof(Expression)), Type.IRType);
 		}
 
 		public override TypeNode Type

@@ -91,9 +91,9 @@ namespace de.unika.ipd.grgen.ast.stmt
 			if(caseConstantExpr != null)
 				caseConstantExpr = caseConstantExpr.Evaluate();
 			CaseStatement caseStmt = new CaseStatement(
-					caseConstantExpr != null ? caseConstantExpr.CheckIR(typeof(Expression)) : null);
+					caseConstantExpr != null ? caseConstantExpr.CheckIR<Expression>(typeof(Expression)) : null);
 			foreach(EvalStatementNode statement in statements.ChildrenExact)
-				caseStmt.AddStatement(statement.CheckIR(typeof(EvalStatement)));
+				caseStmt.AddStatement(statement.CheckIR<EvalStatement>(typeof(EvalStatement)));
 			return caseStmt;
 		}
 	}

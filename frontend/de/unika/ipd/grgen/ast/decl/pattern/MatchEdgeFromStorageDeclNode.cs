@@ -179,9 +179,9 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 		{
 			Edge edge = (Edge)base.ConstructIR();
 			if(storage != null)
-				edge.Storage = new StorageAccess(storage.CheckIR(typeof(Variable)));
+				edge.Storage = new StorageAccess(storage.CheckIR<Variable>(typeof(Variable)));
 			else if(storageAttribute != null)
-				edge.Storage = new StorageAccess(storageAttribute.CheckIR(typeof(Qualification)));
+				edge.Storage = new StorageAccess(storageAttribute.CheckIR<Qualification>(typeof(Qualification)));
 			//else edge.setStorage(new StorageAccess(storageGlobalVariable.checkIR(Edge.class)));
 			return edge;
 		}

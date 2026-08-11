@@ -167,12 +167,12 @@ namespace de.unika.ipd.grgen.ast.expr
 		{
 			if(target != null)
 			{
-				Qualification qual = target.CheckIR(typeof(Qualification));
+				Qualification qual = target.CheckIR<Qualification>(typeof(Qualification));
 				EvalStatement previous = null;
 				EvalStatement first = null;
 				if(children[0].IR is EvalStatement)
 				{
-					first = children[0].CheckIR(typeof(EvalStatement));
+					first = children[0].CheckIR<EvalStatement>(typeof(EvalStatement));
 					previous = first;
 					while(previous.Next != null)
 						previous = previous.Next;
@@ -185,7 +185,7 @@ namespace de.unika.ipd.grgen.ast.expr
 
 			if(OperatorDecl.Operator == Operator.INDEX)
 			{
-				Expression texp = children[0].CheckIR(typeof(Expression));
+				Expression texp = children[0].CheckIR<Expression>(typeof(Expression));
 				Type type = texp.Type;
 				Type accessedType;
 				if(type is MapType)
@@ -197,7 +197,7 @@ namespace de.unika.ipd.grgen.ast.expr
 				else
 					accessedType = type; // assuming untypedType
 				return new IndexedAccessExpr(texp,
-						children[1].CheckIR(typeof(Expression)), accessedType);
+						children[1].CheckIR<Expression>(typeof(Expression)), accessedType);
 			}
 
 			DeclaredTypeNode type = (DeclaredTypeNode)Type;
@@ -205,7 +205,7 @@ namespace de.unika.ipd.grgen.ast.expr
 
 			foreach(ExprNode child in children)
 			{
-				Expression ir = child.CheckIR(typeof(Expression));
+				Expression ir = child.CheckIR<Expression>(typeof(Expression));
 				op.AddOperand(ir);
 			}
 
@@ -223,7 +223,7 @@ namespace de.unika.ipd.grgen.ast.expr
 					foreach(ExprNode item in initNode.Items.GetChildrenExact())
 					{
 						SetAddItem addItem = new SetAddItem(qual,
-								item.CheckIR(typeof(Expression)));
+								item.CheckIR<Expression>(typeof(Expression)));
 						if(first == null)
 							first = addItem;
 						if(previous != null)
@@ -237,7 +237,7 @@ namespace de.unika.ipd.grgen.ast.expr
 					foreach(ExprPairNode item in initNode.Items.GetChildrenExact())
 					{
 						MapAddItem addItem = new MapAddItem(qual,
-								item.keyExpr.CheckIR(typeof(Expression)), item.valueExpr.CheckIR(typeof(Expression)));
+								item.keyExpr.CheckIR<Expression>(typeof(Expression)), item.valueExpr.CheckIR<Expression>(typeof(Expression)));
 						if(first == null)
 							first = addItem;
 						if(previous != null)
@@ -256,7 +256,7 @@ namespace de.unika.ipd.grgen.ast.expr
 						foreach(ExprNode item in initNode.Items.GetChildrenExact())
 						{
 							MapRemoveItem remItem = new MapRemoveItem(qual,
-									item.CheckIR(typeof(Expression)));
+									item.CheckIR<Expression>(typeof(Expression)));
 							if(first == null)
 								first = remItem;
 							if(previous != null)
@@ -269,7 +269,7 @@ namespace de.unika.ipd.grgen.ast.expr
 						foreach(ExprNode item in initNode.Items.GetChildrenExact())
 						{
 							SetRemoveItem remItem = new SetRemoveItem(qual,
-									item.CheckIR(typeof(Expression)));
+									item.CheckIR<Expression>(typeof(Expression)));
 							if(first == null)
 								first = remItem;
 							if(previous != null)
@@ -284,7 +284,7 @@ namespace de.unika.ipd.grgen.ast.expr
 					foreach(ExprPairNode item in initNode.Items.GetChildrenExact())
 					{
 						MapRemoveItem remItem = new MapRemoveItem(qual,
-								item.keyExpr.CheckIR(typeof(Expression)));
+								item.keyExpr.CheckIR<Expression>(typeof(Expression)));
 						if(first == null)
 							first = remItem;
 						if(previous != null)

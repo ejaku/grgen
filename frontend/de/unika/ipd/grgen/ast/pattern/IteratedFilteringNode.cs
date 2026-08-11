@@ -114,10 +114,10 @@ namespace de.unika.ipd.grgen.ast.pattern
 		protected internal override IR ConstructIR()
 		{
 			IteratedFiltering iteratedFiltering = new IteratedFiltering("iterated filtering",
-					action != null ? action.CheckIR(typeof(Rule)) : subpattern.CheckIR(typeof(Rule)),
-					iterated.CheckIR(typeof(Rule)));
+					action != null ? action.CheckIR<Rule>(typeof(Rule)) : subpattern.CheckIR<Rule>(typeof(Rule)),
+					iterated.CheckIR<Rule>(typeof(Rule)));
 			foreach(FilterInvocationBaseNode filter in filters.ChildrenExact)
-				iteratedFiltering.AddFilterInvocation(filter.CheckIR(typeof(FilterInvocationBase)));
+				iteratedFiltering.AddFilterInvocation(filter.CheckIR<FilterInvocationBase>(typeof(FilterInvocationBase)));
 			return iteratedFiltering;
 		}
 	}

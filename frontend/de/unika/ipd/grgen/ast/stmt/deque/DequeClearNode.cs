@@ -40,9 +40,9 @@ namespace de.unika.ipd.grgen.ast.stmt.deque
 		protected internal override IR ConstructIR()
 		{
 			if(target != null)
-				return new DequeClear(target.CheckIR(typeof(Qualification)));
+				return new DequeClear(target.CheckIR<Qualification>(typeof(Qualification)));
 			else
-				return new DequeVarClear(targetVar.CheckIR(typeof(Variable)));
+				return new DequeVarClear(targetVar.CheckIR<Variable>(typeof(Variable)));
 		}
 	}
 

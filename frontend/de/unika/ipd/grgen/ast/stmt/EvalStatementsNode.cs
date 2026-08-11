@@ -89,7 +89,7 @@ namespace de.unika.ipd.grgen.ast.stmt
 			IR = es;
 
 			foreach(EvalStatementNode evalStatement in evalStatements.ChildrenExact)
-				es.evalStatements.Add(evalStatement.CheckIR(typeof(EvalStatement)));
+				es.evalStatements.Add(evalStatement.CheckIR<EvalStatement>(typeof(EvalStatement)));
 
 			return es;
 		}

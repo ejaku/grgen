@@ -95,9 +95,9 @@ namespace de.unika.ipd.grgen.ast.expr.deque
 			targetExpr = targetExpr.Evaluate();
 			startExpr = startExpr.Evaluate();
 			lengthExpr = lengthExpr.Evaluate();
-			return new DequeSubdequeExpr(targetExpr.CheckIR(typeof(Expression)),
-					startExpr.CheckIR(typeof(Expression)),
-					lengthExpr.CheckIR(typeof(Expression)));
+			return new DequeSubdequeExpr(targetExpr.CheckIR<Expression>(typeof(Expression)),
+					startExpr.CheckIR<Expression>(typeof(Expression)),
+					lengthExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 	}
 

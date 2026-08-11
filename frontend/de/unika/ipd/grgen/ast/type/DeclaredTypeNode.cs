@@ -58,7 +58,7 @@ namespace de.unika.ipd.grgen.ast.type
 		{
 			get
 			{
-				return CheckIR(typeof(PrimitiveType));
+				return CheckIR<PrimitiveType>(typeof(PrimitiveType));
 			}
 		}
 

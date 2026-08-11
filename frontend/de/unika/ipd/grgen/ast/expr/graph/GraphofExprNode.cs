@@ -87,7 +87,7 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 		protected internal override IR ConstructIR()
 		{
 			entity = entity.Evaluate();
-			return new Graphof(entity.CheckIR(typeof(Expression)), Type.IRType);
+			return new Graphof(entity.CheckIR<Expression>(typeof(Expression)), Type.IRType);
 		}
 
 		public override TypeNode Type

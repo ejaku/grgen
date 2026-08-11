@@ -330,11 +330,11 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 			{
 				ExprNode connectionEvaluated = connection.Evaluate();
 				if(connectionEvaluated is IdentExprNode && ((IdentExprNode)connectionEvaluated).yieldedTo)
-					subpatternYields.Add(connectionEvaluated.CheckIR(typeof(Expression)));
+					subpatternYields.Add(connectionEvaluated.CheckIR<Expression>(typeof(Expression)));
 				else
-					subpatternConnections.Add(connectionEvaluated.CheckIR(typeof(Expression)));
+					subpatternConnections.Add(connectionEvaluated.CheckIR<Expression>(typeof(Expression)));
 			}
-			return new SubpatternUsage("subpattern", Ident.IRIdent, type.CheckIR(typeof(Rule)),
+			return new SubpatternUsage("subpattern", Ident.IRIdent, type.CheckIR<Rule>(typeof(Rule)),
 					subpatternConnections, subpatternYields);
 		}
 	}

@@ -78,8 +78,8 @@ namespace de.unika.ipd.grgen.ast.type
 
 		protected internal override IR ConstructIR()
 		{
-			TypeExpr lhs = this.lhs.CheckIR(typeof(TypeExpr));
-			TypeExpr rhs = this.rhs.CheckIR(typeof(TypeExpr));
+			TypeExpr lhs = this.lhs.CheckIR<TypeExpr>(typeof(TypeExpr));
+			TypeExpr rhs = this.rhs.CheckIR<TypeExpr>(typeof(TypeExpr));
 
 			TypeExprSetOperator expr = new TypeExprSetOperator(GetSetOperator(op));
 			expr.AddOperand(lhs);

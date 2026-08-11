@@ -115,7 +115,7 @@ namespace de.unika.ipd.grgen.ast.expr.map
 		protected internal override IR ConstructIR()
 		{
 			mapToCopy = mapToCopy.Evaluate();
-			return new MapCopyConstructor(mapToCopy.CheckIR(typeof(Expression)), mapType.CheckIR(typeof(MapType)));
+			return new MapCopyConstructor(mapToCopy.CheckIR<Expression>(typeof(Expression)), mapType.CheckIR<MapType>(typeof(MapType)));
 		}
 
 		public static string KindStr

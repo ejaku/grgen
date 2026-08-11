@@ -106,13 +106,13 @@ namespace de.unika.ipd.grgen.ast.stmt.set
 			valueExpr = valueExpr.Evaluate();
 			if(target != null)
 			{
-				return new SetAddItem(target.CheckIR(typeof(Qualification)),
-						valueExpr.CheckIR(typeof(Expression)));
+				return new SetAddItem(target.CheckIR<Qualification>(typeof(Qualification)),
+						valueExpr.CheckIR<Expression>(typeof(Expression)));
 			}
 			else
 			{
-				return new SetVarAddItem(targetVar.CheckIR(typeof(Variable)),
-						valueExpr.CheckIR(typeof(Expression)));
+				return new SetVarAddItem(targetVar.CheckIR<Variable>(typeof(Variable)),
+						valueExpr.CheckIR<Expression>(typeof(Expression)));
 			}
 		}
 	}

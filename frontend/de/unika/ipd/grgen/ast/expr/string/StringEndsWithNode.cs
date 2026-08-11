@@ -85,8 +85,8 @@ namespace de.unika.ipd.grgen.ast.expr.@string
 		{
 			stringExpr = stringExpr.Evaluate();
 			stringToSearchForExpr = stringToSearchForExpr.Evaluate();
-			return new StringEndsWith(stringExpr.CheckIR(typeof(Expression)),
-					stringToSearchForExpr.CheckIR(typeof(Expression)));
+			return new StringEndsWith(stringExpr.CheckIR<Expression>(typeof(Expression)),
+					stringToSearchForExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 
 		public override TypeNode Type

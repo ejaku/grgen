@@ -158,7 +158,7 @@ namespace de.unika.ipd.grgen.ast.stmt
 			else if(isFunctionReturn)
 			{
 				ExprNode returnValueExpr = returnValueExprs.Get(0).Evaluate();
-				return new ReturnStatement(returnValueExpr.CheckIR(typeof(Expression)));
+				return new ReturnStatement(returnValueExpr.CheckIR<Expression>(typeof(Expression)));
 			}
 			else
 			{
@@ -166,7 +166,7 @@ namespace de.unika.ipd.grgen.ast.stmt
 				foreach(ExprNode returnValueExpr in returnValueExprs.ChildrenExact)
 				{
 					ExprNode returnValueExprEvaluated = returnValueExpr.Evaluate();
-					rsp.AddReturnValueExpr(returnValueExprEvaluated.CheckIR(typeof(Expression)));
+					rsp.AddReturnValueExpr(returnValueExprEvaluated.CheckIR<Expression>(typeof(Expression)));
 				}
 				return rsp;
 			}

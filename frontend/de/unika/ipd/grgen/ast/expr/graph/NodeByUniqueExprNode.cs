@@ -102,8 +102,8 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 		{
 			unique = unique.Evaluate();
 			nodeType = nodeType.Evaluate();
-			return new NodeByUniqueExpr(unique.CheckIR(typeof(Expression)),
-					nodeType.CheckIR(typeof(Expression)), Type.IRType);
+			return new NodeByUniqueExpr(unique.CheckIR<Expression>(typeof(Expression)),
+					nodeType.CheckIR<Expression>(typeof(Expression)), Type.IRType);
 		}
 
 		public override TypeNode Type

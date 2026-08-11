@@ -205,8 +205,8 @@ namespace de.unika.ipd.grgen.ast.expr
 
 		protected internal override IR ConstructIR()
 		{
-			Entity ownerIR = owner.CheckIR(typeof(Entity));
-			Entity memberIR = member.CheckIR(typeof(Entity));
+			Entity ownerIR = owner.CheckIR<Entity>(typeof(Entity));
+			Entity memberIR = member.CheckIR<Entity>(typeof(Entity));
 			return new Qualification(ownerIR, memberIR);
 		}
 

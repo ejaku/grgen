@@ -84,8 +84,8 @@ namespace de.unika.ipd.grgen.ast.expr.set
 		{
 			targetExpr = targetExpr.Evaluate();
 			numberExpr = numberExpr.Evaluate();
-			return new SetPeekExpr(targetExpr.CheckIR(typeof(Expression)),
-					numberExpr.CheckIR(typeof(Expression)));
+			return new SetPeekExpr(targetExpr.CheckIR<Expression>(typeof(Expression)),
+					numberExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 	}
 

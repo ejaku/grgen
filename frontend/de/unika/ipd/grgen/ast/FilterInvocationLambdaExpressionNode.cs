@@ -156,13 +156,13 @@ namespace de.unika.ipd.grgen.ast
 			lambdaExpr = lambdaExpr.Evaluate();
 			string fullFilterName = filterName + "<" + assignEntity + ">";
 			filterInvocation = new FilterInvocationLambdaExpression(fullFilterName, new Ident(fullFilterName, Coords),
-					filterName, assignEntity, entityType != null ? entityType.IRType : null, iterated.CheckIR(typeof(Rule)),
-					initArrayAccessVar != null ? initArrayAccessVar.CheckIR(typeof(Variable)) : null,
-					initExpr != null ? initExpr.CheckIR(typeof(Expression)) : null,
-					arrayAccessVar != null ? arrayAccessVar.CheckIR(typeof(Variable)) : null,
-					previousAccumulationAccessVar != null ? previousAccumulationAccessVar.CheckIR(typeof(Variable)) : null,
-					indexVar != null ? indexVar.CheckIR(typeof(Variable)) : null, elementVar.CheckIR(typeof(Variable)),
-					lambdaExpr.CheckIR(typeof(Expression)));
+					filterName, assignEntity, entityType != null ? entityType.IRType : null, iterated.CheckIR<Rule>(typeof(Rule)),
+					initArrayAccessVar != null ? initArrayAccessVar.CheckIR<Variable>(typeof(Variable)) : null,
+					initExpr != null ? initExpr.CheckIR<Expression>(typeof(Expression)) : null,
+					arrayAccessVar != null ? arrayAccessVar.CheckIR<Variable>(typeof(Variable)) : null,
+					previousAccumulationAccessVar != null ? previousAccumulationAccessVar.CheckIR<Variable>(typeof(Variable)) : null,
+					indexVar != null ? indexVar.CheckIR(typeof(Variable)) : null, elementVar.CheckIR<Variable>(typeof(Variable)),
+					lambdaExpr.CheckIR<Expression>(typeof(Expression)));
 			return filterInvocation;
 		}
 	}

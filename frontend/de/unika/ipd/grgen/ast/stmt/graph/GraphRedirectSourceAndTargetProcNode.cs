@@ -159,11 +159,11 @@ namespace de.unika.ipd.grgen.ast.stmt.graph
 				oldSourceNameExpr = oldSourceNameExpr.Evaluate();
 			if(oldTargetNameExpr != null)
 				oldTargetNameExpr = oldTargetNameExpr.Evaluate();
-			return new GraphRedirectSourceAndTargetProc(edgeExpr.CheckIR(typeof(Expression)),
-					newSourceExpr.CheckIR(typeof(Expression)),
-					newTargetExpr.CheckIR(typeof(Expression)),
-					oldSourceNameExpr != null ? oldSourceNameExpr.CheckIR(typeof(Expression)) : null,
-					oldTargetNameExpr != null ? oldTargetNameExpr.CheckIR(typeof(Expression)) : null);
+			return new GraphRedirectSourceAndTargetProc(edgeExpr.CheckIR<Expression>(typeof(Expression)),
+					newSourceExpr.CheckIR<Expression>(typeof(Expression)),
+					newTargetExpr.CheckIR<Expression>(typeof(Expression)),
+					oldSourceNameExpr != null ? oldSourceNameExpr.CheckIR<Expression>(typeof(Expression)) : null,
+					oldTargetNameExpr != null ? oldTargetNameExpr.CheckIR<Expression>(typeof(Expression)) : null);
 		}
 	}
 

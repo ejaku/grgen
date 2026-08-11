@@ -138,13 +138,13 @@ namespace de.unika.ipd.grgen.ast.stmt.array
 				indexExpr = indexExpr.Evaluate();
 			if(target != null)
 			{
-				return new ArrayAddItem(target.CheckIR(typeof(Qualification)), valueExpr.CheckIR(typeof(Expression)),
-						indexExpr != null ? indexExpr.CheckIR(typeof(Expression)) : null);
+				return new ArrayAddItem(target.CheckIR<Qualification>(typeof(Qualification)), valueExpr.CheckIR<Expression>(typeof(Expression)),
+						indexExpr != null ? indexExpr.CheckIR<Expression>(typeof(Expression)) : null);
 			}
 			else
 			{
-				return new ArrayVarAddItem(targetVar.CheckIR(typeof(Variable)), valueExpr.CheckIR(typeof(Expression)),
-						indexExpr != null ? indexExpr.CheckIR(typeof(Expression)) : null);
+				return new ArrayVarAddItem(targetVar.CheckIR<Variable>(typeof(Variable)), valueExpr.CheckIR<Expression>(typeof(Expression)),
+						indexExpr != null ? indexExpr.CheckIR<Expression>(typeof(Expression)) : null);
 			}
 		}
 	}

@@ -114,7 +114,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 			IR = edge;
 
 			expr = expr.Evaluate();
-			edge.NameMapAccess = new NameLookup(expr.CheckIR(typeof(Expression)));
+			edge.NameMapAccess = new NameLookup(expr.CheckIR<Expression>(typeof(Expression)));
 			return edge;
 		}
 	}

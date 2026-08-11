@@ -85,7 +85,7 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 		protected internal override IR ConstructIR()
 		{
 			edgeType = edgeType.Evaluate();
-			return new CountEdgesExpr(edgeType.CheckIR(typeof(Expression)));
+			return new CountEdgesExpr(edgeType.CheckIR<Expression>(typeof(Expression)));
 		}
 
 		public override TypeNode Type

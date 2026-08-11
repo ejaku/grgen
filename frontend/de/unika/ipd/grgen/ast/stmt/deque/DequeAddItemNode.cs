@@ -138,15 +138,15 @@ namespace de.unika.ipd.grgen.ast.stmt.deque
 				indexExpr = indexExpr.Evaluate();
 			if(target != null)
 			{
-				return new DequeAddItem(target.CheckIR(typeof(Qualification)),
-						valueExpr.CheckIR(typeof(Expression)),
-						indexExpr != null ? indexExpr.CheckIR(typeof(Expression)) : null);
+				return new DequeAddItem(target.CheckIR<Qualification>(typeof(Qualification)),
+						valueExpr.CheckIR<Expression>(typeof(Expression)),
+						indexExpr != null ? indexExpr.CheckIR<Expression>(typeof(Expression)) : null);
 			}
 			else
 			{
-				return new DequeVarAddItem(targetVar.CheckIR(typeof(Variable)),
-						valueExpr.CheckIR(typeof(Expression)),
-						indexExpr != null ? indexExpr.CheckIR(typeof(Expression)) : null);
+				return new DequeVarAddItem(targetVar.CheckIR<Variable>(typeof(Variable)),
+						valueExpr.CheckIR<Expression>(typeof(Expression)),
+						indexExpr != null ? indexExpr.CheckIR<Expression>(typeof(Expression)) : null);
 			}
 		}
 	}

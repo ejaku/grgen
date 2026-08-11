@@ -102,7 +102,7 @@ namespace de.unika.ipd.grgen.ast.type
 
 			foreach(InheritanceTypeNode n in operands.ChildrenExact)
 			{
-				InheritanceType inh = n.CheckIR(typeof(InheritanceType));
+				InheritanceType inh = n.CheckIR<InheritanceType>(typeof(InheritanceType));
 				cnst.AddOperand(inh);
 			}
 

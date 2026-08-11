@@ -109,7 +109,7 @@ namespace de.unika.ipd.grgen.ast.model.type
 		/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR() "/>
 		protected internal override IR ConstructIR()
 		{
-			Ident name = Ident.CheckIR(typeof(Ident));
+			Ident name = Ident.CheckIR<Ident>(typeof(Ident));
 			EnumType ty = new EnumType(name);
 
 			foreach(EnumItemDeclNode item in elements.ChildrenExact)

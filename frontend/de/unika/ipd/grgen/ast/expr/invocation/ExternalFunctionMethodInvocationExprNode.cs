@@ -131,13 +131,13 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 		{
 			owner = owner.Evaluate();
 			ExternalFunctionMethodInvocationExpr efi = new ExternalFunctionMethodInvocationExpr(
-					owner.CheckIR(typeof(Expression)),
-					externalFunctionDecl.resultType.CheckIR(typeof(Type)),
-					externalFunctionDecl.CheckIR(typeof(ExternalFunction)));
+					owner.CheckIR<Expression>(typeof(Expression)),
+					externalFunctionDecl.resultType.CheckIR<Type>(typeof(Type)),
+					externalFunctionDecl.CheckIR<ExternalFunction>(typeof(ExternalFunction)));
 			foreach(ExprNode argument in arguments.ChildrenExact)
 			{
 				ExprNode argumentEvaluated = argument.Evaluate();
-				efi.AddArgument(argumentEvaluated.CheckIR(typeof(Expression)));
+				efi.AddArgument(argumentEvaluated.CheckIR<Expression>(typeof(Expression)));
 			}
 			return efi;
 		}

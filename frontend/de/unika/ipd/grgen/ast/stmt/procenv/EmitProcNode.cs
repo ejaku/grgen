@@ -89,7 +89,7 @@ namespace de.unika.ipd.grgen.ast.stmt.procenv
 			foreach(ExprNode expr in exprs.ChildrenExact)
 			{
 				ExprNode exprEvaluated = expr.Evaluate();
-				expressions.Add(exprEvaluated.CheckIR(typeof(Expression)));
+				expressions.Add(exprEvaluated.CheckIR<Expression>(typeof(Expression)));
 			}
 			return new EmitProc(expressions, isDebug);
 		}

@@ -87,7 +87,7 @@ namespace de.unika.ipd.grgen.ast.stmt.procenv
 		protected internal override IR ConstructIR()
 		{
 			criticalSectionObjectExpr = criticalSectionObjectExpr.Evaluate();
-			return new SynchronizationEnterProc(criticalSectionObjectExpr.CheckIR(typeof(Expression)));
+			return new SynchronizationEnterProc(criticalSectionObjectExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 	}
 

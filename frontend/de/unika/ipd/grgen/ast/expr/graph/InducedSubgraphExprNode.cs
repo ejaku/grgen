@@ -93,7 +93,7 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 		protected internal override IR ConstructIR()
 		{
 			nodeSetExpr = nodeSetExpr.Evaluate();
-			return new InducedSubgraphExpr(nodeSetExpr.CheckIR(typeof(Expression)), Type.IRType);
+			return new InducedSubgraphExpr(nodeSetExpr.CheckIR<Expression>(typeof(Expression)), Type.IRType);
 		}
 
 		public override TypeNode Type

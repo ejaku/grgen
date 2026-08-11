@@ -116,7 +116,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			get
 			{
-				return CheckIR(typeof(Sequence));
+				return CheckIR<Sequence>(typeof(Sequence));
 			}
 		}
 
@@ -131,11 +131,11 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR() "/>
 		protected internal override IR ConstructIR()
 		{
-			Sequence sequence = new Sequence(Ident.IRIdent, exec.CheckIR(typeof(Exec)));
+			Sequence sequence = new Sequence(Ident.IRIdent, exec.CheckIR<Exec>(typeof(Exec)));
 			foreach(ExecVarDeclNode inParam in inParams.ChildrenExact)
-				sequence.AddInParam(inParam.CheckIR(typeof(ExecVariable)));
+				sequence.AddInParam(inParam.CheckIR<ExecVariable>(typeof(ExecVariable)));
 			foreach(ExecVarDeclNode outParam in outParams.ChildrenExact)
-				sequence.AddOutParam(outParam.CheckIR(typeof(ExecVariable)));
+				sequence.AddOutParam(outParam.CheckIR<ExecVariable>(typeof(ExecVariable)));
 			return sequence;
 		}
 

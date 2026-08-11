@@ -177,21 +177,21 @@ namespace de.unika.ipd.grgen.ast.stmt.invocation
 			ExternalProcedureMethodInvocation epi;
 			if(targetQual != null)
 			{
-				epi = new ExternalProcedureMethodInvocation(targetQual.CheckIR(typeof(Qualification)),
-						externalProcedureDecl.CheckIR(typeof(ExternalProcedure)));
+				epi = new ExternalProcedureMethodInvocation(targetQual.CheckIR<Qualification>(typeof(Qualification)),
+						externalProcedureDecl.CheckIR<ExternalProcedure>(typeof(ExternalProcedure)));
 			}
 			else
 			{
-				epi = new ExternalProcedureMethodInvocation(targetVar.CheckIR(typeof(Variable)),
-						externalProcedureDecl.CheckIR(typeof(ExternalProcedure)));
+				epi = new ExternalProcedureMethodInvocation(targetVar.CheckIR<Variable>(typeof(Variable)),
+						externalProcedureDecl.CheckIR<ExternalProcedure>(typeof(ExternalProcedure)));
 			}
 			foreach(ExprNode argument in arguments.ChildrenExact)
 			{
 				ExprNode argumentEvaluated = argument.Evaluate();
-				epi.AddArgument(argumentEvaluated.CheckIR(typeof(Expression)));
+				epi.AddArgument(argumentEvaluated.CheckIR<Expression>(typeof(Expression)));
 			}
 			foreach(TypeNode type in externalProcedureDecl.resultTypesCollectNode.ChildrenExact)
-				epi.AddReturnType(type.CheckIR(typeof(Type)));
+				epi.AddReturnType(type.CheckIR<Type>(typeof(Type)));
 			return epi;
 		}
 	}

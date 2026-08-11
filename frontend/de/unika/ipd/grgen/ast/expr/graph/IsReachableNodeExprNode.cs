@@ -54,10 +54,10 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 			incidentTypeExpr = incidentTypeExpr.Evaluate();
 			adjacentTypeExpr = adjacentTypeExpr.Evaluate();
 			// assumes that the direction:int of the AST node uses the same values as the direction of the IR expression
-			return new IsReachableNodeExpr(startNodeExpr.CheckIR(typeof(Expression)),
-					endNodeExpr.CheckIR(typeof(Expression)),
-					incidentTypeExpr.CheckIR(typeof(Expression)), direction,
-					adjacentTypeExpr.CheckIR(typeof(Expression)),
+			return new IsReachableNodeExpr(startNodeExpr.CheckIR<Expression>(typeof(Expression)),
+					endNodeExpr.CheckIR<Expression>(typeof(Expression)),
+					incidentTypeExpr.CheckIR<Expression>(typeof(Expression)), direction,
+					adjacentTypeExpr.CheckIR<Expression>(typeof(Expression)),
 					Type.IRType);
 		}
 

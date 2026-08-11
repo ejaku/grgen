@@ -85,7 +85,7 @@ namespace de.unika.ipd.grgen.ast.expr.procenv
 		protected internal override IR ConstructIR()
 		{
 			pathExpr = pathExpr.Evaluate();
-			return new ImportExpr(pathExpr.CheckIR(typeof(Expression)), Type.IRType);
+			return new ImportExpr(pathExpr.CheckIR<Expression>(typeof(Expression)), Type.IRType);
 		}
 
 		public override TypeNode Type

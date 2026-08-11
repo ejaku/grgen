@@ -94,8 +94,8 @@ namespace de.unika.ipd.grgen.ast.expr.@string
 		{
 			stringExpr = stringExpr.Evaluate();
 			stringToSplitAtExpr = stringToSplitAtExpr.Evaluate();
-			return new StringAsArray(stringExpr.CheckIR(typeof(Expression)),
-					stringToSplitAtExpr.CheckIR(typeof(Expression)),
+			return new StringAsArray(stringExpr.CheckIR<Expression>(typeof(Expression)),
+					stringToSplitAtExpr.CheckIR<Expression>(typeof(Expression)),
 					Type.IRType);
 		}
 

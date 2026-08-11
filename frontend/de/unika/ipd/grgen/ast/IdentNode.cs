@@ -244,7 +244,7 @@ namespace de.unika.ipd.grgen.ast
 		{
 			get
 			{
-				return CheckIR(typeof(Ident));
+				return CheckIR<Ident>(typeof(Ident));
 			}
 		}
 

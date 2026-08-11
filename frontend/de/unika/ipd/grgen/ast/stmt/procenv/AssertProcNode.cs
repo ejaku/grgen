@@ -121,10 +121,10 @@ namespace de.unika.ipd.grgen.ast.stmt.procenv
 			foreach(ExprNode expr in exprs.ChildrenExact)
 			{
 				ExprNode exprEvaluated = expr.Evaluate();
-				expressions.Add(exprEvaluated.CheckIR(typeof(Expression)));
+				expressions.Add(exprEvaluated.CheckIR<Expression>(typeof(Expression)));
 			}
 			if(exprs.Size() == 1)
-				expressions.Add(new Constant(BasicTypeNode.stringType.CheckIR(typeof(Type)), EscapeBackslashAndDoubleQuotes(Coords.ToString())));
+				expressions.Add(new Constant(BasicTypeNode.stringType.CheckIR<Type>(typeof(Type)), EscapeBackslashAndDoubleQuotes(Coords.ToString())));
 			return new AssertProc(expressions, isAlways);
 		}
 

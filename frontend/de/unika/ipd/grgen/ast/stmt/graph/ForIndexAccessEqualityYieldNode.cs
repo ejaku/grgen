@@ -135,10 +135,10 @@ namespace de.unika.ipd.grgen.ast.stmt.graph
 		protected internal override IR ConstructIR()
 		{
 			expr = expr.Evaluate();
-			ForIndexAccessEquality fiae = new ForIndexAccessEquality(iterationVariable.CheckIR(typeof(Variable)),
-					new IndexAccessEquality(index.CheckIR(typeof(Index)), expr.CheckIR(typeof(Expression))));
+			ForIndexAccessEquality fiae = new ForIndexAccessEquality(iterationVariable.CheckIR<Variable>(typeof(Variable)),
+					new IndexAccessEquality(index.CheckIR<Index>(typeof(Index)), expr.CheckIR<Expression>(typeof(Expression))));
 			foreach(EvalStatementNode accumulationStatement in statements.ChildrenExact)
-				fiae.AddLoopedStatement(accumulationStatement.CheckIR(typeof(EvalStatement)));
+				fiae.AddLoopedStatement(accumulationStatement.CheckIR<EvalStatement>(typeof(EvalStatement)));
 			return fiae;
 		}
 	}

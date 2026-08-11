@@ -94,7 +94,7 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 
 		protected internal override IR ConstructIR()
 		{
-			return new MinMaxFromIndexExpr(index.CheckIR(typeof(Index)), isMin,
+			return new MinMaxFromIndexExpr(index.CheckIR<Index>(typeof(Index)), isMin,
 					Type.IRType);
 		}
 	}

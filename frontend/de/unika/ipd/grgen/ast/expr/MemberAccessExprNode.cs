@@ -155,22 +155,22 @@ namespace de.unika.ipd.grgen.ast.expr
 		{
 			targetExpr = targetExpr.Evaluate();
 			if(targetExpr.Type is MatchTypeNode)
-				return new MatchAccess(targetExpr.CheckIR(typeof(Expression)), member.CheckIR(typeof(Entity)));
+				return new MatchAccess(targetExpr.CheckIR<Expression>(typeof(Expression)), member.CheckIR<Entity>(typeof(Entity)));
 
 			if(targetExpr.IR is VariableExpression)
 			{
-				return new Qualification(targetExpr.CheckIR(typeof(VariableExpression)).GetVariable(),
-						member.CheckIR(typeof(Entity)));
+				return new Qualification(targetExpr.CheckIR<VariableExpression>(typeof(VariableExpression)).GetVariable(),
+						member.CheckIR<Entity>(typeof(Entity)));
 			}
 			else if(targetExpr.IR is GraphEntityExpression)
 			{
-				return new Qualification(targetExpr.CheckIR(typeof(GraphEntityExpression)).GetGraphEntity(),
-						member.CheckIR(typeof(Entity)));
+				return new Qualification(targetExpr.CheckIR<GraphEntityExpression>(typeof(GraphEntityExpression)).GetGraphEntity(),
+						member.CheckIR<Entity>(typeof(Entity)));
 			}
 			else
 			{
-				return new Qualification(targetExpr.CheckIR(typeof(Expression)), // normally a Cast (or an untyped exec var)
-						member.CheckIR(typeof(Entity)));
+				return new Qualification(targetExpr.CheckIR<Expression>(typeof(Expression)), // normally a Cast (or an untyped exec var)
+						member.CheckIR<Entity>(typeof(Entity)));
 			}
 		}
 

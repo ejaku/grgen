@@ -123,9 +123,9 @@ namespace de.unika.ipd.grgen.ast.stmt.graph
 			newTargetExpr = newTargetExpr.Evaluate();
 			if(oldTargetNameExpr != null)
 				oldTargetNameExpr = oldTargetNameExpr.Evaluate();
-			return new GraphRedirectTargetProc(edgeExpr.CheckIR(typeof(Expression)),
-					newTargetExpr.CheckIR(typeof(Expression)),
-					oldTargetNameExpr != null ? oldTargetNameExpr.CheckIR(typeof(Expression)) : null);
+			return new GraphRedirectTargetProc(edgeExpr.CheckIR<Expression>(typeof(Expression)),
+					newTargetExpr.CheckIR<Expression>(typeof(Expression)),
+					oldTargetNameExpr != null ? oldTargetNameExpr.CheckIR<Expression>(typeof(Expression)) : null);
 		}
 	}
 

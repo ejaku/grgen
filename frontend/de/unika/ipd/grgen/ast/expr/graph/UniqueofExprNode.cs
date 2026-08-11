@@ -115,7 +115,7 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 			if(entity == null)
 				return new Uniqueof(null, Type.IRType);
 			entity = entity.Evaluate();
-			return new Uniqueof(entity.CheckIR(typeof(Expression)), Type.IRType);
+			return new Uniqueof(entity.CheckIR<Expression>(typeof(Expression)), Type.IRType);
 		}
 
 		public override TypeNode Type

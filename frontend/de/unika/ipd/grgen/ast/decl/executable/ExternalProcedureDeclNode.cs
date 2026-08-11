@@ -117,9 +117,9 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 					? new ExternalProcedureMethod(Ident.ToString(), Ident.IRIdent)
 					: new ExternalProcedure(Ident.ToString(), Ident.IRIdent);
 			foreach(TypeNode retType in resultTypesCollectNode.ChildrenExact)
-				externalProc.AddReturnType(retType.CheckIR(typeof(Type)));
+				externalProc.AddReturnType(retType.CheckIR<Type>(typeof(Type)));
 			foreach(TypeNode param in parameterTypesCollectNode.ChildrenExact)
-				externalProc.AddParameterType(param.CheckIR(typeof(Type)));
+				externalProc.AddParameterType(param.CheckIR<Type>(typeof(Type)));
 			return externalProc;
 		}
 

@@ -223,7 +223,7 @@ namespace de.unika.ipd.grgen.ast.model.type
 		{
 			get
 			{
-				return CheckIR(typeof(EdgeType));
+				return CheckIR<EdgeType>(typeof(EdgeType));
 			}
 		}
 
@@ -275,7 +275,7 @@ namespace de.unika.ipd.grgen.ast.model.type
 			DirectednessIR = et; // from Undirected/Arbitrary/Directed-EdgeTypeNode
 
 			foreach(ConnAssertNode can in cas.ChildrenExact)
-				et.AddConnAssert(can.CheckIR(typeof(ConnAssert)));
+				et.AddConnAssert(can.CheckIR<ConnAssert>(typeof(ConnAssert)));
 
 			return et;
 		}

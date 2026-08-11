@@ -266,7 +266,7 @@ namespace de.unika.ipd.grgen.ast.expr.map
 			foreach(ExprPairNode item in mapItems.ChildrenExact)
 				items.Add(item.IRExpressionPair);
 			Entity member = lhs != null ? lhs.IREntity : null;
-			MapType type = mapType != null ? mapType.CheckIR(typeof(MapType)) : null;
+			MapType type = mapType != null ? mapType.CheckIR<MapType>(typeof(MapType)) : null;
 			return new MapInit(items, member, type, IsConstant());
 		}
 
@@ -274,7 +274,7 @@ namespace de.unika.ipd.grgen.ast.expr.map
 		{
 			get
 			{
-				return CheckIR(typeof(MapInit));
+				return CheckIR<MapInit>(typeof(MapInit));
 			}
 		}
 

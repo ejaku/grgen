@@ -144,11 +144,11 @@ namespace de.unika.ipd.grgen.ast.stmt
 
 		protected internal override IR ConstructIR()
 		{
-			ContainerAccumulationYield cay = new ContainerAccumulationYield(iterationVariable.CheckIR(typeof(Variable)),
-					iterationIndex != null ? iterationIndex.CheckIR(typeof(Variable)) : null,
-					container.CheckIR(typeof(Variable)));
+			ContainerAccumulationYield cay = new ContainerAccumulationYield(iterationVariable.CheckIR<Variable>(typeof(Variable)),
+					iterationIndex != null ? iterationIndex.CheckIR<Variable>(typeof(Variable)) : null,
+					container.CheckIR<Variable>(typeof(Variable)));
 			foreach(EvalStatementNode accumulationStatement in statements.ChildrenExact)
-				cay.AddStatement(accumulationStatement.CheckIR(typeof(EvalStatement)));
+				cay.AddStatement(accumulationStatement.CheckIR<EvalStatement>(typeof(EvalStatement)));
 			return cay;
 		}
 	}

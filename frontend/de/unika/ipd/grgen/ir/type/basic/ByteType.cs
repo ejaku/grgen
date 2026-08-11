@@ -31,7 +31,7 @@ namespace de.unika.ipd.grgen.ir.type.basic
 		{
 			get
 			{
-				return BasicTypeNode.byteType.CheckIR(typeof(Type));
+				return BasicTypeNode.byteType.CheckIR<Type>(typeof(Type));
 			}
 		}
 	}

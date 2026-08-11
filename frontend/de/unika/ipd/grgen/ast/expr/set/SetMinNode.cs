@@ -57,7 +57,7 @@ namespace de.unika.ipd.grgen.ast.expr.set
 		protected internal override IR ConstructIR()
 		{
 			targetExpr = targetExpr.Evaluate();
-			return new SetMinExpr(targetExpr.CheckIR(typeof(Expression)));
+			return new SetMinExpr(targetExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 	}
 

@@ -114,13 +114,13 @@ namespace de.unika.ipd.grgen.ast.stmt.deque
 				valueExpr = valueExpr.Evaluate();
 			if(target != null)
 			{
-				return new DequeRemoveItem(target.CheckIR(typeof(Qualification)),
-						valueExpr != null ? valueExpr.CheckIR(typeof(Expression)) : null);
+				return new DequeRemoveItem(target.CheckIR<Qualification>(typeof(Qualification)),
+						valueExpr != null ? valueExpr.CheckIR<Expression>(typeof(Expression)) : null);
 			}
 			else
 			{
-				return new DequeVarRemoveItem(targetVar.CheckIR(typeof(Variable)),
-						valueExpr != null ? valueExpr.CheckIR(typeof(Expression)) : null);
+				return new DequeVarRemoveItem(targetVar.CheckIR<Variable>(typeof(Variable)),
+						valueExpr != null ? valueExpr.CheckIR<Expression>(typeof(Expression)) : null);
 			}
 		}
 	}

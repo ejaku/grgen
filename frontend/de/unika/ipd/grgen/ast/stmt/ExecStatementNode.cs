@@ -111,7 +111,7 @@ namespace de.unika.ipd.grgen.ast.stmt
 
 		protected internal override IR ConstructIR()
 		{
-			ExecStatement ws = new ExecStatement(exec.CheckIR(typeof(Exec)));
+			ExecStatement ws = new ExecStatement(exec.CheckIR<Exec>(typeof(Exec)));
 			return ws;
 		}
 	}

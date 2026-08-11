@@ -144,12 +144,12 @@ namespace de.unika.ipd.grgen.ast.stmt
 			// potential initialization is attached to the Var or the GraphEntity
 			if(defDeclVar != null)
 			{
-				Variable var = defDeclVar.CheckIR(typeof(Variable));
+				Variable var = defDeclVar.CheckIR<Variable>(typeof(Variable));
 				return new DefDeclVarStatement(var);
 			}
 			else
 			{
-				GraphEntity graphEntity = defDeclGraphElement.CheckIR(typeof(GraphEntity));
+				GraphEntity graphEntity = defDeclGraphElement.CheckIR<GraphEntity>(typeof(GraphEntity));
 				return new DefDeclGraphEntityStatement(graphEntity);
 			}
 		}

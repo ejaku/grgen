@@ -89,7 +89,7 @@ namespace de.unika.ipd.grgen.ast.stmt
 		{
 			MultiStatement ms = new MultiStatement();
 			foreach(EvalStatementNode statement in statements.ChildrenExact)
-				ms.AddStatement(statement.CheckIR(typeof(EvalStatement)));
+				ms.AddStatement(statement.CheckIR<EvalStatement>(typeof(EvalStatement)));
 			return ms;
 		}
 	}

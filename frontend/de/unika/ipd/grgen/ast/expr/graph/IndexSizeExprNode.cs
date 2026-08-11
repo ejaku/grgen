@@ -92,7 +92,7 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 
 		protected internal override IR ConstructIR()
 		{
-			return new IndexSizeExpr(index.CheckIR(typeof(Index)),
+			return new IndexSizeExpr(index.CheckIR<Index>(typeof(Index)),
 					Type.IRType);
 		}
 	}

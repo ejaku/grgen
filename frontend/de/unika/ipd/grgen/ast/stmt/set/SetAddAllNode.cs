@@ -73,7 +73,7 @@ namespace de.unika.ipd.grgen.ast.stmt.set
 		protected internal override IR ConstructIR()
 		{
 			valueExpr = valueExpr.Evaluate();
-			return new SetVarAddAll(targetVar.CheckIR(typeof(Variable)), valueExpr.CheckIR(typeof(Expression)));
+			return new SetVarAddAll(targetVar.CheckIR<Variable>(typeof(Variable)), valueExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 	}
 

@@ -87,7 +87,7 @@ namespace de.unika.ipd.grgen.ast.stmt.graph
 		protected internal override IR ConstructIR()
 		{
 			graphExpr = graphExpr.Evaluate();
-			InsertProc insert = new InsertProc(graphExpr.CheckIR(typeof(Expression)));
+			InsertProc insert = new InsertProc(graphExpr.CheckIR<Expression>(typeof(Expression)));
 			return insert;
 		}
 	}

@@ -95,9 +95,9 @@ namespace de.unika.ipd.grgen.ast.expr.array
 			targetExpr = targetExpr.Evaluate();
 			startExpr = startExpr.Evaluate();
 			lengthExpr = lengthExpr.Evaluate();
-			return new ArraySubarrayExpr(targetExpr.CheckIR(typeof(Expression)),
-					startExpr.CheckIR(typeof(Expression)),
-					lengthExpr.CheckIR(typeof(Expression)));
+			return new ArraySubarrayExpr(targetExpr.CheckIR<Expression>(typeof(Expression)),
+					startExpr.CheckIR<Expression>(typeof(Expression)),
+					lengthExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 	}
 

@@ -121,8 +121,8 @@ namespace de.unika.ipd.grgen.ast.stmt.graph
 			oldEdge = oldEdge.Evaluate();
 			sourceNode = sourceNode.Evaluate();
 			targetNode = targetNode.Evaluate();
-			GraphAddCopyEdgeProc addCopyEdge = new GraphAddCopyEdgeProc(oldEdge.CheckIR(typeof(Expression)),
-					sourceNode.CheckIR(typeof(Expression)), targetNode.CheckIR(typeof(Expression)),
+			GraphAddCopyEdgeProc addCopyEdge = new GraphAddCopyEdgeProc(oldEdge.CheckIR<Expression>(typeof(Expression)),
+					sourceNode.CheckIR<Expression>(typeof(Expression)), targetNode.CheckIR<Expression>(typeof(Expression)),
 					oldEdge.Type.IRType, deep);
 			return addCopyEdge;
 		}

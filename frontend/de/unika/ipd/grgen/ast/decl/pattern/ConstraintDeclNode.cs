@@ -201,7 +201,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 		{
 			get
 			{
-				return constraints.CheckIR(typeof(TypeExpr));
+				return constraints.CheckIR<TypeExpr>(typeof(TypeExpr));
 			}
 		}
 

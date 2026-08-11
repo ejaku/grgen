@@ -110,7 +110,7 @@ namespace de.unika.ipd.grgen.ast.expr
 
 		protected internal override IR ConstructIR()
 		{
-			Entity entity = GetValidResolvedVersion(entityEdgeDecl, entityNodeDecl, entityVarDecl).CheckIR(typeof(Entity));
+			Entity entity = GetValidResolvedVersion(entityEdgeDecl, entityNodeDecl, entityVarDecl).CheckIR<Entity>(typeof(Entity));
 
 			return new Typeof(entity);
 		}

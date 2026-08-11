@@ -89,7 +89,7 @@ namespace de.unika.ipd.grgen.ast.model.type
 		/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR() "/>
 		protected internal override IR ConstructIR()
 		{
-			Ident id = Ident.CheckIR(typeof(Ident));
+			Ident id = Ident.CheckIR<Ident>(typeof(Ident));
 			PackageType pt = new PackageType(id);
 			foreach(TypeDeclNode typeDecl in decls.ChildrenExact)
 				pt.AddType(typeDecl.DeclType.IRType);

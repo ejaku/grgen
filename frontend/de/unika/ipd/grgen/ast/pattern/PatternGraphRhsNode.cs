@@ -271,7 +271,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 		{
 			get
 			{
-				return CheckIR(typeof(PatternGraphRhs));
+				return CheckIR<PatternGraphRhs>(typeof(PatternGraphRhs));
 			}
 		}
 
@@ -288,10 +288,10 @@ namespace de.unika.ipd.grgen.ast.pattern
 				connection.AddToGraph(patternGraph);
 
 			foreach(VarDeclNode var in defVariablesToBeYieldedTo.ChildrenExact)
-				patternGraph.AddVariable(var.CheckIR(typeof(Variable)));
+				patternGraph.AddVariable(var.CheckIR<Variable>(typeof(Variable)));
 
 			foreach(SubpatternUsageDeclNode subUsage in subpatterns.ChildrenExact)
-				patternGraph.AddSubpatternUsage(subUsage.CheckIR(typeof(SubpatternUsage)));
+				patternGraph.AddSubpatternUsage(subUsage.CheckIR<SubpatternUsage>(typeof(SubpatternUsage)));
 
 			foreach(OrderedReplacementsNode orderedRepls in orderedReplacements.ChildrenExact)
 				patternGraph.AddOrderedReplacement((OrderedReplacements)orderedRepls.IR);
@@ -347,7 +347,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 				ICollection<OrderedReplacements> ret = new List<OrderedReplacements>();
 
 				foreach(OrderedReplacementsNode orderedRepls in orderedReplacements.ChildrenExact)
-					ret.Add(orderedRepls.CheckIR(typeof(OrderedReplacements)));
+					ret.Add(orderedRepls.CheckIR<OrderedReplacements>(typeof(OrderedReplacements)));
 
 				return ret;
 			}
@@ -360,7 +360,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 				ICollection<EvalStatements> ret = new List<EvalStatements>();
 
 				foreach(EvalStatementsNode evalStatements in evals.ChildrenExact)
-					ret.Add(evalStatements.CheckIR(typeof(EvalStatements)));
+					ret.Add(evalStatements.CheckIR<EvalStatements>(typeof(EvalStatements)));
 
 				return ret;
 			}

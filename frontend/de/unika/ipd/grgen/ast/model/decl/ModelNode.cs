@@ -308,7 +308,7 @@ namespace de.unika.ipd.grgen.ast.model.decl
 		{
 			get
 			{
-				return CheckIR(typeof(Model));
+				return CheckIR<Model>(typeof(Model));
 			}
 		}
 
@@ -318,7 +318,7 @@ namespace de.unika.ipd.grgen.ast.model.decl
 		/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR()"/>
 		protected internal override IR ConstructIR()
 		{
-			Ident id = ident.CheckIR(typeof(Ident));
+			Ident id = ident.CheckIR<Ident>(typeof(Ident));
 			Model res = new Model(id, isEmitClassDefined, isEmitGraphClassDefined, isCopyClassDefined,
 					isEqualClassDefined, isLowerClassDefined, isGraphofDefined,
 					isUniqueDefined, isUniqueClassDefined, isUniqueIndexDefined,
@@ -330,11 +330,11 @@ namespace de.unika.ipd.grgen.ast.model.decl
 			foreach(TypeDeclNode typeDecl in decls.ChildrenExact)
 				res.AddType(typeDecl.DeclType.IRType);
 			foreach(IndexDeclNode indexDecl in indices.ChildrenExact)
-				res.AddIndex(indexDecl.CheckIR(typeof(Index)));
+				res.AddIndex(indexDecl.CheckIR<Index>(typeof(Index)));
 			foreach(ExternalFunctionDeclNode externalFunctionDecl in externalFuncDecls.ChildrenExact)
-				res.AddExternalFunction(externalFunctionDecl.CheckIR(typeof(ExternalFunction)));
+				res.AddExternalFunction(externalFunctionDecl.CheckIR<ExternalFunction>(typeof(ExternalFunction)));
 			foreach(ExternalProcedureDeclNode externalProcedureDecl in externalProcDecls.ChildrenExact)
-				res.AddExternalProcedure(externalProcedureDecl.CheckIR(typeof(ExternalProcedure)));
+				res.AddExternalProcedure(externalProcedureDecl.CheckIR<ExternalProcedure>(typeof(ExternalProcedure)));
 			return res;
 		}
 

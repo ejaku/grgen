@@ -129,32 +129,32 @@ namespace de.unika.ipd.grgen.ast.model
 		{
 			if(rhs is MapInitNode)
 			{
-				MapInit mapInit = rhs.CheckIR(typeof(MapInit));
-				mapInit.Member = lhs.CheckIR(typeof(Entity));
+				MapInit mapInit = rhs.CheckIR<MapInit>(typeof(MapInit));
+				mapInit.Member = lhs.CheckIR<Entity>(typeof(Entity));
 				return mapInit;
 			}
 			else if(rhs is SetInitNode)
 			{
-				SetInit setInit = rhs.CheckIR(typeof(SetInit));
-				setInit.Member = lhs.CheckIR(typeof(Entity));
+				SetInit setInit = rhs.CheckIR<SetInit>(typeof(SetInit));
+				setInit.Member = lhs.CheckIR<Entity>(typeof(Entity));
 				return setInit;
 			}
 			else if(rhs is ArrayInitNode)
 			{
-				ArrayInit arrayInit = rhs.CheckIR(typeof(ArrayInit));
-				arrayInit.Member = lhs.CheckIR(typeof(Entity));
+				ArrayInit arrayInit = rhs.CheckIR<ArrayInit>(typeof(ArrayInit));
+				arrayInit.Member = lhs.CheckIR<Entity>(typeof(Entity));
 				return arrayInit;
 			}
 			else if(rhs is DequeInitNode)
 			{
-				DequeInit dequeInit = rhs.CheckIR(typeof(DequeInit));
-				dequeInit.Member = lhs.CheckIR(typeof(Entity));
+				DequeInit dequeInit = rhs.CheckIR<DequeInit>(typeof(DequeInit));
+				dequeInit.Member = lhs.CheckIR<Entity>(typeof(Entity));
 				return dequeInit;
 			}
 			else
 			{
 				rhs = rhs.Evaluate();
-				return new MemberInit(lhs.CheckIR(typeof(Entity)), rhs.CheckIR(typeof(Expression)));
+				return new MemberInit(lhs.CheckIR<Entity>(typeof(Entity)), rhs.CheckIR<Expression>(typeof(Expression)));
 			}
 		}
 

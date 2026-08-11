@@ -114,7 +114,7 @@ namespace de.unika.ipd.grgen.ast.expr.set
 		protected internal override IR ConstructIR()
 		{
 			setToCopy = setToCopy.Evaluate();
-			return new SetCopyConstructor(setToCopy.CheckIR(typeof(Expression)), setType.CheckIR(typeof(SetType)));
+			return new SetCopyConstructor(setToCopy.CheckIR<Expression>(typeof(Expression)), setType.CheckIR<SetType>(typeof(SetType)));
 		}
 
 		public static string KindStr

@@ -154,7 +154,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			get
 			{
-				return CheckIR(typeof(Function));
+				return CheckIR<Function>(typeof(Function));
 			}
 		}
 
@@ -175,15 +175,15 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 				return IR;
 
 			Function function = isMethod
-					? new FunctionMethod(Ident.ToString(), Ident.IRIdent, resultType.CheckIR(typeof(Type)))
-					: new Function(Ident.ToString(), Ident.IRIdent, resultType.CheckIR(typeof(Type)));
+					? new FunctionMethod(Ident.ToString(), Ident.IRIdent, resultType.CheckIR<Type>(typeof(Type)))
+					: new Function(Ident.ToString(), Ident.IRIdent, resultType.CheckIR<Type>(typeof(Type)));
 
 			// mark this node as already visited
 			IR = function;
 
 			// add Params to the IR
 			foreach(DeclNode decl in parameters.ChildrenExact)
-				function.AddParameter(decl.CheckIR(typeof(Entity)));
+				function.AddParameter(decl.CheckIR<Entity>(typeof(Entity)));
 
 			// add Computation Statements to the IR
 			if(functionAuto != null)
@@ -191,7 +191,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 			else
 			{
 				foreach(EvalStatementNode eval in evalStatements.ChildrenExact)
-					function.AddStatement(eval.CheckIR(typeof(EvalStatement)));
+					function.AddStatement(eval.CheckIR<EvalStatement>(typeof(EvalStatement)));
 			}
 
 			return function;

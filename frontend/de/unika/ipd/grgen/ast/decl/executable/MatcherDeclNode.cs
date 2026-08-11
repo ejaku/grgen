@@ -73,7 +73,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			get
 			{
-				return CheckIR(typeof(Rule));
+				return CheckIR<Rule>(typeof(Rule));
 			}
 		}
 
@@ -922,12 +922,12 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 			{
 				if(decl is NodeDeclNode)
 				{
-					rightPattern.AddReplParameter(decl.CheckIR(typeof(Node)));
+					rightPattern.AddReplParameter(decl.CheckIR<Node>(typeof(Node)));
 					rightPattern.AddSingleNode(((NodeDeclNode)decl).IRNode);
 				}
 				else if(decl is VarDeclNode)
 				{
-					rightPattern.AddReplParameter(decl.CheckIR(typeof(Variable)));
+					rightPattern.AddReplParameter(decl.CheckIR<Variable>(typeof(Variable)));
 					rightPattern.AddVariable(((VarDeclNode)decl).IRVariable);
 				}
 				else
@@ -944,7 +944,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 			foreach(DeclNode decl in pattern.ParamDecls)
 			{
-				Entity entity = decl.CheckIR(typeof(Entity));
+				Entity entity = decl.CheckIR<Entity>(typeof(Entity));
 				if(entity.IsDefToBeYieldedTo())
 					constructedMatchingAction.AddDefParameter(entity);
 				else
@@ -976,13 +976,13 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 			{
 				foreach(Rule alternativeCase in alternative.AlternativeCases)
 				{
-					alternativeCase.Right.AddReplParameter(decl.CheckIR(typeof(Node)));
+					alternativeCase.Right.AddReplParameter(decl.CheckIR<Node>(typeof(Node)));
 					alternativeCase.Right.AddSingleNode(decl.IRNode);
 				}
 			}
 			foreach(Rule iterated in patternGraph.Iters)
 			{
-				iterated.Right.AddReplParameter(decl.CheckIR(typeof(Node)));
+				iterated.Right.AddReplParameter(decl.CheckIR<Node>(typeof(Node)));
 				iterated.Right.AddSingleNode(decl.IRNode);
 			}
 		}
@@ -993,13 +993,13 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 			{
 				foreach(Rule alternativeCase in alternative.AlternativeCases)
 				{
-					alternativeCase.Right.AddReplParameter(decl.CheckIR(typeof(Variable)));
+					alternativeCase.Right.AddReplParameter(decl.CheckIR<Variable>(typeof(Variable)));
 					alternativeCase.Right.AddVariable(decl.IRVariable);
 				}
 			}
 			foreach(Rule iterated in patternGraph.Iters)
 			{
-				iterated.Right.AddReplParameter(decl.CheckIR(typeof(Variable)));
+				iterated.Right.AddReplParameter(decl.CheckIR<Variable>(typeof(Variable)));
 				iterated.Right.AddVariable(decl.IRVariable);
 			}
 		}

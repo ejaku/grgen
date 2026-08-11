@@ -117,24 +117,24 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 			if(functionDecl != null)
 			{
 				FunctionInvocationExpr fi = new FunctionInvocationExpr(
-						functionDecl.resultType.CheckIR(typeof(Type)),
-						functionDecl.CheckIR(typeof(Function)));
+						functionDecl.resultType.CheckIR<Type>(typeof(Type)),
+						functionDecl.CheckIR<Function>(typeof(Function)));
 				foreach(ExprNode argument in arguments.ChildrenExact)
 				{
 					ExprNode argumentEvaluated = argument.Evaluate();
-					fi.AddArgument(argumentEvaluated.CheckIR(typeof(Expression)));
+					fi.AddArgument(argumentEvaluated.CheckIR<Expression>(typeof(Expression)));
 				}
 				return fi;
 			}
 			else
 			{
 				ExternalFunctionInvocationExpr efi = new ExternalFunctionInvocationExpr(
-						externalFunctionDecl.resultType.CheckIR(typeof(Type)),
-						externalFunctionDecl.CheckIR(typeof(ExternalFunction)));
+						externalFunctionDecl.resultType.CheckIR<Type>(typeof(Type)),
+						externalFunctionDecl.CheckIR<ExternalFunction>(typeof(ExternalFunction)));
 				foreach(ExprNode argument in arguments.ChildrenExact)
 				{
 					ExprNode argumentEvaluated = argument.Evaluate();
-					efi.AddArgument(argumentEvaluated.CheckIR(typeof(Expression)));
+					efi.AddArgument(argumentEvaluated.CheckIR<Expression>(typeof(Expression)));
 				}
 				return efi;
 			}

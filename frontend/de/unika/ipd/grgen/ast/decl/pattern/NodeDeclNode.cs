@@ -260,7 +260,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 		{
 			get
 			{
-				return CheckIR(typeof(Node));
+				return CheckIR<Node>(typeof(Node));
 			}
 		}
 
@@ -290,20 +290,20 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 			}
 
 			if(InheritsType())
-				node.SetTypeofCopy(typeNodeDecl.CheckIR(typeof(Node)), copyKind);
+				node.SetTypeofCopy(typeNodeDecl.CheckIR<Node>(typeof(Node)), copyKind);
 
 			node.MaybeNull = maybeNull;
 
 			if(initialization != null)
 			{
 				initialization = initialization.Evaluate();
-				node.Initialization = initialization.CheckIR(typeof(Expression));
+				node.Initialization = initialization.CheckIR<Expression>(typeof(Expression));
 			}
 
 			foreach(NameOrAttributeInitializationNode nain in nameOrAttributeInits.ChildrenExact)
 			{
 				nain.ownerIR = node;
-				node.AddNameOrAttributeInitialization(nain.CheckIR(typeof(NameOrAttributeInitialization)));
+				node.AddNameOrAttributeInitialization(nain.CheckIR<NameOrAttributeInitialization>(typeof(NameOrAttributeInitialization)));
 			}
 
 			return node;

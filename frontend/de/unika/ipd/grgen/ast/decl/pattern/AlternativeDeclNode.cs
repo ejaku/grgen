@@ -106,7 +106,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 			Alternative alternative = new Alternative(ident.IRIdent);
 			foreach(AlternativeCaseDeclNode alternativeCaseNode in children)
 			{
-				Rule alternativeCaseRule = alternativeCaseNode.CheckIR(typeof(Rule));
+				Rule alternativeCaseRule = alternativeCaseNode.CheckIR<Rule>(typeof(Rule));
 				alternative.AddAlternativeCase(alternativeCaseRule);
 			}
 			return alternative;

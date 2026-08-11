@@ -160,10 +160,10 @@ namespace de.unika.ipd.grgen.ast.stmt
 
 		protected internal override IR ConstructIR()
 		{
-			IteratedAccumulationYield iay = new IteratedAccumulationYield(iterationVariable.CheckIR(typeof(Variable)),
-					iterated.CheckIR(typeof(Rule)));
+			IteratedAccumulationYield iay = new IteratedAccumulationYield(iterationVariable.CheckIR<Variable>(typeof(Variable)),
+					iterated.CheckIR<Rule>(typeof(Rule)));
 			foreach(EvalStatementNode accumulationStatement in statements.ChildrenExact)
-				iay.AddStatement(accumulationStatement.CheckIR(typeof(EvalStatement)));
+				iay.AddStatement(accumulationStatement.CheckIR<EvalStatement>(typeof(EvalStatement)));
 			return iay;
 		}
 	}

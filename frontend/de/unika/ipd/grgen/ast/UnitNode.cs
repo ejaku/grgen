@@ -414,7 +414,7 @@ namespace de.unika.ipd.grgen.ast
 		{
 			get
 			{
-				return CheckIR(typeof(Unit));
+				return CheckIR<Unit>(typeof(Unit));
 			}
 		}
 

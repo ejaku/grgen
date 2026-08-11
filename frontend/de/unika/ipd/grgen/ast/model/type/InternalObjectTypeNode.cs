@@ -141,7 +141,7 @@ namespace de.unika.ipd.grgen.ast.model.type
 		{
 			get
 			{
-				return CheckIR(typeof(InternalObjectType));
+				return CheckIR<InternalObjectType>(typeof(InternalObjectType));
 			}
 		}
 

@@ -218,9 +218,9 @@ namespace de.unika.ipd.grgen.ast.expr
 
 		protected internal override IR ConstructIR()
 		{
-			Type type = this.type.CheckIR(typeof(Type));
+			Type type = this.type.CheckIR<Type>(typeof(Type));
 			this.expr = this.expr.Evaluate();
-			Expression expr = this.expr.CheckIR(typeof(Expression));
+			Expression expr = this.expr.CheckIR<Expression>(typeof(Expression));
 
 			return new Cast(type, expr);
 		}

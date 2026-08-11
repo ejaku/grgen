@@ -73,7 +73,7 @@ namespace de.unika.ipd.grgen.ast.expr
 		{
 			return new ProjectionExpr(index,
 					procedure is ProcedureInvocationDecisionNode ? null
-							: procedure.CheckIR(typeof(ProcedureInvocationBase)).GetProcedureBase(),
+							: procedure.CheckIR<ProcedureInvocationBase>(typeof(ProcedureInvocationBase)).GetProcedureBase(),
 					procedure.Type[index].IRType);
 		}
 

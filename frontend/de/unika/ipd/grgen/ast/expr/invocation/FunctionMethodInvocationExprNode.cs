@@ -155,13 +155,13 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 
 		protected internal override IR ConstructIR()
 		{
-			FunctionMethodInvocationExpr ci = new FunctionMethodInvocationExpr(owner.CheckIR(typeof(Entity)),
-					functionDecl.resultType.CheckIR(typeof(Type)),
-					functionDecl.CheckIR(typeof(Function)));
+			FunctionMethodInvocationExpr ci = new FunctionMethodInvocationExpr(owner.CheckIR<Entity>(typeof(Entity)),
+					functionDecl.resultType.CheckIR<Type>(typeof(Type)),
+					functionDecl.CheckIR<Function>(typeof(Function)));
 			foreach(ExprNode argument in arguments.ChildrenExact)
 			{
 				ExprNode argumentEvaluated = argument.Evaluate();
-				ci.AddArgument(argumentEvaluated.CheckIR(typeof(Expression)));
+				ci.AddArgument(argumentEvaluated.CheckIR<Expression>(typeof(Expression)));
 			}
 			return ci;
 		}

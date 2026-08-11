@@ -184,7 +184,7 @@ namespace de.unika.ipd.grgen.ast.type
 		{
 			get
 			{
-				return CheckIR(typeof(MatchTypeIterated));
+				return CheckIR<MatchTypeIterated>(typeof(MatchTypeIterated));
 			}
 		}
 

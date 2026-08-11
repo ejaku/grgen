@@ -173,10 +173,10 @@ namespace de.unika.ipd.grgen.ast.stmt
 
 		protected internal override IR ConstructIR()
 		{
-			MatchesAccumulationYield may = new MatchesAccumulationYield(iterationVariable.CheckIR(typeof(Variable)),
-					matchesContainer.CheckIR(typeof(Variable)));
+			MatchesAccumulationYield may = new MatchesAccumulationYield(iterationVariable.CheckIR<Variable>(typeof(Variable)),
+					matchesContainer.CheckIR<Variable>(typeof(Variable)));
 			foreach(EvalStatementNode accumulationStatement in statements.ChildrenExact)
-				may.AddStatement(accumulationStatement.CheckIR(typeof(EvalStatement)));
+				may.AddStatement(accumulationStatement.CheckIR<EvalStatement>(typeof(EvalStatement)));
 			return may;
 		}
 	}

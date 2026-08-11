@@ -159,7 +159,7 @@ namespace de.unika.ipd.grgen.ast.model.type
 		{
 			get
 			{
-				return CheckIR(typeof(NodeType));
+				return CheckIR<NodeType>(typeof(NodeType));
 			}
 		}
 

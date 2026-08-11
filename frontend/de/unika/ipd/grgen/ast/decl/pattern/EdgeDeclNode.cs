@@ -260,7 +260,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 		{
 			get
 			{
-				return CheckIR(typeof(Edge));
+				return CheckIR<Edge>(typeof(Edge));
 			}
 		}
 
@@ -275,7 +275,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 		protected internal override IR ConstructIR()
 		{
 			TypeNode tn = DeclType;
-			EdgeType et = tn.CheckIR(typeof(EdgeType));
+			EdgeType et = tn.CheckIR<EdgeType>(typeof(EdgeType));
 			IdentNode ident = Ident;
 
 			Edge edge = new Edge(ident.IRIdent, et, ident.Annotations,
@@ -290,20 +290,20 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 			}
 
 			if(InheritsType())
-				edge.SetTypeofCopy(typeEdgeDecl.CheckIR(typeof(Edge)), copyKind);
+				edge.SetTypeofCopy(typeEdgeDecl.CheckIR<Edge>(typeof(Edge)), copyKind);
 
 			edge.MaybeNull = maybeNull;
 
 			if(initialization != null)
 			{
 				initialization = initialization.Evaluate();
-				edge.Initialization = initialization.CheckIR(typeof(Expression));
+				edge.Initialization = initialization.CheckIR<Expression>(typeof(Expression));
 			}
 
 			foreach(NameOrAttributeInitializationNode nain in nameOrAttributeInits.ChildrenExact)
 			{
 				nain.ownerIR = edge;
-				edge.AddNameOrAttributeInitialization(nain.CheckIR(typeof(NameOrAttributeInitialization)));
+				edge.AddNameOrAttributeInitialization(nain.CheckIR<NameOrAttributeInitialization>(typeof(NameOrAttributeInitialization)));
 			}
 
 			return edge;

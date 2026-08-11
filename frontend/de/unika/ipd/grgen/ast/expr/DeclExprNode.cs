@@ -180,11 +180,11 @@ namespace de.unika.ipd.grgen.ast.expr
 		{
 			BaseNode declNode = (BaseNode)decl;
 			if(declNode is MemberDeclNode)
-				return new MemberExpression(declNode.CheckIR(typeof(Entity)));
+				return new MemberExpression(declNode.CheckIR<Entity>(typeof(Entity)));
 			else if(declNode is VarDeclNode)
-				return new VariableExpression(declNode.CheckIR(typeof(Variable)));
+				return new VariableExpression(declNode.CheckIR<Variable>(typeof(Variable)));
 			else if(declNode is ExecVarDeclNode)
-				return new ExecVariableExpression(declNode.CheckIR(typeof(ExecVariable)));
+				return new ExecVariableExpression(declNode.CheckIR<ExecVariable>(typeof(ExecVariable)));
 			else if(declNode is ConstraintDeclNode)
 				return new GraphEntityExpression((GraphEntity)declNode.IR);
 			else

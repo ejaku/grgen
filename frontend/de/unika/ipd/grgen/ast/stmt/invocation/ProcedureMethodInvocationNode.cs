@@ -177,15 +177,15 @@ namespace de.unika.ipd.grgen.ast.stmt.invocation
 
 		protected internal override IR ConstructIR()
 		{
-			ProcedureMethodInvocation pmi = new ProcedureMethodInvocation(owner.CheckIR(typeof(Entity)),
-					procedureDecl.CheckIR(typeof(Procedure)));
+			ProcedureMethodInvocation pmi = new ProcedureMethodInvocation(owner.CheckIR<Entity>(typeof(Entity)),
+					procedureDecl.CheckIR<Procedure>(typeof(Procedure)));
 			foreach(ExprNode argument in arguments.ChildrenExact)
 			{
 				ExprNode argumentEvaluated = argument.Evaluate();
-				pmi.AddArgument(argumentEvaluated.CheckIR(typeof(Expression)));
+				pmi.AddArgument(argumentEvaluated.CheckIR<Expression>(typeof(Expression)));
 			}
 			foreach(TypeNode type in procedureDecl.resultTypesCollectNode.ChildrenExact)
-				pmi.AddReturnType(type.CheckIR(typeof(Type)));
+				pmi.AddReturnType(type.CheckIR<Type>(typeof(Type)));
 			return pmi;
 		}
 	}

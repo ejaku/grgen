@@ -71,7 +71,7 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 		protected internal override IR ConstructIR()
 		{
 			graphExpr = graphExpr.Evaluate();
-			return new CanonizeExpr(graphExpr.CheckIR(typeof(Expression)));
+			return new CanonizeExpr(graphExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 
 		public override TypeNode Type

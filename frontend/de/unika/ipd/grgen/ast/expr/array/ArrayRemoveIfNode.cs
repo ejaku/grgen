@@ -172,12 +172,12 @@ namespace de.unika.ipd.grgen.ast.expr.array
 		{
 			targetExpr = targetExpr.Evaluate();
 			conditionExpr = conditionExpr.Evaluate();
-			return new ArrayRemoveIfExpr(targetExpr.CheckIR(typeof(Expression)),
-					arrayAccessVar != null ? arrayAccessVar.CheckIR(typeof(Variable)) : null,
-					indexVar != null ? indexVar.CheckIR(typeof(Variable)) : null,
-					elementVar.CheckIR(typeof(Variable)),
-					conditionExpr.CheckIR(typeof(Expression)),
-					TargetType.CheckIR(typeof(ArrayType)));
+			return new ArrayRemoveIfExpr(targetExpr.CheckIR<Expression>(typeof(Expression)),
+					arrayAccessVar != null ? arrayAccessVar.CheckIR<Variable>(typeof(Variable)) : null,
+					indexVar != null ? indexVar.CheckIR<Variable>(typeof(Variable)) : null,
+					elementVar.CheckIR<Variable>(typeof(Variable)),
+					conditionExpr.CheckIR<Expression>(typeof(Expression)),
+					TargetType.CheckIR<ArrayType>(typeof(ArrayType)));
 		}
 	}
 

@@ -137,16 +137,16 @@ namespace de.unika.ipd.grgen.ast.expr.array
 			if(startIndexExpr != null)
 			{
 				startIndexExpr = startIndexExpr.Evaluate();
-				return new ArrayLastIndexOfByExpr(targetExpr.CheckIR(typeof(Expression)),
-						member.CheckIR(typeof(Entity)),
-						valueExpr.CheckIR(typeof(Expression)),
-						startIndexExpr.CheckIR(typeof(Expression)));
+				return new ArrayLastIndexOfByExpr(targetExpr.CheckIR<Expression>(typeof(Expression)),
+						member.CheckIR<Entity>(typeof(Entity)),
+						valueExpr.CheckIR<Expression>(typeof(Expression)),
+						startIndexExpr.CheckIR<Expression>(typeof(Expression)));
 			}
 			else
 			{
-				return new ArrayLastIndexOfByExpr(targetExpr.CheckIR(typeof(Expression)),
-						member.CheckIR(typeof(Entity)),
-						valueExpr.CheckIR(typeof(Expression)));
+				return new ArrayLastIndexOfByExpr(targetExpr.CheckIR<Expression>(typeof(Expression)),
+						member.CheckIR<Entity>(typeof(Entity)),
+						valueExpr.CheckIR<Expression>(typeof(Expression)));
 			}
 		}
 	}

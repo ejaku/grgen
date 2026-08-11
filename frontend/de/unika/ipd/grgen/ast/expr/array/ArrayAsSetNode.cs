@@ -51,7 +51,7 @@ namespace de.unika.ipd.grgen.ast.expr.array
 		protected internal override IR ConstructIR()
 		{
 			targetExpr = targetExpr.Evaluate();
-			return new ArrayAsSetExpr(targetExpr.CheckIR(typeof(Expression)), Type.IRType);
+			return new ArrayAsSetExpr(targetExpr.CheckIR<Expression>(typeof(Expression)), Type.IRType);
 		}
 	}
 

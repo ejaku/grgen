@@ -152,27 +152,27 @@ namespace de.unika.ipd.grgen.ast.stmt.invocation
 		{
 			if(procedureDecl != null)
 			{
-				ProcedureInvocation pi = new ProcedureInvocation(procedureDecl.CheckIR(typeof(Procedure)));
+				ProcedureInvocation pi = new ProcedureInvocation(procedureDecl.CheckIR<Procedure>(typeof(Procedure)));
 				foreach(ExprNode argument in arguments.ChildrenExact)
 				{
 					ExprNode argumentEvaluated = argument.Evaluate();
-					pi.AddArgument(argumentEvaluated.CheckIR(typeof(Expression)));
+					pi.AddArgument(argumentEvaluated.CheckIR<Expression>(typeof(Expression)));
 				}
 				foreach(TypeNode type in procedureDecl.resultTypesCollectNode.ChildrenExact)
-					pi.AddReturnType(type.CheckIR(typeof(Type)));
+					pi.AddReturnType(type.CheckIR<Type>(typeof(Type)));
 				return pi;
 			}
 			else
 			{
 				ExternalProcedureInvocation epi = new ExternalProcedureInvocation(
-						externalProcedureDecl.CheckIR(typeof(ExternalProcedure)));
+						externalProcedureDecl.CheckIR<ExternalProcedure>(typeof(ExternalProcedure)));
 				foreach(ExprNode argument in arguments.ChildrenExact)
 				{
 					ExprNode argumentEvaluated = argument.Evaluate();
-					epi.AddArgument(argumentEvaluated.CheckIR(typeof(Expression)));
+					epi.AddArgument(argumentEvaluated.CheckIR<Expression>(typeof(Expression)));
 				}
 				foreach(TypeNode type in externalProcedureDecl.resultTypesCollectNode.ChildrenExact)
-					epi.AddReturnType(type.CheckIR(typeof(Type)));
+					epi.AddReturnType(type.CheckIR<Type>(typeof(Type)));
 				return epi;
 			}
 		}

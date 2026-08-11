@@ -168,9 +168,9 @@ namespace de.unika.ipd.grgen.ast.stmt
 		protected internal override IR ConstructIR()
 		{
 			ReturnAssignment retAssign;
-			retAssign = new ReturnAssignment(ValidProcedure.CheckIR(typeof(ProcedureOrBuiltinProcedureInvocationBase)));
+			retAssign = new ReturnAssignment(ValidProcedure.CheckIR<ProcedureOrBuiltinProcedureInvocationBase>(typeof(ProcedureOrBuiltinProcedureInvocationBase)));
 			foreach(EvalStatementNode target in targets.ChildrenExact)
-				retAssign.AddAssignment(target.CheckIR(typeof(AssignmentBase)));
+				retAssign.AddAssignment(target.CheckIR<AssignmentBase>(typeof(AssignmentBase)));
 			return retAssign;
 		}
 	}

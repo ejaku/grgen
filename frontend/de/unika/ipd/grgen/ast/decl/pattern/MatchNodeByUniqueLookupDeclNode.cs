@@ -120,7 +120,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 			IR = node;
 
 			expr = expr.Evaluate();
-			node.UniqueIndexAccess = new UniqueLookup(expr.CheckIR(typeof(Expression)));
+			node.UniqueIndexAccess = new UniqueLookup(expr.CheckIR<Expression>(typeof(Expression)));
 			return node;
 		}
 	}

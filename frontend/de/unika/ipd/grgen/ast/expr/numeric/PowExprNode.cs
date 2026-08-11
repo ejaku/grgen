@@ -96,10 +96,10 @@ namespace de.unika.ipd.grgen.ast.expr.numeric
 			if(leftExpr != null)
 			{
 				leftExpr = leftExpr.Evaluate();
-				return new PowExpr(leftExpr.CheckIR(typeof(Expression)), rightExpr.CheckIR(typeof(Expression)));
+				return new PowExpr(leftExpr.CheckIR<Expression>(typeof(Expression)), rightExpr.CheckIR<Expression>(typeof(Expression)));
 			}
 			else
-				return new PowExpr(rightExpr.CheckIR(typeof(Expression)));
+				return new PowExpr(rightExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 
 		public override TypeNode Type

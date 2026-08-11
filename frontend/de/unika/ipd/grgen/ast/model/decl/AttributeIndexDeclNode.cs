@@ -152,7 +152,7 @@ namespace de.unika.ipd.grgen.ast.model.decl
 		protected internal override IR ConstructIR()
 		{
 			AttributeIndex attributeIndex = new AttributeIndex(Ident.ToString(), Ident.IRIdent,
-					type.CheckIR(typeof(InheritanceType)), member.CheckIR(typeof(Entity)));
+					type.CheckIR<InheritanceType>(typeof(InheritanceType)), member.CheckIR<Entity>(typeof(Entity)));
 			return attributeIndex;
 		}
 

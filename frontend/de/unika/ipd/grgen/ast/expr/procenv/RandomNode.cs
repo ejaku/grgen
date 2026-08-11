@@ -75,7 +75,7 @@ namespace de.unika.ipd.grgen.ast.expr.procenv
 		{
 			if(numExpr != null)
 				numExpr = numExpr.Evaluate();
-			return new RandomExpr(numExpr != null ? numExpr.CheckIR(typeof(Expression)) : null);
+			return new RandomExpr(numExpr != null ? numExpr.CheckIR<Expression>(typeof(Expression)) : null);
 		}
 
 		public override TypeNode Type

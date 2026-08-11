@@ -136,7 +136,7 @@ namespace de.unika.ipd.grgen.ast.decl
 		{
 			get
 			{
-				return CheckIR(typeof(Entity));
+				return CheckIR<Entity>(typeof(Entity));
 			}
 		}
 

@@ -86,7 +86,7 @@ namespace de.unika.ipd.grgen.ast.stmt.graph
 		protected internal override IR ConstructIR()
 		{
 			entityExpr = entityExpr.Evaluate();
-			return new GraphRemoveProc(entityExpr.CheckIR(typeof(Expression)));
+			return new GraphRemoveProc(entityExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 	}
 

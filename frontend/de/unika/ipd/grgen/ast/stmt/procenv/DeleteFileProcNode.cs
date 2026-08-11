@@ -88,7 +88,7 @@ namespace de.unika.ipd.grgen.ast.stmt.procenv
 		protected internal override IR ConstructIR()
 		{
 			pathExpr = pathExpr.Evaluate();
-			return new DeleteFileProc(pathExpr.CheckIR(typeof(Expression)));
+			return new DeleteFileProc(pathExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 	}
 

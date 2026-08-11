@@ -129,9 +129,9 @@ namespace de.unika.ipd.grgen.ast.expr.array
 		{
 			targetExpr = targetExpr.Evaluate();
 			valueExpr = valueExpr.Evaluate();
-			return new ArrayIndexOfOrderedByExpr(targetExpr.CheckIR(typeof(Expression)),
-					member.CheckIR(typeof(Entity)),
-					valueExpr.CheckIR(typeof(Expression)));
+			return new ArrayIndexOfOrderedByExpr(targetExpr.CheckIR<Expression>(typeof(Expression)),
+					member.CheckIR<Entity>(typeof(Entity)),
+					valueExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 	}
 

@@ -40,9 +40,9 @@ namespace de.unika.ipd.grgen.ast.stmt.array
 		protected internal override IR ConstructIR()
 		{
 			if(target != null)
-				return new ArrayClear(target.CheckIR(typeof(Qualification)));
+				return new ArrayClear(target.CheckIR<Qualification>(typeof(Qualification)));
 			else
-				return new ArrayVarClear(targetVar.CheckIR(typeof(Variable)));
+				return new ArrayVarClear(targetVar.CheckIR<Variable>(typeof(Variable)));
 		}
 	}
 

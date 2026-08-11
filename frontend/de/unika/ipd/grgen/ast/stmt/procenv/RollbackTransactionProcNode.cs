@@ -88,7 +88,7 @@ namespace de.unika.ipd.grgen.ast.stmt.procenv
 		protected internal override IR ConstructIR()
 		{
 			transactionIdExpr = transactionIdExpr.Evaluate();
-			return new RollbackTransactionProc(transactionIdExpr.CheckIR(typeof(Expression)));
+			return new RollbackTransactionProc(transactionIdExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 	}
 

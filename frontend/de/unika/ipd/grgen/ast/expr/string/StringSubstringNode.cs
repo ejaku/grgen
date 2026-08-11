@@ -111,9 +111,9 @@ namespace de.unika.ipd.grgen.ast.expr.@string
 			startExpr = startExpr.Evaluate();
 			if(lengthExpr != null)
 				lengthExpr = lengthExpr.Evaluate();
-			return new StringSubstring(stringExpr.CheckIR(typeof(Expression)),
-					startExpr.CheckIR(typeof(Expression)),
-					lengthExpr != null ? lengthExpr.CheckIR(typeof(Expression)) : null);
+			return new StringSubstring(stringExpr.CheckIR<Expression>(typeof(Expression)),
+					startExpr.CheckIR<Expression>(typeof(Expression)),
+					lengthExpr != null ? lengthExpr.CheckIR<Expression>(typeof(Expression)) : null);
 		}
 
 		public override TypeNode Type

@@ -149,10 +149,10 @@ namespace de.unika.ipd.grgen.ast.expr
 
 			Debug.Assert((objectInitIR != null));
 			ai.init = objectInitIR;
-			ai.owner = owner.CheckIR(typeof(BaseInternalObjectType));
-			ai.attribute = attribute.CheckIR(typeof(Entity));
+			ai.owner = owner.CheckIR<BaseInternalObjectType>(typeof(BaseInternalObjectType));
+			ai.attribute = attribute.CheckIR<Entity>(typeof(Entity));
 			initialization = initialization.Evaluate();
-			ai.expr = initialization.CheckIR(typeof(Expression));
+			ai.expr = initialization.CheckIR<Expression>(typeof(Expression));
 
 			return ai;
 		}

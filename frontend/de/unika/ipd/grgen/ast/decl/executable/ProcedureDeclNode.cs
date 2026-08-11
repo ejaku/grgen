@@ -136,7 +136,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			get
 			{
-				return CheckIR(typeof(Procedure));
+				return CheckIR<Procedure>(typeof(Procedure));
 			}
 		}
 
@@ -165,15 +165,15 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 			// add return types to the IR
 			foreach(TypeNode retType in resultTypesCollectNode.ChildrenExact)
-				procedure.AddReturnType(retType.CheckIR(typeof(Type)));
+				procedure.AddReturnType(retType.CheckIR<Type>(typeof(Type)));
 
 			// add Params to the IR
 			foreach(DeclNode decl in parameters.ChildrenExact)
-				procedure.AddParameter(decl.CheckIR(typeof(Entity)));
+				procedure.AddParameter(decl.CheckIR<Entity>(typeof(Entity)));
 
 			// add Computation Statements to the IR
 			foreach(EvalStatementNode eval in evalStatements.ChildrenExact)
-				procedure.AddStatement(eval.CheckIR(typeof(EvalStatement)));
+				procedure.AddStatement(eval.CheckIR<EvalStatement>(typeof(EvalStatement)));
 
 			return procedure;
 		}

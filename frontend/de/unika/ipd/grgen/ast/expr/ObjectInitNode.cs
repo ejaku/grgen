@@ -106,14 +106,14 @@ namespace de.unika.ipd.grgen.ast.expr
 
 		protected internal override IR ConstructIR()
 		{
-			BaseInternalObjectType type = objectType.CheckIR(typeof(BaseInternalObjectType));
+			BaseInternalObjectType type = objectType.CheckIR<BaseInternalObjectType>(typeof(BaseInternalObjectType));
 
 			InternalObjectInit init = new InternalObjectInit(type);
 
 			foreach(AttributeInitializationNode ain in attributeInits.ChildrenExact)
 			{
 				ain.objectInitIR = init;
-				init.AddAttributeInitialization(ain.CheckIR(typeof(AttributeInitialization)));
+				init.AddAttributeInitialization(ain.CheckIR<AttributeInitialization>(typeof(AttributeInitialization)));
 			}
 
 			return init;
@@ -123,7 +123,7 @@ namespace de.unika.ipd.grgen.ast.expr
 		{
 			get
 			{
-				return CheckIR(typeof(InternalObjectInit));
+				return CheckIR<InternalObjectInit>(typeof(InternalObjectInit));
 			}
 		}
 

@@ -117,9 +117,9 @@ namespace de.unika.ipd.grgen.ast.stmt.graph
 		/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR()"/>
 		protected internal override IR ConstructIR()
 		{
-			Visited vis = lhs.CheckIR(typeof(Visited));
+			Visited vis = lhs.CheckIR<Visited>(typeof(Visited));
 			ExprNode rhsEvaluated = rhs.Evaluate();
-			return new AssignmentVisited(vis, rhsEvaluated.CheckIR(typeof(Expression)));
+			return new AssignmentVisited(vis, rhsEvaluated.CheckIR<Expression>(typeof(Expression)));
 		}
 	}
 

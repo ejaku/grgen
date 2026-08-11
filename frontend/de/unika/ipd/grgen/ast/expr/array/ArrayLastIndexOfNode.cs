@@ -114,14 +114,14 @@ namespace de.unika.ipd.grgen.ast.expr.array
 			if(startIndexExpr != null)
 			{
 				startIndexExpr = startIndexExpr.Evaluate();
-				return new ArrayLastIndexOfExpr(targetExpr.CheckIR(typeof(Expression)),
-						valueExpr.CheckIR(typeof(Expression)),
-						startIndexExpr.CheckIR(typeof(Expression)));
+				return new ArrayLastIndexOfExpr(targetExpr.CheckIR<Expression>(typeof(Expression)),
+						valueExpr.CheckIR<Expression>(typeof(Expression)),
+						startIndexExpr.CheckIR<Expression>(typeof(Expression)));
 			}
 			else
 			{
-				return new ArrayLastIndexOfExpr(targetExpr.CheckIR(typeof(Expression)),
-						valueExpr.CheckIR(typeof(Expression)));
+				return new ArrayLastIndexOfExpr(targetExpr.CheckIR<Expression>(typeof(Expression)),
+						valueExpr.CheckIR<Expression>(typeof(Expression)));
 			}
 		}
 	}

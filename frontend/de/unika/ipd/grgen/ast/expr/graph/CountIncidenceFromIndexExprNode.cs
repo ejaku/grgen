@@ -122,8 +122,8 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 		protected internal override IR ConstructIR()
 		{
 			keyExpr = keyExpr.Evaluate();
-			return new CountIncidenceFromIndexExpr(index.CheckIR(typeof(IncidenceCountIndex)),
-					keyExpr.CheckIR(typeof(Expression)));
+			return new CountIncidenceFromIndexExpr(index.CheckIR<IncidenceCountIndex>(typeof(IncidenceCountIndex)),
+					keyExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 	}
 

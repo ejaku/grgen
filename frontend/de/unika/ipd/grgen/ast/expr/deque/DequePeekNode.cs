@@ -92,8 +92,8 @@ namespace de.unika.ipd.grgen.ast.expr.deque
 			targetExpr = targetExpr.Evaluate();
 			if(numberExpr != null)
 				numberExpr = numberExpr.Evaluate();
-			return new DequePeekExpr(targetExpr.CheckIR(typeof(Expression)),
-					numberExpr != null ? numberExpr.CheckIR(typeof(Expression)) : null);
+			return new DequePeekExpr(targetExpr.CheckIR<Expression>(typeof(Expression)),
+					numberExpr != null ? numberExpr.CheckIR<Expression>(typeof(Expression)) : null);
 		}
 	}
 

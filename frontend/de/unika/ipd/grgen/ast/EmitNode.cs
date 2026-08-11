@@ -97,7 +97,7 @@ namespace de.unika.ipd.grgen.ast
 			foreach(ExprNode child in childrenUnresolved)
 			{
 				ExprNode childEvaluated = child.Evaluate();
-				arguments.Add(childEvaluated.CheckIR(typeof(Expression)));
+				arguments.Add(childEvaluated.CheckIR<Expression>(typeof(Expression)));
 			}
 			Emit res = new Emit(arguments, isDebug);
 			return res;

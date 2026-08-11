@@ -108,8 +108,8 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 		{
 			subgraphExpr = subgraphExpr.Evaluate();
 			subgraphSetExpr = subgraphSetExpr.Evaluate();
-			return new EqualsAnyExpr(subgraphExpr.CheckIR(typeof(Expression)),
-					subgraphSetExpr.CheckIR(typeof(Expression)),
+			return new EqualsAnyExpr(subgraphExpr.CheckIR<Expression>(typeof(Expression)),
+					subgraphSetExpr.CheckIR<Expression>(typeof(Expression)),
 					includingAttributes, Type.IRType);
 		}
 

@@ -205,12 +205,12 @@ namespace de.unika.ipd.grgen.ast
 
 		public override void GetStatements(FunctionDeclNode functionDecl, Function function)
 		{
-			Entity accessedMember = member.CheckIR(typeof(Entity));
+			Entity accessedMember = member.CheckIR<Entity>(typeof(Entity));
 
-			Variable accessedAccumulationMember = accumulationMember.CheckIR(typeof(Variable));
+			Variable accessedAccumulationMember = accumulationMember.CheckIR<Variable>(typeof(Variable));
 
 			FunctionAutoKeepOneForEachAccumulateBy stmt = new FunctionAutoKeepOneForEachAccumulateBy(
-					targetVar.CheckIR(typeof(Variable)),
+					targetVar.CheckIR<Variable>(typeof(Variable)),
 					accessedMember, accessedAccumulationMember, accumulationMethod);
 			function.AddStatement(stmt);
 		}

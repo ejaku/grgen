@@ -76,7 +76,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 		protected internal override IR ConstructIR()
 		{
 			return new IteratedReplacement("iterated replacement", iteratedUnresolved.IRIdent,
-					iterated.CheckIR(typeof(Rule)));
+					iterated.CheckIR<Rule>(typeof(Rule)));
 		}
 	}
 

@@ -109,7 +109,7 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 		{
 			edge = edge.Evaluate();
 			node = node.Evaluate();
-			return new OppositeExpr(edge.CheckIR(typeof(Expression)), node.CheckIR(typeof(Expression)), Type.IRType);
+			return new OppositeExpr(edge.CheckIR<Expression>(typeof(Expression)), node.CheckIR<Expression>(typeof(Expression)), Type.IRType);
 		}
 
 		public override TypeNode Type

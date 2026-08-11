@@ -152,14 +152,14 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 				if(!(varCand is VarDeclNode))
 					continue;
 				VarDeclNode var = (VarDeclNode)varCand;
-				left.AddVariable(var.CheckIR(typeof(Variable)));
+				left.AddVariable(var.CheckIR<Variable>(typeof(Variable)));
 			}
 
 			testRule.Initialize(left, null);
 
 			foreach(DefinedMatchTypeNode implementedMatchClassNode in implementedMatchTypes.ChildrenExact)
 			{
-				DefinedMatchType implementedMatchClass = implementedMatchClassNode.CheckIR(typeof(DefinedMatchType));
+				DefinedMatchType implementedMatchClass = implementedMatchClassNode.CheckIR<DefinedMatchType>(typeof(DefinedMatchType));
 				testRule.AddImplementedMatchClass(implementedMatchClass);
 			}
 

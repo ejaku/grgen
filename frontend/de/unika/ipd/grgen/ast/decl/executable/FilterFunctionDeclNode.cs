@@ -157,7 +157,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			get
 			{
-				return CheckIR(typeof(FilterFunction));
+				return CheckIR<FilterFunction>(typeof(FilterFunction));
 			}
 		}
 
@@ -206,13 +206,13 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 
 			// add Params to the IR
 			foreach(DeclNode decl in @params.ChildrenExact)
-				filterFunction.AddParameter(decl.CheckIR(typeof(Entity)));
+				filterFunction.AddParameter(decl.CheckIR<Entity>(typeof(Entity)));
 
 			if(evalStatements != null)
 			{
 				// add Computation Statements to the IR
 				foreach(EvalStatementNode eval in evalStatements.ChildrenExact)
-					((FilterFunctionInternal)filterFunction).AddStatement(eval.CheckIR(typeof(EvalStatement)));
+					((FilterFunctionInternal)filterFunction).AddStatement(eval.CheckIR<EvalStatement>(typeof(EvalStatement)));
 			}
 
 			return filterFunction;

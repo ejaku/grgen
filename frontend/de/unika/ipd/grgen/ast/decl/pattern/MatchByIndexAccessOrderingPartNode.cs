@@ -177,9 +177,9 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 				expr = expr.Evaluate();
 			if(expr2 != null)
 				expr2 = expr2.Evaluate();
-			return new IndexAccessOrdering(index.CheckIR(typeof(Index)), true,
-					comp, expr != null ? expr.CheckIR(typeof(Expression)) : null,
-					comp2, expr2 != null ? expr2.CheckIR(typeof(Expression)) : null);
+			return new IndexAccessOrdering(index.CheckIR<Index>(typeof(Index)), true,
+					comp, expr != null ? expr.CheckIR<Expression>(typeof(Expression)) : null,
+					comp2, expr2 != null ? expr2.CheckIR<Expression>(typeof(Expression)) : null);
 		}
 	}
 

@@ -269,10 +269,10 @@ namespace de.unika.ipd.grgen.ast.pattern
 			foreach(ExprNode e in this.replConnections.ChildrenExact)
 			{
 				e = e.Evaluate();
-				replConnections.Add(e.CheckIR(typeof(Expression)));
+				replConnections.Add(e.CheckIR<Expression>(typeof(Expression)));
 			}
 			return new SubpatternDependentReplacement("dependent replacement", subpatternUnresolved.IRIdent,
-					subpattern.CheckIR(typeof(SubpatternUsage)), replConnections);
+					subpattern.CheckIR<SubpatternUsage>(typeof(SubpatternUsage)), replConnections);
 		}
 	}
 

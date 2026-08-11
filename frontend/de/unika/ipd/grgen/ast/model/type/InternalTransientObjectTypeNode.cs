@@ -109,7 +109,7 @@ namespace de.unika.ipd.grgen.ast.model.type
 		{
 			get
 			{
-				return CheckIR(typeof(InternalTransientObjectType));
+				return CheckIR<InternalTransientObjectType>(typeof(InternalTransientObjectType));
 			}
 		}
 

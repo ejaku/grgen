@@ -253,52 +253,52 @@ namespace de.unika.ipd.grgen.ast.stmt
 			{
 				if(targetChangedQual != null)
 				{
-					return new CompoundAssignmentChanged(targetQual.CheckIR(typeof(Qualification)),
-							MapCompoundAssignmentType(compoundAssignmentType), valueExpr.CheckIR(typeof(Expression)),
-							MapCompoundAssignmentType(targetCompoundAssignmentType), targetChangedQual.CheckIR(typeof(Qualification)));
+					return new CompoundAssignmentChanged(targetQual.CheckIR<Qualification>(typeof(Qualification)),
+							MapCompoundAssignmentType(compoundAssignmentType), valueExpr.CheckIR<Expression>(typeof(Expression)),
+							MapCompoundAssignmentType(targetCompoundAssignmentType), targetChangedQual.CheckIR<Qualification>(typeof(Qualification)));
 				}
 				else if(targetChangedVar != null)
 				{
-					return new CompoundAssignmentChangedVar(targetQual.CheckIR(typeof(Qualification)),
-							MapCompoundAssignmentType(compoundAssignmentType), valueExpr.CheckIR(typeof(Expression)),
-							MapCompoundAssignmentType(targetCompoundAssignmentType), targetChangedVar.CheckIR(typeof(Variable)));
+					return new CompoundAssignmentChangedVar(targetQual.CheckIR<Qualification>(typeof(Qualification)),
+							MapCompoundAssignmentType(compoundAssignmentType), valueExpr.CheckIR<Expression>(typeof(Expression)),
+							MapCompoundAssignmentType(targetCompoundAssignmentType), targetChangedVar.CheckIR<Variable>(typeof(Variable)));
 				}
 				else if(targetChangedVis != null)
 				{
-					return new CompoundAssignmentChangedVisited(targetQual.CheckIR(typeof(Qualification)),
-							MapCompoundAssignmentType(compoundAssignmentType), valueExpr.CheckIR(typeof(Expression)),
-							MapCompoundAssignmentType(targetCompoundAssignmentType), targetChangedVis.CheckIR(typeof(Visited)));
+					return new CompoundAssignmentChangedVisited(targetQual.CheckIR<Qualification>(typeof(Qualification)),
+							MapCompoundAssignmentType(compoundAssignmentType), valueExpr.CheckIR<Expression>(typeof(Expression)),
+							MapCompoundAssignmentType(targetCompoundAssignmentType), targetChangedVis.CheckIR<Visited>(typeof(Visited)));
 				}
 				else
 				{
-					return new CompoundAssignment(targetQual.CheckIR(typeof(Qualification)),
-							MapCompoundAssignmentType(compoundAssignmentType), valueExpr.CheckIR(typeof(Expression)));
+					return new CompoundAssignment(targetQual.CheckIR<Qualification>(typeof(Qualification)),
+							MapCompoundAssignmentType(compoundAssignmentType), valueExpr.CheckIR<Expression>(typeof(Expression)));
 				}
 			}
 			else
 			{
 				if(targetChangedQual != null)
 				{
-					return new CompoundAssignmentVarChanged(targetVar.CheckIR(typeof(Variable)),
-							MapCompoundAssignmentTypeVar(compoundAssignmentType), valueExpr.CheckIR(typeof(Expression)),
-							MapCompoundAssignmentTypeVar(targetCompoundAssignmentType), targetChangedQual.CheckIR(typeof(Qualification)));
+					return new CompoundAssignmentVarChanged(targetVar.CheckIR<Variable>(typeof(Variable)),
+							MapCompoundAssignmentTypeVar(compoundAssignmentType), valueExpr.CheckIR<Expression>(typeof(Expression)),
+							MapCompoundAssignmentTypeVar(targetCompoundAssignmentType), targetChangedQual.CheckIR<Qualification>(typeof(Qualification)));
 				}
 				else if(targetChangedVar != null)
 				{
-					return new CompoundAssignmentVarChangedVar(targetVar.CheckIR(typeof(Variable)),
-							MapCompoundAssignmentTypeVar(compoundAssignmentType), valueExpr.CheckIR(typeof(Expression)),
-							MapCompoundAssignmentTypeVar(targetCompoundAssignmentType), targetChangedVar.CheckIR(typeof(Variable)));
+					return new CompoundAssignmentVarChangedVar(targetVar.CheckIR<Variable>(typeof(Variable)),
+							MapCompoundAssignmentTypeVar(compoundAssignmentType), valueExpr.CheckIR<Expression>(typeof(Expression)),
+							MapCompoundAssignmentTypeVar(targetCompoundAssignmentType), targetChangedVar.CheckIR<Variable>(typeof(Variable)));
 				}
 				else if(targetChangedVis != null)
 				{
-					return new CompoundAssignmentVarChangedVisited(targetVar.CheckIR(typeof(Variable)),
-							MapCompoundAssignmentTypeVar(compoundAssignmentType), valueExpr.CheckIR(typeof(Expression)),
-							MapCompoundAssignmentTypeVar(targetCompoundAssignmentType), targetChangedVis.CheckIR(typeof(Visited)));
+					return new CompoundAssignmentVarChangedVisited(targetVar.CheckIR<Variable>(typeof(Variable)),
+							MapCompoundAssignmentTypeVar(compoundAssignmentType), valueExpr.CheckIR<Expression>(typeof(Expression)),
+							MapCompoundAssignmentTypeVar(targetCompoundAssignmentType), targetChangedVis.CheckIR<Visited>(typeof(Visited)));
 				}
 				else
 				{
-					return new CompoundAssignmentVar(targetVar.CheckIR(typeof(Variable)),
-							MapCompoundAssignmentTypeVar(compoundAssignmentType), valueExpr.CheckIR(typeof(Expression)));
+					return new CompoundAssignmentVar(targetVar.CheckIR<Variable>(typeof(Variable)),
+							MapCompoundAssignmentTypeVar(compoundAssignmentType), valueExpr.CheckIR<Expression>(typeof(Expression)));
 				}
 			}
 		}

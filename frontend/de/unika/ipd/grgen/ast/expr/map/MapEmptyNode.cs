@@ -43,7 +43,7 @@ namespace de.unika.ipd.grgen.ast.expr.map
 		protected internal override IR ConstructIR()
 		{
 			targetExpr = targetExpr.Evaluate();
-			return new MapEmptyExpr(targetExpr.CheckIR(typeof(Expression)));
+			return new MapEmptyExpr(targetExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 	}
 

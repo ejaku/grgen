@@ -171,9 +171,9 @@ namespace de.unika.ipd.grgen.ast.pattern
 			Debug.Assert((ownerIR != null));
 			nai.owner = ownerIR;
 			if(attribute != null)
-				nai.attribute = attribute.CheckIR(typeof(Entity));
+				nai.attribute = attribute.CheckIR<Entity>(typeof(Entity));
 			initialization = initialization.Evaluate();
-			nai.expr = initialization.CheckIR(typeof(Expression));
+			nai.expr = initialization.CheckIR<Expression>(typeof(Expression));
 
 			return nai;
 		}

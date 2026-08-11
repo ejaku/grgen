@@ -158,7 +158,7 @@ namespace de.unika.ipd.grgen.ast.expr
 		protected internal override IR ConstructIR()
 		{
 			stringExpr = stringExpr.Evaluate();
-			return new TryScanExpr(stringExpr.CheckIR(typeof(Expression)), type.IRType, Type.IRType);
+			return new TryScanExpr(stringExpr.CheckIR<Expression>(typeof(Expression)), type.IRType, Type.IRType);
 		}
 
 		public override TypeNode Type

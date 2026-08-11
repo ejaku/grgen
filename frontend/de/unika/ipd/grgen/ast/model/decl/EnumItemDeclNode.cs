@@ -217,7 +217,7 @@ namespace de.unika.ipd.grgen.ast.model.decl
 		{
 			get
 			{
-				return CheckIR(typeof(EnumItem));
+				return CheckIR<EnumItem>(typeof(EnumItem));
 			}
 		}
 

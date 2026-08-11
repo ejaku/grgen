@@ -91,10 +91,10 @@ namespace de.unika.ipd.grgen.ast.expr.array
 		{
 			Entity accessedMember = null;
 			if(member != null)
-				accessedMember = member.CheckIR(typeof(Entity));
+				accessedMember = member.CheckIR<Entity>(typeof(Entity));
 
 			targetExpr = targetExpr.Evaluate();
-			return new ArrayGroupBy(targetExpr.CheckIR(typeof(Expression)),
+			return new ArrayGroupBy(targetExpr.CheckIR<Expression>(typeof(Expression)),
 					accessedMember);
 		}
 	}

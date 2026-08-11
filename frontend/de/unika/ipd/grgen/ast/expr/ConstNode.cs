@@ -120,7 +120,7 @@ namespace de.unika.ipd.grgen.ast.expr
 		{
 			get
 			{
-				return CheckIR(typeof(Constant));
+				return CheckIR<Constant>(typeof(Constant));
 			}
 		}
 

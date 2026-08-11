@@ -122,7 +122,7 @@ namespace de.unika.ipd.grgen.ast.model.type
 		{
 			get
 			{
-				return CheckIR(typeof(ExternalObjectType));
+				return CheckIR<ExternalObjectType>(typeof(ExternalObjectType));
 			}
 		}
 
@@ -148,9 +148,9 @@ namespace de.unika.ipd.grgen.ast.model.type
 			foreach(BaseNode child in body.ChildrenExact)
 			{
 				if(child is ExternalFunctionDeclNode)
-					extType.AddExternalFunctionMethod(child.CheckIR(typeof(ExternalFunctionMethod)));
+					extType.AddExternalFunctionMethod(child.CheckIR<ExternalFunctionMethod>(typeof(ExternalFunctionMethod)));
 				else
-					extType.AddExternalProcedureMethod(child.CheckIR(typeof(ExternalProcedureMethod)));
+					extType.AddExternalProcedureMethod(child.CheckIR<ExternalProcedureMethod>(typeof(ExternalProcedureMethod)));
 			}
 			foreach(InheritanceTypeNode inh in DirectSuperTypes)
 				extType.AddDirectSuperType(inh.InheritanceIRType);

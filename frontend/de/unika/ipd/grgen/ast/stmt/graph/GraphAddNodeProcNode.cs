@@ -89,7 +89,7 @@ namespace de.unika.ipd.grgen.ast.stmt.graph
 		protected internal override IR ConstructIR()
 		{
 			nodeType = nodeType.Evaluate();
-			GraphAddNodeProc addNode = new GraphAddNodeProc(nodeType.CheckIR(typeof(Expression)),
+			GraphAddNodeProc addNode = new GraphAddNodeProc(nodeType.CheckIR<Expression>(typeof(Expression)),
 					nodeType.Type.IRType);
 			return addNode;
 		}

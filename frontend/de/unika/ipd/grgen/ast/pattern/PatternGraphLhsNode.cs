@@ -709,7 +709,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 		{
 			get
 			{
-				return CheckIR(typeof(PatternGraphLhs));
+				return CheckIR<PatternGraphLhs>(typeof(PatternGraphLhs));
 			}
 		}
 
@@ -749,16 +749,16 @@ namespace de.unika.ipd.grgen.ast.pattern
 				connection.AddToGraph(patternGraph);
 
 			foreach(VarDeclNode varNode in defVariablesToBeYieldedTo.ChildrenExact)
-				patternGraph.AddVariable(varNode.CheckIR(typeof(Variable)));
+				patternGraph.AddVariable(varNode.CheckIR<Variable>(typeof(Variable)));
 
 			foreach(BaseNode subpatternUsage in subpatterns.ChildrenExact)
-				patternGraph.AddSubpatternUsage(subpatternUsage.CheckIR(typeof(SubpatternUsage)));
+				patternGraph.AddSubpatternUsage(subpatternUsage.CheckIR<SubpatternUsage>(typeof(SubpatternUsage)));
 
 			foreach(AlternativeDeclNode alternativeNode in alts.ChildrenExact)
-				patternGraph.AddAlternative(alternativeNode.CheckIR(typeof(Alternative)));
+				patternGraph.AddAlternative(alternativeNode.CheckIR<Alternative>(typeof(Alternative)));
 
 			foreach(IteratedDeclNode iteratedNode in iters.ChildrenExact)
-				patternGraph.AddIterated(iteratedNode.CheckIR(typeof(Rule)));
+				patternGraph.AddIterated(iteratedNode.CheckIR<Rule>(typeof(Rule)));
 
 			foreach(PatternGraphLhsNode negativeNode in negs.ChildrenExact)
 			{
@@ -780,7 +780,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 			{
 				ExprNode conditionEvaluated = condition.Evaluate(); // compile time evaluation (constant folding)
 				WarnIfConditionIsConstant(conditionEvaluated);
-				patternGraph.AddCondition(conditionEvaluated.CheckIR(typeof(Expression)));
+				patternGraph.AddCondition(conditionEvaluated.CheckIR<Expression>(typeof(Expression)));
 			}
 
 			foreach(EvalStatements yields in YieldStatements)
@@ -830,7 +830,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 				ICollection<EvalStatements> ret = new List<EvalStatements>();
 
 				foreach(EvalStatementsNode evalStatements in yields.ChildrenExact)
-					ret.Add(evalStatements.CheckIR(typeof(EvalStatements)));
+					ret.Add(evalStatements.CheckIR<EvalStatements>(typeof(EvalStatements)));
 
 				return ret;
 			}

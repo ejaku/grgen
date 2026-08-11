@@ -69,7 +69,7 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 		{
 			expr = expr.Evaluate();
 			return new EdgesFromIndexAccessSameExpr(
-					new IndexAccessEquality(index.CheckIR(typeof(Index)), expr.CheckIR(typeof(Expression))),
+					new IndexAccessEquality(index.CheckIR<Index>(typeof(Index)), expr.CheckIR<Expression>(typeof(Expression))),
 					Type.IRType);
 		}
 	}

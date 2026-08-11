@@ -275,7 +275,7 @@ namespace de.unika.ipd.grgen.ast
 
 			Ident resultVarIdent = new Ident("res", Coords);
 			ArrayType resultVarType = (ArrayType)function.ReturnType;
-			PatternGraphLhs fakePatternGraph = PatternGraphLhsNode.Invalid.CheckIR(typeof(PatternGraphLhs));
+			PatternGraphLhs fakePatternGraph = PatternGraphLhsNode.Invalid.CheckIR<PatternGraphLhs>(typeof(PatternGraphLhs));
 			Variable resultVar = new Variable("res", resultVarIdent, resultVarType,
 					true, fakePatternGraph, BaseNode.CONTEXT_FUNCTION, false);
 			Expression emptyArray = new ArrayInit(new List<Expression>(), null, resultVarType, true);
@@ -288,11 +288,11 @@ namespace de.unika.ipd.grgen.ast
 			Ident leftIterationVarIdent = new Ident(leftIterationVarName, Coords);
 			ArrayTypeNode leftArrayType = (ArrayTypeNode)leftArgument.DeclType;
 			MatchTypeNode leftMatchType = (MatchTypeNode)leftArrayType.valueType;
-			Type leftIterationVarType = leftMatchType.CheckIR(typeof(Type));
+			Type leftIterationVarType = leftMatchType.CheckIR<Type>(typeof(Type));
 			Variable leftIterationVar = new Variable(leftIterationVarName, leftIterationVarIdent, leftIterationVarType,
 					true, fakePatternGraph, BaseNode.CONTEXT_FUNCTION, false);
 			ContainerAccumulationYield leftMatchesIteration = new ContainerAccumulationYield(leftIterationVar, null,
-					leftArgument.CheckIR(typeof(Variable)));
+					leftArgument.CheckIR<Variable>(typeof(Variable)));
 			insertionPoint.AddStatement(leftMatchesIteration);
 			insertionPoint = leftMatchesIteration;
 
@@ -301,11 +301,11 @@ namespace de.unika.ipd.grgen.ast
 			Ident rightIterationVarIdent = new Ident(rightIterationVarName, Coords);
 			ArrayTypeNode rightArrayType = (ArrayTypeNode)rightArgument.DeclType;
 			MatchTypeNode rightMatchType = (MatchTypeNode)rightArrayType.valueType;
-			Type rightIterationVarType = rightMatchType.CheckIR(typeof(Type));
+			Type rightIterationVarType = rightMatchType.CheckIR<Type>(typeof(Type));
 			Variable rightIterationVar = new Variable(rightIterationVarName, rightIterationVarIdent, rightIterationVarType,
 					true, fakePatternGraph, BaseNode.CONTEXT_FUNCTION, false);
 			ContainerAccumulationYield rightMatchesIteration = new ContainerAccumulationYield(rightIterationVar, null,
-					rightArgument.CheckIR(typeof(Variable)));
+					rightArgument.CheckIR<Variable>(typeof(Variable)));
 			insertionPoint.AddStatement(rightMatchesIteration);
 			insertionPoint = rightMatchesIteration;
 
@@ -316,10 +316,10 @@ namespace de.unika.ipd.grgen.ast
 				foreach(string sharedName in sharedNames)
 				{
 					DeclNode leftMemberDecl = leftMatchType.TryGetMember(sharedName);
-					Entity leftMember = leftMemberDecl.CheckIR(typeof(Entity));
+					Entity leftMember = leftMemberDecl.CheckIR<Entity>(typeof(Entity));
 
 					DeclNode rightMemberDecl = rightMatchType.TryGetMember(sharedName);
-					Entity rightMember = rightMemberDecl.CheckIR(typeof(Entity));
+					Entity rightMember = rightMemberDecl.CheckIR<Entity>(typeof(Entity));
 
 					Operator opEqual = new Operator(BasicTypeNode.booleanType.GetIRType(), OperatorCode.EQ);
 					opEqual.AddOperand(new MatchAccess(new VariableExpression(leftIterationVar), leftMember));
@@ -356,7 +356,7 @@ namespace de.unika.ipd.grgen.ast
 
 				Entity matchMember = matchVarType.PatternGraph.TryGetMember(memberName);
 				Qualification lhsQual = new Qualification(matchVar, matchMember);
-				Qualification rhsQual = new Qualification(leftIterationVar, leftMember.CheckIR(typeof(Entity)));
+				Qualification rhsQual = new Qualification(leftIterationVar, leftMember.CheckIR<Entity>(typeof(Entity)));
 				Assignment assignment = new Assignment(lhsQual, rhsQual);
 				insertionPoint.AddStatement(assignment);
 			}
@@ -373,7 +373,7 @@ namespace de.unika.ipd.grgen.ast
 
 				Entity matchMember = matchVarType.PatternGraph.TryGetMember(memberName);
 				Qualification lhsQual = new Qualification(matchVar, matchMember);
-				Qualification rhsQual = new Qualification(rightIterationVar, rightMember.CheckIR(typeof(Entity)));
+				Qualification rhsQual = new Qualification(rightIterationVar, rightMember.CheckIR<Entity>(typeof(Entity)));
 				Assignment assignment = new Assignment(lhsQual, rhsQual);
 				insertionPoint.AddStatement(assignment);
 			}

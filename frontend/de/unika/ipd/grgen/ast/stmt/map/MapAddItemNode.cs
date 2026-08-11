@@ -128,15 +128,15 @@ namespace de.unika.ipd.grgen.ast.stmt.map
 			valueExpr = valueExpr.Evaluate();
 			if(target != null)
 			{
-				return new MapAddItem(target.CheckIR(typeof(Qualification)),
-						keyExpr.CheckIR(typeof(Expression)),
-						valueExpr.CheckIR(typeof(Expression)));
+				return new MapAddItem(target.CheckIR<Qualification>(typeof(Qualification)),
+						keyExpr.CheckIR<Expression>(typeof(Expression)),
+						valueExpr.CheckIR<Expression>(typeof(Expression)));
 			}
 			else
 			{
-				return new MapVarAddItem(targetVar.CheckIR(typeof(Variable)),
-						keyExpr.CheckIR(typeof(Expression)),
-						valueExpr.CheckIR(typeof(Expression)));
+				return new MapVarAddItem(targetVar.CheckIR<Variable>(typeof(Variable)),
+						keyExpr.CheckIR<Expression>(typeof(Expression)),
+						valueExpr.CheckIR<Expression>(typeof(Expression)));
 			}
 		}
 	}

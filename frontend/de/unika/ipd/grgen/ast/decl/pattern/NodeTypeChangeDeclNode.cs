@@ -188,11 +188,11 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 			if(InheritsType())
 			{
 				Debug.Assert(copyKind == CopyKind.None);
-				res.SetTypeofCopy(typeNodeDecl.CheckIR(typeof(Node)), copyKind);
+				res.SetTypeofCopy(typeNodeDecl.CheckIR<Node>(typeof(Node)), copyKind);
 			}
 
 			foreach(NodeDeclNode mergee in mergees.ChildrenExact)
-				res.AddMergee(mergee.CheckIR(typeof(Node)));
+				res.AddMergee(mergee.CheckIR<Node>(typeof(Node)));
 
 			return res;
 		}

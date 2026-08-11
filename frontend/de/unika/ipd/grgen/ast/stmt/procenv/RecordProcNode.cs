@@ -79,7 +79,7 @@ namespace de.unika.ipd.grgen.ast.stmt.procenv
 		protected internal override IR ConstructIR()
 		{
 			exprToRecord = exprToRecord.Evaluate();
-			return new RecordProc(exprToRecord.CheckIR(typeof(Expression)));
+			return new RecordProc(exprToRecord.CheckIR<Expression>(typeof(Expression)));
 		}
 	}
 

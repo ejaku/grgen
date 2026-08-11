@@ -106,7 +106,7 @@ namespace de.unika.ipd.grgen.ast
 		{
 			if(rhs != null)
 				rhs = rhs.Evaluate();
-			return new ConstructorParam(lhs.CheckIR(typeof(Entity)), rhs != null ? rhs.CheckIR(typeof(Expression)) : null);
+			return new ConstructorParam(lhs.CheckIR<Entity>(typeof(Entity)), rhs != null ? rhs.CheckIR<Expression>(typeof(Expression)) : null);
 		}
 	}
 

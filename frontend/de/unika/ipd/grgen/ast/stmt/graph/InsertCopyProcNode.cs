@@ -104,8 +104,8 @@ namespace de.unika.ipd.grgen.ast.stmt.graph
 		{
 			graphExpr = graphExpr.Evaluate();
 			nodeExpr = nodeExpr.Evaluate();
-			InsertCopyProc insertCopy = new InsertCopyProc(graphExpr.CheckIR(typeof(Expression)),
-					nodeExpr.CheckIR(typeof(Expression)), nodeExpr.Type.IRType);
+			InsertCopyProc insertCopy = new InsertCopyProc(graphExpr.CheckIR<Expression>(typeof(Expression)),
+					nodeExpr.CheckIR<Expression>(typeof(Expression)), nodeExpr.Type.IRType);
 			return insertCopy;
 		}
 

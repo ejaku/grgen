@@ -80,7 +80,7 @@ namespace de.unika.ipd.grgen.ast.expr
 		{
 			get
 			{
-				return CheckIR(typeof(EnumExpression));
+				return CheckIR<EnumExpression>(typeof(EnumExpression));
 			}
 		}
 

@@ -140,10 +140,10 @@ namespace de.unika.ipd.grgen.ast.stmt.graph
 			if(lhs != null)
 			{
 				lhs = lhs.Evaluate();
-				lhsExpr = lhs.CheckIR(typeof(Expression));
+				lhsExpr = lhs.CheckIR<Expression>(typeof(Expression));
 			}
 			rhs = rhs.Evaluate();
-			return new AssignmentNameof(lhsExpr, rhs.CheckIR(typeof(Expression)));
+			return new AssignmentNameof(lhsExpr, rhs.CheckIR<Expression>(typeof(Expression)));
 		}
 	}
 

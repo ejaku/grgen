@@ -253,14 +253,14 @@ namespace de.unika.ipd.grgen.ast.type
 		{
 			get
 			{
-				return CheckIR(typeof(PackageActionType));
+				return CheckIR<PackageActionType>(typeof(PackageActionType));
 			}
 		}
 
 		/// <seealso cref="de.unika.ipd.grgen.ast.BaseNode.constructIR() "/>
 		protected internal override IR ConstructIR()
 		{
-			Ident id = Ident.CheckIR(typeof(Ident));
+			Ident id = Ident.CheckIR<Ident>(typeof(Ident));
 			PackageActionType res = new PackageActionType(id);
 
 			foreach(SubpatternDeclNode subpattern in subpatterns.ChildrenExact)

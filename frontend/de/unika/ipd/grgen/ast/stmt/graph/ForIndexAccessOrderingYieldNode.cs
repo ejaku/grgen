@@ -193,12 +193,12 @@ namespace de.unika.ipd.grgen.ast.stmt.graph
 				expr = expr.Evaluate();
 			if(expr2 != null)
 				expr2 = expr2.Evaluate();
-			ForIndexAccessOrdering fiao = new ForIndexAccessOrdering(iterationVariable.CheckIR(typeof(Variable)),
-					new IndexAccessOrdering(index.CheckIR(typeof(Index)), ascending,
-							comp, expr != null ? expr.CheckIR(typeof(Expression)) : null,
-							comp2, expr2 != null ? expr2.CheckIR(typeof(Expression)) : null));
+			ForIndexAccessOrdering fiao = new ForIndexAccessOrdering(iterationVariable.CheckIR<Variable>(typeof(Variable)),
+					new IndexAccessOrdering(index.CheckIR<Index>(typeof(Index)), ascending,
+							comp, expr != null ? expr.CheckIR<Expression>(typeof(Expression)) : null,
+							comp2, expr2 != null ? expr2.CheckIR<Expression>(typeof(Expression)) : null));
 			foreach(EvalStatementNode accumulationStatement in statements.ChildrenExact)
-				fiao.AddLoopedStatement(accumulationStatement.CheckIR(typeof(EvalStatement)));
+				fiao.AddLoopedStatement(accumulationStatement.CheckIR<EvalStatement>(typeof(EvalStatement)));
 			return fiao;
 		}
 	}

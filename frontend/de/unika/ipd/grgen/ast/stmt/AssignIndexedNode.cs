@@ -313,7 +313,7 @@ namespace de.unika.ipd.grgen.ast.stmt
 		{
 			if(lhsQual != null)
 			{
-				Qualification qual = lhsQual.CheckIR(typeof(Qualification));
+				Qualification qual = lhsQual.CheckIR<Qualification>(typeof(Qualification));
 				if(qual.Owner is Node && ((Node)qual.Owner).ChangesType(null))
 					ReportError("An assignment to a node whose type will be changed is not allowed.");
 				if(qual.Owner is Edge && ((Edge)qual.Owner).ChangesType(null))
@@ -321,17 +321,17 @@ namespace de.unika.ipd.grgen.ast.stmt
 
 				ExprNode rhsEvaluated = rhs.Evaluate();
 				ExprNode indexEvaluated = index.Evaluate();
-				return new AssignmentIndexed(qual, rhsEvaluated.CheckIR(typeof(Expression)),
-						indexEvaluated.CheckIR(typeof(Expression)));
+				return new AssignmentIndexed(qual, rhsEvaluated.CheckIR<Expression>(typeof(Expression)),
+						indexEvaluated.CheckIR<Expression>(typeof(Expression)));
 			}
 			else
 			{
-				Variable var = lhsVar.CheckIR(typeof(Variable));
+				Variable var = lhsVar.CheckIR<Variable>(typeof(Variable));
 
 				ExprNode rhsEvaluated = rhs.Evaluate();
 				ExprNode indexEvaluated = index.Evaluate();
-				return new AssignmentVarIndexed(var, rhsEvaluated.CheckIR(typeof(Expression)),
-						indexEvaluated.CheckIR(typeof(Expression)));
+				return new AssignmentVarIndexed(var, rhsEvaluated.CheckIR<Expression>(typeof(Expression)),
+						indexEvaluated.CheckIR<Expression>(typeof(Expression)));
 			}
 		}
 	}

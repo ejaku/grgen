@@ -140,11 +140,11 @@ namespace de.unika.ipd.grgen.ast.model
 
 			long srcLower = srcRange.Lower;
 			long srcUpper = srcRange.Upper;
-			NodeType srcType = src.CheckIR(typeof(NodeType));
+			NodeType srcType = src.CheckIR<NodeType>(typeof(NodeType));
 
 			long tgtLower = tgtRange.Lower;
 			long tgtUpper = tgtRange.Upper;
-			NodeType tgtType = tgt.CheckIR(typeof(NodeType));
+			NodeType tgtType = tgt.CheckIR<NodeType>(typeof(NodeType));
 
 			return new ConnAssert(srcType, srcLower, srcUpper, tgtType, tgtLower, tgtUpper, bothDirections);
 		}

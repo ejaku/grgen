@@ -95,7 +95,7 @@ namespace de.unika.ipd.grgen.ast.expr
 
 		protected internal override IR ConstructIR()
 		{
-			DefinedMatchType type = matchType.CheckIR(typeof(DefinedMatchType));
+			DefinedMatchType type = matchType.CheckIR<DefinedMatchType>(typeof(DefinedMatchType));
 			return new MatchInit(type);
 		}
 
@@ -103,7 +103,7 @@ namespace de.unika.ipd.grgen.ast.expr
 		{
 			get
 			{
-				return CheckIR(typeof(MatchInit));
+				return CheckIR<MatchInit>(typeof(MatchInit));
 			}
 		}
 

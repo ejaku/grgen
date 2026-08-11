@@ -113,10 +113,10 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		protected internal override IR ConstructIR()
 		{
 			ExternalFunction externalFunc = isMethod
-					? new ExternalFunctionMethod(Ident.ToString(), Ident.IRIdent, resultType.CheckIR(typeof(Type)))
-					: new ExternalFunction(Ident.ToString(), Ident.IRIdent, resultType.CheckIR(typeof(Type)));
+					? new ExternalFunctionMethod(Ident.ToString(), Ident.IRIdent, resultType.CheckIR<Type>(typeof(Type)))
+					: new ExternalFunction(Ident.ToString(), Ident.IRIdent, resultType.CheckIR<Type>(typeof(Type)));
 			foreach(TypeNode param in parameterTypesCollectNode.ChildrenExact)
-				externalFunc.AddParameterType(param.CheckIR(typeof(Type)));
+				externalFunc.AddParameterType(param.CheckIR<Type>(typeof(Type)));
 			return externalFunc;
 		}
 

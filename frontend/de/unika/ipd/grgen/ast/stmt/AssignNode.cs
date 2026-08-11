@@ -455,7 +455,7 @@ namespace de.unika.ipd.grgen.ast.stmt
 			ExprNode rhsEvaluated = rhs.Evaluate();
 			if(lhsQual != null)
 			{
-				Qualification qual = lhsQual.CheckIR(typeof(Qualification));
+				Qualification qual = lhsQual.CheckIR<Qualification>(typeof(Qualification));
 				if(qual.Owner is Node && ((Node)qual.Owner).ChangesType(null))
 					ReportError("An assignment to a node whose type will be changed is not allowed (but occurs for " + lhsQual + ").");
 				if(qual.Owner is Edge && ((Edge)qual.Owner).ChangesType(null))
@@ -464,34 +464,34 @@ namespace de.unika.ipd.grgen.ast.stmt
 				if(CanSetOrMapAssignmentBeBrokenUpIntoStateChangingOperations())
 				{
 					MarkSetOrMapAssignmentToBeBrokenUpIntoStateChangingOperations();
-					return rhsEvaluated.CheckIR(typeof(EvalStatement));
+					return rhsEvaluated.CheckIR<EvalStatement>(typeof(EvalStatement));
 				}
 
-				return new Assignment(qual, rhsEvaluated.CheckIR(typeof(Expression)));
+				return new Assignment(qual, rhsEvaluated.CheckIR<Expression>(typeof(Expression)));
 			}
 			else if(lhsVar != null)
 			{
-				Variable var = lhsVar.CheckIR(typeof(Variable));
+				Variable var = lhsVar.CheckIR<Variable>(typeof(Variable));
 
 				// TODO: extend optimization to assignments to variables
 
-				return new AssignmentVar(var, rhsEvaluated.CheckIR(typeof(Expression)));
+				return new AssignmentVar(var, rhsEvaluated.CheckIR<Expression>(typeof(Expression)));
 			}
 			else if(lhsGraphElement != null)
 			{
-				GraphEntity graphEntity = lhsGraphElement.CheckIR(typeof(GraphEntity));
+				GraphEntity graphEntity = lhsGraphElement.CheckIR<GraphEntity>(typeof(GraphEntity));
 
 				// TODO: extend optimization to assignments to (pattern) graph entities
 
-				return new AssignmentGraphEntity(graphEntity, rhsEvaluated.CheckIR(typeof(Expression)));
+				return new AssignmentGraphEntity(graphEntity, rhsEvaluated.CheckIR<Expression>(typeof(Expression)));
 			}
 			else
 			{
-				Entity entity = lhsMember.CheckIR(typeof(Entity));
+				Entity entity = lhsMember.CheckIR<Entity>(typeof(Entity));
 
 				// TODO: extend optimization to assignments to entities
 
-				return new AssignmentMember(entity, rhsEvaluated.CheckIR(typeof(Expression)));
+				return new AssignmentMember(entity, rhsEvaluated.CheckIR<Expression>(typeof(Expression)));
 			}
 		}
 

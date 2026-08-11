@@ -51,7 +51,7 @@ namespace de.unika.ipd.grgen.ast.expr.deque
 		protected internal override IR ConstructIR()
 		{
 			targetExpr = targetExpr.Evaluate();
-			return new DequeAsSetExpr(targetExpr.CheckIR(typeof(Expression)), Type.IRType);
+			return new DequeAsSetExpr(targetExpr.CheckIR<Expression>(typeof(Expression)), Type.IRType);
 		}
 	}
 

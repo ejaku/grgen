@@ -159,7 +159,7 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 		{
 			get
 			{
-				return CheckIR(typeof(MatchClassFilterFunction));
+				return CheckIR<MatchClassFilterFunction>(typeof(MatchClassFilterFunction));
 			}
 		}
 
@@ -203,19 +203,19 @@ namespace de.unika.ipd.grgen.ast.decl.executable
 			// mark this node as already visited
 			IR = filterFunction;
 
-			DefinedMatchType definedMatchType = matchType.CheckIR(typeof(DefinedMatchType));
+			DefinedMatchType definedMatchType = matchType.CheckIR<DefinedMatchType>(typeof(DefinedMatchType));
 			filterFunction.MatchClass = definedMatchType;
 			definedMatchType.AddMatchClassFilter(filterFunction);
 
 			// add Params to the IR
 			foreach(DeclNode decl in @params.ChildrenExact)
-				filterFunction.AddParameter(decl.CheckIR(typeof(Entity)));
+				filterFunction.AddParameter(decl.CheckIR<Entity>(typeof(Entity)));
 
 			if(evalStatements != null)
 			{
 				// add Computation Statements to the IR
 				foreach(EvalStatementNode eval in evalStatements.ChildrenExact)
-					((MatchClassFilterFunctionInternal)filterFunction).AddStatement(eval.CheckIR(typeof(EvalStatement)));
+					((MatchClassFilterFunctionInternal)filterFunction).AddStatement(eval.CheckIR<EvalStatement>(typeof(EvalStatement)));
 			}
 
 			return filterFunction;

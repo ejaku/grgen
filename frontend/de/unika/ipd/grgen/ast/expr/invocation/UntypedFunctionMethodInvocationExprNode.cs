@@ -82,11 +82,11 @@ namespace de.unika.ipd.grgen.ast.expr.invocation
 		protected internal override IR ConstructIR()
 		{
 			UntypedFunctionMethodInvocationExpr ufmi = new UntypedFunctionMethodInvocationExpr(
-					BasicTypeNode.untypedType.CheckIR(typeof(Type)));
+					BasicTypeNode.untypedType.CheckIR<Type>(typeof(Type)));
 			foreach(ExprNode argument in arguments.ChildrenExact)
 			{
 				ExprNode argumentEvaluated = argument.Evaluate();
-				ufmi.AddArgument(argumentEvaluated.CheckIR(typeof(Expression)));
+				ufmi.AddArgument(argumentEvaluated.CheckIR<Expression>(typeof(Expression)));
 			}
 			return ufmi;
 		}

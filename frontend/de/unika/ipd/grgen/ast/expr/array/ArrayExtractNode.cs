@@ -112,9 +112,9 @@ namespace de.unika.ipd.grgen.ast.expr.array
 		{
 			Entity accessedMember = null;
 			if(member != null)
-				accessedMember = member.CheckIR(typeof(Entity));
+				accessedMember = member.CheckIR<Entity>(typeof(Entity));
 			targetExpr = targetExpr.Evaluate();
-			return new ArrayExtract(targetExpr.CheckIR(typeof(Expression)), extractedArrayType.CheckIR(typeof(ArrayType)),
+			return new ArrayExtract(targetExpr.CheckIR<Expression>(typeof(Expression)), extractedArrayType.CheckIR<ArrayType>(typeof(ArrayType)),
 					accessedMember);
 		}
 	}

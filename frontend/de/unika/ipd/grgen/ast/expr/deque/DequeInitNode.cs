@@ -130,7 +130,7 @@ namespace de.unika.ipd.grgen.ast.expr.deque
 		{
 			IList<Expression> items = ConstructItems();
 			Entity member = lhs != null ? lhs.IREntity : null;
-			DequeType type = dequeType != null ? dequeType.CheckIR(typeof(DequeType)) : null;
+			DequeType type = dequeType != null ? dequeType.CheckIR<DequeType>(typeof(DequeType)) : null;
 			return new DequeInit(items, member, type, IsConstant());
 		}
 
@@ -138,7 +138,7 @@ namespace de.unika.ipd.grgen.ast.expr.deque
 		{
 			get
 			{
-				return CheckIR(typeof(DequeInit));
+				return CheckIR<DequeInit>(typeof(DequeInit));
 			}
 		}
 

@@ -103,7 +103,7 @@ namespace de.unika.ipd.grgen.ast.decl
 		{
 			get
 			{
-				return CheckIR(typeof(Constructor));
+				return CheckIR<Constructor>(typeof(Constructor));
 			}
 		}
 
@@ -111,7 +111,7 @@ namespace de.unika.ipd.grgen.ast.decl
 		{
 			LinkedHashSet<ConstructorParam> @params = new LinkedHashSet<ConstructorParam>();
 			foreach(ConstructorParamNode param in parameters.ChildrenExact)
-				@params.Add(param.CheckIR(typeof(ConstructorParam)));
+				@params.Add(param.CheckIR<ConstructorParam>(typeof(ConstructorParam)));
 
 			return new Constructor(@params);
 		}

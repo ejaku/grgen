@@ -99,9 +99,9 @@ namespace de.unika.ipd.grgen.ast.stmt
 		protected internal override IR ConstructIR()
 		{
 			conditionExpr = conditionExpr.Evaluate();
-			DoWhileStatement dws = new DoWhileStatement(conditionExpr.CheckIR(typeof(Expression)));
+			DoWhileStatement dws = new DoWhileStatement(conditionExpr.CheckIR<Expression>(typeof(Expression)));
 			foreach(EvalStatementNode loopedStatement in statements.ChildrenExact)
-				dws.AddStatement(loopedStatement.CheckIR(typeof(EvalStatement)));
+				dws.AddStatement(loopedStatement.CheckIR<EvalStatement>(typeof(EvalStatement)));
 			return dws;
 		}
 	}

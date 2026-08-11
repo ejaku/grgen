@@ -187,9 +187,9 @@ namespace de.unika.ipd.grgen.ast.stmt.graph
 
 		protected internal override IR ConstructIR()
 		{
-			ForFunction ff = new ForFunction(iterationVariable.CheckIR(typeof(Variable)), ValidFunction.CheckIR(typeof(Expression)));
+			ForFunction ff = new ForFunction(iterationVariable.CheckIR<Variable>(typeof(Variable)), ValidFunction.CheckIR<Expression>(typeof(Expression)));
 			foreach(EvalStatementNode accumulationStatement in statements.ChildrenExact)
-				ff.AddLoopedStatement(accumulationStatement.CheckIR(typeof(EvalStatement)));
+				ff.AddLoopedStatement(accumulationStatement.CheckIR<EvalStatement>(typeof(EvalStatement)));
 			return ff;
 		}
 	}

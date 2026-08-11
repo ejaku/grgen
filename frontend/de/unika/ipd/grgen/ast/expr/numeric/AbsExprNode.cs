@@ -67,7 +67,7 @@ namespace de.unika.ipd.grgen.ast.expr.numeric
 		protected internal override IR ConstructIR()
 		{
 			argumentExpr = argumentExpr.Evaluate();
-			return new AbsExpr(argumentExpr.CheckIR(typeof(Expression)));
+			return new AbsExpr(argumentExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 
 		public override TypeNode Type

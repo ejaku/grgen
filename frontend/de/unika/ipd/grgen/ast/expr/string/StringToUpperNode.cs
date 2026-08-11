@@ -74,7 +74,7 @@ namespace de.unika.ipd.grgen.ast.expr.@string
 		protected internal override IR ConstructIR()
 		{
 			stringExpr = stringExpr.Evaluate();
-			return new StringToUpper(stringExpr.CheckIR(typeof(Expression)));
+			return new StringToUpper(stringExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 
 		public override TypeNode Type

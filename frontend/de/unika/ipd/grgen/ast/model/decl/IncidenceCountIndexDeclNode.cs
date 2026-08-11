@@ -204,9 +204,9 @@ namespace de.unika.ipd.grgen.ast.model.decl
 		protected internal override IR ConstructIR()
 		{
 			IncidenceCountIndex incidenceCountIndex = new IncidenceCountIndex(Ident.ToString(),
-					Ident.IRIdent, startNodeType.CheckIR(typeof(NodeType)),
-					incidentEdgeType.CheckIR(typeof(EdgeType)), direction,
-					adjacentNodeType.CheckIR(typeof(NodeType)));
+					Ident.IRIdent, startNodeType.CheckIR<NodeType>(typeof(NodeType)),
+					incidentEdgeType.CheckIR<EdgeType>(typeof(EdgeType)), direction,
+					adjacentNodeType.CheckIR<NodeType>(typeof(NodeType)));
 			return incidenceCountIndex;
 		}
 

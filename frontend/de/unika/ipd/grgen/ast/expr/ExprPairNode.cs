@@ -74,14 +74,14 @@ namespace de.unika.ipd.grgen.ast.expr
 		{
 			keyExpr = keyExpr.Evaluate();
 			valueExpr = valueExpr.Evaluate();
-			return new ExpressionPair(keyExpr.CheckIR(typeof(Expression)), valueExpr.CheckIR(typeof(Expression)));
+			return new ExpressionPair(keyExpr.CheckIR<Expression>(typeof(Expression)), valueExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 
 		public virtual ExpressionPair IRExpressionPair
 		{
 			get
 			{
-				return CheckIR(typeof(ExpressionPair));
+				return CheckIR<ExpressionPair>(typeof(ExpressionPair));
 			}
 		}
 

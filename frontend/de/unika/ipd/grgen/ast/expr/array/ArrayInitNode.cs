@@ -130,7 +130,7 @@ namespace de.unika.ipd.grgen.ast.expr.array
 		{
 			IList<Expression> items = ConstructItems();
 			Entity member = lhs != null ? lhs.IREntity : null;
-			ArrayType type = arrayType != null ? arrayType.CheckIR(typeof(ArrayType)) : null;
+			ArrayType type = arrayType != null ? arrayType.CheckIR<ArrayType>(typeof(ArrayType)) : null;
 			return new ArrayInit(items, member, type, IsConstant());
 		}
 
@@ -138,7 +138,7 @@ namespace de.unika.ipd.grgen.ast.expr.array
 		{
 			get
 			{
-				return CheckIR(typeof(ArrayInit));
+				return CheckIR<ArrayInit>(typeof(ArrayInit));
 			}
 		}
 

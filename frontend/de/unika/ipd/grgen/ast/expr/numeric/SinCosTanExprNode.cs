@@ -82,7 +82,7 @@ namespace de.unika.ipd.grgen.ast.expr.numeric
 		protected internal override IR ConstructIR()
 		{
 			argumentExpr = argumentExpr.Evaluate();
-			return new SinCosTanExpr(FunctionType, argumentExpr.CheckIR(typeof(Expression)));
+			return new SinCosTanExpr(FunctionType, argumentExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 
 		private SinCosTanExpr.TrigonometryFunctionType FunctionType

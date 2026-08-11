@@ -118,8 +118,8 @@ namespace de.unika.ipd.grgen.ast.stmt.graph
 			edgeType = edgeType.Evaluate();
 			sourceNode = sourceNode.Evaluate();
 			targetNode = targetNode.Evaluate();
-			GraphAddEdgeProc addEdge = new GraphAddEdgeProc(edgeType.CheckIR(typeof(Expression)),
-					sourceNode.CheckIR(typeof(Expression)), targetNode.CheckIR(typeof(Expression)),
+			GraphAddEdgeProc addEdge = new GraphAddEdgeProc(edgeType.CheckIR<Expression>(typeof(Expression)),
+					sourceNode.CheckIR<Expression>(typeof(Expression)), targetNode.CheckIR<Expression>(typeof(Expression)),
 					edgeType.Type.IRType);
 			return addEdge;
 		}

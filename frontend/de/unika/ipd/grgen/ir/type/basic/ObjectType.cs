@@ -35,7 +35,7 @@ namespace de.unika.ipd.grgen.ir.type.basic
 		{
 			get
 			{
-				return BasicTypeNode.objectType.CheckIR(typeof(Type));
+				return BasicTypeNode.objectType.CheckIR<Type>(typeof(Type));
 			}
 		}
 	}

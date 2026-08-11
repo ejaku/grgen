@@ -118,7 +118,7 @@ namespace de.unika.ipd.grgen.ast.expr.set
 		{
 			IList<Expression> items = ConstructItems();
 			Entity member = lhs != null ? lhs.IREntity : null;
-			SetType type = setType != null ? setType.CheckIR(typeof(SetType)) : null;
+			SetType type = setType != null ? setType.CheckIR<SetType>(typeof(SetType)) : null;
 			return new SetInit(items, member, type, IsConstant());
 		}
 
@@ -126,7 +126,7 @@ namespace de.unika.ipd.grgen.ast.expr.set
 		{
 			get
 			{
-				return CheckIR(typeof(SetInit));
+				return CheckIR<SetInit>(typeof(SetInit));
 			}
 		}
 

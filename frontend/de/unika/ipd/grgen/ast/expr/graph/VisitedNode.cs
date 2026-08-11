@@ -95,7 +95,7 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 		{
 			visitorIDExpr = visitorIDExpr.Evaluate();
 			entityExpr = entityExpr.Evaluate();
-			return new Visited(visitorIDExpr.CheckIR(typeof(Expression)), entityExpr.CheckIR(typeof(Expression)));
+			return new Visited(visitorIDExpr.CheckIR<Expression>(typeof(Expression)), entityExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 
 		public override TypeNode Type

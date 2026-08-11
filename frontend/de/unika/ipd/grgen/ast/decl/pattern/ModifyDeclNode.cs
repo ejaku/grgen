@@ -168,7 +168,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 					continue;
 
 				ConstraintDeclNode element = (ConstraintDeclNode)delete;
-				Entity entity = element.CheckIR(typeof(Entity));
+				Entity entity = element.CheckIR<Entity>(typeof(Entity));
 				elementsToDelete.Add(entity);
 
 				if(element.defEntityToBeYieldedTo)
@@ -176,7 +176,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 
 				if(entity is Node)
 				{
-					Node node = element.CheckIR(typeof(Node));
+					Node node = element.CheckIR<Node>(typeof(Node));
 					if(!left.HasNode(node) && node.directlyNestingLHSGraph != left)
 					{
 						left.AddSingleNode(node);
@@ -185,7 +185,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 				}
 				else
 				{
-					Edge edge = element.CheckIR(typeof(Edge));
+					Edge edge = element.CheckIR<Edge>(typeof(Edge));
 					if(!left.HasEdge(edge) && edge.directlyNestingLHSGraph != left)
 					{
 						left.AddSingleEdge(edge);
@@ -267,7 +267,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 				if(!(delete is SubpatternUsageDeclNode))
 					continue;
 
-				SubpatternUsage subpatternUsageToBeDeleted = delete.CheckIR(typeof(SubpatternUsage));
+				SubpatternUsage subpatternUsageToBeDeleted = delete.CheckIR<SubpatternUsage>(typeof(SubpatternUsage));
 				if(subpatternUsage == subpatternUsageToBeDeleted)
 					return true;
 			}

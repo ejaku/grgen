@@ -122,8 +122,8 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 		{
 			candidateExpr = candidateExpr.Evaluate();
 			expr = expr.Evaluate();
-			return new IsInEdgesFromIndexAccessSameExpr(candidateExpr.CheckIR(typeof(Expression)),
-					new IndexAccessEquality(index.CheckIR(typeof(Index)), expr.CheckIR(typeof(Expression))),
+			return new IsInEdgesFromIndexAccessSameExpr(candidateExpr.CheckIR<Expression>(typeof(Expression)),
+					new IndexAccessEquality(index.CheckIR<Index>(typeof(Index)), expr.CheckIR<Expression>(typeof(Expression))),
 					Type.IRType);
 		}
 	}

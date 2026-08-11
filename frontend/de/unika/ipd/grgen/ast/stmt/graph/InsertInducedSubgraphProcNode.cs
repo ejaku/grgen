@@ -113,7 +113,7 @@ namespace de.unika.ipd.grgen.ast.stmt.graph
 			nodeSetExpr = nodeSetExpr.Evaluate();
 			nodeExpr = nodeExpr.Evaluate();
 			InsertInducedSubgraphProc insertInduced = new InsertInducedSubgraphProc(
-					nodeSetExpr.CheckIR(typeof(Expression)), nodeExpr.CheckIR(typeof(Expression)),
+					nodeSetExpr.CheckIR<Expression>(typeof(Expression)), nodeExpr.CheckIR<Expression>(typeof(Expression)),
 					nodeExpr.Type.IRType);
 			return insertInduced;
 		}

@@ -265,7 +265,7 @@ namespace de.unika.ipd.grgen.ast.model.type
 		{
 			get
 			{
-				return CheckIR(typeof(InheritanceType));
+				return CheckIR<InheritanceType>(typeof(InheritanceType));
 			}
 		}
 
@@ -621,9 +621,9 @@ namespace de.unika.ipd.grgen.ast.model.type
 			{
 				DeclNode decl = (DeclNode)child;
 				if(child is FunctionDeclNode)
-					inhType.AddFunctionMethod(child.CheckIR(typeof(FunctionMethod)));
+					inhType.AddFunctionMethod(child.CheckIR<FunctionMethod>(typeof(FunctionMethod)));
 				else if(child is ProcedureDeclNode)
-					inhType.AddProcedureMethod(child.CheckIR(typeof(ProcedureMethod)));
+					inhType.AddProcedureMethod(child.CheckIR<ProcedureMethod>(typeof(ProcedureMethod)));
 				else
 					inhType.AddMember(decl.IREntity);
 			}
@@ -632,15 +632,15 @@ namespace de.unika.ipd.grgen.ast.model.type
 				MemberInitNode mi = (MemberInitNode)child;
 				IR init = mi.IR;
 				if(init is MapInit)
-					inhType.AddMapInit(mi.CheckIR(typeof(MapInit)));
+					inhType.AddMapInit(mi.CheckIR<MapInit>(typeof(MapInit)));
 				else if(init is SetInit)
-					inhType.AddSetInit(mi.CheckIR(typeof(SetInit)));
+					inhType.AddSetInit(mi.CheckIR<SetInit>(typeof(SetInit)));
 				else if(init is ArrayInit)
-					inhType.AddArrayInit(mi.CheckIR(typeof(ArrayInit)));
+					inhType.AddArrayInit(mi.CheckIR<ArrayInit>(typeof(ArrayInit)));
 				else if(init is DequeInit)
-					inhType.AddDequeInit(mi.CheckIR(typeof(DequeInit)));
+					inhType.AddDequeInit(mi.CheckIR<DequeInit>(typeof(DequeInit)));
 				else
-					inhType.AddMemberInit(mi.CheckIR(typeof(MemberInit)));
+					inhType.AddMemberInit(mi.CheckIR<MemberInit>(typeof(MemberInit)));
 			}
 			else if(child is MapInitNode)
 			{

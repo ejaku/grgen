@@ -109,8 +109,8 @@ namespace de.unika.ipd.grgen.ast.expr
 		/// <returns> An enum expression IR object. </returns>
 		protected internal override IR ConstructIR()
 		{
-			EnumType et = owner.CheckIR(typeof(EnumType));
-			EnumItem it = member.CheckIR(typeof(EnumItem));
+			EnumType et = owner.CheckIR<EnumType>(typeof(EnumType));
+			EnumItem it = member.CheckIR<EnumItem>(typeof(EnumItem));
 			return new EnumExpression(et, it);
 		}
 	}

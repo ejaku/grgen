@@ -93,8 +93,8 @@ namespace de.unika.ipd.grgen.ast.expr.array
 		{
 			targetExpr = targetExpr.Evaluate();
 			valueExpr = valueExpr.Evaluate();
-			return new ArrayIndexOfOrderedExpr(targetExpr.CheckIR(typeof(Expression)),
-					valueExpr.CheckIR(typeof(Expression)));
+			return new ArrayIndexOfOrderedExpr(targetExpr.CheckIR<Expression>(typeof(Expression)),
+					valueExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 	}
 

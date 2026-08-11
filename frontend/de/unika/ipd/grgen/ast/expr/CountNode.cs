@@ -85,7 +85,7 @@ namespace de.unika.ipd.grgen.ast.expr
 
 		protected internal override IR ConstructIR()
 		{
-			return new Count(iterated.CheckIR(typeof(Rule)), Type.IRType);
+			return new Count(iterated.CheckIR<Rule>(typeof(Rule)), Type.IRType);
 		}
 
 		public override TypeNode Type

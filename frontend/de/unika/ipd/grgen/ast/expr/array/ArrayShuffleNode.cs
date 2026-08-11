@@ -41,7 +41,7 @@ namespace de.unika.ipd.grgen.ast.expr.array
 		protected internal override IR ConstructIR()
 		{
 			targetExpr = targetExpr.Evaluate();
-			return new ArrayShuffleExpr(targetExpr.CheckIR(typeof(Expression)));
+			return new ArrayShuffleExpr(targetExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 	}
 

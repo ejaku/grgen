@@ -198,11 +198,11 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 			IR = node;
 
 			if(storage != null)
-				node.Storage = new StorageAccess(storage.CheckIR(typeof(Variable)));
+				node.Storage = new StorageAccess(storage.CheckIR<Variable>(typeof(Variable)));
 			else if(storageAttribute != null)
-				node.Storage = new StorageAccess(storageAttribute.CheckIR(typeof(Qualification)));
+				node.Storage = new StorageAccess(storageAttribute.CheckIR<Qualification>(typeof(Qualification)));
 			//else node.setStorage(new StorageAccess(storageGlobalVariable.checkIR(Node.class)));
-			node.StorageIndex = new StorageAccessIndex(accessor.CheckIR(typeof(GraphEntity)));
+			node.StorageIndex = new StorageAccessIndex(accessor.CheckIR<GraphEntity>(typeof(GraphEntity)));
 			return node;
 		}
 	}

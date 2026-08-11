@@ -155,7 +155,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 			if(InheritsType())
 			{
 				Debug.Assert(copyKind == CopyKind.None);
-				res.SetTypeofCopy(typeEdgeDecl.CheckIR(typeof(Edge)), copyKind);
+				res.SetTypeofCopy(typeEdgeDecl.CheckIR<Edge>(typeof(Edge)), copyKind);
 			}
 
 			return res;

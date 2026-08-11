@@ -208,7 +208,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 				foreach(NodeDeclNode homNode in homNodes)
 				{
 					if(allNegNodes.Contains(homNode))
-						homSet.Add(homNode.CheckIR(typeof(Node)));
+						homSet.Add(homNode.CheckIR<Node>(typeof(Node)));
 				}
 				if(homSet.Count > 1)
 					neg.AddHomomorphicNodes(homSet);
@@ -223,7 +223,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 				foreach(EdgeDeclNode homEdge in homEdges)
 				{
 					if(allNegEdges.Contains(homEdge))
-						homSet.Add(homEdge.CheckIR(typeof(Edge)));
+						homSet.Add(homEdge.CheckIR<Edge>(typeof(Edge)));
 				}
 				if(homSet.Count > 1)
 					neg.AddHomomorphicEdges(homSet);

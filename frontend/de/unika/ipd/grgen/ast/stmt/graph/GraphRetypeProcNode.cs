@@ -101,14 +101,14 @@ namespace de.unika.ipd.grgen.ast.stmt.graph
 			entityTypeExpr = entityTypeExpr.Evaluate();
 			if(entityTypeExpr.Type is NodeTypeNode)
 			{
-				GraphRetypeNodeProc retypeNode = new GraphRetypeNodeProc(entityExpr.CheckIR(typeof(Expression)),
-						entityTypeExpr.CheckIR(typeof(Expression)), entityTypeExpr.Type.IRType);
+				GraphRetypeNodeProc retypeNode = new GraphRetypeNodeProc(entityExpr.CheckIR<Expression>(typeof(Expression)),
+						entityTypeExpr.CheckIR<Expression>(typeof(Expression)), entityTypeExpr.Type.IRType);
 				return retypeNode;
 			}
 			else
 			{
-				GraphRetypeEdgeProc retypeEdge = new GraphRetypeEdgeProc(entityExpr.CheckIR(typeof(Expression)),
-						entityTypeExpr.CheckIR(typeof(Expression)), entityTypeExpr.Type.IRType);
+				GraphRetypeEdgeProc retypeEdge = new GraphRetypeEdgeProc(entityExpr.CheckIR<Expression>(typeof(Expression)),
+						entityTypeExpr.CheckIR<Expression>(typeof(Expression)), entityTypeExpr.Type.IRType);
 				return retypeEdge;
 			}
 		}

@@ -110,14 +110,14 @@ namespace de.unika.ipd.grgen.ast.expr.@string
 			if(startIndexExpr != null)
 			{
 				startIndexExpr = startIndexExpr.Evaluate();
-				return new StringLastIndexOf(stringExpr.CheckIR(typeof(Expression)),
-						stringToSearchForExpr.CheckIR(typeof(Expression)),
-						startIndexExpr.CheckIR(typeof(Expression)));
+				return new StringLastIndexOf(stringExpr.CheckIR<Expression>(typeof(Expression)),
+						stringToSearchForExpr.CheckIR<Expression>(typeof(Expression)),
+						startIndexExpr.CheckIR<Expression>(typeof(Expression)));
 			}
 			else
 			{
-				return new StringLastIndexOf(stringExpr.CheckIR(typeof(Expression)),
-						stringToSearchForExpr.CheckIR(typeof(Expression)));
+				return new StringLastIndexOf(stringExpr.CheckIR<Expression>(typeof(Expression)),
+						stringToSearchForExpr.CheckIR<Expression>(typeof(Expression)));
 			}
 		}
 

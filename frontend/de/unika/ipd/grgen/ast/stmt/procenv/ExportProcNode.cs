@@ -117,8 +117,8 @@ namespace de.unika.ipd.grgen.ast.stmt.procenv
 			pathExpr = pathExpr.Evaluate();
 			if(graphExpr != null)
 				graphExpr = graphExpr.Evaluate();
-			return new ExportProc(pathExpr.CheckIR(typeof(Expression)),
-					graphExpr != null ? graphExpr.CheckIR(typeof(Expression)) : null);
+			return new ExportProc(pathExpr.CheckIR<Expression>(typeof(Expression)),
+					graphExpr != null ? graphExpr.CheckIR<Expression>(typeof(Expression)) : null);
 		}
 	}
 

@@ -114,7 +114,7 @@ namespace de.unika.ipd.grgen.ast.expr.deque
 		protected internal override IR ConstructIR()
 		{
 			dequeToCopy = dequeToCopy.Evaluate();
-			return new DequeCopyConstructor(dequeToCopy.CheckIR(typeof(Expression)), dequeType.CheckIR(typeof(DequeType)));
+			return new DequeCopyConstructor(dequeToCopy.CheckIR<Expression>(typeof(Expression)), dequeType.CheckIR<DequeType>(typeof(DequeType)));
 		}
 
 		public static string KindStr

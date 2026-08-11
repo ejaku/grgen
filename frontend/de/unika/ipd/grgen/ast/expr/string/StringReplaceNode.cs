@@ -108,10 +108,10 @@ namespace de.unika.ipd.grgen.ast.expr.@string
 			startExpr = startExpr.Evaluate();
 			lengthExpr = lengthExpr.Evaluate();
 			replaceStrExpr = replaceStrExpr.Evaluate();
-			return new StringReplace(stringExpr.CheckIR(typeof(Expression)),
-					startExpr.CheckIR(typeof(Expression)),
-					lengthExpr.CheckIR(typeof(Expression)),
-					replaceStrExpr.CheckIR(typeof(Expression)));
+			return new StringReplace(stringExpr.CheckIR<Expression>(typeof(Expression)),
+					startExpr.CheckIR<Expression>(typeof(Expression)),
+					lengthExpr.CheckIR<Expression>(typeof(Expression)),
+					replaceStrExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 
 		public override TypeNode Type

@@ -230,12 +230,12 @@ namespace de.unika.ipd.grgen.ast.expr.array
 		{
 			targetExpr = targetExpr.Evaluate();
 			mappingExpr = mappingExpr.Evaluate();
-			return new ArrayMapExpr(targetExpr.CheckIR(typeof(Expression)),
-					arrayAccessVar != null ? arrayAccessVar.CheckIR(typeof(Variable)) : null,
-					indexVar != null ? indexVar.CheckIR(typeof(Variable)) : null,
-					elementVar.CheckIR(typeof(Variable)),
-					mappingExpr.CheckIR(typeof(Expression)),
-					resultArrayType.CheckIR(typeof(ArrayType)));
+			return new ArrayMapExpr(targetExpr.CheckIR<Expression>(typeof(Expression)),
+					arrayAccessVar != null ? arrayAccessVar.CheckIR<Variable>(typeof(Variable)) : null,
+					indexVar != null ? indexVar.CheckIR<Variable>(typeof(Variable)) : null,
+					elementVar.CheckIR<Variable>(typeof(Variable)),
+					mappingExpr.CheckIR<Expression>(typeof(Expression)),
+					resultArrayType.CheckIR<ArrayType>(typeof(ArrayType)));
 		}
 	}
 

@@ -40,9 +40,9 @@ namespace de.unika.ipd.grgen.ast.stmt.map
 		protected internal override IR ConstructIR()
 		{
 			if(target != null)
-				return new MapClear(target.CheckIR(typeof(Qualification)));
+				return new MapClear(target.CheckIR<Qualification>(typeof(Qualification)));
 			else
-				return new MapVarClear(targetVar.CheckIR(typeof(Variable)));
+				return new MapVarClear(targetVar.CheckIR<Variable>(typeof(Variable)));
 		}
 	}
 

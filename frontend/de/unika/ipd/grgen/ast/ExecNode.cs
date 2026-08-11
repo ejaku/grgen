@@ -392,16 +392,16 @@ namespace de.unika.ipd.grgen.ast
 			foreach(DeclNode dn in usage.ChildrenExact)
 			{
 				if(dn is ConstraintDeclNode)
-					parameters.Add(new GraphEntityExpression(dn.CheckIR(typeof(GraphEntity))));
+					parameters.Add(new GraphEntityExpression(dn.CheckIR<GraphEntity>(typeof(GraphEntity))));
 				else if(dn is VarDeclNode)
-					parameters.Add(new VariableExpression(dn.CheckIR(typeof(Variable))));
+					parameters.Add(new VariableExpression(dn.CheckIR<Variable>(typeof(Variable))));
 			}
 			foreach(DeclNode dn in writeUsage.ChildrenExact)
 			{
 				if(dn is ConstraintDeclNode)
-					parameters.Add(new GraphEntityExpression(dn.CheckIR(typeof(GraphEntity))));
+					parameters.Add(new GraphEntityExpression(dn.CheckIR<GraphEntity>(typeof(GraphEntity))));
 				else if(dn is VarDeclNode)
-					parameters.Add(new VariableExpression(dn.CheckIR(typeof(Variable))));
+					parameters.Add(new VariableExpression(dn.CheckIR<Variable>(typeof(Variable))));
 			}
 			foreach(CallActionNode callActionNode in callActions.ChildrenExact)
 			{
@@ -409,7 +409,7 @@ namespace de.unika.ipd.grgen.ast
 				foreach(ExprNode param in callActionNode.Params.ChildrenExact)
 				{
 					ExprNode paramEvaluated = param.Evaluate();
-					parameters.Add(paramEvaluated.CheckIR(typeof(Expression)));
+					parameters.Add(paramEvaluated.CheckIR<Expression>(typeof(Expression)));
 				}
 			}
 			foreach(MultiCallActionNode multiCallActionNode in multiCallActions.ChildrenExact)

@@ -144,7 +144,7 @@ namespace de.unika.ipd.grgen.ast.model.decl
 
 		protected internal override IR ConstructIR()
 		{
-			Type type = DeclType.CheckIR(typeof(Type));
+			Type type = DeclType.CheckIR<Type>(typeof(Type));
 			return new Entity("entity", Ident.IRIdent, type, isConst, false, 0);
 		}
 

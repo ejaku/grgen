@@ -88,7 +88,7 @@ namespace de.unika.ipd.grgen.ast.stmt.graph
 		protected internal override IR ConstructIR()
 		{
 			visFlagExpr = visFlagExpr.Evaluate();
-			return new VResetProc(visFlagExpr.CheckIR(typeof(Expression)));
+			return new VResetProc(visFlagExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 	}
 

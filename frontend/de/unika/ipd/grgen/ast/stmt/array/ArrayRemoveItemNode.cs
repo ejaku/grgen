@@ -117,13 +117,13 @@ namespace de.unika.ipd.grgen.ast.stmt.array
 				valueExpr = valueExpr.Evaluate();
 			if(target != null)
 			{
-				return new ArrayRemoveItem(target.CheckIR(typeof(Qualification)),
-						valueExpr != null ? valueExpr.CheckIR(typeof(Expression)) : null);
+				return new ArrayRemoveItem(target.CheckIR<Qualification>(typeof(Qualification)),
+						valueExpr != null ? valueExpr.CheckIR<Expression>(typeof(Expression)) : null);
 			}
 			else
 			{
-				return new ArrayVarRemoveItem(targetVar.CheckIR(typeof(Variable)),
-						valueExpr != null ? valueExpr.CheckIR(typeof(Expression)) : null);
+				return new ArrayVarRemoveItem(targetVar.CheckIR<Variable>(typeof(Variable)),
+						valueExpr != null ? valueExpr.CheckIR<Expression>(typeof(Expression)) : null);
 			}
 		}
 	}

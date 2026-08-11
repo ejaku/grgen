@@ -123,7 +123,7 @@ namespace de.unika.ipd.grgen.ast.stmt.graph
 			edgeSetExpr = edgeSetExpr.Evaluate();
 			edgeExpr = edgeExpr.Evaluate();
 			InsertDefinedSubgraphProc insertDefined = new InsertDefinedSubgraphProc(
-					edgeSetExpr.CheckIR(typeof(Expression)), edgeExpr.CheckIR(typeof(Expression)),
+					edgeSetExpr.CheckIR<Expression>(typeof(Expression)), edgeExpr.CheckIR<Expression>(typeof(Expression)),
 					edgeExpr.Type.IRType);
 			return insertDefined;
 		}

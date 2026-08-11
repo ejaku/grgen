@@ -198,11 +198,11 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 			IR = edge;
 
 			if(storage != null)
-				edge.Storage = new StorageAccess(storage.CheckIR(typeof(Variable)));
+				edge.Storage = new StorageAccess(storage.CheckIR<Variable>(typeof(Variable)));
 			else if(storageAttribute != null)
-				edge.Storage = new StorageAccess(storageAttribute.CheckIR(typeof(Qualification)));
+				edge.Storage = new StorageAccess(storageAttribute.CheckIR<Qualification>(typeof(Qualification)));
 			//else edge.setStorage(new StorageAccess(storageGlobalVariable.checkIR(Edge.class)));
-			edge.StorageIndex = new StorageAccessIndex(accessor.CheckIR(typeof(GraphEntity)));
+			edge.StorageIndex = new StorageAccessIndex(accessor.CheckIR<GraphEntity>(typeof(GraphEntity)));
 			return edge;
 		}
 	}

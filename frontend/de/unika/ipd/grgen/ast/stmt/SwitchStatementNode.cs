@@ -136,9 +136,9 @@ namespace de.unika.ipd.grgen.ast.stmt
 		protected internal override IR ConstructIR()
 		{
 			switchExpr = switchExpr.Evaluate();
-			SwitchStatement switchStmt = new SwitchStatement(switchExpr.CheckIR(typeof(Expression)));
+			SwitchStatement switchStmt = new SwitchStatement(switchExpr.CheckIR<Expression>(typeof(Expression)));
 			foreach(EvalStatementNode statement in cases.ChildrenExact)
-				switchStmt.AddStatement(statement.CheckIR(typeof(CaseStatement)));
+				switchStmt.AddStatement(statement.CheckIR<CaseStatement>(typeof(CaseStatement)));
 			return switchStmt;
 		}
 	}

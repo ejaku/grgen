@@ -99,7 +99,7 @@ namespace de.unika.ipd.grgen.ast.expr.array
 		protected internal override IR ConstructIR()
 		{
 			targetExpr = targetExpr.Evaluate();
-			return new ArrayAsString(targetExpr.CheckIR(typeof(Expression)), valueExpr.CheckIR(typeof(Expression)));
+			return new ArrayAsString(targetExpr.CheckIR<Expression>(typeof(Expression)), valueExpr.CheckIR<Expression>(typeof(Expression)));
 		}
 	}
 

@@ -139,10 +139,10 @@ namespace de.unika.ipd.grgen.ast.stmt
 		{
 			leftExpr = leftExpr.Evaluate();
 			rightExpr = rightExpr.Evaluate();
-			IntegerRangeIterationYield cay = new IntegerRangeIterationYield(iterationVariable.CheckIR(typeof(Variable)),
-					leftExpr.CheckIR(typeof(Expression)), rightExpr.CheckIR(typeof(Expression)));
+			IntegerRangeIterationYield cay = new IntegerRangeIterationYield(iterationVariable.CheckIR<Variable>(typeof(Variable)),
+					leftExpr.CheckIR<Expression>(typeof(Expression)), rightExpr.CheckIR<Expression>(typeof(Expression)));
 			foreach(EvalStatementNode accumulationStatement in statements.ChildrenExact)
-				cay.AddStatement(accumulationStatement.CheckIR(typeof(EvalStatement)));
+				cay.AddStatement(accumulationStatement.CheckIR<EvalStatement>(typeof(EvalStatement)));
 			return cay;
 		}
 	}

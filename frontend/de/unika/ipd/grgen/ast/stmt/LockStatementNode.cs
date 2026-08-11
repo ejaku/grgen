@@ -96,9 +96,9 @@ namespace de.unika.ipd.grgen.ast.stmt
 		protected internal override IR ConstructIR()
 		{
 			lockObjectExpr = lockObjectExpr.Evaluate();
-			LockStatement ls = new LockStatement(lockObjectExpr.CheckIR(typeof(Expression)));
+			LockStatement ls = new LockStatement(lockObjectExpr.CheckIR<Expression>(typeof(Expression)));
 			foreach(EvalStatementNode lockedStatement in statements.ChildrenExact)
-				ls.AddStatement(lockedStatement.CheckIR(typeof(EvalStatement)));
+				ls.AddStatement(lockedStatement.CheckIR<EvalStatement>(typeof(EvalStatement)));
 			return ls;
 		}
 	}

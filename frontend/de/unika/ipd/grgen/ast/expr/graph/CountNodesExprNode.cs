@@ -85,7 +85,7 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 		protected internal override IR ConstructIR()
 		{
 			nodeType = nodeType.Evaluate();
-			return new CountNodesExpr(nodeType.CheckIR(typeof(Expression)));
+			return new CountNodesExpr(nodeType.CheckIR<Expression>(typeof(Expression)));
 		}
 
 		public override TypeNode Type
