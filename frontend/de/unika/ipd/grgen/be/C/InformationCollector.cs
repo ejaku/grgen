@@ -257,10 +257,10 @@ namespace de.unika.ipd.grgen.be.C
 				//check whether its graphs node and edge set sizes are greater
 				int size;
 
-				size = act.Pattern.GetNodes().Size();
+				size = act.Pattern.Nodes.Size();
 				if(size > max_n_pattern_nodes)
 					max_n_pattern_nodes = size;
-				size = act.Pattern.GetEdges().Size();
+				size = act.Pattern.Edges.Size();
 				if(size > max_n_pattern_edges)
 					max_n_pattern_edges = size;
 
@@ -292,16 +292,16 @@ namespace de.unika.ipd.grgen.be.C
 				//fill the map with pairs (node, node_num)
 				int node_num = 0;
 
-				foreach(Node node in act.Pattern.GetNodes())
+				foreach(Node node in act.Pattern.Nodes)
 					pattern_node_num[act_id][node] = new int?(node_num++);
-				Debug.Assert(node_num == act.Pattern.GetNodes().Size(), "Wrong number of node_nums was created");
+				Debug.Assert(node_num == act.Pattern.Nodes.Size(), "Wrong number of node_nums was created");
 
 				//fill the map with pairs (edge, edge_num)
 				int edge_num = 0;
 
-				foreach(Edge edge in act.Pattern.GetEdges())
+				foreach(Edge edge in act.Pattern.Edges)
 					pattern_edge_num[act_id][edge] = new int?(edge_num++);
-				Debug.Assert(edge_num == act.Pattern.GetEdges().Size(), "Wrong number of edge_nums was created");
+				Debug.Assert(edge_num == act.Pattern.Edges.Size(), "Wrong number of edge_nums was created");
 
 				// if action has a replacement graph, compute node/edge numbers
 				if(act.Right != null)
@@ -538,7 +538,7 @@ namespace de.unika.ipd.grgen.be.C
 					PatternGraphBase replacement = action.Right;
 					//compute the set of newly inserted edges
 					newEdgesOfAction[act_id].AddAll(replacement.Edges);
-					newEdgesOfAction[act_id].RemoveAll(action.Pattern.GetEdges());
+					newEdgesOfAction[act_id].RemoveAll(action.Pattern.Edges);
 				}
 			}
 		}
@@ -607,7 +607,7 @@ namespace de.unika.ipd.grgen.be.C
 					//compute the set of replacement nodes preserved by this action
 					ISet<Node> replacement_nodes_preserved = new HashSet<Node>();
 					replacement_nodes_preserved.AddAll(action.Right.Nodes);
-					replacement_nodes_preserved.RetainAll(action.Pattern.GetNodes());
+					replacement_nodes_preserved.RetainAll(action.Pattern.Nodes);
 
 					//for all those preserved replacement nodes store the
 					//corresponding pattern node
@@ -643,7 +643,7 @@ namespace de.unika.ipd.grgen.be.C
 
 				//compute the set of pattern nodes to be kept for this action
 				ISet<Node> pattern_nodes_to_keep = new HashSet<Node>();
-				pattern_nodes_to_keep.AddAll(action.Pattern.GetNodes());
+				pattern_nodes_to_keep.AddAll(action.Pattern.Nodes);
 				if(action.Right != null)
 				{
 					PatternGraphBase replacement = action.Right;

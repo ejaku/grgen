@@ -162,7 +162,7 @@ namespace de.unika.ipd.grgen.be.C
 					//compute the set of replacement edges preserved by this action
 					ISet<Edge> replacement_edges_preserved = new HashSet<Edge>();
 					replacement_edges_preserved.AddAll(action.Right.Edges);
-					replacement_edges_preserved.RetainAll(action.Pattern.GetEdges());
+					replacement_edges_preserved.RetainAll(action.Pattern.Edges);
 					//for all those preserved replacement edges store the
 					//corresponding pattern edge
 					foreach(Edge edge in replacement_edges_preserved)
@@ -196,7 +196,7 @@ namespace de.unika.ipd.grgen.be.C
 
 				//compute the set of pattern edges to be kept for this action
 				ISet<Edge> pattern_edges_to_keep = new HashSet<Edge>();
-				pattern_edges_to_keep.AddAll(action.Pattern.GetEdges());
+				pattern_edges_to_keep.AddAll(action.Pattern.Edges);
 				if(action.Right != null)
 				{
 					PatternGraphBase replacement = action.Right;
@@ -321,7 +321,7 @@ namespace de.unika.ipd.grgen.be.C
 
 					ISet<Node> negatives_also_in_pattern = new HashSet<Node>();
 					negatives_also_in_pattern.AddAll(neg_pattern.Nodes);
-					negatives_also_in_pattern.RetainAll(action.Pattern.GetNodes());
+					negatives_also_in_pattern.RetainAll(action.Pattern.Nodes);
 
 					foreach(Node node in negatives_also_in_pattern)
 					{
@@ -359,7 +359,7 @@ namespace de.unika.ipd.grgen.be.C
 
 					ISet<Edge> negatives_also_in_pattern = new HashSet<Edge>();
 					negatives_also_in_pattern.AddAll(neg_pattern.Edges);
-					negatives_also_in_pattern.RetainAll(action.Pattern.GetEdges());
+					negatives_also_in_pattern.RetainAll(action.Pattern.Edges);
 
 					foreach(Edge edge in negatives_also_in_pattern)
 					{

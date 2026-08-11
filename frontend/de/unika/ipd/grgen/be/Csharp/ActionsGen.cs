@@ -1401,7 +1401,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 			sb.Indent();
 
 			PatternGraphLhs pattern = iteratedRule != null ? iteratedRule.Pattern : actionRule.Pattern;
-			string matchTypeName = "IMatch_" + actionRule.Pattern.GetNameOfGraph() + iteratedRuleSuffix;
+			string matchTypeName = "IMatch_" + actionRule.Pattern.NameOfGraph + iteratedRuleSuffix;
 
 			foreach(Node node in pattern.Nodes)
 				GenExtractMethod(sb, matchTypeName, node);
@@ -3314,7 +3314,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 
 			sb.AppendFront("new string[] { ");
 			foreach(Entity ent in action.Parameters)
-				sb.Append("\"" + FormatEntity(ent, action.Pattern.GetNameOfGraph() + "_") + "\", ");
+				sb.Append("\"" + FormatEntity(ent, action.Pattern.NameOfGraph + "_") + "\", ");
 			sb.Append("},\n");
 
 			sb.AppendFront("new GRGEN_LIBGR.GrGenType[] { ");

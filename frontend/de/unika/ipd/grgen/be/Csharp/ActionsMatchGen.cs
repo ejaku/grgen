@@ -566,7 +566,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 						bool first = true;
 						foreach(Rule altCase in alt.AlternativeCases)
 						{
-							string altCaseMatchName = "Match_" + pathPrefixForElements + alt.NameOfGraph + "_" + altCase.Pattern.GetNameOfGraph();
+							string altCaseMatchName = "Match_" + pathPrefixForElements + alt.NameOfGraph + "_" + altCase.Pattern.NameOfGraph;
 							if(first)
 							{
 								first = false;

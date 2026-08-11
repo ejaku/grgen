@@ -266,10 +266,10 @@ namespace de.unika.ipd.grgen.ast.pattern
 		protected internal override IR ConstructIR()
 		{
 			IList<Expression> replConnections = new List<Expression>();
-			foreach(ExprNode e in this.replConnections.ChildrenExact)
+			foreach(ExprNode replConnection in this.replConnections.ChildrenExact)
 			{
-				e = e.Evaluate();
-				replConnections.Add(e.CheckIR<Expression>(typeof(Expression)));
+				ExprNode replConnectionEvaluated = replConnection.Evaluate();
+				replConnections.Add(replConnectionEvaluated.CheckIR<Expression>(typeof(Expression)));
 			}
 			return new SubpatternDependentReplacement("dependent replacement", subpatternUnresolved.IRIdent,
 					subpattern.CheckIR<SubpatternUsage>(typeof(SubpatternUsage)), replConnections);

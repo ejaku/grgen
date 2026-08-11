@@ -418,7 +418,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		}
 
 		public static string FormatIdentifiable<T1>(Identifiable id, string pathPrefix,
-				Dictionary<T1> alreadyDefinedIdentifiableToName) where T1 : Identifiable
+				Dictionary<T1, string> alreadyDefinedIdentifiableToName) where T1 : Identifiable
 		{
 			if(alreadyDefinedIdentifiableToName != null && alreadyDefinedIdentifiableToName[id] != null)
 				return alreadyDefinedIdentifiableToName[id];
