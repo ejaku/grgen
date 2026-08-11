@@ -91,7 +91,7 @@ namespace de.unika.ipd.grgen.ast.expr.array
 
 		protected internal virtual ArrayTypeNode CreateArrayType()
 		{
-			TypeNode itemTypeNode = containerItems.ChildrenExact.GetEnumerator().Next().GetType();
+			TypeNode itemTypeNode = containerItems.ChildrenExact.GetEnumerator().Next().Type;
 			IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).Ident;
 			return new ArrayTypeNode(itemTypeIdent);
 		}

@@ -573,7 +573,7 @@ namespace de.unika.ipd.grgen.be.C
 						int node_num = replacement_node_num[act_id][node];
 
 						NodeType old_type = node.NodeType;
-						NodeType new_type = node.GetRetypedNode(action.Right).GetNodeType();
+						NodeType new_type = node.GetRetypedNode(action.Right).NodeType;
 
 						if(!nodeTypeMap[old_type].Equals(nodeTypeMap[new_type]))
 							replacementNodeChangesTypeTo[act_id][node_num] = nodeTypeMap[new_type];

@@ -88,7 +88,7 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 		{
 			get
 			{
-				return Root.Decl.GetDeclType();
+				return Root.Decl.DeclType;
 			}
 		}
 

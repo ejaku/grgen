@@ -137,7 +137,7 @@ namespace de.unika.ipd.grgen.ir
 				res = identifiers[key];
 			else
 			{
-				res = new Ident(text, def.Symbol.GetSymbolTable(), def.Scope, loc, annots);
+				res = new Ident(text, def.Symbol.SymbolTable, def.Scope, loc, annots);
 				identifiers[key] = res;
 			}
 			return res;

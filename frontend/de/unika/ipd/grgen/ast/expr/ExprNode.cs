@@ -195,30 +195,30 @@ namespace de.unika.ipd.grgen.ast.expr
 			IdentExprNode ident = (IdentExprNode)edgeTypeExpr;
 			TypeNode type = ident.Type;
 			if(type.IsCompatibleTo(EdgeTypeNode.directedEdgeType))
-				return EdgeTypeNode.directedEdgeType.GetIdent();
+				return EdgeTypeNode.directedEdgeType.Ident;
 			if(type.IsCompatibleTo(EdgeTypeNode.undirectedEdgeType))
-				return EdgeTypeNode.undirectedEdgeType.GetIdent();
-			return EdgeTypeNode.arbitraryEdgeType.GetIdent();
+				return EdgeTypeNode.undirectedEdgeType.Ident;
+			return EdgeTypeNode.arbitraryEdgeType.Ident;
 		}
 
 		public static IdentNode EdgeRoot
 		{
 			get
 			{
-				return EdgeTypeNode.arbitraryEdgeType.GetIdent();
+				return EdgeTypeNode.arbitraryEdgeType.Ident;
 			}
 		}
 
 		public static IdentNode GetNodeRoot(ExprNode nodeTypeExpr)
 		{
-			return NodeTypeNode.nodeType.GetIdent();
+			return NodeTypeNode.nodeType.Ident;
 		}
 
 		public static IdentNode NodeRoot
 		{
 			get
 			{
-				return NodeTypeNode.nodeType.GetIdent();
+				return NodeTypeNode.nodeType.Ident;
 			}
 		}
 

@@ -121,7 +121,7 @@ namespace de.unika.ipd.grgen.ast.model.type
 			if(IsIRAlreadySet()) // break endless recursion in case of a member of class or container of class type
 				return IR;
 
-			InternalTransientObjectType tot = new InternalTransientObjectType(Decl.GetIdent().GetIRIdent(), IRModifiers);
+			InternalTransientObjectType tot = new InternalTransientObjectType(Decl.Ident.IRIdent, IRModifiers);
 
 			IR = tot;
 

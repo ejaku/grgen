@@ -98,7 +98,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 					string typeName = type.Ident.ToString();
 					if(reservedWords.Contains(typeName))
 					{
-						BaseNode.error.Warning(type.Ident.GetCoords(),
+						BaseNode.error.Warning(type.Ident.Coords,
 								"The reserved name \"" + typeName
 										+ "\" has been used for a type. \"Node_\" and \"Edge_\" and \"Object_\" and \"TransientObject_\""
 										+ " prefixes are applied to the C# element class names to avoid errors.");

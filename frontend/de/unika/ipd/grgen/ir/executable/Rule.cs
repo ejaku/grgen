@@ -273,12 +273,12 @@ namespace de.unika.ipd.grgen.ir.executable
 			foreach(Node node in left.Nodes)
 			{
 				if((node.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS)
-					error.Error(node.Ident.GetCoords(), "Nodes declared in the rewrite part cannot be accessed in the pattern part (as is the case for " + node.Ident + ").");
+					error.Error(node.Ident.Coords, "Nodes declared in the rewrite part cannot be accessed in the pattern part (as is the case for " + node.Ident + ").");
 			}
 			foreach(Edge edge in left.Edges)
 			{
 				if((edge.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS)
-					error.Error(edge.Ident.GetCoords(), "Edges declared in the rewrite part cannot be accessed in the pattern part (as is the case for " + edge.Ident + ").");
+					error.Error(edge.Ident.Coords, "Edges declared in the rewrite part cannot be accessed in the pattern part (as is the case for " + edge.Ident + ").");
 			}
 		}
 
@@ -457,9 +457,9 @@ namespace de.unika.ipd.grgen.ir.executable
 
 		internal static void ReportMultipleDeleteOrRetype(Entity entity, Rule first, Rule second)
 		{
-			error.Error(entity.Ident.GetCoords(), "The " + entity.Kind + " " + entity.Ident + " or a hom " + entity.Kind
-					+ " may get deleted or retyped in " + toString(first.ruleKind) + " " + first.Ident + " [declared at " + first.Ident.GetCoords() + "]"
-					+ " and in " + toString(second.ruleKind) + " " + second.Ident + " [declared at " + second.Ident.GetCoords() + "]"
+			error.Error(entity.Ident.Coords, "The " + entity.Kind + " " + entity.Ident + " or a hom " + entity.Kind
+					+ " may get deleted or retyped in " + toString(first.ruleKind) + " " + first.Ident + " [declared at " + first.Ident.Coords + "]"
+					+ " and in " + toString(second.ruleKind) + " " + second.Ident + " [declared at " + second.Ident.Coords + "]"
 					+ " (only one such place is allowed, determinable at compile time).");
 		}
 
@@ -501,8 +501,8 @@ namespace de.unika.ipd.grgen.ir.executable
 
 		internal static void ReportMultipleRetype(Entity entity, Entity homEntity)
 		{
-			error.Error(entity.Ident.GetCoords(), "The " + entity.Kind + " " + entity.Ident
-					+ " and the hom " + entity.Kind + " " + homEntity.Ident + homEntity.Ident.GetCoords().GetDeclarationCoords(false)
+			error.Error(entity.Ident.Coords, "The " + entity.Kind + " " + entity.Ident
+					+ " and the hom " + entity.Kind + " " + homEntity.Ident + homEntity.Ident.Coords.GetDeclarationCoords(false)
 					+ " are both retyped, so a homomorphically matched graph element may get retyped multiple times.");
 		}
 
@@ -726,7 +726,7 @@ namespace de.unika.ipd.grgen.ir.executable
 					}
 					if(edge is RetypedEdge)
 					{
-						if(edge.DependencyLevel <= ((RetypedEdge)edge).oldEdge.GetDependencyLevel())
+						if(edge.DependencyLevel <= ((RetypedEdge)edge).oldEdge.DependencyLevel)
 						{
 							edge.IncrementDependencyLevel();
 							dependencyLevel = Math.Max(edge.DependencyLevel, dependencyLevel);
@@ -736,7 +736,7 @@ namespace de.unika.ipd.grgen.ir.executable
 				}
 				if(dependencyLevel >= MAX_CHAINING_FOR_STORAGE_MAP_ACCESS)
 				{
-					error.Error(Ident.GetCoords(), "Cycle in match node/edge by storage map access or storage attribute detected.");
+					error.Error(Ident.Coords, "Cycle in match node/edge by storage map access or storage attribute detected.");
 					break;
 				}
 			} while(somethingChanged);
@@ -760,7 +760,7 @@ namespace de.unika.ipd.grgen.ir.executable
 					continue;
 				if(node.IsDefToBeYieldedTo())
 				{
-					error.Error(entity.Ident.GetCoords(), "Cannot use a def node (" + node.Ident + ")" 
+					error.Error(entity.Ident.Coords, "Cannot use a def node (" + node.Ident + ")" 
 							+ " for an index access or name map access of " + entity.Ident + ".");
 				}
 				neededEntities.Add(node);
@@ -771,7 +771,7 @@ namespace de.unika.ipd.grgen.ir.executable
 					continue;
 				if(edge.IsDefToBeYieldedTo())
 				{
-					error.Error(entity.Ident.GetCoords(), "Cannot use a def edge (" + edge.Ident + ")"
+					error.Error(entity.Ident.Coords, "Cannot use a def edge (" + edge.Ident + ")"
 							+ " for an index access or name map access of " + entity.Ident + ".");
 				}
 				neededEntities.Add(edge);
@@ -780,7 +780,7 @@ namespace de.unika.ipd.grgen.ir.executable
 				return neededEntities.GetEnumerator().Next();
 			else if(neededEntities.Count > 1)
 			{
-				error.Error(entity.Ident.GetCoords(), "There are " + neededEntities.Count + " entities specified in an index access or name map access of "
+				error.Error(entity.Ident.Coords, "There are " + neededEntities.Count + " entities specified in an index access or name map access of "
 							+ entity.Ident + " (only one is allowed).");
 			}
 			return null;

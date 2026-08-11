@@ -814,7 +814,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 				ArrayType arrayType = (ArrayType)inParam.Type;
 				MatchType matchType = (MatchType)arrayType.ValueType;
 				string packagePrefixOfAction = "GRGEN_ACTIONS." + GetPackagePrefixDot(matchType.Action);
-				string actionName = matchType.Action.GetIdent().ToString();
+				string actionName = matchType.Action.Ident.ToString();
 				string ruleClass = packagePrefixOfAction + "Rule_" + actionName;
 				sb.Append(", " + ruleClass + ".ConvertAsNeeded(arguments[" + argumentNumber + "])");
 			}
@@ -1067,7 +1067,7 @@ namespace de.unika.ipd.grgen.be.Csharp
 		private void GenFilterFunction(SourceBuilder sb, FilterFunctionInternal filter, string packageName,
 				bool emitProfilingInstrumentation)
 		{
-			string actionName = filter.Action.GetIdent().ToString();
+			string actionName = filter.Action.Ident.ToString();
 			string packagePrefixOfAction = "GRGEN_ACTIONS." + GetPackagePrefixDot(filter.Action);
 			string matchType = packagePrefixOfAction + "Rule_" + actionName + ".IMatch_" + actionName;
 			sb.AppendFront("public static void ");

@@ -729,8 +729,8 @@ namespace de.unika.ipd.grgen.be.C
 				else
 				{ // node gets retyped
 					nodeId = nodeIds.ComputeId(node.GetRetypedNode(graph));
-					name = node.GetRetypedNode(graph).GetIdent().ToString() + nameSuffix;
-					type = node.GetRetypedNode(graph).GetNodeType().Ident.ToString();
+					name = node.GetRetypedNode(graph).Ident.ToString() + nameSuffix;
+					type = node.GetRetypedNode(graph).NodeType.Ident.ToString();
 				}
 				string mode = "ANY";
 				string lsmode = "ANY"; // just for Load/Store nodes!

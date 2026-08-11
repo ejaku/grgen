@@ -171,7 +171,7 @@ namespace de.unika.ipd.grgen.ast.model.type
 			if(IsIRAlreadySet()) // break endless recursion in case of a member of node or container of node type
 				return IR;
 
-			NodeType nt = new NodeType(Decl.GetIdent().GetIRIdent(), IRModifiers, ExternalName);
+			NodeType nt = new NodeType(Decl.Ident.IRIdent, IRModifiers, ExternalName);
 
 			IR = nt;
 

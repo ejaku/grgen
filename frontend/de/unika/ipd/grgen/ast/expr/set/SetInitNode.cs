@@ -89,7 +89,7 @@ namespace de.unika.ipd.grgen.ast.expr.set
 
 		protected internal virtual SetTypeNode CreateSetType()
 		{
-			TypeNode itemTypeNode = containerItems.ChildrenExact.GetEnumerator().Next().GetType();
+			TypeNode itemTypeNode = containerItems.ChildrenExact.GetEnumerator().Next().Type;
 			IdentNode itemTypeIdent = ((DeclaredTypeNode)itemTypeNode).Ident;
 			return new SetTypeNode(itemTypeIdent);
 		}

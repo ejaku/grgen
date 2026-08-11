@@ -97,7 +97,7 @@ namespace de.unika.ipd.grgen.ast.expr
 			{
 				TypeofNode typeofExpr = (TypeofNode)targetExpr;
 				ReportError("Member access expects an entity, but is given a type"
-						+ " (unexpected typeof(" + typeofExpr.Entity.Decl.GetIdent() + ") when accessing " + memberIdent + ").");
+						+ " (unexpected typeof(" + typeofExpr.Entity.Decl.Ident + ") when accessing " + memberIdent + ").");
 			}
 
 			TypeNode ownerType = targetExpr.Type;
@@ -146,7 +146,7 @@ namespace de.unika.ipd.grgen.ast.expr
 				if(targetExpr.Type is MatchTypeNode)
 					declType = member.DeclType;
 				else
-					declType = member.Decl.GetDeclType(); // untyped exec var type in case owner is an untyped exec var
+					declType = member.Decl.DeclType; // untyped exec var type in case owner is an untyped exec var
 				return declType;
 			}
 		}

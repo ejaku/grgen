@@ -167,9 +167,9 @@ namespace de.unika.ipd.grgen.ast.expr.array
 							+ " (but is of type " + initArrayAccessVarType.TypeName + ").");
 					return false;
 				}
-				if(!initArrayAccessVarType.IsEqual(targetExpr.GetType()))
+				if(!initArrayAccessVarType.IsEqual(targetExpr.Type))
 				{
-					ReportError("The init array access variable of the array mapStartWithAccumulateBy function method must be of type " + targetExpr.GetType().TypeName
+					ReportError("The init array access variable of the array mapStartWithAccumulateBy function method must be of type " + targetExpr.Type.TypeName
 							+ " (but is of type " + initArrayAccessVarType.TypeName + ").");
 					return false;
 				}
@@ -211,9 +211,9 @@ namespace de.unika.ipd.grgen.ast.expr.array
 							+ " (but is of type " + arrayAccessVarType.TypeName + ").");
 					return false;
 				}
-				if(!arrayAccessVarType.IsEqual(targetExpr.GetType()))
+				if(!arrayAccessVarType.IsEqual(targetExpr.Type))
 				{
-					ReportError("The array access variable of the array mapStartWithAccumulateBy function method must be of type " + targetExpr.GetType().TypeName
+					ReportError("The array access variable of the array mapStartWithAccumulateBy function method must be of type " + targetExpr.Type.TypeName
 							+ " (but is of type " + arrayAccessVarType.TypeName + ").");
 					return false;
 				}
@@ -266,7 +266,7 @@ namespace de.unika.ipd.grgen.ast.expr.array
 			}
 
 			TypeNode elementVarType = elementVar.DeclType;
-			TypeNode targetType = ((ArrayTypeNode)targetExpr.GetType()).valueType;
+			TypeNode targetType = ((ArrayTypeNode)targetExpr.Type).valueType;
 
 			if(targetType is NodeTypeNode && elementVarType is EdgeTypeNode
 					|| targetType is EdgeTypeNode && elementVarType is NodeTypeNode)

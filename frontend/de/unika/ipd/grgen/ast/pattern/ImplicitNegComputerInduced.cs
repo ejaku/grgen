@@ -263,7 +263,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 				{
 					string witnessesLoc = "";
 					foreach(int? index in witnesses)
-						witnessesLoc += induceds.Get(index.Value).GetCoords() + " ";
+						witnessesLoc += induceds.Get(index.Value).Coords + " ";
 					witnessesLoc = witnessesLoc.Trim();
 					induceds.Get(candidate.Value.IntValue()).ReportWarning(
 							"Induced statement is redundant, since covered by statement(s) at " + witnessesLoc);

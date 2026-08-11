@@ -134,7 +134,7 @@ namespace de.unika.ipd.grgen.ir.model.type
 		{
 			Debug.Assert(allSubTypes == null && allSuperTypes == null, "wrong order of calls");
 			if(allSubTypes != null || allSuperTypes != null) // todo: remove this constraint/work around it
-				error.Error(t.Ident.GetCoords(), "A container in a type is not allowed to reference a subtype.");
+				error.Error(t.Ident.Coords, "A container in a type is not allowed to reference a subtype.");
 			directSuperTypes.Add(t);
 			t.directSubTypes.Add(this);
 		}
@@ -218,8 +218,8 @@ namespace de.unika.ipd.grgen.ir.model.type
 					{
 						Type ownerType = member.Owner;
 						Type curMemberType = curMember.Owner;
-						string curMemberDeclarationCoords = curMemberType.Ident.GetCoords().GetDeclarationCoords(false);
-						error.Error(member.Ident.GetCoords(), "The " + member
+						string curMemberDeclarationCoords = curMemberType.Ident.Coords.GetDeclarationCoords(false);
+						error.Error(member.Ident.Coords, "The " + member
 								+ " of " + ownerType + " is already defined."
 								+ " It is also declared in " + curMemberType + curMemberDeclarationCoords + ".");
 					}

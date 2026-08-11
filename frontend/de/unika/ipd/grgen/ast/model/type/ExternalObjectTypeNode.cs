@@ -134,7 +134,7 @@ namespace de.unika.ipd.grgen.ast.model.type
 			if(IsIRAlreadySet()) // break endless recursion in case of a member of node/edge type
 				return IR;
 
-			ExternalObjectType et = new ExternalObjectType(Decl.GetIdent().GetIRIdent());
+			ExternalObjectType et = new ExternalObjectType(Decl.Ident.GetIRIdent());
 
 			IR = et;
 

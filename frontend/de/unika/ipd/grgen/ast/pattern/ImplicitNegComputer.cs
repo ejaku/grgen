@@ -98,7 +98,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 						exact.ReportWarning(exactNode.Kind + " "
 								+ exactNode.Ident.Symbol.Text
 								+ " already occurs in exact statement at "
-								+ patternGraph.exacts.Get(generatedExactNodes[exactNode]).GetCoords());
+								+ patternGraph.exacts.Get(generatedExactNodes[exactNode]).Coords);
 					}
 					else
 						generatedExactNodes[exactNode] = Convert.ToInt32(i);

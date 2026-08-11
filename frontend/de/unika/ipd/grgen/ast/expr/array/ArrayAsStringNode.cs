@@ -65,7 +65,7 @@ namespace de.unika.ipd.grgen.ast.expr.array
 		protected internal override bool ResolveLocal()
 		{
 			// target type already checked during resolving into this node
-			targetExpr.GetType().Resolve(); // call to ensure the array type exists
+			targetExpr.Type.Resolve(); // call to ensure the array type exists
 			return true;
 		}
 

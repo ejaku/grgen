@@ -101,7 +101,7 @@ namespace de.unika.ipd.grgen.ast.decl.pattern
 						+ " to the expected " + expTypeName + " in match node" + EmptyWhenAnonymousPostfix(" ") + " by unique index lookup.");
 				return false;
 			}
-			if(!UnitNode.Root.GetModel().IsUniqueIndexDefined())
+			if(!UnitNode.Root.Model.IsUniqueIndexDefined())
 			{
 				ReportError("The match node by unique index lookup expects a model with a unique index, but the required index unique; declaration is missing in the model specification.");
 				return false;

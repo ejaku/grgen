@@ -145,7 +145,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 
 		private static void AddSubpatternUsageArgument(PatternGraphLhs patternGraph, SubpatternUsageDeclNode subpatternUsageNode)
 		{
-			IList<Expression> subpatternConnections = subpatternUsageNode.CheckIR<SubpatternUsage>(typeof(SubpatternUsage)).GetSubpatternConnections();
+			IList<Expression> subpatternConnections = subpatternUsageNode.CheckIR<SubpatternUsage>(typeof(SubpatternUsage)).SubpatternConnections;
 			foreach(Expression expr in subpatternConnections)
 			{
 				if(expr is GraphEntityExpression)
@@ -173,7 +173,7 @@ namespace de.unika.ipd.grgen.ast.pattern
 
 		private static void AddSubpatternUsageYieldArgument(PatternGraphLhs patternGraph, SubpatternUsageDeclNode subpatternUsageNode)
 		{
-			IList<Expression> subpatternYields = subpatternUsageNode.CheckIR<SubpatternUsage>(typeof(SubpatternUsage)).GetSubpatternYields();
+			IList<Expression> subpatternYields = subpatternUsageNode.CheckIR<SubpatternUsage>(typeof(SubpatternUsage)).SubpatternYields;
 			foreach(Expression expr in subpatternYields)
 			{
 				if(expr is GraphEntityExpression)

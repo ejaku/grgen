@@ -664,14 +664,14 @@ namespace de.unika.ipd.grgen.be.Csharp
 			else if(t is MatchTypeIterated)
 			{
 				MatchTypeIterated matchType = (MatchTypeIterated)t;
-				string actionName = matchType.Action.GetIdent().ToString();
-				string iteratedName = matchType.Iterated.GetIdent().ToString();
+				string actionName = matchType.Action.Ident.ToString();
+				string iteratedName = matchType.Iterated.Ident.ToString();
 				return "match<" + actionName + "." + iteratedName + ">";
 			}
 			else if(t is MatchType)
 			{
 				MatchType matchType = (MatchType)t;
-				string actionName = matchType.Action.GetIdent().ToString();
+				string actionName = matchType.Action.Ident.ToString();
 				return "match<" + actionName + ">";
 			}
 			else if(t is DefinedMatchType)

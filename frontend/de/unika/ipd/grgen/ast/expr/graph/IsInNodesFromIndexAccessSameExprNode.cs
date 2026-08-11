@@ -81,7 +81,7 @@ namespace de.unika.ipd.grgen.ast.expr.graph
 		protected internal override bool CheckLocal()
 		{
 			bool res = base.CheckLocal();
-			TypeNode indexedEntityRootType = Root.Decl.GetDeclType();
+			TypeNode indexedEntityRootType = Root.Decl.DeclType;
 			TypeNode candidateType = candidateExpr.Type;
 			if(!candidateType.IsCompatibleTo(indexedEntityRootType))
 			{

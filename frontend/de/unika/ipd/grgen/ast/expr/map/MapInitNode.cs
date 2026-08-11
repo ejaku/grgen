@@ -111,7 +111,7 @@ namespace de.unika.ipd.grgen.ast.expr.map
 			MapTypeNode mapType = (MapTypeNode)ContainerType;
 			foreach(ExprPairNode item in mapItems.ChildrenExact)
 			{
-				if(item.keyExpr.GetType() != mapType.keyType)
+				if(item.keyExpr.Type != mapType.keyType)
 				{
 					if(!IsInitInModel())
 					{
@@ -129,13 +129,13 @@ namespace de.unika.ipd.grgen.ast.expr.map
 					else
 					{
 						success = false;
-						item.keyExpr.ReportError("The key type " + item.keyExpr.GetType().ToStringWithDeclarationCoords()
+						item.keyExpr.ReportError("The key type " + item.keyExpr.Type.ToStringWithDeclarationCoords()
 								+ " of the initializer does not fit to the key type " + mapType.keyType.ToStringWithDeclarationCoords()
 								+ " of the map (" + mapType.TypeName
 								+ " -- all items must be of exactly the same type).");
 					}
 				}
-				if(item.valueExpr.GetType() != mapType.valueType)
+				if(item.valueExpr.Type != mapType.valueType)
 				{
 					if(this.mapType != null)
 					{
@@ -153,7 +153,7 @@ namespace de.unika.ipd.grgen.ast.expr.map
 					else
 					{
 						success = false;
-						item.valueExpr.ReportError("The value type " + item.valueExpr.GetType().ToStringWithDeclarationCoords()
+						item.valueExpr.ReportError("The value type " + item.valueExpr.Type.ToStringWithDeclarationCoords()
 								+ " of the initializer does not fit to the value type " + mapType.valueType.ToStringWithDeclarationCoords()
 								+ " of the map (" + mapType.TypeName
 								+ " -- all items must be of exactly the same type).");
@@ -172,8 +172,8 @@ namespace de.unika.ipd.grgen.ast.expr.map
 
 		private MapTypeNode CreateMapType()
 		{
-			TypeNode keyTypeNode = mapItems.ChildrenExact.GetEnumerator().Next().keyExpr.GetType();
-			TypeNode valueTypeNode = mapItems.ChildrenExact.GetEnumerator().Next().valueExpr.GetType();
+			TypeNode keyTypeNode = mapItems.ChildrenExact.GetEnumerator().Next().keyExpr.Type;
+			TypeNode valueTypeNode = mapItems.ChildrenExact.GetEnumerator().Next().valueExpr.Type;
 			IdentNode keyTypeIdent = ((DeclaredTypeNode)keyTypeNode).Ident;
 			IdentNode valueTypeIdent = ((DeclaredTypeNode)valueTypeNode).Ident;
 			return new MapTypeNode(keyTypeIdent, valueTypeIdent);

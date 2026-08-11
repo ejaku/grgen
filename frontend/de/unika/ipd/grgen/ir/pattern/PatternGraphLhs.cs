@@ -756,7 +756,7 @@ namespace de.unika.ipd.grgen.ir.pattern
 				if(edge.directlyNestingLHSGraph != this)
 				{
 					if((edge.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS)
-						error.Error(edge.Ident.GetCoords(), "Cannot access a newly created edge (" + edge.Ident + ")" + " in a nested rewrite part.");
+						error.Error(edge.Ident.Coords, "Cannot access a newly created edge (" + edge.Ident + ")" + " in a nested rewrite part.");
 				}
 			}
 
@@ -785,7 +785,7 @@ namespace de.unika.ipd.grgen.ir.pattern
 						{
 							if((edge.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS)
 							{
-								error.Error(edge.Ident.GetCoords(), "Cannot access a newly created edge (" + edge.Ident + ")"
+								error.Error(edge.Ident.Coords, "Cannot access a newly created edge (" + edge.Ident + ")"
 										+ " from an evalhere statement.");
 							}
 						}
@@ -793,7 +793,7 @@ namespace de.unika.ipd.grgen.ir.pattern
 						{
 							if((edge.context & BaseNode.CONTEXT_LHS_OR_RHS) == BaseNode.CONTEXT_RHS)
 							{
-								error.Error(edge.Ident.GetCoords(), "Cannot access a newly created edge (" + edge.Ident + ")"
+								error.Error(edge.Ident.Coords, "Cannot access a newly created edge (" + edge.Ident + ")"
 										+ " from an evalhere statement.");
 							}
 						}
@@ -911,14 +911,14 @@ namespace de.unika.ipd.grgen.ir.pattern
 					// emit error if the iterated pattern might be empty
 					if(iterated.MaxMatches == 0)
 					{
-						error.Error(iterated.Ident.GetCoords(),
+						error.Error(iterated.Ident.Coords,
 								"An unbounded pattern cardinality construct (iterated, multiple, [*])"
 										+ " must contain at least one locally defined node or edge (not being homomorphic to an enclosing element)"
 										+ " or a nested subpattern or alternative not being empty.");
 					}
 					else if(iterated.MaxMatches > 1)
 					{
-						error.Warning(iterated.Ident.GetCoords(),
+						error.Warning(iterated.Ident.Coords,
 								"Maybe empty pattern in pattern cardinality construct (you must expect empty matches).");
 					}
 				}
@@ -1027,7 +1027,7 @@ namespace de.unika.ipd.grgen.ir.pattern
 				{
 					// we're on path of only (maybe) empty patterns and see a subpattern already on it again
 					// -> endless loop of this subpattern matching only empty patterns until it gets matched again 
-					error.Error(sub.subpatternAction.Ident.GetCoords(), "The (sub)pattern " + sub.subpatternAction.Ident
+					error.Error(sub.subpatternAction.Ident.Coords, "The (sub)pattern " + sub.subpatternAction.Ident
 							+ " (potentially) calls itself again with only empty patterns in between, yielding an endless loop during pattern matching.");
 				}
 			}
@@ -1129,7 +1129,7 @@ namespace de.unika.ipd.grgen.ir.pattern
 					continue;
 				if(alreadyDefinedNodes.Contains(node))
 				{
-					error.Error(node.Ident.GetCoords(), "A retyping of nodes from a nesting pattern is forbidden"
+					error.Error(node.Ident.Coords, "A retyping of nodes from a nesting pattern is forbidden"
 							+ " if they are contained in a construct which can get matched more than once (due to some kind of iterated)"
 							+ " (this occurs for " + node + ").");
 				}
@@ -1139,7 +1139,7 @@ namespace de.unika.ipd.grgen.ir.pattern
 					{
 						if(alreadyDefinedNodes.Contains(homToRetypedNode))
 						{
-							error.Error(node.Ident.GetCoords(), "A retyping of nodes which might be hom to nodes from a nesting pattern is forbidden"
+							error.Error(node.Ident.Coords, "A retyping of nodes which might be hom to nodes from a nesting pattern is forbidden"
 									+ " if they are contained in a construct which can get matched more than once (due to some kind of iterated)"
 									+ " (this occurs for " + node + ").");
 						}
@@ -1152,7 +1152,7 @@ namespace de.unika.ipd.grgen.ir.pattern
 					continue;
 				if(alreadyDefinedEdges.Contains(edge))
 				{
-					error.Error(edge.Ident.GetCoords(), "A retyping of edges from a nesting pattern is forbidden"
+					error.Error(edge.Ident.Coords, "A retyping of edges from a nesting pattern is forbidden"
 							+ " if they are contained in a construct which can get matched more than once (due to some kind of iterated)"
 							+ " (this occurs for " + edge + ").");
 				}
@@ -1162,7 +1162,7 @@ namespace de.unika.ipd.grgen.ir.pattern
 					{
 						if(alreadyDefinedEdges.Contains(homToRetypedEdge))
 						{
-							error.Error(edge.Ident.GetCoords(), "A retyping of edges which might be hom to edges from a nesting pattern is forbidden"
+							error.Error(edge.Ident.Coords, "A retyping of edges which might be hom to edges from a nesting pattern is forbidden"
 									+ " if they are contained in construct which can get matched more than once (due to some kind of iterated)"
 									+ " (this occurs for " + edge + ").");
 						}
